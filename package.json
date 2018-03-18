@@ -1,0 +1,32 @@
+{
+  "private": true,
+  "dependencies": {
+    "autosize": "^4.0.2",
+    "star-rating.js": "^2.2.2"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-bump": "^3.1.1",
+    "gulp-checktextdomain": "^2.2.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-if": "^2.0.2",
+    "gulp-jshint": "^2.0.4",
+    "gulp-potomo": "^1.0.3",
+    "gulp-pottopo": "^1.0.1",
+    "gulp-sass": "^4.0.1",
+    "gulp-sort": "^2.0.0",
+    "gulp-uglify": "^3.0.0",
+    "gulp-wp-pot": "^2.3.1",
+    "jshint": "^2.9.5",
+    "jshint-stylish": "^2.2.1",
+    "merge-stream": "^1.0.1",
+    "pump": "^3.0.0",
+    "yamljs": "^0.3.0",
+    "yargs": "^12.0.1"
+  },
+  "scripts": {
+    "build": "./node_modules/gulp/bin/gulp.js build --production"
+  }
+}

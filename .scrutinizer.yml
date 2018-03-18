@@ -1,0 +1,168 @@
+filter:
+  excluded_paths:
+    - assets/
+    - languages/
+    - node_modules/
+    - tests/
+    - vendor/
+    - wordpress/
+
+build:
+  nodes:
+    analysis:
+      cache:
+        disabled: false
+        directories:
+          - ~/.composer/cache
+      dependencies:
+        before:
+          - composer require --dev johnpbloch/wordpress
+      environment:
+        elasticsearch: false
+        memcached: false
+        mongodb: false
+        neo4j: false
+        node: '9.3.0'
+        php: '7.2.0'
+        postgresql: false
+        rabbitmq: false
+        redis: false
+      project_setup:
+        override: true
+        before:
+          - bash tests/bin/install.sh wordpress_test root "" localhost $WP_VERSION
+          - bash tests/bin/travis.sh before
+      tests:
+        override:
+          - jshint-run
+          - php-scrutinizer-run --enable-security-analysis
+          -
+            command: vendor/bin/phpunit --coverage-clover=tests/clover.xml
+            coverage:
+              file: tests/clover.xml
+              format: clover
+
+tools:
+  php_code_sniffer:
+    config:
+      standard: WordPress
+  sensiolabs_security_checker: true
+
+checks:
+  php:
+    no_exit: false
+    simplify_boolean_return: true
+    check_method_contracts:
+      verify_interface_like_constraints: true
+      verify_documented_constraints: true
+      verify_parent_constraints: true
+    return_doc_comments: true
+    return_doc_comment_if_not_inferrable: true
+  javascript:
+    no_else_return: true
+    eqeqeq: true
+
+coding_style:
+  php:
+    indentation:
+      general:
+        use_tabs: true
+      switch:
+        indent_case: true
+    spaces:
+      general:
+        linefeed_character: newline
+      before_parentheses:
+        function_declaration: false
+        closure_definition: false
+        function_call: false
+        if: false
+        for: false
+        while: false
+        switch: false
+        catch: false
+        array_initializer: false
+      around_operators:
+        assignment: true
+        logical: true
+        equality: true
+        relational: true
+        bitwise: true
+        additive: true
+        multiplicative: true
+        shift: true
+        unary_additive: false
+        concatenation: false
+        negation: false
+      before_left_brace:
+        class: true
+        function: true
+        if: true
+        else: true
+        for: true
+        while: true
+        do: true
+        switch: true
+        try: true
+        catch: true
+        finally: true
+      before_keywords:
+        else: true
+        while: true
+        catch: true
+        finally: true
+      within:
+        brackets: false
+        array_initializer: true
+        grouping: false
+        function_call: true
+        function_declaration: true
+        if: true
+        for: true
+        while: true
+        switch: true
+        catch: true
+        type_cast: false
+      ternary_operator:
+        before_condition: true
+        after_condition: true
+        before_alternative: true
+        after_alternative: true
+        in_short_version: false
+      other:
+        before_comma: false
+        after_comma: true
+        before_semicolon: false
+        after_semicolon: true
+        after_type_cast: false
+    braces:
+      classes_functions:
+        class: new-line
+        function: new-line
+        closure: end-of-line
+      if:
+        opening: undefined
+        always: true
+        else_on_new_line: true
+      for:
+        opening: undefined
+        always: true
+      while:
+        opening: undefined
+        always: true
+      do_while:
+        opening: undefined
+        always: true
+        while_on_new_line: true
+      switch:
+        opening: undefined
+      try:
+        opening: undefined
+        catch_on_new_line: true
+        finally_on_new_line: true
+    upper_lower_casing:
+      keywords:
+        general: lower
+      constants:
+        true_false_null: lower
+

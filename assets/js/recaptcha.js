@@ -1,0 +1,1 @@
+"use strict";var glsr_render_recaptcha=function(){var e,c;[].forEach.call(document.querySelectorAll(".glsr-submit-review-form"),function(r){r.onsubmit=null,(c=r.querySelector(".glsr-recaptcha-holder"))&&(c.innerHTML="",e=grecaptcha.render(c,{callback:function(r){GLSR.submitForm(r)},"expired-callback":function(){grecaptcha.reset(e)}},!0))})};

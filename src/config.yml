@@ -1,0 +1,34 @@
+bump:
+  - readme.txt
+  - site-reviews.php
+dest:
+  css: assets/css/
+  js: assets/js/
+  lang: languages/
+language:
+  domain: site-reviews
+  team: Gemini Labs <support@geminilabs.io>
+  translator: Paul Ryley <paul@geminilabs.io>
+scripts:
+  mce-plugin.js: src/js/mce-plugin.js
+  recaptcha.js: src/js/recaptcha.js
+  site-reviews-admin.js:
+    - src/js/admin/init.js
+    - src/js/admin/functions.js
+    - src/js/admin/pinned.js
+    - src/js/admin/search.js
+    - src/js/admin/shortcode.js
+    - src/js/admin/ready.js
+  site-reviews.js:
+    - node_modules/star-rating.js/src/star-rating.js
+    - src/js/helper-functions.js
+    - src/js/site-reviews.js
+watch:
+  js:
+    - src/js/**/*.js
+    - '!src/js/polyfills.js'
+  php:
+    - plugin/**/*.php
+    - views/**/*.php
+    - '*.php'
+  scss: src/sass/**/*.scss

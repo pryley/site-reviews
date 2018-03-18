@@ -1,0 +1,122 @@
+// =============================================================================
+// Partials -> Twenty Sixteen
+// =============================================================================
+
+$twenty-sixteen-rembase: 16;
+$twenty-sixteen-line-height: 26;
+$twenty-sixteen-color: #007acc;
+$twenty-sixteen-error: #e4002e; // triad of $twenty-sixteen-color
+$twenty-sixteen-sans-serif: Montserrat, "Helvetica Neue", sans-serif;
+$twenty-sixteen-serif: Merriweather, Georgia, serif;
+
+.glsr-form-title {
+	font-family: $twenty-sixteen-sans-serif;
+	font-size: 23px;
+	font-size: (23 / $twenty-sixteen-rembase) + rem;
+	font-weight: 700;
+	line-height: 1.3125;
+	border-top: 4px solid #1a1a1a;
+	padding-top: (28 / 23) + em;
+	margin-bottom: (28 / 23) + em;
+}
+
+.glsr-form-description {
+	color: #686868;
+	font-size: 13px;
+	font-size: (13 / $twenty-sixteen-rembase) + rem;
+	line-height: (21 / 13);
+	margin-bottom: (28 / 13) + em;
+
+	span {
+		color: $twenty-sixteen-color;
+	}
+}
+
+.glsr-form-messages {
+	color: $twenty-sixteen-color;
+	font-family: $twenty-sixteen-sans-serif;
+}
+
+.gslr-has-errors {
+	color: $twenty-sixteen-error;
+}
+
+.glsr-field {
+	margin-bottom: (28 / $twenty-sixteen-rembase) + em;
+
+	&-error {
+		color: $twenty-sixteen-error;
+		font-size: 13px;
+		font-size: (13 / $twenty-sixteen-rembase) + rem;
+		line-height: (21 / 13);
+
+		&:first-child {
+			margin-top: (14 / $twenty-sixteen-line-height) + em;
+		}
+	}
+
+	label:not([for^="terms"]) {
+		font-family: $twenty-sixteen-sans-serif;
+		color: #686868;
+		font-size: 13px;
+		font-size: (13 / $twenty-sixteen-rembase) + rem;
+		letter-spacing: (1 / 13) + em;
+		line-height: (21 / 13);
+		margin-bottom: (14 / $twenty-sixteen-line-height) + em;
+		text-transform: uppercase;
+	}
+
+	label[for^="rating"]:after,
+	&.glsr-required label:after {
+		font-family: $twenty-sixteen-serif;
+		color: $twenty-sixteen-color;
+	}
+
+	::-webkit-input-placeholder {
+		font-family: $twenty-sixteen-serif;
+	}
+
+	:-moz-placeholder {
+		font-family: $twenty-sixteen-serif;
+	}
+
+	::-moz-placeholder {
+		font-family: $twenty-sixteen-serif;
+	}
+
+	:-ms-input-placeholder {
+		font-family: $twenty-sixteen-serif;
+	}
+}
+
+.glsr-loader {
+	bottom: 2.947368421em;
+	font-size: 1.1875rem;
+	margin: 14px 0;
+}
+
+@media screen and (min-width: 44.375em) {
+	.glsr-loader {
+		bottom: 4.421052632em;
+	}
+}
+
+@media screen and (min-width: 61.5625em) {
+	.glsr-loader {
+		bottom: 5.894736842em;
+	}
+}
+
+.glsr-ltr {
+	.glsr-field label[for^="rating"]:after,
+	.glsr-field.glsr-required label:after {
+		margin-left: 5px;
+	}
+}
+
+.glsr-rtl {
+	.glsr-field label[for^="rating"]:after,
+	.glsr-field.glsr-required label:after {
+		margin-right: 5px;
+	}
+}

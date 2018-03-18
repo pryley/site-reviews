@@ -1,0 +1,9 @@
+{
+  "browser": true,
+  "devel": true,
+  "strict": true,
+  "globalstrict": true,
+  "esversion": 6,
+  "jquery": true,
+  "eqeqeq": true
+}

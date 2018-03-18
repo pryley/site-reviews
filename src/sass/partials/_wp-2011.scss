@@ -1,0 +1,101 @@
+// =============================================================================
+// Partials -> Twenty Eleven
+// =============================================================================
+
+$twenty-eleven-error: #bd3500;
+$twenty-eleven-success: #009781;
+
+.glsr-form-messages {
+	color: $twenty-eleven-success;
+	font-size: 15px;
+}
+
+.gslr-has-errors {
+	color: $twenty-eleven-error;
+}
+
+h3.glsr-form-title {
+	color: #373737;
+	font-size: 24px;
+	font-weight: bold;
+	line-height: 30px;
+	text-transform: none;
+	letter-spacing: normal;
+}
+
+.glsr-form-description {
+	font-size: 13px;
+	margin: 10px 0;
+
+	span {
+		color: $twenty-eleven-error;
+	}
+}
+
+.entry-content .glsr-field,
+.one .glsr-field {
+	input[type="text"],
+	input[type="email"],
+	input[type="url"],
+	textarea {
+		padding: 10px;
+
+		@media (max-width: 800px) {
+			padding: 6px;
+		}
+	}
+}
+
+.glsr-field {
+
+	&-error {
+		color: $twenty-eleven-error;
+		font-size: 13px;
+	}
+
+	label {
+		font-size: 13px;
+	}
+
+	label[for^="rating"]:after,
+	&.glsr-required label:after {
+		color: $twenty-eleven-error;
+		line-height: 13px;
+		font-size: 22px;
+		font-weight: 600;
+		vertical-align: middle;
+	}
+
+	input[type="text"],
+	input[type="email"],
+	input[type="url"],
+	textarea {
+		position: relative;
+		display: block;
+		width: 100%;
+		border-radius: 3px;
+		box-sizing: border-box;
+		padding: 6px;
+	}
+
+	input[type="submit"] {
+		position: relative;
+		background: #222;
+		border: none;
+		border-radius: 3px;
+		box-shadow: 0px 1px 2px rgba(0,0,0,0.3);
+		color: #eee;
+		cursor: pointer;
+		text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+		padding: 5px 22px;
+
+		&:active {
+			background: #1982d1;
+			color: #bfddf3;
+		}
+	}
+}
+
+.glsr-loader {
+	bottom: 1.625em;
+}

@@ -1,0 +1,134 @@
+$glsr-color-success: #1976D2 !default;
+$glsr-color-error: #D32F2F !default;
+
+.gl-star-rating[data-star-rating] {
+	line-height: 1;
+}
+
+.glsr-field-messages {
+	color: $glsr-color-success;
+}
+
+.glsr-has-error,
+.glsr-has-errors {
+	color: $glsr-color-error;
+}
+
+.glsr-field {
+	margin-bottom: 1em;
+
+	&-error {
+		display: block;
+		font-size: 0.875em;
+		color: $glsr-color-error;
+	}
+
+	ul {
+		list-style-type: none;
+	}
+
+	label {
+		display: block;
+	}
+
+	label[for^="terms"] {
+		hyphens: none;
+	}
+
+	label[for^="rating"]:after,
+	&.glsr-required label:after {
+		content: "*";
+		color: $glsr-color-error;
+	}
+
+	select[name="rating"] {
+		display: block;
+		height: 26px;
+		&::before,
+		&::after {
+			display: none !important;
+		}
+	}
+}
+
+.glsr-recaptcha-holder {
+	margin-top: 1em;
+}
+
+.glsr-field button[type="submit"] span {
+	display: none;
+}
+
+.glsr-field button[type="submit"][disabled] span {
+	display: inline;
+	position: relative;
+}
+
+.glsr-field button[type="submit"] span::before,
+.glsr-field button[type="submit"] span::after {
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	height: 1em;
+	width: 1em;
+	content: '';
+	border: 0.2em solid currentColor;
+	border-radius: 100%;
+	box-sizing: border-box;
+	margin: -0.5em auto 0;
+	animation: glsr-rotation 0.6s infinite linear;
+}
+
+.glsr-field button[type="submit"] span::before {
+	border-top-color: transparent;
+	opacity: 0.5;
+}
+
+.glsr-field button[type="submit"] span::after {
+	border-color: transparent;
+	border-top-color: currentColor;
+}
+
+@keyframes glsr-rotation {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(359deg);
+	}
+}
+
+
+.glsr-ltr {
+	.glsr-field label[for^="rating"]:after,
+	.glsr-field.glsr-required label:after {
+		margin-left: 0.33em;
+	}
+	.glsr-field input[type="checkbox"] {
+		margin-right: 0.25em;
+	}
+	.glsr-field button[type="submit"][disabled] span {
+		margin-right: 1.65em;
+	}
+	.glsr-field button[type="submit"] span::before,
+	.glsr-field button[type="submit"] span::after {
+		left: 0;
+	}
+}
+
+.glsr-rtl {
+	.glsr-field label[for^="rating"]:after,
+	.glsr-field.glsr-required label:after {
+		margin-right: 0.33em;
+	}
+	.glsr-field input[type="checkbox"] {
+		margin-left: 0.25em;
+	}
+	.glsr-field button[type="submit"][disabled] span {
+		margin-left: 1.65em;
+	}
+	.glsr-field button[type="submit"] span::before,
+	.glsr-field button[type="submit"] span::after {
+		right: 0;
+	}
+}

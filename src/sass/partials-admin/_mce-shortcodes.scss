@@ -1,0 +1,122 @@
+// =============================================================================
+// Partials -> TinyMCE Shortcodes
+// =============================================================================
+
+.glsr-mce {
+	position: relative;
+	display: inline-block;
+	margin-right: 1px;
+
+	&-menu.mce-menu {
+		display: none;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		min-width: 100%;
+		background: #fff;
+		padding: 5px 0;
+		margin: -2px 0 0;
+	}
+
+	&-menu-item.mce-menu-item {
+		cursor: pointer;
+		font-size: 14px;
+		white-space: nowrap;
+		padding: 6px 12px;
+		margin-bottom: 2px;
+	}
+}
+
+.mce-glsr-mce-popup {
+	a {
+		text-decoration: underline;
+	}
+	p {
+		margin-bottom: 1em;
+		&.strong {
+			font-weight: 600;
+		}
+		&.no-margin {
+			margin-bottom: 0;
+		}
+		&.margin-top {
+			margin-top: 1em;
+		}
+	}
+}
+
+.mce-glsr-btn.mce-btn button {
+	box-sizing: border-box;
+	padding: 0 8px;
+}
+
+/* =Shortcode button above wp_editor
+-------------------------------------------------------------- */
+
+button.glsr-mce-button {
+
+	.wp-media-buttons & {
+		outline: none;
+		padding-left: 5px;
+		margin-right: 0;
+	}
+
+	&:after {
+		display: inline-block;
+		position: relative;
+		top: -1px;
+		left: -1px;
+		width: 0;
+		height: 0;
+		content: '';
+		border-top: 6px solid #777;
+		border-right: 4px solid transparent;
+		border-left: 4px solid transparent;
+	}
+
+	&.active:after {
+		top: -2px;
+		border-top: 0;
+		border-bottom: 6px solid #32373c;
+	}
+
+	&:active {
+		margin-bottom: 5px;
+	}
+
+	.wp-media-buttons-icon:before {
+		content: "\f459";
+		font: normal 18px/1 dashicons;
+		speak: none;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+
+		@media screen and (max-width: 782px) {
+			font-size: 20px !important;
+		}
+	}
+}
+
+/* =Hack to fix wp-give shortcode button margin
+-------------------------------------------------------------- */
+
+div.sc-wrap {
+	margin-right: 1px;
+}
+
+/* WordPress compatibility
+-------------------------------------------------------------------- */
+
+body.branch-4,
+body.branch-4-1,
+body.branch-4-2 {
+
+	i.mce-i-checkbox {
+		background-image: none;
+	}
+
+	.glsr-mce-menu .glsr-mce-menu-item:hover {
+		background: #0073aa;
+		color: #fff;
+	}
+}

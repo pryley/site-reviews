@@ -1,0 +1,62 @@
+// =============================================================================
+// Partials -> Twenty Twelve
+// =============================================================================
+
+$twenty-twelve-rembase: 14;
+$twenty-twelve-line-height: 24;
+$twenty-twelve-error: red;
+$twenty-twelve-success: #0088d0;
+
+.glsr-form-messages {
+	color: $twenty-twelve-success;
+}
+
+.gslr-has-errors {
+	color: $twenty-twelve-error;
+}
+
+h3.glsr-form-title {
+	margin: 24px 0;
+	margin: (24 / $twenty-twelve-rembase) + rem 0;
+}
+
+.glsr-form-description span {
+	color: $twenty-twelve-error;
+}
+
+.glsr-field,
+.shortcode-reviews-form p.glsr-form-description,
+.widget-area .widget p.glsr-form-description {
+	line-height: 1.5;
+	margin: 11px 0;
+	margin: (11 / $twenty-twelve-rembase) + rem 0;
+}
+
+.glsr-field {
+
+	&-error {
+		color: $twenty-twelve-error;
+	}
+
+	label[for^="rating"]:after,
+	&.glsr-required label:after {
+		color: $twenty-twelve-error;
+	}
+
+	label {
+		line-height: ($twenty-twelve-line-height / $twenty-twelve-rembase);
+	}
+
+	input[type="text"],
+	input[type="email"],
+	input[type="url"],
+	textarea {
+		width: 100%;
+		box-sizing: border-box;
+		font-size: 12px;
+		font-size: (12 / $twenty-twelve-rembase)rem;
+		line-height: ($twenty-twelve-line-height / $twenty-twelve-rembase);
+		padding: 10px;
+		padding: (12 / $twenty-twelve-rembase)rem;
+	}
+}

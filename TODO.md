@@ -1,0 +1,6 @@
+- [ ] Make reviews custom sortable
+- [ ] Make reviews publicly queryable
+- [ ] Make compatible with wp-rocket (cloudflare)
+- [ ] Make compatible with contact7
+- [ ] Expandable Tooltips like Yoast SEO Settings
+- [ ] A11y

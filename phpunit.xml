@@ -1,0 +1,26 @@
+<phpunit
+	bootstrap="tests/Bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	verbose="true"
+	>
+	<testsuites>
+		<testsuite>
+			<directory prefix="Test" suffix=".php">tests/</directory>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<blacklist>
+			<directory suffix=".php">tests/</directory>
+		</blacklist>
+		<whitelist>
+			<directory suffix=".php">plugin/</directory>
+		</whitelist>
+	</filter>
+	<logging>
+		<log type="coverage-clover" target="tests/clover.xml" charset="UTF-8" />
+	</logging>
+</phpunit>
