@@ -1,0 +1,66 @@
+$glsr-color-success: #1976D2 !default;
+$glsr-color-error: #D32F2F !default;
+
+.gl-star-rating[data-star-rating] {
+	line-height: 1;
+
+	> select {
+		visibility: visible;
+	}
+}
+
+.glsr-field-messages {
+	color: $glsr-color-success;
+}
+
+.glsr-has-error,
+.glsr-has-errors {
+	color: $glsr-color-error;
+}
+
+.glsr-field {
+	margin-bottom: 1em;
+
+	&-error {
+		display: block;
+		font-size: 0.875em;
+		color: $glsr-color-error;
+	}
+
+	ul {
+		list-style-type: none;
+	}
+
+	label {
+		display: block;
+	}
+
+	label[for^="terms"] {
+		hyphens: none;
+	}
+
+	label[for^="rating"]:after,
+	&.glsr-required label:after {
+		content: "*";
+		color: $glsr-color-error;
+		margin-left: 0.33em;
+	}
+
+	input[type="checkbox"] {
+		margin-right: 0.25em;
+	}
+
+	select[name="rating"] {
+		display: block;
+		height: 26px;
+		visibility: hidden !important;
+		&::before,
+		&::after {
+			display: none !important;
+		}
+	}
+}
+
+.glsr-recaptcha-holder {
+	margin-top: 1em;
+}

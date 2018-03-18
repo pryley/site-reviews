@@ -1,0 +1,84 @@
+$glsr-summary-max-width: 400px;
+$glsr-summary-font-size: 16px;
+$glsr-summary-font-size-small: 14px;
+$glsr-summary-bar-height: 12px;
+$glsr-summary-spacing: 10px;
+$glsr-summary-star-size: 24px;
+
+.glsr-summary {
+	position: relative;
+	width: 100%;
+	max-width: $glsr-summary-max-width;
+	font-size: $glsr-summary-font-size;
+	line-height: 1.5;
+	margin-bottom: 1em;
+
+	.glsr-review-rating {
+		display: inline-block;
+		margin-right: $glsr-summary-spacing;
+	}
+	[class*=glsr-star-] {
+		width: 26px;
+		height: 26px;
+		background-size: $glsr-summary-star-size;
+	}
+}
+
+.glsr-summary-rating {
+	line-height: 1.25;
+	font-size: $glsr-summary-star-size;
+	font-weight: 700;
+	margin-right: $glsr-summary-spacing;
+}
+
+.glsr-summary-text {
+	display: block;
+	font-size: $glsr-summary-font-size-small;
+}
+
+.glsr-percentage-bars {
+	position: relative;
+	width: 100%;
+	max-width: $glsr-summary-max-width;
+	font-size: $glsr-summary-font-size;
+	line-height: 1.5;
+	margin-bottom: 1em;
+}
+
+.glsr-bar {
+	display: table-row;
+	white-space: nowrap;
+
+	> span {
+		display: table-cell;
+		vertical-align: middle;
+	}
+}
+
+.glsr-bar-label {
+	padding-right: $glsr-summary-spacing;
+}
+.glsr-bar-background {
+	position: relative;
+	width: 100%;
+
+	&::before {
+		display: block;
+		position: absolute;
+		width: 100%;
+		height: $glsr-summary-bar-height;
+		content: '';
+		background: rgba(0,0,0,0.075);
+	}
+}
+.glsr-bar-percent {
+	position: relative;
+	display: block;
+	height: $glsr-summary-bar-height;
+	background-color: #ffb900;
+}
+.glsr-bar-count {
+	text-align: right;
+	font-size: $glsr-summary-font-size-small;
+	padding-left: $glsr-summary-spacing;
+}

@@ -1,0 +1,45 @@
+// =============================================================================
+// Partials -> Twenty Thirteen
+// =============================================================================
+
+$twenty-thirteen-error: #ed331c;
+$twenty-thirteen-success: #21759b;
+
+.glsr-form-messages {
+	color: $twenty-thirteen-success;
+}
+
+.gslr-has-errors {
+	color: $twenty-thirteen-error;
+}
+
+.glsr-form-description span {
+	color: $twenty-thirteen-error;
+}
+
+.glsr-field {
+	margin-bottom: 12px;
+
+	&-error {
+		color: $twenty-thirteen-error;
+	}
+
+	label[for^="rating"]:after,
+	&.glsr-required label:after {
+		color: $twenty-thirteen-error;
+	}
+
+	input[type="text"],
+	input[type="email"],
+	input[type="url"],
+	textarea {
+		width: 100%;
+	}
+}
+
+#secondary .glsr-review-response {
+	background-color: rgba(255,255,255,0.075);
+	&::before {
+		border-color: rgba(255,255,255,0.075) transparent;
+	}
+}

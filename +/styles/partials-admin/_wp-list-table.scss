@@ -1,0 +1,199 @@
+// =============================================================================
+// Partials -> WP List Table
+// =============================================================================
+
+.hide-column-tog + .pinned-icon + svg {
+	display: none;
+}
+
+.post-type-site-review .wp-list-table {
+
+	.approve,
+	.status-pending .unapprove {
+		display: none;
+	}
+
+	.status-pending .approve,
+	.spam .approve,
+	.trash .approve {
+		display: inline;
+	}
+
+	.approve a {
+		color: #006505;
+		&:hover {
+			color: lighten( #006505, 5 );
+		}
+	}
+
+	.unapprove a {
+		color: #d98500;
+		&:hover {
+			color: lighten( #d98500, 5 );
+		}
+	}
+
+	th.column-rating {
+		width: 100px;
+	}
+
+	td.column-pinned {
+		i {
+			line-height: 24px;
+			text-indent: -3px;
+			cursor: pointer;
+		}
+
+		i:not(.pinned) {
+			// color: #eaeaea;
+			color: rgba(85,85,85,0.2);
+		}
+	}
+
+	:not(.status-pending) + tr.status-pending th.check-column {
+		box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.07), inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+	}
+
+	:not(.status-pending) + tr.status-pending td:nth-child(2) {
+		box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.07);
+	}
+
+	:not(.status-pending) + tr.status-pending:not(.is-expanded) td:nth-child(2) {
+		box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.07), inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+	}
+
+	tr.status-pending th.check-column {
+		box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+	}
+
+	tr.status-pending:not(.is-expanded) td:nth-child(2),
+	tr.status-pending.is-expanded td:last-child {
+		box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+	}
+
+	tr.status-pending th.check-column,
+	tr.status-pending td {
+		background-color: #fef7f1;
+	}
+
+	tr.status-pending th.check-column {
+		position: relative;
+		border-left: 4px solid #d54e21;
+		z-index: 1;
+
+		input {
+			margin-left: 4px;
+		}
+	}
+}
+
+@media screen and (max-width: 782px) {
+	body.branch-4.post-type-site-review .wp-list-table,
+	body.branch-4-1.post-type-site-review .wp-list-table,
+	body.branch-4-2.post-type-site-review .wp-list-table {
+
+		.column-title {
+			width: auto;
+		}
+
+		.column-title ~ [class*="column-"]:not(.column-rating) {
+			display: none;
+		}
+
+		:not(.status-pending) + tr.status-pending td.column-rating {
+			box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.07);
+		}
+
+		:not(.status-pending) + tr.status-pending:not(.is-expanded) td.column-rating {
+			box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.07), inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+		}
+
+		tr.status-pending:not(.is-expanded) td.column-rating {
+			box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+		}
+	}
+}
+
+@media screen and (min-width: 783px) {
+
+	body.branch-4.post-type-site-review .wp-list-table,
+	body.branch-4-1.post-type-site-review .wp-list-table,
+	body.branch-4-2.post-type-site-review .wp-list-table,
+	body.branch-4-3.post-type-site-review .wp-list-table {
+		th.column-pinned {
+			position: relative;
+		}
+
+		th.column-pinned a::after,
+		.dashicons-sticky::before {
+			display: none;
+		}
+
+		th.column-pinned svg {
+			position: absolute;
+			top: 10px;
+			width: 16px;
+			height: 16px;
+		}
+	}
+
+	.post-type-site-review .wp-list-table {
+
+		:not(.status-pending) + tr.status-pending td {
+			box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.07), inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+		}
+
+		tr.status-pending td {
+			box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+		}
+
+		th.column-reviewer,
+		th.column-taxonomy-site-review-category,
+		th.column-assigned_to,
+		th.column-review_type {
+			width: 120px;
+		}
+
+		th.column-pinned {
+			width: 45px;
+
+			// span.sorting-indicator,
+			span.pinned-icon span {
+				display: none;
+			}
+
+			span.pinned-icon::after {
+				@include pin;
+				width: 16px;
+				height: 20px;
+				line-height: 22px;
+				font-size: 16px;
+				text-align: center;
+				transition: color .1s ease-in 0;
+			}
+
+			.sorting-indicator {
+				margin-left: 3px;
+			}
+		}
+
+		td.column-pinned {
+			padding: 8px;
+
+			i {
+				text-indent: 0;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 1100px) and (min-width: 782px), (max-width: 480px) {
+	body.branch-4.post-type-site-review .wp-list-table,
+	body.branch-4-1.post-type-site-review .wp-list-table,
+	body.branch-4-2.post-type-site-review .wp-list-table,
+	body.branch-4-3.post-type-site-review .wp-list-table {
+		th.column-date {
+			width: 14%;
+		}
+	}
+}

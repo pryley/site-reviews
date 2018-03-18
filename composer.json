@@ -1,0 +1,51 @@
+{
+  "name": "geminilabs/site-reviews",
+  "type": "wordpress-plugin",
+  "description": "Receive and display reviews on your website",
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "reviews"
+  ],
+  "license": "GPLv3",
+  "authors": [
+    {
+      "name": "Paul Ryley",
+      "email": "paul@geminilabs.io"
+    }
+  ],
+  "archive": {
+    "exclude": [
+      "/+",
+      "/tests",
+      "/.*",
+      "/*.md",
+      "/*.js",
+      "/*.json",
+      "/*.lock",
+      "/*.sh",
+      "/*.xml"
+    ]
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/geminilabs/schema-org.git"
+    }
+  ],
+  "require": {
+    "php": ">=5.6"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.1.5",
+    "geminilabs/schema-org": "dev-master as 1.3.0",
+    "qcubed/i18n": "dev-master",
+    "sinergi/browser-detector": "^6.1.2",
+    "vectorface/whip": "^0.3.2"
+  }
+}

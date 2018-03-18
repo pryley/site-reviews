@@ -1,0 +1,66 @@
+// =============================================================================
+// Mixins
+// =============================================================================
+
+@mixin pin {
+	display: inline-block;
+	position: relative;
+	content: "\f537";
+	font: normal 20px/1 dashicons;
+	speak: none;
+	vertical-align: top;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+@mixin placeholder() {
+	color: #72777c !important;
+	font-size: inherit !important;
+	line-height: inherit !important;
+	opacity: 1;
+}
+
+// =============================================================================
+// Imports
+// =============================================================================
+
+@import "partials-admin/addons";
+@import "partials-admin/dashboard";
+@import "partials-admin/edit-review";
+@import "partials-admin/mce-shortcodes";
+@import "partials-admin/metabox";
+@import "partials-admin/notices";
+@import "partials-admin/progress-bar";
+@import "partials-admin/rating";
+@import "partials-admin/settings";
+@import "partials-admin/status-table";
+@import "partials-admin/wp-list-table";
+
+// =============================================================================
+// Misc
+// =============================================================================
+
+::placeholder {
+	@include placeholder();
+}
+
+::-webkit-input-placeholder {
+	@include placeholder();
+}
+
+:-moz-placeholder {
+	@include placeholder();
+}
+
+::-moz-placeholder {
+	@include placeholder();
+}
+
+:-ms-input-placeholder {
+	@include placeholder();
+}
+
+.glsr-field small code {
+	font-size: inherit;
+	padding: 0 3px 1px;
+}

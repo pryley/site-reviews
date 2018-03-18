@@ -1,0 +1,997 @@
+# Copyright (C) 2018 site-reviews
+# This file is distributed under the same license as the site-reviews package.
+msgid ""
+msgstr ""
+"Project-Id-Version: site-reviews\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: Gemini Labs <support@geminilabs.io>\n"
+"Last-Translator: Paul Ryley <paul@geminilabs.io>\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: activate.php:132
+msgid "The %s plugin was deactivated."
+msgstr ""
+
+#: activate.php:133
+msgid "Sorry, this plugin requires %s or greater in order to work properly."
+msgstr ""
+
+#: activate.php:134
+msgid "Please contact your hosting provider or server administrator to upgrade the version of PHP on your server (your server is running PHP version %s), or try to find an alternative plugin."
+msgstr ""
+
+#: activate.php:135
+msgid "PHP version"
+msgstr ""
+
+#: activate.php:136
+msgid "WordPress version"
+msgstr ""
+
+#: activate.php:137
+msgid "Update WordPress"
+msgstr ""
+
+#: plugin/Application.php:136
+msgid "Local"
+msgstr ""
+
+#: plugin/Database.php:210
+msgid "Anonymous"
+msgstr ""
+
+#: plugin/Commands/RegisterPostType.php:47
+msgctxt "Add New Post"
+msgid "Add New %s"
+msgstr ""
+
+#: plugin/Commands/RegisterPostType.php:48
+msgctxt "All Posts"
+msgid "All %s"
+msgstr ""
+
+#: plugin/Commands/RegisterPostType.php:49
+msgctxt "Post Archives"
+msgid "%s Archives"
+msgstr ""
+
+#: plugin/Commands/RegisterPostType.php:50
+msgctxt "Edit Post"
+msgid "Edit %s"
+msgstr ""
+
+#: plugin/Commands/RegisterPostType.php:51
+msgctxt "Insert into Post"
+msgid "Insert into %s"
+msgstr ""
+
+#: plugin/Commands/RegisterPostType.php:54
+msgctxt "New Post"
+msgid "New %s"
+msgstr ""
+
+#: plugin/Commands/RegisterPostType.php:55
+msgctxt "No Posts found"
+msgid "No %s found"
+msgstr ""
+
+#: plugin/Commands/RegisterPostType.php:56
+msgctxt "No Posts found in Trash"
+msgid "No %s found in Trash"
+msgstr ""
+
+#: plugin/Commands/RegisterPostType.php:57
+msgctxt "Search Posts"
+msgid "Search %s"
+msgstr ""
+
+#: plugin/Commands/RegisterPostType.php:59
+msgctxt "Uploaded to this Post"
+msgid "Uploaded to this %s"
+msgstr ""
+
+#: plugin/Commands/RegisterPostType.php:60
+msgctxt "View Post"
+msgid "View %s"
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:33, plugin/Controllers/MenuController.php:47
+msgid "Settings"
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:51
+msgid "%s Review"
+msgid_plural "%s Reviews"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Controllers/AdminController.php:79
+msgid "You can pin exceptional reviews so that they are always shown first."
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:87
+msgid "Pin Your Reviews"
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:99, plugin/Controllers/MainController.php:85
+msgid "Recent Reviews"
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:100, plugin/Controllers/MainController.php:90
+msgid "Submit a Review"
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:101, plugin/Controllers/MainController.php:95
+msgid "Summary of Reviews"
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:125
+msgid "This review is read-only."
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:153
+msgid "Log cleared."
+msgstr ""
+
+#: plugin/Controllers/AjaxController.php:59
+msgid "Okay"
+msgstr ""
+
+#: plugin/Controllers/AjaxController.php:79, plugin/Controllers/AjaxController.php:98
+msgid "Nothing found."
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:28, plugin/Controllers/EditorController.php:85
+msgid "Save as Unapproved"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:29, plugin/Controllers/EditorController.php:84, plugin/Controllers/ListTableController.php:134
+msgid "Approved"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:81, plugin/Controllers/EditorController.php:82, plugin/Controllers/ListTableController.php:135
+msgid "Unapproved"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:83
+msgid "Privately Approved"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:179, plugin/Controllers/MainController.php:28, views/editor/bulk-edit-assigned-to.php:7
+msgid "Assigned To"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:180
+msgid "Details"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:181, views/editor/metabox-response.php:3
+msgid "Respond Publicly"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:348
+msgid "Nothing to Revert"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:349
+msgid "Revert Changes"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:359
+msgid "Unregistered user"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:366
+msgid "RE:"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:369, plugin/Controllers/MainController.php:31, plugin/Shortcodes/SiteReviewsButton.php:33, plugin/Shortcodes/SiteReviewsButton.php:95, plugin/Shortcodes/SiteReviewsSummaryButton.php:60
+msgid "Rating"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:370, plugin/Controllers/MainController.php:30
+msgid "Type"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:371, plugin/Defaults/PostTypeDefaults.php:18, plugin/Shortcodes/SiteReviewsButton.php:85
+msgid "Date"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:372
+msgid "Reviewer"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:373, plugin/Shortcodes/SiteReviewsFormButton.php:52
+msgid "Name"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:374, plugin/Shortcodes/SiteReviewsFormButton.php:47
+msgid "Email"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:375
+msgid "IP Address"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:376
+msgid "Avatar"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:390
+msgid "Unknown"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:397
+msgid "%s review"
+msgstr ""
+
+#: plugin/Controllers/ListTableController.php:40
+msgid "%s review updated."
+msgid_plural "%s reviews updated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Controllers/ListTableController.php:41
+msgid "%s review not updated, somebody is editing it."
+msgid_plural "%s reviews not updated, somebody is editing them."
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Controllers/ListTableController.php:42
+msgid "%s review permanently deleted."
+msgid_plural "%s reviews permanently deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Controllers/ListTableController.php:43
+msgid "%s review moved to the Trash."
+msgid_plural "%s reviews moved to the Trash."
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Controllers/ListTableController.php:44
+msgid "%s review restored from the Trash."
+msgid_plural "%s reviews restored from the Trash."
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Controllers/ListTableController.php:89
+msgid "Approve"
+msgstr ""
+
+#: plugin/Controllers/ListTableController.php:90
+msgid "Unapprove"
+msgstr ""
+
+#: plugin/Controllers/ListTableController.php:94
+msgctxt "Approve the review"
+msgid "%s this review"
+msgstr ""
+
+#: plugin/Controllers/ListTableController.php:351, plugin/Shortcodes/SiteReviewsButton.php:36, plugin/Shortcodes/SiteReviewsButton.php:37, plugin/Shortcodes/SiteReviewsButton.php:38, plugin/Shortcodes/SiteReviewsButton.php:39, plugin/Shortcodes/SiteReviewsButton.php:40, plugin/Widgets/SiteReviewsWidget.php:35, plugin/Widgets/SiteReviewsWidget.php:36, plugin/Widgets/SiteReviewsWidget.php:37, plugin/Widgets/SiteReviewsWidget.php:38, plugin/Widgets/SiteReviewsWidget.php:39
+msgid "%s star"
+msgid_plural "%s stars"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Controllers/ListTableController.php:354
+msgid "All ratings"
+msgstr ""
+
+#: plugin/Controllers/ListTableController.php:355
+msgid "Filter by rating"
+msgstr ""
+
+#: plugin/Controllers/ListTableController.php:372
+msgid "All types"
+msgstr ""
+
+#: plugin/Controllers/ListTableController.php:376
+msgid "Filter by type"
+msgstr ""
+
+#: plugin/Controllers/MainController.php:29, plugin/Shortcodes/SiteReviewsButton.php:80
+msgid "Author"
+msgstr ""
+
+#: plugin/Controllers/MainController.php:32, views/editor/pinned.php:10
+msgid "Pinned"
+msgstr ""
+
+#: plugin/Controllers/MainController.php:38, plugin/Controllers/MenuController.php:101
+msgid "Reviews"
+msgstr ""
+
+#: plugin/Controllers/MainController.php:40
+msgid "Review"
+msgstr ""
+
+#: plugin/Controllers/MainController.php:84
+msgid "Your site’s most recent reviews."
+msgstr ""
+
+#: plugin/Controllers/MainController.php:89
+msgid "A \"submit a review\" form for your site."
+msgstr ""
+
+#: plugin/Controllers/MainController.php:94
+msgid "A summary of your site’s reviews."
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:48
+msgid "Tools"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:49
+msgid "Documentation"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:50, plugin/Controllers/MenuController.php:68
+msgid "Add-Ons"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:82
+msgid "Support"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:83
+msgid "FAQ"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:84
+msgid "Shortcodes"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:85
+msgid "Hooks"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:86
+msgid "Functions"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:100
+msgid "General"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:102
+msgid "Submissions"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:103, plugin/Shortcodes/SiteReviewsButton.php:63, plugin/Shortcodes/SiteReviewsSummaryButton.php:32
+msgid "Schema"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:104
+msgid "Translations"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:105
+msgid "Licenses"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:122
+msgid "Import/Export"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:123
+msgid "Logging"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:124
+msgid "System Info"
+msgstr ""
+
+#: plugin/Controllers/SettingsController.php:24
+msgid "Logging disabled."
+msgid_plural "Logging enabled."
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Controllers/SettingsController.php:28
+msgid "Settings updated."
+msgstr ""
+
+#: plugin/Defaults/PostTypeDefaults.php:17, plugin/Shortcodes/SiteReviewsButton.php:20, plugin/Shortcodes/SiteReviewsButton.php:105, plugin/Shortcodes/SiteReviewsFormButton.php:19, plugin/Shortcodes/SiteReviewsFormButton.php:62, plugin/Shortcodes/SiteReviewsSummaryButton.php:19, plugin/Widgets/SiteReviewsFormWidget.php:21, plugin/Widgets/SiteReviewsSummaryWidget.php:21, plugin/Widgets/SiteReviewsWidget.php:21
+msgid "Title"
+msgstr ""
+
+#: plugin/Handlers/ChangeStatus.php:35, views/editor/pinned.php:14
+msgid "Edit"
+msgstr ""
+
+#: plugin/Handlers/RegisterTaxonomy.php:61
+msgid "Filter by category"
+msgstr ""
+
+#: plugin/Handlers/SubmitReview.php:22
+msgid "Your review has been submitted!"
+msgstr ""
+
+#: plugin/Handlers/SubmitReview.php:76
+msgid "View Review"
+msgstr ""
+
+#: plugin/Handlers/SubmitReview.php:117
+msgctxt "The text is different depending on whether or not the review has been assigned to a post."
+msgid "New %s-star review"
+msgid_plural "New %s-star review of: %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Handlers/SubmitReview.php:150
+msgid "Email notification was not sent: missing email, subject, or message."
+msgstr ""
+
+#: plugin/Handlers/SubmitReview.php:153
+msgid "Email notification was not sent: wp_mail() failed."
+msgstr ""
+
+#: plugin/Handlers/TogglePinned.php:24
+msgid "The review is pinned."
+msgstr ""
+
+#: plugin/Handlers/TogglePinned.php:25
+msgid "The review is unpinned."
+msgstr ""
+
+#: plugin/Modules/Date.php:36
+msgid "%s second ago"
+msgid_plural "%s seconds ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:37
+msgid "%s minute ago"
+msgid_plural "%s minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:38
+msgid "an hour ago"
+msgid_plural "%s hours ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:39
+msgid "yesterday"
+msgid_plural "%s days ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:40
+msgid "a week ago"
+msgid_plural "%s weeks ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:41
+msgid "%s month ago"
+msgid_plural "%s months ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:42
+msgid "%s year ago"
+msgid_plural "%s years ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Logger.php:112
+msgid "Log is empty"
+msgstr ""
+
+#: plugin/Modules/Logger.php:253
+msgid "Log has been automatically reset (512 KB max size)"
+msgstr ""
+
+#: plugin/Shortcodes/ButtonGenerator.php:43
+msgid "Close"
+msgstr ""
+
+#: plugin/Shortcodes/ButtonGenerator.php:44
+msgid "Insert Shortcode"
+msgstr ""
+
+#: plugin/Shortcodes/ButtonGenerator.php:49
+msgid "Shortcode"
+msgstr ""
+
+#: plugin/Shortcodes/ButtonGenerator.php:151
+msgid "- Select -"
+msgstr ""
+
+#: plugin/Shortcodes/ButtonGenerator.php:255
+msgid "Some of the shortcode options are required."
+msgstr ""
+
+#: plugin/Shortcodes/ButtonGenerator.php:261
+msgctxt "the option label"
+msgid "The \"%s\" option is required."
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:16, plugin/Shortcodes/SiteReviewsFormButton.php:17, plugin/Shortcodes/SiteReviewsSummaryButton.php:15
+msgid "All settings are optional."
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:22, plugin/Shortcodes/SiteReviewsFormButton.php:21, plugin/Shortcodes/SiteReviewsSummaryButton.php:21
+msgid "Enter a custom shortcode heading."
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:25
+msgid "Count"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:30
+msgid "How many reviews would you like to display (default: 10)?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:42
+msgid "What is the minimum rating to display (default: 1 star)?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:45
+msgid "Pagination"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:48
+msgid "Enable"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:49
+msgid "Enable (using ajax)"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:50
+msgid "Disable"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:52
+msgid "When using pagination this shortcode can only be used once on a page. (default: disable)"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:58, plugin/Shortcodes/SiteReviewsFormButton.php:34, plugin/Shortcodes/SiteReviewsSummaryButton.php:27
+msgid "Post ID"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:60, plugin/Shortcodes/SiteReviewsSummaryButton.php:29
+msgid "Limit reviews to those assigned to this post ID (separate multiple IDs with a comma). You can also enter \"post_id\" to use the ID of the current page."
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:66, plugin/Shortcodes/SiteReviewsSummaryButton.php:35
+msgid "Enable rich snippets"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:67, plugin/Shortcodes/SiteReviewsSummaryButton.php:36
+msgid "Disable rich snippets"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:69, plugin/Shortcodes/SiteReviewsSummaryButton.php:38
+msgid "Rich snippets are disabled by default."
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:72, plugin/Shortcodes/SiteReviewsFormButton.php:39, plugin/Shortcodes/SiteReviewsSummaryButton.php:41
+msgid "Classes"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:74, plugin/Shortcodes/SiteReviewsFormButton.php:41, plugin/Shortcodes/SiteReviewsSummaryButton.php:43
+msgid "Add custom CSS classes to the shortcode."
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:81, plugin/Widgets/SiteReviewsWidget.php:73
+msgid "Hide the review author?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:86, plugin/Widgets/SiteReviewsWidget.php:74
+msgid "Hide the review date?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:90
+msgid "Excerpt"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:91, plugin/Widgets/SiteReviewsWidget.php:75
+msgid "Hide the review excerpt?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:96, plugin/Widgets/SiteReviewsWidget.php:76
+msgid "Hide the review rating?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:100
+msgid "Response"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:101, plugin/Widgets/SiteReviewsWidget.php:77
+msgid "Hide the review response?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:106, plugin/Widgets/SiteReviewsWidget.php:78
+msgid "Hide the review title?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:110, plugin/Shortcodes/SiteReviewsFormButton.php:66, plugin/Shortcodes/SiteReviewsSummaryButton.php:79
+msgid "Hide"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:130, plugin/Shortcodes/SiteReviewsFormButton.php:87
+msgid "Category"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:133
+msgid "Limit reviews to this category."
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:147
+msgid "Display"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsButton.php:150, plugin/Widgets/SiteReviewsWidget.php:45
+msgid "Which reviews would you like to display?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormButton.php:24, plugin/Widgets/SiteReviewsFormWidget.php:26
+msgid "Description"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormButton.php:29
+msgid "Enter a custom shortcode description."
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormButton.php:36
+msgid "Assign submitted reviews to a custom page/post ID. You can also enter \"post_id\" to assign reviews to the ID of the current page."
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormButton.php:48
+msgid "Hide the email field?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormButton.php:53
+msgid "Hide the name field?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormButton.php:57
+msgid "Terms"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormButton.php:58
+msgid "Hide the terms field?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormButton.php:63
+msgid "Hide the title field?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormButton.php:90
+msgid "Automatically assign a category to reviews submitted with this shortcode."
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsSummaryButton.php:46
+msgid "Hide Summary"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsSummaryButton.php:48, plugin/Shortcodes/SiteReviewsSummaryButton.php:76, plugin/Widgets/SiteReviewsSummaryWidget.php:59
+msgid "Hide the summary if no reviews are found?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsSummaryButton.php:55
+msgid "Bars"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsSummaryButton.php:56, plugin/Widgets/SiteReviewsSummaryWidget.php:55
+msgid "Hide the percentage bars?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsSummaryButton.php:61, plugin/Widgets/SiteReviewsSummaryWidget.php:56
+msgid "Hide the rating?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsSummaryButton.php:65
+msgid "Stars"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsSummaryButton.php:66, plugin/Widgets/SiteReviewsSummaryWidget.php:57
+msgid "Hide the stars?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsSummaryButton.php:70
+msgid "Summary"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsSummaryButton.php:71, plugin/Widgets/SiteReviewsSummaryWidget.php:58
+msgid "Hide the summary text?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsSummaryButton.php:75
+msgid "If empty"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:95
+msgid "Excellent"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:96
+msgid "Very good"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:97
+msgid "Average"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:98
+msgid "Poor"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:99
+msgid "Terrible"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsFormWidget.php:31
+msgid "Automatically assign a category"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsFormWidget.php:33
+msgid "Do not assign a category"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsFormWidget.php:38
+msgid "You may also enter %s to assign to the current post."
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsFormWidget.php:39
+msgid "Assign reviews to a custom page/post ID"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsFormWidget.php:44, plugin/Widgets/SiteReviewsSummaryWidget.php:49, plugin/Widgets/SiteReviewsWidget.php:67
+msgid "Enter any custom CSS classes here"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsFormWidget.php:50
+msgid "Hide the email field"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsFormWidget.php:51
+msgid "Hide the name field"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsFormWidget.php:52
+msgid "Hide the terms field"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsFormWidget.php:53
+msgid "Hide the title field"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsSummaryWidget.php:27
+msgid "Which type of review would you like to use?"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsSummaryWidget.php:29
+msgid "All review types"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsSummaryWidget.php:35
+msgid "Limit summary to this category"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsSummaryWidget.php:37, plugin/Widgets/SiteReviewsWidget.php:55
+msgid "All Categories"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsSummaryWidget.php:43, plugin/Widgets/SiteReviewsWidget.php:61
+msgid "Separate multiple ID's with a comma. You may also enter %s to automatically represent the current page/post ID."
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsSummaryWidget.php:44
+msgid "Limit summary to reviews assigned to a page/post ID"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsWidget.php:27
+msgid "How many reviews would you like to display?"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsWidget.php:32
+msgid "What is the minimum rating to display?"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsWidget.php:47
+msgid "All Reviews"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsWidget.php:53
+msgid "Limit reviews to this category"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsWidget.php:62
+msgid "Limit reviews to those assigned to this page/post ID"
+msgstr ""
+
+#: views/editor/assigned-post.php:5
+msgid "Remove assignment"
+msgstr ""
+
+#: views/editor/metabox-assigned-to.php:6
+msgid "Type to search..."
+msgstr ""
+
+#: views/editor/metabox-assigned-to.php:8
+msgid "Search here for a page or post that you would like to assign this review to. You may search by title or ID."
+msgstr ""
+
+#: views/editor/metabox-categories.php:7
+msgid "Most Used"
+msgstr ""
+
+#: views/editor/pinned.php:6, plugin/Modules/Html/Custom/YesNo.php:17
+msgid "No"
+msgstr ""
+
+#: views/editor/pinned.php:7, plugin/Modules/Html/Custom/YesNo.php:18
+msgid "Yes"
+msgstr ""
+
+#: views/editor/pinned.php:15
+msgid "Edit pinned status"
+msgstr ""
+
+#: views/editor/pinned.php:23
+msgid "Pin"
+msgstr ""
+
+#: views/editor/pinned.php:24
+msgid "Unpin"
+msgstr ""
+
+#: views/editor/pinned.php:27
+msgid "OK"
+msgstr ""
+
+#: views/editor/pinned.php:28
+msgid "Cancel"
+msgstr ""
+
+#: views/editor/review.php:4
+msgid "no title"
+msgstr ""
+
+#: views/templates/submit.php:7
+msgid "Your overall rating"
+msgstr ""
+
+#: views/templates/submit.php:10
+msgid "Title of your review"
+msgstr ""
+
+#: views/templates/submit.php:11
+msgid "Summarize your review or highlight an interesting detail"
+msgstr ""
+
+#: views/templates/submit.php:14
+msgid "Your review"
+msgstr ""
+
+#: views/templates/submit.php:15
+msgid "Tell people your review"
+msgstr ""
+
+#: views/templates/submit.php:18
+msgid "Your name"
+msgstr ""
+
+#: views/templates/submit.php:19
+msgid "Tell us your name"
+msgstr ""
+
+#: views/templates/submit.php:22
+msgid "Your email"
+msgstr ""
+
+#: views/templates/submit.php:23
+msgid "Tell us your email"
+msgstr ""
+
+#: views/templates/submit.php:26
+msgid "This review is based on my own experience and is my genuine opinion."
+msgstr ""
+
+#: views/templates/submit.php:36
+msgid "Submit your review"
+msgstr ""
+
+#: views/translations/plural.php:6, views/translations/single.php:5
+msgid "Delete translation string"
+msgstr ""
+
+#: views/translations/plural.php:6, views/translations/single.php:5
+msgid "Delete"
+msgstr ""
+
+#: views/translations/plural.php:9, views/translations/single.php:8
+msgid "Show custom translation"
+msgstr ""
+
+#: views/translations/plural.php:16
+msgid "singular"
+msgstr ""
+
+#: views/translations/plural.php:17
+msgid "plural"
+msgstr ""
+
+#: views/translations/translations.php:4
+msgid "Original Text"
+msgstr ""
+
+#: views/translations/translations.php:5
+msgid "Custom Text"
+msgstr ""
+
+#: plugin/Modules/Validator/ValidateReview.php:58
+msgid "Please fix the submission errors."
+msgstr ""
+
+#: plugin/Modules/Validator/ValidateReview.php:62
+msgid "No Title"
+msgstr ""
+
+#: plugin/Modules/Validator/ValidateReview.php:167
+msgid "Your review cannot be submitted at this time. Please try again later."
+msgstr ""
+
+#: plugin/Modules/Validator/ValidateReview.php:183
+msgid "Your review cannot be submitted at this time."
+msgstr ""
+
+#: plugin/Modules/Validator/ValidateReview.php:199, plugin/Modules/Validator/ValidateReview.php:210
+msgid "The review submission failed. Please notify the site administrator."
+msgstr ""
+
+#: plugin/Modules/Validator/ValidateReview.php:227
+msgid "The reCAPTCHA verification failed. Please notify the site administrator."
+msgstr ""
+
+#: views/pages/addons/addons.php:3
+msgid "The following Add-Ons extend the functionality of Site Reviews."
+msgstr ""
+
+#: views/pages/addons/addons.php:12
+msgid "Sync your Tripadvisor business reviews with an optional minimum rating and display them on your site."
+msgstr ""
+
+#: views/pages/addons/addons.php:19
+msgid "Sync your Yelp business reviews with an optional minimum rating and display them on your site."
+msgstr ""
+
+#: views/pages/settings/translations.php:4
+msgid "Search for translatable text"
+msgstr ""
+
+#: views/pages/settings/translations.php:6
+msgid "Search for translatable text..."
+msgstr ""
+
+#: views/pages/tools/logging.php:10
+msgid "Clear Log"
+msgstr ""
+
+#: views/pages/tools/logging.php:16
+msgid "Download Log"
+msgstr ""
+
+#: views/pages/tools/system-info.php:9
+msgid "Download System Info"
+msgstr ""
+
+#: plugin/Modules/Html/Partials/ReviewsSummary.php:115
+msgctxt "Do not translate {rating} and {max}, they are template tags."
+msgid "{rating} out of {max} stars (based on %d review)"
+msgid_plural "{rating} out of {max} stars (based on %d reviews)"
+msgstr[0] ""
+msgstr[1] ""
