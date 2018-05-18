@@ -26,7 +26,7 @@ class DefaultsManager
 	{
 		$settings = glsr( OptionManager::class )->all();
 		$currentSettings = glsr( Helper::class )->removeEmptyArrayValues( $settings );
-		$defaultSettings = array_replace_recursive( $this->getDefaults(), $currentSettings );
+		$defaultSettings = array_replace_recursive( $this->get(), $currentSettings );
 		$updatedSettings = array_replace_recursive( $settings, $defaultSettings );
 		update_option( OptionManager::databaseKey(), $updatedSettings );
 		return $defaultSettings;

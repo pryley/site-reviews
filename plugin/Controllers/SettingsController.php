@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Abstracts\Controller;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Settings;
 
@@ -20,17 +21,13 @@ class SettingsController extends Controller
 		}
 		$key = key( $input );
 		$message = '';
-		if( $key == 'logging' ) {
-			$message = _n( 'Logging disabled.', 'Logging enabled.', (int)empty( $input[$key] ), 'site-reviews' );
-			glsr( Notice::class )->addSuccess( $message );
-		}
 		if( $key == 'settings' ) {
 			$message = __( 'Settings updated.', 'site-reviews' );
 			glsr( Notice::class )->addSuccess( $message );
 		}
-		$options = array_replace_recursive( glsr_db()->getOptions(), $input );
-		$options = $this->sanitizeReviewsForm( $input, $options );
-		$options = $this->sanitizeStrings( $input, $options );
+		$options = array_replace_recursive( glsr( OptionManager::class )->all(), $input );
+		$options = $this->sanitizeSubmissions( $input, $options );
+		$options = $this->sanitizeTranslations( $input, $options );
 		return $options;
 	}
 
@@ -40,11 +37,11 @@ class SettingsController extends Controller
 	 */
 	public function registerSettings()
 	{
-		$settings = apply_filters( 'site-reviews/settings', ['logging', 'settings'] );
+		$settings = apply_filters( 'site-reviews/settings', ['settings'] );
 		foreach( $settings as $setting ) {
 			register_setting(
-				glsr()->id.'-'.$setting,
-				glsr_db()->getOptionName(),
+				Application::ID.'-'.$setting,
+				OptionManager::databaseKey(),
 				[$this, 'callbackRegisterSettings']
 			);
 		}
@@ -54,11 +51,11 @@ class SettingsController extends Controller
 	/**
 	 * @return array
 	 */
-	protected function sanitizeReviewsForm( array $input, array $options )
+	protected function sanitizeSubmissions( array $input, array $options )
 	{
-		if( isset( $input['settings']['reviews-form'] )) {
-			$inputForm = $input['settings']['reviews-form'];
-			$options['settings']['reviews-form']['required'] = isset( $inputForm['required'] )
+		if( isset( $input['settings']['submissions'] )) {
+			$inputForm = $input['settings']['submissions'];
+			$options['settings']['submissions']['required'] = isset( $inputForm['required'] )
 				? $inputForm['required']
 				: [];
 		}
@@ -68,11 +65,11 @@ class SettingsController extends Controller
 	/**
 	 * @return array
 	 */
-	protected function sanitizeStrings( array $input, array $options )
+	protected function sanitizeTranslations( array $input, array $options )
 	{
-		if( isset( $input['settings']['strings'] )) {
-			$options['settings']['strings'] = array_values( array_filter( $input['settings']['strings'] ));
-			array_walk( $options['settings']['strings'], function( &$string ) {
+		if( isset( $input['settings']['translations'] )) {
+			$options['settings']['translations'] = array_values( array_filter( $input['settings']['translations'] ));
+			array_walk( $options['settings']['translations'], function( &$string ) {
 				if( isset( $string['s2'] )) {
 					$string['s2'] = wp_strip_all_tags( $string['s2'] );
 				}

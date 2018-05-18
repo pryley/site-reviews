@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Handlers;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\EnqueueAssets as Command;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 
 class EnqueueAssets
 {
@@ -18,7 +19,7 @@ class EnqueueAssets
 	public function handle( Command $command )
 	{
 		$this->dependencies = glsr( 'Html' )->getDependencies();
-		$ajaxNonce = wp_create_nonce( glsr()->id.'-ajax-nonce' );
+		$ajaxNonce = wp_create_nonce( Application::ID.'-ajax-nonce' );
 		$variables = [
 			'action'  => glsr()->prefix . '_action',
 			'ajaxurl' => add_query_arg( '_nonce', $ajaxNonce, admin_url( 'admin-ajax.php' )),
@@ -27,7 +28,7 @@ class EnqueueAssets
 		];
 		$this->enqueueAssets();
 
-		wp_localize_script( glsr()->id, 'site_reviews', apply_filters( 'site-reviews/enqueue/localize', $variables ));
+		wp_localize_script( Application::ID, 'site_reviews', apply_filters( 'site-reviews/enqueue/localize', $variables ));
 	}
 
 	/**
@@ -38,10 +39,10 @@ class EnqueueAssets
 		$currentTheme = sanitize_title( wp_get_theme()->get( 'Name' ));
 		$stylesheet = file_exists( glsr()->path.'assets/css/'.$currentTheme.'.css' )
 			? glsr()->url.'assets/css/'.$currentTheme.'.css'
-			: glsr()->url.'assets/css/'.glsr()->id.'.css';
+			: glsr()->url.'assets/css/'.Application::ID.'.css';
 		if( apply_filters( 'site-reviews/assets/css', true )) {
 			wp_enqueue_style(
-				glsr()->id,
+				Application::ID,
 				$stylesheet,
 				[],
 				glsr()->version
@@ -49,14 +50,14 @@ class EnqueueAssets
 		}
 		if( apply_filters( 'site-reviews/assets/js', true )) {
 			wp_enqueue_script(
-				glsr()->id,
-				glsr()->url.'assets/js/'.glsr()->id.'.js',
+				Application::ID,
+				glsr()->url.'assets/js/'.Application::ID.'.js',
 				['jquery'],
 				glsr()->version,
 				true
 			);
 		}
-		if( glsr_get_option( 'reviews-form.recaptcha.integration' ) == 'custom' ) {
+		if( glsr( OptionManager::class )->get( 'settings.reviews-form.recaptcha.integration' ) == 'custom' ) {
 			$this->enqueueRecaptchaScript();
 		}
 	}
@@ -66,12 +67,12 @@ class EnqueueAssets
 	 */
 	public function enqueueRecaptchaScript()
 	{
-		wp_enqueue_script( glsr()->id.'/google-recaptcha', add_query_arg([
+		wp_enqueue_script( Application::ID.'/google-recaptcha', add_query_arg([
 			'hl' => apply_filters( 'site-reviews/recaptcha/language', get_locale() ),
 			'onload' => 'glsr_render_recaptcha',
 			'render' => 'explicit',
 		], 'https://www.google.com/recaptcha/api.js' ));
 		$inlineScript = file_get_contents( glsr()->path.'js/recaptcha.js' );
-		wp_add_inline_script( glsr()->id.'/google-recaptcha', $inlineScript, 'before' );
+		wp_add_inline_script( Application::ID.'/google-recaptcha', $inlineScript, 'before' );
 	}
 }

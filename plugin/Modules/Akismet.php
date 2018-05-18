@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Commands\SubmitReview;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use Akismet as AkismetPlugin;
 
 class Akismet
@@ -72,7 +73,7 @@ class Akismet
 	 */
 	protected function isActive()
 	{
-		$check = glsr_get_option( 'reviews-form.akismet' ) != 'yes'
+		$check = glsr( OptionManager::class )->get( 'settings.reviews-form.akismet' ) != 'yes'
 			|| !is_callable( ['Akismet', 'get_api_key'] )
 			|| !is_callable( ['Akismet', 'http_post'] )
 			? false

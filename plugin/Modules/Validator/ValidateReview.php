@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\ValidateReviewDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Akismet;
@@ -71,7 +72,10 @@ class ValidateReview
 	{
 		$rules = array_intersect_key(
 			apply_filters( 'site-reviews/validation/rules', static::VALIDATION_RULES ),
-			array_flip( array_merge( ['rating','terms'], glsr_get_option( 'reviews-form.required', [] )))
+			array_flip( array_merge(
+				['rating','terms'],
+				glsr( OptionManager::class )->get( 'settings.reviews-form.required', [] )
+			))
 		);
 		$excluded = isset( $request['excluded'] )
 			? json_decode( $request['excluded'] )
@@ -84,7 +88,7 @@ class ValidateReview
 	 */
 	protected function isRecaptchaResponseValid()
 	{
-		$integration = glsr_get_option( 'reviews-form.recaptcha.integration' );
+		$integration = glsr( OptionManager::class )->get( 'settings.reviews-form.recaptcha.integration' );
 		if( !$integration ) {
 			return true;
 		}
@@ -107,7 +111,7 @@ class ValidateReview
 		$endpoint = add_query_arg([
 			'remoteip' => glsr( Helper::class )->getIpAddress(),
 			'response' => $recaptchaResponse,
-			'secret' => glsr_get_option( 'reviews-form.recaptcha.secret' ),
+			'secret' => glsr( OptionManager::class )->get( 'settings.reviews-form.recaptcha.secret' ),
 		], 'https://www.google.com/recaptcha/api/siteverify' );
 		$response = json_decode( wp_remote_retrieve_body( wp_remote_get( $endpoint )));
 		if( !empty( $response->success )) {
@@ -174,7 +178,7 @@ class ValidateReview
 	{
 		if( !empty( $this->error ))return;
 		if( !glsr( Blacklist::class )->isBlacklisted( $this->request ))return;
-		$blacklistAction = glsr_get_option( 'reviews-form.blacklist.action' );
+		$blacklistAction = glsr( OptionManager::class )->get( 'settings.reviews-form.blacklist.action' );
 		if( $blacklistAction == 'unapprove' ) {
 			$this->request['blacklisted'] = true;
 		}

@@ -114,7 +114,7 @@ return [
 		'label' => __( 'Excerpt Length', 'site-reviews' ),
 		'type' => 'number',
 	],
-	'settings.reviews.schema.type.default' => [
+	'settings.schema.type.default' => [
 		'default' => 'LocalBusiness',
 		'desc' => __( 'This is the default schema type for the item being reviewed. You can override this option on a per-post/page basis by adding a <code>schema_type</code> metadata value using <a href="https://codex.wordpress.org/Using_Custom_Fields#Usage">Custom Fields</a>.', 'site-reviews' ),
 		'label' => __( 'Default Schema Type', 'site-reviews' ),
@@ -125,14 +125,14 @@ return [
 		],
 		'type' => 'select',
 	],
-	'settings.reviews.schema.type.custom' => [
+	'settings.schema.type.custom' => [
 		'default' => '',
-		'depends' => ['schema.type.default' => 'custom'],
+		'depends' => ['type.default' => 'custom'],
 		'desc' => __( 'Google supports review ratings for the following schema content types: Local businesses, Movies, Books, Music, and Products. <a href="https://schema.org/docs/schemas.html">View more information on schema types here</a>.', 'site-reviews' ),
 		'label' => __( 'Custom Schema Type', 'site-reviews' ),
 		'type' => 'text',
 	],
-	'settings.reviews.schema.name.default' => [
+	'settings.schema.name.default' => [
 		'default' => 'post',
 		'desc' => __( 'This is the default name of the item being reviewed. You can override this option on a per-post/page basis by adding a <code>schema_name</code> metadata value using <a href="https://codex.wordpress.org/Using_Custom_Fields#Usage">Custom Fields</a>.', 'site-reviews' ),
 		'label' => __( 'Default Name', 'site-reviews' ),
@@ -142,13 +142,13 @@ return [
 		],
 		'type' => 'select',
 	],
-	'settings.reviews.schema.name.custom' => [
+	'settings.schema.name.custom' => [
 		'default' => '',
-		'depends' => ['schema.name.default' => 'custom'],
+		'depends' => ['name.default' => 'custom'],
 		'label' => __( 'Custom Name', 'site-reviews' ),
 		'type' => 'text',
 	],
-	'settings.reviews.schema.description.default' => [
+	'settings.schema.description.default' => [
 		'default' => 'post',
 		'desc' => __( 'This is the default description for the item being reviewed. You can override this option on a per-post/page basis by adding a <code>schema_description</code> metadata value using <a href="https://codex.wordpress.org/Using_Custom_Fields#Usage">Custom Fields</a>.', 'site-reviews' ),
 		'label' => __( 'Default Description', 'site-reviews' ),
@@ -158,13 +158,13 @@ return [
 		],
 		'type' => 'select',
 	],
-	'settings.reviews.schema.description.custom' => [
+	'settings.schema.description.custom' => [
 		'default' => '',
-		'depends' => ['schema.description.default' => 'custom'],
+		'depends' => ['description.default' => 'custom'],
 		'label' => __( 'Custom Description', 'site-reviews' ),
 		'type' => 'text',
 	],
-	'settings.reviews.schema.url.default' => [
+	'settings.schema.url.default' => [
 		'default' => 'post',
 		'desc' => __( 'This is the default URL for the item being reviewed. You can override this option on a per-post/page basis by adding a <code>schema_url</code> metadata value using <a href="https://codex.wordpress.org/Using_Custom_Fields#Usage">Custom Fields</a>.', 'site-reviews' ),
 		'label' => __( 'Default URL', 'site-reviews' ),
@@ -174,13 +174,13 @@ return [
 		],
 		'type' => 'select',
 	],
-	'settings.reviews.schema.url.custom' => [
+	'settings.schema.url.custom' => [
 		'default' => '',
-		'depends' => ['schema.url.default' => 'custom'],
+		'depends' => ['url.default' => 'custom'],
 		'label' => __( 'Custom URL', 'site-reviews' ),
 		'type' => 'text',
 	],
-	'settings.reviews.schema.image.default' => [
+	'settings.schema.image.default' => [
 		'default' => 'post',
 		'desc' => __( 'This is the default image for the item being reviewed. You can override this option on a per-post/page basis by adding a <code>schema_image</code> metadata value using <a href="https://codex.wordpress.org/Using_Custom_Fields#Usage">Custom Fields</a>.', 'site-reviews' ),
 		'label' => __( 'Default Image', 'site-reviews' ),
@@ -190,9 +190,9 @@ return [
 		],
 		'type' => 'select',
 	],
-	'settings.reviews.schema.image.custom' => [
+	'settings.schema.image.custom' => [
 		'default' => '',
-		'depends' => ['schema.image.default' => 'custom'],
+		'depends' => ['image.default' => 'custom'],
 		'label' => __( 'Custom Image URL', 'site-reviews' ),
 		'type' => 'text',
 	],

@@ -10,6 +10,8 @@ use Sepia\PoParser\Parser;
 
 class Translator
 {
+	const SEARCH_THRESHOLD = 3;
+
 	/**
 	 * @var array
 	 */
@@ -60,7 +62,7 @@ class Translator
 	/**
 	 * @param null|array $entriesToExclude
 	 * @param null|array $entries
-	 * @return self
+	 * @return static
 	 */
 	public function exclude( $entriesToExclude = null, $entries = null )
 	{
@@ -71,7 +73,7 @@ class Translator
 	 * @param null|array $filterWith
 	 * @param null|array $entries
 	 * @param bool $intersect
-	 * @return self
+	 * @return static
 	 */
 	public function filter( $filterWith = null, $entries = null, $intersect = true )
 	{
@@ -230,23 +232,16 @@ class Translator
 
 	/**
 	 * @param string $needle
-	 * @param int $threshold
-	 * @param bool $caseSensitive
-	 * @return self
+	 * @return static
 	 */
-	public function search( $needle = '', $threshold = 3, $caseSensitive = false )
+	public function search( $needle = '' )
 	{
 		$this->reset();
-		$needle = trim( $needle );
+		$needle = trim( strtolower( $needle ));
 		foreach( $this->entries() as $key => $entry ) {
-			$single = $this->getEntryString( $entry, 'msgid' );
-			$plural = $this->getEntryString( $entry, 'msgid_plural' );
-			if( !$caseSensitive ) {
-				$needle = strtolower( $needle );
-				$single = strtolower( $single );
-				$plural = strtolower( $plural );
-			}
-			if( strlen( $needle ) < $threshold ) {
+			$single = strtolower( $this->getEntryString( $entry, 'msgid' ));
+			$plural = strtolower( $this->getEntryString( $entry, 'msgid_plural' ));
+			if( strlen( $needle ) < static::SEARCH_THRESHOLD ) {
 				if( in_array( $needle, [$single, $plural] )) {
 					$this->results[$key] = $entry;
 				}
@@ -265,7 +260,7 @@ class Translator
 	 */
 	public function translate( $original, $domain, array $args )
 	{
-		if( $domain != glsr()->id ) {
+		if( $domain != Application::ID ) {
 			return $original;
 		}
 		$args = $this->normalizeTranslationArgs( $args );
@@ -279,13 +274,13 @@ class Translator
 			return $original;
 		}
 		$string = current( $strings );
+		$translations = get_translations_for_domain( $domain );
 		if( !empty( $string['s2'] )) {
 			$single = $string['s2'];
 		}
 		if( !empty( $string['p2'] )) {
 			$plural = $string['p2'];
 		}
-		$translations = get_translations_for_domain( $domain );
 		return $string['type'] == 'plural'
 			? $translations->translate_plural( $single, $plural, $number, $context )
 			: $translations->translate( $single, $context );

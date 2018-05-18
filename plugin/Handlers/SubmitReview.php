@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Handlers;
 
 use Exception;
 use GeminiLabs\SiteReviews\Commands\SubmitReview as Command;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Email;
 use GeminiLabs\SiteReviews\Modules\Session;
 use ReflectionException;
@@ -111,7 +112,7 @@ class SubmitReview
 	 */
 	protected function sendNotification( $post_id, Command $command )
 	{
-		$notificationType = glsr_get_option( 'general.notification' );
+		$notificationType = glsr( OptionManager::class )->get( 'settings.general.notification' );
 		if( !in_array( $notificationType, ['default','custom','webhook'] ))return;
 		$assignedToTitle = get_the_title( (int) $command->assignedTo );
 		$notificationSubject = _nx(
@@ -142,7 +143,7 @@ class SubmitReview
 	{
 		$args['recipient'] = $args['notification_type'] === 'default'
 			? get_option( 'admin_email' )
-			: glsr_get_option( 'general.notification_email' );
+			: glsr( OptionManager::class )->get( 'settings.general.notification_email' );
 		$result = !empty( $args['recipient'] )
 			? $this->createEmailNotification( $command, $args )->send()
 			: false;

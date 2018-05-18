@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 
 class Email
@@ -113,7 +114,7 @@ class Email
 	 */
 	protected function buildHtmlMessage( $email )
 	{
-		$template = trim( glsr_get_option( 'general.notification_message' ));
+		$template = trim( glsr( OptionManager::class )->get( 'settings.general.notification_message' ));
 		if( !empty( $template )) {
 			$message = glsr( Template::class )->interpolate( $template, $email['template-tags'] );
 		}

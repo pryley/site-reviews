@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Commands\SubmitReview;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 
 class Blacklist
 {
@@ -30,7 +31,7 @@ class Blacklist
 	 */
 	protected function check( $target )
 	{
-		$blacklist = trim( glsr_get_option( 'reviews-form.blacklist.entries' ));
+		$blacklist = trim( glsr( OptionManager::class )->get( 'settings.reviews-form.blacklist.entries' ));
 		if( empty( $blacklist )) {
 			return false;
 		}

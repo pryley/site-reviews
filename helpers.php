@@ -72,23 +72,21 @@ function glsr_categories_meta_box( $post, $box ) {
 	glsr( 'Controllers\EditorController' )->renderTaxonomyMetabox( $post, $box );
 }
 
-
-
 /**
  * @param string $option_path
  * @param mixed $fallback
  * @return string|array
  */
-// function glsr_get_option( $option_path = '', $fallback = '' ) {
-// 	return glsr( 'Database\OptionManager' )->get( $option_path, $fallback );
-// }
+function glsr_get_option( $option_path = '', $fallback = '' ) {
+	return glsr( 'Database\OptionManager' )->get( 'settings.'.$option_path, $fallback );
+}
 
 /**
  * @return array
  */
-// function glsr_get_options() {
-// 	return glsr( 'Database\OptionManager' )->all();
-// }
+function glsr_get_options() {
+	return glsr( 'Database\OptionManager' )->get( 'settings' );
+}
 
 /**
  * @param int $post_id

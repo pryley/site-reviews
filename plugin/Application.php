@@ -49,7 +49,6 @@ final class Application extends Container
 	public function activate()
 	{
 		$this->make( DefaultsManager::class )->set();
-		$this->make( OptionManager::class )->set( 'logging', false );
 		$this->scheduleCronJob();
 		$this->upgrade();
 	}

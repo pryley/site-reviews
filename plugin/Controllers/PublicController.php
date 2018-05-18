@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Abstracts\Controller;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\SubmitReview;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Handlers\EnqueueAssets;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
 
@@ -26,7 +27,7 @@ class PublicController extends Controller
 	public function filterEnqueuedScripts( $tag, $handle )
 	{
 		return $handle == Application::ID.'/google-recaptcha'
-			&& glsr_get_option( 'reviews-form.recaptcha.integration' ) == 'custom'
+			&& glsr( OptionManager::class )->get( 'settings.reviews-form.recaptcha.integration' ) == 'custom'
 			? str_replace( ' src=', ' async defer src=', $tag )
 			: $tag;
 	}
