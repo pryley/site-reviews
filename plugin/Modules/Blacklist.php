@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use GeminiLabs\SiteReviews\Commands\SubmitReview;
+use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 
 class Blacklist
@@ -10,7 +10,7 @@ class Blacklist
 	/**
 	 * @return bool
 	 */
-	public function isBlacklisted( SubmitReview $review )
+	public function isBlacklisted( CreateReview $review )
 	{
 		$target = implode( "\n", array_filter([
 			$review->author,

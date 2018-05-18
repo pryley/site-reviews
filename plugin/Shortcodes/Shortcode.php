@@ -46,7 +46,7 @@ abstract class Shortcode implements ShortcodeContract
 	}
 
 	/**
-	 * @return string
+	 * @return array
 	 */
 	public function getDefaults()
 	{

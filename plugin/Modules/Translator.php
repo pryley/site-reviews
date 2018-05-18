@@ -43,7 +43,7 @@ class Translator
 	 */
 	public function entries()
 	{
-		if( !is_array( $this->entries )) {
+		if( !isset( $this->entries )) {
 			try {
 				$entries = $this->normalize(
 					Parser::parseFile( glsr()->path( 'languages/site-reviews.pot' ))->getEntries()

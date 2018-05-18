@@ -105,7 +105,7 @@ class AjaxController extends Controller
 	 */
 	public function submitReview( array $request )
 	{
-		$response = glsr( PublicController::class )->routerSubmitReview( $request );
+		$response = glsr( PublicController::class )->routerCreateReview( $request );
 		$session = glsr( Session::class );
 		wp_send_json([
 			'errors' => $session->get( $request['form_id'].'-errors', false, true ),

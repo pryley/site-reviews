@@ -9,7 +9,6 @@ use GeminiLabs\SiteReviews\Commands\RegisterTaxonomy;
 use GeminiLabs\SiteReviews\Commands\RegisterWidgets;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Modules\Schema;
-use GeminiLabs\SiteReviews\Strings;
 
 class MainController extends Controller
 {

@@ -97,7 +97,7 @@ class System
 	}
 
 	/**
-	 * @return aray
+	 * @return array
 	 */
 	public function getPhpDetails()
 	{
@@ -105,10 +105,10 @@ class System
 			? 'On ('.ini_get( 'display_errors' ).')'
 			: 'N/A';
 		return [
-			'cURL' => var_export( function_exists( 'curl_init' ), 1 ),
+			'cURL' => var_export( function_exists( 'curl_init' ), true ),
 			'Default Charset' => ini_get( 'default_charset' ),
 			'Display Errors' => $displayErrors,
-			'fsockopen' => var_export( function_exists( 'fsockopen' ), 1 ),
+			'fsockopen' => var_export( function_exists( 'fsockopen' ), true ),
 			'Max Execution Time' => ini_get( 'max_execution_time' ),
 			'Max Input Nesting Level' => ini_get( 'max_input_nesting_level' ),
 			'Max Input Vars' => ini_get( 'max_input_vars' ),
@@ -117,8 +117,8 @@ class System
 			'Session Cookie Path' => esc_html( ini_get( 'session.cookie_path' )),
 			'Session Name' => esc_html( ini_get( 'session.name' )),
 			'Session Save Path' => esc_html( ini_get( 'session.save_path' )),
-			'Session Use Cookies' => var_export( wp_validate_boolean( ini_get( 'session.use_cookies' )), 1 ),
-			'Session Use Only Cookies' => var_export( wp_validate_boolean( ini_get( 'session.use_only_cookies' )), 1 ),
+			'Session Use Cookies' => var_export( wp_validate_boolean( ini_get( 'session.use_cookies' )), true ),
+			'Session Use Only Cookies' => var_export( wp_validate_boolean( ini_get( 'session.use_only_cookies' )), true ),
 			'Upload Max Filesize' => ini_get( 'upload_max_filesize' ),
 		];
 	}
@@ -177,11 +177,11 @@ class System
 		global $wpdb;
 		$theme = wp_get_theme();
 		return [
-			'Active Theme' => sprintf( '%s v%s', $theme->Name, $theme->Version ),
+			'Active Theme' => sprintf( '%s v%s', (string)$theme->Name, $theme->Version ),
 			'Home URL' => home_url(),
 			'Language' => get_option( 'WPLANG', 'en_US' ),
 			'Memory Limit' => WP_MEMORY_LIMIT,
-			'Multisite' => var_export( is_multisite(), 1 ),
+			'Multisite' => var_export( is_multisite(), true ),
 			'Page For Posts ID' => get_option( 'page_for_posts' ),
 			'Page On Front ID' => get_option( 'page_on_front' ),
 			'Permalink Structure' => get_option( 'permalink_structure', 'default' ),
@@ -191,7 +191,7 @@ class System
 			'Site URL' => site_url(),
 			'Timezone' => get_option( 'timezone_string' ),
 			'Version' => get_bloginfo( 'version' ),
-			'WP Debug' => var_export( defined( 'WP_DEBUG' ), 1 ),
+			'WP Debug' => var_export( defined( 'WP_DEBUG' ), true ),
 			'WP Max Upload Size' => size_format( wp_max_upload_size() ),
 			'WP Memory Limit' => WP_MEMORY_LIMIT,
 		];
@@ -229,7 +229,7 @@ class System
 				|| strpos( $serverName, $key ) !== false
 				|| strpos( DB_HOST, $key ) !== false
 				|| strpos( php_uname(), $key ) !== false ) {
-				return $host;
+				return $value;
 			}
 		}
 		return implode( ',', array_filter( [DB_HOST, $serverName] ));

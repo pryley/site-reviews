@@ -3,8 +3,8 @@
 namespace GeminiLabs\SiteReviews\Handlers;
 
 use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Commands\EnqueueAssets as Command;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Modules\Html;
 
 class EnqueueAssets
 {
@@ -16,9 +16,9 @@ class EnqueueAssets
 	/**
 	 * @return void
 	 */
-	public function handle( Command $command )
+	public function handle()
 	{
-		$this->dependencies = glsr( 'Html' )->getDependencies();
+		$this->dependencies = glsr( Html::class )->getDependencies();
 		$ajaxNonce = wp_create_nonce( Application::ID.'-ajax-nonce' );
 		$variables = [
 			'action'  => glsr()->prefix . '_action',
@@ -26,15 +26,14 @@ class EnqueueAssets
 			'ajaxnonce' => $ajaxNonce,
 			'ajaxpagination' => ['#wpadminbar','.site-navigation-fixed'],
 		];
-		$this->enqueueAssets();
-
+		$this->enqueue();
 		wp_localize_script( Application::ID, 'site_reviews', apply_filters( 'site-reviews/enqueue/localize', $variables ));
 	}
 
 	/**
 	 * @return void
 	 */
-	public function enqueueAssets()
+	public function enqueue()
 	{
 		$currentTheme = sanitize_title( wp_get_theme()->get( 'Name' ));
 		$stylesheet = file_exists( glsr()->path.'assets/css/'.$currentTheme.'.css' )

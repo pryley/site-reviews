@@ -29,7 +29,7 @@ class Router
 				glsr( AdminController::class )->routerDownloadSystemInfo();
 				break;
 			case 'submit-review':
-				glsr( PublicController::class )->routerSubmitReview( $request );
+				glsr( PublicController::class )->routerCreateReview( $request );
 				break;
 			default:
 				do_action( 'site-reviews/route/admin/post/requests', $request['action'], $request );
@@ -64,7 +64,7 @@ class Router
 	{
 		switch( filter_input( INPUT_POST, 'action' )) {
 			case 'submit-review':
-				glsr( PublicController::class )->routerSubmitReview( $this->normalize( $_POST ));
+				glsr( PublicController::class )->routerCreateReview( $this->normalize( $_POST ));
 				break;
 		}
 	}

@@ -47,10 +47,6 @@ class Builder
 	 */
 	public $tag;
 
-	/**
-	 * @param
-	 * @return
-	 */
 	public function __construct( array $globals = [] )
 	{
 		$this->globals = $globals;

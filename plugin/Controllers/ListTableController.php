@@ -4,11 +4,11 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Commands\SubmitReview;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\ListTable\Columns;
 use WP_Post;
 use WP_Screen;
 use WP_Query;
@@ -91,7 +91,7 @@ class ListTableController extends Controller
 		];
 		foreach( $rowActions as $key => $text ) {
 			$actions[$key] = glsr( Builder::class )->a( $text, [
-				'aria-label' => sprintf( esc_attr_x( '%s this review', 'Approve the review', 'site-reviews' ), text ),
+				'aria-label' => sprintf( esc_attr_x( '%s this review', 'Approve the review', 'site-reviews' ), $text ),
 				'class' => 'change-'.Application::POST_TYPE.'-status',
 				'href' => wp_nonce_url(
 					admin_url( 'post.php?post='.$post->ID.'&action='.$key ),
@@ -155,25 +155,18 @@ class ListTableController extends Controller
 	public function renderBulkEditFields( $columnName, $postType )
 	{
 		if( $columnName == 'assigned_to' && $postType == Application::POST_TYPE ) {
-			$this->render( 'edit/bulk-edit-assigned-to' );
+			glsr()->render( 'edit/bulk-edit-assigned-to' );
 		};
 	}
 
 	/**
-	 * @param string $post_type
+	 * @param string $postType
 	 * @return void
 	 * @action restrict_manage_posts
 	 */
-	public function renderColumnFilters( $post_type )
+	public function renderColumnFilters( $postType )
 	{
-		if( $post_type !== Application::POST_TYPE )return;
-		if( !( $status = filter_input( INPUT_GET, 'post_status' ))) {
-			$status = 'publish';
-		}
-		$ratings = glsr( Database::class )->getReviewsMeta( 'rating', $status );
-		$types = glsr( Database::class )->getReviewsMeta( 'type', $status );
-		$this->renderFilterRatings( $ratings );
-		$this->renderFilterTypes( $types );
+		glsr( Columns::class )->renderFilters( $postType );
 	}
 
 	/**
@@ -183,12 +176,7 @@ class ListTableController extends Controller
 	 */
 	public function renderColumnValues( $column, $postId )
 	{
-		if( glsr_current_screen()->id != Application::POST_TYPE )return;
-		global $wp_version;
-		$method = glsr( Helper::class )->buildMethodName( $column, 'buildColumn' );
-		echo method_exists( $this, $method )
-			? call_user_func( [$this, $method], $postId )
-			: apply_filters( 'site-reviews/columns/'.$column, '', $postId );
+		glsr( Columns::class )->renderValues( $column, $postId );
 	}
 
 	/**
@@ -199,7 +187,8 @@ class ListTableController extends Controller
 	public function saveBulkEditFields( $postId )
 	{
 		if( !current_user_can( 'edit_posts' ))return;
-		if( $assignedTo = filter_input( INPUT_GET, 'assigned_to' ) && get_post( $assignedTo )) {
+		$assignedTo = filter_input( INPUT_GET, 'assigned_to' );
+		if( $assignedTo && get_post( $assignedTo )) {
 			update_post_meta( $postId, 'assigned_to', $assignedTo );
 		}
 	}
@@ -230,68 +219,6 @@ class ListTableController extends Controller
 		]);
 		wp_safe_redirect( wp_get_referer() );
 		exit;
-	}
-
-	/**
-	 * @param int $postId
-	 * @return string
-	 */
-	protected function buildColumnAssignedTo( $postId )
-	{
-		$post = get_post( glsr( Database::class )->getReviewMeta( $postId )->assigned_to );
-		if( !( $post instanceof WP_Post ) || $post->post_status != 'publish' ) {
-			return '&mdash;';
-		}
-		return glsr( Builder::class )->a( get_the_title( $post->ID ), [
-			'href' => (string)get_the_permalink( $post->ID ),
-		]);
-	}
-
-	/**
-	 * @param int $postId
-	 * @return string
-	 */
-	protected function buildColumnReviewer( $postId )
-	{
-		return glsr( Database::class )->getReviewMeta(  $postId  )->author;
-	}
-
-	/**
-	 * @param int $postId
-	 * @return string
-	 */
-	protected function buildColumnStars( $postId )
-	{
-		return glsr( Html::class )->buildPartial( 'star-rating', [
-			'rating' => glsr( Database::class )->getReviewMeta( $postId )->rating,
-		]);
-	}
-
-	/**
-	 * @param int $postId
-	 * @return string
-	 */
-	protected function buildColumnSticky( $postId )
-	{
-		$pinned = glsr( Database::class )->getReviewMeta( $postId )->pinned
-			? ' pinned'
-			: '';
-		return glsr( Builder::class )->i([
-			'class' => trim( 'dashicons dashicons-sticky '.$pinned ),
-			'data-id' => $postId,
-		]);
-	}
-
-	/**
-	 * @param int $postId
-	 * @return string
-	 */
-	protected function buildColumnType( $postId )
-	{
-		$reviewMeta = glsr( Database::class )->getReviewMeta( $postId );
-		return isset( glsr()->reviewTypes[$reviewMeta->review_type] )
-			? glsr()->reviewTypes[$reviewMeta->review_type]
-			: $reviewMeta->review_type;
 	}
 
 	/**
@@ -335,49 +262,6 @@ class ListTableController extends Controller
 			&& $query->is_main_query()
 			&& $query->get( 'post_type' ) == Application::POST_TYPE
 			&& $pagenow == 'edit.php';
-	}
-
-	/**
-	 * @param array $ratings
-	 * @return void
-	 */
-	protected function renderFilterRatings( $ratings )
-	{
-		if( empty( $ratings )
-			|| apply_filters( 'site-reviews/disable/filter/ratings', false )
-		)return;
-		$ratings = array_flip( array_reverse( $ratings ));
-		array_walk( $ratings, function( &$value, $key ) {
-			$label = _n( '%s star', '%s stars', $key, 'site-reviews' );
-			$value = sprintf( $label, $key );
-		});
-		$ratings = [__( 'All ratings', 'site-reviews' )] + $ratings;
-		printf( '<label class="screen-reader-text" for="rating">%s</label>', __( 'Filter by rating', 'site-reviews' ));
-		glsr( Html::class )->renderPartial( 'filterby', [
-			'name' => 'rating',
-			'values' => $ratings,
-		]);
-	}
-
-	/**
-	 * @param array $types
-	 * @return void
-	 */
-	protected function renderFilterTypes( $types )
-	{
-		if( count( $types ) < 1
-			|| ( count( $types ) == 1 && $types[0] == 'local' )
-			|| apply_filters( 'site-reviews/disable/filter/types', false )
-		)return;
-		$reviewTypes = [__( 'All types', 'site-reviews' )];
-		foreach( $types as $type ) {
-			$reviewTypes[$type] = glsr( Strings::class )->review_types( $type, ucfirst( $type ));
-		}
-		printf( '<label class="screen-reader-text" for="type">%s</label>', __( 'Filter by type', 'site-reviews' ));
-		glsr( Html::class )->renderPartial( 'filterby', [
-			'name' => 'review_type',
-			'values' => $reviewTypes,
-		]);
 	}
 
 	/**

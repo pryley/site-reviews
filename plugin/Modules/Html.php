@@ -58,7 +58,7 @@ class Html
 	}
 
 	/**
-	 * @return void
+	 * @return Builder
 	 */
 	public function render( array $globals = [] )
 	{

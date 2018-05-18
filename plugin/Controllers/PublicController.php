@@ -2,9 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Abstracts\Controller;
 use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Commands\SubmitReview;
+use GeminiLabs\SiteReviews\Commands\CreateReview;
+use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Handlers\EnqueueAssets;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
@@ -56,13 +56,13 @@ class PublicController extends Controller
 	/**
 	 * @return mixed
 	 */
-	public function postSubmitReview( array $request )
+	public function postCreateReview( array $request )
 	{
 		$validated = glsr( ValidateReview::class )->validate( $request );
 		if( !empty( $validated->error )) {
 			return $validated->request;
 		}
 		if( $validated->recaptchaIsUnset )return;
-		return $this->execute( new SubmitReview( $validated->request ));
+		return $this->execute( new CreateReview( $validated->request ));
 	}
 }

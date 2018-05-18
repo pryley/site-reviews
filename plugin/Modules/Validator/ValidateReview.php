@@ -14,11 +14,11 @@ class ValidateReview
 {
 	const VALIDATION_RULES = [
 		'content' => 'required|min:0',
-		'email'   => 'required|email|min:5',
-		'name'    => 'required',
-		'rating'  => 'required|numeric|between:1,5',
-		'terms'   => 'accepted',
-		'title'   => 'required',
+		'email' => 'required|email|min:5',
+		'name' => 'required',
+		'rating' => 'required|numeric|between:1,5',
+		'terms' => 'accepted',
+		'title' => 'required',
 	];
 
 	/**
@@ -41,7 +41,7 @@ class ValidateReview
 	 */
 	public function validate( array $request )
 	{
-		$this->form_id = $this->request['form_id']; // @todo verify this exists
+		$this->form_id = $this->request['id']; // @todo verify this exists
 		$this->request = $this->validateRequest( $request );
 		$this->validateCustom();
 		$this->validateHoneyPot();
@@ -84,7 +84,7 @@ class ValidateReview
 	}
 
 	/**
-	 * @return bool
+	 * @return bool|null
 	 */
 	protected function isRecaptchaResponseValid()
 	{
@@ -93,7 +93,9 @@ class ValidateReview
 			return true;
 		}
 		$recaptchaResponse = filter_input( INPUT_POST, 'g-recaptcha-response' );
-		if( empty( $recaptchaResponse ))return; //if response is empty we need to return null
+		if( empty( $recaptchaResponse )) {
+			return null; //if response is empty we need to return null
+		}
 		if( $integration == 'custom' ) {
 			return $this->isRecaptchaValid( $recaptchaResponse );
 		}
@@ -113,7 +115,11 @@ class ValidateReview
 			'response' => $recaptchaResponse,
 			'secret' => glsr( OptionManager::class )->get( 'settings.reviews-form.recaptcha.secret' ),
 		], 'https://www.google.com/recaptcha/api/siteverify' );
-		$response = json_decode( wp_remote_retrieve_body( wp_remote_get( $endpoint )));
+		if( is_wp_error( $response = wp_remote_get( $endpoint ))) {
+			glsr_log()->error( $response->get_error_message() );
+			return false;
+		}
+		$response = json_decode( wp_remote_retrieve_body( $response ));
 		if( !empty( $response->success )) {
 			return boolval( $response->success );
 		}
@@ -140,8 +146,8 @@ class ValidateReview
 		if( empty( $errors )) {
 			return true;
 		}
-		$this->setSession( 'errors', $errors );
-		$this->setSession( 'values', $request );
+		$this->setSessionValues( 'errors', $errors );
+		$this->setSessionValues( 'values', $request );
 		return false;
 	}
 
@@ -206,10 +212,10 @@ class ValidateReview
 	/**
 	 * @return void
 	 */
-	protected function validateHoneyPot( array $request )
+	protected function validateHoneyPot()
 	{
 		if( !empty( $this->error ))return;
-		if( empty( $request['gotcha'] ))return;
+		if( empty( $this->request['gotcha'] ))return;
 		$this->setSessionValues( 'errors', [], 'The Honeypot caught a bad submission:' );
 		$this->error = __( 'The review submission failed. Please notify the site administrator.', 'site-reviews' );
 	}
@@ -217,7 +223,7 @@ class ValidateReview
 	/**
 	 * @return void
 	 */
-	protected function validateRecaptcha( array $request )
+	protected function validateRecaptcha()
 	{
 		if( !empty( $this->error ))return;
 		$isValid = $this->isRecaptchaResponseValid();

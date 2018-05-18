@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Helper;
 
-class SubmitReview
+class CreateReview
 {
 	public $ajaxRequest;
 	public $assignedTo;

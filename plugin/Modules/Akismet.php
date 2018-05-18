@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use GeminiLabs\SiteReviews\Commands\SubmitReview;
+use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use Akismet as AkismetPlugin;
 
@@ -11,7 +11,7 @@ class Akismet
 	/**
 	 * @return bool
 	 */
-	public function isSpam( SubmitReview $review )
+	public function isSpam( CreateReview $review )
 	{
 		if( !$this->isActive() ) {
 			return false;

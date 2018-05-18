@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use ReflectionClass;
 use ReflectionMethod;
 
-class Upgrade
+class Upgrader
 {
 	public function run()
 	{

@@ -17,7 +17,10 @@ class Cache
 			$ipAddresses = array_fill_keys( ['v4', 'v6'], [] );
 			foreach( array_keys( $ipAddresses ) as $version ) {
 				$response = wp_remote_get( 'https://www.cloudflare.com/ips-'.$version );
-				if( is_wp_error( $response ))continue;
+				if( is_wp_error( $response )) {
+					glsr_log()->error( $response->get_error_message() );
+					continue;
+				}
 				$ipAddresses[$version] = array_filter( explode( PHP_EOL, wp_remote_retrieve_body( $response )));
 			}
 			wp_cache_set( Application::ID, $ipAddresses, '_cloudflare_ips' );

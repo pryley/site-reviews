@@ -31,7 +31,7 @@ class Date
 		$diff = time() - strtotime( $date );
 		foreach( static::$TIME_PERIODS as $i => $timePeriod ) {
 			if( $diff > $timePeriod[0] )continue;
-			$unit = floor( $diff / $timePeriod[1] );
+			$unit = intval( floor( $diff / $timePeriod[1] ));
 			$relativeDates = [
 				_n( '%s second ago', '%s seconds ago', $unit, 'site-reviews' ),
 				_n( '%s minute ago', '%s minutes ago', $unit, 'site-reviews' ),

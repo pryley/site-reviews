@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use BadMethodCallException;
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Strings;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidationRules;
 use InvalidArgumentException;
 
@@ -310,7 +309,18 @@ class Validator
 	 */
 	protected function translator( $key, $rule, $attribute, array $parameters )
 	{
-		$strings = glsr( Strings::class )->validation();
+		$strings = [
+			'accepted' => _x( 'The :attribute must be accepted.', ':attribute is a placeholder and should not be translated.', 'site-reviews' ),
+			'between.numeric' => _x( 'The :attribute must be between :min and :max.', ':attribute, :min, and :max are placeholders and should not be translated.', 'site-reviews' ),
+			'between.string' => _x( 'The :attribute must be between :min and :max characters.', ':attribute, :min, and :max are placeholders and should not be translated.', 'site-reviews' ),
+			'email' => _x( 'The :attribute must be a valid email address.', ':attribute is a placeholder and should not be translated.', 'site-reviews' ),
+			'max.numeric' => _x( 'The :attribute may not be greater than :max.', ':attribute and :max are placeholders and should not be translated.', 'site-reviews' ),
+			'max.string' => _x( 'The :attribute may not be greater than :max characters.', ':attribute and :max are placeholders and should not be translated.', 'site-reviews' ),
+			'min.numeric' => _x( 'The :attribute must be at least :min.', ':attribute and :min are placeholders and should not be translated.', 'site-reviews' ),
+			'min.string' => _x( 'The :attribute must be at least :min characters.', ':attribute and :min are placeholders and should not be translated.', 'site-reviews' ),
+			'regex' => _x( 'The :attribute format is invalid.', ':attribute is a placeholder and should not be translated.', 'site-reviews' ),
+			'required' => _x( 'The :attribute field is required.', ':attribute is a placeholder and should not be translated.', 'site-reviews' ),
+		];
 		$message = isset( $strings[$key] )
 			? $strings[$key]
 			: false;

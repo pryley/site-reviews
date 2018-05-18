@@ -3,21 +3,23 @@
 namespace GeminiLabs\SiteReviews\Handlers;
 
 use Exception;
-use GeminiLabs\SiteReviews\Commands\SubmitReview as Command;
+use GeminiLabs\SiteReviews\Commands\CreateReview as Command;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Email;
 use GeminiLabs\SiteReviews\Modules\Session;
 use ReflectionException;
+use WP_Error;
 
-class SubmitReview
+class CreateReview
 {
 	/**
 	 * @return void|string
 	 */
 	public function handle( Command $command )
 	{
-		$post_id = glsr_db()->createReview( $this->normalize( $command ), $command );
-		glsr_db()->setReviewMeta( $post_id, $command->category );
+		$post_id = glsr( Database::class )->createReview( $this->normalize( $command ), $command );
+		glsr( Database::class )->setReviewMeta( intval( $post_id ), $command->category );
 		$this->sendNotification( $post_id, $command );
 		$successMessage = apply_filters( 'site-reviews/local/review/submitted/message',
 			__( 'Your review has been submitted!', 'site-reviews' ),
@@ -34,7 +36,7 @@ class SubmitReview
 	}
 
 	/**
-	 * @return \GeminiLabs\SiteReviews\Email
+	 * @return Email
 	 */
 	protected function createEmailNotification( Command $command, array $args = [] )
 	{
@@ -108,7 +110,7 @@ class SubmitReview
 
 	/**
 	 * @param int $post_id
-	 * @return void|bool|array|WP_Error
+	 * @return void
 	 */
 	protected function sendNotification( $post_id, Command $command )
 	{
@@ -123,7 +125,7 @@ class SubmitReview
 			'site-reviews'
 		);
 		$notificationTitle = sprintf( '[%s] %s',
-			wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
+			wp_specialchars_decode( (string)get_option( 'blogname' ), ENT_QUOTES ),
 			sprintf( $notificationSubject, $command->rating, $assignedToTitle )
 		);
 		$args = [
@@ -137,7 +139,7 @@ class SubmitReview
 	}
 
 	/**
-	 * @return bool
+	 * @return void
 	 */
 	protected function sendEmailNotification( Command $command, array $args )
 	{
@@ -148,19 +150,19 @@ class SubmitReview
 			? $this->createEmailNotification( $command, $args )->send()
 			: false;
 		if( $result === null ) {
-			glsr_log( __( 'Email notification was not sent: missing email, subject, or message.', 'site-reviews' ), 'error' );
+			glsr_log()->error( __( 'Email notification was not sent: missing email, subject, or message.', 'site-reviews' ));
 		}
 		if( $result === false ) {
-			glsr_log( __( 'Email notification was not sent: wp_mail() failed.', 'site-reviews' ), 'error' );
+			glsr_log()->error( __( 'Email notification was not sent: wp_mail() failed.', 'site-reviews' ));
 		}
-		return (bool) $result;
 	}
 
 	/**
-	 * @return array|WP_Error
+	 * @return void
 	 */
 	protected function sendWebhookNotification( Command $command, array $args )
 	{
+		if( !( $endpoint = glsr( OptionManager::class )->get( 'settings.general.webhook_url' )))return;
 		$notification = $this->createWebhookNotification( $command, $args );
 		$result = wp_remote_post( $endpoint, [
 			'method' => 'POST',
@@ -173,8 +175,7 @@ class SubmitReview
 			'body' => apply_filters( 'site-reviews/webhook/notification', $notification, $command ),
 		]);
 		if( is_wp_error( $result )) {
-			glsr_log( $result->get_error_message(), 'error' );
+			glsr_log()->error( $result->get_error_message() );
 		}
-		return $result;
 	}
 }

@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Rating;
-use GeminiLabs\SiteReviews\Modules\Strings;
 use WP_Post;
 use WP_Screen;
 

@@ -8,7 +8,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Filters;
 use GeminiLabs\SiteReviews\Modules\Html;
-use GeminiLabs\SiteReviews\Modules\Upgrade;
+use GeminiLabs\SiteReviews\Modules\Upgrader;
 
 final class Application extends Container
 {
@@ -120,7 +120,7 @@ final class Application extends Container
 	 */
 	public function registerLanguages()
 	{
-		load_plugin_textdomain( $this->id, false,
+		load_plugin_textdomain( static::ID, false,
 			trailingslashit( plugin_basename( $this->path() ).'/'.$this->languages )
 		);
 	}
@@ -169,7 +169,7 @@ final class Application extends Container
 	 */
 	public function upgrade()
 	{
-		$this->make( Upgrade::class )->run();
+		$this->make( Upgrader::class )->run();
 	}
 
 	/**

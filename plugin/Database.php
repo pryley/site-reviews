@@ -4,10 +4,13 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\Cache;
+use GeminiLabs\SiteReviews\Commands\CreateReview;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\QueryBuilder;
 use GeminiLabs\SiteReviews\Database\SqlQueries;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\GetReviewsDefaults;
+use WP_Error;
 use WP_Post;
 use WP_Query;
 
@@ -15,7 +18,7 @@ class Database
 {
 	/**
 	 * Save a review to the database
-	 * @param SubmitReview $command
+	 * @param CreateReview $command
 	 * @return int|bool
 	 */
 	public function createReview( array $values, $command )
@@ -32,12 +35,12 @@ class Database
 			'post_type' => Application::POST_TYPE,
 		];
 		if( $review['review_type'] == 'local' && (
-			$this->options( 'settings.general.require.approval' ) == 'yes' || $command->blacklisted )) {
+			glsr( OptionManager::class )->get( 'settings.general.require.approval' ) == 'yes' || $command->blacklisted )) {
 			$post['post_status'] = 'pending';
 		}
 		$postId = wp_insert_post( $post, true );
 		if( is_wp_error( $postId )) {
-			glsr_log()->error( '['.__METHOD__.'] '.$postId->get_error_message() );
+			glsr_log()->error( $postId->get_error_message() );
 			return false;
 		}
 		foreach( $review as $field => $value ) {
@@ -67,7 +70,7 @@ class Database
 	{
 		if( !( $post instanceof WP_Post ) || $post->post_type != Application::POST_TYPE )return;
 		$review = $this->getReviewMeta( $post->ID );
-		$modified = $this->isReviewModified( $review );
+		$modified = $this->isReviewModified( $post, $review );
 		$review->content = $post->post_content;
 		$review->data = $post->post_date;
 		$review->ID = $post->ID;
@@ -193,7 +196,7 @@ class Database
 		unset( $args['count'] ); //we don't want a term count
 		$terms = get_terms( $args );
 		if( is_wp_error( $terms )) {
-			glsr_log()->error( '['.__METHOD__.'] '.$terms->get_error_message() );
+			glsr_log()->error( $terms->get_error_message() );
 			return [];
 		}
 		return $terms;
@@ -246,20 +249,23 @@ class Database
 	}
 
 	/**
-	 * @param string $postId
-	 * @return void|int
+	 * @param int $postId
+	 * @return void
 	 */
 	public function revertReview( $postId )
 	{
 		$post = get_post( $postId );
 		if( !( $post instanceof WP_Post ) || $post->post_type != Application::POST_TYPE )return;
 		delete_post_meta( $post->ID, '_edit_last' );
-		return wp_update_post([
+		$result = wp_update_post([
 			'ID' => $post->ID,
 			'post_content' => get_post_meta( $post->ID, 'content', true ),
 			'post_date' => get_post_meta( $post->ID, 'date', true ),
 			'post_title' => get_post_meta( $post->ID, 'title', true ),
 		]);
+		if( is_wp_error( $result )) {
+			glsr_log()->error( $result->get_error_message() );
+		}
 	}
 
 	/**
@@ -301,7 +307,7 @@ class Database
 	}
 
 	/**
-	 * @param int|string $postId
+	 * @param int $postId
 	 * @param string $termIds
 	 * @return void
 	 */
@@ -311,7 +317,7 @@ class Database
 		if( empty( $terms ))return;
 		$result = wp_set_object_terms( $postId, $terms, Application::TAXONOMY );
 		if( is_wp_error( $result )) {
-			glsr_log()->error( '['.__METHOD__.'] '.$result->get_error_message() );
+			glsr_log()->error( $result->get_error_message() );
 		}
 	}
 

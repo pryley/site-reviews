@@ -16,6 +16,10 @@ class ChangeStatus
 			'ID' => $command->id,
 			'post_status' => $command->status,
 		]);
+		if( is_wp_error( $postId )) {
+			glsr_log()->error( $postId->get_error_message() );
+			return [];
+		}
 		return [
 			'class' => 'status-'.$command->status,
 			'link' => $this->getPostLink( $postId ).$this->getPostState( $postId ),

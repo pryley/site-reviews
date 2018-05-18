@@ -84,7 +84,7 @@ GLSR.onChangeStatus = function( ev )
 	GLSR.postAjax( ev, request, function( response )
 	{
 		var el = x( ev.target );
-
+		if( !response.class )return;
 		el.closest( 'tr' ).removeClass( 'status-pending status-publish' ).addClass( response.class );
 		el.closest( 'td.column-title' ).find( 'strong' ).html( response.link );
 	});

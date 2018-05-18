@@ -149,7 +149,7 @@ abstract class ButtonGenerator
 			'type' => '',
 			'value' => '',
 		]);
-		if( !$listbox )return;
+		if( !is_array( $listbox ))return;
 		if( !array_key_exists( '', $listbox['options'] )) {
 			$listbox['options'] = ['' => $listbox['placeholder']] + $listbox['options'];
 		}
@@ -233,7 +233,7 @@ abstract class ButtonGenerator
 		if( !isset( $args['required']['error'] )) {
 			return true;
 		}
-		$this->errors[$name] = $this->normalizeContainer([
+		$this->errors[$args['name']] = $this->normalizeContainer([
 			'html' => $args['required']['error'],
 			'type' => 'container',
 		]);

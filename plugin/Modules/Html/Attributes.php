@@ -132,7 +132,7 @@ class Attributes
 	}
 
 	/**
-	 * @param strong $attribute
+	 * @param string $attribute
 	 * @return string
 	 */
 	protected function getQuoteChar( $attribute )
