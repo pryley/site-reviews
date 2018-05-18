@@ -28,7 +28,7 @@ class Translator
 	 */
 	public function all()
 	{
-		$translations = $this->getSettings();
+		$translations = $this->getTranslations();
 		$entries = $this->filter( $translations, $this->entries() )->results();
 		array_walk( $translations, function( &$entry ) use( $entries ) {
 			$entry['desc'] = array_key_exists( $entry['id'], $entries )
@@ -81,7 +81,7 @@ class Translator
 			$entries = $this->results;
 		}
 		if( !is_array( $filterWith )) {
-			$filterWith = $this->getSettings();
+			$filterWith = $this->getTranslations();
 		}
 		$keys = array_flip( array_column( $filterWith, 'id' ));
 		$this->results = $intersect
@@ -264,26 +264,14 @@ class Translator
 			return $original;
 		}
 		$args = $this->normalizeTranslationArgs( $args );
-		extract( $args );
-		$strings = $this->getSettings();
-		$strings = array_filter( $strings, function( $string ) use( $single, $plural ) {
-			return $string['s1'] == html_entity_decode( $single, ENT_COMPAT, 'UTF-8' )
-				&& $string['p1'] == html_entity_decode( $plural, ENT_COMPAT, 'UTF-8' );
-		});
+		$strings = $this->getTranslationStrings( $args['single'], $args['plural'] );
 		if( empty( $strings )) {
 			return $original;
 		}
 		$string = current( $strings );
-		$translations = get_translations_for_domain( $domain );
-		if( !empty( $string['s2'] )) {
-			$single = $string['s2'];
-		}
-		if( !empty( $string['p2'] )) {
-			$plural = $string['p2'];
-		}
 		return $string['type'] == 'plural'
-			? $translations->translate_plural( $single, $plural, $number, $context )
-			: $translations->translate( $single, $context );
+			? $this->translatePlural( $domain, $string, $args )
+			: $this->translateSingle( $domain, $string, $args );
 	}
 
 	/**
@@ -300,12 +288,25 @@ class Translator
 	/**
 	 * @return array
 	 */
-	protected function getSettings()
+	protected function getTranslations()
 	{
 		$settings = glsr( OptionManager::class )->get( 'settings' );
-		return isset( $settings['strings'] )
-			? $this->normalizeSettings( (array) $settings['strings'] )
+		return isset( $settings['translations'] )
+			? $this->normalizeSettings( (array) $settings['translations'] )
 			: [];
+	}
+
+	/**
+	 * @param string $single
+	 * @param string $plural
+	 * @return array
+	 */
+	protected function getTranslationStrings( $single, $plural )
+	{
+		return array_filter( $this->getTranslations(), function( $string ) use( $single, $plural ) {
+			return $string['s1'] == html_entity_decode( $single, ENT_COMPAT, 'UTF-8' )
+				&& $string['p1'] == html_entity_decode( $plural, ENT_COMPAT, 'UTF-8' );
+		});
 	}
 
 	/**
@@ -364,5 +365,37 @@ class Translator
 			'single' => '',
 		];
 		return shortcode_atts( $defaults, $args );
+	}
+
+	/**
+	 * @param string $domain
+	 * @return string
+	 */
+	protected function translatePlural( $domain, array $string, array $args )
+	{
+		if( !empty( $string['p2'] )) {
+			$args['plural'] = $string['p2'];
+		}
+		return get_translations_for_domain( $domain )->translate_plural(
+			$args['single'],
+			$args['plural'],
+			$args['number'],
+			$args['context']
+		);
+	}
+
+	/**
+	 * @param string $domain
+	 * @return string
+	 */
+	protected function translateSingle( $domain, array $string, array $args )
+	{
+		if( !empty( $string['s2'] )) {
+			$args['single'] = $string['s2'];
+		}
+		return get_translations_for_domain( $domain )->translate(
+			$args['single'],
+			$args['context']
+		);
 	}
 }
