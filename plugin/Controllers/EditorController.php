@@ -3,36 +3,26 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html;
-use GeminiLabs\SiteReviews\Modules\Rating;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Editor\Customization;
+use GeminiLabs\SiteReviews\Modules\Editor\Labels;
+use GeminiLabs\SiteReviews\Modules\Editor\Metaboxes;
 use WP_Post;
 use WP_Screen;
 
 class EditorController extends Controller
 {
-	const META_AVERAGE = '_glsr_average';
-	const META_RANKING = '_glsr_ranking';
-	const META_REVIEW_ID = '_glsr_review_id';
-
 	/**
 	 * @return void
 	 * @action admin_enqueue_scripts
 	 */
 	public function customizePostStatusLabels()
 	{
-		global $wp_scripts;
-		$strings = [
-			'savePending' => __( 'Save as Unapproved', 'site-reviews' ),
-			'published' => __( 'Approved', 'site-reviews' ),
-		];
-		if( $this->canModifyTranslation() && isset( $wp_scripts->registered['post']->extra['data'] )) {
-			$l10n = &$wp_scripts->registered['post']->extra['data'];
-			foreach( $strings as $search => $replace ) {
-				$l10n = preg_replace( '/("'.$search.'":")([^"]+)/', "$1".$replace, $l10n );
-			}
-		}
+		glsr( Labels::class )->customizePostStatusLabels();
 	}
 
 	/**
@@ -41,15 +31,7 @@ class EditorController extends Controller
 	 */
 	public function filterEditorSettings( array $settings )
 	{
-		if( $this->isReviewEditable() ) {
-			$settings = [
-				'media_buttons' => false,
-				'quicktags' => false,
-				'textarea_rows' => 12,
-				'tinymce' => false,
-			];
-		}
-		return $settings;
+		return glsr( Customization::class )->filterEditorSettings( $settings );
 	}
 
 	/**
@@ -60,10 +42,7 @@ class EditorController extends Controller
 	 */
 	public function filterEditorTextarea( $html )
 	{
-		if( $this->isReviewEditable() ) {
-			$html = str_replace( '<textarea', '<div id="ed_toolbar"></div><textarea', $html );
-		}
-		return $html;
+		return glsr( Customization::class )->filterEditorTextarea( $html );
 	}
 
 	/**
@@ -75,20 +54,7 @@ class EditorController extends Controller
 	 */
 	public function filterPostStatusLabels( $translation, $text, $domain )
 	{
-		if( $this->canModifyTranslation( $domain )) {
-			$replacements = [
-				'Pending Review' => __( 'Unapproved', 'site-reviews' ),
-				'Pending' => __( 'Unapproved', 'site-reviews' ),
-				'Privately Published' => __( 'Privately Approved', 'site-reviews' ),
-				'Published' => __( 'Approved', 'site-reviews' ),
-				'Save as Pending' => __( 'Save as Unapproved', 'site-reviews' ),
-			];
-			foreach( $replacements as $search => $replacement ) {
-				if( $translation != $search )continue;
-				$translation = $replacement;
-			}
-		}
-		return $translation;
+		return glsr( Labels::class )->filterPostStatusLabels( $translation, $text, $domain );
 	}
 
 	/**
@@ -100,7 +66,7 @@ class EditorController extends Controller
 	 */
 	public function filterPostStatusLabelsWithContext( $translation, $text, $context, $domain )
 	{
-		return $this->filterPostStatusLabels( $translation, $text, $domain );
+		return glsr( Labels::class )->filterPostStatusLabels( $translation, $text, $domain );
 	}
 
 	/**
@@ -109,28 +75,7 @@ class EditorController extends Controller
 	 */
 	public function filterUpdateMessages( array $messages )
 	{
-		$post = get_post();
-		if( !( $post instanceof WP_Post ))return;
-		$strings = glsr( Strings::class )->post_updated_messages();
-		$restored = filter_input( INPUT_GET, 'revision' );
-		if( $revisionTitle = wp_post_revision_title( intval( $restored ), false )) {
-			$restored = sprintf( $strings['restored'], $revisionTitle );
-		}
-		$scheduled_date = date_i18n( 'M j, Y @ H:i', strtotime( $post->post_date ));
-		$messages[ Application::POST_TYPE ] = [
-			 1 => $strings['updated'],
-			 4 => $strings['updated'],
-			 5 => $restored,
-			 6 => $strings['published'],
-			 7 => $strings['saved'],
-			 8 => $strings['submitted'],
-			 9 => sprintf( $strings['scheduled'], '<strong>'.$scheduled_date.'</strong>' ),
-			10 => $strings['draft_updated'],
-			50 => $strings['approved'],
-			51 => $strings['unapproved'],
-			52 => $strings['reverted'],
-		];
-		return $messages;
+		return glsr( Labels::class )->filterUpdateMessages( $messages );
 	}
 
 	/**
@@ -138,11 +83,11 @@ class EditorController extends Controller
 	 * @param array $meta
 	 * @param int $postId
 	 * @return void
+	 * @action site-reviews/create/review
 	 */
 	public function onCreateReview( $postData, $meta, $postId )
 	{
-		if( !$this->isReviewPostType( $review = get_post( $postId )))return;
-		$this->updateAssignedToPost( $review );
+		glsr( Metaboxes::class )->onCreateReview( $postData, $meta, $postId );
 	}
 
 	/**
@@ -152,9 +97,7 @@ class EditorController extends Controller
 	 */
 	public function onDeleteReview( $postId )
 	{
-		if( !$this->isReviewPostType( $review = get_post( $postId )))return;
-		$review->post_status = 'deleted'; // important to change the post_status here first!
-		$this->updateAssignedToPost( $review );
+		glsr( Metaboxes::class )->onDeleteReview( $postId );
 	}
 
 	/**
@@ -164,7 +107,7 @@ class EditorController extends Controller
 	 */
 	public function onSaveReview( $postId, WP_Post $review )
 	{
-		$this->updateAssignedToPost( $review );
+		glsr( Metaboxes::class )->onSaveReview( $postId, $review );
 	}
 
 	/**
@@ -186,9 +129,7 @@ class EditorController extends Controller
 	 */
 	public function removeAutosave()
 	{
-		if( $this->isReviewEditor() && !$this->isReviewEditable() ) {
-			wp_deregister_script( 'autosave' );
-		}
+		glsr( Customization::class )->removeAutosave();
 	}
 
 	/**
@@ -197,7 +138,7 @@ class EditorController extends Controller
 	 */
 	public function removeMetaBoxes()
 	{
-		remove_meta_box( 'slugdiv', Application::POST_TYPE, 'advanced' );
+		glsr( Customization::class )->removeMetaBoxes();
 	}
 
 	/**
@@ -207,22 +148,11 @@ class EditorController extends Controller
 	public function renderAssignedToMetabox( WP_Post $post )
 	{
 		if( !$this->isReviewPostType( $post ))return;
-		$assignedTo = get_post_meta( $post->ID, 'assigned_to', true );
-		$template = '';
-		if( $assignedPost = get_post( $assignedTo )) {
-			ob_start();
-			glsr( Html::class )->renderTemplate( 'edit/assigned-post', [
-				'context' => [
-					'url' => (string)get_permalink( $assignedPost ),
-					'title' => get_the_title( $assignedPost ),
-				],
-			]);
-			$template = ob_get_clean();
-		}
+		$assignedTo = intval( get_post_meta( $post->ID, 'assigned_to', true ));
 		wp_nonce_field( 'assigned_to', '_nonce-assigned-to', false );
 		glsr()->render( 'edit/metabox-assigned-to', [
 			'id' => $assignedTo,
-			'template' => $template,
+			'template' => $this->buildAssignedToTemplate( $assignedTo ),
 		]);
 	}
 
@@ -233,10 +163,10 @@ class EditorController extends Controller
 	public function renderDetailsMetaBox( WP_Post $post )
 	{
 		if( !$this->isReviewPostType( $post ))return;
-		$review = glsr_db()->getReview( $post );
+		$review = glsr( Database::class )->getReview( $post );
 		glsr()->render( 'edit/metabox-details', [
-			'button' => $this->getMetaboxButton( $review, $post ),
-			'metabox' => $this->getMetaboxDetails( $review ),
+			'button' => $this->buildDetailsMetaBoxRevertButton( $review, $post ),
+			'metabox' => $this->normalizeDetailsMetaBox( $review ),
 		]);
 	}
 
@@ -244,12 +174,11 @@ class EditorController extends Controller
 	 * @return void
 	 * @action post_submitbox_misc_actions
 	 */
-	public function renderMetaBoxPinned()
+	public function renderPinnedInPublishMetaBox()
 	{
 		if( !$this->isReviewPostType( get_post() ))return;
-		$pinned = get_post_meta( get_the_ID(), 'pinned', true );
 		glsr()->render( 'edit/pinned', [
-			'pinned' => $pinned,
+			'pinned' => boolval( get_post_meta( intval( get_the_ID() ), 'pinned', true )),
 		]);
 	}
 
@@ -260,10 +189,9 @@ class EditorController extends Controller
 	public function renderResponseMetaBox( WP_Post $post )
 	{
 		if( !$this->isReviewPostType( $post ))return;
-		$review = glsr_db()->getReview( $post );
 		wp_nonce_field( 'response', '_nonce-response', false );
 		glsr()->render( 'edit/metabox-response', [
-			'response' => $review->response,
+			'response' => glsr( Database::class )->getReview( $post )->response,
 		]);
 	}
 
@@ -277,7 +205,7 @@ class EditorController extends Controller
 		if( !$this->isReviewPostType( $post ))return;
 		glsr()->render( 'edit/metabox-categories', [
 			'post' => $post,
-			'tax_name' => esc_attr( Application::TAXONOMY ),
+			'tax_name' => Application::TAXONOMY,
 			'taxonomy' => get_taxonomy( Application::TAXONOMY ),
 		]);
 	}
@@ -287,10 +215,10 @@ class EditorController extends Controller
 	 * @see $this->filterUpdateMessages()
 	 * @action admin_action_revert
 	 */
-	public function revert()
+	public function revertReview()
 	{
 		check_admin_referer( 'revert-review_'.( $postId = $this->getPostId() ));
-		glsr_db()->revertReview( $postId );
+		glsr( Database::class )->revertReview( $postId );
 		$this->redirect( $postId, 52 );
 	}
 
@@ -301,69 +229,94 @@ class EditorController extends Controller
 	 */
 	public function saveMetaboxes( $postId )
 	{
-		$this->saveAssignedToMetabox( $postId );
-		$this->saveResponseMetabox( $postId );
+		glsr( Metaboxes::class )->saveAssignedToMetabox( $postId );
+		glsr( Metaboxes::class )->saveResponseMetabox( $postId );
 	}
 
 	/**
-	 * @param string $domain
-	 * @return bool
+	 * @param int $assignedTo
+	 * @return string
 	 */
-	protected function canModifyTranslation( $domain = 'default' )
+	protected function buildAssignedToTemplate( $assignedTo )
 	{
-		return glsr_current_screen()->post_type == Application::POST_TYPE
-			&& in_array( glsr_current_screen()->base, ['edit', 'post'] )
-			&& $domain == 'default';
-	}
-
-	/**
-	 * @param int $postId
-	 * @return int|false
-	 */
-	protected function getAssignedToPostId( $postId )
-	{
-		$assignedTo = get_post_meta( $postId, 'assigned_to', true );
-		if(( $post = get_post( $assignedTo )) instanceof WP_Post ) {
-			return $post->ID;
-		}
-		return false;
+		$assignedPost = get_post( $assignedTo );
+		if( !( $assignedPost instanceof WP_Post ))return;
+		return glsr( Html::class )->buildTemplate( 'edit/assigned-post', [
+			'context' => [
+				'url' => (string)get_permalink( $assignedPost ),
+				'title' => get_the_title( $assignedPost ),
+			],
+		]);
 	}
 
 	/**
 	 * @param object $review
 	 * @return string
 	 */
-	protected function getMetaboxButton( $review, WP_Post $post )
+	protected function buildDetailsMetaBoxRevertButton( $review, WP_Post $post )
 	{
-		$modified = false;
-		if( $post->post_title !== $review->title
-			|| $post->post_content !== $review->content
-			|| $post->post_date !== $review->date ) {
-			$modified = true;
-		}
-		$revertUrl = wp_nonce_url(
-			admin_url( 'post.php?post='.$post->ID.'&action=revert' ),
-			'revert-review_'.$post->ID
+		$isModified = !glsr( Helper::class )->compareArrays(
+			[$review->title, $review->content, $review->date],
+			[$post->post_title, $post->post_content, $post->post_date]
 		);
-		return !$modified
-			? sprintf( '<button id="revert" class="button button-large" disabled>%s</button>', __( 'Nothing to Revert', 'site-reviews' ))
-			: sprintf( '<a href="%s" id="revert" class="button button-large">%s</a>', $revertUrl, __( 'Revert Changes', 'site-reviews' ));
+		if( $isModified ) {
+			$revertUrl = wp_nonce_url( admin_url( 'post.php?post='.$post->ID.'&action=revert' ),
+				'revert-review_'.$post->ID
+			);
+			return glsr( Builder::class )->a( __( 'Revert Changes', 'site-reviews' ), [
+				'class' => 'button button-large',
+				'href' => $revertUrl,
+				'id' => 'revert',
+			]);
+		}
+		return glsr( Builder::class )->button( __( 'Nothing to Revert', 'site-reviews' ), [
+			'class' => 'button button-large',
+			'disabled' => true,
+			'id' => 'revert',
+		]);
+	}
+
+	/**
+	 * @param object $review
+	 * @return string
+	 */
+	protected function getReviewType( $review )
+	{
+		$reviewType = $review->review_type;
+		if( !empty( $review->url )) {
+			$reviewType = glsr( Builder::class )->a( $reviewType, [
+				'href' => $review->url,
+				'target' => '_blank',
+			]);
+		}
+		return in_array( $reviewType, glsr()->reviewTypes )
+			? glsr()->reviewTypes[$reviewType]
+			: __( 'Unknown', 'site-reviews' );
+	}
+
+	/**
+	 * @param mixed $post
+	 * @return bool
+	 */
+	protected function isReviewPostType( $post )
+	{
+		return $post instanceof WP_Post && $post->post_type == Application::POST_TYPE;
 	}
 
 	/**
 	 * @param object $review
 	 * @return array
 	 */
-	protected function getMetaboxDetails( $review )
+	protected function normalizeDetailsMetaBox( $review )
 	{
 		$reviewer = empty( $review->user_id )
 			? __( 'Unregistered user', 'site-reviews' )
-			: $this->generateLink( get_the_author_meta( 'display_name', $review->user_id ), [
+			: glsr( Builder::class )->a( get_the_author_meta( 'display_name', $review->user_id ), [
 				'href' => get_author_posts_url( $review->user_id ),
 			]);
 		$email = empty( $review->email )
 			? '&mdash;'
-			: $this->generateLink( $review->email, [
+			: glsr( Builder::class )->a( $review->email, [
 				'href' => 'mailto:'.$review->email.'?subject='.esc_attr( __( 'RE:', 'site-reviews' ).' '.$review->title ),
 			]);
 		$metabox = [
@@ -377,73 +330,6 @@ class EditorController extends Controller
 			__( 'Avatar', 'site-reviews' ) => sprintf( '<img src="%s" width="96">', $review->avatar ),
 		];
 		return apply_filters( 'site-reviews/metabox/details', $metabox, $review );
-	}
-
-	/**
-	 * @param object $review
-	 * @return string
-	 */
-	protected function getReviewType( $review )
-	{
-		$reviewType = $review->review_type;
-		$reviewTypeFallback = !empty( $review->review_type )
-			? ucfirst( $review->review_type )
-			: __( 'Unknown', 'site-reviews' );
-		if( !empty( $review->url )) {
-			$reviewType = $this->generateLink( $reviewType, [
-				'href' => $review->url,
-				'target' => '_blank',
-			]);
-		}
-		return sprintf( __( '%s review', 'site-reviews' ),
-			glsr( Strings::class )->review_types( $reviewType, $reviewTypeFallback )
-		);
-	}
-
-	/**
-	 * @return bool
-	 */
-	protected function isReviewEditable()
-	{
-		$postId = intval( filter_input( INPUT_GET, 'post' ));
-		return $postId > 0
-			&& get_post_meta( $postId, 'review_type', true ) == 'local'
-			&& $this->isReviewEditor();
-	}
-
-	/**
-	 * @return bool
-	 */
-	protected function isReviewEditor()
-	{
-		return glsr_current_screen()->base == 'post'
-			&& glsr_current_screen()->id == Application::POST_TYPE
-			&& glsr_current_screen()->post_type == Application::POST_TYPE;
-	}
-
-	/**
-	 * @param mixed $post
-	 * @return bool
-	 */
-	protected function isReviewPostType( $post )
-	{
-		return $post instanceof WP_Post && $post->post_type == Application::POST_TYPE;
-	}
-
-	/**
-	 * @return int
-	 */
-	protected function recalculatePostAverage( array $reviews )
-	{
-		return glsr( Rating::class )->getAverage( $reviews );
-	}
-
-	/**
-	 * @return int
-	 */
-	protected function recalculatePostRanking( array $reviews )
-	{
-		return glsr( Rating::class )->getRanking( $reviews );
 	}
 
 	/**
@@ -462,73 +348,5 @@ class EditorController extends Controller
 			: get_edit_post_link( $postId, false );
 		wp_safe_redirect( add_query_arg( ['message' => $messageIndex], $redirectUri ));
 		exit;
-	}
-
-	/**
-	 * @param int $postId
-	 * @return void
-	 */
-	protected function saveAssignedToMetabox( $postId )
-	{
-		if( !wp_verify_nonce( filter_input( INPUT_POST, '_nonce-assigned-to' ), 'assigned_to' ))return;
-		$assignedTo = filter_input( INPUT_POST, 'assigned_to' );
-		$assignedTo || $assignedTo = '';
-		if( get_post_meta( $postId, 'assigned_to', true ) != $assignedTo ) {
-			$this->onDeleteReview( $postId );
-		}
-		update_post_meta( $postId, 'assigned_to', $assignedTo );
-	}
-
-	/**
-	 * @param int $postId
-	 * @return mixed
-	 */
-	protected function saveResponseMetabox( $postId )
-	{
-		if( !wp_verify_nonce( filter_input( INPUT_POST, '_nonce-response' ), 'response' ))return;
-		$response = filter_input( INPUT_POST, 'response' );
-		$response || $response = '';
-		update_post_meta( $postId, 'response', trim( wp_kses( $response, [
-			'a' => ['href' => [], 'title' => []],
-			'em' => [],
-			'strong' => [],
-		])));
-	}
-
-	/**
-	 * @return void
-	 */
-	protected function updateAssignedToPost( WP_Post $review )
-	{
-		if( !( $postId = $this->getAssignedToPostId( $review->ID )))return;
-		$reviewIds = get_post_meta( $postId, static::META_REVIEW_ID );
-		$updatedReviewIds = array_filter( (array)get_post_meta( $postId, static::META_REVIEW_ID ));
-		$this->updateReviewIdOfPost( $postId, $review, $reviewIds );
-		if( empty( $updatedReviewIds )) {
-			delete_post_meta( $postId, static::META_RANKING );
-			delete_post_meta( $postId, static::META_REVIEW_ID );
-		}
-		else if( !glsr( Helper::class )->compareArrays( $reviewIds, $updatedReviewIds )) {
-			$reviews = glsr_db()->getReviews([
-				'count' => -1,
-				'post__in' => $updatedReviewIds,
-			]);
-			update_post_meta( $postId, static::META_AVERAGE, $this->recalculatePostAverage( $reviews->results ));
-			update_post_meta( $postId, static::META_RANKING, $this->recalculatePostRanking( $reviews->results ));
-		}
-	}
-
-	/**
-	 * @param int $postId
-	 * @return void
-	 */
-	protected function updateReviewIdOfPost( $postId, WP_Post $review, array $reviewIds )
-	{
-		if( $review->post_status != 'publish' ) {
-			delete_post_meta( $postId, static::META_REVIEW_ID, $review->ID );
-		}
-		else if( !in_array( $review->ID, $reviewIds )) {
-			add_post_meta( $postId, static::META_REVIEW_ID, $review->ID );
-		}
 	}
 }
