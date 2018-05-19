@@ -73,7 +73,7 @@ class Akismet
 	 */
 	protected function isActive()
 	{
-		$check = glsr( OptionManager::class )->get( 'settings.reviews-form.akismet' ) != 'yes'
+		$check = glsr( OptionManager::class )->get( 'settings.submissions.akismet' ) != 'yes'
 			|| !is_callable( ['Akismet', 'get_api_key'] )
 			|| !is_callable( ['Akismet', 'http_post'] )
 			? false

@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Handlers\EnqueueAssets;
+use GeminiLabs\SiteReviews\Handlers\EnqueuePublicAssets;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
 
 class PublicController extends Controller
@@ -17,7 +17,7 @@ class PublicController extends Controller
 	 */
 	public function enqueueAssets()
 	{
-		(new EnqueueAssets)->handle();
+		(new EnqueuePublicAssets)->handle();
 	}
 
 	/**
@@ -27,7 +27,7 @@ class PublicController extends Controller
 	public function filterEnqueuedScripts( $tag, $handle )
 	{
 		return $handle == Application::ID.'/google-recaptcha'
-			&& glsr( OptionManager::class )->get( 'settings.reviews-form.recaptcha.integration' ) == 'custom'
+			&& glsr( OptionManager::class )->get( 'settings.submissions.recaptcha.integration' ) == 'custom'
 			? str_replace( ' src=', ' async defer src=', $tag )
 			: $tag;
 	}
@@ -56,7 +56,7 @@ class PublicController extends Controller
 	/**
 	 * @return mixed
 	 */
-	public function postCreateReview( array $request )
+	public function routerCreateReview( array $request )
 	{
 		$validated = glsr( ValidateReview::class )->validate( $request );
 		if( !empty( $validated->error )) {

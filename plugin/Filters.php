@@ -8,8 +8,8 @@ use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
 use GeminiLabs\SiteReviews\Controllers\ListTableController;
 use GeminiLabs\SiteReviews\Controllers\MainController;
-// use GeminiLabs\SiteReviews\Controllers\PublicController;
-// use GeminiLabs\SiteReviews\Modules\Translator;
+use GeminiLabs\SiteReviews\Controllers\PublicController;
+use GeminiLabs\SiteReviews\Modules\Translator;
 
 class Filters implements HooksContract
 {
@@ -19,8 +19,8 @@ class Filters implements HooksContract
 	protected $editor;
 	protected $listtable;
 	protected $main;
-	// protected $public;
-	// protected $translator;
+	protected $public;
+	protected $translator;
 
 	public function __construct( Application $app ) {
 		$this->app = $app;
@@ -29,8 +29,8 @@ class Filters implements HooksContract
 		$this->editor = $app->make( EditorController::class );
 		$this->listtable = $app->make( ListTableController::class );
 		$this->main = $app->make( MainController::class );
-		// $this->public = $app->make( PublicController::class );
-		// $this->translator = $app->make( Translator::class );
+		$this->public = $app->make( PublicController::class );
+		$this->translator = $app->make( Translator::class );
 	}
 
 	/**
@@ -52,11 +52,11 @@ class Filters implements HooksContract
 		add_filter( 'post_row_actions',                                        [$this->listtable, 'filterRowActions'], 10, 2 );
 		add_filter( 'manage_edit-'.Application::POST_TYPE.'_sortable_columns', [$this->listtable, 'filterSortableColumns'] );
 		add_filter( 'ngettext',                                                [$this->listtable, 'filterStatusText'], 10, 5 );
-		// add_filter( 'script_loader_tag',                                       [$this->public, 'filterEnqueuedScripts'], 10, 2 );
-		// add_filter( 'query_vars',                                              [$this->public, 'filterQueryVars'] );
-		// add_filter( 'gettext',                                                 [$this->translator, 'filterGettext'], 10, 3 );
-		// add_filter( 'gettext_with_context',                                    [$this->translator, 'filterGettextWithContext'], 10, 4 );
-		// add_filter( 'ngettext',                                                [$this->translator, 'filterNgettext'], 10, 5 );
-		// add_filter( 'ngettext_with_context',                                   [$this->translator, 'filterNgettextWithContext'], 10, 6 );
+		add_filter( 'script_loader_tag',                                       [$this->public, 'filterEnqueuedScripts'], 10, 2 );
+		add_filter( 'query_vars',                                              [$this->public, 'filterQueryVars'] );
+		add_filter( 'gettext',                                                 [$this->translator, 'filterGettext'], 10, 3 );
+		add_filter( 'gettext_with_context',                                    [$this->translator, 'filterGettextWithContext'], 10, 4 );
+		add_filter( 'ngettext',                                                [$this->translator, 'filterNgettext'], 10, 5 );
+		add_filter( 'ngettext_with_context',                                   [$this->translator, 'filterNgettextWithContext'], 10, 6 );
 	}
 }

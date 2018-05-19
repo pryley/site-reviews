@@ -31,7 +31,7 @@ class Blacklist
 	 */
 	protected function check( $target )
 	{
-		$blacklist = trim( glsr( OptionManager::class )->get( 'settings.reviews-form.blacklist.entries' ));
+		$blacklist = trim( glsr( OptionManager::class )->get( 'settings.submissions.blacklist.entries' ));
 		if( empty( $blacklist )) {
 			return false;
 		}

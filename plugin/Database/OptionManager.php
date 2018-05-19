@@ -26,7 +26,7 @@ class OptionManager
 		$options = get_option( static::databaseKey(), [] );
 		if( !is_array( $options )) {
 			delete_option( static::databaseKey() );
-			$options = [];
+			$options = ['settings' => []];
 		}
 		return $options;
 	}
@@ -56,13 +56,7 @@ class OptionManager
 	 */
 	public function get( $path = '', $fallback = '' )
 	{
-		$options = $this->all();
-		if( empty( $options )) {
-			$options = [
-				'settings' => glsr( DefaultsManager::class )->get(),
-			];
-		}
-		return glsr( Helper::class )->getPathValue( $path, $fallback, $options );
+		return glsr( Helper::class )->getPathValue( $path, $fallback, $this->all() );
 	}
 
 	/**

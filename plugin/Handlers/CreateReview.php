@@ -133,9 +133,10 @@ class CreateReview
 			'notification_title' => $notificationTitle,
 			'notification_type' => $notificationType,
 		];
-		return $args['notification_type'] == 'webhook'
-			? $this->sendWebhookNotification( $command, $args )
-			: $this->sendEmailNotification( $command, $args );
+		$notificationMethod = $args['notification_type'] == 'webhook'
+			? 'sendWebhookNotification'
+			: 'sendEmailNotification';
+		$this->$notificationMethod( $command, $args );
 	}
 
 	/**
@@ -149,7 +150,7 @@ class CreateReview
 		$result = !empty( $args['recipient'] )
 			? $this->createEmailNotification( $command, $args )->send()
 			: false;
-		if( $result === null ) {
+		if( !is_bool( $result )) {
 			glsr_log()->error( __( 'Email notification was not sent: missing email, subject, or message.', 'site-reviews' ));
 		}
 		if( $result === false ) {

@@ -177,7 +177,7 @@ class System
 		global $wpdb;
 		$theme = wp_get_theme();
 		return [
-			'Active Theme' => sprintf( '%s v%s', (string)$theme->Name, $theme->Version ),
+			'Active Theme' => sprintf( '%s v%s', (string)$theme->Name, (string)$theme->Version ),
 			'Home URL' => home_url(),
 			'Language' => get_option( 'WPLANG', 'en_US' ),
 			'Memory Limit' => WP_MEMORY_LIMIT,

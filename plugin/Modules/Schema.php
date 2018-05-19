@@ -147,7 +147,7 @@ class Schema
 	 */
 	protected function getReviews( $force = false )
 	{
-		if( !is_array( $this->reviews ) || $force ) {
+		if( !isset( $this->reviews ) || $force ) {
 			$args = wp_parse_args( ['count' => -1], $this->args );
 			$this->reviews = glsr( Database::class )->getReviews( $args )->reviews;
 		}
@@ -161,7 +161,7 @@ class Schema
 	 */
 	protected function getSchemaOption( $option, $fallback )
 	{
-		if( $schemaOption = trim( get_post_meta( get_the_ID(), 'schema_'.$option, true ))) {
+		if( $schemaOption = trim( (string)get_post_meta( intval( get_the_ID() ), 'schema_'.$option, true ))) {
 			return $schemaOption;
 		}
 		$default = glsr( OptionManager::class )->get( 'settings.reviews.schema.'.$option.'.default', $fallback );

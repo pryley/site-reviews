@@ -45,15 +45,14 @@ class Translator
 	{
 		if( !isset( $this->entries )) {
 			try {
-				$entries = $this->normalize(
-					Parser::parseFile( glsr()->path( 'languages/site-reviews.pot' ))->getEntries()
-				);
+				$potFile = glsr()->path( glsr()->languages.'/'.Application::ID.'.pot' );
+				$entries = $this->normalize( Parser::parseFile( $potFile )->getEntries() );
+				foreach( $entries as $key => $entry ) {
+					$this->entries[html_entity_decode( $key, ENT_COMPAT, 'UTF-8' )] = $entry;
+				}
 			}
 			catch( Exception $e ) {
 				glsr_log()->error( $e->getMessage() );
-			}
-			foreach( $entries as $key => $entry ) {
-				$this->entries[html_entity_decode( $key, ENT_COMPAT, 'UTF-8' )] = $entry;
 			}
 		}
 		return $this->entries;

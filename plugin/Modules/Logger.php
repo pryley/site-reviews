@@ -185,7 +185,7 @@ class Logger
 	 */
 	protected function getDebugInformation()
 	{
-		$caller = debug_backtrace( false, 6 );
+		$caller = debug_backtrace( 0, 6 );
 		$index = array_search( 'log', array_column( $caller, 'function' ));
 		if( $index === false
 			|| !isset( $caller[$index+2]['class'] )

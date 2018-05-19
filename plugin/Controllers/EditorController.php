@@ -345,7 +345,7 @@ class EditorController extends Controller
 			|| strpos( $referer, 'post-new.php' ) !== false;
 		$redirectUri = $hasReferer
 			? remove_query_arg( ['deleted', 'ids', 'trashed', 'untrashed'], $referer )
-			: get_edit_post_link( $postId, false );
+			: get_edit_post_link( $postId );
 		wp_safe_redirect( add_query_arg( ['message' => $messageIndex], $redirectUri ));
 		exit;
 	}

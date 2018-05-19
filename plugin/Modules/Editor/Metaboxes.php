@@ -83,7 +83,7 @@ class Metaboxes
 	 */
 	protected function getAssignedToPostId( $postId )
 	{
-		$assignedTo = get_post_meta( $postId, 'assigned_to', true );
+		$assignedTo = intval( get_post_meta( $postId, 'assigned_to', true ));
 		if(( $post = get_post( $assignedTo )) instanceof WP_Post ) {
 			return $post->ID;
 		}

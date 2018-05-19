@@ -10,7 +10,7 @@ use GeminiLabs\SiteReviews\Modules\Notice;
 class SettingsController extends Controller
 {
 	/**
-	 * @param array $input
+	 * @param mixed $input
 	 * @return array
 	 * @callback register_setting
 	 */
@@ -45,7 +45,6 @@ class SettingsController extends Controller
 				'sanitize_callback' => [$this, 'callbackRegisterSettings'],
 			]);
 		}
-		glsr( Settings::class )->register();
 	}
 
 	/**

@@ -74,7 +74,7 @@ class ValidateReview
 			apply_filters( 'site-reviews/validation/rules', static::VALIDATION_RULES ),
 			array_flip( array_merge(
 				['rating','terms'],
-				glsr( OptionManager::class )->get( 'settings.reviews-form.required', [] )
+				glsr( OptionManager::class )->get( 'settings.submissions.required', [] )
 			))
 		);
 		$excluded = isset( $request['excluded'] )
@@ -88,7 +88,7 @@ class ValidateReview
 	 */
 	protected function isRecaptchaResponseValid()
 	{
-		$integration = glsr( OptionManager::class )->get( 'settings.reviews-form.recaptcha.integration' );
+		$integration = glsr( OptionManager::class )->get( 'settings.submissions.recaptcha.integration' );
 		if( !$integration ) {
 			return true;
 		}
@@ -113,7 +113,7 @@ class ValidateReview
 		$endpoint = add_query_arg([
 			'remoteip' => glsr( Helper::class )->getIpAddress(),
 			'response' => $recaptchaResponse,
-			'secret' => glsr( OptionManager::class )->get( 'settings.reviews-form.recaptcha.secret' ),
+			'secret' => glsr( OptionManager::class )->get( 'settings.submissions.recaptcha.secret' ),
 		], 'https://www.google.com/recaptcha/api/siteverify' );
 		if( is_wp_error( $response = wp_remote_get( $endpoint ))) {
 			glsr_log()->error( $response->get_error_message() );
@@ -184,7 +184,7 @@ class ValidateReview
 	{
 		if( !empty( $this->error ))return;
 		if( !glsr( Blacklist::class )->isBlacklisted( $this->request ))return;
-		$blacklistAction = glsr( OptionManager::class )->get( 'settings.reviews-form.blacklist.action' );
+		$blacklistAction = glsr( OptionManager::class )->get( 'settings.submissions.blacklist.action' );
 		if( $blacklistAction == 'unapprove' ) {
 			$this->request['blacklisted'] = true;
 		}
