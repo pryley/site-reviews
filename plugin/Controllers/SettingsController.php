@@ -39,12 +39,9 @@ class SettingsController extends Controller
 	 */
 	public function registerSettings()
 	{
-		$settings = apply_filters( 'site-reviews/settings', ['settings'] );
-		foreach( $settings as $setting ) {
-			register_setting( Application::ID.'-'.$setting, OptionManager::databaseKey(), [
-				'sanitize_callback' => [$this, 'callbackRegisterSettings'],
-			]);
-		}
+		register_setting( Application::ID.'-settings', OptionManager::databaseKey(), [
+			'sanitize_callback' => [$this, 'callbackRegisterSettings'],
+		]);
 	}
 
 	/**
