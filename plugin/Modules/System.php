@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use Sinergi\BrowserDetector\Browser;
@@ -10,7 +11,14 @@ use Sinergi\BrowserDetector\Browser;
 class System
 {
 	const PAD = 40;
-	const WP_API_URL = 'https://api.wordpress.org/stats/php/1.0/';
+
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->get();
+	}
 
 	/**
 	 * @return string
@@ -186,7 +194,7 @@ class System
 			'Page On Front ID' => get_option( 'page_on_front' ),
 			'Permalink Structure' => get_option( 'permalink_structure', 'default' ),
 			'Post Stati' => implode( ', ', get_post_stati() ),
-			'Remote Post' => $this->testRemotePost(),
+			'Remote Post' => glsr( Cache::class )->getRemotePostTest(),
 			'Show On Front' => get_option( 'show_on_front' ),
 			'Site URL' => site_url(),
 			'Timezone' => get_option( 'timezone_string' ),
@@ -285,18 +293,5 @@ class System
 		}, $plugins );
 		natcasesort( $plugins );
 		return array_flip( $plugins );
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function testRemotePost()
-	{
-		$response = wp_remote_post( static::WP_API_URL );
-		return !is_wp_error( $response )
-			&& !empty( $response['response']['code'] )
-			&& in_array( $response['response']['code'], range( 200, 299 ))
-			? 'Works'
-			: 'Does not work';
 	}
 }

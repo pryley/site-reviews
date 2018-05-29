@@ -7,12 +7,14 @@ use GeminiLabs\SiteReviews\Database\SqlQueries;
 
 class Cache
 {
+	const EXPIRY_TIME = WEEK_IN_SECONDS;
+
 	/**
  	 * @return array
 	 */
 	public function getCloudflareIps()
 	{
-		$ipAddresses = wp_cache_get( Application::ID, '_cloudflare_ips' );
+		$ipAddresses = get_transient( Application::ID.'_cloudflare_ips' );
 		if( $ipAddresses === false ) {
 			$ipAddresses = array_fill_keys( ['v4', 'v6'], [] );
 			foreach( array_keys( $ipAddresses ) as $version ) {
@@ -23,7 +25,7 @@ class Cache
 				}
 				$ipAddresses[$version] = array_filter( explode( PHP_EOL, wp_remote_retrieve_body( $response )));
 			}
-			wp_cache_set( Application::ID, $ipAddresses, '_cloudflare_ips' );
+			set_transient( Application::ID.'_cloudflare_ips', $ipAddresses, static::EXPIRY_TIME );
 		}
 		return $ipAddresses;
 	}
@@ -44,5 +46,23 @@ class Cache
 			wp_cache_set( Application::ID, $counts, $metaKey.'_count' );
 		}
 		return $counts;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRemotePostTest()
+	{
+		$test = get_transient( Application::ID.'_remote_post_test' );
+		if( $test === false ) {
+			$response = wp_remote_post( 'https://api.wordpress.org/stats/php/1.0/' );
+			$test = !is_wp_error( $response )
+				&& !empty( $response['response']['code'] )
+				&& in_array( $response['response']['code'], range( 200, 299 ))
+				? 'Works'
+				: 'Does not work';
+			set_transient( Application::ID.'_remote_post_test', $test, static::EXPIRY_TIME );
+		}
+		return $test;
 	}
 }
