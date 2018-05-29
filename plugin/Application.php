@@ -142,9 +142,22 @@ final class Application extends Container
 	 */
 	public function render( $view, array $data = [] )
 	{
-		$data['html'] = $this->make( Html::class );
+		$file = '';
+		if( glsr( Helper::class )->startsWith( $view, 'templates/' )) {
+			$file = str_replace( 'templates/', 'site-reviews/', $view ).'.php';
+			$file = get_stylesheet_directory().'/'.$file;
+		}
+		if( !file_exists( $file )) {
+			$file = $this->path( 'views/'.$view.'.php' );
+		}
+		$file = apply_filters( 'site-reviews/addon/views/file', $file, $view, $data );
+		if( !file_exists( $file )) {
+			glsr_log()->error( 'File not found: '.$file );
+			return;
+		}
+		$data = apply_filters( 'site-reviews/addon/views/data', $data, $view );
 		extract( $data );
-		return include $this->path( 'views/index.php' );
+		include $file;
 	}
 
 	/**

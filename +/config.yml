@@ -18,6 +18,7 @@ scripts:
     - +/scripts/admin/pinned.js
     - +/scripts/admin/search.js
     - +/scripts/admin/shortcode.js
+    - +/scripts/admin/tabs.js
     - +/scripts/admin/ready.js
   site-reviews.js:
     - node_modules/star-rating.js/src/star-rating.js

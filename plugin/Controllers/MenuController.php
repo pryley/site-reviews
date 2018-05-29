@@ -6,7 +6,9 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Logger;
 use GeminiLabs\SiteReviews\Modules\System;
 
@@ -42,8 +44,7 @@ class MenuController extends Controller
 	 */
 	public function registerSubMenus()
 	{
-		$pages = apply_filters( 'site-reviews/addon/submenu/pages', [] );
-		$pages = wp_parse_args( $pages, [
+		$pages = $this->parseWithFilter( 'submenu/pages', [
 			'settings' => __( 'Settings', 'site-reviews' ),
 			'tools' => __( 'Tools', 'site-reviews' ),
 			'documentation' => __( 'Documentation', 'site-reviews' ),
@@ -64,10 +65,9 @@ class MenuController extends Controller
 	 */
 	public function renderAddonsMenu()
 	{
-		$tabs = [
-			'addons' => __( 'Add-Ons', 'site-reviews' ),
-		];
-		$this->renderMenu( 'addons', $tabs );
+		$this->renderPage( 'addons', [
+			'template' => glsr( Template::class ),
+		]);
 	}
 
 	/**
@@ -77,15 +77,16 @@ class MenuController extends Controller
 	 */
 	public function renderDocumentationMenu()
 	{
-		$tabs = apply_filters( 'site-reviews/addon/documentation/tabs', [] );
-		$tabs = wp_parse_args( $tabs, [
+		$tabs = $this->parseWithFilter( 'documentation/tabs', [
 			'support' => __( 'Support', 'site-reviews' ),
 			'faq' => __( 'FAQ', 'site-reviews' ),
 			'shortcodes' => __( 'Shortcodes', 'site-reviews' ),
 			'hooks' => __( 'Hooks', 'site-reviews' ),
 			'functions' => __( 'Functions', 'site-reviews' ),
 		]);
-		$this->renderMenu( 'documentation', $tabs );
+		$this->renderPage( 'documentation', [
+			'tabs' => $tabs,
+		]);
 	}
 
 	/**
@@ -95,8 +96,7 @@ class MenuController extends Controller
 	 */
 	public function renderSettingsMenu()
 	{
-		$tabs = apply_filters( 'site-reviews/addon/settings/tabs', [] );
-		$tabs = wp_parse_args( $tabs, [
+		$tabs = $this->parseWithFilter( 'settings/tabs', [
 			'general' => __( 'General', 'site-reviews' ),
 			'reviews' => __( 'Reviews', 'site-reviews' ),
 			'submissions' => __( 'Submissions', 'site-reviews' ),
@@ -104,9 +104,14 @@ class MenuController extends Controller
 			'translations' => __( 'Translations', 'site-reviews' ),
 			'licenses' => __( 'Licenses', 'site-reviews' ),
 		]);
-		$this->renderMenu( 'settings', $tabs, [
-			'databaseKey' => OptionManager::databaseKey(),
-			'settings' => glsr()->getDefaults(),
+		if( !apply_filters( 'site-reviews/addon/licenses', false )) {
+			unset( $tabs['licenses'] );
+		}
+		$this->renderPage( 'settings', [
+			// 'database_key' => OptionManager::databaseKey(),
+			// 'settings' => glsr()->getDefaults(),
+			'tabs' => $tabs,
+			'template' => glsr( Template::class ),
 		]);
 	}
 
@@ -117,17 +122,20 @@ class MenuController extends Controller
 	 */
 	public function renderToolsMenu()
 	{
-		$tabs = apply_filters( 'site-reviews/addon/tools/tabs', [] );
-		$tabs = wp_parse_args( $tabs, [
+		$tabs = $this->parseWithFilter( 'tools/tabs', [
 			'import-export' => __( 'Import/Export', 'site-reviews' ),
 			'logging' => __( 'Logging', 'site-reviews' ),
 			'system-info' => __( 'System Info', 'site-reviews' ),
 		]);
-		$this->renderMenu( 'tools', $tabs, [
-			'id' => Application::ID,
-			'logger' => glsr( Logger::class ),
-			'prefix' => Application::PREFIX,
-			'system' => glsr( System::class ),
+		$this->renderPage( 'tools', [
+			'data' => [
+				'id' => Application::ID,
+				'logger' => glsr( Logger::class ),
+				'prefix' => Application::PREFIX,
+				'system' => glsr( System::class ),
+			],
+			'html' => glsr( Html::class ),
+			'tabs' => $tabs,
 		]);
 	}
 
@@ -143,69 +151,21 @@ class MenuController extends Controller
 	}
 
 	/**
-	 * @param string $tab
-	 * @return string
-	 */
-	protected function getCurrentSection( array $tabs, $tab )
-	{
-		$currentSection = filter_input( INPUT_GET, 'section' );
-		if( empty( $tabs[$tab]['sections'][$currentSection] )) {
-			$currentSection = isset( $tabs[$tab]['sections'] )
-				? key( $tabs[$tab]['sections'] )
-				: '';
-		}
-		return $currentSection;
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function getCurrentTab( array $tabs )
-	{
-		$currentTab = filter_input( INPUT_GET, 'tab' );
-		if( !array_key_exists( $currentTab, $tabs )) {
-			$currentTab = key( $tabs );
-		}
-		return $currentTab;
-	}
-
-	/**
+	 * @param string $hookSuffix
 	 * @return array
 	 */
-	protected function normalizeTabs( array $tabs )
+	protected function parseWithFilter( $hookSuffix, array $args = [] )
 	{
-		foreach( $tabs as $key => $value ) {
-			if( !is_array( $value )) {
-				$value = ['title' => $value];
-			}
-			$tabs[$key] = wp_parse_args( $value, [
-				'sections' => [],
-				'title' => '',
-			]);
-			$useLicenses = apply_filters( 'site-reviews/addon/licenses', false );
-			if( !$useLicenses ) {
-				unset( $tabs['licenses'] );
-			}
-		}
-		return $tabs;
+		$filteredArgs = apply_filters( 'site-reviews/addon/'.$hookSuffix, [] );
+		return wp_parse_args( $filteredArgs, $args );
 	}
 
 	/**
 	 * @param string $page
 	 * @return void
 	 */
-	protected function renderMenu( $page, array $tabs, array $data = [] )
+	protected function renderPage( $page, array $data = [] )
 	{
-		$tabs = $this->normalizeTabs( $tabs );
-		$tab = $this->getCurrentTab( $tabs );
-		$section = $this->getCurrentSection( $tabs, $tab );
-		$defaults = [
-			'currentSection' => $section,
-			'currentTab' => $tab,
-			'page' => $page,
-			'tabs' => $tabs,
-		];
-		$data = apply_filters( 'site-reviews/addon/page/data', $data, $defaults );
-		glsr()->render( 'pages/index', wp_parse_args( $data, $defaults ));
+		glsr()->render( 'pages/'.$page.'/index', $data );
 	}
 }

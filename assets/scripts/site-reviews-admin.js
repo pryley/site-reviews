@@ -869,5 +869,5 @@ x( function()
 			}
 		},
 	});
-	// new GLSR.tabs();
+	new GLSR.tabs();
 });

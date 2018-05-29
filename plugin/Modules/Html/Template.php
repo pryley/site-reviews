@@ -10,23 +10,17 @@ class Template
 	 * @param string $templatePath
 	 * @return void|string
 	 */
-	public function build( $templatePath, array $args = [] )
+	public function build( $templatePath, array $data = [] )
 	{
-		$args = $this->normalize( $args );
-		$file = glsr()->path( 'views/'.$templatePath.'.php' );
-		if( !file_exists( $file )) {
-			glsr_log()->error( 'Template missing: '.$file );
-			return;
-		}
+		$data = $this->normalize( $data );
 		ob_start();
-		$render = glsr( Html::class )->render( $args['globals'] );
-		include $file;
+		glsr()->render( $templatePath, $data );
 		$template = ob_get_clean();
-		return $this->interpolate( $template, $args['context'] );
+		return $this->interpolate( $template, $data['context'] );
 	}
 
 	/**
-	 * Interpolates context values into template placeholders
+	 * Interpolate context values into template placeholders
 	 * @param string $template
 	 * @return string
 	 */
@@ -46,22 +40,35 @@ class Template
 	 * @param string $templatePath
 	 * @return void|string
 	 */
-	public function render( $templatePath, array $args = [] )
+	public function render( $templatePath, array $data = [] )
 	{
-		echo $this->build( $templatePath, $args );
+		echo $this->build( $templatePath, $data );
+	}
+
+	/**
+	 * @param string $id
+	 * @return void
+	 */
+	public function renderSettingFields( $id )
+	{
+		$rows = $this->build( 'pages/settings/'.$id, [
+		]);
+		glsr_debug( $id );
 	}
 
 	/**
 	 * @return array
 	 */
-	protected function normalize( array $args )
+	protected function normalize( array $data )
 	{
-		$args = shortcode_atts( array_fill_keys( ['context', 'globals'], [] ), $args );
-		foreach( $args as $key => $value ) {
+		$data = wp_parse_args( $data, array_fill_keys( ['context', 'globals'], [] ));
+		foreach( $data as $key => $value ) {
 			if( is_array( $value ))continue;
-			$args[$key] = [];
+			$data[$key] = [];
 		}
-		return $args;
+		$data['template'] = $this;
+		$data['render'] = glsr( Html::class )->render( $data['globals'] );
+		return $data;
 	}
 
 	/**

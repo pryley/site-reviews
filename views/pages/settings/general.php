@@ -1,3 +1,7 @@
-<?php defined( 'WPINC' ) || die;
+<?php defined( 'WPINC' ) || die; ?>
 
-$html->renderForm( $currentTab.'.'.$currentSection );
+<table class="form-table">
+	<tbody>
+		{{ rows }}
+	</tbody>
+</table>

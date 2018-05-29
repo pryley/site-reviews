@@ -1,3 +1,7 @@
 <?php defined( 'WPINC' ) || die; ?>
 
-<br>
+<table class="form-table">
+	<tbody>
+		{{ rows }}
+	</tbody>
+</table>

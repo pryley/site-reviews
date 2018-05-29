@@ -83,4 +83,5 @@ x( function()
 			}
 		},
 	});
+	new GLSR.tabs();
 });

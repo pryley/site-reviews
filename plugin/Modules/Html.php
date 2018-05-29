@@ -34,9 +34,9 @@ class Html
 	 * @param string $path
 	 * @return void|string
 	 */
-	public function buildForm( $path, array $args = [] )
+	public function buildForm( $path, array $fields = [] )
 	{
-		return glsr( Form::class )->build( $path, $args );
+		return glsr( Form::class )->build( $path, $fields );
 	}
 
 	/**
@@ -70,9 +70,9 @@ class Html
 	/**
 	 * @return void
 	 */
-	public function renderForm( $path, array $args = [] )
+	public function renderForm( $path, array $fields = [] )
 	{
-		echo $this->buildForm( $path, $args );
+		echo $this->buildForm( $path, $fields );
 	}
 
 	/**
