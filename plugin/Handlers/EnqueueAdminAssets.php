@@ -45,6 +45,7 @@ class EnqueueAdminAssets
 		$variables = [
 			'action' => Application::PREFIX.'action',
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'are_you_sure' => __( 'Are you sure want to do this?', 'site-reviews' ),
 			'shortcodes' => [],
 		];
 		if( user_can_richedit() ) {
