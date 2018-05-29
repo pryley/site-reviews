@@ -12,9 +12,7 @@ class DefaultsManager
 	 */
 	public function get()
 	{
-		$settings = include glsr()->path( 'config/settings.php' );
-		$settings = apply_filters( 'site-reviews/addon/settings', $settings );
-		$settings = $this->normalize( $settings );
+		$settings = $this->settings();
 		$defaults = array_combine( array_keys( $settings ), array_column( $settings, 'default' ));
 		return glsr( Helper::class )->convertDotNotationArray( $defaults );
 	}
@@ -30,6 +28,16 @@ class DefaultsManager
 		$updatedSettings = array_replace_recursive( $settings, $defaultSettings );
 		update_option( OptionManager::databaseKey(), $updatedSettings );
 		return $defaultSettings;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function settings()
+	{
+		$settings = include glsr()->path( 'config/settings.php' );
+		$settings = apply_filters( 'site-reviews/addon/settings', $settings );
+		return $this->normalize( $settings );
 	}
 
 	/**
