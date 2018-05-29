@@ -32,7 +32,7 @@ class Router
 				glsr( PublicController::class )->routerCreateReview( $request );
 				break;
 			default:
-				do_action( 'site-reviews/route/admin/post/requests', $request['action'], $request );
+				do_action( 'site-reviews/route/admin/request', $request['action'], $request );
 		}
 	}
 
@@ -52,7 +52,7 @@ class Router
 			call_user_func( [$controller, $method], $request );
 		}
 		else {
-			do_action( 'site-reviews/route/ajax/requests', $method, $request );
+			do_action( 'site-reviews/route/ajax/request', $method, $request );
 		}
 		wp_die();
 	}
@@ -62,10 +62,14 @@ class Router
 	 */
 	public function routePublicPostRequest()
 	{
-		switch( filter_input( INPUT_POST, 'action' )) {
+		$action = filter_input( INPUT_POST, 'action' );
+		$request = $this->normalize( $_POST );
+		switch( $action ) {
 			case 'submit-review':
-				glsr( PublicController::class )->routerCreateReview( $this->normalize( $_POST ));
+				glsr( PublicController::class )->routerCreateReview( $request );
 				break;
+			default:
+				do_action( 'site-reviews/route/public/request', $action, $request );
 		}
 	}
 
