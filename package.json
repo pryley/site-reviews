@@ -2,7 +2,7 @@
   "private": true,
   "dependencies": {
     "autosize": "^4.0.2",
-    "star-rating.js": "^2.1.0"
+    "star-rating.js": "^2.1.1"
   },
   "devDependencies": {
     "gulp": "^4.0.0",
@@ -14,8 +14,7 @@
     "gulp-if": "^2.0.2",
     "gulp-jshint": "^2.0.4",
     "gulp-potomo": "^1.0.3",
-    "gulp-pseudo-i18n": "^0.2.1",
-    "gulp-rename": "^1.2.3",
+    "gulp-pottopo": "^1.0.1",
     "gulp-sass": "^4.0.1",
     "gulp-sort": "^2.0.0",
     "gulp-uglify": "^3.0.0",

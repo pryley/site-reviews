@@ -9,9 +9,8 @@ var gulpif          = require('gulp-if');
 var jshint          = require('gulp-jshint');
 var mergeStream     = require('merge-stream');
 var potomo          = require('gulp-potomo');
-var pseudo          = require('gulp-pseudo-i18n');
+var pottopo         = require('gulp-pottopo');
 var pump            = require('pump');
-var rename          = require('gulp-rename');
 var sass            = require('gulp-sass');
 var sort            = require('gulp-sort');
 var uglify          = require('gulp-uglify');
@@ -20,54 +19,54 @@ var yaml            = require('yamljs');
 
 var config = yaml.load('+/config.yml');
 
-gulp.task('bump', function() {
+gulp.task('bump', function(cb) {
   var type = 'patch';
   ['prerelease','patch','minor','major'].some(function(arg) {
     if( !args[arg] )return;
     type = arg;
     return true;
   });
-  return pump([
+  pump([
     gulp.src(config.bump),
     bump({type:type,keys:['stable tag','version']}),
     gulp.dest('.'),
-  ]);
+  ], cb);
 });
 
-gulp.task('js', function() {
+gulp.task('js', function(cb) {
   var streams = mergeStream();
   for(var key in config.scripts) {
     if(!config.scripts.hasOwnProperty(key))continue;
     streams.add(gulp.src(config.scripts[key]).pipe(concat(key)));
   }
-  return pump([
+  pump([
     streams,
     gulpif(args.production, uglify({
       output: {comments: 'some'},
     })),
     gulp.dest(config.dest.js),
-  ]);
+  ], cb);
 });
 
-gulp.task('jshint', function() {
-  return pump([
+gulp.task('jshint', function(cb) {
+  pump([
     gulp.src(config.watch.js),
     jshint(),
     jshint.reporter('jshint-stylish'),
     jshint.reporter('fail'),
-  ]);
+  ], cb);
 });
 
-gulp.task('po-to-mo', function() {
-  return pump([
+gulp.task('po-to-mo', function(cb) {
+  pump([
     gulp.src(config.dest.lang + '*.po'),
     potomo(),
     gulp.dest(config.dest.lang),
-  ]);
+  ], cb);
 });
 
-gulp.task('pot', function() {
-  return pump([
+gulp.task('pot', function(cb) {
+  pump([
     gulp.src(config.watch.php),
     checktextdomain({
       text_domain: config.language.domain,
@@ -94,24 +93,20 @@ gulp.task('pot', function() {
       lastTranslator: config.language.translator,
       team: config.language.team,
     }),
-    rename(config.language.domain + '.pot'),
-    gulp.dest(config.dest.lang),
-  ]);
+    gulp.dest(config.dest.lang + config.language.domain + '.pot'),
+  ], cb);
 });
 
-gulp.task('pot-to-po', function() {
-  return pump([
+gulp.task('pot-to-po', function(cb) {
+  pump([
     gulp.src(config.dest.lang + '*.pot'),
-    pseudo({
-      charMap: {},
-    }),
-    rename(config.language.domain + '-en_US.po'),
+    pottopo(),
     gulp.dest(config.dest.lang),
-  ]);
+  ], cb);
 });
 
-gulp.task('scss', function() {
-  return pump([
+gulp.task('scss', function(cb) {
+  pump([
     gulp.src(config.watch.scss),
     sass({
       outputStyle: 'expanded',
@@ -123,12 +118,12 @@ gulp.task('scss', function() {
       zindex: false,
     })),
     gulp.dest(config.dest.css),
-  ]);
+  ], cb);
 });
 
 gulp.task('watch', function() {
   gulp.watch(config.watch.js, gulp.parallel('jshint', 'js'));
-  gulp.watch(config.watch.scss, gulp.series('scss'));
+  gulp.watch(config.watch.scss, gulp.parallel('scss'));
 });
 
 gulp.task('languages', gulp.series('pot', 'pot-to-po', 'po-to-mo'));
