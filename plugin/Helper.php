@@ -159,6 +159,16 @@ class Helper
 	}
 
 	/**
+	 * @param string $string
+	 * @param string $prefix
+	 * @return string
+	 */
+	public function prefixString( $string, $prefix = '' )
+	{
+		return $prefix.str_replace( $prefix, '', trim( $string ));
+	}
+
+	/**
 	 * Remove empty values from an array
 	 * @return array
 	 */

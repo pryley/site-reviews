@@ -4,17 +4,15 @@
 	<h1 class="page-title"><?= esc_html( get_admin_page_title() ); ?></h1>
 	<?php $html->renderNotices(); ?>
 	<h2 class="nav-tab-wrapper">
-	<?php foreach( $tabs as $id => $title ) : ?>
+		<?php foreach( $tabs as $id => $title ) : ?>
 		<a class="glsr-nav-tab nav-tab" href="#<?= $id; ?>"><?= $title; ?></a>
-	<?php endforeach; ?>
+		<?php endforeach; ?>
 	</h2>
 	<?php foreach( $tabs as $id => $title ) : ?>
 	<div class="glsr-nav-view" id="<?= $id; ?>">
-	<?php
-		glsr()->render( 'pages/tools/'.$id, $data );
-	?>
+		<?php glsr()->render( 'pages/tools/'.$id, $data ); ?>
 	</div>
 	<?php endforeach; ?>
-	<input type="hidden" name="_wp_http_referer" value="<?= wp_get_referer(); ?>">
 	<input type="hidden" name="_active_tab">
+	<input type="hidden" name="_wp_http_referer" value="<?= $http_referer; ?>">
 </div>

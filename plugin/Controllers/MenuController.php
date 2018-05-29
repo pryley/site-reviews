@@ -32,7 +32,7 @@ class MenuController extends Controller
 			]);
 			$menu[$key][0] .= $awaitingModeration;
 			if( $typenow === Application::POST_TYPE ) {
-				$menu[$key][4] .= ' current';
+				$menu[$key][4].= ' current';
 			}
 			break;
 		}
@@ -108,8 +108,6 @@ class MenuController extends Controller
 			unset( $tabs['licenses'] );
 		}
 		$this->renderPage( 'settings', [
-			// 'database_key' => OptionManager::databaseKey(),
-			// 'settings' => glsr()->getDefaults(),
 			'tabs' => $tabs,
 			'template' => glsr( Template::class ),
 		]);
@@ -166,6 +164,7 @@ class MenuController extends Controller
 	 */
 	protected function renderPage( $page, array $data = [] )
 	{
+		$data['http_referer'] = (string)wp_get_referer();
 		glsr()->render( 'pages/'.$page.'/index', $data );
 	}
 }
