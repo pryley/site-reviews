@@ -2,6 +2,10 @@
 
 x( function()
 {
+	x('.glsr-button-reset').on( 'click', function() {
+		return confirm( site_reviews.are_you_sure );
+	});
+
 	var GLSR_fix = GLSR.getURLParameter( 'fix' );
 	var GLSR_textarea = x( '#contentdiv > textarea' );
 
@@ -21,7 +25,6 @@ x( function()
 	x( 'form' ).on( 'click', '#clear-log', GLSR.onClearLog );
 
 	GLSR.colorControls();
-	GLSR.pinned.events();
 
 	x.each( site_reviews_pointers.pointers, function( i, pointer ) {
 		GLSR.pointers( pointer );
@@ -38,11 +41,7 @@ x( function()
 	x( document ).on( 'click', '.glsr-mce-menu-item', GLSR.shortcode.trigger );
 	x( document ).on( 'click', 'a.change-site-review-status', GLSR.onChangeStatus );
 
-	// WP 4.0 - 4.2 support: toggle list table rows on small screens
-	x( document ).on( 'click', '.branch-4 .toggle-row, .branch-4-1 .toggle-row, .branch-4-2 .toggle-row', function() {
-		x( this ).closest( 'tr' ).toggleClass( 'is-expanded' );
-	});
-
+	new GLSR.pinned();
 	new GLSR.search( '#glsr-search-translations', {
 		action: 'search-translations',
 		onInit: function() {
@@ -64,7 +63,6 @@ x( function()
 			this.setVisibility();
 		},
 	});
-
 	new GLSR.search( '#glsr-search-posts', {
 		action: 'search-posts',
 		onInit: function() {

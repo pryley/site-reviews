@@ -30,24 +30,18 @@ GLSR.getURLParameter = function( name )
 
 GLSR.insertNotices = function( notices )
 {
-	notices = notices || false;
-
 	if( !notices )return;
-
 	if( !x( '#glsr-notices' ).length ) {
 		x( '#message.notice' ).remove();
 		x( 'form#post' ).before( '<div id="glsr-notices" />' );
 	}
-
 	x( '#glsr-notices' ).html( notices );
-
 	x( document ).trigger( 'wp-updates-notice-added' );
 };
 
 GLSR.isUndefined = function( value )
 {
-	var is_undefined = void(0);
-	return value === is_undefined;
+	return value === void(0);
 };
 
 GLSR.normalizeValue = function( value )
@@ -55,11 +49,9 @@ GLSR.normalizeValue = function( value )
 	if(['true','on','1'].indexOf( value ) > -1 ) {
 		return true;
 	}
-
 	if(['false','off','0'].indexOf( value ) > -1 ) {
 		return false;
 	}
-
 	return value;
 };
 

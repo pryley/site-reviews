@@ -47,24 +47,18 @@ GLSR.getURLParameter = function( name )
 
 GLSR.insertNotices = function( notices )
 {
-	notices = notices || false;
-
 	if( !notices )return;
-
 	if( !x( '#glsr-notices' ).length ) {
 		x( '#message.notice' ).remove();
 		x( 'form#post' ).before( '<div id="glsr-notices" />' );
 	}
-
 	x( '#glsr-notices' ).html( notices );
-
 	x( document ).trigger( 'wp-updates-notice-added' );
 };
 
 GLSR.isUndefined = function( value )
 {
-	var is_undefined = void(0);
-	return value === is_undefined;
+	return value === void(0);
 };
 
 GLSR.normalizeValue = function( value )
@@ -72,11 +66,9 @@ GLSR.normalizeValue = function( value )
 	if(['true','on','1'].indexOf( value ) > -1 ) {
 		return true;
 	}
-
 	if(['false','off','0'].indexOf( value ) > -1 ) {
 		return false;
 	}
-
 	return value;
 };
 
@@ -101,7 +93,7 @@ GLSR.onChangeStatus = function( ev )
 	GLSR.postAjax( ev, request, function( response )
 	{
 		var el = x( ev.target );
-
+		if( !response.class )return;
 		el.closest( 'tr' ).removeClass( 'status-pending status-publish' ).addClass( response.class );
 		el.closest( 'td.column-title' ).find( 'strong' ).html( response.link );
 	});
@@ -219,89 +211,102 @@ GLSR.toggleHiddenField = function( el, bool )
 	}
 };
 
-/** global: GLSR, site_reviews, x */
-
-GLSR.pinned.events = function()
-{
-	var pinnedSelect = x( '#pinned-status-select' );
-
-	x( 'a.cancel-pinned-status' ).on( 'click', function( e ) {
-		e.preventDefault();
-		pinnedSelect.slideUp( 'fast' ).siblings( 'a.edit-pinned-status' ).show().focus();
-		pinnedSelect.find( 'select' ).val( x( '#hidden-pinned-status' ).val() === '0' ? 1 : 0 );
-	});
-
-	x( 'a.edit-pinned-status' ).on( 'click', function( e ) {
-		e.preventDefault();
-		if( pinnedSelect.is( ':hidden' ) ) {
-			pinnedSelect.slideDown( 'fast', function() {
-				pinnedSelect.find( 'select' ).focus();
-			});
-			x( this ).hide();
-		}
-	});
-
-	x( 'a.save-pinned-status' ).on( 'click', function( e ) {
-		e.preventDefault();
-		pinnedSelect.slideUp( 'fast' ).siblings( 'a.edit-pinned-status' ).show().focus();
-		GLSR.pinned.save( x( this ) );
-	});
-
-	x( 'table' ).on( 'click', 'td.sticky i', GLSR.pinned.onToggle );
+GLSR.pinned = function( options ) {
+	this.options = x.extend( {}, this.defaults, options );
+	this.el = x( this.options.selector );
+	this.target = null;
+	if( !this.el )return;
+	this.init();
 };
 
-GLSR.pinned.onToggle = function()
-{
-	var el = x( this );
+GLSR.pinned.prototype = {
 
-	var data = {
-		action: site_reviews.action,
-		request: {
+	defaults: {
+		selector: '#pinned-status-select',
+	},
+
+	/** @return void */
+	init: function() {
+		x( 'a.cancel-pinned-status' ).on( 'click', this.onClickCancel.bind( this ));
+		x( 'a.edit-pinned-status' ).on( 'click', this.onClickEdit.bind( this ));
+		x( 'a.save-pinned-status' ).on( 'click', this.onClickSave.bind( this ));
+		x( 'table td.sticky i' ).on( 'click', this.onClickToggle.bind( this ));
+	},
+
+	/** @return void */
+	onClickCancel: function( ev ) {
+		ev.preventDefault();
+		this.el.slideUp( 'fast' ).siblings( 'a.edit-pinned-status' ).show().focus();
+		this.el.find( 'select' ).val( x( '#hidden-pinned-status' ).val() === '0' ? 1 : 0 );
+	},
+
+	/** @return void */
+	onClickEdit: function( ev ) {
+		ev.preventDefault();
+		if( !this.el.is( ':hidden' ))return;
+		this.el.slideDown( 'fast', function() {
+			this.el.find( 'select' ).focus();
+		}.bind( this ));
+		x( this ).hide();
+	},
+
+	/** @return void */
+	onClickSave: function( ev ) {
+		ev.preventDefault();
+		this.el.slideUp( 'fast' ).siblings( 'a.edit-pinned-status' ).show().focus();
+		this.target = ev.target;
+		var request = {
 			action: 'toggle-pinned',
-			id: el[0].getAttribute( 'data-id' ),
-		},
-	};
-
-	x.post( site_reviews.ajaxurl, data, function( response ) {
-		if( response.pinned ) {
-			el.addClass( 'pinned' );
-		}
-		else {
-			el.removeClass( 'pinned' );
-		}
-	});
-};
-
-GLSR.pinned.save = function( el )
-{
-	var data = {
-		action: site_reviews.action,
-		request: {
-			action: 'toggle-pinned',
-			id:     x( '#post_ID' ).val(),
+			id: x( '#post_ID' ).val(),
 			pinned: x( '#pinned-status' ).val(),
-		},
-	};
+		};
+		this.request( request, this.save.bind( this ));
+	},
 
-	x.post( site_reviews.ajaxurl, data, function( response ) {
+	/** @return void */
+	onClickToggle: function( ev ) {
+		ev.preventDefault();
+		this.target = ev.target;
+		var request = {
+			action: 'toggle-pinned',
+			id: ev.target.getAttribute( 'data-id' ),
+		};
+		this.request( request, this.toggle.bind( this ));
+	},
+
+	/** @return void */
+	request: function( request, callback ) {
+		var data = {
+			action: site_reviews.action,
+			request: request,
+		};
+		x.post( site_reviews.ajaxurl, data, callback.bind( this ));
+	},
+
+	/** @return void */
+	save: function( response ) {
 		x( '#pinned-status' ).val( !response.pinned|0 );
 		x( '#hidden-pinned-status' ).val( response.pinned|0 );
-		x( '#pinned-status-text' ).text( response.pinned ? el.data( 'yes' ) : el.data( 'no' ) );
+		x( '#pinned-status-text' ).text( response.pinned ? this.target.data( 'yes' ) : this.target.data( 'no' ));
+		// GLSR.insertNotices( response.notices );
+	},
 
-		GLSR.insertNotices( response.notices );
-	});
+	/** @return void */
+	toggle: function( response ) {
+		var action = response.pinned ? 'add' : 'remove';
+		this.target[action + 'Class']( 'pinned' );
+	},
 };
 
-GLSR.search = function( el, options )
-{
+GLSR.search = function( el, options ) {
 	this.el = Object.prototype.toString.call( el ) === '[object String]' ? x( el ) : el;
 	this.options = options;
 	this.searchTerm = null;
 	this.init();
 };
 
-GLSR.search.prototype =
-{
+GLSR.search.prototype = {
+
 	defaults: {
 		action: null,
 		exclude: [],
@@ -319,8 +324,7 @@ GLSR.search.prototype =
 	},
 
 	/** @return void */
-	init: function()
-	{
+	init: function() {
 		this.options = x.extend( {}, this.defaults, this.options );
 		if( !this.el.length )return;
 		this.options.entriesEl = this.el.parent().find( this.options.selectorEntries );
@@ -334,8 +338,7 @@ GLSR.search.prototype =
 	},
 
 	/** @return void */
-	initEvents: function()
-	{
+	initEvents: function() {
 		this.options.searchEl.on( 'input', _.debounce( this.onSearchInput.bind( this ), 500 ));
 		this.options.searchEl.on( 'keyup', this.onSearchKeyup.bind( this ));
 		x( document ).on( 'click', this.onDocumentClick.bind( this ));
@@ -343,32 +346,59 @@ GLSR.search.prototype =
 	},
 
 	/** @return void */
-	abort: function()
-	{
+	abort: function() {
 		if( 'undefined' === typeof this.searchRequest )return;
 		this.searchRequest.abort();
 	},
 
 	/** @return void */
-	clearResults: function()
-	{
+	clearResults: function() {
 		this.abort();
 		this.options.resultsEl.empty();
 		this.el.removeClass( 'is-active' );
 		x( 'body' ).removeClass( 'glsr-focus' );
 	},
 
+	/** @return void */// Manage entries
+	deleteEntry: function( index ) {
+		var row = this.options.entriesEl.children( 'tr' ).eq( index );
+		var search = this;
+		row.find( 'td' ).css({ backgroundColor:'#faafaa' });
+		row.fadeOut( 350, function() {
+			x( this ).remove();
+			search.options.results = {};
+			search.reindexRows();
+			search.setVisibility();
+		});
+	},
+
 	/** @return void */
-	displayResults: function( items )
-	{
+	displayResults: function( items ) {
 		x( 'body' ).addClass( 'glsr-focus' );
 		this.options.resultsEl.append( items );
 		this.options.resultsEl.children( 'span' ).on( 'click', this.onResultClick.bind( this ));
 	},
 
+	/** @return void */// Manage entries
+	makeSortable: function() {
+		this.options.entriesEl.on( 'click', 'a.delete', this.onEntryDelete.bind( this ));
+		this.options.entriesEl.sortable({
+			items: 'tr',
+			tolerance: 'pointer',
+			start: function( ev, ui ) {
+				ui.placeholder.height( ui.helper[0].scrollHeight );
+			},
+			sort: function( ev, ui ) {
+				var top = ev.pageY - x( this ).offsetParent().offset().top - ( ui.helper.outerHeight( true ) / 2 );
+				ui.helper.css({
+					top: top + 'px',
+				});
+			},
+		});
+	},
+
 	/** @return void */
-	navigateResults: function( diff )
-	{
+	navigateResults: function( diff ) {
 		this.options.selected += diff;
 		this.options.results.removeClass( this.options.selectedClass );
 		if( this.options.selected < 0 ) {
@@ -388,16 +418,14 @@ GLSR.search.prototype =
 	},
 
 	/** @return void */
-	onDocumentClick: function( ev )
-	{
+	onDocumentClick: function( ev ) {
 		if( x( ev.target ).find( this.el ).length && x( 'body' ).hasClass( 'glsr-focus' )) {
 			this.clearResults();
 		}
 	},
 
 	/** @return void */
-	onDocumentKeydown: function( ev )
-	{
+	onDocumentKeydown: function( ev ) {
 		if( !this.options.results )return;
 		if( GLSR.keys.ESC === ev.which ) {
 			this.clearResults();
@@ -418,9 +446,14 @@ GLSR.search.prototype =
 		}
 	},
 
+	/** @return void */// Manage entries
+	onEntryDelete: function( ev ) {
+		ev.preventDefault();
+		this.deleteEntry( x( ev.target ).closest( 'tr' ).index() );
+	},
+
 	/** @return void */
-	onResultClick: function( ev )
-	{
+	onResultClick: function( ev ) {
 		ev.preventDefault();
 		if( typeof this.options.onResultClick === 'function' ) {
 			this.options.onResultClick.call( this, ev );
@@ -429,8 +462,7 @@ GLSR.search.prototype =
 	},
 
 	/** @return void */
-	onSearchInput: function( ev )
-	{
+	onSearchInput: function( ev ) {
 		this.abort();
 		if( this.searchTerm === ev.target.value && this.options.results.length ) {
 			return this.displayResults( this.options.results );
@@ -458,8 +490,7 @@ GLSR.search.prototype =
 	},
 
 	/** @return void */
-	onSearchKeyup: function( ev )
-	{
+	onSearchKeyup: function( ev ) {
 		if( GLSR.keys.ESC === ev.which ) {
 			this.reset();
 		}
@@ -468,85 +499,45 @@ GLSR.search.prototype =
 		}
 	},
 
+	/** @return void */// Manage entries
+	onUnassign: function( ev ) {
+		ev.preventDefault();
+		var assigned = this.el.find( '.description' );
+		this.el.find( 'input#assigned_to' ).val( '' );
+		assigned.find( 'a' ).css({ color:'#c00' });
+		assigned.fadeOut( 'fast', function() {
+			x( this ).html( '' ).show();
+		});
+	},
+
+	/** @return void */// Manage entries
+	reindexRows: function() {
+		var search = this;
+		this.options.exclude = [];
+		this.options.entriesEl.children( 'tr' ).each( function( index ) {
+			x( this ).find( '.glsr-string-td2' ).children().filter( ':input' ).each( function() {
+				var input = x( this );
+				var name = input.attr( 'name' ).replace( /\[\d+\]/i, '[' + index + ']' );
+				input.attr( 'name', name );
+				if( input.is( '[data-id]' )) {
+					search.options.exclude.push({ id: input.val() });
+				}
+			});
+		});
+	},
+
 	/** @return void */
-	reset: function()
-	{
+	reset: function() {
 		this.clearResults();
 		this.options.results = {};
 		this.options.searchEl.val( '' );
 	},
-};
 
-// Manage Entries
-
-GLSR.search.prototype.deleteEntry = function( index )
-{
-	var row = this.options.entriesEl.children( 'tr' ).eq( index );
-	var search = this;
-	row.find( 'td' ).css({ backgroundColor:'#faafaa' });
-	row.fadeOut( 350, function() {
-		x( this ).remove();
-		search.options.results = {};
-		search.reindexRows();
-		search.setVisibility();
-	});
-};
-
-GLSR.search.prototype.makeSortable = function()
-{
-	this.options.entriesEl.on( 'click', 'a.delete', this.onEntryDelete.bind( this ));
-	this.options.entriesEl.sortable({
-		items: 'tr',
-		tolerance: 'pointer',
-		start: function( ev, ui ) {
-			ui.placeholder.height( ui.helper[0].scrollHeight );
-		},
-		sort: function( ev, ui ) {
-			var top = ev.pageY - x( this ).offsetParent().offset().top - ( ui.helper.outerHeight( true ) / 2 );
-			ui.helper.css({
-				top: top + 'px',
-			});
-		},
-	});
-};
-
-GLSR.search.prototype.onEntryDelete = function( ev )
-{
-	ev.preventDefault();
-	this.deleteEntry( x( ev.target ).closest( 'tr' ).index() );
-};
-
-GLSR.search.prototype.onUnassign = function( ev )
-{
-	ev.preventDefault();
-	var assigned = this.el.find( '.description' );
-	this.el.find( 'input#assigned_to' ).val( '' );
-	assigned.find( 'a' ).css({ color:'#c00' });
-	assigned.fadeOut( 'fast', function() {
-		x( this ).html( '' ).show();
-	});
-};
-
-GLSR.search.prototype.reindexRows = function()
-{
-	var search = this;
-	this.options.exclude = [];
-	this.options.entriesEl.children( 'tr' ).each( function( index ) {
-		x( this ).find( '.glsr-string-td2' ).children().filter( ':input' ).each( function() {
-			var input = x( this );
-			var name = input.attr( 'name' ).replace( /\[\d+\]/i, '[' + index + ']' );
-			input.attr( 'name', name );
-			if( input.is( '[data-id]' )) {
-				search.options.exclude.push({ id: input.val() });
-			}
-		});
-	});
-};
-
-GLSR.search.prototype.setVisibility = function()
-{
-	var action = this.options.entriesEl.children().length > 0 ? 'remove' : 'add';
-	this.options.entriesEl.parent()[action + 'Class']( 'glsr-hidden' );
+	/** @return void */// Manage entries
+	setVisibility: function() {
+		var action = this.options.entriesEl.children().length > 0 ? 'remove' : 'add';
+		this.options.entriesEl.parent()[action + 'Class']( 'glsr-hidden' );
+	},
 };
 
 GLSR.shortcode.close = function( el )
@@ -723,10 +714,84 @@ GLSR.shortcode.destroy = function()
 	}
 };
 
+GLSR.tabs = function( options ) {
+	this.options = x.extend( {}, this.defaults, options );
+	this.active = document.querySelector( 'input[name=_active_tab]' );
+	this.referrer = document.querySelector( 'input[name=_wp_http_referer]' );
+	this.tabs = document.querySelectorAll( this.options.tabSelector );
+	this.views = document.querySelectorAll( this.options.viewSelector );
+	if( !this.active || !this.referrer || !this.tabs || !this.views )return;
+	this.init();
+};
+
+GLSR.tabs.prototype = {
+
+	defaults: {
+		tabSelector: '.glsr-nav-tab',
+		viewSelector: '.glsr-nav-view',
+	},
+
+	/** @return void */
+	init: function() {
+		[].forEach.call( this.tabs, function( tab, index ) {
+			var active = location.hash ? tab.getAttribute( 'href' ).slice(1) === location.hash.slice(2) : index === 0;
+			if( active ) {
+				this.setTab( tab );
+			}
+			tab.addEventListener( 'click', this.onClick.bind( this ));
+			tab.addEventListener( 'touchend', this.onClick.bind( this ));
+		}.bind( this ));
+	},
+
+	/** @return string */
+	getAction: function( bool ) {
+		return bool ? 'add' : 'remove';
+	},
+
+	/** @return void */
+	onClick: function( ev ) {
+		ev.preventDefault();
+		ev.target.blur();
+		this.setTab( ev.target );
+		location.hash = '!' + ev.target.getAttribute( 'href' ).slice(1);
+	},
+
+	/** @return void */
+	setReferrer: function( index ) {
+		var referrerUrl = this.referrer.value.split('#')[0] + '#!' + this.views[index].id;
+		this.referrer.value = referrerUrl;
+	},
+
+	/** @return void */
+	setTab: function( el ) {
+		[].forEach.call( this.tabs, function( tab, index ) {
+			var action = this.getAction( tab === el );
+			if( action === 'add' ) {
+				this.active.value = this.views[index].id;
+				this.setReferrer( index );
+				this.setView( index );
+			}
+			tab.classList[action]( 'nav-tab-active' );
+		}.bind( this ));
+	},
+
+	/** @return void */
+	setView: function( idx ) {
+		[].forEach.call( this.views, function( view, index ) {
+			var action = this.getAction( index !== idx );
+			view.classList[action]( 'ui-tabs-hide' );
+		}.bind( this ));
+	},
+};
+
 /** global: GLSR, site_reviews_pointers, wp, x */
 
 x( function()
 {
+	x('.glsr-button-reset').on( 'click', function() {
+		return confirm( site_reviews.are_you_sure );
+	});
+
 	var GLSR_fix = GLSR.getURLParameter( 'fix' );
 	var GLSR_textarea = x( '#contentdiv > textarea' );
 
@@ -746,7 +811,6 @@ x( function()
 	x( 'form' ).on( 'click', '#clear-log', GLSR.onClearLog );
 
 	GLSR.colorControls();
-	GLSR.pinned.events();
 
 	x.each( site_reviews_pointers.pointers, function( i, pointer ) {
 		GLSR.pointers( pointer );
@@ -763,11 +827,7 @@ x( function()
 	x( document ).on( 'click', '.glsr-mce-menu-item', GLSR.shortcode.trigger );
 	x( document ).on( 'click', 'a.change-site-review-status', GLSR.onChangeStatus );
 
-	// WP 4.0 - 4.2 support: toggle list table rows on small screens
-	x( document ).on( 'click', '.branch-4 .toggle-row, .branch-4-1 .toggle-row, .branch-4-2 .toggle-row', function() {
-		x( this ).closest( 'tr' ).toggleClass( 'is-expanded' );
-	});
-
+	new GLSR.pinned();
 	new GLSR.search( '#glsr-search-translations', {
 		action: 'search-translations',
 		onInit: function() {
@@ -789,7 +849,6 @@ x( function()
 			this.setVisibility();
 		},
 	});
-
 	new GLSR.search( '#glsr-search-posts', {
 		action: 'search-posts',
 		onInit: function() {
@@ -810,4 +869,5 @@ x( function()
 			}
 		},
 	});
+	// new GLSR.tabs();
 });

@@ -5,6 +5,19 @@ $glsr-summary-bar-height: 12px;
 $glsr-summary-spacing: 10px;
 $glsr-summary-star-size: 24px;
 
+// .glsr-summary-wrap
+// 	.glsr-summary
+// 		.glsr-summary-rating
+// 		.glsr-summary-stars
+// 			.glsr-star-rating
+// 				.glsr-star-rating > span
+// 	.glsr-percentage-bars
+// 		.glsr-percentage-bar
+// 			.glsr-bar-label
+// 			.glsr-bar-background
+// 				.glsr-bar-percent
+// 			.glsr-bar-count
+
 .glsr-summary {
 	position: relative;
 	width: 100%;
@@ -12,25 +25,22 @@ $glsr-summary-star-size: 24px;
 	font-size: $glsr-summary-font-size;
 	line-height: 1.5;
 	margin-bottom: 1em;
-
-	.glsr-review-rating {
-		display: inline-block;
-		margin-right: $glsr-summary-spacing;
-	}
-	[class*=glsr-star-] {
-		width: 26px;
-		height: 26px;
-		background-size: $glsr-summary-star-size;
-	}
 }
-
+[class*=glsr-star-] {
+	width: 26px;
+	height: 26px;
+	background-size: $glsr-summary-star-size;
+}
+.glsr-summary-rating {
+	display: inline-block;
+	margin-right: $glsr-summary-spacing;
+}
 .glsr-summary-rating {
 	line-height: 1.25;
 	font-size: $glsr-summary-star-size;
 	font-weight: 700;
 	margin-right: $glsr-summary-spacing;
 }
-
 .glsr-summary-text {
 	display: block;
 	font-size: $glsr-summary-font-size-small;
@@ -44,24 +54,20 @@ $glsr-summary-star-size: 24px;
 	line-height: 1.5;
 	margin-bottom: 1em;
 }
-
-.glsr-bar {
+.glsr-percentage-bar {
 	display: table-row;
 	white-space: nowrap;
-
-	> span {
-		display: table-cell;
-		vertical-align: middle;
-	}
 }
-
+.glsr-percentage-bar > span {
+	display: table-cell;
+	vertical-align: middle;
+}
 .glsr-bar-label {
 	padding-right: $glsr-summary-spacing;
 }
 .glsr-bar-background {
 	position: relative;
 	width: 100%;
-
 	&::before {
 		display: block;
 		position: absolute;

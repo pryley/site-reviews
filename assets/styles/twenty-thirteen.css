@@ -426,15 +426,15 @@
   margin-bottom: 1em;
 }
 
-.glsr-summary .glsr-review-rating {
-  display: inline-block;
-  margin-right: 10px;
-}
-
-.glsr-summary [class*=glsr-star-] {
+[class*=glsr-star-] {
   width: 26px;
   height: 26px;
   background-size: 24px;
+}
+
+.glsr-summary-rating {
+  display: inline-block;
+  margin-right: 10px;
 }
 
 .glsr-summary-rating {
@@ -458,12 +458,12 @@
   margin-bottom: 1em;
 }
 
-.glsr-bar {
+.glsr-percentage-bar {
   display: table-row;
   white-space: nowrap;
 }
 
-.glsr-bar > span {
+.glsr-percentage-bar > span {
   display: table-cell;
   vertical-align: middle;
 }
