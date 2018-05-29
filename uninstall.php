@@ -1,21 +1,18 @@
 <?php
 
-// defined( 'WP_UNINSTALL_PLUGIN' ) || die;
+defined( 'WP_UNINSTALL_PLUGIN' ) || die;
 
-// require_once __DIR__.'/site-reviews.php';
+require_once __DIR__.'/site-reviews.php';
+if( !GL_Plugin_Check_v1::isValid( array( 'wordpress' => '4.7.0' )))return;
 
-// if( !glsr_version_check() )return;
+$majorVersion = explode( '.', glsr()->version );
 
-// $majorVersion = explode( '.', glsr()->version );
+delete_option( glsr()->prefix.'-v'.array_shift( $majorVersion ));
+delete_option( 'widget_'.glsr()->id.'_site-reviews' );
+delete_option( 'widget_'.glsr()->id.'_site-reviews-form' );
+delete_option( 'widget_'.glsr()->id.'_site-reviews-summary' );
+delete_transient( glsr()->id.'_cloudflare_ips' );
+delete_transient( glsr()->id.'_remote_post_test' );
+wp_cache_delete( glsr()->id );
 
-// $options = array(
-// 	sprintf( '%s-v%d', glsr()->prefix, array_shift( $majorVersion )),
-// 	sprintf( 'widget_%s_site-reviews', glsr()->id ),
-// 	sprintf( 'widget_%s_site-reviews-form', glsr()->id ),
-// );
-
-// foreach( $options as $option ) {
-// 	delete_option( $option );
-// }
-
-// glsr( 'Modules/Session' )->deleteAllSessions();
+glsr( 'Modules/Session' )->deleteAllSessions();
