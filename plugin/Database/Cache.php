@@ -57,7 +57,6 @@ class Cache
 		if( $test === false ) {
 			$response = wp_remote_post( 'https://api.wordpress.org/stats/php/1.0/' );
 			$test = !is_wp_error( $response )
-				&& !empty( $response['response']['code'] )
 				&& in_array( $response['response']['code'], range( 200, 299 ))
 				? 'Works'
 				: 'Does not work';
