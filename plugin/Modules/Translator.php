@@ -164,7 +164,9 @@ class Translator
 			$entry
 		);
 		ob_start();
-		glsr( Html::class )->renderTemplate( 'partials/translations/'.$template, $data );
+		glsr( Html::class )->renderTemplate( 'partials/translations/'.$template, [
+			'context' => $data,
+		]);
 		return ob_get_clean();
 	}
 
@@ -290,8 +292,8 @@ class Translator
 	protected function getTranslations()
 	{
 		$settings = glsr( OptionManager::class )->get( 'settings' );
-		return isset( $settings['translations'] )
-			? $this->normalizeSettings( (array) $settings['translations'] )
+		return isset( $settings['strings'] )
+			? $this->normalizeSettings( (array) $settings['strings'] )
 			: [];
 	}
 

@@ -175,7 +175,7 @@ body.branch-4-1 {
 }
 
 .glsr-search-box,
-.glsr-strings-form {
+.glsr-strings-table {
 	position: relative;
 	max-width: 800px;
 	* {
@@ -268,7 +268,7 @@ body.branch-4-1 {
 	}
 }
 
-.glsr-strings-form {
+.glsr-strings-table {
 	transition: opacity 0.2s linear;
 	.glsr-focus & {
 		opacity: 0.2;

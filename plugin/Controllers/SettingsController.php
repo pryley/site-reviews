@@ -63,9 +63,9 @@ class SettingsController extends Controller
 	 */
 	protected function sanitizeTranslations( array $input, array $options )
 	{
-		if( isset( $input['settings']['translations'] )) {
-			$options['settings']['translations'] = array_values( array_filter( $input['settings']['translations'] ));
-			array_walk( $options['settings']['translations'], function( &$string ) {
+		if( isset( $input['settings']['strings'] )) {
+			$options['settings']['strings'] = array_values( array_filter( $input['settings']['strings'] ));
+			array_walk( $options['settings']['strings'], function( &$string ) {
 				if( isset( $string['s2'] )) {
 					$string['s2'] = wp_strip_all_tags( $string['s2'] );
 				}

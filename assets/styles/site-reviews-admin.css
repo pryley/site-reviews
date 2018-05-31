@@ -746,13 +746,13 @@ body.branch-4-1 .glsr-card {
 }
 
 .glsr-search-box,
-.glsr-strings-form {
+.glsr-strings-table {
   position: relative;
   max-width: 800px;
 }
 
 .glsr-search-box *,
-.glsr-strings-form * {
+.glsr-strings-table * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
@@ -854,12 +854,12 @@ body.branch-4-1 .glsr-card {
   outline: none;
 }
 
-.glsr-strings-form {
+.glsr-strings-table {
   -webkit-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
 }
 
-.glsr-focus .glsr-strings-form {
+.glsr-focus .glsr-strings-table {
   opacity: 0.2;
   pointer-events: none;
 }

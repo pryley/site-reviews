@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Commands\TogglePinned;
 use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Logger;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -74,7 +75,7 @@ class AjaxController extends Controller
 	 */
 	public function searchPosts( array $request )
 	{
-		$results = glsr_db()->searchPosts( $request['search'] );
+		$results = glsr( Database::class )->searchPosts( $request['search'] );
 		wp_send_json_success([
 			'empty' => '<div>'.__( 'Nothing found.', 'site-reviews' ).'</div>',
 			'items' => $results,

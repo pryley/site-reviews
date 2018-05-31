@@ -159,7 +159,7 @@ class System
 		}
 		$details = [];
 		foreach( $settings as $key => $value ) {
-			if( $helper->startsWith( 'translations', $key ) && $helper->endsWith( 'id', $key ))continue;
+			if( $helper->startsWith( 'strings', $key ) && $helper->endsWith( 'id', $key ))continue;
 			$value = htmlspecialchars( trim( preg_replace('/\s\s+/', '\\n', $value )), ENT_QUOTES, 'UTF-8' );
 			$details[$key] = $value;
 		}

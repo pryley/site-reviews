@@ -7,7 +7,7 @@
 			<span class="spinner"></span>
 		</div>
 		<input type="search" class="glsr-search-input" autocomplete="off" placeholder="<?= __( 'Search for translatable text...', 'site-reviews' ); ?>">
-		<?php /*wp_nonce_field( 'search-translations' );*/ ?>
+		<?php wp_nonce_field( 'search-translations', '_search_nonce', false ); ?>
 		<div class="glsr-search-results" data-prefix="{{ database_key }}"></div>
 	</div>
 	<table class="glsr-strings-table wp-list-table widefat {{ class }}">
@@ -19,6 +19,7 @@
 		</thead>
 		<tbody>{{ translations }}</tbody>
 	</table>
+	<input type="hidden" name="{{ database_key }}[settings][strings][]">
 </div>
 
 <script type="text/html" id="tmpl-glsr-string-plural">

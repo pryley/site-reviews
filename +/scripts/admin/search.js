@@ -42,6 +42,10 @@ GLSR.search.prototype = {
 	initEvents: function() {
 		this.options.searchEl.on( 'input', _.debounce( this.onSearchInput.bind( this ), 500 ));
 		this.options.searchEl.on( 'keyup', this.onSearchKeyup.bind( this ));
+		this.options.searchEl.on( 'keydown keypress', function( ev ) {
+			if( GLSR.keys.ENTER !== ev.which )return;
+			ev.preventDefault();
+		});
 		x( document ).on( 'click', this.onDocumentClick.bind( this ));
 		x( document ).on( 'keydown', this.onDocumentKeydown.bind( this ));
 	},
@@ -179,7 +183,7 @@ GLSR.search.prototype = {
 			request: {
 				action: this.options.action,
 				exclude: this.options.exclude,
-				nonce: this.el.find( '#_wpnonce' ).val(),
+				nonce: this.el.find( '#_search_nonce' ).val(),
 				search: this.searchTerm,
 			},
 		}).done( function( response ) {
@@ -197,6 +201,7 @@ GLSR.search.prototype = {
 		}
 		if( GLSR.keys.ENTER === ev.which ) {
 			this.onSearchInput( ev );
+			ev.preventDefault();
 		}
 	},
 
