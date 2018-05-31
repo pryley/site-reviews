@@ -9,8 +9,8 @@
 	</h2>
 	<form class="glsr-form" action="options.php" enctype="multipart/form-data" method="post">
 		<?php foreach( $tabs as $id => $title ) : ?>
-		<div class="glsr-nav-view" id="<?= $id; ?>">
-			<?php $template->renderSettingFields( $id ); ?>
+		<div class="glsr-nav-view<?= $id != 'general' ? ' ui-tabs-hide' : ''; ?>" id="<?= $id; ?>">
+			<?php $form->renderFields( $id ); ?>
 		</div>
 		<?php endforeach; ?>
 		<input type="hidden" name="_active_tab">

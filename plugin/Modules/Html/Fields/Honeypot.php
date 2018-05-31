@@ -11,14 +11,24 @@ class Honeypot extends Field
 	 */
 	public function build()
 	{
-		$this->builder->args = wp_parse_args( $this->builder->args, [
-			'autocomplete' => 'off',
+		$defaults = wp_parse_args( $this->defaults(), [
 			'name' => $this->builder->args['text'],
+		]);
+		$this->builder->args = wp_parse_args( $this->builder->args, $defaults );
+		$this->builder->tag = 'input';
+		return $this->builder->getOpeningTag();
+	}
+
+	/**
+	 * @return array
+	 */
+	public function defaults()
+	{
+		return [
+			'autocomplete' => 'off',
 			'style' => 'display:none!important',
 			'tabindex' => '-1',
 			'type' => 'text',
-		]);
-		$this->builder->tag = 'input';
-		return $this->builder->getOpeningTag();
+		];
 	}
 }

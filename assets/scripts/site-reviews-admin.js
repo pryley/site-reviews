@@ -15,6 +15,78 @@ var GLSR = {
 	translation: {},
 };
 
+GLSR.forms = function( selector ) {
+	this.el = document.querySelector( selector );
+	if( !this.el )return;
+	this.depends = this.el.querySelectorAll( '[data-depends]' );
+	if( !this.depends.length )return;
+	this.init();
+};
+
+GLSR.forms.prototype = {
+
+	/** @return void */
+	init: function() {
+		var formControls = this.el.elements;
+		for( var i = 0; i < formControls.length; i++ ) {
+			if( ['INPUT', 'SELECT'].indexOf( formControls[i].nodeName ) === -1 )continue;
+			formControls[i].addEventListener( 'change', this.onChange.bind( this ));
+		}
+	},
+
+	/** @return bool */
+	isSelected: function( el, dependency ) {
+		if( 'checkbox' === el.type ) {
+			return !!el.checked;
+		}
+		else if( Array.isArray( dependency.value )) {
+			return this.normalizeValues( dependency.value ).indexOf( this.normalizeValue( el.value )) !== -1;
+		}
+		return this.normalizeValue( dependency.value ) === this.normalizeValue( el.value );
+	},
+
+	/** @return bool|string */
+	normalizeValue: function( value ) {
+		if(['true','on','yes','1'].indexOf( value ) !== -1 ) {
+			return true;
+		}
+		if(['false','off','no','0'].indexOf( value ) !== -1 ) {
+			return false;
+		}
+		return value;
+	},
+
+	/** @return array */
+	normalizeValues: function( values ) {
+		return values.map( this.normalizeValue );
+	},
+
+	/** @return void */
+	onChange: function( ev ) {
+		this.depends.forEach( function( el ) {
+			var data = el.getAttribute( 'data-depends' );
+			if( !data )return;
+			var dependency;
+			try {
+				dependency = JSON.parse( data );
+			}
+			catch( error ) {
+				console.log( data );
+				return console.error( error );
+			}
+			if( dependency.name !== ev.target.name.replace( '[]', '' ))return;
+			this.toggleHiddenField( el, this.isSelected( ev.target, dependency ));
+		}.bind( this ));
+	},
+
+	/** @return void */
+	toggleHiddenField: function( el, bool ) {
+		var row = el.closest( '.glsr-field' );
+		if( !row )return;
+		row.classList[bool ? 'remove' : 'add']( 'hidden' );
+	},
+};
+
 GLSR.colorControls = function()
 {
 	if( typeof x.wp !== 'object' || typeof x.wp.wpColorPicker !== 'function' )return;
@@ -61,22 +133,6 @@ GLSR.isUndefined = function( value )
 	return value === void(0);
 };
 
-GLSR.normalizeValue = function( value )
-{
-	if(['true','on','1'].indexOf( value ) > -1 ) {
-		return true;
-	}
-	if(['false','off','0'].indexOf( value ) > -1 ) {
-		return false;
-	}
-	return value;
-};
-
-GLSR.normalizeValues = function( array )
-{
-	return array.map( GLSR.normalizeValue );
-};
-
 GLSR.onChangeStatus = function( ev )
 {
 	var post_id = this.href.match(/post=([0-9]+)/)[1];
@@ -111,40 +167,7 @@ GLSR.onClearLog = function( ev )
 	});
 };
 
-GLSR.onFieldChange = function()
-{
-	var depends = x( this ).closest( 'form' ).find( '[data-depends]' );
 
-	if( !depends.length )return;
-
-	var name  = this.getAttribute( 'name' );
-	var type  = this.getAttribute( 'type' );
-
-	for( var i = 0; i < depends.length; i++ ) {
-
-		try {
-			var data = JSON.parse( depends[i].getAttribute( 'data-depends' ) );
-			var bool;
-
-			if( data.name !== name )continue;
-
-			if( 'checkbox' === type ) {
-				bool = !!this.checked;
-			}
-			else if( x.isArray( data.value ) ) {
-				bool = x.inArray( GLSR.normalizeValue( this.value ), GLSR.normalizeValues( data.value ) ) !== -1;
-			}
-			else {
-				bool = GLSR.normalizeValue( data.value ) === GLSR.normalizeValue( this.value );
-			}
-
-			GLSR.toggleHiddenField( depends[i], bool );
-		}
-		catch( e ) {
-			console.error( 'JSON Error: ' + depends[i] );
-		}
-	}
-};
 
 GLSR.pointers = function( pointer )
 {
@@ -195,20 +218,6 @@ GLSR.textareaResize = function( el )
 	textarea.style.height = textarea.scrollHeight > minHeight ?
 		textarea.scrollHeight + 'px' :
 		minHeight + 'px';
-};
-
-GLSR.toggleHiddenField = function( el, bool )
-{
-	var row = x( el ).closest( '.glsr-field' );
-
-	if( !row.length )return;
-
-	if( bool ) {
-		row.removeClass( 'hidden' );
-	}
-	else {
-		row.addClass( 'hidden' );
-	}
 };
 
 GLSR.pinned = function( options ) {
@@ -793,21 +802,18 @@ x( function()
 	});
 
 	var GLSR_fix = GLSR.getURLParameter( 'fix' );
-	var GLSR_textarea = x( '#contentdiv > textarea' );
-
 	if( GLSR_fix ) {
 		x( 'td [data-key="' + GLSR_fix + '"]').focus();
 	}
 
+	var GLSR_textarea = x( '#contentdiv > textarea' );
 	if( GLSR_textarea.length ) {
 		GLSR.textareaResize( GLSR_textarea );
-
 		x( document ).on( 'wp-window-resized.editor-expand', function() {
 			GLSR.textareaResize( GLSR_textarea );
 		});
 	}
 
-	x( 'form' ).on( 'change', ':input', GLSR.onFieldChange );
 	x( 'form' ).on( 'click', '#clear-log', GLSR.onClearLog );
 
 	GLSR.colorControls();
@@ -816,8 +822,7 @@ x( function()
 		GLSR.pointers( pointer );
 	});
 
-	x( document ).on( 'click', function( ev )
-	{
+	x( document ).on( 'click', function( ev ) {
 		if( !x( ev.target ).closest( '.glsr-mce' ).length ) {
 			GLSR.shortcode.close();
 		}
@@ -827,6 +832,7 @@ x( function()
 	x( document ).on( 'click', '.glsr-mce-menu-item', GLSR.shortcode.trigger );
 	x( document ).on( 'click', 'a.change-site-review-status', GLSR.onChangeStatus );
 
+	new GLSR.forms( 'form.glsr-form' );
 	new GLSR.pinned();
 	new GLSR.search( '#glsr-search-translations', {
 		action: 'search-translations',

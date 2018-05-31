@@ -59,7 +59,7 @@ class Builder
 	 */
 	public function __call( $method, $args )
 	{
-		$instance = new static();
+		$instance = new static( $this->globals );
 		$instance->setTagFromMethod( $method );
 		call_user_func_array( [$instance, 'normalize'], $args += ['',''] );
 		$tags = array_merge( static::TAGS_FORM, static::TAGS_STRUCTURE, static::TAGS_TEXT );
@@ -137,9 +137,11 @@ class Builder
 	 */
 	protected function buildFieldDescription()
 	{
-		if( !empty( $this->args['description'] )) {
+		if( empty( $this->args['description'] ))return;
+		if( !empty( $this->globals['is_widget'] )) {
 			return $this->small( $this->args['description'] );
 		}
+		return $this->p( $this->args['description'], ['class' => 'description'] );
 	}
 
 	/**
@@ -176,7 +178,7 @@ class Builder
 				'value' => $key,
 			]));
 		});
-		return $this->ul( $options );
+		return $this->ul( $options, ['class' => $this->args['class']] );
 	}
 
 	/**

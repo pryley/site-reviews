@@ -65,6 +65,27 @@ class Helper
 	}
 
 	/**
+	 * @param string $name
+	 * @return string
+	 */
+	public function convertNameToId( $name )
+	{
+		return str_replace( ['[', ']'], ['-', ''], $name );
+	}
+
+	/**
+	 * @param string $path
+	 * @return string
+	 */
+	public function convertPathToName( $path, $prefix = '' )
+	{
+		$levels = explode( '.', $path );
+		return array_reduce( $levels, function( $result, $value ) {
+			return $result.= '['.$value.']';
+		}, $prefix );
+	}
+
+	/**
 	 * @param string $string
 	 * @return string
 	 */

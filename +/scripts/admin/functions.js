@@ -44,22 +44,6 @@ GLSR.isUndefined = function( value )
 	return value === void(0);
 };
 
-GLSR.normalizeValue = function( value )
-{
-	if(['true','on','1'].indexOf( value ) > -1 ) {
-		return true;
-	}
-	if(['false','off','0'].indexOf( value ) > -1 ) {
-		return false;
-	}
-	return value;
-};
-
-GLSR.normalizeValues = function( array )
-{
-	return array.map( GLSR.normalizeValue );
-};
-
 GLSR.onChangeStatus = function( ev )
 {
 	var post_id = this.href.match(/post=([0-9]+)/)[1];
@@ -94,40 +78,7 @@ GLSR.onClearLog = function( ev )
 	});
 };
 
-GLSR.onFieldChange = function()
-{
-	var depends = x( this ).closest( 'form' ).find( '[data-depends]' );
 
-	if( !depends.length )return;
-
-	var name  = this.getAttribute( 'name' );
-	var type  = this.getAttribute( 'type' );
-
-	for( var i = 0; i < depends.length; i++ ) {
-
-		try {
-			var data = JSON.parse( depends[i].getAttribute( 'data-depends' ) );
-			var bool;
-
-			if( data.name !== name )continue;
-
-			if( 'checkbox' === type ) {
-				bool = !!this.checked;
-			}
-			else if( x.isArray( data.value ) ) {
-				bool = x.inArray( GLSR.normalizeValue( this.value ), GLSR.normalizeValues( data.value ) ) !== -1;
-			}
-			else {
-				bool = GLSR.normalizeValue( data.value ) === GLSR.normalizeValue( this.value );
-			}
-
-			GLSR.toggleHiddenField( depends[i], bool );
-		}
-		catch( e ) {
-			console.error( 'JSON Error: ' + depends[i] );
-		}
-	}
-};
 
 GLSR.pointers = function( pointer )
 {
@@ -178,18 +129,4 @@ GLSR.textareaResize = function( el )
 	textarea.style.height = textarea.scrollHeight > minHeight ?
 		textarea.scrollHeight + 'px' :
 		minHeight + 'px';
-};
-
-GLSR.toggleHiddenField = function( el, bool )
-{
-	var row = x( el ).closest( '.glsr-field' );
-
-	if( !row.length )return;
-
-	if( bool ) {
-		row.removeClass( 'hidden' );
-	}
-	else {
-		row.addClass( 'hidden' );
-	}
 };

@@ -2,35 +2,36 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Html\Field;
+use GeminiLabs\SiteReviews\Modules\Html\Template;
 
 class Form
 {
 	/**
-	 * @param string $path
-	 * @return string
+	 * @param string $id
+	 * @return void
 	 */
-	public function build( $path, array $fields = [] )
+	public function renderFields( $id )
 	{
-		if( empty( $fields )) {
-			$fields = $this->getSettingsFields( $this->normalizeSettingsPath( $path ));
-		}
-		foreach( $fields as $name => &$field ) {
+		$fields = $this->getSettingFields( $this->normalizeSettingPath( $id ));
+		$rows = '';
+		foreach( $fields as $name => $field ) {
 			$field = wp_parse_args( $field, ['name' => $name] );
-			// new Field( $field );
+			$rows.= (new Field( $field ))->build();
 		}
-		// 1. generate fields (incl default form fields)
-		// 2. generate form
-		glsr_debug( $path, $fields );
+		glsr( Template::class )->render( 'pages/settings/'.$id, [
+			'context' => [
+				'rows' => $rows,
+			],
+		]);
 	}
 
 	/**
 	 * @return array
 	 */
-	protected function getSettingsFields( $path )
+	protected function getSettingFields( $path )
 	{
 		$settings = glsr( DefaultsManager::class )->settings();
 		return array_filter( $settings, function( $key ) use( $path ) {
@@ -41,7 +42,7 @@ class Form
 	/**
 	 * @return string
 	 */
-	protected function normalizeSettingsPath( $path )
+	protected function normalizeSettingPath( $path )
 	{
 		return glsr( Helper::class )->prefixString( rtrim( $path, '.' ), 'settings.' );
 	}

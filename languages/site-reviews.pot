@@ -849,11 +849,11 @@ msgstr ""
 msgid "Most Used"
 msgstr ""
 
-#: views/editor/pinned.php:6, plugin/Modules/Html/Fields/YesNo.php:17
+#: views/editor/pinned.php:6, plugin/Modules/Html/Fields/YesNo.php:27
 msgid "No"
 msgstr ""
 
-#: views/editor/pinned.php:7, plugin/Modules/Html/Fields/YesNo.php:18
+#: views/editor/pinned.php:7, plugin/Modules/Html/Fields/YesNo.php:28
 msgid "Yes"
 msgstr ""
 

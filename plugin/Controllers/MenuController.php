@@ -4,10 +4,10 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Controllers\Controller;
-use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Html\Form;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Logger;
 use GeminiLabs\SiteReviews\Modules\System;
@@ -108,8 +108,8 @@ class MenuController extends Controller
 			unset( $tabs['licenses'] );
 		}
 		$this->renderPage( 'settings', [
+			'form' => glsr( Form::class ),
 			'tabs' => $tabs,
-			'template' => glsr( Template::class ),
 		]);
 	}
 

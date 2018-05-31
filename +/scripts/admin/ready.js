@@ -7,21 +7,18 @@ x( function()
 	});
 
 	var GLSR_fix = GLSR.getURLParameter( 'fix' );
-	var GLSR_textarea = x( '#contentdiv > textarea' );
-
 	if( GLSR_fix ) {
 		x( 'td [data-key="' + GLSR_fix + '"]').focus();
 	}
 
+	var GLSR_textarea = x( '#contentdiv > textarea' );
 	if( GLSR_textarea.length ) {
 		GLSR.textareaResize( GLSR_textarea );
-
 		x( document ).on( 'wp-window-resized.editor-expand', function() {
 			GLSR.textareaResize( GLSR_textarea );
 		});
 	}
 
-	x( 'form' ).on( 'change', ':input', GLSR.onFieldChange );
 	x( 'form' ).on( 'click', '#clear-log', GLSR.onClearLog );
 
 	GLSR.colorControls();
@@ -30,8 +27,7 @@ x( function()
 		GLSR.pointers( pointer );
 	});
 
-	x( document ).on( 'click', function( ev )
-	{
+	x( document ).on( 'click', function( ev ) {
 		if( !x( ev.target ).closest( '.glsr-mce' ).length ) {
 			GLSR.shortcode.close();
 		}
@@ -41,6 +37,7 @@ x( function()
 	x( document ).on( 'click', '.glsr-mce-menu-item', GLSR.shortcode.trigger );
 	x( document ).on( 'click', 'a.change-site-review-status', GLSR.onChangeStatus );
 
+	new GLSR.forms( 'form.glsr-form' );
 	new GLSR.pinned();
 	new GLSR.search( '#glsr-search-translations', {
 		action: 'search-translations',

@@ -12,6 +12,7 @@ class BuilderDefaults extends Defaults
 	public function defaults()
 	{
 		return [
+			'class' => '',
 			'id' => '',
 			'options' => [],
 			'text' => '',

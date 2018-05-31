@@ -1,9 +1,9 @@
 <?php defined( 'WPINC' ) || die; ?>
 
-<tr class="glsr-field">
+<tr class="glsr-field {{ class }}">
 	<th scope="row">{{ label }}</th>
 	<td>
-		<fieldset data-depends="{{ depends }}">
+		<fieldset data-depends='{{ depends }}'>
 			<legend class="screen-reader-text"><span>{{ legend }}</span></legend>
 			{{ field }}
 		</fieldset>
