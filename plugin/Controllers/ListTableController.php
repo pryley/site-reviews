@@ -155,7 +155,7 @@ class ListTableController extends Controller
 	public function renderBulkEditFields( $columnName, $postType )
 	{
 		if( $columnName == 'assigned_to' && $postType == Application::POST_TYPE ) {
-			glsr()->render( 'editor/bulk-edit-assigned-to' );
+			glsr()->render( 'partials/editor/bulk-edit-assigned-to' );
 		};
 	}
 

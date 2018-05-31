@@ -164,7 +164,7 @@ class Translator
 			$entry
 		);
 		ob_start();
-		glsr( Html::class )->renderTemplate( 'translations/'.$template, $data );
+		glsr( Html::class )->renderTemplate( 'partials/translations/'.$template, $data );
 		return ob_get_clean();
 	}
 

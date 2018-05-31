@@ -5,7 +5,7 @@
 	<p><?= __( 'The following Add-Ons extend the functionality of Site Reviews.', 'site-reviews' ); ?></p>
 	<div class="glsr-addons wp-clearfix">
 	<?php
-		$template->render( 'addons/addon', [
+		$template->render( 'partials/addons/addon', [
 			'context' => [
 				'description' => __( 'Sync your Tripadvisor reviews and display them on your site.', 'site-reviews' ),
 				'link' => 'https://niftyplugins.com/addons/site-reviews-tripadvisor/',
@@ -13,7 +13,7 @@
 				'title' => 'Tripadvisor Reviews',
 			],
 		]);
-		$template->render( 'addons/addon', [
+		$template->render( 'partials/addons/addon', [
 			'context' => [
 				'description' => __( 'Sync your Yelp reviews and display them on your site.', 'site-reviews' ),
 				'link' => 'https://niftyplugins.com/addons/site-reviews-yelp/',

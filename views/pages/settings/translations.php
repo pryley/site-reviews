@@ -22,8 +22,8 @@
 </div>
 
 <script type="text/html" id="tmpl-glsr-string-plural">
-<?php include glsr()->path( 'views/translations/plural.php' ); ?>
+<?php include glsr()->path( 'views/partials/translations/plural.php' ); ?>
 </script>
 <script type="text/html" id="tmpl-glsr-string-single">
-<?php include glsr()->path( 'views/translations/single.php' ); ?>
+<?php include glsr()->path( 'views/partials/translations/single.php' ); ?>
 </script>

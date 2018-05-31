@@ -150,7 +150,7 @@ class EditorController extends Controller
 		if( !$this->isReviewPostType( $post ))return;
 		$assignedTo = intval( get_post_meta( $post->ID, 'assigned_to', true ));
 		wp_nonce_field( 'assigned_to', '_nonce-assigned-to', false );
-		glsr()->render( 'editor/metabox-assigned-to', [
+		glsr()->render( 'partials/editor/metabox-assigned-to', [
 			'id' => $assignedTo,
 			'template' => $this->buildAssignedToTemplate( $assignedTo ),
 		]);
@@ -164,7 +164,7 @@ class EditorController extends Controller
 	{
 		if( !$this->isReviewPostType( $post ))return;
 		$review = glsr( Database::class )->getReview( $post );
-		glsr()->render( 'editor/metabox-details', [
+		glsr()->render( 'partials/editor/metabox-details', [
 			'button' => $this->buildDetailsMetaBoxRevertButton( $review, $post ),
 			'metabox' => $this->normalizeDetailsMetaBox( $review ),
 		]);
@@ -177,7 +177,7 @@ class EditorController extends Controller
 	public function renderPinnedInPublishMetaBox()
 	{
 		if( !$this->isReviewPostType( get_post() ))return;
-		glsr()->render( 'editor/pinned', [
+		glsr()->render( 'partials/editor/pinned', [
 			'pinned' => boolval( get_post_meta( intval( get_the_ID() ), 'pinned', true )),
 		]);
 	}
@@ -190,7 +190,7 @@ class EditorController extends Controller
 	{
 		if( !$this->isReviewPostType( $post ))return;
 		wp_nonce_field( 'response', '_nonce-response', false );
-		glsr()->render( 'editor/metabox-response', [
+		glsr()->render( 'partials/editor/metabox-response', [
 			'response' => glsr( Database::class )->getReview( $post )->response,
 		]);
 	}
@@ -203,7 +203,7 @@ class EditorController extends Controller
 	public function renderTaxonomyMetabox( WP_Post $post )
 	{
 		if( !$this->isReviewPostType( $post ))return;
-		glsr()->render( 'editor/metabox-categories', [
+		glsr()->render( 'partials/editor/metabox-categories', [
 			'post' => $post,
 			'tax_name' => Application::TAXONOMY,
 			'taxonomy' => get_taxonomy( Application::TAXONOMY ),

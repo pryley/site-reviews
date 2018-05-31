@@ -110,7 +110,7 @@ class AdminController extends Controller
 	public function renderReviewEditor( WP_Post $post )
 	{
 		if( !$this->isReviewEditable( $post ) )return;
-		glsr()->render( 'editor/review', [
+		glsr()->render( 'partials/editor/review', [
 			'post' => $post,
 		]);
 	}
@@ -123,7 +123,7 @@ class AdminController extends Controller
 	{
 		if( !$this->isReviewEditable( $post ) )return;
 		glsr( Notice::class )->addWarning( __( 'This review is read-only.', 'site-reviews' ));
-		glsr()->render( 'editor/notice' );
+		glsr()->render( 'partials/editor/notice' );
 	}
 
 	/**
@@ -139,7 +139,7 @@ class AdminController extends Controller
 			$shortcodes[$shortcode] = $values;
 		}
 		if( empty( $shortcodes ))return;
-		glsr()->render( 'editor/tinymce', [
+		glsr()->render( 'partials/editor/tinymce', [
 			'shortcodes' => $shortcodes,
 		]);
 	}

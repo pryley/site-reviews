@@ -38,7 +38,7 @@ class Field
 			return $this->buildMultiField();
 		}
 		$this->field['data-depends'] = $this->getFieldDepends();
-		return glsr( Template::class )->build( 'settings/form-table-row', [
+		return glsr( Template::class )->build( 'partials/settings/form-table-row', [
 			'context' => [
 				'class' => $this->getFieldClass(),
 				'field' => glsr( Builder::class )->{$this->field['type']}( $this->field ),
@@ -60,7 +60,7 @@ class Field
 	 */
 	protected function buildMultiField()
 	{
-		return glsr( Template::class )->build( 'settings/form-table-row-multiple', [
+		return glsr( Template::class )->build( 'partials/settings/form-table-row-multiple', [
 			'context' => [
 				'class' => $this->getFieldClass(),
 				'depends' => $this->getFieldDepends(),

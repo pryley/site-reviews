@@ -295,7 +295,7 @@ class Database
 		while( $search->have_posts() ) {
 			$search->the_post();
 			ob_start();
-			glsr()->render( 'editor/search-result', [
+			glsr()->render( 'partials/editor/search-result', [
 				'ID' => get_the_ID(),
 				'permalink' => esc_url( (string) get_permalink() ),
 				'title' => esc_attr( get_the_title() ),

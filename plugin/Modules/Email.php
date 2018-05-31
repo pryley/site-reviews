@@ -132,7 +132,7 @@ class Email
 		$message = wpautop( $message );
 		$message = str_replace( '&lt;&gt; ', '', $message );
 		$message = str_replace( ']]>', ']]&gt;', $message );
-		$message = glsr( Template::class )->build( 'email/index', [
+		$message = glsr( Template::class )->build( 'partials/email/index', [
 			'context' => ['message' => $message],
 		]);
 		return apply_filters( 'site-reviews/email/message', stripslashes( $message ), 'html', $this );
