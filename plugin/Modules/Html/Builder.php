@@ -220,7 +220,7 @@ class Builder
 	 */
 	protected function buildFormTextarea()
 	{
-		return $this->buildFormLabel().$this->buildDefaultTag();
+		return $this->buildFormLabel().$this->buildDefaultTag( $this->args['value'] );
 	}
 
 	/**
