@@ -11,6 +11,5 @@ class FormResult extends Field
 	 */
 	public function build()
 	{
-
 	}
 }
