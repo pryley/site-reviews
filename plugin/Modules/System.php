@@ -151,7 +151,7 @@ class System
 	public function getSettingDetails()
 	{
 		$helper = glsr( Helper::class );
-		$settings = glsr( OptionManager::class )->get( 'settings' );
+		$settings = glsr( OptionManager::class )->get( 'settings', [] );
 		$settings = $helper->flattenArray( $settings );
 		foreach( ['submissions.recaptcha.key', 'submissions.recaptcha.secret'] as $key ) {
 			if( empty( $settings[$key] ))continue;

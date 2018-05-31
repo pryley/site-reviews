@@ -10,11 +10,18 @@ class DefaultsManager
 	/**
 	 * @return array
 	 */
-	public function get()
+	public function defaults()
 	{
 		$settings = $this->settings();
-		$defaults = array_combine( array_keys( $settings ), array_column( $settings, 'default' ));
-		return glsr( Helper::class )->convertDotNotationArray( $defaults );
+		return array_combine( array_keys( $settings ), array_column( $settings, 'default' ));
+	}
+
+	/**
+	 * @return array
+	 */
+	public function get()
+	{
+		return glsr( Helper::class )->convertDotNotationArray( $this->defaults() );
 	}
 
 	/**
@@ -47,7 +54,7 @@ class DefaultsManager
 	{
 		array_walk( $settings, function( &$setting ) {
 			if( isset( $setting['default'] ))return;
-			$setting['default'] = null;
+			$setting['default'] = '';
 		});
 		return $settings;
 	}

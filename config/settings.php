@@ -2,7 +2,7 @@
 
 return [
 	'settings.general.require.approval' => [
-		'default' => 'yes',
+		'default' => 'no',
 		'description' => __( 'Set the status of new review submissions to pending.', 'site-reviews' ),
 		'label' => __( 'Require approval', 'site-reviews' ),
 		'type' => 'yes_no',
@@ -15,7 +15,7 @@ return [
 	],
 	'settings.general.require.login_register' => [
 		'default' => 'no',
-		'depends' => ['settings.general.require.login' => 'yes'],
+		'depends_on' => ['settings.general.require.login' => 'yes'],
 		'description' => sprintf( __( 'Show a link for a new user to register. The %s Membership option must be enabled in General Settings for this to work.', 'site-reviews' ),
 			glsr( 'Modules\Html\Builder' )->a( __( 'Anyone can register' ), ['href' => admin_url( 'options-general.php#users_can_register' )] )
 		),
@@ -35,14 +35,14 @@ return [
 	],
 	'settings.general.notification_email' => [
 		'default' => '',
-		'depends' => ['settings.general.notification' => 'custom'],
+		'depends_on' => ['settings.general.notification' => 'custom'],
 		'label' => __( 'Send notification emails to', 'site-reviews' ),
 		'placeholder' => __( 'Separate multiple emails with a comma', 'site-reviews' ),
 		'type' => 'text',
 	],
 	'settings.general.webhook_url' => [
 		'default' => '',
-		'depends' => ['settings.general.notification' => 'webhook'],
+		'depends_on' => ['settings.general.notification' => 'webhook'],
 		'description' => sprintf( __( 'To send notifications to Slack, create a new %s and then paste the provided Webhook URL in the field above.', 'site-reviews' ),
 			glsr( 'Modules\Html\Builder' )->a( __( 'Incoming WebHook', 'site-reviews' ), ['href' => 'https://slack.com/apps/new/A0F7XDUAZ-incoming-webhooks'] )
 		),
@@ -51,7 +51,7 @@ return [
 	],
 	'settings.general.notification_message' => [
 		'default' => glsr( 'Modules\Html' )->buildTemplate( 'templates/email-notification' ),
-		'depends' => ['settings.general.notification' => ['custom', 'default', 'webhook']],
+		'depends_on' => ['settings.general.notification' => ['custom', 'default', 'webhook']],
 		'description' => __(
 			'To restore the default text, save an empty template. '.
 			'If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href="https://api.slack.com/docs/attachments">Message Attachments</a> have been disabled.'.
@@ -84,7 +84,7 @@ return [
 	],
 	'settings.reviews.date.custom' => [
 		'default' => get_option( 'date_format' ),
-		'depends' => ['settings.reviews.date.format' => 'custom'],
+		'depends_on' => ['settings.reviews.date.format' => 'custom'],
 		'description' => __( 'Enter a custom date format (<a href="https://codex.wordpress.org/Formatting_Date_and_Time">documentation on date and time formatting</a>).', 'site-reviews' ),
 		'label' => __( 'Custom Date Format', 'site-reviews' ),
 		'type' => 'text',
@@ -109,7 +109,7 @@ return [
 	],
 	'settings.reviews.excerpt.length' => [
 		'default' => 55,
-		'depends' => ['settings.reviews.excerpt.enabled' => 'yes'],
+		'depends_on' => ['settings.reviews.excerpt.enabled' => 'yes'],
 		'description' => __( 'Set the excerpt word length.', 'site-reviews' ),
 		'label' => __( 'Excerpt Length', 'site-reviews' ),
 		'type' => 'number',
@@ -127,7 +127,7 @@ return [
 	],
 	'settings.schema.type.custom' => [
 		'default' => '',
-		'depends' => ['settings.schema.type.default' => 'custom'],
+		'depends_on' => ['settings.schema.type.default' => 'custom'],
 		'description' => __( 'Google supports review ratings for the following schema content types: Local businesses, Movies, Books, Music, and Products. <a href="https://schema.org/docs/schemas.html">View more information on schema types here</a>.', 'site-reviews' ),
 		'label' => __( 'Custom Schema Type', 'site-reviews' ),
 		'type' => 'text',
@@ -144,7 +144,7 @@ return [
 	],
 	'settings.schema.name.custom' => [
 		'default' => '',
-		'depends' => ['settings.schema.name.default' => 'custom'],
+		'depends_on' => ['settings.schema.name.default' => 'custom'],
 		'label' => __( 'Custom Name', 'site-reviews' ),
 		'type' => 'text',
 	],
@@ -160,7 +160,7 @@ return [
 	],
 	'settings.schema.description.custom' => [
 		'default' => '',
-		'depends' => ['settings.schema.description.default' => 'custom'],
+		'depends_on' => ['settings.schema.description.default' => 'custom'],
 		'label' => __( 'Custom Description', 'site-reviews' ),
 		'type' => 'text',
 	],
@@ -176,7 +176,7 @@ return [
 	],
 	'settings.schema.url.custom' => [
 		'default' => '',
-		'depends' => ['settings.schema.url.default' => 'custom'],
+		'depends_on' => ['settings.schema.url.default' => 'custom'],
 		'label' => __( 'Custom URL', 'site-reviews' ),
 		'type' => 'text',
 	],
@@ -192,7 +192,7 @@ return [
 	],
 	'settings.schema.image.custom' => [
 		'default' => '',
-		'depends' => ['settings.schema.image.default' => 'custom'],
+		'depends_on' => ['settings.schema.image.default' => 'custom'],
 		'label' => __( 'Custom Image URL', 'site-reviews' ),
 		'type' => 'text',
 	],
@@ -226,19 +226,19 @@ return [
 	],
 	'settings.submissions.recaptcha.key' => [
 		'default' => '',
-		'depends' => ['settings.submissions.recaptcha.integration' => 'custom'],
+		'depends_on' => ['settings.submissions.recaptcha.integration' => 'custom'],
 		'label' => __( 'Site Key', 'site-reviews' ),
 		'type' => 'text',
 	],
 	'settings.submissions.recaptcha.secret' => [
 		'default' => '',
-		'depends' => ['settings.submissions.recaptcha.integration' => 'custom'],
+		'depends_on' => ['settings.submissions.recaptcha.integration' => 'custom'],
 		'label' => __( 'Site Secret', 'site-reviews' ),
 		'type' => 'text',
 	],
 	'settings.submissions.recaptcha.position' => [
 		'default' => 'bottomleft',
-		'depends' => ['settings.submissions.recaptcha.integration' => 'custom'],
+		'depends_on' => ['settings.submissions.recaptcha.integration' => 'custom'],
 		'label' => __( 'Badge Position', 'site-reviews' ),
 		'options' => [
 			'bottomleft' => 'Bottom Left',

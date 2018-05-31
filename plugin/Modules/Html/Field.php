@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -37,7 +36,7 @@ class Field
 		if( $this->field['is_multi'] ) {
 			return $this->buildMultiField();
 		}
-		$this->field['data-depends'] = $this->getFieldDepends();
+		$this->field['data-depends'] = $this->getFieldDependsOn();
 		return glsr( Template::class )->build( 'partials/settings/form-table-row', [
 			'context' => [
 				'class' => $this->getFieldClass(),
@@ -63,7 +62,7 @@ class Field
 		return glsr( Template::class )->build( 'partials/settings/form-table-row-multiple', [
 			'context' => [
 				'class' => $this->getFieldClass(),
-				'depends' => $this->getFieldDepends(),
+				'depends_on' => $this->getFieldDependsOn(),
 				'field' => glsr( Builder::class )->{$this->field['type']}( $this->field ),
 				'label' => glsr( Builder::class )->label( $this->field['legend'], ['for' => $this->field['id']] ),
 				'legend' => $this->field['legend'],
@@ -84,23 +83,36 @@ class Field
 	/**
 	 * @return string
 	 */
-	protected function getFieldDepends()
+	protected function getFieldDefault()
 	{
-		return !empty( $this->field['depends'] )
-			? $this->field['depends']
+		return isset( $this->field['default'] )
+			? $this->field['default']
+			: '';
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getFieldDependsOn()
+	{
+		return !empty( $this->field['depends_on'] )
+			? $this->field['depends_on']
 			: '';
 	}
 
 	/**
 	 * @param string $path
-	 * @param string $expectedValue
+	 * @param string|array $expectedValue
 	 * @return bool
 	 */
 	protected function isFieldHidden( $path, $expectedValue )
 	{
-		$optionValue = glsr( OptionManager::class )->get( $path );
-		if( is_array( $optionValue )) {
-			return !in_array( $expectedValue, $optionValue );
+		$optionValue = glsr( OptionManager::class )->get(
+			$path,
+			glsr( Helper::class )->getPathValue( $path, glsr()->defaults )
+		);
+		if( is_array( $expectedValue )) {
+			return !in_array( $optionValue, $expectedValue );
 		}
 		return $optionValue != $expectedValue;
 	}
@@ -148,13 +160,13 @@ class Field
 	/**
 	 * @return void
 	 */
-	protected function normalizeDepends()
+	protected function normalizeDependsOn()
 	{
-		if( empty( $this->field['depends'] ) || !is_array( $this->field['depends'] ))return;
-		$path = key( $this->field['depends'] );
-		$value = $this->field['depends'][$path];
-		$this->field['depends'] = json_encode([
-			'name' => glsr( Helper::class )->convertPathToName( $path, Application::ID ),
+		if( empty( $this->field['depends_on'] ) || !is_array( $this->field['depends_on'] ))return;
+		$path = key( $this->field['depends_on'] );
+		$value = $this->field['depends_on'][$path];
+		$this->field['depends_on'] = json_encode([
+			'name' => glsr( Helper::class )->convertPathToName( $path, OptionManager::databaseKey() ),
 			'value' => $value,
 		], JSON_HEX_APOS|JSON_HEX_QUOT );
 		$this->field['is_hidden'] = $this->isFieldHidden( $path, $value );
@@ -189,10 +201,10 @@ class Field
 	protected function normalizeFieldValue()
 	{
 		if( isset( $this->field['value'] ))return;
-		$defaultValue = isset( $this->field['default'] )
-			? $this->field['default']
-			: '';
-		$this->field['value'] = glsr( OptionManager::class )->get( $this->field['path'], $defaultValue );
+		$this->field['value'] = glsr( OptionManager::class )->get(
+			$this->field['path'],
+			$this->getFieldDefault()
+		);
 	}
 
 	/**
@@ -212,7 +224,7 @@ class Field
 		$this->field['path'] = $this->field['name'];
 		$this->field['name'] = glsr( Helper::class )->convertPathToName(
 			$this->field['name'],
-			Application::ID
+			OptionManager::databaseKey()
 		);
 	}
 }

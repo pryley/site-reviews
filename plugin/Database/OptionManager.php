@@ -56,7 +56,7 @@ class OptionManager
 	 */
 	public function get( $path = '', $fallback = '' )
 	{
-		return glsr( Helper::class )->getPathValue( $path, $fallback, $this->all() );
+		return glsr( Helper::class )->getPathValue( $path, $this->all(), $fallback );
 	}
 
 	/**

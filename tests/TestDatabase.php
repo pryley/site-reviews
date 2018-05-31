@@ -44,11 +44,11 @@ class TestDatabase extends WP_UnitTestCase
 	{
 		$values = ['parent' => ['child' => 'toys']];
 		$this->assertEquals(
-			glsr( Helper::class )->getPathValue( 'parent.child', '', $values ),
+			glsr( Helper::class )->getPathValue( 'parent.child', $values ),
 			'toys'
 		);
 		$this->assertEquals(
-			glsr( Helper::class )->getPathValue( 'parent.child.toys', 'fallback', $values ),
+			glsr( Helper::class )->getPathValue( 'parent.child.toys', $values, 'fallback' ),
 			'fallback'
 		);
 	}

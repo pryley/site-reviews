@@ -9,7 +9,7 @@
 		<?php endforeach; ?>
 	</h2>
 	<?php foreach( $tabs as $id => $title ) : ?>
-	<div class="glsr-nav-view" id="<?= $id; ?>">
+	<div class="glsr-nav-view ui-tabs-hide" id="<?= $id; ?>">
 		<?php glsr()->render( 'pages/tools/'.$id, $data ); ?>
 	</div>
 	<?php endforeach; ?>

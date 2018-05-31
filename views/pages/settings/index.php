@@ -9,7 +9,7 @@
 	</h2>
 	<form class="glsr-form" action="options.php" enctype="multipart/form-data" method="post">
 		<?php foreach( $tabs as $id => $title ) : ?>
-		<div class="glsr-nav-view<?= $id != 'general' ? ' ui-tabs-hide' : ''; ?>" id="<?= $id; ?>">
+		<div class="glsr-nav-view ui-tabs-hide" id="<?= $id; ?>">
 			<?php $form->renderFields( $id ); ?>
 		</div>
 		<?php endforeach; ?>

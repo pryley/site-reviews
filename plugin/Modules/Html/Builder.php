@@ -170,15 +170,21 @@ class Builder
 	 */
 	protected function buildFormInputMultiChoice()
 	{
+		if( $this->args['type'] == 'checkbox' ) {
+			$this->args['name'].= '[]';
+		}
 		$options = array_reduce( array_keys( $this->args['options'] ), function( $carry, $key ) {
 			return $carry.$this->li( $this->{$this->args['type']}([
 				'checked' => in_array( $key, (array)$this->args['value'] ),
-				'name' => $this->args['name'].'[]',
+				'name' => $this->args['name'],
 				'text' => $this->args['options'][$key],
 				'value' => $key,
 			]));
 		});
-		return $this->ul( $options, ['class' => $this->args['class']] );
+		return $this->ul( $options, [
+			'class' => $this->args['class'],
+			'id' => $this->args['id'],
+		]);
 	}
 
 	/**

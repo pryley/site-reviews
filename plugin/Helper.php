@@ -148,7 +148,7 @@ class Helper
 	 * @param mixed $fallback
 	 * @return void|mixed
 	 */
-	public function getPathValue( $path = '', $fallback, array $values )
+	public function getPathValue( $path = '', array $values, $fallback = '' )
 	{
 		$keys = explode( '.', $path );
 		foreach( $keys as $key ) {
