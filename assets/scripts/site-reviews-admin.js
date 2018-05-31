@@ -15,6 +15,7 @@ var GLSR = {
 	translation: {},
 };
 
+/** global: GLSR */
 GLSR.forms = function( selector ) {
 	this.el = document.querySelector( selector );
 	if( !this.el )return;
@@ -220,6 +221,7 @@ GLSR.textareaResize = function( el )
 		minHeight + 'px';
 };
 
+/** global: GLSR, site_reviews, x */
 GLSR.pinned = function( options ) {
 	this.options = x.extend( {}, this.defaults, options );
 	this.el = x( this.options.selector );
@@ -307,6 +309,7 @@ GLSR.pinned.prototype = {
 	},
 };
 
+/** global: _, GLSR, x, wp */
 GLSR.search = function( el, options ) {
 	this.el = Object.prototype.toString.call( el ) === '[object String]' ? x( el ) : el;
 	this.options = options;
@@ -793,7 +796,7 @@ GLSR.tabs.prototype = {
 	},
 };
 
-/** global: GLSR, site_reviews_pointers, wp, x */
+/** global: GLSR, site_reviews, site_reviews_pointers, wp, x */
 
 x( function()
 {

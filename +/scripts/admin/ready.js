@@ -1,4 +1,4 @@
-/** global: GLSR, site_reviews_pointers, wp, x */
+/** global: GLSR, site_reviews, site_reviews_pointers, wp, x */
 
 x( function()
 {

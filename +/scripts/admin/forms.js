@@ -1,3 +1,4 @@
+/** global: GLSR */
 GLSR.forms = function( selector ) {
 	this.el = document.querySelector( selector );
 	if( !this.el )return;

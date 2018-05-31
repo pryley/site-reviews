@@ -1,3 +1,4 @@
+/** global: GLSR, site_reviews, x */
 GLSR.pinned = function( options ) {
 	this.options = x.extend( {}, this.defaults, options );
 	this.el = x( this.options.selector );

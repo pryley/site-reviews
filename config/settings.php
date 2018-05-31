@@ -17,7 +17,7 @@ return [
 		'default' => 'no',
 		'depends' => ['settings.general.require.login' => 'yes'],
 		'description' => sprintf( __( 'Show a link for a new user to register. The %s Membership option must be enabled in General Settings for this to work.', 'site-reviews' ),
-			glsr( 'Modules\Html\Builder' )->a( __( 'Anyone can register' ), ['href' => admin_url( 'options-general.php' )] )
+			glsr( 'Modules\Html\Builder' )->a( __( 'Anyone can register' ), ['href' => admin_url( 'options-general.php#users_can_register' )] )
 		),
 		'label' => __( 'Show registration link', 'site-reviews' ),
 		'type' => 'yes_no',
@@ -41,7 +41,6 @@ return [
 		'type' => 'text',
 	],
 	'settings.general.webhook_url' => [
-		'class' => 'regular-text code',
 		'default' => '',
 		'depends' => ['settings.general.notification' => 'webhook'],
 		'description' => sprintf( __( 'To send notifications to Slack, create a new %s and then paste the provided Webhook URL in the field above.', 'site-reviews' ),
@@ -73,7 +72,7 @@ return [
 	'settings.reviews.date.format' => [
 		'default' => '',
 		'description' => sprintf( __( 'The default date format is the one set in your %s.', 'site-reviews' ),
-			glsr( 'Modules\Html\Builder' )->a( __( 'WordPress settings', 'site-reviews' ), ['href' => admin_url( 'options-general.php' )] )
+			glsr( 'Modules\Html\Builder' )->a( __( 'WordPress settings', 'site-reviews' ), ['href' => admin_url( 'options-general.php#date_format_custom' )] )
 		),
 		'label' => __( 'Date Format', 'site-reviews' ),
 		'options' => [
@@ -84,7 +83,6 @@ return [
 		'type' => 'select',
 	],
 	'settings.reviews.date.custom' => [
-		'class' => 'regular-text code',
 		'default' => get_option( 'date_format' ),
 		'depends' => ['settings.reviews.date.format' => 'custom'],
 		'description' => __( 'Enter a custom date format (<a href="https://codex.wordpress.org/Formatting_Date_and_Time">documentation on date and time formatting</a>).', 'site-reviews' ),
@@ -110,7 +108,6 @@ return [
 		'type' => 'yes_no',
 	],
 	'settings.reviews.excerpt.length' => [
-		'class' => 'small-text',
 		'default' => 55,
 		'depends' => ['settings.reviews.excerpt.enabled' => 'yes'],
 		'description' => __( 'Set the excerpt word length.', 'site-reviews' ),
@@ -129,7 +126,6 @@ return [
 		'type' => 'select',
 	],
 	'settings.schema.type.custom' => [
-		'class' => 'regular-text',
 		'default' => '',
 		'depends' => ['settings.schema.type.default' => 'custom'],
 		'description' => __( 'Google supports review ratings for the following schema content types: Local businesses, Movies, Books, Music, and Products. <a href="https://schema.org/docs/schemas.html">View more information on schema types here</a>.', 'site-reviews' ),
@@ -147,7 +143,6 @@ return [
 		'type' => 'select',
 	],
 	'settings.schema.name.custom' => [
-		'class' => 'regular-text',
 		'default' => '',
 		'depends' => ['settings.schema.name.default' => 'custom'],
 		'label' => __( 'Custom Name', 'site-reviews' ),
@@ -164,7 +159,6 @@ return [
 		'type' => 'select',
 	],
 	'settings.schema.description.custom' => [
-		'class' => 'regular-text',
 		'default' => '',
 		'depends' => ['settings.schema.description.default' => 'custom'],
 		'label' => __( 'Custom Description', 'site-reviews' ),
@@ -181,7 +175,6 @@ return [
 		'type' => 'select',
 	],
 	'settings.schema.url.custom' => [
-		'class' => 'regular-text',
 		'default' => '',
 		'depends' => ['settings.schema.url.default' => 'custom'],
 		'label' => __( 'Custom URL', 'site-reviews' ),
@@ -198,7 +191,6 @@ return [
 		'type' => 'select',
 	],
 	'settings.schema.image.custom' => [
-		'class' => 'regular-text',
 		'default' => '',
 		'depends' => ['settings.schema.image.default' => 'custom'],
 		'label' => __( 'Custom Image URL', 'site-reviews' ),
@@ -233,14 +225,12 @@ return [
 		'type' => 'select',
 	],
 	'settings.submissions.recaptcha.key' => [
-		'class' => 'regular-text code',
 		'default' => '',
 		'depends' => ['settings.submissions.recaptcha.integration' => 'custom'],
 		'label' => __( 'Site Key', 'site-reviews' ),
 		'type' => 'text',
 	],
 	'settings.submissions.recaptcha.secret' => [
-		'class' => 'regular-text code',
 		'default' => '',
 		'depends' => ['settings.submissions.recaptcha.integration' => 'custom'],
 		'label' => __( 'Site Secret', 'site-reviews' ),
