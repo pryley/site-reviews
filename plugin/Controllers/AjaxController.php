@@ -20,7 +20,7 @@ class AjaxController extends Controller
 	/**
 	 * @return void
 	 */
-	public function changeAssignedTo( array $request )
+	public function routerChangeAssignedTo( array $request )
 	{
 		wp_send_json( glsr( Html::class )->renderPartial( 'link', [
 			'post_id' => $request['ID'],
@@ -30,7 +30,7 @@ class AjaxController extends Controller
 	/**
 	 * @return void
 	 */
-	public function changeReviewStatus( array $request )
+	public function routerChangeReviewStatus( array $request )
 	{
 		wp_send_json( $this->execute( new ChangeStatus( $request )));
 	}
@@ -38,7 +38,7 @@ class AjaxController extends Controller
 	/**
 	 * @return void
 	 */
-	public function clearLog()
+	public function routerClearLog()
 	{
 		glsr( AdminController::class )->routerClearLog();
 		wp_send_json([
@@ -50,7 +50,7 @@ class AjaxController extends Controller
 	/**
 	 * @return void
 	 */
-	public function mceShortcode( array $request )
+	public function routerMceShortcode( array $request )
 	{
 		$shortcode = $request['shortcode'];
 		$response = false;
@@ -73,7 +73,7 @@ class AjaxController extends Controller
 	/**
 	 * @return void
 	 */
-	public function searchPosts( array $request )
+	public function routerSearchPosts( array $request )
 	{
 		$results = glsr( Database::class )->searchPosts( $request['search'] );
 		wp_send_json_success([
@@ -85,7 +85,7 @@ class AjaxController extends Controller
 	/**
 	 * @return void
 	 */
-	public function searchTranslations( array $request )
+	public function routerSearchTranslations( array $request )
 	{
 		if( empty( $request['exclude'] )) {
 			$request['exclude'] = [];
@@ -104,7 +104,7 @@ class AjaxController extends Controller
 	/**
 	 * @return void
 	 */
-	public function submitReview( array $request )
+	public function routerSubmitReview( array $request )
 	{
 		$response = glsr( PublicController::class )->routerCreateReview( $request );
 		$session = glsr( Session::class );
@@ -118,7 +118,7 @@ class AjaxController extends Controller
 	/**
 	 * @return void
 	 */
-	public function togglePinned( array $request )
+	public function routerTogglePinned( array $request )
 	{
 		wp_send_json([
 			'notices' => glsr( Notice::class )->get(),

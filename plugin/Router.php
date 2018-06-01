@@ -18,22 +18,7 @@ class Router
 		$request = filter_input( INPUT_POST, Application::ID, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 		if( !isset( $request['action'] ))return;
 		$this->checkNonce( $request['action'] );
-		switch( $request['action'] ) {
-			case 'clear-log':
-				glsr( AdminController::class )->routerClearLog();
-				break;
-			case 'download-log':
-				glsr( AdminController::class )->routerDownloadLog();
-				break;
-			case 'download-system-info':
-				glsr( AdminController::class )->routerDownloadSystemInfo();
-				break;
-			case 'submit-review':
-				glsr( PublicController::class )->routerCreateReview( $request );
-				break;
-			default:
-				do_action( 'site-reviews/route/admin/request', $request['action'], $request );
-		}
+		$this->routeRequest( 'admin', $request['action'], $request );
 	}
 
 	/**
@@ -46,14 +31,7 @@ class Router
 			glsr_log()->error( 'Nonce check failed for ajax request' )->info( $request );
 			wp_die( -1, 403 );
 		}
-		$controller = glsr( AjaxController::class );
-		$method = glsr( Helper::class )->buildMethodName( $request['action'] );
-		if( is_callable( [$controller, $method] )) {
-			call_user_func( [$controller, $method], $request );
-		}
-		else {
-			do_action( 'site-reviews/route/ajax/request', $method, $request );
-		}
+		$this->routeRequest( 'ajax', $request['action'], $request );
 		wp_die();
 	}
 
@@ -64,12 +42,26 @@ class Router
 	{
 		$action = filter_input( INPUT_POST, 'action' );
 		$request = $this->normalize( $_POST );
-		switch( $action ) {
-			case 'submit-review':
-				glsr( PublicController::class )->routerCreateReview( $request );
-				break;
-			default:
-				do_action( 'site-reviews/route/public/request', $action, $request );
+		// glsr_log( $this->normalize( $_POST ) );
+		// $this->routeRequest( 'public', $action, $request );
+	}
+
+	/**
+	 * @param string $type
+	 * @param string $action
+	 * @return void
+	 */
+	public function routeRequest( $type, $action, array $request = [] )
+	{
+		$controller = glsr( glsr( Helper::class )->buildClassName( $type.'-controller', 'Controllers' ));
+		$method = glsr( Helper::class )->buildMethodName( $action, 'router' );
+		if( is_callable( [$controller, $method] )) {
+			call_user_func( [$controller, $method], $request );
+			return;
+		}
+		$response = do_action( 'site-reviews/route/'.$type.'/request', $action, $request );
+		if( empty( $response )) {
+			glsr_log( 'Unknown '.$type.' router request: '.$action );
 		}
 	}
 
@@ -86,6 +78,7 @@ class Router
 	/**
 	 * @param string $action
 	 * @return void
+	 * @todo verify the $action-options
 	 */
 	protected function checkNonce( $action )
 	{
