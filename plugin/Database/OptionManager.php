@@ -60,6 +60,30 @@ class OptionManager
 	}
 
 	/**
+	 * @return string
+	 */
+	public function json()
+	{
+		return json_encode( $this->all() );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function normalize( array $options = [] )
+	{
+		$options = wp_parse_args(
+			glsr( Helper::class )->flattenArray( $options ),
+			glsr( DefaultsManager::class )->defaults()
+		);
+		array_walk( $options, function( &$value ) {
+			if( !is_string( $value ))return;
+			$value = wp_kses( $value, wp_kses_allowed_html( 'post' ));
+		});
+		return glsr( Helper::class )->convertDotNotationArray( $options );
+	}
+
+	/**
 	 * @param string|array $pathOrOptions
 	 * @param mixed $value
 	 * @return bool

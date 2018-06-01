@@ -102,53 +102,97 @@ msgctxt "View Post"
 msgid "View %s"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:33, plugin/Controllers/MenuController.php:48
+#: plugin/Controllers/AdminController.php:35, plugin/Controllers/MenuController.php:48
 msgid "Settings"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:51
+#: plugin/Controllers/AdminController.php:53
 msgid "%s Review"
 msgid_plural "%s Reviews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/AdminController.php:79
+#: plugin/Controllers/AdminController.php:81
 msgid "You can pin exceptional reviews so that they are always shown first."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:87
+#: plugin/Controllers/AdminController.php:89
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:99, plugin/Controllers/MainController.php:84
+#: plugin/Controllers/AdminController.php:101, plugin/Controllers/MainController.php:84
 msgid "Recent Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:100, plugin/Controllers/MainController.php:89
+#: plugin/Controllers/AdminController.php:102, plugin/Controllers/MainController.php:89
 msgid "Submit a Review"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:101, plugin/Controllers/MainController.php:94
+#: plugin/Controllers/AdminController.php:103, plugin/Controllers/MainController.php:94
 msgid "Summary of Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:125
+#: plugin/Controllers/AdminController.php:127
 msgid "This review is read-only."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:153
+#: plugin/Controllers/AdminController.php:155
 msgid "Log cleared."
 msgstr ""
 
-#: plugin/Controllers/AjaxController.php:59
+#: plugin/Controllers/AdminController.php:192
+msgid "Please use a valid Site Reviews settings file."
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:196
+msgid "There were no settings found to import."
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:199
+msgid "Setting imported."
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:209
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:210
+msgid "The uploaded file is too big."
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:211
+msgid "The uploaded file was only partially uploaded."
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:212
+msgid "No file was uploaded."
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:213
+msgid "Missing a temporary folder."
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:214
+msgid "Failed to write file to disk."
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:215
+msgid "A PHP extension stopped the file upload."
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:218
+msgid "Unknown upload error."
+msgstr ""
+
+#: plugin/Controllers/AjaxController.php:60
 msgid "Okay"
 msgstr ""
 
-#: plugin/Controllers/AjaxController.php:79, plugin/Controllers/AjaxController.php:98
+#: plugin/Controllers/AjaxController.php:80, plugin/Controllers/AjaxController.php:99
 msgid "Nothing found."
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:121, plugin/Controllers/MainController.php:27, views/editor/bulk-edit-assigned-to.php:7
+#: plugin/Controllers/EditorController.php:121, plugin/Controllers/MainController.php:27, views/partials/editor/bulk-edit-assigned-to.php:7
 msgid "Assigned To"
 msgstr ""
 
@@ -156,7 +200,7 @@ msgstr ""
 msgid "Details"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:123, views/editor/metabox-response.php:3
+#: plugin/Controllers/EditorController.php:123, views/partials/editor/metabox-response.php:3
 msgid "Respond Publicly"
 msgstr ""
 
@@ -267,7 +311,7 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: plugin/Controllers/MainController.php:31, views/editor/pinned.php:10
+#: plugin/Controllers/MainController.php:31, views/partials/editor/pinned.php:10
 msgid "Pinned"
 msgstr ""
 
@@ -296,11 +340,11 @@ msgid "Tools"
 msgstr ""
 
 #: plugin/Controllers/MenuController.php:50
-msgid "Documentation"
+msgid "Add-Ons"
 msgstr ""
 
 #: plugin/Controllers/MenuController.php:51
-msgid "Add-Ons"
+msgid "Documentation"
 msgstr ""
 
 #: plugin/Controllers/MenuController.php:81
@@ -343,15 +387,15 @@ msgstr ""
 msgid "Licenses"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:124
+#: plugin/Controllers/MenuController.php:125
 msgid "Import/Export"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:125
+#: plugin/Controllers/MenuController.php:126
 msgid "Logging"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:126
+#: plugin/Controllers/MenuController.php:127
 msgid "System Info"
 msgstr ""
 
@@ -363,7 +407,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: plugin/Handlers/ChangeStatus.php:39, views/editor/pinned.php:14
+#: plugin/Handlers/ChangeStatus.php:39, views/partials/editor/pinned.php:14
 msgid "Edit"
 msgstr ""
 
@@ -829,58 +873,6 @@ msgstr ""
 msgid "Limit reviews to those assigned to this page/post ID"
 msgstr ""
 
-#: views/addons/addon.php:11
-msgid "More Info"
-msgstr ""
-
-#: views/editor/assigned-post.php:5
-msgid "Remove assignment"
-msgstr ""
-
-#: views/editor/metabox-assigned-to.php:6
-msgid "Type to search..."
-msgstr ""
-
-#: views/editor/metabox-assigned-to.php:8
-msgid "Search here for a page or post that you would like to assign this review to. You may search by title or ID."
-msgstr ""
-
-#: views/editor/metabox-categories.php:7
-msgid "Most Used"
-msgstr ""
-
-#: views/editor/pinned.php:6, plugin/Modules/Html/Fields/YesNo.php:27
-msgid "No"
-msgstr ""
-
-#: views/editor/pinned.php:7, plugin/Modules/Html/Fields/YesNo.php:28
-msgid "Yes"
-msgstr ""
-
-#: views/editor/pinned.php:15
-msgid "Edit pinned status"
-msgstr ""
-
-#: views/editor/pinned.php:23
-msgid "Pin"
-msgstr ""
-
-#: views/editor/pinned.php:24
-msgid "Unpin"
-msgstr ""
-
-#: views/editor/pinned.php:27
-msgid "OK"
-msgstr ""
-
-#: views/editor/pinned.php:28
-msgid "Cancel"
-msgstr ""
-
-#: views/editor/review.php:4
-msgid "no title"
-msgstr ""
-
 #: views/templates/reviews-form.php:4
 msgid "Your overall rating"
 msgstr ""
@@ -923,34 +915,6 @@ msgstr ""
 
 #: views/templates/reviews-form.php:31
 msgid "Submit your review"
-msgstr ""
-
-#: views/translations/plural.php:6, views/translations/single.php:5
-msgid "Delete translation string"
-msgstr ""
-
-#: views/translations/plural.php:6, views/translations/single.php:5
-msgid "Delete"
-msgstr ""
-
-#: views/translations/plural.php:9, views/translations/single.php:8
-msgid "Show custom translation"
-msgstr ""
-
-#: views/translations/plural.php:16
-msgid "singular"
-msgstr ""
-
-#: views/translations/plural.php:17
-msgid "plural"
-msgstr ""
-
-#: views/translations/translations.php:4
-msgid "Original Text"
-msgstr ""
-
-#: views/translations/translations.php:5
-msgid "Custom Text"
 msgstr ""
 
 #: plugin/Modules/Editor/Labels.php:17, plugin/Modules/Editor/Labels.php:42
@@ -1069,6 +1033,14 @@ msgstr ""
 msgid "Custom Strings"
 msgstr ""
 
+#: views/pages/tools/import-export.php:11
+msgid "Import Settings"
+msgstr ""
+
+#: views/pages/tools/import-export.php:22
+msgid "Export Settings"
+msgstr ""
+
 #: views/pages/tools/logging.php:8
 msgid "Clear Log"
 msgstr ""
@@ -1079,6 +1051,78 @@ msgstr ""
 
 #: views/pages/tools/system-info.php:8
 msgid "Download System Info"
+msgstr ""
+
+#: views/partials/addons/addon.php:11
+msgid "More Info"
+msgstr ""
+
+#: views/partials/editor/assigned-post.php:5
+msgid "Remove assignment"
+msgstr ""
+
+#: views/partials/editor/metabox-assigned-to.php:6
+msgid "Type to search..."
+msgstr ""
+
+#: views/partials/editor/metabox-assigned-to.php:8
+msgid "Search here for a page or post that you would like to assign this review to. You may search by title or ID."
+msgstr ""
+
+#: views/partials/editor/metabox-categories.php:7
+msgid "Most Used"
+msgstr ""
+
+#: views/partials/editor/pinned.php:6, plugin/Modules/Html/Fields/YesNo.php:27
+msgid "No"
+msgstr ""
+
+#: views/partials/editor/pinned.php:7, plugin/Modules/Html/Fields/YesNo.php:28
+msgid "Yes"
+msgstr ""
+
+#: views/partials/editor/pinned.php:15
+msgid "Edit pinned status"
+msgstr ""
+
+#: views/partials/editor/pinned.php:23
+msgid "Pin"
+msgstr ""
+
+#: views/partials/editor/pinned.php:24
+msgid "Unpin"
+msgstr ""
+
+#: views/partials/editor/pinned.php:27
+msgid "OK"
+msgstr ""
+
+#: views/partials/editor/pinned.php:28
+msgid "Cancel"
+msgstr ""
+
+#: views/partials/editor/review.php:4
+msgid "no title"
+msgstr ""
+
+#: views/partials/translations/plural.php:6, views/partials/translations/single.php:5
+msgid "Delete translation string"
+msgstr ""
+
+#: views/partials/translations/plural.php:6, views/partials/translations/single.php:5
+msgid "Delete"
+msgstr ""
+
+#: views/partials/translations/plural.php:9, views/partials/translations/single.php:8
+msgid "Show custom translation"
+msgstr ""
+
+#: views/partials/translations/plural.php:16
+msgid "singular"
+msgstr ""
+
+#: views/partials/translations/plural.php:17
+msgid "plural"
 msgstr ""
 
 #: plugin/Modules/Html/Partials/SiteReviewsSummary.php:141

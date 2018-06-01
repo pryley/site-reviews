@@ -13,7 +13,11 @@ class DefaultsManager
 	public function defaults()
 	{
 		$settings = $this->settings();
-		return array_combine( array_keys( $settings ), array_column( $settings, 'default' ));
+		$defaults = array_combine( array_keys( $settings ), array_column( $settings, 'default' ));
+		return wp_parse_args( $defaults, [
+			'version' => '',
+			'version_upgraded_from' => '',
+		]);
 	}
 
 	/**

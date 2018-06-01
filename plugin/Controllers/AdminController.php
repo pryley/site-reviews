@@ -6,7 +6,9 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\RegisterPointers;
 use GeminiLabs\SiteReviews\Commands\RegisterShortcodeButtons;
 use GeminiLabs\SiteReviews\Controllers\Controller;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Handlers\EnqueueAdminAssets;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Logger;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -42,17 +44,20 @@ class AdminController extends Controller
 	 */
 	public function filterDashboardGlanceItems( array $items )
 	{
-		$postType = Application::POST_TYPE;
-		$postCount = wp_count_posts( $postType );
-		if( !isset( $postCount->publish ) || !$postCount->publish ) {
+		$postCount = wp_count_posts( Application::POST_TYPE );
+		if( empty( $postCount->publish )) {
 			return $items;
 		}
-		$postTypeObject = get_post_type_object( $postType );
 		$text = _n( '%s Review', '%s Reviews', $postCount->publish, 'site-reviews' );
 		$text = sprintf( $text, number_format_i18n( $postCount->publish ));
-		$items[] = $postTypeObject && current_user_can( $postTypeObject->cap->edit_posts )
-			? sprintf( '<a class="glsr-review-count" href="edit.php?post_type=%s">%s</a>', $postType, $text )
-			: sprintf( '<span class="glsr-review-count">%s</span>', $text );
+		$items[] = current_user_can( get_post_type_object( Application::POST_TYPE )->cap->edit_posts )
+			? glsr( Builder::class )->a( $text, [
+				'class' => 'glsr-review-count',
+				'href' => 'edit.php?post_type='.Application::POST_TYPE,
+			])
+			: glsr( Builder::class )->span( $text, [
+				'class' => 'glsr-review-count',
+			]);
 		return $items;
 	}
 
@@ -167,6 +172,54 @@ class AdminController extends Controller
 	public function routerDownloadSystemInfo()
 	{
 		$this->download( Application::ID.'-system-info.txt', glsr( System::class )->get() );
+	}
+
+	/**
+	 * @return void
+	 */
+	public function routerExportSettings()
+	{
+		$this->download( Application::ID.'-settings.json', glsr( OptionManager::class )->json() );
+	}
+
+	/**
+	 * @return void
+	 */
+	public function routerImportSettings()
+	{
+		$file = $_FILES['import-file'];
+		if( $file['error'] !== UPLOAD_ERR_OK ) {
+			return glsr( Notice::class )->addError( $this->getUploadError( $file['error'] ));
+		}
+		if( $file['type'] !== 'application/json' || !glsr( Helper::class )->endsWith( '.json', $file['name'] )) {
+			return glsr( Notice::class )->addError( __( 'Please use a valid Site Reviews settings file.', 'site-reviews' ));
+		}
+		$settings = json_decode( file_get_contents( $file['tmp_name'] ), true );
+		if( empty( $settings )) {
+			return glsr( Notice::class )->addWarning( __( 'There were no settings found to import.', 'site-reviews' ));
+		}
+		glsr( OptionManager::class )->set( glsr( OptionManager::class )->normalize( $settings ));
+		glsr( Notice::class )->addSuccess( __( 'Settings imported.', 'site-reviews' ));
+	}
+
+	/**
+	 * @param int $errorCode
+	 * @return string
+	 */
+	protected function getUploadError( $errorCode )
+	{
+		$errors = [
+			UPLOAD_ERR_INI_SIZE => __( 'The uploaded file exceeds the upload_max_filesize directive in php.ini.', 'site-reviews' ),
+			UPLOAD_ERR_FORM_SIZE => __( 'The uploaded file is too big.', 'site-reviews' ),
+			UPLOAD_ERR_PARTIAL => __( 'The uploaded file was only partially uploaded.', 'site-reviews' ),
+			UPLOAD_ERR_NO_FILE => __( 'No file was uploaded.', 'site-reviews' ),
+			UPLOAD_ERR_NO_TMP_DIR => __( 'Missing a temporary folder.', 'site-reviews' ),
+			UPLOAD_ERR_CANT_WRITE => __( 'Failed to write file to disk.', 'site-reviews' ),
+			UPLOAD_ERR_EXTENSION => __( 'A PHP extension stopped the file upload.', 'site-reviews' ),
+		];
+		return !isset( $errors[$errorCode] )
+			? __( 'Unknown upload error.', 'site-reviews' )
+			: $errors[$errorCode];
 	}
 
 	/**

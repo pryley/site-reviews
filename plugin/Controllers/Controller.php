@@ -19,7 +19,7 @@ abstract class Controller
 		nocache_headers();
 		header( 'Content-Type: text/plain' );
 		header( 'Content-Disposition: attachment; filename="'.$filename.'"' );
-		echo html_entity_decode( wp_strip_all_tags( $content ));
+		echo html_entity_decode( $content );
 		exit;
 	}
 

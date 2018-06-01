@@ -40,9 +40,8 @@ class Router
 	 */
 	public function routePublicPostRequest()
 	{
-		$action = filter_input( INPUT_POST, 'action' );
-		$request = $this->normalize( $_POST );
-		// glsr_log( $this->normalize( $_POST ) );
+		// $action = filter_input( INPUT_POST, 'action' );
+		// $request = $this->normalize( $_POST );
 		// $this->routeRequest( 'public', $action, $request );
 	}
 
@@ -59,8 +58,9 @@ class Router
 			call_user_func( [$controller, $method], $request );
 			return;
 		}
-		$response = do_action( 'site-reviews/route/'.$type.'/request', $action, $request );
-		if( empty( $response )) {
+		$actionHook = 'site-reviews/route/'.$type.'/request';
+		do_action( $actionHook, $action, $request );
+		if( did_action( $actionHook ) === 0 ) {
 			glsr_log( 'Unknown '.$type.' router request: '.$action );
 		}
 	}

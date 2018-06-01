@@ -117,7 +117,7 @@ class Helper
 		$result = [];
 		foreach( $array as $key => $value ) {
 			$newKey = ltrim( $prefix.'.'.$key, '.' );
-			if( $this->isIndexedArray( $value )) {
+			if( $this->isIndexedFlatArray( $value )) {
 				if( $flattenValue ) {
 					$value = '['.implode( ', ', $value ).']';
 				}
@@ -169,7 +169,7 @@ class Helper
 	 */
 	public function isIndexedArray( $array )
 	{
-		if( !is_array( $array ) || array_filter( $array, 'is_array' )) {
+		if( !is_array( $array )) {
 			return false;
 		}
 		$current = 0;
@@ -180,6 +180,18 @@ class Helper
 			$current++;
 		}
 		return true;
+	}
+
+	/**
+	 * @param mixed $array
+	 * @return bool
+	 */
+	public function isIndexedFlatArray( $array )
+	{
+		if( !is_array( $array ) || array_filter( $array, 'is_array' )) {
+			return false;
+		}
+		return $this->isIndexedArray( $array );
 	}
 
 	/**

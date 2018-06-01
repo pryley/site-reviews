@@ -1,0 +1,1 @@
+- use wp_star_rating() to generate stars on admin
