@@ -108,19 +108,22 @@ class Helper
 	}
 
 	/**
+	 * @param bool $flattenValue
 	 * @param string $prefix
 	 * @return array
 	 */
-	public function flattenArray( array $array, $prefix = '' )
+	public function flattenArray( array $array, $flattenValue = false, $prefix = '' )
 	{
 		$result = [];
 		foreach( $array as $key => $value ) {
-			$newKey = $prefix.( empty( $prefix ) ? '' : '.' ).$key;
+			$newKey = ltrim( $prefix.'.'.$key, '.' );
 			if( $this->isIndexedArray( $value )) {
-				$value = '['.implode( ', ', $value ).']';
+				if( $flattenValue ) {
+					$value = '['.implode( ', ', $value ).']';
+				}
 			}
-			if( is_array( $value )) {
-				$result = array_merge( $result, $this->flattenArray( $value, $newKey ));
+			else if( is_array( $value )) {
+				$result = array_merge( $result, $this->flattenArray( $value, $flattenValue, $newKey ));
 				continue;
 			}
 			$result[$newKey] = $value;

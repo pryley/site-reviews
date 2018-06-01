@@ -152,7 +152,7 @@ class System
 	{
 		$helper = glsr( Helper::class );
 		$settings = glsr( OptionManager::class )->get( 'settings', [] );
-		$settings = $helper->flattenArray( $settings );
+		$settings = $helper->flattenArray( $settings, true );
 		foreach( ['submissions.recaptcha.key', 'submissions.recaptcha.secret'] as $key ) {
 			if( empty( $settings[$key] ))continue;
 			$settings[$key] = str_repeat( '*', 10 );
