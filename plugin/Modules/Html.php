@@ -31,21 +31,21 @@ class Html
 	}
 
 	/**
-	 * @param string $path
-	 * @return void|string
-	 */
-	public function buildForm( $path, array $fields = [] )
-	{
-		return glsr( Form::class )->build( $path, $fields );
-	}
-
-	/**
 	 * @param string $partialPath
 	 * @return string
 	 */
 	public function buildPartial( $partialPath, array $args = [] )
 	{
 		return glsr( Partial::class )->build( $partialPath, $args );
+	}
+
+	/**
+	 * @param string $id
+	 * @return void|string
+	 */
+	public function buildSettings( $id )
+	{
+		return glsr( Form::class )->buildFields( $id );
 	}
 
 	/**
@@ -70,14 +70,6 @@ class Html
 	/**
 	 * @return void
 	 */
-	public function renderForm( $path, array $fields = [] )
-	{
-		echo $this->buildForm( $path, $fields );
-	}
-
-	/**
-	 * @return void
-	 */
 	public function renderNotices()
 	{
 		$this->render()->div( glsr( Notice::class )->get(), [
@@ -92,6 +84,15 @@ class Html
 	public function renderPartial( $partialPath, array $args = [] )
 	{
 		echo $this->buildPartial( $partialPath, $args );
+	}
+
+	/**
+	 * @param string $id
+	 * @return void
+	 */
+	public function renderSettings( $id )
+	{
+		echo $this->buildSettings( $id );
 	}
 
 	/**

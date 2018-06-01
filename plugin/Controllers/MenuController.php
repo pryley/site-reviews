@@ -47,8 +47,8 @@ class MenuController extends Controller
 		$pages = $this->parseWithFilter( 'submenu/pages', [
 			'settings' => __( 'Settings', 'site-reviews' ),
 			'tools' => __( 'Tools', 'site-reviews' ),
-			'documentation' => __( 'Documentation', 'site-reviews' ),
 			'addons' => __( 'Add-Ons', 'site-reviews' ),
+			'documentation' => __( 'Documentation', 'site-reviews' ),
 		]);
 		foreach( $pages as $slug => $title ) {
 			$method = glsr( Helper::class )->buildMethodName( 'render-'.$slug.'-menu' );
@@ -109,6 +109,7 @@ class MenuController extends Controller
 		}
 		$this->renderPage( 'settings', [
 			'form' => glsr( Form::class ),
+			'html' => glsr( Html::class ),
 			'tabs' => $tabs,
 		]);
 	}
@@ -127,10 +128,11 @@ class MenuController extends Controller
 		]);
 		$this->renderPage( 'tools', [
 			'data' => [
-				'id' => Application::ID,
-				'logger' => glsr( Logger::class ),
-				'prefix' => Application::PREFIX,
-				'system' => glsr( System::class ),
+				'context' => [
+					'id' => Application::ID,
+					'logger' => (string)glsr( Logger::class ),
+					'system' => (string)glsr( System::class ),
+				],
 			],
 			'html' => glsr( Html::class ),
 			'tabs' => $tabs,

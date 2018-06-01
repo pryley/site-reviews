@@ -13,17 +13,26 @@ class Form
 {
 	/**
 	 * @param string $id
-	 * @return void
+	 * @return string
 	 */
-	public function renderFields( $id )
+	public function buildFields( $id )
 	{
 		$method = glsr( Helper::class )->buildMethodName( $id, 'getTemplateContextFor' );
 		$context = !method_exists( $this, $method )
 			? $this->getTemplateContext( $id )
 			: $this->$method( $id );
-		glsr( Template::class )->render( 'pages/settings/'.$id, [
+		return glsr( Template::class )->build( 'pages/settings/'.$id, [
 			'context' => $context,
 		]);
+	}
+
+	/**
+	 * @param string $id
+	 * @return void
+	 */
+	public function renderFields( $id )
+	{
+		echo $this->buildFields( $id );
 	}
 
 	/**

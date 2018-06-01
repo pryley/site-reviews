@@ -577,12 +577,20 @@ body.branch-4 .notice-warning {
   color: #555;
 }
 
+.glsr-card {
+  max-width: 750px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.glsr-card p.submit {
+  margin: 0;
+}
+
 .glsr-card pre,
 .glsr-card code {
-  white-space: pre;
   word-spacing: normal;
   word-break: normal;
-  word-wrap: normal;
   line-height: 1.5;
   -moz-tab-size: 4;
     -o-tab-size: 4;
@@ -599,6 +607,8 @@ body.branch-4 .notice-warning {
   background-color: #f9f9f9;
   overflow: visible;
   padding: 0;
+  white-space: pre;
+  word-wrap: normal;
 }
 
 .glsr-card pre code {

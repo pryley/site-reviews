@@ -2,12 +2,19 @@
 // Partials -> Settings
 // =============================================================================
 
+.glsr-card {
+	max-width: 750px;
+	box-sizing: border-box;
+}
+
+.glsr-card p.submit {
+	margin: 0;
+}
+
 .glsr-card pre,
 .glsr-card code {
-	white-space: pre;
 	word-spacing: normal;
 	word-break: normal;
-	word-wrap: normal;
 	line-height: 1.5;
 	tab-size: 4;
 	hyphens: none;
@@ -20,6 +27,8 @@
 	background-color: #f9f9f9;
 	overflow: visible;
 	padding: 0;
+	white-space: pre;
+	word-wrap: normal;
 
 	code {
 		background: none;
