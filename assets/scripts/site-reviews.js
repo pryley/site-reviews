@@ -660,7 +660,7 @@ GLSR.onClickPagination = function( ev )
 			parentEl.innerHTML = newParentEl[0].innerHTML;
 			GLSR.scrollToTop( parentEl );
 			GLSR.removeClass( parentEl, 'glsr-hide' );
-			GLSR.on( 'click', '.glsr-ajax-navigation a', GLSR.onClickPagination );
+			GLSR.on( 'click', '.glsr-ajax-pagination .glsr-navigation a', GLSR.onClickPagination );
 			window.history.pushState( null, '', ev.target.href );
 			GLSR.createExceprts( parentEl );
 			return;
@@ -899,7 +899,7 @@ GLSR.on( 'click', '.glsr-field [type="submit"]', function()
 	};
 });
 
-GLSR.on( 'click', '.glsr-ajax-navigation a', GLSR.onClickPagination );
+GLSR.on( 'click', '.glsr-ajax-pagination .glsr-navigation a', GLSR.onClickPagination );
 
 GLSR.ready( function()
 {
