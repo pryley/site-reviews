@@ -2,7 +2,6 @@
 var x = jQuery.noConflict();
 
 var GLSR = {
-	addons: {},
 	keys: {
 		ENTER: 13,
 		ESC: 27,
@@ -10,8 +9,6 @@ var GLSR = {
 		UP: 38,
 		DOWN: 40,
 	},
-	pinned: {},
-	shortcode: {},
 	translation: {},
 };
 
@@ -91,31 +88,9 @@ GLSR.forms.prototype = {
 GLSR.colorControls = function()
 {
 	if( typeof x.wp !== 'object' || typeof x.wp.wpColorPicker !== 'function' )return;
-
 	x( document ).find( 'input[type="text"].color-picker-hex' ).each( function() {
-		var t = x( this );
-		var options = t.data( 'colorpicker' ) || {};
-		t.wpColorPicker( options );
+		x( this ).wpColorPicker( x( this ).data( 'colorpicker' ) || {} );
 	});
-};
-
-GLSR.dismissNotices = function()
-{
-	x( '.notice.is-dismissible' ).each( function() {
-		var notice = x( this );
-		notice.fadeTo( 100, 0, function() {
-			notice.slideUp( 100, function() {
-				notice.remove();
-			});
-		});
-	});
-};
-
-GLSR.getURLParameter = function( name )
-{
-	return decodeURIComponent(
-		(new RegExp( '[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)' ).exec( location.search ) || [null, ''])[1].replace( /\+/g, '%20' )
-	) || null;
 };
 
 GLSR.insertNotices = function( notices )
@@ -129,46 +104,16 @@ GLSR.insertNotices = function( notices )
 	x( document ).trigger( 'wp-updates-notice-added' );
 };
 
-GLSR.isUndefined = function( value )
-{
-	return value === void(0);
-};
-
-GLSR.onChangeStatus = function( ev )
-{
-	var post_id = this.href.match(/post=([0-9]+)/)[1];
-	var status  = this.href.match(/action=([a-z]+)/)[1];
-
-	if( GLSR.isUndefined( status ) || GLSR.isUndefined( post_id ))return;
-
-	var request = {
-		action: 'change-review-status',
-		status : status,
-		post_id: post_id,
-	};
-
-	GLSR.postAjax( ev, request, function( response )
-	{
-		var el = x( ev.target );
-		if( !response.class )return;
-		el.closest( 'tr' ).removeClass( 'status-pending status-publish' ).addClass( response.class );
-		el.closest( 'td.column-title' ).find( 'strong' ).html( response.link );
-	});
-};
-
 GLSR.onClearLog = function( ev )
 {
 	var request = {
 		action: 'clear-log',
 	};
-	GLSR.postAjax( ev, request, function( response )
-	{
+	GLSR.postAjax( ev, request, function( response ) {
 		GLSR.insertNotices( response.notices );
 		x( '#log-file' ).val( response.logger );
 	});
 };
-
-
 
 GLSR.pointers = function( pointer )
 {
@@ -184,7 +129,6 @@ GLSR.pointers = function( pointer )
 	})
 	.pointer( 'open' )
 	.pointer( 'sendToTop' );
-
 	x( document ).on( 'wp-window-resized', function() {
 		x( pointer.target ).pointer( 'reposition' );
 	});
@@ -212,13 +156,9 @@ GLSR.postAjax = function( ev, request, callback )
 GLSR.textareaResize = function( el )
 {
 	var minHeight = 320;
-	var textarea  = el[0];
-
+	var textarea = el[0];
 	textarea.style.height = 'auto';
-
-	textarea.style.height = textarea.scrollHeight > minHeight ?
-		textarea.scrollHeight + 'px' :
-		minHeight + 'px';
+	textarea.style.height = textarea.scrollHeight > minHeight ? textarea.scrollHeight + 'px' : minHeight + 'px';
 };
 
 /** global: GLSR, site_reviews, x */
@@ -241,7 +181,7 @@ GLSR.pinned.prototype = {
 		x( 'a.cancel-pinned-status' ).on( 'click', this.onClickCancel.bind( this ));
 		x( 'a.edit-pinned-status' ).on( 'click', this.onClickEdit.bind( this ));
 		x( 'a.save-pinned-status' ).on( 'click', this.onClickSave.bind( this ));
-		x( 'table td.sticky i' ).on( 'click', this.onClickToggle.bind( this ));
+		x( 'table td.pinned i' ).on( 'click', this.onClickToggle.bind( this ));
 	},
 
 	/** @return void */
@@ -269,6 +209,7 @@ GLSR.pinned.prototype = {
 		var request = {
 			action: 'toggle-pinned',
 			id: x( '#post_ID' ).val(),
+			nonce: site_reviews.pinned_nonce,
 			pinned: x( '#pinned-status' ).val(),
 		};
 		this.request( request, this.save.bind( this ));
@@ -281,6 +222,7 @@ GLSR.pinned.prototype = {
 		var request = {
 			action: 'toggle-pinned',
 			id: ev.target.getAttribute( 'data-id' ),
+			nonce: site_reviews.pinned_nonce,
 		};
 		this.request( request, this.toggle.bind( this ));
 	},
@@ -298,20 +240,19 @@ GLSR.pinned.prototype = {
 	save: function( response ) {
 		x( '#pinned-status' ).val( !response.pinned|0 );
 		x( '#hidden-pinned-status' ).val( response.pinned|0 );
-		x( '#pinned-status-text' ).text( response.pinned ? this.target.data( 'yes' ) : this.target.data( 'no' ));
-		// GLSR.insertNotices( response.notices );
+		x( '#pinned-status-text' ).text( response.pinned ? this.target.dataset.yes : this.target.dataset.no );
+		GLSR.insertNotices( response.notices );
 	},
 
 	/** @return void */
 	toggle: function( response ) {
-		var action = response.pinned ? 'add' : 'remove';
-		this.target[action + 'Class']( 'pinned' );
+		this.target.classList[response.pinned ? 'add' : 'remove']( 'pinned' );
 	},
 };
 
 /** global: _, GLSR, x, wp */
-GLSR.search = function( el, options ) {
-	this.el = Object.prototype.toString.call( el ) === '[object String]' ? x( el ) : el;
+GLSR.search = function( selector, options ) {
+	this.el = x( selector );
 	this.options = options;
 	this.searchTerm = null;
 	this.init();
@@ -557,178 +498,271 @@ GLSR.search.prototype = {
 	},
 };
 
-GLSR.shortcode.close = function( el )
-{
-	var button = x(( el = el || '.glsr-mce-button' ));
-	if( button.length ) {
-		button.removeClass( 'active' ).parent().find( '.glsr-mce-menu' ).hide();
-	}
+/** global: editor, GLSR, site_reviews, tinymce, x */
+GLSR.shortcode = function( selector ) {
+	this.el = document.querySelector( selector );
+	if( !this.el )return;
+	this.current = null; // GLSR.shortcode.current is used by scForm to trigger the correct popup
+	this.editor = null;
+	this.button = this.el.querySelector( 'button' );
+	this.menuItems = this.el.querySelectorAll( '.mce-menu-item' );
+	if( !this.button || !this.menuItems.length )return;
+	this.create = function( editor_id ) {
+		this.editor = tinymce.get( editor_id );
+		if( !this.editor )return;
+		this.request({
+			action: 'mce-shortcode',
+			nonce: site_reviews.mce_nonce,
+			shortcode: this.current,
+		});
+	};
+	this.init();
 };
 
-GLSR.shortcode.open = function( el )
-{
-	x( el ).addClass( 'active' ).parent().find( '.glsr-mce-menu' ).show();
-};
+GLSR.shortcode.prototype = {
 
-GLSR.shortcode.toggle = function( ev )
-{
-	ev.preventDefault();
-	if( x( this ).hasClass( 'active' ) ) {
-		GLSR.shortcode.close( this );
-	}
-	else {
-		GLSR.shortcode.open( this );
-	}
-};
+	attributes: {},
 
-GLSR.shortcode.trigger = function( ev )
-{
-	ev.preventDefault();
-	// GLSR.shortcode.current is used by scForm to trigger the correct popup
-	GLSR.shortcode.current = x( this ).attr( 'data-shortcode' );
-	if( !GLSR.shortcode.current )return;
-	if( !tinymce.get( window.wpActiveEditor ) ) {
-		// Quicktags Editor
-		if( !x( '#scTemp' ).length ) {
-			x( 'body' ).append( '<textarea id="scTemp" style="display: none;" />' );
-			tinymce.init({
-				mode     : 'exact',
-				elements : 'scTemp',
-				plugins  : ['glsr_shortcode', 'wplink']
-			});
+	hiddenKeys: [],
+
+	hiddenFields: {
+		site_reviews: ['author','avatar','date','excerpt','rating','response','title'],
+		site_reviews_form: ['email','name','terms','title'],
+		site_reviews_summary: ['bars','if_empty','rating','stars','summary'],
+	},
+
+	/** @return void */
+	init: function() {
+		document.addEventListener( 'click', this.onClose.bind( this ));
+		this.button.addEventListener( 'click', this.onToggle.bind( this ));
+		this.menuItems.forEach( function( item ) {
+			item.addEventListener( 'click', this.onTrigger.bind( this ));
+		}.bind( this ));
+	},
+
+	/** @return void */
+	initTinymceEditor: function() {
+		tinymce.execCommand( 'GLSR_Shortcode' );
+	},
+
+	/** @return void */
+	initQuicktagsEditor: function() {
+		if( x( '#scTemp' ).length ) {
+			this.initTinymceEditor();
+			return;
+		}
+		x( 'body' ).append( '<textarea id="scTemp" style="display:none;"/>' );
+		tinymce.init({
+			elements: 'scTemp',
+			mode: 'exact',
+			plugins: ['glsr_shortcode', 'wplink'],
+		});
+		setTimeout( function() {
+			this.initTinymceEditor();
+		}, 200 );
+	},
+
+	/** @return void */
+	close: function() {
+		x( this.button ).removeClass( 'active' );
+		x( this.el ).find( '.glsr-mce-menu' ).hide();
+	},
+
+	/** @return void */
+	destroy: function() {
+		var tmp = x( '#scTemp' );
+		if( tmp.length ) {
+			tinymce.get( 'scTemp' ).remove();
+			tmp.remove();
+		}
+	},
+
+	/** @return void */
+	normalize: function( attributes ) {
+		this.attributes = attributes;
+		this.hiddenKeys = [];
+		for( var key in attributes ) {
+			if( !attributes.hasOwnProperty( key ))continue;
+			this.normalizeCount( key );
+			this.normalizeHide( key );
+			this.normalizeId( key );
+		}
+		this.attributes.hide = this.hiddenKeys.join( ',' );
+	},
+
+	/** @return void */
+	normalizeCount: function( key ) {
+		if( key === 'count' && !x.isNumeric( this.attributes[key] )) {
+			this.attributes[key] = '';
+		}
+	},
+
+	/** @return void */
+	normalizeHide: function( key ) {
+		if( !this.hiddenFields.hasOwnProperty( this.current ))return;
+		var value = key.substring('hide_'.length);
+		if( this.hiddenFields[this.current].indexOf( value ) === -1 )return;
+		if( this.attributes[key] ) {
+			this.hiddenKeys.push( value );
+		}
+		delete this.attributes[key];
+	},
+
+	/** @return void */
+	normalizeId: function( key ) {
+		if( key === 'id' ) {
+			this.attributes[key] = (+new Date()).toString(36);
+		}
+	},
+
+	/** @return void */
+	onClose: function( ev ) {
+		if( x( ev.target ).closest( x( this.el )).length )return;
+		this.close();
+	},
+
+	/** @return void */
+	onToggle: function( ev ) {
+		ev.preventDefault();
+		this[ev.target.classList.contains( 'active' ) ? 'close' : 'open']();
+	},
+
+	/** @return void */
+	onTrigger: function( ev ) {
+		ev.preventDefault();
+		this.current = ev.target.dataset.shortcode;
+		if( !this.current )return;
+		if( tinymce.get( window.wpActiveEditor )) {
+			this.initTinymceEditor();
+		}
+		else {
+			this.initQuicktagsEditor();
 		}
 		setTimeout( function() {
-			tinymce.execCommand( 'GLSR_Shortcode' );
-		}, 200 );
-	}
-	else {
-		// TinyMCE Editor
-		tinymce.execCommand( 'GLSR_Shortcode' );
-	}
-	setTimeout( function() {
-		GLSR.shortcode.close();
-	}, 100 );
-};
+			this.close();
+		}.bind( this ), 100 );
+	},
 
-GLSR.shortcode.create = function( editor_id )
-{
-	var editor = tinymce.get( editor_id );
-	if( !editor )return;
-	var data = {
-		action: site_reviews.action,
-		request: {
-			action: 'mce-shortcode',
-			nonce: x( '#_glsr_nonce' ).val(),
-			shortcode: GLSR.shortcode.current,
-		},
-	};
-	x.post( site_reviews.ajaxurl, data, function( response )
-	{
+	/** @return void */
+	open: function() {
+		x( this.button ).addClass( 'active' );
+		x( this.el ).find( '.glsr-mce-menu' ).show();
+	},
+
+	/** @return void */
+	request: function( request ) {
+		var data = {
+			action: site_reviews.action,
+			request: request,
+		};
+		x.post( site_reviews.ajaxurl, data, this.response.bind( this ));
+	},
+
+	/** @return void */
+	response: function( response ) {
 		if( !response.body )return;
 		if( response.body.length === 0 ) {
 			window.send_to_editor( '[' + response.shortcode + ']' );
-			GLSR.shortcode.destroy();
+			this.destroy();
 			return;
 		}
-		var buttons = [{
-			text    : response.ok,
-			classes : 'btn glsr-btn primary',
-			onclick : function() {
-				var field, required, valid, win;
-				// Get the top most window object
-				win = editor.windowManager.getWindows()[0];
-				// Get the shortcode required attributes
-				required = site_reviews.shortcodes[ GLSR.shortcode.current ];
-				valid = true;
-				// Do some validation voodoo
-				for( var id in required ) {
-					if( !required.hasOwnProperty( id ) )continue;
-					field = win.find( '#' + id )[0];
-					if( typeof field !== 'undefined' && field.state.data.value === '' ) {
-						valid = false;
-						alert( required[ id ] );
-						break;
-					}
-				}
-				if( valid ) {
-					win.submit();
-				}
-			}
-		},{
-			text    : response.close,
-			onclick : 'close'
-		}];
-		var popup = {
-			title   : response.title,
-			body    : response.body,
-			classes: 'glsr-mce-popup',
-			minWidth: 320,
-			buttons : buttons,
-			onsubmit: function( e ) {
-				var attributes = '';
-				var data = GLSR.shortcode.normalize( e.data );
-				for( var key in data ) {
-					if( data.hasOwnProperty( key ) && data[ key ] !== '' ) {
-						attributes += ' ' + key + '="' + data[ key ] + '"';
-					}
-				}
-				// Insert shortcode into the WP_Editor
-				window.send_to_editor( '[' + response.shortcode + attributes + ']' );
-			},
-			onclose: function() {
-				GLSR.shortcode.destroy();
-			}
-		};
+		var popup = this.responsePopup( response );
 		// Change the buttons if server-side validation failed
 		if( response.ok.constructor === Array ) {
-			popup.buttons[0].text    = response.ok[0];
+			popup.buttons[0].text = response.ok[0];
 			popup.buttons[0].onclick = 'close';
 			delete popup.buttons[1];
 		}
-		editor.windowManager.open( popup );
-	});
+		this.editor.windowManager.open( popup );
+	},
+
+	/** @return array */
+	responseButtons: function( response ) {
+		return [{
+			text: response.ok,
+			classes: 'btn glsr-btn primary',
+			onclick: function() {
+				var currentWindow = this.editor.windowManager.getWindows()[0];
+				if( !this.validateAttributes( currentWindow ) )return;
+				currentWindow.submit();
+			}.bind( this ),
+		},{
+			text: response.close,
+			onclick: 'close'
+		}];
+	},
+
+	/** @return object */
+	responsePopup: function( response ) {
+		return {
+			title: response.title,
+			body: response.body,
+			classes: 'glsr-mce-popup',
+			minWidth: 320,
+			buttons: this.responseButtons( response ),
+			onsubmit: this.sendToEditor.bind( this, response ),
+			onclose: this.destroy.bind( this ),
+		};
+	},
+
+	/** @return void */
+	sendToEditor: function( response, ev ) {
+		var attributes = '';
+		this.normalize( ev.data );
+		for( var key in this.attributes ) {
+			if( this.attributes.hasOwnProperty( key ) && this.attributes[key] !== '' ) {
+				attributes += ' ' + key + '="' + this.attributes[key] + '"';
+			}
+		}
+		window.send_to_editor( '[' + response.shortcode + attributes + ']' );
+	},
+
+	/** @return bool */
+	validateAttributes: function( currentWindow ) {
+		var field;
+		var is_valid = true;
+		var requiredAttributes = site_reviews.shortcodes[this.current];
+		for( var id in requiredAttributes ) {
+			if( !requiredAttributes.hasOwnProperty( id ))continue;
+			field = currentWindow.find( '#' + id )[0];
+			if( typeof field !== 'undefined' && field.state.data.value === '' ) {
+				is_valid = false;
+				alert( requiredAttributes[id] );
+				break;
+			}
+		}
+		return is_valid;
+	},
 };
 
-GLSR.shortcode.normalize = function( data )
-{
-	var shortcodeHiddenFields = {
-		'site_reviews' : ['author','date','excerpt','rating','response','title'],
-		'site_reviews_form': ['email','name','terms','title'],
-		'site_reviews_summary': ['bars','if_empty','rating','stars','summary'],
-	};
-	var hide = [];
-	for( var key in data ) {
-		if( !data.hasOwnProperty( key ) )continue;
-		if( shortcodeHiddenFields.hasOwnProperty( GLSR.shortcode.current ) ) {
-			var value = '';
-			if( key.lastIndexOf( 'hide_', 0 ) === 0 ) {
-				value = key.substring(5);
-			}
-			if( shortcodeHiddenFields[ GLSR.shortcode.current ].indexOf( value ) > -1 ) {
-				if( data[ key ] ) {
-					hide.push( value );
-				}
-				delete data[ key ];
-			}
-		}
-		if( key === 'count' && !x.isNumeric( data[ key ] ) ) {
-			data[ key ] = '';
-		}
-		if( key === 'id' ) {
-			data[ key ] = (+new Date()).toString(36);
-		}
-	}
-	data.hide = hide.join( ',' );
-	return data;
+/** global: GLSR, site_reviews, x */
+GLSR.status = function( selector ) {
+	var elements = document.querySelectorAll( selector );
+	if( !elements.length )return;
+	elements.forEach( function( el ) {
+		el.addEventListener( 'click', this.onClick );
+	}.bind( this ));
 };
 
-GLSR.shortcode.destroy = function()
-{
-	var tmp = x( '#scTemp' );
-	if( tmp.length ) {
-		tinymce.get( 'scTemp' ).remove();
-		tmp.remove();
-	}
+GLSR.status.prototype = {
+
+	onClick: function( ev ) {
+		var post_id = ev.target.href.match(/post=([0-9]+)/);
+		var status = ev.target.href.match(/action=([a-z]+)/);
+		if( post_id === null || status === null )return;
+		var request = {
+			action: 'change-review-status',
+			nonce: site_reviews.status_nonce,
+			post_id: post_id[1],
+			status: status[1],
+		};
+		GLSR.postAjax( ev, request, function( response ) {
+			if( !response.class )return;
+			var el = x( ev.target );
+			el.closest( 'tr' ).removeClass( 'status-pending status-publish' ).addClass( response.class );
+			el.closest( 'td.column-title' ).find( 'strong' ).html( response.link );
+		});
+	},
 };
 
 GLSR.tabs = function( options ) {
@@ -809,11 +843,6 @@ x( function()
 		return confirm( site_reviews.are_you_sure );
 	});
 
-	var GLSR_fix = GLSR.getURLParameter( 'fix' );
-	if( GLSR_fix ) {
-		x( 'td [data-key="' + GLSR_fix + '"]').focus();
-	}
-
 	var GLSR_textarea = x( '#contentdiv > textarea' );
 	if( GLSR_textarea.length ) {
 		GLSR.textareaResize( GLSR_textarea );
@@ -824,24 +853,36 @@ x( function()
 
 	x( 'form' ).on( 'click', '#clear-log', GLSR.onClearLog );
 
-	GLSR.colorControls();
-
 	x.each( site_reviews_pointers.pointers, function( i, pointer ) {
 		GLSR.pointers( pointer );
 	});
 
-	x( document ).on( 'click', function( ev ) {
-		if( !x( ev.target ).closest( '.glsr-mce' ).length ) {
-			GLSR.shortcode.close();
-		}
-	});
+	GLSR.colorControls();
 
-	x( document ).on( 'click', '.glsr-mce-button', GLSR.shortcode.toggle );
-	x( document ).on( 'click', '.glsr-mce-menu-item', GLSR.shortcode.trigger );
-	x( document ).on( 'click', 'a.change-site-review-status', GLSR.onChangeStatus );
-
-	new GLSR.forms( 'form.glsr-form' );
 	new GLSR.pinned();
+	new GLSR.tabs();
+	new GLSR.forms( 'form.glsr-form' );
+	new GLSR.status( 'a.glsr-change-status' );
+	new GLSR.search( '#glsr-search-posts', {
+		action: 'search-posts',
+		onInit: function() {
+			this.el.on( 'click', '.glsr-remove-button', this.onUnassign.bind( this ));
+		},
+		onResultClick: function( ev ) {
+			var result = x( ev.target );
+			var template = wp.template( 'glsr-assigned-post' );
+			var entry = {
+				url: result.data( 'url' ),
+				title: result.text(),
+			};
+			if( template ) {
+				this.el.find( 'input#assigned_to' ).val( result.data( 'id' ));
+				this.el.find( '.description' ).html( template( entry ));
+				this.el.on( 'click', '.glsr-remove-button', this.onUnassign.bind( this ));
+				this.reset();
+			}
+		},
+	});
 	new GLSR.search( '#glsr-search-translations', {
 		action: 'search-translations',
 		onInit: function() {
@@ -863,25 +904,8 @@ x( function()
 			this.setVisibility();
 		},
 	});
-	new GLSR.search( '#glsr-search-posts', {
-		action: 'search-posts',
-		onInit: function() {
-			this.el.on( 'click', '.glsr-remove-button', this.onUnassign.bind( this ));
-		},
-		onResultClick: function( ev ) {
-			var result = x( ev.target );
-			var template = wp.template( 'glsr-assigned-post' );
-			var entry = {
-				url: result.data( 'url' ),
-				title: result.text(),
-			};
-			if( template ) {
-				this.el.find( 'input#assigned_to' ).val( result.data( 'id' ));
-				this.el.find( '.description' ).html( template( entry ));
-				this.el.on( 'click', '.glsr-remove-button', this.onUnassign.bind( this ));
-				this.reset();
-			}
-		},
-	});
-	new GLSR.tabs();
+
+	GLSR.modules = {
+		shortcode: new GLSR.shortcode( '.glsr-mce' ),
+	};
 });

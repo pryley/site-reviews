@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Handlers\EnqueueAdminAssets;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Logger;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -114,7 +115,7 @@ class AdminController extends Controller
 	 */
 	public function renderReviewEditor( WP_Post $post )
 	{
-		if( !$this->isReviewEditable( $post ) )return;
+		if( !$this->isReviewPostType( $post ) || $this->isReviewEditable( $post ) )return;
 		glsr()->render( 'partials/editor/review', [
 			'post' => $post,
 		]);
@@ -126,9 +127,13 @@ class AdminController extends Controller
 	 */
 	public function renderReviewNotice( WP_Post $post )
 	{
-		if( !$this->isReviewEditable( $post ) )return;
+		if( !$this->isReviewPostType( $post ) || $this->isReviewEditable( $post ))return;
 		glsr( Notice::class )->addWarning( __( 'This review is read-only.', 'site-reviews' ));
-		glsr()->render( 'partials/editor/notice' );
+		glsr( Html::class )->renderTemplate( 'partials/editor/notice', [
+			'context' => [
+				'notices' => glsr( Notice::class )->get(),
+			],
+		]);
 	}
 
 	/**
@@ -227,8 +232,16 @@ class AdminController extends Controller
 	 */
 	protected function isReviewEditable( WP_Post $post )
 	{
-		return $post->post_type == Application::POST_TYPE
+		return $this->isReviewPostType( $post )
 			&& post_type_supports( Application::POST_TYPE, 'title' )
 			&& get_post_meta( $post->ID, 'review_type', true ) == 'local';
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function isReviewPostType( WP_Post $post )
+	{
+		return $post->post_type == Application::POST_TYPE;
 	}
 }

@@ -9,5 +9,4 @@
 		<div class="mce-menu-item glsr-mce-menu-item" data-shortcode="<?= $key; ?>"><?= $values['label']; ?></div>
 	<?php endforeach; ?>
 	</div>
-	<?php wp_nonce_field( 'mce-shortcode', '_glsr_nonce' ); ?>
 </div>

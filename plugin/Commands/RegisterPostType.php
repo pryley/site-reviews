@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Commands;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Defaults\PostTypeDefaults;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class RegisterPostType
 {
@@ -74,8 +75,10 @@ class RegisterPostType
 			$this->columns = array_combine( $keys, $this->columns );
 		}
 		if( array_key_exists( 'pinned', $this->columns )) {
-			$stickyValue = '<span class="pinned-icon"><span>'.$this->columns['pinned'].'</span></span>';
-			$this->columns['pinned'] = $stickyValue;
+			$this->columns['pinned'] = glsr( Builder::class )->span(
+				'<span>'.$this->columns['pinned'].'</span>',
+				['class' => 'pinned-icon']
+			);
 		}
 	}
 }

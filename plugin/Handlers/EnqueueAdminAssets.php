@@ -46,7 +46,10 @@ class EnqueueAdminAssets
 			'action' => Application::PREFIX.'action',
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'are_you_sure' => __( 'Are you sure want to do this?', 'site-reviews' ),
+			'mce_nonce' => wp_create_nonce( 'mce-shortcode' ),
+			'pinned_nonce' => wp_create_nonce( 'toggle-pinned' ),
 			'shortcodes' => [],
+			'status_nonce' => wp_create_nonce( 'change-review-status' ),
 		];
 		if( user_can_richedit() ) {
 			$variables['shortcodes'] = $this->localizeShortcodes();

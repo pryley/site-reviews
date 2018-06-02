@@ -10,6 +10,11 @@ class Attributes
 		'download', 'href', 'hreflang', 'ping', 'referrerpolicy', 'rel', 'target', 'type',
 	];
 
+	const ATTRIBUTES_BUTTON = [
+		'autofocus', 'disabled', 'form', 'formaction', 'formenctype', 'formmethod',
+		'formnovalidate', 'formtarget', 'name', 'type', 'value',
+	];
+
 	const ATTRIBUTES_FORM = [
 		'accept', 'accept-charset', 'action', 'autocapitalize', 'autocomplete', 'enctype', 'method',
 		'name', 'novalidate', 'target',
@@ -132,6 +137,18 @@ class Attributes
 	}
 
 	/**
+	 * @return array
+	 */
+	protected function getPermanentAttributes()
+	{
+		$permanentAttributes = [];
+		if( array_key_exists( 'value', $this->attributes )) {
+			$permanentAttributes['value'] = $this->attributes['value'];
+		}
+		return $permanentAttributes;
+	}
+
+	/**
 	 * @param string $attribute
 	 * @return string
 	 */
@@ -234,17 +251,17 @@ class Attributes
 	protected function removeEmptyAttributes()
 	{
 		$attributes = $this->attributes;
-		$dataAttributes = [];
+		$permanentAttributes = $this->getPermanentAttributes();
 		foreach( $this->attributes as $key => $value ) {
 			if( in_array( $key, static::BOOLEAN_ATTRIBUTES ) && !$value ) {
 				unset( $attributes[$key] );
 			}
 			if( glsr( Helper::class )->startsWith( 'data-', $key )) {
-				$dataAttributes[$key] = $value;
+				$permanentAttributes[$key] = $value;
 				unset( $attributes[$key] );
 			}
 		}
-		$this->attributes = array_merge( array_filter( $attributes ), $dataAttributes );
+		$this->attributes = array_merge( array_filter( $attributes ), $permanentAttributes );
 	}
 
 	/**

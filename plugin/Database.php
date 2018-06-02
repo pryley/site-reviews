@@ -63,6 +63,26 @@ class Database
 	}
 
 	/**
+	 * @param int|WP_post $post
+	 * @param string $assignedTo
+	 * @return void|WP_Post
+	 */
+	public function getAssignedToPost( $post, $assignedTo = '' )
+	{
+		$post = get_post( $post );
+		if( !( $post instanceof WP_Post ))return;
+		if( empty( $assignedTo )) {
+			$assignedTo = get_post_meta( $post->ID, 'assigned_to', true );
+		}
+		$assignedPost = get_post( $assignedTo );
+		if( !empty( $assignedTo )
+			&& $assignedPost instanceof WP_Post
+			&& $assignedPost->ID != $post->ID ) {
+			return $assignedPost;
+		}
+	}
+
+	/**
 	 * @param \WP_Post|null $post
 	 * @return null|object
 	 */

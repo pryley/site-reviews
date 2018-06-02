@@ -67,7 +67,6 @@ site-reviews/rendered/partial
 
 [Columns.php]
 site-reviews/columns/{column_slug}
-site-reviews/disable/filter/ratings
 
 [ValidateReview.php]
 site-reviews/validate/review/submission

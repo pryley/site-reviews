@@ -339,7 +339,7 @@ body.branch-4-2 .glsr-mce-menu .glsr-mce-menu-item:hover {
   color: #fff;
 }
 
-#geminilabs-site-reviews_review.postbox .inside {
+#site-reviews_review.postbox .inside {
   padding: 0;
   margin: 0;
 }
@@ -1242,6 +1242,14 @@ body.branch-4-2 .glsr-status .is-expanded .toggle-row:before {
   }
 }
 
+.glsr-metabox-table .star-rating .star,
+.column-rating .star-rating .star {
+  width: 16px;
+  font-size: 16px;
+  line-height: 20px;
+  color: #555;
+}
+
 .hide-column-tog + .pinned-icon + svg {
   display: none;
 }
@@ -1426,7 +1434,7 @@ body.branch-4-2 .glsr-status .is-expanded .toggle-row:before {
     margin-left: 3px;
   }
   .post-type-site-review .wp-list-table td.column-pinned {
-    padding: 8px;
+    padding: 8px 6px;
   }
   .post-type-site-review .wp-list-table td.column-pinned i {
     text-indent: 0;

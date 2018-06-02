@@ -2,6 +2,25 @@
 // Partials -> WP List Table
 // =============================================================================
 
+.glsr-metabox-table .star-rating .star,
+.column-rating .star-rating .star {
+	width: 16px;
+	font-size: 16px;
+	line-height: 20px;
+	color: #555;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 .hide-column-tog + .pinned-icon + svg {
 	display: none;
 }
@@ -178,7 +197,7 @@
 		}
 
 		td.column-pinned {
-			padding: 8px;
+			padding: 8px 6px;
 
 			i {
 				text-indent: 0;

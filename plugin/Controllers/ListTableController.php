@@ -3,15 +3,15 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Controllers\Controller;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\ListTable\Columns;
 use WP_Post;
-use WP_Screen;
 use WP_Query;
+use WP_Screen;
 
 class ListTableController extends Controller
 {
@@ -89,17 +89,18 @@ class ListTableController extends Controller
 			'approve' => esc_attr__( 'Approve', 'site-reviews' ),
 			'unapprove' => esc_attr__( 'Unapprove', 'site-reviews' ),
 		];
+		$newActions = [];
 		foreach( $rowActions as $key => $text ) {
-			$actions[$key] = glsr( Builder::class )->a( $text, [
+			$newActions[$key] = glsr( Builder::class )->a( $text, [
 				'aria-label' => sprintf( esc_attr_x( '%s this review', 'Approve the review', 'site-reviews' ), $text ),
-				'class' => 'change-'.Application::POST_TYPE.'-status',
+				'class' => 'glsr-change-status',
 				'href' => wp_nonce_url(
 					admin_url( 'post.php?post='.$post->ID.'&action='.$key ),
 					$key.'-review_'.$post->ID
 				),
 			]);
 		}
-		return $actions;
+		return $newActions + $actions;
 	}
 
 	/**
@@ -171,6 +172,7 @@ class ListTableController extends Controller
 
 	/**
 	 * @param string $column
+	 * @param string $postId
 	 * @return void
 	 * @action manage_posts_custom_column
 	 */

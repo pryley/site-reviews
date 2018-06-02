@@ -2,7 +2,6 @@
 var x = jQuery.noConflict();
 
 var GLSR = {
-	addons: {},
 	keys: {
 		ENTER: 13,
 		ESC: 27,
@@ -10,7 +9,5 @@ var GLSR = {
 		UP: 38,
 		DOWN: 40,
 	},
-	pinned: {},
-	shortcode: {},
 	translation: {},
 };

@@ -18,7 +18,7 @@ GLSR.pinned.prototype = {
 		x( 'a.cancel-pinned-status' ).on( 'click', this.onClickCancel.bind( this ));
 		x( 'a.edit-pinned-status' ).on( 'click', this.onClickEdit.bind( this ));
 		x( 'a.save-pinned-status' ).on( 'click', this.onClickSave.bind( this ));
-		x( 'table td.sticky i' ).on( 'click', this.onClickToggle.bind( this ));
+		x( 'table td.pinned i' ).on( 'click', this.onClickToggle.bind( this ));
 	},
 
 	/** @return void */
@@ -46,6 +46,7 @@ GLSR.pinned.prototype = {
 		var request = {
 			action: 'toggle-pinned',
 			id: x( '#post_ID' ).val(),
+			nonce: site_reviews.pinned_nonce,
 			pinned: x( '#pinned-status' ).val(),
 		};
 		this.request( request, this.save.bind( this ));
@@ -58,6 +59,7 @@ GLSR.pinned.prototype = {
 		var request = {
 			action: 'toggle-pinned',
 			id: ev.target.getAttribute( 'data-id' ),
+			nonce: site_reviews.pinned_nonce,
 		};
 		this.request( request, this.toggle.bind( this ));
 	},
@@ -75,13 +77,12 @@ GLSR.pinned.prototype = {
 	save: function( response ) {
 		x( '#pinned-status' ).val( !response.pinned|0 );
 		x( '#hidden-pinned-status' ).val( response.pinned|0 );
-		x( '#pinned-status-text' ).text( response.pinned ? this.target.data( 'yes' ) : this.target.data( 'no' ));
-		// GLSR.insertNotices( response.notices );
+		x( '#pinned-status-text' ).text( response.pinned ? this.target.dataset.yes : this.target.dataset.no );
+		GLSR.insertNotices( response.notices );
 	},
 
 	/** @return void */
 	toggle: function( response ) {
-		var action = response.pinned ? 'add' : 'remove';
-		this.target[action + 'Class']( 'pinned' );
+		this.target.classList[response.pinned ? 'add' : 'remove']( 'pinned' );
 	},
 };

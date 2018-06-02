@@ -19,6 +19,7 @@ scripts:
     - +/scripts/admin/pinned.js
     - +/scripts/admin/search.js
     - +/scripts/admin/shortcode.js
+    - +/scripts/admin/status.js
     - +/scripts/admin/tabs.js
     - +/scripts/admin/ready.js
   site-reviews.js:

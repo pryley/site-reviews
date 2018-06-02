@@ -9,7 +9,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Attributes;
 class Builder
 {
 	const INPUT_TYPES = [
-		'button', 'checkbox', 'date', 'datetime-local', 'email', 'file', 'hidden', 'image', 'month',
+		'checkbox', 'date', 'datetime-local', 'email', 'file', 'hidden', 'image', 'month',
 		'number', 'password', 'radio', 'range', 'reset', 'search', 'submit', 'tel', 'text', 'time',
 		'url', 'week',
 	];
@@ -23,7 +23,7 @@ class Builder
 	];
 
 	const TAGS_TEXT = [
-		'a', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'i', 'label', 'li', 'option', 'p', 'pre', 'small',
+		'a', 'button', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'i', 'label', 'li', 'option', 'p', 'pre', 'small',
 		'span',
 	];
 

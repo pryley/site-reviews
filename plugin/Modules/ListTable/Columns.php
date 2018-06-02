@@ -12,6 +12,75 @@ use WP_Post;
 class Columns
 {
 	/**
+	 * @param int $postId
+	 * @return string
+	 */
+	public function buildColumnAssignedTo( $postId )
+	{
+		$assignedPost = glsr( Database::class )->getAssignedToPost( $postId );
+		$column = '&mdash;';
+		if( $assignedPost instanceof WP_Post && $assignedPost->post_status == 'publish' ) {
+			$column = glsr( Builder::class )->a( get_the_title( $assignedPost->ID ), [
+				'href' => (string)get_the_permalink( $assignedPost->ID ),
+			]);
+		}
+		return $column;
+	}
+
+	/**
+	 * @param int $postId
+	 * @return string
+	 */
+	public function buildColumnPinned( $postId )
+	{
+		$pinned = glsr( Database::class )->getReviewMeta( $postId )->pinned
+			? 'pinned '
+			: '';
+		return glsr( Builder::class )->i([
+			'class' => $pinned.'dashicons dashicons-sticky',
+			'data-id' => $postId,
+		]);
+	}
+
+	/**
+	 * @param int $postId
+	 * @return string
+	 */
+	public function buildColumnReviewer( $postId )
+	{
+		return glsr( Database::class )->getReviewMeta( $postId )->author;
+	}
+
+	/**
+	 * @param int $postId
+	 * @param null|int $rating
+	 * @return string
+	 */
+	public function buildColumnRating( $postId, $rating = null )
+	{
+		if( is_null( $rating )) {
+			$rating = glsr( Database::class )->getReviewMeta( $postId )->rating;
+		}
+		ob_start();
+		wp_star_rating([
+			'rating' => $rating,
+		]);
+		return ob_get_clean();
+	}
+
+	/**
+	 * @param int $postId
+	 * @return string
+	 */
+	public function buildColumnType( $postId )
+	{
+		$reviewMeta = glsr( Database::class )->getReviewMeta( $postId );
+		return isset( glsr()->reviewTypes[$reviewMeta->review_type] )
+			? glsr()->reviewTypes[$reviewMeta->review_type]
+			: $reviewMeta->review_type;
+	}
+
+	/**
 	 * @param string $postType
 	 * @return void
 	 */
@@ -34,73 +103,11 @@ class Columns
 	 */
 	public function renderValues( $column, $postId )
 	{
-		if( glsr_current_screen()->id != Application::POST_TYPE )return;
+		if( glsr_current_screen()->post_type != Application::POST_TYPE )return;
 		$method = glsr( Helper::class )->buildMethodName( $column, 'buildColumn' );
 		echo method_exists( $this, $method )
 			? call_user_func( [$this, $method], $postId )
 			: apply_filters( 'site-reviews/columns/'.$column, '', $postId );
-	}
-
-	/**
-	 * @param int $postId
-	 * @return string
-	 */
-	protected function buildColumnAssignedTo( $postId )
-	{
-		$post = get_post( glsr( Database::class )->getReviewMeta( $postId )->assigned_to );
-		if( !( $post instanceof WP_Post ) || $post->post_status != 'publish' ) {
-			return '&mdash;';
-		}
-		return glsr( Builder::class )->a( get_the_title( $post->ID ), [
-			'href' => (string)get_the_permalink( $post->ID ),
-		]);
-	}
-
-	/**
-	 * @param int $postId
-	 * @return string
-	 */
-	protected function buildColumnReviewer( $postId )
-	{
-		return glsr( Database::class )->getReviewMeta( $postId )->author;
-	}
-
-	/**
-	 * @param int $postId
-	 * @return string
-	 */
-	protected function buildColumnStars( $postId )
-	{
-		return glsr( Html::class )->buildPartial( 'star-rating', [
-			'rating' => glsr( Database::class )->getReviewMeta( $postId )->rating,
-		]);
-	}
-
-	/**
-	 * @param int $postId
-	 * @return string
-	 */
-	protected function buildColumnSticky( $postId )
-	{
-		$pinned = glsr( Database::class )->getReviewMeta( $postId )->pinned
-			? ' pinned'
-			: '';
-		return glsr( Builder::class )->i([
-			'class' => trim( 'dashicons dashicons-sticky '.$pinned ),
-			'data-id' => $postId,
-		]);
-	}
-
-	/**
-	 * @param int $postId
-	 * @return string
-	 */
-	protected function buildColumnType( $postId )
-	{
-		$reviewMeta = glsr( Database::class )->getReviewMeta( $postId );
-		return isset( glsr()->reviewTypes[$reviewMeta->review_type] )
-			? glsr()->reviewTypes[$reviewMeta->review_type]
-			: $reviewMeta->review_type;
 	}
 
 	/**
@@ -109,19 +116,20 @@ class Columns
 	 */
 	protected function renderFilterRatings( $ratings )
 	{
-		if( empty( $ratings )
-			|| apply_filters( 'site-reviews/disable/filter/ratings', false )
-		)return;
+		if( empty( $ratings ))return;
 		$ratings = array_flip( array_reverse( $ratings ));
 		array_walk( $ratings, function( &$value, $key ) {
 			$label = _n( '%s star', '%s stars', $key, 'site-reviews' );
 			$value = sprintf( $label, $key );
 		});
-		$ratings = [__( 'All ratings', 'site-reviews' )] + $ratings;
-		printf( '<label class="screen-reader-text" for="rating">%s</label>', __( 'Filter by rating', 'site-reviews' ));
-		glsr( Html::class )->renderPartial( 'filterby', [
+		echo glsr( Builder::class )->label( __( 'Filter by rating', 'site-reviews' ), [
+			'class' => 'screen-reader-text',
+			'for' => 'rating',
+		]);
+		echo glsr( Builder::class )->select([
 			'name' => 'rating',
-			'values' => $ratings,
+			'options' => ['' => __( 'All ratings', 'site-reviews' )] + $ratings,
+			'value' => filter_input( INPUT_GET, 'rating' ),
 		]);
 	}
 
@@ -132,11 +140,14 @@ class Columns
 	protected function renderFilterTypes( $types )
 	{
 		if( count( glsr()->reviewTypes ) < 2 )return;
-		$reviewTypes = ['' => __( 'All types', 'site-reviews' )] + glsr()->reviewTypes;
-		printf( '<label class="screen-reader-text" for="type">%s</label>', __( 'Filter by type', 'site-reviews' ));
-		glsr( Html::class )->renderPartial( 'filterby', [
+		echo glsr( Builder::class )->label( __( 'Filter by type', 'site-reviews' ), [
+			'class' => 'screen-reader-text',
+			'for' => 'review_type',
+		]);
+		echo glsr( Builder::class )->select([
 			'name' => 'review_type',
-			'options' => $reviewTypes,
+			'options' => ['' => __( 'All types', 'site-reviews' )] + glsr()->reviewTypes,
+			'value' => filter_input( INPUT_GET, 'review_type' ),
 		]);
 	}
 }

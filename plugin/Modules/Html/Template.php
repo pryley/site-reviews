@@ -50,13 +50,12 @@ class Template
 	 */
 	protected function normalize( array $data )
 	{
-		$data = wp_parse_args( $data, array_fill_keys( ['context', 'globals'], [] ));
-		foreach( $data as $key => $value ) {
-			if( is_array( $value ))continue;
+		$arrayKeys = ['context', 'globals'];
+		$data = wp_parse_args( $data, array_fill_keys( $arrayKeys, [] ));
+		foreach( $arrayKeys as $key ) {
+			if( is_array( $data[$key] ))continue;
 			$data[$key] = [];
 		}
-		$data['template'] = $this;
-		$data['render'] = glsr( Html::class )->render( $data['globals'] );
 		return $data;
 	}
 

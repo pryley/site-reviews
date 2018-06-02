@@ -1,6 +1,6 @@
 /** global: _, GLSR, x, wp */
-GLSR.search = function( el, options ) {
-	this.el = Object.prototype.toString.call( el ) === '[object String]' ? x( el ) : el;
+GLSR.search = function( selector, options ) {
+	this.el = x( selector );
 	this.options = options;
 	this.searchTerm = null;
 	this.init();

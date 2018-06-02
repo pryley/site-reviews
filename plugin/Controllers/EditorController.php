@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Editor\Customization;
 use GeminiLabs\SiteReviews\Modules\Editor\Labels;
 use GeminiLabs\SiteReviews\Modules\Editor\Metaboxes;
+use GeminiLabs\SiteReviews\Modules\ListTable\Columns;
 use WP_Post;
 use WP_Screen;
 
@@ -148,11 +149,11 @@ class EditorController extends Controller
 	public function renderAssignedToMetabox( WP_Post $post )
 	{
 		if( !$this->isReviewPostType( $post ))return;
-		$assignedTo = intval( get_post_meta( $post->ID, 'assigned_to', true ));
+		$assignedTo = get_post_meta( $post->ID, 'assigned_to', true );
 		wp_nonce_field( 'assigned_to', '_nonce-assigned-to', false );
 		glsr()->render( 'partials/editor/metabox-assigned-to', [
 			'id' => $assignedTo,
-			'template' => $this->buildAssignedToTemplate( $assignedTo ),
+			'template' => $this->buildAssignedToTemplate( $assignedTo, $post ),
 		]);
 	}
 
@@ -177,8 +178,12 @@ class EditorController extends Controller
 	public function renderPinnedInPublishMetaBox()
 	{
 		if( !$this->isReviewPostType( get_post() ))return;
-		glsr()->render( 'partials/editor/pinned', [
-			'pinned' => boolval( get_post_meta( intval( get_the_ID() ), 'pinned', true )),
+		glsr( Html::class )->renderTemplate( 'partials/editor/pinned', [
+			'context' => [
+				'no' => __( 'No', 'site-reviews' ),
+				'yes' => __( 'Yes', 'site-reviews' ),
+			],
+			'pinned' => wp_validate_boolean( get_post_meta( intval( get_the_ID() ), 'pinned', true )),
 		]);
 	}
 
@@ -234,17 +239,17 @@ class EditorController extends Controller
 	}
 
 	/**
-	 * @param int $assignedTo
+	 * @param string|int $assignedTo
 	 * @return string
 	 */
-	protected function buildAssignedToTemplate( $assignedTo )
+	protected function buildAssignedToTemplate( $assignedTo, WP_Post $post )
 	{
-		$assignedPost = get_post( $assignedTo );
+		$assignedPost = glsr( Database::class )->getAssignedToPost( $post, $assignedTo );
 		if( !( $assignedPost instanceof WP_Post ))return;
-		return glsr( Html::class )->buildTemplate( 'edit/assigned-post', [
+		return glsr( Html::class )->buildTemplate( 'partials/editor/assigned-post', [
 			'context' => [
-				'url' => (string)get_permalink( $assignedPost ),
-				'title' => get_the_title( $assignedPost ),
+				'data.url' => (string)get_permalink( $assignedPost ),
+				'data.title' => get_the_title( $assignedPost ),
 			],
 		]);
 	}
@@ -278,20 +283,21 @@ class EditorController extends Controller
 
 	/**
 	 * @param object $review
-	 * @return string
+	 * @return string|void
 	 */
 	protected function getReviewType( $review )
 	{
-		$reviewType = $review->review_type;
+		if( count( glsr()->reviewTypes ) < 2 )return;
+		$reviewType = array_key_exists( $review->review_type, glsr()->reviewTypes )
+			? glsr()->reviewTypes[$review->review_type]
+			: __( 'Unknown', 'site-reviews' );
 		if( !empty( $review->url )) {
 			$reviewType = glsr( Builder::class )->a( $reviewType, [
 				'href' => $review->url,
 				'target' => '_blank',
 			]);
 		}
-		return in_array( $reviewType, glsr()->reviewTypes )
-			? glsr()->reviewTypes[$reviewType]
-			: __( 'Unknown', 'site-reviews' );
+		return $reviewType;
 	}
 
 	/**
@@ -320,7 +326,7 @@ class EditorController extends Controller
 				'href' => 'mailto:'.$review->email.'?subject='.esc_attr( __( 'RE:', 'site-reviews' ).' '.$review->title ),
 			]);
 		$metabox = [
-			__( 'Rating', 'site-reviews' ) => glsr( Html::class )->renderPartial( 'star-rating', ['rating' => $review->rating] ),
+			__( 'Rating', 'site-reviews' ) => glsr( Columns::class )->buildColumnRating( $review->ID, $review->rating ),
 			__( 'Type', 'site-reviews' ) => $this->getReviewType( $review ),
 			__( 'Date', 'site-reviews' ) => get_date_from_gmt( $review->date, 'F j, Y' ),
 			__( 'Reviewer', 'site-reviews' ) => $reviewer,
@@ -329,7 +335,7 @@ class EditorController extends Controller
 			__( 'IP Address', 'site-reviews' ) => $review->ip_address,
 			__( 'Avatar', 'site-reviews' ) => sprintf( '<img src="%s" width="96">', $review->avatar ),
 		];
-		return apply_filters( 'site-reviews/metabox/details', $metabox, $review );
+		return array_filter( apply_filters( 'site-reviews/metabox/details', $metabox, $review ));
 	}
 
 	/**
