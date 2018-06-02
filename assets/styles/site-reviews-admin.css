@@ -48,16 +48,19 @@
 }
 
 .glsr-addon-name {
-  height: 48px;
   font-size: 15px;
-  font-weight: 600;
+  margin-top: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.glsr-addon-footer {
+  height: 48px;
   background: rgba(255, 255, 255, 0.65);
   -webkit-box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
           box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   padding: 15px;
   margin: 0;
   overflow: hidden;
@@ -73,27 +76,27 @@
 }
 
 .glsr-addon-screenshot[data-name="booking"] {
-  background-image: url(../img/booking.svg);
+  background-image: url(../images/booking.svg);
   background-color: #00347D;
 }
 
 .glsr-addon-screenshot[data-name="facebook"] {
-  background-image: url(../img/facebook.svg);
+  background-image: url(../images/facebook.svg);
   background-color: #3B5998;
 }
 
 .glsr-addon-screenshot[data-name="google"] {
-  background-image: url(../img/google.svg);
+  background-image: url(../images/google.svg);
   background-color: #C6DAFC;
 }
 
 .glsr-addon-screenshot[data-name="tripadvisor"] {
   background-color: #4b7e37;
-  background-image: url(../img/tripadvisor.svg);
+  background-image: url(../images/tripadvisor.svg);
 }
 
 .glsr-addon-screenshot[data-name="yelp"] {
-  background-image: url(../img/yelp.svg);
+  background-image: url(../images/yelp.svg);
   background-color: #d32323;
 }
 
@@ -106,9 +109,6 @@
 @media screen and (max-width: 782px) {
   .glsr-addon-link {
     bottom: 5px;
-    text-indent: -100%;
-    padding: 6px 10px !important;
-    overflow: hidden;
   }
 }
 
@@ -116,17 +116,16 @@
   display: inline-block;
   content: "\00a0\f504";
   font-family: dashicons;
-  vertical-align: inherit;
+  font-size: 16px;
+  vertical-align: sub;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 @media screen and (max-width: 782px) {
   .glsr-addon-link:after {
-    float: right;
     height: 16px;
     width: 16px;
-    content: "\f504";
     font-size: 18px;
     text-indent: 0;
   }
