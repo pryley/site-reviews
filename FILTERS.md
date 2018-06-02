@@ -71,3 +71,6 @@ site-reviews/columns/{column_slug}
 [ValidateReview.php]
 site-reviews/validate/review/submission
 site-reviews/validation/rules
+
+[SiteReviews.php]
+site-reviews/review/author/prefix

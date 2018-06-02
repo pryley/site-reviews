@@ -3,9 +3,16 @@
 namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Modules\Date;
+use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Html\Partial;
+use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Schema;
+use WP_Post;
 
 class SiteReviews
 {
@@ -15,9 +22,9 @@ class SiteReviews
 	protected $args;
 
 	/**
-	 * @var float
+	 * @var array
 	 */
-	protected $rating;
+	protected $options;
 
 	/**
 	 * @var object
@@ -30,7 +37,276 @@ class SiteReviews
 	public function build( array $args = [] )
 	{
 		$this->args = $args;
+		$this->options = glsr( Helper::class )->flattenArray( glsr( OptionManager::class )->all() );
 		$this->reviews = glsr( Database::class )->getReviews( $args );
-		$this->rating = glsr( Rating::class )->getAverage( $this->reviews->results );
+		$this->generateSchema();
+		$navigation = wp_validate_boolean( $this->args['pagination'] )
+			? glsr( Partial::class )->build( 'pagination', ['total' => $this->reviews->max_num_pages] )
+			: '';
+		return glsr( Template::class )->build( 'templates/reviews', [
+			'context' => [
+				'class' => $this->getClass(),
+				'id' => $this->args['id'],
+				'navigation' => $navigation,
+			],
+			'reviews' => $this->buildReviews(),
+		]);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function buildReviews()
+	{
+		$reviews = [];
+		foreach( $this->reviews->results as $review ) {
+			$reviews[] = $this->buildReview( $review );
+		}
+		return $reviews;
+	}
+
+	/**
+	 * @param object $review
+	 * @return object
+	 */
+	protected function buildReview( $review )
+	{
+		$generatedReview = [];
+		foreach( $review as $key => $value ) {
+			$method = glsr( Helper::class )->buildMethodName( $key, 'buildReview' );
+			if( !method_exists( $this, $method ))continue;
+			$generatedReview[$key] = $this->$method( $key, $value );
+		}
+		return (object)$generatedReview;
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return void|string
+	 */
+	protected function buildReviewAssignedTo( $key, $value )
+	{
+		if( !$this->isOptionEnabled( 'settings.reviews.assigned_links.enabled' )
+			|| empty( $value )
+		)return;
+		$post = get_post( intval( $value ));
+		if( !( $post instanceof WP_Post ))return;
+		$permalink = glsr( Builder::class )->a( get_the_title( $post->ID ), [
+			'href' => get_the_permalink( $post->ID ),
+		]);
+		$permalink = sprintf( __( 'Review of %s', 'site-reviews' ), $permalink );
+		return $this->wrap( $key, $permalink );
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return void|string
+	 */
+	protected function buildReviewAuthor( $key, $value )
+	{
+		if( $this->isHidden( $key ))return;
+		$prefix = !$this->isOptionEnabled( 'settings.reviews.avatars.enabled' )
+			? apply_filters( 'site-reviews/review/author/prefix', '&mdash;' )
+			: '';
+		return $this->wrap( $key, $prefix.'<span>'.$value.'</span>' );
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return void|string
+	 */
+	protected function buildReviewAvatar( $key, $value )
+	{
+		if( $this->isHidden( $key, 'settings.reviews.avatars.enabled' ))return;
+		return $this->wrap( $key, '<img src="'.$value.'" width="36">');
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return void|string
+	 */
+	protected function buildReviewContent( $key, $value )
+	{
+		$text = $this->normalizeText( $value );
+		if( $this->isHiddenOrEmpty( $key, $text ))return;
+		return $this->wrap( $key, $text );
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return void|string
+	 */
+	protected function buildReviewDate( $key, $value )
+	{
+		if( $this->isHidden( $key ))return;
+		$dateFormat = $this->getOption( 'settings.reviews.date.format', 'default' );
+		if( $dateFormat == 'relative' ) {
+			$date = glsr( Date::class )->relative( $value );
+		}
+		else {
+			$format = $dateFormat == 'custom'
+				? $this->getOption( 'settings.reviews.date.custom', 'M j, Y' )
+				: (string)get_option( 'date_format' );
+			$date = date_i18n( $format, strtotime( $value ));
+		}
+		return $this->wrap( $key, $date );
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return void|string
+	 */
+	protected function buildReviewRating( $key, $value )
+	{
+		if( $this->isHiddenOrEmpty( $key, $value ))return;
+		$rating = glsr( Html::class )->buildPartial( 'star-rating', [
+			'rating' => $value,
+		]);
+		return $this->wrap( $key, $rating );
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return void|string
+	 */
+	protected function buildReviewResponse( $key, $value )
+	{
+		if( $this->isHiddenOrEmpty( $key, $value ))return;
+		$title = sprintf( __( 'Response from %s', 'site-reviews' ), get_bloginfo( 'name' ));
+		$text = $this->normalizeText( $value );
+		return $this->wrap( $key, '<p><strong>'.$title.'</strong></p>'.$text );
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return void|string
+	 */
+	protected function buildReviewTitle( $key, $value )
+	{
+		if( $this->isHidden( $key ))return;
+		if( empty( $value )) {
+			$value = __( 'No Title', 'site-reviews' );
+		}
+		return $this->wrap( $key, '<h3>'.$value.'</h3>' );
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function generateSchema()
+	{
+		if( !wp_validate_boolean( $this->args['schema'] ))return;
+		glsr( Schema::class )->store( glsr( Schema::class )->build( $this->args ));
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getClass()
+	{
+		return $this->args['pagination'] == 'ajax'
+			? trim( $this->args['class'].' glsr-ajax-pagination' )
+			: $this->args['class'];
+	}
+
+	/**
+	 * @param string $text
+	 * @return string
+	 */
+	protected function getExcerpt( $text )
+	{
+		$limit = $this->getOption( 'settings.reviews.excerpt.length', 55 );
+		if( str_word_count( $text, 0 ) > $limit ) {
+			$words = array_keys( str_word_count( $text, 2 ));
+			$excerpt = ltrim( substr( $text, 0, $words[$limit] ));
+			$hiddenText = substr( $text, strlen( $excerpt ));
+			$showMore = glsr( Builder::class )->span( $hiddenText, [
+				'class' => 'glsr-hidden glsr-hidden-text',
+				'data-show-less' => __( 'Show less', 'site-reviews' ),
+				'data-show-more' => __( 'Show more', 'site-reviews' ),
+			]);
+			$text = $excerpt.$showMore;
+		}
+		return nl2br( $text );
+	}
+
+	/**
+	 * @param string $path
+	 * @param mixed $fallback
+	 * @return mixed
+	 */
+	protected function getOption( $path, $fallback = '' )
+	{
+		if( array_key_exists( $path, $this->options )) {
+			return $this->options[$path];
+		}
+		return $fallback;
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $path
+	 * @return bool
+	 */
+	protected function isHidden( $key, $path = '' )
+	{
+		$isOptionEnabled = !empty( $path )
+			? $this->isOptionEnabled( $path )
+			: true;
+		return in_array( $key, $this->args['hide'] ) || !$isOptionEnabled;
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return bool
+	 */
+	protected function isHiddenOrEmpty( $key, $value )
+	{
+		return $this->isHidden( $key ) || empty( $value );
+	}
+
+	/**
+	 * @param string $path
+	 * @return bool
+	 */
+	protected function isOptionEnabled( $path )
+	{
+		return $this->getOption( $path ) == 'yes';
+	}
+
+	/**
+	 * @param string $text
+	 * @return string
+	 */
+	protected function normalizeText( $text )
+	{
+		$text = wp_kses( $text, wp_kses_allowed_html() );
+		$text = convert_smilies( wptexturize( strip_shortcodes( $text )));
+		$text = str_replace( ']]>', ']]&gt;', $text );
+		$text = $this->isOptionEnabled( 'settings.reviews.excerpt.enabled' )
+			? $this->getExcerpt( $text )
+			: $text;
+		return '<p>'.$text.'</p>';
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return string
+	 */
+	protected function wrap( $key, $value )
+	{
+		return glsr( Builder::class )->div( $value, [
+			'class' => 'glsr-review-'.$key,
+		]);
 	}
 }
