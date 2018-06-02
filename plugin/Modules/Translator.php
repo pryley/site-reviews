@@ -287,14 +287,19 @@ class Translator
 	}
 
 	/**
+	 * Store the translations to avoid unnecessary loops
 	 * @return array
 	 */
 	protected function getTranslations()
 	{
-		$settings = glsr( OptionManager::class )->get( 'settings' );
-		return isset( $settings['strings'] )
-			? $this->normalizeSettings( (array) $settings['strings'] )
-			: [];
+		static $translations;
+		if( empty( $translations )) {
+			$settings = glsr( OptionManager::class )->get( 'settings' );
+			$translations = isset( $settings['strings'] )
+				? $this->normalizeSettings( (array) $settings['strings'] )
+				: [];
+		}
+		return $translations;
 	}
 
 	/**

@@ -68,8 +68,9 @@ class Customization
 	 */
 	protected function isReviewEditor()
 	{
-		return glsr_current_screen()->base == 'post'
-			&& glsr_current_screen()->id == Application::POST_TYPE
-			&& glsr_current_screen()->post_type == Application::POST_TYPE;
+		$screen = glsr_current_screen();
+		return $screen->base == 'post'
+			&& $screen->id == Application::POST_TYPE
+			&& $screen->post_type == Application::POST_TYPE;
 	}
 }

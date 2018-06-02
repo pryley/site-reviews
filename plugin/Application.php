@@ -78,7 +78,8 @@ final class Application extends Container
 	 */
 	public function hasPermission()
 	{
-		return !$this->isAdmin() || ( $this->isAdmin() && current_user_can( static::CAPABILITY ));
+		$isAdmin = $this->isAdmin();
+		return !$isAdmin || ( $isAdmin && current_user_can( static::CAPABILITY ));
 	}
 
 	/**

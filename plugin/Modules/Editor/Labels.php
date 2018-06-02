@@ -34,16 +34,9 @@ class Labels
 	public function filterPostStatusLabels( $translation, $text, $domain )
 	{
 		if( $this->canModifyTranslation( $domain )) {
-			$replacements = [
-				'Pending Review' => __( 'Unapproved', 'site-reviews' ),
-				'Pending' => __( 'Unapproved', 'site-reviews' ),
-				'Privately Published' => __( 'Privately Approved', 'site-reviews' ),
-				'Published' => __( 'Approved', 'site-reviews' ),
-				'Save as Pending' => __( 'Save as Unapproved', 'site-reviews' ),
-			];
-			foreach( $replacements as $search => $replacement ) {
-				if( $translation != $search )continue;
-				$translation = $replacement;
+			$replacements = $this->getStatusLabels();
+			if( array_key_exists( $text, $replacements )) {
+				$translation = $replacements[$text];
 			}
 		}
 		return $translation;
@@ -84,9 +77,11 @@ class Labels
 	 */
 	protected function canModifyTranslation( $domain = 'default' )
 	{
-		return glsr_current_screen()->post_type == Application::POST_TYPE
-			&& in_array( glsr_current_screen()->base, ['edit', 'post'] )
-			&& $domain == 'default';
+		if( $domain != 'default' || empty( glsr_current_screen()->base )) {
+			return false;
+		}
+		return get_current_screen()->post_type == Application::POST_TYPE
+			&& in_array( get_current_screen()->base, ['edit', 'post'] );
 	}
 
 	/**
@@ -97,7 +92,7 @@ class Labels
 		return [
 			'approved' => __( 'Review has been approved and published.', 'site-reviews' ),
 			'draft_updated' => __( 'Review draft updated.', 'site-reviews' ),
-			// 'preview' => __( 'Preview review', 'site-reviews' ),
+			'preview' => __( 'Preview review', 'site-reviews' ),
 			'published' => __( 'Review approved and published.', 'site-reviews' ),
 			'restored' => __( 'Review restored to revision from %s.', 'site-reviews' ),
 			'reverted' => __( 'Review has been reverted to its original submission state.', 'site-reviews' ),
@@ -106,7 +101,27 @@ class Labels
 			'submitted' => __( 'Review submitted.', 'site-reviews' ),
 			'unapproved' => __( 'Review has been unapproved and is now pending.', 'site-reviews' ),
 			'updated' => __( 'Review updated.', 'site-reviews' ),
-			// 'view' => __( 'View review', 'site-reviews' ),
+			'view' => __( 'View review', 'site-reviews' ),
 		];
+	}
+
+	/**
+	 * Store the labels to avoid unnecessary loops
+	 * @return array
+	 */
+	protected function getStatusLabels()
+	{
+		static $labels;
+		if( empty( $labels )) {
+			$labels = [
+				'Pending' => __( 'Unapproved', 'site-reviews' ),
+				'Pending Review' => __( 'Unapproved', 'site-reviews' ),
+				'Privately Published' => __( 'Privately Approved', 'site-reviews' ),
+				'Publish' => __( 'Approve', 'site-reviews' ),
+				'Published' => __( 'Approved', 'site-reviews' ),
+				'Save as Pending' => __( 'Save as Unapproved', 'site-reviews' ),
+			];
+		}
+		return $labels;
 	}
 }

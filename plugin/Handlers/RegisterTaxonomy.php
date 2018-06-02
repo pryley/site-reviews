@@ -19,12 +19,11 @@ class RegisterTaxonomy
 		add_action( Application::TAXONOMY.'_term_new_form_tag',  [$this, 'disableParents'] );
 		add_action( Application::TAXONOMY.'_add_form_fields',    [$this, 'enableParents'] );
 		add_action( Application::TAXONOMY.'_edit_form',          [$this, 'enableParents'] );
-		add_action( 'restrict_manage_posts',                     [$this, 'renderFilterTaxonomy'], 9 );
+		add_action( 'restrict_manage_posts',                     [$this, 'renderTaxonomyFilter'], 9 );
 	}
 
 	/**
 	 * @return void
-	 *
 	 * @action Application::TAXONOMY._add_form_fields
 	 * @action Application::TAXONOMY._edit_form
 	 */
@@ -36,7 +35,6 @@ class RegisterTaxonomy
 
 	/**
 	 * @return void
-	 *
 	 * @action Application::TAXONOMY._term_edit_form_top
 	 * @action Application::TAXONOMY._term_new_form_tag
 	 */
@@ -47,12 +45,10 @@ class RegisterTaxonomy
 	}
 
 	/**
-	 * Create the Taxonomy filter dropdown
-	 *
 	 * @return void
 	 * @action restrict_manage_posts
 	 */
-	public function renderFilterTaxonomy()
+	public function renderTaxonomyFilter()
 	{
 		global $wp_query;
 		if( !is_object_in_taxonomy( get_current_screen()->post_type, Application::TAXONOMY )

@@ -149,7 +149,7 @@ class EditorController extends Controller
 	public function renderAssignedToMetabox( WP_Post $post )
 	{
 		if( !$this->isReviewPostType( $post ))return;
-		$assignedTo = get_post_meta( $post->ID, 'assigned_to', true );
+		$assignedTo = (string)get_post_meta( $post->ID, 'assigned_to', true );
 		wp_nonce_field( 'assigned_to', '_nonce-assigned-to', false );
 		glsr()->render( 'partials/editor/metabox-assigned-to', [
 			'id' => $assignedTo,
@@ -239,7 +239,7 @@ class EditorController extends Controller
 	}
 
 	/**
-	 * @param string|int $assignedTo
+	 * @param string $assignedTo
 	 * @return string
 	 */
 	protected function buildAssignedToTemplate( $assignedTo, WP_Post $post )

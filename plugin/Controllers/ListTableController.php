@@ -255,9 +255,10 @@ class ListTableController extends Controller
 	 */
 	protected function canModifyTranslation( $domain = 'default' )
 	{
+		$screen = glsr_current_screen();
 		return $domain == 'default'
-			&& glsr_current_screen()->base == 'edit'
-			&& glsr_current_screen()->post_type == Application::POST_TYPE;
+			&& $screen->base == 'edit'
+			&& $screen->post_type == Application::POST_TYPE;
 	}
 
 	/**
