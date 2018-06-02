@@ -19,9 +19,18 @@ function glsr_current_screen() {
 	if( function_exists( 'get_current_screen' )) {
 		$screen = get_current_screen();
 	}
-	return empty( $screen )
-		? (object)array_fill_keys( ['base', 'id', 'post_type'], null )
-		: $screen;
+	if( empty( $screen )) {
+		global $pagenow;
+		$screen = (object)[
+			'base' => str_replace( '.php', '', $pagenow ),
+			'id' => null,
+			'post_type' => filter_input( INPUT_GET, 'post_type' ),
+		];
+		if( empty( $screen->post_type )) {
+			$screen->post_type = get_post_type( filter_input( INPUT_GET, 'post' ));
+		}
+	}
+	return $screen;
 }
 
 /**
