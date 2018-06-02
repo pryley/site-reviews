@@ -64,6 +64,19 @@ class ListTableController extends Controller
 	}
 
 	/**
+	 * @param string $status
+	 * @return string
+	 * @filter post_date_column_status
+	 */
+	public function filterDateColumnStatus( $status, WP_Post $post )
+	{
+		if( $post->post_type == Application::POST_TYPE ) {
+			$status = __( 'Submitted', 'site-reviews' );
+		}
+		return $status;
+	}
+
+	/**
 	 * @return array
 	 * @filter default_hidden_columns
 	 */
@@ -73,6 +86,18 @@ class ListTableController extends Controller
 			$hidden = ['reviewer'];
 		}
 		return $hidden;
+	}
+
+	/**
+	 * @return array
+	 * @filter display_post_states
+	 */
+	public function filterPostStates( array $postStates, WP_Post $post ) {
+		if( $post->post_type == Application::POST_TYPE
+			&& array_key_exists( 'pending', $postStates )) {
+			$postStates['pending'] = __( 'Unapproved', 'site-reviews' );
+		}
+		return $postStates;
 	}
 
 	/**

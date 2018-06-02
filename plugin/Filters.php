@@ -48,7 +48,9 @@ class Filters implements HooksContract
 		add_filter( 'post_updated_messages',                                   [$this->editor, 'filterUpdateMessages'] );
 		add_filter( 'bulk_post_updated_messages',                              [$this->listtable, 'filterBulkUpdateMessages'], 10, 2 );
 		add_filter( 'manage_'.Application::POST_TYPE.'_posts_columns',         [$this->listtable, 'filterColumnsForPostType'] );
+		add_filter( 'post_date_column_status',                                 [$this->listtable, 'filterDateColumnStatus'], 10, 2 );
 		add_filter( 'default_hidden_columns',                                  [$this->listtable, 'filterDefaultHiddenColumns'], 10, 2 );
+		add_filter( 'display_post_states',                                     [$this->listtable, 'filterPostStates'], 10, 2 );
 		add_filter( 'post_row_actions',                                        [$this->listtable, 'filterRowActions'], 10, 2 );
 		add_filter( 'manage_edit-'.Application::POST_TYPE.'_sortable_columns', [$this->listtable, 'filterSortableColumns'] );
 		add_filter( 'ngettext',                                                [$this->listtable, 'filterStatusText'], 10, 5 );
