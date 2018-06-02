@@ -74,3 +74,6 @@ site-reviews/validation/rules
 
 [SiteReviews.php]
 site-reviews/review/author/prefix
+
+[Pagination.php]
+site-reviews/reviews/navigation_links
