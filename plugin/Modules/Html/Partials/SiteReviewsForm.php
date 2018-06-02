@@ -10,7 +10,7 @@ class SiteReviewsForm
 	/**
 	 * @return void|string
 	 */
-	public function build( $name, array $args = [] )
+	public function build( array $args = [] )
 	{
 		$partial = glsr( Html::class )->buildTemplate( 'templates/reviews-form', [
 			'globals' => $args,

@@ -28,7 +28,7 @@ class SiteReviewsSummary
 	/**
 	 * @return void|string
 	 */
-	public function build( $name, array $args = [] )
+	public function build( array $args = [] )
 	{
 		$this->args = $args;
 		$this->reviews = glsr( Database::class )->getReviews( $args );

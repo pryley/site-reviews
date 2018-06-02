@@ -7,5 +7,5 @@ interface PartialContract
 	/**
 	 * @return void|string
 	 */
-	public function build( $name, array $args = [] );
+	public function build( array $args = [] );
 }

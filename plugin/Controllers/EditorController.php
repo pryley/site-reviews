@@ -326,7 +326,7 @@ class EditorController extends Controller
 				'href' => 'mailto:'.$review->email.'?subject='.esc_attr( __( 'RE:', 'site-reviews' ).' '.$review->title ),
 			]);
 		$metabox = [
-			__( 'Rating', 'site-reviews' ) => glsr( Columns::class )->buildColumnRating( $review->ID, $review->rating ),
+			__( 'Rating', 'site-reviews' ) => glsr( Html::class )->buildPartial( 'star-rating', ['rating' => $review->rating] ),
 			__( 'Type', 'site-reviews' ) => $this->getReviewType( $review ),
 			__( 'Date', 'site-reviews' ) => get_date_from_gmt( $review->date, 'F j, Y' ),
 			__( 'Reviewer', 'site-reviews' ) => $reviewer,

@@ -56,16 +56,11 @@ class Columns
 	 * @param null|int $rating
 	 * @return string
 	 */
-	public function buildColumnRating( $postId, $rating = null )
+	public function buildColumnRating( $postId )
 	{
-		if( is_null( $rating )) {
-			$rating = glsr( Database::class )->getReviewMeta( $postId )->rating;
-		}
-		ob_start();
-		wp_star_rating([
-			'rating' => $rating,
+		return glsr( Html::class )->buildPartial( 'star-rating', [
+			'rating' => glsr( Database::class )->getReviewMeta( $postId )->rating,
 		]);
-		return ob_get_clean();
 	}
 
 	/**
