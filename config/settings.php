@@ -101,6 +101,13 @@ return [
 		'label' => __( 'Enable Avatars', 'site-reviews' ),
 		'type'  => 'yes_no',
 	],
+	'settings.reviews.avatars.size' => [
+		'default' => 36,
+		'depends_on' => ['settings.reviews.avatars.enabled' => 'yes'],
+		'description' => __( 'Set the avatar size in pixels.', 'site-reviews' ),
+		'label' => __( 'Avatar Size', 'site-reviews' ),
+		'type' => 'number',
+	],
 	'settings.reviews.excerpt.enabled' => [
 		'default' => 'no',
 		'description' => __( 'Display an excerpt instead of the full review.', 'site-reviews' ),

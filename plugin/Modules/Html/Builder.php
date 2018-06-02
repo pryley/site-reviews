@@ -18,6 +18,10 @@ class Builder
 		'input', 'select', 'textarea',
 	];
 
+	const TAGS_SINGLE = [
+		'img',
+	];
+
 	const TAGS_STRUCTURE = [
 		'div', 'form', 'nav', 'ol', 'section', 'ul',
 	];
@@ -62,7 +66,7 @@ class Builder
 		$instance = new static( $this->globals );
 		$instance->setTagFromMethod( $method );
 		call_user_func_array( [$instance, 'normalize'], $args += ['',''] );
-		$tags = array_merge( static::TAGS_FORM, static::TAGS_STRUCTURE, static::TAGS_TEXT );
+		$tags = array_merge( static::TAGS_FORM, static::TAGS_SINGLE, static::TAGS_STRUCTURE, static::TAGS_TEXT );
 		$generatedTag = in_array( $instance->tag, $tags )
 			? $instance->buildTag()
 			: $instance->buildCustomField();
@@ -234,6 +238,9 @@ class Builder
 	 */
 	protected function buildTag()
 	{
+		if( in_array( $this->tag, static::TAGS_SINGLE )) {
+			return $this->getOpeningTag();
+		}
 		if( !in_array( $this->tag, static::TAGS_FORM )) {
 			return $this->buildDefaultTag();
 		}

@@ -20,6 +20,11 @@ class Attributes
 		'name', 'novalidate', 'target',
 	];
 
+	const ATTRIBUTES_IMG = [
+		'alt', 'crossorigin', 'decoding', 'height', 'ismap', 'referrerpolicy', 'sizes', 'src',
+		'srcset', 'width', 'usemap',
+	];
+
 	const ATTRIBUTES_INPUT = [
 		'accept', 'autocomplete', 'autocorrect', 'autofocus', 'capture', 'checked', 'disabled',
 		'form', 'formaction', 'formenctype', 'formmethod', 'formnovalidate', 'formtarget', 'height',

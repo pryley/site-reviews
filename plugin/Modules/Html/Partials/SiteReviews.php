@@ -121,7 +121,12 @@ class SiteReviews
 	protected function buildReviewAvatar( $key, $value )
 	{
 		if( $this->isHidden( $key, 'settings.reviews.avatars.enabled' ))return;
-		return $this->wrap( $key, '<img src="'.$value.'" width="36">');
+		$size = $this->getOption( 'settings.reviews.avatars.size', 36 );
+		return $this->wrap( $key, glsr( Builder::class )->img([
+			'src' => $value,
+			'height' => $size,
+			'width' => $size,
+		]));
 	}
 
 	/**
