@@ -12,6 +12,12 @@ language:
 scripts:
   mce-plugin.js: +/scripts/mce-plugin.js
   recaptcha.js: +/scripts/recaptcha.js
+  site-reviews.js:
+    - node_modules/star-rating.js/src/star-rating.js
+    - +/scripts/public/helper-functions.js
+    - +/scripts/public/forms.js
+    - +/scripts/public/recaptcha.js
+    - +/scripts/site-reviews.js
   site-reviews-admin.js:
     - +/scripts/admin/init.js
     - +/scripts/admin/forms.js
@@ -21,11 +27,7 @@ scripts:
     - +/scripts/admin/shortcode.js
     - +/scripts/admin/status.js
     - +/scripts/admin/tabs.js
-    - +/scripts/admin/ready.js
-  site-reviews.js:
-    - node_modules/star-rating.js/src/star-rating.js
-    - +/scripts/helper-functions.js
-    - +/scripts/site-reviews.js
+    - +/scripts/site-reviews-admin.js
 watch:
   js: +/scripts/**/*.js
   php:

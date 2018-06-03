@@ -1,7 +1,7 @@
 <?php defined( 'WPINC' ) || die; ?>
 
 <div class="glsr-reviews-wrap">
-	<div class="glsr-reviews {{ class }}" id="{{ id }}">
+	<div class="{{ class }}" id="{{ id }}">
 		<?php foreach( $reviews as $review ) : ?>
 		<div class="glsr-review">
 			<?= $review->title; ?>

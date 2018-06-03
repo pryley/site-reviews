@@ -12,7 +12,18 @@
 		margin-bottom: 1em;
 	}
 }
+@media screen and (min-width: 56.875em) {
+	.glsr-widget [class*=glsr-star-] {
+		width: 16px;
+		height: 16px;
+		background-size: 16px;
+	}
 
+	.glsr-widget .glsr-review-avatar {
+		width: 30px;
+		height: 30px;
+	}
+}
 .glsr-reviews {
 	position: relative;
 
@@ -105,18 +116,7 @@
 	background-image: url(../images/star-half.svg);
 }
 
-@media screen and (min-width: 56.875em) {
-	.glsr-widget [class*=glsr-star-] {
-		width: 16px;
-		height: 16px;
-		background-size: 16px;
-	}
 
-	.glsr-widget .glsr-review-avatar {
-		width: 30px;
-		height: 30px;
-	}
-}
 
 .glsr-hidden {
 	display: none;

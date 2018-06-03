@@ -87,16 +87,14 @@ class SiteReviews
 	 */
 	protected function buildReviewAssignedTo( $key, $value )
 	{
-		if( !$this->isOptionEnabled( 'settings.reviews.assigned_links.enabled' )
-			|| empty( $value )
-		)return;
+		if( $this->isHiddenOrEmpty( $key, 'settings.reviews.assigned_links.enabled' ))return;
 		$post = get_post( intval( $value ));
 		if( !( $post instanceof WP_Post ))return;
 		$permalink = glsr( Builder::class )->a( get_the_title( $post->ID ), [
 			'href' => get_the_permalink( $post->ID ),
 		]);
-		$permalink = sprintf( __( 'Review of %s', 'site-reviews' ), $permalink );
-		return $this->wrap( $key, $permalink );
+		$assignedTo = sprintf( __( 'Review of %s', 'site-reviews' ), $permalink );
+		return $this->wrap( $key, '<span>'.$assignedTo.'</span>' );
 	}
 
 	/**
@@ -138,7 +136,7 @@ class SiteReviews
 	{
 		$text = $this->normalizeText( $value );
 		if( $this->isHiddenOrEmpty( $key, $text ))return;
-		return $this->wrap( $key, $text );
+		return $this->wrap( $key, '<p>'.$text.'</p>' );
 	}
 
 	/**
@@ -159,7 +157,7 @@ class SiteReviews
 				: (string)get_option( 'date_format' );
 			$date = date_i18n( $format, strtotime( $value ));
 		}
-		return $this->wrap( $key, $date );
+		return $this->wrap( $key, '<span>'.$date.'</span>' );
 	}
 
 	/**
@@ -186,7 +184,11 @@ class SiteReviews
 		if( $this->isHiddenOrEmpty( $key, $value ))return;
 		$title = sprintf( __( 'Response from %s', 'site-reviews' ), get_bloginfo( 'name' ));
 		$text = $this->normalizeText( $value );
-		return $this->wrap( $key, '<p><strong>'.$title.'</strong></p>'.$text );
+		$text = '<p><strong>'.$title.'</strong></p><p>'.$text.'</p>';
+		return $this->wrap( $key,
+			glsr( Builder::class )->div( $text, ['class' => 'glsr-review-response-inner'] ).
+			glsr( Builder::class )->div( ['class' => 'glsr-review-response-background'] )
+		);
 	}
 
 	/**
@@ -217,9 +219,11 @@ class SiteReviews
 	 */
 	protected function getClass()
 	{
-		return $this->args['pagination'] == 'ajax'
-			? trim( $this->args['class'].' glsr-ajax-pagination' )
-			: $this->args['class'];
+		$style = apply_filters( 'site-reviews/reviews/style', 'glsr-reviews' );
+		$pagination = $this->args['pagination'] == 'ajax'
+			? 'glsr-ajax-pagination'
+			: '';
+		return trim( $this->args['class'].' '.$style.' '.$pagination );
 	}
 
 	/**
@@ -298,10 +302,9 @@ class SiteReviews
 		$text = convert_smilies( wptexturize( strip_shortcodes( $text )));
 		$text = str_replace( ']]>', ']]&gt;', $text );
 		$text = preg_replace( '/(\R){2,}/', '$1', $text );
-		$text = $this->isOptionEnabled( 'settings.reviews.excerpt.enabled' )
+		return $this->isOptionEnabled( 'settings.reviews.excerpt.enabled' )
 			? $this->getExcerpt( $text )
 			: $text;
-		return '<p>'.$text.'</p>';
 	}
 
 	/**

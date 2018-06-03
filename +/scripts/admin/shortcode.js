@@ -26,7 +26,7 @@ GLSR.shortcode.prototype = {
 	hiddenKeys: [],
 
 	hiddenFields: {
-		site_reviews: ['author','avatar','date','excerpt','rating','response','title'],
+		site_reviews: ['assigned_to','author','avatar','content','date','rating','response','title'],
 		site_reviews_form: ['email','name','terms','title'],
 		site_reviews_summary: ['bars','if_empty','rating','stars','summary'],
 	},

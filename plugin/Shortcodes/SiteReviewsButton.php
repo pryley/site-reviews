@@ -76,6 +76,11 @@ class SiteReviewsButton extends ButtonGenerator
 		],[
 			'columns' => 2,
 			'items' => [[
+				'name' => 'hide_assigned_to',
+				'text' => esc_html__( 'Assigned To', 'site-reviews' ),
+				'tooltip' => __( 'Hide the assigned to link?', 'site-reviews' ),
+				'type' => 'checkbox',
+			],[
 				'name' => 'hide_author',
 				'text' => esc_html__( 'Author', 'site-reviews' ),
 				'tooltip' => __( 'Hide the review author?', 'site-reviews' ),
@@ -86,14 +91,14 @@ class SiteReviewsButton extends ButtonGenerator
 				'tooltip' => __( 'Hide the reviewer avatar if shown?', 'site-reviews' ),
 				'type' => 'checkbox',
 			],[
+				'name' => 'hide_content',
+				'text' => esc_html__( 'Content', 'site-reviews' ),
+				'tooltip' => __( 'Hide the review content?', 'site-reviews' ),
+				'type' => 'checkbox',
+			],[
 				'name' => 'hide_date',
 				'text' => esc_html__( 'Date', 'site-reviews' ),
 				'tooltip' => __( 'Hide the review date?', 'site-reviews' ),
-				'type' => 'checkbox',
-			],[
-				'name' => 'hide_excerpt',
-				'text' => esc_html__( 'Excerpt', 'site-reviews' ),
-				'tooltip' => __( 'Hide the review excerpt?', 'site-reviews' ),
 				'type' => 'checkbox',
 			],[
 				'name' => 'hide_rating',

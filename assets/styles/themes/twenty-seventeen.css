@@ -364,3 +364,13 @@
   left: 3em;
   border-left-width: 2em;
 }
+
+.glsr-loader {
+  bottom: 7em;
+}
+
+@media screen and (min-width: 48em) {
+  .glsr-loader {
+    bottom: 7.5em;
+  }
+}

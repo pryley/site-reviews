@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Handlers;
 
 use GeminiLabs\SiteReviews\Application;
-// use GeminiLabs\SiteReviews\Modules\Html;
 
 class EnqueueAdminAssets
 {
@@ -54,7 +53,7 @@ class EnqueueAdminAssets
 		if( user_can_richedit() ) {
 			$variables['shortcodes'] = $this->localizeShortcodes();
 		}
-		$variables = apply_filters( 'site-reviews/enqueue/localize', $variables );
+		$variables = apply_filters( 'site-reviews/enqueue/admin/localize', $variables );
 		wp_localize_script( Application::ID, 'site_reviews', $variables );
 	}
 
@@ -63,7 +62,7 @@ class EnqueueAdminAssets
 	 */
 	protected function getDependencies()
 	{
-		$dependencies = []; //glsr( Html::class )->getDependencies();
+		$dependencies = apply_filters( 'site-reviews/enqueue/admin/dependencies', [] );
 		$dependencies = array_merge( $dependencies, [
 			'jquery', 'jquery-ui-sortable', 'underscore', 'wp-util',
 		]);

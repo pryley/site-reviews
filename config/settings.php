@@ -102,7 +102,7 @@ return [
 		'type'  => 'yes_no',
 	],
 	'settings.reviews.avatars.size' => [
-		'default' => 36,
+		'default' => 40,
 		'depends_on' => ['settings.reviews.avatars.enabled' => 'yes'],
 		'description' => __( 'Set the avatar size in pixels.', 'site-reviews' ),
 		'label' => __( 'Avatar Size', 'site-reviews' ),

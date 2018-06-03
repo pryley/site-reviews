@@ -27,12 +27,14 @@ site-reviews/local/review/submitted/message
 site-reviews/webhook/notification
 
 [EnqueueAdminAssets.php]
-site-reviews/enqueue/localize
+site-reviews/enqueue/admin/dependencies
+site-reviews/enqueue/admin/localize
 
 [EnqueuePublicAssets.php]
 site-reviews/assets/css
 site-reviews/assets/js
-site-reviews/enqueue/localize
+site-reviews/enqueue/public/dependencies
+site-reviews/enqueue/public/localize
 site-reviews/recaptcha/language
 
 [RegisterTaxonomy.php]
@@ -74,6 +76,7 @@ site-reviews/validation/rules
 
 [SiteReviews.php]
 site-reviews/review/author/prefix
+site-reviews/reviews/style
 
 [Pagination.php]
 site-reviews/reviews/navigation_links

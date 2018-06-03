@@ -7,6 +7,6 @@ use GeminiLabs\SiteReviews\Shortcodes\Shortcode;
 class SiteReviewsShortcode extends Shortcode
 {
 	protected $hiddenKeys = [
-		'author', 'avatar', 'date', 'excerpt', 'rating', 'response', 'title',
+		'assigned_to', 'author', 'avatar', 'content', 'date', 'rating', 'response', 'title',
 	];
 }

@@ -1,0 +1,123 @@
+.glsr-reviews {
+	position: relative;
+	&::after,
+	.glsr-review::after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+	.glsr-review {
+		margin-bottom: 3em;
+	}
+	.glsr-review p {
+		white-space: pre-line;
+		margin: 0 0 1em;
+	}
+	.glsr-review,
+	.glsr-navigation {
+		opacity: 1;
+		transition: opacity 500ms;
+	}
+	&.glsr-hide .glsr-review,
+	&.glsr-hide .glsr-navigation {
+		opacity: 0 !important;
+	}
+	.glsr-review > div {
+		margin-bottom: 1em;
+	}
+	.glsr-review-assigned_to {
+		display: block;
+		font-style: italic;
+	}
+	.glsr-review-author {
+		display: inline-block;
+		vertical-align: top;
+	}
+	.glsr-review-avatar + .glsr-review-author {
+		margin-top: 0.5em;
+	}
+	.glsr-review-avatar img {
+		display: block;
+	}
+	.glsr-review-date {
+		display: inline-block;
+		font-style: italic;
+		white-space: nowrap;
+	}
+	.glsr-review-rating {
+		display: inline-block;
+	}
+	.glsr-review-response {
+		position: relative;
+		clear: both;
+	}
+	.glsr-review-response p:last-of-type {
+		font-size: 0.875em;
+		margin-bottom: 0;
+	}
+	.glsr-review-response-background {
+		opacity: 0.075;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: currentColor;
+		border-radius: 2px;
+		padding: 1em;
+	}
+	.glsr-review-response-background::before {
+		content: '';
+		display: block;
+		position: absolute;
+		top: -1.5em;
+		height: 0;
+		width: 0;
+		border-style: solid;
+		border-color: currentColor transparent;
+		border-width: 0 0 1.5em 0;
+	}
+	.glsr-review-response-inner {
+		position: relative;
+		padding: 1em;
+		z-index: 1;
+	}
+	.star {
+		display: inline-block;
+		width: 20px;
+		height: 20px;
+		font-size: 16px;
+		vertical-align: sub;
+		background-repeat: no-repeat;
+		background-size: 20px;
+	}
+	.star-empty {
+		background-image: url($star-empty);
+	}
+	.star-full {
+		background-image: url($star-full);
+	}
+	.star-half {
+		background-image: url($star-half);
+	}
+}
+.glsr-ltr .glsr-reviews {
+	.glsr-review-avatar {
+		float: left;
+		margin-right: 1em;
+	}
+	.glsr-review-response-background::before {
+		right: 3em;
+		border-right-width: 2em;
+	}
+}
+.glsr-rtl .glsr-reviews {
+	.glsr-review-avatar {
+		float: right;
+		margin-left: 1em;
+	}
+	.glsr-review-response-background::before {
+		left: 3em;
+		border-left-width: 2em;
+	}
+}

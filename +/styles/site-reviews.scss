@@ -1,9 +1,22 @@
-// =============================================================================
-// Imports
-// =============================================================================
+$star-empty: '../images/star-empty.svg' !default;
+$star-full: '../images/star-filled.svg' !default;
+$star-half: '../images/star-half.svg' !default;
 
-@import "../../node_modules/star-rating.js/src/star-rating";
-@import "partials/widget-reviews";
-@import "partials/widget-reviews-form";
-@import "partials/widget-reviews-summary";
+$star-rating: (
+    base-display   : block,
+    base-height    : 26px,
+    font-size      : 0.8em,
+    font-weight    : 600,
+    star-empty     : $star-empty,
+    star-filled    : $star-full,
+    star-half      : $star-half,
+    star-size      : 24px,
+    text-background: #1a1a1a,
+    text-color     : #fff,
+);
 
+@import "node_modules/star-rating.js/src/star-rating";
+@import "public/global";
+@import "public/reviews";
+@import "public/reviews-form";
+@import "public/reviews-summary";

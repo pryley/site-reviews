@@ -1,14 +1,5 @@
 var GLSR = {};
 
-GLSR.addClass = function( el, className ) {
-	if( el.classList ) {
-		el.classList.add( className );
-	}
-	else if( !GLSR.hasClass( el, className )) {
-		el.className += ' ' + className;
-	}
-};
-
 GLSR.convertValue = function( value ) {
 	if( GLSR.isNumeric( value )) {
 		return parseFloat( value );
@@ -36,23 +27,6 @@ GLSR.getAjax = function( url, success ) {
 	xhr.setRequestHeader( 'X-Requested-With', 'XMLHttpRequest' );
 	xhr.send();
 	return xhr;
-};
-
-GLSR.hasClass = function( el, className ) {
-	if( el.classList ) {
-		return el.classList.contains( className );
-	}
-	return new RegExp( '\\b' + className + '\\b' ).test( el.className );
-};
-
-GLSR.inArray = function( needle, haystack ) {
-	var length = haystack.length;
-	while( length-- ) {
-		if( haystack[ length ] === needle ) {
-			return true;
-		}
-	}
-	return false;
 };
 
 GLSR.isNumeric = function( value ) {
@@ -117,7 +91,7 @@ GLSR.parseFormData = function( form, convert ) {
 				seen[ seenName ] = true;
 			}
 			// Finally, assign data
-			if( GLSR.inArray( field.type, ['radio','checkbox'] ) && !field.checked )return;
+			if( ['radio','checkbox'].indexOf( field.type ) !== -1 && !field.checked )return;
 
 			if( !data[ name ] ) {
 				data[ name ] = value;
@@ -130,9 +104,7 @@ GLSR.parseFormData = function( form, convert ) {
 
 	for( var i = 0; i < form.length; i++ ) {
 		var field = form[i];
-		if( !field.name || field.disabled || GLSR.inArray( field.type, [
-			'file','reset','submit','button',
-		]))continue;
+		if( !field.name || field.disabled || ['file','reset','submit','button'].indexOf( field.type ) !== -1 )continue;
 		var parts = field.name.match( keyBreaker );
 		if( !parts.length ) {
 			parts = [ field.name ];
@@ -177,15 +149,6 @@ GLSR.ready = function( fn ) {
 	}
 };
 
-GLSR.removeClass = function( el, className ) {
-	if( el.classList ) {
-		el.classList.remove( className );
-	}
-	else {
-		el.className = el.className.replace( new RegExp( '\\b' + className + '\\b', 'g' ), '' );
-	}
-};
-
 GLSR.serialize = function( obj, prefix ) {
 	var str = [];
 
@@ -199,11 +162,6 @@ GLSR.serialize = function( obj, prefix ) {
 		);
 	}
 	return str.join( '&' );
-};
-
-GLSR.toggleClass = function( el, className ) {
-	if( !GLSR.hasClass( el, className )) GLSR.addClass( el, className );
-	else GLSR.removeClass( el, className );
 };
 
 GLSR.insertAfter = function( el, tag, attributes ) {

@@ -1,3 +1,4 @@
+/** global: GLSR, StarRating */
 GLSR.SCROLL_TIME = 468;
 GLSR.activeForm = null;
 GLSR.recaptcha = {};
@@ -20,7 +21,7 @@ GLSR.clearFieldError = function( el )
 	var fieldEl = el.closest( '.glsr-field' );
 	if( fieldEl === null )return;
 	var errorEl = fieldEl.querySelector( '.glsr-field-errors' );
-	GLSR.removeClass( fieldEl, 'glsr-has-error' );
+	fieldEl.classList.remove( 'glsr-has-error' );
 	if( errorEl !== null ) {
 		errorEl.parentNode.removeChild( errorEl );
 	}
@@ -62,14 +63,11 @@ GLSR.createExceprts = function( parentEl )
 
 GLSR.createStarRatings = function()
 {
-	var ratings = document.querySelectorAll( 'select.glsr-star-rating' );
-	for( var i = 0; i < ratings.length; i++ ) {
-		new StarRating( ratings[i], {
-			clearable: false,
-			showText : false,
-			onClick  : GLSR.clearFieldError,
-		});
-	}
+	new StarRating( 'select.glsr-star-rating', {
+		clearable: false,
+		showText: false,
+		onClick: GLSR.clearFieldError,
+	});
 };
 
 GLSR.enableSubmitButton = function()
@@ -85,17 +83,12 @@ GLSR.getSelectorOfElement = function( el )
 		( el.className ? '.' + el.className.trim().replace( /\s+/g, '.' ) : '' );
 };
 
-GLSR.now = function()
-{
-	return ( window.performance && window.performance.now ) ? window.performance.now() : Date.now();
-};
-
 GLSR.onClickPagination = function( ev )
 {
 	ev.preventDefault();
 	var parentEl = this.closest( '.glsr-reviews' );
 	var parentSelector = GLSR.getSelectorOfElement( parentEl );
-	GLSR.addClass( parentEl, 'glsr-hide' );
+	parentEl.classList.add( 'glsr-hide' );
 	GLSR.getAjax( this.href, function( response ) {
 		var html = document.implementation.createHTMLDocument( 'new' );
 		html.documentElement.innerHTML = response;
@@ -103,7 +96,7 @@ GLSR.onClickPagination = function( ev )
 		if( newParentEl.length === 1 ) {
 			parentEl.innerHTML = newParentEl[0].innerHTML;
 			GLSR.scrollToTop( parentEl );
-			GLSR.removeClass( parentEl, 'glsr-hide' );
+			parentEl.classList.remove( 'glsr-hide' );
 			GLSR.on( 'click', '.glsr-ajax-pagination .glsr-navigation a', GLSR.onClickPagination );
 			window.history.pushState( null, '', ev.target.href );
 			GLSR.createExceprts( parentEl );
@@ -119,8 +112,8 @@ GLSR.onClickReadMore = function( ev )
 	var el = ev.target;
 	var hiddenNode = el.parentNode.previousSibling;
 	var text = el.getAttribute( 'data-text' );
-	GLSR.toggleClass( hiddenNode, 'glsr-hidden' );
-	GLSR.toggleClass( hiddenNode, 'glsr-visible' );
+	hiddenNode.classList.toggle( 'glsr-hidden' );
+	hiddenNode.classList.toggle( 'glsr-visible' );
 	el.setAttribute( 'data-text', el.innerText );
 	el.innerText = text;
 };
@@ -205,6 +198,15 @@ GLSR.recaptcha.search = function( callback )
 	return result;
 };
 
+GLSR.setDirection = function()
+{
+	var widgets = document.querySelectorAll( '.glsr-widget, .glsr-shortcode' );
+	for( var i = 0; i < widgets.length; i++ ) {
+		var direction = window.getComputedStyle( widgets[i], null ).getPropertyValue( 'direction' );
+		widgets[i].classList.add( 'glsr-' + direction );
+	}
+};
+
 GLSR.scrollToTop = function( el, offset )
 {
 	offset = offset || 16; // 1rem
@@ -225,14 +227,14 @@ GLSR.scrollToTop = function( el, offset )
 	GLSR.scrollToTopStep({
 		endY: offsetTop,
 		offset: window.pageYOffset,
-		startTime: GLSR.now(),
+		startTime: window.performance.now(),
 		startY: el.scrollTop,
 	});
 };
 
 GLSR.scrollToTopStep = function( context )
 {
-	var elapsed = ( GLSR.now() - context.startTime ) / GLSR.SCROLL_TIME;
+	var elapsed = ( window.performance.now() - context.startTime ) / GLSR.SCROLL_TIME;
 	elapsed = elapsed > 1 ? 1 : elapsed;
 	var easedValue = 0.5 * ( 1 - Math.cos( Math.PI * elapsed ));
 	var currentY = context.startY + ( context.endY - context.startY ) * easedValue;
@@ -249,7 +251,7 @@ GLSR.showFormErrors = function( errors )
 	for( var error in errors ) {
 		if( !errors.hasOwnProperty( error ))continue;
 		fieldEl = GLSR.activeForm.querySelector( '[name="' + error + '"]' ).closest( '.glsr-field' );
-		GLSR.addClass( fieldEl, 'glsr-has-error' );
+		fieldEl.classList.add( 'glsr-has-error' );
 		errorsEl = fieldEl.querySelector( '.glsr-field-errors' );
 		if( errorsEl === null ) {
 			errorsEl = GLSR.appendTo( fieldEl, 'span', {
@@ -273,10 +275,10 @@ GLSR.showFormMessage = function( response )
 		});
 	}
 	if( !!response.errors ) {
-		GLSR.addClass( messageEl, 'gslr-has-errors' );
+		messageEl.classList.add( 'gslr-has-errors' );
 	}
 	else {
-		GLSR.removeClass( messageEl, 'gslr-has-errors' );
+		messageEl.classList.remove( 'gslr-has-errors' );
 	}
 	messageEl.innerHTML = '<p>' + response.message + '</p>';
 };
@@ -316,7 +318,7 @@ GLSR.on( 'change', 'form.glsr-submit-review-form', function( ev )
 
 GLSR.on( 'submit', 'form.glsr-submit-review-form', function( ev )
 {
-	if( GLSR.hasClass( this, 'no-ajax' ))return;
+	if( this.classList.contains( 'no-ajax' ))return;
 	ev.preventDefault();
 	GLSR.activeForm = this;
 	GLSR.recaptcha.addListeners();
@@ -347,6 +349,7 @@ GLSR.on( 'click', '.glsr-ajax-pagination .glsr-navigation a', GLSR.onClickPagina
 
 GLSR.ready( function()
 {
+	GLSR.setDirection();
 	GLSR.createExceprts();
 	GLSR.createStarRatings();
 });
