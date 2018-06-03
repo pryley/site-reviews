@@ -11,11 +11,6 @@ use ReflectionClass;
 abstract class Shortcode implements ShortcodeContract
 {
 	/**
-	 * @var array
-	 */
-	protected $hiddenKeys;
-
-	/**
 	 * @param string|array $instance
 	 * @return string
 	 */
@@ -111,8 +106,11 @@ abstract class Shortcode implements ShortcodeContract
 		if( is_string( $hide )) {
 			$hide = explode( ',', $hide );
 		}
-		return array_filter( array_map( 'trim', $hide ), function( $value ) {
-			return in_array( $value, $this->hiddenKeys );
+		$hiddenKeys = defined( 'static::HIDDEN_KEYS' )
+			? static::HIDDEN_KEYS
+			: [];
+		return array_filter( array_map( 'trim', $hide ), function( $value ) use( $hiddenKeys ) {
+			return in_array( $value, $hiddenKeys );
 		});
 	}
 

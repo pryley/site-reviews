@@ -1,3 +1,12 @@
+.glsr-reviews-wrap {
+	position: relative;
+	&::after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+}
+
 .glsr-hidden {
 	display: none;
 }

@@ -1,0 +1,2 @@
+- check shortcode hidden variable names
+- check documentation

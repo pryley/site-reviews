@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Shortcodes\Shortcode;
 
 class SiteReviewsShortcode extends Shortcode
 {
-	protected $hiddenKeys = [
+	const HIDDEN_KEYS = [
 		'assigned_to', 'author', 'avatar', 'content', 'date', 'rating', 'response', 'title',
 	];
 }

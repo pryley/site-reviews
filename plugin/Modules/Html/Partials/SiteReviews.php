@@ -73,7 +73,7 @@ class SiteReviews
 	{
 		$generatedReview = [];
 		foreach( $review as $key => $value ) {
-			$method = glsr( Helper::class )->buildMethodName( $key, 'buildReview' );
+			$method = glsr( Helper::class )->buildMethodName( $key, 'buildOption' );
 			if( !method_exists( $this, $method ))continue;
 			$generatedReview[$key] = $this->$method( $key, $value );
 		}
@@ -85,7 +85,7 @@ class SiteReviews
 	 * @param string $value
 	 * @return void|string
 	 */
-	protected function buildReviewAssignedTo( $key, $value )
+	protected function buildOptionAssignedTo( $key, $value )
 	{
 		if( $this->isHiddenOrEmpty( $key, 'settings.reviews.assigned_links.enabled' ))return;
 		$post = get_post( intval( $value ));
@@ -102,7 +102,7 @@ class SiteReviews
 	 * @param string $value
 	 * @return void|string
 	 */
-	protected function buildReviewAuthor( $key, $value )
+	protected function buildOptionAuthor( $key, $value )
 	{
 		if( $this->isHidden( $key ))return;
 		$prefix = !$this->isOptionEnabled( 'settings.reviews.avatars.enabled' )
@@ -116,7 +116,7 @@ class SiteReviews
 	 * @param string $value
 	 * @return void|string
 	 */
-	protected function buildReviewAvatar( $key, $value )
+	protected function buildOptionAvatar( $key, $value )
 	{
 		if( $this->isHidden( $key, 'settings.reviews.avatars.enabled' ))return;
 		$size = $this->getOption( 'settings.reviews.avatars.size', 36 );
@@ -132,7 +132,7 @@ class SiteReviews
 	 * @param string $value
 	 * @return void|string
 	 */
-	protected function buildReviewContent( $key, $value )
+	protected function buildOptionContent( $key, $value )
 	{
 		$text = $this->normalizeText( $value );
 		if( $this->isHiddenOrEmpty( $key, $text ))return;
@@ -144,7 +144,7 @@ class SiteReviews
 	 * @param string $value
 	 * @return void|string
 	 */
-	protected function buildReviewDate( $key, $value )
+	protected function buildOptionDate( $key, $value )
 	{
 		if( $this->isHidden( $key ))return;
 		$dateFormat = $this->getOption( 'settings.reviews.date.format', 'default' );
@@ -165,7 +165,7 @@ class SiteReviews
 	 * @param string $value
 	 * @return void|string
 	 */
-	protected function buildReviewRating( $key, $value )
+	protected function buildOptionRating( $key, $value )
 	{
 		if( $this->isHiddenOrEmpty( $key, $value ))return;
 		$rating = glsr( Html::class )->buildPartial( 'star-rating', [
@@ -179,7 +179,7 @@ class SiteReviews
 	 * @param string $value
 	 * @return void|string
 	 */
-	protected function buildReviewResponse( $key, $value )
+	protected function buildOptionResponse( $key, $value )
 	{
 		if( $this->isHiddenOrEmpty( $key, $value ))return;
 		$title = sprintf( __( 'Response from %s', 'site-reviews' ), get_bloginfo( 'name' ));
@@ -196,7 +196,7 @@ class SiteReviews
 	 * @param string $value
 	 * @return void|string
 	 */
-	protected function buildReviewTitle( $key, $value )
+	protected function buildOptionTitle( $key, $value )
 	{
 		if( $this->isHidden( $key ))return;
 		if( empty( $value )) {
@@ -211,7 +211,9 @@ class SiteReviews
 	protected function generateSchema()
 	{
 		if( !wp_validate_boolean( $this->args['schema'] ))return;
-		glsr( Schema::class )->store( glsr( Schema::class )->build( $this->args ));
+		glsr( Schema::class )->store(
+			glsr( Schema::class )->build( $this->args )
+		);
 	}
 
 	/**
@@ -219,11 +221,11 @@ class SiteReviews
 	 */
 	protected function getClass()
 	{
-		$style = apply_filters( 'site-reviews/reviews/style', 'glsr-reviews' );
+		$style = apply_filters( 'site-reviews/style', 'glsr-style' );
 		$pagination = $this->args['pagination'] == 'ajax'
 			? 'glsr-ajax-pagination'
 			: '';
-		return trim( $this->args['class'].' '.$style.' '.$pagination );
+		return trim( 'glsr-reviews '.$style.' '.$pagination.' '.$this->args['class'] );
 	}
 
 	/**

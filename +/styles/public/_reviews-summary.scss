@@ -1,0 +1,95 @@
+.glsr-style {
+	&.glsr-summary {
+		position: relative;
+		width: 100%;
+		max-width: $glsr-summary-max-width;
+		font-size: $glsr-font-size;
+		line-height: 1.5;
+		margin-bottom: 1em;
+	}
+	.glsr-bar {
+		display: table-row;
+		white-space: nowrap;
+	}
+	.glsr-bar > span {
+		display: table-cell;
+		vertical-align: middle;
+	}
+	.glsr-bar-background {
+		position: relative;
+		width: 100%;
+	}
+	.glsr-bar-background::before {
+		opacity: $glsr-opacity;
+		display: block;
+		position: absolute;
+		content: '';
+		width: 100%;
+		height: $glsr-summary-bar-height;
+		background-color: currentColor;
+	}
+	.glsr-bar-background-percent {
+		position: relative;
+		display: block;
+		height: $glsr-summary-bar-height;
+		background-color: #ffb900;
+	}
+	.glsr-bar-percent {
+		text-align: right;
+		font-size: $glsr-font-size-small;
+	}
+	.glsr-summary-percentage {
+		position: relative;
+		width: 100%;
+		max-width: $glsr-summary-max-width;
+		font-size: $glsr-font-size;
+		line-height: 1.5;
+		margin-bottom: 1em;
+	}
+	.glsr-summary-rating {
+		display: inline-block;
+		line-height: 1.25;
+		font-size: $glsr-summary-star-size;
+		font-weight: 700;
+		vertical-align: top;
+	}
+	.glsr-summary-stars {
+		display: inline-block;
+	}
+	.glsr-summary-stars .star {
+		width: $glsr-summary-star-size;
+		height: $glsr-summary-star-size;
+		background-size: $glsr-summary-star-size;
+	}
+	.glsr-summary-text {
+		font-size: $glsr-font-size-small;
+		margin-bottom: 0.5em;
+	}
+}
+.glsr-ltr .glsr-style {
+	.glsr-bar-label {
+		padding-right: $glsr-summary-spacing;
+	}
+	.glsr-bar-percent {
+		padding-left: $glsr-summary-spacing;
+	}
+	.glsr-summary-rating,
+	.glsr-summary-stars {
+		margin-right: $glsr-summary-spacing;
+	}
+}
+.glsr-rtl .glsr-style {
+	.glsr-bar-label {
+		padding-left: $glsr-summary-spacing;
+	}
+	.glsr-bar-percent {
+		padding-right: $glsr-summary-spacing;
+	}
+	.glsr-summary-rating,
+	.glsr-summary-stars {
+		margin-left: $glsr-summary-spacing;
+	}
+	.glsr-summary-stars .star {
+		transform: scaleX(-1);
+	}
+}

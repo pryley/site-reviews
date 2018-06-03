@@ -1,15 +1,22 @@
-$star-empty: '../images/star-empty.svg' !default;
-$star-full: '../images/star-filled.svg' !default;
-$star-half: '../images/star-half.svg' !default;
+$glsr-font-size-small: 0.875em !default;
+$glsr-font-size: 1em !default;
+$glsr-opacity: 0.1 !default; //0.075
+$glsr-star-empty: '../images/star-empty.svg' !default;
+$glsr-star-full: '../images/star-filled.svg' !default;
+$glsr-star-half: '../images/star-half.svg' !default;
+$glsr-summary-bar-height: 12px !default;
+$glsr-summary-max-width: 400px !default;
+$glsr-summary-spacing: 10px !default;
+$glsr-summary-star-size: 24px !default;
 
 $star-rating: (
     base-display   : block,
     base-height    : 26px,
     font-size      : 0.8em,
     font-weight    : 600,
-    star-empty     : $star-empty,
-    star-filled    : $star-full,
-    star-half      : $star-half,
+    star-empty     : $glsr-star-empty,
+    star-filled    : $glsr-star-full,
+    star-half      : $glsr-star-half,
     star-size      : 24px,
     text-background: #1a1a1a,
     text-color     : #fff,

@@ -76,7 +76,10 @@ site-reviews/validation/rules
 
 [SiteReviews.php]
 site-reviews/review/author/prefix
-site-reviews/reviews/style
+
+[SiteReviews.php]
+[SiteReviewsSummary.php]
+site-reviews/style
 
 [Pagination.php]
 site-reviews/reviews/navigation_links

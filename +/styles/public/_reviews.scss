@@ -1,6 +1,4 @@
-.glsr-reviews {
-	position: relative;
-	&::after,
+.glsr-style {
 	.glsr-review::after {
 		content: '';
 		display: table;
@@ -52,11 +50,11 @@
 		clear: both;
 	}
 	.glsr-review-response p:last-of-type {
-		font-size: 0.875em;
+		font-size: $glsr-font-size-small;
 		margin-bottom: 0;
 	}
 	.glsr-review-response-background {
-		opacity: 0.075;
+		opacity: $glsr-opacity;
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -92,16 +90,16 @@
 		background-size: 20px;
 	}
 	.star-empty {
-		background-image: url($star-empty);
+		background-image: url($glsr-star-empty);
 	}
 	.star-full {
-		background-image: url($star-full);
+		background-image: url($glsr-star-full);
 	}
 	.star-half {
-		background-image: url($star-half);
+		background-image: url($glsr-star-half);
 	}
 }
-.glsr-ltr .glsr-reviews {
+.glsr-ltr .glsr-style {
 	.glsr-review-avatar {
 		float: left;
 		margin-right: 1em;
@@ -111,7 +109,7 @@
 		border-right-width: 2em;
 	}
 }
-.glsr-rtl .glsr-reviews {
+.glsr-rtl .glsr-style {
 	.glsr-review-avatar {
 		float: right;
 		margin-left: 1em;

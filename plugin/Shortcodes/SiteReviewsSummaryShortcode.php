@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Shortcodes\Shortcode;
 
 class SiteReviewsSummaryShortcode extends Shortcode
 {
-	protected $hiddenKeys = [
+	const HIDDEN_KEYS = [
 		'bars', 'if_empty', 'rating', 'stars', 'summary',
 	];
 }

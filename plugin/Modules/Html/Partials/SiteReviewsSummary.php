@@ -5,6 +5,8 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Html\Template;
+use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Schema;
 
@@ -31,112 +33,100 @@ class SiteReviewsSummary
 	public function build( array $args = [] )
 	{
 		$this->args = $args;
-		$this->reviews = glsr( Database::class )->getReviews( $args );
-		if( $this->isHidden() )return;
-		$this->rating = glsr( Rating::class )->getAverage( $this->reviews->results );
-		$this->buildSchema();
-		return glsr( Builder::class )->div( $this->buildSummary().$this->buildPercentageBars(), [
-			'class' => 'glsr-summary-wrap '.$args['class'],
-			'id' => $args['id'],
+		$this->reviews = glsr( Database::class )->getReviews( $args )->results;
+		if( empty( $this->reviews ) && $this->isHidden( 'if_empty' ))return;
+		$this->rating = glsr( Rating::class )->getAverage( $this->reviews );
+		$this->generateSchema();
+		return glsr( Template::class )->build( 'templates/reviews-summary', [
+			'context' => [
+				'class' => $this->getClass(),
+				'id' => $this->args['id'],
+				'percentages' => $this->buildPercentage(),
+				'rating' => $this->buildRating(),
+				'stars' => $this->buildStars(),
+				'text' => $this->buildText(),
+			],
 		]);
 	}
 
 	/**
-	 * @param int $index
+	 * @return void|string
+	 */
+	protected function buildPercentage()
+	{
+		if( $this->isHidden( 'bars' ))return;
+		$range = range( Rating::MAX_RATING, 1 );
+		$percentages = preg_filter( '/$/', '%', glsr( Rating::class )->getPercentages( $this->reviews ));
+		$bars = array_reduce( $range, function( $carry, $level ) use( $percentages ) {
+			$label = $this->buildPercentageLabel( $this->args['labels'][$level] );
+			$background = $this->buildPercentageBackground( $percentages[$level] );
+			$percent = $this->buildPercentagePercent( $percentages[$level] );
+			return $carry.glsr( Builder::class )->div( $label.$background.$percent, [
+				'class' => 'glsr-bar',
+			]);
+		});
+		return $this->wrap( 'percentage', $bars );
+	}
+
+	/**
 	 * @param string $percent
 	 * @return string
 	 */
-	protected function buildPercentageBar( $index, $percent )
+	protected function buildPercentageBackground( $percent )
 	{
-		$build = glsr( Builder::class );
-		$label = $build->span( $this->args['labels'][$index], [
-			'class' => 'glsr-bar-label',
-		]);
-		$barBackground = $build->span([
-			'class' => 'glsr-bar-percent',
+		$backgroundPercent = glsr( Builder::class )->span([
+			'class' => 'glsr-bar-background-percent',
 			'style' => 'width:'.$percent,
 		]);
-		$barPercent = $build->span( $barBackground, [
-			'class' => 'glsr-bar-background',
-		]);
-		$percent = $build->span( $percent, [
-			'class' => 'glsr-bar-count',
-		]);
-		return $build->div( $label.$barPercent.$percent, [
-			'class' => 'glsr-percentage-bar',
-		]);
+		return '<span class="glsr-bar-background">'.$backgroundPercent.'</span>';
+	}
+
+	/**
+	 * @param string $label
+	 * @return string
+	 */
+	protected function buildPercentageLabel( $label )
+	{
+		return '<span class="glsr-bar-label">'.$label.'</span>';
+	}
+
+	/**
+	 * @param string $percent
+	 * @return string
+	 */
+	protected function buildPercentagePercent( $percent )
+	{
+		return '<span class="glsr-bar-percent">'.$percent.'</span>';
 	}
 
 	/**
 	 * @return void|string
 	 */
-	protected function buildPercentageBars()
+	protected function buildRating()
 	{
-		if( in_array( 'bars', $this->args['hide'] ))return;
-		$percentages = preg_filter( '/$/', '%', glsr( Rating::class )->getPercentages( $this->reviews->results ));
-		$range = range( Rating::MAX_RATING, 1 );
-		$bars = array_reduce( $range, function( $carry, $index ) use( $percentages ) {
-			return $carry.$this->buildPercentageBar( intval( $index ), $percentages[$index] );
-		});
-		return glsr( Builder::class )->div( $bars, [
-			'class' => 'glsr-percentage-bars',
-		]);
-	}
-
-	/**
-	 * @return void
-	 */
-	protected function buildSchema()
-	{
-		if( !$this->args['schema'] )return;
-		$schema = glsr( Schema::class );
-		$schema->store( $schema->buildSummary( $this->args ));
+		if( $this->isHidden( 'rating' ))return;
+		return $this->wrap( 'rating', '<span>'.$this->rating.'</span>' );
 	}
 
 	/**
 	 * @return void|string
 	 */
-	protected function buildSummary()
+	protected function buildStars()
 	{
-		$summary = $this->buildSummaryRating().$this->buildSummaryStars().$this->buildSummaryText();
-		if( empty( $summary ))return;
-		return glsr( Builder::class )->div( $summary, [
-			'class' => 'glsr-summary',
-		]);
-	}
-
-	/**
-	 * @return void|string
-	 */
-	protected function buildSummaryRating()
-	{
-		if( in_array( 'rating', $this->args['hide'] ))return;
-		return glsr( Builder::class )->span( $this->rating, [
-			'class' => 'glsr-summary-rating',
-		]);
-	}
-
-	/**
-	 * @return void|string
-	 */
-	protected function buildSummaryStars()
-	{
-		if( in_array( 'stars', $this->args['hide'] ))return;
-		$stars = glsr( Html::class )->buildPartial( 'star-rating', [
+		if( $this->isHidden( 'stars' ))return;
+		$stars = glsr( Partial::class )->build( 'star-rating', [
 			'rating' => $this->rating,
 		]);
-		return glsr( Builder::class )->span( $stars, [
-			'class' => 'glsr-summary-stars',
-		]);
+		return $this->wrap( 'stars', $stars );
 	}
 
 	/**
 	 * @return void|string
 	 */
-	protected function buildSummaryText()
+	protected function buildText()
 	{
-		if( in_array( 'summary', $this->args['hide'] ))return;
-		$count = count( $this->reviews->results );
+		if( $this->isHidden( 'summary' ))return;
+		$count = count( $this->reviews );
 		if( empty( $this->args['text'] )) {
 			 $this->args['text'] = _nx(
 				'{rating} out of {max} stars (based on %d review)',
@@ -146,17 +136,49 @@ class SiteReviewsSummary
 				'site-reviews'
 			);
 		}
-		$summary = str_replace(
-			['{rating}','{max}'], [$this->rating, Rating::MAX_RATING], $this->args['text']
-		);
-		return str_replace( ['%s','%d'], $count, $summary );
+		$summary = str_replace( ['{rating}','{max}'], [$this->rating, Rating::MAX_RATING], $this->args['text'] );
+		$summary = str_replace( ['%s','%d'], $count, $summary );
+		return $this->wrap( 'text', '<span>'.$summary.'</span>' );
 	}
 
 	/**
+	 * @return void
+	 */
+	protected function generateSchema()
+	{
+		if( !wp_validate_boolean( $this->args['schema'] ))return;
+		glsr( Schema::class )->store(
+			glsr( Schema::class )->buildSummary( $this->args )
+		);
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getClass()
+	{
+		$style = apply_filters( 'site-reviews/style', 'glsr-style' );
+		return trim( 'glsr-summary '.$style.' '.$this->args['class'] );
+	}
+
+	/**
+	 * @param string $key
 	 * @return bool
 	 */
-	protected function isHidden()
+	protected function isHidden( $key )
 	{
-		return empty( $this->reviews->results ) && in_array( 'if_empty', $this->args['hide'] );
+		return in_array( $key, $this->args['hide'] );
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return string
+	 */
+	protected function wrap( $key, $value )
+	{
+		return glsr( Builder::class )->div( $value, [
+			'class' => 'glsr-summary-'.$key,
+		]);
 	}
 }
