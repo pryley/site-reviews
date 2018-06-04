@@ -260,6 +260,10 @@
   margin-bottom: 1em;
 }
 
+.glsr-style .glsr-review > div:last-of-type {
+  margin-bottom: 0;
+}
+
 .glsr-style .glsr-review-assigned_to {
   display: block;
   font-style: italic;

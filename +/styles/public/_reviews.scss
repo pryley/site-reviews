@@ -23,6 +23,9 @@
 	.glsr-review > div {
 		margin-bottom: 1em;
 	}
+	.glsr-review > div:last-of-type {
+		margin-bottom: 0;
+	}
 	.glsr-review-assigned_to {
 		display: block;
 		font-style: italic;
