@@ -56,7 +56,11 @@ class Settings
 		$fields = $this->getSettingFields( $this->normalizeSettingPath( $id ));
 		$rows = '';
 		foreach( $fields as $name => $field ) {
-			$rows.= new Field( $this->normalize( $field, $name ));
+			$field = wp_parse_args( $field, [
+				'is_setting' => true,
+				'name' => $name,
+			]);
+			$rows.= new Field( $this->normalize( $field ));
 		}
 		return [
 			'rows' => $rows,
@@ -80,16 +84,29 @@ class Settings
 	}
 
 	/**
-	 * @param string $name
+	 * @param string $path
+	 * @param string|array $expectedValue
+	 * @return bool
+	 */
+	protected function isFieldHidden( $path, $expectedValue )
+	{
+		$optionValue = glsr( OptionManager::class )->get(
+			$path,
+			glsr( Helper::class )->getPathValue( $path, glsr()->defaults )
+		);
+		if( is_array( $expectedValue )) {
+			return !in_array( $optionValue, $expectedValue );
+		}
+		return $optionValue != $expectedValue;
+	}
+
+	/**
 	 * @return array
 	 */
-	protected function normalize( array $field, $name )
+	protected function normalize( array $field )
 	{
-		$field = wp_parse_args( $field, [
-			'is_setting' => true,
-			'name' => $name,
-		]);
-		$field = $this->normalizeLabel( $field );
+		$field = $this->normalizeDependsOn( $field );
+		$field = $this->normalizeLabelAndLegend( $field );
 		$field = $this->normalizeValue( $field );
 		return $field;
 	}
@@ -97,7 +114,24 @@ class Settings
 	/**
 	 * @return array
 	 */
-	protected function normalizeLabel( array $field )
+	protected function normalizeDependsOn( array $field )
+	{
+		if( !empty( $field['depends_on'] ) && is_array( $field['depends_on'] )) {
+			$path = key( $field['depends_on'] );
+			$expectedValue = $field['depends_on'][$path];
+			$field['data-depends'] = json_encode([
+				'name' => glsr( Helper::class )->convertPathToName( $path, OptionManager::databaseKey() ),
+				'value' => $expectedValue,
+			], JSON_HEX_APOS|JSON_HEX_QUOT );
+			$field['is_hidden'] = $this->isFieldHidden( $path, $expectedValue );
+		}
+		return $field;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function normalizeLabelAndLegend( array $field )
 	{
 		if( isset( $field['label'] )) {
 			$field['legend'] = $field['label'];

@@ -68,9 +68,9 @@ class Helper
 	 * @param string $name
 	 * @return string
 	 */
-	public function convertNameToId( $name )
+	public function convertPathToId( $path, $prefix = '' )
 	{
-		return str_replace( ['[', ']'], ['-', ''], $name );
+		return str_replace( ['[', ']'], ['-', ''], $this->convertPathToName( $path, $prefix ));
 	}
 
 	/**

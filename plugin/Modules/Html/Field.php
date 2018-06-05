@@ -82,7 +82,6 @@ class Field
 	 */
 	protected function buildSettingField()
 	{
-		$this->field['data-depends'] = $this->getFieldDependsOn();
 		return glsr( Template::class )->build( 'partials/form/table-row', [
 			'context' => [
 				'class' => $this->getFieldClass(),
@@ -97,10 +96,12 @@ class Field
 	 */
 	protected function buildSettingMultiField()
 	{
+		$dependsOn = $this->getFieldDependsOn();
+		unset( $this->field['data-depends'] );
 		return glsr( Template::class )->build( 'partials/form/table-row-multiple', [
 			'context' => [
 				'class' => $this->getFieldClass(),
-				'depends_on' => $this->getFieldDependsOn(),
+				'depends_on' => $dependsOn,
 				'field' => glsr( Builder::class )->{$this->field['type']}( $this->field ),
 				'label' => glsr( Builder::class )->label( $this->field['legend'], ['for' => $this->field['id']] ),
 				'legend' => $this->field['legend'],
@@ -128,8 +129,8 @@ class Field
 	 */
 	protected function getFieldDependsOn()
 	{
-		return !empty( $this->field['depends_on'] )
-			? $this->field['depends_on']
+		return !empty( $this->field['data-depends'] )
+			? $this->field['data-depends']
 			: '';
 	}
 
@@ -141,23 +142,6 @@ class Field
 		return $this->field['is_setting']
 			? OptionManager::databaseKey()
 			: Application::ID;
-	}
-
-	/**
-	 * @param string $path
-	 * @param string|array $expectedValue
-	 * @return bool
-	 */
-	protected function isFieldHidden( $path, $expectedValue )
-	{
-		$optionValue = glsr( OptionManager::class )->get(
-			$path,
-			glsr( Helper::class )->getPathValue( $path, glsr()->defaults )
-		);
-		if( is_array( $expectedValue )) {
-			return !in_array( $optionValue, $expectedValue );
-		}
-		return $optionValue != $expectedValue;
 	}
 
 	/**
@@ -188,6 +172,7 @@ class Field
 	protected function normalize()
 	{
 		if( !$this->isFieldValid() )return;
+		$this->field['path'] = $this->field['name'];
 		$className = glsr( Helper::class )->buildClassName( $this->field['type'], __NAMESPACE__.'\Fields' );
 		if( class_exists( $className )) {
 			$this->field = array_merge(
@@ -195,25 +180,9 @@ class Field
 				$className::required()
 			);
 		}
-		$this->normalizeDependsOn();
+		$this->determineIfMulti();
 		$this->normalizeId();
 		$this->normalizeName();
-		$this->normalizeType();
-	}
-
-	/**
-	 * @return void
-	 */
-	protected function normalizeDependsOn()
-	{
-		if( empty( $this->field['depends_on'] ) || !is_array( $this->field['depends_on'] ))return;
-		$path = key( $this->field['depends_on'] );
-		$value = $this->field['depends_on'][$path];
-		$this->field['depends_on'] = json_encode([
-			'name' => glsr( Helper::class )->convertPathToName( $path, $this->getFieldPrefix() ),
-			'value' => $value,
-		], JSON_HEX_APOS|JSON_HEX_QUOT );
-		$this->field['is_hidden'] = $this->isFieldHidden( $path, $value );
 	}
 
 	/**
@@ -222,7 +191,10 @@ class Field
 	protected function normalizeId()
 	{
 		if( isset( $this->field['id'] ) || $this->field['is_raw'] )return;
-		$this->field['id'] = glsr( Helper::class )->convertNameToId( $this->field['name'] );
+		$this->field['id'] = glsr( Helper::class )->convertPathToId(
+			$this->field['path'],
+			$this->getFieldPrefix()
+		);
 	}
 
 	/**
@@ -230,7 +202,7 @@ class Field
 	 */
 	protected function normalizeName()
 	{
-		$this->field['path'] = $this->field['name'];
+
 		$this->field['name'] = glsr( Helper::class )->convertPathToName(
 			$this->field['path'],
 			$this->getFieldPrefix()
@@ -240,10 +212,9 @@ class Field
 	/**
 	 * @return void
 	 */
-	protected function normalizeType()
+	protected function determineIfMulti()
 	{
-		if( in_array( $this->field['type'], static::MULTI_FIELD_TYPES )) {
-			$this->field['is_multi'] = true;
-		}
+		if( !in_array( $this->field['type'], static::MULTI_FIELD_TYPES ))return;
+		$this->field['is_multi'] = true;
 	}
 }
