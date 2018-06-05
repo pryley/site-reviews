@@ -3,6 +3,9 @@
 namespace GeminiLabs\SiteReviews\Handlers;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
 class EnqueueAdminAssets
 {
@@ -45,6 +48,11 @@ class EnqueueAdminAssets
 			'action' => Application::PREFIX.'action',
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'are_you_sure' => __( 'Are you sure want to do this?', 'site-reviews' ),
+			'hidden_keys' => [
+				'site_reviews' => SiteReviewsShortcode::HIDDEN_KEYS,
+				'site_reviews_form' => SiteReviewsFormShortcode::HIDDEN_KEYS,
+				'site_reviews_summary' => SiteReviewsSummaryShortcode::HIDDEN_KEYS,
+			],
 			'mce_nonce' => wp_create_nonce( 'mce-shortcode' ),
 			'pinned_nonce' => wp_create_nonce( 'toggle-pinned' ),
 			'shortcodes' => [],

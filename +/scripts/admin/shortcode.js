@@ -25,12 +25,6 @@ GLSR.shortcode.prototype = {
 
 	hiddenKeys: [],
 
-	hiddenFields: {
-		site_reviews: ['assigned_to','author','avatar','content','date','rating','response','title'],
-		site_reviews_form: ['email','name','terms','title'],
-		site_reviews_summary: ['bars','if_empty','rating','stars','summary'],
-	},
-
 	/** @return void */
 	init: function() {
 		document.addEventListener( 'click', this.onClose.bind( this ));
@@ -99,9 +93,9 @@ GLSR.shortcode.prototype = {
 
 	/** @return void */
 	normalizeHide: function( key ) {
-		if( !this.hiddenFields.hasOwnProperty( this.current ))return;
+		if( !site_reviews.hidden_keys.hasOwnProperty( this.current ))return;
 		var value = key.substring('hide_'.length);
-		if( this.hiddenFields[this.current].indexOf( value ) === -1 )return;
+		if( site_reviews.hidden_keys[this.current].indexOf( value ) === -1 )return;
 		if( this.attributes[key] ) {
 			this.hiddenKeys.push( value );
 		}
