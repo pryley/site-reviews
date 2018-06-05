@@ -117,7 +117,8 @@ class Builder
 	 */
 	protected function buildCustomField()
 	{
-		if( $className = $this->getCustomFieldClassName() ) {
+		$className = $this->getCustomFieldClassName();
+		if( class_exists( $className )) {
 			return (new $className( $this ))->build();
 		}
 		glsr_log()->error( 'Field missing: '.$className );
@@ -246,14 +247,11 @@ class Builder
 	}
 
 	/**
-	 * @return string|false
+	 * @return string
 	 */
 	protected function getCustomFieldClassName()
 	{
-		$className = glsr( Helper::class )->buildClassName( $this->tag, __NAMESPACE__.'\Fields' );
-		return class_exists( $className )
-			? $className
-			: false;
+		return glsr( Helper::class )->buildClassName( $this->tag, __NAMESPACE__.'\Fields' );
 	}
 
 	/**
@@ -262,7 +260,8 @@ class Builder
 	protected function mergeArgsWithRequiredDefaults()
 	{
 		$args = glsr( BuilderDefaults::class )->merge( $this->args );
-		if( $className = $this->getCustomFieldClassName() ) {
+		$className = $this->getCustomFieldClassName();
+		if( class_exists( $className )) {
 			$args = array_merge( $args, $className::defaults() );
 		}
 		$this->args = $args;

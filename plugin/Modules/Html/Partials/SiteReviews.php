@@ -229,7 +229,7 @@ class SiteReviews
 		if( empty( $authorIdOrEmail )) {
 			$authorIdOrEmail = $review->email;
 		}
-		return get_avatar_url( $authorIdOrEmail );
+		return (string)get_avatar_url( $authorIdOrEmail );
 	}
 
 	/**

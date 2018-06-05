@@ -11,7 +11,7 @@ class Form
 {
 	/**
 	 * @param string $id
-	 * @return array
+	 * @return string
 	 */
 	public function buildFields( $id )
 	{

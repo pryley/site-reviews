@@ -27,12 +27,13 @@ class Settings
 	}
 
 	/**
-	 * @param string $partialPath
-	 * @return void
+	 * @return string
 	 */
-	public function render( $partialPath, array $args = [] )
+	protected function getFieldDefault( array $field )
 	{
-		echo $this->build( $partialPath, $args );
+		return isset( $field['default'] )
+			? $field['default']
+			: '';
 	}
 
 	/**
@@ -55,11 +56,7 @@ class Settings
 		$fields = $this->getSettingFields( $this->normalizeSettingPath( $id ));
 		$rows = '';
 		foreach( $fields as $name => $field ) {
-			$field = wp_parse_args( $field, [
-				'is_setting' => true,
-				'name' => $name,
-			]);
-			$rows.= new Field( $field );
+			$rows.= new Field( $this->normalize( $field, $name ));
 		}
 		return [
 			'rows' => $rows,
@@ -80,6 +77,51 @@ class Settings
 			'database_key' => OptionManager::databaseKey(),
 			'translations' => $translations,
 		];
+	}
+
+	/**
+	 * @param string $name
+	 * @return array
+	 */
+	protected function normalize( array $field, $name )
+	{
+		$field = wp_parse_args( $field, [
+			'is_setting' => true,
+			'name' => $name,
+		]);
+		$field = $this->normalizeLabel( $field );
+		$field = $this->normalizeValue( $field );
+		return $field;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function normalizeLabel( array $field )
+	{
+		if( isset( $field['label'] )) {
+			$field['legend'] = $field['label'];
+			unset( $field['label'] );
+		}
+		else {
+			$field['is_valid'] = false;
+			glsr_log()->warning( 'Field is missing label' )->info( $field );
+		}
+		return $field;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function normalizeValue( array $field )
+	{
+		if( !isset( $field['value'] )) {
+			$field['value'] = glsr( OptionManager::class )->get(
+				$field['name'],
+				$this->getFieldDefault( $field )
+			);
+		}
+		return $field;
 	}
 
 	/**

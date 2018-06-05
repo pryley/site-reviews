@@ -126,16 +126,6 @@ class Field
 	/**
 	 * @return string
 	 */
-	protected function getFieldDefault()
-	{
-		return isset( $this->field['default'] )
-			? $this->field['default']
-			: '';
-	}
-
-	/**
-	 * @return string
-	 */
 	protected function getFieldDependsOn()
 	{
 		return !empty( $this->field['depends_on'] )
@@ -175,23 +165,21 @@ class Field
 	 */
 	protected function isFieldValid()
 	{
-		$isValid = true;
 		$missingValues = [];
 		$requiredValues = [
-			// 'label', 'name', 'type',
 			'name', 'type',
 		];
 		foreach( $requiredValues as $value ) {
 			if( isset( $this->field[$value] ))continue;
 			$missingValues[] = $value;
-			$isValid = $this->field['is_valid'] = false;
+			$this->field['is_valid'] = false;
 		}
 		if( !empty( $missingValues )) {
 			glsr_log()
 				->warning( 'Field is missing: '.implode( ', ', $missingValues ))
 				->info( $this->field );
 		}
-		return $isValid;
+		return $this->field['is_valid'];
 	}
 
 	/**
@@ -200,15 +188,17 @@ class Field
 	protected function normalize()
 	{
 		if( !$this->isFieldValid() )return;
-		$field = $this->field;
-		foreach( $field as $key => $value ) {
-			$methodName = glsr( Helper::class )->buildMethodName( $key, 'normalize' );
-			if( !method_exists( $this, $methodName ))continue;
-			$this->$methodName();
+		$className = glsr( Helper::class )->buildClassName( $this->field['type'], __NAMESPACE__.'\Fields' );
+		if( class_exists( $className )) {
+			$this->field = array_merge(
+				wp_parse_args( $this->field, $className::defaults() ),
+				$className::required()
+			);
 		}
-		$this->normalizeFieldId();
-		$this->normalizeFieldType();
-		$this->normalizeFieldValue();
+		$this->normalizeDependsOn();
+		$this->normalizeId();
+		$this->normalizeName();
+		$this->normalizeType();
 	}
 
 	/**
@@ -220,7 +210,7 @@ class Field
 		$path = key( $this->field['depends_on'] );
 		$value = $this->field['depends_on'][$path];
 		$this->field['depends_on'] = json_encode([
-			'name' => glsr( Helper::class )->convertPathToName( $path, OptionManager::databaseKey() ),
+			'name' => glsr( Helper::class )->convertPathToName( $path, $this->getFieldPrefix() ),
 			'value' => $value,
 		], JSON_HEX_APOS|JSON_HEX_QUOT );
 		$this->field['is_hidden'] = $this->isFieldHidden( $path, $value );
@@ -229,49 +219,10 @@ class Field
 	/**
 	 * @return void
 	 */
-	protected function normalizeFieldId()
+	protected function normalizeId()
 	{
-		if( isset( $this->field['id'] ) || empty( $this->field['label'] ))return;
+		if( isset( $this->field['id'] ) || $this->field['is_raw'] )return;
 		$this->field['id'] = glsr( Helper::class )->convertNameToId( $this->field['name'] );
-	}
-
-	/**
-	 * @return void
-	 */
-	protected function normalizeFieldType()
-	{
-		$className = glsr( Helper::class )->buildClassName( $this->field['type'], __NAMESPACE__.'\Fields' );
-		if( class_exists( $className )) {
-			$this->field = array_merge(
-				wp_parse_args( $this->field, $className::defaults() ),
-				$className::required()
-			);
-		}
-		if( in_array( $this->field['type'], static::MULTI_FIELD_TYPES )) {
-			$this->field['is_multi'] = true;
-		}
-	}
-
-	/**
-	 * @return void
-	 */
-	protected function normalizeFieldValue()
-	{
-		if( isset( $this->field['value'] ))return;
-		$this->field['value'] = glsr( OptionManager::class )->get(
-			$this->field['path'],
-			$this->getFieldDefault()
-		);
-	}
-
-	/**
-	 * @return void
-	 */
-	protected function normalizeLabel()
-	{
-		if( !$this->field['is_setting'] )return;
-		$this->field['legend'] = $this->field['label'];
-		unset( $this->field['label'] );
 	}
 
 	/**
@@ -281,8 +232,18 @@ class Field
 	{
 		$this->field['path'] = $this->field['name'];
 		$this->field['name'] = glsr( Helper::class )->convertPathToName(
-			$this->field['name'],
+			$this->field['path'],
 			$this->getFieldPrefix()
 		);
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function normalizeType()
+	{
+		if( in_array( $this->field['type'], static::MULTI_FIELD_TYPES )) {
+			$this->field['is_multi'] = true;
+		}
 	}
 }
