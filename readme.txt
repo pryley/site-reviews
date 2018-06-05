@@ -138,3 +138,7 @@ All documentation can be found in the "Get Help" page of the plugin. You can als
 = 3.0.0 (2018-??-??) =
 
 - Complete rewrite of Site Reviews
+- Requires PHP 5.6 or greater
+- Requires WordPress 4.7 or greater
+- Supports all modern browsers and IE 10+
+
