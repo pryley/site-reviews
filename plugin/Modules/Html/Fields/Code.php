@@ -11,7 +11,7 @@ class Code extends Field
 	 */
 	public function build()
 	{
-		$this->builder->args = wp_parse_args( $this->builder->args, $this->defaults() );
+		$this->mergeFieldArgs();
 		$this->builder->tag = 'textarea';
 		return $this->builder->buildTag();
 	}
@@ -19,10 +19,19 @@ class Code extends Field
 	/**
 	 * @return array
 	 */
-	public function defaults()
+	public static function defaults()
 	{
 		return [
 			'class' => 'large-text code',
+		];
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function required()
+	{
+		return [
 			'type' => 'textarea',
 		];
 	}

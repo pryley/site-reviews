@@ -16,6 +16,7 @@ class SiteReviewsFormDefaults extends Defaults
 			'category' => '',
 			'class' => '',
 			'description' => '',
+			'excluded' => '',
 			'hide' => '',
 			'id' => '',
 			'title' => '',

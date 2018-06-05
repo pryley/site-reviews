@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 
 use GeminiLabs\SiteReviews\Modules\Html\Fields\Field;
 
-class Text extends Field
+class Button extends Field
 {
 	/**
 	 * @return string|void
@@ -21,7 +21,7 @@ class Text extends Field
 	public static function defaults()
 	{
 		return [
-			'class' => 'regular-text',
+			'class' => 'button glsr-button',
 		];
 	}
 }

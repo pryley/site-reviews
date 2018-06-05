@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 
 use GeminiLabs\SiteReviews\Modules\Html\Fields\Field;
+use GeminiLabs\SiteReviews\Modules\Rating as RatingModule;
 
 class Rating extends Field
 {
@@ -11,5 +12,24 @@ class Rating extends Field
 	 */
 	public function build()
 	{
+		$this->mergeFieldArgs();
+		$this->builder->tag = 'select';
+		return $this->builder->buildFormSelect();
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function required()
+	{
+		$options = ['' => __( 'Select a Rating', 'site-reviews' )];
+		foreach( range( RatingModule::MAX_RATING, 1 ) as $rating ) {
+			$options[$rating] = sprintf( _n( '%s Star', '%s Stars', $rating, 'site-reviews' ), $rating );
+		}
+		return [
+			'class' => 'glsr-star-rating',
+			'options' => $options,
+			'type' => 'select',
+		];
 	}
 }

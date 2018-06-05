@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -21,6 +22,7 @@ class Field
 		$this->field = wp_parse_args( $field, [
 			'is_hidden' => false,
 			'is_multi' => false,
+			'is_setting' => false,
 			'is_valid' => true,
 			'path' => '',
 		]);
@@ -30,20 +32,27 @@ class Field
 	/**
 	 * @return string
 	 */
+	public function __toString()
+	{
+		return (string)$this->build();
+	}
+
+	/**
+	 * @return string
+	 */
 	public function build()
 	{
 		if( !$this->field['is_valid'] )return;
-		if( $this->field['is_multi'] ) {
-			return $this->buildMultiField();
+		if( $this->field['type'] == 'hidden' ) {
+			return glsr( Builder::class )->hidden( $this->field );
 		}
-		$this->field['data-depends'] = $this->getFieldDependsOn();
-		return glsr( Template::class )->build( 'partials/settings/form-table-row', [
-			'context' => [
-				'class' => $this->getFieldClass(),
-				'field' => glsr( Builder::class )->{$this->field['type']}( $this->field ),
-				'label' => glsr( Builder::class )->label( $this->field['legend'], ['for' => $this->field['id']] ),
-			],
-		]);
+		if( !$this->field['is_setting'] ) {
+			return $this->buildField();
+		}
+		if( !$this->field['is_multi'] ) {
+			return $this->buildSettingField();
+		}
+		return $this->buildSettingMultiField();
 	}
 
 	/**
@@ -57,9 +66,37 @@ class Field
 	/**
 	 * @return string
 	 */
-	protected function buildMultiField()
+	protected function buildField()
 	{
-		return glsr( Template::class )->build( 'partials/settings/form-table-row-multiple', [
+		return glsr( Template::class )->build( 'partials/form/field', [
+			'context' => [
+				'class' => $this->getFieldClass(),
+				'field' => glsr( Builder::class )->{$this->field['type']}( $this->field ),
+			],
+		]);
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function buildSettingField()
+	{
+		$this->field['data-depends'] = $this->getFieldDependsOn();
+		return glsr( Template::class )->build( 'partials/form/table-row', [
+			'context' => [
+				'class' => $this->getFieldClass(),
+				'field' => glsr( Builder::class )->{$this->field['type']}( $this->field ),
+				'label' => glsr( Builder::class )->label( $this->field['legend'], ['for' => $this->field['id']] ),
+			],
+		]);
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function buildSettingMultiField()
+	{
+		return glsr( Template::class )->build( 'partials/form/table-row-multiple', [
 			'context' => [
 				'class' => $this->getFieldClass(),
 				'depends_on' => $this->getFieldDependsOn(),
@@ -75,9 +112,14 @@ class Field
 	 */
 	protected function getFieldClass()
 	{
-		return $this->field['is_hidden']
-			? 'hidden'
-			: '';
+		$classes = [];
+		if( $this->field['is_hidden'] ) {
+			$classes[] = 'hidden';
+		}
+		if( !empty( $this->field['required'] )) {
+			$classes[] = 'glsr-required';
+		}
+		return implode( ' ', $classes );
 	}
 
 	/**
@@ -98,6 +140,16 @@ class Field
 		return !empty( $this->field['depends_on'] )
 			? $this->field['depends_on']
 			: '';
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getFieldPrefix()
+	{
+		return $this->field['is_setting']
+			? OptionManager::databaseKey()
+			: Application::ID;
 	}
 
 	/**
@@ -125,7 +177,8 @@ class Field
 		$isValid = true;
 		$missingValues = [];
 		$requiredValues = [
-			'label', 'name', 'type',
+			// 'label', 'name', 'type',
+			'name', 'type',
 		];
 		foreach( $requiredValues as $value ) {
 			if( isset( $this->field[$value] ))continue;
@@ -177,7 +230,7 @@ class Field
 	 */
 	protected function normalizeFieldId()
 	{
-		if( isset( $this->field['id'] ))return;
+		if( isset( $this->field['id'] ) || empty( $this->field['label'] ))return;
 		$this->field['id'] = glsr( Helper::class )->convertNameToId( $this->field['name'] );
 	}
 
@@ -186,9 +239,12 @@ class Field
 	 */
 	protected function normalizeFieldType()
 	{
-		$className = glsr( Helper::class )->buildClassName( $this->field['type'], 'Modules\Html\Fields' );
+		$className = glsr( Helper::class )->buildClassName( $this->field['type'], __NAMESPACE__.'\Fields' );
 		if( class_exists( $className )) {
-			$this->field = array_merge( $this->field, glsr( $className )->defaults() );
+			$this->field = array_merge(
+				wp_parse_args( $this->field, $className::defaults() ),
+				$className::required()
+			);
 		}
 		if( in_array( $this->field['type'], static::MULTI_FIELD_TYPES )) {
 			$this->field['is_multi'] = true;
@@ -212,6 +268,7 @@ class Field
 	 */
 	protected function normalizeLabel()
 	{
+		if( !$this->field['is_setting'] )return;
 		$this->field['legend'] = $this->field['label'];
 		unset( $this->field['label'] );
 	}
@@ -224,7 +281,7 @@ class Field
 		$this->field['path'] = $this->field['name'];
 		$this->field['name'] = glsr( Helper::class )->convertPathToName(
 			$this->field['name'],
-			OptionManager::databaseKey()
+			$this->getFieldPrefix()
 		);
 	}
 }

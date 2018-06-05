@@ -20,4 +20,31 @@ abstract class Field
 	 * @return string|void
 	 */
 	abstract public function build();
+
+	/**
+	 * @return array
+	 */
+	public static function defaults()
+	{
+		return [];
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function required()
+	{
+		return [];
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function mergeFieldArgs()
+	{
+		$this->builder->args = array_merge(
+			wp_parse_args( $this->builder->args, static::defaults() ),
+			static::required()
+		);
+	}
 }

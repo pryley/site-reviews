@@ -211,13 +211,15 @@ return [
 		'type' => 'text',
 	],
 	'settings.submissions.required' => [
-		'default' => ['title','content','name','email'],
+		'default' => ['content', 'email', 'name', 'rating', 'terms', 'title'],
 		'label' => __( 'Required Fields', 'site-reviews' ),
 		'options' => [
-			'title' => __( 'Title', 'site-reviews' ),
 			'content' => __( 'Review', 'site-reviews' ),
-			'name' => __( 'Name', 'site-reviews' ),
 			'email' => __( 'Email', 'site-reviews' ),
+			'name' => __( 'Name', 'site-reviews' ),
+			'rating' => __( 'Rating', 'site-reviews' ),
+			'terms' => __( 'Terms', 'site-reviews' ),
+			'title' => __( 'Title', 'site-reviews' ),
 		],
 		'type' => 'checkbox',
 	],

@@ -3,8 +3,8 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Html\Form;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
+use GeminiLabs\SiteReviews\Modules\Html\Settings;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
@@ -45,7 +45,7 @@ class Html
 	 */
 	public function buildSettings( $id )
 	{
-		return glsr( Form::class )->buildFields( $id );
+		return glsr( Settings::class )->buildFields( $id );
 	}
 
 	/**

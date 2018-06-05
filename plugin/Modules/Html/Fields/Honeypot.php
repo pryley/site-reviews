@@ -11,10 +11,10 @@ class Honeypot extends Field
 	 */
 	public function build()
 	{
-		$defaults = wp_parse_args( $this->defaults(), [
+		$this->builder->args = wp_parse_args( $this->builder->args, [
 			'name' => $this->builder->args['text'],
 		]);
-		$this->builder->args = wp_parse_args( $this->builder->args, $defaults );
+		$this->mergeFieldArgs();
 		$this->builder->tag = 'input';
 		return $this->builder->getOpeningTag();
 	}
@@ -22,7 +22,7 @@ class Honeypot extends Field
 	/**
 	 * @return array
 	 */
-	public function defaults()
+	public static function required()
 	{
 		return [
 			'autocomplete' => 'off',

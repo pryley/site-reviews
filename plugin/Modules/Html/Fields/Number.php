@@ -9,7 +9,7 @@ class Number extends Text
 	/**
 	 * @return array
 	 */
-	public function defaults()
+	public static function defaults()
 	{
 		return [
 			'class' => 'small-text',
