@@ -17,7 +17,7 @@ return [
 		'default' => 'no',
 		'depends_on' => ['settings.general.require.login' => 'yes'],
 		'description' => sprintf( __( 'Show a link for a new user to register. The %s Membership option must be enabled in General Settings for this to work.', 'site-reviews' ),
-			glsr( 'Modules\Html\Builder' )->a( __( 'Anyone can register' ), ['href' => admin_url( 'options-general.php#users_can_register' )] )
+			glsr( 'Modules\Html\Builder' )->a( __( 'Anyone can register', 'site-reviews' ), ['href' => admin_url( 'options-general.php#users_can_register' )] )
 		),
 		'label' => __( 'Show registration link', 'site-reviews' ),
 		'type' => 'yes_no',
@@ -97,9 +97,16 @@ return [
 	],
 	'settings.reviews.avatars.enabled' => [
 		'default' => 'no',
-		'description'  => __( 'Display reviewer avatars. These are generated from the email address of the reviewer using <a href="https://gravatar.com">Gravatar</a>.', 'site-reviews' ),
+		'description' => __( 'Display reviewer avatars. These are generated from the email address of the reviewer using <a href="https://gravatar.com">Gravatar</a>.', 'site-reviews' ),
 		'label' => __( 'Enable Avatars', 'site-reviews' ),
-		'type'  => 'yes_no',
+		'type' => 'yes_no',
+	],
+	'settings.reviews.avatars.regenerate' => [
+		'default' => 'no',
+		'depends_on' => ['settings.reviews.avatars.enabled' => 'yes'],
+		'description' => __( 'Regenerate the avatar whenever a local review is shown?', 'site-reviews' ),
+		'label' => __( 'Regenerate Avatars', 'site-reviews' ),
+		'type' => 'yes_no',
 	],
 	'settings.reviews.avatars.size' => [
 		'default' => 40,

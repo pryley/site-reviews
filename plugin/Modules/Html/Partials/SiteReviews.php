@@ -22,6 +22,11 @@ class SiteReviews
 	protected $args;
 
 	/**
+	 * @var int
+	 */
+	protected $current;
+
+	/**
 	 * @var array
 	 */
 	protected $options;
@@ -59,8 +64,12 @@ class SiteReviews
 	public function buildReviews()
 	{
 		$reviews = [];
-		foreach( $this->reviews->results as $review ) {
-			$reviews[] = $this->buildReview( $review );
+		foreach( $this->reviews->results as $index => $review ) {
+			$this->current = $index;
+			$review = apply_filters( 'site-reviews/review/build/before', $review );
+			$review = $this->buildReview( $review );
+			$review = apply_filters( 'site-reviews/review/build/after', $review );
+			$reviews[] = $review;
 		}
 		return $reviews;
 	}
@@ -119,9 +128,9 @@ class SiteReviews
 	protected function buildOptionAvatar( $key, $value )
 	{
 		if( $this->isHidden( $key, 'settings.reviews.avatars.enabled' ))return;
-		$size = $this->getOption( 'settings.reviews.avatars.size', 36 );
+		$size = $this->getOption( 'settings.reviews.avatars.size', 40 );
 		return $this->wrap( $key, glsr( Builder::class )->img([
-			'src' => $value,
+			'src' => $this->generateAvatar( $value ),
 			'height' => $size,
 			'width' => $size,
 		]));
@@ -203,6 +212,24 @@ class SiteReviews
 			$value = __( 'No Title', 'site-reviews' );
 		}
 		return $this->wrap( $key, '<h3>'.$value.'</h3>' );
+	}
+
+	/**
+	 * @param string $avatarUrl
+	 * @return string
+	 */
+	protected function generateAvatar( $avatarUrl )
+	{
+		$review = $this->reviews->results[$this->current];
+		if( !$this->isOptionEnabled( 'settings.reviews.avatars.regenerate' )
+			|| $review->review_type != 'local' ) {
+			return $avatarUrl;
+		}
+		$authorIdOrEmail = get_the_author_meta( 'ID', $review->user_id );
+		if( empty( $authorIdOrEmail )) {
+			$authorIdOrEmail = $review->email;
+		}
+		return get_avatar_url( $authorIdOrEmail );
 	}
 
 	/**

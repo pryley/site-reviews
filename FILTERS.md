@@ -76,6 +76,8 @@ site-reviews/validation/rules
 
 [SiteReviews.php]
 site-reviews/review/author/prefix
+site-reviews/review/build/after
+site-reviews/review/build/before
 
 [SiteReviews.php]
 [SiteReviewsSummary.php]
