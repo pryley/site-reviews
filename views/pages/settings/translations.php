@@ -6,7 +6,7 @@
 		<div class="glsr-spinner">
 			<span class="spinner"></span>
 		</div>
-		<input type="search" class="glsr-search-input" autocomplete="off" placeholder="<?= __( 'Search for translatable text...', 'site-reviews' ); ?>">
+		<input type="search" class="glsr-search-input" autocomplete="off" placeholder="<?= __( 'Search here for text to translate...', 'site-reviews' ); ?>">
 		<?php wp_nonce_field( 'search-translations', '_search_nonce', false ); ?>
 		<div class="glsr-search-results" data-prefix="{{ database_key }}"></div>
 	</div>
