@@ -31,6 +31,7 @@ scripts:
 watch:
   js: +/scripts/**/*.js
   php:
+    - config/*.php
     - plugin/**/*.php
     - views/**/*.php
     - '*.php'
