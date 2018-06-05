@@ -22,6 +22,7 @@ class Field
 		$this->field = wp_parse_args( $field, [
 			'is_hidden' => false,
 			'is_multi' => false,
+			'is_raw' => false,
 			'is_setting' => false,
 			'is_valid' => true,
 			'path' => '',
@@ -43,7 +44,7 @@ class Field
 	public function build()
 	{
 		if( !$this->field['is_valid'] )return;
-		if( $this->field['type'] == 'hidden' ) {
+		if( $this->field['is_raw'] ) {
 			return glsr( Builder::class )->hidden( $this->field );
 		}
 		if( !$this->field['is_setting'] ) {
