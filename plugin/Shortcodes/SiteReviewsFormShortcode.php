@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Shortcodes\Shortcode;
 class SiteReviewsFormShortcode extends Shortcode
 {
 	const HIDDEN_KEYS = [
-		'email', 'name', 'terms', 'title',
+		'content', 'email', 'name', 'rating', 'terms', 'title',
 	];
 
 	/**
