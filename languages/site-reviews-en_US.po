@@ -48,6 +48,494 @@ msgstr "WordPress version"
 msgid "Update WordPress"
 msgstr "Update WordPress"
 
+#: config/settings.php:6
+msgid "Set the status of new review submissions to pending."
+msgstr "Set the status of new review submissions to pending."
+
+#: config/settings.php:7, config/settings.php:278
+msgid "Require approval"
+msgstr "Require approval"
+
+#: config/settings.php:12
+msgid "Only allow review submissions from registered users."
+msgstr "Only allow review submissions from registered users."
+
+#: config/settings.php:13
+msgid "Require login"
+msgstr "Require login"
+
+#: config/settings.php:19
+msgid ""
+"Show a link for a new user to register. The %s Membership option must be "
+"enabled in General Settings for this to work."
+msgstr ""
+"Show a link for a new user to register. The %s Membership option must be "
+"enabled in General Settings for this to work."
+
+#: config/settings.php:20
+msgid "Anyone can register"
+msgstr "Anyone can register"
+
+#: config/settings.php:22
+msgid "Show registration link"
+msgstr "Show registration link"
+
+#: config/settings.php:27
+msgid "Notifications"
+msgstr "Notifications"
+
+#: config/settings.php:29
+msgid "Do not send review notifications"
+msgstr "Do not send review notifications"
+
+#: config/settings.php:30
+msgid "Send to administrator"
+msgstr "Send to administrator"
+
+#: config/settings.php:31
+msgid "Send to one or more email addresses"
+msgstr "Send to one or more email addresses"
+
+#: config/settings.php:32
+msgid "Send to <a href=\"https://slack.com/\">Slack</a>"
+msgstr "Send to <a href=\"https://slack.com/\">Slack</a>"
+
+#: config/settings.php:39
+msgid "Send notification emails to"
+msgstr "Send notification emails to"
+
+#: config/settings.php:40
+msgid "Separate multiple emails with a comma"
+msgstr "Separate multiple emails with a comma"
+
+#: config/settings.php:46
+msgid ""
+"To send notifications to Slack, create a new %s and then paste the provided "
+"Webhook URL in the field above."
+msgstr ""
+"To send notifications to Slack, create a new %s and then paste the provided "
+"Webhook URL in the field above."
+
+#: config/settings.php:47
+msgid "Incoming WebHook"
+msgstr "Incoming WebHook"
+
+#: config/settings.php:49
+msgid "Webhook URL"
+msgstr "Webhook URL"
+
+#: config/settings.php:68
+msgid "Notification template"
+msgstr "Notification template"
+
+#: config/settings.php:74
+msgid "The default date format is the one set in your %s."
+msgstr "The default date format is the one set in your %s."
+
+#: config/settings.php:75
+msgid "WordPress settings"
+msgstr "WordPress settings"
+
+#: config/settings.php:77
+msgid "Date Format"
+msgstr "Date Format"
+
+#: config/settings.php:79
+msgid "Use the default date format"
+msgstr "Use the default date format"
+
+#: config/settings.php:80
+msgid "Use a relative date format"
+msgstr "Use a relative date format"
+
+#: config/settings.php:81
+msgid "Use a custom date format"
+msgstr "Use a custom date format"
+
+#: config/settings.php:88
+msgid ""
+"Enter a custom date format (<a "
+"href=\"https://codex.wordpress.org/Formatting_Date_and_Time\">documentation "
+"on date and time formatting</a>)."
+msgstr ""
+"Enter a custom date format (<a "
+"href=\"https://codex.wordpress.org/Formatting_Date_and_Time\">documentation "
+"on date and time formatting</a>)."
+
+#: config/settings.php:89
+msgid "Custom Date Format"
+msgstr "Custom Date Format"
+
+#: config/settings.php:94
+msgid "Display a link to the assigned post of a review."
+msgstr "Display a link to the assigned post of a review."
+
+#: config/settings.php:95
+msgid "Enable Assigned Links"
+msgstr "Enable Assigned Links"
+
+#: config/settings.php:100
+msgid ""
+"Display reviewer avatars. These are generated from the email address of the "
+"reviewer using <a href=\"https://gravatar.com\">Gravatar</a>."
+msgstr ""
+"Display reviewer avatars. These are generated from the email address of the "
+"reviewer using <a href=\"https://gravatar.com\">Gravatar</a>."
+
+#: config/settings.php:101
+msgid "Enable Avatars"
+msgstr "Enable Avatars"
+
+#: config/settings.php:107
+msgid "Regenerate the avatar whenever a local review is shown?"
+msgstr "Regenerate the avatar whenever a local review is shown?"
+
+#: config/settings.php:108
+msgid "Regenerate Avatars"
+msgstr "Regenerate Avatars"
+
+#: config/settings.php:114
+msgid "Set the avatar size in pixels."
+msgstr "Set the avatar size in pixels."
+
+#: config/settings.php:115
+msgid "Avatar Size"
+msgstr "Avatar Size"
+
+#: config/settings.php:120
+msgid "Display an excerpt instead of the full review."
+msgstr "Display an excerpt instead of the full review."
+
+#: config/settings.php:121
+msgid "Enable Excerpts"
+msgstr "Enable Excerpts"
+
+#: config/settings.php:127
+msgid "Set the excerpt word length."
+msgstr "Set the excerpt word length."
+
+#: config/settings.php:128
+msgid "Excerpt Length"
+msgstr "Excerpt Length"
+
+#: config/settings.php:133
+msgid ""
+"This is the default schema type for the item being reviewed. You can "
+"override this option on a per-post/page basis by adding a "
+"<code>schema_type</code> metadata value using <a "
+"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
+"Fields</a>."
+msgstr ""
+"This is the default schema type for the item being reviewed. You can "
+"override this option on a per-post/page basis by adding a "
+"<code>schema_type</code> metadata value using <a "
+"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
+"Fields</a>."
+
+#: config/settings.php:134
+msgid "Default Schema Type"
+msgstr "Default Schema Type"
+
+#: config/settings.php:136
+msgid "Local Business"
+msgstr "Local Business"
+
+#: config/settings.php:137
+msgid "Product"
+msgstr "Product"
+
+#: config/settings.php:138
+msgid "Custom"
+msgstr "Custom"
+
+#: config/settings.php:145
+msgid ""
+"Google supports review ratings for the following schema content types: "
+"Local businesses, Movies, Books, Music, and Products. <a "
+"href=\"https://schema.org/docs/schemas.html\">View more information on "
+"schema types here</a>."
+msgstr ""
+"Google supports review ratings for the following schema content types: "
+"Local businesses, Movies, Books, Music, and Products. <a "
+"href=\"https://schema.org/docs/schemas.html\">View more information on "
+"schema types here</a>."
+
+#: config/settings.php:146
+msgid "Custom Schema Type"
+msgstr "Custom Schema Type"
+
+#: config/settings.php:151
+msgid ""
+"This is the default name of the item being reviewed. You can override this "
+"option on a per-post/page basis by adding a <code>schema_name</code> "
+"metadata value using <a "
+"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
+"Fields</a>."
+msgstr ""
+"This is the default name of the item being reviewed. You can override this "
+"option on a per-post/page basis by adding a <code>schema_name</code> "
+"metadata value using <a "
+"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
+"Fields</a>."
+
+#: config/settings.php:152
+msgid "Default Name"
+msgstr "Default Name"
+
+#: config/settings.php:154
+msgid "Use the assigned or current page title"
+msgstr "Use the assigned or current page title"
+
+#: config/settings.php:155
+msgid "Enter a custom title"
+msgstr "Enter a custom title"
+
+#: config/settings.php:162
+msgid "Custom Name"
+msgstr "Custom Name"
+
+#: config/settings.php:167
+msgid ""
+"This is the default description for the item being reviewed. You can "
+"override this option on a per-post/page basis by adding a "
+"<code>schema_description</code> metadata value using <a "
+"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
+"Fields</a>."
+msgstr ""
+"This is the default description for the item being reviewed. You can "
+"override this option on a per-post/page basis by adding a "
+"<code>schema_description</code> metadata value using <a "
+"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
+"Fields</a>."
+
+#: config/settings.php:168
+msgid "Default Description"
+msgstr "Default Description"
+
+#: config/settings.php:170
+msgid "Use the assigned or current page excerpt"
+msgstr "Use the assigned or current page excerpt"
+
+#: config/settings.php:171
+msgid "Enter a custom description"
+msgstr "Enter a custom description"
+
+#: config/settings.php:178
+msgid "Custom Description"
+msgstr "Custom Description"
+
+#: config/settings.php:183
+msgid ""
+"This is the default URL for the item being reviewed. You can override this "
+"option on a per-post/page basis by adding a <code>schema_url</code> "
+"metadata value using <a "
+"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
+"Fields</a>."
+msgstr ""
+"This is the default URL for the item being reviewed. You can override this "
+"option on a per-post/page basis by adding a <code>schema_url</code> "
+"metadata value using <a "
+"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
+"Fields</a>."
+
+#: config/settings.php:184
+msgid "Default URL"
+msgstr "Default URL"
+
+#: config/settings.php:186
+msgid "Use the assigned or current page URL"
+msgstr "Use the assigned or current page URL"
+
+#: config/settings.php:187
+msgid "Enter a custom URL"
+msgstr "Enter a custom URL"
+
+#: config/settings.php:194
+msgid "Custom URL"
+msgstr "Custom URL"
+
+#: config/settings.php:199
+msgid ""
+"This is the default image for the item being reviewed. You can override "
+"this option on a per-post/page basis by adding a <code>schema_image</code> "
+"metadata value using <a "
+"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
+"Fields</a>."
+msgstr ""
+"This is the default image for the item being reviewed. You can override "
+"this option on a per-post/page basis by adding a <code>schema_image</code> "
+"metadata value using <a "
+"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
+"Fields</a>."
+
+#: config/settings.php:200
+msgid "Default Image"
+msgstr "Default Image"
+
+#: config/settings.php:202
+msgid "Use the featured image of the assigned or current page"
+msgstr "Use the featured image of the assigned or current page"
+
+#: config/settings.php:203
+msgid "Enter a custom image URL"
+msgstr "Enter a custom image URL"
+
+#: config/settings.php:210
+msgid "Custom Image URL"
+msgstr "Custom Image URL"
+
+#: config/settings.php:215
+msgid "Required Fields"
+msgstr "Required Fields"
+
+#: config/settings.php:217, plugin/Controllers/MainController.php:39
+msgid "Review"
+msgstr "Review"
+
+#: config/settings.php:218, plugin/Controllers/EditorController.php:334, plugin/Shortcodes/SiteReviewsFormButton.php:47
+msgid "Email"
+msgstr "Email"
+
+#: config/settings.php:219, plugin/Controllers/EditorController.php:333, plugin/Shortcodes/SiteReviewsFormButton.php:52
+msgid "Name"
+msgstr "Name"
+
+#: config/settings.php:220, plugin/Controllers/EditorController.php:329, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsButton.php:33, plugin/Shortcodes/SiteReviewsButton.php:105, plugin/Shortcodes/SiteReviewsSummaryButton.php:60
+msgid "Rating"
+msgstr "Rating"
+
+#: config/settings.php:221, plugin/Shortcodes/SiteReviewsFormButton.php:57
+msgid "Terms"
+msgstr "Terms"
+
+#: config/settings.php:222, plugin/Defaults/PostTypeDefaults.php:17, plugin/Shortcodes/SiteReviewsButton.php:20, plugin/Shortcodes/SiteReviewsButton.php:115, plugin/Shortcodes/SiteReviewsFormButton.php:19, plugin/Shortcodes/SiteReviewsFormButton.php:62, plugin/Shortcodes/SiteReviewsSummaryButton.php:19, plugin/Widgets/SiteReviewsFormWidget.php:21, plugin/Widgets/SiteReviewsSummaryWidget.php:21, plugin/Widgets/SiteReviewsWidget.php:21
+msgid "Title"
+msgstr "Title"
+
+#: config/settings.php:228
+msgid ""
+"the <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> "
+"integration provides spam-filtering for your reviews. In order for this "
+"setting to have any affect, you will need to first install and activate the "
+"Akismet plugin and set up a WordPress.com API key."
+msgstr ""
+"the <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> "
+"integration provides spam-filtering for your reviews. In order for this "
+"setting to have any affect, you will need to first install and activate the "
+"Akismet plugin and set up a WordPress.com API key."
+
+#: config/settings.php:229
+msgid "Enable Akismet Integration"
+msgstr "Enable Akismet Integration"
+
+#: config/settings.php:234
+msgid ""
+"Invisible reCAPTCHA is a free anti-spam service from Google. To use it, you "
+"will need to <a href=\"https://www.google.com/recaptcha/admin\" "
+"target=\"_blank\">sign up</a> for an API key pair for your site. If you are "
+"already using a reCAPTCHA plugin listed here, please select it; otherwise "
+"choose \"Use reCAPTCHA\"."
+msgstr ""
+"Invisible reCAPTCHA is a free anti-spam service from Google. To use it, you "
+"will need to <a href=\"https://www.google.com/recaptcha/admin\" "
+"target=\"_blank\">sign up</a> for an API key pair for your site. If you are "
+"already using a reCAPTCHA plugin listed here, please select it; otherwise "
+"choose \"Use reCAPTCHA\"."
+
+#: config/settings.php:235
+msgid "Invisible reCAPTCHA"
+msgstr "Invisible reCAPTCHA"
+
+#: config/settings.php:237
+msgid "Do not use reCAPTCHA"
+msgstr "Do not use reCAPTCHA"
+
+#: config/settings.php:238
+msgid "Use reCAPTCHA"
+msgstr "Use reCAPTCHA"
+
+#: config/settings.php:239
+msgid "Use 3rd-party plugin: Invisible reCaptcha"
+msgstr "Use 3rd-party plugin: Invisible reCaptcha"
+
+#: config/settings.php:246
+msgid "Site Key"
+msgstr "Site Key"
+
+#: config/settings.php:252
+msgid "Site Secret"
+msgstr "Site Secret"
+
+#: config/settings.php:258
+msgid "Badge Position"
+msgstr "Badge Position"
+
+#: config/settings.php:268
+msgid ""
+"When a review contains any of these words in its title, content, name, "
+"email, or IP address, it will be rejected. One word or IP address per line. "
+"It will match inside words, so \"press\" will match \"WordPress\"."
+msgstr ""
+"When a review contains any of these words in its title, content, name, "
+"email, or IP address, it will be rejected. One word or IP address per line. "
+"It will match inside words, so \"press\" will match \"WordPress\"."
+
+#: config/settings.php:269
+msgid "Review Blacklist"
+msgstr "Review Blacklist"
+
+#: config/settings.php:275
+msgid "Choose the action that should be taken when a review is blacklisted."
+msgstr "Choose the action that should be taken when a review is blacklisted."
+
+#: config/settings.php:276
+msgid "Blacklist Action"
+msgstr "Blacklist Action"
+
+#: config/settings.php:279
+msgid "Reject submission"
+msgstr "Reject submission"
+
+#: config/submission-form.php:5
+msgid "Your overall rating"
+msgstr "Your overall rating"
+
+#: config/submission-form.php:9
+msgid "Title of your review"
+msgstr "Title of your review"
+
+#: config/submission-form.php:10
+msgid "Summarize your review or highlight an interesting detail"
+msgstr "Summarize your review or highlight an interesting detail"
+
+#: config/submission-form.php:14
+msgid "Your review"
+msgstr "Your review"
+
+#: config/submission-form.php:15
+msgid "Tell people your review"
+msgstr "Tell people your review"
+
+#: config/submission-form.php:19
+msgid "Your name"
+msgstr "Your name"
+
+#: config/submission-form.php:20
+msgid "Tell us your name"
+msgstr "Tell us your name"
+
+#: config/submission-form.php:24
+msgid "Your email"
+msgstr "Your email"
+
+#: config/submission-form.php:25
+msgid "Tell us your email"
+msgstr "Tell us your email"
+
+#: config/submission-form.php:29
+msgid "This review is based on my own experience and is my genuine opinion."
+msgstr "This review is based on my own experience and is my genuine opinion."
+
 #: plugin/Application.php:136
 msgid "Local"
 msgstr "Local"
@@ -56,7 +544,7 @@ msgstr "Local"
 msgid "Anonymous"
 msgstr "Anonymous"
 
-#: plugin/Controllers/AdminController.php:36, plugin/Controllers/MenuController.php:48
+#: plugin/Controllers/AdminController.php:36, plugin/Controllers/MenuController.php:47
 msgid "Settings"
 msgstr "Settings"
 
@@ -146,7 +634,7 @@ msgstr "Okay"
 msgid "Nothing found."
 msgstr "Nothing found."
 
-#: plugin/Controllers/EditorController.php:122, plugin/Controllers/MainController.php:27, views/partials/editor/bulk-edit-assigned-to.php:7
+#: plugin/Controllers/EditorController.php:122, plugin/Controllers/MainController.php:27, plugin/Shortcodes/SiteReviewsButton.php:80, views/partials/editor/bulk-edit-assigned-to.php:7
 msgid "Assigned To"
 msgstr "Assigned To"
 
@@ -158,11 +646,11 @@ msgstr "Details"
 msgid "Respond Publicly"
 msgstr "Respond Publicly"
 
-#: plugin/Controllers/EditorController.php:183, plugin/Modules/Html/Fields/YesNo.php:27
+#: plugin/Controllers/EditorController.php:183, plugin/Modules/Html/Fields/YesNo.php:36
 msgid "No"
 msgstr "No"
 
-#: plugin/Controllers/EditorController.php:184, plugin/Modules/Html/Fields/YesNo.php:28
+#: plugin/Controllers/EditorController.php:184, plugin/Modules/Html/Fields/YesNo.php:37
 msgid "Yes"
 msgstr "Yes"
 
@@ -186,15 +674,11 @@ msgstr "Unregistered user"
 msgid "RE:"
 msgstr "RE:"
 
-#: plugin/Controllers/EditorController.php:329, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsButton.php:33, plugin/Shortcodes/SiteReviewsButton.php:100, plugin/Shortcodes/SiteReviewsSummaryButton.php:60
-msgid "Rating"
-msgstr "Rating"
-
 #: plugin/Controllers/EditorController.php:330, plugin/Controllers/MainController.php:29
 msgid "Type"
 msgstr "Type"
 
-#: plugin/Controllers/EditorController.php:331, plugin/Defaults/PostTypeDefaults.php:18, plugin/Shortcodes/SiteReviewsButton.php:90
+#: plugin/Controllers/EditorController.php:331, plugin/Defaults/PostTypeDefaults.php:18, plugin/Shortcodes/SiteReviewsButton.php:100
 msgid "Date"
 msgstr "Date"
 
@@ -202,19 +686,11 @@ msgstr "Date"
 msgid "Reviewer"
 msgstr "Reviewer"
 
-#: plugin/Controllers/EditorController.php:333, plugin/Shortcodes/SiteReviewsFormButton.php:52
-msgid "Name"
-msgstr "Name"
-
-#: plugin/Controllers/EditorController.php:334, plugin/Shortcodes/SiteReviewsFormButton.php:47
-msgid "Email"
-msgstr "Email"
-
 #: plugin/Controllers/EditorController.php:335
 msgid "IP Address"
 msgstr "IP Address"
 
-#: plugin/Controllers/EditorController.php:336, plugin/Shortcodes/SiteReviewsButton.php:85
+#: plugin/Controllers/EditorController.php:336, plugin/Shortcodes/SiteReviewsButton.php:90
 msgid "Avatar"
 msgstr "Avatar"
 
@@ -268,7 +744,7 @@ msgstr "Unapprove"
 msgid "Approved"
 msgstr "Approved"
 
-#: plugin/Controllers/MainController.php:28, plugin/Shortcodes/SiteReviewsButton.php:80
+#: plugin/Controllers/MainController.php:28, plugin/Shortcodes/SiteReviewsButton.php:85
 msgid "Author"
 msgstr "Author"
 
@@ -276,13 +752,9 @@ msgstr "Author"
 msgid "Pinned"
 msgstr "Pinned"
 
-#: plugin/Controllers/MainController.php:37, plugin/Controllers/MenuController.php:101
+#: plugin/Controllers/MainController.php:37, plugin/Controllers/MenuController.php:100
 msgid "Reviews"
 msgstr "Reviews"
-
-#: plugin/Controllers/MainController.php:39
-msgid "Review"
-msgstr "Review"
 
 #: plugin/Controllers/MainController.php:83
 msgid "Your site’s most recent reviews."
@@ -296,77 +768,73 @@ msgstr "A \"submit a review\" form for your site."
 msgid "A summary of your site’s reviews."
 msgstr "A summary of your site’s reviews."
 
-#: plugin/Controllers/MenuController.php:49
+#: plugin/Controllers/MenuController.php:48
 msgid "Tools"
 msgstr "Tools"
 
-#: plugin/Controllers/MenuController.php:50
+#: plugin/Controllers/MenuController.php:49
 msgid "Add-Ons"
 msgstr "Add-Ons"
 
-#: plugin/Controllers/MenuController.php:51
+#: plugin/Controllers/MenuController.php:50
 msgid "Documentation"
 msgstr "Documentation"
 
-#: plugin/Controllers/MenuController.php:81
+#: plugin/Controllers/MenuController.php:80
 msgid "Support"
 msgstr "Support"
 
-#: plugin/Controllers/MenuController.php:82
+#: plugin/Controllers/MenuController.php:81
 msgid "FAQ"
 msgstr "FAQ"
 
-#: plugin/Controllers/MenuController.php:83
+#: plugin/Controllers/MenuController.php:82
 msgid "Shortcodes"
 msgstr "Shortcodes"
 
-#: plugin/Controllers/MenuController.php:84
+#: plugin/Controllers/MenuController.php:83
 msgid "Hooks"
 msgstr "Hooks"
 
-#: plugin/Controllers/MenuController.php:85
+#: plugin/Controllers/MenuController.php:84
 msgid "Functions"
 msgstr "Functions"
 
-#: plugin/Controllers/MenuController.php:100
+#: plugin/Controllers/MenuController.php:99
 msgid "General"
 msgstr "General"
 
-#: plugin/Controllers/MenuController.php:102
+#: plugin/Controllers/MenuController.php:101
 msgid "Submissions"
 msgstr "Submissions"
 
-#: plugin/Controllers/MenuController.php:103, plugin/Shortcodes/SiteReviewsButton.php:63, plugin/Shortcodes/SiteReviewsSummaryButton.php:32
+#: plugin/Controllers/MenuController.php:102, plugin/Shortcodes/SiteReviewsButton.php:63, plugin/Shortcodes/SiteReviewsSummaryButton.php:32
 msgid "Schema"
 msgstr "Schema"
 
-#: plugin/Controllers/MenuController.php:104
+#: plugin/Controllers/MenuController.php:103
 msgid "Translations"
 msgstr "Translations"
 
-#: plugin/Controllers/MenuController.php:105
+#: plugin/Controllers/MenuController.php:104
 msgid "Licenses"
 msgstr "Licenses"
 
-#: plugin/Controllers/MenuController.php:125
+#: plugin/Controllers/MenuController.php:123
 msgid "Import/Export"
 msgstr "Import/Export"
 
-#: plugin/Controllers/MenuController.php:126
+#: plugin/Controllers/MenuController.php:124
 msgid "Logging"
 msgstr "Logging"
 
-#: plugin/Controllers/MenuController.php:127
+#: plugin/Controllers/MenuController.php:125
 msgid "System Info"
 msgstr "System Info"
 
 #: plugin/Controllers/SettingsController.php:28
 msgid "Settings updated."
 msgstr "Settings updated."
-
-#: plugin/Defaults/PostTypeDefaults.php:17, plugin/Shortcodes/SiteReviewsButton.php:20, plugin/Shortcodes/SiteReviewsButton.php:110, plugin/Shortcodes/SiteReviewsFormButton.php:19, plugin/Shortcodes/SiteReviewsFormButton.php:62, plugin/Shortcodes/SiteReviewsSummaryButton.php:19, plugin/Widgets/SiteReviewsFormWidget.php:21, plugin/Widgets/SiteReviewsSummaryWidget.php:21, plugin/Widgets/SiteReviewsWidget.php:21
-msgid "Title"
-msgstr "Title"
 
 #: plugin/Handlers/ChangeStatus.php:37, views/partials/editor/pinned.php:7
 msgid "Edit"
@@ -388,7 +856,7 @@ msgstr "Email notification was not sent: missing email, subject, or message."
 msgid "Email notification was not sent: wp_mail() failed."
 msgstr "Email notification was not sent: wp_mail() failed."
 
-#: plugin/Handlers/EnqueueAdminAssets.php:48
+#: plugin/Handlers/EnqueueAdminAssets.php:50
 msgid "Are you sure want to do this?"
 msgstr "Are you sure want to do this?"
 
@@ -474,23 +942,23 @@ msgstr "- Select -"
 msgid "Some of the shortcode options are required."
 msgstr "Some of the shortcode options are required."
 
-#: plugin/Shortcodes/Shortcode.php:135
+#: plugin/Shortcodes/Shortcode.php:133
 msgid "Excellent"
 msgstr "Excellent"
 
-#: plugin/Shortcodes/Shortcode.php:136
+#: plugin/Shortcodes/Shortcode.php:134
 msgid "Very good"
 msgstr "Very good"
 
-#: plugin/Shortcodes/Shortcode.php:137
+#: plugin/Shortcodes/Shortcode.php:135
 msgid "Average"
 msgstr "Average"
 
-#: plugin/Shortcodes/Shortcode.php:138
+#: plugin/Shortcodes/Shortcode.php:136
 msgid "Poor"
 msgstr "Poor"
 
-#: plugin/Shortcodes/Shortcode.php:139
+#: plugin/Shortcodes/Shortcode.php:137
 msgid "Terrible"
 msgstr "Terrible"
 
@@ -577,58 +1045,62 @@ msgid "Add custom CSS classes to the shortcode."
 msgstr "Add custom CSS classes to the shortcode."
 
 #: plugin/Shortcodes/SiteReviewsButton.php:81, plugin/Widgets/SiteReviewsWidget.php:73
+msgid "Hide the assigned to link?"
+msgstr "Hide the assigned to link?"
+
+#: plugin/Shortcodes/SiteReviewsButton.php:86, plugin/Widgets/SiteReviewsWidget.php:74
 msgid "Hide the review author?"
 msgstr "Hide the review author?"
 
-#: plugin/Shortcodes/SiteReviewsButton.php:86, plugin/Widgets/SiteReviewsWidget.php:74
+#: plugin/Shortcodes/SiteReviewsButton.php:91, plugin/Widgets/SiteReviewsWidget.php:75
 msgid "Hide the reviewer avatar if shown?"
 msgstr "Hide the reviewer avatar if shown?"
 
-#: plugin/Shortcodes/SiteReviewsButton.php:91, plugin/Widgets/SiteReviewsWidget.php:75
+#: plugin/Shortcodes/SiteReviewsButton.php:95
+msgid "Content"
+msgstr "Content"
+
+#: plugin/Shortcodes/SiteReviewsButton.php:96, plugin/Widgets/SiteReviewsWidget.php:76
+msgid "Hide the review content?"
+msgstr "Hide the review content?"
+
+#: plugin/Shortcodes/SiteReviewsButton.php:101, plugin/Widgets/SiteReviewsWidget.php:77
 msgid "Hide the review date?"
 msgstr "Hide the review date?"
 
-#: plugin/Shortcodes/SiteReviewsButton.php:95
-msgid "Excerpt"
-msgstr "Excerpt"
-
-#: plugin/Shortcodes/SiteReviewsButton.php:96, plugin/Widgets/SiteReviewsWidget.php:76
-msgid "Hide the review excerpt?"
-msgstr "Hide the review excerpt?"
-
-#: plugin/Shortcodes/SiteReviewsButton.php:101, plugin/Widgets/SiteReviewsWidget.php:77
+#: plugin/Shortcodes/SiteReviewsButton.php:106, plugin/Widgets/SiteReviewsWidget.php:78
 msgid "Hide the review rating?"
 msgstr "Hide the review rating?"
 
-#: plugin/Shortcodes/SiteReviewsButton.php:105
+#: plugin/Shortcodes/SiteReviewsButton.php:110
 msgid "Response"
 msgstr "Response"
 
-#: plugin/Shortcodes/SiteReviewsButton.php:106, plugin/Widgets/SiteReviewsWidget.php:78
+#: plugin/Shortcodes/SiteReviewsButton.php:111, plugin/Widgets/SiteReviewsWidget.php:79
 msgid "Hide the review response?"
 msgstr "Hide the review response?"
 
-#: plugin/Shortcodes/SiteReviewsButton.php:111, plugin/Widgets/SiteReviewsWidget.php:79
+#: plugin/Shortcodes/SiteReviewsButton.php:116, plugin/Widgets/SiteReviewsWidget.php:80
 msgid "Hide the review title?"
 msgstr "Hide the review title?"
 
-#: plugin/Shortcodes/SiteReviewsButton.php:115, plugin/Shortcodes/SiteReviewsFormButton.php:66, plugin/Shortcodes/SiteReviewsSummaryButton.php:74
+#: plugin/Shortcodes/SiteReviewsButton.php:120, plugin/Shortcodes/SiteReviewsFormButton.php:66, plugin/Shortcodes/SiteReviewsSummaryButton.php:74
 msgid "Hide"
 msgstr "Hide"
 
-#: plugin/Shortcodes/SiteReviewsButton.php:135, plugin/Shortcodes/SiteReviewsFormButton.php:87
+#: plugin/Shortcodes/SiteReviewsButton.php:140, plugin/Shortcodes/SiteReviewsFormButton.php:87
 msgid "Category"
 msgstr "Category"
 
-#: plugin/Shortcodes/SiteReviewsButton.php:138
+#: plugin/Shortcodes/SiteReviewsButton.php:143
 msgid "Limit reviews to this category."
 msgstr "Limit reviews to this category."
 
-#: plugin/Shortcodes/SiteReviewsButton.php:152
+#: plugin/Shortcodes/SiteReviewsButton.php:157
 msgid "Display"
 msgstr "Display"
 
-#: plugin/Shortcodes/SiteReviewsButton.php:155, plugin/Widgets/SiteReviewsWidget.php:45
+#: plugin/Shortcodes/SiteReviewsButton.php:160, plugin/Widgets/SiteReviewsWidget.php:45
 msgid "Which reviews would you like to display?"
 msgstr "Which reviews would you like to display?"
 
@@ -655,10 +1127,6 @@ msgstr "Hide the email field?"
 #: plugin/Shortcodes/SiteReviewsFormButton.php:53
 msgid "Hide the name field?"
 msgstr "Hide the name field?"
-
-#: plugin/Shortcodes/SiteReviewsFormButton.php:57
-msgid "Terms"
-msgstr "Terms"
 
 #: plugin/Shortcodes/SiteReviewsFormButton.php:58
 msgid "Hide the terms field?"
@@ -792,50 +1260,6 @@ msgstr "Limit reviews to this category"
 msgid "Limit reviews to those assigned to this page/post ID"
 msgstr "Limit reviews to those assigned to this page/post ID"
 
-#: views/templates/reviews-form.php:4
-msgid "Your overall rating"
-msgstr "Your overall rating"
-
-#: views/templates/reviews-form.php:7
-msgid "Title of your review"
-msgstr "Title of your review"
-
-#: views/templates/reviews-form.php:8
-msgid "Summarize your review or highlight an interesting detail"
-msgstr "Summarize your review or highlight an interesting detail"
-
-#: views/templates/reviews-form.php:11
-msgid "Your review"
-msgstr "Your review"
-
-#: views/templates/reviews-form.php:12
-msgid "Tell people your review"
-msgstr "Tell people your review"
-
-#: views/templates/reviews-form.php:15
-msgid "Your name"
-msgstr "Your name"
-
-#: views/templates/reviews-form.php:16
-msgid "Tell us your name"
-msgstr "Tell us your name"
-
-#: views/templates/reviews-form.php:19
-msgid "Your email"
-msgstr "Your email"
-
-#: views/templates/reviews-form.php:20
-msgid "Tell us your email"
-msgstr "Tell us your email"
-
-#: views/templates/reviews-form.php:23
-msgid "This review is based on my own experience and is my genuine opinion."
-msgstr "This review is based on my own experience and is my genuine opinion."
-
-#: views/templates/reviews-form.php:31
-msgid "Submit your review"
-msgstr "Submit your review"
-
 #: plugin/Modules/Editor/Labels.php:17, plugin/Modules/Editor/Labels.php:122
 msgid "Save as Unapproved"
 msgstr "Save as Unapproved"
@@ -912,7 +1336,7 @@ msgstr "All types"
 msgid "Please fix the submission errors."
 msgstr "Please fix the submission errors."
 
-#: plugin/Modules/Validator/ValidateReview.php:63, plugin/Modules/Html/Partials/SiteReviews.php:196
+#: plugin/Modules/Validator/ValidateReview.php:63, plugin/Modules/Html/Partials/SiteReviews.php:212
 msgid "No Title"
 msgstr "No Title"
 
@@ -957,8 +1381,8 @@ msgid "Search for translatable text"
 msgstr "Search for translatable text"
 
 #: views/pages/settings/translations.php:9
-msgid "Search for translatable text..."
-msgstr "Search for translatable text..."
+msgid "Search here for text to translate..."
+msgstr "Search here for text to translate..."
 
 #: views/pages/settings/translations.php:16
 msgid "Strings"
@@ -1060,21 +1484,59 @@ msgstr "singular"
 msgid "plural"
 msgstr "plural"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:98
+#: plugin/Modules/Html/Fields/Rating.php:25
+msgid "Select a Rating"
+msgstr "Select a Rating"
+
+#: plugin/Modules/Html/Fields/Rating.php:27
+msgid "%s Star"
+msgid_plural "%s Stars"
+msgstr[0] "%s Star"
+msgstr[1] "%s Stars"
+
+#: plugin/Modules/Html/Partials/Pagination.php:38
+msgid "Page"
+msgstr "Page"
+
+#: plugin/Modules/Html/Partials/Pagination.php:42
+msgid "Next &rarr;"
+msgstr "Next &rarr;"
+
+#: plugin/Modules/Html/Partials/Pagination.php:43
+msgid "&larr; Previous"
+msgstr "&larr; Previous"
+
+#: plugin/Modules/Html/Partials/Pagination.php:63
+msgid "Previous"
+msgstr "Previous"
+
+#: plugin/Modules/Html/Partials/Pagination.php:69
+msgid "Next"
+msgstr "Next"
+
+#: plugin/Modules/Html/Partials/Pagination.php:94
+msgid "Site Reviews navigation"
+msgstr "Site Reviews navigation"
+
+#: plugin/Modules/Html/Partials/SiteReviews.php:105
 msgid "Review of %s"
 msgstr "Review of %s"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:182
+#: plugin/Modules/Html/Partials/SiteReviews.php:194
 msgid "Response from %s"
 msgstr "Response from %s"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:233
+#: plugin/Modules/Html/Partials/SiteReviews.php:271
 msgid "Show less"
 msgstr "Show less"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:234
+#: plugin/Modules/Html/Partials/SiteReviews.php:272
 msgid "Show more"
 msgstr "Show more"
+
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:49
+msgid "Submit your review"
+msgstr "Submit your review"
 
 #: plugin/Commands/RegisterPostType.php:48
 msgctxt "Add New Post"
@@ -1200,7 +1662,7 @@ msgctxt "the option label"
 msgid "The \"%s\" option is required."
 msgstr "The \"%s\" option is required."
 
-#: plugin/Modules/Html/Partials/SiteReviewsSummary.php:141
+#: plugin/Modules/Html/Partials/SiteReviewsSummary.php:131
 msgctxt "Do not translate {rating} and {max}, they are template tags."
 msgid "{rating} out of {max} stars (based on %d review)"
 msgid_plural "{rating} out of {max} stars (based on %d reviews)"

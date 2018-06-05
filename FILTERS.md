@@ -85,3 +85,6 @@ site-reviews/style
 
 [Pagination.php]
 site-reviews/reviews/navigation_links
+
+[Form.php]
+site-reviews/form/fields
