@@ -4,15 +4,15 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 
 use GeminiLabs\SiteReviews\Modules\Html\Fields\Field;
 
-class Number extends Field
+class Checkbox extends Field
 {
 	/**
 	 * @return array
 	 */
-	public static function defaults()
+	public static function required()
 	{
 		return [
-			'class' => 'small-text',
+			'is_multi' => true,
 		];
 	}
 }

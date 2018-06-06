@@ -14,8 +14,8 @@ class Honeypot extends Field
 		$this->builder->args = wp_parse_args( $this->builder->args, [
 			'name' => $this->builder->args['text'],
 		]);
-		$this->mergeFieldArgs();
 		$this->builder->tag = 'input';
+		$this->mergeFieldArgs();
 		return $this->builder->getOpeningTag();
 	}
 

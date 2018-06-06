@@ -19,7 +19,10 @@ abstract class Field
 	/**
 	 * @return string|void
 	 */
-	abstract public function build();
+	public function build()
+	{
+		glsr_log()->error( 'Build method is not implemented for '.__CLASS__ );
+	}
 
 	/**
 	 * @return array

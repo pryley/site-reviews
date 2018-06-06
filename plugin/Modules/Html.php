@@ -23,9 +23,8 @@ class Html
 	/**
 	 * @return Builder
 	 */
-	public function build( array $globals = [] )
+	public function build()
 	{
-		$this->builder->globals = $globals;
 		$this->builder->render = false;
 		return $this->builder;
 	}
@@ -60,9 +59,8 @@ class Html
 	/**
 	 * @return Builder
 	 */
-	public function render( array $globals = [] )
+	public function render()
 	{
-		$this->builder->globals = $globals;
 		$this->builder->render = true;
 		return $this->builder;
 	}

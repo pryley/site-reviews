@@ -11,8 +11,8 @@ class Code extends Field
 	 */
 	public function build()
 	{
-		$this->mergeFieldArgs();
 		$this->builder->tag = 'textarea';
+		$this->mergeFieldArgs();
 		return $this->builder->buildTag();
 	}
 

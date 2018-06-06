@@ -12,8 +12,8 @@ class Rating extends Field
 	 */
 	public function build()
 	{
-		$this->mergeFieldArgs();
 		$this->builder->tag = 'select';
+		$this->mergeFieldArgs();
 		return $this->builder->buildFormSelect();
 	}
 

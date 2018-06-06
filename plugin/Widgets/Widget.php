@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Widgets;
 
-use GeminiLabs\SiteReviews\Modules\Html;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use WP_Widget;
 
 abstract class Widget extends WP_Widget
@@ -34,8 +34,8 @@ abstract class Widget extends WP_Widget
 	protected function renderField( $tag, array $args = [] )
 	{
 		$args = $this->normalizeFieldAttributes( $tag, $args );
-		$field = glsr( Html::class )->build( ['is_widget' => true] )->{$tag}( $args['name'], $args );
-		echo glsr( Html::class )->build( ['is_widget' => true] )->div( $field, [
+		$field = glsr( Builder::class )->{$tag}( $args['name'], $args );
+		echo glsr( Builder::class )->div( $field, [
 			'class' => 'glsr-field',
 		]);
 	}
@@ -54,6 +54,7 @@ abstract class Widget extends WP_Widget
 		}
 		$args['id'] = $this->get_field_id( $args['name'] );
 		$args['name'] = $this->get_field_name( $args['name'] );
+		$args['is_widget'] = true;
 		return $args;
 	}
 }

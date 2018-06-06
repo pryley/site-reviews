@@ -10,8 +10,6 @@ use GeminiLabs\SiteReviews\Modules\Html\Template;
 
 class Field
 {
-	const MULTI_FIELD_TYPES = ['radio', 'checkbox'];
-
 	/**
 	 * @var array
 	 */
@@ -25,6 +23,7 @@ class Field
 			'is_raw' => false,
 			'is_setting' => false,
 			'is_valid' => true,
+			'is_widget' => false,
 			'path' => '',
 		]);
 		$this->normalize();
@@ -180,15 +179,14 @@ class Field
 				$className::required()
 			);
 		}
-		$this->determineIfMulti();
-		$this->normalizeId();
-		$this->normalizeName();
+		$this->normalizeFieldId();
+		$this->normalizeFieldName();
 	}
 
 	/**
 	 * @return void
 	 */
-	protected function normalizeId()
+	protected function normalizeFieldId()
 	{
 		if( isset( $this->field['id'] ) || $this->field['is_raw'] )return;
 		$this->field['id'] = glsr( Helper::class )->convertPathToId(
@@ -200,21 +198,11 @@ class Field
 	/**
 	 * @return void
 	 */
-	protected function normalizeName()
+	protected function normalizeFieldName()
 	{
-
 		$this->field['name'] = glsr( Helper::class )->convertPathToName(
 			$this->field['path'],
 			$this->getFieldPrefix()
 		);
-	}
-
-	/**
-	 * @return void
-	 */
-	protected function determineIfMulti()
-	{
-		if( !in_array( $this->field['type'], static::MULTI_FIELD_TYPES ))return;
-		$this->field['is_multi'] = true;
 	}
 }

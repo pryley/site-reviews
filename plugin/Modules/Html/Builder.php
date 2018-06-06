@@ -37,11 +37,6 @@ class Builder
 	public $args = [];
 
 	/**
-	 * @var array
-	 */
-	public $globals = [];
-
-	/**
 	 * @var bool
 	 */
 	public $render = false;
@@ -51,11 +46,6 @@ class Builder
 	 */
 	public $tag;
 
-	public function __construct( array $globals = [] )
-	{
-		$this->globals = $globals;
-	}
-
 	/**
 	 * @param string $method
 	 * @param array $args
@@ -63,7 +53,7 @@ class Builder
 	 */
 	public function __call( $method, $args )
 	{
-		$instance = new static( $this->globals );
+		$instance = new static;
 		$instance->setTagFromMethod( $method );
 		call_user_func_array( [$instance, 'normalize'], $args += ['',''] );
 		$tags = array_merge( static::TAGS_FORM, static::TAGS_SINGLE, static::TAGS_STRUCTURE, static::TAGS_TEXT );
@@ -85,7 +75,6 @@ class Builder
 	{
 		$properties = [
 			'args' => 'is_array',
-			'globals' => 'is_array',
 			'render' => 'is_bool',
 			'tag' => 'is_string',
 		];
@@ -141,7 +130,7 @@ class Builder
 	protected function buildFieldDescription()
 	{
 		if( empty( $this->args['description'] ))return;
-		if( !empty( $this->globals['is_widget'] )) {
+		if( $this->args['is_widget'] ) {
 			return $this->small( $this->args['description'] );
 		}
 		return $this->p( $this->args['description'], ['class' => 'description'] );
@@ -237,6 +226,7 @@ class Builder
 	 */
 	protected function buildTag()
 	{
+		$this->mergeArgsWithRequiredDefaults();
 		if( in_array( $this->tag, static::TAGS_SINGLE )) {
 			return $this->getOpeningTag();
 		}
@@ -262,7 +252,10 @@ class Builder
 		$args = glsr( BuilderDefaults::class )->merge( $this->args );
 		$className = $this->getCustomFieldClassName();
 		if( class_exists( $className )) {
-			$args = array_merge( $args, $className::defaults() );
+			$args = array_merge(
+				wp_parse_args( $args, $className::defaults() ),
+				$className::required()
+			);
 		}
 		$this->args = $args;
 	}
@@ -282,7 +275,6 @@ class Builder
 		else if( is_array( $params[1] )) {
 			$this->args += $params[1];
 		}
-		$this->mergeArgsWithRequiredDefaults();
 	}
 
 	/**
