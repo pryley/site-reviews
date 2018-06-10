@@ -71,7 +71,7 @@ class EnqueuePublicAssets
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 		];
 		$variables = apply_filters( 'site-reviews/enqueue/public/localize', $variables );
-		wp_localize_script( Application::ID, 'site_reviews', $variables );
+		wp_localize_script( Application::ID, 'GLSR', $variables );
 	}
 
 	/**

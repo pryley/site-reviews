@@ -1,16 +1,18 @@
-/** global: GLSR, grecaptcha, HTMLFormElement, site_reviews */
-;(function( window, document, GLSR, undefined ) {
+/** global: CustomEvent, GLSR, HTMLFormElement, StarRating */
+;(function() {
 
 	'use strict';
 
 	var Form = function( formEl, buttonEl ) { // HTMLElement, HTMLElement
 		this.button = buttonEl;
+		this.enableButton = this.enableButton_.bind( this );
 		this.form = formEl;
-		this.init();
+		this.init = this.init_.bind( this );
+		this.recaptcha = new GLSR.Recaptcha( this );
+		this.submitForm = this.submitForm_.bind( this );
 	};
 
 	Form.prototype = {
-
 		config: {
 			fieldErrorsClass: 'glsr-field-errors',
 			fieldSelector: '.glsr-field',
@@ -19,12 +21,12 @@
 		},
 
 		/** @return void */
-		addRemoveClass: function( el, classValue, bool ) { // HTMLElement, string, bool
+		addRemoveClass_: function( el, classValue, bool ) { // HTMLElement, string, bool
 			el.classList[bool ? 'add' : 'remove']( classValue );
 		},
 
 		/** @return void */
-		clearFieldError: function( el ) { // HTMLElement
+		clearFieldError_: function( el ) { // HTMLElement
 			var fieldEl = el.closest( this.config.fieldSelector );
 			if( fieldEl === null )return;
 			fieldEl.classList.remove( this.config.hasErrorClass );
@@ -35,73 +37,56 @@
 		},
 
 		/** @return void */
-		clearFormErrors: function() {
-			this.getResultsEl().innerHTML = '';
+		clearFormErrors_: function() {
+			this.getResultsEl_().innerHTML = '';
 			for( var i = 0; i < this.form.length; i++ ) {
-				this.clearFieldError( this.form[i] );
+				this.clearFieldError_( this.form[i] );
 			}
 		},
 
 		/** @return void */
-		disableButton: function() {
+		disableButton_: function() {
 			this.button.setAttribute( 'disabled', '' );
 		},
 
 		/** @return void */
-		enableButton: function() {
+		enableButton_: function() {
 			this.button.removeAttribute( 'disabled' );
 		},
 
 		/** @return void */
-		fallbackSubmit: function() {
-			if( this.isAjaxUploadSupported() && this.isFileAPISupported() && this.isFormDataSupported() )return;
+		fallbackSubmit_: function() {
+			if( GLSR.Ajax.isFileAPISupported() && GLSR.Ajax.isFormDataSupported() && GLSR.Ajax.isUploadSupported() )return;
 			this.form.submit();
 		},
 
 		/** @return void */
-		handleResponse: function( response ) { // object
+		handleResponse_: function( response ) { // object
 			console.log( response );
 			if( response.recaptcha === true ) {
 				console.log( 'executing recaptcha' );
-				return this.recaptchaExecute();
+				this.recaptcha.execute();
+				return;
 			}
 			if( response.recaptcha === 'reset' ) {
 				console.log( 'reseting failed recaptcha' );
-				this.recaptchaReset();
+				this.recaptcha.reset();
 			}
 			if( response.errors === false ) {
 				console.log( 'reseting recaptcha' );
-				GLSR.recaptchaReset();
+				this.recaptcha.reset();
 				this.form.reset();
 			}
 			console.log( 'submission finished' );
-			this.showFieldErrors( response.errors );
-			this.showResults( response );
-			this.enableButton();
+			this.showFieldErrors_( response.errors );
+			this.showResults_( response );
+			this.enableButton_();
 			response.form = this.form;
 			document.dispatchEvent( new CustomEvent( 'site-reviews/after/submission', { detail: response }));
 		},
 
-		/** @return bool */
-		isAjaxUploadSupported: function() {
-			var xhr = new XMLHttpRequest();
-			return !!( xhr && ( 'upload' in xhr ) && ( 'onprogress' in xhr.upload ));
-		},
-
-		/** @return bool */
-		isFileAPISupported: function() {
-			var fi = document.createElement('INPUT');
-			fi.type = 'file';
-			return 'files' in fi;
-		},
-
-		/** @return bool */
-		isFormDataSupported: function() {
-			return !!window.FormData;
-		},
-
 		/** @return HTMLDivElement */
-		getFieldErrorsEl: function( fieldEl ) { // HTMLElement
+		getFieldErrorsEl_: function( fieldEl ) { // HTMLElement
 			var errorsEl = fieldEl.querySelector( '.' + this.config.fieldErrorsClass );
 			if( errorsEl === null ) {
 				errorsEl = document.createElement( 'div' );
@@ -112,19 +97,15 @@
 		},
 
 		/** @return object */
-		getFormData: function( recaptchaToken ) { // string|null
-			if( recaptchaToken === undefined ) {
-				recaptchaToken = '';
-			}
-			return {
-				action: site_reviews.action,
-				request: new FormData( this.form ),
-				'g-recaptcha-response': recaptchaToken,
-			};
+		getFormData_: function( recaptchaToken ) { // string|null
+			recaptchaToken = recaptchaToken || '';
+			var formData = new FormData( this.form );
+			formData.append( 'g-recaptcha-response', recaptchaToken );
+			return formData;
 		},
 
 		/** @return HTMLDivElement */
-		getResultsEl: function() {
+		getResultsEl_: function() {
 			var resultsEl = this.form.querySelector( '.' + this.config.formMessagesClass );
 			if( resultsEl === null ) {
 				resultsEl = document.createElement( 'div' );
@@ -135,39 +116,39 @@
 		},
 
 		/** @return void */
-		init: function() {
-			this.button.addEventListener( 'click', this.onClick.bind( this ));
-			this.form.addEventListener( 'change', this.onChange.bind( this ));
-			this.form.addEventListener( 'submit', this.onSubmit.bind( this ));
-			this.initStarRatings();
+		init_: function() {
+			this.button.addEventListener( 'click', this.onClick_.bind( this ));
+			this.form.addEventListener( 'change', this.onChange_.bind( this ));
+			this.form.addEventListener( 'submit', this.onSubmit_.bind( this ));
+			this.initStarRatings_();
 		},
 
 		/** @return void */
-		initStarRatings: function() {
+		initStarRatings_: function() {
 			new StarRating( 'select.glsr-star-rating', {
 				clearable: false,
 				showText: false,
-				onClick: this.clearFieldError(),
+				onClick: this.clearFieldError_.bind( this ),
 			});
 		},
 
 		/** @return void */
-		onChange: function( ev ) { // Event
-			this.clearFieldError( ev.target );
+		onChange_: function( ev ) { // Event
+			this.clearFieldError_( ev.target );
 		},
 
 		/**
 		 * This event method handles the mayhem caused by the invisible-recaptcha plugin
 		 * and is triggered on the invisible-recaptcha callback
 		 * @return void */
-		onClick: function() {
+		onClick_: function() {
 			var form = this;
 			this.form.onsubmit = null;
 			HTMLFormElement.prototype._submit = HTMLFormElement.prototype.submit;
 			HTMLFormElement.prototype.submit = function() {
 				var token = this.querySelector( '#g-recaptcha-response' );
 				if( null !== token && this.querySelector( form.config.fieldSelector )) {
-					form.submitForm( token.value );
+					form.submitForm_( token.value );
 					return;
 				}
 				this._submit();
@@ -175,116 +156,22 @@
 		},
 
 		/** @return void */
-		onSubmit: function( ev ) { // HTMLEvent
+		onSubmit_: function( ev ) { // HTMLEvent
 			if( this.form.classList.contains( 'no-ajax' ))return;
 			ev.preventDefault();
-			this.recaptchaAddListeners();
-			this.clearFormErrors();
-			this.submitForm();
+			this.recaptcha.addListeners();
+			this.clearFormErrors_();
+			this.submitForm_();
 		},
 
 		/** @return void */
-		recaptchaAddListeners: function() {
-			var overlayEl = this.recaptchaGetOverlay();
-			if( overlayEl === -1 )return;
-			overlayEl.addEventListener( 'click', this.enableButton.bind( this ));
-			window.addEventListener( 'keyup', this.recaptchaOnKeyup.bind( this, overlayEl ));
-		},
-
-		/** @return void */
-		recaptchaExecute: function() {
-			var recaptchaId = this.recaptchaGetId();
-			if( recaptchaId !== -1 ) {
-				grecaptcha.execute( recaptchaId );
-				return;
-			}
-			// recaptcha ID not found so pass through an error
-			this.submitForm( false );
-		},
-
-		/** @return string|int (-1) */
-		recaptchaGetId: function() {
-			return this.recaptchaSearch( function( value, id ) {
-				if( Object.prototype.toString.call( value ) !== '[object HTMLDivElement]' )return;
-				if( value.closest( 'form' ) === this.form ) {
-					return id;
-				}
-			});
-		},
-
-		/** @return HTMLDivElement|int (-1) */
-		recaptchaGetOverlay: function() {
-			return this.recaptchaSearch( function( value ) {
-				if( Object.prototype.toString.call( value ) !== '[object Object]' )return;
-				for( var obj in value) {
-					if( !value.hasOwnProperty( obj ) || Object.prototype.toString.call( value[obj] ) !== '[object HTMLDivElement]' )continue;
-					if( value[obj].className === '' ) {
-						return value[obj].firstChild;
-					}
-				}
-				return false;
-			});
-		},
-
-		/** @return void */
-		recaptchaOnKeyup: function( ev ) { // KeyboardEvent
-			if( ev.keyCode !== 27 )return;
-			this.enableButton();
-			this.recaptchaRemoveListeners( ev.target );
-		},
-
-		/** @return void */
-		recaptchaRemoveListeners: function( overlayEl ) { // HTMLDivElement
-			overlayEl.removeEventListener( 'click', this.enableButton );
-			window.removeEventListener( 'keyup', this.recaptchaOnKeyup );
-		},
-
-		/** @return void */
-		recaptchaReset: function() {
-			var recaptchaId = this.recaptchaGetId();
-			if( recaptchaId !== -1 ) {
-				grecaptcha.reset( recaptchaId );
-			}
-		},
-
-		/** @return mixed|int (-1) */
-		recaptchaSearch: function( callback ) { // function
-			var result = -1;
-			if( window.hasOwnProperty( '___grecaptcha_cfg' )) {
-				var clients = window.___grecaptcha_cfg.clients;
-				var i, key;
-				for( i in clients ) {
-					for( key in clients[i] ) {
-						if( !( result = callback( clients[i][key], i ).bind( this )))continue;
-						return result;
-					}
-				}
-			}
-			return result;
-		},
-
-		/** @return void */
-		postAjax: function( formData, success ) {
-			var xhr = new XMLHttpRequest();
-			xhr.open( 'POST', site_reviews.ajaxurl );
-			xhr.onreadystatechange = function() {
-				if( xhr.readyState !== 4 )return;
-				success( JSON.parse( xhr.responseText )).bind( this );
-			}.bind( this );
-			xhr.setRequestHeader( 'X-Requested-With', 'XMLHttpRequest' );
-			xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8' );
-			xhr.send( formData );
-		},
-
-		/** @return void */
-		showFieldErrors: function( errors ) { // object
+		showFieldErrors_: function( errors ) { // object
 			if( !errors )return;
 			var fieldEl, errorsEl;
 			for( var error in errors ) {
-				if( !errors.hasOwnProperty( error ))continue;
 				fieldEl = this.form.querySelector( '[name=' + error + ']' ).closest( this.config.fieldSelector );
 				fieldEl.classList.add( this.config.hasErrorClass );
-				errorsEl = this.getFieldErrorsEl( fieldEl );
+				errorsEl = this.getFieldErrorsEl_( fieldEl );
 				for( var i = 0; i < errors[error].errors.length; i++ ) {
 					errorsEl.innerHTML += errors[error].errors[i];
 				}
@@ -292,28 +179,39 @@
 		},
 
 		/** @return void */
-		showResults: function( response ) { // object
-			var resultsEl = this.getResultsEl();
-			this.addRemoveClass( resultsEl, 'gslr-has-errors', !!response.errors );
+		showResults_: function( response ) { // object
+			var resultsEl = this.getResultsEl_();
+			this.addRemoveClass_( resultsEl, 'gslr-has-errors', !!response.errors );
 			resultsEl.innerHTML = response.message;
 		},
 
 		/** @return void */
-		submitForm: function( recaptchaToken ) { // string|null
-			this.disableButton();
-			this.fallbackSubmit();
-			this.postAjax( this.getFormData( recaptchaToken ), this.handleResponse );
+		submitForm_: function( recaptchaToken ) { // string|null
+			this.disableButton_();
+			this.fallbackSubmit_();
+			GLSR.Ajax.post( this.getFormData_( recaptchaToken ), this.handleResponse_.bind( this ), {
+				'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+			});
 		},
 	};
 
-	GLSR.Forms = function() { // object
+	GLSR.Forms = function( shouldInit ) { // bool
+		var form, submitButton;
 		this.nodeList = document.querySelectorAll( 'form.glsr-form' );
 		this.forms = [];
 		for( var i = 0; i < this.nodeList.length; i++ ) {
-			var submitButton = this.nodeList[i].querySelector( '[type=submit]' );
+			submitButton = this.nodeList[i].querySelector( '[type=submit]' );
 			if( !submitButton )continue;
-			this.forms.push( new Form( this.nodeList[i], submitButton ));
+			form = new Form( this.nodeList[i], submitButton );
+			if( shouldInit ) {
+				form.init();
+			}
+			this.forms.push( form );
 		}
+		this.renderRecaptcha = function() {
+			this.forms.forEach( function( form ) {
+				form.recaptcha.render();
+			});
+		};
 	};
-
-})( window, document, GLSR );
+})();
