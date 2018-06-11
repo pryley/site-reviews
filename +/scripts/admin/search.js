@@ -179,7 +179,7 @@ GLSR.search.prototype = {
 			return this.reset();
 		}
 		this.el.addClass( 'is-active' );
-		this.searchRequest = wp.ajax.post( site_reviews.action, {
+		this.searchRequest = wp.ajax.post( GLSR.action, {
 			request: {
 				action: this.options.action,
 				exclude: this.options.exclude,

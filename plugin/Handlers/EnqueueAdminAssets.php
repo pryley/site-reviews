@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Handlers;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Commands\EnqueueAdminAssets as Command;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
@@ -10,10 +11,16 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 class EnqueueAdminAssets
 {
 	/**
+	 * @var array
+	 */
+	protected $pointers;
+
+	/**
 	 * @return void
 	 */
-	public function handle()
+	public function handle( Command $command )
 	{
+		$this->generatePointers( $command->pointers );
 		$this->enqueueAssets();
 		$this->localizeAssets();
 	}
@@ -37,6 +44,10 @@ class EnqueueAdminAssets
 			glsr()->version,
 			true
 		);
+		if( !empty( $this->pointers )) {
+			wp_enqueue_style( 'wp-pointer' );
+			wp_enqueue_script( 'wp-pointer' );
+		}
 	}
 
 	/**
@@ -47,7 +58,6 @@ class EnqueueAdminAssets
 		$variables = [
 			'action' => Application::PREFIX.'action',
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-			'are_you_sure' => __( 'Are you sure want to do this?', 'site-reviews' ),
 			'hidden_keys' => [
 				'site_reviews' => SiteReviewsShortcode::HIDDEN_KEYS,
 				'site_reviews_form' => SiteReviewsFormShortcode::HIDDEN_KEYS,
@@ -55,6 +65,7 @@ class EnqueueAdminAssets
 			],
 			'mce_nonce' => wp_create_nonce( 'mce-shortcode' ),
 			'pinned_nonce' => wp_create_nonce( 'toggle-pinned' ),
+			'pointers' => $this->pointers,
 			'shortcodes' => [],
 			'status_nonce' => wp_create_nonce( 'change-review-status' ),
 		];
@@ -62,7 +73,7 @@ class EnqueueAdminAssets
 			$variables['shortcodes'] = $this->localizeShortcodes();
 		}
 		$variables = apply_filters( 'site-reviews/enqueue/admin/localize', $variables );
-		wp_localize_script( Application::ID, 'site_reviews', $variables );
+		wp_localize_script( Application::ID, 'GLSR', $variables );
 	}
 
 	/**
@@ -75,6 +86,38 @@ class EnqueueAdminAssets
 			'jquery', 'jquery-ui-sortable', 'underscore', 'wp-util',
 		]);
 		return $dependencies;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function generatePointer( array $pointer )
+	{
+		return [
+			'id' => $pointer['id'],
+			'options' => [
+				'content' => '<h3>'.$pointer['title'].'</h3><p>'.$pointer['content'].'</p>',
+				'position' => $pointer['position'],
+			],
+			'screen' => $pointer['screen'],
+			'target' => $pointer['target'],
+		];
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function generatePointers( array $pointers )
+	{
+		$dismissedPointers = get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true );
+		$dismissedPointers = explode( ',', (string)$dismissedPointers );
+		$generatedPointers = [];
+		foreach( $pointers as $pointer ) {
+			if( $pointer['screen'] != glsr_current_screen()->id )continue;
+			if( in_array( $pointer['id'], $dismissedPointers ))continue;
+			$generatedPointers[] = $this->generatePointer( $pointer );
+		}
+		$this->pointers = $generatedPointers;
 	}
 
 	/**

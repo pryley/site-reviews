@@ -1,4 +1,4 @@
-/** global: GLSR, site_reviews, x */
+/** global: GLSR, x */
 GLSR.status = function( selector ) {
 	var elements = document.querySelectorAll( selector );
 	if( !elements.length )return;
@@ -15,7 +15,7 @@ GLSR.status.prototype = {
 		if( post_id === null || status === null )return;
 		var request = {
 			action: 'change-review-status',
-			nonce: site_reviews.status_nonce,
+			nonce: GLSR.status_nonce,
 			post_id: post_id[1],
 			status: status[1],
 		};

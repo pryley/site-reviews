@@ -3,11 +3,10 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Commands\RegisterPointers;
+use GeminiLabs\SiteReviews\Commands\EnqueueAdminAssets;
 use GeminiLabs\SiteReviews\Commands\RegisterShortcodeButtons;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Handlers\EnqueueAdminAssets;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -24,7 +23,20 @@ class AdminController extends Controller
 	 */
 	public function enqueueAssets()
 	{
-		(new EnqueueAdminAssets)->handle();
+		$command = new EnqueueAdminAssets([
+			'pointers' => [[
+				'content' => __( 'You can pin exceptional reviews so that they are always shown first.', 'site-reviews' ),
+				'id' => 'glsr-pointer-pinned',
+				'position' => [
+					'edge' => 'right',
+					'align' => 'middle',
+				],
+				'screen' => Application::POST_TYPE,
+				'target' => '#misc-pub-pinned',
+				'title' => __( 'Pin Your Reviews', 'site-reviews' ),
+			]],
+		]);
+		$this->execute( $command );
 	}
 
 	/**
@@ -73,26 +85,6 @@ class AdminController extends Controller
 			$plugins['glsr_shortcode'] = glsr()->url( 'assets/scripts/mce-plugin.js' );
 		}
 		return $plugins;
-	}
-
-	/**
-	 * @return void
-	 * @action admin_enqueue_scripts
-	 */
-	public function registerPointers()
-	{
-		$command = new RegisterPointers([[
-			'content' => __( 'You can pin exceptional reviews so that they are always shown first.', 'site-reviews' ),
-			'id' => 'glsr-pointer-pinned',
-			'position' => [
-				'edge' => 'right',
-				'align' => 'middle',
-			],
-			'screen' => Application::POST_TYPE,
-			'target' => '#misc-pub-pinned',
-			'title' => __( 'Pin Your Reviews', 'site-reviews' ),
-		]]);
-		$this->execute( $command );
 	}
 
 	/**

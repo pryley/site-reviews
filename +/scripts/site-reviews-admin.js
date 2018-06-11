@@ -1,11 +1,7 @@
-/** global: GLSR, site_reviews, site_reviews_pointers, wp, x */
+/** global: GLSR, wp, x */
 
 x( function()
 {
-	x('.glsr-button-reset').on( 'click', function() {
-		return confirm( site_reviews.are_you_sure );
-	});
-
 	var GLSR_textarea = x( '#contentdiv > textarea' );
 	if( GLSR_textarea.length ) {
 		GLSR.textareaResize( GLSR_textarea );
@@ -16,8 +12,8 @@ x( function()
 
 	x( 'form' ).on( 'click', '#clear-log', GLSR.onClearLog );
 
-	x.each( site_reviews_pointers.pointers, function( i, pointer ) {
-		GLSR.pointers( pointer );
+	x.each( GLSR.pointers, function( i, pointer ) {
+		GLSR.initPointer( pointer );
 	});
 
 	GLSR.colorControls();

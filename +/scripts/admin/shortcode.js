@@ -1,4 +1,4 @@
-/** global: editor, GLSR, site_reviews, tinymce, x */
+/** global: editor, GLSR, tinymce, x */
 GLSR.shortcode = function( selector ) {
 	this.el = document.querySelector( selector );
 	if( !this.el )return;
@@ -12,7 +12,7 @@ GLSR.shortcode = function( selector ) {
 		if( !this.editor )return;
 		this.request({
 			action: 'mce-shortcode',
-			nonce: site_reviews.mce_nonce,
+			nonce: GLSR.mce_nonce,
 			shortcode: this.current,
 		});
 	};
@@ -93,9 +93,9 @@ GLSR.shortcode.prototype = {
 
 	/** @return void */
 	normalizeHide: function( key ) {
-		if( !site_reviews.hidden_keys.hasOwnProperty( this.current ))return;
+		if( !GLSR.hidden_keys.hasOwnProperty( this.current ))return;
 		var value = key.substring('hide_'.length);
-		if( site_reviews.hidden_keys[this.current].indexOf( value ) === -1 )return;
+		if( GLSR.hidden_keys[this.current].indexOf( value ) === -1 )return;
 		if( this.attributes[key] ) {
 			this.hiddenKeys.push( value );
 		}
@@ -146,10 +146,10 @@ GLSR.shortcode.prototype = {
 	/** @return void */
 	request: function( request ) {
 		var data = {
-			action: site_reviews.action,
+			action: GLSR.action,
 			request: request,
 		};
-		x.post( site_reviews.ajaxurl, data, this.response.bind( this ));
+		x.post( GLSR.ajaxurl, data, this.response.bind( this ));
 	},
 
 	/** @return void */
@@ -215,7 +215,7 @@ GLSR.shortcode.prototype = {
 	validateAttributes: function( currentWindow ) {
 		var field;
 		var is_valid = true;
-		var requiredAttributes = site_reviews.shortcodes[this.current];
+		var requiredAttributes = GLSR.shortcodes[this.current];
 		for( var id in requiredAttributes ) {
 			if( !requiredAttributes.hasOwnProperty( id ))continue;
 			field = currentWindow.find( '#' + id )[0];

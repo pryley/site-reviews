@@ -28,7 +28,7 @@ GLSR.onClearLog = function( ev )
 	});
 };
 
-GLSR.pointers = function( pointer )
+GLSR.initPointer = function( pointer )
 {
 	x( pointer.target ).pointer({
 		content: pointer.options.content,
@@ -54,11 +54,11 @@ GLSR.postAjax = function( ev, request, callback )
 	if( el.is( ':disabled' ))return;
 	request.nonce = request.nonce || el.closest( 'form' ).find( '#_wpnonce' ).val();
 	var data = {
-		action: site_reviews.action,
+		action: GLSR.action,
 		request: request,
 	};
 	el.prop( 'disabled', true );
-	x.post( site_reviews.ajaxurl, data, function( response ) {
+	x.post( GLSR.ajaxurl, data, function( response ) {
 		if( typeof callback === 'function' ) {
 			callback( response );
 		}

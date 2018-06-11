@@ -1,4 +1,4 @@
-/** global: GLSR, site_reviews, x */
+/** global: GLSR, x */
 GLSR.pinned = function( options ) {
 	this.options = x.extend( {}, this.defaults, options );
 	this.el = x( this.options.selector );
@@ -46,7 +46,7 @@ GLSR.pinned.prototype = {
 		var request = {
 			action: 'toggle-pinned',
 			id: x( '#post_ID' ).val(),
-			nonce: site_reviews.pinned_nonce,
+			nonce: GLSR.pinned_nonce,
 			pinned: x( '#pinned-status' ).val(),
 		};
 		this.request( request, this.save.bind( this ));
@@ -59,7 +59,7 @@ GLSR.pinned.prototype = {
 		var request = {
 			action: 'toggle-pinned',
 			id: ev.target.getAttribute( 'data-id' ),
-			nonce: site_reviews.pinned_nonce,
+			nonce: GLSR.pinned_nonce,
 		};
 		this.request( request, this.toggle.bind( this ));
 	},
@@ -67,10 +67,10 @@ GLSR.pinned.prototype = {
 	/** @return void */
 	request: function( request, callback ) {
 		var data = {
-			action: site_reviews.action,
+			action: GLSR.action,
 			request: request,
 		};
-		x.post( site_reviews.ajaxurl, data, callback.bind( this ));
+		x.post( GLSR.ajaxurl, data, callback.bind( this ));
 	},
 
 	/** @return void */
