@@ -230,17 +230,11 @@ class System
 			'secureserver.net' => 'GoDaddy',
 			'WPE_APIKEY' => 'WP Engine',
 		];
-		$serverName = filter_input( INPUT_SERVER, 'SERVER_NAME' );
 		foreach( $checks as $key => $value ) {
-			if( defined( $key )
-				|| filter_input( INPUT_SERVER, $key )
-				|| strpos( $serverName, $key ) !== false
-				|| strpos( DB_HOST, $key ) !== false
-				|| strpos( php_uname(), $key ) !== false ) {
-				return $value;
-			}
+			if( !$this->isWebhostCheckValid( $key ))continue;
+			return $value;
 		}
-		return implode( ',', array_filter( [DB_HOST, $serverName] ));
+		return implode( ',', array_filter( [DB_HOST, filter_input( INPUT_SERVER, 'SERVER_NAME' )] ));
 	}
 
 	/**
@@ -281,6 +275,19 @@ class System
 				: ' - '.$value;
 		}
 		return implode( PHP_EOL, $strings ).PHP_EOL.PHP_EOL;
+	}
+
+	/**
+	 * @param string $key
+	 * @return bool
+	 */
+	protected function isWebhostCheckValid( $key )
+	{
+		return defined( $key )
+			|| filter_input( INPUT_SERVER, $key )
+			|| strpos( filter_input( INPUT_SERVER, 'SERVER_NAME' ), $key ) !== false
+			|| strpos( DB_HOST, $key ) !== false
+			|| strpos( php_uname(), $key ) !== false;
 	}
 
 	/**
