@@ -1,34 +1,26 @@
-/** global: GLSR, wp, x */
+/** global: GLSR, jQuery, wp */
 
-x( function()
-{
-	var GLSR_textarea = x( '#contentdiv > textarea' );
-	if( GLSR_textarea.length ) {
-		GLSR.textareaResize( GLSR_textarea );
-		x( document ).on( 'wp-window-resized.editor-expand', function() {
-			GLSR.textareaResize( GLSR_textarea );
-		});
-	}
+GLSR.keys = {
+	DOWN: 40,
+	ENTER: 13,
+	ESC: 27,
+	SPACE: 32,
+	UP: 38,
+};
 
-	x( 'form' ).on( 'click', '#clear-log', GLSR.onClearLog );
-
-	x.each( GLSR.pointers, function( i, pointer ) {
-		GLSR.initPointer( pointer );
-	});
-
-	GLSR.colorControls();
-
-	new GLSR.pinned();
-	new GLSR.tabs();
-	new GLSR.forms( 'form.glsr-form' );
-	new GLSR.status( 'a.glsr-change-status' );
-	new GLSR.search( '#glsr-search-posts', {
+jQuery( function() {
+	GLSR.ColorPicker();
+	new GLSR.Forms( 'form.glsr-form' );
+	new GLSR.Logger();
+	new GLSR.Pinned();
+	new GLSR.Pointers();
+	new GLSR.Search( '#glsr-search-posts', {
 		action: 'search-posts',
 		onInit: function() {
-			this.el.on( 'click', '.glsr-remove-button', this.onUnassign.bind( this ));
+			this.el.on( 'click', '.glsr-remove-button', this.onUnassign_.bind( this ));
 		},
 		onResultClick: function( ev ) {
-			var result = x( ev.target );
+			var result = jQuery( ev.target );
 			var template = wp.template( 'glsr-assigned-post' );
 			var entry = {
 				url: result.data( 'url' ),
@@ -37,18 +29,18 @@ x( function()
 			if( template ) {
 				this.el.find( 'input#assigned_to' ).val( result.data( 'id' ));
 				this.el.find( '.description' ).html( template( entry ));
-				this.el.on( 'click', '.glsr-remove-button', this.onUnassign.bind( this ));
-				this.reset();
+				this.el.on( 'click', '.glsr-remove-button', this.onUnassign_.bind( this ));
+				this.reset_();
 			}
 		},
 	});
-	new GLSR.search( '#glsr-search-translations', {
+	new GLSR.Search( '#glsr-search-translations', {
 		action: 'search-translations',
 		onInit: function() {
-			this.makeSortable();
+			this.makeSortable_();
 		},
 		onResultClick: function( ev ) {
-			var result = x( ev.target );
+			var result = jQuery( ev.target );
 			var entry = result.data( 'entry' );
 			var template = wp.template( 'glsr-string-' + ( entry.p1 ? 'plural' : 'single' ));
 			entry.index = this.options.entriesEl.children().length;
@@ -60,11 +52,10 @@ x( function()
 					return el !== result.get(0);
 				});
 			}
-			this.setVisibility();
+			this.setVisibility_();
 		},
 	});
-
-	GLSR.modules = {
-		shortcode: new GLSR.shortcode( '.glsr-mce' ),
-	};
+	new GLSR.Status( 'a.glsr-change-status' );
+	new GLSR.Tabs();
+	new GLSR.TextareaResize();
 });

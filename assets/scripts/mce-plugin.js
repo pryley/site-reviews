@@ -1,9 +1,1 @@
-/** global: GLSR */
-(function( tinymce ) {
-	'use strict';
-	tinymce.PluginManager.add( 'glsr_shortcode', function( editor ) {
-		editor.addCommand( 'GLSR_Shortcode', function() {
-			GLSR.modules.shortcode.create( editor.id );
-		});
-	});
-})( window.tinymce );
+!function(n){"use strict";window.tinymce.PluginManager.add("glsr_shortcode",function(n){n.addCommand("GLSR_Shortcode",function(){new GLSR.Shortcode(".glsr-mce").create(n.id)})})}();

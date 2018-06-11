@@ -120,9 +120,10 @@ class AjaxController extends Controller
 	 */
 	public function routerTogglePinned( array $request )
 	{
+		$isPinned = $this->execute( new TogglePinned( $request ));
 		wp_send_json([
 			'notices' => glsr( Notice::class )->get(),
-			'pinned' => $this->execute( new TogglePinned( $request )),
+			'pinned' => $isPinned,
 		]);
 	}
 }

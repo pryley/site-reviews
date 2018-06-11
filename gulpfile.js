@@ -42,7 +42,7 @@ gulp.task('js', function(cb) {
   pump([
     streams,
     gulpif(args.production, uglify({
-      mangle: {properties: {regex: /_$/}},
+      mangle: {properties: {regex: /[a-zA-Z]+_$/}},
       // output: {comments: 'some'},
     })),
     gulp.dest(config.dest.js),

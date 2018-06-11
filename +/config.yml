@@ -21,14 +21,18 @@ scripts:
     - +/scripts/public/recaptcha.js
     - +/scripts/site-reviews.js
   site-reviews-admin.js:
-    - +/scripts/admin/init.js
+    - +/scripts/admin/ajax.js
+    - +/scripts/admin/color-picker.js
     - +/scripts/admin/forms.js
-    - +/scripts/admin/functions.js
+    - +/scripts/admin/logger.js
+    - +/scripts/admin/notices.js
     - +/scripts/admin/pinned.js
+    - +/scripts/admin/pointers.js
     - +/scripts/admin/search.js
     - +/scripts/admin/shortcode.js
     - +/scripts/admin/status.js
     - +/scripts/admin/tabs.js
+    - +/scripts/admin/textarea-resize.js
     - +/scripts/site-reviews-admin.js
 watch:
   js: +/scripts/**/*.js

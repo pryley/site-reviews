@@ -1,6 +1,5 @@
-/** global: GLSR, grecaptcha */
+/** global: GLSR */
 // jshint unused:false
 var glsr_render_recaptcha = function() {
-	var forms = new GLSR.Forms();
-	forms.renderRecaptcha();
+	( new GLSR.Forms() ).renderRecaptcha();
 };

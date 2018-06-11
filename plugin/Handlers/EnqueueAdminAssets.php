@@ -58,16 +58,19 @@ class EnqueueAdminAssets
 		$variables = [
 			'action' => Application::PREFIX.'action',
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-			'hidden_keys' => [
+			'hiddenkeys' => [
 				'site_reviews' => SiteReviewsShortcode::HIDDEN_KEYS,
 				'site_reviews_form' => SiteReviewsFormShortcode::HIDDEN_KEYS,
 				'site_reviews_summary' => SiteReviewsSummaryShortcode::HIDDEN_KEYS,
 			],
-			'mce_nonce' => wp_create_nonce( 'mce-shortcode' ),
-			'pinned_nonce' => wp_create_nonce( 'toggle-pinned' ),
+			'nonce' => [
+				'change-review-status' => wp_create_nonce( 'change-review-status' ),
+				'clear-log' => wp_create_nonce( 'clear-log' ),
+				'mce-shortcode' => wp_create_nonce( 'mce-shortcode' ),
+				'toggle-pinned' => wp_create_nonce( 'toggle-pinned' ),
+			],
 			'pointers' => $this->pointers,
 			'shortcodes' => [],
-			'status_nonce' => wp_create_nonce( 'change-review-status' ),
 		];
 		if( user_can_richedit() ) {
 			$variables['shortcodes'] = $this->localizeShortcodes();
