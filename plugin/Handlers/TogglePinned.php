@@ -21,8 +21,8 @@ class TogglePinned
 		}
 		else {
 			$notice = $command->pinned
-				? __( 'The review is pinned.', 'site-reviews' )
-				: __( 'The review is unpinned.', 'site-reviews' );
+				? __( 'Review pinned.', 'site-reviews' )
+				: __( 'Review unpinned.', 'site-reviews' );
 			glsr( Notice::class )->addSuccess( $notice );
 		}
 		update_post_meta( $command->id, 'pinned', $command->pinned );
