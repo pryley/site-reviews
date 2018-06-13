@@ -133,13 +133,13 @@ class Settings
 	 */
 	protected function normalizeLabelAndLegend( array $field )
 	{
-		if( isset( $field['label'] )) {
+		if( !empty( $field['label'] )) {
 			$field['legend'] = $field['label'];
 			unset( $field['label'] );
 		}
 		else {
 			$field['is_valid'] = false;
-			glsr_log()->warning( 'Field is missing label' )->info( $field );
+			glsr_log()->warning( 'Setting field is missing a label' )->info( $field );
 		}
 		return $field;
 	}

@@ -255,15 +255,14 @@ class Builder
 	 */
 	protected function mergeArgsWithRequiredDefaults()
 	{
-		$args = glsr( BuilderDefaults::class )->merge( $this->args );
 		$className = $this->getCustomFieldClassName();
 		if( class_exists( $className )) {
-			$args = array_merge(
-				wp_parse_args( $args, $className::defaults() ),
+			$this->args = array_merge(
+				wp_parse_args( $this->args, $className::defaults() ),
 				$className::required()
 			);
 		}
-		$this->args = $args;
+		$this->args = glsr( BuilderDefaults::class )->merge( $this->args );
 	}
 
 	/**

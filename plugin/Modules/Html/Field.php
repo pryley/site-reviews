@@ -44,7 +44,7 @@ class Field
 	{
 		if( !$this->field['is_valid'] )return;
 		if( $this->field['is_raw'] ) {
-			return glsr( Builder::class )->hidden( $this->field );
+			return glsr( Builder::class )->{$this->field['type']}( $this->field );
 		}
 		if( !$this->field['is_setting'] ) {
 			return $this->buildField();
