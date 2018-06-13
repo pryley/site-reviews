@@ -8,6 +8,7 @@ use GeminiLabs\SchemaOrg\Schema as SchemaOrg;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Rating;
+use WP_Post;
 
 class Schema
 {
@@ -184,7 +185,12 @@ class Schema
 		if( !is_single() && !is_page() )return;
 		switch( $option ) {
 			case 'description':
-				return get_the_excerpt();
+				$post = get_post();
+				if( !( $post instanceof WP_Post )) {
+					return '';
+				}
+				$text = strip_shortcodes( wp_strip_all_tags( $post->post_excerpt ));
+				return wp_trim_words( $text, apply_filters( 'excerpt_length', 55 ));
 			case 'image':
 				return (string)get_the_post_thumbnail_url( null, 'large' );
 			case 'name':
