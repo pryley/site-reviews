@@ -6,13 +6,12 @@ defined( 'WPINC' ) || die;
  */
 function glsr( $alias = null ) {
 	$app = \GeminiLabs\SiteReviews\Application::load();
-	return empty( $alias )
-		? $app
-		: $app->make( $alias );
+	return !empty( $alias )
+		? $app->make( $alias )
+		: $app;
 }
 
 /**
- * get_current_screen() is unreliable because it is not defined on all admin pages
  * @return \WP_Screen|object
  */
 function glsr_current_screen() {
@@ -58,27 +57,18 @@ function glsr_log() {
 		? $args[1]
 		: [];
 	$logger = glsr( 'Modules\Logger' );
-	return empty( $args )
-		? $logger
-		: $logger->log( 'debug', $args[0], $context );
+	return !empty( $args )
+		? $logger->log( 'debug', $args[0], $context )
+		: $logger;
 }
 
 /**
- * This function prevents the taxonomy object from containing class recursion
- * @return void
- * @callback register_taxonomy() "meta_box_cb"
- */
-function glsr_categories_meta_box( $post, $box ) {
-	glsr( 'Controllers\EditorController' )->renderTaxonomyMetabox( $post, $box );
-}
-
-/**
- * @param string $option_path
+ * @param string $path
  * @param mixed $fallback
  * @return string|array
  */
-function glsr_get_option( $option_path = '', $fallback = '' ) {
-	return glsr( 'Database\OptionManager' )->get( 'settings.'.$option_path, $fallback );
+function glsr_get_option( $path = '', $fallback = '' ) {
+	return glsr( 'Database\OptionManager' )->get( 'settings.'.$path, $fallback );
 }
 
 /**

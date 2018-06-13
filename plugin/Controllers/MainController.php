@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Commands\RegisterShortcodes;
 use GeminiLabs\SiteReviews\Commands\RegisterTaxonomy;
 use GeminiLabs\SiteReviews\Commands\RegisterWidgets;
 use GeminiLabs\SiteReviews\Controllers\Controller;
+use GeminiLabs\SiteReviews\Controllers\EditorController;
 use GeminiLabs\SiteReviews\Modules\Schema;
 
 class MainController extends Controller
@@ -63,7 +64,7 @@ class MainController extends Controller
 	{
 		$command = new RegisterTaxonomy([
 			'hierarchical' => true,
-			'meta_box_cb' => 'glsr_categories_meta_box',
+			'meta_box_cb' => [glsr( EditorController::class ), 'renderTaxonomyMetabox'],
 			'public' => false,
 			'show_admin_column' => true,
 			'show_ui' => true,
