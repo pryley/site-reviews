@@ -154,7 +154,13 @@ class Builder
 	 */
 	protected function buildFormInputChoice()
 	{
-		return $this->label( $this->getOpeningTag().' '.$this->args['text'] );
+		$labelText = !empty( $this->args['text'] )
+			? $this->args['text']
+			: $this->args['label'];
+		return $this->label( $this->getOpeningTag().' '.$labelText, [
+			'class' => 'glsr-'.$this->args['type'].'-label',
+			'for' => $this->args['id'],
+		]);
 	}
 
 	/**
