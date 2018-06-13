@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Contracts\PartialContract;
 use GeminiLabs\SiteReviews\Database\QueryBuilder;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class Pagination implements PartialContract
 {
@@ -79,8 +80,9 @@ class Pagination implements PartialContract
 	protected function buildTemplate( $links )
 	{
 		$theme = wp_get_theme()->get( 'TextDomain' );
-		$class = 'glsr-navigation navigation pagination';
+		$class = 'navigation pagination';
 		$screenReaderTemplate = '<h2 class="screen-reader-text">%2$s</h2>';
+		$screenReaderText = __( 'Site Reviews navigation', 'site-reviews' );
 		$innerTemplate = $screenReaderTemplate.'<div class="nav-links">%3$s</div>';
 		if( in_array( $theme, ['twentyten', 'twentyeleven', 'twentytwelve'] )) {
 			$innerTemplate = '%3$s';
@@ -91,8 +93,10 @@ class Pagination implements PartialContract
 		}
 		$template = '<nav class="%1$s" role="navigation">'.$innerTemplate.'</nav>';
 		$template = apply_filters( 'navigation_markup_template', $template, $class );
-		$screenReaderText = __( 'Site Reviews navigation', 'site-reviews' );
-		return sprintf( $template, $class, $screenReaderText, $links ).'<div class="glsr-loader"></div>';
+		$template = sprintf( $template, $class, $screenReaderText, $links );
+		return glsr( Builder::class )->div( $template.'<div class="glsr-loader"></div>', [
+			'class' => 'glsr-navigation',
+		])
 	}
 
 	/**
