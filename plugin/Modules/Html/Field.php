@@ -18,6 +18,7 @@ class Field
 	public function __construct( array $field = [] )
 	{
 		$this->field = wp_parse_args( $field, [
+			'errors' => false,
 			'is_hidden' => false,
 			'is_multi' => false,
 			'is_raw' => false,
@@ -71,6 +72,7 @@ class Field
 		return glsr( Template::class )->build( 'partials/form/field', [
 			'context' => [
 				'class' => $this->getFieldClass(),
+				'errors' => $this->getFieldErrors(),
 				'field' => glsr( Builder::class )->{$this->field['type']}( $this->field ),
 			],
 		]);
@@ -114,6 +116,9 @@ class Field
 	protected function getFieldClass()
 	{
 		$classes = [];
+		if( !empty( $this->field['errors'] )) {
+			$classes[] = 'glsr-has-error';
+		}
 		if( $this->field['is_hidden'] ) {
 			$classes[] = 'hidden';
 		}
@@ -131,6 +136,18 @@ class Field
 		return !empty( $this->field['data-depends'] )
 			? $this->field['data-depends']
 			: '';
+	}
+
+	/**
+	 * @return void|string
+	 */
+	protected function getFieldErrors()
+	{
+		if( empty( $this->field['errors'] ) || !is_array( $this->field['errors'] ))return;
+		$errors = array_reduce( $this->field['errors'], function( $carry, $error ) {
+			return $carry.glsr( Builder::class )->span( $error, ['class' => 'glsr-field-error'] );
+		});
+		return glsr( Builder::class )->span( $errors, ['class' => 'glsr-field-errors'] );
 	}
 
 	/**

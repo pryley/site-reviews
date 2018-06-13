@@ -2,4 +2,5 @@
 
 <div class="glsr-field {{ class }}">
 	{{ field }}
+	{{ errors }}
 </div>
