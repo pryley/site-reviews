@@ -80,7 +80,7 @@ class EnqueuePublicAssets
 	protected function getStylesheet()
 	{
 		$currentTheme = sanitize_title( (string)wp_get_theme()->get( 'Name' ));
-		return file_exists( glsr()->path.'assets/styles/themes/'.$currentTheme.'.css' )
+		return file_exists( glsr()->path( 'assets/styles/themes/'.$currentTheme.'.css' ))
 			? glsr()->url( 'assets/styles/themes/'.$currentTheme.'.css' )
 			: glsr()->url( 'assets/styles/'.Application::ID.'.css' );
 	}
