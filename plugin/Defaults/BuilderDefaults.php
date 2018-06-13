@@ -14,6 +14,7 @@ class BuilderDefaults extends Defaults
 		return [
 			'class' => '',
 			'id' => '',
+			'label' => '',
 			'options' => [],
 			'text' => '',
 			'type' => '',
