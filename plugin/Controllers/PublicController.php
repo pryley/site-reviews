@@ -37,19 +37,10 @@ class PublicController extends Controller
 	 * @param array $vars
 	 * @return array
 	 * @filter query_vars
-	 * @todo remove need for dirty hack
 	 */
 	public function filterQueryVars( $vars )
 	{
 		$vars[] = Application::PAGED_QUERY_VAR;
-		// dirty hack to fix a form submission with a field that has "name" as name
-		if( filter_input( INPUT_POST, 'action' ) == 'submit-review'
-			&& !is_null( filter_input( INPUT_POST, 'gotcha' ))) {
-			$index = array_search( 'name', $vars, true );
-			if( false !== $index ) {
-				unset( $vars[$index] );
-			}
-		}
 		return $vars;
 	}
 
