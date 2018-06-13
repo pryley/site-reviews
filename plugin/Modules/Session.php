@@ -2,10 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use GeminiLabs\SiteReviews\Database\SqlQueries;
 use PasswordHash;
 
- /**
- * This class is derived from WP Session Manager (1.2.0)
+/**
+ * @see WP Session Manager (1.2.0)
  */
 class Session
 {
@@ -65,10 +66,7 @@ class Session
 	 */
 	public function deleteAllSessions()
 	{
-		global $wpdb;
-		return $wpdb->query(
-			"DELETE FROM {$wpdb->options} WHERE option_name LIKE '".static::SESSION_COOKIE."_%'"
-		);
+		return glsr( SqlQueries::class )->deleteAllSessions( static::SESSION_COOKIE );
 	}
 
 	/**
@@ -77,11 +75,8 @@ class Session
 	 */
 	public function deleteExpiredSessions( $limit = 1000 )
 	{
-		global $wpdb;
 		if( $expiredSessions = implode( "','", $this->getExpiredSessions( $limit ))) {
-			$wpdb->query(
-				"DELETE FROM {$wpdb->options} WHERE option_name IN ('{$expiredSessions}')"
-			);
+			glsr( SqlQueries::class )->deleteExpiredSessions( $expiredSessions );
 		}
 	}
 
@@ -149,15 +144,8 @@ class Session
 	 */
 	protected function getExpiredSessions( $limit )
 	{
-		global $wpdb;
 		$expiredSessions = [];
-		$sessions = $wpdb->get_results(
-			"SELECT option_name AS name, option_value AS expiration " .
-			"FROM {$wpdb->options} " .
-			"WHERE option_name LIKE '".static::SESSION_COOKIE."_expires_%' " .
-			"ORDER BY option_value ASC " .
-			"LIMIT 0, ".absint( $limit )
-		);
+		$sessions = glsr( SqlQueries::class )->getExpiredSessions( static::SESSION_COOKIE, absint( $limit ));
 		if( !empty( $sessions )) {
 			$now = time();
 			foreach( $sessions as $session ) {
@@ -225,10 +213,8 @@ class Session
 	protected function updateSession()
 	{
 		if( false === get_option( $this->getSessionId() )) {
-			$this->createSession();
+			return $this->createSession();
 		}
-		else {
-			update_option( $this->getSessionId(), $this->sessionData, false );
-		}
+		update_option( $this->getSessionId(), $this->sessionData, false );
 	}
 }
