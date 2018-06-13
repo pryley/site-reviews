@@ -40,9 +40,14 @@ class Router
 	 */
 	public function routePublicPostRequest()
 	{
-		// $action = filter_input( INPUT_POST, 'action' );
-		// $request = $this->normalize( $_POST );
-		// $this->routeRequest( 'public', $action, $request );
+		$request = filter_input( INPUT_POST, Application::ID, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		if( !isset( $request['action'] ))return;
+		if( !wp_verify_nonce( $request['_wpnonce'], $request['action'] )) {
+			glsr_log()->error( 'Nonce check failed for public request' )->info( $request );
+			return;
+		}
+		$request = $this->normalize( $request );
+		$this->routeRequest( 'public', $request['action'], $request );
 	}
 
 	/**

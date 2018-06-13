@@ -6,38 +6,80 @@ use GeminiLabs\SiteReviews\Helper;
 
 class CreateReview
 {
-	public $ajaxRequest;
-	public $assignedTo;
+	public $ajax_request;
+	public $assigned_to;
 	public $author;
+	public $avatar;
 	public $blacklisted;
 	public $category;
 	public $content;
+	public $custom;
 	public $email;
-	public $formId;
-	public $ipAddress;
+	public $form_id;
+	public $ip_address;
 	public $rating;
 	public $referrer;
-	public $request;
 	public $terms;
 	public $title;
 
+	protected $request;
+
 	public function __construct( $input )
 	{
-		$this->ajaxRequest = isset( $input['ajax_request'] );
-		$this->assignedTo = is_numeric( $input['assign_to'] )
-			? $input['assign_to']
-			: '';
-		$this->author = sanitize_text_field( $input['name'] );
-		$this->blacklisted = false;
-		$this->category = sanitize_key( $input['category'] );
-		$this->content = sanitize_textarea_field( $input['content'] );
-		$this->email = sanitize_email( $input['email'] );
-		$this->formId = sanitize_key( $input['id'] );
-		$this->ipAddress = glsr( Helper::class )->getIpAddress();
-		$this->rating = intval( $input['rating'] );
-		$this->referrer = $input['_wp_http_referer'];
 		$this->request = $input;
+		$this->ajax_request = isset( $input['ajax_request'] );
+		$this->assigned_to = $this->getNumeric( 'assign_to' );
+		$this->author = sanitize_text_field( $this->get( 'name' ));
+		$this->avatar = get_avatar_url( $this->get( 'email' ));
+		$this->blacklisted = isset( $input['blacklisted'] );
+		$this->category = sanitize_key( $this->get( 'category' ));
+		$this->content = sanitize_textarea_field( $this->get( 'content' ));
+		$this->custom = $this->getCustom();
+		$this->email = sanitize_email( $this->get( 'email' ));
+		$this->form_id = sanitize_key( $this->get( 'form_id' ));
+		$this->ip_address = $this->get( 'ip_address' );
+		$this->rating = intval( $this->get( 'rating' ));
+		$this->referrer = $this->get( '_wp_http_referer' );
 		$this->terms = isset( $input['terms'] );
-		$this->title = sanitize_text_field( $input['title'] );
+		$this->title = sanitize_text_field( $this->get( 'title' ));
+	}
+
+	/**
+	 * @param string $key
+	 * @return string
+	 */
+	protected function get( $key )
+	{
+		return isset( $this->request[$key] )
+			? (string)$this->request[$key]
+			: '';
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getCustom()
+	{
+		$unset = [
+			'_wp_http_referer', '_wpnonce', 'action', 'ajax_request', 'assign_to', 'category',
+			'content', 'email', 'excluded', 'form_id', 'gotcha', 'ip_address', 'name', 'rating',
+			'terms', 'title',
+		];
+		$custom = $this->request;
+		foreach( $unset as $value ) {
+			unset( $custom[$value] );
+		}
+		return $custom;
+	}
+
+	/**
+	 * @param string $key
+	 * @return string
+	 */
+	protected function getNumeric( $key )
+	{
+		return is_numeric( $this->request[$key] )
+			? (string)$this->request[$key]
+			: '';
 	}
 }

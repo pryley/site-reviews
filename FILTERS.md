@@ -6,6 +6,7 @@ site-reviews/get/defaults
 
 [Database.php]
 site-reviews/get/review
+site-reviews/create/review-values
 
 [EditorController.php]
 site-reviews/metabox/details

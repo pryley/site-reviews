@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use Akismet as AkismetPlugin;
 
@@ -11,7 +10,7 @@ class Akismet
 	/**
 	 * @return bool
 	 */
-	public function isSpam( CreateReview $review )
+	public function isSpam( array $review )
 	{
 		if( !$this->isActive() ) {
 			return false;
@@ -20,13 +19,13 @@ class Akismet
 			'blog' => get_option( 'home' ),
 			'blog_charset' => get_option( 'blog_charset' ),
 			'blog_lang' => get_locale(),
-			'comment_author' => $review->author,
-			'comment_author_email' => $review->email,
-			'comment_content' => $review->title."\n\n".$review->content,
+			'comment_author' => $review['name'],
+			'comment_author_email' => $review['email'],
+			'comment_content' => $review['title']."\n\n".$review['content'],
 			'comment_type' => 'review',
 			'referrer' => filter_input( INPUT_SERVER, 'HTTP_REFERER' ),
 			'user_agent' => filter_input( INPUT_SERVER, 'HTTP_USER_AGENT' ),
-			'user_ip' => $review->ipAddress,
+			'user_ip' => $review['ip_address'],
 			// 'user_role' => 'administrator',
 			// 'is_test' => 1,
 		];

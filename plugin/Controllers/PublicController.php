@@ -47,13 +47,10 @@ class PublicController extends Controller
 	/**
 	 * @return mixed
 	 */
-	public function routerCreateReview( array $request )
+	public function routerSubmitReview( array $request )
 	{
 		$validated = glsr( ValidateReview::class )->validate( $request );
-		if( !empty( $validated->error )) {
-			return $validated->request;
-		}
-		if( $validated->recaptchaIsUnset )return;
-		return $this->execute( new CreateReview( $validated->request ));
+		if( !empty( $validated->error ) || $validated->recaptchaIsUnset )return;
+		$this->execute( new CreateReview( $validated->request ));
 	}
 }

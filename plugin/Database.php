@@ -17,35 +17,29 @@ use WP_Query;
 class Database
 {
 	/**
-	 * Save a review to the database
-	 * @param CreateReview $command
 	 * @return int|bool
 	 */
-	public function createReview( array $values, $command )
+	public function createReview( CreateReview $command )
 	{
-		$review = glsr( CreateReviewDefaults::class )->merge( $values );
+		$review = glsr( CreateReviewDefaults::class )->restrict( (array)$command );
+		$review = apply_filters( 'site-reviews/create/review-values', $review, $command );
+		glsr_log( $review )->debug( $command );
 		$post = [
 			'comment_status' => 'closed',
 			'ping_status' => 'closed',
 			'post_content' => $review['content'],
 			'post_date' => $review['date'],
 			'post_name' => $review['review_type'].'-'.$review['review_id'],
-			'post_status' => 'publish',
-			'post_title' => wp_strip_all_tags( $review['title'] ),
+			'post_status' => $this->getNewPostStatus( $review, $command->blacklisted ),
+			'post_title' => $review['title'],
 			'post_type' => Application::POST_TYPE,
 		];
-		if( $review['review_type'] == 'local' && (
-			glsr( OptionManager::class )->get( 'settings.general.require.approval' ) == 'yes' || $command->blacklisted )) {
-			$post['post_status'] = 'pending';
-		}
 		$postId = wp_insert_post( $post, true );
 		if( is_wp_error( $postId )) {
 			glsr_log()->error( $postId->get_error_message() );
 			return false;
 		}
-		foreach( $review as $field => $value ) {
-			update_post_meta( $postId, $field, $value );
-		}
+		$this->setReviewMeta( $postId, $review, $command->category );
 		do_action( 'site-reviews/create/review', $post, $review, $postId );
 		return $postId;
 	}
@@ -331,14 +325,29 @@ class Database
 	 * @param string $termIds
 	 * @return void
 	 */
-	public function setReviewMeta( $postId, $termIds )
+	public function setReviewMeta( $postId, array $review, $termIds )
 	{
+		foreach( $review as $metaKey => $metaValue ) {
+			update_post_meta( $postId, $metaKey, $metaValue );
+		}
 		$terms = $this->normalizeTerms( $termIds );
 		if( empty( $terms ))return;
 		$result = wp_set_object_terms( $postId, $terms, Application::TAXONOMY );
 		if( is_wp_error( $result )) {
 			glsr_log()->error( $result->get_error_message() );
 		}
+	}
+
+	/**
+	 * @param bool $isBlacklisted
+	 * @return string
+	 */
+	protected function getNewPostStatus( array $review, $isBlacklisted )
+	{
+		$requireApprovalOption = glsr( OptionManager::class )->get( 'settings.general.require.approval' );
+		return $review['review_type'] == 'local' && ( $requireApprovalOption == 'yes' || $isBlacklisted )
+			? 'pending'
+			: 'publish';
 	}
 
 	/**

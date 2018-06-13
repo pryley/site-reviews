@@ -14,23 +14,29 @@ use WP_Error;
 class CreateReview
 {
 	/**
+	 * @var Command
+	 */
+	protected $command;
+
+	/**
 	 * @return void|string
 	 */
 	public function handle( Command $command )
 	{
-		$post_id = glsr( Database::class )->createReview( $this->normalize( $command ), $command );
-		glsr( Database::class )->setReviewMeta( intval( $post_id ), $command->category );
-		$this->sendNotification( $post_id, $command );
-		$successMessage = apply_filters( 'site-reviews/local/review/submitted/message',
-			__( 'Your review has been submitted!', 'site-reviews' ),
-			$command
-		);
-		do_action( 'site-reviews/local/review/submitted', $successMessage, $command );
-		if( $command->ajaxRequest ) {
-			glsr( Session::class )->clear();
-			return $successMessage;
+		$this->command = $command;
+		$postId = glsr( Database::class )->createReview( $command );
+		if( !$postId ) {
+			glsr( Session::class )->set( $command->form_id.'errors', [] );
+			return __( 'Your review could not be submitted, please notify the site admin.', 'site-reviews' );
 		}
-		glsr( Session::class )->set( $command->formId.'-message', $successMessage );
+		$this->sendNotification( $postId );
+		do_action( 'site-reviews/local/review/submitted', $postId, $command );
+		$message = __( 'Your review has been submitted!', 'site-reviews' );
+		if( $command->ajax_request ) {
+			glsr( Session::class )->clear();
+			return $message;
+		}
+		glsr( Session::class )->set( $command->form_id.'message', $message );
 		wp_safe_redirect( $command->referrer );
 		exit;
 	}
@@ -38,20 +44,20 @@ class CreateReview
 	/**
 	 * @return Email
 	 */
-	protected function createEmailNotification( Command $command, array $args = [] )
+	protected function createEmailNotification( array $args = [] )
 	{
 		$email = [
 			'to' => $args['recipient'],
 			'subject' => $args['notification_title'],
 			'template' => 'review-notification',
 			'template-tags' => [
-				'review_author' => $command->author,
-				'review_content' => $command->content,
-				'review_email' => $command->email,
-				'review_ip' => $command->ipAddress,
+				'review_author' => $this->command->author,
+				'review_content' => $this->command->content,
+				'review_email' => $this->command->email,
+				'review_ip' => $this->command->ip_address,
 				'review_link' => sprintf( '<a href="%1$s">%1$s</a>', $args['notification_link'] ),
-				'review_rating' => $command->rating,
-				'review_title' => $command->title,
+				'review_rating' => $this->command->rating,
+				'review_title' => $this->command->title,
 			],
 		];
 		return glsr( Email::class )->compose( $email );
@@ -60,95 +66,76 @@ class CreateReview
 	/**
 	 * @return string
 	 */
-	protected function createWebhookNotification( Command $command, array $args )
+	protected function createWebhookNotification( array $args )
 	{
 		$fields = [];
-		$fields[] = ['title' => str_repeat( ':star:', (int) $command->rating )];
-		if( $command->title ) {
-			$fields[] = ['title' => $command->title];
+		$fields[] = ['title' => str_repeat( ':star:', $this->command->rating )];
+		if( $this->command->title ) {
+			$fields[] = ['title' => $this->command->title];
 		}
-		if( $command->content ) {
-			$fields[] = ['value' => $command->content];
+		if( $this->command->content ) {
+			$fields[] = ['value' => $this->command->content];
 		}
-		if( $command->email ) {
-			$command->email = ' <'.$command->email.'>';
+		if( $this->command->email ) {
+			$this->command->email = ' <'.$this->command->email.'>';
 		}
-		if( $command->author ) {
-			$fields[] = ['value' => trim( $command->author.$command->email.' - '.$command->ipAddress )];
+		if( $this->command->author ) {
+			$fields[] = ['value' => trim( $this->command->author.$this->command->email.' - '.$this->command->ip_address )];
 		}
 		$fields[] = ['value' => sprintf( '<%s|%s>', $args['notification_link'], __( 'View Review', 'site-reviews' ))];
 		return json_encode([
-			'icon_url' => glsr()->url.'assets/img/icon.png',
+			'icon_url' => glsr()->url( 'assets/img/icon.png' ),
 			'username' => glsr()->name,
 			'attachments' => [[
 				'pretext' => $args['notification_title'],
 				'color' => '#665068',
-				'fallback' => $this->createEmailNotification( $command, $args )->read( 'plaintext' ),
+				'fallback' => $this->createEmailNotification( $args )->read( 'plaintext' ),
 				'fields' => $fields,
 			]],
 		]);
 	}
 
 	/**
-	 * @return array
-	 */
-	protected function normalize( Command $command )
-	{
-		$review = [
-			'author' => $command->author,
-			'assigned_to' => $command->assignedTo,
-			'avatar' => get_avatar_url( $command->email ),
-			'content' => $command->content,
-			'email' => $command->email,
-			'ip_address' => $command->ipAddress,
-			'rating' => $command->rating,
-			'review_type' => 'local',
-			'title' => $command->title,
-		];
-		return apply_filters( 'site-reviews/local/review', $review, $command );
-	}
-
-	/**
 	 * @param int $post_id
 	 * @return void
 	 */
-	protected function sendNotification( $post_id, Command $command )
+	protected function sendNotification( $postId )
 	{
 		$notificationType = glsr( OptionManager::class )->get( 'settings.general.notification' );
 		if( !in_array( $notificationType, ['default','custom','webhook'] ))return;
-		$assignedToTitle = get_the_title( (int) $command->assignedTo );
+		$assignedToTitle = get_the_title( (int)$this->command->assigned_to );
 		$notificationSubject = _nx(
 			'New %s-star review',
 			'New %s-star review of: %s',
-			(int) empty( $assignedToTitle ),
+			intval( empty( $assignedToTitle )),
 			'The text is different depending on whether or not the review has been assigned to a post.',
 			'site-reviews'
 		);
 		$notificationTitle = sprintf( '[%s] %s',
 			wp_specialchars_decode( (string)get_option( 'blogname' ), ENT_QUOTES ),
-			sprintf( $notificationSubject, $command->rating, $assignedToTitle )
+			sprintf( $notificationSubject, $this->command->rating, $assignedToTitle )
 		);
 		$args = [
-			'notification_link' => esc_url( admin_url( sprintf( 'post.php?post=%s&action=edit', $post_id ))),
+			'notification_link' => esc_url( admin_url( sprintf( 'post.php?post=%s&action=edit', $postId ))),
 			'notification_title' => $notificationTitle,
 			'notification_type' => $notificationType,
 		];
 		$notificationMethod = $args['notification_type'] == 'webhook'
 			? 'sendWebhookNotification'
 			: 'sendEmailNotification';
-		$this->$notificationMethod( $command, $args );
+		$this->$notificationMethod( $args );
 	}
 
 	/**
 	 * @return void
 	 */
-	protected function sendEmailNotification( Command $command, array $args )
+	protected function sendEmailNotification( array $args )
 	{
-		$args['recipient'] = $args['notification_type'] === 'default'
-			? get_option( 'admin_email' )
-			: glsr( OptionManager::class )->get( 'settings.general.notification_email' );
+		$args['recipient'] = $args['notification_type'] !== 'default'
+			? glsr( OptionManager::class )->get( 'settings.general.notification_email' )
+			: get_option( 'admin_email' );
 		$result = !empty( $args['recipient'] )
-			? $this->createEmailNotification( $command, $args )->send()
+			? $this->createEmailNotification( $args )->send()
 			: false;
 		if( !is_bool( $result )) {
 			glsr_log()->error( __( 'Email notification was not sent: missing email, subject, or message.', 'site-reviews' ));
@@ -161,19 +148,19 @@ class CreateReview
 	/**
 	 * @return void
 	 */
-	protected function sendWebhookNotification( Command $command, array $args )
+	protected function sendWebhookNotification( array $args )
 	{
 		if( !( $endpoint = glsr( OptionManager::class )->get( 'settings.general.webhook_url' )))return;
-		$notification = $this->createWebhookNotification( $command, $args );
+		$notification = $this->createWebhookNotification( $args );
 		$result = wp_remote_post( $endpoint, [
-			'method' => 'POST',
-			'timeout' => 45,
-			'redirection' => 5,
-			'httpversion' => '1.0',
 			'blocking' => false,
-			'sslverify' => false,
+			'body' => apply_filters( 'site-reviews/webhook/notification', $notification, $this->command ),
 			'headers' => ['Content-Type' => 'application/json'],
-			'body' => apply_filters( 'site-reviews/webhook/notification', $notification, $command ),
+			'httpversion' => '1.0',
+			'method' => 'POST',
+			'redirection' => 5,
+			'sslverify' => false,
+			'timeout' => 45,
 		]);
 		if( is_wp_error( $result )) {
 			glsr_log()->error( $result->get_error_message() );

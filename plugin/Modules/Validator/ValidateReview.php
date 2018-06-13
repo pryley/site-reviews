@@ -27,6 +27,11 @@ class ValidateReview
 	public $error;
 
 	/**
+	 * @var string
+	 */
+	public $form_id;
+
+	/**
 	 * @var bool
 	 */
 	public $recaptchaIsUnset = false;

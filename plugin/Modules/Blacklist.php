@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 
 class Blacklist
@@ -10,14 +9,14 @@ class Blacklist
 	/**
 	 * @return bool
 	 */
-	public function isBlacklisted( CreateReview $review )
+	public function isBlacklisted( array $review )
 	{
 		$target = implode( "\n", array_filter([
-			$review->author,
-			$review->content,
-			$review->email,
-			$review->ipAddress,
-			$review->title,
+			$review['name'],
+			$review['content'],
+			$review['email'],
+			$review['ip_address'],
+			$review['title'],
 		]));
 		return (bool) apply_filters( 'site-reviews/blacklist/is-blacklisted',
 			$this->check( $target ),
