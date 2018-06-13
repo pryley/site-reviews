@@ -56,7 +56,7 @@ class SiteReviewsForm
 	 */
 	protected function getClass()
 	{
-		$style = apply_filters( 'site-reviews/style', 'glsr-style' );
+		$style = apply_filters( 'site-reviews/reviews-form/style', 'glsr-style' );
 		return trim( 'glsr-form '.$style.' '.$this->args['class'] );
 	}
 

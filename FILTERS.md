@@ -80,8 +80,13 @@ site-reviews/review/build/after
 site-reviews/review/build/before
 
 [SiteReviews.php]
+site-reviews/reviews/style
+
+[SiteReviewsForm.php]
+site-reviews/reviews-form/style
+
 [SiteReviewsSummary.php]
-site-reviews/style
+site-reviews/reviews-summary/style
 
 [Pagination.php]
 site-reviews/reviews/navigation_links

@@ -248,7 +248,7 @@ class SiteReviews
 	 */
 	protected function getClass()
 	{
-		$style = apply_filters( 'site-reviews/style', 'glsr-style' );
+		$style = apply_filters( 'site-reviews/reviews/style', 'glsr-style' );
 		$pagination = $this->args['pagination'] == 'ajax'
 			? 'glsr-ajax-pagination'
 			: '';

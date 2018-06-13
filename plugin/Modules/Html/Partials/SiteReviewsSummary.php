@@ -157,7 +157,7 @@ class SiteReviewsSummary
 	 */
 	protected function getClass()
 	{
-		$style = apply_filters( 'site-reviews/style', 'glsr-style' );
+		$style = apply_filters( 'site-reviews/reviews-summary/style', 'glsr-style' );
 		return trim( 'glsr-summary '.$style.' '.$this->args['class'] );
 	}
 
