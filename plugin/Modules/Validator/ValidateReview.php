@@ -37,17 +37,21 @@ class ValidateReview
 	public $request;
 
 	/**
-	 * @return array|string
+	 * @return static
 	 */
 	public function validate( array $request )
 	{
-		$this->form_id = $this->request['id']; // @todo verify this exists
+		$this->form_id = $request['form_id'];
 		$this->request = $this->validateRequest( $request );
 		$this->validateCustom();
 		$this->validateHoneyPot();
 		$this->validateBlacklist();
 		$this->validateAkismet();
 		$this->validateRecaptcha();
+		if( !empty( $this->error )) {
+			$this->setSessionValues( 'message', $this->error );
+		}
+		return $this;
 	}
 
 	/**
@@ -78,7 +82,7 @@ class ValidateReview
 			))
 		);
 		$excluded = isset( $request['excluded'] )
-			? json_decode( $request['excluded'] )
+			? (array)json_decode( $request['excluded'] )
 			: [];
 		return array_diff_key( $rules, array_flip( $excluded ));
 	}
@@ -92,7 +96,7 @@ class ValidateReview
 		if( !$integration ) {
 			return true;
 		}
-		$recaptchaResponse = filter_input( INPUT_POST, 'g-recaptcha-response' );
+		$recaptchaResponse = filter_input( INPUT_POST, 'g-recaptcha-response' ); // @todo site-reviews[g-recaptcha-response]
 		if( empty( $recaptchaResponse )) {
 			return null; //if response is empty we need to return null
 		}
@@ -185,13 +189,12 @@ class ValidateReview
 		if( !empty( $this->error ))return;
 		if( !glsr( Blacklist::class )->isBlacklisted( $this->request ))return;
 		$blacklistAction = glsr( OptionManager::class )->get( 'settings.submissions.blacklist.action' );
-		if( $blacklistAction == 'unapprove' ) {
-			$this->request['blacklisted'] = true;
-		}
-		else if( $blacklistAction == 'reject' ) {
+		if( $blacklistAction == 'reject' ) {
 			$this->setSessionValues( 'errors', [], 'Blacklisted submission detected:' );
 			$this->error = __( 'Your review cannot be submitted at this time.', 'site-reviews' );
+			return;
 		}
+		$this->request['blacklisted'] = true;
 	}
 
 	/**

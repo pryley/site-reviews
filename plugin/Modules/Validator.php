@@ -8,7 +8,7 @@ use GeminiLabs\SiteReviews\Modules\Validator\ValidationRules;
 use InvalidArgumentException;
 
 /**
- * Much of the code in this class is derived from \Illuminate\Validation\Validator (5.3)
+ * @see \Illuminate\Validation\Validator (5.3)
  */
 class Validator
 {
@@ -91,7 +91,6 @@ class Validator
 		list( $rule, $parameters ) = $this->parseRule( $rule );
 		if( $rule == '' )return;
 		$value = $this->getValue( $attribute );
-		$this->validateRequired( $attribute, $value ) || in_array( $rule, $this->implicitRules );
 		if( !method_exists( $this, $method = 'validate'.$rule )) {
 			throw new BadMethodCallException( "Method [$method] does not exist." );
 		}
@@ -109,10 +108,7 @@ class Validator
 	protected function addError( $attribute, $rule, array $parameters )
 	{
 		$message = $this->getMessage( $attribute, $rule, $parameters );
-		$this->errors[$attribute]['errors'][] = $message;
-		if( !isset( $this->errors[$attribute]['value'] )) {
-			$this->errors[$attribute]['value'] = $this->getValue( $attribute );
-		}
+		$this->errors[$attribute][] = $message;
 	}
 
 	/**
@@ -151,7 +147,7 @@ class Validator
 			return $this->getSizeMessage( $attribute, $rule, $parameters );
 		}
 		$lowerRule = glsr( Helper::class )->snakeCase( $rule );
-		return $this->translator( $lowerRule, $rule, $attribute, $parameters );
+		return $this->translator( $lowerRule, $rule, $parameters );
 	}
 
 	/**
@@ -201,7 +197,7 @@ class Validator
 		$lowerRule = glsr( Helper::class )->snakeCase( $rule );
 		$type = $this->getAttributeType( $attribute );
 		$lowerRule .= '.'.$type;
-		return $this->translator( $lowerRule, $rule, $attribute, $parameters );
+		return $this->translator( $lowerRule, $rule, $parameters );
 	}
 
 	/**
@@ -230,14 +226,13 @@ class Validator
 	/**
 	 * Normalize the provided data to an array.
 	 * @param mixed $data
-	 * @return $this
+	 * @return void
 	 */
 	protected function normalizeData( $data )
 	{
 		$this->data = is_object( $data )
 			? get_object_vars( $data )
 			: $data;
-		return $this;
 	}
 
 	/**
@@ -275,7 +270,7 @@ class Validator
 
 	/**
 	 * Set the validation rules.
-	 * @return $this
+	 * @return void
 	 */
 	protected function setRules( array $rules )
 	{
@@ -285,7 +280,6 @@ class Validator
 				: $rule;
 		}
 		$this->rules = $rules;
-		return $this;
 	}
 
 	/**
@@ -307,27 +301,26 @@ class Validator
 	 * @param string $attribute
 	 * @return string|null
 	 */
-	protected function translator( $key, $rule, $attribute, array $parameters )
+	protected function translator( $key, $rule, array $parameters )
 	{
 		$strings = [
-			'accepted' => _x( 'The :attribute must be accepted.', ':attribute is a placeholder and should not be translated.', 'site-reviews' ),
-			'between.numeric' => _x( 'The :attribute must be between :min and :max.', ':attribute, :min, and :max are placeholders and should not be translated.', 'site-reviews' ),
-			'between.string' => _x( 'The :attribute must be between :min and :max characters.', ':attribute, :min, and :max are placeholders and should not be translated.', 'site-reviews' ),
-			'email' => _x( 'The :attribute must be a valid email address.', ':attribute is a placeholder and should not be translated.', 'site-reviews' ),
-			'max.numeric' => _x( 'The :attribute may not be greater than :max.', ':attribute and :max are placeholders and should not be translated.', 'site-reviews' ),
-			'max.string' => _x( 'The :attribute may not be greater than :max characters.', ':attribute and :max are placeholders and should not be translated.', 'site-reviews' ),
-			'min.numeric' => _x( 'The :attribute must be at least :min.', ':attribute and :min are placeholders and should not be translated.', 'site-reviews' ),
-			'min.string' => _x( 'The :attribute must be at least :min characters.', ':attribute and :min are placeholders and should not be translated.', 'site-reviews' ),
-			'regex' => _x( 'The :attribute format is invalid.', ':attribute is a placeholder and should not be translated.', 'site-reviews' ),
-			'required' => _x( 'The :attribute field is required.', ':attribute is a placeholder and should not be translated.', 'site-reviews' ),
+			'accepted' => __( 'This field must be accepted.', 'site-reviews' ),
+			'between.numeric' => _x( 'This field must be between :min and :max.', ':min, and :max are placeholders and should not be translated.', 'site-reviews' ),
+			'between.string' => _x( 'This field must be between :min and :max characters.', ':min, and :max are placeholders and should not be translated.', 'site-reviews' ),
+			'email' => __( 'This must be a valid email address.', 'site-reviews' ),
+			'max.numeric' => _x( 'This field may not be greater than :max.', ':max is a placeholder and should not be translated.', 'site-reviews' ),
+			'max.string' => _x( 'This field may not be greater than :max characters.', ':max is a placeholder and should not be translated.', 'site-reviews' ),
+			'min.numeric' => _x( 'This field must be at least :min.', ':min is a placeholder and should not be translated.', 'site-reviews' ),
+			'min.string' => _x( 'This field must be at least :min characters.', ':min is a placeholder and should not be translated.', 'site-reviews' ),
+			'regex' => __( 'The format is invalid.', 'site-reviews' ),
+			'required' => __( 'This field is required.', 'site-reviews' ),
 		];
 		$message = isset( $strings[$key] )
 			? $strings[$key]
 			: false;
 		if( !$message )return;
-		$message = str_replace( ':attribute', $attribute, $message );
-		if( method_exists( $this, $replacer = 'replace'.$rule )) {
-			$message = $this->$replacer( $message, $parameters );
+		if( method_exists( $this, $method = 'replace'.$rule )) {
+			$message = $this->$method( $message, $parameters );
 		}
 		return $message;
 	}

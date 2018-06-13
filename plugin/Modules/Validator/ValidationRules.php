@@ -6,7 +6,7 @@ use BadMethodCallException;
 use InvalidArgumentException;
 
 /**
- * Much of the code in this class is derived from \Illuminate\Validation\Validator (5.3)
+ * @see \Illuminate\Validation\Validator (5.3)
  */
 trait ValidationRules
 {
