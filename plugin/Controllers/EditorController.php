@@ -315,7 +315,7 @@ class EditorController extends Controller
 	 */
 	protected function normalizeDetailsMetaBox( $review )
 	{
-		$reviewer = empty( $review->user_id )
+		$user = empty( $review->user_id )
 			? __( 'Unregistered user', 'site-reviews' )
 			: glsr( Builder::class )->a( get_the_author_meta( 'display_name', $review->user_id ), [
 				'href' => get_author_posts_url( $review->user_id ),
@@ -329,9 +329,9 @@ class EditorController extends Controller
 			__( 'Rating', 'site-reviews' ) => glsr( Html::class )->buildPartial( 'star-rating', ['rating' => $review->rating] ),
 			__( 'Type', 'site-reviews' ) => $this->getReviewType( $review ),
 			__( 'Date', 'site-reviews' ) => get_date_from_gmt( $review->date, 'F j, Y' ),
-			__( 'Reviewer', 'site-reviews' ) => $reviewer,
 			__( 'Name', 'site-reviews' ) => $review->author,
 			__( 'Email', 'site-reviews' ) => $email,
+			__( 'User', 'site-reviews' ) => $user,
 			__( 'IP Address', 'site-reviews' ) => $review->ip_address,
 			__( 'Avatar', 'site-reviews' ) => sprintf( '<img src="%s" width="96">', $review->avatar ),
 		];
