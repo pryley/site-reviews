@@ -13,6 +13,7 @@ return [
 	'content' => [
 		'label' => __( 'Your review', 'site-reviews' ),
 		'placeholder' => __( 'Tell people your review', 'site-reviews' ),
+		'rows' => 5,
 		'type' => 'textarea',
 	],
 	'name' => [
