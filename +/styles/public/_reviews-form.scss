@@ -1,0 +1,72 @@
+.glsr-style {
+	.glsr-checkbox-label,
+	.glsr-radio-label {
+		hyphens: none;
+	}
+	.glsr-field {
+		margin-bottom: 1em;
+	}
+	.glsr-field input[type=text],
+	.glsr-field input[type=email],
+	.glsr-field input[type=url],
+	.glsr-field textarea {
+		width: 100%;
+	}
+	.glsr-field label {
+		display: block;
+	}
+	.glsr-field label[for^="terms"] {
+		hyphens: none;
+	}
+	.glsr-field ul {
+		list-style-type: none;
+	}
+	.glsr-field-error {
+		display: block;
+		font-size: $glsr-font-size-small;
+		color: $glsr-color-error;
+	}
+	.glsr-field-messages {
+		color: $glsr-color-success;
+	}
+	.glsr-has-error,
+	.glsr-has-errors {
+		color: $glsr-color-error;
+	}
+	.glsr-recaptcha-holder {
+		margin-top: 1em;
+	}
+	.glsr-required label::after {
+		content: '\002a';
+		color: $glsr-color-error;
+	}
+	.glsr-star-rating {
+		display: block;
+		visibility: hidden !important;
+	}
+	.glsr-star-rating::after,
+	.glsr-star-rating::before {
+		display: none !important;
+	}
+	.gl-star-rating[data-star-rating] > select {
+		visibility: visible !important;
+	}
+}
+.glsr-ltr .glsr-style {
+	.glsr-field input[type="checkbox"],
+	.glsr-field input[type="radio"] {
+		margin-right: 0.5em;
+	}
+	.glsr-required label::after {
+		margin-left: 0.33em;
+	}
+}
+.glsr-rtl .glsr-style {
+	.glsr-field input[type="checkbox"],
+	.glsr-field input[type="radio"] {
+		margin-left: 0.5em;
+	}
+	.glsr-required label::after {
+		margin-right: 0.33em;
+	}
+}
