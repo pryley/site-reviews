@@ -12,10 +12,16 @@ abstract class DefaultsAbstract
 	/**
 	 * @return array
 	 */
-	public function merge( array $values = [], $restrict = false )
+	public function merge( array $values = [] )
 	{
-		return $restrict
-			? shortcode_atts( $this->defaults(), $values )
-			: wp_parse_args( $values, $this->defaults() );
+		return wp_parse_args( $values, $this->defaults() );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function restrict( array $values = [] )
+	{
+		return shortcode_atts( $this->defaults(), $values );
 	}
 }

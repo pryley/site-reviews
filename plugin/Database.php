@@ -156,7 +156,7 @@ class Database
 	 */
 	public function getReviews( array $args = [] )
 	{
-		$args = glsr( GetReviewsDefaults::class )->merge( $args, true );
+		$args = glsr( GetReviewsDefaults::class )->restrict( $args );
 		$metaQuery = glsr( QueryBuilder::class )->buildQuery(
 			['assigned_to', 'type', 'rating'],
 			$args
@@ -236,7 +236,7 @@ class Database
 			'review_id' => '',
 			'review_type' => '',
 		]);
-		return glsr( CreateReviewDefaults::class )->merge( $defaults, true );
+		return glsr( CreateReviewDefaults::class )->restrict( $defaults );
 	}
 
 	/**
