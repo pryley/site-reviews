@@ -142,6 +142,9 @@ class Builder
 	protected function buildFormInput()
 	{
 		if( !in_array( $this->args['type'], ['checkbox', 'radio'] )) {
+			if( isset( $this->args['multiple'] )) {
+				$this->args['name'].= '[]';
+			}
 			return $this->buildFormLabel().$this->getOpeningTag();
 		}
 		return empty( $this->args['options'] )
