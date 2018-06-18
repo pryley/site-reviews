@@ -15,22 +15,33 @@ class Router
 	 */
 	public function routeAdminPostRequest()
 	{
-		$request = filter_input( INPUT_POST, Application::ID, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-		if( !isset( $request['action'] ))return;
-		$this->checkNonce( $request['action'] );
+		$request = $this->getRequest();
+		if( !$this->isValidPostRequest( $request ))return;
+		$this->checkAdminNonce( $request['action'] );
 		$this->routeRequest( 'admin', $request['action'], $request );
 	}
 
 	/**
+	 * All ajax requests in the plugin are triggered by a single action hook (i.e. "glsr_action")
+	 * Each route is determined by the request["action"]
 	 * @return void
 	 */
 	public function routeAjaxRequest()
 	{
-		$request = $this->normalizeAjaxRequest();
+		$request = $this->getRequest();
+		if( !isset( $request['action'] )) {
+			glsr_log()->error( 'The AJAX request must include an action' )->info( $request );
+			wp_die();
+		}
+		if( !isset( $request['nonce'] )) {
+			glsr_log()->error( 'The AJAX request must include a nonce' )->info( $request );
+			wp_die();
+		}
 		if( !wp_verify_nonce( $request['nonce'], $request['action'] )) {
 			glsr_log()->error( 'Nonce check failed for ajax request' )->info( $request );
 			wp_die( -1, 403 );
 		}
+		$request['ajax_request'] = true;
 		$this->routeRequest( 'ajax', $request['action'], $request );
 		wp_die();
 	}
@@ -40,34 +51,14 @@ class Router
 	 */
 	public function routePublicPostRequest()
 	{
-		$request = filter_input( INPUT_POST, Application::ID, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-		if( !isset( $request['action'] ))return;
+		if( is_admin() )return;
+		$request = $this->getRequest();
+		if( !$this->isValidPostRequest( $request ))return;
 		if( !wp_verify_nonce( $request['_wpnonce'], $request['action'] )) {
 			glsr_log()->error( 'Nonce check failed for public request' )->info( $request );
 			return;
 		}
-		$request = $this->normalize( $request );
 		$this->routeRequest( 'public', $request['action'], $request );
-	}
-
-	/**
-	 * @param string $type
-	 * @param string $action
-	 * @return void
-	 */
-	public function routeRequest( $type, $action, array $request = [] )
-	{
-		$controller = glsr( glsr( Helper::class )->buildClassName( $type.'-controller', 'Controllers' ));
-		$method = glsr( Helper::class )->buildMethodName( $action, 'router' );
-		if( is_callable( [$controller, $method] )) {
-			call_user_func( [$controller, $method], $request );
-			return;
-		}
-		$actionHook = 'site-reviews/route/'.$type.'/request';
-		do_action( $actionHook, $action, $request );
-		if( did_action( $actionHook ) === 0 ) {
-			glsr_log( 'Unknown '.$type.' router request: '.$action );
-		}
 	}
 
 	/**
@@ -75,7 +66,7 @@ class Router
 	 */
 	public function routeWebhookRequest()
 	{
-		$request = filter_input( INPUT_GET, sprintf( '%s-hook', Application::ID ));
+		$request = filter_input( INPUT_GET, Application::PREFIX.'hook' );
 		if( !$request )return;
 		// @todo manage webhook here
 	}
@@ -85,7 +76,7 @@ class Router
 	 * @return void
 	 * @todo verify the $action-options
 	 */
-	protected function checkNonce( $action )
+	protected function checkAdminNonce( $action )
 	{
 		$nonce = filter_input( INPUT_POST, 'option_page' ) == $action
 			&& filter_input( INPUT_POST, 'action' ) == 'update'
@@ -95,37 +86,46 @@ class Router
 	}
 
 	/**
-	 * Undo damage done by javascript: encodeURIComponent() and sanitize values
 	 * @return array
 	 */
-	protected function normalize( array $request )
+	protected function getRequest()
 	{
-		array_walk_recursive( $request, function( &$value ) {
-			$value = stripslashes( $value );
-		});
-		return $request;
-	}
-
-	/**
-	 * All ajax requests in the plugin are triggered by a single action hook
-	 * Each route is determined by the request["action"]
-	 * @return array|void
-	 */
-	protected function normalizeAjaxRequest()
-	{
-		$request = filter_input( INPUT_POST, 'request', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		foreach( ['request', Application::ID] as $key ) {
+			$request = filter_input( INPUT_POST, $key, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+			if( !empty( $request ))break;
+		}
 		if( isset( $request[Application::ID]['action'] )) {
 			$request = $request[Application::ID];
 		}
-		if( !isset( $request['action'] )) {
-			glsr_log()->error( 'The AJAX request must include an action' )->info( $request );
-			wp_die();
+		return (array)$request;
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function isValidPostRequest( array $request = [] )
+	{
+		return !empty( $request['action'] ) && empty( filter_input( INPUT_POST, 'ajax_request' ));
+	}
+
+	/**
+	 * @param string $type
+	 * @param string $action
+	 * @return void
+	 */
+	protected function routeRequest( $type, $action, array $request = [] )
+	{
+		$controller = glsr( glsr( Helper::class )->buildClassName( $type.'-controller', 'Controllers' ));
+		$method = glsr( Helper::class )->buildMethodName( $action, 'router' );
+		$request = apply_filters( 'site-reviews/route/request', $request, $action, $type );
+		if( is_callable( [$controller, $method] )) {
+			call_user_func( [$controller, $method], $request );
+			return;
 		}
-		if( !isset( $request['nonce'] )) {
-			glsr_log()->error( 'The AJAX request must include a nonce' )->info( $request );
-			wp_die();
+		$actionHook = 'site-reviews/route/'.$type.'/request';
+		do_action( $actionHook, $action, $request );
+		if( did_action( $actionHook ) === 0 ) {
+			glsr_log( 'Unknown '.$type.' router request: '.$action );
 		}
-		$request['ajax_request'] = true;
-		return $this->normalize( $request );
 	}
 }

@@ -106,12 +106,11 @@ class AjaxController extends Controller
 	 */
 	public function routerSubmitReview( array $request )
 	{
-		$response = glsr( PublicController::class )->routerCreateReview( $request );
-		$session = glsr( Session::class );
+		glsr( PublicController::class )->routerSubmitReview( $request );
 		wp_send_json([
-			'errors' => $session->get( $request['form_id'].'-errors', false, true ),
-			'message' => $response,
-			'recaptcha' => $session->get( $request['form_id'].'-recaptcha', false, true ),
+			'errors' => glsr( Session::class )->get( $request['form_id'].'errors', false, true ),
+			'message' => wpautop( glsr( Session::class )->get( $request['form_id'].'message', '', true )),
+			'recaptcha' => glsr( Session::class )->get( $request['form_id'].'recaptcha', false, true ),
 		]);
 	}
 

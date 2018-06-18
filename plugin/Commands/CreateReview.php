@@ -39,7 +39,7 @@ class CreateReview
 		$this->form_id = sanitize_key( $this->get( 'form_id' ));
 		$this->ip_address = $this->get( 'ip_address' );
 		$this->rating = intval( $this->get( 'rating' ));
-		$this->referrer = $this->get( '_wp_http_referer' );
+		$this->referrer = $this->get( 'referrer' );
 		$this->terms = isset( $input['terms'] );
 		$this->title = sanitize_text_field( $this->get( 'title' ));
 	}
@@ -61,9 +61,9 @@ class CreateReview
 	protected function getCustom()
 	{
 		$unset = [
-			'_wp_http_referer', '_wpnonce', 'action', 'ajax_request', 'assign_to', 'category',
-			'content', 'email', 'excluded', 'form_id', 'gotcha', 'ip_address', 'name', 'rating',
-			'terms', 'title',
+			'action', 'ajax_request', 'assign_to', 'category', 'content', 'email', 'excluded',
+			'form_id', 'gotcha', 'ip_address', 'name', 'nonce', 'rating', 'referrer', 'terms',
+			'title',
 		];
 		$custom = $this->request;
 		foreach( $unset as $value ) {

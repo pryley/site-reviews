@@ -31,12 +31,11 @@ class CreateReview
 		}
 		$this->sendNotification( $postId );
 		do_action( 'site-reviews/local/review/submitted', $postId, $command );
-		$message = __( 'Your review has been submitted!', 'site-reviews' );
+		glsr( Session::class )->set( $command->form_id.'message', __( 'Your review has been submitted!', 'site-reviews' ));
 		if( $command->ajax_request ) {
 			glsr( Session::class )->clear();
-			return $message;
+			return;
 		}
-		glsr( Session::class )->set( $command->form_id.'message', $message );
 		wp_safe_redirect( $command->referrer );
 		exit;
 	}

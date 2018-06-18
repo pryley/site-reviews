@@ -32,6 +32,11 @@ class ValidateReview
 	public $form_id;
 
 	/**
+	 * @var array
+	 */
+	public $options;
+
+	/**
 	 * @var bool
 	 */
 	public $recaptchaIsUnset = false;
@@ -47,6 +52,7 @@ class ValidateReview
 	public function validate( array $request )
 	{
 		$this->form_id = $request['form_id'];
+		$this->options = glsr( OptionManager::class )->all();
 		$this->request = $this->validateRequest( $request );
 		$this->validateCustom();
 		$this->validateHoneyPot();
@@ -75,16 +81,23 @@ class ValidateReview
 	}
 
 	/**
+	 * @param string $path
+	 * @param mixed $fallback
+	 * @return mixed
+	 */
+	protected function getOption( $path, $fallback = '' )
+	{
+		return glsr( Helper::class )->getPathValue( $path, $this->options, $fallback );
+	}
+
+	/**
 	 * @return array
 	 */
 	protected function getValidationRules( array $request )
 	{
 		$rules = array_intersect_key(
 			apply_filters( 'site-reviews/validation/rules', static::VALIDATION_RULES ),
-			array_flip( array_merge(
-				['rating','terms'],
-				glsr( OptionManager::class )->get( 'settings.submissions.required', [] )
-			))
+			$this->getOption( 'settings.submissions.required', [] )
 		);
 		$excluded = isset( $request['excluded'] )
 			? (array)json_decode( $request['excluded'] )
@@ -97,7 +110,7 @@ class ValidateReview
 	 */
 	protected function isRecaptchaResponseValid()
 	{
-		$integration = glsr( OptionManager::class )->get( 'settings.submissions.recaptcha.integration' );
+		$integration = $this->getOption( 'settings.submissions.recaptcha.integration' );
 		if( !$integration ) {
 			return true;
 		}
@@ -122,7 +135,7 @@ class ValidateReview
 		$endpoint = add_query_arg([
 			'remoteip' => glsr( Helper::class )->getIpAddress(),
 			'response' => $recaptchaResponse,
-			'secret' => glsr( OptionManager::class )->get( 'settings.submissions.recaptcha.secret' ),
+			'secret' => $this->getOption( 'settings.submissions.recaptcha.secret' ),
 		], 'https://www.google.com/recaptcha/api/siteverify' );
 		if( is_wp_error( $response = wp_remote_get( $endpoint ))) {
 			glsr_log()->error( $response->get_error_message() );
@@ -193,7 +206,7 @@ class ValidateReview
 	{
 		if( !empty( $this->error ))return;
 		if( !glsr( Blacklist::class )->isBlacklisted( $this->request ))return;
-		$blacklistAction = glsr( OptionManager::class )->get( 'settings.submissions.blacklist.action' );
+		$blacklistAction = $this->getOption( 'settings.submissions.blacklist.action' );
 		if( $blacklistAction == 'reject' ) {
 			$this->setSessionValues( 'errors', [], 'Blacklisted submission detected:' );
 			$this->error = __( 'Your review cannot be submitted at this time.', 'site-reviews' );

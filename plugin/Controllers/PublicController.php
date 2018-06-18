@@ -21,6 +21,8 @@ class PublicController extends Controller
 	}
 
 	/**
+	 * @param string $tag
+	 * @param string $handle
 	 * @return string
 	 * @filter script_loader_tag
 	 */
@@ -33,12 +35,10 @@ class PublicController extends Controller
 	}
 
 	/**
-	 * Add a variable to query_vars for custom pagination
-	 * @param array $vars
 	 * @return array
 	 * @filter query_vars
 	 */
-	public function filterQueryVars( $vars )
+	public function filterQueryVars( array $vars )
 	{
 		$vars[] = Application::PAGED_QUERY_VAR;
 		return $vars;

@@ -125,11 +125,14 @@ class SiteReviewsForm
 			'name' => 'form_id',
 			'value' => $this->args['id'],
 		],[
-			'name' => '_wp_http_referer',
-			'value' => wp_unslash( filter_input( INPUT_SERVER, 'REQUEST_URI' )), // @todo this doesn't work, maybe need to get this on submit
-		],[
-			'name' => '_wpnonce',
+			'name' => 'nonce',
 			'value' => wp_create_nonce( 'submit-review' ),
+		],[
+			'id' => 'recaptcha-token',
+			'name' => 'recaptcha-token',
+		],[
+			'name' => 'referer',
+			'value' => wp_unslash( filter_input( INPUT_SERVER, 'REQUEST_URI' )),
 		]];
 		return array_map( function( $field ) {
 			return new Field( wp_parse_args( $field, ['type' => 'hidden'] ));

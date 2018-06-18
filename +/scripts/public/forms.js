@@ -1,4 +1,4 @@
-/** global: CustomEvent, GLSR, HTMLFormElement, StarRating */
+/** global: CustomEvent, FormData, GLSR, HTMLFormElement, StarRating */
 ;(function() {
 
 	'use strict';
@@ -56,33 +56,9 @@
 
 		/** @return void */
 		fallbackSubmit_: function() {
-			if( GLSR.Ajax.isFileAPISupported() && GLSR.Ajax.isFormDataSupported() && GLSR.Ajax.isUploadSupported() )return;
+			var ajax = new GLSR.Ajax();
+			if( ajax.isFileAPISupported() && ajax.isFormDataSupported() && ajax.isUploadSupported() )return;
 			this.form.submit();
-		},
-
-		/** @return void */
-		handleResponse_: function( response ) { // object
-			console.log( response );
-			if( response.recaptcha === true ) {
-				console.log( 'executing recaptcha' );
-				this.recaptcha.execute();
-				return;
-			}
-			if( response.recaptcha === 'reset' ) {
-				console.log( 'reseting failed recaptcha' );
-				this.recaptcha.reset();
-			}
-			if( response.errors === false ) {
-				console.log( 'reseting recaptcha' );
-				this.recaptcha.reset();
-				this.form.reset();
-			}
-			console.log( 'submission finished' );
-			this.showFieldErrors_( response.errors );
-			this.showResults_( response );
-			this.enableButton_();
-			response.form = this.form;
-			document.dispatchEvent( new CustomEvent( 'site-reviews/after/submission', { detail: response }));
 		},
 
 		/** @return HTMLDivElement */
@@ -96,12 +72,13 @@
 			return errorsEl;
 		},
 
-		/** @return object */
-		getFormData_: function( recaptchaToken ) { // string|null
-			recaptchaToken = recaptchaToken || '';
-			var formData = new FormData( this.form );
-			formData.append( 'g-recaptcha-response', recaptchaToken );
-			return formData;
+		/** @return HTMLFormElement */
+		getForm_: function( recaptchaToken ) { // string|null
+			var tokenEl = this.form.querySelector( '#recaptcha-token' );
+			if( tokenEl ) {
+				tokenEl.value = recaptchaToken || '';
+			}
+			return this.form;
 		},
 
 		/** @return HTMLDivElement */
@@ -113,6 +90,31 @@
 				this.button.parentNode.insertBefore( resultsEl, this.button.nextSibling );
 			}
 			return resultsEl;
+		},
+
+		/** @return void */
+		handleResponse_: function( response ) { // object
+			console.log( response );
+			if( response.recaptcha === true ) {
+				console.log( 'executing recaptcha' );
+				this.recaptcha.execute();
+				return;
+			}
+			if( response.recaptcha === 'reset' ) {
+				console.log( 'resetting failed recaptcha' );
+				this.recaptcha.reset();
+			}
+			if( response.errors === false ) {
+				console.log( 'resetting recaptcha' );
+				this.recaptcha.reset();
+				this.form.reset();
+			}
+			console.log( 'submission finished' );
+			this.showFieldErrors_( response.errors );
+			this.showResults_( response );
+			this.enableButton_();
+			response.form = this.form;
+			document.dispatchEvent( new CustomEvent( 'site-reviews/after/submission', { detail: response }));
 		},
 
 		/** @return void */
@@ -134,6 +136,7 @@
 
 		/** @return void */
 		onChange_: function( ev ) { // Event
+			console.log( 'onChange_' );
 			this.clearFieldError_( ev.target );
 		},
 
@@ -189,8 +192,9 @@
 		submitForm_: function( recaptchaToken ) { // string|null
 			this.disableButton_();
 			this.fallbackSubmit_();
-			GLSR.Ajax.post( this.getFormData_( recaptchaToken ), this.handleResponse_.bind( this ), {
-				'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+			(new GLSR.Ajax()).post( this.getForm_( recaptchaToken ), this.handleResponse_.bind( this ), {
+				// 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+				// 'Content-Type': 'multipart/form-data; charset=utf-8; boundary=glsr-form-data-boundary',
 			});
 		},
 	};
