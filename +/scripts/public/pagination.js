@@ -15,6 +15,48 @@
 			scrollTime: 468,
 		},
 
+		/** @return int */
+		getChildIndexOfElement_: function( el ) { // HTMLElement
+			var index = 0;
+			while(( el = el.previousSibling )) {
+				if( el.nodeType === 1 ) {
+					index++;
+				}
+			}
+			return index;
+		},
+
+		getSelector_: function( el ) {
+			if( !el.nodeName )return;
+			return this.getDomPath_( this.getDomPathNode_( el ));
+		},
+
+		/** @return string */
+		getDomPath_: function( node ) { // object
+			if( node.id !== '' ) {
+				return '#' + node.id;
+			}
+			var root = '';
+			if( node.parent ) {
+				root = this.getDomPath_( node.parent ) + ' > ';
+			}
+			return root + node.name + ':nth-child(' + ( node.index + 1 ) + ')';
+		},
+
+		/** @return object */
+		getDomPathNode_: function( el ) { // HTMLElement
+			var node = {
+				id: el.id,
+				index: this.getChildIndexOfElement_( el ),
+				name: el.nodeName.toLowerCase(),
+				parent: null
+			};
+			if( el.parentElement && el.parentElement !== document.body ) {
+				node.parent = this.getDomPathNode_( el.parentElement );
+			}
+			return node;
+		},
+
 		/** @return string */
 		getElementClass_: function( el ) { // HTMLElement
 			return el.className ? '.' + el.className.trim().replace( /\s+/g, '.' ) : '';
@@ -25,18 +67,11 @@
 			return el.id ? '#' + el.id.trim() : '';
 		},
 
-		/** @return void|string */
-		getSelectorOfElement_: function( el ) { // HTMLElement
-			if( !el || el.nodeType !== el.ELEMENT_NODE )return;
-			return el.nodeName.toLowerCase() + this.getElementId_( el ) + this.getElementClass_( el );
-		},
-
 		/** @return void */
-		handleResponse_: function( response, location ) { // string
-			var parentSelector = this.getSelectorOfElement_( this.el );
-			var html = document.implementation.createHTMLDocument( 'new' );
-			html.documentElement.innerHTML = response;
-			var newParentEl = parentSelector ? html.querySelectorAll( parentSelector ) : '';
+		handleResponse_: function( location, selector, response ) { // string, string, string
+			var newHTML = document.implementation.createHTMLDocument( 'x' );
+			newHTML.documentElement.innerHTML = response;
+			var newParentEl = selector ? newHTML.querySelectorAll( selector ) : '';
 			if( newParentEl.length === 1 ) {
 				this.el.innerHTML = newParentEl[0].innerHTML;
 				this.scrollToTop_( this.el );
@@ -46,7 +81,7 @@
 				new GLSR.Excerpts( this.el );
 				return;
 			}
-			window.location = location; // @todo test location var
+			window.location = location;
 		},
 
 		/** @return void */
@@ -60,8 +95,9 @@
 		/** @return void */
 		onClick_: function( ev ) { // MouseEvent
 			ev.preventDefault();
+			var parentSelector = this.getSelector_( this.el );
 			this.el.classList.add( this.config.hideClass );
-			GLSR.Ajax.get( this.href, this.handleResponse_.bind( this, ev.target.href ));
+			(new GLSR.Ajax()).get( ev.target.href, this.handleResponse_.bind( this, ev.target.href, parentSelector ));
 		},
 
 		/** @return void */
@@ -92,19 +128,15 @@
 			var currentY = context.startY + ( context.endY - context.startY ) * easedValue;
 			window.scroll( 0, context.offset + currentY ); // @todo what is this for again?
 			if( currentY !== context.endY ) {
-				window.requestAnimationFrame( this.scrollToTopStep_.bind( window, context ));
+				window.requestAnimationFrame( this.scrollToTopStep_.bind( this, context ));
 			}
 		},
 	};
 
 	GLSR.Pagination = function() {
-		var parentEl;
-		var nodeList = document.querySelectorAll( '.glsr-ajax-pagination' );
 		this.navs = [];
-		for( var i = 0; i < nodeList.length; i++ ) {
-			parentEl = nodeList[i].querySelector( '.glsr-reviews' );
-			if( !parentEl )continue;
-			this.navs.push( new Pagination( parentEl ));
-		}
+		document.querySelectorAll( '.glsr-ajax-pagination' ).forEach( function( nodeItem ) {
+			this.navs.push( new Pagination( nodeItem ));
+		}.bind( this ));
 	};
 })();

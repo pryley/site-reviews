@@ -23,7 +23,6 @@ class Database
 	{
 		$review = glsr( CreateReviewDefaults::class )->restrict( (array)$command );
 		$review = apply_filters( 'site-reviews/create/review-values', $review, $command );
-		glsr_log( $review )->debug( $command );
 		$post = [
 			'comment_status' => 'closed',
 			'ping_status' => 'closed',

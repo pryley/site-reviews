@@ -3,60 +3,92 @@
 
 	'use strict';
 
-	GLSR.Ajax = function() {
+	var Ajax = function() {
+		this.get = this.get_;
+		this.isFileAPISupported = this.isFileAPISupported_;
+		this.isFormDataSupported = this.isFormDataSupported_;
+		this.isUploadSupported = this.isUploadSupported_;
+		this.post = this.post_;
+	};
+
+	Ajax.prototype = {
 		/** @return void */
-		this.get = function( url, successCallback ) {
-			var xhr = new XMLHttpRequest();
-			xhr.open( 'GET', url );
-			xhr.onreadystatechange = function() {
-				if( xhr.readyState !== 4 )return;
-				successCallback( xhr.responseText );
-			};
-			xhr.setRequestHeader( 'X-Requested-With', 'XMLHttpRequest' );
-			xhr.send();
-		};
+		get_: function( url, successCallback, headers ) {
+			this.xhr = new XMLHttpRequest();
+			this.xhr.open( 'GET', url );
+			this.xhr.onreadystatechange = function() {
+				if( this.xhr.readyState !== 4 || this.xhr.status !== 200 )return;
+				successCallback( this.xhr.responseText );
+			}.bind( this );
+			this.setHeaders_( headers );
+			this.xhr.send();
+		},
 
 		/** @return bool */
-		this.isFileAPISupported = function() {
+		isFileAPISupported_: function() {
 			var input = document.createElement( 'INPUT' );
 			input.type = 'file';
 			return 'files' in input;
-		};
+		},
 
 		/** @return bool */
-		this.isFormDataSupported = function() {
+		isFormDataSupported_: function() {
 			return !!window.FormData;
-		};
+		},
 
 		/** @return bool */
-		this.isUploadSupported = function() {
+		isUploadSupported_: function() {
 			var xhr = new XMLHttpRequest();
 			return !!( xhr && ( 'upload' in xhr ) && ( 'onprogress' in xhr.upload ));
-		};
+		},
+
+		/** @return FormData */
+		buildFormData_: function( formData, data, parentKey ) {
+			if( typeof data !== 'object' || data instanceof Date || data instanceof File ) {
+				formData.append( parentKey, data || '' );
+			}
+			else {
+				Object.keys( data ).forEach( function( key ) {
+					if( !data.hasOwnProperty( key ))return;
+					formData = this.buildFormData_( formData, data[key], parentKey ? parentKey[key] : key );
+				}.bind( this ));
+			}
+			return formData;
+		},
+
+		/** @return FormData */
+		normalizeData_: function( data ) { // object
+			var formData = new FormData( data );
+			if( Object.prototype.toString.call( data ) !== '[object HTMLFormElement]' ) {
+				formData = this.buildFormData_( formData, data );
+			}
+			formData.append( 'action', GLSR.action );
+			formData.append( 'ajax_request', true );
+			return formData;
+		},
 
 		/** @return void */
-		this.post = function( data, successCallback, headers ) {
-			var xhr = new XMLHttpRequest();
-			this.setHeaders_( xhr, headers );
-			xhr.open( 'POST', GLSR.ajaxurl );
-			xhr.onreadystatechange = function() {
-				if( xhr.readyState !== 4 )return;
-				successCallback( JSON.parse( xhr.responseText ));
-			};
-			xhr.send({
-				action: GLSR.action,
-				request: data,
-			});
-		};
+		post_: function( formOrData, successCallback, headers ) {
+			this.xhr = new XMLHttpRequest();
+			this.xhr.open( 'POST', GLSR.ajaxurl );
+			this.setHeaders_( headers );
+			this.xhr.send( this.normalizeData_( formOrData ));
+			this.xhr.onreadystatechange = function() {
+				if( this.xhr.readyState !== XMLHttpRequest.DONE || this.xhr.status !== 200 )return;
+				successCallback( JSON.parse( this.xhr.responseText ));
+			}.bind( this );
+		},
 
 		/** @return void */
-		this.setHeaders_ = function( xhr, headers ) {
+		setHeaders_: function( headers ) {
 			headers = headers || {};
 			headers['X-Requested-With'] = 'XMLHttpRequest';
 			for( var key in headers ) {
 				if( !headers.hasOwnProperty( key ))continue;
-				xhr.setRequestHeader( key, headers[key] );
+				this.xhr.setRequestHeader( key, headers[key] );
 			}
-		};
+		},
 	};
+
+	GLSR.Ajax = Ajax;
 })();

@@ -96,7 +96,7 @@ class Pagination implements PartialContract
 		$template = sprintf( $template, $class, $screenReaderText, $links );
 		return glsr( Builder::class )->div( $template.'<div class="glsr-loader"></div>', [
 			'class' => 'glsr-navigation',
-		])
+		]);
 	}
 
 	/**
