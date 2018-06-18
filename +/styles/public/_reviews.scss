@@ -1,30 +1,31 @@
 .glsr-style {
-	.glsr-review::after {
+	.glsr-review::after,
+	.glsr-navigation::after {
 		content: '';
 		display: table;
 		clear: both;
 	}
 	.glsr-review {
-		margin-bottom: 3em;
+		margin-bottom: $glsr-font-size*3;
+	}
+	.glsr-review > div {
+		margin-bottom: $glsr-font-size;
+	}
+	.glsr-review > div:last-of-type {
+		margin-bottom: 0;
 	}
 	.glsr-review p {
 		white-space: pre-line;
-		margin: 0 0 1em;
+		margin: 0 0 $glsr-font-size;
 	}
 	.glsr-review,
-	.glsr-navigation {
+	.glsr-navigation > :not(.glsr-loader) {
 		opacity: 1;
 		transition: opacity 500ms;
 	}
 	&.glsr-hide .glsr-review,
-	&.glsr-hide .glsr-navigation {
+	&.glsr-hide .glsr-navigation > :not(.glsr-loader) {
 		opacity: 0 !important;
-	}
-	.glsr-review > div {
-		margin-bottom: 1em;
-	}
-	.glsr-review > div:last-of-type {
-		margin-bottom: 0;
 	}
 	.glsr-review-assigned_to {
 		display: block;

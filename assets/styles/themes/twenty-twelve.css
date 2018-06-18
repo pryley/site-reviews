@@ -123,6 +123,10 @@
   border-color: transparent transparent transparent #1a1a1a;
 }
 
+.glsr-style {
+  margin-bottom: 1rem;
+}
+
 .glsr-reviews-wrap {
   position: relative;
 }
@@ -229,39 +233,40 @@
   }
 }
 
-.glsr-style .glsr-review::after {
+.glsr-style .glsr-review::after,
+.glsr-style .glsr-navigation::after {
   content: '';
   display: table;
   clear: both;
 }
 
 .glsr-style .glsr-review {
-  margin-bottom: 3em;
+  margin-bottom: 3rem;
+}
+
+.glsr-style .glsr-review > div {
+  margin-bottom: 1rem;
+}
+
+.glsr-style .glsr-review > div:last-of-type {
+  margin-bottom: 0;
 }
 
 .glsr-style .glsr-review p {
   white-space: pre-line;
-  margin: 0 0 1em;
+  margin: 0 0 1rem;
 }
 
 .glsr-style .glsr-review,
-.glsr-style .glsr-navigation {
+.glsr-style .glsr-navigation > :not(.glsr-loader) {
   opacity: 1;
   -webkit-transition: opacity 500ms;
   transition: opacity 500ms;
 }
 
 .glsr-style.glsr-hide .glsr-review,
-.glsr-style.glsr-hide .glsr-navigation {
+.glsr-style.glsr-hide .glsr-navigation > :not(.glsr-loader) {
   opacity: 0 !important;
-}
-
-.glsr-style .glsr-review > div {
-  margin-bottom: 1em;
-}
-
-.glsr-style .glsr-review > div:last-of-type {
-  margin-bottom: 0;
 }
 
 .glsr-style .glsr-review-assigned_to {
@@ -374,6 +379,42 @@
   border-left-width: 2em;
 }
 
+.glsr-style [type="submit"] span {
+  display: none;
+}
+
+.glsr-style [type="submit"][disabled] span {
+  display: inline;
+  position: relative;
+}
+
+.glsr-style [type="submit"] span::before,
+.glsr-style [type="submit"] span::after {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  height: 1em;
+  width: 1em;
+  content: '';
+  border: 0.2em solid currentColor;
+  border-radius: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: -0.5em auto 0;
+  -webkit-animation: glsr-loader 0.5s infinite linear;
+          animation: glsr-loader 0.5s infinite linear;
+}
+
+.glsr-style [type="submit"] span::before {
+  border-top-color: transparent;
+  opacity: 0.5;
+}
+
+.glsr-style [type="submit"] span::after {
+  border-color: transparent;
+  border-top-color: currentColor;
+}
+
 .glsr-style .glsr-checkbox-label,
 .glsr-style .glsr-radio-label {
   -webkit-hyphens: none;
@@ -382,7 +423,7 @@
 }
 
 .glsr-style .glsr-field {
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
 }
 
 .glsr-style .glsr-field input[type=text],
@@ -412,8 +453,12 @@
   color: #D32F2F;
 }
 
-.glsr-style .glsr-field-messages {
-  color: #1976D2;
+.glsr-style .glsr-form-messages {
+  color: #388E3C;
+}
+
+.glsr-style .glsr-form-messages p {
+  margin-top: 1rem;
 }
 
 .glsr-style .glsr-has-error,
@@ -422,7 +467,7 @@
 }
 
 .glsr-style .glsr-recaptcha-holder {
-  margin-top: 1em;
+  margin-top: 1rem;
 }
 
 .glsr-style .glsr-required label::after {
@@ -444,6 +489,15 @@
   visibility: visible !important;
 }
 
+.glsr-ltr .glsr-style [type="submit"][disabled] span {
+  margin-right: 1.65em;
+}
+
+.glsr-ltr .glsr-style [type="submit"] span::before,
+.glsr-ltr .glsr-style [type="submit"] span::after {
+  left: 0;
+}
+
 .glsr-ltr .glsr-style .glsr-field input[type="checkbox"],
 .glsr-ltr .glsr-style .glsr-field input[type="radio"] {
   margin-right: 0.5em;
@@ -451,6 +505,15 @@
 
 .glsr-ltr .glsr-style .glsr-required label::after {
   margin-left: 0.33em;
+}
+
+.glsr-rtl .glsr-style [type="submit"][disabled] span {
+  margin-left: 1.65em;
+}
+
+.glsr-rtl .glsr-style [type="submit"] span::before,
+.glsr-rtl .glsr-style [type="submit"] span::after {
+  right: 0;
 }
 
 .glsr-rtl .glsr-style .glsr-field input[type="checkbox"],
@@ -466,9 +529,16 @@
   position: relative;
   width: 100%;
   max-width: 400px;
-  font-size: 1em;
+  font-size: 1rem;
   line-height: 1.5;
-  margin-bottom: 1em;
+}
+
+.glsr-style.glsr-summary > div {
+  margin-bottom: 0.5rem;
+}
+
+.glsr-style.glsr-summary > div:last-of-type {
+  margin-bottom: 0;
 }
 
 .glsr-style .glsr-bar {
@@ -512,9 +582,8 @@
   position: relative;
   width: 100%;
   max-width: 400px;
-  font-size: 1em;
+  font-size: 1rem;
   line-height: 1.5;
-  margin-bottom: 1em;
 }
 
 .glsr-style .glsr-summary-rating {
@@ -537,7 +606,6 @@
 
 .glsr-style .glsr-summary-text {
   font-size: 0.875em;
-  margin-bottom: 0.5em;
 }
 
 .glsr-ltr .glsr-style .glsr-bar-label {

@@ -1,10 +1,39 @@
 .glsr-style {
+	[type="submit"] span {
+		display: none;
+	}
+	[type="submit"][disabled] span {
+		display: inline;
+		position: relative;
+	}
+	[type="submit"] span::before,
+	[type="submit"] span::after {
+		display: inline-block;
+		position: absolute;
+		top: 50%;
+		height: 1em;
+		width: 1em;
+		content: '';
+		border: 0.2em solid currentColor;
+		border-radius: 100%;
+		box-sizing: border-box;
+		margin: -0.5em auto 0;
+		animation: glsr-loader 0.5s infinite linear;
+	}
+	[type="submit"] span::before {
+		border-top-color: transparent;
+		opacity: 0.5;
+	}
+	[type="submit"] span::after {
+		border-color: transparent;
+		border-top-color: currentColor;
+	}
 	.glsr-checkbox-label,
 	.glsr-radio-label {
 		hyphens: none;
 	}
 	.glsr-field {
-		margin-bottom: 1em;
+		margin-bottom: $glsr-font-size;
 	}
 	.glsr-field input[type=text],
 	.glsr-field input[type=email],
@@ -26,15 +55,18 @@
 		font-size: $glsr-font-size-small;
 		color: $glsr-color-error;
 	}
-	.glsr-field-messages {
+	.glsr-form-messages {
 		color: $glsr-color-success;
+	}
+	.glsr-form-messages p {
+		margin-top: $glsr-font-size;
 	}
 	.glsr-has-error,
 	.glsr-has-errors {
 		color: $glsr-color-error;
 	}
 	.glsr-recaptcha-holder {
-		margin-top: 1em;
+		margin-top: $glsr-font-size;
 	}
 	.glsr-required label::after {
 		content: '\002a';
@@ -53,6 +85,13 @@
 	}
 }
 .glsr-ltr .glsr-style {
+	[type="submit"][disabled] span {
+		margin-right: 1.65em;
+	}
+	[type="submit"] span::before,
+	[type="submit"] span::after {
+		left: 0;
+	}
 	.glsr-field input[type="checkbox"],
 	.glsr-field input[type="radio"] {
 		margin-right: 0.5em;
@@ -62,6 +101,13 @@
 	}
 }
 .glsr-rtl .glsr-style {
+	[type="submit"][disabled] span {
+		margin-left: 1.65em;
+	}
+	[type="submit"] span::before,
+	[type="submit"] span::after {
+		right: 0;
+	}
 	.glsr-field input[type="checkbox"],
 	.glsr-field input[type="radio"] {
 		margin-left: 0.5em;

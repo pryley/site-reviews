@@ -5,7 +5,12 @@
 		max-width: $glsr-summary-max-width;
 		font-size: $glsr-font-size;
 		line-height: 1.5;
-		margin-bottom: 1em;
+	}
+	&.glsr-summary > div {
+		margin-bottom: $glsr-font-size/2;
+	}
+	&.glsr-summary > div:last-of-type {
+		margin-bottom: 0;
 	}
 	.glsr-bar {
 		display: table-row;
@@ -44,7 +49,6 @@
 		max-width: $glsr-summary-max-width;
 		font-size: $glsr-font-size;
 		line-height: 1.5;
-		margin-bottom: 1em;
 	}
 	.glsr-summary-rating {
 		display: inline-block;
@@ -63,7 +67,7 @@
 	}
 	.glsr-summary-text {
 		font-size: $glsr-font-size-small;
-		margin-bottom: 0.5em;
+		// margin-bottom: 0.5em;
 	}
 }
 .glsr-ltr .glsr-style {
