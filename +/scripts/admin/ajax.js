@@ -15,6 +15,7 @@
 			this.buildNonce_( el );
 			return {
 				action: GLSR.action,
+				ajax_request: true,
 				request: this.request,
 			};
 		},
