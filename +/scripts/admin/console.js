@@ -14,7 +14,7 @@
 			};
 			(new GLSR.Ajax( request, ev )).post( function( response ) {
 				GLSR.Notices( response.notices );
-				x( '#console' ).val( response.console );
+				x( '#log-file' ).val( response.console );
 			});
 		},
 	};

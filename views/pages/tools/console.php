@@ -1,7 +1,7 @@
 <?php defined( 'WPINC' ) || die; ?>
 
 <br>
-<textarea id="console" class="large-text code glsr-code" rows="20" readonly>{{ console }}</textarea>
+<textarea id="log-file" class="large-text code glsr-code" rows="20" readonly>{{ console }}</textarea>
 <form method="post" class="float-left">
 	<input type="hidden" name="{{ id }}[action]" value="clear-console">
 	<?php wp_nonce_field( 'clear-console' ); ?>
