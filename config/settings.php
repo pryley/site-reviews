@@ -44,7 +44,7 @@ return [
 		'default' => '',
 		'depends_on' => ['settings.general.notification' => 'webhook'],
 		'description' => sprintf( __( 'To send notifications to Slack, create a new %s and then paste the provided Webhook URL in the field above.', 'site-reviews' ),
-			glsr( 'Modules\Html\Builder' )->a( __( 'Incoming WebHook', 'site-reviews' ), ['href' => 'https://slack.com/apps/new/A0F7XDUAZ-incoming-webhooks'] )
+			glsr( 'Modules\Html\Builder' )->a( __( 'Incoming WebHook', 'site-reviews' ), ['href' => 'https://api.slack.com/incoming-webhooks'] )
 		),
 		'label' => __( 'Webhook URL', 'site-reviews' ),
 		'type' => 'url',

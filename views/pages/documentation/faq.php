@@ -2,12 +2,12 @@
 
 <div class="glsr-card card">
 	<h3>How do I change the text of...?</h3>
-	<p>You can change any text in the plugin on the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=settings&tab=translations' ); ?>">Settings &rarr; Translations</a></code> page.</p>
+	<p>You can change any text in the plugin on the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=settings#!translations' ); ?>">Settings &rarr; Translations</a></code> page.</p>
 </div>
 
 <div class="glsr-card card">
 	<h3>How do I disable the plugin CSS and/or Javascript?</h3>
-	<p>To disable the plugin's stylesheet or javascript from loading on your website, copy and paste the provided <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation&tab=hooks' ); ?>">Documentation &rarr; Hooks</a></code> into your theme's <code>functions.php</code> file.</p>
+	<p>To disable the plugin's stylesheet or javascript from loading on your website, copy and paste the provided <code>Documentation &rarr; Hooks</code> into your theme's <code>functions.php</code> file.</p>
 </div>
 
 <div class="glsr-card card">

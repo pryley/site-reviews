@@ -4,14 +4,14 @@
 	<h3>Contacting Support</h3>
 	<ol>
 		<li>
-			<p><strong>Before you ask for help</strong>, please confirm that you have read both the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation&tab=faq' ); ?>">FAQ</a></code> and <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation&tab=shortcodes' ); ?>">Shortcodes</a></code> pages as many questions have already been answered there.</p>
+			<p><strong>Before you ask for help</strong>, please confirm that you have read both the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!faq' ); ?>">FAQ</a></code> and <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!shortcodes' ); ?>">Shortcodes</a></code> pages as many questions have already been answered there.</p>
 		</li>
 		<li>
 			<p><strong>If you are experiencing problems</strong> or something is not working as expected, please confirm that you have tried the <em>Basic Troubleshooting Steps</em> provided below.</p>
 		</li>
 		<li>
 			<p><strong>If you can confirm that you have completed the steps above</strong> and are still in a pickle, send an email to <a href="mailto:site-reviews@geminilabs.io?subject=Support%20request">site-reviews@geminilabs.io</a> and make sure to write a detailed description of the problem you are having as well as any steps needed to reproduce it.</p>
-			<p><span class="required">Important:</span> If you are writing about a problem that you are having, please make sure to <em>download</em> and attach the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools&tab=system-info' ); ?>">Tools &rarr; System Info</a></code> report to your email.</p>
+			<p><span class="required">Important:</span> If you are writing about a problem that you are having, please make sure to <em>download</em> and attach both the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!console' ); ?>">Tools &rarr; Console</a></code> log file and the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!system-info' ); ?>">Tools &rarr; System Info</a></code> report to your email.</p>
 		</li>
 	</ol>
 </div>

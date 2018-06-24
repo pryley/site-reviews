@@ -21,6 +21,7 @@
 
 		/** @return void */
 		init_: function() {
+			x( window ).on( 'hashchange', this.onHashchange_.bind( this ));
 			[].forEach.call( this.tabs, function( tab, index ) {
 				var active = location.hash ? tab.getAttribute( 'href' ).slice(1) === location.hash.slice(2) : index === 0;
 				if( active ) {
@@ -42,6 +43,16 @@
 			ev.target.blur();
 			this.setTab_( ev.target );
 			location.hash = '!' + ev.target.getAttribute( 'href' ).slice(1);
+		},
+
+		/** @return void */
+		onHashchange_: function() {
+			var id = location.hash.split('#!')[1];
+			for( var i = 0; i < this.views.length; i++ ) {
+				if( id !== this.views[i].id )continue;
+				this.setTab_( this.tabs[i] );
+				break;
+			}
 		},
 
 		/** @return void */
