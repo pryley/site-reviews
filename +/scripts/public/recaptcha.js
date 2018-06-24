@@ -5,10 +5,6 @@
 
 	GLSR.Recaptcha = function( form ) { // Form object
 		this.Form = form;
-		this.addListeners = this.addListeners_;
-		this.execute = this.execute_;
-		this.render = this.render_;
-		this.reset = this.reset_;
 	};
 
 	GLSR.Recaptcha.prototype = {

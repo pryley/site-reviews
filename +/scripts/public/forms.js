@@ -97,16 +97,16 @@
 			console.log( response );
 			if( response.recaptcha === true ) {
 				console.log( 'executing recaptcha' );
-				this.recaptcha.execute();
+				this.recaptcha.execute_();
 				return;
 			}
 			if( response.recaptcha === 'reset' ) {
 				console.log( 'resetting failed recaptcha' );
-				this.recaptcha.reset();
+				this.recaptcha.reset_();
 			}
 			if( response.errors === false ) {
 				console.log( 'resetting recaptcha' );
-				this.recaptcha.reset();
+				this.recaptcha.reset_();
 				this.form.reset();
 			}
 			console.log( 'submission finished' );
@@ -161,7 +161,7 @@
 		onSubmit_: function( ev ) { // HTMLEvent
 			if( this.form.classList.contains( 'no-ajax' ))return;
 			ev.preventDefault();
-			this.recaptcha.addListeners();
+			this.recaptcha.addListeners_();
 			this.clearFormErrors_();
 			this.submitForm_();
 		},
@@ -213,7 +213,7 @@
 		}
 		this.renderRecaptcha = function() {
 			this.forms.forEach( function( form ) {
-				form.recaptcha.render();
+				form.recaptcha.render_();
 			});
 		};
 	};
