@@ -32,6 +32,7 @@ class YesNo extends Field
 	public static function required()
 	{
 		return [
+			'is_multi' => true,
 			'options' => [
 				'no' => __( 'No', 'site-reviews' ),
 				'yes' => __( 'Yes', 'site-reviews' ),
