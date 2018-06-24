@@ -1,4 +1,4 @@
-/** global: GLSR, XMLHttpRequest */
+/** global: File, GLSR, XMLHttpRequest */
 ;(function() {
 
 	'use strict';
