@@ -5,9 +5,7 @@ site-reviews/addon/register
 site-reviews/create/review
 
 [Router.php]
-site-reviews/route/admin/request
-site-reviews/route/ajax/request
-site-reviews/route/public/request
+site-reviews/route/{$type}/request // admin|ajax|public
 
 [CreateReview.php]
 site-reviews/local/review/submitted
