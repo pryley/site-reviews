@@ -3,7 +3,7 @@
 
 	'use strict';
 
-	var Status = function( selector ) {
+	GLSR.Status = function( selector ) {
 		var elements = document.querySelectorAll( selector );
 		if( !elements.length )return;
 		elements.forEach( function( el ) {
@@ -11,7 +11,7 @@
 		}.bind( this ));
 	};
 
-	Status.prototype = {
+	GLSR.Status.prototype = {
 		/** @return void */
 		onClick_: function( ev ) { // MouseEvent
 			var post_id = ev.target.href.match( /post=([0-9]+)/ );
@@ -31,6 +31,4 @@
 			});
 		},
 	};
-
-	GLSR.Status = Status;
 })( jQuery );

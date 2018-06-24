@@ -3,7 +3,7 @@
 
 	'use strict';
 
-	var Shortcode = function( selector ) {
+	GLSR.Shortcode = function( selector ) {
 		this.el = document.querySelector( selector );
 		if( !this.el )return;
 		this.current = null; // this.current is used by scForm to trigger the correct popup
@@ -23,7 +23,7 @@
 		this.init_();
 	};
 
-	Shortcode.prototype = {
+	GLSR.Shortcode.prototype = {
 		attributes_: {},
 		hiddenKeys_: [],
 
@@ -225,6 +225,4 @@
 			return is_valid;
 		},
 	};
-
-	GLSR.Shortcode = Shortcode;
 })( window.editor, window.tinymce, jQuery );

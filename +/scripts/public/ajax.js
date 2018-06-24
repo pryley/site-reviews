@@ -3,7 +3,7 @@
 
 	'use strict';
 
-	var Ajax = function() {
+	GLSR.Ajax = function() {
 		this.get = this.get_;
 		this.isFileAPISupported = this.isFileAPISupported_;
 		this.isFormDataSupported = this.isFormDataSupported_;
@@ -11,7 +11,7 @@
 		this.post = this.post_;
 	};
 
-	Ajax.prototype = {
+	GLSR.Ajax.prototype = {
 		/** @return void */
 		get_: function( url, successCallback, headers ) {
 			this.xhr = new XMLHttpRequest();
@@ -89,6 +89,4 @@
 			}
 		},
 	};
-
-	GLSR.Ajax = Ajax;
 })();

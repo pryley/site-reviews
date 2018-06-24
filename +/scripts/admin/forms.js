@@ -3,7 +3,7 @@
 
 	'use strict';
 
-	var Forms = function( selector ) {
+	GLSR.Forms = function( selector ) {
 		this.el = document.querySelector( selector );
 		if( !this.el )return;
 		this.depends = this.el.querySelectorAll( '[data-depends]' );
@@ -11,7 +11,7 @@
 		this.init_();
 	};
 
-	Forms.prototype = {
+	GLSR.Forms.prototype = {
 		/** @return void */
 		init_: function() {
 			var formControls = this.el.elements;
@@ -73,6 +73,4 @@
 			row.classList[bool ? 'remove' : 'add']( 'hidden' );
 		},
 	};
-
-	GLSR.Forms = Forms;
 })();

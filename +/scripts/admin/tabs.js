@@ -3,7 +3,7 @@
 
 	'use strict';
 
-	var Tabs = function( options ) {
+	GLSR.Tabs = function( options ) {
 		this.options = x.extend( {}, this.defaults, options );
 		this.active = document.querySelector( 'input[name=_active_tab]' );
 		this.referrer = document.querySelector( 'input[name=_wp_http_referer]' );
@@ -13,7 +13,7 @@
 		this.init_();
 	};
 
-	Tabs.prototype = {
+	GLSR.Tabs.prototype = {
 		defaults: {
 			tabSelector: '.glsr-nav-tab',
 			viewSelector: '.glsr-nav-view',
@@ -82,6 +82,4 @@
 			}.bind( this ));
 		},
 	};
-
-	GLSR.Tabs = Tabs;
 })( jQuery );

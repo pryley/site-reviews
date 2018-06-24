@@ -3,11 +3,11 @@
 
 	'use strict';
 
-	var Excerpts = function( el ) { // HTMLElement
+	GLSR.Excerpts = function( el ) { // HTMLElement
 		this.init_( el || document );
 	};
 
-	Excerpts.prototype = {
+	GLSR.Excerpts.prototype = {
 		config: {
 			hiddenClass: 'glsr-hidden',
 			hiddenTextSelector: '.glsr-hidden-text',
@@ -47,6 +47,4 @@
 			}
 		},
 	};
-
-	GLSR.Excerpts = Excerpts;
 })();

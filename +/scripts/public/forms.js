@@ -3,7 +3,7 @@
 
 	'use strict';
 
-	var Form = function( formEl, buttonEl ) { // HTMLElement, HTMLElement
+	var GLSR_Form = function( formEl, buttonEl ) { // HTMLElement, HTMLElement
 		this.button = buttonEl;
 		this.enableButton = this.enableButton_.bind( this );
 		this.form = formEl;
@@ -12,7 +12,7 @@
 		this.submitForm = this.submitForm_.bind( this );
 	};
 
-	Form.prototype = {
+	GLSR_Form.prototype = {
 		config: {
 			fieldErrorsClass: 'glsr-field-errors',
 			fieldSelector: '.glsr-field',
@@ -136,7 +136,6 @@
 
 		/** @return void */
 		onChange_: function( ev ) { // Event
-			console.log( 'onChange_' );
 			this.clearFieldError_( ev.target );
 		},
 
@@ -206,7 +205,7 @@
 		for( var i = 0; i < this.nodeList.length; i++ ) {
 			submitButton = this.nodeList[i].querySelector( '[type=submit]' );
 			if( !submitButton )continue;
-			form = new Form( this.nodeList[i], submitButton );
+			form = new GLSR_Form( this.nodeList[i], submitButton );
 			if( shouldInit ) {
 				form.init();
 			}

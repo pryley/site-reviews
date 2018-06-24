@@ -3,7 +3,7 @@
 
 	'use strict';
 
-	var Pinned = function() {
+	GLSR.Pinned = function() {
 		this.el = x( '#pinned-status-select' );
 		if( this.el ) {
 			this.cancel = x( 'a.cancel-pinned-status' );
@@ -16,7 +16,7 @@
 		x( 'table td.pinned i' ).on( 'click', this.onClickToggle_.bind( this ));
 	};
 
-	Pinned.prototype = {
+	GLSR.Pinned.prototype = {
 		/** @return void */
 		restoreEditLink_: function() {
 			this.el.slideUp( 'fast' );
@@ -77,6 +77,4 @@
 			this.target.classList[response.pinned ? 'add' : 'remove']( 'pinned' );
 		},
 	};
-
-	GLSR.Pinned = Pinned;
 })( jQuery );

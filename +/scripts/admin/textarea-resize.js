@@ -3,7 +3,7 @@
 
 	'use strict';
 
-	var TextareaResize = function() {
+	GLSR.TextareaResize = function() {
 		var textarea = document.querySelector( '#contentdiv > textarea' );
 		if( !textarea )return;
 		this.resize_( textarea );
@@ -12,7 +12,7 @@
 		}.bind( this ));
 	};
 
-	TextareaResize.prototype = {
+	GLSR.TextareaResize.prototype = {
 		/** @return void */
 		resize_: function( textareaEl ) { // HTMLElement
 			var minHeight = 320;
@@ -21,6 +21,4 @@
 			textareaEl.style.height = height + 'px';
 		},
 	};
-
-	GLSR.TextareaResize = TextareaResize;
 })( jQuery );

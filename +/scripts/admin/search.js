@@ -3,14 +3,14 @@
 
 	'use strict';
 
-	var Search = function( selector, options ) {
+	GLSR.Search = function( selector, options ) {
 		this.el = x( selector );
 		this.options = options;
 		this.searchTerm = null;
 		this.init_();
 	};
 
-	Search.prototype = {
+	GLSR.Search.prototype = {
 		defaults: {
 			action: null,
 			exclude: [],
@@ -248,6 +248,4 @@
 			this.options.entriesEl.parent()[action + 'Class']( 'glsr-hidden' );
 		},
 	};
-
-	GLSR.Search = Search;
 })( window._, window.wp, jQuery );

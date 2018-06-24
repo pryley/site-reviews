@@ -3,13 +3,13 @@
 
 	'use strict';
 
-	var Ajax = function( request, ev ) { // object
+	GLSR.Ajax = function( request, ev ) { // object
 		this.event = ev || null;
 		this.post = this.post_;
 		this.request = request;
 	};
 
-	Ajax.prototype = {
+	GLSR.Ajax.prototype = {
 		/** @return void */
 		buildData_: function( el ) { // HTMLElement|null
 			this.buildNonce_( el );
@@ -57,6 +57,4 @@
 			});
 		},
 	};
-
-	GLSR.Ajax = Ajax;
 })( jQuery );

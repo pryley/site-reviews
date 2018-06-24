@@ -3,12 +3,12 @@
 
 	'use strict';
 
-	var Pagination = function( el ) { // HTMLElement
+	var GLSR_Pagination = function( el ) { // HTMLElement
 		this.el = el;
 		this.initEvents_();
 	};
 
-	Pagination.prototype = {
+	GLSR_Pagination.prototype = {
 		config: {
 			hideClass: 'glsr-hide',
 			linkSelector: '.glsr-navigation a',
@@ -136,7 +136,7 @@
 	GLSR.Pagination = function() {
 		this.navs = [];
 		document.querySelectorAll( '.glsr-ajax-pagination' ).forEach( function( nodeItem ) {
-			this.navs.push( new Pagination( nodeItem ));
+			this.navs.push( new GLSR_Pagination( nodeItem ));
 		}.bind( this ));
 	};
 })();

@@ -3,7 +3,7 @@
 
 	'use strict';
 
-	var Recaptcha = function( form ) { // Form object
+	GLSR.Recaptcha = function( form ) { // Form object
 		this.Form = form;
 		this.addListeners = this.addListeners_;
 		this.execute = this.execute_;
@@ -11,7 +11,7 @@
 		this.reset = this.reset_;
 	};
 
-	Recaptcha.prototype = {
+	GLSR.Recaptcha.prototype = {
 
 		/** @return void */
 		addListeners_: function() {
@@ -112,6 +112,4 @@
 			this.Form.form.submitForm( token );
 		},
 	};
-
-	GLSR.Recaptcha = Recaptcha;
 })();

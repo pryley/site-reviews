@@ -3,11 +3,11 @@
 
 	'use strict';
 
-	var Console = function() {
+	GLSR.Console = function() {
 		x( 'form' ).on( 'click', '#clear-console', this.onClick_ );
 	};
 
-	Console.prototype = {
+	GLSR.Console.prototype = {
 		onClick_: function( ev ) {
 		 	var request = {
 				action: 'clear-console',
@@ -18,6 +18,4 @@
 			});
 		},
 	};
-
-	GLSR.Console = Console;
 })( jQuery );

@@ -3,13 +3,13 @@
 
 	'use strict';
 
-	var Pointers = function() {
+	GLSR.Pointers = function() {
 		x.each( GLSR.pointers, function( i, pointer ) {
 			this.init_( pointer );
 		}.bind( this ));
 	};
 
-	Pointers.prototype = {
+	GLSR.Pointers.prototype = {
 		/** @return void */
 		close_: function( pointerId ) { // string
 			x.post( GLSR.ajaxurl, {
@@ -32,6 +32,4 @@
 			});
 		},
 	};
-
-	GLSR.Pointers = Pointers;
 })( jQuery );
