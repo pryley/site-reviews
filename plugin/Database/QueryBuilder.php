@@ -17,7 +17,7 @@ class QueryBuilder
 		$queries = [];
 		foreach( $keys as $key ) {
 			if( !array_key_exists( $key, $values ))continue;
-			$methodName = glsr( Helper::class )->buildMethodName( $key, $prefix = __METHOD__ );
+			$methodName = glsr( Helper::class )->buildMethodName( $key, __METHOD__ );
 			if( !method_exists( $this, $methodName ))continue;
 			$query = call_user_func( [$this, $methodName], $values[$key] );
 			if( is_array( $query )) {
@@ -78,10 +78,12 @@ class QueryBuilder
 	 */
 	public function getPaged( $isEnabled = true )
 	{
-		$paged = $isEnabled
-			? intval( get_query_var( is_front_page() ? 'page' : Application::PAGED_QUERY_VAR ))
+		$pagedQuery = !is_front_page()
+			? Application::PAGED_QUERY_VAR
+			: 'page';
+		return $isEnabled
+			? max( 1, intval( get_query_var( $pagedQuery )))
 			: 1;
-		return max( 1, $paged );
 	}
 
 	/**

@@ -16,7 +16,7 @@
 	<div id="<?= $tax_name; ?>-all" class="tabs-panel">
 		<input type="hidden" name="tax_input[<?= $tax_name; ?>][]" value='0' />
 		<ul id="<?= $tax_name; ?>checklist" data-wp-lists="list:<?= $tax_name; ?>" class="categorychecklist form-no-clear">
-			<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => $tax_name, 'popular_cats' => $popular_ids ) ); ?>
+			<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => $tax_name, 'popular_cats' => $popular_ids )); ?>
 		</ul>
 	</div>
 

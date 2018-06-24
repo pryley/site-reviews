@@ -75,8 +75,7 @@ class RegisterPostType
 			$this->columns = array_combine( $keys, $this->columns );
 		}
 		if( array_key_exists( 'pinned', $this->columns )) {
-			$this->columns['pinned'] = glsr( Builder::class )->span(
-				'<span>'.$this->columns['pinned'].'</span>',
+			$this->columns['pinned'] = glsr( Builder::class )->span( '<span>'.$this->columns['pinned'].'</span>',
 				['class' => 'pinned-icon']
 			);
 		}
