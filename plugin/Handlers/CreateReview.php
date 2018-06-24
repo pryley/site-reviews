@@ -133,14 +133,14 @@ class CreateReview
 		$args['recipient'] = $args['notification_type'] !== 'default'
 			? glsr( OptionManager::class )->get( 'settings.general.notification_email' )
 			: get_option( 'admin_email' );
-		$result = !empty( $args['recipient'] )
-			? $this->createEmailNotification( $args )->send()
-			: false;
-		if( !is_bool( $result )) {
-			glsr_log()->error( __( 'Email notification was not sent: missing email, subject, or message.', 'site-reviews' ));
+		if( empty( $args['recipient'] )) {
+			glsr_log()->error( 'Email notification was not sent: missing email, subject, or message.' );
 		}
-		if( $result === false ) {
-			glsr_log()->error( __( 'Email notification was not sent: wp_mail() failed.', 'site-reviews' ));
+		else {
+			$email = $this->createEmailNotification( $args );
+			if( $email->send() === false ) {
+				glsr_log()->error( 'Email notification was not sent: wp_mail() failed.' )->debug( $email );
+			}
 		}
 	}
 

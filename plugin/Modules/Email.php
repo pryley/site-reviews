@@ -3,56 +3,64 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Defaults\EmailDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
+use PHPMailer;
 
 class Email
 {
 	/**
 	 * @var array
 	 */
-	protected $attachments;
+	public $attachments;
 
 	/**
 	 * @var array
 	 */
-	protected $headers;
+	public $email;
+
+	/**
+	 * @var array
+	 */
+	public $headers;
 
 	/**
 	 * @var string
 	 */
-	protected $message;
+	public $message;
 
 	/**
 	 * @var string
 	 */
-	protected $subject;
+	public $subject;
 
 	/**
 	 * @var string
 	 */
-	protected $to;
+	public $to;
 
 	/**
 	 * @return Email
 	 */
 	public function compose( array $email )
 	{
-		$email = $this->normalize( $email );
-		$this->attachments = $email['attachments'];
-		$this->headers = $this->buildHeaders( $email );
-		$this->message = $this->buildHtmlMessage( $email );
-		$this->subject = $email['subject'];
-		$this->to = $email['to'];
-		add_action( 'phpmailer_init', [ $this, 'buildPlainTextMessage'] );
+		$this->normalize( $email );
+		$this->attachments = $this->email['attachments'];
+		$this->headers = $this->buildHeaders();
+		$this->message = $this->buildHtmlMessage();
+		$this->subject = $this->email['subject'];
+		$this->to = $this->email['to'];
+		add_action( 'phpmailer_init', [$this, 'buildPlainTextMessage'] );
 		return $this;
 	}
 
 	/**
+	 * @param bool $plaintext
 	 * @return string|null
 	 */
 	public function read( $plaintext = false )
 	{
-		if( !!$plaintext ) {
+		if( wp_validate_boolean( $plaintext )) {
 			$message = $this->stripHtmlTags( $this->message );
 			return apply_filters( 'site-reviews/email/message', $message, 'text', $this );
 		}
@@ -78,11 +86,11 @@ class Email
 
 	/**
 	 * @return void
-	 *
 	 * @action phpmailer_init
 	 */
-	public function buildPlainTextMessage( $phpmailer )
+	public function buildPlainTextMessage( PHPMailer $phpmailer )
 	{
+		if( empty( $this->email ))return;
 		if( $phpmailer->ContentType === 'text/plain' || !empty( $phpmailer->AltBody ))return;
 		$message = $this->stripHtmlTags( $phpmailer->Body );
 		$phpmailer->AltBody = apply_filters( 'site-reviews/email/message', $message, 'text', $this );
@@ -91,19 +99,16 @@ class Email
 	/**
 	 * @return array
 	 */
-	protected function buildHeaders( $email )
+	protected function buildHeaders()
 	{
 		$allowed = [
-			'bcc',
-			'cc',
-			'from',
-			'reply-to',
+			'bcc', 'cc', 'from', 'reply-to',
 		];
-		$headers = array_intersect_key( $email, array_flip( $allowed ));
+		$headers = array_intersect_key( $this->email, array_flip( $allowed ));
 		$headers = array_filter( $headers );
 		foreach( $headers as $key => $value ) {
-			unset( $headers[ $key ] );
-			$headers[] = "{$key}: {$value}";
+			unset( $headers[$key] );
+			$headers[] = $key.': '.$value;
 		}
 		$headers[] = 'Content-Type: text/html';
 		return apply_filters( 'site-reviews/email/headers', $headers, $this );
@@ -112,21 +117,21 @@ class Email
 	/**
 	 * @return string
 	 */
-	protected function buildHtmlMessage( $email )
+	protected function buildHtmlMessage()
 	{
 		$template = trim( glsr( OptionManager::class )->get( 'settings.general.notification_message' ));
 		if( !empty( $template )) {
-			$message = glsr( Template::class )->interpolate( $template, $email['template-tags'] );
+			$message = glsr( Template::class )->interpolate( $template, $this->email['template-tags'] );
 		}
-		else if( $email['template'] ) {
-			$message = glsr( Template::class )->build( 'templates/'.$email['template'], [
-				'context' => $email['template-tags'],
+		else if( $this->email['template'] ) {
+			$message = glsr( Template::class )->build( 'templates/'.$this->email['template'], [
+				'context' => $this->email['template-tags'],
 			]);
 		}
 		if( !isset( $message )) {
-			$message = $email['message'];
+			$message = $this->email['message'];
 		}
-		$message = $email['before'].$message.$email['after'];
+		$message = $this->email['before'].$message.$this->email['after'];
 		$message = strip_shortcodes( $message );
 		$message = wptexturize( $message );
 		$message = wpautop( $message );
@@ -139,31 +144,15 @@ class Email
 	}
 
 	/**
-	 * @return array
+	 * @return void
 	 */
-	protected function normalize( $email )
+	protected function normalize( array $email = [] )
 	{
-		$fromName  = wp_specialchars_decode( (string)get_option( 'blogname' ), ENT_QUOTES );
-		$fromEmail = (string)get_option( 'admin_email' );
-		$defaults = [
-			'after' => '',
-			'attachments' => [],
-			'bcc' => '',
-			'before' => '',
-			'cc' => '',
-			'from' => $fromName.'<'.$fromEmail.'>',
-			'message' => '',
-			'reply-to' => '',
-			'subject' => '',
-			'template' => '',
-			'template-tags' => [],
-			'to' => '',
-		];
-		$email = shortcode_atts( $defaults, $email );
+		$email = shortcode_atts( glsr( EmailDefaults::class )->defaults(), $email );
 		if( empty( $email['reply-to'] )) {
 			$email['reply-to'] = $email['from'];
 		}
-		return apply_filters( 'site-reviews/email/compose', $email, $this );
+		$this->email = apply_filters( 'site-reviews/email/compose', $email, $this );
 	}
 
 	/**
@@ -172,6 +161,7 @@ class Email
 	protected function reset()
 	{
 		$this->attachments = [];
+		$this->email = [];
 		$this->headers = [];
 		$this->message = null;
 		$this->subject = null;

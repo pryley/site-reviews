@@ -66,7 +66,6 @@ class EnqueuePublicAssets
 	{
 		$variables = [
 			'action' => Application::PREFIX.'action',
-			'ajaxnonce' => wp_create_nonce( Application::ID.'-ajax-nonce' ),
 			'ajaxpagination' => ['#wpadminbar','.site-navigation-fixed'],
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 		];
