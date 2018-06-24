@@ -8,12 +8,15 @@
 	};
 
 	GLSR.Recaptcha.prototype = {
+		config: {
+			recaptchaSelector: '.glsr-recaptcha-holder',
+		},
 
 		/** @return void */
 		addListeners_: function() {
 			var overlayEl = this.getOverlay_();
 			if( overlayEl === -1 )return;
-			overlayEl.addEventListener( 'click', this.Form.enableButton );
+			overlayEl.addEventListener( 'click', this.Form.enableButton_ );
 			window.addEventListener( 'keyup', this.onKeyup_.bind( this, overlayEl ));
 		},
 
@@ -35,7 +38,7 @@
 				if( value.closest( 'form' ) === this.Form.form ) {
 					return id;
 				}
-			});
+			}.bind( this ));
 		},
 
 		/** @return HTMLDivElement|int (-1) */
@@ -55,20 +58,20 @@
 		/** @return void */
 		onKeyup_: function( ev ) { // KeyboardEvent
 			if( ev.keyCode !== 27 )return;
-			this.Form.enableButton();
+			this.Form.enableButton_();
 			this.removeListeners_( ev.target );
 		},
 
 		/** @return void */
 		removeListeners_: function( overlayEl ) { // HTMLDivElement
-			overlayEl.removeEventListener( 'click', this.Form.enableButton );
+			overlayEl.removeEventListener( 'click', this.Form.enableButton_ );
 			window.removeEventListener( 'keyup', this.onKeyup_ );
 		},
 
 		/** @return void */
 		render_: function() {
 			this.Form.form.onsubmit = null;
-			var recaptchaEl = this.Form.form.querySelector( '.glsr-recaptcha-holder' );
+			var recaptchaEl = this.Form.form.querySelector( this.config.recaptchaSelector );
 			if( !recaptchaEl )return;
 			recaptchaEl.innerHTML = '';
 			var id = grecaptcha.render( recaptchaEl, {
@@ -95,7 +98,7 @@
 				var i, key;
 				for( i in clients ) {
 					for( key in clients[i] ) {
-						if( !( result = callback( clients[i][key], i ).bind( this )))continue;
+						if( !( result = callback( clients[i][key], i )))continue;
 						return result;
 					}
 				}
@@ -105,7 +108,7 @@
 
 		/** @return void */
 		submitForm_: function( token ) { // string
-			this.Form.form.submitForm( token );
+			this.Form.submitForm_( token );
 		},
 	};
 })();

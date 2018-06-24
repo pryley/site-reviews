@@ -12,6 +12,8 @@ use GeminiLabs\SiteReviews\Modules\Validator;
 
 class ValidateReview
 {
+	const RECAPTCHA_ENDPOINT = 'https://www.google.com/recaptcha/api/siteverify';
+
 	const VALIDATION_RULES = [
 		'content' => 'required|min:0',
 		'email' => 'required|email|min:5',
@@ -32,11 +34,6 @@ class ValidateReview
 	public $form_id;
 
 	/**
-	 * @var array
-	 */
-	public $options;
-
-	/**
 	 * @var bool
 	 */
 	public $recaptchaIsUnset = false;
@@ -45,6 +42,11 @@ class ValidateReview
 	 * @var array
 	 */
 	public $request;
+
+	/**
+	 * @var array
+	 */
+	protected $options;
 
 	/**
 	 * @return static
@@ -63,21 +65,6 @@ class ValidateReview
 			$this->setSessionValues( 'message', $this->error );
 		}
 		return $this;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function validateRequest( array $request )
-	{
-		if( !$this->isRequestValid( $request )) {
-			$this->error = __( 'Please fix the submission errors.', 'site-reviews' );
-			return $request;
-		}
-		if( empty( $request['title'] )) {
-			$request['title'] = __( 'No Title', 'site-reviews' );
-		}
-		return array_merge( glsr( ValidateReviewDefaults::class )->defaults(), $request );
 	}
 
 	/**
@@ -114,12 +101,11 @@ class ValidateReview
 		if( !$integration ) {
 			return true;
 		}
-		$recaptchaResponse = glsr( Helper::class )->filterInput( 'g-recaptcha-response' ); // @todo site-reviews[g-recaptcha-response]
-		if( empty( $recaptchaResponse )) {
-			return null; //if response is empty we need to return null
+		if( empty( $this->request['recaptcha-token'] )) {
+			return null; // @see $this->validateRecaptcha()
 		}
 		if( $integration == 'custom' ) {
-			return $this->isRecaptchaValid( $recaptchaResponse );
+			return $this->isRecaptchaValid( $this->request['recaptcha-token'] );
 		}
 		if( $integration == 'invisible-recaptcha' ) {
 			return boolval( apply_filters( 'google_invre_is_valid_request_filter', true ));
@@ -128,15 +114,16 @@ class ValidateReview
 	}
 
 	/**
+	 * @param string $recaptchaToken
 	 * @return bool
 	 */
-	protected function isRecaptchaValid( $recaptchaResponse )
+	protected function isRecaptchaValid( $recaptchaToken )
 	{
 		$endpoint = add_query_arg([
 			'remoteip' => glsr( Helper::class )->getIpAddress(),
-			'response' => $recaptchaResponse,
+			'response' => $recaptchaToken,
 			'secret' => $this->getOption( 'settings.submissions.recaptcha.secret' ),
-		], 'https://www.google.com/recaptcha/api/siteverify' );
+		], static::RECAPTCHA_ENDPOINT );
 		if( is_wp_error( $response = wp_remote_get( $endpoint ))) {
 			glsr_log()->error( $response->get_error_message() );
 			return false;
@@ -257,5 +244,20 @@ class ValidateReview
 			$this->setSessionValues( 'recaptcha', 'reset' );
 			$this->error = __( 'The reCAPTCHA verification failed. Please notify the site administrator.', 'site-reviews' );
 		}
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function validateRequest( array $request )
+	{
+		if( !$this->isRequestValid( $request )) {
+			$this->error = __( 'Please fix the submission errors.', 'site-reviews' );
+			return $request;
+		}
+		if( empty( $request['title'] )) {
+			$request['title'] = __( 'No Title', 'site-reviews' );
+		}
+		return array_merge( glsr( ValidateReviewDefaults::class )->defaults(), $request );
 	}
 }

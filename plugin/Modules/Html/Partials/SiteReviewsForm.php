@@ -140,9 +140,6 @@ class SiteReviewsForm
 			'name' => 'nonce',
 			'value' => wp_create_nonce( 'submit-review' ),
 		],[
-			'id' => 'recaptcha-token',
-			'name' => 'recaptcha-token',
-		],[
 			'name' => 'referer',
 			'value' => wp_unslash( filter_input( INPUT_SERVER, 'REQUEST_URI' )),
 		]];

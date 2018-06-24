@@ -94,10 +94,7 @@ class Router
 			$request = glsr( Helper::class )->filterInputArray( $key );
 			if( !empty( $request ))break;
 		}
-		if( isset( $request[Application::ID]['action'] )) {
-			$request = $request[Application::ID];
-		}
-		return $request;
+		return $this->normalizeRequest( $request );
 	}
 
 	/**
@@ -106,6 +103,20 @@ class Router
 	protected function isValidPostRequest( array $request = [] )
 	{
 		return !empty( $request['action'] ) && empty( glsr( Helper::class )->filterInput( 'ajax_request' ));
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function normalizeRequest( array $request )
+	{
+		if( isset( $request[Application::ID]['action'] )) {
+			$request = $request[Application::ID];
+		}
+		if( glsr( Helper::class )->filterInput( 'action', $request ) == 'submit-review' ) {
+			$request['recaptcha-token'] = glsr( Helper::class )->filterInput( 'g-recaptcha-response' );
+		}
+		return $request;
 	}
 
 	/**

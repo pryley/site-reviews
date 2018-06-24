@@ -5,11 +5,9 @@
 
 	var GLSR_Form = function( formEl, buttonEl ) { // HTMLElement, HTMLElement
 		this.button = buttonEl;
-		this.enableButton = this.enableButton_.bind( this );
 		this.form = formEl;
 		this.init = this.init_.bind( this );
 		this.recaptcha = new GLSR.Recaptcha( this );
-		this.submitForm = this.submitForm_.bind( this );
 	};
 
 	GLSR_Form.prototype = {
@@ -74,7 +72,7 @@
 
 		/** @return HTMLFormElement */
 		getForm_: function( recaptchaToken ) { // string|null
-			var tokenEl = this.form.querySelector( '#recaptcha-token' );
+			var tokenEl = this.form['g-recaptcha-response'];
 			if( tokenEl ) {
 				tokenEl.value = recaptchaToken || '';
 			}
@@ -94,22 +92,22 @@
 
 		/** @return void */
 		handleResponse_: function( response ) { // object
-			console.log( response );
+			// console.log( response );
 			if( response.recaptcha === true ) {
-				console.log( 'executing recaptcha' );
+				// console.log( 'executing recaptcha' );
 				this.recaptcha.execute_();
 				return;
 			}
 			if( response.recaptcha === 'reset' ) {
-				console.log( 'resetting failed recaptcha' );
+				// console.log( 'resetting failed recaptcha' );
 				this.recaptcha.reset_();
 			}
 			if( response.errors === false ) {
-				console.log( 'resetting recaptcha' );
+				// console.log( 'resetting recaptcha' );
 				this.recaptcha.reset_();
 				this.form.reset();
 			}
-			console.log( 'submission finished' );
+			// console.log( 'submission finished' );
 			this.showFieldErrors_( response.errors );
 			this.showResults_( response );
 			this.enableButton_();
@@ -148,8 +146,8 @@
 			this.form.onsubmit = null;
 			HTMLFormElement.prototype._submit = HTMLFormElement.prototype.submit;
 			HTMLFormElement.prototype.submit = function() {
-				var token = this.querySelector( '#g-recaptcha-response' );
-				if( null !== token && this.querySelector( form.config.fieldSelector )) {
+				var token = this['g-recaptcha-response'];
+				if( token && this.querySelector( form.config.fieldSelector )) {
 					form.submitForm_( token.value );
 					return;
 				}
@@ -191,10 +189,7 @@
 		submitForm_: function( recaptchaToken ) { // string|null
 			this.disableButton_();
 			this.fallbackSubmit_();
-			(new GLSR.Ajax()).post( this.getForm_( recaptchaToken ), this.handleResponse_.bind( this ), {
-				// 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-				// 'Content-Type': 'multipart/form-data; charset=utf-8; boundary=glsr-form-data-boundary',
-			});
+			(new GLSR.Ajax()).post( this.getForm_( recaptchaToken ), this.handleResponse_.bind( this ));
 		},
 	};
 
