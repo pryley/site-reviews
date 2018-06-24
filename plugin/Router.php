@@ -78,8 +78,8 @@ class Router
 	 */
 	protected function checkAdminNonce( $action )
 	{
-		$nonce = filter_input( INPUT_POST, 'option_page' ) == $action
-			&& filter_input( INPUT_POST, 'action' ) == 'update'
+		$nonce = glsr( Helper::class )->filterInput( 'option_page' ) == $action
+			&& glsr( Helper::class )->filterInput( 'action' ) == 'update'
 			? $action.'-options'
 			: $action;
 		check_admin_referer( $nonce );
@@ -91,13 +91,13 @@ class Router
 	protected function getRequest()
 	{
 		foreach( ['request', Application::ID] as $key ) {
-			$request = filter_input( INPUT_POST, $key, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+			$request = glsr( Helper::class )->filterInputArray( $key );
 			if( !empty( $request ))break;
 		}
 		if( isset( $request[Application::ID]['action'] )) {
 			$request = $request[Application::ID];
 		}
-		return (array)$request;
+		return $request;
 	}
 
 	/**
@@ -105,7 +105,7 @@ class Router
 	 */
 	protected function isValidPostRequest( array $request = [] )
 	{
-		return !empty( $request['action'] ) && empty( filter_input( INPUT_POST, 'ajax_request' ));
+		return !empty( $request['action'] ) && empty( glsr( Helper::class )->filterInput( 'ajax_request' ));
 	}
 
 	/**
@@ -115,15 +115,15 @@ class Router
 	 */
 	protected function routeRequest( $type, $action, array $request = [] )
 	{
+		$actionHook = 'site-reviews/route/'.$type.'/request';
 		$controller = glsr( glsr( Helper::class )->buildClassName( $type.'-controller', 'Controllers' ));
 		$method = glsr( Helper::class )->buildMethodName( $action, 'router' );
 		$request = apply_filters( 'site-reviews/route/request', $request, $action, $type );
+		do_action( $actionHook, $action, $request );
 		if( is_callable( [$controller, $method] )) {
 			call_user_func( [$controller, $method], $request );
 			return;
 		}
-		$actionHook = 'site-reviews/route/'.$type.'/request';
-		do_action( $actionHook, $action, $request );
 		if( did_action( $actionHook ) === 0 ) {
 			glsr_log( 'Unknown '.$type.' router request: '.$action );
 		}

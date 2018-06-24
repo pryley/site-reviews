@@ -20,19 +20,18 @@ class TestAjax extends WP_Ajax_UnitTestCase
 	{
 		$response = $this->ajax_response( $this->review );
 		$this->assertFalse( $response->errors );
-		$this->assertEquals( $response->message, 'Your review has been submitted!' );
+		$this->assertEquals( $response->message, wpautop( 'Your review has been submitted!' ));
 	}
 
 	protected function ajax_response( $request )
 	{
-		$_POST = [
-			'_wpnonce' => wp_create_nonce( Application::ID.'-ajax-nonce' ),
-			'request' => $request,
-		];
+		$_POST['ajax_request'] = true;
+		$_POST[Application::ID] = $request;
 		try {
-			$this->_handleAjax( Application::ID.'_action' );
+			$this->_handleAjax( Application::PREFIX.'action' );
 		}
 		catch( WPAjaxDieContinueException $e ) {
+			error_log( print_r( 'WPAjaxDieContinueException', 1 ));
 		}
 		catch( WPAjaxDieStopException $e ) {
 			error_log( print_r( 'WPAjaxDieStopException', 1 ));

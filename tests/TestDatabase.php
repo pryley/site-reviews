@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Tests;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Tests\Setup;
 use WP_UnitTestCase;
 
@@ -14,6 +13,19 @@ use WP_UnitTestCase;
 class TestDatabase extends WP_UnitTestCase
 {
 	use Setup;
+
+	public function test_database_key()
+	{
+		$this->assertEquals( OptionManager::databaseKey(), 'site_reviews_v3' );
+	}
+
+	public function test_delete_option()
+	{
+		glsr( OptionManager::class )->set( 'settings.new', 'yes' );
+		$this->assertEquals( glsr( OptionManager::class )->get( 'settings.new' ), 'yes' );
+		glsr( OptionManager::class )->delete( 'settings.new' );
+		$this->assertEquals( glsr( OptionManager::class )->get( 'settings.new' ), '' );
+	}
 
 	public function test_get_option()
 	{
@@ -40,35 +52,6 @@ class TestDatabase extends WP_UnitTestCase
 		$this->assertArrayHasKey( 'submissions', $options['settings'] );
 	}
 
-	public function test_get_path_value()
-	{
-		$values = ['parent' => ['child' => 'toys']];
-		$this->assertEquals(
-			glsr( Helper::class )->getPathValue( 'parent.child', $values ),
-			'toys'
-		);
-		$this->assertEquals(
-			glsr( Helper::class )->getPathValue( 'parent.child.toys', $values, 'fallback' ),
-			'fallback'
-		);
-	}
-
-	public function test_remove_empty_array_values()
-	{
-		$array = [
-			'emptyString' => '',
-			'emptyArray'  => [],
-			'array' => [
-				'string' => 'string',
-				'emptyString' => [],
-			],
-		];
-		$this->assertEquals(
-			glsr( Helper::class )->removeEmptyArrayValues( $array ),
-			['array' => ['string' => 'string']]
-		);
-	}
-
 	public function test_set_option()
 	{
 		glsr( OptionManager::class )->set( 'settings.general.require.approval', 'no' );
@@ -83,62 +66,54 @@ class TestDatabase extends WP_UnitTestCase
 		);
 	}
 
-	public function test_set_path_value()
-	{
-		$this->assertEquals(
-			glsr( Helper::class )->setPathValue( 'number.thirteen', '13', [] ),
-			['number' => ['thirteen' => '13']]
-		);
-	}
+	// public function test_create_review()
+	// {}
 
-	public function test_create_review()
-	{}
+	// public function test_delete_review()
+	// {}
 
-	public function test_delete_review()
-	{}
+	// public function test_get_review()
+	// {}
 
-	public function test_get_review()
-	{}
+	// public function test_get_review_count()
+	// {}
 
-	public function test_get_review_count()
-	{}
+	// public function test_get_review_id()
+	// {}
 
-	public function test_get_review_id()
-	{}
+	// public function test_get_review_ids()
+	// {}
 
-	public function test_get_review_ids()
-	{}
+	// public function test_get_review_meta()
+	// {}
 
-	public function test_get_review_meta()
-	{}
+	// public function test_get_reviews()
+	// {}
 
-	public function test_get_reviews()
-	{}
+	// public function test_get_reviews_meta()
+	// {}
 
-	public function test_get_reviews_meta()
-	{}
+	// public function test_get_review_types()
+	// {}
 
-	public function test_get_review_types()
-	{}
+	// public function test_get_terms()
+	// {}
 
-	public function test_get_terms()
-	{}
+	// public function test_normalize_meta()
+	// {}
 
-	public function test_normalize_meta()
-	{}
+	// public function test_normalize_meta_key()
+	// {}
 
-	public function test_normalize_meta_key()
-	{}
+	// public function test_normalize_terms()
+	// {}
 
-	public function test_normalize_terms()
-	{}
+	// public function test_revert_review()
+	// {}
 
-	public function test_revert_review()
-	{}
+	// public function test_set_defaults()
+	// {}
 
-	public function test_set_defaults()
-	{}
-
-	public function test_set_terms()
-	{}
+	// public function test_set_terms()
+	// {}
 }

@@ -14,14 +14,15 @@ trait Setup
 		$this->review = [
 			'action' => 'submit-review',
 			'content' => 'abcdefg',
-			'email' => 'jane@doee.com',
+			'email' => 'jane@doe.com',
 			'excluded' => "[]",
 			'form_id' => 'abcdef',
-			'name' => 'Jane doe',
+			'name' => 'Jane Doe',
+			'nonce' => wp_create_nonce( 'submit-review' ),
 			'rating' => '5',
 			'terms' => '1',
 			'title' => 'Test Review',
-			'_wp_http_referer' => $PHP_SELF,
+			'referer' => $PHP_SELF,
 		];
 		// save initial plugin settings here if needed
 	}
