@@ -65,7 +65,7 @@ class EnqueueAdminAssets
 			],
 			'nonce' => [
 				'change-review-status' => wp_create_nonce( 'change-review-status' ),
-				'clear-log' => wp_create_nonce( 'clear-log' ),
+				'clear-console' => wp_create_nonce( 'clear-console' ),
 				'mce-shortcode' => wp_create_nonce( 'mce-shortcode' ),
 				'toggle-pinned' => wp_create_nonce( 'toggle-pinned' ),
 			],

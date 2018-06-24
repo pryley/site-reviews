@@ -6,7 +6,7 @@ use DateTime;
 use GeminiLabs\SiteReviews\Application;
 use ReflectionClass;
 
-class Logger
+class Console
 {
 	const ALERT = 'alert';
 	const CRITICAL  = 'critical';
@@ -114,6 +114,16 @@ class Logger
 	}
 
 	/**
+	 * @return string
+	 */
+	public function humanSize()
+	{
+		$bytes = $this->size();
+		$exponent = floor( log( max( $bytes, 1 ), 1024 ));
+		return round( $bytes / pow( 1024, $exponent ), 2 ).['B','KB','MB','GB'][$exponent];
+	}
+
+	/**
 	 * Interesting events
 	 * Example: User logs in, SQL logs
 	 * @param mixed $message
@@ -151,6 +161,16 @@ class Logger
 	public function notice( $message, array $context = [] )
 	{
 		return $this->log( static::NOTICE, $message, $context );
+	}
+
+	/**
+	 * @return int
+	 */
+	public function size()
+	{
+		return file_exists( $this->file )
+			? filesize( $this->file )
+			: 0;
 	}
 
 	/**
@@ -245,8 +265,7 @@ class Logger
 	 */
 	protected function reset()
 	{
-		if( file_exists( $this->file )
-			&& filesize( $this->file ) > pow( 1024, 2 ) / 2 ) {
+		if( $this->size() > pow( 1024, 2 ) / 2 ) {
 			$this->clear();
 			file_put_contents(
 				$this->file,

@@ -8,9 +8,9 @@ use GeminiLabs\SiteReviews\Commands\RegisterShortcodeButtons;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Logger;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\System;
 use WP_Post;
@@ -149,10 +149,10 @@ class AdminController extends Controller
 	/**
 	 * @return void
 	 */
-	public function routerClearLog()
+	public function routerClearConsole()
 	{
-		glsr( Logger::class )->clear();
-		glsr( Notice::class )->addSuccess( __( 'Log cleared.', 'site-reviews' ));
+		glsr( Console::class )->clear();
+		glsr( Notice::class )->addSuccess( __( 'Console cleared.', 'site-reviews' ));
 	}
 
 	/**
@@ -160,7 +160,7 @@ class AdminController extends Controller
 	 */
 	public function routerDownloadLog()
 	{
-		$this->download( Application::ID.'-log.txt', glsr( Logger::class )->get() );
+		$this->download( Application::ID.'-log.txt', glsr( Console::class )->get() );
 	}
 
 	/**

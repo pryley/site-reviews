@@ -23,8 +23,8 @@ scripts:
   site-reviews-admin.js:
     - +/scripts/admin/ajax.js
     - +/scripts/admin/color-picker.js
+    - +/scripts/admin/console.js
     - +/scripts/admin/forms.js
-    - +/scripts/admin/logger.js
     - +/scripts/admin/notices.js
     - +/scripts/admin/pinned.js
     - +/scripts/admin/pointers.js

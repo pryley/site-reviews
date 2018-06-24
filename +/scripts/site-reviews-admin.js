@@ -10,8 +10,8 @@ GLSR.keys = {
 
 jQuery( function() {
 	GLSR.ColorPicker();
+	new GLSR.Console();
 	new GLSR.Forms( 'form.glsr-form' );
-	new GLSR.Logger();
 	new GLSR.Pinned();
 	new GLSR.Pointers();
 	new GLSR.Search( '#glsr-search-posts', {

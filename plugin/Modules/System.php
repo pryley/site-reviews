@@ -26,7 +26,7 @@ class System
 	public function get()
 	{
 		$details = [
-			'version' => 'Plugin Details',
+			'plugin' => 'Plugin Details',
 			'browser' => 'Browser Details',
 			'server' => 'Server Details',
 			'php' => 'PHP Configuration',
@@ -169,9 +169,10 @@ class System
 	/**
 	 * @return array
 	 */
-	public function getVersionDetails()
+	public function getPluginDetails()
 	{
 		return [
+			'Console size' => glsr( Console::class )->humanSize(),
 			'Current version' => glsr()->version,
 			'Previous version' => glsr( OptionManager::class )->get( 'version_upgraded_from' ),
 		];

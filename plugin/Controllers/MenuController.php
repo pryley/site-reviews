@@ -5,10 +5,10 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
-use GeminiLabs\SiteReviews\Modules\Logger;
 use GeminiLabs\SiteReviews\Modules\System;
 
 class MenuController extends Controller
@@ -121,14 +121,14 @@ class MenuController extends Controller
 	{
 		$tabs = $this->parseWithFilter( 'tools/tabs', [
 			'import-export' => __( 'Import/Export', 'site-reviews' ),
-			'logging' => __( 'Logging', 'site-reviews' ),
+			'console' => __( 'Console', 'site-reviews' ),
 			'system-info' => __( 'System Info', 'site-reviews' ),
 		]);
 		$this->renderPage( 'tools', [
 			'data' => [
 				'context' => [
+					'console' => (string)glsr( Console::class ),
 					'id' => Application::ID,
-					'logger' => (string)glsr( Logger::class ),
 					'system' => (string)glsr( System::class ),
 				],
 			],

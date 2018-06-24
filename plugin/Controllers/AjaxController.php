@@ -8,8 +8,8 @@ use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html;
-use GeminiLabs\SiteReviews\Modules\Logger;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Session;
 use GeminiLabs\SiteReviews\Modules\Translator;
@@ -38,11 +38,11 @@ class AjaxController extends Controller
 	/**
 	 * @return void
 	 */
-	public function routerClearLog()
+	public function routerClearConsole()
 	{
-		glsr( AdminController::class )->routerClearLog();
+		glsr( AdminController::class )->routerClearConsole();
 		wp_send_json([
-			'logger' => glsr( Logger::class )->get(),
+			'console' => glsr( Console::class )->get(),
 			'notices' => glsr( Notice::class )->get(),
 		]);
 	}

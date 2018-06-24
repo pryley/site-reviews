@@ -52,7 +52,7 @@ msgstr "Update WordPress"
 msgid "Set the status of new review submissions to pending."
 msgstr "Set the status of new review submissions to pending."
 
-#: config/settings.php:7, config/settings.php:278
+#: config/settings.php:7, config/settings.php:326
 msgid "Require approval"
 msgstr "Require approval"
 
@@ -124,35 +124,35 @@ msgstr "Incoming WebHook"
 msgid "Webhook URL"
 msgstr "Webhook URL"
 
-#: config/settings.php:68
+#: config/settings.php:67
 msgid "Notification template"
 msgstr "Notification template"
 
-#: config/settings.php:74
+#: config/settings.php:73
 msgid "The default date format is the one set in your %s."
 msgstr "The default date format is the one set in your %s."
 
-#: config/settings.php:75
+#: config/settings.php:74
 msgid "WordPress settings"
 msgstr "WordPress settings"
 
-#: config/settings.php:77
+#: config/settings.php:76
 msgid "Date Format"
 msgstr "Date Format"
 
-#: config/settings.php:79
+#: config/settings.php:78
 msgid "Use the default date format"
 msgstr "Use the default date format"
 
-#: config/settings.php:80
+#: config/settings.php:79
 msgid "Use a relative date format"
 msgstr "Use a relative date format"
 
-#: config/settings.php:81
+#: config/settings.php:80
 msgid "Use a custom date format"
 msgstr "Use a custom date format"
 
-#: config/settings.php:88
+#: config/settings.php:87
 msgid ""
 "Enter a custom date format (<a "
 "href=\"https://codex.wordpress.org/Formatting_Date_and_Time\">documentation "
@@ -162,19 +162,19 @@ msgstr ""
 "href=\"https://codex.wordpress.org/Formatting_Date_and_Time\">documentation "
 "on date and time formatting</a>)."
 
-#: config/settings.php:89
+#: config/settings.php:88
 msgid "Custom Date Format"
 msgstr "Custom Date Format"
 
-#: config/settings.php:94
+#: config/settings.php:93
 msgid "Display a link to the assigned post of a review."
 msgstr "Display a link to the assigned post of a review."
 
-#: config/settings.php:95
+#: config/settings.php:94
 msgid "Enable Assigned Links"
 msgstr "Enable Assigned Links"
 
-#: config/settings.php:100
+#: config/settings.php:99
 msgid ""
 "Display reviewer avatars. These are generated from the email address of the "
 "reviewer using <a href=\"https://gravatar.com\">Gravatar</a>."
@@ -182,73 +182,63 @@ msgstr ""
 "Display reviewer avatars. These are generated from the email address of the "
 "reviewer using <a href=\"https://gravatar.com\">Gravatar</a>."
 
-#: config/settings.php:101
+#: config/settings.php:100
 msgid "Enable Avatars"
 msgstr "Enable Avatars"
 
-#: config/settings.php:107
+#: config/settings.php:106
 msgid "Regenerate the avatar whenever a local review is shown?"
 msgstr "Regenerate the avatar whenever a local review is shown?"
 
-#: config/settings.php:108
+#: config/settings.php:107
 msgid "Regenerate Avatars"
 msgstr "Regenerate Avatars"
 
-#: config/settings.php:114
+#: config/settings.php:113
 msgid "Set the avatar size in pixels."
 msgstr "Set the avatar size in pixels."
 
-#: config/settings.php:115
+#: config/settings.php:114
 msgid "Avatar Size"
 msgstr "Avatar Size"
 
-#: config/settings.php:120
+#: config/settings.php:119
 msgid "Display an excerpt instead of the full review."
 msgstr "Display an excerpt instead of the full review."
 
-#: config/settings.php:121
+#: config/settings.php:120
 msgid "Enable Excerpts"
 msgstr "Enable Excerpts"
 
-#: config/settings.php:127
+#: config/settings.php:126
 msgid "Set the excerpt word length."
 msgstr "Set the excerpt word length."
 
-#: config/settings.php:128
+#: config/settings.php:127
 msgid "Excerpt Length"
 msgstr "Excerpt Length"
 
-#: config/settings.php:133
-msgid ""
-"This is the default schema type for the item being reviewed. You can "
-"override this option on a per-post/page basis by adding a "
-"<code>schema_type</code> metadata value using <a "
-"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
-"Fields</a>."
-msgstr ""
-"This is the default schema type for the item being reviewed. You can "
-"override this option on a per-post/page basis by adding a "
-"<code>schema_type</code> metadata value using <a "
-"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
-"Fields</a>."
+#: config/settings.php:132
+msgid "Custom Field name: <code>schema_type</code>"
+msgstr "Custom Field name: <code>schema_type</code>"
 
-#: config/settings.php:134
+#: config/settings.php:133
 msgid "Default Schema Type"
 msgstr "Default Schema Type"
 
-#: config/settings.php:136
+#: config/settings.php:135
 msgid "Local Business"
 msgstr "Local Business"
 
-#: config/settings.php:137
+#: config/settings.php:136
 msgid "Product"
 msgstr "Product"
 
-#: config/settings.php:138
+#: config/settings.php:137
 msgid "Custom"
 msgstr "Custom"
 
-#: config/settings.php:145
+#: config/settings.php:144
 msgid ""
 "Google supports review ratings for the following schema content types: "
 "Local businesses, Movies, Books, Music, and Products. <a "
@@ -260,175 +250,187 @@ msgstr ""
 "href=\"https://schema.org/docs/schemas.html\">View more information on "
 "schema types here</a>."
 
-#: config/settings.php:146
+#: config/settings.php:145
 msgid "Custom Schema Type"
 msgstr "Custom Schema Type"
 
-#: config/settings.php:151
-msgid ""
-"This is the default name of the item being reviewed. You can override this "
-"option on a per-post/page basis by adding a <code>schema_name</code> "
-"metadata value using <a "
-"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
-"Fields</a>."
-msgstr ""
-"This is the default name of the item being reviewed. You can override this "
-"option on a per-post/page basis by adding a <code>schema_name</code> "
-"metadata value using <a "
-"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
-"Fields</a>."
+#: config/settings.php:150
+msgid "Custom Field name: <code>schema_name</code>"
+msgstr "Custom Field name: <code>schema_name</code>"
 
-#: config/settings.php:152
+#: config/settings.php:151
 msgid "Default Name"
 msgstr "Default Name"
 
-#: config/settings.php:154
+#: config/settings.php:153
 msgid "Use the assigned or current page title"
 msgstr "Use the assigned or current page title"
 
-#: config/settings.php:155
+#: config/settings.php:154
 msgid "Enter a custom title"
 msgstr "Enter a custom title"
 
-#: config/settings.php:162
+#: config/settings.php:161
 msgid "Custom Name"
 msgstr "Custom Name"
 
-#: config/settings.php:167
-msgid ""
-"This is the default description for the item being reviewed. You can "
-"override this option on a per-post/page basis by adding a "
-"<code>schema_description</code> metadata value using <a "
-"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
-"Fields</a>."
-msgstr ""
-"This is the default description for the item being reviewed. You can "
-"override this option on a per-post/page basis by adding a "
-"<code>schema_description</code> metadata value using <a "
-"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
-"Fields</a>."
+#: config/settings.php:166
+msgid "Custom Field name: <code>schema_description</code>"
+msgstr "Custom Field name: <code>schema_description</code>"
 
-#: config/settings.php:168
+#: config/settings.php:167
 msgid "Default Description"
 msgstr "Default Description"
 
-#: config/settings.php:170
+#: config/settings.php:169
 msgid "Use the assigned or current page excerpt"
 msgstr "Use the assigned or current page excerpt"
 
-#: config/settings.php:171
+#: config/settings.php:170
 msgid "Enter a custom description"
 msgstr "Enter a custom description"
 
-#: config/settings.php:178
+#: config/settings.php:177
 msgid "Custom Description"
 msgstr "Custom Description"
 
-#: config/settings.php:183
-msgid ""
-"This is the default URL for the item being reviewed. You can override this "
-"option on a per-post/page basis by adding a <code>schema_url</code> "
-"metadata value using <a "
-"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
-"Fields</a>."
-msgstr ""
-"This is the default URL for the item being reviewed. You can override this "
-"option on a per-post/page basis by adding a <code>schema_url</code> "
-"metadata value using <a "
-"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
-"Fields</a>."
+#: config/settings.php:182
+msgid "Custom Field name: <code>schema_url</code>"
+msgstr "Custom Field name: <code>schema_url</code>"
 
-#: config/settings.php:184
+#: config/settings.php:183
 msgid "Default URL"
 msgstr "Default URL"
 
-#: config/settings.php:186
+#: config/settings.php:185
 msgid "Use the assigned or current page URL"
 msgstr "Use the assigned or current page URL"
 
-#: config/settings.php:187
+#: config/settings.php:186
 msgid "Enter a custom URL"
 msgstr "Enter a custom URL"
 
-#: config/settings.php:194
+#: config/settings.php:193
 msgid "Custom URL"
 msgstr "Custom URL"
 
-#: config/settings.php:199
-msgid ""
-"This is the default image for the item being reviewed. You can override "
-"this option on a per-post/page basis by adding a <code>schema_image</code> "
-"metadata value using <a "
-"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
-"Fields</a>."
-msgstr ""
-"This is the default image for the item being reviewed. You can override "
-"this option on a per-post/page basis by adding a <code>schema_image</code> "
-"metadata value using <a "
-"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
-"Fields</a>."
+#: config/settings.php:198
+msgid "Custom Field name: <code>schema_image</code>"
+msgstr "Custom Field name: <code>schema_image</code>"
 
-#: config/settings.php:200
+#: config/settings.php:199
 msgid "Default Image"
 msgstr "Default Image"
 
-#: config/settings.php:202
+#: config/settings.php:201
 msgid "Use the featured image of the assigned or current page"
 msgstr "Use the featured image of the assigned or current page"
 
-#: config/settings.php:203
+#: config/settings.php:202
 msgid "Enter a custom image URL"
 msgstr "Enter a custom image URL"
 
-#: config/settings.php:210
+#: config/settings.php:209
 msgid "Custom Image URL"
 msgstr "Custom Image URL"
 
 #: config/settings.php:215
+msgid "Custom Field name: <code>schema_address</code>"
+msgstr "Custom Field name: <code>schema_address</code>"
+
+#: config/settings.php:216
+msgid "Address"
+msgstr "Address"
+
+#: config/settings.php:223
+msgid "Custom Field name: <code>schema_telephone</code>"
+msgstr "Custom Field name: <code>schema_telephone</code>"
+
+#: config/settings.php:224
+msgid "Telephone Number"
+msgstr "Telephone Number"
+
+#: config/settings.php:231
+msgid "Custom Field name: <code>schema_pricerange</code>"
+msgstr "Custom Field name: <code>schema_pricerange</code>"
+
+#: config/settings.php:232
+msgid "Price Range"
+msgstr "Price Range"
+
+#: config/settings.php:239
+msgid "Custom Field name: <code>schema_lowprice</code>"
+msgstr "Custom Field name: <code>schema_lowprice</code>"
+
+#: config/settings.php:240
+msgid "Low Price"
+msgstr "Low Price"
+
+#: config/settings.php:247
+msgid "Custom Field name: <code>schema_highprice</code>"
+msgstr "Custom Field name: <code>schema_highprice</code>"
+
+#: config/settings.php:248
+msgid "High Price"
+msgstr "High Price"
+
+#: config/settings.php:255
+msgid "Custom Field name: <code>schema_pricecurrency</code>"
+msgstr "Custom Field name: <code>schema_pricecurrency</code>"
+
+#: config/settings.php:256
+msgid "Price Currency"
+msgstr "Price Currency"
+
+#: config/settings.php:262
+msgid "Choose which fields should be required in the submission form."
+msgstr "Choose which fields should be required in the submission form."
+
+#: config/settings.php:263
 msgid "Required Fields"
 msgstr "Required Fields"
 
-#: config/settings.php:217, plugin/Controllers/MainController.php:40
-msgid "Review"
-msgstr "Review"
-
-#: config/settings.php:218, plugin/Controllers/EditorController.php:333, plugin/Shortcodes/SiteReviewsFormButton.php:47
-msgid "Email"
-msgstr "Email"
-
-#: config/settings.php:219, plugin/Controllers/EditorController.php:332, plugin/Shortcodes/SiteReviewsFormButton.php:52
-msgid "Name"
-msgstr "Name"
-
-#: config/settings.php:220, plugin/Controllers/EditorController.php:329, plugin/Controllers/MainController.php:31, plugin/Shortcodes/SiteReviewsButton.php:33, plugin/Shortcodes/SiteReviewsButton.php:105, plugin/Shortcodes/SiteReviewsSummaryButton.php:60
+#: config/settings.php:265, plugin/Controllers/EditorController.php:329, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsButton.php:33, plugin/Shortcodes/SiteReviewsButton.php:105, plugin/Shortcodes/SiteReviewsSummaryButton.php:60
 msgid "Rating"
 msgstr "Rating"
 
-#: config/settings.php:221, plugin/Shortcodes/SiteReviewsFormButton.php:57
-msgid "Terms"
-msgstr "Terms"
-
-#: config/settings.php:222, plugin/Defaults/PostTypeDefaults.php:17, plugin/Shortcodes/SiteReviewsButton.php:20, plugin/Shortcodes/SiteReviewsButton.php:115, plugin/Shortcodes/SiteReviewsFormButton.php:19, plugin/Shortcodes/SiteReviewsFormButton.php:62, plugin/Shortcodes/SiteReviewsSummaryButton.php:19, plugin/Widgets/SiteReviewsFormWidget.php:21, plugin/Widgets/SiteReviewsSummaryWidget.php:21, plugin/Widgets/SiteReviewsWidget.php:21
+#: config/settings.php:266, plugin/Defaults/PostTypeDefaults.php:17, plugin/Shortcodes/SiteReviewsButton.php:20, plugin/Shortcodes/SiteReviewsButton.php:115, plugin/Shortcodes/SiteReviewsFormButton.php:19, plugin/Shortcodes/SiteReviewsFormButton.php:62, plugin/Shortcodes/SiteReviewsSummaryButton.php:19, plugin/Widgets/SiteReviewsFormWidget.php:21, plugin/Widgets/SiteReviewsSummaryWidget.php:21, plugin/Widgets/SiteReviewsWidget.php:21
 msgid "Title"
 msgstr "Title"
 
-#: config/settings.php:228
+#: config/settings.php:267, plugin/Controllers/MainController.php:39
+msgid "Review"
+msgstr "Review"
+
+#: config/settings.php:268, plugin/Controllers/EditorController.php:332, plugin/Shortcodes/SiteReviewsFormButton.php:52
+msgid "Name"
+msgstr "Name"
+
+#: config/settings.php:269, plugin/Controllers/EditorController.php:333, plugin/Shortcodes/SiteReviewsFormButton.php:47
+msgid "Email"
+msgstr "Email"
+
+#: config/settings.php:270, plugin/Shortcodes/SiteReviewsFormButton.php:57
+msgid "Terms"
+msgstr "Terms"
+
+#: config/settings.php:276
 msgid ""
-"the <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> "
+"The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> "
 "integration provides spam-filtering for your reviews. In order for this "
 "setting to have any affect, you will need to first install and activate the "
 "Akismet plugin and set up a WordPress.com API key."
 msgstr ""
-"the <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> "
+"The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> "
 "integration provides spam-filtering for your reviews. In order for this "
 "setting to have any affect, you will need to first install and activate the "
 "Akismet plugin and set up a WordPress.com API key."
 
-#: config/settings.php:229
+#: config/settings.php:277
 msgid "Enable Akismet Integration"
 msgstr "Enable Akismet Integration"
 
-#: config/settings.php:234
+#: config/settings.php:282
 msgid ""
 "Invisible reCAPTCHA is a free anti-spam service from Google. To use it, you "
 "will need to <a href=\"https://www.google.com/recaptcha/admin\" "
@@ -442,35 +444,35 @@ msgstr ""
 "already using a reCAPTCHA plugin listed here, please select it; otherwise "
 "choose \"Use reCAPTCHA\"."
 
-#: config/settings.php:235
+#: config/settings.php:283
 msgid "Invisible reCAPTCHA"
 msgstr "Invisible reCAPTCHA"
 
-#: config/settings.php:237
+#: config/settings.php:285
 msgid "Do not use reCAPTCHA"
 msgstr "Do not use reCAPTCHA"
 
-#: config/settings.php:238
+#: config/settings.php:286
 msgid "Use reCAPTCHA"
 msgstr "Use reCAPTCHA"
 
-#: config/settings.php:239
+#: config/settings.php:287
 msgid "Use 3rd-party plugin: Invisible reCaptcha"
 msgstr "Use 3rd-party plugin: Invisible reCaptcha"
 
-#: config/settings.php:246
+#: config/settings.php:294
 msgid "Site Key"
 msgstr "Site Key"
 
-#: config/settings.php:252
+#: config/settings.php:300
 msgid "Site Secret"
 msgstr "Site Secret"
 
-#: config/settings.php:258
+#: config/settings.php:306
 msgid "Badge Position"
 msgstr "Badge Position"
 
-#: config/settings.php:268
+#: config/settings.php:316
 msgid ""
 "When a review contains any of these words in its title, content, name, "
 "email, or IP address, it will be rejected. One word or IP address per line. "
@@ -480,19 +482,19 @@ msgstr ""
 "email, or IP address, it will be rejected. One word or IP address per line. "
 "It will match inside words, so \"press\" will match \"WordPress\"."
 
-#: config/settings.php:269
+#: config/settings.php:317
 msgid "Review Blacklist"
 msgstr "Review Blacklist"
 
-#: config/settings.php:275
+#: config/settings.php:323
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr "Choose the action that should be taken when a review is blacklisted."
 
-#: config/settings.php:276
+#: config/settings.php:324
 msgid "Blacklist Action"
 msgstr "Blacklist Action"
 
-#: config/settings.php:279
+#: config/settings.php:327
 msgid "Reject submission"
 msgstr "Reject submission"
 
@@ -536,6 +538,10 @@ msgstr "Tell us your email"
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
+#: config/submission-form.php:34
+msgid "Upload a file."
+msgstr "Upload a file."
+
 #: plugin/Application.php:136
 msgid "Local"
 msgstr "Local"
@@ -562,15 +568,15 @@ msgid_plural "%s Reviews"
 msgstr[0] "%s Review"
 msgstr[1] "%s Reviews"
 
-#: plugin/Controllers/AdminController.php:97, plugin/Controllers/MainController.php:85
+#: plugin/Controllers/AdminController.php:97, plugin/Controllers/MainController.php:84
 msgid "Recent Reviews"
 msgstr "Recent Reviews"
 
-#: plugin/Controllers/AdminController.php:98, plugin/Controllers/MainController.php:90
+#: plugin/Controllers/AdminController.php:98, plugin/Controllers/MainController.php:89
 msgid "Submit a Review"
 msgstr "Submit a Review"
 
-#: plugin/Controllers/AdminController.php:99, plugin/Controllers/MainController.php:95
+#: plugin/Controllers/AdminController.php:99, plugin/Controllers/MainController.php:94
 msgid "Summary of Reviews"
 msgstr "Summary of Reviews"
 
@@ -579,8 +585,8 @@ msgid "This review is read-only."
 msgstr "This review is read-only."
 
 #: plugin/Controllers/AdminController.php:155
-msgid "Log cleared."
-msgstr "Log cleared."
+msgid "Console cleared."
+msgstr "Console cleared."
 
 #: plugin/Controllers/AdminController.php:192
 msgid "Please use a valid Site Reviews settings file."
@@ -634,7 +640,7 @@ msgstr "Okay"
 msgid "Nothing found."
 msgstr "Nothing found."
 
-#: plugin/Controllers/EditorController.php:122, plugin/Controllers/MainController.php:28, plugin/Shortcodes/SiteReviewsButton.php:80, views/partials/editor/bulk-edit-assigned-to.php:7
+#: plugin/Controllers/EditorController.php:122, plugin/Controllers/MainController.php:27, plugin/Shortcodes/SiteReviewsButton.php:80, views/partials/editor/bulk-edit-assigned-to.php:7
 msgid "Assigned To"
 msgstr "Assigned To"
 
@@ -646,11 +652,11 @@ msgstr "Details"
 msgid "Respond Publicly"
 msgstr "Respond Publicly"
 
-#: plugin/Controllers/EditorController.php:183, plugin/Modules/Html/Fields/YesNo.php:36
+#: plugin/Controllers/EditorController.php:183, plugin/Modules/Html/Fields/YesNo.php:37
 msgid "No"
 msgstr "No"
 
-#: plugin/Controllers/EditorController.php:184, plugin/Modules/Html/Fields/YesNo.php:37
+#: plugin/Controllers/EditorController.php:184, plugin/Modules/Html/Fields/YesNo.php:38
 msgid "Yes"
 msgstr "Yes"
 
@@ -674,7 +680,7 @@ msgstr "Unregistered user"
 msgid "RE:"
 msgstr "RE:"
 
-#: plugin/Controllers/EditorController.php:330, plugin/Controllers/MainController.php:30
+#: plugin/Controllers/EditorController.php:330, plugin/Controllers/MainController.php:29
 msgid "Type"
 msgstr "Type"
 
@@ -728,11 +734,11 @@ msgstr[1] "%s reviews restored from the Trash."
 msgid "Submitted"
 msgstr "Submitted"
 
-#: plugin/Controllers/ListTableController.php:98, plugin/Controllers/ListTableController.php:161, plugin/Modules/Editor/Labels.php:117, plugin/Modules/Editor/Labels.php:118
+#: plugin/Controllers/ListTableController.php:98, plugin/Controllers/ListTableController.php:161, plugin/Controllers/EditorController/Labels.php:117, plugin/Controllers/EditorController/Labels.php:118
 msgid "Unapproved"
 msgstr "Unapproved"
 
-#: plugin/Controllers/ListTableController.php:114, plugin/Modules/Editor/Labels.php:120
+#: plugin/Controllers/ListTableController.php:114, plugin/Controllers/EditorController/Labels.php:120
 msgid "Approve"
 msgstr "Approve"
 
@@ -740,31 +746,31 @@ msgstr "Approve"
 msgid "Unapprove"
 msgstr "Unapprove"
 
-#: plugin/Controllers/ListTableController.php:160, plugin/Modules/Editor/Labels.php:18, plugin/Modules/Editor/Labels.php:121
+#: plugin/Controllers/ListTableController.php:160, plugin/Controllers/EditorController/Labels.php:18, plugin/Controllers/EditorController/Labels.php:121
 msgid "Approved"
 msgstr "Approved"
 
-#: plugin/Controllers/MainController.php:29, plugin/Shortcodes/SiteReviewsButton.php:85
+#: plugin/Controllers/MainController.php:28, plugin/Shortcodes/SiteReviewsButton.php:85
 msgid "Author"
 msgstr "Author"
 
-#: plugin/Controllers/MainController.php:32, views/partials/editor/pinned.php:4
+#: plugin/Controllers/MainController.php:31, views/partials/editor/pinned.php:4
 msgid "Pinned"
 msgstr "Pinned"
 
-#: plugin/Controllers/MainController.php:38, plugin/Controllers/MenuController.php:100
+#: plugin/Controllers/MainController.php:37, plugin/Controllers/MenuController.php:100
 msgid "Reviews"
 msgstr "Reviews"
 
-#: plugin/Controllers/MainController.php:84
+#: plugin/Controllers/MainController.php:83
 msgid "Your site’s most recent reviews."
 msgstr "Your site’s most recent reviews."
 
-#: plugin/Controllers/MainController.php:89
+#: plugin/Controllers/MainController.php:88
 msgid "A \"submit a review\" form for your site."
 msgstr "A \"submit a review\" form for your site."
 
-#: plugin/Controllers/MainController.php:94
+#: plugin/Controllers/MainController.php:93
 msgid "A summary of your site’s reviews."
 msgstr "A summary of your site’s reviews."
 
@@ -825,8 +831,8 @@ msgid "Import/Export"
 msgstr "Import/Export"
 
 #: plugin/Controllers/MenuController.php:124
-msgid "Logging"
-msgstr "Logging"
+msgid "Console"
+msgstr "Console"
 
 #: plugin/Controllers/MenuController.php:125
 msgid "System Info"
@@ -835,6 +841,10 @@ msgstr "System Info"
 #: plugin/Controllers/SettingsController.php:28
 msgid "Settings updated."
 msgstr "Settings updated."
+
+#: plugin/Controllers/TaxonomyController.php:39
+msgid "Filter by category"
+msgstr "Filter by category"
 
 #: plugin/Handlers/ChangeStatus.php:37, views/partials/editor/pinned.php:7
 msgid "Edit"
@@ -852,18 +862,6 @@ msgstr "Your review has been submitted!"
 msgid "View Review"
 msgstr "View Review"
 
-#: plugin/Handlers/CreateReview.php:140
-msgid "Email notification was not sent: missing email, subject, or message."
-msgstr "Email notification was not sent: missing email, subject, or message."
-
-#: plugin/Handlers/CreateReview.php:143
-msgid "Email notification was not sent: wp_mail() failed."
-msgstr "Email notification was not sent: wp_mail() failed."
-
-#: plugin/Handlers/RegisterTaxonomy.php:57
-msgid "Filter by category"
-msgstr "Filter by category"
-
 #: plugin/Handlers/TogglePinned.php:24
 msgid "Review pinned."
 msgstr "Review pinned."
@@ -871,6 +869,14 @@ msgstr "Review pinned."
 #: plugin/Handlers/TogglePinned.php:25
 msgid "Review unpinned."
 msgstr "Review unpinned."
+
+#: plugin/Modules/Console.php:112
+msgid "Log is empty"
+msgstr "Log is empty"
+
+#: plugin/Modules/Console.php:272
+msgid "Log has been automatically reset (512 KB max size)"
+msgstr "Log has been automatically reset (512 KB max size)"
 
 #: plugin/Modules/Date.php:36
 msgid "%s second ago"
@@ -913,14 +919,6 @@ msgid "%s year ago"
 msgid_plural "%s years ago"
 msgstr[0] "%s year ago"
 msgstr[1] "%s years ago"
-
-#: plugin/Modules/Logger.php:112
-msgid "Log is empty"
-msgstr "Log is empty"
-
-#: plugin/Modules/Logger.php:253
-msgid "Log has been automatically reset (512 KB max size)"
-msgstr "Log has been automatically reset (512 KB max size)"
 
 #: plugin/Modules/Validator.php:307
 msgid "This field must be accepted."
@@ -994,7 +992,7 @@ msgstr "Count"
 msgid "How many reviews would you like to display (default: 10)?"
 msgstr "How many reviews would you like to display (default: 10)?"
 
-#: plugin/Shortcodes/SiteReviewsButton.php:36, plugin/Shortcodes/SiteReviewsButton.php:37, plugin/Shortcodes/SiteReviewsButton.php:38, plugin/Shortcodes/SiteReviewsButton.php:39, plugin/Shortcodes/SiteReviewsButton.php:40, plugin/Widgets/SiteReviewsWidget.php:35, plugin/Widgets/SiteReviewsWidget.php:36, plugin/Widgets/SiteReviewsWidget.php:37, plugin/Widgets/SiteReviewsWidget.php:38, plugin/Widgets/SiteReviewsWidget.php:39, plugin/Modules/ListTable/Columns.php:117
+#: plugin/Shortcodes/SiteReviewsButton.php:36, plugin/Shortcodes/SiteReviewsButton.php:37, plugin/Shortcodes/SiteReviewsButton.php:38, plugin/Shortcodes/SiteReviewsButton.php:39, plugin/Shortcodes/SiteReviewsButton.php:40, plugin/Widgets/SiteReviewsWidget.php:35, plugin/Widgets/SiteReviewsWidget.php:36, plugin/Widgets/SiteReviewsWidget.php:37, plugin/Widgets/SiteReviewsWidget.php:38, plugin/Widgets/SiteReviewsWidget.php:39, plugin/Controllers/ListTableController/Columns.php:117
 msgid "%s star"
 msgid_plural "%s stars"
 msgstr[0] "%s star"
@@ -1276,75 +1274,75 @@ msgstr "Limit reviews to this category"
 msgid "Limit reviews to those assigned to this page/post ID"
 msgstr "Limit reviews to those assigned to this page/post ID"
 
-#: plugin/Modules/Editor/Labels.php:17, plugin/Modules/Editor/Labels.php:122
+#: plugin/Controllers/EditorController/Labels.php:17, plugin/Controllers/EditorController/Labels.php:122
 msgid "Save as Unapproved"
 msgstr "Save as Unapproved"
 
-#: plugin/Modules/Editor/Labels.php:93
+#: plugin/Controllers/EditorController/Labels.php:93
 msgid "Review has been approved and published."
 msgstr "Review has been approved and published."
 
-#: plugin/Modules/Editor/Labels.php:94
+#: plugin/Controllers/EditorController/Labels.php:94
 msgid "Review draft updated."
 msgstr "Review draft updated."
 
-#: plugin/Modules/Editor/Labels.php:95
+#: plugin/Controllers/EditorController/Labels.php:95
 msgid "Preview review"
 msgstr "Preview review"
 
-#: plugin/Modules/Editor/Labels.php:96
+#: plugin/Controllers/EditorController/Labels.php:96
 msgid "Review approved and published."
 msgstr "Review approved and published."
 
-#: plugin/Modules/Editor/Labels.php:97
+#: plugin/Controllers/EditorController/Labels.php:97
 msgid "Review restored to revision from %s."
 msgstr "Review restored to revision from %s."
 
-#: plugin/Modules/Editor/Labels.php:98
+#: plugin/Controllers/EditorController/Labels.php:98
 msgid "Review has been reverted to its original submission state."
 msgstr "Review has been reverted to its original submission state."
 
-#: plugin/Modules/Editor/Labels.php:99
+#: plugin/Controllers/EditorController/Labels.php:99
 msgid "Review saved."
 msgstr "Review saved."
 
-#: plugin/Modules/Editor/Labels.php:100
+#: plugin/Controllers/EditorController/Labels.php:100
 msgid "Review scheduled for: %s."
 msgstr "Review scheduled for: %s."
 
-#: plugin/Modules/Editor/Labels.php:101
+#: plugin/Controllers/EditorController/Labels.php:101
 msgid "Review submitted."
 msgstr "Review submitted."
 
-#: plugin/Modules/Editor/Labels.php:102
+#: plugin/Controllers/EditorController/Labels.php:102
 msgid "Review has been unapproved and is now pending."
 msgstr "Review has been unapproved and is now pending."
 
-#: plugin/Modules/Editor/Labels.php:103
+#: plugin/Controllers/EditorController/Labels.php:103
 msgid "Review updated."
 msgstr "Review updated."
 
-#: plugin/Modules/Editor/Labels.php:104
+#: plugin/Controllers/EditorController/Labels.php:104
 msgid "View review"
 msgstr "View review"
 
-#: plugin/Modules/Editor/Labels.php:119
+#: plugin/Controllers/EditorController/Labels.php:119
 msgid "Privately Approved"
 msgstr "Privately Approved"
 
-#: plugin/Modules/ListTable/Columns.php:120
+#: plugin/Controllers/ListTableController/Columns.php:120
 msgid "Filter by rating"
 msgstr "Filter by rating"
 
-#: plugin/Modules/ListTable/Columns.php:126
+#: plugin/Controllers/ListTableController/Columns.php:126
 msgid "All ratings"
 msgstr "All ratings"
 
-#: plugin/Modules/ListTable/Columns.php:138
+#: plugin/Controllers/ListTableController/Columns.php:138
 msgid "Filter by type"
 msgstr "Filter by type"
 
-#: plugin/Modules/ListTable/Columns.php:144
+#: plugin/Controllers/ListTableController/Columns.php:144
 msgid "All types"
 msgstr "All types"
 
@@ -1387,10 +1385,28 @@ msgstr "Sync your Yelp reviews and display them on your site."
 #: views/pages/settings/schema.php:3
 msgid ""
 "The JSON-LD schema appears in Google's search results and shows the star "
-"rating and other information about your reviews."
+"rating and other information about your reviews. If the schema has been "
+"enabled in your shortcodes, you can use Google's <a "
+"href=\"https://search.google.com/structured-data/testing-tool\">Structured "
+"Data Testing Tool</a> to test your pages for valid schema data."
 msgstr ""
 "The JSON-LD schema appears in Google's search results and shows the star "
-"rating and other information about your reviews."
+"rating and other information about your reviews. If the schema has been "
+"enabled in your shortcodes, you can use Google's <a "
+"href=\"https://search.google.com/structured-data/testing-tool\">Structured "
+"Data Testing Tool</a> to test your pages for valid schema data."
+
+#: views/pages/settings/schema.php:4
+msgid ""
+"You may override any of these options on a per-post/page basis by using its "
+"Custom Field name and adding a custom value using the <a "
+"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
+"Fields</a> metabox."
+msgstr ""
+"You may override any of these options on a per-post/page basis by using its "
+"Custom Field name and adding a custom value using the <a "
+"href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
+"Fields</a> metabox."
 
 #: views/pages/settings/translations.php:5
 msgid "Search for translatable text"
@@ -1408,6 +1424,14 @@ msgstr "Strings"
 msgid "Custom Strings"
 msgstr "Custom Strings"
 
+#: views/pages/tools/console.php:8
+msgid "Clear Console"
+msgstr "Clear Console"
+
+#: views/pages/tools/console.php:13
+msgid "Download Log"
+msgstr "Download Log"
+
 #: views/pages/tools/import-export.php:11
 msgid "Import Settings"
 msgstr "Import Settings"
@@ -1415,14 +1439,6 @@ msgstr "Import Settings"
 #: views/pages/tools/import-export.php:22
 msgid "Export Settings"
 msgstr "Export Settings"
-
-#: views/pages/tools/logging.php:8
-msgid "Clear Log"
-msgstr "Clear Log"
-
-#: views/pages/tools/logging.php:13
-msgid "Download Log"
-msgstr "Download Log"
 
 #: views/pages/tools/system-info.php:8
 msgid "Download System Info"

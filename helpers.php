@@ -49,17 +49,17 @@ function glsr_debug( ...$vars ) {
 }
 
 /**
- * @return \GeminiLabs\SiteReviews\Modules\Logger
+ * @return \GeminiLabs\SiteReviews\Modules\Console
  */
 function glsr_log() {
 	$args = func_get_args();
 	$context = isset( $args[1] )
 		? $args[1]
 		: [];
-	$logger = glsr( 'Modules\Logger' );
+	$console = glsr( 'Modules\Console' );
 	return !empty( $args )
-		? $logger->log( 'debug', $args[0], $context )
-		: $logger;
+		? $console->log( 'debug', $args[0], $context )
+		: $console;
 }
 
 /**

@@ -3,21 +3,21 @@
 
 	'use strict';
 
-	var Logger = function() {
-		x( 'form' ).on( 'click', '#clear-log', this.onClick_ );
+	var Console = function() {
+		x( 'form' ).on( 'click', '#clear-console', this.onClick_ );
 	};
 
-	Logger.prototype = {
+	Console.prototype = {
 		onClick_: function( ev ) {
 		 	var request = {
-				action: 'clear-log',
+				action: 'clear-console',
 			};
 			(new GLSR.Ajax( request, ev )).post( function( response ) {
 				GLSR.Notices( response.notices );
-				x( '#log-file' ).val( response.logger );
+				x( '#console' ).val( response.console );
 			});
 		},
 	};
 
-	GLSR.Logger = Logger;
+	GLSR.Console = Console;
 })( jQuery );

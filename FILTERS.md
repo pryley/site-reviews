@@ -53,7 +53,7 @@ site-reviews/email/compose
 site-reviews/email/headers
 site-reviews/email/message
 
-[Logger.php]
+[Console.php]
 site-reviews/log-levels
 
 [Rating.php]
