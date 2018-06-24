@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules\Editor;
+namespace GeminiLabs\SiteReviews\Controllers\EditorController;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
@@ -52,8 +52,8 @@ class Metaboxes
 	 */
 	public function saveAssignedToMetabox( $postId )
 	{
-		if( !wp_verify_nonce( filter_input( INPUT_POST, '_nonce-assigned-to' ), 'assigned_to' ))return;
-		$assignedTo = filter_input( INPUT_POST, 'assigned_to' );
+		if( !wp_verify_nonce( glsr( Helper::class )->filterInput( '_nonce-assigned-to' ), 'assigned_to' ))return;
+		$assignedTo = glsr( Helper::class )->filterInput( 'assigned_to' );
 		$assignedTo || $assignedTo = '';
 		if( get_post_meta( $postId, 'assigned_to', true ) != $assignedTo ) {
 			$this->onDeleteReview( $postId );
@@ -67,8 +67,8 @@ class Metaboxes
 	 */
 	public function saveResponseMetabox( $postId )
 	{
-		if( !wp_verify_nonce( filter_input( INPUT_POST, '_nonce-response' ), 'response' ))return;
-		$response = filter_input( INPUT_POST, 'response' );
+		if( !wp_verify_nonce( glsr( Helper::class )->filterInput( '_nonce-response' ), 'response' ))return;
+		$response = glsr( Helper::class )->filterInput( 'response' );
 		$response || $response = '';
 		update_post_meta( $postId, 'response', trim( wp_kses( $response, [
 			'a' => ['href' => [], 'title' => []],

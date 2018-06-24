@@ -107,7 +107,7 @@ class AdminController extends Controller
 	 */
 	public function renderReviewEditor( WP_Post $post )
 	{
-		if( !$this->isReviewPostType( $post ) || $this->isReviewEditable( $post ) )return;
+		if( !$this->isReviewPostType( $post ) || $this->isReviewEditable( $post ))return;
 		glsr()->render( 'partials/editor/review', [
 			'post' => $post,
 		]);

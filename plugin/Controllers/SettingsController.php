@@ -28,6 +28,7 @@ class SettingsController extends Controller
 			glsr( Notice::class )->addSuccess( __( 'Settings updated.', 'site-reviews' ));
 		}
 		$options = array_replace_recursive( glsr( OptionManager::class )->all(), $input );
+		$options = $this->sanitizeGeneral( $input, $options );
 		$options = $this->sanitizeSubmissions( $input, $options );
 		$options = $this->sanitizeTranslations( $input, $options );
 		return $options;
@@ -47,14 +48,23 @@ class SettingsController extends Controller
 	/**
 	 * @return array
 	 */
+	protected function sanitizeGeneral( array $input, array $options )
+	{
+		if( trim( $input['settings']['general']['notification_message'] ) == '' ) {
+			$options['settings']['general']['notification_message'] = glsr()->defaults['settings']['general']['notification_message'];
+		}
+		return $options;
+	}
+
+	/**
+	 * @return array
+	 */
 	protected function sanitizeSubmissions( array $input, array $options )
 	{
-		if( isset( $input['settings']['submissions'] )) {
-			$inputForm = $input['settings']['submissions'];
-			$options['settings']['submissions']['required'] = isset( $inputForm['required'] )
-				? $inputForm['required']
-				: [];
-		}
+		$inputForm = $input['settings']['submissions'];
+		$options['settings']['submissions']['required'] = isset( $inputForm['required'] )
+			? $inputForm['required']
+			: [];
 		return $options;
 	}
 

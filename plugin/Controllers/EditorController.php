@@ -5,13 +5,13 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Controllers\Controller;
+use GeminiLabs\SiteReviews\Controllers\EditorController\Customization;
+use GeminiLabs\SiteReviews\Controllers\EditorController\Labels;
+use GeminiLabs\SiteReviews\Controllers\EditorController\Metaboxes;
+use GeminiLabs\SiteReviews\Controllers\ListTableController\Columns;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Editor\Customization;
-use GeminiLabs\SiteReviews\Modules\Editor\Labels;
-use GeminiLabs\SiteReviews\Modules\Editor\Metaboxes;
-use GeminiLabs\SiteReviews\Modules\ListTable\Columns;
 use WP_Post;
 use WP_Screen;
 

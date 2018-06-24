@@ -108,6 +108,32 @@ class Helper
 	}
 
 	/**
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function filterInput( $key )
+	{
+		$variable = filter_input( INPUT_POST, $key );
+		if( empty( $variable ) && !empty( $_POST[$key] )) {
+			$variable = $_POST[$key];
+		}
+		return $variable;
+	}
+
+	/**
+	 * @param string $key
+	 * @return array
+	 */
+	public function filterInputArray( $key )
+	{
+		$variable = filter_input( INPUT_POST, $key, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		if( empty( $variable ) && !empty( $_POST[$key] ) && is_array( $_POST[$key] )) {
+			$variable = $_POST[$key];
+		}
+		return (array)$variable;
+	}
+
+	/**
 	 * @param bool $flattenValue
 	 * @param string $prefix
 	 * @return array

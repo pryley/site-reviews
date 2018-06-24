@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules\Editor;
+namespace GeminiLabs\SiteReviews\Controllers\EditorController;
 
 use GeminiLabs\SiteReviews\Application;
 

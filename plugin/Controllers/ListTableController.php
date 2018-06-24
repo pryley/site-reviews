@@ -4,11 +4,11 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Controllers\Controller;
+use GeminiLabs\SiteReviews\Controllers\ListTableController\Columns;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\ListTable\Columns;
 use WP_Post;
 use WP_Query;
 use WP_Screen;
