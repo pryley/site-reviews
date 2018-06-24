@@ -114,7 +114,7 @@ class ValidateReview
 		if( !$integration ) {
 			return true;
 		}
-		$recaptchaResponse = filter_input( INPUT_POST, 'g-recaptcha-response' ); // @todo site-reviews[g-recaptcha-response]
+		$recaptchaResponse = glsr( Helper::class )->filterInput( 'g-recaptcha-response' ); // @todo site-reviews[g-recaptcha-response]
 		if( empty( $recaptchaResponse )) {
 			return null; //if response is empty we need to return null
 		}
