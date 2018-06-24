@@ -114,11 +114,15 @@ class Console
 	}
 
 	/**
+	 * @param null|string $valueIfEmpty
 	 * @return string
 	 */
-	public function humanSize()
+	public function humanSize( $valueIfEmpty = null )
 	{
 		$bytes = $this->size();
+		if( empty( $bytes ) && is_string( $valueIfEmpty )) {
+			return $valueIfEmpty;
+		}
 		$exponent = floor( log( max( $bytes, 1 ), 1024 ));
 		return round( $bytes / pow( 1024, $exponent ), 2 ).['B','KB','MB','GB'][$exponent];
 	}

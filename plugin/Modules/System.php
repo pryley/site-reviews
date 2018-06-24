@@ -172,7 +172,7 @@ class System
 	public function getPluginDetails()
 	{
 		return [
-			'Console size' => glsr( Console::class )->humanSize(),
+			'Console size' => glsr( Console::class )->humanSize( '0' ),
 			'Current version' => glsr()->version,
 			'Previous version' => glsr( OptionManager::class )->get( 'version_upgraded_from' ),
 		];
