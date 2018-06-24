@@ -5,8 +5,10 @@ namespace GeminiLabs\SiteReviews\Modules;
 use DateTime;
 use GeminiLabs\SchemaOrg\Review as ReviewSchema;
 use GeminiLabs\SchemaOrg\Schema as SchemaOrg;
+use GeminiLabs\SchemaOrg\Thing as ThingSchema;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use WP_Post;
 
@@ -30,7 +32,7 @@ class Schema
 		$this->args = $args;
 		$schema = $this->buildSummary( $args );
 		$reviews = [];
-		foreach( glsr( Database::class )->getReviews( $this->args )->reviews as $review ) {
+		foreach( glsr( Database::class )->getReviews( $this->args )->results as $review ) {
 			$reviews[] = $this->buildReview( $review );
 		}
 		if( !empty( $reviews )) {
@@ -44,36 +46,6 @@ class Schema
 	}
 
 	/**
-	 * @param object $review
-	 * @return array
-	 */
-	public function buildReview( $review )
-	{
-		$schema = SchemaOrg::Review()
-			->doIf( !in_array( 'title', $this->args['hide'] ), function( ReviewSchema $schema ) use( $review ) {
-				$schema->name( $review->title );
-			})
-			->doIf( !in_array( 'excerpt', $this->args['hide'] ), function( ReviewSchema $schema ) use( $review ) {
-				$schema->reviewBody( $review->content );
-			})
-			->datePublished(( new DateTime( $review->date ))->format( DateTime::ISO8601 ))
-			->author( SchemaOrg::Person()
-				->name( $review->author )
-			)
-			->itemReviewed( $this->getSchemaType()
-				->name( $this->getThingName() )
-			);
-		if( !empty( $review->rating )) {
-			$schema->reviewRating( SchemaOrg::Rating()
-				->ratingValue( $review->rating )
-				->bestRating( Rating::MAX_RATING )
-				->worstRating( Rating::MIN_RATING )
-			);
-		}
-		return apply_filters( 'site-reviews/schema/review', $schema->toArray(), $review, $this->args );
-	}
-
-	/**
 	 * @param null|array $args
 	 * @return array
 	 */
@@ -82,15 +54,11 @@ class Schema
 		if( is_array( $args )) {
 			$this->args = $args;
 		}
-		$schema = $this->getSchemaType()
-			->doIf( $this->getSchemaOption( 'type' ) == 'Product', function( $schema ) {
-				$schema->setProperty( '@id', $this->getThingUrl() );
-			})
-			->name( $this->getThingName() )
-			->description( $this->getThingDescription() )
-			->image( $this->getThingImage() )
-			->url( $this->getThingUrl() );
+		$buildSummary = glsr( Helper::class )->buildMethodName( $this->getSchemaOptionValue( 'type' ), 'buildSummaryFor' );
 		$count = $this->getReviewCount();
+		$schema = method_exists( $this, $buildSummary )
+			? $this->$buildSummary()
+			: $this->buildSummaryForCustom();
 		if( !empty( $count )) {
 			$schema->aggregateRating( SchemaOrg::AggregateRating()
 				->ratingValue( $this->getRatingValue() )
@@ -127,6 +95,78 @@ class Schema
 	}
 
 	/**
+	 * @param object $review
+	 * @return array
+	 */
+	protected function buildReview( $review )
+	{
+		$schema = SchemaOrg::Review()
+			->doIf( !in_array( 'title', $this->args['hide'] ), function( ReviewSchema $schema ) use( $review ) {
+				$schema->name( $review->title );
+			})
+			->doIf( !in_array( 'excerpt', $this->args['hide'] ), function( ReviewSchema $schema ) use( $review ) {
+				$schema->reviewBody( $review->content );
+			})
+			->datePublished(( new DateTime( $review->date ))->format( DateTime::ISO8601 ))
+			->author( SchemaOrg::Person()->name( $review->author ))
+			->itemReviewed( $this->getSchemaType()->name( $this->getSchemaOptionValue( 'name' )));
+		if( !empty( $review->rating )) {
+			$schema->reviewRating( SchemaOrg::Rating()
+				->ratingValue( $review->rating )
+				->bestRating( Rating::MAX_RATING )
+				->worstRating( Rating::MIN_RATING )
+			);
+		}
+		return apply_filters( 'site-reviews/schema/review', $schema->toArray(), $review, $this->args );
+	}
+
+	/**
+	 * @return ThingSchema
+	 */
+	protected function buildSchemaValues( ThingSchema $schema, array $values = [] )
+	{
+		foreach( $values as $value ) {
+			$option = $this->getSchemaOptionValue( $value );
+			if( empty( $option ))continue;
+			$schema->$value( $option );
+		}
+		return $schema;
+	}
+
+	/**
+	 * @return ThingSchema
+	 */
+	protected function buildSummaryForCustom()
+	{
+		return $this->buildSchemaValues( $this->getSchemaType(), [
+			'description', 'image', 'name', 'url',
+		]);
+	}
+
+	/**
+	 * @return ThingSchema
+	 */
+	protected function buildSummaryForLocalBusiness()
+	{
+		return $this->buildSchemaValues( $this->buildSummaryForCustom(), [
+			'address', 'priceRange', 'telephone',
+		]);
+	}
+
+	/**
+	 * @return ThingSchema
+	 */
+	protected function buildSummaryForProduct()
+	{
+		$offers = $this->buildSchemaValues( SchemaOrg::AggregateOffer(), [
+			'highPrice', 'lowPrice', 'priceCurrency',
+		]);
+		return $this->buildSummaryForCustom()
+			->offers( $offers )
+			->setProperty( '@id', $this->getSchemaOptionValue( 'url' ));
+	}
+
+	/**
 	 * @return int|float
 	 */
 	protected function getRatingValue()
@@ -143,14 +183,13 @@ class Schema
 	}
 
 	/**
-	 * Get all reviews possible for given args
 	 * @return array
 	 */
 	protected function getReviews( $force = false )
 	{
 		if( !isset( $this->reviews ) || $force ) {
 			$args = wp_parse_args( ['count' => -1], $this->args );
-			$this->reviews = glsr( Database::class )->getReviews( $args )->reviews;
+			$this->reviews = glsr( Database::class )->getReviews( $args )->results;
 		}
 		return $this->reviews;
 	}
@@ -162,19 +201,39 @@ class Schema
 	 */
 	protected function getSchemaOption( $option, $fallback )
 	{
+		$option = strtolower( $option );
 		if( $schemaOption = trim( (string)get_post_meta( intval( get_the_ID() ), 'schema_'.$option, true ))) {
 			return $schemaOption;
 		}
-		$default = glsr( OptionManager::class )->get( 'settings.reviews.schema.'.$option.'.default', $fallback );
-		return $default == 'custom'
-			? glsr( OptionManager::class )->get( 'settings.reviews.schema.'.$option.'.custom', $fallback )
-			: $default;
+		$setting = glsr( OptionManager::class )->get( 'settings.schema.'.$option );
+		if( is_array( $setting )) {
+			return $this->getSchemaOptionDefault( $setting, $fallback );
+		}
+		return !empty( $setting )
+			? $setting
+			: $fallback;
+	}
+
+	/**
+	 * @param string $setting
+	 * @param string $fallback
+	 * @return string
+	 */
+	protected function getSchemaOptionDefault( $setting, $fallback )
+	{
+		$setting = wp_parse_args( $setting, [
+			'custom' => '',
+			'default' => $fallback,
+		]);
+		return $setting['default'] != 'custom'
+			? $setting['default']
+			: $setting['custom'];
 	}
 
 	/**
 	 * @param string $option
 	 * @param string $fallback
-	 * @return null|string
+	 * @return void|string
 	 */
 	protected function getSchemaOptionValue( $option, $fallback = 'post' )
 	{
@@ -183,20 +242,16 @@ class Schema
 			return $value;
 		}
 		if( !is_single() && !is_page() )return;
+		// @todo make this dynamic
 		switch( $option ) {
 			case 'description':
-				$post = get_post();
-				if( !( $post instanceof WP_Post )) {
-					return '';
-				}
-				$text = strip_shortcodes( wp_strip_all_tags( $post->post_excerpt ));
-				return wp_trim_words( $text, apply_filters( 'excerpt_length', 55 ));
+				return $this->getThingDescription();
 			case 'image':
-				return (string)get_the_post_thumbnail_url( null, 'large' );
+				return $this->getThingImage();
 			case 'name':
-				return get_the_title();
+				return $this->getThingName();
 			case 'url':
-				return (string)get_the_permalink();
+				return $this->getThingUrl();
 		}
 	}
 
@@ -210,34 +265,39 @@ class Schema
 	}
 
 	/**
-	 * @return null|string
+	 * @return string
 	 */
 	protected function getThingDescription()
 	{
-		return $this->getSchemaOptionValue( 'description' );
+		$post = get_post();
+		if( !( $post instanceof WP_Post )) {
+			return '';
+		}
+		$text = strip_shortcodes( wp_strip_all_tags( $post->post_excerpt ));
+		return wp_trim_words( $text, apply_filters( 'excerpt_length', 55 ));
 	}
 
 	/**
-	 * @return null|string
+	 * @return string
 	 */
 	protected function getThingImage()
 	{
-		return $this->getSchemaOptionValue( 'image' );
+		return (string)get_the_post_thumbnail_url( null, 'large' );
 	}
 
 	/**
-	 * @return null|string
+	 * @return string
 	 */
 	protected function getThingName()
 	{
-		return $this->getSchemaOptionValue( 'name' );
+		return get_the_title();
 	}
 
 	/**
-	 * @return null|string
+	 * @return string
 	 */
 	protected function getThingUrl()
 	{
-		return $this->getSchemaOptionValue( 'url' );
+		return (string)get_the_permalink();
 	}
 }

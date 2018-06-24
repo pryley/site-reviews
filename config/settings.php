@@ -54,8 +54,7 @@ return [
 		'depends_on' => ['settings.general.notification' => ['custom', 'default', 'webhook']],
 		'description' => __(
 			'To restore the default text, save an empty template. '.
-			'If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href="https://api.slack.com/docs/attachments">Message Attachments</a> have been disabled.'.
-			'<br>Available template tags:'.
+			'If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href="https://api.slack.com/docs/attachments">Message Attachments</a> have been disabled. Available template tags:'.
 			'<br><code>{review_rating}</code> The review rating number (1-5)'.
 			'<br><code>{review_title}</code> The review title'.
 			'<br><code>{review_content}</code> The review content'.
@@ -130,7 +129,7 @@ return [
 	],
 	'settings.schema.type.default' => [
 		'default' => 'LocalBusiness',
-		'description' => __( 'This is the default schema type for the item being reviewed. You can override this option on a per-post/page basis by adding a <code>schema_type</code> metadata value using <a href="https://codex.wordpress.org/Using_Custom_Fields#Usage">Custom Fields</a>.', 'site-reviews' ),
+		'description' => __( 'Custom Field name: <code>schema_type</code>', 'site-reviews' ),
 		'label' => __( 'Default Schema Type', 'site-reviews' ),
 		'options' => [
 			'LocalBusiness' => __( 'Local Business', 'site-reviews' ),
@@ -148,7 +147,7 @@ return [
 	],
 	'settings.schema.name.default' => [
 		'default' => 'post',
-		'description' => __( 'This is the default name of the item being reviewed. You can override this option on a per-post/page basis by adding a <code>schema_name</code> metadata value using <a href="https://codex.wordpress.org/Using_Custom_Fields#Usage">Custom Fields</a>.', 'site-reviews' ),
+		'description' => __( 'Custom Field name: <code>schema_name</code>', 'site-reviews' ),
 		'label' => __( 'Default Name', 'site-reviews' ),
 		'options' => [
 			'post' => __( 'Use the assigned or current page title', 'site-reviews' ),
@@ -164,7 +163,7 @@ return [
 	],
 	'settings.schema.description.default' => [
 		'default' => 'post',
-		'description' => __( 'This is the default description for the item being reviewed. You can override this option on a per-post/page basis by adding a <code>schema_description</code> metadata value using <a href="https://codex.wordpress.org/Using_Custom_Fields#Usage">Custom Fields</a>.', 'site-reviews' ),
+		'description' => __( 'Custom Field name: <code>schema_description</code>', 'site-reviews' ),
 		'label' => __( 'Default Description', 'site-reviews' ),
 		'options' => [
 			'post' => __( 'Use the assigned or current page excerpt', 'site-reviews' ),
@@ -180,7 +179,7 @@ return [
 	],
 	'settings.schema.url.default' => [
 		'default' => 'post',
-		'description' => __( 'This is the default URL for the item being reviewed. You can override this option on a per-post/page basis by adding a <code>schema_url</code> metadata value using <a href="https://codex.wordpress.org/Using_Custom_Fields#Usage">Custom Fields</a>.', 'site-reviews' ),
+		'description' => __( 'Custom Field name: <code>schema_url</code>', 'site-reviews' ),
 		'label' => __( 'Default URL', 'site-reviews' ),
 		'options' => [
 			'post' => __( 'Use the assigned or current page URL', 'site-reviews' ),
@@ -196,7 +195,7 @@ return [
 	],
 	'settings.schema.image.default' => [
 		'default' => 'post',
-		'description' => __( 'This is the default image for the item being reviewed. You can override this option on a per-post/page basis by adding a <code>schema_image</code> metadata value using <a href="https://codex.wordpress.org/Using_Custom_Fields#Usage">Custom Fields</a>.', 'site-reviews' ),
+		'description' => __( 'Custom Field name: <code>schema_image</code>', 'site-reviews' ),
 		'label' => __( 'Default Image', 'site-reviews' ),
 		'options' => [
 			'post' => __( 'Use the featured image of the assigned or current page', 'site-reviews' ),
@@ -210,22 +209,71 @@ return [
 		'label' => __( 'Custom Image URL', 'site-reviews' ),
 		'type' => 'text',
 	],
+	'settings.schema.address' => [
+		'default' => '',
+		'depends_on' => ['settings.schema.type.default' => 'LocalBusiness'],
+		'description' => __( 'Custom Field name: <code>schema_address</code>', 'site-reviews' ),
+		'label' => __( 'Address', 'site-reviews' ),
+		'placeholder' => '60 29th Street #343, San Francisco, CA 94110, US',
+		'type' => 'text',
+	],
+	'settings.schema.telephone' => [
+		'default' => '',
+		'depends_on' => ['settings.schema.type.default' => 'LocalBusiness'],
+		'description' => __( 'Custom Field name: <code>schema_telephone</code>', 'site-reviews' ),
+		'label' => __( 'Telephone Number', 'site-reviews' ),
+		'placeholder' => '+1 (877) 273-3049',
+		'type' => 'text',
+	],
+	'settings.schema.pricerange' => [
+		'default' => '',
+		'depends_on' => ['settings.schema.type.default' => 'LocalBusiness'],
+		'description' => __( 'Custom Field name: <code>schema_pricerange</code>', 'site-reviews' ),
+		'label' => __( 'Price Range', 'site-reviews' ),
+		'placeholder' => '$$-$$$',
+		'type' => 'text',
+	],
+	'settings.schema.lowprice' => [
+		'default' => '',
+		'depends_on' => ['settings.schema.type.default' => 'Product'],
+		'description' => __( 'Custom Field name: <code>schema_lowprice</code>', 'site-reviews' ),
+		'label' => __( 'Low Price', 'site-reviews' ),
+		'placeholder' => '10.00',
+		'type' => 'text',
+	],
+	'settings.schema.highprice' => [
+		'default' => '',
+		'depends_on' => ['settings.schema.type.default' => 'Product'],
+		'description' => __( 'Custom Field name: <code>schema_highprice</code>', 'site-reviews' ),
+		'label' => __( 'High Price', 'site-reviews' ),
+		'placeholder' => '100.00',
+		'type' => 'text',
+	],
+	'settings.schema.pricecurrency' => [
+		'default' => '',
+		'depends_on' => ['settings.schema.type.default' => 'Product'],
+		'description' => __( 'Custom Field name: <code>schema_pricecurrency</code>', 'site-reviews' ),
+		'label' => __( 'Price Currency', 'site-reviews' ),
+		'placeholder' => 'USD',
+		'type' => 'text',
+	],
 	'settings.submissions.required' => [
 		'default' => ['content', 'email', 'name', 'rating', 'terms', 'title'],
+		'description' => __( 'Choose which fields should be required in the submission form.', 'site-reviews' ),
 		'label' => __( 'Required Fields', 'site-reviews' ),
 		'options' => [
-			'content' => __( 'Review', 'site-reviews' ),
-			'email' => __( 'Email', 'site-reviews' ),
-			'name' => __( 'Name', 'site-reviews' ),
 			'rating' => __( 'Rating', 'site-reviews' ),
-			'terms' => __( 'Terms', 'site-reviews' ),
 			'title' => __( 'Title', 'site-reviews' ),
+			'content' => __( 'Review', 'site-reviews' ),
+			'name' => __( 'Name', 'site-reviews' ),
+			'email' => __( 'Email', 'site-reviews' ),
+			'terms' => __( 'Terms', 'site-reviews' ),
 		],
 		'type' => 'checkbox',
 	],
 	'settings.submissions.akismet' => [
 		'default' => 'no',
-		'description' => __( 'the <a href="https://akismet.com" target="_blank">Akismet plugin</a> integration provides spam-filtering for your reviews. In order for this setting to have any affect, you will need to first install and activate the Akismet plugin and set up a WordPress.com API key.', 'site-reviews' ),
+		'description' => __( 'The <a href="https://akismet.com" target="_blank">Akismet plugin</a> integration provides spam-filtering for your reviews. In order for this setting to have any affect, you will need to first install and activate the Akismet plugin and set up a WordPress.com API key.', 'site-reviews' ),
 		'label' => __( 'Enable Akismet Integration', 'site-reviews' ),
 		'type' => 'yes_no',
 	],
