@@ -17,7 +17,7 @@ class QueryBuilder
 		$queries = [];
 		foreach( $keys as $key ) {
 			if( !array_key_exists( $key, $values ))continue;
-			$methodName = glsr( Helper::class )->buildMethodName( $key, __METHOD__ );
+			$methodName = glsr( Helper::class )->buildMethodName( $key, __FUNCTION__ );
 			if( !method_exists( $this, $methodName ))continue;
 			$query = call_user_func( [$this, $methodName], $values[$key] );
 			if( is_array( $query )) {
