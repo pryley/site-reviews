@@ -11,6 +11,8 @@ use GeminiLabs\SiteReviews\Controllers\MainController;
 use GeminiLabs\SiteReviews\Controllers\MenuController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Controllers\SettingsController;
+use GeminiLabs\SiteReviews\Controllers\TaxonomyController;
+use GeminiLabs\SiteReviews\Modules\Session;
 use GeminiLabs\SiteReviews\Router;
 
 class Actions implements HooksContract
@@ -23,7 +25,9 @@ class Actions implements HooksContract
 	protected $main;
 	protected $public;
 	protected $router;
+	protected $session;
 	protected $settings;
+	protected $taxonomy;
 
 	public function __construct( Application $app ) {
 		$this->app = $app;
@@ -34,7 +38,9 @@ class Actions implements HooksContract
 		$this->menu = $app->make( MenuController::class );
 		$this->public = $app->make( PublicController::class );
 		$this->router = $app->make( Router::class );
+		$this->session = $app->make( Session::class );
 		$this->settings = $app->make( SettingsController::class );
+		$this->taxonomy = $app->make( TaxonomyController::class );
 	}
 
 	/**
@@ -73,16 +79,22 @@ class Actions implements HooksContract
 		add_action( 'init',                                         [$this->main, 'registerShortcodes'] );
 		add_action( 'init',                                         [$this->main, 'registerTaxonomy'] );
 		add_action( 'widgets_init',                                 [$this->main, 'registerWidgets'] );
-		add_action( 'wp_footer',                                    [$this->main, 'renderSchema'] );
 		add_action( 'admin_menu',                                   [$this->menu, 'registerMenuCount'] );
 		add_action( 'admin_menu',                                   [$this->menu, 'registerSubMenus'] );
 		add_action( 'admin_init',                                   [$this->menu, 'setCustomPermissions'], 999 );
 		add_action( 'wp_enqueue_scripts',                           [$this->public, 'enqueueAssets'], 999 );
+		add_action( 'wp_footer',                                    [$this->public, 'renderSchema'] );
 		add_action( 'admin_init',                                   [$this->router, 'routeAdminPostRequest'] );
 		add_action( 'wp_ajax_'.Application::PREFIX.'action',        [$this->router, 'routeAjaxRequest'] );
 		add_action( 'wp_ajax_nopriv_'.Application::PREFIX.'action', [$this->router, 'routeAjaxRequest'] );
 		add_action( 'init',                                         [$this->router, 'routePublicPostRequest'] );
 		add_action( 'admin_init',                                   [$this->router, 'routeWebhookRequest'] );
+		add_action( 'site-reviews/schedule/session/purge',          [$this->session, 'deleteExpiredSessions'] );
 		add_action( 'admin_init',                                   [$this->settings, 'registerSettings'] );
+		add_action( Application::TAXONOMY.'_term_edit_form_top',    [$this->taxonomy, 'disableParents'] );
+		add_action( Application::TAXONOMY.'_term_new_form_tag',     [$this->taxonomy, 'disableParents'] );
+		add_action( Application::TAXONOMY.'_add_form_fields',       [$this->taxonomy, 'enableParents'] );
+		add_action( Application::TAXONOMY.'_edit_form',             [$this->taxonomy, 'enableParents'] );
+		add_action( 'restrict_manage_posts',                        [$this->taxonomy, 'renderTaxonomyFilter'], 9 );
 	}
 }

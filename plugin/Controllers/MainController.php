@@ -9,7 +9,6 @@ use GeminiLabs\SiteReviews\Commands\RegisterTaxonomy;
 use GeminiLabs\SiteReviews\Commands\RegisterWidgets;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
-use GeminiLabs\SiteReviews\Modules\Schema;
 
 class MainController extends Controller
 {
@@ -96,14 +95,5 @@ class MainController extends Controller
 			],
 		]);
 		$this->execute( $command );
-	}
-
-	/**
-	 * @return void
-	 * @action wp_footer
-	 */
-	public function renderSchema()
-	{
-		glsr( Schema::class )->render();
 	}
 }

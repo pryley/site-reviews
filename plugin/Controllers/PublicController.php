@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Handlers\EnqueuePublicAssets;
+use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
 
 class PublicController extends Controller
@@ -42,6 +43,15 @@ class PublicController extends Controller
 	{
 		$vars[] = Application::PAGED_QUERY_VAR;
 		return $vars;
+	}
+
+	/**
+	 * @return void
+	 * @action wp_footer
+	 */
+	public function renderSchema()
+	{
+		glsr( Schema::class )->render();
 	}
 
 	/**

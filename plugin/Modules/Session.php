@@ -49,7 +49,6 @@ class Session
 		}
 		$this->getSessionData();
 		$this->setCookie();
-		add_action( 'site-reviews/schedule/session/purge', [$this, 'deleteExpiredSessions'] );
 	}
 
 	/**
