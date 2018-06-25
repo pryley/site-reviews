@@ -1,7 +1,7 @@
 === Site Reviews ===
 Contributors: geminilabs, pryley
 Donate link: https://www.paypal.me/pryley
-Tags: best reviews, business ratings, business reviews, curated reviews, moderated reviews, rating widget, rating, ratings shortcode, review widget, reviews login, reviews shortcode, reviews, simple reviews, site reviews, star rating, star review, submit review, testimonial, user rating, user review, user reviews, wp rating, wp review, wp testimonials
+Tags: reviews, business reviews, curated reviews, moderated reviews, rating, ratings, business ratings, rating widget, rating shortcode, review widget, reviews shortcode, reviews, simple reviews, site reviews, star rating, star review, submit review, testimonial, user rating, user review, user reviews, wp rating, wp review, wp testimonials
 Requires at least: 4.7.0
 Tested up to: 4.9
 Requires PHP: 5.6
@@ -9,11 +9,11 @@ Stable tag: 3.0.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Site Reviews is a WordPress plugin which allows you to easily receive and display reviews for your website and business.
+Site Reviews allows you to easily receive and display reviews for your website, business, or products.
 
 == Description ==
 
-Site Reviews is a plugin that allows your visitors to submit site reviews with a 1-5 star rating on your website, similar to the way you would on TripAdvisor or Yelp, and then allows you to display them using a widget or shortcode.
+Site Reviews allows your visitors to submit reviews with a 1-5 star rating on your website, similar to the way you would on TripAdvisor or Yelp. You can then display your reviews using the provided widgets or shortcodes.
 
 You can pin your best reviews so that they are always shown first, require approval before new review submissions are published, require visitors to be logged-in in order to write a review, send custom notifications on a new submission, and more. The plugin provides both widgets and shortcodes along with full shortcode documentation.
 
@@ -23,42 +23,39 @@ Follow plugin development on github at: https://github.com/geminilabs/site-revie
 
 = Current Features =
 
-- [new] Review blacklist
 - Actively developed and supported
 - Ajax pagination of reviews
 - Akismet integration to provide spam-validation
 - Assign reviews to a Post/Page ID
-- Autocomplete AssignedTo metabox
 - Bayesian ranking for posts with assigned reviews (can be used for WP_Query sorting)
-- Clean and easy-to-configure user interface
+- Clean and easy-to-configure interface
+- Complete documentation
 - Configurable Widgets
 - Custom notifications (including Slack support)
 - Easy setup and implementation
-- Filter reviews by rating
-- Helper functions to easily access review meta
 - Honeypot (spam trap) implemented in the submission form
-- Logging
-- MCE shortcode button dropdown
 - Minimal widget styling (tested with all official WP themes)
 - Publicly respond to a review
-- Relative dates option
+- Relative dates
 - Review avatars (gravatar.com)
+- Review blacklist
 - Review categories
-- Review pagination
-- Reviews Summary shortcode: [site_reviews_summary]
 - Rich snippets for reviews (schema.org)
-- Shortcodes: Display reviews in your post content and templates
+- Shortcode button dropdown in the page editor
+- Shortcodes: display reviews in your post content and templates
+- Show a summary of your reviews
 - Translate any plugin text
 - Use Google's Invisible reCAPTCHA on submission forms
 - WordPress.org support
-- WP Filter Hooks
 
 == Installation ==
 
 = Minimum plugin requirements =
 
-- WordPress 4.0.0
-- PHP 5.4
+If your server and website does not meet the minimum requirements shown below, the plugin will automatically deactivate with a notice explaining why.
+
+- WordPress 4.7.0
+- PHP 5.6
 
 = Automatic installation =
 
@@ -135,10 +132,9 @@ All documentation can be found in the "Get Help" page of the plugin. You can als
 
 == Changelog ==
 
-= 3.0.0 (2018-??-??) =
+= 3.0.0 (2018-07-??) =
 
 - Complete rewrite of Site Reviews
-- Requires PHP 5.6 or greater
-- Requires WordPress 4.7 or greater
-- Supports all modern browsers and IE 10+
-
+- Now requires PHP 5.6 or greater
+- Now requires WordPress 4.7 or greater
+- Officially supports all modern browsers and IE10 or greater
