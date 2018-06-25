@@ -18,7 +18,7 @@ class SiteReviewsSummaryButton extends SiteReviewsButton
 		],[
 			'label' => esc_html__( 'Title', 'site-reviews' ),
 			'name' => 'title',
-			'tooltip' => __( 'Enter a custom shortcode heading.', 'site-reviews' ),
+			'tooltip' => esc_attr__( 'Enter a custom shortcode heading.', 'site-reviews' ),
 			'type' => 'textbox',
 		],
 		$this->getTypes(),
@@ -26,7 +26,7 @@ class SiteReviewsSummaryButton extends SiteReviewsButton
 		[
 			'label' => esc_html__( 'Post ID', 'site-reviews' ),
 			'name' => 'assigned_to',
-			'tooltip' => __( 'Limit reviews to those assigned to this post ID (separate multiple IDs with a comma). You can also enter "post_id" to use the ID of the current page.', 'site-reviews' ),
+			'tooltip' => esc_attr__( 'Limit reviews to those assigned to this post ID (separate multiple IDs with a comma). You can also enter "post_id" to use the ID of the current page.', 'site-reviews' ),
 			'type' => 'textbox',
 		],[
 			'label' => esc_html__( 'Schema', 'site-reviews' ),
@@ -35,12 +35,12 @@ class SiteReviewsSummaryButton extends SiteReviewsButton
 				'true' => esc_html__( 'Enable rich snippets', 'site-reviews' ),
 				'false' => esc_html__( 'Disable rich snippets', 'site-reviews' ),
 			],
-			'tooltip' => __( 'Rich snippets are disabled by default.', 'site-reviews' ),
+			'tooltip' => esc_attr__( 'Rich snippets are disabled by default.', 'site-reviews' ),
 			'type' => 'listbox',
 		],[
 			'label' => esc_html__( 'Classes', 'site-reviews' ),
 			'name' => 'class',
-			'tooltip' => __( 'Add custom CSS classes to the shortcode.', 'site-reviews' ),
+			'tooltip' => esc_attr__( 'Add custom CSS classes to the shortcode.', 'site-reviews' ),
 			'type' => 'textbox',
 		],[
 			'columns' => 2,
