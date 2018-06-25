@@ -14,7 +14,7 @@ class Helper
 	 */
 	public function buildClassName( $name, $path = '' )
 	{
-		$className = array_map( 'strtolower', (array)preg_split( '/[-_]/', $name ));
+		$className = explode( '_', $this->snakeCase( $name ));
 		$className = array_map( 'ucfirst', $className );
 		$className = implode( '', $className );
 		$path = ltrim( str_replace( __NAMESPACE__, '', $path ), '\\' );
