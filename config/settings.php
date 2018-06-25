@@ -141,7 +141,7 @@ return [
 	'settings.schema.type.custom' => [
 		'default' => '',
 		'depends_on' => ['settings.schema.type.default' => 'custom'],
-		'description' => __( 'Google supports review ratings for the following schema content types: Local businesses, Movies, Books, Music, and Products. <a href="https://schema.org/docs/schemas.html">View more information on schema types here</a>.', 'site-reviews' ),
+		'description' => glsr( 'Modules\Html\Builder' )->a( __( 'View more information on schema types here', 'site-reviews' ), ['href' => 'https://schema.org/docs/schemas.html'] ),
 		'label' => __( 'Custom Schema Type', 'site-reviews' ),
 		'type' => 'text',
 	],

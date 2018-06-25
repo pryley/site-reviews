@@ -3,13 +3,12 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use DateTime;
-use GeminiLabs\SchemaOrg\Review as ReviewSchema;
-use GeminiLabs\SchemaOrg\Schema as SchemaOrg;
-use GeminiLabs\SchemaOrg\Thing as ThingSchema;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Rating;
+use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
+use GeminiLabs\SiteReviews\Modules\Schema\UnknownType;
 use WP_Post;
 
 class Schema
@@ -33,6 +32,9 @@ class Schema
 		$schema = $this->buildSummary( $args );
 		$reviews = [];
 		foreach( glsr( Database::class )->getReviews( $this->args )->results as $review ) {
+			// Only include critic reviews that have been directly produced by your site, not reviews from third- party sites or syndicated reviews.
+			// @see https://developers.google.com/search/docs/data-types/review
+			if( $review->review_type != 'local' )continue;
 			$reviews[] = $this->buildReview( $review );
 		}
 		if( !empty( $reviews )) {
@@ -60,7 +62,7 @@ class Schema
 			? $this->$buildSummary()
 			: $this->buildSummaryForCustom();
 		if( !empty( $count )) {
-			$schema->aggregateRating( SchemaOrg::AggregateRating()
+			$schema->aggregateRating( $this->getSchemaType( 'AggregateRating' )
 				->ratingValue( $this->getRatingValue() )
 				->reviewCount( $count )
 				->bestRating( Rating::MAX_RATING )
@@ -89,7 +91,7 @@ class Schema
 	 */
 	public function store( array $schema )
 	{
-		$schemas = (array) glsr()->schemas;
+		$schemas = glsr()->schemas;
 		$schemas[] = $schema;
 		glsr()->schemas = array_map( 'unserialize', array_unique( array_map( 'serialize', $schemas )));
 	}
@@ -100,18 +102,18 @@ class Schema
 	 */
 	protected function buildReview( $review )
 	{
-		$schema = SchemaOrg::Review()
-			->doIf( !in_array( 'title', $this->args['hide'] ), function( ReviewSchema $schema ) use( $review ) {
+		$schema = $this->getSchemaType( 'Review' )
+			->doIf( !in_array( 'title', $this->args['hide'] ), function( $schema ) use( $review ) {
 				$schema->name( $review->title );
 			})
-			->doIf( !in_array( 'excerpt', $this->args['hide'] ), function( ReviewSchema $schema ) use( $review ) {
+			->doIf( !in_array( 'excerpt', $this->args['hide'] ), function( $schema ) use( $review ) {
 				$schema->reviewBody( $review->content );
 			})
 			->datePublished(( new DateTime( $review->date ))->format( DateTime::ISO8601 ))
-			->author( SchemaOrg::Person()->name( $review->author ))
+			->author( $this->getSchemaType( 'Person' )->name( $review->author ))
 			->itemReviewed( $this->getSchemaType()->name( $this->getSchemaOptionValue( 'name' )));
 		if( !empty( $review->rating )) {
-			$schema->reviewRating( SchemaOrg::Rating()
+			$schema->reviewRating( $this->getSchemaType( 'Rating' )
 				->ratingValue( $review->rating )
 				->bestRating( Rating::MAX_RATING )
 				->worstRating( Rating::MIN_RATING )
@@ -121,9 +123,9 @@ class Schema
 	}
 
 	/**
-	 * @return ThingSchema
+	 * @return BaseType
 	 */
-	protected function buildSchemaValues( ThingSchema $schema, array $values = [] )
+	protected function buildSchemaValues( BaseType $schema, array $values = [] )
 	{
 		foreach( $values as $value ) {
 			$option = $this->getSchemaOptionValue( $value );
@@ -134,7 +136,7 @@ class Schema
 	}
 
 	/**
-	 * @return ThingSchema
+	 * @return BaseType
 	 */
 	protected function buildSummaryForCustom()
 	{
@@ -144,7 +146,7 @@ class Schema
 	}
 
 	/**
-	 * @return ThingSchema
+	 * @return BaseType
 	 */
 	protected function buildSummaryForLocalBusiness()
 	{
@@ -154,11 +156,11 @@ class Schema
 	}
 
 	/**
-	 * @return ThingSchema
+	 * @return BaseType
 	 */
 	protected function buildSummaryForProduct()
 	{
-		$offers = $this->buildSchemaValues( SchemaOrg::AggregateOffer(), [
+		$offers = $this->buildSchemaValues( $this->getSchemaType( 'AggregateOffer' ), [
 			'highPrice', 'lowPrice', 'priceCurrency',
 		]);
 		return $this->buildSummaryForCustom()
@@ -256,12 +258,18 @@ class Schema
 	}
 
 	/**
+	 * @param null|string $type
 	 * @return \GeminiLabs\SchemaOrg\Type
 	 */
-	protected function getSchemaType()
+	protected function getSchemaType( $type = null )
 	{
-		$type = $this->getSchemaOption( 'type', 'LocalBusiness' );
-		return SchemaOrg::$type( $type );
+		if( !is_string( $type )) {
+			$type = $this->getSchemaOption( 'type', 'LocalBusiness' );
+		}
+		$className = glsr( Helper::class )->buildClassName( $type, 'Modules\Schema' );
+		return class_exists( $className )
+			? new $className()
+			: new UnknownType( $type );
 	}
 
 	/**
