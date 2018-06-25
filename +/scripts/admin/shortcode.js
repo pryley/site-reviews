@@ -1,5 +1,5 @@
-/** global: GLSR, jQuery */
-;(function( editor, tinymce, x ) {
+/** global: editor, GLSR, jQuery, tinymce */
+;(function( x ) {
 
 	'use strict';
 
@@ -225,4 +225,4 @@
 			return is_valid;
 		},
 	};
-})( window.editor, window.tinymce, jQuery );
+})( jQuery );

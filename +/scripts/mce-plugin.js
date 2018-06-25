@@ -2,8 +2,9 @@
 (function( tinymce ) {
 	'use strict';
 	tinymce.PluginManager.add( 'glsr_shortcode', function( editor ) {
+		var shortcode = new GLSR.Shortcode( '.glsr-mce' );
 		editor.addCommand( 'GLSR_Shortcode', function() {
-			(new GLSR.Shortcode( '.glsr-mce' )).create( editor.id );
+			shortcode.create( editor.id );
 		});
 	});
 })( window.tinymce );
