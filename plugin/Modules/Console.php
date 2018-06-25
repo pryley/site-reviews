@@ -196,10 +196,10 @@ class Console
 	 */
 	protected function buildLogEntry( $level, $message, array $context = [] )
 	{
-		return sprintf( '[%s] %s: %s%s'.PHP_EOL,
+		return sprintf( '[%s|%s] %s: %s'.PHP_EOL,
 			current_time( 'mysql' ),
+			$this->getBacktrace(),
 			strtoupper( $level ),
-			$this->getDebugInformation(),
 			$this->interpolate( $message, $context )
 		);
 	}
@@ -207,19 +207,12 @@ class Console
 	/**
 	 * @return void|string
 	 */
-	protected function getDebugInformation()
+	protected function getBacktrace()
 	{
-		$caller = debug_backtrace( 0, 6 );
-		$index = array_search( 'log', array_column( $caller, 'function' ));
-		if( $index === false
-			|| !isset( $caller[$index+2]['class'] )
-			|| !isset( $caller[$index+2]['function'] )
-		)return;
-		return sprintf( '[%s()->%s:%s] ',
-			$caller[$index+2]['class'],
-			$caller[$index+2]['function'],
-			$caller[$index+1]['line']
-		);
+		$backtrace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 4 );
+		$entry = array_pop( $backtrace );
+		$path = explode( '/plugin/', $entry['file'] );
+		return array_pop( $path ).':'.$entry['line'];
 	}
 
 	/**
