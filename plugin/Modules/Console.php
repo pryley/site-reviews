@@ -269,11 +269,11 @@ class Console
 	 */
 	protected function reset()
 	{
-		if( $this->size() > pow( 1024, 2 ) / 2 ) {
+		if( $this->size() > pow( 1024, 2 ) / 8 ) {
 			$this->clear();
 			file_put_contents(
 				$this->file,
-				$this->buildLogEntry( 'info', __( 'Log has been automatically reset (512 KB max size)', 'site-reviews' ))
+				$this->buildLogEntry( 'info', __( 'Console was automatically reset (128 KB max size)', 'site-reviews' ))
 			);
 		}
 	}
