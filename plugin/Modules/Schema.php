@@ -61,11 +61,12 @@ class Schema
 			? $this->$buildSummary()
 			: $this->buildSummaryForCustom();
 		if( !empty( $count )) {
-			$schema->aggregateRating( $this->getSchemaType( 'AggregateRating' )
-				->ratingValue( $this->getRatingValue() )
-				->reviewCount( $count )
-				->bestRating( Rating::MAX_RATING )
-				->worstRating( Rating::MIN_RATING )
+			$schema->aggregateRating(
+				$this->getSchemaType( 'AggregateRating' )
+					->ratingValue( $this->getRatingValue() )
+					->reviewCount( $count )
+					->bestRating( Rating::MAX_RATING )
+					->worstRating( Rating::MIN_RATING )
 			);
 		}
 		$schema = $schema->toArray();
@@ -112,10 +113,11 @@ class Schema
 			->author( $this->getSchemaType( 'Person' )->name( $review->author ))
 			->itemReviewed( $this->getSchemaType()->name( $this->getSchemaOptionValue( 'name' )));
 		if( !empty( $review->rating )) {
-			$schema->reviewRating( $this->getSchemaType( 'Rating' )
-				->ratingValue( $review->rating )
-				->bestRating( Rating::MAX_RATING )
-				->worstRating( Rating::MIN_RATING )
+			$schema->reviewRating(
+				$this->getSchemaType( 'Rating' )
+					->ratingValue( $review->rating )
+					->bestRating( Rating::MAX_RATING )
+					->worstRating( Rating::MIN_RATING )
 			);
 		}
 		return apply_filters( 'site-reviews/schema/review', $schema->toArray(), $review, $this->args );
