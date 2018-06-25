@@ -112,7 +112,6 @@ class SiteReviewsForm
 			[$this->getHoneypotField()],
 			$this->normalizeFields( glsr( Form::class )->getFields( 'submission-form' ))
 		);
-		// glsr_debug( $fields );
 		return $fields;
 	}
 

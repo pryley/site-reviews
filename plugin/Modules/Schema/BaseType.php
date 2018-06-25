@@ -16,12 +16,12 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
 	/**
 	 * @var array
 	 */
-	protected $allowed = [];
+	public $allowed = [];
 
 	/**
 	 * @var array
 	 */
-	protected $parents = [];
+	public $parents = [];
 
 	/**
 	 * @var array
@@ -108,7 +108,7 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
 
 	/**
 	 * @param bool $condition
-	 * @param function $callback
+	 * @param mixed $callback
 	 * @return static
 	 */
 	public function doIf( $condition, $callback )
@@ -203,7 +203,7 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
 
 	/**
 	 * @param null|array $parents
-	 * @return void
+	 * @return array
 	 */
 	protected function getParents( $parents = null )
 	{

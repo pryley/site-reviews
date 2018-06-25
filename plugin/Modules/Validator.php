@@ -94,7 +94,7 @@ class Validator
 		if( !method_exists( $this, $method = 'validate'.$rule )) {
 			throw new BadMethodCallException( "Method [$method] does not exist." );
 		}
-		if( !$this->$method( $attribute, $value, $parameters )) {
+		if( !$this->$method( $value, $attribute, $parameters )) {
 			$this->addFailure( $attribute, $rule, $parameters );
 		}
 	}

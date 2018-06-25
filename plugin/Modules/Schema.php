@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Rating;
-use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
 use GeminiLabs\SiteReviews\Modules\Schema\UnknownType;
 use WP_Post;
 
@@ -109,7 +108,7 @@ class Schema
 			->doIf( !in_array( 'excerpt', $this->args['hide'] ), function( $schema ) use( $review ) {
 				$schema->reviewBody( $review->content );
 			})
-			->datePublished(( new DateTime( $review->date ))->format( DateTime::ISO8601 ))
+			->datePublished(( new DateTime( $review->date )))
 			->author( $this->getSchemaType( 'Person' )->name( $review->author ))
 			->itemReviewed( $this->getSchemaType()->name( $this->getSchemaOptionValue( 'name' )));
 		if( !empty( $review->rating )) {
@@ -123,9 +122,10 @@ class Schema
 	}
 
 	/**
-	 * @return BaseType
+	 * @param mixed $schema
+	 * @return mixed
 	 */
-	protected function buildSchemaValues( BaseType $schema, array $values = [] )
+	protected function buildSchemaValues( $schema, array $values = [] )
 	{
 		foreach( $values as $value ) {
 			$option = $this->getSchemaOptionValue( $value );
@@ -136,7 +136,7 @@ class Schema
 	}
 
 	/**
-	 * @return BaseType
+	 * @return mixed
 	 */
 	protected function buildSummaryForCustom()
 	{
@@ -146,7 +146,7 @@ class Schema
 	}
 
 	/**
-	 * @return BaseType
+	 * @return mixed
 	 */
 	protected function buildSummaryForLocalBusiness()
 	{
@@ -156,7 +156,7 @@ class Schema
 	}
 
 	/**
-	 * @return BaseType
+	 * @return mixed
 	 */
 	protected function buildSummaryForProduct()
 	{
@@ -217,11 +217,10 @@ class Schema
 	}
 
 	/**
-	 * @param string $setting
 	 * @param string $fallback
 	 * @return string
 	 */
-	protected function getSchemaOptionDefault( $setting, $fallback )
+	protected function getSchemaOptionDefault( array $setting, $fallback )
 	{
 		$setting = wp_parse_args( $setting, [
 			'custom' => '',
@@ -244,22 +243,15 @@ class Schema
 			return $value;
 		}
 		if( !is_single() && !is_page() )return;
-		// @todo make this dynamic
-		switch( $option ) {
-			case 'description':
-				return $this->getThingDescription();
-			case 'image':
-				return $this->getThingImage();
-			case 'name':
-				return $this->getThingName();
-			case 'url':
-				return $this->getThingUrl();
+		$method = glsr( Helper::class )->buildMethodName( $option, 'getThing' );
+		if( method_exists( $this, $method )) {
+			return $this->$method();
 		}
 	}
 
 	/**
 	 * @param null|string $type
-	 * @return \GeminiLabs\SchemaOrg\Type
+	 * @return mixed
 	 */
 	protected function getSchemaType( $type = null )
 	{

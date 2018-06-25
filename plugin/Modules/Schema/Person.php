@@ -70,7 +70,7 @@ class Person extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $allowed = [
+	public $allowed = [
 		'additionalName', 'address', 'affiliation', 'alumniOf', 'award', 'awards', 'birthDate',
 		'birthPlace', 'brand', 'children', 'colleague', 'colleagues', 'contactPoint',
 		'contactPoints', 'deathDate', 'deathPlace', 'duns', 'email', 'familyName', 'faxNumber',
@@ -86,7 +86,7 @@ class Person extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $parents = [
+	public $parents = [
 		'Thing',
 	];
 }

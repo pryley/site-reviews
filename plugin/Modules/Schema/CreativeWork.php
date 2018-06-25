@@ -98,7 +98,7 @@ class CreativeWork extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $allowed = [
+	public $allowed = [
 		'about', 'accessMode', 'accessModeSufficient', 'accessibilityAPI', 'accessibilityControl',
 		'accessibilityFeature', 'accessibilityHazard', 'accessibilitySummary', 'accountablePerson',
 		'aggregateRating', 'alternativeHeadline', 'associatedMedia', 'audience', 'audio', 'author',
@@ -121,7 +121,7 @@ class CreativeWork extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $parents = [
+	public $parents = [
 		'Thing',
 	];
 }

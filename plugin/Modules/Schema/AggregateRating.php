@@ -17,7 +17,7 @@ class AggregateRating extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $allowed = [
+	public $allowed = [
 		'itemReviewed', 'ratingCount', 'reviewCount',
 	];
 
@@ -25,7 +25,7 @@ class AggregateRating extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $parents = [
+	public $parents = [
 		'Rating',
 	];
 }

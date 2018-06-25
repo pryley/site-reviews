@@ -43,7 +43,7 @@ class Place extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $allowed = [
+	public $allowed = [
 		'additionalProperty', 'address', 'aggregateRating', 'amenityFeature', 'branchCode',
 		'containedIn', 'containedInPlace', 'containsPlace', 'event', 'events', 'faxNumber', 'geo',
 		'globalLocationNumber', 'hasMap', 'isAccessibleForFree', 'isicV4', 'logo', 'map', 'maps',
@@ -55,7 +55,7 @@ class Place extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $parents = [
+	public $parents = [
 		'Thing',
 	];
 }

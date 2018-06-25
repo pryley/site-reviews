@@ -203,7 +203,7 @@ class Organization extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $allowed = [
+	public $allowed = [
 		'address', 'aggregateRating', 'areaServed', 'award', 'awards', 'brand', 'contactPoint',
 		'contactPoints', 'department', 'dissolutionDate', 'duns', 'email', 'employee', 'employees',
 		'event', 'events', 'faxNumber', 'founder', 'founders', 'foundingDate', 'foundingLocation',
@@ -218,7 +218,7 @@ class Organization extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $parents = [
+	public $parents = [
 		'Thing',
 	];
 }

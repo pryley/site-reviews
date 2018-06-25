@@ -17,7 +17,7 @@ class Review extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $allowed = [
+	public $allowed = [
 		'itemReviewed', 'reviewBody', 'reviewRating',
 	];
 
@@ -25,7 +25,7 @@ class Review extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $parents = [
+	public $parents = [
 		'CreativeWork',
 	];
 }

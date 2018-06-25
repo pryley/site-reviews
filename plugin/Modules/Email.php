@@ -55,12 +55,12 @@ class Email
 	}
 
 	/**
-	 * @param bool $plaintext
+	 * @param string $format
 	 * @return string|null
 	 */
-	public function read( $plaintext = false )
+	public function read( $format = '' )
 	{
-		if( wp_validate_boolean( $plaintext )) {
+		if( $format == 'plaintext' ) {
 			$message = $this->stripHtmlTags( $this->message );
 			return apply_filters( 'site-reviews/email/message', $message, 'text', $this );
 		}

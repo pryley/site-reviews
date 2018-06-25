@@ -21,7 +21,7 @@ class LocalBusiness extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $allowed = [
+	public $allowed = [
 		'branchOf', 'currenciesAccepted', 'openingHours', 'paymentAccepted', 'priceRange',
 	];
 
@@ -29,7 +29,7 @@ class LocalBusiness extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $parents = [
+	public $parents = [
 		'Organization', 'Place',
 	];
 }

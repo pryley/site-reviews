@@ -18,7 +18,7 @@ class Rating extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $allowed = [
+	public $allowed = [
 		'author', 'bestRating', 'ratingValue', 'worstRating',
 	];
 
@@ -26,7 +26,7 @@ class Rating extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $parents = [
+	public $parents = [
 		'Intangible',
 	];
 }

@@ -56,10 +56,10 @@ trait ValidationRules
 	 * @param mixed $value
 	 * @return bool
 	 */
-	public function validateAccepted( $attribute, $value )
+	public function validateAccepted( $value )
 	{
 		$acceptable = ['yes', 'on', '1', 1, true, 'true'];
-		return $this->validateRequired( $attribute, $value ) && in_array( $value, $acceptable, true );
+		return $this->validateRequired( $value ) && in_array( $value, $acceptable, true );
 	}
 
 	/**
@@ -68,7 +68,7 @@ trait ValidationRules
 	 * @param mixed $value
 	 * @return bool
 	 */
-	public function validateBetween( $attribute, $value, array $parameters )
+	public function validateBetween( $value, $attribute, array $parameters )
 	{
 		$this->requireParameterCount( 2, $parameters, 'between' );
 		$size = $this->getSize( $attribute, $value );
@@ -77,11 +77,10 @@ trait ValidationRules
 
 	/**
 	 * Validate that an attribute is a valid e-mail address.
-	 * @param string $attribute
 	 * @param mixed $value
 	 * @return bool
 	 */
-	public function validateEmail( $attribute, $value )
+	public function validateEmail( $value )
 	{
 		return filter_var( $value, FILTER_VALIDATE_EMAIL ) !== false;
 	}
@@ -92,7 +91,7 @@ trait ValidationRules
 	 * @param mixed $value
 	 * @return bool
 	 */
-	public function validateMax( $attribute, $value, array $parameters )
+	public function validateMax( $value, $attribute, array $parameters )
 	{
 		$this->requireParameterCount( 1, $parameters, 'max' );
 		return $this->getSize( $attribute, $value ) <= $parameters[0];
@@ -104,7 +103,7 @@ trait ValidationRules
 	 * @param mixed $value
 	 * @return bool
 	 */
-	public function validateMin( $attribute, $value, array $parameters )
+	public function validateMin( $value, $attribute, array $parameters )
 	{
 		$this->requireParameterCount( 1, $parameters, 'min' );
 		return $this->getSize( $attribute, $value ) >= $parameters[0];
@@ -112,22 +111,20 @@ trait ValidationRules
 
 	/**
 	 * Validate that an attribute is numeric.
-	 * @param string $attribute
 	 * @param mixed $value
 	 * @return bool
 	 */
-	public function validateNumeric( $attribute, $value )
+	public function validateNumeric( $value )
 	{
 		return is_numeric( $value );
 	}
 
 	/**
 	 * Validate that a required attribute exists.
-	 * @param string $attribute
 	 * @param mixed $value
 	 * @return bool
 	 */
-	public function validateRequired( $attribute, $value )
+	public function validateRequired( $value )
 	{
 		return is_null( $value )
 			|| ( is_string( $value ) && trim( $value ) === '' )

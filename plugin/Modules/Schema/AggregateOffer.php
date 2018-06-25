@@ -19,7 +19,7 @@ class AggregateOffer extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $allowed = [
+	public $allowed = [
 		'highPrice', 'lowPrice', 'offerCount', 'offers',
 	];
 
@@ -27,7 +27,7 @@ class AggregateOffer extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $parents = [
+	public $parents = [
 		'Offer',
 	];
 }

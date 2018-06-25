@@ -25,7 +25,7 @@ class Thing extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $allowed = [
+	public $allowed = [
 		'additionalType', 'alternateName', 'description', 'disambiguatingDescription', 'identifier',
 		'image', 'mainEntityOfPage', 'name', 'potentialAction', 'sameAs', 'url',
 	];

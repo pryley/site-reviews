@@ -60,7 +60,7 @@ class Offer extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $allowed = [
+	public $allowed = [
 		'acceptedPaymentMethod', 'addOn', 'advanceBookingRequirement', 'aggregateRating',
 		'areaServed', 'availability', 'availabilityEnds', 'availabilityStarts', 'availableAtOrFrom',
 		'availableDeliveryMethod', 'businessFunction', 'category', 'deliveryLeadTime',
@@ -75,7 +75,7 @@ class Offer extends BaseType
 	 * @var array
 	 * @see http://schema.org/{property_name}
 	 */
-	protected $parents = [
+	public $parents = [
 		'Intangible',
 	];
 }
