@@ -33,14 +33,7 @@ class Router
 			glsr_log()->error( 'The AJAX request must include an action' )->info( $request );
 			wp_die();
 		}
-		if( !isset( $request['nonce'] )) {
-			glsr_log()->error( 'The AJAX request must include a nonce' )->info( $request );
-			wp_die();
-		}
-		if( !wp_verify_nonce( $request['nonce'], $request['action'] )) {
-			glsr_log()->error( 'Nonce check failed for ajax request' )->info( $request );
-			wp_die( -1, 403 );
-		}
+		$this->checkAjaxNonce( $request );
 		$request['ajax_request'] = true;
 		$this->routeRequest( 'ajax', $request['action'], $request );
 		wp_die();
@@ -54,10 +47,7 @@ class Router
 		if( is_admin() )return;
 		$request = $this->getRequest();
 		if( !$this->isValidPostRequest( $request ))return;
-		if( !wp_verify_nonce( $request['_wpnonce'], $request['action'] )) {
-			glsr_log()->error( 'Nonce check failed for public request' )->info( $request );
-			return;
-		}
+		if( !$this->isValidPublicNonce( $request ))return;
 		$this->routeRequest( 'public', $request['action'], $request );
 	}
 
@@ -86,6 +76,22 @@ class Router
 	}
 
 	/**
+	 * @return void
+	 */
+	protected function checkAjaxNonce( array $request )
+	{
+		if( !is_user_logged_in() )return;
+		if( !isset( $request['nonce'] )) {
+			glsr_log()->error( 'The AJAX request must include a nonce' )->info( $request );
+			wp_die();
+		}
+		if( !wp_verify_nonce( $request['nonce'], $request['action'] )) {
+			glsr_log()->error( 'Nonce check failed for ajax request' )->info( $request );
+			wp_die( -1, 403 );
+		}
+	}
+
+	/**
 	 * @return array
 	 */
 	protected function getRequest()
@@ -103,6 +109,18 @@ class Router
 	protected function isValidPostRequest( array $request = [] )
 	{
 		return !empty( $request['action'] ) && empty( glsr( Helper::class )->filterInput( 'ajax_request' ));
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function isValidPublicNonce( array $request )
+	{
+		if( is_user_logged_in() && !wp_verify_nonce( $request['_wpnonce'], $request['action'] )) {
+			glsr_log()->error( 'Nonce check failed for public request' )->info( $request );
+			return false;
+		}
+		return true;
 	}
 
 	/**
