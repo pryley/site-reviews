@@ -17,7 +17,7 @@ class Router
 	{
 		$request = $this->getRequest();
 		if( !$this->isValidPostRequest( $request ))return;
-		$this->checkAdminNonce( $request['action'] );
+		check_admin_referer( $request['action'] );
 		$this->routeRequest( 'admin', $request['action'], $request );
 	}
 
@@ -59,20 +59,6 @@ class Router
 		$request = filter_input( INPUT_GET, Application::PREFIX.'hook' );
 		if( !$request )return;
 		// @todo manage webhook here
-	}
-
-	/**
-	 * @param string $action
-	 * @return void
-	 * @todo verify the $action-options
-	 */
-	protected function checkAdminNonce( $action )
-	{
-		$nonce = glsr( Helper::class )->filterInput( 'option_page' ) == $action
-			&& glsr( Helper::class )->filterInput( 'action' ) == 'update'
-			? $action.'-options'
-			: $action;
-		check_admin_referer( $nonce );
 	}
 
 	/**
