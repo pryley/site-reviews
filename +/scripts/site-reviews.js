@@ -6,7 +6,10 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		var direction = window.getComputedStyle( widgets[i], null ).getPropertyValue( 'direction' );
 		widgets[i].classList.add( 'glsr-' + direction );
 	}
-	new GLSR.Forms( true );
-	new GLSR.Pagination();
-	new GLSR.Excerpts();
+	// Check for unsupported browser versions (<=IE9)
+	if( !( document.all && !window.atob )) {
+		new GLSR.Forms( true );
+		new GLSR.Pagination();
+		new GLSR.Excerpts();
+	}
 });
