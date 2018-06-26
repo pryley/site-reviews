@@ -4,9 +4,9 @@ defined( 'WPINC' ) || die;
 
 /**
  * Checks for minimum system requirments on plugin activation
- * @version 1.0.1
+ * @version 2.0.0
  */
-class GL_Plugin_Check_v1
+class GL_Plugin_Check_v2
 {
 	const MIN_PHP_VERSION = '5.6.0';
 	const MIN_WORDPRESS_VERSION = '4.7.0';
@@ -109,6 +109,22 @@ class GL_Plugin_Check_v1
 	}
 
 	/**
+	 * @return array
+	 */
+	protected static function getMessages()
+	{
+		return array(
+			__( 'The %s plugin was deactivated.', 'site-reviews' ),
+			__( 'This plugin requires %s or greater in order to work properly.', 'site-reviews' ),
+			__( 'Please contact your hosting provider or server administrator to upgrade the version of PHP on your server (your server is running PHP version %s), or try to find an alternative plugin.', 'site-reviews' ),
+			__( 'PHP version', 'site-reviews' ),
+			__( 'WordPress version', 'site-reviews' ),
+			__( 'Update WordPress', 'site-reviews' ),
+			__( 'If you need to restore %s to the previous version, you can use the %s plugin to do so.', 'site-reviews' ),
+		);
+	}
+
+	/**
 	 * @return void
 	 */
 	protected function redirect()
@@ -128,19 +144,13 @@ class GL_Plugin_Check_v1
 	protected function printNotice( $pluginName )
 	{
 		$noticeTemplate = '<div id="message" class="notice notice-error error is-dismissible"><p><strong>%s</strong></p><p>%s</p><p>%s</p></div>';
-		$messages = array(
-			__( 'The %s plugin was deactivated.', 'site-reviews' ),
-			__( 'Sorry, this plugin requires %s or greater in order to work properly.', 'site-reviews' ),
-			__( 'Please contact your hosting provider or server administrator to upgrade the version of PHP on your server (your server is running PHP version %s), or try to find an alternative plugin.', 'site-reviews' ),
-			__( 'PHP version', 'site-reviews' ),
-			__( 'WordPress version', 'site-reviews' ),
-			__( 'Update WordPress', 'site-reviews' ),
-		);
+		$messages = static::getMessages();
 		if( !static::isPhpValid() ) {
+			$rollbackMessage = sprintf( $messages[6], $pluginName, '<a href="https://wordpress.org/plugins/wp-rollback/">WP Rollback</a>' );
 			printf( $noticeTemplate,
 				sprintf( $messages[0], $pluginName ),
 				sprintf( $messages[1], $messages[3].' '.static::$versions->php ),
-				sprintf( $messages[2], PHP_VERSION )
+				sprintf( $messages[2], PHP_VERSION ).'</p><p>'.$rollbackMessage
 			);
 		}
 		else if( !static::isWpValid() ) {
