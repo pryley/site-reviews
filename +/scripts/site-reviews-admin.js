@@ -8,7 +8,7 @@ GLSR.keys = {
 	UP: 38,
 };
 
-jQuery( function() {
+jQuery( function( $ ) {
 	GLSR.ColorPicker();
 	new GLSR.Console();
 	new GLSR.Forms( 'form.glsr-form' );
@@ -20,7 +20,7 @@ jQuery( function() {
 			this.el.on( 'click', '.glsr-remove-button', this.onUnassign_.bind( this ));
 		},
 		onResultClick: function( ev ) {
-			var result = jQuery( ev.target );
+			var result = $( ev.target );
 			var template = wp.template( 'glsr-assigned-post' );
 			var entry = {
 				url: result.data( 'url' ),
@@ -40,7 +40,7 @@ jQuery( function() {
 			this.makeSortable_();
 		},
 		onResultClick: function( ev ) {
-			var result = jQuery( ev.target );
+			var result = $( ev.target );
 			var entry = result.data( 'entry' );
 			var template = wp.template( 'glsr-string-' + ( entry.p1 ? 'plural' : 'single' ));
 			entry.index = this.options.entriesEl.children().length;

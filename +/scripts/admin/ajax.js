@@ -1,5 +1,5 @@
 /** global: GLSR, jQuery */
-;(function( x ) {
+;(function( $ ) {
 
 	'use strict';
 
@@ -37,7 +37,7 @@
 				this.postFromEvent_( callback );
 				return;
 			}
-			x.post( GLSR.ajaxurl, this.buildData_(), function( response ) {
+			$.post( GLSR.ajaxurl, this.buildData_(), function( response ) {
 				if( typeof callback !== 'function' )return;
 				callback( response );
 			});
@@ -46,10 +46,10 @@
 		/** @return void */
 		postFromEvent_: function( callback ) { // Event, function|void
 			this.event.preventDefault();
-			var el = x( this.event.target );
+			var el = $( this.event.target );
 			if( el.is( ':disabled' ))return;
 			el.prop( 'disabled', true );
-			x.post( GLSR.ajaxurl, this.buildData_( el ), function( response ) {
+			$.post( GLSR.ajaxurl, this.buildData_( el ), function( response ) {
 				if( typeof callback === 'function' ) {
 					callback( response );
 				}

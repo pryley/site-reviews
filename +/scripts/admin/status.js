@@ -1,5 +1,5 @@
 /** global: GLSR, jQuery */
-;(function( x ) {
+;(function( $ ) {
 
 	'use strict';
 
@@ -25,7 +25,7 @@
 			};
 			(new GLSR.Ajax( request, ev )).post( function( response ) {
 				if( !response.class )return;
-				var el = x( ev.target );
+				var el = $( ev.target );
 				el.closest( 'tr' ).removeClass( 'status-pending status-publish' ).addClass( response.class );
 				el.closest( 'td.column-title' ).find( 'strong' ).html( response.link );
 			});

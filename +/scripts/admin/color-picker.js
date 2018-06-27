@@ -1,12 +1,12 @@
 /** global: GLSR, jQuery */
-;(function( x ) {
+;(function( $ ) {
 
 	'use strict';
 
 	GLSR.ColorPicker = function() {
-		if( typeof x.wp !== 'object' || typeof x.wp.wpColorPicker !== 'function' )return;
-		x( document ).find( 'input[type=text].color-picker-hex' ).each( function() {
-			x( this ).wpColorPicker( x( this ).data( 'colorpicker' ) || {} );
+		if( typeof $.wp !== 'object' || typeof $.wp.wpColorPicker !== 'function' )return;
+		$( document ).find( 'input[type=text].color-picker-hex' ).each( function() {
+			$( this ).wpColorPicker( $( this ).data( 'colorpicker' ) || {} );
 		});
 	};
 })( jQuery );

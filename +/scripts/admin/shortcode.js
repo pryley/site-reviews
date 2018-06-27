@@ -1,5 +1,5 @@
 /** global: editor, GLSR, jQuery, tinymce */
-;(function( x ) {
+;(function( $ ) {
 
 	'use strict';
 
@@ -43,11 +43,11 @@
 
 		/** @return void */
 		initQuicktagsEditor_: function() {
-			if( x( '#scTemp' ).length ) {
+			if( $( '#scTemp' ).length ) {
 				this.initTinymceEditor_();
 				return;
 			}
-			x( 'body' ).append( '<textarea id="scTemp" style="display:none!important;"/>' );
+			$( 'body' ).append( '<textarea id="scTemp" style="display:none!important;"/>' );
 			tinymce.init({
 				elements: 'scTemp',
 				mode: 'exact',
@@ -60,13 +60,13 @@
 
 		/** @return void */
 		close_: function() {
-			x( this.button ).removeClass( 'active' );
-			x( this.el ).find( '.glsr-mce-menu' ).hide();
+			$( this.button ).removeClass( 'active' );
+			$( this.el ).find( '.glsr-mce-menu' ).hide();
 		},
 
 		/** @return void */
 		destroy_: function() {
-			var tmp = x( '#scTemp' );
+			var tmp = $( '#scTemp' );
 			if( tmp.length ) {
 				tinymce.get( 'scTemp' ).remove();
 				tmp.remove();
@@ -88,7 +88,7 @@
 
 		/** @return void */
 		normalizeCount_: function( key ) {
-			if( key !== 'count' || x.isNumeric( this.attributes_[key] ))return;
+			if( key !== 'count' || $.isNumeric( this.attributes_[key] ))return;
 			this.attributes_[key] = '';
 		},
 
@@ -111,7 +111,7 @@
 
 		/** @return void */
 		onClose_: function( ev ) {
-			if( x( ev.target ).closest( x( this.el )).length )return;
+			if( $( ev.target ).closest( $( this.el )).length )return;
 			this.close_();
 		},
 
@@ -143,8 +143,8 @@
 
 		/** @return void */
 		open_: function() {
-			x( this.button ).addClass( 'active' );
-			x( this.el ).find( '.glsr-mce-menu' ).show();
+			$( this.button ).addClass( 'active' );
+			$( this.el ).find( '.glsr-mce-menu' ).show();
 		},
 
 		/** @return void */

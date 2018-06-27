@@ -1,10 +1,10 @@
 /** global: GLSR, jQuery */
-;(function( _, wp, x ) {
+;(function( _, wp, $ ) {
 
 	'use strict';
 
 	GLSR.Search = function( selector, options ) {
-		this.el = x( selector );
+		this.el = $( selector );
 		this.options = options;
 		this.searchTerm = null;
 		this.init_();
@@ -29,7 +29,7 @@
 
 		/** @return void */
 		init_: function() {
-			this.options = x.extend( {}, this.defaults, this.options );
+			this.options = $.extend( {}, this.defaults, this.options );
 			if( !this.el.length )return;
 			this.options.entriesEl = this.el.parent().find( this.options.selectorEntries );
 			this.options.resultsEl = this.el.find( this.options.selectorResults );
@@ -49,8 +49,8 @@
 				if( GLSR.keys.ENTER !== ev.which )return;
 				ev.preventDefault();
 			});
-			x( document ).on( 'click', this.onDocumentClick_.bind( this ));
-			x( document ).on( 'keydown', this.onDocumentKeydown_.bind( this ));
+			$( document ).on( 'click', this.onDocumentClick_.bind( this ));
+			$( document ).on( 'keydown', this.onDocumentKeydown_.bind( this ));
 		},
 
 		/** @return void */
@@ -64,7 +64,7 @@
 			this.abort_();
 			this.options.resultsEl.empty();
 			this.el.removeClass( 'is-active' );
-			x( 'body' ).removeClass( 'glsr-focus' );
+			$( 'body' ).removeClass( 'glsr-focus' );
 		},
 
 		/** @return void */// Manage entries
@@ -73,7 +73,7 @@
 			var search = this;
 			row.find( 'td' ).css({ backgroundColor:'#faafaa' });
 			row.fadeOut( 350, function() {
-				x( this ).remove();
+				$( this ).remove();
 				search.options.results = {};
 				search.reindexRows_();
 				search.setVisibility_();
@@ -82,7 +82,7 @@
 
 		/** @return void */
 		displayResults_: function( items ) {
-			x( 'body' ).addClass( 'glsr-focus' );
+			$( 'body' ).addClass( 'glsr-focus' );
 			this.options.resultsEl.append( items );
 			this.options.resultsEl.children( 'span' ).on( 'click', this.onResultClick_.bind( this ));
 		},
@@ -97,7 +97,7 @@
 					ui.placeholder.height( ui.helper[0].scrollHeight );
 				},
 				sort: function( ev, ui ) {
-					var top = ev.pageY - x( this ).offsetParent().offset().top - ( ui.helper.outerHeight( true ) / 2 );
+					var top = ev.pageY - $( this ).offsetParent().offset().top - ( ui.helper.outerHeight( true ) / 2 );
 					ui.helper.css({
 						top: top + 'px',
 					});
@@ -127,7 +127,7 @@
 
 		/** @return void */
 		onDocumentClick_: function( ev ) {
-			if( x( ev.target ).find( this.el ).length && x( 'body' ).hasClass( 'glsr-focus' )) {
+			if( $( ev.target ).find( this.el ).length && $( 'body' ).hasClass( 'glsr-focus' )) {
 				this.clearResults_();
 			}
 		},
@@ -157,7 +157,7 @@
 		/** @return void */// Manage entries
 		onEntryDelete_: function( ev ) {
 			ev.preventDefault();
-			this.deleteEntry_( x( ev.target ).closest( 'tr' ).index() );
+			this.deleteEntry_( $( ev.target ).closest( 'tr' ).index() );
 		},
 
 		/** @return void */
@@ -215,7 +215,7 @@
 			this.el.find( 'input#assigned_to' ).val( '' );
 			assigned.find( 'a' ).css({ color:'#c00' });
 			assigned.fadeOut( 'fast', function() {
-				x( this ).html( '' ).show();
+				$( this ).html( '' ).show();
 			});
 		},
 
@@ -224,8 +224,8 @@
 			var search = this;
 			this.options.exclude = [];
 			this.options.entriesEl.children( 'tr' ).each( function( index ) {
-				x( this ).find( '.glsr-string-td2' ).children().filter( ':input' ).each( function() {
-					var input = x( this );
+				$( this ).find( '.glsr-string-td2' ).children().filter( ':input' ).each( function() {
+					var input = $( this );
 					var name = input.attr( 'name' ).replace( /\[\d+\]/i, '[' + index + ']' );
 					input.attr( 'name', name );
 					if( input.is( '[data-id]' )) {

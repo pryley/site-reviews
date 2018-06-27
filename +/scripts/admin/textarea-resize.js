@@ -1,5 +1,5 @@
 /** global: GLSR, jQuery */
-;(function( x ) {
+;(function( $ ) {
 
 	'use strict';
 
@@ -7,7 +7,7 @@
 		var textarea = document.querySelector( '#contentdiv > textarea' );
 		if( !textarea )return;
 		this.resize_( textarea );
-		x( document ).on( 'wp-window-resized.editor-expand', function() {
+		$( document ).on( 'wp-window-resized.editor-expand', function() {
 			this.resize_( textarea );
 		}.bind( this ));
 	};

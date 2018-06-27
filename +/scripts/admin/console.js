@@ -1,10 +1,10 @@
 /** global: GLSR, jQuery */
-;(function( x ) {
+;(function( $ ) {
 
 	'use strict';
 
 	GLSR.Console = function() {
-		x( 'form' ).on( 'click', '#clear-console', this.onClick_ );
+		$( 'form' ).on( 'click', '#clear-console', this.onClick_ );
 	};
 
 	GLSR.Console.prototype = {
@@ -14,7 +14,7 @@
 			};
 			(new GLSR.Ajax( request, ev )).post( function( response ) {
 				GLSR.Notices( response.notices );
-				x( '#log-file' ).val( response.console );
+				$( '#log-file' ).val( response.console );
 			});
 		},
 	};

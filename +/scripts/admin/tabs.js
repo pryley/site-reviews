@@ -1,10 +1,10 @@
 /** global: GLSR, jQuery */
-;(function( x ) {
+;(function( $ ) {
 
 	'use strict';
 
 	GLSR.Tabs = function( options ) {
-		this.options = x.extend( {}, this.defaults, options );
+		this.options = $.extend( {}, this.defaults, options );
 		this.active = document.querySelector( 'input[name=_active_tab]' );
 		this.referrer = document.querySelector( 'input[name=_wp_http_referer]' );
 		this.tabs = document.querySelectorAll( this.options.tabSelector );
@@ -21,7 +21,7 @@
 
 		/** @return void */
 		init_: function() {
-			x( window ).on( 'hashchange', this.onHashchange_.bind( this ));
+			$( window ).on( 'hashchange', this.onHashchange_.bind( this ));
 			[].forEach.call( this.tabs, function( tab, index ) {
 				var active = location.hash ? tab.getAttribute( 'href' ).slice(1) === location.hash.slice(2) : index === 0;
 				if( active ) {

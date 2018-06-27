@@ -1,19 +1,19 @@
 /** global: GLSR, jQuery */
-;(function( x ) {
+;(function( $ ) {
 
 	'use strict';
 
 	GLSR.Pinned = function() {
-		this.el = x( '#pinned-status-select' );
+		this.el = $( '#pinned-status-select' );
 		if( this.el ) {
-			this.cancel = x( 'a.cancel-pinned-status' );
+			this.cancel = $( 'a.cancel-pinned-status' );
 			this.cancel.on( 'click', this.onClickCancel_.bind( this ));
-			this.edit = x( 'a.edit-pinned-status' );
+			this.edit = $( 'a.edit-pinned-status' );
 			this.edit.on( 'click', this.onClickEdit_.bind( this ));
-			this.save = x( 'a.save-pinned-status' );
+			this.save = $( 'a.save-pinned-status' );
 			this.save.on( 'click', this.onClickSave_.bind( this ));
 		}
-		x( 'table td.pinned i' ).on( 'click', this.onClickToggle_.bind( this ));
+		$( 'table td.pinned i' ).on( 'click', this.onClickToggle_.bind( this ));
 	};
 
 	GLSR.Pinned.prototype = {
@@ -27,7 +27,7 @@
 		onClickCancel_: function( ev ) { // MouseEvent
 			ev.preventDefault();
 			this.restoreEditLink_();
-			this.el.find( 'select' ).val( x( '#hidden-pinned-status' ).val() === '0' ? 1 : 0 );
+			this.el.find( 'select' ).val( $( '#hidden-pinned-status' ).val() === '0' ? 1 : 0 );
 		},
 
 		/** @return void */
@@ -47,8 +47,8 @@
 			this.target = ev.target;
 			var request = {
 				action: 'toggle-pinned',
-				id: x( '#post_ID' ).val(),
-				pinned: x( '#pinned-status' ).val(),
+				id: $( '#post_ID' ).val(),
+				pinned: $( '#pinned-status' ).val(),
 			};
 			(new GLSR.Ajax( request )).post( this.save_.bind( this ));
 		},
@@ -66,9 +66,9 @@
 
 		/** @return void */
 		save_: function( response ) {
-			x( '#pinned-status' ).val( !response.pinned|0 );
-			x( '#hidden-pinned-status' ).val( response.pinned|0 );
-			x( '#pinned-status-text' ).text( response.pinned ? this.target.dataset.yes : this.target.dataset.no );
+			$( '#pinned-status' ).val( !response.pinned|0 );
+			$( '#hidden-pinned-status' ).val( response.pinned|0 );
+			$( '#pinned-status-text' ).text( response.pinned ? this.target.dataset.yes : this.target.dataset.no );
 			GLSR.Notices( response.notices );
 		},
 

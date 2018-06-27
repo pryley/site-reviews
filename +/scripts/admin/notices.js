@@ -1,15 +1,15 @@
 /** global: GLSR, jQuery */
-;(function( x ) {
+;(function( $ ) {
 
 	'use strict';
 
 	GLSR.Notices = function( notices ) { // string
 		if( !notices )return;
-		if( !x( '#glsr-notices' ).length ) {
-			x( '#message.notice' ).remove();
-			x( 'form#post' ).before( '<div id="glsr-notices" />' );
+		if( !$( '#glsr-notices' ).length ) {
+			$( '#message.notice' ).remove();
+			$( 'form#post' ).before( '<div id="glsr-notices" />' );
 		}
-		x( '#glsr-notices' ).html( notices );
-		x( document ).trigger( 'wp-updates-notice-added' );
+		$( '#glsr-notices' ).html( notices );
+		$( document ).trigger( 'wp-updates-notice-added' );
 	};
 })( jQuery );
