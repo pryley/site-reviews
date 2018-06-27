@@ -29,12 +29,8 @@ class Router
 	public function routeAjaxRequest()
 	{
 		$request = $this->getRequest();
-		if( !isset( $request['action'] )) {
-			glsr_log()->error( 'The AJAX request must include an action' )->info( $request );
-			wp_die();
-		}
+		$this->checkAjaxRequest( $request );
 		$this->checkAjaxNonce( $request );
-		$request['ajax_request'] = true;
 		$this->routeRequest( 'ajax', $request['action'], $request );
 		wp_die();
 	}
@@ -68,14 +64,28 @@ class Router
 	}
 
 	/**
+	 * @return void
+	 */
+	protected function checkAjaxRequest( array $request )
+	{
+		if( !isset( $request['action'] )) {
+			glsr_log()->error( 'The AJAX request must include an action' )->info( $request );
+			wp_die();
+		}
+		if( empty( $request['ajax_request'] )) {
+			glsr_log()->error( 'The AJAX request look invalid' )->info( $request );
+			wp_die();
+		}
+	}
+
+	/**
 	 * @return array
 	 */
 	protected function getRequest()
 	{
-		foreach( ['request', Application::ID] as $key ) {
-			$request = glsr( Helper::class )->filterInputArray( $key );
-			if( !empty( $request ))break;
-		}
+		$request = glsr( Helper::class )->filterInput( 'action' ) == Application::PREFIX.'action'
+			? glsr( Helper::class )->filterInputArray( 'request' )
+			: glsr( Helper::class )->filterInputArray( Application::ID );
 		return $this->normalizeRequest( $request );
 	}
 
@@ -84,7 +94,7 @@ class Router
 	 */
 	protected function isValidPostRequest( array $request = [] )
 	{
-		return !empty( $request['action'] ) && empty( glsr( Helper::class )->filterInput( 'ajax_request' ));
+		return !empty( $request['action'] ) && empty( $request['ajax_request'] );
 	}
 
 	/**
@@ -92,7 +102,7 @@ class Router
 	 */
 	protected function isValidPublicNonce( array $request )
 	{
-		if( is_user_logged_in() && !wp_verify_nonce( $request['_wpnonce'], $request['action'] )) {
+		if( is_user_logged_in() && !wp_verify_nonce( $request['nonce'], $request['action'] )) {
 			glsr_log()->error( 'Nonce check failed for public request' )->info( $request );
 			return false;
 		}
@@ -104,8 +114,8 @@ class Router
 	 */
 	protected function normalizeRequest( array $request )
 	{
-		if( isset( $request[Application::ID]['action'] )) {
-			$request = $request[Application::ID];
+		if( glsr( Helper::class )->filterInput( 'action' ) == Application::PREFIX.'action' ) {
+			$request['ajax_request'] = true;
 		}
 		if( glsr( Helper::class )->filterInput( 'action', $request ) == 'submit-review' ) {
 			$request['recaptcha-token'] = glsr( Helper::class )->filterInput( 'g-recaptcha-response' );
