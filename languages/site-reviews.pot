@@ -15,28 +15,32 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: activate.php:132
+#: activate.php:117
 msgid "The %s plugin was deactivated."
 msgstr ""
 
-#: activate.php:133
-msgid "Sorry, this plugin requires %s or greater in order to work properly."
+#: activate.php:118
+msgid "This plugin requires %s or greater in order to work properly."
 msgstr ""
 
-#: activate.php:134
+#: activate.php:119
 msgid "Please contact your hosting provider or server administrator to upgrade the version of PHP on your server (your server is running PHP version %s), or try to find an alternative plugin."
 msgstr ""
 
-#: activate.php:135
+#: activate.php:120
 msgid "PHP version"
 msgstr ""
 
-#: activate.php:136
+#: activate.php:121
 msgid "WordPress version"
 msgstr ""
 
-#: activate.php:137
+#: activate.php:122
 msgid "Update WordPress"
+msgstr ""
+
+#: activate.php:123
+msgid "If you need to restore %s to the previous version, you can use the %s plugin to do so."
 msgstr ""
 
 #: config/settings.php:6
@@ -215,7 +219,7 @@ msgid "Custom"
 msgstr ""
 
 #: config/settings.php:144
-msgid "Google supports review ratings for the following schema content types: Local businesses, Movies, Books, Music, and Products. <a href=\"https://schema.org/docs/schemas.html\">View more information on schema types here</a>."
+msgid "View more information on schema types here"
 msgstr ""
 
 #: config/settings.php:145
@@ -480,10 +484,6 @@ msgstr ""
 
 #: config/submission-form.php:30
 msgid "This review is based on my own experience and is my genuine opinion."
-msgstr ""
-
-#: config/submission-form.php:34
-msgid "Upload a file."
 msgstr ""
 
 #: plugin/Application.php:136
@@ -885,8 +885,8 @@ msgstr ""
 msgid "Log is empty"
 msgstr ""
 
-#: plugin/Modules/Console.php:272
-msgid "Log has been automatically reset (512 KB max size)"
+#: plugin/Modules/Console.php:269
+msgid "Console was automatically reset (128 KB max size)"
 msgstr ""
 
 #: plugin/Modules/Date.php:36
@@ -1376,28 +1376,28 @@ msgstr ""
 msgid "All types"
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:74
-msgid "Please fix the submission errors."
-msgstr ""
-
-#: plugin/Modules/Validator/ValidateReview.php:78, plugin/Modules/Html/Partials/SiteReviews.php:212
-msgid "No Title"
-msgstr ""
-
-#: plugin/Modules/Validator/ValidateReview.php:199
+#: plugin/Modules/Validator/ValidateReview.php:186
 msgid "Your review cannot be submitted at this time. Please try again later."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:212
+#: plugin/Modules/Validator/ValidateReview.php:199
 msgid "Your review cannot be submitted at this time."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:230, plugin/Modules/Validator/ValidateReview.php:241
+#: plugin/Modules/Validator/ValidateReview.php:217, plugin/Modules/Validator/ValidateReview.php:228
 msgid "The review submission failed. Please notify the site administrator."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:258
+#: plugin/Modules/Validator/ValidateReview.php:245
 msgid "The reCAPTCHA verification failed. Please notify the site administrator."
+msgstr ""
+
+#: plugin/Modules/Validator/ValidateReview.php:255
+msgid "Please fix the submission errors."
+msgstr ""
+
+#: plugin/Modules/Validator/ValidateReview.php:259, plugin/Modules/Html/Partials/SiteReviews.php:212
+msgid "No Title"
 msgstr ""
 
 #: views/pages/addons/index.php:5
@@ -1574,13 +1574,13 @@ msgstr ""
 msgid "Show more"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:79
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:91
 msgid "Submit your review"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/SiteReviewsSummary.php:131
-msgctxt "Do not translate {rating} and {max}, they are template tags."
-msgid "{rating} out of {max} stars (based on %d review)"
-msgid_plural "{rating} out of {max} stars (based on %d reviews)"
+#: plugin/Modules/Html/Partials/SiteReviewsSummary.php:132
+msgctxt "Do not translate {rating}, {max}, and {num}, they are template tags."
+msgid "{rating} out of {max} stars (based on {num} review)"
+msgid_plural "{rating} out of {max} stars (based on {num} reviews)"
 msgstr[0] ""
 msgstr[1] ""

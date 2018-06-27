@@ -18,15 +18,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: en_US\n"
 
-#: activate.php:132
+#: activate.php:117
 msgid "The %s plugin was deactivated."
 msgstr "The %s plugin was deactivated."
 
-#: activate.php:133
-msgid "Sorry, this plugin requires %s or greater in order to work properly."
-msgstr "Sorry, this plugin requires %s or greater in order to work properly."
+#: activate.php:118
+msgid "This plugin requires %s or greater in order to work properly."
+msgstr "This plugin requires %s or greater in order to work properly."
 
-#: activate.php:134
+#: activate.php:119
 msgid ""
 "Please contact your hosting provider or server administrator to upgrade the "
 "version of PHP on your server (your server is running PHP version %s), or "
@@ -36,17 +36,25 @@ msgstr ""
 "version of PHP on your server (your server is running PHP version %s), or "
 "try to find an alternative plugin."
 
-#: activate.php:135
+#: activate.php:120
 msgid "PHP version"
 msgstr "PHP version"
 
-#: activate.php:136
+#: activate.php:121
 msgid "WordPress version"
 msgstr "WordPress version"
 
-#: activate.php:137
+#: activate.php:122
 msgid "Update WordPress"
 msgstr "Update WordPress"
+
+#: activate.php:123
+msgid ""
+"If you need to restore %s to the previous version, you can use the %s "
+"plugin to do so."
+msgstr ""
+"If you need to restore %s to the previous version, you can use the %s "
+"plugin to do so."
 
 #: config/settings.php:6
 msgid "Set the status of new review submissions to pending."
@@ -239,16 +247,8 @@ msgid "Custom"
 msgstr "Custom"
 
 #: config/settings.php:144
-msgid ""
-"Google supports review ratings for the following schema content types: "
-"Local businesses, Movies, Books, Music, and Products. <a "
-"href=\"https://schema.org/docs/schemas.html\">View more information on "
-"schema types here</a>."
-msgstr ""
-"Google supports review ratings for the following schema content types: "
-"Local businesses, Movies, Books, Music, and Products. <a "
-"href=\"https://schema.org/docs/schemas.html\">View more information on "
-"schema types here</a>."
+msgid "View more information on schema types here"
+msgstr "View more information on schema types here"
 
 #: config/settings.php:145
 msgid "Custom Schema Type"
@@ -537,10 +537,6 @@ msgstr "Tell us your email"
 #: config/submission-form.php:30
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
-
-#: config/submission-form.php:34
-msgid "Upload a file."
-msgstr "Upload a file."
 
 #: plugin/Application.php:136
 msgid "Local"
@@ -874,9 +870,9 @@ msgstr "Review unpinned."
 msgid "Log is empty"
 msgstr "Log is empty"
 
-#: plugin/Modules/Console.php:272
-msgid "Log has been automatically reset (512 KB max size)"
-msgstr "Log has been automatically reset (512 KB max size)"
+#: plugin/Modules/Console.php:269
+msgid "Console was automatically reset (128 KB max size)"
+msgstr "Console was automatically reset (128 KB max size)"
 
 #: plugin/Modules/Date.php:36
 msgid "%s second ago"
@@ -1346,29 +1342,29 @@ msgstr "Filter by type"
 msgid "All types"
 msgstr "All types"
 
-#: plugin/Modules/Validator/ValidateReview.php:74
-msgid "Please fix the submission errors."
-msgstr "Please fix the submission errors."
-
-#: plugin/Modules/Validator/ValidateReview.php:78, plugin/Modules/Html/Partials/SiteReviews.php:212
-msgid "No Title"
-msgstr "No Title"
-
-#: plugin/Modules/Validator/ValidateReview.php:199
+#: plugin/Modules/Validator/ValidateReview.php:186
 msgid "Your review cannot be submitted at this time. Please try again later."
 msgstr "Your review cannot be submitted at this time. Please try again later."
 
-#: plugin/Modules/Validator/ValidateReview.php:212
+#: plugin/Modules/Validator/ValidateReview.php:199
 msgid "Your review cannot be submitted at this time."
 msgstr "Your review cannot be submitted at this time."
 
-#: plugin/Modules/Validator/ValidateReview.php:230, plugin/Modules/Validator/ValidateReview.php:241
+#: plugin/Modules/Validator/ValidateReview.php:217, plugin/Modules/Validator/ValidateReview.php:228
 msgid "The review submission failed. Please notify the site administrator."
 msgstr "The review submission failed. Please notify the site administrator."
 
-#: plugin/Modules/Validator/ValidateReview.php:258
+#: plugin/Modules/Validator/ValidateReview.php:245
 msgid "The reCAPTCHA verification failed. Please notify the site administrator."
 msgstr "The reCAPTCHA verification failed. Please notify the site administrator."
+
+#: plugin/Modules/Validator/ValidateReview.php:255
+msgid "Please fix the submission errors."
+msgstr "Please fix the submission errors."
+
+#: plugin/Modules/Validator/ValidateReview.php:259, plugin/Modules/Html/Partials/SiteReviews.php:212
+msgid "No Title"
+msgstr "No Title"
 
 #: views/pages/addons/index.php:5
 msgid "The following Add-Ons extend the functionality of Site Reviews."
@@ -1566,7 +1562,7 @@ msgstr "Show less"
 msgid "Show more"
 msgstr "Show more"
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:79
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:91
 msgid "Submit your review"
 msgstr "Submit your review"
 
@@ -1674,9 +1670,9 @@ msgctxt "the option label"
 msgid "The \"%s\" option is required."
 msgstr "The \"%s\" option is required."
 
-#: plugin/Modules/Html/Partials/SiteReviewsSummary.php:131
-msgctxt "Do not translate {rating} and {max}, they are template tags."
-msgid "{rating} out of {max} stars (based on %d review)"
-msgid_plural "{rating} out of {max} stars (based on %d reviews)"
-msgstr[0] "{rating} out of {max} stars (based on %d review)"
-msgstr[1] "{rating} out of {max} stars (based on %d reviews)"
+#: plugin/Modules/Html/Partials/SiteReviewsSummary.php:132
+msgctxt "Do not translate {rating}, {max}, and {num}, they are template tags."
+msgid "{rating} out of {max} stars (based on {num} review)"
+msgid_plural "{rating} out of {max} stars (based on {num} reviews)"
+msgstr[0] "{rating} out of {max} stars (based on {num} review)"
+msgstr[1] "{rating} out of {max} stars (based on {num} reviews)"
