@@ -5,7 +5,7 @@
 !.travis.yml
 *.log
 *.map
-clover.xml
+coverage.xml
 scrap.md
 
 /node_modules
