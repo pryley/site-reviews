@@ -128,16 +128,20 @@ class SiteReviewsSummary
 		if( $this->isHidden( 'summary' ))return;
 		$count = count( $this->reviews );
 		if( empty( $this->args['text'] )) {
+			// @todo document this change
 			 $this->args['text'] = _nx(
-				'{rating} out of {max} stars (based on %d review)',
-				'{rating} out of {max} stars (based on %d reviews)',
+				'{rating} out of {max} stars (based on {num} review)',
+				'{rating} out of {max} stars (based on {num} reviews)',
 				$count,
-				'Do not translate {rating} and {max}, they are template tags.',
+				'Do not translate {rating}, {max}, and {num}, they are template tags.',
 				'site-reviews'
 			);
 		}
-		$summary = str_replace( ['{rating}','{max}'], [$this->rating, Rating::MAX_RATING], $this->args['text'] );
-		$summary = str_replace( ['%s','%d'], $count, $summary );
+		$summary = str_replace(
+			['{rating}','{max}', '{num}'],
+			[$this->rating, Rating::MAX_RATING, $count],
+			$this->args['text']
+		);
 		return $this->wrap( 'text', '<span>'.$summary.'</span>' );
 	}
 
