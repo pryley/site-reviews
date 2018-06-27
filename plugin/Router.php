@@ -54,16 +54,6 @@ class Router
 	/**
 	 * @return void
 	 */
-	public function routeWebhookRequest()
-	{
-		$request = filter_input( INPUT_GET, Application::PREFIX.'hook' );
-		if( !$request )return;
-		// @todo manage webhook here
-	}
-
-	/**
-	 * @return void
-	 */
 	protected function checkAjaxNonce( array $request )
 	{
 		if( !is_user_logged_in() )return;

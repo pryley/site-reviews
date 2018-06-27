@@ -88,7 +88,6 @@ class Actions implements HooksContract
 		add_action( 'wp_ajax_'.Application::PREFIX.'action',        [$this->router, 'routeAjaxRequest'] );
 		add_action( 'wp_ajax_nopriv_'.Application::PREFIX.'action', [$this->router, 'routeAjaxRequest'] );
 		add_action( 'init',                                         [$this->router, 'routePublicPostRequest'] );
-		add_action( 'admin_init',                                   [$this->router, 'routeWebhookRequest'] );
 		add_action( 'site-reviews/schedule/session/purge',          [$this->session, 'deleteExpiredSessions'] );
 		add_action( 'admin_init',                                   [$this->settings, 'registerSettings'] );
 		add_action( Application::TAXONOMY.'_term_edit_form_top',    [$this->taxonomy, 'disableParents'] );
