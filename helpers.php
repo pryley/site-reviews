@@ -82,13 +82,14 @@ function glsr_get_options() {
  * @param int $post_id
  * @return void|object
  */
-// function glsr_get_review( $post_id ) {
-// 	return glsr( 'Database' )->getReview( get_post( $post_id ));
-// }
+function glsr_get_review( $post_id ) {
+	return glsr( 'Database' )->getReview( get_post( $post_id ));
+}
 
 /**
  * @return array
+ * @todo document change of $reviews->reviews to $reviews->results
  */
-// function glsr_get_reviews( array $args = array() ) {
-// 	return glsr( 'Database' )->getReviews( $args );
-// }
+function glsr_get_reviews( array $args = array() ) {
+	return glsr( 'Database' )->getReviews( $args );
+}
