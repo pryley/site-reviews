@@ -379,6 +379,9 @@ class Translator
 	 */
 	protected function translatePlural( $domain, array $string, array $args )
 	{
+		if( !empty( $string['s2'] )) {
+			$args['single'] = $string['s2'];
+		}
 		if( !empty( $string['p2'] )) {
 			$args['plural'] = $string['p2'];
 		}
