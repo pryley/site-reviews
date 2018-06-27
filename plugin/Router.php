@@ -22,8 +22,6 @@ class Router
 	}
 
 	/**
-	 * All ajax requests in the plugin are triggered by a single action hook (i.e. "glsr_action")
-	 * Each route is determined by the request["action"]
 	 * @return void
 	 */
 	public function routeAjaxRequest()
@@ -79,6 +77,8 @@ class Router
 	}
 
 	/**
+	 * All ajax requests in the plugin are triggered by a single action hook: glsr_action,
+	 * while each route is determined by $_POST[request][action]
 	 * @return array
 	 */
 	protected function getRequest()
