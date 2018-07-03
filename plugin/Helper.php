@@ -234,7 +234,6 @@ class Helper
 	}
 
 	/**
-	 * Remove empty values from an array
 	 * @return array
 	 */
 	public function removeEmptyArrayValues( array $array )

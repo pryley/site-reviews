@@ -17,13 +17,11 @@ class Settings
 	 */
 	public function buildFields( $id )
 	{
-		$method = glsr( Helper::class )->buildMethodName( $id, 'getTemplateContextFor' );
-		$context = !method_exists( $this, $method )
-			? $this->getTemplateContext( $id )
+		$method = glsr( Helper::class )->buildMethodName( $id, 'getTemplateDataFor' );
+		$data = !method_exists( $this, $method )
+			? $this->getTemplateData( $id )
 			: $this->$method( $id );
-		return glsr( Template::class )->build( 'pages/settings/'.$id, [
-			'context' => $context,
-		]);
+		return glsr( Template::class )->build( 'pages/settings/'.$id, $data );
 	}
 
 	/**
@@ -48,12 +46,10 @@ class Settings
 	}
 
 	/**
-	 * @param string $id
-	 * @return array
+	 * @return string
 	 */
-	protected function getTemplateContext( $id )
+	protected function getSettingRows( array $fields )
 	{
-		$fields = $this->getSettingFields( $this->normalizeSettingPath( $id ));
 		$rows = '';
 		foreach( $fields as $name => $field ) {
 			$field = wp_parse_args( $field, [
@@ -62,24 +58,59 @@ class Settings
 			]);
 			$rows.= new Field( $this->normalize( $field ));
 		}
+		return $rows;
+	}
+
+	/**
+	 * @param string $id
+	 * @return array
+	 */
+	protected function getTemplateData( $id )
+	{
+		$fields = $this->getSettingFields( $this->normalizeSettingPath( $id ));
 		return [
-			'rows' => $rows,
+			'context' => [
+				'rows' => $this->getSettingRows( $fields ),
+			],
+		];
+	}
+
+	/**
+	 * @param string $id
+	 * @return array
+	 */
+	protected function getTemplateDataForAddons( $id )
+	{
+		$fields = $this->getSettingFields( $this->normalizeSettingPath( $id ));
+		$settings = glsr( Helper::class )->convertDotNotationArray( $fields );
+		$settingKeys = array_keys( $settings['settings']['addons'] );
+		$results = [];
+		foreach( $settingKeys as $key ) {
+			$addonFields = array_filter( $fields, function( $path ) use( $key ) {
+				return glsr( Helper::class )->startsWith( 'settings.addons.'.$key, $path );
+			}, ARRAY_FILTER_USE_KEY );
+			$results[$key] = $this->getSettingRows( $addonFields );
+		}
+		return [
+			'settings' => $results,
 		];
 	}
 
 	/**
 	 * @return array
 	 */
-	protected function getTemplateContextForTranslations()
+	protected function getTemplateDataForTranslations()
 	{
 		$translations = glsr( Translator::class )->renderAll();
 		$class = empty( $translations )
 			? 'glsr-hidden'
 			: '';
 		return [
-			'class' => $class,
-			'database_key' => OptionManager::databaseKey(),
-			'translations' => $translations,
+			'context' => [
+				'class' => $class,
+				'database_key' => OptionManager::databaseKey(),
+				'translations' => $translations,
+			],
 		];
 	}
 

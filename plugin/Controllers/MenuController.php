@@ -46,7 +46,7 @@ class MenuController extends Controller
 		$pages = $this->parseWithFilter( 'submenu/pages', [
 			'settings' => __( 'Settings', 'site-reviews' ),
 			'tools' => __( 'Tools', 'site-reviews' ),
-			'addons' => __( 'Add-Ons', 'site-reviews' ),
+			'addons' => __( 'Addons', 'site-reviews' ),
 			'documentation' => __( 'Documentation', 'site-reviews' ),
 		]);
 		foreach( $pages as $slug => $title ) {
@@ -101,9 +101,13 @@ class MenuController extends Controller
 			'submissions' => __( 'Submissions', 'site-reviews' ),
 			'schema' => __( 'Schema', 'site-reviews' ),
 			'translations' => __( 'Translations', 'site-reviews' ),
+			'addons' => __( 'Addons', 'site-reviews' ),
 			'licenses' => __( 'Licenses', 'site-reviews' ),
 		]);
-		if( !apply_filters( 'site-reviews/addon/licenses', false )) {
+		if( empty( glsr( Helper::class )->getPathValue( 'settings.addons', glsr()->defaults ))) {
+			unset( $tabs['addons'] );
+		}
+		if( empty( glsr( Helper::class )->getPathValue( 'settings.licenses', glsr()->defaults ))) {
 			unset( $tabs['licenses'] );
 		}
 		$this->renderPage( 'settings', [
@@ -120,10 +124,14 @@ class MenuController extends Controller
 	public function renderToolsMenu()
 	{
 		$tabs = $this->parseWithFilter( 'tools/tabs', [
+			'sync' => __( 'Sync Reviews', 'site-reviews' ),
 			'import-export' => __( 'Import/Export', 'site-reviews' ),
 			'console' => __( 'Console', 'site-reviews' ),
 			'system-info' => __( 'System Info', 'site-reviews' ),
 		]);
+		if( !apply_filters( 'site-reviews/addon/sync/enable', false )) {
+			unset( $tabs['sync'] );
+		}
 		$this->renderPage( 'tools', [
 			'data' => [
 				'context' => [
@@ -131,6 +139,7 @@ class MenuController extends Controller
 					'id' => Application::ID,
 					'system' => (string)glsr( System::class ),
 				],
+				'sites' => apply_filters( 'site-reviews/addon/sync/sites', [] ),
 			],
 			'html' => glsr( Html::class ),
 			'tabs' => $tabs,
@@ -154,8 +163,7 @@ class MenuController extends Controller
 	 */
 	protected function parseWithFilter( $hookSuffix, array $args = [] )
 	{
-		$filteredArgs = apply_filters( 'site-reviews/addon/'.$hookSuffix, [] );
-		return wp_parse_args( $filteredArgs, $args );
+		return apply_filters( 'site-reviews/addon/'.$hookSuffix, $args );
 	}
 
 	/**
