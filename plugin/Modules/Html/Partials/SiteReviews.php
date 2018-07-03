@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
+use GeminiLabs\SiteReviews\Modules\Html\Review;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Schema;
@@ -66,10 +67,7 @@ class SiteReviews
 		$reviews = [];
 		foreach( $this->reviews->results as $index => $review ) {
 			$this->current = $index;
-			$review = apply_filters( 'site-reviews/review/build/before', $review );
-			$review = $this->buildReview( $review );
-			$review = apply_filters( 'site-reviews/review/build/after', $review );
-			$reviews[] = $review;
+			$reviews[] = $this->buildReview( $review );
 		}
 		return $reviews;
 	}
@@ -80,13 +78,15 @@ class SiteReviews
 	 */
 	protected function buildReview( $review )
 	{
-		$generatedReview = [];
+		$review = apply_filters( 'site-reviews/review/build/before', (array)$review );
+		$reviewValues = [];
 		foreach( $review as $key => $value ) {
 			$method = glsr( Helper::class )->buildMethodName( $key, 'buildOption' );
 			if( !method_exists( $this, $method ))continue;
-			$generatedReview[$key] = $this->$method( $key, $value );
+			$reviewValues[$key] = $this->$method( $key, $value );
 		}
-		return (object)$generatedReview;
+		$reviewValues = apply_filters( 'site-reviews/review/build/after', $reviewValues );
+		return new Review( $reviewValues );
 	}
 
 	/**
