@@ -153,10 +153,8 @@ class System
 		$helper = glsr( Helper::class );
 		$settings = glsr( OptionManager::class )->get( 'settings', [] );
 		$settings = $helper->flattenArray( $settings, true );
-		foreach( ['submissions.recaptcha.key', 'submissions.recaptcha.secret'] as $key ) {
-			if( empty( $settings[$key] ))continue;
-			$settings[$key] = str_repeat( '*', 10 );
-		}
+		$settings = $this->purgeSettings( $settings );
+		ksort( $settings );
 		$details = [];
 		foreach( $settings as $key => $value ) {
 			if( $helper->startsWith( 'strings', $key ) && $helper->endsWith( 'id', $key ))continue;
@@ -301,5 +299,23 @@ class System
 		}, $plugins );
 		natcasesort( $plugins );
 		return array_flip( $plugins );
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function purgeSettings( array $settings )
+	{
+		$keys = [
+			'licenses.', 'submissions.recaptcha.key', 'submissions.recaptcha.secret',
+		];
+		array_walk( $settings, function( &$value, $setting ) use( $keys ) {
+			foreach( $keys as $key ) {
+				if( !glsr( Helper::class )->startsWith( $key, $setting ) || empty( $value ))continue;
+				$value = str_repeat( '•', 13 );
+				return;
+			}
+		});
+		return $settings;
 	}
 }
