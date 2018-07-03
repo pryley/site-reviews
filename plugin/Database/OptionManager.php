@@ -13,16 +13,6 @@ class OptionManager
 	 */
 	protected $options;
 
-	public function __construct()
-	{
-		$options = get_option( static::databaseKey(), [] );
-		if( !is_array( $options )) {
-			delete_option( static::databaseKey() );
-			$options = ['settings' => []];
-		}
-		$this->options = $options;
-	}
-
 	/**
 	 * @return string
 	 */
@@ -38,6 +28,9 @@ class OptionManager
 	 */
 	public function all()
 	{
+		if( empty( $this->options )) {
+			$this->reset();
+		}
 		return $this->options;
 	}
 
@@ -94,6 +87,19 @@ class OptionManager
 	}
 
 	/**
+	 * @return array
+	 */
+	public function reset()
+	{
+		$options = get_option( static::databaseKey(), [] );
+		if( !is_array( $options ) || empty( $options )) {
+			delete_option( static::databaseKey() );
+			$options = wp_parse_args( glsr()->defaults, ['settings' => []] );
+		}
+		$this->options = $options;
+	}
+
+	/**
 	 * @param string|array $pathOrOptions
 	 * @param mixed $value
 	 * @return bool
@@ -103,6 +109,9 @@ class OptionManager
 		if( is_string( $pathOrOptions )) {
 			$pathOrOptions = glsr( Helper::class )->setPathValue( $pathOrOptions, $value, $this->all() );
 		}
-		return update_option( static::databaseKey(), (array)$pathOrOptions );
+		if( $result = update_option( static::databaseKey(), (array)$pathOrOptions )) {
+			$this->reset();
+		}
+		return $result;
 	}
 }
