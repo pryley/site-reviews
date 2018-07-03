@@ -151,12 +151,12 @@ final class Application extends Container
 		if( !file_exists( $file )) {
 			$file = $this->path( 'views/'.$view.'.php' );
 		}
-		$file = apply_filters( 'site-reviews/addon/views/file', $file, $view, $data );
+		$file = apply_filters( 'site-reviews/views/file', $file, $view, $data );
 		if( !file_exists( $file )) {
 			glsr_log()->error( 'File not found: '.$file );
 			return;
 		}
-		$data = apply_filters( 'site-reviews/addon/views/data', $data, $view );
+		$data = apply_filters( 'site-reviews/views/data', $data, $view );
 		extract( $data );
 		include $file;
 	}
