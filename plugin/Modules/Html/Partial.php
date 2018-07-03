@@ -18,7 +18,9 @@ class Partial
 			return;
 		}
 		$partial = glsr( $className )->build( $args );
-		return apply_filters( 'site-reviews/rendered/partial', $partial, $partialPath, $args );
+		$partial = apply_filters( 'site-reviews/rendered/partial', $partial, $partialPath, $args );
+		$partial = apply_filters( 'site-reviews/rendered/partial/'.$partialPath, $partial, $args );
+		return $partial;
 	}
 
 	/**

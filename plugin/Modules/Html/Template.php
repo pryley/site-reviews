@@ -16,7 +16,10 @@ class Template
 		ob_start();
 		glsr()->render( $templatePath, $data );
 		$template = ob_get_clean();
-		return $this->interpolate( $template, $data['context'] );
+		$template = $this->interpolate( $template, $data['context'] );
+		$template = apply_filters( 'site-reviews/rendered/template', $template, $templatePath, $data );
+		$template = apply_filters( 'site-reviews/rendered/template/'.$templatePath, $template, $data );
+		return $template;
 	}
 
 	/**
