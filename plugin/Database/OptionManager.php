@@ -9,6 +9,21 @@ use GeminiLabs\SiteReviews\Database\DefaultsManager;
 class OptionManager
 {
 	/**
+	 * @var array
+	 */
+	protected $options;
+
+	public function __construct()
+	{
+		$options = get_option( static::databaseKey(), [] );
+		if( !is_array( $options )) {
+			delete_option( static::databaseKey() );
+			$options = ['settings' => []];
+		}
+		$this->options = $options;
+	}
+
+	/**
 	 * @return string
 	 */
 	public static function databaseKey()
@@ -23,12 +38,7 @@ class OptionManager
 	 */
 	public function all()
 	{
-		$options = get_option( static::databaseKey(), [] );
-		if( !is_array( $options )) {
-			delete_option( static::databaseKey() );
-			$options = ['settings' => []];
-		}
-		return $options;
+		return $this->options;
 	}
 
 	/**
