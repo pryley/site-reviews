@@ -71,27 +71,27 @@
 		border-bottom: 1px solid #ddd;
 		padding-top: 56.25%;
 
-		&[data-name="booking"] {
+		&[data-slug="booking"] {
 			background-image: url(../images/booking.svg);
 			background-color: #00347D;
 		}
 
-		&[data-name="facebook"] {
+		&[data-slug="facebook"] {
 			background-image: url(../images/facebook.svg);
 			background-color: #3B5998;
 		}
 
-		&[data-name="google"] {
+		&[data-slug="google"] {
 			background-image: url(../images/google.svg);
 			background-color: #C6DAFC;
 		}
 
-		&[data-name="tripadvisor"] {
+		&[data-slug="tripadvisor"] {
 			background-color: #4b7e37;
 			background-image: url(../images/tripadvisor.svg);
 		}
 
-		&[data-name="yelp"] {
+		&[data-slug="yelp"] {
 			background-image: url(../images/yelp.svg);
 			background-color: #d32323;
 		}
@@ -107,7 +107,7 @@
 			// padding: 6px 10px !important;
 		}
 
-		&:after {
+		&.glsr-external::after {
 			display: inline-block;
 			content: "\00a0\f504";
 			font-family: dashicons;
