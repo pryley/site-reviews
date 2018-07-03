@@ -1,11 +1,22 @@
-[Application.php]
-site-reviews/addon/register
+## GeminiLabs\SiteReviews\Application
 
-[Database.php]
-site-reviews/create/review
+    site-reviews/addon/register
 
-[Router.php]
-site-reviews/route/{$type}/request // admin|ajax|public
+## GeminiLabs\SiteReviews\Database
 
-[CreateReview.php]
-site-reviews/local/review/submitted
+    site-reviews/create/review
+
+## GeminiLabs\SiteReviews\Handlers\CreateReview
+
+    site-reviews/local/review/submitted
+
+## GeminiLabs\SiteReviews\Router
+
+    site-reviews/route/admin/request
+    site-reviews/route/ajax/request
+    site-reviews/route/public/request
+    site-reviews/route/{$type}/request
+
+## /views/pages/settings/addons.php
+
+    site-reviews/addon/settings/tab

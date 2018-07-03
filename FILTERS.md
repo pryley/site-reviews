@@ -1,99 +1,128 @@
-[Application.php]
-site-reviews/addon/types
-site-reviews/addon/views/data
-site-reviews/addon/views/file
-site-reviews/get/defaults
+## GeminiLabs\SiteReviews\Application
 
-[Database.php]
-site-reviews/get/review
-site-reviews/create/review-values
+    site-reviews/addon/types
+    site-reviews/views/data
+    site-reviews/views/file
+    site-reviews/get/defaults
 
-[EditorController.php]
-site-reviews/metabox/details
+## GeminiLabs\SiteReviews\Controllers\EditorController
 
-[MenuController.php]
-site-reviews/addon/documentation/tabs
-site-reviews/addon/settings/tabs
-site-reviews/addon/submenu/callback
-site-reviews/addon/submenu/pages
-site-reviews/addon/tools/tabs
-site-reviews/addon/tools/tabs
+    site-reviews/metabox/details
 
-[DefaultsManager.php]
-site-reviews/addon/settings
+## GeminiLabs\SiteReviews\Controllers\ListTableController\Columns
 
-[CreateReview.php]
-site-reviews/local/review
-site-reviews/local/review/submitted/message
-site-reviews/webhook/notification
+    site-reviews/columns/{column_slug}
 
-[EnqueueAdminAssets.php]
-site-reviews/enqueue/admin/dependencies
-site-reviews/enqueue/admin/localize
+## GeminiLabs\SiteReviews\Controllers\MenuController
 
-[EnqueuePublicAssets.php]
-site-reviews/assets/css
-site-reviews/assets/js
-site-reviews/enqueue/public/dependencies
-site-reviews/enqueue/public/localize
-site-reviews/recaptcha/language
+    site-reviews/addon/documentation/tabs
+    site-reviews/addon/settings/tabs
+    site-reviews/addon/submenu/callback
+    site-reviews/addon/submenu/pages
+    site-reviews/addon/sync/enable
+    site-reviews/addon/sync/sites
+    site-reviews/addon/tools/tabs
 
-[RegisterTaxonomy.php]
-site-reviews/disable/filter/category
+## GeminiLabs\SiteReviews\Database
 
-[Akismet.php]
-site-reviews/akismet/is-spam
-site-reviews/akismet/submission
+    site-reviews/get/review
+    site-reviews/create/review-values
 
-[Blacklist.php]
-site-reviews/blacklist/is-blacklisted
+## GeminiLabs\SiteReviews\Defaults\DefaultsManager
 
-[Email.php]
-site-reviews/email/compose
-site-reviews/email/headers
-site-reviews/email/message
+    site-reviews/addon/settings
 
-[Console.php]
-site-reviews/log-levels
+## GeminiLabs\SiteReviews\Handlers\CreateReview
 
-[Rating.php]
-site-reviews/bayesian/ranking
-site-reviews/rating/average
+    site-reviews/local/review
+    site-reviews/local/review/submitted/message
+    site-reviews/webhook/notification
 
-[Schema.php]
-site-reviews/schema/all
-site-reviews/schema/review
-site-reviews/schema/{schema_type}
+## GeminiLabs\SiteReviews\Handlers\EnqueueAdminAssets
 
-[Partial.php]
-site-reviews/rendered/partial
+    site-reviews/enqueue/admin/dependencies
+    site-reviews/enqueue/admin/localize
 
-[Columns.php]
-site-reviews/columns/{column_slug}
+## GeminiLabs\SiteReviews\Handlers\EnqueuePublicAssets
 
-[ValidateReview.php]
-site-reviews/validate/review/submission
-site-reviews/validation/rules
+    site-reviews/assets/css
+    site-reviews/assets/js
+    site-reviews/enqueue/public/dependencies
+    site-reviews/enqueue/public/localize
+    site-reviews/recaptcha/language
 
-[SiteReviews.php]
-site-reviews/review/author/prefix
-site-reviews/review/build/after
-site-reviews/review/build/before
+## GeminiLabs\SiteReviews\Handlers\RegisterTaxonomy
 
-[SiteReviews.php]
-site-reviews/reviews/style
+    site-reviews/disable/filter/category
 
-[SiteReviewsForm.php]
-site-reviews/reviews-form/style
+## GeminiLabs\SiteReviews\Modules\Akismet
 
-[SiteReviewsSummary.php]
-site-reviews/reviews-summary/style
+    site-reviews/akismet/is-spam
+    site-reviews/akismet/submission
 
-[Pagination.php]
-site-reviews/reviews/navigation_links
+## GeminiLabs\SiteReviews\Modules\Blacklist
 
-[Form.php]
-site-reviews/form/fields
+    site-reviews/blacklist/is-blacklisted
 
-[Router.php]
-site-reviews/route/request
+## GeminiLabs\SiteReviews\Modules\Console
+
+    site-reviews/log-levels
+
+## GeminiLabs\SiteReviews\Modules\Email
+
+    site-reviews/email/compose
+    site-reviews/email/headers
+    site-reviews/email/message
+
+## GeminiLabs\SiteReviews\Modules\Html\Form
+
+    site-reviews/form/fields
+
+## GeminiLabs\SiteReviews\Modules\Html\Partial
+
+    site-reviews/rendered/partial
+    site-reviews/rendered/partial/{$partialPath}
+
+## GeminiLabs\SiteReviews\Modules\Html\Partials\Pagination
+
+    site-reviews/reviews/navigation_links
+
+## GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews
+
+    site-reviews/review/author/prefix
+    site-reviews/review/build/after
+    site-reviews/review/build/before
+    site-reviews/reviews/style
+
+## GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviewsForm
+
+    site-reviews/reviews-form/style
+
+## GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviewsSummary
+
+    site-reviews/reviews-summary/style
+
+## GeminiLabs\SiteReviews\Modules\Html\Template
+
+    site-reviews/rendered/template
+    site-reviews/rendered/template/{$templatePath}
+
+## GeminiLabs\SiteReviews\Modules\Rating
+
+    site-reviews/bayesian/ranking
+    site-reviews/rating/average
+
+## GeminiLabs\SiteReviews\Modules\Schema
+
+    site-reviews/schema/all
+    site-reviews/schema/review
+    site-reviews/schema/{schema_type}
+
+## GeminiLabs\SiteReviews\Modules\Validator\ValidateReview
+
+    site-reviews/validate/review/submission
+    site-reviews/validation/rules
+
+## GeminiLabs\SiteReviews\Router
+
+    site-reviews/route/request
