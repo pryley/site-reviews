@@ -124,7 +124,7 @@ class Console
 			return $valueIfEmpty;
 		}
 		$exponent = floor( log( max( $bytes, 1 ), 1024 ));
-		return round( $bytes / pow( 1024, $exponent ), 2 ).['B','KB','MB','GB'][$exponent];
+		return round( $bytes / pow( 1024, $exponent ), 2 ).' '.['bytes','KB','MB','GB'][$exponent];
 	}
 
 	/**
