@@ -754,7 +754,7 @@ msgstr "Author"
 msgid "Pinned"
 msgstr "Pinned"
 
-#: plugin/Controllers/MainController.php:37, plugin/Controllers/MenuController.php:100
+#: plugin/Controllers/MainController.php:37, plugin/Controllers/MenuController.php:100, views/pages/tools/sync.php:7, views/pages/tools/sync.php:20, views/pages/tools/sync.php:32
 msgid "Reviews"
 msgstr "Reviews"
 
@@ -774,9 +774,9 @@ msgstr "A summary of your site’s reviews."
 msgid "Tools"
 msgstr "Tools"
 
-#: plugin/Controllers/MenuController.php:49
-msgid "Add-Ons"
-msgstr "Add-Ons"
+#: plugin/Controllers/MenuController.php:49, plugin/Controllers/MenuController.php:104
+msgid "Addons"
+msgstr "Addons"
 
 #: plugin/Controllers/MenuController.php:50
 msgid "Documentation"
@@ -818,19 +818,23 @@ msgstr "Schema"
 msgid "Translations"
 msgstr "Translations"
 
-#: plugin/Controllers/MenuController.php:104
+#: plugin/Controllers/MenuController.php:105
 msgid "Licenses"
 msgstr "Licenses"
 
-#: plugin/Controllers/MenuController.php:123
+#: plugin/Controllers/MenuController.php:127, views/pages/tools/sync.php:56
+msgid "Sync Reviews"
+msgstr "Sync Reviews"
+
+#: plugin/Controllers/MenuController.php:128
 msgid "Import/Export"
 msgstr "Import/Export"
 
-#: plugin/Controllers/MenuController.php:124
+#: plugin/Controllers/MenuController.php:129
 msgid "Console"
 msgstr "Console"
 
-#: plugin/Controllers/MenuController.php:125
+#: plugin/Controllers/MenuController.php:130
 msgid "System Info"
 msgstr "System Info"
 
@@ -1374,7 +1378,7 @@ msgstr "The following Add-Ons extend the functionality of Site Reviews."
 msgid "Sync your Tripadvisor reviews and display them on your site."
 msgstr "Sync your Tripadvisor reviews and display them on your site."
 
-#: views/pages/addons/index.php:18
+#: views/pages/addons/index.php:19
 msgid "Sync your Yelp reviews and display them on your site."
 msgstr "Sync your Yelp reviews and display them on your site."
 
@@ -1420,11 +1424,11 @@ msgstr "Strings"
 msgid "Custom Strings"
 msgstr "Custom Strings"
 
-#: views/pages/tools/console.php:8
+#: views/pages/tools/console.php:7
 msgid "Clear Console"
 msgstr "Clear Console"
 
-#: views/pages/tools/console.php:13
+#: views/pages/tools/console.php:12
 msgid "Download Log"
 msgstr "Download Log"
 
@@ -1436,11 +1440,39 @@ msgstr "Import Settings"
 msgid "Export Settings"
 msgstr "Export Settings"
 
-#: views/pages/tools/system-info.php:8
+#: views/pages/tools/sync.php:6, views/pages/tools/sync.php:31
+msgid "Site"
+msgstr "Site"
+
+#: views/pages/tools/sync.php:8, views/pages/tools/sync.php:23, views/pages/tools/sync.php:33
+msgid "Last Sync"
+msgstr "Last Sync"
+
+#: views/pages/tools/sync.php:15
+msgid "settings"
+msgstr "settings"
+
+#: views/pages/tools/sync.php:17
+msgid "Show more details"
+msgstr "Show more details"
+
+#: views/pages/tools/sync.php:44
+msgid "Select a Site"
+msgstr "Select a Site"
+
+#: views/pages/tools/system-info.php:7
 msgid "Download System Info"
 msgstr "Download System Info"
 
-#: views/partials/addons/addon.php:14
+#: views/partials/addons/addon.php:16
+msgid "Installed"
+msgstr "Installed"
+
+#: views/partials/addons/addon.php:20
+msgid "Activate"
+msgstr "Activate"
+
+#: views/partials/addons/addon.php:25
 msgid "More Info"
 msgstr "More Info"
 
