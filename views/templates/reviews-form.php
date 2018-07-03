@@ -2,9 +2,7 @@
 
 <div class="glsr-form-wrap">
 	<form class="{{ class }}" id="{{ id }}" method="post" enctype="multipart/form-data">
-		<?php foreach( $fields as $field ) : ?>
-			<?= $field; ?>
-		<?php endforeach; ?>
+		{{ fields }}
 		{{ submit_button }}
 		{{ results }}
 	</form>

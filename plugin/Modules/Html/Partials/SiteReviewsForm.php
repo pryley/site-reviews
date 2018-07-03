@@ -49,14 +49,17 @@ class SiteReviewsForm
 		$this->message = glsr( Session::class )->get( $args['id'].'message', [], true );
 		$this->required = glsr( OptionManager::class )->get( 'settings.submissions.required', [] );
 		$this->values = glsr( Session::class )->get( $args['id'].'values', [], true );
+		$fields = array_reduce( $this->getFields(), function( $carry, $field ) {
+			return $carry.$field;
+		});
 		return glsr( Template::class )->build( 'templates/reviews-form', [
 			'context' => [
 				'class' => $this->getClass(),
+				'fields' => $fields,
 				'id' => $this->args['id'],
 				'results' => $this->buildResults(),
 				'submit_button' => $this->buildSubmitButton().$this->buildRecaptcha(),
 			],
-			'fields' => $this->getFields(),
 		]);
 	}
 
@@ -88,8 +91,10 @@ class SiteReviewsForm
 	 */
 	protected function buildSubmitButton()
 	{
-		return glsr( Builder::class )->button( '<span></span>'.__( 'Submit your review', 'site-reviews' ), [
-			'type' => 'submit',
+		return glsr( Template::class )->build( 'templates/form/submit-button', [
+			'context' => [
+				'text' => __( 'Submit your review', 'site-reviews' ),
+			],
 		]);
 	}
 

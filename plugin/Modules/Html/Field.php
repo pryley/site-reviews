@@ -69,7 +69,7 @@ class Field
 	 */
 	protected function buildField()
 	{
-		return glsr( Template::class )->build( 'partials/form/field', [
+		return glsr( Template::class )->build( 'templates/form/field', [
 			'context' => [
 				'class' => $this->getFieldClass(),
 				'errors' => $this->getFieldErrors(),
@@ -147,7 +147,11 @@ class Field
 		$errors = array_reduce( $this->field['errors'], function( $carry, $error ) {
 			return $carry.glsr( Builder::class )->span( $error, ['class' => 'glsr-field-error'] );
 		});
-		return glsr( Builder::class )->span( $errors, ['class' => 'glsr-field-errors'] );
+		return glsr( Template::class )->build( 'templates/form/field-errors', [
+			'context' => [
+				'errors' => $errors,
+			],
+		]);
 	}
 
 	/**
