@@ -134,7 +134,7 @@
 
 		/** @return void */
 		onDocumentKeydown_: function( ev ) {
-			if( !this.options.results )return;
+			if( $.isEmptyObject( this.options.results ))return;
 			if( GLSR.keys.ESC === ev.which ) {
 				this.clearResults_();
 			}
