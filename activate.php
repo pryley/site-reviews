@@ -3,10 +3,10 @@
 defined( 'WPINC' ) || die;
 
 /**
- * Checks for minimum system requirments on plugin activation
- * @version 2.0.0
+ * Check for minimum system requirments on plugin activation
+ * @version 3.0.0
  */
-class GL_Plugin_Check_v2
+class GL_Plugin_Check_v3
 {
 	const MIN_PHP_VERSION = '5.6.0';
 	const MIN_WORDPRESS_VERSION = '4.7.0';
@@ -14,71 +14,61 @@ class GL_Plugin_Check_v2
 	/**
 	 * @var string
 	 */
-	protected static $file;
+	protected $file;
 
 	/**
-	 * @var static
+	 * @var array
 	 */
-	protected static $instance;
-
-	/**
-	 * @var object
-	 */
-	protected static $versions;
-
-	/**
-	 * @param string $version
-	 * @return bool
-	 */
-	public static function isPhpValid( $version = '' )
-	{
-		if( !empty( $version )) {
-			static::normalize( array( 'php' => $version ));
-		}
-		return !version_compare( PHP_VERSION, static::$versions->php, '<' );
-	}
-
-	/**
-	 * @return bool
-	 */
-	public static function isValid( array $args = array() )
-	{
-		if( !empty( $args )) {
-			static::normalize( $args );
-		}
-		return static::isPhpValid() && static::isWpValid();
-	}
-
-	/**
-	 * @param string $version
-	 * @return bool
-	 */
-	public static function isWpValid( $version = '' )
-	{
-		global $wp_version;
-		if( !empty( $version )) {
-			static::normalize( array( 'wordpress' => $version ));
-		}
-		return !version_compare( $wp_version, static::$versions->wordpress, '<' );
-	}
+	protected $versions;
 
 	/**
 	 * @param string $file
+	 */
+	public function __construct( $file, array $versions = array() )
+	{
+		$this->file = realpath( $file );
+		$this->versions = wp_parse_args( $versions, array(
+			'php' => static::MIN_PHP_VERSION,
+			'wordpress' => static::MIN_WORDPRESS_VERSION,
+		));
+	}
+
+	/**
 	 * @return bool
 	 */
-	public static function shouldDeactivate( $file, array $args = array() )
+	public function canProceed()
 	{
-		if( empty( static::$instance )) {
-			static::$file = realpath( $file );
-			static::$instance = new static;
-			static::$versions = static::normalize( $args );
-		}
-		if( !static::isValid() ) {
-			add_action( 'activated_plugin', array( static::$instance, 'deactivate' ));
-			add_action( 'admin_notices', array( static::$instance, 'deactivate' ));
+		if( $this->isValid() ) {
 			return true;
 		}
+		add_action( 'activated_plugin', array( $this, 'deactivate' ));
+		add_action( 'admin_notices', array( $this, 'deactivate' ));
 		return false;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isPhpValid()
+	{
+		return !version_compare( PHP_VERSION, $this->versions['php'], '<' );
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isValid()
+	{
+		return $this->isPhpValid() && $this->isWpValid();
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isWpValid()
+	{
+		global $wp_version;
+		return !version_compare( $wp_version, $this->versions['wordpress'], '<' );
 	}
 
 	/**
@@ -87,31 +77,20 @@ class GL_Plugin_Check_v2
 	 */
 	public function deactivate( $plugin )
 	{
-		if( static::isValid() )return;
-		$pluginSlug = plugin_basename( static::$file );
+		if( $this->isValid() )return;
+		$pluginSlug = plugin_basename( $this->file );
 		if( $plugin == $pluginSlug ) {
 			$this->redirect(); //exit
 		}
-		$pluginData = get_file_data( static::$file, array( 'name' => 'Plugin Name' ), 'plugin' );
+		$pluginData = get_file_data( $this->file, array( 'name' => 'Plugin Name' ), 'plugin' );
 		deactivate_plugins( $pluginSlug );
 		$this->printNotice( $pluginData['name'] );
 	}
 
 	/**
-	 * @return object
-	 */
-	protected static function normalize( array $args = array() )
-	{
-		return (object)wp_parse_args( $args, array(
-			'php' => static::MIN_PHP_VERSION,
-			'wordpress' => static::MIN_WORDPRESS_VERSION,
-		));
-	}
-
-	/**
 	 * @return array
 	 */
-	protected static function getMessages()
+	protected function getMessages()
 	{
 		return array(
 			__( 'The %s plugin was deactivated.', 'site-reviews' ),
@@ -120,8 +99,33 @@ class GL_Plugin_Check_v2
 			__( 'PHP version', 'site-reviews' ),
 			__( 'WordPress version', 'site-reviews' ),
 			__( 'Update WordPress', 'site-reviews' ),
-			__( 'If you need to restore %s to the previous version, you can use the %s plugin to do so.', 'site-reviews' ),
+			__( 'You can use the %s plugin to restore %s to the previous version.', 'site-reviews' ),
 		);
+	}
+
+	/**
+	 * @param string $pluginName
+	 * @return void
+	 */
+	protected function printNotice( $pluginName )
+	{
+		$noticeTemplate = '<div id="message" class="notice notice-error error is-dismissible"><p><strong>%s</strong></p><p>%s</p><p>%s</p></div>';
+		$messages = $this->getMessages();
+		$rollbackMessage = sprintf( '<strong>'.$messages[6].'</strong>', '<a href="https://wordpress.org/plugins/wp-rollback/">WP Rollback</a>', $pluginName );
+		if( !$this->isPhpValid() ) {
+			printf( $noticeTemplate,
+				sprintf( $messages[0], $pluginName ),
+				sprintf( $messages[1], $messages[3].' '.$this->versions['php'] ),
+				sprintf( $messages[2], PHP_VERSION ).'</p><p>'.$rollbackMessage
+			);
+		}
+		else if( !$this->isWpValid() ) {
+			printf( $noticeTemplate,
+				sprintf( $messages[0], $pluginName ),
+				sprintf( $messages[1], $messages[4].' '.$this->versions['wordpress'] ),
+				$rollbackMessage.'</p><p>'.sprintf( '<a href="%s">%s</a>', admin_url( 'update-core.php' ), $messages[5] )
+			);
+		}
 	}
 
 	/**
@@ -135,30 +139,5 @@ class GL_Plugin_Check_v2
 			filter_input( INPUT_GET, 's' )
 		)));
 		exit;
-	}
-
-	/**
-	 * @param string $pluginName
-	 * @return void
-	 */
-	protected function printNotice( $pluginName )
-	{
-		$noticeTemplate = '<div id="message" class="notice notice-error error is-dismissible"><p><strong>%s</strong></p><p>%s</p><p>%s</p></div>';
-		$messages = static::getMessages();
-		if( !static::isPhpValid() ) {
-			$rollbackMessage = sprintf( $messages[6], $pluginName, '<a href="https://wordpress.org/plugins/wp-rollback/">WP Rollback</a>' );
-			printf( $noticeTemplate,
-				sprintf( $messages[0], $pluginName ),
-				sprintf( $messages[1], $messages[3].' '.static::$versions->php ),
-				sprintf( $messages[2], PHP_VERSION ).'</p><p>'.$rollbackMessage
-			);
-		}
-		else if( !static::isWpValid() ) {
-			printf( $noticeTemplate,
-				sprintf( $messages[0], $pluginName ),
-				sprintf( $messages[1], $messages[4].' '.static::$versions->wordpress ),
-				sprintf( '<a href="%s">%s</a>', admin_url( 'update-core.php' ), $messages[5] )
-			);
-		}
 	}
 }

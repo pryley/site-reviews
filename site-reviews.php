@@ -18,10 +18,10 @@
 
 defined( 'WPINC' ) || die;
 
-if( !class_exists( 'GL_Plugin_Check_v2' )) {
+if( !class_exists( 'GL_Plugin_Check_v3' )) {
 	require_once __DIR__.'/activate.php';
 }
-if( GL_Plugin_Check_v2::shouldDeactivate( __FILE__, array( 'wordpress' => '4.7.0' )))return;
+if( !(new GL_Plugin_Check_v3( __FILE__ ))->canProceed() )return;
 require_once __DIR__.'/autoload.php';
 require_once __DIR__.'/helpers.php';
 
