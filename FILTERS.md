@@ -1,9 +1,9 @@
 ## GeminiLabs\SiteReviews\Application
 
     site-reviews/addon/types
+    site-reviews/get/defaults
     site-reviews/views/data
     site-reviews/views/file
-    site-reviews/get/defaults
 
 ## GeminiLabs\SiteReviews\Controllers\EditorController
 

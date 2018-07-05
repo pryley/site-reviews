@@ -1,0 +1,1 @@
+- make tabs responsive (auto-collapsable)
