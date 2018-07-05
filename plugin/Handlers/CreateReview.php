@@ -48,7 +48,7 @@ class CreateReview
 		$email = [
 			'to' => $args['recipient'],
 			'subject' => $args['notification_title'],
-			'template' => 'review-notification',
+			'template' => 'email-notification',
 			'template-tags' => [
 				'review_author' => $this->command->author,
 				'review_content' => $this->command->content,

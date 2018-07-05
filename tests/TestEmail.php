@@ -19,7 +19,7 @@ class TestEmail extends WP_UnitTestCase
 		$args = [
 			'to' => 'test@wordpress.dev',
 			'subject' => 'Test Email',
-			'template' => 'review-notification',
+			'template' => 'email-notification',
 			'template-tags' => [
 				'review_author' => $this->review['name'],
 				'review_content' => $this->review['content'],
