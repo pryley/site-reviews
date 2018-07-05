@@ -22,7 +22,7 @@ class Console
 
 	public function __construct( Application $app )
 	{
-		$this->file = $app->path( 'debug.log' );
+		$this->file = $app->path( 'console.log' );
 		$this->log = file_exists( $this->file )
 			? file_get_contents( $this->file )
 			: '';
