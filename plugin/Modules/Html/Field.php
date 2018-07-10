@@ -69,13 +69,14 @@ class Field
 	 */
 	protected function buildField()
 	{
-		return glsr( Template::class )->build( 'templates/form/field', [
+		$field = glsr( Template::class )->build( 'templates/form/field', [
 			'context' => [
 				'class' => $this->getFieldClass(),
 				'errors' => $this->getFieldErrors(),
 				'field' => glsr( Builder::class )->{$this->field['type']}( $this->field ),
 			],
 		]);
+		return apply_filters( 'site-reviews/rendered/field', $field, $this->field['type'], $this->field );
 	}
 
 	/**
