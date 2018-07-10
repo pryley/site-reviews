@@ -3,13 +3,7 @@
 
 	'use strict';
 
-	GLSR.Ajax = function() {
-		this.get = this.get_;
-		this.isFileAPISupported = this.isFileAPISupported_;
-		this.isFormDataSupported = this.isFormDataSupported_;
-		this.isUploadSupported = this.isUploadSupported_;
-		this.post = this.post_;
-	};
+	GLSR.Ajax = function() {};
 
 	GLSR.Ajax.prototype = {
 		/** @return void */

@@ -5,7 +5,6 @@
 
 	GLSR.Ajax = function( request, ev ) { // object
 		this.event = ev || null;
-		this.post = this.post_;
 		this.request = request;
 	};
 

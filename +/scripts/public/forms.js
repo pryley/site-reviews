@@ -55,7 +55,7 @@
 		/** @return void */
 		fallbackSubmit_: function() {
 			var ajax = new GLSR.Ajax();
-			if( ajax.isFileAPISupported() && ajax.isFormDataSupported() && ajax.isUploadSupported() )return;
+			if( ajax.isFileAPISupported_() && ajax.isFormDataSupported_() && ajax.isUploadSupported_() )return;
 			this.form.submit();
 		},
 
@@ -183,7 +183,7 @@
 		submitForm_: function( recaptchaToken ) { // string|null
 			this.disableButton_();
 			this.fallbackSubmit_();
-			(new GLSR.Ajax()).post( this.getForm_( recaptchaToken ), this.handleResponse_.bind( this ));
+			(new GLSR.Ajax()).post_( this.getForm_( recaptchaToken ), this.handleResponse_.bind( this ));
 		},
 	};
 

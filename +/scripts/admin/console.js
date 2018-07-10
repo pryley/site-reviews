@@ -12,7 +12,7 @@
 		 	var request = {
 				action: 'clear-console',
 			};
-			(new GLSR.Ajax( request, ev )).post( function( response ) {
+			(new GLSR.Ajax( request, ev )).post_( function( response ) {
 				GLSR.Notices( response.notices );
 				$( '#log-file' ).val( response.console );
 			});

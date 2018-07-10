@@ -18,7 +18,7 @@
 				action: 'mce-shortcode',
 				shortcode: this.current,
 			};
-			(new GLSR.Ajax( request )).post( this.response_.bind( this ));
+			(new GLSR.Ajax( request )).post_( this.handleResponse_.bind( this ));
 		};
 		this.init_();
 	};
@@ -71,6 +71,24 @@
 				tinymce.get( 'scTemp' ).remove();
 				tmp.remove();
 			}
+		},
+
+		/** @return void */
+		handleResponse_: function( response ) {
+			if( !response )return;
+			if( response.body.length === 0 ) {
+				window.send_to_editor( '[' + response.shortcode + ']' );
+				this.destroy_();
+				return;
+			}
+			var popup = this.responsePopup_( response );
+			// Change the buttons if server-side validation failed
+			if( response.ok.constructor === Array ) {
+				popup.buttons[0].text = response.ok[0];
+				popup.buttons[0].onclick = 'close';
+				delete popup.buttons[1];
+			}
+			this.editor.windowManager.open( popup );
 		},
 
 		/** @return void */
@@ -145,24 +163,6 @@
 		open_: function() {
 			$( this.button ).addClass( 'active' );
 			$( this.el ).find( '.glsr-mce-menu' ).show();
-		},
-
-		/** @return void */
-		response_: function( response ) {
-			if( !response )return;
-			if( response.body.length === 0 ) {
-				window.send_to_editor( '[' + response.shortcode + ']' );
-				this.destroy_();
-				return;
-			}
-			var popup = this.responsePopup_( response );
-			// Change the buttons if server-side validation failed
-			if( response.ok.constructor === Array ) {
-				popup.buttons[0].text = response.ok[0];
-				popup.buttons[0].onclick = 'close';
-				delete popup.buttons[1];
-			}
-			this.editor.windowManager.open( popup );
 		},
 
 		/** @return array */

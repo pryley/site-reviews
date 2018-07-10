@@ -23,7 +23,7 @@
 				post_id: post_id[1],
 				status: status[1],
 			};
-			(new GLSR.Ajax( request, ev )).post( function( response ) {
+			(new GLSR.Ajax( request, ev )).post_( function( response ) {
 				if( !response.class )return;
 				var el = $( ev.target );
 				el.closest( 'tr' ).removeClass( 'status-pending status-publish' ).addClass( response.class );
