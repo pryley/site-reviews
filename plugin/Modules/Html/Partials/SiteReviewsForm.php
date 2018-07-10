@@ -46,7 +46,7 @@ class SiteReviewsForm
 	{
 		$this->args = $args;
 		$this->errors = glsr( Session::class )->get( $args['id'].'errors', [], true );
-		$this->message = glsr( Session::class )->get( $args['id'].'message', [], true );
+		$this->message = glsr( Session::class )->get( $args['id'].'message', '', true );
 		$this->required = glsr( OptionManager::class )->get( 'settings.submissions.required', [] );
 		$this->values = glsr( Session::class )->get( $args['id'].'values', [], true );
 		$fields = array_reduce( $this->getFields(), function( $carry, $field ) {
