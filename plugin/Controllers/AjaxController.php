@@ -20,19 +20,9 @@ class AjaxController extends Controller
 	/**
 	 * @return void
 	 */
-	public function routerChangeAssignedTo( array $request )
-	{
-		wp_send_json( glsr( Html::class )->renderPartial( 'link', [
-			'post_id' => $request['ID'],
-		]));
-	}
-
-	/**
-	 * @return void
-	 */
 	public function routerChangeReviewStatus( array $request )
 	{
-		wp_send_json( $this->execute( new ChangeStatus( $request )));
+		wp_send_json_success( $this->execute( new ChangeStatus( $request )));
 	}
 
 	/**
@@ -41,7 +31,7 @@ class AjaxController extends Controller
 	public function routerClearConsole()
 	{
 		glsr( AdminController::class )->routerClearConsole();
-		wp_send_json([
+		wp_send_json_success([
 			'console' => glsr( Console::class )->get(),
 			'notices' => glsr( Notice::class )->get(),
 		]);
@@ -67,7 +57,7 @@ class AjaxController extends Controller
 				'title' => $data['title'],
 			];
 		}
-		wp_send_json( $response );
+		wp_send_json_success( $response );
 	}
 
 	/**
@@ -107,11 +97,15 @@ class AjaxController extends Controller
 	public function routerSubmitReview( array $request )
 	{
 		glsr( PublicController::class )->routerSubmitReview( $request );
-		wp_send_json([
+		$data = [
 			'errors' => glsr( Session::class )->get( $request['form_id'].'errors', false, true ),
-			'message' => wpautop( glsr( Session::class )->get( $request['form_id'].'message', '', true )),
+			'message' => glsr( Session::class )->get( $request['form_id'].'message', '', true ),
 			'recaptcha' => glsr( Session::class )->get( $request['form_id'].'recaptcha', false, true ),
-		]);
+		];
+		if( !wp_validate_boolean( $data['errors'] )) {
+			wp_send_json_success( $data );
+		}
+		wp_send_json_error( $data );
 	}
 
 	/**
@@ -120,7 +114,7 @@ class AjaxController extends Controller
 	public function routerTogglePinned( array $request )
 	{
 		$isPinned = $this->execute( new TogglePinned( $request ));
-		wp_send_json([
+		wp_send_json_success([
 			'notices' => glsr( Notice::class )->get(),
 			'pinned' => $isPinned,
 		]);

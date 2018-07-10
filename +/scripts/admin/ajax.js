@@ -39,7 +39,7 @@
 			}
 			$.post( GLSR.ajaxurl, this.buildData_(), function( response ) {
 				if( typeof callback !== 'function' )return;
-				callback( response );
+				callback( response.data, response.success );
 			});
 		},
 
@@ -51,7 +51,7 @@
 			el.prop( 'disabled', true );
 			$.post( GLSR.ajaxurl, this.buildData_( el ), function( response ) {
 				if( typeof callback === 'function' ) {
-					callback( response );
+					callback( response.data, response.success );
 				}
 				el.prop( 'disabled', false );
 			});

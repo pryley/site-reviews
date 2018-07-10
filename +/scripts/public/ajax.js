@@ -74,8 +74,9 @@
 			this.setHeaders_( headers );
 			this.xhr.send( this.normalizeData_( formOrData ));
 			this.xhr.onreadystatechange = function() {
-				if( this.xhr.readyState !== XMLHttpRequest.DONE || this.xhr.status !== 200 )return;
-				successCallback( JSON.parse( this.xhr.responseText ));
+				if( this.xhr.readyState !== XMLHttpRequest.DONE )return;
+				var result = JSON.parse( this.xhr.responseText );
+				successCallback( result.data, result.success );
 			}.bind( this );
 		},
 

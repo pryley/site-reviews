@@ -91,25 +91,19 @@
 		},
 
 		/** @return void */
-		handleResponse_: function( response ) { // object
-			// console.log( response );
+		handleResponse_: function( response, success ) { // object
 			if( response.recaptcha === true ) {
-				// console.log( 'executing recaptcha' );
-				this.recaptcha.execute_();
-				return;
+				return this.recaptcha.execute_();
 			}
 			if( response.recaptcha === 'reset' ) {
-				// console.log( 'resetting failed recaptcha' );
 				this.recaptcha.reset_();
 			}
-			if( response.errors === false ) {
-				// console.log( 'resetting recaptcha' );
+			if( !!success ) {
 				this.recaptcha.reset_();
 				this.form.reset();
 			}
-			// console.log( 'submission finished' );
 			this.showFieldErrors_( response.errors );
-			this.showResults_( response );
+			this.showResults_( response, success );
 			this.enableButton_();
 			response.form = this.form;
 			document.dispatchEvent( new CustomEvent( 'site-reviews/after/submission', { detail: response }));
@@ -179,10 +173,10 @@
 		},
 
 		/** @return void */
-		showResults_: function( response ) { // object
+		showResults_: function( response, success ) { // object, bool
 			var resultsEl = this.getResultsEl_();
-			this.addRemoveClass_( resultsEl, 'gslr-has-errors', !!response.errors );
-			resultsEl.innerHTML = response.message;
+			this.addRemoveClass_( resultsEl, 'glsr-has-errors', !success );
+			resultsEl.innerHTML = '<p>' + response.message + '</p>';
 		},
 
 		/** @return void */
