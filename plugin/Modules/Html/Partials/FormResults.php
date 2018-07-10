@@ -19,7 +19,6 @@ class FormResults implements PartialContract
 	public function build( array $args = [] )
 	{
 		$this->errors = $args['errors'];
-		if( empty( $args['message'] ))return;
 		return glsr( Builder::class )->div( wpautop( $args['message'] ), [
 			'class' => $this->getClass(),
 		]);
