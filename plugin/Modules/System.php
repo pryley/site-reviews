@@ -186,7 +186,7 @@ class System
 		return [
 			'Active Theme' => sprintf( '%s v%s', (string)$theme->Name, (string)$theme->Version ),
 			'Home URL' => home_url(),
-			'Language' => get_option( 'WPLANG', 'en_US' ),
+			'Language' => get_locale(),
 			'Memory Limit' => WP_MEMORY_LIMIT,
 			'Multisite' => var_export( is_multisite(), true ),
 			'Page For Posts ID' => get_option( 'page_for_posts' ),
