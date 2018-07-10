@@ -52,12 +52,10 @@ class Router
 	{
 		if( !is_user_logged_in() )return;
 		if( !isset( $request['nonce'] )) {
-			glsr_log()->error( 'The AJAX request must include a nonce' )->info( $request );
-			wp_die();
+			$this->sendAjaxError( 'The request is missing a nonce', $request );
 		}
 		if( !wp_verify_nonce( $request['nonce'], $request['action'] )) {
-			glsr_log()->error( 'Nonce check failed for ajax request' )->info( $request );
-			wp_die( -1, 403 );
+			$this->sendAjaxError( 'The request failed the nonce check', $request, 403 );
 		}
 	}
 
@@ -67,12 +65,10 @@ class Router
 	protected function checkAjaxRequest( array $request )
 	{
 		if( !isset( $request['action'] )) {
-			glsr_log()->error( 'The AJAX request must include an action' )->info( $request );
-			wp_die();
+			$this->sendAjaxError( 'The request must include an action', $request );
 		}
 		if( empty( $request['ajax_request'] )) {
-			glsr_log()->error( 'The AJAX request look invalid' )->info( $request );
-			wp_die();
+			$this->sendAjaxError( 'The request is invalid', $request );
 		}
 	}
 
@@ -142,5 +138,19 @@ class Router
 		if( did_action( $actionHook ) === 0 ) {
 			glsr_log( 'Unknown '.$type.' router request: '.$action );
 		}
+	}
+
+	/**
+	 * @param string $error
+	 * @param int $statusCode
+	 * @return void
+	 */
+	protected function sendAjaxError( $error, array $request, $statusCode = 400 )
+	{
+		glsr_log()->error( $error )->info( $request );
+		wp_send_json_error([
+			'message' => __( 'The form could not be submitted. Please notify the site administrator.', 'site-reviews' ),
+			'error' => $error,
+		], $statusCode );
 	}
 }
