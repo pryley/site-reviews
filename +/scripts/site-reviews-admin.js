@@ -9,6 +9,7 @@ GLSR.keys = {
 };
 
 jQuery( function( $ ) {
+	GLSR.shortcode = new GLSR.Shortcode( '.glsr-mce' );
 	GLSR.ColorPicker();
 	new GLSR.Console();
 	new GLSR.Forms( 'form.glsr-form' );

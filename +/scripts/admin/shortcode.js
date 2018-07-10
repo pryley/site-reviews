@@ -55,7 +55,7 @@
 			});
 			setTimeout( function() {
 				this.initTinymceEditor_();
-			}, 200 );
+			}.bind( this ), 200 );
 		},
 
 		/** @return void */
