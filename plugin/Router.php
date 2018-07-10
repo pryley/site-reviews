@@ -79,9 +79,13 @@ class Router
 	 */
 	protected function getRequest()
 	{
-		$request = glsr( Helper::class )->filterInput( 'action' ) == Application::PREFIX.'action'
-			? glsr( Helper::class )->filterInputArray( 'request' )
-			: glsr( Helper::class )->filterInputArray( Application::ID );
+		if( glsr( Helper::class )->filterInput( 'action' ) != Application::PREFIX.'action' ) {
+			return [];
+		}
+		$request = glsr( Helper::class )->filterInputArray( 'request' );
+		if( empty( $request )) {
+			$request = glsr( Helper::class )->filterInputArray( Application::ID );
+		}
 		return $this->normalizeRequest( $request );
 	}
 
