@@ -19,8 +19,9 @@ class TestAjax extends WP_Ajax_UnitTestCase
 	public function test_ajax_post_review()
 	{
 		$response = $this->ajax_response( $this->review );
-		$this->assertFalse( $response->errors );
-		$this->assertEquals( $response->message, wpautop( 'Your review has been submitted!' ));
+		$this->assertTrue( $response->success );
+		$this->assertFalse( $response->data->errors );
+		$this->assertEquals( $response->data->message, 'Your review has been submitted!' );
 	}
 
 	protected function ajax_response( $request )
