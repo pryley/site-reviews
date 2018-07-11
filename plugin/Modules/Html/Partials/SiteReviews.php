@@ -13,6 +13,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Review;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Schema;
+use IntlRuleBasedBreakIterator;
 use WP_Post;
 
 class SiteReviews
@@ -261,19 +262,53 @@ class SiteReviews
 	 */
 	protected function getExcerpt( $text )
 	{
-		$limit = $this->getOption( 'settings.reviews.excerpt.length', 55 );
-		if( str_word_count( $text, 0 ) > $limit ) {
-			$words = array_keys( str_word_count( $text, 2 ));
-			$excerpt = ltrim( substr( $text, 0, $words[$limit] ));
-			$hiddenText = substr( $text, strlen( $excerpt ));
+		$limit = intval( $this->getOption( 'settings.reviews.excerpt.length', 55 ));
+		$split = extension_loaded( 'intl' )
+			? $this->getExcerptIntlSplit( $text, $limit )
+			: $this->getExcerptSplit( $text, $limit );
+		$hiddenText = substr( $text, $split );
+		if( !empty( $hiddenText )) {
 			$showMore = glsr( Builder::class )->span( $hiddenText, [
 				'class' => 'glsr-hidden glsr-hidden-text',
 				'data-show-less' => __( 'Show less', 'site-reviews' ),
 				'data-show-more' => __( 'Show more', 'site-reviews' ),
 			]);
-			$text = $excerpt.$showMore;
+			$text = ltrim( substr( $text, 0, $split )).$showMore;
 		}
 		return nl2br( $text );
+	}
+
+	/**
+	 * @param string $text
+	 * @param int $limit
+	 * @return int
+	 */
+	protected function getExcerptIntlSplit( $text, $limit )
+	{
+		$words = IntlRuleBasedBreakIterator::createWordInstance( '' );
+		$words->setText( $text );
+		$count = 0;
+		foreach( $words as $offset ){
+			if( $words->getRuleStatus() === IntlRuleBasedBreakIterator::WORD_NONE )continue;
+			$count++;
+			if( $count != $limit )continue;
+			return $offset;
+		}
+		return strlen( $text );
+	}
+
+	/**
+	 * @param string $text
+	 * @param int $limit
+	 * @return int
+	 */
+	protected function getExcerptSplit( $text, $limit )
+	{
+		if( str_word_count( $text, 0 ) > $limit ) {
+			$words = array_keys( str_word_count( $text, 2 ));
+			return $words[$limit];
+		}
+		return strlen( $text );
 	}
 
 	/**

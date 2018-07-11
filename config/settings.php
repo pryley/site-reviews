@@ -127,13 +127,6 @@ return [
 		'label' => __( 'Excerpt Length', 'site-reviews' ),
 		'type' => 'number',
 	],
-	'settings.reviews.excerpt.locale' => [
-		'default' => get_locale(),
-		'depends_on' => ['settings.reviews.excerpt.enabled' => 'yes'],
-		'description' => __( 'Set the language that your reviews are in. This setting determines how the excerpt length will work (particularly for non-alphabetic languages).', 'site-reviews' ),
-		'label' => __( 'Excerpt Locale', 'site-reviews' ),
-		'type' => 'languages',
-	],
 	'settings.schema.type.default' => [
 		'default' => 'LocalBusiness',
 		'description' => __( 'Custom Field name: <code>schema_type</code>', 'site-reviews' ),

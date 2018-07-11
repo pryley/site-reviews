@@ -112,11 +112,15 @@ class System
 		$displayErrors = ini_get( 'display_errors' )
 			? 'On ('.ini_get( 'display_errors' ).')'
 			: 'N/A';
+		$intlSupport = extension_loaded( 'intl' )
+			? phpversion( 'intl' )
+			: 'false';
 		return [
 			'cURL' => var_export( function_exists( 'curl_init' ), true ),
 			'Default Charset' => ini_get( 'default_charset' ),
 			'Display Errors' => $displayErrors,
 			'fsockopen' => var_export( function_exists( 'fsockopen' ), true ),
+			'Intl' => $intlSupport,
 			'Max Execution Time' => ini_get( 'max_execution_time' ),
 			'Max Input Nesting Level' => ini_get( 'max_input_nesting_level' ),
 			'Max Input Vars' => ini_get( 'max_input_vars' ),
