@@ -4,12 +4,12 @@ namespace GeminiLabs\SiteReviews\Modules\Schema;
 
 use ArrayAccess;
 use DateTime;
-use JsonSerializable;
-use ReflectionClass;
 use DateTimeInterface;
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Modules\Schema\Type;
 use GeminiLabs\SiteReviews\Modules\Schema\Exceptions\InvalidProperty;
+use GeminiLabs\SiteReviews\Modules\Schema\Type;
+use JsonSerializable;
+use ReflectionClass;
 
 abstract class BaseType implements ArrayAccess, JsonSerializable, Type
 {
@@ -39,7 +39,10 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
 	 */
 	public function __call( $method, array $arguments )
 	{
-		return $this->setProperty( $method, $arguments[0] ?? '' );
+		$value = isset( $arguments[0] )
+			? $arguments[0]
+			: '';
+		return $this->setProperty( $method, $value );
 	}
 
 	/**
@@ -95,7 +98,9 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
 	 */
 	public function getProperty( $property, $default = null)
 	{
-		return $this->properties[$property] ?? $default;
+		return isset( $this->properties[$property] )
+			? $this->properties[$property]
+			: $default;
 	}
 
 	/**
