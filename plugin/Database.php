@@ -25,6 +25,7 @@ class Database
 		$review = apply_filters( 'site-reviews/create/review-values', $review, $command );
 		$post = [
 			'comment_status' => 'closed',
+			'meta_input' => $review,
 			'ping_status' => 'closed',
 			'post_content' => $review['content'],
 			'post_date' => $review['date'],
@@ -38,7 +39,7 @@ class Database
 			glsr_log()->error( $postId->get_error_message() );
 			return false;
 		}
-		$this->setReviewMeta( $postId, $review, $command->category );
+		$this->setReviewTerms( $postId, $command->category );
 		do_action( 'site-reviews/create/review', $post, $review, $postId );
 		return $postId;
 	}
@@ -324,11 +325,8 @@ class Database
 	 * @param string $termIds
 	 * @return void
 	 */
-	public function setReviewMeta( $postId, array $review, $termIds )
+	public function setReviewTerms( $postId, $termIds )
 	{
-		foreach( $review as $metaKey => $metaValue ) {
-			update_post_meta( $postId, $metaKey, $metaValue );
-		}
 		$terms = $this->normalizeTerms( $termIds );
 		if( empty( $terms ))return;
 		$result = wp_set_object_terms( $postId, $terms, Application::TAXONOMY );
