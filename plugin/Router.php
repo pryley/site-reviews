@@ -80,7 +80,8 @@ class Router
 	protected function getRequest()
 	{
 		if( glsr( Helper::class )->filterInput( 'action' ) != Application::PREFIX.'action' ) {
-			return [];
+			// not an ajax request
+			return glsr( Helper::class )->filterInputArray( Application::ID );
 		}
 		$request = glsr( Helper::class )->filterInputArray( 'request' );
 		if( empty( $request )) {
