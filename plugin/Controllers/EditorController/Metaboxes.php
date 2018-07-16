@@ -15,6 +15,20 @@ class Metaboxes
 	const META_REVIEW_ID = '_glsr_review_id';
 
 	/**
+	 * Update the review count when the rating or review_type changes
+	 * @param string $metaKey
+	 * @param mixed $metaValue
+	 * @return void
+	 */
+	public function onBeforeUpdateReview( WP_Post $review, $metaKey, $metaValue )
+	{
+		$previousValue = get_post_meta( $review->ID, $metaKey, true );
+		if( $previousValue == $metaValue )return;
+		$this->decreaseReviewCount( $review );
+		$this->increaseReviewCount( $review, [$metaKey => $metaValue] );
+	}
+
+	/**
 	 * @param array $postData
 	 * @param array $meta
 	 * @param int $postId
@@ -25,6 +39,7 @@ class Metaboxes
 		if( get_post_field( 'post_type', $postId ) !== Application::POST_TYPE )return;
 		$review = get_post( $postId )
 		$this->updateAssignedToPost( $review );
+		$this->increaseReviewCount( $review );
 	}
 
 	/**
@@ -37,6 +52,22 @@ class Metaboxes
 		$review = get_post( $postId )
 		$review->post_status = 'deleted'; // important to change the post_status here first!
 		$this->updateAssignedToPost( $review );
+		$this->decreaseReviewCount( $review );
+	}
+
+	/**
+	 * Update the review count when the post_status changes
+	 * @param string $status
+	 * @return void
+	 */
+	public function onReviewStatusChange( $status, WP_Post $review )
+	{
+		if( $status == 'publish' ) {
+			$this->increaseReviewCount( $review );
+		}
+		else {
+			$this->decreaseReviewCount( $review );
+		}
 	}
 
 	/**
@@ -93,12 +124,56 @@ class Metaboxes
 	}
 
 	/**
-	 * @param mixed $post
-	 * @return bool
+	 * @return void|array
 	 */
-	protected function isReviewPostType( $post )
+	protected function getReviewCounts( WP_Post $review, array $meta = [] )
 	{
-		return $post instanceof WP_Post && $post->post_type == Application::POST_TYPE;
+		$meta = wp_parse_args( $meta, [
+			'rating' => get_post_meta( $review->ID, 'rating', true ),
+			'review_type' => get_post_meta( $review->ID, 'review_type', true ),
+		]);
+		if( !in_array( $meta['review_type'], glsr()->reviewTypes )
+			|| intval( $meta['rating'] ) > Rating::MAX_RATING
+		)return;
+		$counts = glsr( OptionManager::class )->get( 'counts.'.$meta['review_type'], [] );
+		foreach( range( 0, Rating::MAX_RATING ) as $rating ) {
+			if( isset( $counts[$rating] ))continue;
+			$counts[$rating] = 0;
+		}
+		ksort( $counts );
+		return $counts;
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function setReviewCounts( WP_Post $review, array $counts )
+	{
+		$type = get_post_meta( $review->ID, 'review_type', true );
+		if( !in_array( $type, glsr()->reviewTypes ))return;
+		glsr( OptionManager::class )->set( 'counts.'.$type, $counts );
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function increaseReviewCount( WP_Post $review, array $meta = [] )
+	{
+		if( $counts = $this->getReviewCounts( $review, $meta )) {
+			$counts[$rating] -= 1;
+			$this->setReviewCounts( $review, $counts );
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function decreaseReviewCount( WP_Post $review, array $meta = [] )
+	{
+		if( $counts = $this->getReviewCounts( $review, $meta )) {
+			$counts[$rating] += 1;
+			$this->setReviewCounts( $review, $counts );
+		}
 	}
 
 	/**

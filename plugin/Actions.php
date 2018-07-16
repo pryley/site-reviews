@@ -59,9 +59,11 @@ class Actions implements HooksContract
 		add_action( 'plugins_loaded',                               [$this->app, 'registerReviewTypes'] );
 		add_action( 'upgrader_process_complete',                    [$this->app, 'upgraded'], 10, 2 );
 		add_action( 'admin_enqueue_scripts',                        [$this->editor, 'customizePostStatusLabels'] );
+		add_action( 'update_postmeta',                              [$this->editor, 'onBeforeUpdateReview'], 10, 4 );
 		add_action( 'site-reviews/create/review',                   [$this->editor, 'onCreateReview'], 10, 3 );
 		add_action( 'before_delete_post',                           [$this->editor, 'onDeleteReview'] );
-		add_action( 'save_post_'.Application::POST_TYPE,            [$this->editor, 'onSaveReview'], 20, 2 );
+		add_action( 'transition_post_status',                       [$this->editor, 'onReviewStatusChange'], 10, 3 );
+		add_action( 'save_post_'.Application::POST_TYPE,            [$this->editor, 'onSaveReview'], 20, 3 );
 		add_action( 'add_meta_boxes',                               [$this->editor, 'registerMetaBoxes'] );
 		add_action( 'admin_print_scripts',                          [$this->editor, 'removeAutosave'], 999 );
 		add_action( 'admin_menu',                                   [$this->editor, 'removeMetaBoxes'] );

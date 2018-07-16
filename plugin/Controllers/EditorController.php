@@ -80,6 +80,23 @@ class EditorController extends Controller
 	}
 
 	/**
+	 * @param int $metaId
+	 * @param int $postId
+	 * @param string $metaKey
+	 * @param mixed $metaValue
+	 * @return void
+	 * @action update_postmeta
+	 */
+	public function onBeforeUpdateReview( $metaId, $postId, $metaKey, $metaValue )
+	{
+		if( !in_array( $metaKey, ['rating', 'review_type'] )
+			|| get_post_field( 'post_type', $postId ) != Application::POST_TYPE
+			|| get_post_field( 'post_status', $postId ) != 'publish' // only fire on an existing published post
+ 		)return;
+		glsr( Metaboxes::class )->onBeforeUpdateReview( get_post( $postId ), $metaKey, $metaValue );
+	}
+
+	/**
 	 * @param array $postData
 	 * @param array $meta
 	 * @param int $postId
@@ -99,6 +116,19 @@ class EditorController extends Controller
 	public function onDeleteReview( $postId )
 	{
 		glsr( Metaboxes::class )->onDeleteReview( $postId );
+	}
+
+	/**
+	 * @param string $oldStatus
+	 * @param string $newStatus
+	 * @return void
+	 */
+	public function onReviewStatusChange( $newStatus, $oldStatus, WP_Post $post )
+	{
+		if( in_array( $oldStatus, ['new', $newStatus] )
+			|| $post->post_type != Application::POST_TYPE
+		)return;
+		glsr( Metaboxes::class )->onReviewStatusChange( $newStatus, $post );
 	}
 
 	/**
