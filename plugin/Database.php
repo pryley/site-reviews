@@ -268,14 +268,13 @@ class Database
 	 */
 	public function revertReview( $postId )
 	{
-		$post = get_post( $postId );
-		if( !( $post instanceof WP_Post ) || $post->post_type != Application::POST_TYPE )return;
-		delete_post_meta( $post->ID, '_edit_last' );
+		if( get_post_field( 'post_type', $postId ) != Application::POST_TYPE )return;
+		delete_post_meta( $postId, '_edit_last' );
 		$result = wp_update_post([
-			'ID' => $post->ID,
-			'post_content' => get_post_meta( $post->ID, 'content', true ),
-			'post_date' => get_post_meta( $post->ID, 'date', true ),
-			'post_title' => get_post_meta( $post->ID, 'title', true ),
+			'ID' => $postId,
+			'post_content' => get_post_meta( $postId, 'content', true ),
+			'post_date' => get_post_meta( $postId, 'date', true ),
+			'post_title' => get_post_meta( $postId, 'title', true ),
 		]);
 		if( is_wp_error( $result )) {
 			glsr_log()->error( $result->get_error_message() );

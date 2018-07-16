@@ -22,7 +22,8 @@ class Metaboxes
 	 */
 	public function onCreateReview( $postData, $meta, $postId )
 	{
-		if( !$this->isReviewPostType( $review = get_post( $postId )))return;
+		if( get_post_field( 'post_type', $postId ) !== Application::POST_TYPE )return;
+		$review = get_post( $postId )
 		$this->updateAssignedToPost( $review );
 	}
 
@@ -32,7 +33,8 @@ class Metaboxes
 	 */
 	public function onDeleteReview( $postId )
 	{
-		if( !$this->isReviewPostType( $review = get_post( $postId )))return;
+		if( get_post_field( 'post_type', $postId ) !== Application::POST_TYPE )return;
+		$review = get_post( $postId )
 		$review->post_status = 'deleted'; // important to change the post_status here first!
 		$this->updateAssignedToPost( $review );
 	}
