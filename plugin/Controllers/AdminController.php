@@ -158,6 +158,15 @@ class AdminController extends Controller
 	/**
 	 * @return void
 	 */
+	public function routerCountReviews()
+	{
+		// @todo calculate the review counts here
+		glsr( Notice::class )->addSuccess( __( 'Recalculated review counts.', 'site-reviews' ));
+	}
+
+	/**
+	 * @return void
+	 */
 	public function routerDownloadLog()
 	{
 		$this->download( Application::ID.'-log.txt', glsr( Console::class )->get() );

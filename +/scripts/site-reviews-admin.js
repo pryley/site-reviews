@@ -11,7 +11,6 @@ GLSR.keys = {
 jQuery( function( $ ) {
 	GLSR.shortcode = new GLSR.Shortcode( '.glsr-mce' );
 	GLSR.ColorPicker();
-	new GLSR.Console();
 	new GLSR.Forms( 'form.glsr-form' );
 	new GLSR.Pinned();
 	new GLSR.Pointers();
@@ -59,4 +58,5 @@ jQuery( function( $ ) {
 	new GLSR.Status( 'a.glsr-change-status' );
 	new GLSR.Tabs();
 	new GLSR.TextareaResize();
+	new GLSR.Tools();
 });

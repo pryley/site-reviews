@@ -124,6 +124,7 @@ class MenuController extends Controller
 	public function renderToolsMenu()
 	{
 		$tabs = $this->parseWithFilter( 'tools/tabs', [
+			'general' => __( 'General', 'site-reviews' ),
 			'sync' => __( 'Sync Reviews', 'site-reviews' ),
 			'import-export' => __( 'Import/Export', 'site-reviews' ),
 			'console' => __( 'Console', 'site-reviews' ),

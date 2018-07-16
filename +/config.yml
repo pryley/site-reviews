@@ -23,7 +23,6 @@ scripts:
   site-reviews-admin.js:
     - +/scripts/admin/ajax.js
     - +/scripts/admin/color-picker.js
-    - +/scripts/admin/console.js
     - +/scripts/admin/forms.js
     - +/scripts/admin/notices.js
     - +/scripts/admin/pinned.js
@@ -33,6 +32,7 @@ scripts:
     - +/scripts/admin/status.js
     - +/scripts/admin/tabs.js
     - +/scripts/admin/textarea-resize.js
+    - +/scripts/admin/tools.js
     - +/scripts/site-reviews-admin.js
 watch:
   js: +/scripts/**/*.js

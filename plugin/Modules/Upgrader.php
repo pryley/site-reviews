@@ -37,5 +37,7 @@ class Upgrader
 	}
 
 	protected function upgrade_3_0_0()
-	{}
+	{
+		// 1. calculate the review counts
+	}
 }

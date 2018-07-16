@@ -40,6 +40,17 @@ class AjaxController extends Controller
 	/**
 	 * @return void
 	 */
+	public function routerCountReviews()
+	{
+		glsr( AdminController::class )->routerCountReviews();
+		wp_send_json_success([
+			'notices' => glsr( Notice::class )->get(),
+		]);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function routerMceShortcode( array $request )
 	{
 		$shortcode = $request['shortcode'];

@@ -1,1 +1,5 @@
 - make tabs responsive (auto-collapsable)
+- migrate site-reviews/local/review/create
+- fix form submission with recaptcha and no-ajax class
+- verify all v2 hooks
+- add polyfills for IE11+
