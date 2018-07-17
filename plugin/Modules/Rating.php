@@ -42,32 +42,17 @@ class Rating
 	const MIN_RATING = 1;
 
 	/**
-	 * Get the average rating for an array of reviews
 	 * @param int $roundBy
 	 * @return float
 	 */
-	public function getAverage( array $reviews, $roundBy = 1 )
+	public function getAverage( array $reviewCounts, $roundBy = 1 )
 	{
-		$average = count( $reviews );
+		$counts = $this->flattenCounts( $reviewCounts );
+		$average = array_sum( $counts );
 		if( $average > 0 ) {
-			$average = round( $this->getTotal( $reviews ) / $average, intval( $roundBy ));
+			$average = round( $this->getTotalSum( $counts ) / $average, intval( $roundBy ));
 		}
-		return floatval( apply_filters( 'site-reviews/rating/average', $average, $reviews ));
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getCounts( array $reviews )
-	{
-		$counts = array_fill_keys( [5,4,3,2,1], [] );
-		array_walk( $counts, function( &$count, $key ) use( $reviews ) {
-			$count = count( array_filter( $reviews, function( $review ) use( $key ) {
-				if( !isset( $review->rating ))return;
-				return $review->rating == $key;
-			}));
-		});
-		return $counts;
+		return floatval( apply_filters( 'site-reviews/rating/average', $average, $counts, $reviewCounts ));
 	}
 
 	/**
@@ -80,65 +65,64 @@ class Rating
 	 * @param int $confidencePercentage
 	 * @return int|float
 	 */
-	public function getLowerBound( array $upDownRatings, $confidencePercentage = 95 )
+	public function getLowerBound( array $upDownRatings = [0, 0], $confidencePercentage = 95 )
 	{
-		$numRatings = count( $upDownRatings );
-		if( !$numRatings )return 0;
-		$positiveRatings = count( array_filter( $upDownRatings, function( $value ) {
-			return $value > 0;
-		}));
+		$numRatings = array_sum( $upDownRatings );
+		if( $numRatings < 1 ) {
+			return 0;
+		}
 		$z = static::CONFIDENCE_LEVEL_Z_SCORES[$confidencePercentage];
-		$phat = 1 * $positiveRatings / $numRatings;
+		$phat = 1 * $upDownRatings[1] / $numRatings;
 		return ( $phat + $z * $z / ( 2 * $numRatings ) - $z * sqrt(( $phat * ( 1 - $phat ) + $z * $z / ( 4 * $numRatings )) / $numRatings )) / ( 1 + $z * $z / $numRatings );
 	}
 
 	/**
-	 * Get the overall percentage rating for an array of reviews
 	 * @return int|float
 	 */
-	public function getPercentage( array $reviews )
+	public function getOverallPercentage( array $reviewCounts )
 	{
-		return round( $this->getAverage( $reviews ) * 100 / static::MAX_RATING, 2 );
+		return round( $this->getAverage( $reviewCounts ) * 100 / static::MAX_RATING, 2 );
 	}
 
 	/**
-	 * Get the percentage ratings for an array of reviews
 	 * @return array
 	 */
-	public function getPercentages( array $reviews )
+	public function getPercentages( array $reviewCounts )
 	{
-		$counts = $this->getCounts( $reviews );
-		array_walk( $counts, function( &$count, $rating ) use( $counts ) {
-			$total = array_sum( $counts );
-			$count = !empty( $total ) && !empty( $counts[$rating] )
-				? $counts[$rating] / array_sum( $counts ) * 100
-				: 0;
-		});
+		$counts = $this->flattenCounts( $reviewCounts );
+		$total = array_sum( $counts );
+		foreach( $counts as $index => $count ) {
+			if( empty( $count ))continue;
+			$counts[$index] = $count / $total * 100;
+		}
 		return $this->getRoundedPercentages( $counts );
 	}
 
 	/**
-	 * Get the bayesian ranking for an array of reviews
 	 * @return float
 	 */
-	public function getRanking( array $reviews )
+	public function getRanking()
 	{
+		$counts = $this->flattenCounts( $reviewCounts );
 		return floatval( apply_filters( 'site-reviews/bayesian/ranking',
-			$this->getRankingUsingImdb( $reviews ),
-			$reviews,
+			$this->getRankingUsingImdb( $counts ),
+			$counts,
 			$this
 		));
 	}
 
 	/**
-	 * Get the sum of all review ratings
-	 * @return int
+	 * @return array
 	 */
-	public function getTotal( array $reviews )
+	protected function flattenCounts( array $reviewCounts )
 	{
-		return array_reduce( $reviews, function( $sum, $review ) {
-			return $sum + intval( $review->rating );
+		$counts = [];
+		array_walk_recursive( $reviewCounts, function( $num, $index ) use( &$counts ) {
+			$counts[$index] = isset($counts[$index])
+				? $num + $counts[$index]
+				: $num;
 		});
+		return $counts;
 	}
 
 	/**
@@ -151,15 +135,15 @@ class Rating
 	 * @param int $confidencePercentage
 	 * @return int|float
 	 */
-	protected function getRankingUsingImdb( array $reviews, $confidencePercentage = 70 )
+	protected function getRankingUsingImdb( array $counts, $confidencePercentage = 70 )
 	{
-		// Represents the number of ratings expected to begin observing a pattern that would put confidence in the prior.
-		$bayesMinimal = 10; // confidence
+		$avgRating = $this->getAverage( $counts );
 		// Represents a prior (your prior opinion without data) for the average star rating. A higher prior also means a higher margin for error.
 		// This could also be the average score of all items instead of a fixed value.
 		$bayesMean = ( $confidencePercentage / 100 ) * static::MAX_RATING; // prior, 70% = 3.5
-		$numOfReviews = count( $reviews );
-		$avgRating = $this->getAverage( $reviews );
+		// Represents the number of ratings expected to begin observing a pattern that would put confidence in the prior.
+		$bayesMinimal = 10; // confidence
+		$numOfReviews = array_sum( $counts );
 		return $avgRating > 0
 			? (( $bayesMinimal * $bayesMean ) + ( $avgRating * $numOfReviews )) / ( $bayesMinimal + $numOfReviews )
 			: 0;
@@ -175,10 +159,9 @@ class Rating
 	 * @param int $confidencePercentage
 	 * @return float
 	 */
-	protected function getRankingUsingZScores( array $reviews, $confidencePercentage = 90 )
+	protected function getRankingUsingZScores( array $ratingCounts, $confidencePercentage = 90 )
 	{
-		$ratingCounts = $this->getCounts( $reviews );
-		$ratingCountsSum = array_sum( $ratingCounts ) + count( $ratingCounts );
+		$ratingCountsSum = array_sum( $ratingCounts ) + static::MAX_RATING;
 		$weight = $this->getWeight( $ratingCounts, $ratingCountsSum );
 		$weightPow2 = $this->getWeight( $ratingCounts, $ratingCountsSum, true );
 		$zScore = static::CONFIDENCE_LEVEL_Z_SCORES[$confidencePercentage];
@@ -186,16 +169,16 @@ class Rating
 	}
 
 	/**
-	 * @param int $target The target total percentage
+	 * @param int $target
 	 * @return array
 	 */
-	protected function getRoundedPercentages( array $percentages, $target = 100 )
+	protected function getRoundedPercentages( array $percentages, $totalPercent = 100 )
 	{
-		array_walk( $percentages, function( &$value, $index ) {
-			$value = [
+		array_walk( $percentages, function( &$percent, $index ) {
+			$percent = [
 				'index' => $index,
-				'percent' => floor( $value ),
-				'remainder' => fmod( $value, 1 ),
+				'percent' => floor( $percent ),
+				'remainder' => fmod( $percent, 1 ),
 			];
 		});
 		$indexes = array_column( $percentages, 'index' );
@@ -203,13 +186,23 @@ class Rating
 		array_multisort( $remainders, SORT_DESC, SORT_STRING, $indexes, SORT_DESC, $percentages );
 		$i = 0;
 		if( array_sum( array_column( $percentages, 'percent' )) > 0 ) {
-			while( array_sum( array_column( $percentages, 'percent' )) < $target ) {
+			while( array_sum( array_column( $percentages, 'percent' )) < $totalPercent ) {
 				$percentages[$i]['percent']++;
 				$i++;
 			}
 		}
 		array_multisort( $indexes, SORT_DESC, $percentages );
 		return array_combine( $indexes, array_column( $percentages, 'percent' ));
+	}
+
+	/**
+	 * @return int
+	 */
+	protected function getTotalSum( array $counts )
+	{
+		return array_reduce( $counts, function( $carry, $count ) {
+			return $carry + $count;
+		});
 	}
 
 	/**
@@ -221,7 +214,9 @@ class Rating
 	{
 		return array_reduce( array_keys( $ratingCounts ),
 			function( $count, $rating ) use( $ratingCounts, $ratingCountsSum, $powerOf2 ) {
-				$ratingLevel = $powerOf2 ? pow( $rating, 2 ) : $rating;
+				$ratingLevel = $powerOf2
+					? pow( $rating, 2 )
+					: $rating;
 				return $count + ( $ratingLevel * ( $ratingCounts[$rating] + 1 )) / $ratingCountsSum;
 			}
 		);
