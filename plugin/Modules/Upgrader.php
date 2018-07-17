@@ -15,8 +15,8 @@ class Upgrader
 		$routines = array_column( $routines, 'name' );
 		natsort( $routines );
 		array_walk( $routines, function( $routine ) {
-			$version = str_replace( strtolower( __CLASS__ ).'_', '', $routine );
-			if( version_compare( glsr()->version, $version, '>=' ))return;
+			$parts = explode( '__', $routine );
+			if( version_compare( glsr()->version, end( $parts ), '>=' ))return;
 			call_user_func( [$this, $routine] );
 		});
 		$this->updateVersion();
@@ -36,7 +36,10 @@ class Upgrader
 		}
 	}
 
-	protected function upgrade_3_0_0()
+	/**
+	 * @return void
+	 */
+	protected function setReviewCounts__3_0_0()
 	{
 		// 1. calculate the review counts
 	}
