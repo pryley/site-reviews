@@ -3,7 +3,8 @@
 namespace GeminiLabs\SiteReviews\Controllers\EditorController;
 
 use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use WP_Post;
@@ -15,17 +16,30 @@ class Metaboxes
 	const META_REVIEW_ID = '_glsr_review_id';
 
 	/**
+	 * @param int $postId
+	 * @return void
+	 */
+	public function onBeforeDeleteReview( $postId )
+	{
+		if( get_post_field( 'post_type', $postId ) !== Application::POST_TYPE )return;
+		$review = get_post( $postId );
+		$review->post_status = 'deleted'; // change post_status first!
+		$this->updateAssignedToPost( $review );
+		$this->decreaseReviewCount( $review );
+	}
+
+	/**
 	 * Update the review count when the rating or review_type changes
 	 * @param string $metaKey
 	 * @param mixed $metaValue
 	 * @return void
 	 */
-	public function onBeforeUpdateReview( WP_Post $review, $metaKey, $metaValue )
+	public function onBeforeUpdateReview( WP_Post $review, $metaKey, $newValue )
 	{
 		$previousValue = get_post_meta( $review->ID, $metaKey, true );
-		if( $previousValue == $metaValue )return;
+		if( $previousValue == $newValue )return;
 		$this->decreaseReviewCount( $review );
-		$this->increaseReviewCount( $review, [$metaKey => $metaValue] );
+		$this->increaseReviewCount( $review, [$metaKey => $newValue] );
 	}
 
 	/**
@@ -40,19 +54,6 @@ class Metaboxes
 		$review = get_post( $postId );
 		$this->updateAssignedToPost( $review );
 		$this->increaseReviewCount( $review );
-	}
-
-	/**
-	 * @param int $postId
-	 * @return void
-	 */
-	public function onDeleteReview( $postId )
-	{
-		if( get_post_field( 'post_type', $postId ) !== Application::POST_TYPE )return;
-		$review = get_post( $postId );
-		$review->post_status = 'deleted'; // important to change the post_status here first!
-		$this->updateAssignedToPost( $review );
-		$this->decreaseReviewCount( $review );
 	}
 
 	/**
@@ -132,7 +133,7 @@ class Metaboxes
 			'rating' => get_post_meta( $review->ID, 'rating', true ),
 			'review_type' => get_post_meta( $review->ID, 'review_type', true ),
 		]);
-		if( !in_array( $meta['review_type'], glsr()->reviewTypes )
+		if( !array_key_exists( $meta['review_type'], glsr()->reviewTypes )
 			|| intval( $meta['rating'] ) > Rating::MAX_RATING
 		)return;
 		$counts = glsr( OptionManager::class )->get( 'counts.'.$meta['review_type'], [] );
@@ -150,7 +151,7 @@ class Metaboxes
 	protected function setReviewCounts( WP_Post $review, array $counts )
 	{
 		$type = get_post_meta( $review->ID, 'review_type', true );
-		if( !in_array( $type, glsr()->reviewTypes ))return;
+		if( !array_key_exists( $type, glsr()->reviewTypes ))return;
 		glsr( OptionManager::class )->set( 'counts.'.$type, $counts );
 	}
 
@@ -160,6 +161,9 @@ class Metaboxes
 	protected function increaseReviewCount( WP_Post $review, array $meta = [] )
 	{
 		if( $counts = $this->getReviewCounts( $review, $meta )) {
+			$rating = isset( $meta['rating'] )
+				? $meta['rating']
+				: intval( get_post_meta( $review->ID, 'rating', true ));
 			$counts[$rating] -= 1;
 			$this->setReviewCounts( $review, $counts );
 		}
@@ -171,6 +175,7 @@ class Metaboxes
 	protected function decreaseReviewCount( WP_Post $review, array $meta = [] )
 	{
 		if( $counts = $this->getReviewCounts( $review, $meta )) {
+			$rating = intval( get_post_meta( $review->ID, 'rating', true ));
 			$counts[$rating] += 1;
 			$this->setReviewCounts( $review, $counts );
 		}
@@ -207,12 +212,9 @@ class Metaboxes
 			delete_post_meta( $postId, static::META_REVIEW_ID );
 		}
 		else if( !glsr( Helper::class )->compareArrays( $reviewIds, $updatedReviewIds )) {
-			$reviews = glsr( ReviewManager::class )->get([
-				'count' => -1,
-				'post__in' => $updatedReviewIds,
-			]);
-			update_post_meta( $postId, static::META_AVERAGE, $this->recalculatePostAverage( $reviews->results ));
-			update_post_meta( $postId, static::META_RANKING, $this->recalculatePostRanking( $reviews->results ));
+			$counts = glsr( Database::class )->buildReviewCountsFromIds( $updatedReviewIds );
+			update_post_meta( $postId, static::META_AVERAGE, $this->recalculatePostAverage( $counts ));
+			update_post_meta( $postId, static::META_RANKING, $this->recalculatePostRanking( $counts ));
 		}
 	}
 

@@ -101,7 +101,7 @@ class Rating
 	/**
 	 * @return float
 	 */
-	public function getRanking()
+	public function getRanking( array $reviewCounts )
 	{
 		$counts = $this->flattenCounts( $reviewCounts );
 		return floatval( apply_filters( 'site-reviews/bayesian/ranking',
@@ -135,15 +135,15 @@ class Rating
 	 * @param int $confidencePercentage
 	 * @return int|float
 	 */
-	protected function getRankingUsingImdb( array $counts, $confidencePercentage = 70 )
+	protected function getRankingUsingImdb( array $ratingCounts, $confidencePercentage = 70 )
 	{
-		$avgRating = $this->getAverage( $counts );
+		$avgRating = $this->getAverage( $ratingCounts );
 		// Represents a prior (your prior opinion without data) for the average star rating. A higher prior also means a higher margin for error.
 		// This could also be the average score of all items instead of a fixed value.
 		$bayesMean = ( $confidencePercentage / 100 ) * static::MAX_RATING; // prior, 70% = 3.5
 		// Represents the number of ratings expected to begin observing a pattern that would put confidence in the prior.
 		$bayesMinimal = 10; // confidence
-		$numOfReviews = array_sum( $counts );
+		$numOfReviews = array_sum( $ratingCounts );
 		return $avgRating > 0
 			? (( $bayesMinimal * $bayesMean ) + ( $avgRating * $numOfReviews )) / ( $bayesMinimal + $numOfReviews )
 			: 0;
@@ -198,9 +198,9 @@ class Rating
 	/**
 	 * @return int
 	 */
-	protected function getTotalSum( array $counts )
+	protected function getTotalSum( array $ratingCounts )
 	{
-		return array_reduce( $counts, function( $carry, $count ) {
+		return array_reduce( $ratingCounts, function( $carry, $count ) {
 			return $carry + $count;
 		});
 	}

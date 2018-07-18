@@ -30,10 +30,10 @@ class Review
 	{
 		$this->content = $post->post_content;
 		$this->date = $post->post_date;
-		$this->ID = $post->ID;
+		$this->ID = intval( $post->ID );
 		$this->status = $post->post_status;
 		$this->title = $post->post_title;
-		$this->user_id = $post->post_author;
+		$this->user_id = intval( $post->post_author );
 		$this->setProperties( $post );
 	}
 

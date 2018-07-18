@@ -21,7 +21,7 @@ class Schema
 	/**
 	 * @var array
 	 */
-	protected $reviews;
+	protected $reviewCounts;
 
 	/**
 	 * @return array
@@ -57,7 +57,7 @@ class Schema
 			$this->args = $args;
 		}
 		$buildSummary = glsr( Helper::class )->buildMethodName( $this->getSchemaOptionValue( 'type' ), 'buildSummaryFor' );
-		$count = $this->getReviewCount();
+		$count = array_sum( $this->getReviewCounts() );
 		$schema = method_exists( $this, $buildSummary )
 			? $this->$buildSummary()
 			: $this->buildSummaryForCustom();
@@ -71,8 +71,7 @@ class Schema
 			);
 		}
 		$schema = $schema->toArray();
-		$args = wp_parse_args( ['count' => -1], $this->args );
-		return apply_filters( sprintf( 'site-reviews/schema/%s', $schema['@type'] ), $schema, $args );
+		return apply_filters( 'site-reviews/schema/'.$schema['@type'], $schema, $args );
 	}
 
 	/**
@@ -176,27 +175,20 @@ class Schema
 	 */
 	protected function getRatingValue()
 	{
-		return glsr( Rating::class )->getAverage( $this->getReviews() );
-	}
-
-	/**
-	 * @return int
-	 */
-	protected function getReviewCount()
-	{
-		return count( $this->getReviews() );
+		return glsr( Rating::class )->getAverage( $this->getReviewCounts() );
 	}
 
 	/**
 	 * @return array
 	 */
-	protected function getReviews( $force = false )
+	protected function getReviewCounts()
 	{
-		if( !isset( $this->reviews ) || $force ) {
-			$args = wp_parse_args( ['count' => -1], $this->args );
-			$this->reviews = glsr( ReviewManager::class )->get( $args )->results;
+		if( !isset( $this->reviewCounts )) {
+			$this->reviewCounts = glsr( Database::class )->getReviewCounts([
+				'min' => $this->args['rating'],
+			]);
 		}
-		return $this->reviews;
+		return $this->reviewCounts;
 	}
 
 	/**

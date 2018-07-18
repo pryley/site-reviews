@@ -82,6 +82,16 @@ class EditorController extends Controller
 	}
 
 	/**
+	 * @param int $postId
+	 * @return void
+	 * @action before_delete_post
+	 */
+	public function onBeforeDeleteReview( $postId )
+	{
+		glsr( Metaboxes::class )->onBeforeDeleteReview( $postId );
+	}
+
+	/**
 	 * @param int $metaId
 	 * @param int $postId
 	 * @param string $metaKey
@@ -108,16 +118,6 @@ class EditorController extends Controller
 	public function onCreateReview( $postData, $meta, $postId )
 	{
 		glsr( Metaboxes::class )->onCreateReview( $postData, $meta, $postId );
-	}
-
-	/**
-	 * @param int $postId
-	 * @return void
-	 * @action before_delete_post
-	 */
-	public function onDeleteReview( $postId )
-	{
-		glsr( Metaboxes::class )->onDeleteReview( $postId );
 	}
 
 	/**

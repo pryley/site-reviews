@@ -112,6 +112,52 @@ class SqlQueries
 	}
 
 	/**
+	 * @param int $greaterThanId
+	 * @param int $limit
+	 * @return array
+	 */
+	public function getReviewRatings( $greaterThanId = 0, $limit = 100 )
+	{
+		return $this->db->get_results("
+			SELECT p.ID, m1.meta_value as rating, m2.meta_value as type
+			FROM {$this->db->posts} AS p
+			INNER JOIN {$this->db->postmeta} AS m1 ON p.ID = m1.post_id
+			INNER JOIN {$this->db->postmeta} AS m2 ON p.ID = m2.post_id
+			WHERE p.post_type = '{$this->postType}'
+			AND p.ID > {$greaterThanId}
+			AND p.post_status = 'publish'
+			AND m1.meta_key = 'rating'
+			AND m2.meta_key = 'review_type'
+			ORDER By p.ID
+			ASC LIMIT {$limit}
+		", OBJECT );
+	}
+
+	/**
+	 * @param int $greaterThanId
+	 * @param int $limit
+	 * @return array
+	 */
+	public function getReviewRatingsFromIds( array $postIds, $greaterThanId = 0, $limit = 100 )
+	{
+		sort( $postIds );
+		$postIds = array_slice( $postIds, intval( array_search( $greaterThanId, $postIds )), $limit );
+		$postIds = implode( ',', $postIds );
+		return $this->db->get_results("
+			SELECT p.ID, m.meta_value as rating
+			FROM {$this->db->posts} AS p
+			INNER JOIN {$this->db->postmeta} AS m ON p.ID = m.post_id
+			WHERE p.post_type = '{$this->postType}'
+			AND p.ID IN ('{$postIds}')
+			AND p.ID > {$greaterThanId}
+			AND p.post_status = 'publish'
+			AND m.meta_key = 'rating'
+			ORDER By p.ID
+			ASC LIMIT {$limit}
+		", OBJECT );
+	}
+
+	/**
 	 * @param string $key
 	 * @param string $status
 	 * @return array

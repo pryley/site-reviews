@@ -36,6 +36,7 @@ class System
 			'active-plugin' => 'Active Plugins',
 			'inactive-plugin' => 'Inactive Plugins',
 			'setting' => 'Plugin Settings',
+			'reviews' => 'Review Counts',
 		];
 		$systemInfo = array_reduce( array_keys( $details ), function( $carry, $key ) use( $details ) {
 			$methodName = glsr( Helper::class )->buildMethodName( 'get-'.$key.'-details' );
@@ -133,6 +134,20 @@ class System
 			'Session Use Only Cookies' => var_export( wp_validate_boolean( ini_get( 'session.use_only_cookies' )), true ),
 			'Upload Max Filesize' => ini_get( 'upload_max_filesize' ),
 		];
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getReviewsDetails()
+	{
+		$counts = glsr( OptionManager::class )->get( 'counts', [] );
+		$counts = glsr( Helper::class )->flattenArray( $counts );
+		array_walk( $counts, function( &$ratings ) {
+			$ratings = array_sum( $ratings ).' ('.implode( ', ', $ratings ).')';
+		});
+		ksort( $counts );
+		return $counts;
 	}
 
 	/**

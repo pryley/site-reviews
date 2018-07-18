@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use ReflectionClass;
 use ReflectionMethod;
@@ -41,6 +42,7 @@ class Upgrader
 	 */
 	protected function setReviewCounts__3_0_0()
 	{
-		// 1. calculate the review counts
+		$counts = glsr( Database::class )->buildReviewCounts();
+		glsr( OptionManager::class )->set( 'counts', $counts );
 	}
 }
