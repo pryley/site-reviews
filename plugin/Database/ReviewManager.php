@@ -11,6 +11,8 @@ use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\GetReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Review;
+use WP_Post;
+use WP_Query;
 
 class ReviewManager
 {

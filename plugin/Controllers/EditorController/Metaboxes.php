@@ -90,7 +90,7 @@ class Metaboxes
 		$assignedTo = glsr( Helper::class )->filterInput( 'assigned_to' );
 		$assignedTo || $assignedTo = '';
 		if( get_post_meta( $postId, 'assigned_to', true ) != $assignedTo ) {
-			$this->onDeleteReview( $postId );
+			$this->onBeforeDeleteReview( $postId );
 		}
 		update_post_meta( $postId, 'assigned_to', $assignedTo );
 	}
@@ -150,7 +150,7 @@ class Metaboxes
 	 */
 	protected function setReviewCounts( WP_Post $review, array $counts )
 	{
-		$type = get_post_meta( $review->ID, 'review_type', true );
+		$type = strval( get_post_meta( $review->ID, 'review_type', true ));
 		if( !array_key_exists( $type, glsr()->reviewTypes ))return;
 		glsr( OptionManager::class )->set( 'counts.'.$type, $counts );
 	}

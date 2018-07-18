@@ -48,7 +48,7 @@ class Columns
 	 */
 	public function buildColumnReviewer( $postId )
 	{
-		return get_post_meta( $postId, 'author', true );
+		return strval( get_post_meta( $postId, 'author', true ));
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Columns
 	public function buildColumnRating( $postId )
 	{
 		return glsr( Html::class )->buildPartial( 'star-rating', [
-			'rating' => get_post_meta( $postId, 'rating', true ),
+			'rating' => intval( get_post_meta( $postId, 'rating', true )),
 		]);
 	}
 
