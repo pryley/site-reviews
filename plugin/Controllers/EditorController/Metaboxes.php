@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers\EditorController;
 
 use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Rating;
@@ -125,7 +125,7 @@ class Metaboxes
 	}
 
 	/**
-	 * @return void|array
+	 * @return array
 	 */
 	protected function getReviewCounts( WP_Post $review, array $meta = [] )
 	{
@@ -133,16 +133,11 @@ class Metaboxes
 			'rating' => get_post_meta( $review->ID, 'rating', true ),
 			'review_type' => get_post_meta( $review->ID, 'review_type', true ),
 		]);
-		if( !array_key_exists( $meta['review_type'], glsr()->reviewTypes )
-			|| intval( $meta['rating'] ) > Rating::MAX_RATING
-		)return;
-		$counts = glsr( OptionManager::class )->get( 'counts.'.$meta['review_type'], [] );
-		foreach( range( 0, Rating::MAX_RATING ) as $rating ) {
-			if( isset( $counts[$rating] ))continue;
-			$counts[$rating] = 0;
-		}
-		ksort( $counts );
-		return $counts;
+		return glsr( CountsManager::class )->get([
+			'max' => $meta['rating'],
+			'min' => 0,
+			'types' => $meta['review_type'],
+		]);
 	}
 
 	/**
@@ -184,17 +179,17 @@ class Metaboxes
 	/**
 	 * @return int
 	 */
-	protected function recalculatePostAverage( array $reviews )
+	protected function recalculatePostAverage( array $ratingCounts )
 	{
-		return glsr( Rating::class )->getAverage( $reviews );
+		return glsr( Rating::class )->getAverage( $ratingCounts );
 	}
 
 	/**
 	 * @return int
 	 */
-	protected function recalculatePostRanking( array $reviews )
+	protected function recalculatePostRanking( array $ratingCounts )
 	{
-		return glsr( Rating::class )->getRanking( $reviews );
+		return glsr( Rating::class )->getRanking( $ratingCounts );
 	}
 
 	/**
@@ -212,7 +207,8 @@ class Metaboxes
 			delete_post_meta( $postId, static::META_REVIEW_ID );
 		}
 		else if( !glsr( Helper::class )->compareArrays( $reviewIds, $updatedReviewIds )) {
-			$counts = glsr( Database::class )->buildReviewCountsFromIds( $updatedReviewIds );
+			$counts = glsr( CountsManager::class )->buildFromIds( $updatedReviewIds );
+			$counts = glsr( CountsManager::class )->flatten( $counts );
 			update_post_meta( $postId, static::META_AVERAGE, $this->recalculatePostAverage( $counts ));
 			update_post_meta( $postId, static::META_RANKING, $this->recalculatePostRanking( $counts ));
 		}

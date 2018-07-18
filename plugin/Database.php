@@ -14,43 +14,6 @@ use WP_Query;
 class Database
 {
 	/**
-	 * @return array
-	 */
-	public function buildReviewCounts()
-	{
-		$counts = [];
-		$greaterThanId = 0;
-		while( $reviews = glsr( SqlQueries::class )->getReviewRatings( $greaterThanId )) {
-			$types = array_keys( array_flip( array_column( $reviews, 'type' )));
-			foreach( $types as $type ) {
-				if( isset( $counts[$type] ))continue;
-				$counts[$type] = array_fill_keys( range( 0, Rating::MAX_RATING ), 0 );
-			}
-			foreach( $reviews as $review ) {
-				$counts[$review->type][$review->rating]++;
-			}
-			$greaterThanId = end( $reviews )->ID;
-		}
-		return $counts;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function buildReviewCountsFromIds( array $postIds )
-	{
-		$counts = array_fill_keys( range( 0, Rating::MAX_RATING ), 0 );
-		$greaterThanId = 0;
-		while( $reviews = glsr( SqlQueries::class )->getReviewRatingsFromIds( $postIds, $greaterThanId )) {
-			foreach( $reviews as $review ) {
-				$counts[$review->rating]++;
-			}
-			$greaterThanId = end( $reviews )->ID;
-		}
-		return $counts;
-	}
-
-	/**
 	 * @param int $postId
 	 * @param string $assignedTo
 	 * @return void|WP_Post
@@ -84,30 +47,6 @@ class Database
 		return isset( $counts[$metaValue] )
 			? $counts[$metaValue]
 			: 0;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getReviewCounts( array $args = [] )
-	{
-		$args = wp_parse_args( $args, [
-			'max' => Rating::MAX_RATING,
-			'min' => Rating::MIN_RATING,
-			'types' => 'local',
-		]);
-		$counts = array_intersect_key(
-			glsr( OptionManager::class )->get( 'counts', [] ),
-			array_flip( array_intersect( array_keys( glsr()->reviewTypes ), (array)$args['types'] ))
-		);
-		array_walk( $counts, function( &$ratings ) use( $args ) {
-			$ratings[0] = 0;
-			foreach( $ratings as $index => &$num ) {
-				if( $index >= intval( $args['min'] ) && $index <= intval( $args['max'] ))continue;
-				$num = 0;
-			}
-		});
-		return $counts;
 	}
 
 	/**

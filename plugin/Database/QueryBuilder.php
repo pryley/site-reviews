@@ -28,6 +28,23 @@ class QueryBuilder
 	}
 
 	/**
+	 * @return string
+	 */
+	public function buildSqlLines( array $values, array $conditions )
+	{
+		$string = '';
+		$values = array_filter( $values );
+		foreach( $conditions as $key => $value ) {
+			if( !isset( $values[$key] ))continue;
+			$values[$key] = implode( ',', (array)$values[$key] );
+			$string .= strpos( $value, '%s' ) !== false
+				? sprintf( $value, strval( $values[$key] ))
+				: $value;
+		}
+		return $string;
+	}
+
+	/**
 	 * Build a SQL 'OR' string from an array
 	 * @param string|array $values
 	 * @param string $sprintfFormat

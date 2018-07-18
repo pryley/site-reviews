@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\EnqueueAdminAssets;
 use GeminiLabs\SiteReviews\Commands\RegisterShortcodeButtons;
 use GeminiLabs\SiteReviews\Controllers\Controller;
-use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Console;
@@ -161,7 +161,7 @@ class AdminController extends Controller
 	 */
 	public function routerCountReviews()
 	{
-		$counts = glsr( Database::class )->buildReviewCounts();
+		$counts = glsr( CountsManager::class )->build();
 		glsr( OptionManager::class )->set( 'counts', $counts );
 		glsr( Notice::class )->addSuccess( __( 'Recalculated review counts.', 'site-reviews' ));
 	}

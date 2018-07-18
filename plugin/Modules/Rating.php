@@ -45,14 +45,13 @@ class Rating
 	 * @param int $roundBy
 	 * @return float
 	 */
-	public function getAverage( array $reviewCounts, $roundBy = 1 )
+	public function getAverage( array $ratingCounts, $roundBy = 1 )
 	{
-		$counts = $this->flattenCounts( $reviewCounts );
-		$average = array_sum( $counts );
+		$average = array_sum( $ratingCounts );
 		if( $average > 0 ) {
-			$average = round( $this->getTotalSum( $counts ) / $average, intval( $roundBy ));
+			$average = round( $this->getTotalSum( $ratingCounts ) / $average, intval( $roundBy ));
 		}
-		return floatval( apply_filters( 'site-reviews/rating/average', $average, $counts, $reviewCounts ));
+		return floatval( apply_filters( 'site-reviews/rating/average', $average, $ratingCounts ));
 	}
 
 	/**
@@ -65,64 +64,48 @@ class Rating
 	 * @param int $confidencePercentage
 	 * @return int|float
 	 */
-	public function getLowerBound( array $upDownRatings = [0, 0], $confidencePercentage = 95 )
+	public function getLowerBound( array $upDownCounts = [0, 0], $confidencePercentage = 95 )
 	{
-		$numRatings = array_sum( $upDownRatings );
+		$numRatings = array_sum( $upDownCounts );
 		if( $numRatings < 1 ) {
 			return 0;
 		}
 		$z = static::CONFIDENCE_LEVEL_Z_SCORES[$confidencePercentage];
-		$phat = 1 * $upDownRatings[1] / $numRatings;
+		$phat = 1 * $upDownCounts[1] / $numRatings;
 		return ( $phat + $z * $z / ( 2 * $numRatings ) - $z * sqrt(( $phat * ( 1 - $phat ) + $z * $z / ( 4 * $numRatings )) / $numRatings )) / ( 1 + $z * $z / $numRatings );
 	}
 
 	/**
 	 * @return int|float
 	 */
-	public function getOverallPercentage( array $reviewCounts )
+	public function getOverallPercentage( array $ratingCounts )
 	{
-		return round( $this->getAverage( $reviewCounts ) * 100 / static::MAX_RATING, 2 );
+		return round( $this->getAverage( $ratingCounts ) * 100 / static::MAX_RATING, 2 );
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getPercentages( array $reviewCounts )
+	public function getPercentages( array $ratingCounts )
 	{
-		$counts = $this->flattenCounts( $reviewCounts );
-		$total = array_sum( $counts );
-		foreach( $counts as $index => $count ) {
+		$total = array_sum( $ratingCounts );
+		foreach( $ratingCounts as $index => $count ) {
 			if( empty( $count ))continue;
-			$counts[$index] = $count / $total * 100;
+			$ratingCounts[$index] = $count / $total * 100;
 		}
-		return $this->getRoundedPercentages( $counts );
+		return $this->getRoundedPercentages( $ratingCounts );
 	}
 
 	/**
 	 * @return float
 	 */
-	public function getRanking( array $reviewCounts )
+	public function getRanking( array $ratingCounts )
 	{
-		$counts = $this->flattenCounts( $reviewCounts );
 		return floatval( apply_filters( 'site-reviews/bayesian/ranking',
-			$this->getRankingUsingImdb( $counts ),
-			$counts,
+			$this->getRankingUsingImdb( $ratingCounts ),
+			$ratingCounts,
 			$this
 		));
-	}
-
-	/**
-	 * @return array
-	 */
-	protected function flattenCounts( array $reviewCounts )
-	{
-		$counts = [];
-		array_walk_recursive( $reviewCounts, function( $num, $index ) use( &$counts ) {
-			$counts[$index] = isset($counts[$index])
-				? $num + $counts[$index]
-				: $num;
-		});
-		return $counts;
 	}
 
 	/**
@@ -135,7 +118,7 @@ class Rating
 	 * @param int $confidencePercentage
 	 * @return int|float
 	 */
-	protected function getRankingUsingImdb( array $ratingCounts, $confidencePercentage = 70 )
+	public function getRankingUsingImdb( array $ratingCounts, $confidencePercentage = 70 )
 	{
 		$avgRating = $this->getAverage( $ratingCounts );
 		// Represents a prior (your prior opinion without data) for the average star rating. A higher prior also means a higher margin for error.
@@ -159,7 +142,7 @@ class Rating
 	 * @param int $confidencePercentage
 	 * @return float
 	 */
-	protected function getRankingUsingZScores( array $ratingCounts, $confidencePercentage = 90 )
+	public function getRankingUsingZScores( array $ratingCounts, $confidencePercentage = 90 )
 	{
 		$ratingCountsSum = array_sum( $ratingCounts ) + static::MAX_RATING;
 		$weight = $this->getWeight( $ratingCounts, $ratingCountsSum );

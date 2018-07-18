@@ -2,11 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
-use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
+use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Schema;
 
@@ -20,12 +19,12 @@ class SiteReviewsSummary
 	/**
 	 * @var float
 	 */
-	protected $rating;
+	protected $averageRating;
 
 	/**
-	 * @var object
+	 * @var array
 	 */
-	protected $reviews;
+	protected $ratingCounts;
 
 	/**
 	 * @return void|string
@@ -33,9 +32,12 @@ class SiteReviewsSummary
 	public function build( array $args = [] )
 	{
 		$this->args = $args;
-		$this->reviews = glsr( ReviewManager::class )->get( $args )->results;
-		if( empty( $this->reviews ) && $this->isHidden( 'if_empty' ))return;
-		$this->rating = glsr( Rating::class )->getAverage( $this->reviews );
+
+		// get rating counts
+		$this->ratingCounts = [0,0,0,0,0,0];
+
+		if( !array_sum( $this->ratingCounts ) && $this->isHidden( 'if_empty' ))return;
+		$this->averageRating = glsr( Rating::class )->getAverage( $this->ratingCounts );
 		$this->generateSchema();
 		return glsr( Template::class )->build( 'templates/reviews-summary', [
 			'context' => [
@@ -56,7 +58,7 @@ class SiteReviewsSummary
 	{
 		if( $this->isHidden( 'bars' ))return;
 		$range = range( Rating::MAX_RATING, 1 );
-		$percentages = preg_filter( '/$/', '%', glsr( Rating::class )->getPercentages( $this->reviews ));
+		$percentages = preg_filter( '/$/', '%', glsr( Rating::class )->getPercentages( $this->ratingCounts ));
 		$bars = array_reduce( $range, function( $carry, $level ) use( $percentages ) {
 			$label = $this->buildPercentageLabel( $this->args['labels'][$level] );
 			$background = $this->buildPercentageBackground( $percentages[$level] );
@@ -105,7 +107,7 @@ class SiteReviewsSummary
 	protected function buildRating()
 	{
 		if( $this->isHidden( 'rating' ))return;
-		return $this->wrap( 'rating', '<span>'.$this->rating.'</span>' );
+		return $this->wrap( 'rating', '<span>'.$this->averageRating.'</span>' );
 	}
 
 	/**
@@ -115,7 +117,7 @@ class SiteReviewsSummary
 	{
 		if( $this->isHidden( 'stars' ))return;
 		$stars = glsr( Partial::class )->build( 'star-rating', [
-			'rating' => $this->rating,
+			'rating' => $this->averageRating,
 		]);
 		return $this->wrap( 'stars', $stars );
 	}
@@ -126,7 +128,7 @@ class SiteReviewsSummary
 	protected function buildText()
 	{
 		if( $this->isHidden( 'summary' ))return;
-		$count = count( $this->reviews );
+		$count = intval( array_sum( $this->ratingCounts ));
 		if( empty( $this->args['text'] )) {
 			// @todo document this change
 			 $this->args['text'] = _nx(
@@ -139,7 +141,7 @@ class SiteReviewsSummary
 		}
 		$summary = str_replace(
 			['{rating}','{max}', '{num}'],
-			[$this->rating, Rating::MAX_RATING, $count],
+			[$this->averageRating, Rating::MAX_RATING, $count],
 			$this->args['text']
 		);
 		return $this->wrap( 'text', '<span>'.$summary.'</span>' );

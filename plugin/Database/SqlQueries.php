@@ -93,10 +93,10 @@ class SqlQueries
 	}
 
 	/**
-	 * @param string $metaReviewType
+	 * @param string $reviewType
 	 * @return array
 	 */
-	public function getReviewIdsByType( $metaReviewType )
+	public function getReviewIdsByType( $reviewType )
 	{
 		$query = $this->db->get_col("
 			SELECT m1.meta_value AS review_id
@@ -106,7 +106,7 @@ class SqlQueries
 			WHERE p.post_type = '{$this->db->postType}'
 			AND m1.meta_key = 'review_id'
 			AND m2.meta_key = 'review_type'
-			AND m2.meta_value = '{$metaReviewType}'
+			AND m2.meta_value = '{$reviewType}'
 		");
 		return array_keys( array_flip( $query ));
 	}
@@ -116,18 +116,30 @@ class SqlQueries
 	 * @param int $limit
 	 * @return array
 	 */
-	public function getReviewRatings( $greaterThanId = 0, $limit = 100 )
+	public function getReviewRatings( array $args = [], $greaterThanId = 0, $limit = 500 )
 	{
+		$conditions = glsr( QueryBuilder::class )->buildSqlLines( $args, [
+			'assigned_to' => "AND m3.meta_key = 'assigned_to' AND m3.meta_value = '%s' ",
+			'rating' => "AND m1.meta_value = '%s' ",
+			'review_type' => "AND m2.meta_value = '%s' ",
+			'term_ids' => "AND tr.term_taxonomy_id IN (%s) ",
+		]);
+		$innerjoins = glsr( QueryBuilder::class )->buildSqlLines( $args, [
+			'assigned_to' => "INNER JOIN {$this->db->postmeta} AS m3 ON p.ID = m3.post_id ",
+			'term_ids' => "INNER JOIN {$this->db->term_relationships} AS tr ON p.ID = tr.object_id ",
+		]);
 		return $this->db->get_results("
-			SELECT p.ID, m1.meta_value as rating, m2.meta_value as type
+			SELECT p.ID, m1.meta_value AS rating, m2.meta_value AS type
 			FROM {$this->db->posts} AS p
 			INNER JOIN {$this->db->postmeta} AS m1 ON p.ID = m1.post_id
 			INNER JOIN {$this->db->postmeta} AS m2 ON p.ID = m2.post_id
-			WHERE p.post_type = '{$this->postType}'
-			AND p.ID > {$greaterThanId}
+			{$innerjoins}
+			WHERE p.ID > {$greaterThanId}
 			AND p.post_status = 'publish'
+			AND p.post_type = '{$this->postType}'
 			AND m1.meta_key = 'rating'
 			AND m2.meta_key = 'review_type'
+			{$conditions}
 			ORDER By p.ID
 			ASC LIMIT {$limit}
 		", OBJECT );
@@ -144,13 +156,13 @@ class SqlQueries
 		$postIds = array_slice( $postIds, intval( array_search( $greaterThanId, $postIds )), $limit );
 		$postIds = implode( ',', $postIds );
 		return $this->db->get_results("
-			SELECT p.ID, m.meta_value as rating
+			SELECT p.ID, m.meta_value AS rating
 			FROM {$this->db->posts} AS p
 			INNER JOIN {$this->db->postmeta} AS m ON p.ID = m.post_id
-			WHERE p.post_type = '{$this->postType}'
+			WHERE p.ID > {$greaterThanId}
 			AND p.ID IN ('{$postIds}')
-			AND p.ID > {$greaterThanId}
 			AND p.post_status = 'publish'
+			AND p.post_type = '{$this->postType}'
 			AND m.meta_key = 'rating'
 			ORDER By p.ID
 			ASC LIMIT {$limit}
@@ -165,15 +177,16 @@ class SqlQueries
 	public function getReviewsMeta( $key, $status )
 	{
 		$queryBuilder = glsr( QueryBuilder::class );
-		$key = $queryBuilder->buildSqlOr( $key, "pm.meta_key = '%s'" );
+		$key = $queryBuilder->buildSqlOr( $key, "m.meta_key = '%s'" );
 		$status = $queryBuilder->buildSqlOr( $status, "p.post_status = '%s'" );
 		return $this->db->get_col("
-			SELECT DISTINCT pm.meta_value FROM {$this->db->postmeta} pm
-			LEFT JOIN {$this->db->posts} p ON p.ID = pm.post_id
+			SELECT DISTINCT m.meta_value
+			FROM {$this->db->postmeta} m
+			LEFT JOIN {$this->db->posts} p ON p.ID = m.post_id
 			WHERE p.post_type = '{$this->postType}'
 			AND ({$key})
 			AND ({$status})
-			ORDER BY pm.meta_value
+			ORDER BY m.meta_value
 		");
 	}
 }

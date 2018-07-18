@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use DateTime;
-use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helper;
@@ -21,7 +21,7 @@ class Schema
 	/**
 	 * @var array
 	 */
-	protected $reviewCounts;
+	protected $ratingCounts;
 
 	/**
 	 * @return array
@@ -57,7 +57,7 @@ class Schema
 			$this->args = $args;
 		}
 		$buildSummary = glsr( Helper::class )->buildMethodName( $this->getSchemaOptionValue( 'type' ), 'buildSummaryFor' );
-		$count = array_sum( $this->getReviewCounts() );
+		$count = array_sum( $this->getRatingCounts() );
 		$schema = method_exists( $this, $buildSummary )
 			? $this->$buildSummary()
 			: $this->buildSummaryForCustom();
@@ -171,24 +171,25 @@ class Schema
 	}
 
 	/**
+	 * @return array
+	 */
+	protected function getRatingCounts()
+	{
+		if( !isset( $this->ratingCounts )) {
+			$this->ratingCounts = glsr( CountsManager::class )->getFlattened([
+				'min' => $this->args['rating'],
+				'types' => 'local',
+			]);
+		}
+		return $this->ratingCounts;
+	}
+
+	/**
 	 * @return int|float
 	 */
 	protected function getRatingValue()
 	{
-		return glsr( Rating::class )->getAverage( $this->getReviewCounts() );
-	}
-
-	/**
-	 * @return array
-	 */
-	protected function getReviewCounts()
-	{
-		if( !isset( $this->reviewCounts )) {
-			$this->reviewCounts = glsr( Database::class )->getReviewCounts([
-				'min' => $this->args['rating'],
-			]);
-		}
-		return $this->reviewCounts;
+		return glsr( Rating::class )->getAverage( $this->getRatingCounts() );
 	}
 
 	/**
