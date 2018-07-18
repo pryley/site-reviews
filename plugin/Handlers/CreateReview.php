@@ -26,17 +26,15 @@ class CreateReview
 	{
 		$this->command = $command;
 		$postId = glsr( ReviewManager::class )->create( $command );
-		if( !$postId ) {
+		if( $postId < 1 ) {
 			glsr( Session::class )->set( $command->form_id.'errors', [] );
-			return __( 'Your review could not be submitted, please notify the site admin.', 'site-reviews' );
+			glsr( Session::class )->set( $command->form_id.'message', __( 'Your review could not be submitted and the error has been logged. Please notify the site admin.', 'site-reviews' ));
+			return;
 		}
 		$this->sendNotification( $postId );
 		do_action( 'site-reviews/local/review/submitted', $postId, $command );
 		glsr( Session::class )->set( $command->form_id.'message', __( 'Your review has been submitted!', 'site-reviews' ));
-		if( $command->ajax_request ) {
-			glsr( Session::class )->clear();
-			return;
-		}
+		if( $command->ajax_request )return;
 		wp_safe_redirect( $command->referrer );
 		exit;
 	}

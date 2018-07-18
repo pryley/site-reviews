@@ -32,10 +32,9 @@ class TestAjax extends WP_Ajax_UnitTestCase
 			$this->_handleAjax( Application::PREFIX.'action' );
 		}
 		catch( WPAjaxDieContinueException $e ) {
-			error_log( print_r( 'WPAjaxDieContinueException', 1 ));
 		}
 		catch( WPAjaxDieStopException $e ) {
-			error_log( print_r( 'WPAjaxDieStopException', 1 ));
+			error_log( print_r( 'WPAjaxDieStopException: '.$e->getMessage(), 1 ));
 		}
 		$response = json_decode( $this->_last_response );
 		// Empty _last_response so we can call ajax_response more than once in the same method.
