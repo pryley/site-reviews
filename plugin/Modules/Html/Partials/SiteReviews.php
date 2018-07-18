@@ -2,8 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
-use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Html;
@@ -45,7 +45,7 @@ class SiteReviews
 	{
 		$this->args = $args;
 		$this->options = glsr( Helper::class )->flattenArray( glsr( OptionManager::class )->all() );
-		$this->reviews = glsr( Database::class )->getReviews( $args );
+		$this->reviews = glsr( ReviewManager::class )->get( $args );
 		$this->generateSchema();
 		$navigation = wp_validate_boolean( $this->args['pagination'] )
 			? glsr( Partial::class )->build( 'pagination', ['total' => $this->reviews->max_num_pages] )

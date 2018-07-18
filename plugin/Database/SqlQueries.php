@@ -53,7 +53,8 @@ class SqlQueries
 			SELECT m.meta_value AS name, COUNT(*) num_posts
 			FROM {$this->db->posts} AS p
 			INNER JOIN {$this->db->postmeta} AS m ON p.ID = m.post_id
-			WHERE p.post_type = '{$this->postType}' AND m.meta_key = '{$metaKey}'
+			WHERE p.post_type = '{$this->postType}'
+			AND m.meta_key = '{$metaKey}'
 			GROUP BY name
 		");
 	}
@@ -111,20 +112,20 @@ class SqlQueries
 	}
 
 	/**
-	 * @param string|array $keys
+	 * @param string $key
 	 * @param string $status
 	 * @return array
 	 */
-	public function getReviewsMeta( $keys, $status )
+	public function getReviewsMeta( $key, $status )
 	{
 		$queryBuilder = glsr( QueryBuilder::class );
-		$keys = $queryBuilder->buildSqlOr( $keys, "pm.meta_key = '%s'" );
+		$key = $queryBuilder->buildSqlOr( $key, "pm.meta_key = '%s'" );
 		$status = $queryBuilder->buildSqlOr( $status, "p.post_status = '%s'" );
 		return $this->db->get_col("
 			SELECT DISTINCT pm.meta_value FROM {$this->db->postmeta} pm
 			LEFT JOIN {$this->db->posts} p ON p.ID = pm.post_id
 			WHERE p.post_type = '{$this->postType}'
-			AND ({$keys})
+			AND ({$key})
 			AND ({$status})
 			ORDER BY pm.meta_value
 		");

@@ -57,7 +57,7 @@ class ListTableController extends Controller
 			if( !array_key_exists( $key, $columns ) || !empty( $value ))continue;
 			$value = $columns[$key];
 		}
-		if( count( glsr( Database::class )->getReviewsMeta( 'type' )) < 2 ) {
+		if( count( glsr( Database::class )->getReviewsMeta( 'review_type' )) < 2 ) {
 			unset( $postTypeColumns['review_type'] );
 		}
 		return array_filter( $postTypeColumns, 'strlen' );

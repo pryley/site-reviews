@@ -80,10 +80,13 @@ function glsr_get_options() {
 
 /**
  * @param int $post_id
- * @return void|object
+ * @return void|\GeminiLabs\SiteReviews\Review
  */
 function glsr_get_review( $post_id ) {
-	return glsr( 'Database' )->getReview( get_post( $post_id ));
+	$post = get_post( $post_id );
+	if( $post instanceof WP_Post ) {
+		return glsr( 'Database\ReviewManager' )->single( $post );
+	}
 }
 
 /**
@@ -91,5 +94,5 @@ function glsr_get_review( $post_id ) {
  * @todo document change of $reviews->reviews to $reviews->results
  */
 function glsr_get_reviews( array $args = array() ) {
-	return glsr( 'Database' )->getReviews( $args );
+	return glsr( 'Database\ReviewManager' )->get( $args );
 }

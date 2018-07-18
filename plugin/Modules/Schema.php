@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 use DateTime;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Schema\UnknownType;
@@ -30,7 +31,7 @@ class Schema
 		$this->args = $args;
 		$schema = $this->buildSummary( $args );
 		$reviews = [];
-		foreach( glsr( Database::class )->getReviews( $this->args )->results as $review ) {
+		foreach( glsr( ReviewManager::class )->get( $this->args )->results as $review ) {
 			// Only include critic reviews that have been directly produced by your site, not reviews from third- party sites or syndicated reviews.
 			// @see https://developers.google.com/search/docs/data-types/review
 			if( $review->review_type != 'local' )continue;
@@ -193,7 +194,7 @@ class Schema
 	{
 		if( !isset( $this->reviews ) || $force ) {
 			$args = wp_parse_args( ['count' => -1], $this->args );
-			$this->reviews = glsr( Database::class )->getReviews( $args )->results;
+			$this->reviews = glsr( ReviewManager::class )->get( $args )->results;
 		}
 		return $this->reviews;
 	}

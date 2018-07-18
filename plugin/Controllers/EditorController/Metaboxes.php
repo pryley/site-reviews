@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers\EditorController;
 
 use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use WP_Post;
@@ -37,7 +37,7 @@ class Metaboxes
 	public function onCreateReview( $postData, $meta, $postId )
 	{
 		if( get_post_field( 'post_type', $postId ) !== Application::POST_TYPE )return;
-		$review = get_post( $postId )
+		$review = get_post( $postId );
 		$this->updateAssignedToPost( $review );
 		$this->increaseReviewCount( $review );
 	}
@@ -49,7 +49,7 @@ class Metaboxes
 	public function onDeleteReview( $postId )
 	{
 		if( get_post_field( 'post_type', $postId ) !== Application::POST_TYPE )return;
-		$review = get_post( $postId )
+		$review = get_post( $postId );
 		$review->post_status = 'deleted'; // important to change the post_status here first!
 		$this->updateAssignedToPost( $review );
 		$this->decreaseReviewCount( $review );
@@ -207,7 +207,7 @@ class Metaboxes
 			delete_post_meta( $postId, static::META_REVIEW_ID );
 		}
 		else if( !glsr( Helper::class )->compareArrays( $reviewIds, $updatedReviewIds )) {
-			$reviews = glsr( Database::class )->getReviews([
+			$reviews = glsr( ReviewManager::class )->get([
 				'count' => -1,
 				'post__in' => $updatedReviewIds,
 			]);

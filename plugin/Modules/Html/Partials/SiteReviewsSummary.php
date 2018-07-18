@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
-use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
@@ -33,7 +33,7 @@ class SiteReviewsSummary
 	public function build( array $args = [] )
 	{
 		$this->args = $args;
-		$this->reviews = glsr( Database::class )->getReviews( $args )->results;
+		$this->reviews = glsr( ReviewManager::class )->get( $args )->results;
 		if( empty( $this->reviews ) && $this->isHidden( 'if_empty' ))return;
 		$this->rating = glsr( Rating::class )->getAverage( $this->reviews );
 		$this->generateSchema();

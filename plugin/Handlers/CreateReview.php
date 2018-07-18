@@ -6,6 +6,7 @@ use Exception;
 use GeminiLabs\SiteReviews\Commands\CreateReview as Command;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Modules\Email;
 use GeminiLabs\SiteReviews\Modules\Session;
 use ReflectionException;
@@ -24,7 +25,7 @@ class CreateReview
 	public function handle( Command $command )
 	{
 		$this->command = $command;
-		$postId = glsr( Database::class )->createReview( $command );
+		$postId = glsr( ReviewManager::class )->create( $command );
 		if( !$postId ) {
 			glsr( Session::class )->set( $command->form_id.'errors', [] );
 			return __( 'Your review could not be submitted, please notify the site admin.', 'site-reviews' );

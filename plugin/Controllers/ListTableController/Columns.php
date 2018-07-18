@@ -33,7 +33,7 @@ class Columns
 	 */
 	public function buildColumnPinned( $postId )
 	{
-		$pinned = glsr( Database::class )->getReviewMeta( $postId )->pinned
+		$pinned = get_post_meta( $postId, 'pinned', true )
 			? 'pinned '
 			: '';
 		return glsr( Builder::class )->i([
@@ -48,7 +48,7 @@ class Columns
 	 */
 	public function buildColumnReviewer( $postId )
 	{
-		return glsr( Database::class )->getReviewMeta( $postId )->author;
+		return get_post_meta( $postId, 'author', true );
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Columns
 	public function buildColumnRating( $postId )
 	{
 		return glsr( Html::class )->buildPartial( 'star-rating', [
-			'rating' => glsr( Database::class )->getReviewMeta( $postId )->rating,
+			'rating' => get_post_meta( $postId, 'rating', true ),
 		]);
 	}
 
@@ -69,10 +69,10 @@ class Columns
 	 */
 	public function buildColumnType( $postId )
 	{
-		$reviewMeta = glsr( Database::class )->getReviewMeta( $postId );
-		return isset( glsr()->reviewTypes[$reviewMeta->review_type] )
-			? glsr()->reviewTypes[$reviewMeta->review_type]
-			: $reviewMeta->review_type;
+		$type = get_post_meta( $postId, 'review_type', true );
+		return array_key_exists( $type, glsr()->reviewTypes )
+			? glsr()->reviewTypes[$type]
+			: __( 'Unsupported Type', 'site-reviews' );
 	}
 
 	/**
@@ -86,7 +86,7 @@ class Columns
 			$status = 'publish';
 		}
 		$ratings = glsr( Database::class )->getReviewsMeta( 'rating', $status );
-		$types = glsr( Database::class )->getReviewsMeta( 'type', $status );
+		$types = glsr( Database::class )->getReviewsMeta( 'review_type', $status );
 		$this->renderFilterRatings( $ratings );
 		$this->renderFilterTypes( $types );
 	}

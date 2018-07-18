@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Controllers\EditorController\Customization;
 use GeminiLabs\SiteReviews\Controllers\EditorController\Labels;
@@ -12,6 +13,7 @@ use GeminiLabs\SiteReviews\Controllers\ListTableController\Columns;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Review;
 use WP_Post;
 use WP_Screen;
 
@@ -194,7 +196,7 @@ class EditorController extends Controller
 	public function renderDetailsMetaBox( WP_Post $post )
 	{
 		if( !$this->isReviewPostType( $post ))return;
-		$review = glsr( Database::class )->getReview( $post );
+		$review = glsr( ReviewManager::class )->single( $post );
 		glsr()->render( 'partials/editor/metabox-details', [
 			'button' => $this->buildDetailsMetaBoxRevertButton( $review, $post ),
 			'metabox' => $this->normalizeDetailsMetaBox( $review ),
@@ -226,7 +228,7 @@ class EditorController extends Controller
 		if( !$this->isReviewPostType( $post ))return;
 		wp_nonce_field( 'response', '_nonce-response', false );
 		glsr()->render( 'partials/editor/metabox-response', [
-			'response' => glsr( Database::class )->getReview( $post )->response,
+			'response' => get_post_meta( $post->ID, 'response', true ),
 		]);
 	}
 
@@ -253,7 +255,7 @@ class EditorController extends Controller
 	public function revertReview()
 	{
 		check_admin_referer( 'revert-review_'.( $postId = $this->getPostId() ));
-		glsr( Database::class )->revertReview( $postId );
+		glsr( ReviewManager::class )->revert( $postId );
 		$this->redirect( $postId, 52 );
 	}
 
@@ -274,7 +276,7 @@ class EditorController extends Controller
 	 */
 	protected function buildAssignedToTemplate( $assignedTo, WP_Post $post )
 	{
-		$assignedPost = glsr( Database::class )->getAssignedToPost( $post, $assignedTo );
+		$assignedPost = glsr( Database::class )->getAssignedToPost( $post->ID, $assignedTo );
 		if( !( $assignedPost instanceof WP_Post ))return;
 		return glsr( Html::class )->buildTemplate( 'partials/editor/assigned-post', [
 			'context' => [
@@ -285,10 +287,9 @@ class EditorController extends Controller
 	}
 
 	/**
-	 * @param object $review
 	 * @return string
 	 */
-	protected function buildDetailsMetaBoxRevertButton( $review, WP_Post $post )
+	protected function buildDetailsMetaBoxRevertButton( Review $review, WP_Post $post )
 	{
 		$isModified = !glsr( Helper::class )->compareArrays(
 			[$review->title, $review->content, $review->date],
@@ -340,10 +341,9 @@ class EditorController extends Controller
 	}
 
 	/**
-	 * @param object $review
 	 * @return array
 	 */
-	protected function normalizeDetailsMetaBox( $review )
+	protected function normalizeDetailsMetaBox( Review $review )
 	{
 		$user = empty( $review->user_id )
 			? __( 'Unregistered user', 'site-reviews' )
