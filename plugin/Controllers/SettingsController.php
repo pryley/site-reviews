@@ -16,22 +16,18 @@ class SettingsController extends Controller
 	 */
 	public function callbackRegisterSettings( $input )
 	{
-		static $triggered = false;
-		if( $triggered === true ) {
-			return $input;
-		}
-		$triggered = true;
 		if( !is_array( $input )) {
 			$input = ['settings' => []];
 		}
 		if( key( $input ) == 'settings' ) {
+			$options = array_replace_recursive( glsr( OptionManager::class )->all(), $input );
+			$options = $this->sanitizeGeneral( $input, $options );
+			$options = $this->sanitizeSubmissions( $input, $options );
+			$options = $this->sanitizeTranslations( $input, $options );
 			glsr( Notice::class )->addSuccess( __( 'Settings updated.', 'site-reviews' ));
+			return $options;
 		}
-		$options = array_replace_recursive( glsr( OptionManager::class )->all(), $input );
-		$options = $this->sanitizeGeneral( $input, $options );
-		$options = $this->sanitizeSubmissions( $input, $options );
-		$options = $this->sanitizeTranslations( $input, $options );
-		return $options;
+		return $input;
 	}
 
 	/**
