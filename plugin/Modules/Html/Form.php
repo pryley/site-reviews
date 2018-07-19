@@ -27,7 +27,7 @@ class Form
 	public function getFields( $id )
 	{
 		$fields = [];
-		$configPath = glsr()->path( 'config/'.$id.'.php' );;
+		$configPath = glsr()->path( 'config/'.$id.'.php' );
 		$values = file_exists( $configPath )
 			? include $configPath
 			: [];
