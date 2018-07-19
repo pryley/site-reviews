@@ -20,7 +20,7 @@ class AjaxController extends Controller
 	/**
 	 * @return void
 	 */
-	public function routerChangeReviewStatus( array $request )
+	public function routerChangeStatus( array $request )
 	{
 		wp_send_json_success( $this->execute( new ChangeStatus( $request )));
 	}

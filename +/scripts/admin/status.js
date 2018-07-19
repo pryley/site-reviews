@@ -18,8 +18,8 @@
 			var status = ev.target.href.match( /action=([a-z]+)/ );
 			if( post_id === null || status === null )return;
 			var request = {
-				action: 'change-review-status',
-				nonce: GLSR.nonce['change-review-status'],
+				action: 'change-status',
+				nonce: GLSR.nonce['change-status'],
 				post_id: post_id[1],
 				status: status[1],
 			};

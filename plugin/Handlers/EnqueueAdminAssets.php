@@ -64,7 +64,7 @@ class EnqueueAdminAssets
 				'site_reviews_summary' => SiteReviewsSummaryShortcode::HIDDEN_KEYS,
 			],
 			'nonce' => [
-				'change-review-status' => wp_create_nonce( 'change-review-status' ),
+				'change-status' => wp_create_nonce( 'change-status' ),
 				'clear-console' => wp_create_nonce( 'clear-console' ),
 				'count-reviews' => wp_create_nonce( 'count-reviews' ),
 				'mce-shortcode' => wp_create_nonce( 'mce-shortcode' ),

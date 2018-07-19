@@ -169,9 +169,9 @@ class AdminController extends Controller
 	/**
 	 * @return void
 	 */
-	public function routerDownloadLog()
+	public function routerDownloadConsole()
 	{
-		$this->download( Application::ID.'-log.txt', glsr( Console::class )->get() );
+		$this->download( Application::ID.'-console.txt', glsr( Console::class )->get() );
 	}
 
 	/**

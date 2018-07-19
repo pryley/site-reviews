@@ -109,7 +109,7 @@ class Console
 	public function get()
 	{
 		return empty( $this->log )
-			? __( 'Log is empty', 'site-reviews' )
+			? __( 'Console is empty', 'site-reviews' )
 			: $this->log;
 	}
 
@@ -266,7 +266,7 @@ class Console
 			$this->clear();
 			file_put_contents(
 				$this->file,
-				$this->buildLogEntry( 'info', __( 'Console was automatically reset (128 KB max size)', 'site-reviews' ))
+				$this->buildLogEntry( 'info', __( 'Console was automatically cleared (128 KB maximum size)', 'site-reviews' ))
 			);
 		}
 	}
