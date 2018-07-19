@@ -17,7 +17,7 @@ return [
 		'default' => 'no',
 		'depends_on' => ['settings.general.require.login' => 'yes'],
 		'description' => sprintf( __( 'Show a link for a new user to register. The %s Membership option must be enabled in General Settings for this to work.', 'site-reviews' ),
-			glsr( 'Modules\Html\Builder' )->a( __( 'Anyone can register', 'site-reviews' ), ['href' => admin_url( 'options-general.php#users_can_register' )] )
+			'<a href="'.admin_url( 'options-general.php#users_can_register' ).'">'.__( 'Anyone can register', 'site-reviews' ).'</a>'
 		),
 		'label' => __( 'Show registration link', 'site-reviews' ),
 		'type' => 'yes_no',
@@ -44,7 +44,7 @@ return [
 		'default' => '',
 		'depends_on' => ['settings.general.notification' => 'webhook'],
 		'description' => sprintf( __( 'To send notifications to Slack, create a new %s and then paste the provided Webhook URL in the field above.', 'site-reviews' ),
-			glsr( 'Modules\Html\Builder' )->a( __( 'Incoming WebHook', 'site-reviews' ), ['href' => 'https://api.slack.com/incoming-webhooks'] )
+			'<a href="https://api.slack.com/incoming-webhooks">'.__( 'Incoming WebHook', 'site-reviews' ).'</a>'
 		),
 		'label' => __( 'Webhook URL', 'site-reviews' ),
 		'type' => 'url',
@@ -71,7 +71,7 @@ return [
 	'settings.reviews.date.format' => [
 		'default' => '',
 		'description' => sprintf( __( 'The default date format is the one set in your %s.', 'site-reviews' ),
-			glsr( 'Modules\Html\Builder' )->a( __( 'WordPress settings', 'site-reviews' ), ['href' => admin_url( 'options-general.php#date_format_custom' )] )
+			'<a href="'.admin_url( 'options-general.php#date_format_custom' ).'">'.__( 'WordPress settings', 'site-reviews' ).'</a>'
 		),
 		'label' => __( 'Date Format', 'site-reviews' ),
 		'options' => [
@@ -141,7 +141,7 @@ return [
 	'settings.schema.type.custom' => [
 		'default' => '',
 		'depends_on' => ['settings.schema.type.default' => 'custom'],
-		'description' => glsr( 'Modules\Html\Builder' )->a( __( 'View more information on schema types here', 'site-reviews' ), ['href' => 'https://schema.org/docs/schemas.html'] ),
+		'description' => '<a href="https://schema.org/docs/schemas.html">'.__( 'View more information on schema types here', 'site-reviews' ).'</a>',
 		'label' => __( 'Custom Schema Type', 'site-reviews' ),
 		'type' => 'text',
 	],
@@ -271,12 +271,6 @@ return [
 		],
 		'type' => 'checkbox',
 	],
-	'settings.submissions.akismet' => [
-		'default' => 'no',
-		'description' => __( 'The <a href="https://akismet.com" target="_blank">Akismet plugin</a> integration provides spam-filtering for your reviews. In order for this setting to have any affect, you will need to first install and activate the Akismet plugin and set up a WordPress.com API key.', 'site-reviews' ),
-		'label' => __( 'Enable Akismet Integration', 'site-reviews' ),
-		'type' => 'yes_no',
-	],
 	'settings.submissions.recaptcha.integration' => [
 		'default' => '',
 		'description' => __( 'Invisible reCAPTCHA is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site. If you are already using a reCAPTCHA plugin listed here, please select it; otherwise choose "Use reCAPTCHA".', 'site-reviews' ),
@@ -310,6 +304,12 @@ return [
 			'inline' => 'Inline',
 		],
 		'type' => 'select',
+	],
+	'settings.submissions.akismet' => [
+		'default' => 'no',
+		'description' => __( 'The <a href="https://akismet.com" target="_blank">Akismet plugin</a> integration provides spam-filtering for your reviews. In order for this setting to have any affect, you will need to first install and activate the Akismet plugin and set up a WordPress.com API key.', 'site-reviews' ),
+		'label' => __( 'Enable Akismet Integration', 'site-reviews' ),
+		'type' => 'yes_no',
 	],
 	'settings.submissions.blacklist.entries' => [
 		'default' => '',
