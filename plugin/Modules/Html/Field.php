@@ -21,6 +21,7 @@ class Field
 			'errors' => false,
 			'is_hidden' => false,
 			'is_multi' => false,
+			'is_public' => false,
 			'is_raw' => false,
 			'is_setting' => false,
 			'is_valid' => true,
@@ -69,11 +70,18 @@ class Field
 	 */
 	protected function buildField()
 	{
-		$field = glsr( Template::class )->build( 'templates/form/field', [
+		$field = glsr( Template::class )->build( 'templates/form/field_'.$this->field['type'], [
 			'context' => [
 				'class' => $this->getFieldClass(),
 				'errors' => $this->getFieldErrors(),
-				'field' => glsr( Builder::class )->{$this->field['type']}( $this->field ),
+				'field' => glsr( Builder::class )->raw( $this->field ),
+				'label' => glsr( Builder::class )->label([
+					'class' => 'glsr-'.$this->field['type'].'-label',
+					'for' => $this->field['id'],
+					'is_public' => $this->field['is_public'],
+					'text' => $this->field['label'].'<span></span>',
+					'type' => $this->field['type'],
+				]),
 			],
 		]);
 		return apply_filters( 'site-reviews/rendered/field', $field, $this->field['type'], $this->field );

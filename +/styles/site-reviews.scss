@@ -23,6 +23,7 @@ $star-rating: (
     base-height    : 26px,
     font-size      : 0.8em,
     font-weight    : 600,
+    parent         : 'form.glsr-form',
     star-empty     : $glsr-star-empty,
     star-filled    : $glsr-star-full,
     star-half      : $glsr-star-half,

@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Form;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Session;
+use GeminiLabs\SiteReviews\Modules\Style;
 
 class SiteReviewsForm
 {
@@ -25,7 +26,7 @@ class SiteReviewsForm
 	protected $errors;
 
 	/**
-	 * @var array
+	 * @var string
 	 */
 	protected $message;
 
@@ -57,7 +58,7 @@ class SiteReviewsForm
 				'class' => $this->getClass(),
 				'fields' => $fields,
 				'id' => $this->args['id'],
-				'results' => $this->buildResults(),
+				'response' => $this->buildResponse(),
 				'submit_button' => $this->buildSubmitButton().$this->buildRecaptcha(),
 			],
 		]);
@@ -78,11 +79,17 @@ class SiteReviewsForm
 	/**
 	 * @return string
 	 */
-	protected function buildResults()
+	protected function buildResponse()
 	{
-		return glsr( Partial::class )->build( 'form-results', [
-			'errors' => $this->errors,
-			'message' => $this->message,
+		$classes = !empty( $this->errors )
+			? 'glsr-has-errors'
+			: '';
+		return glsr( Template::class )->build( 'templates/form/response', [
+			'context' => [
+				'class' => $classes,
+				'message' => wpautop( $this->message ),
+			],
+			'has_errors' => !empty( $this->errors ),
 		]);
 	}
 
@@ -103,8 +110,7 @@ class SiteReviewsForm
 	 */
 	protected function getClass()
 	{
-		$style = apply_filters( 'site-reviews/reviews-form/style', 'glsr-style' );
-		return trim( 'glsr-form '.$style.' '.$this->args['class'] );
+		return trim( 'glsr-form glsr-'.glsr( Style::class )->get().' '.$this->args['class'] );
 	}
 
 	/**
@@ -213,6 +219,7 @@ class SiteReviewsForm
 	protected function normalizeFields( $fields )
 	{
 		foreach( $fields as &$field ) {
+			$field->field['is_public'] = true;
 			$this->normalizeFieldErrors( $field );
 			$this->normalizeFieldRequired( $field );
 			$this->normalizeFieldValue( $field );

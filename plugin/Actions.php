@@ -85,6 +85,7 @@ class Actions implements HooksContract
 		add_action( 'admin_menu',                                   [$this->menu, 'registerSubMenus'] );
 		add_action( 'admin_init',                                   [$this->menu, 'setCustomPermissions'], 999 );
 		add_action( 'wp_enqueue_scripts',                           [$this->public, 'enqueueAssets'], 999 );
+		add_filter( 'site-reviews/builder',                         [$this->public, 'modifyBuilder'] );
 		add_action( 'wp_footer',                                    [$this->public, 'renderSchema'] );
 		add_action( 'admin_init',                                   [$this->router, 'routeAdminPostRequest'] );
 		add_action( 'wp_ajax_'.Application::PREFIX.'action',        [$this->router, 'routeAjaxRequest'] );

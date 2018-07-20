@@ -1,4 +1,4 @@
-.glsr-style {
+.glsr-default {
 	.glsr-review::after,
 	.glsr-navigation::after {
 		content: '';
@@ -103,7 +103,7 @@
 		background-image: url($glsr-star-half);
 	}
 }
-.glsr-ltr .glsr-style {
+.glsr-ltr .glsr-default {
 	.glsr-review-avatar {
 		float: left;
 		margin-right: 1em;
@@ -113,7 +113,7 @@
 		border-right-width: 2em;
 	}
 }
-.glsr-rtl .glsr-style {
+.glsr-rtl .glsr-default {
 	.glsr-review-avatar {
 		float: right;
 		margin-left: 1em;

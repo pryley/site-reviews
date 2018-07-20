@@ -7,7 +7,9 @@ use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Handlers\EnqueuePublicAssets;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Schema;
+use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
 
 class PublicController extends Controller
@@ -43,6 +45,25 @@ class PublicController extends Controller
 	{
 		$vars[] = Application::PAGED_QUERY_VAR;
 		return $vars;
+	}
+
+	/**
+	 * @param string $view
+	 * @return string
+	 * @filter site-reviews/render/view
+	 */
+	public function filterRenderView( $view )
+	{
+		return glsr( Style::class )->filterView( $view );
+	}
+
+	/**
+	 * @return void
+	 * @action site-reviews/builder
+	 */
+	public function modifyBuilder( Builder $instance )
+	{
+		call_user_func_array( [glsr( Style::class ), 'modifyField'], [&$instance] );
 	}
 
 	/**

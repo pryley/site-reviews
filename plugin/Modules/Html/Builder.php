@@ -6,6 +6,17 @@ use GeminiLabs\SiteReviews\Defaults\BuilderDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\Attributes;
 
+/**
+ * @method string a( string|array ...$params )
+ * @method string button( string|array ...$params )
+ * @method string div( string|array ...$params )
+ * @method string i( string|array ...$params )
+ * @method string img( string|array ...$params )
+ * @method string label( string|array ...$params )
+ * @method string p( string|array ...$params )
+ * @method string select( string|array ...$params )
+ * @method string span( string|array ...$params )
+ */
 class Builder
 {
 	const INPUT_TYPES = [
@@ -57,6 +68,7 @@ class Builder
 		$instance->setTagFromMethod( $method );
 		call_user_func_array( [$instance, 'normalize'], $args += ['',''] );
 		$tags = array_merge( static::TAGS_FORM, static::TAGS_SINGLE, static::TAGS_STRUCTURE, static::TAGS_TEXT );
+		do_action_ref_array( 'site-reviews/builder', [&$instance] );
 		$generatedTag = in_array( $instance->tag, $tags )
 			? $instance->buildTag()
 			: $instance->buildCustomField();
@@ -85,20 +97,31 @@ class Builder
 	}
 
 	/**
-	 * @return string
+	 * @return void|string
 	 */
 	public function getClosingTag()
 	{
+		if( empty( $this->tag ))return;
 		return '</'.$this->tag.'>';
+	}
+
+	/**
+	 * @return void|string
+	 */
+	public function getOpeningTag()
+	{
+		if( empty( $this->tag ))return;
+		$attributes = glsr( Attributes::class )->{$this->tag}( $this->args )->toString();
+		return '<'.trim( $this->tag.' '.$attributes ).'>';
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getOpeningTag()
+	public function raw( array $field )
 	{
-		$attributes = glsr( Attributes::class )->{$this->tag}( $this->args )->toString();
-		return '<'.trim( $this->tag.' '.$attributes ).'>';
+		unset( $field['label'] );
+		return $this->{$field['type']}( $field );
 	}
 
 	/**
@@ -157,12 +180,12 @@ class Builder
 	 */
 	protected function buildFormInputChoice()
 	{
-		$labelText = !empty( $this->args['text'] )
-			? $this->args['text']
-			: $this->args['label'];
-		return $this->label( $this->getOpeningTag().' '.$labelText, [
+		if( !empty( $this->args['text'] )) {
+			$this->args['label'] = $this->args['text'];
+		}
+		return $this->getOpeningTag().$this->buildFormLabel([
 			'class' => 'glsr-'.$this->args['type'].'-label',
-			'for' => $this->args['id'],
+			'text' => $this->args['label'].'<span></span>',
 		]);
 	}
 
@@ -174,9 +197,11 @@ class Builder
 		if( $this->args['type'] == 'checkbox' ) {
 			$this->args['name'].= '[]';
 		}
-		$options = array_reduce( array_keys( $this->args['options'] ), function( $carry, $key ) {
+		$index = 0;
+		$options = array_reduce( array_keys( $this->args['options'] ), function( $carry, $key ) use( &$index ) {
 			return $carry.$this->li( $this->{$this->args['type']}([
 				'checked' => in_array( $key, (array)$this->args['value'] ),
+				'id' => $this->args['id'].'-'.$index++,
 				'name' => $this->args['name'],
 				'text' => $this->args['options'][$key],
 				'value' => $key,
@@ -191,13 +216,15 @@ class Builder
 	/**
 	 * @return void|string
 	 */
-	protected function buildFormLabel()
+	protected function buildFormLabel( array $customArgs = [] )
 	{
 		if( empty( $this->args['label'] ) || $this->args['type'] == 'hidden' )return;
-		return $this->label([
+		return $this->label( wp_parse_args( $customArgs, [
 			'for' => $this->args['id'],
+			'is_public' => $this->args['is_public'],
 			'text' => $this->args['label'],
-		]);
+			'type' => $this->args['type'],
+		]));
 	}
 
 	/**
@@ -282,6 +309,9 @@ class Builder
 		}
 		else if( is_array( $params[1] )) {
 			$this->args += $params[1];
+		}
+		if( !isset( $this->args['is_public'] )) {
+			$this->args['is_public'] = false;
 		}
 	}
 

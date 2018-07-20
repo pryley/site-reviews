@@ -10,6 +10,10 @@
 
     site-reviews/local/review/submitted
 
+## GeminiLabs\SiteReviews\Modules\Html\Builder
+
+    site-reviews/builder
+
 ## GeminiLabs\SiteReviews\Router
 
     site-reviews/route/admin/request

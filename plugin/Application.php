@@ -54,6 +54,19 @@ final class Application extends Container
 	}
 
 	/**
+	 * @param string $name
+	 * @return array
+	 */
+	public function config( $name )
+	{
+		$configFile = $this->path( 'config/'.$name.'.php' );
+		$config = file_exists( $configFile )
+			? include $configFile
+			: [];
+		return apply_filters( 'site-reviews/config', $config, $name );
+	}
+
+	/**
 	 * @return void
 	 */
 	public function deactivate()
@@ -143,6 +156,7 @@ final class Application extends Container
 	 */
 	public function render( $view, array $data = [] )
 	{
+		$view = apply_filters( 'site-reviews/render/view', $view, $data );
 		$file = '';
 		if( glsr( Helper::class )->startsWith( $view, 'templates/' )) {
 			$file = str_replace( 'templates/', 'site-reviews/', $view ).'.php';

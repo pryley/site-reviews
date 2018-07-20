@@ -27,11 +27,7 @@ class Form
 	public function getFields( $id )
 	{
 		$fields = [];
-		$configPath = glsr()->path( 'config/'.$id.'.php' );
-		$values = file_exists( $configPath )
-			? include $configPath
-			: [];
-		$values = apply_filters( 'site-reviews/form/fields', $values );
+		$values = apply_filters( 'site-reviews/form/fields', glsr()->config( 'forms/'.$id ));
 		foreach( $values as $name => $field ) {
 			$fields[] = new Field( wp_parse_args( $field, ['name' => $name] ));
 		}

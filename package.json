@@ -2,7 +2,7 @@
   "private": true,
   "dependencies": {
     "autosize": "^4.0.2",
-    "star-rating.js": "^2.2.0"
+    "star-rating.js": "^2.3.0"
   },
   "devDependencies": {
     "gulp": "^4.0.0",

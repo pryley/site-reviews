@@ -249,11 +249,10 @@ class SiteReviews
 	 */
 	protected function getClass()
 	{
-		$style = apply_filters( 'site-reviews/reviews/style', 'glsr-style' );
 		$pagination = $this->args['pagination'] == 'ajax'
 			? 'glsr-ajax-pagination'
 			: '';
-		return trim( 'glsr-reviews '.$style.' '.$pagination.' '.$this->args['class'] );
+		return trim( 'glsr-reviews glsr-default '.$pagination.' '.$this->args['class'] );
 	}
 
 	/**

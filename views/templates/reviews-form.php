@@ -3,7 +3,7 @@
 <div class="glsr-form-wrap">
 	<form class="{{ class }}" id="{{ id }}" method="post" enctype="multipart/form-data">
 		{{ fields }}
-		{{ results }}
+		{{ response }}
 		{{ submit_button }}
 	</form>
 </div>

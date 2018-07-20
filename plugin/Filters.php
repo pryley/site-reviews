@@ -56,6 +56,7 @@ class Filters implements HooksContract
 		add_filter( 'ngettext',                                                [$this->listtable, 'filterStatusText'], 10, 5 );
 		add_filter( 'script_loader_tag',                                       [$this->public, 'filterEnqueuedScripts'], 10, 2 );
 		add_filter( 'query_vars',                                              [$this->public, 'filterQueryVars'] );
+		add_filter( 'site-reviews/render/view',                                [$this->public, 'filterRenderView'] );
 		add_filter( 'gettext',                                                 [$this->translator, 'filterGettext'], 10, 3 );
 		add_filter( 'gettext_with_context',                                    [$this->translator, 'filterGettextWithContext'], 10, 4 );
 		add_filter( 'ngettext',                                                [$this->translator, 'filterNgettext'], 10, 5 );

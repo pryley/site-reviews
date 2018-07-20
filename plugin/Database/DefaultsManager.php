@@ -46,8 +46,7 @@ class DefaultsManager
 	 */
 	public function settings()
 	{
-		$settings = include glsr()->path( 'config/settings.php' );
-		$settings = apply_filters( 'site-reviews/addon/settings', $settings );
+		$settings = apply_filters( 'site-reviews/addon/settings', glsr()->config( 'settings' ));
 		return $this->normalize( $settings );
 	}
 

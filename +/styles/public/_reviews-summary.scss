@@ -1,4 +1,4 @@
-.glsr-style {
+.glsr-default {
 	&.glsr-summary {
 		position: relative;
 		width: 100%;
@@ -70,7 +70,7 @@
 		// margin-bottom: 0.5em;
 	}
 }
-.glsr-ltr .glsr-style {
+.glsr-ltr .glsr-default {
 	.glsr-bar-label {
 		padding-right: $glsr-summary-spacing;
 	}
@@ -82,7 +82,7 @@
 		margin-right: $glsr-summary-spacing;
 	}
 }
-.glsr-rtl .glsr-style {
+.glsr-rtl .glsr-default {
 	.glsr-bar-label {
 		padding-left: $glsr-summary-spacing;
 	}

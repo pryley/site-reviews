@@ -1,7 +1,9 @@
-## GeminiLabs\SiteReviews\Application
+sty GeminiLabs\SiteReviews\Application
 
     site-reviews/addon/types
+    site-reviews/config
     site-reviews/get/defaults
+    site-reviews/render/view
     site-reviews/views/data
     site-reviews/views/file
 
@@ -74,6 +76,10 @@
     site-reviews/email/headers
     site-reviews/email/message
 
+## GeminiLabs\SiteReviews\Modules\Html\Field
+
+    site-reviews/rendered/field
+
 ## GeminiLabs\SiteReviews\Modules\Html\Form
 
     site-reviews/form/fields
@@ -92,15 +98,6 @@
     site-reviews/review/author/prefix
     site-reviews/review/build/after
     site-reviews/review/build/before
-    site-reviews/reviews/style
-
-## GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviewsForm
-
-    site-reviews/reviews-form/style
-
-## GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviewsSummary
-
-    site-reviews/reviews-summary/style
 
 ## GeminiLabs\SiteReviews\Modules\Html\Template
 

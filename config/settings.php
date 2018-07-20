@@ -257,6 +257,21 @@ return [
 		'placeholder' => 'USD',
 		'type' => 'text',
 	],
+	'settings.submissions.style' => [
+		'default' => 'default',
+		'description' => __( 'Site Reviews relies on the CSS of your theme to style the submission form. If your theme does not provide proper CSS rules for form elements and you are using a WordPress plugin/theme or CSS Framework listed here, please try selecting it, otherwise choose "Default".', 'site-reviews' ),
+		'label' => __( 'Form Style', 'site-reviews' ),
+		'options' => [
+			'default' => __( 'Default', 'site-reviews' ),
+			'divi' => 'Divi (v3)',
+			'bootstrap_4' => 'Bootstrap 4',
+			'bootstrap_4_custom' => 'Bootstrap 4 (Custom Forms)',
+			'contact_form_7' => 'Contact Form 7 (v5)',
+			'ninja_forms' => 'Ninja Forms (v3)',
+			'wpforms' => 'WPForms Lite (v1)',
+		],
+		'type' => 'select',
+	],
 	'settings.submissions.required' => [
 		'default' => ['content', 'email', 'name', 'rating', 'terms', 'title'],
 		'description' => __( 'Choose which fields should be required in the submission form.', 'site-reviews' ),
@@ -273,7 +288,7 @@ return [
 	],
 	'settings.submissions.recaptcha.integration' => [
 		'default' => '',
-		'description' => __( 'Invisible reCAPTCHA is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site. If you are already using a reCAPTCHA plugin listed here, please select it; otherwise choose "Use reCAPTCHA".', 'site-reviews' ),
+		'description' => __( 'Invisible reCAPTCHA is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site. If you are already using a reCAPTCHA plugin listed here then please select it, otherwise choose "Use reCAPTCHA".', 'site-reviews' ),
 		'label' => __( 'Invisible reCAPTCHA', 'site-reviews' ),
 		'options' => [
 			'' => __( 'Do not use reCAPTCHA', 'site-reviews' ),
