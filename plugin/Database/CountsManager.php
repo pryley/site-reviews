@@ -3,8 +3,10 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Database\SqlQueries;
 use GeminiLabs\SiteReviews\Modules\Rating;
+use GeminiLabs\SiteReviews\Review;
 
 class CountsManager
 {
@@ -40,16 +42,53 @@ class CountsManager
 	}
 
 	/**
-	 * @param string $type
-	 * @param int $rating
-	 * @return array
+	 * @return void
 	 */
-	public function decrease( array $reviewCounts, $type, $rating )
+	public function decrease( Review $review )
 	{
-		if( isset( $reviewCounts[$type][$rating] )) {
-			$reviewCounts[$type][$rating] = max( 0, $reviewCounts[$type][$rating] - 1 );
+		$this->decreaseCounts( $review );
+		$this->decreasePostCounts( $review );
+		$this->decreaseTermCounts( $review );
+	}
+
+	/**
+	 * @return void
+	 */
+	public function decreaseCounts( Review $review )
+	{
+		$this->setCounts( $this->decreaseRating(
+			$this->getCounts(),
+			$review->review_type,
+			$review->rating
+		));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function decreasePostCounts( Review $review )
+	{
+		if( empty( $counts = $this->getPostCounts( $review->assigned_to )))return;
+		$this->setPostCounts( $review->assigned_to, $this->decreaseRating(
+			$counts,
+			$review->review_type,
+			$review->rating
+		));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function decreaseTermCounts( Review $review )
+	{
+		foreach( $review->term_ids as $termId ) {
+			if( empty( $counts = $this->getTermCounts( $termId )))continue;
+			$this->setTermCounts( $termId, $this->decreaseRating(
+				$counts,
+				$review->review_type,
+				$review->rating
+			));
 		}
-		return $reviewCounts;
 	}
 
 	/**
@@ -93,21 +132,60 @@ class CountsManager
 	}
 
 	/**
-	 * @param string $type
-	 * @param int $rating
-	 * @return array
+	 * @return void
 	 */
-	public function increase( array $reviewCounts, $type, $rating )
+	public function increase( Review $review )
 	{
-		if( !array_key_exists( $type, glsr()->reviewTypes )) {
-			return $reviewCounts;
+		$this->increaseCounts( $review );
+		$this->increasePostCounts( $review );
+		$this->increaseTermCounts( $review );
+	}
+
+	/**
+	 * @return void
+	 */
+	public function increaseCounts( Review $review )
+	{
+		if( empty( $counts = $this->getCounts() )) {
+			$counts = $this->buildCounts();
 		}
-		if( !array_key_exists( $type, $reviewCounts )) {
-			$reviewCounts[$type] = [];
+		$this->setCounts( $this->increaseRating(
+			$counts,
+			$review->review_type,
+			$review->rating
+		));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function increasePostCounts( Review $review )
+	{
+		if( empty( $counts = $this->getPostCounts( $review->assigned_to ))) {
+			$counts = $this->buildPostCounts( $review->assigned_to );
 		}
-		$reviewCounts = $this->normalize( $reviewCounts );
-		$reviewCounts[$type][$rating] = intval( $reviewCounts[$type][$rating] ) + 1;
-		return $reviewCounts;
+		$this->setPostCounts( $review->assigned_to, $this->increaseRating(
+			$counts,
+			$review->review_type,
+			$review->rating
+		));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function increaseTermCounts( Review $review )
+	{
+		foreach( $review->term_ids as $termId ) {
+			if( empty( $counts = $this->getTermCounts( $termId ))) {
+				$counts = $this->buildTermCounts( $termId );
+			}
+			$this->setTermCounts( $termId, $this->increaseRating(
+				$counts,
+				$review->review_type,
+				$review->rating
+			));
+		}
 	}
 
 	/**
@@ -156,6 +234,37 @@ class CountsManager
 			$lastPostId = end( $reviews )->ID;
 		}
 		return $counts;
+	}
+
+	/**
+	 * @param string $type
+	 * @param int $rating
+	 * @return array
+	 */
+	protected function decreaseRating( array $reviewCounts, $type, $rating )
+	{
+		if( isset( $reviewCounts[$type][$rating] )) {
+			$reviewCounts[$type][$rating] = max( 0, $reviewCounts[$type][$rating] - 1 );
+		}
+		return $reviewCounts;
+	}
+
+	/**
+	 * @param string $type
+	 * @param int $rating
+	 * @return array
+	 */
+	protected function increaseRating( array $reviewCounts, $type, $rating )
+	{
+		if( !array_key_exists( $type, glsr()->reviewTypes )) {
+			return $reviewCounts;
+		}
+		if( !array_key_exists( $type, $reviewCounts )) {
+			$reviewCounts[$type] = [];
+		}
+		$reviewCounts = $this->normalize( $reviewCounts );
+		$reviewCounts[$type][$rating] = intval( $reviewCounts[$type][$rating] ) + 1;
+		return $reviewCounts;
 	}
 
 	/**
