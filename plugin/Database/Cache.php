@@ -39,7 +39,7 @@ class Cache
 		$counts = wp_cache_get( Application::ID, $metaKey.'_count' );
 		if( $counts === false ) {
 			$counts = [];
-			$results = glsr( SqlQueries::class )->getReviewCounts( $metaKey );
+			$results = glsr( SqlQueries::class )->getReviewCountsFor( $metaKey );
 			foreach( $results as $result ) {
 				$counts[$result->name] = $result->num_posts;
 			}

@@ -41,7 +41,7 @@ class Upgrader
 	 */
 	protected function setReviewCounts__3_0_0()
 	{
-		$counts = glsr( CountsManager::class )->build();
+		$counts = glsr( CountsManager::class )->buildCounts();
 		glsr( OptionManager::class )->set( 'counts', $counts );
 	}
 }

@@ -161,7 +161,7 @@ class AdminController extends Controller
 	 */
 	public function routerCountReviews()
 	{
-		$counts = glsr( CountsManager::class )->build();
+		$counts = glsr( CountsManager::class )->buildCounts();
 		glsr( OptionManager::class )->set( 'counts', $counts );
 		glsr( Notice::class )->addSuccess( __( 'Recalculated review counts.', 'site-reviews' ));
 	}

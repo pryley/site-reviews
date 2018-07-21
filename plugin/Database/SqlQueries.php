@@ -47,7 +47,7 @@ class SqlQueries
 	 * @param string $metaKey
 	 * @return array
 	 */
-	public function getReviewCounts( $metaKey )
+	public function getReviewCountsFor( $metaKey )
 	{
 		return (array) $this->db->get_results("
 			SELECT m.meta_value AS name, COUNT(*) num_posts
@@ -73,6 +73,28 @@ class SqlQueries
 			ORDER BY option_value ASC
 			LIMIT 0, {$limit}
 		");
+	}
+
+	/**
+	 * @param int $lastPostId
+	 * @param int $limit
+	 * @return array
+	 */
+	public function getReviewCounts( $lastPostId = 0, $limit = 500 )
+	{
+		return $this->db->get_results("
+			SELECT p.ID, m1.meta_value AS rating, m2.meta_value AS type
+			FROM {$this->db->posts} AS p
+			INNER JOIN {$this->db->postmeta} AS m1 ON p.ID = m1.post_id
+			INNER JOIN {$this->db->postmeta} AS m2 ON p.ID = m2.post_id
+			WHERE p.ID > {$lastPostId}
+			AND p.post_status = 'publish'
+			AND p.post_type = '{$this->postType}'
+			AND m1.meta_key = 'rating'
+			AND m2.meta_key = 'review_type'
+			ORDER By p.ID
+			ASC LIMIT {$limit}
+		", OBJECT );
 	}
 
 	/**
@@ -112,34 +134,26 @@ class SqlQueries
 	}
 
 	/**
-	 * @param int $greaterThanId
+	 * @param int $postId
+	 * @param int $lastPostId
 	 * @param int $limit
 	 * @return array
 	 */
-	public function getReviewRatings( array $args = [], $greaterThanId = 0, $limit = 500 )
+	public function getReviewPostCounts( $postId, $lastPostId = 0, $limit = 500 )
 	{
-		$conditions = glsr( QueryBuilder::class )->buildSqlLines( $args, [
-			'assigned_to' => "AND m3.meta_key = 'assigned_to' AND m3.meta_value = '%s' ",
-			'rating' => "AND m1.meta_value = '%s' ",
-			'review_type' => "AND m2.meta_value = '%s' ",
-			'term_ids' => "AND tr.term_taxonomy_id IN (%s) ",
-		]);
-		$innerjoins = glsr( QueryBuilder::class )->buildSqlLines( $args, [
-			'assigned_to' => "INNER JOIN {$this->db->postmeta} AS m3 ON p.ID = m3.post_id ",
-			'term_ids' => "INNER JOIN {$this->db->term_relationships} AS tr ON p.ID = tr.object_id ",
-		]);
 		return $this->db->get_results("
 			SELECT p.ID, m1.meta_value AS rating, m2.meta_value AS type
 			FROM {$this->db->posts} AS p
 			INNER JOIN {$this->db->postmeta} AS m1 ON p.ID = m1.post_id
 			INNER JOIN {$this->db->postmeta} AS m2 ON p.ID = m2.post_id
-			{$innerjoins}
-			WHERE p.ID > {$greaterThanId}
+			INNER JOIN {$this->db->postmeta} AS m3 ON p.ID = m3.post_id
+			WHERE p.ID > {$lastPostId}
 			AND p.post_status = 'publish'
 			AND p.post_type = '{$this->postType}'
 			AND m1.meta_key = 'rating'
 			AND m2.meta_key = 'review_type'
-			{$conditions}
+			AND m3.meta_key = 'assigned_to'
+			AND m3.meta_value = {$postId}
 			ORDER By p.ID
 			ASC LIMIT {$limit}
 		", OBJECT );
@@ -188,5 +202,30 @@ class SqlQueries
 			AND ({$status})
 			ORDER BY m.meta_value
 		");
+	}
+
+	/**
+	 * @param int $termId
+	 * @param int $lastPostId
+	 * @param int $limit
+	 * @return array
+	 */
+	public function getReviewTermCounts( $termId, $lastPostId = 0, $limit = 500 )
+	{
+		return $this->db->get_results("
+			SELECT p.ID, m1.meta_value AS rating, m2.meta_value AS type
+			FROM {$this->db->posts} AS p
+			INNER JOIN {$this->db->postmeta} AS m1 ON p.ID = m1.post_id
+			INNER JOIN {$this->db->postmeta} AS m2 ON p.ID = m2.post_id
+			INNER JOIN {$this->db->term_relationships} AS tr ON p.ID = tr.object_id
+			WHERE p.ID > {$lastPostId}
+			AND p.post_status = 'publish'
+			AND p.post_type = '{$this->postType}'
+			AND m1.meta_key = 'rating'
+			AND m2.meta_key = 'review_type'
+			AND tr.term_taxonomy_id = {$termId}
+			ORDER By p.ID
+			ASC LIMIT {$limit}
+		", OBJECT );
 	}
 }
