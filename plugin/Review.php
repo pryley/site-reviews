@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use WP_Post;
 
@@ -22,6 +23,7 @@ class Review
 	public $review_id;
 	public $review_type;
 	public $status;
+	public $term_ids;
 	public $title;
 	public $url;
 	public $user_id;
@@ -35,6 +37,7 @@ class Review
 		$this->title = $post->post_title;
 		$this->user_id = intval( $post->post_author );
 		$this->setProperties( $post );
+		$this->setTermIds( $post );
 	}
 
 	/**
@@ -68,5 +71,17 @@ class Review
 			if( !property_exists( $this, $key ) || isset( $this->$key ))return;
 			$this->$key = $value;
 		});
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function setTermIds( WP_Post $post )
+	{
+		$this->term_ids = [];
+		if( !is_array( $terms = get_the_terms( $post, Application::TAXONOMY )))return;
+		foreach( $terms as $term ) {
+			$this->term_ids[] = $term->term_id;
+		}
 	}
 }
