@@ -179,7 +179,7 @@ class Schema
 		if( !isset( $this->ratingCounts )) {
 			$counts = glsr( CountsManager::class )->get([
 				'post_ids' => array_filter( array_map( 'trim', explode( ',', $this->args['assigned_to'] ))),
-				'term_ids' => array_filter( array_map( 'trim', explode( ',', $this->args['category'] ))),
+				'term_ids' => glsr( ReviewManager::class )->normalizeTerms( $this->args['category'] ),
 			]);
 			$this->ratingCounts = glsr( CountsManager::class )->flatten( $counts, [
 				'min' => $this->args['rating'],

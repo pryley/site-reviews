@@ -23,13 +23,17 @@ class ReviewController extends Controller
 	 */
 	public function onAfterChangeCategory( $postId, $terms, $termIds, $taxonomySlug, $append, $oldTermIds )
 	{
-		if( !$this->isReviewPostId( $postId ))return;
+		sort( $termIds );
+		sort( $oldTermIds );
+		if( $termIds === $oldTermIds || !$this->isReviewPostId( $postId ))return;
 		$review = glsr( ReviewManager::class )->single( get_post( $postId ));
 		$ignoredTerms = array_intersect( $oldTermIds, $termIds );
-		$review->term_ids = array_diff( $oldTermIds, $ignoredTerms );
-		glsr( CountsManager::class )->decreaseTermCounts( $review );
-		$review->term_ids = array_diff( $termIds, $ignoredTerms );
-		glsr( CountsManager::class )->increaseTermCounts( $review );
+		if( $review->term_ids = array_diff( $oldTermIds, $ignoredTerms )) {
+			glsr( CountsManager::class )->decreaseTermCounts( $review );
+		}
+		if( $review->term_ids = array_diff( $termIds, $ignoredTerms )) {
+			glsr( CountsManager::class )->increaseTermCounts( $review );
+		}
 	}
 
 	/**

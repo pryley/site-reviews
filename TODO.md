@@ -4,3 +4,5 @@
 - [ ] migrate site-reviews/local/review/create
 - [ ] replace native javascript validation
 - [ ] verify all v2 hooks
+- [ ] custom stars
+- [ ] shortcode UI

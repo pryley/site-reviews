@@ -127,8 +127,6 @@ class CountsManager
 			$counts[] = $this->getPostCounts( $postId );
 		}
 		foreach( $args['term_ids'] as $termId ) {
-			$term = get_term( $termId, Application::TAXONOMY );
-			if( !isset( $term->term_id ))continue;
 			$counts[] = $this->getTermCounts( $termId );
 		}
 		if( empty( $counts )) {
@@ -151,7 +149,7 @@ class CountsManager
 	 */
 	public function getPostCounts( $postId )
 	{
-		return (array)get_post_meta( $postId, static::META_COUNT, true );
+		return array_filter( (array)get_post_meta( $postId, static::META_COUNT, true ));
 	}
 
 	/**
@@ -160,7 +158,7 @@ class CountsManager
 	 */
 	public function getTermCounts( $termId )
 	{
-		return (array)get_term_meta( $termId, static::META_COUNT, true );
+		return array_filter( (array)get_term_meta( $termId, static::META_COUNT, true ));
 	}
 
 	/**
@@ -194,10 +192,10 @@ class CountsManager
 	public function increasePostCounts( Review $review )
 	{
 		if( !( get_post( $review->assigned_to ) instanceof WP_Post ))return;
-		if( empty( $counts = $this->getPostCounts( $review->assigned_to ))) {
-			$counts = $this->buildPostCounts( $review->assigned_to );
-		}
-		$counts = $this->increaseRating( $counts, $review->review_type, $review->rating );
+		$counts = $this->getPostCounts( $review->assigned_to );
+		$counts = empty( $counts )
+			? $this->buildPostCounts( $review->assigned_to )
+			: $this->increaseRating( $counts, $review->review_type, $review->rating );
 		$this->setPostCounts( $review->assigned_to, $counts );
 	}
 
@@ -206,12 +204,12 @@ class CountsManager
 	 */
 	public function increaseTermCounts( Review $review )
 	{
-		foreach( $review->term_ids as $termId ) {
-			if( !( get_term( $termId, Application::TAXONOMY ) instanceof WP_Term ))continue;
-			if( empty( $counts = $this->getTermCounts( $termId ))) {
-				$counts = $this->buildTermCounts( $termId );
-			}
-			$counts = $this->increaseRating( $counts, $review->review_type, $review->rating );
+		$termIds = glsr( ReviewManager::class )->normalizeTerms( implode( ',', $review->term_ids ));
+		foreach( $termIds as $termId ) {
+			$counts = $this->getTermCounts( $termId );
+			$counts = empty( $counts )
+				? $this->buildTermCounts( $termId )
+				: $this->increaseRating( $counts, $review->review_type, $review->rating );
 			$this->setTermCounts( $termId, $counts );
 		}
 	}

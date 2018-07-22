@@ -102,6 +102,22 @@ class ReviewManager
 	}
 
 	/**
+	 * @param string $commaSeparatedTermIds
+	 * @return array
+	 */
+	public function normalizeTerms( $commaSeparatedTermIds )
+	{
+		$terms = [];
+		$termIds = array_filter( array_map( 'trim', explode( ',', $commaSeparatedTermIds )));
+		foreach( $termIds as $termId ) {
+			$term = get_term( $termId, Application::TAXONOMY );
+			if( !isset( $term->term_id ))continue;
+			$terms[] = $term->term_id;
+		}
+		return $terms;
+	}
+
+	/**
 	 * @param int $postId
 	 * @return void
 	 */
@@ -140,22 +156,6 @@ class ReviewManager
 		return $review['review_type'] == 'local' && ( $requireApprovalOption == 'yes' || $isBlacklisted )
 			? 'pending'
 			: 'publish';
-	}
-
-	/**
-	 * @param string $commaSeparatedTermIds
-	 * @return array
-	 */
-	protected function normalizeTerms( $commaSeparatedTermIds )
-	{
-		$terms = [];
-		$termIds = array_map( 'trim', explode( ',', $commaSeparatedTermIds ));
-		foreach( $termIds as $termId ) {
-			$term = term_exists( $termId, Application::TAXONOMY );
-			if( !isset( $term['term_id'] ))continue;
-			$terms[] = intval( $term['term_id'] );
-		}
-		return $terms;
 	}
 
 	/**
