@@ -82,68 +82,6 @@ class EditorController extends Controller
 	}
 
 	/**
-	 * @param int $postId
-	 * @return void
-	 * @action before_delete_post
-	 */
-	public function onBeforeDeleteReview( $postId )
-	{
-		glsr( Metaboxes::class )->onBeforeDeleteReview( $postId );
-	}
-
-	/**
-	 * @param int $metaId
-	 * @param int $postId
-	 * @param string $metaKey
-	 * @param mixed $metaValue
-	 * @return void
-	 * @action update_postmeta
-	 */
-	public function onBeforeUpdateReview( $metaId, $postId, $metaKey, $metaValue )
-	{
-		if( !in_array( $metaKey, ['rating', 'review_type'] )
-			|| get_post_field( 'post_type', $postId ) != Application::POST_TYPE
-			|| get_post_field( 'post_status', $postId ) != 'publish' // only fire on an existing published post
- 		)return;
-		glsr( Metaboxes::class )->onBeforeUpdateReview( get_post( $postId ), $metaKey, $metaValue );
-	}
-
-	/**
-	 * @param array $postData
-	 * @param array $meta
-	 * @param int $postId
-	 * @return void
-	 * @action site-reviews/create/review
-	 */
-	public function onCreateReview( $postData, $meta, $postId )
-	{
-		glsr( Metaboxes::class )->onCreateReview( $postData, $meta, $postId );
-	}
-
-	/**
-	 * @param string $oldStatus
-	 * @param string $newStatus
-	 * @return void
-	 */
-	public function onReviewStatusChange( $newStatus, $oldStatus, WP_Post $post )
-	{
-		if( in_array( $oldStatus, ['new', $newStatus] )
-			|| $post->post_type != Application::POST_TYPE
-		)return;
-		glsr( Metaboxes::class )->onReviewStatusChange( $newStatus, $post );
-	}
-
-	/**
-	 * @param int $postId
-	 * @return void
-	 * @action save_post_.static::POST_TYPE
-	 */
-	public function onSaveReview( $postId, WP_Post $review )
-	{
-		glsr( Metaboxes::class )->onSaveReview( $postId, $review );
-	}
-
-	/**
 	 * @param string $postType
 	 * @return void
 	 * @action add_meta_boxes

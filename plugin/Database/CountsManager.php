@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
+use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Database\SqlQueries;
@@ -10,7 +11,9 @@ use GeminiLabs\SiteReviews\Review;
 
 class CountsManager
 {
+	const META_AVERAGE = '_glsr_average';
 	const META_COUNT = '_glsr_count';
+	const META_RANKING = '_glsr_ranking';
 
 	/**
 	 * @param int $limit
@@ -69,11 +72,8 @@ class CountsManager
 	public function decreasePostCounts( Review $review )
 	{
 		if( empty( $counts = $this->getPostCounts( $review->assigned_to )))return;
-		$this->setPostCounts( $review->assigned_to, $this->decreaseRating(
-			$counts,
-			$review->review_type,
-			$review->rating
-		));
+		$counts = $this->decreaseRating( $counts, $review->review_type, $review->rating );
+		$this->setPostCounts( $review->assigned_to, $counts );
 	}
 
 	/**
@@ -83,11 +83,8 @@ class CountsManager
 	{
 		foreach( $review->term_ids as $termId ) {
 			if( empty( $counts = $this->getTermCounts( $termId )))continue;
-			$this->setTermCounts( $termId, $this->decreaseRating(
-				$counts,
-				$review->review_type,
-				$review->rating
-			));
+			$counts = $this->decreaseRating( $counts, $review->review_type, $review->rating );
+			$this->setTermCounts( $termId, $counts );
 		}
 	}
 
@@ -161,14 +158,12 @@ class CountsManager
 	 */
 	public function increasePostCounts( Review $review )
 	{
+		if( !( get_post( $review->assigned_to ) instanceof WP_Post ))return;
 		if( empty( $counts = $this->getPostCounts( $review->assigned_to ))) {
 			$counts = $this->buildPostCounts( $review->assigned_to );
 		}
-		$this->setPostCounts( $review->assigned_to, $this->increaseRating(
-			$counts,
-			$review->review_type,
-			$review->rating
-		));
+		$counts = $this->increaseRating( $counts, $review->review_type, $review->rating );
+		$this->setPostCounts( $review->assigned_to, $counts );
 	}
 
 	/**
@@ -177,14 +172,12 @@ class CountsManager
 	public function increaseTermCounts( Review $review )
 	{
 		foreach( $review->term_ids as $termId ) {
+			if( !( get_term( $termId, Application::TAXONOMY ) instanceof WP_Term ))continue;
 			if( empty( $counts = $this->getTermCounts( $termId ))) {
 				$counts = $this->buildTermCounts( $termId );
 			}
-			$this->setTermCounts( $termId, $this->increaseRating(
-				$counts,
-				$review->review_type,
-				$review->rating
-			));
+			$counts = $this->increaseRating( $counts, $review->review_type, $review->rating );
+			$this->setTermCounts( $termId, $counts );
 		}
 	}
 
@@ -202,7 +195,10 @@ class CountsManager
 	 */
 	public function setPostCounts( $postId, array $reviewCounts )
 	{
+		$ratingCounts = glsr( CountsManager::class )->flatten( $reviewCounts );
 		update_post_meta( $postId, static::META_COUNT, $reviewCounts );
+		update_post_meta( $postId, static::META_AVERAGE, glsr( Rating::class )->getAverage( $ratingCounts ));
+		update_post_meta( $postId, static::META_RANKING, glsr( Rating::class )->getRanking( $ratingCounts ));
 	}
 
 	/**
@@ -211,7 +207,10 @@ class CountsManager
 	 */
 	public function setTermCounts( $termId, array $reviewCounts )
 	{
+		$ratingCounts = glsr( CountsManager::class )->flatten( $reviewCounts );
 		update_term_meta( $termId, static::META_COUNT, $reviewCounts );
+		update_term_meta( $termId, static::META_AVERAGE, glsr( Rating::class )->getAverage( $ratingCounts ));
+		update_term_meta( $termId, static::META_RANKING, glsr( Rating::class )->getRanking( $ratingCounts ));
 	}
 
 	/**

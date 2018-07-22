@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Controllers\ListTableController;
 use GeminiLabs\SiteReviews\Controllers\MainController;
 use GeminiLabs\SiteReviews\Controllers\MenuController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
+use GeminiLabs\SiteReviews\Controllers\ReviewController;
 use GeminiLabs\SiteReviews\Controllers\SettingsController;
 use GeminiLabs\SiteReviews\Controllers\TaxonomyController;
 use GeminiLabs\SiteReviews\Modules\Session;
@@ -24,6 +25,7 @@ class Actions implements HooksContract
 	protected $menu;
 	protected $main;
 	protected $public;
+	protected $review;
 	protected $router;
 	protected $session;
 	protected $settings;
@@ -37,6 +39,7 @@ class Actions implements HooksContract
 		$this->main = $app->make( MainController::class );
 		$this->menu = $app->make( MenuController::class );
 		$this->public = $app->make( PublicController::class );
+		$this->review = $app->make( ReviewController::class );
 		$this->router = $app->make( Router::class );
 		$this->session = $app->make( Session::class );
 		$this->settings = $app->make( SettingsController::class );
@@ -59,11 +62,6 @@ class Actions implements HooksContract
 		add_action( 'plugins_loaded',                               [$this->app, 'registerReviewTypes'] );
 		add_action( 'upgrader_process_complete',                    [$this->app, 'upgraded'], 10, 2 );
 		add_action( 'admin_enqueue_scripts',                        [$this->editor, 'customizePostStatusLabels'] );
-		add_action( 'before_delete_post',                           [$this->editor, 'onBeforeDeleteReview'] );
-		add_action( 'update_postmeta',                              [$this->editor, 'onBeforeUpdateReview'], 10, 4 );
-		add_action( 'site-reviews/create/review',                   [$this->editor, 'onCreateReview'], 10, 3 );
-		add_action( 'transition_post_status',                       [$this->editor, 'onReviewStatusChange'], 10, 3 );
-		add_action( 'save_post_'.Application::POST_TYPE,            [$this->editor, 'onSaveReview'], 20, 3 );
 		add_action( 'add_meta_boxes',                               [$this->editor, 'registerMetaBoxes'] );
 		add_action( 'admin_print_scripts',                          [$this->editor, 'removeAutosave'], 999 );
 		add_action( 'admin_menu',                                   [$this->editor, 'removeMetaBoxes'] );
@@ -87,6 +85,11 @@ class Actions implements HooksContract
 		add_action( 'wp_enqueue_scripts',                           [$this->public, 'enqueueAssets'], 999 );
 		add_filter( 'site-reviews/builder',                         [$this->public, 'modifyBuilder'] );
 		add_action( 'wp_footer',                                    [$this->public, 'renderSchema'] );
+		add_action( 'set_object_terms',                             [$this->review, 'onAfterChangeCategory'], 10, 6 );
+		add_action( 'site-reviews/create/review',                   [$this->review, 'onAfterCreate'], 10, 3 );
+		add_action( 'before_delete_post',                           [$this->review, 'onBeforeDelete'] );
+		add_action( 'update_postmeta',                              [$this->review, 'onBeforeUpdate'], 10, 4 );
+		add_action( 'transition_post_status',                       [$this->review, 'onChangeStatus'], 10, 3 );
 		add_action( 'admin_init',                                   [$this->router, 'routeAdminPostRequest'] );
 		add_action( 'wp_ajax_'.Application::PREFIX.'action',        [$this->router, 'routeAjaxRequest'] );
 		add_action( 'wp_ajax_nopriv_'.Application::PREFIX.'action', [$this->router, 'routeAjaxRequest'] );
