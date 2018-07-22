@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use ReflectionClass;
@@ -16,7 +17,7 @@ class Upgrader
 		natsort( $routines );
 		array_walk( $routines, function( $routine ) {
 			$parts = explode( '__', $routine );
-			if( version_compare( glsr()->version, end( $parts ), '>=' ))return;
+			if( version_compare( glsr()->version, end( $parts ), '<' ))return;
 			call_user_func( [$this, $routine] );
 		});
 		$this->updateVersion();
@@ -41,7 +42,8 @@ class Upgrader
 	 */
 	protected function setReviewCounts__3_0_0()
 	{
-		$counts = glsr( CountsManager::class )->buildCounts();
-		glsr( OptionManager::class )->set( 'counts', $counts );
+		add_action( 'admin_init', function() {
+			glsr( AdminController::class )->routerCountReviews();
+		});
 	}
 }
