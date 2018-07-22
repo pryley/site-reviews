@@ -1,100 +1,13 @@
-.glsr-shortcode,
-.glsr-widget {
-	[type="submit"] {
-		white-space: nowrap;
-	}
-	[type="submit"] span {
-		display: none;
-	}
-	[type="submit"][disabled] span {
-		display: inline;
-		position: relative;
-	}
-	[type="submit"] span::before,
-	[type="submit"] span::after {
-		display: inline-block;
-		position: absolute;
-		top: 50%;
-		height: 1em;
-		width: 1em;
-		content: '';
-		border: 0.2em solid currentColor;
-		border-radius: 100%;
-		box-sizing: border-box;
-		margin: -0.5em auto 0;
-		animation: glsr-loader 0.5s infinite linear;
-	}
-	[type="submit"] span::before {
-		border-top-color: transparent;
-		opacity: 0.5;
-	}
-	[type="submit"] span::after {
-		border-color: transparent;
-		border-top-color: currentColor;
-	}
-	.glsr-checkbox-label,
-	.glsr-radio-label {
-		hyphens: none;
-	}
-	.glsr-recaptcha-holder {
-		margin-top: $glsr-font-size;
-	}
+form.glsr-form {
 	.glsr-required label span::after {
 		content: '\002a';
 		color: $glsr-color-error;
 	}
-	.glsr-star-rating {
-		display: block;
-		visibility: hidden !important;
-	}
-	.glsr-star-rating::after,
-	.glsr-star-rating::before {
-		display: none !important;
-	}
-	.gl-star-rating[data-star-rating] > select {
-		visibility: visible !important;
-	}
 }
-.glsr-ltr {
-	[type="submit"][disabled] span {
-		margin-right: 1.65em;
-	}
-	[type="submit"] span::before,
-	[type="submit"] span::after {
-		left: 0;
-	}
-	.glsr-required label span::after {
-		margin-left: 0.33em;
-	}
-}
-.glsr-rtl {
-	[type="submit"][disabled] span {
-		margin-left: 1.65em;
-	}
-	[type="submit"] span::before,
-	[type="submit"] span::after {
-		right: 0;
-	}
-	.glsr-required label span::after {
-		margin-right: 0.33em;
-	}
-}
-
 
 .glsr-default {
 	.glsr-field {
 		margin-bottom: $glsr-font-size;
-	}
-	.glsr-field input[type=text],
-	.glsr-field input[type=email],
-	.glsr-field input[type=url],
-	.glsr-field textarea {
-		width: 100%;
-		line-height: inherit;
-		font-size: inherit;
-	}
-	.glsr-field label:not(.glsr-checkbox-label):not(.glsr-radio-label) {
-		display: block;
 	}
 	.glsr-field ul {
 		list-style-type: none;

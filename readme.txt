@@ -132,9 +132,11 @@ All documentation can be found in the "Get Help" page of the plugin. You can als
 
 == Changelog ==
 
-= 3.0.0 (2018-07-??) =
+= 3.0.0 (2018-08-??) =
 
+- Added form styles
 - Complete rewrite of Site Reviews
+- Dropped support for twentyten to twentyfourteen themes
 - Now requires PHP 5.6 or greater
 - Now requires WordPress 4.7 or greater
-- Officially supports all modern browsers and IE10 or greater
+- Officially supports all modern browsers and IE11 or greater

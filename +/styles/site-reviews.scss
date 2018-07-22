@@ -1,39 +1,5 @@
-$glsr-color-blue: #1976D2 !default;
-$glsr-color-green: #388E3C !default;
-$glsr-color-red: #D32F2F !default;
-$glsr-color-yellow: #FBC02D !default;
-
-$glsr-color-error: $glsr-color-red !default;
-$glsr-color-success: $glsr-color-green !default;
-$glsr-font-size-small: 0.875em !default;
-$glsr-font-size: 1rem !default;
-$glsr-opacity: 0.1 !default; //0.075
-$glsr-star-empty: '../images/star-empty.svg' !default;
-$glsr-star-full: '../images/star-filled.svg' !default;
-$glsr-star-half: '../images/star-half.svg' !default;
-$glsr-summary-bar-height: 12px !default;
-$glsr-summary-max-width: 400px !default;
-$glsr-summary-spacing: 10px !default;
-$glsr-summary-star-size: 24px !default;
-
-
-
-$star-rating: (
-    base-display   : block,
-    base-height    : 26px,
-    font-size      : 0.8em,
-    font-weight    : 600,
-    parent         : 'form.glsr-form',
-    star-empty     : $glsr-star-empty,
-    star-filled    : $glsr-star-full,
-    star-half      : $glsr-star-half,
-    star-size      : 24px,
-    text-background: #1a1a1a,
-    text-color     : #fff,
-);
-
-@import "node_modules/star-rating.js/src/star-rating";
-@import "public/global";
+@import "public/variables";
+@import "public/base";
 @import "public/reviews";
 @import "public/reviews-form";
 @import "public/reviews-summary";

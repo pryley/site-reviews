@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Handlers;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Html;
+use GeminiLabs\SiteReviews\Modules\Style;
 
 class EnqueuePublicAssets
 {
@@ -78,9 +79,9 @@ class EnqueuePublicAssets
 	 */
 	protected function getStylesheet()
 	{
-		$currentTheme = sanitize_title( (string)wp_get_theme()->get( 'Name' ));
-		return file_exists( glsr()->path( 'assets/styles/themes/'.$currentTheme.'.css' ))
-			? glsr()->url( 'assets/styles/themes/'.$currentTheme.'.css' )
+		$currentStyle = glsr( Style::class )->style;
+		return file_exists( glsr()->path( 'assets/styles/custom/'.$currentStyle.'.css' ))
+			? glsr()->url( 'assets/styles/custom/'.$currentStyle.'.css' )
 			: glsr()->url( 'assets/styles/'.Application::ID.'.css' );
 	}
 }
