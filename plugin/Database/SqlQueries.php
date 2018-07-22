@@ -188,7 +188,7 @@ class SqlQueries
 	 * @param string $status
 	 * @return array
 	 */
-	public function getReviewsMeta( $key, $status )
+	public function getReviewsMeta( $key, $status = 'publish' )
 	{
 		$queryBuilder = glsr( QueryBuilder::class );
 		$key = $queryBuilder->buildSqlOr( $key, "m.meta_key = '%s'" );

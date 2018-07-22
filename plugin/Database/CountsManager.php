@@ -8,6 +8,8 @@ use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Database\SqlQueries;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Review;
+use WP_Post;
+use WP_Term;
 
 class CountsManager
 {

@@ -29,7 +29,7 @@ class Metaboxes
 	public function saveResponseMetabox( $postId )
 	{
 		if( !wp_verify_nonce( glsr( Helper::class )->filterInput( '_nonce-response' ), 'response' ))return;
-		$response = strval( glsr( Helper::class )->filterInput( 'response' ))c;
+		$response = strval( glsr( Helper::class )->filterInput( 'response' ));
 		update_post_meta( $postId, 'response', trim( wp_kses( $response, [
 			'a' => ['href' => [], 'title' => []],
 			'em' => [],
