@@ -127,7 +127,7 @@
 
 		/** @return void */
 		onDocumentClick_: function( ev ) {
-			if( $( ev.target ).find( this.el ).length && $( 'body' ).hasClass( 'glsr-focus' )) {
+			if( $( ev.currentTarget ).find( this.el ).length && $( 'body' ).hasClass( 'glsr-focus' )) {
 				this.clearResults_();
 			}
 		},
@@ -157,7 +157,7 @@
 		/** @return void */// Manage entries
 		onEntryDelete_: function( ev ) {
 			ev.preventDefault();
-			this.deleteEntry_( $( ev.target ).closest( 'tr' ).index() );
+			this.deleteEntry_( $( ev.currentTarget ).closest( 'tr' ).index() );
 		},
 
 		/** @return void */
@@ -172,12 +172,12 @@
 		/** @return void */
 		onSearchInput_: function( ev ) {
 			this.abort_();
-			if( this.searchTerm === ev.target.value && this.options.results.length ) {
+			if( this.searchTerm === ev.currentTarget.value && this.options.results.length ) {
 				return this.displayResults_( this.options.results );
 			}
 			this.options.resultsEl.empty();
 			this.options.selected = -1;
-			this.searchTerm = ev.target.value;
+			this.searchTerm = ev.currentTarget.value;
 			if( this.searchTerm === '' ) {
 				return this.reset_();
 			}

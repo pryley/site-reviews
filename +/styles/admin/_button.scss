@@ -1,0 +1,46 @@
+@keyframes glsr-loader {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+.glsr-button {
+	position: relative;
+	white-space: nowrap;
+}
+.glsr-button:before,
+.glsr-button:after {
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	height: 1em;
+	width: 1em;
+	border: 0.2em solid currentColor;
+	border-radius: 100%;
+	box-sizing: border-box;
+	margin: -0.5em auto 0;
+	animation: glsr-loader 0.5s infinite linear;
+}
+.glsr-button::before {
+	border-top-color: transparent;
+	opacity: 0.5;
+}
+.glsr-button::after {
+	border-color: transparent;
+	border-top-color: currentColor;
+}
+.glsr-button[disabled] {
+	padding-left: calc(1em + 15px);
+}
+.glsr-button[disabled]::before,
+.glsr-button[disabled]::after {
+	content: '';
+	left: 10px;
+}
+.glsr-button[disabled] span {
+	visibility: hidden;
+	font-size: 0;
+}
+.glsr-button[disabled] span::after {
+	visibility: visible;
+	content: attr(data-loading);
+	font-size: 13px;
+}

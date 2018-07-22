@@ -129,14 +129,14 @@
 
 		/** @return void */
 		onClose_: function( ev ) {
-			if( $( ev.target ).closest( $( this.el )).length )return;
+			if( $( ev.currentTarget ).closest( $( this.el )).length )return;
 			this.close_();
 		},
 
 		/** @return void */
 		onToggle_: function( ev ) {
 			ev.preventDefault();
-			if( ev.target.classList.contains( 'active' )) {
+			if( ev.currentTarget.classList.contains( 'active' )) {
 				this.close_();
 				return;
 			}
@@ -146,7 +146,7 @@
 		/** @return void */
 		onTrigger_: function( ev ) {
 			ev.preventDefault();
-			this.current = ev.target.dataset.shortcode;
+			this.current = ev.currentTarget.dataset.shortcode;
 			if( !this.current )return;
 			if( tinymce.get( window.wpActiveEditor )) {
 				this.initTinymceEditor_();

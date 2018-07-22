@@ -59,7 +59,7 @@
 		onKeyup_: function( ev ) { // KeyboardEvent
 			if( ev.keyCode !== 27 )return;
 			this.Form.enableButton_();
-			this.removeListeners_( ev.target );
+			this.removeListeners_( ev.currentTarget );
 		},
 
 		/** @return void */

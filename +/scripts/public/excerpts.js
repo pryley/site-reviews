@@ -31,7 +31,7 @@
 		/** @return void */
 		onClick_: function( ev ) { // MouseEvent
 			ev.preventDefault();
-			var el = ev.target;
+			var el = ev.currentTarget;
 			var hiddenNode = el.parentNode.previousSibling;
 			var text = el.getAttribute( 'data-text' );
 			hiddenNode.classList.toggle( this.config.hiddenClass );

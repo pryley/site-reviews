@@ -61,8 +61,8 @@
 					console.log( data );
 					return console.error( error );
 				}
-				if( dependency.name !== ev.target.name.replace( '[]', '' ))return;
-				this.toggleHiddenField_( el, this.isSelected_( ev.target, dependency ));
+				if( dependency.name !== ev.currentTarget.name.replace( '[]', '' ))return;
+				this.toggleHiddenField_( el, this.isSelected_( ev.currentTarget, dependency ));
 			}.bind( this ));
 		},
 

@@ -40,9 +40,9 @@
 		/** @return void */
 		onClick_: function( ev ) {
 			ev.preventDefault();
-			ev.target.blur();
-			this.setTab_( ev.target );
-			location.hash = '!' + ev.target.getAttribute( 'href' ).slice(1);
+			ev.currentTarget.blur();
+			this.setTab_( ev.currentTarget );
+			location.hash = '!' + ev.currentTarget.getAttribute( 'href' ).slice(1);
 		},
 
 		/** @return void */

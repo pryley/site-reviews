@@ -44,7 +44,7 @@
 		onClickSave_: function( ev ) { // MouseEvent
 			ev.preventDefault();
 			this.restoreEditLink_();
-			this.target = ev.target;
+			this.target = ev.currentTarget;
 			var request = {
 				action: 'toggle-pinned',
 				id: $( '#post_ID' ).val(),
@@ -56,10 +56,10 @@
 		/** @return void */
 		onClickToggle_: function( ev ) { // MouseEvent
 			ev.preventDefault();
-			this.target = ev.target;
+			this.target = ev.currentTarget;
 			var request = {
 				action: 'toggle-pinned',
-				id: ev.target.getAttribute( 'data-id' ),
+				id: ev.currentTarget.getAttribute( 'data-id' ),
 			};
 			(new GLSR.Ajax( request )).post_( this.togglePinned_.bind( this ));
 		},

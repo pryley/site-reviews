@@ -20,7 +20,7 @@ jQuery( function( $ ) {
 			this.el.on( 'click', '.glsr-remove-button', this.onUnassign_.bind( this ));
 		},
 		onResultClick: function( ev ) {
-			var result = $( ev.target );
+			var result = $( ev.currentTarget );
 			var template = wp.template( 'glsr-assigned-post' );
 			var entry = {
 				url: result.data( 'url' ),
@@ -40,7 +40,7 @@ jQuery( function( $ ) {
 			this.makeSortable_();
 		},
 		onResultClick: function( ev ) {
-			var result = $( ev.target );
+			var result = $( ev.currentTarget );
 			var entry = result.data( 'entry' );
 			var template = wp.template( 'glsr-string-' + ( entry.p1 ? 'plural' : 'single' ));
 			entry.index = this.options.entriesEl.children().length;

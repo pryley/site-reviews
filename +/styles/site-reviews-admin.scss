@@ -16,6 +16,7 @@
 }
 
 @import "admin/addons";
+@import "admin/button";
 @import "admin/dashboard";
 @import "admin/edit-review";
 @import "admin/mce-shortcodes";
@@ -42,9 +43,4 @@
 }
 :-ms-input-placeholder {
 	@include placeholder();
-}
-
-.glsr-field small code {
-	font-size: inherit;
-	padding: 0 3px 1px;
 }

@@ -9,5 +9,7 @@
 <form method="post">
 	<input type="hidden" name="{{ id }}[action]" value="clear-console">
 	<?php wp_nonce_field( 'clear-console' ); ?>
-	<?php submit_button( __( 'Clear Console', 'site-reviews' ), 'secondary', 'clear-console', false ); ?>
+	<button type="submit" class="glsr-button button" name="clear-console" id="clear-console">
+		<span data-loading="<?= __( 'Clearing Console...', 'site-reviews' ); ?>"><?= __( 'Clear Console', 'site-reviews' ); ?></span>
+	</button>
 </form>

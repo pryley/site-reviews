@@ -45,7 +45,7 @@
 		/** @return void */
 		postFromEvent_: function( callback ) { // Event, function|void
 			this.event.preventDefault();
-			var el = $( this.event.target );
+			var el = $( this.event.currentTarget );
 			if( el.is( ':disabled' ))return;
 			el.prop( 'disabled', true );
 			$.post( GLSR.ajaxurl, this.buildData_( el ), function( response ) {

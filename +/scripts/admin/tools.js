@@ -14,7 +14,7 @@
 		},
 		onClick_: function( ev ) {
 		 	var request = {
-				action: ev.target.name,
+				action: ev.currentTarget.name,
 			};
 			(new GLSR.Ajax( request, ev )).post_( function( response ) {
 				GLSR.Notices( response.notices );

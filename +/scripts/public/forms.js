@@ -128,7 +128,7 @@
 
 		/** @return void */
 		onChange_: function( ev ) { // Event
-			this.clearFieldError_( ev.target );
+			this.clearFieldError_( ev.currentTarget );
 		},
 
 		/**
