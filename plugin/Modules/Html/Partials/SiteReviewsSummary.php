@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
+use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
@@ -32,10 +33,13 @@ class SiteReviewsSummary
 	public function build( array $args = [] )
 	{
 		$this->args = $args;
-
-		// get rating counts
-		$this->ratingCounts = [0,0,0,0,0,0];
-
+		$counts = glsr( CountsManager::class )->get([
+			'post_ids' => array_filter( array_map( 'trim', explode( ',', $args['assigned_to'] ))),
+			'term_ids' => array_filter( array_map( 'trim', explode( ',', $args['category'] ))),
+		]);
+		$this->ratingCounts = glsr( CountsManager::class )->flatten( $counts, [
+			'min' => $args['rating'],
+		]);
 		if( !array_sum( $this->ratingCounts ) && $this->isHidden( 'if_empty' ))return;
 		$this->averageRating = glsr( Rating::class )->getAverage( $this->ratingCounts );
 		$this->generateSchema();

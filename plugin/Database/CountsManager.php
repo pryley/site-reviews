@@ -93,7 +93,7 @@ class CountsManager
 	/**
 	 * @return array
 	 */
-	public function flatten( array $reviewCounts )
+	public function flatten( array $reviewCounts, array $args = [] )
 	{
 		$counts = [];
 		array_walk_recursive( $reviewCounts, function( $num, $index ) use( &$counts ) {
@@ -101,7 +101,40 @@ class CountsManager
 				? $num + $counts[$index]
 				: $num;
 		});
+		$args = wp_parse_args( $args, [
+			'max' => Rating::MAX_RATING,
+			'min' => Rating::MIN_RATING,
+		]);
+		foreach( $counts as $index => &$num ) {
+			if( $index >= intval( $args['min'] ) && $index <= intval( $args['max'] ))continue;
+			$num = 0;
+		}
 		return $counts;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function get( array $args = [] )
+	{
+		$args = wp_parse_args( $args, [
+			'post_ids' => [],
+			'term_ids' => [],
+			'type' => 'local',
+		]);
+		$counts = [];
+		foreach( $args['post_ids'] as $postId ) {
+			$counts[] = $this->getPostCounts( $postId );
+		}
+		foreach( $args['term_ids'] as $termId ) {
+			$term = get_term( $termId, Application::TAXONOMY );
+			if( !isset( $term->term_id ))continue;
+			$counts[] = $this->getTermCounts( $termId );
+		}
+		if( empty( $counts )) {
+			$counts[] = $this->getCounts();
+		}
+		return array_column( $counts, $args['type'] );
 	}
 
 	/**
@@ -209,6 +242,7 @@ class CountsManager
 	 */
 	public function setTermCounts( $termId, array $reviewCounts )
 	{
+		if( !term_exists( $termId ))return;
 		$ratingCounts = glsr( CountsManager::class )->flatten( $reviewCounts );
 		update_term_meta( $termId, static::META_COUNT, $reviewCounts );
 		update_term_meta( $termId, static::META_AVERAGE, glsr( Rating::class )->getAverage( $ratingCounts ));

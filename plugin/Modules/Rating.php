@@ -183,8 +183,8 @@ class Rating
 	 */
 	protected function getTotalSum( array $ratingCounts )
 	{
-		return array_reduce( $ratingCounts, function( $carry, $count ) {
-			return $carry + $count;
+		return array_reduce( array_keys( $ratingCounts ), function( $carry, $index ) use( $ratingCounts ) {
+			return $carry + ( $index * $ratingCounts[$index] );
 		});
 	}
 

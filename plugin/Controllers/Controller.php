@@ -51,4 +51,13 @@ abstract class Controller
 	{
 		return intval( filter_input( INPUT_GET, 'post' ));
 	}
+
+	/**
+	 * @param int $postId
+	 * @return bool
+	 */
+	protected function isReviewPostId( $postId )
+	{
+		return get_post_field( 'post_type', $postId ) == Application::POST_TYPE;
+	}
 }

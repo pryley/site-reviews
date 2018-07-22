@@ -106,10 +106,10 @@ class SqlQueries
 		$postId = $this->db->get_var("
 			SELECT p.ID
 			FROM {$this->db->posts} AS p
-			INNER JOIN {$this->db->postmeta} AS pm ON p.ID = pm.post_id
+			INNER JOIN {$this->db->postmeta} AS m ON p.ID = m.post_id
 			WHERE p.post_type = '{$this->postType}'
-			AND pm.meta_key = 'review_id'
-			AND pm.meta_value = '{$metaReviewId}'
+			AND m.meta_key = 'review_id'
+			AND m.meta_value = '{$metaReviewId}'
 		");
 		return intval( $postId );
 	}

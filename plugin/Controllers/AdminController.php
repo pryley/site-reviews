@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Commands\RegisterShortcodeButtons;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\SqlQueries;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html;
@@ -161,8 +162,19 @@ class AdminController extends Controller
 	 */
 	public function routerCountReviews()
 	{
-		$counts = glsr( CountsManager::class )->buildCounts();
-		glsr( OptionManager::class )->set( 'counts', $counts );
+		$countManager = glsr( CountsManager::class );
+		$terms = get_terms([
+			'hide_empty' => true,
+			'taxonomy' => Application::TAXONOMY,
+		]);
+		foreach( $terms as $term ) {
+			$countManager->setTermCounts( $term->term_id, $countManager->buildTermCounts( $term->term_id ));
+		}
+		$postIds = glsr( SqlQueries::class )->getReviewsMeta( 'assigned_to' );
+		foreach( $postIds as $postId ) {
+			$countManager->setPostCounts( $postId, $countManager->buildPostCounts( $postId ));
+		}
+		$countManager->setCounts( $countManager->buildCounts() );
 		glsr( Notice::class )->addSuccess( __( 'Recalculated review counts.', 'site-reviews' ));
 	}
 

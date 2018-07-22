@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Review;
+use WP_Post;
 
 class ReviewController extends Controller
 {
@@ -22,7 +23,7 @@ class ReviewController extends Controller
 	 */
 	public function onAfterChangeCategory( $postId, $terms, $termIds, $taxonomySlug, $append, $oldTermIds )
 	{
-		if( !$this->isReviewPostType( $postId ))return;
+		if( !$this->isReviewPostId( $postId ))return;
 		$review = glsr( ReviewManager::class )->single( get_post( $postId ));
 		$ignoredTerms = array_intersect( $oldTermIds, $termIds );
 		$review->term_ids = array_diff( $oldTermIds, $ignoredTerms );
@@ -40,7 +41,7 @@ class ReviewController extends Controller
 	 */
 	public function onAfterCreate( $postData, $meta, $postId )
 	{
-		if( !$this->isReviewPostType( $postId ))return;
+		if( !$this->isReviewPostId( $postId ))return;
 		$review = glsr( ReviewManager::class )->single( get_post( $postId ));
 		glsr( CountsManager::class )->increase( $review );
 	}
@@ -52,7 +53,7 @@ class ReviewController extends Controller
 	 */
 	public function onBeforeDelete( $postId )
 	{
-		if( !$this->isReviewPostType( $postId ))return;
+		if( !$this->isReviewPostId( $postId ))return;
 		$review = glsr( ReviewManager::class )->single( get_post( $postId ));
 		glsr( CountsManager::class )->decrease( $review );
 	}
@@ -67,7 +68,7 @@ class ReviewController extends Controller
 	 */
 	public function onBeforeUpdate( $metaId, $postId, $metaKey, $metaValue )
 	{
-		if( !$this->isReviewPostType( $postId )
+		if( !$this->isReviewPostId( $postId )
 			|| !in_array( $metaKey, ['assigned_to', 'rating', 'review_type'] )
 		)return;
 		$review = glsr( ReviewManager::class )->single( get_post( $postId ));
@@ -118,21 +119,12 @@ class ReviewController extends Controller
 	public function onChangeStatus( $newStatus, $oldStatus, WP_Post $post )
 	{
 		if( $post->post_type != Application::POST_TYPE || in_array( $oldStatus, ['new', $newStatus] ))return;
-		$review = glsr( ReviewManager::class )->single( get_post( $postId ));
-		if( $status == 'publish' ) {
+		$review = glsr( ReviewManager::class )->single( get_post( $post->ID ));
+		if( $post->post_status == 'publish' ) {
 			glsr( CountsManager::class )->increase( $review );
 		}
 		else {
 			glsr( CountsManager::class )->decrease( $review );
 		}
-	}
-
-	/**
-	 * @param int $postId
-	 * @return bool
-	 */
-	protected function isReviewPostType( $postId )
-	{
-		return get_post_field( 'post_type', $postId ) !== Application::POST_TYPE;
 	}
 }
