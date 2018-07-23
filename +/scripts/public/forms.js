@@ -8,6 +8,7 @@
 		this.form = formEl;
 		this.init = this.init_.bind( this );
 		this.recaptcha = new GLSR.Recaptcha( this );
+		this.validation = new GLSR.Validation( formEl );
 	};
 
 	GLSR_Form.prototype = {
@@ -151,8 +152,10 @@
 
 		/** @return void */
 		onSubmit_: function( ev ) { // HTMLEvent
-			if( this.form.classList.contains( 'no-ajax' ))return;
 			ev.preventDefault();
+			if( !this.validation.validate_() )return;
+			// @todo
+			if( this.form.classList.contains( 'no-ajax' ))return;
 			this.recaptcha.addListeners_();
 			this.clearFormErrors_();
 			this.submitForm_();

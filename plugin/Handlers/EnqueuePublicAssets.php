@@ -67,11 +67,23 @@ class EnqueuePublicAssets
 	{
 		$variables = [
 			'action' => Application::PREFIX.'action',
-			'ajaxpagination' => ['#wpadminbar','.site-navigation-fixed'],
+			'ajaxpagination' => $this->getFixedSelectorsForPagination(),
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'validationconfig' => $this->getValidationConfig(),
+			'validationstrings' => $this->getValidationStrings(),
 		];
 		$variables = apply_filters( 'site-reviews/enqueue/public/localize', $variables );
 		wp_localize_script( Application::ID, 'GLSR', $variables );
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getFixedSelectorsForPagination()
+	{
+		$selectors = ['#wpadminbar','.site-navigation-fixed'];
+		return apply_filters( 'site-reviews/localize/pagination/selectors', $selectors );
+
 	}
 
 	/**
@@ -83,5 +95,41 @@ class EnqueuePublicAssets
 		return file_exists( glsr()->path( 'assets/styles/custom/'.$currentStyle.'.css' ))
 			? glsr()->url( 'assets/styles/custom/'.$currentStyle.'.css' )
 			: glsr()->url( 'assets/styles/'.Application::ID.'.css' );
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getValidationConfig()
+	{
+		$config = [
+			'errorClass' => 'has-danger',
+			'errorParentClass' => 'form-group',
+			'errorTextClass' => 'text-help',
+			'errorTextTag' => 'div',
+			'fieldGroupClass' => 'form-group',
+			'successClass' => 'has-success',
+		];
+		return apply_filters( 'site-reviews/localize/validation/config', $config );
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getValidationStrings()
+	{
+		$strings = [
+			'email' => __( 'This field requires a valid e-mail address', 'site-reviews' ),
+			'max' => __( 'Maximum value for this field is %s', 'site-reviews' ),
+			'maxlength' => __( 'This fields length must be < %s', 'site-reviews' ),
+			'min' => __( 'Minimum value for this field is %s', 'site-reviews' ),
+			'minlength' => __( 'This fields length must be > %s', 'site-reviews' ),
+			'number' => __( 'This field requires a number', 'site-reviews' ),
+			'pattern' => __( 'Input must match the pattern %s', 'site-reviews' ),
+			'required' => __( 'This field is required', 'site-reviews' ),
+			'tel' => __( 'This field requires a valid telephone number', 'site-reviews' ),
+			'url' => __( 'This field requires a valid website URL', 'site-reviews' ),
+		];
+		return apply_filters( 'site-reviews/localize/validation/strings', $strings );
 	}
 }

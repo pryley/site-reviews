@@ -19,6 +19,7 @@ scripts:
     - +/scripts/public/forms.js
     - +/scripts/public/pagination.js
     - +/scripts/public/recaptcha.js
+    - +/scripts/public/validation.js
     - +/scripts/site-reviews.js
   site-reviews-admin.js:
     - +/scripts/admin/ajax.js

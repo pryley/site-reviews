@@ -38,5 +38,5 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Review Themes
 - [ ] Review Threads
 - [ ] Review Upvotes
-- [ ] Tripadvisor Reviews
-- [ ] Yelp Reviews
+- [-] Tripadvisor Reviews
+- [-] Yelp Reviews
