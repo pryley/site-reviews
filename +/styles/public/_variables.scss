@@ -7,9 +7,6 @@ $glsr-color-success: $glsr-color-green !default;
 $glsr-font-size-small: 14px !default;
 $glsr-font-size: 16px !default;
 $glsr-opacity: 0.1 !default; //0.075
-$glsr-star-empty: '../images/star-empty.svg' !default;
-$glsr-star-full: '../images/star-filled.svg' !default;
-$glsr-star-half: '../images/star-half.svg' !default;
 $glsr-summary-bar-height: 12px !default;
 $glsr-summary-max-width: 400px !default;
 $glsr-summary-spacing: 10px !default;
@@ -21,12 +18,10 @@ $star-rating: (
     font-size      : 0.8em,
     font-weight    : 600,
     parent         : 'form.glsr-form',
-    star-empty     : $glsr-star-empty,
-    star-filled    : $glsr-star-full,
-    star-half      : $glsr-star-half,
+    star-empty     : none,
+    star-filled    : none,
+    star-half      : none,
     star-size      : 24px,
     text-background: #1a1a1a,
     text-color     : #fff,
 );
-
-@import "node_modules/star-rating.js/src/star-rating";

@@ -120,9 +120,7 @@ class SiteReviewsSummary
 	protected function buildStars()
 	{
 		if( $this->isHidden( 'stars' ))return;
-		$stars = glsr( Partial::class )->build( 'star-rating', [
-			'rating' => $this->averageRating,
-		]);
+		$stars = glsr( Partial::class )->build( 'star-rating', ['rating' => $this->averageRating] );
 		return $this->wrap( 'stars', $stars );
 	}
 

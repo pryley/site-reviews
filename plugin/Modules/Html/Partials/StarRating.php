@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
 use GeminiLabs\SiteReviews\Contracts\PartialContract;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class StarRating implements PartialContract
 {
@@ -14,6 +15,9 @@ class StarRating implements PartialContract
 		require_once( ABSPATH.'wp-admin/includes/template.php' );
 		ob_start();
 		wp_star_rating( $args );
-		return ob_get_clean();
+		$stars = ob_get_clean();
+		return glsr( Builder::class )->div( $stars, [
+			'class' => 'glsr-stars',
+		]);
 	}
 }

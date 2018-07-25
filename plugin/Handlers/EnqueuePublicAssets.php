@@ -17,6 +17,7 @@ class EnqueuePublicAssets
 		$this->enqueueAssets();
 		$this->enqueuePolyfillService();
 		$this->enqueueRecaptchaScript();
+		$this->inlineStyles();
 		$this->localizeAssets();
 	}
 
@@ -79,6 +80,27 @@ class EnqueuePublicAssets
 	}
 
 	/**
+	 * @param
+	 * @return
+	 */
+	public function inlineStyles()
+	{
+		$inlineStylesheetPath = glsr()->path( 'assets/styles/inline-styles.css' );
+		if( !apply_filters( 'site-reviews/assets/css', true ))return;
+		if( !file_exists( $inlineStylesheetPath )) {
+			glsr_log()->error( 'Inline stylesheet is missing: '.$inlineStylesheetPath );
+			return;
+		}
+		$inlineStylesheetValues = glsr()->config( 'inline-styles' );
+		$stylesheet = str_replace(
+			array_keys( $inlineStylesheetValues ),
+			array_values( $inlineStylesheetValues ),
+			file_get_contents( $inlineStylesheetPath )
+		);
+		wp_add_inline_style( Application::ID, $stylesheet );
+	}
+
+	/**
 	 * @return void
 	 */
 	public function localizeAssets()
@@ -101,7 +123,6 @@ class EnqueuePublicAssets
 	{
 		$selectors = ['#wpadminbar','.site-navigation-fixed'];
 		return apply_filters( 'site-reviews/localize/pagination/selectors', $selectors );
-
 	}
 
 	/**

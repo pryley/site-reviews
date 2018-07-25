@@ -118,7 +118,8 @@ final class Application extends Container
 	 */
 	public function path( $file = '' )
 	{
-		return plugin_dir_path( $this->file ).ltrim( trim( $file ), '/' );
+		$path = plugin_dir_path( $this->file ).ltrim( trim( $file ), '/' );
+		return apply_filters( 'site-reviews/path', $path, $file );
 	}
 
 	/**
@@ -221,6 +222,7 @@ final class Application extends Container
 	 */
 	public function url( $path = '' )
 	{
-		return esc_url( plugin_dir_url( $this->file ).ltrim( trim( $path ), '/' ));
+		$url = esc_url( plugin_dir_url( $this->file ).ltrim( trim( $path ), '/' ));
+		return apply_filters( 'site-reviews/url', $url, $path );
 	}
 }

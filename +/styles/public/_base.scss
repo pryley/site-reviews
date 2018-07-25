@@ -1,3 +1,5 @@
+@import "node_modules/star-rating.js/src/star-rating";
+
 @keyframes glsr-loader {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
@@ -88,6 +90,9 @@ form.glsr-form {
 .glsr-field {
 	position: relative;
 	margin-bottom: 1em;
+}
+.glsr-error {
+	font-size: 0.875em;
 }
 .glsr-hidden {
 	display: none;
