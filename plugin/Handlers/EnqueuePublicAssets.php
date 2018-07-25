@@ -15,6 +15,7 @@ class EnqueuePublicAssets
 	public function handle()
 	{
 		$this->enqueueAssets();
+		$this->enqueuePolyfillService();
 		$this->enqueueRecaptchaScript();
 		$this->localizeAssets();
 	}
@@ -33,7 +34,10 @@ class EnqueuePublicAssets
 			);
 		}
 		if( apply_filters( 'site-reviews/assets/js', true )) {
-			$dependencies = apply_filters( 'site-reviews/enqueue/public/dependencies', [] );
+			$dependencies = apply_filters( 'site-reviews/assets/polyfill', true )
+				? [Application::ID.'/polyfill']
+				: [];
+			$dependencies = apply_filters( 'site-reviews/enqueue/public/dependencies', $dependencies );
 			wp_enqueue_script(
 				Application::ID,
 				glsr()->url( 'assets/scripts/'.Application::ID.'.js' ),
@@ -42,6 +46,20 @@ class EnqueuePublicAssets
 				true
 			);
 		}
+	}
+
+	/**
+	 * @return void
+	 */
+	public function enqueuePolyfillService()
+	{
+		if( !apply_filters( 'site-reviews/assets/polyfill', true ))return;
+		wp_enqueue_script(
+			Application::ID.'/polyfill',
+			'https://cdn.polyfill.io/v2/polyfill.js?features=Element.prototype.closest,Element.prototype.dataset,Event&flags=gated',
+			[],
+			glsr()->version
+		);
 	}
 
 	/**
