@@ -259,7 +259,7 @@ return [
 	],
 	'settings.submissions.style' => [
 		'default' => 'default',
-		'description' => __( 'Site Reviews relies on the CSS of your theme to style the submission form. If your theme does not provide proper CSS rules for form elements and you are using a WordPress plugin/theme or CSS Framework listed here, please try selecting it, otherwise choose "Default".', 'site-reviews' ),
+		'description' => __( 'Site Reviews relies on the CSS of your theme to style the submission form. If your theme does not provide proper CSS rules for form elements and you are using a WordPress plugin/theme or CSS Framework listed here, please try selecting it, otherwise choose "Site Reviews (default)".', 'site-reviews' ),
 		'label' => __( 'Form Style', 'site-reviews' ),
 		'options' => [
 			'bootstrap_4' => 'Bootstrap 4',

@@ -1,4 +1,5 @@
 /** global: CustomEvent, FormData, GLSR, HTMLFormElement, StarRating */
+/* jshint -W014 */
 /* jshint -W030 */
 /* jshint -W093 */
 ;(function() {
@@ -7,7 +8,7 @@
 
 	function countGroupedElements( inputEl ) {
 		var selector = 'input[name="' + inputEl.getAttribute( 'name' ) + '"]:checked';
-		return inputEl.validation.self.form.querySelectorAll( selector ).length;
+		return inputEl.validation.form.querySelectorAll( selector ).length;
 	}
 
 	var validators = {
@@ -16,14 +17,12 @@
 				return !val || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test( val );
 			},
 		},
-		integer: {
-			fn: function fn( val ) {
-				return val && /^\d+$/.test( val );
-			},
-		},
 		max: {
 			fn: function fn( val, limit ) {
-				return !val || ( this.type === 'checkbox' ? countGroupedElements( this ) <= parseInt( limit ) : parseFloat( val ) <= parseFloat( limit ));
+				return !val || ( this.type === 'checkbox'
+					? countGroupedElements( this ) <= parseInt( limit )
+					: parseFloat( val ) <= parseFloat( limit )
+				);
 			},
 		},
 		maxlength: {
@@ -33,7 +32,10 @@
 		},
 		min: {
 			fn: function fn( val, limit ) {
-				return !val || ( this.type === 'checkbox' ? countGroupedElements( this ) >= parseInt( limit ) : parseFloat( val ) >= parseFloat( limit ));
+				return !val || ( this.type === 'checkbox'
+					? countGroupedElements( this ) >= parseInt( limit )
+					: parseFloat( val ) >= parseFloat( limit )
+				);
 			},
 		},
 		minlength: {
@@ -43,7 +45,7 @@
 		},
 		number: {
 			fn: function fn( val ) {
-				return !val || !isNaN(parseFloat(val));
+				return !val || !isNaN( parseFloat( val ));
 			},
 			priority: 2,
 		},
@@ -55,7 +57,9 @@
 		},
 		required: {
 			fn: function fn( val ) {
-				return this.type === 'radio' || this.type === 'checkbox' ? countGroupedElements( this ) : val !== undefined && val !== '';
+				return this.type === 'radio' || this.type === 'checkbox'
+					? countGroupedElements( this )
+					: val !== undefined && val !== '';
 			},
 			priority: 99,
 			halt: true,
@@ -72,14 +76,14 @@
 
 	GLSR.Validation.prototype = {
 
-		ALLOWED_ATTRIBUTES: ['required', 'max', 'maxlength', 'min', 'minlength', 'pattern'],
-		ERROR_CLASS: 'glsr-error',
-		SELECTOR: 'input:not([type^=hidden]):not([type^=submit]), select, textarea',
+		ALLOWED_ATTRIBUTES_: ['required', 'max', 'maxlength', 'min', 'minlength', 'pattern'],
+		SELECTOR_: 'input:not([type^=hidden]):not([type^=submit]), select, textarea',
 
 		/** @return void */
 		addEvent_: function( input ) {
-			var isMicrosoftSelectEl = input.nodeName === 'SELECT' && this.isMicrosoftBrowser_();
-			var eventName = ~['radio', 'checkbox'].indexOf( input.getAttribute( 'type' )) || isMicrosoftSelectEl ? 'change' : 'input';
+			var eventName = ~['radio', 'checkbox'].indexOf( input.getAttribute( 'type' )) || input.nodeName === 'SELECT'
+				? 'change'
+				: 'input';
 			input.addEventListener( eventName, function( ev ) {
 				this.validate_( ev.target );
 			}.bind( this ));
@@ -88,7 +92,7 @@
 		/** @return void */
 		addValidators_: function( attributes, fns, params ) {
 			[].forEach.call( attributes, function( attr ) {
-				if( ~this.ALLOWED_ATTRIBUTES.indexOf( attr.name )) {
+				if( ~this.ALLOWED_ATTRIBUTES_.indexOf( attr.name )) {
 					this.addValidatorToField_( fns, params, attr.name, attr.value );
 				}
 				else if( attr.name === 'type' ) {
@@ -123,71 +127,54 @@
 			return result;
 		},
 
-		/** @return HTMLElement */
-		findAncestor_: function( el, cls ) {
-			while(( el = el.parentElement ) && !el.classList.contains( cls )) {}
-			return el;
-		},
-
 		/** @return array */
 		getErrorElements_: function( field ) {
 			if( field.errorElements ) {
 				return field.errorElements;
 			}
-			var errorClassElement = this.findAncestor_( field.input );
-			var errorTextParent = null,
-			errorTextElement = null;
-			if( this.config.groupFieldClass === this.config.errorTextParent ) {
-				errorTextParent = errorClassElement;
-			}
-			else {
-				errorTextParent = errorClassElement.querySelector( this.errorTextParent );
-			}
+			var errorTextParent = field.input.closest( '.' + this.config.field_class );
+			var errorTextElement = null;
 			if( errorTextParent ) {
-				errorTextElement = errorTextParent.querySelector( '.' + this.ERROR );
+				errorTextElement = errorTextParent.querySelector( '.' + this.config.error_tag_class );
 				if( !errorTextElement ) {
-					errorTextElement = document.createElement( this.config.errorTextTag );
-					errorTextElement.className = this.ERROR_CLASS + ' ' + this.config.errorTextClass;
+					errorTextElement = document.createElement( this.config.error_tag );
+					errorTextElement.className = this.config.error_tag_class;
 					errorTextParent.appendChild( errorTextElement );
 					errorTextElement.validation_display = errorTextElement.style.display;
 				}
 			}
 			return field.errorElements = [
-				errorClassElement,
+				errorTextParent,
 				errorTextElement,
 			];
 		},
 
 		/** @return void */
 		init_: function() {
-			this.fields = [].map.call( this.form.querySelectorAll( this.SELECTOR ), function( input ) {
+			this.fields = [].map.call( this.form.querySelectorAll( this.SELECTOR_ ), function( input ) {
 				var params = {};
 				var rules = [];
 				this.addValidators_( input.attributes, rules, params );
 				this.sortValidators_( rules );
 				this.addEvent_( input );
 				return input.validation = {
+					form: this.form,
 					input: input,
 					params: params,
-					self: this,
 					validators: rules,
 				};
 			}.bind( this ));
 		},
 
-		/** @return bool */
-		isMicrosoftBrowser_: function() {
-			return !!navigator.userAgent.match(/Edge|MSIE|Trident/g);
-		},
-
 		/** @return void */
 		removeError_: function( field ) {
 			var errorElements = this.getErrorElements_( field );
-			var errorClassElement = errorElements[0];
+			var errorTextParent = errorElements[0];
 			var errorTextElement = errorElements[1];
-			if( errorClassElement ) {
-				errorClassElement.classList.remove( this.config.errorClass );
-				errorClassElement.classList.remove( this.config.successClass );
+			field.input.classList.remove( this.config.input_error_class );
+			field.input.classList.remove( this.config.input_success_class );
+			if( errorTextParent ) {
+				errorTextParent.classList.remove( this.config.field_error_class );
 			}
 			if( errorTextElement ) {
 				errorTextElement.innerHTML = '';
@@ -199,11 +186,13 @@
 		/** @return void */
 		showError_: function( field ) {
 			var errorElements = this.getErrorElements_( field );
-			var errorClassElement = errorElements[0];
+			var errorTextParent = errorElements[0];
 			var errorTextElement = errorElements[1];
-			if( errorClassElement ) {
-				errorClassElement.classList.remove( this.config.successClass );
-				errorClassElement.classList.add( this.config.errorClass );
+			field.input.classList.remove( this.config.input_success_class );
+			field.input.classList.add( this.config.input_error_class );
+			if( errorTextParent ) {
+				console.log( this.config );
+				errorTextParent.classList.add( this.config.field_error_class );
 			}
 			if( errorTextElement ) {
 				errorTextElement.innerHTML = field.errors.join( '<br>' );
@@ -213,10 +202,8 @@
 
 		/** @return void */
 		showSuccess_: function( field ) {
-			var errorClassElement = this.removeError_( field )[0];
-			if( errorClassElement ) {
-				errorClassElement.classList.add( this.config.successClass );
-			}
+			this.removeError_( field )[0];
+			field.input.classList.add( this.config.input_success_class );
 		},
 
 		/** @return void */
@@ -225,13 +212,6 @@
 				a.priority || (a.priority = 1);
 				b.priority || (b.priority = 1);
 				return b.priority - a.priority;
-			});
-		},
-
-		/** @return string */
-		template_: function( error, params ) {
-			return error.replace( /(%s)/g, function( matches, a ) {
-				return params[a];
 			});
 		},
 
@@ -261,18 +241,18 @@
 			var isValid = true;
 			for( var i in field.validators ) {
 				var validator = field.validators[i];
-				// @todo
-				var params = field.params[validator.name] ? field.params[validator.name] : [];
+				var params = field.params[validator.name]
+					? field.params[validator.name]
+					: [];
 				params[0] = field.input.value;
-				if( !validator.fn.call( field.input, params[0] )) {
+				if( !validator.fn.apply( field.input, params )) {
 					isValid = false;
 					var error = this.strings[validator.name];
-					errors.push( this.template_.call( this, error, params ));
+					errors.push( error.replace( /(\%s)/g, params[1] ));
 					if( validator.halt === true )break;
 				}
 			}
 			field.errors = errors;
-			console.log( errors );
 			return isValid;
 		},
 	};

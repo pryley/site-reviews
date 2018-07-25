@@ -10,6 +10,11 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 class Style
 {
 	/**
+	 * @var array
+	 */
+	public $fields;
+
+	/**
 	 * @var string
 	 */
 	public $style;
@@ -17,12 +22,12 @@ class Style
 	/**
 	 * @var array
 	 */
-	public $styles;
+	public $validation;
 
 	public function __construct()
 	{
 		$this->style = glsr( OptionManager::class )->get( 'settings.submissions.style', 'default' );
-		$this->styles = $this->getStyles();
+		$this->setConfig();
 	}
 
 	/**
@@ -59,16 +64,19 @@ class Style
 	/**
 	 * @return array
 	 */
-	public function getStyles()
+	public function setConfig()
 	{
 		$keys = [
-			'input', 'input_checkbox', 'input_radio', 'label', 'label_checkbox', 'label_radio',
-			'select', 'textarea',
+			'fields' => ['input', 'input_checkbox', 'input_radio', 'label', 'label_checkbox', 'label_radio', 'select', 'textarea'],
+			'validation' => ['error_tag', 'error_tag_class', 'field_class', 'field_error_class', 'input_error_class', 'input_success_class'],
 		];
-		return wp_parse_args(
-			glsr()->config( 'styles/'.$this->style ),
-			array_fill_keys( $keys, '' )
+		$config = shortcode_atts(
+			array_fill_keys( array_keys( $keys ), [] ),
+			glsr()->config( 'styles/'.$this->style )
 		);
+		foreach( array_keys( $config ) as $key ) {
+			$this->$key = wp_parse_args( $config[$key], array_fill_keys( $keys[$key], '' ));
+		}
 	}
 
 	/**
@@ -76,7 +84,7 @@ class Style
 	 */
 	public function modifyField( Builder $instance )
 	{
-		if( !$this->isPublicInstance( $instance ) || empty( array_filter( $this->styles )))return;
+		if( !$this->isPublicInstance( $instance ) || empty( array_filter( $this->fields )))return;
 		call_user_func_array( [$this, 'customize'], [&$instance] );
 	}
 
@@ -87,9 +95,9 @@ class Style
 	{
 		$args = wp_parse_args( $instance->args, array_fill_keys( ['class', 'type'], '' ));
 		$key = $instance->tag.'_'.$args['type'];
-		$classes = !isset( $this->styles[$key] )
-			? $this->styles[$instance->tag]
-			: $this->styles[$key];
+		$classes = !isset( $this->fields[$key] )
+			? $this->fields[$instance->tag]
+			: $this->fields[$key];
 		$instance->args['class'] = trim( $args['class'].' '.$classes );
 		do_action_ref_array( 'site-reviews/customize/'.$this->style, [&$instance] );
 	}

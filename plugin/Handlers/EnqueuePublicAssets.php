@@ -80,8 +80,7 @@ class EnqueuePublicAssets
 	}
 
 	/**
-	 * @param
-	 * @return
+	 * @return void
 	 */
 	public function inlineStyles()
 	{
@@ -141,14 +140,16 @@ class EnqueuePublicAssets
 	 */
 	protected function getValidationConfig()
 	{
-		$config = [
-			'errorClass' => 'has-danger',
-			'errorParentClass' => 'form-group',
-			'errorTextClass' => 'text-help',
-			'errorTextTag' => 'div',
-			'fieldGroupClass' => 'form-group',
-			'successClass' => 'has-success',
+		$defaults = [
+			'error_tag' => 'div',
+			'error_tag_class' => 'glsr-field-error',
+			'field_class' => 'glsr-field',
+			'field_error_class' => 'glsr-has-error',
+			'input_error_class' => 'glsr-is-invalid',
+			'input_success_class' => 'glsr-is-valid',
 		];
+		$config = array_merge( $defaults, array_filter( glsr( Style::class )->validation ));
+		glsr_log( $config );
 		return apply_filters( 'site-reviews/localize/validation/config', $config );
 	}
 
@@ -160,9 +161,9 @@ class EnqueuePublicAssets
 		$strings = [
 			'email' => __( 'This field requires a valid e-mail address', 'site-reviews' ),
 			'max' => __( 'Maximum value for this field is %s', 'site-reviews' ),
-			'maxlength' => __( 'This fields length must be < %s', 'site-reviews' ),
+			'maxlength' => __( 'This field length must be < %s', 'site-reviews' ),
 			'min' => __( 'Minimum value for this field is %s', 'site-reviews' ),
-			'minlength' => __( 'This fields length must be > %s', 'site-reviews' ),
+			'minlength' => __( 'This field length must be > %s', 'site-reviews' ),
 			'number' => __( 'This field requires a number', 'site-reviews' ),
 			'pattern' => __( 'Input must match the pattern %s', 'site-reviews' ),
 			'required' => __( 'This field is required', 'site-reviews' ),
