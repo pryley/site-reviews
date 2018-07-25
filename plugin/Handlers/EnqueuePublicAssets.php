@@ -4,8 +4,8 @@ namespace GeminiLabs\SiteReviews\Handlers;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Style;
+use GeminiLabs\SiteReviews\Modules\Validator;
 
 class EnqueuePublicAssets
 {
@@ -109,7 +109,7 @@ class EnqueuePublicAssets
 			'ajaxpagination' => $this->getFixedSelectorsForPagination(),
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'validationconfig' => $this->getValidationConfig(),
-			'validationstrings' => $this->getValidationStrings(),
+			'validationstrings' => glsr( Validator::class )->strings(),
 		];
 		$variables = apply_filters( 'site-reviews/enqueue/public/localize', $variables );
 		wp_localize_script( Application::ID, 'GLSR', $variables );
@@ -149,27 +149,6 @@ class EnqueuePublicAssets
 			'input_success_class' => 'glsr-is-valid',
 		];
 		$config = array_merge( $defaults, array_filter( glsr( Style::class )->validation ));
-		glsr_log( $config );
 		return apply_filters( 'site-reviews/localize/validation/config', $config );
-	}
-
-	/**
-	 * @return array
-	 */
-	protected function getValidationStrings()
-	{
-		$strings = [
-			'email' => __( 'This field requires a valid e-mail address', 'site-reviews' ),
-			'max' => __( 'Maximum value for this field is %s', 'site-reviews' ),
-			'maxlength' => __( 'This field length must be < %s', 'site-reviews' ),
-			'min' => __( 'Minimum value for this field is %s', 'site-reviews' ),
-			'minlength' => __( 'This field length must be > %s', 'site-reviews' ),
-			'number' => __( 'This field requires a number', 'site-reviews' ),
-			'pattern' => __( 'Input must match the pattern %s', 'site-reviews' ),
-			'required' => __( 'This field is required', 'site-reviews' ),
-			'tel' => __( 'This field requires a valid telephone number', 'site-reviews' ),
-			'url' => __( 'This field requires a valid website URL', 'site-reviews' ),
-		];
-		return apply_filters( 'site-reviews/localize/validation/strings', $strings );
 	}
 }

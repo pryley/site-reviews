@@ -14,9 +14,7 @@ class Helper
 	 */
 	public function buildClassName( $name, $path = '' )
 	{
-		$className = explode( '_', $this->snakeCase( $name ));
-		$className = array_map( 'ucfirst', $className );
-		$className = implode( '', $className );
+		$className = $this->camelCase( $name );
 		$path = ltrim( str_replace( __NAMESPACE__, '', $path ), '\\' );
 		return !empty( $path )
 			? __NAMESPACE__.'\\'.$path.'\\'.$className
@@ -40,6 +38,16 @@ class Helper
 	public function buildPropertyName( $name )
 	{
 		return lcfirst( $this->buildClassName( $name ));
+	}
+
+	/**
+	 * @param string $string
+	 * @return string
+	 */
+	public function camelCase( $string )
+	{
+		$string = ucwords( str_replace( ['-', '_'], ' ', trim( $string )));
+		return str_replace( ' ', '', $string );
 	}
 
 	/**

@@ -49,12 +49,6 @@
 			},
 			priority: 2,
 		},
-		pattern: {
-			fn: function fn( val, pattern ) {
-				var m = pattern.match( new RegExp( '^/(.*?)/([gimy]*)$' ));
-				return !val || new RegExp( m[1], m[2] ).test( val );
-			},
-		},
 		required: {
 			fn: function fn( val ) {
 				return this.type === 'radio' || this.type === 'checkbox'
@@ -191,7 +185,6 @@
 			field.input.classList.remove( this.config.input_success_class );
 			field.input.classList.add( this.config.input_error_class );
 			if( errorTextParent ) {
-				console.log( this.config );
 				errorTextParent.classList.add( this.config.field_error_class );
 			}
 			if( errorTextElement ) {

@@ -15,10 +15,10 @@ class ValidateReview
 	const RECAPTCHA_ENDPOINT = 'https://www.google.com/recaptcha/api/siteverify';
 
 	const VALIDATION_RULES = [
-		'content' => 'required|min:0',
+		'content' => 'required',
 		'email' => 'required|email|min:5',
 		'name' => 'required',
-		'rating' => 'required|numeric|between:1,5',
+		'rating' => 'required|number|between:1,5',
 		'terms' => 'accepted',
 		'title' => 'required',
 	];
@@ -84,7 +84,7 @@ class ValidateReview
 	{
 		$rules = array_intersect_key(
 			apply_filters( 'site-reviews/validation/rules', static::VALIDATION_RULES ),
-			$this->getOption( 'settings.submissions.required', [] )
+			array_flip( $this->getOption( 'settings.submissions.required', [] ))
 		);
 		$excluded = isset( $request['excluded'] )
 			? (array)json_decode( $request['excluded'] )

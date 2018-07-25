@@ -18,35 +18,21 @@ trait ValidationRules
 	 */
 	abstract protected function getSize( $attribute, $value );
 
-
 	/**
-	 * Replace all placeholders for the between rule.
+	 * Replace all placeholders.
 	 * @param string $message
 	 * @return string
 	 */
-	protected function replaceBetween( $message, array $parameters )
+	protected function replace( $message, array $parameters )
 	{
-		return str_replace( [':min', ':max'], $parameters, $message );
-	}
-
-	/**
-	 * Replace all placeholders for the max rule.
-	 * @param string $message
-	 * @return string
-	 */
-	protected function replaceMax( $message, array $parameters )
-	{
-		return str_replace( ':max', $parameters[0], $message );
-	}
-
-	/**
-	 * Replace all placeholders for the min rule.
-	 * @param string $message
-	 * @return string
-	 */
-	protected function replaceMin( $message, array $parameters )
-	{
-		return str_replace( ':min', $parameters[0], $message );
+		if( strpos( $message, '%s' ) === false ) {
+			return $message;
+		}
+		return preg_replace_callback( '/(%s)/', function() use( &$parameters ) {
+			foreach( $parameters as $key => $value ) {
+				return array_shift( $parameters );
+			}
+		}, $message );
 	}
 
 	/**
