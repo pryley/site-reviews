@@ -10,4 +10,10 @@ return [
 		'select' => 'form-control',
 		'textarea' => 'form-control',
 	],
+	'validation' => [
+		'error_tag' => 'div',
+		'error_tag_class' => 'invalid-feedback',
+		'field_class' => 'form-group',
+		'input_error_class' => 'is-invalid',
+	],
 ];
