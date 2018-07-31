@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Controllers\AjaxController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Modules\Notice;
 
 class Router
 {
@@ -52,10 +53,10 @@ class Router
 	{
 		if( !is_user_logged_in() )return;
 		if( !isset( $request['nonce'] )) {
-			$this->sendAjaxError( 'The request is missing a nonce', $request );
+			$this->sendAjaxError( 'request is missing a nonce', $request );
 		}
 		if( !wp_verify_nonce( $request['nonce'], $request['action'] )) {
-			$this->sendAjaxError( 'The request failed the nonce check', $request, 403 );
+			$this->sendAjaxError( 'request failed the nonce check', $request, 403 );
 		}
 	}
 
@@ -65,29 +66,28 @@ class Router
 	protected function checkAjaxRequest( array $request )
 	{
 		if( !isset( $request['action'] )) {
-			$this->sendAjaxError( 'The request must include an action', $request );
+			$this->sendAjaxError( 'request must include an action', $request );
 		}
 		if( empty( $request['ajax_request'] )) {
-			$this->sendAjaxError( 'The request is invalid', $request );
+			$this->sendAjaxError( 'request is invalid', $request );
 		}
 	}
 
 	/**
 	 * All ajax requests in the plugin are triggered by a single action hook: glsr_action,
-	 * while each route is determined by $_POST[request][action]
+	 * while each ajax route is determined by $_POST[request][action]
 	 * @return array
 	 */
 	protected function getRequest()
 	{
-		if( glsr( Helper::class )->filterInput( 'action' ) != Application::PREFIX.'action' ) {
-			// not an ajax request
-			return glsr( Helper::class )->filterInputArray( Application::ID );
+		$request = glsr( Helper::class )->filterInputArray( Application::ID );
+		if( glsr( Helper::class )->filterInput( 'action' ) == Application::PREFIX.'action' ) {
+			$request['ajax_request'] = true;
 		}
-		$request = glsr( Helper::class )->filterInputArray( 'request' );
-		if( empty( $request )) {
-			$request = glsr( Helper::class )->filterInputArray( Application::ID );
+		if( glsr( Helper::class )->filterInput( 'action', $request ) == 'submit-review' ) {
+			$request['recaptcha-token'] = glsr( Helper::class )->filterInput( 'g-recaptcha-response' );
 		}
-		return $this->normalizeRequest( $request );
+		return $request;
 	}
 
 	/**
@@ -104,24 +104,10 @@ class Router
 	protected function isValidPublicNonce( array $request )
 	{
 		if( is_user_logged_in() && !wp_verify_nonce( $request['nonce'], $request['action'] )) {
-			glsr_log()->error( 'Nonce check failed for public request' )->info( $request );
+			glsr_log()->error( 'nonce check failed for public request' )->info( $request );
 			return false;
 		}
 		return true;
-	}
-
-	/**
-	 * @return array
-	 */
-	protected function normalizeRequest( array $request )
-	{
-		if( glsr( Helper::class )->filterInput( 'action' ) == Application::PREFIX.'action' ) {
-			$request['ajax_request'] = true;
-		}
-		if( glsr( Helper::class )->filterInput( 'action', $request ) == 'submit-review' ) {
-			$request['recaptcha-token'] = glsr( Helper::class )->filterInput( 'g-recaptcha-response' );
-		}
-		return $request;
 	}
 
 	/**
@@ -153,9 +139,12 @@ class Router
 	protected function sendAjaxError( $error, array $request, $statusCode = 400 )
 	{
 		glsr_log()->error( $error )->info( $request );
+		glsr_log( $_POST );
+		glsr( Notice::class )->addError( __( 'There was an error (try refreshing the page).', 'site-reviews' ).' <code>'.$error.'</code>' );
 		wp_send_json_error([
 			'message' => __( 'The form could not be submitted. Please notify the site administrator.', 'site-reviews' ),
+			'notices' => glsr( Notice::class )->get(),
 			'error' => $error,
-		], $statusCode );
+		]);
 	}
 }

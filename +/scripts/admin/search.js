@@ -182,14 +182,14 @@
 				return this.reset_();
 			}
 			this.el.addClass( 'is-active' );
-			this.searchRequest = wp.ajax.post( GLSR.action, {
-				request: {
-					action: this.options.action,
-					exclude: this.options.exclude,
-					nonce: this.el.find( '#_search_nonce' ).val(),
-					search: this.searchTerm,
-				},
-			}).done( function( response ) {
+			var data = {};
+			data[GLSR.nameprefix] = {
+				action: this.options.action,
+				exclude: this.options.exclude,
+				nonce: this.el.find( '#_search_nonce' ).val(),
+				search: this.searchTerm,
+			};
+			this.searchRequest = wp.ajax.post( GLSR.action, data ).done( function( response ) {
 				this.el.removeClass( 'is-active' );
 				this.displayResults_( response.items ? response.items : response.empty );
 				this.options.results = this.options.resultsEl.children();

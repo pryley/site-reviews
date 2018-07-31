@@ -110,6 +110,7 @@ class EnqueuePublicAssets
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'validationconfig' => $this->getValidationConfig(),
 			'validationstrings' => glsr( Validator::class )->strings(),
+			'nameprefix' => Application::ID,
 		];
 		$variables = apply_filters( 'site-reviews/enqueue/public/localize', $variables );
 		wp_localize_script( Application::ID, 'GLSR', $variables );

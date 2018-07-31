@@ -19,7 +19,7 @@
 		},
 
 		/** @return bool */
-		isFileAPISupported_: function() {
+		isFileSupported_: function() {
 			var input = document.createElement( 'INPUT' );
 			input.type = 'file';
 			return 'files' in input;

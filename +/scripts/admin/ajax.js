@@ -5,6 +5,7 @@
 
 	GLSR.Ajax = function( request, ev ) { // object
 		this.event = ev || null;
+		this.notice = null;
 		this.request = request;
 	};
 
@@ -12,11 +13,12 @@
 		/** @return void */
 		buildData_: function( el ) { // HTMLElement|null
 			this.buildNonce_( el );
-			return {
+			var data = {
 				action: GLSR.action,
 				ajax_request: true,
-				request: this.request,
 			};
+			data[GLSR.nameprefix] = this.request;
+			return data;
 		},
 
 		/** @return void */
@@ -31,15 +33,30 @@
 		},
 
 		/** @return void */
+		doPost_: function( callback, el ) {
+			var self = this;
+			$.post( GLSR.ajaxurl, this.buildData_( el )).done( function( response ) {
+				self.notice = ( response.data.notices || null );
+				if( typeof callback === 'function' ) {
+					callback( response.data, response.success );
+				}
+				if( el ) {
+					el.prop( 'disabled', false );
+				}
+			}).always( function() {
+				if( self.notice ) {
+					GLSR.Notices( self.notice );
+				}
+			});
+		},
+
+		/** @return void */
 		post_: function( callback ) { // function|void
 			if( this.event ) {
 				this.postFromEvent_( callback );
 				return;
 			}
-			$.post( GLSR.ajaxurl, this.buildData_(), function( response ) {
-				if( typeof callback !== 'function' )return;
-				callback( response.data, response.success );
-			});
+			this.doPost_( callback );
 		},
 
 		/** @return void */
@@ -48,12 +65,7 @@
 			var el = $( this.event.currentTarget );
 			if( el.is( ':disabled' ))return;
 			el.prop( 'disabled', true );
-			$.post( GLSR.ajaxurl, this.buildData_( el ), function( response ) {
-				if( typeof callback === 'function' ) {
-					callback( response.data, response.success );
-				}
-				el.prop( 'disabled', false );
-			});
+			this.doPost_( callback, el );
 		},
 	};
 })( jQuery );
