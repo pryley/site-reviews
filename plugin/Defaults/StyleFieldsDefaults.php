@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 
-class BuilderDefaults extends Defaults
+class StyleFieldsDefaults extends Defaults
 {
 	/**
 	 * @return array
@@ -12,13 +12,14 @@ class BuilderDefaults extends Defaults
 	protected function defaults()
 	{
 		return [
-			'class' => '',
-			'id' => '',
+			'input' => '',
+			'input_checkbox' => '',
+			'input_radio' => '',
 			'label' => '',
-			'options' => [],
-			'text' => '',
-			'type' => '',
-			'value' => '',
+			'label_checkbox' => '',
+			'label_radio' => '',
+			'select' => '',
+			'textarea' => '',
 		];
 	}
 }

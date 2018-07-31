@@ -8,7 +8,7 @@ use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Database\QueryBuilder;
 use GeminiLabs\SiteReviews\Database\SqlQueries;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
-use GeminiLabs\SiteReviews\Defaults\GetReviewsDefaults;
+use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Review;
 use WP_Post;
@@ -60,7 +60,7 @@ class ReviewManager
 	 */
 	public function get( array $args = [] )
 	{
-		$args = glsr( GetReviewsDefaults::class )->restrict( $args );
+		$args = glsr( ReviewsDefaults::class )->restrict( $args );
 		$metaQuery = glsr( QueryBuilder::class )->buildQuery(
 			['assigned_to', 'type', 'rating'],
 			$args

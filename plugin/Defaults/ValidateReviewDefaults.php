@@ -10,7 +10,7 @@ class ValidateReviewDefaults extends Defaults
 	/**
 	 * @return array
 	 */
-	public function defaults()
+	protected function defaults()
 	{
 		$user = wp_get_current_user();
 		return [

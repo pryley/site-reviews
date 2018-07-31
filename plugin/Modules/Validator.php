@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use BadMethodCallException;
+use GeminiLabs\SiteReviews\Defaults\ValidationStrings;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidationRules;
 use InvalidArgumentException;
@@ -60,26 +61,6 @@ class Validator
 	protected $numericRules = [
 		'Number',
 	];
-
-	/**
-	 * @return array
-	 */
-	public function strings()
-	{
-		$strings = [
-			'accepted' => __( 'This field must be accepted.', 'site-reviews' ),
-			'between' => __( 'This field value must be between %s and %s.', 'site-reviews' ),
-			'betweenlength' => __( 'This field must have between %s and %s characters.', 'site-reviews' ),
-			'email' => __( 'This field requires a valid e-mail address.', 'site-reviews' ),
-			'max' => __( 'Maximum value for this field is %s.', 'site-reviews' ),
-			'maxlength' => __( 'This field allows a maximum of %s characters.', 'site-reviews' ),
-			'min' => __( 'Minimum value for this field is %s.', 'site-reviews' ),
-			'minlength' => __( 'This field requires a minimum of %s characters.', 'site-reviews' ),
-			'number' => __( 'This field requires a number.', 'site-reviews' ),
-			'required' => __( 'This field is required.', 'site-reviews' ),
-		];
-		return apply_filters( 'site-reviews/validation/strings', $strings );
-	}
 
 	/**
 	 * Run the validator's rules against its data.
@@ -318,17 +299,9 @@ class Validator
 	 */
 	protected function translator( $key, array $parameters )
 	{
-		$strings = $this->strings();
+		$strings = glsr( ValidationStrings::class )->defaults();
 		if( isset( $strings[$key] )) {
 			return $this->replace( $strings[$key], $parameters );
 		}
 	}
 }
-
-		// 'between.numeric' => __( 'This field value must be between %s and %s.', 'site-reviews' ),
-		// 'between.string' => __( 'This field length must be between %s and %s characters.', ':min, and :max are placeholders and should not be translated.', 'site-reviews' ),
-		// 'max.numeric' => __( 'Maximum value for this field is %s.', 'site-reviews' ),
-		// 'max.string' => __( 'This field length must be < %s characters.', 'site-reviews' ),
-		// 'min.numeric' => __( 'Minimum value for this field is %s.', 'site-reviews' ),
-		// 'min.string' => __( 'This field length must be > %s characters.', 'site-reviews' ),
-		// 'regex' => __( 'The format is invalid.', 'site-reviews' ),

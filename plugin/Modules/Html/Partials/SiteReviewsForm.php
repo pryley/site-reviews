@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Defaults\StyleValidationDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -82,7 +83,7 @@ class SiteReviewsForm
 	protected function buildResponse()
 	{
 		$classes = !empty( $this->errors )
-			? 'glsr-has-errors'
+			? glsr( StyleValidationDefaults::class )->defaults()['message_error_class']
 			: '';
 		return glsr( Template::class )->build( 'templates/form/response', [
 			'context' => [

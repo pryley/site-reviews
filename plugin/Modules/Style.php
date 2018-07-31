@@ -4,6 +4,8 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Defaults\StyleFieldsDefaults;
+use GeminiLabs\SiteReviews\Defaults\StyleValidationDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
@@ -66,17 +68,12 @@ class Style
 	 */
 	public function setConfig()
 	{
-		$keys = [
-			'fields' => ['input', 'input_checkbox', 'input_radio', 'label', 'label_checkbox', 'label_radio', 'select', 'textarea'],
-			'validation' => ['error_tag', 'error_tag_class', 'field_class', 'field_error_class', 'input_error_class', 'input_success_class'],
-		];
 		$config = shortcode_atts(
-			array_fill_keys( array_keys( $keys ), [] ),
+			array_fill_keys( ['fields', 'validation'], [] ),
 			glsr()->config( 'styles/'.$this->style )
 		);
-		foreach( array_keys( $config ) as $key ) {
-			$this->$key = wp_parse_args( $config[$key], array_fill_keys( $keys[$key], '' ));
-		}
+		$this->fields = glsr( StyleFieldsDefaults::class )->restrict( $config['fields'] );
+		$this->validation = glsr( StyleValidationDefaults::class )->restrict( $config['validation'] );
 	}
 
 	/**

@@ -4,12 +4,12 @@ namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 
-class GetReviewsDefaults extends Defaults
+class ReviewsDefaults extends Defaults
 {
 	/**
 	 * @return array
 	 */
-	public function defaults()
+	protected function defaults()
 	{
 		return [
 			'assigned_to' => '',

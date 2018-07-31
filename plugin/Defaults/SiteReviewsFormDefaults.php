@@ -9,7 +9,7 @@ class SiteReviewsFormDefaults extends Defaults
 	/**
 	 * @return array
 	 */
-	public function defaults()
+	protected function defaults()
 	{
 		return [
 			'assign_to' => '',

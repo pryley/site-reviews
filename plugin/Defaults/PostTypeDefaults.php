@@ -10,7 +10,7 @@ class PostTypeDefaults extends Defaults
 	/**
 	 * @return array
 	 */
-	public function defaults()
+	protected function defaults()
 	{
 		return [
 			'columns' => [

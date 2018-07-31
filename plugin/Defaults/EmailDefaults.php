@@ -9,7 +9,7 @@ class EmailDefaults extends Defaults
 	/**
 	 * @return array
 	 */
-	public function defaults()
+	protected function defaults()
 	{
 		$fromName  = wp_specialchars_decode( (string)get_option( 'blogname' ), ENT_QUOTES );
 		$fromEmail = (string)get_option( 'admin_email' );

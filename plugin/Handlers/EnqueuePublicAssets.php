@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Handlers;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
 use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Modules\Validator;
 
@@ -108,9 +109,9 @@ class EnqueuePublicAssets
 			'action' => Application::PREFIX.'action',
 			'ajaxpagination' => $this->getFixedSelectorsForPagination(),
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-			'validationconfig' => $this->getValidationConfig(),
-			'validationstrings' => glsr( Validator::class )->strings(),
 			'nameprefix' => Application::ID,
+			'validationconfig' => glsr( Style::class )->validation,
+			'validationstrings' => glsr( ValidationStringsDefaults::class )->defaults(),
 		];
 		$variables = apply_filters( 'site-reviews/enqueue/public/localize', $variables );
 		wp_localize_script( Application::ID, 'GLSR', $variables );
@@ -134,22 +135,5 @@ class EnqueuePublicAssets
 		return file_exists( glsr()->path( 'assets/styles/custom/'.$currentStyle.'.css' ))
 			? glsr()->url( 'assets/styles/custom/'.$currentStyle.'.css' )
 			: glsr()->url( 'assets/styles/'.Application::ID.'.css' );
-	}
-
-	/**
-	 * @return array
-	 */
-	protected function getValidationConfig()
-	{
-		$defaults = [
-			'error_tag' => 'div',
-			'error_tag_class' => 'glsr-field-error',
-			'field_class' => 'glsr-field',
-			'field_error_class' => 'glsr-has-error',
-			'input_error_class' => 'glsr-is-invalid',
-			'input_success_class' => 'glsr-is-valid',
-		];
-		$config = array_merge( $defaults, array_filter( glsr( Style::class )->validation ));
-		return apply_filters( 'site-reviews/localize/validation/config', $config );
 	}
 }
