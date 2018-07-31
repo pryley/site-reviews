@@ -89,7 +89,9 @@ form.glsr-form {
 
 .glsr-field {
 	position: relative;
-	margin-bottom: 1em;
+}
+.glsr-field ul {
+	list-style-type: none;
 }
 .glsr-error {
 	font-size: 0.875em;

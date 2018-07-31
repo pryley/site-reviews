@@ -1,19 +1,15 @@
 form.glsr-form {
+	font-size: $glsr-font-size;
+
 	.glsr-required label span::after {
 		content: '\002a';
 		color: $glsr-color-error;
 	}
-}
-
-.glsr-default {
 	.glsr-field {
 		margin-bottom: $glsr-font-size;
 	}
-	.glsr-field ul {
-		list-style-type: none;
-	}
 	.glsr-field-error {
-		display: block;
+		display: none;
 		font-size: $glsr-font-size-small;
 		color: $glsr-color-error;
 	}
@@ -23,18 +19,36 @@ form.glsr-form {
 	.glsr-form-messages p {
 		margin-top: $glsr-font-size;
 	}
-	.glsr-has-error,
 	.glsr-has-errors {
 		color: $glsr-color-error;
 	}
+	.glsr-is-invalid {
+		border-color: $glsr-color-error;
+	}
+	.glsr-field-choice input {
+		outline: none;
+	}
+	.glsr-has-error .glsr-field-choice input {
+		opacity: 0;
+	}
+	.glsr-has-error .glsr-field-choice label::before {
+		position: absolute;
+		top: 5px;
+		left: 0;
+		content: "";
+		width: $glsr-font-size;
+		height: $glsr-font-size;
+		border: 1px solid $glsr-color-error;
+		line-height: inherit;
+	}
 }
-.glsr-ltr .glsr-default {
+.glsr-ltr form.glsr-form {
 	.glsr-field input[type="checkbox"],
 	.glsr-field input[type="radio"] {
 		margin-right: 0.5em;
 	}
 }
-.glsr-rtl .glsr-default {
+.glsr-rtl form.glsr-form {
 	.glsr-field input[type="checkbox"],
 	.glsr-field input[type="radio"] {
 		margin-left: 0.5em;

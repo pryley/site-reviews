@@ -1,5 +1,5 @@
 <?php defined( 'WPINC' ) || die; ?>
 
-<div class="glsr-form-messages {{ class }}">
+<div class="glsr-form-message {{ class }}">
 	{{ message }}
 </div>
