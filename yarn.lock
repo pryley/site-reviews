@@ -3653,9 +3653,9 @@ stack-trace@0.0.10:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/stack-trace/-/stack-trace-0.0.10.tgz#547c70b347e8d32b4e108ea1a2a159e5fdde19c0"
 
-star-rating.js@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/star-rating.js/-/star-rating.js-3.1.0.tgz#298625f4daadc3d27d6ea9304b79acc955efc045"
+star-rating.js@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/star-rating.js/-/star-rating.js-3.1.1.tgz#951f0db14f2be1ef95f3fff680fdac4c0dfd2efb"
 
 static-extend@^0.1.1:
   version "0.1.2"
