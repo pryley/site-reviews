@@ -2,6 +2,9 @@
 .gl-star-rating-stars > span {
 	background-image: url(:star-empty)!important;
 }
+.glsr-has-error .gl-star-rating-stars > span {
+	background-image: url(:star-error)!important;
+}
 .glsr-stars .star-half {
 	background-image: url(:star-half)!important;
 }
