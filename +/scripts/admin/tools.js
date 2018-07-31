@@ -4,22 +4,24 @@
 	'use strict';
 
 	GLSR.Tools = function() {
-		$( 'form' ).on( 'click', '#clear-console', this.clearConsole_, this.onClick_ );
+		$( 'form' ).on( 'click', '#clear-console', this.loadConsole_, this.onClick_ );
+		$( 'form' ).on( 'click', '#fetch-console', this.loadConsole_, this.onClick_ );
 		$( 'form' ).on( 'click', '#count-reviews', this.onClick_ );
 	};
 
 	GLSR.Tools.prototype = {
-		clearConsole_: function( response ) {
-			$( '#log-file' ).val( response.console );
+		loadConsole_: function( response, success ) {
+			if( success ) {
+				$( '#log-file' ).val( response.console );
+			}
 		},
 		onClick_: function( ev ) {
-		 	var request = {
+			var request = {
 				action: ev.currentTarget.name,
 			};
-			(new GLSR.Ajax( request, ev )).post_( function( response ) {
-				GLSR.Notices( response.notices );
+			(new GLSR.Ajax( request, ev )).post_( function( response, success ) {
 				if( typeof ev.data === 'function' ) {
-					ev.data( response );
+					ev.data( response, success );
 				}
 			});
 		},

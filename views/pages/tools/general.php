@@ -7,8 +7,10 @@
 	<form method="post">
 		<input type="hidden" name="{{ id }}[action]" value="count-reviews">
 		<?php wp_nonce_field( 'count-reviews' ); ?>
-		<button type="submit" class="glsr-button button" name="count-reviews" id="count-reviews">
-			<span data-loading="<?= __( 'Recalculating Counts...', 'site-reviews' ); ?>"><?= __( 'Recalculate Counts', 'site-reviews' ); ?></span>
-		</button>
+		<p class="submit">
+			<button type="submit" class="glsr-button button" name="count-reviews" id="count-reviews">
+				<span data-loading="<?= __( 'Recalculating Counts...', 'site-reviews' ); ?>"><?= __( 'Recalculate Counts', 'site-reviews' ); ?></span>
+			</button>
+		</p>
 	</form>
 </div>
