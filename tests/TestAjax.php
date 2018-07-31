@@ -27,7 +27,7 @@ class TestAjax extends WP_Ajax_UnitTestCase
 	protected function ajax_response( $request )
 	{
 		$_POST['ajax_request'] = true;
-		$_POST['request'] = $request;
+		$_POST[Application::ID] = $request;
 		try {
 			$this->_handleAjax( Application::PREFIX.'action' );
 		}
