@@ -5,42 +5,19 @@
 
 	var GLSR_Form = function( formEl, buttonEl ) { // HTMLElement, HTMLElement
 		this.button = buttonEl;
+		this.config = GLSR.validationconfig;
 		this.form = formEl;
-		this.init = this.init_.bind( this );
 		this.recaptcha = new GLSR.Recaptcha( this );
+		this.strings = GLSR.validationstrings;
+		this.useAjax = this.isAjaxEnabled_();
 		this.validation = new GLSR.Validation( formEl );
 	};
 
 	GLSR_Form.prototype = {
-		config: {
-			fieldErrorsClass: 'glsr-field-errors',
-			fieldSelector: '.glsr-field',
-			formMessagesClass: 'glsr-form-messages',
-			hasErrorClass: 'glsr-has-error',
-		},
 
 		/** @return void */
 		addRemoveClass_: function( el, classValue, bool ) { // HTMLElement, string, bool
 			el.classList[bool ? 'add' : 'remove']( classValue );
-		},
-
-		/** @return void */
-		clearFieldError_: function( el ) { // HTMLElement
-			var fieldEl = el.closest( this.config.fieldSelector );
-			if( fieldEl === null )return;
-			fieldEl.classList.remove( this.config.hasErrorClass );
-			var errorEl = fieldEl.querySelector( this.config.fieldErrorsSelector );
-			if( errorEl !== null ) {
-				errorEl.parentNode.removeChild( errorEl );
-			}
-		},
-
-		/** @return void */
-		clearFormErrors_: function() {
-			this.getResultsEl_().innerHTML = '';
-			for( var i = 0; i < this.form.length; i++ ) {
-				this.clearFieldError_( this.form[i] );
-			}
 		},
 
 		/** @return void */
@@ -54,46 +31,9 @@
 		},
 
 		/** @return void */
-		fallbackSubmit_: function() {
-			var ajax = new GLSR.Ajax();
-			if( ajax.isFileAPISupported_() && ajax.isFormDataSupported_() && ajax.isUploadSupported_() )return;
-			this.form.submit();
-		},
-
-		/** @return HTMLDivElement */
-		getFieldErrorsEl_: function( fieldEl ) { // HTMLElement
-			var errorsEl = fieldEl.querySelector( '.' + this.config.fieldErrorsClass );
-			if( errorsEl === null ) {
-				errorsEl = document.createElement( 'div' );
-				errorsEl.setAttribute( 'class', this.config.fieldErrorsClass );
-				fieldEl.appendChild( errorsEl );
-			}
-			return errorsEl;
-		},
-
-		/** @return HTMLFormElement */
-		getForm_: function( recaptchaToken ) { // string|null
-			var tokenEl = this.form['g-recaptcha-response'];
-			if( tokenEl ) {
-				tokenEl.value = recaptchaToken || '';
-			}
-			return this.form;
-		},
-
-		/** @return HTMLDivElement */
-		getResultsEl_: function() {
-			var resultsEl = this.form.querySelector( '.' + this.config.formMessagesClass );
-			if( resultsEl === null ) {
-				resultsEl = document.createElement( 'div' );
-				resultsEl.setAttribute( 'class', this.config.formMessagesClass );
-				this.button.parentNode.insertBefore( resultsEl, this.button.nextSibling );
-			}
-			return resultsEl;
-		},
-
-		/** @return void */
 		handleResponse_: function( response, success ) { // object
-			if( response.recaptcha === true ) {
+			if( response.recaptcha === 'unset' ) {
+				this.enableButton_();
 				return this.recaptcha.execute_();
 			}
 			if( response.recaptcha === 'reset' ) {
@@ -104,7 +44,7 @@
 				this.form.reset();
 			}
 			this.showFieldErrors_( response.errors );
-			this.showResults_( response, success );
+			this.showResults_( response.message, success );
 			this.enableButton_();
 			response.form = this.form;
 			document.dispatchEvent( new CustomEvent( 'site-reviews/after/submission', { detail: response }));
@@ -112,81 +52,86 @@
 
 		/** @return void */
 		init_: function() {
-			this.button.addEventListener( 'click', this.onClick_.bind( this ));
-			this.form.addEventListener( 'change', this.onChange_.bind( this ));
 			this.form.addEventListener( 'submit', this.onSubmit_.bind( this ));
 			this.initStarRatings_();
+			this.recaptcha.render_();
 		},
 
 		/** @return void */
 		initStarRatings_: function() {
-			new StarRating( 'select.glsr-star-rating', {
-				clearable: false,
-				showText: false,
-				onClick: this.clearFieldError_.bind( this ),
+			var select = this.form.querySelector( 'select.glsr-star-rating' );
+			if( select ) {
+				new StarRating( select, {
+					clearable: false,
+					showText: false,
+				});
+			}
+		},
+
+		/** @return bool */
+		isAjaxEnabled_: function() {
+			var ajax = new GLSR.Ajax();
+			var isUploadSupported = true;
+			[].forEach.call( this.form.elements, function( el ) {
+				if( el.type !== 'file' )return;
+				isUploadSupported = ajax.isFileSupported_() && ajax.isUploadSupported_();
 			});
-		},
-
-		/** @return void */
-		onChange_: function( ev ) { // Event
-			this.clearFieldError_( ev.currentTarget );
-		},
-
-		/**
-		 * This event method handles the mayhem caused by the invisible-recaptcha plugin
-		 * and is triggered on the invisible-recaptcha callback
-		 * @return void */
-		onClick_: function() {
-			var form = this;
-			this.form.onsubmit = null;
-			HTMLFormElement.prototype._submit = HTMLFormElement.prototype.submit;
-			HTMLFormElement.prototype.submit = function() {
-				var token = this['g-recaptcha-response'];
-				if( token && this.querySelector( form.config.fieldSelector )) {
-					form.submitForm_( token.value );
-					return;
-				}
-				this._submit();
-			};
+			return isUploadSupported && !this.form.classList.contains( 'no-ajax' );
 		},
 
 		/** @return void */
 		onSubmit_: function( ev ) { // HTMLEvent
+			if( !this.validation.validate_() ) {
+				ev.preventDefault();
+				this.showResults_( this.strings.errors, false );
+				return;
+			}
+			this.resetErrors_();
+			if( !this.form['g-recaptcha-response'] || this.form['g-recaptcha-response'].value !== '' ) {
+				if( !this.useAjax )return;
+			}
 			ev.preventDefault();
-			if( !this.validation.validate_() )return;
-			// @todo
-			if( this.form.classList.contains( 'no-ajax' ))return;
-			this.recaptcha.addListeners_();
-			this.clearFormErrors_();
 			this.submitForm_();
+		},
+
+		/** @return void */
+		resetErrors_: function() {
+			this.showResults_( '', true );
+			this.validation.reset_();
 		},
 
 		/** @return void */
 		showFieldErrors_: function( errors ) { // object
 			if( !errors )return;
-			var fieldEl, errorsEl;
 			for( var error in errors ) {
-				fieldEl = this.form.querySelector( '[name=' + error + ']' ).closest( this.config.fieldSelector );
-				fieldEl.classList.add( this.config.hasErrorClass );
-				errorsEl = this.getFieldErrorsEl_( fieldEl );
-				for( var i = 0; i < errors[error].errors.length; i++ ) {
-					errorsEl.innerHTML += errors[error].errors[i];
-				}
+				var nameSelector = GLSR.nameprefix ? GLSR.nameprefix + '[' + error + ']' : error;
+				var inputEl = this.form.querySelector( '[name="' + nameSelector + '"]' );
+				this.validation.setErrors_( inputEl, errors[error] );
+				this.validation.toggleError_( inputEl.validation, 'add' );
 			}
 		},
 
 		/** @return void */
-		showResults_: function( response, success ) { // object, bool
-			var resultsEl = this.getResultsEl_();
-			this.addRemoveClass_( resultsEl, 'glsr-has-errors', !success );
-			resultsEl.innerHTML = '<p>' + response.message + '</p>';
+		showResults_: function( message, success ) { // object, bool
+			var resultsEl = this.form.querySelector( '.' + this.config.message_tag_class );
+			if( resultsEl === null ) {
+				resultsEl = document.createElement( this.config.message_tag );
+				resultsEl.className = this.config.message_tag_class;
+				this.button.parentNode.insertBefore( resultsEl, this.button.nextSibling );
+			}
+			this.addRemoveClass_( resultsEl, this.config.message_error_class, !success );
+			resultsEl.innerHTML = message;
 		},
 
 		/** @return void */
-		submitForm_: function( recaptchaToken ) { // string|null
+		submitForm_: function() { // string|null
+			var ajax = new GLSR.Ajax();
+			if( !ajax.isFormDataSupported_() ) {
+				this.showResults_( this.strings.unsupported, false );
+				return;
+			}
 			this.disableButton_();
-			this.fallbackSubmit_();
-			(new GLSR.Ajax()).post_( this.getForm_( recaptchaToken ), this.handleResponse_.bind( this ));
+			(new GLSR.Ajax()).post_( this.form, this.handleResponse_.bind( this ));
 		},
 	};
 
@@ -199,14 +144,9 @@
 			if( !submitButton )continue;
 			form = new GLSR_Form( this.nodeList[i], submitButton );
 			if( shouldInit ) {
-				form.init();
+				form.init_();
 			}
 			this.forms.push( form );
 		}
-		this.renderRecaptcha = function() {
-			this.forms.forEach( function( form ) {
-				form.recaptcha.render_();
-			});
-		};
 	};
 })();

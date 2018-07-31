@@ -291,30 +291,31 @@ return [
 	],
 	'settings.submissions.recaptcha.integration' => [
 		'default' => '',
-		'description' => __( 'Invisible reCAPTCHA is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site. If you are already using a reCAPTCHA plugin listed here then please select it, otherwise choose "Use reCAPTCHA".', 'site-reviews' ),
+		'description' => __( 'Invisible reCAPTCHA is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'site-reviews' ),
 		'label' => __( 'Invisible reCAPTCHA', 'site-reviews' ),
 		'options' => [
-			'' => __( 'Do not use reCAPTCHA', 'site-reviews' ),
-			'custom' => __( 'Use reCAPTCHA', 'site-reviews' ),
-			'invisible-recaptcha' => __( 'Use 3rd-party plugin: Invisible reCaptcha', 'site-reviews' ),
+			'' => 'Do not use reCAPTCHA',
+			'all' => 'Use reCAPTCHA',
+			'guest' => 'Use reCAPTCHA only for guest users',
 		],
 		'type' => 'select',
 	],
 	'settings.submissions.recaptcha.key' => [
 		'default' => '',
-		'depends_on' => ['settings.submissions.recaptcha.integration' => 'custom'],
+		'depends_on' => ['settings.submissions.recaptcha.integration' => ['all', 'guest']],
 		'label' => __( 'Site Key', 'site-reviews' ),
 		'type' => 'text',
 	],
 	'settings.submissions.recaptcha.secret' => [
 		'default' => '',
-		'depends_on' => ['settings.submissions.recaptcha.integration' => 'custom'],
+		'depends_on' => ['settings.submissions.recaptcha.integration' => ['all', 'guest']],
 		'label' => __( 'Site Secret', 'site-reviews' ),
 		'type' => 'text',
 	],
 	'settings.submissions.recaptcha.position' => [
 		'default' => 'bottomleft',
-		'depends_on' => ['settings.submissions.recaptcha.integration' => 'custom'],
+		'depends_on' => ['settings.submissions.recaptcha.integration' => ['all', 'guest']],
+		'description' => __( 'This option may not work consistently if another plugin is loading reCAPTCHA on the same page as Site Reviews.', 'site-reviews' ),
 		'label' => __( 'Badge Position', 'site-reviews' ),
 		'options' => [
 			'bottomleft' => 'Bottom Left',

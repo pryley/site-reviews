@@ -32,7 +32,7 @@ class PublicController extends Controller
 	public function filterEnqueuedScripts( $tag, $handle )
 	{
 		return $handle == Application::ID.'/google-recaptcha'
-			&& glsr( OptionManager::class )->get( 'settings.submissions.recaptcha.integration' ) == 'custom'
+			&& glsr( OptionManager::class )->isRecaptchaEnabled()
 			? str_replace( ' src=', ' async defer src=', $tag )
 			: $tag;
 	}

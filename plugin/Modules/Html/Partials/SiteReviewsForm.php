@@ -70,11 +70,13 @@ class SiteReviewsForm
 	 */
 	protected function buildRecaptcha()
 	{
-		$integration = glsr( OptionManager::class )->get( 'settings.submissions.recaptcha.integration' );
-		$recaptchaMethod = glsr( Helper::class )->buildMethodName( $integration, 'getRecaptcha' );
-		if( method_exists( $this, $recaptchaMethod )) {
-			return $this->$recaptchaMethod();
-		}
+		if( !glsr( OptionManager::class )->isRecaptchaEnabled() )return;
+		return glsr( Builder::class )->div([
+			'class' => 'glsr-recaptcha-holder',
+			'data-badge' => glsr( OptionManager::class )->get( 'settings.submissions.recaptcha.position' ),
+			'data-sitekey' => sanitize_text_field( glsr( OptionManager::class )->get( 'settings.submissions.recaptcha.key' )),
+			'data-size' => 'invisible',
+		]);
 	}
 
 	/**
@@ -167,32 +169,6 @@ class SiteReviewsForm
 		return new Field([
 			'name' => 'gotcha',
 			'type' => 'honeypot',
-		]);
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function getRecaptchaCustom()
-	{
-		return glsr( Builder::class )->div([
-			'class' => 'glsr-recaptcha-holder',
-			'data-badge' => sanitize_text_field( glsr( OptionManager::class )->get( 'settings.submissions.recaptcha.position' )),
-			'data-sitekey' => sanitize_text_field( glsr( OptionManager::class )->get( 'settings.submissions.recaptcha.key' )),
-			'data-size' => 'invisible',
-		]);
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function getRecaptchaInvisibleRecaptcha()
-	{
-		ob_start();
-		do_action( 'google_invre_render_widget_action' );
-		$html = ob_get_clean();
-		return glsr( Builder::class )->div( $html, [
-			'class' => 'glsr-recaptcha-holder',
 		]);
 	}
 

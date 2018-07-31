@@ -11,7 +11,6 @@ language:
   translator: Paul Ryley <paul@geminilabs.io>
 scripts:
   mce-plugin.js: +/scripts/mce-plugin.js
-  recaptcha.js: +/scripts/recaptcha.js
   site-reviews.js:
     - node_modules/star-rating.js/src/star-rating.js
     - +/scripts/public/ajax.js

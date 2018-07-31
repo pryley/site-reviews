@@ -97,20 +97,13 @@ class ValidateReview
 	 */
 	protected function isRecaptchaResponseValid()
 	{
-		$integration = $this->getOption( 'settings.submissions.recaptcha.integration' );
-		if( !$integration ) {
+		if( !glsr( OptionManager::class )->isRecaptchaEnabled() ) {
 			return true;
 		}
 		if( empty( $this->request['recaptcha-token'] )) {
 			return null; // @see $this->validateRecaptcha()
 		}
-		if( $integration == 'custom' ) {
-			return $this->isRecaptchaValid( $this->request['recaptcha-token'] );
-		}
-		if( $integration == 'invisible-recaptcha' ) {
-			return boolval( apply_filters( 'google_invre_is_valid_request_filter', true ));
-		}
-		return false;
+		return $this->isRecaptchaValid( $this->request['recaptcha-token'] );
 	}
 
 	/**
@@ -132,15 +125,8 @@ class ValidateReview
 		if( !empty( $response->success )) {
 			return boolval( $response->success );
 		}
-		$errorCodes = [
-			'missing-input-secret' => 'The secret parameter is missing.',
-			'invalid-input-secret' => 'The secret parameter is invalid or malformed.',
-			'missing-input-response' => 'The response parameter is missing.',
-			'invalid-input-response' => 'The response parameter is invalid or malformed.',
-			'bad-request' => 'The request is invalid or malformed.',
-		];
 		foreach( $response->{'error-codes'} as $error ) {
-			glsr_log()->error( 'reCAPTCHA: '.$errorCodes[$error] );
+			glsr_log()->error( 'reCAPTCHA error: '.$error );
 		}
 		return false;
 	}
@@ -236,13 +222,13 @@ class ValidateReview
 		if( !empty( $this->error ))return;
 		$isValid = $this->isRecaptchaResponseValid();
 		if( is_null( $isValid )) {
-			$this->setSessionValues( 'recaptcha', true );
+			$this->setSessionValues( 'recaptcha', 'unset' );
 			$this->recaptchaIsUnset = true;
 		}
 		else if( !$isValid ) {
 			$this->setSessionValues( 'errors', [] );
 			$this->setSessionValues( 'recaptcha', 'reset' );
-			$this->error = __( 'The reCAPTCHA verification failed. Please notify the site administrator.', 'site-reviews' );
+			$this->error = __( 'The reCAPTCHA verification failed, please try again.', 'site-reviews' );
 		}
 	}
 

@@ -1,1 +1,0 @@
-var glsr_render_recaptcha=function(){(new GLSR.Forms).renderRecaptcha()};

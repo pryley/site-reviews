@@ -69,15 +69,15 @@ class EnqueuePublicAssets
 	 */
 	public function enqueueRecaptchaScript()
 	{
-		if( glsr( OptionManager::class )->get( 'settings.submissions.recaptcha.integration' ) != 'custom' )return;
+		// wpforms-recaptcha
+		// google-recaptcha
+		// nf-google-recaptcha
+		if( !glsr( OptionManager::class )->isRecaptchaEnabled() )return;
 		$language = apply_filters( 'site-reviews/recaptcha/language', get_locale() );
 		wp_enqueue_script( Application::ID.'/google-recaptcha', add_query_arg([
 			'hl' => $language,
-			'onload' => 'glsr_render_recaptcha',
 			'render' => 'explicit',
 		], 'https://www.google.com/recaptcha/api.js' ));
-		$inlineScript = file_get_contents( glsr()->path( 'assets/scripts/recaptcha.js' ));
-		wp_add_inline_script( Application::ID.'/google-recaptcha', $inlineScript, 'before' );
 	}
 
 	/**

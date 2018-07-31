@@ -107,6 +107,18 @@
 			}
 		},
 
+		/** @return void */
+		reset_: function() {
+			for( var i in this.fields ){
+				this.fields[i].errorElements = null;
+				this.fields[i].input.classList.remove( this.config.input_error_class );
+			}
+			[].map.call( this.form.querySelectorAll( '.' + this.config.error_tag_class ), function( el ) {
+				el.parentNode.classList.remove( this.config.field_error_class );
+				el.parentNode.removeChild( el );
+			}.bind( this ));
+		},
+
 		/** @return object */
 		extend_: function() { // ...object
 			var args = [].slice.call( arguments );
@@ -126,85 +138,67 @@
 			if( field.errorElements ) {
 				return field.errorElements;
 			}
-			var errorTextParent = field.input.closest( '.' + this.config.field_class );
-			var errorTextElement = null;
-			if( errorTextParent ) {
-				errorTextElement = errorTextParent.querySelector( '.' + this.config.error_tag_class );
-				if( !errorTextElement ) {
-					errorTextElement = document.createElement( this.config.error_tag );
-					errorTextElement.className = this.config.error_tag_class;
-					errorTextParent.appendChild( errorTextElement );
-					errorTextElement.validation_display = errorTextElement.style.display;
+			var errorEl;
+			var parentEl = field.input.closest( '.' + this.config.field_class );
+			if( parentEl ) {
+				errorEl = parentEl.closest( '.' + this.config.error_tag_class );
+				if( errorEl === null ) {
+					errorEl = document.createElement( this.config.error_tag );
+					errorEl.className = this.config.error_tag_class;
+					parentEl.appendChild( errorEl );
 				}
 			}
-			return field.errorElements = [
-				errorTextParent,
-				errorTextElement,
-			];
+			return field.errorElements = [parentEl, errorEl];
 		},
 
 		/** @return void */
 		init_: function() {
 			this.fields = [].map.call( this.form.querySelectorAll( this.SELECTOR_ ), function( input ) {
-				var params = {};
-				var rules = [];
-				this.addValidators_( input.attributes, rules, params );
-				this.sortValidators_( rules );
-				this.addEvent_( input );
-				return input.validation = {
-					form: this.form,
-					input: input,
-					params: params,
-					validators: rules,
-				};
+				return this.initField_( input );
 			}.bind( this ));
 		},
 
-		/** @return void */
-		removeError_: function( field ) {
-			var errorElements = this.getErrorElements_( field );
-			var errorTextParent = errorElements[0];
-			var errorTextElement = errorElements[1];
-			field.input.classList.remove( this.config.input_error_class );
-			field.input.classList.remove( this.config.input_success_class );
-			if( errorTextParent ) {
-				errorTextParent.classList.remove( this.config.field_error_class );
-			}
-			if( errorTextElement ) {
-				errorTextElement.innerHTML = '';
-				errorTextElement.style.display = 'none';
-			}
-			return errorElements;
+		/** @return object */
+		initField_: function( inputEl ) {
+			var params = {};
+			var rules = [];
+			this.addValidators_( inputEl.attributes, rules, params );
+			this.sortValidators_( rules );
+			this.addEvent_( inputEl );
+			return inputEl.validation = {
+				form: this.form,
+				input: inputEl,
+				params: params,
+				validators: rules,
+			};
 		},
 
 		/** @return void */
-		showError_: function( field ) {
-			var errorElements = this.getErrorElements_( field );
-			var errorTextParent = errorElements[0];
-			var errorTextElement = errorElements[1];
-			field.input.classList.remove( this.config.input_success_class );
-			field.input.classList.add( this.config.input_error_class );
-			if( errorTextParent ) {
-				errorTextParent.classList.add( this.config.field_error_class );
+		toggleError_: function( field, action ) {
+			var errorEls = this.getErrorElements_( field );
+			var isShowingError = action === 'add';
+			field.input.classList[action]( this.config.input_error_class );
+			if( errorEls[0] ) {
+				errorEls[0].classList[action]( this.config.field_error_class );
 			}
-			if( errorTextElement ) {
-				errorTextElement.innerHTML = field.errors.join( '<br>' );
-				errorTextElement.style.display = errorTextElement.validation_display || '';
+			if( errorEls[1] ) {
+				errorEls[1].innerHTML = (isShowingError ? field.errors.join( '<br>' ) : '');
+				errorEls[1].style.display = (!isShowingError ? 'none' : '');
 			}
 		},
 
 		/** @return void */
-		showSuccess_: function( field ) {
-			this.removeError_( field )[0];
-			field.input.classList.add( this.config.input_success_class );
+		setErrors_: function( inputEl, errors ) {
+			if( !inputEl.validation ) {
+				this.initField_( inputEl );
+			}
+			inputEl.validation.errors = errors;
 		},
 
 		/** @return void */
 		sortValidators_: function( fns ) {
 			fns.sort( function( a, b ) {
-				a.priority || (a.priority = 1);
-				b.priority || (b.priority = 1);
-				return b.priority - a.priority;
+				return (b.priority || 1) - (a.priority || 1);
 			});
 		},
 
@@ -218,11 +212,11 @@
 			for( var i in fields ) {
 				var field = fields[i];
 				if( this.validateField_( field )) {
-					this.showSuccess_( field );
+					this.toggleError_( field, 'remove' );
 				}
 				else {
 					isValid = false;
-					this.showError_( field );
+					this.toggleError_( field, 'add' );
 				}
 			}
 			return isValid;
