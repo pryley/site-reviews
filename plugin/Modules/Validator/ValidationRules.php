@@ -100,7 +100,7 @@ trait ValidationRules
 	 * @param mixed $value
 	 * @return bool
 	 */
-	public function validateNumeric( $value )
+	public function validateNumber( $value )
 	{
 		return is_numeric( $value );
 	}

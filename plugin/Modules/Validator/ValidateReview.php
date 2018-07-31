@@ -16,7 +16,7 @@ class ValidateReview
 
 	const VALIDATION_RULES = [
 		'content' => 'required',
-		'email' => 'required|email|min:5',
+		'email' => 'required|email',
 		'name' => 'required',
 		'rating' => 'required|number|between:1,5',
 		'terms' => 'accepted',
