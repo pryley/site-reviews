@@ -9,7 +9,7 @@
 					{{ label }}
 				</span>
 			</span>
-			{{ errors }}
 		</span>
 	</span>
+	{{ errors }}
 </p>

@@ -8,6 +8,6 @@
 		<div class="wpforms-submit-container">
 			{{ submit_button }}
 		</div>
+		{{ response }}
 	</form>
-	{{ response }}
 </div>

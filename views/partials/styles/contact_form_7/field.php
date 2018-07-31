@@ -4,6 +4,6 @@
 	{{ label }}
 	<span class="wpcf7-form-control-wrap">
 		{{ field }}
-		{{ errors }}
 	</span>
+	{{ errors }}
 </p>

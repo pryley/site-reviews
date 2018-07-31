@@ -8,4 +8,10 @@ return [
 		'select' => 'wpcf7-form-control wpcf7-select',
 		'textarea' => 'wpcf7-form-control wpcf7-textarea',
 	],
+	'validation' => [
+		'error_tag' => 'span',
+		'error_tag_class' => 'wpcf7-not-valid-tip',
+		'input_error_class' => 'wpcf7-not-valid',
+		'message_tag_class' => 'wpcf7-response-output',
+	],
 ];

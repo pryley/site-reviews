@@ -4,6 +4,6 @@
 	<form class="et_pb_contact_form clearfix {{ class }}" id="{{ id }}" method="post" enctype="multipart/form-data">
 		{{ fields }}
 		{{ submit_button }}
+		{{ response }}
 	</form>
-	{{ response }}
 </div>
