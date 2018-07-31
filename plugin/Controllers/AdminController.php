@@ -160,6 +160,14 @@ class AdminController extends Controller
 	/**
 	 * @return void
 	 */
+	public function routerFetchConsole()
+	{
+		glsr( Notice::class )->addSuccess( __( 'Console reloaded.', 'site-reviews' ));
+	}
+
+	/**
+	 * @return void
+	 */
 	public function routerCountReviews()
 	{
 		$countManager = glsr( CountsManager::class );

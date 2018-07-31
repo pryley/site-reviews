@@ -6,6 +6,13 @@
 	<?php wp_nonce_field( 'download-console' ); ?>
 	<?php submit_button( __( 'Download Console', 'site-reviews' ), 'primary', '', false ); ?>
 </form>
+<form method="post" class="float-left">
+	<input type="hidden" name="{{ id }}[action]" value="fetch-console">
+	<?php wp_nonce_field( 'fetch-console' ); ?>
+	<button type="submit" class="glsr-button button" name="fetch-console" id="fetch-console">
+		<span data-loading="<?= __( 'Reloading...', 'site-reviews' ); ?>"><?= __( 'Reload', 'site-reviews' ); ?></span>
+	</button>
+</form>
 <form method="post">
 	<input type="hidden" name="{{ id }}[action]" value="clear-console">
 	<?php wp_nonce_field( 'clear-console' ); ?>

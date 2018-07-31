@@ -74,6 +74,18 @@ class AjaxController extends Controller
 	/**
 	 * @return void
 	 */
+	public function routerFetchConsole()
+	{
+		glsr( AdminController::class )->routerFetchConsole();
+		wp_send_json_success([
+			'console' => glsr( Console::class )->get(),
+			'notices' => glsr( Notice::class )->get(),
+		]);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function routerSearchPosts( array $request )
 	{
 		$results = glsr( Database::class )->searchPosts( $request['search'] );
