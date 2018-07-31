@@ -15,39 +15,39 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: activate.php:117
+#: activate.php:96
 msgid "The %s plugin was deactivated."
 msgstr ""
 
-#: activate.php:118
+#: activate.php:97
 msgid "This plugin requires %s or greater in order to work properly."
 msgstr ""
 
-#: activate.php:119
+#: activate.php:98
 msgid "Please contact your hosting provider or server administrator to upgrade the version of PHP on your server (your server is running PHP version %s), or try to find an alternative plugin."
 msgstr ""
 
-#: activate.php:120
+#: activate.php:99
 msgid "PHP version"
 msgstr ""
 
-#: activate.php:121
+#: activate.php:100
 msgid "WordPress version"
 msgstr ""
 
-#: activate.php:122
+#: activate.php:101
 msgid "Update WordPress"
 msgstr ""
 
-#: activate.php:123
-msgid "If you need to restore %s to the previous version, you can use the %s plugin to do so."
+#: activate.php:102
+msgid "You can use the %s plugin to restore %s to the previous version."
 msgstr ""
 
 #: config/settings.php:6
 msgid "Set the status of new review submissions to pending."
 msgstr ""
 
-#: config/settings.php:7, config/settings.php:326
+#: config/settings.php:7, config/settings.php:345
 msgid "Require approval"
 msgstr ""
 
@@ -355,143 +355,119 @@ msgid "Price Currency"
 msgstr ""
 
 #: config/settings.php:262
-msgid "Choose which fields should be required in the submission form."
+msgid "Site Reviews relies on the CSS of your theme to style the submission form. If your theme does not provide proper CSS rules for form elements and you are using a WordPress plugin/theme or CSS Framework listed here, please try selecting it, otherwise choose \"Site Reviews (default)\"."
 msgstr ""
 
 #: config/settings.php:263
+msgid "Form Style"
+msgstr ""
+
+#: config/settings.php:270
+msgid "Site Reviews (default)"
+msgstr ""
+
+#: config/settings.php:271
+msgid "Site Reviews (minimal)"
+msgstr ""
+
+#: config/settings.php:280
+msgid "Choose which fields should be required in the submission form."
+msgstr ""
+
+#: config/settings.php:281
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:265, plugin/Controllers/EditorController.php:329, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsButton.php:33, plugin/Shortcodes/SiteReviewsButton.php:105, plugin/Shortcodes/SiteReviewsSummaryButton.php:60
+#: config/settings.php:283, plugin/Controllers/EditorController.php:297, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsButton.php:33, plugin/Shortcodes/SiteReviewsButton.php:105, plugin/Shortcodes/SiteReviewsSummaryButton.php:60
 msgid "Rating"
 msgstr ""
 
-#: config/settings.php:266, plugin/Defaults/PostTypeDefaults.php:17, plugin/Shortcodes/SiteReviewsButton.php:20, plugin/Shortcodes/SiteReviewsButton.php:115, plugin/Shortcodes/SiteReviewsFormButton.php:19, plugin/Shortcodes/SiteReviewsFormButton.php:62, plugin/Shortcodes/SiteReviewsSummaryButton.php:19, plugin/Widgets/SiteReviewsFormWidget.php:21, plugin/Widgets/SiteReviewsSummaryWidget.php:21, plugin/Widgets/SiteReviewsWidget.php:21
+#: config/settings.php:284, plugin/Defaults/PostTypeDefaults.php:17, plugin/Shortcodes/SiteReviewsButton.php:20, plugin/Shortcodes/SiteReviewsButton.php:115, plugin/Shortcodes/SiteReviewsFormButton.php:19, plugin/Shortcodes/SiteReviewsFormButton.php:62, plugin/Shortcodes/SiteReviewsSummaryButton.php:19, plugin/Widgets/SiteReviewsFormWidget.php:21, plugin/Widgets/SiteReviewsSummaryWidget.php:21, plugin/Widgets/SiteReviewsWidget.php:21
 msgid "Title"
 msgstr ""
 
-#: config/settings.php:267, plugin/Controllers/MainController.php:39
+#: config/settings.php:285, plugin/Controllers/MainController.php:39
 msgid "Review"
 msgstr ""
 
-#: config/settings.php:268, plugin/Controllers/EditorController.php:332, plugin/Shortcodes/SiteReviewsFormButton.php:52
+#: config/settings.php:286, plugin/Controllers/EditorController.php:300, plugin/Shortcodes/SiteReviewsFormButton.php:52
 msgid "Name"
 msgstr ""
 
-#: config/settings.php:269, plugin/Controllers/EditorController.php:333, plugin/Shortcodes/SiteReviewsFormButton.php:47
+#: config/settings.php:287, plugin/Controllers/EditorController.php:301, plugin/Shortcodes/SiteReviewsFormButton.php:47
 msgid "Email"
 msgstr ""
 
-#: config/settings.php:270, plugin/Shortcodes/SiteReviewsFormButton.php:57
+#: config/settings.php:288, plugin/Shortcodes/SiteReviewsFormButton.php:57
 msgid "Terms"
 msgstr ""
 
-#: config/settings.php:276
-msgid "The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> integration provides spam-filtering for your reviews. In order for this setting to have any affect, you will need to first install and activate the Akismet plugin and set up a WordPress.com API key."
+#: config/settings.php:294
+msgid "Invisible reCAPTCHA is a free anti-spam service from Google. To use it, you will need to <a href=\"https://www.google.com/recaptcha/admin\" target=\"_blank\">sign up</a> for an API key pair for your site."
 msgstr ""
 
-#: config/settings.php:277
-msgid "Enable Akismet Integration"
-msgstr ""
-
-#: config/settings.php:282
-msgid "Invisible reCAPTCHA is a free anti-spam service from Google. To use it, you will need to <a href=\"https://www.google.com/recaptcha/admin\" target=\"_blank\">sign up</a> for an API key pair for your site. If you are already using a reCAPTCHA plugin listed here, please select it; otherwise choose \"Use reCAPTCHA\"."
-msgstr ""
-
-#: config/settings.php:283
+#: config/settings.php:295
 msgid "Invisible reCAPTCHA"
 msgstr ""
 
-#: config/settings.php:285
-msgid "Do not use reCAPTCHA"
-msgstr ""
-
-#: config/settings.php:286
-msgid "Use reCAPTCHA"
-msgstr ""
-
-#: config/settings.php:287
-msgid "Use 3rd-party plugin: Invisible reCaptcha"
-msgstr ""
-
-#: config/settings.php:294
+#: config/settings.php:306
 msgid "Site Key"
 msgstr ""
 
-#: config/settings.php:300
+#: config/settings.php:312
 msgid "Site Secret"
 msgstr ""
 
-#: config/settings.php:306
+#: config/settings.php:318
+msgid "This option may not work consistently if another plugin is loading reCAPTCHA on the same page as Site Reviews."
+msgstr ""
+
+#: config/settings.php:319
 msgid "Badge Position"
 msgstr ""
 
-#: config/settings.php:316
+#: config/settings.php:329
+msgid "The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> integration provides spam-filtering for your reviews. In order for this setting to have any affect, you will need to first install and activate the Akismet plugin and set up a WordPress.com API key."
+msgstr ""
+
+#: config/settings.php:330
+msgid "Enable Akismet Integration"
+msgstr ""
+
+#: config/settings.php:335
 msgid "When a review contains any of these words in its title, content, name, email, or IP address, it will be rejected. One word or IP address per line. It will match inside words, so \"press\" will match \"WordPress\"."
 msgstr ""
 
-#: config/settings.php:317
+#: config/settings.php:336
 msgid "Review Blacklist"
 msgstr ""
 
-#: config/settings.php:323
+#: config/settings.php:342
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr ""
 
-#: config/settings.php:324
+#: config/settings.php:343
 msgid "Blacklist Action"
 msgstr ""
 
-#: config/settings.php:327
+#: config/settings.php:346
 msgid "Reject submission"
 msgstr ""
 
-#: config/submission-form.php:5
-msgid "Your overall rating"
-msgstr ""
-
-#: config/submission-form.php:9
-msgid "Title of your review"
-msgstr ""
-
-#: config/submission-form.php:10
-msgid "Summarize your review or highlight an interesting detail"
-msgstr ""
-
-#: config/submission-form.php:14
-msgid "Your review"
-msgstr ""
-
-#: config/submission-form.php:15
-msgid "Tell people your review"
-msgstr ""
-
-#: config/submission-form.php:20
-msgid "Your name"
-msgstr ""
-
-#: config/submission-form.php:21
-msgid "Tell us your name"
-msgstr ""
-
-#: config/submission-form.php:25
-msgid "Your email"
-msgstr ""
-
-#: config/submission-form.php:26
-msgid "Tell us your email"
-msgstr ""
-
-#: config/submission-form.php:30
-msgid "This review is based on my own experience and is my genuine opinion."
-msgstr ""
-
-#: plugin/Application.php:136
+#: plugin/Application.php:150
 msgid "Local"
 msgstr ""
 
-#: plugin/Database.php:227
+#: plugin/Review.php:59
 msgid "Anonymous"
+msgstr ""
+
+#: plugin/Router.php:143
+msgid "There was an error (try refreshing the page)."
+msgstr ""
+
+#: plugin/Router.php:145
+msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 
 #: plugin/Commands/RegisterPostType.php:48
@@ -549,153 +525,161 @@ msgctxt "View Post"
 msgid "View %s"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:28
+#: plugin/Controllers/AdminController.php:30
 msgid "You can pin exceptional reviews so that they are always shown first."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:36
+#: plugin/Controllers/AdminController.php:38
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:48, plugin/Controllers/MenuController.php:47
+#: plugin/Controllers/AdminController.php:50, plugin/Controllers/MenuController.php:47
 msgid "Settings"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:64
+#: plugin/Controllers/AdminController.php:66
 msgid "%s Review"
 msgid_plural "%s Reviews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/AdminController.php:97, plugin/Controllers/MainController.php:84
+#: plugin/Controllers/AdminController.php:99, plugin/Controllers/MainController.php:84
 msgid "Recent Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:98, plugin/Controllers/MainController.php:89
+#: plugin/Controllers/AdminController.php:100, plugin/Controllers/MainController.php:89
 msgid "Submit a Review"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:99, plugin/Controllers/MainController.php:94
+#: plugin/Controllers/AdminController.php:101, plugin/Controllers/MainController.php:94
 msgid "Summary of Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:123
+#: plugin/Controllers/AdminController.php:125
 msgid "This review is read-only."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:155
+#: plugin/Controllers/AdminController.php:157
 msgid "Console cleared."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:192
+#: plugin/Controllers/AdminController.php:165
+msgid "Console reloaded."
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:186
+msgid "Recalculated review counts."
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:223
 msgid "Please use a valid Site Reviews settings file."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:196
+#: plugin/Controllers/AdminController.php:227
 msgid "There were no settings found to import."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:199
+#: plugin/Controllers/AdminController.php:230
 msgid "Settings imported."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:209
+#: plugin/Controllers/AdminController.php:240
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:210
+#: plugin/Controllers/AdminController.php:241
 msgid "The uploaded file is too big."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:211
+#: plugin/Controllers/AdminController.php:242
 msgid "The uploaded file was only partially uploaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:212
+#: plugin/Controllers/AdminController.php:243
 msgid "No file was uploaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:213
+#: plugin/Controllers/AdminController.php:244
 msgid "Missing a temporary folder."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:214
+#: plugin/Controllers/AdminController.php:245
 msgid "Failed to write file to disk."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:215
+#: plugin/Controllers/AdminController.php:246
 msgid "A PHP extension stopped the file upload."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:218
+#: plugin/Controllers/AdminController.php:249
 msgid "Unknown upload error."
 msgstr ""
 
-#: plugin/Controllers/AjaxController.php:60
+#: plugin/Controllers/AjaxController.php:61
 msgid "Okay"
 msgstr ""
 
-#: plugin/Controllers/AjaxController.php:80, plugin/Controllers/AjaxController.php:99
+#: plugin/Controllers/AjaxController.php:93, plugin/Controllers/AjaxController.php:112
 msgid "Nothing found."
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:122, plugin/Controllers/MainController.php:27, plugin/Shortcodes/SiteReviewsButton.php:80, views/partials/editor/bulk-edit-assigned-to.php:7
+#: plugin/Controllers/EditorController.php:92, plugin/Controllers/MainController.php:27, plugin/Shortcodes/SiteReviewsButton.php:80, views/partials/editor/bulk-edit-assigned-to.php:7
 msgid "Assigned To"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:123
+#: plugin/Controllers/EditorController.php:93
 msgid "Details"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:124, views/partials/editor/metabox-response.php:3
+#: plugin/Controllers/EditorController.php:94, views/partials/editor/metabox-response.php:3
 msgid "Respond Publicly"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:183, plugin/Modules/Html/Fields/YesNo.php:37
+#: plugin/Controllers/EditorController.php:153, plugin/Modules/Html/Fields/YesNo.php:37
 msgid "No"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:184, plugin/Modules/Html/Fields/YesNo.php:38
+#: plugin/Controllers/EditorController.php:154, plugin/Modules/Html/Fields/YesNo.php:38
 msgid "Yes"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:271
+#: plugin/Controllers/EditorController.php:240
 msgid "Revert Changes"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:277
+#: plugin/Controllers/EditorController.php:246
 msgid "Nothing to Revert"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:293
+#: plugin/Controllers/EditorController.php:262
 msgid "Unknown"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:319
+#: plugin/Controllers/EditorController.php:287
 msgid "Unregistered user"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:326
+#: plugin/Controllers/EditorController.php:294
 msgid "RE:"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:330, plugin/Controllers/MainController.php:29
+#: plugin/Controllers/EditorController.php:298, plugin/Controllers/MainController.php:29
 msgid "Type"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:331, plugin/Defaults/PostTypeDefaults.php:18, plugin/Shortcodes/SiteReviewsButton.php:100
+#: plugin/Controllers/EditorController.php:299, plugin/Defaults/PostTypeDefaults.php:18, plugin/Shortcodes/SiteReviewsButton.php:100
 msgid "Date"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:334
+#: plugin/Controllers/EditorController.php:302
 msgid "User"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:335
+#: plugin/Controllers/EditorController.php:303
 msgid "IP Address"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:336, plugin/Shortcodes/SiteReviewsButton.php:90
+#: plugin/Controllers/EditorController.php:304, plugin/Shortcodes/SiteReviewsButton.php:90
 msgid "Avatar"
 msgstr ""
 
@@ -810,7 +794,7 @@ msgstr ""
 msgid "Functions"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:99
+#: plugin/Controllers/MenuController.php:99, plugin/Controllers/MenuController.php:127
 msgid "General"
 msgstr ""
 
@@ -830,23 +814,23 @@ msgstr ""
 msgid "Licenses"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:127, views/pages/tools/sync.php:56
+#: plugin/Controllers/MenuController.php:128, views/pages/tools/sync.php:56
 msgid "Sync Reviews"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:128
+#: plugin/Controllers/MenuController.php:129
 msgid "Import/Export"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:129
+#: plugin/Controllers/MenuController.php:130
 msgid "Console"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:130
+#: plugin/Controllers/MenuController.php:131
 msgid "System Info"
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:28
+#: plugin/Controllers/SettingsController.php:27
 msgid "Settings updated."
 msgstr ""
 
@@ -854,23 +838,71 @@ msgstr ""
 msgid "Filter by category"
 msgstr ""
 
+#: plugin/Defaults/ValidationStringsDefaults.php:15
+msgid "This field must be accepted."
+msgstr ""
+
+#: plugin/Defaults/ValidationStringsDefaults.php:16
+msgid "This field value must be between %s and %s."
+msgstr ""
+
+#: plugin/Defaults/ValidationStringsDefaults.php:17
+msgid "This field must have between %s and %s characters."
+msgstr ""
+
+#: plugin/Defaults/ValidationStringsDefaults.php:18
+msgid "This field requires a valid e-mail address."
+msgstr ""
+
+#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/ValidateReview.php:241
+msgid "Please fix the submission errors."
+msgstr ""
+
+#: plugin/Defaults/ValidationStringsDefaults.php:20
+msgid "Maximum value for this field is %s."
+msgstr ""
+
+#: plugin/Defaults/ValidationStringsDefaults.php:21
+msgid "This field allows a maximum of %s characters."
+msgstr ""
+
+#: plugin/Defaults/ValidationStringsDefaults.php:22
+msgid "Minimum value for this field is %s."
+msgstr ""
+
+#: plugin/Defaults/ValidationStringsDefaults.php:23
+msgid "This field requires a minimum of %s characters."
+msgstr ""
+
+#: plugin/Defaults/ValidationStringsDefaults.php:24
+msgid "This field requires a number."
+msgstr ""
+
+#: plugin/Defaults/ValidationStringsDefaults.php:25
+msgid "This field is required."
+msgstr ""
+
+#: plugin/Defaults/ValidationStringsDefaults.php:26
+msgid "The review could not be submitted (unsupported browser)."
+msgstr ""
+
 #: plugin/Handlers/ChangeStatus.php:37, views/partials/editor/pinned.php:7
 msgid "Edit"
 msgstr ""
 
-#: plugin/Handlers/CreateReview.php:30
-msgid "Your review could not be submitted, please notify the site admin."
+#: plugin/Handlers/CreateReview.php:31
+msgid "Your review could not be submitted and the error has been logged. Please notify the site admin."
 msgstr ""
 
-#: plugin/Handlers/CreateReview.php:34
+#: plugin/Handlers/CreateReview.php:36
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Handlers/CreateReview.php:84
+#: plugin/Handlers/CreateReview.php:87
 msgid "View Review"
 msgstr ""
 
-#: plugin/Handlers/CreateReview.php:106
+#: plugin/Handlers/CreateReview.php:109
 msgctxt "The text is different depending on whether or not the review has been assigned to a post."
 msgid "New %s-star review"
 msgid_plural "New %s-star review of: %s"
@@ -886,11 +918,11 @@ msgid "Review unpinned."
 msgstr ""
 
 #: plugin/Modules/Console.php:112
-msgid "Log is empty"
+msgid "Console is empty"
 msgstr ""
 
 #: plugin/Modules/Console.php:269
-msgid "Console was automatically reset (128 KB max size)"
+msgid "Console was automatically cleared (128 KB maximum size)"
 msgstr ""
 
 #: plugin/Modules/Date.php:36
@@ -934,52 +966,6 @@ msgid "%s year ago"
 msgid_plural "%s years ago"
 msgstr[0] ""
 msgstr[1] ""
-
-#: plugin/Modules/Validator.php:307
-msgid "This field must be accepted."
-msgstr ""
-
-#: plugin/Modules/Validator.php:308
-msgctxt ":min, and :max are placeholders and should not be translated."
-msgid "This field must be between :min and :max."
-msgstr ""
-
-#: plugin/Modules/Validator.php:309
-msgctxt ":min, and :max are placeholders and should not be translated."
-msgid "This field must be between :min and :max characters."
-msgstr ""
-
-#: plugin/Modules/Validator.php:310
-msgid "This must be a valid email address."
-msgstr ""
-
-#: plugin/Modules/Validator.php:311
-msgctxt ":max is a placeholder and should not be translated."
-msgid "This field may not be greater than :max."
-msgstr ""
-
-#: plugin/Modules/Validator.php:312
-msgctxt ":max is a placeholder and should not be translated."
-msgid "This field may not be greater than :max characters."
-msgstr ""
-
-#: plugin/Modules/Validator.php:313
-msgctxt ":min is a placeholder and should not be translated."
-msgid "This field must be at least :min."
-msgstr ""
-
-#: plugin/Modules/Validator.php:314
-msgctxt ":min is a placeholder and should not be translated."
-msgid "This field must be at least :min characters."
-msgstr ""
-
-#: plugin/Modules/Validator.php:315
-msgid "The format is invalid."
-msgstr ""
-
-#: plugin/Modules/Validator.php:316
-msgid "This field is required."
-msgstr ""
 
 #: plugin/Shortcodes/ButtonGenerator.php:43
 msgid "Close"
@@ -1364,6 +1350,10 @@ msgstr ""
 msgid "Privately Approved"
 msgstr ""
 
+#: plugin/Controllers/ListTableController/Columns.php:75
+msgid "Unsupported Type"
+msgstr ""
+
 #: plugin/Controllers/ListTableController/Columns.php:120
 msgid "Filter by rating"
 msgstr ""
@@ -1380,27 +1370,23 @@ msgstr ""
 msgid "All types"
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:186
+#: plugin/Modules/Validator/ValidateReview.php:172
 msgid "Your review cannot be submitted at this time. Please try again later."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:199
+#: plugin/Modules/Validator/ValidateReview.php:185
 msgid "Your review cannot be submitted at this time."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:217, plugin/Modules/Validator/ValidateReview.php:228
+#: plugin/Modules/Validator/ValidateReview.php:203, plugin/Modules/Validator/ValidateReview.php:214
 msgid "The review submission failed. Please notify the site administrator."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:245
-msgid "The reCAPTCHA verification failed. Please notify the site administrator."
+#: plugin/Modules/Validator/ValidateReview.php:231
+msgid "The reCAPTCHA verification failed, please try again."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:255
-msgid "Please fix the submission errors."
-msgstr ""
-
-#: plugin/Modules/Validator/ValidateReview.php:259, plugin/Modules/Html/Partials/SiteReviews.php:212
+#: plugin/Modules/Validator/ValidateReview.php:245, plugin/Modules/Html/Partials/SiteReviews.php:213
 msgid "No Title"
 msgstr ""
 
@@ -1441,11 +1427,31 @@ msgid "Custom Strings"
 msgstr ""
 
 #: views/pages/tools/console.php:7
-msgid "Clear Console"
+msgid "Download Console"
 msgstr ""
 
-#: views/pages/tools/console.php:12
-msgid "Download Log"
+#: views/pages/tools/console.php:13
+msgid "Reloading..."
+msgstr ""
+
+#: views/pages/tools/console.php:13
+msgid "Reload"
+msgstr ""
+
+#: views/pages/tools/console.php:20
+msgid "Clearing..."
+msgstr ""
+
+#: views/pages/tools/console.php:20
+msgid "Clear"
+msgstr ""
+
+#: views/pages/tools/general.php:12
+msgid "Recalculating Counts..."
+msgstr ""
+
+#: views/pages/tools/general.php:12
+msgid "Recalculate Counts"
 msgstr ""
 
 #: views/pages/tools/import-export.php:11
@@ -1590,27 +1596,27 @@ msgstr ""
 msgid "Site Reviews navigation"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:105
+#: plugin/Modules/Html/Partials/SiteReviews.php:106
 msgid "Review of %s"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:194
+#: plugin/Modules/Html/Partials/SiteReviews.php:195
 msgid "Response from %s"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:271
+#: plugin/Modules/Html/Partials/SiteReviews.php:272
 msgid "Show less"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:272
+#: plugin/Modules/Html/Partials/SiteReviews.php:273
 msgid "Show more"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:91
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:106
 msgid "Submit your review"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/SiteReviewsSummary.php:132
+#: plugin/Modules/Html/Partials/SiteReviewsSummary.php:136
 msgctxt "Do not translate {rating}, {max}, and {num}, they are template tags."
 msgid "{rating} out of {max} stars (based on {num} review)"
 msgid_plural "{rating} out of {max} stars (based on {num} reviews)"
