@@ -35,7 +35,11 @@ class CreateReview
 		do_action( 'site-reviews/local/review/submitted', $postId, $command );
 		glsr( Session::class )->set( $command->form_id.'message', __( 'Your review has been submitted!', 'site-reviews' ));
 		if( $command->ajax_request )return;
-		wp_safe_redirect( $command->referrer );
+		if( empty( $command->referer )) {
+			glsr_log()->error( 'The form referer ($_SERVER[REQUEST_URI]) is empty.' );
+			$command->referer = home_url();
+		}
+		wp_safe_redirect( $command->referer );
 		exit;
 	}
 
