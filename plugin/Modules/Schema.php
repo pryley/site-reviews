@@ -121,7 +121,7 @@ class Schema
 					->worstRating( Rating::MIN_RATING )
 			);
 		}
-		return apply_filters( 'site-reviews/schema/review', $schema->toArray(), $review, $this->args );
+		return apply_filters( 'site-reviews/schema/Review', $schema->toArray(), $review, $this->args );
 	}
 
 	/**

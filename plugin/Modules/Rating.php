@@ -101,7 +101,7 @@ class Rating
 	 */
 	public function getRanking( array $ratingCounts )
 	{
-		return floatval( apply_filters( 'site-reviews/bayesian/ranking',
+		return floatval( apply_filters( 'site-reviews/rating/ranking',
 			$this->getRankingUsingImdb( $ratingCounts ),
 			$ratingCounts,
 			$this

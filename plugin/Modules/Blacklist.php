@@ -18,7 +18,7 @@ class Blacklist
 			$review['ip_address'],
 			$review['title'],
 		]));
-		return (bool) apply_filters( 'site-reviews/blacklist/is-blacklisted',
+		return (bool)apply_filters( 'site-reviews/blacklist/is-blacklisted',
 			$this->check( $target ),
 			$review
 		);
