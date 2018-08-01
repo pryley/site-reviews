@@ -183,6 +183,12 @@ class Builder
 		if( !empty( $this->args['text'] )) {
 			$this->args['label'] = $this->args['text'];
 		}
+		if( !$this->args['is_public'] ) {
+			return $this->buildFormLabel([
+				'class' => 'glsr-'.$this->args['type'].'-label',
+				'text' => $this->getOpeningTag().' '.$this->args['label'].'<span></span>',
+			]);
+		}
 		return $this->getOpeningTag().$this->buildFormLabel([
 			'class' => 'glsr-'.$this->args['type'].'-label',
 			'text' => $this->args['label'].'<span></span>',
