@@ -17,7 +17,7 @@ use WP_Query;
 class ReviewManager
 {
 	/**
-	 * @return int
+	 * @return false|Review
 	 */
 	public function create( CreateReview $command )
 	{
@@ -36,12 +36,12 @@ class ReviewManager
 		];
 		$postId = wp_insert_post( $post, true );
 		if( is_wp_error( $postId )) {
-			glsr_log()->error( $postId->get_error_message() );
-			return 0;
+			glsr_log()->error( $postId->get_error_message() )->info( $post );
+			return false;
 		}
 		$this->setTerms( $postId, $command->category );
 		do_action( 'site-reviews/create/review', $post, $review, $postId );
-		return $postId;
+		return $this->single( get_post( $postId ));
 	}
 
 	/**

@@ -35,7 +35,7 @@ class Email
 	public $subject;
 
 	/**
-	 * @var string
+	 * @var string|array
 	 */
 	public $to;
 

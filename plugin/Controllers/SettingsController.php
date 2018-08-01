@@ -46,7 +46,11 @@ class SettingsController extends Controller
 	 */
 	protected function sanitizeGeneral( array $input, array $options )
 	{
-		if( trim( $input['settings']['general']['notification_message'] ) == '' ) {
+		$inputForm = $input['settings']['general'];
+		if( !isset( $inputForm['notifications'] )) {
+			$options['settings']['general']['notifications'] = [];
+		}
+		if( trim( $inputForm['notification_message'] ) == '' ) {
 			$options['settings']['general']['notification_message'] = glsr()->defaults['settings']['general']['notification_message'];
 		}
 		return $options;
@@ -58,9 +62,9 @@ class SettingsController extends Controller
 	protected function sanitizeSubmissions( array $input, array $options )
 	{
 		$inputForm = $input['settings']['submissions'];
-		$options['settings']['submissions']['required'] = isset( $inputForm['required'] )
-			? $inputForm['required']
-			: [];
+		if( !isset( $inputForm['required'] )) {
+			$options['settings']['submissions']['required'] = [];
+		}
 		return $options;
 	}
 

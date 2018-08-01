@@ -126,7 +126,9 @@ class Settings
 			glsr( Helper::class )->getPathValue( $path, glsr()->defaults )
 		);
 		if( is_array( $expectedValue )) {
-			return !in_array( $optionValue, $expectedValue );
+			return is_array( $optionValue )
+				? count( array_intersect( $optionValue, $expectedValue )) === 0
+				: !in_array( $optionValue, $expectedValue );
 		}
 		return $optionValue != $expectedValue;
 	}
@@ -150,8 +152,12 @@ class Settings
 		if( !empty( $field['depends_on'] ) && is_array( $field['depends_on'] )) {
 			$path = key( $field['depends_on'] );
 			$expectedValue = $field['depends_on'][$path];
+			$fieldName = glsr( Helper::class )->convertPathToName( $path, OptionManager::databaseKey() );
+			if( is_array( $expectedValue )) {
+				$fieldName.= '[]';
+			}
 			$field['data-depends'] = json_encode([
-				'name' => glsr( Helper::class )->convertPathToName( $path, OptionManager::databaseKey() ),
+				'name' => $fieldName,
 				'value' => $expectedValue,
 			], JSON_HEX_APOS|JSON_HEX_QUOT );
 			$field['is_hidden'] = $this->isFieldHidden( $path, $expectedValue );

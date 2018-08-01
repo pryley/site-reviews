@@ -1,0 +1,135 @@
+<?php
+
+namespace GeminiLabs\SiteReviews\Modules;
+
+use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Defaults\SlackDefaults;
+use GeminiLabs\SiteReviews\Modules\Rating;
+use GeminiLabs\SiteReviews\Review;
+use WP_Error;
+
+class Slack
+{
+	/**
+	 * @var string
+	 */
+	public $endpoint;
+
+	/**
+	 * @var array
+	 */
+	public $notification;
+
+	/**
+	 * @var Review
+	 */
+	public $review;
+
+	public function __construct()
+	{
+		$this->endpoint = glsr( OptionManager::class )->get( 'settings.general.slack_webhook' );
+	}
+
+	/**
+	 * @return Slack
+	 */
+	public function compose( Review $review, array $notification )
+	{
+		if( empty( $this->endpoint ))return;
+		$args = shortcode_atts( glsr( SlackDefaults::class )->defaults(), $notification );
+		$this->review = $review;
+		$notification = [
+			'icon_url' => $args['icon_url'],
+			'username' => $args['username'],
+			'attachments' => [[
+				'pretext' => $args['pretext'],
+				'color' => $args['color'],
+				'fallback' => $args['fallback'],
+				'fields' => $this->buildFields( $args['link'] ),
+			]],
+		];
+		$this->notification = apply_filters( 'site-reviews/slack/compose', $notification, $this );
+		return $this;
+	}
+
+	/**
+	 * @return WP_Error|array
+	 */
+	public function send()
+	{
+		if( empty( $this->endpoint )) {
+			return new WP_Error( 'slack', 'Slack notification was not sent: missing endpoint' );
+		}
+		return wp_remote_post( $this->endpoint, [
+			'blocking' => false,
+			'body' => json_encode( $this->notification ),
+			'headers' => ['Content-Type' => 'application/json'],
+			'httpversion' => '1.0',
+			'method' => 'POST',
+			'redirection' => 5,
+			'sslverify' => false,
+			'timeout' => 45,
+		]);
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function buildAuthorField()
+	{
+		$email = !empty( $this->review->email )
+			? '<'.$this->review->email.'>'
+			: '';
+		$author = trim( rtrim( $this->review->author ).' '.$email );
+		return ['value' => implode( ' - ', array_filter( [$author, $this->review->ip_address] ))];
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function buildContentField()
+	{
+		return !empty( $this->review->content )
+			? ['value' => $this->review->content]
+			: [];
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function buildFields( $link )
+	{
+		$fields = [
+			$this->buildStarsField(),
+			$this->buildTitleField(),
+			$this->buildContentField(),
+			$this->buildAuthorField(),
+		];
+		if( !empty( $link )) {
+			$fields[] = ['value' => $link];
+		}
+		return array_filter( $fields );
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function buildStarsField()
+	{
+		$solidStars = str_repeat( '★', $this->review->rating );
+		$emptyStars = str_repeat( '☆', max( 0, Rating::MAX_RATING - $this->review->rating ));
+		$stars = $solidStars.$emptyStars;
+		$stars = apply_filters( 'site-reviews/slack/stars', $stars, $this->review->rating, Rating::MAX_RATING );
+		return ['title' => $stars];
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function buildTitleField()
+	{
+		return !empty( $this->review->title )
+			? ['title' => $this->review->title]
+			: [];
+	}
+}

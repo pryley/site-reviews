@@ -23,11 +23,19 @@
 
 		/** @return bool */
 		isSelected_: function( el, dependency ) {
-			if( 'checkbox' === el.type ) {
-				return !!el.checked;
-			}
-			else if( Array.isArray( dependency.value )) {
+			if( Array.isArray( dependency.value )) {
+				if( 'checkbox' === el.type ) {
+					var isSelected = false;
+					[].map.call( el.closest( 'form' ).querySelectorAll( 'input[name="' +  el.name + '"]:checked' ), function( input ) {
+						if( !~dependency.value.indexOf( input.value ))return;
+						isSelected = true;
+					});
+					return isSelected;
+				}
 				return this.normalizeValues_( dependency.value ).indexOf( this.normalizeValue_( el.value )) !== -1;
+			}
+			else if( 'checkbox' === el.type ) {
+				return !!el.checked;
 			}
 			return this.normalizeValue_( dependency.value ) === this.normalizeValue_( el.value );
 		},
@@ -52,8 +60,8 @@
 		onChange_: function( ev ) {
 			this.depends.forEach( function( el ) {
 				var data = el.getAttribute( 'data-depends' );
-				if( !data )return;
 				var dependency;
+				if( !data )return;
 				try {
 					dependency = JSON.parse( data );
 				}
@@ -61,7 +69,7 @@
 					console.log( data );
 					return console.error( error );
 				}
-				if( dependency.name !== ev.currentTarget.name.replace( '[]', '' ))return;
+				if( dependency.name !== ev.currentTarget.name )return;
 				this.toggleHiddenField_( el, this.isSelected_( ev.currentTarget, dependency ));
 			}.bind( this ));
 		},

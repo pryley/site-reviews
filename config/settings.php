@@ -4,13 +4,13 @@ return [
 	'settings.general.require.approval' => [
 		'default' => 'no',
 		'description' => __( 'Set the status of new review submissions to pending.', 'site-reviews' ),
-		'label' => __( 'Require approval', 'site-reviews' ),
+		'label' => __( 'Require Approval', 'site-reviews' ),
 		'type' => 'yes_no',
 	],
 	'settings.general.require.login' => [
 		'default' => 'no',
 		'description' => __( 'Only allow review submissions from registered users.', 'site-reviews' ),
-		'label' => __( 'Require login', 'site-reviews' ),
+		'label' => __( 'Require Login', 'site-reviews' ),
 		'type' => 'yes_no',
 	],
 	'settings.general.require.login_register' => [
@@ -19,39 +19,39 @@ return [
 		'description' => sprintf( __( 'Show a link for a new user to register. The %s Membership option must be enabled in General Settings for this to work.', 'site-reviews' ),
 			'<a href="'.admin_url( 'options-general.php#users_can_register' ).'">'.__( 'Anyone can register', 'site-reviews' ).'</a>'
 		),
-		'label' => __( 'Show registration link', 'site-reviews' ),
+		'label' => __( 'Show Registration Link', 'site-reviews' ),
 		'type' => 'yes_no',
 	],
-	'settings.general.notification' => [
-		'default' => 'none',
+	'settings.general.notifications' => [
+		'default' => [],
 		'label' => __( 'Notifications', 'site-reviews' ),
 		'options' => [
-			'none' => __( 'Do not send review notifications', 'site-reviews' ),
-			'default' => __( 'Send to administrator', 'site-reviews' ).' <code>'.(string)get_option( 'admin_email' ).'</code>',
+			'admin' => __( 'Send to administrator', 'site-reviews' ).' <code>'.(string)get_option( 'admin_email' ).'</code>',
+			'author' => __( 'Send to author of the page that the review is assigned to', 'site-reviews' ),
 			'custom' => __( 'Send to one or more email addresses', 'site-reviews' ),
-			'webhook' => __( 'Send to <a href="https://slack.com/">Slack</a>', 'site-reviews' ),
+			'slack' => __( 'Send to <a href="https://slack.com/">Slack</a>', 'site-reviews' ),
 		],
-		'type' => 'radio',
+		'type' => 'checkbox',
 	],
 	'settings.general.notification_email' => [
 		'default' => '',
-		'depends_on' => ['settings.general.notification' => 'custom'],
-		'label' => __( 'Send notification emails to', 'site-reviews' ),
+		'depends_on' => ['settings.general.notifications' => ['custom']],
+		'label' => __( 'Send Notification Emails To', 'site-reviews' ),
 		'placeholder' => __( 'Separate multiple emails with a comma', 'site-reviews' ),
 		'type' => 'text',
 	],
-	'settings.general.webhook_url' => [
+	'settings.general.slack_webhook' => [
 		'default' => '',
-		'depends_on' => ['settings.general.notification' => 'webhook'],
+		'depends_on' => ['settings.general.notifications' => ['slack']],
 		'description' => sprintf( __( 'To send notifications to Slack, create a new %s and then paste the provided Webhook URL in the field above.', 'site-reviews' ),
 			'<a href="https://api.slack.com/incoming-webhooks">'.__( 'Incoming WebHook', 'site-reviews' ).'</a>'
 		),
-		'label' => __( 'Webhook URL', 'site-reviews' ),
-		'type' => 'url',
+		'label' => __( 'Slack Webhook URL', 'site-reviews' ),
+		'type' => 'text',
 	],
 	'settings.general.notification_message' => [
 		'default' => glsr( 'Modules\Html' )->buildTemplate( 'templates/email-notification' ),
-		'depends_on' => ['settings.general.notification' => ['custom', 'default', 'webhook']],
+		'depends_on' => ['settings.general.notifications' => ['admin', 'author', 'custom', 'slack']],
 		'description' => __(
 			'To restore the default text, save an empty template. '.
 			'If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href="https://api.slack.com/docs/attachments">Message Attachments</a> have been disabled. Available template tags:'.
@@ -64,7 +64,7 @@ return [
 			'<br><code>{review_link}</code> The link to edit/view a review',
 			'site-reviews'
 		),
-		'label' => __( 'Notification template', 'site-reviews' ),
+		'label' => __( 'Notification Template', 'site-reviews' ),
 		'rows' => 10,
 		'type' => 'code',
 	],
