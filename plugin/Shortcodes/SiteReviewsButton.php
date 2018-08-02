@@ -38,6 +38,7 @@ class SiteReviewsButton extends ButtonGenerator
 				'3' => esc_html( sprintf( _n( '%s star', '%s stars', 3, 'site-reviews' ), 3 )),
 				'2' => esc_html( sprintf( _n( '%s star', '%s stars', 2, 'site-reviews' ), 2 )),
 				'1' => esc_html( sprintf( _n( '%s star', '%s stars', 1, 'site-reviews' ), 1 )),
+				'0' => esc_html( __( 'Unrated', 'site-reviews' )),
 			],
 			'tooltip' => esc_attr__( 'What is the minimum rating to display (default: 1 star)?', 'site-reviews' ),
 			'type' => 'listbox',
