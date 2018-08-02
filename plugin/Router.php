@@ -104,7 +104,7 @@ class Router
 	protected function isValidPublicNonce( array $request )
 	{
 		if( is_user_logged_in() && !wp_verify_nonce( $request['nonce'], $request['action'] )) {
-			glsr_log()->error( 'nonce check failed for public request' )->info( $request );
+			glsr_log()->error( 'nonce check failed for public request' )->debug( $request );
 			return false;
 		}
 		return true;
@@ -138,7 +138,7 @@ class Router
 	 */
 	protected function sendAjaxError( $error, array $request, $statusCode = 400 )
 	{
-		glsr_log()->error( $error )->info( $request );
+		glsr_log()->error( $error )->debug( $request );
 		glsr_log( $_POST );
 		glsr( Notice::class )->addError( __( 'There was an error (try refreshing the page).', 'site-reviews' ).' <code>'.$error.'</code>' );
 		wp_send_json_error([

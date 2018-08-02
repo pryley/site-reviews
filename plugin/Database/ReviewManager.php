@@ -36,7 +36,7 @@ class ReviewManager
 		];
 		$postId = wp_insert_post( $post, true );
 		if( is_wp_error( $postId )) {
-			glsr_log()->error( $postId->get_error_message() )->info( $post );
+			glsr_log()->error( $postId->get_error_message() )->debug( $post );
 			return false;
 		}
 		$this->setTerms( $postId, $command->category );
