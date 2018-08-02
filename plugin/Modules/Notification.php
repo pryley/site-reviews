@@ -102,7 +102,7 @@ class Notification
 		if( in_array( 'author', $this->types )) {
 			$assignedPost = get_post( intval( $this->review->assigned_to ));
 			if( $assignedPost instanceof WP_Post ) {
-				$emails[] = get_the_author_meta( 'user_email', $assignedPost->post_author );
+				$emails[] = get_the_author_meta( 'user_email', intval( $assignedPost->post_author ));
 			}
 		}
 		if( in_array( 'custom', $this->types )) {
