@@ -33,7 +33,7 @@ class Notification
 	public function __construct()
 	{
 		$types = glsr( OptionManager::class )->get( 'settings.general.notifications', [] );
-		$this->email = count( array_intersect( ['admin', 'author', 'custom'], $types )) > 0;
+		$this->email = count( array_intersect( ['admin', 'custom'], $types )) > 0;
 		$this->slack = in_array( 'slack', $types );
 		$this->types = $types;
 	}
@@ -49,12 +49,8 @@ class Notification
 			'link' => $this->getLink(),
 			'title' => $this->getTitle(),
 		];
-		if( $this->email ) {
-			$this->sendToEmail( $args );
-		}
-		if( $this->slack ) {
-			$this->sendToSlack( $args );
-		}
+		$this->sendToEmail( $args );
+		$this->sendToSlack( $args );
 	}
 
 	/**
@@ -102,6 +98,7 @@ class Notification
 		if( in_array( 'author', $this->types )) {
 			$assignedPost = get_post( intval( $this->review->assigned_to ));
 			if( $assignedPost instanceof WP_Post ) {
+				$this->email = true;
 				$emails[] = get_the_author_meta( 'user_email', intval( $assignedPost->post_author ));
 			}
 		}
@@ -149,6 +146,7 @@ class Notification
 	protected function sendToEmail( array $args )
 	{
 		$email = $this->buildEmail( $args );
+		if( !$this->email )return;
 		if( empty( $email->to )) {
 			glsr_log()->error( 'Email notification was not sent: missing email address' );
 			return;
@@ -163,6 +161,7 @@ class Notification
 	 */
 	protected function sendToSlack( array $args )
 	{
+		if( !$this->slack )return;
 		$notification = $this->buildSlackNotification( $args );
 		$result = $notification->send();
 		if( is_wp_error( $result )) {
