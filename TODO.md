@@ -2,6 +2,7 @@
 - [ ] add default and minimal styles for the submission form
 - [ ] migrate all settings (ie. copy keys from Invisible recaptcha plugin)
 - [ ] migrate site-reviews/local/review/create
+- [ ] migrate "show_if_empty" option
 - [ ] verify all settings are used
 - [-] verify all v2 hooks
       - site-reviews/local/review/create

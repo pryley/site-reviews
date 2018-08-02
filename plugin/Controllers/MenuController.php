@@ -126,7 +126,6 @@ class MenuController extends Controller
 		$tabs = $this->parseWithFilter( 'tools/tabs', [
 			'general' => __( 'General', 'site-reviews' ),
 			'sync' => __( 'Sync Reviews', 'site-reviews' ),
-			'import-export' => __( 'Import/Export', 'site-reviews' ),
 			'console' => __( 'Console', 'site-reviews' ),
 			'system-info' => __( 'System Info', 'site-reviews' ),
 		]);
