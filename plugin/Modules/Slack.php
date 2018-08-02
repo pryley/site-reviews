@@ -27,7 +27,7 @@ class Slack
 
 	public function __construct()
 	{
-		$this->endpoint = glsr( OptionManager::class )->get( 'settings.general.slack_webhook' );
+		$this->endpoint = glsr( OptionManager::class )->get( 'settings.general.notification_slack' );
 	}
 
 	/**
@@ -42,10 +42,11 @@ class Slack
 			'icon_url' => $args['icon_url'],
 			'username' => $args['username'],
 			'attachments' => [[
+				'actions' => $this->buildAction( $args ),
 				'pretext' => $args['pretext'],
 				'color' => $args['color'],
 				'fallback' => $args['fallback'],
-				'fields' => $this->buildFields( $args['link'] ),
+				'fields' => $this->buildFields(),
 			]],
 		];
 		$this->notification = apply_filters( 'site-reviews/slack/compose', $notification, $this );
@@ -75,6 +76,18 @@ class Slack
 	/**
 	 * @return array
 	 */
+	protected function buildAction( array $args )
+	{
+		return [[
+			'text' => $args['button_text'],
+			'type' => 'button',
+			'url' => $args['button_url'],
+		]];
+	}
+
+	/**
+	 * @return array
+	 */
 	protected function buildAuthorField()
 	{
 		$email = !empty( $this->review->email )
@@ -97,7 +110,7 @@ class Slack
 	/**
 	 * @return array
 	 */
-	protected function buildFields( $link )
+	protected function buildFields()
 	{
 		$fields = [
 			$this->buildStarsField(),
@@ -105,9 +118,6 @@ class Slack
 			$this->buildContentField(),
 			$this->buildAuthorField(),
 		];
-		if( !empty( $link )) {
-			$fields[] = ['value' => $link];
-		}
 		return array_filter( $fields );
 	}
 

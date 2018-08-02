@@ -12,10 +12,11 @@ class SlackDefaults extends Defaults
 	protected function defaults()
 	{
 		return [
+			'button_text' => __( 'View Review', 'site-reviews' ),
+			'button_url' => '',
 			'color' => '#665068',
 			'fallback' => '',
 			'icon_url' => glsr()->url( 'assets/images/icon.png' ),
-			'link' => '',
 			'pretext' => '',
 			'username' => glsr()->name,
 		];

@@ -32,7 +32,7 @@ class Notification
 
 	public function __construct()
 	{
-		$types = glsr( OptionManager::class )->get( 'settings.general.notification', [] );
+		$types = glsr( OptionManager::class )->get( 'settings.general.notifications', [] );
 		$this->email = count( array_intersect( ['admin', 'author', 'custom'], $types )) > 0;
 		$this->slack = in_array( 'slack', $types );
 		$this->types = $types;
@@ -67,7 +67,7 @@ class Notification
 			'subject' => $args['title'],
 			'template' => 'email-notification',
 			'template-tags' => [
-				'review_author' => $this->review->author,
+				'review_author' => $this->review->author ?: __( 'Anonymous', 'site-reviews' ),
 				'review_content' => $this->review->content,
 				'review_email' => $this->review->email,
 				'review_ip' => $this->review->ip_address,
@@ -84,8 +84,8 @@ class Notification
 	protected function buildSlackNotification( array $args )
 	{
 		return glsr( Slack::class )->compose( $this->review, [
+			'button_url' => $args['link'],
 			'fallback' => $this->buildEmail( $args )->read( 'plaintext' ),
-			'link' => sprintf( '<%s|%s>', $args['link'], __( 'View Review', 'site-reviews' )),
 			'pretext' => $args['title'],
 		]);
 	}
@@ -102,7 +102,7 @@ class Notification
 		if( in_array( 'author', $this->types )) {
 			$assignedPost = get_post( intval( $this->review->assigned_to ));
 			if( $assignedPost instanceof WP_Post ) {
-				$emails[] = get_the_author_meta( 'user_email', $assignedPost->ID );
+				$emails[] = get_the_author_meta( 'user_email', $assignedPost->post_author );
 			}
 		}
 		if( in_array( 'custom', $this->types )) {

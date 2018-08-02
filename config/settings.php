@@ -40,7 +40,7 @@ return [
 		'placeholder' => __( 'Separate multiple emails with a comma', 'site-reviews' ),
 		'type' => 'text',
 	],
-	'settings.general.slack_webhook' => [
+	'settings.general.notification_slack' => [
 		'default' => '',
 		'depends_on' => ['settings.general.notifications' => ['slack']],
 		'description' => sprintf( __( 'To send notifications to Slack, create a new %s and then paste the provided Webhook URL in the field above.', 'site-reviews' ),
