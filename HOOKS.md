@@ -58,6 +58,8 @@
     site-reviews/review/build/before
     site-reviews/reviews/navigation_links
     site-reviews/route/request
+    site-reviews/slack/compose
+    site-reviews/slack/stars
     site-reviews/schema/all
     site-reviews/schema/Review
     site-reviews/schema/{schema_type}
@@ -65,4 +67,4 @@
     site-reviews/validation/rules
     site-reviews/views/data
     site-reviews/views/file
-    site-reviews/webhook/notification
+    ! site-reviews/webhook/notification

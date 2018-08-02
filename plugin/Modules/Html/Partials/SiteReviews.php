@@ -86,7 +86,7 @@ class SiteReviews
 			if( !method_exists( $this, $method ))continue;
 			$reviewValues[$key] = $this->$method( $key, $value );
 		}
-		$reviewValues = apply_filters( 'site-reviews/review/build/after', $reviewValues );
+		$reviewValues = apply_filters( 'site-reviews/review/build/after', (array)$reviewValues );
 		return new Review( $reviewValues );
 	}
 
