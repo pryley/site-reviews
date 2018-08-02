@@ -129,7 +129,7 @@
 
 		/** @return void */
 		onClose_: function( ev ) {
-			if( $( ev.currentTarget ).closest( $( this.el )).length )return;
+			if( $( ev.target ).closest( $( this.el )).length )return;
 			this.close_();
 		},
 

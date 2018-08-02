@@ -127,7 +127,7 @@
 
 		/** @return void */
 		onDocumentClick_: function( ev ) {
-			if( $( ev.currentTarget ).find( this.el ).length && $( 'body' ).hasClass( 'glsr-focus' )) {
+			if( $( ev.target ).find( this.el ).length && $( 'body' ).hasClass( 'glsr-focus' )) {
 				this.clearResults_();
 			}
 		},
