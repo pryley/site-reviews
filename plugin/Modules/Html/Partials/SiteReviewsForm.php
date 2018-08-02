@@ -47,6 +47,9 @@ class SiteReviewsForm
 	public function build( array $args = [] )
 	{
 		$this->args = $args;
+		if( !is_user_logged_in() && glsr( OptionManager::class )->get( 'settings.general.require.login' ) != 'yes' ) {
+			return $this->buildLoginRegister();
+		}
 		$this->errors = glsr( Session::class )->get( $args['id'].'errors', [], true );
 		$this->message = glsr( Session::class )->get( $args['id'].'message', '', true );
 		$this->required = glsr( OptionManager::class )->get( 'settings.submissions.required', [] );
@@ -61,6 +64,18 @@ class SiteReviewsForm
 				'id' => $this->args['id'],
 				'response' => $this->buildResponse(),
 				'submit_button' => $this->buildSubmitButton().$this->buildRecaptcha(),
+			],
+		]);
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function buildLoginRegister()
+	{
+		return glsr( Template::class )->build( 'templates/login-register', [
+			'context' => [
+				'text' => trim( $this->getLoginText().' '.$this->getRegisterText() ),
 			],
 		]);
 	}
@@ -127,6 +142,31 @@ class SiteReviewsForm
 			$this->normalizeFields( glsr( Form::class )->getFields( 'submission-form' ))
 		);
 		return $fields;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getLoginText()
+	{
+		$loginLink = glsr( Builder::class )->a([
+			'href' => wp_login_url( strval( get_permalink() )),
+			'text' => __( 'logged in', 'site-reviews' ),
+		]);
+		return sprintf( __( 'You must be %s to submit a review.', 'site-reviews' ), $loginLink );
+	}
+
+	/**
+	 * @return void|string
+	 */
+	protected function getRegisterText()
+	{
+		if( !get_option( 'users_can_register' ) || glsr( OptionManager::class )->get( 'settings.general.require.login' ) != 'yes' )return;
+		$registerLink = glsr( Builder::class )->a([
+			'href' => wp_registration_url(),
+			'text' => __( 'register', 'site-reviews' ),
+		]);
+		return sprintf( __( 'You may also %s for an account.', 'site-reviews' ), $registerLink );
 	}
 
 	/**
