@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
-class Review
+class ReviewHtml
 {
 	/**
 	 * @var array

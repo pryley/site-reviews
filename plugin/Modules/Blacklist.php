@@ -35,7 +35,7 @@ class Blacklist
 			return false;
 		}
 		$lines = explode( "\n", $blacklist );
-		foreach( (array) $lines as $line ) {
+		foreach( (array)$lines as $line ) {
 			$line = trim( $line );
 			if( empty( $line ) || 256 < strlen( $line ))continue;
 			$pattern = sprintf( '#%s#i', preg_quote( $line, '#' ));

@@ -88,48 +88,48 @@ return [
 		'label' => __( 'Custom Date Format', 'site-reviews' ),
 		'type' => 'text',
 	],
-	'settings.reviews.assigned_links.enabled' => [
+	'settings.reviews.assigned_links' => [
 		'default' => 'no',
 		'description' => __( 'Display a link to the assigned post of a review.', 'site-reviews' ),
 		'label' => __( 'Enable Assigned Links', 'site-reviews' ),
 		'type' => 'yes_no',
 	],
-	'settings.reviews.avatars.enabled' => [
+	'settings.reviews.avatars' => [
 		'default' => 'no',
 		'description' => __( 'Display reviewer avatars. These are generated from the email address of the reviewer using <a href="https://gravatar.com">Gravatar</a>.', 'site-reviews' ),
 		'label' => __( 'Enable Avatars', 'site-reviews' ),
 		'type' => 'yes_no',
 	],
-	'settings.reviews.avatars.regenerate' => [
+	'settings.reviews.avatars_regenerate' => [
 		'default' => 'no',
-		'depends_on' => ['settings.reviews.avatars.enabled' => 'yes'],
+		'depends_on' => ['settings.reviews.avatars' => 'yes'],
 		'description' => __( 'Regenerate the avatar whenever a local review is shown?', 'site-reviews' ),
 		'label' => __( 'Regenerate Avatars', 'site-reviews' ),
 		'type' => 'yes_no',
 	],
-	'settings.reviews.avatars.size' => [
+	'settings.reviews.avatars_size' => [
 		'default' => 40,
-		'depends_on' => ['settings.reviews.avatars.enabled' => 'yes'],
+		'depends_on' => ['settings.reviews.avatars' => 'yes'],
 		'description' => __( 'Set the avatar size in pixels.', 'site-reviews' ),
 		'label' => __( 'Avatar Size', 'site-reviews' ),
 		'type' => 'number',
 	],
-	'settings.reviews.excerpt.enabled' => [
+	'settings.reviews.excerpts' => [
 		'default' => 'no',
 		'description' => __( 'Display an excerpt instead of the full review.', 'site-reviews' ),
 		'label' => __( 'Enable Excerpts', 'site-reviews' ),
 		'type' => 'yes_no',
 	],
-	'settings.reviews.excerpt.length' => [
+	'settings.reviews.excerpts_length' => [
 		'default' => 55,
-		'depends_on' => ['settings.reviews.excerpt.enabled' => 'yes'],
+		'depends_on' => ['settings.reviews.excerpts' => 'yes'],
 		'description' => __( 'Set the excerpt word length.', 'site-reviews' ),
 		'label' => __( 'Excerpt Length', 'site-reviews' ),
 		'type' => 'number',
 	],
 	'settings.schema.type.default' => [
 		'default' => 'LocalBusiness',
-		'description' => __( 'Custom Field name: <code>schema_type</code>', 'site-reviews' ),
+		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_type</code>',
 		'label' => __( 'Default Schema Type', 'site-reviews' ),
 		'options' => [
 			'LocalBusiness' => __( 'Local Business', 'site-reviews' ),
@@ -147,7 +147,7 @@ return [
 	],
 	'settings.schema.name.default' => [
 		'default' => 'post',
-		'description' => __( 'Custom Field name: <code>schema_name</code>', 'site-reviews' ),
+		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_name</code>',
 		'label' => __( 'Default Name', 'site-reviews' ),
 		'options' => [
 			'post' => __( 'Use the assigned or current page title', 'site-reviews' ),
@@ -163,7 +163,7 @@ return [
 	],
 	'settings.schema.description.default' => [
 		'default' => 'post',
-		'description' => __( 'Custom Field name: <code>schema_description</code>', 'site-reviews' ),
+		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_description</code>',
 		'label' => __( 'Default Description', 'site-reviews' ),
 		'options' => [
 			'post' => __( 'Use the assigned or current page excerpt', 'site-reviews' ),
@@ -179,7 +179,7 @@ return [
 	],
 	'settings.schema.url.default' => [
 		'default' => 'post',
-		'description' => __( 'Custom Field name: <code>schema_url</code>', 'site-reviews' ),
+		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_url</code>',
 		'label' => __( 'Default URL', 'site-reviews' ),
 		'options' => [
 			'post' => __( 'Use the assigned or current page URL', 'site-reviews' ),
@@ -195,7 +195,7 @@ return [
 	],
 	'settings.schema.image.default' => [
 		'default' => 'post',
-		'description' => __( 'Custom Field name: <code>schema_image</code>', 'site-reviews' ),
+		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_image</code>',
 		'label' => __( 'Default Image', 'site-reviews' ),
 		'options' => [
 			'post' => __( 'Use the featured image of the assigned or current page', 'site-reviews' ),
@@ -212,7 +212,7 @@ return [
 	'settings.schema.address' => [
 		'default' => '',
 		'depends_on' => ['settings.schema.type.default' => 'LocalBusiness'],
-		'description' => __( 'Custom Field name: <code>schema_address</code>', 'site-reviews' ),
+		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_address</code>',
 		'label' => __( 'Address', 'site-reviews' ),
 		'placeholder' => '60 29th Street #343, San Francisco, CA 94110, US',
 		'type' => 'text',
@@ -220,7 +220,7 @@ return [
 	'settings.schema.telephone' => [
 		'default' => '',
 		'depends_on' => ['settings.schema.type.default' => 'LocalBusiness'],
-		'description' => __( 'Custom Field name: <code>schema_telephone</code>', 'site-reviews' ),
+		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_telephone</code>',
 		'label' => __( 'Telephone Number', 'site-reviews' ),
 		'placeholder' => '+1 (877) 273-3049',
 		'type' => 'text',
@@ -228,7 +228,7 @@ return [
 	'settings.schema.pricerange' => [
 		'default' => '',
 		'depends_on' => ['settings.schema.type.default' => 'LocalBusiness'],
-		'description' => __( 'Custom Field name: <code>schema_pricerange</code>', 'site-reviews' ),
+		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_pricerange</code>',
 		'label' => __( 'Price Range', 'site-reviews' ),
 		'placeholder' => '$$-$$$',
 		'type' => 'text',
@@ -236,7 +236,7 @@ return [
 	'settings.schema.lowprice' => [
 		'default' => '',
 		'depends_on' => ['settings.schema.type.default' => 'Product'],
-		'description' => __( 'Custom Field name: <code>schema_lowprice</code>', 'site-reviews' ),
+		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_lowprice</code>',
 		'label' => __( 'Low Price', 'site-reviews' ),
 		'placeholder' => '10.00',
 		'type' => 'text',
@@ -244,7 +244,7 @@ return [
 	'settings.schema.highprice' => [
 		'default' => '',
 		'depends_on' => ['settings.schema.type.default' => 'Product'],
-		'description' => __( 'Custom Field name: <code>schema_highprice</code>', 'site-reviews' ),
+		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_highprice</code>',
 		'label' => __( 'High Price', 'site-reviews' ),
 		'placeholder' => '100.00',
 		'type' => 'text',
@@ -252,7 +252,7 @@ return [
 	'settings.schema.pricecurrency' => [
 		'default' => '',
 		'depends_on' => ['settings.schema.type.default' => 'Product'],
-		'description' => __( 'Custom Field name: <code>schema_pricecurrency</code>', 'site-reviews' ),
+		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_pricecurrency</code>',
 		'label' => __( 'Price Currency', 'site-reviews' ),
 		'placeholder' => 'USD',
 		'type' => 'text',

@@ -6,13 +6,12 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Date;
-use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
-use GeminiLabs\SiteReviews\Modules\Html\Review;
+use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
-use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Schema;
+use GeminiLabs\SiteReviews\Review;
 use IntlRuleBasedBreakIterator;
 use WP_Post;
 
@@ -74,10 +73,10 @@ class SiteReviews
 	}
 
 	/**
-	 * @param object $review
-	 * @return object
+	 * @param Review $review
+	 * @return ReviewHtml
 	 */
-	protected function buildReview( $review )
+	protected function buildReview( Review $review )
 	{
 		$review = apply_filters( 'site-reviews/review/build/before', (array)$review );
 		$reviewValues = [];
@@ -87,7 +86,7 @@ class SiteReviews
 			$reviewValues[$key] = $this->$method( $key, $value );
 		}
 		$reviewValues = apply_filters( 'site-reviews/review/build/after', (array)$reviewValues );
-		return new Review( $reviewValues );
+		return new ReviewHtml( $reviewValues );
 	}
 
 	/**
@@ -97,7 +96,7 @@ class SiteReviews
 	 */
 	protected function buildOptionAssignedTo( $key, $value )
 	{
-		if( $this->isHiddenOrEmpty( $key, 'settings.reviews.assigned_links.enabled' ))return;
+		if( $this->isHidden( $key, 'settings.reviews.assigned_links' ))return;
 		$post = get_post( intval( $value ));
 		if( !( $post instanceof WP_Post ))return;
 		$permalink = glsr( Builder::class )->a( get_the_title( $post->ID ), [
@@ -115,7 +114,7 @@ class SiteReviews
 	protected function buildOptionAuthor( $key, $value )
 	{
 		if( $this->isHidden( $key ))return;
-		$prefix = !$this->isOptionEnabled( 'settings.reviews.avatars.enabled' )
+		$prefix = !$this->isOptionEnabled( 'settings.reviews.avatars' )
 			? apply_filters( 'site-reviews/review/author/prefix', '&mdash;' )
 			: '';
 		return $this->wrap( $key, $prefix.'<span>'.$value.'</span>' );
@@ -128,8 +127,8 @@ class SiteReviews
 	 */
 	protected function buildOptionAvatar( $key, $value )
 	{
-		if( $this->isHidden( $key, 'settings.reviews.avatars.enabled' ))return;
-		$size = $this->getOption( 'settings.reviews.avatars.size', 40 );
+		if( $this->isHidden( $key, 'settings.reviews.avatars' ))return;
+		$size = $this->getOption( 'settings.reviews.avatars_size', 40 );
 		return $this->wrap( $key, glsr( Builder::class )->img([
 			'src' => $this->generateAvatar( $value ),
 			'height' => $size,
@@ -178,7 +177,7 @@ class SiteReviews
 	protected function buildOptionRating( $key, $value )
 	{
 		if( $this->isHiddenOrEmpty( $key, $value ))return;
-		$rating = glsr( Html::class )->buildPartial( 'star-rating', [
+		$rating = glsr( Partial::class )->build( 'star-rating', [
 			'rating' => $value,
 		]);
 		return $this->wrap( $key, $rating );
@@ -222,15 +221,17 @@ class SiteReviews
 	protected function generateAvatar( $avatarUrl )
 	{
 		$review = $this->reviews->results[$this->current];
-		if( !$this->isOptionEnabled( 'settings.reviews.avatars.regenerate' )
-			|| $review->review_type != 'local' ) {
+		if( !$this->isOptionEnabled( 'settings.reviews.avatars_regenerate' ) || $review->review_type != 'local' ) {
 			return $avatarUrl;
 		}
 		$authorIdOrEmail = get_the_author_meta( 'ID', $review->user_id );
 		if( empty( $authorIdOrEmail )) {
 			$authorIdOrEmail = $review->email;
 		}
-		return (string)get_avatar_url( $authorIdOrEmail );
+		if( $newAvatar = get_avatar_url( $authorIdOrEmail )) {
+			return $newAvatar;
+		}
+		return $avatarUrl;
 	}
 
 	/**
@@ -261,7 +262,7 @@ class SiteReviews
 	 */
 	protected function getExcerpt( $text )
 	{
-		$limit = intval( $this->getOption( 'settings.reviews.excerpt.length', 55 ));
+		$limit = intval( $this->getOption( 'settings.reviews.excerpts_length', 55 ));
 		$split = extension_loaded( 'intl' )
 			? $this->getExcerptIntlSplit( $text, $limit )
 			: $this->getExcerptSplit( $text, $limit );
@@ -365,7 +366,7 @@ class SiteReviews
 		$text = convert_smilies( strip_shortcodes( $text ));
 		$text = str_replace( ']]>', ']]&gt;', $text );
 		$text = preg_replace( '/(\R){2,}/', '$1', $text );
-		if( $this->isOptionEnabled( 'settings.reviews.excerpt.enabled' )) {
+		if( $this->isOptionEnabled( 'settings.reviews.excerpts' )) {
 			$text = $this->getExcerpt( $text );
 		}
 		return wptexturize( $text );
