@@ -16,6 +16,7 @@ class CreateReviewDefaults extends Defaults
 			'author' => '',
 			'avatar' => '',
 			'content' => '',
+			'custom' => '',
 			'date' => get_date_from_gmt( gmdate( 'Y-m-d H:i:s' )),
 			'email' => '',
 			'ip_address' => '',

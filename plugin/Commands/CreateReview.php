@@ -62,8 +62,8 @@ class CreateReview
 	{
 		$unset = [
 			'action', 'ajax_request', 'assign_to', 'category', 'content', 'email', 'excluded',
-			'form_id', 'gotcha', 'ip_address', 'name', 'nonce', 'rating', 'referer', 'terms',
-			'title',
+			'form_id', 'gotcha', 'ip_address', 'name', 'nonce', 'rating', 'recaptcha-token',
+			'referer', 'terms', 'title',
 		];
 		$custom = $this->request;
 		foreach( $unset as $value ) {

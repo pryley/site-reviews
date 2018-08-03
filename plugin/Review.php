@@ -12,6 +12,7 @@ class Review
 	public $author;
 	public $avatar;
 	public $content;
+	public $custom;
 	public $date;
 	public $email;
 	public $ID;
@@ -69,7 +70,7 @@ class Review
 		$this->modified = $this->isModified( $properties );
 		array_walk( $properties, function( $value, $key ) {
 			if( !property_exists( $this, $key ) || isset( $this->$key ))return;
-			$this->$key = $value;
+			$this->$key = maybe_unserialize( $value );
 		});
 	}
 
