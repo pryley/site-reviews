@@ -15,10 +15,10 @@ abstract class DefaultsAbstract
 	{
 		if( !method_exists( $this, $name ))return;
 		$defaults = call_user_func_array( [$this, $name], $args );
-		$className = (new ReflectionClass( $this ))->getShortName();
-		$className = str_replace( 'Defaults', '', $className );
-		$className = glsr( Helper::class )->dashCase( $className );
-		return apply_filters( 'site-reviews/defaults/'.$className, $defaults, $name );
+		$hookName = (new ReflectionClass( $this ))->getShortName();
+		$hookName = str_replace( 'Defaults', '', $hookName );
+		$hookName = glsr( Helper::class )->dashCase( $hookName );
+		return apply_filters( 'site-reviews/defaults/'.$hookName, $defaults, $name );
 	}
 
 	/**

@@ -121,7 +121,7 @@ class EnqueuePublicAssets
 	protected function getFixedSelectorsForPagination()
 	{
 		$selectors = ['#wpadminbar','.site-navigation-fixed'];
-		return apply_filters( 'site-reviews/localize/pagination/selectors', $selectors );
+		return apply_filters( 'site-reviews/enqueue/public/localize/ajax-pagination', $selectors );
 	}
 
 	/**

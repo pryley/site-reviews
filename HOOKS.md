@@ -1,14 +1,12 @@
 ## Actions
 
     site-reviews/addon/register
-    site-reviews/addon/settings/tab
+    site-reviews/addon/settings/{tab}
     site-reviews/builder
     site-reviews/create/review
+    site-reviews/customize/{style}
     site-reviews/local/review/submitted
-    site-reviews/route/admin/request
-    site-reviews/route/ajax/request
-    site-reviews/route/public/request
-    site-reviews/route/{$type}/request
+    site-reviews/route/{request_type}/request
 
 ## Filters
 
@@ -16,6 +14,7 @@
     site-reviews/addon/settings
     site-reviews/addon/settings/tabs
     site-reviews/addon/submenu/callback
+    site-reviews/addon/submenu/pages
     site-reviews/addon/sync/enable
     site-reviews/addon/sync/sites
     site-reviews/addon/tools/tabs
@@ -25,11 +24,12 @@
     site-reviews/akismet/submission
     site-reviews/assets/css
     site-reviews/assets/js
+    site-reviews/assets/polyfill
     site-reviews/blacklist/is-blacklisted
     site-reviews/columns/{column_slug}
     site-reviews/config
     site-reviews/create/review-values
-    site-reviews/disable/filter/category
+    site-reviews/defaults/{defaults_name}
     site-reviews/email/compose
     site-reviews/email/headers
     site-reviews/email/message
@@ -37,34 +37,35 @@
     site-reviews/enqueue/admin/localize
     site-reviews/enqueue/public/dependencies
     site-reviews/enqueue/public/localize
+    site-reviews/enqueue/public/localize/ajax-pagination
     site-reviews/form/fields
     site-reviews/get/defaults
     site-reviews/get/review
-    site-reviews/local/review
-    site-reviews/local/review/submitted/message
-    site-reviews/log-levels
     site-reviews/metabox/details
+    site-reviews/notification/emails
+    site-reviews/notification/title
+    site-reviews/path
     site-reviews/rating/average
     site-reviews/rating/ranking
     site-reviews/recaptcha/language
     site-reviews/render/view
     site-reviews/rendered/field
     site-reviews/rendered/partial
-    site-reviews/rendered/partial/{$partialPath}
+    site-reviews/rendered/partial/{partial_path}
     site-reviews/rendered/template
-    site-reviews/rendered/template/{$templatePath}
+    site-reviews/rendered/template/{template_path}
     site-reviews/review/author/prefix
     site-reviews/review/build/after
     site-reviews/review/build/before
     site-reviews/reviews/navigation_links
     site-reviews/route/request
+    site-reviews/schema/all
+    site-reviews/schema/review
+    site-reviews/schema/{schema_type}
     site-reviews/slack/compose
     site-reviews/slack/stars
-    site-reviews/schema/all
-    site-reviews/schema/Review
-    site-reviews/schema/{schema_type}
+    site-reviews/url
     site-reviews/validate/review/submission
     site-reviews/validation/rules
     site-reviews/views/data
     site-reviews/views/file
-    ! site-reviews/webhook/notification

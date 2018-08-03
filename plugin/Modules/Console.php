@@ -147,7 +147,6 @@ class Console
 	public function log( $level, $message, array $context = [] )
 	{
 		$constants = (new ReflectionClass( __CLASS__ ))->getConstants();
-		$constants = (array)apply_filters( 'site-reviews/log-levels', $constants );
 		if( in_array( $level, $constants, true )) {
 			$entry = $this->buildLogEntry( $level, $message, $context );
 			file_put_contents( $this->file, $entry, FILE_APPEND|LOCK_EX );

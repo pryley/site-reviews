@@ -139,7 +139,6 @@ class AdminController extends Controller
 		if( glsr_current_screen()->base != 'post' )return;
 		$shortcodes = [];
 		foreach( glsr()->mceShortcodes as $shortcode => $values ) {
-			if( !apply_filters( sanitize_title( $shortcode ).'_condition', true ))continue;
 			$shortcodes[$shortcode] = $values;
 		}
 		if( empty( $shortcodes ))return;
