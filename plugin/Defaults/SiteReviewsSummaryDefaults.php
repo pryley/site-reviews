@@ -8,7 +8,6 @@ class SiteReviewsSummaryDefaults extends Defaults
 {
 	/**
 	 * @return array
-	 * @todo provide backwards compatibility with deprecated 'show_if_empty' option
 	 */
 	protected function defaults()
 	{

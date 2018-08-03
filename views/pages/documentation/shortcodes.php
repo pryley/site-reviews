@@ -83,8 +83,8 @@
 	<code>count=20</code>
 	<p>By default, the shortcode calculates the average rating for all reviews found in your set criteria. Include the "count" attribute to change the number of reviews that are used.</p>
 
-	<code>hide=bars,rating,stars,summary</code>
-	<p>By default the shortcode displays all fields. Include the "hide" attribute to hide any specific fields you don't want to show. If all fields are hidden, the shortcode will not be displayed.</p>
+	<code>hide=bars,if_empty,rating,stars,summary</code>
+	<p>By default the shortcode displays all fields. Use the "hide" attribute to hide any specific fields you don't want to show. Include "if_empty" to hide the shortcode when there are no reviews to summarise. If all fields are hidden, the shortcode will not be displayed.</p>
 
 	<code>labels="5 star,4 star,3 star,2 star,1 star"</code>
 	<p>The "labels" attribute allows you to enter custom labels for the percentage bar levels (from high to low), each level should be separated with a comma. The defaults labels are: "Excellent,Very good,Average,Poor,Terrible"</p>
@@ -96,9 +96,6 @@
 	<code>schema=true</code>
 	<p>Include the "schema" attribute to enable rich snippets for your reviews, this is disabled by default. The difference between this and the schema option in the <em>[site_reviews]</em> shortcode is that this one only generates the overall reviews rating schema, while the other generates both the overall reviews rating schema and the schema for each individual review. If you have the choice, better to enable this attribute on the <em>[site_reviews]</em> shortcode instead.</p>
 	<p><span class="required">Important:</span> This attribute should only be used once on a page to avoid duplicate schemas; keep that in mind if you are using more than one <em>[site_reviews]</em> and/or <em>[site_reviews_summary]</em> shortcodes on the same page.</p>
-
-	<code>show_if_empty=false</code>
-	<p>Include the "show_if_empty" attribute to specify whether or not to show the shortcode when there are no reviews to summarise.</p>
 
 	<code>text="{rating} out of {max} stars"</code>
 	<p>The "text" attribute allows you to change the summary text. Available template tags to use are, "{rating}" which represents the calculated average rating, "{max}" which represents the maximum star rating available, and "%d" which represents the total number of reviews. However, rather than using this attribute to change the summary text, it's recommended to instead create a custom translation for it in the "Site Reviews -> Settings -> Translation page". That way, you will be able to customize both the singular (1 review) and plural (2 reviews) summary texts.</p>
