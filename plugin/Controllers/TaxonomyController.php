@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Modules\Html;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class TaxonomyController
 {
@@ -36,7 +36,7 @@ class TaxonomyController
 	public function renderTaxonomyFilter()
 	{
 		if( !is_object_in_taxonomy( get_current_screen()->post_type, Application::TAXONOMY ))return;
-		glsr( Html::class )->render()->label( __( 'Filter by category', 'site-reviews' ), [
+		echo glsr( Builder::class )->label( __( 'Filter by category', 'site-reviews' ), [
 			'class' => 'screen-reader-text',
 			'for' => Application::TAXONOMY,
 		]);

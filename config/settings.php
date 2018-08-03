@@ -50,7 +50,7 @@ return [
 		'type' => 'text',
 	],
 	'settings.general.notification_message' => [
-		'default' => glsr( 'Modules\Html' )->buildTemplate( 'templates/email-notification' ),
+		'default' => glsr( 'Modules\Html\Template' )->build( 'templates/email-notification' ),
 		'depends_on' => ['settings.general.notifications' => ['admin', 'author', 'custom', 'slack']],
 		'description' => __(
 			'To restore the default text, save an empty template. '.

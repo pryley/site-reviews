@@ -11,8 +11,9 @@ use GeminiLabs\SiteReviews\Controllers\EditorController\Labels;
 use GeminiLabs\SiteReviews\Controllers\EditorController\Metaboxes;
 use GeminiLabs\SiteReviews\Controllers\ListTableController\Columns;
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Html\Partial;
+use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Review;
 use WP_Post;
 use WP_Screen;
@@ -148,7 +149,7 @@ class EditorController extends Controller
 	public function renderPinnedInPublishMetaBox()
 	{
 		if( !$this->isReviewPostType( get_post() ))return;
-		glsr( Html::class )->renderTemplate( 'partials/editor/pinned', [
+		glsr( Template::class )->render( 'partials/editor/pinned', [
 			'context' => [
 				'no' => __( 'No', 'site-reviews' ),
 				'yes' => __( 'Yes', 'site-reviews' ),
@@ -216,7 +217,7 @@ class EditorController extends Controller
 	{
 		$assignedPost = glsr( Database::class )->getAssignedToPost( $post->ID, $assignedTo );
 		if( !( $assignedPost instanceof WP_Post ))return;
-		return glsr( Html::class )->buildTemplate( 'partials/editor/assigned-post', [
+		return glsr( Template::class )->build( 'partials/editor/assigned-post', [
 			'context' => [
 				'data.url' => (string)get_permalink( $assignedPost ),
 				'data.title' => get_the_title( $assignedPost ),
@@ -294,7 +295,7 @@ class EditorController extends Controller
 				'href' => 'mailto:'.$review->email.'?subject='.esc_attr( __( 'RE:', 'site-reviews' ).' '.$review->title ),
 			]);
 		$metabox = [
-			__( 'Rating', 'site-reviews' ) => glsr( Html::class )->buildPartial( 'star-rating', ['rating' => $review->rating] ),
+			__( 'Rating', 'site-reviews' ) => glsr( Partial::class )->build( 'star-rating', ['rating' => $review->rating] ),
 			__( 'Type', 'site-reviews' ) => $this->getReviewType( $review ),
 			__( 'Date', 'site-reviews' ) => get_date_from_gmt( $review->date, 'F j, Y' ),
 			__( 'Name', 'site-reviews' ) => $review->author,

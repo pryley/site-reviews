@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 use Exception;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Modules\Html;
+use GeminiLabs\SiteReviews\Modules\Html\Template;
 use Sepia\PoParser\Parser;
 
 class Translator
@@ -164,7 +164,7 @@ class Translator
 			$entry
 		);
 		ob_start();
-		glsr( Html::class )->renderTemplate( 'partials/translations/'.$template, [
+		glsr( Template::class )->render( 'partials/translations/'.$template, [
 			'context' => $data,
 		]);
 		return ob_get_clean();

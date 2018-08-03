@@ -11,8 +11,8 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\SqlQueries;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Console;
-use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\System;
 use WP_Post;
@@ -123,7 +123,7 @@ class AdminController extends Controller
 	{
 		if( !$this->isReviewPostType( $post ) || $this->isReviewEditable( $post ))return;
 		glsr( Notice::class )->addWarning( __( 'This review is read-only.', 'site-reviews' ));
-		glsr( Html::class )->renderTemplate( 'partials/editor/notice', [
+		glsr( Template::class )->render( 'partials/editor/notice', [
 			'context' => [
 				'notices' => glsr( Notice::class )->get(),
 			],

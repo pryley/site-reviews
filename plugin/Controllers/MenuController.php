@@ -6,9 +6,10 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Console;
-use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Html\Settings;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
+use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\System;
 
 class MenuController extends Controller
@@ -111,7 +112,8 @@ class MenuController extends Controller
 			unset( $tabs['licenses'] );
 		}
 		$this->renderPage( 'settings', [
-			'html' => glsr( Html::class ),
+			'notices' => $this->getNotices(),
+			'settings' => glsr( Settings::class ),
 			'tabs' => $tabs,
 		]);
 	}
@@ -135,14 +137,15 @@ class MenuController extends Controller
 		$this->renderPage( 'tools', [
 			'data' => [
 				'context' => [
-					'console' => (string)glsr( Console::class ),
+					'console' => strval( glsr( Console::class )),
 					'id' => Application::ID,
-					'system' => (string)glsr( System::class ),
+					'system' => strval( glsr( System::class )),
 				],
 				'sites' => apply_filters( 'site-reviews/addon/sync/sites', [] ),
 			],
-			'html' => glsr( Html::class ),
+			'notices' => $this->getNotices(),
 			'tabs' => $tabs,
+			'template' => glsr( Template::class ),
 		]);
 	}
 
@@ -155,6 +158,16 @@ class MenuController extends Controller
 		foreach( wp_roles()->roles as $role => $value ) {
 			wp_roles()->remove_cap( $role, 'create_'.Application::POST_TYPE );
 		}
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getNotices()
+	{
+		return glsr( Builder::class )->div( glsr( Notice::class )->get(), [
+			'id' => 'glsr-notices',
+		]);
 	}
 
 	/**

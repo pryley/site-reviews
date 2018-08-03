@@ -5,8 +5,8 @@ namespace GeminiLabs\SiteReviews\Controllers\ListTableController;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use WP_Post;
 
 class Columns
@@ -58,7 +58,7 @@ class Columns
 	 */
 	public function buildColumnRating( $postId )
 	{
-		return glsr( Html::class )->buildPartial( 'star-rating', [
+		return glsr( Partial::class )->build( 'star-rating', [
 			'rating' => intval( get_post_meta( $postId, 'rating', true )),
 		]);
 	}

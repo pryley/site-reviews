@@ -1,7 +1,7 @@
 # PRE-LAUNCH
 - [ ] add default and minimal styles for the submission form
+- [ ] finish the documentation
 - [ ] migrate all settings (ie. copy keys from Invisible recaptcha plugin)
-- [ ] migrate site-reviews/local/review/create
 - [-] verify all v2 hooks
       - site-reviews/local/review/create
       - site-reviews/local/review/submitted

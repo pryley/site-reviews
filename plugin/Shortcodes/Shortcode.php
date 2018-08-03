@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Shortcodes;
 
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Modules\Html;
+use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use ReflectionClass;
 
@@ -24,7 +24,7 @@ abstract class Shortcode implements ShortcodeContract
 			'after_title' => '</h3>',
 		]);
 		$instance = $this->normalize( $instance );
-		$partial = glsr( Html::class )->buildPartial( $shortcodePartial, $instance );
+		$partial = glsr( Partial::class )->build( $shortcodePartial, $instance );
 		if( !empty( $instance['title'] )) {
 			$instance['title'] = $args['before_title'].$instance['title'].$args['after_title'];
 		}
