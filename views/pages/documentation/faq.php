@@ -14,3 +14,8 @@
 	<h3>The widgets and shortcodes look funny in my sidebar. What's happening?</h3>
 	<p>Some themes may have very small sidebars and/or CSS styles that conflict or alter the styles within Site Reviews. To correct any styling errors you can either disable the plugin's CSS altogether, or override the CSS selectors in use to make the widget or shortcode appear how you'd like. CSS-related issues are not actively supported as there are too many variations between the thousands of WordPress themes available.</p>
 </div>
+
+<div class="glsr-card card">
+	<h3>How do I redirect to a custom URL after a form is submitted?</h3>
+	<p>To redirect the page after a form has been submitted, edit the page the shortcode is on and use the Custom Fields metabox to add a <code>redirect_to</code> as the Custom Field name and the URL you want to redirect to as the value.</p>
+</div>

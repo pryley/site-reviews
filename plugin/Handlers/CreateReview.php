@@ -22,13 +22,26 @@ class CreateReview
 		}
 		glsr( Session::class )->set( $command->form_id.'message', __( 'Your review has been submitted!', 'site-reviews' ));
 		glsr( Notification::class )->send( $review );
-		do_action( 'site-reviews/local/review/submitted', $review );
+		do_action( 'site-reviews/local/review/submitted', null, $command ); // @compat
+		do_action( 'site-reviews/review/submitted', $review );
 		if( $command->ajax_request )return;
-		if( empty( $command->referer )) {
-			glsr_log()->warning( 'The form referer ($_SERVER[REQUEST_URI]) was empty.' )->info( $command );
-			$command->referer = home_url();
-		}
-		wp_safe_redirect( $command->referer );
+		wp_safe_redirect( $this->getReferer( $command ));
 		exit;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getReferer( Command $command )
+	{
+		$referer = trim( strval( get_post_meta( $command->post_id, 'redirect_to', true )));
+		if( empty( $referer )) {
+			$referer = $command->referer;
+		}
+		if( empty( $referer )) {
+			glsr_log()->warning( 'The form referer ($_SERVER[REQUEST_URI]) was empty.' )->info( $command );
+			$referer = home_url();
+		}
+		return $referer;
 	}
 }

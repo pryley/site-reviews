@@ -193,6 +193,9 @@ class SiteReviewsForm
 			'name' => 'nonce',
 			'value' => wp_create_nonce( 'submit-review' ),
 		],[
+			'name' => 'post_id',
+			'value' => get_the_ID(),
+		],[
 			'name' => 'referer',
 			'value' => wp_unslash( filter_input( INPUT_SERVER, 'REQUEST_URI' )),
 		]];

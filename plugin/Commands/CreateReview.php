@@ -17,6 +17,7 @@ class CreateReview
 	public $email;
 	public $form_id;
 	public $ip_address;
+	public $post_id;
 	public $rating;
 	public $referer;
 	public $terms;
@@ -38,6 +39,7 @@ class CreateReview
 		$this->email = sanitize_email( $this->get( 'email' ));
 		$this->form_id = sanitize_key( $this->get( 'form_id' ));
 		$this->ip_address = $this->get( 'ip_address' );
+		$this->post_id = intval( $this->get( 'post_id' ));
 		$this->rating = intval( $this->get( 'rating' ));
 		$this->referer = $this->get( 'referer' );
 		$this->terms = isset( $input['terms'] );
@@ -62,8 +64,8 @@ class CreateReview
 	{
 		$unset = [
 			'action', 'ajax_request', 'assign_to', 'category', 'content', 'email', 'excluded',
-			'form_id', 'gotcha', 'ip_address', 'name', 'nonce', 'rating', 'recaptcha-token',
-			'referer', 'terms', 'title',
+			'form_id', 'gotcha', 'ip_address', 'name', 'nonce', 'post_id', 'rating',
+			'recaptcha-token', 'referer', 'terms', 'title',
 		];
 		$custom = $this->request;
 		foreach( $unset as $value ) {

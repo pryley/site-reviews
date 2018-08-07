@@ -48,6 +48,9 @@
 			this.enableButton_();
 			response.form = this.form;
 			document.dispatchEvent( new CustomEvent( 'site-reviews/after/submission', { detail: response }));
+			if( !!success && response.redirect !== '' ) {
+				window.location = response.redirect;
+			}
 		},
 
 		/** @return void */

@@ -23,6 +23,7 @@ trait Setup
 			'form_id' => 'abcdef',
 			'name' => 'Jane Doe',
 			'nonce' => wp_create_nonce( 'submit-review' ),
+			'post_id' => '13',
 			'rating' => '5',
 			'terms' => '1',
 			'title' => 'Test Review',
