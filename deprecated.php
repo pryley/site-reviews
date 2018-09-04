@@ -2,7 +2,10 @@
 
 defined( 'WPINC' ) || die;
 
-add_action( 'site-reviews/local/review/submitted', function() {
+add_action( 'site-reviews/review/submitted', function() {
+	if( has_action( 'site-reviews/local/review/submitted' )) {
+		glsr_log()->notice( 'The "site-reviews/local/review/submitted" hook has been deprecated. Please use the "site-reviews/review/submitted" hook instead.' );
+	}
 	if( has_filter( 'site-reviews/local/review/submitted/message' )) {
 		glsr_log()->notice( 'The "site-reviews/local/review/submitted/message" hook has been deprecated.' );
 	}
