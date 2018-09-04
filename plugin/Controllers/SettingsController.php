@@ -75,12 +75,13 @@ class SettingsController extends Controller
 	{
 		if( isset( $input['settings']['strings'] )) {
 			$options['settings']['strings'] = array_values( array_filter( $input['settings']['strings'] ));
-			array_walk( $options['settings']['strings'], function( &$string ) {
+			$allowedTags = ['a' => ['class' => [], 'href' => [], 'target' => []]];
+			array_walk( $options['settings']['strings'], function( &$string ) use( $allowedTags ) {
 				if( isset( $string['s2'] )) {
-					$string['s2'] = wp_strip_all_tags( $string['s2'] );
+					$string['s2'] = wp_kses( $string['s2'], $allowedTags );
 				}
 				if( isset( $string['p2'] )) {
-					$string['p2'] = wp_strip_all_tags( $string['p2'] );
+					$string['p2'] = wp_kses( $string['p2'], $allowedTags );
 				}
 			});
 		}
