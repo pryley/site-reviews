@@ -60,7 +60,7 @@ class SiteReviews
 	}
 
 	/**
-	 * @return array
+	 * @return string
 	 */
 	public function buildReviews()
 	{

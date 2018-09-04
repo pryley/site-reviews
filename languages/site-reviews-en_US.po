@@ -362,39 +362,39 @@ msgstr "Site Reviews (default)"
 msgid "Site Reviews (minimal)"
 msgstr "Site Reviews (minimal)"
 
-#: config/settings.php:280
+#: config/settings.php:281
 msgid "Choose which fields should be required in the submission form."
 msgstr "Choose which fields should be required in the submission form."
 
-#: config/settings.php:281
+#: config/settings.php:282
 msgid "Required Fields"
 msgstr "Required Fields"
 
-#: config/settings.php:283, plugin/Controllers/EditorController.php:298, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsButton.php:33, plugin/Shortcodes/SiteReviewsButton.php:106, plugin/Shortcodes/SiteReviewsSummaryButton.php:60
+#: config/settings.php:284, plugin/Controllers/EditorController.php:298, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsButton.php:33, plugin/Shortcodes/SiteReviewsButton.php:106, plugin/Shortcodes/SiteReviewsSummaryButton.php:60
 msgid "Rating"
 msgstr "Rating"
 
-#: config/settings.php:284, plugin/Defaults/PostTypeDefaults.php:17, plugin/Shortcodes/SiteReviewsButton.php:20, plugin/Shortcodes/SiteReviewsButton.php:116, plugin/Shortcodes/SiteReviewsFormButton.php:19, plugin/Shortcodes/SiteReviewsFormButton.php:62, plugin/Shortcodes/SiteReviewsSummaryButton.php:19, plugin/Widgets/SiteReviewsFormWidget.php:21, plugin/Widgets/SiteReviewsSummaryWidget.php:21, plugin/Widgets/SiteReviewsWidget.php:21
+#: config/settings.php:285, plugin/Defaults/PostTypeDefaults.php:17, plugin/Shortcodes/SiteReviewsButton.php:20, plugin/Shortcodes/SiteReviewsButton.php:116, plugin/Shortcodes/SiteReviewsFormButton.php:19, plugin/Shortcodes/SiteReviewsFormButton.php:62, plugin/Shortcodes/SiteReviewsSummaryButton.php:19, plugin/Widgets/SiteReviewsFormWidget.php:21, plugin/Widgets/SiteReviewsSummaryWidget.php:21, plugin/Widgets/SiteReviewsWidget.php:21
 msgid "Title"
 msgstr "Title"
 
-#: config/settings.php:285, plugin/Controllers/MainController.php:39
+#: config/settings.php:286, plugin/Controllers/MainController.php:39
 msgid "Review"
 msgstr "Review"
 
-#: config/settings.php:286, plugin/Controllers/EditorController.php:301, plugin/Shortcodes/SiteReviewsFormButton.php:52
+#: config/settings.php:287, plugin/Controllers/EditorController.php:301, plugin/Shortcodes/SiteReviewsFormButton.php:52
 msgid "Name"
 msgstr "Name"
 
-#: config/settings.php:287, plugin/Controllers/EditorController.php:302, plugin/Shortcodes/SiteReviewsFormButton.php:47
+#: config/settings.php:288, plugin/Controllers/EditorController.php:302, plugin/Shortcodes/SiteReviewsFormButton.php:47
 msgid "Email"
 msgstr "Email"
 
-#: config/settings.php:288, plugin/Shortcodes/SiteReviewsFormButton.php:57
+#: config/settings.php:289, plugin/Shortcodes/SiteReviewsFormButton.php:57
 msgid "Terms"
 msgstr "Terms"
 
-#: config/settings.php:294
+#: config/settings.php:295
 msgid ""
 "Invisible reCAPTCHA is a free anti-spam service from Google. To use it, you "
 "will need to <a href=\"https://www.google.com/recaptcha/admin\" "
@@ -404,19 +404,19 @@ msgstr ""
 "will need to <a href=\"https://www.google.com/recaptcha/admin\" "
 "target=\"_blank\">sign up</a> for an API key pair for your site."
 
-#: config/settings.php:295
+#: config/settings.php:296
 msgid "Invisible reCAPTCHA"
 msgstr "Invisible reCAPTCHA"
 
-#: config/settings.php:306
+#: config/settings.php:307
 msgid "Site Key"
 msgstr "Site Key"
 
-#: config/settings.php:312
+#: config/settings.php:313
 msgid "Site Secret"
 msgstr "Site Secret"
 
-#: config/settings.php:318
+#: config/settings.php:319
 msgid ""
 "This option may not work consistently if another plugin is loading "
 "reCAPTCHA on the same page as Site Reviews."
@@ -424,11 +424,11 @@ msgstr ""
 "This option may not work consistently if another plugin is loading "
 "reCAPTCHA on the same page as Site Reviews."
 
-#: config/settings.php:319
+#: config/settings.php:320
 msgid "Badge Position"
 msgstr "Badge Position"
 
-#: config/settings.php:329
+#: config/settings.php:330
 msgid ""
 "The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> "
 "integration provides spam-filtering for your reviews. In order for this "
@@ -440,11 +440,11 @@ msgstr ""
 "setting to have any affect, you will need to first install and activate the "
 "Akismet plugin and set up a WordPress.com API key."
 
-#: config/settings.php:330
+#: config/settings.php:331
 msgid "Enable Akismet Integration"
 msgstr "Enable Akismet Integration"
 
-#: config/settings.php:335
+#: config/settings.php:336
 msgid ""
 "When a review contains any of these words in its title, content, name, "
 "email, or IP address, it will be rejected. One word or IP address per line. "
@@ -454,23 +454,23 @@ msgstr ""
 "email, or IP address, it will be rejected. One word or IP address per line. "
 "It will match inside words, so \"press\" will match \"WordPress\"."
 
-#: config/settings.php:336
+#: config/settings.php:337
 msgid "Review Blacklist"
 msgstr "Review Blacklist"
 
-#: config/settings.php:342
+#: config/settings.php:343
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr "Choose the action that should be taken when a review is blacklisted."
 
-#: config/settings.php:343
+#: config/settings.php:344
 msgid "Blacklist Action"
 msgstr "Blacklist Action"
 
-#: config/settings.php:345
+#: config/settings.php:346
 msgid "Require approval"
 msgstr "Require approval"
 
-#: config/settings.php:346
+#: config/settings.php:347
 msgid "Reject submission"
 msgstr "Reject submission"
 
@@ -1354,7 +1354,7 @@ msgstr "The review submission failed. Please notify the site administrator."
 msgid "The reCAPTCHA verification failed, please try again."
 msgstr "The reCAPTCHA verification failed, please try again."
 
-#: plugin/Modules/Validator/ValidateReview.php:245, plugin/Modules/Html/Partials/SiteReviews.php:212
+#: plugin/Modules/Validator/ValidateReview.php:245, plugin/Modules/Html/Partials/SiteReviews.php:211
 msgid "No Title"
 msgstr "No Title"
 
@@ -1586,19 +1586,19 @@ msgstr "Next"
 msgid "Site Reviews navigation"
 msgstr "Site Reviews navigation"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:105
+#: plugin/Modules/Html/Partials/SiteReviews.php:107
 msgid "Review of %s"
 msgstr "Review of %s"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:194
+#: plugin/Modules/Html/Partials/SiteReviews.php:193
 msgid "Response from %s"
 msgstr "Response from %s"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:273
+#: plugin/Modules/Html/Partials/SiteReviews.php:272
 msgid "Show less"
 msgstr "Show less"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:274
+#: plugin/Modules/Html/Partials/SiteReviews.php:273
 msgid "Show more"
 msgstr "Show more"
 
