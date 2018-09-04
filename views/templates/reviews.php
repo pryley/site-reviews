@@ -2,18 +2,7 @@
 
 <div class="glsr-reviews-wrap">
 	<div class="{{ class }}" id="{{ id }}">
-		<?php foreach( $reviews as $review ) : ?>
-		<div class="glsr-review">
-			<?= $review->title; ?>
-			<?= $review->rating; ?>
-			<?= $review->date; ?>
-			<?= $review->assigned_to; ?>
-			<?= $review->content; ?>
-			<?= $review->avatar; ?>
-			<?= $review->author; ?>
-			<?= $review->response; ?>
-		</div>
-		<?php endforeach; ?>
+		{{ reviews }}
 		{{ navigation }}
 	</div>
 </div>

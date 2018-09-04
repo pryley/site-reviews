@@ -54,8 +54,8 @@ class SiteReviews
 				'class' => $this->getClass(),
 				'id' => $this->args['id'],
 				'navigation' => $navigation,
+				'reviews' => $this->buildReviews(),
 			],
-			'reviews' => $this->buildReviews(),
 		]);
 	}
 
@@ -64,10 +64,12 @@ class SiteReviews
 	 */
 	public function buildReviews()
 	{
-		$reviews = [];
-		foreach( $this->reviews->results as $index => $review ) {
+		$reviews = '';
+		foreach( $this->reviews->results as $index => $result ) {
 			$this->current = $index;
-			$reviews[] = $this->buildReview( $review );
+			$reviews.= glsr( Template::class )->build( 'templates/review', [
+				'context' => $this->buildReview( $result )->values,
+			]);
 		}
 		return $reviews;
 	}
