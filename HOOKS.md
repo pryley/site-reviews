@@ -25,11 +25,13 @@
     site-reviews/assets/css
     site-reviews/assets/js
     site-reviews/assets/polyfill
+    site-reviews/async-scripts
     site-reviews/blacklist/is-blacklisted
     site-reviews/columns/{column_slug}
     site-reviews/config
     site-reviews/create/review-values
     site-reviews/defaults/{defaults_name}
+    site-reviews/defer-scripts
     site-reviews/email/compose
     site-reviews/email/headers
     site-reviews/email/message
