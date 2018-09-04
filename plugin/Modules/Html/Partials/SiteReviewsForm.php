@@ -218,6 +218,17 @@ class SiteReviewsForm
 	/**
 	 * @return void
 	 */
+	protected function normalizeFieldClass( Field &$field )
+	{
+		if( !isset( $field->field['class'] )) {
+			$field->field['class'] = '';
+		}
+		$field->field['class'] = trim( $field->field['class'].' glsr-field-control' );
+	}
+
+	/**
+	 * @return void
+	 */
 	protected function normalizeFieldErrors( Field &$field )
 	{
 		if( !array_key_exists( $field->field['path'], $this->errors ))return;
@@ -240,6 +251,7 @@ class SiteReviewsForm
 	{
 		foreach( $fields as &$field ) {
 			$field->field['is_public'] = true;
+			$this->normalizeFieldClass( $field );
 			$this->normalizeFieldErrors( $field );
 			$this->normalizeFieldRequired( $field );
 			$this->normalizeFieldValue( $field );

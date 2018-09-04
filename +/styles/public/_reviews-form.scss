@@ -1,5 +1,48 @@
 form.glsr-form {
+
 	font-size: $glsr-font-size;
+	line-height: 1.5;
+
+	.glsr-field-choice {
+		position: relative;
+		display: block;
+		padding-left: 1.25rem;
+	}
+
+	.glsr-field-choice input {
+		box-sizing: border-box;
+		padding: 0;
+		position: absolute;
+		margin-top: .3rem;
+		margin-left: -1.25rem;
+	}
+
+	.glsr-field-choice label {
+		display: inline-block;
+		margin: 0;
+	}
+
+	:not(.glsr-review-avatar) + .glsr-review-author::before {
+		content: '\2014'; // &mdash;
+	}
+
+	input.glsr-field-control,
+	textarea.glsr-field-control {
+		line-height: 1.5;
+		font-size: 1rem;
+		background-color: #fff;
+		min-height: calc(2.25rem + 2px);
+		background-clip: padding-box;
+		border: 1px solid $glsr-color-grey;
+		border-radius: 0.15rem;
+		transition: border-color 0.15s ease-in-out;
+		padding: 0.375rem 0.5rem;
+		&:focus {
+			background-color: #fff;
+			border-color: $glsr-color-grey-dark;
+			outline: 0;
+		}
+	}
 
 	.glsr-required label span::after {
 		content: '\002a';
@@ -9,7 +52,6 @@ form.glsr-form {
 		margin-bottom: $glsr-font-size;
 	}
 	.glsr-field-error {
-		display: none;
 		font-size: $glsr-font-size-small;
 		color: $glsr-color-error;
 	}
@@ -22,7 +64,7 @@ form.glsr-form {
 	.glsr-has-errors {
 		color: $glsr-color-error;
 	}
-	.glsr-is-invalid {
+	input.glsr-is-invalid {
 		border-color: $glsr-color-error;
 	}
 	.glsr-field-choice input {

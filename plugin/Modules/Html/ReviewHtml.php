@@ -7,7 +7,7 @@ class ReviewHtml
 	/**
 	 * @var array
 	 */
-	protected $values;
+	public $values;
 
 	public function __construct( array $values )
 	{
