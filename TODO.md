@@ -1,6 +1,5 @@
 # PRE-LAUNCH
 - [ ] add default and minimal styles for the submission form
-- [ ] finish the documentation
 - [ ] migrate all settings (ie. copy keys from Invisible recaptcha plugin)
 - [-] verify all v2 hooks
       - site-reviews/local/review/create
@@ -11,6 +10,9 @@
       - site-reviews/router/post/request
       - site-reviews/settings
       - site-reviews/settings/notice
+- [ ] finish the documentation
+- [ ] polylang support (posts with multiple IDs)
+- [ ] test Materialize theme (checkboxes and rating select field)
 
 # POST-LAUNCH
 - [ ] make tabs responsive (auto-collapsable)
