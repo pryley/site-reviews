@@ -1,7 +1,7 @@
 <?php defined( 'WPINC' ) || die; ?>
 
 <p>The following helper functions will only work if the <?= glsr()->name; ?> plugin is active. If you use any of them in a theme, make sure you add <a href="https://php.net/manual/en/function.function-exists.php">function_exists</a> checks to your theme's <code>functions.php</code> file for each helper function you use.</p>
-
+<!--
 <div class="glsr-card card">
 	<h3>Global helper to get a single review</h3>
 	<pre><code>glsr_get_review( $post_id );</code></pre>
@@ -10,7 +10,8 @@
 	<p>You can use the following code to view all available values in the review object that is returned.</p>
 	<pre><code>glsr_debug( glsr_get_review( $post_id ));</code></pre>
 </div>
-
+-->
+<!--
 <div class="glsr-card card">
 	<h3>Global helper to get an array of reviews</h3>
 	<pre><code>glsr_get_reviews( $args );</code></pre>
@@ -38,7 +39,8 @@ foreach( $reviews as $review ) {
 	glsr_debug( $review );
 }</code></pre>
 </div>
-
+-->
+<!--
 <div class="glsr-card card">
 	<h3>Global helper to get a plugin option</h3>
 	<pre><code>glsr_get_option( $option_path, $fallback );</code></pre>
@@ -58,12 +60,13 @@ foreach( $reviews as $review ) {
 	<p>You can use the following code to view the whole plugin settings array, this will help you figure out which dot-notation path to use.</p>
 	<pre><code>glsr_debug( glsr_get_options() );</code></pre>
 </div>
-
+-->
+<!--
 <div class="glsr-card card">
 	<h3>Global helper to get an array of all plugin options</h3>
 	<pre><code>glsr_get_options();</code></pre>
 </div>
-
+-->
 <div class="glsr-card card">
 	<h3>Global helper to debug variables</h3>
 	<pre><code>glsr_debug( $variable, ... );</code></pre>
@@ -71,7 +74,7 @@ foreach( $reviews as $review ) {
 	<p><strong>Example:</strong></p>
 	<pre><code>glsr_debug( $var1, $var2, $var3 );</code></pre>
 </div>
-
+<!--
 <div class="glsr-card card">
 	<h3>Global helper to log variables</h3>
 	<pre><code>glsr_log( $message, $level );</code></pre>
@@ -80,3 +83,4 @@ foreach( $reviews as $review ) {
 	<p><strong>Example:</strong></p>
 	<pre><code>glsr_log( $log_this_variable );</code></pre>
 </div>
+ -->

@@ -13,7 +13,7 @@
 	<pre><code>add_filter( 'site-reviews/assets/js', '__return_false' );</code></pre>
 	<p>Use this hook if you want to disable the plugin javascript from loading on your website.</p>
 </div>
-
+<!--
 <div class="glsr-card card">
 	<h3>Do something immediately after a review has been submitted.</h3>
 	<pre><code>add_action( 'site-reviews/local/review/submitted', function( $message, $request ) {
@@ -23,7 +23,8 @@
 	<p>The <code>$message</code> is the "successfully submitted" message returned to the user.</p>
 	<p>The <code>$request</code> is the PHP object used to create the review. With this you can also determine the current referrer URI (<code>$request->referrer</code>) or whether the request is an AJAX request or not (<code>$request->ajaxRequest</code>).</p>
 </div>
-
+-->
+<!--
 <div class="glsr-card card">
 	<h3>Change the default <a href="https://developers.google.com/recaptcha/docs/language" target="_blank">reCAPTCHA language</a>.</h3>
 	<pre><code>add_filter( 'site-reviews/recaptcha/language', function( $locale ) {
@@ -32,7 +33,7 @@
 });</code></pre>
 	<p>This hook will only work when using "Custom Integration" reCAPTCHA setting.
 </div>
-
+-->
 <div class="glsr-card card">
 	<h3>Modify the JSON-LD schema type properties</h3>
 	<pre><code>$schemaType = 'LocalBusiness';

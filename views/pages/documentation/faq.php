@@ -11,8 +11,24 @@
 </div>
 
 <div class="glsr-card card">
-	<h3>The widgets and shortcodes look funny in my sidebar. What's happening?</h3>
-	<p>Some themes may have very small sidebars and/or CSS styles that conflict or alter the styles within Site Reviews. To correct any styling errors you can either disable the plugin's CSS altogether, or override the CSS selectors in use to make the widget or shortcode appear how you'd like. CSS-related issues are not actively supported as there are too many variations between the thousands of WordPress themes available.</p>
+	<h3>How do I remove the dash in front of the author's name?</h3>
+	<p></p>
+</div>
+
+<div class="glsr-card card">
+	<h3>How do I change the order of the review fields?</h3>
+	<p></p>
+</div>
+
+<div class="glsr-card card">
+	<h3>How do I change the order of the form fields?</h3>
+	<p></p>
+</div>
+
+<div class="glsr-card card">
+	<h3>How do I customise the stars?</h3>
+	<h3></h3>
+	<p></p>
 </div>
 
 <div class="glsr-card card">
