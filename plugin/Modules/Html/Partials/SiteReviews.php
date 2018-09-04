@@ -116,10 +116,7 @@ class SiteReviews
 	protected function buildOptionAuthor( $key, $value )
 	{
 		if( $this->isHidden( $key ))return;
-		$prefix = !$this->isOptionEnabled( 'settings.reviews.avatars' )
-			? apply_filters( 'site-reviews/review/author/prefix', '&mdash;' )
-			: '';
-		return $this->wrap( $key, $prefix.'<span>'.$value.'</span>' );
+		return $this->wrap( $key, '<span>'.$value.'</span>' );
 	}
 
 	/**

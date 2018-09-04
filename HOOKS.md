@@ -56,7 +56,6 @@
     site-reviews/rendered/partial/{partial_path}
     site-reviews/rendered/template
     site-reviews/rendered/template/{template_path}
-    site-reviews/review/author/prefix
     site-reviews/review/build/after
     site-reviews/review/build/before
     site-reviews/reviews/navigation_links
