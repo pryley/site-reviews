@@ -46,6 +46,8 @@
     site-reviews/metabox/details
     site-reviews/notification/emails
     site-reviews/notification/title
+    site-reviews/paginate_links/args
+    site-reviews/paginate_links
     site-reviews/path
     site-reviews/rating/average
     site-reviews/rating/ranking
@@ -58,7 +60,6 @@
     site-reviews/rendered/template/{template_path}
     site-reviews/review/build/after
     site-reviews/review/build/before
-    site-reviews/reviews/navigation_links
     site-reviews/route/request
     site-reviews/schema/all
     site-reviews/schema/review

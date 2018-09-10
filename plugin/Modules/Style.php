@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Defaults\PaginationDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleValidationDefaults;
 use GeminiLabs\SiteReviews\Helper;
@@ -20,6 +21,11 @@ class Style
 	 * @var string
 	 */
 	public $style;
+
+	/**
+	 * @var array
+	 */
+	public $pagination;
 
 	/**
 	 * @var array
@@ -69,10 +75,11 @@ class Style
 	public function setConfig()
 	{
 		$config = shortcode_atts(
-			array_fill_keys( ['fields', 'validation'], [] ),
+			array_fill_keys( ['fields', 'pagination', 'validation'], [] ),
 			glsr()->config( 'styles/'.$this->style )
 		);
 		$this->fields = glsr( StyleFieldsDefaults::class )->restrict( $config['fields'] );
+		$this->pagination = glsr( PaginationDefaults::class )->merge( $config['pagination'] );
 		$this->validation = glsr( StyleValidationDefaults::class )->restrict( $config['validation'] );
 	}
 
@@ -83,6 +90,14 @@ class Style
 	{
 		if( !$this->isPublicInstance( $instance ) || empty( array_filter( $this->fields )))return;
 		call_user_func_array( [$this, 'customize'], [&$instance] );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function paginationArgs( array $args )
+	{
+		return wp_parse_args( $args, $this->pagination );
 	}
 
 	/**
