@@ -13,7 +13,7 @@
       - site-reviews/settings/notice
 - [ ] finish the documentation
 - [ ] polylang support (posts with multiple IDs)
-- [ ] test Materialize theme (checkboxes and rating select field)
+
 
 # POST-LAUNCH
 - [ ] make tabs responsive (auto-collapsable)
