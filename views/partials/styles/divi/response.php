@@ -1,5 +1,5 @@
 <?php defined( 'WPINC' ) || die; ?>
 
-<div class="glsr-form-message et-pb-contact-message {{ class }}">
+<p class="glsr-form-message et-pb-contact-message et_pb_contact_field {{ class }}">
 	{{ message }}
-</div>
+</p>
