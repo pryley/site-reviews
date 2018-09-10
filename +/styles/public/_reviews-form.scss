@@ -64,25 +64,26 @@ form.glsr-form {
 	.glsr-has-errors {
 		color: $glsr-color-error;
 	}
-	input.glsr-is-invalid {
+	input:not([type=checkbox]):not([type=radio]).glsr-is-invalid,
+	textarea.glsr-is-invalid {
 		border-color: $glsr-color-error;
 	}
 	.glsr-field-choice input {
 		outline: none;
 	}
-	.glsr-has-error .glsr-field-choice input {
-		opacity: 0;
-	}
-	.glsr-has-error .glsr-field-choice label::before {
-		position: absolute;
-		top: 5px;
-		left: 0;
-		content: "";
-		width: $glsr-font-size;
-		height: $glsr-font-size;
-		border: 1px solid $glsr-color-error;
-		line-height: inherit;
-	}
+	// .glsr-has-error .glsr-field-choice input {
+	// 	opacity: 0;
+	// }
+	// .glsr-has-error .glsr-field-choice label::before {
+	// 	position: absolute;
+	// 	top: 5px;
+	// 	left: 0;
+	// 	content: "";
+	// 	width: $glsr-font-size;
+	// 	height: $glsr-font-size;
+	// 	border: 1px solid $glsr-color-error;
+	// 	line-height: inherit;
+	// }
 }
 .glsr-ltr form.glsr-form {
 	.glsr-field input[type="checkbox"],
