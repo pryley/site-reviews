@@ -1,4 +1,5 @@
 # PRE-LAUNCH
+- [ ] move templates dir to root
 - [ ] finish the documentation
 - [ ] migrate all settings (ie. copy keys from Invisible recaptcha plugin)
 - [-] verify all v2 hooks

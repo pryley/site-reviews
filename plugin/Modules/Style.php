@@ -55,7 +55,7 @@ class Style
 		}
 		$views = $this->generatePossibleViews( $view );
 		foreach( $views as $possibleView ) {
-			if( !file_exists( glsr()->path( 'views/'.$possibleView.'.php' )))continue;
+			if( !file_exists( glsr()->path( $possibleView.'.php' )))continue;
 			return $possibleView;
 		}
 		return $view;
@@ -122,7 +122,7 @@ class Style
 	{
 		$basename = basename( $view );
 		$basepath = rtrim( $view, $basename );
-		$customPath = 'partials/styles/'.$this->style.'/';
+		$customPath = 'views/partials/styles/'.$this->style.'/';
 		$parts = explode( '_', $basename );
 		$views = [
 			$customPath.$basename,

@@ -75,6 +75,26 @@ final class Application extends Container
 	}
 
 	/**
+	 * @param string $view
+	 * @return string
+	 */
+	public function file( $view )
+	{
+		$file = '';
+		if( glsr( Helper::class )->startsWith( 'templates/', $view )) {
+			$file = str_replace( 'templates/', 'site-reviews/', $view ).'.php';
+			$file = get_stylesheet_directory().'/'.$file;
+			if( !file_exists( $file )) {
+				$file = $this->path( $view.'.php' );
+			}
+		}
+		if( !file_exists( $file )) {
+			$file = $this->path( 'views/'.$view.'.php' );
+		}
+		return $file;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function getDefaults()
@@ -158,15 +178,7 @@ final class Application extends Container
 	public function render( $view, array $data = [] )
 	{
 		$view = apply_filters( 'site-reviews/render/view', $view, $data );
-		$file = '';
-		if( glsr( Helper::class )->startsWith( $view, 'templates/' )) {
-			$file = str_replace( 'templates/', 'site-reviews/', $view ).'.php';
-			$file = get_stylesheet_directory().'/'.$file;
-		}
-		if( !file_exists( $file )) {
-			$file = $this->path( 'views/'.$view.'.php' );
-		}
-		$file = apply_filters( 'site-reviews/views/file', $file, $view, $data );
+		$file = apply_filters( 'site-reviews/views/file', $this->file( $view ), $view, $data );
 		if( !file_exists( $file )) {
 			glsr_log()->error( 'File not found: '.$file );
 			return;
