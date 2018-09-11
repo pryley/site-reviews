@@ -62,9 +62,8 @@ class SiteReviewsSummary
 	protected function buildPercentage()
 	{
 		if( $this->isHidden( 'bars' ))return;
-		$range = range( Rating::MAX_RATING, 1 );
 		$percentages = preg_filter( '/$/', '%', glsr( Rating::class )->getPercentages( $this->ratingCounts ));
-		$bars = array_reduce( $range, function( $carry, $level ) use( $percentages ) {
+		$bars = array_reduce( range( Rating::MAX_RATING, 1 ), function( $carry, $level ) use( $percentages ) {
 			$label = $this->buildPercentageLabel( $this->args['labels'][$level] );
 			$background = $this->buildPercentageBackground( $percentages[$level] );
 			$percent = $this->buildPercentagePercent( $percentages[$level] );

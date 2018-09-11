@@ -53,22 +53,34 @@ msgid "You can use the %s plugin to restore %s to the previous version."
 msgstr "You can use the %s plugin to restore %s to the previous version."
 
 #: config/settings.php:6
+msgid ""
+"Integrate with the %s plugin to calculate ratings for all languages of a "
+"post."
+msgstr ""
+"Integrate with the %s plugin to calculate ratings for all languages of a "
+"post."
+
+#: config/settings.php:9
+msgid "Integrate with Polylang"
+msgstr "Integrate with Polylang"
+
+#: config/settings.php:14
 msgid "Set the status of new review submissions to pending."
 msgstr "Set the status of new review submissions to pending."
 
-#: config/settings.php:7
+#: config/settings.php:15
 msgid "Require Approval"
 msgstr "Require Approval"
 
-#: config/settings.php:12
+#: config/settings.php:20
 msgid "Only allow review submissions from registered users."
 msgstr "Only allow review submissions from registered users."
 
-#: config/settings.php:13
+#: config/settings.php:21
 msgid "Require Login"
 msgstr "Require Login"
 
-#: config/settings.php:19
+#: config/settings.php:27
 msgid ""
 "Show a link for a new user to register. The %s Membership option must be "
 "enabled in General Settings for this to work."
@@ -76,43 +88,43 @@ msgstr ""
 "Show a link for a new user to register. The %s Membership option must be "
 "enabled in General Settings for this to work."
 
-#: config/settings.php:20
+#: config/settings.php:28
 msgid "Anyone can register"
 msgstr "Anyone can register"
 
-#: config/settings.php:22
+#: config/settings.php:30
 msgid "Show Registration Link"
 msgstr "Show Registration Link"
 
-#: config/settings.php:27
+#: config/settings.php:35
 msgid "Notifications"
 msgstr "Notifications"
 
-#: config/settings.php:29
+#: config/settings.php:37
 msgid "Send to administrator"
 msgstr "Send to administrator"
 
-#: config/settings.php:30
+#: config/settings.php:38
 msgid "Send to author of the page that the review is assigned to"
 msgstr "Send to author of the page that the review is assigned to"
 
-#: config/settings.php:31
+#: config/settings.php:39
 msgid "Send to one or more email addresses"
 msgstr "Send to one or more email addresses"
 
-#: config/settings.php:32
+#: config/settings.php:40
 msgid "Send to <a href=\"https://slack.com/\">Slack</a>"
 msgstr "Send to <a href=\"https://slack.com/\">Slack</a>"
 
-#: config/settings.php:39
+#: config/settings.php:47
 msgid "Send Notification Emails To"
 msgstr "Send Notification Emails To"
 
-#: config/settings.php:40
+#: config/settings.php:48
 msgid "Separate multiple emails with a comma"
 msgstr "Separate multiple emails with a comma"
 
-#: config/settings.php:46
+#: config/settings.php:54
 msgid ""
 "To send notifications to Slack, create a new %s and then paste the provided "
 "Webhook URL in the field above."
@@ -120,43 +132,43 @@ msgstr ""
 "To send notifications to Slack, create a new %s and then paste the provided "
 "Webhook URL in the field above."
 
-#: config/settings.php:47
+#: config/settings.php:55
 msgid "Incoming WebHook"
 msgstr "Incoming WebHook"
 
-#: config/settings.php:49
+#: config/settings.php:57
 msgid "Slack Webhook URL"
 msgstr "Slack Webhook URL"
 
-#: config/settings.php:67
+#: config/settings.php:75
 msgid "Notification Template"
 msgstr "Notification Template"
 
-#: config/settings.php:73
+#: config/settings.php:81
 msgid "The default date format is the one set in your %s."
 msgstr "The default date format is the one set in your %s."
 
-#: config/settings.php:74
+#: config/settings.php:82
 msgid "WordPress settings"
 msgstr "WordPress settings"
 
-#: config/settings.php:76
+#: config/settings.php:84
 msgid "Date Format"
 msgstr "Date Format"
 
-#: config/settings.php:78
+#: config/settings.php:86
 msgid "Use the default date format"
 msgstr "Use the default date format"
 
-#: config/settings.php:79
+#: config/settings.php:87
 msgid "Use a relative date format"
 msgstr "Use a relative date format"
 
-#: config/settings.php:80
+#: config/settings.php:88
 msgid "Use a custom date format"
 msgstr "Use a custom date format"
 
-#: config/settings.php:87
+#: config/settings.php:95
 msgid ""
 "Enter a custom date format (<a "
 "href=\"https://codex.wordpress.org/Formatting_Date_and_Time\">documentation "
@@ -166,19 +178,19 @@ msgstr ""
 "href=\"https://codex.wordpress.org/Formatting_Date_and_Time\">documentation "
 "on date and time formatting</a>)."
 
-#: config/settings.php:88
+#: config/settings.php:96
 msgid "Custom Date Format"
 msgstr "Custom Date Format"
 
-#: config/settings.php:93
+#: config/settings.php:101
 msgid "Display a link to the assigned post of a review."
 msgstr "Display a link to the assigned post of a review."
 
-#: config/settings.php:94
+#: config/settings.php:102
 msgid "Enable Assigned Links"
 msgstr "Enable Assigned Links"
 
-#: config/settings.php:99
+#: config/settings.php:107
 msgid ""
 "Display reviewer avatars. These are generated from the email address of the "
 "reviewer using <a href=\"https://gravatar.com\">Gravatar</a>."
@@ -186,159 +198,159 @@ msgstr ""
 "Display reviewer avatars. These are generated from the email address of the "
 "reviewer using <a href=\"https://gravatar.com\">Gravatar</a>."
 
-#: config/settings.php:100
+#: config/settings.php:108
 msgid "Enable Avatars"
 msgstr "Enable Avatars"
 
-#: config/settings.php:106
+#: config/settings.php:114
 msgid "Regenerate the avatar whenever a local review is shown?"
 msgstr "Regenerate the avatar whenever a local review is shown?"
 
-#: config/settings.php:107
+#: config/settings.php:115
 msgid "Regenerate Avatars"
 msgstr "Regenerate Avatars"
 
-#: config/settings.php:113
+#: config/settings.php:121
 msgid "Set the avatar size in pixels."
 msgstr "Set the avatar size in pixels."
 
-#: config/settings.php:114
+#: config/settings.php:122
 msgid "Avatar Size"
 msgstr "Avatar Size"
 
-#: config/settings.php:119
+#: config/settings.php:127
 msgid "Display an excerpt instead of the full review."
 msgstr "Display an excerpt instead of the full review."
 
-#: config/settings.php:120
+#: config/settings.php:128
 msgid "Enable Excerpts"
 msgstr "Enable Excerpts"
 
-#: config/settings.php:126
+#: config/settings.php:134
 msgid "Set the excerpt word length."
 msgstr "Set the excerpt word length."
 
-#: config/settings.php:127
+#: config/settings.php:135
 msgid "Excerpt Length"
 msgstr "Excerpt Length"
 
-#: config/settings.php:132, config/settings.php:150, config/settings.php:166, config/settings.php:182, config/settings.php:198, config/settings.php:215, config/settings.php:223, config/settings.php:231, config/settings.php:239, config/settings.php:247, config/settings.php:255
+#: config/settings.php:140, config/settings.php:158, config/settings.php:174, config/settings.php:190, config/settings.php:206, config/settings.php:223, config/settings.php:231, config/settings.php:239, config/settings.php:247, config/settings.php:255, config/settings.php:263
 msgid "Custom Field name"
 msgstr "Custom Field name"
 
-#: config/settings.php:133
+#: config/settings.php:141
 msgid "Default Schema Type"
 msgstr "Default Schema Type"
 
-#: config/settings.php:135
+#: config/settings.php:143
 msgid "Local Business"
 msgstr "Local Business"
 
-#: config/settings.php:136
+#: config/settings.php:144
 msgid "Product"
 msgstr "Product"
 
-#: config/settings.php:137
+#: config/settings.php:145
 msgid "Custom"
 msgstr "Custom"
 
-#: config/settings.php:144
+#: config/settings.php:152
 msgid "View more information on schema types here"
 msgstr "View more information on schema types here"
 
-#: config/settings.php:145
+#: config/settings.php:153
 msgid "Custom Schema Type"
 msgstr "Custom Schema Type"
 
-#: config/settings.php:151
+#: config/settings.php:159
 msgid "Default Name"
 msgstr "Default Name"
 
-#: config/settings.php:153
+#: config/settings.php:161
 msgid "Use the assigned or current page title"
 msgstr "Use the assigned or current page title"
 
-#: config/settings.php:154
+#: config/settings.php:162
 msgid "Enter a custom title"
 msgstr "Enter a custom title"
 
-#: config/settings.php:161
+#: config/settings.php:169
 msgid "Custom Name"
 msgstr "Custom Name"
 
-#: config/settings.php:167
+#: config/settings.php:175
 msgid "Default Description"
 msgstr "Default Description"
 
-#: config/settings.php:169
+#: config/settings.php:177
 msgid "Use the assigned or current page excerpt"
 msgstr "Use the assigned or current page excerpt"
 
-#: config/settings.php:170
+#: config/settings.php:178
 msgid "Enter a custom description"
 msgstr "Enter a custom description"
 
-#: config/settings.php:177
+#: config/settings.php:185
 msgid "Custom Description"
 msgstr "Custom Description"
 
-#: config/settings.php:183
+#: config/settings.php:191
 msgid "Default URL"
 msgstr "Default URL"
 
-#: config/settings.php:185
+#: config/settings.php:193
 msgid "Use the assigned or current page URL"
 msgstr "Use the assigned or current page URL"
 
-#: config/settings.php:186
+#: config/settings.php:194
 msgid "Enter a custom URL"
 msgstr "Enter a custom URL"
 
-#: config/settings.php:193
+#: config/settings.php:201
 msgid "Custom URL"
 msgstr "Custom URL"
 
-#: config/settings.php:199
+#: config/settings.php:207
 msgid "Default Image"
 msgstr "Default Image"
 
-#: config/settings.php:201
+#: config/settings.php:209
 msgid "Use the featured image of the assigned or current page"
 msgstr "Use the featured image of the assigned or current page"
 
-#: config/settings.php:202
+#: config/settings.php:210
 msgid "Enter a custom image URL"
 msgstr "Enter a custom image URL"
 
-#: config/settings.php:209
+#: config/settings.php:217
 msgid "Custom Image URL"
 msgstr "Custom Image URL"
 
-#: config/settings.php:216
+#: config/settings.php:224
 msgid "Address"
 msgstr "Address"
 
-#: config/settings.php:224
+#: config/settings.php:232
 msgid "Telephone Number"
 msgstr "Telephone Number"
 
-#: config/settings.php:232
+#: config/settings.php:240
 msgid "Price Range"
 msgstr "Price Range"
 
-#: config/settings.php:240
+#: config/settings.php:248
 msgid "Low Price"
 msgstr "Low Price"
 
-#: config/settings.php:248
+#: config/settings.php:256
 msgid "High Price"
 msgstr "High Price"
 
-#: config/settings.php:256
+#: config/settings.php:264
 msgid "Price Currency"
 msgstr "Price Currency"
 
-#: config/settings.php:262
+#: config/settings.php:270
 msgid ""
 "Site Reviews relies on the CSS of your theme to style the submission form. "
 "If your theme does not provide proper CSS rules for form elements and you "
@@ -350,51 +362,51 @@ msgstr ""
 "are using a WordPress plugin/theme or CSS Framework listed here, please try "
 "selecting it, otherwise choose \"Site Reviews (default)\"."
 
-#: config/settings.php:263
+#: config/settings.php:271
 msgid "Form Style"
 msgstr "Form Style"
 
-#: config/settings.php:270
+#: config/settings.php:278
 msgid "Site Reviews (default)"
 msgstr "Site Reviews (default)"
 
-#: config/settings.php:271
+#: config/settings.php:279
 msgid "Site Reviews (minimal)"
 msgstr "Site Reviews (minimal)"
 
-#: config/settings.php:281
+#: config/settings.php:289
 msgid "Choose which fields should be required in the submission form."
 msgstr "Choose which fields should be required in the submission form."
 
-#: config/settings.php:282
+#: config/settings.php:290
 msgid "Required Fields"
 msgstr "Required Fields"
 
-#: config/settings.php:284, plugin/Controllers/EditorController.php:298, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsButton.php:33, plugin/Shortcodes/SiteReviewsButton.php:106, plugin/Shortcodes/SiteReviewsSummaryButton.php:60
+#: config/settings.php:292, plugin/Controllers/EditorController.php:298, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsButton.php:33, plugin/Shortcodes/SiteReviewsButton.php:106, plugin/Shortcodes/SiteReviewsSummaryButton.php:60
 msgid "Rating"
 msgstr "Rating"
 
-#: config/settings.php:285, plugin/Defaults/PostTypeDefaults.php:17, plugin/Shortcodes/SiteReviewsButton.php:20, plugin/Shortcodes/SiteReviewsButton.php:116, plugin/Shortcodes/SiteReviewsFormButton.php:19, plugin/Shortcodes/SiteReviewsFormButton.php:62, plugin/Shortcodes/SiteReviewsSummaryButton.php:19, plugin/Widgets/SiteReviewsFormWidget.php:21, plugin/Widgets/SiteReviewsSummaryWidget.php:21, plugin/Widgets/SiteReviewsWidget.php:21
+#: config/settings.php:293, plugin/Defaults/PostTypeDefaults.php:17, plugin/Shortcodes/SiteReviewsButton.php:20, plugin/Shortcodes/SiteReviewsButton.php:116, plugin/Shortcodes/SiteReviewsFormButton.php:19, plugin/Shortcodes/SiteReviewsFormButton.php:62, plugin/Shortcodes/SiteReviewsSummaryButton.php:19, plugin/Widgets/SiteReviewsFormWidget.php:21, plugin/Widgets/SiteReviewsSummaryWidget.php:21, plugin/Widgets/SiteReviewsWidget.php:21
 msgid "Title"
 msgstr "Title"
 
-#: config/settings.php:286, plugin/Controllers/MainController.php:39
+#: config/settings.php:294, plugin/Controllers/MainController.php:39
 msgid "Review"
 msgstr "Review"
 
-#: config/settings.php:287, plugin/Controllers/EditorController.php:301, plugin/Shortcodes/SiteReviewsFormButton.php:52
+#: config/settings.php:295, plugin/Controllers/EditorController.php:301, plugin/Shortcodes/SiteReviewsFormButton.php:52
 msgid "Name"
 msgstr "Name"
 
-#: config/settings.php:288, plugin/Controllers/EditorController.php:302, plugin/Shortcodes/SiteReviewsFormButton.php:47
+#: config/settings.php:296, plugin/Controllers/EditorController.php:302, plugin/Shortcodes/SiteReviewsFormButton.php:47
 msgid "Email"
 msgstr "Email"
 
-#: config/settings.php:289, plugin/Shortcodes/SiteReviewsFormButton.php:57
+#: config/settings.php:297, plugin/Shortcodes/SiteReviewsFormButton.php:57
 msgid "Terms"
 msgstr "Terms"
 
-#: config/settings.php:295
+#: config/settings.php:303
 msgid ""
 "Invisible reCAPTCHA is a free anti-spam service from Google. To use it, you "
 "will need to <a href=\"https://www.google.com/recaptcha/admin\" "
@@ -404,19 +416,19 @@ msgstr ""
 "will need to <a href=\"https://www.google.com/recaptcha/admin\" "
 "target=\"_blank\">sign up</a> for an API key pair for your site."
 
-#: config/settings.php:296
+#: config/settings.php:304
 msgid "Invisible reCAPTCHA"
 msgstr "Invisible reCAPTCHA"
 
-#: config/settings.php:307
+#: config/settings.php:315
 msgid "Site Key"
 msgstr "Site Key"
 
-#: config/settings.php:313
+#: config/settings.php:321
 msgid "Site Secret"
 msgstr "Site Secret"
 
-#: config/settings.php:319
+#: config/settings.php:327
 msgid ""
 "This option may not work consistently if another plugin is loading "
 "reCAPTCHA on the same page as Site Reviews."
@@ -424,11 +436,11 @@ msgstr ""
 "This option may not work consistently if another plugin is loading "
 "reCAPTCHA on the same page as Site Reviews."
 
-#: config/settings.php:320
+#: config/settings.php:328
 msgid "Badge Position"
 msgstr "Badge Position"
 
-#: config/settings.php:330
+#: config/settings.php:338
 msgid ""
 "The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> "
 "integration provides spam-filtering for your reviews. In order for this "
@@ -440,11 +452,11 @@ msgstr ""
 "setting to have any affect, you will need to first install and activate the "
 "Akismet plugin and set up a WordPress.com API key."
 
-#: config/settings.php:331
+#: config/settings.php:339
 msgid "Enable Akismet Integration"
 msgstr "Enable Akismet Integration"
 
-#: config/settings.php:336
+#: config/settings.php:344
 msgid ""
 "When a review contains any of these words in its title, content, name, "
 "email, or IP address, it will be rejected. One word or IP address per line. "
@@ -454,23 +466,23 @@ msgstr ""
 "email, or IP address, it will be rejected. One word or IP address per line. "
 "It will match inside words, so \"press\" will match \"WordPress\"."
 
-#: config/settings.php:337
+#: config/settings.php:345
 msgid "Review Blacklist"
 msgstr "Review Blacklist"
 
-#: config/settings.php:343
+#: config/settings.php:351
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr "Choose the action that should be taken when a review is blacklisted."
 
-#: config/settings.php:344
+#: config/settings.php:352
 msgid "Blacklist Action"
 msgstr "Blacklist Action"
 
-#: config/settings.php:346
+#: config/settings.php:354
 msgid "Require approval"
 msgstr "Require approval"
 
-#: config/settings.php:347
+#: config/settings.php:355
 msgid "Reject submission"
 msgstr "Reject submission"
 
@@ -786,13 +798,37 @@ msgstr "Console"
 msgid "System Info"
 msgstr "System Info"
 
-#: plugin/Controllers/SettingsController.php:27
+#: plugin/Controllers/SettingsController.php:28
 msgid "Settings updated."
 msgstr "Settings updated."
+
+#: plugin/Controllers/SettingsController.php:54
+msgid "Please install/activate the Polylang plugin to enable integration."
+msgstr "Please install/activate the Polylang plugin to enable integration."
+
+#: plugin/Controllers/SettingsController.php:58
+msgid ""
+"Please update the Polylang plugin to v2.3.0 or greater to enable "
+"integration."
+msgstr ""
+"Please update the Polylang plugin to v2.3.0 or greater to enable "
+"integration."
 
 #: plugin/Controllers/TaxonomyController.php:39
 msgid "Filter by category"
 msgstr "Filter by category"
+
+#: plugin/Defaults/PaginationDefaults.php:16
+msgid "Page"
+msgstr "Page"
+
+#: plugin/Defaults/PaginationDefaults.php:19
+msgid "Next &rarr;"
+msgstr "Next &rarr;"
+
+#: plugin/Defaults/PaginationDefaults.php:20
+msgid "&larr; Previous"
+msgstr "&larr; Previous"
 
 #: plugin/Defaults/SlackDefaults.php:15
 msgid "View Review"
@@ -1562,27 +1598,7 @@ msgid_plural "%s Stars"
 msgstr[0] "%s Star"
 msgstr[1] "%s Stars"
 
-#: plugin/Modules/Html/Partials/Pagination.php:39
-msgid "Page"
-msgstr "Page"
-
-#: plugin/Modules/Html/Partials/Pagination.php:43
-msgid "Next &rarr;"
-msgstr "Next &rarr;"
-
-#: plugin/Modules/Html/Partials/Pagination.php:44
-msgid "&larr; Previous"
-msgstr "&larr; Previous"
-
-#: plugin/Modules/Html/Partials/Pagination.php:64
-msgid "Previous"
-msgstr "Previous"
-
-#: plugin/Modules/Html/Partials/Pagination.php:70
-msgid "Next"
-msgstr "Next"
-
-#: plugin/Modules/Html/Partials/Pagination.php:85
+#: plugin/Modules/Html/Partials/Pagination.php:28
 msgid "Site Reviews navigation"
 msgstr "Site Reviews navigation"
 

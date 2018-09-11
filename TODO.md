@@ -1,5 +1,5 @@
 # PRE-LAUNCH
-- [ ] add default and minimal styles for the submission form
+- [ ] finish the documentation
 - [ ] migrate all settings (ie. copy keys from Invisible recaptcha plugin)
 - [-] verify all v2 hooks
       - site-reviews/local/review/create
@@ -11,10 +11,7 @@
       - site-reviews/router/post/request
       - site-reviews/settings
       - site-reviews/settings/notice
-- [ ] finish the documentation
-- [ ] polylang support (posts with multiple IDs)
-
 
 # POST-LAUNCH
+- [ ] add timeout error for recaptcha
 - [ ] make tabs responsive (auto-collapsable)
-- [ ] shortcode UI
