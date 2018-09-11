@@ -5,7 +5,7 @@ Tags: reviews, business reviews, curated reviews, moderated reviews, rating, rat
 Requires at least: 4.7.0
 Tested up to: 4.9
 Requires PHP: 5.6
-Stable tag: 3.0.0-alpha
+Stable tag: 3.0.0-beta
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
