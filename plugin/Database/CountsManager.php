@@ -132,7 +132,7 @@ class CountsManager
 		if( empty( $counts )) {
 			$counts[] = $this->getCounts();
 		}
-		return array_column( $counts, $args['type'] );
+		return $this->normalize( array_column( $counts, $args['type'] ));
 	}
 
 	/**
@@ -305,6 +305,9 @@ class CountsManager
 	 */
 	protected function normalize( array $reviewCounts )
 	{
+		if( empty( $reviewCounts )) {
+			$reviewCounts = [[]];
+		}
 		foreach( $reviewCounts as &$counts ) {
 			foreach( range( 0, Rating::MAX_RATING ) as $index ) {
 				if( isset( $counts[$index] ))continue;
