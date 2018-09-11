@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use BadMethodCallException;
-use GeminiLabs\SiteReviews\Defaults\ValidationStrings;
+use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidationRules;
 use InvalidArgumentException;
@@ -299,9 +299,10 @@ class Validator
 	 */
 	protected function translator( $key, array $parameters )
 	{
-		$strings = glsr( ValidationStrings::class )->defaults();
+		$strings = glsr( ValidationStringsDefaults::class )->defaults();
 		if( isset( $strings[$key] )) {
 			return $this->replace( $strings[$key], $parameters );
 		}
+		return "error";
 	}
 }
