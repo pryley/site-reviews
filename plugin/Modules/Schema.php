@@ -178,7 +178,7 @@ class Schema
 	{
 		if( !isset( $this->ratingCounts )) {
 			$counts = glsr( CountsManager::class )->get([
-				'post_ids' => array_filter( array_map( 'trim', explode( ',', $this->args['assigned_to'] ))),
+				'post_ids' => glsr( Helper::class )->convertStringToArray( $this->args['assigned_to'] ),
 				'term_ids' => glsr( ReviewManager::class )->normalizeTerms( $this->args['category'] ),
 			]);
 			$this->ratingCounts = glsr( CountsManager::class )->flatten( $counts, [

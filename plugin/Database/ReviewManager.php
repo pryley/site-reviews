@@ -108,7 +108,7 @@ class ReviewManager
 	public function normalizeTerms( $commaSeparatedTermIds )
 	{
 		$terms = [];
-		$termIds = array_filter( array_map( 'trim', explode( ',', $commaSeparatedTermIds )));
+		$termIds = glsr( Helper::class )->convertStringToArray( $commaSeparatedTermIds );
 		foreach( $termIds as $termId ) {
 			$term = get_term( $termId, Application::TAXONOMY );
 			if( !isset( $term->term_id ))continue;
