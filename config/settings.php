@@ -1,13 +1,24 @@
 <?php
 
 return [
-	'settings.general.support.polylang' => [
-		'default' => 'no',
-		'description' => sprintf( __( 'Integrate with the %s plugin to calculate ratings for all languages of a post.', 'site-reviews' ),
-			'<a href="https://wordpress.org/plugins/polylang/">Polylang</a>'
-		),
-		'label' => __( 'Integrate with Polylang', 'site-reviews' ),
-		'type' => 'yes_no',
+	'settings.general.style' => [
+		'default' => 'default',
+		'description' => __( 'Site Reviews relies on the CSS of your theme to style the submission form. If your theme does not provide proper CSS rules for form elements and you are using a WordPress plugin/theme or CSS Framework listed here, please try selecting it, otherwise choose "Site Reviews (default)".', 'site-reviews' ),
+		'label' => __( 'Plugin Style', 'site-reviews' ),
+		'options' => [
+			'bootstrap_4' => 'CSS Framework: Bootstrap 4',
+			'bootstrap_4_custom' => 'CSS Framework: Bootstrap 4 (Custom Forms)',
+			'contact_form_7' => 'Plugin: Contact Form 7 (v5)',
+			'ninja_forms' => 'Plugin: Ninja Forms (v3)',
+			'wpforms' => 'Plugin: WPForms Lite (v1)',
+			'default' => __( 'Site Reviews (default)', 'site-reviews' ),
+			'minimal' => __( 'Site Reviews (minimal)', 'site-reviews' ),
+			'divi' => 'Theme: Divi (v3)',
+			'materialize' => 'Theme: Materialize',
+			'twentyfifteen' => 'Theme: Twenty Fifteen',
+			'twentyseventeen' => 'Theme: Twenty Seventeen',
+		],
+		'type' => 'select',
 	],
 	'settings.general.require.approval' => [
 		'default' => 'no',
@@ -28,6 +39,14 @@ return [
 			'<a href="'.admin_url( 'options-general.php#users_can_register' ).'">'.__( 'Anyone can register', 'site-reviews' ).'</a>'
 		),
 		'label' => __( 'Show Registration Link', 'site-reviews' ),
+		'type' => 'yes_no',
+	],
+	'settings.general.support.polylang' => [
+		'default' => 'no',
+		'description' => sprintf( __( 'Integrate with the %s plugin to calculate ratings for all languages of a post.', 'site-reviews' ),
+			'<a href="https://wordpress.org/plugins/polylang/">Polylang</a>'
+		),
+		'label' => __( 'Integrate with Polylang', 'site-reviews' ),
 		'type' => 'yes_no',
 	],
 	'settings.general.notifications' => [
@@ -264,25 +283,6 @@ return [
 		'label' => __( 'Price Currency', 'site-reviews' ),
 		'placeholder' => 'USD',
 		'type' => 'text',
-	],
-	'settings.submissions.style' => [
-		'default' => 'default',
-		'description' => __( 'Site Reviews relies on the CSS of your theme to style the submission form. If your theme does not provide proper CSS rules for form elements and you are using a WordPress plugin/theme or CSS Framework listed here, please try selecting it, otherwise choose "Site Reviews (default)".', 'site-reviews' ),
-		'label' => __( 'Form Style', 'site-reviews' ),
-		'options' => [
-			'bootstrap_4' => 'CSS Framework: Bootstrap 4',
-			'bootstrap_4_custom' => 'CSS Framework: Bootstrap 4 (Custom Forms)',
-			'contact_form_7' => 'Plugin: Contact Form 7 (v5)',
-			'ninja_forms' => 'Plugin: Ninja Forms (v3)',
-			'wpforms' => 'Plugin: WPForms Lite (v1)',
-			'default' => __( 'Site Reviews (default)', 'site-reviews' ),
-			'minimal' => __( 'Site Reviews (minimal)', 'site-reviews' ),
-			'divi' => 'Theme: Divi (v3)',
-			'materialize' => 'Theme: Materialize',
-			'twentyfifteen' => 'Theme: Twenty Fifteen',
-			'twentyseventeen' => 'Theme: Twenty Seventeen',
-		],
-		'type' => 'select',
 	],
 	'settings.submissions.required' => [
 		'default' => ['content', 'email', 'name', 'rating', 'terms', 'title'],

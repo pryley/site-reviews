@@ -34,7 +34,7 @@ class Style
 
 	public function __construct()
 	{
-		$this->style = glsr( OptionManager::class )->get( 'settings.submissions.style', 'default' );
+		$this->style = glsr( OptionManager::class )->get( 'settings.general.style', 'default' );
 		$this->setConfig();
 	}
 
