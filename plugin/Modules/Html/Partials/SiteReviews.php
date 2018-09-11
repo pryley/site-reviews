@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
+use GeminiLabs\SiteReviews\Modules\Polylang;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Review;
 use IntlRuleBasedBreakIterator;
@@ -99,7 +100,7 @@ class SiteReviews
 	protected function buildOptionAssignedTo( $key, $value )
 	{
 		if( $this->isHidden( $key, 'settings.reviews.assigned_links' ))return;
-		$post = get_post( intval( $value ));
+		$post = glsr( Polylang::class )->getPost( $value );
 		if( !( $post instanceof WP_Post ))return;
 		$permalink = glsr( Builder::class )->a( get_the_title( $post->ID ), [
 			'href' => get_the_permalink( $post->ID ),

@@ -7,6 +7,21 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 class Polylang
 {
 	/**
+	 * @param int|string $postId
+	 * @return array
+	 */
+	public function getPost( $postId )
+	{
+		if( $this->isEnabled() ) {
+			$polylangPostId = pll_get_post( $postId, pll_get_post_language( get_the_ID() ));
+		}
+		if( !empty( $polylangPostId )) {
+			$postId = $polylangPostId;
+		}
+		return get_post( intval( $postId ));
+	}
+
+	/**
 	 * @return array
 	 */
 	public function getPostIds( array $postIds )
@@ -29,7 +44,10 @@ class Polylang
 	 */
 	public function isActive()
 	{
-		return function_exists( 'PLL' ) && function_exists( 'pll_get_post_translations' );
+		return function_exists( 'PLL' )
+			&& function_exists( 'pll_get_post' )
+			&& function_exists( 'pll_get_post_language' )
+			&& function_exists( 'pll_get_post_translations' );
 	}
 
 	/**
@@ -37,7 +55,8 @@ class Polylang
 	 */
 	public function isEnabled()
 	{
-		return $this->isActive() && glsr( OptionManager::class )->get( 'settings.general.support.polylang' ) == 'yes';
+		return $this->isActive()
+			&& glsr( OptionManager::class )->get( 'settings.general.support.polylang' ) == 'yes';
 	}
 
 	/**
@@ -45,7 +64,8 @@ class Polylang
 	 */
 	public function isSupported()
 	{
-		return defined( 'POLYLANG_VERSION' ) && version_compare( POLYLANG_VERSION, '2.3', '>=' );
+		return defined( 'POLYLANG_VERSION' )
+			&& version_compare( POLYLANG_VERSION, '2.3', '>=' );
 	}
 
 	/**
