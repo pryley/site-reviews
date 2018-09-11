@@ -95,6 +95,19 @@ class Helper
 
 	/**
 	 * @param string $string
+	 * @param mixed $callback
+	 * @return array
+	 */
+	public function convertStringToArray( $string, $callback = null )
+	{
+		$array = array_map( 'trim', explode( ',', $string ));
+		return $callback
+			? array_filter( $array, $callback )
+			: array_filter( $array );
+	}
+
+	/**
+	 * @param string $string
 	 * @return string
 	 */
 	public function dashCase( $string )

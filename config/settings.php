@@ -1,6 +1,14 @@
 <?php
 
 return [
+	'settings.general.support.polylang' => [
+		'default' => 'no',
+		'description' => sprintf( __( 'Integrate with the %s plugin to calculate ratings for all languages of a post.', 'site-reviews' ),
+			'<a href="https://wordpress.org/plugins/polylang/">Polylang</a>'
+		),
+		'label' => __( 'Integrate with Polylang', 'site-reviews' ),
+		'type' => 'yes_no',
+	],
 	'settings.general.require.approval' => [
 		'default' => 'no',
 		'description' => __( 'Set the status of new review submissions to pending.', 'site-reviews' ),

@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Database\SqlQueries;
+use GeminiLabs\SiteReviews\Modules\Polylang;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Review;
 use WP_Post;
@@ -123,7 +124,7 @@ class CountsManager
 			'type' => 'local',
 		]);
 		$counts = [];
-		foreach( $args['post_ids'] as $postId ) {
+		foreach( glsr( Polylang::class )->getPostIds( $args['post_ids'] ) as $postId ) {
 			$counts[] = $this->getPostCounts( $postId );
 		}
 		foreach( $args['term_ids'] as $termId ) {

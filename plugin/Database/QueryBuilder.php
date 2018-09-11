@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Modules\Polylang;
 use WP_Query;
 
 class QueryBuilder
@@ -110,10 +111,11 @@ class QueryBuilder
 	protected function buildQueryAssignedTo( $value )
 	{
 		if( empty( $value ))return;
+		$postIds = glsr( Helper::class )->convertStringToArray( $value, 'is_numeric' );
 		return [
 			'compare' => 'IN',
 			'key' => 'assigned_to',
-			'value' => array_filter( array_map( 'trim', explode( ',', $value )), 'is_numeric' ),
+			'value' => glsr( Polylang::class )->getPostIds( $postIds ),
 		];
 	}
 

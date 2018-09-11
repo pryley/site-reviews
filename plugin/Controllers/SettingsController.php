@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Modules\Polylang;
 
 class SettingsController extends Controller
 {
@@ -47,6 +48,16 @@ class SettingsController extends Controller
 	protected function sanitizeGeneral( array $input, array $options )
 	{
 		$inputForm = $input['settings']['general'];
+		if( $inputForm['support']['polylang'] == 'yes' ) {
+			if( !glsr( Polylang::class )->isActive() ) {
+				$options['settings']['general']['support']['polylang'] = 'no';
+				glsr( Notice::class )->addError( __( 'Please install/activate the Polylang plugin to enable integration.', 'site-reviews' ));
+			}
+			else if( !glsr( Polylang::class )->isSupported() ) {
+				$options['settings']['general']['support']['polylang'] = 'no';
+				glsr( Notice::class )->addError( __( 'Please update the Polylang plugin to v2.3.0 or greater to enable integration.', 'site-reviews' ));
+			}
+		}
 		if( !isset( $inputForm['notifications'] )) {
 			$options['settings']['general']['notifications'] = [];
 		}
