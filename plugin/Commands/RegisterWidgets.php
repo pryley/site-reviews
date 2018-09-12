@@ -8,6 +8,6 @@ class RegisterWidgets
 
 	public function __construct( $input )
 	{
-		$this->widgets = (object)$input;
+		$this->widgets = $input;
 	}
 }

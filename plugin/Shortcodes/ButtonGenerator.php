@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Shortcodes;
 
 use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Shortcodes\ButtonGenerator;
 
 abstract class ButtonGenerator
 {
