@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Contracts\HooksContract;
 use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
+use GeminiLabs\SiteReviews\Controllers\GutenbergController;
 use GeminiLabs\SiteReviews\Controllers\ListTableController;
 use GeminiLabs\SiteReviews\Controllers\MainController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
@@ -17,6 +18,7 @@ class Filters implements HooksContract
 	protected $admin;
 	protected $basename;
 	protected $editor;
+	protected $gutenberg;
 	protected $listtable;
 	protected $main;
 	protected $public;
@@ -27,6 +29,7 @@ class Filters implements HooksContract
 		$this->admin = $app->make( AdminController::class );
 		$this->basename = plugin_basename( $app->file );
 		$this->editor = $app->make( EditorController::class );
+		$this->gutenberg = $app->make( GutenbergController::class );
 		$this->listtable = $app->make( ListTableController::class );
 		$this->main = $app->make( MainController::class );
 		$this->public = $app->make( PublicController::class );
@@ -46,6 +49,7 @@ class Filters implements HooksContract
 		add_filter( 'gettext',                                                 [$this->editor, 'filterPostStatusLabels'], 10, 3 );
 		add_filter( 'gettext_with_context',                                    [$this->editor, 'filterPostStatusLabelsWithContext'], 10, 4 );
 		add_filter( 'post_updated_messages',                                   [$this->editor, 'filterUpdateMessages'] );
+		add_filter( 'block_categories',                                        [$this->gutenberg, 'filterBlockCategories'] );
 		add_filter( 'bulk_post_updated_messages',                              [$this->listtable, 'filterBulkUpdateMessages'], 10, 2 );
 		add_filter( 'manage_'.Application::POST_TYPE.'_posts_columns',         [$this->listtable, 'filterColumnsForPostType'] );
 		add_filter( 'post_date_column_status',                                 [$this->listtable, 'filterDateColumnStatus'], 10, 2 );

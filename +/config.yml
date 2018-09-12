@@ -34,6 +34,12 @@ scripts:
     - +/scripts/admin/textarea-resize.js
     - +/scripts/admin/tools.js
     - +/scripts/site-reviews-admin.js
+  block-form.js:
+    - +/scripts/block-form.js
+  block-reviews.js:
+    - +/scripts/block-reviews.js
+  block-summary.js:
+    - +/scripts/block-summary.js
 watch:
   js: +/scripts/**/*.js
   php:

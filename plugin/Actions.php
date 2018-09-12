@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Contracts\HooksContract;
 use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
+use GeminiLabs\SiteReviews\Controllers\GutenbergController;
 use GeminiLabs\SiteReviews\Controllers\ListTableController;
 use GeminiLabs\SiteReviews\Controllers\MainController;
 use GeminiLabs\SiteReviews\Controllers\MenuController;
@@ -21,6 +22,7 @@ class Actions implements HooksContract
 	protected $admin;
 	protected $app;
 	protected $editor;
+	protected $gutenberg;
 	protected $listtable;
 	protected $menu;
 	protected $main;
@@ -35,6 +37,7 @@ class Actions implements HooksContract
 		$this->app = $app;
 		$this->admin = $app->make( AdminController::class );
 		$this->editor = $app->make( EditorController::class );
+		$this->gutenberg = $app->make( GutenbergController::class );
 		$this->listtable = $app->make( ListTableController::class );
 		$this->main = $app->make( MainController::class );
 		$this->menu = $app->make( MenuController::class );
@@ -68,6 +71,7 @@ class Actions implements HooksContract
 		add_action( 'post_submitbox_misc_actions',                  [$this->editor, 'renderPinnedInPublishMetaBox'] );
 		add_action( 'admin_action_revert',                          [$this->editor, 'revertReview'] );
 		add_action( 'save_post_'.Application::POST_TYPE,            [$this->editor, 'saveMetaboxes'] );
+		add_action( 'init',                                         [$this->gutenberg, 'registerBlocks'] );
 		add_action( 'admin_action_approve',                         [$this->listtable, 'approve'] );
 		add_action( 'bulk_edit_custom_box',                         [$this->listtable, 'renderBulkEditFields'], 10, 2 );
 		add_action( 'restrict_manage_posts',                        [$this->listtable, 'renderColumnFilters'] );
