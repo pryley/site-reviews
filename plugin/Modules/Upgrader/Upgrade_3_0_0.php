@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Upgrader;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Controllers\AdminController;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 
 class Upgrade_3_0_0
@@ -101,7 +102,7 @@ class Upgrade_3_0_0
 			$this->newSettings['settings.submissions.recaptcha.integration'] == 'all';
 		}
 		if( $this->oldSettings['settings.reviews-form.recaptcha.integration'] == 'invisible-recaptcha' ) {
-			$invisibleRecaptchaOptions = wp_parse_args( get_site_option( 'ic-settings', [] , false ). [
+			$invisibleRecaptchaOptions = wp_parse_args( (array)get_site_option( 'ic-settings', [], false ), [
 				'BadgePosition' => $this->oldSettings['settings.reviews-form.recaptcha.position'],
 				'SecretKey' => $this->oldSettings['settings.reviews-form.recaptcha.secret'],
 				'SiteKey' => $this->oldSettings['settings.reviews-form.recaptcha.key'],

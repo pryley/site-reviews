@@ -56,26 +56,29 @@ add_filter( 'site-reviews/rating/ranking', function( $ranking ) {
 });
 
 // Modules/Html/Partials/SiteReviews.php
-add_filter( 'site-reviews/review/build/after', function( $review ) {
+add_filter( 'site-reviews/review/build/after', function( $renderedFields ) {
+	if( has_filter( 'site-reviews/rendered/field' )) {
+		glsr_log()->notice( 'The "site-reviews/rendered/field" hook has been deprecated. Please use the "site-reviews/review/build/after" hook instead.' );
+	}
 	if( has_filter( 'site-reviews/reviews/review/text' )) {
 		glsr_log()->notice( 'The "site-reviews/reviews/review/text" hook has been deprecated. Please use the "site-reviews/review/build/after" hook instead.' );
 	}
 	if( has_filter( 'site-reviews/reviews/review/title' )) {
 		glsr_log()->notice( 'The "site-reviews/reviews/review/title" hook has been deprecated. Please use the "site-reviews/review/build/after" hook instead.' );
 	}
-	return $review;
+	return $renderedFields;
 });
 
 // Modules/Html/Partials/SiteReviews.php
 add_filter( 'site-reviews/review/build/before', function( $review ) {
+	if( has_filter( 'site-reviews/rendered/review' )) {
+		glsr_log()->notice( 'The "site-reviews/rendered/review" hook has been deprecated. Please either use a custom "review.php" template (refer to the documentation), or use the "site-reviews/review/build/after" hook instead.' );
+	}
 	if( has_filter( 'site-reviews/rendered/review/meta/order' )) {
 		glsr_log()->notice( 'The "site-reviews/rendered/review/meta/order" hook has been deprecated. Please use a custom "review.php" template instead (refer to the documentation).' );
 	}
 	if( has_filter( 'site-reviews/rendered/review/order' )) {
 		glsr_log()->notice( 'The "site-reviews/rendered/review/order" hook has been deprecated. Please use a custom "review.php" template instead (refer to the documentation).' );
-	}
-	if( has_filter( 'site-reviews/rendered/review' )) {
-		glsr_log()->notice( 'The "site-reviews/rendered/review" hook has been deprecated. Please use a custom "review.php" template instead (refer to the documentation).' );
 	}
 	if( has_filter( 'site-reviews/rendered/review-form/login-register' )) {
 		glsr_log()->notice( 'The "site-reviews/rendered/review-form/login-register" hook has been deprecated. Please use a custom "login-register.php" template instead (refer to the documentation).' );

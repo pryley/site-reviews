@@ -8,7 +8,7 @@ class Polylang
 {
 	/**
 	 * @param int|string $postId
-	 * @return array
+	 * @return \WP_Post|array|null
 	 */
 	public function getPost( $postId )
 	{

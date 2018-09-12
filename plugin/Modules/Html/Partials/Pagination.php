@@ -42,7 +42,9 @@ class Pagination implements PartialContract
 		if( is_front_page() ) {
 			unset( $args['format'] );
 		}
-		$args = apply_filters( 'site-reviews/paginate_links/args', $args, $this->args );
+		if( $args['type'] == 'array' ) {
+			$args['type'] = 'plain';
+		}
 		return paginate_links( $args );
 	}
 

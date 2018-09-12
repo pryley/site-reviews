@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-use GeminiLabs\SiteReviews\Helper;
 
 class ValidateReviewDefaults extends Defaults
 {
@@ -19,7 +18,7 @@ class ValidateReviewDefaults extends Defaults
 			'content' => '',
 			'email' => $user->exists() ? $user->user_email : '',
 			'form_id' => '',
-			'ip_address' => glsr( Helper::class )->getIpAddress(),
+			'ip_address' => '',
 			'name' => $user->exists() ? $user->display_name : '',
 			'rating' => '0',
 			'terms' => '',

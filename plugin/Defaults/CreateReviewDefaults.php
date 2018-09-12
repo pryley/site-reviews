@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
+use GeminiLabs\SiteReviews\Helper;
 
 class CreateReviewDefaults extends Defaults
 {
@@ -19,7 +20,7 @@ class CreateReviewDefaults extends Defaults
 			'custom' => '',
 			'date' => get_date_from_gmt( gmdate( 'Y-m-d H:i:s' )),
 			'email' => '',
-			'ip_address' => '',
+			'ip_address' => glsr( Helper::class )->getIpAddress(),
 			'pinned' => false,
 			'rating' => '',
 			'response' => '',

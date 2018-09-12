@@ -42,7 +42,7 @@ class CreateReview
 		$this->post_id = intval( $this->get( 'post_id' ));
 		$this->rating = intval( $this->get( 'rating' ));
 		$this->referer = $this->get( 'referer' );
-		$this->terms = isset( $input['terms'] );
+		$this->terms = !empty( $input['terms'] );
 		$this->title = sanitize_text_field( $this->get( 'title' ));
 	}
 
