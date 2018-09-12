@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use DirectoryIterator;
 use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
@@ -10,15 +11,23 @@ use ReflectionMethod;
 
 class Upgrader
 {
+	/**
+	 * @return void
+	 */
 	public function run()
 	{
-		$routines = (new ReflectionClass( __CLASS__ ))->getMethods( ReflectionMethod::IS_PROTECTED );
-		$routines = array_column( $routines, 'name' );
-		natsort( $routines );
-		array_walk( $routines, function( $routine ) {
-			$parts = explode( '__', $routine );
-			if( version_compare( glsr()->version, end( $parts ), '<' ))return;
-			call_user_func( [$this, $routine] );
+		$filenames = [];
+		$iterator = new DirectoryIterator( dirname( __FILE__ ).'/Upgrader' );
+		foreach( $iterator as $fileinfo ) {
+			if( !$fileinfo->isFile() )continue;
+			$filenames[] = $fileinfo->getFilename();
+		}
+		natsort( $filenames );
+		array_walk( $filenames, function( $file ) {
+			$className = str_replace( '.php', '', $file );
+			$version = str_replace( 'Upgrade_', '', $className );
+			if( version_compare( glsr()->version, $version, '<' ))return;
+			glsr( 'Modules\\Upgrader\\'.$className );
 		});
 		$this->updateVersion();
 	}
@@ -35,15 +44,5 @@ class Upgrader
 		if( $currentVersion != glsr()->version ) {
 			glsr( OptionManager::class )->set( 'version_upgraded_from', $currentVersion );
 		}
-	}
-
-	/**
-	 * @return void
-	 */
-	protected function setReviewCounts__3_0_0()
-	{
-		add_action( 'admin_init', function() {
-			glsr( AdminController::class )->routerCountReviews();
-		});
 	}
 }
