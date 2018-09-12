@@ -40,9 +40,11 @@
 		/** @return void */
 		onClick_: function( ev ) {
 			ev.preventDefault();
-			ev.currentTarget.blur();
-			this.setTab_( ev.currentTarget );
-			location.hash = '!' + ev.currentTarget.getAttribute( 'href' ).slice(1);
+			var el = ev.currentTarget;
+			el.blur();
+			this.toggleCollapsibleViewSections_( el );
+			this.setTab_( el );
+			location.hash = '!' + el.getAttribute( 'href' ).slice(1);
 		},
 
 		/** @return void */
@@ -80,6 +82,16 @@
 				var action = this.getAction_( index !== idx );
 				view.classList[action]( 'ui-tabs-hide' );
 			}.bind( this ));
+		},
+
+		/** @return void */
+		toggleCollapsibleViewSections_: function( el ) {
+			if( !el.classList.contains( 'nav-tab-active' ))return;
+			var view = $( el.getAttribute( 'href' ));
+			var action = view.hasClass( 'collapsed' ) ? 'remove' : 'add';
+			view[action + 'Class']( 'collapsed' )
+				.find( '.glsr-card.postbox' )[action + 'Class']( 'closed' )
+				.find( '.handlediv' ).attr( 'aria-expanded', action !== 'add' );
 		},
 	};
 })( jQuery );

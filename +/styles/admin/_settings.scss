@@ -1,10 +1,84 @@
-// =============================================================================
+_// =============================================================================
 // Partials -> Settings
 // =============================================================================
+
 
 .glsr-card {
 	max-width: 750px;
 	box-sizing: border-box;
+}
+
+.glsr-card-result {
+	border: 1px solid #e1e1e1;
+	background-color: #f6fbfd;
+	padding: 0 1em;
+	margin: 1em 0;
+}
+
+.glsr-card-result ul {
+	list-style: disc;
+	padding-left: 1.5em;
+}
+
+.glsr-heading {
+	color: #000;
+	font-size: 14px;
+	font-weight: 600;
+	margin-bottom: .2em;
+}
+
+.glsr-card.postbox {
+	padding: 0;
+}
+
+.glsr-card.postbox .glsr-card-header {
+	position: relative;
+	padding: 1em 0 calc(1em + 1px) 1.5em;
+	min-height: 48px;
+	cursor: pointer;
+	user-select: none;
+	box-sizing: border-box;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.glsr-card.postbox.closed .glsr-card-header {
+	padding-bottom: 1em;
+	border-bottom: none;
+}
+
+.glsr-card.postbox .glsr-card-header h3 {
+	margin: 0 48px 0 0;
+	line-height: 1.4;
+	font-size: 15px;
+}
+
+.glsr-card.postbox .inside {
+	padding: 0 1.5em;
+	margin: 1.5em 0;
+}
+
+.glsr-card.postbox .handlediv {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 48px;
+	height: 100%;
+}
+
+.glsr-card.postbox .handlediv .toggle-indicator::before {
+	width: 20px;
+	text-indent: -2px;
+	content: "\f142";
+	display: inline-block;
+	font: normal 20px/1 dashicons;
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+}
+
+.glsr-card.postbox.closed .handlediv .toggle-indicator::before {
+	content: "\f140";
 }
 
 .glsr-card p.submit {
@@ -20,25 +94,28 @@
 	hyphens: none;
 }
 
-.glsr-card pre {
-	border: 1px solid #e5e5e5;
+.glsr-card pre code {
 	border-radius: 3px;
-	position: relative;
-	background-color: #f9f9f9;
-	overflow: visible;
-	padding: 0;
-	white-space: pre;
-	word-wrap: normal;
-
-	code {
-		background: none;
-		max-height: inherit;
-		height: 100%;
-		padding: 0.5em;
-		display: block;
-		overflow: auto;
-	}
 }
+// .glsr-card pre {
+// 	border: 1px solid #e5e5e5;
+// 	border-radius: 3px;
+// 	position: relative;
+// 	background-color: #f9f9f9;
+// 	overflow: visible;
+// 	padding: 0;
+// 	white-space: pre;
+// 	word-wrap: normal;
+
+// 	code {
+// 		background: none;
+// 		max-height: inherit;
+// 		height: 100%;
+// 		padding: 0.5em;
+// 		display: block;
+// 		overflow: auto;
+// 	}
+// }
 
 .glsr-card {
 	dd {
