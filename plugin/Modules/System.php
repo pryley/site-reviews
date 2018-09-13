@@ -41,7 +41,7 @@ class System
 		$systemInfo = array_reduce( array_keys( $details ), function( $carry, $key ) use( $details ) {
 			$methodName = glsr( Helper::class )->buildMethodName( 'get-'.$key.'-details' );
 			if( method_exists( $this, $methodName ) && $systemDetails = $this->$methodName() ) {
-				return $carry.$this->implode( $details[$key], $systemDetails );
+				return $carry.$this->implode( strtoupper( $details[$key] ), $systemDetails );
 			}
 			return $carry;
 		});
@@ -189,9 +189,9 @@ class System
 	public function getPluginDetails()
 	{
 		return [
-			'Console size' => glsr( Console::class )->humanSize( '0' ),
 			'Current version' => glsr()->version,
 			'Previous version' => glsr( OptionManager::class )->get( 'version_upgraded_from' ),
+			'Console size' => glsr( Console::class )->humanSize( '0' ),
 		];
 	}
 
@@ -289,7 +289,7 @@ class System
 		$padding = max( [$padding, static::PAD] );
 		foreach( $details as $key => $value ) {
 			$strings[] = is_string( $key )
-				? sprintf( '%s : %s', str_pad( $key.' ', $padding, '.' ), $value )
+				? sprintf( '%s : %s', str_pad( $key, $padding, '.' ), $value )
 				: ' - '.$value;
 		}
 		return implode( PHP_EOL, $strings ).PHP_EOL.PHP_EOL;
