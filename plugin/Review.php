@@ -49,7 +49,7 @@ class Review
 		if( property_exists( $this, $key )) {
 			return $this->$key;
 		}
-		if( is_array( $this->custom ) && array_key_exists( key, $this->custom )) {
+		if( is_array( $this->custom ) && array_key_exists( $key, $this->custom )) {
 			return $this->custom[$key];
 		}
 		return '';
