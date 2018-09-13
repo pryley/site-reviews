@@ -1,6 +1,35 @@
 // =============================================================================
 // Partials -> Settings
 // =============================================================================
+td.glsr-string-td1 {
+	position: relative;
+	padding-bottom: 2em;
+}
+td.glsr-string-td1 .row-actions {
+	position: absolute;
+	bottom: 10px;
+	z-index: 1;
+}
+
+td.glsr-string-td2 input[type=text]:last-of-type {
+	margin-bottom: 0;
+}
+
+td.glsr-string-td2 .description {
+	display: block;
+	padding-top: 0.5em;
+}
+
+.is-invalid td.glsr-string-td2 .description {
+	color: #dc3232;
+}
+
+.no-js td.glsr-string-td1 .row-actions,
+tr:hover td.glsr-string-td1 .row-actions,
+.mobile td.glsr-string-td1 .row-actions,
+td.glsr-string-td1 .row-actions.visible {
+	left: 10px;
+}
 
 .is-invalid td.glsr-string-td1,
 .is-invalid td.glsr-string-td2,
@@ -400,9 +429,7 @@ tr.glsr-field li {
 	display: block;
 	width: 100%;
 	margin: 0 0 5px;
-	&:last-of-type {
-		margin-bottom: 0;
-	}
+
 	&:active,
 	&:focus {
 		position: relative;

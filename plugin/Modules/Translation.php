@@ -99,9 +99,11 @@ class Translation
 			array_map( function( $key ) { return 'data.'.$key; }, array_keys( $entry )),
 			$entry
 		);
-		$data['data.class'] = array_search( $entry['s1'], array_column( $this->entries(), 'msgid' )) === false
-			? 'is-invalid'
-			: '';
+		$data['data.class'] = $data['data.error'] = '';
+		if( array_search( $entry['s1'], array_column( $this->entries(), 'msgid' )) === false ) {
+			$data['data.class'] = 'is-invalid';
+			$data['data.error'] = __( 'This custom translation is no longer valid as the original text has been changed or removed.', 'site-reviews' );
+		}
 		return glsr( Template::class )->build( 'partials/translations/'.$template, [
 			'context' => $data,
 		]);
@@ -140,7 +142,7 @@ class Translation
 				? sprintf( '%s | %s', $data['s1'], $data['p1'] )
 				: $data['s1'];
 			$rendered .= $this->render( 'result', [
-				'entry' => wp_json_encode( $data ),
+				'entry' => json_encode( $data, JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_TAG|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE ),
 				'text' => wp_strip_all_tags( $text ),
 			]);
 		}

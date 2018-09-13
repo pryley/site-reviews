@@ -486,11 +486,11 @@ msgstr "Require approval"
 msgid "Reject submission"
 msgstr "Reject submission"
 
-#: plugin/Application.php:171
+#: plugin/Application.php:181
 msgid "Local"
 msgstr "Local"
 
-#: plugin/Review.php:60, plugin/Modules/Notification.php:66
+#: plugin/Review.php:74, plugin/Modules/Notification.php:66
 msgid "Anonymous"
 msgstr "Anonymous"
 
@@ -956,6 +956,14 @@ msgid_plural "%s years ago"
 msgstr[0] "%s year ago"
 msgstr[1] "%s years ago"
 
+#: plugin/Modules/Translation.php:105
+msgid ""
+"This custom translation is no longer valid as the original text has been "
+"changed or removed."
+msgstr ""
+"This custom translation is no longer valid as the original text has been "
+"changed or removed."
+
 #: plugin/Shortcodes/ButtonGenerator.php:42
 msgid "Close"
 msgstr "Close"
@@ -1406,7 +1414,7 @@ msgstr "Sync your Tripadvisor reviews and display them on your site."
 msgid "Sync your Yelp reviews and display them on your site."
 msgstr "Sync your Yelp reviews and display them on your site."
 
-#: views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:38, views/pages/documentation/faq.php:66, views/pages/documentation/faq.php:92, views/pages/documentation/faq.php:105, views/pages/documentation/faq.php:131, views/pages/documentation/faq.php:144, views/pages/documentation/functions.php:9, views/pages/documentation/functions.php:36, views/pages/documentation/functions.php:58, views/pages/documentation/functions.php:86, views/pages/documentation/functions.php:111, views/pages/documentation/functions.php:132, views/pages/documentation/functions.php:172, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:31, views/pages/documentation/hooks.php:53, views/pages/documentation/hooks.php:71, views/pages/documentation/hooks.php:89, views/pages/documentation/hooks.php:127, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:54, views/pages/documentation/shortcodes.php:88, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:64
+#: views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:38, views/pages/documentation/faq.php:66, views/pages/documentation/faq.php:92, views/pages/documentation/faq.php:105, views/pages/documentation/faq.php:131, views/pages/documentation/faq.php:144, views/pages/documentation/functions.php:9, views/pages/documentation/functions.php:36, views/pages/documentation/functions.php:58, views/pages/documentation/functions.php:86, views/pages/documentation/functions.php:111, views/pages/documentation/functions.php:132, views/pages/documentation/functions.php:172, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:31, views/pages/documentation/hooks.php:53, views/pages/documentation/hooks.php:71, views/pages/documentation/hooks.php:89, views/pages/documentation/hooks.php:108, views/pages/documentation/hooks.php:131, views/pages/documentation/hooks.php:155, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:54, views/pages/documentation/shortcodes.php:88, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:64
 msgid "Toggle documentation panel"
 msgstr "Toggle documentation panel"
 
@@ -1449,12 +1457,12 @@ msgid "Search here for text to translate..."
 msgstr "Search here for text to translate..."
 
 #: views/pages/settings/translations.php:16
-msgid "Strings"
-msgstr "Strings"
+msgid "Original Text"
+msgstr "Original Text"
 
 #: views/pages/settings/translations.php:17
-msgid "Custom Strings"
-msgstr "Custom Strings"
+msgid "Custom Translation"
+msgstr "Custom Translation"
 
 #: views/pages/tools/console.php:7
 msgid "Download Console"
@@ -1576,23 +1584,23 @@ msgstr "Cancel"
 msgid "no title"
 msgstr "no title"
 
-#: views/partials/translations/plural.php:6, views/partials/translations/single.php:5
-msgid "Delete translation string"
-msgstr "Delete translation string"
-
-#: views/partials/translations/plural.php:6, views/partials/translations/single.php:5
-msgid "Delete"
-msgstr "Delete"
-
-#: views/partials/translations/plural.php:9, views/partials/translations/single.php:8
+#: views/partials/translations/plural.php:4, views/partials/translations/single.php:4
 msgid "Show custom translation"
 msgstr "Show custom translation"
 
-#: views/partials/translations/plural.php:16
+#: views/partials/translations/plural.php:11, views/partials/translations/single.php:10
+msgid "Delete translation string"
+msgstr "Delete translation string"
+
+#: views/partials/translations/plural.php:11, views/partials/translations/single.php:10
+msgid "Delete"
+msgstr "Delete"
+
+#: views/partials/translations/plural.php:19
 msgid "singular"
 msgstr "singular"
 
-#: views/partials/translations/plural.php:17
+#: views/partials/translations/plural.php:20
 msgid "plural"
 msgstr "plural"
 
