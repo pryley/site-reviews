@@ -426,7 +426,7 @@ msgstr ""
 msgid "Reject submission"
 msgstr ""
 
-#: plugin/Application.php:170
+#: plugin/Application.php:171
 msgid "Local"
 msgstr ""
 
