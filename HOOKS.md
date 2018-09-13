@@ -28,7 +28,7 @@
     site-reviews/async-scripts
     site-reviews/blacklist/is-blacklisted
     site-reviews/columns/{column_slug}
-    site-reviews/config
+    site-reviews/config/{config_id}
     site-reviews/create/review-values
     site-reviews/defaults/{defaults_name}
     site-reviews/defer-scripts
@@ -40,7 +40,7 @@
     site-reviews/enqueue/public/dependencies
     site-reviews/enqueue/public/localize
     site-reviews/enqueue/public/localize/ajax-pagination
-    site-reviews/form/fields
+    site-reviews/{form_id}/fields
     site-reviews/get/defaults
     site-reviews/get/review
     site-reviews/metabox/details

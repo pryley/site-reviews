@@ -63,7 +63,7 @@ final class Application extends Container
 		$config = file_exists( $configFile )
 			? include $configFile
 			: [];
-		return apply_filters( 'site-reviews/config', $config, $name );
+		return apply_filters( 'site-reviews/config/'.$name, $config );
 	}
 
 	/**

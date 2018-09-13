@@ -27,8 +27,7 @@ class Form
 	public function getFields( $id )
 	{
 		$fields = [];
-		$values = apply_filters( 'site-reviews/form/fields', glsr()->config( 'forms/'.$id ));
-		foreach( $values as $name => $field ) {
+		foreach( glsr()->config( 'forms/'.$id ) as $name => $field ) {
 			$fields[] = new Field( wp_parse_args( $field, ['name' => $name] ));
 		}
 		return $fields;
