@@ -18,7 +18,7 @@
  * @return array
  */
 add_filter( 'site-reviews/config/forms/submission-form', function( array $config ) {
-	// change the submission-form $config array here
+	// modify the submission-form $config array here
 	return $config;
 });</code></pre>
 	</div>
@@ -40,9 +40,27 @@ add_filter( 'site-reviews/config/forms/submission-form', function( array $config
  * @return array
  */
 add_filter( 'site-reviews/config/inline-styles', function( array $config ) {
-	// change the star URLs in the $config array here
+	// modify the star URLs in the $config array here
 	return $config;
 });</code></pre>
+	</div>
+</div>
+
+<div class="glsr-card postbox">
+	<div class="glsr-card-header">
+		<h3>Disable the plugin javascript</h3>
+		<button type="button" class="handlediv" aria-expanded="true">
+			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+	</div>
+	<div class="inside">
+		<p>Use this hook if you want to disable the plugin javascript from loading on your website.</p>
+		<pre><code class="php">/**
+ * Disables the Site Reviews javascript.
+ * @return bool
+ */
+add_filter( 'site-reviews/assets/js', '__return_false' );</code></pre>
 	</div>
 </div>
 
@@ -66,53 +84,41 @@ add_filter( 'site-reviews/assets/css', '__return_false' );</code></pre>
 
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">
-		<h3>Disable the plugin javascript</h3>
+		<h3>Disable the polyfill.io script</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
 			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
 			<span class="toggle-indicator" aria-hidden="true"></span>
 		</button>
 	</div>
 	<div class="inside">
-		<p>Use this hook if you want to disable the plugin javascript from loading on your website.</p>
+		<p>Use this hook if you want to disable the polyfill.io script from loading on your website.</p>
+		<p><span style="color: #dc3232;">Important:</span> The polyfill.io script provides support for Internet Explorer versions 9-10. If you disable it, Site Reviews will no longer work in those browsers.</p>
 		<pre><code class="php">/**
- * Disables the Site Reviews javascript.
+ * Disables the polyfill.io script in Site Reviews.
  * @return bool
  */
-add_filter( 'site-reviews/assets/js', '__return_false' );</code></pre>
+add_filter( 'site-reviews/assets/polyfill', '__return_false' );</code></pre>
 	</div>
 </div>
 
-
-<!--
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">
-		<h3>Do something immediately after a review has been submitted.</h3>
+		<h3>Do something immediately after a review has been submitted</h3>
 	</div>
-	<div class="glsr-card-body">
-		<pre><code>add_action( 'site-reviews/local/review/submitted', function( $message, $request ) {
+	<div class="inside">
+		<p>Use this hook if you want to do something immediately after a review has been successfully submitted.</p>
+		<p>The <code>$review</code> object is the review that was created. The <code>$command</code> object is the request that was submitted to create the review.</p>
+		<pre><code>/**
+ * Runs after a review has been submitted in Site Reviews.
+ * @param \GeminiLabs\SiteReviews\Review $review
+ * @param \GeminiLabs\SiteReviews\Commands\CreateReview $command
+ * @return void
+ */
+add_action( 'site-reviews/review/created', function( $review, $command ) {
 	// do something here.
 }, 10, 2 );</code></pre>
-		<p>Use this hook if you want to do something immediately after a review has been successfully submitted.</p>
-		<p>The <code>$request</code> is the PHP object used to create the review. With this you can also determine the current referrer URI (<code>$request->referrer</code>) or whether the request is an AJAX request or not (<code>$request->ajaxRequest</code>).</p>
 	</div>
 </div>
--->
-<!--
-<div class="glsr-card postbox">
-	<div class="glsr-card-header">
-		<h3>Change the default <a href="https://developers.google.com/recaptcha/docs/language" target="_blank">reCAPTCHA language</a>.</h3>
-	</div>
-	<div class="glsr-card-body">
-		<pre><code>add_filter( 'site-reviews/recaptcha/language', function( $locale ) {
-	// return a language code here (e.g. "en")
-	return $locale;
-});</code></pre>
-		<p>This hook will only work when using "Custom Integration" reCAPTCHA setting.
-	</div>
-</div>
--->
-
-
 
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">
@@ -131,8 +137,25 @@ add_filter( 'site-reviews/assets/js', '__return_false' );</code></pre>
  * @return array
  */
 add_filter( 'site-reviews/schema/LocalBusiness', function( array $schema ) {
-	// change the $schema array here.
+	// modify the $schema array here.
 	return $schema;
+});</code></pre>
+	</div>
+</div>
+
+<div class="glsr-card postbox">
+	<div class="glsr-card-header">
+		<h3>Modify the submitted review before it is saved</h3>
+	</div>
+	<div class="inside">
+		<p>Use this hook if you want to modify the submitted review values before the review is created.</p>
+		<pre><code>/**
+ * Modifies the review values before they are saved
+ * @return array
+ */
+add_filter( 'site-reviews/create/review-values', function( array $reviewValues ) {
+	// modify the $reviewValues array here
+	return $reviewValues;
 });</code></pre>
 	</div>
 </div>
