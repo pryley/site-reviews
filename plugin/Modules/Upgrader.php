@@ -26,10 +26,18 @@ class Upgrader
 		array_walk( $filenames, function( $file ) {
 			$className = str_replace( '.php', '', $file );
 			$version = str_replace( 'Upgrade_', '', $className );
-			if( version_compare( glsr()->version, $version, '<' ))return;
+			if( version_compare( $this->currentVersion(), $version, '>=' ))return;
 			glsr( 'Modules\\Upgrader\\'.$className );
 		});
 		$this->updateVersion();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function currentVersion()
+	{
+		return glsr( OptionManager::class )->get( 'version', '2.20.0' );
 	}
 
 	/**
@@ -37,7 +45,7 @@ class Upgrader
 	 */
 	public function updateVersion()
 	{
-		$currentVersion = glsr( OptionManager::class )->get( 'version' );
+		$currentVersion = $this->currentVersion();
 		if( version_compare( $currentVersion, glsr()->version, '<' )) {
 			glsr( OptionManager::class )->set( 'version', glsr()->version );
 		}

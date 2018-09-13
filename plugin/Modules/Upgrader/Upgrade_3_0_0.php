@@ -4,11 +4,53 @@ namespace GeminiLabs\SiteReviews\Modules\Upgrader;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Controllers\AdminController;
+use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 
 class Upgrade_3_0_0
 {
+	const MAPPED_SETTINGS = [
+		'settings.general.notification' => 'settings.general.notifications', // array
+		'settings.general.notification_email' => 'settings.general.notification_email',
+		'settings.general.notification_message' => 'settings.general.notification_message',
+		'settings.general.require.approval' => 'settings.general.require.approval',
+		'settings.general.require.login' => 'settings.general.require.login',
+		'settings.general.require.login_register' => 'settings.general.require.login_register',
+		'settings.general.webhook_url' => 'settings.general.notification_slack',
+		'settings.reviews-form.akismet' => 'settings.submissions.akismet',
+		'settings.reviews-form.blacklist.action' => 'settings.submissions.blacklist.action',
+		'settings.reviews-form.blacklist.entries' => 'settings.submissions.blacklist.entries',
+		'settings.reviews-form.recaptcha.integration' => 'settings.submissions.recaptcha.integration',
+		'settings.reviews-form.recaptcha.key' => 'settings.submissions.recaptcha.key',
+		'settings.reviews-form.recaptcha.position' => 'settings.submissions.recaptcha.position',
+		'settings.reviews-form.recaptcha.secret' => 'settings.submissions.recaptcha.secret',
+		'settings.reviews-form.required' => 'settings.submissions.required', // array
+		'settings.reviews.assigned_links.enabled' => 'settings.reviews.assigned_links',
+		'settings.reviews.avatars.enabled' => 'settings.reviews.avatars',
+		'settings.reviews.date.custom' => 'settings.reviews.date.custom',
+		'settings.reviews.date.format' => 'settings.reviews.date.format',
+		'settings.reviews.excerpt.enabled' => 'settings.reviews.excerpts',
+		'settings.reviews.excerpt.length' => 'settings.reviews.excerpts_length',
+		'settings.reviews.schema.address' => 'settings.schema.address',
+		'settings.reviews.schema.description.custom' => 'settings.schema.description.custom',
+		'settings.reviews.schema.description.default' => 'settings.schema.description.default',
+		'settings.reviews.schema.highprice' => 'settings.schema.highprice',
+		'settings.reviews.schema.image.custom' => 'settings.schema.image.custom',
+		'settings.reviews.schema.image.default' => 'settings.schema.image.default',
+		'settings.reviews.schema.lowprice' => 'settings.schema.lowprice',
+		'settings.reviews.schema.name.custom' => 'settings.schema.name.custom',
+		'settings.reviews.schema.name.default' => 'settings.schema.name.default',
+		'settings.reviews.schema.pricecurrency' => 'settings.schema.pricecurrency',
+		'settings.reviews.schema.pricerange' => 'settings.schema.pricerange',
+		'settings.reviews.schema.telephone' => 'settings.schema.telephone',
+		'settings.reviews.schema.type.custom' => 'settings.schema.type.custom',
+		'settings.reviews.schema.type.default' => 'settings.schema.type.default',
+		'settings.reviews.schema.url.custom' => 'settings.schema.url.custom',
+		'settings.reviews.schema.url.default' => 'settings.schema.url.default',
+		'version' => 'version',
+	];
+
 	/**
 	 * @var array
 	 */
@@ -21,10 +63,9 @@ class Upgrade_3_0_0
 
 	public function __construct()
 	{
-		$this->newSettings = glsr( Helper::class )->flattenArray( glsr( OptionManager::class )->all() );
-		$this->oldSettings = $this->getOldSettings();
 		$this->migrateSettings();
 		$this->setReviewCounts();
+		glsr_log()->info( 'Completed Upgrade for v3.0.0' );
 	}
 
 	/**
@@ -32,18 +73,19 @@ class Upgrade_3_0_0
 	 */
 	public function migrateSettings()
 	{
-		$this->newSettings['settings.general.notification_slack'] = $this->oldSettings['settings.general.webhook_url'];
-		$this->newSettings['settings.reviews.assigned_links'] = $this->oldSettings['settings.reviews.assigned_links.enabled'];
-		$this->newSettings['settings.reviews.avatars'] = $this->oldSettings['settings.reviews.avatars.enabled'];
-		$this->newSettings['settings.reviews.excerpts'] = $this->oldSettings['settings.reviews.excerpt.enabled'];
-		$this->newSettings['settings.reviews.excerpts_length'] = $this->oldSettings['settings.reviews.excerpt.length'];
-		$this->newSettings['settings.schema'] = $this->oldSettings['settings.reviews.schema'];
-		$this->newSettings['settings.submissions'] = $this->oldSettings['settings.reviews-form'];
-		$this->newSettings['settings.submissions'][] = 'rating';
-		$this->newSettings['settings.submissions'][] = 'terms';
+		$this->newSettings = $this->getNewSettings();
+		$this->oldSettings = $this->getOldSettings();
+		foreach( static::MAPPED_SETTINGS as $old => $new ) {
+			if( empty( $this->oldSettings[$old] ))continue;
+			$this->newSettings[$new] = $this->oldSettings[$old];
+		}
 		$this->migrateNotificationSettings();
 		$this->migrateRecaptchaSettings();
-		glsr( OptionManager::class )->set( glsr( Helper::class )->convertDotNotationArray( $this->newSettings ));
+		$this->migrateRequiredSettings();
+		$oldSettings = glsr( Helper::class )->convertDotNotationArray( $this->oldSettings );
+		$newSettings = glsr( Helper::class )->convertDotNotationArray( $this->newSettings );
+		$newSettings['settings']['strings'] = $oldSettings['settings']['strings'];
+		glsr( OptionManager::class )->set( $newSettings );
 	}
 
 	/**
@@ -59,22 +101,23 @@ class Upgrade_3_0_0
 	/**
 	 * @return array
 	 */
+	protected function getNewSettings()
+	{
+		return wp_parse_args(
+			glsr( Helper::class )->flattenArray( glsr( OptionManager::class )->all() ),
+			glsr( DefaultsManager::class )->defaults()
+		);
+	}
+
+	/**
+	 * @return array
+	 */
 	protected function getOldSettings()
 	{
-		$settings = glsr( Helper::class )->flattenArray( get_option( Application::ID.'-v2', [] ));
-		return wp_parse_args( $settings, [
-			'settings.general.notification' => '',
-			'settings.general.webhook_url' => '',
-			'settings.reviews.assigned_links.enabled' => 'no',
-			'settings.reviews.avatars.enabled' => 'no',
-			'settings.reviews.excerpt.enabled' => 'yes',
-			'settings.reviews.excerpt.length' => 55,
-			'settings.reviews.schema' => $this->newSettings['schema'],
-			'settings.reviews-form' => $this->newSettings['submissions'],
-			'settings.reviews-form.recaptcha.key' => $this->newSettings['submissions.recaptcha.key'],
-			'settings.reviews-form.recaptcha.secret' => $this->newSettings['submissions.recaptcha.secret'],
-			'settings.reviews-form.recaptcha.position' => $this->newSettings['submissions.recaptcha.position'],
-		]);
+		$defaults = array_fill_keys( array_keys( static::MAPPED_SETTINGS ), '' );
+		$settings = glsr( Helper::class )->flattenArray( get_option( 'geminilabs_site_reviews-v2', [] ));
+		$settings = wp_parse_args( $settings, $defaults );
+		return $settings;
 	}
 
 	/**
@@ -87,6 +130,7 @@ class Upgrade_3_0_0
 			'default' => 'admin',
 			'webhook' => 'slack',
 		];
+		$this->newSettings['settings.general.notifications'] = [];
 		foreach( $notifications as $old => $new ) {
 			if( $this->oldSettings['settings.general.notification'] != $old )continue;
 			$this->newSettings['settings.general.notifications'][] = $new;
@@ -98,18 +142,29 @@ class Upgrade_3_0_0
 	 */
 	protected function migrateRecaptchaSettings()
 	{
+		$recaptcha = [
+			'BadgePosition' => $this->oldSettings['settings.reviews-form.recaptcha.position'],
+			'SecretKey' => $this->oldSettings['settings.reviews-form.recaptcha.secret'],
+			'SiteKey' => $this->oldSettings['settings.reviews-form.recaptcha.key'],
+		];
 		if( in_array( $this->oldSettings['settings.reviews-form.recaptcha.integration'], ['custom', 'invisible-recaptcha'] )) {
-			$this->newSettings['settings.submissions.recaptcha.integration'] == 'all';
+			$this->newSettings['settings.submissions.recaptcha.integration'] = 'all';
 		}
 		if( $this->oldSettings['settings.reviews-form.recaptcha.integration'] == 'invisible-recaptcha' ) {
-			$invisibleRecaptchaOptions = wp_parse_args( (array)get_site_option( 'ic-settings', [], false ), [
-				'BadgePosition' => $this->oldSettings['settings.reviews-form.recaptcha.position'],
-				'SecretKey' => $this->oldSettings['settings.reviews-form.recaptcha.secret'],
-				'SiteKey' => $this->oldSettings['settings.reviews-form.recaptcha.key'],
-			]);
-			$this->newSettings['settings.submissions.recaptcha.key'] = $invisibleRecaptchaOptions['SiteKey'];
-			$this->newSettings['settings.submissions.recaptcha.secret'] = $invisibleRecaptchaOptions['SecretKey'];
-			$this->newSettings['settings.submissions.recaptcha.position'] = $invisibleRecaptchaOptions['BadgePosition'];
+			$recaptcha = wp_parse_args( (array)get_site_option( 'ic-settings', [], false ), $recaptcha );
 		}
+		$this->newSettings['settings.submissions.recaptcha.key'] = $recaptcha['SiteKey'];
+		$this->newSettings['settings.submissions.recaptcha.secret'] = $recaptcha['SecretKey'];
+		$this->newSettings['settings.submissions.recaptcha.position'] = $recaptcha['BadgePosition'];
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function migrateRequiredSettings()
+	{
+		$this->newSettings['settings.submissions.required'] = array_filter( (array)$this->oldSettings['settings.reviews-form.required'] );
+		$this->newSettings['settings.submissions.required'][] = 'rating';
+		$this->newSettings['settings.submissions.required'][] = 'terms';
 	}
 }
