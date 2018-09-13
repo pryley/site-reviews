@@ -194,7 +194,7 @@ class ValidateReview
 	protected function validateCustom()
 	{
 		if( !empty( $this->error ))return;
-		$validated = apply_filters( 'site-reviews/validate/review/submission', true, $this->request );
+		$validated = apply_filters( 'site-reviews/validate/custom', true, $this->request );
 		if( $validated === true )return;
 		$this->setSessionValues( 'errors', [] );
 		$this->setSessionValues( 'values', $this->request );

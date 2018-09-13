@@ -29,6 +29,9 @@
     site-reviews/columns/{column_slug}
     site-reviews/config/{config_id}
     site-reviews/create/review-values
+    site-reviews/defaults/pagination
+    site-reviews/defaults/style-fields
+    site-reviews/defaults/style-validation
     site-reviews/defaults/{defaults_name}
     site-reviews/defer-scripts
     site-reviews/email/compose
@@ -66,7 +69,7 @@
     site-reviews/slack/compose
     site-reviews/slack/stars
     site-reviews/url
-    site-reviews/validate/review/submission
+    site-reviews/validate/custom
     site-reviews/validation/rules
     site-reviews/views/data
     site-reviews/views/file
