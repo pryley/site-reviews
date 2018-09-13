@@ -104,6 +104,10 @@ add_filter( 'site-reviews/assets/polyfill', '__return_false' );</code></pre>
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Do something immediately after a review has been submitted</h3>
+		<button type="button" class="handlediv" aria-expanded="true">
+			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
 	</div>
 	<div class="inside">
 		<p>Use this hook if you want to do something immediately after a review has been successfully submitted.</p>
@@ -147,6 +151,10 @@ add_filter( 'site-reviews/schema/LocalBusiness', function( array $schema ) {
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Modify the submitted review before it is saved</h3>
+		<button type="button" class="handlediv" aria-expanded="true">
+			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
 	</div>
 	<div class="inside">
 		<p>Use this hook if you want to modify the submitted review values before the review is created.</p>
