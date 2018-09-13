@@ -92,7 +92,7 @@ add_filter( 'site-reviews/assets/css', '__return_false' );</code></pre>
 	</div>
 	<div class="inside">
 		<p>Use this hook if you want to disable the polyfill.io script from loading on your website.</p>
-		<p><span style="color: #dc3232;">Important:</span> The polyfill.io script provides support for Internet Explorer versions 9-10. If you disable it, Site Reviews will no longer work in those browsers.</p>
+		<p><span class="required">Important:</span> The polyfill.io script provides support for Internet Explorer versions 9-10. If you disable it, Site Reviews will no longer work in those browsers.</p>
 		<pre><code class="php">/**
  * Disables the polyfill.io script in Site Reviews.
  * @return bool

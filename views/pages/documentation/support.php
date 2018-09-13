@@ -73,9 +73,9 @@
 			<p><strong>Please send an email to <a href="mailto:site-reviews@geminilabs.io?subject=Support%20request">site-reviews@geminilabs.io</a> and include the following details:</strong></p>
 			<ul>
 				<li>A detailed description of the problem you are having and steps to reproduce it.</li>
-				<li>Include screenshots if they will help explain the problem.</li>
-				<li>Download and attach the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!system-info' ); ?>">Tools &rarr; System Info</a></code> report to the email.</li>
 				<li>Download and attach the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!console' ); ?>">Tools &rarr; Console</a></code> log file to the email (but only if it's not empty!)</li>
+				<li>Download and attach the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!system-info' ); ?>">Tools &rarr; System Info</a></code> report to the email.</li>
+				<li>Include screenshots if they will help explain the problem.</li>
 			</ul>
 		</div>
 	</div>

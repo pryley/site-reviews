@@ -1,5 +1,4 @@
 # PRE-LAUNCH
-- [ ] finish the documentation for functions
 - [ ] test all deprecated hooks that have been given out to people
 
 # POST-LAUNCH

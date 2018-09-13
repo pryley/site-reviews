@@ -9,7 +9,7 @@ use ReflectionClass;
 class Console
 {
 	const ALERT = 'alert';
-	const CRITICAL  = 'critical';
+	const CRITICAL = 'critical';
 	const DEBUG = 'debug';
 	const EMERGENCY = 'emergency';
 	const ERROR = 'error';
