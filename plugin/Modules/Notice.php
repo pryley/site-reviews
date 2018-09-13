@@ -49,6 +49,17 @@ class Notice
 	}
 
 	/**
+	 * @return static
+	 */
+	public function clear()
+	{
+		global $wp_settings_errors;
+		$wp_settings_errors = [];
+		delete_transient( 'settings_errors' );
+		return $this;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function get()

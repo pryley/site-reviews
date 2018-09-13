@@ -182,7 +182,7 @@ class AdminController extends Controller
 			$countManager->setPostCounts( $postId, $countManager->buildPostCounts( $postId ));
 		}
 		$countManager->setCounts( $countManager->buildCounts() );
-		glsr( Notice::class )->addSuccess( __( 'Recalculated rating counts.', 'site-reviews' ));
+		glsr( Notice::class )->clear()->addSuccess( __( 'Recalculated rating counts.', 'site-reviews' ));
 	}
 
 	/**
