@@ -69,7 +69,7 @@ jQuery( function( $ ) {
 		var view = parent.closest( '.glsr-nav-view' );
 		var action = parent.hasClass( 'closed' ) ? 'remove' : 'add';
 		parent[action + 'Class']( 'closed' ).find( '.handlediv' ).attr( 'aria-expanded', action !== 'add' );
-		action = view.find( '.glsr-card.postbox' ).not( 'closed' ).length > 0 ? 'remove' : 'add';
+		action = view.find( '.glsr-card.postbox' ).not( '.closed' ).length > 0 ? 'remove' : 'add';
 		view[action + 'Class']( 'collapsed' );
 	});
 
