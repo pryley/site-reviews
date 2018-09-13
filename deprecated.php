@@ -3,10 +3,10 @@
 defined( 'WPINC' ) || die;
 
 // Database/ReviewManager.php
-add_action( 'site-reviews/create/review', function( $post, $review, $postId ) {
+add_action( 'site-reviews/review/created', function( $review, $command ) {
 	if( has_action( 'site-reviews/local/review/create' )) {
 		glsr_log()->notice( 'The "site-reviews/local/review/create" hook has been deprecated. Please use the "site-reviews/create/review" hook instead.' );
-		do_action( 'site-reviews/local/review/create', $post, $review, $postId );
+		do_action( 'site-reviews/local/review/create', (array)get_post( $review->ID ), (array)$review, $review->ID );
 	}
 }, 10, 3 );
 
