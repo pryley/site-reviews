@@ -54,325 +54,325 @@ msgstr "You can use the %s plugin to restore %s to the previous version."
 
 #: config/settings.php:6
 msgid ""
-"Integrate with the %s plugin to calculate ratings for all languages of a "
-"post."
+"Site Reviews relies on the CSS of your theme to style the submission form. "
+"If your theme does not provide proper CSS rules for form elements and you "
+"are using a WordPress plugin/theme or CSS Framework listed here, please try "
+"selecting it, otherwise choose \"Site Reviews (default)\"."
 msgstr ""
-"Integrate with the %s plugin to calculate ratings for all languages of a "
-"post."
+"Site Reviews relies on the CSS of your theme to style the submission form. "
+"If your theme does not provide proper CSS rules for form elements and you "
+"are using a WordPress plugin/theme or CSS Framework listed here, please try "
+"selecting it, otherwise choose \"Site Reviews (default)\"."
 
-#: config/settings.php:9
-msgid "Integrate with Polylang"
-msgstr "Integrate with Polylang"
+#: config/settings.php:7
+msgid "Plugin Style"
+msgstr "Plugin Style"
 
 #: config/settings.php:14
-msgid "Set the status of new review submissions to pending."
-msgstr "Set the status of new review submissions to pending."
-
-#: config/settings.php:15
-msgid "Require Approval"
-msgstr "Require Approval"
-
-#: config/settings.php:20
-msgid "Only allow review submissions from registered users."
-msgstr "Only allow review submissions from registered users."
-
-#: config/settings.php:21
-msgid "Require Login"
-msgstr "Require Login"
-
-#: config/settings.php:27
-msgid ""
-"Show a link for a new user to register. The %s Membership option must be "
-"enabled in General Settings for this to work."
-msgstr ""
-"Show a link for a new user to register. The %s Membership option must be "
-"enabled in General Settings for this to work."
-
-#: config/settings.php:28
-msgid "Anyone can register"
-msgstr "Anyone can register"
-
-#: config/settings.php:30
-msgid "Show Registration Link"
-msgstr "Show Registration Link"
-
-#: config/settings.php:35
-msgid "Notifications"
-msgstr "Notifications"
-
-#: config/settings.php:37
-msgid "Send to administrator"
-msgstr "Send to administrator"
-
-#: config/settings.php:38
-msgid "Send to author of the page that the review is assigned to"
-msgstr "Send to author of the page that the review is assigned to"
-
-#: config/settings.php:39
-msgid "Send to one or more email addresses"
-msgstr "Send to one or more email addresses"
-
-#: config/settings.php:40
-msgid "Send to <a href=\"https://slack.com/\">Slack</a>"
-msgstr "Send to <a href=\"https://slack.com/\">Slack</a>"
-
-#: config/settings.php:47
-msgid "Send Notification Emails To"
-msgstr "Send Notification Emails To"
-
-#: config/settings.php:48
-msgid "Separate multiple emails with a comma"
-msgstr "Separate multiple emails with a comma"
-
-#: config/settings.php:54
-msgid ""
-"To send notifications to Slack, create a new %s and then paste the provided "
-"Webhook URL in the field above."
-msgstr ""
-"To send notifications to Slack, create a new %s and then paste the provided "
-"Webhook URL in the field above."
-
-#: config/settings.php:55
-msgid "Incoming WebHook"
-msgstr "Incoming WebHook"
-
-#: config/settings.php:57
-msgid "Slack Webhook URL"
-msgstr "Slack Webhook URL"
-
-#: config/settings.php:75
-msgid "Notification Template"
-msgstr "Notification Template"
-
-#: config/settings.php:81
-msgid "The default date format is the one set in your %s."
-msgstr "The default date format is the one set in your %s."
-
-#: config/settings.php:82
-msgid "WordPress settings"
-msgstr "WordPress settings"
-
-#: config/settings.php:84
-msgid "Date Format"
-msgstr "Date Format"
-
-#: config/settings.php:86
-msgid "Use the default date format"
-msgstr "Use the default date format"
-
-#: config/settings.php:87
-msgid "Use a relative date format"
-msgstr "Use a relative date format"
-
-#: config/settings.php:88
-msgid "Use a custom date format"
-msgstr "Use a custom date format"
-
-#: config/settings.php:95
-msgid ""
-"Enter a custom date format (<a "
-"href=\"https://codex.wordpress.org/Formatting_Date_and_Time\">documentation "
-"on date and time formatting</a>)."
-msgstr ""
-"Enter a custom date format (<a "
-"href=\"https://codex.wordpress.org/Formatting_Date_and_Time\">documentation "
-"on date and time formatting</a>)."
-
-#: config/settings.php:96
-msgid "Custom Date Format"
-msgstr "Custom Date Format"
-
-#: config/settings.php:101
-msgid "Display a link to the assigned post of a review."
-msgstr "Display a link to the assigned post of a review."
-
-#: config/settings.php:102
-msgid "Enable Assigned Links"
-msgstr "Enable Assigned Links"
-
-#: config/settings.php:107
-msgid ""
-"Display reviewer avatars. These are generated from the email address of the "
-"reviewer using <a href=\"https://gravatar.com\">Gravatar</a>."
-msgstr ""
-"Display reviewer avatars. These are generated from the email address of the "
-"reviewer using <a href=\"https://gravatar.com\">Gravatar</a>."
-
-#: config/settings.php:108
-msgid "Enable Avatars"
-msgstr "Enable Avatars"
-
-#: config/settings.php:114
-msgid "Regenerate the avatar whenever a local review is shown?"
-msgstr "Regenerate the avatar whenever a local review is shown?"
-
-#: config/settings.php:115
-msgid "Regenerate Avatars"
-msgstr "Regenerate Avatars"
-
-#: config/settings.php:121
-msgid "Set the avatar size in pixels."
-msgstr "Set the avatar size in pixels."
-
-#: config/settings.php:122
-msgid "Avatar Size"
-msgstr "Avatar Size"
-
-#: config/settings.php:127
-msgid "Display an excerpt instead of the full review."
-msgstr "Display an excerpt instead of the full review."
-
-#: config/settings.php:128
-msgid "Enable Excerpts"
-msgstr "Enable Excerpts"
-
-#: config/settings.php:134
-msgid "Set the excerpt word length."
-msgstr "Set the excerpt word length."
-
-#: config/settings.php:135
-msgid "Excerpt Length"
-msgstr "Excerpt Length"
-
-#: config/settings.php:140, config/settings.php:158, config/settings.php:174, config/settings.php:190, config/settings.php:206, config/settings.php:223, config/settings.php:231, config/settings.php:239, config/settings.php:247, config/settings.php:255, config/settings.php:263
-msgid "Custom Field name"
-msgstr "Custom Field name"
-
-#: config/settings.php:141
-msgid "Default Schema Type"
-msgstr "Default Schema Type"
-
-#: config/settings.php:143
-msgid "Local Business"
-msgstr "Local Business"
-
-#: config/settings.php:144
-msgid "Product"
-msgstr "Product"
-
-#: config/settings.php:145
-msgid "Custom"
-msgstr "Custom"
-
-#: config/settings.php:152
-msgid "View more information on schema types here"
-msgstr "View more information on schema types here"
-
-#: config/settings.php:153
-msgid "Custom Schema Type"
-msgstr "Custom Schema Type"
-
-#: config/settings.php:159
-msgid "Default Name"
-msgstr "Default Name"
-
-#: config/settings.php:161
-msgid "Use the assigned or current page title"
-msgstr "Use the assigned or current page title"
-
-#: config/settings.php:162
-msgid "Enter a custom title"
-msgstr "Enter a custom title"
-
-#: config/settings.php:169
-msgid "Custom Name"
-msgstr "Custom Name"
-
-#: config/settings.php:175
-msgid "Default Description"
-msgstr "Default Description"
-
-#: config/settings.php:177
-msgid "Use the assigned or current page excerpt"
-msgstr "Use the assigned or current page excerpt"
-
-#: config/settings.php:178
-msgid "Enter a custom description"
-msgstr "Enter a custom description"
-
-#: config/settings.php:185
-msgid "Custom Description"
-msgstr "Custom Description"
-
-#: config/settings.php:191
-msgid "Default URL"
-msgstr "Default URL"
-
-#: config/settings.php:193
-msgid "Use the assigned or current page URL"
-msgstr "Use the assigned or current page URL"
-
-#: config/settings.php:194
-msgid "Enter a custom URL"
-msgstr "Enter a custom URL"
-
-#: config/settings.php:201
-msgid "Custom URL"
-msgstr "Custom URL"
-
-#: config/settings.php:207
-msgid "Default Image"
-msgstr "Default Image"
-
-#: config/settings.php:209
-msgid "Use the featured image of the assigned or current page"
-msgstr "Use the featured image of the assigned or current page"
-
-#: config/settings.php:210
-msgid "Enter a custom image URL"
-msgstr "Enter a custom image URL"
-
-#: config/settings.php:217
-msgid "Custom Image URL"
-msgstr "Custom Image URL"
-
-#: config/settings.php:224
-msgid "Address"
-msgstr "Address"
-
-#: config/settings.php:232
-msgid "Telephone Number"
-msgstr "Telephone Number"
-
-#: config/settings.php:240
-msgid "Price Range"
-msgstr "Price Range"
-
-#: config/settings.php:248
-msgid "Low Price"
-msgstr "Low Price"
-
-#: config/settings.php:256
-msgid "High Price"
-msgstr "High Price"
-
-#: config/settings.php:264
-msgid "Price Currency"
-msgstr "Price Currency"
-
-#: config/settings.php:270
-msgid ""
-"Site Reviews relies on the CSS of your theme to style the submission form. "
-"If your theme does not provide proper CSS rules for form elements and you "
-"are using a WordPress plugin/theme or CSS Framework listed here, please try "
-"selecting it, otherwise choose \"Site Reviews (default)\"."
-msgstr ""
-"Site Reviews relies on the CSS of your theme to style the submission form. "
-"If your theme does not provide proper CSS rules for form elements and you "
-"are using a WordPress plugin/theme or CSS Framework listed here, please try "
-"selecting it, otherwise choose \"Site Reviews (default)\"."
-
-#: config/settings.php:271
-msgid "Form Style"
-msgstr "Form Style"
-
-#: config/settings.php:278
 msgid "Site Reviews (default)"
 msgstr "Site Reviews (default)"
 
-#: config/settings.php:279
+#: config/settings.php:15
 msgid "Site Reviews (minimal)"
 msgstr "Site Reviews (minimal)"
+
+#: config/settings.php:25
+msgid "Set the status of new review submissions to pending."
+msgstr "Set the status of new review submissions to pending."
+
+#: config/settings.php:26
+msgid "Require Approval"
+msgstr "Require Approval"
+
+#: config/settings.php:31
+msgid "Only allow review submissions from registered users."
+msgstr "Only allow review submissions from registered users."
+
+#: config/settings.php:32
+msgid "Require Login"
+msgstr "Require Login"
+
+#: config/settings.php:38
+msgid ""
+"Show a link for a new user to register. The %s Membership option must be "
+"enabled in General Settings for this to work."
+msgstr ""
+"Show a link for a new user to register. The %s Membership option must be "
+"enabled in General Settings for this to work."
+
+#: config/settings.php:39
+msgid "Anyone can register"
+msgstr "Anyone can register"
+
+#: config/settings.php:41
+msgid "Show Registration Link"
+msgstr "Show Registration Link"
+
+#: config/settings.php:46
+msgid ""
+"Integrate with the %s plugin to calculate ratings for all languages of a "
+"post."
+msgstr ""
+"Integrate with the %s plugin to calculate ratings for all languages of a "
+"post."
+
+#: config/settings.php:49
+msgid "Integrate with Polylang"
+msgstr "Integrate with Polylang"
+
+#: config/settings.php:54
+msgid "Notifications"
+msgstr "Notifications"
+
+#: config/settings.php:56
+msgid "Send to administrator"
+msgstr "Send to administrator"
+
+#: config/settings.php:57
+msgid "Send to author of the page that the review is assigned to"
+msgstr "Send to author of the page that the review is assigned to"
+
+#: config/settings.php:58
+msgid "Send to one or more email addresses"
+msgstr "Send to one or more email addresses"
+
+#: config/settings.php:59
+msgid "Send to <a href=\"https://slack.com/\">Slack</a>"
+msgstr "Send to <a href=\"https://slack.com/\">Slack</a>"
+
+#: config/settings.php:66
+msgid "Send Notification Emails To"
+msgstr "Send Notification Emails To"
+
+#: config/settings.php:67
+msgid "Separate multiple emails with a comma"
+msgstr "Separate multiple emails with a comma"
+
+#: config/settings.php:73
+msgid ""
+"To send notifications to Slack, create a new %s and then paste the provided "
+"Webhook URL in the field above."
+msgstr ""
+"To send notifications to Slack, create a new %s and then paste the provided "
+"Webhook URL in the field above."
+
+#: config/settings.php:74
+msgid "Incoming WebHook"
+msgstr "Incoming WebHook"
+
+#: config/settings.php:76
+msgid "Slack Webhook URL"
+msgstr "Slack Webhook URL"
+
+#: config/settings.php:94
+msgid "Notification Template"
+msgstr "Notification Template"
+
+#: config/settings.php:100
+msgid "The default date format is the one set in your %s."
+msgstr "The default date format is the one set in your %s."
+
+#: config/settings.php:101
+msgid "WordPress settings"
+msgstr "WordPress settings"
+
+#: config/settings.php:103
+msgid "Date Format"
+msgstr "Date Format"
+
+#: config/settings.php:105
+msgid "Use the default date format"
+msgstr "Use the default date format"
+
+#: config/settings.php:106
+msgid "Use a relative date format"
+msgstr "Use a relative date format"
+
+#: config/settings.php:107
+msgid "Use a custom date format"
+msgstr "Use a custom date format"
+
+#: config/settings.php:114
+msgid ""
+"Enter a custom date format (<a "
+"href=\"https://codex.wordpress.org/Formatting_Date_and_Time\">documentation "
+"on date and time formatting</a>)."
+msgstr ""
+"Enter a custom date format (<a "
+"href=\"https://codex.wordpress.org/Formatting_Date_and_Time\">documentation "
+"on date and time formatting</a>)."
+
+#: config/settings.php:115
+msgid "Custom Date Format"
+msgstr "Custom Date Format"
+
+#: config/settings.php:120
+msgid "Display a link to the assigned post of a review."
+msgstr "Display a link to the assigned post of a review."
+
+#: config/settings.php:121
+msgid "Enable Assigned Links"
+msgstr "Enable Assigned Links"
+
+#: config/settings.php:126
+msgid ""
+"Display reviewer avatars. These are generated from the email address of the "
+"reviewer using <a href=\"https://gravatar.com\">Gravatar</a>."
+msgstr ""
+"Display reviewer avatars. These are generated from the email address of the "
+"reviewer using <a href=\"https://gravatar.com\">Gravatar</a>."
+
+#: config/settings.php:127
+msgid "Enable Avatars"
+msgstr "Enable Avatars"
+
+#: config/settings.php:133
+msgid "Regenerate the avatar whenever a local review is shown?"
+msgstr "Regenerate the avatar whenever a local review is shown?"
+
+#: config/settings.php:134
+msgid "Regenerate Avatars"
+msgstr "Regenerate Avatars"
+
+#: config/settings.php:140
+msgid "Set the avatar size in pixels."
+msgstr "Set the avatar size in pixels."
+
+#: config/settings.php:141
+msgid "Avatar Size"
+msgstr "Avatar Size"
+
+#: config/settings.php:146
+msgid "Display an excerpt instead of the full review."
+msgstr "Display an excerpt instead of the full review."
+
+#: config/settings.php:147
+msgid "Enable Excerpts"
+msgstr "Enable Excerpts"
+
+#: config/settings.php:153
+msgid "Set the excerpt word length."
+msgstr "Set the excerpt word length."
+
+#: config/settings.php:154
+msgid "Excerpt Length"
+msgstr "Excerpt Length"
+
+#: config/settings.php:159, config/settings.php:177, config/settings.php:193, config/settings.php:209, config/settings.php:225, config/settings.php:242, config/settings.php:250, config/settings.php:258, config/settings.php:266, config/settings.php:274, config/settings.php:282
+msgid "Custom Field name"
+msgstr "Custom Field name"
+
+#: config/settings.php:160
+msgid "Default Schema Type"
+msgstr "Default Schema Type"
+
+#: config/settings.php:162
+msgid "Local Business"
+msgstr "Local Business"
+
+#: config/settings.php:163
+msgid "Product"
+msgstr "Product"
+
+#: config/settings.php:164
+msgid "Custom"
+msgstr "Custom"
+
+#: config/settings.php:171
+msgid "View more information on schema types here"
+msgstr "View more information on schema types here"
+
+#: config/settings.php:172
+msgid "Custom Schema Type"
+msgstr "Custom Schema Type"
+
+#: config/settings.php:178
+msgid "Default Name"
+msgstr "Default Name"
+
+#: config/settings.php:180
+msgid "Use the assigned or current page title"
+msgstr "Use the assigned or current page title"
+
+#: config/settings.php:181
+msgid "Enter a custom title"
+msgstr "Enter a custom title"
+
+#: config/settings.php:188
+msgid "Custom Name"
+msgstr "Custom Name"
+
+#: config/settings.php:194
+msgid "Default Description"
+msgstr "Default Description"
+
+#: config/settings.php:196
+msgid "Use the assigned or current page excerpt"
+msgstr "Use the assigned or current page excerpt"
+
+#: config/settings.php:197
+msgid "Enter a custom description"
+msgstr "Enter a custom description"
+
+#: config/settings.php:204
+msgid "Custom Description"
+msgstr "Custom Description"
+
+#: config/settings.php:210
+msgid "Default URL"
+msgstr "Default URL"
+
+#: config/settings.php:212
+msgid "Use the assigned or current page URL"
+msgstr "Use the assigned or current page URL"
+
+#: config/settings.php:213
+msgid "Enter a custom URL"
+msgstr "Enter a custom URL"
+
+#: config/settings.php:220
+msgid "Custom URL"
+msgstr "Custom URL"
+
+#: config/settings.php:226
+msgid "Default Image"
+msgstr "Default Image"
+
+#: config/settings.php:228
+msgid "Use the featured image of the assigned or current page"
+msgstr "Use the featured image of the assigned or current page"
+
+#: config/settings.php:229
+msgid "Enter a custom image URL"
+msgstr "Enter a custom image URL"
+
+#: config/settings.php:236
+msgid "Custom Image URL"
+msgstr "Custom Image URL"
+
+#: config/settings.php:243
+msgid "Address"
+msgstr "Address"
+
+#: config/settings.php:251
+msgid "Telephone Number"
+msgstr "Telephone Number"
+
+#: config/settings.php:259
+msgid "Price Range"
+msgstr "Price Range"
+
+#: config/settings.php:267
+msgid "Low Price"
+msgstr "Low Price"
+
+#: config/settings.php:275
+msgid "High Price"
+msgstr "High Price"
+
+#: config/settings.php:283
+msgid "Price Currency"
+msgstr "Price Currency"
 
 #: config/settings.php:289
 msgid "Choose which fields should be required in the submission form."
@@ -486,7 +486,7 @@ msgstr "Require approval"
 msgid "Reject submission"
 msgstr "Reject submission"
 
-#: plugin/Application.php:150
+#: plugin/Application.php:170
 msgid "Local"
 msgstr "Local"
 
@@ -956,23 +956,23 @@ msgid_plural "%s years ago"
 msgstr[0] "%s year ago"
 msgstr[1] "%s years ago"
 
-#: plugin/Shortcodes/ButtonGenerator.php:43
+#: plugin/Shortcodes/ButtonGenerator.php:42
 msgid "Close"
 msgstr "Close"
 
-#: plugin/Shortcodes/ButtonGenerator.php:44
+#: plugin/Shortcodes/ButtonGenerator.php:43
 msgid "Insert Shortcode"
 msgstr "Insert Shortcode"
 
-#: plugin/Shortcodes/ButtonGenerator.php:49
+#: plugin/Shortcodes/ButtonGenerator.php:48
 msgid "Shortcode"
 msgstr "Shortcode"
 
-#: plugin/Shortcodes/ButtonGenerator.php:147
+#: plugin/Shortcodes/ButtonGenerator.php:146
 msgid "- Select -"
 msgstr "- Select -"
 
-#: plugin/Shortcodes/ButtonGenerator.php:251
+#: plugin/Shortcodes/ButtonGenerator.php:250
 msgid "Some of the shortcode options are required."
 msgstr "Some of the shortcode options are required."
 
@@ -1390,7 +1390,7 @@ msgstr "The review submission failed. Please notify the site administrator."
 msgid "The reCAPTCHA verification failed, please try again."
 msgstr "The reCAPTCHA verification failed, please try again."
 
-#: plugin/Modules/Validator/ValidateReview.php:245, plugin/Modules/Html/Partials/SiteReviews.php:211
+#: plugin/Modules/Validator/ValidateReview.php:245, plugin/Modules/Html/Partials/SiteReviews.php:212
 msgid "No Title"
 msgstr "No Title"
 
@@ -1405,6 +1405,14 @@ msgstr "Sync your Tripadvisor reviews and display them on your site."
 #: views/pages/addons/index.php:19
 msgid "Sync your Yelp reviews and display them on your site."
 msgstr "Sync your Yelp reviews and display them on your site."
+
+#: views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:38, views/pages/documentation/faq.php:66, views/pages/documentation/faq.php:92, views/pages/documentation/faq.php:105, views/pages/documentation/faq.php:131, views/pages/documentation/faq.php:144, views/pages/documentation/functions.php:9, views/pages/documentation/functions.php:36, views/pages/documentation/functions.php:58, views/pages/documentation/functions.php:86, views/pages/documentation/functions.php:111, views/pages/documentation/functions.php:132, views/pages/documentation/functions.php:172, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:31, views/pages/documentation/hooks.php:53, views/pages/documentation/hooks.php:71, views/pages/documentation/hooks.php:89, views/pages/documentation/hooks.php:127, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:54, views/pages/documentation/shortcodes.php:88, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:50
+msgid "Toggle documentation panel"
+msgstr "Toggle documentation panel"
+
+#: views/pages/documentation/index.php:5
+msgid "Click an active tab to expand/collapse all sections."
+msgstr "Click an active tab to expand/collapse all sections."
 
 #: views/pages/settings/schema.php:3
 msgid ""
@@ -1602,19 +1610,19 @@ msgstr[1] "%s Stars"
 msgid "Site Reviews navigation"
 msgstr "Site Reviews navigation"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:107
+#: plugin/Modules/Html/Partials/SiteReviews.php:108
 msgid "Review of %s"
 msgstr "Review of %s"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:193
+#: plugin/Modules/Html/Partials/SiteReviews.php:194
 msgid "Response from %s"
 msgstr "Response from %s"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:272
+#: plugin/Modules/Html/Partials/SiteReviews.php:273
 msgid "Show less"
 msgstr "Show less"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:273
+#: plugin/Modules/Html/Partials/SiteReviews.php:274
 msgid "Show more"
 msgstr "Show more"
 
@@ -1707,7 +1715,7 @@ msgid_plural "New %s-star review of: %s"
 msgstr[0] "New %s-star review"
 msgstr[1] "New %s-star review of: %s"
 
-#: plugin/Shortcodes/ButtonGenerator.php:257
+#: plugin/Shortcodes/ButtonGenerator.php:256
 msgctxt "the option label"
 msgid "The \"%s\" option is required."
 msgstr "The \"%s\" option is required."
