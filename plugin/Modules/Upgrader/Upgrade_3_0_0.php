@@ -48,7 +48,7 @@ class Upgrade_3_0_0
 		'settings.reviews.schema.type.default' => 'settings.schema.type.default',
 		'settings.reviews.schema.url.custom' => 'settings.schema.url.custom',
 		'settings.reviews.schema.url.default' => 'settings.schema.url.default',
-		'version' => 'version',
+		'version' => 'version_upgraded_from',
 	];
 
 	/**
@@ -65,7 +65,6 @@ class Upgrade_3_0_0
 	{
 		$this->migrateSettings();
 		$this->setReviewCounts();
-		glsr_log()->info( 'Completed Upgrade for v3.0.0' );
 	}
 
 	/**

@@ -6,6 +6,7 @@ use DirectoryIterator;
 use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helper;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -25,9 +26,11 @@ class Upgrader
 		natsort( $filenames );
 		array_walk( $filenames, function( $file ) {
 			$className = str_replace( '.php', '', $file );
-			$version = str_replace( 'Upgrade_', '', $className );
-			if( version_compare( $this->currentVersion(), $version, '>=' ))return;
+			$version = str_replace( ['Upgrade_', '_'], ['', '.'], $className );
+			$versionSuffix = preg_replace( '/[\d.]+(.+)?/', '${1}', glsr()->version ); // allow alpha/beta versions
+			if( version_compare( $this->currentVersion(), $version.$versionSuffix, '>=' ))return;
 			glsr( 'Modules\\Upgrader\\'.$className );
+			glsr_log()->info( 'Completed Upgrade for v'.$version );
 		});
 		$this->updateVersion();
 	}
@@ -37,7 +40,7 @@ class Upgrader
 	 */
 	public function currentVersion()
 	{
-		return glsr( OptionManager::class )->get( 'version', '2.20.0' );
+		return glsr( OptionManager::class )->get( 'version', '0.0.0' );
 	}
 
 	/**
@@ -46,10 +49,8 @@ class Upgrader
 	public function updateVersion()
 	{
 		$currentVersion = $this->currentVersion();
-		if( version_compare( $currentVersion, glsr()->version, '<' )) {
+		if( $currentVersion !== glsr()->version ) {
 			glsr( OptionManager::class )->set( 'version', glsr()->version );
-		}
-		if( $currentVersion != glsr()->version ) {
 			glsr( OptionManager::class )->set( 'version_upgraded_from', $currentVersion );
 		}
 	}
