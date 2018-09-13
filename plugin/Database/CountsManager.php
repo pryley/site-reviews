@@ -141,7 +141,7 @@ class CountsManager
 	 */
 	public function getCounts()
 	{
-		return glsr( OptionManager::class )->get( 'count', [] );
+		return glsr( OptionManager::class )->get( 'counts', [] );
 	}
 
 	/**
@@ -220,7 +220,7 @@ class CountsManager
 	 */
 	public function setCounts( array $reviewCounts )
 	{
-		glsr( OptionManager::class )->set( 'count', $reviewCounts );
+		glsr( OptionManager::class )->set( 'counts', $reviewCounts );
 	}
 
 	/**

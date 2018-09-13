@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\Cache;
+use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use Sinergi\BrowserDetector\Browser;
@@ -141,7 +142,7 @@ class System
 	 */
 	public function getReviewsDetails()
 	{
-		$counts = glsr( OptionManager::class )->get( 'counts', [] );
+		$counts = glsr( CountsManager::class )->getCounts();
 		$counts = glsr( Helper::class )->flattenArray( $counts );
 		array_walk( $counts, function( &$ratings ) {
 			$ratings = array_sum( $ratings ).' ('.implode( ', ', $ratings ).')';
