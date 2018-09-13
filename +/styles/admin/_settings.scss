@@ -27,9 +27,14 @@
 	margin: 1em 0;
 }
 
-.glsr-card-result ul {
+.glsr-card ol {
+	list-style: decimal;
+	margin-left: 1.5em;
+}
+
+.glsr-card ul {
 	list-style: disc;
-	padding-left: 1.5em;
+	margin-left: 1.5em;
 }
 
 .glsr-heading {

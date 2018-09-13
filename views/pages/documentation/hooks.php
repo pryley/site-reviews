@@ -122,7 +122,7 @@ add_action( 'site-reviews/review/created', function( $review, $command ) {
 
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">
-		<h3>Modify the JSON-LD schema</h3>
+		<h3>Modify the schema</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
 			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
 			<span class="toggle-indicator" aria-hidden="true"></span>
@@ -130,6 +130,7 @@ add_action( 'site-reviews/review/created', function( $review, $command ) {
 	</div>
 	<div class="inside">
 		<p>Use this hook if you would like to modify the primary schema type properties. For example, suppose you have set "LocalBusiness" as the default schema type. You may want to add additional properties to it and this is the hook to use in order to do that.</p>
+		<p>This hook is specific to the schema type. For example, to modify the schema for the LocalBusiness schema type you would use the <em>"site-reviews/schema/LocalBusiness"</em> hook, but to modify the schema for the Product schema type you would use the <em>"site-reviews/schema/Product"</em> hook.</p>
 		<p>Make sure to use Google's <a href="https://search.google.com/structured-data/testing-tool">Structured Data Testing Tool</a> to test the schema after any custom modifications have been made.</p>
 		<pre><code class="php">/**
  * Modifies the properties of the schema created by Site Reviews.
