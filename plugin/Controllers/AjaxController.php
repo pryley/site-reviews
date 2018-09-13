@@ -12,7 +12,7 @@ use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Session;
-use GeminiLabs\SiteReviews\Modules\Translator;
+use GeminiLabs\SiteReviews\Modules\Translation;
 use WP_Query;
 
 class AjaxController extends Controller
@@ -103,7 +103,7 @@ class AjaxController extends Controller
 		if( empty( $request['exclude'] )) {
 			$request['exclude'] = [];
 		}
-		$results = glsr( Translator::class )
+		$results = glsr( Translation::class )
 			->search( $request['search'] )
 			->exclude()
 			->exclude( $request['exclude'] )

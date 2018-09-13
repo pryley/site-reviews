@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\Field;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
-use GeminiLabs\SiteReviews\Modules\Translator;
+use GeminiLabs\SiteReviews\Modules\Translation;
 
 class Settings
 {
@@ -101,7 +101,7 @@ class Settings
 	 */
 	protected function getTemplateDataForTranslations()
 	{
-		$translations = glsr( Translator::class )->renderAll();
+		$translations = glsr( Translation::class )->renderAll();
 		$class = empty( $translations )
 			? 'glsr-hidden'
 			: '';

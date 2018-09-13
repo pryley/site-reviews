@@ -2,6 +2,44 @@
 // Partials -> Settings
 // =============================================================================
 
+.is-invalid td.glsr-string-td1,
+.is-invalid td.glsr-string-td2,
+.is-invalid td.glsr-string-td1 > div,
+.is-invalid td.glsr-string-td2 > div {
+	position: relative;
+}
+.is-invalid td.glsr-string-td1 > button,
+.is-invalid td.glsr-string-td2 > button,
+.is-invalid td.glsr-string-td1 > div,
+.is-invalid td.glsr-string-td2 > div {
+	z-index: 1;
+}
+.is-invalid td.glsr-string-td1::after,
+.is-invalid td.glsr-string-td2::after {
+	display: block;
+	position: absolute;
+	content: '';
+	top: -1px;
+	right: -1px;
+	bottom: -1px;
+	left: -1px;
+	background: rgba(220, 50, 50, 0.06);
+	user-select: none;
+	z-index: 0;
+}
+.is-invalid td.glsr-string-td1::after {
+	background: rgba(220, 50, 50, 0.08);
+}
+.is-invalid td.glsr-string-td2 input[type=text],
+.is-invalid td.glsr-string-td2 textarea {
+	border-color: #E2CBCB;
+}
+
+@media screen and (max-width: 782px) {
+	.wp-list-table .is-expanded.is-invalid td:not(.hidden) {
+		overflow: unset;
+	}
+}
 
 @media screen and (max-width: 720px) {
 	h2 a.glsr-nav-tab,
@@ -113,25 +151,6 @@
 .glsr-card pre code {
 	border-radius: 3px;
 }
-// .glsr-card pre {
-// 	border: 1px solid #e5e5e5;
-// 	border-radius: 3px;
-// 	position: relative;
-// 	background-color: #f9f9f9;
-// 	overflow: visible;
-// 	padding: 0;
-// 	white-space: pre;
-// 	word-wrap: normal;
-
-// 	code {
-// 		background: none;
-// 		max-height: inherit;
-// 		height: 100%;
-// 		padding: 0.5em;
-// 		display: block;
-// 		overflow: auto;
-// 	}
-// }
 
 .glsr-card {
 	dd {
