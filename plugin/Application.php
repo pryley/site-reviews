@@ -55,6 +55,16 @@ final class Application extends Container
 	}
 
 	/**
+	 * @return void
+	 */
+	public function catchFatalError()
+	{
+		$error = error_get_last();
+		if( $error['type'] !== E_ERROR )return;
+		glsr_log()->error( $error['message'] );
+	}
+
+	/**
 	 * @param string $name
 	 * @return array
 	 */
