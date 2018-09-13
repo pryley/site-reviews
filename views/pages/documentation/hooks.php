@@ -4,15 +4,63 @@
 
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">
-		<h3>Disable the plugin CSS</h3>
+		<h3>Customise the fields in the review submission form</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
 			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
 			<span class="toggle-indicator" aria-hidden="true"></span>
 		</button>
 	</div>
 	<div class="inside">
-		<pre><code>add_filter( 'site-reviews/assets/css', '__return_false' );</code></pre>
+		<p>Use this hook to customise the fields in the review submission form used by Site Reviews.</p>
+		<p>See the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!faq' ); ?>">Documentation &rarr; FAQ</a></code> for a detailed example of how to use this hook.</p>
+		<pre><code class="php">/**
+ * Customises the fields used in the Site Reviews submission form.
+ * @return array
+ */
+add_filter( 'site-reviews/config/forms/submission-form', function( array $config ) {
+	// change the submission-form $config array here
+	return $config;
+});</code></pre>
+	</div>
+</div>
+
+<div class="glsr-card postbox">
+	<div class="glsr-card-header">
+		<h3>Customise the star images</h3>
+		<button type="button" class="handlediv" aria-expanded="true">
+			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+	</div>
+	<div class="inside">
+		<p>Use this hook to customise the star images used by Site Reviews.</p>
+		<p>See the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!faq' ); ?>">Documentation &rarr; FAQ</a></code> for a detailed example of how to use this hook.</p>
+		<pre><code class="php">/**
+ * Customises the stars used by Site Reviews.
+ * @return array
+ */
+add_filter( 'site-reviews/config/inline-styles', function( array $config ) {
+	// change the star URLs in the $config array here
+	return $config;
+});</code></pre>
+	</div>
+</div>
+
+<div class="glsr-card postbox">
+	<div class="glsr-card-header">
+		<h3>Disable the plugin stylesheet</h3>
+		<button type="button" class="handlediv" aria-expanded="true">
+			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+	</div>
+	<div class="inside">
 		<p>Use this hook if you want to disable the plugin stylesheet from loading on your website.</p>
+		<pre><code class="php">/**
+ * Disables the Site Reviews stylesheet.
+ * @return bool
+ */
+add_filter( 'site-reviews/assets/css', '__return_false' );</code></pre>
 	</div>
 </div>
 
@@ -25,10 +73,16 @@
 		</button>
 	</div>
 	<div class="inside">
-		<pre><code>add_filter( 'site-reviews/assets/js', '__return_false' );</code></pre>
 		<p>Use this hook if you want to disable the plugin javascript from loading on your website.</p>
+		<pre><code class="php">/**
+ * Disables the Site Reviews javascript.
+ * @return bool
+ */
+add_filter( 'site-reviews/assets/js', '__return_false' );</code></pre>
 	</div>
 </div>
+
+
 <!--
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">
@@ -39,7 +93,6 @@
 	// do something here.
 }, 10, 2 );</code></pre>
 		<p>Use this hook if you want to do something immediately after a review has been successfully submitted.</p>
-		<p>The <code>$message</code> is the "successfully submitted" message returned to the user.</p>
 		<p>The <code>$request</code> is the PHP object used to create the review. With this you can also determine the current referrer URI (<code>$request->referrer</code>) or whether the request is an AJAX request or not (<code>$request->ajaxRequest</code>).</p>
 	</div>
 </div>
@@ -58,41 +111,28 @@
 	</div>
 </div>
 -->
-<div class="glsr-card postbox">
-	<div class="glsr-card-header">
-		<h3>Modify the JSON-LD schema type properties</h3>
-		<button type="button" class="handlediv" aria-expanded="true">
-			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
-			<span class="toggle-indicator" aria-hidden="true"></span>
-		</button>
-	</div>
-	<div class="inside">
-		<pre><code>$schemaType = 'LocalBusiness';
-add_filter( "site-reviews/schema/{$schemaType}", function( array $schema, array $args ) {
-	// change the $schema array here.
-	return $schema;
-}, 10, 2 );</code></pre>
-		<p>Use this hook if you would like to modify the primary schema type properties. For example, suppose you have set "LocalBusiness" as the default schema type. You may want to add other properties to it such as "address", "priceRange", and "telephone"; this is the hook to use in order to do that.</p>
-		<p>The <code>$schema</code> variable is the existing schema type array. The <code>$args</code> variable is the array of arguments used to query the reviews in order to calculate the average rating and review count. You can pass this variable to the <code>glsr_get_reviews()</code> function to return the exact same array of reviews.</p>
-		<p>Make sure to use Google's <a href="https://search.google.com/structured-data/testing-tool">Structured Data Testing Tool</a> to test the schema after any custom modifications have been made.</p>
-	</div>
-</div>
+
+
 
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">
-		<h3>Modify the final generated JSON-LD schemas</h3>
+		<h3>Modify the JSON-LD schema</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
 			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
 			<span class="toggle-indicator" aria-hidden="true"></span>
 		</button>
 	</div>
 	<div class="inside">
-		<pre><code>add_filter( 'site-reviews/schema/all', function( array $schemas ) {
-	// change the $schemas array here.
-	return $schemas;
-});</code></pre>
-		<p>Use this hook if you would like to modify the generated JSON-LD schema. This hook is fired immediately before the schema is printed on the page.</p>
-		<p>The <code>$schemas</code> variable is an array of all schema arrays that have been generated for the page. Ideally there should only be one schema in the array, however, if more than one shortcode has been included on the same page with the schema attribute enabled, then there may be more than one.</p>
+		<p>Use this hook if you would like to modify the primary schema type properties. For example, suppose you have set "LocalBusiness" as the default schema type. You may want to add additional properties to it and this is the hook to use in order to do that.</p>
 		<p>Make sure to use Google's <a href="https://search.google.com/structured-data/testing-tool">Structured Data Testing Tool</a> to test the schema after any custom modifications have been made.</p>
+		<pre><code class="php">/**
+ * Modifies the properties of the schema created by Site Reviews.
+ * Change "LocalBusiness" to the schema type you wish to change (i.e. Product)
+ * @return array
+ */
+add_filter( 'site-reviews/schema/LocalBusiness', function( array $schema ) {
+	// change the $schema array here.
+	return $schema;
+});</code></pre>
 	</div>
 </div>

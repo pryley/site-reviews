@@ -1,6 +1,6 @@
 <?php defined( 'WPINC' ) || die; ?>
 
-<div class="glsr-card postbox stay-open">
+<div class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Basic Troubleshooting Steps</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -16,18 +16,19 @@
 			</li>
 			<li>
 				<p class="glsr-heading">Temporarily switch to an official WordPress Theme.</p>
-				<p>Try switching to an official WordPress Theme (i.e. Twenty Seventeen) and then see if you are still experiencing problems with the plugin. If this fixes the problem you were having then there is a compatibility issue with your theme.</p>
+				<p>Try switching to an official WordPress Theme (i.e. Twenty Seventeen) and then see if you are still experiencing problems with the plugin. If this fixes the problem then there is a compatibility issue with your theme.</p>
 			</li>
 			<li>
 				<p class="glsr-heading">Temporarily deactivate all of your plugins.</p>
-				<p>If switching to an official WordPress theme did not fix anything, the last thing to do is deactivate all of your plugins except for Site Reviews. If this fixes the problem you were having then there is a compatibility issue with one of your plugins.</p>
-				<p>The next thing to do is reactivate your plugins one-by-one until you find the plugin that is causing the problem. If you think that you’ve found the culprit, deactivate it and continue to test the rest of your plugins. Hopefully you won’t find any more, but it’s always better to make sure.</p>
+				<p>If switching to an official WordPress theme did not fix anything, the final thing to try is to deactivate all of your plugins except for Site Reviews. If this fixes the problem then there is a compatibility issue with one of your plugins.</p>
+				<p>To find out which plugin is incompatible with Site Reviews you will need to reactivate your plugins one-by-one until you find the plugin that is causing the problem. If you think that you’ve found the culprit, deactivate it and continue to test the rest of your plugins. Hopefully you won’t find any more but it’s always better to make sure.</p>
+				<p>If you find an incompatible theme or plugin, please <em>contact support</em> so we can fix it.</p>
 			</li>
 		</ol>
 	</div>
 </div>
 
-<div class="glsr-card postbox stay-open">
+<div class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Common Problems and Solutions</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -72,9 +73,9 @@
 			<p><strong>Please send an email to <a href="mailto:site-reviews@geminilabs.io?subject=Support%20request">site-reviews@geminilabs.io</a> and include the following details:</strong></p>
 			<ul>
 				<li>A detailed description of the problem you are having and steps to reproduce it.</li>
-				<li>Send screenshots if they help to explain the problem.</li>
-				<li>Download and attach the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!system-info' ); ?>">Tools &rarr; System Info</a></code> report.</li>
-				<li>Download and attach the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!console' ); ?>">Tools &rarr; Console</a></code> log file (if it's not empty).</li>
+				<li>Include screenshots if they will help explain the problem.</li>
+				<li>Download and attach the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!system-info' ); ?>">Tools &rarr; System Info</a></code> report to the email.</li>
+				<li>Download and attach the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!console' ); ?>">Tools &rarr; Console</a></code> log file to the email (but only if it's not empty!)</li>
 			</ul>
 		</div>
 	</div>

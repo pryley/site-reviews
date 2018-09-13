@@ -9,7 +9,7 @@
 		</button>
 	</div>
 	<div class="inside">
-		<p>This shortcode displays your most recently submitted reviews.</p>
+		<p class="glsr-heading">This shortcode displays your most recently submitted reviews.</p>
 
 		<code>assigned_to="100,101"</code>
 		<p>Include the "assigned_to" attribute to limit reviews to those assigned to a specific page/post ID. Accepted values are either one or more post/page ID's (separated by commas), or "post_id" which will use the ID of the current page.</p>
@@ -56,7 +56,7 @@
 		</button>
 	</div>
 	<div class="inside">
-		<p>This shortcode displays the review submission form.</p>
+		<p class="glsr-heading">This shortcode displays the review submission form.</p>
 
 		<code>assign_to="101"</code>
 		<p>The "assign_to" attribute allows you to automatically assign submitted reviews to a post or page. Accepted values are either one or more post/page ID's (separated by commas), or "post_id" which will assign reviews to the ID of the current page.</p>
@@ -90,7 +90,7 @@
 		</button>
 	</div>
 	<div class="inside">
-		<p>This shortcode displays a summary of your reviews.</p>
+		<p class="glsr-heading">This shortcode displays a summary of your reviews.</p>
 
 		<code>assigned_to="100,101"</code>
 		<p>Include the "assigned_to" attribute to limit the reviews used to calculate the average rating to those assigned to a specific page/post ID. Accepted values are either one or more post/page ID's (separated by commas), or "post_id" which will use the ID of the current page.</p>
