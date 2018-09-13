@@ -1,5 +1,4 @@
 # PRE-LAUNCH
-- [ ] test all deprecated hooks that have been given out to people
 - [ ] test settings migration
 
 # POST-LAUNCH

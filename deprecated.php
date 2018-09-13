@@ -8,7 +8,7 @@ add_action( 'site-reviews/review/created', function( $review ) {
 		glsr()->deprecated[] = 'The "site-reviews/local/review/create" hook has been deprecated. Please use the "site-reviews/create/review" hook instead.';
 		do_action( 'site-reviews/local/review/create', (array)get_post( $review->ID ), (array)$review, $review->ID );
 	}
-});
+}, 9 );
 
 // Handlers/CreateReview.php
 add_action( 'site-reviews/review/submitted', function( $review ) {
@@ -19,7 +19,7 @@ add_action( 'site-reviews/review/submitted', function( $review ) {
 	if( has_filter( 'site-reviews/local/review/submitted/message' )) {
 		glsr()->deprecated[] = 'The "site-reviews/local/review/submitted/message" hook has been deprecated.';
 	}
-});
+}, 9 );
 
 // Database/ReviewManager.php
 add_filter( 'site-reviews/create/review-values', function( $values, $command ) {
@@ -28,7 +28,7 @@ add_filter( 'site-reviews/create/review-values', function( $values, $command ) {
 		return apply_filters( 'site-reviews/local/review', $values, $command );
 	}
 	return $values;
-}, 10, 2 );
+}, 9, 2 );
 
 // Handlers/EnqueuePublicAssets.php
 add_filter( 'site-reviews/enqueue/public/localize', function( $variables ) {
@@ -37,7 +37,7 @@ add_filter( 'site-reviews/enqueue/public/localize', function( $variables ) {
 		return apply_filters( 'site-reviews/enqueue/localize', $variables );
 	}
 	return $variables;
-});
+}, 9 );
 
 // Modules/Rating.php
 add_filter( 'site-reviews/rating/average', function( $average ) {
@@ -45,7 +45,7 @@ add_filter( 'site-reviews/rating/average', function( $average ) {
 		glsr()->deprecated[] = 'The "site-reviews/average/rating" hook has been deprecated. Please use the "site-reviews/rating/average" hook instead.';
 	}
 	return $average;
-});
+}, 9 );
 
 // Modules/Rating.php
 add_filter( 'site-reviews/rating/ranking', function( $ranking ) {
@@ -53,13 +53,10 @@ add_filter( 'site-reviews/rating/ranking', function( $ranking ) {
 		glsr()->deprecated[] = 'The "site-reviews/bayesian/ranking" hook has been deprecated. Please use the "site-reviews/rating/ranking" hook instead.';
 	}
 	return $ranking;
-});
+}, 9 );
 
 // Modules/Html/Partials/SiteReviews.php
 add_filter( 'site-reviews/review/build/after', function( $renderedFields ) {
-	if( has_filter( 'site-reviews/rendered/field' )) {
-		glsr()->deprecated[] = 'The "site-reviews/rendered/field" hook has been deprecated. Please use the "site-reviews/review/build/after" hook instead.';
-	}
 	if( has_filter( 'site-reviews/reviews/review/text' )) {
 		glsr()->deprecated[] = 'The "site-reviews/reviews/review/text" hook has been deprecated. Please use the "site-reviews/review/build/after" hook instead.';
 	}
@@ -67,7 +64,7 @@ add_filter( 'site-reviews/review/build/after', function( $renderedFields ) {
 		glsr()->deprecated[] = 'The "site-reviews/reviews/review/title" hook has been deprecated. Please use the "site-reviews/review/build/after" hook instead.';
 	}
 	return $renderedFields;
-});
+}, 9 );
 
 // Modules/Html/Partials/SiteReviews.php
 add_filter( 'site-reviews/review/build/before', function( $review ) {
@@ -87,11 +84,30 @@ add_filter( 'site-reviews/review/build/before', function( $review ) {
 		glsr()->deprecated[] = 'The "site-reviews/reviews/navigation_links" hook has been deprecated. Please use a custom "pagination.php" template instead (refer to the documentation).';
 	}
 	return $review;
-});
+}, 9 );
+
+add_filter( 'site-reviews/validate/custom', function( $result, $request ) {
+	if( has_filter( 'site-reviews/validate/review/submission' )) {
+		glsr_log()->notice( 'The "site-reviews/validate/review/submission" hook has been deprecated. Please use the "site-reviews/validate/custom" hook instead.' );
+		return apply_filters( 'site-reviews/validate/review/submission', $result, $request );
+	}
+	return $result;
+}, 9, 2 );
+
+add_filter( 'site-reviews/views/file', function( $file, $view, $data ) {
+	if( has_filter( 'site-reviews/addon/views/file' )) {
+		glsr()->deprecated[] = 'The "site-reviews/addon/views/file" hook has been deprecated. Please use the "site-reviews/views/file" hook instead.';
+		$file = apply_filters( 'site-reviews/addon/views/file', $file, $view, $data );
+	}
+	return $file;
+}, 9, 3 );
 
 add_action( 'wp_footer', function() {
 	$notices = array_keys( array_flip( glsr()->deprecated ));
+	natsort( $notices );
 	foreach( $notices as $notice ) {
 		glsr_log()->notice( $notice );
+		apply_filters( 'console', $notice ); // Show in Blackbar plugin if installed
 	}
-}, 99 );
+});
+
