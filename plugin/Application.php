@@ -21,6 +21,7 @@ final class Application extends Container
 	const TAXONOMY = 'site-review-category';
 
 	public $defaults;
+	public $deprecated = [];
 	public $file;
 	public $languages;
 	public $mceShortcodes = []; //defined elsewhere
