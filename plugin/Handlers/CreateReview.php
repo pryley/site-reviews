@@ -22,7 +22,6 @@ class CreateReview
 		}
 		glsr( Session::class )->set( $command->form_id.'message', __( 'Your review has been submitted!', 'site-reviews' ));
 		glsr( Notification::class )->send( $review );
-		do_action( 'site-reviews/review/submitted', $review );
 		if( $command->ajax_request )return;
 		wp_safe_redirect( $this->getReferer( $command ));
 		exit;

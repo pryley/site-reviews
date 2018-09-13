@@ -3,9 +3,8 @@
     site-reviews/addon/register
     site-reviews/addon/settings/{tab}
     site-reviews/builder
-    site-reviews/create/review
+    site-reviews/review/created
     site-reviews/customize/{style}
-    site-reviews/local/review/submitted
     site-reviews/route/{request_type}/request
 
 ## Filters
