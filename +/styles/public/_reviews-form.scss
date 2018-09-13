@@ -22,10 +22,6 @@ form.glsr-form {
 		margin: 0;
 	}
 
-	:not(.glsr-review-avatar) + .glsr-review-author::before {
-		content: '\2014'; // &mdash;
-	}
-
 	input.glsr-field-control,
 	textarea.glsr-field-control {
 		line-height: 1.5;

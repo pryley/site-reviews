@@ -38,6 +38,9 @@
 	.glsr-review-avatar + .glsr-review-author {
 		margin-top: 0.5em;
 	}
+	*:not(.glsr-review-avatar) + .glsr-review-author::before {
+		content: '\2014'; // &mdash;
+	}
 	.glsr-review-avatar img {
 		display: block;
 	}
