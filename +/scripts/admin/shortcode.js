@@ -1,4 +1,4 @@
-/** global: editor, GLSR, jQuery, tinymce */
+/** global: editor, GLSR, jQuery, tinymce, tinyMCEPreInit */
 ;(function( $ ) {
 
 	'use strict';
@@ -50,6 +50,7 @@
 			$( 'body' ).append( '<textarea id="scTemp" style="display:none!important;"/>' );
 			tinymce.init({
 				elements: 'scTemp',
+				external_plugins: GLSR.tinymce,
 				mode: 'exact',
 				plugins: ['glsr_shortcode', 'wplink'],
 			});

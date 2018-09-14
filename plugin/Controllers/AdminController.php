@@ -82,8 +82,7 @@ class AdminController extends Controller
 	 */
 	public function filterTinymcePlugins( array $plugins )
 	{
-		if( user_can_richedit()
-			&& ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ))) {
+		if( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' )) {
 			$plugins['glsr_shortcode'] = glsr()->url( 'assets/scripts/mce-plugin.js' );
 		}
 		return $plugins;
