@@ -5,6 +5,7 @@
 
 	GLSR.Recaptcha = function( Form ) { // Form object
 		this.Form = Form;
+		this.counter = 0;
 		this.id = -1;
 	};
 
@@ -13,10 +14,15 @@
 		/** @return void */
 		execute_: function() {
 			if( this.id !== -1 ) {
+				this.counter = 0;
+				this.Form.enableButton_();
 				grecaptcha.execute( this.id );
 				return;
 			}
-			this.submitForm_.call( this.Form, 'invalid' );
+			setTimeout( function() {
+				this.counter++;
+				this.submitForm_.call( this.Form, this.counter );
+			}.bind( this ), 1000 );
 		},
 
 		/** @return void */
@@ -35,7 +41,7 @@
 					return this.renderWait_( recaptchaEl );
 				}
 				this.id = grecaptcha.render( recaptchaEl, {
-					callback: this.submitForm_.bind( this.Form ),
+					callback: this.submitForm_.bind( this.Form, this.counter ),
 					'expired-callback': this.reset_.bind( this ),
 					isolated: true,
 				}, true );
@@ -44,23 +50,24 @@
 
 		/** @return void */
 		reset_: function() {
+			this.counter = 0;
 			if( this.id !== -1 ) {
 				grecaptcha.reset( this.id );
 			}
 		},
 
 		/** @return void */
-		submitForm_: function( token ) { // string
+		submitForm_: function( counter ) { // int
 			var tokenEl = this.form['g-recaptcha-response'];
 			if( tokenEl ) {
-				tokenEl.value = token;
+				tokenEl.value = 'invalid';
 			}
 			if( !this.useAjax ) {
 				this.disableButton_();
 				this.form.submit();
 				return;
 			}
-			this.submitForm_();
+			this.submitForm_( counter );
 		},
 	};
 })();

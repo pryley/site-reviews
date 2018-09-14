@@ -54,6 +54,7 @@
     site-reviews/rating/average
     site-reviews/rating/ranking
     site-reviews/recaptcha/language
+    site-reviews/recaptcha/timeout
     site-reviews/render/view
     site-reviews/rendered/field
     site-reviews/rendered/partial

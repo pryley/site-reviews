@@ -33,8 +33,8 @@
 		/** @return void */
 		handleResponse_: function( response, success ) { // object
 			if( response.recaptcha === 'unset' ) {
-				this.enableButton_();
-				return this.recaptcha.execute_();
+				this.recaptcha.execute_();
+				return;
 			}
 			if( response.recaptcha === 'reset' ) {
 				this.recaptcha.reset_();
@@ -127,13 +127,14 @@
 		},
 
 		/** @return void */
-		submitForm_: function() { // string|null
+		submitForm_: function( counter ) { // int|null
 			var ajax = new GLSR.Ajax();
 			if( !ajax.isFormDataSupported_() ) {
 				this.showResults_( this.strings.unsupported, false );
 				return;
 			}
 			this.disableButton_();
+			this.form[GLSR.nameprefix + '[counter]'].value = counter || 0;
 			(new GLSR.Ajax()).post_( this.form, this.handleResponse_.bind( this ));
 		},
 	};

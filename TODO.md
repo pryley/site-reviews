@@ -1,9 +1,8 @@
 # PRE-LAUNCH
-- [ ] FIX: submitting a form with hidden fields results in an infinite loop...
+- [ ] fix conditional setting fields (javascript)
 
 # POST-LAUNCH
 - [ ] add a notice similar to Polylang: "We have noticed that you are using Site Review for some time. We hope that you love it! We would be thrilled if you could give us a [5 stars rating](...)."
-- [ ] add timeout error for recaptcha
 - [ ] contact user who requested help with the submission-form in a magnific-popup (custom javascript)
 - [ ] update pastebin examples
       - https://pastebin.com/N82SuESJ

@@ -184,6 +184,8 @@ class SiteReviewsForm
 			'name' => 'category',
 			'value' => $this->args['category'],
 		],[
+			'name' => 'counter',
+		],[
 			'name' => 'excluded',
 			'value' => $this->args['hide'],
 		],[
