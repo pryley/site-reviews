@@ -584,51 +584,51 @@ msgstr "Console cleared."
 msgid "Console reloaded."
 msgstr "Console reloaded."
 
-#: plugin/Controllers/AdminController.php:185
+#: plugin/Controllers/AdminController.php:187
 msgid "Recalculated rating counts."
 msgstr "Recalculated rating counts."
 
-#: plugin/Controllers/AdminController.php:222
+#: plugin/Controllers/AdminController.php:225
 msgid "Please use a valid Site Reviews settings file."
 msgstr "Please use a valid Site Reviews settings file."
 
-#: plugin/Controllers/AdminController.php:226
+#: plugin/Controllers/AdminController.php:229
 msgid "There were no settings found to import."
 msgstr "There were no settings found to import."
 
-#: plugin/Controllers/AdminController.php:229
+#: plugin/Controllers/AdminController.php:232
 msgid "Settings imported."
 msgstr "Settings imported."
 
-#: plugin/Controllers/AdminController.php:239
+#: plugin/Controllers/AdminController.php:242
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
 msgstr "The uploaded file exceeds the upload_max_filesize directive in php.ini."
 
-#: plugin/Controllers/AdminController.php:240
+#: plugin/Controllers/AdminController.php:243
 msgid "The uploaded file is too big."
 msgstr "The uploaded file is too big."
 
-#: plugin/Controllers/AdminController.php:241
+#: plugin/Controllers/AdminController.php:244
 msgid "The uploaded file was only partially uploaded."
 msgstr "The uploaded file was only partially uploaded."
 
-#: plugin/Controllers/AdminController.php:242
+#: plugin/Controllers/AdminController.php:245
 msgid "No file was uploaded."
 msgstr "No file was uploaded."
 
-#: plugin/Controllers/AdminController.php:243
+#: plugin/Controllers/AdminController.php:246
 msgid "Missing a temporary folder."
 msgstr "Missing a temporary folder."
 
-#: plugin/Controllers/AdminController.php:244
+#: plugin/Controllers/AdminController.php:247
 msgid "Failed to write file to disk."
 msgstr "Failed to write file to disk."
 
-#: plugin/Controllers/AdminController.php:245
+#: plugin/Controllers/AdminController.php:248
 msgid "A PHP extension stopped the file upload."
 msgstr "A PHP extension stopped the file upload."
 
-#: plugin/Controllers/AdminController.php:248
+#: plugin/Controllers/AdminController.php:251
 msgid "Unknown upload error."
 msgstr "Unknown upload error."
 
@@ -1454,7 +1454,7 @@ msgstr "Sync your Tripadvisor reviews and display them on your site."
 msgid "Sync your Yelp reviews and display them on your site."
 msgstr "Sync your Yelp reviews and display them on your site."
 
-#: views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:38, views/pages/documentation/faq.php:66, views/pages/documentation/faq.php:92, views/pages/documentation/faq.php:105, views/pages/documentation/faq.php:131, views/pages/documentation/faq.php:144, views/pages/documentation/functions.php:9, views/pages/documentation/functions.php:36, views/pages/documentation/functions.php:58, views/pages/documentation/functions.php:86, views/pages/documentation/functions.php:111, views/pages/documentation/functions.php:132, views/pages/documentation/functions.php:172, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:31, views/pages/documentation/hooks.php:53, views/pages/documentation/hooks.php:71, views/pages/documentation/hooks.php:89, views/pages/documentation/hooks.php:108, views/pages/documentation/hooks.php:131, views/pages/documentation/hooks.php:155, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:54, views/pages/documentation/shortcodes.php:88, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:64
+#: views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:38, views/pages/documentation/faq.php:66, views/pages/documentation/faq.php:92, views/pages/documentation/faq.php:105, views/pages/documentation/faq.php:131, views/pages/documentation/faq.php:157, views/pages/documentation/faq.php:170, views/pages/documentation/functions.php:9, views/pages/documentation/functions.php:54, views/pages/documentation/functions.php:76, views/pages/documentation/functions.php:104, views/pages/documentation/functions.php:129, views/pages/documentation/functions.php:150, views/pages/documentation/functions.php:190, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:31, views/pages/documentation/hooks.php:53, views/pages/documentation/hooks.php:71, views/pages/documentation/hooks.php:89, views/pages/documentation/hooks.php:108, views/pages/documentation/hooks.php:131, views/pages/documentation/hooks.php:155, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:54, views/pages/documentation/shortcodes.php:88, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:64
 msgid "Toggle documentation panel"
 msgstr "Toggle documentation panel"
 

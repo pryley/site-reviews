@@ -12,6 +12,17 @@ function glsr( $alias = null ) {
 }
 
 /**
+ * @return false|\GeminiLabs\SiteReviews\Review
+ */
+function glsr_create_review( array $reviewValues = [] ) {
+	if( empty( $reviewValues )) {
+		return false;
+	}
+	$review = new \GeminiLabs\SiteReviews\Commands\CreateReview( $reviewValues );
+	return glsr( 'Database\ReviewManager' )->create( $review );
+}
+
+/**
  * @return \WP_Screen|object
  */
 function glsr_current_screen() {

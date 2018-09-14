@@ -14,6 +14,7 @@ class CreateReview
 	public $category;
 	public $content;
 	public $custom;
+	public $date;
 	public $email;
 	public $form_id;
 	public $ip_address;
@@ -36,6 +37,7 @@ class CreateReview
 		$this->category = sanitize_key( $this->get( 'category' ));
 		$this->content = sanitize_textarea_field( $this->get( 'content' ));
 		$this->custom = $this->getCustom();
+		$this->date = $this->getDate( 'date' );
 		$this->email = sanitize_email( $this->get( 'email' ));
 		$this->form_id = sanitize_key( $this->get( 'form_id' ));
 		$this->ip_address = $this->get( 'ip_address' );
@@ -72,6 +74,19 @@ class CreateReview
 			unset( $custom[$value] );
 		}
 		return $custom;
+	}
+
+	/**
+	 * @param string $key
+	 * @return string
+	 */
+	protected function getDate( $key )
+	{
+		$date = strtotime( $this->get( $key ));
+		if( $date === false ) {
+			$date = time();
+		}
+		return get_date_from_gmt( gmdate( 'Y-m-d H:i:s', $date ));
 	}
 
 	/**
