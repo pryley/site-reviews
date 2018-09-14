@@ -37,8 +37,9 @@ scripts:
 watch:
   js: +/scripts/**/*.js
   php:
-    - config/*.php
+    - config/**/*.php
     - plugin/**/*.php
+    - templates/**/*.php
     - views/**/*.php
     - '*.php'
   scss: +/styles/**/*.scss
