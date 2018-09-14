@@ -346,11 +346,11 @@ msgstr ""
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:292, plugin/Controllers/EditorController.php:298, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsButton.php:33, plugin/Shortcodes/SiteReviewsButton.php:106, plugin/Shortcodes/SiteReviewsSummaryButton.php:60
+#: config/settings.php:292, plugin/Controllers/EditorController.php:298, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsFormPopup.php:62, plugin/Shortcodes/SiteReviewsPopup.php:33, plugin/Shortcodes/SiteReviewsPopup.php:106, plugin/Shortcodes/SiteReviewsSummaryPopup.php:60
 msgid "Rating"
 msgstr ""
 
-#: config/settings.php:293, plugin/Defaults/PostTypeDefaults.php:17, plugin/Shortcodes/SiteReviewsButton.php:20, plugin/Shortcodes/SiteReviewsButton.php:116, plugin/Shortcodes/SiteReviewsFormButton.php:19, plugin/Shortcodes/SiteReviewsFormButton.php:62, plugin/Shortcodes/SiteReviewsSummaryButton.php:19, plugin/Widgets/SiteReviewsFormWidget.php:21, plugin/Widgets/SiteReviewsSummaryWidget.php:21, plugin/Widgets/SiteReviewsWidget.php:21
+#: config/settings.php:293, plugin/Defaults/PostTypeDefaults.php:17, plugin/Shortcodes/SiteReviewsFormPopup.php:19, plugin/Shortcodes/SiteReviewsFormPopup.php:72, plugin/Shortcodes/SiteReviewsPopup.php:20, plugin/Shortcodes/SiteReviewsPopup.php:116, plugin/Shortcodes/SiteReviewsSummaryPopup.php:19, plugin/Widgets/SiteReviewsFormWidget.php:21, plugin/Widgets/SiteReviewsSummaryWidget.php:21, plugin/Widgets/SiteReviewsWidget.php:21
 msgid "Title"
 msgstr ""
 
@@ -358,15 +358,15 @@ msgstr ""
 msgid "Review"
 msgstr ""
 
-#: config/settings.php:295, plugin/Controllers/EditorController.php:301, plugin/Shortcodes/SiteReviewsFormButton.php:52
+#: config/settings.php:295, plugin/Controllers/EditorController.php:301, plugin/Shortcodes/SiteReviewsFormPopup.php:57
 msgid "Name"
 msgstr ""
 
-#: config/settings.php:296, plugin/Controllers/EditorController.php:302, plugin/Shortcodes/SiteReviewsFormButton.php:47
+#: config/settings.php:296, plugin/Controllers/EditorController.php:302, plugin/Shortcodes/SiteReviewsFormPopup.php:52
 msgid "Email"
 msgstr ""
 
-#: config/settings.php:297, plugin/Shortcodes/SiteReviewsFormButton.php:57
+#: config/settings.php:297, plugin/Shortcodes/SiteReviewsFormPopup.php:67
 msgid "Terms"
 msgstr ""
 
@@ -555,75 +555,75 @@ msgid_plural "%s Reviews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/AdminController.php:99, plugin/Controllers/MainController.php:84
+#: plugin/Controllers/AdminController.php:98, plugin/Controllers/MainController.php:84
 msgid "Recent Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:100, plugin/Controllers/MainController.php:89
+#: plugin/Controllers/AdminController.php:99, plugin/Controllers/MainController.php:89
 msgid "Submit a Review"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:101, plugin/Controllers/MainController.php:94
+#: plugin/Controllers/AdminController.php:100, plugin/Controllers/MainController.php:94
 msgid "Summary of Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:125
+#: plugin/Controllers/AdminController.php:124
 msgid "This review is read-only."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:156
+#: plugin/Controllers/AdminController.php:155
 msgid "Console cleared."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:164
+#: plugin/Controllers/AdminController.php:163
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:187
+#: plugin/Controllers/AdminController.php:186
 msgid "Recalculated rating counts."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:225
+#: plugin/Controllers/AdminController.php:224
 msgid "Please use a valid Site Reviews settings file."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:229
+#: plugin/Controllers/AdminController.php:228
 msgid "There were no settings found to import."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:232
+#: plugin/Controllers/AdminController.php:231
 msgid "Settings imported."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:242
+#: plugin/Controllers/AdminController.php:241
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:243
+#: plugin/Controllers/AdminController.php:242
 msgid "The uploaded file is too big."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:244
+#: plugin/Controllers/AdminController.php:243
 msgid "The uploaded file was only partially uploaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:245
+#: plugin/Controllers/AdminController.php:244
 msgid "No file was uploaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:246
+#: plugin/Controllers/AdminController.php:245
 msgid "Missing a temporary folder."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:247
+#: plugin/Controllers/AdminController.php:246
 msgid "Failed to write file to disk."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:248
+#: plugin/Controllers/AdminController.php:247
 msgid "A PHP extension stopped the file upload."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:251
+#: plugin/Controllers/AdminController.php:250
 msgid "Unknown upload error."
 msgstr ""
 
@@ -635,7 +635,7 @@ msgstr ""
 msgid "Nothing found."
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:93, plugin/Controllers/MainController.php:27, plugin/Shortcodes/SiteReviewsButton.php:81, views/partials/editor/bulk-edit-assigned-to.php:7
+#: plugin/Controllers/EditorController.php:93, plugin/Controllers/MainController.php:27, plugin/Shortcodes/SiteReviewsPopup.php:59, plugin/Shortcodes/SiteReviewsPopup.php:81, plugin/Shortcodes/SiteReviewsSummaryPopup.php:27, views/partials/editor/bulk-edit-assigned-to.php:7
 msgid "Assigned To"
 msgstr ""
 
@@ -679,7 +679,7 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:300, plugin/Defaults/PostTypeDefaults.php:18, plugin/Shortcodes/SiteReviewsButton.php:101
+#: plugin/Controllers/EditorController.php:300, plugin/Defaults/PostTypeDefaults.php:18, plugin/Shortcodes/SiteReviewsPopup.php:101
 msgid "Date"
 msgstr ""
 
@@ -691,7 +691,7 @@ msgstr ""
 msgid "IP Address"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:305, plugin/Shortcodes/SiteReviewsButton.php:91
+#: plugin/Controllers/EditorController.php:305, plugin/Shortcodes/SiteReviewsPopup.php:91
 msgid "Avatar"
 msgstr ""
 
@@ -750,7 +750,7 @@ msgstr ""
 msgid "Approved"
 msgstr ""
 
-#: plugin/Controllers/MainController.php:28, plugin/Shortcodes/SiteReviewsButton.php:86
+#: plugin/Controllers/MainController.php:28, plugin/Shortcodes/SiteReviewsPopup.php:86
 msgid "Author"
 msgstr ""
 
@@ -814,7 +814,7 @@ msgstr ""
 msgid "Submissions"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:103, plugin/Shortcodes/SiteReviewsButton.php:64, plugin/Shortcodes/SiteReviewsSummaryButton.php:32
+#: plugin/Controllers/MenuController.php:103, plugin/Shortcodes/SiteReviewsPopup.php:64, plugin/Shortcodes/SiteReviewsSummaryPopup.php:32
 msgid "Schema"
 msgstr ""
 
@@ -886,7 +886,7 @@ msgstr ""
 msgid "This field requires a valid e-mail address."
 msgstr ""
 
-#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/ValidateReview.php:241
+#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/ValidateReview.php:254
 msgid "Please fix the submission errors."
 msgstr ""
 
@@ -999,31 +999,6 @@ msgstr[1] ""
 msgid "This custom translation is no longer valid as the original text has been changed or removed."
 msgstr ""
 
-#: plugin/Shortcodes/ButtonGenerator.php:42
-msgid "Close"
-msgstr ""
-
-#: plugin/Shortcodes/ButtonGenerator.php:43
-msgid "Insert Shortcode"
-msgstr ""
-
-#: plugin/Shortcodes/ButtonGenerator.php:48
-msgid "Shortcode"
-msgstr ""
-
-#: plugin/Shortcodes/ButtonGenerator.php:146
-msgid "- Select -"
-msgstr ""
-
-#: plugin/Shortcodes/ButtonGenerator.php:250
-msgid "Some of the shortcode options are required."
-msgstr ""
-
-#: plugin/Shortcodes/ButtonGenerator.php:256
-msgctxt "the option label"
-msgid "The \"%s\" option is required."
-msgstr ""
-
 #: plugin/Shortcodes/Shortcode.php:133
 msgid "Excellent"
 msgstr ""
@@ -1044,210 +1019,243 @@ msgstr ""
 msgid "Terrible"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:16, plugin/Shortcodes/SiteReviewsFormButton.php:17, plugin/Shortcodes/SiteReviewsSummaryButton.php:15
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:17, plugin/Shortcodes/SiteReviewsPopup.php:16, plugin/Shortcodes/SiteReviewsSummaryPopup.php:15
 msgid "All settings are optional."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:22, plugin/Shortcodes/SiteReviewsFormButton.php:21, plugin/Shortcodes/SiteReviewsSummaryButton.php:21
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:21, plugin/Shortcodes/SiteReviewsPopup.php:22, plugin/Shortcodes/SiteReviewsSummaryPopup.php:21
 msgid "Enter a custom shortcode heading."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:25
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:24, plugin/Widgets/SiteReviewsFormWidget.php:26
+msgid "Description"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:29
+msgid "Enter a custom shortcode description."
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:34
+msgid "Assign To"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:36
+msgid "Assign submitted reviews to a custom page/post ID. You can also enter \"post_id\" to assign reviews to the ID of the current page."
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:39, plugin/Shortcodes/SiteReviewsPopup.php:73, plugin/Shortcodes/SiteReviewsSummaryPopup.php:41
+msgid "Classes"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:41, plugin/Shortcodes/SiteReviewsPopup.php:75, plugin/Shortcodes/SiteReviewsSummaryPopup.php:43
+msgid "Add custom CSS classes to the shortcode."
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:47, plugin/Shortcodes/SiteReviewsPopup.php:96
+msgid "Content"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:48
+msgid "Hide the content field?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:53
+msgid "Hide the email field?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:58
+msgid "Hide the name field?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:63
+msgid "Hide the rating field?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:68
+msgid "Hide the terms field?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:73
+msgid "Hide the title field?"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:76, plugin/Shortcodes/SiteReviewsPopup.php:121, plugin/Shortcodes/SiteReviewsSummaryPopup.php:74
+msgid "Hide"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:97, plugin/Shortcodes/SiteReviewsPopup.php:141
+msgid "Category"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormPopup.php:100
+msgid "Automatically assign a category to reviews submitted with this shortcode."
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsPopup.php:25
 msgid "Count"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:30
+#: plugin/Shortcodes/SiteReviewsPopup.php:30
 msgid "How many reviews would you like to display (default: 10)?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:36, plugin/Shortcodes/SiteReviewsButton.php:37, plugin/Shortcodes/SiteReviewsButton.php:38, plugin/Shortcodes/SiteReviewsButton.php:39, plugin/Shortcodes/SiteReviewsButton.php:40, plugin/Widgets/SiteReviewsWidget.php:35, plugin/Widgets/SiteReviewsWidget.php:36, plugin/Widgets/SiteReviewsWidget.php:37, plugin/Widgets/SiteReviewsWidget.php:38, plugin/Widgets/SiteReviewsWidget.php:39, plugin/Controllers/ListTableController/Columns.php:117
+#: plugin/Shortcodes/SiteReviewsPopup.php:36, plugin/Shortcodes/SiteReviewsPopup.php:37, plugin/Shortcodes/SiteReviewsPopup.php:38, plugin/Shortcodes/SiteReviewsPopup.php:39, plugin/Shortcodes/SiteReviewsPopup.php:40, plugin/Widgets/SiteReviewsWidget.php:35, plugin/Widgets/SiteReviewsWidget.php:36, plugin/Widgets/SiteReviewsWidget.php:37, plugin/Widgets/SiteReviewsWidget.php:38, plugin/Widgets/SiteReviewsWidget.php:39, plugin/Controllers/ListTableController/Columns.php:117
 msgid "%s star"
 msgid_plural "%s stars"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:41
+#: plugin/Shortcodes/SiteReviewsPopup.php:41
 msgid "Unrated"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:43
+#: plugin/Shortcodes/SiteReviewsPopup.php:43
 msgid "What is the minimum rating to display (default: 1 star)?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:46
+#: plugin/Shortcodes/SiteReviewsPopup.php:46
 msgid "Pagination"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:49
+#: plugin/Shortcodes/SiteReviewsPopup.php:49
 msgid "Enable"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:50
+#: plugin/Shortcodes/SiteReviewsPopup.php:50
 msgid "Enable (using ajax)"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:51
+#: plugin/Shortcodes/SiteReviewsPopup.php:51
 msgid "Disable"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:53
+#: plugin/Shortcodes/SiteReviewsPopup.php:53
 msgid "When using pagination this shortcode can only be used once on a page. (default: disable)"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:59, plugin/Shortcodes/SiteReviewsFormButton.php:34, plugin/Shortcodes/SiteReviewsSummaryButton.php:27
-msgid "Post ID"
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsButton.php:61, plugin/Shortcodes/SiteReviewsSummaryButton.php:29
+#: plugin/Shortcodes/SiteReviewsPopup.php:61, plugin/Shortcodes/SiteReviewsSummaryPopup.php:29
 msgid "Limit reviews to those assigned to this post ID (separate multiple IDs with a comma). You can also enter \"post_id\" to use the ID of the current page."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:67, plugin/Shortcodes/SiteReviewsSummaryButton.php:35
+#: plugin/Shortcodes/SiteReviewsPopup.php:67, plugin/Shortcodes/SiteReviewsSummaryPopup.php:35
 msgid "Enable rich snippets"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:68, plugin/Shortcodes/SiteReviewsSummaryButton.php:36
+#: plugin/Shortcodes/SiteReviewsPopup.php:68, plugin/Shortcodes/SiteReviewsSummaryPopup.php:36
 msgid "Disable rich snippets"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:70, plugin/Shortcodes/SiteReviewsSummaryButton.php:38
+#: plugin/Shortcodes/SiteReviewsPopup.php:70, plugin/Shortcodes/SiteReviewsSummaryPopup.php:38
 msgid "Rich snippets are disabled by default."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:73, plugin/Shortcodes/SiteReviewsFormButton.php:39, plugin/Shortcodes/SiteReviewsSummaryButton.php:41
-msgid "Classes"
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsButton.php:75, plugin/Shortcodes/SiteReviewsFormButton.php:41, plugin/Shortcodes/SiteReviewsSummaryButton.php:43
-msgid "Add custom CSS classes to the shortcode."
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsButton.php:82, plugin/Widgets/SiteReviewsWidget.php:73
+#: plugin/Shortcodes/SiteReviewsPopup.php:82, plugin/Widgets/SiteReviewsWidget.php:73
 msgid "Hide the assigned to link?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:87, plugin/Widgets/SiteReviewsWidget.php:74
+#: plugin/Shortcodes/SiteReviewsPopup.php:87, plugin/Widgets/SiteReviewsWidget.php:74
 msgid "Hide the review author?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:92, plugin/Widgets/SiteReviewsWidget.php:75
+#: plugin/Shortcodes/SiteReviewsPopup.php:92, plugin/Widgets/SiteReviewsWidget.php:75
 msgid "Hide the reviewer avatar if shown?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:96
-msgid "Content"
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsButton.php:97, plugin/Widgets/SiteReviewsWidget.php:76
+#: plugin/Shortcodes/SiteReviewsPopup.php:97, plugin/Widgets/SiteReviewsWidget.php:76
 msgid "Hide the review content?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:102, plugin/Widgets/SiteReviewsWidget.php:77
+#: plugin/Shortcodes/SiteReviewsPopup.php:102, plugin/Widgets/SiteReviewsWidget.php:77
 msgid "Hide the review date?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:107, plugin/Widgets/SiteReviewsWidget.php:78
+#: plugin/Shortcodes/SiteReviewsPopup.php:107, plugin/Widgets/SiteReviewsWidget.php:78
 msgid "Hide the review rating?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:111
+#: plugin/Shortcodes/SiteReviewsPopup.php:111
 msgid "Response"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:112, plugin/Widgets/SiteReviewsWidget.php:79
+#: plugin/Shortcodes/SiteReviewsPopup.php:112, plugin/Widgets/SiteReviewsWidget.php:79
 msgid "Hide the review response?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:117, plugin/Widgets/SiteReviewsWidget.php:80
+#: plugin/Shortcodes/SiteReviewsPopup.php:117, plugin/Widgets/SiteReviewsWidget.php:80
 msgid "Hide the review title?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:121, plugin/Shortcodes/SiteReviewsFormButton.php:66, plugin/Shortcodes/SiteReviewsSummaryButton.php:74
-msgid "Hide"
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsButton.php:141, plugin/Shortcodes/SiteReviewsFormButton.php:87
-msgid "Category"
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsButton.php:144
+#: plugin/Shortcodes/SiteReviewsPopup.php:144
 msgid "Limit reviews to this category."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:158
+#: plugin/Shortcodes/SiteReviewsPopup.php:158
 msgid "Display"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsButton.php:161, plugin/Widgets/SiteReviewsWidget.php:45
+#: plugin/Shortcodes/SiteReviewsPopup.php:161, plugin/Widgets/SiteReviewsWidget.php:45
 msgid "Which reviews would you like to display?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormButton.php:24, plugin/Widgets/SiteReviewsFormWidget.php:26
-msgid "Description"
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsFormButton.php:29
-msgid "Enter a custom shortcode description."
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsFormButton.php:36
-msgid "Assign submitted reviews to a custom page/post ID. You can also enter \"post_id\" to assign reviews to the ID of the current page."
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsFormButton.php:48
-msgid "Hide the email field?"
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsFormButton.php:53
-msgid "Hide the name field?"
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsFormButton.php:58
-msgid "Hide the terms field?"
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsFormButton.php:63
-msgid "Hide the title field?"
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsFormButton.php:90
-msgid "Automatically assign a category to reviews submitted with this shortcode."
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsSummaryButton.php:50
+#: plugin/Shortcodes/SiteReviewsSummaryPopup.php:50
 msgid "Bars"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryButton.php:51, plugin/Widgets/SiteReviewsSummaryWidget.php:55
+#: plugin/Shortcodes/SiteReviewsSummaryPopup.php:51, plugin/Widgets/SiteReviewsSummaryWidget.php:55
 msgid "Hide the percentage bars?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryButton.php:55
+#: plugin/Shortcodes/SiteReviewsSummaryPopup.php:55
 msgid "If Empty"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryButton.php:56, plugin/Widgets/SiteReviewsSummaryWidget.php:59
+#: plugin/Shortcodes/SiteReviewsSummaryPopup.php:56, plugin/Widgets/SiteReviewsSummaryWidget.php:59
 msgid "Hide the summary if no reviews are found?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryButton.php:61, plugin/Widgets/SiteReviewsSummaryWidget.php:56
+#: plugin/Shortcodes/SiteReviewsSummaryPopup.php:61, plugin/Widgets/SiteReviewsSummaryWidget.php:56
 msgid "Hide the rating?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryButton.php:65
+#: plugin/Shortcodes/SiteReviewsSummaryPopup.php:65
 msgid "Stars"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryButton.php:66, plugin/Widgets/SiteReviewsSummaryWidget.php:57
+#: plugin/Shortcodes/SiteReviewsSummaryPopup.php:66, plugin/Widgets/SiteReviewsSummaryWidget.php:57
 msgid "Hide the stars?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryButton.php:70
+#: plugin/Shortcodes/SiteReviewsSummaryPopup.php:70
 msgid "Summary"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsSummaryButton.php:71, plugin/Widgets/SiteReviewsSummaryWidget.php:58
+#: plugin/Shortcodes/SiteReviewsSummaryPopup.php:71, plugin/Widgets/SiteReviewsSummaryWidget.php:58
 msgid "Hide the summary text?"
+msgstr ""
+
+#: plugin/Shortcodes/TinymcePopupGenerator.php:42
+msgid "Close"
+msgstr ""
+
+#: plugin/Shortcodes/TinymcePopupGenerator.php:43
+msgid "Insert Shortcode"
+msgstr ""
+
+#: plugin/Shortcodes/TinymcePopupGenerator.php:48
+msgid "Shortcode"
+msgstr ""
+
+#: plugin/Shortcodes/TinymcePopupGenerator.php:146
+msgid "- Select -"
+msgstr ""
+
+#: plugin/Shortcodes/TinymcePopupGenerator.php:250
+msgid "Some of the shortcode options are required."
+msgstr ""
+
+#: plugin/Shortcodes/TinymcePopupGenerator.php:256
+msgctxt "the option label"
+msgid "The \"%s\" option is required."
 msgstr ""
 
 #: plugin/Widgets/SiteReviewsFormWidget.php:31
@@ -1275,14 +1283,22 @@ msgid "Hide the email field"
 msgstr ""
 
 #: plugin/Widgets/SiteReviewsFormWidget.php:51
-msgid "Hide the name field"
+msgid "Hide the content field"
 msgstr ""
 
 #: plugin/Widgets/SiteReviewsFormWidget.php:52
-msgid "Hide the terms field"
+msgid "Hide the name field"
 msgstr ""
 
 #: plugin/Widgets/SiteReviewsFormWidget.php:53
+msgid "Hide the rating field"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsFormWidget.php:54
+msgid "Hide the terms field"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsFormWidget.php:55
 msgid "Hide the title field"
 msgstr ""
 
@@ -1406,23 +1422,27 @@ msgstr ""
 msgid "All types"
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:172
+#: plugin/Modules/Validator/ValidateReview.php:181
 msgid "Your review cannot be submitted at this time. Please try again later."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:185
+#: plugin/Modules/Validator/ValidateReview.php:194
 msgid "Your review cannot be submitted at this time."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:203, plugin/Modules/Validator/ValidateReview.php:214
+#: plugin/Modules/Validator/ValidateReview.php:212, plugin/Modules/Validator/ValidateReview.php:223
 msgid "The review submission failed. Please notify the site administrator."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:231
+#: plugin/Modules/Validator/ValidateReview.php:242
+msgid "The reCAPTCHA failed to load, please refresh the page and try again."
+msgstr ""
+
+#: plugin/Modules/Validator/ValidateReview.php:243
 msgid "The reCAPTCHA verification failed, please try again."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:245, plugin/Modules/Html/Partials/SiteReviews.php:212
+#: plugin/Modules/Validator/ValidateReview.php:258, plugin/Modules/Html/Partials/SiteReviews.php:212
 msgid "No Title"
 msgstr ""
 
