@@ -132,18 +132,19 @@ All documentation can be found in the "Get Help" page of the plugin. You can als
 
 == Changelog ==
 
-= 3.0.0 (2018-08-??) =
+= 3.0.0 (2018-09-??) =
 
 - !! Complete rewrite of Site Reviews
 - !! Dropped support for legacy web browsers (supports all modern browsers and IE11+)
 - !! Dropped support for the twentyten to twentyfourteen themes
 - !! Requires PHP 5.6 or greater and WordPress 4.7 or greater
-- Added export/Import plugin settings
+- Added export/import plugin tools
 - Added extended avatar options
 - Added form styles to match popular themes and form plugins
 - Added Polylang support for multilingual websites
 - Added support for Asian languages in excerpt lengths
 - Added support for multiple notifications when a review has been submitted
+- Added templates for easy cutomisation of the shortcode and widget HTML
 - Improved documentation
-- Improved performance for sites with thousands of reviews
+- Improved performance, especially for sites with thousands of reviews
 - Improved reCAPTCHA compatibility with other plugins
