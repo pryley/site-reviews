@@ -1,10 +1,10 @@
 <?php defined( 'WPINC' ) || die; ?>
 
-<p>The following helper functions will only work if the <?= glsr()->name; ?> plugin is active. If you use any of them in a theme, make sure you add <a href="https://php.net/manual/en/function.function-exists.php">function_exists</a> checks to your theme's <code>functions.php</code> file for each helper function you use.</p>
+<p>Make sure to add a <a href="https://php.net/manual/en/function.function-exists.php">function_exists</a> check for each helper function used.</p>
 
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">
-		<h3>Global application helper</h3>
+		<h3>Helper function to create a review</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
 			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
 			<span class="toggle-indicator" aria-hidden="true"></span>
@@ -12,26 +12,44 @@
 	</div>
 	<div class="inside">
 		<pre><code class="php">/**
- * @param null|mixed $alias
- * @return mixed
+ * Default values in the $reviewValues array:
+ * - 'assigned_to' => '',
+ * - 'author' => '',
+ * - 'avatar' => '',
+ * - 'content' => '',
+ * - 'date' => '',
+ * - 'email' => '',
+ * - 'ip_address' => '',
+ * - 'pinned' => false,
+ * - 'rating' => 0,
+ * - 'response' => '',
+ * - 'title' => '',
+ * - 'url' => '',
+ * @return false|\GeminiLabs\SiteReviews\Review
  */
-glsr( $alias = null );</code></pre>
-		<p>This function returns the application instance. You can either pass it a namespaced class name from the plugin to resolve and return that class, or use it to return global plugin variables.</p>
+glsr_create_review( array $reviewValues = [] );</code></pre>
 		<p><strong>Example Usage:</strong></p>
-		<pre><code class="php">if( function_exists( 'glsr' )) {
-	$pluginName = glsr()->name; // <?= glsr()->name; ?>
-
-	$pluginVersion = glsr()->version; // <?= glsr()->version; ?>
-
-	$ipAddress = glsr( 'GeminiLabs\SiteReviews\Helper' )->getIpAddress(); // <?= glsr( 'Helper' )->getIpAddress(); ?>
-
+		<p>Any custom keys that are added to the $reviewValues array will be saved into the <code>$review->custom</code> array of the created review.</p>
+		<pre><code class="php">if( function_exists( 'glsr_create_review' )) {
+	$review = glsr_create_review([
+		'author' => 'Jane Doe',
+		'content' => 'This is my review.',
+		'date' => '2018-06-13',
+		'email' => 'jane@doe.com',
+		'rating' => 5,
+		'title' => 'Fantastic plugin!',
+		'xyz' => 'This is a custom field!'
+	]);
 }</code></pre>
+		<p><strong>Helpful Tip:</strong></p>
+		<p>You can use the debug helper to view the review object that is returned.</p>
+		<pre><code class="php">glsr_debug( $review );</code></pre>
 	</div>
 </div>
 
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">
-		<h3>Global helper to debug variables</h3>
+		<h3>Helper function to debug variables</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
 			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
 			<span class="toggle-indicator" aria-hidden="true"></span>
@@ -53,7 +71,7 @@ glsr_debug( ...$variable );</code></pre>
 
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">
-		<h3>Global helper to get a plugin setting</h3>
+		<h3>Helper function to get a plugin setting</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
 			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
 			<span class="toggle-indicator" aria-hidden="true"></span>
@@ -70,7 +88,7 @@ glsr_get_option( $path = '', $fallback = '' );</code></pre>
 		<p>The <code>$fallback</code> variable is what you want to return if the option is not found or is empty. Default is an empty string.</p>
 		<p><strong>Example Usage:</strong></p>
 		<pre><code class="php">if( function_exists( 'glsr_get_option' )) {
-	$requireApproval = glsr_get_option( 'general.require.approval' ); // <?= glsr_get_option( 'general.require.approval' ); ?>
+	$requireApproval = glsr_get_option( 'general.require.approval' ); // = <?= glsr_get_option( 'general.require.approval' ); ?>
 
 }</code></pre>
 		<p><strong>Helpful Tip:</strong></p>
@@ -81,7 +99,7 @@ glsr_get_option( $path = '', $fallback = '' );</code></pre>
 
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">
-		<h3>Global helper to get a single review</h3>
+		<h3>Helper function to get a single review</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
 			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
 			<span class="toggle-indicator" aria-hidden="true"></span>
@@ -106,7 +124,7 @@ glsr_get_review( $post_id );</code></pre>
 
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">
-		<h3>Global helper to get all plugin settings</h3>
+		<h3>Helper function to get all plugin settings</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
 			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
 			<span class="toggle-indicator" aria-hidden="true"></span>
@@ -127,7 +145,7 @@ glsr_get_options();</code></pre>
 
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">
-		<h3>Global helper to get an array of reviews</h3>
+		<h3>Helper function to get an array of reviews</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
 			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
 			<span class="toggle-indicator" aria-hidden="true"></span>
@@ -167,7 +185,7 @@ glsr_get_reviews( array $args = [] );</code></pre>
 
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">
-		<h3>Global helper to log variables to the plugin console</h3>
+		<h3>Helper function to log variables to the plugin console</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
 			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
 			<span class="toggle-indicator" aria-hidden="true"></span>

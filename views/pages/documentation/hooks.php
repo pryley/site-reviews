@@ -1,6 +1,6 @@
 <?php defined( 'WPINC' ) || die; ?>
 
-<p>Hooks (also known as Filters &amp; Actions) are used to make changes to the plugin without modifying the core files of the plugin directly. In order to use the following hooks, you must add them to your theme's <code>functions.php</code> file.</p>
+<p>Hooks (also known as <a href="https://developer.wordpress.org/plugins/hooks/index.html">Actions and Filters</a>) are used in your theme's <code>functions.php</code> file to make changes to the plugin.</p>
 
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">

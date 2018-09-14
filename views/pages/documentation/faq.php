@@ -100,6 +100,32 @@ add_filter( 'site-reviews/config/forms/submission-form', function( array $config
 
 <div class="glsr-card postbox">
 	<div class="glsr-card-header">
+		<h3>How do I create a review programmatically?</h3>
+		<button type="button" class="handlediv" aria-expanded="true">
+			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+	</div>
+	<div class="inside">
+		<p>Site Reviews provides a helper function to easily create a review.</p>
+		<p>Here is an example:</p>
+		<pre><code class="php">if( function_exists( 'glsr_create_review' )) {
+	$review = glsr_create_review([
+		'author' => 'Jane Doe',
+		'content' => 'This is my review.',
+		'date' => '2018-06-13',
+		'email' => 'jane@doe.com',
+		'rating' => 5,
+		'title' => 'Fantastic plugin!',
+	]);
+}
+</code></pre>
+		<p>Please see the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!functions' ); ?>">Documentation &rarr; Functions</a></code> page for more information.</p>
+	</div>
+</div>
+
+<div class="glsr-card postbox">
+	<div class="glsr-card-header">
 		<h3>How do I customise the stars?</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
 			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
@@ -146,7 +172,7 @@ add_filter( 'site-reviews/config/inline-styles', function( array $config ) {
 		</button>
 	</div>
 	<div class="inside">
-		<p>The dash shows in front of an author's name if you have disabled avatars. If you want to remove the dash, simply use the following custom CSS. If your theme does not allow you to add custom CSS, you can use a plugin such as <a href="https://wordpress.org/plugins/simple-custom-css/">Simple Custom CSS</a>.</p>
+		<p>A "dash" character appears in front of an author's name if you have disabled avatars. If you want to remove the dash, simply use the following custom CSS. If your theme does not allow you to add custom CSS, you can use a plugin such as <a href="https://wordpress.org/plugins/simple-custom-css/">Simple Custom CSS</a>.</p>
 		<pre><code class="css">.glsr-review-author::before {
 	display: none !important;
 }</code></pre>
