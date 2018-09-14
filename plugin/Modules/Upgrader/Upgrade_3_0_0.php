@@ -83,7 +83,9 @@ class Upgrade_3_0_0
 		$this->migrateRequiredSettings();
 		$oldSettings = glsr( Helper::class )->convertDotNotationArray( $this->oldSettings );
 		$newSettings = glsr( Helper::class )->convertDotNotationArray( $this->newSettings );
-		$newSettings['settings']['strings'] = $oldSettings['settings']['strings'];
+		if( isset( $oldSettings['settings']['strings'] ) && is_array( $oldSettings['settings']['strings'] )) {
+			$newSettings['settings']['strings'] = $oldSettings['settings']['strings'];
+		}
 		glsr( OptionManager::class )->set( $newSettings );
 	}
 
