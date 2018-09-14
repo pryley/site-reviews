@@ -43,6 +43,11 @@ class SiteReviewsFormPopup extends TinymcePopupGenerator
 		],[
 			'columns' => 2,
 			'items' => [[
+				'name' => 'hide_content',
+				'text' => esc_html__( 'Content', 'site-reviews' ),
+				'tooltip' => __( 'Hide the content field?', 'site-reviews' ),
+				'type' => 'checkbox',
+			],[
 				'name' => 'hide_email',
 				'text' => esc_html__( 'Email', 'site-reviews' ),
 				'tooltip' => __( 'Hide the email field?', 'site-reviews' ),
@@ -51,6 +56,11 @@ class SiteReviewsFormPopup extends TinymcePopupGenerator
 				'name' => 'hide_name',
 				'text' => esc_html__( 'Name', 'site-reviews' ),
 				'tooltip' => __( 'Hide the name field?', 'site-reviews' ),
+				'type' => 'checkbox',
+			],[
+				'name' => 'hide_rating',
+				'text' => esc_html__( 'Rating', 'site-reviews' ),
+				'tooltip' => __( 'Hide the rating field?', 'site-reviews' ),
 				'type' => 'checkbox',
 			],[
 				'name' => 'hide_terms',

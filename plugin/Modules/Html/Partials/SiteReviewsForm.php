@@ -185,7 +185,7 @@ class SiteReviewsForm
 			'value' => $this->args['category'],
 		],[
 			'name' => 'excluded',
-			'value' => $this->args['excluded'], // @todo should default to "[]"
+			'value' => $this->args['hide'],
 		],[
 			'name' => 'form_id',
 			'value' => $this->args['id'],
@@ -249,14 +249,17 @@ class SiteReviewsForm
 	 */
 	protected function normalizeFields( $fields )
 	{
-		foreach( $fields as &$field ) {
+		$normalizedFields = [];
+		foreach( $fields as $field ) {
+			if( in_array( $field->field['path'], $this->args['hide'] ))continue;
 			$field->field['is_public'] = true;
 			$this->normalizeFieldClass( $field );
 			$this->normalizeFieldErrors( $field );
 			$this->normalizeFieldRequired( $field );
 			$this->normalizeFieldValue( $field );
+			$normalizedFields[] = $field;
 		}
-		return $fields;
+		return $normalizedFields;
 	}
 
 	/**
