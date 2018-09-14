@@ -165,9 +165,10 @@ class AdminController extends Controller
 	}
 
 	/**
+	 * @param bool $showNotice
 	 * @return void
 	 */
-	public function routerCountReviews()
+	public function routerCountReviews( $showNotice = true )
 	{
 		$countManager = glsr( CountsManager::class );
 		$terms = get_terms([
@@ -182,7 +183,9 @@ class AdminController extends Controller
 			$countManager->setPostCounts( $postId, $countManager->buildPostCounts( $postId ));
 		}
 		$countManager->setCounts( $countManager->buildCounts() );
-		glsr( Notice::class )->clear()->addSuccess( __( 'Recalculated rating counts.', 'site-reviews' ));
+		if( $showNotice ) {
+			glsr( Notice::class )->clear()->addSuccess( __( 'Recalculated rating counts.', 'site-reviews' ));
+		}
 	}
 
 	/**

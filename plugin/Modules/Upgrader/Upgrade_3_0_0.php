@@ -74,6 +74,7 @@ class Upgrade_3_0_0
 	{
 		$this->newSettings = $this->getNewSettings();
 		$this->oldSettings = $this->getOldSettings();
+		if( empty( $this->oldSettings ))return;
 		foreach( static::MAPPED_SETTINGS as $old => $new ) {
 			if( empty( $this->oldSettings[$old] ))continue;
 			$this->newSettings[$new] = $this->oldSettings[$old];
@@ -95,7 +96,7 @@ class Upgrade_3_0_0
 	public function setReviewCounts()
 	{
 		add_action( 'admin_init', function() {
-			glsr( AdminController::class )->routerCountReviews();
+			glsr( AdminController::class )->routerCountReviews( false );
 		});
 	}
 
@@ -117,7 +118,9 @@ class Upgrade_3_0_0
 	{
 		$defaults = array_fill_keys( array_keys( static::MAPPED_SETTINGS ), '' );
 		$settings = glsr( Helper::class )->flattenArray( get_option( 'geminilabs_site_reviews-v2', [] ));
-		$settings = wp_parse_args( $settings, $defaults );
+		if( !empty( $settings )) {
+			$settings = wp_parse_args( $settings, $defaults );
+		}
 		return $settings;
 	}
 
