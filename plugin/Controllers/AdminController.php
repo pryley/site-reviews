@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\EnqueueAdminAssets;
-use GeminiLabs\SiteReviews\Commands\RegisterShortcodeButtons;
+use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
@@ -93,9 +93,9 @@ class AdminController extends Controller
 	 * @return void
 	 * @action admin_init
 	 */
-	public function registerShortcodeButtons()
+	public function registerTinymcePopups()
 	{
-		$command = new RegisterShortcodeButtons([
+		$command = new RegisterTinymcePopups([
 			'site_reviews' => esc_html__( 'Recent Reviews', 'site-reviews' ),
 			'site_reviews_form' => esc_html__( 'Submit a Review', 'site-reviews' ),
 			'site_reviews_summary' => esc_html__( 'Summary of Reviews', 'site-reviews' ),

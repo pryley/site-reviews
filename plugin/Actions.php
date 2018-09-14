@@ -52,7 +52,7 @@ class Actions implements HooksContract
 	public function run()
 	{
 		add_action( 'admin_enqueue_scripts',                        [$this->admin, 'enqueueAssets'] );
-		add_action( 'admin_init',                                   [$this->admin, 'registerShortcodeButtons'] );
+		add_action( 'admin_init',                                   [$this->admin, 'registerTinymcePopups'] );
 		add_action( 'edit_form_after_title',                        [$this->admin, 'renderReviewEditor'] );
 		add_action( 'edit_form_top',                                [$this->admin, 'renderReviewNotice'] );
 		add_action( 'media_buttons',                                [$this->admin, 'renderTinymceButton'], 11 );

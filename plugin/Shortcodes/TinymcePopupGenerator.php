@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Shortcodes;
 
 use GeminiLabs\SiteReviews\Database;
 
-abstract class ButtonGenerator
+abstract class TinymcePopupGenerator
 {
 	/**
 	 * @var array
