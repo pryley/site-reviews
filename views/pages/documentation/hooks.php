@@ -2,7 +2,7 @@
 
 <p>Hooks (also known as <a href="https://developer.wordpress.org/plugins/hooks/index.html">Actions and Filters</a>) are used in your theme's <code>functions.php</code> file to make changes to the plugin.</p>
 
-<div class="glsr-card postbox">
+<div id="hooks-01" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Customise the fields in the review submission form</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -12,7 +12,7 @@
 	</div>
 	<div class="inside">
 		<p>Use this hook to customise the fields in the review submission form used by Site Reviews.</p>
-		<p>See the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!faq' ); ?>">Documentation &rarr; FAQ</a></code> for a detailed example of how to use this hook.</p>
+		<p>See the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!faq' ); ?>" data-expand="#faq-02">FAQ</a></code> for a detailed example of how to use this hook.</p>
 		<pre><code class="php">/**
  * Customises the fields used in the Site Reviews submission form.
  * @return array
@@ -24,7 +24,7 @@ add_filter( 'site-reviews/config/forms/submission-form', function( array $config
 	</div>
 </div>
 
-<div class="glsr-card postbox">
+<div id="hooks-02" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Customise the star images</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -34,7 +34,7 @@ add_filter( 'site-reviews/config/forms/submission-form', function( array $config
 	</div>
 	<div class="inside">
 		<p>Use this hook to customise the star images used by Site Reviews.</p>
-		<p>See the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!faq' ); ?>">Documentation &rarr; FAQ</a></code> for a detailed example of how to use this hook.</p>
+		<p>See the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!faq' ); ?>" data-expand="#faq-07">FAQ</a></code> for a detailed example of how to use this hook.</p>
 		<pre><code class="php">/**
  * Customises the stars used by Site Reviews.
  * @return array
@@ -46,7 +46,7 @@ add_filter( 'site-reviews/config/inline-styles', function( array $config ) {
 	</div>
 </div>
 
-<div class="glsr-card postbox">
+<div id="hooks-03" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Disable the plugin javascript</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -64,7 +64,7 @@ add_filter( 'site-reviews/assets/js', '__return_false' );</code></pre>
 	</div>
 </div>
 
-<div class="glsr-card postbox">
+<div id="hooks-04" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Disable the plugin stylesheet</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -82,7 +82,7 @@ add_filter( 'site-reviews/assets/css', '__return_false' );</code></pre>
 	</div>
 </div>
 
-<div class="glsr-card postbox">
+<div id="hooks-05" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Disable the polyfill.io script</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -101,7 +101,7 @@ add_filter( 'site-reviews/assets/polyfill', '__return_false' );</code></pre>
 	</div>
 </div>
 
-<div class="glsr-card postbox">
+<div id="hooks-06" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Do something immediately after a review has been submitted</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -111,20 +111,20 @@ add_filter( 'site-reviews/assets/polyfill', '__return_false' );</code></pre>
 	</div>
 	<div class="inside">
 		<p>Use this hook if you want to do something immediately after a review has been successfully submitted.</p>
-		<p>The <code>$review</code> object is the review that was created. The <code>$command</code> object is the request that was submitted to create the review.</p>
+		<p>The <code>$review</code> object is the review that was created. The <code>$request</code> object is the request that was submitted to create the review.</p>
 		<pre><code>/**
  * Runs after a review has been submitted in Site Reviews.
  * @param \GeminiLabs\SiteReviews\Review $review
- * @param \GeminiLabs\SiteReviews\Commands\CreateReview $command
+ * @param \GeminiLabs\SiteReviews\Commands\CreateReview $request
  * @return void
  */
-add_action( 'site-reviews/review/created', function( $review, $command ) {
+add_action( 'site-reviews/review/created', function( $review, $request ) {
 	// do something here.
 }, 10, 2 );</code></pre>
 	</div>
 </div>
 
-<div class="glsr-card postbox">
+<div id="hooks-07" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Modify the schema</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -133,8 +133,8 @@ add_action( 'site-reviews/review/created', function( $review, $command ) {
 		</button>
 	</div>
 	<div class="inside">
-		<p>Use this hook if you would like to modify the primary schema type properties. For example, suppose you have set "LocalBusiness" as the default schema type. You may want to add additional properties to it and this is the hook to use in order to do that.</p>
-		<p>This hook is specific to the schema type. For example, to modify the schema for the LocalBusiness schema type you would use the <em>"site-reviews/schema/LocalBusiness"</em> hook, but to modify the schema for the Product schema type you would use the <em>"site-reviews/schema/Product"</em> hook.</p>
+		<p>Use this hook if you would like to modify the schema type properties.</p>
+		<p>This hook is specific to the schema type. For example, to modify the schema properties for the LocalBusiness schema type you would use the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!faq' ); ?>" data-expand="#faq-01">site-reviews/schema/LocalBusiness</a></code> hook, but to modify the schema properties for the Product schema type you would use the <em>"site-reviews/schema/Product"</em> hook.</p>
 		<p>Make sure to use Google's <a href="https://search.google.com/structured-data/testing-tool">Structured Data Testing Tool</a> to test the schema after any custom modifications have been made.</p>
 		<pre><code class="php">/**
  * Modifies the properties of the schema created by Site Reviews.
@@ -148,7 +148,7 @@ add_filter( 'site-reviews/schema/LocalBusiness', function( array $schema ) {
 	</div>
 </div>
 
-<div class="glsr-card postbox">
+<div id="hooks-08" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Modify the submitted review before it is saved</h3>
 		<button type="button" class="handlediv" aria-expanded="true">

@@ -1,6 +1,6 @@
 <?php defined( 'WPINC' ) || die; ?>
 
-<div class="glsr-card postbox">
+<div id="shortcodes-01" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>[site_reviews]</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -47,7 +47,7 @@
 	</div>
 </div>
 
-<div class="glsr-card postbox">
+<div id="shortcodes-02" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>[site_reviews_form]</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -81,7 +81,7 @@
 	</div>
 </div>
 
-<div class="glsr-card postbox">
+<div id="shortcodes-03" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>[site_reviews_summary]</h3>
 		<button type="button" class="handlediv" aria-expanded="true">

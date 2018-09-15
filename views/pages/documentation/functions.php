@@ -2,7 +2,7 @@
 
 <p>Make sure to add a <a href="https://php.net/manual/en/function.function-exists.php">function_exists</a> check for each helper function used.</p>
 
-<div class="glsr-card postbox">
+<div id="functions-01" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Helper function to create a review</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -47,7 +47,7 @@ glsr_create_review( array $reviewValues = [] );</code></pre>
 	</div>
 </div>
 
-<div class="glsr-card postbox">
+<div id="functions-02" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Helper function to debug variables</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -69,7 +69,7 @@ glsr_debug( ...$variable );</code></pre>
 	</div>
 </div>
 
-<div class="glsr-card postbox">
+<div id="functions-03" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Helper function to get a plugin setting</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -97,7 +97,7 @@ glsr_get_option( $path = '', $fallback = '' );</code></pre>
 	</div>
 </div>
 
-<div class="glsr-card postbox">
+<div id="functions-04" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Helper function to get a single review</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -122,7 +122,7 @@ glsr_get_review( $post_id );</code></pre>
 	</div>
 </div>
 
-<div class="glsr-card postbox">
+<div id="functions-05" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Helper function to get all plugin settings</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -143,7 +143,7 @@ glsr_get_options();</code></pre>
 	</div>
 </div>
 
-<div class="glsr-card postbox">
+<div id="functions-06" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Helper function to get an array of reviews</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -183,7 +183,7 @@ glsr_get_reviews( array $args = [] );</code></pre>
 	</div>
 </div>
 
-<div class="glsr-card postbox">
+<div id="functions-07" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Helper function to log variables to the plugin console</h3>
 		<button type="button" class="handlediv" aria-expanded="true">

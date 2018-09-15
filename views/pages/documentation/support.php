@@ -1,6 +1,6 @@
 <?php defined( 'WPINC' ) || die; ?>
 
-<div class="glsr-card postbox">
+<div id="support-01" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Basic Troubleshooting Steps</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -28,7 +28,7 @@
 	</div>
 </div>
 
-<div class="glsr-card postbox">
+<div id="support-02" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Common Problems and Solutions</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -44,7 +44,7 @@
 			</li>
 			<li>
 				<p class="glsr-heading">The reviews are being shown on every page, I only want them to show on the page they were published on.</p>
-				<p>All reviews are unassigned by default. If you want to assign reviews to specific pages, you will need to use the “assign_to” and “assigned_to” shortcode options. Please see the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!shortcodes' ); ?>">Shortcodes</a></code> documentation for more information.</p>
+				<p>All reviews are unassigned by default. If you want to assign reviews to specific pages, you will need to use the “assign_to” and “assigned_to” shortcode options. Please see the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!shortcodes' ); ?>">Shortcodes</a></code> documentation page for more information.</p>
 			</li>
 			<li>
 				<p class="glsr-heading">My submission form is not assigning reviews to the page even though I have set the option to do so.</p>
@@ -56,8 +56,7 @@
 	</div>
 </div>
 
-
-<div class="glsr-card postbox">
+<div id="support-03" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Contact Support</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -66,7 +65,7 @@
 		</button>
 	</div>
 	<div class="inside">
-		<p>The preferred way to get support for Site Reviews is to use the <a href="https://wordpress.org/support/plugin/site-reviews/">WordPress forum</a> so that all users of the plugin will have a chance to benefit from the solution. However, you may also contact us directly after confirming the following:</p>
+		<p>The preferred way to get help for Site Reviews is to post a support request in the <a href="https://wordpress.org/support/plugin/site-reviews/">WordPress Support Forum</a>, not only does this allow existing and future users of the plugin to benefit from the solution, it is also the fastest way to get help. However, you may also contact us directly after confirming the following:</p>
 		<p class="glsr-card-field">
 			<input type="checkbox" id="step-1" class="glsr-support-step">
 			<label for="step-1">I have read the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!faq' ); ?>">FAQ</a></code> documentation page.</label>
