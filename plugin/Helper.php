@@ -270,6 +270,17 @@ class Helper
 	}
 
 	/**
+	 * @param string $prefix
+	 * @param string $text
+	 * @return string
+	 */
+	public function removePrefix( $prefix, $text ) {
+		return 0 === strpos( $text, $prefix )
+			? substr( $text, strlen( $prefix ))
+			: $text;
+	}
+
+	/**
 	 * Set a value to an array of values using a dot-notation path as reference
 	 * @param string $path
 	 * @param mixed $value
