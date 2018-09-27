@@ -47,7 +47,7 @@ class SiteReviewsForm
 	public function build( array $args = [] )
 	{
 		$this->args = $args;
-		if( !is_user_logged_in() && glsr( OptionManager::class )->get( 'settings.general.require.login' ) != 'yes' ) {
+		if( !is_user_logged_in() && glsr( OptionManager::class )->get( 'settings.general.require.login' ) == 'yes' ) {
 			return $this->buildLoginRegister();
 		}
 		$this->errors = glsr( Session::class )->get( $args['id'].'errors', [], true );
