@@ -65,8 +65,8 @@ class CreateReview
 	protected function getCustom()
 	{
 		$unset = [
-			'action', 'ajax_request', 'assign_to', 'category', 'content', 'email', 'excluded',
-			'form_id', 'gotcha', 'ip_address', 'name', 'nonce', 'post_id', 'rating',
+			'action', 'ajax_request', 'assign_to', 'category', 'content', 'counter', 'email',
+			'excluded', 'form_id', 'gotcha', 'ip_address', 'name', 'nonce', 'post_id', 'rating',
 			'recaptcha-token', 'referer', 'terms', 'title',
 		];
 		$custom = $this->request;
