@@ -72,6 +72,7 @@ class Builder
 		$generatedTag = in_array( $instance->tag, $tags )
 			? $instance->buildTag()
 			: $instance->buildCustomField();
+		$generatedTag = apply_filters( 'site-reviews/builder/result', $generatedTag, $instance );
 		if( !$this->render ) {
 			return $generatedTag;
 		}
