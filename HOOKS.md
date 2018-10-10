@@ -69,6 +69,7 @@
     site-reviews/schema/{schema_type}
     site-reviews/slack/compose
     site-reviews/slack/stars
+    site-reviews/submission-form/order
     site-reviews/url
     site-reviews/validate/custom
     site-reviews/validation/rules

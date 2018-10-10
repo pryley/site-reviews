@@ -41,6 +41,17 @@ class PublicController extends Controller
 		return $tag;
 	}
 
+
+	/**
+	 * @return array
+	 * @filter site-reviews/config/submission-form
+	 */
+	public function filterFieldOrder( array $config )
+	{
+		$order = (array)apply_filters( 'site-reviews/submission-form/order', array_keys( $config ));
+		return array_intersect_key( array_merge( array_flip( $order ), $config ), $config );
+	}
+
 	/**
 	 * @return array
 	 * @filter query_vars

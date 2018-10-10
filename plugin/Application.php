@@ -92,15 +92,15 @@ final class Application extends Container
 	public function file( $view )
 	{
 		$file = '';
+		$view.= '.php';
 		if( glsr( Helper::class )->startsWith( 'templates/', $view )) {
-			$file = str_replace( 'templates/', 'site-reviews/', $view ).'.php';
-			$file = get_stylesheet_directory().'/'.$file;
+			$file = $this->themePath( glsr( Helper::class )->removePrefix( 'templates/', $view ));
 			if( !file_exists( $file )) {
-				$file = $this->path( $view.'.php' );
+				$file = $this->path( $view );
 			}
 		}
 		if( !file_exists( $file )) {
-			$file = $this->path( 'views/'.$view.'.php' );
+			$file = $this->path( 'views/'.$view );
 		}
 		return $file;
 	}
@@ -206,6 +206,15 @@ final class Application extends Container
 	{
 		if( wp_next_scheduled( static::CRON_EVENT ))return;
 		wp_schedule_event( time(), 'twicedaily', static::CRON_EVENT );
+	}
+
+	/**
+	 * @param string $file
+	 * @return string
+	 */
+	public function themePath( $file = '' )
+	{
+		return get_stylesheet_directory().'/'.static::ID.'/'.ltrim( trim( $file ), '/' );
 	}
 
 	/**

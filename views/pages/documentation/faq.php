@@ -36,25 +36,24 @@ add_filter( 'site-reviews/schema/LocalBusiness', function( array $schema ) {
 		</button>
 	</div>
 	<div class="inside">
-		<p>To customise the order of the fields in the review submission form, use the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!hooks' ); ?>" data-expand="#hooks-01">site-reviews/config/forms/submission-form</a></code> filter hook in your theme's <code>functions.php</code> file.</p>
-		<p>You can either modify the $config array directly, or you can copy over the <code>config/forms/submission-form.php</code> file from the plugin into your theme and edit it.</p>
-		<p>In the example below, I am using a custom <code>submission-form.php</code> file. If you have done this correctly, the path to the config file in your theme should look something like this:</p>
-		<p><code>/wp-content/themes/your-theme/site-reviews/config/submission-form.php</code></p>
+		<p>To customise the order of the fields in the review submission form, use the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!hooks' ); ?>" data-expand="#hooks-01">site-reviews/submission-form/order</a></code> filter hook in your theme's <code>functions.php</code> file.</p>
 		<pre><code class="php">/**
- * Customises the fields used in the Site Reviews submission form.
- * Simply copy the "config/forms/submission-form.php" file from the plugin into your theme and customise it.
- * Make sure that the $customForm path matches the location of your custom "submission-form.php" file.
+ * Customises the order of the fields used in the Site Reviews submission form.
  * @return array
  */
-add_filter( 'site-reviews/config/forms/submission-form', function( array $config ) {
-	$customForm = get_stylesheet_directory().'/site-reviews/config/submission-form.php';
-	if( !file_exists( $customForm )) {
-		glsr_log()->error( 'Your custom submission-form.php was not found: '.$customForm );
-		return $config;
-	}
-	return include $customForm;
+add_filter( 'site-reviews/submission-form/order', function( array $order ) {
+	// The $order array contains the field keys returned below.
+	// Simply change the order of the field keys to the desired field order.
+	return [
+		'rating',
+		'title',
+		'content',
+		'name',
+		'email',
+		'terms',
+	];
 });</code></pre>
-		<p>If you have used the example above and the custom submission-form fields are not being used, check the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!console' ); ?>">Tools &rarr; Console</a></code> for errors.</p>
+		<p>If you have used the example above and the submission-form fields are not working correctly, check the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!console' ); ?>">Tools &rarr; Console</a></code> for errors.</p>
 	</div>
 </div>
 

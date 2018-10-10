@@ -4,22 +4,22 @@
 
 <div id="hooks-01" class="glsr-card postbox">
 	<div class="glsr-card-header">
-		<h3>Customise the fields in the review submission form</h3>
+		<h3>Customise the order of the fields in the review submission form</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
 			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
 			<span class="toggle-indicator" aria-hidden="true"></span>
 		</button>
 	</div>
 	<div class="inside">
-		<p>Use this hook to customise the fields in the review submission form used by Site Reviews.</p>
+		<p>Use this hook to customise the order of the fields in the review submission form used by Site Reviews.</p>
 		<p>See the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!faq' ); ?>" data-expand="#faq-02">FAQ</a></code> for a detailed example of how to use this hook.</p>
 		<pre><code class="php">/**
- * Customises the fields used in the Site Reviews submission form.
+ * Customises the order of the fields used in the Site Reviews submission form.
  * @return array
  */
-add_filter( 'site-reviews/config/forms/submission-form', function( array $config ) {
-	// modify the submission-form $config array here
-	return $config;
+add_filter( 'site-reviews/submission-form/order', function( array $order ) {
+	// modify the $order array here
+	return $order;
 });</code></pre>
 	</div>
 </div>
