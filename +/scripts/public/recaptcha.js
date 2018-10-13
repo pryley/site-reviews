@@ -58,10 +58,6 @@
 
 		/** @return void */
 		submitForm_: function( counter ) { // int
-			var tokenEl = this.form['g-recaptcha-response'];
-			if( tokenEl ) {
-				tokenEl.value = 'invalid';
-			}
 			if( !this.useAjax ) {
 				this.disableButton_();
 				this.form.submit();
