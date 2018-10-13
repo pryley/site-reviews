@@ -60,7 +60,7 @@ final class Application extends Container
 	public function catchFatalError()
 	{
 		$error = error_get_last();
-		if( $error['type'] !== E_ERROR )return;
+		if( $error['type'] !== E_ERROR || strpos( $error['message'], $this->path() ) === false )return;
 		glsr_log()->error( $error['message'] );
 	}
 
