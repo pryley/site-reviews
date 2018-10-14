@@ -136,12 +136,18 @@ class SiteReviewsForm
 	 */
 	protected function getFields()
 	{
-		$fields = array_merge(
-			$this->getHiddenFields(),
-			[$this->getHoneypotField()],
-			$this->normalizeFields( glsr( Form::class )->getFields( 'submission-form' ))
-		);
-		return $fields;
+		$hiddenFields = $this->getHiddenFields();
+		$hiddenFields[] = $this->getHoneypotField();
+		$fields = $this->normalizeFields( glsr( Form::class )->getFields( 'submission-form' ));
+		$paths = array_map( function( $obj ) {
+			return $obj->field['path'];
+		}, $hiddenFields );
+		foreach( $fields as $field ) {
+			$index = array_search( $field->field['path'], $paths );
+			if( $index === false )continue;
+			unset( $hiddenFields[$index] );
+		}
+		return array_merge( $hiddenFields, $fields );
 	}
 
 	/**
