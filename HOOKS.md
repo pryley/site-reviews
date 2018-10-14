@@ -68,6 +68,7 @@
     site-reviews/schema/all
     site-reviews/schema/review
     site-reviews/schema/{schema_type}
+    site-reviews/shortcode/args
     site-reviews/slack/compose
     site-reviews/slack/stars
     site-reviews/submission-form/order

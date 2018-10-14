@@ -1004,23 +1004,23 @@ msgstr ""
 "This custom translation is no longer valid as the original text has been "
 "changed or removed."
 
-#: plugin/Shortcodes/Shortcode.php:133
+#: plugin/Shortcodes/Shortcode.php:135
 msgid "Excellent"
 msgstr "Excellent"
 
-#: plugin/Shortcodes/Shortcode.php:134
+#: plugin/Shortcodes/Shortcode.php:136
 msgid "Very good"
 msgstr "Very good"
 
-#: plugin/Shortcodes/Shortcode.php:135
+#: plugin/Shortcodes/Shortcode.php:137
 msgid "Average"
 msgstr "Average"
 
-#: plugin/Shortcodes/Shortcode.php:136
+#: plugin/Shortcodes/Shortcode.php:138
 msgid "Poor"
 msgstr "Poor"
 
-#: plugin/Shortcodes/Shortcode.php:137
+#: plugin/Shortcodes/Shortcode.php:139
 msgid "Terrible"
 msgstr "Terrible"
 

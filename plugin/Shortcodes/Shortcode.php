@@ -12,17 +12,19 @@ abstract class Shortcode implements ShortcodeContract
 {
 	/**
 	 * @param string|array $instance
+	 * @param string $type
 	 * @return string
 	 */
-	public function build( $instance, array $args = [] )
+	public function build( $instance, array $args = [], $type = 'shortcode' )
 	{
 		$shortcodePartial = $this->getShortcodePartial();
 		$args = wp_parse_args( $args, [
-			'before_widget' => '<div class="glsr-shortcode shortcode-'.$shortcodePartial.'">',
+			'before_widget' => '<div class="glsr-'.$type.' '.$type.'-'.$shortcodePartial.'">',
 			'after_widget' => '</div>',
-			'before_title' => '<h3 class="glsr-shortcode-title">',
+			'before_title' => '<h3 class="glsr-'.$type.'-title">',
 			'after_title' => '</h3>',
 		]);
+		$args = apply_filters( 'site-reviews/shortcode/args', $args, $type, $shortcodePartial );
 		$instance = $this->normalize( $instance );
 		$partial = glsr( Partial::class )->build( $shortcodePartial, $instance );
 		if( !empty( $instance['title'] )) {
