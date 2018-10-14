@@ -1,4 +1,4 @@
-/** global: GLSR, grecaptcha */
+/** global: GLSR, grecaptcha, MutationObserver */
 ;(function() {
 
 	'use strict';
@@ -7,6 +7,16 @@
 		this.Form = Form;
 		this.counter = 0;
 		this.id = -1;
+		this.is_submitting = false;
+		this.observer = new MutationObserver( function( mutations ) {
+			var mutation = mutations.pop();
+			if( !mutation.target || mutation.target.style.visibility === 'visible' )return;
+			this.observer.disconnect();
+			setTimeout( function() {
+				if( this.is_submitting )return;
+				this.Form.enableButton_();
+			}.bind( this ), 250 );
+		}.bind( this ));
 	};
 
 	GLSR.Recaptcha.prototype = {
@@ -15,7 +25,7 @@
 		execute_: function() {
 			if( this.id !== -1 ) {
 				this.counter = 0;
-				this.Form.enableButton_();
+				this.observeMutations_( this.id );
 				grecaptcha.execute( this.id );
 				return;
 			}
@@ -23,6 +33,22 @@
 				this.counter++;
 				this.submitForm_.call( this.Form, this.counter );
 			}.bind( this ), 1000 );
+		},
+
+		/** @return void */
+		observeMutations_: function( id ) {
+			var client = window.___grecaptcha_cfg.clients[id];
+			for( var property in client) {
+				if( Object.prototype.toString.call( client[property] ) !== '[object String]' )continue;
+				var overlayEl = document.querySelector( 'iframe[name=c-' + client[property] + ']' );
+				if( overlayEl ) {
+					this.observer.observe( overlayEl.parentElement.parentElement, {
+						attributeFilter: ['style'],
+						attributes: true,
+					});
+					break;
+				}
+			}
 		},
 
 		/** @return void */
@@ -51,6 +77,7 @@
 		/** @return void */
 		reset_: function() {
 			this.counter = 0;
+			this.is_submitting = false;
 			if( this.id !== -1 ) {
 				grecaptcha.reset( this.id );
 			}
@@ -58,6 +85,7 @@
 
 		/** @return void */
 		submitForm_: function( counter ) { // int
+			this.recaptcha.is_submitting = true;
 			if( !this.useAjax ) {
 				this.disableButton_();
 				this.form.submit();
