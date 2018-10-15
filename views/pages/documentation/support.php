@@ -65,7 +65,7 @@
 		</button>
 	</div>
 	<div class="inside">
-		<p>The preferred way to get help for Site Reviews is to post a support request in the <a href="https://wordpress.org/support/plugin/site-reviews/">WordPress Support Forum</a>, not only does this allow existing and future users of the plugin to benefit from the solution, it is also the fastest way to get help. However, you may also contact us directly after confirming the following:</p>
+		<p>The recommended way to get help is to post a support request in the <a href="https://wordpress.org/support/plugin/site-reviews/">WordPress Support Forum</a>, not only does this allow existing and future users of the plugin to benefit from the solution, it is also <strong>the fastest way to get help</strong>. However, you may also contact us directly after confirming the following:</p>
 		<p class="glsr-card-field">
 			<input type="checkbox" id="step-1" class="glsr-support-step">
 			<label for="step-1">I have read the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!faq' ); ?>">FAQ</a></code> documentation page.</label>
@@ -86,7 +86,7 @@
 			<p><strong>Please send an email to <a href="mailto:site-reviews@geminilabs.io?subject=Support%20request">site-reviews@geminilabs.io</a> and include the following details:</strong></p>
 			<ul>
 				<li>A detailed description of the problem you are having and steps to reproduce it.</li>
-				<li>Download and attach the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!console' ); ?>">Tools &rarr; Console</a></code> log file to the email (but only if it's not empty!)</li>
+				<li>Download and attach the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!console' ); ?>">Tools &rarr; Console</a></code> log file to the email.</li>
 				<li>Download and attach the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!system-info' ); ?>">Tools &rarr; System Info</a></code> report to the email.</li>
 				<li>Include screenshots if they will help explain the problem.</li>
 			</ul>
