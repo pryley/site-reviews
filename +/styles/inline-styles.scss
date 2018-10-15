@@ -1,14 +1,14 @@
-.glsr-stars .star-empty,
+.glsr-star-empty,
 .gl-star-rating-stars > span {
 	background-image: url(:star-empty)!important;
 }
 .glsr-has-error .gl-star-rating-stars > span {
 	background-image: url(:star-error)!important;
 }
-.glsr-stars .star-half {
+.glsr-star-half {
 	background-image: url(:star-half)!important;
 }
-.glsr-stars .star-full,
+.glsr-star-full,
 .gl-star-rating-stars.s10 > span:nth-child(1),
 .gl-star-rating-stars.s20 > span:nth-child(-1n+2),
 .gl-star-rating-stars.s30 > span:nth-child(-1n+3),

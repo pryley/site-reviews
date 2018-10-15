@@ -442,43 +442,43 @@ msgstr ""
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 
-#: config/forms/submission-form.php:11
+#: config/forms/submission-form.php:5
 msgid "Your overall rating"
 msgstr ""
 
-#: config/forms/submission-form.php:15
+#: config/forms/submission-form.php:9
 msgid "Title of your review"
 msgstr ""
 
-#: config/forms/submission-form.php:16
+#: config/forms/submission-form.php:10
 msgid "Summarize your review or highlight an interesting detail"
 msgstr ""
 
-#: config/forms/submission-form.php:20
+#: config/forms/submission-form.php:14
 msgid "Your review"
 msgstr ""
 
-#: config/forms/submission-form.php:21
+#: config/forms/submission-form.php:15
 msgid "Tell people your review"
 msgstr ""
 
-#: config/forms/submission-form.php:26
+#: config/forms/submission-form.php:20
 msgid "Your name"
 msgstr ""
 
-#: config/forms/submission-form.php:27
+#: config/forms/submission-form.php:21
 msgid "Tell us your name"
 msgstr ""
 
-#: config/forms/submission-form.php:31
+#: config/forms/submission-form.php:25
 msgid "Your email"
 msgstr ""
 
-#: config/forms/submission-form.php:32
+#: config/forms/submission-form.php:26
 msgid "Tell us your email"
 msgstr ""
 
-#: config/forms/submission-form.php:36
+#: config/forms/submission-form.php:30
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr ""
 
