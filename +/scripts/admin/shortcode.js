@@ -15,7 +15,7 @@
 			this.editor = tinymce.get( editor_id );
 			if( !this.editor )return;
 			var request = {
-				action: 'mce-shortcode',
+				_action: 'mce-shortcode',
 				shortcode: this.current,
 			};
 			(new GLSR.Ajax( request )).post_( this.handleResponse_.bind( this ));

@@ -134,7 +134,7 @@
 				return;
 			}
 			this.disableButton_();
-			this.form[GLSR.nameprefix + '[counter]'].value = counter || 0;
+			this.form[GLSR.nameprefix + '[_counter]'].value = counter || 0;
 			(new GLSR.Ajax()).post_( this.form, this.handleResponse_.bind( this ));
 		},
 	};

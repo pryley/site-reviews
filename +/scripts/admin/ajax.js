@@ -15,7 +15,7 @@
 			this.buildNonce_( el );
 			var data = {
 				action: GLSR.action,
-				ajax_request: true,
+				_ajax_request: true,
 			};
 			data[GLSR.nameprefix] = this.request;
 			return data;
@@ -23,13 +23,13 @@
 
 		/** @return void */
 		buildNonce_: function( el ) { // HTMLElement|null
-			if( this.request.nonce )return;
-			if( GLSR.nonce[this.request.action] ) {
-				this.request.nonce = GLSR.nonce[this.request.action];
+			if( this.request._nonce )return;
+			if( GLSR.nonce[this.request._action] ) {
+				this.request._nonce = GLSR.nonce[this.request._action];
 				return;
 			}
 			if( !el )return;
-			this.request.nonce = el.closest( 'form' ).find( '#_wpnonce' ).val();
+			this.request._nonce = el.closest( 'form' ).find( '#_wpnonce' ).val();
 		},
 
 		/** @return void */

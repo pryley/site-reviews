@@ -29,7 +29,7 @@ class CreateReview
 	public function __construct( $input )
 	{
 		$this->request = $input;
-		$this->ajax_request = isset( $input['ajax_request'] );
+		$this->ajax_request = isset( $input['_ajax_request'] );
 		$this->assigned_to = $this->getNumeric( 'assign_to' );
 		$this->author = sanitize_text_field( $this->get( 'name' ));
 		$this->avatar = get_avatar_url( $this->get( 'email' ));
@@ -41,9 +41,9 @@ class CreateReview
 		$this->email = sanitize_email( $this->get( 'email' ));
 		$this->form_id = sanitize_key( $this->get( 'form_id' ));
 		$this->ip_address = $this->get( 'ip_address' );
-		$this->post_id = intval( $this->get( 'post_id' ));
+		$this->post_id = intval( $this->get( '_post_id' ));
 		$this->rating = intval( $this->get( 'rating' ));
-		$this->referer = $this->get( 'referer' );
+		$this->referer = $this->get( '_referer' );
 		$this->terms = !empty( $input['terms'] );
 		$this->title = sanitize_text_field( $this->get( 'title' ));
 	}
@@ -65,9 +65,9 @@ class CreateReview
 	protected function getCustom()
 	{
 		$unset = [
-			'action', 'ajax_request', 'assign_to', 'category', 'content', 'counter', 'email',
-			'excluded', 'form_id', 'gotcha', 'ip_address', 'name', 'nonce', 'post_id', 'rating',
-			'recaptcha-token', 'referer', 'terms', 'title',
+			'_action', '_ajax_request', '_counter', '_nonce', '_post_id', '_recaptcha-token',
+			'_referer', 'assign_to', 'category', 'content', 'email', 'excluded', 'form_id',
+			'gotcha', 'ip_address', 'name', 'rating', 'terms', 'title',
 		];
 		$custom = $this->request;
 		foreach( $unset as $value ) {

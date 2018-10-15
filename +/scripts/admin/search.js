@@ -184,9 +184,9 @@
 			this.el.addClass( 'is-active' );
 			var data = {};
 			data[GLSR.nameprefix] = {
-				action: this.options.action,
+				_action: this.options.action,
+				_nonce: this.el.find( '#_search_nonce' ).val(),
 				exclude: this.options.exclude,
-				nonce: this.el.find( '#_search_nonce' ).val(),
 				search: this.searchTerm,
 			};
 			this.searchRequest = wp.ajax.post( GLSR.action, data ).done( function( response ) {

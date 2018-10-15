@@ -181,8 +181,19 @@ class SiteReviewsForm
 	protected function getHiddenFields()
 	{
 		$fields = [[
-			'name' => 'action',
+			'name' => '_action',
 			'value' => 'submit-review',
+		],[
+			'name' => '_counter',
+		],[
+			'name' => '_nonce',
+			'value' => wp_create_nonce( 'submit-review' ),
+		],[
+			'name' => '_post_id',
+			'value' => get_the_ID(),
+		],[
+			'name' => '_referer',
+			'value' => wp_unslash( filter_input( INPUT_SERVER, 'REQUEST_URI' )),
 		],[
 			'name' => 'assign_to',
 			'value' => $this->args['assign_to'],
@@ -190,22 +201,11 @@ class SiteReviewsForm
 			'name' => 'category',
 			'value' => $this->args['category'],
 		],[
-			'name' => 'counter',
-		],[
 			'name' => 'excluded',
 			'value' => $this->args['hide'],
 		],[
 			'name' => 'form_id',
 			'value' => $this->args['id'],
-		],[
-			'name' => 'nonce',
-			'value' => wp_create_nonce( 'submit-review' ),
-		],[
-			'name' => 'post_id',
-			'value' => get_the_ID(),
-		],[
-			'name' => 'referer',
-			'value' => wp_unslash( filter_input( INPUT_SERVER, 'REQUEST_URI' )),
 		]];
 		return array_map( function( $field ) {
 			return new Field( wp_parse_args( $field, ['type' => 'hidden'] ));

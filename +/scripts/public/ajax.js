@@ -57,7 +57,7 @@
 				formData = this.buildFormData_( formData, data );
 			}
 			formData.append( 'action', GLSR.action );
-			formData.append( 'ajax_request', true );
+			formData.append( '_ajax_request', true );
 			return formData;
 		},
 

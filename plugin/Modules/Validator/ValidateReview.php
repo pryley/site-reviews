@@ -91,8 +91,8 @@ class ValidateReview
 		if( !glsr( OptionManager::class )->isRecaptchaEnabled() ) {
 			return static::RECAPTCHA_DISABLED;
 		}
-		if( empty( $this->request['recaptcha-token'] )) {
-			return $this->request['counter'] < intval( apply_filters( 'site-reviews/recaptcha/timeout', 5 ))
+		if( empty( $this->request['_recaptcha-token'] )) {
+			return $this->request['_counter'] < intval( apply_filters( 'site-reviews/recaptcha/timeout', 5 ))
 				? static::RECAPTCHA_EMPTY
 				: static::RECAPTCHA_FAILED;
 		}
@@ -106,7 +106,7 @@ class ValidateReview
 	{
 		$endpoint = add_query_arg([
 			'remoteip' => glsr( Helper::class )->getIpAddress(),
-			'response' => $this->request['recaptcha-token'],
+			'response' => $this->request['_recaptcha-token'],
 			'secret' => $this->getOption( 'settings.submissions.recaptcha.secret' ),
 		], static::RECAPTCHA_ENDPOINT );
 		if( is_wp_error( $response = wp_remote_get( $endpoint ))) {

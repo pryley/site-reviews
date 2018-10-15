@@ -442,43 +442,43 @@ msgstr ""
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 
-#: config/forms/submission-form.php:5
+#: config/forms/submission-form.php:11
 msgid "Your overall rating"
 msgstr ""
 
-#: config/forms/submission-form.php:9
+#: config/forms/submission-form.php:15
 msgid "Title of your review"
 msgstr ""
 
-#: config/forms/submission-form.php:10
+#: config/forms/submission-form.php:16
 msgid "Summarize your review or highlight an interesting detail"
 msgstr ""
 
-#: config/forms/submission-form.php:14
+#: config/forms/submission-form.php:20
 msgid "Your review"
 msgstr ""
 
-#: config/forms/submission-form.php:15
+#: config/forms/submission-form.php:21
 msgid "Tell people your review"
 msgstr ""
 
-#: config/forms/submission-form.php:20
+#: config/forms/submission-form.php:26
 msgid "Your name"
 msgstr ""
 
-#: config/forms/submission-form.php:21
+#: config/forms/submission-form.php:27
 msgid "Tell us your name"
 msgstr ""
 
-#: config/forms/submission-form.php:25
+#: config/forms/submission-form.php:31
 msgid "Your email"
 msgstr ""
 
-#: config/forms/submission-form.php:26
+#: config/forms/submission-form.php:32
 msgid "Tell us your email"
 msgstr ""
 
-#: config/forms/submission-form.php:30
+#: config/forms/submission-form.php:36
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr ""
 
@@ -1660,19 +1660,19 @@ msgstr ""
 msgid "Submit your review"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:154
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:160
 msgid "logged in"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:156
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:162
 msgid "You must be %s to submit a review."
 msgstr ""
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:167
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:173
 msgid "register"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:169
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:175
 msgid "You may also %s for an account."
 msgstr ""
 

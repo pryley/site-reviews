@@ -15,7 +15,7 @@ jQuery( function( $ ) {
 	new GLSR.Pinned();
 	new GLSR.Pointers();
 	new GLSR.Search( '#glsr-search-posts', {
-		action: 'search-posts',
+		_action: 'search-posts',
 		onInit: function() {
 			this.el.on( 'click', '.glsr-remove-button', this.onUnassign_.bind( this ));
 		},
@@ -35,7 +35,7 @@ jQuery( function( $ ) {
 		},
 	});
 	new GLSR.Search( '#glsr-search-translations', {
-		action: 'search-translations',
+		_action: 'search-translations',
 		onInit: function() {
 			this.makeSortable_();
 		},

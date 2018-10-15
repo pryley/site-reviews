@@ -502,43 +502,43 @@ msgstr "There was an error (try refreshing the page)."
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr "The form could not be submitted. Please notify the site administrator."
 
-#: config/forms/submission-form.php:5
+#: config/forms/submission-form.php:11
 msgid "Your overall rating"
 msgstr "Your overall rating"
 
-#: config/forms/submission-form.php:9
+#: config/forms/submission-form.php:15
 msgid "Title of your review"
 msgstr "Title of your review"
 
-#: config/forms/submission-form.php:10
+#: config/forms/submission-form.php:16
 msgid "Summarize your review or highlight an interesting detail"
 msgstr "Summarize your review or highlight an interesting detail"
 
-#: config/forms/submission-form.php:14
+#: config/forms/submission-form.php:20
 msgid "Your review"
 msgstr "Your review"
 
-#: config/forms/submission-form.php:15
+#: config/forms/submission-form.php:21
 msgid "Tell people your review"
 msgstr "Tell people your review"
 
-#: config/forms/submission-form.php:20
+#: config/forms/submission-form.php:26
 msgid "Your name"
 msgstr "Your name"
 
-#: config/forms/submission-form.php:21
+#: config/forms/submission-form.php:27
 msgid "Tell us your name"
 msgstr "Tell us your name"
 
-#: config/forms/submission-form.php:25
+#: config/forms/submission-form.php:31
 msgid "Your email"
 msgstr "Your email"
 
-#: config/forms/submission-form.php:26
+#: config/forms/submission-form.php:32
 msgid "Tell us your email"
 msgstr "Tell us your email"
 
-#: config/forms/submission-form.php:30
+#: config/forms/submission-form.php:36
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
@@ -1698,19 +1698,19 @@ msgstr "Show more"
 msgid "Submit your review"
 msgstr "Submit your review"
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:154
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:160
 msgid "logged in"
 msgstr "logged in"
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:156
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:162
 msgid "You must be %s to submit a review."
 msgstr "You must be %s to submit a review."
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:167
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:173
 msgid "register"
 msgstr "register"
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:169
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:175
 msgid "You may also %s for an account."
 msgstr "You may also %s for an account."
 
