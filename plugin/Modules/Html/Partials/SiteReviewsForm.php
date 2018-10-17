@@ -226,6 +226,15 @@ class SiteReviewsForm
 	/**
 	 * @return void
 	 */
+	protected function normalizeFieldId( Field &$field )
+	{
+		if( empty( $this->args['id'] ) || empty( $field->field['id'] ))return;
+		$field->field['id'].= '-'.$this->args['id'];
+	}
+
+	/**
+	 * @return void
+	 */
 	protected function normalizeFieldClass( Field &$field )
 	{
 		if( !isset( $field->field['class'] )) {
@@ -265,6 +274,7 @@ class SiteReviewsForm
 			$this->normalizeFieldErrors( $field );
 			$this->normalizeFieldRequired( $field );
 			$this->normalizeFieldValue( $field );
+			$this->normalizeFieldId( $field );
 			$normalizedFields[] = $field;
 		}
 		return $normalizedFields;

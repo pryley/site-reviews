@@ -88,7 +88,7 @@ class SiteReviews
 			if( !method_exists( $this, $method ))continue;
 			$renderedFields[$key] = $this->$method( $key, $value );
 		}
-		$renderedFields = apply_filters( 'site-reviews/review/build/after', (array)$renderedFields );
+		$renderedFields = apply_filters( 'site-reviews/review/build/after', (array)$renderedFields, $review );
 		return new ReviewHtml( $renderedFields );
 	}
 
