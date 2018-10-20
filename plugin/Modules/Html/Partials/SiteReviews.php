@@ -81,15 +81,15 @@ class SiteReviews
 	 */
 	protected function buildReview( Review $review )
 	{
-		$review = apply_filters( 'site-reviews/review/build/before', (array)$review );
+		$review = apply_filters( 'site-reviews/review/build/before', $review ); // @todo make this an arrayable object!
 		$renderedFields = [];
-		foreach( $review as $key => $value ) {
+		foreach( (array)$review as $key => $value ) {
 			$method = glsr( Helper::class )->buildMethodName( $key, 'buildOption' );
 			if( !method_exists( $this, $method ))continue;
 			$renderedFields[$key] = $this->$method( $key, $value );
 		}
-		$renderedFields = apply_filters( 'site-reviews/review/build/after', (array)$renderedFields, $review );
-		return new ReviewHtml( $renderedFields );
+		$renderedFields = apply_filters( 'site-reviews/review/build/after', $renderedFields, $review );
+		return new ReviewHtml( (array)$renderedFields );
 	}
 
 	/**

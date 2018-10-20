@@ -434,11 +434,11 @@ msgstr ""
 msgid "Anonymous"
 msgstr ""
 
-#: plugin/Router.php:143
+#: plugin/Router.php:142
 msgid "There was an error (try refreshing the page)."
 msgstr ""
 
-#: plugin/Router.php:145
+#: plugin/Router.php:144
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 
