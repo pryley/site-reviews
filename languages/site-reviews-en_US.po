@@ -1788,7 +1788,7 @@ msgctxt "the option label"
 msgid "The \"%s\" option is required."
 msgstr "The \"%s\" option is required."
 
-#: plugin/Modules/Html/Partials/SiteReviewsSummary.php:136
+#: plugin/Modules/Html/Partials/SiteReviewsSummary.php:140
 msgctxt "Do not translate {rating}, {max}, and {num}, they are template tags."
 msgid "{rating} out of {max} stars (based on {num} review)"
 msgid_plural "{rating} out of {max} stars (based on {num} reviews)"
