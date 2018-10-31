@@ -132,9 +132,10 @@ All documentation can be found in the "Get Help" page of the plugin. You can als
 
 == Changelog ==
 
-= 3.0.0-beta-11 (2018-11-01) =
+= 3.0.0-beta-11 (2018-10-31) =
 
 - Added "site-reviews/summary/counts" hook
+- Load minified polyfill script
 
 = 3.0.0-beta-10 (2018-10-20) =
 

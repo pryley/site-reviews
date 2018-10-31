@@ -5,6 +5,7 @@ defined( 'WPINC' ) || die;
 /**
  * @param \GeminiLabs\SiteReviews\Modules\Html\Builder $instance
  * @return void
+ * @see https://www.elegantthemes.com/gallery/divi/
  */
 add_action( 'site-reviews/customize/divi', function( $instance ) {
 	if( $instance->tag != 'label' || $instance->args['type'] != 'checkbox' )return;
@@ -25,7 +26,7 @@ add_filter( 'sbp_exclude_defer_scripts', function( $scriptHandles ) {
  * Fix to display all reviews when sorting by rank
  * @param array $query
  * @return array
- * @see ??
+ * @see https://searchandfilter.com/
  */
 add_filter( 'sf_edit_query_args', function( $query ) {
 	if( !empty( $query['meta_key'] ) && $query['meta_key'] == '_glsr_ranking' ) {

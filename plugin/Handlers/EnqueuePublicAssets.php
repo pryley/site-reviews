@@ -59,7 +59,7 @@ class EnqueuePublicAssets
 		wp_enqueue_script( Application::ID.'/polyfill', add_query_arg([
 			'features' => 'CustomEvent,Element.prototype.closest,Element.prototype.dataset,Event,MutationObserver',
 			'flags' => 'gated',
-		], 'https://cdn.polyfill.io/v2/polyfill.js' ));
+		], 'https://cdn.polyfill.io/v2/polyfill.min.js' ));
 	}
 
 	/**
