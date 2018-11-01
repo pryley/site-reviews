@@ -3,9 +3,9 @@
 namespace GeminiLabs\SiteReviews\Shortcodes;
 
 use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Shortcodes\ButtonGenerator;
+use GeminiLabs\SiteReviews\Shortcodes\TinymcePopupGenerator;
 
-class SiteReviewsFormButton extends ButtonGenerator
+class SiteReviewsFormPopup extends TinymcePopupGenerator
 {
 	/**
 	 * @return array
@@ -18,7 +18,7 @@ class SiteReviewsFormButton extends ButtonGenerator
 		],[
 			'label' => esc_html__( 'Title', 'site-reviews' ),
 			'name' => 'title',
-			'tooltip' => esc_attr__( 'Enter a custom shortcode heading.', 'site-reviews' ),
+			'tooltip' => __( 'Enter a custom shortcode heading.', 'site-reviews' ),
 			'type' => 'textbox',
 		],[
 			'label' => esc_html__( 'Description', 'site-reviews' ),
@@ -26,41 +26,51 @@ class SiteReviewsFormButton extends ButtonGenerator
 			'minWidth' => 240,
 			'multiline' => true,
 			'name' => 'description',
-			'tooltip' => esc_attr__( 'Enter a custom shortcode description.', 'site-reviews' ),
+			'tooltip' => __( 'Enter a custom shortcode description.', 'site-reviews' ),
 			'type' => 'textbox',
 		],
 		$this->getTerms(),
 		[
-			'label' => esc_html__( 'Post ID', 'site-reviews' ),
+			'label' => esc_html__( 'Assign To', 'site-reviews' ),
 			'name' => 'assign_to',
-			'tooltip' => esc_attr__( 'Assign submitted reviews to a custom page/post ID. You can also enter "post_id" to assign reviews to the ID of the current page.', 'site-reviews' ),
+			'tooltip' => __( 'Assign submitted reviews to a custom page/post ID. You can also enter "post_id" to assign reviews to the ID of the current page.', 'site-reviews' ),
 			'type' => 'textbox',
 		],[
 			'label' => esc_html__( 'Classes', 'site-reviews' ),
 			'name' => 'class',
-			'tooltip' => esc_attr__( 'Add custom CSS classes to the shortcode.', 'site-reviews' ),
+			'tooltip' => __( 'Add custom CSS classes to the shortcode.', 'site-reviews' ),
 			'type' => 'textbox',
 		],[
 			'columns' => 2,
 			'items' => [[
+				'name' => 'hide_content',
+				'text' => esc_html__( 'Content', 'site-reviews' ),
+				'tooltip' => __( 'Hide the content field?', 'site-reviews' ),
+				'type' => 'checkbox',
+			],[
 				'name' => 'hide_email',
 				'text' => esc_html__( 'Email', 'site-reviews' ),
-				'tooltip' => esc_attr__( 'Hide the email field?', 'site-reviews' ),
+				'tooltip' => __( 'Hide the email field?', 'site-reviews' ),
 				'type' => 'checkbox',
 			],[
 				'name' => 'hide_name',
 				'text' => esc_html__( 'Name', 'site-reviews' ),
-				'tooltip' => esc_attr__( 'Hide the name field?', 'site-reviews' ),
+				'tooltip' => __( 'Hide the name field?', 'site-reviews' ),
+				'type' => 'checkbox',
+			],[
+				'name' => 'hide_rating',
+				'text' => esc_html__( 'Rating', 'site-reviews' ),
+				'tooltip' => __( 'Hide the rating field?', 'site-reviews' ),
 				'type' => 'checkbox',
 			],[
 				'name' => 'hide_terms',
 				'text' => esc_html__( 'Terms', 'site-reviews' ),
-				'tooltip' => esc_attr__( 'Hide the terms field?', 'site-reviews' ),
+				'tooltip' => __( 'Hide the terms field?', 'site-reviews' ),
 				'type' => 'checkbox',
 			],[
 				'name' => 'hide_title',
 				'text' => esc_html__( 'Title', 'site-reviews' ),
-				'tooltip' => esc_attr__( 'Hide the title field?', 'site-reviews' ),
+				'tooltip' => __( 'Hide the title field?', 'site-reviews' ),
 				'type' => 'checkbox',
 			]],
 			'label' => esc_html__( 'Hide', 'site-reviews' ),
@@ -87,7 +97,7 @@ class SiteReviewsFormButton extends ButtonGenerator
 			'label' => esc_html__( 'Category', 'site-reviews' ),
 			'name' => 'category',
 			'options' => $terms,
-			'tooltip' => esc_attr__( 'Automatically assign a category to reviews submitted with this shortcode.', 'site-reviews' ),
+			'tooltip' => __( 'Automatically assign a category to reviews submitted with this shortcode.', 'site-reviews' ),
 			'type' => 'listbox',
 		];
 	}

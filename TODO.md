@@ -1,18 +1,9 @@
 # PRE-LAUNCH
-- [ ] move templates dir to root
-- [ ] finish the documentation
-- [ ] migrate all settings (ie. copy keys from Invisible recaptcha plugin)
-- [-] verify all v2 hooks
-      - site-reviews/local/review/create
-      - site-reviews/local/review/submitted
-      - site-reviews/rendered/review
-      - site-reviews/rendered/review-form/login-register
-      - site-reviews/reviews/navigation_links
-      - site-reviews/router/ajax/request
-      - site-reviews/router/post/request
-      - site-reviews/settings
-      - site-reviews/settings/notice
-
 # POST-LAUNCH
-- [ ] add timeout error for recaptcha
-- [ ] make tabs responsive (auto-collapsable)
+- [ ] add a notice similar to Polylang: "We have noticed that you are using Site Review for some time. We hope that you love it! We would be thrilled if you could give us a [5 stars rating](...)."
+- [ ] contact user who requested help with the submission-form in a magnific-popup (custom javascript)
+- [ ] update pastebin examples
+      - https://pastebin.com/N82SuESJ
+      - https://pastebin.com/sGzHzAki
+      - https://pastebin.com/R3wcXWDr
+      - https://pastebin.com/a0g8BaHJ

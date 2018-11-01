@@ -1,6 +1,7 @@
 .*
 !.gitattributes
 !.gitignore
+!.jshintrc
 !.scrutinizer.yml
 !.travis.yml
 *.log

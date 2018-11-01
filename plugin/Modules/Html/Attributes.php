@@ -220,7 +220,7 @@ class Attributes
 			}
 			if( !glsr( Helper::class )->startsWith( 'data-', $key ))continue;
 			if( is_array( $value )) {
-				$value = json_encode( $value, JSON_HEX_APOS | JSON_NUMERIC_CHECK | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
+				$value = json_encode( $value, JSON_HEX_APOS|JSON_NUMERIC_CHECK|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE );
 			}
 			$this->attributes[$key] = $value;
 		}

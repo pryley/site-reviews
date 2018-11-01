@@ -2,18 +2,18 @@
 
 namespace GeminiLabs\SiteReviews\Handlers;
 
-use GeminiLabs\SiteReviews\Commands\RegisterShortcodeButtons as Command;
+use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups as Command;
 use GeminiLabs\SiteReviews\Helper;
 
-class RegisterShortcodeButtons
+class RegisterTinymcePopups
 {
 	/**
 	 * @return void
 	 */
 	public function handle( Command $command )
 	{
-		foreach( $command->shortcodes as $slug => $label ) {
-			$buttonClass = glsr( Helper::class )->buildClassName( $slug.'-button', 'Shortcodes' );
+		foreach( $command->popups as $slug => $label ) {
+			$buttonClass = glsr( Helper::class )->buildClassName( $slug.'-popup', 'Shortcodes' );
 			if( !class_exists( $buttonClass )) {
 				glsr_log()->error( sprintf( 'Class missing (%s)', $buttonClass ));
 				continue;

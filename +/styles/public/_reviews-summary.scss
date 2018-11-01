@@ -60,7 +60,7 @@
 	.glsr-summary-stars {
 		display: inline-block;
 	}
-	.glsr-summary-stars .star {
+	.glsr-summary-stars .glsr-star {
 		width: $glsr-summary-star-size;
 		height: $glsr-summary-star-size;
 		background-size: $glsr-summary-star-size;
@@ -93,7 +93,7 @@
 	.glsr-summary-stars {
 		margin-left: $glsr-summary-spacing;
 	}
-	.glsr-summary-stars .star {
+	.glsr-summary-stars .glsr-star {
 		transform: scaleX(-1);
 	}
 }

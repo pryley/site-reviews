@@ -51,7 +51,7 @@
 				<input type="hidden" name="{{ id }}[site]" value="<?= $slug; ?>">
 				<?php endforeach; ?>
 			<?php endif; ?>
-			<input type="hidden" name="{{ id }}[action]" value="sync-reviews">
+			<input type="hidden" name="{{ id }}[_action]" value="sync-reviews">
 			<?php wp_nonce_field( 'sync-reviews' ); ?>
 			<?php submit_button( __( 'Sync Reviews', 'site-reviews' ), 'primary', '', false, ['id' => 'doaction'] ); ?>
 		</div>

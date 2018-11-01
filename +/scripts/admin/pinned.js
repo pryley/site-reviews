@@ -46,7 +46,7 @@
 			this.restoreEditLink_();
 			this.target = ev.currentTarget;
 			var request = {
-				action: 'toggle-pinned',
+				_action: 'toggle-pinned',
 				id: $( '#post_ID' ).val(),
 				pinned: $( '#pinned-status' ).val(),
 			};
@@ -58,7 +58,7 @@
 			ev.preventDefault();
 			this.target = ev.currentTarget;
 			var request = {
-				action: 'toggle-pinned',
+				_action: 'toggle-pinned',
 				id: ev.currentTarget.getAttribute( 'data-id' ),
 			};
 			(new GLSR.Ajax( request )).post_( this.togglePinned_.bind( this ));

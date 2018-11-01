@@ -2,12 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-class RegisterShortcodeButtons
+class RegisterTinymcePopups
 {
-	public $shortcodes;
+	public $popups;
 
 	public function __construct( $input )
 	{
-		$this->shortcodes = $input;
+		$this->popups = $input;
 	}
 }

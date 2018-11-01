@@ -59,6 +59,7 @@ class Filters implements HooksContract
 		add_filter( 'manage_edit-'.Application::POST_TYPE.'_sortable_columns', [$this->listtable, 'filterSortableColumns'] );
 		add_filter( 'ngettext',                                                [$this->listtable, 'filterStatusText'], 10, 5 );
 		add_filter( 'script_loader_tag',                                       [$this->public, 'filterEnqueuedScripts'], 10, 2 );
+		add_filter( 'site-reviews/config/forms/submission-form',               [$this->public, 'filterFieldOrder'], 11 );
 		add_filter( 'query_vars',                                              [$this->public, 'filterQueryVars'] );
 		add_filter( 'site-reviews/render/view',                                [$this->public, 'filterRenderView'] );
 		add_filter( 'gettext',                                                 [$this->translator, 'filterGettext'], 10, 3 );

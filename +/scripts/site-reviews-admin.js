@@ -59,4 +59,27 @@ jQuery( function( $ ) {
 	new GLSR.Tabs();
 	new GLSR.TextareaResize();
 	new GLSR.Tools();
+
+	$( '.glsr-card.postbox' ).addClass( 'closed' )
+		.find( '.handlediv' ).attr( 'aria-expanded', false )
+		.closest( '.glsr-nav-view' ).addClass( 'collapsed' );
+
+	$( '.glsr-card.postbox .glsr-card-header' ).on( 'click', function() {
+		var parent = $( this ).parent();
+		var view = parent.closest( '.glsr-nav-view' );
+		var action = parent.hasClass( 'closed' ) ? 'remove' : 'add';
+		parent[action + 'Class']( 'closed' ).find( '.handlediv' ).attr( 'aria-expanded', action !== 'add' );
+		action = view.find( '.glsr-card.postbox' ).not( '.closed' ).length > 0 ? 'remove' : 'add';
+		view[action + 'Class']( 'collapsed' );
+	});
+
+	if( $('.glsr-support-step').not(':checked').length < 1 ) {
+		$( '.glsr-card-result' ).removeClass( 'hidden' );
+	}
+
+	$('.glsr-support-step').on( 'change', function() {
+		var action = $('.glsr-support-step').not(':checked').length > 0 ? 'add' : 'remove';
+		$( '.glsr-card-result' )[action + 'Class']( 'hidden' );
+	});
+
 });

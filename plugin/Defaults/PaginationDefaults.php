@@ -18,6 +18,7 @@ class PaginationDefaults extends Defaults
 			'mid_size' => 1,
 			'next_text' => __( 'Next &rarr;', 'site-reviews' ),
 			'prev_text' => __( '&larr; Previous', 'site-reviews' ),
+			'type' => 'plain',
 		];
 	}
 }

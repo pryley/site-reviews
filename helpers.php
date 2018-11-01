@@ -12,6 +12,17 @@ function glsr( $alias = null ) {
 }
 
 /**
+ * @return false|\GeminiLabs\SiteReviews\Review
+ */
+function glsr_create_review( array $reviewValues = [] ) {
+	if( empty( $reviewValues )) {
+		return false;
+	}
+	$review = new \GeminiLabs\SiteReviews\Commands\CreateReview( $reviewValues );
+	return glsr( 'Database\ReviewManager' )->create( $review );
+}
+
+/**
  * @return \WP_Screen|object
  */
 function glsr_current_screen() {
@@ -21,13 +32,6 @@ function glsr_current_screen() {
 	return empty( $screen )
 		? (object)array_fill_keys( ['base', 'id', 'post_type'], null )
 		: $screen;
-}
-
-/**
- * @return \GeminiLabs\SiteReviews\Database
- */
-function glsr_db() {
-	return glsr( 'Database' );
 }
 
 /**
@@ -46,20 +50,6 @@ function glsr_debug( ...$vars ) {
 		}
 		echo '</div>';
 	}
-}
-
-/**
- * @return \GeminiLabs\SiteReviews\Modules\Console
- */
-function glsr_log() {
-	$args = func_get_args();
-	$context = isset( $args[1] )
-		? $args[1]
-		: [];
-	$console = glsr( 'Modules\Console' );
-	return !empty( $args )
-		? $console->log( 'debug', $args[0], $context )
-		: $console;
 }
 
 /**
@@ -95,4 +85,18 @@ function glsr_get_review( $post_id ) {
  */
 function glsr_get_reviews( array $args = array() ) {
 	return glsr( 'Database\ReviewManager' )->get( $args );
+}
+
+/**
+ * @return \GeminiLabs\SiteReviews\Modules\Console
+ */
+function glsr_log() {
+	$args = func_get_args();
+	$context = isset( $args[1] )
+		? $args[1]
+		: [];
+	$console = glsr( 'Modules\Console' );
+	return !empty( $args )
+		? $console->log( 'debug', $args[0], $context )
+		: $console;
 }

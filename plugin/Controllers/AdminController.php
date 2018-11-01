@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\EnqueueAdminAssets;
-use GeminiLabs\SiteReviews\Commands\RegisterShortcodeButtons;
+use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
@@ -82,8 +82,7 @@ class AdminController extends Controller
 	 */
 	public function filterTinymcePlugins( array $plugins )
 	{
-		if( user_can_richedit()
-			&& ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ))) {
+		if( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' )) {
 			$plugins['glsr_shortcode'] = glsr()->url( 'assets/scripts/mce-plugin.js' );
 		}
 		return $plugins;
@@ -93,9 +92,9 @@ class AdminController extends Controller
 	 * @return void
 	 * @action admin_init
 	 */
-	public function registerShortcodeButtons()
+	public function registerTinymcePopups()
 	{
-		$command = new RegisterShortcodeButtons([
+		$command = new RegisterTinymcePopups([
 			'site_reviews' => esc_html__( 'Recent Reviews', 'site-reviews' ),
 			'site_reviews_form' => esc_html__( 'Submit a Review', 'site-reviews' ),
 			'site_reviews_summary' => esc_html__( 'Summary of Reviews', 'site-reviews' ),
@@ -165,9 +164,10 @@ class AdminController extends Controller
 	}
 
 	/**
+	 * @param bool $showNotice
 	 * @return void
 	 */
-	public function routerCountReviews()
+	public function routerCountReviews( $showNotice = true )
 	{
 		$countManager = glsr( CountsManager::class );
 		$terms = get_terms([
@@ -182,7 +182,9 @@ class AdminController extends Controller
 			$countManager->setPostCounts( $postId, $countManager->buildPostCounts( $postId ));
 		}
 		$countManager->setCounts( $countManager->buildCounts() );
-		glsr( Notice::class )->addSuccess( __( 'Recalculated rating counts.', 'site-reviews' ));
+		if( $showNotice ) {
+			glsr( Notice::class )->clear()->addSuccess( __( 'Recalculated rating counts.', 'site-reviews' ));
+		}
 	}
 
 	/**

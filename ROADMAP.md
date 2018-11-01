@@ -19,6 +19,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Multiple star-ratings in a review (for rating individual services of a business)
 - [ ] Protect review metadata from Custom Fields
 - [ ] Rating types (star, thumb, emote, percent)
+- [ ] Reminder integration (seems more like an integration with other specific plugins, i.e. woocommerce)
 - [ ] Review statistics
 - [ ] Share reviews
 - [ ] Store the review GEO location by IP

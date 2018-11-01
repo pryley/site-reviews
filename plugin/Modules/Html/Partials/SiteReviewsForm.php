@@ -47,7 +47,7 @@ class SiteReviewsForm
 	public function build( array $args = [] )
 	{
 		$this->args = $args;
-		if( !is_user_logged_in() && glsr( OptionManager::class )->get( 'settings.general.require.login' ) != 'yes' ) {
+		if( !is_user_logged_in() && glsr( OptionManager::class )->get( 'settings.general.require.login' ) == 'yes' ) {
 			return $this->buildLoginRegister();
 		}
 		$this->errors = glsr( Session::class )->get( $args['id'].'errors', [], true );
@@ -136,12 +136,18 @@ class SiteReviewsForm
 	 */
 	protected function getFields()
 	{
-		$fields = array_merge(
-			$this->getHiddenFields(),
-			[$this->getHoneypotField()],
-			$this->normalizeFields( glsr( Form::class )->getFields( 'submission-form' ))
-		);
-		return $fields;
+		$hiddenFields = $this->getHiddenFields();
+		$hiddenFields[] = $this->getHoneypotField();
+		$fields = $this->normalizeFields( glsr( Form::class )->getFields( 'submission-form' ));
+		$paths = array_map( function( $obj ) {
+			return $obj->field['path'];
+		}, $hiddenFields );
+		foreach( $fields as $field ) {
+			$index = array_search( $field->field['path'], $paths );
+			if( $index === false )continue;
+			unset( $hiddenFields[$index] );
+		}
+		return array_merge( $hiddenFields, $fields );
 	}
 
 	/**
@@ -175,8 +181,19 @@ class SiteReviewsForm
 	protected function getHiddenFields()
 	{
 		$fields = [[
-			'name' => 'action',
+			'name' => '_action',
 			'value' => 'submit-review',
+		],[
+			'name' => '_counter',
+		],[
+			'name' => '_nonce',
+			'value' => wp_create_nonce( 'submit-review' ),
+		],[
+			'name' => '_post_id',
+			'value' => get_the_ID(),
+		],[
+			'name' => '_referer',
+			'value' => wp_unslash( filter_input( INPUT_SERVER, 'REQUEST_URI' )),
 		],[
 			'name' => 'assign_to',
 			'value' => $this->args['assign_to'],
@@ -185,19 +202,10 @@ class SiteReviewsForm
 			'value' => $this->args['category'],
 		],[
 			'name' => 'excluded',
-			'value' => $this->args['excluded'], // @todo should default to "[]"
+			'value' => $this->args['hide'],
 		],[
 			'name' => 'form_id',
 			'value' => $this->args['id'],
-		],[
-			'name' => 'nonce',
-			'value' => wp_create_nonce( 'submit-review' ),
-		],[
-			'name' => 'post_id',
-			'value' => get_the_ID(),
-		],[
-			'name' => 'referer',
-			'value' => wp_unslash( filter_input( INPUT_SERVER, 'REQUEST_URI' )),
 		]];
 		return array_map( function( $field ) {
 			return new Field( wp_parse_args( $field, ['type' => 'hidden'] ));
@@ -213,6 +221,15 @@ class SiteReviewsForm
 			'name' => 'gotcha',
 			'type' => 'honeypot',
 		]);
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function normalizeFieldId( Field &$field )
+	{
+		if( empty( $this->args['id'] ) || empty( $field->field['id'] ))return;
+		$field->field['id'].= '-'.$this->args['id'];
 	}
 
 	/**
@@ -249,14 +266,18 @@ class SiteReviewsForm
 	 */
 	protected function normalizeFields( $fields )
 	{
-		foreach( $fields as &$field ) {
+		$normalizedFields = [];
+		foreach( $fields as $field ) {
+			if( in_array( $field->field['path'], $this->args['hide'] ))continue;
 			$field->field['is_public'] = true;
 			$this->normalizeFieldClass( $field );
 			$this->normalizeFieldErrors( $field );
 			$this->normalizeFieldRequired( $field );
 			$this->normalizeFieldValue( $field );
+			$this->normalizeFieldId( $field );
+			$normalizedFields[] = $field;
 		}
-		return $fields;
+		return $normalizedFields;
 	}
 
 	/**

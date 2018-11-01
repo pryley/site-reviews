@@ -21,6 +21,7 @@ final class Application extends Container
 	const TAXONOMY = 'site-review-category';
 
 	public $defaults;
+	public $deprecated = [];
 	public $file;
 	public $languages;
 	public $mceShortcodes = []; //defined elsewhere
@@ -54,6 +55,16 @@ final class Application extends Container
 	}
 
 	/**
+	 * @return void
+	 */
+	public function catchFatalError()
+	{
+		$error = error_get_last();
+		if( $error['type'] !== E_ERROR || strpos( $error['message'], $this->path() ) === false )return;
+		glsr_log()->error( $error['message'] );
+	}
+
+	/**
 	 * @param string $name
 	 * @return array
 	 */
@@ -63,7 +74,7 @@ final class Application extends Container
 		$config = file_exists( $configFile )
 			? include $configFile
 			: [];
-		return apply_filters( 'site-reviews/config', $config, $name );
+		return apply_filters( 'site-reviews/config/'.$name, $config );
 	}
 
 	/**
@@ -81,15 +92,15 @@ final class Application extends Container
 	public function file( $view )
 	{
 		$file = '';
+		$view.= '.php';
 		if( glsr( Helper::class )->startsWith( 'templates/', $view )) {
-			$file = str_replace( 'templates/', 'site-reviews/', $view ).'.php';
-			$file = get_stylesheet_directory().'/'.$file;
+			$file = $this->themePath( glsr( Helper::class )->removePrefix( 'templates/', $view ));
 			if( !file_exists( $file )) {
-				$file = $this->path( $view.'.php' );
+				$file = $this->path( $view );
 			}
 		}
 		if( !file_exists( $file )) {
-			$file = $this->path( 'views/'.$view.'.php' );
+			$file = $this->path( 'views/'.$view );
 		}
 		return $file;
 	}
@@ -195,6 +206,15 @@ final class Application extends Container
 	{
 		if( wp_next_scheduled( static::CRON_EVENT ))return;
 		wp_schedule_event( time(), 'twicedaily', static::CRON_EVENT );
+	}
+
+	/**
+	 * @param string $file
+	 * @return string
+	 */
+	public function themePath( $file = '' )
+	{
+		return get_stylesheet_directory().'/'.static::ID.'/'.ltrim( trim( $file ), '/' );
 	}
 
 	/**

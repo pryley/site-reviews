@@ -103,6 +103,6 @@ class SiteReviewsWidget extends Widget
 	 */
 	public function widget( $args, $instance )
 	{
-		echo glsr( SiteReviewsShortcode::class )->build( $instance, $args );
+		echo glsr( SiteReviewsShortcode::class )->build( $instance, $args, 'widget' );
 	}
 }

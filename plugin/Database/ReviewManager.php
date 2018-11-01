@@ -21,27 +21,28 @@ class ReviewManager
 	 */
 	public function create( CreateReview $command )
 	{
-		$review = glsr( CreateReviewDefaults::class )->restrict( (array)$command );
-		$review = apply_filters( 'site-reviews/create/review-values', $review, $command );
-		$post = [
+		$reviewValues = glsr( CreateReviewDefaults::class )->restrict( (array)$command );
+		$reviewValues = apply_filters( 'site-reviews/create/review-values', $reviewValues, $command );
+		$postValues = [
 			'comment_status' => 'closed',
-			'meta_input' => $review,
+			'meta_input' => $reviewValues,
 			'ping_status' => 'closed',
-			'post_content' => $review['content'],
-			'post_date' => $review['date'],
-			'post_name' => $review['review_type'].'-'.$review['review_id'],
-			'post_status' => $this->getNewPostStatus( $review, $command->blacklisted ),
-			'post_title' => $review['title'],
+			'post_content' => $reviewValues['content'],
+			'post_date' => $reviewValues['date'],
+			'post_name' => $reviewValues['review_type'].'-'.$reviewValues['review_id'],
+			'post_status' => $this->getNewPostStatus( $reviewValues, $command->blacklisted ),
+			'post_title' => $reviewValues['title'],
 			'post_type' => Application::POST_TYPE,
 		];
-		$postId = wp_insert_post( $post, true );
+		$postId = wp_insert_post( $postValues, true );
 		if( is_wp_error( $postId )) {
-			glsr_log()->error( $postId->get_error_message() )->debug( $post );
+			glsr_log()->error( $postId->get_error_message() )->debug( $postValues );
 			return false;
 		}
 		$this->setTerms( $postId, $command->category );
-		do_action( 'site-reviews/create/review', $post, $review, $postId );
-		return $this->single( get_post( $postId ));
+		$review = $this->single( get_post( $postId ));
+		do_action( 'site-reviews/review/created', $review, $command );
+		return $review;
 	}
 
 	/**

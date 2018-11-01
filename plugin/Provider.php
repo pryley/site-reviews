@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Controllers\MainController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Filters;
 use GeminiLabs\SiteReviews\Modules\Session;
+use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Modules\Translator;
 
 class Provider implements ProviderContract
@@ -24,6 +25,7 @@ class Provider implements ProviderContract
 		$app->singleton( OptionManager::class, OptionManager::class );
 		$app->singleton( Session::class, Session::class );
 		$app->singleton( Translator::class, Translator::class );
+		$app->singleton( Translation::class, Translation::class );
 		$app->singleton( MainController::class, MainController::class ); // this goes last
 	}
 }

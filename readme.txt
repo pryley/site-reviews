@@ -5,7 +5,7 @@ Tags: reviews, business reviews, curated reviews, moderated reviews, rating, rat
 Requires at least: 4.7.0
 Tested up to: 4.9
 Requires PHP: 5.6
-Stable tag: 3.0.0-beta
+Stable tag: 3.0.0-beta-11
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -132,18 +132,55 @@ All documentation can be found in the "Get Help" page of the plugin. You can als
 
 == Changelog ==
 
-= 3.0.0 (2018-08-??) =
+= 3.0.0-beta-11 (2018-10-31) =
+
+- Added "site-reviews/summary/counts" hook
+- Load minified polyfill script
+
+= 3.0.0-beta-10 (2018-10-20) =
+
+- Changed "site-reviews/review/build/before" hook to use the Review _object_ (instead of a converted array)
+- Fixed assigned post and translation search
+
+= 3.0.0-beta-9 (2018-10-17) =
+
+- Added the Review object as the second argument of the "site-reviews/review/build/after" hook
+- Fixed field isolation based on the form ID
+
+= 3.0.0-beta-8 (2018-10-15) =
+
+- Fixed star-rating compatibility with Woocommerce themes
+
+= 3.0.0-beta-7 (2018-10-15) =
+
+- Added "site-reviews/shortcode/args" hook
+- Added ability to automatically override default hidden fields with custom fields
+- Added basic protection to prevent required form inputs from being overridden
+- Added error logging isolation to Site Reviews
+- Fixed reCAPTCHA
+- Fixed reCAPTCHA submission form button state
+
+= 3.0.0-beta-4 (2018-10-10) =
+
+- Added "site-reviews/builder/result" hook
+- Added "site-reviews/submission-form/order" hook
+- Added more documentation
+- Fixed "require login" setting
+- Fixed custom field values
+
+= 3.0.0-beta-2 (2018-09-26) =
 
 - !! Complete rewrite of Site Reviews
 - !! Dropped support for legacy web browsers (supports all modern browsers and IE11+)
 - !! Dropped support for the twentyten to twentyfourteen themes
 - !! Requires PHP 5.6 or greater and WordPress 4.7 or greater
-- Added export/Import plugin settings
+- Added export/import plugin tools
 - Added extended avatar options
 - Added form styles to match popular themes and form plugins
 - Added Polylang support for multilingual websites
 - Added support for Asian languages in excerpt lengths
 - Added support for multiple notifications when a review has been submitted
+- Added templates for easy cutomisation of the shortcode and widget HTML
 - Improved documentation
-- Improved performance for sites with thousands of reviews
+- Improved performance, especially for sites with thousands of reviews
 - Improved reCAPTCHA compatibility with other plugins

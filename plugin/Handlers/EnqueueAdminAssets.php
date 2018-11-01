@@ -74,6 +74,9 @@ class EnqueueAdminAssets
 			],
 			'pointers' => $this->pointers,
 			'shortcodes' => [],
+			'tinymce' => [
+				'glsr_shortcode' => glsr()->url( 'assets/scripts/mce-plugin.js' ),
+			],
 		];
 		if( user_can_richedit() ) {
 			$variables['shortcodes'] = $this->localizeShortcodes();

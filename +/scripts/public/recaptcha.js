@@ -1,11 +1,22 @@
-/** global: GLSR, grecaptcha */
+/** global: GLSR, grecaptcha, MutationObserver */
 ;(function() {
 
 	'use strict';
 
 	GLSR.Recaptcha = function( Form ) { // Form object
 		this.Form = Form;
+		this.counter = 0;
 		this.id = -1;
+		this.is_submitting = false;
+		this.observer = new MutationObserver( function( mutations ) {
+			var mutation = mutations.pop();
+			if( !mutation.target || mutation.target.style.visibility === 'visible' )return;
+			this.observer.disconnect();
+			setTimeout( function() {
+				if( this.is_submitting )return;
+				this.Form.enableButton_();
+			}.bind( this ), 250 );
+		}.bind( this ));
 	};
 
 	GLSR.Recaptcha.prototype = {
@@ -13,10 +24,31 @@
 		/** @return void */
 		execute_: function() {
 			if( this.id !== -1 ) {
+				this.counter = 0;
+				this.observeMutations_( this.id );
 				grecaptcha.execute( this.id );
 				return;
 			}
-			this.submitForm_.call( this.Form, 'invalid' );
+			setTimeout( function() {
+				this.counter++;
+				this.submitForm_.call( this.Form, this.counter );
+			}.bind( this ), 1000 );
+		},
+
+		/** @return void */
+		observeMutations_: function( id ) {
+			var client = window.___grecaptcha_cfg.clients[id];
+			for( var property in client) {
+				if( Object.prototype.toString.call( client[property] ) !== '[object String]' )continue;
+				var overlayEl = document.querySelector( 'iframe[name=c-' + client[property] + ']' );
+				if( overlayEl ) {
+					this.observer.observe( overlayEl.parentElement.parentElement, {
+						attributeFilter: ['style'],
+						attributes: true,
+					});
+					break;
+				}
+			}
 		},
 
 		/** @return void */
@@ -35,7 +67,9 @@
 					return this.renderWait_( recaptchaEl );
 				}
 				this.id = grecaptcha.render( recaptchaEl, {
-					callback: this.submitForm_.bind( this.Form ),
+					callback: this.submitForm_.bind( this.Form, this.counter ),
+					// 'error-callback': this.reset_.bind( this ), //@todo
+					// error-callback: The name of your callback function, executed when reCAPTCHA encounters an error (usually network connectivity) and cannot continue until connectivity is restored. If you specify a function here, you are responsible for informing the user that they should retry.
 					'expired-callback': this.reset_.bind( this ),
 					isolated: true,
 				}, true );
@@ -44,23 +78,22 @@
 
 		/** @return void */
 		reset_: function() {
+			this.counter = 0;
+			this.is_submitting = false;
 			if( this.id !== -1 ) {
 				grecaptcha.reset( this.id );
 			}
 		},
 
 		/** @return void */
-		submitForm_: function( token ) { // string
-			var tokenEl = this.form['g-recaptcha-response'];
-			if( tokenEl ) {
-				tokenEl.value = token;
-			}
+		submitForm_: function( counter ) { // int
+			this.recaptcha.is_submitting = true;
 			if( !this.useAjax ) {
 				this.disableButton_();
 				this.form.submit();
 				return;
 			}
-			this.submitForm_();
+			this.submitForm_( counter );
 		},
 	};
 })();

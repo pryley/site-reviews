@@ -42,6 +42,20 @@ class Review
 	}
 
 	/**
+	 * @return mixed
+	 */
+	public function __get( $key )
+	{
+		if( property_exists( $this, $key )) {
+			return $this->$key;
+		}
+		if( is_array( $this->custom ) && array_key_exists( $key, $this->custom )) {
+			return $this->custom[$key];
+		}
+		return '';
+	}
+
+	/**
 	 * @return bool
 	 */
 	protected function isModified( array $properties )

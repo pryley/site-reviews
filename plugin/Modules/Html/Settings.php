@@ -7,16 +7,22 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\Field;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
-use GeminiLabs\SiteReviews\Modules\Translator;
+use GeminiLabs\SiteReviews\Modules\Translation;
 
 class Settings
 {
+	/**
+	 * @var array
+	 */
+	public $settings;
+
 	/**
 	 * @param string $id
 	 * @return string
 	 */
 	public function buildFields( $id )
 	{
+		$this->settings = glsr( DefaultsManager::class )->settings();
 		$method = glsr( Helper::class )->buildMethodName( $id, 'getTemplateDataFor' );
 		$data = !method_exists( $this, $method )
 			? $this->getTemplateData( $id )
@@ -39,8 +45,7 @@ class Settings
 	 */
 	protected function getSettingFields( $path )
 	{
-		$settings = glsr( DefaultsManager::class )->settings();
-		return array_filter( $settings, function( $key ) use( $path ) {
+		return array_filter( $this->settings, function( $key ) use( $path ) {
 			return glsr( Helper::class )->startsWith( $path, $key );
 		}, ARRAY_FILTER_USE_KEY );
 	}
@@ -101,7 +106,7 @@ class Settings
 	 */
 	protected function getTemplateDataForTranslations()
 	{
-		$translations = glsr( Translator::class )->renderAll();
+		$translations = glsr( Translation::class )->renderAll();
 		$class = empty( $translations )
 			? 'glsr-hidden'
 			: '';
@@ -134,6 +139,19 @@ class Settings
 	}
 
 	/**
+	 * @return bool
+	 */
+	protected function isMultiDependency( $path )
+	{
+		if( isset( $this->settings[$path] )) {
+			$field = $this->settings[$path];
+			return ( $field['type'] == 'checkbox' && !empty( $field['options'] ))
+				|| !empty( $field['multiple'] );
+		}
+		return false;
+	}
+
+	/**
 	 * @return array
 	 */
 	protected function normalize( array $field )
@@ -153,7 +171,7 @@ class Settings
 			$path = key( $field['depends_on'] );
 			$expectedValue = $field['depends_on'][$path];
 			$fieldName = glsr( Helper::class )->convertPathToName( $path, OptionManager::databaseKey() );
-			if( is_array( $expectedValue )) {
+			if( $this->isMultiDependency( $path )) {
 				$fieldName.= '[]';
 			}
 			$field['data-depends'] = json_encode([

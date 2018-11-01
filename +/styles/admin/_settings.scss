@@ -1,10 +1,167 @@
 // =============================================================================
 // Partials -> Settings
 // =============================================================================
+td.glsr-string-td1 {
+	position: relative;
+	padding-bottom: 2em;
+}
+td.glsr-string-td1 .row-actions {
+	position: absolute;
+	bottom: 10px;
+	z-index: 1;
+}
+
+td.glsr-string-td2 input[type=text]:last-of-type {
+	margin-bottom: 0;
+}
+
+td.glsr-string-td2 .description {
+	display: block;
+	padding-top: 0.5em;
+}
+
+.is-invalid td.glsr-string-td2 .description {
+	color: #dc3232;
+}
+
+.no-js td.glsr-string-td1 .row-actions,
+tr:hover td.glsr-string-td1 .row-actions,
+.mobile td.glsr-string-td1 .row-actions,
+td.glsr-string-td1 .row-actions.visible {
+	left: 10px;
+}
+
+.is-invalid td.glsr-string-td1,
+.is-invalid td.glsr-string-td2,
+.is-invalid td.glsr-string-td1 > div,
+.is-invalid td.glsr-string-td2 > div {
+	position: relative;
+}
+.is-invalid td.glsr-string-td1 > button,
+.is-invalid td.glsr-string-td2 > button,
+.is-invalid td.glsr-string-td1 > div,
+.is-invalid td.glsr-string-td2 > div {
+	z-index: 1;
+}
+.is-invalid td.glsr-string-td1::after,
+.is-invalid td.glsr-string-td2::after {
+	display: block;
+	position: absolute;
+	content: '';
+	top: -1px;
+	right: -1px;
+	bottom: -1px;
+	left: -1px;
+	background: rgba(220, 50, 50, 0.06);
+	user-select: none;
+	z-index: 0;
+}
+.is-invalid td.glsr-string-td1::after {
+	background: rgba(220, 50, 50, 0.08);
+}
+.is-invalid td.glsr-string-td2 input[type=text],
+.is-invalid td.glsr-string-td2 textarea {
+	border-color: #E2CBCB;
+}
+
+@media screen and (max-width: 782px) {
+	.wp-list-table .is-expanded.is-invalid td:not(.hidden) {
+		overflow: unset;
+	}
+}
+
+@media screen and (max-width: 720px) {
+	h2 a.glsr-nav-tab,
+	h2 a.glsr-nav-tab.nav-tab-active:hover {
+		transition-property: background, color;
+		border-bottom: 1px solid #ccc;
+		margin: 10px 10px 0 0;
+	}
+	.wrap h2.glsr-nav-tab-wrapper {
+		border-bottom: 0;
+	}
+}
 
 .glsr-card {
 	max-width: 750px;
 	box-sizing: border-box;
+}
+
+.glsr-card-result {
+	border: 1px solid #e1e1e1;
+	background-color: #f6fbfd;
+	padding: 0 1em;
+	margin: 1em 0;
+}
+
+.glsr-card ol {
+	list-style: decimal;
+	margin-left: 1.5em;
+}
+
+.glsr-card ul {
+	list-style: disc;
+	margin-left: 1.5em;
+}
+
+.glsr-heading {
+	color: #000;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.glsr-card.postbox {
+	padding: 0;
+}
+
+.glsr-card.postbox .glsr-card-header {
+	position: relative;
+	padding: 1em 0 calc(1em + 1px) 1.5em;
+	min-height: 48px;
+	cursor: pointer;
+	user-select: none;
+	box-sizing: border-box;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.glsr-card.postbox.closed .glsr-card-header {
+	padding-bottom: 1em;
+	border-bottom: none;
+}
+
+.glsr-card.postbox .glsr-card-header h3 {
+	margin: 0 48px 0 0;
+	line-height: 1.4;
+	font-size: 15px;
+}
+
+.glsr-card.postbox .inside {
+	padding: 0 1.5em;
+	margin: 1.5em 0;
+}
+
+.glsr-card.postbox .handlediv {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 48px;
+	height: 100%;
+}
+
+.glsr-card.postbox .handlediv .toggle-indicator::before {
+	width: 20px;
+	text-indent: -2px;
+	content: "\f142";
+	display: inline-block;
+	font: normal 20px/1 dashicons;
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+}
+
+.glsr-card.postbox.closed .handlediv .toggle-indicator::before {
+	content: "\f140";
 }
 
 .glsr-card p.submit {
@@ -20,24 +177,8 @@
 	hyphens: none;
 }
 
-.glsr-card pre {
-	border: 1px solid #e5e5e5;
-	border-radius: 3px;
-	position: relative;
-	background-color: #f9f9f9;
-	overflow: visible;
-	padding: 0;
-	white-space: pre;
-	word-wrap: normal;
-
-	code {
-		background: none;
-		max-height: inherit;
-		height: 100%;
-		padding: 0.5em;
-		display: block;
-		overflow: auto;
-	}
+.glsr-card pre code {
+	border-radius: 2px;
 }
 
 .glsr-card {
@@ -288,9 +429,7 @@ tr.glsr-field li {
 	display: block;
 	width: 100%;
 	margin: 0 0 5px;
-	&:last-of-type {
-		margin-bottom: 0;
-	}
+
 	&:active,
 	&:focus {
 		position: relative;

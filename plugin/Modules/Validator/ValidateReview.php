@@ -14,6 +14,12 @@ class ValidateReview
 {
 	const RECAPTCHA_ENDPOINT = 'https://www.google.com/recaptcha/api/siteverify';
 
+	const RECAPTCHA_DISABLED = 0;
+	const RECAPTCHA_EMPTY = 1;
+	const RECAPTCHA_FAILED = 2;
+	const RECAPTCHA_INVALID = 3;
+	const RECAPTCHA_VALID = 4;
+
 	const VALIDATION_RULES = [
 		'content' => 'required',
 		'email' => 'required|email',
@@ -78,57 +84,60 @@ class ValidateReview
 	}
 
 	/**
+	 * @return int
+	 */
+	protected function getRecaptchaStatus()
+	{
+		if( !glsr( OptionManager::class )->isRecaptchaEnabled() ) {
+			return static::RECAPTCHA_DISABLED;
+		}
+		if( empty( $this->request['_recaptcha-token'] )) {
+			return $this->request['_counter'] < intval( apply_filters( 'site-reviews/recaptcha/timeout', 5 ))
+				? static::RECAPTCHA_EMPTY
+				: static::RECAPTCHA_FAILED;
+		}
+		return $this->getRecaptchaTokenStatus();
+	}
+
+	/**
+	 * @return int
+	 */
+	protected function getRecaptchaTokenStatus()
+	{
+		$endpoint = add_query_arg([
+			'remoteip' => glsr( Helper::class )->getIpAddress(),
+			'response' => $this->request['_recaptcha-token'],
+			'secret' => $this->getOption( 'settings.submissions.recaptcha.secret' ),
+		], static::RECAPTCHA_ENDPOINT );
+		if( is_wp_error( $response = wp_remote_get( $endpoint ))) {
+			glsr_log()->error( $response->get_error_message() );
+			return static::RECAPTCHA_FAILED;
+		}
+		$response = json_decode( wp_remote_retrieve_body( $response ));
+		if( !empty( $response->success )) {
+			return boolval( $response->success )
+				? static::RECAPTCHA_VALID
+				: static::RECAPTCHA_INVALID;
+		}
+		foreach( $response->{'error-codes'} as $error ) {
+			glsr_log()->error( 'reCAPTCHA error: '.$error );
+		}
+		return static::RECAPTCHA_INVALID;
+	}
+
+	/**
 	 * @return array
 	 */
 	protected function getValidationRules( array $request )
 	{
 		$rules = array_intersect_key(
-			apply_filters( 'site-reviews/validation/rules', static::VALIDATION_RULES ),
+			apply_filters( 'site-reviews/validation/rules', static::VALIDATION_RULES, $request ),
 			array_flip( $this->getOption( 'settings.submissions.required', [] ))
 		);
 		$excluded = isset( $request['excluded'] )
-			? (array)json_decode( $request['excluded'] )
+			? explode( ',', $request['excluded'] )
 			: [];
 		return array_diff_key( $rules, array_flip( $excluded ));
-	}
-
-	/**
-	 * @return bool|null
-	 */
-	protected function isRecaptchaResponseValid()
-	{
-		if( !glsr( OptionManager::class )->isRecaptchaEnabled() ) {
-			return true;
-		}
-		if( empty( $this->request['recaptcha-token'] )) {
-			return null; // @see $this->validateRecaptcha()
-		}
-		return $this->isRecaptchaValid( $this->request['recaptcha-token'] );
-	}
-
-	/**
-	 * @param string $recaptchaToken
-	 * @return bool
-	 */
-	protected function isRecaptchaValid( $recaptchaToken )
-	{
-		$endpoint = add_query_arg([
-			'remoteip' => glsr( Helper::class )->getIpAddress(),
-			'response' => $recaptchaToken,
-			'secret' => $this->getOption( 'settings.submissions.recaptcha.secret' ),
-		], static::RECAPTCHA_ENDPOINT );
-		if( is_wp_error( $response = wp_remote_get( $endpoint ))) {
-			glsr_log()->error( $response->get_error_message() );
-			return false;
-		}
-		$response = json_decode( wp_remote_retrieve_body( $response ));
-		if( !empty( $response->success )) {
-			return boolval( $response->success );
-		}
-		foreach( $response->{'error-codes'} as $error ) {
-			glsr_log()->error( 'reCAPTCHA error: '.$error );
-		}
-		return false;
 	}
 
 	/**
@@ -194,7 +203,7 @@ class ValidateReview
 	protected function validateCustom()
 	{
 		if( !empty( $this->error ))return;
-		$validated = apply_filters( 'site-reviews/validate/review/submission', true, $this->request );
+		$validated = apply_filters( 'site-reviews/validate/custom', true, $this->request );
 		if( $validated === true )return;
 		$this->setSessionValues( 'errors', [] );
 		$this->setSessionValues( 'values', $this->request );
@@ -220,16 +229,20 @@ class ValidateReview
 	protected function validateRecaptcha()
 	{
 		if( !empty( $this->error ))return;
-		$isValid = $this->isRecaptchaResponseValid();
-		if( is_null( $isValid )) {
+		$status = $this->getRecaptchaStatus();
+		if( in_array( $status, [static::RECAPTCHA_DISABLED, static::RECAPTCHA_VALID] ))return;
+		if( $status == static::RECAPTCHA_EMPTY ) {
 			$this->setSessionValues( 'recaptcha', 'unset' );
 			$this->recaptchaIsUnset = true;
+			return;
 		}
-		else if( !$isValid ) {
-			$this->setSessionValues( 'errors', [] );
-			$this->setSessionValues( 'recaptcha', 'reset' );
-			$this->error = __( 'The reCAPTCHA verification failed, please try again.', 'site-reviews' );
-		}
+		$this->setSessionValues( 'errors', [] );
+		$this->setSessionValues( 'recaptcha', 'reset' );
+		$errors = [
+			static::RECAPTCHA_FAILED => __( 'The reCAPTCHA failed to load, please refresh the page and try again.', 'site-reviews' ),
+			static::RECAPTCHA_INVALID => __( 'The reCAPTCHA verification failed, please try again.', 'site-reviews' ),
+		];
+		$this->error = $errors[$status];
 	}
 
 	/**

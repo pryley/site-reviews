@@ -3,9 +3,8 @@
     site-reviews/addon/register
     site-reviews/addon/settings/{tab}
     site-reviews/builder
-    site-reviews/create/review
+    site-reviews/review/created
     site-reviews/customize/{style}
-    site-reviews/local/review/submitted
     site-reviews/route/{request_type}/request
 
 ## Filters
@@ -27,9 +26,13 @@
     site-reviews/assets/polyfill
     site-reviews/async-scripts
     site-reviews/blacklist/is-blacklisted
+    site-reviews/builder/result
     site-reviews/columns/{column_slug}
-    site-reviews/config
+    site-reviews/config/{config_id}
     site-reviews/create/review-values
+    site-reviews/defaults/pagination
+    site-reviews/defaults/style-fields
+    site-reviews/defaults/style-validation
     site-reviews/defaults/{defaults_name}
     site-reviews/defer-scripts
     site-reviews/email/compose
@@ -40,7 +43,7 @@
     site-reviews/enqueue/public/dependencies
     site-reviews/enqueue/public/localize
     site-reviews/enqueue/public/localize/ajax-pagination
-    site-reviews/form/fields
+    site-reviews/{form_id}/fields
     site-reviews/get/defaults
     site-reviews/get/review
     site-reviews/metabox/details
@@ -52,6 +55,7 @@
     site-reviews/rating/average
     site-reviews/rating/ranking
     site-reviews/recaptcha/language
+    site-reviews/recaptcha/timeout
     site-reviews/render/view
     site-reviews/rendered/field
     site-reviews/rendered/partial
@@ -64,10 +68,13 @@
     site-reviews/schema/all
     site-reviews/schema/review
     site-reviews/schema/{schema_type}
+    site-reviews/shortcode/args
     site-reviews/slack/compose
     site-reviews/slack/stars
+    site-reviews/submission-form/order
+    site-reviews/summary/counts
     site-reviews/url
-    site-reviews/validate/review/submission
+    site-reviews/validate/custom
     site-reviews/validation/rules
     site-reviews/views/data
     site-reviews/views/file

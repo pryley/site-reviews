@@ -48,7 +48,9 @@ class SiteReviewsFormWidget extends Widget
 			'name' => 'hide',
 			'options' => [
 				'email' => __( 'Hide the email field', 'site-reviews' ),
+				'content' => __( 'Hide the content field', 'site-reviews' ),
 				'name'  => __( 'Hide the name field', 'site-reviews' ),
+				'rating'  => __( 'Hide the rating field', 'site-reviews' ),
 				'terms' => __( 'Hide the terms field', 'site-reviews' ),
 				'title' => __( 'Hide the title field', 'site-reviews' ),
 			],
@@ -62,6 +64,6 @@ class SiteReviewsFormWidget extends Widget
 	 */
 	public function widget( $args, $instance )
 	{
-		echo glsr( SiteReviewsFormShortcode::class )->build( $instance, $args );
+		echo glsr( SiteReviewsFormShortcode::class )->build( $instance, $args, 'widget' );
 	}
 }

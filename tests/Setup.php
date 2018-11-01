@@ -16,18 +16,18 @@ trait Setup
 		glsr()->activate();
 		glsr( OptionManager::class )->set( glsr( DefaultsManager::class )->get() );
 		$this->review = [
-			'action' => 'submit-review',
+			'_action' => 'submit-review',
+			'_nonce' => wp_create_nonce( 'submit-review' ),
+			'_post_id' => '13',
+			'_referer' => $PHP_SELF,
 			'content' => 'abcdefg',
 			'email' => 'jane@doe.com',
 			'excluded' => "[]",
 			'form_id' => 'abcdef',
 			'name' => 'Jane Doe',
-			'nonce' => wp_create_nonce( 'submit-review' ),
-			'post_id' => '13',
 			'rating' => '5',
 			'terms' => '1',
 			'title' => 'Test Review',
-			'referer' => $PHP_SELF,
 		];
 		// save initial plugin settings here if needed
 	}

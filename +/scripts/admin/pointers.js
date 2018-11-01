@@ -13,7 +13,7 @@
 		/** @return void */
 		close_: function( pointerId ) { // string
 			$.post( GLSR.ajaxurl, {
-				action: 'dismiss-wp-pointer',
+				_action: 'dismiss-wp-pointer',
 				pointer: pointerId,
 			});
 		},

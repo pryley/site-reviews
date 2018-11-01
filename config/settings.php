@@ -142,7 +142,7 @@ return [
 		'type' => 'number',
 	],
 	'settings.reviews.excerpts' => [
-		'default' => 'no',
+		'default' => 'yes',
 		'description' => __( 'Display an excerpt instead of the full review.', 'site-reviews' ),
 		'label' => __( 'Enable Excerpts', 'site-reviews' ),
 		'type' => 'yes_no',

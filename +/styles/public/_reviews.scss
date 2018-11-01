@@ -38,6 +38,9 @@
 	.glsr-review-avatar + .glsr-review-author {
 		margin-top: 0.5em;
 	}
+	*:not(.glsr-review-avatar) + .glsr-review-author::before {
+		content: '\2014'; // &mdash;
+	}
 	.glsr-review-avatar img {
 		display: block;
 	}
@@ -87,7 +90,7 @@
 		padding: 1em;
 		z-index: 1;
 	}
-	.star {
+	.glsr-star {
 		display: inline-block;
 		width: 20px;
 		height: 20px;
@@ -102,6 +105,9 @@
 		float: left;
 		margin-right: 1em;
 	}
+	.glsr-review-rating {
+		margin-right: 0.5em;
+	}
 	.glsr-review-response-background::before {
 		right: 3em;
 		border-right-width: 2em;
@@ -111,6 +117,9 @@
 	.glsr-review-avatar {
 		float: right;
 		margin-left: 1em;
+	}
+	.glsr-review-rating {
+		margin-left: 0.5em;
 	}
 	.glsr-review-response-background::before {
 		left: 3em;

@@ -17,7 +17,7 @@
 		},
 		onClick_: function( ev ) {
 			var request = {
-				action: ev.currentTarget.name,
+				_action: ev.currentTarget.name,
 			};
 			(new GLSR.Ajax( request, ev )).post_( function( response, success ) {
 				if( typeof ev.data === 'function' ) {

@@ -66,7 +66,11 @@ class SiteReviewsSummary
 		$bars = array_reduce( range( Rating::MAX_RATING, 1 ), function( $carry, $level ) use( $percentages ) {
 			$label = $this->buildPercentageLabel( $this->args['labels'][$level] );
 			$background = $this->buildPercentageBackground( $percentages[$level] );
-			$percent = $this->buildPercentagePercent( $percentages[$level] );
+			$count = apply_filters( 'site-reviews/summary/counts',
+				$percentages[$level],
+				$this->ratingCounts[$level]
+			);
+			$percent = $this->buildPercentageCount( $count );
 			return $carry.glsr( Builder::class )->div( $label.$background.$percent, [
 				'class' => 'glsr-bar',
 			]);
@@ -88,21 +92,21 @@ class SiteReviewsSummary
 	}
 
 	/**
+	 * @param string $count
+	 * @return string
+	 */
+	protected function buildPercentageCount( $count )
+	{
+		return '<span class="glsr-bar-percent">'.$count.'</span>';
+	}
+
+	/**
 	 * @param string $label
 	 * @return string
 	 */
 	protected function buildPercentageLabel( $label )
 	{
 		return '<span class="glsr-bar-label">'.$label.'</span>';
-	}
-
-	/**
-	 * @param string $percent
-	 * @return string
-	 */
-	protected function buildPercentagePercent( $percent )
-	{
-		return '<span class="glsr-bar-percent">'.$percent.'</span>';
 	}
 
 	/**

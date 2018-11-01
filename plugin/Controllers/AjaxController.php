@@ -12,7 +12,7 @@ use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Session;
-use GeminiLabs\SiteReviews\Modules\Translator;
+use GeminiLabs\SiteReviews\Modules\Translation;
 use WP_Query;
 
 class AjaxController extends Controller
@@ -103,7 +103,7 @@ class AjaxController extends Controller
 		if( empty( $request['exclude'] )) {
 			$request['exclude'] = [];
 		}
-		$results = glsr( Translator::class )
+		$results = glsr( Translation::class )
 			->search( $request['search'] )
 			->exclude()
 			->exclude( $request['exclude'] )
@@ -124,7 +124,7 @@ class AjaxController extends Controller
 			'errors' => glsr( Session::class )->get( $request['form_id'].'errors', false, true ),
 			'message' => glsr( Session::class )->get( $request['form_id'].'message', '', true ),
 			'recaptcha' => glsr( Session::class )->get( $request['form_id'].'recaptcha', false, true ),
-			'redirect' => trim( strval( get_post_meta( intval( $request['post_id'] ), 'redirect_to', true ))),
+			'redirect' => trim( strval( get_post_meta( intval( $request['_post_id'] ), 'redirect_to', true ))),
 		];
 		if( !wp_validate_boolean( $data['errors'] )) {
 			glsr( Session::class )->clear();

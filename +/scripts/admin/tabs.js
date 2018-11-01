@@ -21,15 +21,24 @@
 
 		/** @return void */
 		init_: function() {
-			$( window ).on( 'hashchange', this.onHashchange_.bind( this ));
-			[].forEach.call( this.tabs, function( tab, index ) {
+			var self = this;
+			$( window ).on( 'hashchange', self.onHashchange_.bind( self ));
+			[].forEach.call( self.tabs, function( tab, index ) {
 				var active = location.hash ? tab.getAttribute( 'href' ).slice(1) === location.hash.slice(2) : index === 0;
 				if( active ) {
-					this.setTab_( tab );
+					self.setTab_( tab );
 				}
-				tab.addEventListener( 'click', this.onClick_.bind( this ));
-				tab.addEventListener( 'touchend', this.onClick_.bind( this ));
-			}.bind( this ));
+				tab.addEventListener( 'click', self.onClick_.bind( self ));
+				tab.addEventListener( 'touchend', self.onClick_.bind( self ));
+			}.bind( self ));
+			$( self.options.viewSelector ).on( 'click', 'a', function() {
+				var expandEl = $( $( this ).data( 'expand' ));
+				var parentEl = expandEl.parent();
+				parentEl.removeClass( 'collapsed' );
+				self.toggleCollapsibleSections_( parentEl );
+				parentEl.removeClass( 'collapsed' );
+				expandEl.removeClass( 'closed' ).find( '.handlediv' ).attr( 'aria-expanded', true );
+			});
 		},
 
 		/** @return string */
@@ -40,9 +49,11 @@
 		/** @return void */
 		onClick_: function( ev ) {
 			ev.preventDefault();
-			ev.currentTarget.blur();
-			this.setTab_( ev.currentTarget );
-			location.hash = '!' + ev.currentTarget.getAttribute( 'href' ).slice(1);
+			var el = ev.currentTarget;
+			el.blur();
+			this.toggleCollapsibleViewSections_( el );
+			this.setTab_( el );
+			location.hash = '!' + el.getAttribute( 'href' ).slice(1);
 		},
 
 		/** @return void */
@@ -80,6 +91,21 @@
 				var action = this.getAction_( index !== idx );
 				view.classList[action]( 'ui-tabs-hide' );
 			}.bind( this ));
+		},
+
+		/** @return void */
+		toggleCollapsibleSections_: function( viewEl ) {
+			var action = viewEl.hasClass( 'collapsed' ) ? 'remove' : 'add';
+			viewEl[action + 'Class']( 'collapsed' )
+				.find( '.glsr-card.postbox' )[action + 'Class']( 'closed' )
+				.find( '.handlediv' ).attr( 'aria-expanded', action !== 'add' );
+		},
+
+		/** @return void */
+		toggleCollapsibleViewSections_: function( el ) {
+			if( !el.classList.contains( 'nav-tab-active' ))return;
+			var view = $( el.getAttribute( 'href' ));
+			this.toggleCollapsibleSections_( view );
 		},
 	};
 })( jQuery );

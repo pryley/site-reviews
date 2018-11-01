@@ -1,4 +1,4 @@
-/** global: editor, GLSR, jQuery, tinymce */
+/** global: editor, GLSR, jQuery, tinymce, tinyMCEPreInit */
 ;(function( $ ) {
 
 	'use strict';
@@ -15,7 +15,7 @@
 			this.editor = tinymce.get( editor_id );
 			if( !this.editor )return;
 			var request = {
-				action: 'mce-shortcode',
+				_action: 'mce-shortcode',
 				shortcode: this.current,
 			};
 			(new GLSR.Ajax( request )).post_( this.handleResponse_.bind( this ));
@@ -50,6 +50,7 @@
 			$( 'body' ).append( '<textarea id="scTemp" style="display:none!important;"/>' );
 			tinymce.init({
 				elements: 'scTemp',
+				external_plugins: GLSR.tinymce,
 				mode: 'exact',
 				plugins: ['glsr_shortcode', 'wplink'],
 			});
