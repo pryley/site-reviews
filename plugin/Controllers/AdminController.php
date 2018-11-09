@@ -185,6 +185,7 @@ class AdminController extends Controller
 		if( $showNotice ) {
 			glsr( Notice::class )->clear()->addSuccess( __( 'Recalculated rating counts.', 'site-reviews' ));
 		}
+		glsr( OptionManager::class )->set( 'last_review_count', current_time( 'timestamp' ));
 	}
 
 	/**

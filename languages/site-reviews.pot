@@ -426,7 +426,7 @@ msgstr ""
 msgid "Reject submission"
 msgstr ""
 
-#: plugin/Application.php:181
+#: plugin/Application.php:193
 msgid "Local"
 msgstr ""
 
@@ -583,47 +583,47 @@ msgstr ""
 msgid "Recalculated rating counts."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:224
+#: plugin/Controllers/AdminController.php:225
 msgid "Please use a valid Site Reviews settings file."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:228
+#: plugin/Controllers/AdminController.php:229
 msgid "There were no settings found to import."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:231
+#: plugin/Controllers/AdminController.php:232
 msgid "Settings imported."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:241
+#: plugin/Controllers/AdminController.php:242
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:242
+#: plugin/Controllers/AdminController.php:243
 msgid "The uploaded file is too big."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:243
+#: plugin/Controllers/AdminController.php:244
 msgid "The uploaded file was only partially uploaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:244
+#: plugin/Controllers/AdminController.php:245
 msgid "No file was uploaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:245
+#: plugin/Controllers/AdminController.php:246
 msgid "Missing a temporary folder."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:246
+#: plugin/Controllers/AdminController.php:247
 msgid "Failed to write file to disk."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:247
+#: plugin/Controllers/AdminController.php:248
 msgid "A PHP extension stopped the file upload."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:250
+#: plugin/Controllers/AdminController.php:251
 msgid "Unknown upload error."
 msgstr ""
 
@@ -997,6 +997,10 @@ msgstr[1] ""
 
 #: plugin/Modules/Translation.php:105
 msgid "This custom translation is no longer valid as the original text has been changed or removed."
+msgstr ""
+
+#: plugin/Modules/Upgrader.php:51
+msgid "Calculated rating counts."
 msgstr ""
 
 #: plugin/Shortcodes/Shortcode.php:135
@@ -1458,7 +1462,7 @@ msgstr ""
 msgid "Sync your Yelp reviews and display them on your site."
 msgstr ""
 
-#: views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:34, views/pages/documentation/faq.php:64, views/pages/documentation/faq.php:92, views/pages/documentation/faq.php:118, views/pages/documentation/faq.php:131, views/pages/documentation/faq.php:156, views/pages/documentation/faq.php:182, views/pages/documentation/faq.php:195, views/pages/documentation/functions.php:9, views/pages/documentation/functions.php:54, views/pages/documentation/functions.php:76, views/pages/documentation/functions.php:104, views/pages/documentation/functions.php:129, views/pages/documentation/functions.php:150, views/pages/documentation/functions.php:190, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:31, views/pages/documentation/hooks.php:53, views/pages/documentation/hooks.php:71, views/pages/documentation/hooks.php:89, views/pages/documentation/hooks.php:108, views/pages/documentation/hooks.php:131, views/pages/documentation/hooks.php:155, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:54, views/pages/documentation/shortcodes.php:88, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:63
+#: views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:35, views/pages/documentation/faq.php:66, views/pages/documentation/faq.php:94, views/pages/documentation/faq.php:120, views/pages/documentation/faq.php:133, views/pages/documentation/faq.php:158, views/pages/documentation/faq.php:185, views/pages/documentation/faq.php:198, views/pages/documentation/faq.php:214, views/pages/documentation/functions.php:9, views/pages/documentation/functions.php:54, views/pages/documentation/functions.php:76, views/pages/documentation/functions.php:104, views/pages/documentation/functions.php:129, views/pages/documentation/functions.php:150, views/pages/documentation/functions.php:190, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:32, views/pages/documentation/hooks.php:55, views/pages/documentation/hooks.php:74, views/pages/documentation/hooks.php:93, views/pages/documentation/hooks.php:113, views/pages/documentation/hooks.php:137, views/pages/documentation/hooks.php:162, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:54, views/pages/documentation/shortcodes.php:88, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:63
 msgid "Toggle documentation panel"
 msgstr ""
 

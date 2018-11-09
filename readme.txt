@@ -135,6 +135,7 @@ All documentation can be found in the "Get Help" page of the plugin. You can als
 = 3.0.0-beta-12 (2018-11-09) =
 
 - Added ability to change the pagination query string
+- Fixed rating counts calculation on upgrade
 - Updated documentation
 
 = 3.0.0-beta-11 (2018-10-31) =
