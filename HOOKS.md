@@ -29,6 +29,7 @@
     site-reviews/builder/result
     site-reviews/columns/{column_slug}
     site-reviews/config/{config_id}
+    site-reviews/const/{constant}
     site-reviews/create/review-values
     site-reviews/defaults/pagination
     site-reviews/defaults/style-fields
