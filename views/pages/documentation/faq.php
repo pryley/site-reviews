@@ -12,6 +12,7 @@
 		<p>Make sure to use Google's <a href="https://search.google.com/structured-data/testing-tool">Structured Data Testing Tool</a> to test the schema after any custom modifications have been made.</p>
 		<pre><code class="php">/**
  * Modifies the schema created by Site Reviews.
+ * Paste this in your active theme's functions.php file.
  * @return array
  */
 add_filter( 'site-reviews/schema/LocalBusiness', function( array $schema ) {
@@ -39,6 +40,7 @@ add_filter( 'site-reviews/schema/LocalBusiness', function( array $schema ) {
 		<p>To customise the order of the fields in the review submission form, use the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!hooks' ); ?>" data-expand="#hooks-01">site-reviews/submission-form/order</a></code> filter hook in your theme's <code>functions.php</code> file.</p>
 		<pre><code class="php">/**
  * Customises the order of the fields used in the Site Reviews submission form.
+ * Paste this in your active theme's functions.php file.
  * @return array
  */
 add_filter( 'site-reviews/submission-form/order', function( array $order ) {
@@ -163,6 +165,7 @@ add_filter( 'site-reviews/submission-form/order', function( array $order ) {
 		<pre><code class="php">/**
  * Customises the stars used by Site Reviews.
  * Simply change and edit the URLs to match those of your custom images.
+ * Paste this in your active theme's functions.php file.
  * @return array
  */
 add_filter( 'site-reviews/config/inline-styles', function( array $config ) {
@@ -201,5 +204,27 @@ add_filter( 'site-reviews/config/inline-styles', function( array $config ) {
 		<pre><code class="css">.glsr-review-author::before {
 	display: none !important;
 }</code></pre>
+	</div>
+</div>
+
+<div id="faq-10" class="glsr-card postbox">
+	<div class="glsr-card-header">
+		<h3>How do I change the pagination query string?</h3>
+		<button type="button" class="handlediv" aria-expanded="true">
+			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+	</div>
+	<div class="inside">
+		<p>The pagination query string can be seen in the address bar of the broswer when you go to the next or previous page of reviews (i.e. <code>https://website.com/reviews/?reviews-page=2</code>).</p>
+		<pre><code class="php">/**
+ * Modifies the pagination query string used by Site Reviews.
+ * Paste this in your active theme's functions.php file.
+ * @return string
+ */
+add_filter( 'site-reviews/const/PAGED_QUERY_VAR', function() {
+	// change this to your preferred query string
+	return 'reviews-page';
+});</code></pre>
 	</div>
 </div>

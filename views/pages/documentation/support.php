@@ -43,7 +43,7 @@
 				<p>Does your website have a SSL certificate? If it does, make sure that your website is configured to always use it by using a SSL plugin such as <a href="https://wordpress.org/plugins/really-simple-ssl/">Really Simple SSL</a>. Site Reviews will use HTTPS to submit a review if possible, but if your site has a valid SSL certificate and you are viewing the website using HTTP (instead of HTTPS) then the browser will detect this as a cross-domain request and prevent the review submission from completing.</p>
 			</li>
 			<li>
-				<p class="glsr-heading">The reviews are being shown on every page, I only want them to show on the page they were published on.</p>
+				<p class="glsr-heading">I only want my reviews to show on the page they were published or assigned to but they are showing on every page.</p>
 				<p>All reviews are unassigned by default. If you want to assign reviews to specific pages, you will need to use the “assign_to” and “assigned_to” shortcode options. Please see the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!shortcodes' ); ?>">Shortcodes</a></code> documentation page for more information.</p>
 			</li>
 			<li>
