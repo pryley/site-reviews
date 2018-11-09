@@ -135,7 +135,7 @@ final class Application extends Container
 	public function hasPermission()
 	{
 		$isAdmin = $this->isAdmin();
-		return !$isAdmin || ( $isAdmin && current_user_can( static::CAPABILITY ));
+		return !$isAdmin || ( $isAdmin && current_user_can( $this->const( 'CAPABILITY' )));
 	}
 
 	/**
