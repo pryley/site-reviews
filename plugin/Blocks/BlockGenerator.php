@@ -23,14 +23,9 @@ abstract class BlockGenerator
 		register_block_type( Application::ID.'/'.$block, [
 			'attributes' => $this->attributes(),
 			'render_callback' => [$this, 'render'],
-			'script' => Application::ID.'/'.$block,
+			'editor_script' => Application::ID.'/blocks',
+			// 'editor_style' => Application::ID.'/blocks',
 		]);
-		wp_register_script(
-			Application::ID.'/'.$block,
-			glsr()->url( 'assets/scripts/block-'.$block.'.js' ),
-			['wp-blocks', 'wp-i18n', 'wp-element'],
-			glsr()->version
-		);
 	}
 
 	/**
