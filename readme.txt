@@ -5,7 +5,7 @@ Tags: reviews, business reviews, curated reviews, moderated reviews, rating, rat
 Requires at least: 4.7.0
 Tested up to: 4.9
 Requires PHP: 5.6
-Stable tag: 3.0.0-beta-11
+Stable tag: 3.0.0-beta-12
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -131,6 +131,12 @@ All documentation can be found in the "Get Help" page of the plugin. You can als
 14. Add-Ons are being built to extend the functionality on the Site Reviews plugin
 
 == Changelog ==
+
+= 3.0.0-beta-12 (2018-11-09) =
+
+- Added ability to change the pagination query string
+- Fixed rating counts calculation on upgrade
+- Updated documentation
 
 = 3.0.0-beta-11 (2018-10-31) =
 

@@ -78,6 +78,18 @@ final class Application extends Container
 	}
 
 	/**
+	 * @param string $property
+	 * @return string
+	 */
+	public function const( $property )
+	{
+		$constant = 'static::'.$property;
+		return defined( $constant )
+			? apply_filters( 'site-reviews/const/'.$property, constant( $constant ))
+			: '';
+	}
+
+	/**
 	 * @return void
 	 */
 	public function deactivate()
@@ -123,7 +135,7 @@ final class Application extends Container
 	public function hasPermission()
 	{
 		$isAdmin = $this->isAdmin();
-		return !$isAdmin || ( $isAdmin && current_user_can( static::CAPABILITY ));
+		return !$isAdmin || ( $isAdmin && current_user_can( $this->const( 'CAPABILITY' )));
 	}
 
 	/**

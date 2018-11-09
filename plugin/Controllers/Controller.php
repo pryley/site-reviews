@@ -15,7 +15,7 @@ abstract class Controller
 	 */
 	public function download( $filename, $content )
 	{
-		if( !current_user_can( Application::CAPABILITY ))return;
+		if( !current_user_can( glsr()->const( 'CAPABILITY' )))return;
 		nocache_headers();
 		header( 'Content-Type: text/plain' );
 		header( 'Content-Disposition: attachment; filename="'.$filename.'"' );

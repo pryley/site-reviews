@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Upgrader;
 
-use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
@@ -64,7 +62,6 @@ class Upgrade_3_0_0
 	public function __construct()
 	{
 		$this->migrateSettings();
-		$this->setReviewCounts();
 	}
 
 	/**
@@ -88,16 +85,6 @@ class Upgrade_3_0_0
 			$newSettings['settings']['strings'] = $oldSettings['settings']['strings'];
 		}
 		glsr( OptionManager::class )->set( $newSettings );
-	}
-
-	/**
-	 * @return void
-	 */
-	public function setReviewCounts()
-	{
-		add_action( 'admin_init', function() {
-			glsr( AdminController::class )->routerCountReviews( false );
-		});
 	}
 
 	/**

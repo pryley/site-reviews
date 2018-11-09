@@ -15,6 +15,7 @@
 		<p>See the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!faq' ); ?>" data-expand="#faq-02">FAQ</a></code> for a detailed example of how to use this hook.</p>
 		<pre><code class="php">/**
  * Customises the order of the fields used in the Site Reviews submission form.
+ * Paste this in your active theme's functions.php file.
  * @return array
  */
 add_filter( 'site-reviews/submission-form/order', function( array $order ) {
@@ -37,6 +38,7 @@ add_filter( 'site-reviews/submission-form/order', function( array $order ) {
 		<p>See the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!faq' ); ?>" data-expand="#faq-07">FAQ</a></code> for a detailed example of how to use this hook.</p>
 		<pre><code class="php">/**
  * Customises the stars used by Site Reviews.
+ * Paste this in your active theme's functions.php file.
  * @return array
  */
 add_filter( 'site-reviews/config/inline-styles', function( array $config ) {
@@ -58,6 +60,7 @@ add_filter( 'site-reviews/config/inline-styles', function( array $config ) {
 		<p>Use this hook if you want to disable the plugin javascript from loading on your website.</p>
 		<pre><code class="php">/**
  * Disables the Site Reviews javascript.
+ * Paste this in your active theme's functions.php file.
  * @return bool
  */
 add_filter( 'site-reviews/assets/js', '__return_false' );</code></pre>
@@ -76,6 +79,7 @@ add_filter( 'site-reviews/assets/js', '__return_false' );</code></pre>
 		<p>Use this hook if you want to disable the plugin stylesheet from loading on your website.</p>
 		<pre><code class="php">/**
  * Disables the Site Reviews stylesheet.
+ * Paste this in your active theme's functions.php file.
  * @return bool
  */
 add_filter( 'site-reviews/assets/css', '__return_false' );</code></pre>
@@ -95,6 +99,7 @@ add_filter( 'site-reviews/assets/css', '__return_false' );</code></pre>
 		<p><span class="required">Important:</span> The polyfill.io script provides support for Internet Explorer versions 9-10. If you disable it, Site Reviews will no longer work in those browsers.</p>
 		<pre><code class="php">/**
  * Disables the polyfill.io script in Site Reviews.
+ * Paste this in your active theme's functions.php file.
  * @return bool
  */
 add_filter( 'site-reviews/assets/polyfill', '__return_false' );</code></pre>
@@ -114,6 +119,7 @@ add_filter( 'site-reviews/assets/polyfill', '__return_false' );</code></pre>
 		<p>The <code>$review</code> object is the review that was created. The <code>$request</code> object is the request that was submitted to create the review.</p>
 		<pre><code>/**
  * Runs after a review has been submitted in Site Reviews.
+ * Paste this in your active theme's functions.php file.
  * @param \GeminiLabs\SiteReviews\Review $review
  * @param \GeminiLabs\SiteReviews\Commands\CreateReview $request
  * @return void
@@ -139,6 +145,7 @@ add_action( 'site-reviews/review/created', function( $review, $request ) {
 		<pre><code class="php">/**
  * Modifies the properties of the schema created by Site Reviews.
  * Change "LocalBusiness" to the schema type you wish to change (i.e. Product)
+ * Paste this in your active theme's functions.php file.
  * @return array
  */
 add_filter( 'site-reviews/schema/LocalBusiness', function( array $schema ) {
@@ -160,6 +167,7 @@ add_filter( 'site-reviews/schema/LocalBusiness', function( array $schema ) {
 		<p>Use this hook if you want to modify the submitted review values before the review is created.</p>
 		<pre><code>/**
  * Modifies the review values before they are saved
+ * Paste this in your active theme's functions.php file.
  * @return array
  */
 add_filter( 'site-reviews/create/review-values', function( array $reviewValues ) {

@@ -4,11 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use DirectoryIterator;
 use GeminiLabs\SiteReviews\Controllers\AdminController;
-use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Helper;
-use ReflectionClass;
-use ReflectionMethod;
 
 class Upgrader
 {
@@ -32,6 +28,7 @@ class Upgrader
 			glsr( 'Modules\\Upgrader\\'.$className );
 			glsr_log()->info( 'Completed Upgrade for v'.$version.$versionSuffix );
 		});
+		$this->setReviewCounts();
 		$this->updateVersion();
 	}
 
@@ -41,6 +38,18 @@ class Upgrader
 	public function currentVersion()
 	{
 		return glsr( OptionManager::class )->get( 'version', '0.0.0' );
+	}
+
+	/**
+	 * @return void
+	 */
+	public function setReviewCounts()
+	{
+		if( !empty( glsr( OptionManager::class )->get( 'last_review_count' )))return;
+		add_action( 'admin_init', function() {
+			glsr( AdminController::class )->routerCountReviews( false );
+			glsr_log()->info( __( 'Calculated rating counts.', 'site-reviews' ));
+		});
 	}
 
 	/**
