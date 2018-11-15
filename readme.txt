@@ -132,6 +132,11 @@ All documentation can be found in the "Get Help" page of the plugin. You can als
 
 == Changelog ==
 
+= 3.0.0-beta-13 (2018-11-15) =
+
+- Fixed addon integration
+- Updated documentation
+
 = 3.0.0-beta-12 (2018-11-09) =
 
 - Added ability to change the pagination query string
