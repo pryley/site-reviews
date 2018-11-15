@@ -9,14 +9,14 @@
 <form method="post" class="float-left">
 	<input type="hidden" name="{{ id }}[_action]" value="fetch-console">
 	<?php wp_nonce_field( 'fetch-console' ); ?>
-	<button type="submit" class="glsr-button button" name="fetch-console" id="fetch-console">
+	<button type="submit" class="glsr-button button" id="fetch-console">
 		<span data-loading="<?= __( 'Reloading...', 'site-reviews' ); ?>"><?= __( 'Reload', 'site-reviews' ); ?></span>
 	</button>
 </form>
 <form method="post">
 	<input type="hidden" name="{{ id }}[_action]" value="clear-console">
 	<?php wp_nonce_field( 'clear-console' ); ?>
-	<button type="submit" class="glsr-button button" name="clear-console" id="clear-console">
+	<button type="submit" class="glsr-button button" id="clear-console">
 		<span data-loading="<?= __( 'Clearing...', 'site-reviews' ); ?>"><?= __( 'Clear', 'site-reviews' ); ?></span>
 	</button>
 </form>

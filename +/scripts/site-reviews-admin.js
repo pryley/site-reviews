@@ -1,4 +1,4 @@
-/** global: GLSR, jQuery, wp */
+/** global: FormSerializer, GLSR, jQuery, wp */
 
 GLSR.keys = {
 	DOWN: 40,
@@ -9,6 +9,13 @@ GLSR.keys = {
 };
 
 jQuery( function( $ ) {
+
+	$.extend(FormSerializer.patterns, {
+		validate: /^[a-z_-][a-z0-9_-]*(?:\[(?:\d*|[a-z0-9_-]+)\])*$/i,
+		key: /[a-z0-9_-]+|(?=\[\])/gi,
+		named: /^[a-z0-9_-]+$/i
+	});
+
 	GLSR.shortcode = new GLSR.Shortcode( '.glsr-mce' );
 	GLSR.ColorPicker();
 	new GLSR.Forms( 'form.glsr-form' );

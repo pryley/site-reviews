@@ -96,8 +96,24 @@ class Settings
 			}, ARRAY_FILTER_USE_KEY );
 			$results[$key] = $this->getSettingRows( $addonFields );
 		}
+		ksort( $results );
 		return [
 			'settings' => $results,
+		];
+	}
+
+	/**
+	 * @param string $id
+	 * @return array
+	 */
+	protected function getTemplateDataForLicenses( $id )
+	{
+		$fields = $this->getSettingFields( $this->normalizeSettingPath( $id ));
+		ksort( $fields );
+		return [
+			'context' => [
+				'rows' => $this->getSettingRows( $fields ),
+			],
 		];
 	}
 

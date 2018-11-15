@@ -38,22 +38,24 @@
 <form method="post">
 	<div class="tablenav bottom">
 		<div class="actions">
+			<input type="hidden" name="{{ id }}[_action]" value="sync-reviews">
+			<?php wp_nonce_field( 'sync-reviews' ); ?>
 			<?php if( count( $sites ) > 1) : ?>
-			<label for="bulk-action-selector-bottom" class="screen-reader-text">Select a site to sync</label>
-			<select name="{{ id }}[site]">
-				<option>- <?= __( 'Select a Site', 'site-reviews' ); ?> -</option>
-				<?php foreach( $sites as $slug => $details ) : ?>
-				<option value="<?= $slug; ?>" class="hide-if-no-js"><?= $details['name']; ?></option>
-				<?php endforeach; ?>
-			</select>
+				<label for="bulk-action-selector-bottom" class="screen-reader-text">Select a site to sync</label>
+				<select name="{{ id }}[site]">
+					<option value>- <?= __( 'Select a Site', 'site-reviews' ); ?> -</option>
+					<?php foreach( $sites as $slug => $details ) : ?>
+					<option value="<?= $slug; ?>" class="hide-if-no-js"><?= $details['name']; ?></option>
+					<?php endforeach; ?>
+				</select>
 			<?php else: ?>
 				<?php foreach( $sites as $slug => $details ) : ?>
 				<input type="hidden" name="{{ id }}[site]" value="<?= $slug; ?>">
 				<?php endforeach; ?>
 			<?php endif; ?>
-			<input type="hidden" name="{{ id }}[_action]" value="sync-reviews">
-			<?php wp_nonce_field( 'sync-reviews' ); ?>
-			<?php submit_button( __( 'Sync Reviews', 'site-reviews' ), 'primary', '', false, ['id' => 'doaction'] ); ?>
+			<button type="submit" class="glsr-button button" id="sync-reviews">
+				<span data-loading="<?= __( 'Syncing...', 'site-reviews' ); ?>"><?= __( 'Sync Reviews', 'site-reviews' ); ?></span>
+			</button>
 		</div>
 	</div>
 </form>
