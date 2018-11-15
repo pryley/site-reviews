@@ -3,20 +3,27 @@
 
 	'use strict';
 
-	GLSR.Ajax = function( request, ev ) { // object
+	GLSR.Ajax = function( request, ev, form ) { // object
 		this.event = ev || null;
+		this.form = form || null;
 		this.notice = null;
-		this.request = request;
+		this.request = request || {};
 	};
 
 	GLSR.Ajax.prototype = {
 		/** @return void */
 		buildData_: function( el ) { // HTMLElement|null
-			this.buildNonce_( el );
 			var data = {
 				action: GLSR.action,
 				_ajax_request: true,
 			};
+			if( this.form ) {
+				var formdata = $( this.form ).serializeObject();
+				if( formdata[GLSR.nameprefix] ) {
+					this.request = formdata[GLSR.nameprefix];
+				}
+			}
+			this.buildNonce_( el );
 			data[GLSR.nameprefix] = this.request;
 			return data;
 		},
@@ -34,18 +41,19 @@
 
 		/** @return void */
 		doPost_: function( callback, el ) {
-			var self = this;
 			$.post( GLSR.ajaxurl, this.buildData_( el )).done( function( response ) {
-				self.notice = ( response.data.notices || null );
 				if( typeof callback === 'function' ) {
 					callback( response.data, response.success );
 				}
 				if( el ) {
 					el.prop( 'disabled', false );
 				}
-			}).always( function() {
-				if( self.notice ) {
-					GLSR.Notices( self.notice );
+			}).always( function( response ) {
+				if( !response.data ) {
+					GLSR.Notices( '<div class="notice notice-error inline is-dismissible"><p>Unknown error.</p></div>' );
+				}
+				else if( response.data.notices ) {
+					GLSR.Notices( response.data.notices );
 				}
 			});
 		},
