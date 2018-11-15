@@ -83,8 +83,15 @@ class MenuController extends Controller
 			'shortcodes' => __( 'Shortcodes', 'site-reviews' ),
 			'hooks' => __( 'Hooks', 'site-reviews' ),
 			'functions' => __( 'Functions', 'site-reviews' ),
+			'addons' => __( 'Addons', 'site-reviews' ),
 		]);
+		$addons = apply_filters( 'site-reviews/addon/documentation', [] );
+		ksort( $addons );
+		if( empty( $addons )) {
+			unset( $tabs['addons'] );
+		}
 		$this->renderPage( 'documentation', [
+			'addons' => $addons,
 			'tabs' => $tabs,
 		]);
 	}

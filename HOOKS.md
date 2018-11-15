@@ -9,7 +9,7 @@
 
 ## Filters
 
-    site-reviews/addon/documentation/tabs
+    site-reviews/addon/documentation
     site-reviews/addon/settings
     site-reviews/addon/settings/tabs
     site-reviews/addon/submenu/callback
