@@ -758,7 +758,7 @@ msgstr ""
 msgid "Pinned"
 msgstr ""
 
-#: plugin/Controllers/MainController.php:37, plugin/Controllers/MenuController.php:101, views/pages/tools/sync.php:7, views/pages/tools/sync.php:20, views/pages/tools/sync.php:32
+#: plugin/Controllers/MainController.php:37, plugin/Controllers/MenuController.php:108, views/pages/tools/sync.php:7, views/pages/tools/sync.php:20, views/pages/tools/sync.php:32
 msgid "Reviews"
 msgstr ""
 
@@ -778,7 +778,7 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:50, plugin/Controllers/MenuController.php:105
+#: plugin/Controllers/MenuController.php:50, plugin/Controllers/MenuController.php:86, plugin/Controllers/MenuController.php:112
 msgid "Addons"
 msgstr ""
 
@@ -806,35 +806,35 @@ msgstr ""
 msgid "Functions"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:100, plugin/Controllers/MenuController.php:129
+#: plugin/Controllers/MenuController.php:107, plugin/Controllers/MenuController.php:136
 msgid "General"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:102
+#: plugin/Controllers/MenuController.php:109
 msgid "Submissions"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:103, plugin/Shortcodes/SiteReviewsPopup.php:64, plugin/Shortcodes/SiteReviewsSummaryPopup.php:32
+#: plugin/Controllers/MenuController.php:110, plugin/Shortcodes/SiteReviewsPopup.php:64, plugin/Shortcodes/SiteReviewsSummaryPopup.php:32
 msgid "Schema"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:104
+#: plugin/Controllers/MenuController.php:111
 msgid "Translations"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:106
+#: plugin/Controllers/MenuController.php:113
 msgid "Licenses"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:130, views/pages/tools/sync.php:56
+#: plugin/Controllers/MenuController.php:137, views/pages/tools/sync.php:56
 msgid "Sync Reviews"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:131
+#: plugin/Controllers/MenuController.php:138
 msgid "Console"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:132
+#: plugin/Controllers/MenuController.php:139
 msgid "System Info"
 msgstr ""
 
@@ -1462,7 +1462,7 @@ msgstr ""
 msgid "Sync your Yelp reviews and display them on your site."
 msgstr ""
 
-#: views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:35, views/pages/documentation/faq.php:66, views/pages/documentation/faq.php:94, views/pages/documentation/faq.php:120, views/pages/documentation/faq.php:133, views/pages/documentation/faq.php:158, views/pages/documentation/faq.php:185, views/pages/documentation/faq.php:198, views/pages/documentation/faq.php:214, views/pages/documentation/functions.php:9, views/pages/documentation/functions.php:54, views/pages/documentation/functions.php:76, views/pages/documentation/functions.php:104, views/pages/documentation/functions.php:129, views/pages/documentation/functions.php:150, views/pages/documentation/functions.php:190, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:32, views/pages/documentation/hooks.php:55, views/pages/documentation/hooks.php:74, views/pages/documentation/hooks.php:93, views/pages/documentation/hooks.php:113, views/pages/documentation/hooks.php:137, views/pages/documentation/hooks.php:162, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:54, views/pages/documentation/shortcodes.php:88, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:63
+#: views/pages/documentation/addons.php:8, views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:35, views/pages/documentation/faq.php:63, views/pages/documentation/faq.php:89, views/pages/documentation/faq.php:120, views/pages/documentation/faq.php:142, views/pages/documentation/faq.php:155, views/pages/documentation/faq.php:180, views/pages/documentation/faq.php:207, views/pages/documentation/faq.php:220, views/pages/documentation/functions.php:9, views/pages/documentation/functions.php:54, views/pages/documentation/functions.php:76, views/pages/documentation/functions.php:104, views/pages/documentation/functions.php:129, views/pages/documentation/functions.php:150, views/pages/documentation/functions.php:190, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:32, views/pages/documentation/hooks.php:55, views/pages/documentation/hooks.php:74, views/pages/documentation/hooks.php:93, views/pages/documentation/hooks.php:113, views/pages/documentation/hooks.php:137, views/pages/documentation/hooks.php:162, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:76, views/pages/documentation/shortcodes.php:124, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:63
 msgid "Toggle documentation panel"
 msgstr ""
 

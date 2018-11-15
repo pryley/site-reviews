@@ -184,7 +184,7 @@ class System
 		$helper = glsr( Helper::class );
 		$settings = glsr( OptionManager::class )->get( 'settings', [] );
 		$settings = $helper->flattenArray( $settings, true );
-		$settings = $this->purgeSettings( $settings );
+		$settings = $this->purgeSensitiveData( $settings );
 		ksort( $settings );
 		$details = [];
 		foreach( $settings as $key => $value ) {
@@ -335,7 +335,7 @@ class System
 	/**
 	 * @return array
 	 */
-	protected function purgeSettings( array $settings )
+	protected function purgeSensitiveData( array $settings )
 	{
 		$keys = [
 			'licenses.', 'submissions.recaptcha.key', 'submissions.recaptcha.secret',
