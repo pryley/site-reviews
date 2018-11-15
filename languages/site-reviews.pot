@@ -826,7 +826,7 @@ msgstr ""
 msgid "Licenses"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:137, views/pages/tools/sync.php:56
+#: plugin/Controllers/MenuController.php:137, views/pages/tools/sync.php:57
 msgid "Sync Reviews"
 msgstr ""
 
@@ -1546,8 +1546,12 @@ msgstr ""
 msgid "Show more details"
 msgstr ""
 
-#: views/pages/tools/sync.php:44
+#: views/pages/tools/sync.php:46
 msgid "Select a Site"
+msgstr ""
+
+#: views/pages/tools/sync.php:57
+msgid "Syncing..."
 msgstr ""
 
 #: views/pages/tools/system-info.php:7
