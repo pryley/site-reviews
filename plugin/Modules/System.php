@@ -28,6 +28,7 @@ class System
 	{
 		$details = [
 			'plugin' => 'Plugin Details',
+			'addon' => 'Addon Details',
 			'browser' => 'Browser Details',
 			'server' => 'Server Details',
 			'php' => 'PHP Configuration',
@@ -58,6 +59,16 @@ class System
 		$activePlugins = (array)get_option( 'active_plugins', [] );
 		$inactive = array_diff_key( $plugins, array_flip( $activePlugins ));
 		return $this->normalizePluginList( array_diff_key( $plugins, $inactive ));
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getAddonDetails()
+	{
+		$details = apply_filters( 'site-reviews/addon/system-info', [] );
+		ksort( $details );
+		return $details;
 	}
 
 	/**

@@ -16,6 +16,7 @@
     site-reviews/addon/submenu/pages
     site-reviews/addon/sync/enable
     site-reviews/addon/sync/sites
+    site-reviews/addon/system-info
     site-reviews/addon/tools/tabs
     site-reviews/addon/types
     site-reviews/akismet/is-active
