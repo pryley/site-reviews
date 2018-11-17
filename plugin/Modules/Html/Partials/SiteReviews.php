@@ -86,7 +86,8 @@ class SiteReviews
 		foreach( (array)$review as $key => $value ) {
 			$method = glsr( Helper::class )->buildMethodName( $key, 'buildOption' );
 			if( !method_exists( $this, $method ))continue;
-			$renderedFields[$key] = $this->$method( $key, $value );
+			$renderedField = $this->$method( $key, $value );
+			$renderedFields[$key] = $this->wrap( $key, $renderedField, $review );
 		}
 		$renderedFields = apply_filters( 'site-reviews/review/build/after', $renderedFields, $review );
 		return new ReviewHtml( (array)$renderedFields );
@@ -106,7 +107,7 @@ class SiteReviews
 			'href' => get_the_permalink( $post->ID ),
 		]);
 		$assignedTo = sprintf( __( 'Review of %s', 'site-reviews' ), $permalink );
-		return $this->wrap( $key, '<span>'.$assignedTo.'</span>' );
+		return '<span>'.$assignedTo.'</span>';
 	}
 
 	/**
@@ -117,7 +118,7 @@ class SiteReviews
 	protected function buildOptionAuthor( $key, $value )
 	{
 		if( $this->isHidden( $key ))return;
-		return $this->wrap( $key, '<span>'.$value.'</span>' );
+		return '<span>'.$value.'</span>';
 	}
 
 	/**
@@ -129,11 +130,11 @@ class SiteReviews
 	{
 		if( $this->isHidden( $key, 'settings.reviews.avatars' ))return;
 		$size = $this->getOption( 'settings.reviews.avatars_size', 40 );
-		return $this->wrap( $key, glsr( Builder::class )->img([
+		return glsr( Builder::class )->img([
 			'src' => $this->generateAvatar( $value ),
 			'height' => $size,
 			'width' => $size,
-		]));
+		]);
 	}
 
 	/**
@@ -145,7 +146,7 @@ class SiteReviews
 	{
 		$text = $this->normalizeText( $value );
 		if( $this->isHiddenOrEmpty( $key, $text ))return;
-		return $this->wrap( $key, '<p>'.$text.'</p>' );
+		return '<p>'.$text.'</p>';
 	}
 
 	/**
@@ -166,7 +167,7 @@ class SiteReviews
 				: (string)get_option( 'date_format' );
 			$date = date_i18n( $format, strtotime( $value ));
 		}
-		return $this->wrap( $key, '<span>'.$date.'</span>' );
+		return '<span>'.$date.'</span>';
 	}
 
 	/**
@@ -177,10 +178,9 @@ class SiteReviews
 	protected function buildOptionRating( $key, $value )
 	{
 		if( $this->isHiddenOrEmpty( $key, $value ))return;
-		$rating = glsr( Partial::class )->build( 'star-rating', [
+		return glsr( Partial::class )->build( 'star-rating', [
 			'rating' => $value,
 		]);
-		return $this->wrap( $key, $rating );
 	}
 
 	/**
@@ -194,10 +194,9 @@ class SiteReviews
 		$title = sprintf( __( 'Response from %s', 'site-reviews' ), get_bloginfo( 'name' ));
 		$text = $this->normalizeText( $value );
 		$text = '<p><strong>'.$title.'</strong></p><p>'.$text.'</p>';
-		return $this->wrap( $key,
-			glsr( Builder::class )->div( $text, ['class' => 'glsr-review-response-inner'] ).
-			glsr( Builder::class )->div( ['class' => 'glsr-review-response-background'] )
-		);
+		$response = glsr( Builder::class )->div( $text, ['class' => 'glsr-review-response-inner'] );
+		$background = glsr( Builder::class )->div( ['class' => 'glsr-review-response-background'] );
+		return $response.$background;
 	}
 
 	/**
@@ -211,7 +210,7 @@ class SiteReviews
 		if( empty( $value )) {
 			$value = __( 'No Title', 'site-reviews' );
 		}
-		return $this->wrap( $key, '<h3>'.$value.'</h3>' );
+		return '<h3>'.$value.'</h3>';
 	}
 
 	/**
@@ -377,8 +376,9 @@ class SiteReviews
 	 * @param string $value
 	 * @return string
 	 */
-	protected function wrap( $key, $value )
+	protected function wrap( $key, $value, Review $review )
 	{
+		$value = apply_filters( 'site-reviews/review/wrap/'.$key, $value, $review );
 		return glsr( Builder::class )->div( $value, [
 			'class' => 'glsr-review-'.$key,
 		]);
