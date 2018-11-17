@@ -86,9 +86,9 @@ class SiteReviews
 		foreach( (array)$review as $key => $value ) {
 			$method = glsr( Helper::class )->buildMethodName( $key, 'buildOption' );
 			if( !method_exists( $this, $method ))continue;
-			$renderedField = $this->$method( $key, $value );
-			$renderedFields[$key] = $this->wrap( $key, $renderedField, $review );
+			$renderedFields[$key] = $this->$method( $key, $value );
 		}
+		$this->wrap( $renderedFields, $review );
 		$renderedFields = apply_filters( 'site-reviews/review/build/after', $renderedFields, $review );
 		return new ReviewHtml( (array)$renderedFields );
 	}
@@ -372,15 +372,17 @@ class SiteReviews
 	}
 
 	/**
-	 * @param string $key
-	 * @param string $value
-	 * @return string
+	 * @return void
 	 */
-	protected function wrap( $key, $value, Review $review )
+	protected function wrap( array &$renderedFields, Review $review )
 	{
-		$value = apply_filters( 'site-reviews/review/wrap/'.$key, $value, $review );
-		return glsr( Builder::class )->div( $value, [
-			'class' => 'glsr-review-'.$key,
-		]);
+		$renderedFields = apply_filters( 'site-reviews/review/wrap', $renderedFields, $review );
+		array_walk( $renderedFields, function( &$value, $key ) use( $review ) {
+			$value = apply_filters( 'site-reviews/review/wrap/'.$key, $value, $review );
+			if( empty( $value ))return;
+			$value = glsr( Builder::class )->div( $value, [
+				'class' => 'glsr-review-'.$key,
+			]);
+		});
 	}
 }

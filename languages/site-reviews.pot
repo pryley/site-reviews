@@ -1446,7 +1446,7 @@ msgstr ""
 msgid "The reCAPTCHA verification failed, please try again."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:258, plugin/Modules/Html/Partials/SiteReviews.php:212
+#: plugin/Modules/Validator/ValidateReview.php:258, plugin/Modules/Html/Partials/SiteReviews.php:211
 msgid "No Title"
 msgstr ""
 
@@ -1648,7 +1648,7 @@ msgstr[1] ""
 msgid "Site Reviews navigation"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:108
+#: plugin/Modules/Html/Partials/SiteReviews.php:109
 msgid "Review of %s"
 msgstr ""
 
@@ -1656,11 +1656,11 @@ msgstr ""
 msgid "Response from %s"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:273
+#: plugin/Modules/Html/Partials/SiteReviews.php:272
 msgid "Show less"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:274
+#: plugin/Modules/Html/Partials/SiteReviews.php:273
 msgid "Show more"
 msgstr ""
 
