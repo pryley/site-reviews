@@ -126,7 +126,7 @@ class AjaxController extends Controller
 			'recaptcha' => glsr( Session::class )->get( $request['form_id'].'recaptcha', false, true ),
 			'redirect' => trim( strval( get_post_meta( intval( $request['_post_id'] ), 'redirect_to', true ))),
 		];
-		if( !wp_validate_boolean( $data['errors'] )) {
+		if( $data['errors'] === false ) {
 			glsr( Session::class )->clear();
 			wp_send_json_success( $data );
 		}

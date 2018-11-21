@@ -32,6 +32,7 @@
 
 		/** @return void */
 		handleResponse_: function( response, success ) { // object
+			var wasSuccessful = success === true;
 			if( response.recaptcha === 'unset' ) {
 				this.recaptcha.execute_();
 				return;
@@ -39,16 +40,16 @@
 			if( response.recaptcha === 'reset' ) {
 				this.recaptcha.reset_();
 			}
-			if( !!success ) {
+			if( wasSuccessful ) {
 				this.recaptcha.reset_();
 				this.form.reset();
 			}
 			this.showFieldErrors_( response.errors );
-			this.showResults_( response.message, success );
+			this.showResults_( response.message, wasSuccessful );
 			this.enableButton_();
 			response.form = this.form;
 			document.dispatchEvent( new CustomEvent( 'site-reviews/after/submission', { detail: response }));
-			if( !!success && response.redirect !== '' ) {
+			if( wasSuccessful && response.redirect !== '' ) {
 				window.location = response.redirect;
 			}
 		},
