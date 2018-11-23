@@ -5,7 +5,7 @@ defined( 'WPINC' ) || die;
 // Database/ReviewManager.php
 add_action( 'site-reviews/review/created', function( $review ) {
 	if( has_action( 'site-reviews/local/review/create' )) {
-		glsr()->deprecated[] = 'The "site-reviews/local/review/create" hook has been deprecated. Please use the "site-reviews/create/review" hook instead.';
+		glsr()->deprecated[] = 'The "site-reviews/local/review/create" hook has been deprecated. Please use the "site-reviews/review/created" hook instead.';
 		do_action( 'site-reviews/local/review/create', (array)get_post( $review->ID ), (array)$review, $review->ID );
 	}
 }, 9 );

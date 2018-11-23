@@ -37,16 +37,11 @@ class ReviewController extends Controller
 	}
 
 	/**
-	 * @param array $postData
-	 * @param array $meta
-	 * @param int $postId
 	 * @return void
-	 * @action site-reviews/create/review
+	 * @action site-reviews/review/created
 	 */
-	public function onAfterCreate( $postData, $meta, $postId )
+	public function onAfterCreate( Review $review )
 	{
-		if( !$this->isReviewPostId( $postId ))return;
-		$review = glsr( ReviewManager::class )->single( get_post( $postId ));
 		glsr( CountsManager::class )->increase( $review );
 	}
 
