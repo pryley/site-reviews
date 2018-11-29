@@ -87,11 +87,12 @@ class EditorController extends Controller
 	 * @return void
 	 * @action add_meta_boxes
 	 */
-	public function registerMetaBoxes( $postType )
+	public function registerMetaBoxes( $postType, $post )
 	{
 		if( $postType != Application::POST_TYPE )return;
 		add_meta_box( Application::ID.'_assigned_to', __( 'Assigned To', 'site-reviews' ), [$this, 'renderAssignedToMetabox'], null, 'side' );
 		add_meta_box( Application::ID.'_review', __( 'Details', 'site-reviews' ), [$this, 'renderDetailsMetaBox'], null, 'side' );
+		if( get_post_meta( $post->ID, 'review_type', true ) != 'local' )return;
 		add_meta_box( Application::ID.'_response', __( 'Respond Publicly', 'site-reviews' ), [$this, 'renderResponseMetaBox'], null, 'normal' );
 	}
 
@@ -111,6 +112,14 @@ class EditorController extends Controller
 	public function removeMetaBoxes()
 	{
 		glsr( Customization::class )->removeMetaBoxes();
+	}
+
+	/**
+	 * @return void
+	 */
+	public function removePostTypeSupport()
+	{
+		glsr( Customization::class )->removePostTypeSupport();
 	}
 
 	/**

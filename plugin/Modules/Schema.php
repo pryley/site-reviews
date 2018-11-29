@@ -80,7 +80,7 @@ class Schema
 	 */
 	public function render()
 	{
-		if( is_null( glsr()->schemas ))return;
+		if( empty( glsr()->schemas ))return;
 		printf( '<script type="application/ld+json">%s</script>', json_encode(
 			apply_filters( 'site-reviews/schema/all', glsr()->schemas ),
 			JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES

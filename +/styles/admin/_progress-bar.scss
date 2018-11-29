@@ -5,16 +5,15 @@
 .glsr-progress {
 	position: relative;
 	display: block;
-	width: 300px;
-	height: 24px;
+	height: 28px;
 	opacity: 0.65;
 	text-align: center;
+	font-size: 14px;
 }
 
 @media screen and (max-width: 782px) {
 	.glsr-progress {
-		height: 39px;
-		font-size: 16px;
+		height: 31px;
 	}
 }
 
@@ -34,7 +33,7 @@
 
 .glsr-progress.active .glsr-progress-bar,
 .glsr-progress.active .glsr-progress-background {
-	transition: width .6s ease;
+	transition: width 1s linear;
 	animation: glsr-progress-bar 1s linear infinite;
 }
 
@@ -44,7 +43,7 @@
 	color: #fff;
 	background-color: hsl(210, 9%, 42%);
 	background-image: linear-gradient(-45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
-	box-shadow: 0 1px 0 hsl(210, 9%, 32%);
+	// box-shadow: 0 1px 0 hsl(210, 9%, 32%);
 	border-width: 1px;
 	border-style: solid;
 	border-color: hsl(210, 9%, 42%) hsl(210, 9%, 32%) hsl(210, 9%, 32%);
@@ -66,7 +65,7 @@
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 25px;
+	height: 28px;
 	background-color: #f7f7f7;
 	background-image: linear-gradient(-45deg,rgba(255,255,255,1) 25%,transparent 25%,transparent 50%,rgba(255,255,255,1) 50%,rgba(255,255,255,1) 75%,transparent 75%,transparent);
 	border-radius: 3px;
@@ -76,23 +75,22 @@
 
 @media screen and (max-width: 782px) {
 	.glsr-progress-background {
-		height: 40px;
+		height: 31px;
 	}
 }
 
 .glsr-progress span {
 	position: absolute;
-	width: 300px;
 	left: 0;
 	top: 0;
-	line-height: 23px;
+	line-height: 26px;
 	color: #555;
 	padding: 0 6px;
 }
 
 @media screen and (max-width: 782px) {
 	.glsr-progress span {
-		line-height: 38px;
+		line-height: 29px;
 	}
 }
 
@@ -110,22 +108,15 @@
 	}
 }
 
-.glsr-progress.blue .glsr-progress-bar {
-	background-color: #0073aa;
-	box-shadow: 0 1px 0 #006799;
-	border-color: #0073aa #006799 #006799;
+.glsr-progress .glsr-progress-bar {
+	background-color: hsl(277, 70%, 35%);
+	// box-shadow: 0 1px 0 hsl(277, 70%, 30%);
+	border-color: hsl(277, 70%, 35%) hsl(277, 70%, 30%) hsl(277, 70%, 30%);
 }
 
-.glsr-progress.blue .glsr-progress-bar > span {
-	text-shadow: 0 -1px 1px #006799, 1px 0 1px #006799, 0 1px 1px #006799, -1px 0 1px #006799;
-}
-
-.glsr-progress.green .glsr-progress-bar {
-	background-color: hsl(125, 44%, 49%);
-	box-shadow: 0 1px 0 hsl(125, 44%, 44%);
-	border-color: hsl(125, 44%, 49%) hsl(125, 44%, 44%) hsl(125, 44%, 44%);
-}
-
-.glsr-progress.green .glsr-progress-bar > span {
-	text-shadow: 0 -1px 1px hsl(125, 44%, 44%), 1px 0 1px hsl(125, 44%, 44%), 0 1px 1px hsl(125, 44%, 44%), -1px 0 1px hsl(125, 44%, 44%);
+.glsr-progress .glsr-progress-bar > span {
+	text-shadow: 0 -1px 1px hsl(277, 70%, 30%),
+				1px 0 1px hsl(277, 70%, 30%),
+				0 1px 1px hsl(277, 70%, 30%),
+				-1px 0 1px hsl(277, 70%, 30%);
 }

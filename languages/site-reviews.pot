@@ -346,7 +346,7 @@ msgstr ""
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:292, plugin/Controllers/EditorController.php:298, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsFormPopup.php:62, plugin/Shortcodes/SiteReviewsPopup.php:33, plugin/Shortcodes/SiteReviewsPopup.php:106, plugin/Shortcodes/SiteReviewsSummaryPopup.php:60
+#: config/settings.php:292, plugin/Controllers/EditorController.php:307, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsFormPopup.php:62, plugin/Shortcodes/SiteReviewsPopup.php:33, plugin/Shortcodes/SiteReviewsPopup.php:106, plugin/Shortcodes/SiteReviewsSummaryPopup.php:60
 msgid "Rating"
 msgstr ""
 
@@ -358,11 +358,11 @@ msgstr ""
 msgid "Review"
 msgstr ""
 
-#: config/settings.php:295, plugin/Controllers/EditorController.php:301, plugin/Shortcodes/SiteReviewsFormPopup.php:57
+#: config/settings.php:295, plugin/Controllers/EditorController.php:310, plugin/Shortcodes/SiteReviewsFormPopup.php:57
 msgid "Name"
 msgstr ""
 
-#: config/settings.php:296, plugin/Controllers/EditorController.php:302, plugin/Shortcodes/SiteReviewsFormPopup.php:52
+#: config/settings.php:296, plugin/Controllers/EditorController.php:311, plugin/Shortcodes/SiteReviewsFormPopup.php:52
 msgid "Email"
 msgstr ""
 
@@ -537,93 +537,93 @@ msgctxt "View Post"
 msgid "View %s"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:30
+#: plugin/Controllers/AdminController.php:31
 msgid "You can pin exceptional reviews so that they are always shown first."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:38
+#: plugin/Controllers/AdminController.php:39
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:50, plugin/Controllers/MenuController.php:48
+#: plugin/Controllers/AdminController.php:51, plugin/Controllers/MenuController.php:48
 msgid "Settings"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:66
+#: plugin/Controllers/AdminController.php:67
 msgid "%s Review"
 msgid_plural "%s Reviews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/AdminController.php:98, plugin/Controllers/MainController.php:84
+#: plugin/Controllers/AdminController.php:99, plugin/Controllers/MainController.php:84
 msgid "Recent Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:99, plugin/Controllers/MainController.php:89
+#: plugin/Controllers/AdminController.php:100, plugin/Controllers/MainController.php:89
 msgid "Submit a Review"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:100, plugin/Controllers/MainController.php:94
+#: plugin/Controllers/AdminController.php:101, plugin/Controllers/MainController.php:94
 msgid "Summary of Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:124
-msgid "This review is read-only."
+#: plugin/Controllers/AdminController.php:127
+msgid "%s reviews are read-only."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:155
+#: plugin/Controllers/AdminController.php:160
 msgid "Console cleared."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:163
+#: plugin/Controllers/AdminController.php:168
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:186
+#: plugin/Controllers/AdminController.php:191
 msgid "Recalculated rating counts."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:225
+#: plugin/Controllers/AdminController.php:230
 msgid "Please use a valid Site Reviews settings file."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:229
+#: plugin/Controllers/AdminController.php:234
 msgid "There were no settings found to import."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:232
+#: plugin/Controllers/AdminController.php:237
 msgid "Settings imported."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:242
+#: plugin/Controllers/AdminController.php:247
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:243
+#: plugin/Controllers/AdminController.php:248
 msgid "The uploaded file is too big."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:244
+#: plugin/Controllers/AdminController.php:249
 msgid "The uploaded file was only partially uploaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:245
+#: plugin/Controllers/AdminController.php:250
 msgid "No file was uploaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:246
+#: plugin/Controllers/AdminController.php:251
 msgid "Missing a temporary folder."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:247
+#: plugin/Controllers/AdminController.php:252
 msgid "Failed to write file to disk."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:248
+#: plugin/Controllers/AdminController.php:253
 msgid "A PHP extension stopped the file upload."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:251
+#: plugin/Controllers/AdminController.php:256
 msgid "Unknown upload error."
 msgstr ""
 
@@ -643,55 +643,55 @@ msgstr ""
 msgid "Details"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:95, views/partials/editor/metabox-response.php:3
+#: plugin/Controllers/EditorController.php:96, views/partials/editor/metabox-response.php:3
 msgid "Respond Publicly"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:154, plugin/Modules/Html/Fields/YesNo.php:37
+#: plugin/Controllers/EditorController.php:163, plugin/Modules/Html/Fields/YesNo.php:37
 msgid "No"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:155, plugin/Modules/Html/Fields/YesNo.php:38
+#: plugin/Controllers/EditorController.php:164, plugin/Modules/Html/Fields/YesNo.php:38
 msgid "Yes"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:241
+#: plugin/Controllers/EditorController.php:250
 msgid "Revert Changes"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:247
+#: plugin/Controllers/EditorController.php:256
 msgid "Nothing to Revert"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:263
+#: plugin/Controllers/EditorController.php:272
 msgid "Unknown"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:288
+#: plugin/Controllers/EditorController.php:297
 msgid "Unregistered user"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:295
+#: plugin/Controllers/EditorController.php:304
 msgid "RE:"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:299, plugin/Controllers/MainController.php:29
+#: plugin/Controllers/EditorController.php:308, plugin/Controllers/MainController.php:29
 msgid "Type"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:300, plugin/Defaults/PostTypeDefaults.php:18, plugin/Shortcodes/SiteReviewsPopup.php:101
+#: plugin/Controllers/EditorController.php:309, plugin/Defaults/PostTypeDefaults.php:18, plugin/Shortcodes/SiteReviewsPopup.php:101
 msgid "Date"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:303
+#: plugin/Controllers/EditorController.php:312
 msgid "User"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:304
+#: plugin/Controllers/EditorController.php:313
 msgid "IP Address"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:305, plugin/Shortcodes/SiteReviewsPopup.php:91
+#: plugin/Controllers/EditorController.php:314, plugin/Shortcodes/SiteReviewsPopup.php:91
 msgid "Avatar"
 msgstr ""
 
@@ -758,7 +758,7 @@ msgstr ""
 msgid "Pinned"
 msgstr ""
 
-#: plugin/Controllers/MainController.php:37, plugin/Controllers/MenuController.php:108, views/pages/tools/sync.php:7, views/pages/tools/sync.php:20, views/pages/tools/sync.php:32
+#: plugin/Controllers/MainController.php:37, plugin/Controllers/MenuController.php:108, views/pages/tools/sync.php:10, views/pages/tools/sync.php:27
 msgid "Reviews"
 msgstr ""
 
@@ -826,16 +826,16 @@ msgstr ""
 msgid "Licenses"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:137, views/pages/tools/sync.php:57
-msgid "Sync Reviews"
-msgstr ""
-
-#: plugin/Controllers/MenuController.php:138
+#: plugin/Controllers/MenuController.php:137
 msgid "Console"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:139
+#: plugin/Controllers/MenuController.php:138
 msgid "System Info"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:139, views/pages/tools/sync.php:58
+msgid "Sync Reviews"
 msgstr ""
 
 #: plugin/Controllers/SettingsController.php:28
@@ -1530,27 +1530,31 @@ msgstr ""
 msgid "Recalculate Counts"
 msgstr ""
 
-#: views/pages/tools/sync.php:6, views/pages/tools/sync.php:31
-msgid "Site"
+#: views/pages/tools/sync.php:9
+msgid "Service"
 msgstr ""
 
-#: views/pages/tools/sync.php:8, views/pages/tools/sync.php:23, views/pages/tools/sync.php:33
+#: views/pages/tools/sync.php:11, views/pages/tools/sync.php:30
 msgid "Last Sync"
 msgstr ""
 
-#: views/pages/tools/sync.php:15
+#: views/pages/tools/sync.php:22
 msgid "settings"
 msgstr ""
 
-#: views/pages/tools/sync.php:17
+#: views/pages/tools/sync.php:24
 msgid "Show more details"
 msgstr ""
 
-#: views/pages/tools/sync.php:46
-msgid "Select a Site"
+#: views/pages/tools/sync.php:40
+msgid "Inactive"
 msgstr ""
 
-#: views/pages/tools/sync.php:57
+#: views/pages/tools/sync.php:41
+msgid "Please wait..."
+msgstr ""
+
+#: views/pages/tools/sync.php:58
 msgid "Syncing..."
 msgstr ""
 
@@ -1612,6 +1616,14 @@ msgstr ""
 
 #: views/partials/editor/review.php:4
 msgid "no title"
+msgstr ""
+
+#: views/partials/editor/review.php:15
+msgid "Toggle panel: Public Response"
+msgstr ""
+
+#: views/partials/editor/review.php:19
+msgid "Public Response"
 msgstr ""
 
 #: views/partials/translations/plural.php:4, views/partials/translations/single.php:4

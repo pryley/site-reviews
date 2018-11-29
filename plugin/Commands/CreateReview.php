@@ -21,8 +21,10 @@ class CreateReview
 	public $post_id;
 	public $rating;
 	public $referer;
+	public $response;
 	public $terms;
 	public $title;
+	public $url;
 
 	protected $request;
 
@@ -32,7 +34,7 @@ class CreateReview
 		$this->ajax_request = isset( $input['_ajax_request'] );
 		$this->assigned_to = $this->getNumeric( 'assign_to' );
 		$this->author = sanitize_text_field( $this->get( 'name' ));
-		$this->avatar = get_avatar_url( $this->get( 'email' ));
+		$this->avatar = $this->getAvatar();
 		$this->blacklisted = isset( $input['blacklisted'] );
 		$this->category = sanitize_key( $this->get( 'category' ));
 		$this->content = sanitize_textarea_field( $this->get( 'content' ));
@@ -44,8 +46,10 @@ class CreateReview
 		$this->post_id = intval( $this->get( '_post_id' ));
 		$this->rating = intval( $this->get( 'rating' ));
 		$this->referer = $this->get( '_referer' );
+		$this->response = sanitize_textarea_field( $this->get( 'response' ));
 		$this->terms = !empty( $input['terms'] );
 		$this->title = sanitize_text_field( $this->get( 'title' ));
+		$this->url = esc_url_raw( $this->get( 'url' ));
 	}
 
 	/**
@@ -62,12 +66,23 @@ class CreateReview
 	/**
 	 * @return array
 	 */
+	protected function getAvatar()
+	{
+		$avatar = $this->get( 'avatar' );
+		return !filter_var( $avatar, FILTER_VALIDATE_URL )
+			? get_avatar_url( $this->get( 'email' ))
+			: $avatar;
+	}
+
+	/**
+	 * @return array
+	 */
 	protected function getCustom()
 	{
 		$unset = [
 			'_action', '_ajax_request', '_counter', '_nonce', '_post_id', '_recaptcha-token',
-			'_referer', 'assign_to', 'category', 'content', 'email', 'excluded', 'form_id',
-			'gotcha', 'ip_address', 'name', 'rating', 'terms', 'title',
+			'_referer', 'assign_to', 'category', 'content', 'date', 'email', 'excluded', 'form_id',
+			'gotcha', 'ip_address', 'name', 'rating', 'response', 'terms', 'title', 'url',
 		];
 		$custom = $this->request;
 		foreach( $unset as $value ) {

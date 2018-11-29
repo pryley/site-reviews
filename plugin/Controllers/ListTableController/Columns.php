@@ -67,7 +67,7 @@ class Columns
 	 * @param int $postId
 	 * @return string
 	 */
-	public function buildColumnType( $postId )
+	public function buildColumnReviewType( $postId )
 	{
 		$type = get_post_meta( $postId, 'review_type', true );
 		return array_key_exists( $type, glsr()->reviewTypes )
