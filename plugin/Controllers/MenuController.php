@@ -144,6 +144,7 @@ class MenuController extends Controller
 		$this->renderPage( 'tools', [
 			'data' => [
 				'context' => [
+					'base_url' => admin_url( 'edit.php?post_type='.Application::POST_TYPE ),
 					'console' => strval( glsr( Console::class )),
 					'id' => Application::ID,
 					'system' => strval( glsr( System::class )),
