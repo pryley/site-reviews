@@ -7,6 +7,29 @@
 	margin: 0;
 }
 
+.glsr-response-postbox {
+	margin-top: 20px;
+	margin-bottom: 0;
+}
+
+.js .glsr-response-postbox .hndle {
+	cursor: default;
+}
+
+.js .glsr-response-postbox .toggle-indicator:before {
+	content: "\f142";
+	display: inline-block;
+	font: normal 20px/1 dashicons;
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+}
+
+.js .glsr-response-postbox.closed .toggle-indicator:before {
+	content: "\f140";
+}
+
 .glsr-metabox-table {
 	width: auto;
 	padding: 0 12px 12px;

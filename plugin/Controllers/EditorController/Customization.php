@@ -39,9 +39,8 @@ class Customization
 	 */
 	public function removeAutosave()
 	{
-		if( $this->isReviewEditor() && !$this->isReviewEditable() ) {
-			wp_deregister_script( 'autosave' );
-		}
+		if( !$this->isReviewEditor() || $this->isReviewEditable() )return;
+		wp_deregister_script( 'autosave' );
 	}
 
 	/**
@@ -50,6 +49,16 @@ class Customization
 	public function removeMetaBoxes()
 	{
 		remove_meta_box( 'slugdiv', Application::POST_TYPE, 'advanced' );
+	}
+
+	/**
+	 * @return void
+	 */
+	public function removePostTypeSupport()
+	{
+		if( !$this->isReviewEditor() || $this->isReviewEditable() )return;
+		remove_post_type_support( Application::POST_TYPE, 'title' );
+		remove_post_type_support( Application::POST_TYPE, 'editor' );
 	}
 
 	/**
