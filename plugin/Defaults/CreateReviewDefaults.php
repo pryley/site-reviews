@@ -18,7 +18,7 @@ class CreateReviewDefaults extends Defaults
 			'avatar' => '',
 			'content' => '',
 			'custom' => '',
-			'date' => get_date_from_gmt( gmdate( 'Y-m-d H:i:s' )),
+			'date' => get_date_from_gmt( current_time( 'mysql', 1 )),
 			'email' => '',
 			'ip_address' => glsr( Helper::class )->getIpAddress(),
 			'pinned' => false,
