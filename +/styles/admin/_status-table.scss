@@ -26,3 +26,21 @@
 .glsr-status .toggle-row:before {
 	top: 6px;
 }
+
+.glsr-status thead td.glsr-radio-column,
+.glsr-status tfoot td.glsr-radio-column {
+	color: #82878c;
+	text-align: center;
+	padding-left: 4px;
+}
+
+@media screen and (max-width: 782px) {
+	.glsr-status th input[type="radio"] {
+		margin-bottom: 8px;
+	}
+	.glsr-status thead td.glsr-radio-column,
+	.glsr-status tfoot td.glsr-radio-column {
+		padding-top: 4px;
+		padding-left: 9px;
+	}
+}

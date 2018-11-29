@@ -66,6 +66,7 @@ jQuery( function( $ ) {
 	new GLSR.Tabs();
 	new GLSR.TextareaResize();
 	new GLSR.Tools();
+	new GLSR.Sync();
 
 	$( '.glsr-card.postbox' ).addClass( 'closed' )
 		.find( '.handlediv' ).attr( 'aria-expanded', false )

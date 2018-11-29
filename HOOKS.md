@@ -15,7 +15,7 @@
     site-reviews/addon/submenu/callback
     site-reviews/addon/submenu/pages
     site-reviews/addon/sync/enable
-    site-reviews/addon/sync/sites
+    site-reviews/addon/sync/services
     site-reviews/addon/system-info
     site-reviews/addon/tools/tabs
     site-reviews/addon/types
