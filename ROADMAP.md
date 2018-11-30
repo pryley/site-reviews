@@ -13,6 +13,11 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 ## Upcoming Add-ons
 
+- [x] 1. Tripadvisor Reviews
+- [ ] 2. Review Images
+- [ ] 3. Review Themes (customization of stars (star, thumb, emote, percent), fonts, colors, etc.)
+- [ ] 4. Multi-Ratings (for rating individual services of a business)
+- [ ] 5. Social reviews (share review links)
 - [ ] Booking.com Reviews
 - [ ] Etsy Reviews
 - [ ] Facebook Reviews
@@ -20,16 +25,11 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Form Builder (add/remove/drag-drop to order)
 - [ ] Google Reviews
 - [ ] Importer (from 3rd-party WordPress review plugins)
-- [ ] Multi-Ratings (for rating individual services of a business)
 - [ ] Questions and Answers
 - [ ] Review Builder (add/remove/drag-drop to order)
 - [ ] Review Form Builder
-- [ ] Review Images
-- [ ] Review Themes (customization of stars (star, thumb, emote, percent), fonts, colors, etc.)
 - [ ] Review Threads
 - [ ] Review Upvotes
-- [ ] Social reviews (share review links)
 - [ ] Summary filters (clickable summary bars for filtering)
 - [ ] WooCommerce (incl. review reminders, verified reviews)
-- [-] Yelp Reviews
-- [x] Tripadvisor Reviews
+- [ ] Yelp Reviews
