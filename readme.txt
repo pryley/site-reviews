@@ -5,7 +5,7 @@ Tags: reviews, business reviews, curated reviews, moderated reviews, rating, rat
 Requires at least: 4.7.0
 Tested up to: 4.9
 Requires PHP: 5.6
-Stable tag: 3.0.0-beta-16
+Stable tag: 3.0.0-beta-17
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -131,6 +131,12 @@ All documentation can be found in the "Get Help" page of the plugin. You can als
 14. Add-Ons are being built to extend the functionality on the Site Reviews plugin
 
 == Changelog ==
+
+= 3.0.0-beta-17 (2018-11-30) =
+
+- Added integration with upcoming 3rd-party review sync addons
+- Fixed ability to revert edited reviews
+- Fixed empty javascript tag when schema is disabled
 
 = 3.0.0-beta-16 (2018-11-23) =
 
