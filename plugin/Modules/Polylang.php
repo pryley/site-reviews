@@ -8,10 +8,12 @@ class Polylang
 {
 	/**
 	 * @param int|string $postId
-	 * @return \WP_Post|array|null
+	 * @return \WP_Post|void|null
 	 */
 	public function getPost( $postId )
 	{
+		$postId = trim( $postId );
+		if( empty( $postId ) || !is_numeric( $postId ))return;
 		if( $this->isEnabled() ) {
 			$polylangPostId = pll_get_post( $postId, pll_get_post_language( get_the_ID() ));
 		}
