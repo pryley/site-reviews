@@ -550,7 +550,7 @@ msgstr "You can pin exceptional reviews so that they are always shown first."
 msgid "Pin Your Reviews"
 msgstr "Pin Your Reviews"
 
-#: plugin/Controllers/AdminController.php:51, plugin/Controllers/MenuController.php:48
+#: plugin/Controllers/AdminController.php:51, plugin/Controllers/MenuController.php:48, views/pages/tools/sync.php:23
 msgid "Settings"
 msgstr "Settings"
 
@@ -758,7 +758,7 @@ msgstr "Author"
 msgid "Pinned"
 msgstr "Pinned"
 
-#: plugin/Controllers/MainController.php:37, plugin/Controllers/MenuController.php:108, views/pages/tools/sync.php:10, views/pages/tools/sync.php:27
+#: plugin/Controllers/MainController.php:37, plugin/Controllers/MenuController.php:108, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
 msgid "Reviews"
 msgstr "Reviews"
 
@@ -782,7 +782,7 @@ msgstr "Tools"
 msgid "Addons"
 msgstr "Addons"
 
-#: plugin/Controllers/MenuController.php:51
+#: plugin/Controllers/MenuController.php:51, views/pages/tools/sync.php:25
 msgid "Documentation"
 msgstr "Documentation"
 
@@ -834,7 +834,7 @@ msgstr "Console"
 msgid "System Info"
 msgstr "System Info"
 
-#: plugin/Controllers/MenuController.php:139, views/pages/tools/sync.php:58
+#: plugin/Controllers/MenuController.php:139, views/pages/tools/sync.php:57
 msgid "Sync Reviews"
 msgstr "Sync Reviews"
 
@@ -1568,27 +1568,27 @@ msgstr "Recalculate Counts"
 msgid "Service"
 msgstr "Service"
 
-#: views/pages/tools/sync.php:11, views/pages/tools/sync.php:30
+#: views/pages/tools/sync.php:11, views/pages/tools/sync.php:34
 msgid "Last Sync"
 msgstr "Last Sync"
 
-#: views/pages/tools/sync.php:22
-msgid "settings"
-msgstr "settings"
-
 #: views/pages/tools/sync.php:24
+msgid "License"
+msgstr "License"
+
+#: views/pages/tools/sync.php:28
 msgid "Show more details"
 msgstr "Show more details"
 
-#: views/pages/tools/sync.php:40
-msgid "Inactive"
-msgstr "Inactive"
-
-#: views/pages/tools/sync.php:41
+#: views/pages/tools/sync.php:43
 msgid "Please wait..."
 msgstr "Please wait..."
 
-#: views/pages/tools/sync.php:58
+#: views/pages/tools/sync.php:45, views/pages/tools/sync.php:48
+msgid "Inactive"
+msgstr "Inactive"
+
+#: views/pages/tools/sync.php:57
 msgid "Syncing..."
 msgstr "Syncing..."
 

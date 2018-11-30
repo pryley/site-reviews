@@ -241,7 +241,11 @@ class EditorController extends Controller
 	{
 		$isModified = !glsr( Helper::class )->compareArrays(
 			[$review->title, $review->content, $review->date],
-			[$post->post_title, $post->post_content, $post->post_date]
+			[
+				get_post_meta( $post->ID, 'title', true ),
+				get_post_meta( $post->ID, 'content', true ),
+				get_post_meta( $post->ID, 'date', true ),
+			]
 		);
 		if( $isModified ) {
 			$revertUrl = wp_nonce_url( admin_url( 'post.php?post='.$post->ID.'&action=revert' ),

@@ -545,7 +545,7 @@ msgstr ""
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:51, plugin/Controllers/MenuController.php:48
+#: plugin/Controllers/AdminController.php:51, plugin/Controllers/MenuController.php:48, views/pages/tools/sync.php:23
 msgid "Settings"
 msgstr ""
 
@@ -758,7 +758,7 @@ msgstr ""
 msgid "Pinned"
 msgstr ""
 
-#: plugin/Controllers/MainController.php:37, plugin/Controllers/MenuController.php:108, views/pages/tools/sync.php:10, views/pages/tools/sync.php:27
+#: plugin/Controllers/MainController.php:37, plugin/Controllers/MenuController.php:108, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
 msgid "Reviews"
 msgstr ""
 
@@ -782,7 +782,7 @@ msgstr ""
 msgid "Addons"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:51
+#: plugin/Controllers/MenuController.php:51, views/pages/tools/sync.php:25
 msgid "Documentation"
 msgstr ""
 
@@ -834,7 +834,7 @@ msgstr ""
 msgid "System Info"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:139, views/pages/tools/sync.php:58
+#: plugin/Controllers/MenuController.php:139, views/pages/tools/sync.php:57
 msgid "Sync Reviews"
 msgstr ""
 
@@ -1534,27 +1534,27 @@ msgstr ""
 msgid "Service"
 msgstr ""
 
-#: views/pages/tools/sync.php:11, views/pages/tools/sync.php:30
+#: views/pages/tools/sync.php:11, views/pages/tools/sync.php:34
 msgid "Last Sync"
 msgstr ""
 
-#: views/pages/tools/sync.php:22
-msgid "settings"
+#: views/pages/tools/sync.php:24
+msgid "License"
 msgstr ""
 
-#: views/pages/tools/sync.php:24
+#: views/pages/tools/sync.php:28
 msgid "Show more details"
 msgstr ""
 
-#: views/pages/tools/sync.php:40
-msgid "Inactive"
-msgstr ""
-
-#: views/pages/tools/sync.php:41
+#: views/pages/tools/sync.php:43
 msgid "Please wait..."
 msgstr ""
 
-#: views/pages/tools/sync.php:58
+#: views/pages/tools/sync.php:45, views/pages/tools/sync.php:48
+msgid "Inactive"
+msgstr ""
+
+#: views/pages/tools/sync.php:57
 msgid "Syncing..."
 msgstr ""
 

@@ -64,7 +64,7 @@ class CreateReview
 	}
 
 	/**
-	 * @return array
+	 * @return string
 	 */
 	protected function getAvatar()
 	{

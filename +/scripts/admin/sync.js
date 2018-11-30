@@ -8,7 +8,6 @@
 		this.button = $( 'button#sync-reviews' );
 		this.progressbar = $( '.glsr-progress' );
 		this.service = null;
-		this.syncing = false;
 		$( 'form' ).on( 'click', '#sync-reviews', this.onSync_.bind( this ));
 		$( document ).on( 'wp-window-resized', this.onWindowResize_ );
 		$( window ).on( 'hashchange', this.onWindowResize_ );
@@ -16,6 +15,12 @@
 	};
 
 	GLSR.Sync.prototype = {
+
+		finishSync_: function( response ) {
+			$( '.service-' + this.service + ' td.column-last_sync' ).text( response.last_sync );
+			$( '.service-' + this.service + ' td.column-total_fetched a' ).text( response.total );
+			this.watchSyncStatus_( false );
+		},
 
 		onSync_: function( ev ) {
 			ev.preventDefault();
@@ -53,10 +58,9 @@
 				: this.syncReviews_.bind( this, response );
 			this.updateMessage_( response.message );
 			this.updateProgress_( response.percent );
-			// console.log( response );
 			setTimeout( function() {
 				(new GLSR.Ajax( data )).post_( callback );
-			}, 2000 );
+			}, 1500 );
 		},
 
 		syncReviews_: function( response ) {
@@ -71,11 +75,11 @@
 				stage: 'reviews',
 			};
 			this.updateMessage_( response.message );
-			if( !response.percent_synced || response.percent_synced < 100 ) {
-				(new GLSR.Ajax( data )).post_( this.syncReviews_.bind( this ));
+			if( response.percent_synced && response.percent_synced >= 100 ) {
+				this.finishSync_( response );
 				return;
 			}
-			this.watchSyncStatus_( false );
+			(new GLSR.Ajax( data )).post_( this.syncReviews_.bind( this ));
 		},
 
 		updateMessage_: function( text ) {
@@ -84,21 +88,19 @@
 
 		updateProgress_: function( percent ) {
 			percent = (percent || 0) + '%';
-			$( '.glsr-progress-bar-1', this.progressbar ).outerWidth( percent );
+			$( '.glsr-progress-bar', this.progressbar ).outerWidth( percent );
 		},
 
 		watchSyncStatus_: function( run ) {
 			if( run === true ) {
-				this.syncing = true;
-				this.button.prop( 'disabled', true );
 				this.updateMessage_( this.progressbar.data( 'active-text' ));
 				this.updateProgress_();
+				this.button.prop( 'disabled', true );
 				window.requestAnimationFrame(function() {
 					this.progressbar.addClass( 'active' );
 				}.bind( this ));
 			}
 			if( run === false ) {
-				this.syncing = false;
 				this.service = null;
 				this.button.prop( 'disabled', false );
 				this.progressbar.removeClass( 'active' );
