@@ -97,7 +97,7 @@ class QueryBuilder
 	public function getPaged( $isEnabled = true )
 	{
 		$pagedQuery = !is_front_page()
-			? glsr()->const( 'PAGED_QUERY_VAR' )
+			? glsr()->constant( 'PAGED_QUERY_VAR' )
 			: 'page';
 		return $isEnabled
 			? max( 1, intval( get_query_var( $pagedQuery )))

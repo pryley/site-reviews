@@ -284,7 +284,8 @@ class Builder
 	 */
 	protected function getCustomFieldClassName()
 	{
-		return glsr( Helper::class )->buildClassName( $this->tag, __NAMESPACE__.'\Fields' );
+		$classname = glsr( Helper::class )->buildClassName( $this->tag, __NAMESPACE__.'\Fields' );
+		return apply_filters( 'site-reviews/builder/field/classname', $classname, $this->tag );
 	}
 
 	/**

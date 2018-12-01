@@ -81,7 +81,7 @@ final class Application extends Container
 	 * @param string $property
 	 * @return string
 	 */
-	public function const( $property )
+	public function constant( $property )
 	{
 		$constant = 'static::'.$property;
 		return defined( $constant )
@@ -135,7 +135,7 @@ final class Application extends Container
 	public function hasPermission()
 	{
 		$isAdmin = $this->isAdmin();
-		return !$isAdmin || ( $isAdmin && current_user_can( $this->const( 'CAPABILITY' )));
+		return !$isAdmin || ( $isAdmin && current_user_can( $this->constant( 'CAPABILITY' )));
 	}
 
 	/**

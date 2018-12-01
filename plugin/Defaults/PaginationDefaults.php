@@ -14,7 +14,7 @@ class PaginationDefaults extends Defaults
 	{
 		return [
 			'before_page_number' => '<span class="meta-nav screen-reader-text">'.__( 'Page', 'site-reviews' ).' </span>',
-			'format' => '?'.glsr()->const( 'PAGED_QUERY_VAR' ).'=%#%',
+			'format' => '?'.glsr()->constant( 'PAGED_QUERY_VAR' ).'=%#%',
 			'mid_size' => 1,
 			'next_text' => __( 'Next &rarr;', 'site-reviews' ),
 			'prev_text' => __( '&larr; Previous', 'site-reviews' ),
