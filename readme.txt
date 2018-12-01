@@ -5,7 +5,7 @@ Tags: reviews, business reviews, curated reviews, moderated reviews, rating, rat
 Requires at least: 4.7.0
 Tested up to: 4.9
 Requires PHP: 5.6
-Stable tag: 3.0.0-beta-17
+Stable tag: 3.0.0-beta-18
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -131,6 +131,13 @@ All documentation can be found in the "Get Help" page of the plugin. You can als
 14. Add-Ons are being built to extend the functionality on the Site Reviews plugin
 
 == Changelog ==
+
+= 3.0.0-beta-17 (2018-12-01) =
+
+- Added "site-reviews/builder/field/classname" hook
+- Fixed avatar sizing
+- Fixed PHP 5.6 compatibility
+- Fixed review counts for non-local review types
 
 = 3.0.0-beta-17 (2018-11-30) =
 
