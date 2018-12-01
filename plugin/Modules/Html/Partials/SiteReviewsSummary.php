@@ -37,6 +37,7 @@ class SiteReviewsSummary
 		$counts = glsr( CountsManager::class )->get([
 			'post_ids' => glsr( Helper::class )->convertStringToArray( $args['assigned_to'] ),
 			'term_ids' => glsr( Helper::class )->convertStringToArray( $args['category'] ),
+			'type' => $args['type'],
 		]);
 		$this->ratingCounts = glsr( CountsManager::class )->flatten( $counts, [
 			'min' => $args['rating'],

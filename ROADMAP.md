@@ -4,40 +4,32 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 ## Proposed features
 
-- [ ] Clickable summary bars for filtering (or just simple filter controls for reviews)
-- [ ] Code coverage for each class
-- [ ] Custom importer to correctly map assigned post_ids @addon
-- [ ] Custom review fields
-- [ ] Customization of stars, fonts, colors, etc.
-- [ ] Drag-drop order of review fields
-- [ ] Drag-drop order of submission form fields
-- [ ] Flag reviews
-- [ ] GDPR settings
-- [ ] Import 3rd-party reviews
-- [ ] Integrate with WooCommerce reviews @addon
-- [ ] Integrate with WordPress comment system
-- [ ] Multiple star-ratings in a review (for rating individual services of a business)
-- [ ] Protect review metadata from Custom Fields
-- [ ] Rating types (star, thumb, emote, percent)
-- [ ] Reminder integration (seems more like an integration with other specific plugins, i.e. woocommerce)
+- [ ] GDPR settings (submit as anonymous option, integrate with WordPress GDPR controls)
+- [ ] Protect review metadata from Custom Fields on other post_types
 - [ ] Review statistics
-- [ ] Share reviews
 - [ ] Store the review GEO location by IP
 - [ ] Throttle anonymous review submissions
-- [ ] Verified reviews
 - [ ] WP REST API support
 
 ## Upcoming Add-ons
 
+- [x] 1. Tripadvisor Reviews
+- [ ] 2. Review Images
+- [ ] 3. Review Themes (customization of stars (star, thumb, emote, percent), fonts, colors, etc.)
+- [ ] 4. Multi-Ratings (for rating individual services of a business)
+- [ ] 5. Social reviews (share review links)
 - [ ] Booking.com Reviews
 - [ ] Etsy Reviews
 - [ ] Facebook Reviews
+- [ ] Flag reviews
+- [ ] Form Builder (add/remove/drag-drop to order)
 - [ ] Google Reviews
+- [ ] Importer (from 3rd-party WordPress review plugins)
 - [ ] Questions and Answers
+- [ ] Review Builder (add/remove/drag-drop to order)
 - [ ] Review Form Builder
-- [ ] Review Images
-- [ ] Review Themes
 - [ ] Review Threads
 - [ ] Review Upvotes
-- [-] Tripadvisor Reviews
-- [-] Yelp Reviews
+- [ ] Summary filters (clickable summary bars for filtering)
+- [ ] WooCommerce (incl. review reminders, verified reviews)
+- [ ] Yelp Reviews

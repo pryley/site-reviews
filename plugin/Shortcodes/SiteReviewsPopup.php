@@ -155,10 +155,10 @@ class SiteReviewsPopup extends TinymcePopupGenerator
 			return [];
 		}
 		return [
-			'label' => esc_html__( 'Display', 'site-reviews' ),
-			'name' => 'display',
+			'label' => esc_html__( 'Type', 'site-reviews' ),
+			'name' => 'type',
 			'options' => glsr()->reviewTypes,
-			'tooltip' => __( 'Which reviews would you like to display?', 'site-reviews' ),
+			'tooltip' => __( 'Which type of review would you like to display?', 'site-reviews' ),
 			'type' => 'listbox',
 		];
 	}

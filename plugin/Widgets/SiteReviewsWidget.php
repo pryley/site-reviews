@@ -42,8 +42,8 @@ class SiteReviewsWidget extends Widget
 		if( count( glsr()->reviewTypes ) > 1 ) {
 			$this->renderField( 'select', [
 				'class' => 'widefat',
-				'label' => __( 'Which reviews would you like to display?', 'site-reviews' ),
-				'name' => 'display',
+				'label' => __( 'Which type of review would you like to display?', 'site-reviews' ),
+				'name' => 'type',
 				'options' => ['' => __( 'All Reviews', 'site-reviews' )] + glsr()->reviewTypes,
 			]);
 		}
