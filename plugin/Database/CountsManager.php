@@ -134,7 +134,7 @@ class CountsManager
 			$counts[] = $this->getCounts();
 		}
 		return in_array( $args['type'], ['', 'all'] )
-			? $this->normalize( $this->flatten( $counts ))
+			? $this->normalize( [$this->flatten( $counts )] )
 			: $this->normalize( array_column( $counts, $args['type'] ));
 	}
 
