@@ -76,4 +76,21 @@ class SiteReviewsSummaryPopup extends SiteReviewsPopup
 			'type' => 'container',
 		]];
 	}
+
+	/**
+	 * @return array
+	 */
+	public function getTypes()
+	{
+		if( count( glsr()->reviewTypes ) < 2 ) {
+			return [];
+		}
+		return [
+			'label' => esc_html__( 'Type', 'site-reviews' ),
+			'name' => 'type',
+			'options' => glsr()->reviewTypes,
+			'tooltip' => __( 'Which type of review would you like to use?', 'site-reviews' ),
+			'type' => 'listbox',
+		];
+	}
 }

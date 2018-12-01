@@ -133,7 +133,9 @@ class CountsManager
 		if( empty( $counts )) {
 			$counts[] = $this->getCounts();
 		}
-		return $this->normalize( array_column( $counts, $args['type'] ));
+		return in_array( $args['type'], ['', 'all'] )
+			? $this->normalize( $this->flatten( $counts ))
+			: $this->normalize( array_column( $counts, $args['type'] ));
 	}
 
 	/**
@@ -229,7 +231,7 @@ class CountsManager
 	 */
 	public function setPostCounts( $postId, array $reviewCounts )
 	{
-		$ratingCounts = glsr( CountsManager::class )->flatten( $reviewCounts );
+		$ratingCounts = $this->flatten( $reviewCounts );
 		update_post_meta( $postId, static::META_COUNT, $reviewCounts );
 		update_post_meta( $postId, static::META_AVERAGE, glsr( Rating::class )->getAverage( $ratingCounts ));
 		update_post_meta( $postId, static::META_RANKING, glsr( Rating::class )->getRanking( $ratingCounts ));
@@ -242,7 +244,7 @@ class CountsManager
 	public function setTermCounts( $termId, array $reviewCounts )
 	{
 		if( !term_exists( $termId ))return;
-		$ratingCounts = glsr( CountsManager::class )->flatten( $reviewCounts );
+		$ratingCounts = $this->flatten( $reviewCounts );
 		update_term_meta( $termId, static::META_COUNT, $reviewCounts );
 		update_term_meta( $termId, static::META_AVERAGE, glsr( Rating::class )->getAverage( $ratingCounts ));
 		update_term_meta( $termId, static::META_RANKING, glsr( Rating::class )->getRanking( $ratingCounts ));
