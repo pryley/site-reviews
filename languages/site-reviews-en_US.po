@@ -382,7 +382,7 @@ msgstr "Choose which fields should be required in the submission form."
 msgid "Required Fields"
 msgstr "Required Fields"
 
-#: config/settings.php:292, plugin/Controllers/EditorController.php:307, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsFormPopup.php:62, plugin/Shortcodes/SiteReviewsPopup.php:33, plugin/Shortcodes/SiteReviewsPopup.php:106, plugin/Shortcodes/SiteReviewsSummaryPopup.php:60
+#: config/settings.php:292, plugin/Controllers/EditorController.php:311, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsFormPopup.php:62, plugin/Shortcodes/SiteReviewsPopup.php:33, plugin/Shortcodes/SiteReviewsPopup.php:106, plugin/Shortcodes/SiteReviewsSummaryPopup.php:60
 msgid "Rating"
 msgstr "Rating"
 
@@ -394,11 +394,11 @@ msgstr "Title"
 msgid "Review"
 msgstr "Review"
 
-#: config/settings.php:295, plugin/Controllers/EditorController.php:310, plugin/Shortcodes/SiteReviewsFormPopup.php:57
+#: config/settings.php:295, plugin/Controllers/EditorController.php:314, plugin/Shortcodes/SiteReviewsFormPopup.php:57
 msgid "Name"
 msgstr "Name"
 
-#: config/settings.php:296, plugin/Controllers/EditorController.php:311, plugin/Shortcodes/SiteReviewsFormPopup.php:52
+#: config/settings.php:296, plugin/Controllers/EditorController.php:315, plugin/Shortcodes/SiteReviewsFormPopup.php:52
 msgid "Email"
 msgstr "Email"
 
@@ -660,43 +660,43 @@ msgstr "No"
 msgid "Yes"
 msgstr "Yes"
 
-#: plugin/Controllers/EditorController.php:250
+#: plugin/Controllers/EditorController.php:254
 msgid "Revert Changes"
 msgstr "Revert Changes"
 
-#: plugin/Controllers/EditorController.php:256
+#: plugin/Controllers/EditorController.php:260
 msgid "Nothing to Revert"
 msgstr "Nothing to Revert"
 
-#: plugin/Controllers/EditorController.php:272
+#: plugin/Controllers/EditorController.php:276
 msgid "Unknown"
 msgstr "Unknown"
 
-#: plugin/Controllers/EditorController.php:297
+#: plugin/Controllers/EditorController.php:301
 msgid "Unregistered user"
 msgstr "Unregistered user"
 
-#: plugin/Controllers/EditorController.php:304
+#: plugin/Controllers/EditorController.php:308
 msgid "RE:"
 msgstr "RE:"
 
-#: plugin/Controllers/EditorController.php:308, plugin/Controllers/MainController.php:29
+#: plugin/Controllers/EditorController.php:312, plugin/Controllers/MainController.php:29, plugin/Shortcodes/SiteReviewsPopup.php:158, plugin/Shortcodes/SiteReviewsSummaryPopup.php:89
 msgid "Type"
 msgstr "Type"
 
-#: plugin/Controllers/EditorController.php:309, plugin/Defaults/PostTypeDefaults.php:18, plugin/Shortcodes/SiteReviewsPopup.php:101
+#: plugin/Controllers/EditorController.php:313, plugin/Defaults/PostTypeDefaults.php:18, plugin/Shortcodes/SiteReviewsPopup.php:101
 msgid "Date"
 msgstr "Date"
 
-#: plugin/Controllers/EditorController.php:312
+#: plugin/Controllers/EditorController.php:316
 msgid "User"
 msgstr "User"
 
-#: plugin/Controllers/EditorController.php:313
+#: plugin/Controllers/EditorController.php:317
 msgid "IP Address"
 msgstr "IP Address"
 
-#: plugin/Controllers/EditorController.php:314, plugin/Shortcodes/SiteReviewsPopup.php:91
+#: plugin/Controllers/EditorController.php:318, plugin/Shortcodes/SiteReviewsPopup.php:91
 msgid "Avatar"
 msgstr "Avatar"
 
@@ -826,17 +826,17 @@ msgstr "Translations"
 msgid "Licenses"
 msgstr "Licenses"
 
-#: plugin/Controllers/MenuController.php:137
+#: plugin/Controllers/MenuController.php:137, views/pages/tools/sync.php:57
+msgid "Sync Reviews"
+msgstr "Sync Reviews"
+
+#: plugin/Controllers/MenuController.php:138
 msgid "Console"
 msgstr "Console"
 
-#: plugin/Controllers/MenuController.php:138
+#: plugin/Controllers/MenuController.php:139
 msgid "System Info"
 msgstr "System Info"
-
-#: plugin/Controllers/MenuController.php:139, views/pages/tools/sync.php:57
-msgid "Sync Reviews"
-msgstr "Sync Reviews"
 
 #: plugin/Controllers/SettingsController.php:28
 msgid "Settings updated."
@@ -1210,13 +1210,9 @@ msgstr "Hide the review title?"
 msgid "Limit reviews to this category."
 msgstr "Limit reviews to this category."
 
-#: plugin/Shortcodes/SiteReviewsPopup.php:158
-msgid "Display"
-msgstr "Display"
-
 #: plugin/Shortcodes/SiteReviewsPopup.php:161, plugin/Widgets/SiteReviewsWidget.php:45
-msgid "Which reviews would you like to display?"
-msgstr "Which reviews would you like to display?"
+msgid "Which type of review would you like to display?"
+msgstr "Which type of review would you like to display?"
 
 #: plugin/Shortcodes/SiteReviewsSummaryPopup.php:50
 msgid "Bars"
@@ -1253,6 +1249,10 @@ msgstr "Summary"
 #: plugin/Shortcodes/SiteReviewsSummaryPopup.php:71, plugin/Widgets/SiteReviewsSummaryWidget.php:58
 msgid "Hide the summary text?"
 msgstr "Hide the summary text?"
+
+#: plugin/Shortcodes/SiteReviewsSummaryPopup.php:92, plugin/Widgets/SiteReviewsSummaryWidget.php:27
+msgid "Which type of review would you like to use?"
+msgstr "Which type of review would you like to use?"
 
 #: plugin/Shortcodes/TinymcePopupGenerator.php:42
 msgid "Close"
@@ -1317,10 +1317,6 @@ msgstr "Hide the terms field"
 #: plugin/Widgets/SiteReviewsFormWidget.php:55
 msgid "Hide the title field"
 msgstr "Hide the title field"
-
-#: plugin/Widgets/SiteReviewsSummaryWidget.php:27
-msgid "Which type of review would you like to use?"
-msgstr "Which type of review would you like to use?"
 
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:29
 msgid "All review types"
@@ -1462,7 +1458,7 @@ msgstr "The reCAPTCHA failed to load, please refresh the page and try again."
 msgid "The reCAPTCHA verification failed, please try again."
 msgstr "The reCAPTCHA verification failed, please try again."
 
-#: plugin/Modules/Validator/ValidateReview.php:258, plugin/Modules/Html/Partials/SiteReviews.php:211
+#: plugin/Modules/Validator/ValidateReview.php:258, plugin/Modules/Html/Partials/SiteReviews.php:212
 msgid "No Title"
 msgstr "No Title"
 
@@ -1702,15 +1698,15 @@ msgstr "Site Reviews navigation"
 msgid "Review of %s"
 msgstr "Review of %s"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:194
+#: plugin/Modules/Html/Partials/SiteReviews.php:195
 msgid "Response from %s"
 msgstr "Response from %s"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:272
+#: plugin/Modules/Html/Partials/SiteReviews.php:273
 msgid "Show less"
 msgstr "Show less"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:273
+#: plugin/Modules/Html/Partials/SiteReviews.php:274
 msgid "Show more"
 msgstr "Show more"
 
@@ -1808,7 +1804,7 @@ msgctxt "the option label"
 msgid "The \"%s\" option is required."
 msgstr "The \"%s\" option is required."
 
-#: plugin/Modules/Html/Partials/SiteReviewsSummary.php:140
+#: plugin/Modules/Html/Partials/SiteReviewsSummary.php:141
 msgctxt "Do not translate {rating}, {max}, and {num}, they are template tags."
 msgid "{rating} out of {max} stars (based on {num} review)"
 msgid_plural "{rating} out of {max} stars (based on {num} reviews)"

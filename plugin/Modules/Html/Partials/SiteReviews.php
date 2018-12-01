@@ -131,8 +131,9 @@ class SiteReviews
 		if( $this->isHidden( $key, 'settings.reviews.avatars' ))return;
 		$size = $this->getOption( 'settings.reviews.avatars_size', 40 );
 		return glsr( Builder::class )->img([
-			'src' => $this->generateAvatar( $value ),
 			'height' => $size,
+			'src' => $this->generateAvatar( $value ),
+			'style' => sprintf( 'width:%1$spx; height:%1$spx;', $size ),
 			'width' => $size,
 		]);
 	}
