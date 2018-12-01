@@ -134,9 +134,9 @@ class MenuController extends Controller
 	{
 		$tabs = $this->parseWithFilter( 'tools/tabs', [
 			'general' => __( 'General', 'site-reviews' ),
+			'sync' => __( 'Sync Reviews', 'site-reviews' ),
 			'console' => __( 'Console', 'site-reviews' ),
 			'system-info' => __( 'System Info', 'site-reviews' ),
-			'sync' => __( 'Sync Reviews', 'site-reviews' ),
 		]);
 		if( !apply_filters( 'site-reviews/addon/sync/enable', false )) {
 			unset( $tabs['sync'] );
