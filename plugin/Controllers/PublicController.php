@@ -58,7 +58,7 @@ class PublicController extends Controller
 	 */
 	public function filterQueryVars( array $vars )
 	{
-		$vars[] = glsr()->const( 'PAGED_QUERY_VAR' );
+		$vars[] = glsr()->constant( 'PAGED_QUERY_VAR' );
 		return $vars;
 	}
 
