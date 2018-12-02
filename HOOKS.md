@@ -78,6 +78,8 @@
     site-reviews/slack/stars
     site-reviews/submission-form/order
     site-reviews/summary/counts
+    site-reviews/translation/entries
+    site-reviews/translator/domains
     site-reviews/url
     site-reviews/validate/custom
     site-reviews/validation/rules

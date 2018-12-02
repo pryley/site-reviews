@@ -996,7 +996,7 @@ msgid_plural "%s years ago"
 msgstr[0] "%s year ago"
 msgstr[1] "%s years ago"
 
-#: plugin/Modules/Translation.php:105
+#: plugin/Modules/Translation.php:117
 msgid ""
 "This custom translation is no longer valid as the original text has been "
 "changed or removed."

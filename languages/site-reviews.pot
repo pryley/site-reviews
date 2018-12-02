@@ -995,7 +995,7 @@ msgid_plural "New %s-star review of: %s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Translation.php:105
+#: plugin/Modules/Translation.php:117
 msgid "This custom translation is no longer valid as the original text has been changed or removed."
 msgstr ""
 

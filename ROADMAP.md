@@ -4,7 +4,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 ## Proposed features
 
-- [ ] GDPR settings (submit as anonymous option, integrate with WordPress GDPR controls)
+- [ ] Integrate with WordPress GDPR controls
 - [ ] Protect review metadata from Custom Fields on other post_types
 - [ ] Review statistics
 - [ ] Store the review GEO location by IP

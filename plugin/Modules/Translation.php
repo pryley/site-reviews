@@ -44,16 +44,10 @@ class Translation
 	public function entries()
 	{
 		if( !isset( $this->entries )) {
-			try {
-				$potFile = glsr()->path( glsr()->languages.'/'.Application::ID.'.pot' );
-				$entries = $this->normalize( Parser::parseFile( $potFile )->getEntries() );
-				foreach( $entries as $key => $entry ) {
-					$this->entries[html_entity_decode( $key, ENT_COMPAT, 'UTF-8' )] = $entry;
-				}
-			}
-			catch( Exception $e ) {
-				glsr_log()->error( $e->getMessage() );
-			}
+			$potFile = glsr()->path( glsr()->languages.'/'.Application::ID.'.pot' );
+			$entries = $this->extractEntriesFromPotFile( $potFile );
+			$entries = apply_filters( 'site-reviews/translation/entries', $entries );
+			$this->entries = $entries;
 		}
 		return $this->entries;
 	}
@@ -66,6 +60,24 @@ class Translation
 	public function exclude( $entriesToExclude = null, $entries = null )
 	{
 		return $this->filter( $entriesToExclude, $entries, false );
+	}
+
+	/**
+	 * @param string $potFile
+	 * @return array
+	 */
+	public function extractEntriesFromPotFile( $potFile, array $entries = [] )
+	{
+		try {
+			$potEntries = $this->normalize( Parser::parseFile( $potFile )->getEntries() );
+			foreach( $potEntries as $key => $entry ) {
+				$entries[html_entity_decode( $key, ENT_COMPAT, 'UTF-8' )] = $entry;
+			}
+		}
+		catch( Exception $e ) {
+			glsr_log()->error( $e->getMessage() );
+		}
+		return $entries;
 	}
 
 	/**
