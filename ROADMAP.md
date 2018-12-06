@@ -1,6 +1,6 @@
 # Roadmap
 
-All proposed features are subject to change and are sorted alphabetically rather than in order of development.
+All proposed features are subject to change and are sorted alphabetically rather than in order of priority.
 
 ## Proposed features
 

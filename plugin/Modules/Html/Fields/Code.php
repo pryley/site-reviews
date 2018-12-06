@@ -13,7 +13,7 @@ class Code extends Field
 	{
 		$this->builder->tag = 'textarea';
 		$this->mergeFieldArgs();
-		return $this->builder->buildTag();
+		return $this->builder->getTag();
 	}
 
 	/**

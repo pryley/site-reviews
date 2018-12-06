@@ -21,7 +21,7 @@ abstract class Field
 	 */
 	public function build()
 	{
-		glsr_log()->error( 'Build method is not implemented for '.__CLASS__ );
+		glsr_log()->error( 'Build method is not implemented for '.get_class( $this ));
 	}
 
 	/**

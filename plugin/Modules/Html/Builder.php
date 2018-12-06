@@ -117,6 +117,20 @@ class Builder
 	}
 
 	/**
+	 * @return void|string
+	 */
+	public function getTag()
+	{
+		if( in_array( $this->tag, static::TAGS_SINGLE )) {
+			return $this->getOpeningTag();
+		}
+		if( !in_array( $this->tag, static::TAGS_FORM )) {
+			return $this->buildDefaultTag();
+		}
+		return call_user_func( [$this, 'buildForm'.ucfirst( $this->tag )] ).$this->buildFieldDescription();
+	}
+
+	/**
 	 * @return string
 	 */
 	public function raw( array $field )
@@ -270,13 +284,7 @@ class Builder
 	protected function buildTag()
 	{
 		$this->mergeArgsWithRequiredDefaults();
-		if( in_array( $this->tag, static::TAGS_SINGLE )) {
-			return $this->getOpeningTag();
-		}
-		if( !in_array( $this->tag, static::TAGS_FORM )) {
-			return $this->buildDefaultTag();
-		}
-		return call_user_func( [$this, 'buildForm'.ucfirst( $this->tag )] ).$this->buildFieldDescription();
+		return $this->getTag();
 	}
 
 	/**
@@ -285,7 +293,7 @@ class Builder
 	protected function getCustomFieldClassName()
 	{
 		$classname = glsr( Helper::class )->buildClassName( $this->tag, __NAMESPACE__.'\Fields' );
-		return apply_filters( 'site-reviews/builder/field/classname', $classname, $this->tag );
+		return apply_filters( 'site-reviews/builder/field/'.$this->tag, $classname );
 	}
 
 	/**
