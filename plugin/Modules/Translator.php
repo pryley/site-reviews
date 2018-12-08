@@ -79,7 +79,8 @@ class Translator
 	 */
 	public function translate( $original, $domain, array $args )
 	{
-		if( $domain != Application::ID ) {
+		$domains = apply_filters( 'site-reviews/translator/domains', [Application::ID] );
+		if( !in_array( $domain, $domains )) {
 			return $original;
 		}
 		$args = $this->normalizeTranslationArgs( $args );

@@ -74,10 +74,13 @@
     site-reviews/schema/review
     site-reviews/schema/{schema_type}
     site-reviews/shortcode/args
+    site-reviews/shortcode/hidden-keys
     site-reviews/slack/compose
     site-reviews/slack/stars
     site-reviews/submission-form/order
     site-reviews/summary/counts
+    site-reviews/translation/entries
+    site-reviews/translator/domains
     site-reviews/url
     site-reviews/validate/custom
     site-reviews/validation/rules

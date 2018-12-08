@@ -13,7 +13,7 @@ class YesNo extends Field
 	{
 		$this->builder->tag = 'input';
 		$this->mergeFieldArgs();
-		return $this->builder->buildFormInput();
+		return $this->builder->getTag();
 	}
 
 	/**

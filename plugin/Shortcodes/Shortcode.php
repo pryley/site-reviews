@@ -55,6 +55,18 @@ abstract class Shortcode implements ShortcodeContract
 	}
 
 	/**
+	 * @return array
+	 */
+	public function getHiddenKeys()
+	{
+		$hiddenKeys = defined( 'static::HIDDEN_KEYS' )
+			? static::HIDDEN_KEYS
+			: [];
+		$shortcode = glsr( Helper::class )->snakeCase( $this->getShortcodePartial() );
+		return apply_filters( 'site-reviews/shortcode/hidden-keys', $hiddenKeys, $shortcode );
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getShortcodePartial()
@@ -108,9 +120,7 @@ abstract class Shortcode implements ShortcodeContract
 		if( is_string( $hide )) {
 			$hide = explode( ',', $hide );
 		}
-		$hiddenKeys = defined( 'static::HIDDEN_KEYS' )
-			? static::HIDDEN_KEYS
-			: [];
+		$hiddenKeys = $this->getHiddenKeys();
 		return array_filter( array_map( 'trim', $hide ), function( $value ) use( $hiddenKeys ) {
 			return in_array( $value, $hiddenKeys );
 		});
