@@ -7,13 +7,17 @@ $glsr-color-success: $glsr-color-green !default;
 $glsr-font-size-small: 14px !default;
 $glsr-font-size: 16px !default;
 $glsr-opacity: 0.1 !default; //0.075
+$glsr-star-size: 20px !default;
+
 $glsr-summary-bar-height: 12px !default;
 $glsr-summary-max-width: 400px !default;
 $glsr-summary-spacing: 10px !default;
 $glsr-summary-star-size: 24px !default;
+$glsr-summary-font-size: 16px !default;
+$glsr-summary-font-size-small: 14px !default;
 
-$glsr-color-grey: #BDBDBD;
-$glsr-color-grey-dark: #9E9E9E;
+$glsr-color-grey: #BDBDBD  !default;
+$glsr-color-grey-dark: #9E9E9E !default;
 
 $star-rating: (
     base-display   : block,
@@ -27,4 +31,4 @@ $star-rating: (
     star-size      : 24px,
     text-background: #1a1a1a,
     text-color     : #fff,
-);
+) !default;

@@ -92,13 +92,10 @@
 		z-index: 1;
 	}
 	.glsr-star {
-		display: inline-block;
-		width: 20px;
-		height: 20px;
-		font-size: 16px;
-		vertical-align: sub;
-		background-repeat: no-repeat;
-		background-size: 20px;
+		width: $glsr-star-size;
+		height: $glsr-star-size;
+		font-size: inherit;
+		background-size: $glsr-star-size;
 	}
 }
 .glsr-ltr .glsr-default {

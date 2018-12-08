@@ -17,6 +17,7 @@ return [
 			'materialize' => 'Theme: Materialize',
 			'twentyfifteen' => 'Theme: Twenty Fifteen',
 			'twentyseventeen' => 'Theme: Twenty Seventeen',
+			'twentynineteen' => 'Theme: Twenty Nineteen',
 		],
 		'type' => 'select',
 	],
