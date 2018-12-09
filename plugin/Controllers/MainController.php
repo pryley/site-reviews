@@ -9,6 +9,8 @@ use GeminiLabs\SiteReviews\Commands\RegisterTaxonomy;
 use GeminiLabs\SiteReviews\Commands\RegisterWidgets;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
+use GeminiLabs\SiteReviews\Controllers\RestCategoryController;
+use GeminiLabs\SiteReviews\Controllers\RestReviewController;
 
 class MainController extends Controller
 {
@@ -36,6 +38,8 @@ class MainController extends Controller
 			'map_meta_cap' => true,
 			'plural' => __( 'Reviews', 'site-reviews' ),
 			'post_type' => Application::POST_TYPE,
+			'rest_controller_class' => RestReviewController::class,
+			'show_in_rest' => true,
 			'single' => __( 'Review', 'site-reviews' ),
 		]);
 		$this->execute( $command );
@@ -65,7 +69,9 @@ class MainController extends Controller
 			'hierarchical' => true,
 			'meta_box_cb' => [glsr( EditorController::class ), 'renderTaxonomyMetabox'],
 			'public' => false,
+			'rest_controller_class' => RestCategoryController::class,
 			'show_admin_column' => true,
+			'show_in_rest' => true,
 			'show_ui' => true,
 		]);
 		$this->execute( $command );
