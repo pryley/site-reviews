@@ -145,11 +145,6 @@
 		<p>The default class value is: <code>""</code></p>
 		<pre><code>[site_reviews_summary class="my-reviews-summary full-width"]</code></pre>
 
-		<p class="glsr-heading">count</p>
-		<p>Include the "count" attribute to change the number of reviews that are used to calculate the average rating. By default, all reviews found in your set criteria are calculated. </p>
-		<p>The default count value is: <code>""</code></p>
-		<pre><code>[site_reviews_summary count="20"]</code></pre>
-
 		<p class="glsr-heading">hide</p>
 		<p>By default the shortcode displays all fields. Use the "hide" attribute to hide any specific fields you don't want to show. Include the "if_empty" value to hide the shortcode when there are no reviews to summarise. If all fields are hidden, the shortcode will not be displayed.</p>
 		<p>The default hide value is: <code>""</code></p>
