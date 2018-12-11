@@ -4,10 +4,10 @@
 	// var el = element.createElement;
 	// var __ = i18n.__;
 
-	blocks.registerBlockType( 'site-reviews/form', {
+	blocks.registerBlockType( GLSR.nameprefix + '/form', {
 		title: 'Submit a Review',
 		icon: 'star-half',
-		category: 'site-reviews',
+		category: GLSR.nameprefix,
 		edit: function() {
 		},
 		save: function() {
