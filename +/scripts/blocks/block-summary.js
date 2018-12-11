@@ -41,10 +41,6 @@
 			default: false,
 			type: 'boolean',
 		},
-		title: {
-			default: '',
-			type: 'string',
-		},
 		type: {
 			default: '',
 			type: 'string',
@@ -108,22 +104,13 @@
 				el( PanelBody,
 					{ title: __( 'Settings', 'site-reviews' ) },
 					el( TextControl, {
-						help: __( 'Add a custom heading.', 'site-reviews' ),
-						label: __( 'Title', 'site-reviews' ),
+						help: __( 'Limit reviews to those assigned to this post ID. You can also enter "post_id" to use the ID of the current page.', 'site-reviews' ),
+						label: __( 'Assigned To', 'site-reviews' ),
 						onChange: function( value ) {
-							props.setAttributes({ title: value });
+							props.setAttributes({ assigned_to: value });
 						},
 						type: 'text',
-						value: props.attributes.title,
-					}),
-					el( SelectControl, {
-						help: __( 'Limit reviews to a specific type.', 'site-reviews' ),
-						label: __( 'Type', 'site-reviews' ),
-						onChange: function( value ) {
-							props.setAttributes({ type: value });
-						},
-						options: types,
-						value: props.attributes.type,
+						value: props.attributes.assigned_to,
 					}),
 					el( SelectControl, {
 						help: __( 'Limit reviews to a specific category.', 'site-reviews' ),
@@ -134,14 +121,14 @@
 						options: categories,
 						value: props.attributes.category,
 					}),
-					el( TextControl, {
-						help: __( 'Limit reviews to those assigned to this post ID. You can also enter "post_id" to use the ID of the current page.', 'site-reviews' ),
-						label: __( 'Assigned To', 'site-reviews' ),
+					el( SelectControl, {
+						help: __( 'Limit reviews to a specific type.', 'site-reviews' ),
+						label: __( 'Type', 'site-reviews' ),
 						onChange: function( value ) {
-							props.setAttributes({ assigned_to: value });
+							props.setAttributes({ type: value });
 						},
-						type: 'text',
-						value: props.attributes.assigned_to,
+						options: types,
+						value: props.attributes.type,
 					}),
 					el( RangeControl, {
 						help: __( 'Limit reviews to a minimum rating.', 'site-reviews' ),

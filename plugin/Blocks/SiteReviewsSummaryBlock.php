@@ -41,10 +41,6 @@ class SiteReviewsSummaryBlock extends BlockGenerator
 				'default' => false,
 				'type' => 'boolean',
 			],
-			'title' => [
-				'default' => '',
-				'type' => 'string',
-			],
 			'type' => [
 				'default' => '',
 				'type' => 'string',

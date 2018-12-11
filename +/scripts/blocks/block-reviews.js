@@ -6,6 +6,7 @@
 	var blockName = GLSR.nameprefix + '/reviews';
 	var el = element.createElement;
 	var Inspector = editor.InspectorControls;
+	var AdvancedInspector = editor.InspectorAdvancedControls;
 	var PanelBody = components.PanelBody;
 	var ServerSideRender = components.ServerSideRender;
 	var TextControl = components.TextControl;
@@ -35,6 +36,10 @@
 			default: '',
 			type: 'string',
 		},
+		id: {
+			default: '',
+			type: 'string',
+		},
 		pagination: {
 			default: '',
 			type: 'string',
@@ -50,10 +55,6 @@
 		schema: {
 			default: false,
 			type: 'boolean',
-		},
-		title: {
-			default: '',
-			type: 'string',
 		},
 		type: {
 			default: '',
@@ -118,22 +119,13 @@
 				el( PanelBody,
 					{ title: __( 'Settings', 'site-reviews' ) },
 					el( TextControl, {
-						help: __( 'Add a custom heading.', 'site-reviews' ),
-						label: __( 'Title', 'site-reviews' ),
+						help: __( 'Limit reviews to those assigned to this post ID. You can also enter "post_id" to use the ID of the current page.', 'site-reviews' ),
+						label: __( 'Assigned To', 'site-reviews' ),
 						onChange: function( value ) {
-							props.setAttributes({ title: value });
+							props.setAttributes({ assigned_to: value });
 						},
 						type: 'text',
-						value: props.attributes.title,
-					}),
-					el( SelectControl, {
-						help: __( 'Limit reviews to a specific type.', 'site-reviews' ),
-						label: __( 'Type', 'site-reviews' ),
-						onChange: function( value ) {
-							props.setAttributes({ type: value });
-						},
-						options: types,
-						value: props.attributes.type,
+						value: props.attributes.assigned_to,
 					}),
 					el( SelectControl, {
 						help: __( 'Limit reviews to a specific category.', 'site-reviews' ),
@@ -157,24 +149,14 @@
 						],
 						value: props.attributes.pagination,
 					}),
-					el( TextControl, {
-						help: __( 'Limit reviews to those assigned to this post ID. You can also enter "post_id" to use the ID of the current page.', 'site-reviews' ),
-						label: __( 'Assigned To', 'site-reviews' ),
+					el( SelectControl, {
+						help: __( 'Limit reviews to a specific type.', 'site-reviews' ),
+						label: __( 'Type', 'site-reviews' ),
 						onChange: function( value ) {
-							props.setAttributes({ assigned_to: value });
+							props.setAttributes({ type: value });
 						},
-						type: 'text',
-						value: props.attributes.assigned_to,
-					}),
-					el( RangeControl, {
-						help: __( 'The number of reviews to show.', 'site-reviews' ),
-						label: __( 'Review Count', 'site-reviews' ),
-						onChange: function( value ) {
-							props.setAttributes({ count: value });
-						},
-						min: 1,
-						max: 50,
-						value: props.attributes.count,
+						options: types,
+						value: props.attributes.type,
 					}),
 					el( RangeControl, {
 						help: __( 'Limit reviews to a minimum rating.', 'site-reviews' ),
@@ -185,6 +167,16 @@
 						min: 1,
 						max: 5,
 						value: props.attributes.rating,
+					}),
+					el( RangeControl, {
+						help: __( 'The number of reviews to show.', 'site-reviews' ),
+						label: __( 'Review Count', 'site-reviews' ),
+						onChange: function( value ) {
+							props.setAttributes({ count: value });
+						},
+						min: 1,
+						max: 50,
+						value: props.attributes.count,
 					}),
 					el( ToggleControl, {
 						help: __( 'The schema should only be enabled once per page.', 'site-reviews' ),
@@ -206,6 +198,17 @@
 						createGroupedCheckboxControl( '7', 'title', __( 'Hide the title', 'site-reviews' ), props )
 					)
 				)
+			),
+			el( AdvancedInspector,
+				null,
+				el( TextControl, {
+					label: __( 'Custom ID', 'site-reviews' ),
+					onChange: function( value ) {
+						props.setAttributes({ id: value });
+					},
+					type: 'text',
+					value: props.attributes.id,
+				})
 			),
 			el( ServerSideRender, {
 				block: blockName,

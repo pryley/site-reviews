@@ -12,7 +12,6 @@ class SiteReviewsBlock extends BlockGenerator
 	 */
 	public function attributes()
 	{
-
 		return [
 			'assigned_to' => [
 				'default' => '',
@@ -34,6 +33,10 @@ class SiteReviewsBlock extends BlockGenerator
 				'default' => '',
 				'type' => 'string',
 			],
+			'id' => [
+				'default' => '',
+				'type' => 'string',
+			],
 			'pagination' => [
 				'default' => '',
 				'type' => 'string',
@@ -49,10 +52,6 @@ class SiteReviewsBlock extends BlockGenerator
 			'schema' => [
 				'default' => false,
 				'type' => 'boolean',
-			],
-			'title' => [
-				'default' => '',
-				'type' => 'string',
 			],
 			'type' => [
 				'default' => '',

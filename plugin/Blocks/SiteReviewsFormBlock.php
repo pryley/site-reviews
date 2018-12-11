@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Blocks;
 
 use GeminiLabs\SiteReviews\Blocks\BlockGenerator;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode as Shortcode;
 
 class SiteReviewsFormBlock extends BlockGenerator
 {
@@ -11,7 +12,28 @@ class SiteReviewsFormBlock extends BlockGenerator
 	 */
 	public function attributes()
 	{
-		return [];
+		return [
+			'assign_to' => [
+				'default' => '',
+				'type' => 'string',
+			],
+			'category' => [
+				'default' => '',
+				'type' => 'string',
+			],
+			'className' => [
+				'default' => '',
+				'type' => 'string',
+			],
+			'hide' => [
+				'default' => '',
+				'type' => 'string',
+			],
+			'id' => [
+				'default' => '',
+				'type' => 'string',
+			],
+		];
 	}
 
 	/**
@@ -19,7 +41,8 @@ class SiteReviewsFormBlock extends BlockGenerator
 	 */
 	public function render( array $attributes )
 	{
-		return print_r( $attributes, 1 );
+		$attributes['class'] = $attributes['className'];
+		return glsr( Shortcode::class )->buildShortcode( $attributes );
 	}
 }
 
