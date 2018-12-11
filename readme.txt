@@ -5,7 +5,7 @@ Tags: reviews, business reviews, curated reviews, moderated reviews, rating, rat
 Requires at least: 4.7.0
 Tested up to: 4.9
 Requires PHP: 5.6
-Stable tag: 3.0.0-beta-18
+Stable tag: 3.0.0-beta-19
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -132,12 +132,18 @@ All documentation can be found in the "Get Help" page of the plugin. You can als
 
 == Changelog ==
 
-= 3.0.0-beta-17 (2018-12-01) =
+= 3.0.0-beta-19 (2018-12-10) =
 
-- Added "site-reviews/builder/field/classname" hook
+- Added twentynineteen style
+- Added WordPress 5.0 blocks
+- Improved addon integration
+
+= 3.0.0-beta-18 (2018-12-01) =
+
 - Fixed avatar sizing
 - Fixed PHP 5.6 compatibility
 - Fixed review counts for non-local review types
+- Improved addon integration
 
 = 3.0.0-beta-17 (2018-11-30) =
 
@@ -160,7 +166,7 @@ All documentation can be found in the "Get Help" page of the plugin. You can als
 
 = 3.0.0-beta-13 (2018-11-15) =
 
-- Fixed addon integration
+- Improved addon integration
 - Updated documentation
 
 = 3.0.0-beta-12 (2018-11-09) =
