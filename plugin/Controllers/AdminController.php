@@ -6,17 +6,14 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\EnqueueAdminAssets;
 use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups;
 use GeminiLabs\SiteReviews\Controllers\Controller;
-use GeminiLabs\SiteReviews\Controllers\ListTableController\Columns;
 use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\SqlQueries;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\System;
-use WP_Post;
 
 class AdminController extends Controller
 {
@@ -101,37 +98,6 @@ class AdminController extends Controller
 			'site_reviews_summary' => esc_html__( 'Summary of Reviews', 'site-reviews' ),
 		]);
 		$this->execute( $command );
-	}
-
-	/**
-	 * @return void
-	 * @action edit_form_after_title
-	 */
-	public function renderReviewEditor( WP_Post $post )
-	{
-		if( !$this->isReviewPostType( $post ) || $this->isReviewEditable( $post ))return;
-		glsr()->render( 'partials/editor/review', [
-			'post' => $post,
-			'response' => get_post_meta( $post->ID, 'response', true ),
-		]);
-	}
-
-	/**
-	 * @return void
-	 * @action edit_form_top
-	 */
-	public function renderReviewNotice( WP_Post $post )
-	{
-		if( !$this->isReviewPostType( $post ) || $this->isReviewEditable( $post ))return;
-		glsr( Notice::class )->addWarning( sprintf(
-			__( '%s reviews are read-only.', 'site-reviews' ),
-			glsr( Columns::class )->buildColumnReviewType( $post->ID )
-		));
-		glsr( Template::class )->render( 'partials/editor/notice', [
-			'context' => [
-				'notices' => glsr( Notice::class )->get(),
-			],
-		]);
 	}
 
 	/**
@@ -255,23 +221,5 @@ class AdminController extends Controller
 		return !isset( $errors[$errorCode] )
 			? __( 'Unknown upload error.', 'site-reviews' )
 			: $errors[$errorCode];
-	}
-
-	/**
-	 * @return bool
-	 */
-	protected function isReviewEditable( WP_Post $post )
-	{
-		return $this->isReviewPostType( $post )
-			&& post_type_supports( Application::POST_TYPE, 'title' )
-			&& get_post_meta( $post->ID, 'review_type', true ) == 'local';
-	}
-
-	/**
-	 * @return bool
-	 */
-	protected function isReviewPostType( WP_Post $post )
-	{
-		return $post->post_type == Application::POST_TYPE;
 	}
 }

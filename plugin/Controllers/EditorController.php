@@ -3,17 +3,18 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Controllers\EditorController\Customization;
 use GeminiLabs\SiteReviews\Controllers\EditorController\Labels;
 use GeminiLabs\SiteReviews\Controllers\EditorController\Metaboxes;
 use GeminiLabs\SiteReviews\Controllers\ListTableController\Columns;
+use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
+use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Review;
 use WP_Post;
 use WP_Screen;
@@ -182,6 +183,49 @@ class EditorController extends Controller
 
 	/**
 	 * @return void
+	 * @action edit_form_after_title
+	 */
+	public function renderReviewEditor( WP_Post $post )
+	{
+		if( !$this->isReviewPostType( $post ) || $this->isReviewEditable( $post ))return;
+		glsr()->render( 'partials/editor/review', [
+			'post' => $post,
+			'response' => get_post_meta( $post->ID, 'response', true ),
+		]);
+	}
+
+	/**
+	 * @return void
+	 * @action admin_head
+	 */
+	public function renderReviewFields()
+	{
+		$screen = glsr_current_screen();
+		if( $screen->base != 'post' || $screen->post_type != Application::POST_TYPE )return;
+		add_action( 'edit_form_after_title', [$this, 'renderReviewEditor'] );
+		add_action( 'edit_form_top',         [$this, 'renderReviewNotice'] );
+	}
+
+	/**
+	 * @return void
+	 * @action edit_form_top
+	 */
+	public function renderReviewNotice( WP_Post $post )
+	{
+		if( !$this->isReviewPostType( $post ) || $this->isReviewEditable( $post ))return;
+		glsr( Notice::class )->addWarning( sprintf(
+			__( '%s reviews are read-only.', 'site-reviews' ),
+			glsr( Columns::class )->buildColumnReviewType( $post->ID )
+		));
+		glsr( Template::class )->render( 'partials/editor/notice', [
+			'context' => [
+				'notices' => glsr( Notice::class )->get(),
+			],
+		]);
+	}
+
+	/**
+	 * @return void
 	 * @see glsr_categories_meta_box()
 	 * @callback register_taxonomy
 	 */
@@ -281,6 +325,16 @@ class EditorController extends Controller
 			]);
 		}
 		return $reviewType;
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function isReviewEditable( WP_Post $post )
+	{
+		return $this->isReviewPostType( $post )
+			&& post_type_supports( Application::POST_TYPE, 'title' )
+			&& get_post_meta( $post->ID, 'review_type', true ) == 'local';
 	}
 
 	/**

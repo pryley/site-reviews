@@ -56,8 +56,6 @@ class Actions implements HooksContract
 	{
 		add_action( 'admin_enqueue_scripts',                        [$this->admin, 'enqueueAssets'] );
 		add_action( 'admin_init',                                   [$this->admin, 'registerTinymcePopups'] );
-		add_action( 'edit_form_after_title',                        [$this->admin, 'renderReviewEditor'] );
-		add_action( 'edit_form_top',                                [$this->admin, 'renderReviewNotice'] );
 		add_action( 'media_buttons',                                [$this->admin, 'renderTinymceButton'], 11 );
 		add_action( 'plugins_loaded',                               [$this->app, 'getDefaults'], 11 );
 		add_action( 'plugins_loaded',                               [$this->app, 'registerAddons'] );
@@ -72,6 +70,7 @@ class Actions implements HooksContract
 		add_action( 'admin_menu',                                   [$this->editor, 'removeMetaBoxes'] );
 		add_action( 'current_screen',                               [$this->editor, 'removePostTypeSupport'] );
 		add_action( 'post_submitbox_misc_actions',                  [$this->editor, 'renderPinnedInPublishMetaBox'] );
+		add_action( 'admin_head',                                   [$this->editor, 'renderReviewFields'] );
 		add_action( 'admin_action_revert',                          [$this->editor, 'revertReview'] );
 		add_action( 'save_post_'.Application::POST_TYPE,            [$this->editor, 'saveMetaboxes'] );
 		add_action( 'admin_action_approve',                         [$this->listtable, 'approve'] );
