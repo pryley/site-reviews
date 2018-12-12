@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html;
 
 class Template
@@ -18,6 +19,7 @@ class Template
 		$template = ob_get_clean();
 		$template = $this->interpolate( $template, $data['context'] );
 		$template = apply_filters( 'site-reviews/rendered/template', $template, $templatePath, $data );
+		$templatePath = glsr( Helper::class )->removePrefix( 'templates/', $templatePath );
 		$template = apply_filters( 'site-reviews/rendered/template/'.$templatePath, $template, $data );
 		return $template;
 	}
