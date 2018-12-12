@@ -53,10 +53,23 @@ class SiteReviewsSummaryBlock extends BlockGenerator
 	 */
 	public function render( array $attributes )
 	{
-		if( filter_input( INPUT_GET, 'context' ) == 'edit' && $attributes['assigned_to'] == 'post_id' ) {
-			$attributes['assigned_to'] = $attributes['post_id'];
-		}
 		$attributes['class'] = $attributes['className'];
+		if( filter_input( INPUT_GET, 'context' ) == 'edit' ) {
+			$this->filterShortcodeClass();
+			if( $attributes['assigned_to'] == 'post_id' ) {
+				$attributes['assigned_to'] = $attributes['post_id'];
+			}
+		}
 		return glsr( Shortcode::class )->buildShortcode( $attributes );
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function filterShortcodeClass()
+	{
+		add_filter( 'site-reviews/style', function() {
+			return 'default';
+		});
 	}
 }

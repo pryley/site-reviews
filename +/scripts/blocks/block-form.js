@@ -13,31 +13,7 @@
 	var SelectControl = components.SelectControl;
 	var selectPlaceholder = { label: '- ' + __( 'Select', 'site-reviews' ) + ' -', value: '' };
 
-	var attributes = {
-		assign_to: {
-			default: '',
-			type: 'string',
-		},
-		category: {
-			default: '',
-			type: 'string',
-		},
-		className: {
-			default: '',
-			type: 'string',
-		},
-		hide: {
-			default: '',
-			type: 'string',
-		},
-		id: {
-			default: '',
-			type: 'string',
-		},
-	};
-
 	var categories = [];
-
 	wp.apiFetch({ path: '/site-reviews/v1/categories'}).then( function( terms ) {
 		categories.push(selectPlaceholder);
 		$.each( terms, function( key, term ) {
@@ -74,6 +50,29 @@
 				htmlFor: 'inspector-checkbox-control-hide-' + id,
 			}, label )
 		);
+	};
+
+	var attributes = {
+		assign_to: {
+			default: '',
+			type: 'string',
+		},
+		category: {
+			default: '',
+			type: 'string',
+		},
+		className: {
+			default: '',
+			type: 'string',
+		},
+		hide: {
+			default: '',
+			type: 'string',
+		},
+		id: {
+			default: '',
+			type: 'string',
+		},
 	};
 
 	var edit = function( props ) {

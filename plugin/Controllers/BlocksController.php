@@ -53,16 +53,10 @@ class BlocksController extends Controller
 	 */
 	public function registerAssets()
 	{
-		wp_enqueue_style(
-			Application::ID.'/public',
-			glsr()->url( 'assets/styles/'.Application::ID.'.css' ),
-			[],
-			glsr()->version
-		);
 		wp_register_style(
 			Application::ID.'/blocks',
 			glsr()->url( 'assets/styles/'.Application::ID.'-blocks.css' ),
-			['wp-edit-blocks', Application::ID.'/public'],
+			['wp-edit-blocks'],
 			glsr()->version
 		);
 		wp_register_script(

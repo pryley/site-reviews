@@ -12,44 +12,7 @@
 	var RangeControl = components.RangeControl;
 	var SelectControl = components.SelectControl;
 
-	var attributes = {
-		assigned_to: {
-			default: '',
-			type: 'string',
-		},
-		category: {
-			default: '',
-			type: 'string',
-		},
-		className: {
-			default: '',
-			type: 'string',
-		},
-		hide: {
-			default: '',
-			type: 'string',
-		},
-		post_id: {
-			default: '',
-			type: 'string',
-		},
-		rating: {
-			default: 1,
-			type: 'number',
-		},
-		schema: {
-			default: false,
-			type: 'boolean',
-		},
-		type: {
-			default: '',
-			type: 'string',
-		},
-	};
-
 	var categories = [];
-	var types = [];
-
 	wp.apiFetch({ path: '/site-reviews/v1/categories'}).then( function( terms ) {
 		categories.push({ label: '- ' + __( 'Select', 'site-reviews' ) + ' -', value: '' });
 		$.each( terms, function( key, term ) {
@@ -57,6 +20,7 @@
 		});
 	});
 
+	var types = [];
 	wp.apiFetch({ path: '/site-reviews/v1/types'}).then( function( reviewtypes ) {
 		if( reviewtypes.length < 2 )return;
 		types.push({ label: '- ' + __( 'Select', 'site-reviews' ) + ' -', value: '' });
@@ -94,6 +58,41 @@
 				htmlFor: 'inspector-checkbox-control-hide-' + id,
 			}, label )
 		);
+	};
+
+	var attributes = {
+		assigned_to: {
+			default: '',
+			type: 'string',
+		},
+		category: {
+			default: '',
+			type: 'string',
+		},
+		className: {
+			default: '',
+			type: 'string',
+		},
+		hide: {
+			default: '',
+			type: 'string',
+		},
+		post_id: {
+			default: '',
+			type: 'string',
+		},
+		rating: {
+			default: 1,
+			type: 'number',
+		},
+		schema: {
+			default: false,
+			type: 'boolean',
+		},
+		type: {
+			default: '',
+			type: 'string',
+		},
 	};
 
 	var edit = function( props ) {

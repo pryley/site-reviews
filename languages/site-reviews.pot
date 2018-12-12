@@ -346,7 +346,7 @@ msgstr ""
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:293, plugin/Controllers/EditorController.php:311, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsFormPopup.php:62, plugin/Shortcodes/SiteReviewsPopup.php:33, plugin/Shortcodes/SiteReviewsPopup.php:106, plugin/Shortcodes/SiteReviewsSummaryPopup.php:60
+#: config/settings.php:293, plugin/Controllers/EditorController.php:365, plugin/Controllers/MainController.php:32, plugin/Shortcodes/SiteReviewsFormPopup.php:62, plugin/Shortcodes/SiteReviewsPopup.php:33, plugin/Shortcodes/SiteReviewsPopup.php:106, plugin/Shortcodes/SiteReviewsSummaryPopup.php:60
 msgid "Rating"
 msgstr ""
 
@@ -354,15 +354,15 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: config/settings.php:295, plugin/Controllers/MainController.php:39
+#: config/settings.php:295, plugin/Controllers/MainController.php:43
 msgid "Review"
 msgstr ""
 
-#: config/settings.php:296, plugin/Controllers/EditorController.php:314, plugin/Shortcodes/SiteReviewsFormPopup.php:57
+#: config/settings.php:296, plugin/Controllers/EditorController.php:368, plugin/Shortcodes/SiteReviewsFormPopup.php:57
 msgid "Name"
 msgstr ""
 
-#: config/settings.php:297, plugin/Controllers/EditorController.php:315, plugin/Shortcodes/SiteReviewsFormPopup.php:52
+#: config/settings.php:297, plugin/Controllers/EditorController.php:369, plugin/Shortcodes/SiteReviewsFormPopup.php:52
 msgid "Email"
 msgstr ""
 
@@ -537,93 +537,89 @@ msgctxt "View Post"
 msgid "View %s"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:31
+#: plugin/Controllers/AdminController.php:28
 msgid "You can pin exceptional reviews so that they are always shown first."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:39
+#: plugin/Controllers/AdminController.php:36
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:51, plugin/Controllers/MenuController.php:48, views/pages/tools/sync.php:23
+#: plugin/Controllers/AdminController.php:48, plugin/Controllers/MenuController.php:48, views/pages/tools/sync.php:23
 msgid "Settings"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:67
+#: plugin/Controllers/AdminController.php:64
 msgid "%s Review"
 msgid_plural "%s Reviews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/AdminController.php:99, plugin/Controllers/MainController.php:84
+#: plugin/Controllers/AdminController.php:96, plugin/Controllers/MainController.php:90
 msgid "Recent Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:100, plugin/Controllers/MainController.php:89
+#: plugin/Controllers/AdminController.php:97, plugin/Controllers/MainController.php:95
 msgid "Submit a Review"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:101, plugin/Controllers/MainController.php:94
+#: plugin/Controllers/AdminController.php:98, plugin/Controllers/MainController.php:100
 msgid "Summary of Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:127
-msgid "%s reviews are read-only."
-msgstr ""
-
-#: plugin/Controllers/AdminController.php:160
+#: plugin/Controllers/AdminController.php:126
 msgid "Console cleared."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:168
+#: plugin/Controllers/AdminController.php:134
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:191
+#: plugin/Controllers/AdminController.php:157
 msgid "Recalculated rating counts."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:230
+#: plugin/Controllers/AdminController.php:196
 msgid "Please use a valid Site Reviews settings file."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:234
+#: plugin/Controllers/AdminController.php:200
 msgid "There were no settings found to import."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:237
+#: plugin/Controllers/AdminController.php:203
 msgid "Settings imported."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:247
+#: plugin/Controllers/AdminController.php:213
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:248
+#: plugin/Controllers/AdminController.php:214
 msgid "The uploaded file is too big."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:249
+#: plugin/Controllers/AdminController.php:215
 msgid "The uploaded file was only partially uploaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:250
+#: plugin/Controllers/AdminController.php:216
 msgid "No file was uploaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:251
+#: plugin/Controllers/AdminController.php:217
 msgid "Missing a temporary folder."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:252
+#: plugin/Controllers/AdminController.php:218
 msgid "Failed to write file to disk."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:253
+#: plugin/Controllers/AdminController.php:219
 msgid "A PHP extension stopped the file upload."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:256
+#: plugin/Controllers/AdminController.php:222
 msgid "Unknown upload error."
 msgstr ""
 
@@ -635,63 +631,67 @@ msgstr ""
 msgid "Nothing found."
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:93, plugin/Controllers/MainController.php:27, plugin/Shortcodes/SiteReviewsPopup.php:59, plugin/Shortcodes/SiteReviewsPopup.php:81, plugin/Shortcodes/SiteReviewsSummaryPopup.php:27, views/partials/editor/bulk-edit-assigned-to.php:7
+#: plugin/Controllers/EditorController.php:94, plugin/Controllers/MainController.php:29, plugin/Shortcodes/SiteReviewsPopup.php:59, plugin/Shortcodes/SiteReviewsPopup.php:81, plugin/Shortcodes/SiteReviewsSummaryPopup.php:27, views/partials/editor/bulk-edit-assigned-to.php:7
 msgid "Assigned To"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:94
+#: plugin/Controllers/EditorController.php:95
 msgid "Details"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:96, views/partials/editor/metabox-response.php:3
+#: plugin/Controllers/EditorController.php:97, views/partials/editor/metabox-response.php:3
 msgid "Respond Publicly"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:163, plugin/Modules/Html/Fields/YesNo.php:37
+#: plugin/Controllers/EditorController.php:164, plugin/Modules/Html/Fields/YesNo.php:37
 msgid "No"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:164, plugin/Modules/Html/Fields/YesNo.php:38
+#: plugin/Controllers/EditorController.php:165, plugin/Modules/Html/Fields/YesNo.php:38
 msgid "Yes"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:254
+#: plugin/Controllers/EditorController.php:217
+msgid "%s reviews are read-only."
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:298
 msgid "Revert Changes"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:260
+#: plugin/Controllers/EditorController.php:304
 msgid "Nothing to Revert"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:276
+#: plugin/Controllers/EditorController.php:320
 msgid "Unknown"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:301
+#: plugin/Controllers/EditorController.php:355
 msgid "Unregistered user"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:308
+#: plugin/Controllers/EditorController.php:362
 msgid "RE:"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:312, plugin/Controllers/MainController.php:29, plugin/Shortcodes/SiteReviewsPopup.php:158, plugin/Shortcodes/SiteReviewsSummaryPopup.php:89
+#: plugin/Controllers/EditorController.php:366, plugin/Controllers/MainController.php:31, plugin/Shortcodes/SiteReviewsPopup.php:158, plugin/Shortcodes/SiteReviewsSummaryPopup.php:89
 msgid "Type"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:313, plugin/Defaults/PostTypeDefaults.php:18, plugin/Shortcodes/SiteReviewsPopup.php:101
+#: plugin/Controllers/EditorController.php:367, plugin/Defaults/PostTypeDefaults.php:18, plugin/Shortcodes/SiteReviewsPopup.php:101
 msgid "Date"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:316
+#: plugin/Controllers/EditorController.php:370
 msgid "User"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:317
+#: plugin/Controllers/EditorController.php:371
 msgid "IP Address"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:318, plugin/Shortcodes/SiteReviewsPopup.php:91
+#: plugin/Controllers/EditorController.php:372, plugin/Shortcodes/SiteReviewsPopup.php:91
 msgid "Avatar"
 msgstr ""
 
@@ -750,27 +750,27 @@ msgstr ""
 msgid "Approved"
 msgstr ""
 
-#: plugin/Controllers/MainController.php:28, plugin/Shortcodes/SiteReviewsPopup.php:86
+#: plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsPopup.php:86
 msgid "Author"
 msgstr ""
 
-#: plugin/Controllers/MainController.php:31, views/partials/editor/pinned.php:4
+#: plugin/Controllers/MainController.php:33, views/partials/editor/pinned.php:4
 msgid "Pinned"
 msgstr ""
 
-#: plugin/Controllers/MainController.php:37, plugin/Controllers/MenuController.php:108, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
+#: plugin/Controllers/MainController.php:39, plugin/Controllers/MenuController.php:108, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
 msgid "Reviews"
 msgstr ""
 
-#: plugin/Controllers/MainController.php:83
+#: plugin/Controllers/MainController.php:89
 msgid "Your site’s most recent reviews."
 msgstr ""
 
-#: plugin/Controllers/MainController.php:88
+#: plugin/Controllers/MainController.php:94
 msgid "A \"submit a review\" form for your site."
 msgstr ""
 
-#: plugin/Controllers/MainController.php:93
+#: plugin/Controllers/MainController.php:99
 msgid "A summary of your site’s reviews."
 msgstr ""
 

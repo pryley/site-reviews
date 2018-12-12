@@ -15,6 +15,54 @@
 	var SelectControl = components.SelectControl;
 	var selectPlaceholder = { label: '- ' + __( 'Select', 'site-reviews' ) + ' -', value: '' };
 
+	var categories = [];
+	wp.apiFetch({ path: '/site-reviews/v1/categories'}).then( function( terms ) {
+		categories.push(selectPlaceholder);
+		$.each( terms, function( key, term ) {
+			categories.push({ label: term.name, value: term.id });
+		});
+	});
+
+	var types = [];
+	wp.apiFetch({ path: '/site-reviews/v1/types'}).then( function( reviewtypes ) {
+		if( reviewtypes.length < 2 )return;
+		types.push(selectPlaceholder);
+		$.each( reviewtypes, function( key, type ) {
+			types.push({ label: type.name, value: type.slug });
+		});
+	});
+
+	var toggleHide = function( key, isChecked, props ) {
+		var hide = _.without( props.attributes.hide.split(','), '' );
+		if( isChecked ) {
+			hide.push( key );
+		}
+		else {
+			hide = _.without( hide, key );
+		}
+		props.setAttributes({ hide: hide.toString() });
+	};
+
+	var createGroupedCheckboxControl = function( id, key, label, props ) {
+		return el( 'div',
+			{ className: 'components-base-control__field' },
+			el( 'input', {
+				checked: props.attributes.hide.split(',').indexOf( key ) > -1,
+				className: 'components-checkbox-control__input',
+				id: 'inspector-checkbox-control-hide-' + id,
+				type: 'checkbox',
+				value: 1,
+				onChange: function( ev ) {
+					toggleHide( key, ev.target.checked, props );
+				},
+			}),
+			el( 'label', {
+				className: 'components-checkbox-control__label',
+				htmlFor: 'inspector-checkbox-control-hide-' + id,
+			}, label )
+		);
+	};
+
 	var attributes = {
 		assigned_to: {
 			default: '',
@@ -60,55 +108,6 @@
 			default: '',
 			type: 'string',
 		},
-	};
-
-	var categories = [];
-	var types = [];
-
-	wp.apiFetch({ path: '/site-reviews/v1/categories'}).then( function( terms ) {
-		categories.push(selectPlaceholder);
-		$.each( terms, function( key, term ) {
-			categories.push({ label: term.name, value: term.id });
-		});
-	});
-
-	wp.apiFetch({ path: '/site-reviews/v1/types'}).then( function( reviewtypes ) {
-		if( reviewtypes.length < 2 )return;
-		types.push(selectPlaceholder);
-		$.each( reviewtypes, function( key, type ) {
-			types.push({ label: type.name, value: type.slug });
-		});
-	});
-
-	var toggleHide = function( key, isChecked, props ) {
-		var hide = _.without( props.attributes.hide.split(','), '' );
-		if( isChecked ) {
-			hide.push( key );
-		}
-		else {
-			hide = _.without( hide, key );
-		}
-		props.setAttributes({ hide: hide.toString() });
-	};
-
-	var createGroupedCheckboxControl = function( id, key, label, props ) {
-		return el( 'div',
-			{ className: 'components-base-control__field' },
-			el( 'input', {
-				checked: props.attributes.hide.split(',').indexOf( key ) > -1,
-				className: 'components-checkbox-control__input',
-				id: 'inspector-checkbox-control-hide-' + id,
-				type: 'checkbox',
-				value: 1,
-				onChange: function( ev ) {
-					toggleHide( key, ev.target.checked, props );
-				},
-			}),
-			el( 'label', {
-				className: 'components-checkbox-control__label',
-				htmlFor: 'inspector-checkbox-control-hide-' + id,
-			}, label )
-		);
 	};
 
 	var edit = function( props ) {
