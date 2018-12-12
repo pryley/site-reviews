@@ -77,6 +77,7 @@
     site-reviews/shortcode/hidden-keys
     site-reviews/slack/compose
     site-reviews/slack/stars
+    site-reviews/style
     site-reviews/submission-form/order
     site-reviews/summary/counts
     site-reviews/translation/entries

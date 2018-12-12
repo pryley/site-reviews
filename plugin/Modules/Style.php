@@ -66,7 +66,7 @@ class Style
 	 */
 	public function get()
 	{
-		return $this->style;
+		return apply_filters( 'site-reviews/style', $this->style );
 	}
 
 	/**
