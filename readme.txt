@@ -132,7 +132,7 @@ All documentation can be found in the "Get Help" page of the plugin. You can als
 
 == Changelog ==
 
-= 3.0.0-beta-19 (2018-12-10) =
+= 3.0.0-beta-19 (2018-12-13) =
 
 - Added twentynineteen style
 - Added WordPress 5.0 blocks

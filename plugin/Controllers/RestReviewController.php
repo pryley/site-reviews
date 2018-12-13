@@ -4,9 +4,9 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
 use WP_REST_Post_Meta_Fields;
-use WP_REST_Posts_Controller as Controller;
+use WP_REST_Posts_Controller as RestController;
 
-class RestReviewController extends Controller
+class RestReviewController extends RestController
 {
 	public function __construct() {
 		$this->meta = new WP_REST_Post_Meta_Fields( Application::POST_TYPE );

@@ -4,9 +4,9 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
 use WP_REST_Term_Meta_Fields;
-use WP_REST_Terms_Controller as Controller;
+use WP_REST_Terms_Controller as RestController;
 
-class RestCategoryController extends Controller
+class RestCategoryController extends RestController
 {
 	public function __construct() {
 		$this->meta = new WP_REST_Term_Meta_Fields( Application::TAXONOMY );

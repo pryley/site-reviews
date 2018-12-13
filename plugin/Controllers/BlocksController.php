@@ -24,7 +24,7 @@ class BlocksController extends Controller
 
 	/**
 	 * @param string $postType
-	 * @return bool
+	 * @return array
 	 * @filter classic_editor_enabled_editors_for_post_type
 	 * @plugin classic-editor/classic-editor.php
 	 */
