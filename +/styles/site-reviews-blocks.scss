@@ -9,11 +9,8 @@ $glsr-summary-bar-height: 12px;
 $glsr-summary-max-width: 400px;
 $glsr-summary-spacing: 10px;
 $glsr-summary-star-size: 24px;
-$glsr-summary-font-size: 16px;
-$glsr-summary-font-size-small: 14px;
 
 @import "public/variables";
-@import "node_modules/star-rating.js/src/star-rating";
 
 // Stars
 .glsr-star {
@@ -58,7 +55,7 @@ $glsr-summary-font-size-small: 14px;
 // Summary
 
 .glsr-summary {
-	font-size: $glsr-summary-font-size;
+	font-size: $glsr-font-size;
 	position: relative;
 	width: 100%;
 	max-width: $glsr-summary-max-width;
@@ -87,7 +84,7 @@ $glsr-summary-font-size-small: 14px;
 	position: relative;
 	width: 100%;
 	max-width: $glsr-summary-max-width;
-	font-size: $glsr-summary-font-size-small;
+	font-size: $glsr-font-size-small;
 }
 	.glsr-bar {
 		display: table-row;

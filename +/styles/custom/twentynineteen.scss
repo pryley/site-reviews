@@ -113,6 +113,7 @@ form.glsr-form {
 	}
 	.glsr-field-error {
 		font-family: $glsr-font-family;
+		font-size: $glsr-font-size-small;
 	}
 	.glsr-field-error,
 	.glsr-has-errors {
@@ -120,7 +121,7 @@ form.glsr-form {
 	}
 	input:not([type=checkbox]):not([type=radio]),
 	textarea {
-		padding-bottom: 0.24rem;
+		padding-bottom: 0.18rem;
 	}
 
 	input:not([type=checkbox]):not([type=radio]).glsr-is-invalid,
