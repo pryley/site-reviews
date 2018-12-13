@@ -101,12 +101,12 @@
 					}),
 					el( 'div',
 						{ className: 'components-base-control' },
-						createGroupedCheckboxControl( '0', 'content', __( 'Hide the review field', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '1', 'email', __( 'Hide the email field', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '2', 'name', __( 'Hide the name field', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '3', 'rating', __( 'Hide the rating field', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '4', 'terms', __( 'Hide the terms field', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '5', 'title', __( 'Hide the title field', 'site-reviews' ), props )
+						createGroupedCheckboxControl( '0', 'rating', __( 'Hide the rating field', 'site-reviews' ), props ),
+						createGroupedCheckboxControl( '1', 'title', __( 'Hide the title field', 'site-reviews' ), props ),
+						createGroupedCheckboxControl( '2', 'content', __( 'Hide the review field', 'site-reviews' ), props ),
+						createGroupedCheckboxControl( '3', 'name', __( 'Hide the name field', 'site-reviews' ), props ),
+						createGroupedCheckboxControl( '4', 'email', __( 'Hide the email field', 'site-reviews' ), props ),
+						createGroupedCheckboxControl( '5', 'terms', __( 'Hide the terms field', 'site-reviews' ), props )
 					)
 				)
 			),
