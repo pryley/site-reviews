@@ -13,6 +13,23 @@ $glsr-summary-star-size: 24px;
 
 @import "public/variables";
 
+.wp-block .glsr-shortcode {
+	position: relative;
+	min-height: $glsr-font-size * $glsr-line-height;
+	z-index: 0;
+	&::before {
+		z-index: -1;
+		content: "";
+		position: absolute;
+		pointer-events: none;
+		top: -10px;
+		right: -10px;
+		bottom: -10px;
+		left: -10px;
+		background-color: rgba(237, 231, 246, 0.125);
+	}
+}
+
 // Stars
 .glsr-star {
 	display: inline-block;
