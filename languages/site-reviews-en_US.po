@@ -542,6 +542,10 @@ msgstr "Tell us your email"
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
+#: plugin/Blocks/SiteReviewsBlock.php:108, plugin/Modules/Html/Partials/SiteReviews.php:274
+msgid "Show more"
+msgstr "Show more"
+
 #: plugin/Controllers/AdminController.php:28
 msgid "You can pin exceptional reviews so that they are always shown first."
 msgstr "You can pin exceptional reviews so that they are always shown first."
@@ -1705,10 +1709,6 @@ msgstr "Response from %s"
 #: plugin/Modules/Html/Partials/SiteReviews.php:273
 msgid "Show less"
 msgstr "Show less"
-
-#: plugin/Modules/Html/Partials/SiteReviews.php:274
-msgid "Show more"
-msgstr "Show more"
 
 #: plugin/Modules/Html/Partials/SiteReviewsForm.php:121
 msgid "Submit your review"

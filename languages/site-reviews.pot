@@ -482,6 +482,10 @@ msgstr ""
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr ""
 
+#: plugin/Blocks/SiteReviewsBlock.php:108, plugin/Modules/Html/Partials/SiteReviews.php:274
+msgid "Show more"
+msgstr ""
+
 #: plugin/Commands/RegisterPostType.php:48
 msgctxt "Add New Post"
 msgid "Add New %s"
@@ -1666,10 +1670,6 @@ msgstr ""
 
 #: plugin/Modules/Html/Partials/SiteReviews.php:273
 msgid "Show less"
-msgstr ""
-
-#: plugin/Modules/Html/Partials/SiteReviews.php:274
-msgid "Show more"
 msgstr ""
 
 #: plugin/Modules/Html/Partials/SiteReviewsForm.php:121

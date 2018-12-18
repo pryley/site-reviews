@@ -133,7 +133,15 @@
 		category: GLSR.nameprefix,
 		description: __( 'Display a review submission form.', 'site-reviews' ),
 		edit: edit,
-		icon: 'star-half',
+		// icon: 'star-half',
+		icon: el( components.SVG, {
+			width: '22px',
+			height: '22px',
+			viewBox: '0 0 22 22',
+			xmlns: 'http://www.w3.org/2000/svg',
+		}, el( components.Path, {
+			d: 'M11 2l-3 6-6 .75 4.13 4.62-1.13 6.63 6-3 6 3-1.12-6.63 4.12-4.62-6-.75-3-6zm0 2.24l2.34 4.69 4.65.58-3.18 3.56.87 5.15-4.68-2.34v-11.64zm8.28-.894v.963h-3.272v2.691h-1.017v-6.3h4.496v.963h-3.479v1.683h3.272z',
+		})),
 		// keywords: ['recent reviews'],
 		save: function() { return null; },
 		title: 'Submit a Review',

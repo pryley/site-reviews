@@ -11,10 +11,11 @@
 	var ToggleControl = components.ToggleControl;
 	var RangeControl = components.RangeControl;
 	var SelectControl = components.SelectControl;
+	var selectPlaceholder = { label: '- ' + __( 'Select', 'site-reviews' ) + ' -', value: '' };
 
 	var categories = [];
 	wp.apiFetch({ path: '/site-reviews/v1/categories'}).then( function( terms ) {
-		categories.push({ label: '- ' + __( 'Select', 'site-reviews' ) + ' -', value: '' });
+		categories.push( selectPlaceholder );
 		$.each( terms, function( key, term ) {
 			categories.push({ label: term.name, value: term.id });
 		});
@@ -23,7 +24,7 @@
 	var types = [];
 	wp.apiFetch({ path: '/site-reviews/v1/types'}).then( function( reviewtypes ) {
 		if( reviewtypes.length < 2 )return;
-		types.push({ label: '- ' + __( 'Select', 'site-reviews' ) + ' -', value: '' });
+		types.push( selectPlaceholder );
 		$.each( reviewtypes, function( key, type ) {
 			types.push({ label: type.name, value: type.slug });
 		});
@@ -171,13 +172,21 @@
 		category: GLSR.nameprefix,
 		description: __( 'Display a summary of your reviews.', 'site-reviews' ),
 		edit: edit,
-		icon: 'star-half',
+		// icon: 'star-half',
+		icon: el( components.SVG, {
+			width: '22px',
+			height: '22px',
+			viewBox: '0 0 22 22',
+			xmlns: 'http://www.w3.org/2000/svg',
+		}, el( components.Path, {
+			d: 'M11 2l-3 6-6 .75 4.13 4.62-1.13 6.63 6-3 6 3-1.12-6.63 4.12-4.62-6-.75-3-6zm0 2.24l2.34 4.69 4.65.58-3.18 3.56.87 5.15-4.68-2.34v-11.64zm8.415-2.969l-.518.824c-.536-.342-1.13-.54-1.769-.54-.842 0-1.418.365-1.418.941 0 .522.491.725 1.31.842l.437.059c1.022.14 2.03.563 2.03 1.733 0 1.283-1.161 1.985-2.525 1.985-.855 0-1.881-.284-2.534-.846l.554-.81c.432.396 1.247.693 1.976.693.824 0 1.472-.351 1.472-.932 0-.495-.495-.725-1.418-.851l-.491-.068c-.936-.131-1.868-.572-1.868-1.742 0-1.265 1.121-1.967 2.484-1.967.918 0 1.643.257 2.277.68z',
+		})),
 		// keywords: ['recent reviews'],
 		save: function() { return null; },
 		// supports: {
 		// 	customClassName: false,
 		// },
-		title: 'Review Summary',
+		title: 'Summary',
 	});
 })(
 	window.wp.blocks,
