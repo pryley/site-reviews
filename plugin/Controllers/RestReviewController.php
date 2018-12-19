@@ -3,12 +3,17 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
+use WP_Error;
 use WP_REST_Post_Meta_Fields;
 use WP_REST_Posts_Controller as RestController;
+use WP_REST_Request as Request;
+use WP_REST_Response as Response;
+use WP_REST_Server as Server;
 
 class RestReviewController extends RestController
 {
-	public function __construct() {
+	public function __construct()
+	{
 		$this->meta = new WP_REST_Post_Meta_Fields( Application::POST_TYPE );
 		$this->namespace = Application::ID.'/v1';
 		$this->post_type = Application::POST_TYPE;
@@ -17,17 +22,33 @@ class RestReviewController extends RestController
 
 	public function register_routes()
 	{
-		parent::register_routes();
 		register_rest_route( $this->namespace, '/types', [
-			'methods' => 'GET',
-			'callback' => [$this, 'getReviewTypes'],
+			'callback' => [$this, 'get_types'],
+			'methods' => Server::READABLE,
 		]);
+		// parent::register_routes();
+		// register_rest_route( $this->namespace, '/'.$this->rest_base, [
+		// 	'args' => $this->get_collection_params(),
+		// 	'callback' => [$this, 'get_items'],
+		// 	'methods' => Server::READABLE,
+		// 	'permission_callback' => [$this, 'get_items_permissions_check'],
+		// ]);
 	}
 
 	/**
-	 * @return array
+	 * @return WP_Error|WP_HTTP_Response|Response
 	 */
-	public function getReviewTypes()
+	public function get_items( Request $request )
+	{
+		// prepare_item_for_response
+		// prepare_response_for_collection
+		return parent::get_items( $request );
+	}
+
+	/**
+	 * @return WP_Error|WP_HTTP_Response|Response
+	 */
+	public function get_types()
 	{
 		$types = [];
 		foreach( glsr()->reviewTypes as $slug => $name ) {
@@ -36,6 +57,6 @@ class RestReviewController extends RestController
 				'slug' => $slug,
 			];
 		}
-		return $types;
+		return rest_ensure_response( $types );
 	}
 }
