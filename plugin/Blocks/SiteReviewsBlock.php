@@ -69,7 +69,8 @@ class SiteReviewsBlock extends BlockGenerator
 		if( filter_input( INPUT_GET, 'context' ) == 'edit' ) {
 			$this->filterReviewLinks();
 			$this->filterShortcodeClass();
-			$this->filterShowMoreLinks();
+			$this->filterShowMoreLinks( 'content' );
+			$this->filterShowMoreLinks( 'response' );
 			if( $attributes['assigned_to'] == 'post_id' ) {
 				$attributes['assigned_to'] = $attributes['post_id'];
 			}
@@ -98,16 +99,18 @@ class SiteReviewsBlock extends BlockGenerator
 	}
 
 	/**
+	 * @param string $field
 	 * @return void
 	 */
-	protected function filterShowMoreLinks()
+	protected function filterShowMoreLinks( $field )
 	{
-		add_filter( 'site-reviews/review/wrap/content', function( $value, $review ) {
+		add_filter( 'site-reviews/review/wrap/'.$field, function( $value, $review ) {
 			$value = preg_replace(
-				'/(.*)(<span class="glsr-hidden.*)(<\/span>)(.*)/',
-				'$1... <a href="#" class="glsr-read-more" tabindex="-1">'.__( 'Show more', 'site-reviews' ).'</a>$4',
+				'/(.*)(<span class="glsr-hidden)(.*)(<\/span>)(.*)/s',
+				'$1... <a href="#" class="glsr-read-more" tabindex="-1">'.__( 'Show more', 'site-reviews' ).'</a>$5',
 				$value
 			);
+			glsr_log( $value );
 			return $value;
 		}, 10, 2 );
 	}
