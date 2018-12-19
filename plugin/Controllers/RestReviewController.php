@@ -20,29 +20,15 @@ class RestReviewController extends RestController
 		$this->rest_base = 'reviews';
 	}
 
+	/**
+	 * @return void
+	 */
 	public function register_routes()
 	{
 		register_rest_route( $this->namespace, '/types', [
 			'callback' => [$this, 'get_types'],
 			'methods' => Server::READABLE,
 		]);
-		// parent::register_routes();
-		// register_rest_route( $this->namespace, '/'.$this->rest_base, [
-		// 	'args' => $this->get_collection_params(),
-		// 	'callback' => [$this, 'get_items'],
-		// 	'methods' => Server::READABLE,
-		// 	'permission_callback' => [$this, 'get_items_permissions_check'],
-		// ]);
-	}
-
-	/**
-	 * @return WP_Error|WP_HTTP_Response|Response
-	 */
-	public function get_items( Request $request )
-	{
-		// prepare_item_for_response
-		// prepare_response_for_collection
-		return parent::get_items( $request );
 	}
 
 	/**
