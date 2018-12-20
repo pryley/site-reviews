@@ -1466,15 +1466,33 @@ msgstr "The reCAPTCHA verification failed, please try again."
 msgid "No Title"
 msgstr "No Title"
 
-#: views/pages/addons/index.php:5
-msgid "The following Add-Ons extend the functionality of Site Reviews."
-msgstr "The following Add-Ons extend the functionality of Site Reviews."
+#: views/pages/addons/index.php:6
+msgid ""
+"You may be wondering when these add-ons will be released as they have been "
+"\"Coming soon\" for quite some time. Well, now that Site Reviews v3.0 (a "
+"major overhaul of the plugin) has been released, the only thing delaying "
+"them is the distribution platform which is currently being built. Expect to "
+"see them in the coming months!"
+msgstr ""
+"You may be wondering when these add-ons will be released as they have been "
+"\"Coming soon\" for quite some time. Well, now that Site Reviews v3.0 (a "
+"major overhaul of the plugin) has been released, the only thing delaying "
+"them is the distribution platform which is currently being built. Expect to "
+"see them in the coming months!"
 
-#: views/pages/addons/index.php:10
-msgid "Add images to your review submissions."
-msgstr "Add images to your review submissions."
+#: views/pages/addons/index.php:7
+msgid "Thank you for your patience."
+msgstr "Thank you for your patience."
 
-#: views/pages/addons/index.php:19
+#: views/pages/addons/index.php:9
+msgid "Add-Ons extend the functionality of Site Reviews."
+msgstr "Add-Ons extend the functionality of Site Reviews."
+
+#: views/pages/addons/index.php:14
+msgid "Allow your visitors to submit multiple images with their reviews."
+msgstr "Allow your visitors to submit multiple images with their reviews."
+
+#: views/pages/addons/index.php:23
 msgid "Sync your Tripadvisor reviews and display them on your site."
 msgstr "Sync your Tripadvisor reviews and display them on your site."
 
