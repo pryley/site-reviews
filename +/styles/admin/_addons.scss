@@ -67,33 +67,18 @@
 		display: block;
 		background-position: 50%;
 		background-repeat: no-repeat;
-		background-size: 100% auto;
+		background-size: cover;
 		border-bottom: 1px solid #ddd;
 		padding-top: 56.25%;
 
-		&[data-slug="booking"] {
-			background-image: url(../images/booking.svg);
-			background-color: #00347D;
-		}
-
-		&[data-slug="facebook"] {
-			background-image: url(../images/facebook.svg);
-			background-color: #3B5998;
-		}
-
-		&[data-slug="google"] {
-			background-image: url(../images/google.svg);
-			background-color: #C6DAFC;
-		}
-
 		&[data-slug="tripadvisor"] {
 			background-color: #4b7e37;
-			background-image: url(../images/tripadvisor.svg);
+			background-image: url(../images/addon-tripadvisor.svg);
 		}
 
-		&[data-slug="yelp"] {
-			background-image: url(../images/yelp.svg);
-			background-color: #d32323;
+		&[data-slug="images"] {
+			background-image: url(../images/addon-images.svg);
+			background-color: #4526A0;
 		}
 	}
 
