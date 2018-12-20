@@ -112,7 +112,7 @@ abstract class Shortcode implements ShortcodeContract
 	}
 
 	/**
-	 * @param string $hide
+	 * @param string|array $hide
 	 * @return array
 	 */
 	protected function normalizeHide( $hide )

@@ -100,7 +100,7 @@ All documentation can be found in the "Documentation" page of the plugin.
 
 == Changelog ==
 
-= 3.0.0 (2018-12-23) =
+= 3.0.0 (2018-12-21) =
 
 - !! Complete rewrite of Site Reviews
 - !! Dropped support for legacy web browsers (supports all modern browsers and IE11+)

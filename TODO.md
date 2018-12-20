@@ -1,6 +1,4 @@
 # PRE-LAUNCH
-- [ ] scrutinizer
-- [ ] test all theme styles
 - [ ] landing page for niftyplugins.com
 
 # POST-LAUNCH

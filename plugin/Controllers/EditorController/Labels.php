@@ -80,8 +80,8 @@ class Labels
 		if( $domain != 'default' || empty( glsr_current_screen()->base )) {
 			return false;
 		}
-		return get_current_screen()->post_type == Application::POST_TYPE
-			&& in_array( get_current_screen()->base, ['edit', 'post'] );
+		return glsr_current_screen()->post_type == Application::POST_TYPE
+			&& in_array( glsr_current_screen()->base, ['edit', 'post'] );
 	}
 
 	/**

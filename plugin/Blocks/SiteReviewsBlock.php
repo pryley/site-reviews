@@ -104,14 +104,13 @@ class SiteReviewsBlock extends BlockGenerator
 	 */
 	protected function filterShowMoreLinks( $field )
 	{
-		add_filter( 'site-reviews/review/wrap/'.$field, function( $value, $review ) {
+		add_filter( 'site-reviews/review/wrap/'.$field, function( $value ) {
 			$value = preg_replace(
 				'/(.*)(<span class="glsr-hidden)(.*)(<\/span>)(.*)/s',
 				'$1... <a href="#" class="glsr-read-more" tabindex="-1">'.__( 'Show more', 'site-reviews' ).'</a>$5',
 				$value
 			);
-			glsr_log( $value );
 			return $value;
-		}, 10, 2 );
+		});
 	}
 }

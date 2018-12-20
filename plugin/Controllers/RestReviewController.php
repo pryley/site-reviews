@@ -32,7 +32,7 @@ class RestReviewController extends RestController
 	}
 
 	/**
-	 * @return WP_Error|WP_HTTP_Response|Response
+	 * @return WP_Error|Response|mixed
 	 */
 	public function get_types()
 	{
