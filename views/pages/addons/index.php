@@ -7,21 +7,21 @@
 	<?php
 		$template->render( 'partials/addons/addon', [
 			'context' => [
+				'description' => __( 'Add images to your review submissions.', 'site-reviews' ),
+				'link' => 'https://niftyplugins.com/addons/site-reviews-images/',
+				'slug' => 'images',
+				'title' => 'Images',
+			],
+			'plugin' => 'site-reviews-images/site-reviews-images.php',
+		]);
+		$template->render( 'partials/addons/addon', [
+			'context' => [
 				'description' => __( 'Sync your Tripadvisor reviews and display them on your site.', 'site-reviews' ),
 				'link' => 'https://niftyplugins.com/addons/site-reviews-tripadvisor/',
 				'slug' => 'tripadvisor',
 				'title' => 'Tripadvisor Reviews',
 			],
 			'plugin' => 'site-reviews-tripadvisor/site-reviews-tripadvisor.php',
-		]);
-		$template->render( 'partials/addons/addon', [
-			'context' => [
-				'description' => __( 'Sync your Yelp reviews and display them on your site.', 'site-reviews' ),
-				'link' => 'https://niftyplugins.com/addons/site-reviews-yelp/',
-				'slug' => 'yelp',
-				'title' => 'Yelp Reviews',
-			],
-			'plugin' => 'site-reviews-yelp/site-reviews-yelp.php',
 		]);
 	?>
 	</div>
