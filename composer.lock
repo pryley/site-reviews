@@ -872,12 +872,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/qcubed/i18n.git",
-                "reference": "994cc1dbb2051eba8dc346295803a677471b97fd"
+                "reference": "f73451a14ce651cfbf496987b0152c00e777f43c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/qcubed/i18n/zipball/994cc1dbb2051eba8dc346295803a677471b97fd",
-                "reference": "994cc1dbb2051eba8dc346295803a677471b97fd",
+                "url": "https://api.github.com/repos/qcubed/i18n/zipball/f73451a14ce651cfbf496987b0152c00e777f43c",
+                "reference": "f73451a14ce651cfbf496987b0152c00e777f43c",
                 "shasum": ""
             },
             "require": {
@@ -918,7 +918,7 @@
                 "i18n",
                 "po"
             ],
-            "time": "2017-07-06T20:59:52+00:00"
+            "time": "2018-11-13T22:13:57+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
