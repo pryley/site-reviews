@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://www.paypal.me/pryley
 Tags: reviews, ratings, business ratings, business reviews, testimonials, site reviews, star rating, wp rating, wp review, wp testimonials
 Requires at least: 4.7.0
-Tested up to: 4.9
+Tested up to: 5.0
 Requires PHP: 5.6
 Stable tag: 3.0.0
 License: GPLv3
