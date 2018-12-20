@@ -1,6 +1,5 @@
 # PRE-LAUNCH
 - [ ] update addons page (add notice)
-- [ ] update readme
 - [ ] scrutinizer
 - [ ] switch over repositories (create v2 branch)
 
