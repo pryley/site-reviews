@@ -13,8 +13,8 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 ## Upcoming Add-ons
 
-- [x] 1. Tripadvisor Reviews
-- [ ] 2. Review Images
+- [x] 1. Review Images
+- [x] 2. Tripadvisor Reviews
 - [ ] 3. Review Themes (customization of stars (star, thumb, emote, percent), fonts, colors, etc.)
 - [ ] 4. Multi-Ratings (for rating individual services of a business)
 - [ ] 5. Social reviews (share review links)
