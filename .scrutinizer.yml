@@ -37,9 +37,9 @@ build:
           - jshint-run
           - php-scrutinizer-run --enable-security-analysis
           -
-            command: vendor/bin/phpunit --coverage-clover=tests/clover.xml
+            command: vendor/bin/phpunit --coverage-clover=tests/coverage.xml
             coverage:
-              file: tests/clover.xml
+              file: tests/coverage.xml
               format: clover
 
 tools:

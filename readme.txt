@@ -13,9 +13,13 @@ Site Reviews allows you to easily receive and display reviews for your website, 
 
 == Description ==
 
-Site Reviews allows your visitors to submit reviews with a 1-5 star rating on your website, similar to the way you would on TripAdvisor or Yelp. You can then display your reviews using the provided blocks, shortcodes, and widgets.
+**Please make sure your website meets the minimum plugin requirements: PHP 5.6, WordPress 4.7**
 
-You can pin your best reviews so that they are always shown first, require approval before new review submissions are published, require visitors to be logged-in in order to write a review, send custom notifications on a new submission, and much more. The plugin provides blocks, shortcodes, and widgets, along with full documentation.
+Site Reviews allows your visitors to submit reviews with a 1-5 star rating on your website, similar to the way you would on TripAdvisor or Yelp.
+
+The plugin provides blocks, shortcodes, and widgets, along with full documentation.
+
+You can pin your best reviews so that they are always shown first, require approval before new review submissions are published, require visitors to be logged-in in order to write a review, send custom notifications on a new submission, and much more.
 
 Follow plugin development on github at: https://github.com/geminilabs/site-reviews/
 
@@ -100,21 +104,21 @@ All documentation can be found in the "Documentation" page of the plugin.
 
 == Changelog ==
 
-= 3.0.0 (2018-12-21) =
+= 3.0.0 (2018-12-20) =
 
 - !! Complete rewrite of Site Reviews
 - !! Dropped support for legacy web browsers (supports all modern browsers and IE11+)
 - !! Dropped support for the twentyten to twentyfourteen themes
 - !! Requires PHP 5.6 or greater and WordPress 4.7 or greater
 - Added additional avatar options
+- Added Asian language support in excerpt lengths
 - Added configurable WordPress 5.0 blocks for the new Block Editor
 - Added export/import plugin tools
 - Added form styles to match popular themes and form plugins
+- Added multiple notification support
+- Added plugin templates for easy cutomisation of the shortcode and widget HTML
 - Added Polylang support for multilingual websites
-- Added support for Asian languages in excerpt lengths
-- Added support for multiple notifications when a review has been submitted
-- Added templates for easy cutomisation of the shortcode and widget HTML
+- Fixed star-rating compatibility with Woocommerce themes
 - Improved documentation
 - Improved performance, especially for sites with thousands of reviews
 - Improved reCAPTCHA compatibility with other plugins
-- Fixed star-rating compatibility with Woocommerce themes

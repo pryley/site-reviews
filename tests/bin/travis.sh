@@ -13,5 +13,5 @@ elif [ $1 == 'after' ]; then
 	php vendor/bin/coveralls --verbose --exclude-no-stmt
 	# get scrutinizer ocular and run it
 	wget https://scrutinizer-ci.com/ocular.phar
-	ocular.phar code-coverage:upload --format=php-clover ./tmp/clover.xml
+	ocular.phar code-coverage:upload --format=php-clover ./tmp/coverage.xml
 fi
