@@ -1468,17 +1468,13 @@ msgstr "No Title"
 
 #: views/pages/addons/index.php:6
 msgid ""
-"You may be wondering when these add-ons will be released as they have been "
-"\"Coming soon\" for quite some time. Well, now that Site Reviews v3.0 (a "
-"major overhaul of the plugin) has been released, the only thing delaying "
-"them is the distribution platform which is currently being built. Expect to "
-"see them in the coming months!"
+"Now that Site Reviews v3.0 (a major overhaul of the plugin) has been "
+"released, the only thing delaying the add-ons is the distribution platform "
+"which is currently being built. Expect to see them in the coming months!"
 msgstr ""
-"You may be wondering when these add-ons will be released as they have been "
-"\"Coming soon\" for quite some time. Well, now that Site Reviews v3.0 (a "
-"major overhaul of the plugin) has been released, the only thing delaying "
-"them is the distribution platform which is currently being built. Expect to "
-"see them in the coming months!"
+"Now that Site Reviews v3.0 (a major overhaul of the plugin) has been "
+"released, the only thing delaying the add-ons is the distribution platform "
+"which is currently being built. Expect to see them in the coming months!"
 
 #: views/pages/addons/index.php:7
 msgid "Thank you for your patience."
@@ -1493,8 +1489,12 @@ msgid "Allow your visitors to submit multiple images with their reviews."
 msgstr "Allow your visitors to submit multiple images with their reviews."
 
 #: views/pages/addons/index.php:23
-msgid "Sync your Tripadvisor reviews and display them on your site."
-msgstr "Sync your Tripadvisor reviews and display them on your site."
+msgid ""
+"Sync your Tripadvisor reviews to your website and manage them with Site "
+"Reviews."
+msgstr ""
+"Sync your Tripadvisor reviews to your website and manage them with Site "
+"Reviews."
 
 #: views/pages/documentation/addons.php:8, views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:35, views/pages/documentation/faq.php:63, views/pages/documentation/faq.php:89, views/pages/documentation/faq.php:120, views/pages/documentation/faq.php:142, views/pages/documentation/faq.php:155, views/pages/documentation/faq.php:180, views/pages/documentation/faq.php:207, views/pages/documentation/faq.php:220, views/pages/documentation/functions.php:9, views/pages/documentation/functions.php:54, views/pages/documentation/functions.php:76, views/pages/documentation/functions.php:104, views/pages/documentation/functions.php:129, views/pages/documentation/functions.php:150, views/pages/documentation/functions.php:190, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:32, views/pages/documentation/hooks.php:55, views/pages/documentation/hooks.php:74, views/pages/documentation/hooks.php:93, views/pages/documentation/hooks.php:113, views/pages/documentation/hooks.php:137, views/pages/documentation/hooks.php:162, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:76, views/pages/documentation/shortcodes.php:124, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:63
 msgid "Toggle documentation panel"
