@@ -143,7 +143,12 @@ class CountsManager
 	 */
 	public function getCounts()
 	{
-		return glsr( OptionManager::class )->get( 'counts', [] );
+		$counts = glsr( OptionManager::class )->get( 'counts', [] );
+		if( !is_array( $counts )) {
+			glsr_log()->error( 'CountsManager: counts is not an array' )->debug( $counts );
+			return [];
+		}
+		return $counts;
 	}
 
 	/**
