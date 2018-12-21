@@ -106,8 +106,9 @@ All documentation can be found in the "Documentation" page of the plugin.
 
 = 3.0.1 (2018-12-21) =
 
-- Fixed category option in shortcodes
 - Fixed "Contact Form 7" style
+- Fixed category option in shortcodes
+- Updated FAQ
 
 = 3.0.0 (2018-12-20) =
 
