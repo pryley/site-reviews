@@ -104,6 +104,10 @@ All documentation can be found in the "Documentation" page of the plugin.
 
 == Changelog ==
 
+= 3.0.1 (2018-12-21) =
+
+- Fixed category option in shortcodes
+
 = 3.0.0 (2018-12-20) =
 
 - !! Complete rewrite of Site Reviews

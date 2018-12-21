@@ -111,9 +111,12 @@ class ReviewManager
 		$terms = [];
 		$termIds = glsr( Helper::class )->convertStringToArray( $commaSeparatedTermIds );
 		foreach( $termIds as $termId ) {
-			$term = get_term( $termId, Application::TAXONOMY );
-			if( !isset( $term->term_id ))continue;
-			$terms[] = $term->term_id;
+			if( is_numeric( $termId )) {
+				$termId = intval( $termId );
+			}
+			$term = term_exists( $termId, Application::TAXONOMY );
+			if( !isset( $term['term_id'] ))continue;
+			$terms[] = intval( $term['term_id'] );
 		}
 		return $terms;
 	}

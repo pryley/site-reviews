@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
 use GeminiLabs\SiteReviews\Database\CountsManager;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -36,7 +37,7 @@ class SiteReviewsSummary
 		$this->args = $args;
 		$counts = glsr( CountsManager::class )->get([
 			'post_ids' => glsr( Helper::class )->convertStringToArray( $args['assigned_to'] ),
-			'term_ids' => glsr( Helper::class )->convertStringToArray( $args['category'] ),
+			'term_ids' => glsr( ReviewManager::class )->normalizeTerms( $args['category'] ),
 			'type' => $args['type'],
 		]);
 		$this->ratingCounts = glsr( CountsManager::class )->flatten( $counts, [
