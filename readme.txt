@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.0
 Requires PHP: 5.6
-Stable tag: 3.0.0
+Stable tag: 3.0.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -107,6 +107,7 @@ All documentation can be found in the "Documentation" page of the plugin.
 = 3.0.1 (2018-12-21) =
 
 - Fixed category option in shortcodes
+- Fixed "Contact Form 7" style
 
 = 3.0.0 (2018-12-20) =
 

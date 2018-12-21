@@ -12,6 +12,8 @@ return [
 		'error_tag' => 'span',
 		'error_tag_class' => 'wpcf7-not-valid-tip',
 		'input_error_class' => 'wpcf7-not-valid',
+		'message_initial_class' => 'wpcf7-display-none',
+		'message_success_class' => 'wpcf7-mail-sent-ok',
 		'message_tag_class' => 'wpcf7-response-output',
 	],
 ];

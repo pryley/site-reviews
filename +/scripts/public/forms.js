@@ -124,6 +124,8 @@
 				this.button.parentNode.insertBefore( resultsEl, this.button.nextSibling );
 			}
 			this.addRemoveClass_( resultsEl, this.config.message_error_class, !success );
+			this.addRemoveClass_( resultsEl, this.config.message_success_class, success );
+			resultsEl.classList.remove( this.config.message_initial_class );
 			resultsEl.innerHTML = message;
 		},
 
