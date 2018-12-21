@@ -202,6 +202,44 @@ add_filter( 'site-reviews/config/inline-styles', function( array $config ) {
 
 <div id="faq-09" class="glsr-card postbox">
 	<div class="glsr-card-header">
+		<h3>How do I limit the submitted review length?</h3>
+		<button type="button" class="handlediv" aria-expanded="true">
+			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+	</div>
+	<div class="inside">
+		<p>To limit the allowed length of submitted reviews, use the following filter hooks in your theme's <code>functions.php</code> file:</p>
+		<pre><code class="php">/**
+ * Set the "maxlength" HTML attribute to limit review length to 100 characters
+ * Simply change the number to your desired length.
+ * Paste this in your active theme's functions.php file.
+ * @param array $config
+ * @return array
+ */
+add_filter( 'site-reviews/config/forms/submission-form', function( $config ) {
+	if( array_key_exists( 'content', $config )) {
+		$config['content']['maxlength'] = 100;
+	}
+	return $config;
+});
+
+/**
+ * Limit review length to 100 characters in the form validation
+ * Simply change the number to your desired length.
+ * Paste this in your active theme's functions.php file.
+ * @param array $rules
+ * @return array
+ */
+add_filter( 'site-reviews/validation/rules', function( $rules ) {
+	$rules['content'] = 'required|max:100';
+	return $rules;
+});</code></pre>
+	</div>
+</div>
+
+<div id="faq-10" class="glsr-card postbox">
+	<div class="glsr-card-header">
 		<h3>How do I redirect to a custom URL after a form is submitted?</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
 			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
@@ -213,7 +251,7 @@ add_filter( 'site-reviews/config/inline-styles', function( array $config ) {
 	</div>
 </div>
 
-<div id="faq-10" class="glsr-card postbox">
+<div id="faq-11" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>How do I remove the dash in front of the author's name?</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
