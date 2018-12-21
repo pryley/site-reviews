@@ -155,9 +155,12 @@ class System
 	{
 		$counts = glsr( CountsManager::class )->getCounts();
 		$counts = glsr( Helper::class )->flattenArray( $counts );
-		array_walk( $counts, function( &$ratings ) use( $counts ) {
+ 		array_walk( $counts, function( &$ratings ) use( $counts ) {
 			if( !is_array( $ratings )) {
-				glsr_log()->error( 'System: ratings is not an array' )->debug( $ratings )->debug( $counts );
+				glsr_log()
+					->error( '$ratings is not an array, possibly due to incorrectly imported reviews that are missing their review type.' )
+					->debug( $ratings )
+					->debug( $counts );
 				return;
 			}
 			$ratings = array_sum( $ratings ).' ('.implode( ', ', $ratings ).')';

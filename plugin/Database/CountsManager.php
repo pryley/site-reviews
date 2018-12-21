@@ -270,7 +270,10 @@ class CountsManager
 				$counts[$type] = array_fill_keys( range( 0, Rating::MAX_RATING ), 0 );
 			}
 			foreach( $reviews as $review ) {
-				$counts[$review->type][$review->rating]++;
+				$type = empty( $review->type ) || !is_string( $review->type )
+					? 'local'
+					: $review->type;
+				$counts[$type][$review->rating]++;
 			}
 			$lastPostId = end( $reviews )->ID;
 		}

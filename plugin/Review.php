@@ -74,7 +74,7 @@ class Review
 			'author' => __( 'Anonymous', 'site-reviews' ),
 			'date' => '',
 			'review_id' => '',
-			'review_type' => '',
+			'review_type' => 'local',
 		];
 		$meta = array_filter(
 			array_map( 'array_shift', (array)get_post_meta( $post->ID )),
