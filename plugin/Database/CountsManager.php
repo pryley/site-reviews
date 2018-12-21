@@ -265,14 +265,14 @@ class CountsManager
 		$lastPostId = 0;
 		while( $reviews = $this->queryReviews( $args, $lastPostId, $limit )) {
 			$types = array_keys( array_flip( array_column( $reviews, 'type' )));
+			$types = array_unique( array_merge( ['local'], $types ));
 			foreach( $types as $type ) {
+				$type = $this->normalizeType( $type );
 				if( isset( $counts[$type] ))continue;
 				$counts[$type] = array_fill_keys( range( 0, Rating::MAX_RATING ), 0 );
 			}
 			foreach( $reviews as $review ) {
-				$type = empty( $review->type ) || !is_string( $review->type )
-					? 'local'
-					: $review->type;
+				$type = $this->normalizeType( $review->type );
 				$counts[$type][$review->rating]++;
 			}
 			$lastPostId = end( $reviews )->ID;
@@ -327,6 +327,17 @@ class CountsManager
 			ksort( $counts );
 		}
 		return $reviewCounts;
+	}
+
+	/**
+	 * @param string $type
+	 * @return string
+	 */
+	protected function normalizeType( $type )
+	{
+		return empty( $type ) || !is_string( $type )
+			? 'local'
+			: $type;
 	}
 
 	/**
