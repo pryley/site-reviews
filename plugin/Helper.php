@@ -187,10 +187,13 @@ class Helper
 	public function getIpAddress()
 	{
 		$cloudflareIps = glsr( Cache::class )->getCloudflareIps();
+		$ipv6 = defined( 'AF_INET6' )
+			? $cloudflareIps['v6']
+			: [];
 		return (string)(new Whip( Whip::CLOUDFLARE_HEADERS | Whip::REMOTE_ADDR, [
 			Whip::CLOUDFLARE_HEADERS => [
 				Whip::IPV4 => $cloudflareIps['v4'],
-				Whip::IPV6 => $cloudflareIps['v6'],
+				Whip::IPV6 => $ipv6,
 			],
 		]))->getValidIpAddress();
 	}

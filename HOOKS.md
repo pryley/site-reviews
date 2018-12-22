@@ -80,6 +80,7 @@
     site-reviews/style
     site-reviews/submission-form/order
     site-reviews/summary/counts
+    site-reviews/system/{key}
     site-reviews/translation/entries
     site-reviews/translator/domains
     site-reviews/url

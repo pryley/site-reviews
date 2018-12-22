@@ -43,7 +43,10 @@ class System
 		$systemInfo = array_reduce( array_keys( $details ), function( $carry, $key ) use( $details ) {
 			$methodName = glsr( Helper::class )->buildMethodName( 'get-'.$key.'-details' );
 			if( method_exists( $this, $methodName ) && $systemDetails = $this->$methodName() ) {
-				return $carry.$this->implode( strtoupper( $details[$key] ), $systemDetails );
+				return $carry.$this->implode(
+					strtoupper( $details[$key] ),
+					apply_filters( 'site-reviews/system/'.$key, $systemDetails )
+				);
 			}
 			return $carry;
 		});
@@ -134,6 +137,7 @@ class System
 			'Display Errors' => $displayErrors,
 			'fsockopen' => var_export( function_exists( 'fsockopen' ), true ),
 			'Intl' => $intlSupport,
+			'IPv6' => var_export( defined( 'AF_INET6' ), true ),
 			'Max Execution Time' => ini_get( 'max_execution_time' ),
 			'Max Input Nesting Level' => ini_get( 'max_input_nesting_level' ),
 			'Max Input Vars' => ini_get( 'max_input_vars' ),
