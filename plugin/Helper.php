@@ -310,7 +310,9 @@ class Helper
 		if( !ctype_lower( $string )) {
 			$string = preg_replace( '/\s+/u', '', $string );
 			$string = preg_replace( '/(.)(?=[A-Z])/u', '$1_', $string );
-			$string = mb_strtolower( $string, 'UTF-8' );
+			$string = function_exists( 'mb_strtolower' )
+				? mb_strtolower( $string, 'UTF-8' )
+				: strtolower( $string );
 		}
 		return str_replace( '-', '_', $string );
 	}

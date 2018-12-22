@@ -158,7 +158,7 @@ class System
  		array_walk( $counts, function( &$ratings ) use( $counts ) {
 			if( !is_array( $ratings )) {
 				glsr_log()
-					->error( '$ratings is not an array, possibly due to incorrectly imported reviews that are missing their review type.' )
+					->error( '$ratings is not an array, possibly due to incorrectly imported reviews.' )
 					->debug( $ratings )
 					->debug( $counts );
 				return;

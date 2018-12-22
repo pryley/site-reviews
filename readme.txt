@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.0
 Requires PHP: 5.6
-Stable tag: 3.0.2
+Stable tag: 3.0.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,10 @@ All documentation can be found in the "Documentation" page of the plugin.
 9. This is what the Slack notifications look like
 
 == Changelog ==
+
+= 3.0.3 (2018-12-21) =
+
+- Fixed PHP error preventing plugin activation when the PHP multibyte extension is not installed
 
 = 3.0.2 (2018-12-21) =
 

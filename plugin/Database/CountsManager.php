@@ -258,6 +258,7 @@ class CountsManager
 	/**
 	 * @param int $limit
 	 * @return array
+	 * @todo verify the additional type checks are needed
 	 */
 	protected function build( $limit, array $args = [] )
 	{

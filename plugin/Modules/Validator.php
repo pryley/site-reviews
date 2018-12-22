@@ -184,7 +184,9 @@ class Validator
 		elseif( is_array( $value )) {
 			return count( $value );
 		}
-		return mb_strlen( $value );
+		return function_exists( 'mb_strlen' )
+			? mb_strlen( $value )
+			: strlen( $value );
 	}
 
 	/**
