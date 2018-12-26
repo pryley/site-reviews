@@ -11,15 +11,14 @@ class ValidateReviewDefaults extends Defaults
 	 */
 	protected function defaults()
 	{
-		$user = wp_get_current_user();
 		return [
 			'assign_to' => '',
 			'category' => '',
 			'content' => '',
-			'email' => $user->exists() ? $user->user_email : '',
+			'email' => '',
 			'form_id' => '',
 			'ip_address' => '',
-			'name' => $user->exists() ? $user->display_name : '',
+			'name' => '',
 			'rating' => '0',
 			'terms' => '',
 			'title' => '',

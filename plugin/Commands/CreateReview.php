@@ -33,14 +33,14 @@ class CreateReview
 		$this->request = $input;
 		$this->ajax_request = isset( $input['_ajax_request'] );
 		$this->assigned_to = $this->getNumeric( 'assign_to' );
-		$this->author = sanitize_text_field( $this->get( 'name' ));
+		$this->author = sanitize_text_field( $this->getUser( 'name' ));
 		$this->avatar = $this->getAvatar();
 		$this->blacklisted = isset( $input['blacklisted'] );
 		$this->category = sanitize_key( $this->get( 'category' ));
 		$this->content = sanitize_textarea_field( $this->get( 'content' ));
 		$this->custom = $this->getCustom();
 		$this->date = $this->getDate( 'date' );
-		$this->email = sanitize_email( $this->get( 'email' ));
+		$this->email = sanitize_email( $this->getUser( 'email' ));
 		$this->form_id = sanitize_key( $this->get( 'form_id' ));
 		$this->ip_address = $this->get( 'ip_address' );
 		$this->post_id = intval( $this->get( '_post_id' ));
@@ -102,6 +102,26 @@ class CreateReview
 			$date = time();
 		}
 		return get_date_from_gmt( gmdate( 'Y-m-d H:i:s', $date ));
+	}
+
+	/**
+	 * @param string $key
+	 * @return string
+	 */
+	protected function getUser( $key )
+	{
+		$value = $this->get( $key );
+		if( empty( $value )) {
+			$user = wp_get_current_user();
+			$userValues = [
+				'email' => 'user_email',
+				'name' => 'display_name',
+			];
+			if( $user->exists() && array_key_exists( $key, $userValues )) {
+				return $user->{$userValues[$key]};
+			}
+		}
+		return $value;
 	}
 
 	/**
