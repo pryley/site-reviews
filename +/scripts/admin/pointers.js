@@ -13,7 +13,7 @@
 		/** @return void */
 		close_: function( pointerId ) { // string
 			$.post( GLSR.ajaxurl, {
-				_action: 'dismiss-wp-pointer',
+				action: 'dismiss-wp-pointer',
 				pointer: pointerId,
 			});
 		},
@@ -23,7 +23,7 @@
 			$( pointer.target ).pointer({
 				content: pointer.options.content,
 				position: pointer.options.position,
-				close: this.close_.bind( pointer.id ),
+				close: this.close_.bind( null, pointer.id ),
 			})
 			.pointer( 'open' )
 			.pointer( 'sendToTop' );
