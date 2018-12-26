@@ -81,6 +81,7 @@
     site-reviews/submission-form/order
     site-reviews/summary/counts
     site-reviews/system/{key}
+    site-reviews/tinymce/editor-ids
     site-reviews/translation/entries
     site-reviews/translator/domains
     site-reviews/url

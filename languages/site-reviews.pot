@@ -571,59 +571,59 @@ msgstr ""
 msgid "Summary of Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:126
+#: plugin/Controllers/AdminController.php:128
 msgid "Console cleared."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:134
+#: plugin/Controllers/AdminController.php:136
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:157
+#: plugin/Controllers/AdminController.php:159
 msgid "Recalculated rating counts."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:196
+#: plugin/Controllers/AdminController.php:198
 msgid "Please use a valid Site Reviews settings file."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:200
+#: plugin/Controllers/AdminController.php:202
 msgid "There were no settings found to import."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:203
+#: plugin/Controllers/AdminController.php:205
 msgid "Settings imported."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:213
+#: plugin/Controllers/AdminController.php:215
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:214
+#: plugin/Controllers/AdminController.php:216
 msgid "The uploaded file is too big."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:215
+#: plugin/Controllers/AdminController.php:217
 msgid "The uploaded file was only partially uploaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:216
+#: plugin/Controllers/AdminController.php:218
 msgid "No file was uploaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:217
+#: plugin/Controllers/AdminController.php:219
 msgid "Missing a temporary folder."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:218
+#: plugin/Controllers/AdminController.php:220
 msgid "Failed to write file to disk."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:219
+#: plugin/Controllers/AdminController.php:221
 msgid "A PHP extension stopped the file upload."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:222
+#: plugin/Controllers/AdminController.php:224
 msgid "Unknown upload error."
 msgstr ""
 

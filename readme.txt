@@ -107,6 +107,7 @@ All documentation can be found in the "Documentation" page of the plugin.
 = 3.0.5 (2018-12-26) =
 
 - Fixed compatibility with Woocommerce plugin
+- Fixed tinymce button, it should only appear on the primary page editor (classic editor)
 
 = 3.0.4 (2018-12-22) =
 

@@ -101,12 +101,14 @@ class AdminController extends Controller
 	}
 
 	/**
+	 * @param string $editorId
 	 * @return null|void
 	 * @action media_buttons
 	 */
-	public function renderTinymceButton()
+	public function renderTinymceButton( $editorId )
 	{
-		if( glsr_current_screen()->base != 'post' )return;
+		$allowedEditors = apply_filters( 'site-reviews/tinymce/editor-ids', ['content'] );
+		if( glsr_current_screen()->base != 'post' || !in_array( $editorId, $allowedEditors ))return;
 		$shortcodes = [];
 		foreach( glsr()->mceShortcodes as $shortcode => $values ) {
 			$shortcodes[$shortcode] = $values;
