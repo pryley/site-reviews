@@ -18,7 +18,7 @@
 				_ajax_request: true,
 			};
 			if( this.form ) {
-				var formdata = $( this.form ).serializeObject();
+				var formdata = new GLSR.Serializer( this.form );
 				if( formdata[GLSR.nameprefix] ) {
 					this.request = formdata[GLSR.nameprefix];
 				}

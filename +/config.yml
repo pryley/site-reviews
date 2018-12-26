@@ -21,7 +21,6 @@ scripts:
     - +/scripts/public/validation.js
     - +/scripts/site-reviews.js
   site-reviews-admin.js:
-    - node_modules/form-serializer/jquery.serialize-object.js
     - +/scripts/admin/ajax.js
     - +/scripts/admin/color-picker.js
     - +/scripts/admin/forms.js
@@ -29,6 +28,7 @@ scripts:
     - +/scripts/admin/pinned.js
     - +/scripts/admin/pointers.js
     - +/scripts/admin/search.js
+    - +/scripts/admin/serializer.js
     - +/scripts/admin/shortcode.js
     - +/scripts/admin/status.js
     - +/scripts/admin/sync.js

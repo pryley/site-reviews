@@ -36,7 +36,6 @@
     "ActiveXObject": false,
     "ajaxurl": false,
     "CustomEvent": false,
-    "FormSerializer": false,
     "GLSR": true,
     "grecaptcha": false,
     "HTMLFormElement": false,
