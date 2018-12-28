@@ -26,7 +26,7 @@ class Upgrader
 			$versionSuffix = preg_replace( '/[\d.]+(.+)?/', '${1}', glsr()->version ); // allow alpha/beta versions
 			if( version_compare( $this->currentVersion(), $version.$versionSuffix, '>=' ))return;
 			glsr( 'Modules\\Upgrader\\'.$className );
-			glsr_log()->info( 'Completed Upgrade for v'.$version.$versionSuffix );
+			glsr_log()->info( 'Completed Upgrade for v'.glsr()->version );
 		});
 		$this->setReviewCounts();
 		$this->updateVersion();
