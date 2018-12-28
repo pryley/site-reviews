@@ -25,7 +25,9 @@ class SettingsController extends Controller
 			$options = $this->sanitizeGeneral( $input, $options );
 			$options = $this->sanitizeSubmissions( $input, $options );
 			$options = $this->sanitizeTranslations( $input, $options );
-			glsr( Notice::class )->addSuccess( __( 'Settings updated.', 'site-reviews' ));
+			if( filter_input( INPUT_POST, 'option_page' ) == Application::ID.'-settings' ) {
+				glsr( Notice::class )->addSuccess( __( 'Settings updated.', 'site-reviews' ));
+			}
 			return $options;
 		}
 		return $input;
