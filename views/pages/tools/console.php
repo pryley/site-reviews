@@ -1,6 +1,6 @@
 <?php defined( 'WPINC' ) || die; ?>
 
-<textarea id="log-file" class="large-text code glsr-code" rows="20" readonly>{{ console }}</textarea>
+<textarea id="log-file" class="large-text code glsr-code glsr-code-large" rows="20" readonly>{{ console }}</textarea>
 <form method="post" class="float-left">
 	<input type="hidden" name="{{ id }}[_action]" value="download-console">
 	<?php wp_nonce_field( 'download-console' ); ?>
