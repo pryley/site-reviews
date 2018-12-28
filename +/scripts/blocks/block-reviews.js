@@ -163,7 +163,7 @@
 						onChange: function( value ) {
 							props.setAttributes({ rating: value });
 						},
-						min: 1,
+						min: 0,
 						max: 5,
 						value: props.attributes.rating,
 					}),

@@ -107,6 +107,7 @@ All documentation can be found in the "Documentation" page of the plugin.
 = 3.1.0 (2018-12-??) =
 
 - Added safe method of using plugin functions without having to use `function_exists()` (see documentation)
+- Changed "minimum rating" range in the block options to allow a rating of "0" (to show reviews with no rating)
 
 = 3.0.5 (2018-12-26) =
 
