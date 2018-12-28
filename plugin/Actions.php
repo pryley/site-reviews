@@ -91,10 +91,10 @@ class Actions implements HooksContract
 		add_filter( 'site-reviews/builder',                         [$this->public, 'modifyBuilder'] );
 		add_action( 'wp_footer',                                    [$this->public, 'renderSchema'] );
 		add_action( 'set_object_terms',                             [$this->review, 'onAfterChangeCategory'], 10, 6 );
+		add_action( 'transition_post_status',                       [$this->review, 'onAfterChangeStatus'], 10, 3 );
 		add_action( 'site-reviews/review/created',                  [$this->review, 'onAfterCreate'] );
 		add_action( 'before_delete_post',                           [$this->review, 'onBeforeDelete'] );
 		add_action( 'update_postmeta',                              [$this->review, 'onBeforeUpdate'], 10, 4 );
-		add_action( 'transition_post_status',                       [$this->review, 'onChangeStatus'], 10, 3 );
 		add_action( 'admin_init',                                   [$this->router, 'routeAdminPostRequest'] );
 		add_action( 'wp_ajax_'.Application::PREFIX.'action',        [$this->router, 'routeAjaxRequest'] );
 		add_action( 'wp_ajax_nopriv_'.Application::PREFIX.'action', [$this->router, 'routeAjaxRequest'] );

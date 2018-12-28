@@ -37,6 +37,24 @@ class ReviewController extends Controller
 	}
 
 	/**
+	 * @param string $oldStatus
+	 * @param string $newStatus
+	 * @return void
+	 * @action transition_post_status
+	 */
+	public function onAfterChangeStatus( $newStatus, $oldStatus, WP_Post $post )
+	{
+		if( $post->post_type != Application::POST_TYPE || in_array( $oldStatus, ['new', $newStatus] ))return;
+		$review = glsr( ReviewManager::class )->single( get_post( $post->ID ));
+		if( $post->post_status == 'publish' ) {
+			glsr( CountsManager::class )->increase( $review );
+		}
+		else {
+			glsr( CountsManager::class )->decrease( $review );
+		}
+	}
+
+	/**
 	 * @return void
 	 * @action site-reviews/review/created
 	 */
@@ -108,23 +126,5 @@ class ReviewController extends Controller
 		glsr( CountsManager::class )->decrease( $review );
 		$review->review_type = $reviewType;
 		glsr( CountsManager::class )->increase( $review );
-	}
-
-	/**
-	 * @param string $oldStatus
-	 * @param string $newStatus
-	 * @return void
-	 * @action transition_post_status
-	 */
-	public function onChangeStatus( $newStatus, $oldStatus, WP_Post $post )
-	{
-		if( $post->post_type != Application::POST_TYPE || in_array( $oldStatus, ['new', $newStatus] ))return;
-		$review = glsr( ReviewManager::class )->single( get_post( $post->ID ));
-		if( $post->post_status == 'publish' ) {
-			glsr( CountsManager::class )->increase( $review );
-		}
-		else {
-			glsr( CountsManager::class )->decrease( $review );
-		}
 	}
 }
