@@ -42,6 +42,7 @@ class ReviewController extends Controller
 	 */
 	public function onAfterCreate( Review $review )
 	{
+		if( $review->status !== 'publish' )return;
 		glsr( CountsManager::class )->increase( $review );
 	}
 
