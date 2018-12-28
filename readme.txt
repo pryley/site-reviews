@@ -104,6 +104,10 @@ All documentation can be found in the "Documentation" page of the plugin.
 
 == Changelog ==
 
+= 3.1.0 (2018-12-??) =
+
+- Added safe method of using plugin functions without having to use `function_exists()` (see documentation)
+
 = 3.0.5 (2018-12-26) =
 
 - Fixed compatibility with Woocommerce plugin

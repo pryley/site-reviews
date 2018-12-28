@@ -157,7 +157,7 @@ add_filter( 'site-reviews/const/PAGED_QUERY_VAR', function() {
 		</button>
 	</div>
 	<div class="inside">
-		<p>Site Reviews provides a <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!functions' ); ?>" data-expand="#functions-01">glsr_create_review()</a></code> helper function to easily create a review.</p>
+		<p>Site Reviews provides a <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!functions' ); ?>" data-expand="#functions-02">glsr_create_review()</a></code> helper function to easily create a review.</p>
 		<p>Here is an example:</p>
 		<pre><code class="php">if( function_exists( 'glsr_create_review' )) {
 	$review = glsr_create_review([
