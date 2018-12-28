@@ -52,6 +52,7 @@ class SiteReviews
 			: '';
 		return glsr( Template::class )->build( 'templates/reviews', [
 			'context' => [
+				'assigned_to' => $this->args['assigned_to'],
 				'class' => $this->getClass(),
 				'id' => $this->args['id'],
 				'navigation' => $navigation,

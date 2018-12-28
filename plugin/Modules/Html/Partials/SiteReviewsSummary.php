@@ -48,6 +48,7 @@ class SiteReviewsSummary
 		$this->generateSchema();
 		return glsr( Template::class )->build( 'templates/reviews-summary', [
 			'context' => [
+				'assigned_to' => $this->args['assigned_to'],
 				'class' => $this->getClass(),
 				'id' => $this->args['id'],
 				'percentages' => $this->buildPercentage(),
