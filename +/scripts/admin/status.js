@@ -28,6 +28,8 @@
 				var el = $( ev.target );
 				el.closest( 'tr' ).removeClass( 'status-pending status-publish' ).addClass( response.class );
 				el.closest( 'td.column-title' ).find( 'strong' ).html( response.link );
+				if( !response.counts )return;
+				el.closest( '.wrap' ).find( 'ul.subsubsub' ).html( response.counts );
 			});
 		},
 	};

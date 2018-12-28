@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Handlers;
 
+use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\ChangeStatus as Command;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
@@ -22,6 +23,7 @@ class ChangeStatus
 		}
 		return [
 			'class' => 'status-'.$command->status,
+			'counts' => $this->getStatusLinks(),
 			'link' => $this->getPostLink( $postId ).$this->getPostState( $postId ),
 		];
 	}
@@ -49,5 +51,24 @@ class ChangeStatus
 		ob_start();
 		_post_states( get_post( $postId ));
 		return ob_get_clean();
+	}
+
+	/**
+	 * @return void|string
+	 */
+	protected function getStatusLinks()
+	{
+		global $avail_post_stati;
+		require_once( ABSPATH.'wp-admin/includes/class-wp-posts-list-table.php' );
+		$hookName = 'edit-'.Application::POST_TYPE;
+		set_current_screen( $hookName );
+		$avail_post_stati = get_available_post_statuses( Application::POST_TYPE );
+		$table = new \WP_Posts_List_Table( ['screen' => $hookName] );
+		$views = apply_filters( 'views_'.$hookName, $table->get_views() ); // uses compat get_views()
+		if( empty( $views ))return;
+		foreach( $views as $class => $view ) {
+			$views[$class] = "\t<li class='$class'>$view";
+		}
+		return implode( ' |</li>', $views ).'</li>';
 	}
 }

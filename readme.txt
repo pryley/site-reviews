@@ -110,6 +110,7 @@ All documentation can be found in the "Documentation" page of the plugin.
 - Added support for multiple shortcode buttons on the same page (i.e. when using multiple classic wysiwyg editors)
 - Changed "minimum rating" range in the block options to allow a rating of "0" (to show reviews with no rating)
 - Fixed summary counts when the "Require Approval" option was enabled
+- Fixed the counts on the "All Reviews" page to update when a review status is changed
 
 = 3.0.5 (2018-12-26) =
 
