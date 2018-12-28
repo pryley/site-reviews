@@ -4,13 +4,8 @@
 	'use strict';
 
 	GLSR.Shortcode = function( selector ) {
-		this.el = document.querySelector( selector );
-		if( !this.el )return;
 		this.current = null; // this.current is used by scForm to trigger the correct popup
 		this.editor = null;
-		this.button = this.el.querySelector( 'button' );
-		this.menuItems = this.el.querySelectorAll( '.mce-menu-item' );
-		if( !this.button || !this.menuItems.length )return;
 		this.create = function( editor_id ) {
 			this.editor = tinymce.get( editor_id );
 			if( !this.editor )return;
@@ -20,7 +15,12 @@
 			};
 			(new GLSR.Ajax( request )).post_( this.handleResponse_.bind( this ));
 		};
-		this.init_();
+		document.querySelectorAll( selector ).forEach( function( el ) {
+			var button = el.querySelector( 'button' );
+			var menuItems = el.querySelectorAll( '.mce-menu-item' );
+			if( !button || !menuItems.length )return;
+			this.init_( el, button, menuItems );
+		}.bind( this ));
 	};
 
 	GLSR.Shortcode.prototype = {
@@ -28,11 +28,11 @@
 		hiddenKeys_: [],
 
 		/** @return void */
-		init_: function() {
-			document.addEventListener( 'click', this.onClose_.bind( this ));
-			this.button.addEventListener( 'click', this.onToggle_.bind( this ));
-			this.menuItems.forEach( function( item ) {
-				item.addEventListener( 'click', this.onTrigger_.bind( this ));
+		init_: function( el, button, menuItems ) {
+			document.addEventListener( 'click', this.onClose_.bind( this, el, button ));
+			button.addEventListener( 'click', this.onToggle_.bind( this, el, button ));
+			menuItems.forEach( function( item ) {
+				item.addEventListener( 'click', this.onTrigger_.bind( this, el, button ));
 			}.bind( this ));
 		},
 
@@ -60,9 +60,9 @@
 		},
 
 		/** @return void */
-		close_: function() {
-			$( this.button ).removeClass( 'active' );
-			$( this.el ).find( '.glsr-mce-menu' ).hide();
+		close_: function( el, button ) {
+			$( button ).removeClass( 'active' );
+			$( el ).find( '.glsr-mce-menu' ).hide();
 		},
 
 		/** @return void */
@@ -72,6 +72,8 @@
 				tinymce.get( 'scTemp' ).remove();
 				tmp.remove();
 			}
+			this.attributes_ = {};
+			this.hiddenKeys_ = [];
 		},
 
 		/** @return void */
@@ -129,23 +131,23 @@
 		},
 
 		/** @return void */
-		onClose_: function( ev ) {
-			if( $( ev.target ).closest( $( this.el )).length )return;
-			this.close_();
+		onClose_: function( el, button, ev ) {
+			if( $( ev.target ).closest( $( el )).length )return;
+			this.close_( el, button );
 		},
 
 		/** @return void */
-		onToggle_: function( ev ) {
+		onToggle_: function( el, button, ev ) {
 			ev.preventDefault();
 			if( ev.currentTarget.classList.contains( 'active' )) {
-				this.close_();
+				this.close_( el, button );
 				return;
 			}
-			this.open_();
+			this.open_( el, button );
 		},
 
 		/** @return void */
-		onTrigger_: function( ev ) {
+		onTrigger_: function( el, button, ev ) {
 			ev.preventDefault();
 			this.current = ev.currentTarget.dataset.shortcode;
 			if( !this.current )return;
@@ -156,14 +158,14 @@
 				this.initQuicktagsEditor_();
 			}
 			setTimeout( function() {
-				this.close_();
+				this.close_( el, button );
 			}.bind( this ), 100 );
 		},
 
 		/** @return void */
-		open_: function() {
-			$( this.button ).addClass( 'active' );
-			$( this.el ).find( '.glsr-mce-menu' ).show();
+		open_: function( el, button ) {
+			$( button ).addClass( 'active' );
+			$( el ).find( '.glsr-mce-menu' ).show();
 		},
 
 		/** @return array */
