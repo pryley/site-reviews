@@ -13,6 +13,20 @@ add_action( 'site-reviews/customize/divi', function( $instance ) {
 });
 
 /**
+ * Clears the WP-Super-Cache plugin cache after a review has been submitted
+ * @param \GeminiLabs\SiteReviews\Review $review
+ * @param \GeminiLabs\SiteReviews\Commands\CreateReview $request
+ * @return void
+ * @see https://wordpress.org/plugins/wp-super-cache/
+ */
+add_action( 'site-reviews/review/created', function( $review, $request ) {
+	if( !function_exists( 'wp_cache_post_change' ))return;
+	wp_cache_post_change( $request->post_id );
+	if( empty( $review->assigned_to ) || $review->assigned_to == $request->post_id )return;
+	wp_cache_post_change( $review->assigned_to );
+}, 10, 2 );
+
+/**
  * @param array $scriptHandles
  * @return array
  * @see https://wordpress.org/plugins/speed-booster-pack/
@@ -39,4 +53,3 @@ add_filter( 'sf_edit_query_args', function( $query ) {
 	}
 	return $query;
 }, 20 );
-
