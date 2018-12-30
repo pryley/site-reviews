@@ -9,8 +9,7 @@
 		</button>
 	</div>
 	<div class="inside">
-		<p>The problem with using plugin-specific helper functions is that they only exist when the plugin is active.</p>
-		<p>If you use a helper function in a theme and the plugin is disabled, the function will throw a PHP error unless you add a <a href="https://php.net/manual/en/function.function-exists.php">function_exists</a> check for each helper function used.</p>
+		<p>The problem with using plugin-specific helper functions is that they only exist when the plugin is active. When the plugin is disabled, any helper functions that have been used will throw a PHP error unless you have also included a <a href="https://php.net/manual/en/function.function-exists.php">function_exists</a> check.</p>
 		<p>Site Reviews provides a alternative way of using these functions which is much safer:</p>
 		<pre><code>/**
  * @param string $function_name This is the name of the function you want to use
@@ -19,7 +18,8 @@
  * @return mixed
  */
 apply_filters( $function_name, $fallback, ...$args );</code></pre>
-		<p>All functions listed here can be used in this way, the benefit of using this method is that you don't have to use <a href="https://php.net/manual/en/function.function-exists.php">function_exists</a>, and if the plugin is not active, the fallback value will be used.</p>
+		<p>All functions listed here can be used in this way!</p>
+		<p>The benefit of using this method is that you don't have to include a <a href="https://php.net/manual/en/function.function-exists.php">function_exists</a> check, and you can also provide a fallback value that is returned if the plugin is not available or active.</p>
 		<p>For example:</p>
 		<pre><code>$reviews = apply_filters( 'glsr_get_reviews', [], [
 	'assigned_to' => 'post_id',
@@ -222,7 +222,7 @@ glsr_log( $var = null );</code></pre>
 		<pre><code class="php">glsr_log( $var1 );
 glsr_log()->warning( $var2 );
 glsr_log( $var3 )->error( $var4 )->info( $var5 );</code></pre>
-	<p>Logged entries will be found in the  <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!console' ); ?>">Tools &rarr; Console</a></code>.</p>
+	<p>Logged entries will be found in the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!console' ); ?>">Tools &rarr; Console</a></code>.</p>
 	</div>
 </div>
 

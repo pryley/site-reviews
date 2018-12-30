@@ -213,7 +213,7 @@ class System
 	{
 		return [
 			'Console size' => glsr( Console::class )->humanSize( '0' ),
-			'Last Review Count' => date_i18n( 'Y-m-d H:i', glsr( OptionManager::class )->get( 'last_review_count' )),
+			'Last Rating Count' => date_i18n( 'Y-m-d H:i', glsr( OptionManager::class )->get( 'last_review_count' )),
 			'Version (current)' => glsr()->version,
 			'Version (previous)' => glsr( OptionManager::class )->get( 'version_upgraded_from' ),
 		];
