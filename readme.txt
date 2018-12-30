@@ -104,13 +104,15 @@ All documentation can be found in the "Documentation" page of the plugin.
 
 == Changelog ==
 
-= 3.1.0 (2018-12-??) =
+= 3.1.0 (2018-12-30) =
 
+- Added compatibility for WP Super Cache plugin
 - Added safe method of using plugin functions without having to use `function_exists()` (see documentation)
 - Added support for multiple shortcode buttons on the same page (i.e. when using multiple classic wysiwyg editors)
 - Changed "minimum rating" range in the block options to allow a rating of "0" (to show reviews with no rating)
 - Fixed summary counts when the "Require Approval" option was enabled
-- Fixed the counts on the "All Reviews" page to update when a review status is changed
+- Fixed the "All Reviews" page to update the status counts when a review is approved/unapproved
+- Fixed the "Recalculate rating counts" notice
 
 = 3.0.5 (2018-12-26) =
 

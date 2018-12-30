@@ -56,10 +56,7 @@ class Upgrader
 	 */
 	protected function setReviewCounts()
 	{
-		add_action( 'admin_init', function() {
-			glsr( AdminController::class )->routerCountReviews( false );
-			glsr_log()->info( __( 'Calculated rating counts.', 'site-reviews' ));
-		});
+		add_action( 'admin_init', 'glsr_calculate_ratings' );
 	}
 
 	/**

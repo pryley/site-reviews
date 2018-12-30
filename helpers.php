@@ -12,6 +12,7 @@ add_filter( 'all', function() {
 	$hook = array_shift( $args );
 	$hooks = array(
 		'glsr',
+		'glsr_calculate_ratings',
 		'glsr_create_review',
 		'glsr_debug',
 		'glsr_get_option', 'glsr_get_options',
@@ -33,6 +34,14 @@ function glsr( $alias = null ) {
 	return !empty( $alias )
 		? $app->make( $alias )
 		: $app;
+}
+
+/**
+ * @return void
+ */
+function glsr_calculate_ratings() {
+	glsr( 'Controllers\AdminController' )->routerCountReviews( false );
+	glsr_log()->info( __( 'Recalculated rating counts.', 'site-reviews' ));
 }
 
 /**
