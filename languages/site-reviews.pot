@@ -43,6 +43,10 @@ msgstr ""
 msgid "You can use the %s plugin to restore %s to the previous version."
 msgstr ""
 
+#: helpers.php:44, plugin/Controllers/AdminController.php:159
+msgid "Recalculated rating counts."
+msgstr ""
+
 #: config/settings.php:6
 msgid "Site Reviews relies on the CSS of your theme to style the submission form. If your theme does not provide proper CSS rules for form elements and you are using a WordPress plugin/theme or CSS Framework listed here, please try selecting it, otherwise choose \"Site Reviews (default)\"."
 msgstr ""
@@ -579,10 +583,6 @@ msgstr ""
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:159
-msgid "Recalculated rating counts."
-msgstr ""
-
 #: plugin/Controllers/AdminController.php:198
 msgid "Please use a valid Site Reviews settings file."
 msgstr ""
@@ -782,8 +782,8 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:50, plugin/Controllers/MenuController.php:86, plugin/Controllers/MenuController.php:112
-msgid "Addons"
+#: plugin/Controllers/MenuController.php:50
+msgid "Add-ons"
 msgstr ""
 
 #: plugin/Controllers/MenuController.php:51, views/pages/tools/sync.php:25
@@ -808,6 +808,10 @@ msgstr ""
 
 #: plugin/Controllers/MenuController.php:85
 msgid "Functions"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:86, plugin/Controllers/MenuController.php:112
+msgid "Addons"
 msgstr ""
 
 #: plugin/Controllers/MenuController.php:107, plugin/Controllers/MenuController.php:136
@@ -842,15 +846,15 @@ msgstr ""
 msgid "System Info"
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:28
+#: plugin/Controllers/SettingsController.php:29
 msgid "Settings updated."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:54
+#: plugin/Controllers/SettingsController.php:56
 msgid "Please install/activate the Polylang plugin to enable integration."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:58
+#: plugin/Controllers/SettingsController.php:60
 msgid "Please update the Polylang plugin to v2.3.0 or greater to enable integration."
 msgstr ""
 
@@ -1001,10 +1005,6 @@ msgstr[1] ""
 
 #: plugin/Modules/Translation.php:117
 msgid "This custom translation is no longer valid as the original text has been changed or removed."
-msgstr ""
-
-#: plugin/Modules/Upgrader.php:61
-msgid "Calculated rating counts."
 msgstr ""
 
 #: plugin/Shortcodes/Shortcode.php:145
@@ -1459,7 +1459,7 @@ msgid "Thank you for your patience."
 msgstr ""
 
 #: views/pages/addons/index.php:9
-msgid "Add-Ons extend the functionality of Site Reviews."
+msgid "Add-ons extend the functionality of Site Reviews."
 msgstr ""
 
 #: views/pages/addons/index.php:14
@@ -1470,7 +1470,7 @@ msgstr ""
 msgid "Sync your Tripadvisor reviews to your website and manage them with Site Reviews."
 msgstr ""
 
-#: views/pages/documentation/addons.php:8, views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:35, views/pages/documentation/faq.php:63, views/pages/documentation/faq.php:89, views/pages/documentation/faq.php:120, views/pages/documentation/faq.php:142, views/pages/documentation/faq.php:155, views/pages/documentation/faq.php:180, views/pages/documentation/faq.php:207, views/pages/documentation/faq.php:245, views/pages/documentation/faq.php:258, views/pages/documentation/functions.php:7, views/pages/documentation/functions.php:41, views/pages/documentation/functions.php:84, views/pages/documentation/functions.php:104, views/pages/documentation/functions.php:129, views/pages/documentation/functions.php:148, views/pages/documentation/functions.php:171, views/pages/documentation/functions.php:209, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:32, views/pages/documentation/hooks.php:55, views/pages/documentation/hooks.php:74, views/pages/documentation/hooks.php:93, views/pages/documentation/hooks.php:113, views/pages/documentation/hooks.php:137, views/pages/documentation/hooks.php:162, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:76, views/pages/documentation/shortcodes.php:124, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:63
+#: views/pages/documentation/addons.php:8, views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:35, views/pages/documentation/faq.php:63, views/pages/documentation/faq.php:89, views/pages/documentation/faq.php:120, views/pages/documentation/faq.php:142, views/pages/documentation/faq.php:155, views/pages/documentation/faq.php:180, views/pages/documentation/faq.php:207, views/pages/documentation/faq.php:245, views/pages/documentation/faq.php:258, views/pages/documentation/functions.php:7, views/pages/documentation/functions.php:41, views/pages/documentation/functions.php:84, views/pages/documentation/functions.php:104, views/pages/documentation/functions.php:129, views/pages/documentation/functions.php:148, views/pages/documentation/functions.php:171, views/pages/documentation/functions.php:209, views/pages/documentation/functions.php:233, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:32, views/pages/documentation/hooks.php:55, views/pages/documentation/hooks.php:74, views/pages/documentation/hooks.php:93, views/pages/documentation/hooks.php:113, views/pages/documentation/hooks.php:137, views/pages/documentation/hooks.php:162, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:76, views/pages/documentation/shortcodes.php:124, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:63
 msgid "Toggle documentation panel"
 msgstr ""
 

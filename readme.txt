@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.0
 Requires PHP: 5.6
-Stable tag: 3.0.5
+Stable tag: 3.1.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -107,6 +107,7 @@ All documentation can be found in the "Documentation" page of the plugin.
 = 3.1.0 (2018-12-30) =
 
 - Added compatibility for WP Super Cache plugin
+- Added helper function to recalculate ratings
 - Added safe method of using plugin functions without having to use `function_exists()` (see documentation)
 - Added support for multiple shortcode buttons on the same page (i.e. when using multiple classic wysiwyg editors)
 - Changed "minimum rating" range in the block options to allow a rating of "0" (to show reviews with no rating)
