@@ -33,7 +33,7 @@ final class Application extends Container
 	public function __construct()
 	{
 		static::$instance = $this;
-		$this->file = realpath( dirname( __DIR__ ).'/'.static::ID.'.php' );
+		$this->file = realpath( trailingslashit( dirname( __DIR__ )).static::ID.'.php' );
 		$plugin = get_file_data( $this->file, [
 			'languages' => 'Domain Path',
 			'name' => 'Plugin Name',
