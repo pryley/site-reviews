@@ -1,4 +1,4 @@
-# Copyright (C) 2018 site-reviews
+# Copyright (C) 2019 site-reviews
 # This file is distributed under the same license as the site-reviews package.
 msgid ""
 msgstr ""

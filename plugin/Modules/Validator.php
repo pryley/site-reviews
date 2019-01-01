@@ -181,7 +181,7 @@ class Validator
 		if( is_numeric( $value ) && $hasNumeric ) {
 			return $value;
 		}
-		elseif( is_array( $value )) {
+		else if( is_array( $value )) {
 			return count( $value );
 		}
 		return function_exists( 'mb_strlen' )

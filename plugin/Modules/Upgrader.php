@@ -41,7 +41,7 @@ class Upgrader
 			$this->setReviewCounts();
 			$this->updateVersionFrom( $version );
 		}
-		elseif( !glsr( OptionManager::class )->get( 'last_review_count', false )) {
+		else if( !glsr( OptionManager::class )->get( 'last_review_count', false )) {
 			$this->setReviewCounts();
 		}
 	}

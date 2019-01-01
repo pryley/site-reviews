@@ -23,7 +23,9 @@ class Cache
 					glsr_log()->error( $response->get_error_message() );
 					continue;
 				}
-				$ipAddresses[$version] = array_filter( preg_split( '/\R/', wp_remote_retrieve_body( $response )));
+				$ipAddresses[$version] = array_filter(
+					(array)preg_split( '/\R/', wp_remote_retrieve_body( $response ))
+				);
 			}
 			set_transient( Application::ID.'_cloudflare_ips', $ipAddresses, static::EXPIRY_TIME );
 		}
