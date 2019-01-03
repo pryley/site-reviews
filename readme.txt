@@ -104,6 +104,10 @@ All documentation can be found in the "Documentation" page of the plugin.
 
 == Changelog ==
 
+= 3.1.3 (2019-01-03) =
+
+- Fixed form validation when the global javascript Array object has been modified
+
 = 3.1.2 (2019-01-03) =
 
 - Fixed compatibility issue with PHP v7.0.x

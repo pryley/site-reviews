@@ -227,6 +227,7 @@
 			var errors = [];
 			var isValid = true;
 			for( var i in field.validators ) {
+				if( !field.validators.hasOwnProperty( i ))continue;
 				var validator = field.validators[i];
 				var params = field.params[validator.name]
 					? field.params[validator.name]
