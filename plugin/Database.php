@@ -72,6 +72,21 @@ class Database
 	}
 
 	/**
+	 * @param string $field
+	 * @return array
+	 */
+	public function getTermIds( array $values, $field )
+	{
+		$termIds = [];
+		foreach( $values as $value ) {
+			$term = get_term_by( $field, $value, Application::TAXONOMY );
+			if( !isset( $term->term_id ))continue;
+			$termIds[] = $term->term_id;
+		}
+		return $termIds;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function getTerms( array $args = [] )

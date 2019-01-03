@@ -214,11 +214,11 @@ class CountsManager
 	{
 		$terms = glsr( ReviewManager::class )->normalizeTerms( implode( ',', $review->term_ids ));
 		foreach( $terms as $term ) {
-			$counts = $this->getTermCounts( $term->term_id );
+			$counts = $this->getTermCounts( $term['term_id'] );
 			$counts = empty( $counts )
-				? $this->buildTermCounts( $term->term_taxonomy_id )
+				? $this->buildTermCounts( $term['term_taxonomy_id'] )
 				: $this->increaseRating( $counts, $review->review_type, $review->rating );
-			$this->setTermCounts( $term->term_id, $counts );
+			$this->setTermCounts( $term['term_id'], $counts );
 		}
 	}
 
@@ -248,7 +248,8 @@ class CountsManager
 	 */
 	public function setTermCounts( $termId, array $reviewCounts )
 	{
-		if( !term_exists( $termId, Application::TAXONOMY ))return;
+		$term = get_term( $termId, Application::TAXONOMY );
+		if( !isset( $term->term_id ))return;
 		$ratingCounts = $this->flatten( $reviewCounts );
 		update_term_meta( $termId, static::META_COUNT, $reviewCounts );
 		update_term_meta( $termId, static::META_AVERAGE, glsr( Rating::class )->getAverage( $ratingCounts ));

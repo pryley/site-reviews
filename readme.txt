@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.0
 Requires PHP: 5.6
-Stable tag: 3.1.2
+Stable tag: 3.1.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,7 +13,9 @@ Site Reviews allows you to easily receive and display reviews for your website, 
 
 == Description ==
 
-**Please make sure your website meets the minimum plugin requirements: PHP 5.6, WordPress 4.7**
+> Please make sure your website meets the minimum plugin requirements:
+> - PHP 5.6
+> - WordPress 4.7
 
 Site Reviews allows your visitors to submit reviews with a 1-5 star rating on your website, similar to the way you would on TripAdvisor or Yelp.
 
@@ -21,7 +23,7 @@ The plugin provides blocks, shortcodes, and widgets, along with full documentati
 
 You can pin your best reviews so that they are always shown first, require approval before new review submissions are published, require visitors to be logged-in in order to write a review, send custom notifications on a new submission, and much more.
 
-Follow plugin development on github at: https://github.com/geminilabs/site-reviews/
+[Follow plugin development on Github.](https://github.com/geminilabs/site-reviews/)
 
 = Current Features =
 
