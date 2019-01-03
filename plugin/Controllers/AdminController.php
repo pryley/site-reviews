@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\EnqueueAdminAssets;
 use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups;
 use GeminiLabs\SiteReviews\Controllers\Controller;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\SqlQueries;
@@ -143,12 +144,12 @@ class AdminController extends Controller
 	public function routerCountReviews( $showNotice = true )
 	{
 		$countManager = glsr( CountsManager::class );
-		$terms = get_terms([
-			'hide_empty' => true,
-			'taxonomy' => Application::TAXONOMY,
-		]);
+		$terms = glsr( Database::class )->getTerms( ['fields' => 'all'] );
 		foreach( $terms as $term ) {
-			$countManager->setTermCounts( $term->term_id, $countManager->buildTermCounts( $term->term_id ));
+			$countManager->setTermCounts(
+				$term->term_id,
+				$countManager->buildTermCounts( $term->term_taxonomy_id )
+			);
 		}
 		$postIds = glsr( SqlQueries::class )->getReviewsMeta( 'assigned_to' );
 		foreach( $postIds as $postId ) {

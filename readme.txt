@@ -106,7 +106,8 @@ All documentation can be found in the "Documentation" page of the plugin.
 
 = 3.1.3 (2019-01-03) =
 
-- Fixed form validation when the global javascript Array object has been modified
+- Fixed category counts
+- Fixed form validation
 
 = 3.1.2 (2019-01-03) =
 

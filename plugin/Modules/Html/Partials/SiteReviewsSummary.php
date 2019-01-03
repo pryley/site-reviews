@@ -37,7 +37,7 @@ class SiteReviewsSummary
 		$this->args = $args;
 		$counts = glsr( CountsManager::class )->get([
 			'post_ids' => glsr( Helper::class )->convertStringToArray( $args['assigned_to'] ),
-			'term_ids' => glsr( ReviewManager::class )->normalizeTerms( $args['category'] ),
+			'term_ids' => glsr( ReviewManager::class )->normalizeTermIds( $args['category'] ),
 			'type' => $args['type'],
 		]);
 		$this->ratingCounts = glsr( CountsManager::class )->flatten( $counts, [

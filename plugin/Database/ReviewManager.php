@@ -68,7 +68,7 @@ class ReviewManager
 		);
 		$taxQuery = glsr( QueryBuilder::class )->buildQuery(
 			['category'],
-			['category' => $this->normalizeTerms( $args['category'] )]
+			['category' => $this->normalizeTermIds( $args['category'] )]
 		);
 		$paged = glsr( QueryBuilder::class )->getPaged(
 			wp_validate_boolean( $args['pagination'] )
@@ -106,6 +106,15 @@ class ReviewManager
 	 * @param string $commaSeparatedTermIds
 	 * @return array
 	 */
+	public function normalizeTermIds( $commaSeparatedTermIds )
+	{
+		return glsr_array_column( $this->normalizeTerms( $commaSeparatedTermIds ), 'term_id' );
+	}
+
+	/**
+	 * @param string $commaSeparatedTermIds
+	 * @return array
+	 */
 	public function normalizeTerms( $commaSeparatedTermIds )
 	{
 		$terms = [];
@@ -116,7 +125,7 @@ class ReviewManager
 			}
 			$term = term_exists( $termId, Application::TAXONOMY );
 			if( !isset( $term['term_id'] ))continue;
-			$terms[] = intval( $term['term_id'] );
+			$terms[] = $term;
 		}
 		return $terms;
 	}
@@ -169,7 +178,7 @@ class ReviewManager
 	 */
 	protected function setTerms( $postId, $termIds )
 	{
-		$terms = $this->normalizeTerms( $termIds );
+		$terms = $this->normalizeTermIds( $termIds );
 		if( empty( $terms ))return;
 		$result = wp_set_object_terms( $postId, $terms, Application::TAXONOMY );
 		if( is_wp_error( $result )) {

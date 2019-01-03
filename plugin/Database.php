@@ -77,11 +77,11 @@ class Database
 	public function getTerms( array $args = [] )
 	{
 		$args = wp_parse_args( $args, [
+			'count' => false,
 			'fields' => 'id=>name',
 			'hide_empty' => false,
 			'taxonomy' => Application::TAXONOMY,
 		]);
-		unset( $args['count'] ); // we don't want a term count
 		$terms = get_terms( $args );
 		if( is_wp_error( $terms )) {
 			glsr_log()->error( $terms->get_error_message() );

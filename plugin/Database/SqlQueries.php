@@ -205,12 +205,12 @@ class SqlQueries
 	}
 
 	/**
-	 * @param int $termId
+	 * @param int $termTaxonomyId
 	 * @param int $lastPostId
 	 * @param int $limit
 	 * @return array
 	 */
-	public function getReviewTermCounts( $termId, $lastPostId = 0, $limit = 500 )
+	public function getReviewTermCounts( $termTaxonomyId, $lastPostId = 0, $limit = 500 )
 	{
 		return $this->db->get_results("
 			SELECT p.ID, m1.meta_value AS rating, m2.meta_value AS type
@@ -223,7 +223,7 @@ class SqlQueries
 			AND p.post_type = '{$this->postType}'
 			AND m1.meta_key = 'rating'
 			AND m2.meta_key = 'review_type'
-			AND tr.term_taxonomy_id = {$termId}
+			AND tr.term_taxonomy_id = {$termTaxonomyId}
 			ORDER By p.ID
 			ASC LIMIT {$limit}
 		", OBJECT );

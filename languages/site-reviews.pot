@@ -43,7 +43,7 @@ msgstr ""
 msgid "You can use the %s plugin to restore %s to the previous version."
 msgstr ""
 
-#: helpers.php:59, plugin/Controllers/AdminController.php:159
+#: helpers.php:59, plugin/Controllers/AdminController.php:160
 msgid "Recalculated rating counts."
 msgstr ""
 
@@ -545,85 +545,85 @@ msgctxt "View Post"
 msgid "View %s"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:28
+#: plugin/Controllers/AdminController.php:29
 msgid "You can pin exceptional reviews so that they are always shown first."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:36
+#: plugin/Controllers/AdminController.php:37
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:48, plugin/Controllers/MenuController.php:48, views/pages/tools/sync.php:23
+#: plugin/Controllers/AdminController.php:49, plugin/Controllers/MenuController.php:48, views/pages/tools/sync.php:23
 msgid "Settings"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:64
+#: plugin/Controllers/AdminController.php:65
 msgid "%s Review"
 msgid_plural "%s Reviews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/AdminController.php:96, plugin/Controllers/MainController.php:90
+#: plugin/Controllers/AdminController.php:97, plugin/Controllers/MainController.php:90
 msgid "Recent Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:97, plugin/Controllers/MainController.php:95
+#: plugin/Controllers/AdminController.php:98, plugin/Controllers/MainController.php:95
 msgid "Submit a Review"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:98, plugin/Controllers/MainController.php:100
+#: plugin/Controllers/AdminController.php:99, plugin/Controllers/MainController.php:100
 msgid "Summary of Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:128
+#: plugin/Controllers/AdminController.php:129
 msgid "Console cleared."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:136
+#: plugin/Controllers/AdminController.php:137
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:198
+#: plugin/Controllers/AdminController.php:199
 msgid "Please use a valid Site Reviews settings file."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:202
+#: plugin/Controllers/AdminController.php:203
 msgid "There were no settings found to import."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:205
+#: plugin/Controllers/AdminController.php:206
 msgid "Settings imported."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:215
+#: plugin/Controllers/AdminController.php:216
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:216
+#: plugin/Controllers/AdminController.php:217
 msgid "The uploaded file is too big."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:217
+#: plugin/Controllers/AdminController.php:218
 msgid "The uploaded file was only partially uploaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:218
+#: plugin/Controllers/AdminController.php:219
 msgid "No file was uploaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:219
+#: plugin/Controllers/AdminController.php:220
 msgid "Missing a temporary folder."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:220
+#: plugin/Controllers/AdminController.php:221
 msgid "Failed to write file to disk."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:221
+#: plugin/Controllers/AdminController.php:222
 msgid "A PHP extension stopped the file upload."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:224
+#: plugin/Controllers/AdminController.php:225
 msgid "Unknown upload error."
 msgstr ""
 
