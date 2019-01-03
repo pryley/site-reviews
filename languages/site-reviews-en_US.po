@@ -52,7 +52,7 @@ msgstr "Update WordPress"
 msgid "You can use the %s plugin to restore %s to the previous version."
 msgstr "You can use the %s plugin to restore %s to the previous version."
 
-#: helpers.php:44, plugin/Controllers/AdminController.php:159
+#: helpers.php:59, plugin/Controllers/AdminController.php:159
 msgid "Recalculated rating counts."
 msgstr "Recalculated rating counts."
 

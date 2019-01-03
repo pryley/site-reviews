@@ -135,7 +135,7 @@ class CountsManager
 		}
 		return in_array( $args['type'], ['', 'all'] )
 			? $this->normalize( [$this->flatten( $counts )] )
-			: $this->normalize( array_column( $counts, $args['type'] ));
+			: $this->normalize( glsr_array_column( $counts, $args['type'] ));
 	}
 
 	/**
@@ -265,7 +265,7 @@ class CountsManager
 		$counts = [];
 		$lastPostId = 0;
 		while( $reviews = $this->queryReviews( $args, $lastPostId, $limit )) {
-			$types = array_keys( array_flip( array_column( $reviews, 'type' )));
+			$types = array_keys( array_flip( glsr_array_column( $reviews, 'type' )));
 			$types = array_unique( array_merge( ['local'], $types ));
 			foreach( $types as $type ) {
 				$type = $this->normalizeType( $type );

@@ -37,6 +37,21 @@ function glsr( $alias = null ) {
 }
 
 /**
+ * array_column() alternative specifically for PHP v7.0.x
+ * @param $column string
+ * @return array
+ */
+function glsr_array_column( array $array, $column ) {
+	$result = array();
+	foreach( $array as $subarray ) {
+		$subarray = (array)$subarray;
+		if( !isset( $subarray[$column] ))continue;
+		$result[] = $subarray[$column];
+	}
+	return $result;
+}
+
+/**
  * @return void
  */
 function glsr_calculate_ratings() {

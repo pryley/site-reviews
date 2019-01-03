@@ -164,18 +164,18 @@ class Rating
 				'remainder' => fmod( $percent, 1 ),
 			];
 		});
-		$indexes = array_column( $percentages, 'index' );
-		$remainders = array_column( $percentages, 'remainder' );
+		$indexes = glsr_array_column( $percentages, 'index' );
+		$remainders = glsr_array_column( $percentages, 'remainder' );
 		array_multisort( $remainders, SORT_DESC, SORT_STRING, $indexes, SORT_DESC, $percentages );
 		$i = 0;
-		if( array_sum( array_column( $percentages, 'percent' )) > 0 ) {
-			while( array_sum( array_column( $percentages, 'percent' )) < $totalPercent ) {
+		if( array_sum( glsr_array_column( $percentages, 'percent' )) > 0 ) {
+			while( array_sum( glsr_array_column( $percentages, 'percent' )) < $totalPercent ) {
 				$percentages[$i]['percent']++;
 				$i++;
 			}
 		}
 		array_multisort( $indexes, SORT_DESC, $percentages );
-		return array_combine( $indexes, array_column( $percentages, 'percent' ));
+		return array_combine( $indexes, glsr_array_column( $percentages, 'percent' ));
 	}
 
 	/**

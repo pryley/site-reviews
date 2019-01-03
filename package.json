@@ -14,16 +14,16 @@
     "gulp-jshint": "^2.0.4",
     "gulp-potomo": "^1.0.3",
     "gulp-pottopo": "^1.0.1",
-    "gulp-sass": "^4.0.1",
+    "gulp-sass": "^4.0.2",
     "gulp-sort": "^2.0.0",
     "gulp-uglify": "^3.0.1",
-    "gulp-wp-pot": "^2.3.2",
-    "jshint": "^2.9.6",
+    "gulp-wp-pot": "^2.3.3",
+    "jshint": "^2.9.7",
     "jshint-stylish": "^2.2.1",
     "merge-stream": "^1.0.1",
     "pump": "^3.0.0",
     "yamljs": "^0.3.0",
-    "yargs": "^12.0.2"
+    "yargs": "^12.0.5"
   },
   "scripts": {
     "build": "./node_modules/gulp/bin/gulp.js build --production"

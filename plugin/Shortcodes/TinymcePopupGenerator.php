@@ -73,7 +73,7 @@ abstract class TinymcePopupGenerator
 		if( !empty( $this->errors )) {
 			$errors = [];
 			foreach( $this->required as $name => $alert ) {
-				if( false !== array_search( $name, array_column( $fields, 'name' )))continue;
+				if( false !== array_search( $name, glsr_array_column( $fields, 'name' )))continue;
 				$errors[] = $this->errors[$name];
 			}
 			$this->errors = $errors;
