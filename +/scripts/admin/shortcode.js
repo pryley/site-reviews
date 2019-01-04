@@ -218,6 +218,7 @@
 			var is_valid = true;
 			var requiredAttributes = GLSR.shortcodes[this.current];
 			for( var id in requiredAttributes ) {
+				if( !requiredAttributes.hasOwnProperty( id ))continue;
 				field = currentWindow.find( '#' + id )[0];
 				if( typeof field !== 'undefined' && field.state.data.value === '' ) {
 					is_valid = false;

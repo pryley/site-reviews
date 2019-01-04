@@ -108,6 +108,7 @@
 		showFieldErrors_: function( errors ) { // object
 			if( !errors )return;
 			for( var error in errors ) {
+				if( !errors.hasOwnProperty( error ))continue;
 				var nameSelector = GLSR.nameprefix ? GLSR.nameprefix + '[' + error + ']' : error;
 				var inputEl = this.form.querySelector( '[name="' + nameSelector + '"]' );
 				this.validation.setErrors_( inputEl, errors[error] );

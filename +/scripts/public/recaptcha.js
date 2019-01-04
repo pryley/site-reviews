@@ -39,6 +39,7 @@
 		observeMutations_: function( id ) {
 			var client = window.___grecaptcha_cfg.clients[id];
 			for( var property in client) {
+				if( !client.hasOwnProperty( property ))continue;
 				if( Object.prototype.toString.call( client[property] ) !== '[object String]' )continue;
 				var overlayEl = document.querySelector( 'iframe[name=c-' + client[property] + ']' );
 				if( overlayEl ) {

@@ -109,7 +109,8 @@
 
 		/** @return void */
 		reset_: function() {
-			for( var i in this.fields ){
+			for( var i in this.fields ) {
+				if( !this.fields.hasOwnProperty( i ))continue;
 				this.fields[i].errorElements = null;
 				this.fields[i].input.classList.remove( this.config.input_error_class );
 			}
@@ -210,6 +211,7 @@
 				fields = [input.validation];
 			}
 			for( var i in fields ) {
+				if( !fields.hasOwnProperty( i ))continue;
 				var field = fields[i];
 				if( this.validateField_( field )) {
 					this.toggleError_( field, 'remove' );
