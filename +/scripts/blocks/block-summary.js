@@ -41,7 +41,7 @@
 		props.setAttributes({ hide: hide.toString() });
 	};
 
-	var createGroupedCheckboxControl = function( id, key, label, props ) {
+	var checkboxControl = function( id, key, label, props ) {
 		return el( 'div',
 			{ className: 'components-base-control__field' },
 			el( 'input', {
@@ -59,6 +59,17 @@
 				htmlFor: 'inspector-checkbox-control-hide-' + id,
 			}, label )
 		);
+	};
+
+	var checkboxesControl = function( checkboxes, props ) {
+		var i = 0;
+		var elements = ['div', { className: 'components-base-control' }];
+		for( var name in checkboxes ) {
+			if( !checkboxes.hasOwnProperty( name ))continue;
+			elements.push( checkboxControl( i, name, checkboxes[name], props ));
+			i++;
+		}
+		return el.apply( null, elements );
 	};
 
 	var attributes = {
@@ -148,14 +159,7 @@
 							props.setAttributes({ schema: value });
 						},
 					}),
-					el( 'div',
-						{ className: 'components-base-control' },
-						createGroupedCheckboxControl( '0', 'if_empty', __( 'Hide if no reviews are found', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '1', 'bars', __( 'Hide the bars', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '3', 'rating', __( 'Hide the rating', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '4', 'stars', __( 'Hide the stars', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '5', 'summary', __( 'Hide the summary', 'site-reviews' ), props )
-					)
+					checkboxesControl.apply( null, [GLSR.hideoptions.site_reviews_summary, props] )
 				)
 			),
 			el( ServerSideRender,

@@ -69,16 +69,7 @@ class SiteReviewsWidget extends Widget
 		]);
 		$this->renderField( 'checkbox', [
 			'name' => 'hide',
-			'options' => [
-				'assigned_to' => __( 'Hide the assigned to link?', 'site-reviews' ),
-				'author' => __( 'Hide the review author?', 'site-reviews' ),
-				'avatar' => __( 'Hide the reviewer avatar if shown?', 'site-reviews' ),
-				'content' => __( 'Hide the review content?', 'site-reviews' ),
-				'date' => __( 'Hide the review date?', 'site-reviews' ),
-				'rating' => __( 'Hide the review rating?', 'site-reviews' ),
-				'response' => __( 'Hide the review response?', 'site-reviews' ),
-				'title' => __( 'Hide the review title?', 'site-reviews' ),
-			],
+			'options' => glsr( SiteReviewsShortcode::class )->getHideOptions(),
 		]);
 	}
 

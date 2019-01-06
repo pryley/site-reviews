@@ -32,7 +32,7 @@
 		props.setAttributes({ hide: hide.toString() });
 	};
 
-	var createGroupedCheckboxControl = function( id, key, label, props ) {
+	var checkboxControl = function( id, key, label, props ) {
 		return el( 'div',
 			{ className: 'components-base-control__field' },
 			el( 'input', {
@@ -50,6 +50,17 @@
 				htmlFor: 'inspector-checkbox-control-hide-' + id,
 			}, label )
 		);
+	};
+
+	var checkboxesControl = function( checkboxes, props ) {
+		var i = 0;
+		var elements = ['div', { className: 'components-base-control' }];
+		for( var name in checkboxes ) {
+			if( !checkboxes.hasOwnProperty( name ))continue;
+			elements.push( checkboxControl( i, name, checkboxes[name], props ));
+			i++;
+		}
+		return el.apply( null, elements );
 	};
 
 	var attributes = {
@@ -99,15 +110,7 @@
 						options: categories,
 						value: props.attributes.category,
 					}),
-					el( 'div',
-						{ className: 'components-base-control' },
-						createGroupedCheckboxControl( '0', 'rating', __( 'Hide the rating field', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '1', 'title', __( 'Hide the title field', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '2', 'content', __( 'Hide the review field', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '3', 'name', __( 'Hide the name field', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '4', 'email', __( 'Hide the email field', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '5', 'terms', __( 'Hide the terms field', 'site-reviews' ), props )
-					)
+					checkboxesControl.apply( null, [GLSR.hideoptions.site_reviews_form, props] )
 				)
 			),
 			el( AdvancedInspector,
@@ -133,7 +136,6 @@
 		category: GLSR.nameprefix,
 		description: __( 'Display a review submission form.', 'site-reviews' ),
 		edit: edit,
-		// icon: 'star-half',
 		icon: el( components.SVG, {
 			width: '22px',
 			height: '22px',

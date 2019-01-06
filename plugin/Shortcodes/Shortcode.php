@@ -57,13 +57,21 @@ abstract class Shortcode implements ShortcodeContract
 	/**
 	 * @return array
 	 */
-	public function getHiddenKeys()
+	public function getHideOptions()
 	{
-		$hiddenKeys = defined( 'static::HIDDEN_KEYS' )
-			? static::HIDDEN_KEYS
-			: [];
-		$shortcode = glsr( Helper::class )->snakeCase( $this->getShortcodePartial() );
-		return apply_filters( 'site-reviews/shortcode/hidden-keys', $hiddenKeys, $shortcode );
+		$options = $this->hideOptions();
+		$shortcode = $this->getShortcodeName();
+		return apply_filters( 'site-reviews/shortcode/hide-options', $options, $shortcode );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getShortcodeName()
+	{
+		return glsr( Helper::class )->snakeCase(
+			str_replace( 'Shortcode', '', (new ReflectionClass( $this ))->getShortName() )
+		);
 	}
 
 	/**
@@ -90,6 +98,11 @@ abstract class Shortcode implements ShortcodeContract
 		});
 		return $this->sanitize( $args );
 	}
+
+	/**
+	 * @return array
+	 */
+	abstract protected function hideOptions();
 
 	/**
 	 * @param string $postId
@@ -120,9 +133,9 @@ abstract class Shortcode implements ShortcodeContract
 		if( is_string( $hide )) {
 			$hide = explode( ',', $hide );
 		}
-		$hiddenKeys = $this->getHiddenKeys();
-		return array_filter( array_map( 'trim', $hide ), function( $value ) use( $hiddenKeys ) {
-			return in_array( $value, $hiddenKeys );
+		$hideKeys = array_keys( $this->getHideOptions() );
+		return array_filter( array_map( 'trim', $hide ), function( $value ) use( $hideKeys ) {
+			return in_array( $value, $hideKeys );
 		});
 	}
 

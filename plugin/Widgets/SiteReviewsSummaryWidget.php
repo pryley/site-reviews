@@ -51,13 +51,7 @@ class SiteReviewsSummaryWidget extends Widget
 		]);
 		$this->renderField( 'checkbox', [
 			'name' => 'hide',
-			'options' => [
-				'bars' => __( 'Hide the percentage bars?', 'site-reviews' ),
-				'rating' => __( 'Hide the rating?', 'site-reviews' ),
-				'stars' => __( 'Hide the stars?', 'site-reviews' ),
-				'summary' => __( 'Hide the summary text?', 'site-reviews' ),
-				'if_empty' => __( 'Hide the summary if no reviews are found?', 'site-reviews' ),
-			],
+			'options' => glsr( SiteReviewsSummaryShortcode::class )->getHideOptions(),
 		]);
 	}
 

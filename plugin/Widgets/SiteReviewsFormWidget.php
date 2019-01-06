@@ -46,14 +46,7 @@ class SiteReviewsFormWidget extends Widget
 		]);
 		$this->renderField( 'checkbox', [
 			'name' => 'hide',
-			'options' => [
-				'email' => __( 'Hide the email field', 'site-reviews' ),
-				'content' => __( 'Hide the content field', 'site-reviews' ),
-				'name'  => __( 'Hide the name field', 'site-reviews' ),
-				'rating'  => __( 'Hide the rating field', 'site-reviews' ),
-				'terms' => __( 'Hide the terms field', 'site-reviews' ),
-				'title' => __( 'Hide the title field', 'site-reviews' ),
-			],
+			'options' => glsr( SiteReviewsFormShortcode::class )->getHideOptions(),
 		]);
 	}
 

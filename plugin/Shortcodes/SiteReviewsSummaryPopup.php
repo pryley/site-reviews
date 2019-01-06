@@ -21,8 +21,8 @@ class SiteReviewsSummaryPopup extends SiteReviewsPopup
 			'tooltip' => __( 'Enter a custom shortcode heading.', 'site-reviews' ),
 			'type' => 'textbox',
 		],
-		$this->getTypes(),
-		$this->getTerms(),
+		$this->getTypes( __( 'Which type of review would you like to use?', 'site-reviews' )),
+		$this->getCategories( __( 'Limit reviews to this category.', 'site-reviews' )),
 		[
 			'label' => esc_html__( 'Assigned To', 'site-reviews' ),
 			'name' => 'assigned_to',
@@ -44,53 +44,11 @@ class SiteReviewsSummaryPopup extends SiteReviewsPopup
 			'type' => 'textbox',
 		],[
 			'columns' => 2,
-			'items' => [[
-				'type' => 'checkbox',
-				'name' => 'hide_bars',
-				'text' => esc_html__( 'Bars', 'site-reviews' ),
-				'tooltip' => __( 'Hide the percentage bars?', 'site-reviews' ),
-			],[
-				'type' => 'checkbox',
-				'name' => 'hide_if_empty',
-				'text' => esc_html__( 'If Empty', 'site-reviews' ),
-				'tooltip' => __( 'Hide the summary if no reviews are found?', 'site-reviews' ),
-			],[
-				'type' => 'checkbox',
-				'name' => 'hide_rating',
-				'text' => esc_html__( 'Rating', 'site-reviews' ),
-				'tooltip' => __( 'Hide the rating?', 'site-reviews' ),
-			],[
-				'type' => 'checkbox',
-				'name' => 'hide_stars',
-				'text' => esc_html__( 'Stars', 'site-reviews' ),
-				'tooltip' => __( 'Hide the stars?', 'site-reviews' ),
-			],[
-				'type' => 'checkbox',
-				'name' => 'hide_summary',
-				'text' => esc_html__( 'Summary', 'site-reviews' ),
-				'tooltip' => __( 'Hide the summary text?', 'site-reviews' ),
-			]],
-			'layout' => 'grid',
+			'items' => $this->getHideOptions(),
 			'label' => esc_html__( 'Hide', 'site-reviews' ),
+			'layout' => 'grid',
 			'spacing' => 5,
 			'type' => 'container',
 		]];
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getTypes()
-	{
-		if( count( glsr()->reviewTypes ) < 2 ) {
-			return [];
-		}
-		return [
-			'label' => esc_html__( 'Type', 'site-reviews' ),
-			'name' => 'type',
-			'options' => glsr()->reviewTypes,
-			'tooltip' => __( 'Which type of review would you like to use?', 'site-reviews' ),
-			'type' => 'listbox',
-		];
 	}
 }

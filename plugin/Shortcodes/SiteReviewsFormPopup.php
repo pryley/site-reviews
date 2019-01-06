@@ -29,7 +29,7 @@ class SiteReviewsFormPopup extends TinymcePopupGenerator
 			'tooltip' => __( 'Enter a custom shortcode description.', 'site-reviews' ),
 			'type' => 'textbox',
 		],
-		$this->getTerms(),
+		$this->getCategories( __( 'Automatically assign a category to reviews submitted with this shortcode.', 'site-reviews' )),
 		[
 			'label' => esc_html__( 'Assign To', 'site-reviews' ),
 			'name' => 'assign_to',
@@ -42,37 +42,7 @@ class SiteReviewsFormPopup extends TinymcePopupGenerator
 			'type' => 'textbox',
 		],[
 			'columns' => 2,
-			'items' => [[
-				'name' => 'hide_content',
-				'text' => esc_html__( 'Content', 'site-reviews' ),
-				'tooltip' => __( 'Hide the content field?', 'site-reviews' ),
-				'type' => 'checkbox',
-			],[
-				'name' => 'hide_email',
-				'text' => esc_html__( 'Email', 'site-reviews' ),
-				'tooltip' => __( 'Hide the email field?', 'site-reviews' ),
-				'type' => 'checkbox',
-			],[
-				'name' => 'hide_name',
-				'text' => esc_html__( 'Name', 'site-reviews' ),
-				'tooltip' => __( 'Hide the name field?', 'site-reviews' ),
-				'type' => 'checkbox',
-			],[
-				'name' => 'hide_rating',
-				'text' => esc_html__( 'Rating', 'site-reviews' ),
-				'tooltip' => __( 'Hide the rating field?', 'site-reviews' ),
-				'type' => 'checkbox',
-			],[
-				'name' => 'hide_terms',
-				'text' => esc_html__( 'Terms', 'site-reviews' ),
-				'tooltip' => __( 'Hide the terms field?', 'site-reviews' ),
-				'type' => 'checkbox',
-			],[
-				'name' => 'hide_title',
-				'text' => esc_html__( 'Title', 'site-reviews' ),
-				'tooltip' => __( 'Hide the title field?', 'site-reviews' ),
-				'type' => 'checkbox',
-			]],
+			'items' => $this->getHideOptions(),
 			'label' => esc_html__( 'Hide', 'site-reviews' ),
 			'layout' => 'grid',
 			'spacing' => 5,
@@ -82,23 +52,5 @@ class SiteReviewsFormPopup extends TinymcePopupGenerator
 			'name' => 'id',
 			'type' => 'textbox',
 		]];
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getTerms()
-	{
-		$terms = glsr( Database::class )->getTerms();
-		if( empty( $terms )) {
-			return [];
-		}
-		return [
-			'label' => esc_html__( 'Category', 'site-reviews' ),
-			'name' => 'category',
-			'options' => $terms,
-			'tooltip' => __( 'Automatically assign a category to reviews submitted with this shortcode.', 'site-reviews' ),
-			'type' => 'listbox',
-		];
 	}
 }

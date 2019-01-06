@@ -43,7 +43,7 @@
 		props.setAttributes({ hide: hide.toString() });
 	};
 
-	var createGroupedCheckboxControl = function( id, key, label, props ) {
+	var checkboxControl = function( id, key, label, props ) {
 		return el( 'div',
 			{ className: 'components-base-control__field' },
 			el( 'input', {
@@ -61,6 +61,17 @@
 				htmlFor: 'inspector-checkbox-control-hide-' + id,
 			}, label )
 		);
+	};
+
+	var checkboxesControl = function( checkboxes, props ) {
+		var i = 0;
+		var elements = ['div', { className: 'components-base-control' }];
+		for( var name in checkboxes ) {
+			if( !checkboxes.hasOwnProperty( name ))continue;
+			elements.push( checkboxControl( i, name, checkboxes[name], props ));
+			i++;
+		}
+		return el.apply( null, elements );
 	};
 
 	var attributes = {
@@ -185,17 +196,7 @@
 							props.setAttributes({ schema: value });
 						},
 					}),
-					el( 'div',
-						{ className: 'components-base-control' },
-						createGroupedCheckboxControl( '0', 'assigned_to', __( 'Hide the assigned to link (if shown)', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '1', 'author', __( 'Hide the author', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '2', 'avatar', __( 'Hide the avatar (if shown)', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '3', 'content', __( 'Hide the content', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '4', 'date', __( 'Hide the date', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '5', 'rating', __( 'Hide the rating', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '6', 'response', __( 'Hide the response', 'site-reviews' ), props ),
-						createGroupedCheckboxControl( '7', 'title', __( 'Hide the title', 'site-reviews' ), props )
-					)
+					checkboxesControl.apply( null, [GLSR.hideoptions.site_reviews, props] )
 				)
 			),
 			el( AdvancedInspector,
@@ -221,7 +222,6 @@
 		category: GLSR.nameprefix,
 		description: __( 'Display your most recent reviews.', 'site-reviews' ),
 		edit: edit,
-		// icon: 'star-half',
 		icon: el( components.SVG, {
 			width: '22px',
 			height: '22px',

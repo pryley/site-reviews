@@ -3,6 +3,8 @@
 namespace GeminiLabs\SiteReviews\Shortcodes;
 
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Helper;
+use ReflectionClass;
 
 abstract class TinymcePopupGenerator
 {
@@ -65,6 +67,25 @@ abstract class TinymcePopupGenerator
 	}
 
 	/**
+	 * @param string $tooltip
+	 * @return array
+	 */
+	protected function getCategories( $tooltip = '' )
+	{
+		$terms = glsr( Database::class )->getTerms();
+		if( empty( $terms )) {
+			return [];
+		}
+		return [
+			'label' => esc_html__( 'Category', 'site-reviews' ),
+			'name' => 'category',
+			'options' => $terms,
+			'tooltip' => $tooltip,
+			'type' => 'listbox',
+		];
+	}
+
+	/**
 	 * @return array
 	 */
 	protected function getFields()
@@ -81,6 +102,43 @@ abstract class TinymcePopupGenerator
 		return empty( $this->errors )
 			? $fields
 			: $this->errors;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getHideOptions()
+	{
+		$classname = str_replace( 'Popup', 'Shortcode', get_class( $this ));
+		$hideOptions = glsr( $classname )->getHideOptions();
+		$options = [];
+		foreach( $hideOptions as $name => $tooltip ) {
+			$options[] = [
+				'name' => 'hide_'.$name,
+				'text' => $name,
+				'tooltip' => $tooltip,
+				'type' => 'checkbox',
+			];
+		}
+		return $options;
+	}
+
+	/**
+	 * @param string $tooltip
+	 * @return array
+	 */
+	protected function getTypes( $tooltip = '' )
+	{
+		if( count( glsr()->reviewTypes ) < 2 ) {
+			return [];
+		}
+		return [
+			'label' => esc_html__( 'Type', 'site-reviews' ),
+			'name' => 'type',
+			'options' => glsr()->reviewTypes,
+			'tooltip' => $tooltip,
+			'type' => 'listbox',
+		];
 	}
 
 	/**

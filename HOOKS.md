@@ -74,7 +74,7 @@
     site-reviews/schema/review
     site-reviews/schema/{schema_type}
     site-reviews/shortcode/args
-    site-reviews/shortcode/hidden-keys
+    site-reviews/shortcode/hide-options
     site-reviews/slack/compose
     site-reviews/slack/stars
     site-reviews/style

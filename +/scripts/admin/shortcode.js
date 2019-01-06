@@ -115,9 +115,9 @@
 
 		/** @return void */
 		normalizeHide_: function( key ) {
-			if( !GLSR.hiddenkeys.hasOwnProperty( this.current ))return;
+			if( !GLSR.hideoptions.hasOwnProperty( this.current ))return;
 			var value = key.substring('hide_'.length);
-			if( GLSR.hiddenkeys[this.current].indexOf( value ) === -1 )return;
+			if( Object.keys( GLSR.hideoptions[this.current] ).indexOf( value ) === -1 )return;
 			if( this.attributes_[key] ) {
 				this.hiddenKeys_.push( value );
 			}

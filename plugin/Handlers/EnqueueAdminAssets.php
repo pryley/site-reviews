@@ -58,10 +58,10 @@ class EnqueueAdminAssets
 		$variables = [
 			'action' => Application::PREFIX.'action',
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-			'hiddenkeys' => [
-				'site_reviews' => SiteReviewsShortcode::HIDDEN_KEYS,
-				'site_reviews_form' => SiteReviewsFormShortcode::HIDDEN_KEYS,
-				'site_reviews_summary' => SiteReviewsSummaryShortcode::HIDDEN_KEYS,
+			'hideoptions' => [
+				'site_reviews' => glsr( SiteReviewsShortcode::class )->getHideOptions(),
+				'site_reviews_form' => glsr( SiteReviewsFormShortcode::class )->getHideOptions(),
+				'site_reviews_summary' => glsr( SiteReviewsSummaryShortcode::class )->getHideOptions(),
 			],
 			'nameprefix' => Application::ID,
 			'nonce' => [

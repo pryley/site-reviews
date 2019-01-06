@@ -53,8 +53,8 @@ class SiteReviewsPopup extends TinymcePopupGenerator
 			'tooltip' => __( 'When using pagination this shortcode can only be used once on a page. (default: disable)', 'site-reviews' ),
 			'type' => 'listbox',
 		],
-		$this->getTypes(),
-		$this->getTerms(),
+		$this->getTypes( __( 'Which type of review would you like to display?', 'site-reviews' )),
+		$this->getCategories( __( 'Limit reviews to this category.', 'site-reviews' )),
 		[
 			'label' => esc_html__( 'Assigned To', 'site-reviews' ),
 			'name' => 'assigned_to',
@@ -76,49 +76,9 @@ class SiteReviewsPopup extends TinymcePopupGenerator
 			'type' => 'textbox',
 		],[
 			'columns' => 2,
-			'items' => [[
-				'name' => 'hide_assigned_to',
-				'text' => esc_html__( 'Assigned To', 'site-reviews' ),
-				'tooltip' => __( 'Hide the assigned to link?', 'site-reviews' ),
-				'type' => 'checkbox',
-			],[
-				'name' => 'hide_author',
-				'text' => esc_html__( 'Author', 'site-reviews' ),
-				'tooltip' => __( 'Hide the review author?', 'site-reviews' ),
-				'type' => 'checkbox',
-			],[
-				'name' => 'hide_avatar',
-				'text' => esc_html__( 'Avatar', 'site-reviews' ),
-				'tooltip' => __( 'Hide the reviewer avatar if shown?', 'site-reviews' ),
-				'type' => 'checkbox',
-			],[
-				'name' => 'hide_content',
-				'text' => esc_html__( 'Content', 'site-reviews' ),
-				'tooltip' => __( 'Hide the review content?', 'site-reviews' ),
-				'type' => 'checkbox',
-			],[
-				'name' => 'hide_date',
-				'text' => esc_html__( 'Date', 'site-reviews' ),
-				'tooltip' => __( 'Hide the review date?', 'site-reviews' ),
-				'type' => 'checkbox',
-			],[
-				'name' => 'hide_rating',
-				'text' => esc_html__( 'Rating', 'site-reviews' ),
-				'tooltip' => __( 'Hide the review rating?', 'site-reviews' ),
-				'type' => 'checkbox',
-			],[
-				'name' => 'hide_response',
-				'text' => esc_html__( 'Response', 'site-reviews' ),
-				'tooltip' => __( 'Hide the review response?', 'site-reviews' ),
-				'type' => 'checkbox',
-			],[
-				'name' => 'hide_title',
-				'text' => esc_html__( 'Title', 'site-reviews' ),
-				'tooltip' => __( 'Hide the review title?', 'site-reviews' ),
-				'type' => 'checkbox',
-			]],
-			'layout' => 'grid',
+			'items' => $this->getHideOptions(),
 			'label' => esc_html__( 'Hide', 'site-reviews' ),
+			'layout' => 'grid',
 			'spacing' => 5,
 			'type' => 'container',
 		],[
@@ -126,40 +86,5 @@ class SiteReviewsPopup extends TinymcePopupGenerator
 			'name' => 'id',
 			'type' => 'textbox',
 		]];
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getTerms()
-	{
-		$terms = glsr( Database::class )->getTerms();
-		if( empty( $terms )) {
-			return [];
-		}
-		return [
-			'label' => esc_html__( 'Category', 'site-reviews' ),
-			'name' => 'category',
-			'options' => $terms,
-			'tooltip' => __( 'Limit reviews to this category.', 'site-reviews' ),
-			'type' => 'listbox',
-		];
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getTypes()
-	{
-		if( count( glsr()->reviewTypes ) < 2 ) {
-			return [];
-		}
-		return [
-			'label' => esc_html__( 'Type', 'site-reviews' ),
-			'name' => 'type',
-			'options' => glsr()->reviewTypes,
-			'tooltip' => __( 'Which type of review would you like to display?', 'site-reviews' ),
-			'type' => 'listbox',
-		];
 	}
 }
