@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.0
 Requires PHP: 5.6
-Stable tag: 3.1.3
+Stable tag: 3.1.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,9 +13,7 @@ Site Reviews allows you to easily receive and display reviews for your website, 
 
 == Description ==
 
-> Please make sure your website meets the minimum plugin requirements:
-> - PHP 5.6
-> - WordPress 4.7
+> Site Reviews requires PHP v5.6 or higher!
 
 Site Reviews allows your visitors to submit reviews with a 1-5 star rating on your website, similar to the way you would on TripAdvisor or Yelp.
 
@@ -106,11 +104,13 @@ All documentation can be found in the "Documentation" page of the plugin.
 
 == Changelog ==
 
-= 3.1.4 (2019-01-06) =
+= 3.1.4 (2019-01-07) =
 
-- Fixed add-on shortcode integration
-- Fixed category counts
-- Fixed form validation
+- Changed plugin shortcodes to allow future add-on integration
+- Fixed a possible javascript conflict that breaks form validation
+- Fixed error when "Slack webhook URL" setting is empty
+- Fixed multi-checkbox values in plugin settings
+- Fixed rating counts management for review categories
 - Removed internal "site-reviews/shortcode/hidden-keys" hook
 
 = 3.1.2 (2019-01-03) =
