@@ -109,13 +109,9 @@ All documentation can be found in the "Documentation" page of the plugin.
 = 3.1.4 (2019-01-06) =
 
 - Fixed add-on shortcode integration
-- Fixed compatibility issue with LayerSlider plugin
-- Removed internal "site-reviews/shortcode/hidden-keys" hook
-
-= 3.1.3 (2019-01-03) =
-
 - Fixed category counts
 - Fixed form validation
+- Removed internal "site-reviews/shortcode/hidden-keys" hook
 
 = 3.1.2 (2019-01-03) =
 
