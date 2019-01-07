@@ -35,7 +35,9 @@ class Slack
 	 */
 	public function compose( Review $review, array $notification )
 	{
-		if( empty( $this->endpoint ))return;
+		if( empty( $this->endpoint )) {
+			return $this;
+		}
 		$args = shortcode_atts( glsr( SlackDefaults::class )->defaults(), $notification );
 		$this->review = $review;
 		$notification = [
