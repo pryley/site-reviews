@@ -55,7 +55,7 @@ class Style
 		}
 		$views = $this->generatePossibleViews( $view );
 		foreach( $views as $possibleView ) {
-			if( !file_exists( glsr()->path( $possibleView.'.php' )))continue;
+			if( !file_exists( glsr()->file( $possibleView )))continue;
 			return glsr( Helper::class )->removePrefix( 'views/', $possibleView );
 		}
 		return $view;
