@@ -106,12 +106,12 @@ All documentation can be found in the "Documentation" page of the plugin.
 
 = 3.1.4 (2019-01-07) =
 
-- Changed plugin shortcodes to allow future add-on integration
+- Changed plugin shortcodes to allow add-on integration
 - Fixed a possible javascript conflict that breaks form validation
 - Fixed error when "Slack webhook URL" setting is empty
 - Fixed multi-checkbox values in plugin settings
 - Fixed possible duplicate star-rating controls
-- Fixed rating counts management for review categories
+- Fixed rating counts for review categories
 - Removed internal "site-reviews/shortcode/hidden-keys" hook
 
 = 3.1.2 (2019-01-03) =

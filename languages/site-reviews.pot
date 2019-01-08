@@ -679,7 +679,7 @@ msgstr ""
 msgid "RE:"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:366, plugin/Controllers/MainController.php:31, plugin/Shortcodes/TinymcePopupGenerator.php:139
+#: plugin/Controllers/EditorController.php:366, plugin/Controllers/MainController.php:31, plugin/Shortcodes/TinymcePopupGenerator.php:136
 msgid "Type"
 msgstr ""
 
@@ -850,11 +850,11 @@ msgstr ""
 msgid "Settings updated."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:56
+#: plugin/Controllers/SettingsController.php:103
 msgid "Please install/activate the Polylang plugin to enable integration."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:60
+#: plugin/Controllers/SettingsController.php:107
 msgid "Please update the Polylang plugin to v2.3.0 or greater to enable integration."
 msgstr ""
 
@@ -1225,15 +1225,15 @@ msgstr ""
 msgid "Category"
 msgstr ""
 
-#: plugin/Shortcodes/TinymcePopupGenerator.php:207
+#: plugin/Shortcodes/TinymcePopupGenerator.php:204
 msgid "- Select -"
 msgstr ""
 
-#: plugin/Shortcodes/TinymcePopupGenerator.php:311
+#: plugin/Shortcodes/TinymcePopupGenerator.php:308
 msgid "Some of the shortcode options are required."
 msgstr ""
 
-#: plugin/Shortcodes/TinymcePopupGenerator.php:317
+#: plugin/Shortcodes/TinymcePopupGenerator.php:314
 msgctxt "the option label"
 msgid "The \"%s\" option is required."
 msgstr ""
