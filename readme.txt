@@ -110,6 +110,7 @@ All documentation can be found in the "Documentation" page of the plugin.
 - Fixed a possible javascript conflict that breaks form validation
 - Fixed error when "Slack webhook URL" setting is empty
 - Fixed multi-checkbox values in plugin settings
+- Fixed possible duplicate star-rating controls
 - Fixed rating counts management for review categories
 - Removed internal "site-reviews/shortcode/hidden-keys" hook
 
