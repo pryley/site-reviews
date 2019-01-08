@@ -134,6 +134,7 @@ class Field
 		if( !empty( $this->field['required'] )) {
 			$classes[] = 'glsr-required';
 		}
+		$classes = apply_filters( 'site-reviews/rendered/field/classes', $classes, $this->field );
 		return implode( ' ', $classes );
 	}
 

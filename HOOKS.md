@@ -61,6 +61,7 @@
     site-reviews/recaptcha/timeout
     site-reviews/render/view
     site-reviews/rendered/field
+    site-reviews/rendered/field/classes
     site-reviews/rendered/partial
     site-reviews/rendered/partial/{partial_path}
     site-reviews/rendered/template
