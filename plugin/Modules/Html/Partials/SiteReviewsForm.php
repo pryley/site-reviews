@@ -58,6 +58,7 @@ class SiteReviewsForm
 			return $carry.$field;
 		});
 		return glsr( Template::class )->build( 'templates/reviews-form', [
+			'args' => $args,
 			'context' => [
 				'class' => $this->getClass(),
 				'fields' => $fields,
