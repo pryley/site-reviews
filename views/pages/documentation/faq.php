@@ -9,6 +9,7 @@
 		</button>
 	</div>
 	<div class="inside">
+		<p>To add additional values to the generated schema, use the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!hooks' ); ?>" data-expand="#hooks-07">site-reviews/schema/[SCHEMA_TYPE]</a></code> hook in your theme's functions.php file.</p>
 		<p>Make sure to use Google's <a href="https://search.google.com/structured-data/testing-tool">Structured Data Testing Tool</a> to test the schema after any custom modifications have been made.</p>
 		<pre><code class="php">/**
  * Modifies the schema created by Site Reviews.
