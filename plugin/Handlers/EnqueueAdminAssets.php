@@ -57,6 +57,7 @@ class EnqueueAdminAssets
 	{
 		$variables = [
 			'action' => Application::PREFIX.'action',
+			'addons' => [],
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'hideoptions' => [
 				'site_reviews' => glsr( SiteReviewsShortcode::class )->getHideOptions(),
