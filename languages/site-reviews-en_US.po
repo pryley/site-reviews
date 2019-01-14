@@ -81,8 +81,8 @@ msgid "Site Reviews (minimal)"
 msgstr "Site Reviews (minimal)"
 
 #: config/settings.php:26
-msgid "Set the status of new review submissions to pending."
-msgstr "Set the status of new review submissions to pending."
+msgid "Set the status of new review submissions to \"unapproved\"."
+msgstr "Set the status of new review submissions to \"unapproved\"."
 
 #: config/settings.php:27
 msgid "Require Approval"
@@ -1444,7 +1444,7 @@ msgstr ""
 "Sync your Tripadvisor reviews to your website and manage them with Site "
 "Reviews."
 
-#: views/pages/documentation/addons.php:8, views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:35, views/pages/documentation/faq.php:63, views/pages/documentation/faq.php:89, views/pages/documentation/faq.php:120, views/pages/documentation/faq.php:142, views/pages/documentation/faq.php:155, views/pages/documentation/faq.php:180, views/pages/documentation/faq.php:207, views/pages/documentation/faq.php:245, views/pages/documentation/faq.php:258, views/pages/documentation/functions.php:7, views/pages/documentation/functions.php:41, views/pages/documentation/functions.php:84, views/pages/documentation/functions.php:104, views/pages/documentation/functions.php:129, views/pages/documentation/functions.php:148, views/pages/documentation/functions.php:171, views/pages/documentation/functions.php:209, views/pages/documentation/functions.php:233, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:32, views/pages/documentation/hooks.php:55, views/pages/documentation/hooks.php:74, views/pages/documentation/hooks.php:93, views/pages/documentation/hooks.php:113, views/pages/documentation/hooks.php:137, views/pages/documentation/hooks.php:162, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:76, views/pages/documentation/shortcodes.php:124, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:63
+#: views/pages/documentation/addons.php:8, views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:36, views/pages/documentation/faq.php:64, views/pages/documentation/faq.php:90, views/pages/documentation/faq.php:121, views/pages/documentation/faq.php:143, views/pages/documentation/faq.php:156, views/pages/documentation/faq.php:181, views/pages/documentation/faq.php:208, views/pages/documentation/faq.php:246, views/pages/documentation/faq.php:259, views/pages/documentation/functions.php:7, views/pages/documentation/functions.php:41, views/pages/documentation/functions.php:84, views/pages/documentation/functions.php:104, views/pages/documentation/functions.php:129, views/pages/documentation/functions.php:148, views/pages/documentation/functions.php:171, views/pages/documentation/functions.php:209, views/pages/documentation/functions.php:233, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:32, views/pages/documentation/hooks.php:55, views/pages/documentation/hooks.php:74, views/pages/documentation/hooks.php:93, views/pages/documentation/hooks.php:113, views/pages/documentation/hooks.php:137, views/pages/documentation/hooks.php:163, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:76, views/pages/documentation/shortcodes.php:124, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:63
 msgid "Toggle documentation panel"
 msgstr "Toggle documentation panel"
 
@@ -1676,23 +1676,23 @@ msgstr "Response from %s"
 msgid "Show less"
 msgstr "Show less"
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:121
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:122
 msgid "Submit your review"
 msgstr "Submit your review"
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:160
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:161
 msgid "logged in"
 msgstr "logged in"
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:162
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:163
 msgid "You must be %s to submit a review."
 msgstr "You must be %s to submit a review."
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:173
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:174
 msgid "register"
 msgstr "register"
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:175
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:176
 msgid "You may also %s for an account."
 msgstr "You may also %s for an account."
 

@@ -5,6 +5,7 @@ $glsr-font-size-large: 24px;
 $glsr-line-height: 1.6;
 $glsr-star-size: 20px;
 $glsr-spacing: 16px;
+$glsr-opacity: 0.1;
 
 $glsr-summary-bar-height: 12px;
 $glsr-summary-max-width: 400px;
@@ -16,17 +17,18 @@ $glsr-summary-star-size: 24px;
 .wp-block .glsr-shortcode {
 	position: relative;
 	min-height: $glsr-font-size * $glsr-line-height;
+	padding: 14px;
 	z-index: 0;
 	&::before {
 		z-index: -1;
 		content: "";
 		position: absolute;
 		pointer-events: none;
-		top: -10px;
-		right: -10px;
-		bottom: -10px;
-		left: -10px;
-		background-color: rgba(237, 231, 246, 0.125);
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background-color: rgba(0, 40, 40, 0.028);
 	}
 }
 
@@ -140,10 +142,10 @@ $glsr-summary-star-size: 24px;
 	font-size: $glsr-font-size;
 	line-height: $glsr-line-height;
 }
-.glsr-reviews .glsr-review {
+.glsr-reviews .glsr-review:not(:last-child) {
 	margin-bottom: $glsr-spacing;
 }
-.glsr-reviews .glsr-review > div {
+.glsr-reviews .glsr-review > div:not(:last-child) {
 	margin-bottom: $glsr-spacing;
 }
 .glsr-reviews .glsr-review-content > p {
@@ -271,16 +273,27 @@ $glsr-summary-star-size: 24px;
 	line-height: $glsr-line-height;
 	margin: 0 0 $glsr-spacing;
 }
-.glsr-form .glsr-field label:not(.glsr-checkbox-label):not(.glsr-radio-label) {
+// :not(.glsr-checkbox-label):not(.glsr-radio-label)
+.glsr-form .glsr-field label {
 	font-size: $glsr-font-size-small;
+	font-weight: 600;
+    vertical-align: unset;
 }
 
 .glsr-form .glsr-field input:not([type=radio]):not([type=checkbox]),
 .glsr-form .glsr-field textarea {
 	width: 100%;
-	font-size: $glsr-font-size;
 	border-color: #8d96a0;
 	border-radius: 2px;
+	font-size: 13px;
+	min-height: 36px;
+	padding: 6px 8px;
+	border-radius: 4px;
+}
+
+.glsr-form .glsr-field input[type=checkbox],
+.glsr-form .glsr-field input[type=radio] {
+	margin-right: 8px;
 }
 
 .glsr-form .glsr-field input,

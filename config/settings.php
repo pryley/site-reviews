@@ -23,7 +23,7 @@ return [
 	],
 	'settings.general.require.approval' => [
 		'default' => 'no',
-		'description' => __( 'Set the status of new review submissions to pending.', 'site-reviews' ),
+		'description' => __( 'Set the status of new review submissions to "unapproved".', 'site-reviews' ),
 		'label' => __( 'Require Approval', 'site-reviews' ),
 		'type' => 'yes_no',
 	],
