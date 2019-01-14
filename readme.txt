@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.0
 Requires PHP: 5.6
-Stable tag: 3.1.6
+Stable tag: 3.1.7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -104,8 +104,10 @@ All documentation can be found in the "Documentation" page of the plugin.
 
 == Changelog ==
 
-= 3.1.6 (2019-01-14) =
+= 3.1.7 (2019-01-14) =
 
+- Fixed Akismet integration
+- Fixed Blacklist IP validation
 - Fixed a potential [modsecurity false positive](https://github.com/client9/libinjection/issues/145)
 
 = 3.1.5 (2019-01-08) =

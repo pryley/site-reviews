@@ -1375,7 +1375,7 @@ msgid "All types"
 msgstr ""
 
 #: plugin/Modules/Validator/ValidateReview.php:181
-msgid "Your review cannot be submitted at this time. Please try again later."
+msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr ""
 
 #: plugin/Modules/Validator/ValidateReview.php:194
