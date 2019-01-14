@@ -177,8 +177,8 @@ class ValidateReview
 	{
 		if( !empty( $this->error ))return;
 		if( !glsr( Akismet::class )->isSpam( $this->request ))return;
-		$this->setSessionValues( 'errors', [], 'Akismet caught a spam submission:' );
-		$this->error = __( 'Your review cannot be submitted at this time. Please try again later.', 'site-reviews' );
+		$this->setSessionValues( 'errors', [], 'Akismet caught a spam submission (consider adding the IP address to the blacklist):' );
+		$this->error = __( 'This review has been flagged as possible spam and cannot be submitted.', 'site-reviews' );
 	}
 
 	/**
