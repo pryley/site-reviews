@@ -104,6 +104,10 @@ All documentation can be found in the "Documentation" page of the plugin.
 
 == Changelog ==
 
+= 3.1.6 (2019-01-14) =
+
+- Fixed [modsecurity false positive](https://github.com/client9/libinjection/issues/145)
+
 = 3.1.5 (2019-01-08) =
 
 - Fixed custom templating

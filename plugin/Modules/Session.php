@@ -10,6 +10,8 @@ use PasswordHash;
  */
 class Session
 {
+	const DELIMITER = '__';
+
 	const SESSION_COOKIE = '_glsr_session';
 
 	/**
@@ -35,7 +37,7 @@ class Session
 	public function __construct()
 	{
 		if( $cookieId = filter_input( INPUT_COOKIE, static::SESSION_COOKIE )) {
-			$cookie = explode( '||', stripslashes( $cookieId ));
+			$cookie = explode( static::DELIMITER, stripslashes( $cookieId ));
 			$this->sessionId = preg_replace( '/[^A-Za-z0-9_]/', '', $cookie[0] );
 			$this->expiryTimestamp = absint( $cookie[1] );
 			$this->expiryTimestampReset = absint( $cookie[2] );
@@ -192,7 +194,7 @@ class Session
 	protected function setCookie()
 	{
 		if( headers_sent() )return;
-		$cookie = $this->sessionId.'||'.$this->expiryTimestamp.'||'.$this->expiryTimestampReset;
+		$cookie = $this->sessionId.static::DELIMITER.$this->expiryTimestamp.static::DELIMITER.$this->expiryTimestampReset;
 		$cookiePath = preg_replace( '|https?://[^/]+|i', '', trailingslashit( (string)get_option( 'home' )));
 		setcookie( static::SESSION_COOKIE, $cookie, $this->expiryTimestamp, $cookiePath );
 	}
