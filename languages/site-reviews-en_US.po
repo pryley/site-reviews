@@ -850,11 +850,11 @@ msgstr "System Info"
 msgid "Settings updated."
 msgstr "Settings updated."
 
-#: plugin/Controllers/SettingsController.php:103
+#: plugin/Controllers/SettingsController.php:106
 msgid "Please install/activate the Polylang plugin to enable integration."
 msgstr "Please install/activate the Polylang plugin to enable integration."
 
-#: plugin/Controllers/SettingsController.php:107
+#: plugin/Controllers/SettingsController.php:110
 msgid ""
 "Please update the Polylang plugin to v2.3.0 or greater to enable "
 "integration."

@@ -81,7 +81,10 @@ class SettingsController extends Controller
 	{
 		if( isset( $input['settings']['strings'] )) {
 			$options['settings']['strings'] = array_values( array_filter( $input['settings']['strings'] ));
-			$allowedTags = ['a' => ['class' => [], 'href' => [], 'target' => []]];
+			$allowedTags = [
+				'a' => ['class' => [], 'href' => [], 'target' => []],
+				'span' => ['class' => []],
+			];
 			array_walk( $options['settings']['strings'], function( &$string ) use( $allowedTags ) {
 				if( isset( $string['s2'] )) {
 					$string['s2'] = wp_kses( $string['s2'], $allowedTags );
