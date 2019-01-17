@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.0
 Requires PHP: 5.6
-Stable tag: 3.1.7
+Stable tag: 3.1.8
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,12 @@ All documentation can be found in the "Documentation" page of the plugin.
 9. This is what the Slack notifications look like
 
 == Changelog ==
+
+= 3.1.8 (2019-01-17) =
+
+- Changed Translations to allow <span> tags
+- Fixed isolation for Block CSS styles
+- Fixed potential javascript error with pagination
 
 = 3.1.7 (2019-01-14) =
 
