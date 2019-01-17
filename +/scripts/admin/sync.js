@@ -43,7 +43,7 @@
 				service: this.service,
 				stage: 'fetch',
 			};
-			(new GLSR.Ajax( data )).post_( this.syncProgress_.bind( this ));
+			(new GLSR.Ajax( data )).post( this.syncProgress_.bind( this ));
 		},
 
 		syncProgress_: function( response ) {
@@ -59,7 +59,7 @@
 			this.updateMessage_( response.message );
 			this.updateProgress_( response.percent );
 			setTimeout( function() {
-				(new GLSR.Ajax( data )).post_( callback );
+				(new GLSR.Ajax( data )).post( callback );
 			}, 1500 );
 		},
 
@@ -79,7 +79,7 @@
 				this.finishSync_( response );
 				return;
 			}
-			(new GLSR.Ajax( data )).post_( this.syncReviews_.bind( this ));
+			(new GLSR.Ajax( data )).post( this.syncReviews_.bind( this ));
 		},
 
 		updateMessage_: function( text ) {

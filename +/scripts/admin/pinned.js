@@ -50,7 +50,7 @@
 				id: $( '#post_ID' ).val(),
 				pinned: $( '#pinned-status' ).val(),
 			};
-			(new GLSR.Ajax( request )).post_( this.save_.bind( this ));
+			(new GLSR.Ajax( request )).post( this.save_.bind( this ));
 		},
 
 		/** @return void */
@@ -61,7 +61,7 @@
 				_action: 'toggle-pinned',
 				id: ev.currentTarget.getAttribute( 'data-id' ),
 			};
-			(new GLSR.Ajax( request )).post_( this.togglePinned_.bind( this ));
+			(new GLSR.Ajax( request )).post( this.togglePinned_.bind( this ));
 		},
 
 		/** @return void */

@@ -78,7 +78,7 @@
 			var isUploadSupported = true;
 			[].forEach.call( this.form.elements, function( el ) {
 				if( el.type !== 'file' )return;
-				isUploadSupported = ajax.isFileSupported_() && ajax.isUploadSupported_();
+				isUploadSupported = ajax.isFileSupported() && ajax.isUploadSupported();
 			});
 			return isUploadSupported && !this.form.classList.contains( 'no-ajax' );
 		},
@@ -133,13 +133,13 @@
 		/** @return void */
 		submitForm_: function( counter ) { // int|null
 			var ajax = new GLSR.Ajax();
-			if( !ajax.isFormDataSupported_() ) {
+			if( !ajax.isFormDataSupported() ) {
 				this.showResults_( this.strings.unsupported, false );
 				return;
 			}
 			this.disableButton_();
 			this.form[GLSR.nameprefix + '[_counter]'].value = counter || 0;
-			(new GLSR.Ajax()).post_( this.form, this.handleResponse_.bind( this ));
+			(new GLSR.Ajax()).post( this.form, this.handleResponse_.bind( this ));
 		},
 	};
 

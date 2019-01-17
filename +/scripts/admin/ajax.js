@@ -12,6 +12,15 @@
 
 	GLSR.Ajax.prototype = {
 		/** @return void */
+		post: function( callback ) { // function|void
+			if( this.event ) {
+				this.postFromEvent_( callback );
+				return;
+			}
+			this.doPost_( callback );
+		},
+
+		/** @return void */
 		buildData_: function( el ) { // HTMLElement|null
 			var data = {
 				action: GLSR.action,
@@ -56,15 +65,6 @@
 					GLSR.Notices( response.data.notices );
 				}
 			});
-		},
-
-		/** @return void */
-		post_: function( callback ) { // function|void
-			if( this.event ) {
-				this.postFromEvent_( callback );
-				return;
-			}
-			this.doPost_( callback );
 		},
 
 		/** @return void */

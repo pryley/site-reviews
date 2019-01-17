@@ -13,7 +13,7 @@
 				_action: 'mce-shortcode',
 				shortcode: this.current,
 			};
-			(new GLSR.Ajax( request )).post_( this.handleResponse_.bind( this ));
+			(new GLSR.Ajax( request )).post( this.handleResponse_.bind( this ));
 		};
 		var selectors = document.querySelectorAll( selector );
 		if( !selectors.length )return;

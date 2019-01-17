@@ -16,7 +16,7 @@
 			}
 		},
 		onClick_: function( ev ) {
-			(new GLSR.Ajax( {}, ev, ev.currentTarget.closest( 'form' ))).post_( function( response, success ) {
+			(new GLSR.Ajax( {}, ev, ev.currentTarget.closest( 'form' ))).post( function( response, success ) {
 				if( typeof ev.data === 'function' ) {
 					ev.data( response, success );
 				}

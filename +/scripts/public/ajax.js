@@ -7,7 +7,7 @@
 
 	GLSR.Ajax.prototype = {
 		/** @return void */
-		get_: function( url, successCallback, headers ) {
+		get: function( url, successCallback, headers ) {
 			this.xhr = new XMLHttpRequest();
 			this.xhr.open( 'GET', url );
 			this.xhr.onreadystatechange = function() {
@@ -19,21 +19,34 @@
 		},
 
 		/** @return bool */
-		isFileSupported_: function() {
+		isFileSupported: function() {
 			var input = document.createElement( 'INPUT' );
 			input.type = 'file';
 			return 'files' in input;
 		},
 
 		/** @return bool */
-		isFormDataSupported_: function() {
+		isFormDataSupported: function() {
 			return !!window.FormData;
 		},
 
 		/** @return bool */
-		isUploadSupported_: function() {
+		isUploadSupported: function() {
 			var xhr = new XMLHttpRequest();
 			return !!( xhr && ( 'upload' in xhr ) && ( 'onprogress' in xhr.upload ));
+		},
+
+		/** @return void */
+		post: function( formOrData, successCallback, headers ) {
+			this.xhr = new XMLHttpRequest();
+			this.xhr.open( 'POST', GLSR.ajaxurl );
+			this.setHeaders_( headers );
+			this.xhr.send( this.normalizeData_( formOrData ));
+			this.xhr.onreadystatechange = function() {
+				if( this.xhr.readyState !== XMLHttpRequest.DONE )return;
+				var result = JSON.parse( this.xhr.responseText );
+				successCallback( result.data, result.success );
+			}.bind( this );
 		},
 
 		/** @return FormData */
@@ -59,19 +72,6 @@
 			formData.append( 'action', GLSR.action );
 			formData.append( '_ajax_request', true );
 			return formData;
-		},
-
-		/** @return void */
-		post_: function( formOrData, successCallback, headers ) {
-			this.xhr = new XMLHttpRequest();
-			this.xhr.open( 'POST', GLSR.ajaxurl );
-			this.setHeaders_( headers );
-			this.xhr.send( this.normalizeData_( formOrData ));
-			this.xhr.onreadystatechange = function() {
-				if( this.xhr.readyState !== XMLHttpRequest.DONE )return;
-				var result = JSON.parse( this.xhr.responseText );
-				successCallback( result.data, result.success );
-			}.bind( this );
 		},
 
 		/** @return void */

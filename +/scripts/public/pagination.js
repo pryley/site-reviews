@@ -97,7 +97,7 @@
 			ev.preventDefault();
 			var parentSelector = this.getSelector_( this.el );
 			this.el.classList.add( this.config.hideClass );
-			(new GLSR.Ajax()).get_( ev.currentTarget.href, this.handleResponse_.bind( this, ev.currentTarget.href, parentSelector ));
+			(new GLSR.Ajax()).get( ev.currentTarget.href, this.handleResponse_.bind( this, ev.currentTarget.href, parentSelector ));
 		},
 
 		/** @return void */
