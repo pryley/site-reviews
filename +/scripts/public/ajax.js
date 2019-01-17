@@ -65,9 +65,12 @@
 
 		/** @return FormData */
 		normalizeData_: function( data ) { // object
-			var formData = new FormData( data );
-			if( Object.prototype.toString.call( data ) !== '[object HTMLFormElement]' ) {
-				formData = this.buildFormData_( formData, data );
+			var formData = data;
+			if( Object.prototype.toString.call( data ) === '[object HTMLFormElement]' ) {
+				formData = new FormData( data );
+			}
+			if( Object.prototype.toString.call( formData ) !== '[object FormData]' ) {
+				formData = new FormData();
 			}
 			formData.append( 'action', GLSR.action );
 			formData.append( '_ajax_request', true );
