@@ -135,7 +135,9 @@
 
 	GLSR.Pagination = function() {
 		this.navs = [];
-		document.querySelectorAll( '.glsr-ajax-pagination' ).forEach( function( nodeItem ) {
+		var pagination = document.querySelectorAll( '.glsr-ajax-pagination' );
+		if( !pagination.length )return;
+		pagination.forEach( function( nodeItem ) {
 			this.navs.push( new GLSR_Pagination( nodeItem ));
 		}.bind( this ));
 	};

@@ -15,7 +15,9 @@
 			};
 			(new GLSR.Ajax( request )).post_( this.handleResponse_.bind( this ));
 		};
-		document.querySelectorAll( selector ).forEach( function( el ) {
+		var selectors = document.querySelectorAll( selector );
+		if( !selectors.length )return;
+		selectors.forEach( function( el ) {
 			var button = el.querySelector( 'button' );
 			var menuItems = el.querySelectorAll( '.mce-menu-item' );
 			if( !button || !menuItems.length )return;
