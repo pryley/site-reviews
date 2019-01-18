@@ -33,6 +33,7 @@
     site-reviews/config/{config_id}
     site-reviews/const/{constant}
     site-reviews/create/review-values
+    site-reviews/create/unset-keys-from-custom
     site-reviews/defaults/pagination
     site-reviews/defaults/style-fields
     site-reviews/defaults/style-validation

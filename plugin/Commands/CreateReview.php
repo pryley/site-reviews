@@ -84,6 +84,7 @@ class CreateReview
 			'_referer', 'assign_to', 'category', 'content', 'date', 'email', 'excluded', 'form_id',
 			'gotcha', 'ip_address', 'name', 'rating', 'response', 'terms', 'title', 'url',
 		];
+		$unset = apply_filters( 'site-reviews/create/unset-keys-from-custom', $unset );
 		$custom = $this->request;
 		foreach( $unset as $value ) {
 			unset( $custom[$value] );
