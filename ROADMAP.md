@@ -19,6 +19,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] 4. Multi-Ratings (for rating individual services of a business)
 - [ ] 5. Social reviews (share review links)
 - [ ] Booking.com Reviews
+- [ ] Edit authored reviews
 - [ ] Etsy Reviews
 - [ ] Facebook Reviews
 - [ ] Flag reviews
