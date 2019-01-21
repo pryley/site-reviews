@@ -32,15 +32,15 @@ form.glsr-form {
 	[type="submit"] {
 		white-space: nowrap;
 	}
-	[type="submit"] span {
+	[type="submit"] .glsr-button-loading {
 		display: none;
 	}
-	[type="submit"][disabled] span {
+	[type="submit"][disabled] .glsr-button-loading {
 		display: inline;
 		position: relative;
 	}
-	[type="submit"] span::before,
-	[type="submit"] span::after {
+	[type="submit"] .glsr-button-loading::before,
+	[type="submit"] .glsr-button-loading::after {
 		display: inline-block;
 		position: absolute;
 		top: 50%;
@@ -53,21 +53,21 @@ form.glsr-form {
 		margin: -0.5em auto 0;
 		animation: glsr-loader 0.5s infinite linear;
 	}
-	[type="submit"] span::before {
+	[type="submit"] .glsr-button-loading::before {
 		opacity: 0.5;
 		border-top-color: transparent;
 	}
-	[type="submit"] span::after {
+	[type="submit"] .glsr-button-loading::after {
 		border-color: transparent;
 		border-top-color: currentColor;
 	}
 }
 .glsr-ltr form.glsr-form {
-	[type="submit"][disabled] span {
+	[type="submit"][disabled] .glsr-button-loading {
 		margin-right: 1.65em;
 	}
-	[type="submit"] span::before,
-	[type="submit"] span::after {
+	[type="submit"] .glsr-button-loading::before,
+	[type="submit"] .glsr-button-loading::after {
 		left: 0;
 	}
 	.glsr-required label span::after {
@@ -75,18 +75,22 @@ form.glsr-form {
 	}
 }
 .glsr-rtl form.glsr-form {
-	[type="submit"][disabled] span {
+	[type="submit"][disabled] .glsr-button-loading {
 		margin-left: 1.65em;
 	}
-	[type="submit"] span::before,
-	[type="submit"] span::after {
+	[type="submit"] .glsr-button-loading::before,
+	[type="submit"] .glsr-button-loading::after {
 		right: 0;
 	}
 	.glsr-required label span::after {
 		margin-right: 0.33em;
 	}
 }
-
+.glsr-disabled .glsr-button {
+	pointer-events: none;
+	cursor: wait;
+	opacity: .5;
+}
 .glsr-field {
 	position: relative;
 }
