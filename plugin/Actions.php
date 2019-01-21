@@ -65,7 +65,7 @@ class Actions implements HooksContract
 		add_action( 'init',                                         [$this->blocks, 'registerAssets'], 9 );
 		add_action( 'init',                                         [$this->blocks, 'registerBlocks'] );
 		add_action( 'admin_enqueue_scripts',                        [$this->editor, 'customizePostStatusLabels'] );
-		add_action( 'add_meta_boxes',                               [$this->editor, 'registerMetaBoxes'], 10, 2 );
+		add_action( 'add_meta_boxes_'.Application::POST_TYPE,       [$this->editor, 'registerMetaBoxes'] );
 		add_action( 'admin_print_scripts',                          [$this->editor, 'removeAutosave'], 999 );
 		add_action( 'admin_menu',                                   [$this->editor, 'removeMetaBoxes'] );
 		add_action( 'current_screen',                               [$this->editor, 'removePostTypeSupport'] );
