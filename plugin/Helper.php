@@ -223,16 +223,16 @@ class Helper
 	 */
 	public function insertInArray( array $array, array $insert, $key, $position = 'before' )
 	{
-		$keyPosition = array_search( $key, array_keys( $array ));
+		$keyPosition = intval( array_search( $key, array_keys( $array )));
 		if( 'after' == $position ) {
 			$keyPosition++;
 		}
 		if( false !== $keyPosition ) {
 			$result = array_slice( $array, 0, $keyPosition );
-			$result = array_merge( $result, $pairs );
+			$result = array_merge( $result, $insert );
 			return array_merge( $result, array_slice( $array, $keyPosition ));
 		}
-		return array_merge( $array, $pairs );
+		return array_merge( $array, $insert );
 	}
 
 	/**
