@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.0
 Requires PHP: 5.6
-Stable tag: 3.1.8
+Stable tag: 3.1.9
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,14 @@ All documentation can be found in the "Documentation" page of the plugin.
 9. This is what the Slack notifications look like
 
 == Changelog ==
+
+= 3.1.9 (2019-01-21) =
+
+- Changed "submit-button.php" template
+- Fixed button style
+- Fixed documentation for "glsr_create_review" helper function
+- Fixed potential PHP error
+- Removed "No Title" fallback in "/wp-admin" for reviews with no title (WordPress handles this)
 
 = 3.1.8 (2019-01-17) =
 
