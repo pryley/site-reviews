@@ -36,7 +36,8 @@ class Session
 
 	public function __construct()
 	{
-		if( $cookieId = filter_input( INPUT_COOKIE, static::SESSION_COOKIE )) {
+		$cookieId = filter_input( INPUT_COOKIE, static::SESSION_COOKIE );
+		if( strpos( $cookieId, static::DELIMITER ) !== false ) {
 			$cookie = explode( static::DELIMITER, stripslashes( $cookieId ));
 			$this->sessionId = preg_replace( '/[^A-Za-z0-9_]/', '', $cookie[0] );
 			$this->expiryTimestamp = absint( $cookie[1] );
