@@ -254,9 +254,6 @@ class ValidateReview
 			$this->error = __( 'Please fix the submission errors.', 'site-reviews' );
 			return $request;
 		}
-		if( empty( $request['title'] )) {
-			$request['title'] = __( 'No Title', 'site-reviews' );
-		}
 		return array_merge( glsr( ValidateReviewDefaults::class )->defaults(), $request );
 	}
 }

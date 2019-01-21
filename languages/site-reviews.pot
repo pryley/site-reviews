@@ -350,7 +350,7 @@ msgstr ""
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:293, plugin/Controllers/EditorController.php:365, plugin/Controllers/MainController.php:32, plugin/Shortcodes/SiteReviewsPopup.php:33
+#: config/settings.php:293, plugin/Controllers/EditorController.php:363, plugin/Controllers/MainController.php:32, plugin/Shortcodes/SiteReviewsPopup.php:33
 msgid "Rating"
 msgstr ""
 
@@ -362,11 +362,11 @@ msgstr ""
 msgid "Review"
 msgstr ""
 
-#: config/settings.php:296, plugin/Controllers/EditorController.php:368
+#: config/settings.php:296, plugin/Controllers/EditorController.php:366
 msgid "Name"
 msgstr ""
 
-#: config/settings.php:297, plugin/Controllers/EditorController.php:369
+#: config/settings.php:297, plugin/Controllers/EditorController.php:367
 msgid "Email"
 msgstr ""
 
@@ -635,67 +635,67 @@ msgstr ""
 msgid "Nothing found."
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:94, plugin/Controllers/MainController.php:29, plugin/Shortcodes/SiteReviewsPopup.php:59, plugin/Shortcodes/SiteReviewsSummaryPopup.php:27, views/partials/editor/bulk-edit-assigned-to.php:7
+#: plugin/Controllers/EditorController.php:92, plugin/Controllers/MainController.php:29, plugin/Shortcodes/SiteReviewsPopup.php:59, plugin/Shortcodes/SiteReviewsSummaryPopup.php:27, views/partials/editor/bulk-edit-assigned-to.php:7
 msgid "Assigned To"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:95
+#: plugin/Controllers/EditorController.php:93
 msgid "Details"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:97, views/partials/editor/metabox-response.php:3
+#: plugin/Controllers/EditorController.php:95, views/partials/editor/metabox-response.php:3
 msgid "Respond Publicly"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:164, plugin/Modules/Html/Fields/YesNo.php:37
+#: plugin/Controllers/EditorController.php:162, plugin/Modules/Html/Fields/YesNo.php:37
 msgid "No"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:165, plugin/Modules/Html/Fields/YesNo.php:38
+#: plugin/Controllers/EditorController.php:163, plugin/Modules/Html/Fields/YesNo.php:38
 msgid "Yes"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:217
+#: plugin/Controllers/EditorController.php:215
 msgid "%s reviews are read-only."
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:298
+#: plugin/Controllers/EditorController.php:296
 msgid "Revert Changes"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:304
+#: plugin/Controllers/EditorController.php:302
 msgid "Nothing to Revert"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:320
+#: plugin/Controllers/EditorController.php:318
 msgid "Unknown"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:355
+#: plugin/Controllers/EditorController.php:353
 msgid "Unregistered user"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:362
+#: plugin/Controllers/EditorController.php:360
 msgid "RE:"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:366, plugin/Controllers/MainController.php:31, plugin/Shortcodes/TinymcePopupGenerator.php:136
+#: plugin/Controllers/EditorController.php:364, plugin/Controllers/MainController.php:31, plugin/Shortcodes/TinymcePopupGenerator.php:136
 msgid "Type"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:367, plugin/Defaults/PostTypeDefaults.php:18
+#: plugin/Controllers/EditorController.php:365, plugin/Defaults/PostTypeDefaults.php:18
 msgid "Date"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:370
+#: plugin/Controllers/EditorController.php:368
 msgid "User"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:371
+#: plugin/Controllers/EditorController.php:369
 msgid "IP Address"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:372
+#: plugin/Controllers/EditorController.php:370
 msgid "Avatar"
 msgstr ""
 
@@ -1394,10 +1394,6 @@ msgstr ""
 msgid "The reCAPTCHA verification failed, please try again."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:258, plugin/Modules/Html/Partials/SiteReviews.php:213
-msgid "No Title"
-msgstr ""
-
 #: views/pages/addons/index.php:6
 msgid "Now that Site Reviews v3.0 (a major overhaul of the plugin) has been released, the only thing delaying the add-ons is the distribution platform which is currently being built. Expect to see them in the coming months!"
 msgstr ""
@@ -1622,6 +1618,10 @@ msgstr ""
 
 #: plugin/Modules/Html/Partials/SiteReviews.php:196
 msgid "Response from %s"
+msgstr ""
+
+#: plugin/Modules/Html/Partials/SiteReviews.php:213
+msgid "No Title"
 msgstr ""
 
 #: plugin/Modules/Html/Partials/SiteReviews.php:274
