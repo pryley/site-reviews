@@ -217,6 +217,25 @@ class Helper
 	}
 
 	/**
+	 * @param string $key
+	 * @param string $position
+	 * @return array
+	 */
+	public function insertInArray( array $array, array $insert, $key, $position = 'before' )
+	{
+		$keyPosition = array_search( $key, array_keys( $array ));
+		if( 'after' == $position ) {
+			$keyPosition++;
+		}
+		if( false !== $keyPosition ) {
+			$result = array_slice( $array, 0, $keyPosition );
+			$result = array_merge( $result, $pairs );
+			return array_merge( $result, array_slice( $array, $keyPosition ));
+		}
+		return array_merge( $array, $pairs );
+	}
+
+	/**
 	 * @param mixed $array
 	 * @return bool
 	 */
@@ -277,7 +296,8 @@ class Helper
 	 * @param string $text
 	 * @return string
 	 */
-	public function removePrefix( $prefix, $text ) {
+	public function removePrefix( $prefix, $text )
+	{
 		return 0 === strpos( $text, $prefix )
 			? substr( $text, strlen( $prefix ))
 			: $text;
