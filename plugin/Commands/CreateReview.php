@@ -21,12 +21,11 @@ class CreateReview
 	public $post_id;
 	public $rating;
 	public $referer;
+	public $request;
 	public $response;
 	public $terms;
 	public $title;
 	public $url;
-
-	protected $request;
 
 	public function __construct( $input )
 	{
