@@ -46,12 +46,12 @@ if( function_exists( 'glsr_get_reviews' )) {
 		<pre><code class="php">/**
  * Default values in the $reviewValues array:
  * - 'assigned_to' => '',
- * - 'author' => '',
  * - 'avatar' => '',
  * - 'content' => '',
  * - 'date' => '',
  * - 'email' => '',
  * - 'ip_address' => '',
+ * - 'name' => '',
  * - 'pinned' => false,
  * - 'rating' => 0,
  * - 'response' => '',
@@ -63,10 +63,10 @@ glsr_create_review( array $reviewValues = [] );</code></pre>
 		<p><strong>Example Usage:</strong></p>
 		<p>Any custom keys that are added to the $reviewValues array will be saved into the <code>$review->custom</code> array of the created review.</p>
 		<pre><code class="php">$review = glsr_create_review([
-	'author' => 'Jane Doe',
 	'content' => 'This is my review.',
 	'date' => '2018-06-13',
 	'email' => 'jane@doe.com',
+	'name' => 'Jane Doe',
 	'rating' => 5,
 	'title' => 'Fantastic plugin!',
 	'xyz' => 'This is a custom field!'
