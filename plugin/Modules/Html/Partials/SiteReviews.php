@@ -77,6 +77,19 @@ class SiteReviews
 	}
 
 	/**
+	 * @param string $key
+	 * @param string $path
+	 * @return bool
+	 */
+	public function isHidden( $key, $path = '' )
+	{
+		$isOptionEnabled = !empty( $path )
+			? $this->isOptionEnabled( $path )
+			: true;
+		return in_array( $key, $this->args['hide'] ) || !$isOptionEnabled;
+	}
+
+	/**
 	 * @param Review $review
 	 * @return ReviewHtml
 	 */
@@ -326,19 +339,6 @@ class SiteReviews
 			return $this->options[$path];
 		}
 		return $fallback;
-	}
-
-	/**
-	 * @param string $key
-	 * @param string $path
-	 * @return bool
-	 */
-	protected function isHidden( $key, $path = '' )
-	{
-		$isOptionEnabled = !empty( $path )
-			? $this->isOptionEnabled( $path )
-			: true;
-		return in_array( $key, $this->args['hide'] ) || !$isOptionEnabled;
 	}
 
 	/**

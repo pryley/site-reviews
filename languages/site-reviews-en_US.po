@@ -546,7 +546,7 @@ msgstr "Tell us your email"
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
-#: plugin/Blocks/SiteReviewsBlock.php:110, plugin/Modules/Html/Partials/SiteReviews.php:275
+#: plugin/Blocks/SiteReviewsBlock.php:110, plugin/Modules/Html/Partials/SiteReviews.php:291
 msgid "Show more"
 msgstr "Show more"
 
@@ -1660,19 +1660,19 @@ msgstr[1] "%s Stars"
 msgid "Site Reviews navigation"
 msgstr "Site Reviews navigation"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:110
+#: plugin/Modules/Html/Partials/SiteReviews.php:126
 msgid "Review of %s"
 msgstr "Review of %s"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:196
+#: plugin/Modules/Html/Partials/SiteReviews.php:212
 msgid "Response from %s"
 msgstr "Response from %s"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:213
+#: plugin/Modules/Html/Partials/SiteReviews.php:229
 msgid "No Title"
 msgstr "No Title"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:274
+#: plugin/Modules/Html/Partials/SiteReviews.php:290
 msgid "Show less"
 msgstr "Show less"
 
