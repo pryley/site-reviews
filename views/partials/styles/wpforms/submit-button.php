@@ -2,5 +2,5 @@
 
 <button type="submit" class="glsr-button button wpforms-submit">
 	<span class="glsr-button-loading"></span>
-	{{ text }}
+	<span class="glsr-button-text" data-text="{{ text }}">{{ text }}</span>
 </button>

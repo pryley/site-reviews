@@ -2,5 +2,5 @@
 
 <button type="submit" class="glsr-button btn btn-primary">
 	<span class="glsr-button-loading"></span>
-	{{ text }}
+	<span class="glsr-button-text" data-text="{{ text }}">{{ text }}</span>
 </button>
