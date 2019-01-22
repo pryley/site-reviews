@@ -27,6 +27,7 @@
     site-reviews/assets/polyfill
     site-reviews/async-scripts
     site-reviews/blacklist/is-blacklisted
+    site-reviews/build/template/{template_path}
     site-reviews/builder/field/classname
     site-reviews/builder/result
     site-reviews/columns/{column_slug}

@@ -17,10 +17,11 @@ class Template
 		ob_start();
 		glsr()->render( $templatePath, $data );
 		$template = ob_get_clean();
+		$path = glsr( Helper::class )->removePrefix( 'templates/', $templatePath );
+		$template = apply_filters( 'site-reviews/build/template/'.$path, $template, $data );
 		$template = $this->interpolate( $template, $data['context'] );
 		$template = apply_filters( 'site-reviews/rendered/template', $template, $templatePath, $data );
-		$templatePath = glsr( Helper::class )->removePrefix( 'templates/', $templatePath );
-		$template = apply_filters( 'site-reviews/rendered/template/'.$templatePath, $template, $data );
+		$template = apply_filters( 'site-reviews/rendered/template/'.$path, $template, $data );
 		return $template;
 	}
 
