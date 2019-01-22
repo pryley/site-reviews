@@ -86,8 +86,11 @@ class SiteReviews
 		$renderedFields = [];
 		foreach( (array)$review as $key => $value ) {
 			$method = glsr( Helper::class )->buildMethodName( $key, 'buildOption' );
-			if( !method_exists( $this, $method ))continue;
-			$renderedFields[$key] = $this->$method( $key, $value );
+			$field = method_exists( $this, $method )
+				? $this->$method( $key, $value )
+				: apply_filters( 'site-reviews/review/build/'.$key, false, $value, $this, $review );
+			if( $field === false )continue;
+			$renderedFields[$key] = $field;
 		}
 		$this->wrap( $renderedFields, $review );
 		$renderedFields = apply_filters( 'site-reviews/review/build/after', $renderedFields, $review );
