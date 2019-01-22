@@ -104,6 +104,10 @@ All documentation can be found in the "Documentation" page of the plugin.
 
 == Changelog ==
 
+= 3.1.10 (2019-01-22) =
+
+- Fixed potential issue with AJAX requests
+
 = 3.1.9 (2019-01-21) =
 
 - Changed "submit-button.php" template
