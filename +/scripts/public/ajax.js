@@ -9,7 +9,7 @@
 		/** @return void */
 		get: function( url, successCallback, headers ) {
 			this.xhr = new XMLHttpRequest();
-			this.xhr.open( 'GET', url );
+			this.xhr.open( 'GET', url, true );
 			this.xhr.onreadystatechange = function() {
 				if( this.xhr.readyState !== 4 || this.xhr.status !== 200 )return;
 				successCallback( this.xhr.responseText );
@@ -39,7 +39,7 @@
 		/** @return void */
 		post: function( formOrData, successCallback, headers ) {
 			this.xhr = new XMLHttpRequest();
-			this.xhr.open( 'POST', GLSR.ajaxurl );
+			this.xhr.open( 'POST', GLSR.ajaxurl, true );
 			this.setHeaders_( headers );
 			this.xhr.send( this.normalizeData_( formOrData ));
 			this.xhr.onreadystatechange = function() {
