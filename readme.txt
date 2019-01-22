@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.0
 Requires PHP: 5.6
-Stable tag: 3.1.9
+Stable tag: 3.1.10
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -106,6 +106,7 @@ All documentation can be found in the "Documentation" page of the plugin.
 
 = 3.1.10 (2019-01-22) =
 
+- Fixed plugin styles
 - Fixed potential issue with AJAX requests
 
 = 3.1.9 (2019-01-21) =
