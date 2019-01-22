@@ -99,22 +99,21 @@ final class Application extends Container
 
 	/**
 	 * @param string $view
-	 * @return string
+	 * @return void|string
 	 */
 	public function file( $view )
 	{
-		$file = '';
 		$view.= '.php';
+		$filePaths = [];
 		if( glsr( Helper::class )->startsWith( 'templates/', $view )) {
-			$file = $this->themePath( glsr( Helper::class )->removePrefix( 'templates/', $view ));
-			if( !file_exists( $file )) {
-				$file = $this->path( $view );
-			}
+			$filePaths[] = $this->themePath( glsr( Helper::class )->removePrefix( 'templates/', $view ));
 		}
-		if( !file_exists( $file )) {
-			$file = $this->path( 'views/'.$view );
+		$filePaths[] = $this->path( $view );
+		$filePaths[] = $this->path( 'views/'.$view );
+		foreach( $filePaths as $file ) {
+			if( !file_exists( $file ))continue;
+			return $file;
 		}
-		return $file;
 	}
 
 	/**

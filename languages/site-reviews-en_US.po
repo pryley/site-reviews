@@ -490,7 +490,7 @@ msgstr "Require approval"
 msgid "Reject submission"
 msgstr "Reject submission"
 
-#: plugin/Application.php:193
+#: plugin/Application.php:192
 msgid "Local"
 msgstr "Local"
 
