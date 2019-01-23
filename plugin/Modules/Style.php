@@ -105,6 +105,7 @@ class Style
 	 */
 	protected function customize( Builder $instance )
 	{
+		if( !array_key_exists( $instance->tag, $this->fields ))return;
 		$args = wp_parse_args( $instance->args, array_fill_keys( ['class', 'type'], '' ));
 		$key = $instance->tag.'_'.$args['type'];
 		$classes = !isset( $this->fields[$key] )
