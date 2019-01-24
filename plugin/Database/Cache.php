@@ -14,13 +14,18 @@ class Cache
 	 */
 	public function getCloudflareIps()
 	{
-		$ipAddresses = get_transient( Application::ID.'_cloudflare_ips' );
-		if( $ipAddresses === false ) {
+		// $ipAddresses = get_transient( Application::ID.'_cloudflare_ips' );
+		// if( $ipAddresses === false ) {
 			$ipAddresses = array_fill_keys( ['v4', 'v6'], [] );
 			foreach( array_keys( $ipAddresses ) as $version ) {
-				$response = wp_remote_get( 'https://www.cloudflare.com/ips-'.$version );
+				$url = 'https://www.cloudflare.com/ips-'.$version;
+				$response = wp_remote_get( $url );
 				if( is_wp_error( $response )) {
 					glsr_log()->error( $response->get_error_message() );
+					continue;
+				}
+				if(( $statusCode = wp_remote_retrieve_response_code( $response )) != '200' ) {
+					glsr_log()->error( 'Unable to connect to '.$url.' ['.$statusCode.']' );
 					continue;
 				}
 				$ipAddresses[$version] = array_filter(
@@ -28,7 +33,7 @@ class Cache
 				);
 			}
 			set_transient( Application::ID.'_cloudflare_ips', $ipAddresses, static::EXPIRY_TIME );
-		}
+		// }
 		return $ipAddresses;
 	}
 
