@@ -14,8 +14,8 @@ class Cache
 	 */
 	public function getCloudflareIps()
 	{
-		// $ipAddresses = get_transient( Application::ID.'_cloudflare_ips' );
-		// if( $ipAddresses === false ) {
+		$ipAddresses = get_transient( Application::ID.'_cloudflare_ips' );
+		if( $ipAddresses === false ) {
 			$ipAddresses = array_fill_keys( ['v4', 'v6'], [] );
 			foreach( array_keys( $ipAddresses ) as $version ) {
 				$url = 'https://www.cloudflare.com/ips-'.$version;
@@ -33,7 +33,7 @@ class Cache
 				);
 			}
 			set_transient( Application::ID.'_cloudflare_ips', $ipAddresses, static::EXPIRY_TIME );
-		// }
+		}
 		return $ipAddresses;
 	}
 
