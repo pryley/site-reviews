@@ -3,10 +3,15 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
+use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
+use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews as SiteReviewsPartial;
+use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 use WP_Post;
 
-class Review
+class Review implements \ArrayAccess
 {
 	public $assigned_to;
 	public $author;
@@ -31,6 +36,7 @@ class Review
 
 	public function __construct( WP_Post $post )
 	{
+		if( $post->post_type != Application::POST_TYPE )return;
 		$this->content = $post->post_content;
 		$this->date = $post->post_date;
 		$this->ID = intval( $post->ID );
@@ -46,13 +52,87 @@ class Review
 	 */
 	public function __get( $key )
 	{
+		return $this->offsetGet( $key );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return (string)$this->build();
+	}
+
+	/**
+	 * @return ReviewHtml
+	 */
+	public function build( array $args = [] )
+	{
+		if( empty( $this->ID )) {
+			return new ReviewHtml;
+		}
+		$partial = glsr( SiteReviewsPartial::class );
+		$partial->args = glsr( SiteReviewsDefaults::class )->merge( $args );
+		$partial->options = glsr( Helper::class )->flattenArray( glsr( OptionManager::class )->all() );
+		return $partial->buildReview( $this );
+	}
+
+	/**
+	 * @param mixed $key
+	 * @return bool
+	 */
+	public function offsetExists( $key )
+	{
+		return property_exists( $this, $key ) || array_key_exists( $key, (array)$this->custom );
+	}
+
+	/**
+	 * @param mixed $key
+	 * @return mixed
+	 */
+	public function offsetGet( $key )
+	{
 		if( property_exists( $this, $key )) {
 			return $this->$key;
 		}
-		if( is_array( $this->custom ) && array_key_exists( $key, $this->custom )) {
+		if( array_key_exists( $key, (array)$this->custom )) {
 			return $this->custom[$key];
 		}
-		return '';
+		return null;
+	}
+
+	/**
+	 * @param mixed $key
+	 * @param mixed $value
+	 * @return void
+	 */
+	public function offsetSet( $key, $value )
+	{
+		if( property_exists( $this, $key )) {
+			$this->$key = $value;
+			return;
+		}
+		if( !is_array( $this->custom )) {
+			$this->custom = array_filter( (array)$this->custom );
+		}
+		$this->custom[$key] = $value;
+	}
+
+	/**
+	 * @param mixed $key
+	 * @return void
+	 */
+	public function offsetUnset( $key )
+	{
+		$this->offsetSet( $key, null );
+	}
+
+	/**
+	 * @return void
+	 */
+	public function render()
+	{
+		echo $this->build();
 	}
 
 	/**
@@ -77,7 +157,7 @@ class Review
 			'review_type' => 'local',
 		];
 		$meta = array_filter(
-			array_map( 'array_shift', (array)get_post_meta( $post->ID )),
+			array_map( 'array_shift', array_filter((array)get_post_meta( $post->ID ))),
 			'strlen'
 		);
 		$properties = glsr( CreateReviewDefaults::class )->restrict( array_merge( $defaults, $meta ));

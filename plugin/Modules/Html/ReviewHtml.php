@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
-class ReviewHtml
+class ReviewHtml implements \ArrayAccess
 {
 	/**
 	 * @var array
@@ -33,5 +33,50 @@ class ReviewHtml
 		return array_reduce( $this->values, function( $carry, $value ) {
 			return $carry.$value;
 		});
+	}
+
+	/**
+	 * @param mixed $key
+	 * @return bool
+	 */
+	public function offsetExists( $key )
+	{
+		return isset( $this->values[$key] );
+	}
+
+	/**
+	 * @param mixed $key
+	 * @return mixed
+	 */
+	public function offsetGet( $key )
+	{
+		return isset( $this->values[$key] )
+			? $this->values[$key]
+			: null;
+	}
+
+	/**
+	 * @param mixed $key
+	 * @param mixed $value
+	 * @return void
+	 */
+	public function offsetSet( $key, $value )
+	{
+		if( is_null( $key )) {
+			$this->values[] = $value;
+		}
+		else {
+			$this->values[$key] = $value;
+		}
+	}
+
+	/**
+	 * @param mixed $key
+	 * @return void
+	 */
+	public function offsetUnset( $key )
+	{
+		if( !$this->offsetExists( $key ))return;
+		$this->offsetSet( $key, null );
 	}
 }

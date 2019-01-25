@@ -16,7 +16,7 @@ class SiteReviewsDefaults extends Defaults
 			'category' => '',
 			'class' => '',
 			'count' => 5,
-			'hide' => '',
+			'hide' => [],
 			'id' => '',
 			'offset' => '',
 			'pagination' => false,

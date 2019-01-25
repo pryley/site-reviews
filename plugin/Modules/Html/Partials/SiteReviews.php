@@ -21,17 +21,17 @@ class SiteReviews
 	/**
 	 * @var array
 	 */
-	protected $args;
+	public $args;
 
 	/**
-	 * @var int
+	 * @var Review
 	 */
-	protected $current;
+	public $current;
 
 	/**
 	 * @var array
 	 */
-	protected $options;
+	public $options;
 
 	/**
 	 * @var object
@@ -62,13 +62,35 @@ class SiteReviews
 	}
 
 	/**
+	 * @param Review $review
+	 * @return ReviewHtml
+	 */
+	public function buildReview( Review $review )
+	{
+		$review = apply_filters( 'site-reviews/review/build/before', $review );
+		$this->current = $review;
+		$renderedFields = [];
+		foreach( $review as $key => $value ) {
+			$method = glsr( Helper::class )->buildMethodName( $key, 'buildOption' );
+			$field = method_exists( $this, $method )
+				? $this->$method( $key, $value )
+				: apply_filters( 'site-reviews/review/build/'.$key, false, $value, $this, $review );
+			if( $field === false )continue;
+			$renderedFields[$key] = $field;
+		}
+		$this->wrap( $renderedFields, $review );
+		$renderedFields = apply_filters( 'site-reviews/review/build/after', $renderedFields, $review );
+		$this->current = null;
+		return new ReviewHtml( (array)$renderedFields );
+	}
+
+	/**
 	 * @return string
 	 */
 	public function buildReviews()
 	{
 		$reviews = '';
 		foreach( $this->reviews->results as $index => $result ) {
-			$this->current = $index;
 			$reviews.= glsr( Template::class )->build( 'templates/review', [
 				'context' => $this->buildReview( $result )->values,
 			]);
@@ -87,27 +109,6 @@ class SiteReviews
 			? $this->isOptionEnabled( $path )
 			: true;
 		return in_array( $key, $this->args['hide'] ) || !$isOptionEnabled;
-	}
-
-	/**
-	 * @param Review $review
-	 * @return ReviewHtml
-	 */
-	protected function buildReview( Review $review )
-	{
-		$review = apply_filters( 'site-reviews/review/build/before', $review ); // @todo make this an arrayable object!
-		$renderedFields = [];
-		foreach( (array)$review as $key => $value ) {
-			$method = glsr( Helper::class )->buildMethodName( $key, 'buildOption' );
-			$field = method_exists( $this, $method )
-				? $this->$method( $key, $value )
-				: apply_filters( 'site-reviews/review/build/'.$key, false, $value, $this, $review );
-			if( $field === false )continue;
-			$renderedFields[$key] = $field;
-		}
-		$this->wrap( $renderedFields, $review );
-		$renderedFields = apply_filters( 'site-reviews/review/build/after', $renderedFields, $review );
-		return new ReviewHtml( (array)$renderedFields );
 	}
 
 	/**
@@ -237,13 +238,12 @@ class SiteReviews
 	 */
 	protected function generateAvatar( $avatarUrl )
 	{
-		$review = $this->reviews->results[$this->current];
-		if( !$this->isOptionEnabled( 'settings.reviews.avatars_regenerate' ) || $review->review_type != 'local' ) {
+		if( !$this->isOptionEnabled( 'settings.reviews.avatars_regenerate' ) || $this->current->review_type != 'local' ) {
 			return $avatarUrl;
 		}
-		$authorIdOrEmail = get_the_author_meta( 'ID', $review->user_id );
+		$authorIdOrEmail = get_the_author_meta( 'ID', $this->current->user_id );
 		if( empty( $authorIdOrEmail )) {
-			$authorIdOrEmail = $review->email;
+			$authorIdOrEmail = $this->current->email;
 		}
 		if( $newAvatar = get_avatar_url( $authorIdOrEmail )) {
 			return $newAvatar;

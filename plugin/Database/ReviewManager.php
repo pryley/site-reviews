@@ -154,7 +154,9 @@ class ReviewManager
 	 */
 	public function single( WP_Post $post )
 	{
-		if( $post->post_type != Application::POST_TYPE )return;
+		if( $post->post_type != Application::POST_TYPE ) {
+			$post = new WP_Post( (object)[] );
+		}
 		$review = new Review( $post );
 		return apply_filters( 'site-reviews/get/review', $review, $post );
 	}
