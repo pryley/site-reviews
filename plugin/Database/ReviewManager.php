@@ -74,7 +74,7 @@ class ReviewManager
 		$paged = glsr( QueryBuilder::class )->getPaged(
 			wp_validate_boolean( $args['pagination'] )
 		);
-		$reviews = new WP_Query([
+		$query = new WP_Query([
 			'meta_key' => 'pinned',
 			'meta_query' => $metaQuery,
 			'offset' => $args['offset'],
@@ -88,8 +88,9 @@ class ReviewManager
 			'posts_per_page' => $args['count'],
 			'tax_query' => $taxQuery,
 		]);
-		$results = array_map( [$this, 'single'], $reviews->posts );
-		return new Reviews( $results, $reviews->max_num_pages, $args );
+		$results = array_map( [$this, 'single'], $query->posts );
+		$reviews = new Reviews( $results, $query->max_num_pages, $args );
+		return apply_filters( 'site-reviews/get/reviews', $reviews, $query );
 	}
 
 	/**

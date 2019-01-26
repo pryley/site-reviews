@@ -3,8 +3,8 @@
     site-reviews/addon/register
     site-reviews/addon/settings/{tab}
     site-reviews/builder
-    site-reviews/review/created
     site-reviews/customize/{style}
+    site-reviews/review/created
     site-reviews/route/{request_type}/request
 
 ## Filters
@@ -48,14 +48,14 @@
     site-reviews/enqueue/public/dependencies
     site-reviews/enqueue/public/localize
     site-reviews/enqueue/public/localize/ajax-pagination
-    site-reviews/{form_id}/fields
     site-reviews/get/defaults
     site-reviews/get/review
+    site-reviews/get/reviews
     site-reviews/metabox/details
     site-reviews/notification/emails
     site-reviews/notification/title
-    site-reviews/paginate_links/args
     site-reviews/paginate_links
+    site-reviews/paginate_links/args
     site-reviews/path
     site-reviews/rating/average
     site-reviews/rating/ranking
@@ -93,3 +93,4 @@
     site-reviews/validation/rules
     site-reviews/views/data
     site-reviews/views/file
+    site-reviews/{form_id}/fields
