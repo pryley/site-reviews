@@ -104,6 +104,11 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
+= 3.2.0 (2019-01-26) =
+
+- Added the ability to render reviews that are fetched with the helper functions (see documentation)
+- Updated documentation
+
 = 3.1.11 (2019-01-24) =
 
 - Changed "submit-button.php" templates for all plugin styles
@@ -184,7 +189,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 = 3.0.2 (2018-12-21) =
 
-- Fixed PHP warning when calculating review counts due to reviews not having their review_type set correctly (possible due to incorrectly importing 3rd-party reviews).
+- Fixed PHP warning when calculating review counts due to reviews not having their review_type set correctly (possible due to incorrectly importing 3rd-party reviews)
 
 = 3.0.1 (2018-12-21) =
 

@@ -44,7 +44,7 @@ class SiteReviews
 	 * @param Reviews|null $reviews
 	 * @return void|string
 	 */
-	public function build( array $args = [], $reviews = false )
+	public function build( array $args = [], $reviews = null )
 	{
 		$this->args = $args;
 		$this->options = glsr( Helper::class )->flattenArray( glsr( OptionManager::class )->all() );
@@ -56,7 +56,6 @@ class SiteReviews
 	}
 
 	/**
-	 * @param Review $review
 	 * @return ReviewHtml
 	 */
 	public function buildReview( Review $review )
@@ -79,7 +78,7 @@ class SiteReviews
 	}
 
 	/**
-	 * @return string
+	 * @return ReviewsHtml
 	 */
 	public function buildReviews()
 	{

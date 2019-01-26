@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Schema\UnknownType;
+use GeminiLabs\SiteReviews\Review;
 use WP_Post;
 
 class Schema
@@ -98,7 +99,7 @@ class Schema
 	}
 
 	/**
-	 * @param object $review
+	 * @param Review $review
 	 * @return array
 	 */
 	protected function buildReview( $review )
