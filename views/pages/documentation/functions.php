@@ -57,7 +57,7 @@ if( function_exists( 'glsr_get_reviews' )) {
  * - 'response' => '',
  * - 'title' => '',
  * - 'url' => '',
- * @return \GeminiLabs\SiteReviews\Review|null
+ * @return \GeminiLabs\SiteReviews\Review|false
  */
 glsr_create_review( array $reviewValues = [] );</code></pre>
 		<p><strong>Example Usage:</strong></p>
@@ -152,15 +152,26 @@ glsr_get_options();</code></pre>
 	<div class="inside">
 		<pre><code class="php">/**
  * @param int $post_id
- * @return \GeminiLabs\SiteReviews\Review|void
+ * @return \GeminiLabs\SiteReviews\Review
  */
 glsr_get_review( $post_id );</code></pre>
-		<p>The <code>$post_id</code> variable is required and is the post_id of the review you want to get.</p>
+		<p>This helper function returns an arrayable Review object.</p>
+		<p>The <code>$post_id</code> variable is required and is the $post->ID of the review you want to get. An invalid post ID will return an empty Review object.</p>
 		<p><strong>Example Usage:</strong></p>
 		<pre><code class="php">$review = glsr_get_review( 13 );</code></pre>
-		<p><strong>Helpful Tip:</strong></p>
-		<p>You can use the debug helper to view all available values in the review object that is returned.</p>
-		<pre><code class="php">glsr_debug( $review );</code></pre>
+		<p><strong>Helpful Tips:</strong></p>
+		<p>1. Print a specific (non-rendered) Review value to the page:</p>
+		<pre><code class="php">echo $review->author; // OR: echo $review['author'];</code></pre>
+		<p>2. Print the rendered (HTML) review to the page:</p>
+		<pre><code class="php">$review->render(); // OR: echo $review;</code></pre>
+		<p>3a. Render (as HTML) all of the review fields and return them as an arrayable object:</p>
+		<pre><code class="php">$reviewHtml = $review->build();</code></pre>
+		<p>3b. Print a specific rendered (HTML) field to the page:</p>
+		<pre><code class="php">echo $reviewHtml->author; // OR: echo $reviewHtml['author'];</code></pre>
+		<p>3c. Print the rendered (HTML) review to the page:</p>
+		<pre><code class="php">echo $reviewHtml; // This is identical to: $review->render();</code></pre>
+		<p>4. You can also use the glsr_debug helper function to print both arrayable objects to the screen:</p>
+		<pre><code class="php">glsr_debug( $review, $reviewHtml );</code></pre>
 	</div>
 </div>
 
