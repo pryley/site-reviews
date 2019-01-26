@@ -138,7 +138,6 @@ function glsr_get_review( $post_id ) {
 
 /**
  * @return array
- * @todo document change of $reviews->reviews to $reviews->results
  */
 function glsr_get_reviews( $args = array() ) {
 	if( !is_array( $args )) {

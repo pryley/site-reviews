@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Review;
+use GeminiLabs\SiteReviews\Reviews;
 use WP_Post;
 use WP_Query;
 
@@ -87,10 +88,8 @@ class ReviewManager
 			'posts_per_page' => $args['count'],
 			'tax_query' => $taxQuery,
 		]);
-		return (object)[
-			'results' => array_map( [$this, 'single'], $reviews->posts ),
-			'max_num_pages' => $reviews->max_num_pages,
-		];
+		$results = array_map( [$this, 'single'], $reviews->posts );
+		return new Reviews( $results, $reviews->max_num_pages, $args );
 	}
 
 	/**

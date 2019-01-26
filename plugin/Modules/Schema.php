@@ -32,7 +32,7 @@ class Schema
 		$this->args = $args;
 		$schema = $this->buildSummary( $args );
 		$reviews = [];
-		foreach( glsr( ReviewManager::class )->get( $this->args )->results as $review ) {
+		foreach( glsr( ReviewManager::class )->get( $this->args ) as $review ) {
 			// Only include critic reviews that have been directly produced by your site, not reviews from third- party sites or syndicated reviews.
 			// @see https://developers.google.com/search/docs/data-types/review
 			if( $review->review_type != 'local' )continue;

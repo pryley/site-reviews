@@ -9,10 +9,12 @@ use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
+use GeminiLabs\SiteReviews\Modules\Html\ReviewsHtml;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Polylang;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Review;
+use GeminiLabs\SiteReviews\Reviews;
 use IntlRuleBasedBreakIterator;
 use WP_Post;
 
@@ -34,31 +36,23 @@ class SiteReviews
 	public $options;
 
 	/**
-	 * @var object
+	 * @var Reviews
 	 */
 	protected $reviews;
 
 	/**
+	 * @param Reviews|null $reviews
 	 * @return void|string
 	 */
-	public function build( array $args = [] )
+	public function build( array $args = [], $reviews = false )
 	{
 		$this->args = $args;
 		$this->options = glsr( Helper::class )->flattenArray( glsr( OptionManager::class )->all() );
-		$this->reviews = glsr( ReviewManager::class )->get( $args );
+		$this->reviews = $reviews instanceof Reviews
+			? $reviews
+			: glsr( ReviewManager::class )->get( $args );
 		$this->generateSchema();
-		$navigation = wp_validate_boolean( $this->args['pagination'] )
-			? glsr( Partial::class )->build( 'pagination', ['total' => $this->reviews->max_num_pages] )
-			: '';
-		return glsr( Template::class )->build( 'templates/reviews', [
-			'context' => [
-				'assigned_to' => $this->args['assigned_to'],
-				'class' => $this->getClass(),
-				'id' => $this->args['id'],
-				'navigation' => $navigation,
-				'reviews' => $this->buildReviews(),
-			],
-		]);
+		return $this->buildReviews();
 	}
 
 	/**
@@ -89,13 +83,24 @@ class SiteReviews
 	 */
 	public function buildReviews()
 	{
-		$reviews = '';
-		foreach( $this->reviews->results as $index => $result ) {
-			$reviews.= glsr( Template::class )->build( 'templates/review', [
-				'context' => $this->buildReview( $result )->values,
+		$renderedReviews = [];
+		foreach( $this->reviews as $index => $review ) {
+			$renderedReviews[] = glsr( Template::class )->build( 'templates/review', [
+				'context' => $this->buildReview( $review )->values,
 			]);
 		}
-		return $reviews;
+		return new ReviewsHtml( $renderedReviews, $this->reviews->max_num_pages, $this->args );
+	}
+
+	/**
+	 * @return void
+	 */
+	public function generateSchema()
+	{
+		if( !wp_validate_boolean( $this->args['schema'] ))return;
+		glsr( Schema::class )->store(
+			glsr( Schema::class )->build( $this->args )
+		);
 	}
 
 	/**
@@ -249,28 +254,6 @@ class SiteReviews
 			return $newAvatar;
 		}
 		return $avatarUrl;
-	}
-
-	/**
-	 * @return void
-	 */
-	protected function generateSchema()
-	{
-		if( !wp_validate_boolean( $this->args['schema'] ))return;
-		glsr( Schema::class )->store(
-			glsr( Schema::class )->build( $this->args )
-		);
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function getClass()
-	{
-		$pagination = $this->args['pagination'] == 'ajax'
-			? 'glsr-ajax-pagination'
-			: '';
-		return trim( 'glsr-reviews glsr-default '.$pagination.' '.$this->args['class'] );
 	}
 
 	/**
