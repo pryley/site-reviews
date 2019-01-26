@@ -24,7 +24,7 @@ apply_filters( $function_name, $fallback, ...$args );</code></pre>
 		<pre><code>$reviews = apply_filters( 'glsr_get_reviews', [], [
 	'assigned_to' => 'post_id',
 ]);</code></pre>
-		<p>Is identical to:</p>
+		<p>Is the same as:</p>
 		<pre><code>$reviews = [];
 if( function_exists( 'glsr_get_reviews' )) {
 	$reviews = glsr_get_reviews([
@@ -70,9 +70,22 @@ glsr_create_review( array $reviewValues = [] );</code></pre>
 	'rating' => 5,
 	'title' => 'Fantastic plugin!',
 	'xyz' => 'This is a custom field!'
-]);</code></pre>
+]);
+
+// OR:
+
+$review = apply_filters( 'glsr_create_review', false, [
+	'content' => 'This is my review.',
+	'date' => '2018-06-13',
+	'email' => 'jane@doe.com',
+	'name' => 'Jane Doe',
+	'rating' => 5,
+	'title' => 'Fantastic plugin!',
+	'xyz' => 'This is a custom field!'
+]);
+</code></pre>
 		<p><strong>Helpful Tip:</strong></p>
-		<p>You can use the debug helper to view the review object that is returned.</p>
+		<p>You can use the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!functions' ); ?>" data-expand="#functions-03">glsr_debug</a></code> helper function to view the review object that is returned.</p>
 		<pre><code class="php">glsr_debug( $review );</code></pre>
 	</div>
 </div>
@@ -93,7 +106,12 @@ glsr_create_review( array $reviewValues = [] );</code></pre>
 glsr_debug( ...$variable );</code></pre>
 		<p>This function prints one or more variables (strings, arrays, objects, etc.) to the screen in human-readable format. You can include as many variables as you want separated by commas.</p>
 		<p><strong>Example Usage:</strong></p>
-		<pre><code class="php">glsr_debug( $var1, $var2, $var3 );</code></pre>
+		<pre><code class="php">glsr_debug( $var1, $var2, $var3 );
+
+// OR:
+
+apply_filters( 'glsr_debug', null, $var1, $var2, $var3 );
+</code></pre>
 	</div>
 </div>
 
@@ -115,9 +133,13 @@ glsr_get_option( $path = '', $fallback = '' );</code></pre>
 		<p>The <code>$path</code> variable is required and is the dot-notation path of the option you want to get. You build a dot-notation string by using the array keys leading up to the value you wish to get.</p>
 		<p>The <code>$fallback</code> variable is what you want to return if the option is not found or is empty. Default is an empty string.</p>
 		<p><strong>Example Usage:</strong></p>
-		<pre><code class="php">$requireApproval = glsr_get_option( 'general.require.approval' );</code></pre>
+		<pre><code class="php">$requireApproval = glsr_get_option( 'general.require.approval', 'no' );
+
+// OR:
+
+$requireApproval = apply_filters( 'glsr_get_option', 'no', 'general.require.approval', 'no' );</code></pre>
 		<p><strong>Helpful Tip:</strong></p>
-		<p>You can use the following code to view the whole plugin settings array, this will help you figure out which dot-notation path to use.</p>
+		<p>You can use the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!functions' ); ?>" data-expand="#functions-03">glsr_debug</a></code> helper function to view the whole plugin settings array, this will help you figure out which dot-notation path to use.</p>
 		<pre><code class="php">glsr_debug( glsr_get_options() );</code></pre>
 	</div>
 </div>
@@ -137,7 +159,14 @@ glsr_get_option( $path = '', $fallback = '' );</code></pre>
 glsr_get_options();</code></pre>
 		<p>This function returns an array of all of the plugin settings.</p>
 		<p><strong>Example Usage:</strong></p>
-		<pre><code class="php">glsr_debug( glsr_get_options() );</code></pre>
+		<pre><code class="php">$pluginSettings = glsr_get_options();
+
+// OR:
+
+$pluginSettings = apply_filters( 'glsr_get_options', [] );</code></pre>
+		<p><strong>Helpful Tip:</strong></p>
+		<p>You can use the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!functions' ); ?>" data-expand="#functions-03">glsr_debug</a></code> helper function to print the settings array to the screen:</p>
+		<pre><code class="php">glsr_debug( $pluginSettings );</code></pre>
 	</div>
 </div>
 
@@ -155,29 +184,47 @@ glsr_get_options();</code></pre>
  * @return \GeminiLabs\SiteReviews\Review
  */
 glsr_get_review( $post_id );</code></pre>
-		<p>This helper function returns an arrayable Review object.</p>
+		<p>This helper function returns an arrayable Review object with super-powers!</p>
 		<p>The <code>$post_id</code> variable is required and is the $post->ID of the review you want to get. An invalid post ID will return an empty Review object.</p>
 		<p><strong>Example Usage:</strong></p>
-		<pre><code class="php">$review = glsr_get_review( 13 );</code></pre>
+		<pre><code class="php">$review = glsr_get_review( 13 );
+
+// OR:
+
+$review = apply_filters( 'glsr_get_review', null, 13 );</code></pre>
 		<p><strong>Helpful Tips:</strong></p>
-		<p>1. Print a specific (non-rendered) Review value to the page:</p>
-		<pre><code class="php">echo $review->author; // OR: echo $review['author'];</code></pre>
-		<p>2. Print the rendered (HTML) review to the page:</p>
-		<pre><code class="php">$review->render(); // OR: echo $review;</code></pre>
-		<p>3a. Render (as HTML) all of the review fields and return them as an arrayable object:</p>
-		<pre><code class="php">$reviewHtml = $review->build();</code></pre>
-		<p>3b. Print a specific rendered (HTML) field to the page:</p>
-		<pre><code class="php">echo $reviewHtml->author; // OR: echo $reviewHtml['author'];</code></pre>
-		<p>3c. Print the rendered (HTML) review to the page:</p>
-		<pre><code class="php">echo $reviewHtml; // This is identical to: $review->render();</code></pre>
-		<p>4. You can also use the glsr_debug helper function to print both arrayable objects to the screen:</p>
-		<pre><code class="php">glsr_debug( $review, $reviewHtml );</code></pre>
+		<ol>
+			<li>
+				<p>Print a specific (non-rendered) Review value to the page:</p>
+				<pre><code class="php">echo $review->author; // OR: echo $review['author'];</code></pre>
+			</li>
+			<li>
+				<p>Print the rendered (HTML) review to the page:</p>
+				<pre><code class="php">$review->render(); // OR: echo $review;</code></pre>
+			</li>
+			<li>
+				<p>Render (as HTML) all of the review fields and return them as an arrayable object that can be looped through:</p>
+				<pre><code class="php">$reviewHtml = $review->build();</code></pre>
+			</li>
+			<li>
+				<p>Print a specific rendered (HTML) field to the page:</p>
+				<pre><code class="php">echo $reviewHtml->author; // OR: echo $reviewHtml['author'];</code></pre>
+			</li>
+			<li>
+				<p>Print the rendered (HTML) review to the page:</p>
+				<pre><code class="php">echo $reviewHtml; // This is identical to: $review->render();</code></pre>
+			</li>
+			<li>
+				<p>You can also use the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!functions' ); ?>" data-expand="#functions-03">glsr_debug</a></code> helper function to print both arrayable objects to the screen:</p>
+				<pre><code class="php">glsr_debug( $review, $reviewHtml );</code></pre>
+			</li>
+		</ol>
 	</div>
 </div>
 
 <div id="functions-07" class="glsr-card postbox">
 	<div class="glsr-card-header">
-		<h3>Helper function to get an array of reviews</h3>
+		<h3>Helper function to get multiple reviews</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
 			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
 			<span class="toggle-indicator" aria-hidden="true"></span>
@@ -185,9 +232,10 @@ glsr_get_review( $post_id );</code></pre>
 	</div>
 	<div class="inside">
 		<pre><code class="php">/**
- * @return array
+ * @return \GeminiLabs\SiteReviews\Reviews
  */
 glsr_get_reviews( array $args = [] );</code></pre>
+		<p>This helper function returns an arrayable Reviews object with super-powers!</p>
 		<p>The <code>$args</code> variable is optional, but if included it must be an array.</p>
 		<p><strong>Default $args array:</strong></p>
 		<pre><code class="php">$args = [
@@ -205,11 +253,46 @@ glsr_get_reviews( array $args = [] );</code></pre>
 ];</code></pre>
 		<p><strong>Example Usage:</strong></p>
 		<pre><code class="php">$reviews = glsr_get_reviews([
+	'assigned_to' => 'post_id',
 	'rating' => 3,
 ]);
-foreach( $reviews as $review ) {
-	glsr_debug( $review );
-}</code></pre>
+
+// OR:
+
+$reviews = apply_filters( 'glsr_get_reviews', null, [
+	'assigned_to' => 'post_id',
+	'rating' => 3,
+]);</code></pre>
+		<p><strong>Helpful Tips:</strong></p>
+		<ol>
+			<li>
+				<p>Print (as HTML) ALL reviews, including pagination (if included in the $args) to the page:</p>
+				<pre><code class="php">echo $reviews; // This is identical to: $reviews->render();</code></pre>
+			</li>
+			<li>
+				<p>Loop through all reviews and handle each review as needed. Each <code>$review</code> is identical to what the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!functions' ); ?>" data-expand="#functions-06">glsr_get_review</a></code> helper function returns, so make sure to read the "Helpful Tips" from that section above for more information.</p>
+				<pre><code class="php">foreach( $reviews and $review ) {
+	echo $review->author;
+};</code></pre>
+			</li>
+			<li>
+				<p>Use the "max_num_pages" value when creating your own custom navigation:</p>
+				<pre><code class="php">$totalPages = $reviews->max_num_pages;</code></pre>
+			</li>
+			<li>
+				<p>Render (as HTML) all reviews, including pagination (if included in the $args), and return them as an arrayable object. You can then loop through this object like an array, the object also contains the navigation HTML (if "pagination"  is included in the $args):</p>
+				<pre><code class="php">$reviewsHtml = $reviews->build();
+foreach( $reviewsHtml and $reviewHtml ) {
+	echo $reviewHtml;
+}
+echo $reviewsHtml->navigation;</code></pre>
+			</li>
+			<li>
+				<p>You can also use the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!functions' ); ?>" data-expand="#functions-03">glsr_debug</a></code> helper function to print both arrayable objects to the screen:</p>
+				<pre><code class="php">glsr_debug( $reviews, $reviewsHtml );</code></pre>
+			</li>
+
+		</ol>
 	</div>
 </div>
 
@@ -232,7 +315,11 @@ glsr_log( $var = null );</code></pre>
 		<p><strong>Example Usage:</strong></p>
 		<pre><code class="php">glsr_log( $var1 );
 glsr_log()->warning( $var2 );
-glsr_log( $var3 )->error( $var4 )->info( $var5 );</code></pre>
+glsr_log( $var3 )->error( $var4 )->info( $var5 );
+
+// OR:
+
+apply_filters( 'glsr_log', null, $var1 );</code></pre>
 	<p>Logged entries will be found in the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!console' ); ?>">Tools &rarr; Console</a></code>.</p>
 	</div>
 </div>
@@ -251,6 +338,12 @@ glsr_log( $var3 )->error( $var4 )->info( $var5 );</code></pre>
  * @return void
  */
 glsr_calculate_ratings();</code></pre>
+		<p><strong>Example Usage:</strong></p>
+		<pre><code class="php">glsr_calculate_ratings();
+
+// OR:
+
+apply_filters( 'glsr_calculate_ratings', null );</code></pre>
 	<p>You can verify that it runs by checking the log entries in the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=tools#!console' ); ?>">Tools &rarr; Console</a></code>.</p>
 	</div>
 </div>

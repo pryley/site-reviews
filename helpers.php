@@ -60,17 +60,14 @@ function glsr_calculate_ratings() {
 }
 
 /**
- * @return null|\GeminiLabs\SiteReviews\Review
+ * @return \GeminiLabs\SiteReviews\Review|false
  */
 function glsr_create_review( $reviewValues = array() ) {
 	if( !is_array( $reviewValues )) {
 		$reviewValues = array();
 	}
 	$review = new \GeminiLabs\SiteReviews\Commands\CreateReview( $reviewValues );
-	$result = glsr( 'Database\ReviewManager' )->create( $review );
-	return !empty( $result )
-		? $result
-		: null;
+	return glsr( 'Database\ReviewManager' )->create( $review );
 }
 
 /**

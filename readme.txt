@@ -77,10 +77,10 @@ Download the Site Reviews plugin and uploading it to your server via your favori
 == Frequently Asked Questions ==
 
 = How do I use Site Reviews? =
-Use the provided shortcodes, widgets, and blocks on your website. Make sure to view the screenshots below and read the included documentation (once you have installed the plugin).
+Use the provided shortcodes, widgets, and blocks on your website. Make sure to view the screenshots above and read the Documentation page included in the plugin menu (once installed).
 
 = I need help with something else =
-All documentation can be found in the "Documentation" page of the plugin.
+All documentation can be found in the "Documentation" page of the plugin. If you question is not answered there, please create a new topic in the WordPress support forum.
 
 == Screenshots ==
 
