@@ -31,12 +31,15 @@ class EditorController extends Controller
 	}
 
 	/**
+	 * @param array $settings
 	 * @return array
 	 * @filter wp_editor_settings
 	 */
-	public function filterEditorSettings( array $settings )
+	public function filterEditorSettings( $settings )
 	{
-		return glsr( Customization::class )->filterEditorSettings( $settings );
+		return glsr( Customization::class )->filterEditorSettings(
+			glsr( Helper::class )->consolidateArray( $settings )
+		);
 	}
 
 	/**
@@ -75,12 +78,15 @@ class EditorController extends Controller
 	}
 
 	/**
+	 * @param array $messages
 	 * @return array
 	 * @filter post_updated_messages
 	 */
-	public function filterUpdateMessages( array $messages )
+	public function filterUpdateMessages( $messages )
 	{
-		return glsr( Labels::class )->filterUpdateMessages( $messages );
+		return glsr( Labels::class )->filterUpdateMessages(
+			glsr( Helper::class )->consolidateArray( $messages )
+		);
 	}
 
 	/**

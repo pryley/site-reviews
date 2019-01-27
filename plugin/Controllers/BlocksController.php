@@ -9,11 +9,13 @@ use GeminiLabs\SiteReviews\Helper;
 class BlocksController extends Controller
 {
 	/**
+	 * @param array $categories
 	 * @return array
 	 * @filter block_categories
 	 */
-	public function filterBlockCategories( array $categories )
+	public function filterBlockCategories( $categories )
 	{
+		$categories = glsr( Helper::class )->consolidateArray( $categories );
 		$categories[] = [
 			'icon' => null,
 			'slug' => Application::ID,
@@ -23,12 +25,13 @@ class BlocksController extends Controller
 	}
 
 	/**
+	 * @param array $editors
 	 * @param string $postType
 	 * @return array
 	 * @filter classic_editor_enabled_editors_for_post_type
 	 * @plugin classic-editor/classic-editor.php
 	 */
-	public function filterEnabledEditors( array $editors, $postType )
+	public function filterEnabledEditors( $editors, $postType )
 	{
 		return $postType == Application::POST_TYPE
 			? ['block_editor' => false, 'classic_editor' => false]

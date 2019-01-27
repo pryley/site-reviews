@@ -61,6 +61,17 @@ class Helper
 	}
 
 	/**
+	 * @param mixed $array
+	 * @return array
+	 */
+	public function consolidateArray( $array )
+	{
+		return is_array( $array )
+			? $array
+			: [];
+	}
+
+	/**
 	 * @return array
 	 */
 	public function convertDotNotationArray( array $array )

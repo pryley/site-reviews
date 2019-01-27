@@ -107,6 +107,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 = 3.2.0 (2019-01-26) =
 
 - Added the ability to render reviews that are fetched with the helper functions (see documentation)
+- Fixed a potential PHP error due to plugins or themes incorrectly using [apply_filter](http://developer.wordpress.org/reference/functions/add_filter/)
 - Updated documentation
 
 = 3.1.11 (2019-01-24) =

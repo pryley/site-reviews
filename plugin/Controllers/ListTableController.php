@@ -31,11 +31,13 @@ class ListTableController extends Controller
 	}
 
 	/**
+	 * @param array $messages
 	 * @return array
 	 * @filter bulk_post_updated_messages
 	 */
-	public function filterBulkUpdateMessages( array $messages, array $counts )
+	public function filterBulkUpdateMessages( $messages, array $counts )
 	{
+		$messages = glsr( Helper::class )->consolidateArray( $messages );
 		$messages[Application::POST_TYPE] = [
 			'updated' => _n( '%s review updated.', '%s reviews updated.', $counts['updated'], 'site-reviews' ),
 			'locked' => _n( '%s review not updated, somebody is editing it.', '%s reviews not updated, somebody is editing them.', $counts['locked'], 'site-reviews' ),
@@ -47,11 +49,13 @@ class ListTableController extends Controller
 	}
 
 	/**
+	 * @param array $columns
 	 * @return array
 	 * @filter manage_.Application::POST_TYPE._posts_columns
 	 */
-	public function filterColumnsForPostType( array $columns )
+	public function filterColumnsForPostType( $columns )
 	{
+		$columns = glsr( Helper::class )->consolidateArray( $columns );
 		$postTypeColumns = glsr()->postTypeColumns[Application::POST_TYPE];
 		foreach( $postTypeColumns as $key => &$value ) {
 			if( !array_key_exists( $key, $columns ) || !empty( $value ))continue;
@@ -77,34 +81,38 @@ class ListTableController extends Controller
 	}
 
 	/**
+	 * @param array $hidden
 	 * @return array
 	 * @filter default_hidden_columns
 	 */
-	public function filterDefaultHiddenColumns( array $hidden, WP_Screen $screen )
+	public function filterDefaultHiddenColumns( $hidden, WP_Screen $screen )
 	{
 		if( $screen->id == 'edit-'.Application::POST_TYPE ) {
+			$hidden = glsr( Helper::class )->consolidateArray( $hidden );
 			$hidden = ['reviewer'];
 		}
 		return $hidden;
 	}
 
 	/**
+	 * @param array $postStates
 	 * @return array
 	 * @filter display_post_states
 	 */
-	public function filterPostStates( array $postStates, WP_Post $post ) {
-		if( $post->post_type == Application::POST_TYPE
-			&& array_key_exists( 'pending', $postStates )) {
+	public function filterPostStates( $postStates, WP_Post $post ) {
+		$postStates = glsr( Helper::class )->consolidateArray( $postStates );
+		if( $post->post_type == Application::POST_TYPE && array_key_exists( 'pending', $postStates )) {
 			$postStates['pending'] = __( 'Unapproved', 'site-reviews' );
 		}
 		return $postStates;
 	}
 
 	/**
+	 * @param array $actions
 	 * @return array
 	 * @filter post_row_actions
 	 */
-	public function filterRowActions( array $actions, WP_Post $post )
+	public function filterRowActions( $actions, WP_Post $post )
 	{
 		if( $post->post_type != Application::POST_TYPE || $post->post_status == 'trash' ) {
 			return $actions;
@@ -125,15 +133,17 @@ class ListTableController extends Controller
 				),
 			]);
 		}
-		return $newActions + $actions;
+		return $newActions + glsr( Helper::class )->consolidateArray( $actions );
 	}
 
 	/**
+	 * @param array $columns
 	 * @return array
 	 * @filter manage_edit-.Application::POST_TYPE._sortable_columns
 	 */
-	public function filterSortableColumns( array $columns )
+	public function filterSortableColumns( $columns )
 	{
+		$columns = glsr( Helper::class )->consolidateArray( $columns );
 		$postTypeColumns = glsr()->postTypeColumns[Application::POST_TYPE];
 		unset( $postTypeColumns['cb'] );
 		foreach( $postTypeColumns as $key => $value ) {

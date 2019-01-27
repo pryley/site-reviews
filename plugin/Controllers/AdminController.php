@@ -53,10 +53,11 @@ class AdminController extends Controller
 	}
 
 	/**
+	 * @param array $items
 	 * @return array
 	 * @filter dashboard_glance_items
 	 */
-	public function filterDashboardGlanceItems( array $items )
+	public function filterDashboardGlanceItems( $items )
 	{
 		$postCount = wp_count_posts( Application::POST_TYPE );
 		if( empty( $postCount->publish )) {
@@ -64,6 +65,7 @@ class AdminController extends Controller
 		}
 		$text = _n( '%s Review', '%s Reviews', $postCount->publish, 'site-reviews' );
 		$text = sprintf( $text, number_format_i18n( $postCount->publish ));
+		$items = glsr( Helper::class )->consolidateArray( $items );
 		$items[] = current_user_can( get_post_type_object( Application::POST_TYPE )->cap->edit_posts )
 			? glsr( Builder::class )->a( $text, [
 				'class' => 'glsr-review-count',
@@ -76,12 +78,14 @@ class AdminController extends Controller
 	}
 
 	/**
+	 * @param array $plugins
 	 * @return array
 	 * @filter mce_external_plugins
 	 */
-	public function filterTinymcePlugins( array $plugins )
+	public function filterTinymcePlugins( $plugins )
 	{
 		if( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' )) {
+			$plugins = glsr( Helper::class )->consolidateArray( $plugins );
 			$plugins['glsr_shortcode'] = glsr()->url( 'assets/scripts/mce-plugin.js' );
 		}
 		return $plugins;

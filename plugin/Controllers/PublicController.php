@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Controllers\Controller;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Handlers\EnqueuePublicAssets;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Modules\Style;
@@ -53,11 +54,13 @@ class PublicController extends Controller
 	}
 
 	/**
+	 * @param array $vars
 	 * @return array
 	 * @filter query_vars
 	 */
-	public function filterQueryVars( array $vars )
+	public function filterQueryVars( $vars )
 	{
+		$vars = glsr( Helper::class )->consolidateArray( $vars );
 		$vars[] = glsr()->constant( 'PAGED_QUERY_VAR' );
 		return $vars;
 	}
