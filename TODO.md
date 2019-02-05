@@ -4,6 +4,7 @@
 - [ ] Add reCAPTCHA v3
 - [ ] Add version rollback feature (ref: WP Rocket)
 - [ ] Custom classes to track form submission status (i.e. is-spam, has-failed, nonce-failed, etc.)
+- [ ] Fallback to Defaults when settings do not exist
 - [ ] Fix: CSS class should reflect the selected plugin style (i.e. .glsr-minimal)
 - [ ] Fix: Test counts when deleting multiple reviews
 - [ ] Update count in menu when reviews are approved/unapproved
