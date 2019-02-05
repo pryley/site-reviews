@@ -259,7 +259,7 @@ glsr_get_reviews( array $args = [] );</code></pre>
 
 // OR:
 
-$reviews = apply_filters( 'glsr_get_reviews', null, [
+$reviews = apply_filters( 'glsr_get_reviews', [], [
 	'assigned_to' => 'post_id',
 	'rating' => 3,
 ]);</code></pre>
@@ -272,7 +272,7 @@ $reviews = apply_filters( 'glsr_get_reviews', null, [
 			<li>
 				<p>Loop through all reviews and handle each review as needed. Each <code>$review</code> is identical to what the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!functions' ); ?>" data-expand="#functions-06">glsr_get_review</a></code> helper function returns, so make sure to read the "Helpful Tips" from that section above for more information.</p>
 				<pre><code class="php">foreach( $reviews and $review ) {
-	echo $review->author;
+	echo $review;
 };</code></pre>
 			</li>
 			<li>
@@ -282,7 +282,7 @@ $reviews = apply_filters( 'glsr_get_reviews', null, [
 			<li>
 				<p>Render (as HTML) all reviews, including pagination (if included in the $args), and return them as an arrayable object. You can then loop through this object like an array, the object also contains the navigation HTML (if "pagination"  is included in the $args):</p>
 				<pre><code class="php">$reviewsHtml = $reviews->build();
-foreach( $reviewsHtml and $reviewHtml ) {
+foreach( $reviewsHtml as $reviewHtml ) {
 	echo $reviewHtml;
 }
 echo $reviewsHtml->navigation;</code></pre>
