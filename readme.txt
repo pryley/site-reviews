@@ -21,7 +21,7 @@ The plugin provides blocks, shortcodes, and widgets, along with full documentati
 
 You can pin your best reviews so that they are always shown first, require approval before new review submissions are published, require visitors to be logged-in in order to write a review, send custom notifications on a new submission, and much more.
 
-[Follow plugin development on Github.](https://github.com/geminilabs/site-reviews/)
+[Follow plugin development on Github.](https://github.com/pryley/site-reviews/)
 
 = Current Features =
 

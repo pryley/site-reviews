@@ -1,24 +1,24 @@
 {
   "private": true,
   "dependencies": {
-    "star-rating.js": "^3.1.2"
+    "star-rating.js": "^3.1.4"
   },
   "devDependencies": {
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "^6.0.0",
-    "gulp-bump": "^3.1.1",
+    "gulp-bump": "^3.1.3",
     "gulp-checktextdomain": "^2.2.0",
     "gulp-concat": "^2.6.1",
     "gulp-cssnano": "^2.1.2",
     "gulp-if": "^2.0.2",
     "gulp-jshint": "^2.0.4",
-    "gulp-potomo": "^1.0.3",
+    "gulp-potomo": "^1.1.0",
     "gulp-pottopo": "^1.0.1",
     "gulp-sass": "^4.0.2",
     "gulp-sort": "^2.0.0",
     "gulp-uglify": "^3.0.1",
     "gulp-wp-pot": "^2.3.3",
-    "jshint": "^2.9.7",
+    "jshint": "^2.10.1",
     "jshint-stylish": "^2.2.1",
     "merge-stream": "^1.0.1",
     "pump": "^3.0.0",
