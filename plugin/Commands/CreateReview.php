@@ -130,8 +130,9 @@ class CreateReview
 	 */
 	protected function getNumeric( $key )
 	{
-		return is_numeric( $this->request[$key] )
-			? (string)$this->request[$key]
+		$value = $this->get( $key );
+		return is_numeric( $value )
+			? $value
 			: '';
 	}
 }

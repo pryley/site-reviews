@@ -71,6 +71,7 @@
     site-reviews/review/build/after
     site-reviews/review/build/before
     site-reviews/review/build/{field_key}
+    site-reviews/review/redirect
     site-reviews/review/wrap
     site-reviews/review/wrap/{field_key}
     site-reviews/route/request

@@ -33,6 +33,7 @@ class CreateReview
 	protected function getReferer( Command $command )
 	{
 		$referer = trim( strval( get_post_meta( $command->post_id, 'redirect_to', true )));
+		$referer = apply_filters( 'site-reviews/review/redirect', $referer, $command );
 		if( empty( $referer )) {
 			$referer = $command->referer;
 		}

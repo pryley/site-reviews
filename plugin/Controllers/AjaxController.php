@@ -119,12 +119,14 @@ class AjaxController extends Controller
 	 */
 	public function routerSubmitReview( array $request )
 	{
-		glsr( PublicController::class )->routerSubmitReview( $request );
+		$command = glsr( PublicController::class )->routerSubmitReview( $request );
+		$redirect = trim( strval( get_post_meta( $command->post_id, 'redirect_to', true )));
+		$redirect = apply_filters( 'site-reviews/review/redirect', $redirect, $command );
 		$data = [
-			'errors' => glsr( Session::class )->get( $request['form_id'].'errors', false, true ),
-			'message' => glsr( Session::class )->get( $request['form_id'].'message', '', true ),
-			'recaptcha' => glsr( Session::class )->get( $request['form_id'].'recaptcha', false, true ),
-			'redirect' => trim( strval( get_post_meta( intval( $request['_post_id'] ), 'redirect_to', true ))),
+			'errors' => glsr( Session::class )->get( $command->form_id.'errors', false, true ),
+			'message' => glsr( Session::class )->get( $command->form_id.'message', '', true ),
+			'recaptcha' => glsr( Session::class )->get( $command->form_id.'recaptcha', false, true ),
+			'redirect' => $redirect,
 		];
 		if( $data['errors'] === false ) {
 			glsr( Session::class )->clear();
