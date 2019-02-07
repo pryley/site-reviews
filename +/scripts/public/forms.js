@@ -63,13 +63,10 @@
 
 		/** @return void */
 		initStarRatings_: function() {
-			var select = this.form.querySelector( 'select.glsr-star-rating' );
-			if( select ) {
-				new StarRating( select, {
-					clearable: false,
-					showText: false,
-				});
-			}
+			new StarRating( 'select.glsr-star-rating', {
+				clearable: false,
+				showText: false,
+			});
 		},
 
 		/** @return bool */
