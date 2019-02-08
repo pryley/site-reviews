@@ -143,6 +143,7 @@ class System
 			'Max Input Vars' => ini_get( 'max_input_vars' ),
 			'Memory Limit' => ini_get( 'memory_limit' ),
 			'Post Max Size' => ini_get( 'post_max_size' ),
+			'Sendmail Path' => ini_get( 'sendmail_path' ),
 			'Session Cookie Path' => esc_html( ini_get( 'session.cookie_path' )),
 			'Session Name' => esc_html( ini_get( 'session.name' )),
 			'Session Save Path' => esc_html( ini_get( 'session.save_path' )),
