@@ -21,6 +21,7 @@ class ListTableController extends Controller
 	 */
 	public function approve()
 	{
+		if( filter_input( INPUT_GET, 'plugin' ) != Application::ID )return;
 		check_admin_referer( 'approve-review_'.( $postId = $this->getPostId() ));
 		wp_update_post([
 			'ID' => $postId,
@@ -128,7 +129,7 @@ class ListTableController extends Controller
 				'aria-label' => sprintf( esc_attr_x( '%s this review', 'Approve the review', 'site-reviews' ), $text ),
 				'class' => 'glsr-change-status',
 				'href' => wp_nonce_url(
-					admin_url( 'post.php?post='.$post->ID.'&action='.$key ),
+					admin_url( 'post.php?post='.$post->ID.'&action='.$key.'&plugin='.Application::ID ),
 					$key.'-review_'.$post->ID
 				),
 			]);
@@ -249,6 +250,7 @@ class ListTableController extends Controller
 	 */
 	public function unapprove()
 	{
+		if( filter_input( INPUT_GET, 'plugin' ) != Application::ID )return;
 		check_admin_referer( 'unapprove-review_'.( $postId = $this->getPostId() ));
 		wp_update_post([
 			'ID' => $postId,

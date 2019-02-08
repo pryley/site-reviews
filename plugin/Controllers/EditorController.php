@@ -250,6 +250,7 @@ class EditorController extends Controller
 	 */
 	public function revertReview()
 	{
+		if( filter_input( INPUT_GET, 'plugin' ) != Application::ID )return;
 		check_admin_referer( 'revert-review_'.( $postId = $this->getPostId() ));
 		glsr( ReviewManager::class )->revert( $postId );
 		$this->redirect( $postId, 52 );
@@ -296,7 +297,8 @@ class EditorController extends Controller
 			]
 		);
 		if( $isModified ) {
-			$revertUrl = wp_nonce_url( admin_url( 'post.php?post='.$post->ID.'&action=revert' ),
+			$revertUrl = wp_nonce_url(
+				admin_url( 'post.php?post='.$post->ID.'&action=revert&plugin='.Application::ID ),
 				'revert-review_'.$post->ID
 			);
 			return glsr( Builder::class )->a( __( 'Revert Changes', 'site-reviews' ), [

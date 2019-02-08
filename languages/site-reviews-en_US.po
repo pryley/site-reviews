@@ -386,7 +386,7 @@ msgstr "Choose which fields should be required in the submission form."
 msgid "Required Fields"
 msgstr "Required Fields"
 
-#: config/settings.php:293, plugin/Controllers/EditorController.php:369, plugin/Controllers/MainController.php:32, plugin/Shortcodes/SiteReviewsPopup.php:33
+#: config/settings.php:293, plugin/Controllers/EditorController.php:371, plugin/Controllers/MainController.php:32, plugin/Shortcodes/SiteReviewsPopup.php:33
 msgid "Rating"
 msgstr "Rating"
 
@@ -398,11 +398,11 @@ msgstr "Title"
 msgid "Review"
 msgstr "Review"
 
-#: config/settings.php:296, plugin/Controllers/EditorController.php:372
+#: config/settings.php:296, plugin/Controllers/EditorController.php:374
 msgid "Name"
 msgstr "Name"
 
-#: config/settings.php:297, plugin/Controllers/EditorController.php:373
+#: config/settings.php:297, plugin/Controllers/EditorController.php:375
 msgid "Email"
 msgstr "Email"
 
@@ -664,93 +664,93 @@ msgstr "Yes"
 msgid "%s reviews are read-only."
 msgstr "%s reviews are read-only."
 
-#: plugin/Controllers/EditorController.php:302
+#: plugin/Controllers/EditorController.php:304
 msgid "Revert Changes"
 msgstr "Revert Changes"
 
-#: plugin/Controllers/EditorController.php:308
+#: plugin/Controllers/EditorController.php:310
 msgid "Nothing to Revert"
 msgstr "Nothing to Revert"
 
-#: plugin/Controllers/EditorController.php:324
+#: plugin/Controllers/EditorController.php:326
 msgid "Unknown"
 msgstr "Unknown"
 
-#: plugin/Controllers/EditorController.php:359
+#: plugin/Controllers/EditorController.php:361
 msgid "Unregistered user"
 msgstr "Unregistered user"
 
-#: plugin/Controllers/EditorController.php:366
+#: plugin/Controllers/EditorController.php:368
 msgid "RE:"
 msgstr "RE:"
 
-#: plugin/Controllers/EditorController.php:370, plugin/Controllers/MainController.php:31, plugin/Shortcodes/TinymcePopupGenerator.php:136
+#: plugin/Controllers/EditorController.php:372, plugin/Controllers/MainController.php:31, plugin/Shortcodes/TinymcePopupGenerator.php:136
 msgid "Type"
 msgstr "Type"
 
-#: plugin/Controllers/EditorController.php:371, plugin/Defaults/PostTypeDefaults.php:18
+#: plugin/Controllers/EditorController.php:373, plugin/Defaults/PostTypeDefaults.php:18
 msgid "Date"
 msgstr "Date"
 
-#: plugin/Controllers/EditorController.php:374
+#: plugin/Controllers/EditorController.php:376
 msgid "User"
 msgstr "User"
 
-#: plugin/Controllers/EditorController.php:375
+#: plugin/Controllers/EditorController.php:377
 msgid "IP Address"
 msgstr "IP Address"
 
-#: plugin/Controllers/EditorController.php:376
+#: plugin/Controllers/EditorController.php:378
 msgid "Avatar"
 msgstr "Avatar"
 
-#: plugin/Controllers/ListTableController.php:42
+#: plugin/Controllers/ListTableController.php:43
 msgid "%s review updated."
 msgid_plural "%s reviews updated."
 msgstr[0] "%s review updated."
 msgstr[1] "%s reviews updated."
 
-#: plugin/Controllers/ListTableController.php:43
+#: plugin/Controllers/ListTableController.php:44
 msgid "%s review not updated, somebody is editing it."
 msgid_plural "%s reviews not updated, somebody is editing them."
 msgstr[0] "%s review not updated, somebody is editing it."
 msgstr[1] "%s reviews not updated, somebody is editing them."
 
-#: plugin/Controllers/ListTableController.php:44
+#: plugin/Controllers/ListTableController.php:45
 msgid "%s review permanently deleted."
 msgid_plural "%s reviews permanently deleted."
 msgstr[0] "%s review permanently deleted."
 msgstr[1] "%s reviews permanently deleted."
 
-#: plugin/Controllers/ListTableController.php:45
+#: plugin/Controllers/ListTableController.php:46
 msgid "%s review moved to the Trash."
 msgid_plural "%s reviews moved to the Trash."
 msgstr[0] "%s review moved to the Trash."
 msgstr[1] "%s reviews moved to the Trash."
 
-#: plugin/Controllers/ListTableController.php:46
+#: plugin/Controllers/ListTableController.php:47
 msgid "%s review restored from the Trash."
 msgid_plural "%s reviews restored from the Trash."
 msgstr[0] "%s review restored from the Trash."
 msgstr[1] "%s reviews restored from the Trash."
 
-#: plugin/Controllers/ListTableController.php:78
+#: plugin/Controllers/ListTableController.php:79
 msgid "Submitted"
 msgstr "Submitted"
 
-#: plugin/Controllers/ListTableController.php:105, plugin/Controllers/ListTableController.php:171, plugin/Controllers/EditorController/Labels.php:117, plugin/Controllers/EditorController/Labels.php:118
+#: plugin/Controllers/ListTableController.php:106, plugin/Controllers/ListTableController.php:172, plugin/Controllers/EditorController/Labels.php:117, plugin/Controllers/EditorController/Labels.php:118
 msgid "Unapproved"
 msgstr "Unapproved"
 
-#: plugin/Controllers/ListTableController.php:122, plugin/Controllers/EditorController/Labels.php:120
+#: plugin/Controllers/ListTableController.php:123, plugin/Controllers/EditorController/Labels.php:120
 msgid "Approve"
 msgstr "Approve"
 
-#: plugin/Controllers/ListTableController.php:123
+#: plugin/Controllers/ListTableController.php:124
 msgid "Unapprove"
 msgstr "Unapprove"
 
-#: plugin/Controllers/ListTableController.php:170, plugin/Controllers/EditorController/Labels.php:18, plugin/Controllers/EditorController/Labels.php:121
+#: plugin/Controllers/ListTableController.php:171, plugin/Controllers/EditorController/Labels.php:18, plugin/Controllers/EditorController/Labels.php:121
 msgid "Approved"
 msgstr "Approved"
 
@@ -1751,7 +1751,7 @@ msgctxt "View Post"
 msgid "View %s"
 msgstr "View %s"
 
-#: plugin/Controllers/ListTableController.php:128
+#: plugin/Controllers/ListTableController.php:129
 msgctxt "Approve the review"
 msgid "%s this review"
 msgstr "%s this review"
