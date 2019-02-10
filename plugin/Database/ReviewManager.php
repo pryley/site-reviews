@@ -108,7 +108,8 @@ class ReviewManager
 	 */
 	public function normalizeTermIds( $commaSeparatedTermIds )
 	{
-		return glsr_array_column( $this->normalizeTerms( $commaSeparatedTermIds ), 'term_id' );
+		$termIds = glsr_array_column( $this->normalizeTerms( $commaSeparatedTermIds ), 'term_id' );
+		return array_unique( array_map( 'intval', $termIds ));
 	}
 
 	/**
@@ -180,11 +181,11 @@ class ReviewManager
 	 */
 	protected function setTerms( $postId, $termIds )
 	{
-		$terms = $this->normalizeTermIds( $termIds );
-		if( empty( $terms ))return;
-		$result = wp_set_object_terms( $postId, $terms, Application::TAXONOMY );
-		if( is_wp_error( $result )) {
-			glsr_log()->error( $result->get_error_message() );
+		$termIds = $this->normalizeTermIds( $termIds );
+		if( empty( $termIds ))return;
+		$termTaxonomyIds = wp_set_object_terms( $postId, $termIds, Application::TAXONOMY );
+		if( is_wp_error( $termTaxonomyIds )) {
+			glsr_log()->error( $termTaxonomyIds->get_error_message() );
 		}
 	}
 }

@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.0
 Requires PHP: 5.6
-Stable tag: 3.2.3
+Stable tag: 3.2.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,13 +41,13 @@ You can pin your best reviews so that they are always shown first, require appro
 - Honeypot (spam trap) implemented in the submission form
 - Plugin styles to match popular themes, form plugins, and CSS frameworks
 - Polylang integration for multilingual websites
+- Rating Snippets in Google search results (schema.org JSON-LD markup)
 - Relative dates
 - Review avatars (gravatar.com)
 - Review blacklist
 - Review categories
 - Review responses
 - Reviews summary
-- Rich snippets for reviews (schema.org)
 - Shortcode button dropdown in the Classic Editor
 - Shortcodes: display reviews in your post content and templates
 - Templates
@@ -80,7 +80,7 @@ Download the Site Reviews plugin and uploading it to your server via your favori
 Use the provided shortcodes, widgets, and blocks on your website. Make sure to view the screenshots above and read the Documentation page included in the plugin menu (once installed).
 
 = I need help with something else =
-All documentation can be found in the "Documentation" page of the plugin. If you question is not answered there, please create a new topic in the WordPress support forum.
+All documentation can be found in the "Documentation" page of the plugin. If your question is not answered there, please create a new topic in the [WordPress support forum](https://wordpress.org/support/plugin/site-reviews/).
 
 == Screenshots ==
 
@@ -103,6 +103,10 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 9. This is what the Slack notifications look like
 
 == Changelog ==
+
+= 3.2.4 (2019-02-10) =
+
+- Fixed category assignment
 
 = 3.2.3 (2019-02-08) =
 
