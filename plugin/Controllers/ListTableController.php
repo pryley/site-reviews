@@ -329,6 +329,9 @@ class ListTableController extends Controller
 		$columns = glsr()->postTypeColumns[Application::POST_TYPE];
 		unset( $columns['cb'], $columns['title'], $columns['date'] );
 		if( in_array( $orderby, array_keys( $columns ))) {
+			if( $orderby == 'reviewer' ) {
+				$orderby = 'author';
+			}
 			$query->set( 'meta_key', $orderby );
 			$query->set( 'orderby', 'meta_value' );
 		}
