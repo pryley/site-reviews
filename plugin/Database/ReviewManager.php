@@ -30,6 +30,7 @@ class ReviewManager
 			'ping_status' => 'closed',
 			'post_content' => $reviewValues['content'],
 			'post_date' => $reviewValues['date'],
+			'post_date_gmt' => $reviewValues['date'],
 			'post_name' => $reviewValues['review_type'].'-'.$reviewValues['review_id'],
 			'post_status' => $this->getNewPostStatus( $reviewValues, $command->blacklisted ),
 			'post_title' => $reviewValues['title'],
