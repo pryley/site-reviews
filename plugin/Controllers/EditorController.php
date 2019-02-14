@@ -12,7 +12,6 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Review;
@@ -368,7 +367,7 @@ class EditorController extends Controller
 				'href' => 'mailto:'.$review->email.'?subject='.esc_attr( __( 'RE:', 'site-reviews' ).' '.$review->title ),
 			]);
 		$metabox = [
-			__( 'Rating', 'site-reviews' ) => glsr( Partial::class )->build( 'star-rating', ['rating' => $review->rating] ),
+			__( 'Rating', 'site-reviews' ) => glsr_star_rating( $review->rating ),
 			__( 'Type', 'site-reviews' ) => $this->getReviewType( $review ),
 			__( 'Date', 'site-reviews' ) => get_date_from_gmt( $review->date, 'F j, Y' ),
 			__( 'Name', 'site-reviews' ) => $review->author,

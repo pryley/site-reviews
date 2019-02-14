@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewsHtml;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
@@ -201,9 +200,7 @@ class SiteReviews
 	protected function buildOptionRating( $key, $value )
 	{
 		if( $this->isHiddenOrEmpty( $key, $value ))return;
-		return glsr( Partial::class )->build( 'star-rating', [
-			'rating' => $value,
-		]);
+		return glsr_star_rating( $value );
 	}
 
 	/**

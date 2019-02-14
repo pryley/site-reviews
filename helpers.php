@@ -18,6 +18,7 @@ add_filter( 'all', function() {
 		'glsr_get_option', 'glsr_get_options',
 		'glsr_get_review', 'glsr_get_reviews',
 		'glsr_log',
+		'glsr_star_rating',
 	);
 	if( !in_array( $hook, $hooks ) || !function_exists( $hook ))return;
 	add_filter( $hook, function() use( $hook, $args ) {
@@ -155,4 +156,11 @@ function glsr_log() {
 	return !empty( $args )
 		? $console->log( 'debug', $args[0], $context )
 		: $console;
+}
+
+/**
+ * @return string
+ */
+function glsr_star_rating( $rating ) {
+	return glsr( 'Modules\Html\Partial' )->build( 'star-rating', ['rating' => $rating] );
 }

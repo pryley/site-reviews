@@ -298,6 +298,30 @@ echo $reviewsHtml->navigation;</code></pre>
 
 <div id="functions-08" class="glsr-card postbox">
 	<div class="glsr-card-header">
+		<h3>Helper function to generate HTML stars for a rating</h3>
+		<button type="button" class="handlediv" aria-expanded="true">
+			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+	</div>
+	<div class="inside">
+		<p>This helper function allows you to build a 1-5 star rating HTML string.</p>
+		<pre><code class="php">/**
+ * @param int $rating (a number from 1-5)
+ * @return void
+ */
+glsr_star_rating( $rating );</code></pre>
+		<p><strong>Example Usage:</strong></p>
+		<pre><code class="php">echo glsr_star_rating( 4 );
+
+// OR:
+
+echo apply_filters( 'glsr_star_rating', null, 4 );</code></pre>
+	</div>
+</div>
+
+<div id="functions-09" class="glsr-card postbox">
+	<div class="glsr-card-header">
 		<h3>Helper function to log variables to the plugin console</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
 			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
@@ -324,7 +348,7 @@ apply_filters( 'glsr_log', null, $var1 );</code></pre>
 	</div>
 </div>
 
-<div id="functions-09" class="glsr-card postbox">
+<div id="functions-10" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>Helper function to recalculate the rating counts</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
