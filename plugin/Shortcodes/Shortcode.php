@@ -110,9 +110,13 @@ abstract class Shortcode implements ShortcodeContract
 	 */
 	protected function normalizeAssignedTo( $postId )
 	{
-		return $postId == 'post_id'
-			? intval( get_the_ID() )
-			: $postId;
+		if( $postId == 'parent_id' ) {
+			$postId = intval( wp_get_post_parent_id( intval( get_the_ID() )));
+		}
+		else if( $postId == 'post_id' ) {
+			$postId = intval( get_the_ID() );
+		}
+		return $postId;
 	}
 
 	/**

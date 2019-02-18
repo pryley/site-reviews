@@ -26,7 +26,7 @@ class SiteReviewsSummaryPopup extends SiteReviewsPopup
 		[
 			'label' => esc_html__( 'Assigned To', 'site-reviews' ),
 			'name' => 'assigned_to',
-			'tooltip' => __( 'Limit reviews to those assigned to this post ID (separate multiple IDs with a comma). You can also enter "post_id" to use the ID of the current page.', 'site-reviews' ),
+			'tooltip' => __( 'Limit reviews to those assigned to this post ID (separate multiple IDs with a comma). You can also enter "post_id" to use the ID of the current page, or "parent_id" to use the ID of the parent page.', 'site-reviews' ),
 			'type' => 'textbox',
 		],[
 			'label' => esc_html__( 'Schema', 'site-reviews' ),

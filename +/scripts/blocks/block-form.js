@@ -93,7 +93,7 @@
 				el( PanelBody,
 					{ title: __( 'Settings', 'site-reviews' ) },
 					el( TextControl, {
-						help: __( 'Assign reviews to a post ID. You can also enter "post_id" to use the ID of the current page.', 'site-reviews' ),
+						help: __( 'Assign reviews to a post ID. You can also enter "post_id" to use the ID of the current page, or "parent_id" to use the ID of the parent page.', 'site-reviews' ),
 						label: __( 'Assign To', 'site-reviews' ),
 						onChange: function( value ) {
 							props.setAttributes({ assign_to: value });

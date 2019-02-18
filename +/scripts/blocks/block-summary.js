@@ -115,7 +115,7 @@
 				el( PanelBody,
 					{ title: __( 'Settings', 'site-reviews' ) },
 					el( TextControl, {
-						help: __( 'Limit reviews to those assigned to this post ID. You can also enter "post_id" to use the ID of the current page.', 'site-reviews' ),
+						help: __( 'Limit reviews to those assigned to this post ID. You can also enter "post_id" to use the ID of the current page, or "parent_id" to use the ID of the parent page.', 'site-reviews' ),
 						label: __( 'Assigned To', 'site-reviews' ),
 						onChange: function( value ) {
 							props.setAttributes({ assigned_to: value });

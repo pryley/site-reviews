@@ -71,9 +71,7 @@ class SiteReviewsBlock extends BlockGenerator
 			$this->filterShortcodeClass();
 			$this->filterShowMoreLinks( 'content' );
 			$this->filterShowMoreLinks( 'response' );
-			if( $attributes['assigned_to'] == 'post_id' ) {
-				$attributes['assigned_to'] = $attributes['post_id'];
-			}
+			$attributes = $this->normalize( $attributes );
 		}
 		return glsr( Shortcode::class )->buildShortcode( $attributes );
 	}

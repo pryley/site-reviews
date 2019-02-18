@@ -546,7 +546,7 @@ msgstr "Tell us your email"
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
-#: plugin/Blocks/SiteReviewsBlock.php:110, plugin/Modules/Html/Partials/SiteReviews.php:270
+#: plugin/Blocks/SiteReviewsBlock.php:108, plugin/Modules/Html/Partials/SiteReviews.php:270
 msgid "Show more"
 msgstr "Show more"
 
@@ -1012,23 +1012,23 @@ msgstr ""
 "This custom translation is no longer valid as the original text has been "
 "changed or removed."
 
-#: plugin/Shortcodes/Shortcode.php:158
+#: plugin/Shortcodes/Shortcode.php:162
 msgid "Excellent"
 msgstr "Excellent"
 
-#: plugin/Shortcodes/Shortcode.php:159
+#: plugin/Shortcodes/Shortcode.php:163
 msgid "Very good"
 msgstr "Very good"
 
-#: plugin/Shortcodes/Shortcode.php:160
+#: plugin/Shortcodes/Shortcode.php:164
 msgid "Average"
 msgstr "Average"
 
-#: plugin/Shortcodes/Shortcode.php:161
+#: plugin/Shortcodes/Shortcode.php:165
 msgid "Poor"
 msgstr "Poor"
 
-#: plugin/Shortcodes/Shortcode.php:162
+#: plugin/Shortcodes/Shortcode.php:166
 msgid "Terrible"
 msgstr "Terrible"
 
@@ -1157,10 +1157,12 @@ msgstr "Limit reviews to this category."
 #: plugin/Shortcodes/SiteReviewsPopup.php:61, plugin/Shortcodes/SiteReviewsSummaryPopup.php:29
 msgid ""
 "Limit reviews to those assigned to this post ID (separate multiple IDs with "
-"a comma). You can also enter \"post_id\" to use the ID of the current page."
+"a comma). You can also enter \"post_id\" to use the ID of the current page, "
+"or \"parent_id\" to use the ID of the parent page."
 msgstr ""
 "Limit reviews to those assigned to this post ID (separate multiple IDs with "
-"a comma). You can also enter \"post_id\" to use the ID of the current page."
+"a comma). You can also enter \"post_id\" to use the ID of the current page, "
+"or \"parent_id\" to use the ID of the parent page."
 
 #: plugin/Shortcodes/SiteReviewsPopup.php:67, plugin/Shortcodes/SiteReviewsSummaryPopup.php:35
 msgid "Enable rich snippets"

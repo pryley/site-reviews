@@ -56,9 +56,7 @@ class SiteReviewsSummaryBlock extends BlockGenerator
 		$attributes['class'] = $attributes['className'];
 		if( filter_input( INPUT_GET, 'context' ) == 'edit' ) {
 			$this->filterShortcodeClass();
-			if( $attributes['assigned_to'] == 'post_id' ) {
-				$attributes['assigned_to'] = $attributes['post_id'];
-			}
+			$attributes = $this->normalize( $attributes );
 		}
 		return glsr( Shortcode::class )->buildShortcode( $attributes );
 	}

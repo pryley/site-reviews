@@ -15,6 +15,23 @@ abstract class BlockGenerator
 	}
 
 	/**
+	 * @return array
+	 */
+	public function normalize( array $attributes )
+	{
+		if( !isset( $attributes['assigned_to'] )) {
+			return $attributes;
+		}
+		if( $attributes['assigned_to'] == 'post_id' ) {
+			$attributes['assigned_to'] = $attributes['post_id'];
+		}
+		else if( $attributes['assigned_to'] == 'parent_id' ) {
+			$attributes['assigned_to'] = wp_get_post_parent_id( $attributes['post_id'] );
+		}
+		return $attributes;
+	}
+
+	/**
 	 * @return void
 	 */
 	public function register( $block )

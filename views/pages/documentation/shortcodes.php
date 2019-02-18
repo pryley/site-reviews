@@ -12,7 +12,7 @@
 		<p>This shortcode displays your most recently submitted reviews.</p>
 
 		<p class="glsr-heading">assigned_to</p>
-		<p>Include the "assigned_to" attribute to limit reviews to those assigned to a specific <a href="https://pagely.com/blog/find-post-id-wordpress/">page/post ID</a>. Accepted values are one or more post/page ID's (separated by commas). You can also use <code>post_id</code> which will automatically use the ID of the current page.</p>
+		<p>Include the "assigned_to" attribute to limit reviews to those assigned to a specific <a href="https://pagely.com/blog/find-post-id-wordpress/">page/post ID</a>. Accepted values are one or more post/page ID's (separated by commas). You can also use <code>post_id</code> which will automatically use the ID of the current page, or <code>parent_id</code> which will automatically use the ID of the parent page.</p>
 		<p>The default assigned_to value is: <code>""</code></p>
 		<pre><code>[site_reviews assigned_to="post_id"]</code></pre>
 
@@ -81,7 +81,7 @@
 		<p>This shortcode displays the review submission form.</p>
 
 		<p class="glsr-heading">assign_to</p>
-		<p>Include the "assign_to" attribute to automatically assign submitted reviews to a specific page or post. Accepted values are one or more <a href="https://pagely.com/blog/find-post-id-wordpress/">page/post ID's</a> (separated by commas). You can also use <code>post_id</code> which will automatically assign reviews to the current page.</p>
+		<p>Include the "assign_to" attribute to automatically assign submitted reviews to a specific page or post. Accepted values are one or more <a href="https://pagely.com/blog/find-post-id-wordpress/">page/post ID's</a> (separated by commas). You can also use <code>post_id</code> which will automatically assign reviews to the current page, or <code>parent_id</code> which will automatically use the ID of the parent page.</p>
 		<p>The default assign_to value is: <code>""</code></p>
 		<pre><code>[site_reviews_form assign_to="post_id"]</code></pre>
 
@@ -129,7 +129,7 @@
 		<p>This shortcode displays a summary of your reviews.</p>
 
 		<p class="glsr-heading">assigned_to</p>
-		<p>Include the "assigned_to" attribute to limit the reviews used to calculate the average rating to those assigned to a specific <a href="https://pagely.com/blog/find-post-id-wordpress/">page/post ID</a>. Accepted values are one or more post/page ID's (separated by commas). You can also use <code>post_id</code> which will automatically use the ID of the current page.</p>
+		<p>Include the "assigned_to" attribute to limit the reviews used to calculate the average rating to those assigned to a specific <a href="https://pagely.com/blog/find-post-id-wordpress/">page/post ID</a>. Accepted values are one or more post/page ID's (separated by commas). You can also use <code>post_id</code> which will automatically use the ID of the current page, or <code>parent_id</code> which will automatically use the ID of the parent page.</p>
 		<p><span class="required">Important:</span> If you are using this shortcode together with the [site_reviews] shortcode, make sure you set this attribute value the same for both shortcodes.</p>
 		<p>The default assigned_to value is: <code>""</code></p>
 		<pre><code>[site_reviews_summary assigned_to="post_id"]</code></pre>

@@ -486,7 +486,7 @@ msgstr ""
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr ""
 
-#: plugin/Blocks/SiteReviewsBlock.php:110, plugin/Modules/Html/Partials/SiteReviews.php:270
+#: plugin/Blocks/SiteReviewsBlock.php:108, plugin/Modules/Html/Partials/SiteReviews.php:270
 msgid "Show more"
 msgstr ""
 
@@ -1007,23 +1007,23 @@ msgstr[1] ""
 msgid "This custom translation is no longer valid as the original text has been changed or removed."
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:158
+#: plugin/Shortcodes/Shortcode.php:162
 msgid "Excellent"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:159
+#: plugin/Shortcodes/Shortcode.php:163
 msgid "Very good"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:160
+#: plugin/Shortcodes/Shortcode.php:164
 msgid "Average"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:161
+#: plugin/Shortcodes/Shortcode.php:165
 msgid "Poor"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:162
+#: plugin/Shortcodes/Shortcode.php:166
 msgid "Terrible"
 msgstr ""
 
@@ -1142,7 +1142,7 @@ msgid "Limit reviews to this category."
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsPopup.php:61, plugin/Shortcodes/SiteReviewsSummaryPopup.php:29
-msgid "Limit reviews to those assigned to this post ID (separate multiple IDs with a comma). You can also enter \"post_id\" to use the ID of the current page."
+msgid "Limit reviews to those assigned to this post ID (separate multiple IDs with a comma). You can also enter \"post_id\" to use the ID of the current page, or \"parent_id\" to use the ID of the parent page."
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsPopup.php:67, plugin/Shortcodes/SiteReviewsSummaryPopup.php:35
