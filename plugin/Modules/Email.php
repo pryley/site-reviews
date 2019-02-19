@@ -121,7 +121,7 @@ class Email
 	{
 		$template = trim( glsr( OptionManager::class )->get( 'settings.general.notification_message' ));
 		if( !empty( $template )) {
-			$message = glsr( Template::class )->interpolate( $template, $this->email['template-tags'] );
+			$message = glsr( Template::class )->interpolate( $template, $this->email['template-tags'], $this->email['template'] );
 		}
 		else if( $this->email['template'] ) {
 			$message = glsr( Template::class )->build( 'templates/'.$this->email['template'], [

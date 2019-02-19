@@ -19,7 +19,7 @@ class Template
 		$template = ob_get_clean();
 		$path = glsr( Helper::class )->removePrefix( 'templates/', $templatePath );
 		$template = apply_filters( 'site-reviews/build/template/'.$path, $template, $data );
-		$template = $this->interpolate( $template, $data['context'] );
+		$template = $this->interpolate( $template, $data['context'], $path );
 		$template = apply_filters( 'site-reviews/rendered/template', $template, $templatePath, $data );
 		$template = apply_filters( 'site-reviews/rendered/template/'.$path, $template, $data );
 		return $template;
@@ -28,11 +28,13 @@ class Template
 	/**
 	 * Interpolate context values into template placeholders
 	 * @param string $template
+	 * @param string $templatePath
 	 * @return string
 	 */
-	public function interpolate( $template, array $context = [] )
+	public function interpolate( $template, array $context = [], $templatePath )
 	{
 		$context = $this->normalizeContext( $context );
+		$context = apply_filters( 'site-reviews/interpolate/'.$templatePath, $context );
 		foreach( $context as $key => $value ) {
 			$template = strtr(
 				$template,
