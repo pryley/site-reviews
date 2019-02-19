@@ -108,6 +108,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 - Added a "placeholder" option to the [site_reviews] shortcode (see documentation)
 - Added default text that is shown as a placeholder when there are no reviews to display
+- Added informational text to the Site Reviews blocks when all fields are hidden
 
 = 3.4.0 (2019-02-18) =
 

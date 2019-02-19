@@ -19,6 +19,9 @@ abstract class BlockGenerator
 	 */
 	public function normalize( array $attributes )
 	{
+		$hide = array_flip( explode( ',', $attributes['hide'] ));
+		unset( $hide['if_empty'] );
+		$attributes['hide'] = implode( ',', array_keys( $hide ));
 		if( !isset( $attributes['assigned_to'] )) {
 			return $attributes;
 		}
@@ -50,4 +53,17 @@ abstract class BlockGenerator
 	 * @return void
 	 */
 	abstract public function render( array $attributes );
+
+	/**
+	 * @param mixed $shortcode
+	 * @return bool
+	 */
+	protected function hasVisibleFields( $shortcode, array $attributes )
+	{
+		$args = $shortcode->normalize( $attributes );
+		$defaults = $shortcode->getHideOptions();
+		$hide = array_flip( $args['hide'] );
+		unset( $defaults['if_empty'], $hide['if_empty'] );
+		return !empty( array_diff_key( $defaults, $hide ));
+	}
 }

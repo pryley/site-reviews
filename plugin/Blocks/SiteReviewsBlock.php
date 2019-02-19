@@ -61,19 +61,35 @@ class SiteReviewsBlock extends BlockGenerator
 	}
 
 	/**
-	 * @return void
+	 * @return string
 	 */
 	public function render( array $attributes )
 	{
 		$attributes['class'] = $attributes['className'];
+		$shortcode = glsr( Shortcode::class );
 		if( filter_input( INPUT_GET, 'context' ) == 'edit' ) {
+			$attributes = $this->normalize( $attributes );
 			$this->filterReviewLinks();
 			$this->filterShortcodeClass();
 			$this->filterShowMoreLinks( 'content' );
 			$this->filterShowMoreLinks( 'response' );
-			$attributes = $this->normalize( $attributes );
+			if( !$this->hasVisibleFields( $shortcode, $attributes )) {
+				$this->filterInterpolation();
+			}
 		}
-		return glsr( Shortcode::class )->buildShortcode( $attributes );
+		return $shortcode->buildShortcode( $attributes );
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function filterInterpolation()
+	{
+		add_filter( 'site-reviews/interpolate/reviews', function( $context ) {
+			$context['class'] = 'glsr-default glsr-block-disabled';
+			$context['reviews'] = __( 'You have hidden all of the fields for this block.', 'site-reviews' );
+			return $context;
+		});
 	}
 
 	/**

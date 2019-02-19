@@ -37,18 +37,22 @@ class SiteReviewsFormBlock extends BlockGenerator
 	}
 
 	/**
-	 * @return void
+	 * @return string
 	 */
 	public function render( array $attributes )
 	{
 		$attributes['class'] = $attributes['className'];
+		$shortcode = glsr( Shortcode::class );
 		if( filter_input( INPUT_GET, 'context' ) == 'edit' ) {
 			$this->filterFormFields();
 			$this->filterRatingField();
 			$this->filterShortcodeClass();
 			$this->filterSubmitButton();
+			if( !$this->hasVisibleFields( $shortcode, $attributes )) {
+				$this->filterInterpolation();
+			}
 		}
-		return glsr( Shortcode::class )->buildShortcode( $attributes );
+		return $shortcode->buildShortcode( $attributes );
 	}
 
 	/**
@@ -62,6 +66,20 @@ class SiteReviewsFormBlock extends BlockGenerator
 				$field['tabindex'] = '-1';
 			});
 			return $config;
+		});
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function filterInterpolation()
+	{
+		add_filter( 'site-reviews/interpolate/reviews-form', function( $context ) {
+			$context['class'] = 'glsr-default glsr-block-disabled';
+			$context['fields'] = __( 'You have hidden all of the fields for this block.', 'site-reviews' );
+			$context['response'] = '';
+			$context['submit_button'] = '';
+			return $context;
 		});
 	}
 
@@ -101,6 +119,3 @@ class SiteReviewsFormBlock extends BlockGenerator
 		});
 	}
 }
-
-
-
