@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.0
 Requires PHP: 5.6
-Stable tag: 3.4.0
+Stable tag: 3.5.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,11 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 9. This is what the Slack notifications look like
 
 == Changelog ==
+
+= 3.5.0 (2019-02-19) =
+
+- Added a "placeholder" option to the [site_reviews] shortcode (see documentation)
+- Added default text that is shown as a placeholder when there are no reviews to display
 
 = 3.4.0 (2019-02-18) =
 

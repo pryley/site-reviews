@@ -55,7 +55,7 @@ class ReviewsHtml extends ArrayObject
 				'class' => $this->getClass(),
 				'id' => $this->args['id'],
 				'navigation' => $this->getNavigation(),
-				'reviews' => implode( PHP_EOL, $this->reviews ),
+				'reviews' => $this->getReviews(),
 			],
 		]);
 	}
@@ -84,5 +84,27 @@ class ReviewsHtml extends ArrayObject
 		return wp_validate_boolean( $this->args['pagination'] )
 			? $this->navigation
 			: '';
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getReviews()
+	{
+		return empty( $this->reviews )
+			? $this->getReviewsPlaceholder()
+			: implode( PHP_EOL, $this->reviews );
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getReviewsPlaceholder()
+	{
+		if( empty( $this->args['placeholder'] )) {
+			$this->args['placeholder'] = __( 'There are no reviews yet. Be the first one to write one.', 'site-reviews' );
+		}
+		$placeholder = '<p class="glsr-no-margins">'.$this->args['placeholder'].'</p>';
+		return apply_filters( 'site-reviews/reviews/placeholder', $placeholder, $this->args );
 	}
 }

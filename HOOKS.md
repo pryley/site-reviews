@@ -75,6 +75,7 @@
     site-reviews/review/redirect
     site-reviews/review/wrap
     site-reviews/review/wrap/{field_key}
+    site-reviews/reviews/placeholder
     site-reviews/route/request
     site-reviews/schema/all
     site-reviews/schema/review
