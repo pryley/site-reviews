@@ -316,7 +316,7 @@ tr.glsr-field li {
 .glsr-spinner {
 	visibility: hidden;
 	position: absolute;
-	top: 6px;
+	top: 5px;
 	right: 5px;
 	height: 20px;
 	width: 20px;
@@ -346,6 +346,8 @@ tr.glsr-field li {
 
 .glsr-search-results {
 	position: absolute;
+	top: 28px;
+	left: 0;
 	width: 100%;
 	max-height: 310px;
 	overflow-x: scroll;
@@ -355,7 +357,6 @@ tr.glsr-field li {
 	border-top: none;
 	box-sizing: border-box;
 	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
-	margin-top: -1px;
 	z-index: 1;
 	> div,
 	> span {
