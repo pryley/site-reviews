@@ -58,7 +58,7 @@ class Polylang
 	public function isEnabled()
 	{
 		return $this->isActive()
-			&& glsr( OptionManager::class )->get( 'settings.general.support.polylang' ) == 'yes';
+			&& glsr( OptionManager::class )->getBool( 'settings.general.support.polylang' );
 	}
 
 	/**

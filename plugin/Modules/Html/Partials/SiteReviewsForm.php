@@ -47,7 +47,7 @@ class SiteReviewsForm
 	public function build( array $args = [] )
 	{
 		$this->args = $args;
-		if( !is_user_logged_in() && glsr( OptionManager::class )->get( 'settings.general.require.login' ) == 'yes' ) {
+		if( !is_user_logged_in() && glsr( OptionManager::class )->getBool( 'settings.general.require.login' )) {
 			return $this->buildLoginRegister();
 		}
 		$this->errors = glsr( Session::class )->get( $args['id'].'errors', [], true );
@@ -168,7 +168,7 @@ class SiteReviewsForm
 	 */
 	protected function getRegisterText()
 	{
-		if( !get_option( 'users_can_register' ) || glsr( OptionManager::class )->get( 'settings.general.require.login' ) != 'yes' )return;
+		if( !get_option( 'users_can_register' ) || !glsr( OptionManager::class )->getBool( 'settings.general.require.login' ))return;
 		$registerLink = glsr( Builder::class )->a([
 			'href' => wp_registration_url(),
 			'text' => __( 'register', 'site-reviews' ),

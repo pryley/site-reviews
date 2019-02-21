@@ -169,8 +169,8 @@ class ReviewManager
 	 */
 	protected function getNewPostStatus( array $review, $isBlacklisted )
 	{
-		$requireApprovalOption = glsr( OptionManager::class )->get( 'settings.general.require.approval' );
-		return $review['review_type'] == 'local' && ( $requireApprovalOption == 'yes' || $isBlacklisted )
+		$requireApproval = glsr( OptionManager::class )->getBool( 'settings.general.require.approval' );
+		return $review['review_type'] == 'local' && ( $requireApproval || $isBlacklisted )
 			? 'pending'
 			: 'publish';
 	}
