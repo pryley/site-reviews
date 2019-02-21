@@ -51,6 +51,11 @@
 		<p>The default pagination value is: <code>"false"</code></p>
 		<pre><code>[site_reviews pagination="ajax"]</code></pre>
 
+		<p class="glsr-heading">fallback</p>
+		<p>Include the "fallback" attribute to change the text that is shown when there are no reviews to display. This option overrides the default fallback text if enabled in the plugin settings.</p>
+		<p>The default fallback value is: <code>""</code></p>
+		<pre><code>[site_reviews fallback="No reviews found."]</code></pre>
+
 		<p class="glsr-heading">rating</p>
 		<p>Include the "rating" attribute to set the <em>minimum</em> star-rating of reviews to display. By default, the shortcode displays all 1-5 star reviews.</p>
 		<p>The default rating value is: <code>"1"</code></p>

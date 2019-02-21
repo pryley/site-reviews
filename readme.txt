@@ -107,7 +107,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 = 3.5.0 (2019-02-19) =
 
 - Added a "placeholder" option to the [site_reviews] shortcode (see documentation)
-- Added default text that is shown as a placeholder when there are no reviews to display
+- Added an "Enable Fallback Text" option in the plugin settings that can be shown by default when there are no reviews to display
 - Added informational text to the Site Reviews blocks when all fields are hidden
 - Fixed the "Assigned To" metabox search dropdown
 

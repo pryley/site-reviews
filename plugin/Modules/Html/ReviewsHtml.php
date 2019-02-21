@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use ArrayObject;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Reviews;
@@ -101,7 +102,7 @@ class ReviewsHtml extends ArrayObject
 	 */
 	protected function getReviewsPlaceholder()
 	{
-		if( empty( $this->args['placeholder'] )) {
+		if( empty( $this->args['placeholder'] ) && glsr( OptionManager::class )->getBool( 'settings.reviews.fallback' )) {
 			$this->args['placeholder'] = __( 'There are no reviews yet. Be the first one to write one.', 'site-reviews' );
 		}
 		$placeholder = '<p class="glsr-no-margins">'.$this->args['placeholder'].'</p>';

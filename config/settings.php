@@ -155,6 +155,15 @@ return [
 		'label' => __( 'Excerpt Length', 'site-reviews' ),
 		'type' => 'number',
 	],
+	'settings.reviews.fallback' => [
+		'default' => 'no',
+		'description' => sprintf( __( 'Display the fallback text when there are no reviews to display. This can be changed on the %s page. You may also override this by using the "fallback" option on the shortcode. The default fallback text is: %s', 'site-reviews' ),
+			'<a href="'.admin_url( 'edit.php?post_type=site-review&page=settings#!translations' ).'">'.__( 'Translations', 'site-reviews' ).'</a>',
+			'<code>'.__( 'There are no reviews yet. Be the first one to write one.', 'site-reviews' ).'</code>'
+		),
+		'label' => __( 'Enable Fallback Text', 'site-reviews' ),
+		'type' => 'yes_no',
+	],
 	'settings.schema.type.default' => [
 		'default' => 'LocalBusiness',
 		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_type</code>',
