@@ -226,207 +226,223 @@ msgstr ""
 msgid "Excerpt Length"
 msgstr ""
 
-#: config/settings.php:160, config/settings.php:178, config/settings.php:194, config/settings.php:210, config/settings.php:226, config/settings.php:243, config/settings.php:251, config/settings.php:259, config/settings.php:267, config/settings.php:275, config/settings.php:283
-msgid "Custom Field name"
+#: config/settings.php:160
+msgid "Display the fallback text when there are no reviews to display. This can be changed on the %s page. You may also override this by using the \"fallback\" option on the shortcode. The default fallback text is: %s"
 msgstr ""
 
-#: config/settings.php:161
-msgid "Default Schema Type"
+#: config/settings.php:161, plugin/Controllers/MenuController.php:111
+msgid "Translations"
 msgstr ""
 
-#: config/settings.php:163
-msgid "Local Business"
+#: config/settings.php:162, plugin/Modules/Html/ReviewsHtml.php:106
+msgid "There are no reviews yet. Be the first one to write one."
 msgstr ""
 
 #: config/settings.php:164
-msgid "Product"
+msgid "Enable Fallback Text"
 msgstr ""
 
-#: config/settings.php:165
-msgid "Custom"
+#: config/settings.php:169, config/settings.php:187, config/settings.php:203, config/settings.php:219, config/settings.php:235, config/settings.php:252, config/settings.php:260, config/settings.php:268, config/settings.php:276, config/settings.php:284, config/settings.php:292
+msgid "Custom Field name"
+msgstr ""
+
+#: config/settings.php:170
+msgid "Default Schema Type"
 msgstr ""
 
 #: config/settings.php:172
-msgid "View more information on schema types here"
+msgid "Local Business"
 msgstr ""
 
 #: config/settings.php:173
-msgid "Custom Schema Type"
+msgid "Product"
 msgstr ""
 
-#: config/settings.php:179
-msgid "Default Name"
+#: config/settings.php:174
+msgid "Custom"
 msgstr ""
 
 #: config/settings.php:181
-msgid "Use the assigned or current page title"
+msgid "View more information on schema types here"
 msgstr ""
 
 #: config/settings.php:182
+msgid "Custom Schema Type"
+msgstr ""
+
+#: config/settings.php:188
+msgid "Default Name"
+msgstr ""
+
+#: config/settings.php:190
+msgid "Use the assigned or current page title"
+msgstr ""
+
+#: config/settings.php:191
 msgid "Enter a custom title"
 msgstr ""
 
-#: config/settings.php:189
+#: config/settings.php:198
 msgid "Custom Name"
 msgstr ""
 
-#: config/settings.php:195
+#: config/settings.php:204
 msgid "Default Description"
 msgstr ""
 
-#: config/settings.php:197
+#: config/settings.php:206
 msgid "Use the assigned or current page excerpt"
 msgstr ""
 
-#: config/settings.php:198
+#: config/settings.php:207
 msgid "Enter a custom description"
 msgstr ""
 
-#: config/settings.php:205
+#: config/settings.php:214
 msgid "Custom Description"
 msgstr ""
 
-#: config/settings.php:211
+#: config/settings.php:220
 msgid "Default URL"
 msgstr ""
 
-#: config/settings.php:213
+#: config/settings.php:222
 msgid "Use the assigned or current page URL"
 msgstr ""
 
-#: config/settings.php:214
+#: config/settings.php:223
 msgid "Enter a custom URL"
 msgstr ""
 
-#: config/settings.php:221
+#: config/settings.php:230
 msgid "Custom URL"
 msgstr ""
 
-#: config/settings.php:227
+#: config/settings.php:236
 msgid "Default Image"
 msgstr ""
 
-#: config/settings.php:229
+#: config/settings.php:238
 msgid "Use the featured image of the assigned or current page"
 msgstr ""
 
-#: config/settings.php:230
+#: config/settings.php:239
 msgid "Enter a custom image URL"
 msgstr ""
 
-#: config/settings.php:237
+#: config/settings.php:246
 msgid "Custom Image URL"
 msgstr ""
 
-#: config/settings.php:244
+#: config/settings.php:253
 msgid "Address"
 msgstr ""
 
-#: config/settings.php:252
+#: config/settings.php:261
 msgid "Telephone Number"
 msgstr ""
 
-#: config/settings.php:260
+#: config/settings.php:269
 msgid "Price Range"
 msgstr ""
 
-#: config/settings.php:268
+#: config/settings.php:277
 msgid "Low Price"
 msgstr ""
 
-#: config/settings.php:276
+#: config/settings.php:285
 msgid "High Price"
 msgstr ""
 
-#: config/settings.php:284
+#: config/settings.php:293
 msgid "Price Currency"
 msgstr ""
 
-#: config/settings.php:290
+#: config/settings.php:299
 msgid "Choose which fields should be required in the submission form."
 msgstr ""
 
-#: config/settings.php:291
+#: config/settings.php:300
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:293, plugin/Controllers/EditorController.php:370, plugin/Controllers/MainController.php:32, plugin/Shortcodes/SiteReviewsPopup.php:33
+#: config/settings.php:302, plugin/Controllers/EditorController.php:370, plugin/Controllers/MainController.php:32, plugin/Shortcodes/SiteReviewsPopup.php:33
 msgid "Rating"
 msgstr ""
 
-#: config/settings.php:294, plugin/Defaults/PostTypeDefaults.php:17, plugin/Shortcodes/SiteReviewsFormPopup.php:19, plugin/Shortcodes/SiteReviewsPopup.php:20, plugin/Shortcodes/SiteReviewsSummaryPopup.php:19, plugin/Widgets/SiteReviewsFormWidget.php:21, plugin/Widgets/SiteReviewsSummaryWidget.php:21, plugin/Widgets/SiteReviewsWidget.php:21
+#: config/settings.php:303, plugin/Defaults/PostTypeDefaults.php:17, plugin/Shortcodes/SiteReviewsFormPopup.php:19, plugin/Shortcodes/SiteReviewsPopup.php:20, plugin/Shortcodes/SiteReviewsSummaryPopup.php:19, plugin/Widgets/SiteReviewsFormWidget.php:21, plugin/Widgets/SiteReviewsSummaryWidget.php:21, plugin/Widgets/SiteReviewsWidget.php:21
 msgid "Title"
 msgstr ""
 
-#: config/settings.php:295, plugin/Controllers/MainController.php:43
+#: config/settings.php:304, plugin/Controllers/MainController.php:43
 msgid "Review"
 msgstr ""
 
-#: config/settings.php:296, plugin/Controllers/EditorController.php:373
+#: config/settings.php:305, plugin/Controllers/EditorController.php:373
 msgid "Name"
 msgstr ""
 
-#: config/settings.php:297, plugin/Controllers/EditorController.php:374
+#: config/settings.php:306, plugin/Controllers/EditorController.php:374
 msgid "Email"
 msgstr ""
 
-#: config/settings.php:298
+#: config/settings.php:307
 msgid "Terms"
 msgstr ""
 
-#: config/settings.php:304
+#: config/settings.php:313
 msgid "Invisible reCAPTCHA is a free anti-spam service from Google. To use it, you will need to <a href=\"https://www.google.com/recaptcha/admin\" target=\"_blank\">sign up</a> for an API key pair for your site."
 msgstr ""
 
-#: config/settings.php:305
+#: config/settings.php:314
 msgid "Invisible reCAPTCHA"
 msgstr ""
 
-#: config/settings.php:316
+#: config/settings.php:325
 msgid "Site Key"
 msgstr ""
 
-#: config/settings.php:322
+#: config/settings.php:331
 msgid "Site Secret"
 msgstr ""
 
-#: config/settings.php:328
+#: config/settings.php:337
 msgid "This option may not work consistently if another plugin is loading reCAPTCHA on the same page as Site Reviews."
 msgstr ""
 
-#: config/settings.php:329
+#: config/settings.php:338
 msgid "Badge Position"
 msgstr ""
 
-#: config/settings.php:339
+#: config/settings.php:348
 msgid "The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> integration provides spam-filtering for your reviews. In order for this setting to have any affect, you will need to first install and activate the Akismet plugin and set up a WordPress.com API key."
 msgstr ""
 
-#: config/settings.php:340
+#: config/settings.php:349
 msgid "Enable Akismet Integration"
 msgstr ""
 
-#: config/settings.php:345
+#: config/settings.php:354
 msgid "When a review contains any of these words in its title, content, name, email, or IP address, it will be rejected. One word or IP address per line. It will match inside words, so \"press\" will match \"WordPress\"."
 msgstr ""
 
-#: config/settings.php:346
+#: config/settings.php:355
 msgid "Review Blacklist"
 msgstr ""
 
-#: config/settings.php:352
+#: config/settings.php:361
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr ""
 
-#: config/settings.php:353
+#: config/settings.php:362
 msgid "Blacklist Action"
 msgstr ""
 
-#: config/settings.php:355
+#: config/settings.php:364
 msgid "Require approval"
 msgstr ""
 
-#: config/settings.php:356
+#: config/settings.php:365
 msgid "Reject submission"
 msgstr ""
 
@@ -486,7 +502,11 @@ msgstr ""
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr ""
 
-#: plugin/Blocks/SiteReviewsBlock.php:108, plugin/Modules/Html/Partials/SiteReviews.php:270
+#: plugin/Blocks/SiteReviewsBlock.php:90, plugin/Blocks/SiteReviewsFormBlock.php:79, plugin/Blocks/SiteReviewsSummaryBlock.php:75
+msgid "You have hidden all of the fields for this block."
+msgstr ""
+
+#: plugin/Blocks/SiteReviewsBlock.php:124, plugin/Modules/Html/Partials/SiteReviews.php:270
 msgid "Show more"
 msgstr ""
 
@@ -824,10 +844,6 @@ msgstr ""
 
 #: plugin/Controllers/MenuController.php:110, plugin/Shortcodes/SiteReviewsPopup.php:64, plugin/Shortcodes/SiteReviewsSummaryPopup.php:32
 msgid "Schema"
-msgstr ""
-
-#: plugin/Controllers/MenuController.php:111
-msgid "Translations"
 msgstr ""
 
 #: plugin/Controllers/MenuController.php:113
@@ -1414,7 +1430,7 @@ msgstr ""
 msgid "Sync your Tripadvisor reviews to your website and manage them with Site Reviews."
 msgstr ""
 
-#: views/pages/documentation/addons.php:8, views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:36, views/pages/documentation/faq.php:64, views/pages/documentation/faq.php:90, views/pages/documentation/faq.php:121, views/pages/documentation/faq.php:143, views/pages/documentation/faq.php:156, views/pages/documentation/faq.php:181, views/pages/documentation/faq.php:208, views/pages/documentation/faq.php:246, views/pages/documentation/faq.php:259, views/pages/documentation/functions.php:7, views/pages/documentation/functions.php:41, views/pages/documentation/functions.php:97, views/pages/documentation/functions.php:122, views/pages/documentation/functions.php:151, views/pages/documentation/functions.php:177, views/pages/documentation/functions.php:229, views/pages/documentation/functions.php:303, views/pages/documentation/functions.php:327, views/pages/documentation/functions.php:355, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:32, views/pages/documentation/hooks.php:55, views/pages/documentation/hooks.php:74, views/pages/documentation/hooks.php:93, views/pages/documentation/hooks.php:113, views/pages/documentation/hooks.php:137, views/pages/documentation/hooks.php:163, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:76, views/pages/documentation/shortcodes.php:124, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:63
+#: views/pages/documentation/addons.php:8, views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:36, views/pages/documentation/faq.php:64, views/pages/documentation/faq.php:90, views/pages/documentation/faq.php:121, views/pages/documentation/faq.php:143, views/pages/documentation/faq.php:156, views/pages/documentation/faq.php:181, views/pages/documentation/faq.php:208, views/pages/documentation/faq.php:246, views/pages/documentation/faq.php:259, views/pages/documentation/functions.php:7, views/pages/documentation/functions.php:41, views/pages/documentation/functions.php:97, views/pages/documentation/functions.php:122, views/pages/documentation/functions.php:151, views/pages/documentation/functions.php:177, views/pages/documentation/functions.php:229, views/pages/documentation/functions.php:303, views/pages/documentation/functions.php:327, views/pages/documentation/functions.php:355, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:32, views/pages/documentation/hooks.php:55, views/pages/documentation/hooks.php:74, views/pages/documentation/hooks.php:93, views/pages/documentation/hooks.php:113, views/pages/documentation/hooks.php:137, views/pages/documentation/hooks.php:163, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:81, views/pages/documentation/shortcodes.php:129, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:63
 msgid "Toggle documentation panel"
 msgstr ""
 

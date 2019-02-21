@@ -104,7 +104,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
-= 3.5.0 (2019-02-19) =
+= 3.5.0 (2019-02-21) =
 
 - Added a "fallback" option to the [site_reviews] shortcode (see documentation)
 - Added an "Enable Fallback Text" option in the plugin settings that can be shown by default when there are no reviews to display

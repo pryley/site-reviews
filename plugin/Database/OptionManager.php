@@ -66,7 +66,7 @@ class OptionManager
 	 * @param string $path
 	 * @return bool
 	 */
-	public function getBool( $path = '' )
+	public function getBool( $path )
 	{
 		return $this->get( $path ) == 'yes'
 			? true
