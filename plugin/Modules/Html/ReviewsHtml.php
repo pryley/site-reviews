@@ -93,19 +93,19 @@ class ReviewsHtml extends ArrayObject
 	protected function getReviews()
 	{
 		return empty( $this->reviews )
-			? $this->getReviewsPlaceholder()
+			? $this->getReviewsFallback()
 			: implode( PHP_EOL, $this->reviews );
 	}
 
 	/**
 	 * @return string
 	 */
-	protected function getReviewsPlaceholder()
+	protected function getReviewsFallback()
 	{
-		if( empty( $this->args['placeholder'] ) && glsr( OptionManager::class )->getBool( 'settings.reviews.fallback' )) {
-			$this->args['placeholder'] = __( 'There are no reviews yet. Be the first one to write one.', 'site-reviews' );
+		if( empty( $this->args['fallback'] ) && glsr( OptionManager::class )->getBool( 'settings.reviews.fallback' )) {
+			$this->args['fallback'] = __( 'There are no reviews yet. Be the first one to write one.', 'site-reviews' );
 		}
-		$placeholder = '<p class="glsr-no-margins">'.$this->args['placeholder'].'</p>';
-		return apply_filters( 'site-reviews/reviews/placeholder', $placeholder, $this->args );
+		$fallback = '<p class="glsr-no-margins">'.$this->args['fallback'].'</p>';
+		return apply_filters( 'site-reviews/reviews/fallback', $fallback, $this->args );
 	}
 }
