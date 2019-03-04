@@ -271,7 +271,7 @@ class SiteReviews
 			]);
 			$text = ltrim( substr( $text, 0, $split )).$showMore;
 		}
-		return nl2br( $text );
+		return $text;
 	}
 
 	/**
@@ -352,7 +352,7 @@ class SiteReviews
 		if( $this->isOptionEnabled( 'settings.reviews.excerpts' )) {
 			$text = $this->getExcerpt( $text );
 		}
-		return wptexturize( $text );
+		return wptexturize( nl2br( $text ));
 	}
 
 	/**
