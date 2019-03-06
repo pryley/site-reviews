@@ -210,7 +210,7 @@ class Console
 	{
 		$backtrace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 4 );
 		$entry = array_pop( $backtrace );
-		$path = str_replace( [glsr()->path( 'plugin/' ), glsr()->path()], '', $entry['file'] );
+		$path = str_replace( [glsr()->path( 'plugin/' ), glsr()->path(), ABSPATH], '', $entry['file'] );
 		return $path.':'.$entry['line'];
 	}
 
