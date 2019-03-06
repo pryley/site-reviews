@@ -962,11 +962,11 @@ msgstr ""
 msgid "Review unpinned."
 msgstr ""
 
-#: plugin/Modules/Console.php:112
+#: plugin/Modules/Console.php:114
 msgid "Console is empty"
 msgstr ""
 
-#: plugin/Modules/Console.php:268
+#: plugin/Modules/Console.php:302
 msgid "Console was automatically cleared (128 KB maximum size)"
 msgstr ""
 
@@ -1115,7 +1115,7 @@ msgstr ""
 msgid "How many reviews would you like to display (default: 10)?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsPopup.php:36, plugin/Shortcodes/SiteReviewsPopup.php:37, plugin/Shortcodes/SiteReviewsPopup.php:38, plugin/Shortcodes/SiteReviewsPopup.php:39, plugin/Shortcodes/SiteReviewsPopup.php:40, plugin/Widgets/SiteReviewsWidget.php:35, plugin/Widgets/SiteReviewsWidget.php:36, plugin/Widgets/SiteReviewsWidget.php:37, plugin/Widgets/SiteReviewsWidget.php:38, plugin/Widgets/SiteReviewsWidget.php:39, plugin/Controllers/ListTableController/Columns.php:114
+#: plugin/Shortcodes/SiteReviewsPopup.php:36, plugin/Shortcodes/SiteReviewsPopup.php:37, plugin/Shortcodes/SiteReviewsPopup.php:38, plugin/Shortcodes/SiteReviewsPopup.php:39, plugin/Shortcodes/SiteReviewsPopup.php:40, plugin/Widgets/SiteReviewsWidget.php:35, plugin/Widgets/SiteReviewsWidget.php:36, plugin/Widgets/SiteReviewsWidget.php:37, plugin/Widgets/SiteReviewsWidget.php:38, plugin/Widgets/SiteReviewsWidget.php:39, plugin/Controllers/ListTableController/Columns.php:113
 msgid "%s star"
 msgid_plural "%s stars"
 msgstr[0] ""
@@ -1374,19 +1374,19 @@ msgstr ""
 msgid "Unsupported Type"
 msgstr ""
 
-#: plugin/Controllers/ListTableController/Columns.php:117
+#: plugin/Controllers/ListTableController/Columns.php:116
 msgid "Filter by rating"
 msgstr ""
 
-#: plugin/Controllers/ListTableController/Columns.php:123
+#: plugin/Controllers/ListTableController/Columns.php:122
 msgid "All ratings"
 msgstr ""
 
-#: plugin/Controllers/ListTableController/Columns.php:135
+#: plugin/Controllers/ListTableController/Columns.php:134
 msgid "Filter by type"
 msgstr ""
 
-#: plugin/Controllers/ListTableController/Columns.php:141
+#: plugin/Controllers/ListTableController/Columns.php:140
 msgid "All types"
 msgstr ""
 
