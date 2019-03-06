@@ -68,7 +68,7 @@ class CreateReview
 	protected function getAvatar()
 	{
 		$avatar = $this->get( 'avatar' );
-		return !filter_var( $avatar, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED | FILTER_FLAG_HOST_REQUIRED | FILTER_FLAG_PATH_REQUIRED )
+		return !filter_var( $avatar, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED )
 			? (string)get_avatar_url( $this->get( 'email' ))
 			: $avatar;
 	}
