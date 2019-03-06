@@ -242,7 +242,11 @@ class Translation
 		];
 		array_walk( $entries, function( &$entry ) use( $keys ) {
 			foreach( $keys as $key ) {
-				$entry = $this->normalizeEntryString( $entry, $key );
+				if( is_array( $entry )) {
+					$entry = $this->normalizeEntryString( $entry, $key );
+					continue;
+				}
+				glsr_log()->once( '[Translation\normalize()] $entry is not an array', $entry );
 			}
 		});
 		return $entries;
