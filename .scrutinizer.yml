@@ -5,6 +5,7 @@ filter:
     - node_modules/
     - tests/
     - vendor/
+    - vendors/
     - wordpress/
 
 build:

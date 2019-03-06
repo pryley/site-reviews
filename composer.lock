@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "556eb6468569f234b4f2b0bc54629184",
+    "content-hash": "c700ff247038c79412d45c5e8b6ec270",
     "packages": [],
     "packages-dev": [
         {
@@ -819,108 +819,6 @@
             "time": "2018-08-09T05:50:03+00:00"
         },
         {
-            "name": "psr/simple-cache",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/simple-cache.git",
-                "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
-                "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\SimpleCache\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interfaces for simple caching",
-            "keywords": [
-                "cache",
-                "caching",
-                "psr",
-                "psr-16",
-                "simple-cache"
-            ],
-            "time": "2017-10-23T01:57:42+00:00"
-        },
-        {
-            "name": "qcubed/i18n",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/qcubed/i18n.git",
-                "reference": "f73451a14ce651cfbf496987b0152c00e777f43c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/qcubed/i18n/zipball/f73451a14ce651cfbf496987b0152c00e777f43c",
-                "reference": "f73451a14ce651cfbf496987b0152c00e777f43c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.0",
-                "psr/simple-cache": "^1.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.8.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Sepia\\PoParser\\": "src/Sepia/",
-                    "QCubed\\I18n\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Raúl Ferràs",
-                    "email": "raul.ferras@gmail.com",
-                    "role": "developer"
-                },
-                {
-                    "name": "Shannon Pekary",
-                    "email": "spekary@gmail.com",
-                    "role": "developer"
-                }
-            ],
-            "description": "Comprehensive i18n project for translating PHP files.",
-            "homepage": "https://github.com/qcubed/i18n",
-            "keywords": [
-                "gettext",
-                "i10n",
-                "i18n",
-                "po"
-            ],
-            "time": "2018-11-13T22:13:57+00:00"
-        },
-        {
             "name": "sebastian/code-unit-reverse-lookup",
             "version": "1.0.1",
             "source": {
@@ -1480,55 +1378,6 @@
             "time": "2016-10-03T07:35:21+00:00"
         },
         {
-            "name": "sinergi/browser-detector",
-            "version": "6.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sinergi/php-browser-detector.git",
-                "reference": "e1bee473663bb82e5ff58a3a2c0bf81c8671de5a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sinergi/php-browser-detector/zipball/e1bee473663bb82e5ff58a3a2c0bf81c8671de5a",
-                "reference": "e1bee473663bb82e5ff58a3a2c0bf81c8671de5a",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.3.3 || ^7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8 || ^5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Sinergi\\BrowserDetector\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Chris Schuld"
-                },
-                {
-                    "name": "Gabriel Bull",
-                    "email": "me@gabrielbull.com"
-                }
-            ],
-            "description": "Detecting the user's browser, operating system and language.",
-            "keywords": [
-                "browser",
-                "detection",
-                "language",
-                "operating system",
-                "os"
-            ],
-            "time": "2016-12-28T16:31:30+00:00"
-        },
-        {
             "name": "symfony/polyfill-ctype",
             "version": "v1.10.0",
             "source": {
@@ -1627,62 +1476,6 @@
             "time": "2017-04-07T12:08:54+00:00"
         },
         {
-            "name": "vectorface/whip",
-            "version": "v0.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Vectorface/whip.git",
-                "reference": "c3cdf71f532c83c3ab512cfa57130dad36fdbc83"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Vectorface/whip/zipball/c3cdf71f532c83c3ab512cfa57130dad36fdbc83",
-                "reference": "c3cdf71f532c83c3ab512cfa57130dad36fdbc83",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0",
-                "psr/http-message": "~1.0",
-                "squizlabs/php_codesniffer": "~2.0",
-                "vectorface/dunit": "~2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Vectorface\\Whip\\": "./src",
-                    "VectorFace\\Whip\\": "./src",
-                    "Vectorface\\WhipTests\\": "./tests"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Daniel Bruce",
-                    "email": "dbruce@vectorface.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Cory Darby",
-                    "email": "ckdarby@vectorface.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A PHP class for retrieving accurate IP address information for the client.",
-            "homepage": "https://github.com/Vectorface/whip",
-            "keywords": [
-                "IP",
-                "cdn",
-                "cloudflare"
-            ],
-            "time": "2017-10-30T14:05:31+00:00"
-        },
-        {
             "name": "webmozart/assert",
             "version": "1.4.0",
             "source": {
@@ -1736,9 +1529,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "qcubed/i18n": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

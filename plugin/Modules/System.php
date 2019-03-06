@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
-use Sinergi\BrowserDetector\Browser;
+use GeminiLabs\Sinergi\BrowserDetector\Browser;
 
 class System
 {

@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\Cache;
-use Vectorface\Whip\Whip;
+use GeminiLabs\Vectorface\Whip\Whip;
 
 class Helper
 {

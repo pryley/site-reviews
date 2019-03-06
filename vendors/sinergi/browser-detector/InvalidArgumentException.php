@@ -1,6 +1,6 @@
 <?php
 
-namespace Sinergi\BrowserDetector;
+namespace GeminiLabs\Sinergi\BrowserDetector;
 
 class InvalidArgumentException extends \InvalidArgumentException
 {

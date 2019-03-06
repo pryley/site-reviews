@@ -1,6 +1,8 @@
 <?php
-
-namespace Sinergi\BrowserDetector;
+/**
+ * @package sinergi/browser-detector v6.1.2
+ */
+namespace GeminiLabs\Sinergi\BrowserDetector;
 
 /**
  * Browser Detection.

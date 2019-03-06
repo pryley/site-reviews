@@ -8,9 +8,9 @@ spl_autoload_register( function( $className ) {
 	$namespaces = [
 		'GeminiLabs\\SiteReviews\\' => __DIR__.'/plugin/',
 		'GeminiLabs\\SiteReviews\\Tests\\' => __DIR__.'/tests/',
-		'Sepia\\PoParser\\' => __DIR__.'/vendor/qcubed/i18n/src/Sepia/',
-		'Sinergi\\BrowserDetector\\' => __DIR__.'/vendor/sinergi/browser-detector/src/',
-		'Vectorface\\Whip\\' => __DIR__.'/vendor/vectorface/whip/src/',
+		'GeminiLabs\\Sepia\\PoParser\\' => __DIR__.'/vendors/sepia/po-parser/',
+		'GeminiLabs\\Sinergi\\BrowserDetector\\' => __DIR__.'/vendors/sinergi/browser-detector/',
+		'GeminiLabs\\Vectorface\\Whip\\' => __DIR__.'/vendors/vectorface/whip/',
 	];
 	foreach( $namespaces as $prefix => $baseDir ) {
 		$len = strlen( $prefix );

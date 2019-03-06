@@ -1,6 +1,6 @@
 <?php
 
-namespace Sinergi\BrowserDetector;
+namespace GeminiLabs\Sinergi\BrowserDetector;
 
 class BrowserDetector implements DetectorInterface
 {
@@ -958,7 +958,7 @@ class BrowserDetector implements DetectorInterface
 
         return false;
     }
-    
+
     /**
      * Determine if the browser is Comodo Dragon / Ice Dragon / Chromodo.
      *

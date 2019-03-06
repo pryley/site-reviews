@@ -3,10 +3,10 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use Exception;
+use GeminiLabs\Sepia\PoParser\Parser;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
-use Sepia\PoParser\Parser;
 
 class Translation
 {
