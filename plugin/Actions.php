@@ -76,7 +76,7 @@ class Actions implements HooksContract
 		add_action( 'admin_action_approve',                         [$this->listtable, 'approve'] );
 		add_action( 'bulk_edit_custom_box',                         [$this->listtable, 'renderBulkEditFields'], 10, 2 );
 		add_action( 'restrict_manage_posts',                        [$this->listtable, 'renderColumnFilters'] );
-		add_action( 'manage_posts_custom_column',                   [$this->listtable, 'renderColumnValues'], 10, 2 );
+		add_action( 'manage_'.Application::POST_TYPE.'_posts_custom_column', [$this->listtable, 'renderColumnValues'], 10, 2 );
 		add_action( 'save_post_'.Application::POST_TYPE,            [$this->listtable, 'saveBulkEditFields'] );
 		add_action( 'pre_get_posts',                                [$this->listtable, 'setQueryForColumn'] );
 		add_action( 'admin_action_unapprove',                       [$this->listtable, 'unapprove'] );

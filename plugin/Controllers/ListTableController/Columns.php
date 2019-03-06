@@ -95,7 +95,6 @@ class Columns
 	 */
 	public function renderValues( $column, $postId )
 	{
-		if( glsr_current_screen()->post_type != Application::POST_TYPE )return;
 		$method = glsr( Helper::class )->buildMethodName( $column, 'buildColumn' );
 		echo method_exists( $this, $method )
 			? call_user_func( [$this, $method], $postId )
