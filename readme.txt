@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.1
 Requires PHP: 5.6
-Stable tag: 3.5.2-beta
+Stable tag: 3.5.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -106,7 +106,9 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 = 3.5.2 (2019-03-06) =
 
+- Changed supported WP version to 5.1
 - Fixed possible compatibility issues with other plugins
+- Removed ABSPATH from log entries
 
 = 3.5.1 (2019-03-04) =
 
