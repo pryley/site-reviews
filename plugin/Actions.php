@@ -14,6 +14,7 @@ use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Controllers\ReviewController;
 use GeminiLabs\SiteReviews\Controllers\SettingsController;
 use GeminiLabs\SiteReviews\Controllers\TaxonomyController;
+use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Session;
 use GeminiLabs\SiteReviews\Router;
 
@@ -22,6 +23,7 @@ class Actions implements HooksContract
 	protected $admin;
 	protected $app;
 	protected $blocks;
+	protected $console;
 	protected $editor;
 	protected $listtable;
 	protected $menu;
@@ -37,6 +39,7 @@ class Actions implements HooksContract
 		$this->app = $app;
 		$this->admin = $app->make( AdminController::class );
 		$this->blocks = $app->make( BlocksController::class );
+		$this->console = $app->make( Console::class );
 		$this->editor = $app->make( EditorController::class );
 		$this->listtable = $app->make( ListTableController::class );
 		$this->main = $app->make( MainController::class );
@@ -64,6 +67,8 @@ class Actions implements HooksContract
 		add_action( 'upgrader_process_complete',                    [$this->app, 'upgraded'], 10, 2 );
 		add_action( 'init',                                         [$this->blocks, 'registerAssets'], 9 );
 		add_action( 'init',                                         [$this->blocks, 'registerBlocks'] );
+		add_action( 'admin_footer',                                 [$this->console, 'logOnce'] );
+		add_action( 'wp_footer',                                    [$this->console, 'logOnce'] );
 		add_action( 'admin_enqueue_scripts',                        [$this->editor, 'customizePostStatusLabels'] );
 		add_action( 'add_meta_boxes_'.Application::POST_TYPE,       [$this->editor, 'registerMetaBoxes'] );
 		add_action( 'admin_print_scripts',                          [$this->editor, 'removeAutosave'], 999 );

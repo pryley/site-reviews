@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use DateTime;
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Modules\Session;
 use ReflectionClass;
 
 class Console
@@ -15,6 +16,7 @@ class Console
 	const ERROR = 'error';
 	const INFO = 'info';
 	const NOTICE = 'notice';
+	const RECURRING = 'recurring';
 	const WARNING = 'warning';
 
 	protected $file;
@@ -156,6 +158,21 @@ class Console
 	}
 
 	/**
+	 * @return void
+	 */
+	public function logOnce()
+	{
+		$single = glsr( Session::class )->get( 'glsr_log_once', null, true );
+		if( !is_array( $single ))return;
+		foreach( $single as $message => $debug ) {
+			if( !empty( $debug )) {
+				$message.= PHP_EOL.print_r( $debug, 1 );
+			}
+			$this->log( static::RECURRING, $message );
+		}
+	}
+
+	/**
 	 * Normal but significant events
 	 * @param mixed $message
 	 * @param array $context
@@ -164,6 +181,23 @@ class Console
 	public function notice( $message, array $context = [] )
 	{
 		return $this->log( static::NOTICE, $message, $context );
+	}
+
+	/**
+	 * @param mixed $message
+	 * @param array $context
+	 * @return void
+	 */
+	public function once( $message, $debug = '' )
+	{
+		$once = glsr( Session::class )->get( 'glsr_log_once', [] );
+		if( !is_array( $once )) {
+			$once = [];
+		}
+		if( !isset( $once[$message] )) {
+			$once[$message] = $debug;
+			glsr( Session::class )->set( 'glsr_log_once', $once );
+		}
 	}
 
 	/**
