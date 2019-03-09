@@ -28,7 +28,7 @@
 
 		<p class="glsr-heading">count</p>
 		<p>Include the "count" attribute to change the number of reviews that are displayed.</p>
-		<p>The default count value is: <code>"10"</code></p>
+		<p>The default count value is: <code>"5"</code></p>
 		<pre><code>[site_reviews count="20"]</code></pre>
 
 		<p class="glsr-heading">fallback</p>
