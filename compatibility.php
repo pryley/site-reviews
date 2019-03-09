@@ -47,8 +47,8 @@ add_filter( 'sf_edit_query_args', function( $query ) {
 		unset( $query['meta_key'] );
 		$query['meta_query'] = [
 			'relation' => 'OR',
+			['key' => '_glsr_ranking', 'compare' => 'NOT EXISTS'], // this comes first!
 			['key' => '_glsr_ranking', 'compare' => 'EXISTS'],
-			['key' => '_glsr_ranking', 'compare' => 'NOT EXISTS'],
 		];
 	}
 	return $query;
