@@ -24,7 +24,7 @@ class SiteReviewsDefaults extends Defaults
 			'rating' => 1,
 			'schema' => false,
 			'title' => '',
-			'type' => '',
+			'type' => 'local',
 		];
 	}
 }

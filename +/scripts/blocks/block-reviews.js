@@ -116,7 +116,7 @@
 			type: 'boolean',
 		},
 		type: {
-			default: '',
+			default: 'local',
 			type: 'string',
 		},
 	};

@@ -22,7 +22,7 @@ class SiteReviewsSummaryDefaults extends Defaults
 			'schema' => false,
 			'text' => '',
 			'title' => '',
-			'type' => '',
+			'type' => 'local',
 		];
 	}
 }
