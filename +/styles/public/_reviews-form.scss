@@ -82,14 +82,14 @@ form.glsr-form {
 	// }
 }
 .glsr-ltr form.glsr-form {
-	.glsr-field input[type="checkbox"],
-	.glsr-field input[type="radio"] {
+	.glsr-field input[type=checkbox],
+	.glsr-field input[type=radio] {
 		margin-right: 0.5em;
 	}
 }
 .glsr-rtl form.glsr-form {
-	.glsr-field input[type="checkbox"],
-	.glsr-field input[type="radio"] {
+	.glsr-field input[type=checkbox],
+	.glsr-field input[type=radio] {
 		margin-left: 0.5em;
 	}
 }

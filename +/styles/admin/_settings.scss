@@ -308,7 +308,7 @@ tr.glsr-field li {
 	&.is-active .spinner {
 		visibility: visible;
 	}
-	&.is-active input[type="search"]::-webkit-search-cancel-button {
+	&.is-active input[type=search]::-webkit-search-cancel-button {
 		display: none;
 	}
 }
@@ -435,7 +435,7 @@ tr.glsr-field li {
 	margin: 0;
 }
 
-.glsr-strings-table input[type="text"] {
+.glsr-strings-table input[type=text] {
 	display: block;
 	width: 100%;
 	margin: 0 0 5px;

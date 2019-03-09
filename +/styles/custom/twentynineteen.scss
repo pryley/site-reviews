@@ -133,8 +133,8 @@ form.glsr-form {
 	}
 }
 .glsr-ltr form.glsr-form {
-	.glsr-field input[type="checkbox"],
-	.glsr-field input[type="radio"] {
+	.glsr-field input[type=checkbox],
+	.glsr-field input[type=radio] {
 		left: 0;
 	}
 	.glsr-field-choice {
@@ -142,8 +142,8 @@ form.glsr-form {
 	}
 }
 .glsr-rtl form.glsr-form {
-	.glsr-field input[type="checkbox"],
-	.glsr-field input[type="radio"] {
+	.glsr-field input[type=checkbox],
+	.glsr-field input[type=radio] {
 		right: 0;
 	}
 	.glsr-field-choice {

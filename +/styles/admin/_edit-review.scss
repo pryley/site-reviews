@@ -29,31 +29,6 @@ $editorFontFamily: Georgia, "Times New Roman", "Bitstream Charter", Times, serif
 	overflow-wrap: break-word;
 }
 
-body.branch-4,
-body.branch-4-1,
-body.branch-4-2,
-body.branch-4-3 {
-	.misc-pub-pinned:before {
-		display: none;
-	}
-
-	.misc-pub-pinned .pinned-icon {
-		position: relative;
-		display: inline-block;
-		width: 20px;
-		padding-right: 2px;
-	}
-
-	.misc-pub-pinned .pinned-icon svg {
-		position: absolute;
-		top: -13px;
-		left: -1px;
-		width: 19px;
-		height: 18px;
-		color: #888;
-	}
-}
-
 .misc-pub-pinned {
 	&:before {
 		@include pin;
