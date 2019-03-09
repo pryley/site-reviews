@@ -78,7 +78,7 @@ class Helper
 	{
 		$results = [];
 		foreach( $array as $path => $value ) {
-			$results = $this->setPathValue( $path, $value, $results );
+			$results = $this->dataSet( $results, $path, $value );
 		}
 		return $results;
 	}
@@ -124,6 +124,44 @@ class Helper
 	public function dashCase( $string )
 	{
 		return str_replace( '_', '-', $this->snakeCase( $string ));
+	}
+
+	/**
+	 * Get a value from an array of values using a dot-notation path as reference
+	 * @param array $data
+	 * @param string $path
+	 * @param mixed $fallback
+	 * @return mixed
+	 */
+	public function dataGet( $data, $path = '', $fallback = '' )
+	{
+		$keys = explode( '.', $path );
+		foreach( $keys as $key ) {
+			if( !isset( $data[$key] )) {
+				return $fallback;
+			}
+			$data = $data[$key];
+		}
+		return $data;
+	}
+
+	/**
+	 * Set a value to an array of values using a dot-notation path as reference
+	 * @param string $path
+	 * @param mixed $value
+	 * @return array
+	 */
+	public function dataSet( array $data, $path = '', $value )
+	{
+		$token = strtok( $path, '.' );
+		$ref = &$data;
+		while( $token !== false ) {
+			$ref = $this->consolidateArray( $ref );
+			$ref = &$ref[$token];
+			$token = strtok( '.' );
+		}
+		$ref = $value;
+		return $data;
 	}
 
 	/**
@@ -207,24 +245,6 @@ class Helper
 				Whip::IPV6 => $ipv6,
 			],
 		]))->getValidIpAddress();
-	}
-
-	/**
-	 * Get a value from an array of values using a dot-notation path as reference
-	 * @param string $path
-	 * @param mixed $fallback
-	 * @return void|mixed
-	 */
-	public function getPathValue( $path = '', array $values, $fallback = '' )
-	{
-		$keys = explode( '.', $path );
-		foreach( $keys as $key ) {
-			if( !isset( $values[$key] )) {
-				return $fallback;
-			}
-			$values = $values[$key];
-		}
-		return $values;
 	}
 
 	/**
@@ -312,27 +332,6 @@ class Helper
 		return 0 === strpos( $text, $prefix )
 			? substr( $text, strlen( $prefix ))
 			: $text;
-	}
-
-	/**
-	 * Set a value to an array of values using a dot-notation path as reference
-	 * @param string $path
-	 * @param mixed $value
-	 * @return array
-	 */
-	public function setPathValue( $path, $value, array $values )
-	{
-		$token = strtok( $path, '.' );
-		$ref = &$values;
-		while( $token !== false ) {
-			$ref = is_array( $ref )
-				? $ref
-				: [];
-			$ref = &$ref[$token];
-			$token = strtok( '.' );
-		}
-		$ref = $value;
-		return $values;
 	}
 
 	/**

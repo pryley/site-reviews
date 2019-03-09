@@ -80,7 +80,7 @@ class ValidateReview
 	 */
 	protected function getOption( $path, $fallback = '' )
 	{
-		return glsr( Helper::class )->getPathValue( $path, $this->options, $fallback );
+		return glsr( Helper::class )->dataGet( $this->options, $path, $fallback );
 	}
 
 	/**

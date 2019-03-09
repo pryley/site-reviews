@@ -106,11 +106,11 @@ class TestHelper extends WP_UnitTestCase
 	{
 		$values = ['parent' => ['child' => 'toys']];
 		$this->assertEquals(
-			glsr( Helper::class )->getPathValue( 'parent.child', $values ),
+			glsr( Helper::class )->dataGet( $values, 'parent.child' ),
 			'toys'
 		);
 		$this->assertEquals(
-			glsr( Helper::class )->getPathValue( 'parent.child.toys', $values, 'fallback' ),
+			glsr( Helper::class )->dataGet( $values, 'parent.child.toys', 'fallback' ),
 			'fallback'
 		);
 	}
@@ -155,7 +155,7 @@ class TestHelper extends WP_UnitTestCase
 	public function test_set_path_value()
 	{
 		$this->assertEquals(
-			glsr( Helper::class )->setPathValue( 'number.thirteen', '13', [] ),
+			glsr( Helper::class )->dataSet( [], 'number.thirteen', '13' ),
 			['number' => ['thirteen' => '13']]
 		);
 	}

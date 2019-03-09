@@ -144,7 +144,7 @@ class Settings
 	{
 		$optionValue = glsr( OptionManager::class )->get(
 			$path,
-			glsr( Helper::class )->getPathValue( $path, glsr()->defaults )
+			glsr( Helper::class )->dataGet( glsr()->defaults, $path )
 		);
 		if( is_array( $expectedValue )) {
 			return is_array( $optionValue )

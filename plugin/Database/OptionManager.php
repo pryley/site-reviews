@@ -59,7 +59,7 @@ class OptionManager
 	 */
 	public function get( $path = '', $fallback = '' )
 	{
-		return glsr( Helper::class )->getPathValue( $path, $this->all(), $fallback );
+		return glsr( Helper::class )->dataGet( $this->all(), $path, $fallback );
 	}
 
 	/**
@@ -127,7 +127,7 @@ class OptionManager
 	public function set( $pathOrOptions, $value = '' )
 	{
 		if( is_string( $pathOrOptions )) {
-			$pathOrOptions = glsr( Helper::class )->setPathValue( $pathOrOptions, $value, $this->all() );
+			$pathOrOptions = glsr( Helper::class )->dataSet( $this->all(), $pathOrOptions, $value );
 		}
 		if( $result = update_option( static::databaseKey(), (array)$pathOrOptions )) {
 			$this->reset();

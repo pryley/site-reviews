@@ -112,10 +112,10 @@ class MenuController extends Controller
 			'addons' => __( 'Addons', 'site-reviews' ),
 			'licenses' => __( 'Licenses', 'site-reviews' ),
 		]);
-		if( empty( glsr( Helper::class )->getPathValue( 'settings.addons', glsr()->defaults ))) {
+		if( empty( glsr( Helper::class )->dataGet( glsr()->defaults, 'settings.addons' ))) {
 			unset( $tabs['addons'] );
 		}
-		if( empty( glsr( Helper::class )->getPathValue( 'settings.licenses', glsr()->defaults ))) {
+		if( empty( glsr( Helper::class )->dataGet( glsr()->defaults, 'settings.licenses' ))) {
 			unset( $tabs['licenses'] );
 		}
 		$this->renderPage( 'settings', [

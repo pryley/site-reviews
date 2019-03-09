@@ -108,7 +108,7 @@ function glsr_debug( ...$vars ) {
  * @return mixed
  */
 function glsr_get( $array, $path = '', $fallback = '' ) {
-	return glsr( 'Helper' )->getPathValue( $path, $array, $fallback );
+	return glsr( 'Helper' )->dataGet( $array, $path, $fallback );
 }
 
 /**
