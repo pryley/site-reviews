@@ -158,9 +158,13 @@ final class Application extends Container
 	 * @param string $file
 	 * @return string
 	 */
-	public function path( $file = '' )
+	public function path( $file = '', $realpath = true )
 	{
-		$path = plugin_dir_path( $this->file ).ltrim( trim( $file ), '/' );
+		$path = plugin_dir_path( $this->file );
+		if( !$realpath ) {
+			$path = trailingslashit( WP_PLUGIN_DIR ).basename( dirname( $this->file ));
+		}
+		$path = trailingslashit( $path ).ltrim( trim( $file ), '/' );
 		return apply_filters( 'site-reviews/path', $path, $file );
 	}
 

@@ -32,6 +32,7 @@
     site-reviews/builder/result
     site-reviews/columns/{column_slug}
     site-reviews/config/{config_id}
+    site-reviews/console/level
     site-reviews/const/{constant}
     site-reviews/create/review-values
     site-reviews/create/unset-keys-from-custom

@@ -38,7 +38,7 @@ class CreateReview
 			$referer = $command->referer;
 		}
 		if( empty( $referer )) {
-			glsr_log()->warning( 'The form referer ($_SERVER[REQUEST_URI]) was empty.' )->info( $command );
+			glsr_log()->warning( 'The form referer ($_SERVER[REQUEST_URI]) was empty.' )->debug( $command );
 			$referer = home_url();
 		}
 		return $referer;

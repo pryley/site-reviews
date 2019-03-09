@@ -165,8 +165,7 @@ class ValidateReview
 	{
 		glsr( Session::class )->set( $this->form_id.$type, $value );
 		if( !empty( $loggedMessage )) {
-			glsr_log()->warning( $loggedMessage );
-			glsr_log()->warning( $this->request );
+			glsr_log()->warning( $loggedMessage )->debug( $this->request );
 		}
 	}
 

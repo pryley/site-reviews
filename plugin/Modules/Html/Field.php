@@ -191,7 +191,7 @@ class Field
 		if( !empty( $missingValues )) {
 			glsr_log()
 				->warning( 'Field is missing: '.implode( ', ', $missingValues ))
-				->info( $this->field );
+				->debug( $this->field );
 		}
 		return $this->field['is_valid'];
 	}

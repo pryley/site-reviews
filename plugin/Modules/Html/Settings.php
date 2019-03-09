@@ -210,7 +210,7 @@ class Settings
 		}
 		else {
 			$field['is_valid'] = false;
-			glsr_log()->warning( 'Setting field is missing a label' )->info( $field );
+			glsr_log()->warning( 'Setting field is missing a label' )->debug( $field );
 		}
 		return $field;
 	}

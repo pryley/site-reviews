@@ -57,7 +57,7 @@ function glsr_array_column( array $array, $column ) {
  */
 function glsr_calculate_ratings() {
 	glsr( 'Controllers\AdminController' )->routerCountReviews( false );
-	glsr_log()->info( __( 'Recalculated rating counts.', 'site-reviews' ));
+	glsr_log()->notice( __( 'Recalculated rating counts.', 'site-reviews' ));
 }
 
 /**
@@ -99,6 +99,16 @@ function glsr_debug( ...$vars ) {
 		}
 		echo '</div>';
 	}
+}
+
+/**
+ * @param array $data
+ * @param string $path
+ * @param mixed $fallback
+ * @return mixed
+ */
+function glsr_get( $array, $path = '', $fallback = '' ) {
+	return glsr( 'Helper' )->getPathValue( $path, $array, $fallback );
 }
 
 /**
@@ -149,12 +159,10 @@ function glsr_get_reviews( $args = array() ) {
  */
 function glsr_log() {
 	$args = func_get_args();
-	$context = isset( $args[1] )
-		? $args[1]
-		: [];
 	$console = glsr( 'Modules\Console' );
-	return !empty( $args )
-		? $console->log( 'debug', $args[0], $context )
+	$value = glsr( 'Helper' )->dataGet( $args, '0' );
+	return !empty( $value )
+		? $console->log( 'debug', $value, glsr( 'Helper' )->dataGet( $args, '1', [] ))
 		: $console;
 }
 
