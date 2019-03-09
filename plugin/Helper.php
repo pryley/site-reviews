@@ -270,31 +270,12 @@ class Helper
 	 * @param mixed $array
 	 * @return bool
 	 */
-	public function isIndexedArray( $array )
-	{
-		if( !is_array( $array )) {
-			return false;
-		}
-		$current = 0;
-		foreach( array_keys( $array ) as $key ) {
-			if( $key !== $current ) {
-				return false;
-			}
-			$current++;
-		}
-		return true;
-	}
-
-	/**
-	 * @param mixed $array
-	 * @return bool
-	 */
 	public function isIndexedFlatArray( $array )
 	{
 		if( !is_array( $array ) || array_filter( $array, 'is_array' )) {
 			return false;
 		}
-		return $this->isIndexedArray( $array );
+		return wp_is_numeric_array( $array );
 	}
 
 	/**

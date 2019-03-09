@@ -115,14 +115,6 @@ class TestHelper extends WP_UnitTestCase
 		);
 	}
 
-	public function test_is_indexed_array()
-	{
-		$this->assertFalse( glsr( Helper::class )->isIndexedArray( 'not an array' ));
-		$this->assertFalse( glsr( Helper::class )->isIndexedArray( ['key' => 'value'] ));
-		$this->assertTrue( glsr( Helper::class )->isIndexedArray( [[]] ));
-		$this->assertTrue( glsr( Helper::class )->isIndexedArray( [1,2,3] ));
-	}
-
 	public function test_is_indexed_flat_array()
 	{
 		$this->assertFalse( glsr( Helper::class )->isIndexedFlatArray( 'not an array' ));
