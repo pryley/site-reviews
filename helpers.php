@@ -64,10 +64,9 @@ function glsr_calculate_ratings() {
  * @return \GeminiLabs\SiteReviews\Review|false
  */
 function glsr_create_review( $reviewValues = array() ) {
-	if( !is_array( $reviewValues )) {
-		$reviewValues = array();
-	}
-	$review = new \GeminiLabs\SiteReviews\Commands\CreateReview( $reviewValues );
+	$review = new \GeminiLabs\SiteReviews\Commands\CreateReview(
+		glsr( 'Helper' )->consolidateArray( $reviewValues )
+	);
 	return glsr( 'Database\ReviewManager' )->create( $review );
 }
 
@@ -148,10 +147,7 @@ function glsr_get_review( $post_id ) {
  * @return array
  */
 function glsr_get_reviews( $args = array() ) {
-	if( !is_array( $args )) {
-		$args = [];
-	}
-	return glsr( 'Database\ReviewManager' )->get( $args );
+	return glsr( 'Database\ReviewManager' )->get( glsr( 'Helper' )->consolidateArray( $args ));
 }
 
 /**

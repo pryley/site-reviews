@@ -56,9 +56,7 @@ class SettingsController extends Controller
 		if( trim( $inputForm['notification_message'] ) == '' ) {
 			$options['settings']['general']['notification_message'] = glsr()->defaults['settings']['general']['notification_message'];
 		}
-		$options['settings']['general']['notifications'] = isset( $inputForm['notifications'] )
-			? $inputForm['notifications']
-			: [];
+		$options['settings']['general']['notifications'] = glsr_get( $inputForm, 'notifications', [] );
 		return $options;
 	}
 

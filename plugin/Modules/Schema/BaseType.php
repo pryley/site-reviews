@@ -39,10 +39,7 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
 	 */
 	public function __call( $method, array $arguments )
 	{
-		$value = isset( $arguments[0] )
-			? $arguments[0]
-			: '';
-		return $this->setProperty( $method, $value );
+		return $this->setProperty( $method, glsr_get( $arguments, 0 ));
 	}
 
 	/**
@@ -98,9 +95,7 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
 	 */
 	public function getProperty( $property, $default = null)
 	{
-		return isset( $this->properties[$property] )
-			? $this->properties[$property]
-			: $default;
+		return glsr_get( $this->properties, $property, $default );
 	}
 
 	/**

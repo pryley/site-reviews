@@ -61,9 +61,7 @@ class TaxonomyController
 	protected function getSelected()
 	{
 		global $wp_query;
-		return isset( $wp_query->query[Application::TAXONOMY] )
-			? $wp_query->query[Application::TAXONOMY]
-			: '';
+		return glsr_get( $wp_query->query, Application::TAXONOMY );
 	}
 
 	/**

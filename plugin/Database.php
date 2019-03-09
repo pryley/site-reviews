@@ -44,9 +44,7 @@ class Database
 		if( !$metaValue ) {
 			return $counts;
 		}
-		return isset( $counts[$metaValue] )
-			? $counts[$metaValue]
-			: 0;
+		return glsr_get( $counts, $metaValue, 0 );
 	}
 
 	/**

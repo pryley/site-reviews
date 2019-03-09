@@ -35,9 +35,7 @@ class Settings
 	 */
 	protected function getFieldDefault( array $field )
 	{
-		return isset( $field['default'] )
-			? $field['default']
-			: '';
+		return glsr_get( $field, 'default' );
 	}
 
 	/**

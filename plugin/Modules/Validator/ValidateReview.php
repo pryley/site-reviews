@@ -134,9 +134,7 @@ class ValidateReview
 			apply_filters( 'site-reviews/validation/rules', static::VALIDATION_RULES, $request ),
 			array_flip( $this->getOption( 'settings.submissions.required', [] ))
 		);
-		$excluded = isset( $request['excluded'] )
-			? explode( ',', $request['excluded'] )
-			: [];
+		$excluded = explode( ',', glsr_get( $request, 'excluded' ));
 		return array_diff_key( $rules, array_flip( $excluded ));
 	}
 

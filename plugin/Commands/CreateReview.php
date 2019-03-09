@@ -57,9 +57,7 @@ class CreateReview
 	 */
 	protected function get( $key )
 	{
-		return isset( $this->request[$key] )
-			? (string)$this->request[$key]
-			: '';
+		return (string)glsr_get( $this->request, $key );
 	}
 
 	/**

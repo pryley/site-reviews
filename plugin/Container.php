@@ -56,9 +56,7 @@ abstract class Container
 		if( defined( $constant )) {
 			return constant( $constant );
 		}
-		return isset( $this->storage[$property] )
-			? $this->storage[$property]
-			: null;
+		return glsr_get( $this->storage, $property, null );
 	}
 
 	/**
