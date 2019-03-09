@@ -11,12 +11,13 @@ add_filter( 'all', function() {
 	$args = func_get_args();
 	$hook = array_shift( $args );
 	$hooks = array(
-		'glsr',
 		'glsr_calculate_ratings',
 		'glsr_create_review',
 		'glsr_debug',
-		'glsr_get_option', 'glsr_get_options',
-		'glsr_get_review', 'glsr_get_reviews',
+		'glsr_get_option',
+		'glsr_get_options',
+		'glsr_get_review',
+		'glsr_get_reviews',
 		'glsr_log',
 		'glsr_star_rating',
 	);
