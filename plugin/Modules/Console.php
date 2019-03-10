@@ -181,12 +181,11 @@ class Console
 		}
 		if( $this->canLogEntry( $level, $backtraceLine )) {
 			$context = glsr( Helper::class )->consolidateArray( $context );
-			$entry = $this->buildLogEntry(
-				$level,
-				$this->interpolate( $message, $context ),
-				$this->normalizeBacktraceLine( $backtraceLine )
-			);
+			$backtraceLine = $this->normalizeBacktraceLine( $backtraceLine );
+			$message = $this->interpolate( $message, $context );
+			$entry = $this->buildLogEntry( $level, $message, $backtraceLine );
 			file_put_contents( $this->file, $entry.PHP_EOL, FILE_APPEND|LOCK_EX );
+			apply_filters( 'console', $message, $level, $backtraceLine ); // Show in Blackbar plugin if installed
 			$this->reset();
 		}
 		return $this;
