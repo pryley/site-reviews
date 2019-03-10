@@ -4,11 +4,13 @@ namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
+use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Database\QueryBuilder;
 use GeminiLabs\SiteReviews\Database\SqlQueries;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
+use GeminiLabs\SiteReviews\Defaults\SiteReviewsSummaryDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Reviews;
@@ -100,7 +102,23 @@ class ReviewManager
 	 */
 	public function getPostId( $metaReviewId )
 	{
-		return glsr( SqlQueries::class )->getReviewPostId( $metaReviewId );
+		return glsr( SqlQueries::class )->getPostIdFromReviewId( $metaReviewId );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getRatingCounts( array $args = [] )
+	{
+		$args = glsr( SiteReviewsSummaryDefaults::class )->filter( $args );
+		$counts = glsr( CountsManager::class )->get([
+			'post_ids' => glsr( Helper::class )->convertStringToArray( $args['assigned_to'] ),
+			'term_ids' => $this->normalizeTermIds( $args['category'] ),
+			'type' => $args['type'],
+		]);
+		return glsr( CountsManager::class )->flatten( $counts, [
+			'min' => $args['rating'],
+		]);
 	}
 
 	/**

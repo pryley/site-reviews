@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use DateTime;
 use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helper;
@@ -178,13 +177,7 @@ class Schema
 	protected function getRatingCounts()
 	{
 		if( !isset( $this->ratingCounts )) {
-			$counts = glsr( CountsManager::class )->get([
-				'post_ids' => glsr( Helper::class )->convertStringToArray( $this->args['assigned_to'] ),
-				'term_ids' => glsr( ReviewManager::class )->normalizeTermIds( $this->args['category'] ),
-			]);
-			$this->ratingCounts = glsr( CountsManager::class )->flatten( $counts, [
-				'min' => $this->args['rating'],
-			]);
+			$this->ratingCounts = glsr( ReviewManager::class )->getRatingCounts( $this->args );
 		}
 		return $this->ratingCounts;
 	}

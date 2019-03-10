@@ -29,6 +29,14 @@ abstract class DefaultsAbstract
 	/**
 	 * @return array
 	 */
+	protected function filter( array $values = [] )
+	{
+		return $this->merge( array_filter( $values ));
+	}
+
+	/**
+	 * @return array
+	 */
 	protected function merge( array $values = [] )
 	{
 		return wp_parse_args( $values, $this->defaults() );
