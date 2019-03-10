@@ -74,6 +74,19 @@ class OptionManager
 	}
 
 	/**
+	 * @param string $path
+	 * @param mixed $fallback
+	 * @return mixed
+	 */
+	public function getWP( $path, $fallback = '' )
+	{
+		$option = get_option( $path, $fallback );
+		return empty( $option )
+			? $fallback
+			: $option;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function json()

@@ -240,7 +240,7 @@ class System
 			'Remote Post' => glsr( Cache::class )->getRemotePostTest(),
 			'Show On Front' => get_option( 'show_on_front' ),
 			'Site URL' => site_url(),
-			'Timezone' => get_option( 'timezone_string' ),
+			'Timezone' => glsr( OptionManager::class )->getWP( 'timezone_string', ini_get( 'date.timezone' ).' (PHP)' ),
 			'Version' => get_bloginfo( 'version' ),
 			'WP Debug' => var_export( defined( 'WP_DEBUG' ), true ),
 			'WP Max Upload Size' => size_format( wp_max_upload_size() ),
