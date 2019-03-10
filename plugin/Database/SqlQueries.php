@@ -8,13 +8,11 @@ use GeminiLabs\SiteReviews\Database\QueryBuilder;
 class SqlQueries
 {
 	protected $db;
-	protected $postType;
 
 	public function __construct()
 	{
 		global $wpdb;
 		$this->db = $wpdb;
-		$this->postType = Application::POST_TYPE;
 	}
 
 	/**
@@ -44,22 +42,6 @@ class SqlQueries
 	}
 
 	/**
-	 * @param string $metaKey
-	 * @return array
-	 */
-	public function getReviewCountsFor( $metaKey )
-	{
-		return (array) $this->db->get_results("
-			SELECT m.meta_value AS name, COUNT(*) num_posts
-			FROM {$this->db->posts} AS p
-			INNER JOIN {$this->db->postmeta} AS m ON p.ID = m.post_id
-			WHERE p.post_type = '{$this->postType}'
-			AND m.meta_key = '{$metaKey}'
-			GROUP BY name
-		");
-	}
-
-	/**
 	 * @param string $sessionCookiePrefix
 	 * @param int $limit
 	 * @return array
@@ -76,42 +58,60 @@ class SqlQueries
 	}
 
 	/**
+	 * @param string $metaReviewId
+	 * @return int
+	 */
+	public function getPostIdFromReviewId( $metaReviewId )
+	{
+		$postId = $this->db->get_var("
+			SELECT p.ID
+			FROM {$this->db->posts} AS p
+			INNER JOIN {$this->db->postmeta} AS m ON p.ID = m.post_id
+			WHERE p.post_type = '{Application::POST_TYPE}'
+			AND m.meta_key = 'review_id'
+			AND m.meta_value = '{$metaReviewId}'
+		");
+		return intval( $postId );
+	}
+
+	/**
 	 * @param int $lastPostId
 	 * @param int $limit
 	 * @return array
 	 */
-	public function getReviewCounts( $lastPostId = 0, $limit = 500 )
+	public function getReviewCounts( array $args, $lastPostId = 0, $limit = 500 )
 	{
 		return $this->db->get_results("
 			SELECT p.ID, m1.meta_value AS rating, m2.meta_value AS type
 			FROM {$this->db->posts} AS p
 			INNER JOIN {$this->db->postmeta} AS m1 ON p.ID = m1.post_id
 			INNER JOIN {$this->db->postmeta} AS m2 ON p.ID = m2.post_id
+			{$this->getInnerJoinForCounts( $args )}
 			WHERE p.ID > {$lastPostId}
 			AND p.post_status = 'publish'
-			AND p.post_type = '{$this->postType}'
+			AND p.post_type = '{Application::POST_TYPE}'
 			AND m1.meta_key = 'rating'
 			AND m2.meta_key = 'review_type'
+			{$this->getAndForCounts( $args )}
 			ORDER By p.ID
 			ASC LIMIT {$limit}
 		", OBJECT );
 	}
 
 	/**
-	 * @param string $metaReviewId
-	 * @return int
+	 * @param string $metaKey
+	 * @return array
 	 */
-	public function getReviewPostId( $metaReviewId )
+	public function getReviewCountsFor( $metaKey )
 	{
-		$postId = $this->db->get_var("
-			SELECT p.ID
+		return (array) $this->db->get_results("
+			SELECT m.meta_value AS name, COUNT(*) num_posts
 			FROM {$this->db->posts} AS p
 			INNER JOIN {$this->db->postmeta} AS m ON p.ID = m.post_id
-			WHERE p.post_type = '{$this->postType}'
-			AND m.meta_key = 'review_id'
-			AND m.meta_value = '{$metaReviewId}'
+			WHERE p.post_type = '{Application::POST_TYPE}'
+			AND m.meta_key = '{$metaKey}'
+			GROUP BY name
 		");
-		return intval( $postId );
 	}
 
 	/**
@@ -134,32 +134,6 @@ class SqlQueries
 	}
 
 	/**
-	 * @param int $postId
-	 * @param int $lastPostId
-	 * @param int $limit
-	 * @return array
-	 */
-	public function getReviewPostCounts( $postId, $lastPostId = 0, $limit = 500 )
-	{
-		return $this->db->get_results("
-			SELECT p.ID, m1.meta_value AS rating, m2.meta_value AS type
-			FROM {$this->db->posts} AS p
-			INNER JOIN {$this->db->postmeta} AS m1 ON p.ID = m1.post_id
-			INNER JOIN {$this->db->postmeta} AS m2 ON p.ID = m2.post_id
-			INNER JOIN {$this->db->postmeta} AS m3 ON p.ID = m3.post_id
-			WHERE p.ID > {$lastPostId}
-			AND p.post_status = 'publish'
-			AND p.post_type = '{$this->postType}'
-			AND m1.meta_key = 'rating'
-			AND m2.meta_key = 'review_type'
-			AND m3.meta_key = 'assigned_to'
-			AND m3.meta_value = {$postId}
-			ORDER By p.ID
-			ASC LIMIT {$limit}
-		", OBJECT );
-	}
-
-	/**
 	 * @param int $greaterThanId
 	 * @param int $limit
 	 * @return array
@@ -176,7 +150,7 @@ class SqlQueries
 			WHERE p.ID > {$greaterThanId}
 			AND p.ID IN ('{$postIds}')
 			AND p.post_status = 'publish'
-			AND p.post_type = '{$this->postType}'
+			AND p.post_type = '{Application::POST_TYPE}'
 			AND m.meta_key = 'rating'
 			ORDER By p.ID
 			ASC LIMIT {$limit}
@@ -197,7 +171,7 @@ class SqlQueries
 			SELECT DISTINCT m.meta_value
 			FROM {$this->db->postmeta} m
 			LEFT JOIN {$this->db->posts} p ON p.ID = m.post_id
-			WHERE p.post_type = '{$this->postType}'
+			WHERE p.post_type = '{Application::POST_TYPE}'
 			AND ({$key})
 			AND ({$status})
 			ORDER BY m.meta_value
@@ -205,27 +179,32 @@ class SqlQueries
 	}
 
 	/**
-	 * @param int $termTaxonomyId
-	 * @param int $lastPostId
-	 * @param int $limit
-	 * @return array
+	 * @param string $and
+	 * @return string
 	 */
-	public function getReviewTermCounts( $termTaxonomyId, $lastPostId = 0, $limit = 500 )
+	protected function getAndForCounts( array $args, $and = '' )
 	{
-		return $this->db->get_results("
-			SELECT p.ID, m1.meta_value AS rating, m2.meta_value AS type
-			FROM {$this->db->posts} AS p
-			INNER JOIN {$this->db->postmeta} AS m1 ON p.ID = m1.post_id
-			INNER JOIN {$this->db->postmeta} AS m2 ON p.ID = m2.post_id
-			INNER JOIN {$this->db->term_relationships} AS tr ON p.ID = tr.object_id
-			WHERE p.ID > {$lastPostId}
-			AND p.post_status = 'publish'
-			AND p.post_type = '{$this->postType}'
-			AND m1.meta_key = 'rating'
-			AND m2.meta_key = 'review_type'
-			AND tr.term_taxonomy_id = {$termTaxonomyId}
-			ORDER By p.ID
-			ASC LIMIT {$limit}
-		", OBJECT );
+		if( !empty( $args['post_id'] )) {
+			$and.= "AND m3.meta_key = 'assigned_to' AND m3.meta_value = {$args['post_id']}";
+		}
+		if( !empty( $args['term_taxonomy_id'] )) {
+			$and.= "AND tr.term_taxonomy_id = {$args['term_taxonomy_id']}";
+		}
+		return $and;
+	}
+
+	/**
+	 * @param string $innerJoin
+	 * @return string
+	 */
+	protected function getInnerJoinForCounts( array $args, $innerJoin = '' )
+	{
+		if( !empty( $args['post_id'] )) {
+			$innerJoin.= "INNER JOIN {$this->db->postmeta} AS m3 ON p.ID = m3.post_id";
+		}
+		if( !empty( $args['term_taxonomy_id'] )) {
+			$innerJoin.= "INNER JOIN {$this->db->term_relationships} AS tr ON p.ID = tr.object_id";
+		}
+		return $innerJoin;
 	}
 }

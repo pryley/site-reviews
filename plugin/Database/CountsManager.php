@@ -14,37 +14,35 @@ use WP_Term;
 
 class CountsManager
 {
+	const LIMIT = 500;
 	const META_AVERAGE = '_glsr_average';
 	const META_COUNT = '_glsr_count';
 	const META_RANKING = '_glsr_ranking';
 
 	/**
-	 * @param int $limit
 	 * @return array
 	 */
-	public function buildCounts( $limit = 500 )
+	public function buildCounts()
 	{
-		return $this->build( $limit );
+		return $this->build();
 	}
 
 	/**
 	 * @param int $postId
-	 * @param int $limit
 	 * @return array
 	 */
-	public function buildPostCounts( $postId, $limit = 500 )
+	public function buildPostCounts( $postId )
 	{
-		return $this->build( $limit, ['post_id' => $postId] );
+		return $this->build( ['post_id' => $postId] );
 	}
 
 	/**
 	 * @param int $termTaxonomyId
-	 * @param int $limit
 	 * @return array
 	 */
-	public function buildTermCounts( $termTaxonomyId, $limit = 500 )
+	public function buildTermCounts( $termTaxonomyId )
 	{
-		return $this->build( $limit, ['term_taxonomy_id' => $termTaxonomyId] );
+		return $this->build( ['term_taxonomy_id' => $termTaxonomyId] );
 	}
 
 	/**
@@ -98,9 +96,7 @@ class CountsManager
 	{
 		$counts = [];
 		array_walk_recursive( $reviewCounts, function( $num, $index ) use( &$counts ) {
-			$counts[$index] = isset( $counts[$index] )
-				? $num + $counts[$index]
-				: $num;
+			$counts[$index] = $num + intval( glsr_get( $counts, $index, 0 ));
 		});
 		$args = wp_parse_args( $args, [
 			'max' => Rating::MAX_RATING,
@@ -118,20 +114,25 @@ class CountsManager
 	 */
 	public function get( array $args = [] )
 	{
-		$args = wp_parse_args( $args, [
-			'post_ids' => [],
-			'term_ids' => [],
-			'type' => 'local',
-		]);
-		$counts = [];
-		foreach( glsr( Polylang::class )->getPostIds( $args['post_ids'] ) as $postId ) {
-			$counts[] = $this->getPostCounts( $postId );
+		$args = $this->normalizeArgs( $args );
+
+		if( !empty( $args['post_ids'] ) && !empty( $args['term_ids'] )) {
+			$counts = [$this->build( $args )];
 		}
-		foreach( $args['term_ids'] as $termId ) {
-			$counts[] = $this->getTermCounts( $termId );
-		}
-		if( empty( $counts )) {
-			$counts[] = $this->getCounts();
+		else {
+			$counts = [];
+			foreach( $args['post_ids'] as $postId ) {
+				// reviews can only be assigned to a single post...:)
+				$counts[] = $this->getPostCounts( $postId );
+			}
+			foreach( $args['term_ids'] as $termId ) {
+				// reviews can be assigned to many terms...:(
+				// @todo if multiple ids are provided, a query must be used!
+				$counts[] = $this->getTermCounts( $termId );
+			}
+			if( empty( $counts )) {
+				$counts[] = $this->getCounts();
+			}
 		}
 		return in_array( $args['type'], ['', 'all'] )
 			? $this->normalize( [$this->flatten( $counts )] )
@@ -145,7 +146,7 @@ class CountsManager
 	{
 		$counts = glsr( OptionManager::class )->get( 'counts', [] );
 		if( !is_array( $counts )) {
-			glsr_log()->error( 'CountsManager: counts is not an array' )->debug( $counts );
+			glsr_log()->error( '$counts is not an array' )->debug( $counts );
 			return [];
 		}
 		return $counts;
@@ -187,11 +188,7 @@ class CountsManager
 		if( empty( $counts = $this->getCounts() )) {
 			$counts = $this->buildCounts();
 		}
-		$this->setCounts( $this->increaseRating(
-			$counts,
-			$review->review_type,
-			$review->rating
-		));
+		$this->setCounts( $this->increaseRating( $counts, $review->review_type, $review->rating ));
 	}
 
 	/**
@@ -261,11 +258,11 @@ class CountsManager
 	 * @return array
 	 * @todo verify the additional type checks are needed
 	 */
-	protected function build( $limit, array $args = [] )
+	protected function build( array $args = [] )
 	{
 		$counts = [];
 		$lastPostId = 0;
-		while( $reviews = $this->queryReviews( $args, $lastPostId, $limit )) {
+		while( $reviews = $this->queryReviews( $args, $lastPostId )) {
 			$types = array_keys( array_flip( glsr_array_column( $reviews, 'type' )));
 			$types = array_unique( array_merge( ['local'], $types ));
 			foreach( $types as $type ) {
@@ -332,6 +329,21 @@ class CountsManager
 	}
 
 	/**
+	 * @return array
+	 */
+	protected function normalizeArgs( array $args )
+	{
+		$args = wp_parse_args( array_filter( $args ), [
+			'post_ids' => [],
+			'term_ids' => [],
+			'type' => 'local',
+		]);
+		$args['post_ids'] = glsr( Polylang::class )->getPostIds( $args['post_ids'] );
+		$args['type'] = $this->normalizeType( $args['type'] );
+		return $args;
+	}
+
+	/**
 	 * @param string $type
 	 * @return string
 	 */
@@ -344,20 +356,10 @@ class CountsManager
 
 	/**
 	 * @param int $lastPostId
-	 * @param int $limit
 	 * @return void|array
 	 */
-	protected function queryReviews( array $args = [], $lastPostId, $limit )
+	protected function queryReviews( array $args = [], $lastPostId )
 	{
-		$args = wp_parse_args( $args, array_fill_keys( ['post_id', 'term_taxonomy_id'], '' ));
-		if( empty( array_filter( $args ))) {
-			return glsr( SqlQueries::class )->getReviewCounts( $lastPostId, $limit );
-		}
-		if( !empty( $args['post_id'] )) {
-			return glsr( SqlQueries::class )->getReviewPostCounts( $args['post_id'], $lastPostId, $limit );
-		}
-		if( !empty( $args['term_taxonomy_id'] )) {
-			return glsr( SqlQueries::class )->getReviewTermCounts( $args['term_taxonomy_id'], $lastPostId, $limit );
-		}
+		return glsr( SqlQueries::class )->getReviewCounts( $args, $lastPostId, static::LIMIT );
 	}
 }
