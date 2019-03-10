@@ -88,7 +88,7 @@ add_filter( 'site-reviews/review/build/before', function( $review ) {
 
 add_filter( 'site-reviews/validate/custom', function( $result, $request ) {
 	if( has_filter( 'site-reviews/validate/review/submission' )) {
-		glsr_log()->notice( 'The "site-reviews/validate/review/submission" hook has been deprecated. Please use the "site-reviews/validate/custom" hook instead.' );
+		glsr_log()->warning( 'The "site-reviews/validate/review/submission" hook has been deprecated. Please use the "site-reviews/validate/custom" hook instead.' );
 		return apply_filters( 'site-reviews/validate/review/submission', $result, $request );
 	}
 	return $result;
@@ -106,8 +106,7 @@ add_action( 'wp_footer', function() {
 	$notices = array_keys( array_flip( glsr()->deprecated ));
 	natsort( $notices );
 	foreach( $notices as $notice ) {
-		glsr_log()->notice( $notice );
-		apply_filters( 'console', $notice ); // Show in Blackbar plugin if installed
+		glsr_log()->warning( $notice );
 	}
 });
 
