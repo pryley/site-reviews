@@ -286,13 +286,10 @@ class Console
 	 */
 	protected function buildLogEntry( $level, $message, $backtraceLine = '' )
 	{
-		if( !empty( $backtraceLine )) {
-			$backtraceLine = '|'.$backtraceLine;
-		}
-		return sprintf( '[%s%s] %s: %s',
+		return sprintf( '[%s] %s [%s] %s',
 			current_time( 'mysql' ),
-			$backtraceLine,
 			strtoupper( $level ),
+			$backtraceLine,
 			$message
 		);
 	}
