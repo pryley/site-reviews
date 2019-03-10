@@ -3,16 +3,6 @@
 defined( 'WPINC' ) || die;
 
 /**
- * @param string $exclude
- * @return string
- * @see https://wordpress.org/plugins/autoptimize/
- */
-add_filter( 'autoptimize_filter_js_dontmove', function( $exclude ) {
-	$exclude[] = 'site-reviews.js';
-	return array_keys( array_flip( $exclude ));
-});
-
-/**
  * @param \GeminiLabs\SiteReviews\Modules\Html\Builder $instance
  * @return void
  * @see https://www.elegantthemes.com/gallery/divi/

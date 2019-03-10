@@ -47,6 +47,7 @@
     site-reviews/enqueue/admin/dependencies
     site-reviews/enqueue/admin/localize
     site-reviews/enqueue/public/dependencies
+    site-reviews/enqueue/public/inline-script
     site-reviews/enqueue/public/localize
     site-reviews/enqueue/public/localize/ajax-pagination
     site-reviews/get/defaults

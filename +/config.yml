@@ -13,6 +13,7 @@ scripts:
   mce-plugin.js: +/scripts/mce-plugin.js
   site-reviews.js:
     - node_modules/star-rating.js/src/star-rating.js
+    - +/scripts/public/init.js
     - +/scripts/public/ajax.js
     - +/scripts/public/excerpts.js
     - +/scripts/public/forms.js

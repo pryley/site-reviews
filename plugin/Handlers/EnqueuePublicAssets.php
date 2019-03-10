@@ -18,8 +18,8 @@ class EnqueuePublicAssets
 		$this->enqueueAssets();
 		$this->enqueuePolyfillService();
 		$this->enqueueRecaptchaScript();
+		$this->inlineScript();
 		$this->inlineStyles();
-		$this->localizeAssets();
 	}
 
 	/**
@@ -81,6 +81,23 @@ class EnqueuePublicAssets
 	/**
 	 * @return void
 	 */
+	public function inlineScript()
+	{
+		$variables = [
+			'action' => Application::PREFIX.'action',
+			'ajaxpagination' => $this->getFixedSelectorsForPagination(),
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'nameprefix' => Application::ID,
+			'validationconfig' => glsr( Style::class )->validation,
+			'validationstrings' => glsr( ValidationStringsDefaults::class )->defaults(),
+		];
+		$variables = apply_filters( 'site-reviews/enqueue/public/localize', $variables );
+		wp_add_inline_script( Application::ID, $this->buildInlineScript( $variables ), 'before' );
+	}
+
+	/**
+	 * @return void
+	 */
 	public function inlineStyles()
 	{
 		$inlineStylesheetPath = glsr()->path( 'assets/styles/inline-styles.css' );
@@ -99,20 +116,17 @@ class EnqueuePublicAssets
 	}
 
 	/**
-	 * @return void
+	 * @return string
 	 */
-	public function localizeAssets()
+	protected function buildInlineScript( array $variables )
 	{
-		$variables = [
-			'action' => Application::PREFIX.'action',
-			'ajaxpagination' => $this->getFixedSelectorsForPagination(),
-			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-			'nameprefix' => Application::ID,
-			'validationconfig' => glsr( Style::class )->validation,
-			'validationstrings' => glsr( ValidationStringsDefaults::class )->defaults(),
-		];
-		$variables = apply_filters( 'site-reviews/enqueue/public/localize', $variables );
-		wp_localize_script( Application::ID, 'GLSR', $variables );
+		$script = 'window.hasOwnProperty("GLSR")||(window.GLSR={});';
+		foreach( $variables as $key => $value ) {
+			$script.= sprintf( 'GLSR.%s=%s;', $key, json_encode( $value, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE ));
+		}
+		$pattern = '/\"([^ \-\"]+)\"(:[{\[\"])/'; // removes unnecessary quotes surrounding object keys
+		$optimizedScript = preg_replace( $pattern, '$1$2', $script );
+		return apply_filters( 'site-reviews/enqueue/public/inline-script', $optimizedScript, $script, $variables );
 	}
 
 	/**
