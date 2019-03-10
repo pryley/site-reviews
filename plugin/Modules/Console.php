@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use DateTime;
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Session;
 use ReflectionClass;
@@ -24,9 +23,9 @@ class Console
 	protected $log;
 	protected $onceSessionKey = 'glsr_log_once';
 
-	public function __construct( Application $app )
+	public function __construct()
 	{
-		$this->file = $app->path( 'console.log' );
+		$this->file = glsr()->path( 'console.log' );
 		$this->log = file_exists( $this->file )
 			? file_get_contents( $this->file )
 			: '';
@@ -118,11 +117,28 @@ class Console
 	}
 
 	/**
+	 * @return int
+	 */
+	public function getLevel()
+	{
+		return intval( apply_filters( 'site-reviews/console/level', 2 ));
+	}
+
+	/**
 	 * @return array
 	 */
 	public function getLevels()
 	{
-		return array_values( (new ReflectionClass(__CLASS__))->getConstants() );
+		return array_values(( new ReflectionClass( __CLASS__ ))->getConstants() );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function humanLevel()
+	{
+		$level = $this->getLevel();
+		return sprintf( '%s (%d)', glsr_get( $this->getLevels(), $level, 'unknown' ), $level );
 	}
 
 	/**
@@ -293,7 +309,7 @@ class Console
 		if( strpos( $backtraceLine, glsr()->path() ) === false ) {
 			return $result; // triggered outside of the plugin
 		}
-		return $result && $levelIndex >= apply_filters( 'site-reviews/console/level', 2 );
+		return $result && $levelIndex >= $this->getLevel();
 	}
 
 	/**

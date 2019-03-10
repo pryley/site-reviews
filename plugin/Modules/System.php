@@ -213,6 +213,7 @@ class System
 	public function getPluginDetails()
 	{
 		return [
+			'Console level' => glsr( Console::class )->humanLevel(),
 			'Console size' => glsr( Console::class )->humanSize( '0' ),
 			'Last Rating Count' => date_i18n( 'Y-m-d H:i', glsr( OptionManager::class )->get( 'last_review_count' )),
 			'Version (current)' => glsr()->version,
