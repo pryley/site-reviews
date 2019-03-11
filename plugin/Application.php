@@ -12,7 +12,7 @@ use GeminiLabs\SiteReviews\Modules\Upgrader;
 
 final class Application extends Container
 {
-	const CAPABILITY = 'edit_others_pages';
+	const CAPABILITY = 'edit_others_posts';
 	const CRON_EVENT = 'site-reviews/schedule/session/purge';
 	const ID = 'site-reviews';
 	const PAGED_QUERY_VAR = 'reviews-page';
