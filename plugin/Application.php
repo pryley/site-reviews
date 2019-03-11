@@ -131,10 +131,22 @@ final class Application extends Container
 	/**
 	 * @return bool
 	 */
-	public function hasPermission()
+	public function getPermission( $page = '' )
+	{
+		$permissions = [
+			'addons' => 'install_plugins',
+			'settings' => 'manage_options',
+		];
+		return glsr_get( $permissions, $page, $this->constant( 'CAPABILITY' ));
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasPermission( $page = '' )
 	{
 		$isAdmin = $this->isAdmin();
-		return !$isAdmin || ( $isAdmin && current_user_can( $this->constant( 'CAPABILITY' )));
+		return !$isAdmin || ( $isAdmin && current_user_can( $this->getPermission( $page )));
 	}
 
 	/**

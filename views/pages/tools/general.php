@@ -1,5 +1,6 @@
 <?php defined( 'WPINC' ) || die; ?>
 
+<?php if( glsr()->hasPermission( 'settings' )) : ?>
 <div class="glsr-card card">
 	<h3>Export Settings</h3>
 	<p>Export the Site Reviews settings for this site to a <code>*.json</code> file. This allows you to easily import the plugin settings into another site.</p>
@@ -10,7 +11,6 @@
 		<?php submit_button( __( 'Export Settings', 'site-reviews' ), 'secondary' ); ?>
 	</form>
 </div>
-
 <div class="glsr-card card">
 	<h3>Import Settings</h3>
 	<p>Import the Site Reviews settings from a <code>*.json</code> file. This file can be obtained by exporting the settings on another site using the export tool below.</p>
@@ -22,6 +22,7 @@
 		<?php submit_button( __( 'Import Settings', 'site-reviews' ), 'secondary' ); ?>
 	</form>
 </div>
+<?php endif; ?>
 
 <div class="glsr-card card">
 	<h3>Recalculate rating counts</h3>

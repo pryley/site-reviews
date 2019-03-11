@@ -54,7 +54,7 @@ class MenuController extends Controller
 			$method = glsr( Helper::class )->buildMethodName( 'render-'.$slug.'-menu' );
 			$callback = apply_filters( 'site-reviews/addon/submenu/callback', [$this, $method], $slug );
 			if( !is_callable( $callback ))continue;
-			add_submenu_page( 'edit.php?post_type='.Application::POST_TYPE, $title, $title, glsr()->constant( 'CAPABILITY' ), $slug, $callback );
+			add_submenu_page( 'edit.php?post_type='.Application::POST_TYPE, $title, $title, glsr()->getPermission( $slug ), $slug, $callback );
 		}
 	}
 
