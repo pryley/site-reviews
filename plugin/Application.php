@@ -81,9 +81,9 @@ final class Application extends Container
 	 * @param string $property
 	 * @return string
 	 */
-	public function constant( $property )
+	public function constant( $property, $className = 'static' )
 	{
-		$constant = 'static::'.$property;
+		$constant = $className.'::'.$property;
 		return defined( $constant )
 			? apply_filters( 'site-reviews/const/'.$property, constant( $constant ))
 			: '';
