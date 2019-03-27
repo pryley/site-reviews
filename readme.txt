@@ -104,6 +104,10 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
+= 3.5.3 (2019-03-27) =
+
+- Fixed activation check for PHP versions < 5.4
+
 = 3.5.2 (2019-03-06) =
 
 - Changed supported WP version to 5.1
