@@ -107,6 +107,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 = 3.5.3 (2019-03-27) =
 
 - Fixed activation check for PHP versions < 5.4
+- Fixed possible error when submitting a review where the submission response is never shown
 
 = 3.5.2 (2019-03-06) =
 

@@ -26,6 +26,7 @@
 			return index;
 		},
 
+		/** @return string */
 		getSelector_: function( el ) {
 			if( !el.nodeName )return;
 			return this.getDomPath_( this.getDomPathNode_( el ));

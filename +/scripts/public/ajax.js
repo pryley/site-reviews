@@ -7,15 +7,39 @@
 
 	GLSR.Ajax.prototype = {
 		/** @return void */
-		get: function( url, successCallback, headers ) {
-			this.xhr = new XMLHttpRequest();
+		get: function( url, callback, headers ) {
+			this.prepareRequest_( callback );
 			this.xhr.open( 'GET', url, true );
-			this.xhr.onreadystatechange = function() {
-				if( this.xhr.readyState !== 4 || this.xhr.status !== 200 )return;
-				successCallback( this.xhr.responseText );
-			}.bind( this );
+			this.xhr.responseType = 'text';
 			this.setHeaders_( headers );
 			this.xhr.send();
+		},
+
+		/** @return void */
+		handleError_: function( callback ) {
+			if( this.xhr.responseType === 'json' ) {
+				return callback( { message: this.xhr.statusText }, false );
+			}
+			else if( this.xhr.responseType === 'text' ) {
+				return callback( this.xhr.statusText );
+			}
+			console.log( this.xhr );
+		},
+
+		/** @return void */
+		handleSuccess_: function( callback ) {
+			if( this.xhr.status === 0 || this.xhr.status >= 200 && this.xhr.status < 300 || this.xhr.status === 304 ) {
+				if( this.xhr.responseType === 'json' ) {
+					return callback( this.xhr.response.data, this.xhr.response.success );
+				}
+				if( this.xhr.responseType === 'text' ) {
+					return callback( this.xhr.responseText );
+				}
+				console.log( this.xhr );
+			}
+			else {
+				this.handleError_( callback );
+			}
 		},
 
 		/** @return bool */
@@ -37,16 +61,19 @@
 		},
 
 		/** @return void */
-		post: function( formOrData, successCallback, headers ) {
-			this.xhr = new XMLHttpRequest();
+		post: function( formOrData, callback, headers ) {
+			this.prepareRequest_( callback );
 			this.xhr.open( 'POST', GLSR.ajaxurl, true );
+			this.xhr.responseType = 'json';
 			this.setHeaders_( headers );
 			this.xhr.send( this.normalizeData_( formOrData ));
-			this.xhr.onreadystatechange = function() {
-				if( this.xhr.readyState !== XMLHttpRequest.DONE )return;
-				var result = JSON.parse( this.xhr.responseText );
-				successCallback( result.data, result.success );
-			}.bind( this );
+		},
+
+		/** @return void */
+		prepareRequest_: function( callback ) {
+			this.xhr = new XMLHttpRequest();
+			this.xhr.onload = this.handleSuccess_.bind( this, callback );
+			this.xhr.onerror = this.handleError_.bind( this, callback );
 		},
 
 		/** @return FormData */
