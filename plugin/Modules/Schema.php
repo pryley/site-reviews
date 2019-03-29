@@ -168,7 +168,7 @@ class Schema
 		]);
 		return $this->buildSummaryForCustom()
 			->offers( $offers )
-			->setProperty( '@id', $this->getSchemaOptionValue( 'url' ));
+			->setProperty( '@id', $this->getSchemaOptionValue( 'url' ).'#product' );
 	}
 
 	/**

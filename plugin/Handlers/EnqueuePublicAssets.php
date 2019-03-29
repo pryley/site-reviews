@@ -57,9 +57,9 @@ class EnqueuePublicAssets
 	{
 		if( !apply_filters( 'site-reviews/assets/polyfill', true ))return;
 		wp_enqueue_script( Application::ID.'/polyfill', add_query_arg([
-			'features' => 'CustomEvent,Element.prototype.closest,Element.prototype.dataset,Event,MutationObserver',
+			'features' => 'CustomEvent,Element.prototype.closest,Element.prototype.dataset,Event,XMLHttpRequest,MutationObserver',
 			'flags' => 'gated',
-		], 'https://cdn.polyfill.io/v2/polyfill.min.js' ));
+		], 'https://polyfill.io/v3/polyfill.min.js' ));
 	}
 
 	/**
