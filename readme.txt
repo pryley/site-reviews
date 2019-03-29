@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.1
 Requires PHP: 5.6
-Stable tag: 3.5.2
+Stable tag: 3.5.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,15 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 9. This is what the Slack notifications look like
 
 == Changelog ==
+
+= 3.5.4 (2019-03-29) =
+
+- Fixed compatibility with Woocommerce when using the "Product" schema type
+
+= 3.5.3 (2019-03-27) =
+
+- Fixed activation check for PHP versions < 5.4
+- Fixed possible error when submitting a review where the submission response is never shown
 
 = 3.5.2 (2019-03-06) =
 
