@@ -5,7 +5,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 ## Proposed features
 
 - [ ] Integrate with WordPress GDPR controls
-- [ ] Protect review metadata from Custom Fields on other post_types
+- [ ] Re-evaluate [PHP Session usage](https://wordpress.org/support/topic/sessions-and-cookies-with-server-cache/#post-11440624)
 - [ ] Review statistics
 - [ ] Store the review GEO location by IP
 - [ ] Throttle anonymous review submissions
