@@ -351,7 +351,7 @@ return [
 	],
 	'settings.submissions.blacklist.entries' => [
 		'default' => '',
-		'description' => __( 'When a review contains any of these words in its title, content, name, email, or IP address, it will be rejected. One word or IP address per line. It will match inside words, so "press" will match "WordPress".', 'site-reviews' ),
+		'description' => __( 'One entry or IP address per line. When a review contains any of these entries in its title, content, name, email, or IP address, it will be rejected. It is case-insensitive and will match partial words, so "press" will match "WordPress".', 'site-reviews' ),
 		'label' => __( 'Review Blacklist', 'site-reviews' ),
 		'rows' => 10,
 		'type' => 'code',
