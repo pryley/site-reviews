@@ -104,6 +104,10 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
+= 3.6.0 (2019-04-??) =
+
+- Added proxy header support for IP detection
+
 = 3.5.4 (2019-03-29) =
 
 - Fixed compatibility with Woocommerce when using the "Product" schema type

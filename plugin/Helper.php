@@ -240,12 +240,15 @@ class Helper
 		$ipv6 = defined( 'AF_INET6' )
 			? $cloudflareIps['v6']
 			: [];
-		return (string)(new Whip( Whip::CLOUDFLARE_HEADERS | Whip::REMOTE_ADDR, [
+		$whitelist = apply_filters( 'site-reviews/whip/whitelist', [
 			Whip::CLOUDFLARE_HEADERS => [
 				Whip::IPV4 => $cloudflareIps['v4'],
 				Whip::IPV6 => $ipv6,
 			],
-		]))->getValidIpAddress();
+		]);
+		$whip = new Whip( Whip::ALL_METHODS, $whitelist );
+		do_action_ref_array( 'site-reviews/whip', [&$whip] );
+		return (string)$whip->getValidIpAddress();
 	}
 
 	/**
