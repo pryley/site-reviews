@@ -12,7 +12,7 @@
 	</div>
 	<div class="inside">
 		<p>Use this hook to customise the order of the fields in the review submission form used by Site Reviews.</p>
-		<p>See the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!faq' ); ?>" data-expand="#faq-04">FAQ</a></code> for a detailed example of how to use this hook.</p>
+		<p>See the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!faq' ); ?>" data-expand="#faq-05">FAQ</a></code> for a detailed example of how to use this hook.</p>
 		<pre><code class="php">/**
  * Customises the order of the fields used in the Site Reviews submission form.
  * Paste this in your active theme's functions.php file.
@@ -35,7 +35,7 @@ add_filter( 'site-reviews/submission-form/order', function( array $order ) {
 	</div>
 	<div class="inside">
 		<p>Use this hook to customise the star images used by Site Reviews.</p>
-		<p>See the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!faq' ); ?>" data-expand="#faq-08">FAQ</a></code> for a detailed example of how to use this hook.</p>
+		<p>See the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!faq' ); ?>" data-expand="#faq-09">FAQ</a></code> for a detailed example of how to use this hook.</p>
 		<pre><code class="php">/**
  * Customises the stars used by Site Reviews.
  * Paste this in your active theme's functions.php file.

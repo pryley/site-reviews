@@ -31,6 +31,22 @@ add_filter( 'site-reviews/schema/LocalBusiness', function( array $schema ) {
 
 <div id="faq-02" class="glsr-card postbox">
 	<div class="glsr-card-header">
+		<h3>How do I change the font?</h3>
+		<button type="button" class="handlediv" aria-expanded="true">
+			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
+			<span class="toggle-indicator" aria-hidden="true"></span>
+		</button>
+	</div>
+	<div class="inside">
+		<p>Site Reviews does not impose its own font as most styling is inherited by your theme's stylesheet. However, you can easily customise this with some CSS.</p>
+		<pre><code class="css">[class*=glsr-] {
+	font-family: monospace;
+}</code></pre>
+	</div>
+</div>
+
+<div id="faq-03" class="glsr-card postbox">
+	<div class="glsr-card-header">
 		<h3>How do I change the order of the review fields?</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
 			<span class="screen-reader-text"><?= __( 'Toggle documentation panel', 'site-reviews' ); ?></span>
@@ -57,7 +73,7 @@ add_filter( 'site-reviews/schema/LocalBusiness', function( array $schema ) {
 	</div>
 </div>
 
-<div id="faq-03" class="glsr-card postbox">
+<div id="faq-04" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>How do I change the order of the reviews summary fields?</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -83,7 +99,7 @@ add_filter( 'site-reviews/schema/LocalBusiness', function( array $schema ) {
 	</div>
 </div>
 
-<div id="faq-04" class="glsr-card postbox">
+<div id="faq-05" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>How do I change the order of the submission form fields?</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -114,7 +130,7 @@ add_filter( 'site-reviews/submission-form/order', function( array $order ) {
 	</div>
 </div>
 
-<div id="faq-05" class="glsr-card postbox">
+<div id="faq-06" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>How do I change the pagination query string?</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -136,7 +152,7 @@ add_filter( 'site-reviews/const/PAGED_QUERY_VAR', function() {
 	</div>
 </div>
 
-<div id="faq-06" class="glsr-card postbox">
+<div id="faq-07" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>How do I change the text of...?</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -149,7 +165,7 @@ add_filter( 'site-reviews/const/PAGED_QUERY_VAR', function() {
 	</div>
 </div>
 
-<div id="faq-07" class="glsr-card postbox">
+<div id="faq-08" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>How do I create a review programmatically?</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -174,7 +190,7 @@ add_filter( 'site-reviews/const/PAGED_QUERY_VAR', function() {
 	</div>
 </div>
 
-<div id="faq-08" class="glsr-card postbox">
+<div id="faq-09" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>How do I customise the stars?</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -201,7 +217,7 @@ add_filter( 'site-reviews/config/inline-styles', function( array $config ) {
 	</div>
 </div>
 
-<div id="faq-09" class="glsr-card postbox">
+<div id="faq-10" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>How do I limit the submitted review length?</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -239,7 +255,7 @@ add_filter( 'site-reviews/validation/rules', function( $rules ) {
 	</div>
 </div>
 
-<div id="faq-10" class="glsr-card postbox">
+<div id="faq-11" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>How do I redirect to a custom URL after a form is submitted?</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
@@ -252,7 +268,7 @@ add_filter( 'site-reviews/validation/rules', function( $rules ) {
 	</div>
 </div>
 
-<div id="faq-11" class="glsr-card postbox">
+<div id="faq-12" class="glsr-card postbox">
 	<div class="glsr-card-header">
 		<h3>How do I remove the dash in front of the author's name?</h3>
 		<button type="button" class="handlediv" aria-expanded="true">
