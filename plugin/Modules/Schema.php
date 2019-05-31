@@ -163,11 +163,14 @@ class Schema
 	 */
 	protected function buildSummaryForProduct()
 	{
-		$offers = $this->buildSchemaValues( $this->getSchemaType( 'AggregateOffer' ), [
-			'highPrice', 'lowPrice', 'priceCurrency',
+		$offerType = $this->getSchemaOption( 'offerType', 'AggregateOffer' );
+		$offers = $this->buildSchemaValues( $this->getSchemaType( $offerType ), [
+			'highPrice', 'lowPrice', 'price', 'priceCurrency',
 		]);
 		return $this->buildSummaryForCustom()
-			->offers( $offers )
+			->doIf( !empty( $offers->getProperties() ), function( $schema ) use( $offers ) {
+				$schema->offers( $offers );
+			})
 			->setProperty( '@id', $this->getSchemaOptionValue( 'url' ).'#product' );
 	}
 
