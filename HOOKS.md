@@ -53,6 +53,7 @@
     site-reviews/get/defaults
     site-reviews/get/review
     site-reviews/get/reviews
+    site-reviews/get/reviews/query
     site-reviews/interpolate/{template_path}
     site-reviews/metabox/details
     site-reviews/notification/emails
