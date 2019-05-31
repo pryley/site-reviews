@@ -205,10 +205,7 @@ class Field
 		$this->field['path'] = $this->field['name'];
 		$className = glsr( Helper::class )->buildClassName( $this->field['type'], __NAMESPACE__.'\Fields' );
 		if( class_exists( $className )) {
-			$this->field = array_merge(
-				wp_parse_args( $this->field, $className::defaults() ),
-				$className::required()
-			);
+			$this->field = $className::merge( $this->field );
 		}
 		$this->normalizeFieldId();
 		$this->normalizeFieldName();

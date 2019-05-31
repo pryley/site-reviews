@@ -303,10 +303,7 @@ class Builder
 	{
 		$className = $this->getCustomFieldClassName();
 		if( class_exists( $className )) {
-			$this->args = array_merge(
-				wp_parse_args( $this->args, $className::defaults() ),
-				$className::required()
-			);
+			$this->args = $className::merge( $this->args );
 		}
 		$this->args = glsr( BuilderDefaults::class )->merge( $this->args );
 	}

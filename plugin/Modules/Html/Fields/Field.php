@@ -35,6 +35,34 @@ abstract class Field
 	/**
 	 * @return array
 	 */
+	public static function merge( array $args )
+	{
+		$merged = array_merge(
+			wp_parse_args( $args, static::defaults() ),
+			static::required()
+		);
+		$merged['class'] = implode( ' ', static::mergedAttribute( 'class', ' ', $args ));
+		$merged['style'] = implode( ';', static::mergedAttribute( 'style', ';', $args ));
+		return $merged;
+	}
+
+	/**
+	 * @param string $delimiter
+	 * @param string $key
+	 * @return void
+	 */
+	public static function mergedAttribute( $key, $delimiter, array $args )
+	{
+		return array_filter( array_merge(
+			explode( $delimiter, glsr_get( $args, $key )),
+			explode( $delimiter, glsr_get( static::defaults(), $key )),
+			explode( $delimiter, glsr_get( static::required(), $key ))
+		));
+	}
+
+	/**
+	 * @return array
+	 */
 	public static function required()
 	{
 		return [];
@@ -45,9 +73,6 @@ abstract class Field
 	 */
 	protected function mergeFieldArgs()
 	{
-		$this->builder->args = array_merge(
-			wp_parse_args( $this->builder->args, static::defaults() ),
-			static::required()
-		);
+		$this->builder->args = static::merge( $this->builder->args );
 	}
 }
