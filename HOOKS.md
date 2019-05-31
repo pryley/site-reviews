@@ -99,3 +99,5 @@
     site-reviews/views/data
     site-reviews/views/file
     site-reviews/{form_id}/fields
+    site-reviews/whip
+    site-reviews/whip/whitelist
