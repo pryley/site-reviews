@@ -62,7 +62,7 @@
 		<pre><code>[site_reviews rating="4"]</code></pre>
 
 		<p class="glsr-heading">schema</p>
-		<p>Include the "schema" attribute to enable rich snippets for your reviews, this is disabled by default. The difference between this and the schema option in the [site_reviews_summary] shortcode is that this one generates both the overall reviews rating schema and the schema for each individual review, while the other only generates the overall reviews rating schema.</p>
+		<p>Include the "schema" attribute to enable the aggregate rating and review schema for your reviews in Google. The difference between this and the schema option in the [site_reviews_summary] shortcode is that this one generates both the aggregate ratings schema and the review schema for each individual review that is visible on the page, while the other only generates the aggregate ratings schema.</p>
 		<p>The default schema value is: <code>"false"</code></p>
 		<p><span class="required">Important:</span> This attribute should only be used once on a page to avoid duplicate schemas; keep that in mind if you are using more than one [site_reviews] and/or [site_reviews_summary] shortcodes on the same page.</p>
 		<pre><code>[site_reviews schema="true"]</code></pre>
@@ -167,7 +167,7 @@
 		<pre><code>[site_reviews_summary rating="3"]</code></pre>
 
 		<p class="glsr-heading">schema</p>
-		<p>Include the "schema" attribute to enable rich snippets for your reviews (this is disabled by default). The difference between this and the schema option in the [site_reviews] shortcode is that this one only generates the overall reviews rating schema, while the other generates both the overall reviews rating schema and the schema for each individual review. If you have the choice, better to enable this attribute on the [site_reviews] shortcode instead.</p>
+		<p>Include the "schema" attribute to enable the aggregate rating schema for your reviews in Google. The difference between this and the schema option in the [site_reviews] shortcode is that this one only generates the aggregate ratings schema, while the other generates both the aggregate ratings schema and the review schema for each individual review that is visible on the page. If you have the choice, enable this attribute on the [site_reviews] shortcode instead.</p>
 		<p>The default schema value is: <code>"false"</code></p>
 		<p><span class="required">Important:</span> This attribute should only be used once on a page to avoid duplicate schemas; keep that in mind if you are using more than one [site_reviews] and/or [site_reviews_summary] shortcodes on the same page.</p>
 		<pre><code>[site_reviews_summary schema="true"]</code></pre>
