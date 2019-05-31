@@ -127,10 +127,11 @@ class EditorController extends Controller
 	}
 
 	/**
+	 * @param WP_Post $post
 	 * @return void
 	 * @callback add_meta_box
 	 */
-	public function renderAssignedToMetabox( WP_Post $post )
+	public function renderAssignedToMetabox( $post )
 	{
 		if( !$this->isReviewPostType( $post ))return;
 		$assignedTo = (string)get_post_meta( $post->ID, 'assigned_to', true );
@@ -142,10 +143,11 @@ class EditorController extends Controller
 	}
 
 	/**
+	 * @param WP_Post $post
 	 * @return void
 	 * @callback add_meta_box
 	 */
-	public function renderDetailsMetaBox( WP_Post $post )
+	public function renderDetailsMetaBox( $post )
 	{
 		if( !$this->isReviewPostType( $post ))return;
 		$review = glsr( ReviewManager::class )->single( $post );
@@ -172,10 +174,11 @@ class EditorController extends Controller
 	}
 
 	/**
+	 * @param WP_Post $post
 	 * @return void
 	 * @callback add_meta_box
 	 */
-	public function renderResponseMetaBox( WP_Post $post )
+	public function renderResponseMetaBox( $post )
 	{
 		if( !$this->isReviewPostType( $post ))return;
 		wp_nonce_field( 'response', '_nonce-response', false );
@@ -185,10 +188,11 @@ class EditorController extends Controller
 	}
 
 	/**
+	 * @param WP_Post $post
 	 * @return void
 	 * @action edit_form_after_title
 	 */
-	public function renderReviewEditor( WP_Post $post )
+	public function renderReviewEditor( $post )
 	{
 		if( !$this->isReviewPostType( $post ) || $this->isReviewEditable( $post ))return;
 		glsr()->render( 'partials/editor/review', [
@@ -210,10 +214,11 @@ class EditorController extends Controller
 	}
 
 	/**
+	 * @param WP_Post $post
 	 * @return void
 	 * @action edit_form_top
 	 */
-	public function renderReviewNotice( WP_Post $post )
+	public function renderReviewNotice( $post )
 	{
 		if( !$this->isReviewPostType( $post ) || $this->isReviewEditable( $post ))return;
 		glsr( Notice::class )->addWarning( sprintf(
@@ -228,11 +233,12 @@ class EditorController extends Controller
 	}
 
 	/**
+	 * @param WP_Post $post
 	 * @return void
 	 * @see glsr_categories_meta_box()
 	 * @callback register_taxonomy
 	 */
-	public function renderTaxonomyMetabox( WP_Post $post )
+	public function renderTaxonomyMetabox( $post )
 	{
 		if( !$this->isReviewPostType( $post ))return;
 		glsr()->render( 'partials/editor/metabox-categories', [
@@ -335,7 +341,7 @@ class EditorController extends Controller
 	/**
 	 * @return bool
 	 */
-	protected function isReviewEditable( WP_Post $post )
+	protected function isReviewEditable( $post )
 	{
 		return $this->isReviewPostType( $post )
 			&& post_type_supports( Application::POST_TYPE, 'title' )

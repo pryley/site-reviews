@@ -66,8 +66,8 @@ class Helper
 	 */
 	public function consolidateArray( $array )
 	{
-		return is_array( $array )
-			? $array
+		return is_array( $array ) || is_object( $array )
+			? (array)$array
 			: [];
 	}
 
@@ -135,6 +135,7 @@ class Helper
 	 */
 	public function dataGet( $data, $path = '', $fallback = '' )
 	{
+		$data = $this->consolidateArray( $data );
 		$keys = explode( '.', $path );
 		foreach( $keys as $key ) {
 			if( !isset( $data[$key] )) {

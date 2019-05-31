@@ -42,12 +42,13 @@ class ReviewController extends Controller
 	/**
 	 * @param string $oldStatus
 	 * @param string $newStatus
+	 * @param WP_Post $post
 	 * @return void
 	 * @action transition_post_status
 	 */
-	public function onAfterChangeStatus( $newStatus, $oldStatus, WP_Post $post )
+	public function onAfterChangeStatus( $newStatus, $oldStatus, $post )
 	{
-		if( $post->post_type != Application::POST_TYPE || in_array( $oldStatus, ['new', $newStatus] ))return;
+		if( glsr_get( $post, 'post_type') != Application::POST_TYPE || in_array( $oldStatus, ['new', $newStatus] ))return;
 		$review = glsr( ReviewManager::class )->single( get_post( $post->ID ));
 		if( $post->post_status == 'publish' ) {
 			glsr( CountsManager::class )->increase( $review );

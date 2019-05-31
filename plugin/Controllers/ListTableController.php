@@ -70,12 +70,13 @@ class ListTableController extends Controller
 
 	/**
 	 * @param string $status
+	 * @param WP_Post $post
 	 * @return string
 	 * @filter post_date_column_status
 	 */
-	public function filterDateColumnStatus( $status, WP_Post $post )
+	public function filterDateColumnStatus( $status, $post )
 	{
-		if( $post->post_type == Application::POST_TYPE ) {
+		if( glsr_get( $post, 'post_type' ) == Application::POST_TYPE ) {
 			$status = __( 'Submitted', 'site-reviews' );
 		}
 		return $status;
@@ -83,12 +84,13 @@ class ListTableController extends Controller
 
 	/**
 	 * @param array $hidden
+	 * @param WP_Screen $post
 	 * @return array
 	 * @filter default_hidden_columns
 	 */
-	public function filterDefaultHiddenColumns( $hidden, WP_Screen $screen )
+	public function filterDefaultHiddenColumns( $hidden, $screen )
 	{
-		if( $screen->id == 'edit-'.Application::POST_TYPE ) {
+		if( glsr_get( $screen, 'id' ) == 'edit-'.Application::POST_TYPE ) {
 			$hidden = glsr( Helper::class )->consolidateArray( $hidden );
 			$hidden = ['reviewer'];
 		}
@@ -97,12 +99,13 @@ class ListTableController extends Controller
 
 	/**
 	 * @param array $postStates
+	 * @param WP_Post $post
 	 * @return array
 	 * @filter display_post_states
 	 */
-	public function filterPostStates( $postStates, WP_Post $post ) {
+	public function filterPostStates( $postStates, $post ) {
 		$postStates = glsr( Helper::class )->consolidateArray( $postStates );
-		if( $post->post_type == Application::POST_TYPE && array_key_exists( 'pending', $postStates )) {
+		if( glsr_get( $post, 'post_type' ) == Application::POST_TYPE && array_key_exists( 'pending', $postStates )) {
 			$postStates['pending'] = __( 'Unapproved', 'site-reviews' );
 		}
 		return $postStates;
@@ -110,12 +113,13 @@ class ListTableController extends Controller
 
 	/**
 	 * @param array $actions
+	 * @param WP_Post $post
 	 * @return array
 	 * @filter post_row_actions
 	 */
-	public function filterRowActions( $actions, WP_Post $post )
+	public function filterRowActions( $actions, $post )
 	{
-		if( $post->post_type != Application::POST_TYPE || $post->post_status == 'trash' ) {
+		if( glsr_get( $post, 'post_type' ) != Application::POST_TYPE || $post->post_status == 'trash' ) {
 			return $actions;
 		}
 		unset( $actions['inline hide-if-no-js'] ); //Remove Quick-edit
