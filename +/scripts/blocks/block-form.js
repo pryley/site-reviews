@@ -14,7 +14,7 @@
 	var selectPlaceholder = { label: '- ' + __( 'Select', 'site-reviews' ) + ' -', value: '' };
 
 	var categories = [];
-	wp.apiFetch({ path: '/site-reviews/v1/categories'}).then( function( terms ) {
+	wp.apiFetch({ path: '/site-reviews/v1/categories?per_page=50'}).then( function( terms ) {
 		categories.push(selectPlaceholder);
 		$.each( terms, function( key, term ) {
 			categories.push({ label: term.name, value: term.id });

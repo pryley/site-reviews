@@ -14,7 +14,7 @@
 	var selectPlaceholder = { label: '- ' + __( 'Select', 'site-reviews' ) + ' -', value: '' };
 
 	var categories = [];
-	wp.apiFetch({ path: '/site-reviews/v1/categories'}).then( function( terms ) {
+	wp.apiFetch({ path: '/site-reviews/v1/categories?per_page=50'}).then( function( terms ) {
 		categories.push( selectPlaceholder );
 		$.each( terms, function( key, term ) {
 			categories.push({ label: term.name, value: term.id });
@@ -22,7 +22,7 @@
 	});
 
 	var types = [];
-	wp.apiFetch({ path: '/site-reviews/v1/types'}).then( function( reviewtypes ) {
+	wp.apiFetch({ path: '/site-reviews/v1/types?per_page=50'}).then( function( reviewtypes ) {
 		if( reviewtypes.length < 2 )return;
 		types.push( selectPlaceholder );
 		$.each( reviewtypes, function( key, type ) {
