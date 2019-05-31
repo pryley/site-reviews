@@ -340,7 +340,7 @@ class System
 	protected function normalizePluginList( array $plugins )
 	{
 		$plugins = array_map( function( $plugin ) {
-			return sprintf( '%s v%s', $plugin['Name'], $plugin['Version'] );
+			return sprintf( '%s v%s', glsr_get( $plugin, 'Name' ), glsr_get( $plugin, 'Version' ));
 		}, $plugins );
 		natcasesort( $plugins );
 		return array_flip( $plugins );
