@@ -40,6 +40,7 @@ class SiteReviewsSummary
 		return glsr( Template::class )->build( 'templates/reviews-summary', [
 			'context' => [
 				'assigned_to' => $this->args['assigned_to'],
+				'category' => $this->args['category'],
 				'class' => $this->getClass(),
 				'id' => $this->args['id'],
 				'percentages' => $this->buildPercentage(),

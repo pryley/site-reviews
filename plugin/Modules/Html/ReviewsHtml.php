@@ -53,6 +53,7 @@ class ReviewsHtml extends ArrayObject
 		return glsr( Template::class )->build( 'templates/reviews', [
 			'context' => [
 				'assigned_to' => $this->args['assigned_to'],
+				'category' => $this->args['category'],
 				'class' => $this->getClass(),
 				'id' => $this->args['id'],
 				'navigation' => $this->getNavigation(),
