@@ -89,7 +89,7 @@ class Style
 	public function modifyField( Builder $instance )
 	{
 		if( !$this->isPublicInstance( $instance ) || empty( array_filter( $this->fields )))return;
-		call_user_func_array( [$this, 'customize'], [&$instance] );
+		call_user_func_array( [$this, 'customize'], [$instance] );
 	}
 
 	/**
@@ -110,7 +110,7 @@ class Style
 		$key = $instance->tag.'_'.$args['type'];
 		$classes = glsr_get( $this->fields, $key, glsr_get( $this->fields, $instance->tag ));
 		$instance->args['class'] = trim( $args['class'].' '.$classes );
-		do_action_ref_array( 'site-reviews/customize/'.$this->style, [&$instance] );
+		do_action_ref_array( 'site-reviews/customize/'.$this->style, [$instance] );
 	}
 
 	/**

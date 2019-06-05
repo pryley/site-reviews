@@ -81,7 +81,7 @@ class PublicController extends Controller
 	 */
 	public function modifyBuilder( Builder $instance )
 	{
-		call_user_func_array( [glsr( Style::class ), 'modifyField'], [&$instance] );
+		call_user_func_array( [glsr( Style::class ), 'modifyField'], [$instance] );
 	}
 
 	/**

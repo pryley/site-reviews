@@ -68,7 +68,7 @@ class Builder
 		$instance->setTagFromMethod( $method );
 		call_user_func_array( [$instance, 'normalize'], $args += ['',''] );
 		$tags = array_merge( static::TAGS_FORM, static::TAGS_SINGLE, static::TAGS_STRUCTURE, static::TAGS_TEXT );
-		do_action_ref_array( 'site-reviews/builder', [&$instance] );
+		do_action_ref_array( 'site-reviews/builder', [$instance] );
 		$generatedTag = in_array( $instance->tag, $tags )
 			? $instance->buildTag()
 			: $instance->buildCustomField();
