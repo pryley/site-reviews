@@ -16,7 +16,7 @@ class StarRating implements PartialContract
 		ob_start();
 		wp_star_rating( $args );
 		$stars = ob_get_clean();
-		return !is_admin()
+		return !glsr()->isAdmin()
 			? str_replace( ['star-rating', 'star star'], ['glsr-stars', 'glsr-star glsr-star'], $stars )
 			: $stars;
 	}
