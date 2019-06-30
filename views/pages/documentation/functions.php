@@ -10,7 +10,7 @@
 	</div>
 	<div class="inside">
 		<p>The problem with using plugin-specific helper functions is that they only exist when the plugin is active. When the plugin is disabled, any helper functions that have been used will throw a PHP error unless you have also included a <a href="https://php.net/manual/en/function.function-exists.php">function_exists</a> check.</p>
-		<p>Site Reviews provides a alternative way of using these functions which is much safer:</p>
+		<p>Site Reviews provides an alternative way of using these functions which is much safer:</p>
 		<pre><code>/**
  * @param string $function_name (required) This is the name of the function you want to use
  * @param mixed $fallback (required) This value is returned when the function does not exist
@@ -271,7 +271,7 @@ $reviews = apply_filters( 'glsr_get_reviews', [], [
 			</li>
 			<li>
 				<p>Loop through all reviews and handle each review as needed. Each <code>$review</code> is identical to what the <code><a href="<?= admin_url( 'edit.php?post_type=site-review&page=documentation#!functions' ); ?>" data-expand="#functions-06">glsr_get_review</a></code> helper function returns, so make sure to read the "Helpful Tips" from that section above for more information.</p>
-				<pre><code class="php">foreach( $reviews and $review ) {
+				<pre><code class="php">foreach( $reviews as $review ) {
 	echo $review;
 };</code></pre>
 			</li>
