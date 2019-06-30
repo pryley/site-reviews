@@ -146,14 +146,11 @@ class Notification
 	protected function sendToEmail( array $args )
 	{
 		$email = $this->buildEmail( $args );
-		if( !$this->email )return;
 		if( empty( $email->to )) {
 			glsr_log()->error( 'Email notification was not sent (missing email address)' );
 			return;
 		}
-		if( $email->send() === false ) {
-			glsr_log()->error( 'Email notification was not sent (wp_mail() failed)' )->debug( $email );
-		}
+		$email->send();
 	}
 
 	/**

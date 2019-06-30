@@ -73,6 +73,7 @@ class Email
 	public function send()
 	{
 		if( !$this->message || !$this->subject || !$this->to )return;
+		add_action( 'wp_mail_failed', [$this, 'logMailError']);
 		$sent = wp_mail(
 			$this->to,
 			$this->subject,
@@ -80,6 +81,7 @@ class Email
 			$this->headers,
 			$this->attachments
 		);
+		remove_action( 'wp_mail_failed', [$this, 'logMailError']);
 		$this->reset();
 		return $sent;
 	}
@@ -141,6 +143,17 @@ class Email
 			'context' => ['message' => $message],
 		]);
 		return apply_filters( 'site-reviews/email/message', stripslashes( $message ), 'html', $this );
+	}
+
+	/**
+	 * @param \WP_Error $error
+	 * @return void
+	 */
+	protected logMailError( $error )
+	{
+		glsr_log()->error( 'Email was not sent (wp_mail failed)' )
+			->debug( $this )
+			->debug( $error );
 	}
 
 	/**
