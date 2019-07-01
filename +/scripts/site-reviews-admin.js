@@ -12,6 +12,7 @@ jQuery( function( $ ) {
 
 	GLSR.shortcode = new GLSR.Shortcode( '.glsr-mce' );
 	GLSR.ColorPicker();
+	new GLSR.Categories();
 	new GLSR.Forms( 'form.glsr-form' );
 	new GLSR.Pinned();
 	new GLSR.Pointers();
@@ -83,5 +84,4 @@ jQuery( function( $ ) {
 		var action = $('.glsr-support-step').not(':checked').length > 0 ? 'add' : 'remove';
 		$( '.glsr-card-result' )[action + 'Class']( 'hidden' );
 	});
-
 });

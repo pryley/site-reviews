@@ -111,5 +111,6 @@ class Actions implements HooksContract
 		add_action( Application::TAXONOMY.'_add_form_fields',       [$this->taxonomy, 'enableParents'] );
 		add_action( Application::TAXONOMY.'_edit_form',             [$this->taxonomy, 'enableParents'] );
 		add_action( 'restrict_manage_posts',                        [$this->taxonomy, 'renderTaxonomyFilter'], 9 );
+		add_action( 'set_object_terms',                             [$this->taxonomy, 'restrictTermSelection'], 9, 6 );
 	}
 }

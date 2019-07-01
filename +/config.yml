@@ -23,6 +23,7 @@ scripts:
     - +/scripts/site-reviews.js
   site-reviews-admin.js:
     - +/scripts/admin/ajax.js
+    - +/scripts/admin/categories.js
     - +/scripts/admin/color-picker.js
     - +/scripts/admin/forms.js
     - +/scripts/admin/notices.js

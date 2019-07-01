@@ -56,6 +56,28 @@ class TaxonomyController
 	}
 
 	/**
+	 * @param int $postId
+	 * @param array $terms
+	 * @param array $newTTIds
+	 * @param string $taxonomy
+	 * @param bool $append
+	 * @param array $oldTTIds
+	 * @return void
+	 * @action set_object_terms
+	 */
+	public function restrictTermSelection( $postId, $terms, $newTTIds, $taxonomy, $append, $oldTTIds )
+	{
+		if( $taxonomy != Application::TAXONOMY || count( $newTTIds ) <= 1 )return;
+		$diff = array_diff( $newTTIds, $oldTTIds );
+		if( empty( $newTerm = array_shift( $diff ))) {
+			$newTerm = array_shift( $newTTIds );
+		}
+		if( $newTerm ) {
+			wp_set_object_terms( $postId, intval( $newTerm ), $taxonomy );
+		}
+	}
+
+	/**
 	 * @return string
 	 */
 	protected function getSelected()

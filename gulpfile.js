@@ -13,7 +13,7 @@ var pottopo         = require('gulp-pottopo');
 var pump            = require('pump');
 var sass            = require('gulp-sass');
 var sort            = require('gulp-sort');
-var uglify          = require('gulp-uglify');
+var terser          = require('gulp-terser');
 var wpPot           = require('gulp-wp-pot');
 var yaml            = require('yamljs');
 
@@ -41,7 +41,7 @@ gulp.task('js', function(cb) {
   }
   pump([
     streams,
-    gulpif(args.production, uglify({
+    gulpif(args.production, terser({
       mangle: {properties: {regex: /[a-zA-Z]+_$/}},
       // output: {comments: 'some'},
     })),
