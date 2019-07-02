@@ -13,6 +13,7 @@ class SqlQueries
 	{
 		global $wpdb;
 		$this->db = $wpdb;
+		$this->postType = Application::POST_TYPE;
 	}
 
 	/**
@@ -48,7 +49,7 @@ class SqlQueries
 	 */
 	public function getExpiredSessions( $sessionCookiePrefix, $limit )
 	{
-		return $this->db->get_results("
+		return (array) $this->db->get_results("
 			SELECT option_name AS name, option_value AS expiration
 			FROM {$this->db->options}
 			WHERE option_name LIKE '{$sessionCookiePrefix}_expires_%'
@@ -67,7 +68,7 @@ class SqlQueries
 			SELECT p.ID
 			FROM {$this->db->posts} AS p
 			INNER JOIN {$this->db->postmeta} AS m ON p.ID = m.post_id
-			WHERE p.post_type = '{Application::POST_TYPE}'
+			WHERE p.post_type = '{$this->postType}'
 			AND m.meta_key = 'review_id'
 			AND m.meta_value = '{$metaReviewId}'
 		");
@@ -81,56 +82,58 @@ class SqlQueries
 	 */
 	public function getReviewCounts( array $args, $lastPostId = 0, $limit = 500 )
 	{
-		return $this->db->get_results("
-			SELECT p.ID, m1.meta_value AS rating, m2.meta_value AS type
+		return (array) $this->db->get_results("
+			SELECT DISTINCT p.ID, m1.meta_value AS rating, m2.meta_value AS type
 			FROM {$this->db->posts} AS p
 			INNER JOIN {$this->db->postmeta} AS m1 ON p.ID = m1.post_id
 			INNER JOIN {$this->db->postmeta} AS m2 ON p.ID = m2.post_id
 			{$this->getInnerJoinForCounts( $args )}
 			WHERE p.ID > {$lastPostId}
 			AND p.post_status = 'publish'
-			AND p.post_type = '{Application::POST_TYPE}'
+			AND p.post_type = '{$this->postType}'
 			AND m1.meta_key = 'rating'
 			AND m2.meta_key = 'review_type'
 			{$this->getAndForCounts( $args )}
-			ORDER By p.ID
-			ASC LIMIT {$limit}
-		", OBJECT );
+			ORDER By p.ID ASC
+			LIMIT {$limit}
+		");
 	}
 
 	/**
+	 * @todo remove this?
 	 * @param string $metaKey
 	 * @return array
 	 */
 	public function getReviewCountsFor( $metaKey )
 	{
 		return (array) $this->db->get_results("
-			SELECT m.meta_value AS name, COUNT(*) num_posts
+			SELECT DISTINCT m.meta_value AS name, COUNT(*) num_posts
 			FROM {$this->db->posts} AS p
 			INNER JOIN {$this->db->postmeta} AS m ON p.ID = m.post_id
-			WHERE p.post_type = '{Application::POST_TYPE}'
+			WHERE p.post_type = '{$this->postType}'
 			AND m.meta_key = '{$metaKey}'
 			GROUP BY name
 		");
 	}
 
 	/**
+	 * @todo remove this?
 	 * @param string $reviewType
 	 * @return array
 	 */
 	public function getReviewIdsByType( $reviewType )
 	{
-		$query = $this->db->get_col("
-			SELECT m1.meta_value AS review_id
+		$results = $this->db->get_col("
+			SELECT DISTINCT m1.meta_value AS review_id
 			FROM {$this->db->posts} AS p
 			INNER JOIN {$this->db->postmeta} AS m1 ON p.ID = m1.post_id
 			INNER JOIN {$this->db->postmeta} AS m2 ON p.ID = m2.post_id
-			WHERE p.post_type = '{$this->db->postType}'
+			WHERE p.post_type = '{$this->postType}'
 			AND m1.meta_key = 'review_id'
 			AND m2.meta_key = 'review_type'
 			AND m2.meta_value = '{$reviewType}'
 		");
-		return array_keys( array_flip( $query ));
+		return array_keys( array_flip( $results ));
 	}
 
 	/**
@@ -143,18 +146,19 @@ class SqlQueries
 		sort( $postIds );
 		$postIds = array_slice( $postIds, intval( array_search( $greaterThanId, $postIds )), $limit );
 		$postIds = implode( ',', $postIds );
-		return $this->db->get_results("
+		return (array) $this->db->get_results("
 			SELECT p.ID, m.meta_value AS rating
 			FROM {$this->db->posts} AS p
 			INNER JOIN {$this->db->postmeta} AS m ON p.ID = m.post_id
 			WHERE p.ID > {$greaterThanId}
 			AND p.ID IN ('{$postIds}')
 			AND p.post_status = 'publish'
-			AND p.post_type = '{Application::POST_TYPE}'
+			AND p.post_type = '{$this->postType}'
 			AND m.meta_key = 'rating'
-			ORDER By p.ID
-			ASC LIMIT {$limit}
-		", OBJECT );
+			GROUP BY p.ID
+			ORDER By p.ID ASC
+			LIMIT {$limit}
+		");
 	}
 
 	/**
@@ -164,18 +168,19 @@ class SqlQueries
 	 */
 	public function getReviewsMeta( $key, $status = 'publish' )
 	{
-		$queryBuilder = glsr( QueryBuilder::class );
-		$key = $queryBuilder->buildSqlOr( $key, "m.meta_key = '%s'" );
-		$status = $queryBuilder->buildSqlOr( $status, "p.post_status = '%s'" );
-		return $this->db->get_col("
+		$values = $this->db->get_col("
 			SELECT DISTINCT m.meta_value
 			FROM {$this->db->postmeta} m
 			LEFT JOIN {$this->db->posts} p ON p.ID = m.post_id
-			WHERE p.post_type = '{Application::POST_TYPE}'
-			AND ({$key})
-			AND ({$status})
-			ORDER BY m.meta_value
+			WHERE p.post_type = '{$this->postType}'
+			AND m.meta_key = '{$key}'
+			AND m.meta_value > '' -- No empty values or ID's less than 1
+			AND p.post_status = '{$status}'
+			GROUP BY p.ID -- remove duplicate meta_value entries
+			ORDER BY m.meta_id ASC -- sort by oldest meta_value
 		");
+		sort( $values );
+		return $values;
 	}
 
 	/**
@@ -184,11 +189,16 @@ class SqlQueries
 	 */
 	protected function getAndForCounts( array $args, $and = '' )
 	{
-		if( !empty( $args['post_id'] )) {
-			$and.= "AND m3.meta_key = 'assigned_to' AND m3.meta_value = {$args['post_id']}";
+		$postIds = implode( ',', array_filter( $args['post_ids'] ));
+		$termIds = implode( ',', array_filter( $args['term_ids'] ));
+		if( !empty( $args['type'] )) {
+			$and.= "AND m2.meta_value = '{$args['type']}' ";
 		}
-		if( !empty( $args['term_taxonomy_id'] )) {
-			$and.= "AND tr.term_taxonomy_id = {$args['term_taxonomy_id']}";
+		if( $postIds ) {
+			$and.= "AND m3.meta_key = 'assigned_to' AND m3.meta_value IN ({$postIds}) ";
+		}
+		if( $termIds ) {
+			$and.= "AND tr.term_taxonomy_id IN ({$termIds}) ";
 		}
 		return $and;
 	}
@@ -199,11 +209,11 @@ class SqlQueries
 	 */
 	protected function getInnerJoinForCounts( array $args, $innerJoin = '' )
 	{
-		if( !empty( $args['post_id'] )) {
-			$innerJoin.= "INNER JOIN {$this->db->postmeta} AS m3 ON p.ID = m3.post_id";
+		if( !empty( $args['post_ids'] )) {
+			$innerJoin.= "INNER JOIN {$this->db->postmeta} AS m3 ON p.ID = m3.post_id ";
 		}
-		if( !empty( $args['term_taxonomy_id'] )) {
-			$innerJoin.= "INNER JOIN {$this->db->term_relationships} AS tr ON p.ID = tr.object_id";
+		if( !empty( $args['term_ids'] )) {
+			$innerJoin.= "INNER JOIN {$this->db->term_relationships} AS tr ON p.ID = tr.object_id ";
 		}
 		return $innerJoin;
 	}

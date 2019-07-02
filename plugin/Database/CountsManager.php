@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Database\SqlQueries;
@@ -21,10 +22,30 @@ class CountsManager
 
 	/**
 	 * @return array
+	 * @todo verify the additional type checks are needed
 	 */
-	public function buildCounts()
+	public function buildCounts( array $args = [] )
 	{
-		return $this->build();
+		$counts = [];
+		$query = $this->queryReviews( $args );
+		while( $query ) {
+			// glsr_log($query);
+			$types = array_keys( array_flip( glsr_array_column( $query->reviews, 'type' )));
+			$types = array_unique( array_merge( ['local'], $types ));
+			foreach( $types as $type ) {
+				$type = $this->normalizeType( $type );
+				if( isset( $counts[$type] ))continue;
+				$counts[$type] = array_fill_keys( range( 0, Rating::MAX_RATING ), 0 );
+			}
+			foreach( $query->reviews as $review ) {
+				$type = $this->normalizeType( $review->type );
+				$counts[$type][$review->rating]++;
+			}
+			$query = $query->has_more
+				? $this->queryReviews( $args, end( $query->reviews )->ID )
+				: false;
+		}
+		return $counts;
 	}
 
 	/**
@@ -33,7 +54,7 @@ class CountsManager
 	 */
 	public function buildPostCounts( $postId )
 	{
-		return $this->build( ['post_id' => $postId] );
+		return $this->buildCounts( ['post_ids' => [$postId]] );
 	}
 
 	/**
@@ -42,7 +63,23 @@ class CountsManager
 	 */
 	public function buildTermCounts( $termTaxonomyId )
 	{
-		return $this->build( ['term_taxonomy_id' => $termTaxonomyId] );
+		return $this->buildCounts( ['term_ids' => [$termTaxonomyId]] );
+	}
+
+	/**
+	 * @return void
+	 */
+	public function countAll()
+	{
+		$terms = glsr( Database::class )->getTerms( ['fields' => 'all'] );
+		foreach( $terms as $term ) {
+			$this->setTermCounts( $term->term_id, $this->buildTermCounts( $term->term_taxonomy_id ));
+		}
+		$postIds = glsr( SqlQueries::class )->getReviewsMeta( 'assigned_to' );
+		foreach( $postIds as $postId ) {
+			$this->setPostCounts( $postId, $this->buildPostCounts( $postId ));
+		}
+		$this->setCounts( $this->buildCounts() );
 	}
 
 	/**
@@ -115,19 +152,15 @@ class CountsManager
 	public function get( array $args = [] )
 	{
 		$args = $this->normalizeArgs( $args );
-
-		if( !empty( $args['post_ids'] ) && !empty( $args['term_ids'] )) {
-			$counts = [$this->build( $args )];
+		$counts = [];
+		if( $this->isMixedCount( $args )) {
+			$counts = [$this->buildCounts( $args )]; // force query the database
 		}
 		else {
-			$counts = [];
 			foreach( $args['post_ids'] as $postId ) {
-				// reviews can only be assigned to a single post...:)
 				$counts[] = $this->getPostCounts( $postId );
 			}
 			foreach( $args['term_ids'] as $termId ) {
-				// reviews can be assigned to many terms...:(
-				// @todo if multiple ids are provided, a query must be used!
 				$counts[] = $this->getTermCounts( $termId );
 			}
 			if( empty( $counts )) {
@@ -254,32 +287,6 @@ class CountsManager
 	}
 
 	/**
-	 * @param int $limit
-	 * @return array
-	 * @todo verify the additional type checks are needed
-	 */
-	protected function build( array $args = [] )
-	{
-		$counts = [];
-		$lastPostId = 0;
-		while( $reviews = $this->queryReviews( $args, $lastPostId )) {
-			$types = array_keys( array_flip( glsr_array_column( $reviews, 'type' )));
-			$types = array_unique( array_merge( ['local'], $types ));
-			foreach( $types as $type ) {
-				$type = $this->normalizeType( $type );
-				if( isset( $counts[$type] ))continue;
-				$counts[$type] = array_fill_keys( range( 0, Rating::MAX_RATING ), 0 );
-			}
-			foreach( $reviews as $review ) {
-				$type = $this->normalizeType( $review->type );
-				$counts[$type][$review->rating]++;
-			}
-			$lastPostId = end( $reviews )->ID;
-		}
-		return $counts;
-	}
-
-	/**
 	 * @param string $type
 	 * @param int $rating
 	 * @return array
@@ -308,6 +315,14 @@ class CountsManager
 		$reviewCounts = $this->normalize( $reviewCounts );
 		$reviewCounts[$type][$rating] = intval( $reviewCounts[$type][$rating] ) + 1;
 		return $reviewCounts;
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function isMixedCount( array $args )
+	{
+		return !empty( $args['post_ids'] ) && !empty( $args['term_ids'] );
 	}
 
 	/**
@@ -356,10 +371,17 @@ class CountsManager
 
 	/**
 	 * @param int $lastPostId
-	 * @return void|array
+	 * @return object
 	 */
-	protected function queryReviews( array $args = [], $lastPostId )
+	protected function queryReviews( array $args = [], $lastPostId = 0 )
 	{
-		return glsr( SqlQueries::class )->getReviewCounts( $args, $lastPostId, static::LIMIT );
+		$reviews = glsr( SqlQueries::class )->getReviewCounts( $args, $lastPostId, static::LIMIT );
+		$hasMore = is_array( $reviews )
+			? count( $reviews ) == static::LIMIT
+			: false;
+		return (object) [
+			'has_more' => $hasMore,
+			'reviews' => $reviews,
+		];
 	}
 }

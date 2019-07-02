@@ -147,23 +147,11 @@ class AdminController extends Controller
 	 */
 	public function routerCountReviews( $showNotice = true )
 	{
-		$countManager = glsr( CountsManager::class );
-		$terms = glsr( Database::class )->getTerms( ['fields' => 'all'] );
-		foreach( $terms as $term ) {
-			$countManager->setTermCounts(
-				$term->term_id,
-				$countManager->buildTermCounts( $term->term_taxonomy_id )
-			);
-		}
-		$postIds = glsr( SqlQueries::class )->getReviewsMeta( 'assigned_to' );
-		foreach( $postIds as $postId ) {
-			$countManager->setPostCounts( $postId, $countManager->buildPostCounts( $postId ));
-		}
-		$countManager->setCounts( $countManager->buildCounts() );
+		glsr( CountsManager::class )->countAll();
+		glsr( OptionManager::class )->set( 'last_review_count', current_time( 'timestamp' ));
 		if( $showNotice ) {
 			glsr( Notice::class )->clear()->addSuccess( __( 'Recalculated rating counts.', 'site-reviews' ));
 		}
-		glsr( OptionManager::class )->set( 'last_review_count', current_time( 'timestamp' ));
 	}
 
 	/**

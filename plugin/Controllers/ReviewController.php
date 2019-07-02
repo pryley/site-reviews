@@ -15,22 +15,22 @@ class ReviewController extends Controller
 	/**
 	 * @param int $postId
 	 * @param array $terms
-	 * @param array $termTaxonomyIds
-	 * @param string $taxonomySlug
+	 * @param array $newTTIds
+	 * @param string $taxonomy
 	 * @param bool $append
-	 * @param array $oldTermTaxonomyIds
+	 * @param array $oldTTIds
 	 * @return void
 	 * @action set_object_terms
 	 */
-	public function onAfterChangeCategory( $postId, $terms, $termTaxonomyIds, $taxonomySlug, $append, $oldTermTaxonomyIds )
+	public function onAfterChangeCategory( $postId, $terms, $newTTIds, $taxonomy, $append, $oldTTIds )
 	{
-		sort( $termTaxonomyIds );
-		sort( $oldTermTaxonomyIds );
-		if( $termTaxonomyIds === $oldTermTaxonomyIds || !$this->isReviewPostId( $postId ))return;
+		sort( $newTTIds );
+		sort( $oldTTIds );
+		if( $newTTIds === $oldTTIds || !$this->isReviewPostId( $postId ))return;
 		$review = glsr( ReviewManager::class )->single( get_post( $postId ));
-		$ignoredIds = array_intersect( $oldTermTaxonomyIds, $termTaxonomyIds );
-		$decreasedIds = array_diff( $oldTermTaxonomyIds, $ignoredIds );
-		$increasedIds = array_diff( $termTaxonomyIds, $ignoredIds );
+		$ignoredIds = array_intersect( $oldTTIds, $newTTIds );
+		$decreasedIds = array_diff( $oldTTIds, $ignoredIds );
+		$increasedIds = array_diff( $newTTIds, $ignoredIds );
 		if( $review->term_ids = glsr( Database::class )->getTermIds( $decreasedIds, 'term_taxonomy_id' )) {
 			glsr( CountsManager::class )->decreaseTermCounts( $review );
 		}
