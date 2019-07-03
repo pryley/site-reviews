@@ -41,6 +41,7 @@ class Filters implements HooksContract
 	 */
 	public function run()
 	{
+		add_filter( 'map_meta_cap',                                            [$this->admin, 'filterCreateCapability'], 10, 2 );
 		add_filter( 'mce_external_plugins',                                    [$this->admin, 'filterTinymcePlugins'], 15 );
 		add_filter( 'plugin_action_links_'.$this->basename,                    [$this->admin, 'filterActionLinks'] );
 		add_filter( 'dashboard_glance_items',                                  [$this->admin, 'filterDashboardGlanceItems'] );

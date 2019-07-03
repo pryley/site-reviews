@@ -95,7 +95,11 @@ class System
 	public function getInactivePluginDetails()
 	{
 		$activePlugins = (array)get_option( 'active_plugins', [] );
-		return $this->normalizePluginList( array_diff_key( get_plugins(), array_flip( $activePlugins )));
+		$inactivePlugins = $this->normalizePluginList( array_diff_key( get_plugins(), array_flip( $activePlugins )));
+		$multisitePlugins = $this->getMultisitePluginDetails();
+		return is_array( $multisitePlugins )
+			? array_diff( $inactivePlugins, $multisitePlugins )
+			: $inactivePlugins;
 	}
 
 	/**
@@ -103,11 +107,7 @@ class System
 	 */
 	public function getMuPluginDetails()
 	{
-		$plugins = array_merge(
-			get_mu_plugins(),
-			get_plugins( '/../'.basename( WPMU_PLUGIN_DIR ))
-		);
-		if( empty( $plugins ))return;
+		if( empty( $plugins = get_mu_plugins() ))return;
 		return $this->normalizePluginList( $plugins );
 	}
 
@@ -116,8 +116,9 @@ class System
 	 */
 	public function getMultisitePluginDetails()
 	{
-		if( !is_multisite() || empty( get_site_option( 'active_sitewide_plugins', [] )))return;
-		return $this->normalizePluginList( wp_get_active_network_plugins() );
+		$activePlugins = (array)get_site_option( 'active_sitewide_plugins', [] );
+		if( !is_multisite() || empty( $activePlugins ))return;
+		return $this->normalizePluginList( array_intersect_key( get_plugins(), $activePlugins ));
 	}
 
 	/**

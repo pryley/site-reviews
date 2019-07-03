@@ -53,6 +53,20 @@ class AdminController extends Controller
 	}
 
 	/**
+	 * @param array $capabilities
+	 * @param string $capability
+	 * @return array
+	 * @filter map_meta_cap
+	 */
+	public function filterCreateCapability( $capabilities, $capability )
+	{
+		if( $capability == 'create_'.Application::POST_TYPE ) {
+			$capabilities[] = 'do_not_allow';
+		}
+		return $capabilities;
+	}
+
+	/**
 	 * @param array $items
 	 * @return array
 	 * @filter dashboard_glance_items
