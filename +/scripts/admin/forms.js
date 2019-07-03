@@ -12,40 +12,52 @@
 	};
 
 	GLSR.Forms.prototype = {
+		getDependsData_: function( el ) {
+			var data = el.getAttribute( 'data-depends' );
+			if( !data )return;
+			try {
+				return JSON.parse( data );
+			}
+			catch( error ) {
+				console.log( data );
+				return console.error( error );
+			}
+		},
+
 		/** @return void */
 		init_: function() {
 			var formControls = this.el.elements;
 			for( var i = 0; i < formControls.length; i++ ) {
-				if( ['INPUT', 'SELECT'].indexOf( formControls[i].nodeName ) === -1 )continue;
+				if( !~['INPUT', 'SELECT'].indexOf( formControls[i].nodeName ))continue;
 				formControls[i].addEventListener( 'change', this.onChange_.bind( this ));
 			}
 		},
 
 		/** @return bool */
-		isSelected_: function( el, dependency ) {
-			if( Array.isArray( dependency.value )) {
-				if( 'checkbox' === el.type ) {
-					var isSelected = false;
-					[].map.call( el.closest( 'form' ).querySelectorAll( 'input[name="' +  el.name + '"]:checked' ), function( input ) {
-						if( !~dependency.value.indexOf( input.value ))return;
+		isFieldSelected_: function( name, values ) {
+			var isSelected = false;
+			values = [].concat( values ); // cast to array
+			var els = this.el.querySelectorAll( '[name="' + name + '"]' );
+			[].map.call( els, function( el ) {
+				var hasValue = ~this.normalizeValues_( values ).indexOf( this.normalizeValue_( el.value ));
+				if( ~['checkbox', 'radio'].indexOf( el.type )) {
+					if( !!el.checked && hasValue ) {
 						isSelected = true;
-					});
-					return isSelected;
+					}
 				}
-				return this.normalizeValues_( dependency.value ).indexOf( this.normalizeValue_( el.value )) !== -1;
-			}
-			else if( 'checkbox' === el.type ) {
-				return !!el.checked;
-			}
-			return this.normalizeValue_( dependency.value ) === this.normalizeValue_( el.value );
+				else if( hasValue ) {
+					isSelected = true;
+				}
+			}.bind( this ));
+			return isSelected;
 		},
 
 		/** @return bool|string */
 		normalizeValue_: function( value ) {
-			if(['true','on','yes','1'].indexOf( value ) !== -1 ) {
+			if( ~['true','on','yes','1'].indexOf( value )) {
 				return true;
 			}
-			if(['false','off','no','0'].indexOf( value ) !== -1 ) {
+			if( ~['false','off','no','0'].indexOf( value )) {
 				return false;
 			}
 			return value;
@@ -59,18 +71,20 @@
 		/** @return void */
 		onChange_: function( ev ) {
 			this.depends.forEach( function( el ) {
-				var data = el.getAttribute( 'data-depends' );
-				var dependency;
-				if( !data )return;
-				try {
-					dependency = JSON.parse( data );
-				}
-				catch( error ) {
-					console.log( data );
-					return console.error( error );
-				}
-				if( dependency.name !== ev.currentTarget.name )return;
-				this.toggleHiddenField_( el, this.isSelected_( ev.currentTarget, dependency ));
+				var dependencies = this.getDependsData_( el );
+				if( !dependencies )return;
+				var names = dependencies.map(function( dependency ) {
+					return dependency.name;
+				});
+				if( !~names.indexOf( ev.currentTarget.name ))return;
+				var isFieldSelected = true;
+				dependencies.forEach( function( dependency ) {
+					// check dependency.name has dependency.value
+					if( !this.isFieldSelected_( dependency.name, dependency.value )) {
+						isFieldSelected = false;
+					}
+				}.bind( this ));
+				this.toggleHiddenField_( el, isFieldSelected );
 			}.bind( this ));
 		},
 

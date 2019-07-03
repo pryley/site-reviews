@@ -35,7 +35,9 @@ return [
 	],
 	'settings.general.require.login_register' => [
 		'default' => 'no',
-		'depends_on' => ['settings.general.require.login' => 'yes'],
+		'depends_on' => [
+			'settings.general.require.login' => 'yes',
+		],
 		'description' => sprintf( __( 'Show a link for a new user to register. The %s Membership option must be enabled in General Settings for this to work.', 'site-reviews' ),
 			'<a href="'.admin_url( 'options-general.php#users_can_register' ).'">'.__( 'Anyone can register', 'site-reviews' ).'</a>'
 		),
@@ -63,14 +65,18 @@ return [
 	],
 	'settings.general.notification_email' => [
 		'default' => '',
-		'depends_on' => ['settings.general.notifications' => ['custom']],
+		'depends_on' => [
+			'settings.general.notifications' => ['custom'],
+		],
 		'label' => __( 'Send Notification Emails To', 'site-reviews' ),
 		'placeholder' => __( 'Separate multiple emails with a comma', 'site-reviews' ),
 		'type' => 'text',
 	],
 	'settings.general.notification_slack' => [
 		'default' => '',
-		'depends_on' => ['settings.general.notifications' => ['slack']],
+		'depends_on' => [
+			'settings.general.notifications' => ['slack'],
+		],
 		'description' => sprintf( __( 'To send notifications to Slack, create a new %s and then paste the provided Webhook URL in the field above.', 'site-reviews' ),
 			'<a href="https://api.slack.com/incoming-webhooks">'.__( 'Incoming WebHook', 'site-reviews' ).'</a>'
 		),
@@ -79,7 +85,9 @@ return [
 	],
 	'settings.general.notification_message' => [
 		'default' => glsr( 'Modules\Html\Template' )->build( 'templates/email-notification' ),
-		'depends_on' => ['settings.general.notifications' => ['admin', 'author', 'custom', 'slack']],
+		'depends_on' => [
+			'settings.general.notifications' => ['admin', 'author', 'custom', 'slack'],
+		],
 		'description' => __(
 			'To restore the default text, save an empty template. '.
 			'If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href="https://api.slack.com/docs/attachments">Message Attachments</a> have been disabled. Available template tags:'.
@@ -111,7 +119,9 @@ return [
 	],
 	'settings.reviews.date.custom' => [
 		'default' => get_option( 'date_format' ),
-		'depends_on' => ['settings.reviews.date.format' => 'custom'],
+		'depends_on' => [
+			'settings.reviews.date.format' => 'custom',
+		],
 		'description' => __( 'Enter a custom date format (<a href="https://codex.wordpress.org/Formatting_Date_and_Time">documentation on date and time formatting</a>).', 'site-reviews' ),
 		'label' => __( 'Custom Date Format', 'site-reviews' ),
 		'type' => 'text',
@@ -130,14 +140,18 @@ return [
 	],
 	'settings.reviews.avatars_regenerate' => [
 		'default' => 'no',
-		'depends_on' => ['settings.reviews.avatars' => 'yes'],
+		'depends_on' => [
+			'settings.reviews.avatars' => 'yes',
+		],
 		'description' => __( 'Regenerate the avatar whenever a local review is shown?', 'site-reviews' ),
 		'label' => __( 'Regenerate Avatars', 'site-reviews' ),
 		'type' => 'yes_no',
 	],
 	'settings.reviews.avatars_size' => [
 		'default' => 40,
-		'depends_on' => ['settings.reviews.avatars' => 'yes'],
+		'depends_on' => [
+			'settings.reviews.avatars' => 'yes',
+		],
 		'description' => __( 'Set the avatar size in pixels.', 'site-reviews' ),
 		'label' => __( 'Avatar Size', 'site-reviews' ),
 		'type' => 'number',
@@ -150,7 +164,9 @@ return [
 	],
 	'settings.reviews.excerpts_length' => [
 		'default' => 55,
-		'depends_on' => ['settings.reviews.excerpts' => 'yes'],
+		'depends_on' => [
+			'settings.reviews.excerpts' => 'yes',
+		],
 		'description' => __( 'Set the excerpt word length.', 'site-reviews' ),
 		'label' => __( 'Excerpt Length', 'site-reviews' ),
 		'type' => 'number',
@@ -177,7 +193,9 @@ return [
 	],
 	'settings.schema.type.custom' => [
 		'default' => '',
-		'depends_on' => ['settings.schema.type.default' => 'custom'],
+		'depends_on' => [
+			'settings.schema.type.default' => 'custom',
+		],
 		'description' => '<a href="https://schema.org/docs/schemas.html">'.__( 'View more information on schema types here', 'site-reviews' ).'</a>',
 		'label' => __( 'Custom Schema Type', 'site-reviews' ),
 		'type' => 'text',
@@ -194,7 +212,9 @@ return [
 	],
 	'settings.schema.name.custom' => [
 		'default' => '',
-		'depends_on' => ['settings.schema.name.default' => 'custom'],
+		'depends_on' => [
+			'settings.schema.name.default' => 'custom',
+		],
 		'label' => __( 'Custom Name', 'site-reviews' ),
 		'type' => 'text',
 	],
@@ -210,7 +230,9 @@ return [
 	],
 	'settings.schema.description.custom' => [
 		'default' => '',
-		'depends_on' => ['settings.schema.description.default' => 'custom'],
+		'depends_on' => [
+			'settings.schema.description.default' => 'custom',
+		],
 		'label' => __( 'Custom Description', 'site-reviews' ),
 		'type' => 'text',
 	],
@@ -226,7 +248,9 @@ return [
 	],
 	'settings.schema.url.custom' => [
 		'default' => '',
-		'depends_on' => ['settings.schema.url.default' => 'custom'],
+		'depends_on' => [
+			'settings.schema.url.default' => 'custom',
+		],
 		'label' => __( 'Custom URL', 'site-reviews' ),
 		'type' => 'text',
 	],
@@ -242,13 +266,17 @@ return [
 	],
 	'settings.schema.image.custom' => [
 		'default' => '',
-		'depends_on' => ['settings.schema.image.default' => 'custom'],
+		'depends_on' => [
+			'settings.schema.image.default' => 'custom',
+		],
 		'label' => __( 'Custom Image URL', 'site-reviews' ),
 		'type' => 'text',
 	],
 	'settings.schema.address' => [
 		'default' => '',
-		'depends_on' => ['settings.schema.type.default' => 'LocalBusiness'],
+		'depends_on' => [
+			'settings.schema.type.default' => 'LocalBusiness',
+		],
 		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_address</code>',
 		'label' => __( 'Address', 'site-reviews' ),
 		'placeholder' => '60 29th Street #343, San Francisco, CA 94110, US',
@@ -256,7 +284,9 @@ return [
 	],
 	'settings.schema.telephone' => [
 		'default' => '',
-		'depends_on' => ['settings.schema.type.default' => 'LocalBusiness'],
+		'depends_on' => [
+			'settings.schema.type.default' => 'LocalBusiness',
+		],
 		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_telephone</code>',
 		'label' => __( 'Telephone Number', 'site-reviews' ),
 		'placeholder' => '+1 (877) 273-3049',
@@ -264,15 +294,44 @@ return [
 	],
 	'settings.schema.pricerange' => [
 		'default' => '',
-		'depends_on' => ['settings.schema.type.default' => 'LocalBusiness'],
+		'depends_on' => [
+			'settings.schema.type.default' => 'LocalBusiness',
+		],
 		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_pricerange</code>',
 		'label' => __( 'Price Range', 'site-reviews' ),
 		'placeholder' => '$$-$$$',
 		'type' => 'text',
 	],
+	'settings.schema.offertype' => [
+		'default' => 'AggregateOffer',
+		'depends_on' => [
+			'settings.schema.type.default' => 'Product',
+		],
+		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_offertype</code>',
+		'label' => __( 'Offer Type', 'site-reviews' ),
+		'options' => [
+			'AggregateOffer' => __( 'AggregateOffer', 'site-reviews' ),
+			'Offer' => __( 'Offer', 'site-reviews' ),
+		],
+		'type' => 'select',
+	],
+	'settings.schema.price' => [
+		'default' => '',
+		'depends_on' => [
+			'settings.schema.type.default' => 'Product',
+			'settings.schema.offertype' => 'Offer',
+		],
+		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_price</code>',
+		'label' => __( 'Price', 'site-reviews' ),
+		'placeholder' => '50.00',
+		'type' => 'text',
+	],
 	'settings.schema.lowprice' => [
 		'default' => '',
-		'depends_on' => ['settings.schema.type.default' => 'Product'],
+		'depends_on' => [
+			'settings.schema.type.default' => 'Product',
+			'settings.schema.offertype' => 'AggregateOffer',
+		],
 		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_lowprice</code>',
 		'label' => __( 'Low Price', 'site-reviews' ),
 		'placeholder' => '10.00',
@@ -280,7 +339,10 @@ return [
 	],
 	'settings.schema.highprice' => [
 		'default' => '',
-		'depends_on' => ['settings.schema.type.default' => 'Product'],
+		'depends_on' => [
+			'settings.schema.type.default' => 'Product',
+			'settings.schema.offertype' => 'AggregateOffer',
+		],
 		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_highprice</code>',
 		'label' => __( 'High Price', 'site-reviews' ),
 		'placeholder' => '100.00',
@@ -288,7 +350,9 @@ return [
 	],
 	'settings.schema.pricecurrency' => [
 		'default' => '',
-		'depends_on' => ['settings.schema.type.default' => 'Product'],
+		'depends_on' => [
+			'settings.schema.type.default' => 'Product',
+		],
 		'description' => __( 'Custom Field name', 'site-reviews' ).': <code>schema_pricecurrency</code>',
 		'label' => __( 'Price Currency', 'site-reviews' ),
 		'placeholder' => 'USD',
@@ -321,19 +385,25 @@ return [
 	],
 	'settings.submissions.recaptcha.key' => [
 		'default' => '',
-		'depends_on' => ['settings.submissions.recaptcha.integration' => ['all', 'guest']],
+		'depends_on' => [
+			'settings.submissions.recaptcha.integration' => ['all', 'guest'],
+		],
 		'label' => __( 'Site Key', 'site-reviews' ),
 		'type' => 'text',
 	],
 	'settings.submissions.recaptcha.secret' => [
 		'default' => '',
-		'depends_on' => ['settings.submissions.recaptcha.integration' => ['all', 'guest']],
+		'depends_on' => [
+			'settings.submissions.recaptcha.integration' => ['all', 'guest'],
+		],
 		'label' => __( 'Site Secret', 'site-reviews' ),
 		'type' => 'text',
 	],
 	'settings.submissions.recaptcha.position' => [
 		'default' => 'bottomleft',
-		'depends_on' => ['settings.submissions.recaptcha.integration' => ['all', 'guest']],
+		'depends_on' => [
+			'settings.submissions.recaptcha.integration' => ['all', 'guest'],
+		],
 		'description' => __( 'This option may not work consistently if another plugin is loading reCAPTCHA on the same page as Site Reviews.', 'site-reviews' ),
 		'label' => __( 'Badge Position', 'site-reviews' ),
 		'options' => [

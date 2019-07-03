@@ -39,6 +39,17 @@ class Settings
 	}
 
 	/**
+	 * @return string
+	 */
+	protected function getFieldNameForDependsOn( $path )
+	{
+		$fieldName = glsr( Helper::class )->convertPathToName( $path, OptionManager::databaseKey() );
+		return $this->isMultiDependency( $path )
+			? $fieldName.'[]'
+			: $fieldName;
+	}
+
+	/**
 	 * @return array
 	 */
 	protected function getSettingFields( $path )
@@ -182,17 +193,19 @@ class Settings
 	protected function normalizeDependsOn( array $field )
 	{
 		if( !empty( $field['depends_on'] ) && is_array( $field['depends_on'] )) {
-			$path = key( $field['depends_on'] );
-			$expectedValue = $field['depends_on'][$path];
-			$fieldName = glsr( Helper::class )->convertPathToName( $path, OptionManager::databaseKey() );
-			if( $this->isMultiDependency( $path )) {
-				$fieldName.= '[]';
+			$isFieldHidden = false;
+			$conditions = [];
+			foreach( $field['depends_on'] as $path => $value ) {
+				$conditions[] = [
+					'name' => $this->getFieldNameForDependsOn( $path ),
+					'value' => $value,
+				];
+				if( $this->isFieldHidden( $path, $value )) {
+					$isFieldHidden = true;
+				}
 			}
-			$field['data-depends'] = json_encode([
-				'name' => $fieldName,
-				'value' => $expectedValue,
-			], JSON_HEX_APOS|JSON_HEX_QUOT );
-			$field['is_hidden'] = $this->isFieldHidden( $path, $expectedValue );
+			$field['data-depends'] = json_encode( $conditions, JSON_HEX_APOS|JSON_HEX_QUOT );
+			$field['is_hidden'] = $isFieldHidden;
 		}
 		return $field;
 	}

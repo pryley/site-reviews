@@ -49,7 +49,7 @@ abstract class Field
 	/**
 	 * @param string $delimiter
 	 * @param string $key
-	 * @return void
+	 * @return array
 	 */
 	public static function mergedAttribute( $key, $delimiter, array $args )
 	{
