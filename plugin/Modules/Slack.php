@@ -129,9 +129,9 @@ class Slack
 	protected function buildStarsField()
 	{
 		$solidStars = str_repeat( '★', $this->review->rating );
-		$emptyStars = str_repeat( '☆', max( 0, Rating::MAX_RATING - $this->review->rating ));
+		$emptyStars = str_repeat( '☆', max( 0, glsr()->constant( 'MAX_RATING', Rating::class ) - $this->review->rating ));
 		$stars = $solidStars.$emptyStars;
-		$stars = apply_filters( 'site-reviews/slack/stars', $stars, $this->review->rating, Rating::MAX_RATING );
+		$stars = apply_filters( 'site-reviews/slack/stars', $stars, $this->review->rating, glsr()->constant( 'MAX_RATING', Rating::class ));
 		return ['title' => $stars];
 	}
 

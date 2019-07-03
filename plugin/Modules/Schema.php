@@ -67,8 +67,8 @@ class Schema
 				$this->getSchemaType( 'AggregateRating' )
 					->ratingValue( $this->getRatingValue() )
 					->reviewCount( $count )
-					->bestRating( Rating::MAX_RATING )
-					->worstRating( Rating::MIN_RATING )
+					->bestRating( glsr()->constant( 'MAX_RATING', Rating::class ))
+					->worstRating( glsr()->constant( 'MIN_RATING', Rating::class ))
 			);
 		}
 		$schema = $schema->toArray();
@@ -117,8 +117,8 @@ class Schema
 			$schema->reviewRating(
 				$this->getSchemaType( 'Rating' )
 					->ratingValue( $review->rating )
-					->bestRating( Rating::MAX_RATING )
-					->worstRating( Rating::MIN_RATING )
+					->bestRating( glsr()->constant( 'MAX_RATING', Rating::class ))
+					->worstRating( glsr()->constant( 'MIN_RATING', Rating::class ))
 			);
 		}
 		return apply_filters( 'site-reviews/schema/review', $schema->toArray(), $review, $this->args );

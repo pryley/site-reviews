@@ -23,7 +23,7 @@ class Rating extends Field
 	public static function required()
 	{
 		$options = ['' => __( 'Select a Rating', 'site-reviews' )];
-		foreach( range( RatingModule::MAX_RATING, 1 ) as $rating ) {
+		foreach( range( glsr()->constant( 'MAX_RATING', RatingModule::class ), 1 ) as $rating ) {
 			$options[$rating] = sprintf( _n( '%s Star', '%s Stars', $rating, 'site-reviews' ), $rating );
 		}
 		return [

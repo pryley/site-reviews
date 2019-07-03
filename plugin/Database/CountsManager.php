@@ -35,7 +35,7 @@ class CountsManager
 			foreach( $types as $type ) {
 				$type = $this->normalizeType( $type );
 				if( isset( $counts[$type] ))continue;
-				$counts[$type] = array_fill_keys( range( 0, Rating::MAX_RATING ), 0 );
+				$counts[$type] = array_fill_keys( range( 0, glsr()->constant( 'MAX_RATING', Rating::class )), 0 );
 			}
 			foreach( $query->reviews as $review ) {
 				$type = $this->normalizeType( $review->type );
@@ -136,8 +136,8 @@ class CountsManager
 			$counts[$index] = $num + intval( glsr_get( $counts, $index, 0 ));
 		});
 		$args = wp_parse_args( $args, [
-			'max' => Rating::MAX_RATING,
-			'min' => Rating::MIN_RATING,
+			'max' => glsr()->constant( 'MAX_RATING', Rating::class ),
+			'min' => glsr()->constant( 'MIN_RATING', Rating::class ),
 		]);
 		foreach( $counts as $index => &$num ) {
 			if( $index >= intval( $args['min'] ) && $index <= intval( $args['max'] ))continue;
@@ -334,7 +334,7 @@ class CountsManager
 			$reviewCounts = [[]];
 		}
 		foreach( $reviewCounts as &$counts ) {
-			foreach( range( 0, Rating::MAX_RATING ) as $index ) {
+			foreach( range( 0, glsr()->constant( 'MAX_RATING', Rating::class )) as $index ) {
 				if( isset( $counts[$index] ))continue;
 				$counts[$index] = 0;
 			}

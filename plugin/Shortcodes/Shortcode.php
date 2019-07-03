@@ -165,13 +165,13 @@ abstract class Shortcode implements ShortcodeContract
 			__( 'Poor', 'site-reviews' ),
 			__( 'Terrible', 'site-reviews' ),
 		];
-		$defaults = array_pad( $defaults, Rating::MAX_RATING, '' );
+		$defaults = array_pad( $defaults, glsr()->constant( 'MAX_RATING', Rating::class ), '' );
 		$labels = array_map( 'trim', explode( ',', $labels ));
 		foreach( $defaults as $i => $label ) {
 			if( empty( $labels[$i] ))continue;
 			$defaults[$i] = $labels[$i];
 		}
-		return array_combine( range( Rating::MAX_RATING, 1 ), $defaults );
+		return array_combine( range( glsr()->constant( 'MAX_RATING', Rating::class ), 1 ), $defaults );
 	}
 
 	/**

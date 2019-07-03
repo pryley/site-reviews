@@ -58,7 +58,7 @@ class SiteReviewsSummary
 	{
 		if( $this->isHidden( 'bars' ))return;
 		$percentages = preg_filter( '/$/', '%', glsr( Rating::class )->getPercentages( $this->ratingCounts ));
-		$bars = array_reduce( range( Rating::MAX_RATING, 1 ), function( $carry, $level ) use( $percentages ) {
+		$bars = array_reduce( range( glsr()->constant( 'MAX_RATING', Rating::class ), 1 ), function( $carry, $level ) use( $percentages ) {
 			$label = $this->buildPercentageLabel( $this->args['labels'][$level] );
 			$background = $this->buildPercentageBackground( $percentages[$level] );
 			$count = apply_filters( 'site-reviews/summary/counts',
@@ -142,7 +142,7 @@ class SiteReviewsSummary
 		}
 		$summary = str_replace(
 			['{rating}','{max}', '{num}'],
-			[$this->averageRating, Rating::MAX_RATING, $count],
+			[$this->averageRating, glsr()->constant( 'MAX_RATING', Rating::class ), $count],
 			$this->args['text']
 		);
 		return $this->wrap( 'text', '<span>'.$summary.'</span>' );
