@@ -189,8 +189,8 @@ class SqlQueries
 	 */
 	protected function getAndForCounts( array $args, $and = '' )
 	{
-		$postIds = implode( ',', array_filter( $args['post_ids'] ));
-		$termIds = implode( ',', array_filter( $args['term_ids'] ));
+		$postIds = implode( ',', array_filter( glsr_get( $args, 'post_ids')));
+		$termIds = implode( ',', array_filter( glsr_get( $args, 'term_ids')));
 		if( !empty( $args['type'] )) {
 			$and.= "AND m2.meta_value = '{$args['type']}' ";
 		}
@@ -209,10 +209,10 @@ class SqlQueries
 	 */
 	protected function getInnerJoinForCounts( array $args, $innerJoin = '' )
 	{
-		if( !empty( $args['post_ids'] )) {
+		if( !empty( glsr_get( $args, 'post_ids'))) {
 			$innerJoin.= "INNER JOIN {$this->db->postmeta} AS m3 ON p.ID = m3.post_id ";
 		}
-		if( !empty( $args['term_ids'] )) {
+		if( !empty( glsr_get( $args, 'term_ids'))) {
 			$innerJoin.= "INNER JOIN {$this->db->term_relationships} AS tr ON p.ID = tr.object_id ";
 		}
 		return $innerJoin;
