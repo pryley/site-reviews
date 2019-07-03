@@ -231,6 +231,7 @@ class System
 		$theme = wp_get_theme();
 		return [
 			'Active Theme' => sprintf( '%s v%s', (string)$theme->Name, (string)$theme->Version ),
+			'Email Domain' => substr( strrchr( get_option( 'admin_email' ), '@' ), 1 ),
 			'Home URL' => home_url(),
 			'Language' => get_locale(),
 			'Memory Limit' => WP_MEMORY_LIMIT,
