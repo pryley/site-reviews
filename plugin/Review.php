@@ -69,7 +69,7 @@ class Review implements \ArrayAccess
 	public function build( array $args = [] )
 	{
 		if( empty( $this->ID )) {
-			return new ReviewHtml;
+			return new ReviewHtml( $this );
 		}
 		$partial = glsr( SiteReviewsPartial::class );
 		$partial->args = glsr( SiteReviewsDefaults::class )->merge( $args );

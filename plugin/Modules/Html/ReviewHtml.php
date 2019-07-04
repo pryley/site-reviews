@@ -4,16 +4,23 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use ArrayObject;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
+use GeminiLabs\SiteReviews\Review;
 
 class ReviewHtml extends ArrayObject
 {
+	/**
+	 * @var Review
+	 */
+	public $review;
+
 	/**
 	 * @var array
 	 */
 	public $values;
 
-	public function __construct( array $values = [] )
+	public function __construct( Review $review, array $values = [] )
 	{
+		$this->review = $review;
 		$this->values = $values;
 		parent::__construct( $values, ArrayObject::STD_PROP_LIST|ArrayObject::ARRAY_AS_PROPS );
 	}
@@ -36,6 +43,7 @@ class ReviewHtml extends ArrayObject
 		if( empty( $this->values ))return;
 		return glsr( Template::class )->build( 'templates/review', [
 			'context' => $this->values,
+			'review' => $this->review,
 		]);
 	}
 }

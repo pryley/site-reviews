@@ -73,7 +73,7 @@ class SiteReviews
 		$this->wrap( $renderedFields, $review );
 		$renderedFields = apply_filters( 'site-reviews/review/build/after', $renderedFields, $review );
 		$this->current = null;
-		return new ReviewHtml( (array)$renderedFields );
+		return new ReviewHtml( $review, (array)$renderedFields );
 	}
 
 	/**
@@ -85,6 +85,7 @@ class SiteReviews
 		foreach( $this->reviews as $index => $review ) {
 			$renderedReviews[] = glsr( Template::class )->build( 'templates/review', [
 				'context' => $this->buildReview( $review )->values,
+				'review' => $review,
 			]);
 		}
 		return new ReviewsHtml( $renderedReviews, $this->reviews->max_num_pages, $this->args );
