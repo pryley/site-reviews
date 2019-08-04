@@ -473,13 +473,6 @@ form.glsr-form [type=submit] .glsr-button-loading::after {
   z-index: 1;
 }
 
-.glsr-default .glsr-star {
-  width: 1.125em;
-  height: 1.125em;
-  font-size: inherit;
-  background-size: 1.125em;
-}
-
 .glsr-ltr .glsr-default .glsr-review-avatar {
   float: left;
   margin-right: 1em;
@@ -506,6 +499,13 @@ form.glsr-form [type=submit] .glsr-button-loading::after {
 .glsr-rtl .glsr-default .glsr-review-response-background::before {
   left: 3em;
   border-left-width: 2em;
+}
+
+.glsr-star {
+  font-size: inherit;
+  background-size: 1.125em;
+  height: 1.125em;
+  width: 1.125em;
 }
 
 .glsr-default.glsr-summary {

@@ -91,12 +91,6 @@
 		padding: 1em;
 		z-index: 1;
 	}
-	.glsr-star {
-		width: $glsr-star-size;
-		height: $glsr-star-size;
-		font-size: inherit;
-		background-size: $glsr-star-size;
-	}
 }
 .glsr-ltr .glsr-default {
 	.glsr-review-avatar {
@@ -123,4 +117,10 @@
 		left: 3em;
 		border-left-width: 2em;
 	}
+}
+.glsr-star {
+	font-size: inherit;
+	background-size: $glsr-star-size;
+	height: $glsr-star-size;
+	width: $glsr-star-size;
 }
