@@ -62,6 +62,8 @@
     site-reviews/paginate_links/args
     site-reviews/partial/args/{partial_path}
     site-reviews/path
+    site-reviews/query/and-for-counts
+    site-reviews/query/inner-join-for-counts
     site-reviews/rating/average
     site-reviews/rating/ranking
     site-reviews/recaptcha/language

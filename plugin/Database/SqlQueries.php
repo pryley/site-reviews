@@ -200,7 +200,7 @@ class SqlQueries
 		if( $termIds ) {
 			$and.= "AND tr.term_taxonomy_id IN ({$termIds}) ";
 		}
-		return $and;
+		return apply_filters( 'site-reviews/query/and-for-counts', $and );
 	}
 
 	/**
@@ -215,6 +215,6 @@ class SqlQueries
 		if( !empty( glsr_get( $args, 'term_ids'))) {
 			$innerJoin.= "INNER JOIN {$this->db->term_relationships} AS tr ON p.ID = tr.object_id ";
 		}
-		return $innerJoin;
+		return apply_filters( 'site-reviews/query/inner-join-for-counts', $innerJoin );
 	}
 }
