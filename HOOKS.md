@@ -60,7 +60,6 @@
     site-reviews/notification/title
     site-reviews/paginate_links
     site-reviews/paginate_links/args
-    site-reviews/partial/args
     site-reviews/partial/args/{partial_path}
     site-reviews/path
     site-reviews/rating/average
