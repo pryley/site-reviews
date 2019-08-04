@@ -17,6 +17,8 @@ class Partial
 			glsr_log()->error( 'Partial missing: '.$className );
 			return;
 		}
+		$args = apply_filters( 'site-reviews/partial/args', $args, $partialPath );
+		$args = apply_filters( 'site-reviews/partial/args/'.$partialPath, $args );
 		$partial = glsr( $className )->build( $args );
 		$partial = apply_filters( 'site-reviews/rendered/partial', $partial, $partialPath, $args );
 		$partial = apply_filters( 'site-reviews/rendered/partial/'.$partialPath, $partial, $args );
