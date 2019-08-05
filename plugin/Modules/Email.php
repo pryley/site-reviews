@@ -149,7 +149,7 @@ class Email
 	 * @param \WP_Error $error
 	 * @return void
 	 */
-	protected logMailError( $error )
+	protected function logMailError( $error )
 	{
 		glsr_log()->error( 'Email was not sent (wp_mail failed)' )
 			->debug( $this )
