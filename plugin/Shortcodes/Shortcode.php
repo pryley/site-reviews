@@ -11,26 +11,32 @@ use ReflectionClass;
 abstract class Shortcode implements ShortcodeContract
 {
 	/**
-	 * @param string|array $instance
+	 * @var string
+	 */
+	protected $partialName;
+
+	/**
+	 * @var string
+	 */
+	protected $shortcodeName;
+
+	/**
+	 * @param string|array $atts
 	 * @param string $type
 	 * @return string
 	 */
-	public function build( $instance, array $args = [], $type = 'shortcode' )
+	public function build( $atts, array $args = [], $type = 'shortcode' )
 	{
-		$shortcodePartial = $this->getShortcodePartial();
-		$args = wp_parse_args( $args, [
-			'before_widget' => '<div class="glsr-'.$type.' '.$type.'-'.$shortcodePartial.'">',
-			'after_widget' => '</div>',
-			'before_title' => '<h3 class="glsr-'.$type.'-title">',
-			'after_title' => '</h3>',
-		]);
-		$args = apply_filters( 'site-reviews/shortcode/args', $args, $type, $shortcodePartial );
-		$instance = $this->normalize( $instance );
-		$partial = glsr( Partial::class )->build( $shortcodePartial, $instance );
-		if( !empty( $instance['title'] )) {
-			$instance['title'] = $args['before_title'].$instance['title'].$args['after_title'];
-		}
-		return $args['before_widget'].$instance['title'].$partial.$args['after_widget'];
+		$this->partialName = $this->getShortcodePartialName();
+		$this->shortcodeName = $this->getShortcodeName();
+		$args = $this->normalizeArgs( $args, $type );
+		$atts = $this->normalizeAtts( $atts, $type );
+		$partial = glsr( Partial::class )->build( $this->partialName, $atts );
+		$title = !empty( $atts['title'] )
+			? $args['before_title'].$atts['title'].$args['after_title']
+			: '';
+		$debug = sprintf( '<glsr-%1$s hidden data-atts=\'%2$s\'></glsr-%1$s>', $type, $atts['json'] );
+		return $args['before_widget'].$title.$partial.$debug.$args['after_widget'];
 	}
 
 	/**
@@ -45,13 +51,9 @@ abstract class Shortcode implements ShortcodeContract
 	/**
 	 * @return array
 	 */
-	public function getDefaults()
+	public function getDefaults( $atts )
 	{
-		$className = glsr( Helper::class )->buildClassName(
-			str_replace( 'Shortcode', 'Defaults', (new ReflectionClass( $this ))->getShortName() ),
-			'Defaults'
-		);
-		return glsr( $className )->defaults();
+		return glsr( $this->getShortcodeDefaultsClassName() )->restrict( wp_parse_args( $atts ));
 	}
 
 	/**
@@ -60,8 +62,26 @@ abstract class Shortcode implements ShortcodeContract
 	public function getHideOptions()
 	{
 		$options = $this->hideOptions();
-		$shortcode = $this->getShortcodeName();
-		return apply_filters( 'site-reviews/shortcode/hide-options', $options, $shortcode );
+		return apply_filters( 'site-reviews/shortcode/hide-options', $options, $this->shortcodeName );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getShortcodeClassName( $replace = '', $search = 'Shortcode' )
+	{
+		return str_replace( $search, $replace, (new ReflectionClass( $this ))->getShortName() );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getShortcodeDefaultsClassName()
+	{
+		return glsr( Helper::class )->buildClassName(
+			$this->getShortcodeClassName( 'Defaults' ),
+			'Defaults'
+		);
 	}
 
 	/**
@@ -69,34 +89,48 @@ abstract class Shortcode implements ShortcodeContract
 	 */
 	public function getShortcodeName()
 	{
-		return glsr( Helper::class )->snakeCase(
-			str_replace( 'Shortcode', '', (new ReflectionClass( $this ))->getShortName() )
-		);
+		return glsr( Helper::class )->snakeCase( $this->getShortcodeClassName() );
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getShortcodePartial()
+	public function getShortcodePartialName()
 	{
-		return glsr( Helper::class )->dashCase(
-			str_replace( 'Shortcode', '', (new ReflectionClass( $this ))->getShortName() )
-		);
+		return glsr( Helper::class )->dashCase( $this->getShortcodeClassName() );
 	}
 
 	/**
 	 * @param array|string $args
+	 * @param string $type
 	 * @return array
 	 */
-	public function normalize( $args )
+	public function normalizeArgs( $args, $type = 'shortcode' )
 	{
-		$args = shortcode_atts( $this->getDefaults(), wp_parse_args( $args ));
-		array_walk( $args, function( &$value, $key ) {
+		$args = wp_parse_args( $args, [
+			'before_widget' => '<div class="glsr-'.$type.' '.$type.'-'.$this->partialName.'">',
+			'after_widget' => '</div>',
+			'before_title' => '<h3 class="glsr-'.$type.'-title">',
+			'after_title' => '</h3>',
+		]);
+		return apply_filters( 'site-reviews/shortcode/args', $args, $type, $this->partialName );
+	}
+
+	/**
+	 * @param array|string $atts
+	 * @param string $type
+	 * @return array
+	 */
+	public function normalizeAtts( $atts, $type = 'shortcode' )
+	{
+		$atts = apply_filters( 'site-reviews/shortcode/atts', $atts, $type, $this->partialName );
+		$atts = $this->getDefaults( $atts );
+		array_walk( $atts, function( &$value, $key ) {
 			$methodName = glsr( Helper::class )->buildMethodName( $key, 'normalize' );
 			if( !method_exists( $this, $methodName ))return;
 			$value = $this->$methodName( $value );
 		});
-		return $this->sanitize( $args );
+		return $atts;
 	}
 
 	/**
@@ -190,13 +224,5 @@ abstract class Shortcode implements ShortcodeContract
 	protected function normalizeText( $text )
 	{
 		return trim( $text );
-	}
-
-	/**
-	 * @return array
-	 */
-	protected function sanitize( array $args )
-	{
-		return $args;
 	}
 }

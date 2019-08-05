@@ -60,7 +60,7 @@ abstract class BlockGenerator
 	 */
 	protected function hasVisibleFields( $shortcode, array $attributes )
 	{
-		$args = $shortcode->normalize( $attributes );
+		$args = $shortcode->normalizeAtts( $attributes );
 		$defaults = $shortcode->getHideOptions();
 		$hide = array_flip( $args['hide'] );
 		unset( $defaults['if_empty'], $hide['if_empty'] );

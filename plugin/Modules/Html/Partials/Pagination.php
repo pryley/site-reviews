@@ -35,10 +35,7 @@ class Pagination implements PartialContract
 	 */
 	protected function buildLinks()
 	{
-		$args = glsr( Style::class )->paginationArgs([
-			'current' => $this->args['paged'],
-			'total' => $this->args['total'],
-		]);
+		$args = glsr( Style::class )->paginationArgs( $this->args );
 		if( is_front_page() ) {
 			unset( $args['format'] );
 		}
@@ -53,8 +50,11 @@ class Pagination implements PartialContract
 	 */
 	protected function normalize( array $args )
 	{
-		return wp_parse_args( $args, [
-			'paged' => glsr( QueryBuilder::class )->getPaged(),
+		if( $baseUrl = glsr_get( $args, 'baseUrl' )) {
+			$args['base'] = $baseUrl.'%_%';
+		}
+		return wp_parse_args( array_filter( $args ), [
+			'current' => glsr( QueryBuilder::class )->getPaged(),
 			'total' => 1,
 		]);
 	}

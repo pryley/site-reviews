@@ -8,12 +8,24 @@ use ReflectionClass;
 abstract class DefaultsAbstract
 {
 	/**
+	 * @var array
+	 */
+	protected $callable = [
+		'defaults', 'filter', 'merge', 'restrict',
+	];
+
+	/**
+	 * @var array
+	 */
+	protected $guarded = [];
+
+	/**
 	 * @param string $name
 	 * @return void|array
 	 */
 	public function __call( $name, array $args = [] )
 	{
-		if( !method_exists( $this, $name ))return;
+		if( !method_exists( $this, $name ) || !in_array( $name, $this->callable ))return;
 		$defaults = call_user_func_array( [$this, $name], $args );
 		$hookName = (new ReflectionClass( $this ))->getShortName();
 		$hookName = str_replace( 'Defaults', '', $hookName );
@@ -31,7 +43,45 @@ abstract class DefaultsAbstract
 	 */
 	protected function filter( array $values = [] )
 	{
-		return $this->merge( array_filter( $values ));
+		return $this->normalize( $this->merge( array_filter( $values )), $values );
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function filteredJson( array $values = [] )
+	{
+		$defaults = $this->flattenArray(
+			array_diff_key( $this->defaults(), array_flip( $this->guarded ))
+		);
+		$values = $this->flattenArray(
+			shortcode_atts( $defaults, $values )
+		);
+		$filtered = array_filter( array_diff_assoc( $values, $defaults ), function( $value ) {
+			return !$this->isEmpty( $value );
+		});
+		return json_encode( $filtered, JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_TAG|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE );
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function flattenArray( array $values )
+	{
+		array_walk( $values, function( &$value ) {
+			if( !is_array( $value ))return;
+			$value = implode( ',', $value );
+		});
+		return $values;
+	}
+
+	/**
+	 * @param mixed $var
+	 * @return bool
+	 */
+	protected function isEmpty( $var )
+	{
+		return !is_numeric( $var ) && !is_bool( $var ) && empty( $var );
 	}
 
 	/**
@@ -39,7 +89,16 @@ abstract class DefaultsAbstract
 	 */
 	protected function merge( array $values = [] )
 	{
-		return wp_parse_args( $values, $this->defaults() );
+		return $this->normalize( wp_parse_args( $values, $this->defaults() ), $values );
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function normalize( array $values, array $originalValues )
+	{
+		$values['json'] = $this->filteredJson( $originalValues );
+		return $values;
 	}
 
 	/**
@@ -47,6 +106,6 @@ abstract class DefaultsAbstract
 	 */
 	protected function restrict( array $values = [] )
 	{
-		return shortcode_atts( $this->defaults(), $values );
+		return $this->normalize( shortcode_atts( $this->defaults(), $values ), $values );
 	}
 }

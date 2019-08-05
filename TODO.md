@@ -1,10 +1,23 @@
 # TODO
-- [ ] Add a configurable minimum logging-level
+- [ ] Add: option to remove session support
+- [ ] Add: custom post_type permissions
+- [x] Fix: pagination with ajax. We can't use the current method as it does not take into account page DOM modifications with 3rd-party JS
+- [x] Add: filter Rating::MAX_RATING const so max rating can be changed
+- [x] Add: configurable minimum logging-level
+- [x] Add: multisite support (fix System network plugins)
+- [x] Add: email domain check for WordPress settings email
+- [x] Fix: query that performs the review count does not account for duplicate "review_type" meta data
+- [x] Fix: conditional fields are broken in settings
+- [x] Remove star-rating helper CSS dependency on .glsr-default parent class
+
 - [ ] Add a notice similar to Polylang: "It seems that you have been using Site Review for some time. I hope that you love it! I would be thrilled if you could give us a [5 stars rating](...)."
 - [ ] Add reCAPTCHA v3
 - [ ] Add version rollback feature (ref: WP Rocket)
+- [ ] Blacklist option (or documentation) to use the WordPress comment blacklist
 - [ ] Custom classes to track form submission status (i.e. is-spam, has-failed, nonce-failed, etc.)
 - [ ] Fallback to Defaults when settings do not exist
 - [ ] Fix: CSS class should reflect the selected plugin style (i.e. .glsr-minimal)
-- [ ] Fix: Test counts when deleting multiple reviews
-- [ ] Update count in menu when reviews are approved/unapproved
+- [ ] Remove admin-ajax.php dependency on front-end (cf7)
+- [ ] Store user ID to review / allow viewing all reviews by author
+- [ ] Test counts when deleting multiple reviews
+- [ ] Update count badge in menu when reviews are approved/unapproved

@@ -79,7 +79,7 @@ class Style
 			glsr()->config( 'styles/'.$this->style )
 		);
 		$this->fields = glsr( StyleFieldsDefaults::class )->restrict( $config['fields'] );
-		$this->pagination = glsr( PaginationDefaults::class )->merge( $config['pagination'] );
+		$this->pagination = glsr( PaginationDefaults::class )->restrict( $config['pagination'] );
 		$this->validation = glsr( StyleValidationDefaults::class )->restrict( $config['validation'] );
 	}
 

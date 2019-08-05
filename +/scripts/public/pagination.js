@@ -15,74 +15,18 @@
 			scrollTime: 468,
 		},
 
-		/** @return int */
-		getChildIndexOfElement_: function( el ) { // HTMLElement
-			var index = 0;
-			while(( el = el.previousSibling )) {
-				if( el.nodeType === 1 ) {
-					index++;
-				}
-			}
-			return index;
-		},
-
-		/** @return string */
-		getSelector_: function( el ) {
-			if( !el.nodeName )return;
-			return this.getDomPath_( this.getDomPathNode_( el ));
-		},
-
-		/** @return string */
-		getDomPath_: function( node ) { // object
-			if( node.id !== '' ) {
-				return '#' + node.id;
-			}
-			var root = '';
-			if( node.parent ) {
-				root = this.getDomPath_( node.parent ) + ' > ';
-			}
-			return root + node.name + ':nth-child(' + ( node.index + 1 ) + ')';
-		},
-
-		/** @return object */
-		getDomPathNode_: function( el ) { // HTMLElement
-			var node = {
-				id: el.id,
-				index: this.getChildIndexOfElement_( el ),
-				name: el.nodeName.toLowerCase(),
-				parent: null
-			};
-			if( el.parentElement && el.parentElement !== document.body ) {
-				node.parent = this.getDomPathNode_( el.parentElement );
-			}
-			return node;
-		},
-
-		/** @return string */
-		getElementClass_: function( el ) { // HTMLElement
-			return el.className ? '.' + el.className.trim().replace( /\s+/g, '.' ) : '';
-		},
-
-		/** @return string */
-		getElementId_: function( el ) { // HTMLElement
-			return el.id ? '#' + el.id.trim() : '';
-		},
-
 		/** @return void */
-		handleResponse_: function( location, selector, response ) { // string, string, string
-			var newHTML = document.implementation.createHTMLDocument( 'x' );
-			newHTML.documentElement.innerHTML = response;
-			var newParentEl = selector ? newHTML.querySelectorAll( selector ) : '';
-			if( newParentEl.length === 1 ) {
-				this.el.innerHTML = newParentEl[0].innerHTML;
-				this.scrollToTop_( this.el );
-				this.el.classList.remove( this.config.hideClass );
-				this.initEvents_();
-				window.history.pushState( null, '', location );
-				new GLSR.Excerpts( this.el );
+		handleResponse_: function( location, response, success ) { // string, string
+			if( !success ) {
+				window.location = location;
 				return;
 			}
-			window.location = location;
+			this.el.innerHTML = response.html;
+			this.scrollToTop_( this.el );
+			this.el.classList.remove( this.config.hideClass );
+			this.initEvents_();
+			window.history.pushState( null, '', location );
+			new GLSR.Excerpts( this.el );
 		},
 
 		/** @return void */
@@ -95,10 +39,18 @@
 
 		/** @return void */
 		onClick_: function( ev ) { // MouseEvent
-			ev.preventDefault();
-			var parentSelector = this.getSelector_( this.el );
+			var jsonEl = this.el.querySelector('glsr-pagination');
+			if( !jsonEl ) {
+				console.log( 'pagination config not found.' );
+				return;
+			}
+			var data = {};
+			data[`${GLSR.nameprefix}[_action]`] = 'fetch-paged-reviews';
+			data[`${GLSR.nameprefix}[atts]`] = jsonEl.dataset.atts;
+			data[`${GLSR.nameprefix}[url]`] = ev.currentTarget.href;
 			this.el.classList.add( this.config.hideClass );
-			(new GLSR.Ajax()).get( ev.currentTarget.href, this.handleResponse_.bind( this, ev.currentTarget.href, parentSelector ));
+			ev.preventDefault();
+			(new GLSR.Ajax()).post( data, this.handleResponse_.bind( this, ev.currentTarget.href ));
 		},
 
 		/** @return void */

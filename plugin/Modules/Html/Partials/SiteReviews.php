@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -45,7 +46,7 @@ class SiteReviews
 	 */
 	public function build( array $args = [], $reviews = null )
 	{
-		$this->args = $args;
+		$this->args = glsr( SiteReviewsDefaults::class )->merge( $args );
 		$this->options = glsr( Helper::class )->flattenArray( glsr( OptionManager::class )->all() );
 		$this->reviews = $reviews instanceof Reviews
 			? $reviews

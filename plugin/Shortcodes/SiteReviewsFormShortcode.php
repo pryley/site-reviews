@@ -18,13 +18,16 @@ class SiteReviewsFormShortcode extends Shortcode
 	}
 
 	/**
+	 * @param array|string $atts
+	 * @param string $type
 	 * @return array
 	 */
-	protected function sanitize( array $args )
+	public function normalizeAtts( $atts, $type = 'shortcode' )
 	{
-		if( empty( $args['id'] )) {
-			$args['id'] = substr( md5( serialize( $args )), 0, 8 );
+		$atts = parent::normalizeAtts( $atts, $type );
+		if( empty( $atts['id'] )) {
+			$atts['id'] = substr( md5( serialize( $atts )), 0, 8 );
 		}
-		return $args;
+		return $atts;
 	}
 }

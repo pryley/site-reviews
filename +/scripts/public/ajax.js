@@ -92,12 +92,14 @@
 
 		/** @return FormData */
 		normalizeData_: function( data ) { // object
-			var formData = data;
+			var formData = new FormData();
 			if( Object.prototype.toString.call( data ) === '[object HTMLFormElement]' ) {
 				formData = new FormData( data );
 			}
-			if( Object.prototype.toString.call( formData ) !== '[object FormData]' ) {
-				formData = new FormData();
+			if( Object.prototype.toString.call( data ) === '[object Object]' ) {
+				Object.keys( data ).forEach( function( key ) {
+					formData.append( key, data[key] );
+				});
 			}
 			formData.append( 'action', GLSR.action );
 			formData.append( '_ajax_request', true );

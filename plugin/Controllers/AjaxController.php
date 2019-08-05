@@ -13,6 +13,7 @@ use GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Session;
 use GeminiLabs\SiteReviews\Modules\Translation;
+use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews;
 use WP_Query;
 
 class AjaxController extends Controller
@@ -133,6 +134,24 @@ class AjaxController extends Controller
 			wp_send_json_success( $data );
 		}
 		wp_send_json_error( $data );
+	}
+
+	/**
+	 * @return void
+	 */
+	public function routerFetchPagedReviews( array $request )
+	{
+		$urlQuery = [];
+		parse_str( parse_url( glsr_get( $request, 'url' ), PHP_URL_QUERY ), $urlQuery );
+		$args = [
+			'paged' => glsr_get( $urlQuery, glsr()->constant( 'PAGED_QUERY_VAR' ), 1 ),
+			'pagedUrl' => home_url( parse_url( glsr_get( $request, 'url' ), PHP_URL_PATH )),
+			'schema' => false,
+		];
+		$atts = (array) json_decode( glsr_get( $request, 'atts' ));
+		return wp_send_json_success([
+			'html' => (string) glsr( SiteReviews::class )->build( wp_parse_args( $args, $atts )),
+		]);
 	}
 
 	/**

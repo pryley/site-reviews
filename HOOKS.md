@@ -83,10 +83,12 @@
     site-reviews/review/wrap/{field_key}
     site-reviews/reviews/fallback
     site-reviews/route/request
+    site-reviews/router/unguarded-actions
     site-reviews/schema/all
     site-reviews/schema/review
     site-reviews/schema/{schema_type}
     site-reviews/shortcode/args
+    site-reviews/shortcode/atts
     site-reviews/shortcode/hide-options
     site-reviews/slack/compose
     site-reviews/slack/stars

@@ -21,6 +21,11 @@ class ReviewsHtml extends ArrayObject
 	public $navigation;
 
 	/**
+	 * @var int
+	 */
+	public $pages;
+
+	/**
 	 * @var array
 	 */
 	public $reviews;
@@ -28,10 +33,9 @@ class ReviewsHtml extends ArrayObject
 	public function __construct( array $reviews, $maxPageCount, array $args )
 	{
 		$this->args = $args;
+		$this->pages = $maxPageCount;
 		$this->reviews = $reviews;
-		$this->navigation = glsr( Partial::class )->build( 'pagination', [
-			'total' => $maxPageCount,
-		]);
+		$this->navigation = $this->buildPagination();
 		parent::__construct( $reviews, ArrayObject::STD_PROP_LIST|ArrayObject::ARRAY_AS_PROPS );
 	}
 
@@ -51,6 +55,7 @@ class ReviewsHtml extends ArrayObject
 	public function __toString()
 	{
 		return glsr( Template::class )->build( 'templates/reviews', [
+			'args' => $this->args,
 			'context' => [
 				'assigned_to' => $this->args['assigned_to'],
 				'category' => $this->args['category'],
@@ -60,6 +65,20 @@ class ReviewsHtml extends ArrayObject
 				'reviews' => $this->getReviews(),
 			],
 		]);
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function buildPagination()
+	{
+		$pagination = glsr( Partial::class )->build( 'pagination', [
+			'baseUrl' => glsr_get( $this->args, 'pagedUrl' ),
+			'current' => glsr_get( $this->args, 'paged' ),
+			'total' => $this->pages,
+		]);
+		$json = sprintf( '<glsr-pagination hidden data-atts=\'%s\'></glsr-pagination>', $this->args['json'] );
+		return $pagination.$json;
 	}
 
 	/**

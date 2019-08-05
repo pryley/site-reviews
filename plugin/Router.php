@@ -12,6 +12,18 @@ use GeminiLabs\SiteReviews\Modules\Notice;
 class Router
 {
 	/**
+	 * @var array
+	 */
+	protected $unguardedActions = [];
+
+	public function __construct()
+	{
+		$this->unguardedActions = apply_filters( 'site-reviews/router/unguarded-actions', [
+			'fetch-paged-reviews',
+		]);
+	}
+
+	/**
 	 * @return void
 	 */
 	public function routeAdminPostRequest()
@@ -51,7 +63,9 @@ class Router
 	 */
 	protected function checkAjaxNonce( array $request )
 	{
-		if( !is_user_logged_in() )return;
+		if( !is_user_logged_in()
+			|| in_array( glsr_get( $request, '_action' ), $this->unguardedActions )
+		)return;
 		if( !isset( $request['_nonce'] )) {
 			$this->sendAjaxError( 'request is missing a nonce', $request );
 		}

@@ -1,6 +1,6 @@
 <?php defined( 'WPINC' ) || die; ?>
 
-<div class="glsr-summary-wrap" data-assigned="{{ assigned_to }}" data-category="{{ category }}">
+<div class="glsr-summary-wrap">
 	<div class="{{ class }}" id="{{ id }}">
 		{{ rating }}
 		{{ stars }}

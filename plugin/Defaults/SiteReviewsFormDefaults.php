@@ -7,6 +7,14 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 class SiteReviewsFormDefaults extends Defaults
 {
 	/**
+	 * @var array
+	 */
+	protected $guarded = [
+		'description',
+		'title',
+	];
+
+	/**
 	 * @return array
 	 */
 	protected function defaults()

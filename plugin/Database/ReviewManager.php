@@ -65,7 +65,7 @@ class ReviewManager
 	 */
 	public function get( array $args = [] )
 	{
-		$args = glsr( ReviewsDefaults::class )->restrict( $args );
+		$args = glsr( ReviewsDefaults::class )->merge( $args );
 		$metaQuery = glsr( QueryBuilder::class )->buildQuery(
 			['assigned_to', 'type', 'rating'],
 			$args
@@ -83,7 +83,7 @@ class ReviewManager
 			'offset' => $args['offset'],
 			'order' => $args['order'],
 			'orderby' => 'meta_value '.$args['orderby'],
-			'paged' => $paged,
+			'paged' => glsr_get( $args, 'paged', $paged ),
 			'post__in' => $args['post__in'],
 			'post__not_in' => $args['post__not_in'],
 			'post_status' => 'publish',

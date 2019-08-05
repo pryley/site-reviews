@@ -7,6 +7,14 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 class SiteReviewsDefaults extends Defaults
 {
 	/**
+	 * @var array
+	 */
+	protected $guarded = [
+		'fallback',
+		'title',
+	];
+
+	/**
 	 * @return array
 	 */
 	protected function defaults()
