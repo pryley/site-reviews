@@ -7,25 +7,25 @@ defined( 'WPINC' ) || die;
  * @param mixed ...
  * @return mixed
  */
-add_filter( 'all', function() {
-	$args = func_get_args();
-	$hook = array_shift( $args );
+add_filter( 'plugins_loaded', function() {
 	$hooks = array(
-		'glsr_calculate_ratings',
-		'glsr_create_review',
-		'glsr_debug',
-		'glsr_get_option',
-		'glsr_get_options',
-		'glsr_get_review',
-		'glsr_get_reviews',
-		'glsr_log',
-		'glsr_star_rating',
+		'glsr_calculate_ratings' => 1,
+		'glsr_create_review' => 2,
+		'glsr_debug' => 10,
+		'glsr_get_option' => 3,
+		'glsr_get_options' => 1,
+		'glsr_get_review' => 2,
+		'glsr_get_reviews' => 2,
+		'glsr_log' => 3,
+		'glsr_star_rating' => 2,
 	);
-	if( !in_array( $hook, $hooks ) || !function_exists( $hook ))return;
-	add_filter( $hook, function() use( $hook, $args ) {
-		array_shift( $args ); // remove the fallback value
-		return call_user_func_array( $hook, $args );
-	});
+	foreach( $hooks as $function => $acceptedArgs ) {
+		add_filter( $function, function() use( $function ) {
+			$args = func_get_args();
+			array_shift( $args ); // remove the fallback value
+			return call_user_func_array( $function, $args );
+		}, 10, $acceptedArgs );
+	}
 });
 
 /**
@@ -157,10 +157,10 @@ function glsr_get_reviews( $args = array() ) {
 function glsr_log() {
 	$args = func_get_args();
 	$console = glsr( 'Modules\Console' );
-	$value = glsr( 'Helper' )->dataGet( $args, '0' );
-	return !empty( $value )
-		? $console->log( 'debug', $value, glsr( 'Helper' )->dataGet( $args, '1', [] ))
-		: $console;
+	if( $value = glsr_get( $args, '0' )) {
+		return $console->log( 'debug', $value, glsr_get( $args, '1', [] ));
+	}
+	return $console;
 }
 
 /**
