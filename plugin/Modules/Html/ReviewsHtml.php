@@ -16,14 +16,14 @@ class ReviewsHtml extends ArrayObject
 	public $args;
 
 	/**
-	 * @var string
-	 */
-	public $navigation;
-
-	/**
 	 * @var int
 	 */
-	public $pages;
+	public $max_num_pages;
+
+	/**
+	 * @var string
+	 */
+	public $pagination;
 
 	/**
 	 * @var array
@@ -33,9 +33,9 @@ class ReviewsHtml extends ArrayObject
 	public function __construct( array $reviews, $maxPageCount, array $args )
 	{
 		$this->args = $args;
-		$this->pages = $maxPageCount;
+		$this->max_num_pages = $maxPageCount;
 		$this->reviews = $reviews;
-		$this->navigation = $this->buildPagination();
+		$this->pagination = $this->buildPagination();
 		parent::__construct( $reviews, ArrayObject::STD_PROP_LIST|ArrayObject::ARRAY_AS_PROPS );
 	}
 
@@ -61,7 +61,7 @@ class ReviewsHtml extends ArrayObject
 				'category' => $this->args['category'],
 				'class' => $this->getClass(),
 				'id' => $this->args['id'],
-				'navigation' => $this->getNavigation(),
+				'pagination' => $this->getPagination(),
 				'reviews' => $this->getReviews(),
 			],
 		]);
@@ -70,15 +70,41 @@ class ReviewsHtml extends ArrayObject
 	/**
 	 * @return string
 	 */
+	public function getPagination()
+	{
+		return wp_validate_boolean( $this->args['pagination'] )
+			? $this->pagination
+			: '';
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getReviews()
+	{
+		$html = empty( $this->reviews )
+			? $this->getReviewsFallback()
+			: implode( PHP_EOL, $this->reviews );
+		$wrapper = '<div class="glsr-reviews">%s</div>';
+		$wrapper = apply_filters( 'site-reviews/reviews/reviews-wrapper', $wrapper );
+		return sprintf( $wrapper, $html );
+		}
+	}
+
+	/**
+	 * @return string
+	 */
 	protected function buildPagination()
 	{
-		$pagination = glsr( Partial::class )->build( 'pagination', [
+		$html = glsr( Partial::class )->build( 'pagination', [
 			'baseUrl' => glsr_get( $this->args, 'pagedUrl' ),
 			'current' => glsr_get( $this->args, 'paged' ),
-			'total' => $this->pages,
+			'total' => $this->max_num_pages,
 		]);
-		$json = sprintf( '<glsr-pagination hidden data-atts=\'%s\'></glsr-pagination>', $this->args['json'] );
-		return $pagination.$json;
+		$html.= sprintf( '<glsr-pagination hidden data-atts=\'%s\'></glsr-pagination>', $this->args['json'] );
+		$wrapper = '<div class="glsr-pagination">%s</div>';
+		$wrapper = apply_filters( 'site-reviews/reviews/pagination-wrapper', $wrapper );
+		return sprintf( $wrapper, $html );
 	}
 
 	/**
@@ -87,34 +113,14 @@ class ReviewsHtml extends ArrayObject
 	protected function getClass()
 	{
 		$defaults = [
-			'glsr-reviews', 'glsr-default',
+			'glsr-default',
 		];
 		if( $this->args['pagination'] == 'ajax' ) {
 			$defaults[] = 'glsr-ajax-pagination';
 		}
 		$classes = explode( ' ', $this->args['class'] );
-		$classes = array_unique( array_merge( $defaults, $classes ));
+		$classes = array_unique( array_merge( $defaults, array_filter( $classes )));
 		return implode( ' ', $classes );
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function getNavigation()
-	{
-		return wp_validate_boolean( $this->args['pagination'] )
-			? $this->navigation
-			: '';
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function getReviews()
-	{
-		return empty( $this->reviews )
-			? $this->getReviewsFallback()
-			: implode( PHP_EOL, $this->reviews );
 	}
 
 	/**

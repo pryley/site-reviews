@@ -11,17 +11,20 @@
 	GLSR_Pagination.prototype = {
 		config: {
 			hideClass: 'glsr-hide',
-			linkSelector: '.glsr-navigation a',
+			linkSelector: '.glsr-pagination a',
 			scrollTime: 468,
 		},
 
 		/** @return void */
 		handleResponse_: function( location, response, success ) { // string, string
-			if( !success ) {
+			var paginationEl = this.el.querySelector('.glsr-pagination');
+			var reviewsEl = this.el.querySelector('.glsr-reviews');
+			if( !success || !reviewsEl || !paginationEl ) {
 				window.location = location;
 				return;
 			}
-			this.el.innerHTML = response.html;
+			paginationEl.outerHTML = response.pagination;
+			reviewsEl.outerHTML = response.reviews;
 			this.scrollToTop_( this.el );
 			this.el.classList.remove( this.config.hideClass );
 			this.initEvents_();

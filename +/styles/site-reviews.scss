@@ -3,3 +3,8 @@
 @import "public/reviews";
 @import "public/reviews-form";
 @import "public/reviews-summary";
+
+glsr-pagination,
+glsr-shortcode {
+	display: none !important;
+}

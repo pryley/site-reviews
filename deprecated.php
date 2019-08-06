@@ -2,6 +2,16 @@
 
 defined( 'WPINC' ) || die;
 
+// Modules/Html/Template.php
+add_filter( 'site-reviews/interpolate/reviews', function( $context, $template ) {
+	$search = '{{ navigation }}';
+	if( strpos( $template, $search ) !== false ) {
+		$context['navigation'] = $context['pagination'];
+		glsr()->deprecated[] = 'The {{ navigation }} template key in "YOUR_THEME/site-reviews/reviews.php" has been deprecated. Please use the {{ pagination }} template key instead.';
+	}
+	return $context;
+}, 10, 2 );
+
 // Database/ReviewManager.php
 add_action( 'site-reviews/review/created', function( $review ) {
 	if( has_action( 'site-reviews/local/review/create' )) {

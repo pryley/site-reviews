@@ -1,6 +1,6 @@
 .glsr-default {
 	.glsr-review::after,
-	.glsr-navigation::after {
+	.glsr-pagination::after {
 		content: '';
 		display: table;
 		clear: both;
@@ -19,12 +19,12 @@
 		margin: 0 0 $glsr-font-size;
 	}
 	.glsr-review,
-	.glsr-navigation > :not(.glsr-loader) {
+	.glsr-pagination .navigation {
 		opacity: 1;
 		transition: opacity 500ms;
 	}
 	&.glsr-hide .glsr-review,
-	&.glsr-hide .glsr-navigation > :not(.glsr-loader) {
+	&.glsr-hide .glsr-pagination .navigation {
 		opacity: 0 !important;
 	}
 	.glsr-review-assigned_to {

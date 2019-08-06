@@ -22,13 +22,13 @@ class Reviews extends ArrayObject
 	/**
 	 * @var array
 	 */
-	public $results;
+	public $reviews;
 
 	public function __construct( array $reviews, $maxPageCount, array $args )
 	{
 		$this->args = $args;
 		$this->max_num_pages = $maxPageCount;
-		$this->results = $reviews;
+		$this->reviews = $reviews;
 		parent::__construct( $reviews, ArrayObject::STD_PROP_LIST|ArrayObject::ARRAY_AS_PROPS );
 	}
 

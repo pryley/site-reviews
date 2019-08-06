@@ -34,7 +34,7 @@ class Template
 	public function interpolate( $template, array $context = [], $templatePath )
 	{
 		$context = $this->normalizeContext( $context );
-		$context = apply_filters( 'site-reviews/interpolate/'.$templatePath, $context );
+		$context = apply_filters( 'site-reviews/interpolate/'.$templatePath, $context, $template );
 		foreach( $context as $key => $value ) {
 			$template = strtr(
 				$template,

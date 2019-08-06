@@ -82,6 +82,8 @@
     site-reviews/review/wrap
     site-reviews/review/wrap/{field_key}
     site-reviews/reviews/fallback
+    site-reviews/reviews/pagination-wrapper
+    site-reviews/reviews/reviews-wrapper
     site-reviews/route/request
     site-reviews/router/unguarded-actions
     site-reviews/schema/all

@@ -146,11 +146,14 @@ class AjaxController extends Controller
 		$args = [
 			'paged' => glsr_get( $urlQuery, glsr()->constant( 'PAGED_QUERY_VAR' ), 1 ),
 			'pagedUrl' => home_url( parse_url( glsr_get( $request, 'url' ), PHP_URL_PATH )),
+			'pagination' => 'ajax',
 			'schema' => false,
 		];
 		$atts = (array) json_decode( glsr_get( $request, 'atts' ));
+		$html = glsr( SiteReviews::class )->build( wp_parse_args( $args, $atts ));
 		return wp_send_json_success([
-			'html' => (string) glsr( SiteReviews::class )->build( wp_parse_args( $args, $atts )),
+			'pagination' => $html->getPagination(),
+			'reviews' => $html->getReviews(),
 		]);
 	}
 
