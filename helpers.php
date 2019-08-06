@@ -158,7 +158,7 @@ function glsr_log() {
 	$args = func_get_args();
 	$console = glsr( 'Modules\Console' );
 	if( $value = glsr_get( $args, '0' )) {
-		return $console->log( 'debug', $value, glsr_get( $args, '1', [] ));
+		return $console->debug( $value, glsr_get( $args, '1', [] ));
 	}
 	return $console;
 }
