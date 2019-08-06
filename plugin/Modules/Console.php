@@ -231,7 +231,7 @@ class Console
 	public function once( $levelName, $handle, $data )
 	{
 		$once = glsr( Helper::class )->consolidateArray( glsr()->{$this->logOnceKey} );
-		$filtered = array_filter( $once, function( $entry ) use( $level, $handle ) {
+		$filtered = array_filter( $once, function( $entry ) use( $levelName, $handle ) {
 			return glsr_get( $entry, 'level' ) == $levelName
 				&& glsr_get( $entry, 'handle' ) == $handle;
 		});
