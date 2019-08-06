@@ -31,9 +31,9 @@ class MenuController extends Controller
             $awaitingModeration = glsr(Builder::class)->span($pendingCount, [
                 'class' => 'awaiting-mod count-'.$postCount->pending,
             ]);
-            $menu[$key][0] .= ' '.$awaitingModeration;
+            $menu[$key][0].= ' '.$awaitingModeration;
             if (Application::POST_TYPE === $typenow) {
-                $menu[$key][4] .= ' current';
+                $menu[$key][4].= ' current';
             }
             break;
         }

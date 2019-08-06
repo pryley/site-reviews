@@ -235,7 +235,7 @@ class SiteReviewsForm
         if (empty($this->args['id']) || empty($field->field['id'])) {
             return;
         }
-        $field->field['id'] .= '-'.$this->args['id'];
+        $field->field['id'].= '-'.$this->args['id'];
     }
 
     /**

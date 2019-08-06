@@ -87,10 +87,10 @@ class Notice
         });
         $class = 'notice notice-'.$args['type'];
         if ($args['inline']) {
-            $class .= ' inline';
+            $class.= ' inline';
         }
         if ($args['dismissible']) {
-            $class .= ' is-dismissible';
+            $class.= ' is-dismissible';
         }
         return glsr(Builder::class)->div($messages, [
             'class' => $class,

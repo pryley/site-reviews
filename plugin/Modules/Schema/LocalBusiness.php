@@ -7,11 +7,11 @@ namespace GeminiLabs\SiteReviews\Modules\Schema;
  * restaurant, a particular branch of a restaurant chain, a branch of a bank, a medical practice, a
  * club, a bowling alley, etc.
  * @see http://schema.org/LocalBusiness
- * @method static branchOf( Organization|Organization[] $branchOf )
- * @method static currenciesAccepted( string|string[] $currenciesAccepted )
- * @method static openingHours( string|string[] $openingHours )
- * @method static paymentAccepted( string|string[] $paymentAccepted )
- * @method static priceRange( string|string[] $priceRange )
+ * @method static branchOf(Organization|Organization[] $branchOf)
+ * @method static currenciesAccepted(string|string[] $currenciesAccepted)
+ * @method static openingHours(string|string[] $openingHours)
+ * @method static paymentAccepted(string|string[] $paymentAccepted)
+ * @method static priceRange(string|string[] $priceRange)
  */
 class LocalBusiness extends BaseType
 {

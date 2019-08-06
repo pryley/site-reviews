@@ -45,7 +45,7 @@ class QueryBuilder
                 continue;
             }
             $values[$key] = implode(',', (array) $values[$key]);
-            $string .= false !== strpos($value, '%s')
+            $string.= false !== strpos($value, '%s')
                 ? sprintf($value, strval($values[$key]))
                 : $value;
         }

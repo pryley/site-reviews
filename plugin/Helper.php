@@ -100,7 +100,7 @@ class Helper
     {
         $levels = explode('.', $path);
         return array_reduce($levels, function ($result, $value) {
-            return $result .= '['.$value.']';
+            return $result.= '['.$value.']';
         }, $prefix);
     }
 

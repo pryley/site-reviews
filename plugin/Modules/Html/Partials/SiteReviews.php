@@ -144,7 +144,7 @@ class SiteReviews
      */
     protected function buildOptionAuthor($key, $value)
     {
-        if !($this->isHidden($key)) {
+        if (!$this->isHidden($key)) {
             return '<span>'.$value.'</span>';
         }
     }

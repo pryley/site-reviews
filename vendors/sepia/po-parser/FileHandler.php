@@ -29,11 +29,11 @@ class FileHandler implements HandlerInterface
 					'max_redirects' => 0
 				)
         	)));
-        	if( ! empty ($http_response_header[0]) ){
+        	if (!empty($http_response_header[0]) ){
         		// should we check if response is 200?
 				/*
 				sscanf($http_response_header[0], 'HTTP/%*d.%*d %d', $code);
-				if( $code !== 200 ){
+				if ($code !== 200) {
 					throw new \Exception('PoParser: Input File does not exists: "' . htmlspecialchars($filepath) . '"');
 				}
 				*/

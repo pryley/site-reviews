@@ -100,7 +100,7 @@ final class Application extends Container
      */
     public function file($view)
     {
-        $view .= '.php';
+        $view.= '.php';
         $filePaths = [];
         if (glsr(Helper::class)->startsWith('templates/', $view)) {
             $filePaths[] = $this->themePath(glsr(Helper::class)->removePrefix('templates/', $view));

@@ -68,7 +68,7 @@ class Settings
                 'is_setting' => true,
                 'name' => $name,
             ]);
-            $rows .= new Field($this->normalize($field));
+            $rows.= new Field($this->normalize($field));
         }
         return $rows;
     }

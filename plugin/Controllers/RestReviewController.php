@@ -25,7 +25,7 @@ class RestReviewController extends RestController
      */
     public function register_routes()
     {
-        // register_rest_route( $this->namespace, '/'.$this->rest_base, [
+        // register_rest_route($this->namespace, '/'.$this->rest_base, [
         //  ['callback' => [$this, 'createReview'], 'methods' => Server::CREATABLE],
         //  ['callback' => [$this, 'getReviews'], 'methods' => Server::READABLE],
         // ]);

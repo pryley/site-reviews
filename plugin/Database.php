@@ -137,7 +137,7 @@ class Database
                 'permalink' => esc_url((string) get_permalink()),
                 'title' => esc_attr(get_the_title()),
             ]);
-            $results .= ob_get_clean();
+            $results.= ob_get_clean();
         }
         wp_reset_postdata();
         return $results;

@@ -130,7 +130,7 @@ class Translation
         foreach ($this->all() as $index => $entry) {
             $entry['index'] = $index;
             $entry['prefix'] = OptionManager::databaseKey();
-            $rendered .= $this->render($entry['type'], $entry);
+            $rendered.= $this->render($entry['type'], $entry);
         }
         return $rendered;
     }
@@ -152,7 +152,7 @@ class Translation
             $text = !empty($data['p1'])
                 ? sprintf('%s | %s', $data['s1'], $data['p1'])
                 : $data['s1'];
-            $rendered .= $this->render('result', [
+            $rendered.= $this->render('result', [
                 'entry' => json_encode($data, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
                 'text' => wp_strip_all_tags($text),
             ]);

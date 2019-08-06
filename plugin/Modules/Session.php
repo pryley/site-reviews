@@ -136,7 +136,7 @@ class Session
      */
     protected function generateSessionId()
     {
-        return md5(( new PasswordHash(8, false))->get_random_bytes(32));
+        return md5((new PasswordHash(8, false))->get_random_bytes(32));
     }
 
     /**

@@ -105,7 +105,7 @@ class ReviewsHtml extends ArrayObject
             'current' => glsr_get($this->args, 'paged'),
             'total' => $this->max_num_pages,
         ]);
-        $html .= sprintf('<glsr-pagination hidden data-atts=\'%s\'></glsr-pagination>', $this->args['json']);
+        $html.= sprintf('<glsr-pagination hidden data-atts=\'%s\'></glsr-pagination>', $this->args['json']);
         $wrapper = '<div class="glsr-pagination">%s</div>';
         $wrapper = apply_filters('site-reviews/reviews/pagination-wrapper', $wrapper);
         return sprintf($wrapper, $html);

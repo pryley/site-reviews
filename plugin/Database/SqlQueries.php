@@ -191,13 +191,13 @@ class SqlQueries
         $postIds = implode(',', array_filter(glsr_get($args, 'post_ids')));
         $termIds = implode(',', array_filter(glsr_get($args, 'term_ids')));
         if (!empty($args['type'])) {
-            $and .= "AND m2.meta_value = '{$args['type']}' ";
+            $and.= "AND m2.meta_value = '{$args['type']}' ";
 		}
         if ($postIds) {
-            $and .= "AND m3.meta_key = 'assigned_to' AND m3.meta_value IN ({$postIds}) ";
+            $and.= "AND m3.meta_key = 'assigned_to' AND m3.meta_value IN ({$postIds}) ";
 		}
         if ($termIds) {
-            $and .= "AND tr.term_taxonomy_id IN ({$termIds}) ";
+            $and.= "AND tr.term_taxonomy_id IN ({$termIds}) ";
 		}
         return apply_filters('site-reviews/query/and-for-counts', $and);
 	}
@@ -209,10 +209,10 @@ class SqlQueries
     protected function getInnerJoinForCounts(array $args, $innerJoin = '')
 	{
         if (!empty(glsr_get($args, 'post_ids'))) {
-            $innerJoin .= "INNER JOIN {$this->db->postmeta} AS m3 ON p.ID = m3.post_id ";
+            $innerJoin.= "INNER JOIN {$this->db->postmeta} AS m3 ON p.ID = m3.post_id ";
 		}
         if (!empty(glsr_get($args, 'term_ids'))) {
-            $innerJoin .= "INNER JOIN {$this->db->term_relationships} AS tr ON p.ID = tr.object_id ";
+            $innerJoin.= "INNER JOIN {$this->db->term_relationships} AS tr ON p.ID = tr.object_id ";
 		}
         return apply_filters('site-reviews/query/inner-join-for-counts', $innerJoin);
 	}

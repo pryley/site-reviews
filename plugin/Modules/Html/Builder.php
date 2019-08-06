@@ -188,7 +188,7 @@ class Builder
     {
         if (!in_array($this->args['type'], ['checkbox', 'radio'])) {
             if (isset($this->args['multiple'])) {
-                $this->args['name'] .= '[]';
+                $this->args['name'].= '[]';
             }
             return $this->buildFormLabel().$this->getOpeningTag();
         }
@@ -223,7 +223,7 @@ class Builder
     protected function buildFormInputMultiChoice()
     {
         if ('checkbox' == $this->args['type']) {
-            $this->args['name'] .= '[]';
+            $this->args['name'].= '[]';
         }
         $index = 0;
         $options = array_reduce(array_keys($this->args['options']), function ($carry, $key) use (&$index) {
