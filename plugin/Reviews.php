@@ -33,16 +33,6 @@ class Reviews extends ArrayObject
 	}
 
 	/**
-	 * @return mixed
-	 */
-	public function __get( $key )
-	{
-		return property_exists( $this, $key )
-			? $this->$key
-			: null;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function __toString()
@@ -57,6 +47,19 @@ class Reviews extends ArrayObject
 	{
 		$args = glsr( SiteReviewsDefaults::class )->merge( $this->args );
 		return glsr( SiteReviewsPartial::class )->build( $args, $this );
+	}
+
+	/**
+	 * @param mixed $key
+	 * @return mixed
+	 */
+	public function offsetGet( $key ) {
+		if( property_exists( $this, $key )) {
+			return $this->key;
+		}
+		return array_key_exists( $key, $this->reviews )
+			? $this->reviews[$key]
+			: null;
 	}
 
 	/**

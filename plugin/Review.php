@@ -95,10 +95,9 @@ class Review implements \ArrayAccess
 		if( property_exists( $this, $key )) {
 			return $this->$key;
 		}
-		if( array_key_exists( $key, (array)$this->custom )) {
-			return $this->custom[$key];
-		}
-		return null;
+		return array_key_exists( $key, (array)$this->custom )
+			? $this->custom[$key]
+			: null;
 	}
 
 	/**

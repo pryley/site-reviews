@@ -42,7 +42,7 @@ class SiteReviews
 
 	/**
 	 * @param Reviews|null $reviews
-	 * @return void|string
+	 * @return ReviewsHtml
 	 */
 	public function build( array $args = [], $reviews = null )
 	{
@@ -84,10 +84,7 @@ class SiteReviews
 	{
 		$renderedReviews = [];
 		foreach( $this->reviews as $index => $review ) {
-			$renderedReviews[] = glsr( Template::class )->build( 'templates/review', [
-				'context' => $this->buildReview( $review )->values,
-				'review' => $review,
-			]);
+			$renderedReviews[] = $this->buildReview( $review );
 		}
 		return new ReviewsHtml( $renderedReviews, $this->reviews->max_num_pages, $this->args );
 	}

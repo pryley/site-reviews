@@ -26,16 +26,6 @@ class ReviewHtml extends ArrayObject
 	}
 
 	/**
-	 * @return string
-	 */
-	public function __get( $key )
-	{
-		return array_key_exists( $key, $this->values )
-			? $this->values[$key]
-			: '';
-	}
-
-	/**
 	 * @return string|void
 	 */
 	public function __toString()
@@ -45,5 +35,18 @@ class ReviewHtml extends ArrayObject
 			'context' => $this->values,
 			'review' => $this->review,
 		]);
+	}
+
+	/**
+	 * @param mixed $key
+	 * @return mixed
+	 */
+	public function offsetGet( $key ) {
+		if( property_exists( $this, $key )) {
+			return $this->$key;
+		}
+		return array_key_exists( $key, $this->values )
+			? $this->values[$key]
+			: null;
 	}
 }

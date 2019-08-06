@@ -42,16 +42,6 @@ class ReviewsHtml extends ArrayObject
 	/**
 	 * @return string
 	 */
-	public function __get( $key )
-	{
-		return array_key_exists( $key, $this->reviews )
-			? $this->reviews[$key]
-			: '';
-	}
-
-	/**
-	 * @return string
-	 */
 	public function __toString()
 	{
 		return glsr( Template::class )->build( 'templates/reviews', [
@@ -88,7 +78,23 @@ class ReviewsHtml extends ArrayObject
 		$wrapper = '<div class="glsr-reviews">%s</div>';
 		$wrapper = apply_filters( 'site-reviews/reviews/reviews-wrapper', $wrapper );
 		return sprintf( $wrapper, $html );
+	}
+
+	/**
+	 * @param mixed $key
+	 * @return mixed
+	 */
+	public function offsetGet( $key ) {
+		if( $key == 'navigation' ) {
+			glsr()->deprecated[] = 'The $reviewsHtml->navigation property has been been deprecated. Please use the $reviewsHtml->pagination property instead.';
+			return $this->pagination;
 		}
+		if( property_exists( $this, $key )) {
+			return $this->$key;
+		}
+		return array_key_exists( $key, $this->reviews )
+			? $this->reviews[$key]
+			: null;
 	}
 
 	/**
