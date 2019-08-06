@@ -4,8 +4,8 @@ namespace GeminiLabs\SiteReviews\Contracts;
 
 interface HooksContract
 {
-	/**
-	 * @return void
-	 */
-	public function run();
+    /**
+     * @return void
+     */
+    public function run();
 }

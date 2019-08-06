@@ -1,3 +1,3 @@
-<?php defined( 'WPINC' ) || die; ?>
+<?php defined('WPINC') || die; ?>
 
 {{ message }}

@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Schema;
 
-use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
-
 /**
  * A person (alive, dead, undead, or fictional).
  * @see http://schema.org/Person
@@ -66,27 +64,27 @@ use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
  */
 class Person extends BaseType
 {
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $allowed = [
-		'additionalName', 'address', 'affiliation', 'alumniOf', 'award', 'awards', 'birthDate',
-		'birthPlace', 'brand', 'children', 'colleague', 'colleagues', 'contactPoint',
-		'contactPoints', 'deathDate', 'deathPlace', 'duns', 'email', 'familyName', 'faxNumber',
-		'follows', 'funder', 'gender', 'givenName', 'globalLocationNumber', 'hasOfferCatalog',
-		'hasPOS', 'height', 'homeLocation', 'honorificPrefix', 'honorificSuffix', 'isicV4',
-		'jobTitle', 'knows', 'makesOffer', 'memberOf', 'naics', 'nationality', 'netWorth', 'owns',
-		'parent', 'parents', 'performerIn', 'publishingPrinciples', 'relatedTo', 'seeks', 'sibling',
-		'siblings', 'sponsor', 'spouse', 'taxID', 'telephone', 'vatID', 'weight', 'workLocation',
-		'worksFor',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $allowed = [
+        'additionalName', 'address', 'affiliation', 'alumniOf', 'award', 'awards', 'birthDate',
+        'birthPlace', 'brand', 'children', 'colleague', 'colleagues', 'contactPoint',
+        'contactPoints', 'deathDate', 'deathPlace', 'duns', 'email', 'familyName', 'faxNumber',
+        'follows', 'funder', 'gender', 'givenName', 'globalLocationNumber', 'hasOfferCatalog',
+        'hasPOS', 'height', 'homeLocation', 'honorificPrefix', 'honorificSuffix', 'isicV4',
+        'jobTitle', 'knows', 'makesOffer', 'memberOf', 'naics', 'nationality', 'netWorth', 'owns',
+        'parent', 'parents', 'performerIn', 'publishingPrinciples', 'relatedTo', 'seeks', 'sibling',
+        'siblings', 'sponsor', 'spouse', 'taxID', 'telephone', 'vatID', 'weight', 'workLocation',
+        'worksFor',
+    ];
 
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $parents = [
-		'Thing',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $parents = [
+        'Thing',
+    ];
 }

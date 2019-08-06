@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Schema;
 
-use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
-
 /**
  * An offer to transfer some rights to an item or to provide a service — for example, an offer to
  * sell tickets to an event, to rent the DVD of a movie, to stream a TV show over the internet, to
@@ -56,26 +54,26 @@ use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
  */
 class Offer extends BaseType
 {
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $allowed = [
-		'acceptedPaymentMethod', 'addOn', 'advanceBookingRequirement', 'aggregateRating',
-		'areaServed', 'availability', 'availabilityEnds', 'availabilityStarts', 'availableAtOrFrom',
-		'availableDeliveryMethod', 'businessFunction', 'category', 'deliveryLeadTime',
-		'eligibleCustomerType', 'eligibleDuration', 'eligibleQuantity', 'eligibleRegion',
-		'eligibleTransactionVolume', 'gtin12', 'gtin13', 'gtin14', 'gtin8', 'includesObject',
-		'ineligibleRegion', 'inventoryLevel', 'itemCondition', 'itemOffered', 'mpn', 'price',
-		'priceCurrency', 'priceSpecification', 'priceValidUntil', 'review', 'reviews', 'seller',
-		'serialNumber', 'sku', 'validFrom', 'validThrough', 'warranty',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $allowed = [
+        'acceptedPaymentMethod', 'addOn', 'advanceBookingRequirement', 'aggregateRating',
+        'areaServed', 'availability', 'availabilityEnds', 'availabilityStarts', 'availableAtOrFrom',
+        'availableDeliveryMethod', 'businessFunction', 'category', 'deliveryLeadTime',
+        'eligibleCustomerType', 'eligibleDuration', 'eligibleQuantity', 'eligibleRegion',
+        'eligibleTransactionVolume', 'gtin12', 'gtin13', 'gtin14', 'gtin8', 'includesObject',
+        'ineligibleRegion', 'inventoryLevel', 'itemCondition', 'itemOffered', 'mpn', 'price',
+        'priceCurrency', 'priceSpecification', 'priceValidUntil', 'review', 'reviews', 'seller',
+        'serialNumber', 'sku', 'validFrom', 'validThrough', 'warranty',
+    ];
 
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $parents = [
-		'Intangible',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $parents = [
+        'Intangible',
+    ];
 }

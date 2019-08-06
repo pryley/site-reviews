@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Schema;
 
-use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
-
 /**
  * The average rating based on multiple ratings or reviews.
  * @see http://schema.org/AggregateRating
@@ -13,19 +11,19 @@ use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
  */
 class AggregateRating extends BaseType
 {
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $allowed = [
-		'itemReviewed', 'ratingCount', 'reviewCount',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $allowed = [
+        'itemReviewed', 'ratingCount', 'reviewCount',
+    ];
 
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $parents = [
-		'Rating',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $parents = [
+        'Rating',
+    ];
 }

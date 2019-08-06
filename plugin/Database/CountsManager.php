@@ -4,14 +4,10 @@ namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Database\ReviewManager;
-use GeminiLabs\SiteReviews\Database\SqlQueries;
 use GeminiLabs\SiteReviews\Modules\Polylang;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Review;
 use WP_Post;
-use WP_Term;
 
 class CountsManager
 {
@@ -24,25 +20,27 @@ class CountsManager
 	 * @return array
 	 * @todo verify the additional type checks are needed
 	 */
-	public function buildCounts( array $args = [] )
+    public function buildCounts(array $args = [])
 	{
 		$counts = [];
-		$query = $this->queryReviews( $args );
-		while( $query ) {
+        $query = $this->queryReviews($args);
+        while ($query) {
 			// glsr_log($query);
-			$types = array_keys( array_flip( glsr_array_column( $query->reviews, 'type' )));
-			$types = array_unique( array_merge( ['local'], $types ));
-			foreach( $types as $type ) {
-				$type = $this->normalizeType( $type );
-				if( isset( $counts[$type] ))continue;
-				$counts[$type] = array_fill_keys( range( 0, glsr()->constant( 'MAX_RATING', Rating::class )), 0 );
+            $types = array_keys(array_flip(glsr_array_column($query->reviews, 'type')));
+            $types = array_unique(array_merge(['local'], $types));
+            foreach ($types as $type) {
+                $type = $this->normalizeType($type);
+                if (isset($counts[$type])) {
+                    continue;
 			}
-			foreach( $query->reviews as $review ) {
-				$type = $this->normalizeType( $review->type );
-				$counts[$type][$review->rating]++;
+                $counts[$type] = array_fill_keys(range(0, glsr()->constant('MAX_RATING', Rating::class)), 0);
+            }
+            foreach ($query->reviews as $review) {
+                $type = $this->normalizeType($review->type);
+                ++$counts[$type][$review->rating];
 			}
 			$query = $query->has_more
-				? $this->queryReviews( $args, end( $query->reviews )->ID )
+                ? $this->queryReviews($args, end($query->reviews)->ID)
 				: false;
 		}
 		return $counts;
@@ -52,18 +50,18 @@ class CountsManager
 	 * @param int $postId
 	 * @return array
 	 */
-	public function buildPostCounts( $postId )
+    public function buildPostCounts($postId)
 	{
-		return $this->buildCounts( ['post_ids' => [$postId]] );
+        return $this->buildCounts(['post_ids' => [$postId]]);
 	}
 
 	/**
 	 * @param int $termTaxonomyId
 	 * @return array
 	 */
-	public function buildTermCounts( $termTaxonomyId )
+    public function buildTermCounts($termTaxonomyId)
 	{
-		return $this->buildCounts( ['term_ids' => [$termTaxonomyId]] );
+        return $this->buildCounts(['term_ids' => [$termTaxonomyId]]);
 	}
 
 	/**
@@ -71,33 +69,33 @@ class CountsManager
 	 */
 	public function countAll()
 	{
-		$terms = glsr( Database::class )->getTerms( ['fields' => 'all'] );
-		foreach( $terms as $term ) {
-			$this->setTermCounts( $term->term_id, $this->buildTermCounts( $term->term_taxonomy_id ));
+        $terms = glsr(Database::class)->getTerms(['fields' => 'all']);
+        foreach ($terms as $term) {
+            $this->setTermCounts($term->term_id, $this->buildTermCounts($term->term_taxonomy_id));
 		}
-		$postIds = glsr( SqlQueries::class )->getReviewsMeta( 'assigned_to' );
-		foreach( $postIds as $postId ) {
-			$this->setPostCounts( $postId, $this->buildPostCounts( $postId ));
+        $postIds = glsr(SqlQueries::class)->getReviewsMeta('assigned_to');
+        foreach ($postIds as $postId) {
+            $this->setPostCounts($postId, $this->buildPostCounts($postId));
 		}
-		$this->setCounts( $this->buildCounts() );
+        $this->setCounts($this->buildCounts());
 	}
 
 	/**
 	 * @return void
 	 */
-	public function decrease( Review $review )
+    public function decrease(Review $review)
 	{
-		$this->decreaseCounts( $review );
-		$this->decreasePostCounts( $review );
-		$this->decreaseTermCounts( $review );
+        $this->decreaseCounts($review);
+        $this->decreasePostCounts($review);
+        $this->decreaseTermCounts($review);
 	}
 
 	/**
 	 * @return void
 	 */
-	public function decreaseCounts( Review $review )
+    public function decreaseCounts(Review $review)
 	{
-		$this->setCounts( $this->decreaseRating(
+        $this->setCounts($this->decreaseRating(
 			$this->getCounts(),
 			$review->review_type,
 			$review->rating
@@ -107,40 +105,46 @@ class CountsManager
 	/**
 	 * @return void
 	 */
-	public function decreasePostCounts( Review $review )
+    public function decreasePostCounts(Review $review)
 	{
-		if( empty( $counts = $this->getPostCounts( $review->assigned_to )))return;
-		$counts = $this->decreaseRating( $counts, $review->review_type, $review->rating );
-		$this->setPostCounts( $review->assigned_to, $counts );
+        if (empty($counts = $this->getPostCounts($review->assigned_to))) {
+            return;
+        }
+        $counts = $this->decreaseRating($counts, $review->review_type, $review->rating);
+        $this->setPostCounts($review->assigned_to, $counts);
 	}
 
 	/**
 	 * @return void
 	 */
-	public function decreaseTermCounts( Review $review )
+    public function decreaseTermCounts(Review $review)
 	{
-		foreach( $review->term_ids as $termId ) {
-			if( empty( $counts = $this->getTermCounts( $termId )))continue;
-			$counts = $this->decreaseRating( $counts, $review->review_type, $review->rating );
-			$this->setTermCounts( $termId, $counts );
+        foreach ($review->term_ids as $termId) {
+            if (empty($counts = $this->getTermCounts($termId))) {
+                continue;
+            }
+            $counts = $this->decreaseRating($counts, $review->review_type, $review->rating);
+            $this->setTermCounts($termId, $counts);
 		}
 	}
 
 	/**
 	 * @return array
 	 */
-	public function flatten( array $reviewCounts, array $args = [] )
+    public function flatten(array $reviewCounts, array $args = [])
 	{
 		$counts = [];
-		array_walk_recursive( $reviewCounts, function( $num, $index ) use( &$counts ) {
-			$counts[$index] = $num + intval( glsr_get( $counts, $index, 0 ));
+        array_walk_recursive($reviewCounts, function ($num, $index) use (&$counts) {
+            $counts[$index] = $num + intval(glsr_get($counts, $index, 0));
 		});
-		$args = wp_parse_args( $args, [
-			'max' => glsr()->constant( 'MAX_RATING', Rating::class ),
-			'min' => glsr()->constant( 'MIN_RATING', Rating::class ),
+        $args = wp_parse_args($args, [
+            'max' => glsr()->constant('MAX_RATING', Rating::class),
+            'min' => glsr()->constant('MIN_RATING', Rating::class),
 		]);
-		foreach( $counts as $index => &$num ) {
-			if( $index >= intval( $args['min'] ) && $index <= intval( $args['max'] ))continue;
+        foreach ($counts as $index => &$num) {
+            if ($index >= intval($args['min']) && $index <= intval($args['max'])) {
+                continue;
+            }
 			$num = 0;
 		}
 		return $counts;
@@ -149,27 +153,26 @@ class CountsManager
 	/**
 	 * @return array
 	 */
-	public function get( array $args = [] )
+    public function get(array $args = [])
 	{
-		$args = $this->normalizeArgs( $args );
+        $args = $this->normalizeArgs($args);
 		$counts = [];
-		if( $this->isMixedCount( $args )) {
-			$counts = [$this->buildCounts( $args )]; // force query the database
+        if ($this->isMixedCount($args)) {
+            $counts = [$this->buildCounts($args)]; // force query the database
+        } else {
+            foreach ($args['post_ids'] as $postId) {
+                $counts[] = $this->getPostCounts($postId);
 		}
-		else {
-			foreach( $args['post_ids'] as $postId ) {
-				$counts[] = $this->getPostCounts( $postId );
+            foreach ($args['term_ids'] as $termId) {
+                $counts[] = $this->getTermCounts($termId);
 			}
-			foreach( $args['term_ids'] as $termId ) {
-				$counts[] = $this->getTermCounts( $termId );
-			}
-			if( empty( $counts )) {
+            if (empty($counts)) {
 				$counts[] = $this->getCounts();
 			}
 		}
-		return in_array( $args['type'], ['', 'all'] )
-			? $this->normalize( [$this->flatten( $counts )] )
-			: $this->normalize( glsr_array_column( $counts, $args['type'] ));
+        return in_array($args['type'], ['', 'all'])
+            ? $this->normalize([$this->flatten($counts)])
+            : $this->normalize(glsr_array_column($counts, $args['type']));
 	}
 
 	/**
@@ -177,9 +180,9 @@ class CountsManager
 	 */
 	public function getCounts()
 	{
-		$counts = glsr( OptionManager::class )->get( 'counts', [] );
-		if( !is_array( $counts )) {
-			glsr_log()->error( '$counts is not an array' )->debug( $counts );
+        $counts = glsr(OptionManager::class)->get('counts', []);
+        if (!is_array($counts)) {
+            glsr_log()->error('$counts is not an array')->debug($counts);
 			return [];
 		}
 		return $counts;
@@ -189,101 +192,105 @@ class CountsManager
 	 * @param int $postId
 	 * @return array
 	 */
-	public function getPostCounts( $postId )
+    public function getPostCounts($postId)
 	{
-		return array_filter( (array)get_post_meta( $postId, static::META_COUNT, true ));
+        return array_filter((array) get_post_meta($postId, static::META_COUNT, true));
 	}
 
 	/**
 	 * @param int $termId
 	 * @return array
 	 */
-	public function getTermCounts( $termId )
+    public function getTermCounts($termId)
 	{
-		return array_filter( (array)get_term_meta( $termId, static::META_COUNT, true ));
+        return array_filter((array) get_term_meta($termId, static::META_COUNT, true));
 	}
 
 	/**
 	 * @return void
 	 */
-	public function increase( Review $review )
+    public function increase(Review $review)
 	{
-		$this->increaseCounts( $review );
-		$this->increasePostCounts( $review );
-		$this->increaseTermCounts( $review );
+        $this->increaseCounts($review);
+        $this->increasePostCounts($review);
+        $this->increaseTermCounts($review);
 	}
 
 	/**
 	 * @return void
 	 */
-	public function increaseCounts( Review $review )
+    public function increaseCounts(Review $review)
 	{
-		if( empty( $counts = $this->getCounts() )) {
+        if (empty($counts = $this->getCounts())) {
 			$counts = $this->buildCounts();
 		}
-		$this->setCounts( $this->increaseRating( $counts, $review->review_type, $review->rating ));
+        $this->setCounts($this->increaseRating($counts, $review->review_type, $review->rating));
 	}
 
 	/**
 	 * @return void
 	 */
-	public function increasePostCounts( Review $review )
+    public function increasePostCounts(Review $review)
 	{
-		if( !( get_post( $review->assigned_to ) instanceof WP_Post ))return;
-		$counts = $this->getPostCounts( $review->assigned_to );
-		$counts = empty( $counts )
-			? $this->buildPostCounts( $review->assigned_to )
-			: $this->increaseRating( $counts, $review->review_type, $review->rating );
-		$this->setPostCounts( $review->assigned_to, $counts );
+        if (!(get_post($review->assigned_to) instanceof WP_Post)) {
+            return;
+        }
+        $counts = $this->getPostCounts($review->assigned_to);
+        $counts = empty($counts)
+            ? $this->buildPostCounts($review->assigned_to)
+            : $this->increaseRating($counts, $review->review_type, $review->rating);
+        $this->setPostCounts($review->assigned_to, $counts);
 	}
 
 	/**
 	 * @return void
 	 */
-	public function increaseTermCounts( Review $review )
+    public function increaseTermCounts(Review $review)
 	{
-		$terms = glsr( ReviewManager::class )->normalizeTerms( implode( ',', $review->term_ids ));
-		foreach( $terms as $term ) {
-			$counts = $this->getTermCounts( $term['term_id'] );
-			$counts = empty( $counts )
-				? $this->buildTermCounts( $term['term_taxonomy_id'] )
-				: $this->increaseRating( $counts, $review->review_type, $review->rating );
-			$this->setTermCounts( $term['term_id'], $counts );
+        $terms = glsr(ReviewManager::class)->normalizeTerms(implode(',', $review->term_ids));
+        foreach ($terms as $term) {
+            $counts = $this->getTermCounts($term['term_id']);
+            $counts = empty($counts)
+                ? $this->buildTermCounts($term['term_taxonomy_id'])
+                : $this->increaseRating($counts, $review->review_type, $review->rating);
+            $this->setTermCounts($term['term_id'], $counts);
 		}
 	}
 
 	/**
 	 * @return void
 	 */
-	public function setCounts( array $reviewCounts )
+    public function setCounts(array $reviewCounts)
 	{
-		glsr( OptionManager::class )->set( 'counts', $reviewCounts );
+        glsr(OptionManager::class)->set('counts', $reviewCounts);
 	}
 
 	/**
 	 * @param int $postId
 	 * @return void
 	 */
-	public function setPostCounts( $postId, array $reviewCounts )
+    public function setPostCounts($postId, array $reviewCounts)
 	{
-		$ratingCounts = $this->flatten( $reviewCounts );
-		update_post_meta( $postId, static::META_COUNT, $reviewCounts );
-		update_post_meta( $postId, static::META_AVERAGE, glsr( Rating::class )->getAverage( $ratingCounts ));
-		update_post_meta( $postId, static::META_RANKING, glsr( Rating::class )->getRanking( $ratingCounts ));
+        $ratingCounts = $this->flatten($reviewCounts);
+        update_post_meta($postId, static::META_COUNT, $reviewCounts);
+        update_post_meta($postId, static::META_AVERAGE, glsr(Rating::class)->getAverage($ratingCounts));
+        update_post_meta($postId, static::META_RANKING, glsr(Rating::class)->getRanking($ratingCounts));
 	}
 
 	/**
 	 * @param int $termId
 	 * @return void
 	 */
-	public function setTermCounts( $termId, array $reviewCounts )
+    public function setTermCounts($termId, array $reviewCounts)
 	{
-		$term = get_term( $termId, Application::TAXONOMY );
-		if( !isset( $term->term_id ))return;
-		$ratingCounts = $this->flatten( $reviewCounts );
-		update_term_meta( $termId, static::META_COUNT, $reviewCounts );
-		update_term_meta( $termId, static::META_AVERAGE, glsr( Rating::class )->getAverage( $ratingCounts ));
-		update_term_meta( $termId, static::META_RANKING, glsr( Rating::class )->getRanking( $ratingCounts ));
+        $term = get_term($termId, Application::TAXONOMY);
+        if (!isset($term->term_id)) {
+            return;
+        }
+        $ratingCounts = $this->flatten($reviewCounts);
+        update_term_meta($termId, static::META_COUNT, $reviewCounts);
+        update_term_meta($termId, static::META_AVERAGE, glsr(Rating::class)->getAverage($ratingCounts));
+        update_term_meta($termId, static::META_RANKING, glsr(Rating::class)->getRanking($ratingCounts));
 	}
 
 	/**
@@ -291,10 +298,10 @@ class CountsManager
 	 * @param int $rating
 	 * @return array
 	 */
-	protected function decreaseRating( array $reviewCounts, $type, $rating )
+    protected function decreaseRating(array $reviewCounts, $type, $rating)
 	{
-		if( isset( $reviewCounts[$type][$rating] )) {
-			$reviewCounts[$type][$rating] = max( 0, $reviewCounts[$type][$rating] - 1 );
+        if (isset($reviewCounts[$type][$rating])) {
+            $reviewCounts[$type][$rating] = max(0, $reviewCounts[$type][$rating] - 1);
 		}
 		return $reviewCounts;
 	}
@@ -304,41 +311,43 @@ class CountsManager
 	 * @param int $rating
 	 * @return array
 	 */
-	protected function increaseRating( array $reviewCounts, $type, $rating )
+    protected function increaseRating(array $reviewCounts, $type, $rating)
 	{
-		if( !array_key_exists( $type, glsr()->reviewTypes )) {
+        if (!array_key_exists($type, glsr()->reviewTypes)) {
 			return $reviewCounts;
 		}
-		if( !array_key_exists( $type, $reviewCounts )) {
+        if (!array_key_exists($type, $reviewCounts)) {
 			$reviewCounts[$type] = [];
 		}
-		$reviewCounts = $this->normalize( $reviewCounts );
-		$reviewCounts[$type][$rating] = intval( $reviewCounts[$type][$rating] ) + 1;
+        $reviewCounts = $this->normalize($reviewCounts);
+        $reviewCounts[$type][$rating] = intval($reviewCounts[$type][$rating]) + 1;
 		return $reviewCounts;
 	}
 
 	/**
 	 * @return bool
 	 */
-	protected function isMixedCount( array $args )
+    protected function isMixedCount(array $args)
 	{
-		return !empty( $args['post_ids'] ) && !empty( $args['term_ids'] );
+        return !empty($args['post_ids']) && !empty($args['term_ids']);
 	}
 
 	/**
 	 * @return array
 	 */
-	protected function normalize( array $reviewCounts )
+    protected function normalize(array $reviewCounts)
 	{
-		if( empty( $reviewCounts )) {
+        if (empty($reviewCounts)) {
 			$reviewCounts = [[]];
 		}
-		foreach( $reviewCounts as &$counts ) {
-			foreach( range( 0, glsr()->constant( 'MAX_RATING', Rating::class )) as $index ) {
-				if( isset( $counts[$index] ))continue;
+        foreach ($reviewCounts as &$counts) {
+            foreach (range(0, glsr()->constant('MAX_RATING', Rating::class)) as $index) {
+                if (isset($counts[$index])) {
+                    continue;
+                }
 				$counts[$index] = 0;
 			}
-			ksort( $counts );
+            ksort($counts);
 		}
 		return $reviewCounts;
 	}
@@ -346,15 +355,15 @@ class CountsManager
 	/**
 	 * @return array
 	 */
-	protected function normalizeArgs( array $args )
+    protected function normalizeArgs(array $args)
 	{
-		$args = wp_parse_args( array_filter( $args ), [
+        $args = wp_parse_args(array_filter($args), [
 			'post_ids' => [],
 			'term_ids' => [],
 			'type' => 'local',
 		]);
-		$args['post_ids'] = glsr( Polylang::class )->getPostIds( $args['post_ids'] );
-		$args['type'] = $this->normalizeType( $args['type'] );
+        $args['post_ids'] = glsr(Polylang::class)->getPostIds($args['post_ids']);
+        $args['type'] = $this->normalizeType($args['type']);
 		return $args;
 	}
 
@@ -362,9 +371,9 @@ class CountsManager
 	 * @param string $type
 	 * @return string
 	 */
-	protected function normalizeType( $type )
+    protected function normalizeType($type)
 	{
-		return empty( $type ) || !is_string( $type )
+        return empty($type) || !is_string($type)
 			? 'local'
 			: $type;
 	}
@@ -373,11 +382,11 @@ class CountsManager
 	 * @param int $lastPostId
 	 * @return object
 	 */
-	protected function queryReviews( array $args = [], $lastPostId = 0 )
+    protected function queryReviews(array $args = [], $lastPostId = 0)
 	{
-		$reviews = glsr( SqlQueries::class )->getReviewCounts( $args, $lastPostId, static::LIMIT );
-		$hasMore = is_array( $reviews )
-			? count( $reviews ) == static::LIMIT
+        $reviews = glsr(SqlQueries::class)->getReviewCounts($args, $lastPostId, static::LIMIT);
+        $hasMore = is_array($reviews)
+            ? count($reviews) == static::LIMIT
 			: false;
 		return (object) [
 			'has_more' => $hasMore,

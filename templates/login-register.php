@@ -1,5 +1,5 @@
-<?php defined( 'WPINC' ) || die; ?>
+<?php defined('WPINC') || die; ?>
 
 <div class="glsr-login-register">
-	<p>{{ text }}</p>
+    <p>{{ text }}</p>
 </div>

@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Schema;
 
-use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
-
 /**
  * The most generic kind of creative work, including books, movies, photographs, software programs,
  * etc.
@@ -94,34 +92,34 @@ use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
  */
 class CreativeWork extends BaseType
 {
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $allowed = [
-		'about', 'accessMode', 'accessModeSufficient', 'accessibilityAPI', 'accessibilityControl',
-		'accessibilityFeature', 'accessibilityHazard', 'accessibilitySummary', 'accountablePerson',
-		'aggregateRating', 'alternativeHeadline', 'associatedMedia', 'audience', 'audio', 'author',
-		'award', 'awards', 'character', 'citation', 'comment', 'commentCount', 'contentLocation',
-		'contentRating', 'contributor', 'copyrightHolder', 'copyrightYear', 'creator',
-		'dateCreated', 'dateModified', 'datePublished', 'discussionUrl', 'editor',
-		'educationalAlignment', 'educationalUse', 'encoding', 'encodingFormat', 'encodings',
-		'exampleOfWork', 'expires', 'fileFormat', 'funder', 'genre', 'hasPart', 'headline',
-		'inLanguage', 'interactionStatistic', 'interactivityType', 'isAccessibleForFree',
-		'isBasedOn', 'isBasedOnUrl', 'isFamilyFriendly', 'isPartOf', 'keywords',
-		'learningResourceType', 'license', 'locationCreated', 'mainEntity', 'material', 'mentions',
-		'offers', 'position', 'producer', 'provider', 'publication', 'publisher',
-		'publishingPrinciples', 'recordedAt', 'releasedEvent', 'review', 'reviews', 'schemaVersion',
-		'sourceOrganization', 'spatialCoverage', 'sponsor', 'temporalCoverage', 'text',
-		'thumbnailUrl', 'timeRequired', 'translator', 'typicalAgeRange', 'version', 'video',
-		'workExample',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $allowed = [
+        'about', 'accessMode', 'accessModeSufficient', 'accessibilityAPI', 'accessibilityControl',
+        'accessibilityFeature', 'accessibilityHazard', 'accessibilitySummary', 'accountablePerson',
+        'aggregateRating', 'alternativeHeadline', 'associatedMedia', 'audience', 'audio', 'author',
+        'award', 'awards', 'character', 'citation', 'comment', 'commentCount', 'contentLocation',
+        'contentRating', 'contributor', 'copyrightHolder', 'copyrightYear', 'creator',
+        'dateCreated', 'dateModified', 'datePublished', 'discussionUrl', 'editor',
+        'educationalAlignment', 'educationalUse', 'encoding', 'encodingFormat', 'encodings',
+        'exampleOfWork', 'expires', 'fileFormat', 'funder', 'genre', 'hasPart', 'headline',
+        'inLanguage', 'interactionStatistic', 'interactivityType', 'isAccessibleForFree',
+        'isBasedOn', 'isBasedOnUrl', 'isFamilyFriendly', 'isPartOf', 'keywords',
+        'learningResourceType', 'license', 'locationCreated', 'mainEntity', 'material', 'mentions',
+        'offers', 'position', 'producer', 'provider', 'publication', 'publisher',
+        'publishingPrinciples', 'recordedAt', 'releasedEvent', 'review', 'reviews', 'schemaVersion',
+        'sourceOrganization', 'spatialCoverage', 'sponsor', 'temporalCoverage', 'text',
+        'thumbnailUrl', 'timeRequired', 'translator', 'typicalAgeRange', 'version', 'video',
+        'workExample',
+    ];
 
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $parents = [
-		'Thing',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $parents = [
+        'Thing',
+    ];
 }

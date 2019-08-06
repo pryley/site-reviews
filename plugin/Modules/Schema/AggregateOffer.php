@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Schema;
 
-use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
-
 /**
  * When a single product is associated with multiple offers (for example, the same pair of shoes is
  * offered by different merchants), then AggregateOffer can be used.
@@ -15,19 +13,19 @@ use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
  */
 class AggregateOffer extends BaseType
 {
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $allowed = [
-		'highPrice', 'lowPrice', 'offerCount', 'offers',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $allowed = [
+        'highPrice', 'lowPrice', 'offerCount', 'offers',
+    ];
 
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $parents = [
-		'Offer',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $parents = [
+        'Offer',
+    ];
 }

@@ -1,7 +1,7 @@
-<?php defined( 'WPINC' ) || die; ?>
+<?php defined('WPINC') || die; ?>
 
 <p class="glsr-field {{ class }}">
-	{{ label }}
-	{{ field }}
-	{{ errors }}
+    {{ label }}
+    {{ field }}
+    {{ errors }}
 </p>

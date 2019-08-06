@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Schema;
 
-use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
-
 /**
  * A review of an item - for example, of a restaurant, movie, or store.
  * @see http://schema.org/Review
@@ -13,19 +11,19 @@ use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
  */
 class Review extends BaseType
 {
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $allowed = [
-		'itemReviewed', 'reviewBody', 'reviewRating',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $allowed = [
+        'itemReviewed', 'reviewBody', 'reviewRating',
+    ];
 
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $parents = [
-		'CreativeWork',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $parents = [
+        'CreativeWork',
+    ];
 }

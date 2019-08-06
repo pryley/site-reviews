@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Schema;
 
-use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
-
 /**
  * The most generic type of item.
  * @see http://schema.org/Thing
@@ -21,12 +19,12 @@ use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
  */
 class Thing extends BaseType
 {
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $allowed = [
-		'additionalType', 'alternateName', 'description', 'disambiguatingDescription', 'identifier',
-		'image', 'mainEntityOfPage', 'name', 'potentialAction', 'sameAs', 'url',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $allowed = [
+        'additionalType', 'alternateName', 'description', 'disambiguatingDescription', 'identifier',
+        'image', 'mainEntityOfPage', 'name', 'potentialAction', 'sameAs', 'url',
+    ];
 }

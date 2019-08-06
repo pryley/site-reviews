@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Schema;
 
-use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
-
 /**
  * A rating is an evaluation on a numeric scale, such as 1 to 5 stars.
  * @see http://schema.org/Rating
@@ -14,19 +12,19 @@ use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
  */
 class Rating extends BaseType
 {
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $allowed = [
-		'author', 'bestRating', 'ratingValue', 'worstRating',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $allowed = [
+        'author', 'bestRating', 'ratingValue', 'worstRating',
+    ];
 
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $parents = [
-		'Intangible',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $parents = [
+        'Intangible',
+    ];
 }

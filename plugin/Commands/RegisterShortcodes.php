@@ -4,10 +4,10 @@ namespace GeminiLabs\SiteReviews\Commands;
 
 class RegisterShortcodes
 {
-	public $shortcodes;
+    public $shortcodes;
 
-	public function __construct( $input )
-	{
-		$this->shortcodes = $input;
-	}
+    public function __construct($input)
+    {
+        $this->shortcodes = $input;
+    }
 }

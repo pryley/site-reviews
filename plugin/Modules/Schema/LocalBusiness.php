@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Schema;
 
-use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
-
 /**
  * A particular physical business or branch of an organization. Examples of LocalBusiness include a
  * restaurant, a particular branch of a restaurant chain, a branch of a bank, a medical practice, a
@@ -17,19 +15,19 @@ use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
  */
 class LocalBusiness extends BaseType
 {
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $allowed = [
-		'branchOf', 'currenciesAccepted', 'openingHours', 'paymentAccepted', 'priceRange',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $allowed = [
+        'branchOf', 'currenciesAccepted', 'openingHours', 'paymentAccepted', 'priceRange',
+    ];
 
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $parents = [
-		'Organization', 'Place',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $parents = [
+        'Organization', 'Place',
+    ];
 }

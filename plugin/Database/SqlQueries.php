@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Database\QueryBuilder;
 
 class SqlQueries
 {
@@ -20,7 +19,7 @@ class SqlQueries
 	 * @param string $sessionCookiePrefix
 	 * @return int|false
 	 */
-	public function deleteAllSessions( $sessionCookiePrefix )
+    public function deleteAllSessions($sessionCookiePrefix)
 	{
 		return $this->db->query("
 			DELETE
@@ -33,7 +32,7 @@ class SqlQueries
 	 * @param string $expiredSessions
 	 * @return int|false
 	 */
-	public function deleteExpiredSessions( $expiredSessions )
+    public function deleteExpiredSessions($expiredSessions)
 	{
 		return $this->db->query("
 			DELETE
@@ -47,7 +46,7 @@ class SqlQueries
 	 * @param int $limit
 	 * @return array
 	 */
-	public function getExpiredSessions( $sessionCookiePrefix, $limit )
+    public function getExpiredSessions($sessionCookiePrefix, $limit)
 	{
 		return (array) $this->db->get_results("
 			SELECT option_name AS name, option_value AS expiration
@@ -62,7 +61,7 @@ class SqlQueries
 	 * @param string $metaReviewId
 	 * @return int
 	 */
-	public function getPostIdFromReviewId( $metaReviewId )
+    public function getPostIdFromReviewId($metaReviewId)
 	{
 		$postId = $this->db->get_var("
 			SELECT p.ID
@@ -72,7 +71,7 @@ class SqlQueries
 			AND m.meta_key = 'review_id'
 			AND m.meta_value = '{$metaReviewId}'
 		");
-		return intval( $postId );
+        return intval($postId);
 	}
 
 	/**
@@ -80,20 +79,20 @@ class SqlQueries
 	 * @param int $limit
 	 * @return array
 	 */
-	public function getReviewCounts( array $args, $lastPostId = 0, $limit = 500 )
+    public function getReviewCounts(array $args, $lastPostId = 0, $limit = 500)
 	{
 		return (array) $this->db->get_results("
 			SELECT DISTINCT p.ID, m1.meta_value AS rating, m2.meta_value AS type
 			FROM {$this->db->posts} AS p
 			INNER JOIN {$this->db->postmeta} AS m1 ON p.ID = m1.post_id
 			INNER JOIN {$this->db->postmeta} AS m2 ON p.ID = m2.post_id
-			{$this->getInnerJoinForCounts( $args )}
+            {$this->getInnerJoinForCounts($args)}
 			WHERE p.ID > {$lastPostId}
 			AND p.post_status = 'publish'
 			AND p.post_type = '{$this->postType}'
 			AND m1.meta_key = 'rating'
 			AND m2.meta_key = 'review_type'
-			{$this->getAndForCounts( $args )}
+            {$this->getAndForCounts($args)}
 			ORDER By p.ID ASC
 			LIMIT {$limit}
 		");
@@ -104,7 +103,7 @@ class SqlQueries
 	 * @param string $metaKey
 	 * @return array
 	 */
-	public function getReviewCountsFor( $metaKey )
+    public function getReviewCountsFor($metaKey)
 	{
 		return (array) $this->db->get_results("
 			SELECT DISTINCT m.meta_value AS name, COUNT(*) num_posts
@@ -121,7 +120,7 @@ class SqlQueries
 	 * @param string $reviewType
 	 * @return array
 	 */
-	public function getReviewIdsByType( $reviewType )
+    public function getReviewIdsByType($reviewType)
 	{
 		$results = $this->db->get_col("
 			SELECT DISTINCT m1.meta_value AS review_id
@@ -133,7 +132,7 @@ class SqlQueries
 			AND m2.meta_key = 'review_type'
 			AND m2.meta_value = '{$reviewType}'
 		");
-		return array_keys( array_flip( $results ));
+        return array_keys(array_flip($results));
 	}
 
 	/**
@@ -141,11 +140,11 @@ class SqlQueries
 	 * @param int $limit
 	 * @return array
 	 */
-	public function getReviewRatingsFromIds( array $postIds, $greaterThanId = 0, $limit = 100 )
+    public function getReviewRatingsFromIds(array $postIds, $greaterThanId = 0, $limit = 100)
 	{
-		sort( $postIds );
-		$postIds = array_slice( $postIds, intval( array_search( $greaterThanId, $postIds )), $limit );
-		$postIds = implode( ',', $postIds );
+        sort($postIds);
+        $postIds = array_slice($postIds, intval(array_search($greaterThanId, $postIds)), $limit);
+        $postIds = implode(',', $postIds);
 		return (array) $this->db->get_results("
 			SELECT p.ID, m.meta_value AS rating
 			FROM {$this->db->posts} AS p
@@ -166,7 +165,7 @@ class SqlQueries
 	 * @param string $status
 	 * @return array
 	 */
-	public function getReviewsMeta( $key, $status = 'publish' )
+    public function getReviewsMeta($key, $status = 'publish')
 	{
 		$values = $this->db->get_col("
 			SELECT DISTINCT m.meta_value
@@ -179,7 +178,7 @@ class SqlQueries
 			GROUP BY p.ID -- remove duplicate meta_value entries
 			ORDER BY m.meta_id ASC -- sort by oldest meta_value
 		");
-		sort( $values );
+        sort($values);
 		return $values;
 	}
 
@@ -187,34 +186,34 @@ class SqlQueries
 	 * @param string $and
 	 * @return string
 	 */
-	protected function getAndForCounts( array $args, $and = '' )
+    protected function getAndForCounts(array $args, $and = '')
 	{
-		$postIds = implode( ',', array_filter( glsr_get( $args, 'post_ids')));
-		$termIds = implode( ',', array_filter( glsr_get( $args, 'term_ids')));
-		if( !empty( $args['type'] )) {
-			$and.= "AND m2.meta_value = '{$args['type']}' ";
+        $postIds = implode(',', array_filter(glsr_get($args, 'post_ids')));
+        $termIds = implode(',', array_filter(glsr_get($args, 'term_ids')));
+        if (!empty($args['type'])) {
+            $and .= "AND m2.meta_value = '{$args['type']}' ";
 		}
-		if( $postIds ) {
-			$and.= "AND m3.meta_key = 'assigned_to' AND m3.meta_value IN ({$postIds}) ";
+        if ($postIds) {
+            $and .= "AND m3.meta_key = 'assigned_to' AND m3.meta_value IN ({$postIds}) ";
 		}
-		if( $termIds ) {
-			$and.= "AND tr.term_taxonomy_id IN ({$termIds}) ";
+        if ($termIds) {
+            $and .= "AND tr.term_taxonomy_id IN ({$termIds}) ";
 		}
-		return apply_filters( 'site-reviews/query/and-for-counts', $and );
+        return apply_filters('site-reviews/query/and-for-counts', $and);
 	}
 
 	/**
 	 * @param string $innerJoin
 	 * @return string
 	 */
-	protected function getInnerJoinForCounts( array $args, $innerJoin = '' )
+    protected function getInnerJoinForCounts(array $args, $innerJoin = '')
 	{
-		if( !empty( glsr_get( $args, 'post_ids'))) {
-			$innerJoin.= "INNER JOIN {$this->db->postmeta} AS m3 ON p.ID = m3.post_id ";
+        if (!empty(glsr_get($args, 'post_ids'))) {
+            $innerJoin .= "INNER JOIN {$this->db->postmeta} AS m3 ON p.ID = m3.post_id ";
 		}
-		if( !empty( glsr_get( $args, 'term_ids'))) {
-			$innerJoin.= "INNER JOIN {$this->db->term_relationships} AS tr ON p.ID = tr.object_id ";
+        if (!empty(glsr_get($args, 'term_ids'))) {
+            $innerJoin .= "INNER JOIN {$this->db->term_relationships} AS tr ON p.ID = tr.object_id ";
 		}
-		return apply_filters( 'site-reviews/query/inner-join-for-counts', $innerJoin );
+        return apply_filters('site-reviews/query/inner-join-for-counts', $innerJoin);
 	}
 }

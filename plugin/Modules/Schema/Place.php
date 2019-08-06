@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Schema;
 
-use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
-
 /**
  * Entities that have a somewhat fixed, physical extension.
  * @see http://schema.org/Place
@@ -39,23 +37,23 @@ use GeminiLabs\SiteReviews\Modules\Schema\BaseType;
  */
 class Place extends BaseType
 {
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $allowed = [
-		'additionalProperty', 'address', 'aggregateRating', 'amenityFeature', 'branchCode',
-		'containedIn', 'containedInPlace', 'containsPlace', 'event', 'events', 'faxNumber', 'geo',
-		'globalLocationNumber', 'hasMap', 'isAccessibleForFree', 'isicV4', 'logo', 'map', 'maps',
-		'maximumAttendeeCapacity', 'openingHoursSpecification', 'photo', 'photos', 'publicAccess',
-		'review', 'reviews', 'smokingAllowed', 'specialOpeningHoursSpecification', 'telephone',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $allowed = [
+        'additionalProperty', 'address', 'aggregateRating', 'amenityFeature', 'branchCode',
+        'containedIn', 'containedInPlace', 'containsPlace', 'event', 'events', 'faxNumber', 'geo',
+        'globalLocationNumber', 'hasMap', 'isAccessibleForFree', 'isicV4', 'logo', 'map', 'maps',
+        'maximumAttendeeCapacity', 'openingHoursSpecification', 'photo', 'photos', 'publicAccess',
+        'review', 'reviews', 'smokingAllowed', 'specialOpeningHoursSpecification', 'telephone',
+    ];
 
-	/**
-	 * @var array
-	 * @see http://schema.org/{property_name}
-	 */
-	public $parents = [
-		'Thing',
-	];
+    /**
+     * @var array
+     * @see http://schema.org/{property_name}
+     */
+    public $parents = [
+        'Thing',
+    ];
 }
