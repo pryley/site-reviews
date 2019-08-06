@@ -93,7 +93,7 @@ class Review implements \ArrayAccess
 	public function offsetGet( $key )
 	{
 		if( property_exists( $this, $key )) {
-			return $this->$key;
+			return $this->{$key};
 		}
 		return array_key_exists( $key, (array)$this->custom )
 			? $this->custom[$key]
@@ -108,7 +108,7 @@ class Review implements \ArrayAccess
 	public function offsetSet( $key, $value )
 	{
 		if( property_exists( $this, $key )) {
-			$this->$key = $value;
+			$this->{$key} = $value;
 			return;
 		}
 		if( !is_array( $this->custom )) {
