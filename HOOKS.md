@@ -108,4 +108,5 @@
     site-reviews/views/file
     site-reviews/{form_id}/fields
     site-reviews/whip
+    site-reviews/whip/methods
     site-reviews/whip/whitelist

@@ -104,9 +104,26 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
-= 3.6.0 (2019-04-??) =
+= 4.0.0 (2019-08-??) =
 
+- Added filter hooks for min and max rating
+- Added Multisite support
 - Added proxy header support for IP detection
+- Changed category assignment to one-per-review
+- Fixed overriding star styles on "Add plugin" page
+- Fixed per-page limit in Reviews block
+- Fixed PHP 7.2 support
+- Fixed review counts
+- Fixed star-rating style when using the helper function
+- Improved ajax pagination
+- Improved documentation
+- Improved email failure logging
+- Improved internal console usage
+- Improved product schema options
+- Improved system info
+- Updated FAQs
+- Updated plugin hooks
+- Updated templates
 
 = 3.5.4 (2019-03-29) =
 

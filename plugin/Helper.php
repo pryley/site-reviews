@@ -244,8 +244,14 @@ class Helper
                 Whip::IPV4 => $cloudflareIps['v4'],
                 Whip::IPV6 => $ipv6,
             ],
+            Whip::CUSTOM_HEADERS => [
+                Whip::IPV4 => ['127.0.0.1'],
+                Whip::IPV6 => ['::1'],
+            ],
         ]);
-        $whip = new Whip(Whip::ALL_METHODS, $whitelist);
+        $methods = Whip::CUSTOM_HEADERS | Whip::CLOUDFLARE_HEADERS | Whip::REMOTE_ADDR;
+        $methods = apply_filters('site-reviews/whip/methods', $methods);
+        $whip = new Whip($methods, $whitelist);
         do_action_ref_array('site-reviews/whip', [&$whip]);
         return (string) $whip->getValidIpAddress();
     }
