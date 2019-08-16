@@ -8,6 +8,11 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 class Upgrader
 {
     /**
+     * @return string
+     */
+    public $currentVersion;
+
+    /**
      * @return void
      */
     public function run()
@@ -21,11 +26,13 @@ class Upgrader
             $filenames[] = $fileinfo->getFilename();
         }
         natsort($filenames);
+        $this->currentVersion = $this->currentVersion();
         array_walk($filenames, function ($file) {
             $className = str_replace('.php', '', $file);
             $version = str_replace(['Upgrade_', '_'], ['', '.'], $className);
             $versionSuffix = preg_replace('/[\d.]+(.+)?/', '${1}', glsr()->version); // allow alpha/beta versions
-            if (version_compare($this->currentVersion(), $version.$versionSuffix, '>=')) {
+            if ($this->currentVersion == '0.0.0' 
+                || version_compare($this->currentVersion, $version.$versionSuffix, '>=')) {
                 return;
             }
             glsr('Modules\\Upgrader\\'.$className);
@@ -39,10 +46,9 @@ class Upgrader
      */
     public function finish()
     {
-        $version = $this->currentVersion();
-        if ($version !== glsr()->version) {
+        if ($this->currentVersion !== glsr()->version) {
             $this->setReviewCounts();
-            $this->updateVersionFrom($version);
+            $this->updateVersionFrom($this->currentVersion);
         } elseif (!glsr(OptionManager::class)->get('last_review_count', false)) {
             $this->setReviewCounts();
         }
