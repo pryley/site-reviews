@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Defaults\ValidateReviewDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Akismet;
 use GeminiLabs\SiteReviews\Modules\Blacklist;
-use GeminiLabs\SiteReviews\Modules\Session;
 use GeminiLabs\SiteReviews\Modules\Validator;
 
 class ValidateReview
@@ -161,7 +160,7 @@ class ValidateReview
      */
     protected function setSessionValues($type, $value, $loggedMessage = '')
     {
-        glsr(Session::class)->set($this->form_id.$type, $value);
+        glsr()->sessionSet($this->form_id.$type, $value);
         if (!empty($loggedMessage)) {
             glsr_log()->warning($loggedMessage)->debug($this->request);
         }

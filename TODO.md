@@ -9,10 +9,10 @@
 - [x] Remove star-rating helper CSS dependency on .glsr-default parent class
 - [x] Update badge counter in menu when reviews are approved/unapproved
 - [x] Blacklist option (or documentation) to use the WordPress comment blacklist
+- [x] Remove: Session
 
 - [ ] Store user ID to review / allow viewing all reviews by author
 - [ ] Custom classes to track form submission status (i.e. is-spam, has-failed, nonce-failed, etc.)
-- [ ] Add option to remove session support
 
 - [ ] Add a notice similar to Polylang: "It seems that you have been using Site Review for some time. I hope that you love it! I would be thrilled if you could give us a [5 stars rating](...)."
 - [ ] Add custom post_type permissions

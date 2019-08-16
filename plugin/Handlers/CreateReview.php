@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Handlers;
 use GeminiLabs\SiteReviews\Commands\CreateReview as Command;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Modules\Notification;
-use GeminiLabs\SiteReviews\Modules\Session;
 
 class CreateReview
 {
@@ -16,11 +15,11 @@ class CreateReview
     {
         $review = glsr(ReviewManager::class)->create($command);
         if (!$review) {
-            glsr(Session::class)->set($command->form_id.'errors', []);
-            glsr(Session::class)->set($command->form_id.'message', __('Your review could not be submitted and the error has been logged. Please notify the site admin.', 'site-reviews'));
+            glsr()->sessionSet($command->form_id.'errors', []);
+            glsr()->sessionSet($command->form_id.'message', __('Your review could not be submitted and the error has been logged. Please notify the site admin.', 'site-reviews'));
             return;
         }
-        glsr(Session::class)->set($command->form_id.'message', __('Your review has been submitted!', 'site-reviews'));
+        glsr()->sessionSet($command->form_id.'message', __('Your review has been submitted!', 'site-reviews'));
         glsr(Notification::class)->send($review);
         if ($command->ajax_request) {
             return;

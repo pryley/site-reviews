@@ -14,5 +14,3 @@ delete_option('widget_'.glsr()->id.'_site-reviews-summary');
 delete_transient(glsr()->id.'_cloudflare_ips');
 delete_transient(glsr()->id.'_remote_post_test');
 wp_cache_delete(glsr()->id);
-
-glsr('Modules\Session')->deleteAllSessions();

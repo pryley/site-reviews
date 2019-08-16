@@ -106,14 +106,14 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 = 4.0.0 (2019-08-??) =
 
-- Added filter hooks for min and max rating
+- Added filter hook for maximum rating
 - Added Multisite support
 - Added proxy header support for IP detection
 - Added setting to choose which blacklist to use
 - Changed category assignment to one-per-review
 - Fixed badge counter in menu when reviews are approved/unapproved
-- Fixed overriding star styles on "Add plugin" page
-- Fixed per-page limit in Reviews block
+- Fixed overriding star styles on the "Add plugin" page
+- Fixed per-page limit in the Reviews block
 - Fixed PHP 7.2 support
 - Fixed review counts
 - Fixed star-rating style when using the helper function
@@ -123,6 +123,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 - Improved internal console usage
 - Improved product schema options
 - Improved system info
+- Removed $_SESSION usage
 - Updated FAQs
 - Updated plugin hooks
 - Updated templates

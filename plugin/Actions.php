@@ -14,7 +14,6 @@ use GeminiLabs\SiteReviews\Controllers\ReviewController;
 use GeminiLabs\SiteReviews\Controllers\SettingsController;
 use GeminiLabs\SiteReviews\Controllers\TaxonomyController;
 use GeminiLabs\SiteReviews\Modules\Console;
-use GeminiLabs\SiteReviews\Modules\Session;
 
 class Actions implements HooksContract
 {
@@ -29,7 +28,6 @@ class Actions implements HooksContract
     protected $public;
     protected $review;
     protected $router;
-    protected $session;
     protected $settings;
     protected $taxonomy;
 
@@ -45,7 +43,6 @@ class Actions implements HooksContract
         $this->public = $app->make(PublicController::class);
         $this->review = $app->make(ReviewController::class);
         $this->router = $app->make(Router::class);
-        $this->session = $app->make(Session::class);
         $this->settings = $app->make(SettingsController::class);
         $this->taxonomy = $app->make(TaxonomyController::class);
     }
@@ -102,7 +99,6 @@ class Actions implements HooksContract
         add_action('wp_ajax_'.Application::PREFIX.'action',                 [$this->router, 'routeAjaxRequest']);
         add_action('wp_ajax_nopriv_'.Application::PREFIX.'action',          [$this->router, 'routeAjaxRequest']);
         add_action('init',                                                  [$this->router, 'routePublicPostRequest']);
-        add_action('site-reviews/schedule/session/purge',                   [$this->session, 'deleteExpiredSessions']);
         add_action('admin_init',                                            [$this->settings, 'registerSettings']);
         add_action(Application::TAXONOMY.'_term_edit_form_top',             [$this->taxonomy, 'disableParents']);
         add_action(Application::TAXONOMY.'_term_new_form_tag',              [$this->taxonomy, 'disableParents']);

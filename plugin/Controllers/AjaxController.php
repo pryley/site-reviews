@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Commands\TogglePinned;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Notice;
-use GeminiLabs\SiteReviews\Modules\Session;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews;
 
@@ -119,13 +118,13 @@ class AjaxController extends Controller
         $redirect = trim(strval(get_post_meta($command->post_id, 'redirect_to', true)));
         $redirect = apply_filters('site-reviews/review/redirect', $redirect, $command);
         $data = [
-            'errors' => glsr(Session::class)->get($command->form_id.'errors', false, true),
-            'message' => glsr(Session::class)->get($command->form_id.'message', '', true),
-            'recaptcha' => glsr(Session::class)->get($command->form_id.'recaptcha', false, true),
+            'errors' => glsr()->sessionGet($command->form_id.'errors', false),
+            'message' => glsr()->sessionGet($command->form_id.'message', ''),
+            'recaptcha' => glsr()->sessionGet($command->form_id.'recaptcha', false),
             'redirect' => $redirect,
         ];
         if (false === $data['errors']) {
-            glsr(Session::class)->clear();
+            glsr()->sessionClear();
             wp_send_json_success($data);
         }
         wp_send_json_error($data);

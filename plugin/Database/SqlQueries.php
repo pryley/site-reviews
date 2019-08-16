@@ -16,48 +16,6 @@ class SqlQueries
 	}
 
 	/**
-	 * @param string $sessionCookiePrefix
-	 * @return int|false
-	 */
-    public function deleteAllSessions($sessionCookiePrefix)
-	{
-		return $this->db->query("
-			DELETE
-			FROM {$this->db->options}
-			WHERE option_name LIKE '{$sessionCookiePrefix}_%'
-		");
-	}
-
-	/**
-	 * @param string $expiredSessions
-	 * @return int|false
-	 */
-    public function deleteExpiredSessions($expiredSessions)
-	{
-		return $this->db->query("
-			DELETE
-			FROM {$this->db->options}
-			WHERE option_name IN ('{$expiredSessions}')
-		");
-	}
-
-	/**
-	 * @param string $sessionCookiePrefix
-	 * @param int $limit
-	 * @return array
-	 */
-    public function getExpiredSessions($sessionCookiePrefix, $limit)
-	{
-		return (array) $this->db->get_results("
-			SELECT option_name AS name, option_value AS expiration
-			FROM {$this->db->options}
-			WHERE option_name LIKE '{$sessionCookiePrefix}_expires_%'
-			ORDER BY option_value ASC
-			LIMIT 0, {$limit}
-		");
-	}
-
-	/**
 	 * @param string $metaReviewId
 	 * @return int
 	 */

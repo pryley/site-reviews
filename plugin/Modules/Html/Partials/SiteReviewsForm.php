@@ -8,7 +8,6 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Field;
 use GeminiLabs\SiteReviews\Modules\Html\Form;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
-use GeminiLabs\SiteReviews\Modules\Session;
 use GeminiLabs\SiteReviews\Modules\Style;
 
 class SiteReviewsForm
@@ -47,10 +46,10 @@ class SiteReviewsForm
         if (!is_user_logged_in() && glsr(OptionManager::class)->getBool('settings.general.require.login')) {
             return $this->buildLoginRegister();
         }
-        $this->errors = glsr(Session::class)->get($args['id'].'errors', [], true);
-        $this->message = glsr(Session::class)->get($args['id'].'message', '', true);
+        $this->errors = glsr()->sessionGet($args['id'].'errors', []);
+        $this->message = glsr()->sessionGet($args['id'].'message', '');
         $this->required = glsr(OptionManager::class)->get('settings.submissions.required', []);
-        $this->values = glsr(Session::class)->get($args['id'].'values', [], true);
+        $this->values = glsr()->sessionGet($args['id'].'values', []);
         $fields = array_reduce($this->getFields(), function ($carry, $field) {
             return $carry.$field;
         });

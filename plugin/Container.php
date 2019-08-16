@@ -12,6 +12,7 @@ abstract class Container
     const PROTECTED_PROPERTIES = [
         'instance',
         'services',
+        'session',
         'storage',
     ];
 
@@ -25,6 +26,11 @@ abstract class Container
      * @var array
      */
     protected $services = [];
+
+    /**
+     * @var array
+     */
+    protected $session = [];
 
     /**
      * The container's storage items.
@@ -106,6 +112,32 @@ abstract class Container
             return $abstract;
         }
         return $this->resolve($abstract);
+    }
+
+    /**
+     * @return void
+     */
+    public function sessionClear()
+    {
+        $this->session = [];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function sessionGet($key, $fallback)
+    {
+        $value = glsr_get($this->session, $key, $fallback);
+        unset($this->session[$key]);
+        return $value;
+    }
+
+    /**
+     * @return void
+     */
+    public function sessionSet($key, $value)
+    {
+        glsr_set($this->session, $key, $value);
     }
 
     /**
