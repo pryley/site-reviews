@@ -30,6 +30,12 @@
 				el.closest( 'td.column-title' ).find( 'strong' ).html( response.link );
 				if( !response.counts )return;
 				el.closest( '.wrap' ).find( 'ul.subsubsub' ).html( response.counts );
+				$('#menu-posts-site-review')
+					.find('.awaiting-mod')
+					.removeClass()
+					.addClass('awaiting-mod count-' + response.pending)
+					.find('.pending-count')
+					.html(response.pending);
 			});
 		},
 	};

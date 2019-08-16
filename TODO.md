@@ -7,17 +7,25 @@
 - [x] Fix: query that performs the review count does not account for duplicate "review_type" meta data
 - [x] Fix: conditional fields are broken in settings
 - [x] Remove star-rating helper CSS dependency on .glsr-default parent class
+- [x] Update badge counter in menu when reviews are approved/unapproved
+
+- [ ] Store user ID to review / allow viewing all reviews by author
+- [ ] Custom classes to track form submission status (i.e. is-spam, has-failed, nonce-failed, etc.)
+- [ ] Blacklist option (or documentation) to use the WordPress comment blacklist
+- [ ] Add option to remove session support
 
 - [ ] Add a notice similar to Polylang: "It seems that you have been using Site Review for some time. I hope that you love it! I would be thrilled if you could give us a [5 stars rating](...)."
 - [ ] Add custom post_type permissions
-- [ ] Add option to remove session support
 - [ ] Add reCAPTCHA v3
 - [ ] Add version rollback feature (ref: WP Rocket)
-- [ ] Blacklist option (or documentation) to use the WordPress comment blacklist
-- [ ] Custom classes to track form submission status (i.e. is-spam, has-failed, nonce-failed, etc.)
 - [ ] Fallback to Defaults when settings do not exist
 - [ ] Fix CSS class should reflect the selected plugin style (i.e. .glsr-minimal)
-- [ ] Store user ID to review / allow viewing all reviews by author
 - [ ] Test counts when deleting multiple reviews
-- [ ] Update count badge in menu when reviews are approved/unapproved
 - [ ] Use REST API for ajax calls and remove admin-ajax.php dependency on front-end (cf7)
+
+// hide meta fields
+"is_protected_meta" filter return true for any custom field you want to hide.
+add_filter('is_protected_meta', 'my_is_protected_meta_filter', 10, 2);
+function my_is_protected_meta_filter($protected, $meta_key) {
+    return $meta_key == 'test1' ? true : $protected;
+}

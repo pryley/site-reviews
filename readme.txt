@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 3.5.4
+Stable tag: 4.0.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 - Added Multisite support
 - Added proxy header support for IP detection
 - Changed category assignment to one-per-review
+- Fixed badge counter in menu when reviews are approved/unapproved
 - Fixed overriding star styles on "Add plugin" page
 - Fixed per-page limit in Reviews block
 - Fixed PHP 7.2 support

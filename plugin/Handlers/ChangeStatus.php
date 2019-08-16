@@ -25,6 +25,7 @@ class ChangeStatus
             'class' => 'status-'.$command->status,
             'counts' => $this->getStatusLinks(),
             'link' => $this->getPostLink($postId).$this->getPostState($postId),
+            'pending' => wp_count_posts(Application::POST_TYPE, 'readable')->pending,
         ];
     }
 
