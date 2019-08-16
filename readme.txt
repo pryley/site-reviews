@@ -109,6 +109,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 - Added filter hooks for min and max rating
 - Added Multisite support
 - Added proxy header support for IP detection
+- Added setting to choose which blacklist to use
 - Changed category assignment to one-per-review
 - Fixed badge counter in menu when reviews are approved/unapproved
 - Fixed overriding star styles on "Add plugin" page

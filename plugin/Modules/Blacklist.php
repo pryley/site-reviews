@@ -20,7 +20,8 @@ class Blacklist
         ]));
         return (bool) apply_filters('site-reviews/blacklist/is-blacklisted',
             $this->check($target),
-            $review
+            $review,
+            $target
         );
     }
 
@@ -30,7 +31,7 @@ class Blacklist
      */
     protected function check($target)
     {
-        $blacklist = trim(glsr(OptionManager::class)->get('settings.submissions.blacklist.entries'));
+        $blacklist = $this->getBlacklist();
         if (empty($blacklist)) {
             return false;
         }
@@ -46,5 +47,13 @@ class Blacklist
             }
         }
         return false;
+    }
+
+    protected function getBlacklist()
+    {
+        $option = glsr(OptionManager::class)->get('settings.submissions.blacklist.integration');
+        return $option == 'comments'
+            ? trim(get_option('blacklist_keys'))
+            : trim(glsr(OptionManager::class)->get('settings.submissions.blacklist.entries'));
     }
 }

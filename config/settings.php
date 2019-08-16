@@ -419,8 +419,23 @@ return [
         'label' => __('Enable Akismet Integration', 'site-reviews'),
         'type' => 'yes_no',
     ],
+    'settings.submissions.blacklist.integration' => [
+        'default' => '',
+        'description' => sprintf(__('Choose which Blacklist you would prefer to use for reviews. The %s can be found in the WordPress Discussion Settings page.', 'site-reviews'),
+            '<a href="'.admin_url('options-discussion.php#users_can_register').'">'.__('Comment Blacklist', 'site-reviews').'</a>'
+        ),
+        'label' => __('Blacklist', 'site-reviews'),
+        'options' => [
+            '' => 'Use the Site Reviews Blacklist',
+            'comments' => 'Use the WordPress Comment Blacklist',
+        ],
+        'type' => 'select',
+    ],
     'settings.submissions.blacklist.entries' => [
         'default' => '',
+        'depends_on' => [
+            'settings.submissions.blacklist.integration' => [''],
+        ],
         'description' => __('One entry or IP address per line. When a review contains any of these entries in its title, content, name, email, or IP address, it will be rejected. It is case-insensitive and will match partial words, so "press" will match "WordPress".', 'site-reviews'),
         'label' => __('Review Blacklist', 'site-reviews'),
         'rows' => 10,
