@@ -29,8 +29,11 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Questions and Answers
 - [ ] Review Builder (add/remove/drag-drop to order)
 - [ ] Review Form Builder
+- [ ] Review Layouts
 - [ ] Review Threads
 - [ ] Review Upvotes
+- [ ] Search Reviews
 - [ ] Summary filters (clickable summary bars for filtering)
+- [ ] Trustpilot Reviews
 - [ ] WooCommerce (incl. review reminders, verified reviews)
 - [ ] Yelp Reviews
