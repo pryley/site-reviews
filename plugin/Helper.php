@@ -152,7 +152,7 @@ class Helper
      * @param mixed $value
      * @return array
      */
-    public function dataSet(array $data, $path = '', $value)
+    public function dataSet(array $data, $path, $value)
     {
         $token = strtok($path, '.');
         $ref = &$data;

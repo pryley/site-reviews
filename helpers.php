@@ -178,6 +178,17 @@ function glsr_log()
 }
 
 /**
+ * @param array $data
+ * @param string $path
+ * @param mixed $value
+ * @return array
+ */
+function glsr_set($data, $path, $value)
+{
+    return glsr('Helper')->dataSet($data, $path, $value);
+}
+
+/**
  * @return string
  */
 function glsr_star_rating($rating)
