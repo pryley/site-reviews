@@ -15,10 +15,14 @@ class OptionManager
     /**
      * @return string
      */
-    public static function databaseKey()
+    public static function databaseKey($version = null)
     {
+        if (null === $version) {
+            $version = explode('.', glsr()->version);
+            $version = array_shift($version);
+        }
         return glsr(Helper::class)->snakeCase(
-            Application::ID.'-v'.explode('.', glsr()->version)[0]
+            Application::ID.'-v'.intval($version)
         );
     }
 

@@ -7,7 +7,8 @@ require_once __DIR__.'/site-reviews.php';
 if (!(new GL_Plugin_Check_v3(__FILE__))->isValid()) {
     return;
 }
-delete_option(GeminiLabs\SiteReviews\Database\OptionManager::databaseKey());
+delete_option(GeminiLabs\SiteReviews\Database\OptionManager::databaseKey(3));
+delete_option(GeminiLabs\SiteReviews\Database\OptionManager::databaseKey(4));
 delete_option('widget_'.glsr()->id.'_site-reviews');
 delete_option('widget_'.glsr()->id.'_site-reviews-form');
 delete_option('widget_'.glsr()->id.'_site-reviews-summary');

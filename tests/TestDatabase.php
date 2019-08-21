@@ -15,7 +15,7 @@ class TestDatabase extends WP_UnitTestCase
 
     public function test_database_key()
     {
-        $this->assertEquals(OptionManager::databaseKey(), 'site_reviews_v3');
+        $this->assertEquals(OptionManager::databaseKey(), 'site_reviews_v4');
     }
 
     public function test_delete_option()

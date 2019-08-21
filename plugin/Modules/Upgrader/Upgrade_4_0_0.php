@@ -4,12 +4,15 @@ namespace GeminiLabs\SiteReviews\Modules\Upgrader;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
+use GeminiLabs\SiteReviews\Helper;
 
 class Upgrade_4_0_0
 {
     public function __construct()
     {
-        glsr(OptionManager::class)->set('settings.submissions.blacklist.integration', '');
+        $this->migrateSettings();
+        $this->protectMetaKeys();
         $this->deleteSessions();
         delete_transient(Application::ID.'_cloudflare_ips');
     }
@@ -24,6 +27,36 @@ class Upgrade_4_0_0
             DELETE
             FROM {$wpdb->options}
             WHERE option_name LIKE '_glsr_session%'
+        ");
+    }
+
+    /**
+     * @return void
+     */
+    public function migrateSettings()
+    {
+        $settingsKey = glsr(Helper::class)->snakeCase(Application::ID.'-v3');
+        if ($settings = get_option($settingsKey)) {
+            add_option(OptionManager::databaseKey(), $settings);
+        }
+        glsr(OptionManager::class)->set('settings.submissions.blacklist.integration', '');
+    }
+
+    /**
+     * @return void
+     */
+    public function protectMetaKeys()
+    {
+        global $wpdb;
+        $keys = array_keys(glsr(CreateReviewDefaults::class)->defaults());
+        $keys = implode("','", $keys);
+        $postType = Application::POST_TYPE;
+        $wpdb->query("
+            UPDATE {$wpdb->postmeta} pm
+            INNER JOIN {$wpdb->posts} p ON p.id = pm.post_id
+            SET pm.meta_key = CONCAT('_', pm.meta_key)
+            WHERE pm.meta_key IN ('{$keys}')
+            AND p.post_type = '{$postType}'
         ");
     }
 }
