@@ -125,7 +125,7 @@ abstract class Container
     /**
      * @return mixed
      */
-    public function sessionGet($key, $fallback)
+    public function sessionGet($key, $fallback = '')
     {
         $value = glsr_get($this->session, $key, $fallback);
         unset($this->session[$key]);
@@ -137,7 +137,7 @@ abstract class Container
      */
     public function sessionSet($key, $value)
     {
-        glsr_set($this->session, $key, $value);
+        $this->session[$key] = $value;
     }
 
     /**
