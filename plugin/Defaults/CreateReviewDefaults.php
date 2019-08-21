@@ -8,6 +8,20 @@ use GeminiLabs\SiteReviews\Helper;
 class CreateReviewDefaults extends Defaults
 {
     /**
+     * @var array
+     */
+    protected $guarded = [
+        'assigned_to',
+        'content',
+        'date',
+        'pinned',
+        'response',
+        'review_id',
+        'review_type',
+        'title',
+    ];
+
+    /**
      * @return array
      */
     protected function defaults()

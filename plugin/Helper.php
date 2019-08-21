@@ -288,6 +288,21 @@ class Helper
     }
 
     /**
+     * @param string $prefix
+     * @param string $trim
+     * @return array
+     */
+    public function prefixArrayKeys(array $values, $prefix = '', $trim = '')
+    {
+        $prefixed = [];
+        foreach ($values as $key => $value) {
+            $key = $prefix.ltrim($key, $trim);
+            $prefixed[$key] = $value;
+        }
+        return $prefixed;
+    }
+
+    /**
      * @param string $string
      * @param string $prefix
      * @return string

@@ -121,7 +121,7 @@ class QueryBuilder
             $postIds = glsr(Helper::class)->convertStringToArray($value, 'is_numeric');
             return [
                 'compare' => 'IN',
-                'key' => 'assigned_to',
+                'key' => '_assigned_to',
                 'value' => glsr(Polylang::class)->getPostIds($postIds),
             ];
         }
@@ -152,7 +152,7 @@ class QueryBuilder
             && in_array(intval($value), range(1, glsr()->constant('MAX_RATING', Rating::class)))) {
             return [
                 'compare' => '>=',
-                'key' => 'rating',
+                'key' => '_rating',
                 'value' => $value,
             ];
         }
@@ -166,7 +166,7 @@ class QueryBuilder
     {
         if (!in_array($value, ['', 'all'])) {
             return [
-                'key' => 'review_type',
+                'key' => '_review_type',
                 'value' => $value,
             ];
         }

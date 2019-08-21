@@ -72,7 +72,7 @@ class Customization
     {
         $postId = intval(filter_input(INPUT_GET, 'post'));
         return $postId > 0
-            && 'local' == get_post_meta($postId, 'review_type', true)
+            && 'local' == get_post_meta($postId, '_review_type', true)
             && $this->isReviewEditor();
     }
 

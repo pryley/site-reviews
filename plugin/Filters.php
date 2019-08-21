@@ -50,6 +50,7 @@ class Filters implements HooksContract
         add_filter('use_block_editor_for_post_type',                          [$this->blocks, 'filterUseBlockEditor'], 10, 2);
         add_filter('wp_editor_settings',                                      [$this->editor, 'filterEditorSettings']);
         add_filter('the_editor',                                              [$this->editor, 'filterEditorTextarea']);
+        add_filter('is_protected_meta',                                       [$this->editor, 'filterIsProtectedMeta'], 10, 3);
         add_filter('gettext',                                                 [$this->editor, 'filterPostStatusLabels'], 10, 3);
         add_filter('gettext_with_context',                                    [$this->editor, 'filterPostStatusLabelsWithContext'], 10, 4);
         add_filter('post_updated_messages',                                   [$this->editor, 'filterUpdateMessages']);

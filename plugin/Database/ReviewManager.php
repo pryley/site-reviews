@@ -22,16 +22,18 @@ class ReviewManager
     {
         $reviewValues = glsr(CreateReviewDefaults::class)->restrict((array) $command);
         $reviewValues = apply_filters('site-reviews/create/review-values', $reviewValues, $command);
+        $reviewValues = glsr(Helper::class)->prefixArrayKeys($reviewValues, '_', '_');
+        unset($reviewValues['json']); // @todo remove the need for this
         $postValues = [
             'comment_status' => 'closed',
             'meta_input' => $reviewValues,
             'ping_status' => 'closed',
-            'post_content' => $reviewValues['content'],
-            'post_date' => $reviewValues['date'],
-            'post_date_gmt' => get_gmt_from_date($reviewValues['date']),
-            'post_name' => $reviewValues['review_type'].'-'.$reviewValues['review_id'],
+            'post_content' => $reviewValues['_content'],
+            'post_date' => $reviewValues['_date'],
+            'post_date_gmt' => get_gmt_from_date($reviewValues['_date']),
+            'post_name' => $reviewValues['_review_type'].'-'.$reviewValues['_review_id'],
             'post_status' => $this->getNewPostStatus($reviewValues, $command->blacklisted),
-            'post_title' => $reviewValues['title'],
+            'post_title' => $reviewValues['_title'],
             'post_type' => Application::POST_TYPE,
         ];
         $postId = wp_insert_post($postValues, true);
@@ -74,7 +76,7 @@ class ReviewManager
             wp_validate_boolean($args['pagination'])
         );
         $parameters = [
-            'meta_key' => 'pinned',
+            'meta_key' => '_pinned',
             'meta_query' => $metaQuery,
             'offset' => $args['offset'],
             'order' => $args['order'],
@@ -162,9 +164,9 @@ class ReviewManager
         delete_post_meta($postId, '_edit_last');
         $result = wp_update_post([
             'ID' => $postId,
-            'post_content' => get_post_meta($postId, 'content', true),
-            'post_date' => get_post_meta($postId, 'date', true),
-            'post_title' => get_post_meta($postId, 'title', true),
+            'post_content' => get_post_meta($postId, '_content', true),
+            'post_date' => get_post_meta($postId, '_date', true),
+            'post_title' => get_post_meta($postId, '_title', true),
         ]);
         if (is_wp_error($result)) {
             glsr_log()->error($result->get_error_message());
@@ -187,10 +189,10 @@ class ReviewManager
      * @param bool $isBlacklisted
      * @return string
      */
-    protected function getNewPostStatus(array $review, $isBlacklisted)
+    protected function getNewPostStatus(array $reviewValues, $isBlacklisted)
     {
         $requireApproval = glsr(OptionManager::class)->getBool('settings.general.require.approval');
-        return 'local' == $review['review_type'] && ($requireApproval || $isBlacklisted)
+        return 'local' == $reviewValues['_review_type'] && ($requireApproval || $isBlacklisted)
             ? 'pending'
             : 'publish';
     }

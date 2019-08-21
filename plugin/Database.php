@@ -18,7 +18,7 @@ class Database
     public function getAssignedToPost($postId, $assignedTo = '')
     {
         if (empty($assignedTo)) {
-            $assignedTo = get_post_meta($postId, 'assigned_to', true);
+            $assignedTo = get_post_meta($postId, '_assigned_to', true);
         }
         if (empty($assignedTo)) {
             return;

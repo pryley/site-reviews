@@ -32,7 +32,7 @@ class Columns
      */
     public function buildColumnPinned($postId)
     {
-        $pinned = get_post_meta($postId, 'pinned', true)
+        $pinned = get_post_meta($postId, '_pinned', true)
             ? 'pinned '
             : '';
         return glsr(Builder::class)->i([
@@ -47,7 +47,7 @@ class Columns
      */
     public function buildColumnReviewer($postId)
     {
-        return strval(get_post_meta($postId, 'author', true));
+        return strval(get_post_meta($postId, '_author', true));
     }
 
     /**
@@ -57,7 +57,7 @@ class Columns
      */
     public function buildColumnRating($postId)
     {
-        return glsr_star_rating(intval(get_post_meta($postId, 'rating', true)));
+        return glsr_star_rating(intval(get_post_meta($postId, '_rating', true)));
     }
 
     /**
@@ -66,7 +66,7 @@ class Columns
      */
     public function buildColumnReviewType($postId)
     {
-        $type = get_post_meta($postId, 'review_type', true);
+        $type = get_post_meta($postId, '_review_type', true);
         return array_key_exists($type, glsr()->reviewTypes)
             ? glsr()->reviewTypes[$type]
             : __('Unsupported Type', 'site-reviews');

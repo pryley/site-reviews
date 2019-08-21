@@ -11,7 +11,7 @@ abstract class DefaultsAbstract
      * @var array
      */
     protected $callable = [
-        'defaults', 'filter', 'merge', 'restrict',
+        'defaults', 'filter', 'merge', 'restrict', 'unguarded',
     ];
 
     /**
@@ -111,5 +111,13 @@ abstract class DefaultsAbstract
     protected function restrict(array $values = [])
     {
         return $this->normalize(shortcode_atts($this->defaults(), $values), $values);
+    }
+
+    /**
+     * @return array
+     */
+    protected function unguarded()
+    {
+        return array_diff_key($this->defaults(), array_flip($this->guarded));
     }
 }

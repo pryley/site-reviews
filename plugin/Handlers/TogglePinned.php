@@ -16,7 +16,7 @@ class TogglePinned
             return false;
         }
         if (is_null($command->pinned)) {
-            $meta = get_post_meta($command->id, 'pinned', true);
+            $meta = get_post_meta($command->id, '_pinned', true);
             $command->pinned = !wp_validate_boolean($meta);
         } else {
             $notice = $command->pinned
