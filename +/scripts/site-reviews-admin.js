@@ -63,6 +63,10 @@ jQuery( function( $ ) {
 	new GLSR.Tools();
 	new GLSR.Sync();
 
+	$('a#revert').on('click', function () {
+		$(this).parent().find('.spinner').addClass('is-active');
+	});
+
 	$( '.glsr-card.postbox' ).addClass( 'closed' )
 		.find( '.handlediv' ).attr( 'aria-expanded', false )
 		.closest( '.glsr-nav-view' ).addClass( 'collapsed' );

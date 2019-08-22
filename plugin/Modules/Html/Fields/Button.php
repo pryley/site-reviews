@@ -10,7 +10,7 @@ class Button extends Field
     public static function defaults()
     {
         return [
-            'class' => 'button glsr-button',
+            'class' => 'button',
         ];
     }
 }

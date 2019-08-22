@@ -353,7 +353,7 @@ class EditorController extends Controller
             ]);
         }
         return glsr(Builder::class)->button(__('Nothing to Revert', 'site-reviews'), [
-            'class' => 'button button-large',
+            'class' => 'button-large',
             'disabled' => true,
             'id' => 'revert',
         ]);
