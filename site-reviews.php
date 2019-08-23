@@ -35,3 +35,7 @@ register_activation_hook(__FILE__, array($app, 'activate'));
 register_deactivation_hook(__FILE__, array($app, 'deactivate'));
 register_shutdown_function(array($app, 'catchFatalError'));
 $app->init();
+
+if (defined('WP_ENV') && WP_ENV == 'development') {
+    add_filter('site-reviews/console/level', '__return_zero', 1);
+}
