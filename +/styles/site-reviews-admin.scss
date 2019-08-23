@@ -29,6 +29,10 @@
 @import "admin/tabs";
 @import "admin/wp-list-table";
 
+#available-widgets [class*="site-reviews"] .widget-title:before {
+	content: "\f459";
+}
+
 .glsr-no-margins {
 	margin: 0 !important;
 }

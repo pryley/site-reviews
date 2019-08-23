@@ -13,7 +13,7 @@ class SiteReviewsFormWidget extends Widget
      */
     public function form($instance)
     {
-        $this->widgetArgs = glsr(SiteReviewsFormShortcode::class)->normalize($instance);
+        $this->widgetArgs = glsr(SiteReviewsFormShortcode::class)->normalizeAtts($instance);
         $terms = glsr(Database::class)->getTerms();
         $this->renderField('text', [
             'class' => 'widefat',

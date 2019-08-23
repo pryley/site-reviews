@@ -104,7 +104,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
-= 4.0.0 (2019-08-??) =
+= 4.0.0 (2019-09-??) =
 
 - Added filter hook for maximum rating
 - Added Multisite support
@@ -118,7 +118,8 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 - Fixed review counts
 - Fixed review revert button
 - Fixed star-rating style when using the helper function
-- Improved ajax pagination
+- Fixed widget icons in the WordPress customizer
+- Improved (and faster) ajax pagination
 - Improved documentation
 - Improved email failure logging
 - Improved internal console usage
