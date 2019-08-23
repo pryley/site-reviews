@@ -156,7 +156,7 @@ class Router
     protected function sendAjaxError($error, array $request, $statusCode = 400)
     {
         glsr_log()->error($error)->debug($request);
-        glsr(Notice::class)->addError(__('There was an error (try refreshing the page).', 'site-reviews').' <code>'.$error.'</code>');
+        glsr(Notice::class)->addError(__('There was an error (try reloading the page).', 'site-reviews').' <code>'.$error.'</code>');
         wp_send_json_error([
             'message' => __('The form could not be submitted. Please notify the site administrator.', 'site-reviews'),
             'notices' => glsr(Notice::class)->get(),

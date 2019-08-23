@@ -97,7 +97,7 @@ class Labels
             'preview' => __('Preview review', 'site-reviews'),
             'published' => __('Review approved and published.', 'site-reviews'),
             'restored' => __('Review restored to revision from %s.', 'site-reviews'),
-            'reverted' => __('Review has been reverted to its original submission state.', 'site-reviews'),
+            'reverted' => __('Review has been reverted to its original submission state (title, content, and submission date).', 'site-reviews'),
             'saved' => __('Review saved.', 'site-reviews'),
             'scheduled' => __('Review scheduled for: %s.', 'site-reviews'),
             'submitted' => __('Review submitted.', 'site-reviews'),

@@ -39,6 +39,7 @@ You can pin your best reviews so that they are always shown first, require appro
 - Custom notifications (including Slack support)
 - Easy setup and implementation
 - Honeypot (spam trap) implemented in the submission form
+- Multisite support
 - Plugin styles to match popular themes, form plugins, and CSS frameworks
 - Polylang integration for multilingual websites
 - Rating Snippets in Google search results (schema.org JSON-LD markup)

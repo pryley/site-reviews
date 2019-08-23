@@ -6,9 +6,11 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 - [ ] Integrate with WordPress GDPR controls
 - [ ] Re-evaluate [PHP Session usage](https://wordpress.org/support/topic/sessions-and-cookies-with-server-cache/#post-11440624)
+- [ ] reCAPTCHA v3 support
 - [ ] Review statistics
 - [ ] Store the review GEO location by IP
 - [ ] Throttle anonymous review submissions
+- [ ] Version rollback (ref: WP Rocket)
 - [ ] WP REST API support
 
 ## Upcoming Add-ons

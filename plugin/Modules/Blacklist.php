@@ -53,7 +53,7 @@ class Blacklist
     {
         $option = glsr(OptionManager::class)->get('settings.submissions.blacklist.integration');
         return $option == 'comments'
-            ? trim(get_option('blacklist_keys'))
+            ? trim((string) get_option('blacklist_keys'))
             : trim(glsr(OptionManager::class)->get('settings.submissions.blacklist.entries'));
     }
 }
