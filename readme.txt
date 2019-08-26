@@ -110,6 +110,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 - Added filter hook for maximum rating
 - Added Multisite support
 - Added proxy header support for IP detection
+- Added [Rebusify integration](https://rebusify.com) to sync reviews to the blockchain
 - Added setting to choose which blacklist to use
 - Changed category assignment to one-per-review
 - Fixed badge counter in menu when reviews are approved/unapproved

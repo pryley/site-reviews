@@ -52,6 +52,25 @@ return [
         'label' => __('Integrate with Polylang', 'site-reviews'),
         'type' => 'yes_no',
     ],
+    'settings.general.support.rebusify' => [
+        'default' => 'no',
+        'description' => sprintf(__('Integrate with the %s and sync your reviews to the blockchain to increase online reputation, trust, and transparency.', 'site-reviews'),
+            '<a href="https://rebusify.com">Rebusify Confidence System</a>'
+        ),
+        'label' => __('Integrate with Rebusify', 'site-reviews'),
+        'type' => 'yes_no',
+    ],
+    'settings.general.support.rebusify_api_key' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.general.support.rebusify' => ['yes'],
+        ],
+        'description' => sprintf(__('Get a free Rebusify API key from %s.', 'site-reviews'),
+            '<a href="https://rebusify.com">rebusify.com</a>'
+        ),
+        'label' => __('Rebusify API key', 'site-reviews'),
+        'type' => 'text',
+    ],
     'settings.general.notifications' => [
         'default' => [],
         'label' => __('Notifications', 'site-reviews'),

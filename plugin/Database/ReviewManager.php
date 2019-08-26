@@ -171,7 +171,9 @@ class ReviewManager
         ]);
         if (is_wp_error($result)) {
             glsr_log()->error($result->get_error_message());
+            return;
         }
+        do_action('site-reviews/review/reverted', glsr_get_review($postId));
     }
 
     /**

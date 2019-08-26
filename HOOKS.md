@@ -5,6 +5,9 @@
     site-reviews/builder
     site-reviews/customize/{style}
     site-reviews/review/created
+    site-reviews/review/reverted
+    site-reviews/review/saved
+    site-reviews/review/updated
     site-reviews/route/{request_type}/request
 
 ## Filters
@@ -66,6 +69,8 @@
     site-reviews/query/inner-join-for-counts
     site-reviews/rating/average
     site-reviews/rating/ranking
+    site-reviews/rebusify/response
+    site-reviews/rebusify/review
     site-reviews/recaptcha/language
     site-reviews/recaptcha/timeout
     site-reviews/render/view

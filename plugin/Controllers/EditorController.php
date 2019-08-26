@@ -308,6 +308,7 @@ class EditorController extends Controller
     {
         glsr(Metaboxes::class)->saveAssignedToMetabox($postId);
         glsr(Metaboxes::class)->saveResponseMetabox($postId);
+        do_action('site-reviews/review/saved', glsr_get_review($postId));
     }
 
     /**
