@@ -26,7 +26,7 @@ class MenuController extends Controller
             }
             $postCount = wp_count_posts(Application::POST_TYPE);
             $pendingCount = glsr(Builder::class)->span(number_format_i18n($postCount->pending), [
-                'class' => 'pending-count',
+                'class' => 'unapproved-count',
             ]);
             $awaitingModeration = glsr(Builder::class)->span($pendingCount, [
                 'class' => 'awaiting-mod count-'.$postCount->pending,

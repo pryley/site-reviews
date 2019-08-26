@@ -34,7 +34,7 @@
 					.find('.awaiting-mod')
 					.removeClass()
 					.addClass('awaiting-mod count-' + response.pending)
-					.find('.pending-count')
+					.find('.unapproved-count')
 					.html(response.pending);
 			});
 		},

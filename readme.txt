@@ -117,6 +117,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 - Fixed per-page limit in the Reviews block
 - Fixed PHP 7.2 support
 - Fixed review counts
+- Fixed review menu counts from changing when approving/unapproving comments
 - Fixed review revert button
 - Fixed star-rating style when using the helper function
 - Fixed widget icons in the WordPress customizer
