@@ -141,14 +141,13 @@ function glsr_get_options()
 }
 
 /**
- * @param int $post_id
+ * @param \WP_Post|int $post
  * @return \GeminiLabs\SiteReviews\Review
  */
-function glsr_get_review($post_id)
+function glsr_get_review($post)
 {
-    $post = null;
-    if (is_numeric($post_id)) {
-        $post = get_post($post_id);
+    if (is_numeric($post)) {
+        $post = get_post($post);
     }
     if (!($post instanceof WP_Post)) {
         $post = new WP_Post((object) []);
