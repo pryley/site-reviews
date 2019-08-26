@@ -19,7 +19,7 @@ class Bootstrap
         error_reporting(E_ALL);
         $this->tests_dir = dirname(__FILE__);
         $this->plugin_dir = dirname($this->tests_dir);
-        $this->wp_tests_dir = $this->get_tests_dir($_SERVER['HOME'].'/Sites/wordpress/tests/current/');
+        $this->wp_tests_dir = $this->get_tests_dir($_SERVER['HOME'].'/Sites/wordpress/tests/current');
         // load test function so tests_add_filter() is available
         require_once $this->wp_tests_dir.'/includes/functions.php';
         tests_add_filter('muplugins_loaded', array($this, 'load_plugin_environment'));
@@ -41,9 +41,10 @@ class Bootstrap
         if (file_exists($path)) {
             putenv('WP_TESTS_DIR='.$path);
         }
-        return getenv('WP_TESTS_DIR')
+        $dir = getenv('WP_TESTS_DIR')
             ? getenv('WP_TESTS_DIR')
             : '/tmp/wordpress-tests-lib';
+        return rtrim($dir, '/\\');
     }
 
     public function load_plugin_environment()
