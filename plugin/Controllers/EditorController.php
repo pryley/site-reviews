@@ -174,7 +174,7 @@ class EditorController extends Controller
         if (!$this->isReviewPostType($post)) {
             return;
         }
-        $review = glsr(ReviewManager::class)->single($post);
+        $review = glsr_get_review($post);
         glsr()->render('partials/editor/metabox-details', [
             'button' => $this->buildDetailsMetaBoxRevertButton($review, $post),
             'metabox' => $this->normalizeDetailsMetaBox($review),

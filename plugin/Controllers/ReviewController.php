@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\CountsManager;
-use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Review;
 use WP_Post;
@@ -29,7 +28,7 @@ class ReviewController extends Controller
         if ($newTTIds === $oldTTIds || !$this->isReviewPostId($postId)) {
             return;
 		}
-        $review = glsr(ReviewManager::class)->single(get_post($postId));
+        $review = glsr_get_review($postId);
         $ignoredIds = array_intersect($oldTTIds, $newTTIds);
         $decreasedIds = array_diff($oldTTIds, $ignoredIds);
         $increasedIds = array_diff($newTTIds, $ignoredIds);
@@ -53,7 +52,7 @@ class ReviewController extends Controller
         if (Application::POST_TYPE != glsr_get($post, 'post_type') || in_array($oldStatus, ['new', $newStatus])) {
             return;
 		}
-        $review = glsr(ReviewManager::class)->single(get_post($post->ID));
+        $review = glsr_get_review($post);
         if ('publish' == $post->post_status) {
             glsr(CountsManager::class)->increase($review);
         } else {
@@ -83,7 +82,7 @@ class ReviewController extends Controller
         if (!$this->isReviewPostId($postId)) {
             return;
         }
-        $review = glsr(ReviewManager::class)->single(get_post($postId));
+        $review = glsr_get_review($postId);
         glsr(CountsManager::class)->decrease($review);
 	}
 
@@ -104,7 +103,7 @@ class ReviewController extends Controller
         if (!in_array($metaKey, $metaKeys)) {
             return;
         }
-        $review = glsr(ReviewManager::class)->single(get_post($postId));
+        $review = glsr_get_review($postId);
         if ($review->$metaKey == $metaValue) {
             return;
         }
