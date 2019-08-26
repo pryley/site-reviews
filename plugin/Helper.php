@@ -284,7 +284,7 @@ class Helper
         $methods = Whip::CUSTOM_HEADERS | Whip::CLOUDFLARE_HEADERS | Whip::REMOTE_ADDR;
         $methods = apply_filters('site-reviews/whip/methods', $methods);
         $whip = new Whip($methods, $whitelist);
-        do_action_ref_array('site-reviews/whip', [&$whip]);
+        do_action_ref_array('site-reviews/whip', [$whip]);
         return (string) $whip->getValidIpAddress();
     }
 
