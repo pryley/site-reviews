@@ -150,19 +150,16 @@ class Review implements \ArrayAccess
     protected function setProperties(WP_Post $post)
     {
         $defaults = [
-            '_author' => __('Anonymous', 'site-reviews'),
-            '_date' => '',
-            '_review_id' => '',
-            '_review_type' => 'local',
+            'author' => __('Anonymous', 'site-reviews'),
+            'date' => '',
+            'review_id' => '',
+            'review_type' => 'local',
         ];
         $meta = array_filter(
             array_map('array_shift', array_filter((array) get_post_meta($post->ID))),
             'strlen'
         );
-        $meta = array_merge(
-            glsr(Helper::class)->prefixArrayKeys($defaults, '', '_'),
-            glsr(Helper::class)->prefixArrayKeys($meta, '', '_')
-        );
+        $meta = array_merge($defaults, glsr(Helper::class)->unprefixArrayKeys($meta));
         $properties = glsr(CreateReviewDefaults::class)->restrict(array_merge($defaults, $meta));
         $this->modified = $this->isModified($properties);
         array_walk($properties, function ($value, $key) {

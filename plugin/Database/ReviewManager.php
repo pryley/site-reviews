@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
@@ -22,7 +23,7 @@ class ReviewManager
     {
         $reviewValues = glsr(CreateReviewDefaults::class)->restrict((array) $command);
         $reviewValues = apply_filters('site-reviews/create/review-values', $reviewValues, $command);
-        $reviewValues = glsr(Helper::class)->prefixArrayKeys($reviewValues, '_', '_');
+        $reviewValues = glsr(Helper::class)->prefixArrayKeys($reviewValues);
         unset($reviewValues['json']); // @todo remove the need for this
         $postValues = [
             'comment_status' => 'closed',
@@ -164,9 +165,9 @@ class ReviewManager
         delete_post_meta($postId, '_edit_last');
         $result = wp_update_post([
             'ID' => $postId,
-            'post_content' => get_post_meta($postId, '_content', true),
-            'post_date' => get_post_meta($postId, '_date', true),
-            'post_title' => get_post_meta($postId, '_title', true),
+            'post_content' => glsr(Database::class)->get($postId, 'content'),
+            'post_date' => glsr(Database::class)->get($postId, 'date'),
+            'post_title' => glsr(Database::class)->get($postId, 'title'),
         ]);
         if (is_wp_error($result)) {
             glsr_log()->error($result->get_error_message());

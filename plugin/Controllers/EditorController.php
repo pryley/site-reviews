@@ -62,7 +62,7 @@ class EditorController extends Controller
     {
         if ('post' == $metaType && Application::POST_TYPE == get_post_type()) {
             $values = glsr(CreateReviewDefaults::class)->unguarded();
-            $values = glsr(Helper::class)->prefixArrayKeys($values, '_', '_');
+            $values = glsr(Helper::class)->prefixArrayKeys($values);
             if (array_key_exists($metaKey, $values)) {
                 $protected = false;
             }
@@ -114,7 +114,7 @@ class EditorController extends Controller
     {
         add_meta_box(Application::ID.'_assigned_to', __('Assigned To', 'site-reviews'), [$this, 'renderAssignedToMetabox'], null, 'side');
         add_meta_box(Application::ID.'_review', __('Details', 'site-reviews'), [$this, 'renderDetailsMetaBox'], null, 'side');
-        if ('local' != get_post_meta($post->ID, '_review_type', true)) {
+        if ('local' != glsr(Database::class)->get($post->ID, 'review_type')) {
             return;
         }
         add_meta_box(Application::ID.'_response', __('Respond Publicly', 'site-reviews'), [$this, 'renderResponseMetaBox'], null, 'normal');
@@ -156,7 +156,7 @@ class EditorController extends Controller
         if (!$this->isReviewPostType($post)) {
             return;
         }
-        $assignedTo = (string) get_post_meta($post->ID, '_assigned_to', true);
+        $assignedTo = (string) glsr(Database::class)->get($post->ID, 'assigned_to');
         wp_nonce_field('assigned_to', '_nonce-assigned-to', false);
         glsr()->render('partials/editor/metabox-assigned-to', [
             'id' => $assignedTo,
@@ -195,7 +195,7 @@ class EditorController extends Controller
                 'no' => __('No', 'site-reviews'),
                 'yes' => __('Yes', 'site-reviews'),
             ],
-            'pinned' => wp_validate_boolean(get_post_meta(intval(get_the_ID()), '_pinned', true)),
+            'pinned' => wp_validate_boolean(glsr(Database::class)->get(get_the_ID(), 'pinned')),
         ]);
     }
 
@@ -211,7 +211,7 @@ class EditorController extends Controller
         }
         wp_nonce_field('response', '_nonce-response', false);
         glsr()->render('partials/editor/metabox-response', [
-            'response' => get_post_meta($post->ID, '_response', true),
+            'response' => glsr(Database::class)->get($post->ID, 'response'),
         ]);
     }
 
@@ -227,7 +227,7 @@ class EditorController extends Controller
         }
         glsr()->render('partials/editor/review', [
             'post' => $post,
-            'response' => get_post_meta($post->ID, '_response', true),
+            'response' => glsr(Database::class)->get($post->ID, 'response'),
         ]);
     }
 
@@ -336,9 +336,9 @@ class EditorController extends Controller
         $isModified = !glsr(Helper::class)->compareArrays(
             [$review->title, $review->content, $review->date],
             [
-                get_post_meta($post->ID, '_title', true),
-                get_post_meta($post->ID, '_content', true),
-                get_post_meta($post->ID, '_date', true),
+                glsr(Database::class)->get($post->ID, 'title'),
+                glsr(Database::class)->get($post->ID, 'content'),
+                glsr(Database::class)->get($post->ID, 'date'),
             ]
         );
         if ($isModified) {
@@ -387,7 +387,7 @@ class EditorController extends Controller
     {
         return $this->isReviewPostType($post)
             && post_type_supports(Application::POST_TYPE, 'title')
-            && 'local' == get_post_meta($post->ID, '_review_type', true);
+            && 'local' == glsr(Database::class)->get($post->ID, 'review_type');
     }
 
     /**

@@ -5,11 +5,24 @@ namespace GeminiLabs\SiteReviews;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\QueryBuilder;
 use GeminiLabs\SiteReviews\Database\SqlQueries;
+use GeminiLabs\SiteReviews\Helper;
 use WP_Post;
 use WP_Query;
 
 class Database
 {
+    /**
+     * @param int $postId
+     * @param string $key
+     * @param bool $single
+     * @return mixed
+     */
+    public function get($postId, $key, $single = true)
+    {
+        $key = glsr(Helper::class)->prefixString($key, '_');
+        return get_post_meta(intval($postId), $key, $single);
+    }
+
     /**
      * @param int $postId
      * @param string $assignedTo
@@ -18,7 +31,7 @@ class Database
     public function getAssignedToPost($postId, $assignedTo = '')
     {
         if (empty($assignedTo)) {
-            $assignedTo = get_post_meta($postId, '_assigned_to', true);
+            $assignedTo = $this->get($postId, 'assigned_to');
         }
         if (empty($assignedTo)) {
             return;
@@ -141,5 +154,17 @@ class Database
         }
         wp_reset_postdata();
         return $results;
+    }
+
+    /**
+     * @param int $postId
+     * @param string $key
+     * @param mixed $value
+     * @return int|bool
+     */
+    public function update($postId, $key, $value)
+    {
+        $key = glsr(Helper::class)->prefixString($key, '_');
+        return update_post_meta($postId, $key, $value);
     }
 }

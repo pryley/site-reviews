@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers\EditorController;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Database;
 
 class Customization
 {
@@ -72,7 +73,7 @@ class Customization
     {
         $postId = intval(filter_input(INPUT_GET, 'post'));
         return $postId > 0
-            && 'local' == get_post_meta($postId, '_review_type', true)
+            && 'local' == glsr(Database::class)->get($postId, 'review_type')
             && $this->isReviewEditor();
     }
 

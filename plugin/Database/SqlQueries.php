@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Helper;
 
 class SqlQueries
 {
@@ -26,7 +27,7 @@ class SqlQueries
 			FROM {$this->db->posts} AS p
 			INNER JOIN {$this->db->postmeta} AS m ON p.ID = m.post_id
 			WHERE p.post_type = '{$this->postType}'
-			AND m.meta_key = 'review_id'
+            AND m.meta_key = '_review_id'
 			AND m.meta_value = '{$metaReviewId}'
 		");
         return intval($postId);
@@ -48,8 +49,8 @@ class SqlQueries
 			WHERE p.ID > {$lastPostId}
 			AND p.post_status = 'publish'
 			AND p.post_type = '{$this->postType}'
-			AND m1.meta_key = 'rating'
-			AND m2.meta_key = 'review_type'
+            AND m1.meta_key = '_rating'
+            AND m2.meta_key = '_review_type'
             {$this->getAndForCounts($args)}
 			ORDER By p.ID ASC
 			LIMIT {$limit}
@@ -63,6 +64,7 @@ class SqlQueries
 	 */
     public function getReviewCountsFor($metaKey)
 	{
+        $metaKey = glsr(Helper::class)->prefixString($metaKey);
 		return (array) $this->db->get_results("
 			SELECT DISTINCT m.meta_value AS name, COUNT(*) num_posts
 			FROM {$this->db->posts} AS p
@@ -86,8 +88,8 @@ class SqlQueries
 			INNER JOIN {$this->db->postmeta} AS m1 ON p.ID = m1.post_id
 			INNER JOIN {$this->db->postmeta} AS m2 ON p.ID = m2.post_id
 			WHERE p.post_type = '{$this->postType}'
-			AND m1.meta_key = 'review_id'
-			AND m2.meta_key = 'review_type'
+            AND m1.meta_key = '_review_id'
+            AND m2.meta_key = '_review_type'
 			AND m2.meta_value = '{$reviewType}'
 		");
         return array_keys(array_flip($results));
@@ -111,7 +113,7 @@ class SqlQueries
 			AND p.ID IN ('{$postIds}')
 			AND p.post_status = 'publish'
 			AND p.post_type = '{$this->postType}'
-			AND m.meta_key = 'rating'
+            AND m.meta_key = '_rating'
 			GROUP BY p.ID
 			ORDER By p.ID ASC
 			LIMIT {$limit}
@@ -125,6 +127,7 @@ class SqlQueries
 	 */
     public function getReviewsMeta($key, $status = 'publish')
 	{
+        $key = glsr(Helper::class)->prefixString($key);
 		$values = $this->db->get_col("
 			SELECT DISTINCT m.meta_value
 			FROM {$this->db->postmeta} m
@@ -152,7 +155,7 @@ class SqlQueries
             $and.= "AND m2.meta_value = '{$args['type']}' ";
 		}
         if ($postIds) {
-            $and.= "AND m3.meta_key = 'assigned_to' AND m3.meta_value IN ({$postIds}) ";
+            $and.= "AND m3.meta_key = '_assigned_to' AND m3.meta_value IN ({$postIds}) ";
 		}
         if ($termIds) {
             $and.= "AND tr.term_taxonomy_id IN ({$termIds}) ";

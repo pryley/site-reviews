@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Handlers;
 
 use GeminiLabs\SiteReviews\Commands\TogglePinned as Command;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
 class TogglePinned
@@ -16,7 +17,7 @@ class TogglePinned
             return false;
         }
         if (is_null($command->pinned)) {
-            $meta = get_post_meta($command->id, '_pinned', true);
+            $meta = glsr(Database::class)->get($command->id, 'pinned');
             $command->pinned = !wp_validate_boolean($meta);
         } else {
             $notice = $command->pinned
@@ -24,7 +25,7 @@ class TogglePinned
                 : __('Review unpinned.', 'site-reviews');
             glsr(Notice::class)->addSuccess($notice);
         }
-        update_post_meta($command->id, 'pinned', $command->pinned);
+        glsr(Database::class)->update($command->id, 'pinned', $command->pinned);
         return $command->pinned;
     }
 }

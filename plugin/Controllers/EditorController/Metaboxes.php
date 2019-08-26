@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\EditorController;
 
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helper;
 
 class Metaboxes
@@ -16,7 +17,7 @@ class Metaboxes
             return;
         }
         $assignedTo = strval(glsr(Helper::class)->filterInput('assigned_to'));
-        update_post_meta($postId, 'assigned_to', $assignedTo);
+        glsr(Database::class)->update($postId, 'assigned_to', $assignedTo);
     }
 
     /**
@@ -29,7 +30,7 @@ class Metaboxes
             return;
         }
         $response = strval(glsr(Helper::class)->filterInput('response'));
-        update_post_meta($postId, 'response', trim(wp_kses($response, [
+        glsr(Database::class)->update($postId, 'response', trim(wp_kses($response, [
             'a' => ['href' => [], 'title' => []],
             'em' => [],
             'strong' => [],

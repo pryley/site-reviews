@@ -61,7 +61,7 @@ class Helper
             case 'array':
                 return (array) $value;
             case 'boolean':
-                if ($value === 'no') {
+                if ('no' === $value) {
                     return false;
                 }
                 return (bool) $value;
@@ -320,15 +320,17 @@ class Helper
     }
 
     /**
-     * @param string $prefix
-     * @param string $trim
+     * @param bool $prefixed
      * @return array
      */
-    public function prefixArrayKeys(array $values, $prefix = '', $trim = '')
+    public function prefixArrayKeys(array $values, $prefixed = true)
     {
+        $prefix = $prefixed
+            ? '_'
+            : '';
         $prefixed = [];
         foreach ($values as $key => $value) {
-            $key = $prefix.ltrim($key, $trim);
+            $key = $this->prefixString($key, $prefix, '_');
             $prefixed[$key] = $value;
         }
         return $prefixed;
@@ -337,11 +339,15 @@ class Helper
     /**
      * @param string $string
      * @param string $prefix
+     * @param null|string $trim
      * @return string
      */
-    public function prefixString($string, $prefix = '')
+    public function prefixString($string, $prefix = '', $trim = null)
     {
-        return $prefix.str_replace($prefix, '', trim($string));
+        if (null === $trim) {
+            $trim = $prefix;
+        }
+        return $prefix.ltrim(trim($string), $trim);
     }
 
     /**
@@ -397,5 +403,13 @@ class Helper
     public function startsWith($needle, $haystack)
     {
         return substr($haystack, 0, strlen($needle)) === $needle;
+    }
+
+    /**
+     * @return array
+     */
+    public function unprefixArrayKeys(array $values)
+    {
+        return $this->prefixArrayKeys($values, false);
     }
 }

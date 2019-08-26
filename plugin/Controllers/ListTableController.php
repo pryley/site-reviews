@@ -240,7 +240,7 @@ class ListTableController extends Controller
         }
         $assignedTo = filter_input(INPUT_GET, 'assigned_to');
         if ($assignedTo && get_post($assignedTo)) {
-            update_post_meta($postId, 'assigned_to', $assignedTo);
+            glsr(Database::class)->update($postId, 'assigned_to', $assignedTo);
         }
     }
 
@@ -332,7 +332,7 @@ class ListTableController extends Controller
             }
             $metaQuery = (array) $query->get('meta_query');
             $metaQuery[] = [
-                'key' => $key,
+                'key' => glsr(Helper::class)->prefixString($key, '_'),
                 'value' => $value,
             ];
             $query->set('meta_query', $metaQuery);
@@ -349,7 +349,7 @@ class ListTableController extends Controller
         unset($columns['cb'], $columns['title'], $columns['date']);
         if (in_array($orderby, array_keys($columns))) {
             if ('reviewer' == $orderby) {
-                $orderby = 'author';
+                $orderby = '_author';
             }
             $query->set('meta_key', $orderby);
             $query->set('orderby', 'meta_value');

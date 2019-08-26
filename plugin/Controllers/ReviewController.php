@@ -97,9 +97,11 @@ class ReviewController extends Controller
 	 */
     public function onBeforeUpdate($metaId, $postId, $metaKey, $metaValue)
 	{
-        if (!$this->isReviewPostId($postId)
-            || !in_array($metaKey, ['assigned_to', 'rating', 'review_type'])
-        ) {
+        if (!$this->isReviewPostId($postId)) {
+            return;
+        }
+        $metaKeys = glsr(Helper::class)->prefixArrayKeys(['assigned_to', 'rating', 'review_type']);
+        if (!in_array($metaKey, $metaKeys)) {
             return;
         }
         $review = glsr(ReviewManager::class)->single(get_post($postId));
