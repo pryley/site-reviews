@@ -13,7 +13,7 @@ add_filter('plugins_loaded', function () {
         'glsr_calculate_ratings' => 1,
         'glsr_create_review' => 2,
         'glsr_debug' => 10,
-        'glsr_get_option' => 3,
+        'glsr_get_option' => 4,
         'glsr_get_options' => 1,
         'glsr_get_review' => 2,
         'glsr_get_reviews' => 2,
@@ -123,12 +123,13 @@ function glsr_get($array, $path = '', $fallback = '')
 /**
  * @param string $path
  * @param mixed $fallback
+ * @param string $cast
  * @return string|array
  */
-function glsr_get_option($path = '', $fallback = '')
+function glsr_get_option($path = '', $fallback = '', $cast = '')
 {
     return is_string($path)
-        ? glsr('Database\OptionManager')->get('settings.'.$path, $fallback)
+        ? glsr('Database\OptionManager')->get('settings.'.$path, $fallback, $cast)
         : $fallback;
 }
 

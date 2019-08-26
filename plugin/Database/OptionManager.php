@@ -60,11 +60,13 @@ class OptionManager
     /**
      * @param string $path
      * @param mixed $fallback
+     * @param string $cast
      * @return mixed
      */
-    public function get($path = '', $fallback = '')
+    public function get($path = '', $fallback = '', $cast = '')
     {
-        return glsr(Helper::class)->dataGet($this->all(), $path, $fallback);
+        $result = glsr(Helper::class)->dataGet($this->all(), $path, $fallback);
+        return glsr(Helper::class)->castTo($cast, $result);
     }
 
     /**
@@ -81,14 +83,16 @@ class OptionManager
     /**
      * @param string $path
      * @param mixed $fallback
+     * @param string $cast
      * @return mixed
      */
-    public function getWP($path, $fallback = '')
+    public function getWP($path, $fallback = '', $cast = '')
     {
         $option = get_option($path, $fallback);
-        return empty($option)
-            ? $fallback
-            : $option;
+        if (empty($option)) {
+            $option = $fallback;
+        }
+        return glsr(Helper::class)->castTo($cast, $option);
     }
 
     /**
@@ -131,7 +135,7 @@ class OptionManager
      */
     public function reset()
     {
-        $options = get_option(static::databaseKey(), []);
+        $options = $this->getWP(static::databaseKey(), []);
         if (!is_array($options) || empty($options)) {
             delete_option(static::databaseKey());
             $options = wp_parse_args(glsr()->defaults, ['settings' => []]);

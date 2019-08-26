@@ -51,6 +51,38 @@ class Helper
     }
 
     /**
+     * @param string $cast
+     * @param mixed $value
+     * @return mixed
+     */
+    public function castTo($cast = '', $value)
+    {
+        switch ($cast) {
+            case 'array':
+                return (array) $value;
+            case 'boolean':
+                if ($value === 'no') {
+                    return false;
+                }
+                return (bool) $value;
+            case 'integer':
+                if (is_numeric($value) || is_string($value)) {
+                    return (int) $value;
+                }
+                // no break
+            case 'object':
+                return (object) (array) $value;
+            case 'string':
+                if (!is_array($value) && !is_object($value)) {
+                    return (string) $value;
+                }
+                // no break
+            default:
+                return $value;
+        }
+    }
+
+    /**
      * @return bool
      */
     public function compareArrays(array $arr1, array $arr2)
