@@ -93,7 +93,7 @@ class Notification
     {
         $emails = [];
         if (in_array('admin', $this->types)) {
-            $emails[] = get_option('admin_email');
+            $emails[] = glsr(OptionManager::class)->getWP('admin_email');
         }
         if (in_array('author', $this->types)) {
             $assignedPost = get_post(intval($this->review->assigned_to));
@@ -134,7 +134,7 @@ class Notification
             'site-reviews'
         );
         $title = sprintf('[%s] %s',
-            wp_specialchars_decode(strval(get_option('blogname')), ENT_QUOTES),
+            wp_specialchars_decode(glsr(OptionManager::class)->getWP('blogname'), ENT_QUOTES),
             sprintf($title, $this->review->rating, $assignedTitle)
         );
         return apply_filters('site-reviews/notification/title', $title, $this->review);

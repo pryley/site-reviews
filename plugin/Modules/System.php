@@ -58,7 +58,7 @@ class System
     public function getActivePluginDetails()
     {
         $plugins = get_plugins();
-        $activePlugins = (array) get_option('active_plugins', []);
+        $activePlugins = glsr(OptionManager::class)->getWP('active_plugins', [], 'array');
         $inactive = array_diff_key($plugins, array_flip($activePlugins));
         return $this->normalizePluginList(array_diff_key($plugins, $inactive));
     }
@@ -93,7 +93,7 @@ class System
      */
     public function getInactivePluginDetails()
     {
-        $activePlugins = (array) get_option('active_plugins', []);
+        $activePlugins = glsr(OptionManager::class)->getWP('active_plugins', [], 'array');
         $inactivePlugins = $this->normalizePluginList(array_diff_key(get_plugins(), array_flip($activePlugins)));
         $multisitePlugins = $this->getMultisitePluginDetails();
         return is_array($multisitePlugins)
@@ -236,17 +236,17 @@ class System
         $theme = wp_get_theme();
         return [
             'Active Theme' => sprintf('%s v%s', (string) $theme->Name, (string) $theme->Version),
-            'Email Domain' => substr(strrchr(get_option('admin_email'), '@'), 1),
+            'Email Domain' => substr(strrchr(glsr(OptionManager::class)->getWP('admin_email'), '@'), 1),
             'Home URL' => home_url(),
             'Language' => get_locale(),
             'Memory Limit' => WP_MEMORY_LIMIT,
             'Multisite' => var_export(is_multisite(), true),
-            'Page For Posts ID' => get_option('page_for_posts'),
-            'Page On Front ID' => get_option('page_on_front'),
-            'Permalink Structure' => get_option('permalink_structure', 'default'),
+            'Page For Posts ID' => glsr(OptionManager::class)->getWP('page_for_posts'),
+            'Page On Front ID' => glsr(OptionManager::class)->getWP('page_on_front'),
+            'Permalink Structure' => glsr(OptionManager::class)->getWP('permalink_structure', 'default'),
             'Post Stati' => implode(', ', get_post_stati()),
             'Remote Post' => glsr(Cache::class)->getRemotePostTest(),
-            'Show On Front' => get_option('show_on_front'),
+            'Show On Front' => glsr(OptionManager::class)->getWP('show_on_front'),
             'Site URL' => site_url(),
             'Timezone' => glsr(OptionManager::class)->getWP('timezone_string', ini_get('date.timezone').' (PHP)'),
             'Version' => get_bloginfo('version'),
@@ -307,7 +307,7 @@ class System
     protected function getWordpressPlugins()
     {
         $plugins = get_plugins();
-        $activePlugins = (array) get_option('active_plugins', []);
+        $activePlugins = glsr(OptionManager::class)->getWP('active_plugins', [], 'array');
         $inactive = $this->normalizePluginList(array_diff_key($plugins, array_flip($activePlugins)));
         $active = $this->normalizePluginList(array_diff_key($plugins, $inactive));
         return $active + $inactive;

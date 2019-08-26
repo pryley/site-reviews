@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 
 class EmailDefaults extends Defaults
@@ -11,8 +12,8 @@ class EmailDefaults extends Defaults
      */
     protected function defaults()
     {
-        $fromName = wp_specialchars_decode((string) get_option('blogname'), ENT_QUOTES);
-        $fromEmail = (string) get_option('admin_email');
+        $fromName = wp_specialchars_decode(glsr(OptionManager::class)->getWP('blogname'), ENT_QUOTES);
+        $fromEmail = glsr(OptionManager::class)->getWP('admin_email');
         return [
             'after' => '',
             'attachments' => [],

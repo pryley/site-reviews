@@ -16,8 +16,8 @@ class Akismet
             return false;
         }
         $submission = [
-            'blog' => get_option('home'),
-            'blog_charset' => get_option('blog_charset'),
+            'blog' => glsr(OptionManager::class)->getWP('home'),
+            'blog_charset' => glsr(OptionManager::class)->getWP('blog_charset', 'UTF-8'),
             'blog_lang' => get_locale(),
             'comment_author' => $review['name'],
             'comment_author_email' => $review['email'],

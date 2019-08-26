@@ -197,7 +197,7 @@ class SiteReviews
         } else {
             $format = 'custom' == $dateFormat
                 ? $this->getOption('settings.reviews.date.custom', 'M j, Y')
-                : (string) get_option('date_format');
+                : glsr(OptionManager::class)->getWP('date_format', 'F j, Y');
             $date = date_i18n($format, strtotime($value));
         }
         return '<span>'.$date.'</span>';
