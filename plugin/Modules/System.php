@@ -96,30 +96,30 @@ class System
         $activePlugins = glsr(OptionManager::class)->getWP('active_plugins', [], 'array');
         $inactivePlugins = $this->normalizePluginList(array_diff_key(get_plugins(), array_flip($activePlugins)));
         $multisitePlugins = $this->getMultisitePluginDetails();
-        return is_array($multisitePlugins)
-            ? array_diff($inactivePlugins, $multisitePlugins)
-            : $inactivePlugins;
+        return empty($multisitePlugins)
+            ? $inactivePlugins
+            : array_diff($inactivePlugins, $multisitePlugins);
     }
 
     /**
-     * @return void|array
+     * @return array
      */
     public function getMuPluginDetails()
     {
         if (empty($plugins = get_mu_plugins())) {
-            return;
+            return [];
         }
         return $this->normalizePluginList($plugins);
     }
 
     /**
-     * @return void|array
+     * @return array
      */
     public function getMultisitePluginDetails()
     {
         $activePlugins = (array) get_site_option('active_sitewide_plugins', []);
         if (!is_multisite() || empty($activePlugins)) {
-            return;
+            return [];
         }
         return $this->normalizePluginList(array_intersect_key(get_plugins(), $activePlugins));
     }

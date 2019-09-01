@@ -272,12 +272,8 @@ class Schema
      */
     protected function getThingDescription()
     {
-        $post = get_post();
-        if (!($post instanceof WP_Post)) {
-            return '';
-        }
-        $text = strip_shortcodes(wp_strip_all_tags($post->post_excerpt));
-        return wp_trim_words($text, apply_filters('excerpt_length', 55));
+        $description = strip_shortcodes(wp_strip_all_tags(get_the_excerpt()));
+        return wp_trim_words($description, apply_filters('excerpt_length', 55));
     }
 
     /**

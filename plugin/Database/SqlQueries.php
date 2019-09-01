@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Helper;
 class SqlQueries
 {
 	protected $db;
+    protected $postType;
 
 	public function __construct()
 	{

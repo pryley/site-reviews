@@ -35,7 +35,11 @@ class Wpml implements Contract
         }
         $newPostIds = [];
         foreach ($this->cleanIds($postIds) as $postId) {
-            $elementType = 'post_'.get_post_type($postId);
+            $postType = get_post_type($postId);
+            if (!$postType) {
+                continue;
+            }
+            $elementType = 'post_'.$postType;
             $trid = apply_filters('wpml_element_trid', null, $postId, $elementType);
             $translations = apply_filters('wpml_get_element_translations', null, $trid, $elementType);
             if (!is_array($translations)) {
