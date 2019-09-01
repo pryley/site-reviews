@@ -344,10 +344,10 @@ class Helper
      */
     public function prefixString($string, $prefix = '', $trim = null)
     {
-        if (null === $trim) {
-            $trim = $prefix;
+        if (is_string($trim) && 0 === strpos($string, $trim)) {
+            $string = substr($string, strlen($trim));
         }
-        return $prefix.ltrim(trim($string), $trim);
+        return $prefix.trim($string);
     }
 
     /**
