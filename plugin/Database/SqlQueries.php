@@ -65,7 +65,7 @@ class SqlQueries
 	 */
     public function getReviewCountsFor($metaKey)
 	{
-        $metaKey = glsr(Helper::class)->prefixString($metaKey);
+        $metaKey = glsr(Helper::class)->prefix('_', $metaKey);
 		return (array) $this->db->get_results("
 			SELECT DISTINCT m.meta_value AS name, COUNT(*) num_posts
 			FROM {$this->db->posts} AS p
@@ -128,7 +128,7 @@ class SqlQueries
 	 */
     public function getReviewsMeta($key, $status = 'publish')
 	{
-        $key = glsr(Helper::class)->prefixString($key);
+        $key = glsr(Helper::class)->prefix('_', $key);
 		$values = $this->db->get_col("
 			SELECT DISTINCT m.meta_value
 			FROM {$this->db->postmeta} m
