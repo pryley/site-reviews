@@ -111,6 +111,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 - Added Multisite support
 - Added proxy header support for IP detection
 - Added setting to choose which blacklist to use
+- Added WPML integration
 - Changed category assignment to one-per-review
 - Fixed badge counter in menu when reviews are approved/unapproved
 - Fixed overriding star styles on the "Add plugin" page

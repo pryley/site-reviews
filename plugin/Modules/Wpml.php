@@ -5,10 +5,10 @@ namespace GeminiLabs\SiteReviews\Modules;
 use GeminiLabs\SiteReviews\Contracts\MultilingualContract as Contract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 
-class Polylang implements Contract
+class Wpml implements Contract
 {
-    const PLUGIN_NAME = 'Polylang';
-    const SUPPORTED_VERSION = '2.3';
+    const PLUGIN_NAME = 'WPML';
+    const SUPPORTED_VERSION = '3.3.5';
 
     /**
      * {@inheritdoc}
@@ -20,10 +20,7 @@ class Polylang implements Contract
             return;
         }
         if ($this->isEnabled()) {
-            $polylangPostId = pll_get_post($postId, pll_get_post_language(get_the_ID()));
-        }
-        if (!empty($polylangPostId)) {
-            $postId = $polylangPostId;
+            $postId = apply_filters('wpml_object_id', $postId, 'any', true);
         }
         return get_post(intval($postId));
     }
@@ -38,9 +35,15 @@ class Polylang implements Contract
         }
         $newPostIds = [];
         foreach ($this->cleanIds($postIds) as $postId) {
+            $elementType = 'post_'.get_post_type($postId);
+            $trid = apply_filters('wpml_element_trid', null, $postId, $elementType);
+            $translations = apply_filters('wpml_get_element_translations', null, $trid, $elementType);
+            if (!is_array($translations)) {
+                $translations = [];
+            }
             $newPostIds = array_merge(
                 $newPostIds,
-                array_values(pll_get_post_translations($postId))
+                array_column($translations, 'element_id')
             );
         }
         return $this->cleanIds($newPostIds);
@@ -51,10 +54,7 @@ class Polylang implements Contract
      */
     public function isActive()
     {
-        return function_exists('PLL')
-            && function_exists('pll_get_post')
-            && function_exists('pll_get_post_language')
-            && function_exists('pll_get_post_translations');
+        return defined('ICL_SITEPRESS_VERSION');
     }
 
     /**
@@ -63,7 +63,7 @@ class Polylang implements Contract
     public function isEnabled()
     {
         return $this->isActive()
-            && 'polylang' == glsr(OptionManager::class)->get('settings.general.support.multilingual');
+            && 'wpml' == glsr(OptionManager::class)->get('settings.general.support.multilingual');
     }
 
     /**
@@ -71,8 +71,8 @@ class Polylang implements Contract
      */
     public function isSupported()
     {
-        return defined('POLYLANG_VERSION')
-            && version_compare(POLYLANG_VERSION, static::SUPPORTED_VERSION, '>=');
+        return $this->isActive()
+            && version_compare(ICL_SITEPRESS_VERSION, static::SUPPORTED_VERSION, '>=');
     }
 
     /**

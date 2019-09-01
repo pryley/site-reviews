@@ -44,13 +44,16 @@ return [
         'label' => __('Show Registration Link', 'site-reviews'),
         'type' => 'yes_no',
     ],
-    'settings.general.support.polylang' => [
-        'default' => 'no',
-        'description' => sprintf(__('Integrate with the %s plugin to calculate ratings for all languages of a post.', 'site-reviews'),
-            '<a href="https://wordpress.org/plugins/polylang/">Polylang</a>'
-        ),
-        'label' => __('Integrate with Polylang', 'site-reviews'),
-        'type' => 'yes_no',
+    'settings.general.support.multilingual' => [
+        'default' => '',
+        'description' => __('Integrate with a multilingual plugin to calculate ratings for all languages of a post.', 'site-reviews'),
+        'label' => __('Multilingual', 'site-reviews'),
+        'options' => [
+            '' => __('No Integration', 'site-reviews'),
+            'polylang' => __('Integrate with Polylang', 'site-reviews'),
+            'wpml' => __('Integrate with WPML', 'site-reviews'),
+        ],
+        'type' => 'select',
     ],
     'settings.general.notifications' => [
         'default' => [],
