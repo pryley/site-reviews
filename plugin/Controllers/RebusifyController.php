@@ -73,6 +73,6 @@ class RebusifyController extends Controller
      */
     protected function canProceed(Review $review)
     {
-        return glsr(OptionManager::class)->getBool('settings.general.support.rebusify');
+        return glsr(OptionManager::class)->getBool('settings.general.rebusify');
     }
 }

@@ -55,21 +55,21 @@ return [
         ],
         'type' => 'select',
     ],
-    'settings.general.support.rebusify' => [
+    'settings.general.rebusify' => [
         'default' => 'no',
         'description' => sprintf(__('Integrate with the %s and sync your reviews to the blockchain to increase online reputation, trust, and transparency.', 'site-reviews'),
-            '<a href="https://rebusify.com">Rebusify Confidence System</a>'
+            '<a href="https://www.rebusify.com?ref=105">Rebusify Confidence System</a>'
         ),
-        'label' => __('Integrate with Rebusify', 'site-reviews'),
+        'label' => __('Sync to Blockchain', 'site-reviews'),
         'type' => 'yes_no',
     ],
-    'settings.general.support.rebusify_api_key' => [
+    'settings.general.rebusify_api_key' => [
         'default' => '',
         'depends_on' => [
-            'settings.general.support.rebusify' => ['yes'],
+            'settings.general.rebusify' => ['yes'],
         ],
         'description' => sprintf(__('Get a free Rebusify API key from %s.', 'site-reviews'),
-            '<a href="https://rebusify.com">rebusify.com</a>'
+            '<a href="https://rebusify.com?ref=105">rebusify.com</a>'
         ),
         'label' => __('Rebusify API key', 'site-reviews'),
         'type' => 'text',
