@@ -9,7 +9,7 @@
  * Description: Receive and display reviews on your website
  * Version:     4.0.0
  * Author:      Paul Ryley
- * Author URI:  https://niftyplugins.com
+ * Author URI:  https://geminilabs.io
  * License:     GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: site-reviews
