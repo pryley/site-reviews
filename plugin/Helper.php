@@ -56,22 +56,21 @@ class Helper
             case 'array':
                 return (array) $value;
             case 'boolean':
-                if ('no' === $value) {
-                    return false;
-                }
-                return (bool) $value;
+                return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+            case 'float':
+                return (float) filter_var($value, FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_THOUSAND);
             case 'integer':
-                if (is_numeric($value) || is_string($value)) {
-                    return (int) $value;
-                }
-                // no break
+                return (int) filter_var($value, FILTER_VALIDATE_INT);
             case 'object':
                 return (object) (array) $value;
             case 'string':
-                if (!is_array($value) && !is_object($value)) {
-                    return (string) $value;
+                if (is_object($value) && in_array('__toString', get_class_methods($value))) {
+                    return (string) $value->__toString();
                 }
-                // no break
+                if (is_array($value) || is_object($value)) {
+                    return serialize($value);
+                }
+                return (string) $value;
             default:
                 return $value;
         }
