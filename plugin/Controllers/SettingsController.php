@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Notice;
-use GeminiLabs\SiteReviews\Modules\Polylang;
 
 class SettingsController extends Controller
 {
@@ -49,8 +48,8 @@ class SettingsController extends Controller
     protected function sanitizeGeneral(array $input, array $options)
     {
         $inputForm = $input['settings']['general'];
-        if ('yes' == $inputForm['support']['polylang'] && !$this->isPolylangActiveAndSupported()) {
-            $options['settings']['general']['support']['polylang'] = 'no';
+        if (!$this->hasMultilingualIntegration($inputForm['support']['multilingual'])) {
+            $options['settings']['general']['support']['multilingual'] = '';
         }
         if ('' == trim($inputForm['notification_message'])) {
             $options['settings']['general']['notification_message'] = glsr()->defaults['settings']['general']['notification_message'];
@@ -97,13 +96,24 @@ class SettingsController extends Controller
     /**
      * @return bool
      */
-    protected function isPolylangActiveAndSupported()
+    protected function hasMultilingualIntegration($integration)
     {
-        if (!glsr(Polylang::class)->isActive()) {
-            glsr(Notice::class)->addError(__('Please install/activate the Polylang plugin to enable integration.', 'site-reviews'));
+        if (!in_array($integration, ['polylang', 'wpml'])) {
             return false;
-        } elseif (!glsr(Polylang::class)->isSupported()) {
-            glsr(Notice::class)->addError(__('Please update the Polylang plugin to v2.3.0 or greater to enable integration.', 'site-reviews'));
+        }
+        $integrationClass = 'GeminiLabs\SiteReviews\Modules\\'.ucfirst($integration);
+        if (!glsr($integrationClass)->isActive()) {
+            glsr(Notice::class)->addError(sprintf(
+                __('Please install/activate the %s plugin to enable integration.', 'site-reviews'),
+                constant($integrationClass.'::PLUGIN_NAME')
+            ));
+            return false;
+        } elseif (!glsr($integrationClass)->isSupported()) {
+            glsr(Notice::class)->addError(sprintf(
+                __('Please update the %s plugin to v%s or greater to enable integration.', 'site-reviews'),
+                constant($integrationClass.'::PLUGIN_NAME'),
+                constant($integrationClass.'::SUPPORTED_VERSION')
+            ));
             return false;
         }
         return true;

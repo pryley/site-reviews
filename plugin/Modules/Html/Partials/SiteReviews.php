@@ -66,14 +66,15 @@ class SiteReviews
             $method = glsr(Helper::class)->buildMethodName($key, 'buildOption');
             $field = method_exists($this, $method)
                 ? $this->$method($key, $value)
-                : apply_filters('site-reviews/review/build/'.$key, false, $value, $this, $review);
+                : false;
+            $field = apply_filters('site-reviews/review/build/'.$key, $field, $value, $this, $review);
             if (false === $field) {
                 continue;
             }
             $renderedFields[$key] = $field;
         }
         $this->wrap($renderedFields, $review);
-        $renderedFields = apply_filters('site-reviews/review/build/after', $renderedFields, $review);
+        $renderedFields = apply_filters('site-reviews/review/build/after', $renderedFields, $review, $this);
         $this->current = null;
         return new ReviewHtml($review, (array) $renderedFields);
     }
@@ -380,7 +381,7 @@ class SiteReviews
      */
     protected function wrap(array &$renderedFields, Review $review)
     {
-        $renderedFields = apply_filters('site-reviews/review/wrap', $renderedFields, $review);
+        $renderedFields = apply_filters('site-reviews/review/wrap', $renderedFields, $review, $this);
         array_walk($renderedFields, function (&$value, $key) use ($review) {
             $value = apply_filters('site-reviews/review/wrap/'.$key, $value, $review);
             if (empty($value)) {

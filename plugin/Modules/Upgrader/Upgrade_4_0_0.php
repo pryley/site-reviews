@@ -37,9 +37,14 @@ class Upgrade_4_0_0
     {
         $settingsKey = glsr(Helper::class)->snakeCase(Application::ID.'-v3');
         if ($settings = get_option($settingsKey)) {
+            $multilingual = 'yes' == glsr(Helper::class)->dataGet($settings, 'settings.general.support.polylang')
+                ? 'polylang'
+                : '';
+            $settings = glsr(Helper::class)->dataSet($settings, 'settings.general.support.multilingual', $multilingual);
+            $settings = glsr(Helper::class)->dataSet($settings, 'settings.submissions.blacklist.integration', '');
+            unset($settings['settings']['general']['support']['polylang']);
             add_option(OptionManager::databaseKey(), $settings);
         }
-        glsr(OptionManager::class)->set('settings.submissions.blacklist.integration', '');
     }
 
     /**

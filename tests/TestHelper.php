@@ -125,7 +125,7 @@ class TestHelper extends WP_UnitTestCase
 
     public function test_prefix_string()
     {
-        $this->assertEquals(glsr(Helper::class)->prefixString(' bob ', 'hello_'), 'hello_bob');
+        $this->assertEquals(glsr(Helper::class)->prefix('hello_', ' bob '), 'hello_bob');
     }
 
     public function test_remove_empty_array_values()

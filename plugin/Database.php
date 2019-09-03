@@ -19,7 +19,7 @@ class Database
      */
     public function get($postId, $key, $single = true)
     {
-        $key = glsr(Helper::class)->prefixString($key, '_');
+        $key = glsr(Helper::class)->prefix('_', $key);
         return get_post_meta(intval($postId), $key, $single);
     }
 
@@ -164,7 +164,7 @@ class Database
      */
     public function update($postId, $key, $value)
     {
-        $key = glsr(Helper::class)->prefixString($key, '_');
+        $key = glsr(Helper::class)->prefix('_', $key);
         return update_post_meta($postId, $key, $value);
     }
 }

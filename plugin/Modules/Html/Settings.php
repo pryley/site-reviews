@@ -242,6 +242,6 @@ class Settings
      */
     protected function normalizeSettingPath($path)
     {
-        return glsr(Helper::class)->prefixString(rtrim($path, '.'), 'settings.');
+        return glsr(Helper::class)->prefix('settings.', rtrim($path, '.'));
     }
 }

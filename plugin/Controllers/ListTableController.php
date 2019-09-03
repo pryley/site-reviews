@@ -332,7 +332,7 @@ class ListTableController extends Controller
             }
             $metaQuery = (array) $query->get('meta_query');
             $metaQuery[] = [
-                'key' => glsr(Helper::class)->prefixString($key, '_'),
+                'key' => glsr(Helper::class)->prefix('_', $key),
                 'value' => $value,
             ];
             $query->set('meta_query', $metaQuery);
