@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
 class SettingsController extends Controller
@@ -15,10 +16,8 @@ class SettingsController extends Controller
      */
     public function callbackRegisterSettings($input)
     {
-        if (!is_array($input)) {
-            $input = ['settings' => []];
-        }
-        if ('settings' == key($input)) {
+        $settings = glsr(Helper::class)->consolidateArray($input);
+        if (1 === count($settings) && array_key_exists('settings', $settings)) {
             $options = array_replace_recursive(glsr(OptionManager::class)->all(), $input);
             $options = $this->sanitizeGeneral($input, $options);
             $options = $this->sanitizeSubmissions($input, $options);

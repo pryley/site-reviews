@@ -80,7 +80,7 @@ class Rating
      */
     public function getOverallPercentage(array $ratingCounts)
     {
-        return round($this->getAverage($ratingCounts) * 100 / glsr()->constant('MAX_RATING'), 2);
+        return round($this->getAverage($ratingCounts) * 100 / glsr()->constant('MAX_RATING', __CLASS__), 2);
     }
 
     /**
@@ -125,7 +125,7 @@ class Rating
         $avgRating = $this->getAverage($ratingCounts);
         // Represents a prior (your prior opinion without data) for the average star rating. A higher prior also means a higher margin for error.
         // This could also be the average score of all items instead of a fixed value.
-        $bayesMean = ($confidencePercentage / 100) * glsr()->constant('MAX_RATING'); // prior, 70% = 3.5
+        $bayesMean = ($confidencePercentage / 100) * glsr()->constant('MAX_RATING', __CLASS__); // prior, 70% = 3.5
         // Represents the number of ratings expected to begin observing a pattern that would put confidence in the prior.
         $bayesMinimal = 10; // confidence
         $numOfReviews = array_sum($ratingCounts);
@@ -146,7 +146,7 @@ class Rating
      */
     public function getRankingUsingZScores(array $ratingCounts, $confidencePercentage = 90)
     {
-        $ratingCountsSum = array_sum($ratingCounts) + glsr()->constant('MAX_RATING');
+        $ratingCountsSum = array_sum($ratingCounts) + glsr()->constant('MAX_RATING', __CLASS__);
         $weight = $this->getWeight($ratingCounts, $ratingCountsSum);
         $weightPow2 = $this->getWeight($ratingCounts, $ratingCountsSum, true);
         $zScore = static::CONFIDENCE_LEVEL_Z_SCORES[$confidencePercentage];

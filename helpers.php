@@ -13,6 +13,7 @@ add_filter('plugins_loaded', function () {
         'glsr_calculate_ratings' => 1,
         'glsr_create_review' => 2,
         'glsr_debug' => 10,
+        'glsr_get' => 4,
         'glsr_get_option' => 4,
         'glsr_get_options' => 1,
         'glsr_get_review' => 2,
