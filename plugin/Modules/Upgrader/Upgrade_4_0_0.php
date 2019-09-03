@@ -36,7 +36,6 @@ class Upgrade_4_0_0
     public function migrateSettings()
     {
         if ($settings = get_option(OptionManager::databaseKey(3))) {
-            $previousVersion = glsr(Helper::class)->dataGet($settings, 'version', '0.0.0');
             $multilingual = 'yes' == glsr(Helper::class)->dataGet($settings, 'settings.general.support.polylang')
                 ? 'polylang'
                 : '';
