@@ -44,7 +44,7 @@ return [
         'label' => __('Show Registration Link', 'site-reviews'),
         'type' => 'yes_no',
     ],
-    'settings.general.support.multilingual' => [
+    'settings.general.multilingual' => [
         'default' => '',
         'description' => __('Integrate with a multilingual plugin to calculate ratings for all languages of a post.', 'site-reviews'),
         'label' => __('Multilingual', 'site-reviews'),

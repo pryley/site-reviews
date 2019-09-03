@@ -63,7 +63,7 @@ class Polylang implements Contract
     public function isEnabled()
     {
         return $this->isActive()
-            && 'polylang' == glsr(OptionManager::class)->get('settings.general.support.multilingual');
+            && 'polylang' == glsr(OptionManager::class)->get('settings.general.multilingual');
     }
 
     /**

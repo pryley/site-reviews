@@ -35,15 +35,15 @@ class Upgrade_4_0_0
      */
     public function migrateSettings()
     {
-        $settingsKey = glsr(Helper::class)->snakeCase(Application::ID.'-v3');
-        if ($settings = get_option($settingsKey)) {
+        if ($settings = get_option(OptionManager::databaseKey(3))) {
+            $previousVersion = glsr(Helper::class)->dataGet($settings, 'version', '0.0.0');
             $multilingual = 'yes' == glsr(Helper::class)->dataGet($settings, 'settings.general.support.polylang')
                 ? 'polylang'
                 : '';
-            $settings = glsr(Helper::class)->dataSet($settings, 'settings.general.support.multilingual', $multilingual);
+            $settings = glsr(Helper::class)->dataSet($settings, 'settings.general.multilingual', $multilingual);
             $settings = glsr(Helper::class)->dataSet($settings, 'settings.submissions.blacklist.integration', '');
-            unset($settings['settings']['general']['support']['polylang']);
-            add_option(OptionManager::databaseKey(), $settings);
+            unset($settings['settings']['general']['support']);
+            update_option(OptionManager::databaseKey(4), $settings);
         }
     }
 
