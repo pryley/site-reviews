@@ -375,6 +375,48 @@ return [
         ],
         'type' => 'checkbox',
     ],
+    'settings.submissions.limit' => [
+        'default' => '',
+        'description' => __('Limits the number of reviews that can be submitted to one-per-person. If you are assigning reviews, then the limit will be applied to the assigned page or category.', 'site-reviews'),
+        'label' => __('Limit Reviews', 'site-reviews'),
+        'options' => [
+            '' => __('No Limit', 'site-reviews'),
+            'email' => __('By Email Address', 'site-reviews'),
+            'ip_address' => __('By IP Address', 'site-reviews'),
+            'username' => __('By Username (will only work for registered users)', 'site-reviews'),
+        ],
+        'type' => 'select',
+    ],
+    'settings.submissions.limit_whitelist.email' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.submissions.limit' => ['email'],
+        ],
+        'description' => __('One Email per line. All emails in the whitelist will be excluded from the review submission limit.', 'site-reviews'),
+        'label' => __('Email Whitelist', 'site-reviews'),
+        'rows' => 5,
+        'type' => 'code',
+    ],
+    'settings.submissions.limit_whitelist.ip_address' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.submissions.limit' => ['ip_address'],
+        ],
+        'description' => __('One IP Address per line. All IP Addresses in the whitelist will be excluded from the review submission limit..', 'site-reviews'),
+        'label' => __('IP Address Whitelist', 'site-reviews'),
+        'rows' => 5,
+        'type' => 'code',
+    ],
+    'settings.submissions.limit_whitelist.username' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.submissions.limit' => ['username'],
+        ],
+        'description' => __('One Username per line. All registered users with a Username in the whitelist will be excluded from the review submission limit.', 'site-reviews'),
+        'label' => __('Username Whitelist', 'site-reviews'),
+        'rows' => 5,
+        'type' => 'code',
+    ],
     'settings.submissions.recaptcha.integration' => [
         'default' => '',
         'description' => __('Invisible reCAPTCHA is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'site-reviews'),

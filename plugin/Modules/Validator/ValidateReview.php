@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Defaults\ValidateReviewDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Akismet;
 use GeminiLabs\SiteReviews\Modules\Blacklist;
+use GeminiLabs\SiteReviews\Modules\ReviewLimits;
 use GeminiLabs\SiteReviews\Modules\Validator;
 
 class ValidateReview
@@ -63,6 +64,7 @@ class ValidateReview
         $this->request = $this->validateRequest($request);
         $this->validateCustom();
         $this->validateHoneyPot();
+        $this->validateReviewLimits();
         $this->validateBlacklist();
         $this->validateAkismet();
         $this->validateRecaptcha();
@@ -152,6 +154,12 @@ class ValidateReview
         return false;
     }
 
+    protected function setError($message, $loggedMessage = '')
+    {
+        $this->setSessionValues('errors', [], $loggedMessage);
+        $this->error = $message;
+    }
+
     /**
      * @param string $type
      * @param mixed $value
@@ -177,8 +185,9 @@ class ValidateReview
         if (!glsr(Akismet::class)->isSpam($this->request)) {
             return;
         }
-        $this->setSessionValues('errors', [], 'Akismet caught a spam submission (consider adding the IP address to the blacklist):');
-        $this->error = __('This review has been flagged as possible spam and cannot be submitted.', 'site-reviews');
+        $this->setError(__('This review has been flagged as possible spam and cannot be submitted.', 'site-reviews'),
+            'Akismet caught a spam submission (consider adding the IP address to the blacklist):'
+        );
     }
 
     /**
@@ -193,12 +202,13 @@ class ValidateReview
             return;
         }
         $blacklistAction = $this->getOption('settings.submissions.blacklist.action');
-        if ('reject' == $blacklistAction) {
-            $this->setSessionValues('errors', [], 'Blacklisted submission detected:');
-            $this->error = __('Your review cannot be submitted at this time.', 'site-reviews');
+        if ('reject' != $blacklistAction) {
+            $this->request['blacklisted'] = true;
             return;
         }
-        $this->request['blacklisted'] = true;
+        $this->setError(__('Your review cannot be submitted at this time.', 'site-reviews'),
+            'Blacklisted submission detected:'
+        );
     }
 
     /**
@@ -213,11 +223,11 @@ class ValidateReview
         if (true === $validated) {
             return;
         }
-        $this->setSessionValues('errors', []);
-        $this->setSessionValues('values', $this->request);
-        $this->error = is_string($validated)
+        $errorMessage = is_string($validated)
             ? $validated
             : __('The review submission failed. Please notify the site administrator.', 'site-reviews');
+        $this->setError($errorMessage);
+        $this->setSessionValues('values', $this->request);
     }
 
     /**
@@ -231,8 +241,23 @@ class ValidateReview
         if (empty($this->request['gotcha'])) {
             return;
         }
-        $this->setSessionValues('errors', [], 'The Honeypot caught a bad submission:');
-        $this->error = __('The review submission failed. Please notify the site administrator.', 'site-reviews');
+        $this->setError(__('The review submission failed. Please notify the site administrator.', 'site-reviews'),
+            'The Honeypot caught a bad submission:'
+        );
+    }
+
+    /**
+     * @return void
+     */
+    protected function validateReviewLimits()
+    {
+        if (!empty($this->error)) {
+            return;
+        }
+        if (!glsr(ReviewLimits::class)->hasReachedLimit($this->request)) {
+            return;
+        }
+        $this->setError(__('You have already submitted a review.', 'site-reviews'));
     }
 
     /**
@@ -247,18 +272,17 @@ class ValidateReview
         if (in_array($status, [static::RECAPTCHA_DISABLED, static::RECAPTCHA_VALID])) {
             return;
         }
-        if ($status == static::RECAPTCHA_EMPTY) {
+        if (static::RECAPTCHA_EMPTY === $status) {
             $this->setSessionValues('recaptcha', 'unset');
             $this->recaptchaIsUnset = true;
             return;
         }
-        $this->setSessionValues('errors', []);
         $this->setSessionValues('recaptcha', 'reset');
         $errors = [
             static::RECAPTCHA_FAILED => __('The reCAPTCHA failed to load, please refresh the page and try again.', 'site-reviews'),
             static::RECAPTCHA_INVALID => __('The reCAPTCHA verification failed, please try again.', 'site-reviews'),
         ];
-        $this->error = $errors[$status];
+        $this->setError($errors[$status]);
     }
 
     /**

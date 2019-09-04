@@ -111,6 +111,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 - Added product schema price options
 - Added proxy header support for IP detection
 - Added setting to choose which blacklist to use
+- Added setting to limit review submissions
 - Added widget icons in the WordPress customizer
 - Added WPML integration for summary counts
 - Changed category assignment to one-per-review

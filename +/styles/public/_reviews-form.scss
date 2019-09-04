@@ -2,6 +2,15 @@ form.glsr-form {
 
 	font-size: $glsr-font-size;
 	line-height: 1.5;
+	max-height: 1000px;
+	transition: max-height 0.4s, opacity 0.4s;
+	opacity: 1;
+
+	&.glsr-hide-form {
+		max-height: 0 !important;
+		opacity: 0;
+		overflow: hidden;
+	}
 
 	.glsr-field-choice {
 		position: relative;

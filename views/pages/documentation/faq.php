@@ -222,6 +222,49 @@ add_filter('site-reviews/config/inline-styles', function ($config) {
 
 <div id="faq-10" class="glsr-card postbox">
     <div class="glsr-card-header">
+        <h3>How do I hide the form after a review is submitted?</h3>
+        <button type="button" class="handlediv" aria-expanded="true">
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="toggle-indicator" aria-hidden="true"></span>
+        </button>
+    </div>
+    <div class="inside">
+        <p>To hide the form after a review has been submitted, use the following code snippet:</p>
+        <pre><code class="php">/**
+ * Hides the submission form after a review has been submitted
+ * Paste this in your active theme's functions.php file
+ *
+ * @param string $script
+ * @return string
+ */
+add_filter('site-reviews/enqueue/public/inline-script', function ($script) {
+    return $script."
+    document.addEventListener('site-reviews/after/submission', function (ev) {
+        if (false !== ev.detail.errors) return;
+        ev.detail.form.classList.add('glsr-hide-form');
+        ev.detail.form.insertAdjacentHTML('afterend', '&lt;p&gt;' + ev.detail.message + '&lt;/p&gt;');
+    });";
+});</code></pre>
+        <p>You can also hide the form from registered users who have already submitted a review.</p>
+        <p>To do this, you will need to first make sure that the "Limit Reviews" setting on the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=settings#!submissions'); ?>">Settings &rarr; Submissions</a></code> page is set to "By Username". Once that is done, you can use the following code snippet:</p>
+        <pre><code class="php">/**
+ * Hides the submission form from registered users who have already submitted a review
+ * Paste this in your active theme's functions.php file
+ *
+ * @param string $template
+ * @return string
+ */
+add_filter('site-reviews/rendered/template/reviews-form', function ($template) {
+    return glsr('Modules\ReviewLimits')->hasReachedLimit()
+        ? sprintf('&lt;p&gt;%s&lt;/p&gt;', __('Thank you for your review!'))
+        : $template;
+});</code></pre>
+    </div>
+</div>
+
+
+<div id="faq-11" class="glsr-card postbox">
+    <div class="glsr-card-header">
         <h3>How do I limit the submitted review length?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
@@ -258,7 +301,7 @@ add_filter('site-reviews/validation/rules', function ($rules) {
     </div>
 </div>
 
-<div id="faq-11" class="glsr-card postbox">
+<div id="faq-12" class="glsr-card postbox">
     <div class="glsr-card-header">
         <h3>How do I redirect to a custom URL after a form is submitted?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
@@ -271,7 +314,7 @@ add_filter('site-reviews/validation/rules', function ($rules) {
     </div>
 </div>
 
-<div id="faq-12" class="glsr-card postbox">
+<div id="faq-13" class="glsr-card postbox">
     <div class="glsr-card-header">
         <h3>How do I remove the dash in front of the author's name?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
