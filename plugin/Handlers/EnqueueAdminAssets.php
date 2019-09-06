@@ -143,11 +143,11 @@ class EnqueueAdminAssets
     protected function isCurrentScreen()
     {
         $screen = glsr_current_screen();
-        return $screen && (Application::POST_TYPE == $screen->post_type
-            || 'post' == $screen->base
+        return Application::POST_TYPE == $screen->post_type
             || 'dashboard' == $screen->id
-            || 'widgets' == $screen->id
-        );
+            || 'plugins_page_'.Application::ID == $screen->id
+            || 'post' == $screen->base
+            || 'widgets' == $screen->id;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Contracts\HooksContract;
+use GeminiLabs\SiteReviews\Controllers\AboutController;
 use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Controllers\BlocksController;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
@@ -13,8 +14,9 @@ use GeminiLabs\SiteReviews\Modules\Translator;
 
 class Filters implements HooksContract
 {
-    protected $app;
+    protected $about;
     protected $admin;
+    protected $app;
     protected $basename;
     protected $blocks;
     protected $editor;
@@ -26,6 +28,7 @@ class Filters implements HooksContract
     public function __construct(Application $app)
     {
         $this->app = $app;
+        $this->about = $app->make(AboutController::class);
         $this->admin = $app->make(AdminController::class);
         $this->basename = plugin_basename($app->file);
         $this->blocks = $app->make(BlocksController::class);
@@ -41,6 +44,8 @@ class Filters implements HooksContract
      */
     public function run()
     {
+        add_filter('plugin_action_links_'.$this->basename,                    [$this->about, 'filterActionLinks'], 9);
+        add_filter('admin_footer_text',                                       [$this->about, 'filterFooterText']);
         add_filter('map_meta_cap',                                            [$this->admin, 'filterCreateCapability'], 10, 2);
         add_filter('mce_external_plugins',                                    [$this->admin, 'filterTinymcePlugins'], 15);
         add_filter('plugin_action_links_'.$this->basename,                    [$this->admin, 'filterActionLinks']);

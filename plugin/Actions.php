@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Contracts\HooksContract;
+use GeminiLabs\SiteReviews\Controllers\AboutController;
 use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Controllers\BlocksController;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
@@ -17,6 +18,7 @@ use GeminiLabs\SiteReviews\Modules\Console;
 
 class Actions implements HooksContract
 {
+    protected $about;
     protected $admin;
     protected $app;
     protected $blocks;
@@ -33,6 +35,7 @@ class Actions implements HooksContract
 
     public function __construct(Application $app ) {
         $this->app = $app;
+        $this->about = $app->make(AboutController::class);
         $this->admin = $app->make(AdminController::class);
         $this->blocks = $app->make(BlocksController::class);
         $this->console = $app->make(Console::class);
@@ -52,6 +55,8 @@ class Actions implements HooksContract
      */
     public function run()
     {
+        add_action('activated_plugin',                                      [$this->about, 'redirectOnActivation'], 10, 2);
+        add_action('admin_menu',                                            [$this->about, 'registerPage']);
         add_action('admin_enqueue_scripts',                                 [$this->admin, 'enqueueAssets']);
         add_action('admin_init',                                            [$this->admin, 'registerTinymcePopups']);
         add_action('media_buttons',                                         [$this->admin, 'renderTinymceButton'], 11);

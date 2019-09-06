@@ -1,0 +1,56 @@
+.glsr-welcome.about-wrap {
+    margin-top: 40px;
+}
+.glsr-welcome .about-description {
+    margin-bottom: 0;
+}
+.glsr-welcome .wp-badge {
+    background-image: url(../images/badge.png);
+    background-size: cover;
+    background-position: center;
+}
+.glsr-welcome .about-buttons {
+    margin-bottom: 40px;
+}
+.glsr-welcome .dashicons {
+    position: relative;
+    top: 5px;
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    @media screen and (max-width: 782px) {
+        top: 0;
+    }
+}
+.glsr-welcome .glsr-nav-view {
+    margin-top: 0;
+}
+.glsr-welcome ul:not(.glsr-flex-row) {
+    list-style: circle;
+    padding-left: 20px;
+}
+.glsr-flex-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: -20px;
+    margin-right: -20px;
+}
+.glsr-column {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.glsr-has-2-columns .glsr-column,
+.glsr-has-3-columns .glsr-column {
+    @media (min-width: 601px) {
+        max-width: 50%;
+    }
+}
+.glsr-has-3-columns .glsr-column {
+    @media (min-width: 783px) {
+        max-width: 33.33%;
+    }
+}
