@@ -12,15 +12,13 @@ class EmailDefaults extends Defaults
      */
     protected function defaults()
     {
-        $fromName = wp_specialchars_decode(glsr(OptionManager::class)->getWP('blogname'), ENT_QUOTES);
-        $fromEmail = glsr(OptionManager::class)->getWP('admin_email');
         return [
             'after' => '',
             'attachments' => [],
             'bcc' => '',
             'before' => '',
             'cc' => '',
-            'from' => $fromName.' <'.$fromEmail.'>',
+            'from' => $this->getFromName().' <'.$this->getFromEmail().'>',
             'message' => '',
             'reply-to' => '',
             'subject' => '',
@@ -28,5 +26,21 @@ class EmailDefaults extends Defaults
             'template-tags' => [],
             'to' => '',
         ];
+    }
+
+    /**
+     * @return string
+     */
+    protected function getFromEmail()
+    {
+        return glsr(OptionManager::class)->getWP('admin_email');
+    }
+
+    /**
+     * @return string
+     */
+    protected function getFromName()
+    {
+        return wp_specialchars_decode(glsr(OptionManager::class)->getWP('blogname'), ENT_QUOTES);
     }
 }
