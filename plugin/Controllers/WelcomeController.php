@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 
-class AboutController extends Controller
+class WelcomeController extends Controller
 {
     /**
      * @return array
@@ -18,6 +18,17 @@ class AboutController extends Controller
             'href' => admin_url('plugins.php?page='.Application::ID),
         ]);
         return $links;
+    }
+
+    /**
+     * @return string
+     * @filter admin_title
+     */
+    public function filterAdminTitle($title)
+    {
+        return 'plugins_page_'.Application::ID == glsr_current_screen()->id
+            ? sprintf(__('Welcome to %s', 'site-reviews'), glsr()->name).$title
+            : $title;
     }
 
     /**
@@ -60,6 +71,7 @@ class AboutController extends Controller
      */
     public function registerPage()
     {
+        // edit.php?post_type='.Application::POST_TYPE
         add_submenu_page('plugins.php',
             sprintf(__('Welcome to %s', 'site-reviews'), glsr()->name),
             glsr()->name,

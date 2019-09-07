@@ -32,12 +32,28 @@
 				tab.addEventListener( 'touchend', self.onClick_.bind( self ));
 			}.bind( self ));
 			$( self.options.viewSelector ).on( 'click', 'a', function() {
-				var expandEl = $( $( this ).data( 'expand' ));
+				localStorage.setItem('glsr-expand', $(this).data('expand'));
+				var expandEl = $($(this).data('expand'));
 				var parentEl = expandEl.parent();
-				parentEl.removeClass( 'collapsed' );
-				self.toggleCollapsibleSections_( parentEl );
-				parentEl.removeClass( 'collapsed' );
-				expandEl.removeClass( 'closed' ).find( '.handlediv' ).attr( 'aria-expanded', true );
+				if (expandEl.length) {
+					parentEl.removeClass( 'collapsed' );
+					self.toggleCollapsibleSections_( parentEl );
+					parentEl.removeClass( 'collapsed' );
+					expandEl.removeClass( 'closed' ).find( '.handlediv' ).attr( 'aria-expanded', true );
+					expandEl[0].scrollIntoView();
+				}
+			});
+			$(window).on('load', function() {
+				var expandEl = $(localStorage.getItem('glsr-expand'));
+				if (expandEl.length) {
+					var parentEl = expandEl.parent();
+					parentEl.removeClass( 'collapsed' );
+					self.toggleCollapsibleSections_( parentEl );
+					parentEl.removeClass( 'collapsed' );
+					expandEl.removeClass( 'closed' ).find( '.handlediv' ).attr( 'aria-expanded', true );
+					expandEl[0].scrollIntoView();
+				}
+				localStorage.removeItem('glsr-expand');
 			});
 		},
 

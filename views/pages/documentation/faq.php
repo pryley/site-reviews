@@ -32,6 +32,49 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
 
 <div id="faq-02" class="glsr-card postbox">
     <div class="glsr-card-header">
+        <h3>How do I add pagination to my reviews?</h3>
+        <button type="button" class="handlediv" aria-expanded="true">
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="toggle-indicator" aria-hidden="true"></span>
+        </button>
+    </div>
+    <div class="inside">
+        <p>To paginate your reviews (i.e. split them up into multiple pages), simply use the "Pagination" setting together with the "Review Count" setting in the Editor Block.</p>
+        <p>If you are using the shortcodes, then use the <code>pagination</code> and <code>count</code> options.</p>
+        <p>For example, this will paginate reviews to 10 reviews per-page:</p>
+        <pre><code class="php">[site_reviews pagination=ajax count=10]</code></pre>
+        <p>To lean more about the available shortcode options and how to use them, please see the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!shortcodes'); ?>">Documentation > Shortcodes</a></code> page.</p>
+    </div>
+</div>
+
+<div id="faq-03" class="glsr-card postbox">
+    <div class="glsr-card-header">
+        <h3>How do I assign reviews to a page?</h3>
+        <button type="button" class="handlediv" aria-expanded="true">
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="toggle-indicator" aria-hidden="true"></span>
+        </button>
+    </div>
+    <div class="inside">
+        <p>To assign reviews to a page, simply use the "Assign To/Assigned To" setting in the Editor Blocks.</p>
+        <p>If you are using the shortcodes, then use the <code>assign_to</code> and <code>assigned_to</code> options like this:
+        <pre><code class="php">// This will assign submitted reviews to the current page
+[site_reviews_form assign_to=post_id]
+
+// This will only display the reviews that have been assigned to the current page:
+[site_reviews assigned_to=post_id]
+
+// This will only display the summary for reviews that have been assigned to the current page:
+[site_reviews_summary assigned_to=post_id]</code></pre>
+        <p>If you use <code>post_id</code> as the value, then Site Reviews will know to automatically use the Page ID of the current page.</p>
+        <p>If you use <code>parent_id</code> as the value, then Site Reviews will know to automatically use the Page ID of the current page's Parent.</p>
+        <p>You can, of course, also directly enter the numerical WordPress Page ID of the page instead if your prefer.</p>
+        <p>To lean more about the available shortcode options and how to use them, please see the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!shortcodes'); ?>">Documentation > Shortcodes</a></code> page.</p>
+    </div>
+</div>
+
+<div id="faq-04" class="glsr-card postbox">
+    <div class="glsr-card-header">
         <h3>How do I change the font?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
@@ -46,7 +89,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
     </div>
 </div>
 
-<div id="faq-03" class="glsr-card postbox">
+<div id="faq-05" class="glsr-card postbox">
     <div class="glsr-card-header">
         <h3>How do I change the order of the review fields?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
@@ -74,7 +117,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
     </div>
 </div>
 
-<div id="faq-04" class="glsr-card postbox">
+<div id="faq-06" class="glsr-card postbox">
     <div class="glsr-card-header">
         <h3>How do I change the order of the reviews summary fields?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
@@ -100,7 +143,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
     </div>
 </div>
 
-<div id="faq-05" class="glsr-card postbox">
+<div id="faq-07" class="glsr-card postbox">
     <div class="glsr-card-header">
         <h3>How do I change the order of the submission form fields?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
@@ -132,7 +175,7 @@ add_filter('site-reviews/submission-form/order', function ($order) {
     </div>
 </div>
 
-<div id="faq-06" class="glsr-card postbox">
+<div id="faq-08" class="glsr-card postbox">
     <div class="glsr-card-header">
         <h3>How do I change the pagination query string?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
@@ -154,7 +197,7 @@ add_filter('site-reviews/const/PAGED_QUERY_VAR', function () {
     </div>
 </div>
 
-<div id="faq-07" class="glsr-card postbox">
+<div id="faq-09" class="glsr-card postbox">
     <div class="glsr-card-header">
         <h3>How do I change the text of...?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
@@ -167,7 +210,7 @@ add_filter('site-reviews/const/PAGED_QUERY_VAR', function () {
     </div>
 </div>
 
-<div id="faq-08" class="glsr-card postbox">
+<div id="faq-10" class="glsr-card postbox">
     <div class="glsr-card-header">
         <h3>How do I create a review programmatically?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
@@ -192,7 +235,7 @@ add_filter('site-reviews/const/PAGED_QUERY_VAR', function () {
     </div>
 </div>
 
-<div id="faq-09" class="glsr-card postbox">
+<div id="faq-11" class="glsr-card postbox">
     <div class="glsr-card-header">
         <h3>How do I customise the stars?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
@@ -211,16 +254,25 @@ add_filter('site-reviews/const/PAGED_QUERY_VAR', function () {
  * @return array
  */
 add_filter('site-reviews/config/inline-styles', function ($config) {
-    $config[':star-empty'] = get_stylesheet_directory_uri().'/assets/images/star-empty.svg';
-    $config[':star-error'] = get_stylesheet_directory_uri().'/assets/images/star-error.svg';
-    $config[':star-full'] = get_stylesheet_directory_uri().'/assets/images/star-full.svg';
-    $config[':star-half'] = get_stylesheet_directory_uri().'/assets/images/star-half.svg';
+    $config[':star-empty'] = 'https://your-website.com/images/star-empty.svg';
+    $config[':star-error'] = 'https://your-website.com/images/star-error.svg';
+    $config[':star-full'] = 'https://your-website.com/images/star-full.svg';
+    $config[':star-half'] = 'https://your-website.com/images/star-half.svg';
     return $config;
 });</code></pre>
+        <p>If all you need to do is change the colour of the stars:<p>
+        <ol>
+            <li>Copy the SVG images to your Desktop, the stars can be found here: <code>/wp-content/plugins/site-reviews/assets/images/</code></li>
+            <li>Open the SVG images that you copied with a text editor</li>
+            <li>Change the <a target="_blank" href="https://www.hexcolortool.com">hex colour code</a> to the one you want</li>
+            <li>Install and activate the <a target="_blank" href="https://wordpress.org/plugins/safe-svg/">Safe SVG</a> plugin</li>
+            <li>Upload the edited SVG images to your <a href="<?= admin_url('upload.php'); ?>">Media Library</a></li>
+            <li>Copy the File URL of the uploaded SVG images and paste them into the snippet above</li>
+        </ol>
     </div>
 </div>
 
-<div id="faq-10" class="glsr-card postbox">
+<div id="faq-12" class="glsr-card postbox">
     <div class="glsr-card-header">
         <h3>How do I hide the form after a review is submitted?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
@@ -263,7 +315,7 @@ add_filter('site-reviews/rendered/template/reviews-form', function ($template) {
 </div>
 
 
-<div id="faq-11" class="glsr-card postbox">
+<div id="faq-13" class="glsr-card postbox">
     <div class="glsr-card-header">
         <h3>How do I limit the submitted review length?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
@@ -301,7 +353,63 @@ add_filter('site-reviews/validation/rules', function ($rules) {
     </div>
 </div>
 
-<div id="faq-12" class="glsr-card postbox">
+<div id="faq-14" class="glsr-card postbox">
+    <div class="glsr-card-header">
+        <h3>How do I order pages with assigned reviews by rating or ranking?</h3>
+        <button type="button" class="handlediv" aria-expanded="true">
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="toggle-indicator" aria-hidden="true"></span>
+        </button>
+    </div>
+    <div class="inside">
+        <p>Site Reviews provides two meta keys that can be used for sorting pages that have reviews assigned to them.</p>
+        <p>The <code>_glsr_average</code> meta key contains the average rating of the page.</p>
+        <p>The <code>_glsr_ranking</code> meta key contains the page rank determined by a bayesian ranking algorithm (the exact same way that films are ranked on IMDB). To understand why sorting by rank may be preferable to sorting by average rating, please see: <a target="_blank" href="https://imgs.xkcd.com/comics/tornadoguard.png">The problem with averaging star ratings</a>.</p>
+        <p>Here is an example of how you can use these meta keys in a custom WP_Query. In this example, we will sort all pages by rank (highest to lowest) and regardless of whether or not they have reviews assigned to them:</p>
+        <pre><code class="php">$query = new WP_Query([
+    'meta_query' => [
+        'relation' => 'OR',
+        ['key' => '_glsr_ranking', 'compare' => 'NOT EXISTS'], // this comes first!
+        ['key' => '_glsr_ranking', 'compare' => 'EXISTS'],
+    ],
+    'order' => 'DESC',
+    'orderby' => 'meta_value_num',
+    'post_status' => 'publish',
+    'post_type' => 'page', // change this as needed
+    'posts_per_page' => 10, // change this as needed
+]);</code></pre>
+        <p>If you would like to only query pages that actually have reviews assigned to them, you can do this instead:</p>
+        <pre><code class="php">$query = new WP_Query([
+    'meta_query' => [
+        ['key' => '_glsr_ranking', 'compare' => '>', 'value' => 0],
+    ],
+    'order' => 'DESC',
+    'orderby' => 'meta_value_num',
+    'post_status' => 'publish',
+    'post_type' => 'page', // change this as needed
+    'posts_per_page' => 10, // change this as needed
+]);</code></pre>
+        <p>Once you have your custom query, you use it in your WordPress theme template like this:</p>
+        <pre><code class="php">if( $query->have_posts() ) {
+    while( $query->have_posts() ) {
+        $query->the_post();
+        $average = sprintf( '%s (average rating: %s)',
+            get_the_title(),
+            get_post_meta( $post->ID, '_glsr_average', true )
+        );
+        $ranking = sprintf( '%s (ranking: %s)',
+            get_the_title(),
+            get_post_meta( $post->ID, '_glsr_ranking', true )
+        );
+        apply_filters( 'glsr_debug', 'Site Reviews is not installed', $average, $ranking );
+    }
+    wp_reset_postdata();
+}</code></pre>
+        <p>To learn more about <code>WP_Query</code> and how to use it in your theme templates, please refer to the <a target="_blank" href="https://developer.wordpress.org/themes/basics/the-loop/">WordPress Theme Handbook</a>.</p>
+    </div>
+</div>
+
+<div id="faq-15" class="glsr-card postbox">
     <div class="glsr-card-header">
         <h3>How do I redirect to a custom URL after a form is submitted?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
@@ -314,7 +422,7 @@ add_filter('site-reviews/validation/rules', function ($rules) {
     </div>
 </div>
 
-<div id="faq-13" class="glsr-card postbox">
+<div id="faq-16" class="glsr-card postbox">
     <div class="glsr-card-header">
         <h3>How do I remove the dash in front of the author's name?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
@@ -327,5 +435,23 @@ add_filter('site-reviews/validation/rules', function ($rules) {
         <pre><code class="css">.glsr-review-author::before {
     display: none !important;
 }</code></pre>
+    </div>
+</div>
+
+<div id="faq-17" class="glsr-card postbox">
+    <div class="glsr-card-header">
+        <h3>How do I use the plugin templates in my theme?</h3>
+        <button type="button" class="handlediv" aria-expanded="true">
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="toggle-indicator" aria-hidden="true"></span>
+        </button>
+    </div>
+    <div class="inside">
+        <p>Site Reviews uses a custom templating system which makes it easy to customize the HTML of the widgets and shortcodes to meet your needs.</p>
+        <ol>
+            <li>Create a folder in your theme called "site-reviews".</li>
+            <li>Copy the template files that you would like to customise from <code>/wp-content/site-reviews/templates/</code> into this new folder.</li>
+            <li>Open the template files that you copied over in a text editor and make your changes.</li>
+        </ol>
     </div>
 </div>

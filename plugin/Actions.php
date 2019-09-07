@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Contracts\HooksContract;
-use GeminiLabs\SiteReviews\Controllers\AboutController;
 use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Controllers\BlocksController;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
@@ -14,12 +13,12 @@ use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Controllers\ReviewController;
 use GeminiLabs\SiteReviews\Controllers\SettingsController;
 use GeminiLabs\SiteReviews\Controllers\TaxonomyController;
+use GeminiLabs\SiteReviews\Controllers\WelcomeController;
 use GeminiLabs\SiteReviews\Modules\Console;
 
 class Actions implements HooksContract
 {
     protected $about;
-    protected $admin;
     protected $app;
     protected $blocks;
     protected $console;
@@ -32,10 +31,10 @@ class Actions implements HooksContract
     protected $router;
     protected $settings;
     protected $taxonomy;
+    protected $welcome;
 
     public function __construct(Application $app ) {
         $this->app = $app;
-        $this->about = $app->make(AboutController::class);
         $this->admin = $app->make(AdminController::class);
         $this->blocks = $app->make(BlocksController::class);
         $this->console = $app->make(Console::class);
@@ -48,6 +47,7 @@ class Actions implements HooksContract
         $this->router = $app->make(Router::class);
         $this->settings = $app->make(SettingsController::class);
         $this->taxonomy = $app->make(TaxonomyController::class);
+        $this->welcome = $app->make(WelcomeController::class);
     }
 
     /**
@@ -55,8 +55,6 @@ class Actions implements HooksContract
      */
     public function run()
     {
-        add_action('activated_plugin',                                      [$this->about, 'redirectOnActivation'], 10, 2);
-        add_action('admin_menu',                                            [$this->about, 'registerPage']);
         add_action('admin_enqueue_scripts',                                 [$this->admin, 'enqueueAssets']);
         add_action('admin_init',                                            [$this->admin, 'registerTinymcePopups']);
         add_action('media_buttons',                                         [$this->admin, 'renderTinymceButton'], 11);
@@ -111,5 +109,7 @@ class Actions implements HooksContract
         add_action(Application::TAXONOMY.'_edit_form',                      [$this->taxonomy, 'enableParents']);
         add_action('restrict_manage_posts',                                 [$this->taxonomy, 'renderTaxonomyFilter'], 9);
         add_action('set_object_terms',                                      [$this->taxonomy, 'restrictTermSelection'], 9, 6);
+        add_action('activated_plugin',                                      [$this->welcome, 'redirectOnActivation'], 10, 2);
+        add_action('admin_menu',                                            [$this->welcome, 'registerPage']);
     }
 }
