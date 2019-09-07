@@ -15,7 +15,7 @@ class WelcomeController extends Controller
     public function filterActionLinks(array $links)
     {
         $links['welcome'] = glsr(Builder::class)->a(__('About', 'site-reviews'), [
-            'href' => admin_url('plugins.php?page='.Application::ID),
+            'href' => admin_url('edit.php?post_type='.Application::POST_TYPE.'&page=welcome'),
         ]);
         return $links;
     }
@@ -26,7 +26,7 @@ class WelcomeController extends Controller
      */
     public function filterAdminTitle($title)
     {
-        return 'plugins_page_'.Application::ID == glsr_current_screen()->id
+        return Application::POST_TYPE.'_page_welcome' == glsr_current_screen()->id
             ? sprintf(__('Welcome to %s &#8212; WordPress', 'site-reviews'), glsr()->name)
             : $title;
     }
@@ -38,10 +38,10 @@ class WelcomeController extends Controller
      */
     public function filterFooterText($text)
     {
-        if ('plugins_page_'.Application::ID != glsr_current_screen()->id) {
+        if (Application::POST_TYPE.'_page_welcome' != glsr_current_screen()->id) {
             return $text;
         }
-        $url = 'https://wordpress.org/support/view/plugin-reviews/'.Application::ID.'?filter=5#new-post';
+        $url = 'https://wordpress.org/support/view/plugin-reviews/site-reviews?filter=5#new-post';
         return wp_kses_post(sprintf(
             __( 'Please rate %s on %s and help us spread the word. Thank you so much!', 'site-reviews'),
             '<strong>'.glsr()->name.'</strong> <a href="'.$url.'" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>',
@@ -60,7 +60,7 @@ class WelcomeController extends Controller
         if (!$isNetworkActivation
             && 'cli' !== php_sapi_name() 
             && $plugin === plugin_basename(glsr()->file)) {
-            wp_safe_redirect(admin_url('plugins.php?page='.Application::ID));
+            wp_safe_redirect(admin_url('edit.php?post_type='.Application::POST_TYPE.'&page=welcome'));
             exit;
         }
     }
@@ -71,15 +71,14 @@ class WelcomeController extends Controller
      */
     public function registerPage()
     {
-        // edit.php?post_type='.Application::POST_TYPE
-        add_submenu_page('plugins.php',
+        add_submenu_page('edit.php?post_type='.Application::POST_TYPE,
             sprintf(__('Welcome to %s', 'site-reviews'), glsr()->name),
             glsr()->name,
-            glsr()->getPermission(Application::ID),
-            Application::ID,
+            glsr()->getPermission('welcome'),
+            'welcome',
             [$this, 'renderPage']
         );
-        remove_submenu_page('plugins.php', Application::ID);
+        remove_submenu_page('edit.php?post_type='.Application::POST_TYPE, 'welcome');
     }
 
     /**

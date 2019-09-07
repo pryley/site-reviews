@@ -135,7 +135,7 @@ final class Application extends Container
         $permissions = [
             'addons' => 'install_plugins',
             'settings' => 'manage_options',
-            'welcome' => 'activate_plugins',
+            // 'welcome' => 'activate_plugins',
         ];
         return glsr_get($permissions, $page, $this->constant('CAPABILITY'));
     }
