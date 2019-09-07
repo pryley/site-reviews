@@ -27,7 +27,7 @@ class WelcomeController extends Controller
     public function filterAdminTitle($title)
     {
         return 'plugins_page_'.Application::ID == glsr_current_screen()->id
-            ? sprintf(__('Welcome to %s', 'site-reviews'), glsr()->name).$title
+            ? sprintf(__('Welcome to %s &#8212; WordPress', 'site-reviews'), glsr()->name)
             : $title;
     }
 
