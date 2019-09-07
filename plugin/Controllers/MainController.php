@@ -84,17 +84,17 @@ class MainController extends Controller
         $command = new RegisterWidgets([
             'site-reviews' => [
                 'class' => 'glsr-widget glsr-widget-site-reviews',
-                'description' => __('Your site’s most recent Reviews.', 'site-reviews'),
+                'description' => __('Site Reviews: Display your recent reviews.', 'site-reviews'),
                 'title' => __('Recent Reviews', 'site-reviews'),
             ],
             'site-reviews-form' => [
                 'class' => 'glsr-widget glsr-widget-site-reviews-form',
-                'description' => __('Displays a form to submit reviews.', 'site-reviews'),
+                'description' => __('Site Reviews: Display a form to submit reviews.', 'site-reviews'),
                 'title' => __('Submit a Review', 'site-reviews'),
             ],
             'site-reviews-summary' => [
                 'class' => 'glsr-widget glsr-widget-site-reviews-summary',
-                'description' => __('A summary of your site’s reviews.', 'site-reviews'),
+                'description' => __('Site Reviews: Display a summary of your reviews.', 'site-reviews'),
                 'title' => __('Summary of Reviews', 'site-reviews'),
             ],
         ]);
