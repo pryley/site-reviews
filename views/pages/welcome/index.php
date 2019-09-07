@@ -8,7 +8,7 @@
         <a class="button" href="<?= admin_url('edit.php?post_type=site-review&page=documentation'); ?>">Documentation</a>
         <a class="button" href="https://wordpress.org/support/plugin/site-reviews/">Support</a>
         <a target="_blank" class="button" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//geminilabs.io/site-reviews"><span class="dashicons dashicons-facebook-alt"></span> Share</a>
-        <a target="_blank" class="button" href="https://twitter.com/intent/tweet?text=Say hello to the most versatile ★★★★★ review plugin for WordPress available, with over 10k happy users and legendary free support!&url=https://geminilabs.io/site-reviews&hashtags=WordPress,reviewplugins,"><span class="dashicons dashicons-twitter"></span> Tweet</a>
+        <a target="_blank" class="button" href="https://twitter.com/intent/tweet?text=Site Reviews is a fantastic WordPress review plugin with advanced features that makes it easy to manage reviews on your website.&url=https://geminilabs.io/site-reviews&hashtags=WordPress,reviewplugins,"><span class="dashicons dashicons-twitter"></span> Tweet</a>
     </p>
     <nav class="glsr-nav-tab-wrapper nav-tab-wrapper">
         <?php foreach ($tabs as $id => $title) : ?>
