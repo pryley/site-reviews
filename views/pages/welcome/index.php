@@ -21,5 +21,5 @@
     </div>
     <?php endforeach; ?>
     <input type="hidden" name="_active_tab">
-    <input type="hidden" name="_wp_http_referer" value="<?= wp_get_referer(); ?>">
+    <input type="hidden" name="_wp_http_referer" value="<?= $http_referer; ?>">
 </div>
