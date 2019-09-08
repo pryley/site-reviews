@@ -14,11 +14,12 @@ use GeminiLabs\SiteReviews\Controllers\RebusifyController;
 use GeminiLabs\SiteReviews\Controllers\ReviewController;
 use GeminiLabs\SiteReviews\Controllers\SettingsController;
 use GeminiLabs\SiteReviews\Controllers\TaxonomyController;
+use GeminiLabs\SiteReviews\Controllers\WelcomeController;
 use GeminiLabs\SiteReviews\Modules\Console;
 
 class Actions implements HooksContract
 {
-    protected $admin;
+    protected $about;
     protected $app;
     protected $blocks;
     protected $console;
@@ -32,6 +33,7 @@ class Actions implements HooksContract
     protected $router;
     protected $settings;
     protected $taxonomy;
+    protected $welcome;
 
     public function __construct(Application $app ) {
         $this->app = $app;
@@ -48,6 +50,7 @@ class Actions implements HooksContract
         $this->router = $app->make(Router::class);
         $this->settings = $app->make(SettingsController::class);
         $this->taxonomy = $app->make(TaxonomyController::class);
+        $this->welcome = $app->make(WelcomeController::class);
     }
 
     /**
@@ -113,5 +116,7 @@ class Actions implements HooksContract
         add_action(Application::TAXONOMY.'_edit_form',                      [$this->taxonomy, 'enableParents']);
         add_action('restrict_manage_posts',                                 [$this->taxonomy, 'renderTaxonomyFilter'], 9);
         add_action('set_object_terms',                                      [$this->taxonomy, 'restrictTermSelection'], 9, 6);
+        add_action('activated_plugin',                                      [$this->welcome, 'redirectOnActivation'], 10, 2);
+        add_action('admin_menu',                                            [$this->welcome, 'registerPage']);
     }
 }

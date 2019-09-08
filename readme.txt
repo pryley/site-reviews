@@ -107,12 +107,14 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 = 4.0.0 (2019-09-??) =
 
-- Added filter hook for maximum rating
 - Added Multisite support
+- Added product schema price options
 - Added proxy header support for IP detection
 - Added [Rebusify integration](https://rebusify.com) to sync reviews to the blockchain
 - Added setting to choose which blacklist to use
-- Added WPML integration
+- Added setting to limit review submissions
+- Added widget icons in the WordPress customizer
+- Added WPML integration for summary counts
 - Changed category assignment to one-per-review
 - Fixed badge counter in menu when reviews are approved/unapproved
 - Fixed overriding star styles on the "Add plugin" page
@@ -121,13 +123,12 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 - Fixed review counts
 - Fixed review menu counts from changing when approving/unapproving comments
 - Fixed review revert button
-- Fixed star-rating style when using the helper function
-- Fixed widget icons in the WordPress customizer
-- Improved (and faster) ajax pagination
+- Fixed star-rating CSS when using the helper function
+- Fixed upgrade process when updating to a major plugin version
+- Improved ajax pagination
 - Improved documentation
 - Improved email failure logging
 - Improved internal console usage
-- Improved product schema options
 - Improved system info
 - Removed $_SESSION usage
 - Updated FAQs

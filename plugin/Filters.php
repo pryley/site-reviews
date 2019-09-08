@@ -9,12 +9,13 @@ use GeminiLabs\SiteReviews\Controllers\EditorController;
 use GeminiLabs\SiteReviews\Controllers\ListTableController;
 use GeminiLabs\SiteReviews\Controllers\MainController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
+use GeminiLabs\SiteReviews\Controllers\WelcomeController;
 use GeminiLabs\SiteReviews\Modules\Translator;
 
 class Filters implements HooksContract
 {
-    protected $app;
     protected $admin;
+    protected $app;
     protected $basename;
     protected $blocks;
     protected $editor;
@@ -22,6 +23,7 @@ class Filters implements HooksContract
     protected $main;
     protected $public;
     protected $translator;
+    protected $welcome;
 
     public function __construct(Application $app)
     {
@@ -34,6 +36,7 @@ class Filters implements HooksContract
         $this->main = $app->make(MainController::class);
         $this->public = $app->make(PublicController::class);
         $this->translator = $app->make(Translator::class);
+        $this->welcome = $app->make(WelcomeController::class);
     }
 
     /**
@@ -70,5 +73,8 @@ class Filters implements HooksContract
         add_filter('gettext_with_context',                                    [$this->translator, 'filterGettextWithContext'], 10, 4);
         add_filter('ngettext',                                                [$this->translator, 'filterNgettext'], 10, 5);
         add_filter('ngettext_with_context',                                   [$this->translator, 'filterNgettextWithContext'], 10, 6);
+        add_filter('plugin_action_links_'.$this->basename,                    [$this->welcome, 'filterActionLinks'], 9);
+        add_filter('admin_title',                                             [$this->welcome, 'filterAdminTitle']);
+        add_filter('admin_footer_text',                                       [$this->welcome, 'filterFooterText']);
     }
 }

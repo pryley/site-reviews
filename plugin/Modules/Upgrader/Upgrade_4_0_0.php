@@ -41,6 +41,10 @@ class Upgrade_4_0_0
                 : '';
             $settings = glsr(Helper::class)->dataSet($settings, 'settings.general.multilingual', $multilingual);
             $settings = glsr(Helper::class)->dataSet($settings, 'settings.submissions.blacklist.integration', '');
+            $settings = glsr(Helper::class)->dataSet($settings, 'settings.submissions.limit', '');
+            $settings = glsr(Helper::class)->dataSet($settings, 'settings.submissions.limit_whitelist.email', '');
+            $settings = glsr(Helper::class)->dataSet($settings, 'settings.submissions.limit_whitelist.ip_address', '');
+            $settings = glsr(Helper::class)->dataSet($settings, 'settings.submissions.limit_whitelist.username', '');
             unset($settings['settings']['general']['support']);
             update_option(OptionManager::databaseKey(4), $settings);
         }

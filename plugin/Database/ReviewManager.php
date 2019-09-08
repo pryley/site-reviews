@@ -66,7 +66,7 @@ class ReviewManager
     {
         $args = glsr(ReviewsDefaults::class)->merge($args);
         $metaQuery = glsr(QueryBuilder::class)->buildQuery(
-            ['assigned_to', 'type', 'rating'],
+            ['assigned_to', 'email', 'ip_address', 'type', 'rating'],
             $args
         );
         $taxQuery = glsr(QueryBuilder::class)->buildQuery(

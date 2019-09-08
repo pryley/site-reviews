@@ -194,7 +194,7 @@ return [
         'type' => 'number',
     ],
     'settings.reviews.fallback' => [
-        'default' => 'no',
+        'default' => 'yes',
         'description' => sprintf(__('Display the fallback text when there are no reviews to display. This can be changed on the %s page. You may also override this by using the "fallback" option on the shortcode. The default fallback text is: %s', 'site-reviews'),
             '<a href="'.admin_url('edit.php?post_type=site-review&page=settings#!translations').'">'.__('Translations', 'site-reviews').'</a>',
             '<code>'.__('There are no reviews yet. Be the first one to write one.', 'site-reviews').'</code>'
@@ -393,6 +393,48 @@ return [
             'terms' => __('Terms', 'site-reviews'),
         ],
         'type' => 'checkbox',
+    ],
+    'settings.submissions.limit' => [
+        'default' => '',
+        'description' => __('Limits the number of reviews that can be submitted to one-per-person. If you are assigning reviews, then the limit will be applied to the assigned page or category.', 'site-reviews'),
+        'label' => __('Limit Reviews', 'site-reviews'),
+        'options' => [
+            '' => __('No Limit', 'site-reviews'),
+            'email' => __('By Email Address', 'site-reviews'),
+            'ip_address' => __('By IP Address', 'site-reviews'),
+            'username' => __('By Username (will only work for registered users)', 'site-reviews'),
+        ],
+        'type' => 'select',
+    ],
+    'settings.submissions.limit_whitelist.email' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.submissions.limit' => ['email'],
+        ],
+        'description' => __('One Email per line. All emails in the whitelist will be excluded from the review submission limit.', 'site-reviews'),
+        'label' => __('Email Whitelist', 'site-reviews'),
+        'rows' => 5,
+        'type' => 'code',
+    ],
+    'settings.submissions.limit_whitelist.ip_address' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.submissions.limit' => ['ip_address'],
+        ],
+        'description' => __('One IP Address per line. All IP Addresses in the whitelist will be excluded from the review submission limit..', 'site-reviews'),
+        'label' => __('IP Address Whitelist', 'site-reviews'),
+        'rows' => 5,
+        'type' => 'code',
+    ],
+    'settings.submissions.limit_whitelist.username' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.submissions.limit' => ['username'],
+        ],
+        'description' => __('One Username per line. All registered users with a Username in the whitelist will be excluded from the review submission limit.', 'site-reviews'),
+        'label' => __('Username Whitelist', 'site-reviews'),
+        'rows' => 5,
+        'type' => 'code',
     ],
     'settings.submissions.recaptcha.integration' => [
         'default' => '',

@@ -4,13 +4,17 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 ## Proposed features
 
+- [ ] Add a single-use notice on the settings page to encourage users to rate the plugin (ref: Polylang)
+- [ ] Custom post_type permissions
 - [ ] Integrate with WordPress GDPR controls
-- [ ] Re-evaluate [PHP Session usage](https://wordpress.org/support/topic/sessions-and-cookies-with-server-cache/#post-11440624)
 - [ ] reCAPTCHA v3 support
+- [ ] Restrict summary rating counts to latest user reviews only (option only available if "require login" setting is enabled)
 - [ ] Review statistics
 - [ ] Store the review GEO location by IP
 - [ ] Throttle anonymous review submissions
+- [ ] Use REST API for ajax calls instead of admin-ajax.php (ref: Contact Form 7)
 - [ ] Version rollback (ref: WP Rocket)
+- [ ] View all reviews by author
 - [ ] WP REST API support
 
 ## Upcoming Add-ons
