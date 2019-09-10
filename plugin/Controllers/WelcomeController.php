@@ -43,7 +43,7 @@ class WelcomeController extends Controller
         }
         $url = 'https://wordpress.org/support/view/plugin-reviews/site-reviews?filter=5#new-post';
         return wp_kses_post(sprintf(
-            __( 'Please rate %s on %s and help us spread the word. Thank you so much!', 'site-reviews'),
+            __('Please rate %s on %s and help us spread the word. Thank you so much!', 'site-reviews'),
             '<strong>'.glsr()->name.'</strong> <a href="'.$url.'" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>',
             '<a href="'.$url.'" target="_blank">wordpress.org</a>'
         ));
@@ -58,7 +58,7 @@ class WelcomeController extends Controller
     public function redirectOnActivation($plugin, $isNetworkActivation)
     {
         if (!$isNetworkActivation
-            && 'cli' !== php_sapi_name() 
+            && 'cli' !== php_sapi_name()
             && $plugin === plugin_basename(glsr()->file)) {
             wp_safe_redirect(admin_url('edit.php?post_type='.Application::POST_TYPE.'&page=welcome'));
             exit;
@@ -93,12 +93,11 @@ class WelcomeController extends Controller
             'whatsnew' => __('What\'s New', 'site-reviews'),
             'support' => __('Support', 'site-reviews'),
         ]);
-
         glsr()->render('pages/welcome/index', [
             'data' => [
-                'context' => [
-                ],
+                'context' => [],
             ],
+            'http_referer' => (string) wp_get_referer(),
             'tabs' => $tabs,
             'template' => glsr(Template::class),
         ]);

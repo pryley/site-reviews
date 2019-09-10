@@ -20,6 +20,7 @@ use GeminiLabs\SiteReviews\Modules\Console;
 class Actions implements HooksContract
 {
     protected $about;
+    protected $admin;
     protected $app;
     protected $blocks;
     protected $console;
