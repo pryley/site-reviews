@@ -287,4 +287,28 @@ final class Application extends Container
         $url = esc_url(plugin_dir_url($this->file).ltrim(trim($path), '/'));
         return apply_filters('site-reviews/url', $url, $path);
     }
+
+    /**
+     * @param string $versionLevel
+     * @return string
+     */
+    public function version($versionLevel = '')
+    {
+        $pattern = '/^v?(\d{1,5})(\.\d++)?(\.\d++)?(.+)?$/i';
+        preg_match($pattern, $this->version, $matches);
+        switch ($versionLevel) {
+            case 'major':
+                $version = glsr_get($matches, 1);
+                break;
+            case 'minor':
+                $version = glsr_get($matches, 1).glsr_get($matches, 2);
+                break;
+            case 'patch':
+                $version = glsr_get($matches, 1).glsr_get($matches, 2).glsr_get($matches, 3);
+                break;
+        }
+        return empty($version)
+            ? $this->version
+            : $version;
+    }
 }
