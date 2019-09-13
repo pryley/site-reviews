@@ -85,7 +85,7 @@ class NoticeController extends Controller
     protected function setUserMeta($key, $value)
     {
         $userId = get_current_user_id();
-        $meta = get_user_meta($userId, static::USER_META_KEY, true);
+        $meta = (array) get_user_meta($userId, static::USER_META_KEY, true);
         $meta = array_filter(wp_parse_args($meta, []));
         $meta[$key] = $value;
         update_user_meta($userId, static::USER_META_KEY, $meta);
