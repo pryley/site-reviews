@@ -104,7 +104,7 @@ class Actions implements HooksContract
         add_action('site-reviews/review/created',                           [$this->rebusify, 'onCreated']);
         add_action('site-reviews/review/reverted',                          [$this->rebusify, 'onReverted']);
         add_action('site-reviews/review/saved',                             [$this->rebusify, 'onSaved']);
-        add_action('updated_postmeta',                                      [$this->rebusify, 'onUpdatedMeta'], 10, 4);
+        add_action('updated_postmeta',                                      [$this->rebusify, 'onUpdatedMeta'], 10, 3);
         add_action('set_object_terms',                                      [$this->review, 'onAfterChangeCategory'], 10, 6);
         add_action('transition_post_status',                                [$this->review, 'onAfterChangeStatus'], 10, 3);
         add_action('site-reviews/review/created',                           [$this->review, 'onAfterCreate']);

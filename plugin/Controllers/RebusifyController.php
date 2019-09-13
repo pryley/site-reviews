@@ -59,18 +59,18 @@ class RebusifyController extends Controller
      * @param int $metaId
      * @param int $postId
      * @param string $metaKey
-     * @param mixed $metaValue
      * @return void
      * @action updated_postmeta
      */
-    public function onUpdatedMeta($metaId, $postId, $metaKey, $metaValue)
+    public function onUpdatedMeta($metaId, $postId, $metaKey)
     {
-        if (!$this->isReviewPostId($postId) 
+        $review = glsr_get_review($postId);
+        if (!$this->isReviewPostId($review->ID) 
             || !$this->canProceed($review, 'rebusify_response') 
             || '_response' !== $metaKey) {
             return;
         }
-        $rebusify = glsr(Rebusify::class)->sendReviewResponse(glsr_get_review($postId));
+        $rebusify = glsr(Rebusify::class)->sendReviewResponse($review);
         if ($rebusify->success) {
             glsr(Database::class)->set($review->ID, 'rebusify_response', true);
         }
