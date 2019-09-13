@@ -75,9 +75,7 @@ class OptionManager
      */
     public function getBool($path)
     {
-        return 'yes' == $this->get($path)
-            ? true
-            : false;
+        return glsr(Helper::class)->castTo('bool', $this->get($path));
     }
 
     /**
