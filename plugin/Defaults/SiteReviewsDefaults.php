@@ -29,7 +29,7 @@ class SiteReviewsDefaults extends Defaults
             'id' => '',
             'offset' => '',
             'pagination' => false,
-            'rating' => 1,
+            'rating' => 0,
             'schema' => false,
             'title' => '',
             'type' => 'local',
