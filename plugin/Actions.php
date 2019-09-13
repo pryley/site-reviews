@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Controllers\EditorController;
 use GeminiLabs\SiteReviews\Controllers\ListTableController;
 use GeminiLabs\SiteReviews\Controllers\MainController;
 use GeminiLabs\SiteReviews\Controllers\MenuController;
+use GeminiLabs\SiteReviews\Controllers\NoticeController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Controllers\RebusifyController;
 use GeminiLabs\SiteReviews\Controllers\ReviewController;
@@ -28,6 +29,7 @@ class Actions implements HooksContract
     protected $listtable;
     protected $menu;
     protected $main;
+    protected $notices;
     protected $public;
     protected $rebusify;
     protected $review;
@@ -45,6 +47,7 @@ class Actions implements HooksContract
         $this->listtable = $app->make(ListTableController::class);
         $this->main = $app->make(MainController::class);
         $this->menu = $app->make(MenuController::class);
+        $this->notices = $app->make(NoticeController::class);
         $this->public = $app->make(PublicController::class);
         $this->rebusify = $app->make(RebusifyController::class);
         $this->review = $app->make(ReviewController::class);
@@ -94,6 +97,7 @@ class Actions implements HooksContract
         add_action('admin_menu',                                            [$this->menu, 'registerMenuCount']);
         add_action('admin_menu',                                            [$this->menu, 'registerSubMenus']);
         add_action('admin_init',                                            [$this->menu, 'setCustomPermissions'], 999);
+        add_action('admin_notices',                                         [$this->notices, 'filterAdminNotices']);
         add_action('wp_enqueue_scripts',                                    [$this->public, 'enqueueAssets'], 999);
         add_filter('site-reviews/builder',                                  [$this->public, 'modifyBuilder']);
         add_action('wp_footer',                                             [$this->public, 'renderSchema']);

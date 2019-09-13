@@ -10,6 +10,7 @@ GLSR.keys = {
 
 jQuery( function( $ ) {
 
+	GLSR.notices = new GLSR.Notices();
 	GLSR.shortcode = new GLSR.Shortcode( '.glsr-mce' );
 	GLSR.ColorPicker();
 	new GLSR.Categories();

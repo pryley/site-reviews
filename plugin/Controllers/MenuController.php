@@ -122,7 +122,6 @@ class MenuController extends Controller
             unset($tabs['licenses']);
         }
         $this->renderPage('settings', [
-            'notices' => $this->getNotices(),
             'settings' => glsr(Settings::class),
             'tabs' => $tabs,
         ]);
@@ -154,7 +153,6 @@ class MenuController extends Controller
                 ],
                 'services' => apply_filters('site-reviews/addon/sync/services', []),
             ],
-            'notices' => $this->getNotices(),
             'tabs' => $tabs,
             'template' => glsr(Template::class),
         ]);
@@ -197,6 +195,7 @@ class MenuController extends Controller
     protected function renderPage($page, array $data = [])
     {
         $data['http_referer'] = (string) wp_get_referer();
+        $data['notices'] = $this->getNotices();
         glsr()->render('pages/'.$page.'/index', $data);
     }
 }

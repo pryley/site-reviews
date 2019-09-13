@@ -69,12 +69,10 @@ class Notice
         $notices = array_map('unserialize',
             array_unique(array_map('serialize', get_settings_errors(Application::ID)))
         );
-        if (empty($notices)) {
-            return;
-        }
-        return array_reduce($notices, function ($carry, $notice) {
+        $notices = array_reduce($notices, function ($carry, $notice) {
             return $carry.$this->buildNotice(json_decode($notice['message'], true));
         });
+        return apply_filters('site-reviews/notices', $notices);
     }
 
     /**

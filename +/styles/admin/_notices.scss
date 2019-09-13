@@ -10,3 +10,36 @@ body.branch-4 {
 		border-color: #ffba00;
 	}
 }
+
+.glsr-notice {
+    display: flex;
+    border-left-color: #32373c;
+}
+.glsr-notice-icon {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 6px;
+    margin-top: 18px;
+    margin-right: 18px;
+}
+.glsr-notice-icon img {
+    width: 80px;
+    height: 80px;
+    @media only screen and (min-width: 601px) {
+        width: 96px;
+        height: 96px;
+    }
+}
+.glsr-notice-content {
+    margin: 6px 0;
+}
+.glsr-notice-content h3 {
+    line-height: 1.25;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+.glsr-notice-content p,
+.glsr-notice-content .button {
+    margin-top: 0;
+    margin-bottom: 12px;
+}

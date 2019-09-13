@@ -69,7 +69,7 @@
 			$( '#pinned-status' ).val( !response.pinned|0 );
 			$( '#hidden-pinned-status' ).val( response.pinned|0 );
 			$( '#pinned-status-text' ).text( response.pinned ? this.target.dataset.yes : this.target.dataset.no );
-			GLSR.Notices( response.notices );
+			GLSR.notices.add( response.notices );
 		},
 
 		/** @return void */

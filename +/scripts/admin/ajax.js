@@ -59,10 +59,10 @@
 				}
 			}).always( function( response ) {
 				if( !response.data ) {
-					GLSR.Notices( '<div class="notice notice-error inline is-dismissible"><p>Unknown error.</p></div>' );
+					GLSR.notices.add( '<div class="notice notice-error inline is-dismissible"><p>Unknown error.</p></div>' );
 				}
 				else if( response.data.notices ) {
-					GLSR.Notices( response.data.notices );
+					GLSR.notices.add( response.data.notices );
 				}
 			});
 		},

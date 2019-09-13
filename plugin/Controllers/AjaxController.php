@@ -46,6 +46,15 @@ class AjaxController extends Controller
     /**
      * @return void
      */
+    public function routerDismissNotice(array $request)
+    {
+        glsr(NoticeController::class)->routerDismissNotice($request);
+        wp_send_json_success();
+    }
+
+    /**
+     * @return void
+     */
     public function routerMceShortcode(array $request)
     {
         $shortcode = $request['shortcode'];

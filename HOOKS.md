@@ -59,6 +59,7 @@
     site-reviews/get/reviews/query
     site-reviews/interpolate/{template_path}
     site-reviews/metabox/details
+    site-reviews/notices
     site-reviews/notification/emails
     site-reviews/notification/title
     site-reviews/paginate_links

@@ -14,6 +14,7 @@ class Router
     public function __construct()
     {
         $this->unguardedActions = apply_filters('site-reviews/router/unguarded-actions', [
+            'dismiss-notice',
             'fetch-paged-reviews',
         ]);
     }

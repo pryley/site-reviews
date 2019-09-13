@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Controllers\BlocksController;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
 use GeminiLabs\SiteReviews\Controllers\ListTableController;
-use GeminiLabs\SiteReviews\Controllers\MainController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Controllers\WelcomeController;
 use GeminiLabs\SiteReviews\Modules\Translator;
@@ -20,7 +19,6 @@ class Filters implements HooksContract
     protected $blocks;
     protected $editor;
     protected $listtable;
-    protected $main;
     protected $public;
     protected $translator;
     protected $welcome;
@@ -33,7 +31,6 @@ class Filters implements HooksContract
         $this->blocks = $app->make(BlocksController::class);
         $this->editor = $app->make(EditorController::class);
         $this->listtable = $app->make(ListTableController::class);
-        $this->main = $app->make(MainController::class);
         $this->public = $app->make(PublicController::class);
         $this->translator = $app->make(Translator::class);
         $this->welcome = $app->make(WelcomeController::class);
