@@ -108,4 +108,16 @@ trait Str
     {
         return substr($haystack, 0, strlen($needle)) === $needle;
     }
+
+    /**
+     * @param string $string
+     * @param int $length
+     * @return string
+     */
+    public function truncate($string, $length)
+    {
+        return strlen($string) > $length
+            ? substr($string, 0, $length)
+            : $string;
+    }
 }

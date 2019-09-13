@@ -2,31 +2,47 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Review;
 
 class Rebusify
 {
     const API_URL = 'https://www.rebusify.com/api/rbs/';
 
+    public $message;
+    public $success;
+
     /**
-     * @return void|array
+     * @return self
      */
-    public function sendReview(Review $review)
+    public function reset()
     {
-        return $this->send('index.php', [
-            'body' => $this->getBodyForReview($review),
-            'timeout' => 120,
-        ]);
+        $this->message = '';
+        $this->success = false;
+        return $this;
     }
 
     /**
-     * @return void|array
+     * @return self
+     */
+    public function sendReview(Review $review)
+    {
+        $this->send('index.php', [
+            'body' => $this->getBodyForReview($review),
+            'timeout' => 120,
+        ]);
+        return $this;
+    }
+
+    /**
+     * @return self
      */
     public function sendReviewResponse(Review $review)
     {
-        return $this->send('fetch_customer_reply.php', [
+        $this->send('fetch_customer_reply.php', [
             'body' => $this->getBodyForResponse($review),
         ]);
+        return $this;
     }
 
     /**
@@ -35,9 +51,9 @@ class Rebusify
     protected function getBodyForResponse(Review $review)
     {
         $rebusifyResponse = [
-            'reply' => $review->response, // what is the 300 character limit for?
+            'reply' => glsr(Helper::class)->truncate($review->response, 300),
             'review_id' => '', // @todo
-            'review_transaction_id' => '', // @todo
+            'review_transaction_id' => $review->review_id,
             'type' => 'M',
         ];
         return apply_filters('site-reviews/rebusify/response', $rebusifyResponse, $review);
@@ -50,20 +66,44 @@ class Rebusify
     {
         $rebusifyReview = [
             'domain' => get_site_url(),
-            'firstname' => $review->name, // what is the 25 character limit for?
+            'firstname' => glsr(Helper::class)->truncate($review->name, 25),
             'rate' => $review->rating,
-            'review_transaction_id' => '', // @todo
-            'reviews' => $review->content, // what is the 280 character limit for?
-            'title' => $review->title, // what is the 35 character limit for?
-            'transaction' => '', // @todo
+            'review_transaction_id' => $review->review_id,
+            'reviews' => glsr(Helper::class)->truncate($review->content, 280),
+            'title' => glsr(Helper::class)->truncate($review->title, 35),
+            'transaction' => '', // woocommerce field, not needed for Site Reviews
         ];
         return apply_filters('site-reviews/rebusify/review', $rebusifyReview, $review);
     }
 
     /**
-     * @return void|array
+     * @param \WP_Error|array $response
+     * @return void
      */
-    protected function send($endpoint, $args)
+    protected function handleResponse($response)
+    {
+        if (is_wp_error($response)) {
+            $this->message = $response->get_error_message();
+        } else {
+            $responseBody = wp_remote_retrieve_body($response);
+            $responseCode = wp_remote_retrieve_response_code($response);
+            $response = json_decode($responseBody, true);
+            $this->message = glsr_get($response, 'msg');
+            $this->success = 'success' == glsr_get($response, 'result');
+            if (200 !== $responseCode) {
+                $this->message = 'Bad response code ['.$responseCode.']';
+            }
+            if (!$this->success) {
+                glsr_log()->error($this->message);
+            }
+        }
+    }
+
+    /**
+     * @param string $endpoint
+     * @return void
+     */
+    protected function send($endpoint, array $args = [])
     {
         $args = wp_parse_args($args, [
             'blocking' => false,
@@ -73,14 +113,9 @@ class Rebusify
             'sslverify' => false,
             'timeout' => 5,
         ]);
-        $response = wp_remote_post(trailingslashit(static::API_URL).$endpoint, $args);
-        if (is_wp_error($response)) {
-            glsr_log()->error('REBUSIFY: '.$response->get_error_message());
-            return;
-        }
-        if (200 === wp_remote_retrieve_response_code($response)) {
-            $responsedata = wp_remote_retrieve_body($response);
-            return json_decode($responsedata, true);
-        }
+        $this->reset();
+        $this->handleResponse(
+            wp_remote_post(trailingslashit(static::API_URL).$endpoint, $args)
+        );
     }
 }

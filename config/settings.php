@@ -57,22 +57,30 @@ return [
     ],
     'settings.general.rebusify' => [
         'default' => 'no',
-        'description' => sprintf(__('Integrate with the %s and sync your reviews to the blockchain to increase online reputation, trust, and transparency.', 'site-reviews'),
-            '<a href="https://www.rebusify.com?ref=105">Rebusify Confidence System</a>'
+        'description' => sprintf('%s <a href="https://rebusify.com/plans?ref=105" target="_blank">%s</a>',
+            __('Integrate with the Rebusify Confidence System and validate your reviews on the blockchain to increase online reputation, trust, and transparency.', 'site-reviews'),
+            __('Create your free Rebusify account here.', 'site-reviews')
         ),
         'label' => __('Sync to Blockchain', 'site-reviews'),
         'type' => 'yes_no',
     ],
-    'settings.general.rebusify_api_key' => [
+    'settings.general.rebusify_email' => [
         'default' => '',
         'depends_on' => [
             'settings.general.rebusify' => ['yes'],
         ],
-        'description' => sprintf(__('Get a free Rebusify API key from %s.', 'site-reviews'),
-            '<a href="https://rebusify.com?ref=105">rebusify.com</a>'
-        ),
-        'label' => __('Rebusify API key', 'site-reviews'),
-        'type' => 'text',
+        'description' => __('Enter your Rebusify account email here.', 'site-reviews'),
+        'label' => __('Rebusify Email', 'site-reviews'),
+        'type' => 'email',
+    ],
+    'settings.general.rebusify_serial' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.general.rebusify' => ['yes'],
+        ],
+        'description' => __('Enter your Rebusify account serial here.', 'site-reviews'),
+        'label' => __('Rebusify Serial', 'site-reviews'),
+        'type' => 'password',
     ],
     'settings.general.notifications' => [
         'default' => [],

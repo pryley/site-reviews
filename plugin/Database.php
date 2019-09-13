@@ -162,9 +162,20 @@ class Database
      * @param mixed $value
      * @return int|bool
      */
-    public function update($postId, $key, $value)
+    public function set($postId, $key, $value)
     {
         $key = glsr(Helper::class)->prefix('_', $key);
         return update_post_meta($postId, $key, $value);
+    }
+
+    /**
+     * @param int $postId
+     * @param string $key
+     * @param mixed $value
+     * @return int|bool
+     */
+    public function update($postId, $key, $value)
+    {
+        return $this->set($postId, $key, $value);
     }
 }

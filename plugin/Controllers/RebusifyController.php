@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Rebusify;
 use GeminiLabs\SiteReviews\Review;
@@ -16,8 +17,10 @@ class RebusifyController extends Controller
     public function onCreated(Review $review)
     {
         if ($this->canProceed($review) && 'publish' === $review->status) {
-            $result = glsr(Rebusify::class)->sendReview($review);
-            // @todo
+            $rebusify = glsr(Rebusify::class)->sendReview($review);
+            if ($rebusify->success) {
+                glsr(Database::class)->set($review->ID, 'rebusify', true);
+            }
         }
     }
 
@@ -29,8 +32,10 @@ class RebusifyController extends Controller
     public function onReverted(Review $review)
     {
         if ($this->canProceed($review) && 'publish' === $review->status) {
-            $result = glsr(Rebusify::class)->sendReview($review);
-            // @todo
+            $rebusify = glsr(Rebusify::class)->sendReview($review);
+            if ($rebusify->success) {
+                glsr(Database::class)->set($review->ID, 'rebusify', true);
+            }
         }
     }
 
@@ -42,8 +47,10 @@ class RebusifyController extends Controller
     public function onSaved(Review $review)
     {
         if ($this->canProceed($review) && 'publish' === $review->status) {
-            $result = glsr(Rebusify::class)->sendReview($review);
-            // @todo
+            $rebusify = glsr(Rebusify::class)->sendReview($review);
+            if ($rebusify->success) {
+                glsr(Database::class)->set($review->ID, 'rebusify', true);
+            }
         }
     }
 
@@ -59,20 +66,23 @@ class RebusifyController extends Controller
     public function onUpdatedMeta($metaId, $postId, $metaKey, $metaValue)
     {
         if (!$this->isReviewPostId($postId) 
-            || !$this->canProceed($review) 
+            || !$this->canProceed($review, 'rebusify_response') 
             || '_response' !== $metaKey) {
             return;
         }
-        $review = glsr_get_review($postId);
-        $result = glsr(Rebusify::class)->sendReviewResponse($review);
-        // @todo
+        $rebusify = glsr(Rebusify::class)->sendReviewResponse(glsr_get_review($postId));
+        if ($rebusify->success) {
+            glsr(Database::class)->set($review->ID, 'rebusify_response', true);
+        }
     }
 
     /**
+     * @param string $metaKey
      * @return bool
      */
-    protected function canProceed(Review $review)
+    protected function canProceed(Review $review, $metaKey = 'rebusify')
     {
-        return glsr(OptionManager::class)->getBool('settings.general.rebusify');
+        return glsr(Database::class)->get($review->ID, $metaKey) 
+            && glsr(OptionManager::class)->getBool('settings.general.rebusify');
     }
 }
