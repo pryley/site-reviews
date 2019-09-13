@@ -55,14 +55,17 @@ class Helper
         switch ($cast) {
             case 'array':
                 return (array) $value;
+            case 'bool':
             case 'boolean':
                 return filter_var($value, FILTER_VALIDATE_BOOLEAN);
             case 'float':
                 return (float) filter_var($value, FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_THOUSAND);
+            case 'int':
             case 'integer':
                 return (int) filter_var($value, FILTER_VALIDATE_INT);
             case 'object':
                 return (object) (array) $value;
+            case 'str':
             case 'string':
                 if (is_object($value) && in_array('__toString', get_class_methods($value))) {
                     return (string) $value->__toString();
