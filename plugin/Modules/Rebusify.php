@@ -69,7 +69,7 @@ class Rebusify
     {
         $rebusifyResponse = [
             'reply' => glsr(Helper::class)->truncate($review->response, 300),
-            'review_id' => '', // @todo
+            'review_id' => '', // @todo this should be the rebusify review ID
             'review_transaction_id' => $review->review_id,
             'type' => 'M',
         ];
@@ -107,7 +107,7 @@ class Rebusify
             $responseData = (array) json_decode($responseBody, true);
             $this->response = array_shift($responseData);
             $this->message = glsr_get($this->response, 'msg');
-            $this->success = 'success' == glsr_get($this->response, 'result');
+            $this->success = 'success' === glsr_get($this->response, 'result') || 'yes' === glsr_get($this->response, 'success'); // @todo remove this ugly hack!
             if (200 !== $responseCode) {
                 $this->message = 'Bad response code ['.$responseCode.']';
             }
