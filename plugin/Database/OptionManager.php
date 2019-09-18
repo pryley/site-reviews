@@ -136,7 +136,7 @@ class OptionManager
         $options = $this->getWP(static::databaseKey(), []);
         if (!is_array($options) || empty($options)) {
             delete_option(static::databaseKey());
-            $options = glsr()->defaults;
+            $options = glsr()->defaults ?: [];
         }
         $this->options = $options;
     }
