@@ -88,7 +88,7 @@ class Rebusify
             'review_transaction_id' => $review->review_id,
             'reviews' => glsr(Helper::class)->truncate($review->content, 280),
             'title' => glsr(Helper::class)->truncate($review->title, 35),
-            'transaction' => '', // woocommerce field, not needed for Site Reviews
+            'transaction' => 0, // woocommerce field, not needed for Site Reviews
         ];
         return apply_filters('site-reviews/rebusify/review', $rebusifyReview, $review);
     }
@@ -113,9 +113,11 @@ class Rebusify
             }
             if (!$this->success) {
                 glsr_log()->error($this->message);
+            } else {
+                glsr_log()->debug($this->message);
             }
         }
-        glsr_log()->debug($this->message)->debug($this->response);
+        glsr_log()->debug($this->response);
     }
 
     /**
@@ -131,6 +133,7 @@ class Rebusify
             'sslverify' => false,
             'timeout' => 5,
         ]);
+        glsr_log()->debug($args['body']);
         $this->reset();
         $this->handleResponse(
             wp_remote_post(trailingslashit(static::API_URL).$endpoint, $args)
