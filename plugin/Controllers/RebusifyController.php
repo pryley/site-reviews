@@ -40,7 +40,12 @@ class RebusifyController extends Controller
      */
     public function onCreated(Review $review)
     {
+        glsr_log()->debug('onCreated event triggered')->debug([
+            'can-proceed' => $this->canProceed($review),
+            'has-publish-status' => 'publish' === $review->status,
+        ]);
         if ($this->canProceed($review) && 'publish' === $review->status) {
+            glsr_log()->debug('Sending review to Rebusify');
             $rebusify = glsr(Rebusify::class)->sendReview($review);
             if ($rebusify->success) {
                 glsr(Database::class)->set($review->ID, 'rebusify', true);
@@ -55,7 +60,12 @@ class RebusifyController extends Controller
      */
     public function onReverted(Review $review)
     {
+        glsr_log()->debug('onReverted event triggered')->debug([
+            'can-proceed' => $this->canProceed($review),
+            'has-publish-status' => 'publish' === $review->status,
+        ]);
         if ($this->canProceed($review) && 'publish' === $review->status) {
+            glsr_log()->debug('Sending review to Rebusify');
             $rebusify = glsr(Rebusify::class)->sendReview($review);
             if ($rebusify->success) {
                 glsr(Database::class)->set($review->ID, 'rebusify', true);
@@ -70,7 +80,12 @@ class RebusifyController extends Controller
      */
     public function onSaved(Review $review)
     {
+        glsr_log()->debug('onSaved event triggered')->debug([
+            'can-proceed' => $this->canProceed($review),
+            'has-publish-status' => 'publish' === $review->status,
+        ]);
         if ($this->canProceed($review) && 'publish' === $review->status) {
+            glsr_log()->debug('Sending review to Rebusify');
             $rebusify = glsr(Rebusify::class)->sendReview($review);
             if ($rebusify->success) {
                 glsr(Database::class)->set($review->ID, 'rebusify', true);
@@ -89,11 +104,17 @@ class RebusifyController extends Controller
     public function onUpdatedMeta($metaId, $postId, $metaKey)
     {
         $review = glsr_get_review($postId);
+        glsr_log()->debug('onUpdatedMeta event triggered')->debug([
+            'can-proceed' => $this->canProceed($review, 'rebusify_response'),
+            'has-publish-status' => 'publish' === $review->status,
+            'is-response' => '_response' === $metaKey,
+        ]);
         if (!$this->isReviewPostId($review->ID)
             || !$this->canProceed($review, 'rebusify_response')
             || '_response' !== $metaKey) {
             return;
         }
+        glsr_log()->debug('Sending merchant response to Rebusify');
         $rebusify = glsr(Rebusify::class)->sendReviewResponse($review);
         if ($rebusify->success) {
             glsr(Database::class)->set($review->ID, 'rebusify_response', true);

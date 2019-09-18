@@ -112,9 +112,10 @@ class Rebusify
                 $this->message = 'Bad response code ['.$responseCode.']';
             }
             if (!$this->success) {
-                glsr_log()->error($this->message)->debug($this->response);
+                glsr_log()->error($this->message);
             }
         }
+        glsr_log()->debug($this->message)->debug($this->response);
     }
 
     /**
