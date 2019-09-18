@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Controllers\BlocksController;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
 use GeminiLabs\SiteReviews\Controllers\ListTableController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
+use GeminiLabs\SiteReviews\Controllers\RebusifyController;
 use GeminiLabs\SiteReviews\Controllers\WelcomeController;
 use GeminiLabs\SiteReviews\Modules\Translator;
 
@@ -20,6 +21,7 @@ class Filters implements HooksContract
     protected $editor;
     protected $listtable;
     protected $public;
+    protected $rebusify;
     protected $translator;
     protected $welcome;
 
@@ -32,6 +34,7 @@ class Filters implements HooksContract
         $this->editor = $app->make(EditorController::class);
         $this->listtable = $app->make(ListTableController::class);
         $this->public = $app->make(PublicController::class);
+        $this->rebusify = $app->make(RebusifyController::class);
         $this->translator = $app->make(Translator::class);
         $this->welcome = $app->make(WelcomeController::class);
     }
@@ -66,6 +69,7 @@ class Filters implements HooksContract
         add_filter('site-reviews/config/forms/submission-form',               [$this->public, 'filterFieldOrder'], 11);
         add_filter('query_vars',                                              [$this->public, 'filterQueryVars']);
         add_filter('site-reviews/render/view',                                [$this->public, 'filterRenderView']);
+        add_filter('site-reviews/settings/callback',                          [$this->rebusify, 'filterSettingsCallback']);
         add_filter('gettext',                                                 [$this->translator, 'filterGettext'], 10, 3);
         add_filter('gettext_with_context',                                    [$this->translator, 'filterGettextWithContext'], 10, 4);
         add_filter('ngettext',                                                [$this->translator, 'filterNgettext'], 10, 5);

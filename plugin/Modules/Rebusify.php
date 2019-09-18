@@ -10,7 +10,23 @@ class Rebusify
     const API_URL = 'https://www.rebusify.com/api/rbs/';
 
     public $message;
+    public $response;
     public $success;
+
+    /**
+     * @return self
+     */
+    public function activateKey($apiKey = '', $email = '')
+    {
+        $this->send('api_key_activation.php', [
+            'body' => [
+                'apikey' => $apiKey ?: 0,
+                'domain' => get_site_url(),
+                'email' => $email ?: 0,
+            ],
+        ]);
+        return $this;
+    }
 
     /**
      * @return self
@@ -18,6 +34,7 @@ class Rebusify
     public function reset()
     {
         $this->message = '';
+        $this->response = [];
         $this->success = false;
         return $this;
     }
@@ -87,14 +104,15 @@ class Rebusify
         } else {
             $responseBody = wp_remote_retrieve_body($response);
             $responseCode = wp_remote_retrieve_response_code($response);
-            $response = json_decode($responseBody, true);
-            $this->message = glsr_get($response, 'msg');
-            $this->success = 'success' == glsr_get($response, 'result');
+            $responseData = (array) json_decode($responseBody, true);
+            $this->response = array_shift($responseData);
+            $this->message = glsr_get($this->response, 'msg');
+            $this->success = 'success' == glsr_get($this->response, 'result');
             if (200 !== $responseCode) {
                 $this->message = 'Bad response code ['.$responseCode.']';
             }
             if (!$this->success) {
-                glsr_log()->error($this->message);
+                glsr_log()->error($this->message)->debug($this->response);
             }
         }
     }
@@ -106,8 +124,7 @@ class Rebusify
     protected function send($endpoint, array $args = [])
     {
         $args = wp_parse_args($args, [
-            'blocking' => false,
-            'body' => [],
+            'body' => null,
             'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
             'redirection' => 5,
             'sslverify' => false,

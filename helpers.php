@@ -130,7 +130,7 @@ function glsr_get($array, $path = '', $fallback = '')
 function glsr_get_option($path = '', $fallback = '', $cast = '')
 {
     return is_string($path)
-        ? glsr('Database\OptionManager')->get('settings.'.$path, $fallback, $cast)
+        ? glsr('Database\OptionManager')->get(glsr('Helper')->prefix('settings.', $path), $fallback, $cast)
         : $fallback;
 }
 

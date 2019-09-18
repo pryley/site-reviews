@@ -96,6 +96,7 @@
     site-reviews/schema/all
     site-reviews/schema/review
     site-reviews/schema/{schema_type}
+    site-reviews/settings/callback
     site-reviews/shortcode/args
     site-reviews/shortcode/atts
     site-reviews/shortcode/hide-options
