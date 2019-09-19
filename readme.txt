@@ -110,7 +110,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 - Added Multisite support
 - Added product schema price options
 - Added proxy header support for IP detection
-- Added [Rebusify integration](https://rebusify.com) to sync reviews to the blockchain
+- Added [Rebusify integration](https://rebusify.com?ref=105) to sync reviews to the blockchain
 - Added setting to choose which blacklist to use
 - Added setting to limit review submissions
 - Added widget icons in the WordPress customizer

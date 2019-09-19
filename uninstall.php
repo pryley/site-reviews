@@ -9,6 +9,7 @@ if (!(new GL_Plugin_Check_v3(__FILE__))->isValid()) {
 }
 delete_option(GeminiLabs\SiteReviews\Database\OptionManager::databaseKey(3));
 delete_option(GeminiLabs\SiteReviews\Database\OptionManager::databaseKey(4));
+delete_option('_glsr_rebusify');
 delete_option('widget_'.glsr()->id.'_site-reviews');
 delete_option('widget_'.glsr()->id.'_site-reviews-form');
 delete_option('widget_'.glsr()->id.'_site-reviews-summary');

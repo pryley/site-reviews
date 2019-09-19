@@ -12,6 +12,7 @@
                     <li>Added Multisite support</li>
                     <li>Added product schema price options</li>
                     <li>Added proxy header support for IP detection</li>
+                    <li>Added <a href="https://rebusify.com?ref=105" target="_blank">Rebusify Confidence System</a> integration for blockchain verification of reviews</li>
                     <li>Added setting to choose which blacklist to use</li>
                     <li>Added setting to limit review submissions</li>
                     <li>Added widget icons in the WordPress customizer</li>

@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Rebusify;
 use GeminiLabs\SiteReviews\Review;
@@ -14,10 +15,12 @@ class RebusifyController extends Controller
     protected $apiKey = 'settings.general.rebusify_serial';
     protected $emailKey = 'settings.general.rebusify_email';
     protected $enabledKey = 'settings.general.rebusify';
+    protected $referralUrl = 'https://rebusify.com/plans?ref=105';
+    protected $rebusifyKey = '_glsr_rebusify';
 
     /**
      * @return array
-     * @action site-reviews/settings/callback
+     * @filter site-reviews/settings/callback
      */
     public function filterSettingsCallback(array $settings)
     {
@@ -26,11 +29,34 @@ class RebusifyController extends Controller
         }
         $isApiKeyModified = $this->isEmptyOrModified($this->apiKey, $settings);
         $isEmailModified = $this->isEmptyOrModified($this->emailKey, $settings);
-        $isAccountVerified = glsr(OptionManager::class)->get('rebusify', false);
+        $isAccountVerified = glsr(OptionManager::class)->getWP($this->rebusifyKey, false);
         if (!$isAccountVerified || $isApiKeyModified || $isEmailModified) {
             $settings = $this->sanitizeRebusifySettings($settings);
         }
         return $settings;
+    }
+
+    /**
+     * @param string $template
+     * @return array
+     * @filter site-reviews/interpolate/partials/form/table-row-multiple
+     */
+    public function filterSettingsTableRow(array $context, $template, array $data)
+    {
+        if ($this->enabledKey !== glsr_get($data, 'field.path')) {
+            return $context;
+        }
+        $rebusifyProductType = glsr(OptionManager::class)->getWP($this->rebusifyKey);
+        if ('P' === $rebusifyProductType) {
+            return $context;
+        }
+        if ('F' === $rebusifyProductType && 'yes' === glsr_get_option('general.rebusify')) {
+            $button = $this->buildUpgradeButton();
+        } else {
+            $button = $this->buildCreateButton();
+        }
+        $context['field'].= $button;
+        return $context;
     }
 
     /**
@@ -122,6 +148,35 @@ class RebusifyController extends Controller
     }
 
     /**
+     * @return string
+     */
+    protected function buildCreateButton()
+    {
+        return glsr(Builder::class)->a(__('Create Your Rebusify Account', 'site-reviews'), [
+            'class' => 'button',
+            'href' => $this->referralUrl,
+            'target' => '_blank',
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    protected function buildUpgradeButton()
+    {
+        $build = glsr(Builder::class);
+        $notice = $build->p(__('Free Rebusify accounts are limited to 500 blockchain transactions per year.', 'site-reviews'));
+        $button = $build->a(__('Upgrade Your Rebusify Plan', 'site-reviews'), [
+            'class' => 'button',
+            'href' => $this->referralUrl,
+            'target' => '_blank',
+        ]);
+        return $build->div($notice.$button, [
+            'class' => 'glsr-notice-inline',
+        ]);
+    }
+
+    /**
      * @param string $metaKey
      * @return bool
      */
@@ -152,9 +207,9 @@ class RebusifyController extends Controller
             glsr_get($settings, $this->emailKey)
         );
         if ($rebusify->success) {
-            glsr(OptionManager::class)->set('rebusify', glsr_get($rebusify->response, 'producttype'));
+            update_option($this->rebusifyKey, glsr_get($rebusify->response, 'producttype'));
         } else {
-            glsr(OptionManager::class)->delete('rebusify');
+            delete_option($this->rebusifyKey);
             $settings = glsr(Helper::class)->dataSet($settings, $this->enabledKey, 'no');
             glsr(Notice::class)->addError(sprintf(
                 __('Your Rebusify account details could not be verified, please try again. %s', 'site-reviews'),

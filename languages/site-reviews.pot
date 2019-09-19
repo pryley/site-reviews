@@ -111,451 +111,447 @@ msgstr ""
 msgid "Integrate with WPML"
 msgstr ""
 
-#: config/settings.php:61
-msgid "Integrate with the Rebusify Confidence System and validate your reviews on the blockchain to increase online reputation, trust, and transparency."
+#: config/settings.php:60
+msgid "Integrate with the %s and validate your reviews on the blockchain to increase online reputation, trust, and transparency."
 msgstr ""
 
-#: config/settings.php:62
-msgid "Create your free Rebusify account here."
+#: config/settings.php:63
+msgid "Enable Blockchain Validation"
 msgstr ""
 
-#: config/settings.php:64
-msgid "Sync to Blockchain"
-msgstr ""
-
-#: config/settings.php:72
+#: config/settings.php:71
 msgid "Enter your Rebusify account email here."
 msgstr ""
 
-#: config/settings.php:73
+#: config/settings.php:72
 msgid "Rebusify Email"
 msgstr ""
 
-#: config/settings.php:81
+#: config/settings.php:80
 msgid "Enter your Rebusify account serial here."
 msgstr ""
 
-#: config/settings.php:82
+#: config/settings.php:81
 msgid "Rebusify Serial"
 msgstr ""
 
-#: config/settings.php:87
+#: config/settings.php:86
 msgid "Notifications"
 msgstr ""
 
-#: config/settings.php:89
+#: config/settings.php:88
 msgid "Send to administrator"
 msgstr ""
 
-#: config/settings.php:90
+#: config/settings.php:89
 msgid "Send to author of the page that the review is assigned to"
 msgstr ""
 
-#: config/settings.php:91
+#: config/settings.php:90
 msgid "Send to one or more email addresses"
 msgstr ""
 
-#: config/settings.php:92
+#: config/settings.php:91
 msgid "Send to <a href=\"https://slack.com/\">Slack</a>"
 msgstr ""
 
-#: config/settings.php:101
+#: config/settings.php:100
 msgid "Send Notification Emails To"
 msgstr ""
 
-#: config/settings.php:102
+#: config/settings.php:101
 msgid "Separate multiple emails with a comma"
 msgstr ""
 
-#: config/settings.php:110
+#: config/settings.php:109
 msgid "To send notifications to Slack, create a new %s and then paste the provided Webhook URL in the field above."
 msgstr ""
 
-#: config/settings.php:111
+#: config/settings.php:110
 msgid "Incoming WebHook"
 msgstr ""
 
-#: config/settings.php:113
+#: config/settings.php:112
 msgid "Slack Webhook URL"
 msgstr ""
 
-#: config/settings.php:133
+#: config/settings.php:132
 msgid "Notification Template"
 msgstr ""
 
-#: config/settings.php:139
+#: config/settings.php:138
 msgid "The default date format is the one set in your %s."
 msgstr ""
 
-#: config/settings.php:140
+#: config/settings.php:139
 msgid "WordPress settings"
 msgstr ""
 
-#: config/settings.php:142
+#: config/settings.php:141
 msgid "Date Format"
 msgstr ""
 
-#: config/settings.php:144
+#: config/settings.php:143
 msgid "Use the default date format"
 msgstr ""
 
-#: config/settings.php:145
+#: config/settings.php:144
 msgid "Use a relative date format"
 msgstr ""
 
-#: config/settings.php:146
+#: config/settings.php:145
 msgid "Use a custom date format"
 msgstr ""
 
-#: config/settings.php:155
+#: config/settings.php:154
 msgid "Enter a custom date format (<a href=\"https://codex.wordpress.org/Formatting_Date_and_Time\">documentation on date and time formatting</a>)."
 msgstr ""
 
-#: config/settings.php:156
+#: config/settings.php:155
 msgid "Custom Date Format"
 msgstr ""
 
-#: config/settings.php:161
+#: config/settings.php:160
 msgid "Display a link to the assigned post of a review."
 msgstr ""
 
-#: config/settings.php:162
+#: config/settings.php:161
 msgid "Enable Assigned Links"
 msgstr ""
 
-#: config/settings.php:167
+#: config/settings.php:166
 msgid "Display reviewer avatars. These are generated from the email address of the reviewer using <a href=\"https://gravatar.com\">Gravatar</a>."
 msgstr ""
 
-#: config/settings.php:168
+#: config/settings.php:167
 msgid "Enable Avatars"
 msgstr ""
 
-#: config/settings.php:176
+#: config/settings.php:175
 msgid "Regenerate the avatar whenever a local review is shown?"
 msgstr ""
 
-#: config/settings.php:177
+#: config/settings.php:176
 msgid "Regenerate Avatars"
 msgstr ""
 
-#: config/settings.php:185
+#: config/settings.php:184
 msgid "Set the avatar size in pixels."
 msgstr ""
 
-#: config/settings.php:186
+#: config/settings.php:185
 msgid "Avatar Size"
 msgstr ""
 
-#: config/settings.php:191
+#: config/settings.php:190
 msgid "Display an excerpt instead of the full review."
 msgstr ""
 
-#: config/settings.php:192
+#: config/settings.php:191
 msgid "Enable Excerpts"
 msgstr ""
 
-#: config/settings.php:200
+#: config/settings.php:199
 msgid "Set the excerpt word length."
 msgstr ""
 
-#: config/settings.php:201
+#: config/settings.php:200
 msgid "Excerpt Length"
 msgstr ""
 
-#: config/settings.php:206
+#: config/settings.php:205
 msgid "Display the fallback text when there are no reviews to display. This can be changed on the %s page. You may also override this by using the \"fallback\" option on the shortcode. The default fallback text is: %s"
 msgstr ""
 
-#: config/settings.php:207, plugin/Controllers/MenuController.php:114
+#: config/settings.php:206, plugin/Controllers/MenuController.php:114
 msgid "Translations"
 msgstr ""
 
-#: config/settings.php:208, plugin/Modules/Html/ReviewsHtml.php:136
+#: config/settings.php:207, plugin/Modules/Html/ReviewsHtml.php:136
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr ""
 
-#: config/settings.php:210
+#: config/settings.php:209
 msgid "Enable Fallback Text"
 msgstr ""
 
-#: config/settings.php:215, config/settings.php:235, config/settings.php:253, config/settings.php:271, config/settings.php:289, config/settings.php:310, config/settings.php:320, config/settings.php:330, config/settings.php:340, config/settings.php:354, config/settings.php:365, config/settings.php:376, config/settings.php:386
+#: config/settings.php:214, config/settings.php:234, config/settings.php:252, config/settings.php:270, config/settings.php:288, config/settings.php:309, config/settings.php:319, config/settings.php:329, config/settings.php:339, config/settings.php:353, config/settings.php:364, config/settings.php:375, config/settings.php:385
 msgid "Custom Field name"
 msgstr ""
 
-#: config/settings.php:216
+#: config/settings.php:215
 msgid "Default Schema Type"
 msgstr ""
 
-#: config/settings.php:218
+#: config/settings.php:217
 msgid "Local Business"
 msgstr ""
 
-#: config/settings.php:219
+#: config/settings.php:218
 msgid "Product"
 msgstr ""
 
-#: config/settings.php:220
+#: config/settings.php:219
 msgid "Custom"
 msgstr ""
 
-#: config/settings.php:229
+#: config/settings.php:228
 msgid "View more information on schema types here"
 msgstr ""
 
-#: config/settings.php:230
+#: config/settings.php:229
 msgid "Custom Schema Type"
 msgstr ""
 
-#: config/settings.php:236
+#: config/settings.php:235
 msgid "Default Name"
 msgstr ""
 
-#: config/settings.php:238
+#: config/settings.php:237
 msgid "Use the assigned or current page title"
 msgstr ""
 
-#: config/settings.php:239
+#: config/settings.php:238
 msgid "Enter a custom title"
 msgstr ""
 
-#: config/settings.php:248
+#: config/settings.php:247
 msgid "Custom Name"
 msgstr ""
 
-#: config/settings.php:254
+#: config/settings.php:253
 msgid "Default Description"
 msgstr ""
 
-#: config/settings.php:256
+#: config/settings.php:255
 msgid "Use the assigned or current page excerpt"
 msgstr ""
 
-#: config/settings.php:257
+#: config/settings.php:256
 msgid "Enter a custom description"
 msgstr ""
 
-#: config/settings.php:266
+#: config/settings.php:265
 msgid "Custom Description"
 msgstr ""
 
-#: config/settings.php:272
+#: config/settings.php:271
 msgid "Default URL"
 msgstr ""
 
-#: config/settings.php:274
+#: config/settings.php:273
 msgid "Use the assigned or current page URL"
 msgstr ""
 
-#: config/settings.php:275
+#: config/settings.php:274
 msgid "Enter a custom URL"
 msgstr ""
 
-#: config/settings.php:284
+#: config/settings.php:283
 msgid "Custom URL"
 msgstr ""
 
-#: config/settings.php:290
+#: config/settings.php:289
 msgid "Default Image"
 msgstr ""
 
-#: config/settings.php:292
+#: config/settings.php:291
 msgid "Use the featured image of the assigned or current page"
 msgstr ""
 
-#: config/settings.php:293
+#: config/settings.php:292
 msgid "Enter a custom image URL"
 msgstr ""
 
-#: config/settings.php:302
+#: config/settings.php:301
 msgid "Custom Image URL"
 msgstr ""
 
-#: config/settings.php:311
+#: config/settings.php:310
 msgid "Address"
 msgstr ""
 
-#: config/settings.php:321
+#: config/settings.php:320
 msgid "Telephone Number"
 msgstr ""
 
-#: config/settings.php:331
+#: config/settings.php:330
 msgid "Price Range"
 msgstr ""
 
-#: config/settings.php:341
+#: config/settings.php:340
 msgid "Offer Type"
 msgstr ""
 
-#: config/settings.php:343
+#: config/settings.php:342
 msgid "AggregateOffer"
 msgstr ""
 
-#: config/settings.php:344
+#: config/settings.php:343
 msgid "Offer"
 msgstr ""
 
-#: config/settings.php:355
+#: config/settings.php:354
 msgid "Price"
 msgstr ""
 
-#: config/settings.php:366
+#: config/settings.php:365
 msgid "Low Price"
 msgstr ""
 
-#: config/settings.php:377
+#: config/settings.php:376
 msgid "High Price"
 msgstr ""
 
-#: config/settings.php:387
+#: config/settings.php:386
 msgid "Price Currency"
 msgstr ""
 
-#: config/settings.php:393
+#: config/settings.php:392
 msgid "Choose which fields should be required in the submission form."
 msgstr ""
 
-#: config/settings.php:394
+#: config/settings.php:393
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:396, plugin/Controllers/EditorController.php:419, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsPopup.php:30
+#: config/settings.php:395, plugin/Controllers/EditorController.php:419, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsPopup.php:30
 msgid "Rating"
 msgstr ""
 
-#: config/settings.php:397, plugin/Defaults/PostTypeDefaults.php:16, plugin/Shortcodes/SiteReviewsFormPopup.php:16, plugin/Shortcodes/SiteReviewsPopup.php:17, plugin/Shortcodes/SiteReviewsSummaryPopup.php:17, plugin/Widgets/SiteReviewsFormWidget.php:20, plugin/Widgets/SiteReviewsSummaryWidget.php:20, plugin/Widgets/SiteReviewsWidget.php:20
+#: config/settings.php:396, plugin/Defaults/PostTypeDefaults.php:16, plugin/Shortcodes/SiteReviewsFormPopup.php:16, plugin/Shortcodes/SiteReviewsPopup.php:17, plugin/Shortcodes/SiteReviewsSummaryPopup.php:17, plugin/Widgets/SiteReviewsFormWidget.php:20, plugin/Widgets/SiteReviewsSummaryWidget.php:20, plugin/Widgets/SiteReviewsWidget.php:20
 msgid "Title"
 msgstr ""
 
-#: config/settings.php:398, plugin/Controllers/MainController.php:41
+#: config/settings.php:397, plugin/Controllers/MainController.php:41
 msgid "Review"
 msgstr ""
 
-#: config/settings.php:399, plugin/Controllers/EditorController.php:422
+#: config/settings.php:398, plugin/Controllers/EditorController.php:422
 msgid "Name"
 msgstr ""
 
-#: config/settings.php:400, plugin/Controllers/EditorController.php:423
+#: config/settings.php:399, plugin/Controllers/EditorController.php:423
 msgid "Email"
 msgstr ""
 
-#: config/settings.php:401
+#: config/settings.php:400
 msgid "Terms"
 msgstr ""
 
-#: config/settings.php:407
+#: config/settings.php:406
 msgid "Limits the number of reviews that can be submitted to one-per-person. If you are assigning reviews, then the limit will be applied to the assigned page or category."
 msgstr ""
 
-#: config/settings.php:408
+#: config/settings.php:407
 msgid "Limit Reviews"
 msgstr ""
 
-#: config/settings.php:410
+#: config/settings.php:409
 msgid "No Limit"
 msgstr ""
 
-#: config/settings.php:411
+#: config/settings.php:410
 msgid "By Email Address"
 msgstr ""
 
-#: config/settings.php:412
+#: config/settings.php:411
 msgid "By IP Address"
 msgstr ""
 
-#: config/settings.php:413
+#: config/settings.php:412
 msgid "By Username (will only work for registered users)"
 msgstr ""
 
-#: config/settings.php:422
+#: config/settings.php:421
 msgid "One Email per line. All emails in the whitelist will be excluded from the review submission limit."
 msgstr ""
 
-#: config/settings.php:423
+#: config/settings.php:422
 msgid "Email Whitelist"
 msgstr ""
 
-#: config/settings.php:432
+#: config/settings.php:431
 msgid "One IP Address per line. All IP Addresses in the whitelist will be excluded from the review submission limit.."
 msgstr ""
 
-#: config/settings.php:433
+#: config/settings.php:432
 msgid "IP Address Whitelist"
 msgstr ""
 
-#: config/settings.php:442
+#: config/settings.php:441
 msgid "One Username per line. All registered users with a Username in the whitelist will be excluded from the review submission limit."
 msgstr ""
 
-#: config/settings.php:443
+#: config/settings.php:442
 msgid "Username Whitelist"
 msgstr ""
 
-#: config/settings.php:449
+#: config/settings.php:448
 msgid "Invisible reCAPTCHA is a free anti-spam service from Google. To use it, you will need to <a href=\"https://www.google.com/recaptcha/admin\" target=\"_blank\">sign up</a> for an API key pair for your site."
 msgstr ""
 
-#: config/settings.php:450
+#: config/settings.php:449
 msgid "Invisible reCAPTCHA"
 msgstr ""
 
-#: config/settings.php:463
+#: config/settings.php:462
 msgid "Site Key"
 msgstr ""
 
-#: config/settings.php:471
+#: config/settings.php:470
 msgid "Site Secret"
 msgstr ""
 
-#: config/settings.php:479
+#: config/settings.php:478
 msgid "This option may not work consistently if another plugin is loading reCAPTCHA on the same page as Site Reviews."
 msgstr ""
 
-#: config/settings.php:480
+#: config/settings.php:479
 msgid "Badge Position"
 msgstr ""
 
-#: config/settings.php:490
+#: config/settings.php:489
 msgid "The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> integration provides spam-filtering for your reviews. In order for this setting to have any affect, you will need to first install and activate the Akismet plugin and set up a WordPress.com API key."
 msgstr ""
 
-#: config/settings.php:491
+#: config/settings.php:490
 msgid "Enable Akismet Integration"
 msgstr ""
 
-#: config/settings.php:496
+#: config/settings.php:495
 msgid "Choose which Blacklist you would prefer to use for reviews. The %s can be found in the WordPress Discussion Settings page."
 msgstr ""
 
-#: config/settings.php:497
+#: config/settings.php:496
 msgid "Comment Blacklist"
 msgstr ""
 
-#: config/settings.php:499
+#: config/settings.php:498
 msgid "Blacklist"
 msgstr ""
 
-#: config/settings.php:511
+#: config/settings.php:510
 msgid "One entry or IP address per line. When a review contains any of these entries in its title, content, name, email, or IP address, it will be rejected. It is case-insensitive and will match partial words, so \"press\" will match \"WordPress\"."
 msgstr ""
 
-#: config/settings.php:512
+#: config/settings.php:511
 msgid "Review Blacklist"
 msgstr ""
 
-#: config/settings.php:518
+#: config/settings.php:517
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr ""
 
-#: config/settings.php:519
+#: config/settings.php:518
 msgid "Blacklist Action"
 msgstr ""
 
-#: config/settings.php:521
+#: config/settings.php:520
 msgid "Require approval"
 msgstr ""
 
-#: config/settings.php:522
+#: config/settings.php:521
 msgid "Reject submission"
 msgstr ""
 
@@ -979,15 +975,31 @@ msgstr ""
 msgid "System Info"
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:26
+#: plugin/Controllers/RebusifyController.php:154
+msgid "Create your free Rebusify account"
+msgstr ""
+
+#: plugin/Controllers/RebusifyController.php:167
+msgid "Free Rebusify accounts are limited to 500 blockchain transactions per year."
+msgstr ""
+
+#: plugin/Controllers/RebusifyController.php:168
+msgid "Upgrade Your Rebusify Plan"
+msgstr ""
+
+#: plugin/Controllers/RebusifyController.php:214
+msgid "Your Rebusify account details could not be verified, please try again. %s"
+msgstr ""
+
+#: plugin/Controllers/SettingsController.php:27
 msgid "Settings updated."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:106
+#: plugin/Controllers/SettingsController.php:107
 msgid "Please install/activate the %s plugin to enable integration."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:112
+#: plugin/Controllers/SettingsController.php:113
 msgid "Please update the %s plugin to v%s or greater to enable integration."
 msgstr ""
 

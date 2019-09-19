@@ -18,7 +18,7 @@ class Template
         $template = ob_get_clean();
         $path = glsr(Helper::class)->removePrefix('templates/', $templatePath);
         $template = apply_filters('site-reviews/build/template/'.$path, $template, $data);
-        $template = $this->interpolate($template, $data['context'], $path);
+        $template = $this->interpolate($template, $data, $path);
         $template = apply_filters('site-reviews/rendered/template', $template, $templatePath, $data);
         $template = apply_filters('site-reviews/rendered/template/'.$path, $template, $data);
         return $template;
@@ -30,10 +30,10 @@ class Template
      * @param string $templatePath
      * @return string
      */
-    public function interpolate($template, array $context = [], $templatePath)
+    public function interpolate($template, array $data = [], $templatePath)
     {
-        $context = $this->normalizeContext($context);
-        $context = apply_filters('site-reviews/interpolate/'.$templatePath, $context, $template);
+        $context = $this->normalizeContext(glsr_get($data, 'context', []));
+        $context = apply_filters('site-reviews/interpolate/'.$templatePath, $context, $template, $data);
         foreach ($context as $key => $value) {
             $template = strtr(
                 $template,

@@ -83,6 +83,7 @@ class Field
                     'type' => $this->field['type'],
                 ]),
             ],
+            'field' => $this->field,
         ]);
         return apply_filters('site-reviews/rendered/field', $field, $this->field['type'], $this->field);
     }
@@ -98,6 +99,7 @@ class Field
                 'field' => glsr(Builder::class)->{$this->field['type']}($this->field),
                 'label' => glsr(Builder::class)->label($this->field['legend'], ['for' => $this->field['id']]),
             ],
+            'field' => $this->field,
         ]);
     }
 
@@ -116,6 +118,7 @@ class Field
                 'label' => glsr(Builder::class)->label($this->field['legend'], ['for' => $this->field['id']]),
                 'legend' => $this->field['legend'],
             ],
+            'field' => $this->field,
         ]);
     }
 
@@ -163,6 +166,7 @@ class Field
             'context' => [
                 'errors' => $errors,
             ],
+            'field' => $this->field,
         ]);
     }
 
