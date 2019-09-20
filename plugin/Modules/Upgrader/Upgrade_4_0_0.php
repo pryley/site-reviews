@@ -43,6 +43,8 @@ class Upgrade_4_0_0
             $settings = glsr(Helper::class)->dataSet($settings, 'settings.general.rebusify', 'no');
             $settings = glsr(Helper::class)->dataSet($settings, 'settings.general.rebusify_email', '');
             $settings = glsr(Helper::class)->dataSet($settings, 'settings.general.rebusify_serial', '');
+            $settings = glsr(Helper::class)->dataSet($settings, 'settings.reviews.name.format', '');
+            $settings = glsr(Helper::class)->dataSet($settings, 'settings.reviews.name.initial', '');
             $settings = glsr(Helper::class)->dataSet($settings, 'settings.submissions.blacklist.integration', '');
             $settings = glsr(Helper::class)->dataSet($settings, 'settings.submissions.limit', '');
             $settings = glsr(Helper::class)->dataSet($settings, 'settings.submissions.limit_whitelist.email', '');

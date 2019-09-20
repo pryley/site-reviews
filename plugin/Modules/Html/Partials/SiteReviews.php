@@ -146,7 +146,12 @@ class SiteReviews
     protected function buildOptionAuthor($key, $value)
     {
         if (!$this->isHidden($key)) {
-            return '<span>'.$value.'</span>';
+            $name = glsr(Helper::class)->convertName(
+                $value,
+                glsr_get_option('reviews.name.format'),
+                glsr_get_option('reviews.name.initial')
+            );
+            return '<span>'.$name.'</span>';
         }
     }
 

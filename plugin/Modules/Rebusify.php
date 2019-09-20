@@ -83,7 +83,7 @@ class Rebusify
     {
         $rebusifyReview = [
             'domain' => get_site_url(),
-            'firstname' => glsr(Helper::class)->truncate($review->author, 25),
+            'firstname' => glsr(Helper::class)->truncate(glsr(Helper::class)->convertName($review->author, 'first'), 25),
             'rate' => $review->rating,
             'review_transaction_id' => $review->review_id,
             'reviews' => glsr(Helper::class)->truncate($review->content, 280),

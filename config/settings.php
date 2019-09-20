@@ -155,6 +155,33 @@ return [
         'label' => __('Custom Date Format', 'site-reviews'),
         'type' => 'text',
     ],
+    'settings.reviews.name.format' => [
+        'default' => '',
+        'description' => __('Choose how names are shown in your reviews.', 'site-reviews'),
+        'label' => __('Name Format', 'site-reviews'),
+        'options' => [
+            '' => __('Use the name as given', 'site-reviews'),
+            'first' => __('Use the first name only', 'site-reviews'),
+            'first_initial' => __('Convert first name to an initial', 'site-reviews'),
+            'last_initial' => __('Convert last name to an initial', 'site-reviews'),
+            'initials' => __('Convert to all initials', 'site-reviews'),
+        ],
+        'type' => 'select',
+    ],
+    'settings.reviews.name.initial' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.reviews.name.format' => ['first_initial', 'last_initial', 'initials'],
+        ],
+        'description' => __('Choose how the initial is displayed.', 'site-reviews'),
+        'label' => __('Initial Format', 'site-reviews'),
+        'options' => [
+            '' => __('Initial with a space', 'site-reviews'),
+            'period' => __('Initial with a period', 'site-reviews'),
+            'period_space' => __('Initial with a period and a space', 'site-reviews'),
+        ],
+        'type' => 'select',
+    ],
     'settings.reviews.assigned_links' => [
         'default' => 'no',
         'description' => __('Display a link to the assigned post of a review.', 'site-reviews'),
