@@ -361,7 +361,10 @@ class System
     protected function purgeSensitiveData(array $settings)
     {
         $keys = [
-            'licenses.', 'submissions.recaptcha.key', 'submissions.recaptcha.secret',
+            'general.rebusify_serial',
+            'licenses.',
+            'submissions.recaptcha.key',
+            'submissions.recaptcha.secret',
         ];
         array_walk($settings, function (&$value, $setting) use ($keys) {
             foreach ($keys as $key) {
