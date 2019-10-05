@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Review;
 
@@ -14,6 +16,16 @@ class Rebusify
     public $success;
 
     /**
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        return property_exists($this, $key)
+            ? $this->$key
+            : glsr_get($this->response, $key, null);
+    }
+
+    /**
      * @return self
      */
     public function activateKey($apiKey = '', $email = '')
@@ -21,7 +33,7 @@ class Rebusify
         $this->send('api_key_activation.php', [
             'body' => [
                 'apikey' => $apiKey ?: 0,
-                'domain' => get_site_url(),
+                'domain' => get_home_url(),
                 'email' => $email ?: 0,
             ],
         ]);
@@ -69,7 +81,7 @@ class Rebusify
     {
         $rebusifyResponse = [
             'reply' => glsr(Helper::class)->truncate($review->response, 300),
-            'review_id' => '', // @todo this should be the rebusify review ID
+            'review_id' => glsr(Database::class)->get($review->ID, 'rebusify'), // this is the rebusify review ID
             'review_transaction_id' => $review->review_id,
             'type' => 'M',
         ];
@@ -82,13 +94,13 @@ class Rebusify
     protected function getBodyForReview(Review $review)
     {
         $rebusifyReview = [
-            'domain' => get_site_url(),
+            'domain' => get_home_url(),
             'firstname' => glsr(Helper::class)->truncate(glsr(Helper::class)->convertName($review->author, 'first'), 25),
             'rate' => $review->rating,
             'review_transaction_id' => $review->review_id,
             'reviews' => glsr(Helper::class)->truncate($review->content, 280),
             'title' => glsr(Helper::class)->truncate($review->title, 35),
-            'transaction' => 0, // woocommerce field, not needed for Site Reviews
+            'transaction' => Application::ID, // woocommerce field, not needed for Site Reviews
         ];
         return apply_filters('site-reviews/rebusify/review', $rebusifyReview, $review);
     }
@@ -109,15 +121,12 @@ class Rebusify
             $this->message = glsr_get($this->response, 'msg');
             $this->success = 'success' === glsr_get($this->response, 'result') || 'yes' === glsr_get($this->response, 'success'); // @todo remove this ugly hack!
             if (200 !== $responseCode) {
-                $this->message = 'Bad response code ['.$responseCode.']';
+                glsr_log()->error('Bad response code ['.$responseCode.']');
             }
             if (!$this->success) {
                 glsr_log()->error($this->message);
-            } else {
-                glsr_log()->debug($this->message);
             }
         }
-        glsr_log()->debug($this->response);
     }
 
     /**
@@ -133,7 +142,6 @@ class Rebusify
             'sslverify' => false,
             'timeout' => 5,
         ]);
-        glsr_log()->debug($args['body']);
         $this->reset();
         $this->handleResponse(
             wp_remote_post(trailingslashit(static::API_URL).$endpoint, $args)

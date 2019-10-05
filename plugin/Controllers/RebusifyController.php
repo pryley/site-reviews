@@ -66,16 +66,12 @@ class RebusifyController extends Controller
      */
     public function onCreated(Review $review)
     {
-        glsr_log()->debug('onCreated event triggered')->debug([
-            'can-proceed' => $this->canProceed($review),
-            'has-publish-status' => 'publish' === $review->status,
-        ]);
-        if ($this->canProceed($review) && 'publish' === $review->status) {
-            glsr_log()->debug('Sending review to Rebusify');
-            $rebusify = glsr(Rebusify::class)->sendReview($review);
-            if ($rebusify->success) {
-                glsr(Database::class)->set($review->ID, 'rebusify', true);
-            }
+        if (!$this->canPostReview($review)) {
+            return;
+        }
+        $rebusify = glsr(Rebusify::class)->sendReview($review);
+        if ($rebusify->success) {
+            glsr(Database::class)->set($review->ID, 'rebusify', $rebusify->review_id);
         }
     }
 
@@ -86,16 +82,12 @@ class RebusifyController extends Controller
      */
     public function onReverted(Review $review)
     {
-        glsr_log()->debug('onReverted event triggered')->debug([
-            'can-proceed' => $this->canProceed($review),
-            'has-publish-status' => 'publish' === $review->status,
-        ]);
-        if ($this->canProceed($review) && 'publish' === $review->status) {
-            glsr_log()->debug('Sending review to Rebusify');
-            $rebusify = glsr(Rebusify::class)->sendReview($review);
-            if ($rebusify->success) {
-                glsr(Database::class)->set($review->ID, 'rebusify', true);
-            }
+        if (!$this->canPostReview($review)) {
+            return;
+        }
+        $rebusify = glsr(Rebusify::class)->sendReview($review);
+        if ($rebusify->success) {
+            glsr(Database::class)->set($review->ID, 'rebusify', $rebusify->review_id);
         }
     }
 
@@ -106,16 +98,12 @@ class RebusifyController extends Controller
      */
     public function onSaved(Review $review)
     {
-        glsr_log()->debug('onSaved event triggered')->debug([
-            'can-proceed' => $this->canProceed($review),
-            'has-publish-status' => 'publish' === $review->status,
-        ]);
-        if ($this->canProceed($review) && 'publish' === $review->status) {
-            glsr_log()->debug('Sending review to Rebusify');
-            $rebusify = glsr(Rebusify::class)->sendReview($review);
-            if ($rebusify->success) {
-                glsr(Database::class)->set($review->ID, 'rebusify', true);
-            }
+        if (!$this->canPostReview($review)) {
+            return;
+        }
+        $rebusify = glsr(Rebusify::class)->sendReview($review);
+        if ($rebusify->success) {
+            glsr(Database::class)->set($review->ID, 'rebusify', $rebusify->review_id);
         }
     }
 
@@ -130,17 +118,9 @@ class RebusifyController extends Controller
     public function onUpdatedMeta($metaId, $postId, $metaKey)
     {
         $review = glsr_get_review($postId);
-        glsr_log()->debug('onUpdatedMeta event triggered')->debug([
-            'can-proceed' => $this->canProceed($review, 'rebusify_response'),
-            'has-publish-status' => 'publish' === $review->status,
-            'is-response' => '_response' === $metaKey,
-        ]);
-        if (!$this->isReviewPostId($review->ID)
-            || !$this->canProceed($review, 'rebusify_response')
-            || '_response' !== $metaKey) {
+        if (!$this->canPostResponse($review) || '_response' !== $metaKey) {
             return;
         }
-        glsr_log()->debug('Sending merchant response to Rebusify');
         $rebusify = glsr(Rebusify::class)->sendReviewResponse($review);
         if ($rebusify->success) {
             glsr(Database::class)->set($review->ID, 'rebusify_response', true);
@@ -177,13 +157,55 @@ class RebusifyController extends Controller
     }
 
     /**
+     * @return bool
+     */
+    protected function canPostResponse(Review $review)
+    {
+        $requiredValues = [
+            glsr(Database::class)->get($review->ID, 'rebusify'),
+            $review->response,
+            $review->review_id,
+        ];
+        return $this->canProceed($review, 'rebusify_response')
+            && 'publish' === $review->status
+            && 3 === count(array_filter($requiredValues));
+    }
+
+    /**
+     * @return bool
+     */
+    protected function canPostReview(Review $review)
+    {
+        $requiredValues = [
+            $review->author,
+            $review->content,
+            $review->rating,
+            $review->review_id,
+            $review->title,
+        ];
+        return $this->canProceed($review)
+            && 'publish' === $review->status
+            && 5 === count(array_filter($requiredValues));
+    }
+
+    /**
      * @param string $metaKey
      * @return bool
      */
     protected function canProceed(Review $review, $metaKey = 'rebusify')
     {
-        return !glsr(Database::class)->get($review->ID, $metaKey)
-            && glsr(OptionManager::class)->getBool($this->enabledKey);
+        return glsr(OptionManager::class)->getBool($this->enabledKey)
+            && $this->isReviewPostId($review->ID)
+            && !$this->hasMetaKey($review, $metaKey);
+    }
+
+    /**
+     * @param string $metaKey
+     * @return bool
+     */
+    protected function hasMetaKey(Review $review, $metaKey = 'rebusify')
+    {
+        return '' !== glsr(Database::class)->get($review->ID, $metaKey);
     }
 
     /**
