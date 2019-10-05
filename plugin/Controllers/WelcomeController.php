@@ -91,6 +91,7 @@ class WelcomeController extends Controller
         $tabs = apply_filters('site-reviews/addon/welcome/tabs', [
             'getting-started' => __('Getting Started', 'site-reviews'),
             'whatsnew' => __('What\'s New', 'site-reviews'),
+            'upgrade-guide' => __('Upgrade Guide', 'site-reviews'),
             'support' => __('Support', 'site-reviews'),
         ]);
         glsr()->render('pages/welcome/index', [
