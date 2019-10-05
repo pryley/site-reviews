@@ -1,7 +1,7 @@
 <?php defined('WPINC') || die; ?>
 
 <div class="wrap">
-    <h1 class="page-title"><?= esc_html(get_admin_page_title()); ?></h1>
+    <h1 class="wp-heading-inline"><?= esc_html(get_admin_page_title()); ?></h1>
     <?= $notices; ?>
     <p><?= __('Add-ons extend the functionality of Site Reviews.', 'site-reviews'); ?></p>
     <div class="glsr-addons wp-clearfix">

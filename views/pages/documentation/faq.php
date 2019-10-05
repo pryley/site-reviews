@@ -455,3 +455,24 @@ add_filter('site-reviews/validation/rules', function ($rules) {
         </ol>
     </div>
 </div>
+
+<div id="faq-18" class="glsr-card postbox">
+    <div class="glsr-card-header">
+        <h3>Why are the IP Addresses being detected as 127.0.0.1?</h3>
+        <button type="button" class="handlediv" aria-expanded="true">
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="toggle-indicator" aria-hidden="true"></span>
+        </button>
+    </div>
+    <div class="inside">
+        <p>If your server uses a reverse proxy (i.e. <a target="_blank" href="https://varnish-cache.org/intro/">Varnish</a>), then you may need to tell Site Reviews which custom header to use for IP Address detection. To add a custom header, use the following code snippet:</p>
+        <pre><code class="php">/**
+ * Add a custom reverse proxy header to fix IP detection
+ * @param \Geminilabs\Vectorface\Whip $whip
+ * @return void
+ */
+add_action('site-reviews/whip', function($whip) {
+    $whip->addCustomHeader('X_REAL_IP'); // change the header as needed
+});</code></pre>
+    </div>
+</div>

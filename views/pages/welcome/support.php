@@ -1,7 +1,7 @@
 <?php defined('WPINC') || die; ?>
 
 <p class="about-description">
-    Still need help with <?= glsr()->name; ?>? We offer excellent support for you. But don't forget to check our <a target="_blank" href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!shortcodes'); ?>">documentation</a> first.
+    Still need help with <?= glsr()->name; ?>? We offer excellent support for you. But don't forget to check our <a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!shortcodes'); ?>">documentation</a> first.
 </p>
 <div class="is-fullwidth">
     <div class="glsr-flex-row glsr-has-2-columns">

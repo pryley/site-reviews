@@ -1092,7 +1092,7 @@ msgstr "Please update the %s plugin to v%s or greater to enable integration."
 msgid "Filter by category"
 msgstr "Filter by category"
 
-#: plugin/Controllers/WelcomeController.php:17
+#: plugin/Controllers/WelcomeController.php:17, views/pages/documentation/index.php:5
 msgid "About"
 msgstr "About"
 
@@ -1690,11 +1690,11 @@ msgstr ""
 "Sync your Tripadvisor reviews to your website and manage them with Site "
 "Reviews."
 
-#: views/pages/documentation/addons.php:8, views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:37, views/pages/documentation/faq.php:54, views/pages/documentation/faq.php:80, views/pages/documentation/faq.php:96, views/pages/documentation/faq.php:124, views/pages/documentation/faq.php:150, views/pages/documentation/faq.php:182, views/pages/documentation/faq.php:204, views/pages/documentation/faq.php:217, views/pages/documentation/faq.php:242, views/pages/documentation/faq.php:279, views/pages/documentation/faq.php:322, views/pages/documentation/faq.php:360, views/pages/documentation/faq.php:416, views/pages/documentation/faq.php:429, views/pages/documentation/faq.php:445, views/pages/documentation/functions.php:7, views/pages/documentation/functions.php:41, views/pages/documentation/functions.php:97, views/pages/documentation/functions.php:122, views/pages/documentation/functions.php:151, views/pages/documentation/functions.php:177, views/pages/documentation/functions.php:229, views/pages/documentation/functions.php:303, views/pages/documentation/functions.php:327, views/pages/documentation/functions.php:355, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:33, views/pages/documentation/hooks.php:57, views/pages/documentation/hooks.php:76, views/pages/documentation/hooks.php:95, views/pages/documentation/hooks.php:115, views/pages/documentation/hooks.php:139, views/pages/documentation/hooks.php:166, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:81, views/pages/documentation/shortcodes.php:129, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:63
+#: views/pages/documentation/addons.php:8, views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:37, views/pages/documentation/faq.php:54, views/pages/documentation/faq.php:80, views/pages/documentation/faq.php:96, views/pages/documentation/faq.php:124, views/pages/documentation/faq.php:150, views/pages/documentation/faq.php:182, views/pages/documentation/faq.php:204, views/pages/documentation/faq.php:217, views/pages/documentation/faq.php:242, views/pages/documentation/faq.php:279, views/pages/documentation/faq.php:322, views/pages/documentation/faq.php:360, views/pages/documentation/faq.php:416, views/pages/documentation/faq.php:429, views/pages/documentation/faq.php:445, views/pages/documentation/faq.php:463, views/pages/documentation/functions.php:7, views/pages/documentation/functions.php:41, views/pages/documentation/functions.php:97, views/pages/documentation/functions.php:122, views/pages/documentation/functions.php:151, views/pages/documentation/functions.php:177, views/pages/documentation/functions.php:229, views/pages/documentation/functions.php:303, views/pages/documentation/functions.php:327, views/pages/documentation/functions.php:355, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:33, views/pages/documentation/hooks.php:57, views/pages/documentation/hooks.php:76, views/pages/documentation/hooks.php:95, views/pages/documentation/hooks.php:115, views/pages/documentation/hooks.php:139, views/pages/documentation/hooks.php:166, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:81, views/pages/documentation/shortcodes.php:129, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:63
 msgid "Toggle documentation panel"
 msgstr "Toggle documentation panel"
 
-#: views/pages/documentation/index.php:6
+#: views/pages/documentation/index.php:7
 msgid "Click an active tab to expand/collapse all sections."
 msgstr "Click an active tab to expand/collapse all sections."
 

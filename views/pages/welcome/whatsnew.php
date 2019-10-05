@@ -6,7 +6,7 @@
         <div class="glsr-column">
             <div class="card is-fullwidth">
                 <h3><?= glsr()->version; ?></h3>
-                <p><em>Release Date &mdash; ?? September, 2019</em></p>
+                <p><em>Release Date &mdash; October 6th, 2019</em></p>
                 <h4>New Features</h4>
                 <ul>
                     <li>Added Multisite support</li>
