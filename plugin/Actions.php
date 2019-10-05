@@ -82,7 +82,7 @@ class Actions implements HooksContract
         add_action('post_submitbox_misc_actions',                           [$this->editor, 'renderPinnedInPublishMetaBox']);
         add_action('admin_head',                                            [$this->editor, 'renderReviewFields']);
         add_action('admin_action_revert',                                   [$this->editor, 'revertReview']);
-        add_action('save_post_'.Application::POST_TYPE,                     [$this->editor, 'saveMetaboxes']);
+        add_action('save_post_'.Application::POST_TYPE,                     [$this->editor, 'saveMetaboxes'], 10, 3);
         add_action('admin_action_approve',                                  [$this->listtable, 'approve']);
         add_action('bulk_edit_custom_box',                                  [$this->listtable, 'renderBulkEditFields'], 10, 2);
         add_action('restrict_manage_posts',                                 [$this->listtable, 'renderColumnFilters']);

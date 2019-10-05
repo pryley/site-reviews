@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
+use GeminiLabs\SiteReviews\Helper;
+
 class CreateReview
 {
     public $ajax_request;
@@ -33,7 +35,7 @@ class CreateReview
         $this->author = sanitize_text_field($this->getUser('name'));
         $this->avatar = $this->getAvatar();
         $this->blacklisted = isset($input['blacklisted']);
-        $this->category = sanitize_key($this->get('category'));
+        $this->category = $this->getCategory();
         $this->content = sanitize_textarea_field($this->get('content'));
         $this->custom = $this->getCustom();
         $this->date = $this->getDate('date');
@@ -67,6 +69,15 @@ class CreateReview
         return !filter_var($avatar, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)
             ? (string) get_avatar_url($this->get('email'))
             : $avatar;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getCategory()
+    {
+        $categories = glsr(Helper::class)->convertStringToArray($this->get('category'));
+        return sanitize_key(glsr_get($categories, 0));
     }
 
     /**

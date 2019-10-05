@@ -301,14 +301,18 @@ class EditorController extends Controller
 
     /**
      * @param int $postId
+     * @param \WP_Post $post
+     * @param bool $isUpdate
      * @return void
      * @action save_post_.Application::POST_TYPE
      */
-    public function saveMetaboxes($postId)
+    public function saveMetaboxes($postId, $post, $isUpdating)
     {
         glsr(Metaboxes::class)->saveAssignedToMetabox($postId);
         glsr(Metaboxes::class)->saveResponseMetabox($postId);
-        do_action('site-reviews/review/saved', glsr_get_review($postId));
+        if ($isUpdating) {
+            do_action('site-reviews/review/saved', glsr_get_review($postId));
+        }
     }
 
     /**
