@@ -86,14 +86,14 @@
         <p>This shortcode displays the review submission form.</p>
 
         <p class="glsr-heading">assign_to</p>
-        <p>Include the "assign_to" attribute to automatically assign submitted reviews to a specific page or post. Accepted values are one or more <a href="https://pagely.com/blog/find-post-id-wordpress/">page/post ID's</a> (separated by commas). You can also use <code>post_id</code> which will automatically assign reviews to the current page, or <code>parent_id</code> which will automatically use the ID of the parent page.</p>
+        <p>Include the "assign_to" attribute to automatically assign submitted reviews to a specific page or post. Accepted value is a <a href="https://pagely.com/blog/find-post-id-wordpress/">page/post ID</a>. You can also use <code>post_id</code> which will automatically assign reviews to the current page, or <code>parent_id</code> which will automatically use the ID of the parent page.</p>
         <p>The default assign_to value is: <code>""</code></p>
         <pre><code>[site_reviews_form assign_to="post_id"]</code></pre>
 
         <p class="glsr-heading">category</p>
-        <p>Include the "category" attribute to automatically assign one or more categories to the submitted review. Accepted values are either a category ID or slug.</p>
+        <p>Include the "category" attribute to automatically assign a category to the submitted review. Accepted values are either a category ID or slug.</p>
         <p>The default category value is: <code>""</code></p>
-        <pre><code>[site_reviews_form category="13,14"]</code></pre>
+        <pre><code>[site_reviews_form category="13"]</code></pre>
 
         <p class="glsr-heading">class</p>
         <p>Include the "class" attribute to add custom CSS classes to the shortcode form.</p>
