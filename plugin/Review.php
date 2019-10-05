@@ -92,12 +92,9 @@ class Review implements \ArrayAccess
      */
     public function offsetGet($key)
     {
-        if (property_exists($this, $key)) {
-            return $this->{$key};
-        }
-        return array_key_exists($key, (array) $this->custom)
-            ? $this->custom[$key]
-            : null;
+        return property_exists($this, $key)
+            ? $this->$key
+            : glsr_get($this->custom, $key, null);
     }
 
     /**
@@ -108,7 +105,7 @@ class Review implements \ArrayAccess
     public function offsetSet($key, $value)
     {
         if (property_exists($this, $key)) {
-            $this->{$key} = $value;
+            $this->$key = $value;
             return;
         }
         if (!is_array($this->custom)) {

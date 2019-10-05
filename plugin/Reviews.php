@@ -56,7 +56,7 @@ class Reviews extends ArrayObject
     public function offsetGet($key)
     {
         if (property_exists($this, $key)) {
-            return $this->{$key};
+            return $this->$key;
         }
         return array_key_exists($key, $this->reviews)
             ? $this->reviews[$key]

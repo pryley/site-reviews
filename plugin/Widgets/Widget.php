@@ -34,7 +34,7 @@ abstract class Widget extends WP_Widget
     protected function renderField($tag, array $args = [])
     {
         $args = $this->normalizeFieldAttributes($tag, $args);
-        $field = glsr(Builder::class)->{$tag}($args['name'], $args);
+        $field = glsr(Builder::class)->$tag($args['name'], $args);
         echo glsr(Builder::class)->div($field, [
             'class' => 'glsr-field',
         ]);
