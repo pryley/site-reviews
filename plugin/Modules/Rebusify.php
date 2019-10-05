@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Review;
 class Rebusify
 {
     const API_URL = 'https://www.rebusify.com/api/rbs/';
+    const WEB_URL = 'https://rebusify.com/plans?ref=105';
 
     public $message;
     public $response;

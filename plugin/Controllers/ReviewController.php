@@ -80,11 +80,13 @@ class ReviewController extends Controller
      */
     public function onBeforeDelete($postId)
     {
-        if (!$this->isReviewPostId($postId) || 'trash' !== $review->status) {
+        if (!$this->isReviewPostId($postId)) {
             return;
         }
         $review = glsr_get_review($postId);
-        glsr(CountsManager::class)->decrease($review);
+        if ('trash' !== $review->status) { // do not run for trashed posts
+            glsr(CountsManager::class)->decrease($review);
+        }
     }
 
     /**

@@ -40,6 +40,10 @@
             <p>Blacklist words, phrases, IP addresses, names, and emails.</p>
         </li>
         <li class="glsr-column">
+            <h3><a href="<?= admin_url('edit.php?post_type=site-review&page=settings#!general'); ?>">Blockchain Validation</a></h3>
+            <p>Verify your reviews on the Blockchain with <a href="https://rebusify.com?ref=105">Rebusify</a>.</p>
+        </li>
+        <li class="glsr-column">
             <h3><a href="<?= admin_url('edit-tags.php?taxonomy=site-review-category&post_type=site-review'); ?>">Categories</a></h3>
             <p>Add your own categories and assign reviews to them.</p>
         </li>
@@ -64,6 +68,10 @@
             <p>Integrates with Polylang and WPML and provides easy search/replace translation.</p>
         </li>
         <li class="glsr-column">
+            <h3><a target="_blank" href="https://wordpress.org/support/article/create-a-network/">Multisite Support</a></h3>
+            <p>Provides full support for the WordPress multisite feature.</p>
+        </li>
+        <li class="glsr-column">
             <h3><a href="<?= admin_url('edit.php?post_type=site-review&page=settings#!general'); ?>">Notifications</a></h3>
             <p>Send notifications to one or more emails when a review is submitted.</p>
         </li>
@@ -84,6 +92,14 @@
             <p>Require approval before publishing reviews and limit to registered users.</p>
         </li>
         <li class="glsr-column">
+            <h3><a href="<?= admin_url('edit.php?post_type=site-review&page=settings#!submissions'); ?>">Review Limits</a></h3>
+            <p>Limit review submissions by email address, IP address, or username.</p>
+        </li>
+        <li class="glsr-column">
+            <h3><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!shortcodes'); ?>">Review Summaries</a></h3>
+            <p>Display a summary of your review ratings from high to low.</p>
+        </li>
+        <li class="glsr-column">
             <h3><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!shortcodes'); ?>">Shortcodes</a></h3>
             <p>Use the configurable shortcodes complete with documentation.</p>
         </li>
@@ -100,12 +116,8 @@
             <p>Change the submission form style to match popular themes and form plugins.</p>
         </li>
         <li class="glsr-column">
-            <h3><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!shortcodes'); ?>">Summaries</a></h3>
-            <p>Display a summary of your review ratings from high to low.</p>
-        </li>
-        <li class="glsr-column">
             <h3><a target="_blank" href="https://wordpress.org/support/plugin/site-reviews/">Support</a></h3>
-            <p>Free premium support included on the WordPress support forum.</p>
+            <p>Free premium-level support included on the WordPress support forum.</p>
         </li>
         <li class="glsr-column">
             <h3><a data-expand="#faq-17" href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!faq'); ?>">Templates</a></h3>

@@ -15,7 +15,6 @@ class RebusifyController extends Controller
     protected $apiKey = 'settings.general.rebusify_serial';
     protected $emailKey = 'settings.general.rebusify_email';
     protected $enabledKey = 'settings.general.rebusify';
-    protected $referralUrl = 'https://rebusify.com/plans?ref=105';
     protected $rebusifyKey = '_glsr_rebusify';
 
     /**
@@ -134,7 +133,7 @@ class RebusifyController extends Controller
     {
         return glsr(Builder::class)->a(__('Create Your Rebusify Account', 'site-reviews'), [
             'class' => 'button',
-            'href' => $this->referralUrl,
+            'href' => Rebusify::WEB_URL,
             'target' => '_blank',
         ]);
     }
@@ -148,7 +147,7 @@ class RebusifyController extends Controller
         $notice = $build->p(__('Free Rebusify accounts are limited to 500 blockchain transactions per year.', 'site-reviews'));
         $button = $build->a(__('Upgrade Your Rebusify Plan', 'site-reviews'), [
             'class' => 'button',
-            'href' => $this->referralUrl,
+            'href' => Rebusify::WEB_URL,
             'target' => '_blank',
         ]);
         return $build->div($notice.$button, [
