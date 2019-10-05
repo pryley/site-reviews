@@ -11,7 +11,7 @@
             <h3>Shortcodes and Widgets</h3>
             <p>You can also use the shortcodes or widgets on your page. Keep in mind, however, that widgets are limited in options compared to the shortcodes (for example, the "Latest Reviews" widget does not allow pagination). If you are using the Classic Editor in WordPress, you can click on the Site Reviews shortcode button above the editor (next to the media button) to add a shortcode via a friendly popup.</p>
             <p>To learn more about the shortcodes and the available shortcode options, please see the Shortcode Documentation page of the plugin.</p>
-            <a target="_blank" class="button" href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!shortcodes'); ?>">View Shortcode Documentation</a>
+            <a class="button" href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!shortcodes'); ?>">View Shortcode Documentation</a>
         </div>
     </div>
 </div>

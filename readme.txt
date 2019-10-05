@@ -105,7 +105,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
-= 4.0.0 (2019-09-??) =
+= 4.0.0 (2019-10-05) =
 
 - Added Multisite support
 - Added product schema price options
