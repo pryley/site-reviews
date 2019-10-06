@@ -11,7 +11,7 @@ body.branch-4 {
 	}
 }
 
-.glsr-notice {
+.glsr-notice:not(.notice-info) {
     display: flex;
     border-left-color: #32373c;
 }

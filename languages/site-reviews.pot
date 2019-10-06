@@ -1055,7 +1055,7 @@ msgstr ""
 msgid "Filter by category"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:17, views/pages/documentation/index.php:5
+#: plugin/Controllers/WelcomeController.php:17, views/pages/documentation/index.php:6
 msgid "About"
 msgstr ""
 
@@ -1635,7 +1635,7 @@ msgstr ""
 msgid "Toggle documentation panel"
 msgstr ""
 
-#: views/pages/documentation/index.php:7
+#: views/pages/documentation/index.php:9
 msgid "Click an active tab to expand/collapse all sections."
 msgstr ""
 

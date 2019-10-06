@@ -1,8 +1,10 @@
 <?php defined('WPINC') || die; ?>
 
 <div class="wrap">
-    <h1 class="wp-heading-inline"><?= esc_html(get_admin_page_title()); ?></h1>
-    <a href="<?= admin_url('edit.php?post_type=site-review&page=welcome'); ?>" class="page-title-action"><?= __('About', 'site-reviews'); ?></a>
+    <h1 class="wp-heading-inline">
+        <?= esc_html(get_admin_page_title()); ?>
+        <a href="<?= admin_url('edit.php?post_type=site-review&page=welcome'); ?>" class="page-title-action"><?= __('About', 'site-reviews'); ?></a>
+    </h1>
     <?= $notices; ?>
     <p><?= __('Click an active tab to expand/collapse all sections.', 'site-reviews'); ?></p>
     <h2 class="glsr-nav-tab-wrapper nav-tab-wrapper">

@@ -5,10 +5,12 @@ namespace GeminiLabs\SiteReviews\Modules\Upgrader;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\HelperTraits\Arr;
 
-class Upgrade_4_0_0
+class Upgrade_4_0_2
 {
+    use Arr;
+
     public function __construct()
     {
         $this->migrateSettings();
@@ -36,20 +38,20 @@ class Upgrade_4_0_0
     public function migrateSettings()
     {
         if ($settings = get_option(OptionManager::databaseKey(3))) {
-            $multilingual = 'yes' == glsr(Helper::class)->dataGet($settings, 'settings.general.support.polylang')
+            $multilingual = 'yes' == $this->dataGet($settings, 'settings.general.support.polylang')
                 ? 'polylang'
                 : '';
-            $settings = glsr(Helper::class)->dataSet($settings, 'settings.general.multilingual', $multilingual);
-            $settings = glsr(Helper::class)->dataSet($settings, 'settings.general.rebusify', 'no');
-            $settings = glsr(Helper::class)->dataSet($settings, 'settings.general.rebusify_email', '');
-            $settings = glsr(Helper::class)->dataSet($settings, 'settings.general.rebusify_serial', '');
-            $settings = glsr(Helper::class)->dataSet($settings, 'settings.reviews.name.format', '');
-            $settings = glsr(Helper::class)->dataSet($settings, 'settings.reviews.name.initial', '');
-            $settings = glsr(Helper::class)->dataSet($settings, 'settings.submissions.blacklist.integration', '');
-            $settings = glsr(Helper::class)->dataSet($settings, 'settings.submissions.limit', '');
-            $settings = glsr(Helper::class)->dataSet($settings, 'settings.submissions.limit_whitelist.email', '');
-            $settings = glsr(Helper::class)->dataSet($settings, 'settings.submissions.limit_whitelist.ip_address', '');
-            $settings = glsr(Helper::class)->dataSet($settings, 'settings.submissions.limit_whitelist.username', '');
+            $settings = $this->dataSet($settings, 'settings.general.multilingual', $multilingual);
+            $settings = $this->dataSet($settings, 'settings.general.rebusify', 'no');
+            $settings = $this->dataSet($settings, 'settings.general.rebusify_email', '');
+            $settings = $this->dataSet($settings, 'settings.general.rebusify_serial', '');
+            $settings = $this->dataSet($settings, 'settings.reviews.name.format', '');
+            $settings = $this->dataSet($settings, 'settings.reviews.name.initial', '');
+            $settings = $this->dataSet($settings, 'settings.submissions.blacklist.integration', '');
+            $settings = $this->dataSet($settings, 'settings.submissions.limit', '');
+            $settings = $this->dataSet($settings, 'settings.submissions.limit_whitelist.email', '');
+            $settings = $this->dataSet($settings, 'settings.submissions.limit_whitelist.ip_address', '');
+            $settings = $this->dataSet($settings, 'settings.submissions.limit_whitelist.username', '');
             unset($settings['settings']['general']['support']);
             update_option(OptionManager::databaseKey(4), $settings);
         }
