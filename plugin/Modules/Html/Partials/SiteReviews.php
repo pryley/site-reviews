@@ -49,7 +49,7 @@ class SiteReviews
         $this->options = glsr(Helper::class)->flattenArray(glsr(OptionManager::class)->all());
         $this->reviews = $reviews instanceof Reviews
             ? $reviews
-            : glsr(ReviewManager::class)->get($args);
+            : glsr(ReviewManager::class)->get($this->args);
         $this->generateSchema();
         return $this->buildReviews();
     }
