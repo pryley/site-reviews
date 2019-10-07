@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 4.0.3
+Stable tag: 4.0.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,17 +105,12 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
-= 4.0.3 (2019-10-07) =
+= 4.0.4 (2019-10-07) =
 
 - Fixed IP address detection for servers that do not support IPv6.
-
-= 4.0.2 (2019-10-06) =
-
-- Fixed plugin migration on update
-
-= 4.0.1 (2019-10-06) =
-
 - Fixed pagination when using the default count of 5 reviews per page
+- Fixed plugin migration on update
+- Fixed possible PHP compatibility issues
 
 = 4.0.0 (2019-10-06) =
 
