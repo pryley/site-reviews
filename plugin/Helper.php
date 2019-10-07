@@ -114,19 +114,15 @@ class Helper
     public function getIpAddress()
     {
         $cloudflareIps = glsr(Cache::class)->getCloudflareIps();
-        $ipv6 = defined('AF_INET6')
-            ? $cloudflareIps['v6']
-            : [];
-        $whitelist = apply_filters('site-reviews/whip/whitelist', [
-            Whip::CLOUDFLARE_HEADERS => [
-                Whip::IPV4 => $cloudflareIps['v4'],
-                Whip::IPV6 => $ipv6,
-            ],
-            Whip::CUSTOM_HEADERS => [
-                Whip::IPV4 => ['127.0.0.1'],
-                Whip::IPV6 => ['::1'],
-            ],
-        ]);
+        $whitelist = [
+            Whip::CLOUDFLARE_HEADERS => [Whip::IPV4 => $cloudflareIps['v4']],
+            // Whip::CUSTOM_HEADERS => [Whip::IPV4 => ['127.0.0.1']],
+        ];
+        if (defined('AF_INET6')) {
+            $whitelist[Whip::CLOUDFLARE_HEADERS][Whip::IPV6] = $cloudflareIps['v6'];
+            // $whitelist[Whip::CUSTOM_HEADERS][Whip::IPV6] = ['::1'];
+        }
+        $whitelist = apply_filters('site-reviews/whip/whitelist', $whitelist);
         $methods = Whip::CUSTOM_HEADERS | Whip::CLOUDFLARE_HEADERS | Whip::REMOTE_ADDR;
         $methods = apply_filters('site-reviews/whip/methods', $methods);
         $whip = new Whip($methods, $whitelist);
