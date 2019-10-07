@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
 use GeminiLabs\SiteReviews\Contracts\PartialContract;
 use GeminiLabs\SiteReviews\Database\QueryBuilder;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Style;
 
@@ -52,7 +53,7 @@ class Pagination implements PartialContract
      */
     protected function normalize(array $args)
     {
-        if ($baseUrl = glsr_get($args, 'baseUrl')) {
+        if ($baseUrl = Arr::get($args, 'baseUrl')) {
             $args['base'] = $baseUrl.'%_%';
         }
         return wp_parse_args(array_filter($args), [

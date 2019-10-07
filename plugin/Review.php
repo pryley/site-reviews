@@ -95,7 +95,7 @@ class Review implements \ArrayAccess
     {
         return property_exists($this, $key)
             ? $this->$key
-            : glsr_get($this->custom, $key, null);
+            : Arr::get($this->custom, $key, null);
     }
 
     /**

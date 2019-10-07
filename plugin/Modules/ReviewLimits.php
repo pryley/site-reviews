@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class ReviewLimits
 {
@@ -67,7 +68,7 @@ class ReviewLimits
             return true;
         }
         add_filter('site-reviews/get/reviews/query', [$this, 'filterReviewsQuery'], 5, 2);
-        $args = ['assigned_to' => glsr_get($this->request, 'assign_to')];
+        $args = ['assigned_to' => Arr::get($this->request, 'assign_to')];
         if ($addMetaQuery) {
             $args[$key] = $value;
         }
@@ -81,8 +82,8 @@ class ReviewLimits
      */
     protected function validateByEmail()
     {
-        glsr_log()->debug('Email is: '.glsr_get($this->request, 'email'));
-        return $this->validate('email', glsr_get($this->request, 'email'));
+        glsr_log()->debug('Email is: '.Arr::get($this->request, 'email'));
+        return $this->validate('email', Arr::get($this->request, 'email'));
     }
 
     /**
@@ -90,8 +91,8 @@ class ReviewLimits
      */
     protected function validateByIpAddress()
     {
-        glsr_log()->debug('IP Address is: '.glsr_get($this->request, 'ip_address'));
-        return $this->validate('ip_address', glsr_get($this->request, 'ip_address'));
+        glsr_log()->debug('IP Address is: '.Arr::get($this->request, 'ip_address'));
+        return $this->validate('ip_address', Arr::get($this->request, 'ip_address'));
     }
 
     /**

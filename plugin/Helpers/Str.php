@@ -32,7 +32,7 @@ class Str
             'period_space' => '. ',
             'space' => ' ',
         ];
-        $initialPunctuation = Arr::get($initialTypes, $initialType, ' ');
+        $initialPunctuation = (string) Arr::get($initialTypes, $initialType, ' ');
         if ('initials' == $nameType) {
             return static::convertToInitials($name, $initialPunctuation);
         }
@@ -42,7 +42,7 @@ class Str
             'last' => $lastName,
             'last_initial' => $firstName.' '.substr($lastName, 0, 1).$initialPunctuation,
         ];
-        return trim(glsr_get($nameTypes, $nameType, $name));
+        return trim((string) Arr::get($nameTypes, $nameType, $name));
     }
 
     /**

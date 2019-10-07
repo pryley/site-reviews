@@ -6,6 +6,7 @@ use ArrayAccess;
 use DateTime;
 use DateTimeInterface;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Schema\Exceptions\InvalidProperty;
 use JsonSerializable;
 use ReflectionClass;
@@ -38,7 +39,7 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
      */
     public function __call($method, array $arguments)
     {
-        return $this->setProperty($method, glsr_get($arguments, 0));
+        return $this->setProperty($method, Arr::get($arguments, 0));
     }
 
     /**
@@ -94,7 +95,7 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
      */
     public function getProperty($property, $default = null)
     {
-        return glsr_get($this->properties, $property, $default);
+        return Arr::get($this->properties, $property, $default);
     }
 
     /**

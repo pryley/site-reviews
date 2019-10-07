@@ -232,6 +232,6 @@ class AdminController extends Controller
             UPLOAD_ERR_CANT_WRITE => __('Failed to write file to disk.', 'site-reviews'),
             UPLOAD_ERR_EXTENSION => __('A PHP extension stopped the file upload.', 'site-reviews'),
         ];
-        return glsr_get($errors, $errorCode, __('Unknown upload error.', 'site-reviews'));
+        return Arr::get($errors, $errorCode, __('Unknown upload error.', 'site-reviews'));
     }
 }

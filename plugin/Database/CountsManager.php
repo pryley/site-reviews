@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Polylang;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Review;
@@ -134,7 +135,7 @@ class CountsManager
     {
         $counts = [];
         array_walk_recursive($reviewCounts, function ($num, $index) use (&$counts) {
-            $counts[$index] = $num + intval(glsr_get($counts, $index, 0));
+            $counts[$index] = $num + intval(Arr::get($counts, $index, 0));
         });
         $args = wp_parse_args($args, [
             'max' => glsr()->constant('MAX_RATING', Rating::class),

@@ -82,7 +82,7 @@ class ReviewManager
             'offset' => $args['offset'],
             'order' => $args['order'],
             'orderby' => 'meta_value '.$args['orderby'],
-            'paged' => glsr_get($args, 'paged', $paged),
+            'paged' => Arr::get($args, 'paged', $paged),
             'post__in' => $args['post__in'],
             'post__not_in' => $args['post__not_in'],
             'post_status' => 'publish',

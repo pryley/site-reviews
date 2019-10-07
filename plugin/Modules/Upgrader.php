@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use DirectoryIterator;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Upgrader
 {
@@ -62,7 +63,7 @@ class Upgrader
         $majorVersions = [4, 3, 2];
         foreach ($majorVersions as $majorVersion) {
             $settings = get_option(OptionManager::databaseKey($majorVersion));
-            $version = glsr_get($settings, 'version', $fallback);
+            $version = Arr::get($settings, 'version', $fallback);
             if (version_compare($version, $fallback, '>')) {
                 return $version;
             }

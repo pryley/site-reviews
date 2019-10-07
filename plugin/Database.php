@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\QueryBuilder;
 use GeminiLabs\SiteReviews\Database\SqlQueries;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use WP_Post;
 use WP_Query;
@@ -56,7 +57,7 @@ class Database
         if (!$metaValue) {
             return $counts;
         }
-        return glsr_get($counts, $metaValue, 0);
+        return Arr::get($counts, $metaValue, 0);
     }
 
     /**

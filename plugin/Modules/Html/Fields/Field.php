@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 abstract class Field
@@ -54,9 +55,9 @@ abstract class Field
     public static function mergedAttribute($key, $delimiter, array $args)
     {
         return array_filter(array_merge(
-            explode($delimiter, glsr_get($args, $key)),
-            explode($delimiter, glsr_get(static::defaults(), $key)),
-            explode($delimiter, glsr_get(static::required(), $key))
+            explode($delimiter, Arr::get($args, $key)),
+            explode($delimiter, Arr::get(static::defaults(), $key)),
+            explode($delimiter, Arr::get(static::required(), $key))
         ));
     }
 

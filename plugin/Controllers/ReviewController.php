@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Review;
 use WP_Post;
@@ -50,7 +51,7 @@ class ReviewController extends Controller
      */
     public function onAfterChangeStatus($newStatus, $oldStatus, $post)
     {
-        if (Application::POST_TYPE != glsr_get($post, 'post_type') || in_array($oldStatus, ['new', $newStatus])) {
+        if (Application::POST_TYPE != Arr::get($post, 'post_type') || in_array($oldStatus, ['new', $newStatus])) {
             return;
         }
         $review = glsr_get_review($post);

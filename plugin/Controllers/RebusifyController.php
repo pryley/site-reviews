@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -24,7 +23,7 @@ class RebusifyController extends Controller
      */
     public function filterSettingsCallback(array $settings)
     {
-        if ('yes' !== glsr_get($settings, $this->enabledKey)) {
+        if ('yes' !== Arr::get($settings, $this->enabledKey)) {
             return $settings;
         }
         $isApiKeyModified = $this->isEmptyOrModified($this->apiKey, $settings);
@@ -43,7 +42,7 @@ class RebusifyController extends Controller
      */
     public function filterSettingsTableRow(array $context, $template, array $data)
     {
-        if ($this->enabledKey !== glsr_get($data, 'field.path')) {
+        if ($this->enabledKey !== Arr::get($data, 'field.path')) {
             return $context;
         }
         $rebusifyProductType = glsr(OptionManager::class)->getWP($this->rebusifyKey);
@@ -215,7 +214,7 @@ class RebusifyController extends Controller
     protected function isEmptyOrModified($key, array $settings)
     {
         $oldValue = glsr_get_option($key);
-        $newValue = glsr_get($settings, $key);
+        $newValue = Arr::get($settings, $key);
         return empty($newValue) || $newValue !== $oldValue;
     }
 
@@ -225,11 +224,11 @@ class RebusifyController extends Controller
     protected function sanitizeRebusifySettings(array $settings)
     {
         $rebusify = glsr(Rebusify::class)->activateKey(
-            glsr_get($settings, $this->apiKey),
-            glsr_get($settings, $this->emailKey)
+            Arr::get($settings, $this->apiKey),
+            Arr::get($settings, $this->emailKey)
         );
         if ($rebusify->success) {
-            update_option($this->rebusifyKey, glsr_get($rebusify->response, 'producttype'));
+            update_option($this->rebusifyKey, Arr::get($rebusify->response, 'producttype'));
         } else {
             delete_option($this->rebusifyKey);
             $settings = Arr::set($settings, $this->enabledKey, 'no');

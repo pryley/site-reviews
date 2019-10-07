@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Upgrader;
 
@@ -129,7 +130,7 @@ final class Application extends Container
     }
 
     /**
-     * @return bool
+     * @return string
      */
     public function getPermission($page = '')
     {
@@ -138,7 +139,7 @@ final class Application extends Container
             'settings' => 'manage_options',
             // 'welcome' => 'activate_plugins',
         ];
-        return glsr_get($permissions, $page, $this->constant('CAPABILITY'));
+        return Arr::get($permissions, $page, $this->constant('CAPABILITY'));
     }
 
     /**
@@ -299,13 +300,13 @@ final class Application extends Container
         preg_match($pattern, $this->version, $matches);
         switch ($versionLevel) {
             case 'major':
-                $version = glsr_get($matches, 1);
+                $version = Arr::get($matches, 1);
                 break;
             case 'minor':
-                $version = glsr_get($matches, 1).glsr_get($matches, 2);
+                $version = Arr::get($matches, 1).Arr::get($matches, 2);
                 break;
             case 'patch':
-                $version = glsr_get($matches, 1).glsr_get($matches, 2).glsr_get($matches, 3);
+                $version = Arr::get($matches, 1).Arr::get($matches, 2).Arr::get($matches, 3);
                 break;
         }
         return empty($version)

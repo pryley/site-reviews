@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\PaginationDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleValidationDefaults;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
@@ -113,7 +114,7 @@ class Style
         }
         $args = wp_parse_args($instance->args, array_fill_keys(['class', 'type'], ''));
         $key = $instance->tag.'_'.$args['type'];
-        $classes = glsr_get($this->fields, $key, glsr_get($this->fields, $instance->tag));
+        $classes = Arr::get($this->fields, $key, Arr::get($this->fields, $instance->tag));
         $instance->args['class'] = trim($args['class'].' '.$classes);
         do_action_ref_array('site-reviews/customize/'.$this->style, [$instance]);
     }

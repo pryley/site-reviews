@@ -138,7 +138,7 @@ class Console
     public function humanLevel()
     {
         $level = $this->getLevel();
-        return sprintf('%s (%d)', strtoupper(glsr_get($this->getLevels(), $level, 'unknown')), $level);
+        return sprintf('%s (%d)', strtoupper(Arr::get($this->getLevels(), $level, 'unknown')), $level);
     }
 
     /**
@@ -180,7 +180,7 @@ class Console
             $backtraceLine = $this->getBacktraceLine();
         }
         if ($this->canLogEntry($level, $backtraceLine)) {
-            $levelName = glsr_get($this->getLevels(), $level);
+            $levelName = Arr::get($this->getLevels(), $level);
             $context = Arr::consolidateArray($context);
             $backtraceLine = $this->normalizeBacktraceLine($backtraceLine);
             $message = $this->interpolate($message, $context);
@@ -200,13 +200,13 @@ class Console
         $once = Arr::consolidateArray(glsr()->{$this->logOnceKey});
         $levels = $this->getLevels();
         foreach ($once as $entry) {
-            $levelName = glsr_get($entry, 'level');
+            $levelName = Arr::get($entry, 'level');
             if (!in_array($levelName, $levels)) {
                 continue;
             }
-            $level = glsr_get(array_flip($levels), $levelName);
-            $message = glsr_get($entry, 'message');
-            $backtraceLine = glsr_get($entry, 'backtrace');
+            $level = Arr::get(array_flip($levels), $levelName);
+            $message = Arr::get($entry, 'message');
+            $backtraceLine = Arr::get($entry, 'backtrace');
             $this->log($level, $message, [], $backtraceLine);
         }
         glsr()->{$this->logOnceKey} = [];
@@ -233,8 +233,8 @@ class Console
     {
         $once = Arr::consolidateArray(glsr()->{$this->logOnceKey});
         $filtered = array_filter($once, function ($entry) use ($levelName, $handle) {
-            return glsr_get($entry, 'level') == $levelName
-                && glsr_get($entry, 'handle') == $handle;
+            return Arr::get($entry, 'level') == $levelName
+                && Arr::get($entry, 'handle') == $handle;
         });
         if (!empty($filtered)) {
             return;
@@ -278,8 +278,8 @@ class Console
     protected function buildBacktraceLine($backtrace, $index)
     {
         return sprintf('%s:%s',
-            glsr_get($backtrace, $index.'.file'), // realpath
-            glsr_get($backtrace, $index.'.line')
+            Arr::get($backtrace, $index.'.file'), // realpath
+            Arr::get($backtrace, $index.'.line')
         );
     }
 
@@ -320,7 +320,7 @@ class Console
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 6);
         $search = array_search('log', glsr_array_column($backtrace, 'function'));
         if (false !== $search) {
-            $index = '{closure}' == glsr_get($backtrace, ($search + 2).'.function')
+            $index = '{closure}' == Arr::get($backtrace, ($search + 2).'.function')
                 ? $search + 4
                 : $search + 1;
             return $this->buildBacktraceLine($backtrace, $index);

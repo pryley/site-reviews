@@ -75,7 +75,7 @@ class Arr
 
     /**
      * Get a value from an array of values using a dot-notation path as reference.
-     * @param array $data
+     * @param mixed $data
      * @param string $path
      * @param mixed $fallback
      * @return mixed

@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Template
@@ -32,7 +33,7 @@ class Template
      */
     public function interpolate($template, array $data = [], $templatePath)
     {
-        $context = $this->normalizeContext(glsr_get($data, 'context', []));
+        $context = $this->normalizeContext(Arr::get($data, 'context', []));
         $context = apply_filters('site-reviews/interpolate/'.$templatePath, $context, $template, $data);
         foreach ($context as $key => $value) {
             $template = strtr(

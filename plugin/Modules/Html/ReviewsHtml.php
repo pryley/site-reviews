@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use ArrayObject;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class ReviewsHtml extends ArrayObject
 {
@@ -101,8 +102,8 @@ class ReviewsHtml extends ArrayObject
     protected function buildPagination()
     {
         $html = glsr(Partial::class)->build('pagination', [
-            'baseUrl' => glsr_get($this->args, 'pagedUrl'),
-            'current' => glsr_get($this->args, 'paged'),
+            'baseUrl' => Arr::get($this->args, 'pagedUrl'),
+            'current' => Arr::get($this->args, 'paged'),
             'total' => $this->max_num_pages,
         ]);
         $html.= sprintf('<glsr-pagination hidden data-atts=\'%s\'></glsr-pagination>', $this->args['json']);

@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
 class Router
@@ -67,7 +68,7 @@ class Router
      */
     protected function checkAjaxNonce(array $request)
     {
-        if (!is_user_logged_in() || in_array(glsr_get($request, '_action'), $this->unguardedActions)) {
+        if (!is_user_logged_in() || in_array(Arr::get($request, '_action'), $this->unguardedActions)) {
             return;
         }
         if (!isset($request['_nonce'])) {

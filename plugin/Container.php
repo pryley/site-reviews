@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use Closure;
 use Exception;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
 use ReflectionParameter;
@@ -63,7 +64,7 @@ abstract class Container
         if (defined($constant)) {
             return constant($constant);
         }
-        return glsr_get($this->storage, $property, null);
+        return Arr::get($this->storage, $property, null);
     }
 
     /**
@@ -128,7 +129,7 @@ abstract class Container
      */
     public function sessionGet($key, $fallback = '')
     {
-        $value = glsr_get($this->session, $key, $fallback);
+        $value = Arr::get($this->session, $key, $fallback);
         unset($this->session[$key]);
         return $value;
     }

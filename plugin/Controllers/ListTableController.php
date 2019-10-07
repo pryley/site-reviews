@@ -79,7 +79,7 @@ class ListTableController extends Controller
      */
     public function filterDateColumnStatus($status, $post)
     {
-        if (Application::POST_TYPE == glsr_get($post, 'post_type')) {
+        if (Application::POST_TYPE == Arr::get($post, 'post_type')) {
             $status = __('Submitted', 'site-reviews');
         }
         return $status;
@@ -93,7 +93,7 @@ class ListTableController extends Controller
      */
     public function filterDefaultHiddenColumns($hidden, $screen)
     {
-        if (glsr_get($screen, 'id') == 'edit-'.Application::POST_TYPE) {
+        if (Arr::get($screen, 'id') == 'edit-'.Application::POST_TYPE) {
             $hidden = Arr::consolidateArray($hidden);
             $hidden = ['reviewer'];
         }
@@ -109,7 +109,7 @@ class ListTableController extends Controller
     public function filterPostStates($postStates, $post)
     {
         $postStates = Arr::consolidateArray($postStates);
-        if (Application::POST_TYPE == glsr_get($post, 'post_type') && array_key_exists('pending', $postStates)) {
+        if (Application::POST_TYPE == Arr::get($post, 'post_type') && array_key_exists('pending', $postStates)) {
             $postStates['pending'] = __('Unapproved', 'site-reviews');
         }
         return $postStates;
@@ -123,7 +123,7 @@ class ListTableController extends Controller
      */
     public function filterRowActions($actions, $post)
     {
-        if (Application::POST_TYPE != glsr_get($post, 'post_type') || 'trash' == $post->post_status) {
+        if (Application::POST_TYPE != Arr::get($post, 'post_type') || 'trash' == $post->post_status) {
             return $actions;
         }
         unset($actions['inline hide-if-no-js']); //Remove Quick-edit

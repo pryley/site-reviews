@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class NoticeController extends Controller
 {
@@ -27,7 +27,7 @@ class NoticeController extends Controller
      */
     public function routerDismissNotice(array $request)
     {
-        if ($key = glsr_get($request, 'notice')) {
+        if ($key = Arr::get($request, 'notice')) {
             $this->dismissNotice($key);
         }
     }
@@ -49,7 +49,7 @@ class NoticeController extends Controller
     protected function getUserMeta($key, $fallback)
     {
         $meta = get_user_meta(get_current_user_id(), static::USER_META_KEY, true);
-        return glsr_get($meta, $key, $fallback);
+        return Arr::get($meta, $key, $fallback);
     }
 
     /**

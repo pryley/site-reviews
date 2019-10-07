@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class TaxonomyController
@@ -87,7 +88,7 @@ class TaxonomyController
     protected function getSelected()
     {
         global $wp_query;
-        return glsr_get($wp_query->query, Application::TAXONOMY);
+        return Arr::get($wp_query->query, Application::TAXONOMY);
     }
 
     /**

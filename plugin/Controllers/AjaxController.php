@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Commands\ChangeStatus;
 use GeminiLabs\SiteReviews\Commands\TogglePinned;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Translation;
@@ -145,14 +146,14 @@ class AjaxController extends Controller
     public function routerFetchPagedReviews(array $request)
     {
         $urlQuery = [];
-        parse_str(parse_url(glsr_get($request, 'url'), PHP_URL_QUERY), $urlQuery);
+        parse_str(parse_url(Arr::get($request, 'url'), PHP_URL_QUERY), $urlQuery);
         $args = [
-            'paged' => glsr_get($urlQuery, glsr()->constant('PAGED_QUERY_VAR'), 1),
-            'pagedUrl' => home_url(parse_url(glsr_get($request, 'url'), PHP_URL_PATH)),
+            'paged' => Arr::get($urlQuery, glsr()->constant('PAGED_QUERY_VAR'), 1),
+            'pagedUrl' => home_url(parse_url(Arr::get($request, 'url'), PHP_URL_PATH)),
             'pagination' => 'ajax',
             'schema' => false,
         ];
-        $atts = (array) json_decode(glsr_get($request, 'atts'));
+        $atts = (array) json_decode(Arr::get($request, 'atts'));
         $html = glsr(SiteReviews::class)->build(wp_parse_args($args, $atts));
         return wp_send_json_success([
             'pagination' => $html->getPagination(),

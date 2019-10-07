@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Review;
 
@@ -23,7 +24,7 @@ class Rebusify
     {
         return property_exists($this, $key)
             ? $this->$key
-            : glsr_get($this->response, $key, null);
+            : Arr::get($this->response, $key, null);
     }
 
     /**
@@ -119,8 +120,8 @@ class Rebusify
             $responseCode = wp_remote_retrieve_response_code($response);
             $responseData = (array) json_decode($responseBody, true);
             $this->response = array_shift($responseData);
-            $this->message = glsr_get($this->response, 'msg');
-            $this->success = 'success' === glsr_get($this->response, 'result') || 'yes' === glsr_get($this->response, 'success'); // @todo remove this ugly hack!
+            $this->message = Arr::get($this->response, 'msg');
+            $this->success = 'success' === Arr::get($this->response, 'result') || 'yes' === Arr::get($this->response, 'success'); // @todo remove this ugly hack!
             if (200 !== $responseCode) {
                 glsr_log()->error('Bad response code ['.$responseCode.']');
             }

@@ -57,7 +57,7 @@ class CreateReview
      */
     protected function get($key)
     {
-        return (string) glsr_get($this->request, $key);
+        return (string) Arr::get($this->request, $key);
     }
 
     /**
@@ -77,7 +77,7 @@ class CreateReview
     protected function getCategory()
     {
         $categories = Arr::convertStringToArray($this->get('category'));
-        return sanitize_key(glsr_get($categories, 0));
+        return sanitize_key(Arr::get($categories, 0));
     }
 
     /**

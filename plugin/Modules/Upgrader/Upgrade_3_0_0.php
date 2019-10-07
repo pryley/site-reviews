@@ -108,7 +108,7 @@ class Upgrade_3_0_0
     protected function getOldSettings()
     {
         $defaults = array_fill_keys(array_keys(static::MAPPED_SETTINGS), '');
-        $settings = Arr::flattenArray(get_option('geminilabs_site_reviews-v2', []));
+        $settings = Arr::flattenArray((array) get_option('geminilabs_site_reviews-v2', []));
         if (!empty($settings)) {
             $settings = wp_parse_args($settings, $defaults);
         }
