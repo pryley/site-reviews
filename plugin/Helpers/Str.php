@@ -1,14 +1,16 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\HelperTraits;
+namespace GeminiLabs\SiteReviews\Helpers;
 
-trait Str
+use GeminiLabs\SiteReviews\Helpers\Arr;
+
+class Str
 {
     /**
      * @param string $string
      * @return string
      */
-    public function camelCase($string)
+    public static function camelCase($string)
     {
         $string = ucwords(str_replace(['-', '_'], ' ', trim($string)));
         return str_replace(' ', '', $string);
@@ -20,7 +22,7 @@ trait Str
      * @param string $initialType period|period_space|space
      * @return string
      */
-    public function convertName($name, $nameType = '', $initialType = '')
+    public static function convertName($name, $nameType = '', $initialType = '')
     {
         $names = preg_split('/\W/', $name, 0, PREG_SPLIT_NO_EMPTY);
         $firstName = array_shift($names);
@@ -30,9 +32,9 @@ trait Str
             'period_space' => '. ',
             'space' => ' ',
         ];
-        $initialPunctuation = glsr_get($initialTypes, $initialType, ' ');
+        $initialPunctuation = Arr::get($initialTypes, $initialType, ' ');
         if ('initials' == $nameType) {
-            return $this->convertToInitials($name, $initialPunctuation);
+            return static::convertToInitials($name, $initialPunctuation);
         }
         $nameTypes = [
             'first' => $firstName,
@@ -48,9 +50,9 @@ trait Str
      * @param string $prefix
      * @return string
      */
-    public function convertPathToId($path, $prefix = '')
+    public static function convertPathToId($path, $prefix = '')
     {
-        return str_replace(['[', ']'], ['-', ''], $this->convertPathToName($path, $prefix));
+        return str_replace(['[', ']'], ['-', ''], static::convertPathToName($path, $prefix));
     }
 
     /**
@@ -58,7 +60,7 @@ trait Str
      * @param string $prefix
      * @return string
      */
-    public function convertPathToName($path, $prefix = '')
+    public static function convertPathToName($path, $prefix = '')
     {
         $levels = explode('.', $path);
         return array_reduce($levels, function ($result, $value) {
@@ -71,7 +73,7 @@ trait Str
      * @param string $initialPunctuation
      * @return string
      */
-    public function convertToInitials($name, $initialPunctuation = '')
+    public static function convertToInitials($name, $initialPunctuation = '')
     {
         preg_match_all('/(?<=\s|\b)\pL/u', $name, $matches);
         return array_reduce($matches[0], function ($carry, $word) use ($initialPunctuation) {
@@ -83,9 +85,9 @@ trait Str
      * @param string $string
      * @return string
      */
-    public function dashCase($string)
+    public static function dashCase($string)
     {
-        return str_replace('_', '-', $this->snakeCase($string));
+        return str_replace('_', '-', static::snakeCase($string));
     }
 
     /**
@@ -93,7 +95,7 @@ trait Str
      * @param string $haystack
      * @return bool
      */
-    public function endsWith($needle, $haystack)
+    public static function endsWith($needle, $haystack)
     {
         $length = strlen($needle);
         return 0 != $length
@@ -107,12 +109,12 @@ trait Str
      * @param string|null $trim
      * @return string
      */
-    public function prefix($prefix, $string, $trim = null)
+    public static function prefix($prefix, $string, $trim = null)
     {
         if (null === $trim) {
             $trim = $prefix;
         }
-        return $prefix.trim($this->removePrefix($trim, $string));
+        return $prefix.trim(static::removePrefix($trim, $string));
     }
 
     /**
@@ -120,9 +122,9 @@ trait Str
      * @param string $string
      * @return string
      */
-    public function removePrefix($prefix, $string)
+    public static function removePrefix($prefix, $string)
     {
-        return $this->startsWith($prefix, $string)
+        return static::startsWith($prefix, $string)
             ? substr($string, strlen($prefix))
             : $string;
     }
@@ -131,7 +133,7 @@ trait Str
      * @param string $string
      * @return string
      */
-    public function snakeCase($string)
+    public static function snakeCase($string)
     {
         if (!ctype_lower($string)) {
             $string = preg_replace('/\s+/u', '', $string);
@@ -148,7 +150,7 @@ trait Str
      * @param string $haystack
      * @return bool
      */
-    public function startsWith($needle, $haystack)
+    public static function startsWith($needle, $haystack)
     {
         return substr($haystack, 0, strlen($needle)) === $needle;
     }
@@ -158,7 +160,7 @@ trait Str
      * @param int $length
      * @return string
      */
-    public function truncate($string, $length)
+    public static function truncate($string, $length)
     {
         return strlen($string) > $length
             ? substr($string, 0, $length)

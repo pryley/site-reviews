@@ -29,7 +29,7 @@ class RegisterPostType
     protected function normalize(array $args)
     {
         foreach ($args as $key => $value) {
-            $property = glsr(Helper::class)->buildPropertyName($key);
+            $property = Helper::buildPropertyName($key);
             if (!property_exists($this, $property)) {
                 continue;
             }

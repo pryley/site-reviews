@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Shortcodes;
 
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use ReflectionClass;
@@ -78,7 +79,7 @@ abstract class Shortcode implements ShortcodeContract
      */
     public function getShortcodeDefaultsClassName()
     {
-        return glsr(Helper::class)->buildClassName(
+        return Helper::buildClassName(
             $this->getShortcodeClassName('Defaults'),
             'Defaults'
         );
@@ -89,7 +90,7 @@ abstract class Shortcode implements ShortcodeContract
      */
     public function getShortcodeName()
     {
-        return glsr(Helper::class)->snakeCase($this->getShortcodeClassName());
+        return Str::snakeCase($this->getShortcodeClassName());
     }
 
     /**
@@ -97,7 +98,7 @@ abstract class Shortcode implements ShortcodeContract
      */
     public function getShortcodePartialName()
     {
-        return glsr(Helper::class)->dashCase($this->getShortcodeClassName());
+        return Str::dashCase($this->getShortcodeClassName());
     }
 
     /**
@@ -126,7 +127,7 @@ abstract class Shortcode implements ShortcodeContract
         $atts = apply_filters('site-reviews/shortcode/atts', $atts, $type, $this->partialName);
         $atts = $this->getDefaults($atts);
         array_walk($atts, function (&$value, $key) {
-            $methodName = glsr(Helper::class)->buildMethodName($key, 'normalize');
+            $methodName = Helper::buildMethodName($key, 'normalize');
             if (!method_exists($this, $methodName)) {
                 return;
             }

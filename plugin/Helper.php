@@ -3,23 +3,19 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\Cache;
-use GeminiLabs\SiteReviews\HelperTraits\Arr;
-use GeminiLabs\SiteReviews\HelperTraits\Str;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\Vectorface\Whip\Whip;
 
 class Helper
 {
-    use Arr;
-    use Str;
-
     /**
      * @param string $name
      * @param string $path
      * @return string
      */
-    public function buildClassName($name, $path = '')
+    public static function buildClassName($name, $path = '')
     {
-        $className = $this->camelCase($name);
+        $className = Str::camelCase($name);
         $path = ltrim(str_replace(__NAMESPACE__, '', $path), '\\');
         return !empty($path)
             ? __NAMESPACE__.'\\'.$path.'\\'.$className
@@ -31,18 +27,18 @@ class Helper
      * @param string $prefix
      * @return string
      */
-    public function buildMethodName($name, $prefix = '')
+    public static function buildMethodName($name, $prefix = '')
     {
-        return lcfirst($prefix.$this->buildClassName($name));
+        return lcfirst($prefix.static::buildClassName($name));
     }
 
     /**
      * @param string $name
      * @return string
      */
-    public function buildPropertyName($name)
+    public static function buildPropertyName($name)
     {
-        return lcfirst($this->buildClassName($name));
+        return lcfirst(static::buildClassName($name));
     }
 
     /**
@@ -50,7 +46,7 @@ class Helper
      * @param mixed $value
      * @return mixed
      */
-    public function castTo($cast = '', $value)
+    public static function castTo($cast = '', $value)
     {
         switch ($cast) {
             case 'array':
@@ -83,7 +79,7 @@ class Helper
      * @param string $key
      * @return mixed
      */
-    public function filterInput($key, array $request = [])
+    public static function filterInput($key, array $request = [])
     {
         if (isset($request[$key])) {
             return $request[$key];
@@ -99,7 +95,7 @@ class Helper
      * @param string $key
      * @return array
      */
-    public function filterInputArray($key)
+    public static function filterInputArray($key)
     {
         $variable = filter_input(INPUT_POST, $key, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
         if (empty($variable) && !empty($_POST[$key]) && is_array($_POST[$key])) {
@@ -111,7 +107,7 @@ class Helper
     /**
      * @return string
      */
-    public function getIpAddress()
+    public static function getIpAddress()
     {
         $cloudflareIps = glsr(Cache::class)->getCloudflareIps();
         $whitelist = [

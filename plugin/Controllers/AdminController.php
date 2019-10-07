@@ -7,7 +7,8 @@ use GeminiLabs\SiteReviews\Commands\EnqueueAdminAssets;
 use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups;
 use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -79,7 +80,7 @@ class AdminController extends Controller
         }
         $text = _n('%s Review', '%s Reviews', $postCount->publish, 'site-reviews');
         $text = sprintf($text, number_format_i18n($postCount->publish));
-        $items = glsr(Helper::class)->consolidateArray($items);
+        $items = Arr::consolidateArray($items);
         $items[] = current_user_can(get_post_type_object(Application::POST_TYPE)->cap->edit_posts)
             ? glsr(Builder::class)->a($text, [
                 'class' => 'glsr-review-count',
@@ -99,7 +100,7 @@ class AdminController extends Controller
     public function filterTinymcePlugins($plugins)
     {
         if (current_user_can('edit_posts') || current_user_can('edit_pages')) {
-            $plugins = glsr(Helper::class)->consolidateArray($plugins);
+            $plugins = Arr::consolidateArray($plugins);
             $plugins['glsr_shortcode'] = glsr()->url('assets/scripts/mce-plugin.js');
         }
         return $plugins;
@@ -205,7 +206,7 @@ class AdminController extends Controller
         if (UPLOAD_ERR_OK !== $file['error']) {
             return glsr(Notice::class)->addError($this->getUploadError($file['error']));
         }
-        if ('application/json' !== $file['type'] || !glsr(Helper::class)->endsWith('.json', $file['name'])) {
+        if ('application/json' !== $file['type'] || !Str::endsWith('.json', $file['name'])) {
             return glsr(Notice::class)->addError(__('Please use a valid Site Reviews settings file.', 'site-reviews'));
         }
         $settings = json_decode(file_get_contents($file['tmp_name']), true);

@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Field
 {
@@ -213,7 +214,7 @@ class Field
             return;
         }
         $this->field['path'] = $this->field['name'];
-        $className = glsr(Helper::class)->buildClassName($this->field['type'], __NAMESPACE__.'\Fields');
+        $className = Helper::buildClassName($this->field['type'], __NAMESPACE__.'\Fields');
         if (class_exists($className)) {
             $this->field = $className::merge($this->field);
         }
@@ -229,7 +230,7 @@ class Field
         if (isset($this->field['id']) || $this->field['is_raw']) {
             return;
         }
-        $this->field['id'] = glsr(Helper::class)->convertPathToId(
+        $this->field['id'] = Str::convertPathToId(
             $this->field['path'],
             $this->getFieldPrefix()
         );
@@ -240,7 +241,7 @@ class Field
      */
     protected function normalizeFieldName()
     {
-        $this->field['name'] = glsr(Helper::class)->convertPathToName(
+        $this->field['name'] = Str::convertPathToName(
             $this->field['path'],
             $this->getFieldPrefix()
         );

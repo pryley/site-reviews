@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class DefaultsManager
 {
@@ -24,7 +24,7 @@ class DefaultsManager
      */
     public function get()
     {
-        return glsr(Helper::class)->convertDotNotationArray($this->defaults());
+        return Arr::convertDotNotationArray($this->defaults());
     }
 
     /**
@@ -33,7 +33,7 @@ class DefaultsManager
     public function set()
     {
         $settings = glsr(OptionManager::class)->all();
-        $currentSettings = glsr(Helper::class)->removeEmptyArrayValues($settings);
+        $currentSettings = Arr::removeEmptyArrayValues($settings);
         $defaultSettings = array_replace_recursive($this->get(), $currentSettings);
         $updatedSettings = array_replace_recursive($settings, $defaultSettings);
         update_option(OptionManager::databaseKey(), $updatedSettings);

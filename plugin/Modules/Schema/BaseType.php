@@ -211,7 +211,7 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
         }
         $newParents = $parents;
         foreach ($parents as $parent) {
-            $parentClass = glsr(Helper::class)->buildClassName($parent, __NAMESPACE__);
+            $parentClass = Helper::buildClassName($parent, __NAMESPACE__);
             if (!class_exists($parentClass)) {
                 continue;
             }
@@ -227,7 +227,7 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
     {
         $parents = $this->getParents();
         foreach ($parents as $parent) {
-            $parentClass = glsr(Helper::class)->buildClassName($parent, __NAMESPACE__);
+            $parentClass = Helper::buildClassName($parent, __NAMESPACE__);
             if (!class_exists($parentClass)) {
                 continue;
             }

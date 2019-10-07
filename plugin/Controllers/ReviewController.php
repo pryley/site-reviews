@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Review;
 use WP_Post;
 
@@ -102,7 +103,7 @@ class ReviewController extends Controller
         if (!$this->isReviewPostId($postId)) {
             return;
         }
-        $metaKey = glsr(Helper::class)->removePrefix('_', $metaKey);
+        $metaKey = Str::removePrefix('_', $metaKey);
         if (!in_array($metaKey, ['assigned_to', 'rating', 'review_type'])) {
             return;
         }
@@ -110,7 +111,7 @@ class ReviewController extends Controller
         if ($review->$metaKey == $metaValue) {
             return;
         }
-        $method = glsr(Helper::class)->buildMethodName($metaKey, 'onBeforeChange');
+        $method = Helper::buildMethodName($metaKey, 'onBeforeChange');
         call_user_func([$this, $method], $review, $metaValue);
     }
 

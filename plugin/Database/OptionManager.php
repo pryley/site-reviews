@@ -4,6 +4,8 @@ namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 
 class OptionManager
 {
@@ -21,7 +23,7 @@ class OptionManager
             $version = explode('.', glsr()->version);
             $version = array_shift($version);
         }
-        return glsr(Helper::class)->snakeCase(
+        return Str::snakeCase(
             Application::ID.'-v'.intval($version)
         );
     }
@@ -65,8 +67,8 @@ class OptionManager
      */
     public function get($path = '', $fallback = '', $cast = '')
     {
-        $result = glsr(Helper::class)->dataGet($this->all(), $path, $fallback);
-        return glsr(Helper::class)->castTo($cast, $result);
+        $result = Arr::get($this->all(), $path, $fallback);
+        return Helper::castTo($cast, $result);
     }
 
     /**
@@ -75,7 +77,7 @@ class OptionManager
      */
     public function getBool($path)
     {
-        return glsr(Helper::class)->castTo('bool', $this->get($path));
+        return Helper::castTo('bool', $this->get($path));
     }
 
     /**
@@ -90,7 +92,7 @@ class OptionManager
         if (empty($option)) {
             $option = $fallback;
         }
-        return glsr(Helper::class)->castTo($cast, $option);
+        return Helper::castTo($cast, $option);
     }
 
     /**
@@ -107,7 +109,7 @@ class OptionManager
     public function normalize(array $options = [])
     {
         $options = wp_parse_args(
-            glsr(Helper::class)->flattenArray($options),
+            Arr::flattenArray($options),
             glsr(DefaultsManager::class)->defaults()
         );
         array_walk($options, function (&$value) {
@@ -116,7 +118,7 @@ class OptionManager
             }
             $value = wp_kses($value, wp_kses_allowed_html('post'));
         });
-        return glsr(Helper::class)->convertDotNotationArray($options);
+        return Arr::convertDotNotationArray($options);
     }
 
     /**
@@ -149,7 +151,7 @@ class OptionManager
     public function set($pathOrOptions, $value = '')
     {
         if (is_string($pathOrOptions)) {
-            $pathOrOptions = glsr(Helper::class)->dataSet($this->all(), $pathOrOptions, $value);
+            $pathOrOptions = Arr::set($this->all(), $pathOrOptions, $value);
         }
         if ($result = update_option(static::databaseKey(), (array) $pathOrOptions)) {
             $this->reset();

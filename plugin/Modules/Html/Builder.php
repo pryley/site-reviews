@@ -301,7 +301,7 @@ class Builder
      */
     protected function getCustomFieldClassName()
     {
-        $classname = glsr(Helper::class)->buildClassName($this->tag, __NAMESPACE__.'\Fields');
+        $classname = Helper::buildClassName($this->tag, __NAMESPACE__.'\Fields');
         return apply_filters('site-reviews/builder/field/'.$this->tag, $classname);
     }
 

@@ -7,6 +7,8 @@ use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 
 class System
 {
@@ -40,7 +42,7 @@ class System
             'reviews' => 'Review Counts',
         ];
         $systemInfo = array_reduce(array_keys($details), function ($carry, $key) use ($details) {
-            $methodName = glsr(Helper::class)->buildMethodName('get-'.$key.'-details');
+            $methodName = Helper::buildMethodName('get-'.$key.'-details');
             if (method_exists($this, $methodName) && $systemDetails = $this->$methodName()) {
                 return $carry.$this->implode(
                     strtoupper($details[$key]),
@@ -163,7 +165,7 @@ class System
     public function getReviewsDetails()
     {
         $counts = glsr(CountsManager::class)->getCounts();
-        $counts = glsr(Helper::class)->flattenArray($counts);
+        $counts = Arr::flattenArray($counts);
         array_walk($counts, function (&$ratings) use ($counts) {
             if (!is_array($ratings)) {
                 glsr_log()
@@ -197,14 +199,13 @@ class System
      */
     public function getSettingDetails()
     {
-        $helper = glsr(Helper::class);
         $settings = glsr(OptionManager::class)->get('settings', []);
-        $settings = $helper->flattenArray($settings, true);
+        $settings = Arr::flattenArray($settings, true);
         $settings = $this->purgeSensitiveData($settings);
         ksort($settings);
         $details = [];
         foreach ($settings as $key => $value) {
-            if ($helper->startsWith('strings', $key) && $helper->endsWith('id', $key)) {
+            if (Str::startsWith('strings', $key) && Str::endsWith('id', $key)) {
                 continue;
             }
             $value = htmlspecialchars(trim(preg_replace('/\s\s+/', '\\n', $value)), ENT_QUOTES, 'UTF-8');
@@ -297,7 +298,7 @@ class System
     {
         return sprintf('%s (%s)',
             $this->detectWebhostProvider(),
-            glsr(Helper::class)->getIpAddress()
+            Helper::getIpAddress()
         );
     }
 
@@ -368,7 +369,7 @@ class System
         ];
         array_walk($settings, function (&$value, $setting) use ($keys) {
             foreach ($keys as $key) {
-                if (!glsr(Helper::class)->startsWith($key, $setting) || empty($value)) {
+                if (!Str::startsWith($key, $setting) || empty($value)) {
                     continue;
                 }
                 $value = str_repeat('•', 13);

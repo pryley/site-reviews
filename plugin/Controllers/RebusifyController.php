@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Rebusify;
@@ -231,7 +232,7 @@ class RebusifyController extends Controller
             update_option($this->rebusifyKey, glsr_get($rebusify->response, 'producttype'));
         } else {
             delete_option($this->rebusifyKey);
-            $settings = glsr(Helper::class)->dataSet($settings, $this->enabledKey, 'no');
+            $settings = Arr::set($settings, $this->enabledKey, 'no');
             glsr(Notice::class)->addError(sprintf(
                 __('Your Rebusify account details could not be verified, please try again. %s', 'site-reviews'),
                 '('.$rebusify->message.')'

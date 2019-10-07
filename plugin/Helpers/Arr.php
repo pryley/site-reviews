@@ -1,13 +1,13 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\HelperTraits;
+namespace GeminiLabs\SiteReviews\Helpers;
 
-trait Arr
+class Arr
 {
     /**
      * @return bool
      */
-    public function compareArrays(array $arr1, array $arr2)
+    public static function compareArrays(array $arr1, array $arr2)
     {
         sort($arr1);
         sort($arr2);
@@ -18,7 +18,7 @@ trait Arr
      * @param mixed $array
      * @return array
      */
-    public function consolidateArray($array)
+    public static function consolidateArray($array)
     {
         return is_array($array) || is_object($array)
             ? (array) $array
@@ -28,11 +28,11 @@ trait Arr
     /**
      * @return array
      */
-    public function convertDotNotationArray(array $array)
+    public static function convertDotNotationArray(array $array)
     {
         $results = [];
         foreach ($array as $path => $value) {
-            $results = $this->dataSet($results, $path, $value);
+            $results = static::set($results, $path, $value);
         }
         return $results;
     }
@@ -42,12 +42,35 @@ trait Arr
      * @param mixed $callback
      * @return array
      */
-    public function convertStringToArray($string, $callback = null)
+    public static function convertStringToArray($string, $callback = null)
     {
         $array = array_map('trim', explode(',', $string));
         return $callback
             ? array_filter($array, $callback)
             : array_filter($array);
+    }
+
+    /**
+     * @param bool $flattenValue
+     * @param string $prefix
+     * @return array
+     */
+    public static function flattenArray(array $array, $flattenValue = false, $prefix = '')
+    {
+        $result = [];
+        foreach ($array as $key => $value) {
+            $newKey = ltrim($prefix.'.'.$key, '.');
+            if (static::isIndexedFlatArray($value)) {
+                if ($flattenValue) {
+                    $value = '['.implode(', ', $value).']';
+                }
+            } elseif (is_array($value)) {
+                $result = array_merge($result, static::flattenArray($value, $flattenValue, $newKey));
+                continue;
+            }
+            $result[$newKey] = $value;
+        }
+        return $result;
     }
 
     /**
@@ -57,9 +80,9 @@ trait Arr
      * @param mixed $fallback
      * @return mixed
      */
-    public function dataGet($data, $path = '', $fallback = '')
+    public static function get($data, $path = '', $fallback = '')
     {
-        $data = $this->consolidateArray($data);
+        $data = static::consolidateArray($data);
         $keys = explode('.', $path);
         foreach ($keys as $key) {
             if (!isset($data[$key])) {
@@ -71,53 +94,11 @@ trait Arr
     }
 
     /**
-     * Set a value to an array of values using a dot-notation path as reference.
-     * @param string $path
-     * @param mixed $value
-     * @return array
-     */
-    public function dataSet(array $data, $path, $value)
-    {
-        $token = strtok($path, '.');
-        $ref = &$data;
-        while (false !== $token) {
-            $ref = $this->consolidateArray($ref);
-            $ref = &$ref[$token];
-            $token = strtok('.');
-        }
-        $ref = $value;
-        return $data;
-    }
-
-    /**
-     * @param bool $flattenValue
-     * @param string $prefix
-     * @return array
-     */
-    public function flattenArray(array $array, $flattenValue = false, $prefix = '')
-    {
-        $result = [];
-        foreach ($array as $key => $value) {
-            $newKey = ltrim($prefix.'.'.$key, '.');
-            if ($this->isIndexedFlatArray($value)) {
-                if ($flattenValue) {
-                    $value = '['.implode(', ', $value).']';
-                }
-            } elseif (is_array($value)) {
-                $result = array_merge($result, $this->flattenArray($value, $flattenValue, $newKey));
-                continue;
-            }
-            $result[$newKey] = $value;
-        }
-        return $result;
-    }
-
-    /**
      * @param string $key
      * @param string $position
      * @return array
      */
-    public function insertInArray(array $array, array $insert, $key, $position = 'before')
+    public static function insertInArray(array $array, array $insert, $key, $position = 'before')
     {
         $keyPosition = intval(array_search($key, array_keys($array)));
         if ('after' == $position) {
@@ -135,7 +116,7 @@ trait Arr
      * @param mixed $array
      * @return bool
      */
-    public function isIndexedFlatArray($array)
+    public static function isIndexedFlatArray($array)
     {
         if (!is_array($array) || array_filter($array, 'is_array')) {
             return false;
@@ -147,7 +128,7 @@ trait Arr
      * @param bool $prefixed
      * @return array
      */
-    public function prefixArrayKeys(array $values, $prefixed = true)
+    public static function prefixArrayKeys(array $values, $prefixed = true)
     {
         $trim = '_';
         $prefix = $prefixed
@@ -167,7 +148,7 @@ trait Arr
     /**
      * @return array
      */
-    public function removeEmptyArrayValues(array $array)
+    public static function removeEmptyArrayValues(array $array)
     {
         $result = [];
         foreach ($array as $key => $value) {
@@ -175,17 +156,37 @@ trait Arr
                 continue;
             }
             $result[$key] = is_array($value)
-                ? $this->removeEmptyArrayValues($value)
+                ? static::removeEmptyArrayValues($value)
                 : $value;
         }
         return $result;
     }
 
+
+    /**
+     * Set a value to an array of values using a dot-notation path as reference.
+     * @param string $path
+     * @param mixed $value
+     * @return array
+     */
+    public static function set(array $data, $path, $value)
+    {
+        $token = strtok($path, '.');
+        $ref = &$data;
+        while (false !== $token) {
+            $ref = static::consolidateArray($ref);
+            $ref = &$ref[$token];
+            $token = strtok('.');
+        }
+        $ref = $value;
+        return $data;
+    }
+
     /**
      * @return array
      */
-    public function unprefixArrayKeys(array $values)
+    public static function unprefixArrayKeys(array $values)
     {
-        return $this->prefixArrayKeys($values, false);
+        return static::prefixArrayKeys($values, false);
     }
 }

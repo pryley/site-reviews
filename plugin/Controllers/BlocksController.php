@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class BlocksController extends Controller
 {
@@ -14,7 +15,7 @@ class BlocksController extends Controller
      */
     public function filterBlockCategories($categories)
     {
-        $categories = glsr(Helper::class)->consolidateArray($categories);
+        $categories = Arr::consolidateArray($categories);
         $categories[] = [
             'icon' => null,
             'slug' => Application::ID,
@@ -80,7 +81,7 @@ class BlocksController extends Controller
         ];
         foreach ($blocks as $block) {
             $id = str_replace('_reviews', '', Application::ID.'_'.$block);
-            $blockClass = glsr(Helper::class)->buildClassName($id.'-block', 'Blocks');
+            $blockClass = Helper::buildClassName($id.'-block', 'Blocks');
             if (!class_exists($blockClass)) {
                 glsr_log()->error(sprintf('Class missing (%s)', $blockClass));
                 continue;

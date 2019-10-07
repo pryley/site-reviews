@@ -5,7 +5,8 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Controllers\ListTableController\Columns;
 use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use WP_Post;
 use WP_Query;
@@ -38,7 +39,7 @@ class ListTableController extends Controller
      */
     public function filterBulkUpdateMessages($messages, array $counts)
     {
-        $messages = glsr(Helper::class)->consolidateArray($messages);
+        $messages = Arr::consolidateArray($messages);
         $messages[Application::POST_TYPE] = [
             'updated' => _n('%s review updated.', '%s reviews updated.', $counts['updated'], 'site-reviews'),
             'locked' => _n('%s review not updated, somebody is editing it.', '%s reviews not updated, somebody is editing them.', $counts['locked'], 'site-reviews'),
@@ -56,7 +57,7 @@ class ListTableController extends Controller
      */
     public function filterColumnsForPostType($columns)
     {
-        $columns = glsr(Helper::class)->consolidateArray($columns);
+        $columns = Arr::consolidateArray($columns);
         $postTypeColumns = glsr()->postTypeColumns[Application::POST_TYPE];
         foreach ($postTypeColumns as $key => &$value) {
             if (!array_key_exists($key, $columns) || !empty($value)) {
@@ -93,7 +94,7 @@ class ListTableController extends Controller
     public function filterDefaultHiddenColumns($hidden, $screen)
     {
         if (glsr_get($screen, 'id') == 'edit-'.Application::POST_TYPE) {
-            $hidden = glsr(Helper::class)->consolidateArray($hidden);
+            $hidden = Arr::consolidateArray($hidden);
             $hidden = ['reviewer'];
         }
         return $hidden;
@@ -107,7 +108,7 @@ class ListTableController extends Controller
      */
     public function filterPostStates($postStates, $post)
     {
-        $postStates = glsr(Helper::class)->consolidateArray($postStates);
+        $postStates = Arr::consolidateArray($postStates);
         if (Application::POST_TYPE == glsr_get($post, 'post_type') && array_key_exists('pending', $postStates)) {
             $postStates['pending'] = __('Unapproved', 'site-reviews');
         }
@@ -141,7 +142,7 @@ class ListTableController extends Controller
                 ),
             ]);
         }
-        return $newActions + glsr(Helper::class)->consolidateArray($actions);
+        return $newActions + Arr::consolidateArray($actions);
     }
 
     /**
@@ -151,11 +152,11 @@ class ListTableController extends Controller
      */
     public function filterSortableColumns($columns)
     {
-        $columns = glsr(Helper::class)->consolidateArray($columns);
+        $columns = Arr::consolidateArray($columns);
         $postTypeColumns = glsr()->postTypeColumns[Application::POST_TYPE];
         unset($postTypeColumns['cb']);
         foreach ($postTypeColumns as $key => $value) {
-            if (glsr(Helper::class)->startsWith('taxonomy', $key)) {
+            if (Str::startsWith('taxonomy', $key)) {
                 continue;
             }
             $columns[$key] = $key;
@@ -332,7 +333,7 @@ class ListTableController extends Controller
             }
             $metaQuery = (array) $query->get('meta_query');
             $metaQuery[] = [
-                'key' => glsr(Helper::class)->prefix('_', $key),
+                'key' => Str::prefix('_', $key),
                 'value' => $value,
             ];
             $query->set('meta_query', $metaQuery);

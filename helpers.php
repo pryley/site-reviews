@@ -74,7 +74,7 @@ function glsr_calculate_ratings()
 function glsr_create_review($reviewValues = array())
 {
     $review = new \GeminiLabs\SiteReviews\Commands\CreateReview(
-        glsr('Helper')->consolidateArray($reviewValues)
+        \GeminiLabs\SiteReviews\Helpers\Arr::consolidateArray($reviewValues)
     );
     return glsr('Database\ReviewManager')->create($review);
 }
@@ -118,7 +118,7 @@ function glsr_debug(...$vars)
  */
 function glsr_get($array, $path = '', $fallback = '')
 {
-    return glsr('Helper')->dataGet($array, $path, $fallback);
+    return \GeminiLabs\SiteReviews\Helpers\Arr::get($array, $path, $fallback);
 }
 
 /**
@@ -130,7 +130,7 @@ function glsr_get($array, $path = '', $fallback = '')
 function glsr_get_option($path = '', $fallback = '', $cast = '')
 {
     return is_string($path)
-        ? glsr('Database\OptionManager')->get(glsr('Helper')->prefix('settings.', $path), $fallback, $cast)
+        ? glsr('Database\OptionManager')->get(\GeminiLabs\SiteReviews\Helpers\Str::prefix('settings.', $path), $fallback, $cast)
         : $fallback;
 }
 
@@ -162,7 +162,7 @@ function glsr_get_review($post)
  */
 function glsr_get_reviews($args = array())
 {
-    return glsr('Database\ReviewManager')->get(glsr('Helper')->consolidateArray($args));
+    return glsr('Database\ReviewManager')->get(\GeminiLabs\SiteReviews\Helpers\Arr::consolidateArray($args));
 }
 
 /**

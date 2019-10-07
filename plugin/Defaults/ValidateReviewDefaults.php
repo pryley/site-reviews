@@ -18,7 +18,7 @@ class ValidateReviewDefaults extends Defaults
             'content' => '',
             'email' => '',
             'form_id' => '',
-            'ip_address' => glsr(Helper::class)->getIpAddress(), // required for Akismet and Blacklist validation
+            'ip_address' => Helper::getIpAddress(), // required for Akismet and Blacklist validation
             'name' => '',
             'rating' => '0',
             'terms' => '',

@@ -8,7 +8,7 @@ use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsSummaryDefaults;
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Reviews;
 use WP_Post;
@@ -23,7 +23,7 @@ class ReviewManager
     {
         $reviewValues = glsr(CreateReviewDefaults::class)->restrict((array) $command);
         $reviewValues = apply_filters('site-reviews/create/review-values', $reviewValues, $command);
-        $reviewValues = glsr(Helper::class)->prefixArrayKeys($reviewValues);
+        $reviewValues = Arr::prefixArrayKeys($reviewValues);
         unset($reviewValues['json']); // @todo remove the need for this
         $postValues = [
             'comment_status' => 'closed',
@@ -113,7 +113,7 @@ class ReviewManager
     {
         $args = glsr(SiteReviewsSummaryDefaults::class)->filter($args);
         $counts = glsr(CountsManager::class)->get([
-            'post_ids' => glsr(Helper::class)->convertStringToArray($args['assigned_to']),
+            'post_ids' => Arr::convertStringToArray($args['assigned_to']),
             'term_ids' => $this->normalizeTermIds($args['category']),
             'type' => $args['type'],
         ]);
@@ -139,7 +139,7 @@ class ReviewManager
     public function normalizeTerms($commaSeparatedTermIds)
     {
         $terms = [];
-        $termIds = glsr(Helper::class)->convertStringToArray($commaSeparatedTermIds);
+        $termIds = Arr::convertStringToArray($commaSeparatedTermIds);
         foreach ($termIds as $termId) {
             if (is_numeric($termId)) {
                 $termId = intval($termId);

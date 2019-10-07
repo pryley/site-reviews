@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Handlers\EnqueuePublicAssets;
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Modules\Style;
@@ -57,7 +57,7 @@ class PublicController extends Controller
      */
     public function filterQueryVars($vars)
     {
-        $vars = glsr(Helper::class)->consolidateArray($vars);
+        $vars = Arr::consolidateArray($vars);
         $vars[] = glsr()->constant('PAGED_QUERY_VAR');
         return $vars;
     }

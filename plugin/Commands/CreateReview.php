@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class CreateReview
 {
@@ -76,7 +76,7 @@ class CreateReview
      */
     protected function getCategory()
     {
-        $categories = glsr(Helper::class)->convertStringToArray($this->get('category'));
+        $categories = Arr::convertStringToArray($this->get('category'));
         return sanitize_key(glsr_get($categories, 0));
     }
 

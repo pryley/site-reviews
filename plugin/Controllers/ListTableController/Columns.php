@@ -97,7 +97,7 @@ class Columns
      */
     public function renderValues($column, $postId)
     {
-        $method = glsr(Helper::class)->buildMethodName($column, 'buildColumn');
+        $method = Helper::buildMethodName($column, 'buildColumn');
         echo method_exists($this, $method)
             ? call_user_func([$this, $method], $postId)
             : apply_filters('site-reviews/columns/'.$column, '', $postId);

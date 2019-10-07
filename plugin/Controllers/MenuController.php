@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Settings;
@@ -52,7 +53,7 @@ class MenuController extends Controller
             'documentation' => __('Documentation', 'site-reviews'),
         ]);
         foreach ($pages as $slug => $title) {
-            $method = glsr(Helper::class)->buildMethodName('render-'.$slug.'-menu');
+            $method = Helper::buildMethodName('render-'.$slug.'-menu');
             $callback = apply_filters('site-reviews/addon/submenu/callback', [$this, $method], $slug);
             if (!is_callable($callback)) {
                 continue;
@@ -115,10 +116,10 @@ class MenuController extends Controller
             'addons' => __('Addons', 'site-reviews'),
             'licenses' => __('Licenses', 'site-reviews'),
         ]);
-        if (empty(glsr(Helper::class)->dataGet(glsr()->defaults, 'settings.addons'))) {
+        if (empty(Arr::get(glsr()->defaults, 'settings.addons'))) {
             unset($tabs['addons']);
         }
-        if (empty(glsr(Helper::class)->dataGet(glsr()->defaults, 'settings.licenses'))) {
+        if (empty(Arr::get(glsr()->defaults, 'settings.licenses'))) {
             unset($tabs['licenses']);
         }
         $this->renderPage('settings', [

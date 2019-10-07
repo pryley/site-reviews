@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
 
 abstract class DefaultsAbstract
@@ -31,7 +31,7 @@ abstract class DefaultsAbstract
         $defaults = call_user_func_array([$this, $name], $args);
         $hookName = (new ReflectionClass($this))->getShortName();
         $hookName = str_replace('Defaults', '', $hookName);
-        $hookName = glsr(Helper::class)->dashCase($hookName);
+        $hookName = Str::dashCase($hookName);
         return apply_filters('site-reviews/defaults/'.$hookName, $defaults, $name);
     }
 

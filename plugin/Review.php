@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews as SiteReviewsPartial;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 use WP_Post;
@@ -73,7 +74,7 @@ class Review implements \ArrayAccess
         }
         $partial = glsr(SiteReviewsPartial::class);
         $partial->args = glsr(SiteReviewsDefaults::class)->merge($args);
-        $partial->options = glsr(Helper::class)->flattenArray(glsr(OptionManager::class)->all());
+        $partial->options = Arr::flattenArray(glsr(OptionManager::class)->all());
         return $partial->buildReview($this);
     }
 
@@ -156,7 +157,7 @@ class Review implements \ArrayAccess
             array_map('array_shift', array_filter((array) get_post_meta($post->ID))),
             'strlen'
         );
-        $meta = array_merge($defaults, glsr(Helper::class)->unprefixArrayKeys($meta));
+        $meta = array_merge($defaults, Arr::unprefixArrayKeys($meta));
         $properties = glsr(CreateReviewDefaults::class)->restrict(array_merge($defaults, $meta));
         $this->modified = $this->isModified($properties);
         array_walk($properties, function ($value, $key) {

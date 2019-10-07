@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\QueryBuilder;
 use GeminiLabs\SiteReviews\Database\SqlQueries;
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use WP_Post;
 use WP_Query;
 
@@ -19,7 +19,7 @@ class Database
      */
     public function get($postId, $key, $single = true)
     {
-        $key = glsr(Helper::class)->prefix('_', $key);
+        $key = Str::prefix('_', $key);
         return get_post_meta(intval($postId), $key, $single);
     }
 
@@ -164,7 +164,7 @@ class Database
      */
     public function set($postId, $key, $value)
     {
-        $key = glsr(Helper::class)->prefix('_', $key);
+        $key = Str::prefix('_', $key);
         return update_post_meta($postId, $key, $value);
     }
 

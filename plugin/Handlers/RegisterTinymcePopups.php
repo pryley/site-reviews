@@ -13,7 +13,7 @@ class RegisterTinymcePopups
     public function handle(Command $command)
     {
         foreach ($command->popups as $slug => $label) {
-            $buttonClass = glsr(Helper::class)->buildClassName($slug.'-popup', 'Shortcodes');
+            $buttonClass = Helper::buildClassName($slug.'-popup', 'Shortcodes');
             if (!class_exists($buttonClass)) {
                 glsr_log()->error(sprintf('Class missing (%s)', $buttonClass));
                 continue;

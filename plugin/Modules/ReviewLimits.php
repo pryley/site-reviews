@@ -28,7 +28,7 @@ class ReviewLimits
     public function hasReachedLimit(array $request = [])
     {
         $this->request = $request;
-        $method = glsr(Helper::class)->buildMethodName(
+        $method = Helper::buildMethodName(
             glsr(OptionManager::class)->get('settings.submissions.limit'), 'validateBy'
         );
         return method_exists($this, $method)

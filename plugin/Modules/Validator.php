@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use BadMethodCallException;
 use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidationRules;
 
 /**
@@ -150,7 +150,7 @@ class Validator
         if (in_array($rule, $this->sizeRules)) {
             return $this->getSizeMessage($attribute, $rule, $parameters);
         }
-        $lowerRule = glsr(Helper::class)->snakeCase($rule);
+        $lowerRule = Str::snakeCase($rule);
         return $this->translator($lowerRule, $parameters);
     }
 
@@ -202,7 +202,7 @@ class Validator
     protected function getSizeMessage($attribute, $rule, array $parameters)
     {
         $type = $this->getAttributeType($attribute);
-        $lowerRule = glsr(Helper::class)->snakeCase($rule.$type);
+        $lowerRule = Str::snakeCase($rule.$type);
         return $this->translator($lowerRule, $parameters);
     }
 
@@ -266,7 +266,7 @@ class Validator
             list($rule, $parameter) = explode(':', $rule, 2);
             $parameters = $this->parseParameters($rule, $parameter);
         }
-        $rule = glsr(Helper::class)->camelCase($rule);
+        $rule = Str::camelCase($rule);
         return [$rule, $parameters];
     }
 

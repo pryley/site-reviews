@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules\Validator;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\ValidateReviewDefaults;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Akismet;
 use GeminiLabs\SiteReviews\Modules\Blacklist;
 use GeminiLabs\SiteReviews\Modules\ReviewLimits;
@@ -81,7 +82,7 @@ class ValidateReview
      */
     protected function getOption($path, $fallback = '')
     {
-        return glsr(Helper::class)->dataGet($this->options, $path, $fallback);
+        return Arr::get($this->options, $path, $fallback);
     }
 
     /**
@@ -106,7 +107,7 @@ class ValidateReview
     protected function getRecaptchaTokenStatus()
     {
         $endpoint = add_query_arg([
-            'remoteip' => glsr(Helper::class)->getIpAddress(),
+            'remoteip' => Helper::getIpAddress(),
             'response' => $this->request['_recaptcha-token'],
             'secret' => $this->getOption('settings.submissions.recaptcha.secret'),
         ], static::RECAPTCHA_ENDPOINT);

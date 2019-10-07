@@ -12,7 +12,7 @@ class Partial
      */
     public function build($partialPath, array $args = [])
     {
-        $className = glsr(Helper::class)->buildClassName($partialPath, 'Modules\Html\Partials');
+        $className = Helper::buildClassName($partialPath, 'Modules\Html\Partials');
         if (!class_exists($className)) {
             glsr_log()->error('Partial missing: '.$className);
             return;

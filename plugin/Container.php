@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use Closure;
 use Exception;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
 use ReflectionParameter;
 
@@ -58,7 +59,7 @@ abstract class Container
         if (property_exists($this, $property) && !in_array($property, static::PROTECTED_PROPERTIES)) {
             return $this->$property;
         }
-        $constant = 'static::'.strtoupper($this->make(Helper::class)->snakeCase($property));
+        $constant = 'static::'.strtoupper(Str::snakeCase($property));
         if (defined($constant)) {
             return constant($constant);
         }

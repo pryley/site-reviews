@@ -98,12 +98,12 @@ class Router
      */
     protected function getRequest()
     {
-        $request = glsr(Helper::class)->filterInputArray(Application::ID);
-        if (glsr(Helper::class)->filterInput('action') == Application::PREFIX.'action') {
+        $request = Helper::filterInputArray(Application::ID);
+        if (Helper::filterInput('action') == Application::PREFIX.'action') {
             $request['_ajax_request'] = true;
         }
-        if ('submit-review' == glsr(Helper::class)->filterInput('_action', $request)) {
-            $request['_recaptcha-token'] = glsr(Helper::class)->filterInput('g-recaptcha-response');
+        if ('submit-review' == Helper::filterInput('_action', $request)) {
+            $request['_recaptcha-token'] = Helper::filterInput('g-recaptcha-response');
         }
         return $request;
     }
@@ -136,8 +136,8 @@ class Router
     protected function routeRequest($type, $action, array $request = [])
     {
         $actionHook = 'site-reviews/route/'.$type.'/request';
-        $controller = glsr(glsr(Helper::class)->buildClassName($type.'-controller', 'Controllers'));
-        $method = glsr(Helper::class)->buildMethodName($action, 'router');
+        $controller = glsr(Helper::buildClassName($type.'-controller', 'Controllers'));
+        $method = Helper::buildMethodName($action, 'router');
         $request = apply_filters('site-reviews/route/request', $request, $action, $type);
         do_action($actionHook, $action, $request);
         if (is_callable([$controller, $method])) {

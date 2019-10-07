@@ -5,6 +5,8 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Translation;
 
 class Settings
@@ -21,7 +23,7 @@ class Settings
     public function buildFields($id)
     {
         $this->settings = glsr(DefaultsManager::class)->settings();
-        $method = glsr(Helper::class)->buildMethodName($id, 'getTemplateDataFor');
+        $method = Helper::buildMethodName($id, 'getTemplateDataFor');
         $data = !method_exists($this, $method)
             ? $this->getTemplateData($id)
             : $this->$method($id);
@@ -41,7 +43,7 @@ class Settings
      */
     protected function getFieldNameForDependsOn($path)
     {
-        $fieldName = glsr(Helper::class)->convertPathToName($path, OptionManager::databaseKey());
+        $fieldName = Str::convertPathToName($path, OptionManager::databaseKey());
         return $this->isMultiDependency($path)
             ? $fieldName.'[]'
             : $fieldName;
@@ -53,7 +55,7 @@ class Settings
     protected function getSettingFields($path)
     {
         return array_filter($this->settings, function ($key) use ($path) {
-            return glsr(Helper::class)->startsWith($path, $key);
+            return Str::startsWith($path, $key);
         }, ARRAY_FILTER_USE_KEY);
     }
 
@@ -94,12 +96,12 @@ class Settings
     protected function getTemplateDataForAddons($id)
     {
         $fields = $this->getSettingFields($this->normalizeSettingPath($id));
-        $settings = glsr(Helper::class)->convertDotNotationArray($fields);
+        $settings = Arr::convertDotNotationArray($fields);
         $settingKeys = array_keys($settings['settings']['addons']);
         $results = [];
         foreach ($settingKeys as $key) {
             $addonFields = array_filter($fields, function ($path) use ($key) {
-                return glsr(Helper::class)->startsWith('settings.addons.'.$key, $path);
+                return Str::startsWith('settings.addons.'.$key, $path);
             }, ARRAY_FILTER_USE_KEY);
             $results[$key] = $this->getSettingRows($addonFields);
         }
@@ -151,7 +153,7 @@ class Settings
     {
         $optionValue = glsr(OptionManager::class)->get(
             $path,
-            glsr(Helper::class)->dataGet(glsr()->defaults, $path)
+            Arr::get(glsr()->defaults, $path)
         );
         if (is_array($expectedValue)) {
             return is_array($optionValue)
@@ -242,6 +244,6 @@ class Settings
      */
     protected function normalizeSettingPath($path)
     {
-        return glsr(Helper::class)->prefix('settings.', rtrim($path, '.'));
+        return Str::prefix('settings.', rtrim($path, '.'));
     }
 }

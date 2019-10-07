@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Upgrader;
 
 final class Application extends Container
@@ -102,8 +103,8 @@ final class Application extends Container
     {
         $view.= '.php';
         $filePaths = [];
-        if (glsr(Helper::class)->startsWith('templates/', $view)) {
-            $filePaths[] = $this->themePath(glsr(Helper::class)->removePrefix('templates/', $view));
+        if (Str::startsWith('templates/', $view)) {
+            $filePaths[] = $this->themePath(Str::removePrefix('templates/', $view));
         }
         $filePaths[] = $this->path($view);
         $filePaths[] = $this->path('views/'.$view);

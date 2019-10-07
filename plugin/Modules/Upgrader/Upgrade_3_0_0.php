@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Upgrader;
 
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Upgrade_3_0_0
 {
@@ -83,8 +83,8 @@ class Upgrade_3_0_0
         $this->migrateNotificationSettings();
         $this->migrateRecaptchaSettings();
         $this->migrateRequiredSettings();
-        $oldSettings = glsr(Helper::class)->convertDotNotationArray($this->oldSettings);
-        $newSettings = glsr(Helper::class)->convertDotNotationArray($this->newSettings);
+        $oldSettings = Arr::convertDotNotationArray($this->oldSettings);
+        $newSettings = Arr::convertDotNotationArray($this->newSettings);
         if (isset($oldSettings['settings']['strings']) && is_array($oldSettings['settings']['strings'])) {
             $newSettings['settings']['strings'] = $oldSettings['settings']['strings'];
         }
@@ -97,7 +97,7 @@ class Upgrade_3_0_0
     protected function getNewSettings()
     {
         return wp_parse_args(
-            glsr(Helper::class)->flattenArray(glsr(OptionManager::class)->all()),
+            Arr::flattenArray(glsr(OptionManager::class)->all()),
             glsr(DefaultsManager::class)->defaults()
         );
     }
@@ -108,7 +108,7 @@ class Upgrade_3_0_0
     protected function getOldSettings()
     {
         $defaults = array_fill_keys(array_keys(static::MAPPED_SETTINGS), '');
-        $settings = glsr(Helper::class)->flattenArray(get_option('geminilabs_site_reviews-v2', []));
+        $settings = Arr::flattenArray(get_option('geminilabs_site_reviews-v2', []));
         if (!empty($settings)) {
             $settings = wp_parse_args($settings, $defaults);
         }

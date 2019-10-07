@@ -3,6 +3,8 @@
 namespace GeminiLabs\SiteReviews\Tests;
 
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use WP_UnitTestCase;
 
 /**
@@ -13,91 +15,91 @@ class TestHelper extends WP_UnitTestCase
 {
     public function test_build_class_name()
     {
-        $this->assertEquals(glsr(Helper::class)->buildClassName('hello-doll'), 'HelloDoll');
+        $this->assertEquals(Helper::buildClassName('hello-doll'), 'HelloDoll');
         $this->assertEquals(
-            glsr(Helper::class)->buildClassName('Doll', 'Hello'),
+            Helper::buildClassName('Doll', 'Hello'),
             'GeminiLabs\SiteReviews\Hello\Doll'
         );
     }
 
     public function test_build_method_name()
     {
-        $this->assertEquals(glsr(Helper::class)->buildMethodName('Hello-Doll', 'get'), 'getHelloDoll');
+        $this->assertEquals(Helper::buildMethodName('Hello-Doll', 'get'), 'getHelloDoll');
     }
 
     public function test_build_property_name()
     {
-        $this->assertEquals(glsr(Helper::class)->buildPropertyName('Hello-Doll'), 'helloDoll');
+        $this->assertEquals(Helper::buildPropertyName('Hello-Doll'), 'helloDoll');
     }
 
     public function test_compare_arrays()
     {
-        $this->assertTrue(glsr(Helper::class)->compareArrays(['one' => ['two']], ['one' => ['two']]));
-        $this->assertFalse(glsr(Helper::class)->compareArrays(['one' => ['two']], ['one' => 'two']));
+        $this->assertTrue(Arr::compareArrays(['one' => ['two']], ['one' => ['two']]));
+        $this->assertFalse(Arr::compareArrays(['one' => ['two']], ['one' => 'two']));
     }
 
     public function test_convert_dot_notation_array()
     {
         $original = ['parent.child' => 'toys'];
         $converted = ['parent' => ['child' => 'toys']];
-        $this->assertEquals(glsr(Helper::class)->convertDotNotationArray($original), $converted);
+        $this->assertEquals(Arr::convertDotNotationArray($original), $converted);
     }
 
     public function test_convert_path_to_id()
     {
-        $this->assertEquals(glsr(Helper::class)->convertPathToId('abc.d.e'), '-abc-d-e');
-        $this->assertEquals(glsr(Helper::class)->convertPathToId('d.e', 'abc'), 'abc-d-e');
-        $this->assertEquals(glsr(Helper::class)->convertPathToId('d.e.', 'abc'), 'abc-d-e-');
-        $this->assertEquals(glsr(Helper::class)->convertPathToId('.d.e', 'abc'), 'abc--d-e');
+        $this->assertEquals(Str::convertPathToId('abc.d.e'), '-abc-d-e');
+        $this->assertEquals(Str::convertPathToId('d.e', 'abc'), 'abc-d-e');
+        $this->assertEquals(Str::convertPathToId('d.e.', 'abc'), 'abc-d-e-');
+        $this->assertEquals(Str::convertPathToId('.d.e', 'abc'), 'abc--d-e');
     }
 
     public function test_convert_path_to_name()
     {
-        $this->assertEquals(glsr(Helper::class)->convertPathToName('abc.d.e'), '[abc][d][e]');
-        $this->assertEquals(glsr(Helper::class)->convertPathToName('d.e', 'abc'), 'abc[d][e]');
-        $this->assertEquals(glsr(Helper::class)->convertPathToName('d.e.', 'abc'), 'abc[d][e][]');
-        $this->assertEquals(glsr(Helper::class)->convertPathToName('.d.e', 'abc'), 'abc[][d][e]');
+        $this->assertEquals(Str::convertPathToName('abc.d.e'), '[abc][d][e]');
+        $this->assertEquals(Str::convertPathToName('d.e', 'abc'), 'abc[d][e]');
+        $this->assertEquals(Str::convertPathToName('d.e.', 'abc'), 'abc[d][e][]');
+        $this->assertEquals(Str::convertPathToName('.d.e', 'abc'), 'abc[][d][e]');
     }
 
     public function test_dash_case()
     {
-        $this->assertEquals(glsr(Helper::class)->dashCase('a-b_cDE'), 'a-b-c-d-e');
+        $this->assertEquals(Str::dashCase('a-b_cDE'), 'a-b-c-d-e');
     }
 
     public function test_ends_with()
     {
-        $this->assertTrue(glsr(Helper::class)->endsWith('efg', 'abcdefg'));
-        $this->assertFalse(glsr(Helper::class)->endsWith('efg', 'ABCDEFG'));
+        $this->assertTrue(Str::endsWith('efg', 'abcdefg'));
+        $this->assertFalse(Str::endsWith('efg', 'ABCDEFG'));
     }
 
     public function test_filter_input()
     {
         $_POST['xxx'] = 'xxx';
-        $this->assertEquals(glsr(Helper::class)->filterInput('xxx'), 'xxx');
-        $this->assertEquals(glsr(Helper::class)->filterInput('zzz'), null);
+        $this->assertEquals(Helper::filterInput('xxx'), 'xxx');
+        $this->assertEquals(Helper::filterInput('zzz'), null);
     }
 
     public function test_filter_input_array()
     {
         $test = ['a' => ['b', 'c']];
         $_POST['xxx'] = $test;
-        $this->assertEquals(glsr(Helper::class)->filterInputArray('xxx'), $test);
-        $this->assertEquals(glsr(Helper::class)->filterInputArray('zzz'), []);
+        $this->assertEquals(Helper::filterInputArray('xxx'), $test);
+        $this->assertEquals(Helper::filterInputArray('zzz'), []);
     }
 
     public function test_flatten_array()
     {
         $test = ['one' => ['two' => ['three' => ['x', 'y', 'z']]]];
         $this->assertEquals(
-            glsr(Helper::class)->flattenArray($test),
+            Arr::flattenArray($test),
             ['one.two.three' => ['x', 'y', 'z']]
         );
         $this->assertEquals(
-            glsr(Helper::class)->flattenArray($test, true),
+            Arr::flattenArray($test, true),
             ['one.two.three' => '[x, y, z]']
         );
         $this->assertEquals(
-            glsr(Helper::class)->flattenArray($test, true, 'test'),
+            Arr::flattenArray($test, true, 'test'),
             ['test.one.two.three' => '[x, y, z]']
         );
     }
@@ -106,26 +108,26 @@ class TestHelper extends WP_UnitTestCase
     {
         $values = ['parent' => ['child' => 'toys']];
         $this->assertEquals(
-            glsr(Helper::class)->dataGet($values, 'parent.child'),
+            Arr::get($values, 'parent.child'),
             'toys'
         );
         $this->assertEquals(
-            glsr(Helper::class)->dataGet($values, 'parent.child.toys', 'fallback'),
+            Arr::get($values, 'parent.child.toys', 'fallback'),
             'fallback'
         );
     }
 
     public function test_is_indexed_flat_array()
     {
-        $this->assertFalse(glsr(Helper::class)->isIndexedFlatArray('not an array'));
-        $this->assertFalse(glsr(Helper::class)->isIndexedFlatArray([[]]));
-        $this->assertTrue(glsr(Helper::class)->isIndexedFlatArray([]));
-        $this->assertTrue(glsr(Helper::class)->isIndexedFlatArray([1, 2, 3]));
+        $this->assertFalse(Arr::isIndexedFlatArray('not an array'));
+        $this->assertFalse(Arr::isIndexedFlatArray([[]]));
+        $this->assertTrue(Arr::isIndexedFlatArray([]));
+        $this->assertTrue(Arr::isIndexedFlatArray([1, 2, 3]));
     }
 
     public function test_prefix_string()
     {
-        $this->assertEquals(glsr(Helper::class)->prefix('hello_', ' bob '), 'hello_bob');
+        $this->assertEquals(Str::prefix('hello_', ' bob '), 'hello_bob');
     }
 
     public function test_remove_empty_array_values()
@@ -139,7 +141,7 @@ class TestHelper extends WP_UnitTestCase
             ],
         ];
         $this->assertEquals(
-            glsr(Helper::class)->removeEmptyArrayValues($array),
+            Arr::removeEmptyArrayValues($array),
             ['array' => ['string' => 'string']]
         );
     }
@@ -147,19 +149,19 @@ class TestHelper extends WP_UnitTestCase
     public function test_set_path_value()
     {
         $this->assertEquals(
-            glsr(Helper::class)->dataSet([], 'number.thirteen', '13'),
+            Arr::set([], 'number.thirteen', '13'),
             ['number' => ['thirteen' => '13']]
         );
     }
 
     public function test_snake_case()
     {
-        $this->assertEquals(glsr(Helper::class)->snakeCase('a-b_cDE'), 'a_b_c_d_e');
+        $this->assertEquals(Str::snakeCase('a-b_cDE'), 'a_b_c_d_e');
     }
 
     public function test_starts_with()
     {
-        $this->assertTrue(glsr(Helper::class)->startsWith('abc', 'abcdefg'));
-        $this->assertFalse(glsr(Helper::class)->startsWith('abc', 'ABCDEFG'));
+        $this->assertTrue(Str::startsWith('abc', 'abcdefg'));
+        $this->assertFalse(Str::startsWith('abc', 'ABCDEFG'));
     }
 }

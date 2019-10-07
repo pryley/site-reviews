@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use DateTime;
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use ReflectionClass;
 use Throwable;
 
@@ -181,7 +181,7 @@ class Console
         }
         if ($this->canLogEntry($level, $backtraceLine)) {
             $levelName = glsr_get($this->getLevels(), $level);
-            $context = glsr(Helper::class)->consolidateArray($context);
+            $context = Arr::consolidateArray($context);
             $backtraceLine = $this->normalizeBacktraceLine($backtraceLine);
             $message = $this->interpolate($message, $context);
             $entry = $this->buildLogEntry($levelName, $message, $backtraceLine);
@@ -197,7 +197,7 @@ class Console
      */
     public function logOnce()
     {
-        $once = glsr(Helper::class)->consolidateArray(glsr()->{$this->logOnceKey});
+        $once = Arr::consolidateArray(glsr()->{$this->logOnceKey});
         $levels = $this->getLevels();
         foreach ($once as $entry) {
             $levelName = glsr_get($entry, 'level');
@@ -231,7 +231,7 @@ class Console
      */
     public function once($levelName, $handle, $data)
     {
-        $once = glsr(Helper::class)->consolidateArray(glsr()->{$this->logOnceKey});
+        $once = Arr::consolidateArray(glsr()->{$this->logOnceKey});
         $filtered = array_filter($once, function ($entry) use ($levelName, $handle) {
             return glsr_get($entry, 'level') == $levelName
                 && glsr_get($entry, 'handle') == $handle;

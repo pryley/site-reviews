@@ -6,6 +6,8 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
@@ -46,7 +48,7 @@ class SiteReviews
     public function build(array $args = [], $reviews = null)
     {
         $this->args = glsr(SiteReviewsDefaults::class)->merge($args);
-        $this->options = glsr(Helper::class)->flattenArray(glsr(OptionManager::class)->all());
+        $this->options = Arr::flattenArray(glsr(OptionManager::class)->all());
         $this->reviews = $reviews instanceof Reviews
             ? $reviews
             : glsr(ReviewManager::class)->get($this->args);
@@ -63,7 +65,7 @@ class SiteReviews
         $this->current = $review;
         $renderedFields = [];
         foreach ($review as $key => $value) {
-            $method = glsr(Helper::class)->buildMethodName($key, 'buildOption');
+            $method = Helper::buildMethodName($key, 'buildOption');
             $field = method_exists($this, $method)
                 ? $this->$method($key, $value)
                 : false;
@@ -146,7 +148,7 @@ class SiteReviews
     protected function buildOptionAuthor($key, $value)
     {
         if (!$this->isHidden($key)) {
-            $name = glsr(Helper::class)->convertName(
+            $name = Str::convertName(
                 $value,
                 glsr_get_option('reviews.name.format'),
                 glsr_get_option('reviews.name.initial')

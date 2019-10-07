@@ -57,7 +57,7 @@ class Schema
         if (is_array($args)) {
             $this->args = $args;
         }
-        $buildSummary = glsr(Helper::class)->buildMethodName($this->getSchemaOptionValue('type'), 'buildSummaryFor');
+        $buildSummary = Helper::buildMethodName($this->getSchemaOptionValue('type'), 'buildSummaryFor');
         $count = array_sum($this->getRatingCounts());
         $schema = method_exists($this, $buildSummary)
             ? $this->$buildSummary()
@@ -246,7 +246,7 @@ class Schema
         if (!is_single() && !is_page()) {
             return;
         }
-        $method = glsr(Helper::class)->buildMethodName($option, 'getThing');
+        $method = Helper::buildMethodName($option, 'getThing');
         if (method_exists($this, $method)) {
             return $this->$method();
         }
@@ -261,7 +261,7 @@ class Schema
         if (!is_string($type)) {
             $type = $this->getSchemaOption('type', 'LocalBusiness');
         }
-        $className = glsr(Helper::class)->buildClassName($type, 'Modules\Schema');
+        $className = Helper::buildClassName($type, 'Modules\Schema');
         return class_exists($className)
             ? new $className()
             : new UnknownType($type);

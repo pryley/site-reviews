@@ -15,7 +15,7 @@ class RegisterWidgets
     {
         global $wp_widget_factory;
         foreach ($command->widgets as $key => $values) {
-            $widgetClass = glsr(Helper::class)->buildClassName($key.'-widget', 'Widgets');
+            $widgetClass = Helper::buildClassName($key.'-widget', 'Widgets');
             if (!class_exists($widgetClass)) {
                 glsr_log()->error(sprintf('Class missing (%s)', $widgetClass));
                 continue;

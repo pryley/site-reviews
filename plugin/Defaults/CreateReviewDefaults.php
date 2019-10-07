@@ -34,7 +34,7 @@ class CreateReviewDefaults extends Defaults
             'custom' => '',
             'date' => current_time('mysql'),
             'email' => '',
-            'ip_address' => glsr(Helper::class)->getIpAddress(),
+            'ip_address' => Helper::getIpAddress(),
             'pinned' => false,
             'rating' => '',
             'response' => '',

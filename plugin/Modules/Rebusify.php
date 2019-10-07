@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Review;
 
 class Rebusify
@@ -81,7 +81,7 @@ class Rebusify
     protected function getBodyForResponse(Review $review)
     {
         $rebusifyResponse = [
-            'reply' => glsr(Helper::class)->truncate($review->response, 300),
+            'reply' => Str::truncate($review->response, 300),
             'review_id' => glsr(Database::class)->get($review->ID, 'rebusify'), // this is the rebusify review ID
             'review_transaction_id' => $review->review_id,
             'type' => 'M',
@@ -96,11 +96,11 @@ class Rebusify
     {
         $rebusifyReview = [
             'domain' => get_home_url(),
-            'firstname' => glsr(Helper::class)->truncate(glsr(Helper::class)->convertName($review->author, 'first'), 25),
+            'firstname' => Str::truncate(Str::convertName($review->author, 'first'), 25),
             'rate' => $review->rating,
             'review_transaction_id' => $review->review_id,
-            'reviews' => glsr(Helper::class)->truncate($review->content, 280),
-            'title' => glsr(Helper::class)->truncate($review->title, 35),
+            'reviews' => Str::truncate($review->content, 280),
+            'title' => Str::truncate($review->title, 35),
             'transaction' => Application::ID, // woocommerce field, not needed for Site Reviews
         ];
         return apply_filters('site-reviews/rebusify/review', $rebusifyReview, $review);

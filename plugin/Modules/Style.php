@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\PaginationDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleValidationDefaults;
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class Style
@@ -57,7 +57,7 @@ class Style
             if (!file_exists(glsr()->file($possibleView))) {
                 continue;
             }
-            return glsr(Helper::class)->removePrefix('views/', $possibleView);
+            return Str::removePrefix('views/', $possibleView);
         }
         return $view;
     }

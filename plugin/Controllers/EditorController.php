@@ -10,7 +10,7 @@ use GeminiLabs\SiteReviews\Controllers\ListTableController\Columns;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -36,7 +36,7 @@ class EditorController extends Controller
     public function filterEditorSettings($settings)
     {
         return glsr(Customization::class)->filterEditorSettings(
-            glsr(Helper::class)->consolidateArray($settings)
+            Arr::consolidateArray($settings)
         );
     }
 
@@ -62,7 +62,7 @@ class EditorController extends Controller
     {
         if ('post' == $metaType && Application::POST_TYPE == get_post_type()) {
             $values = glsr(CreateReviewDefaults::class)->unguarded();
-            $values = glsr(Helper::class)->prefixArrayKeys($values);
+            $values = Arr::prefixArrayKeys($values);
             if (array_key_exists($metaKey, $values)) {
                 $protected = false;
             }
@@ -102,7 +102,7 @@ class EditorController extends Controller
     public function filterUpdateMessages($messages)
     {
         return glsr(Labels::class)->filterUpdateMessages(
-            glsr(Helper::class)->consolidateArray($messages)
+            Arr::consolidateArray($messages)
         );
     }
 
@@ -338,7 +338,7 @@ class EditorController extends Controller
      */
     protected function buildDetailsMetaBoxRevertButton(Review $review, WP_Post $post)
     {
-        $isModified = !glsr(Helper::class)->compareArrays(
+        $isModified = !Arr::compareArrays(
             [$review->title, $review->content, $review->date],
             [
                 glsr(Database::class)->get($post->ID, 'title'),

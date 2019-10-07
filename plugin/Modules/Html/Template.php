@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Template
 {
@@ -16,7 +16,7 @@ class Template
         ob_start();
         glsr()->render($templatePath, $data);
         $template = ob_get_clean();
-        $path = glsr(Helper::class)->removePrefix('templates/', $templatePath);
+        $path = Str::removePrefix('templates/', $templatePath);
         $template = apply_filters('site-reviews/build/template/'.$path, $template, $data);
         $template = $this->interpolate($template, $data, $path);
         $template = apply_filters('site-reviews/rendered/template', $template, $templatePath, $data);

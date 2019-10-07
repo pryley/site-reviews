@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Attributes
 {
@@ -134,7 +134,7 @@ class Attributes
         $wildcards = [];
         foreach (static::GLOBAL_WILDCARD_ATTRIBUTES as $wildcard) {
             $newWildcards = array_filter($this->attributes, function ($key) use ($wildcard) {
-                return glsr(Helper::class)->startsWith($wildcard, $key);
+                return Str::startsWith($wildcard, $key);
             }, ARRAY_FILTER_USE_KEY);
             $wildcards = array_merge($wildcards, $newWildcards);
         }
@@ -159,7 +159,7 @@ class Attributes
      */
     protected function getQuoteChar($attribute)
     {
-        return glsr(Helper::class)->startsWith('data-', $attribute)
+        return Str::startsWith('data-', $attribute)
             ? '\''
             : '"';
     }
@@ -220,7 +220,7 @@ class Attributes
                 $key = $value;
                 $value = '';
             }
-            if (!glsr(Helper::class)->startsWith('data-', $key)) {
+            if (!Str::startsWith('data-', $key)) {
                 continue;
             }
             if (is_array($value)) {
@@ -269,7 +269,7 @@ class Attributes
             if (in_array($key, static::BOOLEAN_ATTRIBUTES) && !$value) {
                 unset($attributes[$key]);
             }
-            if (glsr(Helper::class)->startsWith('data-', $key)) {
+            if (Str::startsWith('data-', $key)) {
                 $permanentAttributes[$key] = $value;
                 unset($attributes[$key]);
             }
