@@ -1,6 +1,6 @@
 <?php defined('WPINC') || die; ?>
 
-<form method="post" class="glsr-status">
+<form method="post" class="glsr-form-sync glsr-status">
     <?php $selected = key($services); ?>
     <table class="wp-list-table widefat fixed striped">
         <thead>

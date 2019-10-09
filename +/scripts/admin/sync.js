@@ -8,7 +8,7 @@
 		this.button = $( 'button#sync-reviews' );
 		this.progressbar = $( '.glsr-progress' );
 		this.service = null;
-		$( 'form' ).on( 'click', '#sync-reviews', this.onSync_.bind( this ));
+		$( 'form.glsr-form-sync' ).on( 'click', '#sync-reviews', this.onSync_.bind( this ));
 		$( document ).on( 'wp-window-resized', this.onWindowResize_ );
 		$( window ).on( 'hashchange', this.onWindowResize_ );
 		this.onWindowResize_();
