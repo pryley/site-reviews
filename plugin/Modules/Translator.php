@@ -11,6 +11,7 @@ class Translator
      * @param string $text
      * @param string $domain
      * @return string
+     * @filter gettext
      */
     public function filterGettext($translation, $text, $domain)
     {
@@ -25,6 +26,7 @@ class Translator
      * @param string $context
      * @param string $domain
      * @return string
+     * @filter gettext_with_context
      */
     public function filterGettextWithContext($translation, $text, $context, $domain)
     {
@@ -41,6 +43,7 @@ class Translator
      * @param int $number
      * @param string $domain
      * @return string
+     * @filter ngettext
      */
     public function filterNgettext($translation, $single, $plural, $number, $domain)
     {
@@ -59,6 +62,7 @@ class Translator
      * @param string $context
      * @param string $domain
      * @return string
+     * @filter ngettext_with_context
      */
     public function filterNgettextWithContext($translation, $single, $plural, $number, $context, $domain)
     {

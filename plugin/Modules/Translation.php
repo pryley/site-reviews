@@ -116,7 +116,7 @@ class Translation
             $data['data.error'] = __('This custom translation is no longer valid as the original text has been changed or removed.', 'site-reviews');
         }
         return glsr(Template::class)->build('partials/translations/'.$template, [
-            'context' => $data,
+            'context' => array_map('esc_html', $data),
         ]);
     }
 
