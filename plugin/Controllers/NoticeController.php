@@ -84,7 +84,12 @@ class NoticeController extends Controller
     {
         if (Application::POST_TYPE == $screenPostType
             && version_compare(glsr()->version('major'), $this->getUserMeta('welcome', 0), '>')) {
-            echo glsr()->render('partials/notices/welcome');
+            $welcomeText = '0.0.0' == glsr(OptionManager::class)->get('version_upgraded_from')
+                ? __('Thanks for installing Site Reviews %s, we hope you love it!', 'site-reviews')
+                : __('Thanks for updating to Site Reviews %s, we hope you love the changes!', 'site-reviews');
+            echo glsr()->render('partials/notices/welcome', [
+                'text' => sprintf($welcomeText, glsr()->version),
+            ]);
         }
     }
 
