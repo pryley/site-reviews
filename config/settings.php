@@ -70,7 +70,7 @@ return [
         ],
         'description' => __('Enter your Rebusify account email here.', 'site-reviews'),
         'label' => __('Rebusify Email', 'site-reviews'),
-        'type' => 'email',
+        'type' => 'text',
     ],
     'settings.general.rebusify_serial' => [
         'default' => '',
