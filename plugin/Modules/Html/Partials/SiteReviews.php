@@ -69,7 +69,7 @@ class SiteReviews
             $field = method_exists($this, $method)
                 ? $this->$method($key, $value)
                 : false;
-            $field = apply_filters('site-reviews/review/build/'.$key, $field, $value, $this, $review);
+            $field = apply_filters('site-reviews/review/build/'.$key, $field, $value, $review, $this);
             if (false === $field) {
                 continue;
             }
@@ -107,6 +107,28 @@ class SiteReviews
     }
 
     /**
+     * @param string $text
+     * @return string
+     */
+    public function getExcerpt($text)
+    {
+        $limit = intval($this->getOption('settings.reviews.excerpts_length', 55));
+        $split = extension_loaded('intl')
+            ? $this->getExcerptIntlSplit($text, $limit)
+            : $this->getExcerptSplit($text, $limit);
+        $hiddenText = substr($text, $split);
+        if (!empty($hiddenText)) {
+            $showMore = glsr(Builder::class)->span($hiddenText, [
+                'class' => 'glsr-hidden glsr-hidden-text',
+                'data-show-less' => __('Show less', 'site-reviews'),
+                'data-show-more' => __('Show more', 'site-reviews'),
+            ]);
+            $text = ltrim(substr($text, 0, $split)).$showMore;
+        }
+        return $text;
+    }
+
+    /**
      * @param string $key
      * @param string $path
      * @return bool
@@ -117,6 +139,32 @@ class SiteReviews
             ? $this->isOptionEnabled($path)
             : true;
         return in_array($key, $this->args['hide']) || !$isOptionEnabled;
+    }
+
+    /**
+     * @param string $key
+     * @param string $value
+     * @return bool
+     */
+    public function isHiddenOrEmpty($key, $value)
+    {
+        return $this->isHidden($key) || empty($value);
+    }
+
+    /**
+     * @param string $text
+     * @return string
+     */
+    public function normalizeText($text)
+    {
+        $text = wp_kses($text, wp_kses_allowed_html());
+        $text = convert_smilies(strip_shortcodes($text));
+        $text = str_replace(']]>', ']]&gt;', $text);
+        $text = preg_replace('/(\R){2,}/', '$1', $text);
+        if ($this->isOptionEnabled('settings.reviews.excerpts')) {
+            $text = $this->getExcerpt($text);
+        }
+        return wptexturize(nl2br($text));
     }
 
     /**
@@ -278,28 +326,6 @@ class SiteReviews
 
     /**
      * @param string $text
-     * @return string
-     */
-    protected function getExcerpt($text)
-    {
-        $limit = intval($this->getOption('settings.reviews.excerpts_length', 55));
-        $split = extension_loaded('intl')
-            ? $this->getExcerptIntlSplit($text, $limit)
-            : $this->getExcerptSplit($text, $limit);
-        $hiddenText = substr($text, $split);
-        if (!empty($hiddenText)) {
-            $showMore = glsr(Builder::class)->span($hiddenText, [
-                'class' => 'glsr-hidden glsr-hidden-text',
-                'data-show-less' => __('Show less', 'site-reviews'),
-                'data-show-more' => __('Show more', 'site-reviews'),
-            ]);
-            $text = ltrim(substr($text, 0, $split)).$showMore;
-        }
-        return $text;
-    }
-
-    /**
-     * @param string $text
      * @param int $limit
      * @return int
      */
@@ -349,38 +375,12 @@ class SiteReviews
     }
 
     /**
-     * @param string $key
-     * @param string $value
-     * @return bool
-     */
-    protected function isHiddenOrEmpty($key, $value)
-    {
-        return $this->isHidden($key) || empty($value);
-    }
-
-    /**
      * @param string $path
      * @return bool
      */
     protected function isOptionEnabled($path)
     {
         return 'yes' == $this->getOption($path);
-    }
-
-    /**
-     * @param string $text
-     * @return string
-     */
-    protected function normalizeText($text)
-    {
-        $text = wp_kses($text, wp_kses_allowed_html());
-        $text = convert_smilies(strip_shortcodes($text));
-        $text = str_replace(']]>', ']]&gt;', $text);
-        $text = preg_replace('/(\R){2,}/', '$1', $text);
-        if ($this->isOptionEnabled('settings.reviews.excerpts')) {
-            $text = $this->getExcerpt($text);
-        }
-        return wptexturize(nl2br($text));
     }
 
     /**
