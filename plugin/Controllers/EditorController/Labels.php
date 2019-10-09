@@ -17,7 +17,7 @@ class Labels
             'savePending' => __('Save as Unapproved', 'site-reviews'),
             'published' => __('Approved', 'site-reviews'),
         ];
-        if ($this->canModifyTranslation() && isset($wp_scripts->registered['post']->extra['data'])) {
+        if (isset($wp_scripts->registered['post']->extra['data'])) {
             $l10n = &$wp_scripts->registered['post']->extra['data'];
             foreach ($strings as $search => $replace) {
                 $l10n = preg_replace('/("'.$search.'":")([^"]+)/', '$1'.$replace, $l10n);
@@ -33,13 +33,10 @@ class Labels
      */
     public function filterPostStatusLabels($translation, $text, $domain)
     {
-        if ($this->canModifyTranslation($domain)) {
-            $replacements = $this->getStatusLabels();
-            if (array_key_exists($text, $replacements)) {
-                $translation = $replacements[$text];
-            }
-        }
-        return $translation;
+        $replacements = $this->getStatusLabels();
+        return array_key_exists($text, $replacements)
+            ? $replacements[$text]
+            : $translation;
     }
 
     /**
@@ -71,19 +68,6 @@ class Labels
             52 => $strings['reverted'],
         ];
         return $messages;
-    }
-
-    /**
-     * @param string $domain
-     * @return bool
-     */
-    protected function canModifyTranslation($domain = 'default')
-    {
-        if ('default' != $domain || empty(glsr_current_screen()->base)) {
-            return false;
-        }
-        return Application::POST_TYPE == glsr_current_screen()->post_type
-            && in_array(glsr_current_screen()->base, ['edit', 'post']);
     }
 
     /**

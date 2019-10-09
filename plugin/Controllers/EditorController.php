@@ -25,7 +25,9 @@ class EditorController extends Controller
      */
     public function customizePostStatusLabels()
     {
-        glsr(Labels::class)->customizePostStatusLabels();
+        if ($this->canModifyTranslation()) {
+            glsr(Labels::class)->customizePostStatusLabels();
+        }
     }
 
     /**
@@ -79,7 +81,9 @@ class EditorController extends Controller
      */
     public function filterPostStatusLabels($translation, $text, $domain)
     {
-        return glsr(Labels::class)->filterPostStatusLabels($translation, $text, $domain);
+        return $this->canModifyTranslation($domain)
+            ? glsr(Labels::class)->filterPostStatusLabels($translation, $text, $domain)
+            : $translation;
     }
 
     /**
@@ -91,7 +95,9 @@ class EditorController extends Controller
      */
     public function filterPostStatusLabelsWithContext($translation, $text, $context, $domain)
     {
-        return glsr(Labels::class)->filterPostStatusLabels($translation, $text, $domain);
+        return $this->canModifyTranslation($domain)
+            ? glsr(Labels::class)->filterPostStatusLabels($translation, $text, $domain)
+            : $translation;
     }
 
     /**
@@ -362,6 +368,19 @@ class EditorController extends Controller
             'disabled' => true,
             'id' => 'revert',
         ]);
+    }
+
+    /**
+     * @param string $domain
+     * @return bool
+     */
+    protected function canModifyTranslation($domain = 'default')
+    {
+        if ('default' != $domain || empty(glsr_current_screen()->base)) {
+            return false;
+        }
+        return Application::POST_TYPE == glsr_current_screen()->post_type
+            && in_array(glsr_current_screen()->base, ['edit', 'post']);
     }
 
     /**
