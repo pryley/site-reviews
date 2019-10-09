@@ -82,7 +82,7 @@ class EditorController extends Controller
     public function filterPostStatusLabels($translation, $text, $domain)
     {
         return $this->canModifyTranslation($domain)
-            ? glsr(Labels::class)->filterPostStatusLabels($translation, $text, $domain)
+            ? glsr(Labels::class)->filterPostStatusLabels($translation, $text)
             : $translation;
     }
 
@@ -96,7 +96,7 @@ class EditorController extends Controller
     public function filterPostStatusLabelsWithContext($translation, $text, $context, $domain)
     {
         return $this->canModifyTranslation($domain)
-            ? glsr(Labels::class)->filterPostStatusLabels($translation, $text, $domain)
+            ? glsr(Labels::class)->filterPostStatusLabels($translation, $text)
             : $translation;
     }
 

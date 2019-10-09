@@ -28,10 +28,9 @@ class Labels
     /**
      * @param string $translation
      * @param string $test
-     * @param string $domain
      * @return string
      */
-    public function filterPostStatusLabels($translation, $text, $domain)
+    public function filterPostStatusLabels($translation, $text)
     {
         $replacements = $this->getStatusLabels();
         return array_key_exists($text, $replacements)

@@ -512,7 +512,7 @@ msgstr "Choose which fields should be required in the submission form."
 msgid "Required Fields"
 msgstr "Required Fields"
 
-#: config/settings.php:422, plugin/Controllers/EditorController.php:423, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsPopup.php:30
+#: config/settings.php:422, plugin/Controllers/EditorController.php:442, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsPopup.php:30
 msgid "Rating"
 msgstr "Rating"
 
@@ -524,11 +524,11 @@ msgstr "Title"
 msgid "Review"
 msgstr "Review"
 
-#: config/settings.php:425, plugin/Controllers/EditorController.php:426
+#: config/settings.php:425, plugin/Controllers/EditorController.php:445
 msgid "Name"
 msgstr "Name"
 
-#: config/settings.php:426, plugin/Controllers/EditorController.php:427
+#: config/settings.php:426, plugin/Controllers/EditorController.php:446
 msgid "Email"
 msgstr "Email"
 
@@ -760,7 +760,7 @@ msgstr "This review is based on my own experience and is my genuine opinion."
 msgid "You have hidden all of the fields for this block."
 msgstr "You have hidden all of the fields for this block."
 
-#: plugin/Blocks/SiteReviewsBlock.php:123, plugin/Modules/Html/Partials/SiteReviews.php:294
+#: plugin/Blocks/SiteReviewsBlock.php:123, plugin/Modules/Html/Partials/SiteReviews.php:124
 msgid "Show more"
 msgstr "Show more"
 
@@ -858,67 +858,67 @@ msgstr "Okay"
 msgid "Nothing found."
 msgstr "Nothing found."
 
-#: plugin/Controllers/EditorController.php:115, plugin/Controllers/MainController.php:27, plugin/Shortcodes/SiteReviewsPopup.php:56, plugin/Shortcodes/SiteReviewsSummaryPopup.php:25, views/partials/editor/bulk-edit-assigned-to.php:7
+#: plugin/Controllers/EditorController.php:121, plugin/Controllers/MainController.php:27, plugin/Shortcodes/SiteReviewsPopup.php:56, plugin/Shortcodes/SiteReviewsSummaryPopup.php:25, views/partials/editor/bulk-edit-assigned-to.php:7
 msgid "Assigned To"
 msgstr "Assigned To"
 
-#: plugin/Controllers/EditorController.php:116
+#: plugin/Controllers/EditorController.php:122
 msgid "Details"
 msgstr "Details"
 
-#: plugin/Controllers/EditorController.php:120, views/partials/editor/metabox-response.php:3
+#: plugin/Controllers/EditorController.php:126, views/partials/editor/metabox-response.php:3
 msgid "Respond Publicly"
 msgstr "Respond Publicly"
 
-#: plugin/Controllers/EditorController.php:195, plugin/Modules/Html/Fields/YesNo.php:35
+#: plugin/Controllers/EditorController.php:201, plugin/Modules/Html/Fields/YesNo.php:35
 msgid "No"
 msgstr "No"
 
-#: plugin/Controllers/EditorController.php:196, plugin/Modules/Html/Fields/YesNo.php:36
+#: plugin/Controllers/EditorController.php:202, plugin/Modules/Html/Fields/YesNo.php:36
 msgid "Yes"
 msgstr "Yes"
 
-#: plugin/Controllers/EditorController.php:259
+#: plugin/Controllers/EditorController.php:265
 msgid "%s reviews are read-only."
 msgstr "%s reviews are read-only."
 
-#: plugin/Controllers/EditorController.php:354
+#: plugin/Controllers/EditorController.php:360
 msgid "Revert Changes"
 msgstr "Revert Changes"
 
-#: plugin/Controllers/EditorController.php:360
+#: plugin/Controllers/EditorController.php:366
 msgid "Nothing to Revert"
 msgstr "Nothing to Revert"
 
-#: plugin/Controllers/EditorController.php:378
+#: plugin/Controllers/EditorController.php:397
 msgid "Unknown"
 msgstr "Unknown"
 
-#: plugin/Controllers/EditorController.php:413
+#: plugin/Controllers/EditorController.php:432
 msgid "Unregistered user"
 msgstr "Unregistered user"
 
-#: plugin/Controllers/EditorController.php:420
+#: plugin/Controllers/EditorController.php:439
 msgid "RE:"
 msgstr "RE:"
 
-#: plugin/Controllers/EditorController.php:424, plugin/Controllers/MainController.php:29, plugin/Shortcodes/TinymcePopupGenerator.php:140
+#: plugin/Controllers/EditorController.php:443, plugin/Controllers/MainController.php:29, plugin/Shortcodes/TinymcePopupGenerator.php:140
 msgid "Type"
 msgstr "Type"
 
-#: plugin/Controllers/EditorController.php:425, plugin/Defaults/PostTypeDefaults.php:17
+#: plugin/Controllers/EditorController.php:444, plugin/Defaults/PostTypeDefaults.php:17
 msgid "Date"
 msgstr "Date"
 
-#: plugin/Controllers/EditorController.php:428
+#: plugin/Controllers/EditorController.php:447
 msgid "User"
 msgstr "User"
 
-#: plugin/Controllers/EditorController.php:429
+#: plugin/Controllers/EditorController.php:448
 msgid "IP Address"
 msgstr "IP Address"
 
-#: plugin/Controllers/EditorController.php:430
+#: plugin/Controllers/EditorController.php:449
 msgid "Avatar"
 msgstr "Avatar"
 
@@ -956,11 +956,11 @@ msgstr[1] "%s reviews restored from the Trash."
 msgid "Submitted"
 msgstr "Submitted"
 
-#: plugin/Controllers/ListTableController.php:113, plugin/Controllers/ListTableController.php:182, plugin/Controllers/EditorController/Labels.php:119, plugin/Controllers/EditorController/Labels.php:120
+#: plugin/Controllers/ListTableController.php:113, plugin/Controllers/ListTableController.php:182, plugin/Controllers/EditorController/Labels.php:102, plugin/Controllers/EditorController/Labels.php:103
 msgid "Unapproved"
 msgstr "Unapproved"
 
-#: plugin/Controllers/ListTableController.php:131, plugin/Controllers/EditorController/Labels.php:122
+#: plugin/Controllers/ListTableController.php:131, plugin/Controllers/EditorController/Labels.php:105
 msgid "Approve"
 msgstr "Approve"
 
@@ -968,7 +968,7 @@ msgstr "Approve"
 msgid "Unapprove"
 msgstr "Unapprove"
 
-#: plugin/Controllers/ListTableController.php:181, plugin/Controllers/EditorController/Labels.php:18, plugin/Controllers/EditorController/Labels.php:123
+#: plugin/Controllers/ListTableController.php:181, plugin/Controllers/EditorController/Labels.php:18, plugin/Controllers/EditorController/Labels.php:106
 msgid "Approved"
 msgstr "Approved"
 
@@ -1059,6 +1059,14 @@ msgstr "Console"
 #: plugin/Controllers/MenuController.php:142
 msgid "System Info"
 msgstr "System Info"
+
+#: plugin/Controllers/NoticeController.php:88
+msgid "Thanks for installing Site Reviews %s, we hope you love it!"
+msgstr "Thanks for installing Site Reviews %s, we hope you love it!"
+
+#: plugin/Controllers/NoticeController.php:89
+msgid "Thanks for updating to Site Reviews %s, we hope you love the changes!"
+msgstr "Thanks for updating to Site Reviews %s, we hope you love the changes!"
 
 #: plugin/Controllers/RebusifyController.php:134
 msgid "Create Your Rebusify Account"
@@ -1570,31 +1578,31 @@ msgstr "Limit reviews to this category"
 msgid "Limit reviews to those assigned to this page/post ID"
 msgstr "Limit reviews to those assigned to this page/post ID"
 
-#: plugin/Controllers/EditorController/Labels.php:17, plugin/Controllers/EditorController/Labels.php:124
+#: plugin/Controllers/EditorController/Labels.php:17, plugin/Controllers/EditorController/Labels.php:107
 msgid "Save as Unapproved"
 msgstr "Save as Unapproved"
 
-#: plugin/Controllers/EditorController/Labels.php:95
+#: plugin/Controllers/EditorController/Labels.php:78
 msgid "Review has been approved and published."
 msgstr "Review has been approved and published."
 
-#: plugin/Controllers/EditorController/Labels.php:96
+#: plugin/Controllers/EditorController/Labels.php:79
 msgid "Review draft updated."
 msgstr "Review draft updated."
 
-#: plugin/Controllers/EditorController/Labels.php:97
+#: plugin/Controllers/EditorController/Labels.php:80
 msgid "Preview review"
 msgstr "Preview review"
 
-#: plugin/Controllers/EditorController/Labels.php:98
+#: plugin/Controllers/EditorController/Labels.php:81
 msgid "Review approved and published."
 msgstr "Review approved and published."
 
-#: plugin/Controllers/EditorController/Labels.php:99
+#: plugin/Controllers/EditorController/Labels.php:82
 msgid "Review restored to revision from %s."
 msgstr "Review restored to revision from %s."
 
-#: plugin/Controllers/EditorController/Labels.php:100
+#: plugin/Controllers/EditorController/Labels.php:83
 msgid ""
 "Review has been reverted to its original submission state (title, content, "
 "and submission date)."
@@ -1602,31 +1610,31 @@ msgstr ""
 "Review has been reverted to its original submission state (title, content, "
 "and submission date)."
 
-#: plugin/Controllers/EditorController/Labels.php:101
+#: plugin/Controllers/EditorController/Labels.php:84
 msgid "Review saved."
 msgstr "Review saved."
 
-#: plugin/Controllers/EditorController/Labels.php:102
+#: plugin/Controllers/EditorController/Labels.php:85
 msgid "Review scheduled for: %s."
 msgstr "Review scheduled for: %s."
 
-#: plugin/Controllers/EditorController/Labels.php:103
+#: plugin/Controllers/EditorController/Labels.php:86
 msgid "Review submitted."
 msgstr "Review submitted."
 
-#: plugin/Controllers/EditorController/Labels.php:104
+#: plugin/Controllers/EditorController/Labels.php:87
 msgid "Review has been unapproved and is now pending."
 msgstr "Review has been unapproved and is now pending."
 
-#: plugin/Controllers/EditorController/Labels.php:105
+#: plugin/Controllers/EditorController/Labels.php:88
 msgid "Review updated."
 msgstr "Review updated."
 
-#: plugin/Controllers/EditorController/Labels.php:106
+#: plugin/Controllers/EditorController/Labels.php:89
 msgid "View review"
 msgstr "View review"
 
-#: plugin/Controllers/EditorController/Labels.php:121
+#: plugin/Controllers/EditorController/Labels.php:104
 msgid "Privately Approved"
 msgstr "Privately Approved"
 
@@ -1920,21 +1928,21 @@ msgstr[1] "%s Stars"
 msgid "Site Reviews navigation"
 msgstr "Site Reviews navigation"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:139
+#: plugin/Modules/Html/Partials/SiteReviews.php:123
+msgid "Show less"
+msgstr "Show less"
+
+#: plugin/Modules/Html/Partials/SiteReviews.php:187
 msgid "Review of %s"
 msgstr "Review of %s"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:236
+#: plugin/Modules/Html/Partials/SiteReviews.php:284
 msgid "Response from %s"
 msgstr "Response from %s"
 
-#: plugin/Modules/Html/Partials/SiteReviews.php:255
+#: plugin/Modules/Html/Partials/SiteReviews.php:303
 msgid "No Title"
 msgstr "No Title"
-
-#: plugin/Modules/Html/Partials/SiteReviews.php:293
-msgid "Show less"
-msgstr "Show less"
 
 #: plugin/Modules/Html/Partials/SiteReviewsForm.php:120
 msgid "Submit your review"
