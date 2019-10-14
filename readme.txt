@@ -105,8 +105,9 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
-= 4.0.8 (2019-10-14) =
+= 4.1.0 (2019-10-14) =
 
+- Fixed column sorting in reviews table
 - Fixed hidden field options in pagination
 
 = 4.0.7 (2019-10-10) =

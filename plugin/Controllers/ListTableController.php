@@ -333,7 +333,7 @@ class ListTableController extends Controller
             }
             $metaQuery = (array) $query->get('meta_query');
             $metaQuery[] = [
-                'key' => Str::prefix('_', $key),
+                'key' => Str::prefix('_', $key, '_'),
                 'value' => $value,
             ];
             $query->set('meta_query', $metaQuery);
@@ -350,9 +350,9 @@ class ListTableController extends Controller
         unset($columns['cb'], $columns['title'], $columns['date']);
         if (in_array($orderby, array_keys($columns))) {
             if ('reviewer' == $orderby) {
-                $orderby = '_author';
+                $orderby = 'author';
             }
-            $query->set('meta_key', $orderby);
+            $query->set('meta_key', Str::prefix('_', $orderby, '_'));
             $query->set('orderby', 'meta_value');
         }
     }
