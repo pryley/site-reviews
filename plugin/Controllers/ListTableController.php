@@ -95,7 +95,9 @@ class ListTableController extends Controller
     {
         if (Arr::get($screen, 'id') == 'edit-'.Application::POST_TYPE) {
             $hidden = Arr::consolidateArray($hidden);
-            $hidden = ['reviewer'];
+            $hidden = array_unique(array_merge($hidden, [
+                'email', 'ip_address', 'response', 'reviewer',
+            ]));
         }
         return $hidden;
     }

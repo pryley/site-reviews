@@ -12,18 +12,38 @@ class Columns
 {
     /**
      * @param int $postId
-     * @return string
+     * @return void|string
      */
     public function buildColumnAssignedTo($postId)
     {
         $assignedPost = glsr(Database::class)->getAssignedToPost($postId);
-        $column = '&mdash;';
         if ($assignedPost instanceof WP_Post && 'publish' == $assignedPost->post_status) {
-            $column = glsr(Builder::class)->a(get_the_title($assignedPost->ID), [
+            return glsr(Builder::class)->a(get_the_title($assignedPost->ID), [
                 'href' => (string) get_the_permalink($assignedPost->ID),
             ]);
         }
-        return $column;
+    }
+
+    /**
+     * @param int $postId
+     * @return void|string
+     */
+    public function buildColumnEmail($postId)
+    {
+        if ($email = glsr(Database::class)->get($postId, 'email')) {
+            return $email;
+        }
+    }
+
+    /**
+     * @param int $postId
+     * @return void|string
+     */
+    public function buildColumnIpAddress($postId)
+    {
+        if ($ipAddress = glsr(Database::class)->get($postId, 'ip_address')) {
+            return $ipAddress;
+        }
     }
 
     /**
@@ -39,6 +59,17 @@ class Columns
             'class' => $pinned.'dashicons dashicons-sticky',
             'data-id' => $postId,
         ]);
+    }
+
+    /**
+     * @param int $postId
+     * @return string
+     */
+    public function buildColumnResponse($postId)
+    {
+        return glsr(Database::class)->get($postId, 'response')
+            ? __('Yes', 'site-reviews')
+            : __('No', 'site-reviews');
     }
 
     /**
@@ -98,9 +129,13 @@ class Columns
     public function renderValues($column, $postId)
     {
         $method = Helper::buildMethodName($column, 'buildColumn');
-        echo method_exists($this, $method)
+        $value = method_exists($this, $method)
             ? call_user_func([$this, $method], $postId)
             : apply_filters('site-reviews/columns/'.$column, '', $postId);
+        if (empty($value)) {
+            $value = '&mdash;';
+        }
+        echo $value;
     }
 
     /**

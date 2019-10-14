@@ -107,6 +107,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 = 4.1.0 (2019-10-14) =
 
+- Added additional column options in reviews table
 - Fixed column sorting in reviews table
 - Fixed hidden field options in pagination
 
