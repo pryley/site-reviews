@@ -105,6 +105,10 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
+= 4.0.8 (2019-10-14) =
+
+- Fixed hidden field options in pagination
+
 = 4.0.7 (2019-10-10) =
 
 - Fixed a possible HTML5 validation issue in the plugin settings

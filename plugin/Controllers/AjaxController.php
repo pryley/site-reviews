@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
 class AjaxController extends Controller
 {
@@ -154,6 +155,7 @@ class AjaxController extends Controller
             'schema' => false,
         ];
         $atts = (array) json_decode(Arr::get($request, 'atts'));
+        $atts = glsr(SiteReviewsShortcode::class)->normalizeAtts($atts);
         $html = glsr(SiteReviews::class)->build(wp_parse_args($args, $atts));
         return wp_send_json_success([
             'pagination' => $html->getPagination(),
