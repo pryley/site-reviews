@@ -95,9 +95,7 @@ class WelcomeController extends Controller
             'support' => __('Support', 'site-reviews'),
         ]);
         glsr()->render('pages/welcome/index', [
-            'data' => [
-                'context' => [],
-            ],
+            'data' => ['context' => []],
             'http_referer' => (string) wp_get_referer(),
             'tabs' => $tabs,
             'template' => glsr(Template::class),

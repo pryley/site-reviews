@@ -11,6 +11,19 @@ class NoticeController extends Controller
     const USER_META_KEY = '_glsr_notices';
 
     /**
+     * @var array
+     */
+    protected $dismissValuesMap;
+
+    public function __construct()
+    {
+        $this->dismissValuesMap = [
+            'rebusify' => glsr()->version('major'),
+            'welcome' => glsr()->version('minor'),
+        ];
+    }
+
+    /**
      * @return void
      * @action admin_notices
      */
@@ -38,7 +51,7 @@ class NoticeController extends Controller
      */
     protected function dismissNotice($key)
     {
-        $this->setUserMeta($key, glsr()->version('major'));
+        $this->setUserMeta($key, $this->getVersionFor($key));
     }
 
     /**
@@ -50,6 +63,15 @@ class NoticeController extends Controller
     {
         $meta = get_user_meta(get_current_user_id(), static::USER_META_KEY, true);
         return Arr::get($meta, $key, $fallback);
+    }
+
+    /**
+     * @param string $noticeKey
+     * @return string
+     */
+    protected function getVersionFor($noticeKey)
+    {
+        return Arr::get($this->dismissValuesMap, $noticeKey, glsr()->version('major'));
     }
 
     /**
@@ -70,7 +92,7 @@ class NoticeController extends Controller
     protected function renderRebusifyNotice($screenPostType)
     {
         if (Application::POST_TYPE == $screenPostType
-            && version_compare(glsr()->version('major'), $this->getUserMeta('rebusify', 0), '>')
+            && version_compare($this->getVersionFor('rebusify'), $this->getUserMeta('rebusify', 0), '>')
             && !glsr(OptionManager::class)->getBool('settings.general.rebusify')) {
             echo glsr()->render('partials/notices/rebusify');
         }
@@ -83,7 +105,7 @@ class NoticeController extends Controller
     protected function renderWelcomeNotice($screenPostType)
     {
         if (Application::POST_TYPE == $screenPostType
-            && version_compare(glsr()->version('major'), $this->getUserMeta('welcome', 0), '>')) {
+            && version_compare($this->getVersionFor('welcome'), $this->getUserMeta('welcome', 0), '>')) {
             $welcomeText = '0.0.0' == glsr(OptionManager::class)->get('version_upgraded_from')
                 ? __('Thanks for installing Site Reviews %s, we hope you love it!', 'site-reviews')
                 : __('Thanks for updating to Site Reviews %s, we hope you love the changes!', 'site-reviews');
