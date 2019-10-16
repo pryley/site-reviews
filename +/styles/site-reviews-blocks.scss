@@ -31,6 +31,9 @@ $glsr-summary-star-size: 24px;
 		background-color: rgba(0, 40, 40, 0.028);
 	}
 }
+.wp-block .glsr-shortcode a {
+	pointer-events: none !important;
+}
 
 // Stars
 .wp-block .glsr-star {
@@ -240,9 +243,6 @@ $glsr-summary-star-size: 24px;
 	position: relative;
 	padding: $glsr-spacing;
 	z-index: 1;
-}
-.wp-block .glsr-reviews a {
-	pointer-events: none !important;
 }
 
 .wp-block .glsr-rtl .glsr-reviews .glsr-review-response-background::before {
