@@ -87,7 +87,7 @@ class ReviewManager
             'post__not_in' => $args['post__not_in'],
             'post_status' => 'publish',
             'post_type' => Application::POST_TYPE,
-            'posts_per_page' => $args['count'],
+            'posts_per_page' => $args['per_page'],
             'tax_query' => $taxQuery,
         ];
         $parameters = apply_filters('site-reviews/get/reviews/query', $parameters, $args);

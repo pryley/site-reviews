@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
 
@@ -20,6 +21,11 @@ abstract class DefaultsAbstract
     protected $guarded = [];
 
     /**
+     * @var array
+     */
+    protected $mapped = [];
+
+    /**
      * @param string $name
      * @return void|array
      */
@@ -28,6 +34,7 @@ abstract class DefaultsAbstract
         if (!method_exists($this, $name) || !in_array($name, $this->callable)) {
             return;
         }
+        $args[0] = $this->mapKeys(Arr::get($args, 0, []));
         $defaults = call_user_func_array([$this, $name], $args);
         $hookName = (new ReflectionClass($this))->getShortName();
         $hookName = str_replace('Defaults', '', $hookName);
@@ -86,6 +93,20 @@ abstract class DefaultsAbstract
     protected function isEmpty($var)
     {
         return !is_numeric($var) && !is_bool($var) && empty($var);
+    }
+
+    /**
+     * @return array
+     */
+    protected function mapKeys(array $args)
+    {
+        foreach ($this->mapped as $old => $new) {
+            if (array_key_exists($old, $args)) {
+                $args[$new] = $args[$old];
+                unset($args[$old]);
+            }
+        }
+        return $args;
     }
 
     /**

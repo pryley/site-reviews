@@ -241,11 +241,11 @@ glsr_get_reviews(array $args = []);</code></pre>
         <pre><code class="php">$args = [
     'assigned_to' => '',
     'category' => '',
-    'count' => 10,
     'offset' => '',
     'order' => 'DESC',
     'orderby' => 'date',
     'pagination' => false,
+    'per_page' => 10,
     'post__in' => [],
     'post__not_in' => [],
     'rating' => '',

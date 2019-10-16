@@ -1,5 +1,7 @@
 <?php defined('WPINC') || die; ?>
 
+<p>This page shows all of the available shortcode options with examples of how to use them. You can use multiple options in the same shortcode.</p>
+
 <div id="shortcodes-01" class="glsr-card postbox">
     <div class="glsr-card-header">
         <h3>[site_reviews]</h3>
@@ -26,10 +28,10 @@
         <p>The default class value is: <code>""</code></p>
         <pre><code>[site_reviews class="my-reviews full-width"]</code></pre>
 
-        <p class="glsr-heading">count</p>
-        <p>Include the "count" attribute to change the number of reviews that are displayed.</p>
-        <p>The default count value is: <code>"5"</code></p>
-        <pre><code>[site_reviews count="20"]</code></pre>
+        <p class="glsr-heading">display</p>
+        <p>Include the "display" attribute to change the number of reviews that are displayed.</p>
+        <p>The default display value is: <code>"5"</code></p>
+        <pre><code>[site_reviews display="20"]</code></pre>
 
         <p class="glsr-heading">fallback</p>
         <p>Include the "fallback" attribute to change the text that is shown when there are no reviews to display. This option overrides the default fallback text if enabled in the plugin settings.</p>
@@ -47,7 +49,7 @@
         <pre><code>[site_reviews id="type-some-random-text-here"]</code></pre>
 
         <p class="glsr-heading">offset</p>
-        <p>Include the "offset" attribute to displace or pass over a number of reviews. For example, [site_reviews&nbsp;count=5&nbsp;offset=2] will show 5 reviews, skipping the first two. It is NOT recommended to use this option with pagination enabled.</p>
+        <p>Include the "offset" attribute to displace or pass over a number of reviews. For example, [site_reviews&nbsp;display=5&nbsp;offset=2] will show 5 reviews, skipping the first two. It is NOT recommended to use this option with pagination enabled.</p>
         <p>The default offset value is: <code>"0"</code></p>
         <pre><code>[site_reviews offset="1"]</code></pre>
 

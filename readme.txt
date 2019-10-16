@@ -110,6 +110,8 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 - Added additional column options in reviews table
 - Fixed column sorting in reviews table
 - Fixed hidden field options in pagination
+- Changed [site_reviews] "count" option name to "display" (i.e. [site_reviews display=10])
+- Changed glsr_get_reviews() "count" option name to "per_page" (i.e. glsr_get_reviews(['per_page' => 10]))</li>
 
 = 4.0.7 (2019-10-10) =
 

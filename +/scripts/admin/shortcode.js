@@ -102,7 +102,7 @@
 			this.hiddenKeys_ = [];
 			for( var key in attributes ) {
 				if( !attributes.hasOwnProperty( key ))continue;
-				this.normalizeCount_( key );
+				this.normalizeDisplay_( key );
 				this.normalizeHide_( key );
 				this.normalizeId_( key );
 			}
@@ -110,8 +110,8 @@
 		},
 
 		/** @return void */
-		normalizeCount_: function( key ) {
-			if( key !== 'count' || $.isNumeric( this.attributes_[key] ))return;
+		normalizeDisplay_: function( key ) {
+			if( 'display' !== key || $.isNumeric( this.attributes_[key] ))return;
 			this.attributes_[key] = '';
 		},
 

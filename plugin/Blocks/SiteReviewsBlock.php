@@ -24,7 +24,7 @@ class SiteReviewsBlock extends BlockGenerator
                 'default' => '',
                 'type' => 'string',
             ],
-            'count' => [
+            'display' => [
                 'default' => 5,
                 'type' => 'number',
             ],

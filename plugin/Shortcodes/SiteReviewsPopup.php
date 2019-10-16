@@ -19,9 +19,9 @@ class SiteReviewsPopup extends TinymcePopupGenerator
             'tooltip' => __('Enter a custom shortcode heading.', 'site-reviews'),
             'type' => 'textbox',
         ], [
-            'label' => esc_html__('Count', 'site-reviews'),
+            'label' => esc_html__('Display', 'site-reviews'),
             'maxLength' => 5,
-            'name' => 'count',
+            'name' => 'display',
             'size' => 3,
             'text' => '10',
             'tooltip' => __('How many reviews would you like to display (default: 10)?', 'site-reviews'),

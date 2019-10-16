@@ -15,6 +15,14 @@ class SiteReviewsDefaults extends Defaults
     ];
 
     /**
+     * @var array
+     */
+    protected $mapped = [
+        'count' => 'display', // @deprecated since v4.1.0
+        'per_page' => 'display',
+    ];
+
+    /**
      * @return array
      */
     protected function defaults()
@@ -23,7 +31,7 @@ class SiteReviewsDefaults extends Defaults
             'assigned_to' => '',
             'category' => '',
             'class' => '',
-            'count' => 5,
+            'display' => 5,
             'fallback' => '',
             'hide' => [],
             'id' => '',

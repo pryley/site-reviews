@@ -87,7 +87,7 @@
 			default: '',
 			type: 'string',
 		},
-		count: {
+		display: {
 			default: 5,
 			type: 'number',
 		},
@@ -179,14 +179,14 @@
 						value: props.attributes.rating,
 					}),
 					el( RangeControl, {
-						help: __( 'The number of reviews to show.', 'site-reviews' ),
-						label: __( 'Review Count', 'site-reviews' ),
+						help: __( 'The number of reviews to display.', 'site-reviews' ),
+						label: __( 'Display', 'site-reviews' ),
 						onChange: function( value ) {
-							props.setAttributes({ count: value });
+							props.setAttributes({ display: value });
 						},
 						min: 1,
 						max: 50,
-						value: props.attributes.count,
+						value: props.attributes.display,
 					}),
 					el( ToggleControl, {
 						help: __( 'The schema should only be enabled once per page.', 'site-reviews' ),
@@ -233,6 +233,13 @@
 		// keywords: ['recent reviews'],
 		save: function() { return null; },
 		title: 'Latest Reviews',
+	});
+
+	wp.hooks.addFilter('blocks.getBlockAttributes', blockName, function (attributes, block, unknown, saved) {
+		if (saved.count) { // @deprecated since 4.1.0
+			attributes.display = saved.count;
+		}
+		return attributes;
 	});
 })(
 	window.wp.blocks,

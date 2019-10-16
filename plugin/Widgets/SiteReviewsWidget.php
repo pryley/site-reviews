@@ -22,10 +22,10 @@ class SiteReviewsWidget extends Widget
         ]);
         $this->renderField('number', [
             'class' => 'small-text',
-            'default' => 5,
+            'default' => 10,
             'label' => __('How many reviews would you like to display?', 'site-reviews'),
             'max' => 100,
-            'name' => 'count',
+            'name' => 'display',
         ]);
         $this->renderField('select', [
             'label' => __('What is the minimum rating to display?', 'site-reviews'),
@@ -79,10 +79,10 @@ class SiteReviewsWidget extends Widget
      */
     public function update($newInstance, $oldInstance)
     {
-        if (!is_numeric($newInstance['count'])) {
-            $newInstance['count'] = 10;
+        if (!is_numeric($newInstance['display'])) {
+            $newInstance['display'] = 10;
         }
-        $newInstance['count'] = min(50, max(0, intval($newInstance['count'])));
+        $newInstance['display'] = min(50, max(0, intval($newInstance['display'])));
         return parent::update($newInstance, $oldInstance);
     }
 
