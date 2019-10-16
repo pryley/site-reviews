@@ -463,7 +463,7 @@ msgstr ""
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:422, plugin/Controllers/EditorController.php:442, plugin/Controllers/MainController.php:30, plugin/Shortcodes/SiteReviewsPopup.php:30
+#: config/settings.php:422, plugin/Controllers/EditorController.php:442, plugin/Controllers/MainController.php:33, plugin/Shortcodes/SiteReviewsPopup.php:30
 msgid "Rating"
 msgstr ""
 
@@ -471,7 +471,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: config/settings.php:424, plugin/Controllers/MainController.php:41
+#: config/settings.php:424, plugin/Controllers/MainController.php:44
 msgid "Review"
 msgstr ""
 
@@ -479,7 +479,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: config/settings.php:426, plugin/Controllers/EditorController.php:446
+#: config/settings.php:426, plugin/Controllers/EditorController.php:446, plugin/Controllers/MainController.php:29
 msgid "Email"
 msgstr ""
 
@@ -730,7 +730,7 @@ msgstr ""
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:47
+#: plugin/Controllers/AdminController.php:47, plugin/Controllers/MenuController.php:53
 msgid "Help"
 msgstr ""
 
@@ -744,15 +744,15 @@ msgid_plural "%s Reviews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/AdminController.php:116, plugin/Controllers/MainController.php:88
+#: plugin/Controllers/AdminController.php:116, plugin/Controllers/MainController.php:91
 msgid "Recent Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:117, plugin/Controllers/MainController.php:93
+#: plugin/Controllers/AdminController.php:117, plugin/Controllers/MainController.php:96
 msgid "Submit a Review"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:118, plugin/Controllers/MainController.php:98
+#: plugin/Controllers/AdminController.php:118, plugin/Controllers/MainController.php:101
 msgid "Summary of Reviews"
 msgstr ""
 
@@ -808,11 +808,11 @@ msgstr ""
 msgid "Unknown upload error."
 msgstr ""
 
-#: plugin/Controllers/AjaxController.php:66
+#: plugin/Controllers/AjaxController.php:67
 msgid "Okay"
 msgstr ""
 
-#: plugin/Controllers/AjaxController.php:98, plugin/Controllers/AjaxController.php:117
+#: plugin/Controllers/AjaxController.php:99, plugin/Controllers/AjaxController.php:118
 msgid "Nothing found."
 msgstr ""
 
@@ -828,11 +828,11 @@ msgstr ""
 msgid "Respond Publicly"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:201, plugin/Modules/Html/Fields/YesNo.php:35
+#: plugin/Controllers/EditorController.php:201, plugin/Controllers/ListTableController/Columns.php:72, plugin/Modules/Html/Fields/YesNo.php:35
 msgid "No"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:202, plugin/Modules/Html/Fields/YesNo.php:36
+#: plugin/Controllers/EditorController.php:202, plugin/Controllers/ListTableController/Columns.php:71, plugin/Modules/Html/Fields/YesNo.php:36
 msgid "Yes"
 msgstr ""
 
@@ -860,7 +860,7 @@ msgstr ""
 msgid "RE:"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:443, plugin/Controllers/MainController.php:29, plugin/Shortcodes/TinymcePopupGenerator.php:140
+#: plugin/Controllers/EditorController.php:443, plugin/Controllers/MainController.php:32, plugin/Shortcodes/TinymcePopupGenerator.php:140
 msgid "Type"
 msgstr ""
 
@@ -872,7 +872,7 @@ msgstr ""
 msgid "User"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:448
+#: plugin/Controllers/EditorController.php:448, plugin/Controllers/MainController.php:30
 msgid "IP Address"
 msgstr ""
 
@@ -914,24 +914,24 @@ msgstr[1] ""
 msgid "Submitted"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:113, plugin/Controllers/ListTableController.php:182, plugin/Controllers/EditorController/Labels.php:102, plugin/Controllers/EditorController/Labels.php:103
+#: plugin/Controllers/ListTableController.php:115, plugin/Controllers/ListTableController.php:184, plugin/Controllers/EditorController/Labels.php:102, plugin/Controllers/EditorController/Labels.php:103
 msgid "Unapproved"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:131, plugin/Controllers/EditorController/Labels.php:105
+#: plugin/Controllers/ListTableController.php:133, plugin/Controllers/EditorController/Labels.php:105
 msgid "Approve"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:132
+#: plugin/Controllers/ListTableController.php:134
 msgid "Unapprove"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:137
+#: plugin/Controllers/ListTableController.php:139
 msgctxt "Approve the review"
 msgid "%s this review"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:181, plugin/Controllers/EditorController/Labels.php:18, plugin/Controllers/EditorController/Labels.php:106
+#: plugin/Controllers/ListTableController.php:183, plugin/Controllers/EditorController/Labels.php:18, plugin/Controllers/EditorController/Labels.php:106
 msgid "Approved"
 msgstr ""
 
@@ -939,23 +939,27 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: plugin/Controllers/MainController.php:31, views/partials/editor/pinned.php:4
+#: plugin/Controllers/MainController.php:31
+msgid "Response"
+msgstr ""
+
+#: plugin/Controllers/MainController.php:34, views/partials/editor/pinned.php:4
 msgid "Pinned"
 msgstr ""
 
-#: plugin/Controllers/MainController.php:37, plugin/Controllers/MenuController.php:112, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
+#: plugin/Controllers/MainController.php:40, plugin/Controllers/MenuController.php:112, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
 msgid "Reviews"
 msgstr ""
 
-#: plugin/Controllers/MainController.php:87
+#: plugin/Controllers/MainController.php:90
 msgid "Site Reviews: Display your recent reviews."
 msgstr ""
 
-#: plugin/Controllers/MainController.php:92
+#: plugin/Controllers/MainController.php:95
 msgid "Site Reviews: Display a form to submit reviews."
 msgstr ""
 
-#: plugin/Controllers/MainController.php:97
+#: plugin/Controllers/MainController.php:100
 msgid "Site Reviews: Display a summary of your reviews."
 msgstr ""
 
@@ -965,10 +969,6 @@ msgstr ""
 
 #: plugin/Controllers/MenuController.php:52
 msgid "Add-ons"
-msgstr ""
-
-#: plugin/Controllers/MenuController.php:53, views/pages/tools/sync.php:25
-msgid "Documentation"
 msgstr ""
 
 #: plugin/Controllers/MenuController.php:85, plugin/Controllers/WelcomeController.php:95
@@ -1023,11 +1023,11 @@ msgstr ""
 msgid "System Info"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:88
+#: plugin/Controllers/NoticeController.php:110
 msgid "Thanks for installing Site Reviews %s, we hope you love it!"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:89
+#: plugin/Controllers/NoticeController.php:111
 msgid "Thanks for updating to Site Reviews %s, we hope you love the changes!"
 msgstr ""
 
@@ -1123,7 +1123,7 @@ msgstr ""
 msgid "This field requires a valid e-mail address."
 msgstr ""
 
-#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/ValidateReview.php:295
+#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/ValidateReview.php:153
 msgid "Please fix the submission errors."
 msgstr ""
 
@@ -1321,14 +1321,14 @@ msgid "Hide the terms field"
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsPopup.php:22
-msgid "Count"
+msgid "Display"
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsPopup.php:27
 msgid "How many reviews would you like to display (default: 10)?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsPopup.php:33, plugin/Shortcodes/SiteReviewsPopup.php:34, plugin/Shortcodes/SiteReviewsPopup.php:35, plugin/Shortcodes/SiteReviewsPopup.php:36, plugin/Shortcodes/SiteReviewsPopup.php:37, plugin/Widgets/SiteReviewsWidget.php:34, plugin/Widgets/SiteReviewsWidget.php:35, plugin/Widgets/SiteReviewsWidget.php:36, plugin/Widgets/SiteReviewsWidget.php:37, plugin/Widgets/SiteReviewsWidget.php:38, plugin/Controllers/ListTableController/Columns.php:117
+#: plugin/Shortcodes/SiteReviewsPopup.php:33, plugin/Shortcodes/SiteReviewsPopup.php:34, plugin/Shortcodes/SiteReviewsPopup.php:35, plugin/Shortcodes/SiteReviewsPopup.php:36, plugin/Shortcodes/SiteReviewsPopup.php:37, plugin/Widgets/SiteReviewsWidget.php:34, plugin/Widgets/SiteReviewsWidget.php:35, plugin/Widgets/SiteReviewsWidget.php:36, plugin/Widgets/SiteReviewsWidget.php:37, plugin/Widgets/SiteReviewsWidget.php:38, plugin/Controllers/ListTableController/Columns.php:152
 msgid "%s star"
 msgid_plural "%s stars"
 msgstr[0] ""
@@ -1583,27 +1583,27 @@ msgstr ""
 msgid "Privately Approved"
 msgstr ""
 
-#: plugin/Controllers/ListTableController/Columns.php:72
+#: plugin/Controllers/ListTableController/Columns.php:103
 msgid "Unsupported Type"
 msgstr ""
 
-#: plugin/Controllers/ListTableController/Columns.php:120
+#: plugin/Controllers/ListTableController/Columns.php:155
 msgid "Filter by rating"
 msgstr ""
 
-#: plugin/Controllers/ListTableController/Columns.php:126
+#: plugin/Controllers/ListTableController/Columns.php:161
 msgid "All ratings"
 msgstr ""
 
-#: plugin/Controllers/ListTableController/Columns.php:140
+#: plugin/Controllers/ListTableController/Columns.php:175
 msgid "Filter by type"
 msgstr ""
 
-#: plugin/Controllers/ListTableController/Columns.php:146
+#: plugin/Controllers/ListTableController/Columns.php:181
 msgid "All types"
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:189
+#: plugin/Modules/Validator/ValidateReview.php:188
 msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr ""
 
@@ -1611,19 +1611,19 @@ msgstr ""
 msgid "Your review cannot be submitted at this time."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:229, plugin/Modules/Validator/ValidateReview.php:245
+#: plugin/Modules/Validator/ValidateReview.php:229, plugin/Modules/Validator/ValidateReview.php:243
 msgid "The review submission failed. Please notify the site administrator."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:261
+#: plugin/Modules/Validator/ValidateReview.php:258
 msgid "You have already submitted a review."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:283
+#: plugin/Modules/Validator/ValidateReview.php:281
 msgid "The reCAPTCHA failed to load, please refresh the page and try again."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:284
+#: plugin/Modules/Validator/ValidateReview.php:282
 msgid "The reCAPTCHA verification failed, please try again."
 msgstr ""
 
@@ -1639,7 +1639,7 @@ msgstr ""
 msgid "Sync your Tripadvisor reviews to your website and manage them with Site Reviews."
 msgstr ""
 
-#: views/pages/documentation/addons.php:8, views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:37, views/pages/documentation/faq.php:54, views/pages/documentation/faq.php:80, views/pages/documentation/faq.php:96, views/pages/documentation/faq.php:124, views/pages/documentation/faq.php:150, views/pages/documentation/faq.php:182, views/pages/documentation/faq.php:204, views/pages/documentation/faq.php:217, views/pages/documentation/faq.php:242, views/pages/documentation/faq.php:279, views/pages/documentation/faq.php:322, views/pages/documentation/faq.php:360, views/pages/documentation/faq.php:416, views/pages/documentation/faq.php:429, views/pages/documentation/faq.php:445, views/pages/documentation/faq.php:463, views/pages/documentation/functions.php:7, views/pages/documentation/functions.php:41, views/pages/documentation/functions.php:97, views/pages/documentation/functions.php:122, views/pages/documentation/functions.php:151, views/pages/documentation/functions.php:177, views/pages/documentation/functions.php:229, views/pages/documentation/functions.php:303, views/pages/documentation/functions.php:327, views/pages/documentation/functions.php:355, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:33, views/pages/documentation/hooks.php:57, views/pages/documentation/hooks.php:76, views/pages/documentation/hooks.php:95, views/pages/documentation/hooks.php:115, views/pages/documentation/hooks.php:139, views/pages/documentation/hooks.php:166, views/pages/documentation/shortcodes.php:7, views/pages/documentation/shortcodes.php:81, views/pages/documentation/shortcodes.php:129, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:63
+#: views/pages/documentation/addons.php:8, views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:37, views/pages/documentation/faq.php:54, views/pages/documentation/faq.php:80, views/pages/documentation/faq.php:96, views/pages/documentation/faq.php:124, views/pages/documentation/faq.php:150, views/pages/documentation/faq.php:182, views/pages/documentation/faq.php:204, views/pages/documentation/faq.php:217, views/pages/documentation/faq.php:242, views/pages/documentation/faq.php:279, views/pages/documentation/faq.php:322, views/pages/documentation/faq.php:360, views/pages/documentation/faq.php:416, views/pages/documentation/faq.php:429, views/pages/documentation/faq.php:445, views/pages/documentation/faq.php:463, views/pages/documentation/functions.php:7, views/pages/documentation/functions.php:41, views/pages/documentation/functions.php:97, views/pages/documentation/functions.php:122, views/pages/documentation/functions.php:151, views/pages/documentation/functions.php:177, views/pages/documentation/functions.php:229, views/pages/documentation/functions.php:303, views/pages/documentation/functions.php:327, views/pages/documentation/functions.php:355, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:33, views/pages/documentation/hooks.php:57, views/pages/documentation/hooks.php:76, views/pages/documentation/hooks.php:95, views/pages/documentation/hooks.php:115, views/pages/documentation/hooks.php:139, views/pages/documentation/hooks.php:166, views/pages/documentation/shortcodes.php:9, views/pages/documentation/shortcodes.php:83, views/pages/documentation/shortcodes.php:131, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:65
 msgid "Toggle documentation panel"
 msgstr ""
 
@@ -1717,6 +1717,10 @@ msgstr ""
 
 #: views/pages/tools/sync.php:24
 msgid "License"
+msgstr ""
+
+#: views/pages/tools/sync.php:25
+msgid "Documentation"
 msgstr ""
 
 #: views/pages/tools/sync.php:28

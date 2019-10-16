@@ -236,7 +236,7 @@
 	});
 
 	wp.hooks.addFilter('blocks.getBlockAttributes', blockName, function (attributes, block, unknown, saved) {
-		if (saved.count) { // @deprecated since 4.1.0
+		if (saved && saved.count) { // @deprecated since 4.1.0
 			attributes.display = saved.count;
 		}
 		return attributes;

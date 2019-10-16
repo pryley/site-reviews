@@ -5,7 +5,39 @@
     <div class="glsr-flex-row">
         <div class="glsr-column">
             <div class="card is-fullwidth">
-                <h3><?= glsr()->version; ?></h3>
+                <h3>4.1.0</h3>
+                <p><em>Release Date &mdash; October 16th, 2019</em></p>
+                <h4>New Features</h4>
+                <ul>
+                    <li>Added optional "Email", "IP Address", and "Response" columns to the reviews table</li>
+                </ul>
+                <h4>Changes</h4>
+                <ul>
+                    <li>Changed <code>[site_reviews]</code> "count" option name to "display" (i.e. [site_reviews display=10])</li>
+                    <li>Changed <code>glsr_get_reviews()</code> "count" option name to "per_page" (i.e. glsr_get_reviews(['per_page' => 10]))</li>
+                    <li>Renamed "Documentation" page to "Help"</li>
+                </ul>
+                <h4>Tweaks</h4>
+                <ul>
+                    <li>Updated the "Common Problems and Solutions" help section</li>
+                </ul>
+                <h4>Bugs Fixed</h4>
+                <ul>
+                    <li>Fixed a HTML5 validation issue in the plugin settings</li>
+                    <li>Fixed column sorting on the reviews table</li>
+                    <li>Fixed email template tags</li>
+                    <li>Fixed IP address detection for servers that do not support IPv6</li>
+                    <li>Fixed pagination links from triggering in the editor block</li>
+                    <li>Fixed pagination when using the default count of 5 reviews per page</li>
+                    <li>Fixed pagination with hidden review fields</li>
+                    <li>Fixed PHP compatibility issues</li>
+                    <li>Fixed plugin migration on update</li>
+                    <li>Fixed plugin uninstall</li>
+                    <li>Fixed translations for default text that include a HTML link</li>
+                </ul>
+            </div>
+            <div class="card is-fullwidth">
+                <h3>4.0.0</h3>
                 <p><em>Release Date &mdash; October 6th, 2019</em></p>
                 <h4>New Features</h4>
                 <ul>
@@ -26,7 +58,7 @@
                 </ul>
                 <h4>Tweaks</h4>
                 <ul>
-                    <li>Improved ajax pagination</li>
+                    <li>Improved AJAX pagination</li>
                     <li>Improved documentation</li>
                     <li>Improved email failure logging</li>
                     <li>Improved internal console usage</li>

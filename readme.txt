@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 4.0.7
+Stable tag: 4.1.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,13 +105,15 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
-= 4.1.0 (2019-10-14) =
+= 4.1.0 (2019-10-16) =
 
-- Added additional column options in reviews table
-- Fixed column sorting in reviews table
-- Fixed hidden field options in pagination
+- Added "Email", "IP Address", and "Response" columns for the reviews table
 - Changed [site_reviews] "count" option name to "display" (i.e. [site_reviews display=10])
 - Changed glsr_get_reviews() "count" option name to "per_page" (i.e. glsr_get_reviews(['per_page' => 10]))</li>
+- Fixed column sorting on the reviews table
+- Fixed pagination links from triggering in the editor block
+- Fixed pagination with hidden review fields
+- Updated the "Common Problems and Solutions" help section
 
 = 4.0.7 (2019-10-10) =
 
@@ -120,8 +122,8 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 = 4.0.6 (2019-10-09) =
 
 - Changed the parameter order of an internal hook
+- Fixed plugin uninstall
 - Fixed translations for default text that include a HTML link
-- Fixed uninstall
 
 = 4.0.5 (2019-10-07) =
 

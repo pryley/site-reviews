@@ -150,6 +150,7 @@ class ValidateReview
         if (empty($errors)) {
             return true;
         }
+        $this->error = __('Please fix the submission errors.', 'site-reviews');
         $this->setSessionValues('errors', $errors);
         $this->setSessionValues('values', $request);
         return false;
@@ -183,12 +184,11 @@ class ValidateReview
         if (!empty($this->error)) {
             return;
         }
-        if (!glsr(Akismet::class)->isSpam($this->request)) {
-            return;
+        if (glsr(Akismet::class)->isSpam($this->request)) {
+            $this->setError(__('This review has been flagged as possible spam and cannot be submitted.', 'site-reviews'),
+                'Akismet caught a spam submission (consider adding the IP address to the blacklist):'
+            );
         }
-        $this->setError(__('This review has been flagged as possible spam and cannot be submitted.', 'site-reviews'),
-            'Akismet caught a spam submission (consider adding the IP address to the blacklist):'
-        );
     }
 
     /**
@@ -239,12 +239,11 @@ class ValidateReview
         if (!empty($this->error)) {
             return;
         }
-        if (empty($this->request['gotcha'])) {
-            return;
+        if (!empty($this->request['gotcha'])) {
+            $this->setError(__('The review submission failed. Please notify the site administrator.', 'site-reviews'),
+                'The Honeypot caught a bad submission:'
+            );
         }
-        $this->setError(__('The review submission failed. Please notify the site administrator.', 'site-reviews'),
-            'The Honeypot caught a bad submission:'
-        );
     }
 
     /**
@@ -255,10 +254,9 @@ class ValidateReview
         if (!empty($this->error)) {
             return;
         }
-        if (!glsr(ReviewLimits::class)->hasReachedLimit($this->request)) {
-            return;
+        if (glsr(ReviewLimits::class)->hasReachedLimit($this->request)) {
+            $this->setError(__('You have already submitted a review.', 'site-reviews'));
         }
-        $this->setError(__('You have already submitted a review.', 'site-reviews'));
     }
 
     /**
@@ -291,10 +289,9 @@ class ValidateReview
      */
     protected function validateRequest(array $request)
     {
-        if (!$this->isRequestValid($request)) {
-            $this->error = __('Please fix the submission errors.', 'site-reviews');
-            return $request;
+        if ($this->isRequestValid($request)) {
+            return array_merge(glsr(ValidateReviewDefaults::class)->defaults(), $request);
         }
-        return array_merge(glsr(ValidateReviewDefaults::class)->defaults(), $request);
+        return $request;
     }
 }
