@@ -108,7 +108,7 @@
 			type: 'string',
 		},
 		rating: {
-			default: 1,
+			default: 0,
 			type: 'number',
 		},
 		schema: {
