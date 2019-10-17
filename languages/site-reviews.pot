@@ -463,7 +463,7 @@ msgstr ""
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:422, plugin/Controllers/EditorController.php:442, plugin/Controllers/MainController.php:33, plugin/Shortcodes/SiteReviewsPopup.php:30
+#: config/settings.php:422, plugin/Controllers/EditorController.php:391, plugin/Controllers/MainController.php:33, plugin/Shortcodes/SiteReviewsPopup.php:30
 msgid "Rating"
 msgstr ""
 
@@ -475,11 +475,11 @@ msgstr ""
 msgid "Review"
 msgstr ""
 
-#: config/settings.php:425, plugin/Controllers/EditorController.php:445
+#: config/settings.php:425, plugin/Controllers/EditorController.php:394
 msgid "Name"
 msgstr ""
 
-#: config/settings.php:426, plugin/Controllers/EditorController.php:446, plugin/Controllers/MainController.php:29
+#: config/settings.php:426, plugin/Controllers/EditorController.php:395, plugin/Controllers/MainController.php:29
 msgid "Email"
 msgstr ""
 
@@ -816,123 +816,85 @@ msgstr ""
 msgid "Nothing found."
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:121, plugin/Controllers/MainController.php:27, plugin/Shortcodes/SiteReviewsPopup.php:56, plugin/Shortcodes/SiteReviewsSummaryPopup.php:25, views/partials/editor/bulk-edit-assigned-to.php:7
+#: plugin/Controllers/EditorController.php:83, plugin/Controllers/MainController.php:27, plugin/Shortcodes/SiteReviewsPopup.php:56, plugin/Shortcodes/SiteReviewsSummaryPopup.php:25, views/partials/editor/bulk-edit-assigned-to.php:7
 msgid "Assigned To"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:122
+#: plugin/Controllers/EditorController.php:84
 msgid "Details"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:126, views/partials/editor/metabox-response.php:3
+#: plugin/Controllers/EditorController.php:88, views/partials/editor/metabox-response.php:3
 msgid "Respond Publicly"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:201, plugin/Controllers/ListTableController/Columns.php:72, plugin/Modules/Html/Fields/YesNo.php:35
+#: plugin/Controllers/EditorController.php:163, plugin/Controllers/ListTableController/Columns.php:72, plugin/Modules/Html/Fields/YesNo.php:35
 msgid "No"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:202, plugin/Controllers/ListTableController/Columns.php:71, plugin/Modules/Html/Fields/YesNo.php:36
+#: plugin/Controllers/EditorController.php:164, plugin/Controllers/ListTableController/Columns.php:71, plugin/Modules/Html/Fields/YesNo.php:36
 msgid "Yes"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:265
+#: plugin/Controllers/EditorController.php:227
 msgid "%s reviews are read-only."
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:360
+#: plugin/Controllers/EditorController.php:322
 msgid "Revert Changes"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:366
+#: plugin/Controllers/EditorController.php:328
 msgid "Nothing to Revert"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:397
+#: plugin/Controllers/EditorController.php:346
 msgid "Unknown"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:432
+#: plugin/Controllers/EditorController.php:381
 msgid "Unregistered user"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:439
+#: plugin/Controllers/EditorController.php:388
 msgid "RE:"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:443, plugin/Controllers/MainController.php:32, plugin/Shortcodes/TinymcePopupGenerator.php:140
+#: plugin/Controllers/EditorController.php:392, plugin/Controllers/MainController.php:32, plugin/Shortcodes/TinymcePopupGenerator.php:140
 msgid "Type"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:444, plugin/Defaults/PostTypeDefaults.php:17
+#: plugin/Controllers/EditorController.php:393, plugin/Defaults/PostTypeDefaults.php:17
 msgid "Date"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:447
+#: plugin/Controllers/EditorController.php:396
 msgid "User"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:448, plugin/Controllers/MainController.php:30
+#: plugin/Controllers/EditorController.php:397, plugin/Controllers/MainController.php:30
 msgid "IP Address"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:449
+#: plugin/Controllers/EditorController.php:398
 msgid "Avatar"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:44
-msgid "%s review updated."
-msgid_plural "%s reviews updated."
-msgstr[0] ""
-msgstr[1] ""
-
-#: plugin/Controllers/ListTableController.php:45
-msgid "%s review not updated, somebody is editing it."
-msgid_plural "%s reviews not updated, somebody is editing them."
-msgstr[0] ""
-msgstr[1] ""
-
-#: plugin/Controllers/ListTableController.php:46
-msgid "%s review permanently deleted."
-msgid_plural "%s reviews permanently deleted."
-msgstr[0] ""
-msgstr[1] ""
-
-#: plugin/Controllers/ListTableController.php:47
-msgid "%s review moved to the Trash."
-msgid_plural "%s reviews moved to the Trash."
-msgstr[0] ""
-msgstr[1] ""
-
-#: plugin/Controllers/ListTableController.php:48
-msgid "%s review restored from the Trash."
-msgid_plural "%s reviews restored from the Trash."
-msgstr[0] ""
-msgstr[1] ""
-
-#: plugin/Controllers/ListTableController.php:83
+#: plugin/Controllers/ListTableController.php:65
 msgid "Submitted"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:115, plugin/Controllers/ListTableController.php:184, plugin/Controllers/EditorController/Labels.php:102, plugin/Controllers/EditorController/Labels.php:103
-msgid "Unapproved"
-msgstr ""
-
-#: plugin/Controllers/ListTableController.php:133, plugin/Controllers/EditorController/Labels.php:105
+#: plugin/Controllers/ListTableController.php:100, plugin/Controllers/EditorController/Labels.php:105
 msgid "Approve"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:134
+#: plugin/Controllers/ListTableController.php:101
 msgid "Unapprove"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:139
+#: plugin/Controllers/ListTableController.php:106
 msgctxt "Approve the review"
 msgid "%s this review"
-msgstr ""
-
-#: plugin/Controllers/ListTableController.php:183, plugin/Controllers/EditorController/Labels.php:18, plugin/Controllers/EditorController/Labels.php:106
-msgid "Approved"
 msgstr ""
 
 #: plugin/Controllers/MainController.php:28
@@ -1063,6 +1025,44 @@ msgstr ""
 msgid "Filter by category"
 msgstr ""
 
+#: plugin/Controllers/TranslationController.php:32
+msgid "%s review updated."
+msgid_plural "%s reviews updated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Controllers/TranslationController.php:33
+msgid "%s review not updated, somebody is editing it."
+msgid_plural "%s reviews not updated, somebody is editing them."
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Controllers/TranslationController.php:34
+msgid "%s review permanently deleted."
+msgid_plural "%s reviews permanently deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Controllers/TranslationController.php:35
+msgid "%s review moved to the Trash."
+msgid_plural "%s reviews moved to the Trash."
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Controllers/TranslationController.php:36
+msgid "%s review restored from the Trash."
+msgid_plural "%s reviews restored from the Trash."
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Controllers/TranslationController.php:169, plugin/Controllers/TranslationController.php:201, plugin/Controllers/EditorController/Labels.php:102, plugin/Controllers/EditorController/Labels.php:103
+msgid "Unapproved"
+msgstr ""
+
+#: plugin/Controllers/TranslationController.php:200, plugin/Controllers/EditorController/Labels.php:62, plugin/Controllers/EditorController/Labels.php:106
+msgid "Approved"
+msgstr ""
+
 #: plugin/Controllers/WelcomeController.php:17, views/pages/documentation/index.php:6
 msgid "About"
 msgstr ""
@@ -1175,51 +1175,51 @@ msgstr ""
 msgid "Review unpinned."
 msgstr ""
 
-#: plugin/Modules/Console.php:114
+#: plugin/Modules/Console.php:115
 msgid "Console is empty"
 msgstr ""
 
-#: plugin/Modules/Console.php:437
+#: plugin/Modules/Console.php:438
 msgid "Console was automatically cleared (128 KB maximum size)"
 msgstr ""
 
-#: plugin/Modules/Date.php:38
+#: plugin/Modules/Date.php:40
 msgid "%s second ago"
 msgid_plural "%s seconds ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Date.php:39
+#: plugin/Modules/Date.php:41
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Date.php:40
+#: plugin/Modules/Date.php:42
 msgid "an hour ago"
 msgid_plural "%s hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Date.php:41
+#: plugin/Modules/Date.php:43
 msgid "yesterday"
 msgid_plural "%s days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Date.php:42
+#: plugin/Modules/Date.php:44
 msgid "a week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Date.php:43
+#: plugin/Modules/Date.php:45
 msgid "%s month ago"
 msgid_plural "%s months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Date.php:44
+#: plugin/Modules/Date.php:46
 msgid "%s year ago"
 msgid_plural "%s years ago"
 msgstr[0] ""
@@ -1232,7 +1232,7 @@ msgid_plural "New %s-star review of: %s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Translation.php:116
+#: plugin/Modules/Translation.php:117
 msgid "This custom translation is no longer valid as the original text has been changed or removed."
 msgstr ""
 
@@ -1527,7 +1527,7 @@ msgstr ""
 msgid "Limit reviews to those assigned to this page/post ID"
 msgstr ""
 
-#: plugin/Controllers/EditorController/Labels.php:17, plugin/Controllers/EditorController/Labels.php:107
+#: plugin/Controllers/EditorController/Labels.php:61, plugin/Controllers/EditorController/Labels.php:107
 msgid "Save as Unapproved"
 msgstr ""
 
