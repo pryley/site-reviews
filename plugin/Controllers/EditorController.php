@@ -21,17 +21,6 @@ use WP_Post;
 class EditorController extends Controller
 {
     /**
-     * @return void
-     * @action admin_enqueue_scripts
-     */
-    public function customizePostStatusLabels()
-    {
-        if ($this->canModifyTranslation()) {
-            glsr(Labels::class)->customizePostStatusLabels();
-        }
-    }
-
-    /**
      * @param array $settings
      * @return array
      * @filter wp_editor_settings
@@ -71,34 +60,6 @@ class EditorController extends Controller
             }
         }
         return $protected;
-    }
-
-    /**
-     * @param string $translation
-     * @param string $test
-     * @param string $domain
-     * @return string
-     * @filter gettext
-     */
-    public function filterPostStatusLabels($translation, $text, $domain)
-    {
-        return $this->canModifyTranslation($domain)
-            ? glsr(Labels::class)->filterPostStatusLabels($translation, $text)
-            : $translation;
-    }
-
-    /**
-     * @param string $translation
-     * @param string $test
-     * @param string $domain
-     * @return string
-     * @filter gettext_with_context
-     */
-    public function filterPostStatusLabelsWithContext($translation, $text, $context, $domain)
-    {
-        return $this->canModifyTranslation($domain)
-            ? glsr(Labels::class)->filterPostStatusLabels($translation, $text)
-            : $translation;
     }
 
     /**
@@ -369,19 +330,6 @@ class EditorController extends Controller
             'disabled' => true,
             'id' => 'revert',
         ]);
-    }
-
-    /**
-     * @param string $domain
-     * @return bool
-     */
-    protected function canModifyTranslation($domain = 'default')
-    {
-        if ('default' != $domain || empty(glsr_current_screen()->base)) {
-            return false;
-        }
-        return Application::POST_TYPE == glsr_current_screen()->post_type
-            && in_array(glsr_current_screen()->base, ['edit', 'post']);
     }
 
     /**

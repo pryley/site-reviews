@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Controllers\EditorController;
 use GeminiLabs\SiteReviews\Controllers\ListTableController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Controllers\RebusifyController;
+use GeminiLabs\SiteReviews\Controllers\TranslationController;
 use GeminiLabs\SiteReviews\Controllers\WelcomeController;
 use GeminiLabs\SiteReviews\Modules\Translator;
 
@@ -35,7 +36,7 @@ class Filters implements HooksContract
         $this->listtable = $app->make(ListTableController::class);
         $this->public = $app->make(PublicController::class);
         $this->rebusify = $app->make(RebusifyController::class);
-        $this->translator = $app->make(Translator::class);
+        $this->translator = $app->make(TranslationController::class);
         $this->welcome = $app->make(WelcomeController::class);
     }
 
@@ -54,27 +55,31 @@ class Filters implements HooksContract
         add_filter('wp_editor_settings',                                        [$this->editor, 'filterEditorSettings']);
         add_filter('the_editor',                                                [$this->editor, 'filterEditorTextarea']);
         add_filter('is_protected_meta',                                         [$this->editor, 'filterIsProtectedMeta'], 10, 3);
-        add_filter('gettext',                                                   [$this->editor, 'filterPostStatusLabels'], 10, 3);
-        add_filter('gettext_with_context',                                      [$this->editor, 'filterPostStatusLabelsWithContext'], 10, 4);
         add_filter('post_updated_messages',                                     [$this->editor, 'filterUpdateMessages']);
-        add_filter('bulk_post_updated_messages',                                [$this->listtable, 'filterBulkUpdateMessages'], 10, 2);
         add_filter('manage_'.Application::POST_TYPE.'_posts_columns',           [$this->listtable, 'filterColumnsForPostType']);
         add_filter('post_date_column_status',                                   [$this->listtable, 'filterDateColumnStatus'], 10, 2);
         add_filter('default_hidden_columns',                                    [$this->listtable, 'filterDefaultHiddenColumns'], 10, 2);
-        add_filter('display_post_states',                                       [$this->listtable, 'filterPostStates'], 10, 2);
         add_filter('post_row_actions',                                          [$this->listtable, 'filterRowActions'], 10, 2);
         add_filter('manage_edit-'.Application::POST_TYPE.'_sortable_columns',   [$this->listtable, 'filterSortableColumns']);
-        add_filter('ngettext',                                                  [$this->listtable, 'filterStatusText'], 10, 5);
         add_filter('script_loader_tag',                                         [$this->public, 'filterEnqueuedScripts'], 10, 2);
         add_filter('site-reviews/config/forms/submission-form',                 [$this->public, 'filterFieldOrder'], 11);
         add_filter('query_vars',                                                [$this->public, 'filterQueryVars']);
         add_filter('site-reviews/render/view',                                  [$this->public, 'filterRenderView']);
         add_filter('site-reviews/settings/callback',                            [$this->rebusify, 'filterSettingsCallback']);
         add_filter('site-reviews/interpolate/partials/form/table-row-multiple', [$this->rebusify, 'filterSettingsTableRow'], 10, 3);
-        add_filter('gettext',                                                   [$this->translator, 'filterGettext'], 10, 3);
-        add_filter('gettext_with_context',                                      [$this->translator, 'filterGettextWithContext'], 10, 4);
-        add_filter('ngettext',                                                  [$this->translator, 'filterNgettext'], 10, 5);
-        add_filter('ngettext_with_context',                                     [$this->translator, 'filterNgettextWithContext'], 10, 6);
+        add_filter('bulk_post_updated_messages',                                [$this->translator, 'filterBulkUpdateMessages'], 10, 2);
+        add_filter('gettext',                                                   [$this->translator, 'filterGettext'], 9, 3);
+        add_filter('site-reviews/gettext/site-reviews',                         [$this->translator, 'filterGettextSiteReviews'], 10, 2);
+        add_filter('gettext_with_context',                                      [$this->translator, 'filterGettextWithContext'], 9, 4);
+        add_filter('site-reviews/gettext_with_context/site-reviews',            [$this->translator, 'filterGettextWithContextSiteReviews'], 10, 3);
+        add_filter('ngettext',                                                  [$this->translator, 'filterNgettext'], 9, 5);
+        add_filter('site-reviews/ngettext/site-reviews',                        [$this->translator, 'filterNgettextSiteReviews'], 10, 4);
+        add_filter('ngettext_with_context',                                     [$this->translator, 'filterNgettextWithContext'], 9, 6);
+        add_filter('site-reviews/ngettext_with_context/site-reviews',           [$this->translator, 'filterNgettextWithContextSiteReviews'], 10, 5);
+        add_filter('display_post_states',                                       [$this->translator, 'filterPostStates'], 10, 2);
+        add_filter('site-reviews/gettext/default',                              [$this->translator, 'filterPostStatusLabels'], 10, 2);
+        add_filter('site-reviews/gettext_with_context/default',                 [$this->translator, 'filterPostStatusLabels'], 10, 2);
+        add_filter('site-reviews/ngettext/default',                             [$this->translator, 'filterPostStatusText'], 10, 4);
         add_filter('plugin_action_links_'.$this->basename,                      [$this->welcome, 'filterActionLinks'], 9);
         add_filter('admin_title',                                               [$this->welcome, 'filterAdminTitle']);
         add_filter('admin_footer_text',                                         [$this->welcome, 'filterFooterText']);

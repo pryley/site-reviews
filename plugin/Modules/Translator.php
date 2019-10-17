@@ -7,74 +7,6 @@ use GeminiLabs\SiteReviews\Application;
 class Translator
 {
     /**
-     * @param string $translation
-     * @param string $text
-     * @param string $domain
-     * @return string
-     * @filter gettext
-     */
-    public function filterGettext($translation, $text, $domain)
-    {
-        return $this->translate($translation, $domain, [
-            'single' => $text,
-        ]);
-    }
-
-    /**
-     * @param string $translation
-     * @param string $text
-     * @param string $context
-     * @param string $domain
-     * @return string
-     * @filter gettext_with_context
-     */
-    public function filterGettextWithContext($translation, $text, $context, $domain)
-    {
-        return $this->translate($translation, $domain, [
-            'context' => $context,
-            'single' => $text,
-        ]);
-    }
-
-    /**
-     * @param string $translation
-     * @param string $single
-     * @param string $plural
-     * @param int $number
-     * @param string $domain
-     * @return string
-     * @filter ngettext
-     */
-    public function filterNgettext($translation, $single, $plural, $number, $domain)
-    {
-        return $this->translate($translation, $domain, [
-            'number' => $number,
-            'plural' => $plural,
-            'single' => $single,
-        ]);
-    }
-
-    /**
-     * @param string $translation
-     * @param string $single
-     * @param string $plural
-     * @param int $number
-     * @param string $context
-     * @param string $domain
-     * @return string
-     * @filter ngettext_with_context
-     */
-    public function filterNgettextWithContext($translation, $single, $plural, $number, $context, $domain)
-    {
-        return $this->translate($translation, $domain, [
-            'context' => $context,
-            'number' => $number,
-            'plural' => $plural,
-            'single' => $single,
-        ]);
-    }
-
-    /**
      * @param string $original
      * @param string $domain
      * @return string
@@ -94,6 +26,16 @@ class Translator
         return 'plural' == $string['type']
             ? $this->translatePlural($domain, $string, $args)
             : $this->translateSingle($domain, $string, $args);
+    }
+
+    /**
+     * Used when search/replacing a default text-domain translation
+     * @return string
+     */
+    public function getTranslation(array $args)
+    {
+        $args = $this->normalizeTranslationArgs($args);
+        return get_translations_for_domain(Application::ID)->translate_plural($args['single'], $args['plural'], $args['number']);
     }
 
     /**

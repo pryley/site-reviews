@@ -8,24 +8,6 @@ use WP_Post;
 class Labels
 {
     /**
-     * @return void
-     */
-    public function customizePostStatusLabels()
-    {
-        global $wp_scripts;
-        $strings = [
-            'savePending' => __('Save as Unapproved', 'site-reviews'),
-            'published' => __('Approved', 'site-reviews'),
-        ];
-        if (isset($wp_scripts->registered['post']->extra['data'])) {
-            $l10n = &$wp_scripts->registered['post']->extra['data'];
-            foreach ($strings as $search => $replace) {
-                $l10n = preg_replace('/("'.$search.'":")([^"]+)/', '$1'.$replace, $l10n);
-            }
-        }
-    }
-
-    /**
      * @param string $translation
      * @param string $test
      * @return string
@@ -67,6 +49,24 @@ class Labels
             52 => $strings['reverted'],
         ];
         return $messages;
+    }
+
+    /**
+     * @return void
+     */
+    public function translatePostStatusLabels()
+    {
+        global $wp_scripts;
+        $strings = [
+            'savePending' => __('Save as Unapproved', 'site-reviews'),
+            'published' => __('Approved', 'site-reviews'),
+        ];
+        if (isset($wp_scripts->registered['post']->extra['data'])) {
+            $l10n = &$wp_scripts->registered['post']->extra['data'];
+            foreach ($strings as $search => $replace) {
+                $l10n = preg_replace('/("'.$search.'":")([^"]+)/', '$1'.$replace, $l10n);
+            }
+        }
     }
 
     /**

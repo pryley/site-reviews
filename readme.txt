@@ -105,6 +105,10 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
+= 4.1.1 (2019-10-17) =
+
+- Optimised translation usage
+
 = 4.1.0 (2019-10-16) =
 
 - Added "Email", "IP Address", and "Response" columns for the reviews table

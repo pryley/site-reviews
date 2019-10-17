@@ -57,8 +57,12 @@
     site-reviews/get/review
     site-reviews/get/reviews
     site-reviews/get/reviews/query
+    site-reviews/gettext/{text_domain}
+    site-reviews/gettext_with_context/{text_domain}
     site-reviews/interpolate/{template_path}
     site-reviews/metabox/details
+    site-reviews/ngettext/{text_domain}
+    site-reviews/ngettext_with_context/{text_domain}
     site-reviews/notices
     site-reviews/notification/emails
     site-reviews/notification/title

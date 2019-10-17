@@ -11,12 +11,18 @@ use GeminiLabs\SiteReviews\Modules\Translator;
 class TranslationController
 {
     /**
+     * @var \WP_Screen|object
+     */
+    public $screen;
+
+    /**
      * @var Translator
      */
     public $translator;
 
     public function __construct(Translator $translator)
     {
+        $this->screen = glsr_current_screen();
         $this->translator = $translator;
     }
 
@@ -47,7 +53,7 @@ class TranslationController
      */
     public function filterGettext($translation, $text, $domain)
     {
-        return apply_filters('site-reviews/gettext_'.$domain, $translation, $text);
+        return apply_filters('site-reviews/gettext/'.$domain, $translation, $text);
     }
 
     /**
@@ -73,7 +79,7 @@ class TranslationController
      */
     public function filterGettextWithContext($translation, $text, $context, $domain)
     {
-        return apply_filters('site-reviews/gettext_with_context_'.$domain, $translation, $text, $context);
+        return apply_filters('site-reviews/gettext_with_context/'.$domain, $translation, $text, $context);
     }
 
     /**
@@ -81,7 +87,7 @@ class TranslationController
      * @param string $text
      * @param string $context
      * @return string
-     * @filter site-reviews/gettext_with_context.Application::ID
+     * @filter site-reviews/gettext_with_context/site-reviews
      */
     public function filterGettextWithContextSiteReviews($translation, $text, $context)
     {
@@ -102,7 +108,7 @@ class TranslationController
      */
     public function filterNgettext($translation, $single, $plural, $number, $domain)
     {
-        return apply_filters('site-reviews/ngettext_'.$domain, $translation, $single, $plural, $number);
+        return apply_filters('site-reviews/ngettext/'.$domain, $translation, $single, $plural, $number);
     }
 
     /**
@@ -111,7 +117,7 @@ class TranslationController
      * @param string $plural
      * @param int $number
      * @return string
-     * @filter site-reviews/ngettext.Application::ID
+     * @filter site-reviews/ngettext/site-reviews
      */
     public function filterNgettextSiteReviews($translation, $single, $plural, $number)
     {
@@ -134,7 +140,7 @@ class TranslationController
      */
     public function filterNgettextWithContext($translation, $single, $plural, $number, $context, $domain)
     {
-        return apply_filters('site-reviews/ngettext_with_context_'.$domain, $translation, $single, $plural, $number, $context);
+        return apply_filters('site-reviews/ngettext_with_context/'.$domain, $translation, $single, $plural, $number, $context);
     }
 
     /**
@@ -144,7 +150,7 @@ class TranslationController
      * @param int $number
      * @param string $context
      * @return string
-     * @filter site-reviews/ngettext_with_context.Application::ID
+     * @filter site-reviews/ngettext_with_context/site-reviews
      */
     public function filterNgettextWithContextSiteReviews($translation, $single, $plural, $number, $context)
     {
@@ -230,7 +236,7 @@ class TranslationController
      */
     protected function canModifyTranslation()
     {
-        $screen = glsr_current_screen();
-        return Application::POST_TYPE == $screen->post_type && in_array($screen->base, ['edit', 'post']);
+        return Application::POST_TYPE == $this->screen->post_type 
+            && in_array($this->screen->base, ['edit', 'post']);
     }
 }
