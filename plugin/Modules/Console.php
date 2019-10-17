@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use DateTime;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
 use Throwable;
 
@@ -306,7 +307,7 @@ class Console
     protected function canLogEntry($level, $backtraceLine)
     {
         $levelExists = array_key_exists($level, $this->getLevels());
-        if (false === strpos($backtraceLine, glsr()->path())) {
+        if (!Str::contains($backtraceLine, glsr()->path())) {
             return $levelExists; // ignore level restriction if triggered outside of the plugin
         }
         return $levelExists && $level >= $this->getLevel();

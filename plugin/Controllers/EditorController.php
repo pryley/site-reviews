@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -460,8 +461,8 @@ class EditorController extends Controller
     {
         $referer = wp_get_referer();
         $hasReferer = !$referer
-            || false !== strpos($referer, 'post.php')
-            || false !== strpos($referer, 'post-new.php');
+            || Str::contains($referer, 'post.php')
+            || Str::contains($referer, 'post-new.php');
         $redirectUri = $hasReferer
             ? remove_query_arg(['deleted', 'ids', 'trashed', 'untrashed'], $referer)
             : get_edit_post_link($postId);

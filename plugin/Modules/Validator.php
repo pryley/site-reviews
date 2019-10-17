@@ -262,7 +262,7 @@ class Validator
     protected function parseRule($rule)
     {
         $parameters = [];
-        if (false !== strpos($rule, ':')) {
+        if (Str::contains($rule, ':')) {
             list($rule, $parameter) = explode(':', $rule, 2);
             $parameters = $this->parseParameters($rule, $parameter);
         }

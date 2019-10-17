@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use GeminiLabs\SiteReviews\Helpers\Str;
+
 class Date
 {
     /**
@@ -44,7 +46,7 @@ class Date
                 _n('%s year ago', '%s years ago', $unit, 'site-reviews'),
             ];
             $relativeDate = $relativeDates[$i];
-            return false !== strpos($relativeDate, '%s')
+            return Str::contains($relativeDate, '%s')
                 ? sprintf($relativeDate, $unit)
                 : $relativeDate;
         }

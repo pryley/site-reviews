@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Polylang;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use WP_Query;
@@ -46,7 +47,7 @@ class QueryBuilder
                 continue;
             }
             $values[$key] = implode(',', (array) $values[$key]);
-            $string.= false !== strpos($value, '%s')
+            $string.= Str::contains($value, '%s')
                 ? sprintf($value, strval($values[$key]))
                 : $value;
         }

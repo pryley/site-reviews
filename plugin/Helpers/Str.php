@@ -17,6 +17,16 @@ class Str
     }
 
     /**
+     * @param string $haystack
+     * @param string $needle
+     * @return bool
+     */
+    public static function contains($haystack, $needle)
+    {
+        return false !== strpos($haystack, $needle);
+    }
+
+    /**
      * @param string $name
      * @param string $nameType first|first_initial|initials|last|last_initial
      * @param string $initialType period|period_space|space

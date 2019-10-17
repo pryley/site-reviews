@@ -160,7 +160,7 @@ abstract class Container
      */
     protected function addNamespace($abstract)
     {
-        if (false === strpos($abstract, __NAMESPACE__) && !class_exists($abstract)) {
+        if (!Str::contains($abstract, __NAMESPACE__) && !class_exists($abstract)) {
             $abstract = __NAMESPACE__.'\\'.$abstract;
         }
         return $abstract;

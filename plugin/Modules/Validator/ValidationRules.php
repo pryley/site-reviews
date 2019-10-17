@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
+use GeminiLabs\SiteReviews\Helpers\Str;
 use InvalidArgumentException;
 
 /**
@@ -24,7 +25,7 @@ trait ValidationRules
      */
     protected function replace($message, array $parameters)
     {
-        if (false === strpos($message, '%s')) {
+        if (!Str::contains($message, '%s')) {
             return $message;
         }
         return preg_replace_callback('/(%s)/', function () use (&$parameters) {

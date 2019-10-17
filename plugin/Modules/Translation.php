@@ -6,6 +6,7 @@ use Exception;
 use GeminiLabs\Sepia\PoParser\Parser;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 
 class Translation
@@ -196,7 +197,7 @@ class Translation
                 if (in_array($needle, [$single, $plural])) {
                     $this->results[$key] = $entry;
                 }
-            } elseif (false !== strpos(sprintf('%s %s', $single, $plural), $needle)) {
+            } elseif (Str::contains(sprintf('%s %s', $single, $plural), $needle)) {
                 $this->results[$key] = $entry;
             }
         }

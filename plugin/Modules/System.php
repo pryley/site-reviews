@@ -339,9 +339,9 @@ class System
     {
         return defined($key)
             || filter_input(INPUT_SERVER, $key)
-            || false !== strpos(filter_input(INPUT_SERVER, 'SERVER_NAME'), $key)
-            || false !== strpos(DB_HOST, $key)
-            || false !== strpos(php_uname(), $key);
+            || Str::contains(filter_input(INPUT_SERVER, 'SERVER_NAME'), $key)
+            || Str::contains(DB_HOST, $key)
+            || Str::contains(php_uname(), $key);
     }
 
     /**
