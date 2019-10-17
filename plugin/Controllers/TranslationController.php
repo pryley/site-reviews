@@ -11,18 +11,12 @@ use GeminiLabs\SiteReviews\Modules\Translator;
 class TranslationController
 {
     /**
-     * @var \WP_Screen|object
-     */
-    public $screen;
-
-    /**
      * @var Translator
      */
     public $translator;
 
     public function __construct(Translator $translator)
     {
-        $this->screen = glsr_current_screen();
         $this->translator = $translator;
     }
 
@@ -164,7 +158,7 @@ class TranslationController
 
     /**
      * @param array $postStates
-     * @param WP_Post $post
+     * @param \WP_Post $post
      * @return array
      * @filter display_post_states
      */
@@ -236,7 +230,8 @@ class TranslationController
      */
     protected function canModifyTranslation()
     {
-        return Application::POST_TYPE == $this->screen->post_type 
-            && in_array($this->screen->base, ['edit', 'post']);
+        $screen = glsr_current_screen();
+        return Application::POST_TYPE == $screen->post_type 
+            && in_array($screen->base, ['edit', 'post']);
     }
 }
