@@ -107,6 +107,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 = 4.1.1 (2019-10-17) =
 
+- Added "site-reviews/support/deprecated" filter hook
 - Optimised translation usage
 
 = 4.1.0 (2019-10-16) =

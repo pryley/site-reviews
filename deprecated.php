@@ -2,11 +2,15 @@
 
 defined('WPINC') || die;
 
+if (!apply_filters('site-reviews/support/deprecated', true)) {
+    return;
+}
+
 // Unprotected review meta has been deprecated
-add_filter('get_post_metadata', function ($check, $postId, $metaKey, $single) {
+add_filter('get_post_metadata', function ($data, $postId, $metaKey, $single) {
     $metaKeys = array_keys(glsr('Defaults\CreateReviewDefaults')->defaults());
     if (!in_array($metaKey, $metaKeys) || glsr()->post_type != get_post_type($postId)) {
-        return $check;
+        return $data;
     }
     glsr()->deprecated[] = sprintf(
         'The "%1$s" meta_key has been deprecated for Reviews. Please use the protected "_%1$s" meta_key instead.',
