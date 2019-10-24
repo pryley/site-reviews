@@ -28,13 +28,13 @@ class ReviewsHtml extends ArrayObject
      */
     public $reviews;
 
-    public function __construct(array $reviews, $maxPageCount, array $args)
+    public function __construct(array $renderedReviews, $maxPageCount, array $args)
     {
         $this->args = $args;
         $this->max_num_pages = $maxPageCount;
-        $this->reviews = $reviews;
+        $this->reviews = $renderedReviews;
         $this->pagination = $this->buildPagination();
-        parent::__construct($reviews, ArrayObject::STD_PROP_LIST | ArrayObject::ARRAY_AS_PROPS);
+        parent::__construct($renderedReviews, ArrayObject::STD_PROP_LIST | ArrayObject::ARRAY_AS_PROPS);
     }
 
     /**
