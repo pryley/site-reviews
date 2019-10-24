@@ -39,9 +39,6 @@ class Pagination implements PartialContract
     protected function buildLinks()
     {
         $args = glsr(Style::class)->paginationArgs($this->args);
-        if (is_front_page()) {
-            unset($args['format']);
-        }
         if ('array' == $args['type']) {
             $args['type'] = 'plain';
         }

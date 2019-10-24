@@ -63,7 +63,6 @@ class Filters implements HooksContract
         add_filter('manage_edit-'.Application::POST_TYPE.'_sortable_columns',   [$this->listtable, 'filterSortableColumns']);
         add_filter('script_loader_tag',                                         [$this->public, 'filterEnqueuedScripts'], 10, 2);
         add_filter('site-reviews/config/forms/submission-form',                 [$this->public, 'filterFieldOrder'], 11);
-        add_filter('query_vars',                                                [$this->public, 'filterQueryVars']);
         add_filter('site-reviews/render/view',                                  [$this->public, 'filterRenderView']);
         add_filter('site-reviews/settings/callback',                            [$this->rebusify, 'filterSettingsCallback']);
         add_filter('site-reviews/interpolate/partials/form/table-row-multiple', [$this->rebusify, 'filterSettingsTableRow'], 10, 3);

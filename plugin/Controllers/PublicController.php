@@ -51,18 +51,6 @@ class PublicController extends Controller
     }
 
     /**
-     * @param array $vars
-     * @return array
-     * @filter query_vars
-     */
-    public function filterQueryVars($vars)
-    {
-        $vars = Arr::consolidateArray($vars);
-        $vars[] = glsr()->constant('PAGED_QUERY_VAR');
-        return $vars;
-    }
-
-    /**
      * @param string $view
      * @return string
      * @filter site-reviews/render/view
