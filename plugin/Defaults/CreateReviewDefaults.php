@@ -31,7 +31,7 @@ class CreateReviewDefaults extends Defaults
             'avatar' => '',
             'content' => '',
             'custom' => '',
-            'date' => current_time('mysql'),
+            'date' => '',
             'email' => '',
             'ip_address' => '',
             'pinned' => false,
