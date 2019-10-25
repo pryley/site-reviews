@@ -131,31 +131,31 @@ class System
      */
     public function getPhpDetails()
     {
-        $displayErrors = ini_get('display_errors')
-            ? 'On ('.ini_get('display_errors').')'
+        $displayErrors = $this->getINI('display_errors', null)
+            ? 'On ('.$this->getINI('display_errors').')'
             : 'N/A';
         $intlSupport = extension_loaded('intl')
             ? phpversion('intl')
             : 'false';
         return [
             'cURL' => var_export(function_exists('curl_init'), true),
-            'Default Charset' => ini_get('default_charset'),
+            'Default Charset' => $this->getINI('default_charset'),
             'Display Errors' => $displayErrors,
             'fsockopen' => var_export(function_exists('fsockopen'), true),
             'Intl' => $intlSupport,
             'IPv6' => var_export(defined('AF_INET6'), true),
-            'Max Execution Time' => ini_get('max_execution_time'),
-            'Max Input Nesting Level' => ini_get('max_input_nesting_level'),
-            'Max Input Vars' => ini_get('max_input_vars'),
-            'Memory Limit' => ini_get('memory_limit'),
-            'Post Max Size' => ini_get('post_max_size'),
-            'Sendmail Path' => ini_get('sendmail_path'),
-            'Session Cookie Path' => esc_html(ini_get('session.cookie_path')),
-            'Session Name' => esc_html(ini_get('session.name')),
-            'Session Save Path' => esc_html(ini_get('session.save_path')),
-            'Session Use Cookies' => var_export(wp_validate_boolean(ini_get('session.use_cookies')), true),
-            'Session Use Only Cookies' => var_export(wp_validate_boolean(ini_get('session.use_only_cookies')), true),
-            'Upload Max Filesize' => ini_get('upload_max_filesize'),
+            'Max Execution Time' => $this->getINI('max_execution_time'),
+            'Max Input Nesting Level' => $this->getINI('max_input_nesting_level'),
+            'Max Input Vars' => $this->getINI('max_input_vars'),
+            'Memory Limit' => $this->getINI('memory_limit'),
+            'Post Max Size' => $this->getINI('post_max_size'),
+            'Sendmail Path' => $this->getINI('sendmail_path'),
+            'Session Cookie Path' => esc_html($this->getINI('session.cookie_path')),
+            'Session Name' => esc_html($this->getINI('session.name')),
+            'Session Save Path' => esc_html($this->getINI('session.save_path')),
+            'Session Use Cookies' => var_export(wp_validate_boolean($this->getINI('session.use_cookies', false)), true),
+            'Session Use Only Cookies' => var_export(wp_validate_boolean($this->getINI('session.use_only_cookies', false)), true),
+            'Upload Max Filesize' => $this->getINI('upload_max_filesize'),
         ];
     }
 
@@ -249,7 +249,7 @@ class System
             'Remote Post' => glsr(Cache::class)->getRemotePostTest(),
             'Show On Front' => glsr(OptionManager::class)->getWP('show_on_front'),
             'Site URL' => site_url(),
-            'Timezone' => glsr(OptionManager::class)->getWP('timezone_string', ini_get('date.timezone').' (PHP)'),
+            'Timezone' => glsr(OptionManager::class)->getWP('timezone_string', $this->getINI('date.timezone').' (PHP)'),
             'Version' => get_bloginfo('version'),
             'WP Debug' => var_export(defined('WP_DEBUG'), true),
             'WP Max Upload Size' => size_format(wp_max_upload_size()),
@@ -300,6 +300,13 @@ class System
             $this->detectWebhostProvider(),
             Helper::getIpAddress()
         );
+    }
+
+    protected function getINI($name, $disabledValue = 'ini_get() is disabled.')
+    {
+        return function_exists('ini_get')
+            ? ini_get($name)
+            : $disabledValue;
     }
 
     /**
