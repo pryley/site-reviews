@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-use GeminiLabs\SiteReviews\Helper;
 
 class ValidateReviewDefaults extends Defaults
 {
@@ -18,7 +17,7 @@ class ValidateReviewDefaults extends Defaults
             'content' => '',
             'email' => '',
             'form_id' => '',
-            'ip_address' => Helper::getIpAddress(), // required for Akismet and Blacklist validation
+            'ip_address' '',
             'name' => '',
             'rating' => '0',
             'terms' => '',

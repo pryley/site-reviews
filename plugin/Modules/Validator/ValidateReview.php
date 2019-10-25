@@ -60,6 +60,7 @@ class ValidateReview
      */
     public function validate(array $request)
     {
+        $request['ip_address'] = Helper::getIpAddress(); // required for Akismet and Blacklist validation
         $this->form_id = $request['form_id'];
         $this->options = glsr(OptionManager::class)->all();
         $this->request = $this->validateRequest($request);
@@ -289,9 +290,8 @@ class ValidateReview
      */
     protected function validateRequest(array $request)
     {
-        if ($this->isRequestValid($request)) {
-            return array_merge(glsr(ValidateReviewDefaults::class)->defaults(), $request);
-        }
-        return $request;
+        return $this->isRequestValid($request)
+            ? array_merge(glsr(ValidateReviewDefaults::class)->defaults(), $request)
+            : $request;
     }
 }

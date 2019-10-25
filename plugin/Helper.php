@@ -109,20 +109,23 @@ class Helper
      */
     public static function getIpAddress()
     {
-        $cloudflareIps = glsr(Cache::class)->getCloudflareIps();
-        $whitelist = [
-            Whip::CLOUDFLARE_HEADERS => [Whip::IPV4 => $cloudflareIps['v4']],
-            // Whip::CUSTOM_HEADERS => [Whip::IPV4 => ['127.0.0.1']],
-        ];
-        if (defined('AF_INET6')) {
-            $whitelist[Whip::CLOUDFLARE_HEADERS][Whip::IPV6] = $cloudflareIps['v6'];
-            // $whitelist[Whip::CUSTOM_HEADERS][Whip::IPV6] = ['::1'];
+        $whitelist = [];
+        $isUsingCloudflare = !empty(filter_input(INPUT_SERVER, 'CF-Connecting-IP'));
+        if (apply_filters('site-reviews/whip/whitelist/cloudflare', $isUsingCloudflare)) {
+            $cloudflareIps = glsr(Cache::class)->getCloudflareIps();
+            $whitelist[Whip::CLOUDFLARE_HEADERS] = [Whip::IPV4 => $cloudflareIps['v4']];
+            if (defined('AF_INET6')) {
+                $whitelist[Whip::CLOUDFLARE_HEADERS][Whip::IPV6] = $cloudflareIps['v6'];
+            }
         }
         $whitelist = apply_filters('site-reviews/whip/whitelist', $whitelist);
-        $methods = Whip::CUSTOM_HEADERS | Whip::CLOUDFLARE_HEADERS | Whip::REMOTE_ADDR;
-        $methods = apply_filters('site-reviews/whip/methods', $methods);
+        $methods = apply_filters('site-reviews/whip/methods', Whip::ALL_METHODS);
         $whip = new Whip($methods, $whitelist);
         do_action_ref_array('site-reviews/whip', [$whip]);
-        return (string) $whip->getValidIpAddress();
+        if (false !== ($clientAddress = $whip->getValidIpAddress())) {
+            return (string) $clientAddress;
+        }
+        glsr_log()->error('Unable to detect IP address.');
+        return 'unknown';
     }
 }

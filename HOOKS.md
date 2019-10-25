@@ -123,3 +123,4 @@
     site-reviews/whip
     site-reviews/whip/methods
     site-reviews/whip/whitelist
+    site-reviews/whip/whitelist/cloudflare

@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-use GeminiLabs\SiteReviews\Helper;
 
 class CreateReviewDefaults extends Defaults
 {
@@ -34,7 +33,7 @@ class CreateReviewDefaults extends Defaults
             'custom' => '',
             'date' => current_time('mysql'),
             'email' => '',
-            'ip_address' => Helper::getIpAddress(),
+            'ip_address' => '',
             'pinned' => false,
             'rating' => '',
             'response' => '',

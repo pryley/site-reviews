@@ -6,21 +6,16 @@ use GeminiLabs\SiteReviews\Application;
 
 class Cache
 {
-    const EXPIRY_TIME = WEEK_IN_SECONDS;
-
     /**
      * @return array
      */
     public function getCloudflareIps()
     {
-        $ipAddresses = get_transient(Application::ID.'_cloudflare_ips');
-        if (false === $ipAddresses) {
+        if (false === ($ipAddresses = get_transient(Application::ID.'_cloudflare_ips'))) {
             $ipAddresses = array_fill_keys(['v4', 'v6'], []);
             foreach (array_keys($ipAddresses) as $version) {
                 $url = 'https://www.cloudflare.com/ips-'.$version;
-                $response = wp_remote_get($url, [
-                    'sslverify' => false,
-                ]);
+                $response = wp_remote_get($url, ['sslverify' => false]);
                 if (is_wp_error($response)) {
                     glsr_log()->error($response->get_error_message());
                     continue;
@@ -33,7 +28,7 @@ class Cache
                     (array) preg_split('/\R/', wp_remote_retrieve_body($response))
                 );
             }
-            set_transient(Application::ID.'_cloudflare_ips', $ipAddresses, static::EXPIRY_TIME);
+            set_transient(Application::ID.'_cloudflare_ips', $ipAddresses, WEEK_IN_SECONDS);
         }
         return $ipAddresses;
     }
@@ -61,14 +56,12 @@ class Cache
      */
     public function getRemotePostTest()
     {
-        $test = get_transient(Application::ID.'_remote_post_test');
-        if (false === $test) {
+        if (false === ($test = get_transient(Application::ID.'_remote_post_test'))) {
             $response = wp_remote_post('https://api.wordpress.org/stats/php/1.0/');
-            $test = !is_wp_error($response)
-                && in_array($response['response']['code'], range(200, 299))
+            $test = !is_wp_error($response) && in_array($response['response']['code'], range(200, 299))
                 ? 'Works'
                 : 'Does not work';
-            set_transient(Application::ID.'_remote_post_test', $test, static::EXPIRY_TIME);
+            set_transient(Application::ID.'_remote_post_test', $test, WEEK_IN_SECONDS);
         }
         return $test;
     }
