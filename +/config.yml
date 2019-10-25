@@ -1,53 +1,14 @@
 bump:
   - readme.txt
   - site-reviews.php
-dest:
-  css: assets/styles/
-  js: assets/scripts/
-  lang: languages/
 language:
+  destination: languages/
   domain: site-reviews
   team: Gemini Labs <support@geminilabs.io>
   translator: Paul Ryley <paul@geminilabs.io>
-scripts:
-  mce-plugin.js: +/scripts/mce-plugin.js
-  site-reviews.js:
-    - node_modules/star-rating.js/src/star-rating.js
-    - +/scripts/public/init.js
-    - +/scripts/public/ajax.js
-    - +/scripts/public/excerpts.js
-    - +/scripts/public/forms.js
-    - +/scripts/public/pagination.js
-    - +/scripts/public/recaptcha.js
-    - +/scripts/public/validation.js
-    - +/scripts/site-reviews.js
-  site-reviews-admin.js:
-    - +/scripts/admin/ajax.js
-    - +/scripts/admin/categories.js
-    - +/scripts/admin/color-picker.js
-    - +/scripts/admin/forms.js
-    - +/scripts/admin/notices.js
-    - +/scripts/admin/pinned.js
-    - +/scripts/admin/pointers.js
-    - +/scripts/admin/search.js
-    - +/scripts/admin/serializer.js
-    - +/scripts/admin/shortcode.js
-    - +/scripts/admin/status.js
-    - +/scripts/admin/sync.js
-    - +/scripts/admin/tabs.js
-    - +/scripts/admin/textarea-resize.js
-    - +/scripts/admin/tools.js
-    - +/scripts/site-reviews-admin.js
-  site-reviews-blocks.js:
-    - +/scripts/blocks/block-form.js
-    - +/scripts/blocks/block-reviews.js
-    - +/scripts/blocks/block-summary.js
-watch:
-  js: +/scripts/**/*.js
-  php:
+  watch:
     - config/**/*.php
     - plugin/**/*.php
     - templates/**/*.php
     - views/**/*.php
     - '*.php'
-  scss: +/styles/**/*.scss

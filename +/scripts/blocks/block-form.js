@@ -1,6 +1,6 @@
 /** global: GLSR */
 
-(function( blocks, components, editor, element, i18n ) {
+(function( blocks, components, editor, element, i18n, $ ) {
 	'use strict';
 	var __ = i18n.__;
 	var blockName = GLSR.nameprefix + '/form';
@@ -153,5 +153,6 @@
 	window.wp.components,
 	window.wp.editor,
 	window.wp.element,
-	window.wp.i18n
+	window.wp.i18n,
+	window.jQuery
 );

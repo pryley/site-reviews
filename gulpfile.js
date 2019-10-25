@@ -1,23 +1,15 @@
-var args            = require('yargs').argv;
-var autoprefixer    = require('gulp-autoprefixer');
-var bump            = require('gulp-bump');
-var checktextdomain = require('gulp-checktextdomain');
-var concat          = require('gulp-concat');
-var cssnano         = require('gulp-cssnano');
-var gulp            = require('gulp');
-var gulpif          = require('gulp-if');
-var jshint          = require('gulp-jshint');
-var mergeStream     = require('merge-stream');
-var potomo          = require('gulp-potomo');
-var pottopo         = require('gulp-pottopo');
-var pump            = require('pump');
-var sass            = require('gulp-sass');
-var sort            = require('gulp-sort');
-var terser          = require('gulp-terser');
-var wpPot           = require('gulp-wp-pot');
-var yaml            = require('yamljs');
+const args            = require('yargs').argv;
+const bump            = require('gulp-bump');
+const checktextdomain = require('gulp-checktextdomain');
+const gulp            = require('gulp');
+const potomo          = require('gulp-potomo');
+const pottopo         = require('gulp-pottopo');
+const pump            = require('pump');
+const sort            = require('gulp-sort');
+const wpPot           = require('gulp-wp-pot');
+const yaml            = require('yamljs');
 
-var config = yaml.load('+/config.yml');
+const config = yaml.load('+/config.yml');
 
 gulp.task('bump', function(cb) {
   var type = 'patch';
@@ -33,42 +25,17 @@ gulp.task('bump', function(cb) {
   ], cb);
 });
 
-gulp.task('js', function(cb) {
-  var streams = mergeStream();
-  for(var key in config.scripts) {
-    if(!config.scripts.hasOwnProperty(key))continue;
-    streams.add(gulp.src(config.scripts[key]).pipe(concat(key)));
-  }
-  pump([
-    streams,
-    gulpif(args.production, terser({
-      mangle: {properties: {regex: /[a-zA-Z]+_$/}},
-      // output: {comments: 'some'},
-    })),
-    gulp.dest(config.dest.js),
-  ], cb);
-});
-
-gulp.task('jshint', function(cb) {
-  pump([
-    gulp.src(config.watch.js),
-    jshint(),
-    jshint.reporter('jshint-stylish'),
-    jshint.reporter('fail'),
-  ], cb);
-});
-
 gulp.task('po-to-mo', function(cb) {
   pump([
-    gulp.src(config.dest.lang + '*.po'),
+    gulp.src(config.language.destination + '*.po'),
     potomo(),
-    gulp.dest(config.dest.lang),
+    gulp.dest(config.language.destination),
   ], cb);
 });
 
 gulp.task('pot', function(cb) {
   pump([
-    gulp.src(config.watch.php),
+    gulp.src(config.language.watch),
     checktextdomain({
       text_domain: config.language.domain,
       keywords: [
@@ -94,39 +61,16 @@ gulp.task('pot', function(cb) {
       lastTranslator: config.language.translator,
       team: config.language.team,
     }),
-    gulp.dest(config.dest.lang + config.language.domain + '.pot'),
+    gulp.dest(config.language.destination + config.language.domain + '.pot'),
   ], cb);
 });
 
 gulp.task('pot-to-po', function(cb) {
   pump([
-    gulp.src(config.dest.lang + '*.pot'),
+    gulp.src(config.language.destination + '*.pot'),
     pottopo(),
-    gulp.dest(config.dest.lang),
+    gulp.dest(config.language.destination),
   ], cb);
 });
 
-gulp.task('scss', function(cb) {
-  pump([
-    gulp.src(config.watch.scss),
-    sass({
-      outputStyle: 'expanded',
-    }).on('error', sass.logError),
-    autoprefixer('last 2 versions'),
-    gulpif(args.production, cssnano({
-      minifyFontValues: false,
-      discardComments: {removeAll: true},
-      zindex: false,
-    })),
-    gulp.dest(config.dest.css),
-  ], cb);
-});
-
-gulp.task('watch', function() {
-  gulp.watch(config.watch.js, gulp.parallel('jshint', 'js'));
-  gulp.watch(config.watch.scss, gulp.parallel('scss'));
-});
-
-gulp.task('languages', gulp.series('pot', 'pot-to-po', 'po-to-mo'));
-gulp.task('default', gulp.parallel('scss', 'jshint', 'js'));
-gulp.task('build', gulp.parallel('default', 'languages'));
+gulp.task('default', gulp.series('pot', 'pot-to-po', 'po-to-mo'));
