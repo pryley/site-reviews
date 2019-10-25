@@ -222,6 +222,13 @@
 		category: GLSR.nameprefix,
 		description: __( 'Display your most recent reviews.', 'site-reviews' ),
 		edit: edit,
+		example: {
+			attributes: { 
+				display: 2,
+				pagination: 'ajax',
+				rating: 0,
+			},
+		},
 		icon: el( components.SVG, {
 			width: '22px',
 			height: '22px',

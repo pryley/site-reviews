@@ -176,7 +176,7 @@
 		category: GLSR.nameprefix,
 		description: __( 'Display a summary of your reviews.', 'site-reviews' ),
 		edit: edit,
-		// icon: 'star-half',
+		example: {},
 		icon: el( components.SVG, {
 			width: '22px',
 			height: '22px',

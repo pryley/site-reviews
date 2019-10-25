@@ -136,6 +136,7 @@
 		category: GLSR.nameprefix,
 		description: __( 'Display a review submission form.', 'site-reviews' ),
 		edit: edit,
+		example: {},
 		icon: el( components.SVG, {
 			width: '22px',
 			height: '22px',
