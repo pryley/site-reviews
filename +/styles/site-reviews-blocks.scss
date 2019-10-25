@@ -14,23 +14,6 @@ $glsr-summary-star-size: 24px;
 
 @import "public/variables";
 
-.wp-block .glsr-shortcode {
-	position: relative;
-	min-height: $glsr-font-size * $glsr-line-height;
-	padding: 14px;
-	z-index: 0;
-	&::before {
-		z-index: -1;
-		content: "";
-		position: absolute;
-		pointer-events: none;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		background-color: rgba(0, 40, 40, 0.028);
-	}
-}
 .wp-block .glsr-shortcode a {
 	pointer-events: none !important;
 }

@@ -88,7 +88,7 @@ td.glsr-string-td1 .row-actions.visible {
 }
 
 .glsr-card-result {
-	border: 1px solid #e1e1e1;
+	border: 1px solid #ccd0d4;
 	background-color: #f6fbfd;
 	padding: 0 1em;
 	margin: 1em 0;
@@ -121,7 +121,7 @@ td.glsr-string-td1 .row-actions.visible {
 	cursor: pointer;
 	user-select: none;
 	box-sizing: border-box;
-	border-bottom: 1px solid #e5e5e5;
+	border-bottom: 1px solid #ccd0d4;
 }
 
 .glsr-card.postbox.closed .glsr-card-header {
@@ -254,7 +254,7 @@ tr.glsr-field li {
 }
 
 .glsr-notice-inline {
-	background: #e5e5e5;
+	background: #ccd0d4;
 	font-size: 14px;
 	color: #666;
 	padding: 4px 10px 10px;
@@ -365,7 +365,7 @@ tr.glsr-field li {
 	overflow-x: scroll;
 	-webkit-overflow-scrolling: touch;
 	background-color: #fff;
-	border: 1px solid #ddd;
+	border: 1px solid #ccd0d4;
 	border-top: none;
 	box-sizing: border-box;
 	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
@@ -418,8 +418,8 @@ tr.glsr-field li {
 .glsr-string-td1 {
 	max-width: 375px;
 	background: #f9f9f9;
-	border-right: 1px solid #e1e1e1;
-	border-bottom: 1px solid #eee;
+	border-right: 1px solid #ccd0d4;
+	border-bottom: 1px solid #ccd0d4;
 	vertical-align: top;
 }
 
@@ -491,7 +491,7 @@ tr.glsr-field li {
 }
 
 .ui-sortable-placeholder + .glsr-string-tr .glsr-string-td1 {
-	border-top: 1px solid #eee;
+	border-top: 1px solid #ccd0d4;
 }
 
 @media screen and (min-width: 783px) {
