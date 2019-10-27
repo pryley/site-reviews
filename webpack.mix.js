@@ -38,10 +38,10 @@ mix.webpackConfig({
 });
 
 mix
-  .babel([
+  .combine([
     '+/scripts/mce-plugin.js',
   ], 'assets/scripts/mce-plugin.js')
-  .babel([
+  .combine([
     '@/star-rating.js/src/star-rating.js',
     '+/scripts/public/init.js',
     '+/scripts/public/ajax.js',
@@ -52,7 +52,7 @@ mix
     '+/scripts/public/validation.js',
     '+/scripts/site-reviews.js',
   ], 'assets/scripts/site-reviews.js')
-  .babel([
+  .combine([
     '+/scripts/admin/ajax.js',
     '+/scripts/admin/categories.js',
     '+/scripts/admin/color-picker.js',
@@ -70,11 +70,7 @@ mix
     '+/scripts/admin/tools.js',
     '+/scripts/site-reviews-admin.js',
   ], 'assets/scripts/site-reviews-admin.js')
-  .babel([
-    '+/scripts/blocks/block-form.js',
-    '+/scripts/blocks/block-reviews.js',
-    '+/scripts/blocks/block-summary.js',
-  ], 'assets/scripts/site-reviews-blocks.js')
+  .js('+/scripts/site-reviews-blocks.js', 'assets/scripts')
   .sass('+/styles/inline-styles.scss', 'assets/styles')
   .sass('+/styles/site-reviews.scss', 'assets/styles')
   .sass('+/styles/site-reviews-admin.scss', 'assets/styles')

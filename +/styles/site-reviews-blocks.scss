@@ -14,6 +14,10 @@ $glsr-summary-star-size: 24px;
 
 @import "public/variables";
 
+.glsr-checkbox-control:not(:last-of-type) {
+	margin-bottom: 0 !important;
+}
+
 .wp-block .glsr-shortcode a {
 	pointer-events: none !important;
 }
