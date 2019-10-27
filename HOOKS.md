@@ -109,7 +109,7 @@
     site-reviews/style
     site-reviews/submission-form/order
     site-reviews/summary/counts
-    site-reviews/support/deprecated
+    site-reviews/support/deprecated/v4
     site-reviews/system/{key}
     site-reviews/tinymce/editor-ids
     site-reviews/translation/entries

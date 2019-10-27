@@ -105,17 +105,18 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
-= 4.1.2 (2019-10-27) =
+= 4.2.0 (2019-10-27) =
 
+- Added WordPress v5.3 compatibility
+- Changed "site-reviews/support/deprecated" filter hook to "site-reviews/support/deprecated/v4"
 - Fixed pagination of reviews on static front page
-- Fixed potential performance issues
+- Fixed performance issues related to IP Address detection
 - Fixed System Info when ini_get() function is disabled
-- Fixed WordPress v5.3 compatibility
 - Rebuilt the WordPress Editor Blocks
 
 = 4.1.1 (2019-10-17) =
 
-- Added "site-reviews/support/deprecated" filter hook
+- Added "site-reviews/support/deprecated/v4" filter hook
 - Fixed potential SSL error when fetching Cloudflare IP ranges
 - Optimised translation usage
 
