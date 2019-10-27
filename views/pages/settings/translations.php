@@ -10,7 +10,7 @@
         <?php wp_nonce_field('search-translations', '_search_nonce', false); ?>
         <div class="glsr-search-results" data-prefix="{{ database_key }}"></div>
     </div>
-    <table class="glsr-strings-table wp-list-table widefat {{ class }}">
+    <table class="glsr-strings-table wp-list-table widefat striped {{ class }}">
         <thead>
             <tr>
                 <th scope="col" class="manage-column column-primary"><?= __('Original Text', 'site-reviews'); ?></th>

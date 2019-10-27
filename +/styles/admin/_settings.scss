@@ -254,11 +254,14 @@ tr.glsr-field li {
 }
 
 .glsr-notice-inline {
-	background: #ccd0d4;
-	font-size: 14px;
-	color: #666;
+	background: rgba(255, 255, 255, 0.65);
+	color: #555;
 	padding: 4px 10px 10px;
-	margin-top: 10px;
+	margin: 10px 0 0 !important;
+
+	p {
+		padding: 0 !important;
+	}
 }
 
 .glsr-field {
@@ -411,22 +414,18 @@ tr.glsr-field li {
 .glsr-string-td1,
 .glsr-string-td2 {
 	border-top: none;
-	border-bottom: 1px solid #f1f1f1;
 	padding: 13px 15px;
 }
 
 .glsr-string-td1 {
 	max-width: 375px;
-	background: #f9f9f9;
 	border-right: 1px solid #ccd0d4;
-	border-bottom: 1px solid #ccd0d4;
 	vertical-align: top;
 }
 
 .glsr-string-td2 {
 	width: 60%;
 	max-width: 375px;
-	background-color: #fff;
 }
 
 .glsr-strings-table p {
@@ -488,10 +487,6 @@ tr.glsr-field li {
 
 .ui-sortable .glsr-string-tr:hover {
 	cursor: move;
-}
-
-.ui-sortable-placeholder + .glsr-string-tr .glsr-string-td1 {
-	border-top: 1px solid #ccd0d4;
 }
 
 @media screen and (min-width: 783px) {

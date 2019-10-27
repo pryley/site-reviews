@@ -151,7 +151,7 @@ class RebusifyController extends Controller
             'target' => '_blank',
         ]);
         return $build->div($notice.$button, [
-            'class' => 'glsr-notice-inline',
+            'class' => 'glsr-notice-inline notice inline notice-info',
         ]);
     }
 
