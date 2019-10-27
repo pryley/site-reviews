@@ -2,8 +2,8 @@
 // Partials -> Dashboard
 // =============================================================================
 
-#dashboard_right_now li a.glsr-review-count:before,
-#dashboard_right_now li > span.glsr-review-count:before {
+#dashboard_right_now li a.glsr-review-count::before,
+#dashboard_right_now li > span.glsr-review-count::before {
 	content: '\f459';
 	line-height: 0.8em;
 }

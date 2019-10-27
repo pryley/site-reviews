@@ -6,8 +6,8 @@
 	position: relative;
 	white-space: nowrap;
 }
-.glsr-button:before,
-.glsr-button:after {
+.glsr-button::before,
+.glsr-button::after {
 	display: inline-block;
 	position: absolute;
 	top: 50%;

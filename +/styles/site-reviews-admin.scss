@@ -30,7 +30,7 @@
 @import "admin/welcome";
 @import "admin/wp-list-table";
 
-#available-widgets [class*="site-reviews"] .widget-title:before {
+#available-widgets [class*="site-reviews"] .widget-title::before {
 	content: "\f459";
 }
 

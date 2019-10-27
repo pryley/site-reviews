@@ -30,7 +30,7 @@ $editorFontFamily: Georgia, "Times New Roman", "Bitstream Charter", Times, serif
 }
 
 .misc-pub-pinned {
-	&:before {
+	&::before {
 		@include pin;
 		top: 0;
 		left: -1px;
