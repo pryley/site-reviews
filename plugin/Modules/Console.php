@@ -321,7 +321,7 @@ class Console
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 6);
         $search = array_search('glsr_log', glsr_array_column($backtrace, 'function'));
         if (false !== $search) {
-            return $this->buildBacktraceLine($backtrace, $search);
+            return $this->buildBacktraceLine($backtrace, (int) $search);
         }
         $search = array_search('log', glsr_array_column($backtrace, 'function'));
         if (false !== $search) {

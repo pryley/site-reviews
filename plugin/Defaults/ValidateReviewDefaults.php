@@ -17,7 +17,7 @@ class ValidateReviewDefaults extends Defaults
             'content' => '',
             'email' => '',
             'form_id' => '',
-            'ip_address' '',
+            'ip_address' => '',
             'name' => '',
             'rating' => '0',
             'terms' => '',

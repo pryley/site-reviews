@@ -42,7 +42,7 @@ mix
     '+/scripts/mce-plugin.js',
   ], 'assets/scripts/mce-plugin.js')
   .combine([
-    '@/star-rating.js/src/star-rating.js',
+    'node_modules/star-rating.js/src/star-rating.js',
     '+/scripts/public/init.js',
     '+/scripts/public/ajax.js',
     '+/scripts/public/excerpts.js',

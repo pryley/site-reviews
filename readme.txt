@@ -3,9 +3,9 @@ Contributors: geminilabs, pryley
 Donate link: https://www.paypal.me/pryley
 Tags: reviews, ratings, business ratings, business reviews, testimonials, site reviews, star rating, wp rating, wp review, wp testimonials
 Requires at least: 4.7.0
-Tested up to: 5.2
+Tested up to: 5.3
 Requires PHP: 5.6
-Stable tag: 4.1.1
+Stable tag: 4.1.2-beta
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -104,6 +104,14 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 9. This is what the Slack notifications look like
 
 == Changelog ==
+
+= 4.1.2 (2019-10-27) =
+
+- Fixed pagination of reviews on static front page
+- Fixed potential performance issues
+- Fixed System Info when ini_get() function is disabled
+- Fixed WordPress v5.3 compatibility
+- Rebuilt the WordPress Editor Blocks
 
 = 4.1.1 (2019-10-17) =
 

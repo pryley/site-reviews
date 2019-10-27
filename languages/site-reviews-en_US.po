@@ -1160,7 +1160,7 @@ msgstr "This field must have between %s and %s characters."
 msgid "This field requires a valid e-mail address."
 msgstr "This field requires a valid e-mail address."
 
-#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/ValidateReview.php:153
+#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/ValidateReview.php:154
 msgid "Please fix the submission errors."
 msgstr "Please fix the submission errors."
 
@@ -1220,7 +1220,7 @@ msgstr "Review unpinned."
 msgid "Console is empty"
 msgstr "Console is empty"
 
-#: plugin/Modules/Console.php:438
+#: plugin/Modules/Console.php:442
 msgid "Console was automatically cleared (128 KB maximum size)"
 msgstr "Console was automatically cleared (128 KB maximum size)"
 
@@ -1658,27 +1658,27 @@ msgstr "Filter by type"
 msgid "All types"
 msgstr "All types"
 
-#: plugin/Modules/Validator/ValidateReview.php:188
+#: plugin/Modules/Validator/ValidateReview.php:189
 msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr "This review has been flagged as possible spam and cannot be submitted."
 
-#: plugin/Modules/Validator/ValidateReview.php:210
+#: plugin/Modules/Validator/ValidateReview.php:211
 msgid "Your review cannot be submitted at this time."
 msgstr "Your review cannot be submitted at this time."
 
-#: plugin/Modules/Validator/ValidateReview.php:229, plugin/Modules/Validator/ValidateReview.php:243
+#: plugin/Modules/Validator/ValidateReview.php:230, plugin/Modules/Validator/ValidateReview.php:244
 msgid "The review submission failed. Please notify the site administrator."
 msgstr "The review submission failed. Please notify the site administrator."
 
-#: plugin/Modules/Validator/ValidateReview.php:258
+#: plugin/Modules/Validator/ValidateReview.php:259
 msgid "You have already submitted a review."
 msgstr "You have already submitted a review."
 
-#: plugin/Modules/Validator/ValidateReview.php:281
+#: plugin/Modules/Validator/ValidateReview.php:282
 msgid "The reCAPTCHA failed to load, please refresh the page and try again."
 msgstr "The reCAPTCHA failed to load, please refresh the page and try again."
 
-#: plugin/Modules/Validator/ValidateReview.php:282
+#: plugin/Modules/Validator/ValidateReview.php:283
 msgid "The reCAPTCHA verification failed, please try again."
 msgstr "The reCAPTCHA verification failed, please try again."
 
