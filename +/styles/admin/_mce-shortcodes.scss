@@ -69,7 +69,7 @@ button.glsr-mce-button {
 		width: 0;
 		height: 0;
 		content: '';
-		border-top: 6px solid #777;
+		border-top: 6px solid currentColor;
 		border-right: 4px solid transparent;
 		border-left: 4px solid transparent;
 	}
@@ -77,7 +77,7 @@ button.glsr-mce-button {
 	&.active::after {
 		top: -2px;
 		border-top: 0;
-		border-bottom: 6px solid #32373c;
+		border-bottom: 6px solid currentColor;
 	}
 
 	&:active {
