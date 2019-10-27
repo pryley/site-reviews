@@ -38,7 +38,7 @@ mix.webpackConfig({
 });
 
 mix
-  .combine([
+  .babel([
     '+/scripts/mce-plugin.js',
   ], 'assets/scripts/mce-plugin.js')
   .combine([
