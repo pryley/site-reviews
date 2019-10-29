@@ -6,7 +6,7 @@
         <div class="glsr-column">
             <div class="card is-fullwidth">
                 <h3>4.2.0</h3>
-                <p><em>Release Date &mdash; October 27th, 2019</em></p>
+                <p><em>Release Date &mdash; October 29th, 2019</em></p>
                 <h4>New Features</h4>
                 <ul>
                     <li>Added the <code>site-reviews/support/deprecated/v4</code> filter hook. If this hook returns <code>false</code> then the plugin will skip deprecated checks. If the plugin console does not show any deprecated notices, then it should be safe to use this hook for increased performance.</li>

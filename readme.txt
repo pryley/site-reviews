@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.3
 Requires PHP: 5.6
-Stable tag: 4.1.2-beta
+Stable tag: 4.2.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,7 +105,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
-= 4.2.0 (2019-10-27) =
+= 4.2.0 (2019-10-29) =
 
 - Added WordPress v5.3 compatibility
 - Changed "site-reviews/support/deprecated" filter hook to "site-reviews/support/deprecated/v4"
