@@ -6,9 +6,9 @@ use DateTime;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Schema\UnknownType;
 use GeminiLabs\SiteReviews\Review;
-use WP_Post;
 
 class Schema
 {
@@ -280,11 +280,20 @@ class Schema
      */
     protected function getThingDescription()
     {
-        $excerpt = has_excerpt()
-            ? get_the_excerpt()
-            : get_the_content();
-        $description = strip_shortcodes(wp_strip_all_tags($excerpt));
-        return wp_trim_words($description, apply_filters('excerpt_length', 55));
+        $post = get_post();
+        $text = Arr::get($post, 'post_excerpt');
+        if (empty($text)) {
+            $text = Arr::get($post, 'post_content');
+        }
+        if (function_exists('excerpt_remove_blocks')) {
+            $text = excerpt_remove_blocks($text);
+        }
+        $text = strip_shortcodes($text);
+        $text = wpautop($text);
+        $text = wptexturize($text);
+        $text = wp_strip_all_tags($text);
+        $text = str_replace(']]>', ']]&gt;', $text);
+        return wp_trim_words($text, apply_filters('excerpt_length', 55));
     }
 
     /**
