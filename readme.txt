@@ -26,35 +26,34 @@ You can pin your best reviews so that they are always shown first, require appro
 = Current Features =
 
 - Actively developed and supported
-- Ajax pagination of reviews
-- Akismet integration for spam-validation
 - Asian language support
-- Assign reviews to a Post/Page ID
-- Backup and restore plugin settings
-- Bayesian ranking for posts with assigned reviews (can be used for WP_Query sorting)
-- Block Editor support with custom configurable blocks
-- Clean and easy-to-configure interface
-- Complete documentation
-- Configurable Widgets
-- Custom notifications (including Slack support)
+- Avatars: Provided by the WordPress Gravatar service
+- Backup and restore your plugin settings as needed
+- Bayesian Ranking: Easily sort pages with assigned reviews by rank (using the bayesian algorithm) in your custom WP_Query
+- Blacklist words, phrases, IP addresses, names, and emails
+- Blockchain Validation: Verify your reviews on the Blockchain with Rebusify
+- Categories: Add your own categories and assign reviews to them.
+- Developer Friendly: Designed for WordPress developers with over 100 filter hooks and convenient functions
+- Documentation: FAQ and documenation for hooks and all shortcodes and functions
 - Easy setup and implementation
-- Honeypot (spam trap) implemented in the submission form
-- Multisite support
-- Plugin styles to match popular themes, form plugins, and CSS frameworks
-- Polylang integration for multilingual websites
-- Rating Snippets in Google search results (schema.org JSON-LD markup)
+- Editor Blocks that allow full customisation
+- JSON-LD Schema: Display your reviews and ratings in search results
+- Multilingual: Integrates with Polylang and WPML and provides easy search/replace translation
+- Multisite Support
+- Notifications: Send notifications to one or more emails when a review is submitted
+- Page Assignment: Assign reviews to Posts, Pages, and Custom Post Types (i.e. Products)
+- Pagination: Display a set number of reviews per-page with AJAX
 - Relative dates
-- Review avatars (gravatar.com)
-- Review blacklist
-- Review categories
-- Review responses
-- Reviews summary
-- Shortcode button dropdown in the Classic Editor
-- Shortcodes: display reviews in your post content and templates
-- Templates
-- Translate any plugin text
-- Use Google's Invisible reCAPTCHA on submission forms
-- WordPress.org support
+- Responses: Write responses to reviews
+- Restrictions: Require approval before publishing reviews, restrict review submissions to registered users, and limit review submissions by email address, IP address, or username
+- Review Summaries: Display a summary of your review ratings from high to low.
+- Shortcodes: Configurable shortcodes complete with full documentation
+- Slack Integration: Receive notifications in Slack when a review is submitted
+- SPAM Protection: Built-in Honeypot protection; integrate with Invisible reCAPTCHA and Akismet
+- Styles: Change the submission form style to match popular themes and form plugins
+- Support: Free premium-level support included on the WordPress.org support forum
+- Templates: Use the Site Reviews templates in your theme for full control over the HTML
+- Widgets: Configurable widgets for your sidebars
 
 == Installation ==
 
@@ -85,23 +84,35 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Screenshots ==
 
-1. A view of the All Reviews page
+1. The "All Reviews" page.
 
-2. A view of the Edit Review page
+2. The "Edit Review" page.
 
-3. A view of the Site Reviews &gt; Settings page
+3. Site Reviews has full support for the new Blocks Editor and includes custom blocks for each of the shortcodes.
 
-4. A view of the Site Reviews &gt; Tools page where you can export/import the plugin settings
+4. If you are still using the Classic Editor, Site Reviews adds a dropdown to easily add any of the shortcodes.
 
-5. Site Reviews provides extensive documentation with the plugin
+5. Site Reviews also provides three custom widgets.
 
-6. Site Reviews supports the Block Editor and includes blocks for each of the shortcodes
+6. Site Reviews provides a Help page with answers to frequently asked questions and complete documentation for all available shortcode options.
 
-7. Site Reviews adds a dropdown in the Classic Editor to easily add any of the shortcodes
+7. The "General" settings page.
 
-8. A view of the Site Reviews widgets
+8. The "Reviews" settings page.
 
-9. This is what the Slack notifications look like
+9. The "Submissions" settings page.
+
+10. The "Schema" settings page.
+
+11. The "Translations" settings page, here you can easily add a custom translation for any text in the plugin.
+
+12. The "General" tools page. This is where you can export/import the plugin settings, and perform a recalculation of your reviews rating counts (used in the summary).
+
+13. The "Console" tools page. If you experience any issues with the plugin, the console logger is the first pace to look.
+
+14. The "System Info" tools page. This provides information about the configuration of your server, your website, and the Site Reviews plugin.
+
+15. This is what the Slack notifications look like.
 
 == Changelog ==
 
