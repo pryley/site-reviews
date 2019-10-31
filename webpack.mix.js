@@ -83,3 +83,7 @@ mix
   .sass('+/styles/custom/twentynineteen.scss', 'assets/styles/custom')
   .sass('+/styles/custom/twentyseventeen.scss', 'assets/styles/custom')
   .browserSync('site-reviews.test');
+
+if (mix.inProduction()) {
+  // mix.bundleAnalyzer();
+}

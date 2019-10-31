@@ -18,7 +18,7 @@
     "laravel-mix": "^5.0.0",
     "laravel-mix-bundle-analyzer": "^1.0.2",
     "pump": "^3.0.0",
-    "sass": "^1.23.0",
+    "sass": "^1.23.2",
     "sass-loader": "^8.0.0",
     "vue-template-compiler": "^2.6.10",
     "yamljs": "^0.3.0",
@@ -26,6 +26,7 @@
   },
   "private": true,
   "scripts": {
+    "build": "gulp && npm run production",
     "dev": "npm run development",
     "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
