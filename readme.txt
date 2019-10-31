@@ -116,6 +116,10 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
+= 4.2.1 (2019-10-31) =
+
+- Fixed a potential 503 HTTP error triggered when a shortcode with the schema option enabled is used inside "the_content" hook
+
 = 4.2.0 (2019-10-29) =
 
 - Added WordPress v5.3 compatibility

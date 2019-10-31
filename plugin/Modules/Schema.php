@@ -20,6 +20,11 @@ class Schema
     /**
      * @var array
      */
+    protected $keyValues = [];
+
+    /**
+     * @var array
+     */
     protected $ratingCounts;
 
     /**
@@ -239,16 +244,19 @@ class Schema
      */
     protected function getSchemaOptionValue($option, $fallback = 'post')
     {
+        if (array_key_exists($option, $this->keyValues)) {
+            return $this->keyValues[$option];
+        }
         $value = $this->getSchemaOption($option, $fallback);
         if ($value != $fallback) {
-            return $value;
+            return $this->setAndGetKeyValue($option, $value);
         }
         if (!is_single() && !is_page()) {
             return;
         }
         $method = Helper::buildMethodName($option, 'getThing');
         if (method_exists($this, $method)) {
-            return $this->$method();
+            return $this->setAndGetKeyValue($option, $this->$method());
         }
     }
 
@@ -272,7 +280,10 @@ class Schema
      */
     protected function getThingDescription()
     {
-        $description = strip_shortcodes(wp_strip_all_tags(get_the_excerpt()));
+        $excerpt = has_excerpt()
+            ? get_the_excerpt()
+            : get_the_content();
+        $description = strip_shortcodes(wp_strip_all_tags($excerpt));
         return wp_trim_words($description, apply_filters('excerpt_length', 55));
     }
 
@@ -298,5 +309,16 @@ class Schema
     protected function getThingUrl()
     {
         return (string) get_the_permalink();
+    }
+
+    /**
+     * @param string $option
+     * @param string $value
+     * @return string
+     */
+    protected function setAndGetKeyValue($option, $value)
+    {
+        $this->keyValues[$option] = $value;
+        return $value;
     }
 }
