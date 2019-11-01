@@ -6,14 +6,74 @@
 	var GLSR_Form = function( formEl, buttonEl ) { // HTMLElement, HTMLElement
 		this.button = buttonEl;
 		this.config = GLSR.validationconfig;
+		this.events = {
+			submit: this.onSubmit_.bind(this),
+		};
 		this.form = formEl;
+		this.isActive = false;
 		this.recaptcha = new GLSR.Recaptcha( this );
+		this.stars = null;
 		this.strings = GLSR.validationstrings;
 		this.useAjax = this.isAjaxEnabled_();
 		this.validation = new GLSR.Validation( formEl );
 	};
 
 	GLSR_Form.prototype = {
+
+		/** @return void */
+		destroy: function() {
+			this.destroyForm();
+			this.destroyRecaptcha();
+			this.destroyStarRatings();
+			this.isActive = false;
+		},
+
+		/** @return void */
+		destroyForm: function() {
+			this.form.removeEventListener('submit', this.events.submit);
+		},
+
+		/** @return void */
+		destroyRecaptcha: function() {
+			this.recaptcha.destroy_();
+		},
+
+		/** @return void */
+		destroyStarRatings: function() {
+			if (this.stars) {
+				this.stars.destroy();
+				delete this.stars;
+			}
+		},
+
+		/** @return void */
+		init: function() {
+			if (this.isActive) return;
+			this.initForm();
+			this.initStarRatings();
+			this.initRecaptcha();
+			this.isActive = true;
+		},
+
+		/** @return void */
+		initForm: function() {
+			this.destroyForm();
+			this.form.addEventListener('submit', this.events.submit);
+		},
+
+		/** @return void */
+		initRecaptcha: function() {
+			this.recaptcha.render_();
+		},
+
+		/** @return void */
+		initStarRatings: function() {
+			this.destroyStarRatings();
+			this.stars = new StarRating(this.form.querySelectorAll('select.glsr-star-rating'), {
+				clearable: false,
+				showText: false,
+			});
+		},
 
 		/** @return void */
 		addRemoveClass_: function( el, classValue, bool ) { // HTMLElement, string, bool
@@ -52,21 +112,6 @@
 			if( wasSuccessful && response.redirect !== '' ) {
 				window.location = response.redirect;
 			}
-		},
-
-		/** @return void */
-		init_: function() {
-			this.form.addEventListener( 'submit', this.onSubmit_.bind( this ));
-			this.initStarRatings_();
-			this.recaptcha.render_();
-		},
-
-		/** @return void */
-		initStarRatings_: function() {
-			new StarRating( 'select.glsr-star-rating', {
-				clearable: false,
-				showText: false,
-			});
 		},
 
 		/** @return bool */
@@ -140,18 +185,24 @@
 		},
 	};
 
-	GLSR.Forms = function( shouldInit ) { // bool
-		var form, submitButton;
-		this.nodeList = document.querySelectorAll( 'form.glsr-form' );
-		this.forms = [];
-		for( var i = 0; i < this.nodeList.length; i++ ) {
-			submitButton = this.nodeList[i].querySelector( '[type=submit]' );
-			if( !submitButton )continue;
-			form = new GLSR_Form( this.nodeList[i], submitButton );
-			if( shouldInit ) {
-				form.init_();
+	GLSR.Forms = function (shouldInit) { // bool
+		var form, forms, submitButton;
+		forms = document.querySelectorAll('form.glsr-form');
+		for (var i = 0; i < forms.length; i++) {
+			submitButton = forms[i].querySelector('[type=submit]');
+			if (!submitButton) continue;
+			var index = GLSR.forms.findIndex(function (obj) {
+				return obj.form === forms[i];
+			});
+			if (-1 !== index && shouldInit) {
+				GLSR.forms[index].init();
+				continue;
 			}
-			this.forms.push( form );
+			form = new GLSR_Form(forms[i], submitButton);
+			if (shouldInit) {
+				form.init();
+			}
+			GLSR.forms.push(form);
 		}
 	};
 })();

@@ -8,6 +8,7 @@
 		this.counter = 0;
 		this.id = -1;
 		this.is_submitting = false;
+		this.recaptchaEl = Form.form.querySelector('.glsr-recaptcha-holder');
 		this.observer = new MutationObserver( function( mutations ) {
 			var mutation = mutations.pop();
 			if( !mutation.target || mutation.target.style.visibility === 'visible' )return;
@@ -20,6 +21,16 @@
 	};
 
 	GLSR.Recaptcha.prototype = {
+
+		/** @return void */
+		destroy_: function() {
+			this.counter = 0;
+			this.id = -1;
+			this.is_submitting = false;
+			if (this.recaptchaEl) {
+				this.recaptchaEl.innerHTML = '';
+			}
+		},
 
 		/** @return void */
 		execute_: function() {
@@ -55,19 +66,18 @@
 		/** @return void */
 		render_: function() {
 			this.Form.form.onsubmit = null;
-			var recaptchaEl = this.Form.form.querySelector( '.glsr-recaptcha-holder' );
-			if( !recaptchaEl )return;
-			recaptchaEl.innerHTML = '';
-			this.renderWait_( recaptchaEl );
+			this.destroy_();
+			this.renderWait_();
 		},
 
 		/** @return void */
-		renderWait_: function( recaptchaEl ) {
+		renderWait_: function() {
+			if (!this.recaptchaEl) return;
 			setTimeout( function() {
 				if( typeof grecaptcha === 'undefined' || typeof grecaptcha.render === 'undefined' ) {
-					return this.renderWait_( recaptchaEl );
+					return this.renderWait_();
 				}
-				this.id = grecaptcha.render( recaptchaEl, {
+				this.id = grecaptcha.render(this.recaptchaEl, {
 					callback: this.submitForm_.bind( this.Form, this.counter ),
 					// 'error-callback': this.reset_.bind( this ), //@todo
 					// error-callback: The name of your callback function, executed when reCAPTCHA encounters an error (usually network connectivity) and cannot continue until connectivity is restored. If you specify a function here, you are responsible for informing the user that they should retry.

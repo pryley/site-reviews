@@ -1,3 +1,4 @@
-if( !window.hasOwnProperty( 'GLSR' )) {
-	window.GLSR = {};
+if (!window.hasOwnProperty('GLSR')) {
+    window.GLSR = {};
 }
+window.GLSR.forms = [];
