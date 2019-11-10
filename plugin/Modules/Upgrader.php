@@ -31,8 +31,7 @@ class Upgrader
             $className = str_replace('.php', '', $file);
             $upgradeFromVersion = str_replace(['Upgrade_', '_'], ['', '.'], $className);
             $suffix = preg_replace('/[\d.]+(.+)?/', '${1}', glsr()->version); // allow alpha/beta versions
-            if ('0.0.0' == $this->currentVersion
-                || version_compare($this->currentVersion, $upgradeFromVersion.$suffix, '>=')) {
+            if (version_compare($this->currentVersion, $upgradeFromVersion.$suffix, '>=')) {
                 return;
             }
             glsr('Modules\\Upgrader\\'.$className);
