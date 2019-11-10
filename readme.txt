@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Requires at least: 4.7.0
 Tested up to: 5.3
 Requires PHP: 5.6
-Stable tag: 4.2.3
+Stable tag: 4.2.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,7 +116,15 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
-= 4.2.2 (2019-11-01) =
+= 4.2.4 (2019-11-10) =
+
+- Added "glsr-is-valid" class to form fields on successful validation
+- Fixed CSS conflicts in the WordPress Admin
+- Fixed IE11 compatibility
+- Fixed plugin settings
+- Fixed upgrade migrations from version 2
+
+= 4.2.3 (2019-11-01) =
 
 - Improved the javascript used with the submission form
 
