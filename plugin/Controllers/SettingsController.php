@@ -47,14 +47,17 @@ class SettingsController extends Controller
      */
     protected function sanitizeGeneral(array $input, array $options)
     {
-        $inputForm = $input['settings']['general'];
-        if (!$this->hasMultilingualIntegration($inputForm['support']['multilingual'])) {
-            $options['settings']['general']['support']['multilingual'] = '';
+        $key = 'settings.general';
+        $inputForm = Arr::get($input, $key);
+        if (!$this->hasMultilingualIntegration(Arr::get($inputForm, 'multilingual'))) {
+            $options = Arr::set($options, $key.'.multilingual', '');
         }
-        if ('' == trim($inputForm['notification_message'])) {
-            $options['settings']['general']['notification_message'] = glsr()->defaults['settings']['general']['notification_message'];
+        if ('' == trim(Arr::get($inputForm, 'notification_message'))) {
+            $defaultValue = Arr::get(glsr()->defaults, $key.'.notification_message');
+            $options = Arr::set($options, $key.'.notification_message', $defaultValue);
         }
-        $options['settings']['general']['notifications'] = Arr::get($inputForm, 'notifications', []);
+        $defaultValue = Arr::get($inputForm, 'notifications', []);
+        $options = Arr::set($options, $key.'.notifications', $defaultValue);
         return $options;
     }
 
@@ -63,10 +66,12 @@ class SettingsController extends Controller
      */
     protected function sanitizeSubmissions(array $input, array $options)
     {
-        $inputForm = $input['settings']['submissions'];
-        $options['settings']['submissions']['required'] = isset($inputForm['required'])
+        $key = 'settings.submissions';
+        $inputForm = Arr::get($input, $key);
+        $defaultValue = isset($inputForm['required'])
             ? $inputForm['required']
             : [];
+        $options = Arr::set($options, $key.'.required', $defaultValue);
         return $options;
     }
 
@@ -75,8 +80,10 @@ class SettingsController extends Controller
      */
     protected function sanitizeTranslations(array $input, array $options)
     {
-        if (isset($input['settings']['strings'])) {
-            $options['settings']['strings'] = array_values(array_filter($input['settings']['strings']));
+        $key = 'settings.strings';
+        $inputForm = Arr::consolidateArray(Arr::get($input, $key));
+        if (!empty($inputForm)) {
+            $options = Arr::set($options, $key, array_values(array_filter($inputForm)));
             $allowedTags = [
                 'a' => ['class' => [], 'href' => [], 'target' => []],
                 'span' => ['class' => []],

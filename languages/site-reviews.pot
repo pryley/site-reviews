@@ -1013,11 +1013,11 @@ msgstr ""
 msgid "Settings updated."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:107
+#: plugin/Controllers/SettingsController.php:114
 msgid "Please install/activate the %s plugin to enable integration."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:113
+#: plugin/Controllers/SettingsController.php:120
 msgid "Please update the %s plugin to v%s or greater to enable integration."
 msgstr ""
 
