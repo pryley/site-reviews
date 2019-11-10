@@ -17,6 +17,7 @@ class StyleValidationDefaults extends Defaults
             'field_class' => 'glsr-field',
             'field_error_class' => 'glsr-has-error',
             'input_error_class' => 'glsr-is-invalid',
+            'input_valid_class' => 'glsr-is-valid',
             'message_error_class' => 'glsr-has-errors',
             'message_initial_class' => 'glsr-is-visible',
             'message_success_class' => 'glsr-has-success',

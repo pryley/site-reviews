@@ -113,6 +113,7 @@
 				if( !this.fields.hasOwnProperty( i ))continue;
 				this.fields[i].errorElements = null;
 				this.fields[i].input.classList.remove( this.config.input_error_class );
+				this.fields[i].input.classList.remove( this.config.input_valid_class );
 			}
 			[].map.call( this.form.querySelectorAll( '.' + this.config.error_tag_class ), function( el ) {
 				el.parentNode.classList.remove( this.config.field_error_class );
@@ -178,7 +179,8 @@
 		toggleError_: function( field, action ) {
 			var errorEls = this.getErrorElements_( field );
 			var isShowingError = action === 'add';
-			field.input.classList[action]( this.config.input_error_class );
+			field.input.classList[action](this.config.input_error_class);
+			field.input.classList[isShowingError ? 'remove' : 'add'](this.config.input_valid_class);
 			if( errorEls[0] ) {
 				errorEls[0].classList[action]( this.config.field_error_class );
 			}
