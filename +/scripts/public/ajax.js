@@ -17,13 +17,14 @@
 
 		/** @return void */
 		handleError_: function( callback ) {
-			if( this.xhr.responseType === 'json' ) {
+			if( this.xhr.responseType === 'json' || this.xhr.json === true /* @IE11 */ ) {
 				return callback( { message: this.xhr.statusText }, false );
 			}
 			else if( this.xhr.responseType === 'text' ) {
 				return callback( this.xhr.statusText );
 			}
-			console.log( this.xhr );
+			console.log(this.xhr.responseText);
+			console.log(this.xhr.response);
 		},
 
 		/** @return void */
@@ -35,7 +36,12 @@
 				if( this.xhr.responseType === 'text' ) {
 					return callback( this.xhr.responseText );
 				}
-				console.log( this.xhr );
+				if (this.xhr.json === true ) { //@IE11
+					var response = JSON.parse(this.xhr.response);
+					return callback( response.data, response.success );
+				}
+				console.log(this.xhr.responseText);
+				console.log(this.xhr.response);
 			}
 			else {
 				this.handleError_( callback );
@@ -65,6 +71,7 @@
 			this.prepareRequest_( callback );
 			this.xhr.open( 'POST', GLSR.ajaxurl, true );
 			this.xhr.responseType = 'json';
+			this.xhr.json = true; // @IE11
 			this.setHeaders_( headers );
 			this.xhr.send( this.normalizeData_( formOrData ));
 		},

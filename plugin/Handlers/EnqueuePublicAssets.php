@@ -58,7 +58,7 @@ class EnqueuePublicAssets
             return;
         }
         wp_enqueue_script(Application::ID.'/polyfill', add_query_arg([
-            'features' => 'Array.prototype.findIndex,Array.prototype.forEach,CustomEvent,Element.prototype.closest,Element.prototype.dataset,Event,XMLHttpRequest,MutationObserver',
+            'features' => 'Array.prototype.findIndex,CustomEvent,Element.prototype.closest,Element.prototype.dataset,Event,XMLHttpRequest,MutationObserver',
             'flags' => 'gated',
         ], 'https://polyfill.io/v3/polyfill.min.js'));
     }
