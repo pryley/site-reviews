@@ -5,6 +5,10 @@ require('laravel-mix-bundle-analyzer');
 
 mix.disableSuccessNotifications();
 
+mix.babelConfig({
+  presets: ["@wordpress/default"],
+});
+
 mix.options({
   clearConsole: false,
   cssNano: {
