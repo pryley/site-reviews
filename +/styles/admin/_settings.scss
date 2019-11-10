@@ -65,7 +65,7 @@ td.glsr-string-td1 .row-actions.visible {
 }
 
 @media screen and (max-width: 782px) {
-	.wp-list-table .is-expanded.is-invalid td:not(.hidden) {
+	.post-type-site-review .wp-list-table .is-expanded.is-invalid td:not(.hidden) {
 		overflow: unset;
 	}
 }
@@ -201,7 +201,7 @@ td.glsr-string-td1 .row-actions.visible {
 	}
 }
 
-.float-left {
+.glsr-float-left {
 	float: left;
 	padding-right: 0.25em;
 }

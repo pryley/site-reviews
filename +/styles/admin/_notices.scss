@@ -2,15 +2,6 @@
 // Partials -> Notices
 // =============================================================================
 
-/* WordPress compatibility
--------------------------------------------------------------------- */
-
-body.branch-4 {
-	.notice-warning {
-		border-color: #ffba00;
-	}
-}
-
 .glsr-notice:not(.notice-info) {
     display: flex;
     border-left-color: #32373c;
@@ -42,4 +33,13 @@ body.branch-4 {
 .glsr-notice-content .button {
     margin-top: 0;
     margin-bottom: 12px;
+}
+
+/* WordPress compatibility
+-------------------------------------------------------------------- */
+
+body.branch-4 {
+    .notice-warning {
+        border-color: #ffba00;
+    }
 }

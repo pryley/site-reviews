@@ -30,15 +30,15 @@ class EnqueueAdminAssets
      */
     public function enqueueAssets()
     {
+        if (!$this->isCurrentScreen()) {
+            return;
+        }
         wp_enqueue_style(
             Application::ID,
             glsr()->url('assets/styles/'.Application::ID.'-admin.css'),
             [],
             glsr()->version
         );
-        if (!$this->isCurrentScreen()) {
-            return;
-        }
         wp_enqueue_script(
             Application::ID,
             glsr()->url('assets/scripts/'.Application::ID.'-admin.js'),

@@ -103,20 +103,3 @@ button.glsr-mce-button {
 div.sc-wrap {
 	margin-right: 1px;
 }
-
-/* WordPress compatibility
--------------------------------------------------------------------- */
-
-body.branch-4,
-body.branch-4-1,
-body.branch-4-2 {
-
-	i.mce-i-checkbox {
-		background-image: none;
-	}
-
-	.glsr-mce-menu .glsr-mce-menu-item:hover {
-		background: #0073aa;
-		color: #fff;
-	}
-}

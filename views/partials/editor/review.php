@@ -4,7 +4,7 @@
     <input type="text" id="title" value="<?= $post->post_title ? esc_attr($post->post_title) : sprintf('(%s)', __('no title', 'site-reviews')); ?>" readonly>
 </div>
 
-<div id="contentdiv">
+<div id="contentdiv" class="wp-editor-container">
     <textarea readonly><?= esc_attr($post->post_content); ?></textarea>
 </div>
 

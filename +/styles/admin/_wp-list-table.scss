@@ -3,27 +3,18 @@
 // =============================================================================
 
 .glsr-metabox-table .star-rating .star,
-.type-site-review .star-rating .star {
+.post-type-site-review .star-rating .star {
 	width: 16px;
 	font-size: 16px;
 	line-height: 20px;
 	color: #555;
 }
-.type-site-review .star-rating .star {
+.post-type-site-review .star-rating .star {
 	margin-top: -2px;
 }
 
 
-
-
-
-
-
-
-
-
-
-.hide-column-tog + .pinned-icon + svg {
+.post-type-site-review .hide-column-tog + .pinned-icon + svg {
 	display: none;
 }
 
