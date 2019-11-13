@@ -119,6 +119,8 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 = 4.2.5 (2019-11-13) =
 
 - Fixed documentation for glsr_create_review()
+- Fixed pagination when WordPress is installed in a subdirectory
+
 = 4.2.4 (2019-11-10) =
 
 - Added "glsr-is-valid" class to form fields on successful validation

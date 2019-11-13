@@ -146,11 +146,16 @@ class AjaxController extends Controller
      */
     public function routerFetchPagedReviews(array $request)
     {
+        $homePath = untrailingslashit(parse_url(home_url(), PHP_URL_PATH));
+        $urlPath = untrailingslashit(parse_url(Arr::get($request, 'url'), PHP_URL_PATH));
         $urlQuery = [];
         parse_str(parse_url(Arr::get($request, 'url'), PHP_URL_QUERY), $urlQuery);
+        $pagedUrl = $homePath === $urlPath
+            ? home_url()
+            : home_url($urlPath);
         $args = [
-            'paged' => Arr::get($urlQuery, glsr()->constant('PAGED_QUERY_VAR'), 1),
-            'pagedUrl' => home_url(parse_url(Arr::get($request, 'url'), PHP_URL_PATH)),
+            'paged' => (int) Arr::get($urlQuery, glsr()->constant('PAGED_QUERY_VAR'), 1),
+            'pagedUrl' => trailingslashit($pagedUrl),
             'pagination' => 'ajax',
             'schema' => false,
         ];
