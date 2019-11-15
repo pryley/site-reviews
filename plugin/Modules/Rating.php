@@ -49,9 +49,10 @@ class Rating
     {
         $average = array_sum($ratingCounts);
         if ($average > 0) {
-            $average = round($this->getTotalSum($ratingCounts) / $average, intval($roundBy));
+            $average = $this->getTotalSum($ratingCounts) / $average;
         }
-        return floatval(apply_filters('site-reviews/rating/average', $average, $ratingCounts));
+        $roundedAverage = round($average, intval($roundBy));
+        return floatval(apply_filters('site-reviews/rating/average', $roundedAverage, $ratingCounts, $average));
     }
 
     /**

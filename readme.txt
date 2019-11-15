@@ -116,6 +116,10 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
+= 4.2.6 (2019-11-15) =
+
+- Changed "site-reviews/rating/average" hook
+
 = 4.2.5 (2019-11-13) =
 
 - Fixed documentation for glsr_create_review()
