@@ -116,9 +116,10 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
-= 4.2.6 (2019-11-15) =
+= 4.2.7 (2019-11-15) =
 
 - Changed "site-reviews/rating/average" hook
+- Fixed review limits by email and IP address
 
 = 4.2.5 (2019-11-13) =
 

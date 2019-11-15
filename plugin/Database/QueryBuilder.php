@@ -145,6 +145,34 @@ class QueryBuilder
      * @param string $value
      * @return void|array
      */
+    protected function buildQueryEmail($value)
+    {
+        if (!empty($value)) {
+            return [
+                'key' => '_email',
+                'value' => $value,
+            ];
+        }
+    }
+
+    /**
+     * @param string $value
+     * @return void|array
+     */
+    protected function buildQueryIpAddress($value)
+    {
+        if (!empty($value)) {
+            return [
+                'key' => '_ip_address',
+                'value' => $value,
+            ];
+        }
+    }
+
+    /**
+     * @param string $value
+     * @return void|array
+     */
     protected function buildQueryRating($value)
     {
         if (is_numeric($value)
