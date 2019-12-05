@@ -1296,27 +1296,27 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:10
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:12
 msgid "Hide the rating field"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:11
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:13
 msgid "Hide the title field"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:12
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:14
 msgid "Hide the review field"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:13
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:15
 msgid "Hide the name field"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:14
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:16
 msgid "Hide the email field"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:15
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:17
 msgid "Hide the terms field"
 msgstr ""
 

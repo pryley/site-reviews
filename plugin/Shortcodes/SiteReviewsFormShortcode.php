@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Shortcodes;
 
+use GeminiLabs\SiteReviews\Application;
+
 class SiteReviewsFormShortcode extends Shortcode
 {
     protected function hideOptions()
@@ -25,7 +27,7 @@ class SiteReviewsFormShortcode extends Shortcode
     {
         $atts = parent::normalizeAtts($atts, $type);
         if (empty($atts['id'])) {
-            $atts['id'] = substr(md5(serialize($atts)), 0, 8);
+            $atts['id'] = Application::PREFIX.substr(md5(serialize($atts)), 0, 8);
         }
         return $atts;
     }

@@ -1338,27 +1338,27 @@ msgstr "Add custom CSS classes to the shortcode."
 msgid "Hide"
 msgstr "Hide"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:10
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:12
 msgid "Hide the rating field"
 msgstr "Hide the rating field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:11
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:13
 msgid "Hide the title field"
 msgstr "Hide the title field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:12
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:14
 msgid "Hide the review field"
 msgstr "Hide the review field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:13
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:15
 msgid "Hide the name field"
 msgstr "Hide the name field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:14
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:16
 msgid "Hide the email field"
 msgstr "Hide the email field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:15
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:17
 msgid "Hide the terms field"
 msgstr "Hide the terms field"
 
