@@ -76,9 +76,6 @@ class Database
      */
     public function getReviewsMeta($key, $status = 'publish')
     {
-        if ('all' == $status || empty($status)) {
-            $status = get_post_stati(['exclude_from_search' => false]);
-        }
         return glsr(SqlQueries::class)->getReviewsMeta($key, $status);
     }
 

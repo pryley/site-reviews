@@ -272,7 +272,7 @@ class Builder
     {
         return array_reduce(array_keys($this->args['options']), function ($carry, $key) {
             return $carry.$this->option([
-                'selected' => $this->args['value'] == $key,
+                'selected' => $this->args['value'] === (string) $key,
                 'text' => $this->args['options'][$key],
                 'value' => $key,
             ]);

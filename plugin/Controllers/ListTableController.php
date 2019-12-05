@@ -247,7 +247,8 @@ class ListTableController extends Controller
     protected function setMetaQuery(WP_Query $query, array $metaKeys)
     {
         foreach ($metaKeys as $key) {
-            if (!($value = filter_input(INPUT_GET, $key))) {
+            $value = (string) filter_input(INPUT_GET, $key);
+            if ('' === $value) {
                 continue;
             }
             $metaQuery = (array) $query->get('meta_query');
@@ -255,7 +256,7 @@ class ListTableController extends Controller
                 'key' => Str::prefix('_', $key, '_'),
                 'value' => $value,
             ];
-            $query->set('meta_query', $metaQuery);
+            $query->set('meta_query', array_filter($metaQuery));
         }
     }
 

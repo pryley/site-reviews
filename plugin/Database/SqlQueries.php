@@ -129,6 +129,9 @@ class SqlQueries
      */
     public function getReviewsMeta($key, $status = 'publish')
     {
+        $postStatusQuery = 'all' != $status && !empty($status)
+            ? "AND p.post_status = '{$status}'"
+            : '';
         $key = Str::prefix('_', $key);
         $values = $this->db->get_col("
             SELECT DISTINCT m.meta_value
@@ -137,7 +140,7 @@ class SqlQueries
             WHERE p.post_type = '{$this->postType}'
             AND m.meta_key = '{$key}'
             AND m.meta_value > '' -- No empty values or ID's less than 1
-            AND p.post_status = '{$status}'
+            $postStatusQuery
             GROUP BY p.ID -- remove duplicate meta_value entries
             ORDER BY m.meta_id ASC -- sort by oldest meta_value
         ");
