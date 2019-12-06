@@ -53,6 +53,7 @@ class BlocksController extends Controller
 
     /**
      * @return void
+     * @action init
      */
     public function registerAssets()
     {

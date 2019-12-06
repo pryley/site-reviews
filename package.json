@@ -3,7 +3,7 @@
     "star-rating.js": "^3.1.5"
   },
   "devDependencies": {
-    "@wordpress/babel-preset-default": "^4.6.2",
+    "@wordpress/babel-preset-default": "^4.7.0",
     "browser-sync": "^2.26.7",
     "browser-sync-webpack-plugin": "^2.0.1",
     "cross-env": "^6.0.3",
@@ -18,11 +18,11 @@
     "laravel-mix": "^5.0.0",
     "laravel-mix-bundle-analyzer": "^1.0.2",
     "pump": "^3.0.0",
-    "sass": "^1.23.3",
+    "sass": "^1.23.7",
     "sass-loader": "^8.0.0",
     "vue-template-compiler": "^2.6.10",
     "yamljs": "^0.3.0",
-    "yargs": "^14.2.0"
+    "yargs": "^15.0.2"
   },
   "private": true,
   "scripts": {
@@ -30,6 +30,7 @@
     "dev": "npm run development",
     "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "lang": "gulp",
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "watch": "npm run development -- --watch",
