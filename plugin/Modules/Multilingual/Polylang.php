@@ -1,14 +1,15 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules;
+namespace GeminiLabs\SiteReviews\Modules\Multilingual;
 
 use GeminiLabs\SiteReviews\Contracts\MultilingualContract as Contract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Polylang implements Contract
 {
-    const PLUGIN_NAME = 'Polylang';
-    const SUPPORTED_VERSION = '2.3';
+    public $pluginName = 'Polylang';
+    public $supportedVersion = '2.3';
 
     /**
      * {@inheritdoc}
@@ -37,13 +38,13 @@ class Polylang implements Contract
             return $postIds;
         }
         $newPostIds = [];
-        foreach ($this->cleanIds($postIds) as $postId) {
+        foreach (Arr::unique($postIds) as $postId) {
             $newPostIds = array_merge(
                 $newPostIds,
                 array_values(pll_get_post_translations($postId))
             );
         }
-        return $this->cleanIds($newPostIds);
+        return Arr::unique($newPostIds);
     }
 
     /**
@@ -72,14 +73,6 @@ class Polylang implements Contract
     public function isSupported()
     {
         return defined('POLYLANG_VERSION')
-            && version_compare(POLYLANG_VERSION, static::SUPPORTED_VERSION, '>=');
-    }
-
-    /**
-     * @return array
-     */
-    protected function cleanIds(array $postIds)
-    {
-        return array_filter(array_unique($postIds));
+            && version_compare(POLYLANG_VERSION, $this->supportedVersion, '>=');
     }
 }

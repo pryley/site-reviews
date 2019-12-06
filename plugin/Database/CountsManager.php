@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Modules\Polylang;
+use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Review;
 use WP_Post;
@@ -362,7 +362,7 @@ class CountsManager
             'term_ids' => [],
             'type' => 'local',
         ]);
-        $args['post_ids'] = glsr(Polylang::class)->getPostIds($args['post_ids']);
+        $args['post_ids'] = glsr(Multilingual::class)->getPostIds($args['post_ids']);
         $args['type'] = $this->normalizeType($args['type']);
         return $args;
     }

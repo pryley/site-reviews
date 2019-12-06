@@ -185,6 +185,14 @@ class Arr
     /**
      * @return array
      */
+    public static function unique(array $values)
+    {
+        return array_filter(array_unique($values));
+    }
+
+    /**
+     * @return array
+     */
     public static function unprefixArrayKeys(array $values)
     {
         return static::prefixArrayKeys($values, false);

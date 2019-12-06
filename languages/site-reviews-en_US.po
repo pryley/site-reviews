@@ -1046,15 +1046,15 @@ msgstr "Upgrade Your Rebusify Plan"
 msgid "Your Rebusify account details could not be verified, please try again. %s"
 msgstr "Your Rebusify account details could not be verified, please try again. %s"
 
-#: plugin/Controllers/SettingsController.php:27
+#: plugin/Controllers/SettingsController.php:28
 msgid "Settings updated."
 msgstr "Settings updated."
 
-#: plugin/Controllers/SettingsController.php:114
+#: plugin/Controllers/SettingsController.php:116
 msgid "Please install/activate the %s plugin to enable integration."
 msgstr "Please install/activate the %s plugin to enable integration."
 
-#: plugin/Controllers/SettingsController.php:120
+#: plugin/Controllers/SettingsController.php:122
 msgid "Please update the %s plugin to v%s or greater to enable integration."
 msgstr "Please update the %s plugin to v%s or greater to enable integration."
 

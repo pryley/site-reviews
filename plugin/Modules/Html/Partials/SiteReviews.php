@@ -12,7 +12,7 @@ use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewsHtml;
-use GeminiLabs\SiteReviews\Modules\Polylang;
+use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Reviews;
@@ -177,7 +177,7 @@ class SiteReviews
         if ($this->isHidden($key, 'settings.reviews.assigned_links')) {
             return;
         }
-        $post = glsr(Polylang::class)->getPost($value);
+        $post = glsr(Multilingual::class)->getPost($value);
         if (!($post instanceof WP_Post)) {
             return;
         }

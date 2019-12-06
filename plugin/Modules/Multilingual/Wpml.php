@@ -1,14 +1,15 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules;
+namespace GeminiLabs\SiteReviews\Modules\Multilingual;
 
 use GeminiLabs\SiteReviews\Contracts\MultilingualContract as Contract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Wpml implements Contract
 {
-    const PLUGIN_NAME = 'WPML';
-    const SUPPORTED_VERSION = '3.3.5';
+    public $pluginName = 'WPML';
+    public $supportedVersion = '3.3.5';
 
     /**
      * {@inheritdoc}
@@ -34,7 +35,7 @@ class Wpml implements Contract
             return $postIds;
         }
         $newPostIds = [];
-        foreach ($this->cleanIds($postIds) as $postId) {
+        foreach (Arr::unique($postIds) as $postId) {
             $postType = get_post_type($postId);
             if (!$postType) {
                 continue;
@@ -50,7 +51,7 @@ class Wpml implements Contract
                 array_column($translations, 'element_id')
             );
         }
-        return $this->cleanIds($newPostIds);
+        return Arr::unique($newPostIds);
     }
 
     /**
@@ -76,14 +77,6 @@ class Wpml implements Contract
     public function isSupported()
     {
         return $this->isActive()
-            && version_compare(ICL_SITEPRESS_VERSION, static::SUPPORTED_VERSION, '>=');
-    }
-
-    /**
-     * @return array
-     */
-    protected function cleanIds(array $postIds)
-    {
-        return array_filter(array_unique($postIds));
+            && version_compare(ICL_SITEPRESS_VERSION, $this->supportedVersion, '>=');
     }
 }

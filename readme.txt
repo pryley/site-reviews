@@ -119,6 +119,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 = 4.2.8 (2019-12-05) =
 
 - Fixed generated ID attribute used in forms to adhere to the HTML5 spec
+- Fixed WPML integration
 - Fixed PHP warning thrown when searching reviews in wp-admin
 
 = 4.2.7 (2019-11-15) =

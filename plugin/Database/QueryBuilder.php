@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Polylang;
+use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use WP_Query;
 
@@ -121,7 +121,7 @@ class QueryBuilder
             return [
                 'compare' => 'IN',
                 'key' => '_assigned_to',
-                'value' => glsr(Polylang::class)->getPostIds($postIds),
+                'value' => glsr(Multilingual::class)->getPostIds($postIds),
             ];
         }
     }

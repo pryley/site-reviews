@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
 class SettingsController extends Controller
@@ -101,25 +102,26 @@ class SettingsController extends Controller
     }
 
     /**
+     * @param string $integrationSlug
      * @return bool
      */
-    protected function hasMultilingualIntegration($integration)
+    protected function hasMultilingualIntegration($integrationSlug)
     {
-        if (!in_array($integration, ['polylang', 'wpml'])) {
+        $integration = glsr(Multilingual::class)->getIntegration($integrationSlug);
+        if (!$integration) {
             return false;
         }
-        $integrationClass = 'GeminiLabs\SiteReviews\Modules\\'.ucfirst($integration);
-        if (!glsr($integrationClass)->isActive()) {
+        if (!$integration->isActive()) {
             glsr(Notice::class)->addError(sprintf(
                 __('Please install/activate the %s plugin to enable integration.', 'site-reviews'),
-                constant($integrationClass.'::PLUGIN_NAME')
+                $integration->pluginName
             ));
             return false;
-        } elseif (!glsr($integrationClass)->isSupported()) {
+        } elseif (!$integration->isSupported()) {
             glsr(Notice::class)->addError(sprintf(
                 __('Please update the %s plugin to v%s or greater to enable integration.', 'site-reviews'),
-                constant($integrationClass.'::PLUGIN_NAME'),
-                constant($integrationClass.'::SUPPORTED_VERSION')
+                $integration->pluginName,
+                $integration->supportedVersion
             ));
             return false;
         }
