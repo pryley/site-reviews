@@ -20,7 +20,7 @@ class ReviewLimits
             $parameters['author'] = $authorId;
         }
         $parameters['post_status'] = ['pending', 'publish'];
-        return apply_filters('site-reviews/reviews-limits/query', $parameters, $args);
+        return apply_filters('site-reviews/review-limits/query', $parameters, $args);
     }
 
     /**
@@ -74,7 +74,9 @@ class ReviewLimits
         }
         $reviews = glsr_get_reviews($args);
         remove_filter('site-reviews/get/reviews/query', [$this, 'filterReviewsQuery'], 5);
-        return 0 === count($reviews);
+        $result = 0 === count($reviews);
+        $result = apply_filters('site-reviews/review-limits/validate', $result, $reviews, $this->request, $key);
+        return wp_validate_boolean($result);
     }
 
     /**

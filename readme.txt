@@ -118,6 +118,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 = 4.2.9 (2009-12-06) =
 
+- Added "site-reviews/review-limits/validate" filter hook
 - Updated the "Translations" settings page
 
 = 4.2.8 (2019-12-05) =
