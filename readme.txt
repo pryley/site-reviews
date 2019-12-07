@@ -116,6 +116,10 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
+= 4.2.9 (2009-12-06) =
+
+- Updated the "Translations" settings page
+
 = 4.2.8 (2019-12-05) =
 
 - Fixed generated ID attribute used in forms to adhere to the HTML5 spec

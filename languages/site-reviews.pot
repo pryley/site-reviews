@@ -1655,19 +1655,23 @@ msgstr ""
 msgid "You may override any of these options on a per-post/page basis by using its Custom Field name and adding a custom value using the <a href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom Fields</a> metabox."
 msgstr ""
 
-#: views/pages/settings/translations.php:5
+#: views/pages/settings/translations.php:3
+msgid "Here you can customise any text of the plugin, including the submission form labels and placeholders. However, if you have a multilingual website you should use the %s plugin instead."
+msgstr ""
+
+#: views/pages/settings/translations.php:7
 msgid "Search for translatable text"
 msgstr ""
 
-#: views/pages/settings/translations.php:9
+#: views/pages/settings/translations.php:11
 msgid "Search here for text to translate..."
 msgstr ""
 
-#: views/pages/settings/translations.php:16
+#: views/pages/settings/translations.php:18
 msgid "Original Text"
 msgstr ""
 
-#: views/pages/settings/translations.php:17
+#: views/pages/settings/translations.php:19
 msgid "Custom Translation"
 msgstr ""
 

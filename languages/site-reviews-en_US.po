@@ -1734,19 +1734,29 @@ msgstr ""
 "href=\"https://codex.wordpress.org/Using_Custom_Fields#Usage\">Custom "
 "Fields</a> metabox."
 
-#: views/pages/settings/translations.php:5
+#: views/pages/settings/translations.php:3
+msgid ""
+"Here you can customise any text of the plugin, including the submission "
+"form labels and placeholders. However, if you have a multilingual website "
+"you should use the %s plugin instead."
+msgstr ""
+"Here you can customise any text of the plugin, including the submission "
+"form labels and placeholders. However, if you have a multilingual website "
+"you should use the %s plugin instead."
+
+#: views/pages/settings/translations.php:7
 msgid "Search for translatable text"
 msgstr "Search for translatable text"
 
-#: views/pages/settings/translations.php:9
+#: views/pages/settings/translations.php:11
 msgid "Search here for text to translate..."
 msgstr "Search here for text to translate..."
 
-#: views/pages/settings/translations.php:16
+#: views/pages/settings/translations.php:18
 msgid "Original Text"
 msgstr "Original Text"
 
-#: views/pages/settings/translations.php:17
+#: views/pages/settings/translations.php:19
 msgid "Custom Translation"
 msgstr "Custom Translation"
 
