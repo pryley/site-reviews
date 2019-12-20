@@ -314,7 +314,9 @@ class SiteReviews
         if (!$this->isOptionEnabled('settings.reviews.avatars_regenerate') || 'local' != $this->current->review_type) {
             return $avatarUrl;
         }
+        if ($this->current->user_id) {
         $authorIdOrEmail = get_the_author_meta('ID', $this->current->user_id);
+        }
         if (empty($authorIdOrEmail)) {
             $authorIdOrEmail = $this->current->email;
         }
