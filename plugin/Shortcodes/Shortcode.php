@@ -21,6 +21,12 @@ abstract class Shortcode implements ShortcodeContract
      */
     protected $shortcodeName;
 
+    public function __construct()
+    {
+        $this->partialName = $this->getShortcodePartialName();
+        $this->shortcodeName = $this->getShortcodeName();
+    }
+
     /**
      * @param string|array $atts
      * @param string $type
@@ -28,8 +34,6 @@ abstract class Shortcode implements ShortcodeContract
      */
     public function build($atts, array $args = [], $type = 'shortcode')
     {
-        $this->partialName = $this->getShortcodePartialName();
-        $this->shortcodeName = $this->getShortcodeName();
         $args = $this->normalizeArgs($args, $type);
         $atts = $this->normalizeAtts($atts, $type);
         $partial = glsr(Partial::class)->build($this->partialName, $atts);
