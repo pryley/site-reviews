@@ -113,8 +113,8 @@ trait ValidationRules
     public function validateRequired($value)
     {
         return is_null($value)
-            || (is_string($value) && '' === trim($value))
-            || (is_array($value) && count($value) < 1)
+            || (is_string($value) && in_array(trim($value), ['', '[]']))
+            || (is_array($value) && empty($value))
             ? false
             : true;
     }
