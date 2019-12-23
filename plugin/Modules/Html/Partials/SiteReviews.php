@@ -177,7 +177,7 @@ class SiteReviews
         if ($this->isHidden($key, 'settings.reviews.assigned_links')) {
             return;
         }
-        $post = glsr(Multilingual::class)->getPost($value);
+        $post = get_post(glsr(Multilingual::class)->getPostId($value));
         if (!($post instanceof WP_Post)) {
             return;
         }

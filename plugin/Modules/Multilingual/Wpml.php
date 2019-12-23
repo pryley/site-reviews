@@ -14,16 +14,16 @@ class Wpml implements Contract
     /**
      * {@inheritdoc}
      */
-    public function getPost($postId)
+    public function getPostId($postId)
     {
         $postId = trim($postId);
         if (!is_numeric($postId)) {
-            return;
+            return 0;
         }
         if ($this->isEnabled()) {
             $postId = apply_filters('wpml_object_id', $postId, 'any', true);
         }
-        return get_post(intval($postId));
+        return intval($postId);
     }
 
     /**

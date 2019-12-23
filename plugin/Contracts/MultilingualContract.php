@@ -6,9 +6,9 @@ interface MultilingualContract
 {
     /**
      * @param int|string $postId
-     * @return \WP_Post|void|null
+     * @return int
      */
-    public function getPost($postId);
+    public function getPostId($postId);
 
     /**
      * @return array

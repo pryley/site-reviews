@@ -14,11 +14,11 @@ class Polylang implements Contract
     /**
      * {@inheritdoc}
      */
-    public function getPost($postId)
+    public function getPostId($postId)
     {
         $postId = trim($postId);
         if (!is_numeric($postId)) {
-            return;
+            return 0;
         }
         if ($this->isEnabled()) {
             $polylangPostId = pll_get_post($postId, pll_get_post_language(get_the_ID()));
@@ -26,7 +26,7 @@ class Polylang implements Contract
         if (!empty($polylangPostId)) {
             $postId = $polylangPostId;
         }
-        return get_post(intval($postId));
+        return intval($postId);
     }
 
     /**

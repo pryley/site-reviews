@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
 /**
- * @method \WP_Post|void|null getPost(int|string $postId)
+ * @method int getPost(int|string $postId)
  * @method array getPostIds(array $postIds)
  * @method bool isActive()
  * @method bool isEnabled()
