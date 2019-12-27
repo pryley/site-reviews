@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews\Contracts;
 interface PartialContract
 {
     /**
-     * @return void|string
+     * @return string
      */
     public function build(array $args = []);
 }

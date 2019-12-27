@@ -16,13 +16,13 @@ class Pagination implements PartialContract
     protected $args;
 
     /**
-     * @return void|string
+     * @return string
      */
     public function build(array $args = [])
     {
         $this->args = $this->normalize($args);
         if ($this->args['total'] < 2) {
-            return;
+            return '';
         }
         return glsr(Template::class)->build('templates/pagination', [
             'context' => [
