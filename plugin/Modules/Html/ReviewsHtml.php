@@ -88,11 +88,11 @@ class ReviewsHtml extends ArrayObject
             glsr()->deprecated[] = 'The $reviewsHtml->navigation property has been been deprecated. Please use the $reviewsHtml->pagination property instead.';
             return $this->pagination;
         }
-        if (property_exists($this, $key)) {
-            return $this->$key;
+        if (array_key_exists($key, $this->reviews)) {
+            return $this->reviews[$key];
         }
-        return array_key_exists($key, $this->reviews)
-            ? $this->reviews[$key]
+        return property_exists($this, $key)
+            ? $this->$key
             : null;
     }
 

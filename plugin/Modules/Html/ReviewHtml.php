@@ -44,11 +44,11 @@ class ReviewHtml extends ArrayObject
      */
     public function offsetGet($key)
     {
-        if (property_exists($this, $key)) {
-            return $this->$key;
+        if (array_key_exists($key, $this->values)) {
+            return $this->values[$key];
         }
-        return array_key_exists($key, $this->values)
-            ? $this->values[$key]
+        return property_exists($this, $key)
+            ? $this->$key
             : null;
     }
 }
