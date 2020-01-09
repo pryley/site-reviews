@@ -52,6 +52,17 @@ final class Application extends Container
     }
 
     /**
+     * @param string $view
+     * @return void
+     */
+    public function build($view, array $data = [])
+    {
+        ob_start();
+        $this->render($view, $data);
+        return ob_get_clean();
+    }
+
+    /**
      * @return void
      */
     public function catchFatalError()

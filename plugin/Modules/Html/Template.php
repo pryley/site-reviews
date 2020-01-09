@@ -14,10 +14,8 @@ class Template
     public function build($templatePath, array $data = [])
     {
         $data = $this->normalize($data);
-        ob_start();
-        glsr()->render($templatePath, $data);
-        $template = ob_get_clean();
         $path = Str::removePrefix('templates/', $templatePath);
+        $template = glsr()->build($templatePath, $data);
         $template = apply_filters('site-reviews/build/template/'.$path, $template, $data);
         $template = $this->interpolate($template, $data, $path);
         $template = apply_filters('site-reviews/rendered/template', $template, $templatePath, $data);
