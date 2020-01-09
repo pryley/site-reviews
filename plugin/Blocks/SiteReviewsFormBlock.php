@@ -91,7 +91,7 @@ class SiteReviewsFormBlock extends BlockGenerator
         add_filter('site-reviews/rendered/field', function ($html, $type, $args) {
             if ('rating' == $args['path']) {
                 $stars = '<span class="glsr-stars">';
-                $stars.= str_repeat('<span class="glsr-star glsr-star-empty" aria-hidden="true"></span>', glsr()->constant('MAX_RATING', Rating::class));
+                $stars.= str_repeat('<span class="glsr-star glsr-star-empty" aria-hidden="true"></span>', (int) glsr()->constant('MAX_RATING', Rating::class));
                 $stars.= '</span>';
                 $html = preg_replace('/(.*)(<select.*)(<\/select>)(.*)/', '$1'.$stars.'$4', $html);
             }

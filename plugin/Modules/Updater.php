@@ -27,6 +27,9 @@ class Updater
 
     public function __construct($apiUrl, $file, $data)
     {
+        if (!function_exists('get_plugin_data')) {
+            require_once(ABSPATH.WPINC.'/plugin.php');
+        }
         $this->apiUrl = trailingslashit(apply_filters('site-reviews/addon/api-url', $apiUrl));
         $this->data = wp_parse_args(get_plugin_data($file), $data);
         $this->plugin = plugin_basename($file);
@@ -133,7 +136,7 @@ class Updater
         foreach (glsr()->addons as $addon) {
             try {
                 glsr($addon)->updater->getPluginUpdate(true);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 glsr_log()->error($e->getMessage());
             }
         }
@@ -150,7 +153,7 @@ class Updater
     }
 
     /**
-     * @return false|array
+     * @return false|object
      */
     protected function getCachedVersion()
     {
@@ -210,10 +213,9 @@ class Updater
 
     /**
      * @param \WP_Error|array $response
-     * @param string $action
      * @return object
      */
-    protected function normalizeResponse($response, $action)
+    protected function normalizeResponse($response)
     {
         $body = wp_remote_retrieve_body($response);
         if ($data = json_decode($body)) {
@@ -245,16 +247,16 @@ class Updater
             'sslverify' => apply_filters('site-reviews/sslverify/post', false),
             'timeout' => 15,
         ]);
-        return $this->normalizeResponse($response, $action);
+        return $this->normalizeResponse($response);
     }
 
     /**
-     * @param false|array $version
+     * @param object $version
      * @return void
      */
     protected function setCachedVersion($version)
     {
-        if (false !== $version) {
+        if (!isset($version->error)) {
             set_transient($this->transientName, $version, 3 * HOUR_IN_SECONDS);
         }
     }

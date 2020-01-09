@@ -17,8 +17,8 @@ class StarRating implements PartialContract
     public function build(array $args = [])
     {
         $this->setProperties($args);
-        $fullStars = floor($this->rating);
-        $halfStars = ceil($this->rating - $fullStars);
+        $fullStars = intval(floor($this->rating));
+        $halfStars = intval(ceil($this->rating - $fullStars));
         $emptyStars = max(0, glsr()->constant('MAX_RATING', Rating::class) - $fullStars - $halfStars);
         return glsr(Template::class)->build('templates/rating/stars', [
             'context' => [

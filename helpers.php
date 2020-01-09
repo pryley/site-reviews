@@ -36,7 +36,7 @@ add_filter('plugins_loaded', function () {
 function glsr($alias = null)
 {
     $app = \GeminiLabs\SiteReviews\Application::load();
-    return !empty($alias)
+    return !is_null($alias)
         ? $app->make($alias)
         : $app;
 }

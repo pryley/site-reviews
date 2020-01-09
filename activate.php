@@ -27,11 +27,10 @@ class GL_Plugin_Check_v4
     public function __construct($file)
     {
         $this->file = realpath($file);
-        $pluginData = get_plugin_data($this->file);
-        $versionRequirements = [
-            'php' => $pluginData['RequiresPHP'],
-            'wordpress' => $pluginData['RequiresWP'],
-        ];
+        $versionRequirements = get_file_data($this->file, [
+            'php' => 'Requires PHP',
+            'wordpress' => 'Requires at least',
+        ]);
         $this->versions = wp_parse_args(array_filter($versionRequirements), [
             'php' => static::MIN_PHP_VERSION,
             'wordpress' => static::MIN_WORDPRESS_VERSION,

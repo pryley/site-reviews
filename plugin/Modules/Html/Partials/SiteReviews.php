@@ -178,7 +178,7 @@ class SiteReviews
             return;
         }
         $post = get_post(glsr(Multilingual::class)->getPostId($value));
-        if (!($post instanceof WP_Post)) {
+        if (empty($post->ID)) {
             return;
         }
         $permalink = glsr(Builder::class)->a(get_the_title($post->ID), [

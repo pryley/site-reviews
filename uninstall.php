@@ -2,9 +2,10 @@
 
 defined('WP_UNINSTALL_PLUGIN') || die;
 
-require_once __DIR__.'/site-reviews.php';
+$file = __DIR__.'/site-reviews.php';
+require_once $file;
 
-if (!(new GL_Plugin_Check_v3(__FILE__))->isValid()) {
+if (!(new GL_Plugin_Check_v4($file))->isValid()) {
     return;
 }
 delete_option(GeminiLabs\SiteReviews\Database\OptionManager::databaseKey(3));

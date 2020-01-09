@@ -205,7 +205,7 @@ abstract class Shortcode implements ShortcodeContract
             __('Poor', 'site-reviews'),
             __('Terrible', 'site-reviews'),
         ];
-        $maxRating = glsr()->constant('MAX_RATING', Rating::class);
+        $maxRating = (int) glsr()->constant('MAX_RATING', Rating::class);
         $defaults = array_pad(array_slice($defaults, 0, $maxRating), $maxRating, '');
         $labels = array_map('trim', explode(',', $labels));
         foreach ($defaults as $i => $label) {

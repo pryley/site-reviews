@@ -81,7 +81,7 @@ class NoticeController extends Controller
     protected function renderAddonsNotice($screenId)
     {
         if (Application::POST_TYPE.'_page_addons' == $screenId) {
-            echo glsr()->render('partials/notices/addons');
+            glsr()->render('partials/notices/addons');
         }
     }
 
@@ -94,7 +94,7 @@ class NoticeController extends Controller
         if (Application::POST_TYPE == $screenPostType
             && version_compare($this->getVersionFor('rebusify'), $this->getUserMeta('rebusify', 0), '>')
             && !glsr(OptionManager::class)->getBool('settings.general.rebusify')) {
-            echo glsr()->render('partials/notices/rebusify');
+            glsr()->render('partials/notices/rebusify');
         }
     }
 
@@ -109,7 +109,7 @@ class NoticeController extends Controller
             $welcomeText = '0.0.0' == glsr(OptionManager::class)->get('version_upgraded_from')
                 ? __('Thanks for installing Site Reviews %s, we hope you love it!', 'site-reviews')
                 : __('Thanks for updating to Site Reviews %s, we hope you love the changes!', 'site-reviews');
-            echo glsr()->render('partials/notices/welcome', [
+            glsr()->render('partials/notices/welcome', [
                 'text' => sprintf($welcomeText, glsr()->version),
             ]);
         }

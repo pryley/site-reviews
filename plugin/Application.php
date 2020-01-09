@@ -24,6 +24,7 @@ final class Application extends Container
     public $languages;
     public $mceShortcodes = []; //defined elsewhere
     public $name;
+    public $postTypeColumns = []; // defined elsewhere
     public $reviewTypes;
     public $schemas = []; //defined elsewhere
     public $version;
@@ -54,7 +55,7 @@ final class Application extends Container
 
     /**
      * @param string $view
-     * @return void
+     * @return string
      */
     public function build($view, array $data = [])
     {
