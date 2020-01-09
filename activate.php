@@ -4,12 +4,17 @@ defined('WPINC') || die;
 
 /**
  * Check for minimum system requirments on plugin activation.
- * @version 3.0.0
+ * @version 4.0.0
  */
-class GL_Plugin_Check_v3
+class GL_Plugin_Check_v4
 {
     const MIN_PHP_VERSION = '5.6.0';
     const MIN_WORDPRESS_VERSION = '4.7.0';
+
+    /**
+     * @var array
+     */
+    public $versions;
 
     /**
      * @var string
@@ -17,20 +22,20 @@ class GL_Plugin_Check_v3
     protected $file;
 
     /**
-     * @var array
-     */
-    protected $versions;
-
-    /**
      * @param string $file
      */
-    public function __construct($file, array $versions = array())
+    public function __construct($file)
     {
         $this->file = realpath($file);
-        $this->versions = wp_parse_args($versions, array(
+        $pluginData = get_plugin_data($this->file);
+        $versionRequirements = [
+            'php' => $pluginData['RequiresPHP'],
+            'wordpress' => $pluginData['RequiresWP'],
+        ];
+        $this->versions = wp_parse_args(array_filter($versionRequirements), [
             'php' => static::MIN_PHP_VERSION,
             'wordpress' => static::MIN_WORDPRESS_VERSION,
-        ));
+        ]);
     }
 
     /**
@@ -41,8 +46,8 @@ class GL_Plugin_Check_v3
         if ($this->isValid()) {
             return true;
         }
-        add_action('activated_plugin', array($this, 'deactivate'));
-        add_action('admin_notices', array($this, 'deactivate'));
+        add_action('activated_plugin', [$this, 'deactivate']);
+        add_action('admin_notices', [$this, 'deactivate']);
         return false;
     }
 
@@ -84,7 +89,7 @@ class GL_Plugin_Check_v3
         if ($plugin == $pluginSlug) {
             $this->redirect(); //exit
         }
-        $pluginData = get_file_data($this->file, array('name' => 'Plugin Name'), 'plugin');
+        $pluginData = get_file_data($this->file, ['name' => 'Plugin Name'], 'plugin');
         deactivate_plugins($pluginSlug);
         $this->printNotice($pluginData['name']);
     }
@@ -94,15 +99,15 @@ class GL_Plugin_Check_v3
      */
     protected function getMessages()
     {
-        return array(
-            __('The %s plugin was deactivated.', 'site-reviews'),
-            __('This plugin requires %s or greater in order to work properly.', 'site-reviews'),
-            __('Please contact your hosting provider or server administrator to upgrade the version of PHP on your server (your server is running PHP version %s), or try to find an alternative plugin.', 'site-reviews'),
-            __('PHP version', 'site-reviews'),
-            __('WordPress version', 'site-reviews'),
-            __('Update WordPress', 'site-reviews'),
-            __('You can use the %s plugin to restore %s to the previous version.', 'site-reviews'),
-        );
+        return [
+            'notice' => __('The %s plugin was deactivated.', 'site-reviews'),
+            'php_version' => __('PHP version', 'site-reviews'),
+            'rollback' => __('You can use the %s plugin to restore %s to the previous version.', 'site-reviews'),
+            'update_php' => __('Please contact your hosting provider or server administrator to upgrade the version of PHP on your server (your server is running PHP version %s), or try to find an alternative plugin.', 'site-reviews'),
+            'update_wp' => __('Update WordPress', 'site-reviews'),
+            'wp_version' => __('WordPress version', 'site-reviews'),
+            'wrong_version' => __('This plugin requires %s or greater in order to work properly.', 'site-reviews'),
+        ];
     }
 
     /**
@@ -113,18 +118,18 @@ class GL_Plugin_Check_v3
     {
         $noticeTemplate = '<div id="message" class="notice notice-error error is-dismissible"><p><strong>%s</strong></p><p>%s</p><p>%s</p></div>';
         $messages = $this->getMessages();
-        $rollbackMessage = sprintf('<strong>'.$messages[6].'</strong>', '<a href="https://wordpress.org/plugins/wp-rollback/">WP Rollback</a>', $pluginName);
+        $rollbackMessage = sprintf('<strong>'.$messages['rollback'].'</strong>', '<a href="https://wordpress.org/plugins/wp-rollback/">WP Rollback</a>', $pluginName);
         if (!$this->isPhpValid()) {
             printf($noticeTemplate,
-                sprintf($messages[0], $pluginName),
-                sprintf($messages[1], $messages[3].' '.$this->versions['php']),
-                sprintf($messages[2], PHP_VERSION).'</p><p>'.$rollbackMessage
+                sprintf($messages['notice'], $pluginName),
+                sprintf($messages['wrong_version'], $messages['php_version'].' '.$this->versions['php']),
+                sprintf($messages['update_php'], PHP_VERSION).'</p><p>'.$rollbackMessage
             );
         } elseif (!$this->isWpValid()) {
             printf($noticeTemplate,
-                sprintf($messages[0], $pluginName),
-                sprintf($messages[1], $messages[4].' '.$this->versions['wordpress']),
-                $rollbackMessage.'</p><p>'.sprintf('<a href="%s">%s</a>', admin_url('update-core.php'), $messages[5])
+                sprintf($messages['notice'], $pluginName),
+                sprintf($messages['wrong_version'], $messages['wp_version'].' '.$this->versions['wordpress']),
+                $rollbackMessage.'</p><p>'.sprintf('<a href="%s">%s</a>', admin_url('update-core.php'), $messages['update_wp'])
             );
         }
     }
