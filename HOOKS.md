@@ -12,6 +12,7 @@
 
 ## Filters
 
+    site-reviews/addon/api-url
     site-reviews/addon/documentation
     site-reviews/addon/settings
     site-reviews/addon/settings/tabs
@@ -107,6 +108,8 @@
     site-reviews/shortcode/hide-options
     site-reviews/slack/compose
     site-reviews/slack/stars
+    site-reviews/sslverify/get
+    site-reviews/sslverify/post
     site-reviews/style
     site-reviews/submission-form/order
     site-reviews/summary/counts
