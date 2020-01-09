@@ -7,6 +7,18 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 class Str
 {
     /**
+     * @param string $subject
+     * @param string $search
+     * @return string
+     */
+    public static function afterLast($subject, $search)
+    {
+        return $search === ''
+            ? $subject
+            : array_reverse(explode($search, $subject))[0];
+    }
+
+    /**
      * @param string $string
      * @return string
      */
