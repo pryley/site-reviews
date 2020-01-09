@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Updater
 {
@@ -25,13 +24,17 @@ class Updater
      */
     protected $transientName;
 
-    public function __construct($apiUrl, $file, $data)
+    /**
+     * @param string $apiUrl
+     * @param string $file
+     */
+    public function __construct($apiUrl, $file, array $data = [])
     {
         if (!function_exists('get_plugin_data')) {
-            require_once(ABSPATH.WPINC.'/plugin.php');
+            require_once ABSPATH.WPINC.'/plugin.php';
         }
         $this->apiUrl = trailingslashit(apply_filters('site-reviews/addon/api-url', $apiUrl));
-        $this->data = wp_parse_args(get_plugin_data($file), $data);
+        $this->data = wp_parse_args($data, get_plugin_data($file));
         $this->plugin = plugin_basename($file);
         $this->transientName = Application::PREFIX.md5(Arr::get($data, 'TextDomain'));
     }
@@ -110,9 +113,9 @@ class Updater
         if ($this->apiUrl === trailingslashit(home_url())) {
             return;
         }
-        add_filter('plugins_api',                             [$this, 'filterPluginUpdateDetails'], 10, 3);
-        add_filter('pre_set_site_transient_update_plugins',   [$this, 'filterPluginUpdates'], 999);
-        add_action('load-update-core.php',                    [$this, 'onForceUpdateCheck'], 9);
+        add_filter('plugins_api', [$this, 'filterPluginUpdateDetails'], 10, 3);
+        add_filter('pre_set_site_transient_update_plugins', [$this, 'filterPluginUpdates'], 999);
+        add_action('load-update-core.php', [$this, 'onForceUpdateCheck'], 9);
         add_action('in_plugin_update_message-'.$this->plugin, [$this, 'renderLicenseMissingLink']);
     }
 
@@ -171,7 +174,9 @@ class Updater
             $version = $this->getVersion();
             $this->setCachedVersion($version);
         }
-        return $version;
+        return !isset($version->error)
+            ? $version
+            : false;
     }
 
     /**
@@ -234,7 +239,7 @@ class Updater
      */
     protected function request($action, array $data = [])
     {
-        $data = wp_parse_args($this->data, $data);
+        $data = wp_parse_args($data, $this->data);
         $response = wp_remote_post($this->apiUrl, [
             'body' => [
                 'edd_action' => $action,
