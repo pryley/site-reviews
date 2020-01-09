@@ -1,9 +1,30 @@
 <?php defined('WPINC') || die; ?>
 
-<p class="about-description">We think you'll love the changes in this new release!</p>
+<p class="about-description">We hope you love the changes in this new release!</p>
 <div class="is-fullwidth">
     <div class="glsr-flex-row">
         <div class="glsr-column">
+            <div class="card is-fullwidth">
+                <h3>4.3.0</h3>
+                <p><em>Release Date &mdash; January 9th, 2020</em></p>
+                <h4>New Features</h4>
+                <ul>
+                    <li>Added update functionality for add-ons</li>
+                </ul>
+                <h4>Tweaks</h4>
+                <ul>
+                    <li>Rebuilt the star rating to account for a MAX_RATING greater than 5</li>
+                    <li>Updated the version requirement checks</li>
+                </ul>
+                <h4>Bugs Fixed</h4>
+                <ul>
+                    <li>Fixed assigned_to links</li>
+                    <li>Fixed avatar regeneration</li>
+                    <li>Fixed review helper functions</li>
+                    <li>Fixed shortcode defaults</li>
+                    <li>Fixed validation of multi-value fields</li>
+                </ul>
+            </div>
             <div class="card is-fullwidth">
                 <h3>4.2.0</h3>
                 <p><em>Release Date &mdash; October 29th, 2019</em></p>

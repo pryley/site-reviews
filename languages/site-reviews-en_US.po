@@ -1,4 +1,4 @@
-# Copyright (C) 2019 site-reviews
+# Copyright (C) 2020 site-reviews
 # This file is distributed under the same license as the site-reviews package.
 msgid ""
 msgstr ""
@@ -18,15 +18,19 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: en_US\n"
 
-#: activate.php:98
+#: activate.php:102
 msgid "The %s plugin was deactivated."
 msgstr "The %s plugin was deactivated."
 
-#: activate.php:99
-msgid "This plugin requires %s or greater in order to work properly."
-msgstr "This plugin requires %s or greater in order to work properly."
+#: activate.php:103
+msgid "PHP version"
+msgstr "PHP version"
 
-#: activate.php:100
+#: activate.php:104
+msgid "You can use the %s plugin to restore %s to the previous version."
+msgstr "You can use the %s plugin to restore %s to the previous version."
+
+#: activate.php:105
 msgid ""
 "Please contact your hosting provider or server administrator to upgrade the "
 "version of PHP on your server (your server is running PHP version %s), or "
@@ -36,21 +40,17 @@ msgstr ""
 "version of PHP on your server (your server is running PHP version %s), or "
 "try to find an alternative plugin."
 
-#: activate.php:101
-msgid "PHP version"
-msgstr "PHP version"
-
-#: activate.php:102
-msgid "WordPress version"
-msgstr "WordPress version"
-
-#: activate.php:103
+#: activate.php:106
 msgid "Update WordPress"
 msgstr "Update WordPress"
 
-#: activate.php:104
-msgid "You can use the %s plugin to restore %s to the previous version."
-msgstr "You can use the %s plugin to restore %s to the previous version."
+#: activate.php:107
+msgid "WordPress version"
+msgstr "WordPress version"
+
+#: activate.php:108
+msgid "This plugin requires %s or greater in order to work properly."
+msgstr "This plugin requires %s or greater in order to work properly."
 
 #: helpers.php:68, plugin/Controllers/AdminController.php:172
 msgid "Recalculated rating counts."
@@ -700,7 +700,7 @@ msgstr "Require approval"
 msgid "Reject submission"
 msgstr "Reject submission"
 
-#: plugin/Application.php:210
+#: plugin/Application.php:241
 msgid "Local"
 msgstr "Local"
 
@@ -756,7 +756,7 @@ msgstr "Tell us your email"
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
-#: plugin/Blocks/SiteReviewsBlock.php:89, plugin/Blocks/SiteReviewsFormBlock.php:78, plugin/Blocks/SiteReviewsSummaryBlock.php:74
+#: plugin/Blocks/SiteReviewsBlock.php:89, plugin/Blocks/SiteReviewsFormBlock.php:79, plugin/Blocks/SiteReviewsSummaryBlock.php:74
 msgid "You have hidden all of the fields for this block."
 msgstr "You have hidden all of the fields for this block."
 
@@ -1046,17 +1046,21 @@ msgstr "Upgrade Your Rebusify Plan"
 msgid "Your Rebusify account details could not be verified, please try again. %s"
 msgstr "Your Rebusify account details could not be verified, please try again. %s"
 
-#: plugin/Controllers/SettingsController.php:28
+#: plugin/Controllers/SettingsController.php:31
 msgid "Settings updated."
 msgstr "Settings updated."
 
-#: plugin/Controllers/SettingsController.php:116
+#: plugin/Controllers/SettingsController.php:133
 msgid "Please install/activate the %s plugin to enable integration."
 msgstr "Please install/activate the %s plugin to enable integration."
 
-#: plugin/Controllers/SettingsController.php:122
+#: plugin/Controllers/SettingsController.php:139
 msgid "Please update the %s plugin to v%s or greater to enable integration."
 msgstr "Please update the %s plugin to v%s or greater to enable integration."
+
+#: plugin/Controllers/SettingsController.php:167
+msgid "A license you entered was invalid."
+msgstr "A license you entered was invalid."
 
 #: plugin/Controllers/TaxonomyController.php:42
 msgid "Filter by category"
@@ -1274,23 +1278,23 @@ msgstr ""
 "This custom translation is no longer valid as the original text has been "
 "changed or removed."
 
-#: plugin/Shortcodes/Shortcode.php:198
+#: plugin/Shortcodes/Shortcode.php:202
 msgid "Excellent"
 msgstr "Excellent"
 
-#: plugin/Shortcodes/Shortcode.php:199
+#: plugin/Shortcodes/Shortcode.php:203
 msgid "Very good"
 msgstr "Very good"
 
-#: plugin/Shortcodes/Shortcode.php:200
+#: plugin/Shortcodes/Shortcode.php:204
 msgid "Average"
 msgstr "Average"
 
-#: plugin/Shortcodes/Shortcode.php:201
+#: plugin/Shortcodes/Shortcode.php:205
 msgid "Poor"
 msgstr "Poor"
 
-#: plugin/Shortcodes/Shortcode.php:202
+#: plugin/Shortcodes/Shortcode.php:206
 msgid "Terrible"
 msgstr "Terrible"
 
@@ -1370,7 +1374,7 @@ msgstr "Display"
 msgid "How many reviews would you like to display (default: 10)?"
 msgstr "How many reviews would you like to display (default: 10)?"
 
-#: plugin/Shortcodes/SiteReviewsPopup.php:33, plugin/Shortcodes/SiteReviewsPopup.php:34, plugin/Shortcodes/SiteReviewsPopup.php:35, plugin/Shortcodes/SiteReviewsPopup.php:36, plugin/Shortcodes/SiteReviewsPopup.php:37, plugin/Widgets/SiteReviewsWidget.php:34, plugin/Widgets/SiteReviewsWidget.php:35, plugin/Widgets/SiteReviewsWidget.php:36, plugin/Widgets/SiteReviewsWidget.php:37, plugin/Widgets/SiteReviewsWidget.php:38, plugin/Controllers/ListTableController/Columns.php:152
+#: plugin/Shortcodes/SiteReviewsPopup.php:33, plugin/Shortcodes/SiteReviewsPopup.php:34, plugin/Shortcodes/SiteReviewsPopup.php:35, plugin/Shortcodes/SiteReviewsPopup.php:36, plugin/Shortcodes/SiteReviewsPopup.php:37, plugin/Widgets/SiteReviewsWidget.php:34, plugin/Widgets/SiteReviewsWidget.php:35, plugin/Widgets/SiteReviewsWidget.php:36, plugin/Widgets/SiteReviewsWidget.php:37, plugin/Widgets/SiteReviewsWidget.php:38, plugin/Controllers/ListTableController/Columns.php:153
 msgid "%s star"
 msgid_plural "%s stars"
 msgstr[0] "%s star"
@@ -1642,19 +1646,19 @@ msgstr "Privately Approved"
 msgid "Unsupported Type"
 msgstr "Unsupported Type"
 
-#: plugin/Controllers/ListTableController/Columns.php:155
+#: plugin/Controllers/ListTableController/Columns.php:156
 msgid "Filter by rating"
 msgstr "Filter by rating"
 
-#: plugin/Controllers/ListTableController/Columns.php:161
+#: plugin/Controllers/ListTableController/Columns.php:162
 msgid "All ratings"
 msgstr "All ratings"
 
-#: plugin/Controllers/ListTableController/Columns.php:175
+#: plugin/Controllers/ListTableController/Columns.php:176
 msgid "Filter by type"
 msgstr "Filter by type"
 
-#: plugin/Controllers/ListTableController/Columns.php:181
+#: plugin/Controllers/ListTableController/Columns.php:182
 msgid "All types"
 msgstr "All types"
 
@@ -1687,16 +1691,8 @@ msgid "Add-ons extend the functionality of Site Reviews."
 msgstr "Add-ons extend the functionality of Site Reviews."
 
 #: views/pages/addons/index.php:11
-msgid "Allow your visitors to submit multiple images with their reviews."
-msgstr "Allow your visitors to submit multiple images with their reviews."
-
-#: views/pages/addons/index.php:20
-msgid ""
-"Sync your Tripadvisor reviews to your website and manage them with Site "
-"Reviews."
-msgstr ""
-"Sync your Tripadvisor reviews to your website and manage them with Site "
-"Reviews."
+msgid "Allow your site visitors to submit images with their reviews."
+msgstr "Allow your site visitors to submit images with their reviews."
 
 #: views/pages/documentation/addons.php:8, views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:37, views/pages/documentation/faq.php:54, views/pages/documentation/faq.php:80, views/pages/documentation/faq.php:96, views/pages/documentation/faq.php:124, views/pages/documentation/faq.php:150, views/pages/documentation/faq.php:182, views/pages/documentation/faq.php:204, views/pages/documentation/faq.php:217, views/pages/documentation/faq.php:242, views/pages/documentation/faq.php:279, views/pages/documentation/faq.php:322, views/pages/documentation/faq.php:360, views/pages/documentation/faq.php:416, views/pages/documentation/faq.php:429, views/pages/documentation/faq.php:445, views/pages/documentation/faq.php:463, views/pages/documentation/functions.php:7, views/pages/documentation/functions.php:41, views/pages/documentation/functions.php:99, views/pages/documentation/functions.php:124, views/pages/documentation/functions.php:153, views/pages/documentation/functions.php:179, views/pages/documentation/functions.php:231, views/pages/documentation/functions.php:305, views/pages/documentation/functions.php:329, views/pages/documentation/functions.php:357, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:33, views/pages/documentation/hooks.php:57, views/pages/documentation/hooks.php:76, views/pages/documentation/hooks.php:95, views/pages/documentation/hooks.php:115, views/pages/documentation/hooks.php:139, views/pages/documentation/hooks.php:166, views/pages/documentation/shortcodes.php:9, views/pages/documentation/shortcodes.php:83, views/pages/documentation/shortcodes.php:131, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:65
 msgid "Toggle documentation panel"
@@ -1844,6 +1840,10 @@ msgstr "Activate"
 msgid "More Info"
 msgstr "More Info"
 
+#: views/partials/addons/license-missing.php:4
+msgid "Enter a valid license key for automatic updates."
+msgstr "Enter a valid license key for automatic updates."
+
 #: views/partials/editor/assigned-post.php:6
 msgid "Remove assignment"
 msgstr "Remove assignment"
@@ -1977,6 +1977,10 @@ msgstr "register"
 #: plugin/Modules/Html/Partials/SiteReviewsForm.php:178
 msgid "You may also %s for an account."
 msgstr "You may also %s for an account."
+
+#: plugin/Modules/Html/Partials/StarRating.php:29
+msgid "%s rating"
+msgstr "%s rating"
 
 #: plugin/Commands/RegisterPostType.php:50
 msgctxt "Add New Post"

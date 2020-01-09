@@ -5,7 +5,8 @@
     <div class="glsr-flex-row">
         <div class="glsr-column">
             <div class="glsr-card card is-fullwidth">
-                <h3>Meta Keys</h3>
+                <h3>4.0.0</h3>
+                <h4>Meta Keys</h4>
                 <p><em>Likelihood Of Impact: Low</em></p>
                 <p>The Meta Keys that Site Reviews 4.0 uses to store information to reviews are now protected (they begin with an underscore) so that they don't show up in the Custom Fields Meta Box on other pages. This change can potentially affect you if one of the following cases apply:</p>
                 <ul>

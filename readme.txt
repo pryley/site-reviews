@@ -2,10 +2,10 @@
 Contributors: geminilabs, pryley
 Donate link: https://www.paypal.me/pryley
 Tags: reviews, ratings, business ratings, business reviews, testimonials, site reviews, star rating, wp rating, wp review, wp testimonials
-Requires at least: 4.7.0
 Tested up to: 5.3
+Requires at least: 4.7.0
 Requires PHP: 5.6
-Stable tag: 4.2.9
+Stable tag: 4.3.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,7 +72,7 @@ In the search field type "Site Reviews" and click Search Plugins. Once you have 
 
 = Manual installation =
 
-Download the Site Reviews plugin and uploading it to your server via your favorite FTP application. The WordPress codex contains [instructions on how to do this here](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
+Download the Site Reviews plugin and upload it to your server with your favorite FTP application. The WordPress codex contains [instructions on how to do this here](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
 
 == Frequently Asked Questions ==
 
@@ -116,7 +116,18 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
-= 4.2.9 (2009-12-06) =
+= 4.3.0 (2020-01-09) =
+
+- Added update functionality for add-ons
+- Fixed assigned_to links
+- Fixed avatar regeneration
+- Fixed review helper functions
+- Fixed shortcode defaults
+- Fixed stars when MAX_RATING is greater than 5
+- Fixed validation of multi-value fields
+- Updated the version requirement checks
+
+= 4.2.9 (2019-12-06) =
 
 - Added "site-reviews/review-limits/validate" filter hook
 - Updated the "Translations" settings page
