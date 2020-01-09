@@ -8,21 +8,12 @@
     <?php
         $template->render('partials/addons/addon', [
             'context' => [
-                'description' => __('Allow your visitors to submit multiple images with their reviews.', 'site-reviews'),
-                'link' => 'https://niftyplugins.com/addons/site-reviews-images/',
+                'description' => __('Allow your site visitors to submit images with their reviews.', 'site-reviews'),
+                'link' => 'https://niftyplugins.com/plugins/images/',
                 'slug' => 'images',
                 'title' => 'Images',
             ],
             'plugin' => 'site-reviews-images/site-reviews-images.php',
-        ]);
-        $template->render('partials/addons/addon', [
-            'context' => [
-                'description' => __('Sync your Tripadvisor reviews to your website and manage them with Site Reviews.', 'site-reviews'),
-                'link' => 'https://niftyplugins.com/addons/site-reviews-tripadvisor/',
-                'slug' => 'tripadvisor',
-                'title' => 'Tripadvisor Reviews',
-            ],
-            'plugin' => 'site-reviews-tripadvisor/site-reviews-tripadvisor.php',
         ]);
     ?>
     </div>
