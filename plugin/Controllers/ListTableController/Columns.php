@@ -131,8 +131,9 @@ class Columns
         $method = Helper::buildMethodName($column, 'buildColumn');
         $value = method_exists($this, $method)
             ? call_user_func([$this, $method], $postId)
-            : apply_filters('site-reviews/columns/'.$column, '', $postId);
-        if (empty($value)) {
+            : '';
+        $value = apply_filters('site-reviews/columns/'.$column, $value, $postId);
+        if (0 !== $value && empty($value)) {
             $value = '&mdash;';
         }
         echo $value;
