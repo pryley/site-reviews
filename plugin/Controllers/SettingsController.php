@@ -2,11 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use Exception;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Modules\Updater;
 
 class SettingsController extends Controller
 {
@@ -21,6 +23,7 @@ class SettingsController extends Controller
         if (1 === count($settings) && array_key_exists('settings', $settings)) {
             $options = array_replace_recursive(glsr(OptionManager::class)->all(), $input);
             $options = $this->sanitizeGeneral($input, $options);
+            $options = $this->sanitizeLicenses($input, $options);
             $options = $this->sanitizeSubmissions($input, $options);
             $options = $this->sanitizeTranslations($input, $options);
             $options = apply_filters('site-reviews/settings/callback', $options, $settings);
@@ -59,6 +62,20 @@ class SettingsController extends Controller
         }
         $defaultValue = Arr::get($inputForm, 'notifications', []);
         $options = Arr::set($options, $key.'.notifications', $defaultValue);
+        return $options;
+    }
+
+    /**
+     * @return array
+     */
+    protected function sanitizeLicenses(array $input, array $options)
+    {
+        $key = 'settings.licenses';
+        $licenses = Arr::consolidateArray(Arr::get($input, $key));
+        foreach ($licenses as $slug => &$license) {
+            $license = $this->verifyLicense($license, $slug);
+        }
+        $options = Arr::set($options, $key, $licenses);
         return $options;
     }
 
@@ -126,5 +143,29 @@ class SettingsController extends Controller
             return false;
         }
         return true;
+    }
+
+    /**
+     * @param string $license
+     * @param string $slug
+     * @return string
+     */
+    protected function verifyLicense($license, $slug)
+    {
+        try {
+            $addon = glsr($slug);
+            $updater = new Updater($addon->update_url, $addon->file, [
+                'license' => $license,
+                'testedTo' => $addon->testedTo,
+            ]);
+            if (!$updater->isLicenseValid()) {
+                throw new Exception('Invalid license: '.$license.' ('.$addon->id.')');
+            }
+        } catch (Exception $e) {
+            $license = '';
+            glsr_log()->debug($e->getMessage());
+            glsr(Notice::class)->addError(__('A license you entered was invalid.', 'site-reviews'));
+        }
+        return $license;
     }
 }

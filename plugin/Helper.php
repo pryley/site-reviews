@@ -38,7 +38,7 @@ class Helper
      */
     public static function buildPropertyName($name)
     {
-        return lcfirst(static::buildClassName($name));
+        return static::buildMethodName($name);
     }
 
     /**

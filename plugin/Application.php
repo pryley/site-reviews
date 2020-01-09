@@ -17,6 +17,7 @@ final class Application extends Container
     const PREFIX = 'glsr_';
     const TAXONOMY = 'site-review-category';
 
+    public $addons = [];
     public $defaults;
     public $deprecated = [];
     public $file;
@@ -191,6 +192,24 @@ final class Application extends Container
         }
         $path = trailingslashit($path).ltrim(trim($file), '/');
         return apply_filters('site-reviews/path', $path, $file);
+    }
+
+    /**
+     * @param object $addon
+     * @return void
+     */
+    public function register($addon)
+    {
+        try {
+            $reflection = new \ReflectionClass($addon);
+            if ($id = $reflection->getConstant('ID')) {
+                $this->addons[] = $id;
+                $this->bind($id, $addon);
+                $addon->init();
+            }
+        } catch(\ReflectionException $e) {
+            glsr_log()->error('Attempted to register an invalid addon.');
+        }
     }
 
     /**
