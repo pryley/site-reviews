@@ -18,16 +18,9 @@ class Upgrader
      */
     public function run()
     {
-        $filenames = [];
-        $iterator = new DirectoryIterator(dirname(__FILE__).'/Upgrader');
-        foreach ($iterator as $fileinfo) {
-            if ($fileinfo->isFile()) {
-                $filenames[] = $fileinfo->getFilename();
-            }
-        }
-        natsort($filenames);
+        $files = $this->getUpgraderFiles();
         $this->currentVersion = $this->currentVersion();
-        array_walk($filenames, function ($file) {
+        array_walk($files, function ($file) {
             $className = str_replace('.php', '', $file);
             $upgradeFromVersion = str_replace(['Upgrade_', '_'], ['', '.'], $className);
             $suffix = preg_replace('/[\d.]+(.+)?/', '${1}', glsr()->version); // allow alpha/beta versions
@@ -68,6 +61,25 @@ class Upgrader
             }
         }
         return $fallback;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getUpgraderFiles()
+    {
+        $files = [];
+        $upgradeDir = dirname(__FILE__).'/Upgrades';
+        if (is_dir($upgradeDir)) {
+            $iterator = new DirectoryIterator($upgradeDir);
+            foreach ($iterator as $fileinfo) {
+                if ($fileinfo->isFile()) {
+                    $files[] = $fileinfo->getFilename();
+                }
+            }
+            natsort($files);
+        }
+        return $files;
     }
 
     /**
