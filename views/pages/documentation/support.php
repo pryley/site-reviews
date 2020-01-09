@@ -46,7 +46,7 @@
             </li>
             <li>
                 <p class="glsr-heading">I only want my reviews to show on the page they were published or assigned to but they are showing on every page.</p>
-                <p>All reviews are unassigned by default. If you want to assign reviews to specific pages, you will need to use the “assign_to” and “assigned_to” shortcode options. Please see the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!shortcodes'); ?>">Shortcodes</a></code> documentation page for more information.</p>
+                <p>All reviews are unassigned by default. If you want to assign reviews to specific pages, you will need to use the “assign_to” and “assigned_to” shortcode options. Please see the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!shortcodes'); ?>">Shortcodes</a></code> documentation page for more information.</p>
             </li>
             <li>
                 <p class="glsr-heading">My submission form is not assigning reviews to the page even though I have set the option to do so.</p>
@@ -70,15 +70,15 @@
         <p>The recommended way to get help is to post a support request in the <a href="https://wordpress.org/support/plugin/site-reviews/">WordPress Support Forum</a>, not only does this allow existing and future users of the plugin to benefit from the solution, it is also <strong>the fastest way to get help</strong>. However, you may also contact us directly after confirming the following:</p>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-1" class="glsr-support-step">
-            <label for="step-1">I have read the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!faq'); ?>">FAQ</a></code> documentation page.</label>
+            <label for="step-1">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!faq'); ?>">FAQ</a></code> documentation page.</label>
         </p>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-2" class="glsr-support-step">
-            <label for="step-2">I have read the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!shortcodes'); ?>">Shortcodes</a></code> documentation page.</label>
+            <label for="step-2">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!shortcodes'); ?>">Shortcodes</a></code> documentation page.</label>
         </p>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-3" class="glsr-support-step">
-            <label for="step-3">I have read the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!hooks'); ?>">Hooks</a></code> documentation page.</label>
+            <label for="step-3">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!hooks'); ?>">Hooks</a></code> documentation page.</label>
         </p>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-4" class="glsr-support-step">
@@ -88,8 +88,8 @@
             <p><strong>Please send an email to <a href="mailto:site-reviews@geminilabs.io?subject=Support%20request">site-reviews@geminilabs.io</a> and include the following details:</strong></p>
             <ul>
                 <li>A detailed description of the problem you are having and steps to reproduce it.</li>
-                <li>Download and attach the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=tools#!console'); ?>">Tools &rarr; Console</a></code> log file to the email.</li>
-                <li>Download and attach the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=tools#!system-info'); ?>">Tools &rarr; System Info</a></code> report to the email.</li>
+                <li>Download and attach the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#!console'); ?>">Tools &rarr; Console</a></code> log file to the email.</li>
+                <li>Download and attach the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#!system-info'); ?>">Tools &rarr; System Info</a></code> report to the email.</li>
                 <li>Include screenshots if they will help explain the problem.</li>
             </ul>
         </div>

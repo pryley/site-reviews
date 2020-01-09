@@ -158,7 +158,7 @@
         <pre><code>[site_reviews_summary hide="bars,if_empty,rating,stars,summary"]</code></pre>
 
         <p class="glsr-heading">labels</p>
-        <p>The "labels" attribute allows you to enter custom labels for the percentage bar levels (from high to low), each level should be separated with a comma. However, rather than using this attribute to change the labels it's recommended to instead create a custom translation for them in the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=settings#!translations'); ?>">Settings &rarr; Translations</a></code> page.</p>
+        <p>The "labels" attribute allows you to enter custom labels for the percentage bar levels (from high to low), each level should be separated with a comma. However, rather than using this attribute to change the labels it's recommended to instead create a custom translation for them in the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings#!translations'); ?>">Settings &rarr; Translations</a></code> page.</p>
         <p>The default labels value is: <code>"Excellent,Very good,Average,Poor,Terrible"</code></p>
         <pre><code>[site_reviews_summary labels="5 star,4 star,3 star,2 star,1 star"]</code></pre>
 
@@ -175,7 +175,7 @@
         <pre><code>[site_reviews_summary schema="true"]</code></pre>
 
         <p class="glsr-heading">text</p>
-        <p>The "text" attribute allows you to change the summary text. Available template tags to use are, "{rating}" which represents the calculated average rating, "{max}" which represents the maximum star rating available, and "{num}" which represents the total number of reviews. However, rather than using this attribute to change the summary text it's recommended to instead create a custom translation for it in the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=settings#!translations'); ?>">Settings &rarr; Translations</a></code> page. That way, you will be able to customize both the singular (1 review) and plural (2 reviews) summary texts.</p>
+        <p>The "text" attribute allows you to change the summary text. Available template tags to use are, "{rating}" which represents the calculated average rating, "{max}" which represents the maximum star rating available, and "{num}" which represents the total number of reviews. However, rather than using this attribute to change the summary text it's recommended to instead create a custom translation for it in the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings#!translations'); ?>">Settings &rarr; Translations</a></code> page. That way, you will be able to customize both the singular (1 review) and plural (2 reviews) summary texts.</p>
         <p>The default text value is: <code>"{rating} out of {max} stars (based on {num} reviews)"</code></p>
         <pre><code>[site_reviews_summary text="{num} customer reviews"]</code></pre>
 

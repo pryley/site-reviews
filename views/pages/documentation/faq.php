@@ -9,7 +9,7 @@
         </button>
     </div>
     <div class="inside">
-        <p>To add additional values to the generated schema, use the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!hooks'); ?>" data-expand="#hooks-07">site-reviews/schema/[SCHEMA_TYPE]</a></code> hook in your theme's functions.php file.</p>
+        <p>To add additional values to the generated schema, use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!hooks'); ?>" data-expand="#hooks-07">site-reviews/schema/[SCHEMA_TYPE]</a></code> hook in your theme's functions.php file.</p>
         <p>Make sure to use Google's <a href="https://search.google.com/structured-data/testing-tool">Structured Data Testing Tool</a> to test the schema after any custom modifications have been made.</p>
         <pre><code class="php">/**
  * Modifies the schema created by Site Reviews.
@@ -43,7 +43,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
         <p>If you are using the shortcodes, then use the <code>pagination</code> and <code>count</code> options.</p>
         <p>For example, this will paginate reviews to 10 reviews per-page:</p>
         <pre><code class="php">[site_reviews pagination=ajax count=10]</code></pre>
-        <p>To lean more about the available shortcode options and how to use them, please see the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!shortcodes'); ?>">Documentation > Shortcodes</a></code> page.</p>
+        <p>To lean more about the available shortcode options and how to use them, please see the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!shortcodes'); ?>">Documentation > Shortcodes</a></code> page.</p>
     </div>
 </div>
 
@@ -69,7 +69,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
         <p>If you use <code>post_id</code> as the value, then Site Reviews will know to automatically use the Page ID of the current page.</p>
         <p>If you use <code>parent_id</code> as the value, then Site Reviews will know to automatically use the Page ID of the current page's Parent.</p>
         <p>You can, of course, also directly enter the numerical WordPress Page ID of the page instead if your prefer.</p>
-        <p>To lean more about the available shortcode options and how to use them, please see the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!shortcodes'); ?>">Documentation > Shortcodes</a></code> page.</p>
+        <p>To lean more about the available shortcode options and how to use them, please see the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!shortcodes'); ?>">Documentation > Shortcodes</a></code> page.</p>
     </div>
 </div>
 
@@ -152,7 +152,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
         </button>
     </div>
     <div class="inside">
-        <p>To customise the order of the fields in the review submission form, use the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!hooks'); ?>" data-expand="#hooks-01">site-reviews/submission-form/order</a></code> filter hook in your theme's <code>functions.php</code> file.</p>
+        <p>To customise the order of the fields in the review submission form, use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!hooks'); ?>" data-expand="#hooks-01">site-reviews/submission-form/order</a></code> filter hook in your theme's <code>functions.php</code> file.</p>
         <pre><code class="php">/**
  * Customises the order of the fields used in the Site Reviews submission form.
  * Paste this in your active theme's functions.php file.
@@ -171,7 +171,7 @@ add_filter('site-reviews/submission-form/order', function ($order) {
         'terms',
     ];
 });</code></pre>
-        <p>If you have used the example above and the submission-form fields are not working correctly, check the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=tools#!console'); ?>">Tools &rarr; Console</a></code> for errors.</p>
+        <p>If you have used the example above and the submission-form fields are not working correctly, check the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#!console'); ?>">Tools &rarr; Console</a></code> for errors.</p>
     </div>
 </div>
 
@@ -206,7 +206,7 @@ add_filter('site-reviews/const/PAGED_QUERY_VAR', function () {
         </button>
     </div>
     <div class="inside">
-        <p>You can change any text in the plugin on the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=settings#!translations'); ?>">Settings &rarr; Translations</a></code> page.</p>
+        <p>You can change any text in the plugin on the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings#!translations'); ?>">Settings &rarr; Translations</a></code> page.</p>
     </div>
 </div>
 
@@ -219,7 +219,7 @@ add_filter('site-reviews/const/PAGED_QUERY_VAR', function () {
         </button>
     </div>
     <div class="inside">
-        <p>Site Reviews provides a <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!functions'); ?>" data-expand="#functions-02">glsr_create_review()</a></code> helper function to easily create a review.</p>
+        <p>Site Reviews provides a <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!functions'); ?>" data-expand="#functions-02">glsr_create_review()</a></code> helper function to easily create a review.</p>
         <p>Here is an example:</p>
         <pre><code class="php">if (function_exists('glsr_create_review')) {
     $review = glsr_create_review([
@@ -244,7 +244,7 @@ add_filter('site-reviews/const/PAGED_QUERY_VAR', function () {
         </button>
     </div>
     <div class="inside">
-        <p>To customise the star images used by the plugin, use the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!hooks'); ?>" data-expand="#hooks-02">site-reviews/config/inline-styles</a></code> filter hook in your theme's <code>functions.php</code> file.</p>
+        <p>To customise the star images used by the plugin, use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!hooks'); ?>" data-expand="#hooks-02">site-reviews/config/inline-styles</a></code> filter hook in your theme's <code>functions.php</code> file.</p>
         <p>Here is an example:</p>
         <pre><code class="php">/**
  * Customises the stars used by Site Reviews.
@@ -298,7 +298,7 @@ add_filter('site-reviews/enqueue/public/inline-script', function ($script) {
     });";
 });</code></pre>
         <p>You can also hide the form from registered users who have already submitted a review.</p>
-        <p>To do this, you will need to first make sure that the "Limit Reviews" setting on the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=settings#!submissions'); ?>">Settings &rarr; Submissions</a></code> page is set to "By Username". Once that is done, you can use the following code snippet:</p>
+        <p>To do this, you will need to first make sure that the "Limit Reviews" setting on the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings#!submissions'); ?>">Settings &rarr; Submissions</a></code> page is set to "By Username". Once that is done, you can use the following code snippet:</p>
         <pre><code class="php">/**
  * Hides the submission form from registered users who have already submitted a review
  * Paste this in your active theme's functions.php file

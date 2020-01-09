@@ -87,7 +87,7 @@ $review = apply_filters('glsr_create_review', false, [
 ]);
 </code></pre>
         <p><strong>Helpful Tip:</strong></p>
-        <p>You can use the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!functions'); ?>" data-expand="#functions-03">glsr_debug</a></code> helper function to view the review object that is returned.</p>
+        <p>You can use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!functions'); ?>" data-expand="#functions-03">glsr_debug</a></code> helper function to view the review object that is returned.</p>
         <pre><code class="php">glsr_debug($review);</code></pre>
     </div>
 </div>
@@ -141,7 +141,7 @@ glsr_get_option($path = '', $fallback = '');</code></pre>
 
 $requireApproval = apply_filters('glsr_get_option', 'no', 'general.require.approval', 'no');</code></pre>
         <p><strong>Helpful Tip:</strong></p>
-        <p>You can use the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!functions'); ?>" data-expand="#functions-03">glsr_debug</a></code> helper function to view the whole plugin settings array, this will help you figure out which dot-notation path to use.</p>
+        <p>You can use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!functions'); ?>" data-expand="#functions-03">glsr_debug</a></code> helper function to view the whole plugin settings array, this will help you figure out which dot-notation path to use.</p>
         <pre><code class="php">glsr_debug(glsr_get_options());</code></pre>
     </div>
 </div>
@@ -167,7 +167,7 @@ glsr_get_options();</code></pre>
 
 $pluginSettings = apply_filters('glsr_get_options', []);</code></pre>
         <p><strong>Helpful Tip:</strong></p>
-        <p>You can use the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!functions'); ?>" data-expand="#functions-03">glsr_debug</a></code> helper function to print the settings array to the screen:</p>
+        <p>You can use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!functions'); ?>" data-expand="#functions-03">glsr_debug</a></code> helper function to print the settings array to the screen:</p>
         <pre><code class="php">glsr_debug($pluginSettings);</code></pre>
     </div>
 </div>
@@ -217,7 +217,7 @@ $review = apply_filters('glsr_get_review', null, 13);</code></pre>
                 <pre><code class="php">echo $reviewHtml; // This is identical to: $review->render();</code></pre>
             </li>
             <li>
-                <p>You can also use the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!functions'); ?>" data-expand="#functions-03">glsr_debug</a></code> helper function to print both arrayable objects to the screen:</p>
+                <p>You can also use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!functions'); ?>" data-expand="#functions-03">glsr_debug</a></code> helper function to print both arrayable objects to the screen:</p>
                 <pre><code class="php">glsr_debug($review, $reviewHtml);</code></pre>
             </li>
         </ol>
@@ -272,7 +272,7 @@ $reviews = apply_filters('glsr_get_reviews', [], [
                 <pre><code class="php">echo $reviews; // This is identical to: $reviews->render();</code></pre>
             </li>
             <li>
-                <p>Loop through all reviews and handle each review as needed. Each <code>$review</code> is identical to what the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!functions'); ?>" data-expand="#functions-06">glsr_get_review</a></code> helper function returns, so make sure to read the "Helpful Tips" from that section above for more information.</p>
+                <p>Loop through all reviews and handle each review as needed. Each <code>$review</code> is identical to what the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!functions'); ?>" data-expand="#functions-06">glsr_get_review</a></code> helper function returns, so make sure to read the "Helpful Tips" from that section above for more information.</p>
                 <pre><code class="php">foreach ($reviews as $review) {
     echo $review;
 };</code></pre>
@@ -290,7 +290,7 @@ foreach ($reviewsHtml as $reviewHtml) {
 echo $reviewsHtml->navigation;</code></pre>
             </li>
             <li>
-                <p>You can also use the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=documentation#!functions'); ?>" data-expand="#functions-03">glsr_debug</a></code> helper function to print both arrayable objects to the screen:</p>
+                <p>You can also use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!functions'); ?>" data-expand="#functions-03">glsr_debug</a></code> helper function to print both arrayable objects to the screen:</p>
                 <pre><code class="php">glsr_debug($reviews, $reviewsHtml);</code></pre>
             </li>
 
@@ -346,7 +346,7 @@ glsr_log()->error($var4)->debug($var5);
 // OR:
 
 apply_filters('glsr_log', null, $var1);</code></pre>
-    <p>Logged entries will be found in the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=tools#!console'); ?>">Tools &rarr; Console</a></code>.</p>
+    <p>Logged entries will be found in the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#!console'); ?>">Tools &rarr; Console</a></code>.</p>
     </div>
 </div>
 
@@ -370,6 +370,6 @@ glsr_calculate_ratings();</code></pre>
 // OR:
 
 apply_filters('glsr_calculate_ratings', null);</code></pre>
-    <p>You can verify that it runs by checking the log entries in the <code><a href="<?= admin_url('edit.php?post_type=site-review&page=tools#!console'); ?>">Tools &rarr; Console</a></code>.</p>
+    <p>You can verify that it runs by checking the log entries in the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#!console'); ?>">Tools &rarr; Console</a></code>.</p>
     </div>
 </div>
