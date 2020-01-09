@@ -35,7 +35,7 @@
 		padding: 1em 15px;
 
 		p {
-			height: calc(13px * 1.5 * 4);
+			height: calc(13px * 1.5 * 3);
 			overflow: hidden;
 			text-overflow: ellipsis;
 			margin: 0;
@@ -69,7 +69,7 @@
 		background-repeat: no-repeat;
 		background-size: cover;
 		border-bottom: 1px solid #ccd0d4;
-		padding-top: 56.25%;
+		padding-top: 50%;
 
 		&[data-slug="tripadvisor"] {
 			background-color: #4b7e37;
