@@ -71,7 +71,7 @@
 	GLSR.Validation.prototype = {
 
 		ALLOWED_ATTRIBUTES_: ['required', 'max', 'maxlength', 'min', 'minlength', 'pattern'],
-		SELECTOR_: 'input:not([type^=hidden]):not([type^=submit]), select, textarea',
+		SELECTOR_: 'input:not([type^=hidden]):not([type^=submit]), select, textarea, [data-glsr-validate]',
 
 		/** @return void */
 		addEvent_: function( input ) {
@@ -192,7 +192,7 @@
 
 		/** @return void */
 		setErrors_: function( inputEl, errors ) {
-			if( !inputEl.validation ) {
+			if( inputEl.hasOwnProperty( 'validation' )) {
 				this.initField_( inputEl );
 			}
 			inputEl.validation.errors = errors;

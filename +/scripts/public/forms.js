@@ -153,8 +153,10 @@
 				if( !errors.hasOwnProperty( error ))continue;
 				var nameSelector = GLSR.nameprefix ? GLSR.nameprefix + '[' + error + ']' : error;
 				var inputEl = this.form.querySelector( '[name="' + nameSelector + '"]' );
-				this.validation.setErrors_( inputEl, errors[error] );
-				this.validation.toggleError_( inputEl.validation, 'add' );
+				if( inputEl ) {
+					this.validation.setErrors_( inputEl, errors[error] );
+					this.validation.toggleError_( inputEl.validation, 'add' );
+				}
 			}
 		},
 
