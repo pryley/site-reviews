@@ -174,9 +174,11 @@ class Updater
             $version = $this->getVersion();
             $this->setCachedVersion($version);
         }
-        return !isset($version->error)
-            ? $version
-            : false;
+        if (isset($version->error)) {
+            glsr_log()->error($version->error);
+            return false;
+        }
+        return $version;
     }
 
     /**
@@ -227,10 +229,10 @@ class Updater
             $data = array_map('maybe_unserialize', (array) $data);
             return (object) $data;
         }
-        if (is_wp_error($response)) {
-            return (object) ['error' => $response->get_error_message()];
-        }
-        return (object) ['error' => 'Empty response'];
+        $error = is_wp_error($response)
+            ? $response->get_error_message()
+            : 'Update server not responding ('.Arr::get($this->data, 'TextDomain').')';
+        return (object) ['error' => $error];
     }
 
     /**
