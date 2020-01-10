@@ -113,9 +113,9 @@ class Updater
         if ($this->apiUrl === trailingslashit(home_url())) {
             return;
         }
-        add_filter('plugins_api', [$this, 'filterPluginUpdateDetails'], 10, 3);
-        add_filter('pre_set_site_transient_update_plugins', [$this, 'filterPluginUpdates'], 999);
-        add_action('load-update-core.php', [$this, 'onForceUpdateCheck'], 9);
+        add_filter('plugins_api',                             [$this, 'filterPluginUpdateDetails'], 10, 3);
+        add_filter('pre_set_site_transient_update_plugins',   [$this, 'filterPluginUpdates'], 999);
+        add_action('load-update-core.php',                    [$this, 'onForceUpdateCheck'], 9);
         add_action('in_plugin_update_message-'.$this->plugin, [$this, 'renderLicenseMissingLink']);
     }
 
@@ -195,9 +195,11 @@ class Updater
         $transient->checked[$this->plugin] = Arr::get($this->data, 'Version');
         $transient->last_checked = time();
         if (version_compare($updateInfo->new_version, Arr::get($this->data, 'Version'), '>')) {
+            unset($transient->no_update[$this->plugin]);
             $updateInfo->update = true;
             $transient->response[$this->plugin] = $updateInfo;
         } else {
+            unset($transient->response[$this->plugin]);
             $transient->no_update[$this->plugin] = $updateInfo;
         }
         return $transient;
