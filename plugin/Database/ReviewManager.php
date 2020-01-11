@@ -112,7 +112,7 @@ class ReviewManager
     public function getRatingCounts(array $args = [])
     {
         $args = glsr(SiteReviewsSummaryDefaults::class)->filter($args);
-        $counts = glsr(CountsManager::class)->get([
+        $counts = glsr(CountsManager::class)->getCounts([
             'post_ids' => Arr::convertStringToArray($args['assigned_to']),
             'term_ids' => $this->normalizeTermIds($args['category']),
             'type' => $args['type'],

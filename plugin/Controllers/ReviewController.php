@@ -5,6 +5,9 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\CountsManager;
+use GeminiLabs\SiteReviews\Database\GlobalCountsManager;
+use GeminiLabs\SiteReviews\Database\PostCountsManager;
+use GeminiLabs\SiteReviews\Database\TermCountsManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -14,6 +17,8 @@ use WP_Post;
 class ReviewController extends Controller
 {
     /**
+     * Triggered when an category is added to a review
+     * 
      * @param int $postId
      * @param array $terms
      * @param array $newTTIds
@@ -35,14 +40,16 @@ class ReviewController extends Controller
         $decreasedIds = array_diff($oldTTIds, $ignoredIds);
         $increasedIds = array_diff($newTTIds, $ignoredIds);
         if ($review->term_ids = glsr(Database::class)->getTermIds($decreasedIds, 'term_taxonomy_id')) {
-            glsr(CountsManager::class)->decreaseTermCounts($review);
+            glsr(TermCountsManager::class)->decrease($review);
         }
         if ($review->term_ids = glsr(Database::class)->getTermIds($increasedIds, 'term_taxonomy_id')) {
-            glsr(CountsManager::class)->increaseTermCounts($review);
+            glsr(TermCountsManager::class)->increase($review);
         }
     }
 
     /**
+     * Triggered when an existing review is approved|unapproved
+     * 
      * @param string $oldStatus
      * @param string $newStatus
      * @param WP_Post $post
@@ -56,13 +63,15 @@ class ReviewController extends Controller
         }
         $review = glsr_get_review($post);
         if ('publish' == $post->post_status) {
-            glsr(CountsManager::class)->increase($review);
+            glsr(CountsManager::class)->increaseAll($review);
         } else {
-            glsr(CountsManager::class)->decrease($review);
+            glsr(CountsManager::class)->decreaseAll($review);
         }
     }
 
     /**
+     * Triggered when a review is first created
+     * 
      * @return void
      * @action site-reviews/review/created
      */
@@ -71,11 +80,13 @@ class ReviewController extends Controller
         if ('publish' !== $review->status) {
             return;
         }
-        glsr(CountsManager::class)->increaseCounts($review);
-        glsr(CountsManager::class)->increasePostCounts($review);
+        glsr(GlobalCountsManager::class)->increase($review);
+        glsr(PostCountsManager::class)->increase($review);
     }
 
     /**
+     * Triggered when a review is deleted
+     * 
      * @param int $postId
      * @return void
      * @action before_delete_post
@@ -87,11 +98,13 @@ class ReviewController extends Controller
         }
         $review = glsr_get_review($postId);
         if ('trash' !== $review->status) { // do not run for trashed posts
-            glsr(CountsManager::class)->decrease($review);
+            glsr(CountsManager::class)->decreaseAll($review);
         }
     }
 
     /**
+     * Triggered when a review's rating, assigned_to, or review_type is changed
+     * 
      * @param int $metaId
      * @param int $postId
      * @param string $metaKey
@@ -117,35 +130,41 @@ class ReviewController extends Controller
     }
 
     /**
+     * Triggered by the onBeforeUpdate method
+     *
      * @param string|int $assignedTo
      * @return void
      */
     public function onBeforeChangeAssignedTo(Review $review, $assignedTo)
     {
-        glsr(CountsManager::class)->decreasePostCounts($review);
+        glsr(PostCountsManager::class)->decrease($review);
         $review->assigned_to = $assignedTo;
-        glsr(CountsManager::class)->increasePostCounts($review);
+        glsr(PostCountsManager::class)->increase($review);
     }
 
     /**
+     * Triggered by the onBeforeUpdate method
+     * 
      * @param string|int $rating
      * @return void
      */
     public function onBeforeChangeRating(Review $review, $rating)
     {
-        glsr(CountsManager::class)->decrease($review);
+        glsr(CountsManager::class)->decreaseAll($review);
         $review->rating = $rating;
-        glsr(CountsManager::class)->increase($review);
+        glsr(CountsManager::class)->increaseAll($review);
     }
 
     /**
+     * Triggered by the onBeforeUpdate method
+     * 
      * @param string $reviewType
      * @return void
      */
     public function onBeforeChangeReviewType(Review $review, $reviewType)
     {
-        glsr(CountsManager::class)->decrease($review);
+        glsr(CountsManager::class)->decreaseAll($review);
         $review->review_type = $reviewType;
-        glsr(CountsManager::class)->increase($review);
+        glsr(CountsManager::class)->increaseAll($review);
     }
 }

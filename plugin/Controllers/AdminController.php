@@ -166,7 +166,7 @@ class AdminController extends Controller
      */
     public function routerCountReviews($showNotice = true)
     {
-        glsr(CountsManager::class)->countAll();
+        glsr(CountsManager::class)->updateAll();
         glsr(OptionManager::class)->set('last_review_count', current_time('timestamp'));
         if ($showNotice) {
             glsr(Notice::class)->clear()->addSuccess(__('Recalculated rating counts.', 'site-reviews'));
