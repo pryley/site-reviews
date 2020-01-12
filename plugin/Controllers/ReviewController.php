@@ -17,8 +17,8 @@ use WP_Post;
 class ReviewController extends Controller
 {
     /**
-     * Triggered when an category is added to a review
-     * 
+     * Triggered when a category is added to a review.
+     *
      * @param int $postId
      * @param array $terms
      * @param array $newTTIds
@@ -36,6 +36,9 @@ class ReviewController extends Controller
             return;
         }
         $review = glsr_get_review($postId);
+        if ('publish' !== $review->status) {
+            return;
+        }
         $ignoredIds = array_intersect($oldTTIds, $newTTIds);
         $decreasedIds = array_diff($oldTTIds, $ignoredIds);
         $increasedIds = array_diff($newTTIds, $ignoredIds);
@@ -48,17 +51,18 @@ class ReviewController extends Controller
     }
 
     /**
-     * Triggered when an existing review is approved|unapproved
-     * 
+     * Triggered when an existing review is approved|unapproved.
+     *
      * @param string $oldStatus
      * @param string $newStatus
-     * @param WP_Post $post
+     * @param \WP_Post $post
      * @return void
      * @action transition_post_status
      */
     public function onAfterChangeStatus($newStatus, $oldStatus, $post)
     {
-        if (Application::POST_TYPE != Arr::get($post, 'post_type') || in_array($oldStatus, ['new', $newStatus])) {
+        if (Application::POST_TYPE != Arr::get($post, 'post_type') 
+            || in_array($oldStatus, ['new', $newStatus])) {
             return;
         }
         $review = glsr_get_review($post);
@@ -70,8 +74,8 @@ class ReviewController extends Controller
     }
 
     /**
-     * Triggered when a review is first created
-     * 
+     * Triggered when a review is first created.
+     *
      * @return void
      * @action site-reviews/review/created
      */
@@ -85,8 +89,8 @@ class ReviewController extends Controller
     }
 
     /**
-     * Triggered when a review is deleted
-     * 
+     * Triggered when a review is deleted.
+     *
      * @param int $postId
      * @return void
      * @action before_delete_post
@@ -103,8 +107,8 @@ class ReviewController extends Controller
     }
 
     /**
-     * Triggered when a review's rating, assigned_to, or review_type is changed
-     * 
+     * Triggered when a review's rating, assigned_to, or review_type is changed.
+     *
      * @param int $metaId
      * @param int $postId
      * @param string $metaKey
@@ -130,12 +134,12 @@ class ReviewController extends Controller
     }
 
     /**
-     * Triggered by the onBeforeUpdate method
+     * Triggered by the onBeforeUpdate method.
      *
      * @param string|int $assignedTo
      * @return void
      */
-    public function onBeforeChangeAssignedTo(Review $review, $assignedTo)
+    protected function onBeforeChangeAssignedTo(Review $review, $assignedTo)
     {
         glsr(PostCountsManager::class)->decrease($review);
         $review->assigned_to = $assignedTo;
@@ -143,12 +147,12 @@ class ReviewController extends Controller
     }
 
     /**
-     * Triggered by the onBeforeUpdate method
-     * 
+     * Triggered by the onBeforeUpdate method.
+     *
      * @param string|int $rating
      * @return void
      */
-    public function onBeforeChangeRating(Review $review, $rating)
+    protected function onBeforeChangeRating(Review $review, $rating)
     {
         glsr(CountsManager::class)->decreaseAll($review);
         $review->rating = $rating;
@@ -156,12 +160,12 @@ class ReviewController extends Controller
     }
 
     /**
-     * Triggered by the onBeforeUpdate method
-     * 
+     * Triggered by the onBeforeUpdate method.
+     *
      * @param string $reviewType
      * @return void
      */
-    public function onBeforeChangeReviewType(Review $review, $reviewType)
+    protected function onBeforeChangeReviewType(Review $review, $reviewType)
     {
         glsr(CountsManager::class)->decreaseAll($review);
         $review->review_type = $reviewType;
