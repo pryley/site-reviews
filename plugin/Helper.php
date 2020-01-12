@@ -128,4 +128,19 @@ class Helper
         glsr_log()->error('Unable to detect IP address.');
         return 'unknown';
     }
+
+    /**
+     * @param mixed $value
+     * @param string|int $min
+     * @param string|int $max
+     * @return bool
+     */
+    public static function inRange($value, $min, $max)
+    {
+        $inRange = filter_var($value, FILTER_VALIDATE_INT, ['options' => [
+            'min_range' => intval($min),
+            'max_range' => intval($max),
+        ]]);
+        return false !== $inRange;
+    }
 }

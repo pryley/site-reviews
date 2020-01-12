@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Rating;
@@ -67,15 +68,12 @@ class CountsManager
         array_walk_recursive($reviewCounts, function ($num, $index) use (&$counts) {
             $counts[$index] = $num + intval(Arr::get($counts, $index, 0));
         });
-        $args = wp_parse_args($args, [
-            'max' => glsr()->constant('MAX_RATING', Rating::class),
-            'min' => glsr()->constant('MIN_RATING', Rating::class),
-        ]);
+        $min = Arr::get($args, 'min', glsr()->constant('MIN_RATING', Rating::class));
+        $max = Arr::get($args, 'max', glsr()->constant('MAX_RATING', Rating::class));
         foreach ($counts as $index => &$num) {
-            if ($index >= intval($args['min']) && $index <= intval($args['max'])) {
-                continue;
+            if (!Helper::inRange($index, $min, $max)) {
+                $num = 0;
             }
-            $num = 0;
         }
         return $counts;
     }
@@ -87,11 +85,9 @@ class CountsManager
     {
         $args = $this->normalizeArgs($args);
         $counts = $this->hasMixedAssignment($args)
-            ? [$this->buildCounts($args)] // force query the database
+            ? $this->buildCounts($args) // force query the database
             : $this->get($args);
-        return in_array($args['type'], ['', 'all'])
-            ? $this->normalize([$this->flatten($counts)])
-            : $this->normalize(glsr_array_column($counts, $args['type']));
+        return $this->normalize($counts);
     }
 
     /**
@@ -135,6 +131,26 @@ class CountsManager
     /**
      * @return array
      */
+    protected function combine(array $results)
+    {
+        if (!wp_is_numeric_array($results)) {
+            return $results;
+        }
+        $mergedKeys = array_keys(array_merge(...$results));
+        $counts = array_fill_keys($mergedKeys, $this->generateEmptyCountsArray());
+        foreach ($results as $typeRatings) {
+            foreach ($typeRatings as $type => $ratings) {
+                foreach ($ratings as $index => $rating) {
+                    $counts[$type][$index] = intval($rating) + $counts[$type][$index];
+                }
+            }
+        }
+        return $counts;
+    }
+
+    /**
+     * @return array
+     */
     protected function generateEmptyCountsArray()
     {
         return array_fill_keys(range(0, glsr()->constant('MAX_RATING', Rating::class)), 0);
@@ -145,17 +161,17 @@ class CountsManager
      */
     protected function get($args)
     {
-        $counts = [];
+        $results = [];
         foreach ($args['post_ids'] as $postId) {
-            $counts[] = glsr(PostCountsManager::class)->get($postId);
+            $results[] = glsr(PostCountsManager::class)->get($postId);
         }
         foreach ($args['term_ids'] as $termId) {
-            $counts[] = glsr(TermCountsManager::class)->get($termId);
+            $results[] = glsr(TermCountsManager::class)->get($termId);
         }
-        if (empty($counts)) {
-            $counts[] = glsr(GlobalCountsManager::class)->get();
+        if (empty($results)) {
+            $results[] = glsr(GlobalCountsManager::class)->get();
         }
-        return $counts;
+        return $this->combine($results);
     }
 
     /**
@@ -171,9 +187,6 @@ class CountsManager
      */
     protected function normalize(array $reviewCounts)
     {
-        if (empty($reviewCounts)) {
-            $reviewCounts = [[]];
-        }
         foreach ($reviewCounts as &$counts) {
             foreach (array_keys($this->generateEmptyCountsArray()) as $index) {
                 if (!isset($counts[$index])) {

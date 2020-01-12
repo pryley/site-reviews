@@ -167,14 +167,14 @@ class System
         $counts = glsr(CountsManager::class)->getCounts();
         $counts = Arr::flattenArray($counts);
         array_walk($counts, function (&$ratings) use ($counts) {
-            if (!is_array($ratings)) {
-                glsr_log()
-                    ->error('$ratings is not an array, possibly due to incorrectly imported reviews.')
-                    ->debug($ratings)
-                    ->debug($counts);
+            if (is_array($ratings)) {
+                $ratings = array_sum($ratings).' ('.implode(', ', $ratings).')';
                 return;
             }
-            $ratings = array_sum($ratings).' ('.implode(', ', $ratings).')';
+            glsr_log()
+                ->error('$ratings is not an array, possibly due to incorrectly imported reviews.')
+                ->debug($ratings)
+                ->debug($counts);
         });
         ksort($counts);
         return $counts;
