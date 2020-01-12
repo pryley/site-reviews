@@ -116,7 +116,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
-= 4.3.0 (2020-01-09) =
+= 4.3.0 (2020-01-11) =
 
 - Added update functionality for add-ons
 - Fixed assigned_to links
@@ -124,6 +124,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 - Fixed review helper functions
 - Fixed shortcode defaults
 - Fixed stars when MAX_RATING is greater than 5
+- Fixed summary rating calculation
 - Fixed validation of multi-value fields
 - Updated the version requirement checks
 

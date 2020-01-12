@@ -6,7 +6,7 @@
         <div class="glsr-column">
             <div class="card is-fullwidth">
                 <h3>4.3.0</h3>
-                <p><em>Release Date &mdash; January 9th, 2020</em></p>
+                <p><em>Release Date &mdash; January 12th, 2020</em></p>
                 <h4>New Features</h4>
                 <ul>
                     <li>Added update functionality for add-ons</li>
@@ -22,6 +22,7 @@
                     <li>Fixed avatar regeneration</li>
                     <li>Fixed review helper functions</li>
                     <li>Fixed shortcode defaults</li>
+                    <li>Fixed summary rating calculation</li>
                     <li>Fixed validation of multi-value fields</li>
                 </ul>
             </div>
