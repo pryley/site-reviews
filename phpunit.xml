@@ -8,19 +8,16 @@
 	verbose="true"
 	>
 	<testsuites>
-		<testsuite>
+		<testsuite name="basic-tests">
 			<directory prefix="Test" suffix=".php">tests/</directory>
 		</testsuite>
 	</testsuites>
 	<filter>
-		<blacklist>
-			<directory suffix=".php">tests/</directory>
-		</blacklist>
 		<whitelist>
 			<directory suffix=".php">plugin/</directory>
 		</whitelist>
 	</filter>
 	<logging>
-		<log type="coverage-clover" target="tests/coverage.xml" charset="UTF-8" />
+		<log type="coverage-clover" target="tests/coverage.xml" />
 	</logging>
 </phpunit>
