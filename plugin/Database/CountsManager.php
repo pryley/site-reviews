@@ -171,6 +171,7 @@ class CountsManager
         if (empty($results)) {
             $results[] = glsr(GlobalCountsManager::class)->get();
         }
+        $results[] = ['local' => $this->generateEmptyCountsArray()]; // make sure there is a fallback
         return $this->combine($results);
     }
 
