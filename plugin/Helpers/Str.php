@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Helpers;
 
-use GeminiLabs\SiteReviews\Helpers\Arr;
-
 class Str
 {
     /**
@@ -13,7 +11,7 @@ class Str
      */
     public static function afterLast($subject, $search)
     {
-        return $search === ''
+        return '' === $search
             ? $subject
             : array_reverse(explode($search, $subject))[0];
     }

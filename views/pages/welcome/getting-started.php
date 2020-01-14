@@ -4,7 +4,7 @@
     <div class="glsr-flex-row glsr-has-2-columns">
         <div class="glsr-column">
             <h3>Editor Blocks</h3>
-            <p>The fastest way to getting started with Site Reviews is use the three provided blocks in the WordPress Block Editor. Each block comes with multiple settings which let you configure the block exactly as needed. To add a block to your page, click the "Add Block" button and search for "Site Reviews".</p>
+            <p>The fastest way to getting started with Site Reviews is to use the three provided blocks in the WordPress Block Editor. Each block comes with multiple settings which let you configure the block exactly as needed. To add a block to your page, click the "Add Block" button and search for "Site Reviews".</p>
             <img class="screenshot" src="<?= glsr()->url('assets/images/blocks.png'); ?>" alt="Editor Blocks" />
         </div>
         <div class="glsr-column">
