@@ -27,7 +27,7 @@ class Upgrader
             if (version_compare($this->currentVersion, $upgradeFromVersion.$suffix, '>=')) {
                 return;
             }
-            glsr('Modules\\Upgrader\\'.$className);
+            glsr('Modules\\Upgrader\\'.$className)->run();
             glsr_log()->notice('Completed Upgrade for v'.$upgradeFromVersion.$suffix);
         });
         $this->finish();

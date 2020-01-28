@@ -13,6 +13,7 @@ use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\System;
+use GeminiLabs\SiteReviews\Modules\Upgrader\Upgrade_4_0_2;
 
 class AdminController extends Controller
 {
@@ -171,6 +172,15 @@ class AdminController extends Controller
         if ($showNotice) {
             glsr(Notice::class)->clear()->addSuccess(__('Recalculated rating counts.', 'site-reviews'));
         }
+    }
+
+    /**
+     * @return void
+     */
+    public function routerMigrateReviews()
+    {
+        glsr(Upgrade_4_0_2::class)->protectMetaKeys();
+        glsr(Notice::class)->clear()->addSuccess(__('All reviews have been migrated.', 'site-reviews'));
     }
 
     /**

@@ -25,6 +25,20 @@
 <?php endif; ?>
 
 <div class="glsr-card card">
+    <h3>Migrate reviews</h3>
+    <p>Run this tool if your reviews stopped working correctly after upgrading the plugin to version 4 (i.e. read-only reviews, zero-star ratings, etc.).</p>
+    <form method="post">
+        <input type="hidden" name="{{ id }}[_action]" value="migrate-reviews">
+        <?php wp_nonce_field('migrate-reviews'); ?>
+        <p class="submit">
+            <button type="submit" class="glsr-button button" name="migrate-reviews" id="migrate-reviews">
+                <span data-loading="<?= __('Migrating Reviews...', 'site-reviews'); ?>"><?= __('Run Migration', 'site-reviews'); ?></span>
+            </button>
+        </p>
+    </form>
+</div>
+
+<div class="glsr-card card">
     <h3>Recalculate rating counts</h3>
     <p>Site Reviews maintains an internal rating count of your reviews, this allows the plugin to calculate the average rating scores without negatively impacting performance when you have a lot of reviews.</p>
     <p>If you suspect that the rating counts are incorrect (perhaps you have edited reviews directly in your database), you can recalculate them here.</p>
@@ -38,3 +52,4 @@
         </p>
     </form>
 </div>
+

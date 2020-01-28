@@ -43,7 +43,7 @@ msgstr ""
 msgid "This plugin requires %s or greater in order to work properly."
 msgstr ""
 
-#: helpers.php:68, plugin/Controllers/AdminController.php:172
+#: helpers.php:68, plugin/Controllers/AdminController.php:173
 msgid "Recalculated rating counts."
 msgstr ""
 
@@ -722,97 +722,101 @@ msgctxt "View Post"
 msgid "View %s"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:27
+#: plugin/Controllers/AdminController.php:28
 msgid "You can pin exceptional reviews so that they are always shown first."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:35
+#: plugin/Controllers/AdminController.php:36
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:47, plugin/Controllers/MenuController.php:53
+#: plugin/Controllers/AdminController.php:48, plugin/Controllers/MenuController.php:53
 msgid "Help"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:50, plugin/Controllers/MenuController.php:50, views/pages/tools/sync.php:23
+#: plugin/Controllers/AdminController.php:51, plugin/Controllers/MenuController.php:50, views/pages/tools/sync.php:23
 msgid "Settings"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:81
+#: plugin/Controllers/AdminController.php:82
 msgid "%s Review"
 msgid_plural "%s Reviews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/AdminController.php:116, plugin/Controllers/MainController.php:91
+#: plugin/Controllers/AdminController.php:117, plugin/Controllers/MainController.php:91
 msgid "Recent Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:117, plugin/Controllers/MainController.php:96
+#: plugin/Controllers/AdminController.php:118, plugin/Controllers/MainController.php:96
 msgid "Submit a Review"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:118, plugin/Controllers/MainController.php:101
+#: plugin/Controllers/AdminController.php:119, plugin/Controllers/MainController.php:101
 msgid "Summary of Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:152
+#: plugin/Controllers/AdminController.php:153
 msgid "Console cleared."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:160
+#: plugin/Controllers/AdminController.php:161
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:210
+#: plugin/Controllers/AdminController.php:183
+msgid "All reviews have been migrated."
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:220
 msgid "Please use a valid Site Reviews settings file."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:214
+#: plugin/Controllers/AdminController.php:224
 msgid "There were no settings found to import."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:217
+#: plugin/Controllers/AdminController.php:227
 msgid "Settings imported."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:227
+#: plugin/Controllers/AdminController.php:237
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:228
+#: plugin/Controllers/AdminController.php:238
 msgid "The uploaded file is too big."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:229
+#: plugin/Controllers/AdminController.php:239
 msgid "The uploaded file was only partially uploaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:230
+#: plugin/Controllers/AdminController.php:240
 msgid "No file was uploaded."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:231
+#: plugin/Controllers/AdminController.php:241
 msgid "Missing a temporary folder."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:232
+#: plugin/Controllers/AdminController.php:242
 msgid "Failed to write file to disk."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:233
+#: plugin/Controllers/AdminController.php:243
 msgid "A PHP extension stopped the file upload."
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:235
+#: plugin/Controllers/AdminController.php:245
 msgid "Unknown upload error."
 msgstr ""
 
-#: plugin/Controllers/AjaxController.php:67
+#: plugin/Controllers/AjaxController.php:78
 msgid "Okay"
 msgstr ""
 
-#: plugin/Controllers/AjaxController.php:99, plugin/Controllers/AjaxController.php:118
+#: plugin/Controllers/AjaxController.php:110, plugin/Controllers/AjaxController.php:129
 msgid "Nothing found."
 msgstr ""
 
@@ -1703,11 +1707,19 @@ msgstr ""
 msgid "Import Settings"
 msgstr ""
 
-#: views/pages/tools/general.php:36
+#: views/pages/tools/general.php:35
+msgid "Migrating Reviews..."
+msgstr ""
+
+#: views/pages/tools/general.php:35
+msgid "Run Migration"
+msgstr ""
+
+#: views/pages/tools/general.php:50
 msgid "Recalculating Counts..."
 msgstr ""
 
-#: views/pages/tools/general.php:36
+#: views/pages/tools/general.php:50
 msgid "Recalculate Counts"
 msgstr ""
 

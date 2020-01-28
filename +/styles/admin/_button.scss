@@ -28,22 +28,20 @@
 	border-top-color: currentColor;
 }
 
-.shortcode-site-reviews-form:not(.glsr-shortcode) {
-	.glsr-button[disabled] {
-		padding-left: calc(1em + 15px);
-	}
-	.glsr-button[disabled]::before,
-	.glsr-button[disabled]::after {
-		content: '';
-		left: 10px;
-	}
-	.glsr-button[disabled] span {
-		visibility: hidden;
-		font-size: 0;
-	}
-	.glsr-button[disabled] span::after {
-		visibility: visible;
-		content: attr(data-loading);
-		font-size: 13px;
-	}
+.glsr-button[disabled] {
+	padding-left: calc(1em + 15px);
+}
+.glsr-button[disabled]::before,
+.glsr-button[disabled]::after {
+	content: '';
+	left: 10px;
+}
+.glsr-button[disabled] span {
+	visibility: hidden;
+	font-size: 0;
+}
+.glsr-button[disabled] span::after {
+	visibility: visible;
+	content: attr(data-loading);
+	font-size: 13px;
 }

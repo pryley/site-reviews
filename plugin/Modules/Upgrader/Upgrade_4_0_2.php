@@ -9,14 +9,6 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Upgrade_4_0_2
 {
-    public function __construct()
-    {
-        $this->migrateSettings();
-        $this->protectMetaKeys();
-        $this->deleteSessions();
-        delete_transient(Application::ID.'_cloudflare_ips');
-    }
-
     /**
      * @return void
      */
@@ -71,5 +63,16 @@ class Upgrade_4_0_2
             WHERE pm.meta_key IN ('{$keys}')
             AND p.post_type = '{$postType}'
         ");
+    }
+
+    /**
+     * @return void
+     */
+    public function run()
+    {
+        $this->migrateSettings();
+        $this->protectMetaKeys();
+        $this->deleteSessions();
+        delete_transient(Application::ID.'_cloudflare_ips');
     }
 }

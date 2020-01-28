@@ -59,11 +59,6 @@ class Upgrade_3_0_0
      */
     protected $oldSettings;
 
-    public function __construct()
-    {
-        $this->migrateSettings();
-    }
-
     /**
      * @return void
      */
@@ -89,6 +84,14 @@ class Upgrade_3_0_0
             $newSettings['settings']['strings'] = $oldSettings['settings']['strings'];
         }
         glsr(OptionManager::class)->set($newSettings);
+    }
+
+    /**
+     * @return void
+     */
+    public function run()
+    {
+        $this->migrateSettings();
     }
 
     /**
