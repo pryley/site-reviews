@@ -48,31 +48,70 @@ class Helper
      */
     public static function castTo($cast = '', $value)
     {
-        switch ($cast) {
-            case 'array':
-                return (array) $value;
-            case 'bool':
-            case 'boolean':
-                return filter_var($value, FILTER_VALIDATE_BOOLEAN);
-            case 'float':
-                return (float) filter_var($value, FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_THOUSAND);
-            case 'int':
-            case 'integer':
-                return (int) filter_var($value, FILTER_VALIDATE_INT);
-            case 'object':
-                return (object) (array) $value;
-            case 'str':
-            case 'string':
-                if (is_object($value) && in_array('__toString', get_class_methods($value))) {
-                    return (string) $value->__toString();
-                }
-                if (is_array($value) || is_object($value)) {
-                    return serialize($value);
-                }
-                return (string) $value;
-            default:
-                return $value;
+        $method = static::buildMethodName($cast, 'castTo');
+        return !empty($cast) && method_exists(__CLASS__, $method)
+            ? static::$method($value)
+            : $value;
+    }
+
+    /**
+     * @param mixed $value
+     * @return array
+     */
+    public static function castToArray($value)
+    {
+        return (array) $value;
+    }
+
+    /**
+     * @param mixed $value
+     * @return bool
+     */
+    public static function castToBool($value)
+    {
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * @param mixed $value
+     * @return float
+     */
+    public static function castToFloat($value)
+    {
+        return (float) filter_var($value, FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_THOUSAND);
+    }
+
+    /**
+     * @param mixed $value
+     * @return int
+     */
+    public static function castToInt($value)
+    {
+        return (int) filter_var($value, FILTER_VALIDATE_INT);
+    }
+
+    /**
+     * @param mixed $value
+     * @return object
+     */
+    public static function castToObject($value)
+    {
+        return (object) (array) $value;
+    }
+
+    /**
+     * @param mixed $value
+     * @return string
+     */
+    public static function castToString($value)
+    {
+        if (is_object($value) && in_array('__toString', get_class_methods($value))) {
+            return (string) $value->__toString();
         }
+        if (is_array($value) || is_object($value)) {
+            return serialize($value);
+        }
+        return (string) $value;
     }
 
     /**

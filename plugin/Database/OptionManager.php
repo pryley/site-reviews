@@ -77,7 +77,7 @@ class OptionManager
      */
     public function getBool($path)
     {
-        return Helper::castTo('bool', $this->get($path));
+        return Helper::castToBool($this->get($path));
     }
 
     /**
