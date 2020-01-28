@@ -116,6 +116,10 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
+= 4.3.2 (2020-01-28) =
+
+- Added migration tool for cases when auto-migration is not triggered when upgrading to version 4
+
 = 4.3.1 (2020-01-14) =
 
 - Fixed summary percentage bars when rating count is empty

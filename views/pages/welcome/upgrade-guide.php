@@ -5,7 +5,7 @@
     <div class="glsr-flex-row">
         <div class="glsr-column">
             <div class="glsr-card card is-fullwidth">
-                <h3>4.0.0</h3>
+                <h3>Version 4.0</h3>
                 <h4>Meta Keys</h4>
                 <p><em>Likelihood Of Impact: Low</em></p>
                 <p><span class="required">This will not apply to most people. You only need to read this if you have made custom modifications to your website that involve custom manipulation of your reviews using hooks, helper functions, or otherwise.</span></p>

@@ -5,10 +5,11 @@
     <div class="glsr-flex-row">
         <div class="glsr-column">
             <div class="card is-fullwidth">
-                <h3>4.3.0</h3>
+                <h3>Version 4.3</h3>
                 <p><em>Release Date &mdash; January 12th, 2020</em></p>
                 <h4>New Features</h4>
                 <ul>
+                    <li>Added migration tool for cases when auto-migration is not triggered when upgrading to version 4</li>
                     <li>Added update functionality for add-ons</li>
                 </ul>
                 <h4>Tweaks</h4>
@@ -22,12 +23,13 @@
                     <li>Fixed avatar regeneration</li>
                     <li>Fixed review helper functions</li>
                     <li>Fixed shortcode defaults</li>
+                    <li>Fixed summary percentage bars when rating count is empty</li>
                     <li>Fixed summary rating calculation</li>
                     <li>Fixed validation of multi-value fields</li>
                 </ul>
             </div>
             <div class="card is-fullwidth">
-                <h3>4.2.0</h3>
+                <h3>Version 4.2</h3>
                 <p><em>Release Date &mdash; October 29th, 2019</em></p>
                 <h4>New Features</h4>
                 <ul>
@@ -48,7 +50,7 @@
                 </ul>
             </div>
             <div class="card is-fullwidth">
-                <h3>4.1.0</h3>
+                <h3>Version 4.1</h3>
                 <p><em>Release Date &mdash; October 16th, 2019</em></p>
                 <h4>New Features</h4>
                 <ul>
@@ -80,7 +82,7 @@
                 </ul>
             </div>
             <div class="card is-fullwidth">
-                <h3>4.0.0</h3>
+                <h3>Version 4.0</h3>
                 <p><em>Release Date &mdash; October 6th, 2019</em></p>
                 <h4>New Features</h4>
                 <ul>
