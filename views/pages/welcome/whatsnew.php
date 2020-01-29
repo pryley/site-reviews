@@ -10,6 +10,7 @@
                 <h4>New Features</h4>
                 <ul>
                     <li>Added migration tool for cases when auto-migration is not triggered when upgrading to version 4</li>
+                    <li>Added permission validation to the submission form</li>
                     <li>Added update functionality for add-ons</li>
                 </ul>
                 <h4>Tweaks</h4>
@@ -22,6 +23,7 @@
                     <li>Fixed assigned_to links</li>
                     <li>Fixed avatar regeneration</li>
                     <li>Fixed review helper functions</li>
+                    <li>Fixed schema to not show if there are no reviews or ratings</li>
                     <li>Fixed shortcode defaults</li>
                     <li>Fixed summary percentage bars when rating count is empty</li>
                     <li>Fixed summary rating calculation</li>

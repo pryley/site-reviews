@@ -1131,7 +1131,7 @@ msgstr ""
 msgid "This field requires a valid e-mail address."
 msgstr ""
 
-#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/ValidateReview.php:154
+#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/ValidateReview.php:155
 msgid "Please fix the submission errors."
 msgstr ""
 
@@ -1611,27 +1611,31 @@ msgstr ""
 msgid "All types"
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:189
+#: plugin/Modules/Validator/ValidateReview.php:190
 msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:211
+#: plugin/Modules/Validator/ValidateReview.php:212
 msgid "Your review cannot be submitted at this time."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:230, plugin/Modules/Validator/ValidateReview.php:244
+#: plugin/Modules/Validator/ValidateReview.php:231, plugin/Modules/Validator/ValidateReview.php:245
 msgid "The review submission failed. Please notify the site administrator."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:259
+#: plugin/Modules/Validator/ValidateReview.php:260
+msgid "You must be logged in to submit a review."
+msgstr ""
+
+#: plugin/Modules/Validator/ValidateReview.php:273
 msgid "You have already submitted a review."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:282
+#: plugin/Modules/Validator/ValidateReview.php:296
 msgid "The reCAPTCHA failed to load, please refresh the page and try again."
 msgstr ""
 
-#: plugin/Modules/Validator/ValidateReview.php:283
+#: plugin/Modules/Validator/ValidateReview.php:297
 msgid "The reCAPTCHA verification failed, please try again."
 msgstr ""
 
