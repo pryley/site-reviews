@@ -65,6 +65,7 @@ class ValidateReview
         $this->options = glsr(OptionManager::class)->all();
         $this->request = $this->validateRequest($request);
         $this->validateCustom();
+        $this->validatePermission();
         $this->validateHoneyPot();
         $this->validateReviewLimits();
         $this->validateBlacklist();
@@ -244,6 +245,19 @@ class ValidateReview
             $this->setError(__('The review submission failed. Please notify the site administrator.', 'site-reviews'),
                 'The Honeypot caught a bad submission:'
             );
+        }
+    }
+
+    /**
+     * @return void
+     */
+    protected function validatePermission()
+    {
+        if (!empty($this->error)) {
+            return;
+        }
+        if (!is_user_logged_in() && glsr(OptionManager::class)->getBool('settings.general.require.login')) {
+            $this->setError(__('You must be logged in to submit a review.', 'site-reviews'));
         }
     }
 
