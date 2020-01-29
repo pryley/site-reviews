@@ -34,20 +34,14 @@ class Schema
     {
         $this->args = $args;
         $schema = $this->buildSummary($args);
-        $reviews = [];
-        foreach (glsr(ReviewManager::class)->get($this->args) as $review) {
-            // Only include critic reviews that have been directly produced by your site, not reviews from third-party sites or syndicated reviews.
-            // @see https://developers.google.com/search/docs/data-types/review
-            if ('local' != $review->review_type) {
-                continue;
-            }
-            $reviews[] = $this->buildReview($review);
-        }
-        if (!empty($reviews)) {
-            array_walk($reviews, function (&$review) {
+        if (!empty($schema)) {
+            $reviews = $this->buildReviews();
+            $reviews = array_walk($reviews, function (&$review) {
                 unset($review['@context']);
                 unset($review['itemReviewed']);
             });
+        }
+        if (!empty($reviews)) {
             $schema['review'] = $reviews;
         }
         return $schema;
@@ -63,11 +57,10 @@ class Schema
             $this->args = $args;
         }
         $buildSummary = Helper::buildMethodName($this->getSchemaOptionValue('type'), 'buildSummaryFor');
-        $count = array_sum($this->getRatingCounts());
-        $schema = method_exists($this, $buildSummary)
-            ? $this->$buildSummary()
-            : $this->buildSummaryForCustom();
-        if (!empty($count)) {
+        if ($count = array_sum($this->getRatingCounts())) {
+            $schema = method_exists($this, $buildSummary)
+                ? $this->$buildSummary()
+                : $this->buildSummaryForCustom();
             $schema->aggregateRating(
                 $this->getSchemaType('AggregateRating')
                     ->ratingValue($this->getRatingValue())
@@ -75,9 +68,10 @@ class Schema
                     ->bestRating(glsr()->constant('MAX_RATING', Rating::class))
                     ->worstRating(glsr()->constant('MIN_RATING', Rating::class))
             );
+            $schema = $schema->toArray();
+            return apply_filters('site-reviews/schema/'.$schema['@type'], $schema, $args);
         }
-        $schema = $schema->toArray();
-        return apply_filters('site-reviews/schema/'.$schema['@type'], $schema, $args);
+        return [];
     }
 
     /**
@@ -99,6 +93,9 @@ class Schema
      */
     public function store(array $schema)
     {
+        if (empty(glsr()->schemas)) {
+            return;
+        }
         $schemas = glsr()->schemas;
         $schemas[] = $schema;
         glsr()->schemas = array_map('unserialize', array_unique(array_map('serialize', $schemas)));
@@ -129,6 +126,22 @@ class Schema
             );
         }
         return apply_filters('site-reviews/schema/review', $schema->toArray(), $review, $this->args);
+    }
+
+    /**
+     * @return array
+     */
+    protected function buildReviews()
+    {
+        $reviews = [];
+        foreach (glsr(ReviewManager::class)->get($this->args) as $review) {
+            // Only include critic reviews that have been directly produced by your site, not reviews from third-party sites or syndicated reviews.
+            // @see https://developers.google.com/search/docs/data-types/review
+            if ('local' === $review->review_type) {
+                $reviews[] = $this->buildReview($review);
+            }
+        }
+        return $reviews;
     }
 
     /**
