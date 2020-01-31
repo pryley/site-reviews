@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Tested up to: 5.3
 Requires at least: 4.7.0
 Requires PHP: 5.6
-Stable tag: 4.3.3
+Stable tag: 4.3.7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,7 +116,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 == Changelog ==
 
-= 4.3.3 (2020-01-28) =
+= 4.3.7 (2020-01-31) =
 
 - Added permission validation to the submission form
 - Fixed schema to not show if there are no reviews or ratings
