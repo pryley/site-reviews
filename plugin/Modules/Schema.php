@@ -36,10 +36,10 @@ class Schema
         $schema = $this->buildSummary($args);
         if (!empty($schema)) {
             $reviews = $this->buildReviews();
-            $reviews = array_walk($reviews, function (&$review) {
+            foreach ($reviews as &$review) {
                 unset($review['@context']);
                 unset($review['itemReviewed']);
-            });
+            }
         }
         if (!empty($reviews)) {
             $schema['review'] = $reviews;
@@ -93,7 +93,7 @@ class Schema
      */
     public function store(array $schema)
     {
-        if (empty(glsr()->schemas)) {
+        if (empty($schema)) {
             return;
         }
         $schemas = glsr()->schemas;
