@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Updater
@@ -194,7 +195,7 @@ class Updater
         $updateInfo->tested = Arr::get($this->data, 'testedTo');
         $transient->checked[$this->plugin] = Arr::get($this->data, 'Version');
         $transient->last_checked = time();
-        if (version_compare($updateInfo->new_version, Arr::get($this->data, 'Version'), '>')) {
+        if (Helper::isGreaterThan($updateInfo->new_version, Arr::get($this->data, 'Version'))) {
             unset($transient->no_update[$this->plugin]);
             $updateInfo->update = true;
             $transient->response[$this->plugin] = $updateInfo;

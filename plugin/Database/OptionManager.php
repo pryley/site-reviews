@@ -19,13 +19,17 @@ class OptionManager
      */
     public static function databaseKey($version = null)
     {
+        if (1 == $version) {
+            return 'geminilabs_site_reviews_settings';
+        }
+        if (2 == $version) {
+            return 'geminilabs_site_reviews-v2';
+        }
         if (null === $version) {
             $version = explode('.', glsr()->version);
             $version = array_shift($version);
         }
-        return Str::snakeCase(
-            Application::ID.'-v'.intval($version)
-        );
+        return Str::snakeCase(Application::ID.'-v'.intval($version));
     }
 
     /**

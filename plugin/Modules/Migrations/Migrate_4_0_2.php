@@ -1,13 +1,13 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules\Upgrader;
+namespace GeminiLabs\SiteReviews\Modules\Migrations;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class Upgrade_4_0_2
+class Migrate_4_0_2
 {
     /**
      * @return void

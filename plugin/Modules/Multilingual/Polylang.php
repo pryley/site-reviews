@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Multilingual;
 
 use GeminiLabs\SiteReviews\Contracts\MultilingualContract as Contract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Polylang implements Contract
@@ -73,6 +74,6 @@ class Polylang implements Contract
     public function isSupported()
     {
         return defined('POLYLANG_VERSION')
-            && version_compare(POLYLANG_VERSION, $this->supportedVersion, '>=');
+            && Helper::isGreaterThanOrEqual(POLYLANG_VERSION, $this->supportedVersion);
     }
 }

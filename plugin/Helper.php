@@ -182,4 +182,44 @@ class Helper
         ]]);
         return false !== $inRange;
     }
+
+    /**
+     * @param int|string $value
+     * @param int|string $compareWithValue
+     * @return bool
+     */
+    public static function isGreaterThan($value, $compareWithValue)
+    {
+        return version_compare($value, $compareWithValue, '>');
+    }
+
+    /**
+     * @param int|string $value
+     * @param int|string $compareWithValue
+     * @return bool
+     */
+    public static function isGreaterThanOrEqual($value, $compareWithValue)
+    {
+        return version_compare($value, $compareWithValue, '>=');
+    }
+
+    /**
+     * @param int|string $value
+     * @param int|string $compareWithValue
+     * @return bool
+     */
+    public static function isLessThan($value, $compareWithValue)
+    {
+        return version_compare($value, $compareWithValue, '<');
+    }
+
+    /**
+     * @param int|string $value
+     * @param int|string $compareWithValue
+     * @return bool
+     */
+    public static function isLessThanOrEqual($value, $compareWithValue)
+    {
+        return version_compare($value, $compareWithValue, '<=');
+    }
 }

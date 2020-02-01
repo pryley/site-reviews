@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
@@ -126,6 +127,7 @@ class CountsManager
         glsr(GlobalCountsManager::class)->updateAll();
         glsr(PostCountsManager::class)->updateAll();
         glsr(TermCountsManager::class)->updateAll();
+        glsr(OptionManager::class)->set('last_review_count', current_time('timestamp'));
     }
 
     /**

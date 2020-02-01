@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Date;
 
 class System
 {
@@ -222,7 +223,8 @@ class System
         return [
             'Console level' => glsr(Console::class)->humanLevel(),
             'Console size' => glsr(Console::class)->humanSize('0'),
-            'Last Rating Count' => date_i18n('Y-m-d H:i', glsr(OptionManager::class)->get('last_review_count')),
+            'Last Migration Run' => glsr(Date::class)->localized(glsr(OptionManager::class)->get('last_migration_run'), 'unknown'),
+            'Last Rating Count' => glsr(Date::class)->localized(glsr(OptionManager::class)->get('last_review_count'), 'unknown'),
             'Version (current)' => glsr()->version,
             'Version (previous)' => glsr(OptionManager::class)->get('version_upgraded_from'),
         ];

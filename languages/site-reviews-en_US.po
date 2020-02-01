@@ -52,7 +52,7 @@ msgstr "WordPress version"
 msgid "This plugin requires %s or greater in order to work properly."
 msgstr "This plugin requires %s or greater in order to work properly."
 
-#: helpers.php:68, plugin/Controllers/AdminController.php:173
+#: helpers.php:68, plugin/Controllers/AdminController.php:170
 msgid "Recalculated rating counts."
 msgstr "Recalculated rating counts."
 
@@ -700,7 +700,7 @@ msgstr "Require approval"
 msgid "Reject submission"
 msgstr "Reject submission"
 
-#: plugin/Application.php:241
+#: plugin/Application.php:247
 msgid "Local"
 msgstr "Local"
 
@@ -806,51 +806,51 @@ msgstr "Console cleared."
 msgid "Console reloaded."
 msgstr "Console reloaded."
 
-#: plugin/Controllers/AdminController.php:183
+#: plugin/Controllers/AdminController.php:179
 msgid "All reviews have been migrated."
 msgstr "All reviews have been migrated."
 
-#: plugin/Controllers/AdminController.php:220
+#: plugin/Controllers/AdminController.php:216
 msgid "Please use a valid Site Reviews settings file."
 msgstr "Please use a valid Site Reviews settings file."
 
-#: plugin/Controllers/AdminController.php:224
+#: plugin/Controllers/AdminController.php:220
 msgid "There were no settings found to import."
 msgstr "There were no settings found to import."
 
-#: plugin/Controllers/AdminController.php:227
+#: plugin/Controllers/AdminController.php:223
 msgid "Settings imported."
 msgstr "Settings imported."
 
-#: plugin/Controllers/AdminController.php:237
+#: plugin/Controllers/AdminController.php:245
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
 msgstr "The uploaded file exceeds the upload_max_filesize directive in php.ini."
 
-#: plugin/Controllers/AdminController.php:238
+#: plugin/Controllers/AdminController.php:246
 msgid "The uploaded file is too big."
 msgstr "The uploaded file is too big."
 
-#: plugin/Controllers/AdminController.php:239
+#: plugin/Controllers/AdminController.php:247
 msgid "The uploaded file was only partially uploaded."
 msgstr "The uploaded file was only partially uploaded."
 
-#: plugin/Controllers/AdminController.php:240
+#: plugin/Controllers/AdminController.php:248
 msgid "No file was uploaded."
 msgstr "No file was uploaded."
 
-#: plugin/Controllers/AdminController.php:241
+#: plugin/Controllers/AdminController.php:249
 msgid "Missing a temporary folder."
 msgstr "Missing a temporary folder."
 
-#: plugin/Controllers/AdminController.php:242
+#: plugin/Controllers/AdminController.php:250
 msgid "Failed to write file to disk."
 msgstr "Failed to write file to disk."
 
-#: plugin/Controllers/AdminController.php:243
+#: plugin/Controllers/AdminController.php:251
 msgid "A PHP extension stopped the file upload."
 msgstr "A PHP extension stopped the file upload."
 
-#: plugin/Controllers/AdminController.php:245
+#: plugin/Controllers/AdminController.php:253
 msgid "Unknown upload error."
 msgstr "Unknown upload error."
 
@@ -1026,11 +1026,11 @@ msgstr "Console"
 msgid "System Info"
 msgstr "System Info"
 
-#: plugin/Controllers/NoticeController.php:110
+#: plugin/Controllers/NoticeController.php:112
 msgid "Thanks for installing Site Reviews %s, we hope you love it!"
 msgstr "Thanks for installing Site Reviews %s, we hope you love it!"
 
-#: plugin/Controllers/NoticeController.php:111
+#: plugin/Controllers/NoticeController.php:113
 msgid "Thanks for updating to Site Reviews %s, we hope you love the changes!"
 msgstr "Thanks for updating to Site Reviews %s, we hope you love the changes!"
 
@@ -1232,43 +1232,43 @@ msgstr "Console is empty"
 msgid "Console was automatically cleared (128 KB maximum size)"
 msgstr "Console was automatically cleared (128 KB maximum size)"
 
-#: plugin/Modules/Date.php:40
+#: plugin/Modules/Date.php:79
 msgid "%s second ago"
 msgid_plural "%s seconds ago"
 msgstr[0] "%s second ago"
 msgstr[1] "%s seconds ago"
 
-#: plugin/Modules/Date.php:41
+#: plugin/Modules/Date.php:80
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "%s minute ago"
 msgstr[1] "%s minutes ago"
 
-#: plugin/Modules/Date.php:42
+#: plugin/Modules/Date.php:81
 msgid "an hour ago"
 msgid_plural "%s hours ago"
 msgstr[0] "an hour ago"
 msgstr[1] "%s hours ago"
 
-#: plugin/Modules/Date.php:43
+#: plugin/Modules/Date.php:82
 msgid "yesterday"
 msgid_plural "%s days ago"
 msgstr[0] "yesterday"
 msgstr[1] "%s days ago"
 
-#: plugin/Modules/Date.php:44
+#: plugin/Modules/Date.php:83
 msgid "a week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "a week ago"
 msgstr[1] "%s weeks ago"
 
-#: plugin/Modules/Date.php:45
+#: plugin/Modules/Date.php:84
 msgid "%s month ago"
 msgid_plural "%s months ago"
 msgstr[0] "%s month ago"
 msgstr[1] "%s months ago"
 
-#: plugin/Modules/Date.php:46
+#: plugin/Modules/Date.php:85
 msgid "%s year ago"
 msgid_plural "%s years ago"
 msgstr[0] "%s year ago"

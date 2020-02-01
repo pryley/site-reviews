@@ -5,8 +5,16 @@ namespace GeminiLabs\SiteReviews;
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Upgrader;
 
+/**
+ * @property string $capability
+ * @property string $cron_event
+ * @property string $id
+ * @property string $paged_query_var
+ * @property string $post_type
+ * @property string $prefix
+ * @property string $taxonomy
+ */
 final class Application extends Container
 {
     const CAPABILITY = 'edit_others_posts';
@@ -48,9 +56,8 @@ final class Application extends Container
      */
     public function activate()
     {
-        $this->make(DefaultsManager::class)->set();
         $this->scheduleCronJob();
-        $this->upgrade();
+        add_option(static::PREFIX.'activated', true);
     }
 
     /**
@@ -137,7 +144,6 @@ final class Application extends Container
     {
         if (empty($this->defaults)) {
             $this->defaults = $this->make(DefaultsManager::class)->get();
-            $this->upgrade();
         }
         return apply_filters('site-reviews/get/defaults', $this->defaults);
     }
@@ -264,10 +270,20 @@ final class Application extends Container
      */
     public function scheduleCronJob()
     {
-        if (wp_next_scheduled(static::CRON_EVENT)) {
-            return;
+        if (false === wp_next_scheduled(static::CRON_EVENT)) {
+            wp_schedule_event(time(), 'twicedaily', static::CRON_EVENT);
         }
-        wp_schedule_event(time(), 'twicedaily', static::CRON_EVENT);
+    }
+
+    /**
+     * @return void
+     */
+    public function setDefaults()
+    {
+        if (get_option(static::PREFIX.'activated')) {
+            $this->make(DefaultsManager::class)->set();
+            delete_option(static::PREFIX.'activated');
+        }
     }
 
     /**
@@ -285,30 +301,6 @@ final class Application extends Container
     public function unscheduleCronJob()
     {
         wp_unschedule_event(intval(wp_next_scheduled(static::CRON_EVENT)), static::CRON_EVENT);
-    }
-
-    /**
-     * @return void
-     */
-    public function upgrade()
-    {
-        $this->make(Upgrader::class)->run();
-    }
-
-    /**
-     * @param mixed $upgrader
-     * @return void
-     * @action upgrader_process_complete
-     */
-    public function upgraded($upgrader, array $data)
-    {
-        if (array_key_exists('plugins', $data)
-            && in_array(plugin_basename($this->file), $data['plugins'])
-            && 'update' === $data['action']
-            && 'plugin' === $data['type']
-        ) {
-            $this->upgrade();
-        }
     }
 
     /**

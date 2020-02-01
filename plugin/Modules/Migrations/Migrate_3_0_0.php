@@ -1,12 +1,11 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules\Upgrader;
+namespace GeminiLabs\SiteReviews\Modules\Migrations;
 
-use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class Upgrade_3_0_0
+class Migrate_3_0_0
 {
     const MAPPED_SETTINGS = [
         'settings.general.notification' => 'settings.general.notifications', // array
@@ -66,7 +65,7 @@ class Upgrade_3_0_0
     {
         $this->newSettings = $this->getNewSettings();
         $this->oldSettings = $this->getOldSettings();
-        if (empty($this->oldSettings)) {
+        if (empty($this->oldSettings) || empty($this->newSettings)) {
             return;
         }
         foreach (static::MAPPED_SETTINGS as $old => $new) {
@@ -83,7 +82,7 @@ class Upgrade_3_0_0
         if (isset($oldSettings['settings']['strings']) && is_array($oldSettings['settings']['strings'])) {
             $newSettings['settings']['strings'] = $oldSettings['settings']['strings'];
         }
-        glsr(OptionManager::class)->set($newSettings);
+        update_option(OptionManager::databaseKey(3), $newSettings);
     }
 
     /**
@@ -99,10 +98,7 @@ class Upgrade_3_0_0
      */
     protected function getNewSettings()
     {
-        return wp_parse_args(
-            Arr::flattenArray(glsr(OptionManager::class)->all()),
-            glsr(DefaultsManager::class)->defaults()
-        );
+        return  Arr::flattenArray(Arr::consolidateArray(OptionManager::databaseKey(3)));
     }
 
     /**
@@ -111,11 +107,11 @@ class Upgrade_3_0_0
     protected function getOldSettings()
     {
         $defaults = array_fill_keys(array_keys(static::MAPPED_SETTINGS), '');
-        $settings = Arr::flattenArray((array) get_option('geminilabs_site_reviews-v2', []));
-        if (!empty($settings)) {
-            $settings = wp_parse_args($settings, $defaults);
-        }
-        return $settings;
+        $settings = Arr::consolidateArray(get_option(OptionManager::databaseKey(2)));
+        $settings = Arr::flattenArray($settings);
+        return !empty($settings)
+            ? wp_parse_args($settings, $defaults)
+            : [];
     }
 
     /**

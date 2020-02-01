@@ -68,11 +68,12 @@ class Actions implements HooksContract
         add_action('admin_enqueue_scripts',                                 [$this->admin, 'enqueueAssets']);
         add_action('admin_init',                                            [$this->admin, 'registerTinymcePopups']);
         add_action('media_buttons',                                         [$this->admin, 'renderTinymceButton'], 11);
+        add_action('admin_init',                                            [$this->admin, 'runMigrations']);
         add_action('plugins_loaded',                                        [$this->app, 'getDefaults'], 11);
         add_action('plugins_loaded',                                        [$this->app, 'registerAddons']);
         add_action('plugins_loaded',                                        [$this->app, 'registerLanguages']);
         add_action('plugins_loaded',                                        [$this->app, 'registerReviewTypes']);
-        add_action('upgrader_process_complete',                             [$this->app, 'upgraded'], 10, 2);
+        add_action('admin_init',                                            [$this->app, 'setDefaults']);
         add_action('init',                                                  [$this->blocks, 'registerAssets'], 9);
         add_action('init',                                                  [$this->blocks, 'registerBlocks']);
         add_action('admin_footer',                                          [$this->console, 'logOnce']);

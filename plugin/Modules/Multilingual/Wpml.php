@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Multilingual;
 
 use GeminiLabs\SiteReviews\Contracts\MultilingualContract as Contract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Wpml implements Contract
@@ -77,6 +78,6 @@ class Wpml implements Contract
     public function isSupported()
     {
         return $this->isActive()
-            && version_compare(ICL_SITEPRESS_VERSION, $this->supportedVersion, '>=');
+            && Helper::isGreaterThanOrEqual(ICL_SITEPRESS_VERSION, $this->supportedVersion);
     }
 }

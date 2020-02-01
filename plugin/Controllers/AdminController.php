@@ -11,9 +11,9 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\System;
-use GeminiLabs\SiteReviews\Modules\Upgrader\Upgrade_4_0_2;
 
 class AdminController extends Controller
 {
@@ -162,16 +162,12 @@ class AdminController extends Controller
     }
 
     /**
-     * @param bool $showNotice
      * @return void
      */
-    public function routerCountReviews($showNotice = true)
+    public function routerCountReviews()
     {
         glsr(CountsManager::class)->updateAll();
-        glsr(OptionManager::class)->set('last_review_count', current_time('timestamp'));
-        if ($showNotice) {
-            glsr(Notice::class)->clear()->addSuccess(__('Recalculated rating counts.', 'site-reviews'));
-        }
+        glsr(Notice::class)->clear()->addSuccess(__('Recalculated rating counts.', 'site-reviews'));
     }
 
     /**
@@ -179,7 +175,7 @@ class AdminController extends Controller
      */
     public function routerMigrateReviews()
     {
-        glsr(Upgrade_4_0_2::class)->protectMetaKeys();
+        glsr(Migrate::class)->runAll();
         glsr(Notice::class)->clear()->addSuccess(__('All reviews have been migrated.', 'site-reviews'));
     }
 
@@ -225,6 +221,18 @@ class AdminController extends Controller
         }
         glsr(OptionManager::class)->set(glsr(OptionManager::class)->normalize($settings));
         glsr(Notice::class)->addSuccess(__('Settings imported.', 'site-reviews'));
+    }
+
+    /**
+     * @return void
+     * @action admin_init
+     */
+    public function runMigrations()
+    {
+        if (glsr(Migrate::class)->isMigrationNeeded()) {
+            glsr(Migrate::class)->run();
+            glsr(CountsManager::class)->updateAll();
+        }
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use DateTime;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Date
@@ -26,10 +27,48 @@ class Date
     ];
 
     /**
+     * @param mixed $date
+     * @param string $format
+     * @return bool
+     */
+    public function isDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $datetime = DateTime::createFromFormat($format, $date);
+        return $datetime && $date == $datetime->format($format);
+    }
+
+    /**
+     * @param mixed $date
+     * @return bool
+     */
+    public function isTimestamp($date)
+    {
+        return ctype_digit($date)
+            ? true
+            : false;
+    }
+
+    /**
+     * @param mixed $date
+     * @param string $fallback
+     * @return string
+     */
+    public function localized($date, $fallback = '')
+    {
+        return $this->isDate($date) || $this->isTimestamp($date)
+            ? date_i18n('Y-m-d H:i', $date)
+            : $fallback;
+    }
+
+    /**
+     * @param mixed $date
      * @return string
      */
     public function relative($date)
     {
+        if (!$this->isDate($date)) {
+            return '';
+        }
         $diff = time() - strtotime($date);
         foreach (static::$TIME_PERIODS as $i => $timePeriod) {
             if ($diff > $timePeriod[0]) {

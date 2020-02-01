@@ -2,7 +2,7 @@
 // Partials -> Notices
 // =============================================================================
 
-.glsr-notice:not(.notice-info) {
+.glsr-notice:not(.notice-error):not(.notice-info):not(.notice-warning) {
     display: flex;
     border-left-color: #32373c;
 }
