@@ -44,11 +44,11 @@ class CreateReview
         $this->ip_address = $this->get('ip_address');
         $this->post_id = intval($this->get('_post_id'));
         $this->rating = intval($this->get('rating'));
-        $this->referer = $this->get('_referer');
+        $this->referer = sanitize_text_field($this->get('_referer'));
         $this->response = sanitize_textarea_field($this->get('response'));
         $this->terms = !empty($input['terms']);
         $this->title = sanitize_text_field($this->get('title'));
-        $this->url = esc_url_raw($this->get('url'));
+        $this->url = esc_url_raw(sanitize_text_field($this->get('url')));
     }
 
     /**
@@ -92,8 +92,13 @@ class CreateReview
         ];
         $unset = apply_filters('site-reviews/create/unset-keys-from-custom', $unset);
         $custom = $this->request;
-        foreach ($unset as $value) {
-            unset($custom[$value]);
+        foreach ($unset as $key) {
+            unset($custom[$key]);
+        }
+        foreach ($custom as $key => $value) {
+            if (is_string($value)) {
+                $custom[$key] = sanitize_text_field($value);
+            }
         }
         return $custom;
     }
