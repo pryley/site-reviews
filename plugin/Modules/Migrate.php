@@ -121,6 +121,8 @@ class Migrate
         array_walk($files, function ($file) {
             $className = str_replace('.php', '', $file);
             glsr('Modules\\Migrations\\'.$className)->run();
+            $versionMigrated = str_replace(['Migrate_', '_'], ['v','.'], $className);
+            glsr_log()->debug('migration completed for '.$versionMigrated);
         });
         if ($this->currentVersion !== glsr()->version) {
             $this->updateVersionFrom($this->currentVersion);

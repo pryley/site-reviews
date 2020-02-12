@@ -25,8 +25,8 @@
 <?php endif; ?>
 
 <div class="glsr-card card">
-    <h3>Migrate reviews</h3>
-    <p>Run this tool if your reviews stopped working correctly after upgrading the plugin to version 4 (i.e. read-only reviews, zero-star ratings, etc.).</p>
+    <h3>Migrate plugin</h3>
+    <p>Run this tool if your reviews stopped working correctly after upgrading the plugin to the latest version (i.e. read-only reviews, zero-star ratings, missing role capabilities, etc.).</p>
     <form method="post">
         <input type="hidden" name="{{ id }}[_action]" value="migrate-reviews">
         <?php wp_nonce_field('migrate-reviews'); ?>
