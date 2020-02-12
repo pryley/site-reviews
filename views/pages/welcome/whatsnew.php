@@ -5,6 +5,23 @@
     <div class="glsr-flex-row">
         <div class="glsr-column">
             <div class="card is-fullwidth">
+                <h3>Version 4.4</h3>
+                <p><em>Release Date &mdash; February 12th, 2020</em></p>
+                <h4>New Features</h4>
+                <ul>
+                    <li>Added custom capabilities which can be added to your user roles</li>
+                </ul>
+                <h4>Tweaks</h4>
+                <ul>
+                    <li>Updated the Common Problems and Solutions section on the Help page</li>
+                    <li>Updated the FAQ page</li>
+                </ul>
+                <h4>Bugs Fixed</h4>
+                <ul>
+                    <li>Fixed plugin migrations</li>
+                </ul>
+            </div>
+            <div class="card is-fullwidth">
                 <h3>Version 4.3</h3>
                 <p><em>Release Date &mdash; January 12th, 2020</em></p>
                 <h4>New Features</h4>

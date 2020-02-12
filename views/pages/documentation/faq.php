@@ -411,6 +411,36 @@ add_filter('site-reviews/validation/rules', function ($rules) {
 
 <div id="faq-15" class="glsr-card postbox">
     <div class="glsr-card-header">
+        <h3>How do I prevent search engines from indexing paginated reviews?</h3>
+        <button type="button" class="handlediv" aria-expanded="true">
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="toggle-indicator" aria-hidden="true"></span>
+        </button>
+    </div>
+    <div class="inside">
+        <p>If you are paginating reviews then chances are high that search engines are indexing these pages. If you are not using a dedicated page for your reviews, then this may not be desirable for your SEO and it may result in the Google Search Console showing an alert.</p>
+        <p>Here is how to prevent search engines from indexing your paginated reviews:</p>
+        <ol>
+            <li>Install and activate the <a href="https://wordpress.org/plugins/robots-txt-editor/">Robots.txt Editor</a> plugin.</li>
+            <li>Go to the <code><a href="<?= admin_url('options-reading.php'); ?>">WordPress > Settings > Reading</a></code> page.</li>
+            <li>Make sure that the Robots.txt starts with: <code>User-Agent: *</code></li>
+            <li>Add the following lines:
+                <pre><code>Disallow: /*?reviews-page=*
+Disallow: /*?*reviews-page=*</code></pre>
+            </li>
+        </ol>
+        <p>Once you have made your changes, you can tell Google to reindex your website like this:</p>
+        <ol>
+            <li>Login to the <a href="https://search.google.com/search-console">Google Search Console</a>.</li>
+            <li>Add your website and verify it (if you haven't already done so).</li>
+            <li>Click on URL Inspection and enter your website URL or custom URLs in the search bar.</li>
+            <li>After Inspection it will provide an option to Request Indexing.</li>
+        </ol>
+    </div>
+</div>
+
+<div id="faq-16" class="glsr-card postbox">
+    <div class="glsr-card-header">
         <h3>How do I redirect to a custom URL after a form is submitted?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
@@ -422,7 +452,7 @@ add_filter('site-reviews/validation/rules', function ($rules) {
     </div>
 </div>
 
-<div id="faq-16" class="glsr-card postbox">
+<div id="faq-17" class="glsr-card postbox">
     <div class="glsr-card-header">
         <h3>How do I remove the dash in front of the author's name?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
@@ -438,7 +468,7 @@ add_filter('site-reviews/validation/rules', function ($rules) {
     </div>
 </div>
 
-<div id="faq-17" class="glsr-card postbox">
+<div id="faq-18" class="glsr-card postbox">
     <div class="glsr-card-header">
         <h3>How do I use the plugin templates in my theme?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
@@ -456,7 +486,7 @@ add_filter('site-reviews/validation/rules', function ($rules) {
     </div>
 </div>
 
-<div id="faq-18" class="glsr-card postbox">
+<div id="faq-19" class="glsr-card postbox">
     <div class="glsr-card-header">
         <h3>Why are the IP Addresses being detected as 127.0.0.1?</h3>
         <button type="button" class="handlediv" aria-expanded="true">

@@ -120,7 +120,7 @@
             <p>Free premium-level support included on the WordPress support forum.</p>
         </li>
         <li class="glsr-column">
-            <h3><a data-expand="#faq-17" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!faq'); ?>">Templates</a></h3>
+            <h3><a data-expand="#faq-18" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!faq'); ?>">Templates</a></h3>
             <p>Use the Site Reviews templates in your theme for full control over the HTML.</p>
         </li>
         <li class="glsr-column">
