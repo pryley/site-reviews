@@ -14,15 +14,13 @@ class RegisterWidgets
     public function handle(Command $command)
     {
         global $wp_widget_factory;
-        foreach ($command->widgets as $key => $values) {
-            $widgetClass = Helper::buildClassName($key.'-widget', 'Widgets');
+        foreach ($command->widgets as $widget) {
+            $widgetClass = Helper::buildClassName($widget.'-widget', 'Widgets');
             if (!class_exists($widgetClass)) {
                 glsr_log()->error(sprintf('Class missing (%s)', $widgetClass));
                 continue;
             }
-            // Here we bypass register_widget() in order to pass our custom values to the widget
-            $widget = new $widgetClass(Application::ID.'_'.$key, $values['title'], $values);
-            $wp_widget_factory->widgets[$widgetClass] = $widget;
+            $wp_widget_factory->widgets[$widgetClass] = new $widgetClass();
         }
     }
 }

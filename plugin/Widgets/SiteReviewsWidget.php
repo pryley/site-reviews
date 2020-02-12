@@ -2,11 +2,23 @@
 
 namespace GeminiLabs\SiteReviews\Widgets;
 
+use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
 class SiteReviewsWidget extends Widget
 {
+    public function __construct()
+    {
+        $idBase = Application::ID.'_site-reviews';
+        $name = __('Recent Reviews', 'site-reviews');
+        $widgetOptions = [
+            'class' => 'glsr-widget glsr-widget-site-reviews',
+            'description' => __('Site Reviews: Display your recent reviews.', 'site-reviews'),
+        ];
+        parent::__construct($idBase, $name, $widgetOptions);
+    }
+
     /**
      * @param array $instance
      * @return void

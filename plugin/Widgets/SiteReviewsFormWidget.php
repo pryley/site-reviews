@@ -2,11 +2,23 @@
 
 namespace GeminiLabs\SiteReviews\Widgets;
 
+use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
 class SiteReviewsFormWidget extends Widget
 {
+    public function __construct()
+    {
+        $idBase = Application::ID.'_site-reviews-form';
+        $name = __('Submit a Review', 'site-reviews');
+        $widgetOptions = [
+            'classname' => 'glsr-widget glsr-widget-site-reviews-form',
+            'description' => __('Site Reviews: Display a form to submit reviews.', 'site-reviews'),
+        ];
+        parent::__construct($idBase, $name, $widgetOptions);
+    }
+
     /**
      * @param array $instance
      * @return void

@@ -12,21 +12,6 @@ abstract class Widget extends WP_Widget
      */
     protected $widgetArgs;
 
-    public function __construct($idBase, $name, $values)
-    {
-        $controlOptions = $widgetOptions = [];
-        if (isset($values['class'])) {
-            $widgetOptions['classname'] = $values['class'];
-        }
-        if (isset($values['description'])) {
-            $widgetOptions['description'] = $values['description'];
-        }
-        if (isset($values['width'])) {
-            $controlOptions['width'] = $values['width'];
-        }
-        parent::__construct($idBase, $name, $widgetOptions, $controlOptions);
-    }
-
     /**
      * @param string $tag
      * @return void
