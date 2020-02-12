@@ -34,6 +34,8 @@
     site-reviews/build/template/{template_path}
     site-reviews/builder/field/classname
     site-reviews/builder/result
+    site-reviews/capabilities
+    site-reviews/capabilities/for-roles
     site-reviews/columns/{column_slug}
     site-reviews/config/{config_id}
     site-reviews/console/level

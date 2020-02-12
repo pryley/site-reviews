@@ -15,7 +15,7 @@ abstract class Controller
      */
     public function download($filename, $content)
     {
-        if (!current_user_can(glsr()->constant('CAPABILITY'))) {
+        if (!glsr()->can('edit_others_posts')) {
             return;
         }
         nocache_headers();

@@ -14,6 +14,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\System;
+use GeminiLabs\SiteReviews\Role;
 
 class AdminController extends Controller
 {
@@ -82,7 +83,7 @@ class AdminController extends Controller
         $text = _n('%s Review', '%s Reviews', $postCount->publish, 'site-reviews');
         $text = sprintf($text, number_format_i18n($postCount->publish));
         $items = Arr::consolidateArray($items);
-        $items[] = current_user_can(get_post_type_object(Application::POST_TYPE)->cap->edit_posts)
+        $items[] = glsr()->can('edit_posts')
             ? glsr(Builder::class)->a($text, [
                 'class' => 'glsr-review-count',
                 'href' => 'edit.php?post_type='.Application::POST_TYPE,
@@ -100,7 +101,7 @@ class AdminController extends Controller
      */
     public function filterTinymcePlugins($plugins)
     {
-        if (current_user_can('edit_posts') || current_user_can('edit_pages')) {
+        if (glsr()->can('edit_posts')) {
             $plugins = Arr::consolidateArray($plugins);
             $plugins['glsr_shortcode'] = glsr()->url('assets/scripts/mce-plugin.js');
         }
@@ -156,27 +157,10 @@ class AdminController extends Controller
     /**
      * @return void
      */
-    public function routerFetchConsole()
-    {
-        glsr(Notice::class)->addSuccess(__('Console reloaded.', 'site-reviews'));
-    }
-
-    /**
-     * @return void
-     */
     public function routerCountReviews()
     {
         glsr(CountsManager::class)->updateAll();
         glsr(Notice::class)->clear()->addSuccess(__('Recalculated rating counts.', 'site-reviews'));
-    }
-
-    /**
-     * @return void
-     */
-    public function routerMigrateReviews()
-    {
-        glsr(Migrate::class)->runAll();
-        glsr(Notice::class)->clear()->addSuccess(__('The plugin has been migrated to the latest version.', 'site-reviews'));
     }
 
     /**
@@ -206,6 +190,14 @@ class AdminController extends Controller
     /**
      * @return void
      */
+    public function routerFetchConsole()
+    {
+        glsr(Notice::class)->addSuccess(__('Console reloaded.', 'site-reviews'));
+    }
+
+    /**
+     * @return void
+     */
     public function routerImportSettings()
     {
         $file = $_FILES['import-file'];
@@ -221,6 +213,24 @@ class AdminController extends Controller
         }
         glsr(OptionManager::class)->set(glsr(OptionManager::class)->normalize($settings));
         glsr(Notice::class)->addSuccess(__('Settings imported.', 'site-reviews'));
+    }
+
+    /**
+     * @return void
+     */
+    public function routerMigrateReviews()
+    {
+        glsr(Migrate::class)->runAll();
+        glsr(Notice::class)->clear()->addSuccess(__('The plugin has been migrated to the latest version.', 'site-reviews'));
+    }
+
+    /**
+     * @return void
+     */
+    public function routerResetPermissions()
+    {
+        glsr(Role::class)->resetAll();
+        glsr(Notice::class)->clear()->addSuccess(__('The permissions have been reset.', 'site-reviews'));
     }
 
     /**

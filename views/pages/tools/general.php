@@ -53,3 +53,17 @@
     </form>
 </div>
 
+<div class="glsr-card card">
+    <h3>Reset Permissions</h3>
+    <p>Site Reviews provides custom post_type capabilities that mirror the capabilities of your posts by default. For example, if a user role has permission to edit others posts, then that role will also have permission to edit other users reviews.</p>
+    <p>If you have changed the capabilities of your user roles and you suspect that Site Reviews is not working correctly due to your changes, you may use this tool to rest the Site Reviews capabilities for your user roles.</p>
+    <form method="post">
+        <input type="hidden" name="{{ id }}[_action]" value="reset-permissions">
+        <?php wp_nonce_field('reset-permissions'); ?>
+        <p class="submit">
+            <button type="submit" class="glsr-button button" name="reset-permissions" id="reset-permissions">
+                <span data-loading="<?= __('Resetting Permissions...', 'site-reviews'); ?>"><?= __('Reset Permissions', 'site-reviews'); ?></span>
+            </button>
+        </p>
+    </form>
+</div>

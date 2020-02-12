@@ -72,6 +72,15 @@ final class Application extends Container
     }
 
     /**
+     * @param string $capability
+     * @return bool
+     */
+    public function can($capability)
+    {
+        return $this->make(Role::class)->can($capability);
+    }
+
+    /**
      * @return void
      */
     public function catchFatalError()
@@ -156,9 +165,9 @@ final class Application extends Container
         $permissions = [
             'addons' => 'install_plugins',
             'settings' => 'manage_options',
-            // 'welcome' => 'activate_plugins',
+            'tools' => 'manage_options',
         ];
-        return Arr::get($permissions, $page, $this->constant('CAPABILITY'));
+        return Arr::get($permissions, $page, 'edit_posts');
     }
 
     /**
@@ -167,7 +176,7 @@ final class Application extends Container
     public function hasPermission($page = '')
     {
         $isAdmin = $this->isAdmin();
-        return !$isAdmin || ($isAdmin && current_user_can($this->getPermission($page)));
+        return !$isAdmin || ($isAdmin && $this->can($this->getPermission($page)));
     }
 
     /**

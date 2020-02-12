@@ -92,7 +92,9 @@ class ListTableController extends Controller
      */
     public function filterRowActions($actions, $post)
     {
-        if (Application::POST_TYPE != Arr::get($post, 'post_type') || 'trash' == $post->post_status) {
+        if (Application::POST_TYPE != Arr::get($post, 'post_type')
+            || 'trash' == $post->post_status
+            || !user_can(get_current_user_id(), 'edit_post', $post->ID)) {
             return $actions;
         }
         unset($actions['inline hide-if-no-js']); //Remove Quick-edit
@@ -174,7 +176,7 @@ class ListTableController extends Controller
      */
     public function saveBulkEditFields($postId)
     {
-        if (!current_user_can('edit_posts')) {
+        if (!glsr()->can('edit_posts')) {
             return;
         }
         $assignedTo = filter_input(INPUT_GET, 'assigned_to');

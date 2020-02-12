@@ -8,6 +8,7 @@
 		$( 'form' ).on( 'click', '#fetch-console', this.loadConsole_, this.onClick_.bind( this ));
 		$( 'form' ).on( 'click', '#count-reviews', this.onClick_.bind( this ));
 		$( 'form' ).on( 'click', '#migrate-reviews', this.onClick_.bind( this ));
+		$( 'form' ).on( 'click', '#reset-permissions', this.onClick_.bind( this ));
 	};
 
 	GLSR.Tools.prototype = {

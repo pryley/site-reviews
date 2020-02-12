@@ -21,6 +21,7 @@ class MainController extends Controller
         }
         $command = new RegisterPostType([
             'capabilities' => ['create_posts' => 'create_'.Application::POST_TYPE],
+            'capability_type' => Application::POST_TYPE,
             'columns' => [
                 'title' => '',
                 'category' => '',
