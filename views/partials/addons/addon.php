@@ -20,6 +20,10 @@
                 <?= __('Activate', 'site-reviews'); ?>
             </a>
             <?php endif; ?>
+        <?php elseif (!empty($beta)): ?>
+            <a href="mailto:site-reviews@geminilabs.io?subject=I%20would%20like%20to%20become%20a%20beta%20tester%20({{ slug }})" class="glsr-addon-link glsr-external button button-secondary">
+                <?= __('Try the beta', 'site-reviews'); ?>
+            </a>
         <?php else: ?>
             <a href="{{ link }}" class="glsr-addon-link glsr-external button button-secondary">
                 <?= __('More Info', 'site-reviews'); ?>

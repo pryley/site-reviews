@@ -61,6 +61,10 @@
 		padding: 15px;
 		margin: 0;
 		overflow: hidden;
+
+		@media screen and (max-width: 782px) {
+			height: 58px;
+		}
 	}
 
 	&-screenshot {
@@ -88,25 +92,16 @@
 		bottom: 10px;
 
 		@media screen and (max-width: 782px) {
-			bottom: 5px;
-			// padding: 6px 10px !important;
+			bottom: 6px;
 		}
 
 		&.glsr-external::after {
-			display: inline-block;
 			content: "\00a0\f504";
 			font-family: dashicons;
-			font-size: 16px;
-			vertical-align: sub;
+			line-height: 1.2;
+			vertical-align: text-bottom;
 			-webkit-font-smoothing: antialiased;
 			-moz-osx-font-smoothing: grayscale;
-
-			@media screen and (max-width: 782px) {
-				height: 16px;
-				width: 16px;
-				font-size: 18px;
-				text-indent: 0;
-			}
 		}
 	}
 }

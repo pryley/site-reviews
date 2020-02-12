@@ -7,8 +7,9 @@
     <div class="glsr-addons wp-clearfix">
     <?php
         $template->render('partials/addons/addon', [
+            'beta' => true,
             'context' => [
-                'description' => __('Allow your site visitors to submit images with their reviews.', 'site-reviews'),
+                'description' => __('This add-on allows your site visitors to submit images with their reviews. Apply now to test the unreleased beta version.', 'site-reviews'),
                 'link' => 'https://niftyplugins.com/plugins/images/',
                 'slug' => 'images',
                 'title' => 'Images',

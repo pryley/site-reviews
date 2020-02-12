@@ -34,7 +34,6 @@ class NoticeController extends Controller
         $screen = glsr_current_screen();
         $this->renderWelcomeNotice($screen->post_type);
         $this->renderRebusifyNotice($screen->post_type);
-        $this->renderAddonsNotice($screen->id);
     }
 
     /**
@@ -74,17 +73,6 @@ class NoticeController extends Controller
     protected function getVersionFor($noticeKey)
     {
         return Arr::get($this->dismissValuesMap, $noticeKey, glsr()->version('major'));
-    }
-
-    /**
-     * @param string $screenId
-     * @return void
-     */
-    protected function renderAddonsNotice($screenId)
-    {
-        if (Application::POST_TYPE.'_page_addons' == $screenId) {
-            glsr()->render('partials/notices/addons');
-        }
     }
 
     /**
