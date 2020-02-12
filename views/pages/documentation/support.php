@@ -82,10 +82,12 @@
             <input type="checkbox" id="step-2" class="glsr-support-step">
             <label for="step-2">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!shortcodes'); ?>">Shortcodes</a></code> documentation page.</label>
         </p>
+        <?php if (glsr()->hasPermission('documentation', 'hooks')) : ?>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-3" class="glsr-support-step">
             <label for="step-3">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#!hooks'); ?>">Hooks</a></code> documentation page.</label>
         </p>
+        <?php endif; ?>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-4" class="glsr-support-step">
             <label for="step-4">I have completed the <em>Basic Troubleshooting Steps</em> provided above.</label>

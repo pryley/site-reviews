@@ -16,6 +16,10 @@ class TogglePinned
         if (!get_post($command->id)) {
             return false;
         }
+        if (!glsr()->can('edit_others_posts')) {
+            $meta = (Database::class)->get($command->id, 'pinned');
+            return wp_validate_boolean($meta);
+        }
         if (is_null($command->pinned)) {
             $meta = glsr(Database::class)->get($command->id, 'pinned');
             $command->pinned = !wp_validate_boolean($meta);

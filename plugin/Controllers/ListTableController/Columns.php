@@ -55,6 +55,9 @@ class Columns
         $pinned = glsr(Database::class)->get($postId, 'pinned')
             ? 'pinned '
             : '';
+        if (glsr()->can('edit_others_posts')) {
+            $pinned.= 'pin-review ';
+        }
         return glsr(Builder::class)->i([
             'class' => $pinned.'dashicons dashicons-sticky',
             'data-id' => $postId,

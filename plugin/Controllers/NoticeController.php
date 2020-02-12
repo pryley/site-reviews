@@ -95,7 +95,8 @@ class NoticeController extends Controller
     {
         if (Application::POST_TYPE == $screenPostType
             && Helper::isGreaterThan($this->getVersionFor('rebusify'), $this->getUserMeta('rebusify', 0))
-            && !glsr(OptionManager::class)->getBool('settings.general.rebusify')) {
+            && !glsr(OptionManager::class)->getBool('settings.general.rebusify')
+            && glsr()->can('manage_options')) {
             glsr()->render('partials/notices/rebusify');
         }
     }
@@ -107,7 +108,8 @@ class NoticeController extends Controller
     protected function renderWelcomeNotice($screenPostType)
     {
         if (Application::POST_TYPE == $screenPostType
-            && Helper::isGreaterThan($this->getVersionFor('welcome'), $this->getUserMeta('welcome', 0))) {
+            && Helper::isGreaterThan($this->getVersionFor('welcome'), $this->getUserMeta('welcome', 0))
+            && glsr()->can('edit_others_posts')) {
             $welcomeText = '0.0.0' == glsr(OptionManager::class)->get('version_upgraded_from')
                 ? __('Thanks for installing Site Reviews %s, we hope you love it!', 'site-reviews')
                 : __('Thanks for updating to Site Reviews %s, we hope you love the changes!', 'site-reviews');

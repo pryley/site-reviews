@@ -13,7 +13,7 @@
 			this.save = $( 'a.save-pinned-status' );
 			this.save.on( 'click', this.onClickSave_.bind( this ));
 		}
-		$( 'table td.pinned i' ).on( 'click', this.onClickToggle_.bind( this ));
+		$( 'table td.pinned i.pin-review' ).on( 'click', this.onClickToggle_.bind( this ));
 	};
 
 	GLSR.Pinned.prototype = {

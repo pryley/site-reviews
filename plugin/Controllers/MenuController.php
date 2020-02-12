@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Settings;
@@ -186,6 +187,14 @@ class MenuController extends Controller
      */
     protected function parseWithFilter($hookSuffix, array $args = [])
     {
+        if (Str::endsWith('/tabs', $hookSuffix)) {
+            $page = str_replace('/tabs', '', $hookSuffix);
+            foreach ($args as $tab => $title) {
+                if (!glsr()->hasPermission($page, $tab)) {
+                    unset($args[$tab]);
+                }
+            }
+        }
         return apply_filters('site-reviews/addon/'.$hookSuffix, $args);
     }
 

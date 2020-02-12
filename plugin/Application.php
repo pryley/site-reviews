@@ -158,25 +158,49 @@ final class Application extends Container
     }
 
     /**
+     * @param string $page
+     * @param string $tab
      * @return string
      */
-    public function getPermission($page = '')
+    public function getPermission($page = '', $tab = 'index')
     {
+        $fallback = 'edit_posts';
         $permissions = [
             'addons' => 'install_plugins',
+            'documentation' => [
+                'faq' => 'edit_others_posts',
+                'functions' => 'manage_options',
+                'hooks' => 'edit_others_posts',
+                'index' => 'edit_posts',
+                'support' => 'edit_others_posts',
+            ],
             'settings' => 'manage_options',
-            'tools' => 'manage_options',
+            'tools' => [
+                'console' => 'edit_others_posts',
+                'general' => 'edit_others_posts',
+                'index' => 'edit_others_posts',
+                'sync' => 'manage_options',
+                'system-info' => 'edit_others_posts',
+            ]
         ];
-        return Arr::get($permissions, $page, 'edit_posts');
+        $permission = Arr::get($permissions, $page, $fallback);
+        if (is_array($permission)) {
+            $permission = Arr::get($permission, $tab, $fallback);
+        }
+        return empty($permission) || !is_string($permission)
+            ? $fallback
+            : $permission;
     }
 
     /**
+     * @param string $page
+     * @param string $tab
      * @return bool
      */
-    public function hasPermission($page = '')
+    public function hasPermission($page = '', $tab = 'index')
     {
         $isAdmin = $this->isAdmin();
-        return !$isAdmin || ($isAdmin && $this->can($this->getPermission($page)));
+        return !$isAdmin || ($isAdmin && $this->can($this->getPermission($page, $tab)));
     }
 
     /**

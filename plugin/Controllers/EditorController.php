@@ -155,7 +155,8 @@ class EditorController extends Controller
      */
     public function renderPinnedInPublishMetaBox()
     {
-        if (!$this->isReviewPostType(get_post())) {
+        if (!$this->isReviewPostType(get_post())
+            || !glsr()->can('edit_others_posts')) {
             return;
         }
         glsr(Template::class)->render('partials/editor/pinned', [

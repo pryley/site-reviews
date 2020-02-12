@@ -11,6 +11,9 @@
         <?php submit_button(__('Export Settings', 'site-reviews'), 'secondary'); ?>
     </form>
 </div>
+<?php endif; ?>
+
+<?php if (glsr()->hasPermission('settings')) : ?>
 <div class="glsr-card card">
     <h3>Import Settings</h3>
     <p>Import the Site Reviews settings from a <code>*.json</code> file. This file can be obtained by exporting the settings on another site using the export tool below.</p>
@@ -24,8 +27,9 @@
 </div>
 <?php endif; ?>
 
+<?php if (glsr()->hasPermission('settings')) : ?>
 <div class="glsr-card card">
-    <h3>Migrate plugin</h3>
+    <h3>Migrate Plugin</h3>
     <p>Run this tool if your reviews stopped working correctly after upgrading the plugin to the latest version (i.e. read-only reviews, zero-star ratings, missing role capabilities, etc.).</p>
     <form method="post">
         <input type="hidden" name="{{ id }}[_action]" value="migrate-reviews">
@@ -37,11 +41,12 @@
         </p>
     </form>
 </div>
+<?php endif; ?>
 
 <div class="glsr-card card">
-    <h3>Recalculate rating counts</h3>
-    <p>Site Reviews maintains an internal rating count of your reviews, this allows the plugin to calculate the average rating scores without negatively impacting performance when you have a lot of reviews.</p>
-    <p>If you suspect that the rating counts are incorrect (perhaps you have edited reviews directly in your database), you can recalculate them here.</p>
+    <h3>Recalculate Summary Counts</h3>
+    <p>Site Reviews maintains an internal rating count of your reviews, this allows the plugin to calculate the average rating scores for the summary without negatively impacting performance when you have a lot of reviews.</p>
+    <p>If you suspect that the rating counts are incorrect (perhaps you have edited/deleted reviews directly from your database), you can recalculate them here.</p>
     <form method="post">
         <input type="hidden" name="{{ id }}[_action]" value="count-reviews">
         <?php wp_nonce_field('count-reviews'); ?>
@@ -53,6 +58,7 @@
     </form>
 </div>
 
+<?php if (glsr()->hasPermission('settings')) : ?>
 <div class="glsr-card card">
     <h3>Reset Permissions</h3>
     <p>Site Reviews provides custom post_type capabilities that mirror the capabilities of your posts by default. For example, if a user role has permission to edit others posts, then that role will also have permission to edit other users reviews.</p>
@@ -67,3 +73,4 @@
         </p>
     </form>
 </div>
+<?php endif; ?>
