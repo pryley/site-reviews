@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Tested up to: 5.3
 Requires at least: 4.7.0
 Requires PHP: 5.6
-Stable tag: 4.3.8
+Stable tag: 4.4.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -115,6 +115,15 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 15. This is what the Slack notifications look like.
 
 == Changelog ==
+
+= 4.4.0 (2020-02-12) =
+
+- Added an invitation to try the unreleased beta version of the Images add-on
+- Added custom capabilities which can be added to your user roles
+- Fixed compatibility with Fusion Builder
+- Fixed plugin migrations
+- Updated the Common Problems and Solutions section on the Help page
+- Updated the FAQ page
 
 = 4.3.8 (2020-02-07) =
 

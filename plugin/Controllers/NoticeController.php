@@ -99,8 +99,8 @@ class NoticeController extends Controller
             && Helper::isGreaterThan($this->getVersionFor('welcome'), $this->getUserMeta('welcome', 0))
             && glsr()->can('edit_others_posts')) {
             $welcomeText = '0.0.0' == glsr(OptionManager::class)->get('version_upgraded_from')
-                ? __('Thanks for installing Site Reviews %s, we hope you love it!', 'site-reviews')
-                : __('Thanks for updating to Site Reviews %s, we hope you love the changes!', 'site-reviews');
+                ? __('Thanks for installing Site Reviews v%s, we hope you love it!', 'site-reviews')
+                : __('Thanks for updating to Site Reviews v%s, we hope you love the changes!', 'site-reviews');
             glsr()->render('partials/notices/welcome', [
                 'text' => sprintf($welcomeText, glsr()->version),
             ]);

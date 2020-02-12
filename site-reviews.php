@@ -4,18 +4,18 @@
  * ║ ╦║╣ ║║║║║║║║  ║  ╠═╣╠╩╗╚═╗
  * ╚═╝╚═╝╩ ╩╩╝╚╝╩  ╩═╝╩ ╩╚═╝╚═╝.
  *
- * Plugin Name: Site Reviews
- * Plugin URI:  https://wordpress.org/plugins/site-reviews
- * Description: Receive and display reviews on your website
- * Version:     4.3.8
- * Author:      Paul Ryley
- * Author URI:  https://geminilabs.io
- * License:     GPL2
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Plugin Name:       Site Reviews
+ * Plugin URI:        https://wordpress.org/plugins/site-reviews
+ * Description:       Receive and display reviews on your website
+ * Version:           4.4.0
+ * Author:            Paul Ryley
+ * Author URI:        https://geminilabs.io
+ * License:           GPL2
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 4.7.0
- * Requires PHP: 5.6
- * Text Domain: site-reviews
- * Domain Path: languages
+ * Requires PHP:      5.6
+ * Text Domain:       site-reviews
+ * Domain Path:       languages
  */
 defined('WPINC') || die;
 

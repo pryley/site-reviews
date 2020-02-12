@@ -9,7 +9,8 @@
                 <p><em>Release Date &mdash; February 12th, 2020</em></p>
                 <h4>New Features</h4>
                 <ul>
-                    <li>Added custom capabilities which can be added to your user roles</li>
+                    <li>Added an invitation to try the unreleased beta version of the Images add-on</li>
+                    <li>Added custom review capabilities which can be added to your user roles. By default, these capabilities will mirror the capabilities of your posts. For example, if a user role has permission to edit others posts, then that role will also have permission to edit other users reviews.</li>
                 </ul>
                 <h4>Tweaks</h4>
                 <ul>
@@ -18,6 +19,7 @@
                 </ul>
                 <h4>Bugs Fixed</h4>
                 <ul>
+                    <li>Fixed compatibility with Fusion Builder</li>
                     <li>Fixed plugin migrations</li>
                 </ul>
             </div>
