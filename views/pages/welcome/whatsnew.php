@@ -5,6 +5,14 @@
     <div class="glsr-flex-row">
         <div class="glsr-column">
             <div class="card is-fullwidth">
+                <h3>Version 4.5</h3>
+                <p><em>Release Date &mdash; February 24th, 2020</em></p>
+                <h4>Changes</h4>
+                <ul>
+                    <li>Updated the Rebusify integration as they have rebranded to <a href="https://trustalyze.com?ref=105">Trustalyze</a></li>
+                </ul>
+            </div>
+            <div class="card is-fullwidth">
                 <h3>Version 4.4</h3>
                 <p><em>Release Date &mdash; February 12th, 2020</em></p>
                 <h4>New Features</h4>
@@ -110,7 +118,7 @@
                     <li>Added Multisite support</li>
                     <li>Added product schema price options</li>
                     <li>Added proxy header support for IP detection</li>
-                    <li>Added <a href="https://rebusify.com?ref=105" target="_blank">Rebusify Confidence System</a> integration for blockchain verification of reviews</li>
+                    <li>Added <a href="https://trustalyze.com?ref=105" target="_blank">Rebusify Confidence System</a> integration for blockchain verification of reviews</li>
                     <li>Added setting to choose the name format of the review author</li>
                     <li>Added setting to choose which blacklist to use</li>
                     <li>Added setting to limit review submissions</li>

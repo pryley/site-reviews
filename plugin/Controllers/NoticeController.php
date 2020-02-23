@@ -20,7 +20,7 @@ class NoticeController extends Controller
     public function __construct()
     {
         $this->dismissValuesMap = [
-            'rebusify' => glsr()->version('major'),
+            'trustalyze' => glsr()->version('major'),
             'welcome' => glsr()->version('minor'),
         ];
     }
@@ -33,7 +33,7 @@ class NoticeController extends Controller
     {
         $screen = glsr_current_screen();
         $this->renderWelcomeNotice($screen->post_type);
-        $this->renderRebusifyNotice($screen->post_type);
+        $this->renderTrustalyzeNotice($screen->post_type);
     }
 
     /**
@@ -79,13 +79,13 @@ class NoticeController extends Controller
      * @param string $screenPostType
      * @return void
      */
-    protected function renderRebusifyNotice($screenPostType)
+    protected function renderTrustalyzeNotice($screenPostType)
     {
         if (Application::POST_TYPE == $screenPostType
-            && Helper::isGreaterThan($this->getVersionFor('rebusify'), $this->getUserMeta('rebusify', 0))
-            && !glsr(OptionManager::class)->getBool('settings.general.rebusify')
+            && Helper::isGreaterThan($this->getVersionFor('trustalyze'), $this->getUserMeta('trustalyze', 0))
+            && !glsr(OptionManager::class)->getBool('settings.general.trustalyze')
             && glsr()->can('manage_options')) {
-            glsr()->render('partials/notices/rebusify');
+            glsr()->render('partials/notices/trustalyze');
         }
     }
 

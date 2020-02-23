@@ -55,30 +55,30 @@ return [
         ],
         'type' => 'select',
     ],
-    'settings.general.rebusify' => [
+    'settings.general.trustalyze' => [
         'default' => 'no',
         'description' => sprintf(__('Integrate with the %s and validate your reviews on the blockchain to increase online reputation, trust, and transparency.', 'site-reviews'),
-            '<a href="https://rebusify.com/plans?ref=105" target="_blank">Rebusify Confidence System</a>'
+            '<a href="https://trustalyze.com/plans?ref=105" target="_blank">Trustalyze Confidence System</a>'
         ),
         'label' => __('Blockchain Validation', 'site-reviews'),
         'type' => 'yes_no',
     ],
-    'settings.general.rebusify_email' => [
+    'settings.general.trustalyze_email' => [
         'default' => '',
         'depends_on' => [
-            'settings.general.rebusify' => ['yes'],
+            'settings.general.trustalyze' => ['yes'],
         ],
-        'description' => __('Enter your Rebusify account email here.', 'site-reviews'),
-        'label' => __('Rebusify Email', 'site-reviews'),
+        'description' => __('Enter your Trustalyze account email here.', 'site-reviews'),
+        'label' => __('Trustalyze Email', 'site-reviews'),
         'type' => 'text',
     ],
-    'settings.general.rebusify_serial' => [
+    'settings.general.trustalyze_serial' => [
         'default' => '',
         'depends_on' => [
-            'settings.general.rebusify' => ['yes'],
+            'settings.general.trustalyze' => ['yes'],
         ],
-        'description' => __('Enter your Rebusify account serial key here.', 'site-reviews'),
-        'label' => __('Rebusify Serial Key', 'site-reviews'),
+        'description' => __('Enter your Trustalyze account serial key here.', 'site-reviews'),
+        'label' => __('Trustalyze Serial Key', 'site-reviews'),
         'type' => 'password',
     ],
     'settings.general.notifications' => [

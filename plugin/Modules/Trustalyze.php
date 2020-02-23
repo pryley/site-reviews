@@ -8,10 +8,10 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Review;
 
-class Rebusify
+class Trustalyze
 {
-    const API_URL = 'https://www.rebusify.com/api/rbs/';
-    const WEB_URL = 'https://rebusify.com/plans?ref=105';
+    const API_URL = 'https://www.trustalyze.com/api/rbs/';
+    const WEB_URL = 'https://trustalyze.com/plans?ref=105';
 
     public $message;
     public $response;
@@ -81,13 +81,13 @@ class Rebusify
      */
     protected function getBodyForResponse(Review $review)
     {
-        $rebusifyResponse = [
+        $trustalyzeResponse = [
             'reply' => Str::truncate($review->response, 300),
-            'review_id' => glsr(Database::class)->get($review->ID, 'rebusify'), // this is the rebusify review ID
+            'review_id' => glsr(Database::class)->get($review->ID, 'trustalyze'), // this is the trustalyze review ID
             'review_transaction_id' => $review->review_id,
             'type' => 'M',
         ];
-        return apply_filters('site-reviews/rebusify/response', $rebusifyResponse, $review);
+        return apply_filters('site-reviews/trustalyze/response', $trustalyzeResponse, $review);
     }
 
     /**
@@ -95,7 +95,7 @@ class Rebusify
      */
     protected function getBodyForReview(Review $review)
     {
-        $rebusifyReview = [
+        $trustalyzeReview = [
             'domain' => get_home_url(),
             'firstname' => Str::truncate(Str::convertName($review->author, 'first'), 25),
             'rate' => $review->rating,
@@ -104,7 +104,7 @@ class Rebusify
             'title' => Str::truncate($review->title, 35),
             'transaction' => Application::ID, // woocommerce field, not needed for Site Reviews
         ];
-        return apply_filters('site-reviews/rebusify/review', $rebusifyReview, $review);
+        return apply_filters('site-reviews/trustalyze/review', $trustalyzeReview, $review);
     }
 
     /**

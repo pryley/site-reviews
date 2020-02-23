@@ -31,7 +31,7 @@ You can pin your best reviews so that they are always shown first, require appro
 - Backup and restore your plugin settings as needed
 - Bayesian Ranking: Easily sort pages with assigned reviews by rank (using the bayesian algorithm) in your custom WP_Query
 - Blacklist words, phrases, IP addresses, names, and emails
-- Blockchain Validation: Verify your reviews on the Blockchain with Rebusify
+- Blockchain Validation: Verify your reviews on the Blockchain with Trustalyze
 - Categories: Add your own categories and assign reviews to them.
 - Developer Friendly: Designed for WordPress developers with over 100 filter hooks and convenient functions
 - Documentation: FAQ and documenation for hooks and all shortcodes and functions
@@ -115,6 +115,10 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 15. This is what the Slack notifications look like.
 
 == Changelog ==
+
+= 4.5.0 (2020-02-24) =
+
+- Updated the Rebusify integration as they have rebranded to [Trustalyze](https://trustalyze.com?ref=105)
 
 = 4.4.0 (2020-02-12) =
 
@@ -242,7 +246,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 - Added Multisite support
 - Added product schema price options
 - Added proxy header support for IP detection
-- Added [Rebusify integration](https://rebusify.com?ref=105) to sync reviews to the blockchain
+- Added [Rebusify integration](https://trustalyze.com?ref=105) to sync reviews to the blockchain
 - Added setting to choose the name format of the review author
 - Added setting to choose which blacklist to use
 - Added setting to limit review submissions

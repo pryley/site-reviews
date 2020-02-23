@@ -149,20 +149,20 @@ msgid "Blockchain Validation"
 msgstr "Blockchain Validation"
 
 #: config/settings.php:71
-msgid "Enter your Rebusify account email here."
-msgstr "Enter your Rebusify account email here."
+msgid "Enter your Trustalyze account email here."
+msgstr "Enter your Trustalyze account email here."
 
 #: config/settings.php:72
-msgid "Rebusify Email"
-msgstr "Rebusify Email"
+msgid "Trustalyze Email"
+msgstr "Trustalyze Email"
 
 #: config/settings.php:80
-msgid "Enter your Rebusify account serial key here."
-msgstr "Enter your Rebusify account serial key here."
+msgid "Enter your Trustalyze account serial key here."
+msgstr "Enter your Trustalyze account serial key here."
 
 #: config/settings.php:81
-msgid "Rebusify Serial Key"
-msgstr "Rebusify Serial Key"
+msgid "Trustalyze Serial Key"
+msgstr "Trustalyze Serial Key"
 
 #: config/settings.php:86
 msgid "Notifications"
@@ -1034,22 +1034,6 @@ msgstr "Thanks for installing Site Reviews v%s, we hope you love it!"
 msgid "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 msgstr "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 
-#: plugin/Controllers/RebusifyController.php:134
-msgid "Create Your Rebusify Account"
-msgstr "Create Your Rebusify Account"
-
-#: plugin/Controllers/RebusifyController.php:147
-msgid "Free Rebusify accounts are limited to 500 blockchain transactions per year."
-msgstr "Free Rebusify accounts are limited to 500 blockchain transactions per year."
-
-#: plugin/Controllers/RebusifyController.php:148
-msgid "Upgrade Your Rebusify Plan"
-msgstr "Upgrade Your Rebusify Plan"
-
-#: plugin/Controllers/RebusifyController.php:236
-msgid "Your Rebusify account details could not be verified, please try again. %s"
-msgstr "Your Rebusify account details could not be verified, please try again. %s"
-
 #: plugin/Controllers/SettingsController.php:31
 msgid "Settings updated."
 msgstr "Settings updated."
@@ -1107,6 +1091,26 @@ msgstr "Unapproved"
 #: plugin/Controllers/TranslationController.php:200, plugin/Controllers/EditorController/Labels.php:62, plugin/Controllers/EditorController/Labels.php:106
 msgid "Approved"
 msgstr "Approved"
+
+#: plugin/Controllers/TrustalyzeController.php:134
+msgid "Create Your Trustalyze Account"
+msgstr "Create Your Trustalyze Account"
+
+#: plugin/Controllers/TrustalyzeController.php:147
+msgid ""
+"Free Trustalyze accounts are limited to 500 blockchain transactions per "
+"year."
+msgstr ""
+"Free Trustalyze accounts are limited to 500 blockchain transactions per "
+"year."
+
+#: plugin/Controllers/TrustalyzeController.php:148
+msgid "Upgrade Your Trustalyze Plan"
+msgstr "Upgrade Your Trustalyze Plan"
+
+#: plugin/Controllers/TrustalyzeController.php:236
+msgid "Your Trustalyze account details could not be verified, please try again. %s"
+msgstr "Your Trustalyze account details could not be verified, please try again. %s"
 
 #: plugin/Controllers/WelcomeController.php:17, views/pages/documentation/index.php:6
 msgid "About"

@@ -120,19 +120,19 @@ msgid "Blockchain Validation"
 msgstr ""
 
 #: config/settings.php:71
-msgid "Enter your Rebusify account email here."
+msgid "Enter your Trustalyze account email here."
 msgstr ""
 
 #: config/settings.php:72
-msgid "Rebusify Email"
+msgid "Trustalyze Email"
 msgstr ""
 
 #: config/settings.php:80
-msgid "Enter your Rebusify account serial key here."
+msgid "Enter your Trustalyze account serial key here."
 msgstr ""
 
 #: config/settings.php:81
-msgid "Rebusify Serial Key"
+msgid "Trustalyze Serial Key"
 msgstr ""
 
 #: config/settings.php:86
@@ -993,22 +993,6 @@ msgstr ""
 msgid "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 msgstr ""
 
-#: plugin/Controllers/RebusifyController.php:134
-msgid "Create Your Rebusify Account"
-msgstr ""
-
-#: plugin/Controllers/RebusifyController.php:147
-msgid "Free Rebusify accounts are limited to 500 blockchain transactions per year."
-msgstr ""
-
-#: plugin/Controllers/RebusifyController.php:148
-msgid "Upgrade Your Rebusify Plan"
-msgstr ""
-
-#: plugin/Controllers/RebusifyController.php:236
-msgid "Your Rebusify account details could not be verified, please try again. %s"
-msgstr ""
-
 #: plugin/Controllers/SettingsController.php:31
 msgid "Settings updated."
 msgstr ""
@@ -1065,6 +1049,22 @@ msgstr ""
 
 #: plugin/Controllers/TranslationController.php:200, plugin/Controllers/EditorController/Labels.php:62, plugin/Controllers/EditorController/Labels.php:106
 msgid "Approved"
+msgstr ""
+
+#: plugin/Controllers/TrustalyzeController.php:134
+msgid "Create Your Trustalyze Account"
+msgstr ""
+
+#: plugin/Controllers/TrustalyzeController.php:147
+msgid "Free Trustalyze accounts are limited to 500 blockchain transactions per year."
+msgstr ""
+
+#: plugin/Controllers/TrustalyzeController.php:148
+msgid "Upgrade Your Trustalyze Plan"
+msgstr ""
+
+#: plugin/Controllers/TrustalyzeController.php:236
+msgid "Your Trustalyze account details could not be verified, please try again. %s"
 msgstr ""
 
 #: plugin/Controllers/WelcomeController.php:17, views/pages/documentation/index.php:6

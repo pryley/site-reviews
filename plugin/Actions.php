@@ -11,7 +11,7 @@ use GeminiLabs\SiteReviews\Controllers\MainController;
 use GeminiLabs\SiteReviews\Controllers\MenuController;
 use GeminiLabs\SiteReviews\Controllers\NoticeController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
-use GeminiLabs\SiteReviews\Controllers\RebusifyController;
+use GeminiLabs\SiteReviews\Controllers\TrustalyzeController;
 use GeminiLabs\SiteReviews\Controllers\ReviewController;
 use GeminiLabs\SiteReviews\Controllers\SettingsController;
 use GeminiLabs\SiteReviews\Controllers\TaxonomyController;
@@ -32,12 +32,12 @@ class Actions implements HooksContract
     protected $main;
     protected $notices;
     protected $public;
-    protected $rebusify;
     protected $review;
     protected $router;
     protected $settings;
     protected $taxonomy;
     protected $translator;
+    protected $trustalyze;
     protected $welcome;
 
     public function __construct(Application $app ) {
@@ -51,12 +51,12 @@ class Actions implements HooksContract
         $this->menu = $app->make(MenuController::class);
         $this->notices = $app->make(NoticeController::class);
         $this->public = $app->make(PublicController::class);
-        $this->rebusify = $app->make(RebusifyController::class);
         $this->review = $app->make(ReviewController::class);
         $this->router = $app->make(Router::class);
         $this->settings = $app->make(SettingsController::class);
         $this->taxonomy = $app->make(TaxonomyController::class);
         $this->translator = $app->make(TranslationController::class);
+        $this->trustalyze = $app->make(TrustalyzeController::class);
         $this->welcome = $app->make(WelcomeController::class);
     }
 
@@ -104,10 +104,6 @@ class Actions implements HooksContract
         add_action('wp_enqueue_scripts',                                    [$this->public, 'enqueueAssets'], 999);
         add_filter('site-reviews/builder',                                  [$this->public, 'modifyBuilder']);
         add_action('wp_footer',                                             [$this->public, 'renderSchema']);
-        add_action('site-reviews/review/created',                           [$this->rebusify, 'onCreated']);
-        add_action('site-reviews/review/reverted',                          [$this->rebusify, 'onReverted']);
-        add_action('site-reviews/review/saved',                             [$this->rebusify, 'onSaved']);
-        add_action('updated_postmeta',                                      [$this->rebusify, 'onUpdatedMeta'], 10, 3);
         add_action('set_object_terms',                                      [$this->review, 'onAfterChangeCategory'], 10, 6);
         add_action('transition_post_status',                                [$this->review, 'onAfterChangeStatus'], 10, 3);
         add_action('site-reviews/review/created',                           [$this->review, 'onAfterCreate']);
@@ -125,6 +121,10 @@ class Actions implements HooksContract
         add_action('restrict_manage_posts',                                 [$this->taxonomy, 'renderTaxonomyFilter'], 9);
         add_action('set_object_terms',                                      [$this->taxonomy, 'restrictTermSelection'], 9, 6);
         add_action('admin_enqueue_scripts',                                 [$this->translator, 'translatePostStatusLabels']);
+        add_action('site-reviews/review/created',                           [$this->trustalyze, 'onCreated']);
+        add_action('site-reviews/review/reverted',                          [$this->trustalyze, 'onReverted']);
+        add_action('site-reviews/review/saved',                             [$this->trustalyze, 'onSaved']);
+        add_action('updated_postmeta',                                      [$this->trustalyze, 'onUpdatedMeta'], 10, 3);
         add_action('activated_plugin',                                      [$this->welcome, 'redirectOnActivation'], 10, 2);
         add_action('admin_menu',                                            [$this->welcome, 'registerPage']);
     }

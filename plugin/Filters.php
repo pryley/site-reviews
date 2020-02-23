@@ -8,8 +8,8 @@ use GeminiLabs\SiteReviews\Controllers\BlocksController;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
 use GeminiLabs\SiteReviews\Controllers\ListTableController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
-use GeminiLabs\SiteReviews\Controllers\RebusifyController;
 use GeminiLabs\SiteReviews\Controllers\TranslationController;
+use GeminiLabs\SiteReviews\Controllers\TrustalyzeController;
 use GeminiLabs\SiteReviews\Controllers\WelcomeController;
 use GeminiLabs\SiteReviews\Modules\Translator;
 
@@ -22,8 +22,8 @@ class Filters implements HooksContract
     protected $editor;
     protected $listtable;
     protected $public;
-    protected $rebusify;
     protected $translator;
+    protected $trustalyze;
     protected $welcome;
 
     public function __construct(Application $app)
@@ -35,8 +35,8 @@ class Filters implements HooksContract
         $this->editor = $app->make(EditorController::class);
         $this->listtable = $app->make(ListTableController::class);
         $this->public = $app->make(PublicController::class);
-        $this->rebusify = $app->make(RebusifyController::class);
         $this->translator = $app->make(TranslationController::class);
+        $this->trustalyze = $app->make(TrustalyzeController::class);
         $this->welcome = $app->make(WelcomeController::class);
     }
 
@@ -64,8 +64,6 @@ class Filters implements HooksContract
         add_filter('script_loader_tag',                                         [$this->public, 'filterEnqueuedScripts'], 10, 2);
         add_filter('site-reviews/config/forms/submission-form',                 [$this->public, 'filterFieldOrder'], 11);
         add_filter('site-reviews/render/view',                                  [$this->public, 'filterRenderView']);
-        add_filter('site-reviews/settings/callback',                            [$this->rebusify, 'filterSettingsCallback']);
-        add_filter('site-reviews/interpolate/partials/form/table-row-multiple', [$this->rebusify, 'filterSettingsTableRow'], 10, 3);
         add_filter('bulk_post_updated_messages',                                [$this->translator, 'filterBulkUpdateMessages'], 10, 2);
         add_filter('gettext',                                                   [$this->translator, 'filterGettext'], 9, 3);
         add_filter('site-reviews/gettext/site-reviews',                         [$this->translator, 'filterGettextSiteReviews'], 10, 2);
@@ -79,6 +77,8 @@ class Filters implements HooksContract
         add_filter('site-reviews/gettext/default',                              [$this->translator, 'filterPostStatusLabels'], 10, 2);
         add_filter('site-reviews/gettext_with_context/default',                 [$this->translator, 'filterPostStatusLabels'], 10, 2);
         add_filter('site-reviews/ngettext/default',                             [$this->translator, 'filterPostStatusText'], 10, 4);
+        add_filter('site-reviews/settings/callback',                            [$this->trustalyze, 'filterSettingsCallback']);
+        add_filter('site-reviews/interpolate/partials/form/table-row-multiple', [$this->trustalyze, 'filterSettingsTableRow'], 10, 3);
         add_filter('plugin_action_links_'.$this->basename,                      [$this->welcome, 'filterActionLinks'], 9);
         add_filter('admin_title',                                               [$this->welcome, 'filterAdminTitle']);
         add_filter('admin_footer_text',                                         [$this->welcome, 'filterFooterText']);

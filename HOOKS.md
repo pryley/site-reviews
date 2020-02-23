@@ -77,8 +77,6 @@
     site-reviews/query/inner-join-for-counts
     site-reviews/rating/average
     site-reviews/rating/ranking
-    site-reviews/rebusify/response
-    site-reviews/rebusify/review
     site-reviews/recaptcha/language
     site-reviews/recaptcha/timeout
     site-reviews/render/view
@@ -120,6 +118,8 @@
     site-reviews/tinymce/editor-ids
     site-reviews/translation/entries
     site-reviews/translator/domains
+    site-reviews/trustalyze/response
+    site-reviews/trustalyze/review
     site-reviews/url
     site-reviews/validate/custom
     site-reviews/validation/rules
