@@ -52,7 +52,7 @@ class Migrate_4_5_0
             'meta_key' => $metaKey,
         ]);
         foreach ($userIds as $userId) {
-            $meta = get_user_meta($userId, $metaKey, true);
+            $meta = (array) get_user_meta($userId, $metaKey, true);
             if (array_key_exists('rebusify', $meta)) {
                 $meta['trustalyze'] = $meta['rebusify'];
                 unset($meta['rebusify']);
