@@ -11,6 +11,10 @@
                 <ul>
                     <li>Updated the Rebusify integration as they have rebranded to <a href="https://trustalyze.com?ref=105">Trustalyze</a></li>
                 </ul>
+                <h4>Bugs Fixed</h4>
+                <ul>
+                    <li>Fixed compatibility with misbehaving plugins that break the Settings tabs</li>
+                </ul>
             </div>
             <div class="card is-fullwidth">
                 <h3>Version 4.4</h3>

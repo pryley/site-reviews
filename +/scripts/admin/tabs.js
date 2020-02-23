@@ -24,7 +24,7 @@
 			var self = this;
 			$( window ).on( 'hashchange', self.onHashchange_.bind( self ));
 			[].forEach.call( self.tabs, function( tab, index ) {
-				var active = location.hash ? tab.getAttribute( 'href' ).slice(1) === location.hash.slice(2) : index === 0;
+				var active = location.hash ? tab.getAttribute( 'href' ).slice(1) === location.hash.slice(5) : index === 0;
 				if( active ) {
 					self.setTab_( tab );
 				}
@@ -32,28 +32,12 @@
 				tab.addEventListener( 'touchend', self.onClick_.bind( self ));
 			}.bind( self ));
 			$( self.options.viewSelector ).on( 'click', 'a', function() {
-				localStorage.setItem('glsr-expand', $(this).data('expand'));
-				var expandEl = $($(this).data('expand'));
-				var parentEl = expandEl.parent();
-				if (expandEl.length) {
-					parentEl.removeClass( 'collapsed' );
-					self.toggleCollapsibleSections_( parentEl );
-					parentEl.removeClass( 'collapsed' );
-					expandEl.removeClass( 'closed' ).find( '.handlediv' ).attr( 'aria-expanded', true );
-					expandEl[0].scrollIntoView();
-				}
+				var elId = $(this).data('expand');
+				localStorage.setItem('glsr-expand', elId);
+				self.scrollSectionIntoView_($(elId));
 			});
 			$(window).on('load', function() {
-				var expandEl = $(localStorage.getItem('glsr-expand'));
-				if (expandEl.length) {
-					var parentEl = expandEl.parent();
-					parentEl.removeClass( 'collapsed' );
-					self.toggleCollapsibleSections_( parentEl );
-					parentEl.removeClass( 'collapsed' );
-					expandEl.removeClass( 'closed' ).find( '.handlediv' ).attr( 'aria-expanded', true );
-					expandEl[0].scrollIntoView();
-				}
-				localStorage.removeItem('glsr-expand');
+				self.scrollSectionIntoView_($(localStorage.getItem('glsr-expand')));
 			});
 		},
 
@@ -69,12 +53,12 @@
 			el.blur();
 			this.toggleCollapsibleViewSections_( el );
 			this.setTab_( el );
-			location.hash = '!' + el.getAttribute( 'href' ).slice(1);
+			location.hash = 'tab-' + el.getAttribute( 'href' ).slice(1);
 		},
 
 		/** @return void */
 		onHashchange_: function() {
-			var id = location.hash.split('#!')[1];
+			var id = location.hash.split('#tab-')[1];
 			for( var i = 0; i < this.views.length; i++ ) {
 				if( id !== this.views[i].id )continue;
 				this.setTab_( this.tabs[i] );
@@ -83,8 +67,23 @@
 		},
 
 		/** @return void */
+		scrollSectionIntoView_: function( el ) {
+			if (el.length) {
+				var parentEl = el.parent();
+				parentEl.removeClass( 'collapsed' );
+				this.toggleCollapsibleSections_( parentEl );
+				parentEl.removeClass( 'collapsed' );
+				el.removeClass( 'closed' ).find( '.handlediv' ).attr( 'aria-expanded', true );
+				window.setTimeout(function() {
+					el[0].scrollIntoView({behavior: 'smooth', block: 'center'});
+					localStorage.removeItem('glsr-expand');
+				}, 10);
+			}
+		},
+
+		/** @return void */
 		setReferrer_: function( index ) {
-			var referrerUrl = this.referrer.value.split('#')[0] + '#!' + this.views[index].id;
+			var referrerUrl = this.referrer.value.split('#')[0] + '#tab-' + this.views[index].id;
 			this.referrer.value = referrerUrl;
 		},
 

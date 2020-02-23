@@ -5,7 +5,7 @@ Tags: reviews, ratings, business ratings, business reviews, testimonials, site r
 Tested up to: 5.3
 Requires at least: 4.7.0
 Requires PHP: 5.6
-Stable tag: 4.4.0
+Stable tag: 4.5.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,6 +118,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 
 = 4.5.0 (2020-02-24) =
 
+- Fixed compatibility with misbehaving plugins that break the Settings tabs
 - Updated the Rebusify integration as they have rebranded to [Trustalyze](https://trustalyze.com?ref=105)
 
 = 4.4.0 (2020-02-12) =
