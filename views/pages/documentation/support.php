@@ -73,24 +73,29 @@
         </button>
     </div>
     <div class="inside">
-        <p>The recommended way to get help is to post a support request in the <a href="https://wordpress.org/support/plugin/site-reviews/">WordPress Support Forum</a>, not only does this allow existing and future users of the plugin to benefit from the solution, it is also <strong>the fastest way to get help</strong>. However, you may also contact us directly after confirming the following:</p>
+        <p><strong>The fastest way to get help</strong> is to post a support request in the <a href="https://wordpress.org/support/plugin/site-reviews/">WordPress Support Forum</a>. Using the support forum will also allow existing and future users of the plugin to benefit from the solution.</p>
+        <p>However, you may also contact us directly (expect a slower response time) after confirming the following:</p>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-1" class="glsr-support-step">
-            <label for="step-1">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">FAQ</a></code> documentation page.</label>
+            <label for="step-1">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-support'); ?>" data-expand="#support-02">Common Problems and Solutions</a></code> and it does not answer my question.</label>
         </p>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-2" class="glsr-support-step">
-            <label for="step-2">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-shortcodes'); ?>">Shortcodes</a></code> documentation page.</label>
+            <label for="step-2">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">FAQ</a></code> page and it does not answer my question.</label>
+        </p>
+        <p class="glsr-card-field">
+            <input type="checkbox" id="step-3" class="glsr-support-step">
+            <label for="step-3">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-shortcodes'); ?>">Shortcodes</a></code> page and it does not answer my question.</label>
         </p>
         <?php if (glsr()->hasPermission('documentation', 'hooks')) : ?>
         <p class="glsr-card-field">
-            <input type="checkbox" id="step-3" class="glsr-support-step">
-            <label for="step-3">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-hooks'); ?>">Hooks</a></code> documentation page.</label>
+            <input type="checkbox" id="step-4" class="glsr-support-step">
+            <label for="step-4">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-hooks'); ?>">Hooks</a></code> page and it does not answer my question.</label>
         </p>
         <?php endif; ?>
         <p class="glsr-card-field">
-            <input type="checkbox" id="step-4" class="glsr-support-step">
-            <label for="step-4">I have completed the <em>Basic Troubleshooting Steps</em> provided above.</label>
+            <input type="checkbox" id="step-5" class="glsr-support-step">
+            <label for="step-5">I have completed the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-support'); ?>" data-expand="#support-01">Basic Troubleshooting Steps</a></code> provided above.</label>
         </p>
         <div class="glsr-card-result hidden">
             <p><strong>Please send an email to <a href="mailto:site-reviews@geminilabs.io?subject=Support%20request">site-reviews@geminilabs.io</a> and include the following details:</strong></p>
@@ -100,6 +105,7 @@
                 <li>Download and attach the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-system-info'); ?>">Tools &rarr; System Info</a></code> report to the email.</li>
                 <li>Include screenshots if they will help explain the problem.</li>
             </ul>
+            <p><span class="required">Please be aware that if your email does not include the System Info report and the Console log (as requested above), it will most likely be ignored. Thank you for understanding.</span></p>
         </div>
     </div>
 </div>
