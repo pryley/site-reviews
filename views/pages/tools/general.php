@@ -4,7 +4,7 @@
 <div class="glsr-card card">
     <h3>Export Settings</h3>
     <p>Export the Site Reviews settings for this site to a <code>*.json</code> file. This allows you to easily import the plugin settings into another site.</p>
-    <p>To export your Site Reviews reviews and categories, please use the WordPress <a href="<?= admin_url('export.php'); ?>">Export</a> tool.</p>
+    <p>To export your Site Reviews' reviews and categories, please use the WordPress <a href="<?= admin_url('export.php'); ?>">Export</a> tool.</p>
     <form method="post">
         <input type="hidden" name="{{ id }}[_action]" value="export-settings">
         <?php wp_nonce_field('export-settings'); ?>
@@ -17,7 +17,7 @@
 <div class="glsr-card card">
     <h3>Import Settings</h3>
     <p>Import the Site Reviews settings from a <code>*.json</code> file. This file can be obtained by exporting the settings on another site using the export tool below.</p>
-    <p>To import your Site Reviews reviews and categories from another website, please use the WordPress <a href="<?= admin_url('import.php'); ?>">Import</a> tool.</p>
+    <p>To import your Site Reviews' reviews and categories from another website, please use the WordPress <a href="<?= admin_url('import.php'); ?>">Import</a> tool.</p>
     <form method="post" enctype="multipart/form-data">
         <input type="file" name="import-file">
         <input type="hidden" name="{{ id }}[_action]" value="import-settings">
@@ -62,7 +62,7 @@
 <div class="glsr-card card">
     <h3>Reset Permissions</h3>
     <p>Site Reviews provides custom post_type capabilities that mirror the capabilities of your posts by default. For example, if a user role has permission to edit others posts, then that role will also have permission to edit other users reviews.</p>
-    <p>If you have changed the capabilities of your user roles and you suspect that Site Reviews is not working correctly due to your changes, you may use this tool to rest the Site Reviews capabilities for your user roles.</p>
+    <p>If you have changed the capabilities of your user roles and you suspect that Site Reviews is not working correctly due to your changes, you may use this tool to reset the Site Reviews capabilities for your user roles.</p>
     <form method="post">
         <input type="hidden" name="{{ id }}[_action]" value="reset-permissions">
         <?php wp_nonce_field('reset-permissions'); ?>

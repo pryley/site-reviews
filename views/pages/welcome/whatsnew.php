@@ -14,6 +14,7 @@
                 <h4>Bugs Fixed</h4>
                 <ul>
                     <li>Fixed compatibility with misbehaving plugins that break the Settings tabs</li>
+                    <li>Fixed potential errors when upgrading from versions prior to 4.3.8</li>
                 </ul>
             </div>
             <div class="card is-fullwidth">

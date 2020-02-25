@@ -119,6 +119,7 @@ All documentation can be found in the "Documentation" page of the plugin. If you
 = 4.5.0 (2020-02-24) =
 
 - Fixed compatibility with misbehaving plugins that break the Settings tabs
+- Fixed potential errors when upgrading from versions prior to 4.3.8
 - Updated the Rebusify integration as they have rebranded to [Trustalyze](https://trustalyze.com?ref=105)
 
 = 4.4.0 (2020-02-12) =
