@@ -113,6 +113,7 @@
     site-reviews/style
     site-reviews/submission-form/order
     site-reviews/summary/counts
+    site-reviews/summary/wrap/{field_key}
     site-reviews/support/deprecated/v4
     site-reviews/system/{key}
     site-reviews/tinymce/editor-ids

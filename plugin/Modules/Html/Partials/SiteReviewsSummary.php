@@ -68,7 +68,12 @@ class SiteReviewsSummary
                 $this->ratingCounts[$level]
             );
             $percent = $this->buildPercentageCount($count);
-            return $carry.glsr(Builder::class)->div($label.$background.$percent, [
+            $value = $label.$background.$percent;
+            $value = apply_filters('site-reviews/summary/wrap/bar', $value, $this->args, [
+                'percent' => wp_strip_all_tags($count, true),
+                'rating' => $level,
+            ]);
+            return $carry.glsr(Builder::class)->div($value, [
                 'class' => 'glsr-bar',
             ]);
         });
@@ -193,6 +198,7 @@ class SiteReviewsSummary
      */
     protected function wrap($key, $value)
     {
+        $value = apply_filters('site-reviews/summary/wrap/'.$key, $value, $this->args);
         return glsr(Builder::class)->div($value, [
             'class' => 'glsr-summary-'.$key,
         ]);
