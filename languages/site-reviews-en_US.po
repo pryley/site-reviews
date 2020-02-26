@@ -1286,23 +1286,23 @@ msgstr ""
 "This custom translation is no longer valid as the original text has been "
 "changed or removed."
 
-#: plugin/Shortcodes/Shortcode.php:202
+#: plugin/Shortcodes/Shortcode.php:204
 msgid "Excellent"
 msgstr "Excellent"
 
-#: plugin/Shortcodes/Shortcode.php:203
+#: plugin/Shortcodes/Shortcode.php:205
 msgid "Very good"
 msgstr "Very good"
 
-#: plugin/Shortcodes/Shortcode.php:204
+#: plugin/Shortcodes/Shortcode.php:206
 msgid "Average"
 msgstr "Average"
 
-#: plugin/Shortcodes/Shortcode.php:205
+#: plugin/Shortcodes/Shortcode.php:207
 msgid "Poor"
 msgstr "Poor"
 
-#: plugin/Shortcodes/Shortcode.php:206
+#: plugin/Shortcodes/Shortcode.php:208
 msgid "Terrible"
 msgstr "Terrible"
 
@@ -1350,27 +1350,27 @@ msgstr "Add custom CSS classes to the shortcode."
 msgid "Hide"
 msgstr "Hide"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:12
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:10
 msgid "Hide the rating field"
 msgstr "Hide the rating field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:13
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:11
 msgid "Hide the title field"
 msgstr "Hide the title field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:14
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:12
 msgid "Hide the review field"
 msgstr "Hide the review field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:15
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:13
 msgid "Hide the name field"
 msgstr "Hide the name field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:16
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:14
 msgid "Hide the email field"
 msgstr "Hide the email field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:17
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:15
 msgid "Hide the terms field"
 msgstr "Hide the terms field"
 
@@ -1813,24 +1813,24 @@ msgid "Import Settings"
 msgstr "Import Settings"
 
 #: views/pages/tools/general.php:39
-msgid "Migrating Reviews..."
-msgstr "Migrating Reviews..."
+msgid "Migrating Reviews, please wait..."
+msgstr "Migrating Reviews, please wait..."
 
 #: views/pages/tools/general.php:39
 msgid "Run Migration"
 msgstr "Run Migration"
 
 #: views/pages/tools/general.php:55
-msgid "Recalculating Counts..."
-msgstr "Recalculating Counts..."
+msgid "Recalculating Counts, please wait..."
+msgstr "Recalculating Counts, please wait..."
 
 #: views/pages/tools/general.php:55
 msgid "Recalculate Counts"
 msgstr "Recalculate Counts"
 
 #: views/pages/tools/general.php:71
-msgid "Resetting Permissions..."
-msgstr "Resetting Permissions..."
+msgid "Resetting Permissions, please wait..."
+msgstr "Resetting Permissions, please wait..."
 
 #: views/pages/tools/general.php:71
 msgid "Reset Permissions"
@@ -2096,7 +2096,7 @@ msgctxt "the option label"
 msgid "The \"%s\" option is required."
 msgstr "The \"%s\" option is required."
 
-#: plugin/Modules/Html/Partials/SiteReviewsSummary.php:143
+#: plugin/Modules/Html/Partials/SiteReviewsSummary.php:148
 msgctxt "Do not translate {rating}, {max}, and {num}, they are template tags."
 msgid "{rating} out of {max} stars (based on {num} review)"
 msgid_plural "{rating} out of {max} stars (based on {num} reviews)"

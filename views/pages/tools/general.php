@@ -36,7 +36,7 @@
         <?php wp_nonce_field('migrate-reviews'); ?>
         <p class="submit">
             <button type="submit" class="glsr-button button" name="migrate-reviews" id="migrate-reviews">
-                <span data-loading="<?= __('Migrating Reviews...', 'site-reviews'); ?>"><?= __('Run Migration', 'site-reviews'); ?></span>
+                <span data-loading="<?= __('Migrating Reviews, please wait...', 'site-reviews'); ?>"><?= __('Run Migration', 'site-reviews'); ?></span>
             </button>
         </p>
     </form>
@@ -46,13 +46,13 @@
 <div class="glsr-card card">
     <h3>Recalculate Summary Counts</h3>
     <p>Site Reviews maintains an internal rating count of your reviews, this allows the plugin to calculate the average rating scores for the summary without negatively impacting performance when you have a lot of reviews.</p>
-    <p>If you suspect that the rating counts are incorrect (perhaps you have edited/deleted reviews directly from your database), you can recalculate them here.</p>
+    <p>If you suspect that the rating counts are incorrect (perhaps you have cloned a page that had reviews assigned to it, or edited/deleted reviews directly from your database), you can recalculate them here.</p>
     <form method="post">
         <input type="hidden" name="{{ id }}[_action]" value="count-reviews">
         <?php wp_nonce_field('count-reviews'); ?>
         <p class="submit">
             <button type="submit" class="glsr-button button" name="count-reviews" id="count-reviews">
-                <span data-loading="<?= __('Recalculating Counts...', 'site-reviews'); ?>"><?= __('Recalculate Counts', 'site-reviews'); ?></span>
+                <span data-loading="<?= __('Recalculating Counts, please wait...', 'site-reviews'); ?>"><?= __('Recalculate Counts', 'site-reviews'); ?></span>
             </button>
         </p>
     </form>
@@ -68,7 +68,7 @@
         <?php wp_nonce_field('reset-permissions'); ?>
         <p class="submit">
             <button type="submit" class="glsr-button button" name="reset-permissions" id="reset-permissions">
-                <span data-loading="<?= __('Resetting Permissions...', 'site-reviews'); ?>"><?= __('Reset Permissions', 'site-reviews'); ?></span>
+                <span data-loading="<?= __('Resetting Permissions, please wait...', 'site-reviews'); ?>"><?= __('Reset Permissions', 'site-reviews'); ?></span>
             </button>
         </p>
     </form>
