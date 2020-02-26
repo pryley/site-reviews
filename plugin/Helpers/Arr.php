@@ -95,6 +95,24 @@ class Arr
 
     /**
      * @param string $key
+     * @return array
+     */
+    public static function insertAfter($key, array $array, array $insert)
+    {
+        return static::insertInArray($array, $insert, $key, 'after');
+    }
+
+    /**
+     * @param string $key
+     * @return array
+     */
+    public static function insertBefore($key, array $array, array $insert)
+    {
+        return static::insertInArray($array, $insert, $key, 'before');
+    }
+
+    /**
+     * @param string $key
      * @param string $position
      * @return array
      */
