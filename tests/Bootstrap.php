@@ -17,7 +17,7 @@ class Bootstrap
     {
         ini_set('display_errors', 'on');
         error_reporting(E_ALL);
-        $this->tests_dir = dirname(__FILE__);
+        $this->tests_dir = __DIR__;
         $this->plugin_dir = dirname($this->tests_dir);
         $this->wp_tests_dir = $this->get_tests_dir($_SERVER['HOME'].'/Sites/wordpress/tests/current');
         // load test function so tests_add_filter() is available
