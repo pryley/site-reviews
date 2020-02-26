@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Shortcodes;
 
+use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -137,6 +138,7 @@ abstract class Shortcode implements ShortcodeContract
             }
             $value = $this->$methodName($value);
         });
+        $this->setId($atts);
         return $atts;
     }
 
@@ -233,5 +235,15 @@ abstract class Shortcode implements ShortcodeContract
     protected function normalizeText($text)
     {
         return trim($text);
+    }
+
+    /**
+     * @return void
+     */
+    protected function setId(array &$atts)
+    {
+        if (empty($atts['id'])) {
+            $atts['id'] = Application::PREFIX.substr(md5(serialize($atts)), 0, 8);
+        }
     }
 }
