@@ -15,6 +15,7 @@
                 <ul>
                     <li>Fixed compatibility with misbehaving plugins that break the Settings tabs</li>
                     <li>Fixed potential errors when upgrading from versions prior to 4.3.8</li>
+                    <li>Fixed the "Recalculate Summary Counts" tool to work correctly after pages with assigned reviews are cloned</li>
                 </ul>
             </div>
             <div class="card is-fullwidth">

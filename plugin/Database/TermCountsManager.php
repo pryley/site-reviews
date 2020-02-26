@@ -90,6 +90,7 @@ class TermCountsManager
      */
     public function updateAll()
     {
+        glsr(SqlQueries::class)->deleteTermCountMetaKeys();
         $terms = glsr(Database::class)->getTerms([
             'fields' => 'all',
         ]);

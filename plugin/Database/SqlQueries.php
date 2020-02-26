@@ -19,6 +19,30 @@ class SqlQueries
     }
 
     /**
+     * @return bool
+     */
+    public function deletePostCountMetaKeys()
+    {
+        $this->db->query("
+            DELETE
+            FROM {$this->db->postmeta}
+            WHERE meta_key LIKE '_glsr_%'
+        ");
+    }
+
+    /**
+     * @return bool
+     */
+    public function deleteTermCountMetaKeys()
+    {
+        $this->db->query("
+            DELETE
+            FROM {$this->db->termmeta}
+            WHERE meta_key LIKE '_glsr_%'
+        ");
+    }
+
+    /**
      * @param string $metaReviewId
      * @return int
      */
