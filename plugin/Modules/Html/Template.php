@@ -33,13 +33,23 @@ class Template
     {
         $context = $this->normalizeContext(Arr::get($data, 'context', []));
         $context = apply_filters('site-reviews/interpolate/'.$templatePath, $context, $template, $data);
+        return $this->interpolateContext($template, $context);
+    }
+
+    /**
+     * Interpolate context values into template placeholders.
+     * @param string $text
+     * @return string
+     */
+    public function interpolateContext($text, array $context = [])
+    {
         foreach ($context as $key => $value) {
-            $template = strtr(
-                $template,
+            $text = strtr(
+                $text,
                 array_fill_keys(['{'.$key.'}', '{{ '.$key.' }}'], $value)
             );
         }
-        return trim($template);
+        return trim($text);
     }
 
     /**
