@@ -98,7 +98,8 @@ final class Application extends Container
      */
     public function config($name)
     {
-        $configFile = $this->path('config/'.$name.'.php');
+        $path = apply_filters('site-reviews/config', 'config/'.$name.'.php');
+        $configFile = $this->path($path);
         $config = file_exists($configFile)
             ? include $configFile
             : [];

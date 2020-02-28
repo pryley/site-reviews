@@ -37,6 +37,7 @@
     site-reviews/capabilities
     site-reviews/capabilities/for-roles
     site-reviews/columns/{column_slug}
+    site-reviews/config
     site-reviews/config/{config_id}
     site-reviews/console/level
     site-reviews/const/{constant}
