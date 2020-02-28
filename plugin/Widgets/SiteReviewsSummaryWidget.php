@@ -25,7 +25,7 @@ class SiteReviewsSummaryWidget extends Widget
      */
     public function form($instance)
     {
-        $this->widgetArgs = glsr(SiteReviewsSummaryShortcode::class)->normalizeAtts($instance);
+        $this->widgetArgs = $this->shortcode()->normalizeAtts($instance);
         $terms = glsr(Database::class)->getTerms();
         $this->renderField('text', [
             'class' => 'widefat',
@@ -62,17 +62,15 @@ class SiteReviewsSummaryWidget extends Widget
         ]);
         $this->renderField('checkbox', [
             'name' => 'hide',
-            'options' => glsr(SiteReviewsSummaryShortcode::class)->getHideOptions(),
+            'options' => $this->shortcode()->getHideOptions(),
         ]);
     }
 
     /**
-     * @param array $args
-     * @param array $instance
-     * @return void
+     * {@inheritdoc}
      */
-    public function widget($args, $instance)
+    protected function shortcode()
     {
-        echo glsr(SiteReviewsSummaryShortcode::class)->build($instance, $args, 'widget');
+        return glsr(SiteReviewsSummaryShortcode::class);
     }
 }

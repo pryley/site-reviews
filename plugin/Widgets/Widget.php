@@ -13,16 +13,13 @@ abstract class Widget extends WP_Widget
     protected $widgetArgs;
 
     /**
-     * @param string $tag
+     * @param array $args
+     * @param array $instance
      * @return void
      */
-    protected function renderField($tag, array $args = [])
+    public function widget($args, $instance)
     {
-        $args = $this->normalizeFieldAttributes($tag, $args);
-        $field = glsr(Builder::class)->$tag($args['name'], $args);
-        echo glsr(Builder::class)->div($field, [
-            'class' => 'glsr-field',
-        ]);
+        echo $this->shortcode()->build($instance, $args, 'widget');
     }
 
     /**
@@ -42,4 +39,22 @@ abstract class Widget extends WP_Widget
         $args['is_widget'] = true;
         return $args;
     }
+
+    /**
+     * @param string $tag
+     * @return void
+     */
+    protected function renderField($tag, array $args = [])
+    {
+        $args = $this->normalizeFieldAttributes($tag, $args);
+        $field = glsr(Builder::class)->$tag($args['name'], $args);
+        echo glsr(Builder::class)->div($field, [
+            'class' => 'glsr-field',
+        ]);
+    }
+
+    /**
+     * @return \GeminiLabs\SiteReviews\Shortcodes\Shortcode
+     */
+    abstract protected function shortcode();
 }
