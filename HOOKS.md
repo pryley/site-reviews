@@ -111,6 +111,7 @@
     site-reviews/sslverify/get
     site-reviews/sslverify/post
     site-reviews/style
+    site-reviews/style/views
     site-reviews/submission-form/order
     site-reviews/summary/counts
     site-reviews/summary/wrap/{field_key}

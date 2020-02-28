@@ -44,12 +44,12 @@ class Style
      */
     public function filterView($view)
     {
-        $styledViews = [
+        $styledViews = apply_filters('site-reviews/style/views', [
             'templates/form/field',
             'templates/form/response',
             'templates/form/submit-button',
             'templates/reviews-form',
-        ];
+        ]);
         if (!preg_match('('.implode('|', $styledViews).')', $view)) {
             return $view;
         }
