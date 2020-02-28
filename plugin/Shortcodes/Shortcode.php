@@ -74,7 +74,7 @@ abstract class Shortcode implements ShortcodeContract
     /**
      * @return string
      */
-    public function getShortcodeClassName($replace = '', $search = 'Shortcode')
+    public function getShortClassName($replace = '', $search = 'Shortcode')
     {
         return str_replace($search, $replace, (new ReflectionClass($this))->getShortName());
     }
@@ -84,10 +84,8 @@ abstract class Shortcode implements ShortcodeContract
      */
     public function getShortcodeDefaultsClassName()
     {
-        return Helper::buildClassName(
-            $this->getShortcodeClassName('Defaults'),
-            'Defaults'
-        );
+        $className = Str::replaceLast('Shortcode', 'Defaults', get_class($this));
+        return str_replace('Shortcodes', 'Defaults', $className);
     }
 
     /**
@@ -95,7 +93,7 @@ abstract class Shortcode implements ShortcodeContract
      */
     public function getShortcodeName()
     {
-        return Str::snakeCase($this->getShortcodeClassName());
+        return Str::snakeCase($this->getShortClassName());
     }
 
     /**
@@ -103,7 +101,7 @@ abstract class Shortcode implements ShortcodeContract
      */
     public function getShortcodePartialName()
     {
-        return Str::dashCase($this->getShortcodeClassName());
+        return Str::dashCase($this->getShortClassName());
     }
 
     /**

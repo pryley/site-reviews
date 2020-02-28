@@ -150,6 +150,21 @@ class Str
     }
 
     /**
+     * @param string $search
+     * @param string $replace
+     * @param string $subject
+     * @return string
+     */
+    public static function replaceLast($search, $replace, $subject)
+    {
+        $position = strrpos($subject, $search);
+        if ($position !== false) {
+            return substr_replace($subject, $replace, $position, strlen($search));
+        }
+        return $subject;
+    }
+
+    /**
      * @param string $string
      * @return string
      */
