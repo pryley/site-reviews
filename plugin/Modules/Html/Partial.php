@@ -13,6 +13,7 @@ class Partial
     public function build($partialPath, array $args = [])
     {
         $className = Helper::buildClassName($partialPath, 'Modules\Html\Partials');
+        $className = apply_filters('site-reviews/partial/classname', $className, $partialPath);
         if (!class_exists($className)) {
             glsr_log()->error('Partial missing: '.$className);
             return;

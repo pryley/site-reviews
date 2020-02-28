@@ -73,6 +73,7 @@
     site-reviews/paginate_links
     site-reviews/paginate_links/args
     site-reviews/partial/args/{partial_path}
+    site-reviews/partial/classname
     site-reviews/path
     site-reviews/query/and-for-counts
     site-reviews/query/inner-join-for-counts
