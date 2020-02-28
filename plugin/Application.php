@@ -291,7 +291,7 @@ final class Application extends Container
         $view = apply_filters('site-reviews/render/view', $view, $data);
         $file = apply_filters('site-reviews/views/file', $this->file($view), $view, $data);
         if (!file_exists($file)) {
-            glsr_log()->error('File not found: '.$file);
+            glsr_log()->error(sprintf('File not found: (%s) %s', $view, $file));
             return;
         }
         $data = apply_filters('site-reviews/views/data', $data, $view);
