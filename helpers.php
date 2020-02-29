@@ -74,7 +74,7 @@ function glsr_calculate_ratings()
 function glsr_create_review($reviewValues = array())
 {
     $review = new \GeminiLabs\SiteReviews\Commands\CreateReview(
-        \GeminiLabs\SiteReviews\Helpers\Arr::consolidateArray($reviewValues)
+        \GeminiLabs\SiteReviews\Helpers\Arr::consolidate($reviewValues)
     );
     return glsr('Database\ReviewManager')->create($review);
 }
@@ -162,7 +162,7 @@ function glsr_get_review($post)
  */
 function glsr_get_reviews($args = array())
 {
-    return glsr('Database\ReviewManager')->get(\GeminiLabs\SiteReviews\Helpers\Arr::consolidateArray($args));
+    return glsr('Database\ReviewManager')->get(\GeminiLabs\SiteReviews\Helpers\Arr::consolidate($args));
 }
 
 /**

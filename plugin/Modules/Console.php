@@ -182,7 +182,7 @@ class Console
         }
         if ($this->canLogEntry($level, $backtraceLine)) {
             $levelName = Arr::get($this->getLevels(), $level);
-            $context = Arr::consolidateArray($context);
+            $context = Arr::consolidate($context);
             $backtraceLine = $this->normalizeBacktraceLine($backtraceLine);
             $message = $this->interpolate($message, $context);
             $entry = $this->buildLogEntry($levelName, $message, $backtraceLine);
@@ -198,7 +198,7 @@ class Console
      */
     public function logOnce()
     {
-        $once = Arr::consolidateArray(glsr()->{$this->logOnceKey});
+        $once = Arr::consolidate(glsr()->{$this->logOnceKey});
         $levels = $this->getLevels();
         foreach ($once as $entry) {
             $levelName = Arr::get($entry, 'level');
@@ -232,7 +232,7 @@ class Console
      */
     public function once($levelName, $handle, $data)
     {
-        $once = Arr::consolidateArray(glsr()->{$this->logOnceKey});
+        $once = Arr::consolidate(glsr()->{$this->logOnceKey});
         $filtered = array_filter($once, function ($entry) use ($levelName, $handle) {
             return Arr::get($entry, 'level') == $levelName
                 && Arr::get($entry, 'handle') == $handle;

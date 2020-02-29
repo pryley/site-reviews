@@ -113,7 +113,7 @@ class OptionManager
     public function normalize(array $options = [])
     {
         $options = wp_parse_args(
-            Arr::flattenArray($options),
+            Arr::flatten($options),
             glsr(DefaultsManager::class)->defaults()
         );
         array_walk($options, function (&$value) {
@@ -122,7 +122,7 @@ class OptionManager
             }
             $value = wp_kses($value, wp_kses_allowed_html('post'));
         });
-        return Arr::convertDotNotationArray($options);
+        return Arr::convertFromDotNotation($options);
     }
 
     /**

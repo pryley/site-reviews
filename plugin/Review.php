@@ -74,7 +74,7 @@ class Review implements \ArrayAccess
         }
         $partial = glsr(SiteReviewsPartial::class);
         $partial->args = glsr(SiteReviewsDefaults::class)->merge($args);
-        $partial->options = Arr::flattenArray(glsr(OptionManager::class)->all());
+        $partial->options = Arr::flatten(glsr(OptionManager::class)->all());
         return $partial->buildReview($this);
     }
 
@@ -157,7 +157,7 @@ class Review implements \ArrayAccess
             array_map('array_shift', array_filter((array) get_post_meta($post->ID))),
             'strlen'
         );
-        $meta = array_merge($defaults, Arr::unprefixArrayKeys($meta));
+        $meta = array_merge($defaults, Arr::unprefixKeys($meta));
         $properties = glsr(CreateReviewDefaults::class)->restrict(array_merge($defaults, $meta));
         $this->modified = $this->isModified($properties);
         array_walk($properties, function ($value, $key) {

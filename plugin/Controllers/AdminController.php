@@ -82,7 +82,7 @@ class AdminController extends Controller
         }
         $text = _n('%s Review', '%s Reviews', $postCount->publish, 'site-reviews');
         $text = sprintf($text, number_format_i18n($postCount->publish));
-        $items = Arr::consolidateArray($items);
+        $items = Arr::consolidate($items);
         $items[] = glsr()->can('edit_posts')
             ? glsr(Builder::class)->a($text, [
                 'class' => 'glsr-review-count',
@@ -102,7 +102,7 @@ class AdminController extends Controller
     public function filterTinymcePlugins($plugins)
     {
         if (glsr()->can('edit_posts')) {
-            $plugins = Arr::consolidateArray($plugins);
+            $plugins = Arr::consolidate($plugins);
             $plugins['glsr_shortcode'] = glsr()->url('assets/scripts/mce-plugin.js');
         }
         return $plugins;

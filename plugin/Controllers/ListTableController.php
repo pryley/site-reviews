@@ -39,7 +39,7 @@ class ListTableController extends Controller
      */
     public function filterColumnsForPostType($columns)
     {
-        $columns = Arr::consolidateArray($columns);
+        $columns = Arr::consolidate($columns);
         $postTypeColumns = glsr()->postTypeColumns[Application::POST_TYPE];
         foreach ($postTypeColumns as $key => &$value) {
             if (!array_key_exists($key, $columns) || !empty($value)) {
@@ -76,7 +76,7 @@ class ListTableController extends Controller
     public function filterDefaultHiddenColumns($hidden, $screen)
     {
         if (Arr::get($screen, 'id') == 'edit-'.Application::POST_TYPE) {
-            $hidden = Arr::consolidateArray($hidden);
+            $hidden = Arr::consolidate($hidden);
             $hidden = array_unique(array_merge($hidden, [
                 'email', 'ip_address', 'response', 'reviewer',
             ]));
@@ -113,7 +113,7 @@ class ListTableController extends Controller
                 ),
             ]);
         }
-        return $newActions + Arr::consolidateArray($actions);
+        return $newActions + Arr::consolidate($actions);
     }
 
     /**
@@ -123,7 +123,7 @@ class ListTableController extends Controller
      */
     public function filterSortableColumns($columns)
     {
-        $columns = Arr::consolidateArray($columns);
+        $columns = Arr::consolidate($columns);
         $postTypeColumns = glsr()->postTypeColumns[Application::POST_TYPE];
         unset($postTypeColumns['cb']);
         foreach ($postTypeColumns as $key => $value) {

@@ -19,7 +19,7 @@ class SettingsController extends Controller
      */
     public function callbackRegisterSettings($input)
     {
-        $settings = Arr::consolidateArray($input);
+        $settings = Arr::consolidate($input);
         if (1 === count($settings) && array_key_exists('settings', $settings)) {
             $options = array_replace_recursive(glsr(OptionManager::class)->all(), $input);
             $options = $this->sanitizeGeneral($input, $options);
@@ -71,7 +71,7 @@ class SettingsController extends Controller
     protected function sanitizeLicenses(array $input, array $options)
     {
         $key = 'settings.licenses';
-        $licenses = Arr::consolidateArray(Arr::get($input, $key));
+        $licenses = Arr::consolidate(Arr::get($input, $key));
         foreach ($licenses as $slug => &$license) {
             $license = $this->verifyLicense($license, $slug);
         }
@@ -99,7 +99,7 @@ class SettingsController extends Controller
     protected function sanitizeTranslations(array $input, array $options)
     {
         $key = 'settings.strings';
-        $inputForm = Arr::consolidateArray(Arr::get($input, $key));
+        $inputForm = Arr::consolidate(Arr::get($input, $key));
         if (!empty($inputForm)) {
             $options = Arr::set($options, $key, array_values(array_filter($inputForm)));
             $allowedTags = [

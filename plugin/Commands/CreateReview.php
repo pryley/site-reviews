@@ -76,7 +76,7 @@ class CreateReview
      */
     protected function getCategory()
     {
-        $categories = Arr::convertStringToArray($this->get('category'));
+        $categories = Arr::convertFromString($this->get('category'));
         return sanitize_key(Arr::get($categories, 0));
     }
 

@@ -7,7 +7,7 @@ class Arr
     /**
      * @return bool
      */
-    public static function compareArrays(array $arr1, array $arr2)
+    public static function compare(array $arr1, array $arr2)
     {
         sort($arr1);
         sort($arr2);
@@ -18,7 +18,7 @@ class Arr
      * @param mixed $array
      * @return array
      */
-    public static function consolidateArray($array)
+    public static function consolidate($array)
     {
         return is_array($array) || is_object($array)
             ? (array) $array
@@ -28,7 +28,7 @@ class Arr
     /**
      * @return array
      */
-    public static function convertDotNotationArray(array $array)
+    public static function convertFromDotNotation(array $array)
     {
         $results = [];
         foreach ($array as $path => $value) {
@@ -42,7 +42,7 @@ class Arr
      * @param mixed $callback
      * @return array
      */
-    public static function convertStringToArray($string, $callback = null)
+    public static function convertFromString($string, $callback = null)
     {
         $array = array_map('trim', explode(',', $string));
         return $callback
@@ -55,17 +55,17 @@ class Arr
      * @param string $prefix
      * @return array
      */
-    public static function flattenArray(array $array, $flattenValue = false, $prefix = '')
+    public static function flatten(array $array, $flattenValue = false, $prefix = '')
     {
         $result = [];
         foreach ($array as $key => $value) {
             $newKey = ltrim($prefix.'.'.$key, '.');
-            if (static::isIndexedFlatArray($value)) {
+            if (static::isIndexedAndFlat($value)) {
                 if ($flattenValue) {
                     $value = '['.implode(', ', $value).']';
                 }
             } elseif (is_array($value)) {
-                $result = array_merge($result, static::flattenArray($value, $flattenValue, $newKey));
+                $result = array_merge($result, static::flatten($value, $flattenValue, $newKey));
                 continue;
             }
             $result[$newKey] = $value;
@@ -82,7 +82,7 @@ class Arr
      */
     public static function get($data, $path = '', $fallback = '')
     {
-        $data = static::consolidateArray($data);
+        $data = static::consolidate($data);
         $keys = explode('.', $path);
         foreach ($keys as $key) {
             if (!isset($data[$key])) {
@@ -99,7 +99,7 @@ class Arr
      */
     public static function insertAfter($key, array $array, array $insert)
     {
-        return static::insertInArray($array, $insert, $key, 'after');
+        return static::insert($array, $insert, $key, 'after');
     }
 
     /**
@@ -108,7 +108,7 @@ class Arr
      */
     public static function insertBefore($key, array $array, array $insert)
     {
-        return static::insertInArray($array, $insert, $key, 'before');
+        return static::insert($array, $insert, $key, 'before');
     }
 
     /**
@@ -116,7 +116,7 @@ class Arr
      * @param string $position
      * @return array
      */
-    public static function insertInArray(array $array, array $insert, $key, $position = 'before')
+    public static function insert(array $array, array $insert, $key, $position = 'before')
     {
         $keyPosition = intval(array_search($key, array_keys($array)));
         if ('after' == $position) {
@@ -134,7 +134,7 @@ class Arr
      * @param mixed $array
      * @return bool
      */
-    public static function isIndexedFlatArray($array)
+    public static function isIndexedAndFlat($array)
     {
         if (!is_array($array) || array_filter($array, 'is_array')) {
             return false;
@@ -146,7 +146,7 @@ class Arr
      * @param bool $prefixed
      * @return array
      */
-    public static function prefixArrayKeys(array $values, $prefixed = true)
+    public static function prefixKeys(array $values, $prefixed = true)
     {
         $trim = '_';
         $prefix = $prefixed
@@ -166,7 +166,7 @@ class Arr
     /**
      * @return array
      */
-    public static function removeEmptyArrayValues(array $array)
+    public static function removeEmptyValues(array $array)
     {
         $result = [];
         foreach ($array as $key => $value) {
@@ -174,7 +174,7 @@ class Arr
                 continue;
             }
             $result[$key] = is_array($value)
-                ? static::removeEmptyArrayValues($value)
+                ? static::removeEmptyValues($value)
                 : $value;
         }
         return $result;
@@ -192,7 +192,7 @@ class Arr
         $token = strtok($path, '.');
         $ref = &$data;
         while (false !== $token) {
-            $ref = static::consolidateArray($ref);
+            $ref = static::consolidate($ref);
             $ref = &$ref[$token];
             $token = strtok('.');
         }
@@ -211,8 +211,8 @@ class Arr
     /**
      * @return array
      */
-    public static function unprefixArrayKeys(array $values)
+    public static function unprefixKeys(array $values)
     {
-        return static::prefixArrayKeys($values, false);
+        return static::prefixKeys($values, false);
     }
 }

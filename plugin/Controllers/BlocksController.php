@@ -15,7 +15,7 @@ class BlocksController extends Controller
      */
     public function filterBlockCategories($categories)
     {
-        $categories = Arr::consolidateArray($categories);
+        $categories = Arr::consolidate($categories);
         $categories[] = [
             'icon' => null,
             'slug' => Application::ID,

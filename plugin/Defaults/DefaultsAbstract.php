@@ -60,10 +60,10 @@ abstract class DefaultsAbstract
      */
     protected function filteredJson(array $values = [])
     {
-        $defaults = $this->flattenArray(
+        $defaults = $this->flattenArrayValues(
             array_diff_key($this->defaults(), array_flip($this->guarded))
         );
-        $values = $this->flattenArray(
+        $values = $this->flattenArrayValues(
             shortcode_atts($defaults, $values)
         );
         $filtered = array_filter(array_diff_assoc($values, $defaults), function ($value) {
@@ -75,7 +75,7 @@ abstract class DefaultsAbstract
     /**
      * @return array
      */
-    protected function flattenArray(array $values)
+    protected function flattenArrayValues(array $values)
     {
         array_walk($values, function (&$value) {
             if (!is_array($value)) {

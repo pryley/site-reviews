@@ -28,7 +28,7 @@ class EditorController extends Controller
     public function filterEditorSettings($settings)
     {
         return glsr(Customization::class)->filterEditorSettings(
-            Arr::consolidateArray($settings)
+            Arr::consolidate($settings)
         );
     }
 
@@ -54,7 +54,7 @@ class EditorController extends Controller
     {
         if ('post' == $metaType && Application::POST_TYPE == get_post_type()) {
             $values = glsr(CreateReviewDefaults::class)->unguarded();
-            $values = Arr::prefixArrayKeys($values);
+            $values = Arr::prefixKeys($values);
             if (array_key_exists($metaKey, $values)) {
                 $protected = false;
             }
@@ -70,7 +70,7 @@ class EditorController extends Controller
     public function filterUpdateMessages($messages)
     {
         return glsr(Labels::class)->filterUpdateMessages(
-            Arr::consolidateArray($messages)
+            Arr::consolidate($messages)
         );
     }
 
@@ -307,7 +307,7 @@ class EditorController extends Controller
      */
     protected function buildDetailsMetaBoxRevertButton(Review $review, WP_Post $post)
     {
-        $isModified = !Arr::compareArrays(
+        $isModified = !Arr::compare(
             [$review->title, $review->content, $review->date],
             [
                 glsr(Database::class)->get($post->ID, 'title'),

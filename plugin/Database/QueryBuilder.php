@@ -117,7 +117,7 @@ class QueryBuilder
     protected function buildQueryAssignedTo($value)
     {
         if (!empty($value)) {
-            $postIds = Arr::convertStringToArray($value, 'is_numeric');
+            $postIds = Arr::convertFromString($value, 'is_numeric');
             return [
                 'compare' => 'IN',
                 'key' => '_assigned_to',

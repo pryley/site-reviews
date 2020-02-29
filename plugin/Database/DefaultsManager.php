@@ -24,7 +24,7 @@ class DefaultsManager
      */
     public function get()
     {
-        return Arr::convertDotNotationArray($this->defaults());
+        return Arr::convertFromDotNotation($this->defaults());
     }
 
     /**
@@ -33,7 +33,7 @@ class DefaultsManager
     public function set()
     {
         $settings = glsr(OptionManager::class)->all();
-        $currentSettings = Arr::removeEmptyArrayValues($settings);
+        $currentSettings = Arr::removeEmptyValues($settings);
         $defaultSettings = array_replace_recursive($this->get(), $currentSettings);
         $updatedSettings = array_replace_recursive($settings, $defaultSettings);
         update_option(OptionManager::databaseKey(), $updatedSettings);

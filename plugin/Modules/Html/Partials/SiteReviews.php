@@ -48,7 +48,7 @@ class SiteReviews
     public function build(array $args = [], $reviews = null)
     {
         $this->args = glsr(SiteReviewsDefaults::class)->merge($args);
-        $this->options = Arr::flattenArray(glsr(OptionManager::class)->all());
+        $this->options = Arr::flatten(glsr(OptionManager::class)->all());
         $this->reviews = $reviews instanceof Reviews
             ? $reviews
             : glsr(ReviewManager::class)->get($this->args);

@@ -166,7 +166,7 @@ class System
     public function getReviewsDetails()
     {
         $counts = glsr(CountsManager::class)->getCounts();
-        $counts = Arr::flattenArray($counts);
+        $counts = Arr::flatten($counts);
         array_walk($counts, function (&$ratings) use ($counts) {
             if (is_array($ratings)) {
                 $ratings = array_sum($ratings).' ('.implode(', ', $ratings).')';
@@ -201,7 +201,7 @@ class System
     public function getSettingDetails()
     {
         $settings = glsr(OptionManager::class)->get('settings', []);
-        $settings = Arr::flattenArray($settings, true);
+        $settings = Arr::flatten($settings, true);
         $settings = $this->purgeSensitiveData($settings);
         ksort($settings);
         $details = [];

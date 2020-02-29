@@ -23,7 +23,7 @@ class ReviewManager
     {
         $reviewValues = glsr(CreateReviewDefaults::class)->restrict((array) $command);
         $reviewValues = apply_filters('site-reviews/create/review-values', $reviewValues, $command);
-        $reviewValues = Arr::prefixArrayKeys($reviewValues);
+        $reviewValues = Arr::prefixKeys($reviewValues);
         unset($reviewValues['json']); // @todo remove the need for this
         $postValues = [
             'comment_status' => 'closed',
@@ -113,7 +113,7 @@ class ReviewManager
     {
         $args = glsr(SiteReviewsSummaryDefaults::class)->filter($args);
         $counts = glsr(CountsManager::class)->getCounts([
-            'post_ids' => Arr::convertStringToArray($args['assigned_to']),
+            'post_ids' => Arr::convertFromString($args['assigned_to']),
             'term_ids' => $this->normalizeTermIds($args['category']),
             'type' => $args['type'],
         ]);
@@ -139,7 +139,7 @@ class ReviewManager
     public function normalizeTerms($commaSeparatedTermIds)
     {
         $terms = [];
-        $termIds = Arr::convertStringToArray($commaSeparatedTermIds);
+        $termIds = Arr::convertFromString($commaSeparatedTermIds);
         foreach ($termIds as $termId) {
             if (is_numeric($termId)) {
                 $termId = intval($termId);

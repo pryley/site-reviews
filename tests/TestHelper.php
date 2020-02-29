@@ -34,15 +34,15 @@ class TestHelper extends WP_UnitTestCase
 
     public function test_compare_arrays()
     {
-        $this->assertTrue(Arr::compareArrays(['one' => ['two']], ['one' => ['two']]));
-        $this->assertFalse(Arr::compareArrays(['one' => ['two']], ['one' => 'two']));
+        $this->assertTrue(Arr::compare(['one' => ['two']], ['one' => ['two']]));
+        $this->assertFalse(Arr::compare(['one' => ['two']], ['one' => 'two']));
     }
 
     public function test_convert_dot_notation_array()
     {
         $original = ['parent.child' => 'toys'];
         $converted = ['parent' => ['child' => 'toys']];
-        $this->assertEquals(Arr::convertDotNotationArray($original), $converted);
+        $this->assertEquals(Arr::convertFromDotNotation($original), $converted);
     }
 
     public function test_convert_path_to_id()
@@ -91,15 +91,15 @@ class TestHelper extends WP_UnitTestCase
     {
         $test = ['one' => ['two' => ['three' => ['x', 'y', 'z']]]];
         $this->assertEquals(
-            Arr::flattenArray($test),
+            Arr::flatten($test),
             ['one.two.three' => ['x', 'y', 'z']]
         );
         $this->assertEquals(
-            Arr::flattenArray($test, true),
+            Arr::flatten($test, true),
             ['one.two.three' => '[x, y, z]']
         );
         $this->assertEquals(
-            Arr::flattenArray($test, true, 'test'),
+            Arr::flatten($test, true, 'test'),
             ['test.one.two.three' => '[x, y, z]']
         );
     }
@@ -119,10 +119,10 @@ class TestHelper extends WP_UnitTestCase
 
     public function test_is_indexed_flat_array()
     {
-        $this->assertFalse(Arr::isIndexedFlatArray('not an array'));
-        $this->assertFalse(Arr::isIndexedFlatArray([[]]));
-        $this->assertTrue(Arr::isIndexedFlatArray([]));
-        $this->assertTrue(Arr::isIndexedFlatArray([1, 2, 3]));
+        $this->assertFalse(Arr::isIndexedAndFlat('not an array'));
+        $this->assertFalse(Arr::isIndexedAndFlat([[]]));
+        $this->assertTrue(Arr::isIndexedAndFlat([]));
+        $this->assertTrue(Arr::isIndexedAndFlat([1, 2, 3]));
     }
 
     public function test_prefix_string()
@@ -141,7 +141,7 @@ class TestHelper extends WP_UnitTestCase
             ],
         ];
         $this->assertEquals(
-            Arr::removeEmptyArrayValues($array),
+            Arr::removeEmptyValues($array),
             ['array' => ['string' => 'string']]
         );
     }

@@ -27,7 +27,7 @@ class TranslationController
      */
     public function filterBulkUpdateMessages($messages, array $counts)
     {
-        $messages = Arr::consolidateArray($messages);
+        $messages = Arr::consolidate($messages);
         $messages[Application::POST_TYPE] = [
             'updated' => _n('%s review updated.', '%s reviews updated.', $counts['updated'], 'site-reviews'),
             'locked' => _n('%s review not updated, somebody is editing it.', '%s reviews not updated, somebody is editing them.', $counts['locked'], 'site-reviews'),
@@ -164,7 +164,7 @@ class TranslationController
      */
     public function filterPostStates($postStates, $post)
     {
-        $postStates = Arr::consolidateArray($postStates);
+        $postStates = Arr::consolidate($postStates);
         if (Application::POST_TYPE == Arr::get($post, 'post_type') && array_key_exists('pending', $postStates)) {
             $postStates['pending'] = __('Unapproved', 'site-reviews');
         }
