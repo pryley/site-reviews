@@ -141,6 +141,9 @@ class Str
      */
     public static function prefix($prefix, $string, $trim = null)
     {
+        if (empty($string)) {
+            return $string;
+        }
         if (null === $trim) {
             $trim = $prefix;
         }
