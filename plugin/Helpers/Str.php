@@ -17,6 +17,16 @@ class Str
     }
 
     /**
+     * @param string $subject
+     * @param string $search
+     * @return string
+     */
+    public static function before($subject, $search)
+    {
+        return $search === '' ? $subject : explode($search, $subject)[0];
+    }
+
+    /**
      * @param string $string
      * @return string
      */
