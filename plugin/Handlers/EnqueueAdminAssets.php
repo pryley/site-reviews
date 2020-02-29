@@ -34,13 +34,13 @@ class EnqueueAdminAssets
             return;
         }
         wp_enqueue_style(
-            Application::ID,
+            Application::ID.'/admin',
             glsr()->url('assets/styles/'.Application::ID.'-admin.css'),
             [],
             glsr()->version
         );
         wp_enqueue_script(
-            Application::ID,
+            Application::ID.'/admin',
             glsr()->url('assets/scripts/'.Application::ID.'-admin.js'),
             $this->getDependencies(),
             glsr()->version,
@@ -86,7 +86,7 @@ class EnqueueAdminAssets
             $variables['shortcodes'] = $this->localizeShortcodes();
         }
         $variables = apply_filters('site-reviews/enqueue/admin/localize', $variables);
-        wp_localize_script(Application::ID, 'GLSR', $variables);
+        wp_localize_script(Application::ID.'/admin', 'GLSR', $variables);
     }
 
     /**

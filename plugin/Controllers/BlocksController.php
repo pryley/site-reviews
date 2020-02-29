@@ -66,7 +66,7 @@ class BlocksController extends Controller
         wp_register_script(
             Application::ID.'/blocks',
             glsr()->url('assets/scripts/'.Application::ID.'-blocks.js'),
-            ['wp-api-fetch', 'wp-blocks', 'wp-i18n', 'wp-editor', 'wp-element', Application::ID],
+            ['wp-api-fetch', 'wp-blocks', 'wp-i18n', 'wp-editor', 'wp-element', Application::ID.'/admin'],
             glsr()->version
         );
     }
