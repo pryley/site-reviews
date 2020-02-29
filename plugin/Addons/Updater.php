@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules;
+namespace GeminiLabs\SiteReviews\Addons;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Helper;
@@ -114,9 +114,9 @@ class Updater
         if ($this->apiUrl === trailingslashit(home_url())) {
             return;
         }
-        add_filter('plugins_api',                             [$this, 'filterPluginUpdateDetails'], 10, 3);
-        add_filter('pre_set_site_transient_update_plugins',   [$this, 'filterPluginUpdates'], 999);
-        add_action('load-update-core.php',                    [$this, 'onForceUpdateCheck'], 9);
+        add_filter('plugins_api', [$this, 'filterPluginUpdateDetails'], 10, 3);
+        add_filter('pre_set_site_transient_update_plugins', [$this, 'filterPluginUpdates'], 999);
+        add_action('load-update-core.php', [$this, 'onForceUpdateCheck'], 9);
         add_action('in_plugin_update_message-'.$this->plugin, [$this, 'renderLicenseMissingLink']);
     }
 

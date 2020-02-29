@@ -3,12 +3,12 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use Exception;
+use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Notice;
-use GeminiLabs\SiteReviews\Modules\Updater;
 
 class SettingsController extends Controller
 {
