@@ -488,7 +488,7 @@ Disallow: /*?*reviews-page=*</code></pre>
 
 <div id="faq-19" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>Why are the IP Addresses being detected as 127.0.0.1?</h3>
+        <h3>Why are the IP Addresses not being detected correctly?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>

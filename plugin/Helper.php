@@ -164,7 +164,7 @@ class Helper
         if (false !== ($clientAddress = $whip->getValidIpAddress())) {
             return (string) $clientAddress;
         }
-        glsr_log()->error('Unable to detect IP address.');
+        glsr_log()->error('Unable to detect IP address, please see the FAQ page for a possible solution.');
         return 'unknown';
     }
 
