@@ -57,7 +57,7 @@ final class Application extends Container
     public function activate()
     {
         $this->scheduleCronJob();
-        add_option(static::PREFIX.'activated', true);
+        add_option(static::ID.'activated', true);
     }
 
     /**
@@ -314,9 +314,9 @@ final class Application extends Container
      */
     public function setDefaults()
     {
-        if (get_option(static::PREFIX.'activated')) {
+        if (get_option(static::ID.'activated')) {
             $this->make(DefaultsManager::class)->set();
-            delete_option(static::PREFIX.'activated');
+            delete_option(static::ID.'activated');
         }
     }
 
