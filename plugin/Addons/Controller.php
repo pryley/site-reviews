@@ -61,7 +61,7 @@ abstract class Controller extends BaseController
      */
     public function filterActionLinks(array $links)
     {
-        $links['settings'] = glsr(Builder::class)->a(__('Settings', 'site-reviews-images'), [
+        $links['settings'] = glsr(Builder::class)->a(__('Settings', 'site-reviews'), [
             'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings#tab-addons'),
         ]);
         return $links;
