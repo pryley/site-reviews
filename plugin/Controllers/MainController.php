@@ -86,9 +86,18 @@ class MainController extends Controller
     public function registerWidgets()
     {
         $command = new RegisterWidgets([
-            'site-reviews',
-            'site-reviews-form',
-            'site-reviews-summary',
+            'site-reviews' => [
+                'description' => __('Site Reviews: Display your recent reviews.', 'site-reviews'),
+                'name' => __('Recent Reviews', 'site-reviews'),
+            ],
+            'site-reviews-form' => [
+                'description' => __('Site Reviews: Display a form to submit reviews.', 'site-reviews'),
+                'name' => __('Submit a Review', 'site-reviews'),
+            ],
+            'site-reviews-summary' => [
+                'description' => __('Site Reviews: Display a summary of your reviews.', 'site-reviews'),
+                'name' => __('Summary of Reviews', 'site-reviews'),
+            ],
         ]);
         $this->execute($command);
     }

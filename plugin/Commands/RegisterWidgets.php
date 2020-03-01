@@ -6,8 +6,14 @@ class RegisterWidgets
 {
     public $widgets;
 
-    public function __construct($input)
+    public function __construct(array $input)
     {
+        array_walk($input, function (&$args, $id) {
+            $args = wp_parse_args($args, [
+                'description' => '',
+                'name' => '',
+            ]);
+        });
         $this->widgets = $input;
     }
 }

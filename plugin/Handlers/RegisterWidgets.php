@@ -13,13 +13,13 @@ class RegisterWidgets
      */
     public function handle(Command $command)
     {
-        foreach ($command->widgets as $widget) {
-            $widgetClass = Helper::buildClassName($widget.'-widget', 'Widgets');
+        foreach ($command->widgets as $baseId => $args) {
+            $widgetClass = Helper::buildClassName($baseId.'-widget', 'Widgets');
             if (!class_exists($widgetClass)) {
-                glsr_log()->error(sprintf('Class missing (%s)', $widgetClass));
+                glsr_log()->error(sprintf('Widget class missing (%s)', $widgetClass));
                 continue;
             }
-            register_widget($widgetClass);
+            register_widget(new $widgetClass(Application::PREFIX.$baseId, $args['name'], $args));
         }
     }
 }
