@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
-class Migrate_4_6_0
+class Migrate_5_0_0
 {
     /**
      * @return void
