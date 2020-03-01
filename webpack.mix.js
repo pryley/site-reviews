@@ -81,6 +81,7 @@ mix
   .sass('+/styles/site-reviews-blocks.scss', 'assets/styles')
   .sass('+/styles/custom/bootstrap_4_custom.scss', 'assets/styles/custom')
   .sass('+/styles/custom/contact_form_7.scss', 'assets/styles/custom')
+  .sass('+/styles/custom/divi.scss', 'assets/styles/custom')
   .sass('+/styles/custom/materialize.scss', 'assets/styles/custom')
   .sass('+/styles/custom/minimal.scss', 'assets/styles/custom')
   .sass('+/styles/custom/twentyfifteen.scss', 'assets/styles/custom')

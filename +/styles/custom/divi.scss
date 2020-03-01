@@ -1,0 +1,13 @@
+@import "../public/variables";
+
+$glsr: (
+    parent: '#et-boc .glsr-divi',
+);
+
+@import "../public/base";
+@import "../public/reviews";
+@import "../public/reviews-summary";
+
+.glsr-has-errors {
+    color: #F00;
+}
