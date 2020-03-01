@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Defaults\BuilderDefaults;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 /**
  * @method string a(string|array ...$params)
@@ -65,7 +66,7 @@ class Builder
     {
         $instance = new static();
         $instance->setTagFromMethod($method);
-        call_user_func_array([$instance, 'normalize'], $args += ['', '']);
+        call_user_func_array([$instance, 'normalize'], $args);
         $tags = array_merge(static::TAGS_FORM, static::TAGS_SINGLE, static::TAGS_STRUCTURE, static::TAGS_TEXT);
         do_action_ref_array('site-reviews/builder', [$instance]);
         $generatedTag = in_array($instance->tag, $tags)
@@ -90,12 +91,9 @@ class Builder
             'render' => 'is_bool',
             'tag' => 'is_string',
         ];
-        if (!isset($properties[$property])
-            || empty(array_filter([$value], $properties[$property]))
-        ) {
-            return;
+        if (array_key_exists($property, $properties) && !empty($value)) {
+            $this->$property = $value;
         }
-        $this->$property = $value;
     }
 
     /**
@@ -103,10 +101,9 @@ class Builder
      */
     public function getClosingTag()
     {
-        if (empty($this->tag)) {
-            return;
+        if (!empty($this->tag)) {
+            return '</'.$this->tag.'>';
         }
-        return '</'.$this->tag.'>';
     }
 
     /**
@@ -114,11 +111,10 @@ class Builder
      */
     public function getOpeningTag()
     {
-        if (empty($this->tag)) {
-            return;
+        if (!empty($this->tag)) {
+            $attributes = glsr(Attributes::class)->{$this->tag}($this->args)->toString();
+            return '<'.trim($this->tag.' '.$attributes).'>';
         }
-        $attributes = glsr(Attributes::class)->{$this->tag}($this->args)->toString();
-        return '<'.trim($this->tag.' '.$attributes).'>';
     }
 
     /**
@@ -188,7 +184,7 @@ class Builder
     {
         if (!in_array($this->args['type'], ['checkbox', 'radio'])) {
             if (isset($this->args['multiple'])) {
-                $this->args['name'].= '[]';
+                $this->args['name'] .= '[]';
             }
             return $this->buildFormLabel().$this->getOpeningTag();
         }
@@ -223,7 +219,7 @@ class Builder
     protected function buildFormInputMultiChoice()
     {
         if ('checkbox' == $this->args['type']) {
-            $this->args['name'].= '[]';
+            $this->args['name'] .= '[]';
         }
         $index = 0;
         $options = array_reduce(array_keys($this->args['options']), function ($carry, $key) use (&$index) {
@@ -323,13 +319,15 @@ class Builder
      */
     protected function normalize(...$params)
     {
-        if (is_string($params[0]) || is_numeric($params[0])) {
-            $this->setNameOrTextAttributeForTag($params[0]);
+        $parameter1 = Arr::get($params, 0);
+        $parameter2 = Arr::get($params, 1);
+        if (is_string($parameter1) || is_numeric($parameter1)) {
+            $this->setNameOrTextAttributeForTag($parameter1);
         }
-        if (is_array($params[0])) {
-            $this->args += $params[0];
-        } elseif (is_array($params[1])) {
-            $this->args += $params[1];
+        if (is_array($parameter1)) {
+            $this->args += $parameter1;
+        } elseif (is_array($parameter2)) {
+            $this->args += $parameter2;
         }
         if (!isset($this->args['is_public'])) {
             $this->args['is_public'] = false;
