@@ -73,6 +73,9 @@ class SettingsController extends Controller
         $key = 'settings.licenses';
         $licenses = Arr::consolidate(Arr::get($input, $key));
         foreach ($licenses as $slug => &$license) {
+            if (empty($license)) {
+                continue;
+            }
             $license = $this->verifyLicense($license, $slug);
         }
         $options = Arr::set($options, $key, $licenses);
