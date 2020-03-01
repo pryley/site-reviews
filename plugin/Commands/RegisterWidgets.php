@@ -8,7 +8,7 @@ class RegisterWidgets
 
     public function __construct(array $input)
     {
-        array_walk($input, function (&$args, $id) {
+        array_walk($input, function (&$args) {
             $args = wp_parse_args($args, [
                 'description' => '',
                 'name' => '',

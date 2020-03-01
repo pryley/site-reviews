@@ -75,7 +75,7 @@ class Migrate_4_6_0
     }
 
     /**
-     * @param array $sidebars
+     * @param mixed $sidebars
      * @return bool
      */
     protected function widgetsExist($sidebars)

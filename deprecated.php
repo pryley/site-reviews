@@ -34,6 +34,7 @@ if (apply_filters('site-reviews/support/deprecated/v4', true)) {
         if (has_filter('site-reviews/reviews/reviews-wrapper')) {
             glsr()->deprecated[] = 'The "site-reviews/reviews/reviews-wrapper" hook has been removed. Please use the "site-reviews/builder/result" hook instead.';
         }
+        return $template;
     });
 
     // Database/ReviewManager.php

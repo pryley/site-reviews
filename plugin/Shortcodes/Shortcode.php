@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Shortcodes;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
@@ -53,7 +54,7 @@ abstract class Shortcode implements ShortcodeContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function buildBlock($atts = [])
     {
@@ -61,7 +62,7 @@ abstract class Shortcode implements ShortcodeContract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function buildShortcode($atts = [])
     {
