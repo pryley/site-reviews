@@ -153,7 +153,7 @@ class Builder
         if (class_exists($className)) {
             return (new $className($this))->build();
         }
-        glsr_log()->error('Field missing: '.$className);
+        glsr_log()->error('Field class missing: '.$className);
     }
 
     /**

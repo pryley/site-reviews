@@ -15,7 +15,7 @@ class RegisterShortcodes
         foreach ($command->shortcodes as $shortcode) {
             $shortcodeClass = Helper::buildClassName($shortcode.'-shortcode', 'Shortcodes');
             if (!class_exists($shortcodeClass)) {
-                glsr_log()->error(sprintf('Class missing (%s)', $shortcodeClass));
+                glsr_log()->error(sprintf('Shortcode class missing (%s)', $shortcodeClass));
                 continue;
             }
             add_shortcode($shortcode, [glsr($shortcodeClass), 'buildShortcode']);

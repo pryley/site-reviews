@@ -15,7 +15,7 @@ class RegisterTinymcePopups
         foreach ($command->popups as $slug => $label) {
             $buttonClass = Helper::buildClassName($slug.'-popup', 'Shortcodes');
             if (!class_exists($buttonClass)) {
-                glsr_log()->error(sprintf('Class missing (%s)', $buttonClass));
+                glsr_log()->error(sprintf('Tinymce Popup class missing (%s)', $buttonClass));
                 continue;
             }
             $shortcode = glsr($buttonClass)->register($slug, [

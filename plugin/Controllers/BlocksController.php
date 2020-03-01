@@ -84,7 +84,7 @@ class BlocksController extends Controller
             $id = str_replace('_reviews', '', Application::ID.'_'.$block);
             $blockClass = Helper::buildClassName($id.'-block', 'Blocks');
             if (!class_exists($blockClass)) {
-                glsr_log()->error(sprintf('Class missing (%s)', $blockClass));
+                glsr_log()->error(sprintf('Block class missing (%s)', $blockClass));
                 continue;
             }
             glsr($blockClass)->register($block);
