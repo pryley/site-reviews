@@ -42,11 +42,11 @@ class Migrate
     }
 
     /**
-     * @return void
+     * @return bool
      */
     public function run()
     {
-        $this->runMigrations($this->getNewMigrationFiles());
+        return $this->runMigrations($this->getNewMigrationFiles());
     }
 
     /**
@@ -54,7 +54,7 @@ class Migrate
      */
     public function runAll()
     {
-        $this->runMigrations($this->getMigrationFiles());
+        return $this->runMigrations($this->getMigrationFiles());
     }
 
     /**
@@ -111,12 +111,12 @@ class Migrate
     }
 
     /**
-     * @return void
+     * @return bool
      */
     protected function runMigrations(array $files)
     {
         if (empty($files)) {
-            return;
+            return false;
         }
         array_walk($files, function ($file) {
             $className = str_replace('.php', '', $file);
@@ -129,6 +129,7 @@ class Migrate
         }
         glsr(OptionManager::class)->set('last_migration_run', current_time('timestamp'));
         delete_transient($this->transientKey);
+        return true;
     }
 
     /**
