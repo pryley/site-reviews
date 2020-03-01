@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Blocks;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 abstract class BlockGenerator
 {
@@ -22,12 +23,9 @@ abstract class BlockGenerator
         $hide = array_flip(explode(',', $attributes['hide']));
         unset($hide['if_empty']);
         $attributes['hide'] = implode(',', array_keys($hide));
-        if (!isset($attributes['assigned_to'])) {
-            return $attributes;
-        }
-        if ('post_id' == $attributes['assigned_to']) {
+        if ('post_id' === Arr::get($attributes, 'assigned_to')) {
             $attributes['assigned_to'] = $attributes['post_id'];
-        } elseif ('parent_id' == $attributes['assigned_to']) {
+        } elseif ('parent_id' === Arr::get($attributes, 'assigned_to')) {
             $attributes['assigned_to'] = wp_get_post_parent_id($attributes['post_id']);
         }
         return $attributes;
@@ -54,6 +52,16 @@ abstract class BlockGenerator
      * @return void
      */
     abstract public function render(array $attributes);
+
+    /**
+     * @return void
+     */
+    protected function filterBlockClass()
+    {
+        add_filter('site-reviews/style', function () {
+            return 'default';
+        });
+    }
 
     /**
      * @param mixed $shortcode

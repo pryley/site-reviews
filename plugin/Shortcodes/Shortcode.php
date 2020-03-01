@@ -46,8 +46,15 @@ abstract class Shortcode implements ShortcodeContract
     }
 
     /**
-     * @param string|array $atts
-     * @return string
+     * {@inheritdoc}
+     */
+    public function buildBlock($atts = [])
+    {
+        return $this->build($atts, [], 'block');
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function buildShortcode($atts = [])
     {

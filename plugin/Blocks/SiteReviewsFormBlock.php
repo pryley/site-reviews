@@ -44,15 +44,15 @@ class SiteReviewsFormBlock extends BlockGenerator
         $attributes['class'] = $attributes['className'];
         $shortcode = glsr(Shortcode::class);
         if ('edit' == filter_input(INPUT_GET, 'context')) {
+            $this->filterBlockClass();
             $this->filterFormFields();
             $this->filterRatingField();
-            $this->filterShortcodeClass();
             $this->filterSubmitButton();
             if (!$this->hasVisibleFields($shortcode, $attributes)) {
                 $this->filterInterpolation();
             }
         }
-        return $shortcode->buildShortcode($attributes);
+        return $shortcode->buildBlock($attributes);
     }
 
     /**
@@ -97,16 +97,6 @@ class SiteReviewsFormBlock extends BlockGenerator
             }
             return $html;
         }, 10, 3);
-    }
-
-    /**
-     * @return void
-     */
-    protected function filterShortcodeClass()
-    {
-        add_filter('site-reviews/style', function () {
-            return 'default';
-        });
     }
 
     /**

@@ -56,12 +56,12 @@ class SiteReviewsSummaryBlock extends BlockGenerator
         $shortcode = glsr(Shortcode::class);
         if ('edit' == filter_input(INPUT_GET, 'context')) {
             $attributes = $this->normalize($attributes);
-            $this->filterShortcodeClass();
+            $this->filterBlockClass();
             if (!$this->hasVisibleFields($shortcode, $attributes)) {
                 $this->filterInterpolation();
             }
         }
-        return $shortcode->buildShortcode($attributes);
+        return $shortcode->buildBlock($attributes);
     }
 
     /**
@@ -73,16 +73,6 @@ class SiteReviewsSummaryBlock extends BlockGenerator
             $context['class'] = 'glsr-default glsr-block-disabled';
             $context['text'] = __('You have hidden all of the fields for this block.', 'site-reviews');
             return $context;
-        });
-    }
-
-    /**
-     * @return void
-     */
-    protected function filterShortcodeClass()
-    {
-        add_filter('site-reviews/style', function () {
-            return 'default';
         });
     }
 }
