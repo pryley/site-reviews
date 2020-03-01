@@ -43,11 +43,12 @@ class SiteReviewsWidget extends Widget
             'label' => __('What is the minimum rating to display?', 'site-reviews'),
             'name' => 'rating',
             'options' => [
-                '5' => sprintf(_n('%s star', '%s stars', 5, 'site-reviews'), 5),
-                '4' => sprintf(_n('%s star', '%s stars', 4, 'site-reviews'), 4),
-                '3' => sprintf(_n('%s star', '%s stars', 3, 'site-reviews'), 3),
-                '2' => sprintf(_n('%s star', '%s stars', 2, 'site-reviews'), 2),
+                '0' => sprintf(_n('%s star', '%s stars', 0, 'site-reviews'), 0),
                 '1' => sprintf(_n('%s star', '%s stars', 1, 'site-reviews'), 1),
+                '2' => sprintf(_n('%s star', '%s stars', 2, 'site-reviews'), 2),
+                '3' => sprintf(_n('%s star', '%s stars', 3, 'site-reviews'), 3),
+                '4' => sprintf(_n('%s star', '%s stars', 4, 'site-reviews'), 4),
+                '5' => sprintf(_n('%s star', '%s stars', 5, 'site-reviews'), 5),
             ],
         ]);
         if (count(glsr()->reviewTypes) > 1) {
