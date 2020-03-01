@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Controllers\EditorController\Labels;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Modules\Translator;
 
 class TranslationController
@@ -85,6 +86,9 @@ class TranslationController
      */
     public function filterGettextWithContextSiteReviews($translation, $text, $context)
     {
+        if (Translation::CONTEXT_ADMIN_KEY === $context) {
+            return $translation;
+        }
         return $this->translator->translate($translation, Application::ID, [
             'context' => $context,
             'single' => $text,
@@ -148,6 +152,9 @@ class TranslationController
      */
     public function filterNgettextWithContextSiteReviews($translation, $single, $plural, $number, $context)
     {
+        if (Translation::CONTEXT_ADMIN_KEY === $context) {
+            return $translation;
+        }
         return $this->translator->translate($translation, Application::ID, [
             'context' => $context,
             'number' => $number,

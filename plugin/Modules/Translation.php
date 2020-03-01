@@ -6,11 +6,13 @@ use Exception;
 use GeminiLabs\Sepia\PoParser\Parser;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 
 class Translation
 {
+    const CONTEXT_ADMIN_KEY = 'admin-text';
     const SEARCH_THRESHOLD = 3;
 
     /**
@@ -72,6 +74,9 @@ class Translation
         try {
             $potEntries = $this->normalize(Parser::parseFile($potFile)->getEntries());
             foreach ($potEntries as $key => $entry) {
+                if (static::CONTEXT_ADMIN_KEY === Arr::get($entry, 'msgctxt')) {
+                    continue;
+                }
                 $entries[html_entity_decode($key, ENT_COMPAT, 'UTF-8')] = $entry;
             }
         } catch (Exception $e) {
