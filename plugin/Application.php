@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews;
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use ReflectionClass;
 
 /**
  * @property string $capability
@@ -40,7 +41,7 @@ final class Application extends Container
     public function __construct()
     {
         static::$instance = $this;
-        $this->file = realpath(trailingslashit(dirname(__DIR__)).static::ID.'.php');
+        $this->file = str_replace('plugin/Application', static::ID, (new ReflectionClass($this))->getFileName());
         $plugin = get_file_data($this->file, [
             'languages' => 'Domain Path',
             'name' => 'Plugin Name',
