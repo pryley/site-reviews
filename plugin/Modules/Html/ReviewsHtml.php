@@ -73,9 +73,10 @@ class ReviewsHtml extends ArrayObject
         $html = empty($this->reviews)
             ? $this->getReviewsFallback()
             : implode(PHP_EOL, $this->reviews);
-        $wrapper = '<div class="glsr-reviews">%s</div>';
-        $wrapper = apply_filters('site-reviews/reviews/reviews-wrapper', $wrapper);
-        return sprintf($wrapper, $html);
+        return glsr(Builder::class)->div($html, [
+            'class' => 'glsr-reviews-list',
+            'data-reviews' => '',
+        ]);
     }
 
     /**
@@ -106,10 +107,11 @@ class ReviewsHtml extends ArrayObject
             'current' => Arr::get($this->args, 'paged'),
             'total' => $this->max_num_pages,
         ]);
-        $html.= sprintf('<glsr-pagination hidden data-atts=\'%s\'></glsr-pagination>', $this->args['json']);
-        $wrapper = '<div class="glsr-pagination">%s</div>';
-        $wrapper = apply_filters('site-reviews/reviews/pagination-wrapper', $wrapper);
-        return sprintf($wrapper, $html);
+        return glsr(Builder::class)->div($html, [
+            'class' => 'glsr-pagination',
+            'data-atts' => $this->args['json'],
+            'data-pagination' => '',
+        ]);
     }
 
     /**
@@ -118,7 +120,7 @@ class ReviewsHtml extends ArrayObject
     protected function getClass()
     {
         $defaults = [
-            'glsr-default',
+            'glsr-reviews',
         ];
         if ('ajax' == $this->args['pagination']) {
             $defaults[] = 'glsr-ajax-pagination';

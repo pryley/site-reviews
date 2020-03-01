@@ -4,7 +4,6 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 ## Proposed features
 
-- [ ] Add a CSS class to shortcodes to reflect the selected plugin style (i.e. .glsr-minimal)
 - [ ] Add a single-use notice on the settings page to encourage users to rate the plugin (ref: Polylang)
 - [ ] Custom classes to track form submission status (i.e. is-spam, has-failed, nonce-failed, etc.)
 - [ ] Integrate with WordPress GDPR controls

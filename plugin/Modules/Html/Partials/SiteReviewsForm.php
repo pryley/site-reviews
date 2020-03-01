@@ -2,15 +2,16 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
+use GeminiLabs\SiteReviews\Contracts\PartialContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\StyleValidationDefaults;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Field;
 use GeminiLabs\SiteReviews\Modules\Html\Form;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
-use GeminiLabs\SiteReviews\Modules\Style;
 
-class SiteReviewsForm
+class SiteReviewsForm implements PartialContract
 {
     /**
      * @var array
@@ -38,7 +39,7 @@ class SiteReviewsForm
     protected $values;
 
     /**
-     * @return void|string
+     * {@inheritdoc}
      */
     public function build(array $args = [])
     {
@@ -127,7 +128,7 @@ class SiteReviewsForm
      */
     protected function getClass()
     {
-        return trim('glsr-form glsr-'.glsr(Style::class)->get().' '.$this->args['class']);
+        return trim('glsr-form '.$this->args['class']);
     }
 
     /**
@@ -242,10 +243,7 @@ class SiteReviewsForm
      */
     protected function normalizeFieldClass(Field &$field)
     {
-        if (!isset($field->field['class'])) {
-            $field->field['class'] = '';
-        }
-        $field->field['class'] = trim($field->field['class'].' glsr-field-control');
+        $field->field['class'] = trim(Arr::get($field->field, 'class').' glsr-field-control');
     }
 
     /**

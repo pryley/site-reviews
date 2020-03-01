@@ -1,23 +1,26 @@
-$glsr-color-blue: #1976D2 !default;
-$glsr-color-green: #388E3C !default;
-$glsr-color-red: #D32F2F !default;
-$glsr-color-yellow: #FBC02D !default;
-$glsr-color-error: $glsr-color-red !default;
-$glsr-color-success: $glsr-color-green !default;
-$glsr-font-size-small: 14px !default;
-$glsr-font-size: 16px !default;
-$glsr-opacity: 0.1 !default; //0.075
-$glsr-star-size: 20px !default;
+$glsr: () !default;
 
-$glsr-summary-bar-height: 12px !default;
-$glsr-summary-max-width: 400px !default;
-$glsr-summary-spacing: 10px !default;
-$glsr-summary-star-size: 24px !default;
-$glsr-summary-font-size: 16px !default;
-$glsr-summary-font-size-small: 14px !default;
-
-$glsr-color-grey: #BDBDBD  !default;
-$glsr-color-grey-dark: #9E9E9E !default;
+$glsr-defaults: (
+    color-blue             : #1976D2,
+    color-error            : #D32F2F,
+    color-green            : #388E3C,
+    color-grey-dark        : #9E9E9E,
+    color-grey             : #BDBDBD,
+    color-red              : #D32F2F,
+    color-success          : #388E3C,
+    color-yellow           : #FBC02D,
+    font-size-small        : 14px,
+    font-size              : 16px,
+    opacity                : 0.1, //0.075
+    parent                 : '.glsr-default',
+    star-size              : 20px,
+    summary-bar-height     : 12px,
+    summary-font-size-small: 14px,
+    summary-font-size      : 16px,
+    summary-max-width      : 400px,
+    summary-spacing        : 10px,
+    summary-star-size      : 24px,
+);
 
 $star-rating: (
     base-display   : block,
@@ -31,4 +34,8 @@ $star-rating: (
     star-size      : 24px,
     text-background: #1a1a1a,
     text-color     : #fff,
-) !default;
+);
+
+@function glsr($value) {
+    @return map-get(map-merge($glsr-defaults, $glsr), $value);
+}

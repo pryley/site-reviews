@@ -26,6 +26,16 @@ if (apply_filters('site-reviews/support/deprecated/v4', true)) {
         return $context;
     }, 10, 2);
 
+    // Modules/Html/Template.php
+    add_filter('site-reviews/build/template/reviews', function ($template) {
+        if (has_filter('site-reviews/reviews/pagination-wrapper')) {
+            glsr()->deprecated[] = 'The "site-reviews/reviews/pagination-wrapper" hook has been removed. Please use the "site-reviews/builder/result" hook instead.';
+        }
+        if (has_filter('site-reviews/reviews/reviews-wrapper')) {
+            glsr()->deprecated[] = 'The "site-reviews/reviews/reviews-wrapper" hook has been removed. Please use the "site-reviews/builder/result" hook instead.';
+        }
+    });
+
     // Database/ReviewManager.php
     add_action('site-reviews/review/created', function ($review) {
         if (has_action('site-reviews/local/review/create')) {

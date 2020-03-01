@@ -1,6 +1,6 @@
 form.glsr-form {
 
-	font-size: $glsr-font-size;
+	font-size: glsr(font-size);
 	line-height: 1.5;
 	max-height: 1000px;
 	transition: max-height 0.4s, opacity 0.4s;
@@ -13,17 +13,19 @@ form.glsr-form {
 	}
 
 	.glsr-field-choice {
-		position: relative;
-		display: block;
-		padding-left: 1.25rem;
+		align-items: flex-start;
+		display: flex;
+	}
+
+	.glsr-checkbox-input,
+	.glsr-radio-input {
+		align-items: center;
+		display: flex;
 	}
 
 	.glsr-field-choice input {
-		box-sizing: border-box;
-		padding: 0;
-		position: absolute;
-		margin-top: .3rem;
-		margin-left: -1.25rem;
+		width: 1rem;
+		height: 1rem;
 	}
 
 	.glsr-field-choice label {
@@ -31,47 +33,47 @@ form.glsr-form {
 		margin: 0;
 	}
 
-	input.glsr-field-control,
+	input.glsr-field-control:not([type=checkbox]):not([type=radio]),
 	textarea.glsr-field-control {
 		line-height: 1.5;
 		font-size: 1rem;
 		background-color: #fff;
 		min-height: calc(2.25rem + 2px);
 		background-clip: padding-box;
-		border: 1px solid $glsr-color-grey;
+		border: 1px solid glsr(color-grey);
 		border-radius: 0.15rem;
 		transition: border-color 0.15s ease-in-out;
 		padding: 0.375rem 0.5rem;
 		&:focus {
 			background-color: #fff;
-			border-color: $glsr-color-grey-dark;
+			border-color: glsr(color-grey-dark);
 			outline: 0;
 		}
 	}
 
 	.glsr-required label span::after {
 		content: '\002a';
-		color: $glsr-color-error;
+		color: glsr(color-error);
 	}
 	.glsr-field {
-		margin-bottom: $glsr-font-size;
+		margin-bottom: glsr(font-size);
 	}
 	.glsr-field-error {
-		font-size: $glsr-font-size-small;
-		color: $glsr-color-error;
+		font-size: glsr(font-size-small);
+		color: glsr(color-error);
 	}
 	.glsr-form-messages {
-		color: $glsr-color-success;
+		color: glsr(color-success);
 	}
 	.glsr-form-messages p {
-		margin-top: $glsr-font-size;
+		margin-top: glsr(font-size);
 	}
 	.glsr-has-errors {
-		color: $glsr-color-error;
+		color: glsr(color-error);
 	}
 	input:not([type=checkbox]):not([type=radio]).glsr-is-invalid,
 	textarea.glsr-is-invalid {
-		border-color: $glsr-color-error;
+		border-color: glsr(color-error);
 	}
 	.glsr-field-choice input {
 		outline: none;
@@ -84,21 +86,21 @@ form.glsr-form {
 	// 	top: 5px;
 	// 	left: 0;
 	// 	content: "";
-	// 	width: $glsr-font-size;
-	// 	height: $glsr-font-size;
-	// 	border: 1px solid $glsr-color-error;
+	// 	width: glsr(font-size);
+	// 	height: glsr(font-size);
+	// 	border: 1px solid glsr(color-error);
 	// 	line-height: inherit;
 	// }
 }
 .glsr-ltr form.glsr-form {
 	.glsr-field input[type=checkbox],
 	.glsr-field input[type=radio] {
-		margin-right: 0.5em;
+		margin-right: 0.5rem;
 	}
 }
 .glsr-rtl form.glsr-form {
 	.glsr-field input[type=checkbox],
 	.glsr-field input[type=radio] {
-		margin-left: 0.5em;
+		margin-left: 0.5rem;
 	}
 }

@@ -18,15 +18,17 @@
 	}
 
 	@media only screen and (min-width: 782px) {
+		max-width: 320px;
 		width: 33.33%;
 	}
 
 	@media only screen and (min-width: 1400px) {
-		width: 25%;
+		width: 20%;
 	}
 }
 
 .glsr-addon {
+	position: relative;
 	border: 1px solid #ccd0d4;
 	box-shadow: 0 1px 1px -1px rgba(0,0,0,0.1);
 
@@ -73,7 +75,8 @@
 		background-repeat: no-repeat;
 		background-size: cover;
 		border-bottom: 1px solid #ccd0d4;
-		padding-top: 50%;
+		padding-top: 100%;
+		margin: -1px;
 
 		&[data-slug="tripadvisor"] {
 			background-color: #4b7e37;
@@ -83,6 +86,11 @@
 		&[data-slug="images"] {
 			background-color: #553C9A;
 			background-image: url(../images/addon-images.svg);
+		}
+
+		&[data-slug="filters"] {
+			background-color: #319796;
+			background-image: url(../images/addon-filters.svg);
 		}
 	}
 

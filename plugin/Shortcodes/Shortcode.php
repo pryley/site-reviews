@@ -6,8 +6,10 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Rating;
+use GeminiLabs\SiteReviews\Modules\Style;
 use ReflectionClass;
 
 abstract class Shortcode implements ShortcodeContract
@@ -38,11 +40,16 @@ abstract class Shortcode implements ShortcodeContract
         $args = $this->normalizeArgs($args, $type);
         $atts = $this->normalizeAtts($atts, $type);
         $partial = glsr(Partial::class)->build($this->partialName, $atts);
-        $title = !empty($atts['title'])
-            ? $args['before_title'].$atts['title'].$args['after_title']
-            : '';
-        $debug = sprintf('<glsr-%1$s hidden data-atts=\'%2$s\'></glsr-%1$s>', $type, $atts['json']);
-        return $args['before_widget'].$title.$partial.$debug.$args['after_widget'];
+        if (!empty($atts['title'])) {
+            $atts = Arr::set($atts, 'title', $args['before_title'].$atts['title'].$args['after_title']);
+        }
+        $html = glsr(Builder::class)->div((string) $partial, [
+            'class' => 'glsr glsr-'.glsr(Style::class)->get(),
+            'data-shortcode' => Str::snakeCase($this->partialName),
+            'data-type' => $type,
+            'data-atts' => $atts['json'], // I prefer to have this attribute displayed last
+        ]);
+        return $args['before_widget'].$atts['title'].$html.$args['after_widget'];
     }
 
     /**
@@ -58,7 +65,7 @@ abstract class Shortcode implements ShortcodeContract
      */
     public function buildShortcode($atts = [])
     {
-        return $this->build($atts);
+        return $this->build($atts, [], 'shortcode');
     }
 
     /**
@@ -119,10 +126,10 @@ abstract class Shortcode implements ShortcodeContract
     public function normalizeArgs($args, $type = 'shortcode')
     {
         $args = wp_parse_args($args, [
-            'before_widget' => '<div class="glsr-'.$type.' '.$type.'-'.$this->partialName.'">',
-            'after_widget' => '</div>',
-            'before_title' => '<h3 class="glsr-'.$type.'-title">',
-            'after_title' => '</h3>',
+            'before_widget' => '',
+            'after_widget' => '',
+            'before_title' => '<h2 class="glsr-title">',
+            'after_title' => '</h2>',
         ]);
         return apply_filters('site-reviews/shortcode/args', $args, $type, $this->partialName);
     }

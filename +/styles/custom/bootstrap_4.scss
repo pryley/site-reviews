@@ -1,4 +1,9 @@
 @import "../public/variables";
+
+$glsr: (
+    parent: '.glsr-bootstrap_4',
+);
+
 @import "../public/base";
 @import "../public/reviews";
 @import "../public/reviews-summary";

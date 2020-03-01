@@ -1,4 +1,13 @@
-@import "../site-reviews";
+@import "../public/variables";
+
+$glsr: (
+    parent: '.glsr-twentyseventeen',
+);
+
+@import "../public/base";
+@import "../public/reviews";
+@import "../public/reviews-form";
+@import "../public/reviews-summary";
 
 .glsr-loader {
 	bottom: 7em;

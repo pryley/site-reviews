@@ -1,4 +1,9 @@
 @import "../public/variables";
+
+$glsr: (
+    parent: '.glsr-materialize',
+);
+
 @import "../public/base";
 @import "../public/reviews";
 @import "../public/reviews-summary";

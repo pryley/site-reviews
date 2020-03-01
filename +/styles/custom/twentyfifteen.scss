@@ -1,4 +1,9 @@
 @import "../public/variables";
+
+$glsr: (
+    parent: '.glsr-twentyfifteen',
+);
+
 @import "../public/base";
 @import "../public/reviews";
 @import "../public/reviews-summary";
@@ -7,8 +12,8 @@
 	margin-bottom: 1em;
 }
 .glsr-field-error {
-	font-size: $glsr-font-size-small;
-	color: $glsr-color-error;
+	font-size: glsr(font-size-small);
+	color: glsr(color-error);
 }
 .glsr-field-choice .glsr-field-control {
 	position: relative;
@@ -20,11 +25,11 @@
 }
 .glsr-required label span::after {
 	content: '\002a';
-	color: $glsr-color-error;
+	color: glsr(color-error);
 }
 .glsr-form-messages {
-	color: $glsr-color-success;
+	color: glsr(color-success);
 }
 .glsr-has-errors {
-	color: $glsr-color-error;
+	color: glsr(color-error);
 }

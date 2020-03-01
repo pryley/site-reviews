@@ -2,13 +2,14 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
+use GeminiLabs\SiteReviews\Contracts\PartialContract;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Schema;
 
-class SiteReviewsSummary
+class SiteReviewsSummary implements PartialContract
 {
     /**
      * @var array
@@ -26,14 +27,14 @@ class SiteReviewsSummary
     protected $ratingCounts;
 
     /**
-     * @return void|string
+     * {@inheritdoc}
      */
     public function build(array $args = [])
     {
         $this->args = $args;
         $this->ratingCounts = glsr(ReviewManager::class)->getRatingCounts($args);
         if (!array_sum($this->ratingCounts) && $this->isHidden('if_empty')) {
-            return;
+            return '';
         }
         $this->averageRating = glsr(Rating::class)->getAverage($this->ratingCounts);
         $this->generateSchema();
@@ -179,7 +180,7 @@ class SiteReviewsSummary
      */
     protected function getClass()
     {
-        return trim('glsr-summary glsr-default '.$this->args['class']);
+        return trim('glsr-summary '.$this->args['class']);
     }
 
     /**

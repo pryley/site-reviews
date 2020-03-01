@@ -11,14 +11,14 @@
 	GLSR_Pagination.prototype = {
 		config: {
 			hideClass: 'glsr-hide',
-			linkSelector: '.glsr-pagination a',
+			linkSelector: '[data-pagination] a',
 			scrollTime: 468,
 		},
 
 		/** @return void */
 		handleResponse_: function( location, response, success ) { // string, string
-			var paginationEl = this.el.querySelector('.glsr-pagination');
-			var reviewsEl = this.el.querySelector('.glsr-reviews');
+			var paginationEl = this.el.querySelector('[data-pagination]');
+			var reviewsEl = this.el.querySelector('[data-reviews]');
 			if( !success || !reviewsEl || !paginationEl ) {
 				window.location = location;
 				return;
@@ -42,7 +42,7 @@
 
 		/** @return void */
 		onClick_: function( ev ) { // MouseEvent
-			var jsonEl = this.el.querySelector('glsr-pagination');
+			var jsonEl = this.el.querySelector('[data-pagination]');
 			if( !jsonEl ) {
 				console.log( 'pagination config not found.' );
 				return;
