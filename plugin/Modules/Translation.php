@@ -74,7 +74,7 @@ class Translation
         try {
             $potEntries = $this->normalize(Parser::parseFile($potFile)->getEntries());
             foreach ($potEntries as $key => $entry) {
-                if (static::CONTEXT_ADMIN_KEY === Arr::get($entry, 'msgctxt')) {
+                if (Str::contains(static::CONTEXT_ADMIN_KEY, Arr::get($entry, 'msgctxt'))) {
                     continue;
                 }
                 $entries[html_entity_decode($key, ENT_COMPAT, 'UTF-8')] = $entry;

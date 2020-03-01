@@ -43,7 +43,7 @@ class Str
      */
     public static function contains($haystack, $needle)
     {
-        return false !== strpos($haystack, $needle);
+        return !empty($needle) && false !== strpos($haystack, $needle);
     }
 
     /**

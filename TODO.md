@@ -6,7 +6,9 @@
 - [ ] Fix materialize style classes
 - [ ] Force default plugin styling in block editor
 - [ ] Move console to wp-content dir
+- [ ] Ratings pivot table
 - [ ] Use REST API for ajax calls instead of admin-ajax.php (ref: Contact Form 7)
 
 - [x] Block button styling
 - [x] Checkbox alignment
+- [x] Isolate public text for translation
