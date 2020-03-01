@@ -54,6 +54,15 @@ abstract class Controller
     }
 
     /**
+     * @return bool
+     */
+    protected function isReviewAdminPage()
+    {
+        return is_admin() 
+            && in_array(glsr()->post_type, [get_post_type(), filter_input(INPUT_GET, 'post_type')]);
+    }
+
+    /**
      * @param int $postId
      * @return bool
      */
