@@ -16,7 +16,7 @@ class Pagination implements PartialContract
     protected $args;
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function build(array $args = [])
     {

@@ -55,7 +55,7 @@ class SiteReviewsSummaryWidget extends Widget
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     protected function shortcode()
     {

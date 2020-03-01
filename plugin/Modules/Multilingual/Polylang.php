@@ -13,7 +13,7 @@ class Polylang implements Contract
     public $supportedVersion = '2.3';
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function getPostId($postId)
     {
@@ -31,7 +31,7 @@ class Polylang implements Contract
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function getPostIds(array $postIds)
     {
@@ -49,7 +49,7 @@ class Polylang implements Contract
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function isActive()
     {
@@ -60,7 +60,7 @@ class Polylang implements Contract
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function isEnabled()
     {
@@ -69,7 +69,7 @@ class Polylang implements Contract
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function isSupported()
     {

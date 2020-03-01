@@ -27,7 +27,7 @@ class SiteReviewsSummary implements PartialContract
     protected $ratingCounts;
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function build(array $args = [])
     {

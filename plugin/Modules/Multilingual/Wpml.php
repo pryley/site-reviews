@@ -13,7 +13,7 @@ class Wpml implements Contract
     public $supportedVersion = '3.3.5';
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function getPostId($postId)
     {
@@ -28,7 +28,7 @@ class Wpml implements Contract
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function getPostIds(array $postIds)
     {
@@ -56,7 +56,7 @@ class Wpml implements Contract
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function isActive()
     {
@@ -64,7 +64,7 @@ class Wpml implements Contract
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function isEnabled()
     {
@@ -73,7 +73,7 @@ class Wpml implements Contract
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function isSupported()
     {

@@ -12,7 +12,7 @@ class StarRating implements PartialContract
     protected $rating;
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function build(array $args = [])
     {

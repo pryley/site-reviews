@@ -88,7 +88,7 @@ class SiteReviewsWidget extends Widget
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     protected function shortcode()
     {

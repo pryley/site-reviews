@@ -39,7 +39,7 @@ class SiteReviewsForm implements PartialContract
     protected $values;
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function build(array $args = [])
     {

@@ -53,7 +53,7 @@ abstract class Shortcode implements ShortcodeContract
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function buildBlock($atts = [])
     {
@@ -61,7 +61,7 @@ abstract class Shortcode implements ShortcodeContract
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function buildShortcode($atts = [])
     {
