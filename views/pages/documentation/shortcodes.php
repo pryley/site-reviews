@@ -68,11 +68,6 @@
         <p>The default schema value is: <code>"false"</code></p>
         <p><span class="required">Important:</span> This attribute should only be used once on a page to avoid duplicate schemas; keep that in mind if you are using more than one [site_reviews] and/or [site_reviews_summary] shortcodes on the same page.</p>
         <pre><code>[site_reviews schema="true"]</code></pre>
-
-        <p class="glsr-heading">title</p>
-        <p>Include the "title" attribute to display a custom shortcode heading.</p>
-        <p>The default title value is: <code>""</code></p>
-        <pre><code>[site_reviews title="Our Reviews"]</code></pre>
     </div>
 </div>
 
@@ -116,11 +111,6 @@
         <p>This shortcode should only be used on a page once. However, if for any reason you need to include more than one on a page, add the "id" attribute to each with some random text to make it a unique shortcode form.</p>
         <p>The default id value is: <code>""</code></p>
         <pre><code>[site_reviews_form id="type-some-random-text-here"]</code></pre>
-
-        <p class="glsr-heading">title</p>
-        <p>Include the "title" attribute to display a custom shortcode heading.</p>
-        <p>The default title value is: <code>""</code></p>
-        <pre><code>[site_reviews_form title="Submit a Review"]</code></pre>
     </div>
 </div>
 
@@ -178,10 +168,5 @@
         <p>The "text" attribute allows you to change the summary text. Available template tags to use are, "{rating}" which represents the calculated average rating, "{max}" which represents the maximum star rating available, and "{num}" which represents the total number of reviews. However, rather than using this attribute to change the summary text it's recommended to instead create a custom translation for it in the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings#tab-translations'); ?>">Settings &rarr; Translations</a></code> page. That way, you will be able to customize both the singular (1 review) and plural (2 reviews) summary texts.</p>
         <p>The default text value is: <code>"{rating} out of {max} stars (based on {num} reviews)"</code></p>
         <pre><code>[site_reviews_summary text="{num} customer reviews"]</code></pre>
-
-        <p class="glsr-heading">title</p>
-        <p>Include the "title" attribute to display a custom shortcode heading.</p>
-        <p>The default title value is: <code>""</code></p>
-        <pre><code>[site_reviews_summary title="Overall Rating"]</code></pre>
     </div>
 </div>
