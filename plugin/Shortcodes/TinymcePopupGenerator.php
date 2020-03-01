@@ -39,13 +39,13 @@ abstract class TinymcePopupGenerator
     {
         $this->tag = $tag;
         $this->properties = wp_parse_args($args, [
-            'btn_close' => esc_html__('Close', 'site-reviews'),
-            'btn_okay' => esc_html__('Insert Shortcode', 'site-reviews'),
+            'btn_close' => esc_html_x('Close', 'admin-text', 'site-reviews'),
+            'btn_okay' => esc_html_x('Insert Shortcode', 'admin-text', 'site-reviews'),
             'errors' => $this->errors,
             'fields' => $this->getFields(),
             'label' => '['.$tag.']',
             'required' => $this->required,
-            'title' => esc_html__('Shortcode', 'site-reviews'),
+            'title' => esc_html_x('Shortcode', 'admin-text', 'site-reviews'),
         ]);
         return $this;
     }
@@ -79,7 +79,7 @@ abstract class TinymcePopupGenerator
             return [];
         }
         return [
-            'label' => esc_html__('Category', 'site-reviews'),
+            'label' => esc_html_x('Category', 'admin-text', 'site-reviews'),
             'name' => 'category',
             'options' => $terms,
             'tooltip' => $tooltip,
@@ -137,7 +137,7 @@ abstract class TinymcePopupGenerator
             return [];
         }
         return [
-            'label' => esc_html__('Type', 'site-reviews'),
+            'label' => esc_html_x('Type', 'admin-text', 'site-reviews'),
             'name' => 'type',
             'options' => glsr()->reviewTypes,
             'tooltip' => $tooltip,
@@ -209,7 +209,7 @@ abstract class TinymcePopupGenerator
             'minWidth' => '',
             'name' => false,
             'options' => [],
-            'placeholder' => esc_attr__('- Select -', 'site-reviews'),
+            'placeholder' => esc_attr_x('- Select -', 'admin-text', 'site-reviews'),
             'tooltip' => '',
             'type' => '',
             'value' => '',
@@ -315,12 +315,12 @@ abstract class TinymcePopupGenerator
         if (false == $args['required']) {
             return true;
         }
-        $alert = esc_html__('Some of the shortcode options are required.', 'site-reviews');
+        $alert = esc_html_x('Some of the shortcode options are required.', 'admin-text', 'site-reviews');
         if (isset($args['required']['alert'])) {
             $alert = $args['required']['alert'];
         } elseif (!empty($args['label'])) {
             $alert = sprintf(
-                esc_html_x('The "%s" option is required.', 'the option label', 'site-reviews'),
+                esc_html_x('The "%s" option is required.', 'the option label (admin-text)', 'site-reviews'),
                 str_replace(':', '', $args['label'])
             );
         }

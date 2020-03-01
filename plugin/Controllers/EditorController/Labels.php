@@ -58,8 +58,8 @@ class Labels
     {
         global $wp_scripts;
         $strings = [
-            'savePending' => __('Save as Unapproved', 'site-reviews'),
-            'published' => __('Approved', 'site-reviews'),
+            'savePending' => _x('Save as Unapproved', 'admin-text', 'site-reviews'),
+            'published' => _x('Approved', 'admin-text', 'site-reviews'),
         ];
         if (isset($wp_scripts->registered['post']->extra['data'])) {
             $l10n = &$wp_scripts->registered['post']->extra['data'];
@@ -75,18 +75,18 @@ class Labels
     protected function getReviewLabels()
     {
         return [
-            'approved' => __('Review has been approved and published.', 'site-reviews'),
-            'draft_updated' => __('Review draft updated.', 'site-reviews'),
-            'preview' => __('Preview review', 'site-reviews'),
-            'published' => __('Review approved and published.', 'site-reviews'),
-            'restored' => __('Review restored to revision from %s.', 'site-reviews'),
-            'reverted' => __('Review has been reverted to its original submission state (title, content, and submission date).', 'site-reviews'),
-            'saved' => __('Review saved.', 'site-reviews'),
-            'scheduled' => __('Review scheduled for: %s.', 'site-reviews'),
-            'submitted' => __('Review submitted.', 'site-reviews'),
-            'unapproved' => __('Review has been unapproved and is now pending.', 'site-reviews'),
-            'updated' => __('Review updated.', 'site-reviews'),
-            'view' => __('View review', 'site-reviews'),
+            'approved' => _x('Review has been approved and published.', 'admin-text', 'site-reviews'),
+            'draft_updated' => _x('Review draft updated.', 'admin-text', 'site-reviews'),
+            'preview' => _x('Preview review', 'admin-text', 'site-reviews'),
+            'published' => _x('Review approved and published.', 'admin-text', 'site-reviews'),
+            'restored' => _x('Review restored to revision from %s.', 'admin-text', 'site-reviews'),
+            'reverted' => _x('Review has been reverted to its original submission state (title, content, and submission date).', 'admin-text', 'site-reviews'),
+            'saved' => _x('Review saved.', 'admin-text', 'site-reviews'),
+            'scheduled' => _x('Review scheduled for: %s.', 'admin-text', 'site-reviews'),
+            'submitted' => _x('Review submitted.', 'admin-text', 'site-reviews'),
+            'unapproved' => _x('Review has been unapproved and is now pending.', 'admin-text', 'site-reviews'),
+            'updated' => _x('Review updated.', 'admin-text', 'site-reviews'),
+            'view' => _x('View review', 'admin-text', 'site-reviews'),
         ];
     }
 
@@ -99,12 +99,12 @@ class Labels
         static $labels;
         if (empty($labels)) {
             $labels = [
-                'Pending' => __('Unapproved', 'site-reviews'),
-                'Pending Review' => __('Unapproved', 'site-reviews'),
-                'Privately Published' => __('Privately Approved', 'site-reviews'),
-                'Publish' => __('Approve', 'site-reviews'),
-                'Published' => __('Approved', 'site-reviews'),
-                'Save as Pending' => __('Save as Unapproved', 'site-reviews'),
+                'Pending' => _x('Unapproved', 'admin-text', 'site-reviews'),
+                'Pending Review' => _x('Unapproved', 'admin-text', 'site-reviews'),
+                'Privately Published' => _x('Privately Approved', 'admin-text', 'site-reviews'),
+                'Publish' => _x('Approve', 'admin-text', 'site-reviews'),
+                'Published' => _x('Approved', 'admin-text', 'site-reviews'),
+                'Save as Pending' => _x('Save as Unapproved', 'admin-text', 'site-reviews'),
             ];
         }
         return $labels;

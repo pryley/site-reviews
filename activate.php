@@ -4,7 +4,7 @@ defined('WPINC') || die;
 
 /**
  * Check for minimum system requirments on plugin activation.
- * @version 4.0.0
+ * @version 4.1.0
  */
 class GL_Plugin_Check_v4
 {
@@ -99,13 +99,13 @@ class GL_Plugin_Check_v4
     protected function getMessages()
     {
         return [
-            'notice' => __('The %s plugin was deactivated.', 'site-reviews'),
-            'php_version' => __('PHP version', 'site-reviews'),
-            'rollback' => __('You can use the %s plugin to restore %s to the previous version.', 'site-reviews'),
-            'update_php' => __('Please contact your hosting provider or server administrator to upgrade the version of PHP on your server (your server is running PHP version %s), or try to find an alternative plugin.', 'site-reviews'),
-            'update_wp' => __('Update WordPress', 'site-reviews'),
-            'wp_version' => __('WordPress version', 'site-reviews'),
-            'wrong_version' => __('This plugin requires %s or greater in order to work properly.', 'site-reviews'),
+            'notice' => esc_html_x('The %s plugin was deactivated.', 'admin-text', 'site-reviews'),
+            'php_version' => esc_html_x('PHP version', 'admin-text', 'site-reviews'),
+            'rollback' => esc_html_x('You can use the %s plugin to restore %s to the previous version.', 'admin-text', 'site-reviews'),
+            'update_php' => esc_html_x('Please contact your hosting provider or server administrator to upgrade the version of PHP on your server (your server is running PHP version %s), or try to find an alternative plugin.', 'admin-text', 'site-reviews'),
+            'update_wp' => esc_html_x('Update WordPress', 'admin-text', 'site-reviews'),
+            'wp_version' => esc_html_x('WordPress version', 'admin-text', 'site-reviews'),
+            'wrong_version' => esc_html_x('This plugin requires %s or greater in order to work properly.', 'admin-text', 'site-reviews'),
         ];
     }
 

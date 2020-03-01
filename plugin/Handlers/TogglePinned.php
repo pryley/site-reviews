@@ -25,8 +25,8 @@ class TogglePinned
             $command->pinned = !wp_validate_boolean($meta);
         } else {
             $notice = $command->pinned
-                ? __('Review pinned.', 'site-reviews')
-                : __('Review unpinned.', 'site-reviews');
+                ? _x('Review pinned.', 'admin-text', 'site-reviews')
+                : _x('Review unpinned.', 'admin-text', 'site-reviews');
             glsr(Notice::class)->addSuccess($notice);
         }
         glsr(Database::class)->update($command->id, 'pinned', $command->pinned);

@@ -7,12 +7,12 @@ class SiteReviewsFormShortcode extends Shortcode
     protected function hideOptions()
     {
         return [
-            'rating' => __('Hide the rating field', 'site-reviews'),
-            'title' => __('Hide the title field', 'site-reviews'),
-            'content' => __('Hide the review field', 'site-reviews'),
-            'name' => __('Hide the name field', 'site-reviews'),
-            'email' => __('Hide the email field', 'site-reviews'),
-            'terms' => __('Hide the terms field', 'site-reviews'),
+            'rating' => _x('Hide the rating field', 'admin-text', 'site-reviews'),
+            'title' => _x('Hide the title field', 'admin-text', 'site-reviews'),
+            'content' => _x('Hide the review field', 'admin-text', 'site-reviews'),
+            'name' => _x('Hide the name field', 'admin-text', 'site-reviews'),
+            'email' => _x('Hide the email field', 'admin-text', 'site-reviews'),
+            'terms' => _x('Hide the terms field', 'admin-text', 'site-reviews'),
         ];
     }
 }

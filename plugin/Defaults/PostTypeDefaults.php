@@ -13,8 +13,8 @@ class PostTypeDefaults extends Defaults
     {
         return [
             'columns' => [
-                'title' => __('Title', 'site-reviews'),
-                'date' => __('Date', 'site-reviews'),
+                'title' => _x('Title', 'admin-text', 'site-reviews'),
+                'date' => _x('Date', 'admin-text', 'site-reviews'),
             ],
             'has_archive' => false,
             'hierarchical' => false,

@@ -28,7 +28,7 @@ class SettingsController extends Controller
             $options = $this->sanitizeTranslations($input, $options);
             $options = apply_filters('site-reviews/settings/callback', $options, $settings);
             if (filter_input(INPUT_POST, 'option_page') == Application::ID.'-settings') {
-                glsr(Notice::class)->addSuccess(__('Settings updated.', 'site-reviews'));
+                glsr(Notice::class)->addSuccess(_x('Settings updated.', 'admin-text', 'site-reviews'));
             }
             return $options;
         }
@@ -133,13 +133,13 @@ class SettingsController extends Controller
         }
         if (!$integration->isActive()) {
             glsr(Notice::class)->addError(sprintf(
-                __('Please install/activate the %s plugin to enable integration.', 'site-reviews'),
+                _x('Please install/activate the %s plugin to enable integration.', 'admin-text', 'site-reviews'),
                 $integration->pluginName
             ));
             return false;
         } elseif (!$integration->isSupported()) {
             glsr(Notice::class)->addError(sprintf(
-                __('Please update the %s plugin to v%s or greater to enable integration.', 'site-reviews'),
+                _x('Please update the %s plugin to v%s or greater to enable integration.', 'admin-text', 'site-reviews'),
                 $integration->pluginName,
                 $integration->supportedVersion
             ));
@@ -167,7 +167,7 @@ class SettingsController extends Controller
         } catch (Exception $e) {
             $license = '';
             glsr_log()->debug($e->getMessage());
-            glsr(Notice::class)->addError(__('A license you entered was invalid.', 'site-reviews'));
+            glsr(Notice::class)->addError(_x('A license you entered was invalid.', 'admin-text', 'site-reviews'));
         }
         return $license;
     }

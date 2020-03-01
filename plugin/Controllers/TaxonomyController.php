@@ -39,7 +39,7 @@ class TaxonomyController
         if (!is_object_in_taxonomy(glsr_current_screen()->post_type, Application::TAXONOMY)) {
             return;
         }
-        echo glsr(Builder::class)->label(__('Filter by category', 'site-reviews'), [
+        echo glsr(Builder::class)->label(_x('Filter by category', 'admin-text', 'site-reviews'), [
             'class' => 'screen-reader-text',
             'for' => Application::TAXONOMY,
         ]);

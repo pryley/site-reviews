@@ -65,7 +65,7 @@ function glsr_array_column(array $array, $column)
 function glsr_calculate_ratings()
 {
     glsr('Database\CountsManager')->updateAll();
-    glsr_log()->notice(__('Recalculated rating counts.', 'site-reviews'));
+    glsr_log()->notice(_x('Recalculated rating counts.', 'admin-text', 'site-reviews'));
 }
 
 /**

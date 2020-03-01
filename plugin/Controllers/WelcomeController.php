@@ -14,7 +14,7 @@ class WelcomeController extends Controller
      */
     public function filterActionLinks(array $links)
     {
-        $links['welcome'] = glsr(Builder::class)->a(__('About', 'site-reviews'), [
+        $links['welcome'] = glsr(Builder::class)->a(_x('About', 'admin-text', 'site-reviews'), [
             'href' => admin_url('edit.php?post_type='.Application::POST_TYPE.'&page=welcome'),
         ]);
         return $links;
@@ -27,7 +27,7 @@ class WelcomeController extends Controller
     public function filterAdminTitle($title)
     {
         return Application::POST_TYPE.'_page_welcome' == glsr_current_screen()->id
-            ? sprintf(__('Welcome to %s &#8212; WordPress', 'site-reviews'), glsr()->name)
+            ? sprintf(_x('Welcome to %s &#8212; WordPress', 'admin-text', 'site-reviews'), glsr()->name)
             : $title;
     }
 
@@ -43,7 +43,7 @@ class WelcomeController extends Controller
         }
         $url = 'https://wordpress.org/support/view/plugin-reviews/site-reviews?filter=5#new-post';
         return wp_kses_post(sprintf(
-            __('Please rate %s on %s and help us spread the word. Thank you so much!', 'site-reviews'),
+            _x('Please rate %s on %s and help us spread the word. Thank you so much!', 'admin-text', 'site-reviews'),
             '<strong>'.glsr()->name.'</strong> <a href="'.$url.'" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>',
             '<a href="'.$url.'" target="_blank">wordpress.org</a>'
         ));
@@ -72,7 +72,7 @@ class WelcomeController extends Controller
     public function registerPage()
     {
         add_submenu_page('edit.php?post_type='.Application::POST_TYPE,
-            sprintf(__('Welcome to %s', 'site-reviews'), glsr()->name),
+            sprintf(_x('Welcome to %s', 'admin-text', 'site-reviews'), glsr()->name),
             glsr()->name,
             glsr()->getPermission('welcome'),
             'welcome',
@@ -89,10 +89,10 @@ class WelcomeController extends Controller
     public function renderPage()
     {
         $tabs = apply_filters('site-reviews/addon/welcome/tabs', [
-            'getting-started' => __('Getting Started', 'site-reviews'),
-            'whatsnew' => __('What\'s New', 'site-reviews'),
-            'upgrade-guide' => __('Upgrade Guide', 'site-reviews'),
-            'support' => __('Support', 'site-reviews'),
+            'getting-started' => _x('Getting Started', 'admin-text', 'site-reviews'),
+            'whatsnew' => _x('What\'s New', 'admin-text', 'site-reviews'),
+            'upgrade-guide' => _x('Upgrade Guide', 'admin-text', 'site-reviews'),
+            'support' => _x('Support', 'admin-text', 'site-reviews'),
         ]);
         glsr()->render('pages/welcome/index', [
             'data' => ['context' => []],

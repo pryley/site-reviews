@@ -76,7 +76,7 @@ class SiteReviewsFormBlock extends BlockGenerator
     {
         add_filter('site-reviews/interpolate/reviews-form', function ($context) {
             $context['class'] = 'glsr-default glsr-block-disabled';
-            $context['fields'] = __('You have hidden all of the fields for this block.', 'site-reviews');
+            $context['fields'] = _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews');
             $context['response'] = '';
             $context['submit_button'] = '';
             return $context;

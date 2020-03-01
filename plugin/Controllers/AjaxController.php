@@ -76,7 +76,7 @@ class AjaxController extends Controller
         if (array_key_exists($shortcode, glsr()->mceShortcodes)) {
             $data = glsr()->mceShortcodes[$shortcode];
             if (!empty($data['errors'])) {
-                $data['btn_okay'] = [esc_html__('Okay', 'site-reviews')];
+                $data['btn_okay'] = [esc_html_x('Okay', 'admin-text', 'site-reviews')];
             }
             $response = [
                 'body' => $data['fields'],
@@ -107,7 +107,7 @@ class AjaxController extends Controller
     public function routerResetPermissions()
     {
         glsr(Role::class)->resetAll();
-        glsr(Notice::class)->clear()->addSuccess(__('The permissions have been reset, please reload the page for them to take effect.', 'site-reviews'));
+        glsr(Notice::class)->clear()->addSuccess(_x('The permissions have been reset, please reload the page for them to take effect.', 'admin-text', 'site-reviews'));
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
         ]);
@@ -120,7 +120,7 @@ class AjaxController extends Controller
     {
         $results = glsr(Database::class)->searchPosts($request['search']);
         wp_send_json_success([
-            'empty' => '<div>'.__('Nothing found.', 'site-reviews').'</div>',
+            'empty' => '<div>'._x('Nothing found.', 'admin-text', 'site-reviews').'</div>',
             'items' => $results,
         ]);
     }
@@ -139,7 +139,7 @@ class AjaxController extends Controller
             ->exclude($request['exclude'])
             ->renderResults();
         wp_send_json_success([
-            'empty' => '<div>'.__('Nothing found.', 'site-reviews').'</div>',
+            'empty' => '<div>'._x('Nothing found.', 'admin-text', 'site-reviews').'</div>',
             'items' => $results,
         ]);
     }

@@ -17,54 +17,54 @@ class SiteReviewsWidget extends Widget
         $terms = glsr(Database::class)->getTerms();
         $this->renderField('text', [
             'class' => 'widefat',
-            'label' => __('Title', 'site-reviews'),
+            'label' => _x('Title', 'admin-text', 'site-reviews'),
             'name' => 'title',
         ]);
         $this->renderField('number', [
             'class' => 'small-text',
             'default' => 10,
-            'label' => __('How many reviews would you like to display?', 'site-reviews'),
+            'label' => _x('How many reviews would you like to display?', 'admin-text', 'site-reviews'),
             'max' => 100,
             'name' => 'display',
         ]);
         $this->renderField('select', [
-            'label' => __('What is the minimum rating to display?', 'site-reviews'),
+            'label' => _x('What is the minimum rating to display?', 'admin-text', 'site-reviews'),
             'name' => 'rating',
             'options' => [
-                '0' => sprintf(_n('%s star', '%s stars', 0, 'site-reviews'), 0),
-                '1' => sprintf(_n('%s star', '%s stars', 1, 'site-reviews'), 1),
-                '2' => sprintf(_n('%s star', '%s stars', 2, 'site-reviews'), 2),
-                '3' => sprintf(_n('%s star', '%s stars', 3, 'site-reviews'), 3),
-                '4' => sprintf(_n('%s star', '%s stars', 4, 'site-reviews'), 4),
-                '5' => sprintf(_n('%s star', '%s stars', 5, 'site-reviews'), 5),
+                '0' => esc_attr(sprintf(_nx('%s star', '%s stars', 0, 'admin-text', 'site-reviews'), 0)),
+                '1' => esc_attr(sprintf(_nx('%s star', '%s stars', 1, 'admin-text', 'site-reviews'), 1)),
+                '2' => esc_attr(sprintf(_nx('%s star', '%s stars', 2, 'admin-text', 'site-reviews'), 2)),
+                '3' => esc_attr(sprintf(_nx('%s star', '%s stars', 3, 'admin-text', 'site-reviews'), 3)),
+                '4' => esc_attr(sprintf(_nx('%s star', '%s stars', 4, 'admin-text', 'site-reviews'), 4)),
+                '5' => esc_attr(sprintf(_nx('%s star', '%s stars', 5, 'admin-text', 'site-reviews'), 5)),
             ],
         ]);
         if (count(glsr()->reviewTypes) > 1) {
             $this->renderField('select', [
                 'class' => 'widefat',
-                'label' => __('Which type of review would you like to display?', 'site-reviews'),
+                'label' => _x('Which type of review would you like to display?', 'admin-text', 'site-reviews'),
                 'name' => 'type',
-                'options' => ['' => __('All Reviews', 'site-reviews')] + glsr()->reviewTypes,
+                'options' => ['' => esc_attr_x('All Reviews', 'admin-text', 'site-reviews')] + glsr()->reviewTypes,
             ]);
         }
         if (!empty($terms)) {
             $this->renderField('select', [
                 'class' => 'widefat',
-                'label' => __('Limit reviews to this category', 'site-reviews'),
+                'label' => _x('Limit reviews to this category', 'admin-text', 'site-reviews'),
                 'name' => 'category',
-                'options' => ['' => __('All Categories', 'site-reviews')] + $terms,
+                'options' => ['' => esc_attr_x('All Categories', 'admin-text', 'site-reviews')] + $terms,
             ]);
         }
         $this->renderField('text', [
             'class' => 'widefat',
             'default' => '',
-            'description' => sprintf(__("Separate multiple ID's with a comma. You may also enter %s to automatically represent the current page/post ID.", 'site-reviews'), '<code>post_id</code>'),
-            'label' => __('Limit reviews to those assigned to this page/post ID', 'site-reviews'),
+            'description' => sprintf(esc_html_x("Separate multiple ID's with a comma. You may also enter %s to automatically represent the current page/post ID.", 'admin-text', 'site-reviews'), '<code>post_id</code>'),
+            'label' => _x('Limit reviews to those assigned to this page/post ID', 'admin-text', 'site-reviews'),
             'name' => 'assigned_to',
         ]);
         $this->renderField('text', [
             'class' => 'widefat',
-            'label' => __('Enter any custom CSS classes here', 'site-reviews'),
+            'label' => _x('Enter any custom CSS classes here', 'admin-text', 'site-reviews'),
             'name' => 'class',
         ]);
         $this->renderField('checkbox', [

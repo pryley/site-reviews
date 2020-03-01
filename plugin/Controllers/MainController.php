@@ -25,24 +25,24 @@ class MainController extends Controller
             'columns' => [
                 'title' => '',
                 'category' => '',
-                'assigned_to' => __('Assigned To', 'site-reviews'),
-                'reviewer' => __('Author', 'site-reviews'),
-                'email' => __('Email', 'site-reviews'),
-                'ip_address' => __('IP Address', 'site-reviews'),
-                'response' => __('Response', 'site-reviews'),
-                'review_type' => __('Type', 'site-reviews'),
-                'rating' => __('Rating', 'site-reviews'),
-                'pinned' => __('Pinned', 'site-reviews'),
+                'assigned_to' => _x('Assigned To', 'admin-text', 'site-reviews'),
+                'reviewer' => _x('Author', 'admin-text', 'site-reviews'),
+                'email' => _x('Email', 'admin-text', 'site-reviews'),
+                'ip_address' => _x('IP Address', 'admin-text', 'site-reviews'),
+                'response' => _x('Response', 'admin-text', 'site-reviews'),
+                'review_type' => _x('Type', 'admin-text', 'site-reviews'),
+                'rating' => _x('Rating', 'admin-text', 'site-reviews'),
+                'pinned' => _x('Pinned', 'admin-text', 'site-reviews'),
                 'date' => '',
             ],
             'menu_icon' => 'dashicons-star-half',
             'menu_name' => glsr()->name,
             'map_meta_cap' => true,
-            'plural' => __('Reviews', 'site-reviews'),
+            'plural' => _x('Reviews', 'admin-text', 'site-reviews'),
             'post_type' => Application::POST_TYPE,
             'rest_controller_class' => RestReviewController::class,
             'show_in_rest' => true,
-            'single' => __('Review', 'site-reviews'),
+            'single' => _x('Review', 'admin-text', 'site-reviews'),
         ]);
         $this->execute($command);
     }
@@ -87,16 +87,16 @@ class MainController extends Controller
     {
         $command = new RegisterWidgets([
             'site-reviews' => [
-                'description' => __('Site Reviews: Display your recent reviews.', 'site-reviews'),
-                'name' => __('Recent Reviews', 'site-reviews'),
+                'description' => _x('Site Reviews: Display your recent reviews.', 'admin-text', 'site-reviews'),
+                'name' => _x('Recent Reviews', 'admin-text', 'site-reviews'),
             ],
             'site-reviews-form' => [
-                'description' => __('Site Reviews: Display a form to submit reviews.', 'site-reviews'),
-                'name' => __('Submit a Review', 'site-reviews'),
+                'description' => _x('Site Reviews: Display a form to submit reviews.', 'admin-text', 'site-reviews'),
+                'name' => _x('Submit a Review', 'admin-text', 'site-reviews'),
             ],
             'site-reviews-summary' => [
-                'description' => __('Site Reviews: Display a summary of your reviews.', 'site-reviews'),
-                'name' => __('Summary of Reviews', 'site-reviews'),
+                'description' => _x('Site Reviews: Display a summary of your reviews.', 'admin-text', 'site-reviews'),
+                'name' => _x('Summary of Reviews', 'admin-text', 'site-reviews'),
             ],
         ]);
         $this->execute($command);

@@ -30,11 +30,11 @@ class TranslationController
     {
         $messages = Arr::consolidate($messages);
         $messages[Application::POST_TYPE] = [
-            'updated' => _n('%s review updated.', '%s reviews updated.', $counts['updated'], 'site-reviews'),
-            'locked' => _n('%s review not updated, somebody is editing it.', '%s reviews not updated, somebody is editing them.', $counts['locked'], 'site-reviews'),
-            'deleted' => _n('%s review permanently deleted.', '%s reviews permanently deleted.', $counts['deleted'], 'site-reviews'),
-            'trashed' => _n('%s review moved to the Trash.', '%s reviews moved to the Trash.', $counts['trashed'], 'site-reviews'),
-            'untrashed' => _n('%s review restored from the Trash.', '%s reviews restored from the Trash.', $counts['untrashed'], 'site-reviews'),
+            'updated' => _nx('%s review updated.', '%s reviews updated.', $counts['updated'], 'admin-text', 'site-reviews'),
+            'locked' => _nx('%s review not updated, somebody is editing it.', '%s reviews not updated, somebody is editing them.', $counts['locked'], 'admin-text', 'site-reviews'),
+            'deleted' => _nx('%s review permanently deleted.', '%s reviews permanently deleted.', $counts['deleted'], 'admin-text', 'site-reviews'),
+            'trashed' => _nx('%s review moved to the Trash.', '%s reviews moved to the Trash.', $counts['trashed'], 'admin-text', 'site-reviews'),
+            'untrashed' => _nx('%s review restored from the Trash.', '%s reviews restored from the Trash.', $counts['untrashed'], 'admin-text', 'site-reviews'),
         ];
         return $messages;
     }
@@ -86,7 +86,7 @@ class TranslationController
      */
     public function filterGettextWithContextSiteReviews($translation, $text, $context)
     {
-        if (Translation::CONTEXT_ADMIN_KEY === $context) {
+        if (Str::contains(Translation::CONTEXT_ADMIN_KEY, $context)) {
             return $translation;
         }
         return $this->translator->translate($translation, Application::ID, [
@@ -152,7 +152,7 @@ class TranslationController
      */
     public function filterNgettextWithContextSiteReviews($translation, $single, $plural, $number, $context)
     {
-        if (Translation::CONTEXT_ADMIN_KEY === $context) {
+        if (Str::contains(Translation::CONTEXT_ADMIN_KEY, $context)) {
             return $translation;
         }
         return $this->translator->translate($translation, Application::ID, [
@@ -173,7 +173,7 @@ class TranslationController
     {
         $postStates = Arr::consolidate($postStates);
         if (Application::POST_TYPE == Arr::get($post, 'post_type') && array_key_exists('pending', $postStates)) {
-            $postStates['pending'] = __('Unapproved', 'site-reviews');
+            $postStates['pending'] = _x('Unapproved', 'admin-text', 'site-reviews');
         }
         return $postStates;
     }
@@ -204,8 +204,8 @@ class TranslationController
     {
         if ($this->canModifyTranslation()) {
             $strings = [
-                'Published' => __('Approved', 'site-reviews'),
-                'Pending' => __('Unapproved', 'site-reviews'),
+                'Published' => _x('Approved', 'admin-text', 'site-reviews'),
+                'Pending' => _x('Unapproved', 'admin-text', 'site-reviews'),
             ];
             foreach ($strings as $search => $replace) {
                 if (!Str::contains($single, $search)) {

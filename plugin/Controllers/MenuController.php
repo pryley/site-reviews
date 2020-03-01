@@ -48,10 +48,10 @@ class MenuController extends Controller
     public function registerSubMenus()
     {
         $pages = $this->parseWithFilter('submenu/pages', [
-            'settings' => __('Settings', 'site-reviews'),
-            'tools' => __('Tools', 'site-reviews'),
-            'addons' => __('Add-ons', 'site-reviews'),
-            'documentation' => __('Help', 'site-reviews'),
+            'settings' => _x('Settings', 'admin-text', 'site-reviews'),
+            'tools' => _x('Tools', 'admin-text', 'site-reviews'),
+            'addons' => _x('Add-ons', 'admin-text', 'site-reviews'),
+            'documentation' => _x('Help', 'admin-text', 'site-reviews'),
         ]);
         foreach ($pages as $slug => $title) {
             $method = Helper::buildMethodName('render-'.$slug.'-menu');
@@ -83,12 +83,12 @@ class MenuController extends Controller
     public function renderDocumentationMenu()
     {
         $tabs = $this->parseWithFilter('documentation/tabs', [
-            'support' => __('Support', 'site-reviews'),
-            'faq' => __('FAQ', 'site-reviews'),
-            'shortcodes' => __('Shortcodes', 'site-reviews'),
-            'hooks' => __('Hooks', 'site-reviews'),
-            'functions' => __('Functions', 'site-reviews'),
-            'addons' => __('Addons', 'site-reviews'),
+            'support' => _x('Support', 'admin-text', 'site-reviews'),
+            'faq' => _x('FAQ', 'admin-text', 'site-reviews'),
+            'shortcodes' => _x('Shortcodes', 'admin-text', 'site-reviews'),
+            'hooks' => _x('Hooks', 'admin-text', 'site-reviews'),
+            'functions' => _x('Functions', 'admin-text', 'site-reviews'),
+            'addons' => _x('Addons', 'admin-text', 'site-reviews'),
         ]);
         $addons = apply_filters('site-reviews/addon/documentation', []);
         ksort($addons);
@@ -109,13 +109,13 @@ class MenuController extends Controller
     public function renderSettingsMenu()
     {
         $tabs = $this->parseWithFilter('settings/tabs', [
-            'general' => __('General', 'site-reviews'),
-            'reviews' => __('Reviews', 'site-reviews'),
-            'submissions' => __('Submissions', 'site-reviews'),
-            'schema' => __('Schema', 'site-reviews'),
-            'translations' => __('Translations', 'site-reviews'),
-            'addons' => __('Addons', 'site-reviews'),
-            'licenses' => __('Licenses', 'site-reviews'),
+            'general' => _x('General', 'admin-text', 'site-reviews'),
+            'reviews' => _x('Reviews', 'admin-text', 'site-reviews'),
+            'submissions' => _x('Submissions', 'admin-text', 'site-reviews'),
+            'schema' => _x('Schema', 'admin-text', 'site-reviews'),
+            'translations' => _x('Translations', 'admin-text', 'site-reviews'),
+            'addons' => _x('Addons', 'admin-text', 'site-reviews'),
+            'licenses' => _x('Licenses', 'admin-text', 'site-reviews'),
         ]);
         if (empty(Arr::get(glsr()->defaults, 'settings.addons'))) {
             unset($tabs['addons']);
@@ -137,10 +137,10 @@ class MenuController extends Controller
     public function renderToolsMenu()
     {
         $tabs = $this->parseWithFilter('tools/tabs', [
-            'general' => __('General', 'site-reviews'),
-            'sync' => __('Sync Reviews', 'site-reviews'),
-            'console' => __('Console', 'site-reviews'),
-            'system-info' => __('System Info', 'site-reviews'),
+            'general' => _x('General', 'admin-text', 'site-reviews'),
+            'sync' => _x('Sync Reviews', 'admin-text', 'site-reviews'),
+            'console' => _x('Console', 'admin-text', 'site-reviews'),
+            'system-info' => _x('System Info', 'admin-text', 'site-reviews'),
         ]);
         if (!apply_filters('site-reviews/addon/sync/enable', false)) {
             unset($tabs['sync']);

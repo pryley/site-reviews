@@ -4,7 +4,7 @@
     <div class="glsr-card-header">
         <h3>How do I add additional values to the schema?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -34,7 +34,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
     <div class="glsr-card-header">
         <h3>How do I add pagination to my reviews?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -51,7 +51,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
     <div class="glsr-card-header">
         <h3>How do I assign reviews to a page?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -77,7 +77,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
     <div class="glsr-card-header">
         <h3>How do I change the font?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -93,7 +93,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
     <div class="glsr-card-header">
         <h3>How do I change the order of the review fields?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -121,7 +121,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
     <div class="glsr-card-header">
         <h3>How do I change the order of the reviews summary fields?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -147,7 +147,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
     <div class="glsr-card-header">
         <h3>How do I change the order of the submission form fields?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -179,7 +179,7 @@ add_filter('site-reviews/submission-form/order', function ($order) {
     <div class="glsr-card-header">
         <h3>How do I change the pagination query string?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -201,7 +201,7 @@ add_filter('site-reviews/const/PAGED_QUERY_VAR', function () {
     <div class="glsr-card-header">
         <h3>How do I change the text of...?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -214,7 +214,7 @@ add_filter('site-reviews/const/PAGED_QUERY_VAR', function () {
     <div class="glsr-card-header">
         <h3>How do I create a review programmatically?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -239,7 +239,7 @@ add_filter('site-reviews/const/PAGED_QUERY_VAR', function () {
     <div class="glsr-card-header">
         <h3>How do I customise the stars?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -276,7 +276,7 @@ add_filter('site-reviews/config/inline-styles', function ($config) {
     <div class="glsr-card-header">
         <h3>How do I hide the form after a review is submitted?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -319,7 +319,7 @@ add_filter('site-reviews/rendered/template/reviews-form', function ($template) {
     <div class="glsr-card-header">
         <h3>How do I limit the submitted review length?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -357,7 +357,7 @@ add_filter('site-reviews/validation/rules', function ($rules) {
     <div class="glsr-card-header">
         <h3>How do I order pages with assigned reviews by rating or ranking?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -413,7 +413,7 @@ add_filter('site-reviews/validation/rules', function ($rules) {
     <div class="glsr-card-header">
         <h3>How do I prevent search engines from indexing paginated reviews?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -443,7 +443,7 @@ Disallow: /*?*reviews-page=*</code></pre>
     <div class="glsr-card-header">
         <h3>How do I redirect to a custom URL after a form is submitted?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -456,7 +456,7 @@ Disallow: /*?*reviews-page=*</code></pre>
     <div class="glsr-card-header">
         <h3>How do I remove the dash in front of the author's name?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -472,7 +472,7 @@ Disallow: /*?*reviews-page=*</code></pre>
     <div class="glsr-card-header">
         <h3>How do I use the plugin templates in my theme?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -490,7 +490,7 @@ Disallow: /*?*reviews-page=*</code></pre>
     <div class="glsr-card-header">
         <h3>Why are the IP Addresses not being detected correctly?</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>

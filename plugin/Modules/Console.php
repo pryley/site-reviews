@@ -112,7 +112,7 @@ class Console
     public function get()
     {
         return empty($this->log)
-            ? __('Console is empty', 'site-reviews')
+            ? _x('Console is empty', 'admin-text', 'site-reviews')
             : $this->log;
     }
 
@@ -439,7 +439,7 @@ class Console
             $this->file,
             $this->buildLogEntry(
                 static::NOTICE,
-                __('Console was automatically cleared (128 KB maximum size)', 'site-reviews')
+                _x('Console was automatically cleared (128 KB maximum size)', 'admin-text', 'site-reviews')
             )
         );
     }

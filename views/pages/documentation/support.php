@@ -4,7 +4,7 @@
     <div class="glsr-card-header">
         <h3>Basic Troubleshooting Steps</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -32,7 +32,7 @@
     <div class="glsr-card-header">
         <h3>Common Problems and Solutions</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -68,7 +68,7 @@
     <div class="glsr-card-header">
         <h3>Contact Support</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>

@@ -131,7 +131,7 @@ class TrustalyzeController extends Controller
      */
     protected function buildCreateButton()
     {
-        return glsr(Builder::class)->a(__('Create Your Trustalyze Account', 'site-reviews'), [
+        return glsr(Builder::class)->a(_x('Create Your Trustalyze Account', 'admin-text', 'site-reviews'), [
             'class' => 'button',
             'href' => Trustalyze::WEB_URL,
             'target' => '_blank',
@@ -144,8 +144,8 @@ class TrustalyzeController extends Controller
     protected function buildUpgradeButton()
     {
         $build = glsr(Builder::class);
-        $notice = $build->p(__('Free Trustalyze accounts are limited to 500 blockchain transactions per year.', 'site-reviews'));
-        $button = $build->a(__('Upgrade Your Trustalyze Plan', 'site-reviews'), [
+        $notice = $build->p(_x('Free Trustalyze accounts are limited to 500 blockchain transactions per year.', 'admin-text', 'site-reviews'));
+        $button = $build->a(_x('Upgrade Your Trustalyze Plan', 'admin-text', 'site-reviews'), [
             'class' => 'button',
             'href' => Trustalyze::WEB_URL,
             'target' => '_blank',
@@ -233,7 +233,7 @@ class TrustalyzeController extends Controller
             delete_option($this->trustalyzeKey);
             $settings = Arr::set($settings, $this->enabledKey, 'no');
             glsr(Notice::class)->addError(sprintf(
-                __('Your Trustalyze account details could not be verified, please try again. %s', 'site-reviews'),
+                _x('Your Trustalyze account details could not be verified, please try again. %s', 'admin-text', 'site-reviews'),
                 '('.$trustalyze->message.')'
             ));
         }

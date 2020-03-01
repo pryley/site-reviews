@@ -37,7 +37,7 @@ class ChangeStatus
     {
         $title = _draft_or_post_title($postId);
         return glsr(Builder::class)->a($title, [
-            'aria-label' => '&#8220;'.esc_attr($title).'&#8221; ('.__('Edit', 'site-reviews').')',
+            'aria-label' => '&#8220;'.esc_attr($title).'&#8221; ('._x('Edit', 'admin-text', 'site-reviews').')',
             'class' => 'row-title',
             'href' => get_edit_post_link($postId),
         ]);

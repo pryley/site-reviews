@@ -119,7 +119,7 @@ class Translation
         $data['data.class'] = $data['data.error'] = '';
         if (false === array_search($entry['s1'], glsr_array_column($this->entries(), 'msgid'))) {
             $data['data.class'] = 'is-invalid';
-            $data['data.error'] = __('This custom translation is no longer valid as the original text has been changed or removed.', 'site-reviews');
+            $data['data.error'] = esc_attr_x('This custom translation is no longer valid as the original text has been changed or removed.', 'admin-text', 'site-reviews');
         }
         return glsr(Template::class)->build('partials/translations/'.$template, [
             'context' => array_map('esc_html', $data),

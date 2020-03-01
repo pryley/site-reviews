@@ -6,7 +6,7 @@
     <div class="glsr-card-header">
         <h3>Customise the order of the fields in the review submission form</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -30,7 +30,7 @@ add_filter('site-reviews/submission-form/order', function ($order) {
     <div class="glsr-card-header">
         <h3>Customise the star images</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -54,7 +54,7 @@ add_filter('site-reviews/config/inline-styles', function ($config) {
     <div class="glsr-card-header">
         <h3>Disable the plugin javascript</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -73,7 +73,7 @@ add_filter('site-reviews/assets/js', '__return_false');</code></pre>
     <div class="glsr-card-header">
         <h3>Disable the plugin stylesheet</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -92,7 +92,7 @@ add_filter('site-reviews/assets/css', '__return_false');</code></pre>
     <div class="glsr-card-header">
         <h3>Disable the polyfill.io script</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -112,7 +112,7 @@ add_filter('site-reviews/assets/polyfill', '__return_false');</code></pre>
     <div class="glsr-card-header">
         <h3>Do something immediately after a review has been submitted</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -136,7 +136,7 @@ add_action('site-reviews/review/created', function ($review, $request) {
     <div class="glsr-card-header">
         <h3>Modify the schema</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -163,7 +163,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
     <div class="glsr-card-header">
         <h3>Modify the submitted review before it is saved</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>

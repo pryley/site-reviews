@@ -8,7 +8,7 @@
     <form method="post">
         <input type="hidden" name="{{ id }}[_action]" value="export-settings">
         <?php wp_nonce_field('export-settings'); ?>
-        <?php submit_button(__('Export Settings', 'site-reviews'), 'secondary'); ?>
+        <?php submit_button(_x('Export Settings', 'admin-text', 'site-reviews'), 'secondary'); ?>
     </form>
 </div>
 <?php endif; ?>
@@ -22,7 +22,7 @@
         <input type="file" name="import-file">
         <input type="hidden" name="{{ id }}[_action]" value="import-settings">
         <?php wp_nonce_field('import-settings'); ?>
-        <?php submit_button(__('Import Settings', 'site-reviews'), 'secondary'); ?>
+        <?php submit_button(_x('Import Settings', 'admin-text', 'site-reviews'), 'secondary'); ?>
     </form>
 </div>
 <?php endif; ?>
@@ -36,7 +36,7 @@
         <?php wp_nonce_field('migrate-reviews'); ?>
         <p class="submit">
             <button type="submit" class="glsr-button button" name="migrate-reviews" id="migrate-reviews">
-                <span data-loading="<?= __('Migrating Reviews, please wait...', 'site-reviews'); ?>"><?= __('Run Migration', 'site-reviews'); ?></span>
+                <span data-loading="<?= esc_attr_x('Migrating Reviews, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Run Migration', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>
     </form>
@@ -52,7 +52,7 @@
         <?php wp_nonce_field('count-reviews'); ?>
         <p class="submit">
             <button type="submit" class="glsr-button button" name="count-reviews" id="count-reviews">
-                <span data-loading="<?= __('Recalculating Counts, please wait...', 'site-reviews'); ?>"><?= __('Recalculate Counts', 'site-reviews'); ?></span>
+                <span data-loading="<?= esc_attr_x('Recalculating Counts, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Recalculate Counts', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>
     </form>
@@ -68,7 +68,7 @@
         <?php wp_nonce_field('reset-permissions'); ?>
         <p class="submit">
             <button type="submit" class="glsr-button button" name="reset-permissions" id="reset-permissions">
-                <span data-loading="<?= __('Resetting Permissions, please wait...', 'site-reviews'); ?>"><?= __('Reset Permissions', 'site-reviews'); ?></span>
+                <span data-loading="<?= esc_attr_x('Resetting Permissions, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Reset Permissions', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>
     </form>

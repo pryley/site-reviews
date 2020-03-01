@@ -71,7 +71,7 @@ class SiteReviewsSummaryBlock extends BlockGenerator
     {
         add_filter('site-reviews/interpolate/reviews-summary', function ($context) {
             $context['class'] = 'glsr-default glsr-block-disabled';
-            $context['text'] = __('You have hidden all of the fields for this block.', 'site-reviews');
+            $context['text'] = _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews');
             return $context;
         });
     }

@@ -71,8 +71,8 @@ class Columns
     public function buildColumnResponse($postId)
     {
         return glsr(Database::class)->get($postId, 'response')
-            ? __('Yes', 'site-reviews')
-            : __('No', 'site-reviews');
+            ? _x('Yes', 'admin-text', 'site-reviews')
+            : _x('No', 'admin-text', 'site-reviews');
     }
 
     /**
@@ -103,7 +103,7 @@ class Columns
         $type = glsr(Database::class)->get($postId, 'review_type');
         return array_key_exists($type, glsr()->reviewTypes)
             ? glsr()->reviewTypes[$type]
-            : __('Unsupported Type', 'site-reviews');
+            : _x('Unsupported Type', 'admin-text', 'site-reviews');
     }
 
     /**
@@ -153,16 +153,16 @@ class Columns
         }
         $ratings = array_flip(array_reverse($ratings));
         array_walk($ratings, function (&$value, $key) {
-            $label = _n('%s star', '%s stars', $key, 'site-reviews');
+            $label = _nx('%s star', '%s stars', $key, 'admin-text', 'site-reviews');
             $value = sprintf($label, $key);
         });
-        echo glsr(Builder::class)->label(__('Filter by rating', 'site-reviews'), [
+        echo glsr(Builder::class)->label(_x('Filter by rating', 'admin-text', 'site-reviews'), [
             'class' => 'screen-reader-text',
             'for' => 'rating',
         ]);
         echo glsr(Builder::class)->select([
             'name' => 'rating',
-            'options' => ['' => __('All ratings', 'site-reviews')] + $ratings,
+            'options' => ['' => _x('All ratings', 'admin-text', 'site-reviews')] + $ratings,
             'value' => filter_input(INPUT_GET, 'rating'),
         ]);
     }
@@ -176,13 +176,13 @@ class Columns
         if (count(glsr()->reviewTypes) < 2) {
             return;
         }
-        echo glsr(Builder::class)->label(__('Filter by type', 'site-reviews'), [
+        echo glsr(Builder::class)->label(_x('Filter by type', 'admin-text', 'site-reviews'), [
             'class' => 'screen-reader-text',
             'for' => 'review_type',
         ]);
         echo glsr(Builder::class)->select([
             'name' => 'review_type',
-            'options' => ['' => __('All types', 'site-reviews')] + glsr()->reviewTypes,
+            'options' => ['' => _x('All types', 'admin-text', 'site-reviews')] + glsr()->reviewTypes,
             'value' => filter_input(INPUT_GET, 'review_type'),
         ]);
     }

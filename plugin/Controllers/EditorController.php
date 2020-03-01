@@ -80,12 +80,12 @@ class EditorController extends Controller
      */
     public function registerMetaBoxes($post)
     {
-        add_meta_box(Application::ID.'_assigned_to', __('Assigned To', 'site-reviews'), [$this, 'renderAssignedToMetabox'], null, 'side');
-        add_meta_box(Application::ID.'_review', __('Details', 'site-reviews'), [$this, 'renderDetailsMetaBox'], null, 'side');
+        add_meta_box(Application::ID.'_assigned_to', _x('Assigned To', 'admin-text', 'site-reviews'), [$this, 'renderAssignedToMetabox'], null, 'side');
+        add_meta_box(Application::ID.'_review', _x('Details', 'admin-text', 'site-reviews'), [$this, 'renderDetailsMetaBox'], null, 'side');
         if ('local' != glsr(Database::class)->get($post->ID, 'review_type')) {
             return;
         }
-        add_meta_box(Application::ID.'_response', __('Respond Publicly', 'site-reviews'), [$this, 'renderResponseMetaBox'], null, 'normal');
+        add_meta_box(Application::ID.'_response', _x('Respond Publicly', 'admin-text', 'site-reviews'), [$this, 'renderResponseMetaBox'], null, 'normal');
     }
 
     /**
@@ -161,8 +161,8 @@ class EditorController extends Controller
         }
         glsr(Template::class)->render('partials/editor/pinned', [
             'context' => [
-                'no' => __('No', 'site-reviews'),
-                'yes' => __('Yes', 'site-reviews'),
+                'no' => _x('No', 'admin-text', 'site-reviews'),
+                'yes' => _x('Yes', 'admin-text', 'site-reviews'),
             ],
             'pinned' => wp_validate_boolean(glsr(Database::class)->get(get_the_ID(), 'pinned')),
         ]);
@@ -225,7 +225,7 @@ class EditorController extends Controller
             return;
         }
         glsr(Notice::class)->addWarning(sprintf(
-            __('%s reviews are read-only.', 'site-reviews'),
+            _x('%s reviews are read-only.', 'admin-text', 'site-reviews'),
             glsr(Columns::class)->buildColumnReviewType($post->ID)
         ));
         glsr(Template::class)->render('partials/editor/notice', [
@@ -320,13 +320,13 @@ class EditorController extends Controller
                 admin_url('post.php?post='.$post->ID.'&action=revert&plugin='.Application::ID),
                 'revert-review_'.$post->ID
             );
-            return glsr(Builder::class)->a(__('Revert Changes', 'site-reviews'), [
+            return glsr(Builder::class)->a(_x('Revert Changes', 'admin-text', 'site-reviews'), [
                 'class' => 'button button-large',
                 'href' => $revertUrl,
                 'id' => 'revert',
             ]);
         }
-        return glsr(Builder::class)->button(__('Nothing to Revert', 'site-reviews'), [
+        return glsr(Builder::class)->button(_x('Nothing to Revert', 'admin-text', 'site-reviews'), [
             'class' => 'button-large',
             'disabled' => true,
             'id' => 'revert',
@@ -344,7 +344,7 @@ class EditorController extends Controller
         }
         $reviewType = array_key_exists($review->review_type, glsr()->reviewTypes)
             ? glsr()->reviewTypes[$review->review_type]
-            : __('Unknown', 'site-reviews');
+            : _x('Unknown', 'admin-text', 'site-reviews');
         if (!empty($review->url)) {
             $reviewType = glsr(Builder::class)->a($reviewType, [
                 'href' => $review->url,
@@ -379,24 +379,24 @@ class EditorController extends Controller
     protected function normalizeDetailsMetaBox(Review $review)
     {
         $user = empty($review->user_id)
-            ? __('Unregistered user', 'site-reviews')
+            ? _x('Unregistered user', 'admin-text', 'site-reviews')
             : glsr(Builder::class)->a(get_the_author_meta('display_name', $review->user_id), [
                 'href' => get_author_posts_url($review->user_id),
             ]);
         $email = empty($review->email)
             ? '&mdash;'
             : glsr(Builder::class)->a($review->email, [
-                'href' => 'mailto:'.$review->email.'?subject='.esc_attr(__('RE:', 'site-reviews').' '.$review->title),
+                'href' => 'mailto:'.$review->email.'?subject='.esc_attr(_x('RE:', 'admin-text', 'site-reviews').' '.$review->title),
             ]);
         $metabox = [
-            __('Rating', 'site-reviews') => glsr_star_rating($review->rating),
-            __('Type', 'site-reviews') => $this->getReviewType($review),
-            __('Date', 'site-reviews') => get_date_from_gmt($review->date, 'F j, Y'),
-            __('Name', 'site-reviews') => $review->author,
-            __('Email', 'site-reviews') => $email,
-            __('User', 'site-reviews') => $user,
-            __('IP Address', 'site-reviews') => $review->ip_address,
-            __('Avatar', 'site-reviews') => sprintf('<img src="%s" width="96">', $review->avatar),
+            _x('Rating', 'admin-text', 'site-reviews') => glsr_star_rating($review->rating),
+            _x('Type', 'admin-text', 'site-reviews') => $this->getReviewType($review),
+            _x('Date', 'admin-text', 'site-reviews') => get_date_from_gmt($review->date, 'F j, Y'),
+            _x('Name', 'admin-text', 'site-reviews') => $review->author,
+            _x('Email', 'admin-text', 'site-reviews') => $email,
+            _x('User', 'admin-text', 'site-reviews') => $user,
+            _x('IP Address', 'admin-text', 'site-reviews') => $review->ip_address,
+            _x('Avatar', 'admin-text', 'site-reviews') => sprintf('<img src="%s" width="96">', $review->avatar),
         ];
         return array_filter(apply_filters('site-reviews/metabox/details', $metabox, $review));
     }
