@@ -95,6 +95,15 @@ class Attributes
     }
 
     /**
+     * @return static
+     */
+    public function set(array $attributes)
+    {
+        $this->normalize($attributes);
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function toArray()
@@ -237,9 +246,9 @@ class Attributes
     {
         foreach ($this->attributes as $key => $value) {
             if (is_string($value)) {
-            $this->attributes[$key] = trim($value);
+                $this->attributes[$key] = trim($value);
+            }
         }
-    }
     }
 
     /**
