@@ -428,7 +428,7 @@ class Console
      */
     protected function reset()
     {
-        if ($this->size() <= pow(1024, 2) / 8) {
+        if ($this->size() <= pow(1024, 2) / 4) {
             return;
         }
         $this->clear();
@@ -436,7 +436,7 @@ class Console
             $this->file,
             $this->buildLogEntry(
                 static::NOTICE,
-                _x('Console was automatically cleared (128 KB maximum size)', 'admin-text', 'site-reviews')
+                _x('Console was automatically cleared (256KB maximum size)', 'admin-text', 'site-reviews')
             )
         );
     }
