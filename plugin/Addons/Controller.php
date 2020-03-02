@@ -28,11 +28,10 @@ abstract class Controller extends BaseController
      */
     public function enqueueAdminAssets()
     {
-        if (!$this->isReviewAdminPage()) {
-            return;
+        if ($this->isReviewAdminPage()) {
+            $this->enqueueAsset('css', ['suffix' => 'admin']);
+            $this->enqueueAsset('js', ['suffix' => 'admin']);
         }
-        $this->enqueueAsset('css', ['suffix' => 'admin']);
-        $this->enqueueAsset('js', ['suffix' => 'admin']);
     }
 
     /**
@@ -86,7 +85,7 @@ abstract class Controller extends BaseController
      */
     public function filterDocumentation(array $documentation)
     {
-        $documentation[$this->addon->name] = glsr(Template::class)->build($this->addon->id.'/documentation');
+        $documentation[$this->addon->name] = glsr(Template::class)->build($this->addon->id.'/views/documentation');
         return $documentation;
     }
 
@@ -158,7 +157,7 @@ abstract class Controller extends BaseController
      * @return string
      * @filter site-reviews/ngettext_with_context/{addon_id}
      */
-    public function filterNgettextWithContextSiteReviews($translation, $single, $plural, $number, $context)
+    public function filterNgettextWithContext($translation, $single, $plural, $number, $context)
     {
         return glsr(Translator::class)->translate($translation, $this->addon->id, [
             'context' => $context,
@@ -295,7 +294,7 @@ abstract class Controller extends BaseController
             array_merge([glsr()->id.Str::prefix('/', $args['suffix'])], $args['dependencies']),
             $this->addon->version,
         ];
-        if ('js' === $extension && $args['in_footer']) {
+        if ('js' === $extension && wp_validate_boolean($args['in_footer'])) {
             $funcArgs[] = true; // load script in the footer
         }
         return $funcArgs;
