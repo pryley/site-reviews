@@ -52,7 +52,7 @@
         <?php wp_nonce_field('count-reviews'); ?>
         <p class="submit">
             <button type="submit" class="glsr-button button" name="count-reviews" id="count-reviews">
-                <span data-loading="<?= esc_attr_x('Recalculating Counts, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Recalculate Counts', 'admin-text', 'site-reviews'); ?></span>
+                <span data-loading="<?= esc_attr_x('Recalculating, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Recalculate Counts', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>
     </form>
@@ -68,7 +68,7 @@
         <?php wp_nonce_field('reset-permissions'); ?>
         <p class="submit">
             <button type="submit" class="glsr-button button" name="reset-permissions" id="reset-permissions">
-                <span data-loading="<?= esc_attr_x('Resetting Permissions, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Reset Permissions', 'admin-text', 'site-reviews'); ?></span>
+                <span data-loading="<?= esc_attr_x('Resetting, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Reset Permissions', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>
     </form>
