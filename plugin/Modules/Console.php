@@ -448,7 +448,7 @@ class Console
     {
         $uploads = wp_upload_dir();
         $base = trailingslashit($uploads['basedir'].'/'.glsr()->id);
-        $this->file = $base.'logs/console.log';
+        $this->file = $base.'logs/'.sanitize_file_name('console-'.wp_hash(glsr()->id).'.log');
         $files = [
             $base.'index.php' => '<?php',
             $base.'logs/.htaccess' => 'deny from all',

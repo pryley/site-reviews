@@ -12,6 +12,16 @@ class MainController extends Controller
 {
     /**
      * @return void
+     * @action admin_footer
+     * @action wp_footer
+     */
+    public function logOnce()
+    {
+        glsr_log()->logOnce();
+    }
+
+    /**
+     * @return void
      * @action init
      */
     public function registerPostType()

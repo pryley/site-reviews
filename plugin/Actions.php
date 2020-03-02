@@ -25,7 +25,6 @@ class Actions implements HooksContract
     protected $admin;
     protected $app;
     protected $blocks;
-    protected $console;
     protected $editor;
     protected $listtable;
     protected $menu;
@@ -44,7 +43,6 @@ class Actions implements HooksContract
         $this->app = $app;
         $this->admin = $app->make(AdminController::class);
         $this->blocks = $app->make(BlocksController::class);
-        $this->console = $app->make(Console::class);
         $this->editor = $app->make(EditorController::class);
         $this->listtable = $app->make(ListTableController::class);
         $this->main = $app->make(MainController::class);
@@ -76,8 +74,6 @@ class Actions implements HooksContract
         add_action('admin_init',                                            [$this->app, 'setDefaults']);
         add_action('init',                                                  [$this->blocks, 'registerAssets'], 9);
         add_action('init',                                                  [$this->blocks, 'registerBlocks']);
-        add_action('admin_footer',                                          [$this->console, 'logOnce']);
-        add_action('wp_footer',                                             [$this->console, 'logOnce']);
         add_action('add_meta_boxes_'.Application::POST_TYPE,                [$this->editor, 'registerMetaBoxes']);
         add_action('admin_print_scripts',                                   [$this->editor, 'removeAutosave'], 999);
         add_action('admin_menu',                                            [$this->editor, 'removeMetaBoxes']);
@@ -93,6 +89,8 @@ class Actions implements HooksContract
         add_action('save_post_'.Application::POST_TYPE,                     [$this->listtable, 'saveBulkEditFields']);
         add_action('pre_get_posts',                                         [$this->listtable, 'setQueryForColumn']);
         add_action('admin_action_unapprove',                                [$this->listtable, 'unapprove']);
+        add_action('admin_footer',                                          [$this->main, 'logOnce']);
+        add_action('wp_footer',                                             [$this->main, 'logOnce']);
         add_action('init',                                                  [$this->main, 'registerPostType'], 8);
         add_action('init',                                                  [$this->main, 'registerShortcodes']);
         add_action('init',                                                  [$this->main, 'registerTaxonomy']);
