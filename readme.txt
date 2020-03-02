@@ -112,6 +112,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 == Changelog ==
 
+= 5.0.0 (2020-03-12) =
+
+- Added ...
+
 = 4.5.0 (2020-02-24) =
 
 - Fixed compatibility with misbehaving plugins that break the Settings tabs

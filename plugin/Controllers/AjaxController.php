@@ -49,9 +49,9 @@ class AjaxController extends Controller
     /**
      * @return void
      */
-    public function routerMigrateReviews()
+    public function routerMigratePlugin()
     {
-        glsr(AdminController::class)->routerMigrateReviews();
+        glsr(AdminController::class)->routerMigratePlugin();
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
         ]);

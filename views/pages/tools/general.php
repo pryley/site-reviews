@@ -32,11 +32,11 @@
     <h3>Migrate Plugin</h3>
     <p>Run this tool if your reviews stopped working correctly after upgrading the plugin to the latest version (i.e. read-only reviews, zero-star ratings, missing role capabilities, etc.).</p>
     <form method="post">
-        <input type="hidden" name="{{ id }}[_action]" value="migrate-reviews">
-        <?php wp_nonce_field('migrate-reviews'); ?>
+        <input type="hidden" name="{{ id }}[_action]" value="migrate-plugin">
+        <?php wp_nonce_field('migrate-plugin'); ?>
         <p class="submit">
-            <button type="submit" class="glsr-button button" name="migrate-reviews" id="migrate-reviews">
-                <span data-loading="<?= esc_attr_x('Migrating Reviews, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Run Migration', 'admin-text', 'site-reviews'); ?></span>
+            <button type="submit" class="glsr-button button" name="migrate-plugin" id="migrate-plugin">
+                <span data-loading="<?= esc_attr_x('Migrating, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Run Migration', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>
     </form>

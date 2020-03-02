@@ -63,7 +63,7 @@ class Migrate
     protected function getCurrentVersion()
     {
         $fallback = '0.0.0';
-        $majorVersions = [4, 3, 2, 1];
+        $majorVersions = range(glsr()->version('major'), 1);
         foreach ($majorVersions as $majorVersion) {
             $settings = get_option(OptionManager::databaseKey($majorVersion));
             $version = Arr::get($settings, 'version', $fallback);

@@ -218,7 +218,7 @@ class AdminController extends Controller
     /**
      * @return void
      */
-    public function routerMigrateReviews()
+    public function routerMigratePlugin()
     {
         glsr(Migrate::class)->runAll();
         glsr(Notice::class)->clear()->addSuccess(_x('The plugin has been migrated to the latest version.', 'admin-text', 'site-reviews'));

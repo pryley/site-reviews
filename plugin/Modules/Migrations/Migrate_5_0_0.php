@@ -3,11 +3,22 @@
 namespace GeminiLabs\SiteReviews\Modules\Migrations;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Migrate_5_0_0
 {
+    /**
+     * @return void
+     */
+    public function migrateSettings()
+    {
+        if ($settings = get_option(OptionManager::databaseKey(4))) {
+            update_option(OptionManager::databaseKey(5), $settings);
+        }
+    }
+
     /**
      * @return void
      */
@@ -39,10 +50,32 @@ class Migrate_5_0_0
     /**
      * @return void
      */
+    public function migrateWidgets()
+    {
+        $widgets = [
+            'site-reviews',
+            'site-reviews-form',
+            'site-reviews-summary',
+        ];
+        foreach ($widgets as $widget) {
+            $oldWidget = 'widget_'.Application::ID.'_'.$widget;
+            $newWidget = 'widget_'.Application::PREFIX.$widget;
+            if ($option = get_option($oldWidget)) {
+                update_option($newWidget, $option);
+                delete_option($oldWidget);
+            }
+        }
+    }
+
+    /**
+     * @return void
+     */
     public function run()
     {
+        $this->migrateSettings();
         $this->migrateSidebarWidgets();
         $this->migrateThemeModWidgets();
+        $this->migrateWidgets();
     }
 
     /**
