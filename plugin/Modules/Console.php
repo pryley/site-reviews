@@ -25,10 +25,7 @@ class Console
 
     public function __construct()
     {
-        $this->file = glsr()->path('console.log');
-        $this->log = file_exists($this->file)
-            ? file_get_contents($this->file)
-            : '';
+        $this->setLogFile();
         $this->reset();
     }
 
@@ -442,5 +439,27 @@ class Console
                 _x('Console was automatically cleared (128 KB maximum size)', 'admin-text', 'site-reviews')
             )
         );
+    }
+
+    /**
+     * @return void
+     */
+    protected function setLogFile()
+    {
+        $uploads = wp_upload_dir();
+        $base = trailingslashit($uploads['basedir'].'/'.glsr()->id);
+        $this->file = $base.'logs/console.log';
+        $files = [
+            $base.'index.php' => '<?php',
+            $base.'logs/.htaccess' => 'deny from all',
+            $base.'logs/index.php' => '<?php',
+            $this->file => '',
+        ];
+        foreach ($files as $file => $contents) {
+            if (wp_mkdir_p(dirname($file)) && !file_exists($file)) {
+                file_put_contents($file, $contents);
+            }
+        }
+        $this->log = file_get_contents($this->file);
     }
 }
