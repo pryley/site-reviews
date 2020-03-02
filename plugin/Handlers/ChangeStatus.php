@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Handlers;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\ChangeStatus as Command;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use WP_Posts_List_Table;
 
 class ChangeStatus
 {
@@ -60,11 +61,11 @@ class ChangeStatus
     protected function getStatusLinks()
     {
         global $avail_post_stati;
-        require_once ABSPATH.'wp-admin/includes/class-wp-posts-list-table.php';
         $hookName = 'edit-'.Application::POST_TYPE;
         set_current_screen($hookName);
         $avail_post_stati = get_available_post_statuses(Application::POST_TYPE);
-        $table = new \WP_Posts_List_Table(['screen' => $hookName]);
+        $table = new WP_Posts_List_Table(['screen' => $hookName]);
+        glsr_log($table);
         $views = apply_filters('views_'.$hookName, $table->get_views()); // uses compat get_views()
         if (empty($views)) {
             return;

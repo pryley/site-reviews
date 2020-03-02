@@ -2,9 +2,13 @@
 
 defined('WPINC') || die;
 
-require_once ABSPATH.WPINC.'/class-phpass.php';
-
 spl_autoload_register(function ($className) {
+    $classMap = [
+        'WP_Posts_List_Table' => ABSPATH.'wp-admin/includes/class-wp-posts-list-table.php',
+    ];
+    if (array_key_exists($className, $classMap) && file_exists($classMap[$className])) {
+        require_once $classMap[$className];
+    }
     $namespaces = [
         'GeminiLabs\\SiteReviews\\' => __DIR__.'/plugin/',
         'GeminiLabs\\SiteReviews\\Tests\\' => __DIR__.'/tests/',
