@@ -4,7 +4,7 @@
 <form method="post" class="glsr-float-left">
     <input type="hidden" name="{{ id }}[_action]" value="download-console">
     <?php wp_nonce_field('download-console'); ?>
-    <?php submit_button(esc_attr_x('Download Console', 'admin-text', 'site-reviews'), 'primary', '', false); ?>
+    <?php submit_button(_x('Download Console', 'admin-text', 'site-reviews'), 'primary', '', false); ?>
 </form>
 <form method="post" class="glsr-float-left">
     <input type="hidden" name="{{ id }}[_action]" value="fetch-console">

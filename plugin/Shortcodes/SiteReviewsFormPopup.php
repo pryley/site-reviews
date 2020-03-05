@@ -11,14 +11,14 @@ class SiteReviewsFormPopup extends TinymcePopupGenerator
     {
         return [[
             'type' => 'container',
-            'html' => '<p class="strong">'.esc_html_x('All settings are optional.', 'admin-text', 'site-reviews').'</p>',
+            'html' => '<p class="strong">'._x('All settings are optional.', 'admin-text', 'site-reviews').'</p>',
         ], [
-            'label' => esc_html_x('Title', 'admin-text', 'site-reviews'),
+            'label' => _x('Title', 'admin-text', 'site-reviews'),
             'name' => 'title',
             'tooltip' => esc_attr_x('Enter a custom shortcode heading.', 'admin-text', 'site-reviews'),
             'type' => 'textbox',
         ], [
-            'label' => esc_html_x('Description', 'admin-text', 'site-reviews'),
+            'label' => _x('Description', 'admin-text', 'site-reviews'),
             'minHeight' => 60,
             'minWidth' => 240,
             'multiline' => true,
@@ -28,19 +28,19 @@ class SiteReviewsFormPopup extends TinymcePopupGenerator
         ],
         $this->getCategories(_x('Automatically assign a category to reviews submitted with this shortcode.', 'admin-text', 'site-reviews')),
         [
-            'label' => esc_html_x('Assign To', 'admin-text', 'site-reviews'),
+            'label' => _x('Assign To', 'admin-text', 'site-reviews'),
             'name' => 'assign_to',
             'tooltip' => esc_attr_x('Assign submitted reviews to a custom page/post ID. You can also enter "post_id" to assign reviews to the ID of the current page.', 'admin-text', 'site-reviews'),
             'type' => 'textbox',
         ], [
-            'label' => esc_html_x('Classes', 'admin-text', 'site-reviews'),
+            'label' => _x('Classes', 'admin-text', 'site-reviews'),
             'name' => 'class',
             'tooltip' => esc_attr_x('Add custom CSS classes to the shortcode.', 'admin-text', 'site-reviews'),
             'type' => 'textbox',
         ], [
             'columns' => 2,
             'items' => $this->getHideOptions(),
-            'label' => esc_html_x('Hide', 'admin-text', 'site-reviews'),
+            'label' => _x('Hide', 'admin-text', 'site-reviews'),
             'layout' => 'grid',
             'spacing' => 5,
             'type' => 'container',

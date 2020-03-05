@@ -44,7 +44,7 @@ class SiteReviewsWidget extends Widget
                 'class' => 'widefat',
                 'label' => _x('Which type of review would you like to display?', 'admin-text', 'site-reviews'),
                 'name' => 'type',
-                'options' => ['' => esc_attr_x('All Reviews', 'admin-text', 'site-reviews')] + glsr()->reviewTypes,
+                'options' => ['' => _x('All Reviews', 'admin-text', 'site-reviews')] + glsr()->reviewTypes,
             ]);
         }
         if (!empty($terms)) {
@@ -52,7 +52,7 @@ class SiteReviewsWidget extends Widget
                 'class' => 'widefat',
                 'label' => _x('Limit reviews to this category', 'admin-text', 'site-reviews'),
                 'name' => 'category',
-                'options' => ['' => esc_attr_x('All Categories', 'admin-text', 'site-reviews')] + $terms,
+                'options' => ['' => _x('All Categories', 'admin-text', 'site-reviews')] + $terms,
             ]);
         }
         $this->renderField('text', [

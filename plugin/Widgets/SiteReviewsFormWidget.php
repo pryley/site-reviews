@@ -29,12 +29,12 @@ class SiteReviewsFormWidget extends Widget
             'class' => 'widefat',
             'label' => _x('Automatically assign a category', 'admin-text', 'site-reviews'),
             'name' => 'category',
-            'options' => ['' => esc_attr_x('Do not assign a category', 'admin-text', 'site-reviews')] + $terms,
+            'options' => ['' => _x('Do not assign a category', 'admin-text', 'site-reviews')] + $terms,
         ]);
         $this->renderField('text', [
             'class' => 'widefat',
             'default' => '',
-            'description' => sprintf(esc_html_x('You may also enter %s to assign to the current post.', 'admin-text', 'site-reviews'), '<code>post_id</code>'),
+            'description' => sprintf(_x('You may also enter %s to assign to the current post.', 'admin-text', 'site-reviews'), '<code>post_id</code>'),
             'label' => _x('Assign reviews to a custom page/post ID', 'admin-text', 'site-reviews'),
             'name' => 'assign_to',
         ]);

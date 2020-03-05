@@ -99,13 +99,13 @@ class ListTableController extends Controller
         }
         unset($actions['inline hide-if-no-js']); //Remove Quick-edit
         $rowActions = [
-            'approve' => esc_attr_x('Approve', 'admin-text', 'site-reviews'),
-            'unapprove' => esc_attr_x('Unapprove', 'admin-text', 'site-reviews'),
+            'approve' => _x('Approve', 'admin-text', 'site-reviews'),
+            'unapprove' => _x('Unapprove', 'admin-text', 'site-reviews'),
         ];
         $newActions = [];
         foreach ($rowActions as $key => $text) {
             $newActions[$key] = glsr(Builder::class)->a($text, [
-                'aria-label' => sprintf(esc_attr_x('%s this review', 'Approve the review (admin-text)', 'site-reviews'), $text),
+                'aria-label' => esc_attr(sprintf(_x('%s this review', 'Approve the review (admin-text)', 'site-reviews'), $text)),
                 'class' => 'glsr-change-status',
                 'href' => wp_nonce_url(
                     admin_url('post.php?post='.$post->ID.'&action='.$key.'&plugin='.Application::ID),
