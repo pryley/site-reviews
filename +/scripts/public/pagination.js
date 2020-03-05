@@ -82,7 +82,7 @@
 			elapsed = elapsed > 1 ? 1 : elapsed;
 			var easedValue = 0.5 * ( 1 - Math.cos( Math.PI * elapsed ));
 			var currentY = context.startY + ( context.endY - context.startY ) * easedValue;
-			window.scroll( 0, context.offset + currentY ); // @todo what is this for again?
+			window.scrollTo( 0, context.offset + currentY ); // @todo what is this for again?
 			if( currentY !== context.endY ) {
 				window.requestAnimationFrame( this.scrollToTopStep_.bind( this, context ));
 			}
