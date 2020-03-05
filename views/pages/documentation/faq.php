@@ -2,7 +2,7 @@
 
 <div id="faq-01" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I add additional values to the schema?</h3>
+        <h2>How do I add additional values to the schema?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -32,7 +32,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
 
 <div id="faq-02" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I add pagination to my reviews?</h3>
+        <h2>How do I add pagination to my reviews?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -49,7 +49,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
 
 <div id="faq-03" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I assign reviews to a page?</h3>
+        <h2>How do I assign reviews to a page?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -75,7 +75,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
 
 <div id="faq-04" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I change the font?</h3>
+        <h2>How do I change the font?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -91,7 +91,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
 
 <div id="faq-05" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I change the order of the review fields?</h3>
+        <h2>How do I change the order of the review fields?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -119,7 +119,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
 
 <div id="faq-06" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I change the order of the reviews summary fields?</h3>
+        <h2>How do I change the order of the reviews summary fields?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -145,7 +145,7 @@ add_filter('site-reviews/schema/LocalBusiness', function ($schema) {
 
 <div id="faq-07" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I change the order of the submission form fields?</h3>
+        <h2>How do I change the order of the submission form fields?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -177,7 +177,7 @@ add_filter('site-reviews/submission-form/order', function ($order) {
 
 <div id="faq-08" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I change the pagination query string?</h3>
+        <h2>How do I change the pagination query string?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -199,7 +199,7 @@ add_filter('site-reviews/const/PAGED_QUERY_VAR', function () {
 
 <div id="faq-09" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I change the text of...?</h3>
+        <h2>How do I change the text of...?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -212,7 +212,7 @@ add_filter('site-reviews/const/PAGED_QUERY_VAR', function () {
 
 <div id="faq-10" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I create a review programmatically?</h3>
+        <h2>How do I create a review programmatically?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -237,7 +237,7 @@ add_filter('site-reviews/const/PAGED_QUERY_VAR', function () {
 
 <div id="faq-11" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I customise the stars?</h3>
+        <h2>How do I customise the stars?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -274,7 +274,7 @@ add_filter('site-reviews/config/inline-styles', function ($config) {
 
 <div id="faq-12" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I hide the form after a review is submitted?</h3>
+        <h2>How do I hide the form after a review is submitted?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -317,7 +317,7 @@ add_filter('site-reviews/rendered/template/reviews-form', function ($template) {
 
 <div id="faq-13" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I limit the submitted review length?</h3>
+        <h2>How do I limit the submitted review length?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -355,7 +355,7 @@ add_filter('site-reviews/validation/rules', function ($rules) {
 
 <div id="faq-14" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I order pages with assigned reviews by rating or ranking?</h3>
+        <h2>How do I order pages with assigned reviews by rating or ranking?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -411,7 +411,7 @@ add_filter('site-reviews/validation/rules', function ($rules) {
 
 <div id="faq-15" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I prevent search engines from indexing paginated reviews?</h3>
+        <h2>How do I prevent search engines from indexing paginated reviews?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -441,7 +441,7 @@ Disallow: /*?*reviews-page=*</code></pre>
 
 <div id="faq-16" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I redirect to a custom URL after a form is submitted?</h3>
+        <h2>How do I redirect to a custom URL after a form is submitted?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -454,7 +454,7 @@ Disallow: /*?*reviews-page=*</code></pre>
 
 <div id="faq-17" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I remove the dash in front of the author's name?</h3>
+        <h2>How do I remove the dash in front of the author's name?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -470,7 +470,7 @@ Disallow: /*?*reviews-page=*</code></pre>
 
 <div id="faq-18" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>How do I use the plugin templates in my theme?</h3>
+        <h2>How do I use the plugin templates in my theme?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -488,7 +488,7 @@ Disallow: /*?*reviews-page=*</code></pre>
 
 <div id="faq-19" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>Why are the IP Addresses not being detected correctly?</h3>
+        <h2>Why are the IP Addresses not being detected correctly?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>

@@ -1,17 +1,21 @@
 <?php defined('WPINC') || die; ?>
 
-<p>This page shows all of the available shortcode options with examples of how to use them. You can use multiple options in the same shortcode.</p>
+<p>This page shows all of the available shortcode options with examples of how to use them.</p>
 
 <div id="shortcodes-01" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>[site_reviews]</h3>
+        <h2>[site_reviews]</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
     <div class="inside">
-        <p>This shortcode displays your most recently submitted reviews.</p>
+        <h3>This shortcode displays your most recently submitted reviews.</h3>
+
+        <div class="notice inline notice-info notice-alt">
+            <p>Each example below demonstrates a different shortcode option. However, you may of course combine multiple options together in a single shortcode.</p>
+        </div>
 
         <p class="glsr-heading">assigned_to</p>
         <p>Include the "assigned_to" attribute to limit reviews to those assigned to a specific <a href="https://pagely.com/blog/find-post-id-wordpress/">page/post ID</a>. Accepted values are one or more post/page ID's (separated by commas). You can also use <code>post_id</code> which will automatically use the ID of the current page, or <code>parent_id</code> which will automatically use the ID of the parent page.</p>
@@ -73,14 +77,18 @@
 
 <div id="shortcodes-02" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>[site_reviews_form]</h3>
+        <h2>[site_reviews_form]</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
     <div class="inside">
-        <p>This shortcode displays the review submission form.</p>
+        <h3>This shortcode displays the review submission form.</h3>
+
+        <div class="notice inline notice-info notice-alt">
+            <p>Each example below demonstrates a different shortcode option. However, you may of course combine multiple options together in a single shortcode.</p>
+        </div>
 
         <p class="glsr-heading">assign_to</p>
         <p>Include the "assign_to" attribute to automatically assign submitted reviews to a specific page or post. Accepted value is a <a href="https://pagely.com/blog/find-post-id-wordpress/">page/post ID</a>. You can also use <code>post_id</code> which will automatically assign reviews to the current page, or <code>parent_id</code> which will automatically use the ID of the parent page.</p>
@@ -88,7 +96,7 @@
         <pre><code>[site_reviews_form assign_to="post_id"]</code></pre>
 
         <p class="glsr-heading">category</p>
-        <p>Include the "category" attribute to automatically assign a category to the submitted review. Accepted values are either a category ID or slug.</p>
+        <p>Include the "category" attribute to automatically assign a single category to the submitted review. Accepted values are either a category ID or slug.</p>
         <p>The default category value is: <code>""</code></p>
         <pre><code>[site_reviews_form category="13"]</code></pre>
 
@@ -116,14 +124,18 @@
 
 <div id="shortcodes-03" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h3>[site_reviews_summary]</h3>
+        <h2>[site_reviews_summary]</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_html_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
     <div class="inside">
-        <p>This shortcode displays a summary of your reviews.</p>
+        <h3>This shortcode displays a summary of your reviews.</h3>
+
+        <div class="notice inline notice-info notice-alt">
+            <p>Each example below demonstrates a different shortcode option. However, you may of course combine multiple options together in a single shortcode.</p>
+        </div>
 
         <p class="glsr-heading">assigned_to</p>
         <p>Include the "assigned_to" attribute to limit the reviews used to calculate the average rating to those assigned to a specific <a href="https://pagely.com/blog/find-post-id-wordpress/">page/post ID</a>. Accepted values are one or more post/page ID's (separated by commas). You can also use <code>post_id</code> which will automatically use the ID of the current page, or <code>parent_id</code> which will automatically use the ID of the parent page.</p>
