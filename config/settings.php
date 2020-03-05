@@ -237,6 +237,12 @@ return [
         'label' => esc_html_x('Enable Fallback Text', 'admin-text', 'site-reviews'),
         'type' => 'yes_no',
     ],
+    'settings.reviews.pagination.url_parameter' => [
+        'default' => 'yes',
+        'description' => sprintf(_x('Use the <code>?%s={page_number}</code> URL parameter with AJAX pagination.', 'admin-text', 'site-reviews'), glsr()->constant('PAGED_QUERY_VAR')),
+        'label' => esc_html_x('Pagination URL Parameter', 'admin-text', 'site-reviews'),
+        'type' => 'yes_no',
+    ],
     'settings.schema.type.default' => [
         'default' => 'LocalBusiness',
         'description' => esc_html_x('Custom Field name', 'admin-text', 'site-reviews').': <code>schema_type</code>',
