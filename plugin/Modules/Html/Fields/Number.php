@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 class Number extends Field
 {
     /**
-     * @return array
+     * @inheritDoc
      */
     public static function defaults()
     {

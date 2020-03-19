@@ -3,7 +3,9 @@
 namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use ReflectionClass;
 
 abstract class Field
 {
@@ -22,7 +24,25 @@ abstract class Field
      */
     public function build()
     {
-        glsr_log()->error('Build method is not implemented for '.get_class($this));
+        $this->builder->args = $this->getArgs();
+        $this->builder->tag = $this->getTag();
+        return $this->builder->build($this->builder->tag);
+    }
+
+    /**
+     * @return array
+     */
+    public function getArgs()
+    {
+        return $this->builder->args;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTag()
+    {
+        return $this->builder->tag;
     }
 
     /**
@@ -67,13 +87,5 @@ abstract class Field
     public static function required()
     {
         return [];
-    }
-
-    /**
-     * @return void
-     */
-    protected function mergeFieldArgs()
-    {
-        $this->builder->args = static::merge($this->builder->args);
     }
 }

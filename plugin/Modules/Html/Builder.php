@@ -2,9 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
-use GeminiLabs\SiteReviews\Defaults\BuilderDefaults;
+use GeminiLabs\SiteReviews\Defaults\FieldDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
+use ReflectionClass;
+use ReflectionMethod;
 
 /**
  * @method string a(string|array ...$params)
@@ -58,25 +61,25 @@ class Builder
     public $tag;
 
     /**
+     * @var string
+     */
+    public $type;
+
+    /**
      * @param string $method
-     * @param array $args
+     * @param array $methodArgs
      * @return string|void
      */
-    public function __call($method, $args)
+    public function __call($method, $methodArgs)
     {
         $instance = new static();
-        $instance->setTagFromMethod($method);
-        call_user_func_array([$instance, 'normalize'], $args);
-        $tags = array_merge(static::TAGS_FORM, static::TAGS_SINGLE, static::TAGS_STRUCTURE, static::TAGS_TEXT);
-        do_action_ref_array('site-reviews/builder', [$instance]);
-        $generatedTag = in_array($instance->tag, $tags)
-            ? $instance->buildTag()
-            : $instance->buildCustomField();
-        $generatedTag = apply_filters('site-reviews/builder/result', $generatedTag, $instance);
-        if (!$this->render) {
-            return $generatedTag;
+        $args = call_user_func_array([$instance, 'prepareArgs'], $methodArgs);
+        $tag = Str::dashCase($method);
+        $result = $instance->build($tag, $args);
+        if (!$instance->render) {
+            return $result;
         }
-        echo $generatedTag;
+        echo $result;
     }
 
     /**
@@ -97,38 +100,71 @@ class Builder
     }
 
     /**
-     * @return void|string
+     * @return string
      */
-    public function getClosingTag()
+    public function build($tag, array $args = [])
     {
-        if (!empty($this->tag)) {
-            return '</'.$this->tag.'>';
-        }
+        $this->setArgs($args, $tag);
+        $this->setTag($tag);
+        do_action_ref_array('site-reviews/builder', [$this]);
+        $result = $this->isHtmlTag($tag)
+            ? $this->buildElement()
+            : $this->buildCustom($tag);
+        return apply_filters('site-reviews/builder/result', $result, $this);
     }
 
     /**
      * @return void|string
      */
-    public function getOpeningTag()
+    public function buildClosingTag()
     {
-        if (!empty($this->tag)) {
-            $attributes = glsr(Attributes::class)->{$this->tag}($this->args)->toString();
-            return '<'.trim($this->tag.' '.$attributes).'>';
+        return '</'.$this->tag.'>';
+    }
+
+    /**
+     * @return string
+     */
+    public function buildDefaultElement($text = '')
+    {
+        if (empty($text)) {
+            $text = $this->args['text'];
         }
+        return $this->buildOpeningTag().$text.$this->buildClosingTag();
     }
 
     /**
      * @return void|string
      */
-    public function getTag()
+    public function buildElement()
     {
         if (in_array($this->tag, static::TAGS_SINGLE)) {
-            return $this->getOpeningTag();
+            return $this->buildOpeningTag();
         }
-        if (!in_array($this->tag, static::TAGS_FORM)) {
-            return $this->buildDefaultTag();
+        if (in_array($this->tag, static::TAGS_FORM)) {
+            return $this->{'buildForm'.ucfirst($this->tag)}().$this->buildFieldDescription();
         }
-        return call_user_func([$this, 'buildForm'.ucfirst($this->tag)]).$this->buildFieldDescription();
+        return $this->buildDefaultElement();
+    }
+
+    /**
+     * @param string $tag
+     * @return void|string
+     */
+    public function buildCustom($tag)
+    {
+        if (class_exists($className = $this->getFieldClassName($tag))) {
+            return (new $className($this))->build();
+        }
+        glsr_log()->error('Field class missing: '.$className);
+    }
+
+    /**
+     * @return void|string
+     */
+    public function buildOpeningTag()
+    {
+        $attributes = glsr(Attributes::class)->{$this->tag}($this->args)->toString();
+        return '<'.trim($this->tag.' '.$attributes).'>';
     }
 
     /**
@@ -141,26 +177,31 @@ class Builder
     }
 
     /**
-     * @return string|void
+     * @param string $className
+     * @return void
      */
-    protected function buildCustomField()
+    public function setArgs(array $args = [], $type = '')
     {
-        $className = $this->getCustomFieldClassName();
-        if (class_exists($className)) {
-            return (new $className($this))->build();
+        if (empty($args)) {
+            return;
         }
-        glsr_log()->error('Field class missing: '.$className);
+        $args = $this->normalize($args);
+        if (class_exists($className = $this->getFieldClassName($type))) {
+            $args = $className::merge($args);
+        }
+        $args = glsr(FieldDefaults::class)->merge($args);
+        $this->args = apply_filters('site-reviews/builder/'.$type.'/args', $args, $this);
     }
 
     /**
-     * @return string|void
+     * @param string $tag
+     * @return void
      */
-    protected function buildDefaultTag($text = '')
+    public function setTag($tag)
     {
-        if (empty($text)) {
-            $text = $this->args['text'];
-        }
-        return $this->getOpeningTag().$text.$this->getClosingTag();
+        $this->tag = in_array($this->tag, static::INPUT_TYPES)
+            ? 'input'
+            : $tag;
     }
 
     /**
@@ -186,7 +227,7 @@ class Builder
             if (isset($this->args['multiple'])) {
                 $this->args['name'] .= '[]';
             }
-            return $this->buildFormLabel().$this->getOpeningTag();
+            return $this->buildFormLabel().$this->buildOpeningTag();
         }
         return empty($this->args['options'])
             ? $this->buildFormInputChoice()
@@ -204,10 +245,10 @@ class Builder
         if (!$this->args['is_public']) {
             return $this->buildFormLabel([
                 'class' => 'glsr-'.$this->args['type'].'-label',
-                'text' => $this->getOpeningTag().' '.$this->args['label'].'<span></span>',
+                'text' => $this->buildOpeningTag().' '.$this->args['label'].'<span></span>',
             ]);
         }
-        return $this->getOpeningTag().$this->buildFormLabel([
+        return $this->buildOpeningTag().$this->buildFormLabel([
             'class' => 'glsr-'.$this->args['type'].'-label',
             'text' => $this->args['label'].'<span></span>',
         ]);
@@ -258,7 +299,7 @@ class Builder
      */
     protected function buildFormSelect()
     {
-        return $this->buildFormLabel().$this->buildDefaultTag($this->buildFormSelectOptions());
+        return $this->buildFormLabel().$this->buildDefaultElement($this->buildFormSelectOptions());
     }
 
     /**
@@ -280,82 +321,61 @@ class Builder
      */
     protected function buildFormTextarea()
     {
-        return $this->buildFormLabel().$this->buildDefaultTag($this->args['value']);
+        return $this->buildFormLabel().$this->buildDefaultElement($this->args['value']);
     }
 
     /**
-     * @return string|void
+     * @param string $tag
+     * @return bool
      */
-    protected function buildTag()
+    protected function isHtmlTag($tag)
     {
-        $this->mergeArgsWithRequiredDefaults();
-        return $this->getTag();
+        return in_array($tag, array_merge(
+            static::TAGS_FORM,
+            static::TAGS_SINGLE,
+            static::TAGS_STRUCTURE,
+            static::TAGS_TEXT
+        ));
     }
 
     /**
+     * @param string $type
      * @return string
      */
-    protected function getCustomFieldClassName()
+    protected function getFieldClassName($tag)
     {
-        $classname = Helper::buildClassName($this->tag, __NAMESPACE__.'\Fields');
-        return apply_filters('site-reviews/builder/field/'.$this->tag, $classname);
+        $className = Helper::buildClassName($tag, __NAMESPACE__.'\Fields');
+        return apply_filters('site-reviews/builder/field/'.$tag, $className);
     }
 
     /**
-     * @return void
+     * @return array
      */
-    protected function mergeArgsWithRequiredDefaults()
+    protected function normalize(array $args)
     {
-        $className = $this->getCustomFieldClassName();
-        if (class_exists($className)) {
-            $this->args = $className::merge($this->args);
+        if (!isset($args['is_public'])) {
+            $args['is_public'] = false;
         }
-        $this->args = glsr(BuilderDefaults::class)->merge($this->args);
+        return $args;
     }
 
     /**
      * @param string|array ...$params
-     * @return void
+     * @return array
      */
-    protected function normalize(...$params)
+    protected function prepareArgs(...$params)
     {
+        $args = [];
         $parameter1 = Arr::get($params, 0);
         $parameter2 = Arr::get($params, 1);
         if (is_string($parameter1) || is_numeric($parameter1)) {
-            $this->setNameOrTextAttributeForTag($parameter1);
+            $args['text'] = $parameter1;
         }
         if (is_array($parameter1)) {
-            $this->args += $parameter1;
+            $args += $parameter1;
         } elseif (is_array($parameter2)) {
-            $this->args += $parameter2;
+            $args += $parameter2; // does not overwrite $args['text']
         }
-        if (!isset($this->args['is_public'])) {
-            $this->args['is_public'] = false;
-        }
-    }
-
-    /**
-     * @param string $value
-     * @return void
-     */
-    protected function setNameOrTextAttributeForTag($value)
-    {
-        $attribute = in_array($this->tag, static::TAGS_FORM)
-            ? 'name'
-            : 'text';
-        $this->args[$attribute] = $value;
-    }
-
-    /**
-     * @param string $method
-     * @return void
-     */
-    protected function setTagFromMethod($method)
-    {
-        $this->tag = strtolower($method);
-        if (in_array($this->tag, static::INPUT_TYPES)) {
-            $this->args['type'] = $this->tag;
-            $this->tag = 'input';
-        }
+        return $args;
     }
 }

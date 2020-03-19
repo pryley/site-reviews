@@ -5,20 +5,25 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 class Honeypot extends Field
 {
     /**
-     * @return string|void
+     * @inheritDoc
      */
-    public function build()
+    public function getArgs()
     {
-        $this->builder->args = wp_parse_args($this->builder->args, [
+        return wp_parse_args($this->builder->args, [
             'name' => $this->builder->args['text'],
         ]);
-        $this->builder->tag = 'input';
-        $this->mergeFieldArgs();
-        return $this->builder->getOpeningTag();
     }
 
     /**
-     * @return array
+     * @inheritDoc
+     */
+    public function getTag()
+    {
+        return 'input';
+    }
+
+    /**
+     * @inheritDoc
      */
     public static function required()
     {

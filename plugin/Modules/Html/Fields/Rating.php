@@ -7,17 +7,15 @@ use GeminiLabs\SiteReviews\Modules\Rating as RatingModule;
 class Rating extends Field
 {
     /**
-     * @return string|void
+     * @inheritDoc
      */
-    public function build()
+    public function getTag()
     {
-        $this->builder->tag = 'select';
-        $this->mergeFieldArgs();
-        return $this->builder->getTag();
+        return 'select';
     }
 
     /**
-     * @return array
+     * @inheritDoc
      */
     public static function required()
     {

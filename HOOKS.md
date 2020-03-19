@@ -32,6 +32,7 @@
     site-reviews/async-scripts
     site-reviews/blacklist/is-blacklisted
     site-reviews/build/template/{template_path}
+    site-reviews/builder/field/{field_type}/args
     site-reviews/builder/field/classname
     site-reviews/builder/result
     site-reviews/capabilities
@@ -57,6 +58,7 @@
     site-reviews/enqueue/public/inline-script
     site-reviews/enqueue/public/localize
     site-reviews/enqueue/public/localize/ajax-pagination
+    site-reviews/field/{field_type}
     site-reviews/get/defaults
     site-reviews/get/review
     site-reviews/get/reviews

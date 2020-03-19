@@ -5,7 +5,15 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 class Checkbox extends Field
 {
     /**
-     * @return array
+     * @inheritDoc
+     */
+    public function getTag()
+    {
+        return 'input';
+    }
+
+    /**
+     * @inheritDoc
      */
     public static function defaults()
     {
@@ -15,12 +23,13 @@ class Checkbox extends Field
     }
 
     /**
-     * @return array
+     * @inheritDoc
      */
     public static function required()
     {
         return [
             'is_multi' => true,
+            'type' => 'checkbox',
         ];
     }
 }

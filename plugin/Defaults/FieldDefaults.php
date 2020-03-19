@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 
-class BuilderDefaults extends Defaults
+class FieldDefaults extends Defaults
 {
     /**
      * @return array

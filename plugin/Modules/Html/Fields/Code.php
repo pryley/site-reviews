@@ -5,17 +5,15 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 class Code extends Field
 {
     /**
-     * @return string|void
+     * @inheritDoc
      */
-    public function build()
+    public function getTag()
     {
-        $this->builder->tag = 'textarea';
-        $this->mergeFieldArgs();
-        return $this->builder->getTag();
+        return 'textarea';
     }
 
     /**
-     * @return array
+     * @inheritDoc
      */
     public static function defaults()
     {
@@ -25,7 +23,7 @@ class Code extends Field
     }
 
     /**
-     * @return array
+     * @inheritDoc
      */
     public static function required()
     {

@@ -208,18 +208,29 @@ class Field
     /**
      * @return void
      */
+    protected function mergeFieldArgs()
+    {
+        $className = Helper::buildClassName($this->field['type'], __NAMESPACE__.'\Fields');
+        $className = apply_filters('site-reviews/builder/field/'.$this->field['type'], $className);
+        if (class_exists($className)) {
+            $this->field = $className::merge($this->field);
+        }
+    }
+
+    /**
+     * @return void
+     */
     protected function normalize()
     {
         if (!$this->isFieldValid()) {
             return;
         }
+        $rawType = $this->field['type'];
         $this->field['path'] = $this->field['name'];
-        $className = Helper::buildClassName($this->field['type'], __NAMESPACE__.'\Fields');
-        if (class_exists($className)) {
-            $this->field = $className::merge($this->field);
-        }
+        $this->mergeFieldArgs();
         $this->normalizeFieldId();
         $this->normalizeFieldName();
+        $this->field = apply_filters('site-reviews/field/'.$rawType, $this->field);
     }
 
     /**
