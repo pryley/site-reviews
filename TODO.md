@@ -1,8 +1,13 @@
 ## 5.0.0
 
+### Bugs
+
+- Only show plugin links if the user has the capability to view them (i.e. About | Help | Settings)
+- Add human-readable labels to the custom capabilities
+
 ### Gutenberg
 
-- [ ] Block pagination styling (display as buttons)
+- [x] Block pagination styling (display as buttons)
 - [ ] Force default plugin styling in block editor
 
 ### Styles
@@ -20,3 +25,9 @@
 
 - [ ] Prompt to remove plugin settings on uninstall
 - [ ] Ratings pivot table
+- [ ] Return the review on submission
+
+### Hooks
+
+- [ ] Add filter hook to add additional notification tags
+- [ ] Add filter hook to modify system info
