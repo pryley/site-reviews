@@ -112,8 +112,8 @@
 					formData.append( key, data[key] );
 				});
 			}
-			formData.set( 'action', GLSR.action );
-			formData.set( '_ajax_request', true );
+			formData.append( 'action', GLSR.action );
+			formData.append( '_ajax_request', true );
 			return formData;
 		},
 

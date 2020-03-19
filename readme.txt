@@ -112,9 +112,15 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 == Changelog ==
 
-= 5.0.0 (2020-03-12) =
+= 5.0.0 (2020-03-30) =
 
 - Added ...
+
+= 4.5.1 (2020-03-19) =
+
+- Fixed addon license setting
+- Fixed Divi plugin style
+- Fixed form submission on IE 11
 
 = 4.5.0 (2020-02-24) =
 
