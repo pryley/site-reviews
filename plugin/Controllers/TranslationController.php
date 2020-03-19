@@ -48,7 +48,9 @@ class TranslationController
      */
     public function filterGettext($translation, $text, $domain)
     {
-        return apply_filters('site-reviews/gettext/'.$domain, $translation, $text);
+        return Str::startsWith(Application::ID, $domain)
+            ? apply_filters('site-reviews/gettext/'.$domain, $translation, $text)
+            : $translation;
     }
 
     /**
@@ -74,7 +76,9 @@ class TranslationController
      */
     public function filterGettextWithContext($translation, $text, $context, $domain)
     {
-        return apply_filters('site-reviews/gettext_with_context/'.$domain, $translation, $text, $context);
+        return Str::startsWith(Application::ID, $domain)
+            ? apply_filters('site-reviews/gettext_with_context/'.$domain, $translation, $text, $context)
+            : $translation;
     }
 
     /**
@@ -106,7 +110,9 @@ class TranslationController
      */
     public function filterNgettext($translation, $single, $plural, $number, $domain)
     {
-        return apply_filters('site-reviews/ngettext/'.$domain, $translation, $single, $plural, $number);
+        return Str::startsWith(Application::ID, $domain)
+            ? apply_filters('site-reviews/ngettext/'.$domain, $translation, $single, $plural, $number)
+            : $translation;
     }
 
     /**
@@ -138,7 +144,9 @@ class TranslationController
      */
     public function filterNgettextWithContext($translation, $single, $plural, $number, $context, $domain)
     {
-        return apply_filters('site-reviews/ngettext_with_context/'.$domain, $translation, $single, $plural, $number, $context);
+        return Str::startsWith(Application::ID, $domain)
+            ? apply_filters('site-reviews/ngettext_with_context/'.$domain, $translation, $single, $plural, $number, $context)
+            : $translation;
     }
 
     /**
