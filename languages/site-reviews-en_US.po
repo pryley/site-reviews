@@ -1038,15 +1038,15 @@ msgstr "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 msgid "Settings updated."
 msgstr "Settings updated."
 
-#: plugin/Controllers/SettingsController.php:133
+#: plugin/Controllers/SettingsController.php:136
 msgid "Please install/activate the %s plugin to enable integration."
 msgstr "Please install/activate the %s plugin to enable integration."
 
-#: plugin/Controllers/SettingsController.php:139
+#: plugin/Controllers/SettingsController.php:142
 msgid "Please update the %s plugin to v%s or greater to enable integration."
 msgstr "Please update the %s plugin to v%s or greater to enable integration."
 
-#: plugin/Controllers/SettingsController.php:167
+#: plugin/Controllers/SettingsController.php:170
 msgid "A license you entered was invalid."
 msgstr "A license you entered was invalid."
 

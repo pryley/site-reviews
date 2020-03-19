@@ -6,7 +6,8 @@
     100% { transform: rotate(360deg); }
 }
 
-#et-boc form.glsr-form {
+#et-boc form.glsr-form,
+form.glsr-form {
     label {
         float: none;
         display: block;
@@ -64,7 +65,8 @@
         border-top-color: currentColor;
     }
 }
-#et-boc .glsr-ltr form.glsr-form {
+#et-boc .glsr-ltr form.glsr-form,
+.glsr-ltr form.glsr-form {
     [type=submit][disabled] .glsr-button-loading {
         margin-right: 1.65em;
     }
@@ -76,7 +78,8 @@
         margin-left: 0.33em;
     }
 }
-#et-boc .glsr-rtl form.glsr-form {
+#et-boc .glsr-rtl form.glsr-form,
+.glsr-rtl form.glsr-form {
     [type=submit][disabled] .glsr-button-loading {
         margin-left: 1.65em;
     }
@@ -88,24 +91,30 @@
         margin-right: 0.33em;
     }
 }
-#et-boc .glsr-disabled .glsr-button {
+#et-boc .glsr-disabled .glsr-button,
+.glsr-disabled .glsr-button {
     pointer-events: none;
     cursor: wait;
     opacity: .5;
 }
-#et-boc .glsr-field {
+#et-boc .glsr-field,
+.glsr-field {
     position: relative;
 }
-#et-boc .glsr-field ul {
+#et-boc .glsr-field ul,
+.glsr-field ul {
     list-style-type: none;
 }
-#et-boc .glsr-error {
+#et-boc .glsr-error,
+.glsr-error {
     font-size: 0.875em;
 }
-#et-boc .glsr-hidden {
+#et-boc .glsr-hidden,
+.glsr-hidden {
     display: none;
 }
-#et-boc .glsr-loader {
+#et-boc .glsr-loader,
+.glsr-loader {
     display: none;
     position: absolute;
     bottom: 0;
@@ -134,28 +143,35 @@
         right: 0;
     }
 }
-#et-boc .glsr-hide .glsr-loader {
+#et-boc .glsr-hide .glsr-loader,
+.glsr-hide .glsr-loader {
     display: block;
 }
-#et-boc .glsr-read-more {
+#et-boc .glsr-read-more,
+.glsr-read-more {
     white-space: nowrap;
     &::before {
         content: '\2026';
     }
 }
-#et-boc .glsr-ltr .glsr-read-more::before {
+#et-boc .glsr-ltr .glsr-read-more::before,
+.glsr-ltr .glsr-read-more::before {
     margin-right: 0.5em;
 }
-#et-boc .glsr-rtl .glsr-read-more::before {
+#et-boc .glsr-rtl .glsr-read-more::before,
+.glsr-rtl .glsr-read-more::before {
     margin-left: 0.5em;
 }
-#et-boc .glsr-visible + .glsr-read-more::before {
+#et-boc .glsr-visible + .glsr-read-more::before,
+.glsr-visible + .glsr-read-more::before {
     content: '';
 }
-#et-boc .glsr-recaptcha-holder {
+#et-boc .glsr-recaptcha-holder,
+.glsr-recaptcha-holder {
     margin-top: 1em;
 }
-#et-boc .glsr-reviews-wrap {
+#et-boc .glsr-reviews-wrap,
+.glsr-reviews-wrap {
     position: relative;
     &::after {
         display: table;
@@ -164,7 +180,9 @@
     }
 }
 #et-boc .glsr-summary-wrap .screen-reader-text,
-#et-boc .glsr-reviews-wrap .screen-reader-text {
+#et-boc .glsr-reviews-wrap .screen-reader-text,
+.glsr-summary-wrap .screen-reader-text,
+.glsr-reviews-wrap .screen-reader-text {
     position: absolute;
     height: 1px;
     width: 1px;
@@ -175,7 +193,8 @@
     padding: 0;
     margin: -1px;
 }
-#et-boc .glsr-default {
+#et-boc .glsr-default,
+.glsr-default {
     .glsr-review::after,
     .glsr-pagination::after {
         content: '';
@@ -269,7 +288,8 @@
         z-index: 1;
     }
 }
-#et-boc .glsr-ltr .glsr-default {
+#et-boc .glsr-ltr .glsr-default,
+.glsr-ltr .glsr-default {
     .glsr-review-avatar {
         float: left;
         margin-right: 1em;
@@ -282,7 +302,8 @@
         border-right-width: 2em;
     }
 }
-#et-boc .glsr-rtl .glsr-default {
+#et-boc .glsr-rtl .glsr-default,
+.glsr-rtl .glsr-default {
     .glsr-review-avatar {
         float: right;
         margin-left: 1em;
@@ -295,7 +316,8 @@
         border-left-width: 2em;
     }
 }
-#et-boc .glsr-star {
+#et-boc .glsr-star,
+.glsr-star {
     font-size: inherit;
     background-size: $glsr-star-size;
     height: $glsr-star-size;
@@ -303,7 +325,8 @@
     display: inline-block;
     background-repeat: no-repeat;
 }
-#et-boc .glsr-default {
+#et-boc .glsr-default,
+.glsr-default {
     &.glsr-summary {
         position: relative;
         width: 100%;
@@ -375,7 +398,8 @@
         // margin-bottom: 0.5em;
     }
 }
-#et-boc .glsr-ltr .glsr-default {
+#et-boc .glsr-ltr .glsr-default,
+.glsr-ltr .glsr-default {
     .glsr-bar-label {
         padding-right: $glsr-summary-spacing;
     }
@@ -387,7 +411,8 @@
         margin-right: $glsr-summary-spacing;
     }
 }
-#et-boc .glsr-rtl .glsr-default {
+#et-boc .glsr-rtl .glsr-default,
+.glsr-rtl .glsr-default {
     .glsr-bar-label {
         padding-left: $glsr-summary-spacing;
     }
