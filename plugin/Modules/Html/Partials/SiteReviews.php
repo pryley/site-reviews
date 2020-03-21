@@ -160,7 +160,7 @@ class SiteReviews
         $text = wp_kses($text, wp_kses_allowed_html());
         $text = convert_smilies(strip_shortcodes($text));
         $text = str_replace(']]>', ']]&gt;', $text);
-        $text = preg_replace('/(\R){2,}/', '$1', $text);
+        $text = preg_replace('/(\R){2,}/u', '$1', $text);
         if ($this->isOptionEnabled('settings.reviews.excerpts')) {
             $text = $this->getExcerpt($text);
         }

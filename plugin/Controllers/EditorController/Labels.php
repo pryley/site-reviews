@@ -64,7 +64,7 @@ class Labels
         if (isset($wp_scripts->registered['post']->extra['data'])) {
             $l10n = &$wp_scripts->registered['post']->extra['data'];
             foreach ($strings as $search => $replace) {
-                $l10n = preg_replace('/("'.$search.'":")([^"]+)/', '$1'.$replace, $l10n);
+                $l10n = preg_replace('/("'.$search.'":")([^"]+)/u', '$1'.$replace, $l10n);
             }
         }
     }
