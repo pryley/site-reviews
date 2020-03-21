@@ -1,35 +1,36 @@
-@import "../public/variables";
-
 $glsr: (
     parent: '.glsr-twentyfifteen',
 );
 
+@import "../public/variables";
 @import "../public/base";
 @import "../public/reviews";
 @import "../public/reviews-summary";
 
-.glsr-field {
-	margin-bottom: 1em;
-}
-.glsr-field-error {
-	font-size: glsr(font-size-small);
-	color: glsr(color-error);
-}
-.glsr-field-choice .glsr-field-control {
-	position: relative;
-	top: -2px;
-	margin-right: 6px;
-}
-.glsr-field-choice input {
-	outline: none;
-}
-.glsr-required label span::after {
-	content: '\002a';
-	color: glsr(color-error);
-}
-.glsr-form-messages {
-	color: glsr(color-success);
-}
-.glsr-has-errors {
-	color: glsr(color-error);
+#{glsr(parent)} {
+    .glsr-field {
+        margin-bottom: 1em;
+    }
+    .glsr-field-error {
+        font-size: glsr(font-size-small);
+        color: glsr(color-error);
+    }
+    .glsr-field-choice .glsr-field-control {
+        position: relative;
+        top: -2px;
+        margin-right: 6px;
+    }
+    .glsr-field-choice input {
+        outline: none;
+    }
+    .glsr-required label span::after {
+        content: '\002a';
+        color: glsr(color-error);
+    }
+    .glsr-form-messages {
+        color: glsr(color-success);
+    }
+    .glsr-has-errors {
+        color: glsr(color-error);
+    }
 }

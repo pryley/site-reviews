@@ -1,13 +1,14 @@
-@import "../public/variables";
-
 $glsr: (
     parent: '.glsr-bootstrap_4_custom',
 );
 
+@import "../public/variables";
 @import "../public/base";
 @import "../public/reviews";
 @import "../public/reviews-summary";
 
-.glsr-has-error .invalid-feedback {
-	display: block;
+#{glsr(parent)} {
+    .glsr-has-error .invalid-feedback {
+        display: block;
+    }
 }

@@ -1,13 +1,14 @@
-@import "../public/variables";
-
 $glsr: (
     parent: '.glsr-minimal',
 );
 
+@import "../public/variables";
 @import "../public/base";
 @import "../public/reviews";
 @import "../public/reviews-summary";
 
-.glsr-field {
-	margin-bottom: 1em;
+#{glsr(parent)} {
+    .glsr-field {
+        margin-bottom: 1em;
+    }
 }

@@ -1,5 +1,3 @@
-@import "../public/variables";
-
 $glsr: (
     color-grey-dark: #4a4a4a,
     color-grey: #767676,
@@ -14,6 +12,9 @@ $glsr: (
     summary-star-size: 1.125em,
 );
 
+
+@import "../public/variables";
+
 $star-rating: (
     base-height: 34px,
     star-size  : 32px,
@@ -23,130 +24,122 @@ $star-rating: (
 @import "../public/reviews";
 @import "../public/reviews-summary";
 
-// Reviews
-#{glsr(parent)} .glsr-review > div,
-#{glsr(parent)} .glsr-review p {
-    margin-bottom: 20px;
-}
-#{glsr(parent)} .glsr-review-title h3 {
-    font-size: glsr(font-size-large);
-}
-#{glsr(parent)} .glsr-field-error,
-#{glsr(parent)} .glsr-review-date,
-#{glsr(parent)} .glsr-review-author {
-    font-size: glsr(font-size-small);
-}
-#{glsr(parent)} .glsr-review-date,
-#{glsr(parent)} .glsr-review-author {
-    color: glsr(color-grey);
-    font-weight: 500;
-}
-#{glsr(parent)} .glsr-review-rating,
-#{glsr(parent)} .glsr-stars {
-    height: glsr(font-size-small) * 1.6;
-    vertical-align: middle;
-}
-#{glsr(parent)} .glsr-review-date {
-    font-style: normal;
-    line-height: 1.6;
-    vertical-align: middle;
-}
-#{glsr(parent)} .glsr-review-date,
-#{glsr(parent)} .glsr-review-author,
-#{glsr(parent)} .glsr-review-response strong {
-    font-family: glsr(font-family);
-}
-#{glsr(parent)} .glsr-review-response p,
-#{glsr(parent)} .glsr-review-response p:last-of-type {
-    font-size: glsr(font-size);
-    line-height: 1.6;
-}
-
-// Summary
-#{glsr(parent)}.glsr-summary {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-    font-size: 1em;
-}
-#{glsr(parent)} .glsr-summary-stars {
-    font-size: glsr(summary-star-size);
-    line-height: 1.25;
-}
-#{glsr(parent)} .glsr-summary-text {
-    font-size: glsr(summary-font-size);
-}
-
-// Form
-form.glsr-form {
-    .glsr-field {
+#{glsr(parent)} {
+    // Reviews
+    .glsr-review > div,
+    .glsr-review p {
+        margin-bottom: 20px;
+    }
+    .glsr-review-title h3 {
+        font-size: glsr(font-size-large);
+    }
+    .glsr-field-error,
+    .glsr-review-date,
+    .glsr-review-author {
+        font-size: glsr(font-size-small);
+    }
+    .glsr-review-date,
+    .glsr-review-author {
+        color: glsr(color-grey);
+        font-weight: 500;
+    }
+    .glsr-review-rating,
+    .glsr-stars {
+        height: glsr(font-size-small) * 1.6;
+        vertical-align: middle;
+    }
+    .glsr-review-date {
+        font-style: normal;
+        line-height: 1.6;
+        vertical-align: middle;
+    }
+    .glsr-review-date,
+    .glsr-review-author,
+    .glsr-review-response strong {
+        font-family: glsr(font-family);
+    }
+    .glsr-review-response p,
+    .glsr-review-response p:last-of-type {
+        font-size: glsr(font-size);
         line-height: 1.6;
     }
-    label:not(.glsr-checkbox-label) {
+    // Summary
+    .glsr-summary {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+        font-size: 1em;
+    }
+    .glsr-summary-stars {
+        font-size: glsr(summary-star-size);
+        line-height: 1.25;
+    }
+    .glsr-summary-text {
+        font-size: glsr(summary-font-size);
+    }
+    // Form
+    form.glsr-form .glsr-field {
+        line-height: 1.6;
+    }
+    form.glsr-form label:not(.glsr-checkbox-label) {
         display: inline;
         font-family: glsr(font-family);
         font-size: glsr(font-size-small);
         color: glsr(color-grey);
     }
-    .glsr-field-choice {
+    form.glsr-form .glsr-field-choice {
         position: relative;
         display: block;
     }
-    .glsr-field-choice input {
+    form.glsr-form .glsr-field-choice input {
         position: absolute;
         height: glsr(font-size) * 1.6;
         box-sizing: border-box;
         padding: 0;
     }
-    .glsr-field-choice label {
+    form.glsr-form .glsr-field-choice label {
         display: inline-block;
         font-size: glsr(font-size);
         margin: 0;
     }
-    .glsr-required label span::after {
+    form.glsr-form .glsr-required label span::after {
         content: '\002a';
     }
-    .glsr-form-messages {
+    form.glsr-form .glsr-form-messages {
         color: glsr(color-success);
     }
-    .glsr-form-messages p {
+    form.glsr-form .glsr-form-messages p {
         margin-top: glsr(font-size);
     }
-    .glsr-field-error {
+    form.glsr-form .glsr-field-error {
         font-family: glsr(font-family);
         font-size: glsr(font-size-small);
     }
-    .glsr-field-error,
-    .glsr-has-errors {
+    form.glsr-form .glsr-field-error,
+    form.glsr-form .glsr-has-errors {
         color: glsr(color-error);
     }
-    input:not([type=checkbox]):not([type=radio]),
-    textarea {
+    form.glsr-form input:not([type=checkbox]):not([type=radio]),
+    form.glsr-form textarea {
         padding-bottom: 0.18rem;
     }
-
-    input:not([type=checkbox]):not([type=radio]).glsr-is-invalid,
-    textarea.glsr-is-invalid {
+    form.glsr-form input:not([type=checkbox]):not([type=radio]).glsr-is-invalid,
+    form.glsr-form textarea.glsr-is-invalid {
         border-color: glsr(color-error);
     }
-    .gl-star-rating[data-star-rating] {
+    form.glsr-form .gl-star-rating[data-star-rating] {
         line-height: 1;
     }
-}
-.glsr-ltr form.glsr-form {
-    .glsr-field input[type=checkbox],
-    .glsr-field input[type=radio] {
+    &.glsr-ltr form.glsr-form .glsr-field input[type=checkbox],
+    &.glsr-ltr form.glsr-form .glsr-field input[type=radio] {
         left: 0;
     }
-    .glsr-field-choice {
+    &.glsr-ltr form.glsr-form .glsr-field-choice {
         padding-left: 1.25rem;
     }
-}
-.glsr-rtl form.glsr-form {
-    .glsr-field input[type=checkbox],
-    .glsr-field input[type=radio] {
+    &.glsr-rtl form.glsr-form .glsr-field input[type=checkbox],
+    &.glsr-rtl form.glsr-form .glsr-field input[type=radio] {
         right: 0;
     }
-    .glsr-field-choice {
+    &.glsr-rtl form.glsr-form .glsr-field-choice {
         padding-right: 1.25rem;
     }
 }
-

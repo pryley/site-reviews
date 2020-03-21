@@ -5,176 +5,170 @@
 	100% { transform: rotate(360deg); }
 }
 
-form.glsr-form {
-	label {
-		float: none;
+#{glsr(parent)} {
+	// Form
+	form.glsr-form label {
 		display: block;
+		float: none;
 		hyphens: none;
 	}
-	label.glsr-checkbox-label,
-	label.glsr-radio-label {
+	form.glsr-form label.glsr-checkbox-label,
+	form.glsr-form label.glsr-radio-label {
 		display: inline;
 	}
-	select.glsr-star-rating {
+	form.glsr-form select.glsr-star-rating {
+		display: block;
 		visibility: hidden !important;
-		display: block;
 	}
-	input[type=text],
-	input[type=email],
-	textarea {
-		float: none;
-		display: block;
-		width: 100%;
-		// font-size: inherit;
-		// line-height: inherit;
+	form.glsr-form input[type=text],
+	form.glsr-form input[type=email],
+	form.glsr-form textarea {
 		box-sizing: border-box;
+		display: block;
+		float: none;
+		width: 100%;
 	}
-	[type=submit] {
+	form.glsr-form [type=submit] {
 		white-space: nowrap;
 	}
-	[type=submit] .glsr-button-loading {
+	form.glsr-form [type=submit] .glsr-button-loading {
 		display: none;
 	}
-	[type=submit][disabled] .glsr-button-loading {
+	form.glsr-form [type=submit][disabled] .glsr-button-loading {
 		display: inline;
 		position: relative;
 	}
-	[type=submit] .glsr-button-loading::before,
-	[type=submit] .glsr-button-loading::after {
+	form.glsr-form [type=submit] .glsr-button-loading::before,
+	form.glsr-form [type=submit] .glsr-button-loading::after {
+		animation: glsr-loader 0.5s infinite linear;
+		border-radius: 100%;
+		border: 0.2em solid currentColor;
+		box-sizing: border-box;
+		content: '';
 		display: inline-block;
+		height: 1em;
+		margin: -0.5em auto 0;
 		position: absolute;
 		top: 50%;
-		height: 1em;
 		width: 1em;
-		content: '';
-		border: 0.2em solid currentColor;
-		border-radius: 100%;
-		box-sizing: border-box;
-		margin: -0.5em auto 0;
-		animation: glsr-loader 0.5s infinite linear;
 	}
-	[type=submit] .glsr-button-loading::before {
-		opacity: 0.5;
+	form.glsr-form [type=submit] .glsr-button-loading::before {
 		border-top-color: transparent;
+		opacity: 0.5;
 	}
-	[type=submit] .glsr-button-loading::after {
+	form.glsr-form [type=submit] .glsr-button-loading::after {
 		border-color: transparent;
 		border-top-color: currentColor;
 	}
-}
-.glsr-ltr form.glsr-form {
-	[type=submit][disabled] .glsr-button-loading {
+	&.glsr-ltr form.glsr-form [type=submit][disabled] .glsr-button-loading {
 		margin-right: 1.65em;
 	}
-	[type=submit] .glsr-button-loading::before,
-	[type=submit] .glsr-button-loading::after {
+	&.glsr-ltr form.glsr-form [type=submit] .glsr-button-loading::before,
+	&.glsr-ltr form.glsr-form [type=submit] .glsr-button-loading::after {
 		left: 0;
 	}
-	.glsr-required label span::after {
+	&.glsr-ltr form.glsr-form .glsr-required label span::after {
 		margin-left: 0.33em;
 	}
-}
-.glsr-rtl form.glsr-form {
-	[type=submit][disabled] .glsr-button-loading {
+	&.glsr-rtl form.glsr-form [type=submit][disabled] .glsr-button-loading {
 		margin-left: 1.65em;
 	}
-	[type=submit] .glsr-button-loading::before,
-	[type=submit] .glsr-button-loading::after {
+	&.glsr-rtl form.glsr-form [type=submit] .glsr-button-loading::before,
+	&.glsr-rtl form.glsr-form [type=submit] .glsr-button-loading::after {
 		right: 0;
 	}
-	.glsr-required label span::after {
+	&.glsr-rtl form.glsr-form .glsr-required label span::after {
 		margin-right: 0.33em;
 	}
-}
-.glsr-disabled .glsr-button {
-	pointer-events: none;
-	cursor: wait;
-	opacity: .5;
-}
-.glsr-field {
-	position: relative;
-}
-.glsr-field ul {
-	list-style-type: none;
-}
-.glsr-error {
-	font-size: 0.875em;
-}
-.glsr-hidden {
-	display: none;
-}
-.glsr-loader {
-	display: none;
-	position: absolute;
-	bottom: 0;
-	left: calc(50% - 12px);
-	width: 24px;
-	height: 24px;
-	border-radius: 50%;
-	animation: glsr-loader 0.5s infinite linear;
-	transform: translateZ(0);
-	margin: 0;
-	&::before,
-	&::after {
-		content: '';
-		position: absolute;
-		width: 8px;
-		height: 8px;
-		background: rgba(0,0,0,0.75);
+	.glsr-disabled .glsr-button {
+		cursor: wait;
+		opacity: .5;
+		pointer-events: none;
+	}
+	.glsr-field {
+		position: relative;
+	}
+	.glsr-field ul {
+		list-style-type: none;
+	}
+	.glsr-error {
+		font-size: 0.875em;
+	}
+	.glsr-hidden {
+		display: none;
+	}
+	.glsr-loader {
+		animation: glsr-loader 0.5s infinite linear;
 		border-radius: 50%;
-	}
-	&::before {
-		top: 0;
-		left: 0;
-	}
-	&::after {
 		bottom: 0;
-		right: 0;
+		display: none;
+		height: 24px;
+		left: calc(50% - 12px);
+		margin: 0;
+		position: absolute;
+		transform: translateZ(0);
+		width: 24px;
+		&::before,
+		&::after {
+			background: rgba(0,0,0,0.75);
+			border-radius: 50%;
+			content: '';
+			height: 8px;
+			position: absolute;
+			width: 8px;
+		}
+		&::before {
+			left: 0;
+			top: 0;
+		}
+		&::after {
+			bottom: 0;
+			right: 0;
+		}
 	}
-}
-.glsr-hide .glsr-loader {
-	display: block;
-}
-.glsr-read-more {
-	white-space: nowrap;
-	&::before {
-		content: '\2026';
+	.glsr-hide .glsr-loader {
+		display: block;
 	}
-}
-.glsr-ltr .glsr-read-more::before {
-	margin-right: 0.5em;
-}
-.glsr-rtl .glsr-read-more::before {
-	margin-left: 0.5em;
-}
-.glsr-visible + .glsr-read-more::before {
-	content: '';
-}
-.glsr-recaptcha-holder {
-	margin-top: 1em;
-}
-.glsr-reviews-wrap {
-	position: relative;
-	&::after {
-		display: table;
+	.glsr-recaptcha-holder {
+		margin-top: 1em;
+	}
+	// Reviews
+	.glsr-read-more {
+		white-space: nowrap;
+		&::before {
+			content: '\2026';
+		}
+	}
+	&.glsr-ltr .glsr-read-more::before {
+		margin-right: 0.5em;
+	}
+	&.glsr-rtl .glsr-read-more::before {
+		margin-left: 0.5em;
+	}
+	.glsr-visible + .glsr-read-more::before {
 		content: '';
-		clear: both;
 	}
-}
-.glsr .screen-reader-text {
-	position: absolute;
-	height: 1px;
-	width: 1px;
-	border: 0;
-	overflow: hidden;
-	clip: rect(0 0 0 0);
-	word-wrap: normal !important;
-	padding: 0;
-	margin: -1px;
-}
-
-.glsr-star {
-	display: inline-block;
-	background-repeat: no-repeat;
-	// vertical-align: sub;
+	.glsr-reviews-wrap {
+		position: relative;
+		&::after {
+			clear: both;
+			content: '';
+			display: table;
+		}
+	}
+	.screen-reader-text {
+		border: 0;
+		clip: rect(0 0 0 0);
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		padding: 0;
+		position: absolute;
+		width: 1px;
+		word-wrap: normal !important;
+	}
+	.glsr-star {
+		background-repeat: no-repeat;
+		display: inline-block;
+	}
 }
