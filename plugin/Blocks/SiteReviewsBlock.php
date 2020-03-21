@@ -119,7 +119,7 @@ class SiteReviewsBlock extends BlockGenerator
     {
         add_filter('site-reviews/review/wrap/'.$field, function ($value) {
             $value = preg_replace(
-                '/(.*)(<span class="glsr-hidden)(.*)(<\/span>)(.*)/s',
+                '/(.*)(<span class="glsr-hidden)(.*)(<\/span>)(.*)/us',
                 '$1... <a href="#" class="glsr-read-more" tabindex="-1">'.__('Show more', 'site-reviews').'</a>$5',
                 $value
             );

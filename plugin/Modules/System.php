@@ -209,7 +209,7 @@ class System
             if (Str::startsWith('strings', $key) && Str::endsWith('id', $key)) {
                 continue;
             }
-            $value = htmlspecialchars(trim(preg_replace('/\s\s+/', '\\n', $value)), ENT_QUOTES, 'UTF-8');
+            $value = htmlspecialchars(trim(preg_replace('/\s\s+/u', '\\n', $value)), ENT_QUOTES, 'UTF-8');
             $details[$key] = $value;
         }
         return $details;

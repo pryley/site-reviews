@@ -93,7 +93,7 @@ class SiteReviewsFormBlock extends BlockGenerator
                 $stars = '<span class="glsr-stars">';
                 $stars.= str_repeat('<span class="glsr-star glsr-star-empty" aria-hidden="true"></span>', (int) glsr()->constant('MAX_RATING', Rating::class));
                 $stars.= '</span>';
-                $html = preg_replace('/(.*)(<select.*)(<\/select>)(.*)/', '$1'.$stars.'$4', $html);
+                $html = preg_replace('/(.*)(<select.*)(<\/select>)(.*)/u', '$1'.$stars.'$4', $html);
             }
             return $html;
         }, 10, 3);
