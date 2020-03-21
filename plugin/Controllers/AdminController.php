@@ -46,12 +46,16 @@ class AdminController extends Controller
      */
     public function filterActionLinks(array $links)
     {
-        $links['documentation'] = glsr(Builder::class)->a(_x('Help', 'admin-text', 'site-reviews'), [
-            'href' => admin_url('edit.php?post_type='.Application::POST_TYPE.'&page=documentation'),
-        ]);
-        $links['settings'] = glsr(Builder::class)->a(_x('Settings', 'admin-text', 'site-reviews'), [
-            'href' => admin_url('edit.php?post_type='.Application::POST_TYPE.'&page=settings'),
-        ]);
+        if (glsr()->hasPermission('documentation')) {
+            $links['documentation'] = glsr(Builder::class)->a(_x('Help', 'admin-text', 'site-reviews'), [
+                'href' => admin_url('edit.php?post_type='.Application::POST_TYPE.'&page=documentation'),
+            ]);
+        }
+        if (glsr()->hasPermission('settings')) {
+            $links['settings'] = glsr(Builder::class)->a(_x('Settings', 'admin-text', 'site-reviews'), [
+                'href' => admin_url('edit.php?post_type='.Application::POST_TYPE.'&page=settings'),
+            ]);
+        }
         return $links;
     }
 
