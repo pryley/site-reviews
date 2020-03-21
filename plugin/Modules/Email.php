@@ -17,6 +17,11 @@ class Email
     /**
      * @var array
      */
+    public $data;
+
+    /**
+     * @var array
+     */
     public $email;
 
     /**
@@ -42,8 +47,9 @@ class Email
     /**
      * @return Email
      */
-    public function compose(array $email)
+    public function compose(array $email, array $data = [])
     {
+        $this->data = $data;
         $this->normalize($email);
         $this->attachments = $this->email['attachments'];
         $this->headers = $this->buildHeaders();
@@ -183,6 +189,7 @@ class Email
     protected function reset()
     {
         $this->attachments = [];
+        $this->data = [];
         $this->email = [];
         $this->headers = [];
         $this->message = null;

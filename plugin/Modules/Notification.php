@@ -71,7 +71,7 @@ class Notification
                 'review_rating' => $this->review->rating,
                 'review_title' => $this->review->title,
             ],
-        ]);
+        ], (array) $this->review);
     }
 
     /**

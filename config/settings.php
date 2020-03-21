@@ -118,18 +118,10 @@ return [
             'settings.general.notifications' => ['admin', 'author', 'custom', 'slack'],
         ],
         'description' => _x(
-            'To restore the default text, save an empty template. '.
-            'If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href="https://api.slack.com/docs/attachments">Message Attachments</a> have been disabled. Available template tags:'.
-            '<br><code>{review_rating}</code> The review rating number (1-5)'.
-            '<br><code>{review_title}</code> The review title'.
-            '<br><code>{review_content}</code> The review content'.
-            '<br><code>{review_author}</code> The review author'.
-            '<br><code>{review_email}</code> The email of the review author'.
-            '<br><code>{review_ip}</code> The IP address of the review author'.
-            '<br><code>{review_link}</code> The link to edit/view a review',
+            'To restore the default text, save an empty template. If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href="https://api.slack.com/docs/attachments">Message Attachments</a> have been disabled. Available template tags:',
             'admin-text',
             'site-reviews'
-        ),
+        ).glsr('Modules\Html\TemplateTags')->getDescription(),
         'label' => _x('Notification Template', 'admin-text', 'site-reviews'),
         'rows' => 10,
         'type' => 'code',
