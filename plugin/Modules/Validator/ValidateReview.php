@@ -158,6 +158,9 @@ class ValidateReview
         return false;
     }
 
+    /**
+     * @return void
+     */
     protected function setError($message, $loggedMessage = '')
     {
         $this->setSessionValues('errors', [], $loggedMessage);
