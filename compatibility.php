@@ -3,6 +3,46 @@
 defined('WPINC') || die;
 
 /*
+ * @return void
+ * @see https://wordpress.org/plugins/members/
+ */
+add_action('members_register_caps', function () {
+    members_register_cap('delete_others_site-reviews', [
+        'label' => _x("Delete Others' Reviews", 'admin-text', 'site-reviews'),
+    ]);
+    members_register_cap('delete_site-reviews', [
+        'label' => _x('Delete Reviews', 'admin-text', 'site-reviews'),
+    ]);
+    members_register_cap('delete_private_site-reviews', [
+        'label' => _x('Delete Private Reviews', 'admin-text', 'site-reviews'),
+    ]);
+    members_register_cap('delete_published_site-reviews', [
+        'label' => _x('Delete Approved Reviews', 'admin-text', 'site-reviews'),
+    ]);
+    members_register_cap('edit_others_site-reviews', [
+        'label' => _x("Edit Others' Reviews", 'admin-text', 'site-reviews'),
+    ]);
+    members_register_cap('edit_site-reviews', [
+        'label' => _x('Edit Reviews', 'admin-text', 'site-reviews'),
+    ]);
+    members_register_cap('edit_private_site-reviews', [
+        'label' => _x('Edit Private Reviews', 'admin-text', 'site-reviews'),
+    ]);
+    members_register_cap('edit_published_site-reviews', [
+        'label' => _x('Edit Approved Reviews', 'admin-text', 'site-reviews'),
+    ]);
+    members_register_cap('publish_site-reviews', [
+        'label' => _x('Approve Reviews', 'admin-text', 'site-reviews'),
+    ]);
+    members_register_cap('read_private_site-reviews', [
+        'label' => _x('Read Private Reviews', 'admin-text', 'site-reviews'),
+    ]);
+    members_register_cap('create_site-review', [
+        'label' => _x('Create Review (inactive)', 'admin-text', 'site-reviews'),
+    ]);
+});
+
+/*
  * @param \GeminiLabs\SiteReviews\Modules\Html\Builder $instance
  * @return void
  * @see https://www.elegantthemes.com/gallery/divi/
