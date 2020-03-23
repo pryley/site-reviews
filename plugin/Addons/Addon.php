@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Addons;
 
+use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
 
 /**
@@ -12,12 +13,12 @@ use ReflectionClass;
 abstract class Addon
 {
     const ID = '';
+    const NAME = '';
     const SLUG = '';
     const UPDATE_URL = '';
 
     public $file;
     public $languages;
-    public $name;
     public $testedTo;
     public $updater;
     public $version;
@@ -27,7 +28,6 @@ abstract class Addon
         $this->file = str_replace('plugin/Application', static::ID, (new ReflectionClass($this))->getFileName());
         $plugin = get_file_data($this->file, [
             'languages' => 'Domain Path',
-            'name' => 'Plugin Name',
             'testedTo' => 'Tested up to',
             'version' => 'Version',
         ], 'plugin');
@@ -59,7 +59,16 @@ abstract class Addon
     /**
      * @return void
      */
-    abstract public function init();
+    public function init()
+    {
+        $reflection = new ReflectionClass($this);
+        $className = Str::replaceLast($reflection->getShortname(), 'Hooks', $reflection->getName());
+        if (class_exists($className)) {
+            (new $className())->run();
+        } else {
+            glsr_log()->error('The '.static::NAME.' add-on is missing a Hooks class');
+        }
+    }
 
     /**
      * @param string $file
