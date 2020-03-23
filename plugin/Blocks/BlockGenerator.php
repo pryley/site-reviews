@@ -40,7 +40,7 @@ abstract class BlockGenerator
             return;
         }
         register_block_type(Application::ID.'/'.$block, [
-            'attributes' => $this->attributes(),
+            'attributes' => apply_filters('site-reviews/block/'.$block.'/attributes', $this->attributes()),
             'editor_script' => Application::ID.'/blocks',
             'editor_style' => Application::ID.'/blocks',
             'render_callback' => [$this, 'render'],

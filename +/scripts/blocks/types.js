@@ -1,6 +1,6 @@
-const { __ } = wp.i18n;
+const { _x } = wp.i18n;
 const selectPlaceholder = {
-    label: '- ' + __('Select', 'site-reviews') + ' -',
+    label: '- ' + _x('Select', 'admin-text', 'site-reviews') + ' -',
     value: '',
 };
 const types = [];

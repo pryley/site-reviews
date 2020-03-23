@@ -31,6 +31,7 @@
     site-reviews/assets/polyfill
     site-reviews/async-scripts
     site-reviews/blacklist/is-blacklisted
+    site-reviews/block/{block}/attributes
     site-reviews/build/template/{template_path}
     site-reviews/builder/field/{field_type}/args
     site-reviews/builder/field/classname

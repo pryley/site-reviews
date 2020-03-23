@@ -1,7 +1,7 @@
-const { __ } = wp.i18n;
+const { _x } = wp.i18n;
 const categories = [];
 const selectPlaceholder = {
-    label: '- ' + __('Select', 'site-reviews') + ' -',
+    label: '- ' + _x('Select', 'admin-text', 'site-reviews') + ' -',
     value: '',
 };
 wp.apiFetch({ path: '/site-reviews/v1/categories?per_page=50' }).then(terms => {
