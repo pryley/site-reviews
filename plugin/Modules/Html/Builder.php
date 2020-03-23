@@ -107,7 +107,7 @@ class Builder
         $this->setArgs($args, $tag);
         $this->setTag($tag);
         do_action_ref_array('site-reviews/builder', [$this]);
-        $result = $this->isHtmlTag($tag)
+        $result = $this->isHtmlTag($this->tag)
             ? $this->buildElement()
             : $this->buildCustom($tag);
         return apply_filters('site-reviews/builder/result', $result, $this);
@@ -199,7 +199,7 @@ class Builder
      */
     public function setTag($tag)
     {
-        $this->tag = in_array($this->tag, static::INPUT_TYPES)
+        $this->tag = in_array($tag, static::INPUT_TYPES)
             ? 'input'
             : $tag;
     }
