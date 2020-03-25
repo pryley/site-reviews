@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Addons;
 
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
@@ -41,7 +42,10 @@ abstract class Controller extends BaseController
     public function enqueueBlockAssets()
     {
         $this->registerAsset('css', ['suffix' => 'blocks']);
-        $this->registerAsset('js', ['suffix' => 'blocks']);
+        $this->registerAsset('js', [
+            'dependencies' => [glsr()->id.'/admin'],
+            'suffix' => 'blocks',
+        ]);
     }
 
     /**
@@ -51,7 +55,7 @@ abstract class Controller extends BaseController
     public function enqueuePublicAssets()
     {
         $this->enqueueAsset('css');
-        $this->enqueueAsset('js');
+        $this->enqueueAsset('js', ['in_footer' => true]);
     }
 
     /**
@@ -282,10 +286,10 @@ abstract class Controller extends BaseController
     protected function buildAssetArgs($extension, array $args = [])
     {
         $args = wp_parse_args($args, [
-            'dependencies' => [],
-            'in_footer' => true,
+            'in_footer' => false,
             'suffix' => '',
         ]);
+        $dependencies = Arr::get($args, 'dependencies', [glsr()->id.Str::prefix('/', $args['suffix'])]);
         $path = 'assets/'.$this->addon->id.Str::prefix('-', $args['suffix']).'.'.$extension;
         if (!file_exists($this->addon->path($path)) || !in_array($extension, ['css', 'js'])) {
             return [];
@@ -293,7 +297,7 @@ abstract class Controller extends BaseController
         $funcArgs = [
             $this->addon->id.Str::prefix('/', $args['suffix']),
             $this->addon->url($path),
-            array_merge([glsr()->id.Str::prefix('/', $args['suffix'])], $args['dependencies']),
+            Arr::consolidate($dependencies),
             $this->addon->version,
         ];
         if ('js' === $extension && wp_validate_boolean($args['in_footer'])) {

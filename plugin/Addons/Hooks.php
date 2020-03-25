@@ -15,7 +15,7 @@ abstract class Hooks
     {
         add_action('init',                                                 [$this->addon, 'update']);
         add_action('admin_enqueue_scripts',                                [$this->controller, 'enqueueAdminAssets']);
-        add_action('enqueue_block_editor_assets',                          [$this->controller, 'enqueueBlockAssets']);
+        add_action('enqueue_block_editor_assets',                          [$this->controller, 'enqueueBlockAssets'], 9);
         add_action('wp_enqueue_scripts',                                   [$this->controller, 'enqueuePublicAssets']);
         add_filter('plugin_action_links_'.$this->basename,                 [$this->controller, 'filterActionLinks']);
         add_filter('site-reviews/config',                                  [$this->controller, 'filterConfigPath']);
@@ -29,7 +29,7 @@ abstract class Hooks
         add_filter('site-reviews/addon/system-info',                       [$this->controller, 'filterSystemInfo']);
         add_filter('site-reviews/translation/entries',                     [$this->controller, 'filterTranslationEntries']);
         add_filter('site-reviews/translator/domains',                      [$this->controller, 'filterTranslatorDomains']);
-        add_action('init',                                                 [$this->controller, 'registerBlocks']);
+        add_action('init',                                                 [$this->controller, 'registerBlocks'], 9);
         add_action('plugins_loaded',                                       [$this->controller, 'registerLanguages']);
         add_action('init',                                                 [$this->controller, 'registerShortcodes']);
         add_action('init',                                                 [$this->controller, 'registerTinymcePopups']);
