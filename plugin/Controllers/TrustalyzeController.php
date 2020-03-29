@@ -45,16 +45,12 @@ class TrustalyzeController extends Controller
         if ($this->enabledKey !== Arr::get($data, 'field.path')) {
             return $context;
         }
-        $trustalyzeProductType = glsr(OptionManager::class)->getWP($this->trustalyzeKey);
-        if ('P' === $trustalyzeProductType) {
+        $isAccountValidated = !empty(glsr(OptionManager::class)->getWP($this->trustalyzeKey));
+        $isIntegrationEnabled = glsr(OptionManager::class)->getBool('settings.general.trustalyze');
+        if ($isAccountValidated && $isIntegrationEnabled) {
             return $context;
         }
-        if ('F' === $trustalyzeProductType && 'yes' === glsr_get_option('general.trustalyze')) {
-            $button = $this->buildUpgradeButton();
-        } else {
-            $button = $this->buildCreateButton();
-        }
-        $context['field'].= $button;
+        $context['field'].= $this->buildCreateButton();
         return $context;
     }
 
@@ -135,23 +131,6 @@ class TrustalyzeController extends Controller
             'class' => 'button',
             'href' => Trustalyze::WEB_URL,
             'target' => '_blank',
-        ]);
-    }
-
-    /**
-     * @return string
-     */
-    protected function buildUpgradeButton()
-    {
-        $build = glsr(Builder::class);
-        $notice = $build->p(__('Free Trustalyze accounts are limited to 500 blockchain transactions per year.', 'site-reviews'));
-        $button = $build->a(__('Upgrade Your Trustalyze Plan', 'site-reviews'), [
-            'class' => 'button',
-            'href' => Trustalyze::WEB_URL,
-            'target' => '_blank',
-        ]);
-        return $build->div($notice.$button, [
-            'class' => 'glsr-notice-inline notice inline notice-info',
         ]);
     }
 

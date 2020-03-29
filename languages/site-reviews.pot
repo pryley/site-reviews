@@ -1013,57 +1013,49 @@ msgstr ""
 msgid "Filter by category"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:32
+#: plugin/Controllers/TranslationController.php:52
 msgid "%s review updated."
 msgid_plural "%s reviews updated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:33
+#: plugin/Controllers/TranslationController.php:53
 msgid "%s review not updated, somebody is editing it."
 msgid_plural "%s reviews not updated, somebody is editing them."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:34
+#: plugin/Controllers/TranslationController.php:54
 msgid "%s review permanently deleted."
 msgid_plural "%s reviews permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:35
+#: plugin/Controllers/TranslationController.php:55
 msgid "%s review moved to the Trash."
 msgid_plural "%s reviews moved to the Trash."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:36
+#: plugin/Controllers/TranslationController.php:56
 msgid "%s review restored from the Trash."
 msgid_plural "%s reviews restored from the Trash."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:169, plugin/Controllers/TranslationController.php:201, plugin/Controllers/EditorController/Labels.php:102, plugin/Controllers/EditorController/Labels.php:103
+#: plugin/Controllers/TranslationController.php:189, plugin/Controllers/TranslationController.php:221, plugin/Controllers/EditorController/Labels.php:102, plugin/Controllers/EditorController/Labels.php:103
 msgid "Unapproved"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:200, plugin/Controllers/EditorController/Labels.php:62, plugin/Controllers/EditorController/Labels.php:106
+#: plugin/Controllers/TranslationController.php:220, plugin/Controllers/EditorController/Labels.php:62, plugin/Controllers/EditorController/Labels.php:106
 msgid "Approved"
 msgstr ""
 
-#: plugin/Controllers/TrustalyzeController.php:134
+#: plugin/Controllers/TrustalyzeController.php:130
 msgid "Create Your Trustalyze Account"
 msgstr ""
 
-#: plugin/Controllers/TrustalyzeController.php:147
-msgid "Free Trustalyze accounts are limited to 500 blockchain transactions per year."
-msgstr ""
-
-#: plugin/Controllers/TrustalyzeController.php:148
-msgid "Upgrade Your Trustalyze Plan"
-msgstr ""
-
-#: plugin/Controllers/TrustalyzeController.php:236
+#: plugin/Controllers/TrustalyzeController.php:215
 msgid "Your Trustalyze account details could not be verified, please try again. %s"
 msgstr ""
 

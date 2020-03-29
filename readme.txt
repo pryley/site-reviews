@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, 
 Tested up to: 5.4
 Requires at least: 4.7.0
 Requires PHP: 5.6
-Stable tag: 4.5.2
+Stable tag: 4.5.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -111,6 +111,11 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 15. This is what the Slack notifications look like.
 
 == Changelog ==
+
+= 4.5.3 (2020-03-29) =
+
+- Fixed translation filters to only load if translations exist
+- Updated Trustalyze integration notice
 
 = 4.5.2 (2020-03-20) =
 

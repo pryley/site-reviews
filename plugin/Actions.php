@@ -120,6 +120,7 @@ class Actions implements HooksContract
         add_action(Application::TAXONOMY.'_edit_form',                      [$this->taxonomy, 'enableParents']);
         add_action('restrict_manage_posts',                                 [$this->taxonomy, 'renderTaxonomyFilter'], 9);
         add_action('set_object_terms',                                      [$this->taxonomy, 'restrictTermSelection'], 9, 6);
+        add_action('plugins_loaded',                                        [$this->translator, 'addTranslationFilters']);
         add_action('admin_enqueue_scripts',                                 [$this->translator, 'translatePostStatusLabels']);
         add_action('site-reviews/review/created',                           [$this->trustalyze, 'onCreated']);
         add_action('site-reviews/review/reverted',                          [$this->trustalyze, 'onReverted']);
