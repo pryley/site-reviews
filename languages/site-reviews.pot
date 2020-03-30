@@ -1324,7 +1324,7 @@ msgstr ""
 msgid "How many reviews would you like to display (default: 10)?"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsPopup.php:33, plugin/Shortcodes/SiteReviewsPopup.php:34, plugin/Shortcodes/SiteReviewsPopup.php:35, plugin/Shortcodes/SiteReviewsPopup.php:36, plugin/Shortcodes/SiteReviewsPopup.php:37, plugin/Widgets/SiteReviewsWidget.php:46, plugin/Widgets/SiteReviewsWidget.php:47, plugin/Widgets/SiteReviewsWidget.php:48, plugin/Widgets/SiteReviewsWidget.php:49, plugin/Widgets/SiteReviewsWidget.php:50, plugin/Controllers/ListTableController/Columns.php:156
+#: plugin/Shortcodes/SiteReviewsPopup.php:33, plugin/Shortcodes/SiteReviewsPopup.php:34, plugin/Shortcodes/SiteReviewsPopup.php:35, plugin/Shortcodes/SiteReviewsPopup.php:36, plugin/Shortcodes/SiteReviewsPopup.php:37, plugin/Widgets/SiteReviewsWidget.php:46, plugin/Widgets/SiteReviewsWidget.php:47, plugin/Widgets/SiteReviewsWidget.php:48, plugin/Widgets/SiteReviewsWidget.php:49, plugin/Widgets/SiteReviewsWidget.php:50, plugin/Controllers/ListTableController/Columns.php:160
 msgid "%s star"
 msgid_plural "%s stars"
 msgstr[0] ""
@@ -1591,23 +1591,23 @@ msgstr ""
 msgid "Privately Approved"
 msgstr ""
 
-#: plugin/Controllers/ListTableController/Columns.php:106
+#: plugin/Controllers/ListTableController/Columns.php:110
 msgid "Unsupported Type"
 msgstr ""
 
-#: plugin/Controllers/ListTableController/Columns.php:159
+#: plugin/Controllers/ListTableController/Columns.php:163
 msgid "Filter by rating"
 msgstr ""
 
-#: plugin/Controllers/ListTableController/Columns.php:165
+#: plugin/Controllers/ListTableController/Columns.php:169
 msgid "All ratings"
 msgstr ""
 
-#: plugin/Controllers/ListTableController/Columns.php:179
+#: plugin/Controllers/ListTableController/Columns.php:183
 msgid "Filter by type"
 msgstr ""
 
-#: plugin/Controllers/ListTableController/Columns.php:185
+#: plugin/Controllers/ListTableController/Columns.php:189
 msgid "All types"
 msgstr ""
 
