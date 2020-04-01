@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, 
 Tested up to: 5.4
 Requires at least: 4.7.0
 Requires PHP: 5.6
-Stable tag: 4.5.4
+Stable tag: 4.5.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -111,6 +111,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 15. This is what the Slack notifications look like.
 
 == Changelog ==
+
+= 4.5.5 (2020-03-31) =
+
+- Fixed PHP error thrown when upgrading from < v4.4.0
 
 = 4.5.4 (2020-03-30) =
 
