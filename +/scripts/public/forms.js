@@ -196,8 +196,10 @@
 			var index = GLSR.forms.findIndex(function (obj) {
 				return obj.form === forms[i];
 			});
-			if (-1 !== index && shouldInit) {
-				GLSR.forms[index].init();
+			if (-1 !== index) {
+				if (shouldInit) {
+					GLSR.forms[index].init();
+				}
 				continue;
 			}
 			form = new GLSR_Form(forms[i], submitButton);

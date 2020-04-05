@@ -3,6 +3,7 @@
 defined('WPINC') || die;
 
 /*
+ * Add human-readable capability names
  * @return void
  * @see https://wordpress.org/plugins/members/
  */
@@ -43,6 +44,7 @@ add_action('members_register_caps', function () {
 });
 
 /*
+ * Fix checkboxes for the Divi plugin style
  * @param \GeminiLabs\SiteReviews\Modules\Html\Builder $instance
  * @return void
  * @see https://www.elegantthemes.com/gallery/divi/
@@ -73,6 +75,7 @@ add_action('site-reviews/review/created', function ($review, $request) {
 }, 10, 2);
 
 /*
+ * Exclude the reCAPTCHA script from being defered
  * @param array $scriptHandles
  * @return array
  * @see https://wordpress.org/plugins/speed-booster-pack/
@@ -99,3 +102,16 @@ add_filter('sf_edit_query_args', function ($query) {
     }
     return $query;
 }, 20);
+
+/*
+ * Fix Star Rating control when submission form is used inside an Elementor Popup
+ * @return void
+ * @see https://wordpress.org/plugins/elementor/
+ */
+add_action('wp_enqueue_scripts', function () {
+    if (defined('ELEMENTOR_VERSION')) {
+        wp_add_inline_script(glsr()->id,
+            'document.addEventListener("elementor/popup/show",function(){GLSR.forms.forEach(function(form){form.initStarRatings()})});'
+        );
+    }
+}, 1000);
