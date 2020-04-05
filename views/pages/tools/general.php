@@ -35,7 +35,7 @@
         <input type="hidden" name="{{ id }}[_action]" value="migrate-plugin">
         <?php wp_nonce_field('migrate-plugin'); ?>
         <p class="submit">
-            <button type="submit" class="glsr-button button" name="migrate-plugin" id="migrate-plugin">
+            <button type="submit" class="glsr-button button" name="migrate-plugin" id="migrate-plugin" data-ajax-click>
                 <span data-loading="<?= esc_attr_x('Migrating, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Run Migration', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>
@@ -51,7 +51,7 @@
         <input type="hidden" name="{{ id }}[_action]" value="count-reviews">
         <?php wp_nonce_field('count-reviews'); ?>
         <p class="submit">
-            <button type="submit" class="glsr-button button" name="count-reviews" id="count-reviews">
+            <button type="submit" class="glsr-button button" name="count-reviews" id="count-reviews" data-ajax-click>
                 <span data-loading="<?= esc_attr_x('Recalculating, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Recalculate Counts', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>
@@ -67,10 +67,25 @@
         <input type="hidden" name="{{ id }}[_action]" value="reset-permissions">
         <?php wp_nonce_field('reset-permissions'); ?>
         <p class="submit">
-            <button type="submit" class="glsr-button button" name="reset-permissions" id="reset-permissions">
+            <button type="submit" class="glsr-button button" name="reset-permissions" id="reset-permissions" data-ajax-click>
                 <span data-loading="<?= esc_attr_x('Resetting, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Reset Permissions', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>
     </form>
 </div>
 <?php endif; ?>
+
+<div class="glsr-card card">
+    <h3>Test IP Address Detection</h3>
+    <p>When reviews are submitted on your website, Site Reviews detects the IP address of the reviewer and saves it to the submitted review. This allows you to limit review submissions or to blacklist reviewers based on their IP address. The IP address is also used by Akismet (if you have enabled the integration) to catch spam submissions.</p>
+    <p>If you are getting an "unknown" value for IP addresses in your reviews, you may use this tool to check the visitor IP address detection.</p>
+    <form method="post">
+        <input type="hidden" name="{{ id }}[_action]" value="detect-ip-address">
+        <?php wp_nonce_field('detect-ip-address'); ?>
+        <p class="submit">
+            <button type="submit" class="glsr-button button" name="detect-ip-address" id="detect-ip-address" data-ajax-click>
+                <span data-loading="<?= esc_attr_x('Testing, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Test Detection', 'admin-text', 'site-reviews'); ?></span>
+            </button>
+        </p>
+    </form>
+</div>

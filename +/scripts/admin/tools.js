@@ -6,9 +6,7 @@
 	GLSR.Tools = function() {
 		$( 'form' ).on( 'click', '#clear-console', this.loadConsole_, this.onClick_.bind( this ));
 		$( 'form' ).on( 'click', '#fetch-console', this.loadConsole_, this.onClick_.bind( this ));
-		$( 'form' ).on( 'click', '#count-reviews', this.onClick_.bind( this ));
-		$( 'form' ).on( 'click', '#migrate-plugin', this.onClick_.bind( this ));
-		$( 'form' ).on( 'click', '#reset-permissions', this.onClick_.bind( this ));
+		$( 'form' ).on( 'click', '[data-ajax-click]', this.onClick_.bind( this ));
 	};
 
 	GLSR.Tools.prototype = {
@@ -22,6 +20,10 @@
 				if( typeof ev.data === 'function' ) {
 					ev.data( response, success );
 				}
+				$("html, body").animate({ scrollTop: 0 }, 500);
+				$('#glsr-notices').on( 'click', 'a', function() {
+					localStorage.setItem('glsr-expand', $(this).data('expand'));
+				});
 			});
 		},
 	};

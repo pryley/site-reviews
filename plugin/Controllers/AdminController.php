@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Commands\EnqueueAdminAssets;
 use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups;
 use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Console;
@@ -165,6 +166,29 @@ class AdminController extends Controller
     {
         glsr(CountsManager::class)->updateAll();
         glsr(Notice::class)->clear()->addSuccess(_x('Recalculated rating counts.', 'admin-text', 'site-reviews'));
+    }
+
+    /**
+     * @return void
+     */
+    public function routerDetectIpAddress()
+    {
+        $link = glsr(Builder::class)->a([
+            'data-expand' => '#faq-19',
+            'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'),
+            'text' => _x('FAQ', 'admin-text', 'site-reviews'),
+        ]);
+        if ('unknown' === $ipAddress = Helper::getIpAddress()) {
+            glsr(Notice::class)->addWarning(sprintf(
+                _x('Site Reviews was unable to detect an IP address. To fix this, please see the %s.', 'admin-text', 'site-reviews'),
+                $link
+            ));
+        } else {
+            glsr(Notice::class)->addSuccess(sprintf(
+                _x('Your IP address is %s. If this is incorrect, please see the %s.', 'admin-text', 'site-reviews'),
+                '<code>'.$ipAddress.'</code>', $link
+            ));
+        }
     }
 
     /**

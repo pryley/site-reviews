@@ -488,21 +488,24 @@ Disallow: /*?*reviews-page=*</code></pre>
 
 <div id="faq-19" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h2>Why are the IP Addresses not being detected correctly?</h2>
+        <h2>Why are the IP Addresses not being correctly detected?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_attr_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
     <div class="inside">
-        <p>If your server uses a reverse proxy (i.e. <a target="_blank" href="https://varnish-cache.org/intro/">Varnish</a>), then you may need to tell Site Reviews which custom header to use for IP Address detection. To add a custom header, use the following code snippet:</p>
+        <p>If you are getting identical IP addresses for all your reviews (or if they are "unknown"), then your web server may be behind a CDN, firewall, or reverse proxy.</p>
+        <p>If this is the case, you will need to provide Site Reviews with the HTTP request header that contains the real visitor IP address. If you are unsure what this means or how to find out which custom header is needed, please contact your hosting provider, server administrator, or the support team of your CDN or firewall service for assistance.</p>
+        <p>Once you know the custom HTTP request header to use, you may add it with the following code snippet:</p>
         <pre><code class="php">/**
- * Add a custom reverse proxy header to fix IP detection
+ * Add a custom HTTP request header to fix IP address detection
  * @param \Geminilabs\Vectorface\Whip $whip
  * @return void
  */
 add_action('site-reviews/whip', function($whip) {
-    $whip->addCustomHeader('X_REAL_IP'); // change the header as needed
+    $customHeader = 'HTTP_X_SUCURI_CLIENTIP'; // change the header as needed
+    $whip->addCustomHeader($customHeader);
 });</code></pre>
     </div>
 </div>

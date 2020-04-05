@@ -49,9 +49,9 @@ class AjaxController extends Controller
     /**
      * @return void
      */
-    public function routerMigratePlugin()
+    public function routerDetectIpAddress()
     {
-        glsr(AdminController::class)->routerMigratePlugin();
+        glsr(AdminController::class)->routerDetectIpAddress();
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
         ]);
@@ -87,6 +87,17 @@ class AjaxController extends Controller
             ];
         }
         wp_send_json_success($response);
+    }
+
+    /**
+     * @return void
+     */
+    public function routerMigratePlugin()
+    {
+        glsr(AdminController::class)->routerMigratePlugin();
+        wp_send_json_success([
+            'notices' => glsr(Notice::class)->get(),
+        ]);
     }
 
     /**
