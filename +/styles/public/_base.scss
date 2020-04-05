@@ -5,6 +5,10 @@
 	100% { transform: rotate(360deg); }
 }
 
+html:not([amp]) #{glsr(parent)} form.glsr-form select.glsr-star-rating {
+	visibility: hidden !important;
+}
+
 #{glsr(parent)} {
 	// Form
 	form.glsr-form label {
@@ -18,7 +22,6 @@
 	}
 	form.glsr-form select.glsr-star-rating {
 		display: block;
-		visibility: hidden !important;
 	}
 	form.glsr-form input[type=text],
 	form.glsr-form input[type=email],
