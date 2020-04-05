@@ -134,6 +134,18 @@ class Str
     }
 
     /**
+     * @param mixed $value
+     * @param string $fallback
+     * @return string
+     */
+    public static function fallback($value, $fallback)
+    {
+        return is_string($value) && empty(trim($value))
+            ? $fallback
+            : $value;
+    }
+
+    /**
      * @param string $prefix
      * @param string $string
      * @param string|null $trim
