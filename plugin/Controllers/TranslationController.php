@@ -22,6 +22,25 @@ class TranslationController
     }
 
     /**
+     * @return void
+     * @action plugins_loaded
+     */
+    public function addTranslationFilters()
+    {
+        if (empty(glsr(Translation::class)->translations())) {
+            return;
+        }
+        add_filter('gettext',                                         [$this, 'filterGettext'], 9, 3);
+        add_filter('site-reviews/gettext/site-reviews',               [$this, 'filterGettextSiteReviews'], 10, 2);
+        add_filter('gettext_with_context',                            [$this, 'filterGettextWithContext'], 9, 4);
+        add_filter('site-reviews/gettext_with_context/site-reviews',  [$this, 'filterGettextWithContextSiteReviews'], 10, 3);
+        add_filter('ngettext',                                        [$this, 'filterNgettext'], 9, 5);
+        add_filter('site-reviews/ngettext/site-reviews',              [$this, 'filterNgettextSiteReviews'], 10, 4);
+        add_filter('ngettext_with_context',                           [$this, 'filterNgettextWithContext'], 9, 6);
+        add_filter('site-reviews/ngettext_with_context/site-reviews', [$this, 'filterNgettextWithContextSiteReviews'], 10, 5);
+    }
+
+    /**
      * @param array $messages
      * @return array
      * @filter bulk_post_updated_messages

@@ -65,14 +65,6 @@ class Filters implements HooksContract
         add_filter('site-reviews/config/forms/submission-form',                 [$this->public, 'filterFieldOrder'], 11);
         add_filter('site-reviews/render/view',                                  [$this->public, 'filterRenderView']);
         add_filter('bulk_post_updated_messages',                                [$this->translator, 'filterBulkUpdateMessages'], 10, 2);
-        add_filter('gettext',                                                   [$this->translator, 'filterGettext'], 9, 3);
-        add_filter('site-reviews/gettext/site-reviews',                         [$this->translator, 'filterGettextSiteReviews'], 10, 2);
-        add_filter('gettext_with_context',                                      [$this->translator, 'filterGettextWithContext'], 9, 4);
-        add_filter('site-reviews/gettext_with_context/site-reviews',            [$this->translator, 'filterGettextWithContextSiteReviews'], 10, 3);
-        add_filter('ngettext',                                                  [$this->translator, 'filterNgettext'], 9, 5);
-        add_filter('site-reviews/ngettext/site-reviews',                        [$this->translator, 'filterNgettextSiteReviews'], 10, 4);
-        add_filter('ngettext_with_context',                                     [$this->translator, 'filterNgettextWithContext'], 9, 6);
-        add_filter('site-reviews/ngettext_with_context/site-reviews',           [$this->translator, 'filterNgettextWithContextSiteReviews'], 10, 5);
         add_filter('display_post_states',                                       [$this->translator, 'filterPostStates'], 10, 2);
         add_filter('site-reviews/gettext/default',                              [$this->translator, 'filterPostStatusLabels'], 10, 2);
         add_filter('site-reviews/gettext_with_context/default',                 [$this->translator, 'filterPostStatusLabels'], 10, 2);
