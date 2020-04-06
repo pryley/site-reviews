@@ -7,6 +7,7 @@ use ReflectionClass;
 
 /**
  * @property string $id
+ * @property string $name
  * @property string $slug
  * @property string $update_url
  */

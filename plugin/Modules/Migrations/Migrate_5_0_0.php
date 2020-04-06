@@ -24,7 +24,7 @@ class Migrate_5_0_0
      */
     public function migrateSidebarWidgets()
     {
-        $sidebars = get_option('sidebars_widgets');
+        $sidebars = Arr::consolidate(get_option('sidebars_widgets'));
         if ($this->widgetsExist($sidebars)) {
             $sidebars = $this->updateWidgetNames($sidebars);
             update_option('sidebars_widgets', $sidebars);
@@ -39,7 +39,7 @@ class Migrate_5_0_0
         $themes = $this->queryThemeMods();
         foreach ($themes as $theme) {
             $themeMod = get_option($theme);
-            $sidebars = Arr::get($themeMod, 'sidebars_widgets.data');
+            $sidebars = Arr::consolidate(Arr::get($themeMod, 'sidebars_widgets.data'));
             if ($this->widgetsExist($sidebars)) {
                 $themeMod['sidebars_widgets']['data'] = $this->updateWidgetNames($sidebars);
                 update_option($theme, $themeMod);
@@ -108,12 +108,11 @@ class Migrate_5_0_0
     }
 
     /**
-     * @param mixed $sidebars
      * @return bool
      */
-    protected function widgetsExist($sidebars)
+    protected function widgetsExist(array $sidebars)
     {
-        $widgets = call_user_func_array('array_merge', array_filter(Arr::consolidate($sidebars), 'is_array'));
+        $widgets = call_user_func_array('array_merge', array_filter($sidebars, 'is_array'));
         foreach ($widgets as $widget) {
             if (Str::startsWith(Application::ID.'_', $widget)) {
                 return true;
