@@ -81,7 +81,11 @@ class Columns
      */
     public function buildColumnReviewer($postId)
     {
-        return strval(glsr(Database::class)->get($postId, 'author'));
+        $author = strval(glsr(Database::class)->get($postId, 'author'));
+        $userId = Helper::castToInt(get_post($postId)->post_author);
+        return !empty($userId)
+            ? glsr(Builder::class)->a($author, ['href' => get_author_posts_url($userId)])
+            : $author;
     }
 
     /**
