@@ -61,6 +61,7 @@
 				_action: 'toggle-pinned',
 				id: ev.currentTarget.getAttribute( 'data-id' ),
 			};
+			$(this.target).addClass('spinner is-active').removeClass('dashicons-sticky');
 			(new GLSR.Ajax( request )).post( this.togglePinned_.bind( this ));
 		},
 
@@ -74,7 +75,8 @@
 
 		/** @return void */
 		togglePinned_: function( response ) {
-			this.target.classList[response.pinned ? 'add' : 'remove']( 'pinned' );
+			this.target.classList[response.pinned ? 'add' : 'remove']('pinned');
+			$(this.target).removeClass('spinner is-active').addClass('dashicons-sticky');
 		},
 	};
 })( jQuery );
