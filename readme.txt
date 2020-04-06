@@ -112,9 +112,26 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 == Changelog ==
 
-= 5.0.0 (2020-03-30) =
+= 5.0.0 (2020-04-30) =
 
 - Added ...
+
+= 4.5.5 (2020-03-31) =
+
+- Fixed PHP error thrown when upgrading from < v4.4.0
+
+= 4.5.4 (2020-03-30) =
+
+- Updated the author column on the "All Reviews" page to link to the author if they exist
+
+= 4.5.3 (2020-03-29) =
+
+- Fixed translation filters to only load if translations exist
+- Updated Trustalyze integration notice
+
+= 4.5.2 (2020-03-20) =
+
+- Fixed unicode character support
 
 = 4.5.1 (2020-03-19) =
 
