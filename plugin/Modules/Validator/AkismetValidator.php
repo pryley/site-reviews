@@ -1,19 +1,20 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules;
+namespace GeminiLabs\SiteReviews\Modules\Validator;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use Akismet as AkismetPlugin;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use Akismet;
 
-class Akismet
+class AkismetValidator
 {
     /**
      * @return bool
      */
-    public function isSpam(array $review)
+    public function isValid(array $review)
     {
         if (!$this->isActive()) {
-            return false;
+            return true;
         }
         $submission = [
             'blog' => glsr(OptionManager::class)->getWP('home'),
@@ -30,24 +31,12 @@ class Akismet
             // 'is_test' => 1,
         ];
         foreach ($_SERVER as $key => $value) {
-            if (is_array($value) || in_array($key, ['HTTP_COOKIE', 'HTTP_COOKIE2', 'PHP_AUTH_PW'])) {
-                continue;
+            if (!is_array($value) && !in_array($key, ['HTTP_COOKIE', 'HTTP_COOKIE2', 'PHP_AUTH_PW'])) {
+                $submission[$key] = $value;
             }
-            $submission[$key] = $value;
         }
-        return $this->check(apply_filters('site-reviews/akismet/submission', $submission, $review));
-    }
-
-    /**
-     * @return bool
-     */
-    protected function check(array $submission)
-    {
-        $response = AkismetPlugin::http_post($this->buildQuery($submission), 'comment-check');
-        return apply_filters('site-reviews/akismet/is-spam',
-            'true' == $response[1],
-            $submission,
-            $response
+        return $this->validate(
+            Arr::consolidate(apply_filters('site-reviews/validate/akismet/submission', $submission, $review))
         );
     }
 
@@ -82,7 +71,21 @@ class Akismet
             || !is_callable(['Akismet', 'get_api_key'])
             || !is_callable(['Akismet', 'http_post'])
             ? false
-            : (bool) AkismetPlugin::get_api_key();
-        return apply_filters('site-reviews/akismet/is-active', $check);
+            : Akismet::get_api_key();
+        return wp_validate_boolean(
+            apply_filters('site-reviews/validate/akismet/is-active', $check)
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    protected function validate(array $submission)
+    {
+        $response = Akismet::http_post($this->buildQuery($submission), 'comment-check');
+        $result = 'true' !== $response[1];
+        return wp_validate_boolean(
+            apply_filters('site-reviews/validate/akismet', $result, $submission, $response)
+        );
     }
 }

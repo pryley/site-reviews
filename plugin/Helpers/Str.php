@@ -163,6 +163,16 @@ class Str
     }
 
     /**
+     * @param int $length
+     * @return string
+     */
+    public static function random($length = 8)
+    {
+        $text = base64_encode(wp_generate_password());
+        return substr(str_replace(['/','+','='], '', $text), 0, $length);
+    }
+
+    /**
      * @param string $prefix
      * @param string $string
      * @return string

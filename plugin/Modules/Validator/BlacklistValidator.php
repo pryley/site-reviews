@@ -1,15 +1,15 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules;
+namespace GeminiLabs\SiteReviews\Modules\Validator;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 
-class Blacklist
+class BlacklistValidator
 {
     /**
      * @return bool
      */
-    public function isBlacklisted(array $review)
+    public function isValid(array $review)
     {
         $target = implode("\n", array_filter([
             $review['name'],
@@ -18,22 +18,28 @@ class Blacklist
             $review['ip_address'],
             $review['title'],
         ]));
-        return (bool) apply_filters('site-reviews/blacklist/is-blacklisted',
-            $this->check($target),
-            $review,
-            $target
+        return wp_validate_boolean(
+            apply_filters('site-reviews/validate/blacklist', $this->validate($target), $target, $review)
         );
+    }
+
+    protected function getBlacklist()
+    {
+        $option = glsr(OptionManager::class)->get('settings.submissions.blacklist.integration');
+        return $option == 'comments'
+            ? trim(glsr(OptionManager::class)->getWP('blacklist_keys'))
+            : trim(glsr(OptionManager::class)->get('settings.submissions.blacklist.entries'));
     }
 
     /**
      * @param string $target
      * @return bool
      */
-    protected function check($target)
+    protected function validate($target)
     {
         $blacklist = $this->getBlacklist();
         if (empty($blacklist)) {
-            return false;
+            return true;
         }
         $lines = explode("\n", $blacklist);
         foreach ((array) $lines as $line) {
@@ -43,17 +49,9 @@ class Blacklist
             }
             $pattern = sprintf('#%s#i', preg_quote($line, '#'));
             if (preg_match($pattern, $target)) {
-                return true;
+                return false;
             }
         }
-        return false;
-    }
-
-    protected function getBlacklist()
-    {
-        $option = glsr(OptionManager::class)->get('settings.submissions.blacklist.integration');
-        return $option == 'comments'
-            ? trim(glsr(OptionManager::class)->getWP('blacklist_keys'))
-            : trim(glsr(OptionManager::class)->get('settings.submissions.blacklist.entries'));
+        return true;
     }
 }

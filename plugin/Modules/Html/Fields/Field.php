@@ -74,7 +74,7 @@ abstract class Field
      */
     public static function mergedAttribute($key, $delimiter, array $args)
     {
-        return array_filter(array_merge(
+        return Arr::unique(array_merge(
             explode($delimiter, Arr::get($args, $key)),
             explode($delimiter, Arr::get(static::defaults(), $key)),
             explode($delimiter, Arr::get(static::required(), $key))

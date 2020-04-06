@@ -59,6 +59,86 @@ class Field
     }
 
     /**
+     * @return string
+     */
+    public function getField()
+    {
+        return glsr(Builder::class)->raw($this->field);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFieldClass()
+    {
+        $classes = [];
+        if (!empty($this->field['errors'])) {
+            $classes[] = 'glsr-has-error';
+        }
+        if ($this->field['is_hidden']) {
+            $classes[] = 'hidden';
+        }
+        if (!empty($this->field['required'])) {
+            $classes[] = 'glsr-required';
+        }
+        $classes = apply_filters('site-reviews/rendered/field/classes', $classes, $this->field);
+        return implode(' ', $classes);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFieldDependsOn()
+    {
+        return !empty($this->field['data-depends'])
+            ? $this->field['data-depends']
+            : '';
+    }
+
+    /**
+     * @return void|string
+     */
+    public function getFieldErrors()
+    {
+        if (empty($this->field['errors']) || !is_array($this->field['errors'])) {
+            return;
+        }
+        $errors = array_reduce($this->field['errors'], function ($carry, $error) {
+            return $carry.glsr(Builder::class)->span($error, ['class' => 'glsr-field-error']);
+        });
+        return glsr(Template::class)->build('templates/form/field-errors', [
+            'context' => [
+                'errors' => $errors,
+            ],
+            'field' => $this->field,
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFieldLabel()
+    {
+        return glsr(Builder::class)->label([
+            'class' => 'glsr-'.$this->field['type'].'-label',
+            'for' => $this->field['id'],
+            'is_public' => $this->field['is_public'],
+            'text' => $this->field['label'].'<span></span>',
+            'type' => $this->field['type'],
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFieldPrefix()
+    {
+        return $this->field['is_setting']
+            ? OptionManager::databaseKey()
+            : Application::ID;
+    }
+
+    /**
      * @return void
      */
     public function render()
@@ -75,14 +155,8 @@ class Field
             'context' => [
                 'class' => $this->getFieldClass(),
                 'errors' => $this->getFieldErrors(),
-                'field' => glsr(Builder::class)->raw($this->field),
-                'label' => glsr(Builder::class)->label([
-                    'class' => 'glsr-'.$this->field['type'].'-label',
-                    'for' => $this->field['id'],
-                    'is_public' => $this->field['is_public'],
-                    'text' => $this->field['label'].'<span></span>',
-                    'type' => $this->field['type'],
-                ]),
+                'field' => $this->getField(),
+                'label' => $this->getFieldLabel(),
             ],
             'field' => $this->field,
         ]);
@@ -121,64 +195,6 @@ class Field
             ],
             'field' => $this->field,
         ]);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getFieldClass()
-    {
-        $classes = [];
-        if (!empty($this->field['errors'])) {
-            $classes[] = 'glsr-has-error';
-        }
-        if ($this->field['is_hidden']) {
-            $classes[] = 'hidden';
-        }
-        if (!empty($this->field['required'])) {
-            $classes[] = 'glsr-required';
-        }
-        $classes = apply_filters('site-reviews/rendered/field/classes', $classes, $this->field);
-        return implode(' ', $classes);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getFieldDependsOn()
-    {
-        return !empty($this->field['data-depends'])
-            ? $this->field['data-depends']
-            : '';
-    }
-
-    /**
-     * @return void|string
-     */
-    protected function getFieldErrors()
-    {
-        if (empty($this->field['errors']) || !is_array($this->field['errors'])) {
-            return;
-        }
-        $errors = array_reduce($this->field['errors'], function ($carry, $error) {
-            return $carry.glsr(Builder::class)->span($error, ['class' => 'glsr-field-error']);
-        });
-        return glsr(Template::class)->build('templates/form/field-errors', [
-            'context' => [
-                'errors' => $errors,
-            ],
-            'field' => $this->field,
-        ]);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getFieldPrefix()
-    {
-        return $this->field['is_setting']
-            ? OptionManager::databaseKey()
-            : Application::ID;
     }
 
     /**

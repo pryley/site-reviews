@@ -23,14 +23,10 @@
     site-reviews/addon/system-info
     site-reviews/addon/tools/tabs
     site-reviews/addon/types
-    site-reviews/akismet/is-active
-    site-reviews/akismet/is-spam
-    site-reviews/akismet/submission
     site-reviews/assets/css
     site-reviews/assets/js
     site-reviews/assets/polyfill
     site-reviews/async-scripts
-    site-reviews/blacklist/is-blacklisted
     site-reviews/block/{block}/attributes
     site-reviews/build/template/{template_path}
     site-reviews/builder/field/{field_type}/args
@@ -60,6 +56,7 @@
     site-reviews/enqueue/public/localize
     site-reviews/enqueue/public/localize/ajax-pagination
     site-reviews/field/{field_type}
+    site-reviews/field/honeypot/args
     site-reviews/get/defaults
     site-reviews/get/review
     site-reviews/get/reviews
@@ -97,8 +94,6 @@
     site-reviews/review/redirect
     site-reviews/review/wrap
     site-reviews/review/wrap/{field_key}
-    site-reviews/review-limits/query
-    site-reviews/review-limits/validate
     site-reviews/reviews/fallback
     site-reviews/route/request
     site-reviews/router/unguarded-actions
@@ -126,7 +121,14 @@
     site-reviews/trustalyze/response
     site-reviews/trustalyze/review
     site-reviews/url
+    site-reviews/validate/akismet
+    site-reviews/validate/akismet/is-active
+    site-reviews/validate/akismet/submission
+    site-reviews/validate/blacklist
     site-reviews/validate/custom
+    site-reviews/validate/honeypot
+    site-reviews/validate/review-limits
+    site-reviews/validate/review-limits/query
     site-reviews/validation/rules
     site-reviews/views/data
     site-reviews/views/file

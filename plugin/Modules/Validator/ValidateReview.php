@@ -6,9 +6,6 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\ValidateReviewDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Modules\Akismet;
-use GeminiLabs\SiteReviews\Modules\Blacklist;
-use GeminiLabs\SiteReviews\Modules\ReviewLimits;
 use GeminiLabs\SiteReviews\Modules\Validator;
 
 class ValidateReview
@@ -61,7 +58,7 @@ class ValidateReview
     public function validate(array $request)
     {
         $request['ip_address'] = Helper::getIpAddress(); // required for Akismet and Blacklist validation
-        $this->form_id = $request['form_id'];
+        $this->form_id = Arr::get($request, 'form_id');
         $this->options = glsr(OptionManager::class)->all();
         $this->request = $this->validateRequest($request);
         $this->validateCustom();
@@ -186,10 +183,7 @@ class ValidateReview
      */
     protected function validateAkismet()
     {
-        if (!empty($this->error)) {
-            return;
-        }
-        if (glsr(Akismet::class)->isSpam($this->request)) {
+        if (empty($this->error) && !glsr(AkismetValidator::class)->isValid($this->request)) {
             $this->setError(__('This review has been flagged as possible spam and cannot be submitted.', 'site-reviews'),
                 'Akismet caught a spam submission (consider adding the IP address to the blacklist):'
             );
@@ -201,10 +195,7 @@ class ValidateReview
      */
     protected function validateBlacklist()
     {
-        if (!empty($this->error)) {
-            return;
-        }
-        if (!glsr(Blacklist::class)->isBlacklisted($this->request)) {
+        if (!empty($this->error) || glsr(BlacklistValidator::class)->isValid($this->request)) {
             return;
         }
         $blacklistAction = $this->getOption('settings.submissions.blacklist.action');
@@ -241,10 +232,7 @@ class ValidateReview
      */
     protected function validateHoneyPot()
     {
-        if (!empty($this->error)) {
-            return;
-        }
-        if (!empty($this->request['gotcha'])) {
+        if (empty($this->error) && !glsr(HoneypotValidator::class)->isValid($this->request)) {
             $this->setError(__('The review submission failed. Please notify the site administrator.', 'site-reviews'),
                 'The Honeypot caught a bad submission:'
             );
@@ -269,10 +257,7 @@ class ValidateReview
      */
     protected function validateReviewLimits()
     {
-        if (!empty($this->error)) {
-            return;
-        }
-        if (glsr(ReviewLimits::class)->hasReachedLimit($this->request)) {
+        if (empty($this->error) && !glsr(ReviewLimitValidator::class)->isValid($this->request)) {
             $this->setError(__('You have already submitted a review.', 'site-reviews'));
         }
     }

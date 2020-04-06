@@ -164,9 +164,11 @@
 		initField_: function( inputEl ) {
 			var params = {};
 			var rules = [];
-			this.addValidators_( inputEl.attributes, rules, params );
-			this.sortValidators_( rules );
-			this.addEvent_( inputEl );
+			if (null !== inputEl.offsetParent) { // is inputEl visible?
+				this.addValidators_( inputEl.attributes, rules, params );
+				this.sortValidators_( rules );
+				this.addEvent_( inputEl );
+			}
 			return inputEl.validation = {
 				form: this.form,
 				input: inputEl,

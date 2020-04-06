@@ -1,12 +1,12 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules;
+namespace GeminiLabs\SiteReviews\Modules\Validator;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class ReviewLimits
+class ReviewLimitValidator
 {
     protected $request;
 
@@ -20,21 +20,21 @@ class ReviewLimits
             $parameters['author'] = $authorId;
         }
         $parameters['post_status'] = ['pending', 'publish'];
-        return apply_filters('site-reviews/review-limits/query', $parameters, $args);
+        return apply_filters('site-reviews/validate/review-limits/query', $parameters, $args);
     }
 
     /**
      * @return bool
      */
-    public function hasReachedLimit(array $request = [])
+    public function isValid(array $request = [])
     {
         $this->request = $request;
         $method = Helper::buildMethodName(
             glsr(OptionManager::class)->get('settings.submissions.limit'), 'validateBy'
         );
         return method_exists($this, $method)
-            ? !call_user_func([$this, $method])
-            : false;
+            ? call_user_func([$this, $method])
+            : true;
     }
 
     /**
@@ -75,8 +75,9 @@ class ReviewLimits
         $reviews = glsr_get_reviews($args);
         remove_filter('site-reviews/get/reviews/query', [$this, 'filterReviewsQuery'], 5);
         $result = 0 === count($reviews);
-        $result = apply_filters('site-reviews/review-limits/validate', $result, $reviews, $this->request, $key);
-        return wp_validate_boolean($result);
+        return wp_validate_boolean(
+            apply_filters('site-reviews/validate/review-limits', $result, $reviews, $this->request, $key)
+        );
     }
 
     /**
