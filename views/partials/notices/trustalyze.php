@@ -4,7 +4,7 @@
     </div>
     <div class="glsr-notice-content">
         <h3>Validate Your Reviews on the Blockchain With the Trustalyze Confidence System</h3>
-        <p>Site Reviews now integrates with the Trustalyze Confidence System which uses blockchain technology to verify to your visitors and customers that your reviews are authentic. Simply create a free Trustalyze account and <a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings#tab-general'); ?>">enter your credentials in the Settings</a>. Site Reviews will take care of the rest!</p>
-        <a href="https://trustalyze.com/plans?ref=105" class="button" target="_blank">Create Your Trustalyze Account</a>
+        <p>Site Reviews integrates with the <a href="https://trustalyze.com/plans?ref=105">Trustalyze Confidence System</a>, a service which uses blockchain technology to verify to your visitors and customers that your reviews are authentic.</p>
+        <a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings#tab-general'); ?>" class="button">Enable the integration</a>
     </div>
 </div>
