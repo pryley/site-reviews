@@ -88,6 +88,10 @@ class Arr
             if (!isset($data[$key])) {
                 return $fallback;
             }
+            if (is_object($data[$key])) {
+                $data = static::consolidate($data[$key]);
+                continue;
+            }
             $data = $data[$key];
         }
         return $data;
@@ -180,20 +184,24 @@ class Arr
         return $result;
     }
 
-
     /**
      * Set a value to an array of values using a dot-notation path as reference.
+     * @param mixed $data
      * @param string $path
      * @param mixed $value
      * @return array
      */
-    public static function set(array $data, $path, $value)
+    public static function set($data, $path, $value)
     {
         $token = strtok($path, '.');
         $ref = &$data;
         while (false !== $token) {
-            $ref = static::consolidate($ref);
-            $ref = &$ref[$token];
+            if (is_object($ref)) {
+                $ref = &$ref->$token;
+            } else {
+                $ref = static::consolidate($ref);
+                $ref = &$ref[$token];
+            }
             $token = strtok('.');
         }
         $ref = $value;
