@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers\EditorController;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use WP_Post;
 
 class Labels
@@ -56,16 +57,18 @@ class Labels
      */
     public function translatePostStatusLabels()
     {
-        global $wp_scripts;
-        $strings = [
-            'savePending' => _x('Save as Unapproved', 'admin-text', 'site-reviews'),
-            'published' => _x('Approved', 'admin-text', 'site-reviews'),
-        ];
-        if (isset($wp_scripts->registered['post']->extra['data'])) {
-            $l10n = &$wp_scripts->registered['post']->extra['data'];
-            foreach ($strings as $search => $replace) {
-                $l10n = preg_replace('/("'.$search.'":")([^"]+)/u', '$1'.$replace, $l10n);
-            }
+        $pattern = '/^([^{]+)(.+)([^}]+)$/';
+        $script = Arr::get(wp_scripts(), 'registered.post.extra.data');
+        preg_match($pattern, $script, $matches);
+        if (4 === count($matches) && $i10n = json_decode($matches[2], JSON_OBJECT_AS_ARRAY)) {
+            $i10n['privatelyPublished'] = _x('Privately Approved', 'admin-text', 'site-reviews');
+            $i10n['publish'] = _x('Approve', 'admin-text', 'site-reviews');
+            $i10n['published'] = _x('Approved', 'admin-text', 'site-reviews');
+            $i10n['publishOn'] = _x('Approve on:', 'admin-text', 'site-reviews');
+            $i10n['publishOnPast'] = _x('Approved on:', 'admin-text', 'site-reviews');
+            $i10n['savePending'] = _x('Save as Unapproved', 'admin-text', 'site-reviews');
+            $script = $matches[1].json_encode($i10n).$matches[3];
+            Arr::set(wp_scripts(), 'registered.post.extra.data', $script);
         }
     }
 
