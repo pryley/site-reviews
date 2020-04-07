@@ -60,7 +60,7 @@ class Labels
         $pattern = '/^([^{]+)(.+)([^}]+)$/';
         $script = Arr::get(wp_scripts(), 'registered.post.extra.data');
         preg_match($pattern, $script, $matches);
-        if (4 === count($matches) && $i10n = json_decode($matches[2], JSON_OBJECT_AS_ARRAY)) {
+        if (4 === count($matches) && $i10n = json_decode($matches[2], true)) {
             $i10n['privatelyPublished'] = _x('Privately Approved', 'admin-text', 'site-reviews');
             $i10n['publish'] = _x('Approve', 'admin-text', 'site-reviews');
             $i10n['published'] = _x('Approved', 'admin-text', 'site-reviews');
