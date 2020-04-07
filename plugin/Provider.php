@@ -16,8 +16,7 @@ class Provider implements ProviderContract
     public function register(Application $app)
     {
         $app->bind(Application::class, $app);
-        $app->singleton(Actions::class, Actions::class);
-        $app->singleton(Filters::class, Filters::class);
+        $app->singleton(Hooks::class, Hooks::class);
         $app->singleton(OptionManager::class, OptionManager::class);
         $app->singleton(Translator::class, Translator::class);
         $app->singleton(Translation::class, Translation::class);

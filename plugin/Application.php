@@ -210,8 +210,7 @@ final class Application extends Container
      */
     public function init()
     {
-        $this->make(Actions::class)->run();
-        $this->make(Filters::class)->run();
+        $this->make(Hooks::class)->run();
     }
 
     /**
