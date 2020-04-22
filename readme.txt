@@ -112,6 +112,11 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 == Changelog ==
 
+= 4.6.0 (2020-04-22) =
+
+- Added an option to disable the review pagination query string (see Settings > Reviews page)
+- Added glsr_get_rating() helper function (see Help > Functions page)
+
 = 4.5.5 (2020-03-31) =
 
 - Fixed PHP error thrown when upgrading from < v4.4.0
