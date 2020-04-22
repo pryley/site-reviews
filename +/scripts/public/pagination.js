@@ -28,7 +28,9 @@
 			this.scrollToTop_( this.el );
 			this.el.classList.remove( this.config.hideClass );
 			this.initEvents_();
-			window.history.pushState( null, '', location );
+			if (GLSR.urlparameter) {
+				window.history.pushState( null, '', location );
+			}
 			new GLSR.Excerpts( this.el );
 		},
 

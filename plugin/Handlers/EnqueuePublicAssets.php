@@ -91,6 +91,7 @@ class EnqueuePublicAssets
             'ajaxpagination' => $this->getFixedSelectorsForPagination(),
             'ajaxurl' => admin_url('admin-ajax.php'),
             'nameprefix' => Application::ID,
+            'urlparameter' => glsr(OptionManager::class)->getBool('settings.reviews.pagination.url_parameter'),
             'validationconfig' => glsr(Style::class)->validation,
             'validationstrings' => glsr(ValidationStringsDefaults::class)->defaults(),
         ];
