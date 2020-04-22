@@ -52,7 +52,8 @@
 			var data = {};
 			data[GLSR.nameprefix + '[_action]'] = 'fetch-paged-reviews';
 			data[GLSR.nameprefix + '[atts]'] = jsonEl.dataset.atts;
-			data[GLSR.nameprefix + '[url]'] = ev.currentTarget.href;
+			data[GLSR.nameprefix + '[page]'] = ev.currentTarget.dataset.page || '';
+			data[GLSR.nameprefix + '[url]'] = ev.currentTarget.href || '';
 			this.el.classList.add( this.config.hideClass );
 			ev.preventDefault();
 			(new GLSR.Ajax()).post( data, this.handleResponse_.bind( this, ev.currentTarget.href ));

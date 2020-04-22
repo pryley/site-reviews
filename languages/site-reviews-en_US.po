@@ -372,171 +372,171 @@ msgstr "There are no reviews yet. Be the first one to write one."
 msgid "Enable Fallback Text"
 msgstr "Enable Fallback Text"
 
-#: config/settings.php:247, config/settings.php:267, config/settings.php:285, config/settings.php:303, config/settings.php:321, config/settings.php:342, config/settings.php:352, config/settings.php:362, config/settings.php:372, config/settings.php:386, config/settings.php:397, config/settings.php:408, config/settings.php:418
+#: config/settings.php:254, config/settings.php:274, config/settings.php:292, config/settings.php:310, config/settings.php:328, config/settings.php:349, config/settings.php:359, config/settings.php:369, config/settings.php:379, config/settings.php:393, config/settings.php:404, config/settings.php:415, config/settings.php:425
 msgid "Custom Field name"
 msgstr "Custom Field name"
 
-#: config/settings.php:248
+#: config/settings.php:255
 msgid "Default Schema Type"
 msgstr "Default Schema Type"
 
-#: config/settings.php:250
+#: config/settings.php:257
 msgid "Local Business"
 msgstr "Local Business"
 
-#: config/settings.php:251
+#: config/settings.php:258
 msgid "Product"
 msgstr "Product"
 
-#: config/settings.php:252
+#: config/settings.php:259
 msgid "Custom"
 msgstr "Custom"
 
-#: config/settings.php:261
+#: config/settings.php:268
 msgid "View more information on schema types here"
 msgstr "View more information on schema types here"
 
-#: config/settings.php:262
+#: config/settings.php:269
 msgid "Custom Schema Type"
 msgstr "Custom Schema Type"
 
-#: config/settings.php:268
+#: config/settings.php:275
 msgid "Default Name"
 msgstr "Default Name"
 
-#: config/settings.php:270
+#: config/settings.php:277
 msgid "Use the assigned or current page title"
 msgstr "Use the assigned or current page title"
 
-#: config/settings.php:271
+#: config/settings.php:278
 msgid "Enter a custom title"
 msgstr "Enter a custom title"
 
-#: config/settings.php:280
+#: config/settings.php:287
 msgid "Custom Name"
 msgstr "Custom Name"
 
-#: config/settings.php:286
+#: config/settings.php:293
 msgid "Default Description"
 msgstr "Default Description"
 
-#: config/settings.php:288
+#: config/settings.php:295
 msgid "Use the assigned or current page excerpt"
 msgstr "Use the assigned or current page excerpt"
 
-#: config/settings.php:289
+#: config/settings.php:296
 msgid "Enter a custom description"
 msgstr "Enter a custom description"
 
-#: config/settings.php:298
+#: config/settings.php:305
 msgid "Custom Description"
 msgstr "Custom Description"
 
-#: config/settings.php:304
+#: config/settings.php:311
 msgid "Default URL"
 msgstr "Default URL"
 
-#: config/settings.php:306
+#: config/settings.php:313
 msgid "Use the assigned or current page URL"
 msgstr "Use the assigned or current page URL"
 
-#: config/settings.php:307
+#: config/settings.php:314
 msgid "Enter a custom URL"
 msgstr "Enter a custom URL"
 
-#: config/settings.php:316
+#: config/settings.php:323
 msgid "Custom URL"
 msgstr "Custom URL"
 
-#: config/settings.php:322
+#: config/settings.php:329
 msgid "Default Image"
 msgstr "Default Image"
 
-#: config/settings.php:324
+#: config/settings.php:331
 msgid "Use the featured image of the assigned or current page"
 msgstr "Use the featured image of the assigned or current page"
 
-#: config/settings.php:325
+#: config/settings.php:332
 msgid "Enter a custom image URL"
 msgstr "Enter a custom image URL"
 
-#: config/settings.php:334
+#: config/settings.php:341
 msgid "Custom Image URL"
 msgstr "Custom Image URL"
 
-#: config/settings.php:343
+#: config/settings.php:350
 msgid "Address"
 msgstr "Address"
 
-#: config/settings.php:353
+#: config/settings.php:360
 msgid "Telephone Number"
 msgstr "Telephone Number"
 
-#: config/settings.php:363
+#: config/settings.php:370
 msgid "Price Range"
 msgstr "Price Range"
 
-#: config/settings.php:373
+#: config/settings.php:380
 msgid "Offer Type"
 msgstr "Offer Type"
 
-#: config/settings.php:375
+#: config/settings.php:382
 msgid "AggregateOffer"
 msgstr "AggregateOffer"
 
-#: config/settings.php:376
+#: config/settings.php:383
 msgid "Offer"
 msgstr "Offer"
 
-#: config/settings.php:387
+#: config/settings.php:394
 msgid "Price"
 msgstr "Price"
 
-#: config/settings.php:398
+#: config/settings.php:405
 msgid "Low Price"
 msgstr "Low Price"
 
-#: config/settings.php:409
+#: config/settings.php:416
 msgid "High Price"
 msgstr "High Price"
 
-#: config/settings.php:419
+#: config/settings.php:426
 msgid "Price Currency"
 msgstr "Price Currency"
 
-#: config/settings.php:425
+#: config/settings.php:432
 msgid "Choose which fields should be required in the submission form."
 msgstr "Choose which fields should be required in the submission form."
 
-#: config/settings.php:426
+#: config/settings.php:433
 msgid "Required Fields"
 msgstr "Required Fields"
 
-#: config/settings.php:428, plugin/Controllers/EditorController.php:392, plugin/Controllers/MainController.php:34, plugin/Shortcodes/SiteReviewsPopup.php:30
+#: config/settings.php:435, plugin/Controllers/EditorController.php:392, plugin/Controllers/MainController.php:34, plugin/Shortcodes/SiteReviewsPopup.php:30
 msgid "Rating"
 msgstr "Rating"
 
-#: config/settings.php:429, plugin/Defaults/PostTypeDefaults.php:16, plugin/Shortcodes/SiteReviewsFormPopup.php:16, plugin/Shortcodes/SiteReviewsPopup.php:17, plugin/Shortcodes/SiteReviewsSummaryPopup.php:17, plugin/Widgets/SiteReviewsFormWidget.php:32, plugin/Widgets/SiteReviewsSummaryWidget.php:32, plugin/Widgets/SiteReviewsWidget.php:32
+#: config/settings.php:436, plugin/Defaults/PostTypeDefaults.php:16, plugin/Shortcodes/SiteReviewsFormPopup.php:16, plugin/Shortcodes/SiteReviewsPopup.php:17, plugin/Shortcodes/SiteReviewsSummaryPopup.php:17, plugin/Widgets/SiteReviewsFormWidget.php:32, plugin/Widgets/SiteReviewsSummaryWidget.php:32, plugin/Widgets/SiteReviewsWidget.php:32
 msgid "Title"
 msgstr "Title"
 
-#: config/settings.php:430, plugin/Controllers/MainController.php:45
+#: config/settings.php:437, plugin/Controllers/MainController.php:45
 msgid "Review"
 msgstr "Review"
 
-#: config/settings.php:431, plugin/Controllers/EditorController.php:395
+#: config/settings.php:438, plugin/Controllers/EditorController.php:395
 msgid "Name"
 msgstr "Name"
 
-#: config/settings.php:432, plugin/Controllers/EditorController.php:396, plugin/Controllers/MainController.php:30
+#: config/settings.php:439, plugin/Controllers/EditorController.php:396, plugin/Controllers/MainController.php:30
 msgid "Email"
 msgstr "Email"
 
-#: config/settings.php:433
+#: config/settings.php:440
 msgid "Terms"
 msgstr "Terms"
 
-#: config/settings.php:439
+#: config/settings.php:446
 msgid ""
 "Limits the number of reviews that can be submitted to one-per-person. If "
 "you are assigning reviews, then the limit will be applied to the assigned "
@@ -546,27 +546,27 @@ msgstr ""
 "you are assigning reviews, then the limit will be applied to the assigned "
 "page or category."
 
-#: config/settings.php:440
+#: config/settings.php:447
 msgid "Limit Reviews"
 msgstr "Limit Reviews"
 
-#: config/settings.php:442
+#: config/settings.php:449
 msgid "No Limit"
 msgstr "No Limit"
 
-#: config/settings.php:443
+#: config/settings.php:450
 msgid "By Email Address"
 msgstr "By Email Address"
 
-#: config/settings.php:444
+#: config/settings.php:451
 msgid "By IP Address"
 msgstr "By IP Address"
 
-#: config/settings.php:445
+#: config/settings.php:452
 msgid "By Username (will only work for registered users)"
 msgstr "By Username (will only work for registered users)"
 
-#: config/settings.php:454
+#: config/settings.php:461
 msgid ""
 "One Email per line. All emails in the whitelist will be excluded from the "
 "review submission limit."
@@ -574,11 +574,11 @@ msgstr ""
 "One Email per line. All emails in the whitelist will be excluded from the "
 "review submission limit."
 
-#: config/settings.php:455
+#: config/settings.php:462
 msgid "Email Whitelist"
 msgstr "Email Whitelist"
 
-#: config/settings.php:464
+#: config/settings.php:471
 msgid ""
 "One IP Address per line. All IP Addresses in the whitelist will be excluded "
 "from the review submission limit.."
@@ -586,11 +586,11 @@ msgstr ""
 "One IP Address per line. All IP Addresses in the whitelist will be excluded "
 "from the review submission limit.."
 
-#: config/settings.php:465
+#: config/settings.php:472
 msgid "IP Address Whitelist"
 msgstr "IP Address Whitelist"
 
-#: config/settings.php:474
+#: config/settings.php:481
 msgid ""
 "One Username per line. All registered users with a Username in the "
 "whitelist will be excluded from the review submission limit."
@@ -598,11 +598,11 @@ msgstr ""
 "One Username per line. All registered users with a Username in the "
 "whitelist will be excluded from the review submission limit."
 
-#: config/settings.php:475
+#: config/settings.php:482
 msgid "Username Whitelist"
 msgstr "Username Whitelist"
 
-#: config/settings.php:481
+#: config/settings.php:488
 msgid ""
 "Invisible reCAPTCHA is a free anti-spam service from Google. To use it, you "
 "will need to <a href=\"https://www.google.com/recaptcha/admin\" "
@@ -612,19 +612,19 @@ msgstr ""
 "will need to <a href=\"https://www.google.com/recaptcha/admin\" "
 "target=\"_blank\">sign up</a> for an API key pair for your site."
 
-#: config/settings.php:482
+#: config/settings.php:489
 msgid "Invisible reCAPTCHA"
 msgstr "Invisible reCAPTCHA"
 
-#: config/settings.php:495
+#: config/settings.php:502
 msgid "Site Key"
 msgstr "Site Key"
 
-#: config/settings.php:503
+#: config/settings.php:510
 msgid "Site Secret"
 msgstr "Site Secret"
 
-#: config/settings.php:511
+#: config/settings.php:518
 msgid ""
 "This option may not work consistently if another plugin is loading "
 "reCAPTCHA on the same page as Site Reviews."
@@ -632,11 +632,11 @@ msgstr ""
 "This option may not work consistently if another plugin is loading "
 "reCAPTCHA on the same page as Site Reviews."
 
-#: config/settings.php:512
+#: config/settings.php:519
 msgid "Badge Position"
 msgstr "Badge Position"
 
-#: config/settings.php:522
+#: config/settings.php:529
 msgid ""
 "The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> "
 "integration provides spam-filtering for your reviews. In order for this "
@@ -648,11 +648,11 @@ msgstr ""
 "setting to have any affect, you will need to first install and activate the "
 "Akismet plugin and set up a WordPress.com API key."
 
-#: config/settings.php:523
+#: config/settings.php:530
 msgid "Enable Akismet Integration"
 msgstr "Enable Akismet Integration"
 
-#: config/settings.php:528
+#: config/settings.php:535
 msgid ""
 "Choose which Blacklist you would prefer to use for reviews. The %s can be "
 "found in the WordPress Discussion Settings page."
@@ -660,15 +660,15 @@ msgstr ""
 "Choose which Blacklist you would prefer to use for reviews. The %s can be "
 "found in the WordPress Discussion Settings page."
 
-#: config/settings.php:529
+#: config/settings.php:536
 msgid "Comment Blacklist"
 msgstr "Comment Blacklist"
 
-#: config/settings.php:531
+#: config/settings.php:538
 msgid "Blacklist"
 msgstr "Blacklist"
 
-#: config/settings.php:543
+#: config/settings.php:550
 msgid ""
 "One entry or IP address per line. When a review contains any of these "
 "entries in its title, content, name, email, or IP address, it will be "
@@ -680,23 +680,23 @@ msgstr ""
 "rejected. It is case-insensitive and will match partial words, so \"press\" "
 "will match \"WordPress\"."
 
-#: config/settings.php:544
+#: config/settings.php:551
 msgid "Review Blacklist"
 msgstr "Review Blacklist"
 
-#: config/settings.php:550
+#: config/settings.php:557
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr "Choose the action that should be taken when a review is blacklisted."
 
-#: config/settings.php:551
+#: config/settings.php:558
 msgid "Blacklist Action"
 msgstr "Blacklist Action"
 
-#: config/settings.php:553
+#: config/settings.php:560
 msgid "Require approval"
 msgstr "Require approval"
 
-#: config/settings.php:554
+#: config/settings.php:561
 msgid "Reject submission"
 msgstr "Reject submission"
 
@@ -1966,7 +1966,7 @@ msgid_plural "%s Stars"
 msgstr[0] "%s Star"
 msgstr[1] "%s Stars"
 
-#: plugin/Modules/Html/Partials/Pagination.php:31
+#: plugin/Modules/Html/Partials/Pagination.php:32
 msgid "Site Reviews navigation"
 msgstr "Site Reviews navigation"
 
@@ -2010,15 +2010,21 @@ msgstr "You may also %s for an account."
 msgid "%s rating"
 msgstr "%s rating"
 
-#: config/settings.php:241
-msgctxt "admin-text"
-msgid "Use the <code>?%s={page_number}</code> URL parameter with AJAX pagination."
-msgstr "Use the <code>?%s={page_number}</code> URL parameter with AJAX pagination."
-
 #: config/settings.php:242
 msgctxt "admin-text"
-msgid "Pagination URL Parameter"
-msgstr "Pagination URL Parameter"
+msgid ""
+"Paginated URLs include the %s URL parameter. If you would like to keep the "
+"pagination links but prevent search engines from indexing them, add the "
+"following lines to your %s file instead: %s"
+msgstr ""
+"Paginated URLs include the %s URL parameter. If you would like to keep the "
+"pagination links but prevent search engines from indexing them, add the "
+"following lines to your %s file instead: %s"
+
+#: config/settings.php:249
+msgctxt "admin-text"
+msgid "Enable Paginated URLs"
+msgstr "Enable Paginated URLs"
 
 #: plugin/Commands/RegisterPostType.php:50
 msgctxt "Add New Post"

@@ -170,19 +170,22 @@ class AjaxController extends Controller
      */
     public function routerFetchPagedReviews(array $request)
     {
-        $homePath = untrailingslashit(parse_url(home_url(), PHP_URL_PATH));
-        $urlPath = untrailingslashit(parse_url(Arr::get($request, 'url'), PHP_URL_PATH));
-        $urlQuery = [];
-        parse_str(parse_url(Arr::get($request, 'url'), PHP_URL_QUERY), $urlQuery);
-        $pagedUrl = $homePath === $urlPath
-            ? home_url()
-            : home_url($urlPath);
         $args = [
-            'paged' => (int) Arr::get($urlQuery, glsr()->constant('PAGED_QUERY_VAR'), 1),
-            'pagedUrl' => trailingslashit($pagedUrl),
+            'paged' => Arr::get($request, 'page', false),
+            'pagedUrl' => '',
             'pagination' => 'ajax',
             'schema' => false,
         ];
+        if (!$args['paged']) {
+            $homePath = untrailingslashit(parse_url(home_url(), PHP_URL_PATH));
+            $urlPath = untrailingslashit(parse_url(Arr::get($request, 'url'), PHP_URL_PATH));
+            $urlQuery = [];
+            parse_str(parse_url(Arr::get($request, 'url'), PHP_URL_QUERY), $urlQuery);
+            $args['paged'] = (int) Arr::get($urlQuery, glsr()->constant('PAGED_QUERY_VAR'), 1);
+            $args['pagedUrl'] = $homePath === $urlPath
+                ? trailingslashit(home_url())
+                : trailingslashit(home_url($urlPath));
+        }
         $atts = (array) json_decode(Arr::get($request, 'atts'));
         $atts = glsr(SiteReviewsShortcode::class)->normalizeAtts($atts);
         $html = glsr(SiteReviewsPartial::class)->build(wp_parse_args($args, $atts));

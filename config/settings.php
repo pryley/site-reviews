@@ -238,8 +238,15 @@ return [
     ],
     'settings.reviews.pagination.url_parameter' => [
         'default' => 'yes',
-        'description' => sprintf(_x('Use the <code>?%s={page_number}</code> URL parameter with AJAX pagination.', 'admin-text', 'site-reviews'), glsr()->constant('PAGED_QUERY_VAR')),
-        'label' => esc_html_x('Pagination URL Parameter', 'admin-text', 'site-reviews'),
+        'description' => sprintf(
+            _x('Paginated URLs include the %s URL parameter. If you would like to keep the pagination links but prevent search engines from indexing them, add the following lines to your %s file instead: %s', 'admin-text', 'site-reviews'),
+            '<code>?'.glsr()->constant('PAGED_QUERY_VAR').'={page_number}</code>',
+            '<a href="https://www.robotstxt.org/">robots.txt</a>',
+            '<br><code>user-agent: *</code>'.
+            '<br><code>Disallow: /*?'.glsr()->constant('PAGED_QUERY_VAR').'=*</code>'.
+            '<br><code>Disallow: /*?*'.glsr()->constant('PAGED_QUERY_VAR').'=*</code>'
+        ),
+        'label' => esc_html_x('Enable Paginated URLs', 'admin-text', 'site-reviews'),
         'type' => 'yes_no',
     ],
     'settings.schema.type.default' => [
