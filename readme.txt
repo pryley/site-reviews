@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, 
 Tested up to: 5.4
 Requires at least: 4.7.0
 Requires PHP: 5.6
-Stable tag: 4.6.0
+Stable tag: 4.6.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -112,10 +112,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 == Changelog ==
 
-= 4.6.0 (2020-04-22) =
+= 4.6.1 (2020-04-22) =
 
-- Added an option to disable the review pagination query string (see Settings > Reviews page)
-- Added glsr_get_rating() helper function (see Help > Functions page)
+- Added an option to disable paginated URLs (see Settings > Reviews page)
+- Added the glsr_get_rating() helper function (see Help > Functions page)
 
 = 4.5.5 (2020-03-31) =
 
