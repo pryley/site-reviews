@@ -82,7 +82,7 @@ class PostCountsManager
      */
     public function updateAll()
     {
-        glsr(SqlQueries::class)->deletePostCountMetaKeys();
+        glsr(SqlQueries::class)->deletePostCountMetaKeys(); // @todo test this with SiteGround for race conditions
         $postIds = glsr(SqlQueries::class)->getReviewsMeta('assigned_to');
         foreach ($postIds as $postId) {
             $this->update($postId, $this->build($postId));

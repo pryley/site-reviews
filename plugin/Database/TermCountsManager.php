@@ -76,13 +76,12 @@ class TermCountsManager
     public function update($termId, array $reviewCounts)
     {
         $term = get_term($termId, Application::TAXONOMY);
-        if (!isset($term->term_id)) {
-            return;
+        if (isset($term->term_id)) {
+            $ratingCounts = $this->manager->flatten($reviewCounts);
+            update_term_meta($termId, CountsManager::META_COUNT, $reviewCounts);
+            update_term_meta($termId, CountsManager::META_AVERAGE, glsr(Rating::class)->getAverage($ratingCounts));
+            update_term_meta($termId, CountsManager::META_RANKING, glsr(Rating::class)->getRanking($ratingCounts));
         }
-        $ratingCounts = $this->manager->flatten($reviewCounts);
-        update_term_meta($termId, CountsManager::META_COUNT, $reviewCounts);
-        update_term_meta($termId, CountsManager::META_AVERAGE, glsr(Rating::class)->getAverage($ratingCounts));
-        update_term_meta($termId, CountsManager::META_RANKING, glsr(Rating::class)->getRanking($ratingCounts));
     }
 
     /**
@@ -90,7 +89,6 @@ class TermCountsManager
      */
     public function updateAll()
     {
-        glsr(SqlQueries::class)->deleteTermCountMetaKeys();
         $terms = glsr(Database::class)->getTerms([
             'fields' => 'all',
         ]);

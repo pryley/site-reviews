@@ -23,7 +23,7 @@ class SqlQueries
      */
     public function deletePostCountMetaKeys()
     {
-        $this->db->query("
+        return $this->db->query("
             DELETE
             FROM {$this->db->postmeta}
             WHERE meta_key LIKE '_glsr_%'
@@ -35,7 +35,7 @@ class SqlQueries
      */
     public function deleteTermCountMetaKeys()
     {
-        $this->db->query("
+        return $this->db->query("
             DELETE
             FROM {$this->db->termmeta}
             WHERE meta_key LIKE '_glsr_%'
