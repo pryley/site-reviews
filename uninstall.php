@@ -8,6 +8,10 @@ require_once $file;
 if (!(new GL_Plugin_Check_v4($file))->isValid()) {
     return;
 }
+if (!glsr_get_option('general.delete_data_on_uninstall', 'no', 'bool')) {
+    return;
+}
+
 foreach (range(1, glsr()->version('major')) as $version) {
     delete_option(GeminiLabs\SiteReviews\Database\OptionManager::databaseKey($version));
 }
@@ -24,6 +28,8 @@ wp_cache_delete(glsr()->id);
 global $wpdb;
 
 $wpdb->query("
-    DELETE FROM {$wpdb->usermeta} 
-    WHERE meta_key = '_glsr_notices'
+    OPTIMIZE TABLE {$wpdb->options}
+");
+$wpdb->query("
+    DELETE FROM {$wpdb->usermeta} WHERE meta_key = '_glsr_notices'
 ");

@@ -1,6 +1,12 @@
 <?php
 
 return [
+    'settings.general.delete_data_on_uninstall' => [
+        'default' => 'no',
+        'description' => _x('Enabling this option will delete all data that Site Reviews creates when you uninstall the plugin (including the plugin settings and widget options). It will not delete your reviews or the review categories.', 'site-reviews'),
+        'label' => _x('Delete data on uninstall', 'site-reviews'),
+        'type' => 'yes_no',
+    ],
     'settings.general.style' => [
         'default' => 'default',
         'description' => _x('Site Reviews relies on the CSS of your theme to style the submission form. If your theme does not provide proper CSS rules for form elements and you are using a WordPress plugin/theme or CSS Framework listed here, please try selecting it, otherwise choose "Site Reviews (default)".', 'admin-text', 'site-reviews'),
