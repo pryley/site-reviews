@@ -90,7 +90,7 @@ class TermCountsManager
      */
     public function updateAll()
     {
-        glsr(SqlQueries::class)->deleteTermCountMetaKeys();
+        // glsr(SqlQueries::class)->deleteTermCountMetaKeys(); // @todo test this with SiteGround for race conditions
         $terms = glsr(Database::class)->getTerms([
             'fields' => 'all',
         ]);

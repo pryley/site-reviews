@@ -112,9 +112,14 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 == Changelog ==
 
-= 5.0.0 (2020-04-30) =
+= 4.6.2 (2020-04-25) =
 
-- Added ...
+- Fixed a PHP notice
+
+= 4.6.1 (2020-04-22) =
+
+- Added an option to disable paginated URLs (see Settings > Reviews page)
+- Added the glsr_get_rating() helper function (see Help > Functions page)
 
 = 4.5.5 (2020-03-31) =
 

@@ -2,14 +2,14 @@
 
 <div id="functions-01" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h2>Read me first!</h2>
+        <h3>READ ME FIRST!</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= esc_attr_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
     <div class="inside">
-        <p>The problem with using plugin-specific helper functions is that they only exist when the plugin is active. When the plugin is disabled, any helper functions that have been used will throw a PHP error unless you have also included a <a href="https://php.net/manual/en/function.function-exists.php">function_exists</a> check.</p>
+        <p>The problem with using plugin-specific helper functions is that they only exist when the plugin is active. When the plugin is disabled, any helper functions that have been used will throw a PHP error unless you have used a <a href="https://php.net/manual/en/function.function-exists.php">function_exists</a> check.</p>
         <p>Site Reviews provides an alternative way of using these functions which is much safer:</p>
         <pre><code>/**
  * @param string $function_name (required) This is the name of the function you want to use
@@ -36,9 +36,9 @@ if (function_exists('glsr_get_reviews')) {
 
 <div id="functions-02" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h2>Helper function to create a review</h2>
+        <h3>Helper function to create a review</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= esc_attr_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -94,9 +94,9 @@ $review = apply_filters('glsr_create_review', false, [
 
 <div id="functions-03" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h2>Helper function to debug variables</h2>
+        <h3>Helper function to debug variables</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= esc_attr_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -119,9 +119,33 @@ apply_filters('glsr_debug', null, $var1, $var2, $var3);
 
 <div id="functions-04" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h2>Helper function to get a plugin setting</h2>
+        <h3>Helper function to generate HTML stars for a rating</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= esc_attr_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
+            <span class="toggle-indicator" aria-hidden="true"></span>
+        </button>
+    </div>
+    <div class="inside">
+        <p>This helper function allows you to build a 1-5 star rating HTML string.</p>
+        <pre><code class="php">/**
+ * @param int $rating (a number from 1-5)
+ * @return void
+ */
+glsr_star_rating($rating);</code></pre>
+        <p><strong>Example Usage:</strong></p>
+        <pre><code class="php">echo glsr_star_rating(4);
+
+// OR:
+
+echo apply_filters('glsr_star_rating', null, 4);</code></pre>
+    </div>
+</div>
+
+<div id="functions-05" class="glsr-card postbox">
+    <div class="glsr-card-header">
+        <h3>Helper function to get a plugin setting</h3>
+        <button type="button" class="handlediv" aria-expanded="true">
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -146,11 +170,11 @@ $requireApproval = apply_filters('glsr_get_option', 'no', 'general.require.appro
     </div>
 </div>
 
-<div id="functions-05" class="glsr-card postbox">
+<div id="functions-06" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h2>Helper function to get all plugin settings</h2>
+        <h3>Helper function to get all plugin settings</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= esc_attr_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -172,11 +196,11 @@ $pluginSettings = apply_filters('glsr_get_options', []);</code></pre>
     </div>
 </div>
 
-<div id="functions-06" class="glsr-card postbox">
+<div id="functions-07" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h2>Helper function to get a single review</h2>
+        <h3>Helper function to get a single review</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= esc_attr_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -224,11 +248,11 @@ $review = apply_filters('glsr_get_review', null, 13);</code></pre>
     </div>
 </div>
 
-<div id="functions-07" class="glsr-card postbox">
+<div id="functions-08" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h2>Helper function to get multiple reviews</h2>
+        <h3>Helper function to get multiple reviews</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= esc_attr_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -272,7 +296,7 @@ $reviews = apply_filters('glsr_get_reviews', [], [
                 <pre><code class="php">echo $reviews; // This is identical to: $reviews->render();</code></pre>
             </li>
             <li>
-                <p>Loop through all reviews and handle each review as needed. Each <code>$review</code> is identical to what the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-functions'); ?>" data-expand="#functions-06">glsr_get_review</a></code> helper function returns, so make sure to read the "Helpful Tips" from that section above for more information.</p>
+                <p>Loop through all reviews and handle each review as needed. Each <code>$review</code> is identical to what the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-functions'); ?>" data-expand="#functions-07">glsr_get_review</a></code> helper function returns, so make sure to read the "Helpful Tips" from that section above for more information.</p>
                 <pre><code class="php">foreach ($reviews as $review) {
     echo $review;
 };</code></pre>
@@ -298,35 +322,55 @@ echo $reviewsHtml->navigation;</code></pre>
     </div>
 </div>
 
-<div id="functions-08" class="glsr-card postbox">
+<div id="functions-09" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h2>Helper function to generate HTML stars for a rating</h2>
+        <h3>Helper function to get the rating information</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= esc_attr_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
     <div class="inside">
-        <p>This helper function allows you to build a 1-5 star rating HTML string.</p>
+
         <pre><code class="php">/**
- * @param int $rating (a number from 1-5)
- * @return void
+ * @return object
+
  */
-glsr_star_rating($rating);</code></pre>
+glsr_get_rating(array $args = []);</code></pre>
+        <p>This helper function returns an object with the rating information. You can use this function to get the aggregate (combined average) rating if you are generating your own JSON-LD schema.</p>
+        <p>The <code>$args</code> variable is optional, but if included it must be an array.</p>
+        <p><strong>Default $args array:</strong></p>
+        <pre><code class="php">$args = [
+    'assigned_to' => '',
+    'category' => '',
+    'rating' => '',
+    'type' => '',
+];</code></pre>
         <p><strong>Example Usage:</strong></p>
-        <pre><code class="php">echo glsr_star_rating(4);
+        <pre><code class="php">$ratingInfo = glsr_get_rating([
+    'assigned_to' => 'post_id',
+]);
 
 // OR:
 
-echo apply_filters('glsr_star_rating', null, 4);</code></pre>
+$ratingInfo = apply_filters('glsr_get_rating', null, [
+    'assigned_to' => 'post_id',
+]);</code></pre>
+        <p><strong>Helpful Tips:</strong></p>
+        <ol>
+            <li>
+                <p>You can use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-functions'); ?>" data-expand="#functions-03">glsr_debug</a></code> helper function to print the rating info to the screen:</p>
+                <pre><code class="php">glsr_debug($ratingInfo);</code></pre>
+            </li>
+        </ol>
     </div>
 </div>
 
-<div id="functions-09" class="glsr-card postbox">
+<div id="functions-10" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h2>Helper function to log variables to the plugin console</h2>
+        <h3>Helper function to log variables to the plugin console</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= esc_attr_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>
@@ -350,11 +394,11 @@ apply_filters('glsr_log', null, $var1);</code></pre>
     </div>
 </div>
 
-<div id="functions-10" class="glsr-card postbox">
+<div id="functions-11" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h2>Helper function to recalculate the rating counts</h2>
+        <h3>Helper function to recalculate the rating counts</h3>
         <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= esc_attr_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
+            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
         </button>
     </div>

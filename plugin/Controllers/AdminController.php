@@ -185,7 +185,7 @@ class AdminController extends Controller
             ));
         } else {
             glsr(Notice::class)->addSuccess(sprintf(
-                _x('Your IP address is %s. If this is incorrect, please see the %s.', 'admin-text', 'site-reviews'),
+                _x('Your detected IP address is %s. If this looks incorrect, please see the %s.', 'admin-text', 'site-reviews'),
                 '<code>'.$ipAddress.'</code>', $link
             ));
         }

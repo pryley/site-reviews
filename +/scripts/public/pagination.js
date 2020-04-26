@@ -11,14 +11,14 @@
 	GLSR_Pagination.prototype = {
 		config: {
 			hideClass: 'glsr-hide',
-			linkSelector: '[data-pagination] a',
+			linkSelector: '.glsr-pagination a',
 			scrollTime: 468,
 		},
 
 		/** @return void */
 		handleResponse_: function( location, response, success ) { // string, string
-			var paginationEl = this.el.querySelector('[data-pagination]');
-			var reviewsEl = this.el.querySelector('[data-reviews]');
+			var paginationEl = this.el.querySelector('.glsr-pagination');
+			var reviewsEl = this.el.querySelector('.glsr-reviews');
 			if( !success || !reviewsEl || !paginationEl ) {
 				window.location = location;
 				return;
@@ -44,7 +44,7 @@
 
 		/** @return void */
 		onClick_: function( ev ) { // MouseEvent
-			var jsonEl = this.el.querySelector('[data-pagination]');
+			var jsonEl = this.el.querySelector('glsr-pagination');
 			if( !jsonEl ) {
 				console.log( 'pagination config not found.' );
 				return;
@@ -52,7 +52,8 @@
 			var data = {};
 			data[GLSR.nameprefix + '[_action]'] = 'fetch-paged-reviews';
 			data[GLSR.nameprefix + '[atts]'] = jsonEl.dataset.atts;
-			data[GLSR.nameprefix + '[url]'] = ev.currentTarget.href;
+			data[GLSR.nameprefix + '[page]'] = ev.currentTarget.dataset.page || '';
+			data[GLSR.nameprefix + '[url]'] = ev.currentTarget.href || '';
 			this.el.classList.add( this.config.hideClass );
 			ev.preventDefault();
 			(new GLSR.Ajax()).post( data, this.handleResponse_.bind( this, ev.currentTarget.href ));
@@ -84,7 +85,7 @@
 			elapsed = elapsed > 1 ? 1 : elapsed;
 			var easedValue = 0.5 * ( 1 - Math.cos( Math.PI * elapsed ));
 			var currentY = context.startY + ( context.endY - context.startY ) * easedValue;
-			window.scrollTo( 0, context.offset + currentY ); // @todo what is this for again?
+			window.scroll( 0, context.offset + currentY ); // @todo what is this for again?
 			if( currentY !== context.endY ) {
 				window.requestAnimationFrame( this.scrollToTopStep_.bind( this, context ));
 			}

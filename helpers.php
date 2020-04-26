@@ -16,6 +16,7 @@ add_filter('plugins_loaded', function () {
         'glsr_get' => 4,
         'glsr_get_option' => 4,
         'glsr_get_options' => 1,
+        'glsr_get_rating' => 2,
         'glsr_get_review' => 2,
         'glsr_get_reviews' => 2,
         'glsr_log' => 3,
@@ -140,6 +141,22 @@ function glsr_get_option($path = '', $fallback = '', $cast = '')
 function glsr_get_options()
 {
     return glsr('Database\OptionManager')->get('settings');
+}
+
+/**
+ * @return object
+ */
+function glsr_get_rating($args = array())
+{
+    $args = \GeminiLabs\SiteReviews\Helpers\Arr::consolidateArray($args);
+    $counts = glsr('Database\ReviewManager')->getRatingCounts($args);
+    return (object) array(
+        'average' => glsr('Modules\Rating')->getAverage($counts),
+        'maximum' => glsr()->constant('MAX_RATING', \GeminiLabs\SiteReviews\Modules\Rating::class),
+        'minimum' => glsr()->constant('MIN_RATING', \GeminiLabs\SiteReviews\Modules\Rating::class),
+        'ratings' => $counts,
+        'reviews' => array_sum($counts),
+    );
 }
 
 /**

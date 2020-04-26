@@ -96,7 +96,7 @@ class Schema
         if (empty($schema)) {
             return;
         }
-        $schemas = glsr()->schemas;
+        $schemas = Arr::consolidate(glsr()->schemas);
         $schemas[] = $schema;
         glsr()->schemas = array_map('unserialize', array_unique(array_map('serialize', $schemas)));
     }
