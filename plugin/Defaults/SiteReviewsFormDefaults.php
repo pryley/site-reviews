@@ -21,6 +21,7 @@ class SiteReviewsFormDefaults extends Defaults
     {
         return [
             'assign_to' => '',
+            'assign_to_custom' => '',
             'category' => '',
             'class' => '',
             'description' => '',

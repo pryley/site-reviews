@@ -22,6 +22,7 @@ class SiteReviewsSummaryDefaults extends Defaults
     {
         return [
             'assigned_to' => '',
+            'assigned_to_custom' => '',
             'category' => '',
             'class' => '',
             'hide' => '',

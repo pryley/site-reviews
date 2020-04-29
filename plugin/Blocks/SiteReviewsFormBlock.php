@@ -17,6 +17,10 @@ class SiteReviewsFormBlock extends BlockGenerator
                 'default' => '',
                 'type' => 'string',
             ],
+            'assign_to_custom' => [
+                'default' => '',
+                'type' => 'string',
+            ],
             'category' => [
                 'default' => '',
                 'type' => 'string',

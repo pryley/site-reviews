@@ -1,6 +1,7 @@
 import { SummaryIcon } from './icons';
 import { CheckboxControlList } from './checkbox-control-list';
 import categories from './categories';
+import ConditionalSelectControl from './ConditionalSelectControl';
 import types from './types';
 
 const { _x } = wp.i18n;
@@ -13,6 +14,7 @@ const blockName = GLSR.nameprefix + '/summary';
 
 const attributes = {
     assigned_to: { default: '', type: 'string' },
+    assigned_to_custom: { default: '', type: 'string' },
     category: { default: '', type: 'string' },
     className: { default: '', type: 'string' },
     hide: { default: '', type: 'string' },
@@ -24,14 +26,31 @@ const attributes = {
 
 const edit = props => {
     props.attributes.post_id = jQuery('#post_ID').val();
-    const { attributes: { assigned_to, category, display, hide, id, pagination, rating, schema, type }, className, setAttributes } = props;
+    const { attributes: { assigned_to, assigned_to_custom, category, display, hide, id, pagination, rating, schema, type }, className, setAttributes } = props;
     const inspectorControls = {
-        assigned_to: <TextControl
-            help={ _x('Limit reviews to those assigned to this post ID. You can also enter "post_id" to use the ID of the current page, or "parent_id" to use the ID of the parent page.', 'admin-text', 'site-reviews') }
+        assigned_to: <ConditionalSelectControl
+            help={ _x('Limit reviews to an assigned post.', 'admin-text', 'site-reviews') }
             label={ _x('Assigned To', 'admin-text', 'site-reviews') }
-            onChange={ assigned_to => setAttributes({ assigned_to }) }
+            onChange={ assigned_to => setAttributes({
+                assigned_to: assigned_to,
+                assigned_to_custom: ('custom' === assigned_to ? assigned_to_custom : ''),
+            })}
+            options={[
+                { label: '-' + _x('Select', 'admin-text', 'site-reviews') + ' -', value: '' },
+                { label: _x('Assigned to the current page', 'admin-text', 'site-reviews'), value: 'post_id' },
+                { label: _x('Assigned to the parent page', 'admin-text', 'site-reviews'), value: 'parent_id' },
+                { label: _x('Assigned to a custom post ID', 'admin-text', 'site-reviews'), value: 'custom' },
+            ]}
             value={ assigned_to }
-        />,
+        >
+            <TextControl
+                className="glsr-base-conditional-control"
+                onChange={ assigned_to_custom => setAttributes({ assigned_to_custom }) }
+                placeholder={ _x('Enter the post ID.', 'admin-text', 'site-reviews') }
+                type="number"
+                value={ assigned_to_custom }
+            />
+        </ConditionalSelectControl>,
         category: <SelectControl
             help={ _x('Limit reviews to a category.', 'admin-text', 'site-reviews') }
             label={ _x('Category', 'admin-text', 'site-reviews') }

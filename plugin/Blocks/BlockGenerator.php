@@ -23,10 +23,23 @@ abstract class BlockGenerator
         $hide = array_flip(explode(',', $attributes['hide']));
         unset($hide['if_empty']);
         $attributes['hide'] = implode(',', array_keys($hide));
-        if ('post_id' === Arr::get($attributes, 'assigned_to')) {
-            $attributes['assigned_to'] = $attributes['post_id'];
-        } elseif ('parent_id' === Arr::get($attributes, 'assigned_to')) {
-            $attributes['assigned_to'] = wp_get_post_parent_id($attributes['post_id']);
+        $attributes = $this->normalizeAssignment($attributes, 'assign_to');
+        $attributes = $this->normalizeAssignment($attributes, 'assigned_to');
+        return $attributes;
+    }
+
+    /**
+     * @param string $assignType
+     * @return array
+     */
+    public function normalizeAssignment(array $attributes, $assignType)
+    {
+        if ('post_id' === Arr::get($attributes, $assignType)) {
+            $attributes[$assignType] = $attributes['post_id'];
+        } elseif ('parent_id' === Arr::get($attributes, $assignType)) {
+            $attributes[$assignType] = wp_get_post_parent_id($attributes['post_id']);
+        } elseif ('custom' === Arr::get($attributes, $assignType)) {
+            $attributes[$assignType] = Arr::get($attributes, $assignType.'_custom');
         }
         return $attributes;
     }

@@ -144,13 +144,12 @@ abstract class Shortcode implements ShortcodeContract
     {
         $atts = apply_filters('site-reviews/shortcode/atts', $atts, $type, $this->partialName);
         $atts = $this->getDefaults($atts);
-        array_walk($atts, function (&$value, $key) {
+        foreach ($atts as $key => &$value) {
             $methodName = Helper::buildMethodName($key, 'normalize');
-            if (!method_exists($this, $methodName)) {
-                return;
+            if (method_exists($this, $methodName)) {
+                $value = $this->$methodName($value, $atts);
             }
-            $value = $this->$methodName($value);
-        });
+        };
         $this->setId($atts);
         return $atts;
     }
@@ -164,12 +163,16 @@ abstract class Shortcode implements ShortcodeContract
      * @param string $postId
      * @return int|string
      */
-    protected function normalizeAssignedTo($postId)
+    protected function normalizeAssignedTo($postId, array $atts)
     {
         if ('parent_id' == $postId) {
             $postId = intval(wp_get_post_parent_id(intval(get_the_ID())));
         } elseif ('post_id' == $postId) {
             $postId = intval(get_the_ID());
+        } elseif ('custom' == $postId) {
+            $customId = Arr::get($atts, 'assigned_to_custom');
+            $customId = str_replace('custom', '', $customId); // prevent a possible infinite loop
+            $postId = $this->normalizeAssignedTo($customId, $atts);
         }
         return $postId;
     }
@@ -178,9 +181,9 @@ abstract class Shortcode implements ShortcodeContract
      * @param string $postId
      * @return int|string
      */
-    protected function normalizeAssignTo($postId)
+    protected function normalizeAssignTo($postId, array $atts)
     {
-        return $this->normalizeAssignedTo($postId);
+        return $this->normalizeAssignedTo($postId, $atts);
     }
 
     /**
