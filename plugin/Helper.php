@@ -29,7 +29,7 @@ class Helper
      */
     public static function buildMethodName($name, $prefix = '')
     {
-        return lcfirst($prefix.static::buildClassName($name));
+        return lcfirst(Str::camelCase($prefix.'-'.$name));
     }
 
     /**

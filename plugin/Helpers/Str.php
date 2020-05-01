@@ -218,6 +218,26 @@ class Str
     }
 
     /**
+     * @param string|array $restrictions
+     * @param string $value
+     * @param string $fallback
+     * @param bool $strict
+     * @return string
+     */
+    public static function restrictTo($restrictions, $value, $fallback = '', $strict = false)
+    {
+        $needle = $value;
+        $haystack = static::toArray($restrictions);
+        if (true !== $strict) {
+            $needle = strtolower($needle);
+            $haystack = array_map('strtolower', $haystack);
+        }
+        return in_array($needle, $haystack)
+            ? $value
+            : $fallback;
+    }
+
+    /**
      * @param string $string
      * @return string
      */
@@ -253,5 +273,15 @@ class Str
         return strlen($string) > $length
             ? substr($string, 0, $length)
             : $string;
+    }
+    /**
+     * @param mixed $value
+     * @return array
+     */
+    public static function toArray($value)
+    {
+        return is_string($value)
+            ? array_map('trim', explode(',', $value))
+            : Arr::consolidate($value);
     }
 }

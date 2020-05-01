@@ -75,6 +75,14 @@
     site-reviews/partial/args/{partial_path}
     site-reviews/partial/classname
     site-reviews/path
+    site-reviews/query/sql/from
+    site-reviews/query/sql/group-by
+    site-reviews/query/sql/join
+    site-reviews/query/sql/limit
+    site-reviews/query/sql/offset
+    site-reviews/query/sql/order-by
+    site-reviews/query/sql/select
+    site-reviews/query/sql/where
     site-reviews/query/and-for-counts
     site-reviews/query/inner-join-for-counts
     site-reviews/rating/average

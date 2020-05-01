@@ -16,10 +16,16 @@ class Arr
 
     /**
      * @param mixed $array
+     * @param bool $explode
      * @return array
      */
-    public static function consolidate($array)
+    public static function consolidate($array, $explode = true)
     {
+        if (is_string($array) && $explode) {
+            $array = static::convertFromString($array, function ($item) {
+                return '' !== trim($item);
+            });
+        }
         return is_array($array) || is_object($array)
             ? (array) $array
             : [];
@@ -174,7 +180,7 @@ class Arr
     {
         $result = [];
         foreach ($array as $key => $value) {
-            if (!$value) {
+            if (!is_numeric($value) && !is_bool($value) && empty($value)) {
                 continue;
             }
             $result[$key] = is_array($value)
@@ -214,6 +220,14 @@ class Arr
     public static function unique(array $values)
     {
         return array_filter(array_unique($values));
+    }
+
+    /**
+     * @return array
+     */
+    public static function uniqueInt(array $values)
+    {
+        return static::unique(array_map('absint', $values));
     }
 
     /**
