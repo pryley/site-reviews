@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -57,6 +58,7 @@ final class Application extends Container
      */
     public function activate()
     {
+        $this->make(Database::class)->createTables();
         $this->scheduleCronJob();
         add_option(static::ID.'activated', true);
     }

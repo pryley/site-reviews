@@ -3,12 +3,59 @@
 namespace GeminiLabs\SiteReviews\Modules\Migrations;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\RatingManager;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Migrate_5_0_0
 {
+    /**
+     * @return void
+     */
+    public function createDatabaseTable()
+    {
+        glsr(Database::class)->createTables();
+    }
+
+    /**
+     * @return void
+     */
+    public function migrateRatings()
+    {
+        global $wpdb;
+        $offset = 0;
+        $limit = 100;
+        $reviewCount = array_sum((array) wp_count_posts(glsr()->post_type));
+        while ($reviewCount > 0) {
+            $reviews = $wpdb->get_results($wpdb->prepare("
+                SELECT p.ID, p.post_status AS status
+                FROM {$wpdb->posts} AS p
+                WHERE p.post_type = '%s'
+                LIMIT %d, %d
+            ", glsr()->post_type, $offset, $limit));
+            foreach ($reviews as $review) {
+                $rating = glsr(RatingManager::class)->insert($review->ID, [
+                    'is_approved' => 'publish' === $review->status,
+                    'is_pinned' => Helper::castToBool(get_post_meta($review->ID, '_pinned', true)),
+                    'rating' => get_post_meta($review->ID, '_rating', true),
+                    'type' => get_post_meta($review->ID, '_review_type', true),
+                ]);
+                if ($postId = get_post_meta($review->ID, '_assigned_to', true)) {
+                    glsr(RatingManager::class)->assignPost($rating->ID, $postId);
+                }
+                $terms = wp_get_post_terms($review->ID, glsr()->taxonomy, ['fields' => 'ids']);
+                if (!is_wp_error($terms) && !empty($terms)) {
+                    glsr(RatingManager::class)->assignTerms($rating->ID, $terms);
+                }
+            }
+            $offset += $limit;
+            $reviewCount -= $limit;
+        }
+    }
+
     /**
      * @return void
      */
@@ -72,6 +119,8 @@ class Migrate_5_0_0
      */
     public function run()
     {
+        $this->createDatabaseTable();
+        $this->migrateRatings();
         $this->migrateSettings();
         $this->migrateSidebarWidgets();
         $this->migrateThemeModWidgets();
@@ -97,8 +146,8 @@ class Migrate_5_0_0
      */
     protected function updateWidgetNames(array $sidebars)
     {
-        array_walk($sidebars, function(&$widgets) {
-            array_walk($widgets, function(&$widget) {
+        array_walk($sidebars, function (&$widgets) {
+            array_walk($widgets, function (&$widget) {
                 if (Str::startsWith(Application::ID.'_', $widget)) {
                     $widget = Str::replaceFirst(Application::ID.'_', Application::PREFIX, $widget);
                 }

@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\QueryBuilder;
 use GeminiLabs\SiteReviews\Database\SqlQueries;
+use GeminiLabs\SiteReviews\Database\SqlSchema;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use WP_Post;
@@ -12,6 +13,14 @@ use WP_Query;
 
 class Database
 {
+    public function createTables()
+    {
+        glsr(SqlSchema::class)->createRatingTable(); // this first!
+        glsr(SqlSchema::class)->createAssignedPostsTable();
+        glsr(SqlSchema::class)->createAssignedTermsTable();
+        add_option(glsr()->prefix.'db_version', '1.0');
+    }
+
     /**
      * @param int $postId
      * @param string $key
