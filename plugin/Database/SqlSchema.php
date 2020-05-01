@@ -14,6 +14,74 @@ class SqlSchema
     }
 
     /**
+     * @return void
+     */
+    public function addAssignedPostsTableConstraints()
+    {
+        $this->db->query("
+            ALTER TABLE {$this->table('assigned_posts')}
+            ADD CONSTRAINT {$this->prefix('assigned_posts')}_rating_id_foreign
+            FOREIGN KEY (rating_id)
+            REFERENCES {$this->table('ratings')} (ID)
+            ON DELETE CASCADE
+        ");
+        $this->db->query("
+            ALTER TABLE {$this->table('assigned_posts')}
+            ADD CONSTRAINT {$this->prefix('assigned_posts')}_post_id_foreign
+            FOREIGN KEY (post_id)
+            REFERENCES {$this->db->posts} (ID)
+            ON DELETE CASCADE
+        ");
+    }
+
+    /**
+     * @return void
+     */
+    public function addAssignedTermsTableConstraints()
+    {
+        $this->db->query("
+            ALTER TABLE {$this->table('assigned_terms')}
+            ADD CONSTRAINT {$this->prefix('assigned_terms')}_rating_id_foreign
+            FOREIGN KEY (rating_id)
+            REFERENCES {$this->table('ratings')} (ID)
+            ON DELETE CASCADE
+        ");
+        $this->db->query("
+            ALTER TABLE {$this->table('assigned_terms')}
+            ADD CONSTRAINT {$this->prefix('assigned_terms')}_term_id_foreign
+            FOREIGN KEY (term_id)
+            REFERENCES {$this->db->terms} (term_id)
+            ON DELETE CASCADE
+        ");
+    }
+
+    /**
+     * @return void
+     */
+    public function addReviewsTableConstraints()
+    {
+        $this->db->query("
+            ALTER TABLE {$this->table('ratings')}
+            ADD CONSTRAINT {$this->prefix('assigned_posts')}_review_id_foreign
+            FOREIGN KEY (review_id)
+            REFERENCES {$this->db->posts} (ID)
+            ON DELETE CASCADE
+        ");
+    }
+
+    /**
+     * @return void
+     */
+    public function addTableConstraints()
+    {
+        if (!defined('GLSR_UNIT_TESTS')) {
+            $this->addAssignedPostsTableConstraints();
+            $this->addAssignedTermsTableConstraints();
+            $this->addReviewsTableConstraints();
+        }
+    }
+
+    /**
      * @return bool
      */
     public function createAssignedPostsTable()
@@ -21,22 +89,12 @@ class SqlSchema
         if ($this->tableExists('assigned_posts')) {
             return false;
         }
-        $prefix = glsr()->prefix.'assigned_posts';
-        $sql = "CREATE TABLE {$this->table('assigned_posts')} (
+        dbDelta("CREATE TABLE {$this->table('assigned_posts')} (
             rating_id bigint(20) unsigned NOT NULL,
             post_id bigint(20) unsigned NOT NULL,
             is_published tinyint(1) NOT NULL DEFAULT '1',
-            UNIQUE KEY {$prefix}_rating_id_post_id_unique (rating_id,post_id),
-            CONSTRAINT {$prefix}_rating_id_foreign
-                FOREIGN KEY (rating_id)
-                REFERENCES {$this->table('ratings')} (ID)
-                ON DELETE CASCADE,
-            CONSTRAINT {$prefix}_post_id_foreign
-                FOREIGN KEY (post_id)
-                REFERENCES {$this->db->posts} (ID)
-                ON DELETE CASCADE
-        ) {$this->db->get_charset_collate()};";
-        dbDelta($sql);
+            UNIQUE KEY {$this->prefix('assigned_posts')}_rating_id_post_id_unique (rating_id,post_id)
+        ) {$this->db->get_charset_collate()};");
         return true;
     }
 
@@ -48,21 +106,11 @@ class SqlSchema
         if ($this->tableExists('assigned_terms')) {
             return false;
         }
-        $prefix = glsr()->prefix.'assigned_terms';
-        $sql = "CREATE TABLE {$this->table('assigned_terms')} (
+        dbDelta("CREATE TABLE {$this->table('assigned_terms')} (
             rating_id bigint(20) unsigned NOT NULL,
             term_id bigint(20) unsigned NOT NULL,
-            UNIQUE KEY {$prefix}_rating_id_term_id_unique (rating_id,term_id),
-            CONSTRAINT {$prefix}_rating_id_foreign
-                FOREIGN KEY (rating_id)
-                REFERENCES {$this->table('ratings')} (ID)
-                ON DELETE CASCADE,
-            CONSTRAINT {$prefix}_term_id_foreign
-                FOREIGN KEY (term_id)
-                REFERENCES {$this->db->terms} (term_id)
-                ON DELETE CASCADE
-        ) {$this->db->get_charset_collate()};";
-        dbDelta($sql);
+            UNIQUE KEY {$this->prefix('assigned_terms')}_rating_id_term_id_unique (rating_id,term_id)
+        ) {$this->db->get_charset_collate()};");
         return true;
     }
 
@@ -74,8 +122,7 @@ class SqlSchema
         if ($this->tableExists('ratings')) {
             return false;
         }
-        $prefix = glsr()->prefix.'ratings';
-        $sql = "CREATE TABLE {$this->table('ratings')} (
+        dbDelta("CREATE TABLE {$this->table('ratings')} (
             ID bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             review_id bigint(20) unsigned NOT NULL,
             rating int(11) NOT NULL DEFAULT '0',
@@ -83,15 +130,28 @@ class SqlSchema
             is_approved tinyint(1) NOT NULL DEFAULT '0',
             is_pinned tinyint(1) NOT NULL DEFAULT '0',
             PRIMARY KEY (ID),
-            UNIQUE KEY {$prefix}_review_id_unique (review_id),
-            KEY {$prefix}_rating_type_is_pinned_index (rating,type,is_pinned),
-            CONSTRAINT {$prefix}_review_id_foreign
-                FOREIGN KEY (review_id)
-                REFERENCES {$this->db->posts} (ID)
-                ON DELETE CASCADE
-        ) {$this->db->get_charset_collate()};";
-        dbDelta($sql);
+            UNIQUE KEY {$this->prefix('ratings')}_review_id_unique (review_id),
+            KEY {$this->prefix('ratings')}_rating_type_is_pinned_index (rating,type,is_pinned)
+        ) {$this->db->get_charset_collate()};");
         return true;
+    }
+
+    /**
+     * @return void
+     */
+    public function createTables()
+    {
+        $this->createAssignedPostsTable();
+        $this->createAssignedTermsTable();
+        $this->createRatingTable();
+    }
+
+    /**
+     * @return string
+     */
+    public function prefix($table)
+    {
+        return glsr()->prefix.$table;
     }
 
     /**

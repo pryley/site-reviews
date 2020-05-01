@@ -13,11 +13,13 @@ use WP_Query;
 
 class Database
 {
+    /**
+     * @return void
+     */
     public function createTables()
     {
-        glsr(SqlSchema::class)->createRatingTable(); // this first!
-        glsr(SqlSchema::class)->createAssignedPostsTable();
-        glsr(SqlSchema::class)->createAssignedTermsTable();
+        glsr(SqlSchema::class)->createTables();
+        glsr(SqlSchema::class)->addTableConstraints();
         add_option(glsr()->prefix.'db_version', '1.0');
     }
 

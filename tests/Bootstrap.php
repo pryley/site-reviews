@@ -49,6 +49,7 @@ class Bootstrap
 
     public function load_plugin_environment()
     {
+        define('GLSR_UNIT_TESTS', true);
         require_once $this->plugin_dir.'/site-reviews.php';
     }
 
