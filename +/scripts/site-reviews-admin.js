@@ -89,4 +89,11 @@ jQuery( function( $ ) {
 		var action = $('.glsr-support-step').not(':checked').length > 0 ? 'add' : 'remove';
 		$( '.glsr-card-result' )[action + 'Class']( 'hidden' );
 	});
+
+	var trackValue = function () {
+		this.dataset.glsrTrack = this.value;
+	};
+
+	$('select[data-glsr-track]').each(trackValue);
+	$('select[data-glsr-track]').on('change', trackValue);
 });

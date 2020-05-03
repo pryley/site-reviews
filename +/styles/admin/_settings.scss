@@ -1,6 +1,26 @@
 // =============================================================================
 // Partials -> Settings
 // =============================================================================
+
+select[data-glsr-track="minimal"] {
+	border-color: #ffb900 !important;
+	color: darken(#ffb900, 5) !important;
+}
+select[data-glsr-track="minimal"]:focus {
+	box-shadow: 0 0 0 1px #ffb900;
+}
+select[data-glsr-track="all"] {
+	border-color: #dc3232 !important;
+	color: #dc3232 !important;
+}
+select[data-glsr-track="all"]:focus {
+	box-shadow: 0 0 0 1px #dc3232;
+}
+
+a[href="edit.php?post_type=site-review&page=addons"]:not(.current) {
+	color: #ffb900 !important;
+}
+
 td.glsr-string-td1 {
 	position: relative;
 	padding-bottom: 2em;

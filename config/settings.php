@@ -2,10 +2,16 @@
 
 return [
     'settings.general.delete_data_on_uninstall' => [
-        'default' => 'no',
-        'description' => _x('Enabling this option will delete all data that Site Reviews creates when you uninstall the plugin (including the plugin settings and widget options). It will not delete your reviews or the review categories.', 'site-reviews'),
+        'data-glsr-track' => '',
+        'default' => '',
+        'description' => _x('Site Reviews will not delete anything when uninstalled unless you change this setting.', 'site-reviews'),
+        'options' => [
+            '' => _x('Do not delete anything', 'admin-text', 'site-reviews'),
+            'minimal' => _x('Delete all plugin settings, widgets, and caches', 'admin-text', 'site-reviews'),
+            'all' => _x('Delete everything (including all reviews and categories)', 'admin-text', 'site-reviews'),
+        ],
         'label' => _x('Delete data on uninstall', 'site-reviews'),
-        'type' => 'yes_no',
+        'type' => 'select',
     ],
     'settings.general.style' => [
         'default' => 'default',
