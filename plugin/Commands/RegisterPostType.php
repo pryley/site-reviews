@@ -3,11 +3,12 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Defaults\PostTypeDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
-class RegisterPostType
+class RegisterPostType implements Contract
 {
     public $args;
     public $columns;
@@ -17,8 +18,8 @@ class RegisterPostType
 
     public function __construct($input)
     {
-        $args = glsr(PostTypeDefaults::class)->merge($input);
-        $this->normalize($args);
+        $this->args = glsr(PostTypeDefaults::class)->merge($input);
+        $this->normalize();
         $this->normalizeColumns();
         $this->normalizeLabels();
     }
@@ -26,19 +27,50 @@ class RegisterPostType
     /**
      * @return void
      */
-    protected function normalize(array $args)
+    public function handle()
     {
-        foreach ($args as $key => $value) {
+        if (!in_array($this->postType, get_post_types(['_builtin' => true]))) {
+            register_post_type($this->postType, $this->args);
+            glsr()->postTypeColumns = wp_parse_args(glsr()->postTypeColumns, [
+                $this->postType => $this->columns,
+            ]);
+        }
+    }
+
+    /**
+     * @return void
+     */
+    protected function normalize()
+    {
+        foreach ($this->args as $key => $value) {
             $property = Helper::buildPropertyName($key);
             if (!property_exists($this, $property)) {
                 continue;
             }
             $this->$property = $value;
-            unset($args[$key]);
+            unset($this->args[$key]);
         }
-        $this->args = wp_parse_args($args, [
+        $this->args = wp_parse_args($this->args, [
             'menu_name' => $this->plural,
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function normalizeColumns()
+    {
+        $this->columns = ['cb' => ''] + $this->columns;
+        if (array_key_exists('category', $this->columns)) {
+            $keys = array_keys($this->columns);
+            $keys[array_search('category', $keys)] = 'taxonomy-'.Application::TAXONOMY;
+            $this->columns = array_combine($keys, $this->columns);
+        }
+        if (array_key_exists('pinned', $this->columns)) {
+            $this->columns['pinned'] = glsr(Builder::class)->span('<span>'.$this->columns['pinned'].'</span>',
+                ['class' => 'pinned-icon']
+            );
+        }
     }
 
     /**
@@ -63,23 +95,5 @@ class RegisterPostType
             'view_item' => sprintf(_x('View %s', 'View Post (admin-text)', 'site-reviews'), $this->single),
         ]);
         unset($this->args['menu_name']);
-    }
-
-    /**
-     * @return void
-     */
-    protected function normalizeColumns()
-    {
-        $this->columns = ['cb' => ''] + $this->columns;
-        if (array_key_exists('category', $this->columns)) {
-            $keys = array_keys($this->columns);
-            $keys[array_search('category', $keys)] = 'taxonomy-'.Application::TAXONOMY;
-            $this->columns = array_combine($keys, $this->columns);
-        }
-        if (array_key_exists('pinned', $this->columns)) {
-            $this->columns['pinned'] = glsr(Builder::class)->span('<span>'.$this->columns['pinned'].'</span>',
-                ['class' => 'pinned-icon']
-            );
-        }
     }
 }

@@ -25,7 +25,7 @@ class AdminController extends Controller
      */
     public function enqueueAssets()
     {
-        $command = new EnqueueAdminAssets([
+        $this->execute(new EnqueueAdminAssets([
             'pointers' => [[
                 'content' => _x('You can pin exceptional reviews so that they are always shown first.', 'admin-text', 'site-reviews'),
                 'id' => 'glsr-pointer-pinned',
@@ -37,8 +37,7 @@ class AdminController extends Controller
                 'target' => '#misc-pub-pinned',
                 'title' => _x('Pin Your Reviews', 'admin-text', 'site-reviews'),
             ]],
-        ]);
-        $this->execute($command);
+        ]));
     }
 
     /**
@@ -119,12 +118,11 @@ class AdminController extends Controller
      */
     public function registerTinymcePopups()
     {
-        $command = new RegisterTinymcePopups([
+        $this->execute(new RegisterTinymcePopups([
             'site_reviews' => _x('Recent Reviews', 'admin-text', 'site-reviews'),
             'site_reviews_form' => _x('Submit a Review', 'admin-text', 'site-reviews'),
             'site_reviews_summary' => _x('Summary of Reviews', 'admin-text', 'site-reviews'),
-        ]);
-        $this->execute($command);
+        ]));
     }
 
     /**
@@ -228,19 +226,7 @@ class AdminController extends Controller
      */
     public function routerImportSettings()
     {
-        $file = $_FILES['import-file'];
-        if (UPLOAD_ERR_OK !== $file['error']) {
-            return glsr(Notice::class)->addError($this->getUploadError($file['error']));
-        }
-        if ('application/json' !== $file['type'] || !Str::endsWith('.json', $file['name'])) {
-            return glsr(Notice::class)->addError(_x('Please use a valid Site Reviews settings file.', 'admin-text', 'site-reviews'));
-        }
-        $settings = json_decode(file_get_contents($file['tmp_name']), true);
-        if (empty($settings)) {
-            return glsr(Notice::class)->addWarning(_x('There were no settings found to import.', 'admin-text', 'site-reviews'));
-        }
-        glsr(OptionManager::class)->set(glsr(OptionManager::class)->normalize($settings));
-        glsr(Notice::class)->addSuccess(_x('Settings imported.', 'admin-text', 'site-reviews'));
+        $this->execute(new ImportSettings());
     }
 
     /**
@@ -272,23 +258,4 @@ class AdminController extends Controller
                 glsr(CountsManager::class)->updateAll();
             }
         }
-    }
-
-    /**
-     * @param int $errorCode
-     * @return string
-     */
-    protected function getUploadError($errorCode)
-    {
-        $errors = [
-            UPLOAD_ERR_INI_SIZE => __('The uploaded file exceeds the upload_max_filesize directive in php.ini.', 'site-reviews'),
-            UPLOAD_ERR_FORM_SIZE => __('The uploaded file is too big.', 'site-reviews'),
-            UPLOAD_ERR_PARTIAL => __('The uploaded file was only partially uploaded.', 'site-reviews'),
-            UPLOAD_ERR_NO_FILE => __('No file was uploaded.', 'site-reviews'),
-            UPLOAD_ERR_NO_TMP_DIR => __('Missing a temporary folder.', 'site-reviews'),
-            UPLOAD_ERR_CANT_WRITE => __('Failed to write file to disk.', 'site-reviews'),
-            UPLOAD_ERR_EXTENSION => __('A PHP extension stopped the file upload.', 'site-reviews'),
-        ];
-        return Arr::get($errors, $errorCode, __('Unknown upload error.', 'site-reviews'));
-    }
 }

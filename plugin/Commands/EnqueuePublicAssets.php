@@ -1,13 +1,14 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Handlers;
+namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
 use GeminiLabs\SiteReviews\Modules\Style;
 
-class EnqueuePublicAssets
+class EnqueuePublicAssets implements Contract
 {
     /**
      * @return void

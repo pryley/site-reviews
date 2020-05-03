@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use Exception;
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Contracts\CommandContract;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use InvalidArgumentException;
 use WP_Error;
@@ -26,22 +27,12 @@ abstract class Controller
     }
 
     /**
-     * @param object $command
      * @return mixed
-     * @throws InvalidArgumentException
      */
-    public function execute($command)
+    public function execute(CommandContract $command)
     {
-        $handlerClass = str_replace('Commands', 'Handlers', get_class($command));
-        if (!class_exists($handlerClass)) {
-            throw new InvalidArgumentException('Handler '.$handlerClass.' not found.');
-        }
-        try {
-            return glsr($handlerClass)->handle($command);
-        } catch (Exception $e) {
-            status_header(400);
-            glsr(Notice::class)->addError(new WP_Error('site_reviews_error', $e->getMessage()));
-            glsr_log()->error($e->getMessage());
+        if (method_exists($command, 'handle')) {
+            return $command->handle();
         }
     }
 

@@ -29,7 +29,7 @@ class MainController extends Controller
         if (!glsr()->hasPermission()) {
             return;
         }
-        $command = new RegisterPostType([
+        $this->execute(new RegisterPostType([
             'capabilities' => ['create_posts' => 'create_'.Application::POST_TYPE],
             'capability_type' => Application::POST_TYPE,
             'columns' => [
@@ -53,8 +53,7 @@ class MainController extends Controller
             'rest_controller_class' => RestReviewController::class,
             'show_in_rest' => true,
             'single' => _x('Review', 'admin-text', 'site-reviews'),
-        ]);
-        $this->execute($command);
+        ]));
     }
 
     /**
@@ -63,12 +62,11 @@ class MainController extends Controller
      */
     public function registerShortcodes()
     {
-        $command = new RegisterShortcodes([
+        $this->execute(new RegisterShortcodes([
             'site_reviews',
             'site_reviews_form',
             'site_reviews_summary',
-        ]);
-        $this->execute($command);
+        ]));
     }
 
     /**
@@ -77,7 +75,7 @@ class MainController extends Controller
      */
     public function registerTaxonomy()
     {
-        $command = new RegisterTaxonomy([
+        $this->execute(new RegisterTaxonomy([
             'hierarchical' => true,
             'meta_box_cb' => [glsr(EditorController::class), 'renderTaxonomyMetabox'],
             'public' => false,
@@ -85,8 +83,7 @@ class MainController extends Controller
             'show_admin_column' => true,
             'show_in_rest' => true,
             'show_ui' => true,
-        ]);
-        $this->execute($command);
+        ]));
     }
 
     /**
@@ -95,7 +92,7 @@ class MainController extends Controller
      */
     public function registerWidgets()
     {
-        $command = new RegisterWidgets([
+        $this->execute(new RegisterWidgets([
             'site-reviews' => [
                 'description' => _x('Site Reviews: Display your recent reviews.', 'admin-text', 'site-reviews'),
                 'name' => _x('Recent Reviews', 'admin-text', 'site-reviews'),
@@ -108,7 +105,6 @@ class MainController extends Controller
                 'description' => _x('Site Reviews: Display a summary of your reviews.', 'admin-text', 'site-reviews'),
                 'name' => _x('Summary of Reviews', 'admin-text', 'site-reviews'),
             ],
-        ]);
-        $this->execute($command);
+        ]));
     }
 }

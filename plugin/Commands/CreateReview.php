@@ -2,16 +2,21 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
+use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Modules\Notification;
+use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
 
-class CreateReview
+class CreateReview implements Contract
 {
     public $ajax_request;
-    public $assigned_to;
+    public $assigned_post_ids;
+    public $assigned_term_ids;
+    public $assigned_user_ids;
     public $author;
     public $avatar;
     public $blacklisted;
-    public $category;
     public $content;
     public $custom;
     public $date;
@@ -31,24 +36,76 @@ class CreateReview
     {
         $this->request = $input;
         $this->ajax_request = isset($input['_ajax_request']);
-        $this->assigned_to = $this->getNumeric('assign_to');
+        $this->assigned_post_ids = $this->getAssignedPosts();
+        $this->assigned_term_ids = $this->getAssignedTerms();
+        $this->assigned_user_ids = $this->getAssignedUsers();
         $this->author = sanitize_text_field($this->getUser('name'));
         $this->avatar = $this->getAvatar();
         $this->blacklisted = isset($input['blacklisted']);
-        $this->category = $this->getCategory();
         $this->content = sanitize_textarea_field($this->get('content'));
         $this->custom = $this->getCustom();
         $this->date = $this->getDate('date');
         $this->email = sanitize_email($this->getUser('email'));
         $this->form_id = sanitize_key($this->get('form_id'));
         $this->ip_address = $this->get('ip_address');
-        $this->post_id = intval($this->get('_post_id'));
-        $this->rating = intval($this->get('rating'));
+        $this->post_id = absint($this->get('_post_id'));
+        $this->rating = absint($this->get('rating'));
         $this->referer = sanitize_text_field($this->get('_referer'));
         $this->response = sanitize_textarea_field($this->get('response'));
         $this->terms = !empty($input['terms']);
         $this->title = sanitize_text_field($this->get('title'));
         $this->url = esc_url_raw(sanitize_text_field($this->get('url')));
+    }
+
+    /**
+     * @return \GeminiLabs\SiteReviews\Review|void
+     */
+    public function handle()
+    {
+        if (!$this->validate()) {
+            return;
+        }
+        if ($review = glsr(ReviewManager::class)->create($this)) {
+            glsr()->sessionSet($this->form_id.'message', __('Your review has been submitted!', 'site-reviews'));
+            glsr(Notification::class)->send($review);
+            return $review;
+        }
+        glsr()->sessionSet($command->form_id.'errors', []);
+        glsr()->sessionSet($command->form_id.'message', __('Your review could not be submitted and the error has been logged. Please notify the site admin.', 'site-reviews'));
+    }
+
+    /**
+     * @return string
+     */
+    public function redirect($fallback = '')
+    {
+        $redirect = trim(strval(get_post_meta($this->post_id, 'redirect_to', true)));
+        $redirect = apply_filters('site-reviews/review/redirect', $redirect, $this);
+        if (empty($redirect)) {
+            $redirect = $fallback;
+        }
+        return sanitize_text_field($redirect);
+    }
+
+    /**
+     * @return string
+     */
+    public function referer()
+    {
+        if ($referer = $this->redirect($this->referer)) {
+            return $referer;
+        }
+        glsr_log()->warning('The form referer ($_SERVER[REQUEST_URI]) was empty.')->debug($this);
+        return home_url();
+    }
+
+    /**
+     * @return bool
+     */
+    public function validate()
+    {
+        $validated = glsr(ValidateReview::class)->validate($this->request);
+        return empty($validated->error) && !$validated->recaptchaIsUnset;
     }
 
     /**
@@ -58,6 +115,33 @@ class CreateReview
     protected function get($key)
     {
         return (string) Arr::get($this->request, $key);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getAssignedPosts()
+    {
+        $postIds = Arr::convertFromString($this->get('assign_to'));
+        return array_map('sanitize_key', $postIds);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getAssignedTerms()
+    {
+        $termIds = Arr::convertFromString($this->get('category'));
+        return array_map('sanitize_key', $termIds);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getAssignedUsers()
+    {
+        $userIds = Arr::convertFromString($this->get('user'));
+        return array_map('sanitize_key', $userIds);
     }
 
     /**
@@ -72,15 +156,6 @@ class CreateReview
     }
 
     /**
-     * @return string
-     */
-    protected function getCategory()
-    {
-        $categories = Arr::convertFromString($this->get('category'));
-        return sanitize_key(Arr::get($categories, 0));
-    }
-
-    /**
      * @return array
      */
     protected function getCustom()
@@ -88,7 +163,7 @@ class CreateReview
         $unset = [
             '_action', '_ajax_request', '_counter', '_nonce', '_post_id', '_recaptcha-token',
             '_referer', 'assign_to', 'category', 'content', 'date', 'email', 'excluded', 'form_id',
-            'gotcha', 'ip_address', 'name', 'rating', 'response', 'terms', 'title', 'url',
+            'gotcha', 'ip_address', 'name', 'rating', 'response', 'terms', 'title', 'url', 'user',
         ];
         $unset = apply_filters('site-reviews/create/unset-keys-from-custom', $unset);
         $custom = $this->request;
@@ -120,6 +195,18 @@ class CreateReview
      * @param string $key
      * @return string
      */
+    protected function getNumeric($key)
+    {
+        $value = $this->get($key);
+        return is_numeric($value)
+            ? $value
+            : '';
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
     protected function getUser($key)
     {
         $value = $this->get($key);
@@ -134,17 +221,5 @@ class CreateReview
             }
         }
         return $value;
-    }
-
-    /**
-     * @param string $key
-     * @return string
-     */
-    protected function getNumeric($key)
-    {
-        $value = $this->get($key);
-        return is_numeric($value)
-            ? $value
-            : '';
     }
 }

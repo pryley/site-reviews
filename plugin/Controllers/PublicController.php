@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
-use GeminiLabs\SiteReviews\Handlers\EnqueuePublicAssets;
+use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Schema;
@@ -19,7 +19,7 @@ class PublicController extends Controller
      */
     public function enqueueAssets()
     {
-        (new EnqueuePublicAssets())->handle();
+        $this->execute(new EnqueuePublicAssets());
     }
 
     /**
@@ -83,11 +83,10 @@ class PublicController extends Controller
      */
     public function routerSubmitReview(array $request)
     {
-        $validated = glsr(ValidateReview::class)->validate($request);
-        $command = new CreateReview($validated->request);
-        if (empty($validated->error) && !$validated->recaptchaIsUnset) {
-            $this->execute($command);
+        $command = new CreateReview($request);
+        if ($review = $this->execute($command)) {
+            wp_safe_redirect($command->referer());
+            exit;
         }
-        return $command;
     }
 }

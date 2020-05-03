@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Commands\ChangeStatus;
+use GeminiLabs\SiteReviews\Commands\ToggleStatus;
 use GeminiLabs\SiteReviews\Commands\TogglePinned;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -15,14 +15,6 @@ use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
 class AjaxController extends Controller
 {
-    /**
-     * @return void
-     */
-    public function routerChangeStatus(array $request)
-    {
-        wp_send_json_success($this->execute(new ChangeStatus($request)));
-    }
-
     /**
      * @return void
      */
@@ -160,14 +152,13 @@ class AjaxController extends Controller
      */
     public function routerSubmitReview(array $request)
     {
-        $command = glsr(PublicController::class)->routerSubmitReview($request);
-        $redirect = trim(strval(get_post_meta($command->post_id, 'redirect_to', true)));
-        $redirect = apply_filters('site-reviews/review/redirect', $redirect, $command);
+        $command = new CreateReview($request);
+        $review = $this->execute($command);
         $data = [
             'errors' => glsr()->sessionGet($command->form_id.'errors', false),
             'message' => glsr()->sessionGet($command->form_id.'message', ''),
             'recaptcha' => glsr()->sessionGet($command->form_id.'recaptcha', false),
-            'redirect' => $redirect,
+            'redirect' => $command->redirect(),
         ];
         if (false === $data['errors']) {
             glsr()->sessionClear();
@@ -211,10 +202,19 @@ class AjaxController extends Controller
      */
     public function routerTogglePinned(array $request)
     {
-        $isPinned = $this->execute(new TogglePinned($request));
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
-            'pinned' => $isPinned,
+            'pinned' => $this->execute(new TogglePinned($request)),
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    public function routerToggleStatus(array $request)
+    {
+        wp_send_json_success($this->execute(
+            new ToggleStatus(Arr::get($request, 'post_id'), Arr::get($request, 'status'))
+        ));
     }
 }
