@@ -1,8 +1,8 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Shortcodes;
+namespace GeminiLabs\SiteReviews\Tinymce;
 
-class SiteReviewsFormPopup extends TinymcePopupGenerator
+class SiteReviewsFormTinymce extends TinymceGenerator
 {
     /**
      * @return array

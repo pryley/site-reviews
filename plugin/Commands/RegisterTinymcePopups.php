@@ -20,7 +20,7 @@ class RegisterTinymcePopups implements Contract
     public function handle()
     {
         foreach ($this->popups as $slug => $label) {
-            $buttonClass = Helper::buildClassName($slug.'-popup', 'Shortcodes');
+            $buttonClass = Helper::buildClassName($slug.'Tinymce', 'Tinymce');
             if (!class_exists($buttonClass)) {
                 glsr_log()->error(sprintf('Tinymce Popup class missing (%s)', $buttonClass));
                 continue;

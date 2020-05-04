@@ -1,8 +1,8 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Shortcodes;
+namespace GeminiLabs\SiteReviews\Tinymce;
 
-class SiteReviewsSummaryPopup extends SiteReviewsPopup
+class SiteReviewsSummaryTinymce extends SiteReviewsTinymce
 {
     /**
      * @return array

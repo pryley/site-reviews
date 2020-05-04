@@ -1,10 +1,11 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Shortcodes;
+namespace GeminiLabs\SiteReviews\Tinymce;
 
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Helper;
 
-abstract class TinymcePopupGenerator
+abstract class TinymceGenerator
 {
     /**
      * @var array
@@ -96,10 +97,9 @@ abstract class TinymcePopupGenerator
         if (!empty($this->errors)) {
             $errors = [];
             foreach ($this->required as $name => $alert) {
-                if (false !== array_search($name, glsr_array_column($fields, 'name'))) {
-                    continue;
+                if (false === array_search($name, glsr_array_column($fields, 'name'))) {
+                    $errors[] = $this->errors[$name];
                 }
-                $errors[] = $this->errors[$name];
             }
             $this->errors = $errors;
         }
@@ -113,7 +113,9 @@ abstract class TinymcePopupGenerator
      */
     protected function getHideOptions()
     {
-        $classname = str_replace('Popup', 'Shortcode', get_class($this));
+        $reflection = new \ReflectionClass($this);
+        $shortname = str_replace('Tinymce', 'Shortcode', $reflection->getShortName());
+        $classname = Helper::buildClassName($shortname, 'Shortcodes');
         $hideOptions = glsr($classname)->getHideOptions();
         $options = [];
         foreach ($hideOptions as $name => $tooltip) {
@@ -191,12 +193,11 @@ abstract class TinymcePopupGenerator
      */
     protected function normalizeField(array $field, array $defaults)
     {
-        if (!$this->validate($field)) {
-            return;
+        if ($this->validate($field)) {
+            return array_filter(shortcode_atts($defaults, $field), function ($value) {
+                return '' !== $value;
+            });
         }
-        return array_filter(shortcode_atts($defaults, $field), function ($value) {
-            return '' !== $value;
-        });
     }
 
     /**
