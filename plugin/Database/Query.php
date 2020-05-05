@@ -47,8 +47,7 @@ class Query
     public function ratingPivot($field, $table, $ratingId)
     {
         return $this->db->get_col(
-            $this->db->prepare("SELECT %s FROM {$this->getTable($table)} WHERE rating_id = %d", 
-                $field, 
+            $this->db->prepare("SELECT {$field} FROM {$this->getTable($table)} WHERE rating_id = %d", 
                 $ratingId
             )
         );
@@ -80,7 +79,9 @@ class Query
      */
     public function ratingTypes()
     {
-        return $this->db->get_col("SELECT type FROM {$this->getTable('ratings')} WHERE is_approved = 1 GROUP BY type");
+        return in_array($this->args['type'], ['', 'all'])
+            ? $this->db->get_col("SELECT type FROM {$this->getTable('ratings')} WHERE is_approved = 1 GROUP BY type")
+            : [$this->args['type']];
     }
 
     /**
@@ -100,7 +101,7 @@ class Query
             {$this->getSqlOffset()}
         ");
         $posts = $this->generatePosts($results);
-        $total = $this->totalReviews();
+        $total = $this->totalReviews($this->args);
         return (object) [
             'max_num_pages' => ceil($total / $this->args['per_page']),
             'results' => $this->generateReviews($posts),
@@ -128,7 +129,8 @@ class Query
      */
     public function getPaged()
     {
-        return 1;
+        $page = filter_input(INPUT_GET, glsr()->constant('PAGED_QUERY_VAR'));
+        return max(1, absint($page));
     }
 
     /**
@@ -360,7 +362,7 @@ class Query
         $args['assigned_to'] = Arr::uniqueInt(Arr::consolidate($args['assigned_to']));
         $args['category'] = $this->normalizeTermIds(Arr::consolidate($args['category']));
         $args['offset'] = absint(filter_var($args['offset'], FILTER_SANITIZE_NUMBER_INT));
-        $args['order'] = Str::restrictTo('ASC,DESC,', sanitize_key($args['order']), 'DESC');
+        $args['order'] = Str::restrictTo('ASC,DESC,', sanitize_key($args['order']), 'DESC'); // include an empty value
         $args['orderby'] = $this->normalizeOrderBy($args['orderby']);
         $args['per_page'] = absint($args['per_page']); // "0" and "-1" = all
         $args['post__in'] = Arr::uniqueInt(Arr::consolidate($args['post__in']));

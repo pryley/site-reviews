@@ -18,20 +18,24 @@ class SqlSchema
      */
     public function addAssignedPostsTableConstraints()
     {
+        if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_posts').'_rating_id_foreign')) {
         $this->db->query("
             ALTER TABLE {$this->table('assigned_posts')}
-            ADD CONSTRAINT {$this->prefix('assigned_posts')}_rating_id_foreign
+                ADD CONSTRAINT {$constraint}
             FOREIGN KEY (rating_id)
             REFERENCES {$this->table('ratings')} (ID)
             ON DELETE CASCADE
         ");
+        }
+        if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_posts').'_post_id_foreign')) {
         $this->db->query("
             ALTER TABLE {$this->table('assigned_posts')}
-            ADD CONSTRAINT {$this->prefix('assigned_posts')}_post_id_foreign
+                ADD CONSTRAINT {$constraint}
             FOREIGN KEY (post_id)
             REFERENCES {$this->db->posts} (ID)
             ON DELETE CASCADE
         ");
+    }
     }
 
     /**
@@ -39,20 +43,24 @@ class SqlSchema
      */
     public function addAssignedTermsTableConstraints()
     {
+        if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_terms').'_rating_id_foreign')) {
         $this->db->query("
             ALTER TABLE {$this->table('assigned_terms')}
-            ADD CONSTRAINT {$this->prefix('assigned_terms')}_rating_id_foreign
+                ADD CONSTRAINT {$constraint}
             FOREIGN KEY (rating_id)
             REFERENCES {$this->table('ratings')} (ID)
             ON DELETE CASCADE
         ");
+        }
+        if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_terms').'_term_id_foreign')) {
         $this->db->query("
             ALTER TABLE {$this->table('assigned_terms')}
-            ADD CONSTRAINT {$this->prefix('assigned_terms')}_term_id_foreign
+                ADD CONSTRAINT {$constraint}
             FOREIGN KEY (term_id)
             REFERENCES {$this->db->terms} (term_id)
             ON DELETE CASCADE
         ");
+    }
     }
 
     /**
@@ -60,13 +68,15 @@ class SqlSchema
      */
     public function addReviewsTableConstraints()
     {
+        if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_posts').'_review_id_foreign')) {
         $this->db->query("
             ALTER TABLE {$this->table('ratings')}
-            ADD CONSTRAINT {$this->prefix('assigned_posts')}_review_id_foreign
+                ADD CONSTRAINT {$constraint}
             FOREIGN KEY (review_id)
             REFERENCES {$this->db->posts} (ID)
             ON DELETE CASCADE
         ");
+    }
     }
 
     /**
@@ -168,5 +178,15 @@ class SqlSchema
     public function tableExists($table)
     {
         return !empty($this->db->get_var("SHOW TABLES LIKE '{$this->table($table)}'"));
+    }
+
+    /**
+     * @return bool
+     */
+    public function tableConstraintExists($constraint)
+    {
+        return $this->db->query(
+            $this->db->prepare("SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_NAME = '%s'", $constraint)
+        );
     }
 }
