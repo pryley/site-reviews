@@ -29,6 +29,7 @@ class SiteReviewsFormDefaults extends Defaults
             'hide' => '',
             'id' => '',
             'title' => '',
+            'user' => '',
         ];
     }
 }

@@ -37,6 +37,10 @@ class SiteReviewsFormBlock extends BlockGenerator
                 'default' => '',
                 'type' => 'string',
             ],
+            'user' => [
+                'default' => '',
+                'type' => 'string',
+            ],
         ];
     }
 

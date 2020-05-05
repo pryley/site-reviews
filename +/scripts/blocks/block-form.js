@@ -2,6 +2,7 @@ import { CheckboxControlList } from './checkbox-control-list';
 import { FormIcon } from './icons';
 import assign_to_options from './assign_to-options';
 import category_options from './category-options';
+import user_options from './user-options';
 import ConditionalSelectControl from './ConditionalSelectControl';
 
 const { _x } = wp.i18n;
@@ -19,10 +20,11 @@ const attributes = {
     className: { default: '', type: 'string' },
     hide: { default: '', type: 'string' },
     id: { default: '', type: 'string' },
+    user: { default: '', type: 'string' },
 };
 
 const edit = props => {
-    const { attributes: { assign_to, assign_to_custom, category, hide, id }, className, setAttributes } = props;
+    const { attributes: { assign_to, assign_to_custom, category, hide, id, user }, className, setAttributes } = props;
     const inspectorControls = {
         assign_to: <ConditionalSelectControl
             label={ _x('Assign Reviews to a Post ID', 'admin-text', 'site-reviews') }
@@ -47,6 +49,12 @@ const edit = props => {
             onChange={ category => setAttributes({ category }) }
             options={ category_options }
             value={ category }
+        />,
+        user: <SelectControl
+            label={ _x('Assign Reviews to a User', 'admin-text', 'site-reviews') }
+            onChange={ user => setAttributes({ user }) }
+            options={ user_options }
+            value={ user }
         />,
         hide: CheckboxControlList(GLSR.hideoptions.site_reviews_form, hide, setAttributes),
     };

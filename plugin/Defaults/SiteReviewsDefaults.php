@@ -42,6 +42,7 @@ class SiteReviewsDefaults extends Defaults
             'schema' => false,
             'title' => '',
             'type' => 'local',
+            'user' => '',
         ];
     }
 }

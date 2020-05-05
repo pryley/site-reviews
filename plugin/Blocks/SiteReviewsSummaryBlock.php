@@ -48,6 +48,10 @@ class SiteReviewsSummaryBlock extends BlockGenerator
                 'default' => 'local',
                 'type' => 'string',
             ],
+            'user' => [
+                'default' => '',
+                'type' => 'string',
+            ],
         ];
     }
 

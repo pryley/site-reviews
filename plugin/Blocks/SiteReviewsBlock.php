@@ -60,6 +60,10 @@ class SiteReviewsBlock extends BlockGenerator
                 'default' => 'local',
                 'type' => 'string',
             ],
+            'user' => [
+                'default' => '',
+                'type' => 'string',
+            ],
         ];
     }
 

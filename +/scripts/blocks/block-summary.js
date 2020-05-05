@@ -4,6 +4,7 @@ import ConditionalSelectControl from './ConditionalSelectControl';
 import assigned_to_options from './assigned_to-options';
 import category_options from './category-options';
 import type_options from './type-options';
+import user_options from './user-options';
 
 const { _x } = wp.i18n;
 const { registerBlockType } = wp.blocks;
@@ -23,11 +24,12 @@ const attributes = {
     rating: { default: 0, type: 'number' },
     schema: { default: false, type: 'boolean' },
     type: { default: 'local', type: 'string' },
+    user: { default: '', type: 'string' },
 };
 
 const edit = props => {
     props.attributes.post_id = jQuery('#post_ID').val();
-    const { attributes: { assigned_to, assigned_to_custom, category, display, hide, id, pagination, rating, schema, type }, className, setAttributes } = props;
+    const { attributes: { assigned_to, assigned_to_custom, category, display, hide, id, pagination, rating, schema, type, user }, className, setAttributes } = props;
     const inspectorControls = {
         assigned_to: <ConditionalSelectControl
             label={ _x('Limit Reviews to an Assigned Post ID', 'admin-text', 'site-reviews') }
@@ -52,6 +54,12 @@ const edit = props => {
             onChange={ category => setAttributes({ category }) }
             options={ category_options }
             value={ category }
+        />,
+        user: <SelectControl
+            label={ _x('Limit Reviews to an Assigned User', 'admin-text', 'site-reviews') }
+            onChange={ user => setAttributes({ user }) }
+            options={ user_options }
+            value={ user }
         />,
         type: <SelectControl
             label={ _x('Limit the Type of Reviews', 'admin-text', 'site-reviews') }

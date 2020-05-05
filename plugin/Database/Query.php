@@ -33,6 +33,7 @@ class Query
         if (is_object($rating)) {
             $rating->post_ids = $this->ratingPivot('post_id', 'assigned_posts', $rating->ID);
             $rating->term_ids = $this->ratingPivot('term_id', 'assigned_terms', $rating->ID);
+            $rating->user_ids = $this->ratingPivot('user_id', 'assigned_users', $rating->ID);
             return $rating;
         }
         return false;
@@ -265,6 +266,9 @@ class Query
         if ($termIds = $this->args['category']) {
             $clauses[] = $this->db->prepare("(at.term_id IN (%s))", implode(',', $termIds));
         }
+        if ($userIds = $this->args['user']) {
+            $clauses[] = $this->db->prepare("(au.user_id IN (%s))", implode(',', $userIds));
+        }
         if ($clauses = implode(' OR ', $clauses)) {
             return "AND ($clauses)";
         }
@@ -308,6 +312,16 @@ class Query
     {
         return !empty($this->args['category'])
             ? "INNER JOIN {$this->getTable('assigned_terms')} AS at ON r.ID = at.rating_id"
+            : '';
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseJoinUser()
+    {
+        return !empty($this->args['user'])
+            ? "INNER JOIN {$this->getTable('assigned_users')} AS au ON r.ID = au.rating_id"
             : '';
     }
 
@@ -369,6 +383,7 @@ class Query
         $args['post__not_in'] = Arr::uniqueInt(Arr::consolidate($args['post__not_in']));
         $args['rating'] = absint(filter_var($args['rating'], FILTER_SANITIZE_NUMBER_INT));
         $args['type'] = sanitize_key($args['type']);
+        $args['user'] = $this->normalizeUserIds(Arr::consolidate($args['user']));
         return $args;
     }
 
@@ -401,6 +416,21 @@ class Query
             $termIds[] = $termId;
         }
         return Arr::uniqueInt($termIds);
+    }
+
+    /**
+     * @return array
+     */
+    protected function normalizeUserIds(array $users)
+    {
+        $userIds = [];
+        foreach ($users as $userId) {
+            if (!is_numeric($userId)) {
+                $userId = Helper::castToInt(username_exists($userId));
+            }
+            $userIds[] = $userId;
+        }
+        return Arr::uniqueInt($userIds);
     }
 
     /**

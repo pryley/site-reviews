@@ -33,6 +33,7 @@ class SiteReviewsSummaryDefaults extends Defaults
             'text' => '',
             'title' => '',
             'type' => 'local',
+            'user' => '',
         ];
     }
 }

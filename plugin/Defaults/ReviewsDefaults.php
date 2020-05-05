@@ -31,6 +31,7 @@ class ReviewsDefaults extends Defaults
             'post__not_in' => [],
             'rating' => '',
             'type' => '',
+            'user' => '',
         ];
     }
 }
