@@ -63,11 +63,11 @@ class Hooks implements HooksContract
      */
     public function addActions()
     {
-        add_action('plugins_loaded', [glsr(), 'getDefaults'], 11);
+        add_action('plugins_loaded', [glsr(), 'getDefaultSettings'], 11);
         add_action('plugins_loaded', [glsr(), 'registerAddons']);
         add_action('plugins_loaded', [glsr(), 'registerLanguages']);
         add_action('plugins_loaded', [glsr(), 'registerReviewTypes']);
-        add_action('admin_init', [glsr(), 'setDefaults']);
+        add_action('admin_init', [glsr(), 'setDefaultSettings']);
         add_action('load-edit.php', [$this, 'translateAdminEditPage']);
         add_action('load-post.php', [$this, 'translateAdminPostPage']);
         add_action('plugins_loaded', [$this, 'translatePlugin']);

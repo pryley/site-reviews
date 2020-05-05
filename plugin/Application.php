@@ -153,7 +153,7 @@ final class Application extends Container
     /**
      * @return array
      */
-    public function getDefaults()
+    public function getDefaultSettings()
     {
         if (empty($this->defaults)) {
             $this->defaults = $this->make(DefaultsManager::class)->get();
@@ -314,7 +314,7 @@ final class Application extends Container
     /**
      * @return void
      */
-    public function setDefaults()
+    public function setDefaultSettings()
     {
         if (get_option(static::ID.'activated')) {
             $this->make(DefaultsManager::class)->set();
