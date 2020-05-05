@@ -106,7 +106,7 @@ class ListTableController extends Controller
         foreach ($rowActions as $key => $text) {
             $newActions[$key] = glsr(Builder::class)->a($text, [
                 'aria-label' => esc_attr(sprintf(_x('%s this review', 'Approve the review (admin-text)', 'site-reviews'), $text)),
-                'class' => 'glsr-change-status',
+                'class' => 'glsr-toggle-status',
                 'href' => wp_nonce_url(
                     admin_url('post.php?post='.$post->ID.'&action='.$key.'&plugin='.Application::ID),
                     $key.'-review_'.$post->ID

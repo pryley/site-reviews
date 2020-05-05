@@ -58,7 +58,7 @@ jQuery( function( $ ) {
 			this.setVisibility_();
 		},
 	});
-	new GLSR.Status( 'a.glsr-change-status' );
+	new GLSR.Status( 'a.glsr-toggle-status' );
 	new GLSR.Tabs();
 	new GLSR.TextareaResize();
 	new GLSR.Tools();
