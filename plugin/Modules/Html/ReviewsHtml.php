@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use ArrayObject;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class ReviewsHtml extends ArrayObject
@@ -34,7 +35,7 @@ class ReviewsHtml extends ArrayObject
         $this->max_num_pages = $maxPageCount;
         $this->reviews = $renderedReviews;
         $this->pagination = $this->buildPagination();
-        parent::__construct($renderedReviews, ArrayObject::STD_PROP_LIST | ArrayObject::ARRAY_AS_PROPS);
+        parent::__construct($this->reviews, ArrayObject::STD_PROP_LIST | ArrayObject::ARRAY_AS_PROPS);
     }
 
     /**

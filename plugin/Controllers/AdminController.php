@@ -242,8 +242,7 @@ class AdminController extends Controller
     public function runMigrations()
     {
         if (glsr(Migrate::class)->isMigrationNeeded()) {
-            if (glsr(Migrate::class)->run()) {
-                glsr(CountsManager::class)->updateAll();
+            glsr(Migrate::class)->run();
             }
         }
 }

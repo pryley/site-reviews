@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\GlobalCountsManager;
 use GeminiLabs\SiteReviews\Database\PostCountsManager;
+use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Database\TermCountsManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -17,7 +18,7 @@ use WP_Post;
 class ReviewController extends Controller
 {
     /**
-     * Triggered when a category is added to a review.
+     * Triggered when a category is added or removed from a review.
      *
      * @param int $postId
      * @param array $terms
@@ -36,22 +37,13 @@ class ReviewController extends Controller
             return;
         }
         $review = glsr_get_review($postId);
-        if ('publish' !== $review->status) {
-            return;
-        }
-        $ignoredIds = array_intersect($oldTTIds, $newTTIds);
-        $decreasedIds = array_diff($oldTTIds, $ignoredIds);
-        $increasedIds = array_diff($newTTIds, $ignoredIds);
-        if ($review->term_ids = glsr(Database::class)->getTermIds($decreasedIds, 'term_taxonomy_id')) {
-            glsr(TermCountsManager::class)->decrease($review);
-        }
-        if ($review->term_ids = glsr(Database::class)->getTermIds($increasedIds, 'term_taxonomy_id')) {
-            glsr(TermCountsManager::class)->increase($review);
-        }
+        $ignored = array_intersect($oldTTIds, $newTTIds);
+        glsr(RatingManager::class)->unassignTerms($review->rating_id, array_diff($oldTTIds, $ignored));
+        glsr(RatingManager::class)->assignTerms($review->rating_id, array_diff($newTTIds, $ignored));
     }
 
     /**
-     * Triggered when an existing review is approved|unapproved.
+     * Triggered when a post status changes or an existing review is approved|unapproved.
      *
      * @param string $oldStatus
      * @param string $newStatus
@@ -61,35 +53,32 @@ class ReviewController extends Controller
      */
     public function onAfterChangeStatus($newStatus, $oldStatus, $post)
     {
-        if (Application::POST_TYPE != Arr::get($post, 'post_type') 
+        if (Application::POST_TYPE !== Arr::get($post, 'post_type') 
             || in_array($oldStatus, ['new', $newStatus])) {
             return;
         }
-        $review = glsr_get_review($post);
-        if ('publish' == $post->post_status) {
-            glsr(CountsManager::class)->increaseAll($review);
-        } else {
-            glsr(CountsManager::class)->decreaseAll($review);
-        }
+        glsr(RatingManager::class)->update(glsr_get_review($post)->rating_id, [
+            'is_approved' => 'publish' === $post->post_status,
+        ]);
     }
 
     /**
      * Triggered when a review is first created.
      *
      * @return void
-     * @action site-reviews/review/created
+     * @action site-reviews/review/creating
      */
-    public function onAfterCreate(Review $review)
+    public function onAfterCreate(WP_Post $post, CreateReview $command)
     {
-        if ('publish' !== $review->status) {
-            return;
-        }
-        glsr(GlobalCountsManager::class)->increase($review);
-        glsr(PostCountsManager::class)->increase($review);
+        glsr(RatingManager::class)->insert($post->ID, [
+            'is_approved' => 'publish' === $post->status,
+            'rating' => $command->rating,
+            'type' => $command->review_type,
+        ]);
     }
 
     /**
-     * Triggered when a review is deleted.
+     * Triggered before a review is deleted.
      *
      * @param int $postId
      * @return void
@@ -101,8 +90,10 @@ class ReviewController extends Controller
             return;
         }
         $review = glsr_get_review($postId);
-        if ('trash' !== $review->status) { // do not run for trashed posts
-            glsr(CountsManager::class)->decreaseAll($review);
+        if ('trash' === $review->status) {
+            glsr(RatingManager::class)->update($review->rating_id, [
+                'is_approved' => false,
+            ]);
         }
     }
 

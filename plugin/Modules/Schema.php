@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use DateTime;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Schema\UnknownType;
@@ -28,11 +28,17 @@ class Schema
     protected $ratingCounts;
 
     /**
+     * @var \GeminiLabs\SiteReviews\Reviews|array
+     */
+    protected $reviews;
+
+    /**
      * @return array
      */
-    public function build(array $args = [])
+    public function build(array $args = [], $reviews = [])
     {
         $this->args = $args;
+        $this->reviews = $reviews;
         $schema = $this->buildSummary($args);
         if (!empty($schema)) {
             $reviews = $this->buildReviews();
@@ -51,13 +57,13 @@ class Schema
      * @param array|null $args
      * @return array
      */
-    public function buildSummary($args = null)
+    public function buildSummary($args = null, array $ratings = [])
     {
         if (is_array($args)) {
             $this->args = $args;
         }
         $buildSummary = Helper::buildMethodName($this->getSchemaOptionValue('type'), 'buildSummaryFor');
-        if ($count = array_sum($this->getRatingCounts())) {
+        if ($count = array_sum($this->getRatingCounts($ratings))) {
             $schema = method_exists($this, $buildSummary)
                 ? $this->$buildSummary()
                 : $this->buildSummaryForCustom();
@@ -134,7 +140,7 @@ class Schema
     protected function buildReviews()
     {
         $reviews = [];
-        foreach (glsr(ReviewManager::class)->get($this->args) as $review) {
+        foreach ($this->reviews as $review) {
             // Only include critic reviews that have been directly produced by your site, not reviews from third-party sites or syndicated reviews.
             // @see https://developers.google.com/search/docs/data-types/review
             if ('local' === $review->review_type) {
@@ -199,10 +205,12 @@ class Schema
     /**
      * @return array
      */
-    protected function getRatingCounts()
+    protected function getRatingCounts(array $ratings = [])
     {
         if (!isset($this->ratingCounts)) {
-            $this->ratingCounts = glsr(ReviewManager::class)->getRatingCounts($this->args);
+            $this->ratingCounts = empty($ratings)
+                ? glsr(RatingManager::class)->flatten([], $this->args)
+                : $ratings;
         }
         return $this->ratingCounts;
     }

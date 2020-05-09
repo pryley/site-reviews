@@ -102,7 +102,7 @@ class SiteReviews
             return;
         }
         glsr(Schema::class)->store(
-            glsr(Schema::class)->build($this->args)
+            glsr(Schema::class)->build($this->args, $this->reviews)
         );
     }
 

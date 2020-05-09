@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules\Migrations;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Commands\AssignTerms;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\RatingManager;
@@ -48,7 +49,7 @@ class Migrate_5_0_0
                 }
                 $terms = wp_get_post_terms($review->ID, glsr()->taxonomy, ['fields' => 'ids']);
                 if (!is_wp_error($terms) && !empty($terms)) {
-                    glsr(RatingManager::class)->assignTerms($rating->ID, $terms);
+                    (new AssignTerms($rating->ID, $terms))->handle();
                 }
             }
             $offset += $limit;

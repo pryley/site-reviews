@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
 use GeminiLabs\SiteReviews\Contracts\PartialContract;
-use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Rating;
@@ -24,7 +24,7 @@ class SiteReviewsSummary implements PartialContract
     /**
      * @var array
      */
-    protected $ratingCounts;
+    protected $ratings;
 
     /**
      * @inheritDoc
@@ -32,11 +32,11 @@ class SiteReviewsSummary implements PartialContract
     public function build(array $args = [])
     {
         $this->args = $args;
-        $this->ratingCounts = glsr(ReviewManager::class)->getRatingCounts($args);
-        if (!array_sum($this->ratingCounts) && $this->isHidden('if_empty')) {
+        $this->ratings = glsr(RatingManager::class)->flatten([], $args);
+        if (!array_sum($this->ratings) && $this->isHidden('if_empty')) {
             return '';
         }
-        $this->averageRating = glsr(Rating::class)->getAverage($this->ratingCounts);
+        $this->averageRating = glsr(Rating::class)->getAverage($this->ratings);
         $this->generateSchema();
         return glsr(Template::class)->build('templates/reviews-summary', [
             'context' => [
@@ -60,13 +60,14 @@ class SiteReviewsSummary implements PartialContract
         if ($this->isHidden('bars')) {
             return;
         }
-        $percentages = preg_filter('/$/', '%', glsr(Rating::class)->getPercentages($this->ratingCounts));
-        $bars = array_reduce(range(glsr()->constant('MAX_RATING', Rating::class), 1), function ($carry, $level) use ($percentages) {
+        $percentages = preg_filter('/$/', '%', glsr(Rating::class)->getPercentages($this->ratings));
+        $ratings = range(glsr()->constant('MAX_RATING', Rating::class), 1);
+        $bars = array_reduce($ratings, function ($carry, $level) use ($percentages) {
             $label = $this->buildPercentageLabel($this->args['labels'][$level]);
             $background = $this->buildPercentageBackground($percentages[$level]);
             $count = apply_filters('site-reviews/summary/counts',
                 $percentages[$level],
-                $this->ratingCounts[$level]
+                $this->ratings[$level]
             );
             $percent = $this->buildPercentageCount($count);
             $value = $label.$background.$percent;
@@ -143,7 +144,7 @@ class SiteReviewsSummary implements PartialContract
         if ($this->isHidden('summary')) {
             return;
         }
-        $count = intval(array_sum($this->ratingCounts));
+        $count = intval(array_sum($this->ratings));
         if (empty($this->args['text'])) {
             // @todo document this change
             $this->args['text'] = _nx(
@@ -171,7 +172,7 @@ class SiteReviewsSummary implements PartialContract
             return;
         }
         glsr(Schema::class)->store(
-            glsr(Schema::class)->buildSummary($this->args)
+            glsr(Schema::class)->buildSummary($this->args, $this->ratings)
         );
     }
 
