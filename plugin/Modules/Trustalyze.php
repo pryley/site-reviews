@@ -101,6 +101,7 @@ class Trustalyze
             'rate' => $review->rating,
             'review_transaction_id' => $review->review_id,
             'reviews' => Str::truncate($review->content, 280),
+            'sitereview_plugin' => 'yes',
             'title' => Str::truncate($review->title, 35),
             'transaction' => Application::ID, // woocommerce field, not needed for Site Reviews
         ];
