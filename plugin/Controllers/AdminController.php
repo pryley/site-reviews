@@ -25,19 +25,7 @@ class AdminController extends Controller
      */
     public function enqueueAssets()
     {
-        $this->execute(new EnqueueAdminAssets([
-            'pointers' => [[
-                'content' => _x('You can pin exceptional reviews so that they are always shown first.', 'admin-text', 'site-reviews'),
-                'id' => 'glsr-pointer-pinned',
-                'position' => [
-                    'edge' => 'right',
-                    'align' => 'middle',
-                ],
-                'screen' => Application::POST_TYPE,
-                'target' => '#misc-pub-pinned',
-                'title' => _x('Pin Your Reviews', 'admin-text', 'site-reviews'),
-            ]],
-        ]));
+        $this->execute(new EnqueueAdminAssets());
     }
 
     /**

@@ -14,11 +14,19 @@ class EnqueueAdminAssets implements Contract
 {
     public $pointers;
 
-    public function __construct(array $input)
+    public function __construct()
     {
-        $this->pointers = $this->generatePointers(
-            Arr::consolidate(Arr::get($input, 'pointers'))
-        );
+        $this->pointers = $this->generatePointers([[
+            'content' => _x('You can pin exceptional reviews so that they are always shown first.', 'admin-text', 'site-reviews'),
+            'id' => 'glsr-pointer-pinned',
+            'position' => [
+                'edge' => 'right',
+                'align' => 'middle',
+            ],
+            'screen' => Application::POST_TYPE,
+            'target' => '#misc-pub-pinned',
+            'title' => _x('Pin Your Reviews', 'admin-text', 'site-reviews'),
+        ]]);
     }
 
     /**
