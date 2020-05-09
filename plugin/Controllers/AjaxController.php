@@ -107,6 +107,37 @@ class AjaxController extends Controller
     /**
      * @return void
      */
+    public function routerFetchPagedReviews(array $request)
+    {
+        glsr_log($request);
+        $args = [
+            'paged' => Arr::get($request, 'page', false),
+            'pagedUrl' => '',
+            'pagination' => 'ajax',
+            'schema' => false,
+        ];
+        if (!$args['paged']) {
+            $homePath = untrailingslashit(parse_url(home_url(), PHP_URL_PATH));
+            $urlPath = untrailingslashit(parse_url(Arr::get($request, 'url'), PHP_URL_PATH));
+            $urlQuery = [];
+            parse_str(parse_url(Arr::get($request, 'url'), PHP_URL_QUERY), $urlQuery);
+            $args['paged'] = (int) Arr::get($urlQuery, glsr()->constant('PAGED_QUERY_VAR'), 1);
+            $args['pagedUrl'] = $homePath === $urlPath
+                ? trailingslashit(home_url())
+                : trailingslashit(home_url($urlPath));
+        }
+        $atts = (array) json_decode(Arr::get($request, 'atts'));
+        $atts = glsr(SiteReviewsShortcode::class)->normalizeAtts($atts);
+        $html = glsr(SiteReviewsPartial::class)->build(wp_parse_args($args, $atts));
+        return wp_send_json_success([
+            'pagination' => $html->getPagination(),
+            'reviews' => $html->getReviews(),
+        ]);
+    }
+
+    /**
+     * @return void
+     */
     public function routerResetPermissions()
     {
         glsr(Role::class)->resetAll();
@@ -165,36 +196,6 @@ class AjaxController extends Controller
             wp_send_json_success($data);
         }
         wp_send_json_error($data);
-    }
-
-    /**
-     * @return void
-     */
-    public function routerFetchPagedReviews(array $request)
-    {
-        $args = [
-            'paged' => Arr::get($request, 'page', false),
-            'pagedUrl' => '',
-            'pagination' => 'ajax',
-            'schema' => false,
-        ];
-        if (!$args['paged']) {
-            $homePath = untrailingslashit(parse_url(home_url(), PHP_URL_PATH));
-            $urlPath = untrailingslashit(parse_url(Arr::get($request, 'url'), PHP_URL_PATH));
-            $urlQuery = [];
-            parse_str(parse_url(Arr::get($request, 'url'), PHP_URL_QUERY), $urlQuery);
-            $args['paged'] = (int) Arr::get($urlQuery, glsr()->constant('PAGED_QUERY_VAR'), 1);
-            $args['pagedUrl'] = $homePath === $urlPath
-                ? trailingslashit(home_url())
-                : trailingslashit(home_url($urlPath));
-        }
-        $atts = (array) json_decode(Arr::get($request, 'atts'));
-        $atts = glsr(SiteReviewsShortcode::class)->normalizeAtts($atts);
-        $html = glsr(SiteReviewsPartial::class)->build(wp_parse_args($args, $atts));
-        return wp_send_json_success([
-            'pagination' => $html->getPagination(),
-            'reviews' => $html->getReviews(),
-        ]);
     }
 
     /**

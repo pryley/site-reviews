@@ -11,14 +11,14 @@
 	GLSR_Pagination.prototype = {
 		config: {
 			hideClass: 'glsr-hide',
-			linkSelector: '.glsr-pagination a',
+			linkSelector: '[data-paginate] a',
 			scrollTime: 468,
 		},
 
 		/** @return void */
 		handleResponse_: function( location, response, success ) { // string, string
-			var paginationEl = this.el.querySelector('.glsr-pagination');
-			var reviewsEl = this.el.querySelector('.glsr-reviews');
+			var paginationEl = this.el.querySelector('[data-paginate]');
+			var reviewsEl = this.el.querySelector('[data-reviews]');
 			if( !success || !reviewsEl || !paginationEl ) {
 				window.location = location;
 				return;
@@ -44,14 +44,19 @@
 
 		/** @return void */
 		onClick_: function( ev ) { // MouseEvent
-			var jsonEl = this.el.querySelector('glsr-pagination');
-			if( !jsonEl ) {
+			var paginationEl = this.el.querySelector('[data-paginate]');
+			if( !paginationEl ) {
 				console.log( 'pagination config not found.' );
 				return;
 			}
 			var data = {};
+
+			[].forEach.call(paginationEl.dataset, function (value, key) {
+				data[GLSR.nameprefix + '[atts][' + key + ']'] = value;
+				console.log(key);
+			});
+
 			data[GLSR.nameprefix + '[_action]'] = 'fetch-paged-reviews';
-			data[GLSR.nameprefix + '[atts]'] = jsonEl.dataset.atts;
 			data[GLSR.nameprefix + '[page]'] = ev.currentTarget.dataset.page || '';
 			data[GLSR.nameprefix + '[url]'] = ev.currentTarget.href || '';
 			this.el.classList.add( this.config.hideClass );
@@ -96,8 +101,8 @@
 		this.navs = [];
 		var pagination = document.querySelectorAll( '.glsr-ajax-pagination' );
 		if( !pagination.length )return;
-		pagination.forEach( function( nodeItem ) {
-			this.navs.push( new GLSR_Pagination( nodeItem ));
+		pagination.forEach( function( el ) {
+			this.navs.push( new GLSR_Pagination( el ));
 		}.bind( this ));
 	};
 })();
