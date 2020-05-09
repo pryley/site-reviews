@@ -111,7 +111,7 @@ add_filter('sf_edit_query_args', function ($query) {
 add_action('wp_enqueue_scripts', function () {
     if (defined('ELEMENTOR_VERSION')) {
         wp_add_inline_script(glsr()->id,
-            'document.addEventListener("elementor/popup/show",function(){GLSR.forms.forEach(function(form){form.initStarRatings()})});'
+            '"undefined"!==typeof jQuery&&jQuery(document).on("elementor/popup/show",function(){GLSR.forms.forEach(function(f){f.initStarRatings()})})'
         );
     }
 }, 1000);
