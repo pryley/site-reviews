@@ -107,11 +107,11 @@ class ReviewsHtml extends ArrayObject
             'current' => Arr::get($this->args, 'paged'),
             'total' => $this->max_num_pages,
         ]);
-        return glsr(Builder::class)->div($html, [
+        $data = glsr(SiteReviewsDefaults::class)->filteredData($this->args);
+        return glsr(Builder::class)->div($html, wp_parse_args($data, [
             'class' => 'glsr-pagination',
-            'data-atts' => $this->args['json'],
-            'data-pagination' => '',
-        ]);
+            'data-paginate' => '',
+        ]));
     }
 
     /**

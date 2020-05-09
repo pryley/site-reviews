@@ -12,7 +12,7 @@ abstract class DefaultsAbstract
      * @var array
      */
     protected $callable = [
-        'defaults', 'filter', 'merge', 'restrict', 'unguarded',
+        'defaults', 'filter', 'filteredData', 'merge', 'restrict', 'unguarded',
     ];
 
     /**
@@ -58,7 +58,7 @@ abstract class DefaultsAbstract
     /**
      * @return string
      */
-    protected function filteredJson(array $values = [])
+    protected function filteredData(array $values = [])
     {
         $defaults = $this->flattenArrayValues(
             array_diff_key($this->defaults(), array_flip($this->guarded))
@@ -69,7 +69,11 @@ abstract class DefaultsAbstract
         $filtered = array_filter(array_diff_assoc($values, $defaults), function ($value) {
             return !$this->isEmpty($value);
         });
-        return json_encode($filtered, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        $filteredJson = [];
+        foreach ($filtered as $key => $value) {
+            $filteredJson['data-'.$key] = json_encode($value, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        }
+        return $filteredJson;
     }
 
     /**
@@ -122,7 +126,6 @@ abstract class DefaultsAbstract
      */
     protected function normalize(array $values, array $originalValues)
     {
-        $values['json'] = $this->filteredJson($originalValues);
         return $values;
     }
 

@@ -16,6 +16,11 @@ use ReflectionClass;
 abstract class Shortcode implements ShortcodeContract
 {
     /**
+     * @var array
+     */
+    protected $data;
+
+    /**
      * @var string
      */
     protected $partialName;
@@ -44,12 +49,10 @@ abstract class Shortcode implements ShortcodeContract
         if (!empty($atts['title'])) {
             $atts = Arr::set($atts, 'title', $args['before_title'].$atts['title'].$args['after_title']);
         }
-        $html = glsr(Builder::class)->div((string) $partial, [
+        $html = glsr(Builder::class)->div((string) $partial, wp_parse_args($this->data, [
             'class' => 'glsr glsr-'.glsr(Style::class)->get(),
-            'data-shortcode' => Str::snakeCase($this->partialName),
-            'data-type' => $type,
-            'data-atts' => $atts['json'], // I prefer to have this attribute displayed last
-        ]);
+            'data-'.$type => '',
+        ]));
         return $args['before_widget'].$atts['title'].$html.$args['after_widget'];
     }
 
@@ -72,9 +75,9 @@ abstract class Shortcode implements ShortcodeContract
     /**
      * @return array
      */
-    public function getDefaults($atts)
+    public function getDefaults(array $atts)
     {
-        return glsr($this->getShortcodeDefaultsClassName())->restrict(wp_parse_args($atts));
+        return glsr($this->getShortcodeDefaultsClassName())->restrict($atts);
     }
 
     /**
@@ -143,13 +146,14 @@ abstract class Shortcode implements ShortcodeContract
     public function normalizeAtts($atts, $type = 'shortcode')
     {
         $atts = apply_filters('site-reviews/shortcode/atts', $atts, $type, $this->partialName);
-        $atts = $this->getDefaults($atts);
+        $atts = $this->getDefaults(wp_parse_args($atts));
         foreach ($atts as $key => &$value) {
             $methodName = Helper::buildMethodName($key, 'normalize');
             if (method_exists($this, $methodName)) {
                 $value = $this->$methodName($value, $atts);
             }
         };
+        $this->setData($atts);
         $this->setId($atts);
         return $atts;
     }
@@ -251,6 +255,16 @@ abstract class Shortcode implements ShortcodeContract
     protected function normalizeText($text)
     {
         return trim($text);
+    }
+
+    /**
+     * @return void
+     */
+    protected function setData(array $atts)
+    {
+        unset($atts['assign_to_custom']);
+        unset($atts['assigned_to_custom']);
+        $this->data = glsr($this->getShortcodeDefaultsClassName())->filteredData($atts);
     }
 
     /**
