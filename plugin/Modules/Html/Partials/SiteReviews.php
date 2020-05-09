@@ -177,14 +177,18 @@ class SiteReviews
         if ($this->isHidden($key, 'settings.reviews.assigned_links')) {
             return;
         }
-        $post = get_post(glsr(Multilingual::class)->getPostId($value));
-        if (empty($post->ID)) {
-            return;
+        $links = [];
+        foreach (Arr::consolidate($value) as $postId) {
+            $post = get_post(glsr(Multilingual::class)->getPostId($postId));
+            if (empty($post->ID)) {
+                continue;
+            }
+            $links[] = glsr(Builder::class)->a([
+                'href' => get_the_permalink($post->ID),
+                'text' => get_the_title($post->ID),
+            ]);
         }
-        $permalink = glsr(Builder::class)->a(get_the_title($post->ID), [
-            'href' => get_the_permalink($post->ID),
-        ]);
-        $assignedTo = sprintf(__('Review of %s', 'site-reviews'), $permalink);
+        $assignedTo = sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($links));
         return '<span>'.$assignedTo.'</span>';
     }
 

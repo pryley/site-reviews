@@ -146,6 +146,16 @@ class Str
     }
 
     /**
+     * @return string
+     */
+    public static function naturalJoin(array $values)
+    {
+        $and = __('and', 'site-reviews');
+        $values[] = implode(' '.$and.' ', array_splice($values, -2));
+        return implode(', ', $values);
+    }
+
+    /**
      * @param string $prefix
      * @param string $string
      * @param string|null $trim
