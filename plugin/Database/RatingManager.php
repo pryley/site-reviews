@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
+use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Rating;
@@ -32,17 +33,6 @@ class RatingManager
 
     /**
      * @param int $ratingId
-     * @return void
-     */
-    public function assignPosts($ratingId, array $postIds)
-    {
-        foreach ($postIds as $postId) {
-            $this->assignPost($ratingId, $postId);
-        }
-    }
-
-    /**
-     * @param int $ratingId
      * @param int $termId
      * @return int|false
      */
@@ -56,13 +46,15 @@ class RatingManager
 
     /**
      * @param int $ratingId
+     * @param int $userId
      * @return int|false
      */
-    public function assignTerms($ratingId, array $termIds)
+    public function assignUser($ratingId, $userId)
     {
-        foreach ($termIds as $termId) {
-            $this->assignTerm($ratingId, $termId);
-        }
+        return $this->insertIgnore(glsr(Query::class)->getTable('assigned_users'), [
+            'rating_id' => $ratingId,
+            'user_id' => $userId,
+        ]);
     }
 
     /**
@@ -74,6 +66,30 @@ class RatingManager
         return $this->db->delete(glsr(Query::class)->getTable('ratings'), [
             'review_id' => $reviewId,
         ]);
+    }
+
+    /**
+     * @return array
+     */
+    public function flatten(array $ratings = [], array $args = [])
+    {
+        $args = wp_parse_args($args, [
+            'max' => glsr()->constant('MAX_RATING', Rating::class),
+            'min' => glsr()->constant('MIN_RATING', Rating::class),
+        ]);
+        $counts = [];
+        if (empty($ratings)) {
+            $ratings = $this->ratings($args);
+        }
+        array_walk_recursive($ratings, function ($num, $index) use (&$counts) {
+            $counts[$index] = $num + intval(Arr::get($counts, $index, 0));
+        });
+        foreach ($counts as $index => &$num) {
+            if (!Helper::inRange($index, $args['min'], $args['max'])) {
+                $num = 0;
+            }
+        }
+        return $counts;
     }
 
     /**
@@ -129,17 +145,6 @@ class RatingManager
 
     /**
      * @param int $ratingId
-     * @return void
-     */
-    public function unassignPosts($ratingId, array $postIds)
-    {
-        foreach ($postIds as $postId) {
-            $this->unassignPost($ratingId, $postId);
-        }
-    }
-
-    /**
-     * @param int $ratingId
      * @param int $termId
      * @return int|false
      */
@@ -153,13 +158,15 @@ class RatingManager
 
     /**
      * @param int $ratingId
+     * @param int $termId
      * @return int|false
      */
-    public function unassignTerms($ratingId, array $termIds)
+    public function unassignUser($ratingId, $userId)
     {
-        foreach ($termIds as $termId) {
-            $this->unassignTerm($ratingId, $termId);
-        }
+        return $this->db->delete(glsr(Query::class)->getTable('assigned_users'), [
+            'rating_id' => $ratingId,
+            'user_id' => $userId,
+        ]);
     }
 
     /**
@@ -168,7 +175,8 @@ class RatingManager
      */
     public function update($reviewId, array $data = [])
     {
-        return $this->db->update(glsr(Query::class)->getTable('ratings'), $this->normalize($data), [
+        $data = array_intersect_key($data, $this->normalize($data));
+        return $this->db->update(glsr(Query::class)->getTable('ratings'), $data, [
             'review_id' => $reviewId,
         ]);
     }
@@ -179,6 +187,29 @@ class RatingManager
     protected function generateEmptyCountsArray()
     {
         return array_fill_keys(range(0, glsr()->constant('MAX_RATING', Rating::class)), 0);
+    }
+
+    /**
+     * @param string $table
+     * @return int|false
+     */
+    public function insertBulk($table, array $values, array $fields)
+    {
+        $this->db->insert_id = 0;
+        $data = [];
+        foreach ($values as $value) {
+            $value = array_intersect_key($value, array_flip($fields)); // only keep field values
+            if (count($value) === count($fields)) {
+                $value = array_merge(array_flip($fields), $value); // make sure the order is correct
+                $data[] = sprintf("('%s')", implode("','", array_values($value)));
+            }
+        }
+        $table = glsr(Query::class)->getTable($table);
+        $fields = implode('`,`', $fields);
+        $values = implode(",", array_values($data));
+        return $this->db->query(
+            $this->db->prepare("INSERT IGNORE INTO {$table} (`{$fields}`) VALUES {$values}")
+        );
     }
 
     /**
@@ -200,17 +231,15 @@ class RatingManager
      */
     protected function normalize(array $data)
     {
-        $defaults = [
-            'is_approved' => '',
-            'rating' => '',
-            'type' => '',
-        ];
-        $data = shortcode_atts($defaults, $data);
+        $data = glsr(RatingDefaults::class)->restrict($data);
         if (array_key_exists('is_approved', $data)) {
             $data['is_approved'] = Helper::castToBool($data['is_approved']);
         }
         if (array_key_exists('rating', $data)) {
             $data['rating'] = Helper::castToInt($data['rating']);
+        }
+        if (array_key_exists('review_id', $data)) {
+            $data['review_id'] = Helper::castToInt($data['review_id']);
         }
         if (array_key_exists('type', $data)) {
             $data['type'] = sanitize_key($data['type']);

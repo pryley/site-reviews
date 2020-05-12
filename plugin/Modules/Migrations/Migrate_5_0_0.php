@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\AssignTerms;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -19,6 +20,42 @@ class Migrate_5_0_0
     public function createDatabaseTable()
     {
         glsr(Database::class)->createTables();
+        // global $wpdb;
+        // $result = $wpdb->get_col("
+                // SELECT ID
+                // FROM gl_posts
+                // WHERE post_type = 'site-review'
+                // AND ID NOT IN (SELECT review_id FROM gl_glsr_ratings)
+        // ");
+        // glsr_log(implode(',', $result));
+    }
+
+    /**
+     * @return void
+     */
+    public function migrateAssignedTo()
+    {
+        global $wpdb;
+        $offset = 0;
+        $limit = 250;
+        $table = glsr(Query::class)->getTable('ratings');
+        while (true) {
+            $results = $wpdb->get_results($wpdb->prepare("
+                SELECT r.ID AS rating_id, m.meta_value AS post_id
+                FROM {$table} AS r
+                INNER JOIN {$wpdb->postmeta} AS m ON r.review_id = m.post_id
+                WHERE m.meta_key = '_assigned_to' AND m.meta_value > 0 
+                LIMIT %d, %d
+            ", $offset, $limit), ARRAY_A);
+            if (empty($results)) {
+                break;
+            }
+            glsr(RatingManager::class)->insertBulk('assigned_posts', $results, [
+                'rating_id',
+                'post_id',
+            ]);
+            $offset += $limit;
+        }
     }
 
     /**
@@ -28,32 +65,36 @@ class Migrate_5_0_0
     {
         global $wpdb;
         $offset = 0;
-        $limit = 100;
-        $reviewCount = array_sum((array) wp_count_posts(glsr()->post_type));
-        while ($reviewCount > 0) {
-            $reviews = $wpdb->get_results($wpdb->prepare("
-                SELECT p.ID, p.post_status AS status
+        $limit = 250;
+        while (true) {
+            $results = $wpdb->get_results($wpdb->prepare("
+                SELECT 
+                    p.ID AS review_id, 
+                    m1.meta_value AS rating,
+                    m2.meta_value AS type,
+                    CAST(IF(p.post_status = 'publish', 1, 0) AS UNSIGNED) AS is_approved,
+                    m3.meta_value AS is_pinned
                 FROM {$wpdb->posts} AS p
+                INNER JOIN {$wpdb->postmeta} AS m1 ON p.ID = m1.post_id
+                INNER JOIN {$wpdb->postmeta} AS m2 ON p.ID = m2.post_id
+                INNER JOIN {$wpdb->postmeta} AS m3 ON p.ID = m3.post_id
                 WHERE p.post_type = '%s'
+                AND m1.meta_key = '_rating'
+                AND m2.meta_key = '_review_type'
+                AND m3.meta_key = '_pinned'
                 LIMIT %d, %d
-            ", glsr()->post_type, $offset, $limit));
-            foreach ($reviews as $review) {
-                $rating = glsr(RatingManager::class)->insert($review->ID, [
-                    'is_approved' => 'publish' === $review->status,
-                    'is_pinned' => Helper::castToBool(get_post_meta($review->ID, '_pinned', true)),
-                    'rating' => get_post_meta($review->ID, '_rating', true),
-                    'type' => get_post_meta($review->ID, '_review_type', true),
-                ]);
-                if ($postId = get_post_meta($review->ID, '_assigned_to', true)) {
-                    glsr(RatingManager::class)->assignPost($rating->ID, $postId);
-                }
-                $terms = wp_get_post_terms($review->ID, glsr()->taxonomy, ['fields' => 'ids']);
-                if (!is_wp_error($terms) && !empty($terms)) {
-                    (new AssignTerms($rating->ID, $terms))->handle();
-                }
+            ", glsr()->post_type, $offset, $limit), ARRAY_A);
+            if (empty($results)) {
+                break;
             }
+            glsr(RatingManager::class)->insertBulk('ratings', $results, [
+                'review_id',
+                'rating',
+                'type',
+                'is_approved',
+                'is_pinned'
+            ]);
             $offset += $limit;
-            $reviewCount -= $limit;
         }
     }
 
@@ -76,6 +117,34 @@ class Migrate_5_0_0
         if ($this->widgetsExist($sidebars)) {
             $sidebars = $this->updateWidgetNames($sidebars);
             update_option('sidebars_widgets', $sidebars);
+        }
+    }
+
+    /**
+     * @return void
+     */
+    public function migrateTerms()
+    {
+        global $wpdb;
+        $offset = 0;
+        $limit = 250;
+        $table = glsr(Query::class)->getTable('ratings');
+        while (true) {
+            $results = $wpdb->get_results($wpdb->prepare("
+                SELECT r.ID AS rating_id, tt.term_id AS term_id
+                FROM {$table} AS r
+                INNER JOIN {$wpdb->term_relationships} AS tr ON r.review_id = tr.object_id
+                INNER JOIN {$wpdb->term_taxonomy} AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+                LIMIT %d, %d
+            ", $offset, $limit), ARRAY_A);
+            if (empty($results)) {
+                break;
+            }
+            glsr(RatingManager::class)->insertBulk('assigned_terms', $results, [
+                'rating_id',
+                'term_id',
+            ]);
+            $offset += $limit;
         }
     }
 
@@ -121,11 +190,13 @@ class Migrate_5_0_0
     public function run()
     {
         $this->createDatabaseTable();
-        $this->migrateRatings();
         $this->migrateSettings();
         $this->migrateSidebarWidgets();
         $this->migrateThemeModWidgets();
         $this->migrateWidgets();
+        $this->migrateRatings();
+        $this->migrateAssignedTo();
+        $this->migrateTerms();
     }
 
     /**
