@@ -45,7 +45,7 @@ if (apply_filters('site-reviews/support/deprecated/v4', true)) {
         }
     }, 9);
 
-    // Handlers/CreateReview.php
+    // Commands/CreateReview.php
     add_action('site-reviews/review/submitted', function ($review) {
         if (has_action('site-reviews/local/review/submitted')) {
             glsr()->deprecated[] = 'The "site-reviews/local/review/submitted" hook has been deprecated. Please use the "site-reviews/review/submitted" hook instead.';
@@ -65,7 +65,7 @@ if (apply_filters('site-reviews/support/deprecated/v4', true)) {
         return $values;
     }, 9, 2);
 
-    // Handlers/EnqueuePublicAssets.php
+    // Commands/EnqueuePublicAssets.php
     add_filter('site-reviews/enqueue/public/localize', function ($variables) {
         if (has_filter('site-reviews/enqueue/localize')) {
             glsr()->deprecated[] = 'The "site-reviews/enqueue/localize" hook has been deprecated. Please use the "site-reviews/enqueue/public/localize" hook instead.';
@@ -145,3 +145,15 @@ add_action('wp_footer', function () {
         glsr_log()->warning($notice);
     }
 });
+
+/**
+ * @return void
+ * @since 5.0.0
+ */
+function glsr_calculate_ratings()
+{
+    glsr_log()->error(sprintf(
+        _x('The %s function has been deprecated and removed, please update your code.', 'admin-text', 'site-reviews'), 
+        'glsr_calculate_ratings()'
+    ));
+}

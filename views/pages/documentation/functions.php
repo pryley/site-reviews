@@ -393,27 +393,3 @@ apply_filters('glsr_log', null, $var1);</code></pre>
     <p>Logged entries will be found in the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-console'); ?>">Tools &rarr; Console</a></code>.</p>
     </div>
 </div>
-
-<div id="functions-11" class="glsr-card postbox">
-    <div class="glsr-card-header">
-        <h3>Helper function to recalculate the rating counts</h3>
-        <button type="button" class="handlediv" aria-expanded="true">
-            <span class="screen-reader-text"><?= __('Toggle documentation panel', 'site-reviews'); ?></span>
-            <span class="toggle-indicator" aria-hidden="true"></span>
-        </button>
-    </div>
-    <div class="inside">
-        <p>This helper function allows you to recalculate the rating counts used in the summary shortcode. In most cases this should not be necessary as Site Reviews automatically manages the rating counts.</p>
-        <pre><code class="php">/**
- * @return void
- */
-glsr_calculate_ratings();</code></pre>
-        <p><strong>Example Usage:</strong></p>
-        <pre><code class="php">glsr_calculate_ratings();
-
-// OR:
-
-apply_filters('glsr_calculate_ratings', null);</code></pre>
-    <p>You can verify that it runs by checking the log entries in the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-console'); ?>">Tools &rarr; Console</a></code>.</p>
-    </div>
-</div>

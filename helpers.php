@@ -10,7 +10,6 @@ defined('WPINC') || die;
  */
 add_filter('plugins_loaded', function () {
     $hooks = array(
-        'glsr_calculate_ratings' => 1,
         'glsr_create_review' => 2,
         'glsr_debug' => 10,
         'glsr_get' => 4,
@@ -58,15 +57,6 @@ function glsr_array_column(array $array, $column)
         $result[] = $subarray[$column];
     }
     return $result;
-}
-
-/**
- * @return void
- */
-function glsr_calculate_ratings()
-{
-    glsr('Database\CountsManager')->updateAll();
-    glsr_log()->notice(_x('Recalculated rating counts.', 'admin-text', 'site-reviews'));
 }
 
 /**
