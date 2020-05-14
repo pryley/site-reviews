@@ -39,9 +39,8 @@ class SiteReviewsSummary implements PartialContract
         $this->averageRating = glsr(Rating::class)->getAverage($this->ratings);
         $this->generateSchema();
         return glsr(Template::class)->build('templates/reviews-summary', [
+            'args' => $this->args,
             'context' => [
-                'assigned_to' => $this->args['assigned_to'],
-                'category' => $this->args['category'],
                 'class' => $this->getClass(),
                 'id' => $this->args['id'],
                 'percentages' => $this->buildPercentage(),
