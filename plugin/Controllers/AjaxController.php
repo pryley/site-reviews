@@ -30,17 +30,6 @@ class AjaxController extends Controller
     /**
      * @return void
      */
-    public function routerCountReviews()
-    {
-        glsr(AdminController::class)->routerCountReviews();
-        wp_send_json_success([
-            'notices' => glsr(Notice::class)->get(),
-        ]);
-    }
-
-    /**
-     * @return void
-     */
     public function routerDetectIpAddress()
     {
         glsr(AdminController::class)->routerDetectIpAddress();

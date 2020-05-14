@@ -84,7 +84,6 @@ class EnqueueAdminAssets implements Contract
             'nameprefix' => Application::ID,
             'nonce' => [
                 'clear-console' => wp_create_nonce('clear-console'),
-                'count-reviews' => wp_create_nonce('count-reviews'),
                 'fetch-console' => wp_create_nonce('fetch-console'),
                 'mce-shortcode' => wp_create_nonce('mce-shortcode'),
                 'sync-reviews' => wp_create_nonce('sync-reviews'),

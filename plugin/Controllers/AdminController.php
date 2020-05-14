@@ -148,15 +148,6 @@ class AdminController extends Controller
     /**
      * @return void
      */
-    public function routerCountReviews()
-    {
-        glsr(CountsManager::class)->updateAll();
-        glsr(Notice::class)->clear()->addSuccess(_x('Recalculated rating counts.', 'admin-text', 'site-reviews'));
-    }
-
-    /**
-     * @return void
-     */
     public function routerDetectIpAddress()
     {
         $link = glsr(Builder::class)->a([
