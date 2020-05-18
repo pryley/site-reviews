@@ -64,6 +64,15 @@ final class Application extends Container
     }
 
     /**
+     * @param mixed $args
+     * @return Arguments
+     */
+    public function args($args)
+    {
+        return new Arguments($args);
+    }
+
+    /**
      * @param string $view
      * @return string
      */
