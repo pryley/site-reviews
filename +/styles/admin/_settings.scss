@@ -17,8 +17,8 @@ select[data-glsr-track="all"]:focus {
 	box-shadow: 0 0 0 1px #dc3232;
 }
 
-a[href="edit.php?post_type=site-review&page=addons"]:not(.current) {
-	color: #ffb900 !important;
+a[href="edit.php?post_type=site-review&page=addons"]:not(.current):not(:hover) {
+	color: #83c373 !important;
 }
 
 td.glsr-string-td1 {
