@@ -4,6 +4,7 @@
 !.jshintrc
 !.scrutinizer.yml
 !.travis.yml
+*.js.LICENSE.txt
 *.log
 *.map
 coverage.xml
