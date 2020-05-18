@@ -2,12 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use Exception;
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Contracts\CommandContract;
-use GeminiLabs\SiteReviews\Modules\Notice;
-use InvalidArgumentException;
-use WP_Error;
 
 abstract class Controller
 {
@@ -16,14 +11,13 @@ abstract class Controller
      */
     public function download($filename, $content)
     {
-        if (!glsr()->can('edit_others_posts')) {
-            return;
+        if (glsr()->can('edit_others_posts')) {
+            nocache_headers();
+            header('Content-Type: text/plain');
+            header('Content-Disposition: attachment; filename="'.$filename.'"');
+            echo html_entity_decode($content);
+            exit;
         }
-        nocache_headers();
-        header('Content-Type: text/plain');
-        header('Content-Disposition: attachment; filename="'.$filename.'"');
-        echo html_entity_decode($content);
-        exit;
     }
 
     /**
@@ -49,7 +43,7 @@ abstract class Controller
      */
     protected function isReviewAdminPage()
     {
-        return is_admin() 
+        return is_admin()
             && in_array(glsr()->post_type, [get_post_type(), filter_input(INPUT_GET, 'post_type')]);
     }
 
@@ -59,6 +53,6 @@ abstract class Controller
      */
     protected function isReviewPostId($postId)
     {
-        return Application::POST_TYPE == get_post_field('post_type', $postId);
+        return glsr()->post_type === get_post_field('post_type', $postId);
     }
 }

@@ -20,14 +20,6 @@ class Migrate_5_0_0
     public function createDatabaseTable()
     {
         glsr(Database::class)->createTables();
-        // global $wpdb;
-        // $result = $wpdb->get_col("
-                // SELECT ID
-                // FROM gl_posts
-                // WHERE post_type = 'site-review'
-                // AND ID NOT IN (SELECT review_id FROM gl_glsr_ratings)
-        // ");
-        // glsr_log(implode(',', $result));
     }
 
     /**

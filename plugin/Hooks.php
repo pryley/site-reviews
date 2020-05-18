@@ -151,7 +151,7 @@ class Hooks implements HooksContract
         add_filter('default_hidden_columns', [$this->listtable, 'filterDefaultHiddenColumns'], 10, 2);
         add_filter('post_row_actions', [$this->listtable, 'filterRowActions'], 10, 2);
         add_filter('manage_edit-'.glsr()->post_type.'_sortable_columns', [$this->listtable, 'filterSortableColumns']);
-        add_filter('script_loader_tag', [$this->public, 'filterEnqueuedScripts'], 10, 2);
+        add_filter('script_loader_tag', [$this->public, 'filterEnqueuedScriptTags'], 10, 2);
         add_filter('site-reviews/config/forms/submission-form', [$this->public, 'filterFieldOrder'], 11);
         add_filter('site-reviews/render/view', [$this->public, 'filterRenderView']);
         add_filter('site-reviews/settings/callback', [$this->trustalyze, 'filterSettingsCallback']);

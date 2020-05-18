@@ -35,7 +35,7 @@ class Review implements \ArrayAccess
 
     public function __construct(WP_Post $post)
     {
-        if (Application::POST_TYPE != $post->post_type) {
+        if (Application::POST_TYPE !== $post->post_type) {
             return;
         }
         $this->content = $post->post_content;
@@ -137,9 +137,9 @@ class Review implements \ArrayAccess
      */
     protected function isModified(array $properties)
     {
-        return $this->date != $properties['date']
-            || $this->content != $properties['content']
-            || $this->title != $properties['title'];
+        return $this->content !== $properties['content']
+            || $this->date !== $properties['date']
+            || $this->title !== $properties['title'];
     }
 
     /**

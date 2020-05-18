@@ -35,13 +35,15 @@ class AdminController extends Controller
     public function filterActionLinks(array $links)
     {
         if (glsr()->hasPermission('documentation')) {
-            $links['documentation'] = glsr(Builder::class)->a(_x('Help', 'admin-text', 'site-reviews'), [
+            $links['documentation'] = glsr(Builder::class)->a([
                 'href' => admin_url('edit.php?post_type='.Application::POST_TYPE.'&page=documentation'),
+                'text' => _x('Help', 'admin-text', 'site-reviews'),
             ]);
         }
         if (glsr()->hasPermission('settings')) {
-            $links['settings'] = glsr(Builder::class)->a(_x('Settings', 'admin-text', 'site-reviews'), [
+            $links['settings'] = glsr(Builder::class)->a([
                 'href' => admin_url('edit.php?post_type='.Application::POST_TYPE.'&page=settings'),
+                'text' => _x('Settings', 'admin-text', 'site-reviews'),
             ]);
         }
         return $links;
@@ -75,14 +77,16 @@ class AdminController extends Controller
         $text = _nx('%s Review', '%s Reviews', $postCount->publish, 'admin-text', 'site-reviews');
         $text = sprintf($text, number_format_i18n($postCount->publish));
         $items = Arr::consolidate($items);
-        $items[] = glsr()->can('edit_posts')
-            ? glsr(Builder::class)->a($text, [
+        if (glsr()->can('edit_posts')) {
+            $items[] = glsr(Builder::class)->a($text, [
                 'class' => 'glsr-review-count',
                 'href' => 'edit.php?post_type='.Application::POST_TYPE,
-            ])
-            : glsr(Builder::class)->span($text, [
+            ]);
+        } else {
+            $items[] = glsr(Builder::class)->span($text, [
                 'class' => 'glsr-review-count',
             ]);
+        }
         return $items;
     }
 
@@ -121,7 +125,7 @@ class AdminController extends Controller
     public function renderTinymceButton($editorId)
     {
         $allowedEditors = apply_filters('site-reviews/tinymce/editor-ids', ['content'], $editorId);
-        if ('post' != glsr_current_screen()->base || !in_array($editorId, $allowedEditors)) {
+        if ('post' !== glsr_current_screen()->base || !in_array($editorId, $allowedEditors)) {
             return;
         }
         $shortcodes = [];
@@ -234,6 +238,6 @@ class AdminController extends Controller
     {
         if (glsr(Migrate::class)->isMigrationNeeded()) {
             glsr(Migrate::class)->run();
-            }
         }
+    }
 }

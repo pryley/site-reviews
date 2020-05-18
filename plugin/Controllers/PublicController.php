@@ -28,7 +28,7 @@ class PublicController extends Controller
      * @return string
      * @filter script_loader_tag
      */
-    public function filterEnqueuedScripts($tag, $handle)
+    public function filterEnqueuedScriptTags($tag, $handle)
     {
         $scripts = [Application::ID.'/google-recaptcha'];
         if (in_array($handle, apply_filters('site-reviews/async-scripts', $scripts))) {
@@ -46,7 +46,10 @@ class PublicController extends Controller
      */
     public function filterFieldOrder(array $config)
     {
-        $order = (array) apply_filters('site-reviews/submission-form/order', array_keys($config));
+        $order = array_keys($config);
+        $order = Arr::consolidate(
+            apply_filters('site-reviews/submission-form/order', $order)
+        );
         return array_intersect_key(array_merge(array_flip($order), $config), $config);
     }
 

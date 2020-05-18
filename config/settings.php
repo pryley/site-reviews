@@ -189,7 +189,7 @@ return [
     ],
     'settings.reviews.assigned_links' => [
         'default' => 'no',
-        'description' => _x('Display a link to the assigned post of a review.', 'admin-text', 'site-reviews'),
+        'description' => _x('Display a link to the assigned posts of a review.', 'admin-text', 'site-reviews'),
         'label' => _x('Enable Assigned Links', 'admin-text', 'site-reviews'),
         'type' => 'yes_no',
     ],
