@@ -65,6 +65,7 @@ class SiteReviews
         $this->current = $review;
         $renderedFields = [];
         foreach ($review as $key => $value) {
+            $key = $this->normalizeTemplateTag($key);
             $method = Helper::buildMethodName($key, 'buildOption');
             $field = method_exists($this, $method)
                 ? $this->$method($key, $value)
@@ -168,6 +169,20 @@ class SiteReviews
     }
 
     /**
+     * @param string $tag
+     * @return string
+     */
+    public function normalizeTemplateTag($tag)
+    {
+        $mappedTags = [
+            'assigned_post_ids' => 'assigned_to',
+        ];
+        return array_key_exists($tag, $mappedTags)
+            ? $mappedTags[$tag]
+            : $tag;
+    }
+
+    /**
      * @param string $key
      * @param string $value
      * @return void|string
@@ -187,6 +202,9 @@ class SiteReviews
                 'href' => get_the_permalink($post->ID),
                 'text' => get_the_title($post->ID),
             ]);
+        }
+        if (empty($links)) {
+            return;
         }
         $assignedTo = sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($links));
         return '<span>'.$assignedTo.'</span>';
