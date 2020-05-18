@@ -43,21 +43,6 @@
 </div>
 <?php endif; ?>
 
-<div class="glsr-card card">
-    <h3>Recalculate Summary Counts</h3>
-    <p>Site Reviews maintains an internal rating count of your reviews, this allows the plugin to calculate the average rating scores for the summary without negatively impacting performance when you have a lot of reviews.</p>
-    <p>If you suspect that the rating counts are incorrect (perhaps you have cloned a page that had reviews assigned to it, or edited/deleted reviews directly from your database), you can recalculate them here.</p>
-    <form method="post">
-        <input type="hidden" name="{{ id }}[_action]" value="count-reviews">
-        <?php wp_nonce_field('count-reviews'); ?>
-        <p class="submit">
-            <button type="submit" class="glsr-button button" name="count-reviews" id="count-reviews" data-ajax-click>
-                <span data-loading="<?= esc_attr_x('Recalculating, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Recalculate Counts', 'admin-text', 'site-reviews'); ?></span>
-            </button>
-        </p>
-    </form>
-</div>
-
 <?php if (glsr()->hasPermission('settings')) : ?>
 <div class="glsr-card card">
     <h3>Reset Permissions</h3>
