@@ -176,9 +176,11 @@ class AjaxController extends Controller
         $review = $this->execute($command);
         $data = [
             'errors' => glsr()->sessionGet($command->form_id.'errors', false),
+            'html' => (string) $review,
             'message' => glsr()->sessionGet($command->form_id.'message', ''),
             'recaptcha' => glsr()->sessionGet($command->form_id.'recaptcha', false),
             'redirect' => $command->redirect(),
+            'review' => (array) $review,
         ];
         if (false === $data['errors']) {
             glsr()->sessionClear();
