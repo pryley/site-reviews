@@ -22,8 +22,8 @@ class Attributes
     ];
 
     const ATTRIBUTES_IMG = [
-        'alt', 'crossorigin', 'decoding', 'height', 'ismap', 'referrerpolicy', 'sizes', 'src',
-        'srcset', 'width', 'usemap',
+        'alt', 'crossorigin', 'decoding', 'height', 'ismap', 'loading', 'referrerpolicy', 'sizes', 
+        'src', 'srcset', 'width', 'usemap',
     ];
 
     const ATTRIBUTES_INPUT = [

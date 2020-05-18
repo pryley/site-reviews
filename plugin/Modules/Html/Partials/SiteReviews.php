@@ -216,16 +216,16 @@ class SiteReviews
      */
     protected function buildOptionAvatar($key, $value)
     {
-        if ($this->isHidden($key, 'settings.reviews.avatars')) {
-            return;
-        }
+        if (!$this->isHidden($key, 'settings.reviews.avatars')) {
         $size = $this->getOption('settings.reviews.avatars_size', 40);
         return glsr(Builder::class)->img([
             'height' => $size,
+                'loading' => 'lazy',
             'src' => $this->generateAvatar($value),
             'style' => sprintf('width:%1$spx; height:%1$spx;', $size),
             'width' => $size,
         ]);
+    }
     }
 
     /**
