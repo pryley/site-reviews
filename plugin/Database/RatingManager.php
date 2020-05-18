@@ -71,16 +71,13 @@ class RatingManager
     /**
      * @return array
      */
-    public function flatten(array $ratings = [], array $args = [])
+    public function flatten(array $ratings, array $args = [])
     {
         $args = wp_parse_args($args, [
             'max' => glsr()->constant('MAX_RATING', Rating::class),
             'min' => glsr()->constant('MIN_RATING', Rating::class),
         ]);
         $counts = [];
-        if (empty($ratings)) {
-            $ratings = $this->ratings($args);
-        }
         array_walk_recursive($ratings, function ($num, $index) use (&$counts) {
             $counts[$index] = $num + intval(Arr::get($counts, $index, 0));
         });
@@ -115,9 +112,10 @@ class RatingManager
     }
 
     /**
+     * @param bool $flatten
      * @return array
      */
-    public function ratings(array $args = [])
+    public function ratings(array $args = [], $flatten = true)
     {
         $ratings = glsr(Query::class)->ratings($args);
         foreach ($ratings as $type => $results) {
@@ -127,7 +125,9 @@ class RatingManager
             }
             $ratings[$type] = $counts;
         }
-        return $ratings;
+        return false !== $flatten
+            ? $this->flatten($ratings)
+            : $ratings;
     }
 
     /**

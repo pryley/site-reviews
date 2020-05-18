@@ -139,7 +139,7 @@ function glsr_get_options()
 function glsr_get_rating($args = array())
 {
     $args = \GeminiLabs\SiteReviews\Helpers\Arr::consolidateArray($args);
-    $counts = glsr('Database\ReviewManager')->getRatingCounts($args);
+    $counts = glsr('Database\RatingManager')->ratings($args);
     return (object) array(
         'average' => glsr('Modules\Rating')->getAverage($counts),
         'maximum' => glsr()->constant('MAX_RATING', \GeminiLabs\SiteReviews\Modules\Rating::class),

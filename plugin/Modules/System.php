@@ -4,12 +4,11 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\Sinergi\BrowserDetector\Browser;
 use GeminiLabs\SiteReviews\Database\Cache;
-use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Date;
 
 class System
 {
@@ -165,7 +164,7 @@ class System
      */
     public function getReviewsDetails()
     {
-        $counts = glsr(CountsManager::class)->getCounts();
+        $counts = glsr(RatingManager::class)->ratings([], false);
         $counts = Arr::flatten($counts);
         array_walk($counts, function (&$ratings) use ($counts) {
             if (is_array($ratings)) {

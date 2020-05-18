@@ -32,7 +32,7 @@ class SiteReviewsSummary implements PartialContract
     public function build(array $args = [])
     {
         $this->args = $args;
-        $this->ratings = glsr(RatingManager::class)->flatten([], $args);
+        $this->ratings = glsr(RatingManager::class)->ratings($args);
         if (!array_sum($this->ratings) && $this->isHidden('if_empty')) {
             return '';
         }

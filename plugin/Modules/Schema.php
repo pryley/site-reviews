@@ -209,7 +209,7 @@ class Schema
     {
         if (!isset($this->ratingCounts)) {
             $this->ratingCounts = empty($ratings)
-                ? glsr(RatingManager::class)->flatten([], $this->args)
+                ? glsr(RatingManager::class)->ratings($this->args)
                 : $ratings;
         }
         return $this->ratingCounts;
