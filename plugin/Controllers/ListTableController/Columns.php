@@ -52,7 +52,7 @@ class Columns
      */
     public function buildColumnPinned($postId)
     {
-        $pinned = glsr(Database::class)->get($postId, 'pinned')
+        $pinned = glsr(Database::class)->get($postId, 'is_pinned')
             ? 'pinned '
             : '';
         if (glsr()->can('edit_others_posts')) {

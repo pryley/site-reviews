@@ -164,7 +164,7 @@ class EditorController extends Controller
                 'no' => _x('No', 'admin-text', 'site-reviews'),
                 'yes' => _x('Yes', 'admin-text', 'site-reviews'),
             ],
-            'pinned' => wp_validate_boolean(glsr(Database::class)->get(get_the_ID(), 'pinned')),
+            'pinned' => wp_validate_boolean(glsr(Database::class)->get(get_the_ID(), 'is_pinned')),
         ]);
     }
 
