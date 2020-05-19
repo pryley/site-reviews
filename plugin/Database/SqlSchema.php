@@ -2,9 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
+use GeminiLabs\SiteReviews\Helpers\Str;
+
 class SqlSchema
 {
+    protected $constraints;
     protected $db;
+    protected $tables;
 
     public function __construct()
     {
@@ -181,6 +185,11 @@ class SqlSchema
             type varchar(20) DEFAULT 'local',
             is_approved tinyint(1) NOT NULL DEFAULT '0',
             is_pinned tinyint(1) NOT NULL DEFAULT '0',
+            name varchar(250) DEFAULT NULL,
+            email varchar(100) DEFAULT NULL,
+            avatar varchar(200) DEFAULT NULL,
+            ip_address varchar(100) DEFAULT NULL,
+            url varchar(250) DEFAULT NULL,
             PRIMARY KEY (ID),
             UNIQUE KEY {$this->prefix('ratings')}_review_id_unique (review_id),
             KEY {$this->prefix('ratings')}_rating_type_is_pinned_index (rating,type,is_pinned)
@@ -212,7 +221,10 @@ class SqlSchema
      */
     public function table($table)
     {
-        return glsr(Query::class)->getTable($table);
+        $prefix = $this->db->prefix.glsr()->prefix;
+        return !Str::startsWith($prefix, $table)
+            ? $prefix.$table
+            : $table;
     }
 
     /**
@@ -220,7 +232,11 @@ class SqlSchema
      */
     public function tableExists($table)
     {
-        return !empty($this->db->get_var("SHOW TABLES LIKE '{$this->table($table)}'"));
+        if (!isset($this->tables)) {
+            $prefix = $this->db->prefix.glsr()->prefix;
+            $this->tables = $this->db->get_col("SHOW TABLES LIKE '{$prefix}%'");
+        }
+        return in_array($this->table($table), $this->tables);
     }
 
     /**
@@ -228,8 +244,11 @@ class SqlSchema
      */
     public function tableConstraintExists($constraint)
     {
-        return $this->db->query(
-            $this->db->prepare("SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_NAME = '%s'", $constraint)
-        );
+        if (!isset($this->constraints)) {
+            $this->constraints = $this->db->get_col("
+                SELECT CONSTRAINT_NAME FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = '{$this->db->dbname}'
+            ");
+        }
+        return in_array($constraint, $this->constraints);
     }
 }

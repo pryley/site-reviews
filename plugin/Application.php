@@ -58,7 +58,6 @@ final class Application extends Container
      */
     public function activate()
     {
-        $this->make(Database::class)->createTables();
         $this->scheduleCronJob();
         add_option(static::ID.'activated', true);
     }
@@ -221,6 +220,7 @@ final class Application extends Container
      */
     public function init()
     {
+        $this->make(Database::class)->createTables();
         $this->make(Hooks::class)->run();
     }
 

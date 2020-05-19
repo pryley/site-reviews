@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -32,6 +33,7 @@ class NoticeController extends Controller
     public function filterAdminNotices()
     {
         $screen = glsr_current_screen();
+        $this->renderMigrationNotice($screen->post_type);
         $this->renderWelcomeNotice($screen->post_type);
         $this->renderTrustalyzeNotice($screen->post_type);
     }
@@ -73,6 +75,21 @@ class NoticeController extends Controller
     protected function getVersionFor($noticeKey)
     {
         return Arr::get($this->dismissValuesMap, $noticeKey, glsr()->version('major'));
+    }
+
+    /**
+     * @param string $screenPostType
+     * @return void
+     */
+    protected function renderMigrationNotice($screenPostType)
+    {
+        if (Application::POST_TYPE == $screenPostType
+            && glsr(Database::class)->isMigrationNeeded()
+            && glsr()->hasPermission('tools', 'general')) {
+            glsr()->render('partials/notices/migrate', [
+                'url' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools'),
+            ]);
+        }
     }
 
     /**

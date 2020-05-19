@@ -247,10 +247,7 @@ class Query
      */
     public function getTable($table)
     {
-        $prefix = $this->db->prefix.glsr()->prefix;
-        return !Str::startsWith($prefix, $table)
-            ? $prefix.$table
-            : $table;
+        return glsr(SqlSchema::class)->table($table);
     }
 
     /**

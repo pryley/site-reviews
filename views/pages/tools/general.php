@@ -35,7 +35,7 @@
         <input type="hidden" name="{{ id }}[_action]" value="migrate-plugin">
         <?php wp_nonce_field('migrate-plugin'); ?>
         <p class="submit">
-            <button type="submit" class="glsr-button button" name="migrate-plugin" id="migrate-plugin" data-ajax-click>
+            <button type="submit" class="glsr-button button" name="migrate-plugin" id="migrate-plugin" data-remove-notice="migrate" data-ajax-click>
                 <span data-loading="<?= esc_attr_x('Migrating, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Run Migration', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>

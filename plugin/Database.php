@@ -20,7 +20,6 @@ class Database
     {
         glsr(SqlSchema::class)->createTables();
         glsr(SqlSchema::class)->addTableConstraints();
-        add_option(glsr()->prefix.'db_version', '1.0');
     }
 
     /**
@@ -124,6 +123,23 @@ class Database
             return [];
         }
         return $terms;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMigrationNeeded()
+    {
+        global $wpdb;
+        $table = glsr(Query::class)->getTable('ratings');
+        $postCount = wp_count_posts(glsr()->post_type)->publish;
+        if (empty($postCount)) {
+            return false;
+        }
+        if (!empty($wpdb->get_var("SELECT COUNT(*) FROM {$table} WHERE is_approved = 1"))) {
+            return false;
+        }
+        return true;
     }
 
     /**

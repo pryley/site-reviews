@@ -24,6 +24,7 @@
 				$('#glsr-notices').on( 'click', 'a', function() {
 					localStorage.setItem('glsr-expand', $(this).data('expand'));
 				});
+				$('.glsr-notice[data-notice="' + $(ev.currentTarget).data('remove-notice') + '"]').remove();
 			});
 		},
 	};
