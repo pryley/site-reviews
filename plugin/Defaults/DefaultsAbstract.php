@@ -6,6 +6,14 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
 
+/**
+ * @method array defaults():
+ * @method array filter(array $values = [])
+ * @method array filteredData(array $values = [])
+ * @method array merge(array $values = [])
+ * @method array restrict(array $values = [])
+ * @method array unguarded()
+ */
 abstract class DefaultsAbstract
 {
     /**
@@ -32,6 +40,7 @@ abstract class DefaultsAbstract
     public function __call($name, array $args = [])
     {
         if (!method_exists($this, $name) || !in_array($name, $this->callable)) {
+            glsr_log()->error("Invalid method [$name].");
             return;
         }
         $args[0] = $this->mapKeys(Arr::get($args, 0, []));
@@ -56,13 +65,11 @@ abstract class DefaultsAbstract
     }
 
     /**
-     * @return string
+     * @return array
      */
     protected function filteredData(array $values = [])
     {
-        $defaults = $this->flattenArrayValues(
-            array_diff_key($this->defaults(), array_flip($this->guarded))
-        );
+        $defaults = $this->flattenArrayValues($this->unguarded());
         $values = $this->flattenArrayValues(
             shortcode_atts($defaults, $values)
         );

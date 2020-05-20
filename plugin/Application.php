@@ -2,20 +2,30 @@
 
 namespace GeminiLabs\SiteReviews;
 
-use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
 
 /**
+ * @property array $addons
  * @property string $capability
  * @property string $cron_event
+ * @property string $defaults
+ * @property array $deprecated
+ * @property string $file
  * @property string $id
+ * @property string $languages
+ * @property array $mceShortcodes
+ * @property string $name
  * @property string $paged_query_var
  * @property string $post_type
+ * @property array $postTypeColumns
  * @property string $prefix
+ * @property array $reviewTypes
+ * @property array $schemas
  * @property string $taxonomy
+ * @property string $version
  */
 final class Application extends Container
 {
@@ -161,7 +171,7 @@ final class Application extends Container
      */
     public function file($view)
     {
-        $view.= '.php';
+        $view .= '.php';
         $filePaths = [];
         if (Str::startsWith('templates/', $view)) {
             $filePaths[] = $this->themePath(Str::removePrefix('templates/', $view));
@@ -211,7 +221,7 @@ final class Application extends Container
                 'index' => 'edit_others_posts',
                 'sync' => 'manage_options',
                 'system-info' => 'edit_others_posts',
-            ]
+            ],
         ];
         $permission = Arr::get($permissions, $page, $fallback);
         if (is_array($permission)) {
@@ -277,7 +287,7 @@ final class Application extends Container
                 $this->bind($id, $addon);
                 $addon->init();
             }
-        } catch(\ReflectionException $e) {
+        } catch (\ReflectionException $e) {
             glsr_log()->error('Attempted to register an invalid addon.');
         }
     }

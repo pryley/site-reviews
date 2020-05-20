@@ -138,7 +138,7 @@ function glsr_get_options()
  */
 function glsr_get_rating($args = array())
 {
-    $args = \GeminiLabs\SiteReviews\Helpers\Arr::consolidateArray($args);
+    $args = \GeminiLabs\SiteReviews\Helpers\Arr::consolidate($args);
     $counts = glsr('Database\RatingManager')->ratings($args);
     return (object) array(
         'average' => glsr('Modules\Rating')->getAverage($counts),

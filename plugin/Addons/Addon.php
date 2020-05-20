@@ -6,10 +6,15 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
 
 /**
+ * @property string $file
  * @property string $id
+ * @property string $languages
  * @property string $name
  * @property string $slug
+ * @property string $testedTo
  * @property string $update_url
+ * @property Updater $updater
+ * @property string $version
  */
 abstract class Addon
 {

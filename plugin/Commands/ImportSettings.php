@@ -13,7 +13,7 @@ class ImportSettings implements Contract
     public $error;
     public $file;
     public $name;
-    public $tmpName
+    public $tmpName;
     public $type;
 
     public function __construct($file)
@@ -67,7 +67,7 @@ class ImportSettings implements Contract
      */
     protected function import()
     {
-        if ($settings = json_decode(file_get_contents($this->tmpName), true));
+        if ($settings = json_decode(file_get_contents($this->tmpName), true)) {
             glsr(OptionManager::class)->set(
                 glsr(OptionManager::class)->normalize($settings)
             );

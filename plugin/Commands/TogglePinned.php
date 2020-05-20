@@ -41,7 +41,7 @@ class TogglePinned implements Contract
                 : _x('Review unpinned.', 'admin-text', 'site-reviews');
             glsr(Notice::class)->addSuccess($notice);
         }
-        $result = glsr(RatingManager::class)->update($this->id, [
+        glsr(RatingManager::class)->update($this->id, [
             'is_pinned' => $this->pinned,
         ]);
         return $this->pinned;

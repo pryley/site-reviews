@@ -70,8 +70,8 @@ class CreateReview implements Contract
             glsr(Notification::class)->send($review);
             return $review;
         }
-        glsr()->sessionSet($command->form_id.'errors', []);
-        glsr()->sessionSet($command->form_id.'message', __('Your review could not be submitted and the error has been logged. Please notify the site admin.', 'site-reviews'));
+        glsr()->sessionSet($this->form_id.'errors', []);
+        glsr()->sessionSet($this->form_id.'message', __('Your review could not be submitted and the error has been logged. Please notify the site admin.', 'site-reviews'));
     }
 
     /**
