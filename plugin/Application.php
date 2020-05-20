@@ -30,17 +30,17 @@ final class Application extends Container
     const PREFIX = 'glsr_';
     const TAXONOMY = 'site-review-category';
 
-    public $addons = [];
-    public $defaults;
-    public $deprecated = [];
-    public $file;
-    public $languages;
-    public $mceShortcodes = []; //defined elsewhere
-    public $name;
-    public $postTypeColumns = []; // defined elsewhere
-    public $reviewTypes;
-    public $schemas = []; //defined elsewhere
-    public $version;
+    protected $addons = [];
+    protected $defaults;
+    protected $deprecated = [];
+    protected $file;
+    protected $languages;
+    protected $mceShortcodes = []; //defined elsewhere
+    protected $name;
+    protected $postTypeColumns = []; // defined elsewhere
+    protected $reviewTypes;
+    protected $schemas = []; //defined elsewhere
+    protected $version;
 
     public function __construct()
     {

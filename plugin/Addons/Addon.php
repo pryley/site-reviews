@@ -18,11 +18,11 @@ abstract class Addon
     const SLUG = '';
     const UPDATE_URL = '';
 
-    public $file;
-    public $languages;
-    public $testedTo;
-    public $updater;
-    public $version;
+    protected $file;
+    protected $languages;
+    protected $testedTo;
+    protected $updater;
+    protected $version;
 
     public function __construct()
     {
