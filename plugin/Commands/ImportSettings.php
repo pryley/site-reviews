@@ -10,11 +10,11 @@ use GeminiLabs\SiteReviews\Modules\Notice;
 
 class ImportSettings implements Contract
 {
-    public $error;
-    public $file;
-    public $name;
-    public $tmpName;
-    public $type;
+    protected $error;
+    protected $file;
+    protected $name;
+    protected $tmpName;
+    protected $type;
 
     public function __construct($file)
     {
