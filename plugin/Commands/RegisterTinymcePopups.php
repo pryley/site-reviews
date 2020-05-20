@@ -29,7 +29,7 @@ class RegisterTinymcePopups implements Contract
                 'label' => $label,
                 'title' => $label,
             ]);
-            glsr()->mceShortcodes[$slug] = $shortcode->properties;
+            glsr()->append('mce', $shortcode->properties, $slug);
         }
     }
 }

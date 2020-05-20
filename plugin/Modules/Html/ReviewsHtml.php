@@ -87,7 +87,7 @@ class ReviewsHtml extends ArrayObject
     public function offsetGet($key)
     {
         if ('navigation' == $key) {
-            glsr()->deprecated[] = 'The $reviewsHtml->navigation property has been been deprecated. Please use the $reviewsHtml->pagination property instead.';
+            glsr()->append('deprecated', 'The $reviewsHtml->navigation property has been been deprecated. Please use the $reviewsHtml->pagination property instead.');
             return $this->pagination;
         }
         if (array_key_exists($key, $this->reviews)) {

@@ -12,18 +12,14 @@ use ReflectionClass;
  * @property string $capability
  * @property string $cron_event
  * @property string $defaults
- * @property array $deprecated
  * @property string $file
  * @property string $id
  * @property string $languages
- * @property array $mceShortcodes
  * @property string $name
  * @property string $paged_query_var
  * @property string $post_type
- * @property array $postTypeColumns
  * @property string $prefix
  * @property array $reviewTypes
- * @property array $schemas
  * @property string $taxonomy
  * @property string $version
  */
@@ -42,14 +38,10 @@ final class Application extends Container
 
     protected $addons = [];
     protected $defaults;
-    protected $deprecated = [];
     protected $file;
     protected $languages;
-    protected $mceShortcodes = []; //defined elsewhere
     protected $name;
-    protected $postTypeColumns = []; // defined elsewhere
     protected $reviewTypes;
-    protected $schemas = []; //defined elsewhere
     protected $version;
 
     public function __construct()

@@ -31,9 +31,10 @@ class RegisterPostType implements Contract
     {
         if (!in_array($this->postType, get_post_types(['_builtin' => true]))) {
             register_post_type($this->postType, $this->args);
-            glsr()->postTypeColumns = wp_parse_args(glsr()->postTypeColumns, [
+            $columns = glsr()->retrieve('columns', []);
+            glsr()->store('columns', wp_parse_args($columns, [
                 $this->postType => $this->columns,
-            ]);
+            ]));
         }
     }
 

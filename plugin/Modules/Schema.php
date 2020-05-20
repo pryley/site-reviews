@@ -85,11 +85,11 @@ class Schema
      */
     public function render()
     {
-        if (empty(glsr()->schemas)) {
+        if (empty($schemas = glsr()->retrieve('schemas'))) {
             return;
         }
         printf('<script type="application/ld+json">%s</script>', json_encode(
-            apply_filters('site-reviews/schema/all', glsr()->schemas),
+            apply_filters('site-reviews/schema/all', $schemas),
             JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
         ));
     }
@@ -102,9 +102,10 @@ class Schema
         if (empty($schema)) {
             return;
         }
-        $schemas = Arr::consolidate(glsr()->schemas);
+        $schemas = Arr::consolidate(glsr()->retrieve('schemas'));
         $schemas[] = $schema;
-        glsr()->schemas = array_map('unserialize', array_unique(array_map('serialize', $schemas)));
+        $schemas = array_map('unserialize', array_unique(array_map('serialize', $schemas)));
+        glsr()->store('schemas', $schemas);
     }
 
     /**

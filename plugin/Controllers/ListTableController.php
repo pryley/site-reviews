@@ -40,7 +40,7 @@ class ListTableController extends Controller
     public function filterColumnsForPostType($columns)
     {
         $columns = Arr::consolidate($columns);
-        $postTypeColumns = glsr()->postTypeColumns[Application::POST_TYPE];
+        $postTypeColumns = glsr()->retrieve('columns.'.Application::POST_TYPE, []);
         foreach ($postTypeColumns as $key => &$value) {
             if (!array_key_exists($key, $columns) || !empty($value)) {
                 continue;
@@ -124,7 +124,7 @@ class ListTableController extends Controller
     public function filterSortableColumns($columns)
     {
         $columns = Arr::consolidate($columns);
-        $postTypeColumns = glsr()->postTypeColumns[Application::POST_TYPE];
+        $postTypeColumns = glsr()->retrieve('columns.'.Application::POST_TYPE, []);
         unset($postTypeColumns['cb']);
         foreach ($postTypeColumns as $key => $value) {
             if (Str::startsWith('taxonomy', $key)) {
@@ -268,7 +268,7 @@ class ListTableController extends Controller
     protected function setOrderby(WP_Query $query)
     {
         $orderby = $query->get('orderby');
-        $columns = glsr()->postTypeColumns[Application::POST_TYPE];
+        $columns = glsr()->retrieve('columns.'.Application::POST_TYPE, []);
         unset($columns['cb'], $columns['title'], $columns['date']);
         if (in_array($orderby, array_keys($columns))) {
             if ('reviewer' == $orderby) {
