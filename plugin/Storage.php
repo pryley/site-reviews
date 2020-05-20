@@ -28,12 +28,13 @@ Trait Storage
         } else {
             $stored[] = $value;
         }
-        $this->store($stored);
+        $this->store($property, $stored);
         return $stored;
     }
 
     /**
      * @param string $property
+     * @param mixed $fallback
      * @return mixed
      */
     public function retrieve($property, $fallback = null)
@@ -43,7 +44,7 @@ Trait Storage
 
     /**
      * @param string $property
-     * @param string $value
+     * @param mixed $value
      * @return void
      */
     public function store($property, $value)

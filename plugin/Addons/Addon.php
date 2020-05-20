@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Addons;
 
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Plugin;
 use ReflectionClass;
 
 /**
@@ -18,54 +19,14 @@ use ReflectionClass;
  */
 abstract class Addon
 {
+    use Plugin;
+
     const ID = '';
     const NAME = '';
     const SLUG = '';
     const UPDATE_URL = '';
 
-    protected $file;
-    protected $languages;
-    protected $testedTo;
     protected $updater;
-    protected $version;
-
-    public function __construct()
-    {
-        $this->file = str_replace('plugin/Application', static::ID, (new ReflectionClass($this))->getFileName());
-        $plugin = get_file_data($this->file, [
-            'languages' => 'Domain Path',
-            'testedTo' => 'Tested up to',
-            'version' => 'Version',
-        ], 'plugin');
-        array_walk($plugin, function ($value, $key) {
-            if (property_exists($this, $key)) {
-                $this->$key = $value;
-            }
-        });
-    }
-
-    /**
-     * @param string $property
-     * @return void|string
-     */
-    public function __get($property)
-    {
-        if (property_exists($this, $property)) {
-            return $this->$property;
-        }
-        $constant = 'static::'.strtoupper($property);
-        if (defined($constant)) {
-            return constant($constant);
-        }
-    }
-
-    public function make($class, array $parameters = [])
-    {
-        $class = Str::camelCase($class);
-        $class = ltrim(str_replace([__NAMESPACE__, 'GeminiLabs\SiteReviews'], '', $class), '\\');
-        $class = __NAMESPACE__.'\\'.$class;
-        return glsr($class, $parameters);
-    }
 
     /**
      * @return void
@@ -81,13 +42,12 @@ abstract class Addon
         }
     }
 
-    /**
-     * @param string $file
-     * @return string
-     */
-    public function path($file = '')
+    public function make($class, array $parameters = [])
     {
-        return plugin_dir_path($this->file).ltrim(trim($file), '/');
+        $class = Str::camelCase($class);
+        $class = ltrim(str_replace([__NAMESPACE__, 'GeminiLabs\SiteReviews'], '', $class), '\\');
+        $class = __NAMESPACE__.'\\'.$class;
+        return glsr($class, $parameters);
     }
 
     /**
@@ -100,14 +60,5 @@ abstract class Addon
             'testedTo' => $this->testedTo,
         ]);
         $this->updater->init();
-    }
-
-    /**
-     * @param string $path
-     * @return string
-     */
-    public function url($path = '')
-    {
-        return esc_url(plugin_dir_url($this->file).ltrim(trim($path), '/'));
     }
 }

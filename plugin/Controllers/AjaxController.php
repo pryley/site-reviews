@@ -55,7 +55,7 @@ class AjaxController extends Controller
     {
         $shortcode = $request['shortcode'];
         $response = false;
-        if ($data = glsr()->retrieve('mce.'.$shortcode, false)) {}
+        if ($data = glsr()->retrieve('mce.'.$shortcode, false)) {
             if (!empty($data['errors'])) {
                 $data['btn_okay'] = [esc_attr_x('Okay', 'admin-text', 'site-reviews')];
             }
