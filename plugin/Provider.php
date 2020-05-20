@@ -16,10 +16,10 @@ class Provider implements ProviderContract
     public function register(Application $app)
     {
         $app->bind(Application::class, $app);
-        $app->singleton(Hooks::class, Hooks::class);
-        $app->singleton(OptionManager::class, OptionManager::class);
-        $app->singleton(Translator::class, Translator::class);
-        $app->singleton(Translation::class, Translation::class);
-        $app->singleton(MainController::class, MainController::class); // this goes last
+        $app->singleton(Hooks::class);
+        $app->singleton(OptionManager::class);
+        $app->singleton(Translator::class);
+        $app->singleton(Translation::class);
+        $app->singleton(MainController::class); // this goes last
     }
 }

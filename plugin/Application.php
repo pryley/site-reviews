@@ -19,6 +19,9 @@ use ReflectionClass;
  */
 final class Application extends Container
 {
+    use Session;
+    use Storage;
+
     const CAPABILITY = 'edit_others_posts';
     const CRON_EVENT = 'site-reviews/schedule/session/purge';
     const ID = 'site-reviews';
@@ -51,6 +54,21 @@ final class Application extends Container
         array_walk($plugin, function ($value, $key) {
             $this->$key = $value;
         });
+    }
+
+    /**
+     * @param string $property
+     * @return mixed
+     */
+    public function __get($property)
+    {
+        if (property_exists($this, $property)) {
+            return $this->$property;
+        }
+        $constant = 'static::'.strtoupper(Str::snakeCase($property));
+        if (defined($constant)) {
+            return constant($constant);
+        }
     }
 
     /**

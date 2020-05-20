@@ -54,12 +54,12 @@ abstract class Addon
         }
     }
 
-    public function make($class)
+    public function make($class, array $parameters = [])
     {
         $class = Str::camelCase($class);
         $class = ltrim(str_replace([__NAMESPACE__, 'GeminiLabs\SiteReviews'], '', $class), '\\');
         $class = __NAMESPACE__.'\\'.$class;
-        return glsr($class);
+        return glsr($class, $parameters);
     }
 
     /**

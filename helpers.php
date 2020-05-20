@@ -33,11 +33,11 @@ add_filter('plugins_loaded', function () {
 /**
  * @return mixed
  */
-function glsr($alias = null)
+function glsr($alias = null, array $parameters = [])
 {
     $app = \GeminiLabs\SiteReviews\Application::load();
     return !is_null($alias)
-        ? $app->make($alias)
+        ? $app->make($alias, $parameters)
         : $app;
 }
 
