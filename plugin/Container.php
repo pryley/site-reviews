@@ -271,7 +271,6 @@ abstract class Container
         if ($parameter->isDefaultValueAvailable()) {
             return $parameter->getDefaultValue();
         }
-        // @todo fix parameter handling (i.e. pass primitive values as they are if provided)
         $this->throwUnresolvablePrimitive($parameter);
     }
 
