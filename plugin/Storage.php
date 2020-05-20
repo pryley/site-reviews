@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 
 Trait Storage
 {
@@ -14,13 +13,32 @@ Trait Storage
 
     /**
      * @param string $property
+     * @param mixed $value
+     * @param string $key
+     * @return false|array
+     */
+    public function append($property, $value, $key = null)
+    {
+        $stored = $this->retrieve($property, []);
+        if (is_array($stored)) {
+            return false;
+        }
+        if ($key) {
+            $stored[$key] = $value;
+        } else {
+            $stored[] = $value;
+        }
+        $this->store($stored);
+        return $stored;
+    }
+
+    /**
+     * @param string $property
      * @return mixed
      */
-    public function __get($property)
+    public function retrieve($property, $fallback = null)
     {
-        return is_null($value = parent::__get($property))
-            ? Arr::get($this->storage, $property, null)
-            : $value;
+        return Arr::get($this->storage, $property, $fallback);
     }
 
     /**
@@ -28,7 +46,7 @@ Trait Storage
      * @param string $value
      * @return void
      */
-    public function __set($property, $value)
+    public function store($property, $value)
     {
         Arr::set($this->storage, $property, $value);
     }
