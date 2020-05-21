@@ -100,9 +100,9 @@ class Trustalyze
             'firstname' => Str::truncate(Str::convertName($review->author, 'first'), 25),
             'rate' => $review->rating,
             'review_transaction_id' => $review->review_id,
-            'reviews' => Str::truncate($review->content, 280),
+            'reviews' => Str::truncate($review->content, 3000),
             'sitereview_plugin' => 'yes',
-            'title' => Str::truncate($review->title, 35),
+            'title' => Str::truncate($review->title, 60),
             'transaction' => Application::ID, // woocommerce field, not needed for Site Reviews
         ];
         return glsr()->filterArray('trustalyze/review', $trustalyzeReview, $review);
