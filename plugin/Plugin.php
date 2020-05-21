@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews;
 
 use BadMethodCallException;
-use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
@@ -15,8 +14,14 @@ use ReflectionClass;
  * @property string $name
  * @property string $testedTo
  * @property string $version
+ * @method array $filterArray($hook, ...$args)
+ * @method bool $filterBool($hook, ...$args)
+ * @method float $filterFloat($hook, ...$args)
+ * @method int $filterInt($hook, ...$args)
+ * @method object $filterObject($hook, ...$args)
+ * @method string $filterString($hook, ...$args)
  */
-Trait Plugin
+trait Plugin
 {
     protected $file;
     protected $languages;
