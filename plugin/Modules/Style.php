@@ -116,7 +116,7 @@ class Style
         $key = $instance->tag.'_'.$args['type'];
         $classes = Arr::get($this->fields, $key, Arr::get($this->fields, $instance->tag));
         $instance->args['class'] = trim($args['class'].' '.$classes);
-        do_action_ref_array('site-reviews/customize/'.$this->style, [$instance]);
+        glsr()->action('customize/'.$this->style, $instance);
     }
 
     /**

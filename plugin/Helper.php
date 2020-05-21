@@ -160,7 +160,7 @@ class Helper
         $whitelist = glsr()->filterArray('whip/whitelist', $whitelist);
         $methods = glsr()->filterInt('whip/methods', Whip::ALL_METHODS);
         $whip = new Whip($methods, $whitelist);
-        do_action_ref_array('site-reviews/whip', [$whip]);
+        glsr()->action('whip', $whip);
         if (false !== ($clientAddress = $whip->getValidIpAddress())) {
             return (string) $clientAddress;
         }

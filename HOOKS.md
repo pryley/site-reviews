@@ -5,143 +5,139 @@
     site-reviews/builder
     site-reviews/customize/{style}
     site-reviews/review/created
+    site-reviews/review/creating
     site-reviews/review/reverted
     site-reviews/review/saved
-    site-reviews/review/updated
+        ?? site-reviews/review/updated
     site-reviews/route/{request_type}/request
+    site-reviews/whip
 
 ## Filters
 
-    site-reviews/addon/api-url
-    site-reviews/addon/documentation
-    site-reviews/addon/settings
-    site-reviews/addon/settings/tabs
-    site-reviews/addon/submenu/callback
-    site-reviews/addon/submenu/pages
-    site-reviews/addon/sync/enable
-    site-reviews/addon/sync/services
-    site-reviews/addon/system-info
-    site-reviews/addon/tools/tabs
-    site-reviews/addon/types
-    site-reviews/assets/css
-    site-reviews/assets/js
-    site-reviews/assets/polyfill
-    site-reviews/async-scripts
-    site-reviews/block/{block}/attributes
-    site-reviews/build/template/{template_path}
-    site-reviews/builder/field/{field_type}/args
-    site-reviews/builder/field/classname
-    site-reviews/builder/result
-    site-reviews/capabilities
-    site-reviews/capabilities/for-roles
-    site-reviews/columns/{column_slug}
-    site-reviews/config
-    site-reviews/config/{config_id}
-    site-reviews/console/level
-    site-reviews/const/{constant}
-    site-reviews/create/review-values
-    site-reviews/create/unset-keys-from-custom
-    site-reviews/defaults/pagination
-    site-reviews/defaults/style-fields
-    site-reviews/defaults/style-validation
-    site-reviews/defaults/{defaults_name}
-    site-reviews/defer-scripts
-    site-reviews/email/compose
-    site-reviews/email/headers
-    site-reviews/email/message
-    site-reviews/enqueue/admin/dependencies
-    site-reviews/enqueue/admin/localize
-    site-reviews/enqueue/public/dependencies
-    site-reviews/enqueue/public/inline-script
-    site-reviews/enqueue/public/localize
-    site-reviews/enqueue/public/localize/ajax-pagination
-    site-reviews/field/{field_type}
-    site-reviews/field/honeypot/args
-    site-reviews/get/defaults
-    site-reviews/get/review
-    site-reviews/get/reviews
-    site-reviews/get/reviews/query
-    site-reviews/gettext/{text_domain}
-    site-reviews/gettext_with_context/{text_domain}
-    site-reviews/interpolate/{template_path}
-    site-reviews/metabox/details
-    site-reviews/ngettext/{text_domain}
-    site-reviews/ngettext_with_context/{text_domain}
-    site-reviews/notices
-    site-reviews/notification/emails
-    site-reviews/notification/title
-    site-reviews/paginate_links
-    site-reviews/paginate_links/args
-    site-reviews/partial/args/{partial_path}
-    site-reviews/partial/classname
-    site-reviews/path
-    site-reviews/query/sql/from
-    site-reviews/query/sql/group-by
-    site-reviews/query/sql/join
-    site-reviews/query/sql/limit
-    site-reviews/query/sql/offset
-    site-reviews/query/sql/order-by
-    site-reviews/query/sql/select
-    site-reviews/query/sql/where
-    site-reviews/query/and-for-counts
-    site-reviews/query/inner-join-for-counts
-    site-reviews/rating/average
-    site-reviews/rating/ranking
-    site-reviews/recaptcha/language
-    site-reviews/recaptcha/timeout
-    site-reviews/render/view
-    site-reviews/rendered/field
-    site-reviews/rendered/field/classes
-    site-reviews/rendered/partial
-    site-reviews/rendered/partial/{partial_path}
-    site-reviews/rendered/template
-    site-reviews/rendered/template/{template_path}
-    site-reviews/review/build/after
-    site-reviews/review/build/before
-    site-reviews/review/build/{field_key}
-    site-reviews/review/redirect
-    site-reviews/review/wrap
-    site-reviews/review/wrap/{field_key}
-    site-reviews/reviews/fallback
-    site-reviews/route/request
-    site-reviews/router/unguarded-actions
-    site-reviews/schema/all
-    site-reviews/schema/review
-    site-reviews/schema/{schema_type}
-    site-reviews/settings/callback
-    site-reviews/shortcode/args
-    site-reviews/shortcode/atts
-    site-reviews/shortcode/hide-options
-    site-reviews/slack/compose
-    site-reviews/slack/stars
-    site-reviews/sslverify/get
-    site-reviews/sslverify/post
-    site-reviews/style
-    site-reviews/style/views
-    site-reviews/submission-form/order
-    site-reviews/summary/counts
-    site-reviews/summary/wrap/{field_key}
-    site-reviews/support/deprecated/v4
-    site-reviews/system/{key}
-    site-reviews/tinymce/editor-ids
-    site-reviews/translation/entries
-    site-reviews/translator/domains
-    site-reviews/trustalyze/response
-    site-reviews/trustalyze/review
-    site-reviews/url
-    site-reviews/validate/akismet
-    site-reviews/validate/akismet/is-active
-    site-reviews/validate/akismet/submission
-    site-reviews/validate/blacklist
-    site-reviews/validate/custom
-    site-reviews/validate/honeypot
-    site-reviews/validate/review-limits
-    site-reviews/validate/review-limits/query
-    site-reviews/validation/rules
-    site-reviews/views/data
-    site-reviews/views/file
-    site-reviews/{form_id}/fields
-    site-reviews/whip
-    site-reviews/whip/methods
-    site-reviews/whip/whitelist
-    site-reviews/whip/whitelist/cloudflare
+    site-reviews/addon/api-url                              [String]
+    site-reviews/addon/documentation                        [Array]
+    site-reviews/addon/documentation/tabs                   [Array]
+    site-reviews/addon/settings                             [Array]
+    site-reviews/addon/settings/tabs                        [Array]
+    site-reviews/addon/submenu/callback                     [Closure]
+    site-reviews/addon/submenu/pages                        [Array]
+    site-reviews/addon/sync/enable                          [Boolean]
+    site-reviews/addon/sync/services                        [Array]
+    site-reviews/addon/system-info                          [Array]
+    site-reviews/addon/tools/tabs                           [Array]
+    site-reviews/addon/types                                [Array]
+    site-reviews/addon/welcome/tabs                         [Array]
+    site-reviews/assets/css                                 [Boolean]
+    site-reviews/assets/js                                  [Boolean]
+    site-reviews/assets/polyfill                            [Boolean]
+    site-reviews/async-scripts                              [Array]
+    site-reviews/block/{block}/attributes                   [Array]
+    site-reviews/build/template/{template_path}             [String]
+    site-reviews/builder/field/{field_type}                 [String]
+        !! site-reviews/builder/field/{field_type}/args
+        !! site-reviews/builder/field/classname
+    site-reviews/builder/result                             [String]
+    site-reviews/builder/{tag}/args                         [Array]
+    site-reviews/capabilities                               [Array]
+    site-reviews/capabilities/for-roles                     [Array]
+    site-reviews/columns/{column_slug}                      [String]
+    site-reviews/config                                     [String]
+    site-reviews/config/{config_id}                         [Array]
+    site-reviews/console/level                              [Integer]
+    site-reviews/const/{constant}                           [String]
+    site-reviews/create/review-values                       [Array]
+    site-reviews/create/unset-keys-from-custom              [Array]
+    site-reviews/defaults/{defaults_name}                   [Array]
+    site-reviews/defer-scripts                              [Array]
+    site-reviews/email/compose                              [Array]
+    site-reviews/email/headers                              [Array]
+    site-reviews/email/message                              [String]
+    site-reviews/enqueue/admin/dependencies                 [Array]
+    site-reviews/enqueue/admin/localize                     [Array]
+    site-reviews/enqueue/public/dependencies                [Array]
+    site-reviews/enqueue/public/inline-script               [String]
+    site-reviews/enqueue/public/localize                    [Array]
+    site-reviews/enqueue/public/localize/ajax-pagination    [Array]
+        ?? site-reviews/field/honeypot/args                        [Array]
+    site-reviews/field/{field_type}                         [Array]
+    site-reviews/get/defaults                               [Array]
+    site-reviews/get/review                                 [Reviews]
+    site-reviews/get/reviews                                [Review]
+    site-reviews/gettext/{text_domain}                      [String]
+    site-reviews/gettext_with_context/{text_domain}         [String]
+    site-reviews/interpolate/{template_path}                [Array]
+    site-reviews/metabox/details                            [Array]
+    site-reviews/ngettext/{text_domain}                     [String]
+    site-reviews/ngettext_with_context/{text_domain}        [String]
+    site-reviews/notices                                    [String]
+    site-reviews/notification/emails                        [Array]
+    site-reviews/notification/title                         [String]
+    site-reviews/paginate_links                             [String]
+    site-reviews/partial/args/{partial_path}                [Array]
+    site-reviews/partial/classname                          [String]
+    site-reviews/path                                       [String]
+    site-reviews/query/sql/from                             [String]
+    site-reviews/query/sql/group-by                         [String]
+    site-reviews/query/sql/join                             [Array]
+    site-reviews/query/sql/limit                            [String]
+    site-reviews/query/sql/offset                           [String]
+    site-reviews/query/sql/order-by                         [String]
+    site-reviews/query/sql/select                           [Array]
+    site-reviews/query/sql/where                            [Array]
+    site-reviews/rating/average                             [Float]
+    site-reviews/rating/ranking                             [Float]
+    site-reviews/recaptcha/language                         [String]
+    site-reviews/recaptcha/timeout                          [Integer]
+    site-reviews/render/view                                [String]
+    site-reviews/rendered/field                             [String]
+    site-reviews/rendered/field/classes                     [Array]
+    site-reviews/rendered/partial                           [String]
+    site-reviews/rendered/partial/{partial_path}            [String]
+    site-reviews/rendered/template                          [String]
+    site-reviews/rendered/template/{template_path}          [String]
+    site-reviews/review/build/after                         [Array]
+    site-reviews/review/build/before                        [Review]
+    site-reviews/review/build/{field_key}                   [String]
+    site-reviews/review/redirect                            [String]
+    site-reviews/review/wrap                                [Array]
+    site-reviews/review/wrap/{field_key}                    [String]
+    site-reviews/reviews/fallback                           [String]
+    site-reviews/route/request                              [Array]
+    site-reviews/router/unguarded-actions                   [Array]
+    site-reviews/schema/all                                 [Array]
+    site-reviews/schema/review                              [Array]
+    site-reviews/schema/{schema_type}                       [Array]
+    site-reviews/settings/callback                          [Array]
+    site-reviews/shortcode/args                             [Array]
+    site-reviews/shortcode/atts                             [Array]
+    site-reviews/shortcode/hide-options                     [Array]
+    site-reviews/slack/compose                              [Array]
+    site-reviews/slack/stars                                [String]
+    site-reviews/sslverify/post                             [Boolean]
+    site-reviews/style                                      [String]
+    site-reviews/style/views                                [Array]
+    site-reviews/submission-form/order                      [Array]
+    site-reviews/summary/counts                             [String]
+    site-reviews/summary/wrap/{field_key}                   [String]
+    site-reviews/support/deprecated/v4                      [Boolean]
+    site-reviews/system/{key}                               [Array]
+    site-reviews/tinymce/editor-ids                         [Array]
+    site-reviews/translation/entries                        [Array]
+    site-reviews/translator/domains                         [Array]
+    site-reviews/trustalyze/response                        [Array]
+    site-reviews/trustalyze/review                          [Array]
+    site-reviews/url                                        [String]
+    site-reviews/validate/akismet                           [Boolean]
+    site-reviews/validate/akismet/is-active                 [Boolean]
+    site-reviews/validate/akismet/submission                [Array]
+    site-reviews/validate/blacklist                         [Boolean]
+    site-reviews/validate/custom                            [Boolean|String]
+    site-reviews/validate/honeypot                          [Boolean]
+    site-reviews/validate/review-limits                     [Boolean]
+    site-reviews/validate/review-limits/query               [Array]
+    site-reviews/validation/rules                           [Array]
+    site-reviews/views/data                                 [Array]
+    site-reviews/views/file                                 [String]
+    site-reviews/whip/methods                               [Integer]
+    site-reviews/whip/whitelist                             [Array]
+    site-reviews/whip/whitelist/cloudflare                  [Boolean]

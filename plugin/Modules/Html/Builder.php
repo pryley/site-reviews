@@ -106,7 +106,7 @@ class Builder
     {
         $this->setArgs($args, $tag);
         $this->setTag($tag);
-        do_action_ref_array('site-reviews/builder', [$this]);
+        glsr()->action('builder', $this);
         $result = $this->isHtmlTag($this->tag)
             ? $this->buildElement()
             : $this->buildCustom($tag);

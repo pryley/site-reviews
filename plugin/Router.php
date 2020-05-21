@@ -136,16 +136,16 @@ class Router
      */
     protected function routeRequest($type, $action, array $request = [])
     {
-        $actionHook = 'site-reviews/route/'.$type.'/request';
+        $actionHook = 'route/'.$type.'/request';
         $controller = glsr(Helper::buildClassName($type.'-controller', 'Controllers'));
         $method = Helper::buildMethodName($action, 'router');
         $request = glsr()->filterArray('route/request', $request, $action, $type);
-        do_action($actionHook, $action, $request);
+        glsr()->action($actionHook, $action, $request);
         if (is_callable([$controller, $method])) {
             call_user_func([$controller, $method], $request);
             return;
         }
-        if (0 === did_action($actionHook)) {
+        if (0 === did_action(glsr()->id.'/'.$actionHook)) {
             glsr_log('Unknown '.$type.' router request: '.$action);
         }
     }
