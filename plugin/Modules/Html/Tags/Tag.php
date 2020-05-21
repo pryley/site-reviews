@@ -12,20 +12,20 @@ abstract class Tag
     public $args;
 
     /**
-     * @var string
-     */
-    public $key;
-
-    /**
      * @var \GeminiLabs\SiteReviews\Review
      */
     public $review;
 
-    public function __construct($key, Review $review, array $args = [])
+    /**
+     * @var string
+     */
+    public $tag;
+
+    public function __construct($tag, Review $review, array $args = [])
     {
         $this->args = glsr()->args($args);
-        $this->key = $key;
         $this->review = $review;
+        $this->tag = $tag;
     }
 
     /**
@@ -49,6 +49,6 @@ abstract class Tag
      */
     public function isHidden($path = '')
     {
-        return in_array($this->key, $this->args->hide) || !$this->isEnabled($path);
+        return in_array($this->tag, $this->args->hide) || !$this->isEnabled($path);
     }
 }

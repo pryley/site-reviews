@@ -20,11 +20,6 @@ class SiteReviews
     public $args;
 
     /**
-     * @var Review
-     */
-    public $current;
-
-    /**
      * @var Reviews
      */
     protected $reviews;
@@ -49,23 +44,16 @@ class SiteReviews
      */
     public function buildReview(Review $review)
     {
-        $review = apply_filters('site-reviews/review/build/before', $review);
-        $args = $this->args;
-        $this->current = $review;
+        $review = glsr()->filter('review/build/before', $review);
         $renderedFields = [];
         foreach ($review as $key => $value) {
-            $key = $this->normalizeTemplateTag($key);
-            $className = Helper::buildClassName($key.'-tag', 'Modules\Html\Tags');
-            $field = class_exists($className)
-                ? glsr($className, compact('key', 'review', 'args'))->handle($value)
-                : false;
-            $field = apply_filters('site-reviews/review/build/'.$key, $field, $value, $review, $this);
+            $tag = $this->normalizeTemplateTag($key);
+            $field = $this->buildTemplateTag($review, $tag, $value);
             if (false !== $field) {
-                $renderedFields[$key] = $field;
+                $renderedFields[$tag] = $field;
             }
         }
         $this->wrap($renderedFields, $review);
-        $this->current = null;
         $renderedFields = glsr()->filterArray('review/build/after', $renderedFields, $review, $this);
         return new ReviewHtml($review, $renderedFields);
     }
@@ -97,9 +85,24 @@ class SiteReviews
 
     /**
      * @param string $tag
+     * @param string $value
      * @return string
      */
-    public function normalizeTemplateTag($tag)
+    protected function buildTemplateTag(Review $review, $tag, $value)
+    {
+        $args = $this->args;
+        $className = Helper::buildClassName($tag.'-tag', 'Modules\Html\Tags');
+        $field = class_exists($className)
+            ? glsr($className, compact('tag', 'review', 'args'))->handle($value)
+            : false;
+        return glsr()->filterString('review/build/'.$tag, $field, $value, $review, $this);
+    }
+
+    /**
+     * @param string $tag
+     * @return string
+     */
+    protected function normalizeTemplateTag($tag)
     {
         $mappedTags = [
             'assigned_post_ids' => 'assigned_to',
