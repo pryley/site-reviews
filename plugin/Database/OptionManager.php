@@ -77,11 +77,12 @@ class OptionManager
 
     /**
      * @param string $path
+     * @param mixed $fallback
      * @return bool
      */
-    public function getBool($path)
+    public function getBool($path, $fallback = false)
     {
-        return Helper::castToBool($this->get($path));
+        return $this->get($path, $fallback, 'bool');
     }
 
     /**
