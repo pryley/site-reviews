@@ -34,7 +34,7 @@ class Updater
         if (!function_exists('get_plugin_data')) {
             require_once ABSPATH.WPINC.'/plugin.php';
         }
-        $this->apiUrl = trailingslashit(apply_filters('site-reviews/addon/api-url', $apiUrl));
+        $this->apiUrl = trailingslashit(glsr()->filterString('addon/api-url', $apiUrl));
         $this->data = wp_parse_args($data, get_plugin_data($file));
         $this->plugin = plugin_basename($file);
         $this->transientName = Application::PREFIX.md5(Arr::get($data, 'TextDomain'));
@@ -254,7 +254,7 @@ class Updater
                 'slug' => Arr::get($data, 'TextDomain'),
                 'url' => home_url(),
             ],
-            'sslverify' => apply_filters('site-reviews/sslverify/post', false),
+            'sslverify' => glsr()->filterBool('sslverify/post', false),
             'timeout' => 15,
         ]);
         return $this->normalizeResponse($response);

@@ -49,7 +49,7 @@ class Translation
         if (!isset($this->entries)) {
             $potFile = glsr()->path(glsr()->languages.'/'.Application::ID.'.pot');
             $entries = $this->extractEntriesFromPotFile($potFile);
-            $entries = apply_filters('site-reviews/translation/entries', $entries);
+            $entries = glsr()->filterArray('translation/entries', $entries);
             $this->entries = $entries;
         }
         return $this->entries;

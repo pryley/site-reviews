@@ -118,7 +118,7 @@ class Console
      */
     public function getLevel()
     {
-        return intval(apply_filters('site-reviews/console/level', static::INFO));
+        return glsr()->filterInt('console/level', static::INFO);
     }
 
     /**

@@ -13,9 +13,7 @@ class HoneyPotValidator
      */
     public function isValid(array $review)
     {
-        return wp_validate_boolean(
-            apply_filters('site-reviews/validate/honeypot', $this->validate($review), $review)
-        );
+        return glsr()->filterBool('validate/honeypot', $this->validate($review), $review);
     }
 
     /**

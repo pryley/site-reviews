@@ -18,9 +18,7 @@ class BlacklistValidator
             $review['ip_address'],
             $review['title'],
         ]));
-        return wp_validate_boolean(
-            apply_filters('site-reviews/validate/blacklist', $this->validate($target), $target, $review)
-        );
+        return glsr()->filterBool('validate/blacklist', $this->validate($target), $target, $review);
     }
 
     protected function getBlacklist()

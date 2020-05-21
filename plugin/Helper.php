@@ -150,15 +150,15 @@ class Helper
     {
         $whitelist = [];
         $isUsingCloudflare = !empty(filter_input(INPUT_SERVER, 'CF-Connecting-IP'));
-        if (apply_filters('site-reviews/whip/whitelist/cloudflare', $isUsingCloudflare)) {
+        if (glsr()->filterBool('whip/whitelist/cloudflare', $isUsingCloudflare)) {
             $cloudflareIps = glsr(Cache::class)->getCloudflareIps();
             $whitelist[Whip::CLOUDFLARE_HEADERS] = [Whip::IPV4 => $cloudflareIps['v4']];
             if (defined('AF_INET6')) {
                 $whitelist[Whip::CLOUDFLARE_HEADERS][Whip::IPV6] = $cloudflareIps['v6'];
             }
         }
-        $whitelist = apply_filters('site-reviews/whip/whitelist', $whitelist);
-        $methods = apply_filters('site-reviews/whip/methods', Whip::ALL_METHODS);
+        $whitelist = glsr()->filterArray('whip/whitelist', $whitelist);
+        $methods = glsr()->filterInt('whip/methods', Whip::ALL_METHODS);
         $whip = new Whip($methods, $whitelist);
         do_action_ref_array('site-reviews/whip', [$whip]);
         if (false !== ($clientAddress = $whip->getValidIpAddress())) {

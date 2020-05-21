@@ -62,13 +62,13 @@ class Email
 
     /**
      * @param string $format
-     * @return string|null
+     * @return string
      */
     public function read($format = '')
     {
         if ('plaintext' == $format) {
             $message = $this->stripHtmlTags($this->message);
-            return apply_filters('site-reviews/email/message', $message, 'text', $this);
+            return glsr()->filterString('email/message', $message, 'text', $this);
         }
         return $this->message;
     }
@@ -107,7 +107,7 @@ class Email
             return;
         }
         $message = $this->stripHtmlTags($phpmailer->Body);
-        $phpmailer->AltBody = apply_filters('site-reviews/email/message', $message, 'text', $this);
+        $phpmailer->AltBody = glsr()->filterString('email/message', $message, 'text', $this);
     }
 
     /**
@@ -125,7 +125,7 @@ class Email
             $headers[] = $key.': '.$value;
         }
         $headers[] = 'Content-Type: text/html';
-        return apply_filters('site-reviews/email/headers', $headers, $this);
+        return glsr()->filterArray('email/headers', $headers, $this);
     }
 
     /**
@@ -157,7 +157,7 @@ class Email
         $message = glsr(Template::class)->build('partials/email/index', [
             'context' => ['message' => $message],
         ]);
-        return apply_filters('site-reviews/email/message', stripslashes($message), 'html', $this);
+        return glsr()->filterString('email/message', stripslashes($message), 'html', $this);
     }
 
     /**
@@ -180,7 +180,7 @@ class Email
         if (empty($email['reply-to'])) {
             $email['reply-to'] = $email['from'];
         }
-        $this->email = apply_filters('site-reviews/email/compose', $email, $this);
+        $this->email = glsr()->filterArray('email/compose', $email, $this);
     }
 
     /**

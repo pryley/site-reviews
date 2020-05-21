@@ -123,7 +123,7 @@ class AdminController extends Controller
      */
     public function renderTinymceButton($editorId)
     {
-        $allowedEditors = apply_filters('site-reviews/tinymce/editor-ids', ['content'], $editorId);
+        $allowedEditors = glsr()->filterArray('tinymce/editor-ids', ['content'], $editorId);
         if ('post' !== glsr_current_screen()->base || !in_array($editorId, $allowedEditors)) {
             return;
         }

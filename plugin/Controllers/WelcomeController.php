@@ -88,7 +88,7 @@ class WelcomeController extends Controller
      */
     public function renderPage()
     {
-        $tabs = apply_filters('site-reviews/addon/welcome/tabs', [
+        $tabs = glsr()->filterArray('addon/welcome/tabs', [
             'getting-started' => _x('Getting Started', 'admin-text', 'site-reviews'),
             'whatsnew' => _x('What\'s New', 'admin-text', 'site-reviews'),
             'upgrade-guide' => _x('Upgrade Guide', 'admin-text', 'site-reviews'),

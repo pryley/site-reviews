@@ -13,7 +13,7 @@ class Translator
      */
     public function translate($original, $domain, array $args)
     {
-        $domains = apply_filters('site-reviews/translator/domains', [Application::ID]);
+        $domains = glsr()->filterArray('translator/domains', [Application::ID]);
         if (!in_array($domain, $domains)) {
             return $original;
         }

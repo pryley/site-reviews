@@ -44,7 +44,7 @@ class Style
      */
     public function filterView($view)
     {
-        $styledViews = apply_filters('site-reviews/style/views', [
+        $styledViews = glsr()->filterArray('style/views', [
             'templates/form/field',
             'templates/form/response',
             'templates/form/submit-button',
@@ -68,7 +68,7 @@ class Style
      */
     public function get()
     {
-        return apply_filters('site-reviews/style', $this->style);
+        return glsr()->filterString('style', $this->style);
     }
 
     /**

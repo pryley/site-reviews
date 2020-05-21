@@ -52,7 +52,7 @@ class Rating
             $average = $this->getTotalSum($ratingCounts) / $average;
         }
         $roundedAverage = round($average, intval($roundBy));
-        return floatval(apply_filters('site-reviews/rating/average', $roundedAverage, $ratingCounts, $average));
+        return glsr()->filterFloat('rating/average', $roundedAverage, $ratingCounts, $average);
     }
 
     /**
@@ -104,11 +104,11 @@ class Rating
      */
     public function getRanking(array $ratingCounts)
     {
-        return floatval(apply_filters('site-reviews/rating/ranking',
+        return glsr()->filterFloat('rating/ranking',
             $this->getRankingUsingImdb($ratingCounts),
             $ratingCounts,
             $this
-        ));
+        );
     }
 
     /**

@@ -75,7 +75,7 @@ class Schema
                     ->worstRating(glsr()->constant('MIN_RATING', Rating::class))
             );
             $schema = $schema->toArray();
-            return apply_filters('site-reviews/schema/'.$schema['@type'], $schema, $args);
+            return glsr()->filterArray('schema/'.$schema['@type'], $schema, $args);
         }
         return [];
     }
@@ -85,11 +85,11 @@ class Schema
      */
     public function render()
     {
-        if (empty($schemas = glsr()->retrieve('schemas'))) {
+        if (empty($schemas = glsr()->retrieve('schemas', []))) {
             return;
         }
         printf('<script type="application/ld+json">%s</script>', json_encode(
-            apply_filters('site-reviews/schema/all', $schemas),
+            glsr()->filterArray('schema/all', $schemas),
             JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
         ));
     }
@@ -132,7 +132,7 @@ class Schema
                     ->worstRating(glsr()->constant('MIN_RATING', Rating::class))
             );
         }
-        return apply_filters('site-reviews/schema/review', $schema->toArray(), $review, $this->args);
+        return glsr()->filterArray('schema/review', $schema->toArray(), $review, $this->args);
     }
 
     /**

@@ -16,10 +16,10 @@ class Template
         $data = $this->normalize($data);
         $path = Str::removePrefix('templates/', $templatePath);
         $template = glsr()->build($templatePath, $data);
-        $template = apply_filters('site-reviews/build/template/'.$path, $template, $data);
+        $template = glsr()->filterString('build/template/'.$path, $template, $data);
         $template = $this->interpolate($template, $data, $path);
-        $template = apply_filters('site-reviews/rendered/template', $template, $templatePath, $data);
-        $template = apply_filters('site-reviews/rendered/template/'.$path, $template, $data);
+        $template = glsr()->filterString('rendered/template', $template, $templatePath, $data);
+        $template = glsr()->filterString('rendered/template/'.$path, $template, $data);
         return $template;
     }
 
@@ -32,7 +32,7 @@ class Template
     public function interpolate($template, array $data = [], $templatePath)
     {
         $context = $this->normalizeContext(Arr::get($data, 'context', []));
-        $context = apply_filters('site-reviews/interpolate/'.$templatePath, $context, $template, $data);
+        $context = glsr()->filterArray('interpolate/'.$templatePath, $context, $template, $data);
         return $this->interpolateContext($template, $context);
     }
 

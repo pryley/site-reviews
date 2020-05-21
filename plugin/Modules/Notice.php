@@ -72,7 +72,7 @@ class Notice
         $notices = array_reduce($notices, function ($carry, $notice) {
             return $carry.$this->buildNotice(json_decode($notice['message'], true));
         });
-        return apply_filters('site-reviews/notices', $notices);
+        return glsr()->filterString('notices', $notices);
     }
 
     /**

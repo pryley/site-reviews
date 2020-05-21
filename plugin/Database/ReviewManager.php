@@ -22,7 +22,7 @@ class ReviewManager
     public function create(CreateReview $command)
     {
         $reviewValues = glsr(CreateReviewDefaults::class)->restrict((array) $command);
-        $reviewValues = apply_filters('site-reviews/create/review-values', $reviewValues, $command);
+        $reviewValues = glsr()->filterArray('create/review-values', $reviewValues, $command);
         $reviewValues = Arr::prefixKeys($reviewValues);
         unset($reviewValues['json']); // @todo remove the need for this
         $postValues = [

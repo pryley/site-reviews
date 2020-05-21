@@ -46,7 +46,7 @@ class System
             if (method_exists($this, $methodName) && $systemDetails = $this->$methodName()) {
                 return $carry.$this->implode(
                     strtoupper($details[$key]),
-                    apply_filters('site-reviews/system/'.$key, $systemDetails)
+                    glsr()->filterArray('system/'.$key, $systemDetails)
                 );
             }
             return $carry;
@@ -70,7 +70,7 @@ class System
      */
     public function getAddonDetails()
     {
-        $details = apply_filters('site-reviews/addon/system-info', []);
+        $details = glsr()->filterArray('addon/system-info', []);
         ksort($details);
         return $details;
     }

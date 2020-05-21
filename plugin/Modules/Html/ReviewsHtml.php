@@ -140,6 +140,6 @@ class ReviewsHtml extends ArrayObject
             $this->args['fallback'] = __('There are no reviews yet. Be the first one to write one.', 'site-reviews');
         }
         $fallback = '<p class="glsr-no-margins">'.$this->args['fallback'].'</p>';
-        return apply_filters('site-reviews/reviews/fallback', $fallback, $this->args);
+        return glsr()->filterString('reviews/fallback', $fallback, $this->args);
     }
 }

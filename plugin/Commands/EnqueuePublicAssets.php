@@ -27,7 +27,7 @@ class EnqueuePublicAssets implements Contract
      */
     public function enqueueAssets()
     {
-        if (apply_filters('site-reviews/assets/css', true)) {
+        if (glsr()->filterBool('assets/css', true)) {
             wp_enqueue_style(
                 Application::ID,
                 $this->getStylesheet(),
@@ -35,11 +35,11 @@ class EnqueuePublicAssets implements Contract
                 glsr()->version
             );
         }
-        if (apply_filters('site-reviews/assets/js', true)) {
-            $dependencies = apply_filters('site-reviews/assets/polyfill', true)
+        if (glsr()->filterBool('assets/js', true)) {
+            $dependencies = glsr()->filterBool('assets/polyfill', true)
                 ? [Application::ID.'/polyfill']
                 : [];
-            $dependencies = apply_filters('site-reviews/enqueue/public/dependencies', $dependencies);
+            $dependencies = glsr()->filterArray('enqueue/public/dependencies', $dependencies);
             wp_enqueue_script(
                 Application::ID,
                 glsr()->url('assets/scripts/'.Application::ID.'.js'),
@@ -55,7 +55,7 @@ class EnqueuePublicAssets implements Contract
      */
     public function enqueuePolyfillService()
     {
-        if (!apply_filters('site-reviews/assets/polyfill', true)) {
+        if (!glsr()->filterBool('assets/polyfill', true)) {
             return;
         }
         wp_enqueue_script(Application::ID.'/polyfill', add_query_arg([
@@ -75,7 +75,7 @@ class EnqueuePublicAssets implements Contract
         if (!glsr(OptionManager::class)->isRecaptchaEnabled()) {
             return;
         }
-        $language = apply_filters('site-reviews/recaptcha/language', get_locale());
+        $language = glsr()->filterString('recaptcha/language', get_locale());
         wp_enqueue_script(Application::ID.'/google-recaptcha', add_query_arg([
             'hl' => $language,
             'render' => 'explicit',
@@ -96,7 +96,7 @@ class EnqueuePublicAssets implements Contract
             'validationconfig' => glsr(Style::class)->validation,
             'validationstrings' => glsr(ValidationStringsDefaults::class)->defaults(),
         ];
-        $variables = apply_filters('site-reviews/enqueue/public/localize', $variables);
+        $variables = glsr()->filterArray('enqueue/public/localize', $variables);
         wp_add_inline_script(Application::ID, $this->buildInlineScript($variables), 'before');
     }
 
@@ -106,7 +106,7 @@ class EnqueuePublicAssets implements Contract
     public function inlineStyles()
     {
         $inlineStylesheetPath = glsr()->path('assets/styles/inline-styles.css');
-        if (!apply_filters('site-reviews/assets/css', true)) {
+        if (!glsr()->filterBool('assets/css', true)) {
             return;
         }
         if (!file_exists($inlineStylesheetPath)) {
@@ -133,7 +133,7 @@ class EnqueuePublicAssets implements Contract
         }
         $pattern = '/\"([^ \-\"]+)\"(:[{\[\"])/'; // removes unnecessary quotes surrounding object keys
         $optimizedScript = preg_replace($pattern, '$1$2', $script);
-        return apply_filters('site-reviews/enqueue/public/inline-script', $optimizedScript, $script, $variables);
+        return glsr()->filterString('enqueue/public/inline-script', $optimizedScript, $script, $variables);
     }
 
     /**
@@ -142,7 +142,7 @@ class EnqueuePublicAssets implements Contract
     protected function getFixedSelectorsForPagination()
     {
         $selectors = ['#wpadminbar', '.site-navigation-fixed'];
-        return apply_filters('site-reviews/enqueue/public/localize/ajax-pagination', $selectors);
+        return glsr()->filterArray('enqueue/public/localize/ajax-pagination', $selectors);
     }
 
     /**

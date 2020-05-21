@@ -64,13 +64,10 @@ class SiteReviewsSummary implements PartialContract
         $bars = array_reduce($ratings, function ($carry, $level) use ($percentages) {
             $label = $this->buildPercentageLabel($this->args['labels'][$level]);
             $background = $this->buildPercentageBackground($percentages[$level]);
-            $count = apply_filters('site-reviews/summary/counts',
-                $percentages[$level],
-                $this->ratings[$level]
-            );
+            $count = glsr()->filterString('summary/counts', $percentages[$level], $this->ratings[$level]);
             $percent = $this->buildPercentageCount($count);
             $value = $label.$background.$percent;
-            $value = apply_filters('site-reviews/summary/wrap/bar', $value, $this->args, [
+            $value = glsr()->filterString('summary/wrap/bar', $value, $this->args, [
                 'percent' => wp_strip_all_tags($count, true),
                 'rating' => $level,
             ]);
@@ -199,8 +196,8 @@ class SiteReviewsSummary implements PartialContract
      */
     protected function wrap($key, $value)
     {
-        $value = apply_filters('site-reviews/summary/wrap/'.$key, $value, $this->args);
-        return glsr(Builder::class)->div($value, [
+        $value = glsr()->filterString('summary/wrap/'.$key, $value, $this->args);
+        return glsr(Builder::class)->div('<span>'.$value.'</span>', [
             'class' => 'glsr-summary-'.$key,
         ]);
     }

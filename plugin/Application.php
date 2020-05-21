@@ -93,12 +93,12 @@ final class Application extends Container
      */
     public function config($name)
     {
-        $path = apply_filters('site-reviews/config', 'config/'.$name.'.php');
+        $path = $this->filterString('config', 'config/'.$name.'.php');
         $configFile = $this->path($path);
         $config = file_exists($configFile)
             ? include $configFile
             : [];
-        return apply_filters('site-reviews/config/'.$name, $config);
+        return $this->filterArray('config/'.$name, $config);
     }
 
     /**
@@ -109,7 +109,7 @@ final class Application extends Container
     {
         $constant = $className.'::'.$property;
         return defined($constant)
-            ? apply_filters('site-reviews/const/'.$property, constant($constant))
+            ? $this->filterString('const/'.$property, constant($constant))
             : '';
     }
 
@@ -150,7 +150,7 @@ final class Application extends Container
         if (empty($this->defaults)) {
             $this->defaults = $this->make(DefaultsManager::class)->get();
         }
-        return apply_filters('site-reviews/get/defaults', $this->defaults);
+        return $this->filterArray('get/defaults', $this->defaults);
     }
 
     /**
@@ -222,7 +222,7 @@ final class Application extends Container
      */
     public function registerAddons()
     {
-        do_action('site-reviews/addon/register', $this);
+        $this->action('addon/register', $this);
     }
 
     /**
@@ -240,7 +240,7 @@ final class Application extends Container
      */
     public function registerReviewTypes()
     {
-        $types = apply_filters('site-reviews/addon/types', []);
+        $types = $this->filterArray('addon/types', []);
         $this->reviewTypes = wp_parse_args($types, [
             'local' => _x('Local', 'admin-text', 'site-reviews'),
         ]);
@@ -252,13 +252,13 @@ final class Application extends Container
      */
     public function render($view, array $data = [])
     {
-        $view = apply_filters('site-reviews/render/view', $view, $data);
-        $file = apply_filters('site-reviews/views/file', $this->file($view), $view, $data);
+        $view = $this->filterString('render/view', $view, $data);
+        $file = $this->filterString('views/file', $this->file($view), $view, $data);
         if (!file_exists($file)) {
             glsr_log()->error(sprintf('File not found: (%s) %s', $view, $file));
             return;
         }
-        $data = apply_filters('site-reviews/views/data', $data, $view);
+        $data = $this->filterArray('views/data', $data, $view);
         extract($data);
         include $file;
     }

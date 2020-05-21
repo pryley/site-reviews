@@ -31,10 +31,10 @@ class PublicController extends Controller
     public function filterEnqueuedScriptTags($tag, $handle)
     {
         $scripts = [Application::ID.'/google-recaptcha'];
-        if (in_array($handle, apply_filters('site-reviews/async-scripts', $scripts))) {
+        if (in_array($handle, glsr()->filterArray('async-scripts', $scripts))) {
             $tag = str_replace(' src=', ' async src=', $tag);
         }
-        if (in_array($handle, apply_filters('site-reviews/defer-scripts', $scripts))) {
+        if (in_array($handle, glsr()->filterArray('defer-scripts', $scripts))) {
             $tag = str_replace(' src=', ' defer src=', $tag);
         }
         return $tag;
@@ -47,9 +47,7 @@ class PublicController extends Controller
     public function filterFieldOrder(array $config)
     {
         $order = array_keys($config);
-        $order = Arr::consolidate(
-            apply_filters('site-reviews/submission-form/order', $order)
-        );
+        $order = glsr()->filterArray('submission-form/order', $order);
         return array_intersect_key(array_merge(array_flip($order), $config), $config);
     }
 

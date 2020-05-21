@@ -55,7 +55,7 @@ class MenuController extends Controller
         ]);
         foreach ($pages as $slug => $title) {
             $method = Helper::buildMethodName('render-'.$slug.'-menu');
-            $callback = apply_filters('site-reviews/addon/submenu/callback', [$this, $method], $slug);
+            $callback = glsr()->filter('addon/submenu/callback', [$this, $method], $slug);
             if (!is_callable($callback)) {
                 continue;
             }
@@ -90,7 +90,7 @@ class MenuController extends Controller
             'functions' => _x('Functions', 'admin-text', 'site-reviews'),
             'addons' => _x('Addons', 'admin-text', 'site-reviews'),
         ]);
-        $addons = apply_filters('site-reviews/addon/documentation', []);
+        $addons = glsr()->filterArray('addon/documentation', []);
         ksort($addons);
         if (empty($addons)) {
             unset($tabs['addons']);
@@ -142,7 +142,7 @@ class MenuController extends Controller
             'console' => _x('Console', 'admin-text', 'site-reviews'),
             'system-info' => _x('System Info', 'admin-text', 'site-reviews'),
         ]);
-        if (!apply_filters('site-reviews/addon/sync/enable', false)) {
+        if (!glsr()->filterBool('addon/sync/enable', false)) {
             unset($tabs['sync']);
         }
         $this->renderPage('tools', [
@@ -153,7 +153,7 @@ class MenuController extends Controller
                     'id' => Application::ID,
                     'system' => strval(glsr(System::class)),
                 ],
-                'services' => apply_filters('site-reviews/addon/sync/services', []),
+                'services' => glsr()->filterArray('addon/sync/services', []),
             ],
             'tabs' => $tabs,
             'template' => glsr(Template::class),
@@ -195,7 +195,7 @@ class MenuController extends Controller
                 }
             }
         }
-        return apply_filters('site-reviews/addon/'.$hookSuffix, $args);
+        return glsr()->filterArray('addon/'.$hookSuffix, $args);
     }
 
     /**

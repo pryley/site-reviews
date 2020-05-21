@@ -139,7 +139,7 @@ class Columns
         $value = method_exists($this, $method)
             ? call_user_func([$this, $method], $postId)
             : '';
-        $value = apply_filters('site-reviews/columns/'.$column, $value, $postId);
+        $value = glsr()->filterString('columns/'.$column, $value, $postId);
         if (0 !== $value && empty($value)) {
             $value = '&mdash;';
         }

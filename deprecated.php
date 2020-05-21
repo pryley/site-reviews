@@ -2,7 +2,10 @@
 
 defined('WPINC') || die;
 
-if (apply_filters('site-reviews/support/deprecated/v4', true)) {
+add_action('plugins_loaded', function () {
+    if (!glsr()->filterBool('support/deprecated/v4', true)) {
+        return;
+    }
     // Unprotected review meta has been deprecated
     add_filter('get_post_metadata', function ($data, $postId, $metaKey, $single) {
         $metaKeys = array_keys(glsr('Defaults\CreateReviewDefaults')->defaults());
@@ -46,7 +49,7 @@ if (apply_filters('site-reviews/support/deprecated/v4', true)) {
         if (has_action('site-reviews/local/review/create')) {
             $message = 'The "site-reviews/local/review/create" hook has been deprecated. Please use the "site-reviews/review/created" hook instead.';
             glsr()->append('deprecated', $message);
-            do_action('site-reviews/local/review/create', (array) get_post($review->ID), (array) $review, $review->ID);
+            glsr()->action('local/review/create', (array) get_post($review->ID), (array) $review, $review->ID);
         }
     }, 9);
 
@@ -55,7 +58,7 @@ if (apply_filters('site-reviews/support/deprecated/v4', true)) {
         if (has_action('site-reviews/local/review/submitted')) {
             $message = 'The "site-reviews/local/review/submitted" hook has been deprecated. Please use the "site-reviews/review/submitted" hook instead.';
             glsr()->append('deprecated', $message);
-            do_action('site-reviews/local/review/submitted', null, $review);
+            glsr()->action('local/review/submitted', null, $review);
         }
         if (has_filter('site-reviews/local/review/submitted/message')) {
             $message = 'The "site-reviews/local/review/submitted/message" hook has been deprecated.';
@@ -68,7 +71,7 @@ if (apply_filters('site-reviews/support/deprecated/v4', true)) {
         if (has_filter('site-reviews/local/review')) {
             $message = 'The "site-reviews/local/review" hook has been deprecated. Please use the "site-reviews/create/review-values" hook instead.';
             glsr()->append('deprecated', $message);
-            return apply_filters('site-reviews/local/review', $values, $command);
+            return glsr()->filterArray('local/review', $values, $command);
         }
         return $values;
     }, 9, 2);
@@ -78,7 +81,7 @@ if (apply_filters('site-reviews/support/deprecated/v4', true)) {
         if (has_filter('site-reviews/enqueue/localize')) {
             $message = 'The "site-reviews/enqueue/localize" hook has been deprecated. Please use the "site-reviews/enqueue/public/localize" hook instead.';
             glsr()->append('deprecated', $message);
-            return apply_filters('site-reviews/enqueue/localize', $variables);
+            return glsr()->filterArray('enqueue/localize', $variables);
         }
         return $variables;
     }, 9);
@@ -143,7 +146,7 @@ if (apply_filters('site-reviews/support/deprecated/v4', true)) {
         if (has_filter('site-reviews/validate/review/submission')) {
             $message = 'The "site-reviews/validate/review/submission" hook has been deprecated. Please use the "site-reviews/validate/custom" hook instead.';
             glsr()->append('deprecated', $message);
-            return apply_filters('site-reviews/validate/review/submission', $result, $request);
+            return glsr()->filterBool('validate/review/submission', $result, $request);
         }
         return $result;
     }, 9, 2);
@@ -152,11 +155,11 @@ if (apply_filters('site-reviews/support/deprecated/v4', true)) {
         if (has_filter('site-reviews/addon/views/file')) {
             $message = 'The "site-reviews/addon/views/file" hook has been deprecated. Please use the "site-reviews/views/file" hook instead.';
             glsr()->append('deprecated', $message);
-            $file = apply_filters('site-reviews/addon/views/file', $file, $view, $data);
+            $file = glsr()->filterString('addon/views/file', $file, $view, $data);
         }
         return $file;
     }, 9, 3);
-}
+});
 
 add_action('wp_footer', function () {
     $notices = array_keys(array_flip(glsr()->retrieve('deprecated', [])));

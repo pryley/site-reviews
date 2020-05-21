@@ -48,7 +48,7 @@ abstract class DefaultsAbstract
         $hookName = (new ReflectionClass($this))->getShortName();
         $hookName = str_replace('Defaults', '', $hookName);
         $hookName = Str::dashCase($hookName);
-        return apply_filters('site-reviews/defaults/'.$hookName, $defaults, $name);
+        return glsr()->filterArray('defaults/'.$hookName, $defaults, $name);
     }
 
     /**

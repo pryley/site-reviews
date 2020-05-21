@@ -20,7 +20,7 @@ class ReviewLimitValidator
             $parameters['author'] = $authorId;
         }
         $parameters['post_status'] = ['pending', 'publish'];
-        return apply_filters('site-reviews/validate/review-limits/query', $parameters, $args);
+        return glsr()->filterArray('validate/review-limits/query', $parameters, $args);
     }
 
     /**
@@ -75,9 +75,7 @@ class ReviewLimitValidator
         $reviews = glsr_get_reviews($args);
         remove_filter('site-reviews/get/reviews/query', [$this, 'filterReviewsQuery'], 5);
         $result = 0 === count($reviews);
-        return wp_validate_boolean(
-            apply_filters('site-reviews/validate/review-limits', $result, $reviews, $this->request, $key)
-        );
+        return glsr()->filterBool('validate/review-limits', $result, $reviews, $this->request, $key);
     }
 
     /**

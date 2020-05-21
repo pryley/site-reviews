@@ -36,7 +36,7 @@ class AkismetValidator
             }
         }
         return $this->validate(
-            Arr::consolidate(apply_filters('site-reviews/validate/akismet/submission', $submission, $review))
+            glsr()->filterArray('validate/akismet/submission', $submission, $review)
         );
     }
 
@@ -72,9 +72,7 @@ class AkismetValidator
             || !is_callable(['Akismet', 'http_post'])
             ? false
             : Akismet::get_api_key();
-        return wp_validate_boolean(
-            apply_filters('site-reviews/validate/akismet/is-active', $check)
-        );
+        return glsr()->filterBool('validate/akismet/is-active', $check);
     }
 
     /**
@@ -84,8 +82,6 @@ class AkismetValidator
     {
         $response = Akismet::http_post($this->buildQuery($submission), 'comment-check');
         $result = 'true' !== $response[1];
-        return wp_validate_boolean(
-            apply_filters('site-reviews/validate/akismet', $result, $submission, $response)
-        );
+        return glsr()->filterBool('validate/akismet', $result, $submission, $response);
     }
 }

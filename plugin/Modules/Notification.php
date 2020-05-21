@@ -109,7 +109,7 @@ class Notification
             $emails = array_merge($emails, $customEmails);
         }
         $emails = array_filter(array_keys(array_flip($emails)));
-        return apply_filters('site-reviews/notification/emails', $emails, $this->review);
+        return glsr()->filterArray('notification/emails', $emails, $this->review);
     }
 
     /**
@@ -137,7 +137,7 @@ class Notification
             wp_specialchars_decode(glsr(OptionManager::class)->getWP('blogname'), ENT_QUOTES),
             sprintf($title, $this->review->rating, $assignedTitle)
         );
-        return apply_filters('site-reviews/notification/title', $title, $this->review);
+        return glsr()->filterString('notification/title', $title, $this->review);
     }
 
     /**

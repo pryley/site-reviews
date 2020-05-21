@@ -86,7 +86,7 @@ abstract class Shortcode implements ShortcodeContract
     public function getHideOptions()
     {
         $options = $this->hideOptions();
-        return apply_filters('site-reviews/shortcode/hide-options', $options, $this->shortcodeName);
+        return glsr()->filterArray('shortcode/hide-options', $options, $this->shortcodeName);
     }
 
     /**
@@ -135,7 +135,7 @@ abstract class Shortcode implements ShortcodeContract
             'before_title' => '<h2 class="glsr-title">',
             'after_title' => '</h2>',
         ]);
-        return apply_filters('site-reviews/shortcode/args', $args, $type, $this->partialName);
+        return glsr()->filterArray('shortcode/args', $args, $type, $this->partialName);
     }
 
     /**
@@ -145,7 +145,7 @@ abstract class Shortcode implements ShortcodeContract
      */
     public function normalizeAtts($atts, $type = 'shortcode')
     {
-        $atts = apply_filters('site-reviews/shortcode/atts', $atts, $type, $this->partialName);
+        $atts = glsr()->filterArray('shortcode/atts', $atts, $type, $this->partialName);
         $atts = $this->getDefaults(wp_parse_args($atts));
         foreach ($atts as $key => &$value) {
             $methodName = Helper::buildMethodName($key, 'normalize');

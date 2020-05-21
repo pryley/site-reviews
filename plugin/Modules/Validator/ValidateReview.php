@@ -93,7 +93,7 @@ class ValidateReview
             return static::RECAPTCHA_DISABLED;
         }
         if (empty($this->request['_recaptcha-token'])) {
-            return $this->request['_counter'] < intval(apply_filters('site-reviews/recaptcha/timeout', 5))
+            return $this->request['_counter'] < glsr()->filterInt('recaptcha/timeout', 5)
                 ? static::RECAPTCHA_EMPTY
                 : static::RECAPTCHA_FAILED;
         }
@@ -132,7 +132,7 @@ class ValidateReview
     protected function getValidationRules(array $request)
     {
         $rules = array_intersect_key(
-            apply_filters('site-reviews/validation/rules', static::VALIDATION_RULES, $request),
+            glsr()->filterArray('validation/rules', static::VALIDATION_RULES, $request),
             array_flip($this->getOption('settings.submissions.required', []))
         );
         $excluded = explode(',', Arr::get($request, 'excluded'));
@@ -216,7 +216,7 @@ class ValidateReview
         if (!empty($this->error)) {
             return;
         }
-        $validated = apply_filters('site-reviews/validate/custom', true, $this->request);
+        $validated = glsr()->filter('validate/custom', true, $this->request);
         if (true === $validated) {
             return;
         }

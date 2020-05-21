@@ -280,7 +280,7 @@ class EditorController extends Controller
         glsr(Metaboxes::class)->saveAssignedToMetabox($postId);
         glsr(Metaboxes::class)->saveResponseMetabox($postId);
         if ($isUpdating) {
-            do_action('site-reviews/review/saved', glsr_get_review($postId));
+            glsr()->action('review/saved', glsr_get_review($postId));
         }
     }
 
@@ -398,7 +398,7 @@ class EditorController extends Controller
             _x('IP Address', 'admin-text', 'site-reviews') => $review->ip_address,
             _x('Avatar', 'admin-text', 'site-reviews') => sprintf('<img src="%s" width="96">', $review->avatar),
         ];
-        return array_filter(apply_filters('site-reviews/metabox/details', $metabox, $review));
+        return array_filter(glsr()->filterArray('metabox/details', $metabox, $review));
     }
 
     /**

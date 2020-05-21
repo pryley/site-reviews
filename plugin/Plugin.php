@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use BadMethodCallException;
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -22,6 +23,17 @@ Trait Plugin
     protected $testedTo;
     protected $version;
 
+    public function __call($method, $args)
+    {
+        $isFilter = Str::startsWith('filter', $method);
+        $castTo = Helper::buildMethodName(Str::removePrefix('filter', $method), 'castTo');
+        if ($isFilter && method_exists(Helper::class, $castTo)) {
+            $filtered = call_user_func_array([$this, 'filter'], $args);
+            return Helper::$castTo($filtered);
+        }
+        throw new BadMethodCallException("Method [$method] does not exist.");
+    }
+
     public function __construct()
     {
         $this->file = str_replace('plugin/Application', $this->id, (new ReflectionClass($this))->getFileName());
@@ -38,10 +50,6 @@ Trait Plugin
         });
     }
 
-    /**
-     * @param string $property
-     * @return mixed
-     */
     public function __get($property)
     {
         if (property_exists($this, $property)) {
@@ -54,12 +62,32 @@ Trait Plugin
     }
 
     /**
+     * @param string $hook
+     * @param mixed ...$args
+     * @return Arguments
+     */
+    public function action($hook, ...$args)
+    {
+        return do_action_ref_array($this->id.'/'.$hook, $args);
+    }
+
+    /**
      * @param mixed $args
      * @return Arguments
      */
     public function args($args)
     {
         return new Arguments($args);
+    }
+
+    /**
+     * @param string $hook
+     * @param mixed ...$args
+     * @return Arguments
+     */
+    public function filter($hook, ...$args)
+    {
+        return apply_filters_ref_array($this->id.'/'.$hook, $args);
     }
 
     /**
@@ -73,7 +101,7 @@ Trait Plugin
             $path = trailingslashit(WP_PLUGIN_DIR).basename(dirname($this->file));
         }
         $path = trailingslashit($path).ltrim(trim($file), '/');
-        return apply_filters($this->id.'/path', $path, $file);
+        return $this->filterString('path', $path, $file);
     }
 
     /**
@@ -83,7 +111,7 @@ Trait Plugin
     public function url($path = '')
     {
         $url = esc_url(plugin_dir_url($this->file).ltrim(trim($path), '/'));
-        return apply_filters($this->id.'/url', $url, $path);
+        return $this->filterString('url', $url, $path);
     }
 
     /**

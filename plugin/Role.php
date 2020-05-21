@@ -79,7 +79,7 @@ class Role
             'read_post',
             'read_private_posts',
         ];
-        return apply_filters('site-reviews/capabilities', $capabilities);
+        return glsr()->filterArray('capabilities', $capabilities);
     }
 
     /**
@@ -133,6 +133,6 @@ class Role
                 'edit_posts',
             ],
         ];
-        return apply_filters('site-reviews/capabilities/for-roles', $capabilities);
+        return glsr()->filterArray('capabilities/for-roles', $capabilities);
     }
 }

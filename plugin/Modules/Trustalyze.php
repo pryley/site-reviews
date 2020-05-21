@@ -87,7 +87,7 @@ class Trustalyze
             'review_transaction_id' => $review->review_id,
             'type' => 'M',
         ];
-        return apply_filters('site-reviews/trustalyze/response', $trustalyzeResponse, $review);
+        return glsr()->filterArray('trustalyze/response', $trustalyzeResponse, $review);
     }
 
     /**
@@ -105,7 +105,7 @@ class Trustalyze
             'title' => Str::truncate($review->title, 35),
             'transaction' => Application::ID, // woocommerce field, not needed for Site Reviews
         ];
-        return apply_filters('site-reviews/trustalyze/review', $trustalyzeReview, $review);
+        return glsr()->filterArray('trustalyze/review', $trustalyzeReview, $review);
     }
 
     /**

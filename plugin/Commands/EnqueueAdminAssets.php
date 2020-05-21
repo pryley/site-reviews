@@ -99,7 +99,7 @@ class EnqueueAdminAssets implements Contract
         if (user_can_richedit()) {
             $variables['shortcodes'] = $this->localizeShortcodes();
         }
-        $variables = apply_filters('site-reviews/enqueue/admin/localize', $variables);
+        $variables = glsr()->filterArray('enqueue/admin/localize', $variables);
         wp_localize_script(Application::ID.'/admin', 'GLSR', $variables);
     }
 
@@ -108,7 +108,7 @@ class EnqueueAdminAssets implements Contract
      */
     protected function getDependencies()
     {
-        $dependencies = apply_filters('site-reviews/enqueue/admin/dependencies', []);
+        $dependencies = glsr()->filterArray('enqueue/admin/dependencies', []);
         $dependencies = array_merge($dependencies, [
             'jquery', 'jquery-ui-sortable', 'underscore', 'wp-util',
         ]);

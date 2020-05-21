@@ -14,7 +14,7 @@ class Router
 
     public function __construct()
     {
-        $this->unguardedActions = apply_filters('site-reviews/router/unguarded-actions', [
+        $this->unguardedActions = glsr()->filterArray('router/unguarded-actions', [
             'dismiss-notice',
             'fetch-paged-reviews',
         ]);
@@ -139,7 +139,7 @@ class Router
         $actionHook = 'site-reviews/route/'.$type.'/request';
         $controller = glsr(Helper::buildClassName($type.'-controller', 'Controllers'));
         $method = Helper::buildMethodName($action, 'router');
-        $request = apply_filters('site-reviews/route/request', $request, $action, $type);
+        $request = glsr()->filterArray('route/request', $request, $action, $type);
         do_action($actionHook, $action, $request);
         if (is_callable([$controller, $method])) {
             call_user_func([$controller, $method], $request);

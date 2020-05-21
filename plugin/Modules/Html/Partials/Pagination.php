@@ -27,7 +27,7 @@ class Pagination implements PartialContract
         }
         return glsr(Template::class)->build('templates/pagination', [
             'context' => [
-                'links' => apply_filters('site-reviews/paginate_links', $this->buildLinks(), $this->args),
+                'links' => glsr()->filterString('paginate_links', $this->buildLinks(), $this->args),
                 'loader' => '<div class="glsr-loader"></div>',
                 'screen_reader_text' => __('Site Reviews navigation', 'site-reviews'),
             ],

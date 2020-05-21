@@ -140,7 +140,7 @@ class Query
     public function getSqlFrom()
     {
         $from = "FROM {$this->db->posts} p";
-        $from = apply_filters('site-reviews/query/sql/from', $from, $this);
+        $from = glsr()->filterString('query/sql/from', $from, $this);
         return $from;
     }
 
@@ -150,7 +150,7 @@ class Query
     public function getSqlGroupBy()
     {
         $groupBy = "GROUP BY p.ID";
-        return apply_filters('site-reviews/query/sql/group-by', $groupBy, $this);
+        return glsr()->filterString('query/sql/group-by', $groupBy, $this);
     }
 
     /**
@@ -162,7 +162,7 @@ class Query
             "INNER JOIN {$this->getTable('ratings')} AS r ON p.ID = r.review_id",
         ];
         $join = $this->getSqlClauses($join, 'join');
-        $join = apply_filters('site-reviews/query/sql/join', $join, $this);
+        $join = glsr()->filterArray('query/sql/join', $join, $this);
         return implode(' ', $join);
     }
 
@@ -174,7 +174,7 @@ class Query
         $limit = $this->args['per_page'] > 0
             ? $this->db->prepare("LIMIT %d", $this->args['per_page'])
             : '';
-        return apply_filters('site-reviews/query/sql/limit', $limit, $this);
+        return glsr()->filterString('query/sql/limit', $limit, $this);
     }
 
     /**
@@ -189,7 +189,7 @@ class Query
         $offset = ($offset > 0)
             ? $this->db->prepare("OFFSET %d", $offset)
             : '';
-        return apply_filters('site-reviews/query/sql/offset', $offset, $this);
+        return glsr()->filterString('query/sql/offset', $offset, $this);
     }
 
     /**
@@ -211,7 +211,7 @@ class Query
         } else {
             $orderBy = '';
         }
-        return apply_filters('site-reviews/query/sql/order-by', $orderBy, $this);
+        return glsr()->filterString('query/sql/order-by', $orderBy, $this);
     }
 
     /**
@@ -222,7 +222,7 @@ class Query
         $select = [
             'p.*', 'r.rating', 'r.type', 'r.is_pinned',
         ];
-        $select = apply_filters('site-reviews/query/sql/select', $select, $this);
+        $select = glsr()->filterArray('query/sql/select', $select, $this);
         $select = implode(', ', $select);
         return "SELECT {$select}";
     }
@@ -237,7 +237,7 @@ class Query
             "AND p.post_status = 'publish'",
         ];
         $where = $this->getSqlClauses($where, 'and');
-        $where = apply_filters('site-reviews/query/sql/where', $where, $this);
+        $where = glsr()->filterArray('query/sql/where', $where, $this);
         $where = implode(' ', $where);
         return "WHERE 1=1 {$where}";
     }

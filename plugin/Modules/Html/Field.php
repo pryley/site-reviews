@@ -81,7 +81,7 @@ class Field
         if (!empty($this->field['required'])) {
             $classes[] = 'glsr-required';
         }
-        $classes = apply_filters('site-reviews/rendered/field/classes', $classes, $this->field);
+        $classes = glsr()->filterArray('rendered/field/classes', $classes, $this->field);
         return implode(' ', $classes);
     }
 
@@ -160,7 +160,7 @@ class Field
             ],
             'field' => $this->field,
         ]);
-        return apply_filters('site-reviews/rendered/field', $field, $this->field['type'], $this->field);
+        return glsr()->filterString('rendered/field', $field, $this->field['type'], $this->field);
     }
 
     /**
@@ -227,7 +227,7 @@ class Field
     protected function mergeFieldArgs()
     {
         $className = Helper::buildClassName($this->field['type'], __NAMESPACE__.'\Fields');
-        $className = apply_filters('site-reviews/builder/field/'.$this->field['type'], $className);
+        $className = glsr()->filterString('builder/field/'.$this->field['type'], $className);
         if (class_exists($className)) {
             $this->field = $className::merge($this->field);
         }
@@ -246,7 +246,7 @@ class Field
         $this->mergeFieldArgs();
         $this->normalizeFieldId();
         $this->normalizeFieldName();
-        $this->field = apply_filters('site-reviews/field/'.$rawType, $this->field);
+        $this->field = glsr()->filterArray('field/'.$rawType, $this->field);
     }
 
     /**

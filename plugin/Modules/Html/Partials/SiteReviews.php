@@ -65,9 +65,9 @@ class SiteReviews
             }
         }
         $this->wrap($renderedFields, $review);
-        $renderedFields = apply_filters('site-reviews/review/build/after', $renderedFields, $review, $this);
         $this->current = null;
-        return new ReviewHtml($review, (array) $renderedFields);
+        $renderedFields = glsr()->filterArray('review/build/after', $renderedFields, $review, $this);
+        return new ReviewHtml($review, $renderedFields);
     }
 
     /**
@@ -114,9 +114,9 @@ class SiteReviews
      */
     protected function wrap(array &$renderedFields, Review $review)
     {
-        $renderedFields = apply_filters('site-reviews/review/wrap', $renderedFields, $review, $this);
+        $renderedFields = glsr()->filterArray('review/wrap', $renderedFields, $review, $this);
         array_walk($renderedFields, function (&$value, $key) use ($review) {
-            $value = apply_filters('site-reviews/review/wrap/'.$key, $value, $review);
+            $value = glsr()->filterString('review/wrap/'.$key, $value, $review);
             if (empty($value)) {
                 return;
             }

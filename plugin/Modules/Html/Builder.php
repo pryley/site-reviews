@@ -110,7 +110,7 @@ class Builder
         $result = $this->isHtmlTag($this->tag)
             ? $this->buildElement()
             : $this->buildCustom($tag);
-        return apply_filters('site-reviews/builder/result', $result, $this);
+        return glsr()->filterString('builder/result', $result, $this);
     }
 
     /**
@@ -190,7 +190,7 @@ class Builder
             $args = $className::merge($args);
         }
         $args = glsr(FieldDefaults::class)->merge($args);
-        $this->args = apply_filters('site-reviews/builder/'.$type.'/args', $args, $this);
+        $this->args = glsr()->filterArray('builder/'.$type.'/args', $args, $this);
     }
 
     /**
@@ -345,7 +345,7 @@ class Builder
     protected function getFieldClassName($tag)
     {
         $className = Helper::buildClassName($tag, __NAMESPACE__.'\Fields');
-        return apply_filters('site-reviews/builder/field/'.$tag, $className);
+        return glsr()->filterString('builder/field/'.$tag, $className);
     }
 
     /**

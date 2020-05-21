@@ -26,7 +26,7 @@ class SettingsController extends Controller
             $options = $this->sanitizeLicenses($input, $options);
             $options = $this->sanitizeSubmissions($input, $options);
             $options = $this->sanitizeTranslations($input, $options);
-            $options = apply_filters('site-reviews/settings/callback', $options, $settings);
+            $options = glsr()->filterArray('settings/callback', $options, $settings);
             if (filter_input(INPUT_POST, 'option_page') == Application::ID.'-settings') {
                 glsr(Notice::class)->addSuccess(_x('Settings updated.', 'admin-text', 'site-reviews'));
             }

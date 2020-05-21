@@ -80,7 +80,7 @@ class CreateReview implements Contract
     public function redirect($fallback = '')
     {
         $redirect = trim(strval(get_post_meta($this->post_id, 'redirect_to', true)));
-        $redirect = apply_filters('site-reviews/review/redirect', $redirect, $this);
+        $redirect = glsr()->filterString('review/redirect', $redirect, $this);
         if (empty($redirect)) {
             $redirect = $fallback;
         }
@@ -165,7 +165,7 @@ class CreateReview implements Contract
             '_referer', 'assign_to', 'category', 'content', 'date', 'email', 'excluded', 'form_id',
             'gotcha', 'ip_address', 'name', 'rating', 'response', 'terms', 'title', 'url', 'user',
         ];
-        $unset = apply_filters('site-reviews/create/unset-keys-from-custom', $unset);
+        $unset = glsr()->filterArray('create/unset-keys-from-custom', $unset);
         $custom = $this->request;
         foreach ($unset as $key) {
             unset($custom[$key]);

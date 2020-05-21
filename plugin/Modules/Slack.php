@@ -50,7 +50,7 @@ class Slack
                 'fields' => $this->buildFields(),
             ]],
         ];
-        $this->notification = apply_filters('site-reviews/slack/compose', $notification, $this);
+        $this->notification = glsr()->filterArray('slack/compose', $notification, $this);
         return $this;
     }
 
@@ -130,7 +130,7 @@ class Slack
         $solidStars = str_repeat('★', $this->review->rating);
         $emptyStars = str_repeat('☆', max(0, glsr()->constant('MAX_RATING', Rating::class) - $this->review->rating));
         $stars = $solidStars.$emptyStars;
-        $stars = apply_filters('site-reviews/slack/stars', $stars, $this->review->rating, glsr()->constant('MAX_RATING', Rating::class));
+        $stars = glsr()->filterString('slack/stars', $stars, $this->review->rating, glsr()->constant('MAX_RATING', Rating::class));
         return ['title' => $stars];
     }
 

@@ -14,7 +14,7 @@ class Honeypot extends Field
      */
     public function getArgs()
     {
-        $honeypotArgs = apply_filters('site-reviews/field/honeypot/args', [
+        $honeypotArgs = glsr()->filterArray('field/honeypot/args', [
             'class' => 'glsr-field-control',
             'label' => esc_html__('Your review', 'site-reviews'),
             'name' => strtolower(Str::random()),
