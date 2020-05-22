@@ -291,7 +291,7 @@ class EditorController extends Controller
     protected function buildAssignedToTemplate($assignedTo, WP_Post $post)
     {
         $assignedPost = glsr(Database::class)->getAssignedToPost($post->ID, $assignedTo);
-        if (!($assignedPost instanceof WP_Post)) {
+        if (!$assignedPost instanceof WP_Post) {
             return;
         }
         return glsr(Template::class)->build('partials/editor/assigned-post', [

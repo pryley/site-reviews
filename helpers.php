@@ -158,7 +158,7 @@ function glsr_get_review($post)
     if (is_numeric($post)) {
         $post = get_post($post);
     }
-    if (!($post instanceof WP_Post)) {
+    if (!$post instanceof WP_Post) {
         $post = new WP_Post((object) []);
     }
     return glsr('Database\ReviewManager')->single($post);

@@ -55,7 +55,7 @@ class PostCountsManager
      */
     public function increase(Review $review)
     {
-        if (!(get_post($review->assigned_to) instanceof \WP_Post)) {
+        if (!get_post($review->assigned_to) instanceof \WP_Post) {
             return;
         }
         $counts = $this->get($review->assigned_to);

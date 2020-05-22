@@ -27,7 +27,7 @@ class Labels
     public function filterUpdateMessages(array $messages)
     {
         $post = get_post();
-        if (!($post instanceof WP_Post)) {
+        if (!$post instanceof WP_Post) {
             return;
         }
         $strings = $this->getReviewLabels();
