@@ -13,13 +13,13 @@ class AvatarTag extends Tag
     {
         if (!$this->isHidden('reviews.avatars')) {
             $size = glsr_get_option('settings.reviews.avatars_size', 40, 'int');
-            return glsr(Builder::class)->img([
+            return $this->wrap(glsr(Builder::class)->img([
                 'height' => $size,
                 'loading' => 'lazy',
                 'src' => $this->regenerateAvatar($value),
                 'style' => sprintf('width:%1$spx; height:%1$spx;', $size),
                 'width' => $size,
-            ]);
+            ]));
         }
     }
 

@@ -10,9 +10,11 @@ class TitleTag extends Tag
     public function handle($value)
     {
         if (!$this->isHidden()) {
-            $fallback = __('No Title', 'site-reviews');
             $title = trim($value);
-            return empty($title) ? $fallback : '<h3>'.$title.'</h3>';
+            if (empty($title)) {
+                $title = __('No Title', 'site-reviews');
+            }
+            return $this->wrap($title, 'h3');
         }
     }
 }

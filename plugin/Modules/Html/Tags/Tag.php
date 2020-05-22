@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Review;
 
 abstract class Tag
@@ -50,5 +51,25 @@ abstract class Tag
     public function isHidden($path = '')
     {
         return in_array($this->tag, $this->args->hide) || !$this->isEnabled($path);
+    }
+
+    /**
+     * @param string $value
+     * @param string $wrapWith
+     * @return string
+     */
+    public function wrap($value, $wrapWith = 'span')
+    {
+        $rawValue = $value;
+        if (!empty($value)) {
+            if (!empty($wrapWith)) {
+                $value = glsr(Builder::class)->$wrapWith($value);
+            }
+            $value = glsr(Builder::class)->div([
+                'class' => 'glsr-review-'.$this->tag,
+                'text' => $value,
+            ]);
+        }
+        return glsr()->filterString('review/wrap/'.$this->tag, $value, $this->review, $rawValue);
     }
 }

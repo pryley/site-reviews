@@ -10,7 +10,7 @@ class RatingTag extends Tag
     public function handle($value)
     {
         if (!$this->isHidden()) {
-            return glsr_star_rating($value);
+            return $this->wrap(glsr_star_rating($value));
         }
     }
 }

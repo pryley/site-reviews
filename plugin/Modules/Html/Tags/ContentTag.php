@@ -13,10 +13,7 @@ class ContentTag extends Tag
     public function handle($value)
     {
         if (!$this->isHidden()) {
-            if ($tag = $this->normalizeText($value)) {
-                return '<p>'.$tag.'</p>';
-            }
-            return $tag;
+            return $this->wrap($this->normalizeText($value), 'p');
         }
     }
 

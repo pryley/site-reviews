@@ -14,9 +14,21 @@ class AssignedToTag extends Tag
      */
     public function handle($value)
     {
-        if ($this->isHidden('reviews.assigned_links')) {
-            return;
+        if (!$this->isHidden('reviews.assigned_links')) {
+            $links = $this->getAssignedLinks($value);
+            $tagValue = !empty($links)
+                ? sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($links))
+                : '';
+            return $this->wrap($tagValue, 'span');
         }
+    }
+
+    /**
+     * @param mixed $value
+     * @return array
+     */
+    protected function getAssignedLinks($value)
+    {
         $links = [];
         foreach (Arr::consolidate($value) as $postId) {
             $post = get_post(glsr(Multilingual::class)->getPostId($postId));
@@ -27,8 +39,6 @@ class AssignedToTag extends Tag
                 ]);
             }
         }
-        if (!empty($links)) {
-            return sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($links));
-        }
+        return $links;
     }
 }

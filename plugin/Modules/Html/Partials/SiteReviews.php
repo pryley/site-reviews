@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewsHtml;
 use GeminiLabs\SiteReviews\Modules\Schema;
@@ -20,23 +20,17 @@ class SiteReviews
     public $args;
 
     /**
-     * @var Reviews
-     */
-    protected $reviews;
-
-    /**
      * @param Reviews|null $reviews
      * @return ReviewsHtml
      */
     public function build(array $args = [], $reviews = null)
     {
         $this->args = glsr(SiteReviewsDefaults::class)->merge($args);
-        if (!($reviews instanceof Reviews)) {
+        if (!$reviews instanceof Reviews) {
             $reviews = glsr(ReviewManager::class)->get($this->args);
         }
-        $this->reviews = $reviews;
-        $this->generateSchema();
-        return $this->buildReviews();
+        $this->generateSchema($reviews);
+        return $this->buildReviews($reviews);
     }
 
     /**
@@ -44,58 +38,57 @@ class SiteReviews
      */
     public function buildReview(Review $review)
     {
-        $review = glsr()->filter('review/build/before', $review);
-        $renderedFields = [];
+        glsr()->action('review/build/before', $review);
+        $templateTags = [];
         foreach ($review as $key => $value) {
             $tag = $this->normalizeTemplateTag($key);
             $field = $this->buildTemplateTag($review, $tag, $value);
             if (false !== $field) {
-                $renderedFields[$tag] = $field;
+                $templateTags[$tag] = $field;
             }
         }
-        $this->wrap($renderedFields, $review);
-        $renderedFields = glsr()->filterArray('review/build/after', $renderedFields, $review, $this);
-        return new ReviewHtml($review, $renderedFields);
+        $templateTags = glsr()->filterArray('review/build/after', $templateTags, $review, $this);
+        return new ReviewHtml($review, $templateTags);
     }
 
     /**
      * @return ReviewsHtml
      */
-    public function buildReviews()
+    public function buildReviews(Reviews $reviews)
     {
         $renderedReviews = [];
-        foreach ($this->reviews as $index => $review) {
+        foreach ($reviews as $index => $review) {
             $renderedReviews[] = $this->buildReview($review);
         }
-        return new ReviewsHtml($renderedReviews, $this->reviews->max_num_pages, $this->args);
+        return new ReviewsHtml($renderedReviews, $reviews->max_num_pages, $this->args);
     }
 
     /**
      * @return void
      */
-    public function generateSchema()
+    public function generateSchema(Reviews $reviews)
     {
-        if (!wp_validate_boolean($this->args['schema'])) {
-            return;
+        if (wp_validate_boolean($this->args['schema'])) {
+            glsr(Schema::class)->store(
+                glsr(Schema::class)->build($this->args, $reviews)
+            );
         }
-        glsr(Schema::class)->store(
-            glsr(Schema::class)->build($this->args, $this->reviews)
-        );
     }
 
     /**
      * @param string $tag
      * @param string $value
-     * @return string
+     * @return false|string
      */
     protected function buildTemplateTag(Review $review, $tag, $value)
     {
         $args = $this->args;
-        $className = Helper::buildClassName($tag.'-tag', 'Modules\Html\Tags');
-        $field = class_exists($className)
-            ? glsr($className, compact('tag', 'review', 'args'))->handle($value)
-            : false;
-        return glsr()->filterString('review/build/'.$tag, $field, $value, $review, $this);
+        $className = Helper::buildClassName($tag.'Tag', 'Modules\Html\Tags');
+        if (class_exists($className)) {
+            $field = glsr($className, compact('tag', 'review', 'args'))->handle($value);
+            return glsr()->filterString('review/build/'.$tag, $field, $value, $review, $this);
+        }
+        return false;
     }
 
     /**
@@ -107,25 +100,6 @@ class SiteReviews
         $mappedTags = [
             'assigned_post_ids' => 'assigned_to',
         ];
-        return array_key_exists($tag, $mappedTags)
-            ? $mappedTags[$tag]
-            : $tag;
-    }
-
-    /**
-     * @return void
-     */
-    protected function wrap(array &$renderedFields, Review $review)
-    {
-        $renderedFields = glsr()->filterArray('review/wrap', $renderedFields, $review, $this);
-        array_walk($renderedFields, function (&$value, $key) use ($review) {
-            $value = glsr()->filterString('review/wrap/'.$key, $value, $review);
-            if (empty($value)) {
-                return;
-            }
-            $value = glsr(Builder::class)->div('<span>'.$value.'</span>', [
-                'class' => 'glsr-review-'.$key,
-            ]);
-        });
+        return Arr::get($mappedTags, $tag, $tag);
     }
 }
