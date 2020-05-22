@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Review;
 use WP_Post;
 use WP_Query;
@@ -126,12 +127,19 @@ class Query
     }
 
     /**
+     * @param string $fromUrl
      * @return int
      */
-    public function getPaged()
+    public function getPaged($fromUrl = null)
     {
-        $page = filter_input(INPUT_GET, glsr()->constant('PAGED_QUERY_VAR'));
-        return max(1, absint($page));
+        $pagedQueryVar = glsr()->constant('PAGED_QUERY_VAR');
+        $pageNum = empty($fromUrl)
+            ? filter_input(INPUT_GET, $pagedQueryVar, FILTER_VALIDATE_INT)
+            : filter_var(Url::query($fromUrl, $pagedQueryVar), FILTER_VALIDATE_INT);
+        if (empty($pageNum)) {
+            $pageNum = (int) Arr::get($this->args, 'page', 1);
+        }
+        return max(1, $pageNum);
     }
 
     /**
@@ -182,12 +190,9 @@ class Query
      */
     public function getSqlOffset()
     {
-        $offset = $this->args['offset'];
-        if ($offset === 0) {
-            $offset = ($this->getPaged() - 1) * $this->args['per_page'];
-        }
-        $offset = ($offset > 0)
-            ? $this->db->prepare("OFFSET %d", $offset)
+        $offsetBy = (($this->args['page'] - 1) * $this->args['per_page']) + $this->args['offset'];
+        $offset = ($offsetBy > 0)
+            ? $this->db->prepare("OFFSET %d", $offsetBy)
             : '';
         return glsr()->filterString('query/sql/offset', $offset, $this);
     }
@@ -375,6 +380,7 @@ class Query
         $args['offset'] = absint(filter_var($args['offset'], FILTER_SANITIZE_NUMBER_INT));
         $args['order'] = Str::restrictTo('ASC,DESC,', sanitize_key($args['order']), 'DESC'); // include an empty value
         $args['orderby'] = $this->normalizeOrderBy($args['orderby']);
+        $args['page'] = absint($args['page']);
         $args['per_page'] = absint($args['per_page']); // "0" and "-1" = all
         $args['post__in'] = Arr::uniqueInt(Arr::consolidate($args['post__in']));
         $args['post__not_in'] = Arr::uniqueInt(Arr::consolidate($args['post__not_in']));

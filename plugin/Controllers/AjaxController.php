@@ -6,7 +6,9 @@ use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Commands\TogglePinned;
 use GeminiLabs\SiteReviews\Commands\ToggleStatus;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews as SiteReviewsPartial;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -98,25 +100,21 @@ class AjaxController extends Controller
      */
     public function routerFetchPagedReviews(array $request)
     {
-        glsr_log($request);
+        $request = glsr()->args($request);
         $args = [
-            'paged' => Arr::get($request, 'page', false),
-            'pagedUrl' => '',
+            'page' => $request->get('page', 0),
+            'pageUrl' => '',
             'pagination' => 'ajax',
             'schema' => false,
         ];
-        if (!$args['paged']) {
-            $homePath = untrailingslashit(parse_url(home_url(), PHP_URL_PATH));
-            $urlPath = untrailingslashit(parse_url(Arr::get($request, 'url'), PHP_URL_PATH));
-            $urlQuery = [];
-            parse_str(parse_url(Arr::get($request, 'url'), PHP_URL_QUERY), $urlQuery);
-            $args['paged'] = (int) Arr::get($urlQuery, glsr()->constant('PAGED_QUERY_VAR'), 1);
-            $args['pagedUrl'] = $homePath === $urlPath
-                ? trailingslashit(home_url())
-                : trailingslashit(home_url($urlPath));
+        if (!$args['page']) {
+            $urlPath = Url::path($request->url);
+            $args['page'] = glsr(Query::class)->getPaged($request->url);
+            $args['pageUrl'] = Url::path(home_url()) === $urlPath
+                ? Url::home()
+                : Url::home($urlPath);
         }
-        $atts = (array) json_decode(Arr::get($request, 'atts'));
-        $atts = glsr(SiteReviewsShortcode::class)->normalizeAtts($atts);
+        $atts = glsr(SiteReviewsShortcode::class)->normalizeAtts(Arr::consolidate($request->atts));
         $html = glsr(SiteReviewsPartial::class)->build(wp_parse_args($args, $atts));
         return wp_send_json_success([
             'pagination' => $html->getPagination(),

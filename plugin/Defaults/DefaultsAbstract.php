@@ -78,7 +78,9 @@ abstract class DefaultsAbstract
         });
         $filteredJson = [];
         foreach ($filtered as $key => $value) {
-            $filteredJson['data-'.$key] = json_encode($value, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+            $filteredJson['data-'.$key] = is_array($value)
+                ? json_encode($value, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
+                : $value;
         }
         return $filteredJson;
     }

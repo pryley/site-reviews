@@ -37,6 +37,7 @@ class SiteReviewsDefaults extends Defaults
             'hide' => [],
             'id' => '',
             'offset' => '',
+            'page' => 1,
             'pagination' => false,
             'rating' => 0,
             'schema' => false,

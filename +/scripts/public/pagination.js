@@ -50,12 +50,9 @@
 				return;
 			}
 			var data = {};
-
-			[].forEach.call(paginationEl.dataset, function (value, key) {
-				data[GLSR.nameprefix + '[atts][' + key + ']'] = value;
-				console.log(key);
-			});
-
+			for (var key of Object.keys(paginationEl.dataset)) {
+				data[GLSR.nameprefix + '[atts][' + key + ']'] = paginationEl.dataset[key];
+			}
 			data[GLSR.nameprefix + '[_action]'] = 'fetch-paged-reviews';
 			data[GLSR.nameprefix + '[page]'] = ev.currentTarget.dataset.page || '';
 			data[GLSR.nameprefix + '[url]'] = ev.currentTarget.href || '';

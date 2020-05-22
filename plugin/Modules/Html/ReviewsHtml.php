@@ -104,8 +104,8 @@ class ReviewsHtml extends ArrayObject
     protected function buildPagination()
     {
         $html = glsr(Partial::class)->build('pagination', [
-            'baseUrl' => Arr::get($this->args, 'pagedUrl'),
-            'current' => Arr::get($this->args, 'paged'),
+            'baseUrl' => Arr::get($this->args, 'pageUrl'),
+            'current' => Arr::get($this->args, 'page'),
             'total' => $this->max_num_pages,
         ]);
         $data = glsr(SiteReviewsDefaults::class)->filteredData($this->args);

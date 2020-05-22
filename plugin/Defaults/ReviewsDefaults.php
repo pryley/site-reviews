@@ -26,6 +26,7 @@ class ReviewsDefaults extends Defaults
             'order' => 'DESC',
             'orderby' => 'date',
             'pagination' => false,
+            'page' => 1,
             'per_page' => 10,
             'post__in' => [],
             'post__not_in' => [],
