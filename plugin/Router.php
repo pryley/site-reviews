@@ -140,6 +140,7 @@ class Router
         $controller = glsr(Helper::buildClassName($type.'-controller', 'Controllers'));
         $method = Helper::buildMethodName($action, 'router');
         $request = glsr()->filterArray('route/request', $request, $action, $type);
+        $request = new Request($request);
         glsr()->action($actionHook, $action, $request);
         if (is_callable([$controller, $method])) {
             call_user_func([$controller, $method], $request);

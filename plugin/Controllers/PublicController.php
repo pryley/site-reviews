@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
+use GeminiLabs\SiteReviews\Request;
 
 class PublicController extends Controller
 {
@@ -82,9 +83,9 @@ class PublicController extends Controller
     /**
      * @return CreateReview
      */
-    public function routerSubmitReview(array $request)
+    public function routerSubmitReview(Request $request)
     {
-        $command = new CreateReview($request);
+        $command = new CreateReview($request->toArray());
         if ($this->execute($command)) {
             // @todo flash $review from session ?
             wp_safe_redirect($command->referer());

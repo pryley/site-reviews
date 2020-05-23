@@ -32,4 +32,12 @@ class Arguments extends \ArrayObject
     {
         return $this->get($key);
     }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->getArrayCopy();
+    }
 }

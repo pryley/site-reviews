@@ -14,6 +14,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\System;
+use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Role;
 
 class AdminController extends Controller
@@ -214,7 +215,7 @@ class AdminController extends Controller
     /**
      * @return void
      */
-    public function routerMigratePlugin()
+    public function routerMigratePlugin(Request $request)
     {
         glsr(Migrate::class)->runAll();
         glsr(Notice::class)->clear()->addSuccess(_x('The plugin has been migrated to the latest version.', 'admin-text', 'site-reviews'));

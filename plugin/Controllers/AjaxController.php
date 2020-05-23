@@ -13,6 +13,7 @@ use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews as SiteReviewsPartial;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Translation;
+use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Role;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
@@ -44,7 +45,7 @@ class AjaxController extends Controller
     /**
      * @return void
      */
-    public function routerDismissNotice(array $request)
+    public function routerDismissNotice(Request $request)
     {
         glsr(NoticeController::class)->routerDismissNotice($request);
         wp_send_json_success();
@@ -53,9 +54,9 @@ class AjaxController extends Controller
     /**
      * @return void
      */
-    public function routerMceShortcode(array $request)
+    public function routerMceShortcode(Request $request)
     {
-        $shortcode = $request['shortcode'];
+        $shortcode = $request->shortcode;
         $response = false;
         if ($data = glsr()->retrieve('mce.'.$shortcode, false)) {
             if (!empty($data['errors'])) {
@@ -75,9 +76,9 @@ class AjaxController extends Controller
     /**
      * @return void
      */
-    public function routerMigratePlugin()
+    public function routerMigratePlugin(Request $request)
     {
-        glsr(AdminController::class)->routerMigratePlugin();
+        glsr(AdminController::class)->routerMigratePlugin($request);
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
         ]);
@@ -98,9 +99,8 @@ class AjaxController extends Controller
     /**
      * @return void
      */
-    public function routerFetchPagedReviews(array $request)
+    public function routerFetchPagedReviews(Request $request)
     {
-        $request = glsr()->args($request);
         $args = [
             'page' => $request->get('page', 0),
             'pageUrl' => '',
@@ -137,9 +137,9 @@ class AjaxController extends Controller
     /**
      * @return void
      */
-    public function routerSearchPosts(array $request)
+    public function routerSearchPosts(Request $request)
     {
-        $results = glsr(Database::class)->searchPosts($request['search']);
+        $results = glsr(Database::class)->searchPosts($request->search);
         wp_send_json_success([
             'empty' => '<div>'._x('Nothing found.', 'admin-text', 'site-reviews').'</div>',
             'items' => $results,
@@ -149,15 +149,15 @@ class AjaxController extends Controller
     /**
      * @return void
      */
-    public function routerSearchTranslations(array $request)
+    public function routerSearchTranslations(Request $request)
     {
-        if (empty($request['exclude'])) {
-            $request['exclude'] = [];
+        if (empty($request->exclude)) {
+            $request->exclude = [];
         }
         $results = glsr(Translation::class)
-            ->search($request['search'])
+            ->search($request->search)
             ->exclude()
-            ->exclude($request['exclude'])
+            ->exclude($request->exclude)
             ->renderResults();
         wp_send_json_success([
             'empty' => '<div>'._x('Nothing found.', 'admin-text', 'site-reviews').'</div>',
@@ -168,9 +168,9 @@ class AjaxController extends Controller
     /**
      * @return void
      */
-    public function routerSubmitReview(array $request)
+    public function routerSubmitReview(Request $request)
     {
-        $command = new CreateReview($request);
+        $command = new CreateReview($request->toArray());
         $review = $this->execute($command);
         $data = [
             'errors' => glsr()->sessionGet($command->form_id.'errors', false),
@@ -190,11 +190,11 @@ class AjaxController extends Controller
     /**
      * @return void
      */
-    public function routerTogglePinned(array $request)
+    public function routerTogglePinned(Request $request)
     {
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
-            'pinned' => $this->execute(new TogglePinned($request)),
+            'pinned' => $this->execute(new TogglePinned($request->toArray())),
         ]);
     }
 
