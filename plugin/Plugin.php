@@ -14,12 +14,12 @@ use ReflectionClass;
  * @property string $name
  * @property string $testedTo
  * @property string $version
- * @method array $filterArray($hook, ...$args)
- * @method bool $filterBool($hook, ...$args)
- * @method float $filterFloat($hook, ...$args)
- * @method int $filterInt($hook, ...$args)
- * @method object $filterObject($hook, ...$args)
- * @method string $filterString($hook, ...$args)
+ * @method array filterArray($hook, ...$args)
+ * @method bool filterBool($hook, ...$args)
+ * @method float filterFloat($hook, ...$args)
+ * @method int filterInt($hook, ...$args)
+ * @method object filterObject($hook, ...$args)
+ * @method string filterString($hook, ...$args)
  */
 trait Plugin
 {
