@@ -112,6 +112,30 @@ class RatingManager
     }
 
     /**
+     * @param string $table
+     * @return int|false
+     */
+    public function insertBulk($table, array $values, array $fields)
+    {
+        $this->db->insert_id = 0;
+        $data = [];
+        foreach ($values as $value) {
+            $value = array_intersect_key($value, array_flip($fields)); // only keep field values
+            if (count($value) === count($fields)) {
+                $value = array_merge(array_flip($fields), $value); // make sure the order is correct
+                $value = array_map('esc_sql', $value);
+                $data[] = sprintf("('%s')", implode("','", array_values($value)));
+            }
+        }
+        $table = glsr(Query::class)->getTable($table);
+        $fields = implode('`,`', $fields);
+        $values = implode(",", array_values($data));
+        return $this->db->query(
+            $this->db->prepare("INSERT IGNORE INTO {$table} (`{$fields}`) VALUES {$values}")
+        );
+    }
+
+    /**
      * @param bool $flatten
      * @return array
      */
@@ -187,29 +211,6 @@ class RatingManager
     protected function generateEmptyCountsArray()
     {
         return array_fill_keys(range(0, glsr()->constant('MAX_RATING', Rating::class)), 0);
-    }
-
-    /**
-     * @param string $table
-     * @return int|false
-     */
-    public function insertBulk($table, array $values, array $fields)
-    {
-        $this->db->insert_id = 0;
-        $data = [];
-        foreach ($values as $value) {
-            $value = array_intersect_key($value, array_flip($fields)); // only keep field values
-            if (count($value) === count($fields)) {
-                $value = array_merge(array_flip($fields), $value); // make sure the order is correct
-                $data[] = sprintf("('%s')", implode("','", array_values($value)));
-            }
-        }
-        $table = glsr(Query::class)->getTable($table);
-        $fields = implode('`,`', $fields);
-        $values = implode(",", array_values($data));
-        return $this->db->query(
-            $this->db->prepare("INSERT IGNORE INTO {$table} (`{$fields}`) VALUES {$values}")
-        );
     }
 
     /**

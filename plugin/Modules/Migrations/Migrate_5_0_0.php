@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\RatingManager;
+use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -57,35 +58,27 @@ class Migrate_5_0_0
     {
         global $wpdb;
         $offset = 0;
-        $limit = 250;
+        $limit = 200;
         while (true) {
-            $results = $wpdb->get_results($wpdb->prepare("
-                SELECT 
-                    p.ID AS review_id, 
-                    m1.meta_value AS rating,
-                    m2.meta_value AS type,
-                    CAST(IF(p.post_status = 'publish', 1, 0) AS UNSIGNED) AS is_approved,
-                    m3.meta_value AS is_pinned
-                FROM {$wpdb->posts} AS p
-                INNER JOIN {$wpdb->postmeta} AS m1 ON p.ID = m1.post_id
-                INNER JOIN {$wpdb->postmeta} AS m2 ON p.ID = m2.post_id
-                INNER JOIN {$wpdb->postmeta} AS m3 ON p.ID = m3.post_id
-                WHERE p.post_type = '%s'
-                AND m1.meta_key = '_rating'
-                AND m2.meta_key = '_review_type'
-                AND m3.meta_key = '_pinned'
-                LIMIT %d, %d
-            ", glsr()->post_type, $offset, $limit), ARRAY_A);
-            if (empty($results)) {
+            $scope = $wpdb->get_col($wpdb->prepare(
+                "SELECT ID FROM {$wpdb->posts} WHERE post_type = '%s' LIMIT %d, %d",
+                glsr()->post_type,
+                $offset,
+                $limit
+            ));
+            if (empty($scope)) {
                 break;
             }
-            glsr(RatingManager::class)->insertBulk('ratings', $results, [
-                'review_id',
-                'rating',
-                'type',
-                'is_approved',
-                'is_pinned'
-            ]);
+            $scope = implode(',', $scope);
+            $results = $wpdb->get_results("
+                SELECT p.ID, m.meta_key AS mk, m.meta_value AS mv, CAST(IF(p.post_status = 'publish', 1, 0) AS UNSIGNED) AS is_approved
+                FROM {$wpdb->posts} AS p
+                INNER JOIN {$wpdb->postmeta} AS m ON p.ID = m.post_id
+                WHERE p.ID IN ({$scope})
+            ");
+            $values = $this->parseResults($results);
+            $fields = array_keys(glsr(RatingDefaults::class)->defaults());
+            glsr(RatingManager::class)->insertBulk('ratings', $values, $fields);
             $offset += $limit;
         }
     }
@@ -189,6 +182,32 @@ class Migrate_5_0_0
         $this->migrateRatings();
         $this->migrateAssignedTo();
         $this->migrateTerms();
+    }
+
+    /**
+     * @return array
+     */
+    protected function parseResults(array $results)
+    {
+        $values = [];
+        foreach ($results as $result) {
+            if (!isset($values[$result->ID])) {
+                $values[$result->ID] = ['is_approved' => (int) $result->is_approved];
+            }
+            $values[$result->ID][$result->mk] = $result->mv;
+        }
+        $results = [];
+        foreach ($values as $postId => $value) {
+            $meta = Arr::unprefixKeys($value);
+            $meta['name'] = Arr::get($meta, 'author');
+            $meta['is_pinned'] = Arr::get($meta, 'pinned');
+            $meta['review_id'] = $postId;
+            $meta['type'] = Arr::get($meta, 'review_type');
+            $meta = Arr::removeEmptyValues($meta);
+            $meta = glsr(RatingDefaults::class)->restrict($meta);
+            $results[] = $meta;
+        }
+        return $results;
     }
 
     /**
