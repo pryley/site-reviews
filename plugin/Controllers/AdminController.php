@@ -217,8 +217,13 @@ class AdminController extends Controller
      */
     public function routerMigratePlugin(Request $request)
     {
-        glsr(Migrate::class)->runAll();
-        glsr(Notice::class)->clear()->addSuccess(_x('The plugin has been migrated to the latest version.', 'admin-text', 'site-reviews'));
+        if (wp_validate_boolean($request->alt)) {
+            glsr(Migrate::class)->runAll();
+            glsr(Notice::class)->clear()->addSuccess(_x('All plugin migrations have been run successfully.', 'admin-text', 'site-reviews'));
+        } else {
+            glsr(Migrate::class)->run();
+            glsr(Notice::class)->clear()->addSuccess(_x('The plugin has been migrated sucessfully.', 'admin-text', 'site-reviews'));
+        }
     }
 
     /**
@@ -228,16 +233,5 @@ class AdminController extends Controller
     {
         glsr(Role::class)->resetAll();
         glsr(Notice::class)->clear()->addSuccess(_x('The permissions have been reset.', 'admin-text', 'site-reviews'));
-    }
-
-    /**
-     * @return void
-     * @action admin_init
-     */
-    public function runMigrations()
-    {
-        if (glsr(Migrate::class)->isMigrationNeeded()) {
-            glsr(Migrate::class)->run();
-        }
     }
 }

@@ -1,6 +1,7 @@
 /** global: GLSR, jQuery, wp */
 
 GLSR.keys = {
+	ALT: 18,
 	DOWN: 40,
 	ENTER: 13,
 	ESC: 27,

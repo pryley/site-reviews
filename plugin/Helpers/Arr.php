@@ -174,6 +174,17 @@ class Arr
     }
 
     /**
+     * @param mixed $array
+     * @return array
+     */
+    public static function reindex($array)
+    {
+        return static::isIndexedAndFlat($array)
+            ? array_values($array)
+            : $array;
+    }
+
+    /**
      * @return array
      */
     public static function removeEmptyValues(array $array)

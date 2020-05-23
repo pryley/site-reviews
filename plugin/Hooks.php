@@ -74,7 +74,6 @@ class Hooks implements HooksContract
         add_action('admin_enqueue_scripts', [$this->admin, 'enqueueAssets']);
         add_action('admin_init', [$this->admin, 'registerTinymcePopups']);
         add_action('media_buttons', [$this->admin, 'renderTinymceButton'], 11);
-        add_action('admin_init', [$this->admin, 'runMigrations']);
         add_action('init', [$this->blocks, 'registerAssets'], 9);
         add_action('init', [$this->blocks, 'registerBlocks']);
         add_action('add_meta_boxes_'.glsr()->post_type, [$this->editor, 'registerMetaBoxes']);

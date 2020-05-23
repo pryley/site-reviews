@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 
 class NoticeController extends Controller
@@ -84,10 +85,13 @@ class NoticeController extends Controller
     protected function renderMigrationNotice($screenPostType)
     {
         if (Application::POST_TYPE == $screenPostType
-            && glsr(Database::class)->isMigrationNeeded()
-            && glsr()->hasPermission('tools', 'general')) {
+            && glsr()->hasPermission('tools', 'general')
+            && (glsr(Migrate::class)->isMigrationNeeded() || glsr(Database::class)->isMigrationNeeded())) {
             glsr()->render('partials/notices/migrate', [
-                'url' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools'),
+                'action' => glsr(Builder::class)->a([
+                    'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-general'),
+                    'text' => _x('Migrate Plugin', 'admin-text', 'site-reviews'),
+                ]),
             ]);
         }
     }

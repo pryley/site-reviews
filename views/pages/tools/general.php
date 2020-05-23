@@ -33,10 +33,11 @@
     <p>Run this tool if your reviews stopped working correctly after upgrading the plugin to the latest version (i.e. read-only reviews, zero-star ratings, missing role capabilities, etc.).</p>
     <form method="post">
         <input type="hidden" name="{{ id }}[_action]" value="migrate-plugin">
+        <input type="hidden" name="{{ id }}[alt]" value="0" data-alt>
         <?php wp_nonce_field('migrate-plugin'); ?>
         <p class="submit">
             <button type="submit" class="glsr-button button" name="migrate-plugin" id="migrate-plugin" data-remove-notice="migrate" data-ajax-click>
-                <span data-loading="<?= esc_attr_x('Migrating, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Run Migration', 'admin-text', 'site-reviews'); ?></span>
+                <span data-alt-text="<?= esc_attr_x('Run All Migrations', 'admin-text', 'site-reviews'); ?>" data-loading="<?= esc_attr_x('Migrating, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Run Migration', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>
     </form>

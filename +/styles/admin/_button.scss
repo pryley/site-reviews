@@ -45,3 +45,14 @@
 	content: attr(data-loading);
 	font-size: 13px;
 }
+
+.glsr-button:not([disabled]) span[data-alt-text].alt {
+	visibility: hidden;
+	font-size: 0;
+}
+
+.glsr-button:not([disabled]) span[data-alt-text].alt::after {
+	visibility: visible;
+	content: attr(data-alt-text);
+	font-size: 13px;
+}
