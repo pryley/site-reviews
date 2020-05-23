@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Console;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews as SiteReviewsPartial;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Translation;
@@ -128,7 +129,13 @@ class AjaxController extends Controller
     public function routerResetPermissions()
     {
         glsr(Role::class)->resetAll();
-        glsr(Notice::class)->clear()->addSuccess(_x('The permissions have been reset, please reload the page for them to take effect.', 'admin-text', 'site-reviews'));
+        $reloadLink = glsr(Builder::class)->a([
+            'text' => _x('reload the page', 'admin-text', 'site-reviews'),
+            'href' => 'javascript:window.location.reload(1)',
+        ]);
+        glsr(Notice::class)->clear()->addSuccess(
+            sprintf(_x('The permissions have been reset, please %s for them to take effect.', 'admin-text', 'site-reviews'), $reloadLink)
+        );
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
         ]);
