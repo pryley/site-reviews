@@ -488,7 +488,7 @@ Disallow: /*?*reviews-page=*</code></pre>
 
 <div id="faq-19" class="glsr-card postbox">
     <div class="glsr-card-header">
-        <h2>Why are the IP Addresses not being correctly detected?</h2>
+        <h2>Why are the IP Addresses being incorrectly detected?</h2>
         <button type="button" class="handlediv" aria-expanded="true">
             <span class="screen-reader-text"><?= esc_attr_x('Toggle documentation panel', 'admin-text', 'site-reviews'); ?></span>
             <span class="toggle-indicator" aria-hidden="true"></span>
@@ -503,7 +503,7 @@ Disallow: /*?*reviews-page=*</code></pre>
  * @param \Geminilabs\Vectorface\Whip $whip
  * @return void
  */
-add_action('site-reviews/whip', function($whip) {
+add_action('site-reviews/whip', function ($whip) {
     $customHeader = 'HTTP_X_SUCURI_CLIENTIP'; // change the header as needed
     $whip->addCustomHeader($customHeader);
 });</code></pre>
