@@ -12,7 +12,7 @@ class ImportSettings implements Contract
 {
     private $file;
 
-    public function __construct($file)
+    public function __construct()
     {
         $this->file = glsr()->args(Arr::get($_FILES, 'import-file', []));
     }

@@ -77,7 +77,6 @@ class ToggleStatus implements Contract
         set_current_screen($hookName);
         $avail_post_stati = get_available_post_statuses(Application::POST_TYPE);
         $table = new WP_Posts_List_Table(['screen' => $hookName]);
-        // glsr_log($table);
         $views = apply_filters('views_'.$hookName, $table->get_views()); // uses compat get_views()
         if (empty($views)) {
             return;

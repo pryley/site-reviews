@@ -217,7 +217,7 @@ class ValidateReview
             return;
         }
         $validated = glsr()->filter('validate/custom', true, $this->request);
-        if (true === $validated) {
+        if (true === Helper::castToBool($validated)) {
             return;
         }
         $errorMessage = is_string($validated)

@@ -69,11 +69,11 @@ trait Plugin
     /**
      * @param string $hook
      * @param mixed ...$args
-     * @return Arguments
+     * @return void
      */
     public function action($hook, ...$args)
     {
-        return do_action_ref_array($this->id.'/'.$hook, $args);
+        do_action_ref_array($this->id.'/'.$hook, $args);
     }
 
     /**
@@ -88,7 +88,7 @@ trait Plugin
     /**
      * @param string $hook
      * @param mixed ...$args
-     * @return Arguments
+     * @return mixed
      */
     public function filter($hook, ...$args)
     {
