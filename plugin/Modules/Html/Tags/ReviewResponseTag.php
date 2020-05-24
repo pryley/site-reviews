@@ -4,12 +4,12 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
-class ResponseTag extends ContentTag
+class ReviewResponseTag extends ReviewContentTag
 {
     /**
      * {@inheritdoc}
      */
-    public function handle($value)
+    protected function handle($value = null)
     {
         if (!$this->isHidden() && !empty(trim($value))) {
             $title = sprintf(__('Response from %s', 'site-reviews'), get_bloginfo('name'));

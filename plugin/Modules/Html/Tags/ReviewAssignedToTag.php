@@ -7,27 +7,13 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
 
-class AssignedToTag extends Tag
+class ReviewAssignedToTag extends ReviewTag
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function handle($value)
-    {
-        if (!$this->isHidden('reviews.assigned_links')) {
-            $links = $this->getAssignedLinks($value);
-            $tagValue = !empty($links)
-                ? sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($links))
-                : '';
-            return $this->wrap($tagValue, 'span');
-        }
-    }
-
     /**
      * @param mixed $value
      * @return array
      */
-    protected function getAssignedLinks($value)
+    protected function assignedLinks($value)
     {
         $links = [];
         foreach (Arr::consolidate($value) as $postId) {
@@ -40,5 +26,19 @@ class AssignedToTag extends Tag
             }
         }
         return $links;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function handle($value = null)
+    {
+        if (!$this->isHidden('reviews.assigned_links')) {
+            $links = $this->assignedLinks($value);
+            $tagValue = !empty($links)
+                ? sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($links))
+                : '';
+            return $this->wrap($tagValue, 'span');
+        }
     }
 }

@@ -5,23 +5,13 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Modules\Date;
 
-class DateTag extends Tag
+class ReviewDateTag extends ReviewTag
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function handle($value)
-    {
-        if (!$this->isHidden()) {
-            return $this->wrap($this->getFormattedDate($value), 'span');
-        }
-    }
-
     /**
      * @param string $value
      * @return string
      */
-    protected function getFormattedDate($value)
+    protected function formattedDate($value)
     {
         $dateFormat = glsr_get_option('reviews.date.format', 'default');
         if ('relative' == $dateFormat) {
@@ -31,5 +21,15 @@ class DateTag extends Tag
             ? glsr_get_option('reviews.date.custom', 'M j, Y')
             : glsr(OptionManager::class)->getWP('date_format', 'F j, Y');
         return date_i18n($format, strtotime($value));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function handle($value = null)
+    {
+        if (!$this->isHidden()) {
+            return $this->wrap($this->formattedDate($value), 'span');
+        }
     }
 }

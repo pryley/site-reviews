@@ -2,12 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
-class TitleTag extends Tag
+class ReviewTitleTag extends ReviewTag
 {
     /**
      * {@inheritdoc}
      */
-    public function handle($value)
+    protected function handle($value = null)
     {
         if (!$this->isHidden()) {
             $title = trim($value);

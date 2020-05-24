@@ -2,12 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
-class RatingTag extends Tag
+class ReviewRatingTag extends ReviewTag
 {
     /**
      * {@inheritdoc}
      */
-    public function handle($value)
+    protected function handle($value = null)
     {
         if (!$this->isHidden()) {
             return $this->wrap(glsr_star_rating($value));

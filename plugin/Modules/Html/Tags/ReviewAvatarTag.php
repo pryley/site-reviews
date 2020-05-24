@@ -4,32 +4,15 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
-class AvatarTag extends Tag
+class ReviewAvatarTag extends ReviewTag
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function handle($value)
-    {
-        if (!$this->isHidden('reviews.avatars')) {
-            $size = glsr_get_option('settings.reviews.avatars_size', 40, 'int');
-            return $this->wrap(glsr(Builder::class)->img([
-                'height' => $size,
-                'loading' => 'lazy',
-                'src' => $this->regenerateAvatar($value),
-                'style' => sprintf('width:%1$spx; height:%1$spx;', $size),
-                'width' => $size,
-            ]));
-        }
-    }
-
     /**
      * @param string $avatarUrl
      * @return string
      */
     public function regenerateAvatar($avatarUrl)
     {
-        if ($this->canRegenerateAvatar() && $newAvatarUrl = get_avatar_url($this->getUserField())) {
+        if ($this->canRegenerateAvatar() && $newAvatarUrl = get_avatar_url($this->userField())) {
             return $newAvatarUrl;
         }
         return $avatarUrl;
@@ -45,9 +28,26 @@ class AvatarTag extends Tag
     }
 
     /**
+     * {@inheritdoc}
+     */
+    protected function handle($value = null)
+    {
+        if (!$this->isHidden('reviews.avatars')) {
+            $size = glsr_get_option('settings.reviews.avatars_size', 40, 'int');
+            return $this->wrap(glsr(Builder::class)->img([
+                'height' => $size,
+                'loading' => 'lazy',
+                'src' => $this->regenerateAvatar($value),
+                'style' => sprintf('width:%1$spx; height:%1$spx;', $size),
+                'width' => $size,
+            ]));
+        }
+    }
+
+    /**
      * @return int|string
      */
-    protected function getUserField()
+    protected function userField()
     {
         if ($this->review->user_id) {
             $authorId = get_the_author_meta('ID', $this->review->user_id);

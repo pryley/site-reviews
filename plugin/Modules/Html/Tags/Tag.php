@@ -13,27 +13,38 @@ abstract class Tag
     public $args;
 
     /**
-     * @var \GeminiLabs\SiteReviews\Review
+     * @var string
      */
-    public $review;
+    public $for;
 
     /**
      * @var string
      */
     public $tag;
 
-    public function __construct($tag, Review $review, array $args = [])
+    /**
+     * @var mixed
+     */
+    public $with;
+
+    public function __construct($tag, array $args = [])
     {
         $this->args = glsr()->args($args);
-        $this->review = $review;
         $this->tag = $tag;
     }
 
     /**
      * @param string $value
-     * @return string|null
+     * @return string|void
      */
-    abstract public function handle($value);
+    public function handleFor($for, $value, $with = null)
+    {
+        $this->for = $for;
+        if ($this->validate($with)) {
+            $this->with = $with;
+            return $this->handle($value);
+        }
+    }
 
     /**
      * @param string $path
@@ -50,7 +61,7 @@ abstract class Tag
      */
     public function isHidden($path = '')
     {
-        return in_array($this->tag, $this->args->hide) || !$this->isEnabled($path);
+        return in_array($this->hideOption(), $this->args->hide) || !$this->isEnabled($path);
     }
 
     /**
@@ -66,10 +77,36 @@ abstract class Tag
                 $value = glsr(Builder::class)->$wrapWith($value);
             }
             $value = glsr(Builder::class)->div([
-                'class' => 'glsr-review-'.$this->tag,
+                'class' => sprintf('glsr-%s-%s', $this->for, $this->tag),
                 'text' => $value,
             ]);
         }
-        return glsr()->filterString('review/wrap/'.$this->tag, $value, $this->review, $rawValue);
+        return glsr()->filterString($this->for.'/wrap/'.$this->tag, $value, $this->with, $rawValue, $this);
+    }
+
+    /**
+     * @param string $value
+     * @return string|null
+     */
+    protected function handle($value = null)
+    {
+        return $value;
+    }
+
+    /**
+     * @return string
+     */
+    protected function hideOption()
+    {
+        return $this->tag;
+    }
+
+    /**
+     * @param mixed $with
+     * @return bool
+     */
+    protected function validate($with)
+    {
+        return true;
     }
 }

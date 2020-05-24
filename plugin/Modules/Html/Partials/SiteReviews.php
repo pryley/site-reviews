@@ -83,9 +83,10 @@ class SiteReviews
     protected function buildTemplateTag(Review $review, $tag, $value)
     {
         $args = $this->args;
-        $className = Helper::buildClassName($tag.'Tag', 'Modules\Html\Tags');
+        $classname = implode('-', ['review', $tag, 'tag']);
+        $className = Helper::buildClassName($classname, 'Modules\Html\Tags');
         if (class_exists($className)) {
-            $field = glsr($className, compact('tag', 'review', 'args'))->handle($value);
+            $field = glsr($className, compact('tag', 'args'))->handleFor('review', $value, $review);
             return glsr()->filterString('review/build/'.$tag, $field, $value, $review, $this);
         }
         return false;

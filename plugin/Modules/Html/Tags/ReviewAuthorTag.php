@@ -4,12 +4,12 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
 use GeminiLabs\SiteReviews\Helpers\Str;
 
-class AuthorTag extends Tag
+class ReviewAuthorTag extends ReviewTag
 {
     /**
      * {@inheritdoc}
      */
-    public function handle($value)
+    protected function handle($value = null)
     {
         if (!$this->isHidden()) {
             $tagValue = Str::convertName($value,

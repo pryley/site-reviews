@@ -5,28 +5,18 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use IntlRuleBasedBreakIterator;
 
-class ContentTag extends Tag
+class ReviewContentTag extends ReviewTag
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function handle($value)
-    {
-        if (!$this->isHidden()) {
-            return $this->wrap($this->normalizeText($value), 'p');
-        }
-    }
-
     /**
      * @param string $text
      * @return string
      */
-    public function getExcerpt($text)
+    public function excerpt($text)
     {
         $limit = glsr_get_option('reviews.excerpts_length', 55, 'int');
         $split = extension_loaded('intl')
-            ? $this->getExcerptIntlSplit($text, $limit)
-            : $this->getExcerptSplit($text, $limit);
+            ? $this->excerptIntlSplit($text, $limit)
+            : $this->excerptSplit($text, $limit);
         $hiddenText = substr($text, $split);
         if (!empty($hiddenText)) {
             $showMore = glsr(Builder::class)->span($hiddenText, [
@@ -44,7 +34,7 @@ class ContentTag extends Tag
      * @param int $limit
      * @return int
      */
-    protected function getExcerptIntlSplit($text, $limit)
+    protected function excerptIntlSplit($text, $limit)
     {
         $words = IntlRuleBasedBreakIterator::createWordInstance('');
         $words->setText($text);
@@ -67,13 +57,23 @@ class ContentTag extends Tag
      * @param int $limit
      * @return int
      */
-    protected function getExcerptSplit($text, $limit)
+    protected function excerptSplit($text, $limit)
     {
         if (str_word_count($text, 0) > $limit) {
             $words = array_keys(str_word_count($text, 2));
             return $words[$limit];
         }
         return strlen($text);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function handle($value = null)
+    {
+        if (!$this->isHidden()) {
+            return $this->wrap($this->normalizeText($value), 'p');
+        }
     }
 
     /**
@@ -87,7 +87,7 @@ class ContentTag extends Tag
         $text = str_replace(']]>', ']]&gt;', $text);
         $text = preg_replace('/(\R){2,}/u', '$1', $text);
         if (glsr_get_option('reviews.excerpts', false, 'bool')) {
-            $text = $this->getExcerpt($text);
+            $text = $this->excerpt($text);
         }
         return wptexturize(nl2br($text));
     }
