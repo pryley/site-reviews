@@ -2,12 +2,23 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use BadMethodCallException;
 use DateTime;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
 use Throwable;
 
+/**
+ * @method static debug($message, $context = [])
+ * @method static info($message, $context = [])
+ * @method static notice($message, $context = [])
+ * @method static warning($message, $context = [])
+ * @method static error($message, $context = [])
+ * @method static critical($message, $context = [])
+ * @method static alert($message, $context = [])
+ * @method static emergency($message, $context = [])
+ */
 class Console
 {
     const DEBUG = 0;      // Detailed debug information
@@ -29,6 +40,16 @@ class Console
         $this->reset();
     }
 
+    public function __call($method, $args)
+    {
+        $constant = 'static::'.strtoupper($method);
+        if (defined($constant)) {
+            $args = Arr::prepend($args, constant($constant));
+            return call_user_func_array([$this, 'log'], $args);
+        }
+        throw new BadMethodCallException("Method [$method] does not exist.");
+    }
+
     /**
      * @return string
      */
@@ -38,69 +59,12 @@ class Console
     }
 
     /**
-     * Action must be taken immediately
-     * Example: Entire website down, database unavailable, etc. This should trigger the SMS alerts and wake you up.
-     * @param mixed $message
-     * @param array $context
-     * @return static
-     */
-    public function alert($message, array $context = [])
-    {
-        return $this->log(static::ALERT, $message, $context);
-    }
-
-    /**
      * @return void
      */
     public function clear()
     {
         $this->log = '';
         file_put_contents($this->file, $this->log);
-    }
-
-    /**
-     * Critical conditions
-     * Example: Application component unavailable, unexpected exception.
-     * @param mixed $message
-     * @param array $context
-     * @return static
-     */
-    public function critical($message, array $context = [])
-    {
-        return $this->log(static::CRITICAL, $message, $context);
-    }
-
-    /**
-     * Detailed debug information.
-     * @param mixed $message
-     * @param array $context
-     * @return static
-     */
-    public function debug($message, array $context = [])
-    {
-        return $this->log(static::DEBUG, $message, $context);
-    }
-
-    /**
-     * System is unusable.
-     * @param mixed $message
-     * @param array $context
-     * @return static
-     */
-    public function emergency($message, array $context = [])
-    {
-        return $this->log(static::EMERGENCY, $message, $context);
-    }
-
-    /**
-     * Runtime errors that do not require immediate action but should typically be logged and monitored.
-     * @param mixed $message
-     * @param array $context
-     * @return static
-     */
-    public function error($message, array $context = [])
-    {
-        return $this->log(static::ERROR, $message, $context);
     }
 
     /**
@@ -154,18 +118,6 @@ class Console
     }
 
     /**
-     * Interesting events
-     * Example: User logs in, SQL logs.
-     * @param mixed $message
-     * @param array $context
-     * @return static
-     */
-    public function info($message, array $context = [])
-    {
-        return $this->log(static::INFO, $message, $context);
-    }
-
-    /**
      * @param int $level
      * @param mixed $message
      * @param array $context
@@ -211,17 +163,6 @@ class Console
     }
 
     /**
-     * Normal but significant events.
-     * @param mixed $message
-     * @param array $context
-     * @return static
-     */
-    public function notice($message, array $context = [])
-    {
-        return $this->log(static::NOTICE, $message, $context);
-    }
-
-    /**
      * @param string $levelName
      * @param string $handle
      * @param mixed $data
@@ -254,18 +195,6 @@ class Console
         return file_exists($this->file)
             ? filesize($this->file)
             : 0;
-    }
-
-    /**
-     * Exceptional occurrences that are not errors
-     * Example: Use of deprecated APIs, poor use of an API, undesirable things that are not necessarily wrong.
-     * @param mixed $message
-     * @param array $context
-     * @return static
-     */
-    public function warning($message, array $context = [])
-    {
-        return $this->log(static::WARNING, $message, $context);
     }
 
     /**
