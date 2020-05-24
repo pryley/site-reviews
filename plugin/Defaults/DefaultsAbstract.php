@@ -61,7 +61,7 @@ abstract class DefaultsAbstract
      */
     protected function filter(array $values = [])
     {
-        return $this->normalize($this->merge(array_filter($values)), $values);
+        return $this->merge(array_filter($values));
     }
 
     /**
@@ -70,9 +70,7 @@ abstract class DefaultsAbstract
     protected function filteredData(array $values = [])
     {
         $defaults = $this->flattenArrayValues($this->unguarded());
-        $values = $this->flattenArrayValues(
-            shortcode_atts($defaults, $values)
-        );
+        $values = $this->flattenArrayValues(shortcode_atts($defaults, $values));
         $filtered = array_filter(array_diff_assoc($values, $defaults), function ($value) {
             return !$this->isEmpty($value);
         });
@@ -91,10 +89,9 @@ abstract class DefaultsAbstract
     protected function flattenArrayValues(array $values)
     {
         array_walk($values, function (&$value) {
-            if (!is_array($value)) {
-                return;
+            if (is_array($value)) {
+                $value = implode(',', $value);
             }
-            $value = implode(',', $value);
         });
         return $values;
     }
@@ -127,15 +124,64 @@ abstract class DefaultsAbstract
      */
     protected function merge(array $values = [])
     {
-        return $this->normalize(wp_parse_args($values, $this->defaults()), $values);
+        return $this->parse($values, $this->defaults());
     }
 
     /**
      * @return array
      */
-    protected function normalize(array $values, array $originalValues)
+    protected function normalize(array $values)
     {
-        return $values;
+        if (!is_string($values)) {
+            return Arr::consolidate($values);
+        }
+        $normalized = [];
+        wp_parse_str($values, $normalized);
+        return $normalized;
+    }
+
+    /**
+     * @param mixed $values
+     * @param mixed $defaults
+     * @return array
+     */
+    protected function parse($values, $defaults)
+    {
+        $values = $this->normalize($values);
+        if (!is_array($defaults)) {
+            return $values;
+        }
+        $parsed = $defaults;
+        foreach ($values as $key => $value) {
+            if (is_array($value) && isset($parsed[$key])) {
+                $parsed[$key] = Arr::unique($this->parse($value, $parsed[$key]));
+                continue;
+            }
+            $parsed[$key] = $value;
+        }
+        return $parsed;
+    }
+
+    /**
+     * @param mixed $values
+     * @return array
+     */
+    protected function parseRestricted($values, array $pairs)
+    {
+        $values = $this->normalize($values);
+        $parsed = [];
+        foreach ($pairs as $key => $default) {
+          if (!array_key_exists($key, $values)) {
+              $parsed[$key] = $default;
+              continue;
+          }
+          if (is_array($default)) {
+              $parsed[$key] = $this->parse($values[$key], $default);
+              continue;
+          }
+          $parsed[$key] = $values[$key];
+        }
+        return $parsed;
     }
 
     /**
@@ -143,7 +189,7 @@ abstract class DefaultsAbstract
      */
     protected function restrict(array $values = [])
     {
-        return $this->normalize(shortcode_atts($this->defaults(), $values), $values);
+        return $this->parseRestricted($values, $this->defaults());
     }
 
     /**

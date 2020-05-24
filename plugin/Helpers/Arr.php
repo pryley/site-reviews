@@ -26,9 +26,10 @@ class Arr
                 return '' !== trim($item);
             });
         }
-        return is_array($array) || is_object($array)
-            ? (array) $array
-            : [];
+        if (is_object($array)) {
+            return get_object_vars($array);
+        }
+        return is_array($array) ? $array : [];
     }
 
     /**
@@ -245,7 +246,9 @@ class Arr
      */
     public static function unique(array $values)
     {
-        return array_filter(array_unique($values));
+        return static::isIndexedAndFlat($values)
+            ? array_values(array_filter(array_unique($values)))
+            : $values;
     }
 
     /**
