@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Tinymce;
 
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 abstract class TinymceGenerator
 {
@@ -219,7 +220,7 @@ abstract class TinymceGenerator
             return;
         }
         if (!array_key_exists('', $listbox['options'])) {
-            $listbox['options'] = ['' => $listbox['placeholder']] + $listbox['options'];
+            $listbox['options'] = Arr::prepend($listbox['options'], $listbox['placeholder'], '');
         }
         foreach ($listbox['options'] as $value => $text) {
             $listbox['values'][] = [

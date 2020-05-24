@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Widgets;
 
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
 class SiteReviewsSummaryWidget extends Widget
@@ -25,7 +26,7 @@ class SiteReviewsSummaryWidget extends Widget
                 'class' => 'widefat',
                 'label' => _x('Which type of review would you like to use?', 'admin-text', 'site-reviews'),
                 'name' => 'type',
-                'options' => ['' => _x('All review types', 'admin-text', 'site-reviews')] + glsr()->reviewTypes,
+                'options' => Arr::prepend(glsr()->reviewTypes, _x('All review types', 'admin-text', 'site-reviews'), ''),
             ]);
         }
         if (!empty($terms)) {
@@ -33,7 +34,7 @@ class SiteReviewsSummaryWidget extends Widget
                 'class' => 'widefat',
                 'label' => _x('Limit summary to this category', 'admin-text', 'site-reviews'),
                 'name' => 'category',
-                'options' => ['' => _x('All Categories', 'admin-text', 'site-reviews')] + $terms,
+                'options' => Arr::prepend($terms, _x('All Categories', 'admin-text', 'site-reviews'), ''),
             ]);
         }
         $this->renderField('text', [

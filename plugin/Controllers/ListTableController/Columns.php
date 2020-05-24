@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Controllers\ListTableController;
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use WP_Post;
 
@@ -166,7 +167,7 @@ class Columns
         ]);
         echo glsr(Builder::class)->select([
             'name' => 'rating',
-            'options' => ['' => _x('All ratings', 'admin-text', 'site-reviews')] + $ratings,
+            'options' => Arr::prepend($ratings, _x('All ratings', 'admin-text', 'site-reviews'), ''),
             'value' => filter_input(INPUT_GET, 'rating'),
         ]);
     }
@@ -186,7 +187,7 @@ class Columns
         ]);
         echo glsr(Builder::class)->select([
             'name' => 'review_type',
-            'options' => ['' => _x('All types', 'admin-text', 'site-reviews')] + glsr()->reviewTypes,
+            'options' => Arr::prepend(glsr()->reviewTypes, _x('All types', 'admin-text', 'site-reviews'), ''),
             'value' => filter_input(INPUT_GET, 'review_type'),
         ]);
     }

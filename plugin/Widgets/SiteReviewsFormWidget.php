@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Widgets;
 
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
 class SiteReviewsFormWidget extends Widget
@@ -29,7 +30,7 @@ class SiteReviewsFormWidget extends Widget
             'class' => 'widefat',
             'label' => _x('Automatically assign a category', 'admin-text', 'site-reviews'),
             'name' => 'category',
-            'options' => ['' => _x('Do not assign a category', 'admin-text', 'site-reviews')] + $terms,
+            'options' => Arr::prepend($terms, _x('Do not assign a category', 'admin-text', 'site-reviews'), ''),
         ]);
         $this->renderField('text', [
             'class' => 'widefat',

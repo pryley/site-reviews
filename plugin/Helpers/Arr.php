@@ -174,6 +174,21 @@ class Arr
     }
 
     /**
+     * @param array $array
+     * @param mixed $value
+     * @param mixed $key
+     * @return array
+     */
+    public static function prepend($array, $value, $key = null)
+    {
+        if (!is_null($key)) {
+            return [$key => $value] + $array;
+        }
+        array_unshift($array, $value);
+        return $array;
+    }
+
+    /**
      * @param mixed $array
      * @return array
      */

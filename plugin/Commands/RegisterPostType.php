@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Defaults\PostTypeDefaults;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class RegisterPostType implements Contract
@@ -61,7 +62,7 @@ class RegisterPostType implements Contract
      */
     protected function normalizeColumns()
     {
-        $this->columns = ['cb' => ''] + $this->columns;
+        $this->columns = Arr::prepend($this->columns, '', 'cb');
         if (array_key_exists('category', $this->columns)) {
             $keys = array_keys($this->columns);
             $keys[array_search('category', $keys)] = 'taxonomy-'.Application::TAXONOMY;
