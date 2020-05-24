@@ -55,6 +55,9 @@ class MenuController extends Controller
         ]);
         foreach ($pages as $slug => $title) {
             $method = Helper::buildMethodName('render-'.$slug.'-menu');
+            if (!method_exists($this, $method)) {
+                continue;
+            }
             $callback = glsr()->filter('addon/submenu/callback', [$this, $method], $slug);
             if (!is_callable($callback)) {
                 continue;

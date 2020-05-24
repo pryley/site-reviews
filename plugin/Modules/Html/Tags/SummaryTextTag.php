@@ -22,7 +22,7 @@ class SummaryTextTag extends SummaryTag
     protected function text()
     {
         $max = glsr()->constant('MAX_RATING', Rating::class);
-        $num = array_sum($this->ratings);
+        $num = (int) array_sum($this->ratings);
         $rating = glsr(Rating::class)->getAverage($this->ratings);
         $text = $this->args->text;
         if (empty($text)) {
