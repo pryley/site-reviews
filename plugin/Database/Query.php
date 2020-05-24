@@ -8,11 +8,11 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Review;
-use WP_Post;
-use WP_Query;
 
 class Query
 {
+    use QuerySql;
+
     public $args;
     public $db;
 
@@ -29,7 +29,7 @@ class Query
     public function rating($reviewId)
     {
         $rating = $this->db->get_row(
-            $this->db->prepare("SELECT * FROM {$this->getTable('ratings')} WHERE review_id = %d", $reviewId)
+            $this->db->prepare("SELECT * FROM {$this->table('ratings')} WHERE review_id = %d", $reviewId)
         );
         if (is_object($rating)) {
             $rating->post_ids = $this->ratingPivot('post_id', 'assigned_posts', $rating->ID);
@@ -49,7 +49,7 @@ class Query
     public function ratingPivot($field, $table, $ratingId)
     {
         return $this->db->get_col(
-            $this->db->prepare("SELECT {$field} FROM {$this->getTable($table)} WHERE rating_id = %d", 
+            $this->db->prepare("SELECT {$field} FROM {$this->table($table)} WHERE rating_id = %d",
                 $ratingId
             )
         );
@@ -61,14 +61,14 @@ class Query
     public function ratings(array $args)
     {
         $this->setArgs($args);
-        $join = implode(' ', $this->getSqlClauses([], 'join'));
-        $and = implode(' ', $this->getSqlClauses([], 'and'));
+        $join = implode(' ', $this->sqlClauses([], 'join'));
+        $and = implode(' ', $this->sqlClauses([], 'and'));
         $ratings = array_fill_keys($this->ratingTypes(), []);
         foreach ($ratings as $type => &$values) {
             $this->args['type'] = $type;
             $values = $this->db->get_results("
                 SELECT r.rating AS rating, COUNT(r.rating) AS count
-                FROM {$this->getTable('ratings')} AS r {$join}
+                FROM {$this->table('ratings')} AS r {$join}
                 WHERE r.is_approved = 1 {$and}
                 GROUP BY rating
             ", ARRAY_A);
@@ -82,7 +82,7 @@ class Query
     public function ratingTypes()
     {
         return in_array($this->args['type'], ['', 'all'])
-            ? $this->db->get_col("SELECT type FROM {$this->getTable('ratings')} WHERE is_approved = 1 GROUP BY type")
+            ? $this->db->get_col("SELECT type FROM {$this->table('ratings')} WHERE is_approved = 1 GROUP BY type")
             : [$this->args['type']];
     }
 
@@ -93,14 +93,14 @@ class Query
     {
         $this->setArgs($args);
         $results = $this->db->get_results("
-            {$this->getSqlSelect()}
-            {$this->getSqlFrom()}
-            {$this->getSqlJoin()}
-            {$this->getSqlWhere()}
-            {$this->getSqlGroupBy()}
-            {$this->getSqlOrderBy()}
-            {$this->getSqlLimit()}
-            {$this->getSqlOffset()}
+            {$this->sqlSelect()}
+            {$this->sqlFrom()}
+            {$this->sqlJoin()}
+            {$this->sqlWhere()}
+            {$this->sqlGroupBy()}
+            {$this->sqlOrderBy()}
+            {$this->sqlLimit()}
+            {$this->sqlOffset()}
         ");
         $posts = $this->generatePosts($results);
         $total = $this->totalReviews($this->args);
@@ -119,9 +119,9 @@ class Query
         $this->setArgs($args);
         $result = $this->db->get_var("
             SELECT COUNT(*)
-            {$this->getSqlFrom()}
-            {$this->getSqlJoin()}
-            {$this->getSqlWhere()}
+            {$this->sqlFrom()}
+            {$this->sqlJoin()}
+            {$this->sqlWhere()}
         ");
         return absint($result);
     }
@@ -140,191 +140,6 @@ class Query
             $pageNum = (int) Arr::get($this->args, 'page', 1);
         }
         return max(1, $pageNum);
-    }
-
-    /**
-     * @return string
-     */
-    public function getSqlFrom()
-    {
-        $from = "FROM {$this->db->posts} p";
-        $from = glsr()->filterString('query/sql/from', $from, $this);
-        return $from;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSqlGroupBy()
-    {
-        $groupBy = "GROUP BY p.ID";
-        return glsr()->filterString('query/sql/group-by', $groupBy, $this);
-    }
-
-    /**
-     * @return string
-     */
-    public function getSqlJoin()
-    {
-        $join = [
-            "INNER JOIN {$this->getTable('ratings')} AS r ON p.ID = r.review_id",
-        ];
-        $join = $this->getSqlClauses($join, 'join');
-        $join = glsr()->filterArray('query/sql/join', $join, $this);
-        return implode(' ', $join);
-    }
-
-    /**
-     * @return string
-     */
-    public function getSqlLimit()
-    {
-        $limit = $this->args['per_page'] > 0
-            ? $this->db->prepare("LIMIT %d", $this->args['per_page'])
-            : '';
-        return glsr()->filterString('query/sql/limit', $limit, $this);
-    }
-
-    /**
-     * @return string
-     */
-    public function getSqlOffset()
-    {
-        $offsetBy = (($this->args['page'] - 1) * $this->args['per_page']) + $this->args['offset'];
-        $offset = ($offsetBy > 0)
-            ? $this->db->prepare("OFFSET %d", $offsetBy)
-            : '';
-        return glsr()->filterString('query/sql/offset', $offset, $this);
-    }
-
-    /**
-     * @return string
-     */
-    public function getSqlOrderBy()
-    {
-        $values = [
-            'none' => '',
-            'rand' => "ORDER BY RAND()",
-            'relevance' => '',
-        ];
-        $order = $this->args['order'];
-        $orderby = $this->args['orderby'];
-        if (Str::startsWith('p.', $orderby)) {
-            $orderBy = "ORDER BY r.is_pinned {$order}, {$orderby} {$order}";
-        } elseif (array_key_exists($orderby, $values)) {
-            $orderBy = $orderby;
-        } else {
-            $orderBy = '';
-        }
-        return glsr()->filterString('query/sql/order-by', $orderBy, $this);
-    }
-
-    /**
-     * @return string
-     */
-    public function getSqlSelect()
-    {
-        $select = [
-            'p.*', 'r.rating', 'r.type', 'r.is_pinned',
-        ];
-        $select = glsr()->filterArray('query/sql/select', $select, $this);
-        $select = implode(', ', $select);
-        return "SELECT {$select}";
-    }
-
-    /**
-     * @return string
-     */
-    public function getSqlWhere()
-    {
-        $where = [
-            $this->db->prepare("AND p.post_type = '%s'", glsr()->post_type),
-            "AND p.post_status = 'publish'",
-        ];
-        $where = $this->getSqlClauses($where, 'and');
-        $where = glsr()->filterArray('query/sql/where', $where, $this);
-        $where = implode(' ', $where);
-        return "WHERE 1=1 {$where}";
-    }
-
-    /**
-     * @return string
-     */
-    public function getTable($table)
-    {
-        return glsr(SqlSchema::class)->table($table);
-    }
-
-    /**
-     * This takes care of both assigned_to and category
-     * @return string
-     */
-    protected function clauseAndAssignedTo()
-    {
-        $clauses = [];
-        if ($postIds = $this->args['assigned_to']) {
-            $clauses[] = $this->db->prepare("(ap.post_id IN (%s) AND ap.is_published = 1)", implode(',', $postIds));
-        }
-        if ($termIds = $this->args['category']) {
-            $clauses[] = $this->db->prepare("(at.term_id IN (%s))", implode(',', $termIds));
-        }
-        if ($userIds = $this->args['user']) {
-            $clauses[] = $this->db->prepare("(au.user_id IN (%s))", implode(',', $userIds));
-        }
-        if ($clauses = implode(' OR ', $clauses)) {
-            return "AND ($clauses)";
-        }
-        return '';
-    }
-
-    /**
-     * @return string
-     */
-    protected function clauseAndRating()
-    {
-        return $this->args['rating']
-            ? $this->db->prepare("AND r.rating > %d", --$this->args['rating'])
-            : '';
-    }
-
-    /**
-     * @return string
-     */
-    protected function clauseAndType()
-    {
-        return $this->args['type']
-            ? $this->db->prepare("AND r.type = '%s'", $this->args['type'])
-            : '';
-    }
-
-    /**
-     * @return string
-     */
-    protected function clauseJoinAssignedTo()
-    {
-        return !empty($this->args['assigned_to'])
-            ? "INNER JOIN {$this->getTable('assigned_posts')} AS ap ON r.ID = ap.rating_id"
-            : '';
-    }
-
-    /**
-     * @return string
-     */
-    protected function clauseJoinCategory()
-    {
-        return !empty($this->args['category'])
-            ? "INNER JOIN {$this->getTable('assigned_terms')} AS at ON r.ID = at.rating_id"
-            : '';
-    }
-
-    /**
-     * @return string
-     */
-    protected function clauseJoinUser()
-    {
-        return !empty($this->args['user'])
-            ? "INNER JOIN {$this->getTable('assigned_users')} AS au ON r.ID = au.rating_id"
-            : '';
     }
 
     /**
@@ -351,22 +166,6 @@ class Query
         $lazyloader = wp_metadata_lazyloader();
         $lazyloader->queue_objects('term', $termIds); // term_ids for each review
         return $reviews;
-    }
-
-    /**
-     * @param string $clause
-     * @return array
-     */
-    protected function getSqlClauses(array $values, $clause)
-    {
-        $prefix = Str::restrictTo('and, join', $clause);
-        foreach (array_keys($this->args) as $key) {
-            $method = Helper::buildMethodName($key, 'clause-'.$prefix);
-            if (method_exists($this, $method)) {
-                $values[] = call_user_func([$this, $method]);
-            }
-        }
-        return $values;
     }
 
     /**
