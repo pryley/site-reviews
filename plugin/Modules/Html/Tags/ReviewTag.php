@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
 use GeminiLabs\SiteReviews\Review;
 
-
 class ReviewTag extends Tag
 {
     /**

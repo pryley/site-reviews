@@ -42,10 +42,7 @@ class SiteReviews
         $templateTags = [];
         foreach ($review as $key => $value) {
             $tag = $this->normalizeTemplateTag($key);
-            $field = $this->buildTemplateTag($review, $tag, $value);
-            if (false !== $field) {
-                $templateTags[$tag] = $field;
-            }
+            $templateTags[$tag] = $this->buildTemplateTag($review, $tag, $value);
         }
         $templateTags = glsr()->filterArray('review/build/after', $templateTags, $review, $this);
         return new ReviewHtml($review, $templateTags);
@@ -78,18 +75,17 @@ class SiteReviews
     /**
      * @param string $tag
      * @param string $value
-     * @return false|string
+     * @return string
      */
     protected function buildTemplateTag(Review $review, $tag, $value)
     {
         $args = $this->args;
         $classname = implode('-', ['review', $tag, 'tag']);
         $className = Helper::buildClassName($classname, 'Modules\Html\Tags');
-        if (class_exists($className)) {
-            $field = glsr($className, compact('tag', 'args'))->handleFor('review', $value, $review);
-            return glsr()->filterString('review/build/'.$tag, $field, $value, $review, $this);
-        }
-        return false;
+        $field = class_exists($className)
+            ? glsr($className, compact('tag', 'args'))->handleFor('review', $value, $review)
+            : null;
+        return glsr()->filterString('review/build/'.$tag, $field, $value, $review, $this);
     }
 
     /**
