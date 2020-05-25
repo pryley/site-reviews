@@ -6,6 +6,17 @@ use GeminiLabs\SiteReviews\Application;
 
 class Cache
 {
+    public function cache($key, $group, \Closure $callback)
+    {
+        $group = glsr()->prefix.$group;
+        $contents = wp_cache_get($key, $group);
+        if (false === $contents) {
+            $contents = $callback();
+            wp_cache_add($key, $contents, $group);
+        }
+        return $contents;
+    }
+
     /**
      * @return array
      */

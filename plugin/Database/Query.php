@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Url;
+use GeminiLabs\SiteReviews\Rating;
 use GeminiLabs\SiteReviews\Review;
 
 class Query
@@ -23,24 +24,31 @@ class Query
     }
 
     /**
+     * @todo make sure we clear this cache when modifying the rating
      * @param int $reviewId
-     * @return object|false
+     * @param bool $withPivots
+     * @return Rating|false
      */
-    public function rating($reviewId)
+    public function rating($reviewId, $withPivots = false)
     {
-        $rating = $this->db->get_row(
-            $this->db->prepare("SELECT * FROM {$this->table('ratings')} WHERE review_id = %d", $reviewId)
-        );
-        if (is_object($rating)) {
-            $rating->post_ids = $this->ratingPivot('post_id', 'assigned_posts', $rating->ID);
-            $rating->term_ids = $this->ratingPivot('term_id', 'assigned_terms', $rating->ID);
-            $rating->user_ids = $this->ratingPivot('user_id', 'assigned_users', $rating->ID);
-            return $rating;
+        $rating = glsr(Cache::class)->cache($reviewId, 'ratings', function () use ($reviewId) {
+            return $this->db->get_row(
+                $this->db->prepare("SELECT * FROM {$this->table('ratings')} WHERE review_id = %d", $reviewId), ARRAY_A
+            );
+        });
+        if (!empty($rating)) {
+            if ($withPivots) {
+                $rating['post_ids'] = $this->ratingPivot('post_id', 'assigned_posts', $rating['ID']);
+                $rating['term_ids'] = $this->ratingPivot('term_id', 'assigned_terms', $rating['ID']);
+                $rating['user_ids'] = $this->ratingPivot('user_id', 'assigned_users', $rating['ID']);
+            }
+            return new Rating($rating);
         }
         return false;
     }
 
     /**
+     * @todo make sure we clear this cache on assigning a new pivot
      * @param string $field
      * @param string $table
      * @param int $reviewId
@@ -48,11 +56,11 @@ class Query
      */
     public function ratingPivot($field, $table, $ratingId)
     {
-        return $this->db->get_col(
-            $this->db->prepare("SELECT {$field} FROM {$this->table($table)} WHERE rating_id = %d",
-                $ratingId
-            )
-        );
+        return glsr(Cache::class)->cache($ratingId, $table, function () use ($field, $ratingId, $table) {
+            return $this->db->get_col($this->db->prepare(
+                "SELECT {$field} FROM {$this->table($table)} WHERE rating_id = %d", $ratingId
+            ));
+        });
     }
 
     /**
