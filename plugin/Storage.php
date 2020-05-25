@@ -7,9 +7,9 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 Trait Storage
 {
     /**
-     * @var array
+     * @var Arguments
      */
-    protected $storage = [];
+    protected $storage;
 
     /**
      * @param string $property
@@ -39,7 +39,18 @@ Trait Storage
      */
     public function retrieve($property, $fallback = null)
     {
-        return Arr::get($this->storage, $property, $fallback);
+        return $this->storage()->get($property, $fallback);
+    }
+
+    /**
+     * @return Arguments
+     */
+    public function storage()
+    {
+        if (!$this->storage instanceof Arguments) {
+            $this->storage = new Arguments([]);
+        }
+        return $this->storage;
     }
 
     /**
@@ -49,6 +60,6 @@ Trait Storage
      */
     public function store($property, $value)
     {
-        $this->storage = Arr::set($this->storage, $property, $value);
+        $this->storage()->set($property, $value);
     }
 }
