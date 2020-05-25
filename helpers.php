@@ -175,14 +175,12 @@ function glsr_get_reviews($args = array())
 /**
  * @return \GeminiLabs\SiteReviews\Modules\Console
  */
-function glsr_log()
+function glsr_log(...$args)
 {
-    $args = func_get_args();
     $console = glsr('Modules\Console');
-    if ($value = \GeminiLabs\SiteReviews\Helpers\Arr::get($args, '0')) {
-        return $console->debug($value, \GeminiLabs\SiteReviews\Helpers\Arr::get($args, '1', []));
-    }
-    return $console;
+    return !empty($args)
+        ? call_user_func_array([$console, 'debug'], $args)
+        : $console;
 }
 
 /**
