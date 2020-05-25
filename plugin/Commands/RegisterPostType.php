@@ -4,25 +4,22 @@ namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
+use GeminiLabs\SiteReviews\Defaults\PostTypeColumnDefaults;
 use GeminiLabs\SiteReviews\Defaults\PostTypeDefaults;
-use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Defaults\PostTypeLabelDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class RegisterPostType implements Contract
 {
     public $args;
     public $columns;
-    public $plural;
-    public $postType;
-    public $single;
 
-    public function __construct($input)
+    public function __construct(array $input = [])
     {
-        $this->args = glsr(PostTypeDefaults::class)->merge($input);
-        $this->normalize();
-        $this->normalizeColumns();
-        $this->normalizeLabels();
+        $this->args = glsr(PostTypeDefaults::class)->merge([
+            'labels' => glsr(PostTypeLabelDefaults::class)->defaults(),
+        ]);
+        $this->columns = glsr(PostTypeColumnDefaults::class)->merge([]);
     }
 
     /**
@@ -30,39 +27,17 @@ class RegisterPostType implements Contract
      */
     public function handle()
     {
-        if (!in_array($this->postType, get_post_types(['_builtin' => true]))) {
-            register_post_type($this->postType, $this->args);
-            $columns = glsr()->retrieve('columns', []);
-            glsr()->store('columns', wp_parse_args($columns, [
-                $this->postType => $this->columns,
-            ]));
+        if (!in_array(glsr()->post_type, get_post_types(['_builtin' => true]))) {
+            register_post_type(glsr()->post_type, $this->args);
+            $this->setColumns();
         }
     }
 
     /**
      * @return void
      */
-    protected function normalize()
+    protected function setColumns()
     {
-        foreach ($this->args as $key => $value) {
-            $property = Helper::buildPropertyName($key);
-            if (!property_exists($this, $property)) {
-                continue;
-            }
-            $this->$property = $value;
-            unset($this->args[$key]);
-        }
-        $this->args = wp_parse_args($this->args, [
-            'menu_name' => $this->plural,
-        ]);
-    }
-
-    /**
-     * @return void
-     */
-    protected function normalizeColumns()
-    {
-        $this->columns = Arr::prepend($this->columns, '', 'cb');
         if (array_key_exists('category', $this->columns)) {
             $keys = array_keys($this->columns);
             $keys[array_search('category', $keys)] = 'taxonomy-'.Application::TAXONOMY;
@@ -73,29 +48,12 @@ class RegisterPostType implements Contract
                 ['class' => 'pinned-icon']
             );
         }
-    }
-
-    /**
-     * @return void
-     */
-    protected function normalizeLabels()
-    {
-        $this->args['labels'] = wp_parse_args($this->args['labels'], [
-            'add_new_item' => sprintf(_x('Add New %s', 'Add New Post (admin-text)', 'site-reviews'), $this->plural),
-            'all_items' => sprintf(_x('All %s', 'All Posts (admin-text)', 'site-reviews'), $this->plural),
-            'archives' => sprintf(_x('%s Archives', 'Post Archives (admin-text)', 'site-reviews'), $this->single),
-            'edit_item' => sprintf(_x('Edit %s', 'Edit Post (admin-text)', 'site-reviews'), $this->single),
-            'insert_into_item' => sprintf(_x('Insert into %s', 'Insert into Post (admin-text)', 'site-reviews'), $this->single),
-            'menu_name' => $this->args['menu_name'],
-            'name' => $this->plural,
-            'new_item' => sprintf(_x('New %s', 'New Post (admin-text)', 'site-reviews'), $this->single),
-            'not_found' => sprintf(_x('No %s found', 'No Posts found (admin-text)', 'site-reviews'), $this->plural),
-            'not_found_in_trash' => sprintf(_x('No %s found in Trash', 'No Posts found in Trash (admin-text)', 'site-reviews'), $this->plural),
-            'search_items' => sprintf(_x('Search %s', 'Search Posts (admin-text)', 'site-reviews'), $this->plural),
-            'singular_name' => $this->single,
-            'uploaded_to_this_item' => sprintf(_x('Uploaded to this %s', 'Uploaded to this Post (admin-text)', 'site-reviews'), $this->single),
-            'view_item' => sprintf(_x('View %s', 'View Post (admin-text)', 'site-reviews'), $this->single),
+        if (count(glsr()->reviewTypes) < 2) {
+            unset($this->columns['review_type']);
+        }
+        $columns = wp_parse_args(glsr()->retrieve('columns', []), [
+            glsr()->post_type => $this->columns,
         ]);
-        unset($this->args['menu_name']);
+        glsr()->store('columns', $columns);
     }
 }

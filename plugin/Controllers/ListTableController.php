@@ -3,11 +3,15 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Controllers\ListTableController\Columns;
+use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterRating;
+use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterReviewType;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\RatingManager;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Rating;
 use WP_Post;
 use WP_Query;
 use WP_Screen;
@@ -40,15 +44,12 @@ class ListTableController extends Controller
     public function filterColumnsForPostType($columns)
     {
         $columns = Arr::consolidate($columns);
-        $postTypeColumns = glsr()->retrieve('columns.'.Application::POST_TYPE, []);
+        $postTypeColumns = glsr()->retrieve('columns.'.glsr()->post_type, []);
         foreach ($postTypeColumns as $key => &$value) {
             if (!array_key_exists($key, $columns) || !empty($value)) {
                 continue;
             }
             $value = $columns[$key];
-        }
-        if (count(glsr(Database::class)->getReviewsMeta('review_type')) < 2) {
-            unset($postTypeColumns['review_type']);
         }
         return array_filter($postTypeColumns, 'strlen');
     }
@@ -155,18 +156,33 @@ class ListTableController extends Controller
      */
     public function renderColumnFilters($postType)
     {
-        glsr(Columns::class)->renderFilters($postType);
+        if (Application::POST_TYPE === $postType) {
+            echo glsr()->runIf(ColumnFilterRating::class);
+            echo glsr()->runIf(ColumnFilterReviewType::class);
+        }
     }
 
     /**
      * @param string $column
-     * @param string $postId
+     * @param int $postId
      * @return void
      * @action manage_posts_custom_column
      */
     public function renderColumnValues($column, $postId)
     {
-        glsr(Columns::class)->renderValues($column, $postId);
+        $rating = glsr()->retrieve('current_rating');
+        if (!$rating instanceof Rating || $rating->review_id != $postId) {
+            $rating = glsr(RatingManager::class)->get($postId);
+            glsr()->store('current_rating', $rating);
+        }
+        if (!$rating instanceof Rating) {
+            glsr(Migrate::class)->reset(); // looks like a migration is needed!
+            return;
+        }
+        $className = Helper::buildClassName('ColumnValue'.$column, 'Controllers\ListTableColumns');
+        $value = glsr()->runIf($className, $rating);
+        $value = glsr()->filterString('columns/'.$column, $value, $postId);
+        echo !Helper::isEmpty($value) ? $value : '&mdash;';
     }
 
     /**

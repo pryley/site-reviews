@@ -184,6 +184,15 @@ class Helper
     }
 
     /**
+     * @param mixed $value
+     * @return bool
+     */
+    public static function isEmpty($value)
+    {
+        return !is_numeric($value) && !is_bool($value) && empty($value);
+    }
+
+    /**
      * @param int|string $value
      * @param int|string $compareWithValue
      * @return bool

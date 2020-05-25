@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
+use GeminiLabs\SiteReviews\Controllers\RestReviewController;
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 
 class PostTypeDefaults extends Defaults
@@ -12,25 +13,24 @@ class PostTypeDefaults extends Defaults
     protected function defaults()
     {
         return [
-            'columns' => [
-                'title' => _x('Title', 'admin-text', 'site-reviews'),
-                'date' => _x('Date', 'admin-text', 'site-reviews'),
+            'capabilities' => [
+                'create_posts' => 'create_'.glsr()->post_type,
             ],
+            'capability_type' => glsr()->post_type,
             'has_archive' => false,
             'hierarchical' => false,
             'labels' => [],
-            'menu_icon' => null,
-            'menu_name' => '',
+            'menu_icon' => 'dashicons-star-half',
             'menu_position' => 25,
-            'plural' => '', //Required
-            'post_type' => '', //Required
+            'map_meta_cap' => true,
             'public' => false,
             'query_var' => true,
+            'rest_controller_class' => RestReviewController::class,
             'rewrite' => ['with_front' => false],
             'show_in_menu' => true,
+            'show_in_rest' => true,
             'show_ui' => true,
-            'single' => '', //Required
-            'supports' => ['title', 'editor'],
+            'supports' => ['title', 'editor', 'revisions'],
             'taxonomies' => [],
         ];
     }

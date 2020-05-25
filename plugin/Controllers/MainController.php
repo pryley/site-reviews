@@ -26,34 +26,7 @@ class MainController extends Controller
      */
     public function registerPostType()
     {
-        if (!glsr()->hasPermission()) {
-            return;
-        }
-        $this->execute(new RegisterPostType([
-            'capabilities' => ['create_posts' => 'create_'.Application::POST_TYPE],
-            'capability_type' => Application::POST_TYPE,
-            'columns' => [
-                'title' => '',
-                'category' => '',
-                'assigned_to' => _x('Assigned To', 'admin-text', 'site-reviews'),
-                'reviewer' => _x('Author', 'admin-text', 'site-reviews'),
-                'email' => _x('Email', 'admin-text', 'site-reviews'),
-                'ip_address' => _x('IP Address', 'admin-text', 'site-reviews'),
-                'response' => _x('Response', 'admin-text', 'site-reviews'),
-                'review_type' => _x('Type', 'admin-text', 'site-reviews'),
-                'rating' => _x('Rating', 'admin-text', 'site-reviews'),
-                'pinned' => _x('Pinned', 'admin-text', 'site-reviews'),
-                'date' => '',
-            ],
-            'menu_icon' => 'dashicons-star-half',
-            'menu_name' => glsr()->name,
-            'map_meta_cap' => true,
-            'plural' => _x('Reviews', 'admin-text', 'site-reviews'),
-            'post_type' => Application::POST_TYPE,
-            'rest_controller_class' => RestReviewController::class,
-            'show_in_rest' => true,
-            'single' => _x('Review', 'admin-text', 'site-reviews'),
-        ]));
+        $this->execute(new RegisterPostType());
     }
 
     /**

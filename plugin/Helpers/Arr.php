@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Helpers;
 
+use GeminiLabs\SiteReviews\Helper;
+
 class Arr
 {
     /**
@@ -207,7 +209,7 @@ class Arr
     {
         $result = [];
         foreach ($array as $key => $value) {
-            if (!is_numeric($value) && !is_bool($value) && empty($value)) {
+            if (Helper::isEmpty($value)) {
                 continue;
             }
             $result[$key] = is_array($value)

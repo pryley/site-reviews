@@ -21,7 +21,7 @@ class Arguments extends \ArrayObject
     {
         return $this->offsetExists($key)
             ? parent::offsetGet($key)
-            : Arr::get($this->getArrayCopy(), $key, $fallback);
+            : Arr::get($this->toArray(), $key, $fallback);
     }
 
     /**
@@ -31,6 +31,17 @@ class Arguments extends \ArrayObject
     public function offsetGet($key)
     {
         return $this->get($key);
+    }
+
+    /**
+     * @param string $path
+     * @param mixed $value
+     * @return void
+     */
+    public function set($path, $value)
+    {
+        $storage = Arr::set($this->toArray(), $path, $value);
+        $this->exchangeArray($storage);
     }
 
     /**

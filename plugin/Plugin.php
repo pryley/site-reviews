@@ -110,6 +110,17 @@ trait Plugin
     }
 
     /**
+     * @param string $className
+     * @return mixed|false
+     */
+    public function runIf($className, ...$args)
+    {
+        return class_exists($className)
+            ? call_user_func_array([glsr($className), 'handle'], $args)
+            : false;
+    }
+
+    /**
      * @param string $path
      * @return string
      */
