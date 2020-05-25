@@ -45,7 +45,7 @@ class Console
         $constant = 'static::'.strtoupper($method);
         if (defined($constant)) {
             $args = Arr::prepend($args, constant($constant));
-            return call_user_func_array([$this, 'log'], $args);
+            return call_user_func_array([$this, 'log'], array_slice($args, 0, 3));
         }
         throw new BadMethodCallException("Method [$method] does not exist.");
     }
