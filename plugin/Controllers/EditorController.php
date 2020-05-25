@@ -6,8 +6,9 @@ use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Controllers\EditorController\Customization;
 use GeminiLabs\SiteReviews\Controllers\EditorController\Labels;
 use GeminiLabs\SiteReviews\Controllers\EditorController\Metaboxes;
-use GeminiLabs\SiteReviews\Controllers\ListTableController\Columns;
+use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnValueReviewType;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -226,7 +227,7 @@ class EditorController extends Controller
         }
         glsr(Notice::class)->addWarning(sprintf(
             _x('%s reviews are read-only.', 'admin-text', 'site-reviews'),
-            glsr(Columns::class)->buildColumnReviewType($post->ID)
+            glsr(ColumnValueReviewType::class)->handle(glsr(RatingManager::class)->rating($post->ID))
         ));
         glsr(Template::class)->render('partials/editor/notice', [
             'context' => [

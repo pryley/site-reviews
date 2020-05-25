@@ -17,7 +17,7 @@
 
 ## Filters
 
-    site-reviews/addon/api-url                              (): string
+    site-reviews/addon/api-url                              (string $apiUrl): string
     site-reviews/addon/documentation                        (): array
     site-reviews/addon/documentation/tabs                   (): array
     site-reviews/addon/settings                             (): array
@@ -44,10 +44,10 @@
     site-reviews/capabilities                               (): array
     site-reviews/capabilities/for-roles                     (): array
     site-reviews/columns/{column_slug}                      (): string
-    site-reviews/config                                     (): string
+    site-reviews/config                                     (string $configPath): string
     site-reviews/config/{config_id}                         (): array
     site-reviews/console/level                              (): int
-    site-reviews/const/{constant}                           (): string
+    site-reviews/const/{constant}                           (string $constantName): string
     site-reviews/create/review-values                       (): array
     site-reviews/create/unset-keys-from-custom              (): array
     site-reviews/defaults/{defaults_name}                   (): array
@@ -63,6 +63,7 @@
     site-reviews/enqueue/public/localize/ajax-pagination    (): array
         ?? site-reviews/field/honeypot/args
     site-reviews/field/{field_type}                         (): array
+    site-reviews/form/build/{tag_or_field_key}              (string $field, Arguments $with, Modules\Html\Partials\SiteReviewsForm $partial): string
     site-reviews/get/defaults                               (): array
     site-reviews/gettext/{text_domain}                      (): string
     site-reviews/gettext_with_context/{text_domain}         (): string
@@ -76,7 +77,7 @@
     site-reviews/paginate_links                             (string $links, array $args): string
     site-reviews/partial/args/{partial_path}                (): array
     site-reviews/partial/classname                          (): string
-    site-reviews/path                                       (): string
+    site-reviews/path                                       (string $path, string $file): string
     site-reviews/query/sql/from                             (): string
     site-reviews/query/sql/group-by                         (): string
     site-reviews/query/sql/join                             (): array
@@ -87,19 +88,19 @@
     site-reviews/query/sql/where                            (): array
     site-reviews/rating/average                             (): float
     site-reviews/rating/ranking                             (): float
-    site-reviews/recaptcha/language                         (): string
+    site-reviews/recaptcha/language                         (string $locale): string
     site-reviews/recaptcha/timeout                          (): int
-    site-reviews/render/view                                (): string
+    site-reviews/render/view                                (string $view array $data): string
     site-reviews/rendered/field                             (): string
     site-reviews/rendered/field/classes                     (): array
     site-reviews/rendered/partial                           (): string
     site-reviews/rendered/partial/{partial_path}            (): string
     site-reviews/rendered/template                          (): string
     site-reviews/rendered/template/{template_path}          (): string
-    site-reviews/review/build/after                         (array $templateTags, Review $review, SiteReviews $partial): array
-    site-reviews/review/build/{tag_or_field_key}            (string $field, string $value, Review $review, SiteReviews $partial): string
+    site-reviews/review/build/after                         (array $templateTags, Review $review, Modules\Html\Partials\SiteReviews $partial): array
+    site-reviews/review/build/{tag_or_field_key}            (string $field, string $value, Review $review, Modules\Html\Partials\SiteReviews $partial): string
     site-reviews/review/redirect                            (): string
-    site-reviews/review/wrap/{field_key}                    (string $value, Review $review, string $rawValue): string
+    site-reviews/review/wrap/{tag_or_field_key}             (string $value, Review $review, string $rawValue, Modules\Html\Tags\{Tag} $tagClass): string
     site-reviews/reviews/fallback                           (): string
     site-reviews/route/request                              (): array
     site-reviews/router/unguarded-actions                   (): array
@@ -116,8 +117,9 @@
     site-reviews/style                                      (): string
     site-reviews/style/views                                (): array
     site-reviews/submission-form/order                      (): array
+    site-reviews/summary/build/{tag_or_field_key}           (string $field, array $ratings, Modules\Html\Partials\SiteReviewsSummary $partial): string
     site-reviews/summary/counts                             (): string
-    site-reviews/summary/wrap/{field_key}                   (): string
+    site-reviews/summary/wrap/{tag_or_field_key}            (string $value, array $ratings, string $rawValue, Modules\Html\Tags\{Tag} $tagClass): string
     site-reviews/support/deprecated/v4                      (): bool
     site-reviews/system/{key}                               (): array
     site-reviews/tinymce/editor-ids                         (): array
@@ -125,7 +127,7 @@
     site-reviews/translator/domains                         (): array
     site-reviews/trustalyze/response                        (): array
     site-reviews/trustalyze/review                          (): array
-    site-reviews/url                                        (): string
+    site-reviews/url                                        (string $url, string $path): string
     site-reviews/validate/akismet                           (): bool
     site-reviews/validate/akismet/is-active                 (): bool
     site-reviews/validate/akismet/submission                (): array
@@ -136,7 +138,7 @@
     site-reviews/validate/review-limits/query               (): array
     site-reviews/validation/rules                           (): array
     site-reviews/views/data                                 (): array
-    site-reviews/views/file                                 (): string
+    site-reviews/views/file                                 (string $filePath, string $view, array $data): string
     site-reviews/whip/methods                               (): int
     site-reviews/whip/whitelist                             (): array
     site-reviews/whip/whitelist/cloudflare                  (): bool

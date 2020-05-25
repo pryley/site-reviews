@@ -14,7 +14,7 @@ class RegisterPostType implements Contract
     public $args;
     public $columns;
 
-    public function __construct(array $input = [])
+    public function __construct()
     {
         $this->args = glsr(PostTypeDefaults::class)->merge([
             'labels' => glsr(PostTypeLabelDefaults::class)->defaults(),

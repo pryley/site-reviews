@@ -42,9 +42,6 @@ class Rating extends Arguments
     public function __construct(array $args)
     {
         parent::__construct($args);
-        $this->hasPostsPivot = is_array($this->posts_id);
-        $this->hasTermsPivot = is_array($this->terms_id);
-        $this->hasUsersPivot = is_array($this->users_id);
         $this->normalize();
     }
 
@@ -88,14 +85,19 @@ class Rating extends Arguments
      */
     protected function normalize()
     {
-        $this->set('ID', Helper::castToInt($this->ID));
-        $this->set('is_approved', Helper::castToBool($this->is_approved));
-        $this->set('is_pinned', Helper::castToBool($this->is_pinned));
-        $this->set('post_ids', Helper::castToArray($this->posts_id));
-        $this->set('rating', Helper::castToInt($this->rating));
-        $this->set('review_id', Helper::castToInt($this->review_id));
-        $this->set('term_ids', Helper::castToArray($this->terms_id));
-        $this->set('user_ids', Helper::castToArray($this->users_id));
+        $args = glsr()->args($this->toArray());
+        $this->hasPostsPivot = is_array($args->post_ids);
+        $this->hasTermsPivot = is_array($args->term_ids);
+        $this->hasUsersPivot = is_array($args->user_ids);
+        $args->ID = Helper::castToInt($args->ID);
+        $args->is_approved = Helper::castToBool($args->is_approved);
+        $args->is_pinned = Helper::castToBool($args->is_pinned);
+        $args->post_ids = Helper::castToArray($args->post_ids);
+        $args->rating = Helper::castToInt($args->rating);
+        $args->review_id = Helper::castToInt($args->review_id);
+        $args->term_ids = Helper::castToArray($args->term_ids);
+        $args->user_ids = Helper::castToArray($args->user_ids);
+        $this->exchangeArray($args->toArray());
     }
 
     /**

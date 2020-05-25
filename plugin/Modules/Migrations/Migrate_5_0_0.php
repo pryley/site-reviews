@@ -31,7 +31,7 @@ class Migrate_5_0_0
         global $wpdb;
         $offset = 0;
         $limit = 250;
-        $table = glsr(Query::class)->getTable('ratings');
+        $table = glsr(Query::class)->table('ratings');
         while (true) {
             $results = $wpdb->get_results($wpdb->prepare("
                 SELECT r.ID AS rating_id, m.meta_value AS post_id
@@ -113,7 +113,7 @@ class Migrate_5_0_0
         global $wpdb;
         $offset = 0;
         $limit = 250;
-        $table = glsr(Query::class)->getTable('ratings');
+        $table = glsr(Query::class)->table('ratings');
         while (true) {
             $results = $wpdb->get_results($wpdb->prepare("
                 SELECT r.ID AS rating_id, tt.term_id AS term_id

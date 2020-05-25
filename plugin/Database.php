@@ -32,6 +32,9 @@ class Database
      */
     public function get($postId, $key, $single = true)
     {
+        if ($field = $this->getRatingField($postId, $key)) {
+            return $field;
+        }
         $key = Str::prefix('_', $key);
         return get_post_meta(intval($postId), $key, $single);
     }
@@ -53,6 +56,19 @@ class Database
         if ($assignedPost instanceof WP_Post && $assignedPost->ID != $postId) {
             return $assignedPost;
         }
+    }
+
+    /**
+     * @param int $postId
+     * @param string $field
+     * @return mixed
+     */
+    public function getRatingField($postId, $field)
+    {
+        $allowedKeys = ['is_approved', 'is_pinned', 'rating', 'type'];
+        return in_array($field, $allowedKeys)
+            ? glsr(Query::class)->rating($postId)->{$field}
+            : null;
     }
 
     /**
@@ -133,7 +149,7 @@ class Database
     public function isMigrationNeeded()
     {
         global $wpdb;
-        $table = glsr(Query::class)->getTable('ratings');
+        $table = glsr(Query::class)->table('ratings');
         $postCount = wp_count_posts(glsr()->post_type)->publish;
         if (empty($postCount)) {
             return false;

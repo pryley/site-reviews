@@ -46,6 +46,14 @@ class Migrate
     /**
      * @return void
      */
+    public function reset()
+    {
+        delete_transient($this->transientKey);
+    }
+
+    /**
+     * @return void
+     */
     public function run()
     {
         if (glsr(Database::class)->isMigrationNeeded()) {
@@ -60,7 +68,7 @@ class Migrate
      */
     public function runAll()
     {
-        delete_transient($this->transientKey);
+        $this->reset();
         $this->runMigrations();
     }
 

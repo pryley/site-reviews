@@ -9,6 +9,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Assign reviews to a user
 - [ ] Integrate with WordPress GDPR controls
 - [ ] reCAPTCHA v3 support
+- [ ] Restrict reviews in the admin to those assigned to pages of the current user
 - [ ] Review statistics
 - [ ] Store the review GEO location by IP
 - [ ] Version rollback (ref: WP Rocket)

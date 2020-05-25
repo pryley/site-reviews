@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Rating;
 use WP_Post;
 use WP_Query;
@@ -156,9 +157,14 @@ class ListTableController extends Controller
      */
     public function renderColumnFilters($postType)
     {
-        if (Application::POST_TYPE === $postType) {
-            echo glsr()->runIf(ColumnFilterRating::class);
-            echo glsr()->runIf(ColumnFilterReviewType::class);
+        if (Application::POST_TYPE !== $postType) {
+            return;
+        }
+        if ($filter = glsr()->runIf(ColumnFilterRating::class)) {
+            echo $filter;
+        }
+        if ($filter = glsr()->runIf(ColumnFilterReviewType::class)) {
+            echo $filter;
         }
     }
 

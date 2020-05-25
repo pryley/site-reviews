@@ -12,7 +12,7 @@ class ColumnValueReviewer implements ColumnValue
      */
     public function handle(Rating $rating)
     {
-        if ($userId = get_post($rating->review_id)->post_author) {
+        if ($userId = (int) get_post($rating->review_id)->post_author) {
             return glsr(Builder::class)->a([
                 'href' => get_author_posts_url($userId),
                 'text' => $rating->name,

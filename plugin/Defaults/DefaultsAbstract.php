@@ -128,9 +128,10 @@ abstract class DefaultsAbstract
     }
 
     /**
+     * @param mixed $values
      * @return array
      */
-    protected function normalize(array $values)
+    protected function normalize($values)
     {
         if (!is_string($values)) {
             return Arr::consolidate($values);

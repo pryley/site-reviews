@@ -3,7 +3,6 @@
 <div class="wrap">
     <h1 class="wp-heading-inline"><?= esc_html(get_admin_page_title()); ?></h1>
     <?= $notices; ?>
-    <p><?= _x('Add-ons extend the functionality of Site Reviews.', 'admin-text', 'site-reviews'); ?></p>
     <div class="glsr-addons wp-clearfix">
     <?php
         $template->render('partials/addons/addon', [

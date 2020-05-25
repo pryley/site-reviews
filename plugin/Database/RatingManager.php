@@ -24,7 +24,7 @@ class RatingManager
      */
     public function assignPost($ratingId, $postId)
     {
-        return $this->insertIgnore(glsr(Query::class)->getTable('assigned_posts'), [
+        return $this->insertIgnore(glsr(Query::class)->table('assigned_posts'), [
             'is_published' => 'publish' === get_post_status($postId),
             'post_id' => $postId,
             'rating_id' => $ratingId,
@@ -38,7 +38,7 @@ class RatingManager
      */
     public function assignTerm($ratingId, $termId)
     {
-        return $this->insertIgnore(glsr(Query::class)->getTable('assigned_terms'), [
+        return $this->insertIgnore(glsr(Query::class)->table('assigned_terms'), [
             'rating_id' => $ratingId,
             'term_id' => $termId,
         ]);
@@ -51,7 +51,7 @@ class RatingManager
      */
     public function assignUser($ratingId, $userId)
     {
-        return $this->insertIgnore(glsr(Query::class)->getTable('assigned_users'), [
+        return $this->insertIgnore(glsr(Query::class)->table('assigned_users'), [
             'rating_id' => $ratingId,
             'user_id' => $userId,
         ]);
@@ -63,9 +63,17 @@ class RatingManager
      */
     public function delete($reviewId)
     {
-        return $this->db->delete(glsr(Query::class)->getTable('ratings'), [
+        return $this->db->delete(glsr(Query::class)->table('ratings'), [
             'review_id' => $reviewId,
         ]);
+    }
+
+    /**
+     * @return array
+     */
+    public function emptyRatingsArray()
+    {
+        return array_fill_keys(range(0, glsr()->constant('MAX_RATING', Rating::class)), 0);
     }
 
     /**
@@ -91,7 +99,7 @@ class RatingManager
 
     /**
      * @param int $reviewId
-     * @return object|false
+     * @return \GeminiLabs\SiteReviews\Rating|false
      */
     public function get($reviewId)
     {
@@ -100,12 +108,12 @@ class RatingManager
 
     /**
      * @param int $reviewId
-     * @return object|false
+     * @return \GeminiLabs\SiteReviews\Rating|false
      */
     public function insert($reviewId, array $data = [])
     {
         $data = Arr::set($this->normalize($data), 'review_id', $reviewId);
-        $result = $this->insertIgnore(glsr(Query::class)->getTable('ratings'), $data);
+        $result = $this->insertIgnore(glsr(Query::class)->table('ratings'), $data);
         return (false !== $result)
             ? $this->get($reviewId)
             : false;
@@ -127,7 +135,7 @@ class RatingManager
                 $data[] = sprintf("('%s')", implode("','", array_values($value)));
             }
         }
-        $table = glsr(Query::class)->getTable($table);
+        $table = glsr(Query::class)->table($table);
         $fields = implode('`,`', $fields);
         $values = implode(",", array_values($data));
         return $this->db->query(
@@ -143,7 +151,7 @@ class RatingManager
     {
         $ratings = glsr(Query::class)->ratings($args);
         foreach ($ratings as $type => $results) {
-            $counts = $this->generateEmptyCountsArray();
+            $counts = $this->emptyRatingsArray();
             foreach ($results as $result) {
                 $counts = Arr::set($counts, $result['rating'], $result['count']);
             }
@@ -161,7 +169,7 @@ class RatingManager
      */
     public function unassignPost($ratingId, $postId)
     {
-        return $this->db->delete(glsr(Query::class)->getTable('assigned_posts'), [
+        return $this->db->delete(glsr(Query::class)->table('assigned_posts'), [
             'post_id' => $postId,
             'rating_id' => $ratingId,
         ]);
@@ -174,7 +182,7 @@ class RatingManager
      */
     public function unassignTerm($ratingId, $termId)
     {
-        return $this->db->delete(glsr(Query::class)->getTable('assigned_terms'), [
+        return $this->db->delete(glsr(Query::class)->table('assigned_terms'), [
             'rating_id' => $ratingId,
             'term_id' => $termId,
         ]);
@@ -187,7 +195,7 @@ class RatingManager
      */
     public function unassignUser($ratingId, $userId)
     {
-        return $this->db->delete(glsr(Query::class)->getTable('assigned_users'), [
+        return $this->db->delete(glsr(Query::class)->table('assigned_users'), [
             'rating_id' => $ratingId,
             'user_id' => $userId,
         ]);
@@ -200,17 +208,9 @@ class RatingManager
     public function update($reviewId, array $data = [])
     {
         $data = array_intersect_key($data, $this->normalize($data));
-        return $this->db->update(glsr(Query::class)->getTable('ratings'), $data, [
+        return $this->db->update(glsr(Query::class)->table('ratings'), $data, [
             'review_id' => $reviewId,
         ]);
-    }
-
-    /**
-     * @return array
-     */
-    protected function generateEmptyCountsArray()
-    {
-        return array_fill_keys(range(0, glsr()->constant('MAX_RATING', Rating::class)), 0);
     }
 
     /**

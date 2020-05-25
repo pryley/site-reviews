@@ -13,7 +13,7 @@ class ReviewAssignedToTag extends ReviewTag
      * @param mixed $value
      * @return array
      */
-    protected function assignedLinks($value)
+    public function assignedLinks($value)
     {
         $links = [];
         foreach (Arr::consolidate($value) as $postId) {

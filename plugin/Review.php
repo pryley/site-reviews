@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -13,7 +14,9 @@ use WP_Post;
 
 class Review implements \ArrayAccess
 {
-    public $assigned_to;
+    public $assigned_post_ids;
+    public $assigned_term_ids;
+    public $assigned_user_ids;
     public $author;
     public $avatar;
     public $content;
@@ -25,12 +28,11 @@ class Review implements \ArrayAccess
     public $modified;
     public $pinned;
     public $rating;
+    public $rating_id;
     public $response;
-    public $review_id;
-    public $review_type;
     public $status;
-    public $term_ids;
     public $title;
+    public $type;
     public $url;
     public $user_id;
 
@@ -39,14 +41,20 @@ class Review implements \ArrayAccess
         if (Application::POST_TYPE !== $post->post_type) {
             return;
         }
+        $rating = glsr(Query::class)->rating($post->ID);
+        $this->assigned_post_ids = $rating->post_ids;
+        $this->assigned_term_ids = $rating->term_ids;
+        $this->assigned_user_ids = $rating->user_ids;
         $this->content = $post->post_content;
         $this->date = $post->post_date;
-        $this->ID = intval($post->ID);
+        $this->ID = absint($post->ID);
+        $this->rating = $rating->rating;
+        $this->rating_id = $rating->ID;
         $this->status = $post->post_status;
         $this->title = $post->post_title;
-        $this->user_id = intval($post->post_author);
+        $this->type = $rating->type;
+        $this->user_id = absint($post->post_author);
         $this->setProperties($post);
-        $this->setTermIds($post);
     }
 
     /**
@@ -126,6 +134,14 @@ class Review implements \ArrayAccess
     }
 
     /**
+     * @return \GeminiLabs\SiteReviews\Rating|false
+     */
+    public function rating()
+    {
+        return glsr(RatingManager::class)->get($this->ID);
+    }
+
+    /**
      * @return void
      */
     public function render()
@@ -162,24 +178,9 @@ class Review implements \ArrayAccess
         $properties = glsr(CreateReviewDefaults::class)->restrict(array_merge($defaults, $meta));
         $this->modified = $this->isModified($properties);
         array_walk($properties, function ($value, $key) {
-            if (!property_exists($this, $key) || isset($this->$key)) {
-                return;
+            if (property_exists($this, $key) && !isset($this->$key)) {
+                $this->$key = maybe_unserialize($value);
             }
-            $this->$key = maybe_unserialize($value);
         });
-    }
-
-    /**
-     * @return void
-     */
-    protected function setTermIds(WP_Post $post)
-    {
-        $this->term_ids = [];
-        if (!is_array($terms = get_the_terms($post, Application::TAXONOMY))) {
-            return;
-        }
-        foreach ($terms as $term) {
-            $this->term_ids[] = $term->term_id;
-        }
     }
 }

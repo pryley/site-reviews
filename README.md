@@ -4,7 +4,7 @@
 
 ![Site Reviews banner](+/screenshots/banner-1544x500.png)
 
-Site Reviews is a WordPress plugin which allows you to easily receive and display reviews on your website or blog using easy-to-use blocks, shortcodes, and widgets.
+Site Reviews is a WordPress plugin which allows you to receive and display reviews on your website or blog using easy-to-use blocks, shortcodes, and widgets.
 
 Minimum plugin requirements:
 
