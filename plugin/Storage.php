@@ -49,6 +49,6 @@ Trait Storage
      */
     public function store($property, $value)
     {
-        Arr::set($this->storage, $property, $value);
+        $this->storage = Arr::set($this->storage, $property, $value);
     }
 }
