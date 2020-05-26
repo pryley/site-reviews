@@ -6,7 +6,10 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Arguments extends \ArrayObject
 {
-    public function __construct(array $args)
+    /**
+     * @param mixed $args
+     */
+    public function __construct($args)
     {
         $args = Arr::consolidate($args);
         parent::__construct($args, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);

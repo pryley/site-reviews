@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use ArrayObject;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewsHtml;
@@ -24,11 +25,17 @@ class Reviews extends ArrayObject
      */
     public $reviews;
 
-    public function __construct($reviews, array $args)
+    /**
+     * @var int
+     */
+    public $total;
+
+    public function __construct(array $reviews, $total, array $args)
     {
         $this->args = glsr(SiteReviewsDefaults::class)->merge($args);
-        $this->max_num_pages = $reviews->max_num_pages;
-        $this->reviews = $reviews->results;
+        $this->max_num_pages = ceil($total / $this->args['per_page']);
+        $this->reviews = $reviews;
+        $this->total = $total;
         parent::__construct($this->reviews, ArrayObject::STD_PROP_LIST | ArrayObject::ARRAY_AS_PROPS);
     }
 

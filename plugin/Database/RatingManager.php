@@ -99,11 +99,13 @@ class RatingManager
 
     /**
      * @param int $reviewId
-     * @return \GeminiLabs\SiteReviews\Rating|false
+     * @return \GeminiLabs\SiteReviews\Rating
      */
     public function get($reviewId)
     {
-        return glsr(Query::class)->rating($reviewId);
+        return glsr('Rating', [
+            'args' => glsr(Query::class)->rating($reviewId),
+        ]);
     }
 
     /**

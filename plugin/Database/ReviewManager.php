@@ -24,7 +24,6 @@ class ReviewManager
         $reviewValues = glsr(CreateReviewDefaults::class)->restrict((array) $command);
         $reviewValues = glsr()->filterArray('create/review-values', $reviewValues, $command);
         $reviewValues = Arr::prefixKeys($reviewValues);
-        unset($reviewValues['json']); // @todo remove the need for this
         $postValues = [
             'comment_status' => 'closed',
             'meta_input' => $reviewValues,
@@ -32,7 +31,7 @@ class ReviewManager
             'post_content' => $reviewValues['_content'],
             'post_date' => $reviewValues['_date'],
             'post_date_gmt' => get_gmt_from_date($reviewValues['_date']),
-            'post_name' => $reviewValues['_review_type'].'-'.$reviewValues['_review_id'],
+            'post_name' => uniqid($reviewValues['_review_type']),
             'post_status' => $this->getNewPostStatus($reviewValues, $command->blacklisted),
             'post_title' => $reviewValues['_title'],
             'post_type' => Application::POST_TYPE,
@@ -42,86 +41,97 @@ class ReviewManager
             glsr_log()->error($postId->get_error_message())->debug($postValues);
             return false;
         }
-        $this->setTerms($postId, $command->category);
-        $review = $this->single(get_post($postId));
-        do_action('site-reviews/review/created', $review, $command);
+        $post = get_post($postId);
+        glsr()->action('review/creating', $post, $command);
+        $this->setTerms($post->ID, $command->category);
+        $review = $this->get($post);
+        glsr()->action('review/created', $review, $command);
         return $review;
     }
 
     /**
-     * @param string $metaReviewId
+     * @return Reviews
+     */
+    public function reviews(array $args = [])
+    {
+        $results = glsr(Query::class)->reviews($args);
+        $reviews = $this->generateReviews($this->generatePosts($results));
+        $total = $this->total($args, $results);
+        glsr()->action('get/reviews', $reviews, $results);
+        return new Reviews($reviews, $total, $args);
+    }
+
+    /**
+     * @param int $postId
      * @return void
      */
-    public function delete($metaReviewId)
+    public function revert($postId)
     {
-        if ($postId = $this->getPostId($metaReviewId)) {
-            wp_delete_post($postId, true);
+        if (Application::POST_TYPE != get_post_field('post_type', $postId)) {
+            return;
         }
+        delete_post_meta($postId, '_edit_last');
+        $result = wp_update_post([
+            'ID' => $postId,
+            'post_content' => glsr(Database::class)->get($postId, 'content'),
+            'post_date' => glsr(Database::class)->get($postId, 'date'),
+            'post_title' => glsr(Database::class)->get($postId, 'title'),
+        ]);
+        if (is_wp_error($result)) {
+            glsr_log()->error($result->get_error_message());
+            return;
+        }
+        glsr()->action('review/reverted', glsr_get_review($postId));
     }
 
     /**
-     * @return object
+     * @param WP_Post|int $reviewId
+     * @return Review
      */
-    public function get(array $args = [])
+    public function get($reviewId)
     {
-        $args = glsr(ReviewsDefaults::class)->merge($args);
-        $metaQuery = glsr(QueryBuilder::class)->buildQuery(
-            ['assigned_to', 'email', 'ip_address', 'type', 'rating'],
-            $args
-        );
-        $taxQuery = glsr(QueryBuilder::class)->buildQuery(
-            ['category'],
-            ['category' => $this->normalizeTermIds($args['category'])]
-        );
-        $paged = glsr(QueryBuilder::class)->getPaged(
-            wp_validate_boolean($args['pagination'])
-        );
-        $parameters = [
-            'meta_key' => '_pinned',
-            'meta_query' => $metaQuery,
-            'offset' => $args['offset'],
-            'order' => $args['order'],
-            'orderby' => 'meta_value '.$args['orderby'],
-            'paged' => Arr::get($args, 'paged', $paged),
-            'post__in' => $args['post__in'],
-            'post__not_in' => $args['post__not_in'],
-            'post_status' => 'publish',
-            'post_type' => Application::POST_TYPE,
-            'posts_per_page' => $args['per_page'],
-            'tax_query' => $taxQuery,
-        ];
-        $parameters = apply_filters('site-reviews/get/reviews/query', $parameters, $args);
-        $query = new WP_Query($parameters);
-        $results = array_map([$this, 'single'], $query->posts);
-        $reviews = new Reviews($results, $query->max_num_pages, $args);
-        return apply_filters('site-reviews/get/reviews', $reviews, $query);
+        $post = get_post($reviewId);
+        if (glsr()->post_type !== Arr::get($post, 'post_type')) {
+            $post = new WP_Post((object) []);
+        }
+        $review = new Review($post);
+        glsr()->action('get/review', $review, $post);
+        return $review;
     }
 
     /**
-     * @param string $metaReviewId
      * @return int
      */
-    public function getPostId($metaReviewId)
+    public function total(array $args = [], array $results = [])
     {
-        return glsr(SqlQueries::class)->getPostIdFromReviewId($metaReviewId);
+        return glsr(Query::class)->totalReviews($args, $results);
     }
 
     /**
      * @return array
      */
-    public function getRatingCounts(array $args = [])
+    protected function generatePosts(array $results)
     {
-        $args = glsr(SiteReviewsSummaryDefaults::class)->filter($args);
-        $counts = glsr(CountsManager::class)->getCounts([
-            'post_ids' => Arr::convertFromString($args['assigned_to']),
-            'term_ids' => $this->normalizeTermIds($args['category']),
-            'type' => $args['type'],
-        ]);
-        return glsr(CountsManager::class)->flatten($counts, [
-            'min' => $args['rating'],
-        ]);
+        $posts = array_map('get_post', $results);
+        if (!wp_using_ext_object_cache()) {
+            update_post_caches($posts, glsr()->post_type);
+        }
+        return $posts;
     }
 
+    /**
+     * @return array
+     */
+    protected function generateReviews(array $posts)
+    {
+        $reviews = array_map([$this, 'get'], $posts);
+        $postIds = array_unique(call_user_func_array('array_merge', glsr_array_column($reviews, 'post_ids')));
+        $termIds = array_unique(call_user_func_array('array_merge', glsr_array_column($reviews, 'term_ids')));
+        update_postmeta_cache($postIds); // is this necessary to do for assigned post Ids?
+        $lazyloader = wp_metadata_lazyloader();
+        $lazyloader->queue_objects('term', $termIds); // term_ids for each review
+        return $reviews;
+    }
     /**
      * @param string $commaSeparatedTermIds
      * @return array
@@ -148,7 +158,7 @@ class ReviewManager
             if (!isset($term['term_id'])) {
                 continue;
             }
-            $terms[] = $term;
+            $terms[] = $term['term_id'];
         }
         return $terms;
     }
@@ -176,17 +186,6 @@ class ReviewManager
         do_action('site-reviews/review/reverted', glsr_get_review($postId));
     }
 
-    /**
-     * @return Review
-     */
-    public function single(WP_Post $post)
-    {
-        if (Application::POST_TYPE != $post->post_type) {
-            $post = new WP_Post((object) []);
-        }
-        $review = new Review($post);
-        return apply_filters('site-reviews/get/review', $review, $post);
-    }
 
     /**
      * @param bool $isBlacklisted

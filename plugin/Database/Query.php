@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Rating;
 use GeminiLabs\SiteReviews\Review;
+use GeminiLabs\SiteReviews\Reviews;
 
 class Query
 {
@@ -27,7 +28,7 @@ class Query
      * @todo make sure we clear this cache when modifying the rating
      * @param int $reviewId
      * @param bool $withPivots
-     * @return Rating|false
+     * @return array|false
      */
     public function rating($reviewId, $withPivots = false)
     {
@@ -36,15 +37,12 @@ class Query
                 $this->db->prepare("SELECT * FROM {$this->table('ratings')} WHERE review_id = %d", $reviewId), ARRAY_A
             );
         });
-        if (!empty($rating)) {
-            if ($withPivots) {
-                $rating['post_ids'] = $this->ratingPivot('post_id', 'assigned_posts', $rating['ID']);
-                $rating['term_ids'] = $this->ratingPivot('term_id', 'assigned_terms', $rating['ID']);
-                $rating['user_ids'] = $this->ratingPivot('user_id', 'assigned_users', $rating['ID']);
-            }
-            return new Rating($rating);
+        if (!empty($rating) && $withPivots) {
+            $rating['post_ids'] = $this->ratingPivot('post_id', 'assigned_posts', $rating['ID']);
+            $rating['term_ids'] = $this->ratingPivot('term_id', 'assigned_terms', $rating['ID']);
+            $rating['user_ids'] = $this->ratingPivot('user_id', 'assigned_users', $rating['ID']);
         }
-        return false;
+        return $rating;
     }
 
     /**
@@ -95,12 +93,13 @@ class Query
     }
 
     /**
-     * @return object
+     * @todo first get IDs, then get individual reviews (hopefully utilising the cache)
+     * @return array
      */
     public function reviews(array $args = [])
     {
         $this->setArgs($args);
-        $results = $this->db->get_results("
+        return $this->db->get_results("
             {$this->sqlSelect()}
             {$this->sqlFrom()}
             {$this->sqlJoin()}
@@ -110,28 +109,23 @@ class Query
             {$this->sqlLimit()}
             {$this->sqlOffset()}
         ");
-        $posts = $this->generatePosts($results);
-        $total = $this->totalReviews($this->args);
-        return (object) [
-            'max_num_pages' => ceil($total / $this->args['per_page']),
-            'results' => $this->generateReviews($posts),
-            'total' => count($posts),
-        ];
     }
 
     /**
      * @return int
      */
-    public function totalReviews(array $args = [])
+    public function totalReviews(array $args = [], array $results = [])
     {
         $this->setArgs($args);
-        $result = $this->db->get_var("
+        if (empty($this->sqlLimit()) && !empty($results)) {
+            return count($results);
+        }
+        return (int) $this->db->get_var("
             SELECT COUNT(*)
             {$this->sqlFrom()}
             {$this->sqlJoin()}
             {$this->sqlWhere()}
         ");
-        return absint($result);
     }
 
     /**
@@ -151,29 +145,17 @@ class Query
     }
 
     /**
-     * @return array
+     * @param int $postId
+     * @return bool
      */
-    protected function generatePosts(array $results)
+    public function hasRevisions($postId)
     {
-        $posts = array_map('get_post', $results);
-        if (!wp_using_ext_object_cache()) {
-            update_post_caches($posts, glsr()->post_type);
-        }
-        return $posts;
-    }
-
-    /**
-     * @return array
-     */
-    protected function generateReviews(array $posts)
-    {
-        $reviews = array_map([glsr(ReviewManager::class), 'single'], $posts);
-        $postIds = array_unique(call_user_func_array('array_merge', glsr_array_column($reviews, 'post_ids')));
-        $termIds = array_unique(call_user_func_array('array_merge', glsr_array_column($reviews, 'term_ids')));
-        update_postmeta_cache($postIds);
-        $lazyloader = wp_metadata_lazyloader();
-        $lazyloader->queue_objects('term', $termIds); // term_ids for each review
-        return $reviews;
+        $revisions = (int) $this->db->get_var("
+            SELECT COUNT(*) 
+            FROM {$this->db->posts}
+            WHERE post_type = 'revision' AND post_parent = {$postId}
+        ");
+        return $revisions > 0;
     }
 
     /**

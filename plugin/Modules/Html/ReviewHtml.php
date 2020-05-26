@@ -29,13 +29,12 @@ class ReviewHtml extends ArrayObject
      */
     public function __toString()
     {
-        if (empty($this->values)) {
-            return;
+        if (!empty($this->values)) {
+            return glsr(Template::class)->build('templates/review', [
+                'context' => $this->values,
+                'review' => $this->review,
+            ]);
         }
-        return glsr(Template::class)->build('templates/review', [
-            'context' => $this->values,
-            'review' => $this->review,
-        ]);
     }
 
     /**

@@ -10,13 +10,10 @@ class CreateReviewDefaults extends Defaults
      * @var array
      */
     protected $guarded = [
-        'assigned_to',
         'content',
         'date',
         'pinned',
         'response',
-        'review_id',
-        'review_type',
         'title',
     ];
 
@@ -26,7 +23,6 @@ class CreateReviewDefaults extends Defaults
     protected function defaults()
     {
         return [
-            'assigned_to' => '',
             'author' => '',
             'avatar' => '',
             'content' => '',
@@ -35,10 +31,7 @@ class CreateReviewDefaults extends Defaults
             'email' => '',
             'ip_address' => '',
             'pinned' => false,
-            'rating' => '',
             'response' => '',
-            'review_id' => md5(time().mt_rand()),
-            'review_type' => 'local',
             'title' => '',
             'url' => '',
         ];

@@ -39,7 +39,7 @@ class Rating extends Arguments
      */
     protected $hasUsersPivot;
 
-    public function __construct(array $args)
+    public function __construct($args)
     {
         parent::__construct($args);
         $this->normalize();
@@ -73,11 +73,20 @@ class Rating extends Arguments
     }
 
     /**
+     * @param mixed $key
+     * @return void
+     */
+    public function offsetUnset($key)
+    {
+        // This class is read-only
+    }
+
+    /**
      * @return Review
      */
     public function review()
     {
-        return glsr(ReviewManager::class)->single(get_post($this->review_id));
+        return glsr(ReviewManager::class)->get($this->review_id);
     }
 
     /**

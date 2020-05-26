@@ -27,7 +27,7 @@ class SiteReviews
     {
         $this->args = glsr(SiteReviewsDefaults::class)->merge($args);
         if (!$reviews instanceof Reviews) {
-            $reviews = glsr(ReviewManager::class)->get($this->args);
+            $reviews = glsr(ReviewManager::class)->reviews($this->args);
         }
         $this->generateSchema($reviews);
         return $this->buildReviews($reviews);

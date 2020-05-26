@@ -1,5 +1,16 @@
 <?php
 
+use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Commands\CreateReview;
+use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\RatingManager;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Console;
+use GeminiLabs\SiteReviews\Modules\Html\Partial;
+use GeminiLabs\SiteReviews\Modules\Rating;
+
 defined('WPINC') || die;
 
 /*
@@ -35,7 +46,7 @@ add_filter('plugins_loaded', function () {
  */
 function glsr($alias = null, array $parameters = [])
 {
-    $app = \GeminiLabs\SiteReviews\Application::load();
+    $app = Application::load();
     return !is_null($alias)
         ? $app->make($alias, $parameters)
         : $app;
@@ -64,10 +75,8 @@ function glsr_array_column(array $array, $column)
  */
 function glsr_create_review($reviewValues = array())
 {
-    $review = new \GeminiLabs\SiteReviews\Commands\CreateReview(
-        \GeminiLabs\SiteReviews\Helpers\Arr::consolidate($reviewValues)
-    );
-    return glsr('Database\ReviewManager')->create($review);
+    $review = new CreateReview(Arr::consolidate($reviewValues));
+    return glsr(ReviewManager::class)->create($review);
 }
 
 /**
@@ -109,7 +118,7 @@ function glsr_debug(...$vars)
  */
 function glsr_get($array, $path = '', $fallback = '')
 {
-    return \GeminiLabs\SiteReviews\Helpers\Arr::get($array, $path, $fallback);
+    return Arr::get($array, $path, $fallback);
 }
 
 /**
@@ -121,7 +130,7 @@ function glsr_get($array, $path = '', $fallback = '')
 function glsr_get_option($path = '', $fallback = '', $cast = '')
 {
     return is_string($path)
-        ? glsr('Database\OptionManager')->get(\GeminiLabs\SiteReviews\Helpers\Str::prefix('settings.', $path), $fallback, $cast)
+        ? glsr(OptionManager::class)->get(Str::prefix('settings.', $path), $fallback, $cast)
         : $fallback;
 }
 
@@ -130,7 +139,7 @@ function glsr_get_option($path = '', $fallback = '', $cast = '')
  */
 function glsr_get_options()
 {
-    return glsr('Database\OptionManager')->get('settings');
+    return glsr(OptionManager::class)->get('settings');
 }
 
 /**
@@ -138,12 +147,12 @@ function glsr_get_options()
  */
 function glsr_get_rating($args = array())
 {
-    $args = \GeminiLabs\SiteReviews\Helpers\Arr::consolidate($args);
-    $counts = glsr('Database\RatingManager')->ratings($args);
+    $args = Arr::consolidate($args);
+    $counts = glsr(RatingManager::class)->ratings($args);
     return (object) array(
-        'average' => glsr('Modules\Rating')->getAverage($counts),
-        'maximum' => glsr()->constant('MAX_RATING', \GeminiLabs\SiteReviews\Modules\Rating::class),
-        'minimum' => glsr()->constant('MIN_RATING', \GeminiLabs\SiteReviews\Modules\Rating::class),
+        'average' => glsr(Rating::class)->getAverage($counts),
+        'maximum' => glsr()->constant('MAX_RATING', Rating::class),
+        'minimum' => glsr()->constant('MIN_RATING', Rating::class),
         'ratings' => $counts,
         'reviews' => array_sum($counts),
     );
@@ -155,13 +164,7 @@ function glsr_get_rating($args = array())
  */
 function glsr_get_review($post)
 {
-    if (is_numeric($post)) {
-        $post = get_post($post);
-    }
-    if (!$post instanceof WP_Post) {
-        $post = new WP_Post((object) []);
-    }
-    return glsr('Database\ReviewManager')->single($post);
+    return glsr(ReviewManager::class)->get($post);
 }
 
 /**
@@ -169,7 +172,7 @@ function glsr_get_review($post)
  */
 function glsr_get_reviews($args = array())
 {
-    return glsr('Database\ReviewManager')->get(\GeminiLabs\SiteReviews\Helpers\Arr::consolidate($args));
+    return glsr(ReviewManager::class)->reviews(Arr::consolidate($args));
 }
 
 /**
@@ -177,7 +180,7 @@ function glsr_get_reviews($args = array())
  */
 function glsr_log(...$args)
 {
-    $console = glsr('Modules\Console');
+    $console = glsr(Console::class);
     return !empty($args)
         ? call_user_func_array([$console, 'debug'], $args)
         : $console;
@@ -188,5 +191,5 @@ function glsr_log(...$args)
  */
 function glsr_star_rating($rating)
 {
-    return glsr('Modules\Html\Partial')->build('star-rating', ['rating' => $rating]);
+    return glsr(Partial::class)->build('star-rating', ['rating' => $rating]);
 }
