@@ -6,15 +6,36 @@ use GeminiLabs\SiteReviews\Application;
 
 class Cache
 {
-    public function cache($key, $group, \Closure $callback)
+    /**
+     * @param string $key
+     * @param string $group
+     * @return void
+     */
+    public function delete($key, $group)
+    {
+        global $_wp_suspend_cache_invalidation;
+        if (empty($_wp_suspend_cache_invalidation)) {
+            $group = glsr()->prefix.$group;
+            wp_cache_delete($key, $group);
+        }
+    }
+
+    /**
+     * @param string $key
+     * @param string $group
+     * @param null|\Closure $callback
+     * @return mixed
+     */
+    public function get($key, $group, $callback = null)
     {
         $group = glsr()->prefix.$group;
-        $contents = wp_cache_get($key, $group);
-        if (false === $contents) {
-            $contents = $callback();
-            wp_cache_add($key, $contents, $group);
+        $value = wp_cache_get($key, $group);
+        if (false === $value && $callback instanceof \Closure) {
+            if ($value = $callback()) {
+                wp_cache_add($key, $value, $group);
+            }
         }
-        return $contents;
+        return $value;
     }
 
     /**
@@ -75,5 +96,17 @@ class Cache
             set_transient(Application::ID.'_remote_post_test', $test, WEEK_IN_SECONDS);
         }
         return $test;
+    }
+
+    /**
+     * @param string $key
+     * @param string $group
+     * @return mixed
+     */
+    public function store($key, $group, $value)
+    {
+        $group = glsr()->prefix.$group;
+        wp_cache_add($key, $value, $group);
+        return $value;
     }
 }
