@@ -14,7 +14,6 @@ jQuery( function( $ ) {
 	GLSR.notices = new GLSR.Notices();
 	GLSR.shortcode = new GLSR.Shortcode( '.glsr-mce' );
 	GLSR.ColorPicker();
-	new GLSR.Categories();
 	new GLSR.Forms( 'form.glsr-form' );
 	new GLSR.Pinned();
 	new GLSR.Pointers();

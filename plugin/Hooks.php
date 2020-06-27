@@ -13,7 +13,6 @@ use GeminiLabs\SiteReviews\Controllers\NoticeController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Controllers\ReviewController;
 use GeminiLabs\SiteReviews\Controllers\SettingsController;
-use GeminiLabs\SiteReviews\Controllers\TaxonomyController;
 use GeminiLabs\SiteReviews\Controllers\TranslationController;
 use GeminiLabs\SiteReviews\Controllers\TrustalyzeController;
 use GeminiLabs\SiteReviews\Controllers\WelcomeController;
@@ -33,7 +32,6 @@ class Hooks implements HooksContract
     protected $review;
     protected $router;
     protected $settings;
-    protected $taxonomy;
     protected $translator;
     protected $trustalyze;
     protected $welcome;
@@ -52,7 +50,6 @@ class Hooks implements HooksContract
         $this->review = glsr(ReviewController::class);
         $this->router = glsr(Router::class);
         $this->settings = glsr(SettingsController::class);
-        $this->taxonomy = glsr(TaxonomyController::class);
         $this->translator = glsr(TranslationController::class);
         $this->trustalyze = glsr(TrustalyzeController::class);
         $this->welcome = glsr(WelcomeController::class);
@@ -115,12 +112,6 @@ class Hooks implements HooksContract
         add_action('wp_ajax_nopriv_'.glsr()->prefix.'action', [$this->router, 'routeAjaxRequest']);
         add_action('init', [$this->router, 'routePublicPostRequest']);
         add_action('admin_init', [$this->settings, 'registerSettings']);
-        add_action(glsr()->taxonomy.'_term_edit_form_top', [$this->taxonomy, 'disableParents']);
-        add_action(glsr()->taxonomy.'_term_new_form_tag', [$this->taxonomy, 'disableParents']);
-        add_action(glsr()->taxonomy.'_add_form_fields', [$this->taxonomy, 'enableParents']);
-        add_action(glsr()->taxonomy.'_edit_form', [$this->taxonomy, 'enableParents']);
-        add_action('restrict_manage_posts', [$this->taxonomy, 'renderTaxonomyFilter'], 9);
-        add_action('set_object_terms', [$this->taxonomy, 'restrictTermSelection'], 9, 6);
         add_action('site-reviews/review/created', [$this->trustalyze, 'onCreated']);
         add_action('site-reviews/review/reverted', [$this->trustalyze, 'onReverted']);
         add_action('site-reviews/review/saved', [$this->trustalyze, 'onSaved']);
