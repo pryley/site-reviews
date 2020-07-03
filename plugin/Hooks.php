@@ -13,6 +13,7 @@ use GeminiLabs\SiteReviews\Controllers\MetaboxController;
 use GeminiLabs\SiteReviews\Controllers\NoticeController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Controllers\ReviewController;
+use GeminiLabs\SiteReviews\Controllers\RevisionController;
 use GeminiLabs\SiteReviews\Controllers\SettingsController;
 use GeminiLabs\SiteReviews\Controllers\TranslationController;
 use GeminiLabs\SiteReviews\Controllers\TrustalyzeController;
@@ -32,6 +33,7 @@ class Hooks implements HooksContract
     protected $notices;
     protected $public;
     protected $review;
+    protected $revisions;
     protected $router;
     protected $settings;
     protected $translator;
@@ -51,6 +53,7 @@ class Hooks implements HooksContract
         $this->notices = glsr(NoticeController::class);
         $this->public = glsr(PublicController::class);
         $this->review = glsr(ReviewController::class);
+        $this->revisions = glsr(RevisionController::class);
         $this->router = glsr(Router::class);
         $this->settings = glsr(SettingsController::class);
         $this->translator = glsr(TranslationController::class);
@@ -108,6 +111,8 @@ class Hooks implements HooksContract
         add_action('edit_post_'.glsr()->post_type, [$this->review, 'onEditReview']);
         // add_action('site-reviews/review/created', [$this->review, 'onAfterCreate']);
         add_action('admin_action_unapprove', [$this->review, 'unapprove']);
+        add_action('wp_restore_post_revision', [$this->revisions, 'restoreRevision'], 10, 2);
+        add_action('_wp_put_post_revision', [$this->revisions, 'saveRevision']);
         add_action('admin_init', [$this->router, 'routeAdminPostRequest']);
         add_action('wp_ajax_'.glsr()->prefix.'action', [$this->router, 'routeAjaxRequest']);
         add_action('wp_ajax_nopriv_'.glsr()->prefix.'action', [$this->router, 'routeAjaxRequest']);
@@ -146,6 +151,9 @@ class Hooks implements HooksContract
         add_filter('script_loader_tag', [$this->public, 'filterEnqueuedScriptTags'], 10, 2);
         add_filter('site-reviews/config/forms/submission-form', [$this->public, 'filterFieldOrder'], 11);
         add_filter('site-reviews/render/view', [$this->public, 'filterRenderView']);
+        add_filter('wp_save_post_revision_check_for_changes', [$this->revisions, 'filterCheckForChanges'], 99, 3);
+        add_filter('wp_save_post_revision_post_has_changed', [$this->revisions, 'filterReviewHasChanged'], 10, 3);
+        add_filter('wp_get_revision_ui_diff', [$this->revisions, 'filterRevisionUiDiff'], 10, 3);
         add_filter('site-reviews/settings/callback', [$this->trustalyze, 'filterSettingsCallback']);
         add_filter('site-reviews/interpolate/partials/form/table-row-multiple', [$this->trustalyze, 'filterSettingsTableRow'], 10, 3);
         add_filter('plugin_action_links_'.$this->basename, [$this->welcome, 'filterActionLinks'], 9);
