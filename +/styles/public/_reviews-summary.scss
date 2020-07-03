@@ -29,6 +29,8 @@
         content: '';
         display: block;
         height: glsr(summary-bar-height);
+        margin-top: -#{glsr(summary-bar-height) / 2};
+        top: 50%;
         opacity: glsr(opacity);
         position: absolute;
         width: 100%;
