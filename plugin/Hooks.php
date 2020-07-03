@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Controllers\MainController;
 use GeminiLabs\SiteReviews\Controllers\MenuController;
 use GeminiLabs\SiteReviews\Controllers\MetaboxController;
 use GeminiLabs\SiteReviews\Controllers\NoticeController;
+use GeminiLabs\SiteReviews\Controllers\PrivacyController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Controllers\ReviewController;
 use GeminiLabs\SiteReviews\Controllers\RevisionController;
@@ -31,6 +32,7 @@ class Hooks implements HooksContract
     protected $menu;
     protected $metabox;
     protected $notices;
+    protected $privacy;
     protected $public;
     protected $review;
     protected $revisions;
@@ -51,6 +53,7 @@ class Hooks implements HooksContract
         $this->menu = glsr(MenuController::class);
         $this->metabox = glsr(MetaboxController::class);
         $this->notices = glsr(NoticeController::class);
+        $this->privacy = glsr(PrivacyController::class);
         $this->public = glsr(PublicController::class);
         $this->review = glsr(ReviewController::class);
         $this->revisions = glsr(RevisionController::class);
@@ -102,6 +105,7 @@ class Hooks implements HooksContract
         add_action('wp_enqueue_scripts', [$this->public, 'enqueueAssets'], 999);
         add_filter('site-reviews/builder', [$this->public, 'modifyBuilder']);
         add_action('wp_footer', [$this->public, 'renderSchema']);
+        add_action('admin_init', [$this->privacy, 'privacyPolicyContent']);
         add_action('admin_action_approve', [$this->review, 'approve']);
         add_action('the_posts', [$this->review, 'filterPostsToCacheReviews']);
         add_action('set_object_terms', [$this->review, 'onAfterChangeAssignedTerms'], 10, 6);
@@ -148,6 +152,8 @@ class Hooks implements HooksContract
         add_filter('post_row_actions', [$this->listtable, 'filterRowActions'], 10, 2);
         add_filter('manage_edit-'.glsr()->post_type.'_sortable_columns', [$this->listtable, 'filterSortableColumns']);
         add_filter('is_protected_meta', [$this->metabox, 'filterProtectedMeta'], 10, 3);
+        add_filter('wp_privacy_personal_data_erasers', [$this->privacy, 'filterPersonalDataErasers']);
+        add_filter('wp_privacy_personal_data_exporters', [$this->privacy, 'filterPersonalDataExporters']);
         add_filter('script_loader_tag', [$this->public, 'filterEnqueuedScriptTags'], 10, 2);
         add_filter('site-reviews/config/forms/submission-form', [$this->public, 'filterFieldOrder'], 11);
         add_filter('site-reviews/render/view', [$this->public, 'filterRenderView']);

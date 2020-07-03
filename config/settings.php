@@ -446,6 +446,12 @@ return [
         ],
         'type' => 'checkbox',
     ],
+    'settings.submissions.privacy_notice' => [
+        'default' => 'no',
+        'description' => _x('To help your site with transparency under privacy laws like the GDPR, you can display a notice to your users under your review forms.', 'admin-text', 'site-reviews'),
+        'label' => _x('Display Privacy Notice', 'admin-text', 'site-reviews'),
+        'type' => 'yes_no',
+    ],
     'settings.submissions.limit' => [
         'default' => '',
         'description' => _x('Limits the number of reviews that can be submitted to one-per-person. If you are assigning reviews, then the limit will be applied to the assigned page or category.', 'admin-text', 'site-reviews'),
