@@ -4,12 +4,12 @@ defined('WPINC') || die;
 
 /**
  * Check for minimum system requirments on plugin activation.
- * @version 4.1.0
+ * @version 5.2.0
  */
-class GL_Plugin_Check_v4
+class GL_Plugin_Check_v5
 {
-    const MIN_PHP_VERSION = '5.6.0';
-    const MIN_WORDPRESS_VERSION = '4.7.0';
+    const MIN_PHP_VERSION = '5.6.20';
+    const MIN_WORDPRESS_VERSION = '5.2.0';
 
     /**
      * @var array
