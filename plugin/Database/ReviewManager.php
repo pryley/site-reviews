@@ -3,19 +3,199 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
-use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
-use GeminiLabs\SiteReviews\Defaults\SiteReviewsSummaryDefaults;
+use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Reviews;
-use WP_Post;
-use WP_Query;
 
 class ReviewManager
 {
+    /**
+     * @param int $postId
+     * @return int|false
+     */
+    public function assignPost(Review $review, $postId)
+    {
+        glsr(Cache::class)->delete($review->ID, 'reviews');
+        return glsr(Database::class)->insertRaw(glsr(Query::class)->table('assigned_posts'), [
+            'is_published' => 'publish' === get_post_status($postId),
+            'post_id' => $postId,
+            'rating_id' => $review->rating_id,
+        ]);
+    }
+
+    /**
+     * @param int $termId
+     * @return int|false
+     */
+    public function assignTerm(Review $review, $termId)
+    {
+        glsr(Cache::class)->delete($review->ID, 'reviews');
+        return glsr(Database::class)->insertRaw(glsr(Query::class)->table('assigned_terms'), [
+            'rating_id' => $review->rating_id,
+            'term_id' => $termId,
+        ]);
+    }
+
+    /**
+     * @param int $userId
+     * @return int|false
+     */
+    public function assignUser(Review $review, $userId)
+    {
+        glsr(Cache::class)->delete($review->ID, 'reviews');
+        return glsr(Database::class)->insertRaw(glsr(Query::class)->table('assigned_users'), [
+            'rating_id' => $review->rating_id,
+            'user_id' => $userId,
+        ]);
+    }
+
+    /**
+     * @param int $reviewId
+     * @return void
+     */
+    public function delete($reviewId)
+    {
+        glsr(Cache::class)->delete($reviewId, 'reviews');
+        return glsr(Database::class)->delete('ratings', [
+            'review_id' => $reviewId,
+        ]);
+    }
+
+    /**
+     * @param int $reviewId
+     * @return void
+     */
+    public function deleteRevisions($reviewId)
+    {
+        $revisionIds = glsr(Query::class)->revisionIds($reviewId);
+        foreach ($revisionIds as $revisionId) {
+            wp_delete_post_revision($revisionId);
+        }
+    }
+
+    /**
+     * @param int $reviewId
+     * @return Review
+     */
+    public function get($reviewId)
+    {
+        $review = glsr(Query::class)->review($reviewId);
+        glsr()->action('get/review', $review, $reviewId);
+        return $review;
+    }
+
+    /**
+     * @return Reviews
+     */
+    public function reviews(array $args = [])
+    {
+        $reviews = glsr(Query::class)->reviews($args);
+        $total = $this->total($args, $reviews);
+        glsr()->action('get/reviews', $reviews, $args);
+        return new Reviews($reviews, $total, $args);
+    }
+
+    /**
+     * @return int
+     */
+    public function total(array $args = [], array $reviews = [])
+    {
+        return glsr(Query::class)->totalReviews($args, $reviews);
+    }
+
+    /**
+     * @param int $postId
+     * @return int|false
+     */
+    public function unassignPost(Review $review, $postId)
+    {
+        glsr(Cache::class)->delete($review->ID, 'reviews');
+        return glsr(Database::class)->delete(glsr(Query::class)->table('assigned_posts'), [
+            'post_id' => $postId,
+            'rating_id' => $review->rating_id,
+        ]);
+    }
+
+    /**
+     * @param int $termId
+     * @return int|false
+     */
+    public function unassignTerm(Review $review, $termId)
+    {
+        glsr(Cache::class)->delete($review->ID, 'reviews');
+        return glsr(Database::class)->delete(glsr(Query::class)->table('assigned_terms'), [
+            'rating_id' => $review->rating_id,
+            'term_id' => $termId,
+        ]);
+    }
+
+    /**
+     * @param int $termId
+     * @return int|false
+     */
+    public function unassignUser(Review $review, $userId)
+    {
+        glsr(Cache::class)->delete($review->ID, 'reviews');
+        return glsr(Database::class)->delete(glsr(Query::class)->table('assigned_users'), [
+            'rating_id' => $review->rating_id,
+            'user_id' => $userId,
+        ]);
+    }
+
+    /**
+     * @param int $reviewId
+     * @return int|bool
+     */
+    public function update($reviewId, array $data = [])
+    {
+        $defaults = glsr(RatingDefaults::class)->restrict($data);
+        if ($data = array_intersect_key($data, $defaults)) {
+            glsr(Cache::class)->delete($reviewId, 'reviews');
+            return glsr(Database::class)->update('ratings', $data, [
+                'review_id' => $reviewId,
+            ]);
+        }
+        return 0;
+    }
+
+    /**
+     * @param int $postId
+     * @param bool $isPublished
+     * @return int|bool
+     */
+    public function updateAssignedPost($postId, $isPublished)
+    {
+        $isPublished = wp_validate_boolean($isPublished);
+        $postId = Helper::castToInt($postId);
+        return glsr(Database::class)->update('assigned_posts',
+            ['is_published' => $isPublished],
+            ['post_id' => $postId],
+        );
+    }
+
+    /**
+     * @param array[]|string $termIds
+     * @return array
+     */
+    public function normalizeTermIds($termIds)
+    {
+        $termIds = Arr::convertFromString($termIds);
+        foreach ($termIds as &$termId) {
+            $term = term_exists($termId, glsr()->taxonomy); // get the term from a term slug
+            $termId = Arr::get($term, 'term_id', 0);
+        }
+        return Arr::uniqueInt($termIds);
+    }
+
+    // -[ ] insert review (rating)
+    // -[ ] update review (rating)
+    // -[ ] delete review (rating)
+
     /**
      * @return false|Review
      */
@@ -48,144 +228,6 @@ class ReviewManager
         glsr()->action('review/created', $review, $command);
         return $review;
     }
-
-    /**
-     * @return Reviews
-     */
-    public function reviews(array $args = [])
-    {
-        $results = glsr(Query::class)->reviews($args);
-        $reviews = $this->generateReviews($this->generatePosts($results));
-        $total = $this->total($args, $results);
-        glsr()->action('get/reviews', $reviews, $results);
-        return new Reviews($reviews, $total, $args);
-    }
-
-    /**
-     * @param int $postId
-     * @return void
-     */
-    public function revert($postId)
-    {
-        if (Application::POST_TYPE != get_post_field('post_type', $postId)) {
-            return;
-        }
-        delete_post_meta($postId, '_edit_last');
-        $result = wp_update_post([
-            'ID' => $postId,
-            'post_content' => glsr(Database::class)->get($postId, 'content'),
-            'post_date' => glsr(Database::class)->get($postId, 'date'),
-            'post_title' => glsr(Database::class)->get($postId, 'title'),
-        ]);
-        if (is_wp_error($result)) {
-            glsr_log()->error($result->get_error_message());
-            return;
-        }
-        glsr()->action('review/reverted', glsr_get_review($postId));
-    }
-
-    /**
-     * @param WP_Post|int $reviewId
-     * @return Review
-     */
-    public function get($reviewId)
-    {
-        $post = get_post($reviewId);
-        if (glsr()->post_type !== Arr::get($post, 'post_type')) {
-            $post = new WP_Post((object) []);
-        }
-        $review = new Review($post);
-        glsr()->action('get/review', $review, $post);
-        return $review;
-    }
-
-    /**
-     * @return int
-     */
-    public function total(array $args = [], array $results = [])
-    {
-        return glsr(Query::class)->totalReviews($args, $results);
-    }
-
-    /**
-     * @return array
-     */
-    protected function generatePosts(array $results)
-    {
-        $posts = array_map('get_post', $results);
-        if (!wp_using_ext_object_cache()) {
-            update_post_caches($posts, glsr()->post_type);
-        }
-        return $posts;
-    }
-
-    /**
-     * @return array
-     */
-    protected function generateReviews(array $posts)
-    {
-        $reviews = array_map([$this, 'get'], $posts);
-        $postIds = array_unique(call_user_func_array('array_merge', glsr_array_column($reviews, 'post_ids')));
-        $termIds = array_unique(call_user_func_array('array_merge', glsr_array_column($reviews, 'term_ids')));
-        update_postmeta_cache($postIds); // is this necessary to do for assigned post Ids?
-        $lazyloader = wp_metadata_lazyloader();
-        $lazyloader->queue_objects('term', $termIds); // term_ids for each review
-        return $reviews;
-    }
-    /**
-     * @param string $commaSeparatedTermIds
-     * @return array
-     */
-    public function normalizeTermIds($commaSeparatedTermIds)
-    {
-        $termIds = glsr_array_column($this->normalizeTerms($commaSeparatedTermIds), 'term_id');
-        return array_unique(array_map('intval', $termIds));
-    }
-
-    /**
-     * @param string $commaSeparatedTermIds
-     * @return array
-     */
-    public function normalizeTerms($commaSeparatedTermIds)
-    {
-        $terms = [];
-        $termIds = Arr::convertFromString($commaSeparatedTermIds);
-        foreach ($termIds as $termId) {
-            if (is_numeric($termId)) {
-                $termId = intval($termId);
-            }
-            $term = term_exists($termId, Application::TAXONOMY);
-            if (!isset($term['term_id'])) {
-                continue;
-            }
-            $terms[] = $term['term_id'];
-        }
-        return $terms;
-    }
-
-    /**
-     * @param int $postId
-     * @return void
-     */
-    public function revert($postId)
-    {
-        if (Application::POST_TYPE != get_post_field('post_type', $postId)) {
-            return;
-        }
-        delete_post_meta($postId, '_edit_last');
-        $result = wp_update_post([
-            'ID' => $postId,
-            'post_content' => glsr(Database::class)->get($postId, 'content'),
-            'post_date' => glsr(Database::class)->get($postId, 'date'),
-            'post_title' => glsr(Database::class)->get($postId, 'title'),
-        ]);
-        if (is_wp_error($result)) {
-            glsr_log()->error($result->get_error_message());
-            return;
-        }
-        do_action('site-reviews/review/reverted', glsr_get_review($postId));
-    }
-
 
     /**
      * @param bool $isBlacklisted
