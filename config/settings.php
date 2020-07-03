@@ -4,13 +4,13 @@ return [
     'settings.general.delete_data_on_uninstall' => [
         'data-glsr-track' => '',
         'default' => '',
-        'description' => _x('Site Reviews will not delete anything when uninstalled unless you change this setting.', 'site-reviews'),
+        'description' => _x('Site Reviews will not delete anything when uninstalled unless you change this setting.', 'admin-text', 'site-reviews'),
         'options' => [
             '' => _x('Do not delete anything', 'admin-text', 'site-reviews'),
             'minimal' => _x('Delete all plugin settings, widgets, and caches', 'admin-text', 'site-reviews'),
             'all' => _x('Delete everything (including all reviews and categories)', 'admin-text', 'site-reviews'),
         ],
-        'label' => _x('Delete data on uninstall', 'site-reviews'),
+        'label' => _x('Delete data on uninstall', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
     'settings.general.style' => [
