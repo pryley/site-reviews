@@ -542,7 +542,7 @@ return [
         'type' => 'yes_no',
     ],
     'settings.submissions.blacklist.integration' => [
-        'default' => '',
+        'default' => 'comments',
         'description' => sprintf(_x('Choose which Blacklist you would prefer to use for reviews. The %s can be found in the WordPress Discussion Settings page.', 'admin-text', 'site-reviews'),
             '<a href="'.admin_url('options-discussion.php#users_can_register').'">'._x('Comment Blacklist', 'admin-text', 'site-reviews').'</a>'
         ),
