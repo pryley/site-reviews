@@ -28,6 +28,7 @@ add_filter('plugins_loaded', function () {
         'glsr_get_option' => 4,
         'glsr_get_options' => 1,
         'glsr_get_rating' => 2,
+        'glsr_get_ratings' => 2,
         'glsr_get_review' => 2,
         'glsr_get_reviews' => 2,
         'glsr_log' => 3,
@@ -128,7 +129,7 @@ function glsr_get_options()
 /**
  * @return \GeminiLabs\SiteReviews\Arguments
  */
-function glsr_get_rating($args = array())
+function glsr_get_ratings($args = array())
 {
     $args = Arr::consolidate($args);
     $counts = glsr(RatingManager::class)->ratings($args);
