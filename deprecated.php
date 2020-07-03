@@ -161,13 +161,16 @@ add_action('plugins_loaded', function () {
     }, 9, 3);
 });
 
-add_action('wp_footer', function () {
+add_action('admin_footer', 'glsr_log_deprecated_notices');
+add_action('wp_footer', 'glsr_log_deprecated_notices');
+
+function glsr_log_deprecated_notices() {
     $notices = array_keys(array_flip(glsr()->retrieve('deprecated', [])));
     natsort($notices);
     foreach ($notices as $notice) {
         glsr_log()->warning($notice);
     }
-});
+}
 
 /**
  * @return void
@@ -179,4 +182,17 @@ function glsr_calculate_ratings()
         _x('The %s function has been deprecated and removed, please update your code.', 'admin-text', 'site-reviews'), 
         'glsr_calculate_ratings()'
     ));
+}
+
+/**
+ * @return object
+ */
+function glsr_get_rating($args = array())
+{
+    glsr_log()->warning(sprintf(
+        _x('The %s function has been deprecated and will be removed in a future version, please use %s instead.', 'admin-text', 'site-reviews'), 
+        'glsr_get_rating()',
+        'glsr_get_ratings()'
+    ));
+    return glsr_get_ratings($args);
 }
