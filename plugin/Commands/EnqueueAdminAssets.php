@@ -57,7 +57,7 @@ class EnqueueAdminAssets implements Contract
             glsr()->url('assets/scripts/'.Application::ID.'-admin.js'),
             $this->getDependencies(),
             glsr()->version,
-            true
+            false
         );
         if (!empty($this->pointers)) {
             wp_enqueue_style('wp-pointer');

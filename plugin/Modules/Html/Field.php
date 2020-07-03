@@ -19,6 +19,7 @@ class Field
         $this->field = wp_parse_args($field, [
             'errors' => false,
             'is_hidden' => false,
+            'is_metabox' => false,
             'is_multi' => false,
             'is_public' => false,
             'is_raw' => false,
@@ -48,6 +49,9 @@ class Field
         }
         if ($this->field['is_raw']) {
             return glsr(Builder::class)->{$this->field['type']}($this->field);
+        }
+        if ($this->field['is_metabox']) {
+            return $this->buildMetaboxField();
         }
         if (!$this->field['is_setting']) {
             return $this->buildField();
@@ -144,6 +148,21 @@ class Field
     public function render()
     {
         echo $this->build();
+    }
+
+    /**
+     * @return string
+     */
+    protected function buildMetaboxField()
+    {
+        return glsr(Template::class)->build('partials/editor/metabox-field', [
+            'context' => [
+                'class' => $this->getFieldClass(),
+                'field' => $this->getField(),
+                'label' => glsr(Builder::class)->label($this->field['label'], ['for' => $this->field['id']]),
+            ],
+            'field' => $this->field,
+        ]);
     }
 
     /**

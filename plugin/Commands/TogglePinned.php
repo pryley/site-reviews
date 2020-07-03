@@ -3,21 +3,21 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
-use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Database\RatingManager;
+use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
 class TogglePinned implements Contract
 {
-    public $id;
-    public $pinned;
+    public $isPinned;
+    public $review;
 
     public function __construct($input)
     {
-        $this->id = $input['id'];
-        $this->pinned = isset($input['pinned'])
+        $this->review = glsr(Query::class)->review($input['id']);
+        $this->isPinned = isset($input['pinned'])
             ? wp_validate_boolean($input['pinned'])
-            : null;
+            : !$this->review->is_pinned;
     }
 
     /**
@@ -25,25 +25,18 @@ class TogglePinned implements Contract
      */
     public function handle()
     {
-        if (!get_post($this->id)) {
-            return false;
-        }
         if (!glsr()->can('edit_others_posts')) {
-            $isPinned = (Database::class)->get($this->id, 'is_pinned');
-            return wp_validate_boolean($isPinned);
+            return wp_validate_boolean($this->review->is_pinned);
         }
-        if (is_null($this->pinned)) {
-            $isPinned = glsr(Database::class)->get($this->id, 'is_pinned');
-            $this->pinned = !wp_validate_boolean($isPinned);
-        } else {
-            $notice = $this->pinned
+        if ($this->isPinned !== $this->review->is_pinned) {
+            glsr(ReviewManager::class)->update($this->review->ID, [
+                'is_pinned' => $this->isPinned,
+            ]);
+            $notice = $this->isPinned
                 ? _x('Review pinned.', 'admin-text', 'site-reviews')
                 : _x('Review unpinned.', 'admin-text', 'site-reviews');
             glsr(Notice::class)->addSuccess($notice);
         }
-        glsr(RatingManager::class)->update($this->id, [
-            'is_pinned' => $this->pinned,
-        ]);
-        return $this->pinned;
+        return $this->isPinned;
     }
 }

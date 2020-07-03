@@ -17,6 +17,8 @@ class Router
         $this->unguardedActions = glsr()->filterArray('router/unguarded-actions', [
             'dismiss-notice',
             'fetch-paged-reviews',
+            'search-posts',
+            'search-users',
         ]);
     }
 

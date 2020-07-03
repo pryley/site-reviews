@@ -3,16 +3,17 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
-use GeminiLabs\SiteReviews\Database\RatingManager;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Review;
 
 class AssignUsers implements Contract
 {
-    public $ratingId;
+    public $review;
     public $userIds;
 
-    public function __construct($ratingId, array $userIds)
+    public function __construct(Review $review, array $userIds)
     {
-        $this->ratingId = $ratingId;
+        $this->review = $review;
         $this->userIds = $userIds;
     }
 
@@ -22,7 +23,7 @@ class AssignUsers implements Contract
     public function handle()
     {
         foreach ($this->userIds as $userId) {
-            glsr(RatingManager::class)->assignUser($this->ratingId, $userId);
+            glsr(ReviewManager::class)->assignUser($this->review, $userId);
         }
     }
 }

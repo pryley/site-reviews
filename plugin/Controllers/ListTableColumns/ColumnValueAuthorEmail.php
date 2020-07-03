@@ -4,13 +4,13 @@ namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
 use GeminiLabs\SiteReviews\Review;
 
-class ColumnValueRating implements ColumnValue
+class ColumnValueAuthorEmail implements ColumnValue
 {
     /**
      * {@inheritdoc}
      */
     public function handle(Review $review)
     {
-        return glsr_star_rating($review->rating);
+        return $review->email;
     }
 }

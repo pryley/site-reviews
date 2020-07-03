@@ -1,4 +1,4 @@
-/** global: GLSR, jQuery, wp */
+/** global: GLSR, jQuery, StarRating, wp */
 
 GLSR.keys = {
 	ALT: 18,
@@ -13,28 +13,57 @@ jQuery( function( $ ) {
 
 	GLSR.notices = new GLSR.Notices();
 	GLSR.shortcode = new GLSR.Shortcode( '.glsr-mce' );
+	GLSR.stars = new StarRating('.glsr-metabox-field select.glsr-star-rating', {
+		showText: false,
+	});
 	GLSR.ColorPicker();
 	new GLSR.Forms( 'form.glsr-form' );
 	new GLSR.Pinned();
 	new GLSR.Pointers();
-	new GLSR.Search( '#glsr-search-posts', {
+	new GLSR.Search('#glsr-search-posts', {
 		action: 'search-posts',
-		onInit: function() {
-			this.el.on( 'click', '.glsr-remove-button', this.onUnassign_.bind( this ));
+		onInit: function () {
+			this.el.find('.glsr-remove-button').on('click', this.onUnassign_.bind(this));
 		},
-		onResultClick: function( ev ) {
-			var result = $( ev.currentTarget );
-			var template = wp.template( 'glsr-assigned-post' );
+		onResultClick: function (ev) {
+			var result = $(ev.currentTarget);
+			var template = wp.template('glsr-assigned-posts');
 			var entry = {
-				url: result.data( 'url' ),
+				id: result.data('id'),
+				name: 'post_ids[]',
+				url: result.data('url'),
 				title: result.text(),
 			};
-			if( template ) {
-				this.el.find( 'input#assigned_to' ).val( result.data( 'id' ));
-				this.el.find( '.description' ).html( template( entry ));
-				this.el.on( 'click', '.glsr-remove-button', this.onUnassign_.bind( this ));
+			if (template) {
+				var entryEl = $(template(entry));
+				entryEl.find('.glsr-remove-button').on('click', this.onUnassign_.bind(this));
+				this.el.find('.glsr-selected-entries').append(entryEl);
 				this.reset_();
 			}
+			this.options.searchEl.focus();
+		},
+	});
+	new GLSR.Search('#glsr-search-users', {
+		action: 'search-users',
+		onInit: function () {
+			this.el.find('.glsr-remove-button').on('click', this.onUnassign_.bind(this));
+		},
+		onResultClick: function (ev) {
+			var result = $(ev.currentTarget);
+			var template = wp.template('glsr-assigned-users');
+			var entry = {
+				id: result.data('id'),
+				name: 'user_ids[]',
+				url: result.data('url'),
+				title: result.text(),
+			};
+			if (template) {
+				var entryEl = $(template(entry));
+				entryEl.find('.glsr-remove-button').on('click', this.onUnassign_.bind(this));
+				this.el.find('.glsr-selected-entries').append(entryEl);
+				this.reset_();
+			}
+			this.options.searchEl.focus();
 		},
 	});
 	new GLSR.Search( '#glsr-search-translations', {
@@ -63,6 +92,37 @@ jQuery( function( $ ) {
 	new GLSR.TextareaResize();
 	new GLSR.Tools();
 	new GLSR.Sync();
+
+	$('.glsr-metabox-field .glsr-toggle__input').change(function () {
+		var isChecked = this.checked;
+		$('.glsr-input-value').each(function(i, el) {
+			if (isChecked) {
+				$(el).data('value', el.value);
+			} else {
+				el.value = $(el).data('value');
+				if ('url' !== el.type) return;
+				switchImage($(el).parent().find('img'), el.value);
+			}
+		});
+		$('.glsr-input-value').prop('disabled', !isChecked);
+		GLSR.stars.rebuild();
+	});
+
+	$('.glsr-metabox-field input[type=url]').change(function () {
+		switchImage($(this).parent().find('img'), this.value);
+	});
+
+	var switchImage = function (imgEl, imgSrc) {
+		if (!imgEl) return;
+		var image = new Image();
+		image.src = imgSrc;
+		image.onerror = function () {
+			imgEl.attr('src', imgEl.data('fallback'));
+		};
+		image.onload = function () {
+			imgEl.attr('src', image.src);
+		};
+	};
 
 	$('a#revert').on('click', function () {
 		$(this).parent().find('.spinner').addClass('is-active');

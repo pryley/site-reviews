@@ -43,13 +43,13 @@ class RegisterPostType implements Contract
             $keys[array_search('category', $keys)] = 'taxonomy-'.Application::TAXONOMY;
             $this->columns = array_combine($keys, $this->columns);
         }
-        if (array_key_exists('pinned', $this->columns)) {
-            $this->columns['pinned'] = glsr(Builder::class)->span('<span>'.$this->columns['pinned'].'</span>',
+        if (array_key_exists('is_pinned', $this->columns)) {
+            $this->columns['is_pinned'] = glsr(Builder::class)->span('<span>'.$this->columns['is_pinned'].'</span>',
                 ['class' => 'pinned-icon']
             );
         }
         if (count(glsr()->reviewTypes) < 2) {
-            unset($this->columns['review_type']);
+            unset($this->columns['type']);
         }
         $columns = wp_parse_args(glsr()->retrieve('columns', []), [
             glsr()->post_type => $this->columns,

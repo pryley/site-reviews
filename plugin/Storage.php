@@ -20,7 +20,7 @@ Trait Storage
     public function append($property, $value, $key = null)
     {
         $stored = $this->retrieve($property, []);
-        if (is_array($stored)) {
+        if (!is_array($stored)) {
             return false;
         }
         if ($key) {

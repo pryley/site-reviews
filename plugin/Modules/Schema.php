@@ -144,7 +144,7 @@ class Schema
         foreach ($this->reviews as $review) {
             // Only include critic reviews that have been directly produced by your site, not reviews from third-party sites or syndicated reviews.
             // @see https://developers.google.com/search/docs/data-types/review
-            if ('local' === $review->review_type) {
+            if ('local' === $review->type) {
                 $reviews[] = $this->buildReview($review);
             }
         }

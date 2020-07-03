@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Controllers\EditorController\Labels;
+use GeminiLabs\SiteReviews\Defaults\PostStatusLabelDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Translation;
@@ -195,9 +195,13 @@ class TranslationController
      */
     public function filterPostStatusLabels($translation, $text, $domainOrContext, $domain = null)
     {
-        return in_array('default', [$domainOrContext, $domain]) && $this->canModifyTranslation()
-            ? glsr(Labels::class)->filterPostStatusLabels($translation, $text)
-            : $translation;
+        if (in_array('default', [$domainOrContext, $domain]) && $this->canModifyTranslation()) {
+            $replacements = $this->statusLabels();
+            return array_key_exists($text, $replacements)
+                ? $replacements[$text]
+                : $translation;
+        }
+        return $translation;
     }
 
     /**
@@ -235,8 +239,21 @@ class TranslationController
      */
     public function translatePostStatusLabels()
     {
-        if ($this->canModifyTranslation()) {
-            glsr(Labels::class)->translatePostStatusLabels();
+        if (!$this->canModifyTranslation()) {
+            return;
+        }
+        $pattern = '/^([^{]+)(.+)([^}]+)$/';
+        $script = Arr::get(wp_scripts(), 'registered.post.extra.data');
+        preg_match($pattern, $script, $matches);
+        if (4 === count($matches) && $i10n = json_decode($matches[2], true)) {
+            $i10n['privatelyPublished'] = _x('Privately Approved', 'admin-text', 'site-reviews');
+            $i10n['publish'] = _x('Approve', 'admin-text', 'site-reviews');
+            $i10n['published'] = _x('Approved', 'admin-text', 'site-reviews');
+            $i10n['publishOn'] = _x('Approve on:', 'admin-text', 'site-reviews');
+            $i10n['publishOnPast'] = _x('Approved on:', 'admin-text', 'site-reviews');
+            $i10n['savePending'] = _x('Save as Unapproved', 'admin-text', 'site-reviews');
+            $script = $matches[1].json_encode($i10n).$matches[3];
+            Arr::set(wp_scripts(), 'registered.post.extra.data', $script);
         }
     }
 
@@ -246,7 +263,20 @@ class TranslationController
     protected function canModifyTranslation()
     {
         $screen = glsr_current_screen();
-        return Application::POST_TYPE == $screen->post_type 
+        return Application::POST_TYPE == $screen->post_type
             && in_array($screen->base, ['edit', 'post']);
+    }
+
+    /**
+     * Store the labels to avoid unnecessary loops.
+     * @return array
+     */
+    protected function statusLabels()
+    {
+        static $labels;
+        if (empty($labels)) {
+            $labels = glsr(PostStatusLabelDefaults::class)->defaults();
+        }
+        return $labels;
     }
 }

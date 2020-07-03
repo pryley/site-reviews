@@ -2,15 +2,15 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
-use GeminiLabs\SiteReviews\Rating;
+use GeminiLabs\SiteReviews\Review;
 
 class ColumnValueIpAddress implements ColumnValue
 {
     /**
      * {@inheritdoc}
      */
-    public function handle(Rating $rating)
+    public function handle(Review $review)
     {
-        return $rating->ip_address;
+        return $review->ip_address;
     }
 }

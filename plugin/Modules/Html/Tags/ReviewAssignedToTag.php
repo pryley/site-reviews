@@ -13,16 +13,19 @@ class ReviewAssignedToTag extends ReviewTag
      * @param mixed $value
      * @return array
      */
-    public function assignedLinks($value)
+    public static function assignedLinks($value)
     {
         $links = [];
+        $usedIds = [];
         foreach (Arr::consolidate($value) as $postId) {
             $post = get_post(glsr(Multilingual::class)->getPostId($postId));
-            if (!empty($post->ID)) {
+            if (!empty($post->ID) && !in_array($post->ID, $usedIds)) {
                 $links[] = glsr(Builder::class)->a([
                     'href' => get_the_permalink($post->ID),
                     'text' => get_the_title($post->ID),
                 ]);
+                $usedIds[] = $post->ID;
+                $usedIds = Arr::unique($usedIds);
             }
         }
         return $links;
@@ -34,7 +37,7 @@ class ReviewAssignedToTag extends ReviewTag
     protected function handle($value = null)
     {
         if (!$this->isHidden('reviews.assigned_links')) {
-            $links = $this->assignedLinks($value);
+            $links = static::assignedLinks($value);
             $tagValue = !empty($links)
                 ? sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($links))
                 : '';

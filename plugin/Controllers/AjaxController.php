@@ -157,6 +157,18 @@ class AjaxController extends Controller
     /**
      * @return void
      */
+    public function routerSearchUsers(Request $request)
+    {
+        $results = glsr(Database::class)->searchUsers($request->search);
+        wp_send_json_success([
+            'empty' => '<div>'._x('Nothing found.', 'admin-text', 'site-reviews').'</div>',
+            'items' => $results,
+        ]);
+    }
+
+    /**
+     * @return void
+     */
     public function routerSearchTranslations(Request $request)
     {
         if (empty($request->exclude)) {

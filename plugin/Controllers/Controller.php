@@ -46,13 +46,4 @@ abstract class Controller
         return is_admin()
             && in_array(glsr()->post_type, [get_post_type(), filter_input(INPUT_GET, 'post_type')]);
     }
-
-    /**
-     * @param int $postId
-     * @return bool
-     */
-    protected function isReviewPostId($postId)
-    {
-        return glsr()->post_type === get_post_field('post_type', $postId);
-    }
 }

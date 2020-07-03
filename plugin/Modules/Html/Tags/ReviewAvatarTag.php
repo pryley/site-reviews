@@ -10,12 +10,14 @@ class ReviewAvatarTag extends ReviewTag
      * @param string $avatarUrl
      * @return string
      */
-    public function regenerateAvatar($avatarUrl)
+    public function regenerateAvatar($avatarUrl, $fallback)
     {
         if ($this->canRegenerateAvatar() && $newAvatarUrl = get_avatar_url($this->userField())) {
             return $newAvatarUrl;
         }
-        return $avatarUrl;
+        return empty($avatarUrl)
+            ? $fallback
+            : $avatarUrl;
     }
 
     /**
@@ -34,10 +36,11 @@ class ReviewAvatarTag extends ReviewTag
     {
         if (!$this->isHidden('reviews.avatars')) {
             $size = glsr_get_option('settings.reviews.avatars_size', 40, 'int');
+            $fallback = 'https://gravatar.com/avatar/?d=mm&s='.($size * 2);
             return $this->wrap(glsr(Builder::class)->img([
                 'height' => $size,
                 'loading' => 'lazy',
-                'src' => $this->regenerateAvatar($value),
+                'src' => $this->regenerateAvatar($value, $fallback),
                 'style' => sprintf('width:%1$spx; height:%1$spx;', $size),
                 'width' => $size,
             ]));

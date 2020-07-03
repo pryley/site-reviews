@@ -63,6 +63,7 @@
 		clearResults_: function() {
 			this.abort_();
 			this.options.resultsEl.empty();
+			this.options.resultsEl.removeClass('is-active');
 			this.el.removeClass( 'is-active' );
 			$( 'body' ).removeClass( 'glsr-focus' );
 		},
@@ -193,6 +194,7 @@
 				this.el.removeClass( 'is-active' );
 				this.displayResults_( response.items ? response.items : response.empty );
 				this.options.results = this.options.resultsEl.children();
+				this.options.resultsEl.addClass('is-active');
 				delete this.searchRequest;
 			}.bind( this ));
 		},
@@ -209,13 +211,12 @@
 		},
 
 		/** @return void */// Manage entries
-		onUnassign_: function( ev ) {
+		onUnassign_: function(ev) {
 			ev.preventDefault();
-			var assigned = this.el.find( '.description' );
-			this.el.find( 'input#assigned_to' ).val( '' );
-			assigned.find( 'a' ).css({ color:'#c00' });
-			assigned.fadeOut( 'fast', function() {
-				$( this ).html( '' ).show();
+			var assignedEl = $(ev.currentTarget).closest('.glsr-assigned-entry');
+			assignedEl.find('a').css({color:'#c00'});
+			assignedEl.fadeOut('fast', function () {
+				assignedEl.remove();
 			});
 		},
 

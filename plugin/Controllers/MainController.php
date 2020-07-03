@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\RegisterPostType;
 use GeminiLabs\SiteReviews\Commands\RegisterShortcodes;
 use GeminiLabs\SiteReviews\Commands\RegisterTaxonomy;
@@ -50,7 +49,7 @@ class MainController extends Controller
     {
         $this->execute(new RegisterTaxonomy([
             'hierarchical' => true,
-            'meta_box_cb' => [glsr(EditorController::class), 'renderTaxonomyMetabox'],
+            'meta_box_cb' => [glsr(MetaboxController::class), 'renderTaxonomyMetabox'],
             'public' => false,
             'rest_controller_class' => RestCategoryController::class,
             'show_admin_column' => true,

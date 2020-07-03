@@ -242,7 +242,7 @@ final class Application extends Container
     {
         $types = $this->filterArray('addon/types', []);
         $this->reviewTypes = wp_parse_args($types, [
-            'local' => _x('Local', 'admin-text', 'site-reviews'),
+            'local' => _x('Local Review', 'admin-text', 'site-reviews'),
         ]);
     }
 

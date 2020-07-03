@@ -17,6 +17,7 @@ class PostTypeDefaults extends Defaults
                 'create_posts' => 'create_'.glsr()->post_type,
             ],
             'capability_type' => glsr()->post_type,
+            'exclude_from_search' => true,
             'has_archive' => false,
             'hierarchical' => false,
             'labels' => [],

@@ -33,7 +33,7 @@ class Reviews extends ArrayObject
     public function __construct(array $reviews, $total, array $args)
     {
         $this->args = glsr(SiteReviewsDefaults::class)->merge($args);
-        $this->max_num_pages = ceil($total / $this->args['per_page']);
+        $this->max_num_pages = ceil($total / $this->args['display']);
         $this->reviews = $reviews;
         $this->total = $total;
         parent::__construct($this->reviews, ArrayObject::STD_PROP_LIST | ArrayObject::ARRAY_AS_PROPS);

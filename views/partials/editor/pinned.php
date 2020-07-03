@@ -8,8 +8,8 @@
         <span class="screen-reader-text"><?= _x('Edit pinned status', 'admin-text', 'site-reviews'); ?></span>
     </a>
     <div id="pinned-status-select" class="pinned-status-select hide-if-js">
-        <input type="hidden" id="hidden-pinned-status" value="<?= intval($pinned); ?>">
-        <select name="pinned" id="pinned-status">
+        <input type="hidden" name="<?= glsr()->id; ?>[is_pinned]" id="hidden-pinned-status" value="<?= intval($pinned); ?>">
+        <select id="pinned-status">
             <option value="1"<?php selected($pinned, false); ?>><?= _x('Pin', 'admin-text', 'site-reviews'); ?></option>
             <option value="0"<?php selected($pinned, true); ?>><?= _x('Unpin', 'admin-text', 'site-reviews'); ?></option>
         </select>

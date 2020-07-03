@@ -1,6 +1,7 @@
 <?php defined('WPINC') || die; ?>
 
-<span class="glsr-assigned-post">
+<span class="glsr-assigned-entry">
+    <input type="hidden" name="{{ data.name }}" value="{{ data.id }}">
     <button type="button" class="glsr-remove-button">
         <span class="glsr-remove-icon" aria-hidden="true"></span>
         <span class="screen-reader-text"><?= _x('Remove assignment', 'admin-text', 'site-reviews'); ?></span>

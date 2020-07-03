@@ -57,6 +57,7 @@ mix
     '+/scripts/site-reviews.js',
   ], 'assets/scripts/site-reviews.js')
   .combine([
+    'node_modules/star-rating.js/src/star-rating.js',
     '+/scripts/admin/ajax.js',
     '+/scripts/admin/categories.js',
     '+/scripts/admin/color-picker.js',
