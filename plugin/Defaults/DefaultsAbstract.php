@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
@@ -26,6 +27,11 @@ abstract class DefaultsAbstract
     /**
      * @var array
      */
+    protected $casts = [];
+
+    /**
+     * @var array
+     */
     protected $guarded = [];
 
     /**
@@ -44,7 +50,7 @@ abstract class DefaultsAbstract
             return;
         }
         $args[0] = $this->mapKeys(Arr::get($args, 0, []));
-        $defaults = call_user_func_array([$this, $name], $args);
+        $defaults = $this->sanitize(call_user_func_array([$this, $name], $args));
         $hookName = (new ReflectionClass($this))->getShortName();
         $hookName = str_replace('Defaults', '', $hookName);
         $hookName = Str::dashCase($hookName);
@@ -191,6 +197,23 @@ abstract class DefaultsAbstract
     protected function restrict(array $values = [])
     {
         return $this->parseRestricted($values, $this->defaults());
+    }
+
+    /**
+     * @return array
+     */
+    protected function sanitize(array $values = [])
+    {
+        foreach ($this->casts as $key => $cast) {
+            if (!array_key_exists($key, $values)) {
+                continue;
+            }
+            $values[$key] = Helper::castTo($cast, $values[$key]);
+            if ('string' === $cast) {
+                $values[$key] = sanitize_key($values[$key]);
+            }
+        }
+        return $values;
     }
 
     /**
