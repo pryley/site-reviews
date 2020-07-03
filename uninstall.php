@@ -38,7 +38,7 @@ if ('all' === $uninstallOption) {
         FROM {$wpdb->posts} p
         LEFT JOIN {$wpdb->term_relationships} tr ON (p.ID = tr.object_id)
         LEFT JOIN {$wpdb->postmeta} pm ON (p.ID = pm.post_id)
-        WHERE p.post_type = '%s'", 
+        WHERE p.post_type = %s", 
         glsr()->post_type
     ));
     $prefix = $wpdb->prefix.glsr()->prefix;
