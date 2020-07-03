@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Rating as RatingModule;
 
 class Rating extends Field

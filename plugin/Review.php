@@ -114,6 +114,23 @@ class Review extends Arguments
         return $partial->buildReview($this);
     }
 
+
+    /**
+     * @param \WP_Post|int $post
+     * @return bool
+     */
+    public static function isReview($post)
+    {
+        return glsr()->post_type === get_post_type($post);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValid()
+    {
+        return !empty($this->id) && !empty($this->get('rating_id'));
+    }
     /**
      * @return Arguments
      */

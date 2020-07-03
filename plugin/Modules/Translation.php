@@ -99,7 +99,7 @@ class Translation
         if (!is_array($filterWith)) {
             $filterWith = $this->translations();
         }
-        $keys = array_flip(glsr_array_column($filterWith, 'id'));
+        $keys = array_flip(wp_list_pluck($filterWith, 'id'));
         $this->results = $intersect
             ? array_intersect_key($entries, $keys)
             : array_diff_key($entries, $keys);
@@ -117,7 +117,7 @@ class Translation
             $entry
         );
         $data['data.class'] = $data['data.error'] = '';
-        if (false === array_search($entry['s1'], glsr_array_column($this->entries(), 'msgid'))) {
+        if (false === array_search($entry['s1'], wp_list_pluck($this->entries(), 'msgid'))) {
             $data['data.class'] = 'is-invalid';
             $data['data.error'] = _x('This custom translation is no longer valid as the original text has been changed or removed.', 'admin-text', 'site-reviews');
         }

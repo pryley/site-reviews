@@ -15,7 +15,7 @@ class SiteReviewsFormWidget extends Widget
     public function form($instance)
     {
         $this->widgetArgs = $this->shortcode()->normalizeAtts($instance);
-        $terms = glsr(Database::class)->getTerms();
+        $terms = glsr(Database::class)->terms();
         $this->renderField('text', [
             'class' => 'widefat',
             'label' => _x('Title', 'admin-text', 'site-reviews'),

@@ -83,7 +83,7 @@ class Trustalyze
     {
         $trustalyzeResponse = [
             'reply' => Str::truncate($review->response, 300),
-            'review_id' => glsr(Database::class)->get($review->ID, 'trustalyze'), // this is the trustalyze review ID
+            'review_id' => glsr(Database::class)->meta($review->ID, 'trustalyze'), // this is the trustalyze review ID
             'review_transaction_id' => $review->review_id,
             'type' => 'M',
         ];

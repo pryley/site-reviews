@@ -50,7 +50,7 @@ class TrustalyzeController extends Controller
         if ($isAccountValidated && $isIntegrationEnabled) {
             return $context;
         }
-        $context['field'].= $this->buildCreateButton();
+        $context['field'] .= $this->buildCreateButton();
         return $context;
     }
 
@@ -66,7 +66,7 @@ class TrustalyzeController extends Controller
         }
         $trustalyze = glsr(Trustalyze::class)->sendReview($review);
         if ($trustalyze->success) {
-            glsr(Database::class)->set($review->ID, 'trustalyze', $trustalyze->review_id);
+            glsr(Database::class)->metaSet($review->ID, 'trustalyze', $trustalyze->review_id);
         }
     }
 
@@ -82,7 +82,7 @@ class TrustalyzeController extends Controller
         }
         $trustalyze = glsr(Trustalyze::class)->sendReview($review);
         if ($trustalyze->success) {
-            glsr(Database::class)->set($review->ID, 'trustalyze', $trustalyze->review_id);
+            glsr(Database::class)->metaSet($review->ID, 'trustalyze', $trustalyze->review_id);
         }
     }
 
@@ -98,7 +98,7 @@ class TrustalyzeController extends Controller
         }
         $trustalyze = glsr(Trustalyze::class)->sendReview($review);
         if ($trustalyze->success) {
-            glsr(Database::class)->set($review->ID, 'trustalyze', $trustalyze->review_id);
+            glsr(Database::class)->metaSet($review->ID, 'trustalyze', $trustalyze->review_id);
         }
     }
 
@@ -118,7 +118,7 @@ class TrustalyzeController extends Controller
         }
         $trustalyze = glsr(Trustalyze::class)->sendReviewResponse($review);
         if ($trustalyze->success) {
-            glsr(Database::class)->set($review->ID, 'trustalyze_response', true);
+            glsr(Database::class)->metaSet($review->ID, 'trustalyze_response', true);
         }
     }
 
@@ -140,7 +140,7 @@ class TrustalyzeController extends Controller
     protected function canPostResponse(Review $review)
     {
         $requiredValues = [
-            glsr(Database::class)->get($review->ID, 'trustalyze'),
+            glsr(Database::class)->meta($review->ID, 'trustalyze'),
             $review->response,
             $review->review_id,
         ];
@@ -173,7 +173,7 @@ class TrustalyzeController extends Controller
     protected function canProceed(Review $review, $metaKey = 'trustalyze')
     {
         return glsr(OptionManager::class)->getBool($this->enabledKey)
-            && $this->isReviewPostId($review->ID)
+            && Review::isReview($review->ID)
             && !$this->hasMetaKey($review, $metaKey);
     }
 
@@ -183,7 +183,7 @@ class TrustalyzeController extends Controller
      */
     protected function hasMetaKey(Review $review, $metaKey = 'trustalyze')
     {
-        return '' !== glsr(Database::class)->get($review->ID, $metaKey);
+        return '' !== glsr(Database::class)->meta($review->ID, $metaKey);
     }
 
     /**

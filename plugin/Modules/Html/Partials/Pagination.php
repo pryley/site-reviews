@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 use GeminiLabs\SiteReviews\Contracts\PartialContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Style;
@@ -42,7 +43,7 @@ class Pagination implements PartialContract
         $pattern = '/(href=["\'])([^"\']*?)(["\'])/i';
         foreach ($links as &$link) {
             if (preg_match($pattern, $link, $matches)) {
-                $page = glsr(Query::class)->getPaged(Arr::get($matches, 2));
+                $page = glsr(Helper::class)->getPageNumber(Arr::get($matches, 2));
                 $replacement = sprintf('data-page="%d" href="#"', $page);
                 $link = str_replace(Arr::get($matches, 0), $replacement, $link);
             }
@@ -69,7 +70,7 @@ class Pagination implements PartialContract
             $args['base'] = $baseUrl.'%_%';
         }
         $args = wp_parse_args(array_filter($args), [
-            'current' => glsr(Query::class)->getPaged(),
+            'current' => glsr(Helper::class)->getPageNumber(),
             'total' => 1,
         ]);
         return glsr(Style::class)->paginationArgs($args);

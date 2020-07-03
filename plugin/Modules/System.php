@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 use GeminiLabs\Sinergi\BrowserDetector\Browser;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -164,8 +165,7 @@ class System
      */
     public function getReviewsDetails()
     {
-        $counts = glsr(RatingManager::class)->ratings([], false);
-        $counts = Arr::flatten($counts);
+        $counts = glsr(Query::class)->ratings();
         array_walk($counts, function (&$ratings) use ($counts) {
             if (is_array($ratings)) {
                 $ratings = array_sum($ratings).' ('.implode(', ', $ratings).')';
@@ -223,7 +223,6 @@ class System
             'Console level' => glsr(Console::class)->humanLevel(),
             'Console size' => glsr(Console::class)->humanSize('0'),
             'Last Migration Run' => glsr(Date::class)->localized(glsr(OptionManager::class)->get('last_migration_run'), 'unknown'),
-            'Last Rating Count' => glsr(Date::class)->localized(glsr(OptionManager::class)->get('last_review_count'), 'unknown'),
             'Version (current)' => glsr()->version,
             'Version (previous)' => glsr(OptionManager::class)->get('version_upgraded_from'),
         ];

@@ -45,14 +45,22 @@ class Rating
      * @param int $roundBy
      * @return float
      */
-    public function getAverage(array $ratingCounts, $roundBy = 1)
+    public function average(array $ratingCounts, $roundBy = 1)
     {
         $average = array_sum($ratingCounts);
         if ($average > 0) {
-            $average = $this->getTotalSum($ratingCounts) / $average;
+            $average = $this->totalSum($ratingCounts) / $average;
         }
         $roundedAverage = round($average, intval($roundBy));
         return glsr()->filterFloat('rating/average', $roundedAverage, $ratingCounts, $average);
+    }
+
+    /**
+     * @return array
+     */
+    public function emptyArray()
+    {
+        return array_fill_keys(range(0, glsr()->constant('MAX_RATING', __CLASS__)), 0);
     }
 
     /**
@@ -65,7 +73,7 @@ class Rating
      * @param int $confidencePercentage
      * @return int|float
      */
-    public function getLowerBound(array $upDownCounts = [0, 0], $confidencePercentage = 95)
+    public function lowerBound(array $upDownCounts = [0, 0], $confidencePercentage = 95)
     {
         $numRatings = array_sum($upDownCounts);
         if ($numRatings < 1) {
@@ -79,16 +87,19 @@ class Rating
     /**
      * @return int|float
      */
-    public function getOverallPercentage(array $ratingCounts)
+    public function overallPercentage(array $ratingCounts)
     {
-        return round($this->getAverage($ratingCounts) * 100 / glsr()->constant('MAX_RATING', __CLASS__), 2);
+        return round($this->average($ratingCounts) * 100 / glsr()->constant('MAX_RATING', __CLASS__), 2);
     }
 
     /**
      * @return array
      */
-    public function getPercentages(array $ratingCounts)
+    public function percentages(array $ratingCounts)
     {
+        if (empty($ratingCounts)) {
+            $ratingCounts = $this->emptyArray();
+        }
         $total = array_sum($ratingCounts);
         foreach ($ratingCounts as $index => $count) {
             if (empty($count)) {
@@ -96,16 +107,16 @@ class Rating
             }
             $ratingCounts[$index] = $count / $total * 100;
         }
-        return $this->getRoundedPercentages($ratingCounts);
+        return $this->roundedPercentages($ratingCounts);
     }
 
     /**
      * @return float
      */
-    public function getRanking(array $ratingCounts)
+    public function ranking(array $ratingCounts)
     {
         return glsr()->filterFloat('rating/ranking',
-            $this->getRankingUsingImdb($ratingCounts),
+            $this->rankingUsingImdb($ratingCounts),
             $ratingCounts,
             $this
         );
@@ -121,9 +132,9 @@ class Rating
      * @param int $confidencePercentage
      * @return int|float
      */
-    public function getRankingUsingImdb(array $ratingCounts, $confidencePercentage = 70)
+    public function rankingUsingImdb(array $ratingCounts, $confidencePercentage = 70)
     {
-        $avgRating = $this->getAverage($ratingCounts);
+        $avgRating = $this->average($ratingCounts);
         // Represents a prior (your prior opinion without data) for the average star rating. A higher prior also means a higher margin for error.
         // This could also be the average score of all items instead of a fixed value.
         $bayesMean = ($confidencePercentage / 100) * glsr()->constant('MAX_RATING', __CLASS__); // prior, 70% = 3.5
@@ -145,20 +156,21 @@ class Rating
      * @param int $confidencePercentage
      * @return float
      */
-    public function getRankingUsingZScores(array $ratingCounts, $confidencePercentage = 90)
+    public function rankingUsingZScores(array $ratingCounts, $confidencePercentage = 90)
     {
         $ratingCountsSum = array_sum($ratingCounts) + glsr()->constant('MAX_RATING', __CLASS__);
-        $weight = $this->getWeight($ratingCounts, $ratingCountsSum);
-        $weightPow2 = $this->getWeight($ratingCounts, $ratingCountsSum, true);
+        $weight = $this->weight($ratingCounts, $ratingCountsSum);
+        $weightPow2 = $this->weight($ratingCounts, $ratingCountsSum, true);
         $zScore = static::CONFIDENCE_LEVEL_Z_SCORES[$confidencePercentage];
         return $weight - $zScore * sqrt(($weightPow2 - pow($weight, 2)) / ($ratingCountsSum + 1));
     }
 
     /**
+     * Returns array sorted by key DESC
      * @param int $target
      * @return array
      */
-    protected function getRoundedPercentages(array $percentages, $totalPercent = 100)
+    protected function roundedPercentages(array $percentages, $totalPercent = 100)
     {
         array_walk($percentages, function (&$percent, $index) {
             $percent = [
@@ -167,24 +179,24 @@ class Rating
                 'remainder' => fmod($percent, 1),
             ];
         });
-        $indexes = glsr_array_column($percentages, 'index');
-        $remainders = glsr_array_column($percentages, 'remainder');
+        $indexes = wp_list_pluck($percentages, 'index');
+        $remainders = wp_list_pluck($percentages, 'remainder');
         array_multisort($remainders, SORT_DESC, SORT_STRING, $indexes, SORT_DESC, $percentages);
         $i = 0;
-        if (array_sum(glsr_array_column($percentages, 'percent')) > 0) {
-            while (array_sum(glsr_array_column($percentages, 'percent')) < $totalPercent) {
+        if (array_sum(wp_list_pluck($percentages, 'percent')) > 0) {
+            while (array_sum(wp_list_pluck($percentages, 'percent')) < $totalPercent) {
                 ++$percentages[$i]['percent'];
                 ++$i;
             }
         }
         array_multisort($indexes, SORT_DESC, $percentages);
-        return array_combine($indexes, glsr_array_column($percentages, 'percent'));
+        return array_combine($indexes, wp_list_pluck($percentages, 'percent'));
     }
 
     /**
      * @return int
      */
-    protected function getTotalSum(array $ratingCounts)
+    protected function totalSum(array $ratingCounts)
     {
         return array_reduce(array_keys($ratingCounts), function ($carry, $index) use ($ratingCounts) {
             return $carry + ($index * $ratingCounts[$index]);
@@ -196,7 +208,7 @@ class Rating
      * @param bool $powerOf2
      * @return float
      */
-    protected function getWeight(array $ratingCounts, $ratingCountsSum, $powerOf2 = false)
+    protected function weight(array $ratingCounts, $ratingCountsSum, $powerOf2 = false)
     {
         return array_reduce(array_keys($ratingCounts),
             function ($count, $rating) use ($ratingCounts, $ratingCountsSum, $powerOf2) {

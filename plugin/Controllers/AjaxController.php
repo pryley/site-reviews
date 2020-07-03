@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Commands\TogglePinned;
 use GeminiLabs\SiteReviews\Commands\ToggleStatus;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Console;
@@ -110,7 +111,7 @@ class AjaxController extends Controller
         ];
         if (!$args['page']) {
             $urlPath = Url::path($request->url);
-            $args['page'] = glsr(Query::class)->getPaged($request->url);
+            $args['page'] = glsr(Helper::class)->getPageNumber($request->url);
             $args['pageUrl'] = Url::path(home_url()) === $urlPath
                 ? Url::home()
                 : Url::home($urlPath);
@@ -208,10 +209,10 @@ class AjaxController extends Controller
     /**
      * @return void
      */
-    public function routerToggleStatus(array $request)
+    public function routerToggleStatus(Request $request)
     {
-        wp_send_json_success($this->execute(
-            new ToggleStatus(Arr::get($request, 'post_id'), Arr::get($request, 'status'))
-        ));
+        wp_send_json_success(
+            $this->execute(new ToggleStatus($request->post_id, $request->status))
+        );
     }
 }

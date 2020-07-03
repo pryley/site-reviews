@@ -47,13 +47,15 @@ class Arr
     }
 
     /**
-     * @param string $string
+     * @param string|array $string
      * @param mixed $callback
      * @return array
      */
     public static function convertFromString($string, $callback = null)
     {
-        $array = array_map('trim', explode(',', $string));
+        if (!is_array($array = $string)) {
+            $array = array_map('trim', explode(',', $string));
+        }
         return $callback
             ? array_filter($array, $callback)
             : array_filter($array);

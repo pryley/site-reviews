@@ -221,7 +221,7 @@ class Schema
      */
     protected function getRatingValue()
     {
-        return glsr(Rating::class)->getAverage($this->getRatingCounts());
+        return glsr(Rating::class)->average($this->getRatingCounts());
     }
 
     /**

@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\Vectorface\Whip\Whip;
 
 class Helper
@@ -166,6 +167,33 @@ class Helper
         }
         glsr_log()->error('Unable to detect IP address, please see the FAQ page for a possible solution.');
         return 'unknown';
+    }
+
+    /**
+     * @param string $fromUrl
+     * @param int $fallback
+     * @return int
+     */
+    public function getPageNumber($fromUrl = null, $fallback = 1)
+    {
+        $pagedQueryVar = glsr()->constant('PAGED_QUERY_VAR');
+        $pageNum = empty($fromUrl)
+            ? filter_input(INPUT_GET, $pagedQueryVar, FILTER_VALIDATE_INT)
+            : filter_var(Url::query($fromUrl, $pagedQueryVar), FILTER_VALIDATE_INT);
+        if (empty($pageNum)) {
+            $pageNum = (int) $fallback;
+        }
+        return max(1, $pageNum);
+    }
+
+    /**
+     * @param mixed $value
+     * @param mixed $fallback
+     * @return bool
+     */
+    public static function ifEmpty($value, $fallback)
+    {
+        return static::isEmpty($value) ? $fallback : $value;
     }
 
     /**

@@ -245,11 +245,11 @@ class Console
     protected function getBacktraceLine()
     {
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 6);
-        $search = array_search('glsr_log', glsr_array_column($backtrace, 'function'));
+        $search = array_search('glsr_log', wp_list_pluck($backtrace, 'function'));
         if (false !== $search) {
             return $this->buildBacktraceLine($backtrace, (int) $search);
         }
-        $search = array_search('log', glsr_array_column($backtrace, 'function'));
+        $search = array_search('log', wp_list_pluck($backtrace, 'function'));
         if (false !== $search) {
             $index = '{closure}' == Arr::get($backtrace, ($search + 2).'.function')
                 ? $search + 4
