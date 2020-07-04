@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterRating;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterType;
 use GeminiLabs\SiteReviews\Database\Query;
@@ -22,7 +21,7 @@ class ListTableController extends Controller
     /**
      * @param array $columns
      * @return array
-     * @filter manage_.Application::POST_TYPE._posts_columns
+     * @filter manage_{glsr()->post_type}_posts_columns
      */
     public function filterColumnsForPostType($columns)
     {
@@ -124,7 +123,7 @@ class ListTableController extends Controller
     /**
      * @param array $columns
      * @return array
-     * @filter manage_edit-.Application::POST_TYPE._sortable_columns
+     * @filter manage_edit-{glsr()->post_type}_sortable_columns
      */
     public function filterSortableColumns($columns)
     {

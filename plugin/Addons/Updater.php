@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Addons;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
@@ -37,7 +36,7 @@ class Updater
         $this->apiUrl = trailingslashit(glsr()->filterString('addon/api-url', $apiUrl));
         $this->data = wp_parse_args($data, get_plugin_data($file));
         $this->plugin = plugin_basename($file);
-        $this->transientName = Application::PREFIX.md5(Arr::get($data, 'TextDomain'));
+        $this->transientName = glsr()->prefix.md5(Arr::get($data, 'TextDomain'));
     }
 
     /**
@@ -189,7 +188,7 @@ class Updater
      */
     protected function modifyPluginUpdates($transient, $updateInfo)
     {
-        $updateInfo->id = Application::ID.'/'.Arr::get($this->data, 'TextDomain');
+        $updateInfo->id = glsr()->id.'/'.Arr::get($this->data, 'TextDomain');
         $updateInfo->plugin = $this->plugin;
         $updateInfo->requires_php = Arr::get($this->data, 'RequiresPHP');
         $updateInfo->tested = Arr::get($this->data, 'testedTo');

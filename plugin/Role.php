@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews;
 
-use GeminiLabs\SiteReviews\Application;
-
 class Role
 {
     /**
@@ -88,7 +86,7 @@ class Role
      */
     protected function normalizeCapability($capability)
     {
-        return str_replace('post', Application::POST_TYPE, $capability);
+        return str_replace('post', glsr()->post_type, $capability);
     }
 
     /**

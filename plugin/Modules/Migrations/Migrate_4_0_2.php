@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Migrations;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -55,7 +54,7 @@ class Migrate_4_0_2
         global $wpdb;
         $keys = array_keys(glsr(CreateReviewDefaults::class)->defaults());
         $keys = implode("','", $keys);
-        $postType = Application::POST_TYPE;
+        $postType = glsr()->post_type;
         $wpdb->query("
             UPDATE {$wpdb->postmeta} pm
             INNER JOIN {$wpdb->posts} p ON p.id = pm.post_id
@@ -73,6 +72,6 @@ class Migrate_4_0_2
         $this->migrateSettings();
         $this->protectMetaKeys();
         $this->deleteSessions();
-        delete_transient(Application::ID.'_cloudflare_ips');
+        delete_transient(glsr()->id.'_cloudflare_ips');
     }
 }

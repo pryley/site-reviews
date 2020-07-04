@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -23,19 +22,19 @@ class MenuController extends Controller
     {
         global $menu, $typenow;
         foreach ($menu as $key => $value) {
-            if (!isset($value[2]) || $value[2] != 'edit.php?post_type='.Application::POST_TYPE) {
+            if (!isset($value[2]) || $value[2] != 'edit.php?post_type='.glsr()->post_type) {
                 continue;
             }
-            $postCount = wp_count_posts(Application::POST_TYPE);
+            $postCount = wp_count_posts(glsr()->post_type);
             $pendingCount = glsr(Builder::class)->span(number_format_i18n($postCount->pending), [
                 'class' => 'unapproved-count',
             ]);
             $awaitingModeration = glsr(Builder::class)->span($pendingCount, [
                 'class' => 'awaiting-mod count-'.$postCount->pending,
             ]);
-            $menu[$key][0].= ' '.$awaitingModeration;
-            if (Application::POST_TYPE === $typenow) {
-                $menu[$key][4].= ' current';
+            $menu[$key][0] .= ' '.$awaitingModeration;
+            if (glsr()->post_type === $typenow) {
+                $menu[$key][4] .= ' current';
             }
             break;
         }
@@ -62,7 +61,7 @@ class MenuController extends Controller
             if (!is_callable($callback)) {
                 continue;
             }
-            add_submenu_page('edit.php?post_type='.Application::POST_TYPE, $title, $title, glsr()->getPermission($slug), $slug, $callback);
+            add_submenu_page('edit.php?post_type='.glsr()->post_type, $title, $title, glsr()->getPermission($slug), $slug, $callback);
         }
     }
 
@@ -151,9 +150,9 @@ class MenuController extends Controller
         $this->renderPage('tools', [
             'data' => [
                 'context' => [
-                    'base_url' => admin_url('edit.php?post_type='.Application::POST_TYPE),
+                    'base_url' => admin_url('edit.php?post_type='.glsr()->post_type),
                     'console' => strval(glsr(Console::class)),
-                    'id' => Application::ID,
+                    'id' => glsr()->id,
                     'system' => strval(glsr(System::class)),
                 ],
                 'services' => glsr()->filterArray('addon/sync/services', []),
@@ -170,7 +169,7 @@ class MenuController extends Controller
     public function setCustomPermissions()
     {
         foreach (wp_roles()->roles as $role => $value) {
-            wp_roles()->remove_cap($role, 'create_'.Application::POST_TYPE);
+            wp_roles()->remove_cap($role, 'create_'.glsr()->post_type);
         }
     }
 

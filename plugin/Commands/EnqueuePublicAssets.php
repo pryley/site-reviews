@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
@@ -29,7 +28,7 @@ class EnqueuePublicAssets implements Contract
     {
         if (glsr()->filterBool('assets/css', true)) {
             wp_enqueue_style(
-                Application::ID,
+                glsr()->id,
                 $this->getStylesheet(),
                 [],
                 glsr()->version
@@ -37,12 +36,12 @@ class EnqueuePublicAssets implements Contract
         }
         if (glsr()->filterBool('assets/js', true)) {
             $dependencies = glsr()->filterBool('assets/polyfill', true)
-                ? [Application::ID.'/polyfill']
+                ? [glsr()->id.'/polyfill']
                 : [];
             $dependencies = glsr()->filterArray('enqueue/public/dependencies', $dependencies);
             wp_enqueue_script(
-                Application::ID,
-                glsr()->url('assets/scripts/'.Application::ID.'.js'),
+                glsr()->id,
+                glsr()->url('assets/scripts/'.glsr()->id.'.js'),
                 $dependencies,
                 glsr()->version,
                 true
@@ -58,7 +57,7 @@ class EnqueuePublicAssets implements Contract
         if (!glsr()->filterBool('assets/polyfill', true)) {
             return;
         }
-        wp_enqueue_script(Application::ID.'/polyfill', add_query_arg([
+        wp_enqueue_script(glsr()->id.'/polyfill', add_query_arg([
             'features' => 'Array.prototype.findIndex,CustomEvent,Element.prototype.closest,Element.prototype.dataset,Event,XMLHttpRequest,MutationObserver',
             'flags' => 'gated',
         ], 'https://polyfill.io/v3/polyfill.min.js'));
@@ -76,7 +75,7 @@ class EnqueuePublicAssets implements Contract
             return;
         }
         $language = glsr()->filterString('recaptcha/language', get_locale());
-        wp_enqueue_script(Application::ID.'/google-recaptcha', add_query_arg([
+        wp_enqueue_script(glsr()->id.'/google-recaptcha', add_query_arg([
             'hl' => $language,
             'render' => 'explicit',
         ], 'https://www.google.com/recaptcha/api.js'));
@@ -88,16 +87,16 @@ class EnqueuePublicAssets implements Contract
     public function inlineScript()
     {
         $variables = [
-            'action' => Application::PREFIX.'action',
+            'action' => glsr()->prefix.'action',
             'ajaxpagination' => $this->getFixedSelectorsForPagination(),
             'ajaxurl' => admin_url('admin-ajax.php'),
-            'nameprefix' => Application::ID,
+            'nameprefix' => glsr()->id,
             'urlparameter' => glsr(OptionManager::class)->getBool('settings.reviews.pagination.url_parameter'),
             'validationconfig' => glsr(Style::class)->validation,
             'validationstrings' => glsr(ValidationStringsDefaults::class)->defaults(),
         ];
         $variables = glsr()->filterArray('enqueue/public/localize', $variables);
-        wp_add_inline_script(Application::ID, $this->buildInlineScript($variables), 'before');
+        wp_add_inline_script(glsr()->id, $this->buildInlineScript($variables), 'before');
     }
 
     /**
@@ -119,7 +118,7 @@ class EnqueuePublicAssets implements Contract
             array_values($inlineStylesheetValues),
             file_get_contents($inlineStylesheetPath)
         );
-        wp_add_inline_style(Application::ID, $stylesheet);
+        wp_add_inline_style(glsr()->id, $stylesheet);
     }
 
     /**
@@ -129,7 +128,7 @@ class EnqueuePublicAssets implements Contract
     {
         $script = 'window.hasOwnProperty("GLSR")||(window.GLSR={});';
         foreach ($variables as $key => $value) {
-            $script.= sprintf('GLSR.%s=%s;', $key, json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+            $script .= sprintf('GLSR.%s=%s;', $key, json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
         }
         $pattern = '/\"([^ \-\"]+)\"(:[{\[\"])/'; // removes unnecessary quotes surrounding object keys
         $optimizedScript = preg_replace($pattern, '$1$2', $script);
@@ -153,6 +152,6 @@ class EnqueuePublicAssets implements Contract
         $currentStyle = glsr(Style::class)->style;
         return file_exists(glsr()->path('assets/styles/custom/'.$currentStyle.'.css'))
             ? glsr()->url('assets/styles/custom/'.$currentStyle.'.css')
-            : glsr()->url('assets/styles/'.Application::ID.'.css');
+            : glsr()->url('assets/styles/'.glsr()->id.'.css');
     }
 }

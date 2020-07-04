@@ -2,9 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
@@ -23,7 +21,7 @@ class EnqueueAdminAssets implements Contract
                 'edge' => 'right',
                 'align' => 'middle',
             ],
-            'screen' => Application::POST_TYPE,
+            'screen' => glsr()->post_type,
             'target' => '#misc-pub-pinned',
             'title' => _x('Pin Your Reviews', 'admin-text', 'site-reviews'),
         ]]);
@@ -47,14 +45,14 @@ class EnqueueAdminAssets implements Contract
             return;
         }
         wp_enqueue_style(
-            Application::ID.'/admin',
-            glsr()->url('assets/styles/'.Application::ID.'-admin.css'),
+            glsr()->id.'/admin',
+            glsr()->url('assets/styles/'.glsr()->id.'-admin.css'),
             [],
             glsr()->version
         );
         wp_enqueue_script(
-            Application::ID.'/admin',
-            glsr()->url('assets/scripts/'.Application::ID.'-admin.js'),
+            glsr()->id.'/admin',
+            glsr()->url('assets/scripts/'.glsr()->id.'-admin.js'),
             $this->getDependencies(),
             glsr()->version,
             false
@@ -71,7 +69,7 @@ class EnqueueAdminAssets implements Contract
     public function localizeAssets()
     {
         $variables = [
-            'action' => Application::PREFIX.'action',
+            'action' => glsr()->prefix.'action',
             'addons' => [],
             'ajaxurl' => admin_url('admin-ajax.php'),
             'hideoptions' => [
@@ -81,7 +79,7 @@ class EnqueueAdminAssets implements Contract
             ],
             'maxrating' => glsr()->constant('MAX_RATING', Rating::class),
             'minrating' => glsr()->constant('MIN_RATING', Rating::class),
-            'nameprefix' => Application::ID,
+            'nameprefix' => glsr()->id,
             'nonce' => [
                 'clear-console' => wp_create_nonce('clear-console'),
                 'fetch-console' => wp_create_nonce('fetch-console'),
@@ -100,7 +98,7 @@ class EnqueueAdminAssets implements Contract
             $variables['shortcodes'] = $this->localizeShortcodes();
         }
         $variables = glsr()->filterArray('enqueue/admin/localize', $variables);
-        wp_localize_script(Application::ID.'/admin', 'GLSR', $variables);
+        wp_localize_script(glsr()->id.'/admin', 'GLSR', $variables);
     }
 
     /**
@@ -157,9 +155,9 @@ class EnqueueAdminAssets implements Contract
     protected function isCurrentScreen()
     {
         $screen = glsr_current_screen();
-        return Application::POST_TYPE == $screen->post_type
+        return glsr()->post_type == $screen->post_type
             || 'dashboard' == $screen->id
-            || 'plugins_page_'.Application::ID == $screen->id
+            || 'plugins_page_'.glsr()->id == $screen->id
             || 'post' == $screen->base
             || 'widgets' == $screen->id;
     }

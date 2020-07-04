@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
-use GeminiLabs\SiteReviews\Application;
-
 class Cache
 {
     /**
@@ -23,7 +21,7 @@ class Cache
     /**
      * @param string $key
      * @param string $group
-     * @param null|\Closure $callback
+     * @param \Closure|null $callback
      * @return mixed
      */
     public function get($key, $group, $callback = null)
@@ -43,7 +41,7 @@ class Cache
      */
     public function getCloudflareIps()
     {
-        if (false === ($ipAddresses = get_transient(Application::ID.'_cloudflare_ips'))) {
+        if (false === ($ipAddresses = get_transient(glsr()->id.'_cloudflare_ips'))) {
             $ipAddresses = array_fill_keys(['v4', 'v6'], []);
             foreach (array_keys($ipAddresses) as $version) {
                 $url = 'https://www.cloudflare.com/ips-'.$version;
@@ -60,7 +58,7 @@ class Cache
                     (array) preg_split('/\R/', wp_remote_retrieve_body($response))
                 );
             }
-            set_transient(Application::ID.'_cloudflare_ips', $ipAddresses, WEEK_IN_SECONDS);
+            set_transient(glsr()->id.'_cloudflare_ips', $ipAddresses, WEEK_IN_SECONDS);
         }
         return $ipAddresses;
     }
@@ -71,14 +69,14 @@ class Cache
      */
     public function getReviewCountsFor($metaKey)
     {
-        $counts = wp_cache_get(Application::ID, $metaKey.'_count');
+        $counts = wp_cache_get(glsr()->id, $metaKey.'_count');
         if (false === $counts) {
             $counts = [];
             $results = glsr(SqlQueries::class)->getReviewCountsFor($metaKey);
             foreach ($results as $result) {
                 $counts[$result->name] = $result->num_posts;
             }
-            wp_cache_set(Application::ID, $counts, $metaKey.'_count');
+            wp_cache_set(glsr()->id, $counts, $metaKey.'_count');
         }
         return $counts;
     }
@@ -88,12 +86,12 @@ class Cache
      */
     public function getRemotePostTest()
     {
-        if (false === ($test = get_transient(Application::ID.'_remote_post_test'))) {
+        if (false === ($test = get_transient(glsr()->id.'_remote_post_test'))) {
             $response = wp_remote_post('https://api.wordpress.org/stats/php/1.0/');
             $test = !is_wp_error($response) && in_array($response['response']['code'], range(200, 299))
                 ? 'Works'
                 : 'Does not work';
-            set_transient(Application::ID.'_remote_post_test', $test, WEEK_IN_SECONDS);
+            set_transient(glsr()->id.'_remote_post_test', $test, WEEK_IN_SECONDS);
         }
         return $test;
     }

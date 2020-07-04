@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
@@ -84,7 +83,7 @@ class NoticeController extends Controller
      */
     protected function renderMigrationNotice($screenPostType)
     {
-        if (Application::POST_TYPE == $screenPostType
+        if (glsr()->post_type == $screenPostType
             && glsr()->hasPermission('tools', 'general')
             && (glsr(Migrate::class)->isMigrationNeeded() || glsr(Database::class)->isMigrationNeeded())) {
             glsr()->render('partials/notices/migrate', [
@@ -102,7 +101,7 @@ class NoticeController extends Controller
      */
     protected function renderTrustalyzeNotice($screenPostType)
     {
-        if (Application::POST_TYPE == $screenPostType
+        if (glsr()->post_type == $screenPostType
             && Helper::isGreaterThan($this->getVersionFor('trustalyze'), $this->getUserMeta('trustalyze', 0))
             && !glsr(OptionManager::class)->getBool('settings.general.trustalyze')
             && glsr()->can('manage_options')) {
@@ -116,7 +115,7 @@ class NoticeController extends Controller
      */
     protected function renderWelcomeNotice($screenPostType)
     {
-        if (Application::POST_TYPE == $screenPostType
+        if (glsr()->post_type == $screenPostType
             && Helper::isGreaterThan($this->getVersionFor('welcome'), $this->getUserMeta('welcome', 0))
             && glsr()->can('edit_others_posts')) {
             $welcomeText = '0.0.0' == glsr(OptionManager::class)->get('version_upgraded_from')

@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -103,7 +102,7 @@ class Trustalyze
             'reviews' => Str::truncate($review->content, 3000),
             'sitereview_plugin' => 'yes',
             'title' => Str::truncate($review->title, 60),
-            'transaction' => Application::ID, // woocommerce field, not needed for Site Reviews
+            'transaction' => glsr()->id, // woocommerce field, not needed for Site Reviews
         ];
         return glsr()->filterArray('trustalyze/review', $trustalyzeReview, $review);
     }

@@ -35,7 +35,7 @@ class MetaboxController
 
     /**
      * @return void
-     * @action add_meta_boxes_{Application::POST_TYPE}
+     * @action add_meta_boxes_{glsr()->post_type}
      */
     public function registerMetaBoxes($post)
     {

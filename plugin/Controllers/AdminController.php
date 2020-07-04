@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\EnqueueAdminAssets;
 use GeminiLabs\SiteReviews\Commands\ImportSettings;
 use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups;
@@ -36,13 +35,13 @@ class AdminController extends Controller
     {
         if (glsr()->hasPermission('documentation')) {
             $links['documentation'] = glsr(Builder::class)->a([
-                'href' => admin_url('edit.php?post_type='.Application::POST_TYPE.'&page=documentation'),
+                'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation'),
                 'text' => _x('Help', 'admin-text', 'site-reviews'),
             ]);
         }
         if (glsr()->hasPermission('settings')) {
             $links['settings'] = glsr(Builder::class)->a([
-                'href' => admin_url('edit.php?post_type='.Application::POST_TYPE.'&page=settings'),
+                'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings'),
                 'text' => _x('Settings', 'admin-text', 'site-reviews'),
             ]);
         }
@@ -57,7 +56,7 @@ class AdminController extends Controller
      */
     public function filterCreateCapability($capabilities, $capability)
     {
-        if ($capability == 'create_'.Application::POST_TYPE) {
+        if ($capability == 'create_'.glsr()->post_type) {
             $capabilities[] = 'do_not_allow';
         }
         return $capabilities;
@@ -70,7 +69,7 @@ class AdminController extends Controller
      */
     public function filterDashboardGlanceItems($items)
     {
-        $postCount = wp_count_posts(Application::POST_TYPE);
+        $postCount = wp_count_posts(glsr()->post_type);
         if (empty($postCount->publish)) {
             return $items;
         }
@@ -80,7 +79,7 @@ class AdminController extends Controller
         if (glsr()->can('edit_posts')) {
             $items[] = glsr(Builder::class)->a($text, [
                 'class' => 'glsr-review-count',
-                'href' => 'edit.php?post_type='.Application::POST_TYPE,
+                'href' => 'edit.php?post_type='.glsr()->post_type,
             ]);
         } else {
             $items[] = glsr(Builder::class)->span($text, [
@@ -177,7 +176,7 @@ class AdminController extends Controller
      */
     public function routerDownloadConsole()
     {
-        $this->download(Application::ID.'-console.txt', glsr(Console::class)->get());
+        $this->download(glsr()->id.'-console.txt', glsr(Console::class)->get());
     }
 
     /**
@@ -185,7 +184,7 @@ class AdminController extends Controller
      */
     public function routerDownloadSystemInfo()
     {
-        $this->download(Application::ID.'-system-info.txt', glsr(System::class)->get());
+        $this->download(glsr()->id.'-system-info.txt', glsr(System::class)->get());
     }
 
     /**
@@ -193,7 +192,7 @@ class AdminController extends Controller
      */
     public function routerExportSettings()
     {
-        $this->download(Application::ID.'-settings.json', glsr(OptionManager::class)->json());
+        $this->download(glsr()->id.'-settings.json', glsr(OptionManager::class)->json());
     }
 
     /**

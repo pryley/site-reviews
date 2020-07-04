@@ -126,7 +126,7 @@ class ReviewController extends Controller
      *
      * @param int $postId
      * @return void
-     * @action edit_post_.APPLICATION::POST_TYPE
+     * @action edit_post_{glsr()->post_type}
      */
     public function onEditReview($postId)
     {

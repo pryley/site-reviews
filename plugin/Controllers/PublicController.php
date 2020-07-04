@@ -2,14 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Modules\Style;
-use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
 use GeminiLabs\SiteReviews\Request;
 
 class PublicController extends Controller
@@ -31,7 +28,7 @@ class PublicController extends Controller
      */
     public function filterEnqueuedScriptTags($tag, $handle)
     {
-        $scripts = [Application::ID.'/google-recaptcha'];
+        $scripts = [glsr()->id.'/google-recaptcha'];
         if (in_array($handle, glsr()->filterArray('async-scripts', $scripts))) {
             $tag = str_replace(' src=', ' async src=', $tag);
         }

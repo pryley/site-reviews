@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 
@@ -15,7 +14,7 @@ class WelcomeController extends Controller
     public function filterActionLinks(array $links)
     {
         $links['welcome'] = glsr(Builder::class)->a(_x('About', 'admin-text', 'site-reviews'), [
-            'href' => admin_url('edit.php?post_type='.Application::POST_TYPE.'&page=welcome'),
+            'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=welcome'),
         ]);
         return $links;
     }
@@ -26,7 +25,7 @@ class WelcomeController extends Controller
      */
     public function filterAdminTitle($title)
     {
-        return Application::POST_TYPE.'_page_welcome' == glsr_current_screen()->id
+        return glsr()->post_type.'_page_welcome' == glsr_current_screen()->id
             ? sprintf(_x('Welcome to %s &#8212; WordPress', 'admin-text', 'site-reviews'), glsr()->name)
             : $title;
     }
@@ -38,7 +37,7 @@ class WelcomeController extends Controller
      */
     public function filterFooterText($text)
     {
-        if (Application::POST_TYPE.'_page_welcome' != glsr_current_screen()->id) {
+        if (glsr()->post_type.'_page_welcome' != glsr_current_screen()->id) {
             return $text;
         }
         $url = 'https://wordpress.org/support/view/plugin-reviews/site-reviews?filter=5#new-post';
@@ -60,7 +59,7 @@ class WelcomeController extends Controller
         if (!$isNetworkActivation
             && 'cli' !== php_sapi_name()
             && $plugin === plugin_basename(glsr()->file)) {
-            wp_safe_redirect(admin_url('edit.php?post_type='.Application::POST_TYPE.'&page=welcome'));
+            wp_safe_redirect(admin_url('edit.php?post_type='.glsr()->post_type.'&page=welcome'));
             exit;
         }
     }
@@ -71,14 +70,14 @@ class WelcomeController extends Controller
      */
     public function registerPage()
     {
-        add_submenu_page('edit.php?post_type='.Application::POST_TYPE,
+        add_submenu_page('edit.php?post_type='.glsr()->post_type,
             sprintf(_x('Welcome to %s', 'admin-text', 'site-reviews'), glsr()->name),
             glsr()->name,
             glsr()->getPermission('welcome'),
             'welcome',
             [$this, 'renderPage']
         );
-        remove_submenu_page('edit.php?post_type='.Application::POST_TYPE, 'welcome');
+        remove_submenu_page('edit.php?post_type='.glsr()->post_type, 'welcome');
     }
 
     /**

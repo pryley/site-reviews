@@ -2,9 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use WP_Posts_List_Table;
 
@@ -38,7 +36,7 @@ class ToggleStatus implements Contract
             'class' => 'status-'.$this->status,
             'counts' => $this->getStatusLinks(),
             'link' => $this->getPostLink($postId).$this->getPostState($postId),
-            'pending' => wp_count_posts(Application::POST_TYPE, 'readable')->pending,
+            'pending' => wp_count_posts(glsr()->post_type, 'readable')->pending,
         ];
     }
 
@@ -73,9 +71,9 @@ class ToggleStatus implements Contract
     protected function getStatusLinks()
     {
         global $avail_post_stati;
-        $hookName = 'edit-'.Application::POST_TYPE;
+        $hookName = 'edit-'.glsr()->post_type;
         set_current_screen($hookName);
-        $avail_post_stati = get_available_post_statuses(Application::POST_TYPE);
+        $avail_post_stati = get_available_post_statuses(glsr()->post_type);
         $table = new WP_Posts_List_Table(['screen' => $hookName]);
         $views = apply_filters('views_'.$hookName, $table->get_views()); // uses compat get_views()
         if (empty($views)) {

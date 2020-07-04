@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -29,7 +28,7 @@ class OptionManager
             $version = explode('.', glsr()->version);
             $version = array_shift($version);
         }
-        return Str::snakeCase(Application::ID.'-v'.intval($version));
+        return Str::snakeCase(glsr()->id.'-v'.intval($version));
     }
 
     /**

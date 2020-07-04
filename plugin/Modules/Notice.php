@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use WP_Error;
 
@@ -20,7 +19,7 @@ class Notice
         }
         $args['message'] = $message;
         $args['type'] = $type;
-        add_settings_error(Application::ID, '', json_encode($this->normalize($args)));
+        add_settings_error(glsr()->id, '', json_encode($this->normalize($args)));
     }
 
     /**
@@ -67,7 +66,7 @@ class Notice
     public function get()
     {
         $notices = array_map('unserialize',
-            array_unique(array_map('serialize', get_settings_errors(Application::ID)))
+            array_unique(array_map('serialize', get_settings_errors(glsr()->id)))
         );
         $notices = array_reduce($notices, function ($carry, $notice) {
             return $carry.$this->buildNotice(json_decode($notice['message'], true));
@@ -85,10 +84,10 @@ class Notice
         });
         $class = 'notice notice-'.$args['type'];
         if ($args['inline']) {
-            $class.= ' inline';
+            $class .= ' inline';
         }
         if ($args['dismissible']) {
-            $class.= ' is-dismissible';
+            $class .= ' is-dismissible';
         }
         return glsr(Builder::class)->div($messages, [
             'class' => $class,

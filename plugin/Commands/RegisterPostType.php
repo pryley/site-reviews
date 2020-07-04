@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Defaults\PostTypeColumnDefaults;
 use GeminiLabs\SiteReviews\Defaults\PostTypeDefaults;
@@ -40,7 +39,7 @@ class RegisterPostType implements Contract
     {
         if (array_key_exists('category', $this->columns)) {
             $keys = array_keys($this->columns);
-            $keys[array_search('category', $keys)] = 'taxonomy-'.Application::TAXONOMY;
+            $keys[array_search('category', $keys)] = 'taxonomy-'.glsr()->taxonomy;
             $this->columns = array_combine($keys, $this->columns);
         }
         if (array_key_exists('is_pinned', $this->columns)) {

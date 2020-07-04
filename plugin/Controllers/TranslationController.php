@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Defaults\PostStatusLabelDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -29,7 +28,7 @@ class TranslationController
     public function filterBulkUpdateMessages($messages, array $counts)
     {
         $messages = Arr::consolidate($messages);
-        $messages[Application::POST_TYPE] = [
+        $messages[glsr()->post_type] = [
             'updated' => _nx('%s review updated.', '%s reviews updated.', $counts['updated'], 'admin-text', 'site-reviews'),
             'locked' => _nx('%s review not updated, somebody is editing it.', '%s reviews not updated, somebody is editing them.', $counts['locked'], 'admin-text', 'site-reviews'),
             'deleted' => _nx('%s review permanently deleted.', '%s reviews permanently deleted.', $counts['deleted'], 'admin-text', 'site-reviews'),
@@ -48,7 +47,7 @@ class TranslationController
      */
     public function filterGettext($translation, $text, $domain)
     {
-        return Str::startsWith(Application::ID, $domain)
+        return Str::startsWith(glsr()->id, $domain)
             ? apply_filters('site-reviews/gettext/'.$domain, $translation, $text)
             : $translation;
     }
@@ -61,7 +60,7 @@ class TranslationController
      */
     public function filterGettextSiteReviews($translation, $text)
     {
-        return $this->translator->translate($translation, Application::ID, [
+        return $this->translator->translate($translation, glsr()->id, [
             'single' => $text,
         ]);
     }
@@ -76,7 +75,7 @@ class TranslationController
      */
     public function filterGettextWithContext($translation, $text, $context, $domain)
     {
-        return Str::startsWith(Application::ID, $domain)
+        return Str::startsWith(glsr()->id, $domain)
             ? apply_filters('site-reviews/gettext_with_context/'.$domain, $translation, $text, $context)
             : $translation;
     }
@@ -93,7 +92,7 @@ class TranslationController
         if (Str::contains(Translation::CONTEXT_ADMIN_KEY, $context)) {
             return $translation;
         }
-        return $this->translator->translate($translation, Application::ID, [
+        return $this->translator->translate($translation, glsr()->id, [
             'context' => $context,
             'single' => $text,
         ]);
@@ -110,7 +109,7 @@ class TranslationController
      */
     public function filterNgettext($translation, $single, $plural, $number, $domain)
     {
-        return Str::startsWith(Application::ID, $domain)
+        return Str::startsWith(glsr()->id, $domain)
             ? apply_filters('site-reviews/ngettext/'.$domain, $translation, $single, $plural, $number)
             : $translation;
     }
@@ -125,7 +124,7 @@ class TranslationController
      */
     public function filterNgettextSiteReviews($translation, $single, $plural, $number)
     {
-        return $this->translator->translate($translation, Application::ID, [
+        return $this->translator->translate($translation, glsr()->id, [
             'number' => $number,
             'plural' => $plural,
             'single' => $single,
@@ -144,7 +143,7 @@ class TranslationController
      */
     public function filterNgettextWithContext($translation, $single, $plural, $number, $context, $domain)
     {
-        return Str::startsWith(Application::ID, $domain)
+        return Str::startsWith(glsr()->id, $domain)
             ? apply_filters('site-reviews/ngettext_with_context/'.$domain, $translation, $single, $plural, $number, $context)
             : $translation;
     }
@@ -163,7 +162,7 @@ class TranslationController
         if (Str::contains(Translation::CONTEXT_ADMIN_KEY, $context)) {
             return $translation;
         }
-        return $this->translator->translate($translation, Application::ID, [
+        return $this->translator->translate($translation, glsr()->id, [
             'context' => $context,
             'number' => $number,
             'plural' => $plural,
@@ -180,7 +179,7 @@ class TranslationController
     public function filterPostStates($postStates, $post)
     {
         $postStates = Arr::consolidate($postStates);
-        if (Application::POST_TYPE == Arr::get($post, 'post_type') && array_key_exists('pending', $postStates)) {
+        if (glsr()->post_type == Arr::get($post, 'post_type') && array_key_exists('pending', $postStates)) {
             $postStates['pending'] = _x('Unapproved', 'admin-text', 'site-reviews');
         }
         return $postStates;
@@ -263,7 +262,7 @@ class TranslationController
     protected function canModifyTranslation()
     {
         $screen = glsr_current_screen();
-        return Application::POST_TYPE == $screen->post_type
+        return glsr()->post_type == $screen->post_type
             && in_array($screen->base, ['edit', 'post']);
     }
 

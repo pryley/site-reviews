@@ -101,8 +101,8 @@ class Router
      */
     protected function getRequest()
     {
-        $request = Helper::filterInputArray(Application::ID);
-        if (Helper::filterInput('action') == Application::PREFIX.'action') {
+        $request = Helper::filterInputArray(glsr()->id);
+        if (Helper::filterInput('action') == glsr()->prefix.'action') {
             $request['_ajax_request'] = true;
         }
         if ('submit-review' == Helper::filterInput('_action', $request)) {

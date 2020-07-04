@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
@@ -214,7 +213,7 @@ class ReviewManager
             'post_name' => uniqid($reviewValues['_review_type']),
             'post_status' => $this->getNewPostStatus($reviewValues, $command->blacklisted),
             'post_title' => $reviewValues['_title'],
-            'post_type' => Application::POST_TYPE,
+            'post_type' => glsr()->post_type,
         ];
         $postId = wp_insert_post($postValues, true);
         if (is_wp_error($postId)) {
@@ -252,7 +251,7 @@ class ReviewManager
         if (empty($termIds)) {
             return;
         }
-        $termTaxonomyIds = wp_set_object_terms($postId, $termIds, Application::TAXONOMY);
+        $termTaxonomyIds = wp_set_object_terms($postId, $termIds, glsr()->taxonomy);
         if (is_wp_error($termTaxonomyIds)) {
             glsr_log()->error($termTaxonomyIds->get_error_message());
         }

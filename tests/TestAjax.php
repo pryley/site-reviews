@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Tests;
 
-use GeminiLabs\SiteReviews\Application;
 use WP_Ajax_UnitTestCase;
 use WPAjaxDieContinueException;
 use WPAjaxDieStopException;
@@ -26,9 +25,9 @@ class TestAjax extends WP_Ajax_UnitTestCase
     protected function ajax_response($request)
     {
         $_POST['_ajax_request'] = true;
-        $_POST[Application::ID] = $request;
+        $_POST[glsr()->id] = $request;
         try {
-            $this->_handleAjax(Application::PREFIX.'action');
+            $this->_handleAjax(glsr()->prefix.'action');
         } catch (WPAjaxDieContinueException $e) {
         } catch (WPAjaxDieStopException $e) {
             error_log(print_r('WPAjaxDieStopException: '.$e->getMessage(), 1));

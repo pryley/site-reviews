@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use Exception;
 use GeminiLabs\SiteReviews\Addons\Updater;
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
@@ -27,7 +26,7 @@ class SettingsController extends Controller
             $options = $this->sanitizeSubmissions($input, $options);
             $options = $this->sanitizeTranslations($input, $options);
             $options = glsr()->filterArray('settings/callback', $options, $settings);
-            if (filter_input(INPUT_POST, 'option_page') == Application::ID.'-settings') {
+            if (filter_input(INPUT_POST, 'option_page') == glsr()->id.'-settings') {
                 glsr(Notice::class)->addSuccess(_x('Settings updated.', 'admin-text', 'site-reviews'));
             }
             return $options;
@@ -41,7 +40,7 @@ class SettingsController extends Controller
      */
     public function registerSettings()
     {
-        register_setting(Application::ID.'-settings', OptionManager::databaseKey(), [
+        register_setting(glsr()->id.'-settings', OptionManager::databaseKey(), [
             'sanitize_callback' => [$this, 'callbackRegisterSettings'],
         ]);
     }

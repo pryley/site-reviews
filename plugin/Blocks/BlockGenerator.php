@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Blocks;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
 abstract class BlockGenerator
@@ -52,12 +51,12 @@ abstract class BlockGenerator
         if (!function_exists('register_block_type')) {
             return;
         }
-        register_block_type(Application::ID.'/'.$block, [
+        register_block_type(glsr()->id.'/'.$block, [
             'attributes' => glsr()->filterArray('block/'.$block.'/attributes', $this->attributes()),
-            'editor_script' => Application::ID.'/blocks',
-            'editor_style' => Application::ID.'/blocks',
+            'editor_script' => glsr()->id.'/blocks',
+            'editor_style' => glsr()->id.'/blocks',
             'render_callback' => [$this, 'render'],
-            'style' => Application::ID,
+            'style' => glsr()->id,
         ]);
     }
 
