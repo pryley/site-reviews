@@ -2,19 +2,25 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Migrations;
 
-use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Commands\AssignTerms;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Query;
-use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Migrate_5_0_0
 {
+    public $db;
+    public $limit;
+
+    public function __construct()
+    {
+        global $wpdb;
+        $this->db = $wpdb;
+        $this->limit = 250;
+    }
+
     /**
      * @return void
      */
@@ -28,26 +34,26 @@ class Migrate_5_0_0
      */
     public function migrateAssignedTo()
     {
-        global $wpdb;
         $offset = 0;
-        $limit = 250;
         $table = glsr(Query::class)->table('ratings');
         while (true) {
-            $results = $wpdb->get_results($wpdb->prepare("
-                SELECT r.ID AS rating_id, m.meta_value AS post_id
+            $results = $this->db->get_results($this->db->prepare("
+                SELECT r.ID AS rating_id, m.meta_value AS post_id, CAST(IF(p.post_status = 'publish', 1, 0) AS UNSIGNED) AS is_approved
                 FROM {$table} AS r
-                INNER JOIN {$wpdb->postmeta} AS m ON r.review_id = m.post_id
+                INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID
+                INNER JOIN {$this->db->postmeta} AS m ON r.review_id = m.post_id
                 WHERE m.meta_key = '_assigned_to' AND m.meta_value > 0 
                 LIMIT %d, %d
-            ", $offset, $limit), ARRAY_A);
+            ", $offset, $this->limit), ARRAY_A);
             if (empty($results)) {
                 break;
             }
-            glsr(RatingManager::class)->insertBulk('assigned_posts', $results, [
+            glsr(Database::class)->insertBulk('assigned_posts', $results, [
                 'rating_id',
                 'post_id',
+                'is_approved',
             ]);
-            $offset += $limit;
+            $offset += $this->limit;
         }
     }
 
@@ -56,30 +62,30 @@ class Migrate_5_0_0
      */
     public function migrateRatings()
     {
-        global $wpdb;
         $offset = 0;
-        $limit = 200;
         while (true) {
-            $scope = $wpdb->get_col($wpdb->prepare(
-                "SELECT ID FROM {$wpdb->posts} WHERE post_type = '%s' LIMIT %d, %d",
-                glsr()->post_type,
-                $offset,
-                $limit
-            ));
-            if (empty($scope)) {
+            $results = $this->db->get_results($this->db->prepare("
+                SELECT p.ID, m.meta_key AS mk, m.meta_value AS mv, CAST(IF(p.post_status = 'publish', 1, 0) AS UNSIGNED) AS is_approved
+                FROM {$this->db->posts} AS p
+                INNER JOIN {$this->db->postmeta} AS m ON p.ID = m.post_id
+                WHERE p.ID IN (
+                    SELECT * FROM (
+                        SELECT ID
+                        FROM gl_posts
+                        WHERE post_type = '%s'
+                        LIMIT %d, %d
+                    ) AS post_ids
+                )
+                AND m.meta_key IN ('_author','_avatar','_email','_ip_address','_pinned','_rating','_review_type','_url')
+                ", glsr()->post_type, $offset, $this->limit)
+            );
+            if (empty($results)) {
                 break;
             }
-            $scope = implode(',', $scope);
-            $results = $wpdb->get_results("
-                SELECT p.ID, m.meta_key AS mk, m.meta_value AS mv, CAST(IF(p.post_status = 'publish', 1, 0) AS UNSIGNED) AS is_approved
-                FROM {$wpdb->posts} AS p
-                INNER JOIN {$wpdb->postmeta} AS m ON p.ID = m.post_id
-                WHERE p.ID IN ({$scope})
-            ");
-            $values = $this->parseResults($results);
+            $values = $this->parseRatings($results);
             $fields = array_keys(glsr(RatingDefaults::class)->defaults());
-            glsr(RatingManager::class)->insertBulk('ratings', $values, $fields);
-            $offset += $limit;
+            glsr(Database::class)->insertBulk('ratings', $values, $fields);
+            $offset += $this->limit;
         }
     }
 
@@ -110,26 +116,24 @@ class Migrate_5_0_0
      */
     public function migrateTerms()
     {
-        global $wpdb;
         $offset = 0;
-        $limit = 250;
         $table = glsr(Query::class)->table('ratings');
         while (true) {
-            $results = $wpdb->get_results($wpdb->prepare("
+            $results = $this->db->get_results($this->db->prepare("
                 SELECT r.ID AS rating_id, tt.term_id AS term_id
                 FROM {$table} AS r
-                INNER JOIN {$wpdb->term_relationships} AS tr ON r.review_id = tr.object_id
-                INNER JOIN {$wpdb->term_taxonomy} AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+                INNER JOIN {$this->db->term_relationships} AS tr ON r.review_id = tr.object_id
+                INNER JOIN {$this->db->term_taxonomy} AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
                 LIMIT %d, %d
-            ", $offset, $limit), ARRAY_A);
+            ", $offset, $this->limit), ARRAY_A);
             if (empty($results)) {
                 break;
             }
-            glsr(RatingManager::class)->insertBulk('assigned_terms', $results, [
+            glsr(Database::class)->insertBulk('assigned_terms', $results, [
                 'rating_id',
                 'term_id',
             ]);
-            $offset += $limit;
+            $offset += $this->limit;
         }
     }
 
@@ -152,6 +156,40 @@ class Migrate_5_0_0
     /**
      * @return void
      */
+    public function migrateUserMeta()
+    {
+        $postType = glsr()->post_type;
+        $metaKey = 'meta-box-order_'.$postType;
+        $metaOrder = [
+            'side' => [
+                'submitdiv',
+                $postType.'-categorydiv',
+                $postType.'-postsdiv',
+                $postType.'-usersdiv',
+                $postType.'-authordiv',
+            ],
+            'normal' => [
+                $postType.'-responsediv',
+                $postType.'-detailsdiv',
+            ],
+            'advanced' => [],
+        ];
+        array_walk($metaOrder, function (&$order) {
+            $order = implode(',', $order);
+        });
+        $userIds = get_users([
+            'fields' => 'ID',
+            'meta_compare' => 'EXISTS',
+            'meta_key' => $metaKey,
+        ]);
+        foreach ($userIds as $userId) {
+            update_user_meta($userId, $metaKey, $metaOrder);
+        }
+    }
+
+    /**
+     * @return void
+     */
     public function migrateWidgets()
     {
         $widgets = [
@@ -160,8 +198,8 @@ class Migrate_5_0_0
             'site-reviews-summary',
         ];
         foreach ($widgets as $widget) {
-            $oldWidget = 'widget_'.Application::ID.'_'.$widget;
-            $newWidget = 'widget_'.Application::PREFIX.$widget;
+            $oldWidget = 'widget_'.glsr()->id.'_'.$widget;
+            $newWidget = 'widget_'.glsr()->prefix.$widget;
             if ($option = get_option($oldWidget)) {
                 update_option($newWidget, $option);
                 delete_option($oldWidget);
@@ -178,23 +216,28 @@ class Migrate_5_0_0
         $this->migrateSettings();
         $this->migrateSidebarWidgets();
         $this->migrateThemeModWidgets();
+        $this->migrateUserMeta();
         $this->migrateWidgets();
         $this->migrateRatings();
-        $this->migrateAssignedTo();
-        $this->migrateTerms();
+        // $this->migrateAssignedTo();
+        // $this->migrateTerms();
     }
 
     /**
      * @return array
      */
-    protected function parseResults(array $results)
+    protected function parseRatings(array $results)
     {
         $values = [];
         foreach ($results as $result) {
+            $value = maybe_unserialize($result->mv);
+            if (is_array($value)) {
+                continue;
+            }
             if (!isset($values[$result->ID])) {
                 $values[$result->ID] = ['is_approved' => (int) $result->is_approved];
             }
-            $values[$result->ID][$result->mk] = $result->mv;
+            $values[$result->ID][$result->mk] = $value;
         }
         $results = [];
         foreach ($values as $postId => $value) {
@@ -231,8 +274,8 @@ class Migrate_5_0_0
     {
         array_walk($sidebars, function (&$widgets) {
             array_walk($widgets, function (&$widget) {
-                if (Str::startsWith(Application::ID.'_', $widget)) {
-                    $widget = Str::replaceFirst(Application::ID.'_', Application::PREFIX, $widget);
+                if (Str::startsWith(glsr()->id.'_', $widget)) {
+                    $widget = Str::replaceFirst(glsr()->id.'_', glsr()->prefix, $widget);
                 }
             });
         });
@@ -246,7 +289,7 @@ class Migrate_5_0_0
     {
         $widgets = call_user_func_array('array_merge', array_filter($sidebars, 'is_array'));
         foreach ($widgets as $widget) {
-            if (Str::startsWith(Application::ID.'_', $widget)) {
+            if (Str::startsWith(glsr()->id.'_', $widget)) {
                 return true;
             }
         }
