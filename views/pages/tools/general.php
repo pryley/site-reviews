@@ -31,6 +31,9 @@
 <div class="glsr-card card">
     <h3>Migrate Plugin</h3>
     <p>Run this tool if your reviews stopped working correctly after upgrading the plugin to the latest version (i.e. read-only reviews, zero-star ratings, missing role capabilities, etc.).</p>
+    <div class="notice inline notice-info">
+        <p>Hold down the Alt/Option key to force-run all previous migrations.</p>
+    </div>
     <form method="post">
         <input type="hidden" name="{{ id }}[_action]" value="migrate-plugin">
         <input type="hidden" name="{{ id }}[alt]" value="0" data-alt>
