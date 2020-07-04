@@ -9,6 +9,19 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 class BlocksController extends Controller
 {
     /**
+     * @param array $blockTypes
+     * @param \WP_Post $post
+     * @return array
+     * @filter allowed_block_types
+     */
+    public function filterAllowedBlockTypes($blockTypes, $post)
+    {
+        return glsr()->post_type !== get_post_type($post)
+            ? $blockTypes
+            : [];
+    }
+
+    /**
      * @param array $categories
      * @return array
      * @filter block_categories
