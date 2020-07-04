@@ -6,11 +6,14 @@
     site-reviews/customize/{style}                          ()
     site-reviews/get/review                                 ()
     site-reviews/get/reviews                                ()
+    site-reviews/personal-data/erase                        (Review $review, bool $retainReview)
     site-reviews/review/build/before                        (Review $review)
     site-reviews/review/created                             ()
     site-reviews/review/creating                            ()
     site-reviews/review/reverted                            ()
     site-reviews/review/saved                               ()
+    site-reviews/review/updated/post_ids                    (Review $review, array $assignedPostIds)
+    site-reviews/review/updated/user_ids                    (Review $review, array $assignedUserIds)
         ?? site-reviews/review/updated
     site-reviews/route/{request_type}/request               ()
     site-reviews/whip                                       ()
@@ -39,14 +42,15 @@
     site-reviews/builder/field/{field_type}                 (): string
         !! site-reviews/builder/field/{field_type}/args
         !! site-reviews/builder/field/classname
-    site-reviews/builder/result                             (): string
-    site-reviews/builder/{tag}/args                         (): array
-    site-reviews/capabilities                               (): array
-    site-reviews/capabilities/for-roles                     (): array
-    site-reviews/columns/{column_slug}                      (): string
+    site-reviews/builder/result                             (string $result, Builder $builder): string
+    site-reviews/builder/{tag}/args                         (array $args, Builder $builder): array
+    site-reviews/capabilities                               (array $capabilities): array
+    site-reviews/capabilities/for-roles                     (array $capabilities): array
+    site-reviews/columns/{column_slug}                      (string $value, int $postId): string
+    site-reviews/columns/orderby-is-null                    (array $columns): array
     site-reviews/config                                     (string $configPath): string
-    site-reviews/config/{config_id}                         (): array
-    site-reviews/console/level                              (): int
+    site-reviews/config/{config_id}                         (array $config): array
+    site-reviews/console/level                              (int $level): int
     site-reviews/const/{constant}                           (string $constantName): string
     site-reviews/create/review-values                       (): array
     site-reviews/create/unset-keys-from-custom              (): array
@@ -78,6 +82,8 @@
     site-reviews/partial/args/{partial_path}                (): array
     site-reviews/partial/classname                          (): string
     site-reviews/path                                       (string $path, string $file): string
+    site-reviews/personal-data/erase-all                    (bool $eraseAll): bool
+    site-reviews/personal-data/export                       (array $data, Review $review): array
     site-reviews/query/sql/from                             (): string
     site-reviews/query/sql/group-by                         (): string
     site-reviews/query/sql/join                             (): array

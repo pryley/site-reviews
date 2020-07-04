@@ -6,8 +6,6 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 - [ ] Add a single-use notice on the settings page to encourage users to rate the plugin (ref: Polylang)
 - [ ] Add a time constraint to review limits
-- [ ] Assign reviews to a user
-- [ ] Integrate with WordPress GDPR controls
 - [ ] reCAPTCHA v3 support
 - [ ] Restrict reviews in the admin to those assigned to pages of the current user
 - [ ] Review statistics

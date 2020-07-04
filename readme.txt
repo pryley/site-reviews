@@ -112,6 +112,38 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 == Changelog ==
 
+= 5.0.0 (2020-07-??) =
+
+- Added [loading="lazy"] attribute to avatar images
+- Added option to delete plugin data on uninstall
+- Added option to display a privacy notice in the submission form
+- Added review revisions
+- Added [suggested privacy policy content](https://wordpress.org/support/article/wordpress-privacy/#privacy-policy-editing-helper)
+- Added support for additional schema types
+- Added support for multiple category assignments
+- Added support for multiple post assignments
+- Added support for multiple user assignments
+- Added tool to export reviews
+- Added tool to import reviews
+- Added tool to test IP address detection
+- Added [WordPress Personal Data Exporter](https://wordpress.org/support/article/wordpress-privacy/#export-personal-data-tool) integration
+- Added [WordPress Personal Data Eraser](https://wordpress.org/support/article/wordpress-privacy/#erase-personal-data-tool) integration
+- Changed minimum PHP version to 5.6.20
+- Changed minimum WordPress version to 5.2
+- Changed settings to use the Comments blacklist by default
+- Fixed compatibility with Divi theme and Divi Builder plugin
+- Fixed compatibility with Elementor plugin
+- Fixed compatibility with GeneratePress plugin
+- Fixed compatibility with Members plugin
+- Fixed Welcome page permissions
+- Improved console logging
+- Improved documentation
+- Improved plugin performance
+- Improved translation settings
+- Removed {{ category }} and {{ assigned_to }} template tags in the summary
+- Removed tool to calculate rating counts (no longer needed)
+- Updated Trustalyze integration
+
 = 4.6.2 (2020-04-25) =
 
 - Fixed a PHP notice
