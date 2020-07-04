@@ -165,7 +165,8 @@ add_action('admin_footer', 'glsr_log_deprecated_notices');
 add_action('wp_footer', 'glsr_log_deprecated_notices');
 
 function glsr_log_deprecated_notices() {
-    $notices = array_keys(array_flip(glsr()->retrieve('deprecated', [])));
+    $notices = (array) glsr()->retrieve('deprecated', []);
+    $notices = array_keys(array_flip(array_filter($notices)));
     natsort($notices);
     foreach ($notices as $notice) {
         glsr_log()->warning($notice);

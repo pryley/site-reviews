@@ -103,7 +103,7 @@ class Query
      */
     public function revisionIds($postId)
     {
-        return $this->db->get_col($wpdb->prepare("
+        return $this->db->get_col($this->db->prepare("
             SELECT ID
             FROM {$this->db->posts}
             WHERE post_parent = %d AND post_type = 'revision'

@@ -15,7 +15,7 @@ use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
  * @property array $assigned_post_ids
  * @property array $assigned_term_ids
  * @property array $assigned_user_ids
- * @property string $author;
+ * @property string $author
  * @property int $author_id
  * @property string $avatar;
  * @property string $content
@@ -157,7 +157,7 @@ class Review extends Arguments
     }
 
     /**
-     * @param \WP_Post|int $post
+     * @param \WP_Post|int|false $post
      * @return bool
      */
     public static function isReview($post)

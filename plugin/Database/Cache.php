@@ -64,24 +64,6 @@ class Cache
     }
 
     /**
-     * @param string $metaKey
-     * @return array
-     */
-    public function getReviewCountsFor($metaKey)
-    {
-        $counts = wp_cache_get(glsr()->id, $metaKey.'_count');
-        if (false === $counts) {
-            $counts = [];
-            $results = glsr(SqlQueries::class)->getReviewCountsFor($metaKey);
-            foreach ($results as $result) {
-                $counts[$result->name] = $result->num_posts;
-            }
-            wp_cache_set(glsr()->id, $counts, $metaKey.'_count');
-        }
-        return $counts;
-    }
-
-    /**
      * @return string
      */
     public function getRemotePostTest()

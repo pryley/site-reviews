@@ -67,7 +67,7 @@ class ListTableController extends Controller
     }
 
     /**
-     * @return void
+     * @return array
      * @filter posts_clauses
      */
     public function filterPostClauses(array $clauses, WP_Query $query)

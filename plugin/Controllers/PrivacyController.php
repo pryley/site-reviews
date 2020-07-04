@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 
 class PrivacyController extends Controller
 {
@@ -115,7 +116,7 @@ class PrivacyController extends Controller
     }
 
     /**
-     * @return bool
+     * @return array
      */
     protected function export(Review $review)
     {

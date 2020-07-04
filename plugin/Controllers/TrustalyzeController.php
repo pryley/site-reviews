@@ -142,7 +142,7 @@ class TrustalyzeController extends Controller
         $requiredValues = [
             glsr(Database::class)->meta($review->ID, 'trustalyze'),
             $review->response,
-            $review->review_id,
+            $review->ID,
         ];
         return $this->canProceed($review, 'trustalyze_response')
             && 'publish' === $review->status
@@ -158,7 +158,7 @@ class TrustalyzeController extends Controller
             $review->author,
             $review->content,
             $review->rating,
-            $review->review_id,
+            $review->ID,
             $review->title,
         ];
         return $this->canProceed($review)

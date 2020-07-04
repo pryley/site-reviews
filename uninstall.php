@@ -5,7 +5,7 @@ defined('WP_UNINSTALL_PLUGIN') || die;
 $file = __DIR__.'/site-reviews.php';
 require_once $file;
 
-if (!(new GL_Plugin_Check_v4($file))->isValid()) {
+if (!(new GL_Plugin_Check_v5($file))->isValid()) {
     return;
 }
 

@@ -52,8 +52,8 @@ class ReviewAvatarTag extends ReviewTag
      */
     protected function userField()
     {
-        if ($this->review->user_id) {
-            $authorId = get_the_author_meta('ID', $this->review->user_id);
+        if ($this->review->author_id) {
+            $authorId = get_the_author_meta('ID', $this->review->author_id);
         }
         return empty($authorId)
             ? $this->review->email

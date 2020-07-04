@@ -63,7 +63,7 @@ class MetaboxController
     }
 
     /**
-     * @param WP_Post $post
+     * @param \WP_Post $post
      * @return void
      * @callback add_meta_box
      */
@@ -89,7 +89,7 @@ class MetaboxController
     }
 
     /**
-     * @param WP_Post $post
+     * @param \WP_Post $post
      * @return void
      * @callback add_meta_box
      */
@@ -116,7 +116,7 @@ class MetaboxController
     }
 
     /**
-     * @param WP_Post $post
+     * @param \WP_Post $post
      * @return void
      * @callback add_meta_box
      */
@@ -139,7 +139,7 @@ class MetaboxController
     }
 
     /**
-     * @param WP_Post $post
+     * @param \WP_Post $post
      * @return void
      * @callback add_meta_box
      */
@@ -172,7 +172,7 @@ class MetaboxController
     }
 
     /**
-     * @param WP_Post $post
+     * @param \WP_Post $post
      * @return void
      * @callback add_meta_box
      */
@@ -187,7 +187,7 @@ class MetaboxController
     }
 
     /**
-     * @param WP_Post $post
+     * @param \WP_Post $post
      * @return void
      * @see glsr_categories_meta_box()
      * @callback register_taxonomy

@@ -83,7 +83,7 @@ class Trustalyze
         $trustalyzeResponse = [
             'reply' => Str::truncate($review->response, 300),
             'review_id' => glsr(Database::class)->meta($review->ID, 'trustalyze'), // this is the trustalyze review ID
-            'review_transaction_id' => $review->review_id,
+            'review_transaction_id' => $review->ID,
             'type' => 'M',
         ];
         return glsr()->filterArray('trustalyze/response', $trustalyzeResponse, $review);
@@ -98,7 +98,7 @@ class Trustalyze
             'domain' => get_home_url(),
             'firstname' => Str::truncate(Str::convertName($review->author, 'first'), 25),
             'rate' => $review->rating,
-            'review_transaction_id' => $review->review_id,
+            'review_transaction_id' => $review->ID,
             'reviews' => Str::truncate($review->content, 3000),
             'sitereview_plugin' => 'yes',
             'title' => Str::truncate($review->title, 60),
