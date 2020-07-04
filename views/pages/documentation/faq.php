@@ -480,7 +480,7 @@ Disallow: /*?*reviews-page=*</code></pre>
         <p>Site Reviews uses a custom templating system which makes it easy to customize the HTML of the widgets and shortcodes to meet your needs.</p>
         <ol>
             <li>Create a folder in your theme called "site-reviews".</li>
-            <li>Copy the template files that you would like to customise from <code>/wp-content/site-reviews/templates/</code> into this new folder.</li>
+            <li>Copy the template files that you would like to customise from <code>/wp-content/plugins/site-reviews/templates/</code> into this new folder.</li>
             <li>Open the template files that you copied over in a text editor and make your changes.</li>
         </ol>
     </div>
