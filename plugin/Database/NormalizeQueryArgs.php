@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Arguments;
+use GeminiLabs\SiteReviews\Database\TaxonomyManager;
 use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -27,7 +28,7 @@ class NormalizeQueryArgs extends Arguments
     {
         $args = glsr(ReviewsDefaults::class)->merge($args);
         $args['assigned_to'] = Arr::uniqueInt(Arr::consolidate($args['assigned_to']));
-        $args['category'] = $this->normalizeTermIds($args['category']);
+        $args['category'] = glsr(TaxonomyManager::class)->normalizeTermIds($args['category']);
         $args['offset'] = absint(filter_var($args['offset'], FILTER_SANITIZE_NUMBER_INT));
         $args['order'] = Str::restrictTo('ASC,DESC,', sanitize_key($args['order']), 'DESC'); // include an empty value
         $args['orderby'] = $this->normalizeOrderBy($args['orderby']);
@@ -54,15 +55,6 @@ class NormalizeQueryArgs extends Arguments
             return Str::prefix('p.post_', $orderBy);
         }
         return $orderBy;
-    }
-
-    /**
-     * @param array[]|string $termIds
-     * @return array
-     */
-    public function normalizeTermIds($termIds)
-    {
-        return glsr(ReviewManager::class)->normalizeTermIds($termIds);
     }
 
     /**

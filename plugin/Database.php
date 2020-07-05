@@ -75,17 +75,17 @@ class Database
     }
 
     /**
-     * @param int $reviewId
+     * @param int $reviewPostId
      * @return \GeminiLabs\SiteReviews\Review|false
      */
-    public function insert($reviewId, array $data = [])
+    public function insert($reviewPostId, array $data = [])
     {
-        $defaults = glsr(RatingDefaults::class)->restrict($data);
-        $data = Arr::set($defaults, 'review_id', $reviewId);
-        $data = Arr::set($defaults, 'is_approved', 'publish' === get_post_status($reviewId));
+        $data = glsr(RatingDefaults::class)->restrict($data);
+        $data['review_id'] = $reviewPostId;
+        $data['is_approved'] = 'publish' === get_post_status($reviewPostId);
         $result = $this->insertRaw(glsr(Query::class)->table('ratings'), $data);
-        return (false !== $result)
-            ? glsr(ReviewManager::class)->get($reviewId)
+        return (Cast::toInt($result) > 0)
+            ? glsr(ReviewManager::class)->get($reviewPostId)
             : false;
     }
 

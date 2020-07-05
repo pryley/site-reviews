@@ -68,16 +68,17 @@ class ReviewManager
             'post_title' => $command->title,
             'post_type' => glsr()->post_type,
         ];
-        $result = wp_insert_post($postValues, true);
-        if (!is_wp_error($result)) {
-            $post = get_post($result);
-            glsr()->action('review/create', $post, $command);
-            $this->setTerms($post->ID, $command->assigned_term_ids);
-            $review = $this->get($post->ID);
+        $postId = wp_insert_post($postValues, true);
+        if (is_wp_error($postId)) {
+            glsr_log()->error($postId->get_error_message())->debug($postValues);
+            return false;
+        }
+        glsr()->action('review/create', $postId, $command);
+        $review = $this->get($postId);
+        if ($review->isValid()) {
             glsr()->action('review/created', $review, $command);
             return $review;
         }
-        glsr_log()->error($result->get_error_message())->debug($postValues);
         return false;
     }
 
@@ -206,20 +207,6 @@ class ReviewManager
     }
 
     /**
-     * @param array[]|string $termIds
-     * @return array
-     */
-    public function normalizeTermIds($termIds)
-    {
-        $termIds = Arr::convertFromString($termIds);
-        foreach ($termIds as &$termId) {
-            $term = term_exists($termId, glsr()->taxonomy); // get the term from a term slug
-            $termId = Arr::get($term, 'term_id', 0);
-        }
-        return Arr::uniqueInt($termIds);
-    }
-
-    /**
      * @param string $reviewType
      * @param bool $isBlacklisted
      * @return string
@@ -230,22 +217,5 @@ class ReviewManager
         return 'local' == $reviewType && ($requireApproval || $isBlacklisted)
             ? 'pending'
             : 'publish';
-    }
-
-    /**
-     * @param int $postId
-     * @param array $termIds
-     * @return void
-     */
-    protected function setTerms($postId, $termIds)
-    {
-        $termIds = $this->normalizeTermIds($termIds);
-        if (empty($termIds)) {
-            return;
-        }
-        $termTaxonomyIds = wp_set_object_terms($postId, $termIds, glsr()->taxonomy);
-        if (is_wp_error($termTaxonomyIds)) {
-            glsr_log()->error($termTaxonomyIds->get_error_message());
-        }
     }
 }

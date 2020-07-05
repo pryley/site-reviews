@@ -13,6 +13,7 @@ use GeminiLabs\SiteReviews\Commands\UnassignUsers;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Database\TaxonomyManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
@@ -123,12 +124,18 @@ class ReviewController extends Controller
     /**
      * Triggered when a review is created.
      *
+     * @param int $postId
      * @return void
      * @action site-reviews/review/create
      */
-    public function onCreateReview(WP_Post $post, CreateReview $command)
+    public function onCreateReview($postId, CreateReview $command)
     {
-        glsr(Database::class)->insert($post->ID, (array) $command);
+        if (glsr(Database::class)->insert($postId, (array) $command)) {
+            glsr(TaxonomyManager::class)->setTerms($postId, $command->assigned_term_ids);
+            return;
+        }
+        glsr_log()->error('[INSERT] DB error thrown when creating review.');
+        wp_delete_post($postId, true);
     }
 
     /**

@@ -8,7 +8,7 @@
     site-reviews/get/reviews                                ()
     site-reviews/personal-data/erase                        (Review $review, bool $retainReview)
     site-reviews/review/build/before                        (Review $review)
-    site-reviews/review/create                              (WP_Post $post, CreateReview $command)
+    site-reviews/review/create                              (int $postId, CreateReview $command)
     site-reviews/review/created                             (Review $review, CreateReview $command)
         site-reviews/review/reverted                            ()
         site-reviews/review/saved                               ()
