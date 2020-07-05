@@ -176,7 +176,9 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
             glsr_log()->warning($this->getType().' does not allow the "'.$property.'" property');
             return $this;
         }
-        $this->properties[$property] = $value;
+        if ($value !== null) {
+            $this->properties[$property] = $value;
+        }
         return $this;
     }
 
@@ -185,10 +187,12 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
      */
     public function toArray()
     {
+        $this->serializeIdentifier();
+        $properties = $this->serializeProperty($this->getProperties());
         return [
             '@context' => $this->getContext(),
             '@type' => $this->getType(),
-        ] + $this->serializeProperty($this->getProperties());
+        ] + $properties;
     }
 
     /**
@@ -237,6 +241,17 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
     }
 
     /**
+     * @return void
+     */
+    protected function serializeIdentifier()
+    {
+        if (isset($this['identifier'])) {
+            $this->setProperty('@id', $this['identifier']);
+            unset($this['identifier']);
+        }
+    }
+
+    /**
      * @param mixed $property
      * @return array|string
      */
@@ -251,6 +266,9 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
         }
         if ($property instanceof DateTimeInterface) {
             $property = $property->format(DateTime::ATOM);
+        }
+        if (method_exists($property, '__toString')) {
+            $property = (string) $property;
         }
         if (is_object($property)) {
             throw new InvalidProperty();

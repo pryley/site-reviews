@@ -95,17 +95,20 @@ class Arr
     {
         $data = static::consolidate($data);
         $keys = explode('.', $path);
+        $result = $fallback;
         foreach ($keys as $key) {
             if (!isset($data[$key])) {
-                return $fallback;
+                break;
             }
             if (is_object($data[$key])) {
-                $data = static::consolidate($data[$key]);
+                $result = $data[$key];
+                $data = static::consolidate($result);
                 continue;
             }
-            $data = $data[$key];
+            $result = $data[$key];
+            $data = $result;
         }
-        return $data;
+        return $result;
     }
 
     /**
