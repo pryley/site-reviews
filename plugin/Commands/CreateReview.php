@@ -98,6 +98,15 @@ class CreateReview implements Contract
     }
 
     /**
+     * @return bool
+     */
+    public function validate()
+    {
+        $validated = glsr(ValidateReview::class)->validate($this->request->toArray());
+        return empty($validated->error) && !$validated->recaptchaIsUnset;
+    }
+
+    /**
      * @return string
      */
     protected function avatar()
@@ -207,14 +216,5 @@ class CreateReview implements Contract
     {
         $type = sanitize_text_field($this->request->type);
         return array_key_exists($type, glsr()->reviewTypes) ? $type : 'local';
-    }
-
-    /**
-     * @return bool
-     */
-    protected function validate()
-    {
-        $validated = glsr(ValidateReview::class)->validate($this->request->toArray());
-        return empty($validated->error) && !$validated->recaptchaIsUnset;
     }
 }

@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Rating;
+use GeminiLabs\SiteReviews\Request;
 
 defined('WPINC') || die;
 
@@ -59,8 +60,11 @@ function glsr($alias = null, array $parameters = [])
  */
 function glsr_create_review($reviewValues = array())
 {
-    $review = new CreateReview(Arr::consolidate($reviewValues));
-    return glsr(ReviewManager::class)->create($review);
+    $request = new Request(Arr::consolidate($reviewValues));
+    $command = new CreateReview($request);
+    return $command->validate()
+        ? glsr(ReviewManager::class)->create($command)
+        : false;
 }
 
 /**
