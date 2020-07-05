@@ -6,6 +6,7 @@ use BadMethodCallException;
 use DateTime;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Backtrace;
 use ReflectionClass;
 use Throwable;
 
@@ -127,12 +128,12 @@ class Console
     public function log($level, $message, $context = [], $backtraceLine = '')
     {
         if (empty($backtraceLine)) {
-            $backtraceLine = $this->getBacktraceLine();
+            $backtraceLine = glsr(Backtrace::class)->line();
         }
         if ($this->canLogEntry($level, $backtraceLine)) {
             $levelName = Arr::get($this->getLevels(), $level);
             $context = Arr::consolidate($context);
-            $backtraceLine = $this->normalizeBacktraceLine($backtraceLine);
+            $backtraceLine = glsr(Backtrace::class)->normalizeLine($backtraceLine);
             $message = $this->interpolate($message, $context);
             $entry = $this->buildLogEntry($levelName, $message, $backtraceLine);
             file_put_contents($this->file, $entry.PHP_EOL, FILE_APPEND | LOCK_EX);
@@ -179,7 +180,7 @@ class Console
             return;
         }
         $once[] = [
-            'backtrace' => $this->getBacktraceLineFromData($data),
+            'backtrace' => glsr(Backtrace::class)->lineFromData($data),
             'handle' => $handle,
             'level' => $levelName,
             'message' => '[RECURRING] '.$this->getMessageFromData($data),
@@ -195,19 +196,6 @@ class Console
         return file_exists($this->file)
             ? filesize($this->file)
             : 0;
-    }
-
-    /**
-     * @param array $backtrace
-     * @param int $index
-     * @return string
-     */
-    protected function buildBacktraceLine($backtrace, $index)
-    {
-        return sprintf('%s:%s',
-            Arr::get($backtrace, $index.'.file'), // realpath
-            Arr::get($backtrace, $index.'.line')
-        );
     }
 
     /**
@@ -237,38 +225,6 @@ class Console
             return $levelExists; // ignore level restriction if triggered outside of the plugin
         }
         return $levelExists && $level >= $this->getLevel();
-    }
-
-    /**
-     * @return void|string
-     */
-    protected function getBacktraceLine()
-    {
-        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 6);
-        $search = array_search('glsr_log', wp_list_pluck($backtrace, 'function'));
-        if (false !== $search) {
-            return $this->buildBacktraceLine($backtrace, (int) $search);
-        }
-        $search = array_search('log', wp_list_pluck($backtrace, 'function'));
-        if (false !== $search) {
-            $index = '{closure}' == Arr::get($backtrace, ($search + 2).'.function')
-                ? $search + 4
-                : $search + 1;
-            return $this->buildBacktraceLine($backtrace, $index);
-        }
-        return 'Unknown';
-    }
-
-    /**
-     * @param mixed $data
-     * @return string
-     */
-    protected function getBacktraceLineFromData($data)
-    {
-        $backtrace = $data instanceof Throwable
-            ? $data->getTrace()
-            : debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
-        return $this->buildBacktraceLine($backtrace, 0);
     }
 
     /**
@@ -307,23 +263,6 @@ class Console
     protected function isObjectOrArray($value)
     {
         return is_object($value) || is_array($value);
-    }
-
-    /**
-     * @param string $backtraceLine
-     * @return string
-     */
-    protected function normalizeBacktraceLine($backtraceLine)
-    {
-        $search = [
-            glsr()->path('plugin/'),
-            glsr()->path('plugin/', false),
-            trailingslashit(glsr()->path()),
-            trailingslashit(glsr()->path('', false)),
-            WP_CONTENT_DIR,
-            ABSPATH,
-        ];
-        return str_replace(array_unique($search), '', $backtraceLine);
     }
 
     /**
