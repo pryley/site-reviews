@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\ValidateReviewDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Validator;
 
 class ValidateReview
@@ -217,7 +218,7 @@ class ValidateReview
             return;
         }
         $validated = glsr()->filter('validate/custom', true, $this->request);
-        if (true === Helper::castToBool($validated)) {
+        if (true === Cast::toBool($validated)) {
             return;
         }
         $errorMessage = is_string($validated)

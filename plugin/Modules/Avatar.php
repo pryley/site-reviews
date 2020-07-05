@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class Avatar
@@ -70,7 +71,7 @@ class Avatar
      */
     protected function size($size = null)
     {
-        if ($size = Helper::castToInt($size)) {
+        if ($size = Cast::toInt($size)) {
             return $size;
         }
         $size = glsr_get_option('settings.reviews.avatars_size', static::FALLBACK_SIZE, 'int');

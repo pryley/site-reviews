@@ -2,12 +2,12 @@
 
 namespace GeminiLabs\SiteReviews;
 
-use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Database\SqlSchema;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use WP_Query;
 use WP_User_Query;
@@ -148,7 +148,7 @@ class Database
     public function meta($postId, $key, $single = true)
     {
         $key = Str::prefix('_', $key);
-        $postId = Helper::castToInt($postId);
+        $postId = Cast::toInt($postId);
         return get_post_meta($postId, $key, $single);
     }
 
@@ -161,7 +161,7 @@ class Database
     public function metaSet($postId, $key, $value)
     {
         $key = Str::prefix('_', $key);
-        $postId = Helper::castToInt($postId);
+        $postId = Cast::toInt($postId);
         return update_metadata('post', $postId, $key, $value); // update_metadata allows us to save meta to revisions
     }
 

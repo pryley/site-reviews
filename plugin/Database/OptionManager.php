@@ -2,8 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 class OptionManager
@@ -71,7 +71,7 @@ class OptionManager
     public function get($path = '', $fallback = '', $cast = '')
     {
         $result = Arr::get($this->all(), $path, $fallback);
-        return Helper::castTo($cast, $result);
+        return Cast::to($cast, $result);
     }
 
     /**
@@ -96,7 +96,7 @@ class OptionManager
         if (empty($option)) {
             $option = $fallback;
         }
-        return Helper::castTo($cast, $option);
+        return Cast::to($cast, $option);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use BadMethodCallException;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
 
@@ -31,10 +32,10 @@ trait Plugin
     public function __call($method, $args)
     {
         $isFilter = Str::startsWith('filter', $method);
-        $castTo = Helper::buildMethodName(Str::removePrefix('filter', $method), 'castTo');
-        if ($isFilter && method_exists(Helper::class, $castTo)) {
+        $to = Helper::buildMethodName(Str::removePrefix('filter', $method), 'to');
+        if ($isFilter && method_exists(Cast::class, $to)) {
             $filtered = call_user_func_array([$this, 'filter'], $args);
-            return Helper::$castTo($filtered);
+            return Cast::$to($filtered);
         }
         throw new BadMethodCallException("Method [$method] does not exist.");
     }

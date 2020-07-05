@@ -2,8 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Review;
 
@@ -44,7 +44,7 @@ class Query
      */
     public function review($postId)
     {
-        $reviewId = Helper::castToInt($postId);
+        $reviewId = Cast::toInt($postId);
         if (($review = glsr(Cache::class)->get($reviewId, 'reviews')) instanceof Review) {
             return $review;
         }

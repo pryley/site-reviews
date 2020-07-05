@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews as SiteReviewsPartial;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
@@ -68,13 +69,13 @@ class Review extends Arguments
     public function __construct($values)
     {
         $values = glsr()->args($values);
-        $this->id = Helper::castToInt($values->review_id);
+        $this->id = Cast::toInt($values->review_id);
         $args = [];
         $args['assigned_post_ids'] = Arr::uniqueInt(explode(',', $values->post_ids));
         $args['assigned_term_ids'] = Arr::uniqueInt(explode(',', $values->term_ids));
         $args['assigned_user_ids'] = Arr::uniqueInt(explode(',', $values->user_ids));
         $args['author'] = $values->name;
-        $args['author_id'] = Helper::castToInt($values->author_id);
+        $args['author_id'] = Cast::toInt($values->author_id);
         $args['avatar'] = $values->avatar;
         $args['content'] = $values->content;
         $args['custom'] = new Arguments($this->meta()->custom);
@@ -82,11 +83,11 @@ class Review extends Arguments
         $args['email'] = $values->email;
         $args['ID'] = $this->id;
         $args['ip_address'] = $values->ip_address;
-        $args['is_approved'] = Helper::castToBool($values->is_approved);
+        $args['is_approved'] = Cast::toBool($values->is_approved);
         $args['is_modified'] = false;
-        $args['is_pinned'] = Helper::castToBool($values->is_pinned);
-        $args['rating'] = Helper::castToInt($values->rating);
-        $args['rating_id'] = Helper::castToInt($values->ID);
+        $args['is_pinned'] = Cast::toBool($values->is_pinned);
+        $args['rating'] = Cast::toInt($values->rating);
+        $args['rating_id'] = Cast::toInt($values->ID);
         $args['response'] = $this->meta()->response;
         $args['status'] = $values->status;
         $args['title'] = $values->title;

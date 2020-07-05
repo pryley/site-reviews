@@ -2,8 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
 
@@ -178,15 +178,15 @@ abstract class DefaultsAbstract
         $values = $this->normalize($values);
         $parsed = [];
         foreach ($pairs as $key => $default) {
-          if (!array_key_exists($key, $values)) {
-              $parsed[$key] = $default;
-              continue;
-          }
-          if (is_array($default)) {
-              $parsed[$key] = $this->parse($values[$key], $default);
-              continue;
-          }
-          $parsed[$key] = $values[$key];
+            if (!array_key_exists($key, $values)) {
+                $parsed[$key] = $default;
+                continue;
+            }
+            if (is_array($default)) {
+                $parsed[$key] = $this->parse($values[$key], $default);
+                continue;
+            }
+            $parsed[$key] = $values[$key];
         }
         return $parsed;
     }
@@ -208,7 +208,7 @@ abstract class DefaultsAbstract
             if (!array_key_exists($key, $values)) {
                 continue;
             }
-            $values[$key] = Helper::castTo($cast, $values[$key]);
+            $values[$key] = Cast::to($cast, $values[$key]);
             if ('string' === $cast) {
                 $values[$key] = sanitize_key($values[$key]);
             }

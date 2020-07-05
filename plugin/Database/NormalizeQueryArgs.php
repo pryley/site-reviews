@@ -4,8 +4,8 @@ namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 class NormalizeQueryArgs extends Arguments
@@ -73,7 +73,7 @@ class NormalizeQueryArgs extends Arguments
         $userIds = [];
         foreach ($users as $userId) {
             if (!is_numeric($userId)) {
-                $userId = Helper::castToInt(username_exists($userId));
+                $userId = Cast::toInt(username_exists($userId));
             }
             $userIds[] = $userId;
         }

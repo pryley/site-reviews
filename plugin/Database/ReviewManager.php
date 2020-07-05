@@ -4,10 +4,9 @@ namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Reviews;
 
@@ -199,7 +198,7 @@ class ReviewManager
     public function updateAssignedPost($postId, $isPublished)
     {
         $isPublished = wp_validate_boolean($isPublished);
-        $postId = Helper::castToInt($postId);
+        $postId = Cast::toInt($postId);
         return glsr(Database::class)->update('assigned_posts',
             ['is_published' => $isPublished],
             ['post_id' => $postId],

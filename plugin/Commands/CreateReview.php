@@ -4,8 +4,8 @@ namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Notification;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
@@ -179,12 +179,12 @@ class CreateReview implements Contract
      */
     protected function sanitize()
     {
-        $this->ajax_request = Helper::castToBool($this->request->_ajax_request);
+        $this->ajax_request = Cast::toBool($this->request->_ajax_request);
         $this->assigned_post_ids = Arr::uniqueInt($this->request->assigned_post_ids);
         $this->assigned_term_ids = Arr::uniqueInt($this->request->assigned_term_ids);
         $this->assigned_user_ids = Arr::uniqueInt($this->request->assigned_user_ids);
         $this->avatar = $this->avatar();
-        $this->blacklisted = Helper::castToBool($this->request->blacklisted);
+        $this->blacklisted = Cast::toBool($this->request->blacklisted);
         $this->content = sanitize_textarea_field($this->request->content);
         $this->custom = $this->custom();
         $this->date = $this->date();
@@ -192,8 +192,8 @@ class CreateReview implements Contract
         $this->form_id = sanitize_key($this->request->form_id);
         $this->ip_address = $this->request->ip_address;
         $this->name = sanitize_text_field($this->request->name);
-        $this->post_id = Helper::castToInt($this->request->_post_id);
-        $this->rating = Helper::castToInt($this->request->rating);
+        $this->post_id = Cast::toInt($this->request->_post_id);
+        $this->rating = Cast::toInt($this->request->rating);
         $this->referer = sanitize_text_field($this->request->_referer);
         $this->title = sanitize_text_field($this->request->title);
         $this->type = $this->type();
