@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use BadMethodCallException;
 use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidationRules;
 
@@ -95,7 +96,8 @@ class Validator
             return;
         }
         $value = $this->getValue($attribute);
-        if (!method_exists($this, $method = 'validate'.$rule)) {
+        $method = Helper::buildMethodName($rule, 'validate');
+        if (!method_exists($this, $method)) {
             throw new BadMethodCallException("Method [$method] does not exist.");
         }
         if (!$this->$method($value, $attribute, $parameters)) {

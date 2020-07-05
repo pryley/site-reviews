@@ -62,7 +62,8 @@ abstract class TinymceGenerator
                 return;
             }
             $field = $this->normalize($field);
-            if (!method_exists($this, $method = 'normalize'.ucfirst($field['type']))) {
+            $method = Helper::buildMethodName($field['type'], 'normalize');
+            if (!method_exists($this, $method)) {
                 return;
             }
             return $this->$method($field);

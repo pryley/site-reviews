@@ -72,10 +72,7 @@ class ListTableController extends Controller
      */
     public function filterPostClauses(array $clauses, WP_Query $query)
     {
-        if (!$this->hasPermission($query)) {
-            return $clauses;
-        }
-        if (!$this->isListFiltered() && !$this->isListOrdered()) {
+        if (!$this->hasPermission($query) || (!$this->isListFiltered() && !$this->isListOrdered())) {
             return $clauses;
         }
         $table = glsr(Query::class)->table('ratings');
@@ -146,11 +143,10 @@ class ListTableController extends Controller
      */
     public function renderBulkEditFields($columnName, $postType)
     {
-        if ('assigned_posts' == $columnName && glsr()->post_type == $postType) {
-            glsr()->render('partials/editor/bulk-edit-assigned-posts');
-        }
-        if ('assigned_users' == $columnName && glsr()->post_type == $postType) {
-            glsr()->render('partials/editor/bulk-edit-assigned-users');
+        foreach (['posts', 'users'] as $assignment) {
+            if (glsr()->post_type === $postType && 'assigned_'.$assignment === $columnName) {
+                glsr()->render('partials/editor/bulk-edit-assigned-'.$assignment);
+            }
         }
     }
 
@@ -205,19 +201,6 @@ class ListTableController extends Controller
             $query->set('meta_key', Str::prefix('_', $orderby));
             $query->set('orderby', 'meta_value');
         }
-    }
-
-    /**
-     * Check if the translation string can be modified.
-     * @param string $domain
-     * @return bool
-     */
-    protected function canModifyTranslation($domain = 'default')
-    {
-        $screen = glsr_current_screen();
-        return 'default' == $domain
-            && 'edit' == $screen->base
-            && glsr()->post_type == $screen->post_type;
     }
 
     /**
