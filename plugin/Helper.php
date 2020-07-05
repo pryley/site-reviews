@@ -116,7 +116,7 @@ class Helper
     /**
      * @param mixed $value
      * @param mixed $fallback
-     * @return bool
+     * @return mixed
      */
     public static function ifEmpty($value, $fallback, $strict = false)
     {
