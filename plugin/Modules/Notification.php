@@ -59,6 +59,10 @@ class Notification
      */
     protected function buildEmail(array $args)
     {
+        $data = [
+            'args' => $args,
+            'review' => $this->review,
+        ];
         return glsr(Email::class)->compose([
             'to' => $this->getEmailAddresses(),
             'subject' => $args['title'],
@@ -72,7 +76,7 @@ class Notification
                 'review_rating' => $this->review->rating,
                 'review_title' => $this->review->title,
             ],
-        ], (array) $this->review);
+        ], $data);
     }
 
     /**

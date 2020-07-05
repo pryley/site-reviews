@@ -8,10 +8,10 @@
     site-reviews/get/reviews                                ()
     site-reviews/personal-data/erase                        (Review $review, bool $retainReview)
     site-reviews/review/build/before                        (Review $review)
-    site-reviews/review/created                             ()
-    site-reviews/review/creating                            ()
-    site-reviews/review/reverted                            ()
-    site-reviews/review/saved                               ()
+    site-reviews/review/create                              (WP_Post $post, CreateReview $command)
+    site-reviews/review/created                             (Review $review, CreateReview $command)
+        site-reviews/review/reverted                            ()
+        site-reviews/review/saved                               ()
     site-reviews/review/updated/post_ids                    (Review $review, array $assignedPostIds)
     site-reviews/review/updated/user_ids                    (Review $review, array $assignedUserIds)
         ?? site-reviews/review/updated
@@ -33,6 +33,7 @@
     site-reviews/addon/tools/tabs                           (): array
     site-reviews/addon/types                                (): array
     site-reviews/addon/welcome/tabs                         (): array
+    site-reviews/avatar/fallback                            (string $fallbackUrl, int $size): string
     site-reviews/assets/css                                 (): bool
     site-reviews/assets/js                                  (): bool
     site-reviews/assets/polyfill                            (): bool

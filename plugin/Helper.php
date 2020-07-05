@@ -191,9 +191,10 @@ class Helper
      * @param mixed $fallback
      * @return bool
      */
-    public static function ifEmpty($value, $fallback)
+    public static function ifEmpty($value, $fallback, $strict = false)
     {
-        return static::isEmpty($value) ? $fallback : $value;
+        $isEmpty = $strict ? empty($value) : static::isEmpty($value);
+        return $isEmpty ? $fallback : $value;
     }
 
     /**

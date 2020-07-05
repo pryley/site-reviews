@@ -54,6 +54,35 @@ class ReviewManager
     }
 
     /**
+     * @return false|Review
+     */
+    public function create(CreateReview $command)
+    {
+        $postValues = [
+            'comment_status' => 'closed',
+            'ping_status' => 'closed',
+            'post_content' => $command->content,
+            'post_date' => $command->date,
+            'post_date_gmt' => get_gmt_from_date($command->date),
+            'post_name' => uniqid($command->type),
+            'post_status' => $this->postStatus($command->type, $command->blacklisted),
+            'post_title' => $command->title,
+            'post_type' => glsr()->post_type,
+        ];
+        $result = wp_insert_post($postValues, true);
+        if (!is_wp_error($result)) {
+            $post = get_post($result);
+            glsr()->action('review/create', $post, $command);
+            $this->setTerms($post->ID, $command->assigned_term_ids);
+            $review = $this->get($post->ID);
+            glsr()->action('review/created', $review, $command);
+            return $review;
+        }
+        glsr_log()->error($result->get_error_message())->debug($postValues);
+        return false;
+    }
+
+    /**
      * @param int $reviewId
      * @return void
      */
@@ -191,58 +220,22 @@ class ReviewManager
         return Arr::uniqueInt($termIds);
     }
 
-    // -[ ] insert review (rating)
-    // -[ ] update review (rating)
-    // -[ ] delete review (rating)
-
     /**
-     * @return false|Review
-     */
-    public function create(CreateReview $command)
-    {
-        $reviewValues = glsr(CreateReviewDefaults::class)->restrict((array) $command);
-        $reviewValues = glsr()->filterArray('create/review-values', $reviewValues, $command);
-        $reviewValues = Arr::prefixKeys($reviewValues);
-        $postValues = [
-            'comment_status' => 'closed',
-            'meta_input' => $reviewValues,
-            'ping_status' => 'closed',
-            'post_content' => $reviewValues['_content'],
-            'post_date' => $reviewValues['_date'],
-            'post_date_gmt' => get_gmt_from_date($reviewValues['_date']),
-            'post_name' => uniqid($reviewValues['_review_type']),
-            'post_status' => $this->getNewPostStatus($reviewValues, $command->blacklisted),
-            'post_title' => $reviewValues['_title'],
-            'post_type' => glsr()->post_type,
-        ];
-        $postId = wp_insert_post($postValues, true);
-        if (is_wp_error($postId)) {
-            glsr_log()->error($postId->get_error_message())->debug($postValues);
-            return false;
-        }
-        $post = get_post($postId);
-        glsr()->action('review/creating', $post, $command);
-        $this->setTerms($post->ID, $command->category);
-        $review = $this->get($post);
-        glsr()->action('review/created', $review, $command);
-        return $review;
-    }
-
-    /**
+     * @param string $reviewType
      * @param bool $isBlacklisted
      * @return string
      */
-    protected function getNewPostStatus(array $reviewValues, $isBlacklisted)
+    protected function postStatus($reviewType, $isBlacklisted)
     {
         $requireApproval = glsr(OptionManager::class)->getBool('settings.general.require.approval');
-        return 'local' == $reviewValues['_review_type'] && ($requireApproval || $isBlacklisted)
+        return 'local' == $reviewType && ($requireApproval || $isBlacklisted)
             ? 'pending'
             : 'publish';
     }
 
     /**
      * @param int $postId
-     * @param string $termIds
+     * @param array $termIds
      * @return void
      */
     protected function setTerms($postId, $termIds)

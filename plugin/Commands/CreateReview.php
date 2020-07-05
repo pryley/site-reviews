@@ -4,9 +4,12 @@ namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Notification;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
+use GeminiLabs\SiteReviews\Request;
 
 class CreateReview implements Contract
 {
@@ -14,7 +17,6 @@ class CreateReview implements Contract
     public $assigned_post_ids;
     public $assigned_term_ids;
     public $assigned_user_ids;
-    public $author;
     public $avatar;
     public $blacklisted;
     public $content;
@@ -23,68 +25,37 @@ class CreateReview implements Contract
     public $email;
     public $form_id;
     public $ip_address;
+    public $name;
     public $post_id;
     public $rating;
     public $referer;
     public $request;
-    public $response;
-    public $terms;
     public $title;
     public $url;
 
-    public function __construct($input)
+    protected $errors;
+    protected $message;
+    protected $recaptcha;
+    protected $review;
+
+    public function __construct(Request $request)
     {
-        $this->request = $input;
-        $this->ajax_request = isset($input['_ajax_request']);
-        $this->assigned_post_ids = $this->getAssignedPosts();
-        $this->assigned_term_ids = $this->getAssignedTerms();
-        $this->assigned_user_ids = $this->getAssignedUsers();
-        $this->author = sanitize_text_field($this->getUser('name'));
-        $this->avatar = $this->getAvatar();
-        $this->blacklisted = isset($input['blacklisted']);
-        $this->content = sanitize_textarea_field($this->get('content'));
-        $this->custom = $this->getCustom();
-        $this->date = $this->getDate('date');
-        $this->email = sanitize_email($this->getUser('email'));
-        $this->form_id = sanitize_key($this->get('form_id'));
-        $this->ip_address = $this->get('ip_address');
-        $this->post_id = absint($this->get('_post_id'));
-        $this->rating = absint($this->get('rating'));
-        $this->referer = sanitize_text_field($this->get('_referer'));
-        $this->response = sanitize_textarea_field($this->get('response'));
-        $this->terms = !empty($input['terms']);
-        $this->title = sanitize_text_field($this->get('title'));
-        $this->url = esc_url_raw(sanitize_text_field($this->get('url')));
+        $this->request = $request;
+        $this->sanitize();
     }
 
     /**
-     * @return \GeminiLabs\SiteReviews\Review|void
+     * @return static
      */
     public function handle()
     {
-        if (!$this->validate()) {
-            return;
+        if ($this->validate()) {
+            $this->create();
         }
-        if ($review = glsr(ReviewManager::class)->create($this)) {
-            glsr()->sessionSet($this->form_id.'message', __('Your review has been submitted!', 'site-reviews'));
-            glsr(Notification::class)->send($review);
-            return $review;
-        }
-        glsr()->sessionSet($this->form_id.'errors', []);
-        glsr()->sessionSet($this->form_id.'message', __('Your review could not be submitted and the error has been logged. Please notify the site admin.', 'site-reviews'));
-    }
-
-    /**
-     * @return string
-     */
-    public function redirect($fallback = '')
-    {
-        $redirect = trim(strval(get_post_meta($this->post_id, 'redirect_to', true)));
-        $redirect = glsr()->filterString('review/redirect', $redirect, $this);
-        if (empty($redirect)) {
-            $redirect = $fallback;
-        }
-        return sanitize_text_field($redirect);
+        $this->errors = glsr()->sessionGet($this->form_id.'errors', false);
+        $this->message = glsr()->sessionGet($this->form_id.'message', '');
+        $this->recaptcha = glsr()->sessionGet($this->form_id.'recaptcha', false);
+        return $this;
     }
 
     /**
@@ -100,73 +71,73 @@ class CreateReview implements Contract
     }
 
     /**
+     * @return array
+     */
+    public function response()
+    {
+        return [
+            'errors' => $this->errors,
+            'html' => (string) $this->review,
+            'message' => $this->message,
+            'recaptcha' => $this->recaptcha,
+            'redirect' => $this->redirect(),
+            'review' => (array) $this->review,
+        ];
+    }
+
+    /**
      * @return bool
      */
-    public function validate()
+    public function success()
     {
-        $validated = glsr(ValidateReview::class)->validate($this->request);
-        return empty($validated->error) && !$validated->recaptchaIsUnset;
-    }
-
-    /**
-     * @param string $key
-     * @return string
-     */
-    protected function get($key)
-    {
-        return (string) Arr::get($this->request, $key);
-    }
-
-    /**
-     * @return array
-     */
-    protected function getAssignedPosts()
-    {
-        $postIds = Arr::convertFromString($this->get('assign_to'));
-        return array_map('sanitize_key', $postIds);
-    }
-
-    /**
-     * @return array
-     */
-    protected function getAssignedTerms()
-    {
-        $termIds = Arr::convertFromString($this->get('category'));
-        return array_map('sanitize_key', $termIds);
-    }
-
-    /**
-     * @return array
-     */
-    protected function getAssignedUsers()
-    {
-        $userIds = Arr::convertFromString($this->get('user'));
-        return array_map('sanitize_key', $userIds);
+        if (false === $this->errors) {
+            glsr()->sessionClear();
+            return true;
+        }
+        return false;
     }
 
     /**
      * @return string
      */
-    protected function getAvatar()
+    protected function avatar()
     {
-        $avatar = $this->get('avatar');
-        return !filter_var($avatar, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)
-            ? (string) get_avatar_url($this->get('email'))
-            : $avatar;
+        if (!empty($this->request->avatar)) {
+            return esc_url_raw(sanitize_text_field($this->request->avatar));
+        }
+        $userField = empty($this->request->email)
+            ? get_current_user_id()
+            : sanitize_email($this->request->email);
+        return glsr(Avatar::class)->generate($userField);
+    }
+
+    /**
+     * @return void
+     */
+    protected function create()
+    {
+        if ($this->review = glsr(ReviewManager::class)->create($this)) {
+            glsr()->sessionSet($this->form_id.'message', __('Your review has been submitted!', 'site-reviews'));
+            glsr(Notification::class)->send($this->review);
+            return;
+        }
+        glsr()->sessionSet($this->form_id.'errors', []);
+        glsr()->sessionSet($this->form_id.'message', __('Your review could not be submitted and the error has been logged. Please notify the site admin.', 'site-reviews'));
     }
 
     /**
      * @return array
      */
-    protected function getCustom()
+    protected function custom()
     {
         $unset = [
             '_action', '_ajax_request', '_counter', '_nonce', '_post_id', '_recaptcha-token',
-            '_referer', 'assign_to', 'category', 'content', 'date', 'email', 'excluded', 'form_id',
-            'gotcha', 'ip_address', 'name', 'rating', 'response', 'terms', 'title', 'url', 'user',
+            '_referer', 'assigned_post_ids', 'assigned_term_ids', 'assigned_user_ids', 'content',
+            'date', 'email', 'excluded', 'form_id', 'gotcha', 'ip_address', 'name', 'rating',
+            'title', 'url',
         ];
         $unset = glsr()->filterArray('create/unset-keys-from-custom', $unset);
-        $custom = $this->request;
+        $custom = $this->request->toArray();
         foreach ($unset as $key) {
             unset($custom[$key]);
         }
@@ -179,47 +150,71 @@ class CreateReview implements Contract
     }
 
     /**
-     * @param string $key
      * @return string
      */
-    protected function getDate($key)
+    protected function date()
     {
-        $date = strtotime($this->get($key));
+        $date = strtotime($this->request->date);
         if (false === $date) {
             $date = time();
         }
-        return get_date_from_gmt(gmdate('Y-m-d H:i:s', $date));
+        return gmdate('Y-m-d H:i:s', $date);
     }
 
     /**
-     * @param string $key
      * @return string
      */
-    protected function getNumeric($key)
+    protected function redirect($fallback = '')
     {
-        $value = $this->get($key);
-        return is_numeric($value)
-            ? $value
-            : '';
-    }
-
-    /**
-     * @param string $key
-     * @return string
-     */
-    protected function getUser($key)
-    {
-        $value = $this->get($key);
-        if (empty($value)) {
-            $user = wp_get_current_user();
-            $userValues = [
-                'email' => 'user_email',
-                'name' => 'display_name',
-            ];
-            if ($user->exists() && array_key_exists($key, $userValues)) {
-                return $user->{$userValues[$key]};
-            }
+        $redirect = trim(strval(get_post_meta($this->post_id, 'redirect_to', true)));
+        $redirect = glsr()->filterString('review/redirect', $redirect, $this);
+        if (empty($redirect)) {
+            $redirect = $fallback;
         }
-        return $value;
+        return sanitize_text_field($redirect);
+    }
+
+    /**
+     * @return void
+     */
+    protected function sanitize()
+    {
+        $this->ajax_request = Helper::castToBool($this->request->_ajax_request);
+        $this->assigned_post_ids = Arr::uniqueInt($this->request->assigned_post_ids);
+        $this->assigned_term_ids = Arr::uniqueInt($this->request->assigned_term_ids);
+        $this->assigned_user_ids = Arr::uniqueInt($this->request->assigned_user_ids);
+        $this->avatar = $this->avatar();
+        $this->blacklisted = Helper::castToBool($this->request->blacklisted);
+        $this->content = sanitize_textarea_field($this->request->content);
+        $this->custom = $this->custom();
+        $this->date = $this->date();
+        $this->email = sanitize_email($this->request->email);
+        $this->form_id = sanitize_key($this->request->form_id);
+        $this->ip_address = $this->request->ip_address;
+        $this->name = sanitize_text_field($this->request->name);
+        $this->post_id = Helper::castToInt($this->request->_post_id);
+        $this->rating = Helper::castToInt($this->request->rating);
+        $this->referer = sanitize_text_field($this->request->_referer);
+        $this->title = sanitize_text_field($this->request->title);
+        $this->type = $this->type();
+        $this->url = esc_url_raw(sanitize_text_field($this->request->url));
+    }
+
+    /**
+     * @return string
+     */
+    protected function type()
+    {
+        $type = sanitize_text_field($this->request->type);
+        return array_key_exists($type, glsr()->reviewTypes) ? $type : 'local';
+    }
+
+    /**
+     * @return bool
+     */
+    protected function validate()
+    {
+        $validated = glsr(ValidateReview::class)->validate($this->request->toArray());
+        return empty($validated->error) && !$validated->recaptchaIsUnset;
     }
 }

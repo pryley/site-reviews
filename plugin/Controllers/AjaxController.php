@@ -190,21 +190,11 @@ class AjaxController extends Controller
      */
     public function routerSubmitReview(Request $request)
     {
-        $command = new CreateReview($request->toArray());
-        $review = $this->execute($command);
-        $data = [
-            'errors' => glsr()->sessionGet($command->form_id.'errors', false),
-            'html' => (string) $review,
-            'message' => glsr()->sessionGet($command->form_id.'message', ''),
-            'recaptcha' => glsr()->sessionGet($command->form_id.'recaptcha', false),
-            'redirect' => $command->redirect(),
-            'review' => (array) $review,
-        ];
-        if (false === $data['errors']) {
-            glsr()->sessionClear();
-            wp_send_json_success($data);
+        $command = $this->execute(new CreateReview($request));
+        if ($command->success()) {
+            wp_send_json_success($command->response());
         }
-        wp_send_json_error($data);
+        wp_send_json_error($command->response());
     }
 
     /**

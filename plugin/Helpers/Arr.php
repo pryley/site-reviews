@@ -256,11 +256,12 @@ class Arr
     }
 
     /**
+     * @param array|string $values
      * @return array
      */
-    public static function uniqueInt(array $values)
+    public static function uniqueInt($values)
     {
-        return static::unique(array_map('absint', $values));
+        return static::unique(array_map('absint', static::convertFromString($values)));
     }
 
     /**

@@ -82,6 +82,7 @@ class Database
     {
         $defaults = glsr(RatingDefaults::class)->restrict($data);
         $data = Arr::set($defaults, 'review_id', $reviewId);
+        $data = Arr::set($defaults, 'is_approved', 'publish' === get_post_status($reviewId));
         $result = $this->insertRaw(glsr(Query::class)->table('ratings'), $data);
         return (false !== $result)
             ? glsr(ReviewManager::class)->get($reviewId)

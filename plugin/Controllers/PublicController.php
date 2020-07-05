@@ -82,10 +82,9 @@ class PublicController extends Controller
      */
     public function routerSubmitReview(Request $request)
     {
-        $command = new CreateReview($request->toArray());
-        if ($this->execute($command)) {
-            // @todo flash $review from session ?
-            wp_safe_redirect($command->referer());
+        $command = $this->execute(new CreateReview($request));
+        if ($command->success()) {
+            wp_safe_redirect($command->referer()); // @todo add review ID to referer
             exit;
         }
     }

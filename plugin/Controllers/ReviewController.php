@@ -121,6 +121,17 @@ class ReviewController extends Controller
     }
 
     /**
+     * Triggered when a review is created.
+     *
+     * @return void
+     * @action site-reviews/review/create
+     */
+    public function onCreateReview(WP_Post $post, CreateReview $command)
+    {
+        glsr(Database::class)->insert($post->ID, (array) $command);
+    }
+
+    /**
      * Triggered when a review is edited.
      * We need to use "edit_post" to support revisions (vs "save_post")
      *
@@ -179,21 +190,5 @@ class ReviewController extends Controller
             'new' => $new,
             'old' => $old,
         ];
-    }
-
-    /**
-     * Triggered when a review is first created.
-     *
-     * @return void
-     * @action site-reviews/review/creating
-     * @todo fix $command->review_type
-     */
-    public function onAfterCreate(WP_Post $post, CreateReview $command)
-    {
-        glsr(Database::class)->insert($post->ID, [
-            'is_approved' => 'publish' === $post->status,
-            'rating' => $command->rating,
-            'type' => $command->type,
-        ]);
     }
 }
