@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class TaxonomyManager
 {
@@ -14,6 +15,9 @@ class TaxonomyManager
     {
         $termIds = Arr::convertFromString($termIds);
         foreach ($termIds as &$termId) {
+            if (is_numeric($termId)) {
+                $termId = Cast::toInt($termId);
+            }
             $term = term_exists($termId, glsr()->taxonomy); // get the term from a term slug
             $termId = Arr::get($term, 'term_id', 0);
         }

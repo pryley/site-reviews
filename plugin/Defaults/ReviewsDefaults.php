@@ -10,8 +10,11 @@ class ReviewsDefaults extends Defaults
      * @var array
      */
     protected $mapped = [
+        'assigned_to' => 'assigned_posts',
+        'category' => 'assigned_terms',
         'count' => 'per_page', // @deprecated since v4.1.0
         'display' => 'per_page',
+        'user' => 'assigned_users',
     ];
 
     /**
@@ -20,19 +23,19 @@ class ReviewsDefaults extends Defaults
     protected function defaults()
     {
         return [
-            'assigned_to' => '',
-            'category' => '',
+            'assigned_posts' => '',
+            'assigned_terms' => '',
+            'assigned_users' => '',
             'offset' => '',
             'order' => 'DESC',
             'orderby' => 'date',
-            'pagination' => false,
             'page' => 1,
+            'pagination' => false,
             'per_page' => 10,
             'post__in' => [],
             'post__not_in' => [],
             'rating' => '',
             'type' => '',
-            'user' => '',
         ];
     }
 }

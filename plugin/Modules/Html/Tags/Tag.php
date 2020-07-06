@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Review;
 
@@ -72,7 +73,7 @@ abstract class Tag
     public function wrap($value, $wrapWith = 'span')
     {
         $rawValue = $value;
-        if (!empty($value)) {
+        if (!Helper::isEmpty($value)) {
             if (!empty($wrapWith)) {
                 $value = glsr(Builder::class)->$wrapWith($value);
             }

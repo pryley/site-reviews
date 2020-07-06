@@ -11,8 +11,9 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 class NormalizeQueryArgs extends Arguments
 {
-    public $assigned_to;
-    public $category;
+    public $assigned_posts;
+    public $assigned_terms;
+    public $assigned_users;
     public $offset;
     public $order;
     public $orderby;
@@ -22,13 +23,13 @@ class NormalizeQueryArgs extends Arguments
     public $post__not_in;
     public $rating;
     public $type;
-    public $user;
 
     public function __construct(array $args = [])
     {
         $args = glsr(ReviewsDefaults::class)->merge($args);
-        $args['assigned_to'] = Arr::uniqueInt(Arr::consolidate($args['assigned_to']));
-        $args['category'] = glsr(TaxonomyManager::class)->normalizeTermIds($args['category']);
+        $args['assigned_posts'] = Arr::uniqueInt(Arr::consolidate($args['assigned_posts']));
+        $args['assigned_terms'] = glsr(TaxonomyManager::class)->normalizeTermIds($args['assigned_terms']);
+        $args['assigned_users'] = $this->normalizeUserIds(Arr::consolidate($args['assigned_users']));
         $args['offset'] = absint(filter_var($args['offset'], FILTER_SANITIZE_NUMBER_INT));
         $args['order'] = Str::restrictTo('ASC,DESC,', sanitize_key($args['order']), 'DESC'); // include an empty value
         $args['orderby'] = $this->normalizeOrderBy($args['orderby']);
@@ -38,7 +39,6 @@ class NormalizeQueryArgs extends Arguments
         $args['post__not_in'] = Arr::uniqueInt(Arr::consolidate($args['post__not_in']));
         $args['rating'] = absint(filter_var($args['rating'], FILTER_SANITIZE_NUMBER_INT));
         $args['type'] = sanitize_key($args['type']);
-        $args['user'] = $this->normalizeUserIds(Arr::consolidate($args['user']));
         parent::__construct($args);
     }
 

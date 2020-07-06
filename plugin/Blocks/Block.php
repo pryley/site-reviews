@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Blocks;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-abstract class BlockGenerator
+abstract class Block
 {
     /**
      * @return array

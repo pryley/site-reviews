@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews\Blocks;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode as Shortcode;
 
-class SiteReviewsFormBlock extends BlockGenerator
+class SiteReviewsFormBlock extends Block
 {
     /**
      * @return array

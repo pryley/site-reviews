@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Blocks;
 
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode as Shortcode;
 
-class SiteReviewsSummaryBlock extends BlockGenerator
+class SiteReviewsSummaryBlock extends Block
 {
     /**
      * @return array

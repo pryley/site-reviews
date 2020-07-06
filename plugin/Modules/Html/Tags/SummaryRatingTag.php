@@ -12,7 +12,7 @@ class SummaryRatingTag extends SummaryTag
     protected function handle($value = null)
     {
         if (!$this->isHidden()) {
-            $rating = glsr(Rating::class)->getAverage($this->ratings);
+            $rating = glsr(Rating::class)->average($this->ratings);
             return $this->wrap($rating, 'span');
         }
     }
