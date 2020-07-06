@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
+use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 class SqlSchema
@@ -30,6 +31,7 @@ class SqlSchema
                 REFERENCES {$this->table('ratings')} (ID)
                 ON DELETE CASCADE
             ");
+            glsr(Query::class)->sql($this->db->last_query, 'add-constraint');
         }
         if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_posts').'_post_id_foreign')) {
             $this->db->query("
@@ -39,6 +41,7 @@ class SqlSchema
                 REFERENCES {$this->db->posts} (ID)
                 ON DELETE CASCADE
             ");
+            glsr(Query::class)->sql($this->db->last_query, 'add-constraint');
         }
     }
 
@@ -55,6 +58,7 @@ class SqlSchema
                 REFERENCES {$this->table('ratings')} (ID)
                 ON DELETE CASCADE
             ");
+            glsr(Query::class)->sql($this->db->last_query, 'add-constraint');
         }
         if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_terms').'_term_id_foreign')) {
             $this->db->query("
@@ -64,6 +68,7 @@ class SqlSchema
                 REFERENCES {$this->db->terms} (term_id)
                 ON DELETE CASCADE
             ");
+            glsr(Query::class)->sql($this->db->last_query, 'add-constraint');
         }
     }
 
@@ -80,6 +85,7 @@ class SqlSchema
                 REFERENCES {$this->table('ratings')} (ID)
                 ON DELETE CASCADE
             ");
+            glsr(Query::class)->sql($this->db->last_query, 'add-constraint');
         }
         if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_users').'_user_id_foreign')) {
             $this->db->query("
@@ -89,6 +95,7 @@ class SqlSchema
                 REFERENCES {$this->db->users} (ID)
                 ON DELETE CASCADE
             ");
+            glsr(Query::class)->sql($this->db->last_query, 'add-constraint');
         }
     }
 
@@ -105,6 +112,7 @@ class SqlSchema
                 REFERENCES {$this->db->posts} (ID)
                 ON DELETE CASCADE
             ");
+            glsr(Query::class)->sql($this->db->last_query, 'add-constraint');
         }
     }
 

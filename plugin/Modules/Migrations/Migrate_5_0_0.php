@@ -37,14 +37,15 @@ class Migrate_5_0_0
         $offset = 0;
         $table = glsr(Query::class)->table('ratings');
         while (true) {
-            $results = $this->db->get_results($this->db->prepare("
+            $sql = glsr(Query::class)->sql($this->db->prepare("
                 SELECT r.ID AS rating_id, m.meta_value AS post_id, CAST(IF(p.post_status = 'publish', 1, 0) AS UNSIGNED) AS is_approved
                 FROM {$table} AS r
                 INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID
                 INNER JOIN {$this->db->postmeta} AS m ON r.review_id = m.post_id
                 WHERE m.meta_key = '_assigned_to' AND m.meta_value > 0 
                 LIMIT %d, %d
-            ", $offset, $this->limit), ARRAY_A);
+            ", $offset, $this->limit), 'migrate-assigned-posts');
+            $results = $this->db->get_results($sql, ARRAY_A);
             if (empty($results)) {
                 break;
             }
@@ -64,7 +65,7 @@ class Migrate_5_0_0
     {
         $offset = 0;
         while (true) {
-            $results = $this->db->get_results($this->db->prepare("
+            $sql = glsr(Query::class)->sql($this->db->prepare("
                 SELECT p.ID, m.meta_key AS mk, m.meta_value AS mv, CAST(IF(p.post_status = 'publish', 1, 0) AS UNSIGNED) AS is_approved
                 FROM {$this->db->posts} AS p
                 INNER JOIN {$this->db->postmeta} AS m ON p.ID = m.post_id
@@ -77,8 +78,8 @@ class Migrate_5_0_0
                     ) AS post_ids
                 )
                 AND m.meta_key IN ('_author','_avatar','_email','_ip_address','_pinned','_rating','_review_type','_url')
-                ", glsr()->post_type, $offset, $this->limit)
-            );
+            ", glsr()->post_type, $offset, $this->limit), 'migrate-ratings');
+            $results = $this->db->get_results($sql);
             if (empty($results)) {
                 break;
             }
@@ -119,13 +120,14 @@ class Migrate_5_0_0
         $offset = 0;
         $table = glsr(Query::class)->table('ratings');
         while (true) {
-            $results = $this->db->get_results($this->db->prepare("
+            $sql = glsr(Query::class)->sql($this->db->prepare("
                 SELECT r.ID AS rating_id, tt.term_id AS term_id
                 FROM {$table} AS r
                 INNER JOIN {$this->db->term_relationships} AS tr ON r.review_id = tr.object_id
                 INNER JOIN {$this->db->term_taxonomy} AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
                 LIMIT %d, %d
-            ", $offset, $this->limit), ARRAY_A);
+            ", $offset, $this->limit), 'migrate-assigned-terms');
+            $results = $this->db->get_results($sql, ARRAY_A);
             if (empty($results)) {
                 break;
             }

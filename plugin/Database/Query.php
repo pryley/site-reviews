@@ -28,13 +28,13 @@ class Query
         $this->setArgs($args);
         $join = implode(' ', $this->sqlClauses([], 'join'));
         $and = implode(' ', $this->sqlClauses([], 'and'));
-        $results = $this->db->get_results("
+        $sql = $this->sql("
             SELECT r.rating, r.type, COUNT(r.rating) AS count
             FROM {$this->table('ratings')} AS r {$join}
             WHERE r.is_approved = 1 {$and}
             GROUP BY r.type, r.rating
-        ", ARRAY_A);
-        return $this->normalizeRatings($results);
+        ", 'rating');
+        return $this->normalizeRatings($this->db->get_results($sql, ARRAY_A));
     }
 
     /**
@@ -48,15 +48,15 @@ class Query
         if (($review = glsr(Cache::class)->get($reviewId, 'reviews')) instanceof Review) {
             return $review;
         }
-        $result = $this->db->get_row("
+        $sql = $this->sql("
             {$this->sqlSelect()}
             {$this->sqlFrom()}
             {$this->sqlJoin()}
             {$this->sqlJoinPivots()}
             WHERE r.review_id = {$reviewId}
             GROUP BY r.ID
-        ");
-        $review = new Review($result);
+        ", 'review');
+        $review = new Review($this->db->get_row($sql));
         if (!empty($result)) {
             glsr(Cache::class)->store($reviewId, 'reviews', $review);
         }
@@ -82,14 +82,15 @@ class Query
                 {$this->sqlOffset()}
             ) as ids";
         }
-        $results = $this->db->get_results("
+        $sql = $this->sql("
             {$this->sqlSelect()}
             {$this->sqlFrom()}
             {$this->sqlJoin()}
             {$this->sqlJoinPivots()}
             WHERE r.review_id in ({$postIds})
             GROUP BY r.ID 
-        ");
+        ", 'reviews');
+        $results = $this->db->get_results($sql);
         foreach ($results as &$result) {
             $result = new Review($result);
             glsr(Cache::class)->store($result->ID, 'reviews', $result);
@@ -103,11 +104,12 @@ class Query
      */
     public function revisionIds($postId)
     {
-        return $this->db->get_col($this->db->prepare("
+        $sql = $this->sql($this->db->prepare("
             SELECT ID
             FROM {$this->db->posts}
             WHERE post_parent = %d AND post_type = 'revision'
-        ", $postId));
+        ", $postId), 'revision-ids');
+        return $this->db->get_col($sql);
     }
 
     /**
@@ -119,12 +121,13 @@ class Query
         if (empty($this->sqlLimit()) && !empty($reviews)) {
             return count($reviews);
         }
-        return (int) $this->db->get_var("
+        $sql = $this->sql("
             SELECT COUNT(*)
             {$this->sqlFrom()}
             {$this->sqlJoin()}
             {$this->sqlWhere()}
-        ");
+        ", 'total-reviews');
+        return (int) $this->db->get_var($sql);
     }
 
     /**
@@ -133,12 +136,12 @@ class Query
      */
     public function hasRevisions($postId)
     {
-        $revisions = (int) $this->db->get_var("
+        $sql = $this->sql("
             SELECT COUNT(*) 
             FROM {$this->db->posts}
             WHERE post_type = 'revision' AND post_parent = {$postId}
-        ");
-        return $revisions > 0;
+        ", 'has-revisions');
+        return (int) $this->db->get_var($sql) > 0;
     }
 
     /**

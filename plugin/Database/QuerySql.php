@@ -22,6 +22,18 @@ trait QuerySql
     }
 
     /**
+     * @param string $statement
+     * @param string $handle
+     * @return string
+     */
+    public function sql($statement, $handle = '')
+    {
+        glsr()->action('database/sql/'.$handle, $statement);
+        glsr()->action('database/sql', $statement, $handle);
+        return $statement;
+    }
+
+    /**
      * @param string $clause
      * @return array
      */
@@ -182,19 +194,18 @@ trait QuerySql
     }
 
     /**
-     * This takes care of assigned_to, category, and user.
      * @return string
      */
-    protected function clauseAndAssignedTo()
+    protected function clauseAndAssignedPosts()
     {
         $clauses = [];
-        if ($postIds = $this->args['assigned_to']) {
+        if ($postIds = $this->args['assigned_posts']) {
             $clauses[] = $this->db->prepare('(apt.post_id IN (%s) AND apt.is_published = 1)', implode(',', $postIds));
         }
-        if ($termIds = $this->args['category']) {
+        if ($termIds = $this->args['assigned_terms']) {
             $clauses[] = $this->db->prepare('(att.term_id IN (%s))', implode(',', $termIds));
         }
-        if ($userIds = $this->args['user']) {
+        if ($userIds = $this->args['assigned_users']) {
             $clauses[] = $this->db->prepare('(aut.user_id IN (%s))', implode(',', $userIds));
         }
         if ($clauses = implode(' OR ', $clauses)) {
@@ -226,9 +237,9 @@ trait QuerySql
     /**
      * @return string
      */
-    protected function clauseJoinAssignedTo()
+    protected function clauseJoinAssignedPosts()
     {
-        return !empty($this->args['assigned_to'])
+        return !empty($this->args['assigned_posts'])
             ? "INNER JOIN {$this->table('assigned_posts')} AS apt ON r.ID = apt.rating_id"
             : '';
     }
@@ -236,9 +247,9 @@ trait QuerySql
     /**
      * @return string
      */
-    protected function clauseJoinCategory()
+    protected function clauseJoinAssignedTerms()
     {
-        return !empty($this->args['category'])
+        return !empty($this->args['assigned_terms'])
             ? "INNER JOIN {$this->table('assigned_terms')} AS att ON r.ID = att.rating_id"
             : '';
     }
@@ -246,9 +257,9 @@ trait QuerySql
     /**
      * @return string
      */
-    protected function clauseJoinUser()
+    protected function clauseJoinAssignedUsers()
     {
-        return !empty($this->args['user'])
+        return !empty($this->args['assigned_users'])
             ? "INNER JOIN {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id"
             : '';
     }

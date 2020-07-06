@@ -4,6 +4,8 @@
     site-reviews/addon/settings/{tab}                       ()
     site-reviews/builder                                    ()
     site-reviews/customize/{style}                          ()
+    site-reviews/database/sql                               (string $sql, string $handle)
+    site-reviews/database/sql/{handle}                      (string $sql)
     site-reviews/get/review                                 ()
     site-reviews/get/reviews                                ()
     site-reviews/personal-data/erase                        (Review $review, bool $retainReview)

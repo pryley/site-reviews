@@ -45,7 +45,9 @@ class Database
      */
     public function delete($table, array $where)
     {
-        return $this->db->delete(glsr(Query::class)->table($table), $where);
+        $result = $this->db->delete(glsr(Query::class)->table($table), $where);
+        glsr(Query::class)->sql($this->db->last_query, 'delete');
+        return $result;
     }
 
     /**
@@ -60,16 +62,15 @@ class Database
         if (empty($search) || empty($query->get('search_terms'))) {
             return $search;
         }
-        global $wpdb;
         $n = empty($query->get('exact'))
             ? '%'
             : '';
         $search = [];
         foreach ((array) $query->get('search_terms') as $term) {
-            $search[] = $wpdb->prepare("{$wpdb->posts}.post_title LIKE %s", $n.$wpdb->esc_like($term).$n);
+            $search[] = $this->db->prepare("{$this->db->posts}.post_title LIKE %s", $n.$this->db->esc_like($term).$n);
         }
         if (!is_user_logged_in()) {
-            $search[] = "{$wpdb->posts}.post_password = ''";
+            $search[] = "{$this->db->posts}.post_password = ''";
         }
         return ' AND '.implode(' AND ', $search);
     }
@@ -107,7 +108,8 @@ class Database
         $table = glsr(Query::class)->table($table);
         $fields = glsr(Query::class)->escFieldsForInsert($fields);
         $values = implode(',', $data);
-        return $this->db->query("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}");
+        $sql = glsr(Query::class)->sql("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}", 'insert-bulk');
+        return $this->db->query($sql);
     }
 
     /**
@@ -119,7 +121,8 @@ class Database
         $this->db->insert_id = 0;
         $fields = glsr(Query::class)->escFieldsForInsert(array_keys($data));
         $values = glsr(Query::class)->escValuesForInsert($data);
-        return $this->db->query("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}");
+        $sql = glsr(Query::class)->sql("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}", 'insert');
+        return $this->db->query($sql);
     }
 
     /**
@@ -127,13 +130,13 @@ class Database
      */
     public function isMigrationNeeded()
     {
-        global $wpdb;
         $table = glsr(Query::class)->table('ratings');
         $postCount = wp_count_posts(glsr()->post_type)->publish;
         if (empty($postCount)) {
             return false;
         }
-        if (!empty($wpdb->get_var("SELECT COUNT(*) FROM {$table} WHERE is_approved = 1"))) {
+        $sql = glsr(Query::class)->sql("SELECT COUNT(*) FROM {$table} WHERE is_approved = 1", 'migrate');
+        if (!empty($this->db->get_var($sql))) {
             return false;
         }
         return true;
@@ -254,6 +257,8 @@ class Database
      */
     public function update($table, array $data, array $where)
     {
-        return $this->db->update(glsr(Query::class)->table($table), $data, $where);
+        $result = $this->db->update(glsr(Query::class)->table($table), $data, $where);
+        glsr(Query::class)->sql($this->db->last_query, 'update');
+        return $result;
     }
 }
