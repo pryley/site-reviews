@@ -111,7 +111,7 @@ class AjaxController extends Controller
         ];
         if (!$args['page']) {
             $urlPath = Url::path($request->url);
-            $args['page'] = glsr(Helper::class)->getPageNumber($request->url);
+            $args['page'] = Helper::getPageNumber($request->url);
             $args['pageUrl'] = Url::path(home_url()) === $urlPath
                 ? Url::home()
                 : Url::home($urlPath);

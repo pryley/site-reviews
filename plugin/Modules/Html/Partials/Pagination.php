@@ -43,7 +43,7 @@ class Pagination implements PartialContract
         $pattern = '/(href=["\'])([^"\']*?)(["\'])/i';
         foreach ($links as &$link) {
             if (preg_match($pattern, $link, $matches)) {
-                $page = glsr(Helper::class)->getPageNumber(Arr::get($matches, 2));
+                $page = Helper::getPageNumber(Arr::get($matches, 2));
                 $replacement = sprintf('data-page="%d" href="#"', $page);
                 $link = str_replace(Arr::get($matches, 0), $replacement, $link);
             }
@@ -70,7 +70,7 @@ class Pagination implements PartialContract
             $args['base'] = $baseUrl.'%_%';
         }
         $args = wp_parse_args(array_filter($args), [
-            'current' => glsr(Helper::class)->getPageNumber(),
+            'current' => Helper::getPageNumber(),
             'total' => 1,
         ]);
         return glsr(Style::class)->paginationArgs($args);
