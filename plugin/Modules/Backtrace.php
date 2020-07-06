@@ -26,7 +26,6 @@ class Backtrace
     public function line($limit = 6)
     {
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $limit);
-        error_log(print_r($backtrace, 1));
         $search = array_search('glsr_log', wp_list_pluck($backtrace, 'function'));
         if (false !== $search) {
             return $this->buildLine($backtrace, (int) $search);

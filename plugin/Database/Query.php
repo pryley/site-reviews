@@ -57,7 +57,7 @@ class Query
             GROUP BY r.ID
         ", 'review');
         $review = new Review($this->db->get_row($sql));
-        if (!empty($result)) {
+        if ($review->isValid()) {
             glsr(Cache::class)->store($reviewId, 'reviews', $review);
         }
         return $review;
