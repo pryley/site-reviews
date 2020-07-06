@@ -3,8 +3,6 @@
 namespace GeminiLabs\SiteReviews\Tests;
 
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use WP_UnitTestCase;
 
 /**
@@ -32,46 +30,6 @@ class TestHelper extends WP_UnitTestCase
         $this->assertEquals(Helper::buildPropertyName('Hello-Doll'), 'helloDoll');
     }
 
-    public function test_compare_arrays()
-    {
-        $this->assertTrue(Arr::compare(['one' => ['two']], ['one' => ['two']]));
-        $this->assertFalse(Arr::compare(['one' => ['two']], ['one' => 'two']));
-    }
-
-    public function test_convert_dot_notation_array()
-    {
-        $original = ['parent.child' => 'toys'];
-        $converted = ['parent' => ['child' => 'toys']];
-        $this->assertEquals(Arr::convertFromDotNotation($original), $converted);
-    }
-
-    public function test_convert_path_to_id()
-    {
-        $this->assertEquals(Str::convertPathToId('abc.d.e'), '-abc-d-e');
-        $this->assertEquals(Str::convertPathToId('d.e', 'abc'), 'abc-d-e');
-        $this->assertEquals(Str::convertPathToId('d.e.', 'abc'), 'abc-d-e-');
-        $this->assertEquals(Str::convertPathToId('.d.e', 'abc'), 'abc--d-e');
-    }
-
-    public function test_convert_path_to_name()
-    {
-        $this->assertEquals(Str::convertPathToName('abc.d.e'), '[abc][d][e]');
-        $this->assertEquals(Str::convertPathToName('d.e', 'abc'), 'abc[d][e]');
-        $this->assertEquals(Str::convertPathToName('d.e.', 'abc'), 'abc[d][e][]');
-        $this->assertEquals(Str::convertPathToName('.d.e', 'abc'), 'abc[][d][e]');
-    }
-
-    public function test_dash_case()
-    {
-        $this->assertEquals(Str::dashCase('a-b_cDE'), 'a-b-c-d-e');
-    }
-
-    public function test_ends_with()
-    {
-        $this->assertTrue(Str::endsWith('efg', 'abcdefg'));
-        $this->assertFalse(Str::endsWith('efg', 'ABCDEFG'));
-    }
-
     public function test_filter_input()
     {
         $_POST['xxx'] = 'xxx';
@@ -87,81 +45,57 @@ class TestHelper extends WP_UnitTestCase
         $this->assertEquals(Helper::filterInputArray('zzz'), []);
     }
 
-    public function test_flatten_array()
+    public function test_get_ip_address()
     {
-        $test = ['one' => ['two' => ['three' => ['x', 'y', 'z']]]];
-        $this->assertEquals(
-            Arr::flatten($test),
-            ['one.two.three' => ['x', 'y', 'z']]
-        );
-        $this->assertEquals(
-            Arr::flatten($test, true),
-            ['one.two.three' => '[x, y, z]']
-        );
-        $this->assertEquals(
-            Arr::flatten($test, true, 'test'),
-            ['test.one.two.three' => '[x, y, z]']
-        );
+        $this->assertEquals(Helper::getIpAddress(), '127.0.0.1');
     }
 
-    public function test_get_path_value()
+    public function test_get_page_number()
     {
-        $values = ['parent' => ['child' => 'toys']];
-        $this->assertEquals(
-            Arr::get($values, 'parent.child'),
-            'toys'
-        );
-        $this->assertEquals(
-            Arr::get($values, 'parent.child.toys', 'fallback'),
-            'fallback'
-        );
+        $queryvar = glsr()->constant('PAGED_QUERY_VAR');
+        $this->assertEquals(Helper::getPageNumber("https://test.com?{$queryvar}=2"), '2');
+        $this->assertEquals(Helper::getPageNumber(), '1');
     }
 
-    public function test_is_indexed_flat_array()
+    public function test_if_empty()
     {
-        $this->assertFalse(Arr::isIndexedAndFlat('not an array'));
-        $this->assertFalse(Arr::isIndexedAndFlat([[]]));
-        $this->assertTrue(Arr::isIndexedAndFlat([]));
-        $this->assertTrue(Arr::isIndexedAndFlat([1, 2, 3]));
+        $this->assertEquals(Helper::ifEmpty(0, 'abc'), 0);
+        $this->assertEquals(Helper::ifEmpty(0, 'abc', true), 'abc');
+        $this->assertEquals(Helper::ifEmpty([], 'abc'), 'abc');
+        $this->assertEquals(Helper::ifEmpty([], 'abc', true), 'abc');
+        $this->assertEquals(Helper::ifEmpty(false, 'abc'), false);
+        $this->assertEquals(Helper::ifEmpty(false, 'abc', true), 'abc');
+        $this->assertEquals(Helper::ifEmpty(null, 'abc'), 'abc');
+        $this->assertEquals(Helper::ifEmpty(null, 'abc', true), 'abc');
+        $this->assertEquals(Helper::ifEmpty('', 'abc'), 'abc');
+        $this->assertEquals(Helper::ifEmpty('', 'abc', true), 'abc');
     }
 
-    public function test_prefix_string()
+    public function test_is_greater_then()
     {
-        $this->assertEquals(Str::prefix('hello_', ' bob '), 'hello_bob');
+        $this->assertTrue(Helper::isGreaterThan('1.0.0', '1.0'));
+        $this->assertFalse(Helper::isGreaterThan('1.0.0', '1.0.0'));
+        $this->assertFalse(Helper::isGreaterThan('1.0.0', '1.0.1'));
     }
 
-    public function test_remove_empty_array_values()
+    public function test_is_greater_then_or_equal()
     {
-        $array = [
-            'emptyString' => '',
-            'emptyArray' => [],
-            'array' => [
-                'string' => 'string',
-                'emptyString' => [],
-            ],
-        ];
-        $this->assertEquals(
-            Arr::removeEmptyValues($array),
-            ['array' => ['string' => 'string']]
-        );
+        $this->assertTrue(Helper::isGreaterThanOrEqual('1.0.0', '1.0'));
+        $this->assertTrue(Helper::isGreaterThanOrEqual('1.0.0', '1.0.0'));
+        $this->assertFalse(Helper::isGreaterThanOrEqual('1.0.0', '1.0.1'));
     }
 
-    public function test_set_path_value()
+    public function test_is_less_then()
     {
-        $this->assertEquals(
-            Arr::set([], 'number.thirteen', '13'),
-            ['number' => ['thirteen' => '13']]
-        );
+        $this->assertTrue(Helper::isLessThan('1.0', '1.0.0'));
+        $this->assertFalse(Helper::isLessThan('1.0.0', '1.0.0'));
+        $this->assertFalse(Helper::isLessThan('1.0.1', '1.0.0'));
     }
 
-    public function test_snake_case()
+    public function test_is_less_then_or_equal()
     {
-        $this->assertEquals(Str::snakeCase('a-b_cDE'), 'a_b_c_d_e');
-    }
-
-    public function test_starts_with()
-    {
-        $this->assertTrue(Str::startsWith('abc', 'abcdefg'));
-        $this->assertFalse(Str::startsWith('abc', 'ABCDEFG'));
+        $this->assertTrue(Helper::isLessThanOrEqual('1.0', '1.0.0'));
+        $this->assertTrue(Helper::isLessThanOrEqual('1.0.0', '1.0.0'));
+        $this->assertFalse(Helper::isLessThanOrEqual('1.0.1', '1.0.0'));
     }
 }

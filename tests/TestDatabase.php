@@ -13,12 +13,12 @@ class TestDatabase extends WP_UnitTestCase
 {
     use Setup;
 
-    public function test_database_key()
+    public function _test_database_key()
     {
         $this->assertEquals(OptionManager::databaseKey(), 'site_reviews_v5');
     }
 
-    public function test_delete_option()
+    public function _test_delete_option()
     {
         glsr(OptionManager::class)->set('settings.new', 'yes');
         $this->assertEquals(glsr(OptionManager::class)->get('settings.new'), 'yes');
@@ -26,7 +26,7 @@ class TestDatabase extends WP_UnitTestCase
         $this->assertEquals(glsr(OptionManager::class)->get('settings.new'), '');
     }
 
-    public function test_get_option()
+    public function _test_get_option()
     {
         glsr(OptionManager::class)->set('settings.general.require.approval', 'yes');
         $this->assertEquals(
@@ -39,7 +39,7 @@ class TestDatabase extends WP_UnitTestCase
         );
     }
 
-    public function test_get_options()
+    public function _test_get_options()
     {
         $options = glsr(OptionManager::class)->all();
         $this->assertArrayHasKey('settings', $options);
@@ -51,7 +51,7 @@ class TestDatabase extends WP_UnitTestCase
         $this->assertArrayHasKey('submissions', $options['settings']);
     }
 
-    public function test_set_option()
+    public function _test_set_option()
     {
         glsr(OptionManager::class)->set('settings.general.require.approval', 'no');
         $this->assertEquals(

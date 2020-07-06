@@ -5,28 +5,6 @@ namespace GeminiLabs\SiteReviews\Helpers;
 class Str
 {
     /**
-     * @param string $subject
-     * @param string $search
-     * @return string
-     */
-    public static function afterLast($subject, $search)
-    {
-        return '' === $search
-            ? $subject
-            : array_reverse(explode($search, $subject))[0];
-    }
-
-    /**
-     * @param string $subject
-     * @param string $search
-     * @return string
-     */
-    public static function before($subject, $search)
-    {
-        return $search === '' ? $subject : explode($search, $subject)[0];
-    }
-
-    /**
      * @param string $string
      * @return string
      */
@@ -106,9 +84,10 @@ class Str
     public static function convertToInitials($name, $initialPunctuation = '')
     {
         preg_match_all('/(?<=\s|\b)\pL/u', $name, $matches);
-        return array_reduce($matches[0], function ($carry, $word) use ($initialPunctuation) {
+        $result = array_reduce($matches[0], function ($carry, $word) use ($initialPunctuation) {
             return $carry.strtoupper(substr($word, 0, 1)).$initialPunctuation;
         });
+        return trim($result);
     }
 
     /**
@@ -284,14 +263,13 @@ class Str
             ? substr($string, 0, $length)
             : $string;
     }
+
     /**
      * @param mixed $value
      * @return array
      */
     public static function toArray($value)
     {
-        return is_string($value)
-            ? array_map('trim', explode(',', $value))
-            : Arr::consolidate($value);
+        return Arr::consolidate($value);
     }
 }

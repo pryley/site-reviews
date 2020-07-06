@@ -98,7 +98,7 @@ class Arr
         $result = $fallback;
         foreach ($keys as $key) {
             if (!isset($data[$key])) {
-                break;
+                return $fallback;
             }
             if (is_object($data[$key])) {
                 $result = $data[$key];

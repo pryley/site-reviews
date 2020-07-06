@@ -25,7 +25,9 @@ class Cast
      */
     public static function toArray($value)
     {
-        return (array) $value;
+        return '' !== $value
+            ? (array) $value
+            : [];
     }
 
     /**
@@ -43,7 +45,7 @@ class Cast
      */
     public static function toFloat($value)
     {
-        return (float) filter_var($value, FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_THOUSAND);
+        return (float) filter_var($value, FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION|FILTER_FLAG_ALLOW_THOUSAND);
     }
 
     /**
@@ -52,7 +54,7 @@ class Cast
      */
     public static function toInt($value)
     {
-        return (int) filter_var($value, FILTER_VALIDATE_INT);
+        return (int) round(static::toFloat($value));
     }
 
     /**
@@ -61,7 +63,7 @@ class Cast
      */
     public static function toObject($value)
     {
-        return (object) (array) $value;
+        return (object) static::toArray($value);
     }
 
     /**
@@ -72,6 +74,9 @@ class Cast
     {
         if (is_object($value) && in_array('__toString', get_class_methods($value))) {
             return (string) $value->__toString();
+        }
+        if (Helper::isEmpty($value)) {
+            return '';
         }
         if (is_array($value) || is_object($value)) {
             return serialize($value);

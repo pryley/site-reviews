@@ -69,10 +69,9 @@ class Migrate_3_0_0
             return;
         }
         foreach (static::MAPPED_SETTINGS as $old => $new) {
-            if (empty($this->oldSettings[$old])) {
-                continue;
+            if (!empty($this->oldSettings[$old])) {
+                $this->newSettings[$new] = $this->oldSettings[$old];
             }
-            $this->newSettings[$new] = $this->oldSettings[$old];
         }
         $this->migrateNotificationSettings();
         $this->migrateRecaptchaSettings();
