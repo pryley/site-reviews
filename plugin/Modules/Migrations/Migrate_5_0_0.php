@@ -38,7 +38,7 @@ class Migrate_5_0_0
         $table = glsr(Query::class)->table('ratings');
         while (true) {
             $sql = glsr(Query::class)->sql($this->db->prepare("
-                SELECT r.ID AS rating_id, m.meta_value AS post_id, CAST(IF(p.post_status = 'publish', 1, 0) AS UNSIGNED) AS is_approved
+                SELECT r.ID AS rating_id, m.meta_value AS post_id, CAST(IF(p.post_status = 'publish', 1, 0) AS UNSIGNED) AS is_published
                 FROM {$table} AS r
                 INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID
                 INNER JOIN {$this->db->postmeta} AS m ON r.review_id = m.post_id
@@ -52,7 +52,7 @@ class Migrate_5_0_0
             glsr(Database::class)->insertBulk('assigned_posts', $results, [
                 'rating_id',
                 'post_id',
-                'is_approved',
+                'is_published',
             ]);
             $offset += $this->limit;
         }
@@ -221,8 +221,8 @@ class Migrate_5_0_0
         $this->migrateUserMeta();
         $this->migrateWidgets();
         $this->migrateRatings();
-        // $this->migrateAssignedTo();
-        // $this->migrateTerms();
+        $this->migrateAssignedTo();
+        $this->migrateTerms();
     }
 
     /**
