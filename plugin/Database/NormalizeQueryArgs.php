@@ -27,16 +27,16 @@ class NormalizeQueryArgs extends Arguments
     public function __construct(array $args = [])
     {
         $args = glsr(ReviewsDefaults::class)->merge($args);
-        $args['assigned_posts'] = Arr::uniqueInt(Arr::consolidate($args['assigned_posts']));
+        $args['assigned_posts'] = Arr::uniqueInt($args['assigned_posts']);
         $args['assigned_terms'] = glsr(TaxonomyManager::class)->normalizeTermIds($args['assigned_terms']);
-        $args['assigned_users'] = $this->normalizeUserIds(Arr::consolidate($args['assigned_users']));
+        $args['assigned_users'] = $this->normalizeUserIds(Cast::toArray($args['assigned_users']));
         $args['offset'] = absint(filter_var($args['offset'], FILTER_SANITIZE_NUMBER_INT));
         $args['order'] = Str::restrictTo('ASC,DESC,', sanitize_key($args['order']), 'DESC'); // include an empty value
         $args['orderby'] = $this->normalizeOrderBy($args['orderby']);
         $args['page'] = absint($args['page']);
         $args['per_page'] = absint($args['per_page']); // "0" and "-1" = all
-        $args['post__in'] = Arr::uniqueInt(Arr::consolidate($args['post__in']));
-        $args['post__not_in'] = Arr::uniqueInt(Arr::consolidate($args['post__not_in']));
+        $args['post__in'] = Arr::uniqueInt($args['post__in']);
+        $args['post__not_in'] = Arr::uniqueInt($args['post__not_in']);
         $args['rating'] = absint(filter_var($args['rating'], FILTER_SANITIZE_NUMBER_INT));
         $args['type'] = sanitize_key($args['type']);
         parent::__construct($args);

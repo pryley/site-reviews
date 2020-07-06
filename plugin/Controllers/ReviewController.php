@@ -16,8 +16,8 @@ use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Database\TaxonomyManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Review;
-use WP_Post;
 
 class ReviewController extends Controller
 {
@@ -140,7 +140,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a review is edited.
-     * We need to use "edit_post" to support revisions (vs "save_post")
+     * We need to use "edit_post" to support revisions (vs "save_post").
      *
      * @param int $postId
      * @return void
@@ -155,8 +155,8 @@ class ReviewController extends Controller
         $input = 'edit' === glsr_current_screen()->base ? INPUT_GET : INPUT_POST;
         $assignedPostIds = filter_input($input, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
         $assignedUserIds = filter_input($input, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
-        glsr()->action('review/updated/post_ids', $review, Arr::consolidate($assignedPostIds));
-        glsr()->action('review/updated/user_ids', $review, Arr::consolidate($assignedUserIds));
+        glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds));
+        glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds));
         glsr(MetaboxController::class)->saveResponseMetabox($postId);
         $reviewFields = Helper::filterInputArray(glsr()->id);
         if (Arr::get($reviewFields, 'is_editing_review')) {

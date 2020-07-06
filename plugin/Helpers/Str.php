@@ -216,7 +216,7 @@ class Str
     public static function restrictTo($restrictions, $value, $fallback = '', $strict = false)
     {
         $needle = $value;
-        $haystack = static::toArray($restrictions);
+        $haystack = Cast::toArray($restrictions);
         if (true !== $strict) {
             $needle = strtolower($needle);
             $haystack = array_map('strtolower', $haystack);
@@ -249,7 +249,13 @@ class Str
      */
     public static function startsWith($needle, $haystack)
     {
-        return substr($haystack, 0, strlen($needle)) === $needle;
+        $needles = array_map('trim', explode(',', $needle));
+        foreach ($needles as $value) {
+            if (substr($haystack, 0, strlen($value)) === $value) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -262,14 +268,5 @@ class Str
         return strlen($string) > $length
             ? substr($string, 0, $length)
             : $string;
-    }
-
-    /**
-     * @param mixed $value
-     * @return array
-     */
-    public static function toArray($value)
-    {
-        return Arr::consolidate($value);
     }
 }

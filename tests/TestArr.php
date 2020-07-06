@@ -19,6 +19,17 @@ class TestArr extends WP_UnitTestCase
 
     public function test_consolidate()
     {
+        $this->assertEquals(Arr::consolidate(''), []);
+        $this->assertEquals(Arr::consolidate('0'), []);
+        $this->assertEquals(Arr::consolidate('1'), []);
+        $this->assertEquals(Arr::consolidate('1,2'), []);
+        $this->assertEquals(Arr::consolidate((object)[]), []);
+        $this->assertEquals(Arr::consolidate(0), []);
+        $this->assertEquals(Arr::consolidate(1), []);
+        $this->assertEquals(Arr::consolidate([]), []);
+        $this->assertEquals(Arr::consolidate(false), []);
+        $this->assertEquals(Arr::consolidate(true), []);
+        $this->assertEquals(Arr::consolidate((object)[1]), [1]);
     }
 
     public function test_convert_from_dot_notation()

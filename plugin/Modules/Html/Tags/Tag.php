@@ -73,7 +73,7 @@ abstract class Tag
     public function wrap($value, $wrapWith = 'span')
     {
         $rawValue = $value;
-        if (!Helper::isEmpty($value)) {
+        if (Helper::isNotEmpty($value)) {
             if (!empty($wrapWith)) {
                 $value = glsr(Builder::class)->$wrapWith($value);
             }

@@ -8,26 +8,30 @@ class Cast
 {
     /**
      * @param string $cast
-     * @param mixed $value
+     * @param mixed ...$args
      * @return mixed
      */
-    public static function to($cast = '', $value)
+    public static function to($cast = '', ...$args)
     {
         $method = Helper::buildMethodName($cast, 'to');
         return !empty($cast) && method_exists(__CLASS__, $method)
-            ? static::$method($value)
-            : $value;
+            ? call_user_func_array(Cast::class.'::'.$method, $args)
+            : array_shift($args);
     }
 
     /**
      * @param mixed $value
      * @return array
      */
-    public static function toArray($value)
+    public static function toArray($value, $explode = true)
     {
-        return '' !== $value
-            ? (array) $value
-            : [];
+        if (is_object($value)) {
+            return array_merge(get_object_vars($value), (array) $value);
+        }
+        if (is_scalar($value) && $explode) {
+            return Arr::convertFromString($value);
+        }
+        return (array) $value;
     }
 
     /**
@@ -63,7 +67,10 @@ class Cast
      */
     public static function toObject($value)
     {
-        return (object) static::toArray($value);
+        if (!is_object($value)) {
+            return (object) static::toArray($value);
+        }
+        return $value;
     }
 
     /**
@@ -78,7 +85,7 @@ class Cast
         if (Helper::isEmpty($value)) {
             return '';
         }
-        if (is_array($value) || is_object($value)) {
+        if (!is_scalar($value)) {
             return serialize($value);
         }
         return (string) $value;

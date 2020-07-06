@@ -13,7 +13,7 @@ class TaxonomyManager
      */
     public function normalizeTermIds($termIds)
     {
-        $termIds = Arr::convertFromString($termIds);
+        $termIds = Cast::toArray($termIds);
         foreach ($termIds as &$termId) {
             if (is_numeric($termId)) {
                 $termId = Cast::toInt($termId);

@@ -106,8 +106,7 @@ class Migrate_3_0_0
     protected function getOldSettings()
     {
         $defaults = array_fill_keys(array_keys(static::MAPPED_SETTINGS), '');
-        $settings = Arr::consolidate(get_option(OptionManager::databaseKey(2)));
-        $settings = Arr::flatten($settings);
+        $settings = Arr::flatten(Arr::consolidate(get_option(OptionManager::databaseKey(2))));
         return !empty($settings)
             ? wp_parse_args($settings, $defaults)
             : [];

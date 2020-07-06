@@ -8,7 +8,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 class Arguments extends \ArrayObject
 {
     /**
-     * @param mixed $args
+     * @param array $args
      */
     public function __construct($args)
     {

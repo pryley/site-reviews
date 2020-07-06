@@ -139,12 +139,12 @@ abstract class DefaultsAbstract
      */
     protected function normalize($values)
     {
-        if (!is_string($values)) {
-            return Arr::consolidate($values);
+        if (is_string($values)) {
+            $normalized = [];
+            wp_parse_str($values, $normalized);
+            $values = $normalized;
         }
-        $normalized = [];
-        wp_parse_str($values, $normalized);
-        return $normalized;
+        return Arr::consolidate($values);
     }
 
     /**

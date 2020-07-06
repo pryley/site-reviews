@@ -187,4 +187,13 @@ class Helper
     {
         return version_compare($value, $compareWithValue, '<=');
     }
+
+    /**
+     * @param mixed $value
+     * @return bool
+     */
+    public static function isNotEmpty($value)
+    {
+        return !static::isEmpty($value);
+    }
 }

@@ -169,6 +169,7 @@ class TestStr extends WP_UnitTestCase
     {
         $this->assertTrue(Str::startsWith('abc', 'abcdefg'));
         $this->assertFalse(Str::startsWith('abc', 'ABCDEFG'));
+        $this->assertTrue(Str::startsWith('abc,def', 'defg'));
     }
 
     public function test_truncate()
@@ -177,12 +178,5 @@ class TestStr extends WP_UnitTestCase
         $this->assertEquals(Str::truncate('abc', 2), 'ab');
         $this->assertEquals(Str::truncate('abc', 3), 'abc');
         $this->assertEquals(Str::truncate('abc', 4), 'abc');
-    }
-
-    public function test_to_array()
-    {
-        $this->assertEquals(Str::toArray('abc'), ['abc']);
-        $this->assertEquals(Str::toArray('abc,def'), ['abc', 'def']);
-        $this->assertEquals(Str::toArray(''), []);
     }
 }

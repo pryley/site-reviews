@@ -132,7 +132,6 @@ class Console
         }
         if ($this->canLogEntry($level, $backtraceLine)) {
             $levelName = Arr::get($this->getLevels(), $level);
-            $context = Arr::consolidate($context);
             $backtraceLine = glsr(Backtrace::class)->normalizeLine($backtraceLine);
             $message = $this->interpolate($message, $context);
             $entry = $this->buildLogEntry($levelName, $message, $backtraceLine);
@@ -246,7 +245,8 @@ class Console
      */
     protected function interpolate($message, $context = [])
     {
-        if ($this->isObjectOrArray($message) || !is_array($context)) {
+        $context = Arr::consolidate($context);
+        if ($this->isObjectOrArray($message) || empty($context)) {
             return print_r($message, true);
         }
         $replace = [];

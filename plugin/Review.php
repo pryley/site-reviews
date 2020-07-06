@@ -71,9 +71,9 @@ class Review extends Arguments
         $values = glsr()->args($values);
         $this->id = Cast::toInt($values->review_id);
         $args = [];
-        $args['assigned_post_ids'] = Arr::uniqueInt(explode(',', $values->post_ids));
-        $args['assigned_term_ids'] = Arr::uniqueInt(explode(',', $values->term_ids));
-        $args['assigned_user_ids'] = Arr::uniqueInt(explode(',', $values->user_ids));
+        $args['assigned_post_ids'] = Arr::uniqueInt($values->post_ids);
+        $args['assigned_term_ids'] = Arr::uniqueInt($values->term_ids);
+        $args['assigned_user_ids'] = Arr::uniqueInt($values->user_ids);
         $args['author'] = $values->name;
         $args['author_id'] = Cast::toInt($values->author_id);
         $args['avatar'] = $values->avatar;

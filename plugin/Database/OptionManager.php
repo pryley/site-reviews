@@ -139,10 +139,10 @@ class OptionManager
      */
     public function reset()
     {
-        $options = $this->getWP(static::databaseKey(), []);
-        if (!is_array($options) || empty($options)) {
+        $options = Arr::consolidate($this->getWP(static::databaseKey()));
+        if (empty($options)) {
             delete_option(static::databaseKey());
-            $options = Arr::consolidate(glsr()->defaults ?: []);
+            $options = Arr::consolidate(glsr()->defaults);
         }
         $this->options = $options;
     }

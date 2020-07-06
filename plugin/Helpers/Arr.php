@@ -17,19 +17,15 @@ class Arr
     }
 
     /**
+     * Returns an empty array if value is scalar
      * @param mixed $array
-     * @param bool $explode
      * @return array
      */
-    public static function consolidate($array, $explode = true)
+    public static function consolidate($array)
     {
-        if (is_string($array) && $explode) {
-            $array = static::convertFromString($array, function ($item) {
-                return '' !== trim($item);
-            });
-        }
         if (is_object($array)) {
-            return get_object_vars($array);
+            $values = get_object_vars($array);
+            $array = empty($values) ? (array) $array : $values;
         }
         return is_array($array) ? $array : [];
     }
@@ -47,18 +43,21 @@ class Arr
     }
 
     /**
-     * @param string|array $string
+     * @param mixed $value
      * @param mixed $callback
      * @return array
      */
-    public static function convertFromString($string, $callback = null)
+    public static function convertFromString($value, $callback = null)
     {
-        if (!is_array($array = $string)) {
-            $array = array_map('trim', explode(',', $string));
+        if (is_string($value)) {
+            $value = array_map('trim', explode(',', $value));
+        }
+        if (is_numeric($value)) {
+            $value = (array) $value;
         }
         return $callback
-            ? array_filter($array, $callback)
-            : array_filter($array);
+            ? array_filter((array) $value, $callback)
+            : array_filter((array) $value, Helper::class.'::isNotEmpty');
     }
 
     /**
