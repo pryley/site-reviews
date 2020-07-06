@@ -64,7 +64,7 @@ class SiteReviewsSummary implements PartialContract
      */
     protected function generateSchema()
     {
-        if (wp_validate_boolean($this->args['schema'])) {
+        if (wp_validate_boolean($this->args['schema']) && !wp_validate_boolean($this->args['is_block_editor'])) {
             glsr(Schema::class)->store(
                 glsr(Schema::class)->buildSummary($this->args, $this->ratings)
             );

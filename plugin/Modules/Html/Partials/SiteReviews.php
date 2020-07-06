@@ -65,7 +65,7 @@ class SiteReviews
      */
     public function generateSchema(Reviews $reviews)
     {
-        if (wp_validate_boolean($this->args['schema'])) {
+        if (wp_validate_boolean($this->args['schema']) && !wp_validate_boolean($this->args['is_block_editor'])) {
             glsr(Schema::class)->store(
                 glsr(Schema::class)->build($this->args, $reviews)
             );

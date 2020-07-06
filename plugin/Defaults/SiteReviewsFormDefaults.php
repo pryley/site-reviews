@@ -11,6 +11,7 @@ class SiteReviewsFormDefaults extends Defaults
      */
     protected $guarded = [
         'description',
+        'is_block_editor',
         'title',
     ];
 
@@ -28,6 +29,7 @@ class SiteReviewsFormDefaults extends Defaults
             'excluded' => '',
             'hide' => '',
             'id' => '',
+            'is_block_editor' => false,
             'title' => '',
             'user' => '',
         ];
