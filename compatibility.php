@@ -50,10 +50,10 @@ add_action('members_register_caps', function () {
  * @see https://www.elegantthemes.com/gallery/divi/
  */
 add_action('site-reviews/customize/divi', function ($instance) {
-    if ('label' != $instance->tag || 'checkbox' != $instance->args['type']) {
+    if ('label' == $instance->tag && 'checkbox' == $instance->args['type']) {
+        $instance->args['text'] = '<i></i>'.$instance->args['text'];
         return;
     }
-    $instance->args['text'] = '<i></i>'.$instance->args['text'];
 });
 
 /*
@@ -68,10 +68,11 @@ add_action('site-reviews/review/created', function ($review, $request) {
         return;
     }
     wp_cache_post_change($request->post_id);
-    if (empty($review->assigned_to) || $review->assigned_to == $request->post_id) {
-        return;
+    foreach ($review->assigned_post_ids as $postId) {
+        if ($postId != $request->post_id) {
+            wp_cache_post_change($postId);
+        }
     }
-    wp_cache_post_change($review->assigned_to);
 }, 10, 2);
 
 /*
