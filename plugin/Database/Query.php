@@ -124,7 +124,7 @@ class Query
         $sql = $this->sql("
             SELECT COUNT(*)
             {$this->sqlFrom()}
-            {$this->sqlJoin()}
+            {$this->sqlJoinClauses()}
             {$this->sqlWhere()}
         ", 'total-reviews');
         return (int) $this->db->get_var($sql);

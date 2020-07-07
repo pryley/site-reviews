@@ -18,6 +18,7 @@ use ReflectionClass;
 abstract class DefaultsAbstract
 {
     /**
+     * The methods that are callable.
      * @var array
      */
     protected $callable = [
@@ -25,16 +26,19 @@ abstract class DefaultsAbstract
     ];
 
     /**
+     * The values that should be cast.
      * @var array
      */
     protected $casts = [];
 
     /**
+     * The values that should be guarded.
      * @var array
      */
     protected $guarded = [];
 
     /**
+     * The keys that should be mapped to other keys.
      * @var array
      */
     protected $mapped = [];
@@ -135,26 +139,12 @@ abstract class DefaultsAbstract
 
     /**
      * @param mixed $values
-     * @return array
-     */
-    protected function normalize($values)
-    {
-        if (is_string($values)) {
-            $normalized = [];
-            wp_parse_str($values, $normalized);
-            $values = $normalized;
-        }
-        return Arr::consolidate($values);
-    }
-
-    /**
-     * @param mixed $values
      * @param mixed $defaults
      * @return array
      */
     protected function parse($values, $defaults)
     {
-        $values = $this->normalize($values);
+        $values = Cast::toArray($values);
         if (!is_array($defaults)) {
             return $values;
         }
@@ -173,16 +163,16 @@ abstract class DefaultsAbstract
      * @param mixed $values
      * @return array
      */
-    protected function parseRestricted($values, array $pairs)
+    protected function parseRestricted($values, array $defaults)
     {
-        $values = $this->normalize($values);
+        $values = Cast::toArray($values);
         $parsed = [];
-        foreach ($pairs as $key => $default) {
+        foreach ($defaults as $key => $default) {
             if (!array_key_exists($key, $values)) {
                 $parsed[$key] = $default;
                 continue;
             }
-            if (is_array($default)) {
+            if (is_array($default)) { // if the value is supposed to be an array
                 $parsed[$key] = $this->parse($values[$key], $default);
                 continue;
             }
