@@ -155,11 +155,15 @@ class EnqueueAdminAssets implements Contract
     protected function isCurrentScreen()
     {
         $screen = glsr_current_screen();
+        $screenIds = [
+            'dashboard',
+            'dashboard_page_'.glsr()->id.'-welcome',
+            'plugins_page_'.glsr()->id,
+            'widgets',
+        ];
         return glsr()->post_type == $screen->post_type
-            || 'dashboard' == $screen->id
-            || 'plugins_page_'.glsr()->id == $screen->id
-            || 'post' == $screen->base
-            || 'widgets' == $screen->id;
+            || in_array($screen->id, $screenIds)
+            || 'post' == $screen->base;
     }
 
     /**
