@@ -130,7 +130,7 @@ class ReviewController extends Controller
      */
     public function onCreateReview($postId, CreateReview $command)
     {
-        if (glsr(Database::class)->insert($postId, (array) $command)) {
+        if (glsr(Database::class)->insert($postId, $command->toArray())) {
             glsr(TaxonomyManager::class)->setTerms($postId, $command->assigned_term_ids);
             return;
         }

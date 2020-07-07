@@ -99,6 +99,14 @@ class CreateReview implements Contract
     }
 
     /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return get_object_vars($this);
+    }
+
+    /**
      * @return bool
      */
     public function validate()
