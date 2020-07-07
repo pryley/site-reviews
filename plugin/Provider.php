@@ -17,7 +17,6 @@ class Provider implements ProviderContract
     {
         $app->bind(Application::class, $app);
         $app->singleton(Hooks::class);
-        $app->singleton(OptionManager::class);
         $app->singleton(Translator::class);
         $app->singleton(Translation::class);
         $app->singleton(MainController::class); // this goes last

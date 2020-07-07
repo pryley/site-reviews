@@ -2,18 +2,27 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Migrate;
 
 class OptionManager
 {
     /**
-     * @var array
+     * @return array
      */
-    protected $options;
+    public function all()
+    {
+        if ($settings = Arr::consolidate(glsr()->retrieve('settings'))) {
+            return $settings;
+        }
+        return $this->reset();
+    }
 
     /**
+     * @param int $version
      * @return string
      */
     public static function databaseKey($version = null)
@@ -32,34 +41,12 @@ class OptionManager
     }
 
     /**
-     * @return array
-     */
-    public function all()
-    {
-        if (empty($this->options)) {
-            $this->reset();
-        }
-        return $this->options;
-    }
-
-    /**
      * @param string $path
      * @return bool
      */
     public function delete($path)
     {
-        $keys = explode('.', $path);
-        $last = array_pop($keys);
-        $options = $this->all();
-        $pointer = &$options;
-        foreach ($keys as $key) {
-            if (!isset($pointer[$key]) || !is_array($pointer[$key])) {
-                continue;
-            }
-            $pointer = &$pointer[$key];
-        }
-        unset($pointer[$last]);
-        return $this->set($options);
+        return $this->set(Arr::remove($this->all(), $path));
     }
 
     /**
@@ -70,13 +57,12 @@ class OptionManager
      */
     public function get($path = '', $fallback = '', $cast = '')
     {
-        $result = Arr::get($this->all(), $path, $fallback);
-        return Cast::to($cast, $result);
+        return Cast::to($cast, Arr::get($this->all(), $path, $fallback));
     }
 
     /**
      * @param string $path
-     * @param mixed $fallback
+     * @param string|int|bool $fallback
      * @return bool
      */
     public function getBool($path, $fallback = false)
@@ -93,36 +79,7 @@ class OptionManager
     public function getWP($path, $fallback = '', $cast = '')
     {
         $option = get_option($path, $fallback);
-        if (empty($option)) {
-            $option = $fallback;
-        }
-        return Cast::to($cast, $option);
-    }
-
-    /**
-     * @return string
-     */
-    public function json()
-    {
-        return json_encode($this->all());
-    }
-
-    /**
-     * @return array
-     */
-    public function normalize(array $options = [])
-    {
-        $options = wp_parse_args(
-            Arr::flatten($options),
-            glsr(DefaultsManager::class)->defaults()
-        );
-        array_walk($options, function (&$value) {
-            if (!is_string($value)) {
-                return;
-            }
-            $value = wp_kses($value, wp_kses_allowed_html('post'));
-        });
-        return Arr::convertFromDotNotation($options);
+        return Cast::to($cast, Helper::ifEmpty($option, $fallback, true));
     }
 
     /**
@@ -135,31 +92,59 @@ class OptionManager
     }
 
     /**
+     * @return string
+     */
+    public function json()
+    {
+        return json_encode($this->all(), JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_TAG|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * @return array
+     */
+    public function normalize(array $settings = [])
+    {
+        $settings = wp_parse_args(Arr::flatten($settings), glsr(DefaultsManager::class)->defaults());
+        array_walk($settings, function (&$value) {
+            if (is_string($value)) {
+                $value = wp_kses($value, wp_kses_allowed_html('post'));
+            }
+        });
+        return Arr::convertFromDotNotation($settings);
+    }
+
+    /**
      * @return array
      */
     public function reset()
     {
-        $options = Arr::consolidate($this->getWP(static::databaseKey()));
-        if (empty($options)) {
+        $settings = Arr::consolidate(get_option(static::databaseKey()));
+        if (empty($settings)) {
+            glsr(Migrate::class)->reset();
             delete_option(static::databaseKey());
-            $options = Arr::consolidate(glsr()->defaults);
+            $settings = Arr::consolidate(glsr()->defaults);
         }
-        $this->options = $options;
+        glsr()->store('settings', $settings);
+        return $settings;
     }
 
     /**
-     * @param string|array $pathOrOptions
+     * @param string|array $pathOrArray
      * @param mixed $value
      * @return bool
      */
-    public function set($pathOrOptions, $value = '')
+    public function set($pathOrArray, $value = '')
     {
-        if (is_string($pathOrOptions)) {
-            $pathOrOptions = Arr::set($this->all(), $pathOrOptions, $value);
+        if (is_string($pathOrArray)) {
+            $pathOrArray = Arr::set($this->all(), $pathOrArray, $value);
         }
-        if ($result = update_option(static::databaseKey(), (array) $pathOrOptions)) {
+        if ($settings = Arr::consolidate($pathOrArray)) {
+            $result = update_option(static::databaseKey(), $settings);
+        }
+        if (!empty($result)) {
             $this->reset();
+            return true;
         }
-        return $result;
+        return false;
     }
 }

@@ -207,6 +207,27 @@ class Arr
     }
 
     /**
+     * Unset a value from an array of values using a dot-notation path as reference.
+     * @param mixed $data
+     * @param string $path
+     * @return array
+     */
+    public static function remove($data, $path = '')
+    {
+        $data = static::consolidate($data);
+        $keys = explode('.', $path);
+        $last = array_pop($keys);
+        $pointer = &$data;
+        foreach ($keys as $key) {
+            if (isset($pointer[$key]) && is_array($pointer[$key])) {
+                $pointer = &$pointer[$key];
+            }
+        }
+        unset($pointer[$last]);
+        return $data;
+    }
+
+    /**
      * @return array
      */
     public static function removeEmptyValues(array $array)

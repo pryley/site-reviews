@@ -100,6 +100,29 @@ class TestArr extends WP_UnitTestCase
     {
     }
 
+    public function test_remove()
+    {
+        $array = [
+            'indexed',
+            'emptyString' => '',
+            'array' => ['string' => 'string'],
+        ];
+        $this->assertEquals(Arr::remove($array), $array);
+        $this->assertEquals(Arr::remove($array, ''), $array);
+        $this->assertEquals(Arr::remove($array, '0'), 
+            ['emptyString' => '', 'array' => ['string' => 'string']]
+        );
+        $this->assertEquals(Arr::remove($array, 0), 
+            ['emptyString' => '', 'array' => ['string' => 'string']]
+        );
+        $this->assertEquals(Arr::remove($array, 'array'),
+            ['indexed', 'emptyString' => '']
+        );
+        $this->assertEquals(Arr::remove($array, 'array.string'),
+            ['indexed', 'emptyString' => '', 'array' => []]
+        );
+    }
+
     public function test_remove_empty_values()
     {
         $array = [
