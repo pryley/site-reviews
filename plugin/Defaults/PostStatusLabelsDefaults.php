@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 
-class PostStatusLabelDefaults extends Defaults
+class PostStatusLabelsDefaults extends Defaults
 {
     /**
      * @return array

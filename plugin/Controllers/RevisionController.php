@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
-use GeminiLabs\SiteReviews\Defaults\RevisionFieldDefaults;
+use GeminiLabs\SiteReviews\Defaults\RevisionFieldsDefaults;
 use GeminiLabs\SiteReviews\Review;
 
 class RevisionController extends Controller
@@ -55,7 +55,7 @@ class RevisionController extends Controller
      */
     public function filterRevisionUiDiff(array $return, $compareFrom, $compareTo)
     {
-        $fields = glsr(RevisionFieldDefaults::class)->defaults();
+        $fields = glsr(RevisionFieldsDefaults::class)->defaults();
         $oldReview = $this->reviewFromRevision($compareFrom);
         $newReview = $this->reviewFromRevision($compareTo);
         foreach ($fields as $field => $name) {
@@ -96,7 +96,7 @@ class RevisionController extends Controller
         $postId = wp_is_post_revision($revisionId);
         if (Review::isReview($postId)) {
             $review = glsr(Query::class)->review($postId);
-            $revision = glsr(RevisionFieldDefaults::class)->defaults();
+            $revision = glsr(RevisionFieldsDefaults::class)->defaults();
             foreach ($revision as $field => &$value) {
                 $value = $review->$field;
             }

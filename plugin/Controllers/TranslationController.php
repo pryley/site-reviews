@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Defaults\PostStatusLabelDefaults;
+use GeminiLabs\SiteReviews\Defaults\PostStatusLabelsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Translation;
@@ -274,7 +274,7 @@ class TranslationController
     {
         static $labels;
         if (empty($labels)) {
-            $labels = glsr(PostStatusLabelDefaults::class)->defaults();
+            $labels = glsr(PostStatusLabelsDefaults::class)->defaults();
         }
         return $labels;
     }
