@@ -2,18 +2,24 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use ReflectionClass;
 
 /**
+ * @method array dataAttributes(array $values = [])
  * @method array defaults():
  * @method array filter(array $values = [])
- * @method array filteredData(array $values = [])
  * @method array merge(array $values = [])
  * @method array restrict(array $values = [])
- * @method array unguarded()
+ * @method array unguardedDataAttributes(array $values = [])
+ * @method array unguardedDefaults():
+ * @method array unguardedFilter(array $values = [])
+ * @method array unguardedMerge(array $values = [])
+ * @method array unguardedRestrict(array $values = [])
  */
 abstract class DefaultsAbstract
 {
@@ -22,7 +28,7 @@ abstract class DefaultsAbstract
      * @var array
      */
     protected $callable = [
-        'defaults', 'filter', 'filteredData', 'merge', 'restrict', 'unguarded',
+        'dataAttributes', 'defaults', 'filter', 'merge', 'restrict',
     ];
 
     /**
@@ -38,10 +44,21 @@ abstract class DefaultsAbstract
     protected $guarded = [];
 
     /**
+     * @var bool
+     */
+    protected $is_guarded = false;
+
+    /**
      * The keys that should be mapped to other keys.
      * @var array
      */
     protected $mapped = [];
+
+    /**
+     * The values that should be sanitized.
+     * @var array
+     */
+    protected $sanitize = [];
 
     /**
      * @param string $name
@@ -49,48 +66,56 @@ abstract class DefaultsAbstract
      */
     public function __call($name, array $args = [])
     {
-        if (!method_exists($this, $name) || !in_array($name, $this->callable)) {
-            glsr_log()->error("Invalid method [$name].");
+        $this->is_guarded = !Str::startsWith('unguarded', $name);
+        $method = Helper::buildMethodName(Str::removePrefix('unguarded', $name));
+        if (!method_exists($this, $method) || !in_array($method, $this->callable)) {
+            glsr_log()->error("Invalid method [$method].");
             return;
         }
-        $args[0] = $this->mapKeys(Arr::get($args, 0, []));
-        $defaults = $this->sanitize(call_user_func_array([$this, $name], $args));
+        $defaults = call_user_func_array([$this, $method], $this->mapKeys($args));
+        $defaults = $this->guard($defaults);
+        $defaults = $this->sanitize($defaults);
         $hookName = (new ReflectionClass($this))->getShortName();
         $hookName = str_replace('Defaults', '', $hookName);
         $hookName = Str::dashCase($hookName);
-        return glsr()->filterArray('defaults/'.$hookName, $defaults, $name);
+        return glsr()->filterArray('defaults/'.$hookName, $defaults, $method);
     }
 
     /**
+     * Restrict provided values to defaults, remove empty and unchanged values, 
+     * and return data attribute keys with JSON encoded values
      * @return array
      */
-    abstract protected function defaults();
+    protected function dataAttributes(array $values = [])
+    {
+        $defaults = $this->flattenArrayValues($this->defaults());
+        $values = $this->flattenArrayValues(shortcode_atts($defaults, $values));
+        $filtered = $this->guard(array_filter(array_diff_assoc($values, $defaults))); // remove all empty values
+        $filteredJson = [];
+        foreach ($filtered as $key => $value) {
+            $filteredJson['data-'.$key] = !is_scalar($value)
+                ? json_encode((array) $value, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
+                : $value;
+        }
+        return $filteredJson;
+    }
 
     /**
+     * The default values
+     * @return array
+     */
+    protected function defaults()
+    {
+        return [];
+    }
+
+    /**
+     * Merge the provided values with the default values, removing empty string/array values.
      * @return array
      */
     protected function filter(array $values = [])
     {
-        return $this->merge(array_filter($values));
-    }
-
-    /**
-     * @return array
-     */
-    protected function filteredData(array $values = [])
-    {
-        $defaults = $this->flattenArrayValues($this->unguarded());
-        $values = $this->flattenArrayValues(shortcode_atts($defaults, $values));
-        $filtered = array_filter(array_diff_assoc($values, $defaults), function ($value) {
-            return !$this->isEmpty($value);
-        });
-        $filteredJson = [];
-        foreach ($filtered as $key => $value) {
-            $filteredJson['data-'.$key] = is_array($value)
-                ? json_encode($value, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
-                : $value;
-        }
-        return $filteredJson;
+        return $this->merge(array_filter($values, Helper::class.'::isNotEmpty'));
     }
 
     /**
@@ -100,19 +125,21 @@ abstract class DefaultsAbstract
     {
         array_walk($values, function (&$value) {
             if (is_array($value)) {
-                $value = implode(',', $value);
+                $value = implode(',', array_filter($value, 'is_scalar'));
             }
         });
         return $values;
     }
 
     /**
-     * @param mixed $var
-     * @return bool
+     * Remove guarded key values
+     * @return array
      */
-    protected function isEmpty($var)
+    protected function guard(array $values)
     {
-        return !is_numeric($var) && !is_bool($var) && empty($var);
+        return $this->is_guarded
+            ? array_diff_key($values, array_flip($this->guarded))
+            : $values;
     }
 
     /**
@@ -120,16 +147,19 @@ abstract class DefaultsAbstract
      */
     protected function mapKeys(array $args)
     {
+        $values = Arr::consolidate(array_shift($args));
         foreach ($this->mapped as $old => $new) {
-            if (array_key_exists($old, $args)) {
-                $args[$new] = $args[$old];
-                unset($args[$old]);
+            if (array_key_exists($old, $values)) {
+                $values[$new] = $values[$old];
+                unset($values[$old]);
             }
         }
+        array_unshift($args, $values);
         return $args;
     }
 
     /**
+     * Merge provided values with the defaults
      * @return array
      */
     protected function merge(array $values = [])
@@ -150,7 +180,7 @@ abstract class DefaultsAbstract
         }
         $parsed = $defaults;
         foreach ($values as $key => $value) {
-            if (is_array($value) && isset($parsed[$key])) {
+            if (!is_scalar($value) && isset($parsed[$key])) {
                 $parsed[$key] = Arr::unique($this->parse($value, $parsed[$key]));
                 continue;
             }
@@ -172,7 +202,7 @@ abstract class DefaultsAbstract
                 $parsed[$key] = $default;
                 continue;
             }
-            if (is_array($default)) { // if the value is supposed to be an array
+            if (is_array($default)) { // if the default value is supposed to be an array
                 $parsed[$key] = $this->parse($values[$key], $default);
                 continue;
             }
@@ -182,6 +212,7 @@ abstract class DefaultsAbstract
     }
 
     /**
+     * Merge the provided values with the defaults, removing all non-default keys
      * @return array
      */
     protected function restrict(array $values = [])
@@ -195,22 +226,10 @@ abstract class DefaultsAbstract
     protected function sanitize(array $values = [])
     {
         foreach ($this->casts as $key => $cast) {
-            if (!array_key_exists($key, $values)) {
-                continue;
-            }
-            $values[$key] = Cast::to($cast, $values[$key]);
-            if ('string' === $cast) {
-                $values[$key] = sanitize_key($values[$key]);
+            if (array_key_exists($key, $values)) {
+                $values[$key] = Cast::to($cast, $values[$key]);
             }
         }
-        return $values;
-    }
-
-    /**
-     * @return array
-     */
-    protected function unguarded()
-    {
-        return array_diff_key($this->defaults(), array_flip($this->guarded));
+        return (new Sanitizer($values, $this->sanitize))->run();
     }
 }

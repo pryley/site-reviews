@@ -25,7 +25,7 @@ class SiteReviews
      */
     public function build(array $args = [], $reviews = null)
     {
-        $this->args = glsr(SiteReviewsDefaults::class)->merge($args);
+        $this->args = glsr(SiteReviewsDefaults::class)->unguardedMerge($args);
         if (!$reviews instanceof Reviews) {
             $reviews = glsr(ReviewManager::class)->reviews($this->args);
         }

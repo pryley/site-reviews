@@ -21,7 +21,13 @@ class Str
      */
     public static function contains($haystack, $needle)
     {
-        return !empty($needle) && false !== strpos($haystack, $needle);
+        $needles = array_map('trim', explode(',', $needle));
+        foreach ($needles as $value) {
+            if (!empty($value) && false !== strpos($haystack, $value)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

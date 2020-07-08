@@ -1,0 +1,165 @@
+<?php
+
+namespace GeminiLabs\SiteReviews\Modules;
+
+use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Helpers\Str;
+
+class Sanitizer
+{
+    /**
+     * @var array
+     */
+    protected $sanitizers;
+
+    /**
+     * @var array
+     */
+    protected $values;
+
+    public function __construct($values, $sanitizers)
+    {
+        $this->sanitizers = $this->buildSanitizers(Arr::consolidate($sanitizers));
+        $this->values = Arr::consolidate($values);
+    }
+
+    /**
+     * @param mixed $value
+     * @param string $key
+     * @return array|bool|string
+     */
+    public function run()
+    {
+        $result = $this->values;
+        foreach ($this->values as $key => $value) {
+            if (array_key_exists($key, $this->sanitizers)) {
+                $result[$key] = call_user_func([$this, $this->sanitizers[$key]], $value);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @return array
+     */
+    protected function buildSanitizers(array $sanitizers)
+    {
+        foreach ($sanitizers as $key => &$type) {
+            $method = Helper::buildMethodName($type, 'sanitize');
+            $type = method_exists($this, $method)
+                ? $method
+                : 'sanitizeText';
+        }
+        return $sanitizers;
+    }
+
+    /**
+     * @param mixed $value
+     * @return array
+     */
+    protected function sanitizeArray($value)
+    {
+        return Arr::consolidate($value);
+    }
+
+    /**
+     * @param mixed $value
+     * @return array[]
+     */
+    protected function sanitizeArrayInt($value)
+    {
+        return Arr::uniqueInt(Cast::toArray($value));
+    }
+
+    /**
+     * @param mixed $value
+     * @return bool
+     */
+    protected function sanitizeBool($value)
+    {
+        return Cast::toBool($value);
+    }
+
+    /**
+     * @param mixed $value
+     * @return string
+     */
+    protected function sanitizeDate($value)
+    {
+        $date = strtotime(Cast::toString($value));
+        if (false === $date) {
+            $date = time();
+        }
+        return gmdate('Y-m-d H:i:s', $date);
+    }
+
+    /**
+     * @param mixed $value
+     * @return string
+     */
+    protected function sanitizeEmail($value)
+    {
+        return sanitize_email(Cast::toString($value));
+    }
+
+    /**
+     * @param mixed $value
+     * @return string
+     */
+    protected function sanitizeInt($value)
+    {
+        return Cast::toInt($value);
+    }
+
+    /**
+     * @param mixed $value
+     * @return string
+     */
+    protected function sanitizeKey($value)
+    {
+        return sanitize_key($this->sanitizeText($value));
+    }
+
+    /**
+     * @param mixed $value
+     * @return string
+     */
+    protected function sanitizeSlug($value)
+    {
+        return sanitize_title($this->sanitizeText($value));
+    }
+
+    /**
+     * @param mixed $value
+     * @return string
+     */
+    protected function sanitizeText($value)
+    {
+        return sanitize_text_field(Cast::toString($value));
+    }
+
+    /**
+     * @param mixed $value
+     * @return string
+     */
+    protected function sanitizeTextMultiline($value)
+    {
+        return sanitize_textarea_field(Cast::toString($value));
+    }
+
+    /**
+     * @param mixed $value
+     * @return string
+     */
+    protected function sanitizeUrl($value)
+    {
+        $url = Cast::toString($value);
+        if (!Str::startsWith('http://, https://', $url)) {
+            $url = Str::prefix('https://', $url);
+        }
+        $url = wp_http_validate_url($url);
+        return esc_url_raw(Cast::toString($url));
+    }
+}

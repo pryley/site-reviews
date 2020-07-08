@@ -24,7 +24,7 @@ class MetaboxController
     public function filterProtectedMeta($protected, $metaKey, $metaType)
     {
         if ('post' == $metaType && glsr()->post_type == get_post_type()) {
-            $values = glsr(CreateReviewDefaults::class)->unguarded();
+            $values = glsr(CreateReviewDefaults::class)->unguardedDefaults();
             $values = Arr::prefixKeys($values);
             if (array_key_exists($metaKey, $values)) {
                 $protected = false;

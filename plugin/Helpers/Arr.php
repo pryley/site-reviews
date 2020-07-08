@@ -284,7 +284,8 @@ class Arr
      */
     public static function uniqueInt($values)
     {
-        return static::unique(array_map('absint', static::convertFromString($values)));
+        $values = array_filter(static::convertFromString($values), 'is_numeric');
+        return static::unique(array_values(array_map('absint', $values)));
     }
 
     /**

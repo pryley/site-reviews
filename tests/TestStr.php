@@ -146,12 +146,16 @@ class TestStr extends WP_UnitTestCase
 
     public function test_replace_first()
     {
+        $this->assertEquals(Str::replaceFirst('', 'xyz', 'abcabc'), 'abcabc');
+        $this->assertEquals(Str::replaceFirst('zzx', 'xyz', 'abcabc'), 'abcabc');
         $this->assertEquals(Str::replaceFirst('abc', 'xyz', 'abcabc'), 'xyzabc');
     }
 
     public function test_replace_last()
     {
+        $this->assertEquals(Str::replaceLast('', 'xyz', 'abcabc'), 'abcabc');
         $this->assertEquals(Str::replaceLast('abc', 'xyz', 'abcabc'), 'abcxyz');
+        $this->assertEquals(Str::replaceLast('zzz', 'xyz', 'abcabc'), 'abcabc');
     }
 
     public function test_restrict_to()

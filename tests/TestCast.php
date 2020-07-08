@@ -74,6 +74,7 @@ class TestCast extends WP_UnitTestCase
     {
         $this->assertEquals(Cast::toString([]), '');
         $this->assertEquals(Cast::toString(123), '123');
-        $this->assertEquals(Cast::toString([123]), 'a:1:{i:0;i:123;}');
+        $this->assertEquals(Cast::toString([123]), '');
+        $this->assertEquals(Cast::toString([123], false), 'a:1:{i:0;i:123;}');
     }
 }

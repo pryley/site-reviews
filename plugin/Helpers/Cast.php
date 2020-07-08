@@ -77,7 +77,7 @@ class Cast
      * @param mixed $value
      * @return string
      */
-    public static function toString($value)
+    public static function toString($value, $strict = true)
     {
         if (is_object($value) && in_array('__toString', get_class_methods($value))) {
             return (string) $value->__toString();
@@ -86,7 +86,7 @@ class Cast
             return '';
         }
         if (!is_scalar($value)) {
-            return serialize($value);
+            return $strict ? '' : serialize($value);
         }
         return (string) $value;
     }

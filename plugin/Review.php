@@ -132,7 +132,7 @@ class Review extends Arguments
             return new ReviewHtml($this);
         }
         $partial = glsr(SiteReviewsPartial::class);
-        $partial->args = glsr(SiteReviewsDefaults::class)->merge($args);
+        $partial->args = glsr(SiteReviewsDefaults::class)->unguardedMerge($args);
         $partial->options = Arr::flatten(glsr(OptionManager::class)->all());
         return $partial->buildReview($this);
     }

@@ -108,7 +108,7 @@ class ReviewsHtml extends ArrayObject
             'current' => Arr::get($this->args, 'page'),
             'total' => $this->max_num_pages,
         ]);
-        $data = glsr(SiteReviewsDefaults::class)->filteredData($this->args);
+        $data = glsr(SiteReviewsDefaults::class)->dataAttributes($this->args);
         return glsr(Builder::class)->div($html, wp_parse_args($data, [
             'class' => 'glsr-pagination',
             'data-paginate' => '',

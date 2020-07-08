@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Shortcodes;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
@@ -76,7 +77,7 @@ abstract class Shortcode implements ShortcodeContract
      */
     public function getDefaults(array $atts)
     {
-        return glsr($this->getShortcodeDefaultsClassName())->restrict($atts);
+        return glsr($this->getShortcodeDefaultsClassName())->unguardedRestrict($atts);
     }
 
     /**
@@ -244,7 +245,7 @@ abstract class Shortcode implements ShortcodeContract
      */
     protected function normalizeSchema($schema)
     {
-        return wp_validate_boolean($schema);
+        return Cast::toBool($schema);
     }
 
     /**
@@ -263,7 +264,7 @@ abstract class Shortcode implements ShortcodeContract
     {
         unset($atts['assign_to_custom']);
         unset($atts['assigned_to_custom']);
-        $this->data = glsr($this->getShortcodeDefaultsClassName())->filteredData($atts);
+        $this->data = glsr($this->getShortcodeDefaultsClassName())->dataAttributes($atts);
     }
 
     /**
