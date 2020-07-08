@@ -57,15 +57,16 @@ class ReviewManager
      */
     public function create(CreateReview $command)
     {
+        $values = glsr()->args(glsr()->filter('create/review-values', $command->toArray(), $command));
         $postValues = [
             'comment_status' => 'closed',
             'ping_status' => 'closed',
-            'post_content' => $command->content,
-            'post_date' => $command->date,
-            'post_date_gmt' => get_gmt_from_date($command->date),
-            'post_name' => uniqid($command->type),
-            'post_status' => $this->postStatus($command->type, $command->blacklisted),
-            'post_title' => $command->title,
+            'post_content' => $values->content,
+            'post_date' => $values->date,
+            'post_date_gmt' => get_gmt_from_date($values->date),
+            'post_name' => uniqid($values->type),
+            'post_status' => $this->postStatus($values->type, $values->blacklisted),
+            'post_title' => $values->title,
             'post_type' => glsr()->post_type,
         ];
         $postId = wp_insert_post($postValues, true);
@@ -73,10 +74,10 @@ class ReviewManager
             glsr_log()->error($postId->get_error_message())->debug($postValues);
             return false;
         }
-        glsr()->action('review/create', $postId, $command);
+        glsr()->action('review/create', $postId, $values, $command);
         $review = $this->get($postId);
         if ($review->isValid()) {
-            glsr()->action('review/created', $review, $command);
+            glsr()->action('review/created', $review, $values, $command);
             return $review;
         }
         return false;

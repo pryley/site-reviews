@@ -123,12 +123,13 @@ add_filter('site-reviews/assets/polyfill', '__return_false');</code></pre>
  * Runs after a review has been submitted in Site Reviews.
  * Paste this in your active theme's functions.php file.
  * @param \GeminiLabs\SiteReviews\Review $review
- * @param \GeminiLabs\SiteReviews\Commands\CreateReview $request
+ * @param \GeminiLabs\SiteReviews\Arguments $reviewValues
+ * @param \GeminiLabs\SiteReviews\Commands\CreateReview $command
  * @return void
  */
-add_action('site-reviews/review/created', function ($review, $request) {
+add_action('site-reviews/review/created', function ($review, $reviewValues, $command) {
     // do something here.
-}, 10, 2);</code></pre>
+}, 10, 3);</code></pre>
     </div>
 </div>
 

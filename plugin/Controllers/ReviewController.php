@@ -128,10 +128,11 @@ class ReviewController extends Controller
      * @return void
      * @action site-reviews/review/create
      */
-    public function onCreateReview($postId, CreateReview $command)
+    public function onCreateReview($postId, Arguments $values)
     {
-        if (glsr(Database::class)->insert($postId, $command->toArray())) {
-            glsr(TaxonomyManager::class)->setTerms($postId, $command->assigned_term_ids);
+        if (glsr(Database::class)->insert($postId, $values->toArray())) {
+            glsr(Database::class)->metaSet($postId, 'custom', $values->custom);
+            glsr(TaxonomyManager::class)->setTerms($postId, $values->assigned_term_ids);
             return;
         }
         glsr_log()->error('[INSERT] DB error thrown when creating review.');

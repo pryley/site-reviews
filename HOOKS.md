@@ -10,8 +10,8 @@
     site-reviews/get/reviews                                ()
     site-reviews/personal-data/erase                        (Review $review, bool $retainReview)
     site-reviews/review/build/before                        (Review $review)
-    site-reviews/review/create                              (int $postId, CreateReview $command)
-    site-reviews/review/created                             (Review $review, CreateReview $command)
+    site-reviews/review/create                              (int $postId, Arguments $values, CreateReview $command)
+    site-reviews/review/created                             (Review $review, Arguments $values, CreateReview $command)
         site-reviews/review/reverted                            ()
         site-reviews/review/saved                               ()
     site-reviews/review/updated/post_ids                    (Review $review, array $assignedPostIds)
@@ -55,7 +55,7 @@
     site-reviews/config/{config_id}                         (array $config): array
     site-reviews/console/level                              (int $level): int
     site-reviews/const/{constant}                           (string $constantName): string
-    site-reviews/create/review-values                       (): array
+    site-reviews/create/review-values                       (array $reviewValues, CreateReview $command): array
     site-reviews/create/unset-keys-from-custom              (): array
     site-reviews/defaults/{defaults_name}                   (): array
     site-reviews/defer-scripts                              (): array
