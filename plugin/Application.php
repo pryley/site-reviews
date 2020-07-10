@@ -81,7 +81,7 @@ final class Application extends Container
     public function catchFatalError()
     {
         $error = error_get_last();
-        if (E_ERROR !== Arr::get($error, 'type') || !Str::contains(Arr::get($error, 'message'), $this->path())) {
+        if (E_ERROR !== Arr::get($error, 'type') || !Str::contains($this->path(), Arr::get($error, 'message'))) {
             return;
         }
         glsr_log()->error($error['message']);

@@ -85,7 +85,7 @@ class Date
                 _n('%s year ago', '%s years ago', $unit, 'site-reviews'),
             ];
             $relativeDate = $relativeDates[$i];
-            return Str::contains($relativeDate, '%s')
+            return Str::contains('%s', $relativeDate)
                 ? sprintf($relativeDate, $unit)
                 : $relativeDate;
         }

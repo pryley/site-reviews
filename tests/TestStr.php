@@ -19,10 +19,10 @@ class TestStr extends WP_UnitTestCase
 
     public function test_contains()
     {
-        $this->assertTrue(Str::contains('abcdef', 'cd'));
+        $this->assertTrue(Str::contains('cd', 'abcdef'));
         $this->assertTrue(Str::contains('abcdef', 'abcdef'));
-        $this->assertFalse(Str::contains('abcdef', ''));
-        $this->assertFalse(Str::contains('abcdef', 'z'));
+        $this->assertFalse(Str::contains('', 'abcdef'));
+        $this->assertFalse(Str::contains('z', 'abcdef'));
     }
 
     public function test_convert_name()

@@ -15,11 +15,11 @@ class Str
     }
 
     /**
-     * @param string $haystack
      * @param string $needle
+     * @param string $haystack
      * @return bool
      */
-    public static function contains($haystack, $needle)
+    public static function contains($needle, $haystack)
     {
         $needles = array_map('trim', explode(',', $needle));
         foreach ($needles as $value) {

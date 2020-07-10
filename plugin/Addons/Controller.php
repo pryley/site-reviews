@@ -80,7 +80,7 @@ abstract class Controller extends BaseController
     public function filterConfigPath($path)
     {
         $addonPrefix = $this->addon->id.'/';
-        return Str::contains($path, $addonPrefix)
+        return Str::contains($addonPrefix, $path)
             ? $addonPrefix.str_replace($addonPrefix, '', $path)
             : $path;
     }
