@@ -15,25 +15,6 @@ use GeminiLabs\SiteReviews\Review;
 class MetaboxController
 {
     /**
-     * @param bool $protected
-     * @param string $metaKey
-     * @param string $metaType
-     * @return bool
-     * @filter is_protected_meta
-     */
-    public function filterProtectedMeta($protected, $metaKey, $metaType)
-    {
-        if ('post' == $metaType && glsr()->post_type == get_post_type()) {
-            $values = glsr(CreateReviewDefaults::class)->unguardedDefaults();
-            $values = Arr::prefixKeys($values);
-            if (array_key_exists($metaKey, $values)) {
-                $protected = false;
-            }
-        }
-        return $protected;
-    }
-
-    /**
      * @return void
      * @action add_meta_boxes_{glsr()->post_type}
      */

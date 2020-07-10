@@ -152,7 +152,6 @@ class Hooks implements HooksContract
         add_filter('posts_clauses', [$this->listtable, 'filterPostClauses'], 10, 2);
         add_filter('post_row_actions', [$this->listtable, 'filterRowActions'], 10, 2);
         add_filter('manage_edit-'.glsr()->post_type.'_sortable_columns', [$this->listtable, 'filterSortableColumns']);
-        add_filter('is_protected_meta', [$this->metabox, 'filterProtectedMeta'], 10, 3);
         add_filter('wp_privacy_personal_data_erasers', [$this->privacy, 'filterPersonalDataErasers']);
         add_filter('wp_privacy_personal_data_exporters', [$this->privacy, 'filterPersonalDataExporters']);
         add_filter('script_loader_tag', [$this->public, 'filterEnqueuedScriptTags'], 10, 2);
