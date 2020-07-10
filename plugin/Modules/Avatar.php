@@ -43,13 +43,17 @@ class Avatar
     public function img($src, $size = null)
     {
         $size = $this->size($size);
-        return glsr(Builder::class)->img([
+        $attributes = [
             'height' => $size * 2,
             'loading' => 'lazy',
             'src' => $this->url($src, $size * 2),
             'style' => sprintf('width:%1$spx; height:%1$spx;', $size),
             'width' => $size * 2,
-        ]);
+        ];
+        if (is_admin()) {
+            $attributes['data-fallback'] = $this->fallback($size);
+        }
+        return glsr(Builder::class)->img($attributes);
     }
 
     /**
