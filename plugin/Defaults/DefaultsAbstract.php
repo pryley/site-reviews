@@ -24,6 +24,31 @@ use ReflectionClass;
 abstract class DefaultsAbstract
 {
     /**
+     * The values that should be cast.
+     * @var array
+     */
+    public $casts = [];
+
+    /**
+     * The values that should be guarded.
+     * @var array
+     */
+    public $guarded = [];
+
+    /**
+     * The keys that should be mapped to other keys.
+     * Note: Mapped keys should not be included in the defaults!
+     * @var array
+     */
+    public $mapped = [];
+
+    /**
+     * The values that should be sanitized.
+     * @var array
+     */
+    public $sanitize = [];
+
+    /**
      * The methods that are callable.
      * @var array
      */
@@ -32,53 +57,48 @@ abstract class DefaultsAbstract
     ];
 
     /**
-     * The values that should be cast.
-     * @var array
+     * @var string
      */
-    protected $casts = [];
+    protected $called;
 
     /**
-     * The values that should be guarded.
-     * @var array
+     * @var string
      */
-    protected $guarded = [];
+    protected $hook;
 
     /**
      * @var bool
      */
-    protected $is_guarded = false;
+    protected $is_guarded;
 
     /**
-     * The keys that should be mapped to other keys.
-     * @var array
+     * @var string
      */
-    protected $mapped = [];
-
-    /**
-     * The values that should be sanitized.
-     * @var array
-     */
-    protected $sanitize = [];
+    protected $method;
 
     /**
      * @param string $name
-     * @return void|array
+     * @return array
      */
     public function __call($name, array $args = [])
     {
-        $this->is_guarded = !Str::startsWith('unguarded', $name);
-        $method = Helper::buildMethodName(Str::removePrefix('unguarded', $name));
-        if (!method_exists($this, $method) || !in_array($method, $this->callable)) {
-            glsr_log()->error("Invalid method [$method].");
-            return;
+        $this->called = $name;
+        $this->method = Helper::buildMethodName(Str::removePrefix('unguarded', $name));
+        $values = $this->normalize(Arr::consolidate(array_shift($args)));
+        $values = $this->mapKeys($values);
+        array_unshift($args, $values);
+        if (method_exists($this, $this->method) && in_array($this->method, $this->callable)) {
+            $this->hook = $this->currentHook();
+            glsr()->action('defaults', $this, $this->hook, $this->method);
+            $defaults = call_user_func_array([$this, $this->method], $args);
+            if ('dataAttributes' !== $this->method) {
+                $defaults = $this->sanitize($defaults);
+                $defaults = $this->guard($defaults);
+            }
+            return glsr()->filterArray('defaults/'.$this->hook, $defaults, $this->method);
         }
-        $defaults = call_user_func_array([$this, $method], $this->mapKeys($args));
-        $defaults = $this->guard($defaults);
-        $defaults = $this->sanitize($defaults);
-        $hookName = (new ReflectionClass($this))->getShortName();
-        $hookName = str_replace('Defaults', '', $hookName);
-        $hookName = Str::dashCase($hookName);
-        return glsr()->filterArray('defaults/'.$hookName, $defaults, $method);
+        glsr_log()->error("Invalid method [$this->method].");
+        return $args;
     }
 
     /**
@@ -90,7 +110,9 @@ abstract class DefaultsAbstract
     {
         $defaults = $this->flattenArrayValues($this->defaults());
         $values = $this->flattenArrayValues(shortcode_atts($defaults, $values));
-        $filtered = $this->guard(array_filter(array_diff_assoc($values, $defaults))); // remove all empty values
+        $filtered = array_filter(array_diff_assoc($values, $defaults));  // remove all empty values
+        $filtered = $this->sanitize($filtered);
+        $filtered = $this->guard($filtered); // this after sanitize for a more unique id
         $filteredJson = [];
         foreach ($filtered as $key => $value) {
             $filteredJson['data-'.$key] = !is_scalar($value)
@@ -98,6 +120,16 @@ abstract class DefaultsAbstract
                 : $value;
         }
         return $filteredJson;
+    }
+
+    /**
+     * @return string
+     */
+    protected function currentHook()
+    {
+        $hookName = (new ReflectionClass($this))->getShortName();
+        $hookName = str_replace('Defaults', '', $hookName);
+        return Str::dashCase($hookName);
     }
 
     /**
@@ -110,7 +142,7 @@ abstract class DefaultsAbstract
     }
 
     /**
-     * Merge the provided values with the default values, removing empty string/array values.
+     * Remove empty values from the provided values and merge with the defaults
      * @return array
      */
     protected function filter(array $values = [])
@@ -132,29 +164,31 @@ abstract class DefaultsAbstract
     }
 
     /**
-     * Remove guarded key values
+     * Remove guarded keys from the provided values
      * @return array
      */
     protected function guard(array $values)
     {
-        return $this->is_guarded
-            ? array_diff_key($values, array_flip($this->guarded))
-            : $values;
+        if (!Str::startsWith('unguarded', $this->called)) {
+            $hook = 'defaults/'.$this->hook.'/guarded';
+            $guarded = glsr()->filterArray($hook, $this->guarded, $this->method);
+            return array_diff_key($values, array_flip($guarded));
+        }
+        return $values;
     }
 
     /**
+     * Map old or deprecated keys to new keys
      * @return array
      */
     protected function mapKeys(array $args)
     {
-        $values = Arr::consolidate(array_shift($args));
         foreach ($this->mapped as $old => $new) {
-            if (array_key_exists($old, $values)) {
-                $values[$new] = $values[$old];
-                unset($values[$old]);
+            if (!empty($args[$old])) { // old always takes precedence
+                $args[$new] = $args[$old];
             }
+            unset($args[$old]);
         }
-        array_unshift($args, $values);
         return $args;
     }
 
@@ -165,6 +199,15 @@ abstract class DefaultsAbstract
     protected function merge(array $values = [])
     {
         return $this->parse($values, $this->defaults());
+    }
+
+    /**
+     * Normalize provided values, this always runs first.
+     * @return array
+     */
+    protected function normalize(array $values = [])
+    {
+        return $values;
     }
 
     /**
@@ -193,11 +236,11 @@ abstract class DefaultsAbstract
      * @param mixed $values
      * @return array
      */
-    protected function parseRestricted($values, array $defaults)
+    protected function parseRestricted(array $values)
     {
         $values = Cast::toArray($values);
         $parsed = [];
-        foreach ($defaults as $key => $default) {
+        foreach ($this->defaults() as $key => $default) {
             if (!array_key_exists($key, $values)) {
                 $parsed[$key] = $default;
                 continue;
@@ -212,12 +255,12 @@ abstract class DefaultsAbstract
     }
 
     /**
-     * Merge the provided values with the defaults, removing all non-default keys
+     * Merge the provided values with the defaults and remove any non-default keys
      * @return array
      */
     protected function restrict(array $values = [])
     {
-        return $this->parseRestricted($values, $this->defaults());
+        return $this->parseRestricted($values);
     }
 
     /**
@@ -231,5 +274,19 @@ abstract class DefaultsAbstract
             }
         }
         return (new Sanitizer($values, $this->sanitize))->run();
+    }
+
+    /**
+     * @return array
+     */
+    protected function unmapKeys(array $args)
+    {
+        foreach ($this->mapped as $old => $new) {
+            if (array_key_exists($new, $args)) {
+                $args[$old] = $args[$new];
+                unset($args[$new]);
+            }
+        }
+        return $args;
     }
 }
