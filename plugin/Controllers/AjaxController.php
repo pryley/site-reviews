@@ -7,12 +7,13 @@ use GeminiLabs\SiteReviews\Commands\TogglePinned;
 use GeminiLabs\SiteReviews\Commands\ToggleStatus;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews as SiteReviewsPartial;
+use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Request;
@@ -116,11 +117,12 @@ class AjaxController extends Controller
                 ? Url::home()
                 : Url::home($urlPath);
         }
-        $atts = glsr(SiteReviewsShortcode::class)->normalizeAtts(Arr::consolidate($request->atts));
-        $html = glsr(SiteReviewsPartial::class)->build(wp_parse_args($args, $atts));
+        $atts = glsr(SiteReviewsDefaults::class)->merge(Arr::consolidate($request->atts));
+        $args = wp_parse_args($args, $atts);
+        $html = glsr(SiteReviews::class)->build($args);
         return wp_send_json_success([
-            'pagination' => $html->getPagination(),
-            'reviews' => $html->getReviews(),
+            'pagination' => $html->getPagination($wrap = false),
+            'reviews' => $html->getReviews($wrap = false),
         ]);
     }
 
