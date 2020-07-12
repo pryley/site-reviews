@@ -6,12 +6,13 @@
     site-reviews/customize/{style}                          ()
     site-reviews/database/sql                               (string $sql, string $handle)
     site-reviews/database/sql/{handle}                      (string $sql)
+    site-reviews/defaults                                   (DefaultsAbstract $defaultsClass, string $hook, string $method)
     site-reviews/get/review                                 ()
     site-reviews/get/reviews                                ()
     site-reviews/personal-data/erase                        (Review $review, bool $retainReview)
     site-reviews/review/build/before                        (Review $review)
-    site-reviews/review/create                              (int $postId, Arguments $values, CreateReview $command)
-    site-reviews/review/created                             (Review $review, Arguments $values, CreateReview $command)
+    site-reviews/review/create                              (int $postId, CreateReview $command)
+    site-reviews/review/created                             (Review $review, CreateReview $command)
         site-reviews/review/reverted                            ()
         site-reviews/review/saved                               ()
     site-reviews/review/updated/post_ids                    (Review $review, array $assignedPostIds)
@@ -58,6 +59,7 @@
     site-reviews/create/review-values                       (array $reviewValues, CreateReview $command): array
     site-reviews/create/unset-keys-from-custom              (): array
     site-reviews/defaults/{defaults_name}                   (): array
+    site-reviews/defaults/custom/sanitize                   (array $sanitize): array
     site-reviews/defer-scripts                              (): array
     site-reviews/email/compose                              (): array
     site-reviews/email/headers                              (): array
@@ -68,7 +70,6 @@
     site-reviews/enqueue/public/inline-script               (): string
     site-reviews/enqueue/public/localize                    (): array
     site-reviews/enqueue/public/localize/ajax-pagination    (): array
-        ?? site-reviews/field/honeypot/args
     site-reviews/field/{field_type}                         (): array
     site-reviews/form/build/{tag_or_field_key}              (string $field, Arguments $with, Modules\Html\Partials\SiteReviewsForm $partial): string
     site-reviews/get/defaults                               (): array
@@ -106,10 +107,10 @@
     site-reviews/rendered/partial/{partial_path}            (): string
     site-reviews/rendered/template                          (): string
     site-reviews/rendered/template/{template_path}          (): string
-    site-reviews/review/build/after                         (array $templateTags, Review $review, Modules\Html\Partials\SiteReviews $partial): array
-    site-reviews/review/build/{tag_or_field_key}            (string $field, string $value, Review $review, Modules\Html\Partials\SiteReviews $partial): string
+    site-reviews/review/build/after                         (array $templateTags, Review $review, Modules\Html\ReviewHtml $reviewHtml): array
+    site-reviews/review/build/{tag_or_field_key}            (string $field, string $value, Review $review, Modules\Html\ReviewHtml $reviewHtml): string
     site-reviews/review/redirect                            (): string
-    site-reviews/review/wrap/{tag_or_field_key}             (string $value, Review $review, string $rawValue, Modules\Html\Tags\{Tag} $tagClass): string
+    site-reviews/review/wrap/{tag_or_field_key}             (string $value, Review $review, string $rawValue, Modules\Html\Tags\{Tag} $tag): string
     site-reviews/reviews/fallback                           (): string
     site-reviews/route/request                              (): array
     site-reviews/router/unguarded-actions                   (): array
