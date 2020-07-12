@@ -14,7 +14,7 @@ class ColumnValueAssignedUsers implements ColumnValue
     public function handle(Review $review)
     {
         $links = [];
-        foreach ($review->assigned_user_ids as $userId) {
+        foreach ($review->assigned_users as $userId) {
             $links[] = glsr(Builder::class)->a([
                 'href' => esc_url(get_author_posts_url($userId)),
                 'text' => esc_attr(get_the_author_meta('display_name', $userId)),

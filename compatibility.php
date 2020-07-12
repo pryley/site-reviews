@@ -68,7 +68,7 @@ add_action('site-reviews/review/created', function ($review, $request) {
         return;
     }
     wp_cache_post_change($request->post_id);
-    foreach ($review->assigned_post_ids as $postId) {
+    foreach ($review->assigned_posts as $postId) {
         if ($postId != $request->post_id) {
             wp_cache_post_change($postId);
         }

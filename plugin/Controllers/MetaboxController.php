@@ -53,7 +53,7 @@ class MetaboxController
         if (Review::isReview($post)) {
             $review = glsr(Query::class)->review($post->ID);
             wp_nonce_field('assigned_posts', '_nonce-assigned-posts', false);
-            $templates = array_reduce($review->assigned_post_ids, function ($carry, $postId) {
+            $templates = array_reduce($review->assigned_posts, function ($carry, $postId) {
                 return $carry.glsr(Template::class)->build('partials/editor/assigned-entry', [
                     'context' => [
                         'data.id' => $postId,
@@ -79,7 +79,7 @@ class MetaboxController
         if (Review::isReview($post)) {
             $review = glsr(Query::class)->review($post->ID);
             wp_nonce_field('assigned_users', '_nonce-assigned-users', false);
-            $templates = array_reduce($review->assigned_user_ids, function ($carry, $userId) {
+            $templates = array_reduce($review->assigned_users, function ($carry, $userId) {
                 $carry .= glsr(Template::class)->build('partials/editor/assigned-entry', [
                     'context' => [
                         'data.id' => $userId,

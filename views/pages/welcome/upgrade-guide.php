@@ -34,7 +34,7 @@ $reviews = get_posts([
 add_action('pre_get_posts', function ($query) {
     if ($query->get('post_type') == 'site-review') {
         $meta = (array) $query->get('meta_query');
-        $index = array_search('rating', array_column($meta, 'key'));
+        $index = array_search('rating', wp_list_pluck($meta, 'key'));
         // ...
     }
 });
@@ -43,7 +43,7 @@ add_action('pre_get_posts', function ($query) {
 add_action('pre_get_posts', function ($query) {
     if ($query->get('post_type') == 'site-review') {
         $meta = (array) $query->get('meta_query');
-        $index = array_search('_rating', array_column($meta, 'key')); <-- here we changed the meta_key
+        $index = array_search('_rating', wp_list_pluck($meta, 'key')); <-- here we changed the meta_key
         // ...
     }
 });</code></pre>

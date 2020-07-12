@@ -6,6 +6,10 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 
 class FieldDefaults extends Defaults
 {
+    public $cast = [
+        'options' => 'array',
+    ];
+
     /**
      * @return array
      */

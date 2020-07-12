@@ -70,7 +70,7 @@ class Backtrace
     }
 
     /**
-     * @return void|string
+     * @return array
      */
     public function trace($limit = 6)
     {

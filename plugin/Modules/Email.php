@@ -61,6 +61,17 @@ class Email
     }
 
     /**
+     * @param \WP_Error $error
+     * @return void
+     */
+    public function logMailError($error)
+    {
+        glsr_log()->error('Email was not sent (wp_mail failed)')
+            ->debug($this)
+            ->debug($error);
+    }
+
+    /**
      * @param string $format
      * @return string
      */
@@ -158,17 +169,6 @@ class Email
             'context' => ['message' => $message],
         ]);
         return glsr()->filterString('email/message', stripslashes($message), 'html', $this);
-    }
-
-    /**
-     * @param \WP_Error $error
-     * @return void
-     */
-    protected function logMailError($error)
-    {
-        glsr_log()->error('Email was not sent (wp_mail failed)')
-            ->debug($this)
-            ->debug($error);
     }
 
     /**

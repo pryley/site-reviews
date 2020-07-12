@@ -12,7 +12,7 @@ class ColumnValueAssignedPosts implements ColumnValue
      */
     public function handle(Review $review)
     {
-        $links = ReviewAssignedToTag::assignedLinks($review->assigned_post_ids);
+        $links = ReviewAssignedToTag::assignedLinks($review->assigned_posts);
         return implode(', ', $links);
     }
 }
