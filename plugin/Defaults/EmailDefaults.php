@@ -38,7 +38,7 @@ class EmailDefaults extends Defaults
 
     /**
      * Normalize provided values, this always runs first.
-     * @return string
+     * @return array
      */
     protected function normalize(array $values = [])
     {

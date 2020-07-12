@@ -14,7 +14,7 @@ class SiteReviewsSummaryWidget extends Widget
      */
     public function form($instance)
     {
-        $this->widgetArgs = $this->shortcode()->normalizeAtts($instance);
+        $this->widgetArgs = $this->shortcode()->normalizeAtts($instance)->toArray();
         $terms = glsr(Database::class)->terms();
         $this->renderField('text', [
             'class' => 'widefat',

@@ -14,7 +14,7 @@ class PostManager
     public function normalizeId($postId)
     {
         if ('parent_id' == $postId) {
-            return wp_get_post_parent_id(intval(get_the_ID()));
+            $postId = wp_get_post_parent_id(intval(get_the_ID()));
         }
         elseif ('post_id' == $postId) {
             $postId = get_the_ID();

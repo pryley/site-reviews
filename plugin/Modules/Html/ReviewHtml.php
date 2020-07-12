@@ -53,8 +53,8 @@ class ReviewHtml extends ArrayObject
      */
     public function offsetGet($key)
     {
-        if (array_key_exists($key, $this->values)) {
-            return $this->values[$key];
+        if (array_key_exists($key, $this->context)) {
+            return $this->context[$key];
         }
         $key = Helper::ifTrue('values' === $key, 'context', $key); // @deprecated in v5.0
         return Helper::ifTrue(property_exists($this, $key), $this->$key);

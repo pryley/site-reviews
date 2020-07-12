@@ -247,7 +247,7 @@ class Database
 
     /**
      * @param mixed $result
-     * @return void
+     * @return mixed
      */
     protected function logErrors($result)
     {
