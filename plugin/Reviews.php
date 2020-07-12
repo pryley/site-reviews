@@ -3,9 +3,8 @@
 namespace GeminiLabs\SiteReviews;
 
 use ArrayObject;
-use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
-use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewsHtml;
 
 class Reviews extends ArrayObject
@@ -33,7 +32,7 @@ class Reviews extends ArrayObject
     public function __construct(array $reviews, $total, array $args)
     {
         $this->args = glsr(SiteReviewsDefaults::class)->unguardedMerge($args);
-        $this->max_num_pages = ceil($total / $this->args['display']);
+        $this->max_num_pages = Cast::toInt(ceil($total / $this->args['display']));
         $this->reviews = $reviews;
         $this->total = $total;
         parent::__construct($this->reviews, ArrayObject::STD_PROP_LIST | ArrayObject::ARRAY_AS_PROPS);
@@ -52,7 +51,7 @@ class Reviews extends ArrayObject
      */
     public function build()
     {
-        return glsr(SiteReviews::class)->build($this->args, $this);
+        return new ReviewsHtml($this, $this->args);
     }
 
     /**

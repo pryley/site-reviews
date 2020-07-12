@@ -14,18 +14,26 @@
         <h3>This shortcode displays your most recently submitted reviews.</h3>
 
         <div class="notice inline notice-info notice-alt">
-            <p>Each example below demonstrates a different shortcode option. However, you may of course combine multiple options together in a single shortcode.</p>
+            <p>Each example below demonstrates a different shortcode option. However, you may of course combine multiple options together (separated with a space) in a single shortcode.</p>
         </div>
 
-        <p class="glsr-heading">assigned_to</p>
-        <p>Include the "assigned_to" attribute to limit reviews to those assigned to a specific <a href="https://pagely.com/blog/find-post-id-wordpress/">page/post ID</a>. Accepted values are one or more post/page ID's (separated by commas). You can also use <code>post_id</code> which will automatically use the ID of the current page, or <code>parent_id</code> which will automatically use the ID of the parent page.</p>
-        <p>The default assigned_to value is: <code>""</code></p>
-        <pre><code>[site_reviews assigned_to="post_id"]</code></pre>
+        <p class="glsr-heading">assigned_posts</p>
+        <p>Include the "assigned_posts" attribute to limit reviews to those assigned posts, pages, or other public post types. Accepted values are a numerical <a href="https://pagely.com/blog/find-post-id-wordpress/">WordPress Post ID</a>, <code>post_id</code> which automatically uses the ID of the current page, or <code>parent_id</code> which automatically uses the ID of the parent page. Separate multiple values with a comma.</p>
+        <p><span class="required">Important:</span> If you are using this shortcode together with the [site_reviews_summary] shortcode, make sure to set the same attribute value for both shortcodes.</p>
+        <p>The default assigned_posts value is: <code>""</code></p>
+        <pre><code>[site_reviews assigned_posts="post_id"]</code></pre>
 
-        <p class="glsr-heading">category</p>
-        <p>Include the "category" attribute to limit reviews to one or more categories. Separate multiple category IDs or slugs with a comma. Accepted values are either a category ID or slug.</p>
-        <p>The default category value is: <code>""</code></p>
-        <pre><code>[site_reviews category="13,14"]</code></pre>
+        <p class="glsr-heading">assigned_terms</p>
+        <p>Include the "assigned_terms" attribute to limit reviews to those assigned categories. Accepted values are either a category ID or slug. Separate multiple values with a comma.</p>
+        <p><span class="required">Important:</span> If you are using this shortcode together with the [site_reviews_summary] shortcode, make sure to set the same attribute value for both shortcodes.</p>
+        <p>The default assigned_terms value is: <code>""</code></p>
+        <pre><code>[site_reviews assigned_terms="13,14"]</code></pre>
+
+        <p class="glsr-heading">assigned_users</p>
+        <p>Include the "assigned_users" attribute to limit reviews to those assigned users. Accepted values are either a user ID or username. Separate multiple values with a comma.</p>
+        <p><span class="required">Important:</span> If you are using this shortcode together with the [site_reviews_summary] shortcode, make sure to set the same attribute value for both shortcodes.</p>
+        <p>The default assigned_users value is: <code>""</code></p>
+        <pre><code>[site_reviews assigned_users="1,2"]</code></pre>
 
         <p class="glsr-heading">class</p>
         <p>Include the "class" attribute to add custom CSS classes to the shortcode.</p>
@@ -64,13 +72,14 @@
 
         <p class="glsr-heading">rating</p>
         <p>Include the "rating" attribute to set the <em>minimum</em> star-rating of reviews to display. By default, the shortcode displays all 1-5 star reviews.</p>
+        <p><span class="required">Important:</span> If you are using this shortcode together with the [site_reviews_summary] shortcode, make sure to set the same attribute value for both shortcodes.</p>
         <p>The default rating value is: <code>"1"</code></p>
         <pre><code>[site_reviews rating="4"]</code></pre>
 
         <p class="glsr-heading">schema</p>
         <p>Include the "schema" attribute to enable the aggregate rating and review schema for your reviews in Google. The difference between this and the schema option in the [site_reviews_summary] shortcode is that this one generates both the aggregate ratings schema and the review schema for each individual review that is visible on the page, while the other only generates the aggregate ratings schema.</p>
-        <p>The default schema value is: <code>"false"</code></p>
         <p><span class="required">Important:</span> This attribute should only be used once on a page to avoid duplicate schemas; keep that in mind if you are using more than one [site_reviews] and/or [site_reviews_summary] shortcodes on the same page.</p>
+        <p>The default schema value is: <code>"false"</code></p>
         <pre><code>[site_reviews schema="true"]</code></pre>
     </div>
 </div>
@@ -134,20 +143,26 @@
         <h3>This shortcode displays a summary of your reviews.</h3>
 
         <div class="notice inline notice-info notice-alt">
-            <p>Each example below demonstrates a different shortcode option. However, you may of course combine multiple options together in a single shortcode.</p>
+            <p>Each example below demonstrates a different shortcode option. However, you may of course combine multiple options together (separated with a space) in a single shortcode.</p>
         </div>
 
-        <p class="glsr-heading">assigned_to</p>
-        <p>Include the "assigned_to" attribute to limit the reviews used to calculate the average rating to those assigned to a specific <a href="https://pagely.com/blog/find-post-id-wordpress/">page/post ID</a>. Accepted values are one or more post/page ID's (separated by commas). You can also use <code>post_id</code> which will automatically use the ID of the current page, or <code>parent_id</code> which will automatically use the ID of the parent page.</p>
-        <p><span class="required">Important:</span> If you are using this shortcode together with the [site_reviews] shortcode, make sure you set this attribute value the same for both shortcodes.</p>
-        <p>The default assigned_to value is: <code>""</code></p>
-        <pre><code>[site_reviews_summary assigned_to="post_id"]</code></pre>
+        <p class="glsr-heading">assigned_posts</p>
+        <p>Include the "assigned_posts" attribute to limit reviews to those assigned posts, pages, or other public post types. Accepted values are a numerical <a href="https://pagely.com/blog/find-post-id-wordpress/">WordPress Post ID</a>, <code>post_id</code> which automatically uses the ID of the current page, or <code>parent_id</code> which automatically uses the ID of the parent page. Separate multiple values with a comma.</p>
+        <p><span class="required">Important:</span> If you are using this shortcode together with the [site_reviews] shortcode, make sure to set the same attribute value for both shortcodes.</p>
+        <p>The default assigned_posts value is: <code>""</code></p>
+        <pre><code>[site_reviews_summary assigned_posts="post_id"]</code></pre>
 
-        <p class="glsr-heading">category</p>
-        <p>Include the "category" attribute to limit the reviews used to calculate the average rating to one or more categories. Separate multiple category IDs or slugs with a comma. Accepted values are either a category ID or slug.</p>
-        <p><span class="required">Important:</span> If you are using this shortcode together with the [site_reviews] shortcode, make sure you set this attribute value the same for both shortcodes.</p>
-        <p>The default category value is: <code>""</code></p>
-        <pre><code>[site_reviews_summary category="13,14"]</code></pre>
+        <p class="glsr-heading">assigned_terms</p>
+        <p>Include the "assigned_terms" attribute to limit reviews to those assigned categories. Accepted values are either a category ID or slug. Separate multiple values with a comma.</p>
+        <p><span class="required">Important:</span> If you are using this shortcode together with the [site_reviews] shortcode, make sure to set the same attribute value for both shortcodes.</p>
+        <p>The default assigned_terms value is: <code>""</code></p>
+        <pre><code>[site_reviews_summary assigned_terms="13,14"]</code></pre>
+
+        <p class="glsr-heading">assigned_users</p>
+        <p>Include the "assigned_users" attribute to limit reviews to those assigned users. Accepted values are either a user ID or username. Separate multiple values with a comma.</p>
+        <p><span class="required">Important:</span> If you are using this shortcode together with the [site_reviews] shortcode, make sure to set the same attribute value for both shortcodes.</p>
+        <p>The default assigned_users value is: <code>""</code></p>
+        <pre><code>[site_reviews_summary assigned_users="1,2"]</code></pre>
 
         <p class="glsr-heading">class</p>
         <p>Include the "class" attribute to add custom CSS classes to the shortcode.</p>
@@ -166,14 +181,14 @@
 
         <p class="glsr-heading">rating</p>
         <p>Include the "rating" attribute to set the <em>minimum</em> star-rating of reviews to use.</p>
+        <p><span class="required">Important:</span> If you are using this shortcode together with the [site_reviews] shortcode, make sure to set the same attribute value for both shortcodes.</p>
         <p>The default rating value is: <code>"1"</code></p>
-        <p><span class="required">Important:</span> If you are using this shortcode together with the [site_reviews] shortcode, make sure you set this attribute value the same for both shortcodes.</p>
         <pre><code>[site_reviews_summary rating="3"]</code></pre>
 
         <p class="glsr-heading">schema</p>
         <p>Include the "schema" attribute to enable the aggregate rating schema for your reviews in Google. The difference between this and the schema option in the [site_reviews] shortcode is that this one only generates the aggregate ratings schema, while the other generates both the aggregate ratings schema and the review schema for each individual review that is visible on the page. If you have the choice, enable this attribute on the [site_reviews] shortcode instead.</p>
-        <p>The default schema value is: <code>"false"</code></p>
         <p><span class="required">Important:</span> This attribute should only be used once on a page to avoid duplicate schemas; keep that in mind if you are using more than one [site_reviews] and/or [site_reviews_summary] shortcodes on the same page.</p>
+        <p>The default schema value is: <code>"false"</code></p>
         <pre><code>[site_reviews_summary schema="true"]</code></pre>
 
         <p class="glsr-heading">text</p>

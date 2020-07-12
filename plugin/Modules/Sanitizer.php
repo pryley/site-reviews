@@ -108,6 +108,19 @@ class Sanitizer
      * @param mixed $value
      * @return string
      */
+    protected function sanitizeId($value)
+    {
+        $value = $this->sanitizeSlug($value);
+        if (empty($value)) {
+            $value = glsr()->prefix.substr(wp_hash(serialize($this->values), 'nonce'), -12, 8);
+        }
+        return $value;
+    }
+
+    /**
+     * @param mixed $value
+     * @return string
+     */
     protected function sanitizeInt($value)
     {
         return Cast::toInt($value);

@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Defaults\FieldDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
 use ReflectionMethod;
@@ -309,7 +310,7 @@ class Builder
     {
         return array_reduce(array_keys($this->args['options']), function ($carry, $key) {
             return $carry.$this->option([
-                'selected' => (string) $this->args['value'] === (string) $key,
+                'selected' => Cast::toString($this->args['value']) === Cast::toString($key),
                 'text' => $this->args['options'][$key],
                 'value' => $key,
             ]);
@@ -366,9 +367,9 @@ class Builder
     protected function prepareArgs(...$params)
     {
         $args = [];
-        $parameter1 = Arr::get($params, 0);
-        $parameter2 = Arr::get($params, 1);
-        if (is_string($parameter1) || is_numeric($parameter1)) {
+        $parameter1 = array_shift($params);
+        $parameter2 = array_shift($params);
+        if (is_scalar($parameter1)) {
             $args['text'] = $parameter1;
         }
         if (is_array($parameter1)) {

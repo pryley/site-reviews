@@ -35,7 +35,7 @@ class SiteReviewsSummary implements PartialContract
             'args' => $this->args,
             'context' => [
                 'class' => $this->getClass(),
-                'id' => $this->args['id'],
+                'id' => '', // @deprecated in v5.0
                 'percentages' => $this->buildTemplateTag('percentages'),
                 'rating' => $this->buildTemplateTag('rating'),
                 'stars' => $this->buildTemplateTag('stars'),

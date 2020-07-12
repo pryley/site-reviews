@@ -125,6 +125,17 @@ class Helper
     }
 
     /**
+     * @param bool $condition
+     * @param mixed $ifTrue
+     * @param mixed $ifFalse
+     * @return mixed
+     */
+    public static function ifTrue($condition, $ifTrue, $ifFalse = null)
+    {
+        return $condition ? $ifTrue : $ifFalse;
+    }
+
+    /**
      * @param mixed $value
      * @param string|int $min
      * @param string|int $max

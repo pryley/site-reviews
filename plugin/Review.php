@@ -8,14 +8,15 @@ use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews as SiteReviewsPartial;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 
 /**
- * @property array $assigned_post_ids
- * @property array $assigned_term_ids
- * @property array $assigned_user_ids
+ * @property array $assigned_posts
+ * @property array $assigned_terms
+ * @property array $assigned_users
  * @property string $author
  * @property int $author_id
  * @property string $avatar;
@@ -56,7 +57,7 @@ class Review extends Arguments
     /**
      * @var bool
      */
-    protected $hasCheckedModified;
+    protected $has_checked_revisions;
 
     /**
      * @var int
@@ -71,9 +72,9 @@ class Review extends Arguments
         $values = glsr()->args($values);
         $this->id = Cast::toInt($values->review_id);
         $args = [];
-        $args['assigned_post_ids'] = Arr::uniqueInt($values->post_ids);
-        $args['assigned_term_ids'] = Arr::uniqueInt($values->term_ids);
-        $args['assigned_user_ids'] = Arr::uniqueInt($values->user_ids);
+        $args['assigned_posts'] = Arr::uniqueInt($values->post_ids);
+        $args['assigned_terms'] = Arr::uniqueInt($values->term_ids);
+        $args['assigned_users'] = Arr::uniqueInt($values->user_ids);
         $args['author'] = $values->name;
         $args['author_id'] = Cast::toInt($values->author_id);
         $args['avatar'] = $values->avatar;
@@ -110,17 +111,7 @@ class Review extends Arguments
      */
     public function avatar($size = null)
     {
-        if (!is_numeric($size)) {
-            $size = glsr_get_option('reviews.avatars_size', 40, 'int');
-        }
-        $fallback = 'https://gravatar.com/avatar/?d=mm&s='.($size * 2);
-        return glsr(Builder::class)->img([
-            'data-fallback' => $fallback,
-            'height' => $size,
-            'loading' => 'lazy',
-            'src' => $this->get('avatar', $fallback),
-            'width' => $size,
-        ]);
+        return glsr(Avatar::class)->img($this->get('avatar'), $size);
     }
 
     /**
@@ -128,13 +119,15 @@ class Review extends Arguments
      */
     public function build(array $args = [])
     {
-        if (empty($this->id)) {
-            return new ReviewHtml($this);
-        }
-        $partial = glsr(SiteReviewsPartial::class);
-        $partial->args = glsr(SiteReviewsDefaults::class)->unguardedMerge($args);
-        $partial->options = Arr::flatten(glsr(OptionManager::class)->all());
-        return $partial->buildReview($this);
+        return new ReviewHtml($this, $args);
+    }
+
+    /**
+     * @return Arguments
+     */
+    public function custom()
+    {
+        // @todo
     }
 
     /**
@@ -146,12 +139,12 @@ class Review extends Arguments
     }
 
     /**
-     * @param int|\WP_Post $postId
+     * @param int|\WP_Post $post
      * @return bool
      */
-    public static function isEditable($postId)
+    public static function isEditable($post)
     {
-        $post = get_post($postId);
+        $post = get_post($post);
         return static::isReview($post)
             && post_type_supports(glsr()->post_type, 'title')
             && 'local' === glsr(Query::class)->review($post->ID)->type;
@@ -207,6 +200,7 @@ class Review extends Arguments
     {
         $alternateKeys = [
             'approved' => 'is_approved',
+            'has_revisions' => 'is_modified',
             'modified' => 'is_modified',
             'name' => 'author',
             'pinned' => 'is_pinned',
@@ -216,7 +210,7 @@ class Review extends Arguments
             return $this->offsetGet($alternateKeys[$key]);
         }
         if ('is_modified' === $key) {
-            return $this->isModified();
+            return $this->hasRevisions();
         }
         if (is_null($value = parent::offsetGet($key))) {
             return $this->custom->$key;
@@ -283,12 +277,12 @@ class Review extends Arguments
     /**
      * @return bool
      */
-    protected function isModified()
+    protected function hasRevisions()
     {
-        if (!$this->hasCheckedModified) {
+        if (!$this->has_checked_revisions) {
             $modified = glsr(Query::class)->hasRevisions($this->ID);
             $this->set('is_modified', $modified);
-            $this->hasCheckedModified = true;
+            $this->has_checked_revisions = true;
         }
         return $this->get('is_modified');
     }

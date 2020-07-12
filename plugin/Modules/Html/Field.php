@@ -30,6 +30,20 @@ class Field
         $this->normalize();
     }
 
+    public function __get($key)
+    {
+        if (array_key_exists($key, $this->field)) {
+            return $this->field[$key];
+        }
+    }
+
+    public function __set($key, $value)
+    {
+        if (array_key_exists($key, $this->field)) {
+            $this->field[$key] = $value;
+        }
+    }
+
     /**
      * @return string
      */

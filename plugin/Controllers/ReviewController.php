@@ -104,7 +104,7 @@ class ReviewController extends Controller
      */
     public function onChangeAssignedPosts(Review $review, array $postIds = [])
     {
-        $diff = $this->getAssignedDiffs($review->assigned_post_ids, $postIds);
+        $diff = $this->getAssignedDiffs($review->assigned_posts, $postIds);
         $this->execute(new UnassignPosts($review, $diff['old']));
         $this->execute(new AssignPosts($review, $diff['new']));
     }
@@ -117,7 +117,7 @@ class ReviewController extends Controller
      */
     public function onChangeAssignedUsers(Review $review, array $userIds = [])
     {
-        $diff = $this->getAssignedDiffs($review->assigned_user_ids, $userIds);
+        $diff = $this->getAssignedDiffs($review->assigned_users, $userIds);
         $this->execute(new UnassignUsers($review, $diff['old']));
         $this->execute(new AssignUsers($review, $diff['new']));
     }

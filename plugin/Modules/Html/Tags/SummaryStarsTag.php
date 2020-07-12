@@ -13,7 +13,7 @@ class SummaryStarsTag extends SummaryTag
     {
         if (!$this->isHidden()) {
             $rating = glsr(Rating::class)->average($this->ratings);
-            return $this->wrap(glsr_star_rating($rating), 'span');
+            return $this->wrap(glsr_star_rating($rating));
         }
     }
 }

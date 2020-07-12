@@ -70,7 +70,7 @@ abstract class Tag
      * @param string $wrapWith
      * @return string
      */
-    public function wrap($value, $wrapWith = 'span')
+    public function wrap($value, $wrapWith = null)
     {
         $rawValue = $value;
         if (Helper::isNotEmpty($value)) {

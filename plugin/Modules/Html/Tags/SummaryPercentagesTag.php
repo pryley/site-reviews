@@ -13,7 +13,7 @@ class SummaryPercentagesTag extends SummaryTag
     protected function handle($value = null)
     {
         if (!$this->isHidden()) {
-            return $this->wrap($this->percentages(), 'span');
+            return $this->wrap($this->percentages());
         }
     }
 

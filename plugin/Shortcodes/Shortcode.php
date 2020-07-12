@@ -2,7 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Shortcodes;
 
+use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
+use GeminiLabs\SiteReviews\Database\PostManager;
+use GeminiLabs\SiteReviews\Database\TaxonomyManager;
+use GeminiLabs\SiteReviews\Database\UserManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -18,7 +22,7 @@ abstract class Shortcode implements ShortcodeContract
     /**
      * @var array
      */
-    protected $data;
+    protected $dataAttributes;
 
     /**
      * @var string
@@ -45,15 +49,18 @@ abstract class Shortcode implements ShortcodeContract
     {
         $args = $this->normalizeArgs($args, $type);
         $atts = $this->normalizeAtts($atts, $type);
-        $partial = glsr(Partial::class)->build($this->partialName, $atts);
-        if (!empty($atts['title'])) {
-            $atts = Arr::set($atts, 'title', $args['before_title'].$atts['title'].$args['after_title']);
+        $partial = glsr(Partial::class)->build($this->partialName, $atts->toArray());
+        if (!empty($atts->title)) {
+            $title = $args->before_title.$atts->title.$args->after_title;
+            $atts->title = $title;
         }
-        $html = glsr(Builder::class)->div((string) $partial, wp_parse_args($this->data, [
+        $attributes = wp_parse_args($this->dataAttributes, [
             'class' => 'glsr glsr-'.glsr(Style::class)->get(),
-            'data-'.$type => '',
-        ]));
-        return $args['before_widget'].$atts['title'].$html.$args['after_widget'];
+            'id' => $atts->id,
+            'text' => (string) $partial,
+        ]);
+        $html = glsr(Builder::class)->div($attributes);
+        return $args->before_widget.$atts->title.$html.$args->after_widget;
     }
 
     /**
@@ -70,14 +77,6 @@ abstract class Shortcode implements ShortcodeContract
     public function buildShortcode($atts = [])
     {
         return $this->build($atts, [], 'shortcode');
-    }
-
-    /**
-     * @return array
-     */
-    public function getDefaults(array $atts)
-    {
-        return glsr($this->getShortcodeDefaultsClassName())->unguardedRestrict($atts);
     }
 
     /**
@@ -125,7 +124,7 @@ abstract class Shortcode implements ShortcodeContract
     /**
      * @param array|string $args
      * @param string $type
-     * @return array
+     * @return Arguments
      */
     public function normalizeArgs($args, $type = 'shortcode')
     {
@@ -135,26 +134,28 @@ abstract class Shortcode implements ShortcodeContract
             'before_title' => '<h2 class="glsr-title">',
             'after_title' => '</h2>',
         ]);
-        return glsr()->filterArray('shortcode/args', $args, $type, $this->partialName);
+        $args = glsr()->filterArray('shortcode/args', $args, $type, $this->partialName);
+        return glsr()->args($args);
     }
 
     /**
      * @param array|string $atts
      * @param string $type
-     * @return array
+     * @return Arguments
      */
     public function normalizeAtts($atts, $type = 'shortcode')
     {
+        $atts = wp_parse_args($atts);
         $atts = glsr()->filterArray('shortcode/atts', $atts, $type, $this->partialName);
-        $atts = $this->getDefaults(wp_parse_args($atts));
+        $atts = glsr($this->getShortcodeDefaultsClassName())->unguardedRestrict($atts);
+        $atts = glsr()->args($atts);
         foreach ($atts as $key => &$value) {
             $methodName = Helper::buildMethodName($key, 'normalize');
             if (method_exists($this, $methodName)) {
                 $value = $this->$methodName($value, $atts);
             }
         }
-        $this->setData($atts);
-        $this->setId($atts);
+        $this->setDataAttributes($atts, $type);
         return $atts;
     }
 
@@ -164,30 +165,30 @@ abstract class Shortcode implements ShortcodeContract
     abstract protected function hideOptions();
 
     /**
-     * @param string $postId
-     * @return int|string
+     * @param string $postIds
+     * @return string
      */
-    protected function normalizeAssignedTo($postId, array $atts)
+    protected function normalizeAssignedPosts($postIds, Arguments $atts)
     {
-        if ('parent_id' == $postId) {
-            $postId = intval(wp_get_post_parent_id(intval(get_the_ID())));
-        } elseif ('post_id' == $postId) {
-            $postId = intval(get_the_ID());
-        } elseif ('custom' == $postId) {
-            $customId = Arr::get($atts, 'assigned_to_custom');
-            $customId = str_replace('custom', '', $customId); // prevent a possible infinite loop
-            $postId = $this->normalizeAssignedTo($customId, $atts);
-        }
-        return $postId;
+        return implode(',', glsr(PostManager::class)->normalizeIds($postIds));
     }
 
     /**
-     * @param string $postId
-     * @return int|string
+     * @param string $termIds
+     * @return string
      */
-    protected function normalizeAssignTo($postId, array $atts)
+    protected function normalizeAssignedTerms($termIds)
     {
-        return $this->normalizeAssignedTo($postId, $atts);
+        return implode(',', glsr(TaxonomyManager::class)->normalizeIds($termIds));
+    }
+
+    /**
+     * @param string $userIds
+     * @return string
+     */
+    protected function normalizeAssignedUsers($userIds)
+    {
+        return implode(',', glsr(UserManager::class)->normalizeIds($userIds));
     }
 
     /**
@@ -196,22 +197,10 @@ abstract class Shortcode implements ShortcodeContract
      */
     protected function normalizeHide($hide)
     {
-        if (is_string($hide)) {
-            $hide = explode(',', $hide);
-        }
         $hideKeys = array_keys($this->getHideOptions());
-        return array_filter(array_map('trim', $hide), function ($value) use ($hideKeys) {
+        return array_filter(Cast::toArray($hide), function ($value) use ($hideKeys) {
             return in_array($value, $hideKeys);
         });
-    }
-
-    /**
-     * @param string $id
-     * @return string
-     */
-    protected function normalizeId($id)
-    {
-        return sanitize_title($id);
     }
 
     /**
@@ -231,49 +220,22 @@ abstract class Shortcode implements ShortcodeContract
         $defaults = array_pad(array_slice($defaults, 0, $maxRating), $maxRating, '');
         $labels = array_map('trim', explode(',', $labels));
         foreach ($defaults as $i => $label) {
-            if (empty($labels[$i])) {
-                continue;
+            if (!empty($labels[$i])) {
+                $defaults[$i] = $labels[$i];
             }
-            $defaults[$i] = $labels[$i];
         }
         return array_combine(range($maxRating, 1), $defaults);
     }
 
     /**
-     * @param string $schema
-     * @return bool
-     */
-    protected function normalizeSchema($schema)
-    {
-        return Cast::toBool($schema);
-    }
-
-    /**
-     * @param string $text
-     * @return string
-     */
-    protected function normalizeText($text)
-    {
-        return trim($text);
-    }
-
-    /**
+     * @param string $type
      * @return void
      */
-    protected function setData(array $atts)
+    protected function setDataAttributes(Arguments $atts, $type)
     {
-        unset($atts['assign_to_custom']);
-        unset($atts['assigned_to_custom']);
-        $this->data = glsr($this->getShortcodeDefaultsClassName())->dataAttributes($atts);
-    }
-
-    /**
-     * @return void
-     */
-    protected function setId(array &$atts)
-    {
-        if (empty($atts['id'])) {
-            $atts['id'] = glsr()->prefix.substr(md5(serialize($atts)), 0, 8);
-        }
+        $this->dataAttributes = wp_parse_args(
+            glsr($this->getShortcodeDefaultsClassName())->dataAttributes($atts->toArray()),
+            ["data-{$type}" => '']
+        );
     }
 }
