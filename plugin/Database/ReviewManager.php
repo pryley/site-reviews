@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Reviews;
@@ -19,7 +18,7 @@ class ReviewManager
     public function assignPost(Review $review, $postId)
     {
         glsr(Cache::class)->delete($review->ID, 'reviews');
-        return glsr(Database::class)->insertRaw(glsr(Query::class)->table('assigned_posts'), [
+        return glsr(Database::class)->insert('assigned_posts', [
             'is_published' => 'publish' === get_post_status($postId),
             'post_id' => $postId,
             'rating_id' => $review->rating_id,
@@ -33,7 +32,7 @@ class ReviewManager
     public function assignTerm(Review $review, $termId)
     {
         glsr(Cache::class)->delete($review->ID, 'reviews');
-        return glsr(Database::class)->insertRaw(glsr(Query::class)->table('assigned_terms'), [
+        return glsr(Database::class)->insert('assigned_terms', [
             'rating_id' => $review->rating_id,
             'term_id' => $termId,
         ]);
@@ -46,7 +45,7 @@ class ReviewManager
     public function assignUser(Review $review, $userId)
     {
         glsr(Cache::class)->delete($review->ID, 'reviews');
-        return glsr(Database::class)->insertRaw(glsr(Query::class)->table('assigned_users'), [
+        return glsr(Database::class)->insert('assigned_users', [
             'rating_id' => $review->rating_id,
             'user_id' => $userId,
         ]);
@@ -57,7 +56,7 @@ class ReviewManager
      */
     public function create(CreateReview $command)
     {
-        $values = glsr()->args(glsr()->filter('create/review-values', $command->toArray(), $command));
+        $values = glsr()->args($command->toArray()); // this filters the values
         $postValues = [
             'comment_status' => 'closed',
             'ping_status' => 'closed',
@@ -74,10 +73,10 @@ class ReviewManager
             glsr_log()->error($postId->get_error_message())->debug($postValues);
             return false;
         }
-        glsr()->action('review/create', $postId, $values, $command);
+        glsr()->action('review/create', $postId, $command);
         $review = $this->get($postId);
         if ($review->isValid()) {
-            glsr()->action('review/created', $review, $values, $command);
+            glsr()->action('review/created', $review, $command);
             return $review;
         }
         return false;
@@ -144,7 +143,7 @@ class ReviewManager
     public function unassignPost(Review $review, $postId)
     {
         glsr(Cache::class)->delete($review->ID, 'reviews');
-        return glsr(Database::class)->delete(glsr(Query::class)->table('assigned_posts'), [
+        return glsr(Database::class)->delete('assigned_posts', [
             'post_id' => $postId,
             'rating_id' => $review->rating_id,
         ]);
@@ -157,7 +156,7 @@ class ReviewManager
     public function unassignTerm(Review $review, $termId)
     {
         glsr(Cache::class)->delete($review->ID, 'reviews');
-        return glsr(Database::class)->delete(glsr(Query::class)->table('assigned_terms'), [
+        return glsr(Database::class)->delete('assigned_terms', [
             'rating_id' => $review->rating_id,
             'term_id' => $termId,
         ]);
@@ -170,7 +169,7 @@ class ReviewManager
     public function unassignUser(Review $review, $userId)
     {
         glsr(Cache::class)->delete($review->ID, 'reviews');
-        return glsr(Database::class)->delete(glsr(Query::class)->table('assigned_users'), [
+        return glsr(Database::class)->delete('assigned_users', [
             'rating_id' => $review->rating_id,
             'user_id' => $userId,
         ]);

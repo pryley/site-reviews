@@ -77,6 +77,7 @@ class Query
                 {$this->sqlFrom()}
                 {$this->sqlJoinClauses()}
                 {$this->sqlWhere()}
+                GROUP BY r.review_id
                 {$this->sqlOrderBy()}
                 {$this->sqlLimit()}
                 {$this->sqlOffset()}
@@ -122,7 +123,7 @@ class Query
             return count($reviews);
         }
         $sql = $this->sql("
-            SELECT COUNT(*)
+            SELECT COUNT(DISTINCT r.ID) as count
             {$this->sqlFrom()}
             {$this->sqlJoinClauses()}
             {$this->sqlWhere()}

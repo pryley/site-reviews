@@ -9,12 +9,31 @@ class ReviewsDefaults extends Defaults
     /**
      * @var array
      */
-    protected $mapped = [
+    public $casts = [
+        'offset' => 'int',
+        'page' => 'int',
+        'pagination' => 'string',
+        'per_page' => 'int',
+        'rating' => 'int',
+    ];
+
+    /**
+     * @var array
+     */
+    public $mapped = [
         'assigned_to' => 'assigned_posts',
         'category' => 'assigned_terms',
-        'count' => 'per_page', // @deprecated since v4.1.0
+        'count' => 'per_page', // @deprecated in v4.1.0
         'display' => 'per_page',
         'user' => 'assigned_users',
+    ];
+
+    /**
+     * @var array
+     */
+    public $sanitize = [
+        'post__in' => 'array-int',
+        'post__not_in' => 'array-int',
     ];
 
     /**

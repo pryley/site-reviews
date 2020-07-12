@@ -219,7 +219,7 @@ trait QuerySql
      */
     protected function clauseAndRating()
     {
-        return $this->args['rating']
+        return !empty($this->args['rating'])
             ? $this->db->prepare('AND r.rating > %d', --$this->args['rating'])
             : '';
     }
@@ -229,7 +229,7 @@ trait QuerySql
      */
     protected function clauseAndType()
     {
-        return $this->args['type']
+        return !empty($this->args['type'])
             ? $this->db->prepare('AND r.type = %s', $this->args['type'])
             : '';
     }

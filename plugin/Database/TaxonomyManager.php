@@ -8,18 +8,27 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 class TaxonomyManager
 {
     /**
+     * @param int|string $termId
+     * @return int
+     */
+    public function normalizeId($termId)
+    {
+        if (is_numeric($termId)) {
+            $termId = Cast::toInt($termId);
+        }
+        $term = term_exists($termId, glsr()->taxonomy);
+        return Cast::toInt(Arr::get($term, 'term_id'));
+    }
+
+    /**
      * @param array[]|string $termIds
      * @return array
      */
-    public function normalizeTermIds($termIds)
+    public function normalizeIds($termIds)
     {
         $termIds = Cast::toArray($termIds);
         foreach ($termIds as &$termId) {
-            if (is_numeric($termId)) {
-                $termId = Cast::toInt($termId);
-            }
-            $term = term_exists($termId, glsr()->taxonomy); // get the term from a term slug
-            $termId = Arr::get($term, 'term_id', 0);
+            $termId = $this->normalizeId($termId);
         }
         return Arr::uniqueInt($termIds);
     }
@@ -31,7 +40,7 @@ class TaxonomyManager
      */
     public function setTerms($postId, $termIds)
     {
-        $termIds = $this->normalizeTermIds($termIds);
+        $termIds = $this->normalizeIds($termIds);
         if (empty($termIds)) {
             return;
         }

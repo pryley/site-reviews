@@ -3,33 +3,32 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Arguments;
-use GeminiLabs\SiteReviews\Database\TaxonomyManager;
 use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
+/**
+ * @property array $assigned_posts;
+ * @property array $assigned_terms;
+ * @property array $assigned_users;
+ * @property int $offset;
+ * @property string $order;
+ * @property string $orderby;
+ * @property int $page;
+ * @property int $per_page;
+ * @property array $post__in;
+ * @property array $post__not_in;
+ * @property int $rating;
+ * @property string $type;
+ */
 class NormalizeQueryArgs extends Arguments
 {
-    public $assigned_posts;
-    public $assigned_terms;
-    public $assigned_users;
-    public $offset;
-    public $order;
-    public $orderby;
-    public $page;
-    public $per_page;
-    public $post__in;
-    public $post__not_in;
-    public $rating;
-    public $type;
-
     public function __construct(array $args = [])
     {
-        $args = glsr(ReviewsDefaults::class)->merge($args);
-        $args['assigned_posts'] = Arr::uniqueInt($args['assigned_posts']);
-        $args['assigned_terms'] = glsr(TaxonomyManager::class)->normalizeTermIds($args['assigned_terms']);
-        $args['assigned_users'] = $this->normalizeUserIds(Cast::toArray($args['assigned_users']));
+        $args = glsr(ReviewsDefaults::class)->restrict($args);
+        $args['assigned_posts'] = glsr(PostManager::class)->normalizeIds($args['assigned_posts']);
+        $args['assigned_terms'] = glsr(TaxonomyManager::class)->normalizeIds($args['assigned_terms']);
+        $args['assigned_users'] = glsr(UserManager::class)->normalizeIds($args['assigned_users']);
         $args['offset'] = absint(filter_var($args['offset'], FILTER_SANITIZE_NUMBER_INT));
         $args['order'] = Str::restrictTo('ASC,DESC,', sanitize_key($args['order']), 'DESC'); // include an empty value
         $args['orderby'] = $this->normalizeOrderBy($args['orderby']);
@@ -55,20 +54,5 @@ class NormalizeQueryArgs extends Arguments
             return Str::prefix('p.post_', $orderBy);
         }
         return $orderBy;
-    }
-
-    /**
-     * @return array
-     */
-    protected function normalizeUserIds(array $users)
-    {
-        $userIds = [];
-        foreach ($users as $userId) {
-            if (!is_numeric($userId)) {
-                $userId = Cast::toInt(username_exists($userId));
-            }
-            $userIds[] = $userId;
-        }
-        return Arr::uniqueInt($userIds);
     }
 }

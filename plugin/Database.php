@@ -3,10 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\Query;
-use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Database\SqlSchema;
-use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use WP_Query;
@@ -47,7 +44,7 @@ class Database
     {
         $result = $this->db->delete(glsr(Query::class)->table($table), $where);
         glsr(Query::class)->sql($this->db->last_query, 'delete');
-        return $result;
+        return $this->logErrors($result);
     }
 
     /**
@@ -76,18 +73,18 @@ class Database
     }
 
     /**
-     * @param int $reviewPostId
-     * @return \GeminiLabs\SiteReviews\Review|false
+     * @param string $table
+     * @return int|false
      */
-    public function insert($reviewPostId, array $data = [])
+    public function insert($table, array $data)
     {
-        $data = glsr(RatingDefaults::class)->restrict($data);
-        $data['review_id'] = $reviewPostId;
-        $data['is_approved'] = 'publish' === get_post_status($reviewPostId);
-        $result = $this->insertRaw(glsr(Query::class)->table('ratings'), $data);
-        return (Cast::toInt($result) > 0)
-            ? glsr(ReviewManager::class)->get($reviewPostId)
-            : false;
+        $this->db->insert_id = 0;
+        $table = glsr(Query::class)->table($table);
+        $fields = glsr(Query::class)->escFieldsForInsert(array_keys($data));
+        $values = glsr(Query::class)->escValuesForInsert($data);
+        $sql = glsr(Query::class)->sql("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}", 'insert');
+        $result = $this->logErrors($this->db->query($sql));
+        return empty($result) ? false : $result;
     }
 
     /**
@@ -109,20 +106,7 @@ class Database
         $fields = glsr(Query::class)->escFieldsForInsert($fields);
         $values = implode(',', $data);
         $sql = glsr(Query::class)->sql("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}", 'insert-bulk');
-        return $this->db->query($sql);
-    }
-
-    /**
-     * @param string $table
-     * @return int|false
-     */
-    public function insertRaw($table, array $data)
-    {
-        $this->db->insert_id = 0;
-        $fields = glsr(Query::class)->escFieldsForInsert(array_keys($data));
-        $values = glsr(Query::class)->escValuesForInsert($data);
-        $sql = glsr(Query::class)->sql("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}", 'insert');
-        return $this->db->query($sql);
+        return $this->logErrors($this->db->query($sql));
     }
 
     /**
@@ -136,10 +120,8 @@ class Database
             return false;
         }
         $sql = glsr(Query::class)->sql("SELECT COUNT(*) FROM {$table} WHERE is_approved = 1", 'migrate');
-        if (!empty($this->db->get_var($sql))) {
-            return false;
-        }
-        return true;
+        $result = $this->logErrors($this->db->get_var($sql));
+        return empty($result);
     }
 
     /**
@@ -165,7 +147,8 @@ class Database
     {
         $key = Str::prefix('_', $key);
         $postId = Cast::toInt($postId);
-        return update_metadata('post', $postId, $key, $value); // update_metadata allows us to save meta to revisions
+        // using update_metadata allows us to save meta to revisions
+        return update_metadata('post', $postId, $key, $value);
     }
 
     /**
@@ -259,6 +242,18 @@ class Database
     {
         $result = $this->db->update(glsr(Query::class)->table($table), $data, $where);
         glsr(Query::class)->sql($this->db->last_query, 'update');
+        return $this->logErrors($result);
+    }
+
+    /**
+     * @param mixed $result
+     * @return void
+     */
+    protected function logErrors($result)
+    {
+        if ($this->db->last_error) {
+            glsr_log()->error($this->db->last_error);
+        }
         return $result;
     }
 }
