@@ -3,6 +3,8 @@
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Modules\Honeypot;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Field;
 use GeminiLabs\SiteReviews\Modules\Html\Form;
 
@@ -13,19 +15,17 @@ class FormFieldsTag extends FormTag
      */
     protected function fields()
     {
+        $fields = glsr(Form::class)->getFields('submission-form');
+        $fields = $this->normalizeFields($fields);
         $hiddenFields = $this->hiddenFields();
-        $hiddenFields[] = $this->honeypotField();
-        $fields = $this->normalizeFields(glsr(Form::class)->getFields('submission-form'));
-        $paths = array_map(function ($obj) {
-            return $obj->field['path'];
-        }, $hiddenFields);
+        $paths = wp_list_pluck(wp_list_pluck($hiddenFields, 'field'), 'path');
         foreach ($fields as $field) {
             $index = array_search($field->field['path'], $paths);
-            if (false === $index) {
-                continue;
+            if (false !== $index) {
+                unset($hiddenFields[$index]);
             }
-            unset($hiddenFields[$index]);
         }
+        array_unshift($fields, glsr(Honeypot::class)->build($this->args->id));
         return array_merge($hiddenFields, $fields);
     }
 
@@ -44,48 +44,27 @@ class FormFieldsTag extends FormTag
      */
     protected function hiddenFields()
     {
-        $fields = [[
-            'name' => '_action',
-            'value' => 'submit-review',
-        ], [
-            'name' => '_counter',
-        ], [
-            'name' => '_nonce',
-            'value' => wp_create_nonce('submit-review'),
-        ], [
-            'name' => '_post_id',
-            'value' => get_the_ID(),
-        ], [
-            'name' => '_referer',
-            'value' => wp_unslash(filter_input(INPUT_SERVER, 'REQUEST_URI')),
-        ], [
-            'name' => 'assign_to',
-            'value' => $this->args->assign_to,
-        ], [
-            'name' => 'category',
-            'value' => $this->args->category,
-        ], [
-            'name' => 'excluded',
-            'value' => $this->args->hide,
-        ], [
-            'name' => 'form_id',
-            'value' => $this->args->id,
-        ]];
-        return array_map(function ($field) {
-            return new Field(wp_parse_args($field, ['type' => 'hidden']));
-        }, $fields);
-    }
-
-    /**
-     * @return Field
-     */
-    protected function honeypotField()
-    {
-        return new Field([
-            'name' => 'honeypot',
-            'suffix' => $this->args->id, // @hack
-            'type' => 'honeypot',
-        ]);
+        $fields = [];
+        $hiddenFields = [
+            '_action' => 'submit-review',
+            '_counter' => null,
+            '_nonce' => wp_create_nonce('submit-review'),
+            '_post_id' => get_the_ID(),
+            '_referer' => wp_unslash(filter_input(INPUT_SERVER, 'REQUEST_URI')),
+            'assigned_posts' => $this->args->assigned_posts,
+            'assigned_terms' => $this->args->assigned_terms,
+            'assigned_users' => $this->args->assigned_users,
+            'excluded' => $this->args->hide,
+            'form_id' => $this->args->id,
+        ];
+        foreach ($hiddenFields as $name => $value) {
+            $fields[] = new Field([
+                'name' => $name,
+                'type' => 'hidden',
+                'value' => $value,
+            ]);
+        }
+        return $fields;
     }
 
     /**
@@ -133,16 +112,15 @@ class FormFieldsTag extends FormTag
     {
         $normalizedFields = [];
         foreach ($fields as $field) {
-            if (in_array($field->field['path'], $this->args->hide)) {
-                continue;
+            if (!in_array($field->field['path'], $this->args->hide)) {
+                $field->field['is_public'] = true;
+                $this->normalizeFieldClass($field);
+                $this->normalizeFieldErrors($field);
+                $this->normalizeFieldRequired($field);
+                $this->normalizeFieldValue($field);
+                $this->normalizeFieldId($field);
+                $normalizedFields[] = $field;
             }
-            $field->field['is_public'] = true;
-            $this->normalizeFieldClass($field);
-            $this->normalizeFieldErrors($field);
-            $this->normalizeFieldRequired($field);
-            $this->normalizeFieldValue($field);
-            $this->normalizeFieldId($field);
-            $normalizedFields[] = $field;
         }
         return $normalizedFields;
     }
@@ -150,7 +128,7 @@ class FormFieldsTag extends FormTag
     /**
      * @return void
      */
-    protected function normalizeFieldValue(Field &$field)
+    protected function normalizeFieldValue(Field $field)
     {
         if (!array_key_exists($field->field['path'], $this->with->values)) {
             return;

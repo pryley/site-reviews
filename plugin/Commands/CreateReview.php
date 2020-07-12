@@ -14,9 +14,9 @@ use GeminiLabs\SiteReviews\Request;
 class CreateReview implements Contract
 {
     public $ajax_request;
-    public $assigned_post_ids;
-    public $assigned_term_ids;
-    public $assigned_user_ids;
+    public $assigned_posts;
+    public $assigned_terms;
+    public $assigned_users;
     public $avatar;
     public $blacklisted;
     public $content;
@@ -103,7 +103,9 @@ class CreateReview implements Contract
      */
     public function toArray()
     {
-        return get_object_vars($this);
+        $values = get_object_vars($this);
+        $values = glsr()->filterArray('create/review-values', $values, $this);
+        return glsr(CreateReviewDefaults::class)->merge($values);
     }
 
     /**
@@ -120,12 +122,12 @@ class CreateReview implements Contract
      */
     protected function avatar()
     {
-        if (!empty($this->request->avatar)) {
-            return esc_url_raw(sanitize_text_field($this->request->avatar));
+        if (!empty($this->avatar)) {
+            return $this->avatar;
         }
-        $userField = empty($this->request->email)
+        $userField = empty($this->email)
             ? get_current_user_id()
-            : sanitize_email($this->request->email);
+            : $this->email;
         return glsr(Avatar::class)->generate($userField);
     }
 
@@ -148,35 +150,7 @@ class CreateReview implements Contract
      */
     protected function custom()
     {
-        $unset = [
-            '_action', '_ajax_request', '_counter', '_nonce', '_post_id', '_recaptcha-token',
-            '_referer', 'assigned_post_ids', 'assigned_term_ids', 'assigned_user_ids', 'content',
-            'date', 'email', 'excluded', 'form_id', 'gotcha', 'ip_address', 'name', 'rating',
-            'title', 'url',
-        ];
-        $unset = glsr()->filterArray('create/unset-keys-from-custom', $unset);
-        $custom = $this->request->toArray();
-        foreach ($unset as $key) {
-            unset($custom[$key]);
-        }
-        foreach ($custom as $key => $value) {
-            if (is_string($value)) {
-                $custom[$key] = sanitize_text_field($value);
-            }
-        }
-        return $custom;
-    }
-
-    /**
-     * @return string
-     */
-    protected function date()
-    {
-        $date = strtotime($this->request->date);
-        if (false === $date) {
-            $date = time();
-        }
-        return gmdate('Y-m-d H:i:s', $date);
+        return glsr(CustomFieldsDefaults::class)->filter($this->request->toArray());
     }
 
     /**
@@ -197,25 +171,15 @@ class CreateReview implements Contract
      */
     protected function sanitize()
     {
-        $this->ajax_request = Cast::toBool($this->request->_ajax_request);
-        $this->assigned_post_ids = Arr::uniqueInt($this->request->assigned_post_ids);
-        $this->assigned_term_ids = Arr::uniqueInt($this->request->assigned_term_ids);
-        $this->assigned_user_ids = Arr::uniqueInt($this->request->assigned_user_ids);
+        $values = glsr(CreateReviewDefaults::class)->restrict($this->request->toArray());
+        foreach ($values as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->{$key} = $value;
+            }
+        }
         $this->avatar = $this->avatar();
-        $this->blacklisted = Cast::toBool($this->request->blacklisted);
-        $this->content = sanitize_textarea_field($this->request->content);
         $this->custom = $this->custom();
-        $this->date = $this->date();
-        $this->email = sanitize_email($this->request->email);
-        $this->form_id = sanitize_key($this->request->form_id);
-        $this->ip_address = $this->request->ip_address;
-        $this->name = sanitize_text_field($this->request->name);
-        $this->post_id = Cast::toInt($this->request->_post_id);
-        $this->rating = Cast::toInt($this->request->rating);
-        $this->referer = sanitize_text_field($this->request->_referer);
-        $this->title = sanitize_text_field($this->request->title);
         $this->type = $this->type();
-        $this->url = esc_url_raw(sanitize_text_field($this->request->url));
     }
 
     /**
@@ -223,7 +187,6 @@ class CreateReview implements Contract
      */
     protected function type()
     {
-        $type = sanitize_text_field($this->request->type);
-        return array_key_exists($type, glsr()->reviewTypes) ? $type : 'local';
+        return array_key_exists($this->type, glsr()->reviewTypes) ? $this->type : 'local';
     }
 }

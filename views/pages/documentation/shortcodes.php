@@ -96,18 +96,23 @@
         <h3>This shortcode displays the review submission form.</h3>
 
         <div class="notice inline notice-info notice-alt">
-            <p>Each example below demonstrates a different shortcode option. However, you may of course combine multiple options together in a single shortcode.</p>
+            <p>Each example below demonstrates a different shortcode option. However, you may of course combine multiple options together (separated with a space) in a single shortcode.</p>
         </div>
 
-        <p class="glsr-heading">assign_to</p>
-        <p>Include the "assign_to" attribute to automatically assign submitted reviews to a specific page or post. Accepted value is a <a href="https://pagely.com/blog/find-post-id-wordpress/">page/post ID</a>. You can also use <code>post_id</code> which will automatically assign reviews to the current page, or <code>parent_id</code> which will automatically use the ID of the parent page.</p>
-        <p>The default assign_to value is: <code>""</code></p>
-        <pre><code>[site_reviews_form assign_to="post_id"]</code></pre>
+        <p class="glsr-heading">assigned_posts</p>
+        <p>Include the "assigned_posts" attribute to automatically assign submitted reviews to those assigned posts, pages, or other public post types. Accepted values are a numerical <a href="https://pagely.com/blog/find-post-id-wordpress/">WordPress Post ID</a>, <code>post_id</code> which automatically uses the ID of the current page, or <code>parent_id</code> which automatically uses the ID of the parent page. Separate multiple values with a comma.</p>
+        <p>The default assigned_posts value is: <code>""</code></p>
+        <pre><code>[site_reviews_form assigned_posts="post_id"]</code></pre>
 
-        <p class="glsr-heading">category</p>
-        <p>Include the "category" attribute to automatically assign a single category to the submitted review. Accepted values are either a category ID or slug.</p>
-        <p>The default category value is: <code>""</code></p>
-        <pre><code>[site_reviews_form category="13"]</code></pre>
+        <p class="glsr-heading">assigned_terms</p>
+        <p>Include the "assigned_terms" attribute to automatically assign submitted reviews to those assigned categories. Accepted values are either a category ID or slug. Separate multiple values with a comma.</p>
+        <p>The default assigned_terms value is: <code>""</code></p>
+        <pre><code>[site_reviews_form assigned_terms="13,14"]</code></pre>
+
+        <p class="glsr-heading">assigned_users</p>
+        <p>Include the "assigned_users" attribute to automatically assign submitted reviews to those assigned users. Accepted values are either a user ID or username. Separate multiple values with a comma.</p>
+        <p>The default assigned_users value is: <code>""</code></p>
+        <pre><code>[site_reviews_form assigned_users="1,2"]</code></pre>
 
         <p class="glsr-heading">class</p>
         <p>Include the "class" attribute to add custom CSS classes to the shortcode form.</p>

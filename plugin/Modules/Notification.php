@@ -101,7 +101,7 @@ class Notification
             $emails[] = glsr(OptionManager::class)->getWP('admin_email');
         }
         if (in_array('author', $this->types)) {
-            foreach ($this->review->assigned_post_ids as $postId) {
+            foreach ($this->review->assigned_posts as $postId) {
                 $post = get_post($postId);
                 if ($post instanceof WP_Post) {
                     $this->email = true;
@@ -133,7 +133,7 @@ class Notification
     protected function getTitle()
     {
         $titles = [];
-        foreach ($this->review->assigned_post_ids as $postId) {
+        foreach ($this->review->assigned_posts as $postId) {
             $titles[] = get_the_title($postId);
         }
         $titles = array_filter($titles);

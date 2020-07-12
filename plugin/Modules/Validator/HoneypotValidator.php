@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules\Validator;
 use GeminiLabs\SiteReviews\Defaults\ValidateReviewDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Honeypot;
 
 class HoneyPotValidator
 {
@@ -17,32 +18,15 @@ class HoneyPotValidator
     }
 
     /**
-     * @return array
-     */
-    protected function getExcludedKeys()
-    {
-        return Arr::unique(array_merge(
-            array_keys(glsr(ValidateReviewDefaults::class)->defaults()),
-            array_keys(glsr()->config('forms/submission-form')),
-            ['blacklisted', 'excluded']
-        ));
-    }
-
-    /**
      * @param array $request
      * @return bool
      */
     protected function validate($request)
     {
-        $excludedKeys = $this->getExcludedKeys();
-        foreach ($request as $key => $value) {
-            if (Str::startsWith('_', $key) || in_array($key, $excludedKeys)) {
-                continue;
-            }
-            if (!empty($value)) {
-                return false;
-            }
+        $hash = glsr(Honeypot::class)->hash(Arr::get($request, 'form_id'));
+        if (array_key_exists($hash, $request)) {
+            return empty($request[$hash]);
         }
-        return true;
+        return false;
     }
 }

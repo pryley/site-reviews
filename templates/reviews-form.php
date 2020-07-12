@@ -1,7 +1,7 @@
 <?php defined('WPINC') || die; ?>
 
 <div class="glsr-form-wrap">
-    <form class="{{ class }}" id="{{ id }}" method="post" enctype="multipart/form-data">
+    <form class="{{ class }}" method="post" enctype="multipart/form-data">
         {{ fields }}
         {{ response }}
         {{ submit_button }}

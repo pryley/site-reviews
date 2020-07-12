@@ -6,15 +6,26 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 
 class CreateReviewDefaults extends Defaults
 {
-    /**
-     * @var array
-     */
-    protected $guarded = [
-        'content',
-        'date',
-        'pinned',
-        'response',
-        'title',
+    public $sanitize = [
+        'ajax_request' => 'bool',
+        'assigned_posts' => 'array-int',
+        'assigned_terms' => 'array-int',
+        'assigned_users' => 'array-int',
+        'avatar' => 'url',
+        'blacklisted' => 'bool',
+        'content' => 'text-multiline',
+        'custom' => 'array',
+        'date' => 'date',
+        'email' => 'email',
+        'form_id' => 'int',
+        'ip_address' => 'text',
+        'name' => 'text',
+        'post_id' => 'int',
+        'rating' => 'int',
+        'referer' => 'text',
+        'title' => 'text',
+        'type' => 'text',
+        'url' => 'url',
     ];
 
     /**
@@ -23,16 +34,25 @@ class CreateReviewDefaults extends Defaults
     protected function defaults()
     {
         return [
-            'author' => '',
+            'ajax_request' => false,
+            'assigned_posts' => [],
+            'assigned_terms' => [],
+            'assigned_users' => [],
             'avatar' => '',
+            'blacklisted' => false,
             'content' => '',
-            'custom' => '',
+            'custom' => [],
             'date' => '',
             'email' => '',
+            'form_id' => '',
             'ip_address' => '',
-            'pinned' => false,
-            'response' => '',
+            'name' => '',
+            'post_id' => '',
+            'rating' => '',
+            'referer' => '',
+            'request' => '',
             'title' => '',
+            'type' => '',
             'url' => '',
         ];
     }

@@ -26,12 +26,14 @@ class SiteReviewsFormWidget extends Widget
             'label' => _x('Description', 'admin-text', 'site-reviews'),
             'name' => 'description',
         ]);
-        $this->renderField('select', [
-            'class' => 'widefat',
-            'label' => _x('Automatically assign a category', 'admin-text', 'site-reviews'),
-            'name' => 'category',
-            'options' => Arr::prepend($terms, _x('Do not assign a category', 'admin-text', 'site-reviews'), ''),
-        ]);
+        if (!empty($terms)) {
+            $this->renderField('select', [
+                'class' => 'widefat',
+                'label' => _x('Automatically assign a category', 'admin-text', 'site-reviews'),
+                'name' => 'category',
+                'options' => Arr::prepend($terms, _x('Do not assign a category', 'admin-text', 'site-reviews'), ''),
+            ]);
+        }
         $this->renderField('text', [
             'class' => 'widefat',
             'default' => '',

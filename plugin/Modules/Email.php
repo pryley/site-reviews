@@ -176,10 +176,7 @@ class Email
      */
     protected function normalize(array $email = [])
     {
-        $email = shortcode_atts(glsr(EmailDefaults::class)->defaults(), $email);
-        if (empty($email['reply-to'])) {
-            $email['reply-to'] = $email['from'];
-        }
+        $email = glsr(EmailDefaults::class)->restrict($email);
         $this->email = glsr()->filterArray('email/compose', $email, $this);
     }
 

@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Commands\AssignPosts;
 use GeminiLabs\SiteReviews\Commands\AssignTerms;
 use GeminiLabs\SiteReviews\Commands\AssignUsers;
@@ -15,6 +14,7 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Database\TaxonomyManager;
+use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -129,15 +129,20 @@ class ReviewController extends Controller
      * @return void
      * @action site-reviews/review/create
      */
-    public function onCreateReview($postId, Arguments $values)
+    public function onCreateReview($postId, CreateReview $command)
     {
-        if (glsr(Database::class)->insert($postId, $values->toArray())) {
-            glsr(Database::class)->metaSet($postId, 'custom', $values->custom);
-            glsr(TaxonomyManager::class)->setTerms($postId, $values->assigned_term_ids);
+        $values = glsr()->args($command->toArray()); // this filters the values
+        $data = glsr(RatingDefaults::class)->restrict($values->toArray());
+        $data['review_id'] = $postId;
+        $data['is_approved'] = 'publish' === get_post_status($postId);
+        if (false === glsr(Database::class)->insert('ratings', $data)) {
+            wp_delete_post($postId, true); // remove post as review was not created
             return;
         }
-        glsr_log()->error('[INSERT] DB error thrown when creating review.');
-        wp_delete_post($postId, true);
+        glsr(TaxonomyManager::class)->setTerms($postId, $values->assigned_terms);
+        foreach ($values->custom as $key => $value) {
+            glsr(Database::class)->metaSet($postId, 'custom_'.$key, $value);
+        }
     }
 
     /**

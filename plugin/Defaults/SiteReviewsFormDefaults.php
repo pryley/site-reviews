@@ -3,16 +3,41 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
+use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class SiteReviewsFormDefaults extends Defaults
 {
     /**
      * @var array
      */
-    protected $guarded = [
+    public $casts = [
+        'is_block_editor' => 'bool',
+    ];
+
+    /**
+     * @var array
+     */
+    public $guarded = [
         'description',
         'is_block_editor',
         'title',
+    ];
+
+    /**
+     * @var array
+     */
+    public $mapped = [
+        'assign_to' => 'assigned_posts',
+        'category' => 'assigned_terms',
+        'user' => 'assigned_users',
+    ];
+
+    /**
+     * @var array
+     */
+    public $sanitize = [
+        'id' => 'id',
     ];
 
     /**
@@ -21,9 +46,9 @@ class SiteReviewsFormDefaults extends Defaults
     protected function defaults()
     {
         return [
-            'assign_to' => '',
-            'assign_to_custom' => '',
-            'category' => '',
+            'assigned_posts' => '',
+            'assigned_terms' => '',
+            'assigned_users' => '',
             'class' => '',
             'description' => '',
             'excluded' => '',
@@ -31,7 +56,21 @@ class SiteReviewsFormDefaults extends Defaults
             'id' => '',
             'is_block_editor' => false,
             'title' => '',
-            'user' => '',
         ];
+    }
+
+    /**
+     * Normalize provided values, this always runs first.
+     * @return array
+     */
+    protected function normalize(array $values = [])
+    {
+        foreach ($this->mapped as $old => $new) {
+            $value = Helper::ifTrue('assign_to' === $old, 'custom', 'glsr_custom');
+            if ($value === Arr::get($values, $old)) {
+                $values[$old] = Arr::get($values, $new);
+            }
+        }
+        return parent::normalize($values);
     }
 }
