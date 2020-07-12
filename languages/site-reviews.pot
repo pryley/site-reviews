@@ -105,12 +105,12 @@ msgctxt "admin-text"
 msgid "Create Review (inactive)"
 msgstr ""
 
-#: deprecated.php:183
+#: deprecated.php:49
 msgctxt "admin-text"
 msgid "The %s function has been deprecated and removed, please update your code."
 msgstr ""
 
-#: deprecated.php:194
+#: deprecated.php:60
 msgctxt "admin-text"
 msgid "The %s function has been deprecated and will be removed in a future version, please use %s instead."
 msgstr ""
@@ -530,7 +530,7 @@ msgctxt "admin-text"
 msgid "Translations"
 msgstr ""
 
-#: config/settings.php:239, plugin/Modules/Html/ReviewsHtml.php:140
+#: config/settings.php:239, plugin/Modules/Html/ReviewsHtml.php:145
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr ""
 
@@ -744,7 +744,7 @@ msgctxt "admin-text"
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:440, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:25, plugin/Defaults/RevisionFieldDefaults.php:16, plugin/Tinymce/SiteReviewsTinymce.php:30
+#: config/settings.php:440, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:25, plugin/Defaults/RevisionFieldsDefaults.php:16, plugin/Tinymce/SiteReviewsTinymce.php:30
 msgctxt "admin-text"
 msgid "Rating"
 msgstr ""
@@ -759,12 +759,12 @@ msgctxt "admin-text"
 msgid "Review"
 msgstr ""
 
-#: config/settings.php:443, config/forms/metabox-fields.php:14, plugin/Controllers/PrivacyController.php:127, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldDefaults.php:18
+#: config/settings.php:443, config/forms/metabox-fields.php:14, plugin/Controllers/PrivacyController.php:128, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:18
 msgctxt "admin-text"
 msgid "Name"
 msgstr ""
 
-#: config/settings.php:444, config/forms/metabox-fields.php:18, plugin/Controllers/PrivacyController.php:128, plugin/Defaults/PostTypeColumnDefaults.php:21, plugin/Defaults/RevisionFieldDefaults.php:19
+#: config/settings.php:444, config/forms/metabox-fields.php:18, plugin/Controllers/PrivacyController.php:129, plugin/Defaults/PostTypeColumnDefaults.php:21, plugin/Defaults/RevisionFieldsDefaults.php:19
 msgctxt "admin-text"
 msgid "Email"
 msgstr ""
@@ -979,7 +979,7 @@ msgctxt "admin-text"
 msgid "The [%s] method has been deprecated and will be soon be removed, please use the [%s] method instead."
 msgstr ""
 
-#: plugin/Review.php:280, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:19
+#: plugin/Review.php:274, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:19
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr ""
@@ -993,17 +993,17 @@ msgstr ""
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 
-#: config/forms/metabox-fields.php:9, plugin/Defaults/PostTypeColumnDefaults.php:24, plugin/Defaults/RevisionFieldDefaults.php:17, plugin/Tinymce/TinymceGenerator.php:144
+#: config/forms/metabox-fields.php:9, plugin/Defaults/PostTypeColumnDefaults.php:24, plugin/Defaults/RevisionFieldsDefaults.php:17, plugin/Tinymce/TinymceGenerator.php:144
 msgctxt "admin-text"
 msgid "Type"
 msgstr ""
 
-#: config/forms/metabox-fields.php:22, plugin/Controllers/PrivacyController.php:129, plugin/Defaults/PostTypeColumnDefaults.php:22, plugin/Defaults/RevisionFieldDefaults.php:20
+#: config/forms/metabox-fields.php:22, plugin/Controllers/PrivacyController.php:130, plugin/Defaults/PostTypeColumnDefaults.php:22, plugin/Defaults/RevisionFieldsDefaults.php:20
 msgctxt "admin-text"
 msgid "IP Address"
 msgstr ""
 
-#: config/forms/metabox-fields.php:26, plugin/Defaults/RevisionFieldDefaults.php:21
+#: config/forms/metabox-fields.php:26, plugin/Defaults/RevisionFieldsDefaults.php:21
 msgctxt "admin-text"
 msgid "Avatar"
 msgstr ""
@@ -1020,7 +1020,7 @@ msgstr ""
 msgid "Summarize your review or highlight an interesting detail"
 msgstr ""
 
-#: config/forms/submission-form.php:14, plugin/Modules/Html/Fields/Honeypot.php:19
+#: config/forms/submission-form.php:14, plugin/Modules/Honeypot.php:18
 msgid "Your review"
 msgstr ""
 
@@ -1045,7 +1045,7 @@ msgid "Tell us your email"
 msgstr ""
 
 #: config/forms/submission-form.php:30
-msgid "This review is based on my own experience and is my genuine opinion. I consent to my submitted data being collected and stored."
+msgid "This review is based on my own experience and is my genuine opinion."
 msgstr ""
 
 #: plugin/Addons/Controller.php:68, plugin/Controllers/AdminController.php:45, plugin/Controllers/MenuController.php:50, views/pages/tools/sync.php:23
@@ -1053,20 +1053,20 @@ msgctxt "admin-text"
 msgid "Settings"
 msgstr ""
 
-#: plugin/Blocks/SiteReviewsBlock.php:97, plugin/Blocks/SiteReviewsFormBlock.php:87, plugin/Blocks/SiteReviewsSummaryBlock.php:82
+#: plugin/Blocks/SiteReviewsBlock.php:105, plugin/Blocks/SiteReviewsFormBlock.php:96, plugin/Blocks/SiteReviewsSummaryBlock.php:90
 msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr ""
 
-#: plugin/Blocks/SiteReviewsBlock.php:121, plugin/Modules/Html/Tags/ReviewContentTag.php:25
+#: plugin/Blocks/SiteReviewsBlock.php:129, plugin/Modules/Html/Tags/ReviewContentTag.php:25
 msgid "Show more"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:130
+#: plugin/Commands/CreateReview.php:140
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:135
+#: plugin/Commands/CreateReview.php:145
 msgid "Your review could not be submitted and the error has been logged. Please notify the site admin."
 msgstr ""
 
@@ -1217,22 +1217,22 @@ msgctxt "admin-text"
 msgid "The permissions have been reset."
 msgstr ""
 
-#: plugin/Controllers/AjaxController.php:65
+#: plugin/Controllers/AjaxController.php:66
 msgctxt "admin-text"
 msgid "Okay"
 msgstr ""
 
-#: plugin/Controllers/AjaxController.php:134
+#: plugin/Controllers/AjaxController.php:136
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr ""
 
-#: plugin/Controllers/AjaxController.php:138
+#: plugin/Controllers/AjaxController.php:140
 msgctxt "admin-text"
 msgid "The permissions have been reset, please %s for them to take effect."
 msgstr ""
 
-#: plugin/Controllers/AjaxController.php:152, plugin/Controllers/AjaxController.php:164, plugin/Controllers/AjaxController.php:183
+#: plugin/Controllers/AjaxController.php:154, plugin/Controllers/AjaxController.php:166, plugin/Controllers/AjaxController.php:185
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr ""
@@ -1247,7 +1247,7 @@ msgctxt "admin-text"
 msgid "Submitted"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:103, plugin/Controllers/TranslationController.php:249, plugin/Defaults/PostStatusLabelDefaults.php:18
+#: plugin/Controllers/ListTableController.php:103, plugin/Controllers/TranslationController.php:249, plugin/Defaults/PostStatusLabelsDefaults.php:18
 msgctxt "admin-text"
 msgid "Approve"
 msgstr ""
@@ -1287,7 +1287,7 @@ msgctxt "admin-text"
 msgid "Add-ons"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:88, plugin/Controllers/WelcomeController.php:94
+#: plugin/Controllers/MenuController.php:88, plugin/Controllers/WelcomeController.php:104
 msgctxt "admin-text"
 msgid "Support"
 msgstr ""
@@ -1317,7 +1317,7 @@ msgctxt "admin-text"
 msgid "General"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:115, plugin/Controllers/PrivacyController.php:139, plugin/Defaults/PostTypeLabelDefaults.php:14, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
+#: plugin/Controllers/MenuController.php:115, plugin/Controllers/PrivacyController.php:140, plugin/Defaults/PostTypeLabelDefaults.php:14, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
 msgctxt "admin-text"
 msgid "Reviews"
 msgstr ""
@@ -1352,37 +1352,37 @@ msgctxt "admin-text"
 msgid "System Info"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:43, views/partials/editor/metabox-response.php:3
+#: plugin/Controllers/MetaboxController.php:24, views/partials/editor/metabox-response.php:3
 msgctxt "admin-text"
 msgid "Respond Publicly"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:45
+#: plugin/Controllers/MetaboxController.php:26
 msgctxt "admin-text"
 msgid "Review Details"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:46, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/editor/bulk-edit-assigned-posts.php:6
+#: plugin/Controllers/MetaboxController.php:27, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/editor/bulk-edit-assigned-posts.php:6
 msgctxt "admin-text"
 msgid "Assigned To"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:47, plugin/Defaults/PostTypeColumnDefaults.php:19, views/partials/editor/bulk-edit-assigned-users.php:6
+#: plugin/Controllers/MetaboxController.php:28, plugin/Defaults/PostTypeColumnDefaults.php:19, views/partials/editor/bulk-edit-assigned-users.php:6
 msgctxt "admin-text"
 msgid "Assigned Users"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:49, plugin/Controllers/MetaboxController.php:128
+#: plugin/Controllers/MetaboxController.php:30, plugin/Controllers/MetaboxController.php:109
 msgctxt "admin-text"
 msgid "Author"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:166, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17
+#: plugin/Controllers/MetaboxController.php:147, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17
 msgctxt "admin-text"
 msgid "No"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:167, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:16
+#: plugin/Controllers/MetaboxController.php:148, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:16
 msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
@@ -1402,17 +1402,17 @@ msgctxt "admin-text"
 msgid "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 msgstr ""
 
-#: plugin/Controllers/PrivacyController.php:23
+#: plugin/Controllers/PrivacyController.php:24
 msgctxt "admin-text"
 msgid "The email and associated name and IP address has been removed from all reviews, but the reviews themselves were not removed."
 msgstr ""
 
-#: plugin/Controllers/PrivacyController.php:125
+#: plugin/Controllers/PrivacyController.php:126
 msgctxt "admin-text"
 msgid "Review Title"
 msgstr ""
 
-#: plugin/Controllers/PrivacyController.php:126
+#: plugin/Controllers/PrivacyController.php:127
 msgctxt "admin-text"
 msgid "Review Content"
 msgstr ""
@@ -1472,17 +1472,17 @@ msgid_plural "%s reviews restored from the Trash."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:183, plugin/Controllers/TranslationController.php:219, plugin/Defaults/PostStatusLabelDefaults.php:15, plugin/Defaults/PostStatusLabelDefaults.php:16
+#: plugin/Controllers/TranslationController.php:183, plugin/Controllers/TranslationController.php:219, plugin/Defaults/PostStatusLabelsDefaults.php:15, plugin/Defaults/PostStatusLabelsDefaults.php:16
 msgctxt "admin-text"
 msgid "Unapproved"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:218, plugin/Controllers/TranslationController.php:250, plugin/Defaults/PostStatusLabelDefaults.php:19
+#: plugin/Controllers/TranslationController.php:218, plugin/Controllers/TranslationController.php:250, plugin/Defaults/PostStatusLabelsDefaults.php:19
 msgctxt "admin-text"
 msgid "Approved"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:248, plugin/Defaults/PostStatusLabelDefaults.php:17
+#: plugin/Controllers/TranslationController.php:248, plugin/Defaults/PostStatusLabelsDefaults.php:17
 msgctxt "admin-text"
 msgid "Privately Approved"
 msgstr ""
@@ -1497,7 +1497,7 @@ msgctxt "admin-text"
 msgid "Approved on:"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:253, plugin/Defaults/PostStatusLabelDefaults.php:20
+#: plugin/Controllers/TranslationController.php:253, plugin/Defaults/PostStatusLabelsDefaults.php:20
 msgctxt "admin-text"
 msgid "Save as Unapproved"
 msgstr ""
@@ -1512,37 +1512,37 @@ msgctxt "admin-text"
 msgid "Your Trustalyze account details could not be verified, please try again. %s"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:16, views/pages/documentation/index.php:6
+#: plugin/Controllers/WelcomeController.php:27, views/pages/documentation/index.php:6
 msgctxt "admin-text"
 msgid "About"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:29
+#: plugin/Controllers/WelcomeController.php:39
 msgctxt "admin-text"
 msgid "Welcome to %s &#8212; WordPress"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:45
+#: plugin/Controllers/WelcomeController.php:55
 msgctxt "admin-text"
 msgid "Please rate %s on %s and help us spread the word. Thank you so much!"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:74
+#: plugin/Controllers/WelcomeController.php:84
 msgctxt "admin-text"
 msgid "Welcome to %s"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:91
+#: plugin/Controllers/WelcomeController.php:101
 msgctxt "admin-text"
 msgid "Getting Started"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:92
+#: plugin/Controllers/WelcomeController.php:102
 msgctxt "admin-text"
 msgid "What's New"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:93
+#: plugin/Controllers/WelcomeController.php:103
 msgctxt "admin-text"
 msgid "Upgrade Guide"
 msgstr ""
@@ -1564,7 +1564,7 @@ msgctxt "siteadmin-text"
 msgid "Assigned To"
 msgstr ""
 
-#: plugin/Defaults/PostTypeColumnDefaults.php:23, plugin/Defaults/RevisionFieldDefaults.php:15
+#: plugin/Defaults/PostTypeColumnDefaults.php:23, plugin/Defaults/RevisionFieldsDefaults.php:15
 msgctxt "admin-text"
 msgid "Response"
 msgstr ""
@@ -1574,62 +1574,62 @@ msgctxt "admin-text"
 msgid "Pinned"
 msgstr ""
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:24
+#: plugin/Defaults/PostTypeLabelDefaults.php:17
 msgctxt "Add New Post (admin-text)"
 msgid "Add New %s"
 msgstr ""
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:25
+#: plugin/Defaults/PostTypeLabelDefaults.php:18
 msgctxt "All Posts (admin-text)"
 msgid "All %s"
 msgstr ""
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:26
+#: plugin/Defaults/PostTypeLabelDefaults.php:19
 msgctxt "Post Archives (admin-text)"
 msgid "%s Archives"
 msgstr ""
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:27
+#: plugin/Defaults/PostTypeLabelDefaults.php:20
 msgctxt "Edit Post (admin-text)"
 msgid "Edit %s"
 msgstr ""
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:28
+#: plugin/Defaults/PostTypeLabelDefaults.php:21
 msgctxt "Insert into Post (admin-text)"
 msgid "Insert into %s"
 msgstr ""
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:31
+#: plugin/Defaults/PostTypeLabelDefaults.php:24
 msgctxt "New Post (admin-text)"
 msgid "New %s"
 msgstr ""
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:32
+#: plugin/Defaults/PostTypeLabelDefaults.php:25
 msgctxt "No Posts found (admin-text)"
 msgid "No %s found"
 msgstr ""
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:33
+#: plugin/Defaults/PostTypeLabelDefaults.php:26
 msgctxt "No Posts found in Trash (admin-text)"
 msgid "No %s found in Trash"
 msgstr ""
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:34
+#: plugin/Defaults/PostTypeLabelDefaults.php:27
 msgctxt "Search Posts (admin-text)"
 msgid "Search %s"
 msgstr ""
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:36
+#: plugin/Defaults/PostTypeLabelDefaults.php:29
 msgctxt "Uploaded to this Post (admin-text)"
 msgid "Uploaded to this %s"
 msgstr ""
 
-#: plugin/Defaults/PostTypeLabelDefaults.php:37
+#: plugin/Defaults/PostTypeLabelDefaults.php:30
 msgctxt "View Post (admin-text)"
 msgid "View %s"
 msgstr ""
 
-#: plugin/Defaults/RevisionFieldDefaults.php:22
+#: plugin/Defaults/RevisionFieldsDefaults.php:22
 msgctxt "admin-text"
 msgid "Url"
 msgstr ""
@@ -1781,7 +1781,7 @@ msgstr ""
 msgid "The review could not be submitted (unsupported browser)."
 msgstr ""
 
-#: plugin/Helpers/Str.php:132
+#: plugin/Helpers/Str.php:138
 msgid "and"
 msgstr ""
 
@@ -1853,23 +1853,23 @@ msgctxt "admin-text"
 msgid "This custom translation is no longer valid as the original text has been changed or removed."
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:223
+#: plugin/Shortcodes/Shortcode.php:222
 msgid "Excellent"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:224
+#: plugin/Shortcodes/Shortcode.php:223
 msgid "Very good"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:225
+#: plugin/Shortcodes/Shortcode.php:224
 msgid "Average"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:226
+#: plugin/Shortcodes/Shortcode.php:225
 msgid "Poor"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:227
+#: plugin/Shortcodes/Shortcode.php:226
 msgid "Terrible"
 msgstr ""
 
@@ -2135,27 +2135,27 @@ msgctxt "the option label (admin-text)"
 msgid "The \"%s\" option is required."
 msgstr ""
 
-#: plugin/Widgets/SiteReviewsFormWidget.php:31
+#: plugin/Widgets/SiteReviewsFormWidget.php:32
 msgctxt "admin-text"
 msgid "Automatically assign a category"
 msgstr ""
 
-#: plugin/Widgets/SiteReviewsFormWidget.php:33
+#: plugin/Widgets/SiteReviewsFormWidget.php:34
 msgctxt "admin-text"
 msgid "Do not assign a category"
 msgstr ""
 
-#: plugin/Widgets/SiteReviewsFormWidget.php:38
+#: plugin/Widgets/SiteReviewsFormWidget.php:40
 msgctxt "admin-text"
 msgid "You may also enter %s to assign to the current post."
 msgstr ""
 
-#: plugin/Widgets/SiteReviewsFormWidget.php:39
+#: plugin/Widgets/SiteReviewsFormWidget.php:41
 msgctxt "admin-text"
 msgid "Assign reviews to a custom page/post ID"
 msgstr ""
 
-#: plugin/Widgets/SiteReviewsFormWidget.php:44, plugin/Widgets/SiteReviewsSummaryWidget.php:49, plugin/Widgets/SiteReviewsWidget.php:68
+#: plugin/Widgets/SiteReviewsFormWidget.php:46, plugin/Widgets/SiteReviewsSummaryWidget.php:49, plugin/Widgets/SiteReviewsWidget.php:68
 msgctxt "admin-text"
 msgid "Enter any custom CSS classes here"
 msgstr ""
@@ -2273,7 +2273,7 @@ msgctxt "admin-text"
 msgid "This add-on allows your site visitors to submit images with their reviews. Apply now to test the unreleased beta version."
 msgstr ""
 
-#: views/pages/documentation/addons.php:8, views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:37, views/pages/documentation/faq.php:54, views/pages/documentation/faq.php:80, views/pages/documentation/faq.php:96, views/pages/documentation/faq.php:124, views/pages/documentation/faq.php:150, views/pages/documentation/faq.php:182, views/pages/documentation/faq.php:204, views/pages/documentation/faq.php:217, views/pages/documentation/faq.php:242, views/pages/documentation/faq.php:279, views/pages/documentation/faq.php:322, views/pages/documentation/faq.php:360, views/pages/documentation/faq.php:416, views/pages/documentation/faq.php:446, views/pages/documentation/faq.php:459, views/pages/documentation/faq.php:475, views/pages/documentation/faq.php:493, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:33, views/pages/documentation/hooks.php:57, views/pages/documentation/hooks.php:76, views/pages/documentation/hooks.php:95, views/pages/documentation/hooks.php:115, views/pages/documentation/hooks.php:139, views/pages/documentation/hooks.php:166, views/pages/documentation/shortcodes.php:9, views/pages/documentation/shortcodes.php:82, views/pages/documentation/shortcodes.php:129, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:71
+#: views/pages/documentation/addons.php:8, views/pages/documentation/faq.php:7, views/pages/documentation/faq.php:37, views/pages/documentation/faq.php:54, views/pages/documentation/faq.php:80, views/pages/documentation/faq.php:96, views/pages/documentation/faq.php:124, views/pages/documentation/faq.php:150, views/pages/documentation/faq.php:182, views/pages/documentation/faq.php:204, views/pages/documentation/faq.php:217, views/pages/documentation/faq.php:242, views/pages/documentation/faq.php:279, views/pages/documentation/faq.php:322, views/pages/documentation/faq.php:360, views/pages/documentation/faq.php:416, views/pages/documentation/faq.php:446, views/pages/documentation/faq.php:459, views/pages/documentation/faq.php:475, views/pages/documentation/faq.php:493, views/pages/documentation/hooks.php:9, views/pages/documentation/hooks.php:33, views/pages/documentation/hooks.php:57, views/pages/documentation/hooks.php:76, views/pages/documentation/hooks.php:95, views/pages/documentation/hooks.php:115, views/pages/documentation/hooks.php:140, views/pages/documentation/hooks.php:167, views/pages/documentation/shortcodes.php:9, views/pages/documentation/shortcodes.php:91, views/pages/documentation/shortcodes.php:143, views/pages/documentation/support.php:7, views/pages/documentation/support.php:35, views/pages/documentation/support.php:71
 msgctxt "admin-text"
 msgid "Toggle documentation panel"
 msgstr ""
@@ -2357,17 +2357,17 @@ msgctxt "admin-text"
 msgid "Import Settings"
 msgstr ""
 
-#: views/pages/tools/general.php:43
+#: views/pages/tools/general.php:40
 msgctxt "admin-text"
 msgid "Run All Migrations"
 msgstr ""
 
-#: views/pages/tools/general.php:43
+#: views/pages/tools/general.php:40
 msgctxt "admin-text"
 msgid "Migrating, please wait..."
 msgstr ""
 
-#: views/pages/tools/general.php:43
+#: views/pages/tools/general.php:40
 msgctxt "admin-text"
 msgid "Run Migration"
 msgstr ""
