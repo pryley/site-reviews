@@ -15,7 +15,9 @@ const blockName = GLSR.nameprefix + '/form';
 
 const attributes = {
     assign_to: { default: '', type: 'string' },
-    assign_to_custom: { default: '', type: 'string' },
+    assigned_posts: { default: '', type: 'string' },
+    assigned_terms: { default: '', type: 'string' },
+    assigned_users: { default: '', type: 'string' },
     category: { default: '', type: 'string' },
     className: { default: '', type: 'string' },
     hide: { default: '', type: 'string' },
@@ -24,38 +26,64 @@ const attributes = {
 };
 
 const edit = props => {
-    const { attributes: { assign_to, assign_to_custom, category, hide, id, user }, className, setAttributes } = props;
+    const { attributes: { assign_to, assigned_posts, assigned_terms, assigned_users, category, hide, id, user }, className, setAttributes } = props;
     const inspectorControls = {
         assign_to: <ConditionalSelectControl
             label={ _x('Assign Reviews to a Post ID', 'admin-text', 'site-reviews') }
             onChange={ assign_to => setAttributes({
                 assign_to: assign_to,
-                assign_to_custom: ('custom' === assign_to ? assign_to_custom : ''),
+                assigned_posts: ('custom' === assign_to ? assigned_posts : ''),
             })}
             options={ assign_to_options }
             value={ assign_to }
         >
             <TextControl
                 className="glsr-base-conditional-control"
-                help={ _x('Separate multiple IDs with commas.', 'admin-text', 'site-reviews') }
-                onChange={ assign_to_custom => setAttributes({ assign_to_custom }) }
+                help={ _x('Separate with commas.', 'admin-text', 'site-reviews') }
+                onChange={ assigned_posts => setAttributes({ assigned_posts }) }
                 placeholder={ _x('Enter the Post IDs', 'admin-text', 'site-reviews') }
                 type="text"
-                value={ assign_to_custom }
+                value={ assigned_posts }
             />
         </ConditionalSelectControl>,
-        category: <SelectControl
+        category: <ConditionalSelectControl
+            custom_value={ 'glsr_custom' }
             label={ _x('Assign Reviews to a Category', 'admin-text', 'site-reviews') }
-            onChange={ category => setAttributes({ category }) }
+            onChange={ category => setAttributes({
+                category: category,
+                assigned_terms: ('glsr_custom' === category ? assigned_terms : ''),
+            })}
             options={ category_options }
             value={ category }
-        />,
-        user: <SelectControl
+        >
+            <TextControl
+                className="glsr-base-conditional-control"
+                help={ _x('Separate with commas.', 'admin-text', 'site-reviews') }
+                onChange={ assigned_terms => setAttributes({ assigned_terms }) }
+                placeholder={ _x('Enter the Category IDs or slugs', 'admin-text', 'site-reviews') }
+                type="text"
+                value={ assigned_terms }
+            />
+        </ConditionalSelectControl>,
+        user: <ConditionalSelectControl
+            custom_value={ 'glsr_custom' }
             label={ _x('Assign Reviews to a User', 'admin-text', 'site-reviews') }
-            onChange={ user => setAttributes({ user }) }
+            onChange={ user => setAttributes({
+                user: user,
+                assigned_users: ('glsr_custom' === user ? assigned_users : ''),
+            })}
             options={ user_options }
             value={ user }
-        />,
+        >
+            <TextControl
+                className="glsr-base-conditional-control"
+                help={ _x('Separate with commas.', 'admin-text', 'site-reviews') }
+                onChange={ assigned_users => setAttributes({ assigned_users }) }
+                placeholder={ _x('Enter the User IDs or usernames', 'admin-text', 'site-reviews') }
+                type="text"
+                value={ assigned_users }
+            />
+        </ConditionalSelectControl>,
         hide: CheckboxControlList(GLSR.hideoptions.site_reviews_form, hide, setAttributes),
     };
     const inspectorAdvancedControls = {

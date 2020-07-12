@@ -5,6 +5,7 @@ const { useInstanceId } = wp.compose;
 
 export default function ConditionalSelectControl({
     children,
+    custom_value = 'custom',
     help,
     label,
     onChange,
@@ -48,7 +49,7 @@ export default function ConditionalSelectControl({
                         </option>
                     ))}
                 </select>
-                { 'custom' === value && children }
+                { custom_value === value && children }
             </BaseControl>
         )
     );

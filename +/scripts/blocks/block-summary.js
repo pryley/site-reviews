@@ -16,7 +16,9 @@ const blockName = GLSR.nameprefix + '/summary';
 
 const attributes = {
     assigned_to: { default: '', type: 'string' },
-    assigned_to_custom: { default: '', type: 'string' },
+    assigned_posts: { default: '', type: 'string' },
+    assigned_terms: { default: '', type: 'string' },
+    assigned_users: { default: '', type: 'string' },
     category: { default: '', type: 'string' },
     className: { default: '', type: 'string' },
     hide: { default: '', type: 'string' },
@@ -29,13 +31,13 @@ const attributes = {
 
 const edit = props => {
     props.attributes.post_id = jQuery('#post_ID').val();
-    const { attributes: { assigned_to, assigned_to_custom, category, display, hide, id, pagination, rating, schema, type, user }, className, setAttributes } = props;
+    const { attributes: { assigned_to, assigned_posts, assigned_terms, assigned_users, category, display, hide, id, pagination, rating, schema, type, user }, className, setAttributes } = props;
     const inspectorControls = {
         assigned_to: <ConditionalSelectControl
             label={ _x('Limit Reviews to an Assigned Post ID', 'admin-text', 'site-reviews') }
             onChange={ assigned_to => setAttributes({
                 assigned_to: assigned_to,
-                assigned_to_custom: ('custom' === assigned_to ? assigned_to_custom : ''),
+                assigned_posts: ('custom' === assigned_to ? assigned_posts : ''),
             })}
             options={ assigned_to_options }
             value={ assigned_to }
@@ -43,24 +45,50 @@ const edit = props => {
             <TextControl
                 className="glsr-base-conditional-control"
                 help={ _x('Separate multiple IDs with commas.', 'admin-text', 'site-reviews') }
-                onChange={ assigned_to_custom => setAttributes({ assigned_to_custom }) }
+                onChange={ assigned_posts => setAttributes({ assigned_posts }) }
                 placeholder={ _x('Enter the Post IDs', 'admin-text', 'site-reviews') }
                 type="text"
-                value={ assigned_to_custom }
+                value={ assigned_posts }
             />
         </ConditionalSelectControl>,
-        category: <SelectControl
+        category: <ConditionalSelectControl
+            custom_value={ 'glsr_custom' }
             label={ _x('Limit Reviews to an Assigned Category', 'admin-text', 'site-reviews') }
-            onChange={ category => setAttributes({ category }) }
+            onChange={ category => setAttributes({
+                category: category,
+                assigned_terms: ('glsr_custom' === category ? assigned_terms : ''),
+            })}
             options={ category_options }
             value={ category }
-        />,
-        user: <SelectControl
+        >
+            <TextControl
+                className="glsr-base-conditional-control"
+                help={ _x('Separate with commas.', 'admin-text', 'site-reviews') }
+                onChange={ assigned_terms => setAttributes({ assigned_terms }) }
+                placeholder={ _x('Enter the Category IDs or slugs', 'admin-text', 'site-reviews') }
+                type="text"
+                value={ assigned_terms }
+            />
+        </ConditionalSelectControl>,
+        user: <ConditionalSelectControl
+            custom_value={ 'glsr_custom' }
             label={ _x('Limit Reviews to an Assigned User', 'admin-text', 'site-reviews') }
-            onChange={ user => setAttributes({ user }) }
+            onChange={ user => setAttributes({
+                user: user,
+                assigned_users: ('glsr_custom' === user ? assigned_users : ''),
+            })}
             options={ user_options }
             value={ user }
-        />,
+        >
+            <TextControl
+                className="glsr-base-conditional-control"
+                help={ _x('Separate with commas.', 'admin-text', 'site-reviews') }
+                onChange={ assigned_users => setAttributes({ assigned_users }) }
+                placeholder={ _x('Enter the User IDs or usernames', 'admin-text', 'site-reviews') }
+                type="text"
+                value={ assigned_users }
+            />
+        </ConditionalSelectControl>,
         type: <SelectControl
             label={ _x('Limit the Type of Reviews', 'admin-text', 'site-reviews') }
             onChange={ type => setAttributes({ type }) }

@@ -16,7 +16,15 @@ class SiteReviewsBlock extends Block
                 'default' => '',
                 'type' => 'string',
             ],
-            'assigned_to_custom' => [
+            'assigned_posts' => [
+                'default' => '',
+                'type' => 'string',
+            ],
+            'assigned_terms' => [
+                'default' => '',
+                'type' => 'string',
+            ],
+            'assigned_users' => [
                 'default' => '',
                 'type' => 'string',
             ],
