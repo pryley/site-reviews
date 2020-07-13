@@ -31,6 +31,7 @@
 		/** @return void */
 		destroyForm: function() {
 			this.form.removeEventListener('submit', this.events.submit);
+			this.resetErrors_();
 		},
 
 		/** @return void */
@@ -187,25 +188,18 @@
 		},
 	};
 
-	GLSR.Forms = function (shouldInit) { // bool
+	GLSR.Forms = function () {
+		while (GLSR.forms.length) {
+			var form = GLSR.forms.shift();
+			form.destroy();
+		}
 		var form, forms, submitButton;
 		forms = document.querySelectorAll('form.glsr-form');
 		for (var i = 0; i < forms.length; i++) {
 			submitButton = forms[i].querySelector('[type=submit]');
 			if (!submitButton) continue;
-			var index = GLSR.forms.findIndex(function (obj) {
-				return obj.form === forms[i];
-			});
-			if (-1 !== index) {
-				if (shouldInit) {
-					GLSR.forms[index].init();
-				}
-				continue;
-			}
 			form = new GLSR_Form(forms[i], submitButton);
-			if (shouldInit) {
-				form.init();
-			}
+			form.init();
 			GLSR.forms.push(form);
 		}
 	};

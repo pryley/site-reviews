@@ -50,7 +50,6 @@ class CreateReviewDefaults extends Defaults
             'post_id' => '',
             'rating' => '',
             'referer' => '',
-            'request' => '',
             'title' => '',
             'type' => '',
             'url' => '',

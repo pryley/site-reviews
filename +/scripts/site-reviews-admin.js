@@ -17,7 +17,7 @@ jQuery( function( $ ) {
 		showText: false,
 	});
 	GLSR.ColorPicker();
-	new GLSR.Forms( 'form.glsr-form' );
+	new GLSR.Forms();
 	new GLSR.Pinned();
 	new GLSR.Pointers();
 	new GLSR.Search('#glsr-search-posts', {

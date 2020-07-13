@@ -62,10 +62,11 @@
 
 	GLSR.Validation = function( formEl ) { // HTMLElement
 		this.config = GLSR.validationconfig;
+		this.fields = [];
 		this.form = formEl;
 		this.form.setAttribute( 'novalidate', '' );
 		this.strings = GLSR.validationstrings;
-		this.init_();
+		this.init();
 	};
 
 	GLSR.Validation.prototype = {
@@ -73,14 +74,25 @@
 		ALLOWED_ATTRIBUTES_: ['required', 'max', 'maxlength', 'min', 'minlength', 'pattern'],
 		SELECTOR_: 'input:not([type^=hidden]):not([type^=submit]), select, textarea, [data-glsr-validate]',
 
+		destroy: function () {
+			this.reset_();
+			while (this.fields.length) {
+				var field = this.fields.shift();
+				this.removeEvent_(field.input);
+				delete field.input.validation;
+			}
+		},
+
 		/** @return void */
-		addEvent_: function( input ) {
-			var eventName = ~['radio', 'checkbox'].indexOf( input.getAttribute( 'type' )) || input.nodeName === 'SELECT'
-				? 'change'
-				: 'input';
-			input.addEventListener( eventName, function( ev ) {
-				this.validate_( ev.target );
-			}.bind( this ));
+		init: function () {
+			this.fields = [].map.call(this.form.querySelectorAll(this.SELECTOR_), function (input) {
+				return this.initField_(input);
+			}.bind(this));
+		},
+
+		/** @return void */
+		addEvent_: function (input) {
+			input.addEventListener(this.getEventName_(input), this.validate_.bind(this, input));
 		},
 
 		/** @return void */
@@ -108,9 +120,14 @@
 		},
 
 		/** @return void */
-		reset_: function() {
-			for( var i in this.fields ) {
-				if( !this.fields.hasOwnProperty( i ))continue;
+		removeEvent_: function (input) {
+			input.removeEventListener(this.getEventName_(input), this.validate_.bind(this, input));
+		},
+
+		/** @return void */
+		reset_: function () {
+			for (var i in this.fields) {
+				if (!this.fields.hasOwnProperty(i)) continue;
 				this.fields[i].errorElements = null;
 				this.fields[i].input.classList.remove( this.config.input_error_class );
 				this.fields[i].input.classList.remove( this.config.input_valid_class );
@@ -153,11 +170,11 @@
 			return field.errorElements = [parentEl, errorEl];
 		},
 
-		/** @return void */
-		init_: function() {
-			this.fields = [].map.call( this.form.querySelectorAll( this.SELECTOR_ ), function( input ) {
-				return this.initField_( input );
-			}.bind( this ));
+		/** @return string */
+		getEventName_: function (input) {
+			return ~['radio', 'checkbox'].indexOf(input.getAttribute('type')) || input.nodeName === 'SELECT'
+				? 'change'
+				: 'input';
 		},
 
 		/** @return object */

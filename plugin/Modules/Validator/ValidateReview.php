@@ -217,7 +217,7 @@ class ValidateReview
         if (!empty($this->error)) {
             return;
         }
-        $validated = glsr()->filter('validate/custom', true, $this->request);
+        $validated = glsr()->filter('validate/custom', true, $this->request); // value may be a string
         if (true === Cast::toBool($validated)) {
             return;
         }

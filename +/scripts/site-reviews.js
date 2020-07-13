@@ -8,7 +8,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 	}
 	// Check for unsupported browser versions (<=IE9)
 	if( !( document.all && !window.atob )) {
-		new GLSR.Forms( true );
+		new GLSR.Forms();
 		new GLSR.Pagination();
 		new GLSR.Excerpts();
 	}
