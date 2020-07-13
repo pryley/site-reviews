@@ -105,14 +105,14 @@ add_filter('sf_edit_query_args', function ($query) {
 }, 20);
 
 /*
- * Fix Star Rating control when submission form is used inside an Elementor Popup
+ * Fix Star Rating control when submission form is used inside an Elementor Pro Popup
  * @return void
- * @see https://wordpress.org/plugins/elementor/
+ * @see https://elementor.com/
  */
 add_action('wp_enqueue_scripts', function () {
-    if (defined('ELEMENTOR_VERSION')) {
+    if (defined('ELEMENTOR_PRO_VERSION') && 0 > version_compare('2.7.0', ELEMENTOR_PRO_VERSION)) {
         wp_add_inline_script(glsr()->id,
-            '"undefined"!==typeof jQuery&&jQuery(document).on("elementor/popup/show",function(){GLSR.forms.forEach(function(f){f.initStarRatings()})})'
+            '"undefined"!==typeof jQuery&&jQuery(document).on("elementor/popup/show",function(){new GLSR.Forms()})'
         );
     }
 }, 1000);
