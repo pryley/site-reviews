@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
@@ -135,12 +136,12 @@ function glsr_get_options()
  */
 function glsr_get_ratings($args = array())
 {
-    $args = Arr::consolidate($args);
-    $counts = glsr(RatingManager::class)->ratings($args);
+    $counts = glsr(RatingManager::class)->ratings(Arr::consolidate($args));
     return new Arguments(array(
         'average' => glsr(Rating::class)->average($counts),
-        'maximum' => glsr()->constant('MAX_RATING', Rating::class),
-        'minimum' => glsr()->constant('MIN_RATING', Rating::class),
+        'maximum' => Cast::toInt(glsr()->constant('MAX_RATING', Rating::class)),
+        'minimum' => Cast::toInt(glsr()->constant('MIN_RATING', Rating::class)),
+        'ranking' => glsr(Rating::class)->ranking($counts),
         'ratings' => $counts,
         'reviews' => array_sum($counts),
     ));

@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
+use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Review;
 
@@ -23,7 +24,9 @@ class AssignTerms implements Contract
     public function handle()
     {
         foreach ($this->termIds as $termId) {
-            glsr(ReviewManager::class)->assignTerm($this->review, $termId);
+            if (glsr(ReviewManager::class)->assignTerm($this->review, $termId)) {
+                glsr(CountManager::class)->terms($termId);
+            }
         }
     }
 }
