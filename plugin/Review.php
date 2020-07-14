@@ -80,7 +80,7 @@ class Review extends Arguments
         $args['author_id'] = Cast::toInt($values->author_id);
         $args['avatar'] = $values->avatar;
         $args['content'] = $values->content;
-        $args['custom'] = new Arguments($this->meta()->custom);
+        $args['custom'] = $this->custom();
         $args['date'] = $values->date;
         $args['email'] = $values->email;
         $args['ID'] = $this->id;
@@ -128,9 +128,12 @@ class Review extends Arguments
      */
     public function custom()
     {
-        return glsr()->args(array_filter($this->meta()->toArray(), function ($key) {
+        $custom = array_filter($this->meta()->toArray(), function ($key) {
             return Str::startsWith('_custom', $key);
-        }, ARRAY_FILTER_USE_KEY));
+        }, ARRAY_FILTER_USE_KEY);
+        $custom = Arr::unprefixKeys($custom, '_custom_');
+        $custom = Arr::unprefixKeys($custom, '_');
+        return glsr()->args($custom);
     }
 
     /**
@@ -180,7 +183,7 @@ class Review extends Arguments
             $meta = array_map('array_shift', array_filter($meta));
             $meta = array_filter($meta, 'strlen');
             $meta = array_map('maybe_unserialize', $meta);
-            $this->_meta = new Arguments($meta);
+            $this->_meta = glsr()->args($meta);
         }
         return $this->_meta;
     }
@@ -191,7 +194,7 @@ class Review extends Arguments
      */
     public function offsetExists($key)
     {
-        return parent::offsetExists($key) || !is_null($this->custom->$key);
+        return parent::offsetExists($key) || !is_null($this->custom()->$key);
     }
 
     /**
@@ -215,7 +218,7 @@ class Review extends Arguments
             return $this->hasRevisions();
         }
         if (is_null($value = parent::offsetGet($key))) {
-            return $this->custom->$key;
+            return $this->custom()->$key;
         }
         return $value;
     }
@@ -226,7 +229,14 @@ class Review extends Arguments
      */
     public function offsetSet($key, $value)
     {
-        // This class is read-only
+        // This class is read-only, except for custom fields
+        if ('custom' === $key) {
+            $value = Arr::consolidate($value);
+            $value = Arr::prefixKeys($value, '_custom_');
+            $meta = wp_parse_args($this->_meta->toArray(), $value);
+            $this->_meta = glsr()->args($meta);
+            parent::offsetSet($key, $this->custom());
+        }
     }
 
     /**
