@@ -48,6 +48,23 @@ class EditorController extends Controller
     }
 
     /**
+     * @param bool $protected
+     * @param string $metaKey
+     * @param string $metaType
+     * @return bool
+     * @filter is_protected_meta
+     */
+    public function filterIsProtectedMeta($protected, $metaKey, $metaType)
+    {
+        if ('post' == $metaType 
+            && Str::startsWith('_custom_,_'.glsr()->prefix, $metaKey)
+            && glsr()->post_type === get_post_type()) {
+            $protected = false;
+        }
+        return $protected;
+    }
+
+    /**
      * @param array $messages
      * @return array
      * @filter post_updated_messages

@@ -145,6 +145,7 @@ class Hooks implements HooksContract
         add_filter('use_block_editor_for_post_type', [$this->blocks, 'filterUseBlockEditor'], 10, 2);
         add_filter('wp_editor_settings', [$this->editor, 'filterEditorSettings']);
         add_filter('the_editor', [$this->editor, 'filterEditorTextarea']);
+        add_filter('is_protected_meta', [$this->editor, 'filterIsProtectedMeta'], 10, 3);
         add_filter('post_updated_messages', [$this->editor, 'filterUpdateMessages']);
         add_filter('manage_'.glsr()->post_type.'_posts_columns', [$this->listtable, 'filterColumnsForPostType']);
         add_filter('post_date_column_status', [$this->listtable, 'filterDateColumnStatus'], 10, 2);
