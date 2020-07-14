@@ -15,6 +15,17 @@ use GeminiLabs\SiteReviews\Review;
 class MetaboxController
 {
     /**
+     * @return array
+     * @filter site-reviews/config/forms/metabox-fields
+     */
+    public function filterFieldOrder(array $config)
+    {
+        $order = array_keys($config);
+        $order = glsr()->filterArray('metabox-fields/order', $order);
+        return array_intersect_key(array_merge(array_flip($order), $config), $config);
+    }
+
+    /**
      * @return void
      * @action add_meta_boxes_{glsr()->post_type}
      */
@@ -218,7 +229,7 @@ class MetaboxController
      */
     protected function normalizeDetailsMetaBox(Review $review)
     {
-        $fields = glsr()->filterArray('addon/metabox/fields', glsr()->config('forms/metabox-fields'));
+        $fields = glsr()->config('forms/metabox-fields');
         foreach ($fields as $key => &$field) {
             $field['class'] = 'glsr-input-value';
             $field['is_metabox'] = true;

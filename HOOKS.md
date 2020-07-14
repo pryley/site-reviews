@@ -14,7 +14,7 @@
     site-reviews/review/create                              (int $postId, CreateReview $command)
     site-reviews/review/created                             (Review $review, CreateReview $command)
         site-reviews/review/reverted                            ()
-        site-reviews/review/saved                               ()
+    site-reviews/review/saved                               (Review $review, array $submittedValues)
     site-reviews/review/updated/post_ids                    (Review $review, array $assignedPostIds)
     site-reviews/review/updated/user_ids                    (Review $review, array $assignedUserIds)
         ?? site-reviews/review/updated

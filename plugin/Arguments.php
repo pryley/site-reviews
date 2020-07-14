@@ -23,9 +23,7 @@ class Arguments extends \ArrayObject
      */
     public function get($key, $fallback = null)
     {
-        $value = $this->offsetExists($key)
-            ? parent::offsetGet($key)
-            : Arr::get($this->toArray(), $key, $fallback);
+        $value = Arr::get($this->toArray(), $key, $fallback);
         return isset($fallback)
             ? Helper::ifEmpty($value, $fallback)
             : $value;

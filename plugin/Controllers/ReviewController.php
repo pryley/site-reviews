@@ -165,12 +165,13 @@ class ReviewController extends Controller
         glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds));
         glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds));
         glsr(MetaboxController::class)->saveResponseMetabox($postId);
-        $reviewFields = Helper::filterInputArray(glsr()->id);
-        if (Arr::get($reviewFields, 'is_editing_review')) {
-            $reviewFields['rating'] = Arr::get($reviewFields, 'rating', 0);
-            glsr(ReviewManager::class)->update($postId, $reviewFields);
+        $submittedValues = Helper::filterInputArray(glsr()->id);
+        if (Arr::get($submittedValues, 'is_editing_review')) {
+            $submittedValues['rating'] = Arr::get($submittedValues, 'rating');
+            glsr(ReviewManager::class)->update($postId, $submittedValues);
+            glsr(ReviewManager::class)->updateCustom($postId, $submittedValues);
         }
-        glsr()->action('review/saved', glsr(Query::class)->review($postId));
+        glsr()->action('review/saved', glsr(Query::class)->review($postId), $submittedValues);
     }
 
     /**

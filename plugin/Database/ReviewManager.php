@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Reviews;
@@ -181,14 +182,31 @@ class ReviewManager
      */
     public function update($reviewId, array $data = [])
     {
+        glsr(Cache::class)->delete($reviewId, 'reviews');
         $defaults = glsr(RatingDefaults::class)->restrict($data);
         if ($data = array_intersect_key($data, $defaults)) {
-            glsr(Cache::class)->delete($reviewId, 'reviews');
             return glsr(Database::class)->update('ratings', $data, [
                 'review_id' => $reviewId,
             ]);
         }
         return 0;
+    }
+
+    /**
+     * @param int $reviewId
+     * @return void
+     */
+    public function updateCustom($reviewId, array $data = [])
+    {
+        $fields = glsr()->config('forms/metabox-fields');
+        $defaults = glsr(RatingDefaults::class)->defaults();
+        $customKeys = array_keys(array_diff_key($fields, $defaults));
+        if ($data = shortcode_atts(array_fill_keys($customKeys, ''), $data)) {
+            $data = Arr::prefixKeys($data, 'custom_');
+            foreach ($data as $metaKey => $metaValue) {
+                glsr(Database::class)->metaSet($reviewId, $metaKey, $metaValue);
+            }
+        }
     }
 
     /**
