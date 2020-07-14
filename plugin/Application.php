@@ -130,7 +130,7 @@ final class Application extends Container
         $view .= '.php';
         $filePaths = [];
         if (Str::startsWith('templates/', $view)) {
-            $filePaths[] = $this->themePath(Str::removePrefix('templates/', $view));
+            $filePaths[] = $this->themePath(Str::removePrefix($view, 'templates/'));
         }
         $filePaths[] = $this->path($view);
         $filePaths[] = $this->path('views/'.$view);

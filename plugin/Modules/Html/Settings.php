@@ -244,6 +244,6 @@ class Settings
      */
     protected function normalizeSettingPath($path)
     {
-        return Str::prefix('settings.', rtrim($path, '.'));
+        return Str::prefix(rtrim($path, '.'), 'settings.');
     }
 }

@@ -72,7 +72,7 @@ abstract class Container
     public function make($abstract, array $parameters = [])
     {
         if (is_string($abstract) && !class_exists($abstract)) {
-            $alias = __NAMESPACE__.'\\'.Str::removePrefix(__NAMESPACE__, $abstract);
+            $alias = __NAMESPACE__.'\\'.Str::removePrefix($abstract, __NAMESPACE__);
             if (class_exists($alias)) {
                 $abstract = $alias;
             }

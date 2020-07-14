@@ -17,7 +17,7 @@ add_action('plugins_loaded', function () {
         if (glsr()->post_type !== get_post_type($postId)) {
             return $data;
         }
-        $metaKey = Str::removePrefix('_', $metaKey);
+        $metaKey = Str::removePrefix($metaKey, '_');
         $metaKeys = array_keys(glsr(CreateReviewDefaults::class)->defaults());
         if (!in_array($metaKey, $metaKeys)) {
             return $data;

@@ -83,7 +83,7 @@ abstract class DefaultsAbstract
     public function __call($name, array $args = [])
     {
         $this->called = $name;
-        $this->method = Helper::buildMethodName(Str::removePrefix('unguarded', $name));
+        $this->method = Helper::buildMethodName(Str::removePrefix($name, 'unguarded'));
         $values = $this->normalize(Arr::consolidate(array_shift($args)));
         $values = $this->mapKeys($values);
         array_unshift($args, $values);

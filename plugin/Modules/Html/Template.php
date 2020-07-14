@@ -14,7 +14,7 @@ class Template
     public function build($templatePath, array $data = [])
     {
         $data = $this->normalize($data);
-        $path = Str::removePrefix('templates/', $templatePath);
+        $path = Str::removePrefix($templatePath, 'templates/');
         $template = glsr()->build($templatePath, $data);
         $template = glsr()->filterString('build/template/'.$path, $template, $data);
         $template = $this->interpolate($template, $data, $path);

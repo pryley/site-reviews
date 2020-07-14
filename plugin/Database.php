@@ -132,7 +132,7 @@ class Database
      */
     public function meta($postId, $key, $single = true)
     {
-        $key = Str::prefix('_', $key);
+        $key = Str::prefix($key, '_');
         $postId = Cast::toInt($postId);
         return get_post_meta($postId, $key, $single);
     }
@@ -145,7 +145,7 @@ class Database
      */
     public function metaSet($postId, $key, $value)
     {
-        $key = Str::prefix('_', $key);
+        $key = Str::prefix($key, '_');
         $postId = Cast::toInt($postId);
         // using update_metadata allows us to save meta to revisions
         return update_metadata('post', $postId, $key, $value);

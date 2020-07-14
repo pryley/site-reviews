@@ -170,7 +170,7 @@ class Sanitizer
     {
         $url = Cast::toString($value);
         if (!Str::startsWith('http://, https://', $url)) {
-            $url = Str::prefix('https://', $url);
+            $url = Str::prefix($url, 'https://');
         }
         $url = wp_http_validate_url($url);
         return esc_url_raw(Cast::toString($url));

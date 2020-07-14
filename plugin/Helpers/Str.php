@@ -147,12 +147,12 @@ class Str
     }
 
     /**
-     * @param string $prefix
      * @param string $string
+     * @param string $prefix
      * @param string|null $trim
      * @return string
      */
-    public static function prefix($prefix, $string, $trim = null)
+    public static function prefix($string, $prefix, $trim = null)
     {
         if (empty($string)) {
             return $string;
@@ -160,7 +160,7 @@ class Str
         if (null === $trim) {
             $trim = $prefix;
         }
-        return $prefix.trim(static::removePrefix($trim, $string));
+        return $prefix.trim(static::removePrefix($string, $trim));
     }
 
     /**
@@ -178,7 +178,7 @@ class Str
      * @param string $string
      * @return string
      */
-    public static function removePrefix($prefix, $string)
+    public static function removePrefix($string, $prefix)
     {
         return static::startsWith($prefix, $string)
             ? substr($string, strlen($prefix))

@@ -58,7 +58,7 @@ class Style
             if (!file_exists(glsr()->file($possibleView))) {
                 continue;
             }
-            return Str::removePrefix('views/', $possibleView);
+            return Str::removePrefix($possibleView, 'views/');
         }
         return $view;
     }

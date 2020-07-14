@@ -230,7 +230,7 @@ class SqlSchema
     public function table($table)
     {
         if (Str::endsWith(['ratings', 'assigned_posts', 'assigned_terms', 'assigned_users'], $table)) {
-            $table = Str::prefix(glsr()->prefix, $table);
+            $table = Str::prefix($table, glsr()->prefix);
         }
         return $this->db->prefix.$table;
     }

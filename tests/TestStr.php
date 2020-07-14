@@ -130,7 +130,7 @@ class TestStr extends WP_UnitTestCase
 
     public function test_prefix()
     {
-        $this->assertEquals(Str::prefix('hello_', ' bob '), 'hello_bob');
+        $this->assertEquals(Str::prefix(' bob ', 'hello_'), 'hello_bob');
     }
 
     public function test_random()
@@ -141,8 +141,8 @@ class TestStr extends WP_UnitTestCase
 
     public function test_remove_prefix()
     {
-        $this->assertEquals(Str::removePrefix('_', '_abc'), 'abc');
-        $this->assertEquals(Str::removePrefix('', '_abc'), '_abc');
+        $this->assertEquals(Str::removePrefix('_abc', '_'), 'abc');
+        $this->assertEquals(Str::removePrefix('_abc', ''), '_abc');
     }
 
     public function test_replace_first()

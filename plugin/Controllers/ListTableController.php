@@ -198,7 +198,7 @@ class ListTableController extends Controller
         }
         $orderby = $query->get('orderby');
         if ('response' === $orderby) {
-            $query->set('meta_key', Str::prefix('_', $orderby));
+            $query->set('meta_key', Str::prefix($orderby, '_'));
             $query->set('orderby', 'meta_value');
         }
     }

@@ -289,13 +289,13 @@ abstract class Controller extends BaseController
             'in_footer' => false,
             'suffix' => '',
         ]);
-        $dependencies = Arr::get($args, 'dependencies', [glsr()->id.Str::prefix('/', $args['suffix'])]);
-        $path = 'assets/'.$this->addon->id.Str::prefix('-', $args['suffix']).'.'.$extension;
+        $dependencies = Arr::get($args, 'dependencies', [glsr()->id.Str::prefix($args['suffix'], '/')]);
+        $path = 'assets/'.$this->addon->id.Str::prefix($args['suffix'], '-').'.'.$extension;
         if (!file_exists($this->addon->path($path)) || !in_array($extension, ['css', 'js'])) {
             return [];
         }
         $funcArgs = [
-            $this->addon->id.Str::prefix('/', $args['suffix']),
+            $this->addon->id.Str::prefix($args['suffix'], '/'),
             $this->addon->url($path),
             Arr::consolidate($dependencies),
             $this->addon->version,
