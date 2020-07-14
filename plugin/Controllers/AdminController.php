@@ -3,21 +3,29 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\EnqueueAdminAssets;
-use GeminiLabs\SiteReviews\Commands\ImportSettings;
+use GeminiLabs\SiteReviews\Commands\ExportRatings;
+use GeminiLabs\SiteReviews\Commands\ImportRating;
 use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups;
-use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Commands\TogglePinned;
+use GeminiLabs\SiteReviews\Commands\ToggleStatus;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Modules\Console;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
-use GeminiLabs\SiteReviews\Modules\System;
+use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Request;
-use GeminiLabs\SiteReviews\Role;
 
 class AdminController extends Controller
 {
+    protected $exportKey;
+
+    public function __construct()
+    {
+        $this->exportKey = Str::prefix(glsr()->prefix.'export_rating', '_');
+    }
+
     /**
      * @return void
      * @action admin_enqueue_scripts
@@ -90,6 +98,25 @@ class AdminController extends Controller
     }
 
     /**
+     * @param array $postMeta
+     * @param int $postId
+     * @param \WP_Post $post
+     * @return array
+     * @filter wp_import_post_meta
+     */
+    public function filterImportPostMeta($postMeta, $postId, $post)
+    {
+        if (glsr()->post_type !== $post->post_type) {
+            return $postMeta;
+        }
+        if ($rating = Arr::consolidate(Arr::get($postMeta, $this->exportKey))) {
+            $this->execute(new ImportRating($rating));
+        }
+        unset($postMeta[$this->exportKey]);
+        return $postMeta;
+    }
+
+    /**
      * @param array $plugins
      * @return array
      * @filter mce_external_plugins
@@ -101,6 +128,25 @@ class AdminController extends Controller
             $plugins['glsr_shortcode'] = glsr()->url('assets/scripts/mce-plugin.js');
         }
         return $plugins;
+    }
+
+    /**
+     * @param array $args
+     * @return void
+     * @action export_wp
+     */
+    public function onExportStart($args)
+    {
+        $this->execute(new ExportRatings($this->exportKey, $args));
+    }
+
+    /**
+     * @return void
+     * @action import_end
+     */
+    public function onImportEnd()
+    {
+        glsr(Migrate::class)->reset();
     }
 
     /**
@@ -141,96 +187,70 @@ class AdminController extends Controller
 
     /**
      * @return void
+     * @action site-reviews/route/ajax/search-posts
      */
-    public function routerClearConsole()
+    public function searchPostsAjax(Request $request)
     {
-        glsr(Console::class)->clear();
-        glsr(Notice::class)->addSuccess(_x('Console cleared.', 'admin-text', 'site-reviews'));
-    }
-
-    /**
-     * @return void
-     */
-    public function routerDetectIpAddress()
-    {
-        $link = glsr(Builder::class)->a([
-            'data-expand' => '#faq-19',
-            'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'),
-            'text' => _x('FAQ', 'admin-text', 'site-reviews'),
+        $results = glsr(Database::class)->searchPosts($request->search);
+        wp_send_json_success([
+            'empty' => '<div>'._x('Nothing found.', 'admin-text', 'site-reviews').'</div>',
+            'items' => $results,
         ]);
-        if ('unknown' === $ipAddress = Helper::getIpAddress()) {
-            glsr(Notice::class)->addWarning(sprintf(
-                _x('Site Reviews was unable to detect an IP address. To fix this, please see the %s.', 'admin-text', 'site-reviews'),
-                $link
-            ));
-        } else {
-            glsr(Notice::class)->addSuccess(sprintf(
-                _x('Your detected IP address is %s. If this looks incorrect, please see the %s.', 'admin-text', 'site-reviews'),
-                '<code>'.$ipAddress.'</code>', $link
-            ));
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/ajax/search-translations
+     */
+    public function searchTranslationsAjax(Request $request)
+    {
+        if (empty($request->exclude)) {
+            $request->exclude = [];
         }
+        $results = glsr(Translation::class)
+            ->search($request->search)
+            ->exclude()
+            ->exclude($request->exclude)
+            ->renderResults();
+        wp_send_json_success([
+            'empty' => '<div>'._x('Nothing found.', 'admin-text', 'site-reviews').'</div>',
+            'items' => $results,
+        ]);
     }
 
     /**
      * @return void
+     * @action site-reviews/route/ajax/search-users
      */
-    public function routerDownloadConsole()
+    public function searchUsersAjax(Request $request)
     {
-        $this->download(glsr()->id.'-console.txt', glsr(Console::class)->get());
+        $results = glsr(Database::class)->searchUsers($request->search);
+        wp_send_json_success([
+            'empty' => '<div>'._x('Nothing found.', 'admin-text', 'site-reviews').'</div>',
+            'items' => $results,
+        ]);
     }
 
     /**
      * @return void
+     * @action site-reviews/route/ajax/toggle-pinned
      */
-    public function routerDownloadSystemInfo()
+    public function togglePinnedAjax(Request $request)
     {
-        $this->download(glsr()->id.'-system-info.txt', glsr(System::class)->get());
+        wp_send_json_success([
+            'notices' => glsr(Notice::class)->get(),
+            'pinned' => $this->execute(new TogglePinned($request->toArray())),
+        ]);
     }
 
     /**
      * @return void
+     * @action site-reviews/route/ajax/toggle-status
      */
-    public function routerExportSettings()
+    public function toggleStatusAjax(Request $request)
     {
-        $this->download(glsr()->id.'-settings.json', glsr(OptionManager::class)->json());
-    }
-
-    /**
-     * @return void
-     */
-    public function routerFetchConsole()
-    {
-        glsr(Notice::class)->addSuccess(_x('Console reloaded.', 'admin-text', 'site-reviews'));
-    }
-
-    /**
-     * @return void
-     */
-    public function routerImportSettings()
-    {
-        $this->execute(new ImportSettings());
-    }
-
-    /**
-     * @return void
-     */
-    public function routerMigratePlugin(Request $request)
-    {
-        if (wp_validate_boolean($request->alt)) {
-            glsr(Migrate::class)->runAll();
-            glsr(Notice::class)->clear()->addSuccess(_x('All plugin migrations have been run successfully.', 'admin-text', 'site-reviews'));
-        } else {
-            glsr(Migrate::class)->run();
-            glsr(Notice::class)->clear()->addSuccess(_x('The plugin has been migrated sucessfully.', 'admin-text', 'site-reviews'));
-        }
-    }
-
-    /**
-     * @return void
-     */
-    public function routerResetPermissions()
-    {
-        glsr(Role::class)->resetAll();
-        glsr(Notice::class)->clear()->addSuccess(_x('The permissions have been reset.', 'admin-text', 'site-reviews'));
+        wp_send_json_success(
+            $this->execute(new ToggleStatus($request->post_id, $request->status))
+        );
     }
 }

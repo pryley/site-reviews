@@ -16,6 +16,7 @@ use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Controllers\ReviewController;
 use GeminiLabs\SiteReviews\Controllers\RevisionController;
 use GeminiLabs\SiteReviews\Controllers\SettingsController;
+use GeminiLabs\SiteReviews\Controllers\ToolsController;
 use GeminiLabs\SiteReviews\Controllers\TranslationController;
 use GeminiLabs\SiteReviews\Controllers\TrustalyzeController;
 use GeminiLabs\SiteReviews\Controllers\WelcomeController;
@@ -38,6 +39,7 @@ class Hooks implements HooksContract
     protected $revisions;
     protected $router;
     protected $settings;
+    protected $tools;
     protected $translator;
     protected $trustalyze;
     protected $welcome;
@@ -59,6 +61,7 @@ class Hooks implements HooksContract
         $this->revisions = glsr(RevisionController::class);
         $this->router = glsr(Router::class);
         $this->settings = glsr(SettingsController::class);
+        $this->tools = glsr(ToolsController::class);
         $this->translator = glsr(TranslationController::class);
         $this->trustalyze = glsr(TrustalyzeController::class);
         $this->welcome = glsr(WelcomeController::class);
@@ -80,8 +83,16 @@ class Hooks implements HooksContract
         add_action('admin_enqueue_scripts', [$this->admin, 'enqueueAssets']);
         add_action('admin_init', [$this->admin, 'registerTinymcePopups']);
         add_action('media_buttons', [$this->admin, 'renderTinymceButton'], 11);
+        add_action('export_wp', [$this->admin, 'onExportStart']);
+        add_action('import_end', [$this->admin, 'onImportEnd']);
+        add_action('site-reviews/route/ajax/search-posts', [$this->admin, 'searchPostsAjax']);
+        add_action('site-reviews/route/ajax/search-translations', [$this->admin, 'searchTranslationsAjax']);
+        add_action('site-reviews/route/ajax/search-users', [$this->admin, 'searchUsersAjax']);
+        add_action('site-reviews/route/ajax/toggle-pinned', [$this->admin, 'togglePinnedAjax']);
+        add_action('site-reviews/route/ajax/toggle-status', [$this->admin, 'toggleStatusAjax']);
         add_action('init', [$this->blocks, 'registerAssets'], 9);
         add_action('init', [$this->blocks, 'registerBlocks']);
+        add_action('site-reviews/route/ajax/mce-shortcode', [$this->editor, 'mceShortcodeAjax']);
         add_action('admin_print_scripts', [$this->editor, 'removeAutosave'], 999);
         add_action('current_screen', [$this->editor, 'removePostTypeSupport']);
         add_action('admin_head', [$this->editor, 'renderReviewFields']);
@@ -101,10 +112,15 @@ class Hooks implements HooksContract
         add_action('add_meta_boxes_'.glsr()->post_type, [$this->metabox, 'registerMetaBoxes']);
         add_action('do_meta_boxes', [$this->metabox, 'removeMetaBoxes']);
         add_action('post_submitbox_misc_actions', [$this->metabox, 'renderPinnedInPublishMetaBox']);
-        add_action('admin_notices', [$this->notices, 'filterAdminNotices']);
+        add_action('admin_notices', [$this->notices, 'adminNotices']);
+        add_action('site-reviews/route/admin/dismiss-notice', [$this->notices, 'dismissNotice']);
+        add_action('site-reviews/route/ajax/dismiss-notice', [$this->notices, 'dismissNoticeAjax']);
         add_action('wp_enqueue_scripts', [$this->public, 'enqueueAssets'], 999);
+        add_action('site-reviews/route/ajax/fetch-paged-reviews', [$this->public, 'fetchPagedReviewsAjax']);
         add_filter('site-reviews/builder', [$this->public, 'modifyBuilder']);
         add_action('wp_footer', [$this->public, 'renderSchema']);
+        add_action('site-reviews/route/public/submit-review', [$this->public, 'submitReview']);
+        add_action('site-reviews/route/ajax/submit-review', [$this->public, 'submitReviewAjax']);
         add_action('admin_init', [$this->privacy, 'privacyPolicyContent']);
         add_action('admin_action_approve', [$this->review, 'approve']);
         add_action('the_posts', [$this->review, 'filterPostsToCacheReviews']);
@@ -126,6 +142,20 @@ class Hooks implements HooksContract
         add_action('site-reviews/review/reverted', [$this->trustalyze, 'onReverted']);
         add_action('site-reviews/review/saved', [$this->trustalyze, 'onSaved']);
         add_action('updated_postmeta', [$this->trustalyze, 'onUpdatedMeta'], 10, 3);
+        add_action('site-reviews/route/admin/clear-console', [$this->tools, 'clearConsole']);
+        add_action('site-reviews/route/ajax/clear-console', [$this->tools, 'clearConsoleAjax']);
+        add_action('site-reviews/route/admin/detect-ip-address', [$this->tools, 'detectIpAddress']);
+        add_action('site-reviews/route/ajax/detect-ip-address', [$this->tools, 'detectIpAddressAjax']);
+        add_action('site-reviews/route/admin/download-console', [$this->tools, 'downloadConsole']);
+        add_action('site-reviews/route/admin/download-system-info', [$this->tools, 'downloadSystemInfo']);
+        add_action('site-reviews/route/admin/fetch-console', [$this->tools, 'fetchConsole']);
+        add_action('site-reviews/route/ajax/fetch-console', [$this->tools, 'fetchConsoleAjax']);
+        add_action('site-reviews/route/admin/migrate-plugin', [$this->tools, 'migratePlugin']);
+        add_action('site-reviews/route/ajax/migrate-plugin', [$this->tools, 'migratePluginAjax']);
+        add_action('site-reviews/route/admin/export-settings', [$this->tools, 'exportSettings']);
+        add_action('site-reviews/route/admin/import-settings', [$this->tools, 'importSettings']);
+        add_action('site-reviews/route/admin/reset-permissions', [$this->tools, 'resetPermissions']);
+        add_action('site-reviews/route/ajax/reset-permissions', [$this->tools, 'resetPermissionsAjax']);
         add_action('activated_plugin', [$this->welcome, 'redirectOnActivation'], 10, 2);
         add_action('admin_menu', [$this->welcome, 'registerPage']);
     }
@@ -135,10 +165,11 @@ class Hooks implements HooksContract
      */
     public function addFilters()
     {
-        add_filter('map_meta_cap', [$this->admin, 'filterCreateCapability'], 10, 2);
-        add_filter('mce_external_plugins', [$this->admin, 'filterTinymcePlugins'], 15);
         add_filter('plugin_action_links_'.$this->basename, [$this->admin, 'filterActionLinks']);
+        add_filter('map_meta_cap', [$this->admin, 'filterCreateCapability'], 10, 2);
         add_filter('dashboard_glance_items', [$this->admin, 'filterDashboardGlanceItems']);
+        add_filter('wp_import_post_meta', [$this->admin, 'filterImportPostMeta'], 10, 3);
+        add_filter('mce_external_plugins', [$this->admin, 'filterTinymcePlugins'], 15);
         add_filter('allowed_block_types', [$this->blocks, 'filterAllowedBlockTypes'], 10, 2);
         add_filter('block_categories', [$this->blocks, 'filterBlockCategories']);
         add_filter('classic_editor_enabled_editors_for_post_type', [$this->blocks, 'filterEnabledEditors'], 10, 2);

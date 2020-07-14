@@ -138,16 +138,10 @@ class Router
      */
     protected function routeRequest($type, $action, array $request = [])
     {
-        $actionHook = 'route/'.$type.'/request';
-        $controller = glsr(Helper::buildClassName($type.'-controller', 'Controllers'));
-        $method = Helper::buildMethodName($action, 'router');
+        $actionHook = "route/{$type}/{$action}";
         $request = glsr()->filterArray('route/request', $request, $action, $type);
         $request = new Request($request);
-        glsr()->action($actionHook, $action, $request);
-        if (is_callable([$controller, $method])) {
-            call_user_func([$controller, $method], $request);
-            return;
-        }
+        glsr()->action($actionHook, $request);
         if (0 === did_action(glsr()->id.'/'.$actionHook)) {
             glsr_log('Unknown '.$type.' router request: '.$action);
         }
@@ -163,6 +157,7 @@ class Router
         glsr_log()->error($error)->debug($request);
         glsr(Notice::class)->addError(_x('There was an error (try reloading the page).', 'admin-text', 'site-reviews').' <code>'.$error.'</code>');
         wp_send_json_error([
+            'code' => $statusCode,
             'message' => __('The form could not be submitted. Please notify the site administrator.', 'site-reviews'),
             'notices' => glsr(Notice::class)->get(),
             'error' => $error,

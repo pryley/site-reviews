@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
+use GeminiLabs\SiteReviews\Request;
 
 class NoticeController extends Controller
 {
@@ -28,9 +29,9 @@ class NoticeController extends Controller
 
     /**
      * @return void
-     * @action admin_notices
+     * @filter admin_notices
      */
-    public function filterAdminNotices()
+    public function adminNotices()
     {
         $screen = glsr_current_screen();
         $this->renderMigrationNotice($screen->post_type);
@@ -40,21 +41,23 @@ class NoticeController extends Controller
 
     /**
      * @return void
+     * @action site-reviews/route/admin/dismiss-notice
      */
-    public function routerDismissNotice(array $request)
+    public function dismissNotice(Request $request)
     {
         if ($key = Arr::get($request, 'notice')) {
-            $this->dismissNotice($key);
+            $this->setUserMeta($key, $this->getVersionFor($key));
         }
     }
 
     /**
-     * @param string $key
      * @return void
+     * @action site-reviews/route/ajax/dismiss-notice
      */
-    protected function dismissNotice($key)
+    public function dismissNoticeAjax(Request $request)
     {
-        $this->setUserMeta($key, $this->getVersionFor($key));
+        $this->dismissNotice($request);
+        wp_send_json_success();
     }
 
     /**

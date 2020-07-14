@@ -18,7 +18,7 @@
     site-reviews/review/updated/post_ids                    (Review $review, array $assignedPostIds)
     site-reviews/review/updated/user_ids                    (Review $review, array $assignedUserIds)
         ?? site-reviews/review/updated
-    site-reviews/route/{request_type}/request               ()
+    site-reviews/route/{request_type}/{route_action}        (Request $request)
     site-reviews/whip                                       ()
 
 ## Filters

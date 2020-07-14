@@ -4,7 +4,12 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
+use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
+use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Request;
@@ -18,6 +23,34 @@ class PublicController extends Controller
     public function enqueueAssets()
     {
         $this->execute(new EnqueuePublicAssets());
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/ajax/fetch-paged-reviews
+     */
+    public function fetchPagedReviewsAjax(Request $request)
+    {
+        $args = [
+            'page' => $request->get('page', 0),
+            'pageUrl' => '',
+            'pagination' => 'ajax',
+            'schema' => false,
+        ];
+        if (!$args['page']) {
+            $urlPath = Url::path($request->url);
+            $args['page'] = Helper::getPageNumber($request->url);
+            $args['pageUrl'] = Url::path(home_url()) === $urlPath
+                ? Url::home()
+                : Url::home($urlPath);
+        }
+        $atts = glsr(SiteReviewsDefaults::class)->merge(Arr::consolidate($request->atts));
+        $args = wp_parse_args($args, $atts);
+        $html = glsr(SiteReviews::class)->build($args);
+        return wp_send_json_success([
+            'pagination' => $html->getPagination($wrap = false),
+            'reviews' => $html->getReviews($wrap = false),
+        ]);
     }
 
     /**
@@ -79,13 +112,27 @@ class PublicController extends Controller
 
     /**
      * @return CreateReview
+     * @action site-reviews/route/public/submit-review
      */
-    public function routerSubmitReview(Request $request)
+    public function submitReview(Request $request)
     {
         $command = $this->execute(new CreateReview($request));
         if ($command->success()) {
             wp_safe_redirect($command->referer()); // @todo add review ID to referer
             exit;
         }
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/ajax/submit-review
+     */
+    public function submitReviewAjax(Request $request)
+    {
+        $command = $this->execute(new CreateReview($request));
+        if ($command->success()) {
+            wp_send_json_success($command->response());
+        }
+        wp_send_json_error($command->response());
     }
 }

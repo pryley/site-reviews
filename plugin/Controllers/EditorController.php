@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
 use WP_Post;
 
@@ -96,6 +97,29 @@ class EditorController extends Controller
             52 => $strings['reverted'],
         ];
         return $messages;
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/ajax/mce-shortcode
+     */
+    public function mceShortcodeAjax(Request $request)
+    {
+        $shortcode = $request->shortcode;
+        $response = false;
+        if ($data = glsr()->retrieve('mce.'.$shortcode, false)) {
+            if (!empty($data['errors'])) {
+                $data['btn_okay'] = [esc_attr_x('Okay', 'admin-text', 'site-reviews')];
+            }
+            $response = [
+                'body' => $data['fields'],
+                'close' => $data['btn_close'],
+                'ok' => $data['btn_okay'],
+                'shortcode' => $shortcode,
+                'title' => $data['title'],
+            ];
+        }
+        wp_send_json_success($response);
     }
 
     /**
