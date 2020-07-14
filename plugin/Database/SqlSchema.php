@@ -229,10 +229,10 @@ class SqlSchema
      */
     public function table($table)
     {
-        $prefix = $this->db->prefix.glsr()->prefix;
-        return !Str::startsWith($prefix, $table)
-            ? $prefix.$table
-            : $table;
+        if (Str::endsWith(['ratings', 'assigned_posts', 'assigned_terms', 'assigned_users'], $table)) {
+            $table = Str::prefix(glsr()->prefix, $table);
+        }
+        return $this->db->prefix.$table;
     }
 
     /**

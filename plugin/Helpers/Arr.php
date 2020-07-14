@@ -163,19 +163,16 @@ class Arr
      * @param bool $prefixed
      * @return array
      */
-    public static function prefixKeys(array $values, $prefixed = true)
+    public static function prefixKeys(array $values, $prefix = '_', $prefixed = true)
     {
-        $trim = '_';
-        $prefix = $prefixed
-            ? $trim
-            : '';
+        $trim = Helper::ifTrue($prefixed, $prefix, '');
         $prefixed = [];
         foreach ($values as $key => $value) {
             $key = trim($key);
-            if (0 === strpos($key, $trim)) {
-                $key = substr($key, strlen($trim));
+            if (0 === strpos($key, $prefix)) {
+                $key = substr($key, strlen($prefix));
             }
-            $prefixed[$prefix.$key] = $value;
+            $prefixed[$trim.$key] = $value;
         }
         return $prefixed;
     }
@@ -291,8 +288,8 @@ class Arr
     /**
      * @return array
      */
-    public static function unprefixKeys(array $values)
+    public static function unprefixKeys(array $values, $prefix = '_')
     {
-        return static::prefixKeys($values, false);
+        return static::prefixKeys($values, $prefix, false);
     }
 }

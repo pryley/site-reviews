@@ -2,6 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Helpers;
 
+use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Cast;
+
 class Str
 {
     /**
@@ -15,15 +18,18 @@ class Str
     }
 
     /**
-     * @param string $needle
+     * @param string|array[] $needles
      * @param string $haystack
      * @return bool
      */
-    public static function contains($needle, $haystack)
+    public static function contains($needles, $haystack)
     {
-        $needles = array_map('trim', explode(',', $needle));
-        foreach ($needles as $value) {
-            if (!empty($value) && false !== strpos($haystack, $value)) {
+        $needles = array_filter(Cast::toArray($needles), Helper::class.'::isNotEmpty');
+        if (empty($needles)) {
+            return true;
+        }
+        foreach ($needles as $needle) {
+            if (false !== strpos($haystack, $needle)) {
                 return true;
             }
         }
@@ -106,16 +112,22 @@ class Str
     }
 
     /**
-     * @param string $needle
+     * @param string|array[] $needles
      * @param string $haystack
      * @return bool
      */
-    public static function endsWith($needle, $haystack)
+    public static function endsWith($needles, $haystack)
     {
-        $length = strlen($needle);
-        return 0 != $length
-            ? substr($haystack, -$length) === $needle
-            : true;
+        $needles = array_filter(Cast::toArray($needles), Helper::class.'::isNotEmpty');
+        if (empty($needles)) {
+            return true;
+        }
+        foreach ($needles as $needle) {
+            if (substr($haystack, -strlen(Cast::toString($needle))) === $needle) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -213,7 +225,7 @@ class Str
     }
 
     /**
-     * @param string|array $restrictions
+     * @param string|array[] $restrictions
      * @param string $value
      * @param string $fallback
      * @param bool $strict
@@ -249,15 +261,18 @@ class Str
     }
 
     /**
-     * @param string $needle
+     * @param string|array[] $needles
      * @param string $haystack
      * @return bool
      */
-    public static function startsWith($needle, $haystack)
+    public static function startsWith($needles, $haystack)
     {
-        $needles = array_map('trim', explode(',', $needle));
-        foreach ($needles as $value) {
-            if (substr($haystack, 0, strlen($value)) === $value) {
+        $needles = array_filter(Cast::toArray($needles), Helper::class.'::isNotEmpty');
+        if (empty($needles)) {
+            return true;
+        }
+        foreach ($needles as $needle) {
+            if (substr($haystack, 0, strlen(Cast::toString($needle))) === $needle) {
                 return true;
             }
         }
