@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews as SiteReviewsPartial;
@@ -127,7 +128,9 @@ class Review extends Arguments
      */
     public function custom()
     {
-        // @todo
+        return glsr()->args(array_filter($this->meta()->toArray(), function ($key) {
+            return Str::startsWith('_custom', $key);
+        }, ARRAY_FILTER_USE_KEY));
     }
 
     /**
@@ -175,9 +178,8 @@ class Review extends Arguments
         if (!$this->_meta instanceof Arguments) {
             $meta = Arr::consolidate(get_post_meta($this->id));
             $meta = array_map('array_shift', array_filter($meta));
-            $meta = Arr::unprefixKeys(array_filter($meta, 'strlen'));
+            $meta = array_filter($meta, 'strlen');
             $meta = array_map('maybe_unserialize', $meta);
-            $meta = glsr(CreateReviewDefaults::class)->restrict($meta);
             $this->_meta = new Arguments($meta);
         }
         return $this->_meta;
