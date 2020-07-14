@@ -1,11 +1,11 @@
 {
   "dependencies": {
     "npm-check": "^5.9.2",
-    "star-rating.js": "^3.1.8"
+    "star-rating.js": "^3.2.0"
   },
   "devDependencies": {
     "@babel/compat-data": "^7.10.4",
-    "@wordpress/babel-preset-default": "^4.16.0",
+    "@wordpress/babel-preset-default": "^4.17.0",
     "browser-sync": "^2.26.7",
     "browser-sync-webpack-plugin": "^2.0.1",
     "cross-env": "^7.0.2",
@@ -20,11 +20,11 @@
     "laravel-mix": "^5.0.4",
     "laravel-mix-bundle-analyzer": "^1.0.5",
     "pump": "^3.0.0",
-    "sass": "^1.26.9",
-    "sass-loader": "^9.0.1",
+    "sass": "^1.26.10",
+    "sass-loader": "^9.0.2",
     "vue-template-compiler": "^2.6.11",
     "yamljs": "^0.3.0",
-    "yargs": "^15.4.0"
+    "yargs": "^15.4.1"
   },
   "private": true,
   "scripts": {

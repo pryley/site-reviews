@@ -146,7 +146,7 @@ msgstr "This field is required."
 msgid "The review could not be submitted (unsupported browser)."
 msgstr "The review could not be submitted (unsupported browser)."
 
-#: plugin/Helpers/Str.php:138
+#: plugin/Helpers/Str.php:150
 msgid "and"
 msgstr "and"
 
@@ -196,23 +196,23 @@ msgstr[1] "%s years ago"
 msgid "Anonymous"
 msgstr "Anonymous"
 
-#: plugin/Shortcodes/Shortcode.php:222
+#: plugin/Shortcodes/Shortcode.php:213
 msgid "Excellent"
 msgstr "Excellent"
 
-#: plugin/Shortcodes/Shortcode.php:223
+#: plugin/Shortcodes/Shortcode.php:214
 msgid "Very good"
 msgstr "Very good"
 
-#: plugin/Shortcodes/Shortcode.php:224
+#: plugin/Shortcodes/Shortcode.php:215
 msgid "Average"
 msgstr "Average"
 
-#: plugin/Shortcodes/Shortcode.php:225
+#: plugin/Shortcodes/Shortcode.php:216
 msgid "Poor"
 msgstr "Poor"
 
-#: plugin/Shortcodes/Shortcode.php:226
+#: plugin/Shortcodes/Shortcode.php:217
 msgid "Terrible"
 msgstr "Terrible"
 
@@ -1598,7 +1598,7 @@ msgctxt "admin-text"
 msgid "Nothing found."
 msgstr "Nothing found."
 
-#: plugin/Controllers/EditorController.php:143
+#: plugin/Controllers/EditorController.php:160
 msgctxt "admin-text"
 msgid "%s reviews are read-only."
 msgstr "%s reviews are read-only."

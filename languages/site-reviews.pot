@@ -1237,7 +1237,7 @@ msgctxt "admin-text"
 msgid "Nothing found."
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:143
+#: plugin/Controllers/EditorController.php:160
 msgctxt "admin-text"
 msgid "%s reviews are read-only."
 msgstr ""
@@ -1781,7 +1781,7 @@ msgstr ""
 msgid "The review could not be submitted (unsupported browser)."
 msgstr ""
 
-#: plugin/Helpers/Str.php:138
+#: plugin/Helpers/Str.php:150
 msgid "and"
 msgstr ""
 
@@ -1853,23 +1853,23 @@ msgctxt "admin-text"
 msgid "This custom translation is no longer valid as the original text has been changed or removed."
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:222
+#: plugin/Shortcodes/Shortcode.php:213
 msgid "Excellent"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:223
+#: plugin/Shortcodes/Shortcode.php:214
 msgid "Very good"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:224
+#: plugin/Shortcodes/Shortcode.php:215
 msgid "Average"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:225
+#: plugin/Shortcodes/Shortcode.php:216
 msgid "Poor"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:226
+#: plugin/Shortcodes/Shortcode.php:217
 msgid "Terrible"
 msgstr ""
 
