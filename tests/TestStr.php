@@ -109,6 +109,7 @@ class TestStr extends WP_UnitTestCase
     {
         $this->assertTrue(Str::endsWith('efg', 'abcdefg'));
         $this->assertFalse(Str::endsWith('efg', 'ABCDEFG'));
+        $this->assertFalse(Str::endsWith('', 'ABCDEFG'));
     }
 
     public function test_fallback()
@@ -172,8 +173,9 @@ class TestStr extends WP_UnitTestCase
     public function test_starts_with()
     {
         $this->assertTrue(Str::startsWith('abc', 'abcdefg'));
-        $this->assertFalse(Str::startsWith('abc', 'ABCDEFG'));
         $this->assertTrue(Str::startsWith('abc,def', 'defg'));
+        $this->assertFalse(Str::startsWith('abc', 'ABCDEFG'));
+        $this->assertFalse(Str::startsWith('', 'ABCDEFG'));
     }
 
     public function test_truncate()

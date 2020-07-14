@@ -25,9 +25,6 @@ class Str
     public static function contains($needles, $haystack)
     {
         $needles = array_filter(Cast::toArray($needles), Helper::class.'::isNotEmpty');
-        if (empty($needles)) {
-            return true;
-        }
         foreach ($needles as $needle) {
             if (false !== strpos($haystack, $needle)) {
                 return true;
@@ -119,9 +116,6 @@ class Str
     public static function endsWith($needles, $haystack)
     {
         $needles = array_filter(Cast::toArray($needles), Helper::class.'::isNotEmpty');
-        if (empty($needles)) {
-            return true;
-        }
         foreach ($needles as $needle) {
             if (substr($haystack, -strlen(Cast::toString($needle))) === $needle) {
                 return true;
@@ -268,9 +262,6 @@ class Str
     public static function startsWith($needles, $haystack)
     {
         $needles = array_filter(Cast::toArray($needles), Helper::class.'::isNotEmpty');
-        if (empty($needles)) {
-            return true;
-        }
         foreach ($needles as $needle) {
             if (substr($haystack, 0, strlen(Cast::toString($needle))) === $needle) {
                 return true;
