@@ -145,7 +145,7 @@ add_action('site-reviews/review/created', function ($review, $reviewValues, $com
         <p>Use this hook if you would like to modify the schema type properties.</p>
         <p>This hook is specific to the schema type. For example, to modify the schema properties for the LocalBusiness schema type you would use the <code>site-reviews/schema/LocalBusiness</code> hook, but to modify the schema properties for the Product schema type you would use the <code>site-reviews/schema/Product</code> hook.</p>
         <p>See the <code><a data-expand="#faq-01" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">FAQ</a></code> for a detailed example of how to use this hook.</p>
-        <p>Make sure to use Google's <a href="https://search.google.com/structured-data/testing-tool">Structured Data Testing Tool</a> to test the schema after any custom modifications have been made.</p>
+        <p>Make sure to use Google's <a href="https://search.google.com/test/rich-results">Rich Results</a> tool to test the schema after any custom modifications have been made.</p>
         <pre><code class="php">/**
  * Modifies the properties of the schema created by Site Reviews.
  * Change "LocalBusiness" to the schema type you wish to change (i.e. Product)
