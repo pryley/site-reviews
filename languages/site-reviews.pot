@@ -969,7 +969,7 @@ msgctxt "admin-text"
 msgid "Reject submission"
 msgstr ""
 
-#: plugin/Application.php:245
+#: plugin/Application.php:247
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr ""
@@ -979,17 +979,17 @@ msgctxt "admin-text"
 msgid "The [%s] method has been deprecated and will be soon be removed, please use the [%s] method instead."
 msgstr ""
 
-#: plugin/Review.php:274, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:19
+#: plugin/Review.php:286, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:19
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr ""
 
-#: plugin/Router.php:164
+#: plugin/Router.php:158
 msgctxt "admin-text"
 msgid "There was an error (try reloading the page)."
 msgstr ""
 
-#: plugin/Router.php:166
+#: plugin/Router.php:161
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 
@@ -1048,7 +1048,7 @@ msgstr ""
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr ""
 
-#: plugin/Addons/Controller.php:68, plugin/Controllers/AdminController.php:45, plugin/Controllers/MenuController.php:50, views/pages/tools/sync.php:23
+#: plugin/Addons/Controller.php:68, plugin/Controllers/AdminController.php:60, plugin/Controllers/MenuController.php:50, views/pages/tools/sync.php:23
 msgctxt "admin-text"
 msgid "Settings"
 msgstr ""
@@ -1150,94 +1150,44 @@ msgctxt "admin-text"
 msgid "Edit"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:39, plugin/Controllers/MenuController.php:53
+#: plugin/Controllers/AdminController.php:54, plugin/Controllers/MenuController.php:53
 msgctxt "admin-text"
 msgid "Help"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:76
+#: plugin/Controllers/AdminController.php:91
 msgctxt "admin-text"
 msgid "%s Review"
 msgid_plural "%s Reviews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/AdminController.php:113, plugin/Controllers/MainController.php:70
+#: plugin/Controllers/AdminController.php:150, plugin/Controllers/MainController.php:70
 msgctxt "admin-text"
 msgid "Recent Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:114, plugin/Controllers/MainController.php:74
+#: plugin/Controllers/AdminController.php:151, plugin/Controllers/MainController.php:74
 msgctxt "admin-text"
 msgid "Submit a Review"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:115, plugin/Controllers/MainController.php:78
+#: plugin/Controllers/AdminController.php:152, plugin/Controllers/MainController.php:78
 msgctxt "admin-text"
 msgid "Summary of Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:148
-msgctxt "admin-text"
-msgid "Console cleared."
-msgstr ""
-
-#: plugin/Controllers/AdminController.php:159, plugin/Controllers/MenuController.php:89
-msgctxt "admin-text"
-msgid "FAQ"
-msgstr ""
-
-#: plugin/Controllers/AdminController.php:168
-msgctxt "admin-text"
-msgid "Your detected IP address is %s. If this looks incorrect, please see the %s."
-msgstr ""
-
-#: plugin/Controllers/AdminController.php:163
-msgctxt "admin-text"
-msgid "Site Reviews was unable to detect an IP address. To fix this, please see the %s."
-msgstr ""
-
-#: plugin/Controllers/AdminController.php:203
-msgctxt "admin-text"
-msgid "Console reloaded."
-msgstr ""
-
-#: plugin/Controllers/AdminController.php:224
-msgctxt "admin-text"
-msgid "The plugin has been migrated sucessfully."
-msgstr ""
-
-#: plugin/Controllers/AdminController.php:221
-msgctxt "admin-text"
-msgid "All plugin migrations have been run successfully."
-msgstr ""
-
-#: plugin/Controllers/AdminController.php:234
-msgctxt "admin-text"
-msgid "The permissions have been reset."
-msgstr ""
-
-#: plugin/Controllers/AjaxController.php:66
-msgctxt "admin-text"
-msgid "Okay"
-msgstr ""
-
-#: plugin/Controllers/AjaxController.php:136
-msgctxt "admin-text"
-msgid "reload the page"
-msgstr ""
-
-#: plugin/Controllers/AjaxController.php:140
-msgctxt "admin-text"
-msgid "The permissions have been reset, please %s for them to take effect."
-msgstr ""
-
-#: plugin/Controllers/AjaxController.php:154, plugin/Controllers/AjaxController.php:166, plugin/Controllers/AjaxController.php:185
+#: plugin/Controllers/AdminController.php:187, plugin/Controllers/AdminController.php:207, plugin/Controllers/AdminController.php:220
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:160
+#: plugin/Controllers/EditorController.php:112
+msgctxt "admin-text"
+msgid "Okay"
+msgstr ""
+
+#: plugin/Controllers/EditorController.php:184
 msgctxt "admin-text"
 msgid "%s reviews are read-only."
 msgstr ""
@@ -1290,6 +1240,11 @@ msgstr ""
 #: plugin/Controllers/MenuController.php:88, plugin/Controllers/WelcomeController.php:104
 msgctxt "admin-text"
 msgid "Support"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:89, plugin/Controllers/ToolsController.php:50
+msgctxt "admin-text"
+msgid "FAQ"
 msgstr ""
 
 #: plugin/Controllers/MenuController.php:90
@@ -1352,52 +1307,52 @@ msgctxt "admin-text"
 msgid "System Info"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:24, views/partials/editor/metabox-response.php:3
+#: plugin/Controllers/MetaboxController.php:35, views/partials/editor/metabox-response.php:3
 msgctxt "admin-text"
 msgid "Respond Publicly"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:26
+#: plugin/Controllers/MetaboxController.php:37
 msgctxt "admin-text"
 msgid "Review Details"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:27, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/editor/bulk-edit-assigned-posts.php:6
+#: plugin/Controllers/MetaboxController.php:38, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/editor/bulk-edit-assigned-posts.php:6
 msgctxt "admin-text"
 msgid "Assigned To"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:28, plugin/Defaults/PostTypeColumnDefaults.php:19, views/partials/editor/bulk-edit-assigned-users.php:6
+#: plugin/Controllers/MetaboxController.php:39, plugin/Defaults/PostTypeColumnDefaults.php:19, views/partials/editor/bulk-edit-assigned-users.php:6
 msgctxt "admin-text"
 msgid "Assigned Users"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:30, plugin/Controllers/MetaboxController.php:109
+#: plugin/Controllers/MetaboxController.php:41, plugin/Controllers/MetaboxController.php:120
 msgctxt "admin-text"
 msgid "Author"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:147, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17
+#: plugin/Controllers/MetaboxController.php:158, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17
 msgctxt "admin-text"
 msgid "No"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:148, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:16
+#: plugin/Controllers/MetaboxController.php:159, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:16
 msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:92
+#: plugin/Controllers/NoticeController.php:95
 msgctxt "admin-text"
 msgid "Migrate Plugin"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:122
+#: plugin/Controllers/NoticeController.php:125
 msgctxt "admin-text"
 msgid "Thanks for installing Site Reviews v%s, we hope you love it!"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:123
+#: plugin/Controllers/NoticeController.php:126
 msgctxt "admin-text"
 msgid "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 msgstr ""
@@ -1435,6 +1390,51 @@ msgstr ""
 #: plugin/Controllers/SettingsController.php:169
 msgctxt "admin-text"
 msgid "A license you entered was invalid."
+msgstr ""
+
+#: plugin/Controllers/ToolsController.php:25
+msgctxt "admin-text"
+msgid "Console cleared."
+msgstr ""
+
+#: plugin/Controllers/ToolsController.php:59
+msgctxt "admin-text"
+msgid "Your detected IP address is %s. If this looks incorrect, please see the %s."
+msgstr ""
+
+#: plugin/Controllers/ToolsController.php:54
+msgctxt "admin-text"
+msgid "Site Reviews was unable to detect an IP address. To fix this, please see the %s."
+msgstr ""
+
+#: plugin/Controllers/ToolsController.php:110
+msgctxt "admin-text"
+msgid "Console reloaded."
+msgstr ""
+
+#: plugin/Controllers/ToolsController.php:146
+msgctxt "admin-text"
+msgid "The plugin has been migrated sucessfully."
+msgstr ""
+
+#: plugin/Controllers/ToolsController.php:143
+msgctxt "admin-text"
+msgid "All plugin migrations have been run successfully."
+msgstr ""
+
+#: plugin/Controllers/ToolsController.php:169
+msgctxt "admin-text"
+msgid "The permissions have been reset."
+msgstr ""
+
+#: plugin/Controllers/ToolsController.php:180
+msgctxt "admin-text"
+msgid "reload the page"
+msgstr ""
+
+#: plugin/Controllers/ToolsController.php:184
+msgctxt "admin-text"
+msgid "The permissions have been reset, please %s for them to take effect."
 msgstr ""
 
 #: plugin/Controllers/TranslationController.php:32
@@ -1781,7 +1781,7 @@ msgstr ""
 msgid "The review could not be submitted (unsupported browser)."
 msgstr ""
 
-#: plugin/Helpers/Str.php:150
+#: plugin/Helpers/Str.php:144
 msgid "and"
 msgstr ""
 
@@ -2289,7 +2289,7 @@ msgstr ""
 
 #: views/pages/settings/schema.php:3
 msgctxt "admin-text"
-msgid "The JSON-LD schema is disabled by default. To use it, please enable the option in your blocks or shortcodes. The schema appears in Google's search results and shows the star rating and other information about your reviews. If the schema has been enabled, you can use Google's <a href=\"https://search.google.com/structured-data/testing-tool\">Structured Data Testing Tool</a> to test your pages for valid schema data."
+msgid "The JSON-LD schema is disabled by default. To use it, please enable the option in your blocks or shortcodes. The schema appears in Google's search results and shows the star rating and other information about your reviews. If the schema has been enabled, you can use Google's <a href=\"https://search.google.com/test/rich-results\">Rich Results</a> tool to test your pages for valid schema data."
 msgstr ""
 
 #: views/pages/settings/schema.php:4
@@ -2634,7 +2634,7 @@ msgstr ""
 msgid "Submit your review"
 msgstr ""
 
-#: plugin/Modules/Html/Tags/ReviewAssignedToTag.php:42
+#: plugin/Modules/Html/Tags/ReviewAssignedToTag.php:43
 msgid "Review of %s"
 msgstr ""
 
