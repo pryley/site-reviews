@@ -15,7 +15,7 @@ class DefaultsManager
         $defaults = (array) array_combine(array_keys($settings), wp_list_pluck($settings, 'default'));
         return wp_parse_args($defaults, [
             'version' => '',
-            'version_upgraded_from' => '',
+            'version_upgraded_from' => '0.0.0',
         ]);
     }
 
