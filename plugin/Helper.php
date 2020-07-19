@@ -114,11 +114,12 @@ class Helper
     }
 
     /**
+     * @param mixed $post
      * @return int
      */
     public static function getPostId($post)
     {
-        if (is_numeric($postId) || $post instanceof \WP_Post) {
+        if (is_numeric($post) || $post instanceof \WP_Post) {
             $post = get_post($post);
         }
         if ($post instanceof \WP_Post) {
