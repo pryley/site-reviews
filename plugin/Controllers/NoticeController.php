@@ -36,7 +36,7 @@ class NoticeController extends Controller
         $screen = glsr_current_screen();
         $this->renderMigrationNotice($screen->post_type);
         $this->renderWelcomeNotice($screen->post_type);
-        $this->renderTrustalyzeNotice($screen->post_type);
+        $this->renderTrustalyzeNotice($screen->id);
     }
 
     /**
@@ -99,12 +99,12 @@ class NoticeController extends Controller
     }
 
     /**
-     * @param string $screenPostType
+     * @param string $screenId
      * @return void
      */
-    protected function renderTrustalyzeNotice($screenPostType)
+    protected function renderTrustalyzeNotice($screenId)
     {
-        if (glsr()->post_type == $screenPostType
+        if (glsr()->post_type.'_page_settings' == $screenId
             && Helper::isGreaterThan($this->getVersionFor('trustalyze'), $this->getUserMeta('trustalyze', 0))
             && !glsr(OptionManager::class)->getBool('settings.general.trustalyze')
             && glsr()->can('manage_options')) {
