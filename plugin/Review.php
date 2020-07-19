@@ -150,10 +150,10 @@ class Review extends Arguments
      */
     public static function isEditable($post)
     {
-        $post = get_post($post);
-        return static::isReview($post)
+        $postId = Helper::getPostId($post);
+        return static::isReview($postId)
             && post_type_supports(glsr()->post_type, 'title')
-            && 'local' === glsr(Query::class)->review($post->ID)->type;
+            && 'local' === glsr(Query::class)->review($postId)->type;
     }
 
     /**

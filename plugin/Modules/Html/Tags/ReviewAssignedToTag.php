@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -18,13 +19,13 @@ class ReviewAssignedToTag extends ReviewTag
         $links = [];
         $usedIds = [];
         foreach (Arr::consolidate($value) as $postId) {
-            $post = get_post(glsr(Multilingual::class)->getPostId($postId));
-            if (!empty($post->ID) && !in_array($post->ID, $usedIds)) {
+            $postId = Helper::getPostId(glsr(Multilingual::class)->getPostId($postId));
+            if (!empty($postId) && !in_array($postId, $usedIds)) {
                 $links[] = glsr(Builder::class)->a([
-                    'href' => get_the_permalink($post->ID),
-                    'text' => get_the_title($post->ID),
+                    'href' => get_the_permalink($postId),
+                    'text' => get_the_title($postId),
                 ]);
-                $usedIds[] = $post->ID;
+                $usedIds[] = $postId;
                 $usedIds = Arr::unique($usedIds);
             }
         }

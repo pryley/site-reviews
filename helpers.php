@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -153,10 +154,7 @@ function glsr_get_ratings($args = array())
  */
 function glsr_get_review($postId)
 {
-    if (!is_numeric($postId)) {
-        $postId = get_post($postId)->ID;
-    }
-    return glsr(ReviewManager::class)->get($postId);
+    return glsr(ReviewManager::class)->get(Helper::getPostId($postId));
 }
 
 /**

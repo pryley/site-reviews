@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 
@@ -19,10 +20,7 @@ class PostManager
         elseif ('post_id' == $postId) {
             $postId = get_the_ID();
         }
-        elseif ($post = get_post($postId)) {
-            $postId = $post->ID;
-        }
-        return Cast::toInt($postId);
+        return Helper::getPostId($postId);
     }
 
     /**
