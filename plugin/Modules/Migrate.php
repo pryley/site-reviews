@@ -16,7 +16,7 @@ class Migrate
     public $currentVersion;
 
     /**
-     * @var array[]
+     * @var string[]
      */
     public $migrations;
 
@@ -121,7 +121,7 @@ class Migrate
     }
 
     /**
-     * @return array[]
+     * @return string[]
      */
     protected function pendingMigrations(array $transient = [])
     {

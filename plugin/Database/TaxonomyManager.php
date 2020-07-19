@@ -21,7 +21,7 @@ class TaxonomyManager
     }
 
     /**
-     * @param array[]|string $termIds
+     * @param int[]|string $termIds
      * @return array
      */
     public function normalizeIds($termIds)

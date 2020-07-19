@@ -17,17 +17,17 @@ abstract class Container
     protected static $instance;
 
     /**
-     * @var array[]
+     * @var array
      */
     protected $bindings = [];
 
     /**
-     * @var array[]
+     * @var array
      */
     protected $buildStack = [];
 
     /**
-     * @var array[]
+     * @var array
      */
     protected $instances = [];
 

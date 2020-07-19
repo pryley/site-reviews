@@ -23,7 +23,7 @@ class UserManager
     }
 
     /**
-     * @param array[]|string $userIds
+     * @param int[]|string $userIds
      * @return array
      */
     public function normalizeIds($userIds)

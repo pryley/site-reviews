@@ -24,7 +24,7 @@ class PostManager
     }
 
     /**
-     * @param array[]|string $postIds
+     * @param int[]|string $postIds
      * @return array
      */
     public function normalizeIds($postIds)

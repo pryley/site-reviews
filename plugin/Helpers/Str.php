@@ -18,7 +18,7 @@ class Str
     }
 
     /**
-     * @param string|array[] $needles
+     * @param string|string[] $needles
      * @param string $haystack
      * @return bool
      */
@@ -109,7 +109,7 @@ class Str
     }
 
     /**
-     * @param string|array[] $needles
+     * @param string|string[] $needles
      * @param string $haystack
      * @return bool
      */
@@ -219,7 +219,7 @@ class Str
     }
 
     /**
-     * @param string|array[] $restrictions
+     * @param string|string[] $restrictions
      * @param string $value
      * @param string $fallback
      * @param bool $strict
@@ -255,7 +255,7 @@ class Str
     }
 
     /**
-     * @param string|array[] $needles
+     * @param string|string[] $needles
      * @param string $haystack
      * @return bool
      */

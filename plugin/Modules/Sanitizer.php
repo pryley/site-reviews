@@ -66,7 +66,7 @@ class Sanitizer
 
     /**
      * @param mixed $value
-     * @return array[]
+     * @return int[]
      */
     protected function sanitizeArrayInt($value)
     {
