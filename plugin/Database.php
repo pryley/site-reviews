@@ -54,7 +54,7 @@ class Database
     {
         $sql = $this->db->prepare("
             DELETE FROM {$this->db->postmeta}
-            WHERE 'meta_key' = '%s'
+            WHERE meta_key = '%s'
         ", $metaKey);
         $sql = glsr(Query::class)->sql($sql, 'delete-meta');
         return $this->logErrors($this->db->query($sql));

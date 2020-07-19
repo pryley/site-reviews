@@ -105,7 +105,7 @@ class Migrate_5_0_0
                 WHERE p.ID IN (
                     SELECT * FROM (
                         SELECT ID
-                        FROM gl_posts
+                        FROM {$this->db->posts}
                         WHERE post_type = '%s'
                         LIMIT %d, %d
                     ) AS post_ids

@@ -25,14 +25,13 @@ class Query
      */
     public function export($offset, $limit)
     {
+        // It is unecessary to import term assignments as this is done in Migration
         $sql = $this->db->prepare("
             SELECT r.*,
                 GROUP_CONCAT(DISTINCT apt.post_id) AS post_ids,
-                GROUP_CONCAT(DISTINCT att.term_id) AS term_ids,
                 GROUP_CONCAT(DISTINCT aut.user_id) AS user_ids
             FROM {$this->table('ratings')} AS r
             LEFT JOIN {$this->table('assigned_posts')} AS apt ON r.ID = apt.rating_id
-            LEFT JOIN {$this->table('assigned_terms')} AS att ON r.ID = att.rating_id
             LEFT JOIN {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id
             GROUP BY r.ID
             ORDER BY r.ID

@@ -6,9 +6,14 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 
 class RatingDefaults extends Defaults
 {
+    public $guarded = [
+        'ID',
+    ];
+
     public $sanitize = [
         'avatar' => 'url',
         'email' => 'email',
+        'ID' => 'int',
         'ip_address' => 'text',
         'is_approved' => 'bool',
         'is_pinned' => 'bool',
@@ -27,6 +32,7 @@ class RatingDefaults extends Defaults
         return [
             'avatar' => '',
             'email' => '',
+            'ID' => '',
             'ip_address' => '',
             'is_approved' => false,
             'is_pinned' => false,

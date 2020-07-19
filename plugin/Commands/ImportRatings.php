@@ -49,8 +49,8 @@ class ImportRatings implements Contract
             }
             $this->importRatings($values);
             $this->importAssignedPosts($values);
-            $this->importAssignedTerms($values);
             $this->importAssignedUsers($values);
+            // It is unecessary to import term assignments as this is done in Migration
             $offset += $this->limit;
         }
     }
@@ -65,19 +65,6 @@ class ImportRatings implements Contract
                 'rating_id',
                 'post_id',
                 'is_published',
-            ]);
-        }
-    }
-
-    /**
-     * @return array
-     */
-    protected function importAssignedTerms(array $values)
-    {
-        if ($values = $this->prepareAssignedValues($values, 'term')) {
-            glsr(Database::class)->insertBulk('assigned_terms', $values, [
-                'rating_id',
-                'term_id',
             ]);
         }
     }
@@ -101,7 +88,7 @@ class ImportRatings implements Contract
     protected function importRatings(array $values)
     {
         array_walk($values, [$this, 'prepareRating']);
-        $fields = array_keys(glsr(RatingDefaults::class)->defaults());
+        $fields = array_keys(glsr(RatingDefaults::class)->unguardedDefaults());
         glsr(Database::class)->insertBulk('ratings', $values, $fields);
     }
 
@@ -120,7 +107,7 @@ class ImportRatings implements Contract
             }
             foreach ($assignedIds as $assignedId) {
                 $value = [
-                    'review_id' => $result['post_id'],
+                    'rating_id' => Arr::get($meta, 'ID'),
                     $assignedKey => $assignedId,
                 ];
                 if ('post' === $key) {
@@ -139,6 +126,6 @@ class ImportRatings implements Contract
     {
         $values = maybe_unserialize($result['meta_value']);
         $values['review_id'] = $result['post_id'];
-        $result = glsr(RatingDefaults::class)->restrict($values);
+        $result = glsr(RatingDefaults::class)->unguardedRestrict($values);
     }
 }

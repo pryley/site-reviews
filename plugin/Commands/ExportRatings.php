@@ -79,7 +79,7 @@ class ExportRatings implements Contract
     protected function prepareMeta(array &$result)
     {
         $postId = $result['review_id'];
-        unset($result['ID'], $result['review_id']);
+        unset($result['review_id']);
         $result = [
             'post_id' => $postId,
             'meta_key' => $this->exportKey,
