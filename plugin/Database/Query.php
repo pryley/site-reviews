@@ -23,6 +23,43 @@ class Query
     /**
      * @return array
      */
+    public function export($offset, $limit)
+    {
+        $sql = $this->db->prepare("
+            SELECT r.*,
+                GROUP_CONCAT(DISTINCT apt.post_id) AS post_ids,
+                GROUP_CONCAT(DISTINCT att.term_id) AS term_ids,
+                GROUP_CONCAT(DISTINCT aut.user_id) AS user_ids
+            FROM {$this->table('ratings')} AS r
+            LEFT JOIN {$this->table('assigned_posts')} AS apt ON r.ID = apt.rating_id
+            LEFT JOIN {$this->table('assigned_terms')} AS att ON r.ID = att.rating_id
+            LEFT JOIN {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id
+            GROUP BY r.ID
+            ORDER BY r.ID
+            LIMIT %d, %d
+        ", $offset, $limit);
+        return $this->db->get_results($this->sql($sql, 'export-values'), ARRAY_A);
+    }
+
+    /**
+     * @return array
+     */
+    public function import($offset, $limit, $exportKey)
+    {
+        $sql = $this->db->prepare("
+            SELECT m.post_id, m.meta_value
+            FROM {$this->db->postmeta} AS m
+            INNER JOIN {$this->db->posts} AS p ON m.post_id = p.ID
+            WHERE p.post_type = '%s' AND m.meta_key = '%s'
+            ORDER BY m.meta_id
+            LIMIT %d, %d
+        ", glsr()->post_type, $exportKey, $offset, $limit);
+        return $this->db->get_results($this->sql($sql, 'import-values'), ARRAY_A);
+    }
+
+    /**
+     * @return array
+     */
     public function ratings(array $args = [])
     {
         $this->setArgs($args);

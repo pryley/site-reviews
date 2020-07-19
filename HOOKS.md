@@ -7,6 +7,7 @@
     site-reviews/database/sql                               (string $sql, string $handle)
     site-reviews/database/sql/{handle}                      (string $sql)
     site-reviews/defaults                                   (DefaultsAbstract $defaultsClass, string $hook, string $method)
+    site-reviews/export/cleanup                             ()
     site-reviews/get/review                                 ()
     site-reviews/get/reviews                                ()
     site-reviews/personal-data/erase                        (Review $review, bool $retainReview)

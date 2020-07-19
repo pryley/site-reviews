@@ -80,10 +80,10 @@ class Hooks implements HooksContract
         add_action('load-edit.php', [$this, 'translateAdminEditPage']);
         add_action('load-post.php', [$this, 'translateAdminPostPage']);
         add_action('plugins_loaded', [$this, 'translatePlugin']);
+        add_action('site-reviews/export/cleanup', [$this->admin, 'cleanupAfterExport']);
         add_action('admin_enqueue_scripts', [$this->admin, 'enqueueAssets']);
         add_action('admin_init', [$this->admin, 'registerTinymcePopups']);
         add_action('media_buttons', [$this->admin, 'renderTinymceButton'], 11);
-        add_action('export_wp', [$this->admin, 'onExportStart']);
         add_action('import_end', [$this->admin, 'onImportEnd']);
         add_action('site-reviews/route/ajax/search-posts', [$this->admin, 'searchPostsAjax']);
         add_action('site-reviews/route/ajax/search-translations', [$this->admin, 'searchTranslationsAjax']);
@@ -168,7 +168,7 @@ class Hooks implements HooksContract
         add_filter('plugin_action_links_'.$this->basename, [$this->admin, 'filterActionLinks']);
         add_filter('map_meta_cap', [$this->admin, 'filterCreateCapability'], 10, 2);
         add_filter('dashboard_glance_items', [$this->admin, 'filterDashboardGlanceItems']);
-        add_filter('wp_import_post_meta', [$this->admin, 'filterImportPostMeta'], 10, 3);
+        add_filter('export_args', [$this->admin, 'filterExportArgs'], 11);
         add_filter('mce_external_plugins', [$this->admin, 'filterTinymcePlugins'], 15);
         add_filter('allowed_block_types', [$this->blocks, 'filterAllowedBlockTypes'], 10, 2);
         add_filter('block_categories', [$this->blocks, 'filterBlockCategories']);

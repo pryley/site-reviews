@@ -4,15 +4,13 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\EnqueueAdminAssets;
 use GeminiLabs\SiteReviews\Commands\ExportRatings;
-use GeminiLabs\SiteReviews\Commands\ImportRating;
+use GeminiLabs\SiteReviews\Commands\ImportRatings;
 use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups;
 use GeminiLabs\SiteReviews\Commands\TogglePinned;
 use GeminiLabs\SiteReviews\Commands\ToggleStatus;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Request;
@@ -23,7 +21,16 @@ class AdminController extends Controller
 
     public function __construct()
     {
-        $this->exportKey = Str::prefix(glsr()->prefix.'export_rating', '_');
+        $this->exportKey = '_'.glsr()->prefix.'export';
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/export/cleanup
+     */
+    public function cleanupAfterExport()
+    {
+        glsr(Database::class)->deleteMeta($this->exportKey);
     }
 
     /**
@@ -98,22 +105,16 @@ class AdminController extends Controller
     }
 
     /**
-     * @param array $postMeta
-     * @param int $postId
-     * @param \WP_Post $post
+     * @param array $args
      * @return array
-     * @filter wp_import_post_meta
+     * @filter export_args
      */
-    public function filterImportPostMeta($postMeta, $postId, $post)
+    public function filterExportArgs($args)
     {
-        if (glsr()->post_type !== $post->post_type) {
-            return $postMeta;
+        if (in_array(Arr::get($args, 'content'), ['all', glsr()->post_type])) {
+            $this->execute(new ExportRatings($this->exportKey, glsr()->args($args)));
         }
-        if ($rating = Arr::consolidate(Arr::get($postMeta, $this->exportKey))) {
-            $this->execute(new ImportRating($rating));
-        }
-        unset($postMeta[$this->exportKey]);
-        return $postMeta;
+        return $args;
     }
 
     /**
@@ -131,22 +132,12 @@ class AdminController extends Controller
     }
 
     /**
-     * @param array $args
-     * @return void
-     * @action export_wp
-     */
-    public function onExportStart($args)
-    {
-        $this->execute(new ExportRatings($this->exportKey, $args));
-    }
-
-    /**
      * @return void
      * @action import_end
      */
     public function onImportEnd()
     {
-        glsr(Migrate::class)->reset();
+        $this->execute(new ImportRatings($this->exportKey));
     }
 
     /**

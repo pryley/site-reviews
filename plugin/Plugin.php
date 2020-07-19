@@ -81,7 +81,7 @@ trait Plugin
      * @param mixed $args
      * @return Arguments
      */
-    public function args($args)
+    public function args($args = [])
     {
         return new Arguments($args);
     }

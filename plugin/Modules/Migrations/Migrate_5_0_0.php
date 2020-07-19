@@ -84,7 +84,7 @@ class Migrate_5_0_0
                 glsr(Database::class)->insertBulk('postmeta', $values, [
                     'post_id',
                     'meta_key',
-                    'meta_value'
+                    'meta_value',
                 ]);
             }
             $offset += $this->limit;

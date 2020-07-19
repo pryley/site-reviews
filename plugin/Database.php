@@ -48,6 +48,19 @@ class Database
     }
 
     /**
+     * @return void
+     */
+    public function deleteMeta($metaKey)
+    {
+        $sql = $this->db->prepare("
+            DELETE FROM {$this->db->postmeta}
+            WHERE 'meta_key' = '%s'
+        ", $metaKey);
+        $sql = glsr(Query::class)->sql($sql, 'delete-meta');
+        return $this->logErrors($this->db->query($sql));
+    }
+
+    /**
      * Search SQL filter for matching against post title only.
      * @see http://wordpress.stackexchange.com/a/11826/1685
      * @param string $search
