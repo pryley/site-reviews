@@ -30,6 +30,13 @@ class TestHelper extends WP_UnitTestCase
         $this->assertEquals(Helper::buildPropertyName('Hello-Doll'), 'helloDoll');
     }
 
+    public function test_compare_versions()
+    {
+        $this->assertTrue(Helper::compareVersions('1.0', '1'));
+        $this->assertTrue(Helper::compareVersions('1.0', '1.00'));
+        $this->assertFalse(Helper::compareVersions('1.0', '1.0.10'));
+    }
+
     public function test_filter_input()
     {
         $_POST['xxx'] = 'xxx';
@@ -73,13 +80,15 @@ class TestHelper extends WP_UnitTestCase
 
     public function test_is_greater_then()
     {
-        $this->assertTrue(Helper::isGreaterThan('1.0.0', '1.0'));
+        $this->assertFalse(Helper::isGreaterThan('1.0', '1'));
+        $this->assertFalse(Helper::isGreaterThan('1.0.0', '1.0'));
         $this->assertFalse(Helper::isGreaterThan('1.0.0', '1.0.0'));
         $this->assertFalse(Helper::isGreaterThan('1.0.0', '1.0.1'));
     }
 
     public function test_is_greater_then_or_equal()
     {
+        $this->assertTrue(Helper::isGreaterThanOrEqual('1.0', '1'));
         $this->assertTrue(Helper::isGreaterThanOrEqual('1.0.0', '1.0'));
         $this->assertTrue(Helper::isGreaterThanOrEqual('1.0.0', '1.0.0'));
         $this->assertFalse(Helper::isGreaterThanOrEqual('1.0.0', '1.0.1'));
@@ -87,13 +96,15 @@ class TestHelper extends WP_UnitTestCase
 
     public function test_is_less_then()
     {
-        $this->assertTrue(Helper::isLessThan('1.0', '1.0.0'));
+        $this->assertFalse(Helper::isLessThan('1', '1.0'));
+        $this->assertFalse(Helper::isLessThan('1.0', '1.0.0'));
         $this->assertFalse(Helper::isLessThan('1.0.0', '1.0.0'));
         $this->assertFalse(Helper::isLessThan('1.0.1', '1.0.0'));
     }
 
     public function test_is_less_then_or_equal()
     {
+        $this->assertTrue(Helper::isLessThanOrEqual('1', '1.0'));
         $this->assertTrue(Helper::isLessThanOrEqual('1.0', '1.0.0'));
         $this->assertTrue(Helper::isLessThanOrEqual('1.0.0', '1.0.0'));
         $this->assertFalse(Helper::isLessThanOrEqual('1.0.1', '1.0.0'));

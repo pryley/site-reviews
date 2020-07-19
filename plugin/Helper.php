@@ -43,6 +43,19 @@ class Helper
     }
 
     /**
+     * @param int|string $version1
+     * @param int|string $version2
+     * @param string $operator
+     * @return bool
+     */
+    public static function compareVersions($version1, $version2, $operator = '=')
+    {
+        $version1 = implode('.', array_pad(explode('.', $version1), 3, 0));
+        $version2 = implode('.', array_pad(explode('.', $version2), 3, 0));
+        return version_compare($version1, $version2, $operator);
+    }
+
+    /**
      * @param string $key
      * @return mixed
      */
@@ -181,7 +194,7 @@ class Helper
      */
     public static function isGreaterThan($value, $compareWithValue)
     {
-        return version_compare($value, $compareWithValue, '>');
+        return static::compareVersions($value, $compareWithValue, '>');
     }
 
     /**
@@ -191,7 +204,7 @@ class Helper
      */
     public static function isGreaterThanOrEqual($value, $compareWithValue)
     {
-        return version_compare($value, $compareWithValue, '>=');
+        return static::compareVersions($value, $compareWithValue, '>=');
     }
 
     /**
@@ -201,7 +214,7 @@ class Helper
      */
     public static function isLessThan($value, $compareWithValue)
     {
-        return version_compare($value, $compareWithValue, '<');
+        return static::compareVersions($value, $compareWithValue, '<');
     }
 
     /**
@@ -211,7 +224,7 @@ class Helper
      */
     public static function isLessThanOrEqual($value, $compareWithValue)
     {
-        return version_compare($value, $compareWithValue, '<=');
+        return static::compareVersions($value, $compareWithValue, '<=');
     }
 
     /**
