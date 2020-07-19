@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Defaults\PermissionDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Role;
 use ReflectionClass;
 
 /**
@@ -53,6 +54,7 @@ final class Application extends Container
     {
         $this->scheduleCronJob();
         add_option(static::ID.'activated', true);
+        $this->make(Role::class)->resetAll();
     }
 
     /**
