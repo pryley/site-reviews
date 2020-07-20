@@ -211,7 +211,9 @@ final class Application extends Container
             $reflection = new \ReflectionClass($addon);
             if ($id = $reflection->getConstant('ID')) {
                 $this->addons[] = $id;
-                $this->bind($id, $addon);
+                $this->bind($id, function () use ($addon) {
+                    return $addon;
+                });
                 $addon->init();
             }
         } catch (\ReflectionException $e) {
