@@ -44,13 +44,14 @@
     site-reviews/async-scripts                              (): array
     site-reviews/block/{block}/attributes                   (): array
     site-reviews/build/template/{template_path}             (): string
-    site-reviews/builder/field/{field_type}                 (): string
+    site-reviews/builder/field/{field_type}                 (string $className): string
         !! site-reviews/builder/field/{field_type}/args
         !! site-reviews/builder/field/classname
     site-reviews/builder/result                             (string $result, Builder $builder): string
     site-reviews/builder/{tag}/args                         (array $args, Builder $builder): array
     site-reviews/capabilities                               (array $capabilities): array
     site-reviews/capabilities/for-roles                     (array $capabilities): array
+    site-reviews/column/{column}                            (string $className): string
     site-reviews/columns/{column_slug}                      (string $value, int $postId): string
     site-reviews/columns/orderby-is-null                    (array $columns): array
     site-reviews/config                                     (string $configPath): string
@@ -58,7 +59,6 @@
     site-reviews/console/level                              (int $level): int
     site-reviews/const/{constant}                           (string $constantName): string
     site-reviews/create/review-values                       (array $reviewValues, CreateReview $command): array
-    site-reviews/create/unset-keys-from-custom              (): array
     site-reviews/defaults/{defaults_name}                   (): array
     site-reviews/defaults/custom/sanitize                   (array $sanitize): array
     site-reviews/defer-scripts                              (): array
@@ -110,6 +110,7 @@
     site-reviews/rendered/template/{template_path}          (): string
     site-reviews/review/build/after                         (array $templateTags, Review $review, Modules\Html\ReviewHtml $reviewHtml): array
     site-reviews/review/build/{tag_or_field_key}            (string $field, string $value, Review $review, Modules\Html\ReviewHtml $reviewHtml): string
+    site-reviews/review/tag/{tag}                           (string $className): string
     site-reviews/review/redirect                            (): string
     site-reviews/review/wrap/{tag_or_field_key}             (string $value, Review $review, string $rawValue, Modules\Html\Tags\{Tag} $tag): string
     site-reviews/reviews/fallback                           (): string

@@ -182,6 +182,7 @@ class ListTableController extends Controller
             return;
         }
         $className = Helper::buildClassName('ColumnValue'.$column, 'Controllers\ListTableColumns');
+        $className = glsr()->filterString('column/'.$column, $className);
         $value = glsr()->runIf($className, $review);
         $value = glsr()->filterString('columns/'.$column, $value, $postId);
         echo Helper::ifEmpty($value, '&mdash;');
@@ -235,6 +236,9 @@ class ListTableController extends Controller
         return array_key_exists(get_query_var('orderby'), $columns);
     }
 
+    /**
+     * @return bool
+     */
     protected function isOrderbyWithIsNull($column)
     {
         $columns = [
