@@ -177,7 +177,6 @@ trait QuerySql
     {
         $where = [
             $this->db->prepare('AND p.post_type = %s', glsr()->post_type),
-            "AND p.post_status = 'publish'",
         ];
         $where = $this->sqlClauses($where, 'and');
         $where = glsr()->filterArray('query/sql/where', $where, $this);
@@ -212,6 +211,26 @@ trait QuerySql
             return "AND ($clauses)";
         }
         return '';
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseAndAuthor()
+    {
+        return !empty($this->args['author'])
+            ? $this->db->prepare('AND p.post_author = %d', $this->args['author'])
+            : '';
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseAndPostStatus()
+    {
+        return !empty($this->args['post_status'])
+            ? 'AND p.post_status IN '.$this->escValuesForInsert($this->args['post_status'])
+            : '';
     }
 
     /**

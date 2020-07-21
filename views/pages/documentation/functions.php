@@ -265,28 +265,34 @@ glsr_get_reviews(array $args = []);</code></pre>
         <p>The <code>$args</code> variable is optional, but if included it must be an array.</p>
         <p><strong>Default $args array:</strong></p>
         <pre><code class="php">$args = [
-    'assigned_to' => '',
-    'category' => '',
+    'assigned_posts' => '',
+    'assigned_terms' => '',
+    'assigned_users' => '',
+    'author' => '',
     'offset' => '',
     'order' => 'DESC',
     'orderby' => 'date',
+    'page' => 1,
     'pagination' => false,
     'per_page' => 10,
     'post__in' => [],
     'post__not_in' => [],
+    'post_status' => 'publish',
     'rating' => '',
     'type' => '',
 ];</code></pre>
         <p><strong>Example Usage:</strong></p>
         <pre><code class="php">$reviews = glsr_get_reviews([
-    'assigned_to' => 'post_id',
+    'assigned_posts' => 'post_id',
+    'author' => get_current_user_id(),
     'rating' => 3,
 ]);
 
 // OR:
 
 $reviews = apply_filters('glsr_get_reviews', [], [
-    'assigned_to' => 'post_id',
+    'assigned_posts' => 'post_id',
+    'author' => get_current_user_id(),
     'rating' => 3,
 ]);</code></pre>
         <p><strong>Helpful Tips:</strong></p>

@@ -75,6 +75,15 @@ class Sanitizer
 
     /**
      * @param mixed $value
+     * @return string[]
+     */
+    protected function sanitizeArrayString($value)
+    {
+        return array_filter(Cast::toArray($value), 'is_string');
+    }
+
+    /**
+     * @param mixed $value
      * @return bool
      */
     protected function sanitizeBool($value)

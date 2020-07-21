@@ -10,6 +10,7 @@ class ReviewsDefaults extends Defaults
      * @var array
      */
     public $casts = [
+        'author' => 'int',
         'offset' => 'int',
         'page' => 'int',
         'pagination' => 'string',
@@ -34,6 +35,7 @@ class ReviewsDefaults extends Defaults
     public $sanitize = [
         'post__in' => 'array-int',
         'post__not_in' => 'array-int',
+        'post_status' => 'array-string',
     ];
 
     /**
@@ -45,6 +47,7 @@ class ReviewsDefaults extends Defaults
             'assigned_posts' => '',
             'assigned_terms' => '',
             'assigned_users' => '',
+            'author' => '',
             'offset' => '',
             'order' => 'DESC',
             'orderby' => 'date',
@@ -53,6 +56,7 @@ class ReviewsDefaults extends Defaults
             'per_page' => 10,
             'post__in' => [],
             'post__not_in' => [],
+            'post_status' => 'publish',
             'rating' => '',
             'type' => '',
         ];
