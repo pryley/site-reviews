@@ -53,9 +53,6 @@ class CreateReview implements Contract
         if ($this->validate()) {
             $this->create();
         }
-        $this->errors = glsr()->sessionGet($this->form_id.'errors', false);
-        $this->message = glsr()->sessionGet($this->form_id.'message', '');
-        $this->recaptcha = glsr()->sessionGet($this->form_id.'recaptcha', false);
         return $this;
     }
 
@@ -113,8 +110,11 @@ class CreateReview implements Contract
      */
     public function validate()
     {
-        $validated = glsr(ValidateReview::class)->validate($this->request->toArray());
-        return empty($validated->error) && !$validated->recaptchaIsUnset;
+        $validator = glsr(ValidateReview::class)->validate($this->request);
+        $this->errors = $validator->errors;
+        $this->message = $validator->message;
+        $this->recaptcha = $validator->recaptcha;
+        return $validator->isValid();
     }
 
     /**

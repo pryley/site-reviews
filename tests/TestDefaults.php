@@ -37,6 +37,7 @@ class TestDefaults extends WP_UnitTestCase
             'assigned_posts' => 4466,
             'assigned_terms' => 48,
             'assigned_users' => 1,
+            'author' => 0,
             'offset' => 0,
             'order' => 'DESC',
             'orderby' => 'date',
@@ -45,6 +46,7 @@ class TestDefaults extends WP_UnitTestCase
             'per_page' => 1,
             'post__in' => [],
             'post__not_in' => [],
+            'post_status' => ['publish'],
             'rating' => 0,
             'type' => 'local',
         ]);

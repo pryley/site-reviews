@@ -2,31 +2,30 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
-use GeminiLabs\SiteReviews\Defaults\ValidateReviewDefaults;
-use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Honeypot;
 
-class HoneyPotValidator
+class HoneypotValidator extends ValidatorAbstract
 {
     /**
-     * @return bool
+     * @return void
      */
-    public function isValid(array $review)
+    public function performValidation()
     {
-        return glsr()->filterBool('validate/honeypot', $this->validate($review), $review);
+        if (!$this->isValid()) {
+            $this->setErrors(
+                __('The review submission failed. Please notify the site administrator.', 'site-reviews'),
+                'The Honeypot caught a bad submission.'
+            );
+        }
     }
 
     /**
-     * @param array $request
      * @return bool
      */
-    protected function validate($request)
+    protected function isValid()
     {
-        $hash = glsr(Honeypot::class)->hash(Arr::get($request, 'form_id'));
-        if (array_key_exists($hash, $request)) {
-            return empty($request[$hash]);
-        }
-        return false;
+        $hash = glsr(Honeypot::class)->hash($this->request->form_id);
+        $isValid = isset($this->request[$hash]) && empty($this->request[$hash]);
+        return glsr()->filterBool('validate/honeypot', $isValid, $this->request);
     }
 }

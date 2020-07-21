@@ -140,6 +140,7 @@
     site-reviews/trustalyze/response                        (): array
     site-reviews/trustalyze/review                          (): array
     site-reviews/url                                        (string $url, string $path): string
+    site-reviews/validators                                 (array $validatorClasses): array
     site-reviews/validate/akismet                           (): bool
     site-reviews/validate/akismet/is-active                 (): bool
     site-reviews/validate/akismet/submission                (): array
@@ -147,7 +148,6 @@
     site-reviews/validate/custom                            (): bool|string
     site-reviews/validate/honeypot                          (): bool
     site-reviews/validate/review-limits                     (): bool
-    site-reviews/validate/review-limits/query               (): array
     site-reviews/validation/rules                           (): array
     site-reviews/views/data                                 (): array
     site-reviews/views/file                                 (string $filePath, string $view, array $data): string
