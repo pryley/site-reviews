@@ -131,9 +131,9 @@ class Str
      */
     public static function fallback($value, $fallback)
     {
-        return is_string($value) && empty(trim($value))
-            ? $fallback
-            : $value;
+        return is_scalar($value) && !empty(trim($value))
+            ? Cast::toString($value)
+            : Cast::toString($fallback);
     }
 
     /**

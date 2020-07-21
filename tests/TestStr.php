@@ -116,8 +116,8 @@ class TestStr extends WP_UnitTestCase
     {
         $this->assertEquals(Str::fallback('1', '2'), '1');
         $this->assertEquals(Str::fallback('', '2'), '2');
-        $this->assertEquals(Str::fallback(1, '2'), 1);
-        $this->assertEquals(Str::fallback([], '2'), []);
+        $this->assertEquals(Str::fallback(1, '2'), '1');
+        $this->assertEquals(Str::fallback([], '2'), '2');
     }
 
     public function test_natural_join()
