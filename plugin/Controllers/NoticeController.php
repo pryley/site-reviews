@@ -45,8 +45,8 @@ class NoticeController extends Controller
      */
     public function dismissNotice(Request $request)
     {
-        if ($key = Arr::get($request, 'notice')) {
-            $this->setUserMeta($key, $this->getVersionFor($key));
+        if ($request->notice) {
+            $this->setUserMeta($request->notice, $this->getVersionFor($key));
         }
     }
 
