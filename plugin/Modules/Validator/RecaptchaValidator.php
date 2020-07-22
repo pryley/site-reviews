@@ -70,7 +70,7 @@ class RecaptchaValidator extends ValidatorAbstract
     protected function recaptchaTokenStatus()
     {
         $endpoint = add_query_arg([
-            'remoteip' => Helper::getIpAddress(),
+            'remoteip' => $this->request->ip_address,
             'response' => $this->request['_recaptcha-token'],
             'secret' => glsr_get_option('submissions.recaptcha.secret'),
         ], static::RECAPTCHA_API_ENDPOINT);

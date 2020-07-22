@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Request;
 
 class ValidateReview
@@ -33,7 +32,6 @@ class ValidateReview
     public function validate(Request $request)
     {
         $this->request = $request;
-        $this->request->set('ip_address', Helper::getIpAddress()); // required for Akismet and Blacklist validation
         $validators = glsr()->filterArray('validators', [ // order is intentional
             DefaultValidator::class,
             CustomValidator::class,

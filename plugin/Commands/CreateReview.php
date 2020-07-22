@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Notification;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
@@ -41,6 +42,7 @@ class CreateReview implements Contract
 
     public function __construct(Request $request)
     {
+        $request->set('ip_address', Helper::getIpAddress()); // required for Akismet and Blacklist validation
         $this->request = $request;
         $this->sanitize();
     }
