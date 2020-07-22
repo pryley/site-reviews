@@ -42,10 +42,10 @@ class Schema
         $schema = $this->buildSummary($args);
         if (!empty($schema)) {
             $reviews = $this->buildReviews();
-            foreach ($reviews as &$review) {
+            array_walk($reviews, function (&$review) {
                 unset($review['@context']);
                 unset($review['itemReviewed']);
-            }
+            });
         }
         if (!empty($reviews)) {
             $schema['review'] = $reviews;
@@ -64,9 +64,10 @@ class Schema
         }
         $buildSummary = Helper::buildMethodName($this->getSchemaOptionValue('type'), 'buildSummaryFor');
         if ($count = array_sum($this->getRatingCounts($ratings))) {
-            $schema = method_exists($this, $buildSummary)
-                ? $this->$buildSummary()
-                : $this->buildSummaryForCustom();
+            $schema = Helper::ifTrue(method_exists($this, $buildSummary),
+                [$this, $buildSummary],
+                [$this, 'buildSummaryForCustom']
+            );
             $schema->aggregateRating(
                 $this->getSchemaType('AggregateRating')
                     ->ratingValue($this->getRatingValue())
@@ -85,13 +86,12 @@ class Schema
      */
     public function render()
     {
-        if (empty($schemas = glsr()->retrieve('schemas', []))) {
-            return;
+        if ($schemas = glsr()->retrieve('schemas', [])) {
+            printf('<script type="application/ld+json">%s</script>', json_encode(
+                glsr()->filterArray('schema/all', $schemas),
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+            ));
         }
-        printf('<script type="application/ld+json">%s</script>', json_encode(
-            glsr()->filterArray('schema/all', $schemas),
-            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-        ));
     }
 
     /**
@@ -99,13 +99,12 @@ class Schema
      */
     public function store(array $schema)
     {
-        if (empty($schema)) {
-            return;
+        if (!empty($schema)) {
+            $schemas = Arr::consolidate(glsr()->retrieve('schemas'));
+            $schemas[] = $schema;
+            $schemas = array_map('unserialize', array_unique(array_map('serialize', $schemas)));
+            glsr()->store('schemas', $schemas);
         }
-        $schemas = Arr::consolidate(glsr()->retrieve('schemas'));
-        $schemas[] = $schema;
-        $schemas = array_map('unserialize', array_unique(array_map('serialize', $schemas)));
-        glsr()->store('schemas', $schemas);
     }
 
     /**
@@ -159,10 +158,9 @@ class Schema
     {
         foreach ($values as $value) {
             $option = $this->getSchemaOptionValue($value);
-            if (empty($option)) {
-                continue;
+            if (!empty($option)) {
+                $schema->$value($option);
             }
-            $schema->$value($option);
         }
         return $schema;
     }
@@ -209,9 +207,9 @@ class Schema
     protected function getRatingCounts(array $ratings = [])
     {
         if (!isset($this->ratingCounts)) {
-            $this->ratingCounts = empty($ratings)
-                ? glsr(RatingManager::class)->ratings($this->args)
-                : $ratings;
+            $this->ratingCounts = Helper::ifTrue(!empty($ratings), $ratings, function () {
+                return glsr(RatingManager::class)->ratings($this->args);
+            });
         }
         return $this->ratingCounts;
     }
@@ -239,9 +237,7 @@ class Schema
         if (is_array($setting)) {
             return $this->getSchemaOptionDefault($setting, $fallback);
         }
-        return !empty($setting)
-            ? $setting
-            : $fallback;
+        return Helper::ifEmpty($setting, $fallback, $strict = true);
     }
 
     /**
@@ -254,9 +250,10 @@ class Schema
             'custom' => '',
             'default' => $fallback,
         ]);
-        return 'custom' != $setting['default']
-            ? $setting['default']
-            : $setting['custom'];
+        return Helper::ifTrue('custom' === $setting['default'], 
+            $setting['custom'], 
+            $setting['default']
+        );
     }
 
     /**
@@ -273,7 +270,7 @@ class Schema
         if ($value != $fallback) {
             return $this->setAndGetKeyValue($option, $value);
         }
-        if (!is_single() && !is_page()) {
+        if (!is_singular()) {
             return;
         }
         $method = Helper::buildMethodName($option, 'getThing');
@@ -292,9 +289,14 @@ class Schema
             $type = $this->getSchemaOption('type', 'LocalBusiness');
         }
         $className = Helper::buildClassName($type, 'Modules\Schema');
-        return class_exists($className)
-            ? new $className()
-            : new UnknownType($type);
+        return Helper::ifTrue(class_exists($className),
+            function () use ($className) {
+                return new $className();
+            },
+            function () use ($type) {
+                return new UnknownType($type);
+            }
+        );
     }
 
     /**

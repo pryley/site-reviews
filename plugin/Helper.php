@@ -242,7 +242,7 @@ class Helper
      */
     public static function runClosure($value)
     {
-        if ($value instanceof \Closure) {
+        if ($value instanceof \Closure || (is_array($value) && is_callable($value))) {
             return call_user_func($value);
         }
         return $value;
