@@ -95,7 +95,8 @@ class Builder
             'render' => 'is_bool',
             'tag' => 'is_string',
         ];
-        if (array_key_exists($property, $properties) && !empty($value)) {
+        $isValid = Cast::toBool(call_user_func(Arr::get($properties, $property, 'unset'), $value));
+        if ($isValid && !empty($value)) {
             $this->$property = $value;
         }
     }
@@ -108,9 +109,12 @@ class Builder
         $this->setArgs($args, $tag);
         $this->setTag($tag);
         glsr()->action('builder', $this);
-        $result = $this->isHtmlTag($this->tag)
-            ? $this->buildElement()
-            : $this->buildCustom($tag);
+        $result = Helper::ifTrue($this->isHtmlTag($this->tag),
+            [$this, 'buildElement'],
+            function () use ($tag) {
+                return $this->buildCustom($tag);
+            }
+        );
         return glsr()->filterString('builder/result', $result, $this);
     }
 
@@ -127,9 +131,7 @@ class Builder
      */
     public function buildDefaultElement($text = '')
     {
-        if (empty($text)) {
-            $text = $this->args['text'];
-        }
+        $text = Helper::ifEmpty($text, $this->args['text'], $strict = true);
         return $this->buildOpeningTag().$text.$this->buildClosingTag();
     }
 
@@ -142,7 +144,8 @@ class Builder
             return $this->buildOpeningTag();
         }
         if (in_array($this->tag, static::TAGS_FORM)) {
-            return $this->{'buildForm'.ucfirst($this->tag)}().$this->buildFieldDescription();
+            $method = Helper::buildMethodName($this->tag, 'buildForm');
+            return $this->$method().$this->buildFieldDescription();
         }
         return $this->buildDefaultElement();
     }
@@ -153,10 +156,11 @@ class Builder
      */
     public function buildCustom($tag)
     {
-        if (class_exists($className = $this->getFieldClassName($tag))) {
-            return (new $className($this))->build();
-        }
-        glsr_log()->error('Field class missing: '.$className);
+        $className = $this->getFieldClassName($tag);
+        return Helper::ifTrue(class_exists($className),
+            function () use ($className) { return (new $className($this))->build(); },
+            function () use ($className) { glsr_log()->error("Field [$className] missing."); }
+        );
     }
 
     /**
@@ -200,9 +204,7 @@ class Builder
      */
     public function setTag($tag)
     {
-        $this->tag = in_array($tag, static::INPUT_TYPES)
-            ? 'input'
-            : $tag;
+        $this->tag = Helper::ifTrue(in_array($tag, static::INPUT_TYPES), 'input', $tag);
     }
 
     /**
@@ -230,9 +232,10 @@ class Builder
             }
             return $this->buildFormLabel().$this->buildOpeningTag();
         }
-        return empty($this->args['options'])
-            ? $this->buildFormInputChoice()
-            : $this->buildFormInputMultiChoice();
+        return Helper::ifTrue(empty($this->args['options']),
+            [$this, 'buildFormInputChoice'],
+            [$this, 'buildFormInputMultiChoice']
+        );
     }
 
     /**
@@ -354,9 +357,7 @@ class Builder
      */
     protected function normalize(array $args)
     {
-        if (!isset($args['is_public'])) {
-            $args['is_public'] = false;
-        }
+        $args['is_public'] = Helper::ifEmpty($args['is_public'], false, $strict = true);
         return $args;
     }
 
