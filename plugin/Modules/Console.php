@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use BadMethodCallException;
 use DateTime;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Backtrace;
@@ -73,9 +74,7 @@ class Console
      */
     public function get()
     {
-        return empty($this->log)
-            ? _x('Console is empty', 'admin-text', 'site-reviews')
-            : $this->log;
+        return Helper::ifEmpty($this->log, _x('Console is empty', 'admin-text', 'site-reviews'));
     }
 
     /**
@@ -151,13 +150,12 @@ class Console
         $levels = $this->getLevels();
         foreach ($once as $entry) {
             $levelName = Arr::get($entry, 'level');
-            if (!in_array($levelName, $levels)) {
-                continue;
+            if (in_array($levelName, $levels)) {
+                $level = Arr::get(array_flip($levels), $levelName);
+                $message = Arr::get($entry, 'message');
+                $backtraceLine = Arr::get($entry, 'backtrace');
+                $this->log($level, $message, [], $backtraceLine);
             }
-            $level = Arr::get(array_flip($levels), $levelName);
-            $message = Arr::get($entry, 'message');
-            $backtraceLine = Arr::get($entry, 'backtrace');
-            $this->log($level, $message, [], $backtraceLine);
         }
         glsr()->{$this->logOnceKey} = [];
     }
@@ -175,16 +173,15 @@ class Console
             return Arr::get($entry, 'level') == $levelName
                 && Arr::get($entry, 'handle') == $handle;
         });
-        if (!empty($filtered)) {
-            return;
+        if (empty($filtered)) {
+            $once[] = [
+                'backtrace' => glsr(Backtrace::class)->lineFromData($data),
+                'handle' => $handle,
+                'level' => $levelName,
+                'message' => '[RECURRING] '.$this->getMessageFromData($data),
+            ];
+            glsr()->{$this->logOnceKey} = $once;
         }
-        $once[] = [
-            'backtrace' => glsr(Backtrace::class)->lineFromData($data),
-            'handle' => $handle,
-            'level' => $levelName,
-            'message' => '[RECURRING] '.$this->getMessageFromData($data),
-        ];
-        glsr()->{$this->logOnceKey} = $once;
     }
 
     /**
