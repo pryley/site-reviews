@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Helpers;
 
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class Arr
 {
@@ -25,7 +26,7 @@ class Arr
     {
         if (is_object($array)) {
             $values = get_object_vars($array);
-            $array = empty($values) ? (array) $array : $values;
+            $array = Helper::ifEmpty($values, (array) $array, $strict = true);
         }
         return is_array($array) ? $array : [];
     }
@@ -49,15 +50,17 @@ class Arr
      */
     public static function convertFromString($value, $callback = null)
     {
-        if (is_string($value)) {
-            $value = array_map('trim', explode(',', $value));
+        if (is_scalar($value)) {
+            $value = array_map('trim', explode(',', Cast::toString($value)));
         }
-        if (is_numeric($value)) {
-            $value = (array) $value;
-        }
-        return $callback
-            ? array_filter((array) $value, $callback)
-            : array_filter((array) $value, Helper::class.'::isNotEmpty');
+        return Helper::ifTrue($callback instanceof \Closure,
+            function () use ($callback, $value) {
+                return array_filter((array) $value, $callback);
+            },
+            function () use ($value) {
+                return array_filter((array) $value, Helper::class.'::isNotEmpty');
+            }
+        );
     }
 
     /**
@@ -71,9 +74,9 @@ class Arr
         foreach ($array as $key => $value) {
             $newKey = ltrim($prefix.'.'.$key, '.');
             if (static::isIndexedAndFlat($value)) {
-                if ($flattenValue) {
-                    $value = '['.implode(', ', $value).']';
-                }
+                $value = Helper::ifTrue(!$flattenValue, $value, function () use ($value) {
+                    return '['.implode(', ', $value).']';
+                });
             } elseif (is_array($value)) {
                 $result = array_merge($result, static::flatten($value, $flattenValue, $newKey));
                 continue;
@@ -198,9 +201,7 @@ class Arr
      */
     public static function reindex($array)
     {
-        return static::isIndexedAndFlat($array)
-            ? array_values($array)
-            : $array;
+        return Helper::ifTrue(static::isIndexedAndFlat($array), array_values($array), $array);
     }
 
     /**
@@ -216,7 +217,7 @@ class Arr
         $last = array_pop($keys);
         $pointer = &$data;
         foreach ($keys as $key) {
-            if (isset($pointer[$key]) && is_array($pointer[$key])) {
+            if (is_array(static::get($pointer, $key))) {
                 $pointer = &$pointer[$key];
             }
         }
@@ -234,9 +235,9 @@ class Arr
             if (Helper::isEmpty($value)) {
                 continue;
             }
-            $result[$key] = is_array($value)
-                ? static::removeEmptyValues($value)
-                : $value;
+            $result[$key] = Helper::ifTrue(!is_array($value), $value, function () use ($value) {
+                return static::removeEmptyValues($value);
+            });
         }
         return $result;
     }
@@ -270,9 +271,9 @@ class Arr
      */
     public static function unique(array $values)
     {
-        return static::isIndexedAndFlat($values)
-            ? array_values(array_filter(array_unique($values)))
-            : $values;
+        return Helper::ifTrue(!static::isIndexedAndFlat($values), $values, function () use ($values) {
+            return array_values(array_filter(array_unique($values)));
+        });
     }
 
     /**

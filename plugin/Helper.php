@@ -149,7 +149,7 @@ class Helper
     public static function ifEmpty($value, $fallback, $strict = false)
     {
         $isEmpty = $strict ? empty($value) : static::isEmpty($value);
-        return $isEmpty ? static::runClosure($fallback) : $value;
+        return $isEmpty ? $fallback : $value;
     }
 
     /**
@@ -160,7 +160,7 @@ class Helper
      */
     public static function ifTrue($condition, $ifTrue, $ifFalse = null)
     {
-        return $condition ? $ifTrue : static::runClosure($ifFalse);
+        return $condition ? static::runClosure($ifTrue) : static::runClosure($ifFalse);
     }
 
     /**
@@ -243,7 +243,7 @@ class Helper
     public static function runClosure($value)
     {
         if ($value instanceof \Closure) {
-            return $value();
+            return call_user_func($value);
         }
         return $value;
     }

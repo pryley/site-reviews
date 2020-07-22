@@ -67,15 +67,15 @@ class TestHelper extends WP_UnitTestCase
     public function test_if_empty()
     {
         $this->assertEquals(Helper::ifEmpty(0, 'abc'), 0);
-        $this->assertEquals(Helper::ifEmpty(0, 'abc', true), 'abc');
+        $this->assertEquals(Helper::ifEmpty(0, 'abc', $strict = true), 'abc');
         $this->assertEquals(Helper::ifEmpty([], 'abc'), 'abc');
-        $this->assertEquals(Helper::ifEmpty([], 'abc', true), 'abc');
-        $this->assertEquals(Helper::ifEmpty(false, 'abc'), false);
-        $this->assertEquals(Helper::ifEmpty(false, 'abc', true), 'abc');
+        $this->assertEquals(Helper::ifEmpty([], 'abc', $strict = true), 'abc');
+        $this->assertEquals(Helper::ifEmpty(false, 'abc'), $strict = false);
+        $this->assertEquals(Helper::ifEmpty(false, 'abc', $strict = true), 'abc');
         $this->assertEquals(Helper::ifEmpty(null, 'abc'), 'abc');
-        $this->assertEquals(Helper::ifEmpty(null, 'abc', true), 'abc');
+        $this->assertEquals(Helper::ifEmpty(null, 'abc', $strict = true), 'abc');
         $this->assertEquals(Helper::ifEmpty('', 'abc'), 'abc');
-        $this->assertEquals(Helper::ifEmpty('', 'abc', true), 'abc');
+        $this->assertEquals(Helper::ifEmpty('', 'abc', $strict = true), 'abc');
     }
 
     public function test_is_greater_then()

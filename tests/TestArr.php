@@ -39,9 +39,9 @@ class TestArr extends WP_UnitTestCase
         $this->assertEquals(Arr::convertFromDotNotation($original), $converted);
     }
 
-    public function test_convert_from_string()
-    {
-    }
+    // public function test_convert_from_string()
+    // {
+    // }
 
     public function test_flatten()
     {
@@ -66,17 +66,17 @@ class TestArr extends WP_UnitTestCase
         $this->assertTrue(is_object(Arr::get($values2, 'parent.child')));
     }
 
-    public function test_insert_after()
-    {
-    }
+    // public function test_insert_after()
+    // {
+    // }
 
-    public function test_insert_before()
-    {
-    }
+    // public function test_insert_before()
+    // {
+    // }
 
-    public function test_insert()
-    {
-    }
+    // public function test_insert()
+    // {
+    // }
 
     public function test_is_indexed_and_flat()
     {
@@ -92,13 +92,13 @@ class TestArr extends WP_UnitTestCase
         $this->assertEquals(Arr::prefixKeys($array), ['_a' => '', '_b' => '']);
     }
 
-    public function test_prepend()
-    {
-    }
+    // public function test_prepend()
+    // {
+    // }
 
-    public function test_reindex()
-    {
-    }
+    // public function test_reindex()
+    // {
+    // }
 
     public function test_remove()
     {
@@ -145,13 +145,13 @@ class TestArr extends WP_UnitTestCase
         );
     }
 
-    public function test_unique()
-    {
-    }
+    // public function test_unique()
+    // {
+    // }
 
-    public function test_unique_int()
-    {
-    }
+    // public function test_unique_int()
+    // {
+    // }
 
     public function test_unprefix_keys()
     {

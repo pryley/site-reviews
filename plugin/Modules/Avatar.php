@@ -79,6 +79,6 @@ class Avatar
             return $size;
         }
         $size = glsr_get_option('settings.reviews.avatars_size', static::FALLBACK_SIZE, 'int');
-        return Helper::ifEmpty($size, static::FALLBACK_SIZE, true);
+        return Helper::ifEmpty($size, static::FALLBACK_SIZE, $strict = true);
     }
 }

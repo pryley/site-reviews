@@ -82,7 +82,7 @@ class Cast
         if (is_object($value) && in_array('__toString', get_class_methods($value))) {
             return (string) $value->__toString();
         }
-        if (Helper::isEmpty($value)) {
+        if (Helper::isEmpty($value) || $value === $strict) {
             return '';
         }
         if (!is_scalar($value)) {
