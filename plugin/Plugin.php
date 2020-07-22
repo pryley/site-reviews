@@ -24,6 +24,11 @@ use ReflectionClass;
  */
 trait Plugin
 {
+    /**
+     * @var static
+     */
+    protected static $instance;
+
     protected $file;
     protected $languages;
     protected $testedTo;
@@ -94,6 +99,17 @@ trait Plugin
     public function filter($hook, ...$args)
     {
         return apply_filters_ref_array($this->id.'/'.$hook, $args);
+    }
+
+    /**
+     * @return static
+     */
+    public static function load()
+    {
+        if (empty(static::$instance)) {
+            static::$instance = new static();
+        }
+        return static::$instance;
     }
 
     /**

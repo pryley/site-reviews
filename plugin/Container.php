@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use Closure;
 use GeminiLabs\SiteReviews\Exceptions\BindingResolutionException;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
 use ReflectionException;
@@ -11,11 +12,6 @@ use ReflectionParameter;
 
 abstract class Container
 {
-    /**
-     * @var static
-     */
-    protected static $instance;
-
     /**
      * @var array
      */
@@ -35,17 +31,6 @@ abstract class Container
      * @var array[]
      */
     protected $with = [];
-
-    /**
-     * @return static
-     */
-    public static function load()
-    {
-        if (empty(static::$instance)) {
-            static::$instance = new static();
-        }
-        return static::$instance;
-    }
 
     /**
      * @param string $abstract
@@ -73,9 +58,7 @@ abstract class Container
     {
         if (is_string($abstract) && !class_exists($abstract)) {
             $alias = __NAMESPACE__.'\\'.Str::removePrefix($abstract, __NAMESPACE__);
-            if (class_exists($alias)) {
-                $abstract = $alias;
-            }
+            $abstract = Helper::ifTrue(class_exists($alias), $alias, $abstract);
         }
         return $this->resolve($abstract, $parameters);
     }
@@ -163,7 +146,7 @@ abstract class Container
      */
     protected function getLastParameterOverride()
     {
-        return count($this->with) ? end($this->with) : [];
+        return Arr::consolidate(end($this->with));
     }
 
     /**
@@ -216,9 +199,10 @@ abstract class Container
         }
         $this->with[] = $parameters;
         $concrete = $this->getConcrete($abstract);
-        $object = $this->isBuildable($concrete, $abstract)
-            ? $this->construct($concrete)
-            : $this->make($concrete);
+        $object = Helper::ifTrue($this->isBuildable($concrete, $abstract),
+            function () use ($concrete) { return $this->construct($concrete); },
+            function () use ($concrete) { return $this->make($concrete); }
+        );
         if ($this->isShared($abstract) && empty($parameters)) {
             $this->instances[$abstract] = $object; // store as a singleton
         }
@@ -254,9 +238,10 @@ abstract class Container
                 $results[] = $this->getParameterOverride($dependency);
                 continue;
             }
-            $results[] = is_null($dependency->getClass())
-                ? $this->resolvePrimitive($dependency)
-                : $this->resolveClass($dependency);
+            $results[] = Helper::ifTrue(is_null($dependency->getClass()),
+                function () use ($dependency) { return $this->resolvePrimitive($dependency); },
+                function () use ($dependency) { return $this->resolveClass($dependency); }
+            );
         }
         return $results;
     }
