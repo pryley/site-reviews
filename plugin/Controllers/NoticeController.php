@@ -46,7 +46,7 @@ class NoticeController extends Controller
     public function dismissNotice(Request $request)
     {
         if ($request->notice) {
-            $this->setUserMeta($request->notice, $this->getVersionFor($key));
+            $this->setUserMeta($request->notice, $this->getVersionFor($request->notice));
         }
     }
 
