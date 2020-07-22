@@ -109,12 +109,9 @@ class Builder
         $this->setArgs($args, $tag);
         $this->setTag($tag);
         glsr()->action('builder', $this);
-        $result = Helper::ifTrue($this->isHtmlTag($this->tag),
-            [$this, 'buildElement'],
-            function () use ($tag) {
-                return $this->buildCustom($tag);
-            }
-        );
+        $result = $this->isHtmlTag($this->tag)
+            ? $this->buildElement()
+            : $this->buildCustom($tag);
         return glsr()->filterString('builder/result', $result, $this);
     }
 
@@ -156,11 +153,10 @@ class Builder
      */
     public function buildCustom($tag)
     {
-        $className = $this->getFieldClassName($tag);
-        return Helper::ifTrue(class_exists($className),
-            function () use ($className) { return (new $className($this))->build(); },
-            function () use ($className) { glsr_log()->error("Field [$className] missing."); }
-        );
+        if (class_exists($className = $this->getFieldClassName($tag))) {
+            return (new $className($this))->build();
+        }
+        glsr_log()->error("Field [$className] missing.");
     }
 
     /**
@@ -232,10 +228,9 @@ class Builder
             }
             return $this->buildFormLabel().$this->buildOpeningTag();
         }
-        return Helper::ifTrue(empty($this->args['options']),
-            [$this, 'buildFormInputChoice'],
-            [$this, 'buildFormInputMultiChoice']
-        );
+        return empty($this->args['options'])
+            ? $this->buildFormInputChoice()
+            : $this->buildFormInputMultiChoice();
     }
 
     /**
@@ -357,7 +352,7 @@ class Builder
      */
     protected function normalize(array $args)
     {
-        $args['is_public'] = Helper::ifEmpty($args['is_public'], false, $strict = true);
+        $args['is_public'] = Cast::toBool(Arr::get($args, 'is_public'));
         return $args;
     }
 
