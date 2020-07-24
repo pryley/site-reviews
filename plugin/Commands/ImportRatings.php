@@ -12,12 +12,10 @@ use GeminiLabs\SiteReviews\Modules\Migrate;
 
 class ImportRatings implements Contract
 {
-    protected $exportKey;
     protected $limit;
 
-    public function __construct($exportKey)
+    public function __construct()
     {
-        $this->exportKey = $exportKey;
         $this->limit = 250;
     }
 
@@ -35,15 +33,18 @@ class ImportRatings implements Contract
      */
     protected function cleanup()
     {
-        glsr(Database::class)->deleteMeta($this->exportKey);
+        glsr(Database::class)->deleteMeta(glsr()->export_key);
         glsr(Migrate::class)->reset();
     }
 
     protected function import()
     {
-        $offset = 0;
+        $page = 0;
         while (true) {
-            $values = glsr(Query::class)->import($offset, $this->limit, $this->exportKey);
+            $values = glsr(Query::class)->import([
+                'page' => $page,
+                'per_page' => $this->limit,
+            ]);
             if (empty($values)) {
                 break;
             }
@@ -51,7 +52,7 @@ class ImportRatings implements Contract
             $this->importAssignedPosts($values);
             $this->importAssignedUsers($values);
             // It is unecessary to import term assignments as this is done in Migration
-            $offset += $this->limit;
+            $page++;
         }
     }
 

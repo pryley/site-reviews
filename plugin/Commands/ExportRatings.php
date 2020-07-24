@@ -10,12 +10,10 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 class ExportRatings implements Contract
 {
-    protected $exportKey;
     protected $limit;
 
-    public function __construct($exportKey, Arguments $args)
+    public function __construct(Arguments $args)
     {
-        $this->exportKey = $exportKey;
         $this->limit = 250;
         if (glsr()->post_type === $args->content) {
             add_filter('wxr_export_skip_postmeta', [$this, 'filterExportSkipPostMeta'], 10, 2);
@@ -38,7 +36,7 @@ class ExportRatings implements Contract
      */
     public function handle()
     {
-        glsr(Database::class)->deleteMeta($this->exportKey);
+        glsr(Database::class)->deleteMeta(glsr()->export_key);
         $this->export();
         $this->cleanup();
     }
@@ -57,9 +55,12 @@ class ExportRatings implements Contract
      */
     protected function export()
     {
-        $offset = 0;
+        $page = 1;
         while (true) {
-            $values = glsr(Query::class)->export($offset, $this->limit);
+            $values = glsr(Query::class)->export([
+                'page' => $page,
+                'per_page' => $this->limit,
+            ]);
             if (empty($values)) {
                 break;
             }
@@ -69,7 +70,7 @@ class ExportRatings implements Contract
                 'meta_key',
                 'meta_value',
             ]);
-            $offset += $this->limit;
+            $page++;
         }
     }
 
@@ -82,7 +83,7 @@ class ExportRatings implements Contract
         unset($result['review_id']);
         $result = [
             'post_id' => $postId,
-            'meta_key' => $this->exportKey,
+            'meta_key' => glsr()->export_key,
             'meta_value' => maybe_serialize($result),
         ];
     }

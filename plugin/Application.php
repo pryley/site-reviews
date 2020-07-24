@@ -14,6 +14,7 @@ use ReflectionClass;
  * @property string $capability
  * @property string $cron_event
  * @property string $defaults
+ * @property string $export_key
  * @property string $file
  * @property string $id
  * @property string $languages
@@ -33,6 +34,7 @@ final class Application extends Container
 
     const CAPABILITY = 'edit_others_posts';
     const CRON_EVENT = 'site-reviews/schedule/session/purge';
+    const EXPORT_KEY = '_glsr_export';
     const ID = 'site-reviews';
     const PAGED_QUERY_VAR = 'reviews-page';
     const POST_TYPE = 'site-review';

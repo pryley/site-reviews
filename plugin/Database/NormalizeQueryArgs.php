@@ -29,6 +29,7 @@ class NormalizeQueryArgs extends Arguments
         $args['assigned_posts'] = glsr(PostManager::class)->normalizeIds($args['assigned_posts']);
         $args['assigned_terms'] = glsr(TaxonomyManager::class)->normalizeIds($args['assigned_terms']);
         $args['assigned_users'] = glsr(UserManager::class)->normalizeIds($args['assigned_users']);
+        $args['author'] = glsr(UserManager::class)->normalizeId($args['author']);
         $args['offset'] = absint(filter_var($args['offset'], FILTER_SANITIZE_NUMBER_INT));
         $args['order'] = Str::restrictTo('ASC,DESC,', sanitize_key($args['order']), 'DESC'); // include an empty value
         $args['orderby'] = $this->normalizeOrderBy($args['orderby']);
@@ -37,6 +38,7 @@ class NormalizeQueryArgs extends Arguments
         $args['post__in'] = Arr::uniqueInt($args['post__in']);
         $args['post__not_in'] = Arr::uniqueInt($args['post__not_in']);
         $args['rating'] = absint(filter_var($args['rating'], FILTER_SANITIZE_NUMBER_INT));
+        $args['status'] = $this->normalizeStatus($args['status']);
         $args['type'] = sanitize_key($args['type']);
         parent::__construct($args);
     }
@@ -54,5 +56,19 @@ class NormalizeQueryArgs extends Arguments
             return Str::prefix($orderBy, 'p.post_');
         }
         return $orderBy;
+    }
+
+    /**
+     * @return string
+     */
+    protected function normalizeStatus($status)
+    {
+        $statuses = [
+            'all' => '',
+            'approved' => '1',
+            'unapproved' => '0',
+        ];
+        $status = Str::restrictTo(array_keys($statuses), $status, 'approved', $strict = true);
+        return $statuses[$status];
     }
 }

@@ -3,43 +3,22 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
-trait QuerySql
+trait Sql
 {
     public $args;
     public $db;
-
-    public function escFieldsForInsert(array $fields)
-    {
-        return sprintf('(`%s`)', implode('`,`', $fields));
-    }
-
-    public function escValuesForInsert(array $values)
-    {
-        $values = array_map('esc_sql', $values);
-        return sprintf("('%s')", implode("','", array_values($values)));
-    }
-
-    /**
-     * @param string $statement
-     * @param string $handle
-     * @return string
-     */
-    public function sql($statement, $handle = '')
-    {
-        glsr()->action('database/sql/'.$handle, $statement);
-        glsr()->action('database/sql', $statement, $handle);
-        return $statement;
-    }
 
     /**
      * @param string $clause
      * @return array
      */
-    public function sqlClauses(array $values, $clause)
+    public function clauses($clause, array $values = [])
     {
-        $prefix = Str::restrictTo('and, join', $clause);
+        $prefix = Str::restrictTo('and,join', $clause);
         foreach (array_keys($this->args) as $key) {
             $method = Helper::buildMethodName($key, 'clause-'.$prefix);
             if (method_exists($this, $method)) {
@@ -52,20 +31,32 @@ trait QuerySql
     /**
      * @return string
      */
-    public function sqlFrom()
+    public function escFieldsForInsert(array $fields)
     {
-        $from = "FROM {$this->table('ratings')} r";
-        $from = glsr()->filterString('query/sql/from', $from, $this);
-        return $from;
+        return sprintf('(`%s`)', implode('`,`', $fields));
     }
 
     /**
      * @return string
      */
-    public function sqlGroupBy()
+    public function escValuesForInsert(array $values)
     {
-        $groupBy = 'GROUP BY p.ID';
-        return glsr()->filterString('query/sql/group-by', $groupBy, $this);
+        $values = array_values(array_map('esc_sql', $values));
+        return sprintf("('%s')", implode("','", $values));
+    }
+
+    /**
+     * @param string $statement
+     * @param string $handle
+     * @return string
+     */
+    public function sql($statement)
+    {
+        $e = new \Exception();
+        $handle = Str::dashCase(Arr::get($e->getTrace(), '1.function'));
+        glsr()->action('database/sql/'.$handle, $statement);
+        glsr()->action('database/sql', $statement, $handle);
+        return $statement;
     }
 
     /**
@@ -73,34 +64,8 @@ trait QuerySql
      */
     public function sqlJoin()
     {
-        $join = [
-            "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID",
-        ];
-        $join = glsr()->filterArray('query/sql/join', $join, $this);
-        return implode(' ', $join);
-    }
-
-    /**
-     * @return string
-     */
-    public function sqlJoinClauses()
-    {
-        $join = $this->sqlClauses([], 'join');
-        $join = glsr()->filterArray('query/sql/join-clauses', $join, $this);
-        return trim($this->sqlJoin().' '.implode(' ', $join));
-    }
-
-    /**
-     * @return string
-     */
-    public function sqlJoinPivots()
-    {
-        $join = [
-            "LEFT JOIN {$this->table('assigned_posts')} apt on r.ID = apt.rating_id",
-            "LEFT JOIN {$this->table('assigned_terms')} att on r.ID = att.rating_id",
-            "LEFT JOIN {$this->table('assigned_users')} aut on r.ID = aut.rating_id",
-        ];
-        $join = glsr()->filterArray('query/sql/join-pivots', $join, $this);
+        $join = $this->clauses('join');
+        $join = glsr()->filterArrayUnique('query/sql/join', $join, $this);
         return implode(' ', $join);
     }
 
@@ -152,36 +117,11 @@ trait QuerySql
     /**
      * @return string
      */
-    public function sqlSelect()
-    {
-        $select = [
-            'r.*',
-            'p.post_author as author_id',
-            'p.post_date as date',
-            'p.post_content as content',
-            'p.post_title as title',
-            'p.post_status as status',
-            'GROUP_CONCAT(DISTINCT apt.post_id) as post_ids',
-            'GROUP_CONCAT(DISTINCT att.term_id) as term_ids',
-            'GROUP_CONCAT(DISTINCT aut.user_id) as user_ids',
-        ];
-        $select = glsr()->filterArray('query/sql/select', $select, $this);
-        $select = implode(', ', $select);
-        return "SELECT {$select}";
-    }
-
-    /**
-     * @return string
-     */
     public function sqlWhere()
     {
-        $where = [
-            $this->db->prepare('AND p.post_type = %s', glsr()->post_type),
-        ];
-        $where = $this->sqlClauses($where, 'and');
-        $where = glsr()->filterArray('query/sql/where', $where, $this);
-        $where = implode(' ', $where);
-        return "WHERE 1=1 {$where}";
+        $and = $this->clauses('and');
+        $and = glsr()->filterArrayUnique('query/sql/and', $and, $this);
+        return 'WHERE 1=1 '.implode(' ', $and);
     }
 
     /**
@@ -226,20 +166,20 @@ trait QuerySql
     /**
      * @return string
      */
-    protected function clauseAndPostStatus()
+    protected function clauseAndRating()
     {
-        return !empty($this->args['post_status'])
-            ? 'AND p.post_status IN '.$this->escValuesForInsert($this->args['post_status'])
+        return !empty($this->args['rating'])
+            ? $this->db->prepare('AND r.rating > %d', --$this->args['rating'])
             : '';
     }
 
     /**
      * @return string
      */
-    protected function clauseAndRating()
+    protected function clauseAndStatus()
     {
-        return !empty($this->args['rating'])
-            ? $this->db->prepare('AND r.rating > %d', --$this->args['rating'])
+        return !Helper::isEmpty($this->args['status'])
+            ? $this->db->prepare('AND r.is_approved = %d', $this->args['status'])
             : '';
     }
 
@@ -280,6 +220,26 @@ trait QuerySql
     {
         return !empty($this->args['assigned_users'])
             ? "INNER JOIN {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id"
+            : '';
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseJoinAuthor()
+    {
+        return !empty($this->args['author'])
+            ? "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
+            : '';
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseJoinOrderBy()
+    {
+        return Str::startsWith('p.', $this->args['orderby'])
+            ? "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
             : '';
     }
 }

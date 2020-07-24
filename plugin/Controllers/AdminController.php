@@ -17,20 +17,13 @@ use GeminiLabs\SiteReviews\Request;
 
 class AdminController extends Controller
 {
-    protected $exportKey;
-
-    public function __construct()
-    {
-        $this->exportKey = '_'.glsr()->prefix.'export';
-    }
-
     /**
      * @return void
      * @action site-reviews/export/cleanup
      */
     public function cleanupAfterExport()
     {
-        glsr(Database::class)->deleteMeta($this->exportKey);
+        glsr(Database::class)->deleteMeta(glsr()->export_key);
     }
 
     /**
@@ -112,7 +105,7 @@ class AdminController extends Controller
     public function filterExportArgs($args)
     {
         if (in_array(Arr::get($args, 'content'), ['all', glsr()->post_type])) {
-            $this->execute(new ExportRatings($this->exportKey, glsr()->args($args)));
+            $this->execute(new ExportRatings(glsr()->args($args)));
         }
         return $args;
     }
@@ -137,7 +130,7 @@ class AdminController extends Controller
      */
     public function onImportEnd()
     {
-        $this->execute(new ImportRatings($this->exportKey));
+        $this->execute(new ImportRatings());
     }
 
     /**

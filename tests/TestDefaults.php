@@ -46,8 +46,8 @@ class TestDefaults extends WP_UnitTestCase
             'per_page' => 1,
             'post__in' => [],
             'post__not_in' => [],
-            'post_status' => ['publish'],
             'rating' => 0,
+            'status' => 'approved',
             'type' => 'local',
         ]);
     }
