@@ -82,6 +82,42 @@ class Schema
     }
 
     /**
+     * @return mixed
+     */
+    public function buildSummaryForCustom()
+    {
+        return $this->buildSchemaValues($this->getSchemaType(), [
+            'description', 'image', 'name', 'url',
+        ]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function buildSummaryForLocalBusiness()
+    {
+        return $this->buildSchemaValues($this->buildSummaryForCustom(), [
+            'address', 'priceRange', 'telephone',
+        ]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function buildSummaryForProduct()
+    {
+        $offerType = $this->getSchemaOption('offerType', 'AggregateOffer');
+        $offers = $this->buildSchemaValues($this->getSchemaType($offerType), [
+            'highPrice', 'lowPrice', 'price', 'priceCurrency',
+        ]);
+        return $this->buildSummaryForCustom()
+            ->doIf(!empty($offers->getProperties()), function ($schema) use ($offers) {
+                $schema->offers($offers);
+            })
+            ->setProperty('@id', $this->getSchemaOptionValue('url').'#product');
+    }
+
+    /**
      * @return void
      */
     public function render()
@@ -163,42 +199,6 @@ class Schema
             }
         }
         return $schema;
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function buildSummaryForCustom()
-    {
-        return $this->buildSchemaValues($this->getSchemaType(), [
-            'description', 'image', 'name', 'url',
-        ]);
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function buildSummaryForLocalBusiness()
-    {
-        return $this->buildSchemaValues($this->buildSummaryForCustom(), [
-            'address', 'priceRange', 'telephone',
-        ]);
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function buildSummaryForProduct()
-    {
-        $offerType = $this->getSchemaOption('offerType', 'AggregateOffer');
-        $offers = $this->buildSchemaValues($this->getSchemaType($offerType), [
-            'highPrice', 'lowPrice', 'price', 'priceCurrency',
-        ]);
-        return $this->buildSummaryForCustom()
-            ->doIf(!empty($offers->getProperties()), function ($schema) use ($offers) {
-                $schema->offers($offers);
-            })
-            ->setProperty('@id', $this->getSchemaOptionValue('url').'#product');
     }
 
     /**

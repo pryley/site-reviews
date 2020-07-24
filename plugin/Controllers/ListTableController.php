@@ -43,10 +43,8 @@ class ListTableController extends Controller
      */
     public function filterDateColumnStatus($status, $post)
     {
-        if (glsr()->post_type == Arr::get($post, 'post_type')) {
-            $status = _x('Submitted', 'admin-text', 'site-reviews');
-        }
-        return $status;
+        $isReview = glsr()->post_type === Arr::get($post, 'post_type');
+        return Helper::ifTrue(!$isReview, $status, _x('Submitted', 'admin-text', 'site-reviews'));
     }
 
     /**
@@ -57,7 +55,7 @@ class ListTableController extends Controller
      */
     public function filterDefaultHiddenColumns($hidden, $screen)
     {
-        if (Arr::get($screen, 'id') == 'edit-'.glsr()->post_type) {
+        if (Arr::get($screen, 'id') === 'edit-'.glsr()->post_type) {
             $hidden = Arr::consolidate($hidden);
             $hidden = array_unique(array_merge($hidden, [
                 'assigned_users', 'author_name', 'author_email', 'ip_address', 'response',
@@ -93,7 +91,7 @@ class ListTableController extends Controller
      */
     public function filterRowActions($actions, $post)
     {
-        if (glsr()->post_type != Arr::get($post, 'post_type')
+        if (glsr()->post_type !== Arr::get($post, 'post_type')
             || 'trash' == $post->post_status
             || !user_can(get_current_user_id(), 'edit_post', $post->ID)) {
             return $actions;
@@ -212,8 +210,8 @@ class ListTableController extends Controller
         global $pagenow;
         return is_admin()
             && $query->is_main_query()
-            && glsr()->post_type == $query->get('post_type')
-            && 'edit.php' == $pagenow;
+            && glsr()->post_type === $query->get('post_type')
+            && 'edit.php' === $pagenow;
     }
 
     /**
