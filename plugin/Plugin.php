@@ -102,6 +102,17 @@ trait Plugin
     }
 
     /**
+     * @param string $hook
+     * @param mixed ...$args
+     * @return array
+     */
+    public function filterArrayUnique($hook, ...$args)
+    {
+        $filtered = apply_filters_ref_array($this->id.'/'.$hook, $args);
+        return array_unique(Cast::toArray($filtered));
+    }
+
+    /**
      * @return static
      */
     public static function load()
