@@ -64,7 +64,7 @@ class TestValidation extends WP_Ajax_UnitTestCase
         add_filter('site-reviews/validators', function () {
             return [BlacklistValidator::class];
         });
-        $blacklist = "xxx\napple";
+        $blacklist = "xxx\n \napple";
         $response = $this->assertJsonSuccess($this->request());
         $this->assertTrue($response->data->review->is_approved);
         $this->assertEquals('publish', $response->data->review->status);
@@ -74,6 +74,7 @@ class TestValidation extends WP_Ajax_UnitTestCase
         glsr(OptionManager::class)->set('settings.submissions.blacklist.integration', '');
         $this->assertJsonError($this->request(['content' => 'Give me a xxx!!']));
         $this->assertJsonError($this->request(['email' => 'john@apple.com']));
+        $this->assertJsonSuccess($this->request(['email' => 'john@microsoft.com']));
         $this->assertJsonError($this->request(['name' => 'Johnxxx Doe']));
         $this->assertJsonError($this->request(['title' => 'This is a xxx title']));
         glsr(OptionManager::class)->set('settings.submissions.blacklist.entries', "{$blacklist}\n{$this->ipaddress}");
@@ -100,11 +101,15 @@ class TestValidation extends WP_Ajax_UnitTestCase
         add_filter('site-reviews/validators', function () {
             return [CustomValidator::class];
         });
+        $this->assertJsonSuccess($this->request());
         add_filter('site-reviews/validate/custom', function () {
             return $this->messageFailedCustom;
         });
-        $response = $this->assertJsonError($this->request());
-        $this->assertEquals($response->data->message, $this->messageFailedCustom);
+        $response1 = $this->assertJsonError($this->request());
+        $this->assertEquals($response1->data->message, $this->messageFailedCustom);
+        add_filter('site-reviews/validate/custom', '__return_false', 11);
+        $response2 = $this->assertJsonError($this->request());
+        $this->assertEquals($response2->data->message, $this->messageFailed);
     }
 
     public function test_default_validation()

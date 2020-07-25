@@ -43,11 +43,7 @@ abstract class ValidatorAbstract
      */
     protected function alreadyFailed()
     {
-        if ($error = glsr()->sessionGet($this->sessionKey('error'))) {
-            glsr()->sessionSet($this->sessionKey('error'), $error);
-            return true;
-        }
-        return false;
+        return is_array(glsr()->session()->get($this->sessionKey('errors')));
     }
 
     /**
