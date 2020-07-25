@@ -114,6 +114,40 @@ class TestSanitizer extends WP_UnitTestCase
         ]);
     }
 
+    public function test_sanitize_array_string()
+    {
+        $sanitizers = array_fill_keys(array_keys($this->testValues), 'array-string');
+        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $this->assertEquals($sanitized, [
+            'a' => [],
+            'b' => ['abc'],
+            'c' => ['1'],
+            'd' => [],
+            'e' => [],
+            'f' => [],
+            'g' => [],
+            'h' => [],
+            'i' => [],
+            'j' => [],
+            'k' => ['<script>var x = 23;</script>'],
+            'l' => ['<h3>This is a title!</h3>'],
+            'm' => ["Hello\nthere!"],
+            'n' => ['June 13', '1989'],
+            'o' => ['03-12-2020'],
+            'p' => ['0-0-2020'],
+            'q' => ['2020'],
+            'r' => ['xx xx'],
+            's' => ['#ax+dex(tomorrow) $200 200% @peter'],
+            't' => ['this is true'],
+            'u' => ['this is false'],
+            'v' => ['matt@wordpress.org'],
+            'w' => ['https//wordpress.org'],
+            'x' => ['wordpress.org'],
+            'y' => ['www.wordpress.org'],
+            'z' => ['https://wordpress.org'],
+        ]);
+    }
+
     public function test_sanitize_bool()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'bool');

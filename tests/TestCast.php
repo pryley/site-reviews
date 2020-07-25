@@ -26,11 +26,11 @@ class TestCast extends WP_UnitTestCase
     {
         $this->assertEquals(Cast::toArray(''), []);
         $this->assertEquals(Cast::toArray('abc'), ['abc']);
-        $this->assertEquals(Cast::toArray('a,b,c'), ['a','b','c']);
+        $this->assertEquals(Cast::toArray('a,b,c'), ['a', 'b', 'c']);
         $this->assertEquals(Cast::toArray('a,b,c', false), ['a,b,c']);
         $this->assertEquals(Cast::toArray(1), [1]);
         $this->assertEquals(Cast::toArray([1]), [1]);
-        $this->assertEquals(Cast::toArray((object)['a' => 123]), ['a' => 123]);
+        $this->assertEquals(Cast::toArray((object) ['a' => 123]), ['a' => 123]);
     }
 
     public function test_to_bool()
@@ -67,7 +67,8 @@ class TestCast extends WP_UnitTestCase
 
     public function test_to_object()
     {
-        $this->assertEquals(Cast::toObject(''), (object)[]);
+        $this->assertEquals(Cast::toObject(''), (object) []);
+        $this->assertEquals(Cast::toObject((object) []), (object) []);
     }
 
     public function test_to_string()
@@ -76,5 +77,7 @@ class TestCast extends WP_UnitTestCase
         $this->assertEquals(Cast::toString(123), '123');
         $this->assertEquals(Cast::toString([123]), '');
         $this->assertEquals(Cast::toString([123], false), 'a:1:{i:0;i:123;}');
+        $this->assertEquals(Cast::toString(new MockClass()), '123');
     }
 }
+
