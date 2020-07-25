@@ -26,7 +26,11 @@ class Cast
     public static function toArray($value, $explode = true)
     {
         if (is_object($value)) {
-            return array_merge(get_object_vars($value), (array) $value);
+            $reflection = new \ReflectionObject($value);
+            $properties = $reflection->hasMethod('toArray')
+                ? $value->toArray()
+                : get_object_vars($value);
+            return json_decode(json_encode($properties), true);
         }
         if (is_scalar($value) && $explode) {
             return Arr::convertFromString($value);
