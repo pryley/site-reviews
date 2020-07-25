@@ -6,6 +6,17 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 
 class CreateReviewDefaults extends Defaults
 {
+    /**
+     * @return array
+     */
+    public $mapped = [
+        'author' => 'name',
+        'pinned' => 'is_pinned',
+    ];
+
+    /**
+     * @return array
+     */
     public $sanitize = [
         'ajax_request' => 'bool',
         'assigned_posts' => 'array-int',
@@ -18,6 +29,7 @@ class CreateReviewDefaults extends Defaults
         'email' => 'email',
         'form_id' => 'int',
         'ip_address' => 'text',
+        'is_pinned' => 'bool',
         'name' => 'text',
         'post_id' => 'int',
         'rating' => 'int',
@@ -44,6 +56,7 @@ class CreateReviewDefaults extends Defaults
             'email' => '',
             'form_id' => '',
             'ip_address' => '',
+            'is_pinned' => '',
             'name' => '',
             'post_id' => '',
             'rating' => '',

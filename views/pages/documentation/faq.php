@@ -223,10 +223,10 @@ add_filter('site-reviews/const/PAGED_QUERY_VAR', function () {
         <p>Here is an example:</p>
         <pre><code class="php">if (function_exists('glsr_create_review')) {
     $review = glsr_create_review([
-        'author' => 'Jane Doe',
         'content' => 'This is my review.',
         'date' => '2018-06-13',
         'email' => 'jane@doe.com',
+        'name' => 'Jane Doe',
         'rating' => 5,
         'title' => 'Fantastic plugin!',
     ]);

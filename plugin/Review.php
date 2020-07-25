@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
+use GeminiLabs\SiteReviews\Defaults\ReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -72,29 +73,10 @@ class Review extends Arguments
     {
         $values = glsr()->args($values);
         $this->id = Cast::toInt($values->review_id);
-        $args = [];
-        $args['assigned_posts'] = Arr::uniqueInt($values->post_ids);
-        $args['assigned_terms'] = Arr::uniqueInt($values->term_ids);
-        $args['assigned_users'] = Arr::uniqueInt($values->user_ids);
-        $args['author'] = $values->name;
-        $args['author_id'] = Cast::toInt($values->author_id);
-        $args['avatar'] = $values->avatar;
-        $args['content'] = $values->content;
+        $args = glsr(ReviewDefaults::class)->restrict($values->toArray());
         $args['custom'] = $this->custom();
-        $args['date'] = $values->date;
-        $args['email'] = $values->email;
         $args['ID'] = $this->id;
-        $args['ip_address'] = $values->ip_address;
-        $args['is_approved'] = Cast::toBool($values->is_approved);
-        $args['is_modified'] = false;
-        $args['is_pinned'] = Cast::toBool($values->is_pinned);
-        $args['rating'] = Cast::toInt($values->rating);
-        $args['rating_id'] = Cast::toInt($values->ID);
         $args['response'] = $this->meta()->response;
-        $args['status'] = $values->status;
-        $args['title'] = $values->title;
-        $args['type'] = $values->type;
-        $args['url'] = $values->url;
         parent::__construct($args);
     }
 

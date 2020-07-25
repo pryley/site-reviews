@@ -51,10 +51,9 @@ if (function_exists('glsr_get_reviews')) {
  * - 'date' => '',
  * - 'email' => '',
  * - 'ip_address' => '',
+ * - 'is_pinned' => false,
  * - 'name' => '',
- * - 'pinned' => false,
  * - 'rating' => 0,
- * - 'response' => '',
  * - 'title' => '',
  * - 'url' => '',
  * @return \GeminiLabs\SiteReviews\Review|false

@@ -27,6 +27,7 @@ class CreateReview implements Contract
     public $email;
     public $form_id;
     public $ip_address;
+    public $is_pinned;
     public $name;
     public $post_id;
     public $rating;

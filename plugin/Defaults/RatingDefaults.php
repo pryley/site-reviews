@@ -6,10 +6,16 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 
 class RatingDefaults extends Defaults
 {
+    /**
+     * @var array
+     */
     public $guarded = [
         'ID',
     ];
 
+    /**
+     * @var array
+     */
     public $sanitize = [
         'avatar' => 'url',
         'email' => 'email',

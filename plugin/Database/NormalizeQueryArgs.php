@@ -7,19 +7,24 @@ use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
+
 /**
- * @property array $assigned_posts;
- * @property array $assigned_terms;
- * @property array $assigned_users;
+ * @property int[] $assigned_posts;
+ * @property int[] $assigned_terms;
+ * @property int[] $assigned_users;
  * @property int $author_id;
+ * @property string $email;
+ * @property string $ip_address;
  * @property int $offset;
  * @property string $order;
  * @property string $orderby;
  * @property int $page;
+ * @property string $pagination;
  * @property int $per_page;
- * @property array $post__in;
- * @property array $post__not_in;
+ * @property int[] $post__in;
+ * @property int[] $post__not_in;
  * @property int $rating;
+ * @property string $status;
  * @property string $type;
  */
 class NormalizeQueryArgs extends Arguments
