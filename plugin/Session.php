@@ -12,6 +12,14 @@ Trait Session
     protected $session = [];
 
     /**
+     * @return Arguments
+     */
+    public function session()
+    {
+        return glsr()->args($this->session);
+    }
+
+    /**
      * @return void
      */
     public function sessionClear()
