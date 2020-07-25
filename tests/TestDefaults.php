@@ -31,9 +31,7 @@ class TestDefaults extends WP_UnitTestCase
             'type' => 'local',
             'user' => 1,
         ];
-        $test = glsr()->args(glsr(ReviewsDefaults::class)->restrict($args));
-        $this->assertEquals(count($test), count(glsr(ReviewsDefaults::class)->defaults()));
-        $this->assertEquals($test->toArray(), [
+        $expected = [
             'assigned_posts' => 4466,
             'assigned_terms' => 48,
             'assigned_users' => 1,
@@ -51,7 +49,10 @@ class TestDefaults extends WP_UnitTestCase
             'rating' => 0,
             'status' => 'approved',
             'type' => 'local',
-        ]);
+        ];
+        $test = glsr()->args(glsr(ReviewsDefaults::class)->restrict($args));
+        $this->assertEquals(count($test), count(glsr(ReviewsDefaults::class)->defaults()));
+        $this->assertEquals($test->toArray(), $expected);
     }
 
     public function test_site_reviews_restrict()

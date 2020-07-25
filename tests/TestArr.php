@@ -39,9 +39,10 @@ class TestArr extends WP_UnitTestCase
         $this->assertEquals(Arr::convertFromDotNotation($original), $converted);
     }
 
-    // public function test_convert_from_string()
-    // {
-    // }
+    public function test_convert_from_string()
+    {
+        $this->assertEquals(Arr::convertFromString(',a,,b,c,1,,'), ['a','b','c','1']);
+    }
 
     public function test_flatten()
     {
@@ -66,13 +67,21 @@ class TestArr extends WP_UnitTestCase
         $this->assertTrue(is_object(Arr::get($values2, 'parent.child')));
     }
 
-    // public function test_insert_after()
-    // {
-    // }
+    public function test_insert_after()
+    {
+        $array1 = ['1','2','3'];
+        $array2 = ['a' => 1, 'b' => 2, 'c' => 3];
+        $this->assertEquals(Arr::insertAfter(1, $array1, ['a','b']), ['1','2','a','b','3']);
+        $this->assertEquals(Arr::insertAfter('b', $array2, ['z' => 13]), ['a' => 1, 'b' => 2, 'z' => 13, 'c' => 3]);
+    }
 
-    // public function test_insert_before()
-    // {
-    // }
+    public function test_insert_before()
+    {
+        $array1 = ['1','2','3'];
+        $array2 = ['a' => 1, 'b' => 2, 'c' => 3];
+        $this->assertEquals(Arr::insertBefore(1, $array1, ['a','b']), ['1','a','b','2','3']);
+        $this->assertEquals(Arr::insertBefore('b', $array2, ['z' => 13]), ['a' => 1, 'z' => 13, 'b' => 2, 'c' => 3]);
+    }
 
     // public function test_insert()
     // {
@@ -92,13 +101,20 @@ class TestArr extends WP_UnitTestCase
         $this->assertEquals(Arr::prefixKeys($array), ['_a' => '', '_b' => '']);
     }
 
-    // public function test_prepend()
-    // {
-    // }
+    public function test_prepend()
+    {
+        $array1 = ['1','2','3'];
+        $array2 = ['a' => 1, 'b' => 2, 'c' => 3];
+        $this->assertEquals(Arr::prepend($array1, 13), ['13','1','2','3']);
+        $this->assertEquals(Arr::prepend($array2, 13, 'z'), ['z' => 13, 'a' => 1, 'b' => 2, 'c' => 3]);
+    }
 
-    // public function test_reindex()
-    // {
-    // }
+    public function test_reindex()
+    {
+        $array = ['1','2','3','4','5'];
+        unset($array[3]);
+        $this->assertEquals(Arr::reindex($array), ['1','2','3','5']);
+    }
 
     public function test_remove()
     {
@@ -143,15 +159,22 @@ class TestArr extends WP_UnitTestCase
         $this->assertEquals(Arr::set([], 'number.thirteen', '13'),
             ['number' => ['thirteen' => '13']]
         );
+        $this->assertEquals(Arr::set((object) [], 'number.thirteen', '13'),
+            (object) ['number' => ['thirteen' => '13']]
+        );
     }
 
-    // public function test_unique()
-    // {
-    // }
+    public function test_unique()
+    {
+        $array = ['1','2','3','3','4','3','5'];
+        $this->assertEquals(Arr::unique($array), ['1','2','3','4','5']);
+    }
 
-    // public function test_unique_int()
-    // {
-    // }
+    public function test_unique_int()
+    {
+        $array = ['1','2','3','a','4','3','5','0'];
+        $this->assertEquals(Arr::uniqueInt($array), [1,2,3,4,5]);
+    }
 
     public function test_unprefix_keys()
     {

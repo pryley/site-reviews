@@ -53,14 +53,8 @@ class Arr
         if (is_scalar($value)) {
             $value = array_map('trim', explode(',', Cast::toString($value)));
         }
-        return Helper::ifTrue($callback instanceof \Closure,
-            function () use ($callback, $value) {
-                return array_filter((array) $value, $callback);
-            },
-            function () use ($value) {
-                return array_filter((array) $value, Helper::class.'::isNotEmpty');
-            }
-        );
+        $callback = Helper::ifEmpty(Cast::toString($callback), Helper::class.'::isNotEmpty');
+        return static::reindex(array_filter((array) $value, $callback));
     }
 
     /**

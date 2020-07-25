@@ -137,10 +137,11 @@ class TestValidation extends WP_Ajax_UnitTestCase
         add_filter('site-reviews/validators', function () {
             return [HoneypotValidator::class];
         });
-        $honeypotHash = glsr(Honeypot::class)->hash($this->request->form_id);
+        $formId = 'glsr-12345678';
+        $honeypotHash = glsr(Honeypot::class)->hash($formId);
         $response1 = $this->assertJsonError($this->request());
-        $response2 = $this->assertJsonError($this->request([$honeypotHash => 'x']));
-        $response3 = $this->assertJsonSuccess($this->request([$honeypotHash => '']));
+        $response2 = $this->assertJsonError($this->request(['form_id' => $formId, $honeypotHash => 'x']));
+        $response3 = $this->assertJsonSuccess($this->request(['form_id' => $formId, $honeypotHash => '']));
         $this->assertEquals($response1->data->message, $this->messageFailed);
         $this->assertEquals($response2->data->message, $this->messageFailed);
         $this->assertEquals($response3->data->message, $this->messageSuccess);
