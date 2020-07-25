@@ -13,7 +13,7 @@ class TestDatabase extends WP_UnitTestCase
 {
     use Setup;
 
-    public function _test_database_key()
+    public function test_database_key()
     {
         $this->assertEquals(OptionManager::databaseKey(), 'site_reviews_v5');
     }

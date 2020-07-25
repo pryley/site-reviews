@@ -67,11 +67,6 @@ abstract class DefaultsAbstract
     protected $hook;
 
     /**
-     * @var bool
-     */
-    protected $is_guarded;
-
-    /**
      * @var string
      */
     protected $method;

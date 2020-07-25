@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
  * @property array $assigned_posts;
  * @property array $assigned_terms;
  * @property array $assigned_users;
+ * @property int $author_id;
  * @property int $offset;
  * @property string $order;
  * @property string $orderby;
@@ -29,17 +30,10 @@ class NormalizeQueryArgs extends Arguments
         $args['assigned_posts'] = glsr(PostManager::class)->normalizeIds($args['assigned_posts']);
         $args['assigned_terms'] = glsr(TaxonomyManager::class)->normalizeIds($args['assigned_terms']);
         $args['assigned_users'] = glsr(UserManager::class)->normalizeIds($args['assigned_users']);
-        $args['author'] = glsr(UserManager::class)->normalizeId($args['author']);
-        $args['offset'] = absint(filter_var($args['offset'], FILTER_SANITIZE_NUMBER_INT));
+        $args['author_id'] = glsr(UserManager::class)->normalizeId($args['author_id']);
         $args['order'] = Str::restrictTo('ASC,DESC,', sanitize_key($args['order']), 'DESC'); // include an empty value
         $args['orderby'] = $this->normalizeOrderBy($args['orderby']);
-        $args['page'] = absint($args['page']);
-        $args['per_page'] = absint($args['per_page']); // "0" and "-1" = all
-        $args['post__in'] = Arr::uniqueInt($args['post__in']);
-        $args['post__not_in'] = Arr::uniqueInt($args['post__not_in']);
-        $args['rating'] = absint(filter_var($args['rating'], FILTER_SANITIZE_NUMBER_INT));
         $args['status'] = $this->normalizeStatus($args['status']);
-        $args['type'] = sanitize_key($args['type']);
         parent::__construct($args);
     }
 

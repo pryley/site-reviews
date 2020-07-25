@@ -2,10 +2,16 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Request;
 
 class ValidateReview
 {
+    /**
+     * @var bool
+     */
+    public $blacklisted;
+
     /**
      * @var array|false
      */
@@ -49,6 +55,7 @@ class ValidateReview
                 glsr_log()->warning("Class [$validator] not found.");
             }
         }
+        $this->blacklisted = Cast::toBool($this->request->blacklisted);
         $this->errors = glsr()->sessionGet($this->request->form_id.'_errors', false);
         $this->message = glsr()->sessionGet($this->request->form_id.'_message');
         $this->recaptcha = glsr()->sessionGet($this->request->form_id.'_recaptcha');

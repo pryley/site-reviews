@@ -220,7 +220,7 @@ class ReviewManager
         $postId = Cast::toInt($postId);
         return glsr(Database::class)->update('assigned_posts',
             ['is_published' => $isPublished],
-            ['post_id' => $postId],
+            ['post_id' => $postId]
         );
     }
 

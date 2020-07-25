@@ -156,10 +156,30 @@ trait Sql
     /**
      * @return string
      */
-    protected function clauseAndAuthor()
+    protected function clauseAndAuthorId()
     {
-        return !empty($this->args['author'])
-            ? $this->db->prepare('AND p.post_author = %d', $this->args['author'])
+        return !empty($this->args['author_id'])
+            ? $this->db->prepare('AND p.post_author = %d', $this->args['author_id'])
+            : '';
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseAndEmail()
+    {
+        return !empty($this->args['email'])
+            ? $this->db->prepare('AND r.email = %s', $this->args['email'])
+            : '';
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseAndIpAddress()
+    {
+        return !empty($this->args['ip_address'])
+            ? $this->db->prepare('AND r.ip_address = %s', $this->args['ip_address'])
             : '';
     }
 
@@ -226,9 +246,9 @@ trait Sql
     /**
      * @return string
      */
-    protected function clauseJoinAuthor()
+    protected function clauseJoinAuthorId()
     {
-        return !empty($this->args['author'])
+        return !empty($this->args['author_id'])
             ? "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
             : '';
     }

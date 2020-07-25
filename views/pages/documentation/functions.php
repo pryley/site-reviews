@@ -268,7 +268,9 @@ glsr_get_reviews(array $args = []);</code></pre>
     'assigned_posts' => '',
     'assigned_terms' => '',
     'assigned_users' => '',
-    'author' => '',
+    'author_id' => '',
+    'email' => '',
+    'ip_address' => '',
     'offset' => '',
     'order' => 'DESC',
     'orderby' => 'date',
@@ -277,14 +279,14 @@ glsr_get_reviews(array $args = []);</code></pre>
     'per_page' => 10,
     'post__in' => [],
     'post__not_in' => [],
-    'post_status' => 'publish',
     'rating' => '',
+    'status' => 'approved',
     'type' => '',
 ];</code></pre>
         <p><strong>Example Usage:</strong></p>
         <pre><code class="php">$reviews = glsr_get_reviews([
     'assigned_posts' => 'post_id',
-    'author' => get_current_user_id(),
+    'author_id' => get_current_user_id(),
     'rating' => 3,
 ]);
 
@@ -292,7 +294,7 @@ glsr_get_reviews(array $args = []);</code></pre>
 
 $reviews = apply_filters('glsr_get_reviews', [], [
     'assigned_posts' => 'post_id',
-    'author' => get_current_user_id(),
+    'author_id' => get_current_user_id(),
     'rating' => 3,
 ]);</code></pre>
         <p><strong>Helpful Tips:</strong></p>

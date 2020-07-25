@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Tests;
 
+use Faker\Factory;
 use GeminiLabs\SiteReviews\Modules\Email;
 use WP_UnitTestCase;
 
@@ -12,6 +13,21 @@ use WP_UnitTestCase;
 class TestEmail extends WP_UnitTestCase
 {
     use Setup;
+
+    protected $review;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $faker = Factory::create();
+        $this->review = [
+            'content' => $faker->text,
+            'email' => $faker->email,
+            'name' => $faker->name,
+            'rating' => '5',
+            'title' => $faker->sentence,
+        ];
+    }
 
     public function test_email()
     {

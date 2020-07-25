@@ -114,6 +114,7 @@ class CreateReview implements Contract
     public function validate()
     {
         $validator = glsr(ValidateReview::class)->validate($this->request);
+        $this->blacklisted = $validator->blacklisted;
         $this->errors = $validator->errors;
         $this->message = $validator->message;
         $this->recaptcha = $validator->recaptcha;

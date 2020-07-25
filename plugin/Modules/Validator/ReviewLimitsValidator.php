@@ -34,7 +34,7 @@ class ReviewLimitsValidator extends ValidatorAbstract
      */
     protected function isWhitelisted($value, $whitelist)
     {
-        if (empty($value) || empty($whitelist)) {
+        if (empty($whitelist)) {
             return false;
         }
         return in_array($value, array_filter(explode("\n", $whitelist), 'trim'));
@@ -46,7 +46,7 @@ class ReviewLimitsValidator extends ValidatorAbstract
     protected function validateByEmail()
     {
         glsr_log()->debug('Email is: '.$this->request->email);
-        return $this->validateLimit('email', [
+        return $this->validateLimit('email', $this->request->email, [
             'email' => $this->request->email,
         ]);
     }
@@ -57,7 +57,7 @@ class ReviewLimitsValidator extends ValidatorAbstract
     protected function validateByIpAddress()
     {
         glsr_log()->debug('IP Address is: '.$this->request->ip_address);
-        return $this->validateLimit('ip_address', [
+        return $this->validateLimit('ip_address', $this->request->ip_address, [
             'ip_address' => $this->request->ip_address,
         ]);
     }
@@ -72,18 +72,21 @@ class ReviewLimitsValidator extends ValidatorAbstract
             return true;
         }
         glsr_log()->debug('Username is: '.$user->user_login);
-        return $this->validateLimit('username', [
-            'author' => $user->ID,
-            'post_status' => ['pending', 'publish'],
+        return $this->validateLimit('username', $user->user_login, [
+            'status' => 'all',
+            'author_id' => $user->ID,
         ]);
     }
 
     /**
+     * @param string $key
+     * @param string $value
      * @return bool
      */
-    protected function validateLimit($key, array $queryArgs)
+    protected function validateLimit($key, $value, array $queryArgs)
     {
-        if ($this->isWhitelisted($this->request[$key], glsr_get_option('submissions.limit_whitelist.'.$key))) {
+        if (empty($value) 
+            || $this->isWhitelisted($value, glsr_get_option('submissions.limit_whitelist.'.$key))) {
             return true;
         }
         $queryArgs['assigned_posts'] = $this->request->assign_to;
