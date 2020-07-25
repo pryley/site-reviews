@@ -72,7 +72,9 @@ class TestArr extends WP_UnitTestCase
         $array1 = ['1','2','3'];
         $array2 = ['a' => 1, 'b' => 2, 'c' => 3];
         $this->assertEquals(Arr::insertAfter(1, $array1, ['a','b']), ['1','2','a','b','3']);
+        $this->assertEquals(Arr::insertAfter(9, $array1, ['a','b']), ['1','2','3','a','b']);
         $this->assertEquals(Arr::insertAfter('b', $array2, ['z' => 13]), ['a' => 1, 'b' => 2, 'z' => 13, 'c' => 3]);
+        $this->assertEquals(Arr::insertAfter('z', $array2, ['z' => 13]), ['a' => 1, 'b' => 2, 'c' => 3, 'z' => 13]);
     }
 
     public function test_insert_before()
@@ -80,12 +82,10 @@ class TestArr extends WP_UnitTestCase
         $array1 = ['1','2','3'];
         $array2 = ['a' => 1, 'b' => 2, 'c' => 3];
         $this->assertEquals(Arr::insertBefore(1, $array1, ['a','b']), ['1','a','b','2','3']);
+        $this->assertEquals(Arr::insertBefore(9, $array1, ['a','b']), ['1','2','3','a','b']);
         $this->assertEquals(Arr::insertBefore('b', $array2, ['z' => 13]), ['a' => 1, 'z' => 13, 'b' => 2, 'c' => 3]);
+        $this->assertEquals(Arr::insertBefore('z', $array2, ['z' => 13]), ['a' => 1, 'b' => 2, 'c' => 3, 'z' => 13]);
     }
-
-    // public function test_insert()
-    // {
-    // }
 
     public function test_is_indexed_and_flat()
     {

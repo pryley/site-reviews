@@ -132,11 +132,11 @@ class Arr
      */
     public static function insert(array $array, array $insert, $key, $position = 'before')
     {
-        $keyPosition = intval(array_search($key, array_keys($array)));
-        if ('after' == $position) {
-            ++$keyPosition;
-        }
+        $keyPosition = array_search($key, array_keys($array));
         if (false !== $keyPosition) {
+            if ('after' == $position) {
+                ++$keyPosition;
+            }
             $result = array_slice($array, 0, $keyPosition);
             $result = array_merge($result, $insert);
             return array_merge($result, array_slice($array, $keyPosition));
