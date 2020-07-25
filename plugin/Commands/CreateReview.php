@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Notification;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
@@ -81,7 +82,7 @@ class CreateReview implements Contract
             'message' => $this->message,
             'recaptcha' => $this->recaptcha,
             'redirect' => $this->redirect(),
-            'review' => (array) $this->review,
+            'review' => Cast::toArray($this->review),
         ];
     }
 
@@ -139,12 +140,12 @@ class CreateReview implements Contract
     protected function create()
     {
         if ($this->review = glsr(ReviewManager::class)->create($this)) {
-            glsr()->sessionSet($this->form_id.'message', __('Your review has been submitted!', 'site-reviews'));
+            $this->message = __('Your review has been submitted!', 'site-reviews');
             glsr(Notification::class)->send($this->review);
             return;
         }
-        glsr()->sessionSet($this->form_id.'errors', []);
-        glsr()->sessionSet($this->form_id.'message', __('Your review could not be submitted and the error has been logged. Please notify the site admin.', 'site-reviews'));
+        $this->errors = [];
+        $this->message = __('Your review could not be submitted and the error has been logged. Please notify the site admin.', 'site-reviews');
     }
 
     /**

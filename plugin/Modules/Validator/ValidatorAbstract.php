@@ -32,10 +32,9 @@ abstract class ValidatorAbstract
      */
     public function validate()
     {
-        if ($this->alreadyFailed()) {
-            return;
+        if (!$this->alreadyFailed()) {
+            $this->performValidation();
         }
-        $this->performValidation();
         return $this->request;
     }
 
@@ -67,8 +66,8 @@ abstract class ValidatorAbstract
      */
     protected function setErrors($message, $loggedMessage = null)
     {
-        glsr()->sessionSet($this->sessionKey('error'), $message);
         glsr()->sessionSet($this->sessionKey('errors'), $this->errors);
+        glsr()->sessionSet($this->sessionKey('message'), $message);
         glsr()->sessionSet($this->sessionKey('values'), $this->request->toArray());
         if (!empty($loggedMessage)) {
             glsr_log()->warning($loggedMessage)->debug($this->request->toArray());
