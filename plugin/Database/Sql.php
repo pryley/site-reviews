@@ -74,9 +74,9 @@ trait Sql
      */
     public function sqlLimit()
     {
-        $limit = $this->args['per_page'] > 0
-            ? $this->db->prepare('LIMIT %d', $this->args['per_page'])
-            : '';
+        $limit = Helper::ifTrue($this->args['per_page'] > 0, 
+            $this->db->prepare('LIMIT %d', $this->args['per_page'])
+        );
         return glsr()->filterString('query/sql/limit', $limit, $this);
     }
 
@@ -86,9 +86,9 @@ trait Sql
     public function sqlOffset()
     {
         $offsetBy = (($this->args['page'] - 1) * $this->args['per_page']) + $this->args['offset'];
-        $offset = ($offsetBy > 0)
-            ? $this->db->prepare('OFFSET %d', $offsetBy)
-            : '';
+        $offset = Helper::ifTrue($offsetBy > 0,
+            $this->db->prepare('OFFSET %d', $offsetBy)
+        );
         return glsr()->filterString('query/sql/offset', $offset, $this);
     }
 
@@ -158,9 +158,9 @@ trait Sql
      */
     protected function clauseAndAuthorId()
     {
-        return !empty($this->args['author_id'])
-            ? $this->db->prepare('AND p.post_author = %d', $this->args['author_id'])
-            : '';
+        return Helper::ifTrue(!empty($this->args['author_id']),
+            $this->db->prepare('AND p.post_author = %d', $this->args['author_id'])
+        );
     }
 
     /**
@@ -168,9 +168,9 @@ trait Sql
      */
     protected function clauseAndEmail()
     {
-        return !empty($this->args['email'])
-            ? $this->db->prepare('AND r.email = %s', $this->args['email'])
-            : '';
+        return Helper::ifTrue(!empty($this->args['email']),
+            $this->db->prepare('AND r.email = %s', $this->args['email'])
+        );
     }
 
     /**
@@ -178,9 +178,9 @@ trait Sql
      */
     protected function clauseAndIpAddress()
     {
-        return !empty($this->args['ip_address'])
-            ? $this->db->prepare('AND r.ip_address = %s', $this->args['ip_address'])
-            : '';
+        return Helper::ifTrue(!empty($this->args['ip_address']),
+            $this->db->prepare('AND r.ip_address = %s', $this->args['ip_address'])
+        );
     }
 
     /**
@@ -188,9 +188,9 @@ trait Sql
      */
     protected function clauseAndRating()
     {
-        return !empty($this->args['rating'])
-            ? $this->db->prepare('AND r.rating > %d', --$this->args['rating'])
-            : '';
+        return Helper::ifTrue(!empty($this->args['rating']),
+            $this->db->prepare('AND r.rating > %d', --$this->args['rating'])
+        );
     }
 
     /**
@@ -198,9 +198,9 @@ trait Sql
      */
     protected function clauseAndStatus()
     {
-        return !Helper::isEmpty($this->args['status'])
-            ? $this->db->prepare('AND r.is_approved = %d', $this->args['status'])
-            : '';
+        return Helper::ifTrue(!Helper::isEmpty($this->args['status']),
+            $this->db->prepare('AND r.is_approved = %d', $this->args['status'])
+        );
     }
 
     /**
@@ -208,9 +208,9 @@ trait Sql
      */
     protected function clauseAndType()
     {
-        return !empty($this->args['type'])
-            ? $this->db->prepare('AND r.type = %s', $this->args['type'])
-            : '';
+        return Helper::ifTrue(!empty($this->args['type']),
+            $this->db->prepare('AND r.type = %s', $this->args['type'])
+        );
     }
 
     /**
@@ -218,9 +218,9 @@ trait Sql
      */
     protected function clauseJoinAssignedPosts()
     {
-        return !empty($this->args['assigned_posts'])
-            ? "INNER JOIN {$this->table('assigned_posts')} AS apt ON r.ID = apt.rating_id"
-            : '';
+        return Helper::ifTrue(!empty($this->args['assigned_posts']),
+            "INNER JOIN {$this->table('assigned_posts')} AS apt ON r.ID = apt.rating_id"
+        );
     }
 
     /**
@@ -228,9 +228,9 @@ trait Sql
      */
     protected function clauseJoinAssignedTerms()
     {
-        return !empty($this->args['assigned_terms'])
-            ? "INNER JOIN {$this->table('assigned_terms')} AS att ON r.ID = att.rating_id"
-            : '';
+        return Helper::ifTrue(!empty($this->args['assigned_terms']),
+            "INNER JOIN {$this->table('assigned_terms')} AS att ON r.ID = att.rating_id"
+        );
     }
 
     /**
@@ -238,9 +238,9 @@ trait Sql
      */
     protected function clauseJoinAssignedUsers()
     {
-        return !empty($this->args['assigned_users'])
-            ? "INNER JOIN {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id"
-            : '';
+        return Helper::ifTrue(!empty($this->args['assigned_users']),
+            "INNER JOIN {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id"
+        );
     }
 
     /**
@@ -248,9 +248,9 @@ trait Sql
      */
     protected function clauseJoinAuthorId()
     {
-        return !empty($this->args['author_id'])
-            ? "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
-            : '';
+        return Helper::ifTrue(!empty($this->args['author_id']),
+            "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
+        );
     }
 
     /**
@@ -258,8 +258,8 @@ trait Sql
      */
     protected function clauseJoinOrderBy()
     {
-        return Str::startsWith('p.', $this->args['orderby'])
-            ? "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
-            : '';
+        return Helper::ifTrue(Str::startsWith('p.', $this->args['orderby']),
+            "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
+        );
     }
 }
