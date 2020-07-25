@@ -30,6 +30,16 @@ class Arguments extends \ArrayObject
     }
 
     /**
+     * @return self
+     */
+    public function merge(array $data = [])
+    {
+        $storage = wp_parse_args($data, $this->toArray());
+        $this->exchangeArray($storage);
+        return $this;
+    }
+
+    /**
      * @param mixed $key
      * @return mixed
      */
