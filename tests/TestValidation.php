@@ -59,7 +59,7 @@ class TestValidation extends WP_Ajax_UnitTestCase
         $this->messageSuccess = 'Your review has been submitted!';
     }
 
-    public function åtest_blacklist_validation()
+    public function test_blacklist_validation()
     {
         add_filter('site-reviews/validators', function () {
             return [BlacklistValidator::class];
@@ -125,6 +125,11 @@ class TestValidation extends WP_Ajax_UnitTestCase
         $this->assertCount(6, (array) $response1->data->errors);
         $this->assertEquals($response1->data->message, $this->messageFailedValidation);
         $this->assertEquals($response2->data->message, $this->messageSuccess);
+    }
+
+    public function test_multiple_validation()
+    {
+        $this->assertJsonError($this->request());
     }
 
     public function test_honeypot_validation()
