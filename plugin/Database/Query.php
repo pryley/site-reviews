@@ -105,6 +105,14 @@ class Query
     }
 
     /**
+     * @return array
+     */
+    public function setArgs(array $args = [])
+    {
+        $this->args = (new NormalizeQueryArgs($args))->toArray();
+    }
+
+    /**
      * @return int
      */
     public function totalReviews(array $args = [], array $reviews = [])
@@ -261,13 +269,5 @@ class Query
             {$this->sqlJoin()}
             {$this->sqlWhere()}
         ");
-    }
-
-    /**
-     * @return void
-     */
-    protected function setArgs(array $args = [])
-    {
-        $this->args = (new NormalizeQueryArgs($args))->toArray();
     }
 }
