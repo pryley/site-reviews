@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 
@@ -16,10 +17,9 @@ class UserManager
         if ('user_id' == $userId) {
             return get_current_user_id();
         }
-        if (!is_numeric($userId)) {
-            $userId = username_exists($userId);
-        }
-        return Cast::toInt($userId);
+        $userKey = Helper::ifTrue(is_numeric($userId), 'ID', 'login');
+        $user = get_user_by($userKey, $userId);
+        return Cast::toInt(Arr::get($user, 'ID'));
     }
 
     /**
