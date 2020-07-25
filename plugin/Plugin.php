@@ -109,7 +109,7 @@ trait Plugin
     public function filterArrayUnique($hook, ...$args)
     {
         $filtered = apply_filters_ref_array($this->id.'/'.$hook, $args);
-        return array_unique(Cast::toArray($filtered));
+        return array_unique(array_filter(Cast::toArray($filtered)));
     }
 
     /**
