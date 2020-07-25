@@ -173,12 +173,13 @@ class TestValidation extends WP_Ajax_UnitTestCase
         $this->assertJsonError($this->request(['email' => 'john@apple.com']));
         glsr(OptionManager::class)->set('settings.submissions.limit_whitelist.email', 'john@apple.com');
         $this->assertJsonSuccess($this->request(['email' => 'john@apple.com']));
+        glsr(OptionManager::class)->set('settings.submissions.limit', 'username');
+        $this->assertJsonSuccess($this->request());
         wp_set_current_user(self::factory()->user->create([
             'role' => 'editor',
             'user_login' => 'test_user',
         ]));
         $nonce = wp_create_nonce('submit-review');
-        glsr(OptionManager::class)->set('settings.submissions.limit', 'username');
         $response1 = $this->assertJsonSuccess($this->request(['_nonce' => $nonce]));
         $response2 = $this->assertJsonError($this->request(['_nonce' => $nonce]));
     }
