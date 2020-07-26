@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class Text extends Field
+class Textarea extends Field
 {
     /**
      * @inheritDoc
@@ -13,7 +13,7 @@ class Text extends Field
     {
         $classes = [
             'metabox' => '',
-            'setting' => 'regular-text',
+            'setting' => '',
             'widget' => 'widefat',
         ];
         return [

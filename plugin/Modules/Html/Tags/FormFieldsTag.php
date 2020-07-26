@@ -113,7 +113,6 @@ class FormFieldsTag extends FormTag
         $normalizedFields = [];
         foreach ($fields as $field) {
             if (!in_array($field->field['path'], $this->args->hide)) {
-                $field->field['is_public'] = true;
                 $this->normalizeFieldClass($field);
                 $this->normalizeFieldErrors($field);
                 $this->normalizeFieldRequired($field);

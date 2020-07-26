@@ -96,9 +96,12 @@ class PublicController extends Controller
      * @return void
      * @action site-reviews/builder
      */
-    public function modifyBuilder(Builder $instance)
+    public function modifyBuilder(Builder $builder)
     {
-        call_user_func_array([glsr(Style::class), 'modifyField'], [$instance]);
+        $reflection = new \ReflectionClass($builder);
+        if ('Builder' === $reflection->getShortName()) { // only modify public fields
+            call_user_func_array([glsr(Style::class), 'modifyField'], [$builder]);
+        }
     }
 
     /**

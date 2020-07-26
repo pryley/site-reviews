@@ -7,7 +7,7 @@ class Button extends Field
     /**
      * @inheritDoc
      */
-    public static function defaults()
+    public static function defaults($fieldLocation = null)
     {
         return [
             'class' => 'button',

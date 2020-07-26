@@ -10,15 +10,7 @@ class Rating extends Field
     /**
      * @inheritDoc
      */
-    public function getTag()
-    {
-        return 'select';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function required()
+    public static function required($fieldLocation = null)
     {
         $options = ['' => __('Select a Rating', 'site-reviews')];
         foreach (range(glsr()->constant('MAX_RATING', RatingModule::class), 1) as $rating) {
@@ -29,5 +21,13 @@ class Rating extends Field
             'options' => $options,
             'type' => 'select',
         ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function tag()
+    {
+        return 'select';
     }
 }

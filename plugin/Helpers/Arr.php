@@ -134,6 +134,7 @@ class Arr
     {
         $keyPosition = array_search($key, array_keys($array));
         if (false !== $keyPosition) {
+            $keyPosition = Cast::toInt($keyPosition);
             if ('after' == $position) {
                 ++$keyPosition;
             }

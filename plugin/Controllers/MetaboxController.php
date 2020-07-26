@@ -4,11 +4,9 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
-use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Html\Field;
+use GeminiLabs\SiteReviews\Modules\Html\MetaboxBuilder;
+use GeminiLabs\SiteReviews\Modules\Html\MetaboxField;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Review;
 
@@ -114,7 +112,7 @@ class MetaboxController
      */
     public function renderAuthorMetabox($post)
     {
-        echo glsr(Builder::class)->label([
+        echo glsr(MetaboxBuilder::class)->label([
             'class' => 'screen-reader-text',
             'for' => 'post_author_override',
             'text' => _x('Author', 'admin-text', 'site-reviews'),
@@ -232,7 +230,6 @@ class MetaboxController
         $fields = glsr()->config('forms/metabox-fields');
         foreach ($fields as $key => &$field) {
             $field['class'] = 'glsr-input-value';
-            $field['is_metabox'] = true;
             $field['name'] = $key;
             $field['disabled'] = true;
             $field['review_object'] = $review;
@@ -240,7 +237,7 @@ class MetaboxController
         }
         $fields = glsr()->filterArray('metabox/fields', $fields, $review);
         array_walk($fields, function (&$field) {
-            $field = new Field($field);
+            $field = new MetaboxField($field);
         });
         return array_values($fields);
     }

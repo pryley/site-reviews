@@ -96,7 +96,7 @@ class Builder
             'tag' => 'is_string',
         ];
         $isValid = Cast::toBool(call_user_func(Arr::get($properties, $property, 'unset'), $value));
-        if ($isValid && !empty($value)) {
+        if ($isValid && !Helper::isEmpty($value)) {
             $this->$property = $value;
         }
     }
@@ -178,19 +178,15 @@ class Builder
     }
 
     /**
-     * @param string $className
+     * @param string $type
      * @return void
      */
     public function setArgs(array $args = [], $type = '')
     {
-        if (empty($args)) {
-            return;
+        if (!empty($args)) {
+            $args = $this->normalize($args, $type);
+            $args = glsr(FieldDefaults::class)->merge($args);
         }
-        $args = $this->normalize($args);
-        if (class_exists($className = $this->getFieldClassName($type))) {
-            $args = $className::merge($args);
-        }
-        $args = glsr(FieldDefaults::class)->merge($args);
         $this->args = glsr()->filterArray('builder/'.$type.'/args', $args, $this);
     }
 
@@ -208,13 +204,9 @@ class Builder
      */
     protected function buildFieldDescription()
     {
-        if (empty($this->args['description'])) {
-            return;
+        if (!empty($this->args['description'])) {
+            return $this->p($this->args['description'], ['class' => 'description']);
         }
-        if ($this->args['is_widget']) {
-            return $this->small($this->args['description']);
-        }
-        return $this->p($this->args['description'], ['class' => 'description']);
     }
 
     /**
@@ -240,12 +232,6 @@ class Builder
     {
         if (!empty($this->args['text'])) {
             $this->args['label'] = $this->args['text'];
-        }
-        if (!$this->args['is_public']) {
-            return $this->buildFormLabel([
-                'class' => 'glsr-'.$this->args['type'].'-label',
-                'text' => $this->buildOpeningTag().' '.$this->args['label'].'<span></span>',
-            ]);
         }
         return $this->buildOpeningTag().$this->buildFormLabel([
             'class' => 'glsr-'.$this->args['type'].'-label',
@@ -282,15 +268,13 @@ class Builder
      */
     protected function buildFormLabel(array $customArgs = [])
     {
-        if (empty($this->args['label']) || 'hidden' == $this->args['type']) {
-            return;
+        if (!empty($this->args['label']) && 'hidden' !== $this->args['type']) {
+            return $this->label(wp_parse_args($customArgs, [
+                'for' => $this->args['id'],
+                'text' => $this->args['label'],
+                'type' => $this->args['type'],
+            ]));
         }
-        return $this->label(wp_parse_args($customArgs, [
-            'for' => $this->args['id'],
-            'is_public' => $this->args['is_public'],
-            'text' => $this->args['label'],
-            'type' => $this->args['type'],
-        ]));
     }
 
     /**
@@ -350,9 +334,11 @@ class Builder
     /**
      * @return array
      */
-    protected function normalize(array $args)
+    protected function normalize(array $args, $type)
     {
-        $args['is_public'] = Cast::toBool(Arr::get($args, 'is_public'));
+        if (class_exists($className = $this->getFieldClassName($type))) {
+            $args = $className::merge($args);
+        }
         return $args;
     }
 
@@ -362,17 +348,13 @@ class Builder
      */
     protected function prepareArgs(...$params)
     {
-        $args = [];
-        $parameter1 = array_shift($params);
-        $parameter2 = array_shift($params);
+        if (is_array($parameter1 = array_shift($params))) {
+            return $parameter1;
+        }
+        $parameter2 = Arr::consolidate(array_shift($params));
         if (is_scalar($parameter1)) {
-            $args['text'] = $parameter1;
+            $parameter2['text'] = $parameter1;
         }
-        if (is_array($parameter1)) {
-            $args += $parameter1;
-        } elseif (is_array($parameter2)) {
-            $args += $parameter2; // does not overwrite $args['text']
-        }
-        return $args;
+        return $parameter2;
     }
 }

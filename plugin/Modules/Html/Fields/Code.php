@@ -2,33 +2,40 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
+
 class Code extends Field
 {
     /**
      * @inheritDoc
      */
-    public function getTag()
+    public static function defaults($fieldLocation = null)
     {
-        return 'textarea';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function defaults()
-    {
+        $classes = [
+            'metabox' => '',
+            'setting' => 'large-text code',
+            'widget' => '',
+        ];
         return [
-            'class' => 'large-text code',
+            'class' => Arr::get($classes, $fieldLocation),
         ];
     }
 
     /**
      * @inheritDoc
      */
-    public static function required()
+    public static function required($fieldLocation = null)
     {
         return [
             'type' => 'textarea',
         ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function tag()
+    {
+        return 'textarea';
     }
 }

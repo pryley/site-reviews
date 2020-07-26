@@ -7,7 +7,7 @@ class Hidden extends Field
     /**
      * @inheritDoc
      */
-    public static function required()
+    public static function required($fieldLocation = null)
     {
         return [
             'is_raw' => true,

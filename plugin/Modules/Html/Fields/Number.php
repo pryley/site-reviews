@@ -2,15 +2,22 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
+
 class Number extends Field
 {
     /**
      * @inheritDoc
      */
-    public static function defaults()
+    public static function defaults($fieldLocation = null)
     {
+        $classes = [
+            'metabox' => '',
+            'setting' => 'small-text',
+            'widget' => 'small-text',
+        ];
         return [
-            'class' => 'small-text',
+            'class' => Arr::get($classes, $fieldLocation),
         ];
     }
 }

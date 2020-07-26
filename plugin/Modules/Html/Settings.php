@@ -67,10 +67,9 @@ class Settings
         $rows = '';
         foreach ($fields as $name => $field) {
             $field = wp_parse_args($field, [
-                'is_setting' => true,
                 'name' => $name,
             ]);
-            $rows.= new Field($this->normalize($field));
+            $rows.= new SettingField($this->normalize($field));
         }
         return $rows;
     }

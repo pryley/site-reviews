@@ -2,30 +2,29 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
+
 class YesNo extends Field
 {
     /**
      * @inheritDoc
      */
-    public function getTag()
+    public static function defaults($fieldLocation = null)
     {
-        return 'input';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function defaults()
-    {
+        $classes = [
+            'metabox' => '',
+            'setting' => 'inline',
+            'widget' => 'inline',
+        ];
         return [
-            'class' => 'inline',
+            'class' => Arr::get($classes, $fieldLocation),
         ];
     }
 
     /**
      * @inheritDoc
      */
-    public static function required()
+    public static function required($fieldLocation = null)
     {
         return [
             'is_multi' => true,
@@ -35,5 +34,13 @@ class YesNo extends Field
             ],
             'type' => 'radio',
         ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function tag()
+    {
+        return 'input';
     }
 }

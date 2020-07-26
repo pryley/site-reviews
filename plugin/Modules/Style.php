@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Defaults\PaginationDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleValidationDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
@@ -143,13 +144,7 @@ class Style
      */
     protected function isPublicInstance(Builder $instance)
     {
-        $args = wp_parse_args($instance->args, [
-            'is_public' => false,
-            'is_raw' => false,
-        ]);
-        if (is_admin() || !$args['is_public'] || $args['is_raw']) {
-            return false;
-        }
-        return true;
+        $args = glsr()->args($instance->args)->merge(['is_raw' => false]);
+        return !is_admin() && !Cast::toBool($args->is_raw);
     }
 }

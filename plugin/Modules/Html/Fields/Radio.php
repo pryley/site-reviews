@@ -7,15 +7,7 @@ class Radio extends Field
     /**
      * @inheritDoc
      */
-    public function getTag()
-    {
-        return 'input';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function defaults()
+    public static function defaults($fieldLocation = null)
     {
         return [
             'value' => 1,
@@ -25,11 +17,19 @@ class Radio extends Field
     /**
      * @inheritDoc
      */
-    public static function required()
+    public static function required($fieldLocation = null)
     {
         return [
             'is_multi' => true,
             'type' => 'radio',
         ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function tag()
+    {
+        return 'input';
     }
 }
