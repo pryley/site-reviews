@@ -7,16 +7,6 @@ class Checkbox extends Field
     /**
      * @inheritDoc
      */
-    public static function defaults($fieldLocation = null)
-    {
-        return [
-            'value' => 1,
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
     public static function required($fieldLocation = null)
     {
         return [

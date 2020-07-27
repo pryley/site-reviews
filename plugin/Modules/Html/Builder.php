@@ -11,6 +11,8 @@ use ReflectionClass;
 use ReflectionMethod;
 
 /**
+ * This class generates raw HTML tags without additional DOM markup
+ * 
  * @method string a(string|array ...$params)
  * @method string button(string|array ...$params)
  * @method string div(string|array ...$params)
