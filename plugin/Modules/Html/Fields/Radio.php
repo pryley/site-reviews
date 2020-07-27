@@ -2,18 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 
-class Radio extends Field
+class Radio extends Checkbox
 {
-    /**
-     * @inheritDoc
-     */
-    public static function defaults($fieldLocation = null)
-    {
-        return [
-            'value' => 1,
-        ];
-    }
-
     /**
      * @inheritDoc
      */
@@ -23,13 +13,5 @@ class Radio extends Field
             'is_multi' => true,
             'type' => 'radio',
         ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function tag()
-    {
-        return 'input';
     }
 }
