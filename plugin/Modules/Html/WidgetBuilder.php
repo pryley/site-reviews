@@ -9,8 +9,8 @@ class WidgetBuilder extends Builder
      */
     protected function buildFieldDescription()
     {
-        if (!empty($this->args['description'])) {
-            return $this->small($this->args['description']);
+        if (!empty($this->args->description)) {
+            return $this->small($this->args->description);
         }
     }
 
@@ -19,12 +19,12 @@ class WidgetBuilder extends Builder
      */
     protected function buildFormInputChoice()
     {
-        if (!empty($this->args['text'])) {
-            $this->args['label'] = $this->args['text'];
+        if (!empty($this->args->text)) {
+            $this->args->set('label', $this->args->text);
         }
         return $this->buildFormLabel([
-            'class' => 'glsr-'.$this->args['type'].'-label',
-            'text' => $this->buildOpeningTag().' '.$this->args['label'].'<span></span>',
+            'class' => 'glsr-'.$this->args->type.'-label',
+            'text' => $this->buildOpeningTag().' '.$this->args->label.'<span></span>',
         ]);
     }
 

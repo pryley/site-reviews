@@ -19,7 +19,7 @@ abstract class Field
     }
 
     /**
-     * @return array
+     * @return \GeminiLabs\SiteReviews\Arguments
      */
     public function args()
     {
@@ -31,7 +31,7 @@ abstract class Field
      */
     public function build()
     {
-        return $this->builder->build($this->tag(), $this->args());
+        return $this->builder->build($this->tag(), $this->args()->toArray());
     }
 
     /**

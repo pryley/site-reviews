@@ -47,9 +47,9 @@ class Builder
     ];
 
     /**
-     * @var array
+     * @var \GeminiLabs\SiteReviews\Arguments
      */
-    public $args = [];
+    public $args;
 
     /**
      * @var bool
@@ -90,14 +90,9 @@ class Builder
      */
     public function __set($property, $value)
     {
-        $properties = [
-            'args' => 'is_array',
-            'render' => 'is_bool',
-            'tag' => 'is_string',
-        ];
-        $isValid = Cast::toBool(call_user_func(Arr::get($properties, $property, 'unset'), $value));
-        if ($isValid && !Helper::isEmpty($value)) {
-            $this->$property = $value;
+        $method = Helper::buildMethodName($property, 'set');
+        if (method_exists($this, $method)) {
+            call_user_func([$this, $method], $value);
         }
     }
 
@@ -128,7 +123,7 @@ class Builder
      */
     public function buildDefaultElement($text = '')
     {
-        $text = Helper::ifEmpty($text, $this->args['text'], $strict = true);
+        $text = Helper::ifEmpty($text, $this->args->text, $strict = true);
         return $this->buildOpeningTag().$text.$this->buildClosingTag();
     }
 
@@ -164,7 +159,7 @@ class Builder
      */
     public function buildOpeningTag()
     {
-        $attributes = glsr(Attributes::class)->{$this->tag}($this->args)->toString();
+        $attributes = glsr(Attributes::class)->{$this->tag}($this->args->toArray())->toString();
         return '<'.trim($this->tag.' '.$attributes).'>';
     }
 
@@ -178,16 +173,28 @@ class Builder
     }
 
     /**
+     * @param array $args
      * @param string $type
      * @return void
      */
-    public function setArgs(array $args = [], $type = '')
+    public function setArgs($args = [], $type = '')
     {
+        $args = Arr::consolidate($args);
         if (!empty($args)) {
             $args = $this->normalize($args, $type);
             $args = glsr(FieldDefaults::class)->merge($args);
         }
-        $this->args = glsr()->filterArray('builder/'.$type.'/args', $args, $this);
+        $args = glsr()->filterArray('builder/'.$type.'/args', $args, $this);
+        $this->args = glsr()->args($args);
+    }
+
+    /**
+     * @param bool $bool
+     * @return void
+     */
+    public function setRender($bool)
+    {
+        $this->render = Cast::toBool($bool);
     }
 
     /**
@@ -196,6 +203,7 @@ class Builder
      */
     public function setTag($tag)
     {
+        $tag = Cast::toString($tag);
         $this->tag = Helper::ifTrue(in_array($tag, static::INPUT_TYPES), 'input', $tag);
     }
 
@@ -204,8 +212,11 @@ class Builder
      */
     protected function buildFieldDescription()
     {
-        if (!empty($this->args['description'])) {
-            return $this->p($this->args['description'], ['class' => 'description']);
+        if (!empty($this->args->description)) {
+            return $this->p([
+                'class' => 'description',
+                'text' => $this->args->description,
+            ]);
         }
     }
 
@@ -214,13 +225,13 @@ class Builder
      */
     protected function buildFormInput()
     {
-        if (!in_array($this->args['type'], ['checkbox', 'radio'])) {
-            if (isset($this->args['multiple'])) {
-                $this->args['name'] .= '[]';
+        if (!in_array($this->args->type, ['checkbox', 'radio'])) {
+            if (isset($this->args->multiple)) {
+                $this->args->set('name', Str::suffix($this->args->name, '[]'));
             }
             return $this->buildFormLabel().$this->buildOpeningTag();
         }
-        return empty($this->args['options'])
+        return empty($this->args->options)
             ? $this->buildFormInputChoice()
             : $this->buildFormInputMultiChoice();
     }
@@ -233,9 +244,8 @@ class Builder
         if (!empty($this->args['text'])) {
             $this->args['label'] = $this->args['text'];
         }
-        return $this->buildOpeningTag().$this->buildFormLabel([
-            'class' => 'glsr-'.$this->args['type'].'-label',
-            'text' => $this->args['label'].'<span></span>',
+        return $this->buildFormLabel([
+            'text' => $this->buildOpeningTag().' '.$this->args['label'].'<span></span>',
         ]);
     }
 
@@ -244,22 +254,22 @@ class Builder
      */
     protected function buildFormInputMultiChoice()
     {
-        if ('checkbox' == $this->args['type']) {
-            $this->args['name'] .= '[]';
-        }
         $index = 0;
-        $options = array_reduce(array_keys($this->args['options']), function ($carry, $key) use (&$index) {
-            return $carry.$this->li($this->{$this->args['type']}([
-                'checked' => in_array($key, (array) $this->args['value']),
-                'id' => $this->args['id'].'-'.$index++,
-                'name' => $this->args['name'],
-                'text' => $this->args['options'][$key],
+        $options = array_reduce(array_keys($this->args->cast('options', 'array')), function ($carry, $key) use (&$index) {
+            $index++;
+            $field = $this->input([
+                'checked' => Cast::toString($key) === $this->args->cast('value', 'string'),
+                'id' => Helper::ifTrue(!empty($this->args->id), $this->args->id.'-'.$index),
+                'label' => $this->args->options[$key],
+                'name' => $this->args->name,
+                'type' => $this->args->type,
                 'value' => $key,
-            ]));
+            ]);
+            return $carry.$this->li($field);
         });
         return $this->ul($options, [
-            'class' => $this->args['class'],
-            'id' => $this->args['id'],
+            'class' => $this->args->class,
+            'id' => $this->args->id,
         ]);
     }
 
@@ -268,11 +278,11 @@ class Builder
      */
     protected function buildFormLabel(array $customArgs = [])
     {
-        if (!empty($this->args['label']) && 'hidden' !== $this->args['type']) {
+        if (!empty($this->args->label) && 'hidden' !== $this->args->type) {
             return $this->label(wp_parse_args($customArgs, [
-                'for' => $this->args['id'],
-                'text' => $this->args['label'],
-                'type' => $this->args['type'],
+                'for' => $this->args->id,
+                'text' => $this->args->label,
+                'type' => $this->args->type,
             ]));
         }
     }
@@ -290,10 +300,10 @@ class Builder
      */
     protected function buildFormSelectOptions()
     {
-        return array_reduce(array_keys($this->args['options']), function ($carry, $key) {
+        return array_reduce(array_keys($this->args->cast('options', 'array')), function ($carry, $key) {
             return $carry.$this->option([
-                'selected' => Cast::toString($this->args['value']) === Cast::toString($key),
-                'text' => $this->args['options'][$key],
+                'selected' => $this->args->cast('value', 'string') === Cast::toString($key),
+                'text' => $this->args->options[$key],
                 'value' => $key,
             ]);
         });
@@ -304,7 +314,7 @@ class Builder
      */
     protected function buildFormTextarea()
     {
-        return $this->buildFormLabel().$this->buildDefaultElement($this->args['value']);
+        return $this->buildFormLabel().$this->buildDefaultElement($this->args->cast('value', 'string'));
     }
 
     /**
@@ -319,6 +329,18 @@ class Builder
             static::TAGS_STRUCTURE,
             static::TAGS_TEXT
         ));
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isMultiField(array $args)
+    {
+        $args = glsr()->args($args);
+        if ('checkbox' === $args->type && count($args->cast('options', 'array')) > 1) {
+            return true;
+        }
+        return Helper::ifTrue(isset($args->multiple), true, false);
     }
 
     /**
@@ -338,6 +360,9 @@ class Builder
     {
         if (class_exists($className = $this->getFieldClassName($type))) {
             $args = $className::merge($args);
+        }
+        if ($this->isMultiField($args)) {
+            $args['name'] .= '[]';
         }
         return $args;
     }

@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class Arguments extends \ArrayObject
 {
@@ -14,6 +15,17 @@ class Arguments extends \ArrayObject
     {
         $args = Arr::consolidate($args);
         parent::__construct($args, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
+    }
+
+    /**
+     * @param string $cast
+     * @param mixed $key
+     * @param mixed $fallback
+     * @return mixed
+     */
+    public function cast($key, $cast)
+    {
+        return Cast::to($cast, $this->get($key));
     }
 
     /**
