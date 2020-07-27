@@ -272,6 +272,20 @@ class Str
 
     /**
      * @param string $string
+     * @param string $prefix
+     * @param string|null $trim
+     * @return string
+     */
+    public static function suffix($string, $suffix)
+    {
+        if (!static::endsWith($suffix, $string)) {
+            return $string.$suffix;
+        }
+        return $string;
+    }
+
+    /**
+     * @param string $string
      * @param int $length
      * @return string
      */

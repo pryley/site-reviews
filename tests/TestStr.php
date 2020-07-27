@@ -178,6 +178,14 @@ class TestStr extends WP_UnitTestCase
         $this->assertFalse(Str::startsWith('', 'ABCDEFG'));
     }
 
+    public function test_suffix()
+    {
+        $this->assertEquals(Str::suffix('bob', '_goodbye'), 'bob_goodbye');
+        $this->assertEquals(Str::suffix('bob_goodbye', '_goodbye'), 'bob_goodbye');
+        $this->assertEquals(Str::suffix(' bob ', '_goodbye'), ' bob _goodbye');
+        $this->assertEquals(Str::suffix(' bob ', ' _goodbye '), ' bob  _goodbye ');
+    }
+
     public function test_truncate()
     {
         $this->assertEquals(Str::truncate('abc', 1), 'a');
