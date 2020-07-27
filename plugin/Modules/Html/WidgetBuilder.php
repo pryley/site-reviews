@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Helper;
+
 class WidgetBuilder extends Builder
 {
     /**
@@ -12,20 +14,6 @@ class WidgetBuilder extends Builder
         if (!empty($this->args->description)) {
             return $this->small($this->args->description);
         }
-    }
-
-    /**
-     * @return string|void
-     */
-    protected function buildFormInputChoice()
-    {
-        if (!empty($this->args->text)) {
-            $this->args->set('label', $this->args->text);
-        }
-        return $this->buildFormLabel([
-            'class' => 'glsr-'.$this->args->type.'-label',
-            'text' => $this->buildOpeningTag().' '.$this->args->label.'<span></span>',
-        ]);
     }
 
     /**

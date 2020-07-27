@@ -243,11 +243,9 @@ class Builder
      */
     protected function buildFormInputChoice()
     {
-        if (!empty($this->args['text'])) {
-            $this->args['label'] = $this->args['text'];
-        }
+        $this->args->set('label', Helper::ifEmpty($this->args->text, $this->args->label));
         return $this->buildFormLabel([
-            'text' => $this->buildOpeningTag().' '.$this->args['label'].'<span></span>',
+            'text' => $this->buildOpeningTag().' '.$this->args->label,
         ]);
     }
 
@@ -284,7 +282,6 @@ class Builder
             return $this->label(wp_parse_args($customArgs, [
                 'for' => $this->args->id,
                 'text' => $this->args->label,
-                'type' => $this->args->type,
             ]));
         }
     }
