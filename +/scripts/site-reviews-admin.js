@@ -13,11 +13,12 @@ jQuery(function ($) {
 
     GLSR.notices = new GLSR.Notices();
     GLSR.shortcode = new GLSR.Shortcode('.glsr-mce');
-    GLSR.stars = new StarRating('.glsr-metabox-field select.glsr-star-rating', {
-        showText: false,
+    GLSR.stars = new StarRating(document.querySelectorAll('select.glsr-star-rating'), {
+        showText: true,
     });
     GLSR.ColorPicker();
     new GLSR.Forms('form.glsr-form');
+    new GLSR.Metabox();
     new GLSR.Pinned();
     new GLSR.Pointers();
     new GLSR.Search('#glsr-search-posts', {
@@ -93,53 +94,16 @@ jQuery(function ($) {
     new GLSR.Tools();
     new GLSR.Sync();
 
-    $('.glsr-metabox-field .glsr-toggle__input').change(function () {
-        var isChecked = this.checked;
-        $('.glsr-input-value').each(function (i, el) {
-            if (isChecked) {
-                $(el).data('value', el.value);
-            } else {
-                el.value = $(el).data('value');
-                if ('url' !== el.type) return;
-                switchImage($(el).parent().find('img'), el.value);
-            }
-        });
-        $('.glsr-input-value').prop('disabled', !isChecked);
-        GLSR.stars.rebuild();
-    });
-
-    $('.glsr-metabox-field input[type=url]').change(function () {
-        switchImage($(this).parent().find('img'), this.value);
-    });
-
-    var switchImage = function (imgEl, imgSrc) {
-        if (!imgEl) return;
-        var image = new Image();
-        image.src = imgSrc;
-        image.onerror = function () {
-            imgEl.attr('src', imgEl.data('fallback'));
-        };
-        image.onload = function () {
-            imgEl.attr('src', image.src);
-        };
+    var trackValue = function () {
+        this.dataset.glsrTrack = this.value;
     };
 
-    $('a#revert').on('click', function () {
-        $(this).parent().find('.spinner').addClass('is-active');
-    });
+    $('select[data-glsr-track]').each(trackValue);
+    $('select[data-glsr-track]').on('change', trackValue);
 
     $('.glsr-card.postbox').addClass('closed')
         .find('.handlediv').attr('aria-expanded', false)
         .closest('.glsr-nav-view').addClass('collapsed');
-
-    $('.glsr-card.postbox .glsr-card-header').on('click', function () {
-        var parent = $(this).parent();
-        var view = parent.closest('.glsr-nav-view');
-        var action = parent.hasClass('closed') ? 'remove' : 'add';
-        parent[action + 'Class']('closed').find('.handlediv').attr('aria-expanded', action !== 'add');
-        action = view.find('.glsr-card.postbox').not('.closed').length > 0 ? 'remove' : 'add';
-        view[action + 'Class']('collapsed');
-    });
 
     if ($('.glsr-support-step').not(':checked').length < 1) {
         $('.glsr-card-result').removeClass('hidden');
@@ -150,10 +114,12 @@ jQuery(function ($) {
         $('.glsr-card-result')[action + 'Class']('hidden');
     });
 
-    var trackValue = function () {
-        this.dataset.glsrTrack = this.value;
-    };
-
-    $('select[data-glsr-track]').each(trackValue);
-    $('select[data-glsr-track]').on('change', trackValue);
+    $('.glsr-card.postbox .glsr-card-header').on('click', function () {
+        var parent = $(this).parent();
+        var view = parent.closest('.glsr-nav-view');
+        var action = parent.hasClass('closed') ? 'remove' : 'add';
+        parent[action + 'Class']('closed').find('.handlediv').attr('aria-expanded', action !== 'add');
+        action = view.find('.glsr-card.postbox').not('.closed').length > 0 ? 'remove' : 'add';
+        view[action + 'Class']('collapsed');
+    });
 });

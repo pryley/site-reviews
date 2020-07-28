@@ -62,6 +62,7 @@ mix
     '+/scripts/admin/categories.js',
     '+/scripts/admin/color-picker.js',
     '+/scripts/admin/forms.js',
+    '+/scripts/admin/metabox.js',
     '+/scripts/admin/notices.js',
     '+/scripts/admin/pinned.js',
     '+/scripts/admin/pointers.js',

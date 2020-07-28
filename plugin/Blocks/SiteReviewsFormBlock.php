@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Blocks;
 
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode as Shortcode;
 
@@ -106,7 +107,7 @@ class SiteReviewsFormBlock extends Block
     protected function filterRatingField()
     {
         add_filter('site-reviews/rendered/field', function ($html, $type, $args) {
-            if ('rating' == $args['path']) {
+            if (Str::contains('glsr-star-rating', $args['class'])) {
                 $stars = '<span class="glsr-stars">';
                 $stars.= str_repeat('<span class="glsr-star glsr-star-empty" aria-hidden="true"></span>', (int) glsr()->constant('MAX_RATING', Rating::class));
                 $stars.= '</span>';

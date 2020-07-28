@@ -11,6 +11,7 @@
     };
 
     GLSR.Forms.prototype = {
+        /** @return void */
         getDependsData_: function (el) {
             var data = el.getAttribute('data-depends');
             if (!data) return;
