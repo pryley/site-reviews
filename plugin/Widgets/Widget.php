@@ -2,11 +2,23 @@
 
 namespace GeminiLabs\SiteReviews\Widgets;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\WidgetBuilder;
 use WP_Widget;
 
 abstract class Widget extends WP_Widget
 {
+    /**
+     * @var array
+     */
+    protected $mapped = [
+        'assign_to' => 'assigned_posts',
+        'assigned_to' => 'assigned_posts',
+        'category' => 'assigned_terms',
+        'per_page' => 'display',
+        'user' => 'assigned_users',
+    ];
+
     /**
      * @var array
      */
@@ -24,15 +36,25 @@ abstract class Widget extends WP_Widget
 
     /**
      * @param string $tag
+     * @return mixed
+     */
+    protected function mapped($key)
+    {
+        $key = Arr::get($this->mapped, $key, $key);
+        return Arr::get($this->widgetArgs, $key);
+    }
+
+    /**
+     * @param string $tag
      * @return array
      */
     protected function normalizeFieldAttributes($tag, array $args)
     {
         if (empty($args['value'])) {
-            $args['value'] = $this->widgetArgs[$args['name']];
+            $args['value'] = $this->mapped($args['name']);
         }
-        if (empty($this->widgetArgs['options']) && in_array($tag, ['checkbox', 'radio'])) {
-            $args['checked'] = in_array($args['value'], (array) $this->widgetArgs[$args['name']]);
+        if (empty($this->mapped('options')) && in_array($tag, ['checkbox', 'radio'])) {
+            $args['checked'] = in_array($args['value'], (array) $this->mapped($args['name']));
         }
         $args['id'] = $this->get_field_id($args['name']);
         $args['name'] = $this->get_field_name($args['name']);
@@ -48,7 +70,7 @@ abstract class Widget extends WP_Widget
         $args = $this->normalizeFieldAttributes($tag, $args);
         echo glsr(WidgetBuilder::class)->p([
             'class' => 'glsr-field',
-            'text' => glsr(WidgetBuilder::class)->$tag($args['name'], $args),
+            'text' => glsr(WidgetBuilder::class)->$tag($args),
         ]);
     }
 
