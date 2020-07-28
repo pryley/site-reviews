@@ -255,14 +255,18 @@ class Builder
     {
         $index = 0;
         return array_reduce(array_keys($this->args->options), function ($carry, $value) use (&$index) {
-            return $carry.$this->div($this->input([
+            $input = $this->input([
                 'checked' => Cast::toString($value) === $this->args->cast('value', 'string'),
                 'id' => Helper::ifTrue(!empty($this->args->id), $this->args->id.'-'.++$index),
                 'label' => $this->args->options[$value],
                 'name' => $this->args->name,
                 'type' => $this->args->type,
                 'value' => $value,
-            ]));
+            ]);
+            return $carry.$this->div([
+                'class' => $this->args->class,
+                'text' => $input,
+            ]);
         });
     }
 
