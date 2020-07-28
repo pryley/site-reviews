@@ -61,6 +61,17 @@ class Arguments extends \ArrayObject
     }
 
     /**
+     * @param mixed $key
+     * @return void
+     */
+    public function offsetUnset($key)
+    {
+        $storage = $this->toArray();
+        unset($storage[$key]);
+        $this->exchangeArray($storage);
+    }
+
+    /**
      * @param string $path
      * @param mixed $value
      * @return void

@@ -228,14 +228,11 @@ class Builder
     protected function buildFormInput()
     {
         if (!in_array($this->args->type, ['checkbox', 'radio'])) {
-            if (isset($this->args->multiple)) {
-                $this->args->set('name', Str::suffix($this->args->name, '[]'));
-            }
             return $this->buildFormLabel().$this->buildOpeningTag();
         }
         return empty($this->args->options)
             ? $this->buildFormInputChoice()
-            : $this->buildFormInputMultiChoice();
+            : $this->buildFormInputChoices();
     }
 
     /**
@@ -244,33 +241,29 @@ class Builder
     protected function buildFormInputChoice()
     {
         $this->args->set('label', Helper::ifEmpty($this->args->text, $this->args->label));
+        $input = $this->span('&#8203;'.$this->buildOpeningTag()); // using a zero-width character to assist with alignment
+        $label = $this->span($this->args->label);
         return $this->buildFormLabel([
-            'text' => $this->buildOpeningTag().' '.$this->args->label,
+            'text' => $input.' '.$label,
         ]);
     }
 
     /**
      * @return string|void
      */
-    protected function buildFormInputMultiChoice()
+    protected function buildFormInputChoices()
     {
         $index = 0;
-        $options = array_reduce(array_keys($this->args->cast('options', 'array')), function ($carry, $key) use (&$index) {
-            $index++;
-            $field = $this->input([
-                'checked' => Cast::toString($key) === $this->args->cast('value', 'string'),
-                'id' => Helper::ifTrue(!empty($this->args->id), $this->args->id.'-'.$index),
-                'label' => $this->args->options[$key],
+        return array_reduce(array_keys($this->args->options), function ($carry, $value) use (&$index) {
+            return $carry.$this->div($this->input([
+                'checked' => Cast::toString($value) === $this->args->cast('value', 'string'),
+                'id' => Helper::ifTrue(!empty($this->args->id), $this->args->id.'-'.++$index),
+                'label' => $this->args->options[$value],
                 'name' => $this->args->name,
                 'type' => $this->args->type,
-                'value' => $key,
-            ]);
-            return $carry.$this->li($field);
+                'value' => $value,
+            ]));
         });
-        return $this->ul($options, [
-            'class' => $this->args->class,
-            'id' => $this->args->id,
-        ]);
     }
 
     /**
@@ -331,18 +324,6 @@ class Builder
     }
 
     /**
-     * @return bool
-     */
-    protected function isMultiField(array $args)
-    {
-        $args = glsr()->args($args);
-        if ('checkbox' === $args->type && count($args->cast('options', 'array')) > 1) {
-            return true;
-        }
-        return Helper::ifTrue(isset($args->multiple), true, false);
-    }
-
-    /**
      * @param string $type
      * @return string
      */
@@ -359,9 +340,6 @@ class Builder
     {
         if (class_exists($className = $this->getFieldClassName($type))) {
             $args = $className::merge($args);
-        }
-        if ($this->isMultiField($args)) {
-            $args['name'] .= '[]';
         }
         return $args;
     }

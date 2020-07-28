@@ -49,7 +49,7 @@ class SettingField extends Field
                 'class' => $this->getFieldClass(),
                 'depends_on' => $dependsOn,
                 'field' => $this->builder()->{$this->field['type']}($this->field),
-                'label' => $this->builder()->label($this->field['legend'], ['for' => $this->field['id']]),
+                'label' => $this->field['legend'],
                 'legend' => $this->field['legend'],
             ],
             'field' => $this->field,

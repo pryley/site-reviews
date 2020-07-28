@@ -2,9 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Html\Attributes;
 
 class Field
 {
@@ -78,6 +81,12 @@ class Field
      */
     public function getField()
     {
+        if ('choice' === $this->fieldType()) {
+            return $this->builder()->div([
+                'class' => 'glsr-field-choice',
+                'text' => $this->builder()->raw($this->field),
+            ]);
+        }
         return $this->builder()->raw($this->field);
     }
 
@@ -134,12 +143,13 @@ class Field
      */
     public function getFieldLabel()
     {
-        return $this->builder()->label([
-            'class' => 'glsr-'.$this->field['type'].'-label',
-            'for' => $this->field['id'],
-            'text' => $this->field['label'].'<span></span>',
-            'type' => $this->field['type'],
-        ]);
+        if (!empty($this->field['label'])) {
+            return $this->builder()->label([
+                'class' => 'glsr-'.$this->fieldType().'-label',
+                'for' => $this->field['id'],
+                'text' => $this->builder()->span($this->field['label']),
+            ]);
+        }
     }
 
     /**
@@ -163,8 +173,7 @@ class Field
      */
     protected function buildField()
     {
-        $fieldType = $this->fieldType();
-        $field = glsr(Template::class)->build('templates/form/field_'.$fieldType, [
+        $field = glsr(Template::class)->build('templates/form/field_'.$this->field['type'], [
             'context' => [
                 'class' => $this->getFieldClass(),
                 'errors' => $this->getFieldErrors(),
@@ -173,7 +182,7 @@ class Field
             ],
             'field' => $this->field,
         ]);
-        return glsr()->filterString('rendered/field', $field, $fieldType, $this->field);
+        return glsr()->filterString('rendered/field', $field, $this->field['type'], $this->field);
     }
 
     /**

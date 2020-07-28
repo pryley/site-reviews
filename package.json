@@ -4,9 +4,9 @@
     "star-rating.js": "^3.2.0"
   },
   "devDependencies": {
-    "@babel/compat-data": "^7.10.4",
+    "@babel/compat-data": "^7.10.5",
     "@wordpress/babel-preset-default": "^4.17.0",
-    "browser-sync": "^2.26.7",
+    "browser-sync": "^2.26.12",
     "browser-sync-webpack-plugin": "^2.0.1",
     "cross-env": "^7.0.2",
     "gulp": "^4.0.2",

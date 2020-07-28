@@ -248,20 +248,12 @@ td.glsr-string-td1 .row-actions.visible {
 /* Field
  ------------------------- */
 
-tr.glsr-field ul,
-tr.glsr-field li {
-	margin: 0 auto;
+tr.glsr-field td .inline br {
+	display: none;
 }
-
-.glsr-field ul.inline li div {
-	display: inline;
-}
-.glsr-field ul.inline li {
-	display: inline;
-
-	&:not( :last-child ) {
-		margin-right: 1em;
-	}
+tr.glsr-field td label::after {
+	content: '';
+	margin-right: 1em;
 }
 
 .glsr-field .button {
@@ -289,7 +281,7 @@ tr.glsr-field li {
 	}
 
 	> label {
-		display: block;
+		margin-right: 3px;
 	}
 
 	@media screen and (max-width: 782px) {

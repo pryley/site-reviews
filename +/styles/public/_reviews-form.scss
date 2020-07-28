@@ -2,7 +2,7 @@
 	form.glsr-form {
 		font-size: glsr(font-size);
 		line-height: 1.5;
-		max-height: 1000px;
+		// max-height: 1000px;
 		opacity: 1;
 		transition: max-height 0.4s, opacity 0.4s;
 	}
@@ -12,13 +12,13 @@
 		overflow: hidden;
 	}
 
-	form.glsr-form .glsr-field-choice {
+	form.glsr-form .glsr-field-choice label {
 		align-items: flex-start;
-		display: flex;
+		display: inline-flex;
+		margin: 0;
 	}
 
-	form.glsr-form .glsr-checkbox-input,
-	form.glsr-form .glsr-radio-input {
+	form.glsr-form .glsr-field-choice span:first-of-type {
 		align-items: center;
 		display: flex;
 	}
@@ -26,11 +26,6 @@
 	form.glsr-form .glsr-field-choice input {
 		height: 1rem;
 		width: 1rem;
-	}
-
-	form.glsr-form .glsr-field-choice label {
-		display: inline-block;
-		margin: 0;
 	}
 
 	form.glsr-form input.glsr-field-control:not([type=checkbox]):not([type=radio]),
@@ -51,10 +46,14 @@
 		}
 	}
 
-	form.glsr-form .glsr-required label span::after {
+	form.glsr-form .glsr-required label:first-of-type span:last-child::after {
 		color: glsr(color-error);
 		content: '\002a';
 	}
+	form.glsr-form .glsr-required > label + .glsr-field-choice span::after {
+		display: none;
+	}
+
 	form.glsr-form .glsr-field {
 		margin-bottom: glsr(font-size);
 	}
