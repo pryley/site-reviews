@@ -101,12 +101,12 @@ class Database
     /**
      * @param string|string[] $keys
      * @param string $table
-     * @return void
+     * @return int|false
      */
     public function deleteMeta($keys, $table = 'postmeta')
     {
         $table = glsr(Query::class)->table($table);
-        $metaKeys = glsr(Sql::class)->escValuesForInsert(Arr::convertFromString($metaKeys));
+        $metaKeys = glsr(Sql::class)->escValuesForInsert(Arr::convertFromString($keys));
         $sql = glsr(Query::class)->sql("DELETE FROM {$table} WHERE meta_key IN {$metaKeys}");
         return $this->dbQuery($sql);
     }
@@ -138,7 +138,7 @@ class Database
 
     /**
      * @param string $table
-     * @return int|false
+     * @return int
      */
     public function insert($table, array $data)
     {
