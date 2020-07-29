@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 trait Sql
@@ -74,7 +73,7 @@ trait Sql
      */
     public function sqlLimit()
     {
-        $limit = Helper::ifTrue($this->args['per_page'] > 0, 
+        $limit = Helper::ifTrue($this->args['per_page'] > 0,
             $this->db->prepare('LIMIT %d', $this->args['per_page'])
         );
         return glsr()->filterString('query/sql/limit', $limit, $this);

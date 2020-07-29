@@ -45,7 +45,7 @@ class Migrate_5_0_0
                 WHERE m.meta_key = '_assigned_to' AND m.meta_value > 0 
                 LIMIT %d, %d
             ", $offset, $this->limit), 'migrate-assigned-posts');
-            $results = $this->db->get_results($sql, ARRAY_A);
+            $results = glsr(Database::class)->dbGetResults($sql, ARRAY_A);
             if (empty($results)) {
                 break;
             }
@@ -76,7 +76,7 @@ class Migrate_5_0_0
                 AND m1.meta_key LIKE '_custom%%'
                 LIMIT %d, %d
             ", glsr()->post_type, serialize([]), $offset, $this->limit), 'migrate-custom');
-            $results = $this->db->get_results($sql);
+            $results = glsr(Database::class)->dbGetResults($sql, OBJECT);
             if (empty($results)) {
                 break;
             }
@@ -112,7 +112,7 @@ class Migrate_5_0_0
                 )
                 AND m.meta_key IN ('_author','_avatar','_email','_ip_address','_pinned','_rating','_review_type','_url')
             ", glsr()->post_type, $offset, $this->limit), 'migrate-ratings');
-            $results = $this->db->get_results($sql);
+            $results = glsr(Database::class)->dbGetResults($sql, OBJECT);
             if (empty($results)) {
                 break;
             }
@@ -160,7 +160,7 @@ class Migrate_5_0_0
                 INNER JOIN {$this->db->term_taxonomy} AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
                 LIMIT %d, %d
             ", $offset, $this->limit), 'migrate-assigned-terms');
-            $results = $this->db->get_results($sql, ARRAY_A);
+            $results = glsr(Database::class)->dbGetResults($sql, ARRAY_A);
             if (empty($results)) {
                 break;
             }

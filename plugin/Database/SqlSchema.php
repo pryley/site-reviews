@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
-use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 class SqlSchema
@@ -24,24 +24,22 @@ class SqlSchema
     public function addAssignedPostsTableConstraints()
     {
         if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_posts').'_rating_id_foreign')) {
-            $this->db->query("
+            glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_posts')}
                 ADD CONSTRAINT {$constraint}
                 FOREIGN KEY (rating_id)
                 REFERENCES {$this->table('ratings')} (ID)
                 ON DELETE CASCADE
-            ");
-            glsr(Query::class)->sql($this->db->last_query, 'add-constraint');
+            "));
         }
         if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_posts').'_post_id_foreign')) {
-            $this->db->query("
+            glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_posts')}
                 ADD CONSTRAINT {$constraint}
                 FOREIGN KEY (post_id)
                 REFERENCES {$this->db->posts} (ID)
                 ON DELETE CASCADE
-            ");
-            glsr(Query::class)->sql($this->db->last_query, 'add-constraint');
+            "));
         }
     }
 
@@ -51,24 +49,22 @@ class SqlSchema
     public function addAssignedTermsTableConstraints()
     {
         if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_terms').'_rating_id_foreign')) {
-            $this->db->query("
+            glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_terms')}
                 ADD CONSTRAINT {$constraint}
                 FOREIGN KEY (rating_id)
                 REFERENCES {$this->table('ratings')} (ID)
                 ON DELETE CASCADE
-            ");
-            glsr(Query::class)->sql($this->db->last_query, 'add-constraint');
+            "));
         }
         if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_terms').'_term_id_foreign')) {
-            $this->db->query("
+            glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_terms')}
                 ADD CONSTRAINT {$constraint}
                 FOREIGN KEY (term_id)
                 REFERENCES {$this->db->terms} (term_id)
                 ON DELETE CASCADE
-            ");
-            glsr(Query::class)->sql($this->db->last_query, 'add-constraint');
+            "));
         }
     }
 
@@ -78,24 +74,22 @@ class SqlSchema
     public function addAssignedUsersTableConstraints()
     {
         if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_users').'_rating_id_foreign')) {
-            $this->db->query("
+            glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_users')}
                 ADD CONSTRAINT {$constraint}
                 FOREIGN KEY (rating_id)
                 REFERENCES {$this->table('ratings')} (ID)
                 ON DELETE CASCADE
-            ");
-            glsr(Query::class)->sql($this->db->last_query, 'add-constraint');
+            "));
         }
         if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_users').'_user_id_foreign')) {
-            $this->db->query("
+            glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_users')}
                 ADD CONSTRAINT {$constraint}
                 FOREIGN KEY (user_id)
                 REFERENCES {$this->db->users} (ID)
                 ON DELETE CASCADE
-            ");
-            glsr(Query::class)->sql($this->db->last_query, 'add-constraint');
+            "));
         }
     }
 
@@ -105,14 +99,13 @@ class SqlSchema
     public function addReviewsTableConstraints()
     {
         if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_posts').'_review_id_foreign')) {
-            $this->db->query("
+            glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('ratings')}
                 ADD CONSTRAINT {$constraint}
                 FOREIGN KEY (review_id)
                 REFERENCES {$this->db->posts} (ID)
                 ON DELETE CASCADE
-            ");
-            glsr(Query::class)->sql($this->db->last_query, 'add-constraint');
+            "));
         }
     }
 
@@ -137,12 +130,14 @@ class SqlSchema
         if ($this->tableExists('assigned_posts')) {
             return false;
         }
-        dbDelta("CREATE TABLE {$this->table('assigned_posts')} (
-            rating_id bigint(20) unsigned NOT NULL,
-            post_id bigint(20) unsigned NOT NULL,
-            is_published tinyint(1) NOT NULL DEFAULT '1',
-            UNIQUE KEY {$this->prefix('assigned_posts')}_rating_id_post_id_unique (rating_id,post_id)
-        ) {$this->db->get_charset_collate()};");
+        dbDelta(glsr(Query::class)->sql("
+            CREATE TABLE {$this->table('assigned_posts')} (
+                rating_id bigint(20) unsigned NOT NULL,
+                post_id bigint(20) unsigned NOT NULL,
+                is_published tinyint(1) NOT NULL DEFAULT '1',
+                UNIQUE KEY {$this->prefix('assigned_posts')}_rating_id_post_id_unique (rating_id,post_id)
+            ) {$this->db->get_charset_collate()};
+        "));
         return true;
     }
 
@@ -154,11 +149,13 @@ class SqlSchema
         if ($this->tableExists('assigned_terms')) {
             return false;
         }
-        dbDelta("CREATE TABLE {$this->table('assigned_terms')} (
-            rating_id bigint(20) unsigned NOT NULL,
-            term_id bigint(20) unsigned NOT NULL,
-            UNIQUE KEY {$this->prefix('assigned_terms')}_rating_id_term_id_unique (rating_id,term_id)
-        ) {$this->db->get_charset_collate()};");
+        dbDelta(glsr(Query::class)->sql("
+            CREATE TABLE {$this->table('assigned_terms')} (
+                rating_id bigint(20) unsigned NOT NULL,
+                term_id bigint(20) unsigned NOT NULL,
+                UNIQUE KEY {$this->prefix('assigned_terms')}_rating_id_term_id_unique (rating_id,term_id)
+            ) {$this->db->get_charset_collate()};
+        "));
         return true;
     }
 
@@ -170,11 +167,13 @@ class SqlSchema
         if ($this->tableExists('assigned_users')) {
             return false;
         }
-        dbDelta("CREATE TABLE {$this->table('assigned_users')} (
-            rating_id bigint(20) unsigned NOT NULL,
-            user_id bigint(20) unsigned NOT NULL,
-            UNIQUE KEY {$this->prefix('assigned_users')}_rating_id_user_id_unique (rating_id,user_id)
-        ) {$this->db->get_charset_collate()};");
+        dbDelta(glsr(Query::class)->sql("
+            CREATE TABLE {$this->table('assigned_users')} (
+                rating_id bigint(20) unsigned NOT NULL,
+                user_id bigint(20) unsigned NOT NULL,
+                UNIQUE KEY {$this->prefix('assigned_users')}_rating_id_user_id_unique (rating_id,user_id)
+            ) {$this->db->get_charset_collate()};
+        "));
         return true;
     }
 
@@ -186,22 +185,24 @@ class SqlSchema
         if ($this->tableExists('ratings')) {
             return false;
         }
-        dbDelta("CREATE TABLE {$this->table('ratings')} (
-            ID bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-            review_id bigint(20) unsigned NOT NULL,
-            rating int(11) NOT NULL DEFAULT '0',
-            type varchar(20) DEFAULT 'local',
-            is_approved tinyint(1) NOT NULL DEFAULT '0',
-            is_pinned tinyint(1) NOT NULL DEFAULT '0',
-            name varchar(250) DEFAULT NULL,
-            email varchar(100) DEFAULT NULL,
-            avatar varchar(200) DEFAULT NULL,
-            ip_address varchar(100) DEFAULT NULL,
-            url varchar(250) DEFAULT NULL,
-            PRIMARY KEY (ID),
-            UNIQUE KEY {$this->prefix('ratings')}_review_id_unique (review_id),
-            KEY {$this->prefix('ratings')}_rating_type_is_pinned_index (rating,type,is_pinned)
-        ) {$this->db->get_charset_collate()};");
+        dbDelta(glsr(Query::class)->sql("
+            CREATE TABLE {$this->table('ratings')} (
+                ID bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+                review_id bigint(20) unsigned NOT NULL,
+                rating int(11) NOT NULL DEFAULT '0',
+                type varchar(20) DEFAULT 'local',
+                is_approved tinyint(1) NOT NULL DEFAULT '0',
+                is_pinned tinyint(1) NOT NULL DEFAULT '0',
+                name varchar(250) DEFAULT NULL,
+                email varchar(100) DEFAULT NULL,
+                avatar varchar(200) DEFAULT NULL,
+                ip_address varchar(100) DEFAULT NULL,
+                url varchar(250) DEFAULT NULL,
+                PRIMARY KEY (ID),
+                UNIQUE KEY {$this->prefix('ratings')}_review_id_unique (review_id),
+                KEY {$this->prefix('ratings')}_rating_type_is_pinned_index (rating,type,is_pinned)
+            ) {$this->db->get_charset_collate()};
+        "));
         return true;
     }
 
@@ -221,7 +222,7 @@ class SqlSchema
      */
     public function prefix($table)
     {
-        return glsr()->prefix.$table;
+        return Str::prefix($table, glsr()->prefix);
     }
 
     /**
@@ -230,7 +231,7 @@ class SqlSchema
     public function table($table)
     {
         if (Str::endsWith(['ratings', 'assigned_posts', 'assigned_terms', 'assigned_users'], $table)) {
-            $table = Str::prefix($table, glsr()->prefix);
+            $table = $this->prefix($table);
         }
         return $this->db->prefix.$table;
     }

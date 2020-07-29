@@ -3,7 +3,9 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database\Sql;
 use GeminiLabs\SiteReviews\Database\SqlSchema;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use WP_Query;
@@ -37,27 +39,76 @@ class Database
     }
 
     /**
+     * @param string $sql
+     * @return array
+     */
+    public function dbGetCol($sql)
+    {
+        return $this->logErrors($this->db->get_col($sql));
+    }
+
+    /**
+     * @param string $sql
+     * @param string $object
+     * @return array|object|null
+     */
+    public function dbGetResults($sql, $output)
+    {
+        $output = Str::restrictTo(['ARRAY_A', 'ARRAY_N', 'OBJECT', 'OBJECT_K'], $output, OBJECT);
+        return $this->logErrors($this->db->get_results($sql, $output));
+    }
+
+    /**
+     * @param string $sql
+     * @param string $output
+     * @return array|object|void|null
+     */
+    public function dbGetRow($sql, $output)
+    {
+        $output = Str::restrictTo(['ARRAY_A', 'ARRAY_N', 'OBJECT'], $output, OBJECT);
+        return $this->logErrors($this->db->get_row($sql, $output));
+    }
+
+    /**
+     * @param string $sql
+     * @return string|null
+     */
+    public function dbGetVar($sql)
+    {
+        return $this->logErrors($this->db->get_var($sql));
+    }
+
+    /**
+     * @param string $sql
+     * @return int|bool
+     */
+    public function dbQuery($sql)
+    {
+        return $this->logErrors($this->db->query($sql));
+    }
+
+    /**
      * @param string $table
      * @return int|false
      */
     public function delete($table, array $where)
     {
         $result = $this->db->delete(glsr(Query::class)->table($table), $where);
-        glsr(Query::class)->sql($this->db->last_query, 'delete');
+        glsr(Query::class)->sql($this->db->last_query); // for logging use only
         return $this->logErrors($result);
     }
 
     /**
+     * @param string|string[] $keys
+     * @param string $table
      * @return void
      */
-    public function deleteMeta($metaKey)
+    public function deleteMeta($keys, $table = 'postmeta')
     {
-        $sql = $this->db->prepare("
-            DELETE FROM {$this->db->postmeta}
-            WHERE meta_key = '%s'
-        ", $metaKey);
-        $sql = glsr(Query::class)->sql($sql, 'delete-meta');
-        return $this->logErrors($this->db->query($sql));
+        $table = glsr(Query::class)->table($table);
+        $metaKeys = glsr(Sql::class)->escValuesForInsert(Arr::convertFromString($metaKeys));
+        $sql = glsr(Query::class)->sql("DELETE FROM {$table} WHERE meta_key IN {$metaKeys}");
+        return $this->dbQuery($sql);
     }
 
     /**
@@ -95,8 +146,8 @@ class Database
         $table = glsr(Query::class)->table($table);
         $fields = glsr(Query::class)->escFieldsForInsert(array_keys($data));
         $values = glsr(Query::class)->escValuesForInsert($data);
-        $sql = glsr(Query::class)->sql("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}", 'insert');
-        $result = $this->logErrors($this->db->query($sql));
+        $sql = glsr(Query::class)->sql("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}");
+        $result = $this->dbQuery($sql);
         return empty($result) ? false : $result;
     }
 
@@ -118,8 +169,8 @@ class Database
         $table = glsr(Query::class)->table($table);
         $fields = glsr(Query::class)->escFieldsForInsert($fields);
         $values = implode(',', $data);
-        $sql = glsr(Query::class)->sql("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}", 'insert-bulk');
-        return $this->logErrors($this->db->query($sql));
+        $sql = glsr(Query::class)->sql("INSERT IGNORE INTO {$table} {$fields} VALUES {$values}");
+        return $this->dbQuery($sql);
     }
 
     /**
@@ -132,9 +183,20 @@ class Database
         if (empty($postCount)) {
             return false;
         }
-        $sql = glsr(Query::class)->sql("SELECT COUNT(*) FROM {$table} WHERE is_approved = 1", 'migrate');
-        $result = $this->logErrors($this->db->get_var($sql));
-        return empty($result);
+        $sql = glsr(Query::class)->sql("SELECT COUNT(*) FROM {$table} WHERE is_approved = 1");
+        return empty($this->dbGetVar($sql));
+    }
+
+    /**
+     * @param mixed $result
+     * @return mixed
+     */
+    public function logErrors($result = null)
+    {
+        if ($this->db->last_error) {
+            glsr_log()->error($this->db->last_error);
+        }
+        return $result;
     }
 
     /**
@@ -160,8 +222,7 @@ class Database
     {
         $key = Str::prefix($key, '_');
         $postId = Cast::toInt($postId);
-        // using update_metadata allows us to save meta to revisions
-        return update_metadata('post', $postId, $key, $value);
+        return update_metadata('post', $postId, $key, $value); // update_metadata works with revisions
     }
 
     /**
@@ -254,19 +315,7 @@ class Database
     public function update($table, array $data, array $where)
     {
         $result = $this->db->update(glsr(Query::class)->table($table), $data, $where);
-        glsr(Query::class)->sql($this->db->last_query, 'update');
+        glsr(Query::class)->sql($this->db->last_query); // for logging use only
         return $this->logErrors($result);
-    }
-
-    /**
-     * @param mixed $result
-     * @return mixed
-     */
-    protected function logErrors($result)
-    {
-        if ($this->db->last_error) {
-            glsr_log()->error($this->db->last_error);
-        }
-        return $result;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Rating;
@@ -26,7 +27,7 @@ class Query
     public function export(array $args = [])
     {
         $this->setArgs($args);
-        return $this->db->get_results($this->queryExport(), ARRAY_A);
+        return glsr(Database::class)->dbGetResults($this->queryExport(), ARRAY_A);
     }
 
     /**
@@ -35,7 +36,7 @@ class Query
      */
     public function hasRevisions($postId)
     {
-        return (int) $this->db->get_var($this->queryHasRevisions($postId)) > 0;
+        return (int) glsr(Database::class)->dbGetVar($this->queryHasRevisions($postId)) > 0;
     }
 
     /**
@@ -44,7 +45,7 @@ class Query
     public function import(array $args = [])
     {
         $this->setArgs($args);
-        return $this->db->get_results($this->queryImport(), ARRAY_A);
+        return glsr(Database::class)->dbGetResults($this->queryImport(), ARRAY_A);
     }
 
     /**
@@ -54,7 +55,7 @@ class Query
     {
         $this->setArgs($args);
         $this->args['orderby'] = ''; // this prevent an unecessary join
-        $results = $this->db->get_results($this->queryRatings(), ARRAY_A);
+        $results = glsr(Database::class)->dbGetResults($this->queryRatings(), ARRAY_A);
         return $this->normalizeRatings($results);
     }
 
@@ -68,7 +69,7 @@ class Query
         $reviewId = Cast::toInt($postId);
         $review = glsr(Cache::class)->get($reviewId, 'reviews');
         if (!$review instanceof Review) {
-            $result = $this->db->get_row($this->queryReviews($reviewId));
+            $result = glsr(Database::class)->dbGetRow($this->queryReviews($reviewId), OBJECT);
             $review = new Review($result);
             if ($review->isValid()) {
                 glsr(Cache::class)->store($review->ID, 'reviews', $review);
@@ -88,7 +89,7 @@ class Query
         } else {
             $reviewIds = implode(',', Arr::uniqueInt(Cast::toArray($postIds)));
         }
-        $results = $this->db->get_results($this->queryReviews($reviewIds));
+        $results = glsr(Database::class)->dbGetResults($this->queryReviews($reviewIds), OBJECT);
         foreach ($results as &$result) {
             $result = new Review($result);
             glsr(Cache::class)->store($result->ID, 'reviews', $result);
@@ -102,7 +103,7 @@ class Query
      */
     public function revisionIds($postId)
     {
-        return $this->db->get_col($this->queryRevisionIds($postId));
+        return glsr(Database::class)->dbGetCol($this->queryRevisionIds($postId));
     }
 
     /**
@@ -123,7 +124,7 @@ class Query
         if (empty($this->sqlLimit()) && !empty($reviews)) {
             return count($reviews);
         }
-        return (int) $this->db->get_var($this->queryTotalReviews());
+        return (int) glsr(Database::class)->dbGetVar($this->queryTotalReviews());
     }
 
     /**
