@@ -44,8 +44,8 @@
 </div>
 
 <div class="glsr-card card">
-    <h3>Reset Assigned Meta</h3>
-    <p>Site Reviews stores meta keys for the review count, average rating, and ranking of assigned posts, categories, and users. If you suspect that these meta values are incorrect (perhaps you cloned a page that had reviews assigned to it), you may use this tool to recalculate these meta values.</p>
+    <h3>Reset Assigned Meta Values</h3>
+    <p>Site Reviews stores the individual review count, average rating, and ranking for each assigned post, category, and user. If you suspect that these meta values are incorrect (perhaps you cloned a page that had reviews assigned to it), you may use this tool to recalculate them.</p>
     <form method="post">
         <input type="hidden" name="{{ id }}[_action]" value="reset-assigned-meta">
         <?php wp_nonce_field('reset-assigned-meta'); ?>

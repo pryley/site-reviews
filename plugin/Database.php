@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\Query;
-use GeminiLabs\SiteReviews\Database\Sql;
 use GeminiLabs\SiteReviews\Database\SqlSchema;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -106,7 +105,7 @@ class Database
     public function deleteMeta($keys, $table = 'postmeta')
     {
         $table = glsr(Query::class)->table($table);
-        $metaKeys = glsr(Sql::class)->escValuesForInsert(Arr::convertFromString($keys));
+        $metaKeys = glsr(Query::class)->escValuesForInsert(Arr::convertFromString($keys));
         $sql = glsr(Query::class)->sql("DELETE FROM {$table} WHERE meta_key IN {$metaKeys}");
         return $this->dbQuery($sql);
     }

@@ -167,7 +167,7 @@ class ToolsController extends Controller
     public function resetAssignedMeta()
     {
         glsr(CountManager::class)->recalculate();
-        glsr(Notice::class)->clear()->addSuccess(_x('The assigned meta values have been recalculated.', 'admin-text', 'site-reviews'));
+        glsr(Notice::class)->clear()->addSuccess(_x('The assigned meta values have been reset.', 'admin-text', 'site-reviews'));
     }
 
     /**

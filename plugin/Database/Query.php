@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Rating;
@@ -53,36 +54,23 @@ class Query
      */
     public function ratings(array $args = [])
     {
-        $this->setArgs($args);
-        $this->args['orderby'] = ''; // this prevent an unecessary join
+        $this->setArgs($args, $unset = ['orderby']);
         $results = glsr(Database::class)->dbGetResults($this->queryRatings(), ARRAY_A);
         return $this->normalizeRatings($results);
     }
 
     /**
+     * @param string $metaType
      * @return array
      */
-    public function ratingsForPosts()
+    public function ratingsFor($metaType, array $args = [])
     {
-        $results = glsr(Database::class)->dbGetResults($this->queryRatingsForPosts(), ARRAY_A);
-        return $this->normalizeRatingsByAssignedId($results);
-    }
-
-    /**
-     * @return array
-     */
-    public function ratingsForTerms()
-    {
-        $results = glsr(Database::class)->dbGetResults($this->queryRatingsForTerms(), ARRAY_A);
-        return $this->normalizeRatingsByAssignedId($results);
-    }
-
-    /**
-     * @return array
-     */
-    public function ratingsForUsers()
-    {
-        $results = glsr(Database::class)->dbGetResults($this->queryRatingsForUsers(), ARRAY_A);
+        $method = Helper::buildMethodName($metaType, 'queryRatingsFor');
+        if (!method_exists($this, $method)) {
+            return [];
+        }
+        $this->setArgs($args, $unset = ['orderby']);
+        $results = glsr(Database::class)->dbGetResults($this->$method(), ARRAY_A);
         return $this->normalizeRatingsByAssignedId($results);
     }
 
@@ -136,9 +124,13 @@ class Query
     /**
      * @return array
      */
-    public function setArgs(array $args = [])
+    public function setArgs(array $args = [], array $unset = [])
     {
-        $this->args = (new NormalizeQueryArgs($args))->toArray();
+        $args = (new NormalizeQueryArgs($args))->toArray();
+        foreach ($unset as $key) {
+            $args[$key] = '';
+        }
+        $this->args = $args;
     }
 
     /**
@@ -146,8 +138,7 @@ class Query
      */
     public function totalReviews(array $args = [], array $reviews = [])
     {
-        $this->setArgs($args);
-        $this->args['orderby'] = ''; // this prevent an unecessary join
+        $this->setArgs($args, $unset = ['orderby']);
         if (empty($this->sqlLimit()) && !empty($reviews)) {
             return count($reviews);
         }
@@ -251,13 +242,15 @@ class Query
     /**
      * @return string
      */
-    public function queryRatingsForPosts()
+    public function queryRatingsForPostmeta()
     {
         return $this->sql("
             SELECT apt.post_id AS ID, r.rating, r.type, COUNT(r.rating) AS count
             FROM {$this->table('ratings')} AS r
             INNER JOIN {$this->table('assigned_posts')} AS apt ON r.ID = apt.rating_id
-            WHERE r.is_approved = 1
+            WHERE 1=1
+            {$this->clauseAndStatus()}
+            {$this->clauseAndType()}
             GROUP BY r.type, r.rating, apt.post_id
         ");
     }
@@ -265,13 +258,15 @@ class Query
     /**
      * @return string
      */
-    protected function queryRatingsForTerms()
+    protected function queryRatingsForTermmeta()
     {
         return $this->sql("
             SELECT att.term_id AS ID, r.rating, r.type, COUNT(r.rating) AS count
             FROM {$this->table('ratings')} AS r
             INNER JOIN {$this->table('assigned_terms')} AS att ON r.ID = att.rating_id
-            WHERE r.is_approved = 1
+            WHERE 1=1
+            {$this->clauseAndStatus()}
+            {$this->clauseAndType()}
             GROUP BY r.type, r.rating, att.term_id
         ");
     }
@@ -279,13 +274,15 @@ class Query
     /**
      * @return string
      */
-    protected function queryRatingsForUsers()
+    protected function queryRatingsForUsermeta()
     {
         return $this->sql("
             SELECT aut.user_id AS ID, r.rating, r.type, COUNT(r.rating) AS count
             FROM {$this->table('ratings')} AS r
             INNER JOIN {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id
-            WHERE r.is_approved = 1
+            WHERE 1=1
+            {$this->clauseAndStatus()}
+            {$this->clauseAndType()}
             GROUP BY r.type, r.rating, aut.user_id
         ");
     }
