@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, 
 Tested up to: 5.4
 Requires at least: 5.2
 Requires PHP: 5.6
-Stable tag: 5.0.0
+Stable tag: 5.0.0-dev
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
