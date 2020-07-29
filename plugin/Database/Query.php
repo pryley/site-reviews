@@ -53,6 +53,7 @@ class Query
     public function ratings(array $args = [])
     {
         $this->setArgs($args);
+        $this->args['orderby'] = ''; // this prevent an unecessary join
         $results = $this->db->get_results($this->queryRatings(), ARRAY_A);
         return $this->normalizeRatings($results);
     }
@@ -118,6 +119,7 @@ class Query
     public function totalReviews(array $args = [], array $reviews = [])
     {
         $this->setArgs($args);
+        $this->args['orderby'] = ''; // this prevent an unecessary join
         if (empty($this->sqlLimit()) && !empty($reviews)) {
             return count($reviews);
         }
