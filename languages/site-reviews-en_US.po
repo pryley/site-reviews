@@ -1594,7 +1594,7 @@ msgctxt "admin-text"
 msgid "Support"
 msgstr "Support"
 
-#: plugin/Controllers/MenuController.php:89, plugin/Controllers/ToolsController.php:50
+#: plugin/Controllers/MenuController.php:89, plugin/Controllers/ToolsController.php:51
 msgctxt "admin-text"
 msgid "FAQ"
 msgstr "FAQ"
@@ -1748,17 +1748,17 @@ msgctxt "admin-text"
 msgid "A license you entered was invalid."
 msgstr "A license you entered was invalid."
 
-#: plugin/Controllers/ToolsController.php:25
+#: plugin/Controllers/ToolsController.php:26
 msgctxt "admin-text"
 msgid "Console cleared."
 msgstr "Console cleared."
 
-#: plugin/Controllers/ToolsController.php:59
+#: plugin/Controllers/ToolsController.php:60
 msgctxt "admin-text"
 msgid "Your detected IP address is %s. If this looks incorrect, please see the %s."
 msgstr "Your detected IP address is %s. If this looks incorrect, please see the %s."
 
-#: plugin/Controllers/ToolsController.php:54
+#: plugin/Controllers/ToolsController.php:55
 msgctxt "admin-text"
 msgid ""
 "Site Reviews was unable to detect an IP address. To fix this, please see "
@@ -1767,32 +1767,37 @@ msgstr ""
 "Site Reviews was unable to detect an IP address. To fix this, please see "
 "the %s."
 
-#: plugin/Controllers/ToolsController.php:110
+#: plugin/Controllers/ToolsController.php:111
 msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr "Console reloaded."
 
-#: plugin/Controllers/ToolsController.php:146
+#: plugin/Controllers/ToolsController.php:147
 msgctxt "admin-text"
 msgid "The plugin has been migrated sucessfully."
 msgstr "The plugin has been migrated sucessfully."
 
-#: plugin/Controllers/ToolsController.php:143
+#: plugin/Controllers/ToolsController.php:144
 msgctxt "admin-text"
 msgid "All plugin migrations have been run successfully."
 msgstr "All plugin migrations have been run successfully."
 
-#: plugin/Controllers/ToolsController.php:169
+#: plugin/Controllers/ToolsController.php:170
+msgctxt "admin-text"
+msgid "The assigned meta values have been recalculated."
+msgstr "The assigned meta values have been recalculated."
+
+#: plugin/Controllers/ToolsController.php:192
 msgctxt "admin-text"
 msgid "The permissions have been reset."
 msgstr "The permissions have been reset."
 
-#: plugin/Controllers/ToolsController.php:180
+#: plugin/Controllers/ToolsController.php:203
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr "reload the page"
 
-#: plugin/Controllers/ToolsController.php:184
+#: plugin/Controllers/ToolsController.php:207
 msgctxt "admin-text"
 msgid "The permissions have been reset, please %s for them to take effect."
 msgstr "The permissions have been reset, please %s for them to take effect."
@@ -2529,47 +2534,57 @@ msgctxt "admin-text"
 msgid "Clear"
 msgstr "Clear"
 
-#: views/pages/tools/general.php:11
+#: views/pages/tools/general.php:12
 msgctxt "admin-text"
 msgid "Export Settings"
 msgstr "Export Settings"
 
-#: views/pages/tools/general.php:25
+#: views/pages/tools/general.php:24
 msgctxt "admin-text"
 msgid "Import Settings"
 msgstr "Import Settings"
 
-#: views/pages/tools/general.php:40
+#: views/pages/tools/general.php:37
 msgctxt "admin-text"
 msgid "Run All Migrations"
 msgstr "Run All Migrations"
 
-#: views/pages/tools/general.php:40
+#: views/pages/tools/general.php:37
 msgctxt "admin-text"
 msgid "Migrating, please wait..."
 msgstr "Migrating, please wait..."
 
-#: views/pages/tools/general.php:40
+#: views/pages/tools/general.php:37
 msgctxt "admin-text"
 msgid "Run Migration"
 msgstr "Run Migration"
 
-#: views/pages/tools/general.php:60
+#: views/pages/tools/general.php:54
+msgctxt "admin-text"
+msgid "Resetting values, please wait..."
+msgstr "Resetting values, please wait..."
+
+#: views/pages/tools/general.php:54
+msgctxt "admin-text"
+msgid "Reset Meta Values"
+msgstr "Reset Meta Values"
+
+#: views/pages/tools/general.php:69
 msgctxt "admin-text"
 msgid "Resetting, please wait..."
 msgstr "Resetting, please wait..."
 
-#: views/pages/tools/general.php:60
+#: views/pages/tools/general.php:69
 msgctxt "admin-text"
 msgid "Reset Permissions"
 msgstr "Reset Permissions"
 
-#: views/pages/tools/general.php:76
+#: views/pages/tools/general.php:86
 msgctxt "admin-text"
 msgid "Testing, please wait..."
 msgstr "Testing, please wait..."
 
-#: views/pages/tools/general.php:76
+#: views/pages/tools/general.php:86
 msgctxt "admin-text"
 msgid "Test Detection"
 msgstr "Test Detection"

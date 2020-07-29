@@ -60,6 +60,33 @@ class Query
     }
 
     /**
+     * @return array
+     */
+    public function ratingsForPosts()
+    {
+        $results = glsr(Database::class)->dbGetResults($this->queryRatingsForPosts(), ARRAY_A);
+        return $this->normalizeRatingsByAssignedId($results);
+    }
+
+    /**
+     * @return array
+     */
+    public function ratingsForTerms()
+    {
+        $results = glsr(Database::class)->dbGetResults($this->queryRatingsForTerms(), ARRAY_A);
+        return $this->normalizeRatingsByAssignedId($results);
+    }
+
+    /**
+     * @return array
+     */
+    public function ratingsForUsers()
+    {
+        $results = glsr(Database::class)->dbGetResults($this->queryRatingsForUsers(), ARRAY_A);
+        return $this->normalizeRatingsByAssignedId($results);
+    }
+
+    /**
      * @todo make sure we delete the cached review when modifying it
      * @param int $postId
      * @return Review
@@ -144,6 +171,23 @@ class Query
     }
 
     /**
+     * @return array
+     */
+    protected function normalizeRatingsByAssignedId(array $ratings = [])
+    {
+        $normalized = [];
+        foreach ($ratings as $result) {
+            $id = $result['ID'];
+            unset($result['ID']);
+            if (!array_key_exists($id, $normalized)) {
+                $normalized[$id] = [];
+            }
+            $normalized[$id][] = $result;
+        }
+        return array_map([$this, 'normalizeRatings'], $normalized);
+    }
+
+    /**
      * @return string
      */
     protected function queryExport()
@@ -201,6 +245,48 @@ class Query
             {$this->sqlJoin()}
             {$this->sqlWhere()}
             GROUP BY r.type, r.rating
+        ");
+    }
+
+    /**
+     * @return string
+     */
+    public function queryRatingsForPosts()
+    {
+        return $this->sql("
+            SELECT apt.post_id AS ID, r.rating, r.type, COUNT(r.rating) AS count
+            FROM {$this->table('ratings')} AS r
+            INNER JOIN {$this->table('assigned_posts')} AS apt ON r.ID = apt.rating_id
+            WHERE r.is_approved = 1
+            GROUP BY r.type, r.rating, apt.post_id
+        ");
+    }
+
+    /**
+     * @return string
+     */
+    protected function queryRatingsForTerms()
+    {
+        return $this->sql("
+            SELECT att.term_id AS ID, r.rating, r.type, COUNT(r.rating) AS count
+            FROM {$this->table('ratings')} AS r
+            INNER JOIN {$this->table('assigned_terms')} AS att ON r.ID = att.rating_id
+            WHERE r.is_approved = 1
+            GROUP BY r.type, r.rating, att.term_id
+        ");
+    }
+
+    /**
+     * @return string
+     */
+    protected function queryRatingsForUsers()
+    {
+        return $this->sql("
+            SELECT aut.user_id AS ID, r.rating, r.type, COUNT(r.rating) AS count
+            FROM {$this->table('ratings')} AS r
+            INNER JOIN {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id
+            WHERE r.is_approved = 1
+            GROUP BY r.type, r.rating, aut.user_id
         ");
     }
 
