@@ -14,12 +14,15 @@ class UserManager
      */
     public function normalizeId($userId)
     {
-        if ('user_id' == $userId) {
+        if ('user_id' === $userId) {
             return get_current_user_id();
         }
-        $userKey = Helper::ifTrue(is_numeric($userId), 'ID', 'login');
-        $user = get_user_by($userKey, $userId);
-        return Cast::toInt(Arr::get($user, 'ID'));
+        if (!empty($user)) {
+            $userKey = Helper::ifTrue(is_numeric($userId), 'ID', 'login');
+            $user = get_user_by($userKey, $userId);
+            $userId = Arr::get($user, 'ID');
+        }
+        return Cast::toInt($userId);
     }
 
     /**
