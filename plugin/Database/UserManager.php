@@ -17,7 +17,7 @@ class UserManager
         if ('user_id' === $userId) {
             return get_current_user_id();
         }
-        if (!empty($user)) {
+        if (!empty($userId)) {
             $userKey = Helper::ifTrue(is_numeric($userId), 'ID', 'login');
             $user = get_user_by($userKey, $userId);
             $userId = Arr::get($user, 'ID');
