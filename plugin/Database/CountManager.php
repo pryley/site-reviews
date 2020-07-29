@@ -21,6 +21,13 @@ class CountManager
     }
 
     /**
+     * @return void
+     */
+    public function recalculate()
+    {
+    }
+
+    /**
      * @param int $termId
      * @return void
      */

@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\ImportSettings;
+use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Console;
@@ -154,6 +155,28 @@ class ToolsController extends Controller
     public function migratePluginAjax(Request $request)
     {
         $this->migratePlugin($request);
+        wp_send_json_success([
+            'notices' => glsr(Notice::class)->get(),
+        ]);
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/admin/reset-assigned-meta
+     */
+    public function resetAssignedMeta()
+    {
+        glsr(CountManager::class)->recalculate();
+        glsr(Notice::class)->clear()->addSuccess(_x('The assigned meta values have been recalculated.', 'admin-text', 'site-reviews'));
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/ajax/reset-assigned-meta
+     */
+    public function resetAssignedMetaAjax()
+    {
+        $this->resetAssignedMeta();
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
         ]);

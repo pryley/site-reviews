@@ -1,6 +1,7 @@
 <?php defined('WPINC') || die; ?>
 
 <?php if (glsr()->hasPermission('settings')) : ?>
+
 <div class="glsr-card card">
     <h3>Export Settings</h3>
     <p>Export the Site Reviews settings for this site to a <code>*.json</code> file. This allows you to easily import the plugin settings into another site.</p>
@@ -11,9 +12,7 @@
         <?php submit_button(_x('Export Settings', 'admin-text', 'site-reviews'), 'secondary'); ?>
     </form>
 </div>
-<?php endif; ?>
 
-<?php if (glsr()->hasPermission('settings')) : ?>
 <div class="glsr-card card">
     <h3>Import Settings</h3>
     <p>Import the Site Reviews settings from a <code>*.json</code> file. This file can be obtained by exporting the settings on another site using the export tool below.</p>
@@ -25,9 +24,7 @@
         <?php submit_button(_x('Import Settings', 'admin-text', 'site-reviews'), 'secondary'); ?>
     </form>
 </div>
-<?php endif; ?>
 
-<?php if (glsr()->hasPermission('settings')) : ?>
 <div class="glsr-card card">
     <h3>Migrate Plugin</h3>
     <p>Run this tool if your reviews stopped working correctly after upgrading the plugin to the latest version (i.e. read-only reviews, zero-star ratings, missing role capabilities, etc.).</p>
@@ -45,9 +42,21 @@
         <p>Hold down the Alt/Option key to force-run all previous migrations.</p>
     </div>
 </div>
-<?php endif; ?>
 
-<?php if (glsr()->hasPermission('settings')) : ?>
+<div class="glsr-card card">
+    <h3>Reset Assigned Meta</h3>
+    <p>Site Reviews stores meta keys for the review count, average rating, and ranking of assigned posts, categories, and users. If you suspect that these meta values are incorrect (perhaps you cloned a page that had reviews assigned to it), you may use this tool to recalculate these meta values.</p>
+    <form method="post">
+        <input type="hidden" name="{{ id }}[_action]" value="reset-assigned-meta">
+        <?php wp_nonce_field('reset-assigned-meta'); ?>
+        <p class="submit">
+            <button type="submit" class="glsr-button button" name="reset-assigned-meta" id="reset-assigned-meta" data-ajax-click>
+                <span data-loading="<?= esc_attr_x('Resetting values, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Reset Meta Values', 'admin-text', 'site-reviews'); ?></span>
+            </button>
+        </p>
+    </form>
+</div>
+
 <div class="glsr-card card">
     <h3>Reset Permissions</h3>
     <p>Site Reviews provides custom post_type capabilities that mirror the capabilities of your posts by default. For example, if a user role has permission to edit others posts, then that role will also have permission to edit other users reviews.</p>
@@ -62,6 +71,7 @@
         </p>
     </form>
 </div>
+
 <?php endif; ?>
 
 <div class="glsr-card card">
