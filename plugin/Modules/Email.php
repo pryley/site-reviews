@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Modules;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\EmailDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
-use PHPMailer;
 
 class Email
 {
@@ -92,7 +91,7 @@ class Email
      * @return void
      * @action phpmailer_init
      */
-    public function buildPlainTextMessage(PHPMailer $phpmailer)
+    public function buildPlainTextMessage($phpmailer)
     {
         if (empty($this->email)) {
             return;
