@@ -146,6 +146,7 @@ trait Sql
         if ($userIds = $this->args['assigned_users']) {
             $clauses[] = $this->db->prepare('(aut.user_id IN (%s))', implode(',', $userIds));
         }
+        // @todo filter OR|AND, this is needed for the Limit Reviews feature
         if ($clauses = implode(' OR ', $clauses)) {
             return "AND ($clauses)";
         }
