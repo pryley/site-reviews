@@ -512,7 +512,7 @@ msgstr "Choose which fields should be required in the submission form."
 msgid "Required Fields"
 msgstr "Required Fields"
 
-#: config/settings.php:435, plugin/Controllers/EditorController.php:392, plugin/Controllers/MainController.php:34, plugin/Shortcodes/SiteReviewsPopup.php:30
+#: config/settings.php:435, plugin/Controllers/MainController.php:34, plugin/Shortcodes/SiteReviewsPopup.php:30
 msgid "Rating"
 msgstr "Rating"
 
@@ -524,11 +524,11 @@ msgstr "Title"
 msgid "Review"
 msgstr "Review"
 
-#: config/settings.php:438, plugin/Controllers/EditorController.php:395
+#: config/settings.php:438
 msgid "Name"
 msgstr "Name"
 
-#: config/settings.php:439, plugin/Controllers/EditorController.php:396, plugin/Controllers/MainController.php:30
+#: config/settings.php:439, plugin/Controllers/MainController.php:30
 msgid "Email"
 msgstr "Email"
 
@@ -918,26 +918,6 @@ msgstr "Unregistered user"
 msgid "RE:"
 msgstr "RE:"
 
-#: plugin/Controllers/EditorController.php:393, plugin/Controllers/MainController.php:33, plugin/Shortcodes/TinymcePopupGenerator.php:140
-msgid "Type"
-msgstr "Type"
-
-#: plugin/Controllers/EditorController.php:394, plugin/Defaults/PostTypeDefaults.php:17
-msgid "Date"
-msgstr "Date"
-
-#: plugin/Controllers/EditorController.php:397
-msgid "User"
-msgstr "User"
-
-#: plugin/Controllers/EditorController.php:398, plugin/Controllers/MainController.php:31
-msgid "IP Address"
-msgstr "IP Address"
-
-#: plugin/Controllers/EditorController.php:399
-msgid "Avatar"
-msgstr "Avatar"
-
 #: plugin/Controllers/ListTableController.php:65
 msgid "Submitted"
 msgstr "Submitted"
@@ -954,9 +934,17 @@ msgstr "Unapprove"
 msgid "Author"
 msgstr "Author"
 
+#: plugin/Controllers/MainController.php:31
+msgid "IP Address"
+msgstr "IP Address"
+
 #: plugin/Controllers/MainController.php:32
 msgid "Response"
 msgstr "Response"
+
+#: plugin/Controllers/MainController.php:33, plugin/Shortcodes/TinymcePopupGenerator.php:140
+msgid "Type"
+msgstr "Type"
 
 #: plugin/Controllers/MainController.php:35, views/partials/editor/pinned.php:4
 msgid "Pinned"
@@ -1038,13 +1026,13 @@ msgstr "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 msgid "Settings updated."
 msgstr "Settings updated."
 
-#: plugin/Controllers/SettingsController.php:136
-msgid "Please install/activate the %s plugin to enable integration."
-msgstr "Please install/activate the %s plugin to enable integration."
-
 #: plugin/Controllers/SettingsController.php:142
 msgid "Please update the %s plugin to v%s or greater to enable integration."
 msgstr "Please update the %s plugin to v%s or greater to enable integration."
+
+#: plugin/Controllers/SettingsController.php:136
+msgid "Please install/activate the %s plugin to enable integration."
+msgstr "Please install/activate the %s plugin to enable integration."
 
 #: plugin/Controllers/SettingsController.php:170
 msgid "A license you entered was invalid."
@@ -1139,6 +1127,10 @@ msgstr "Next &rarr;"
 #: plugin/Defaults/PaginationDefaults.php:19
 msgid "&larr; Previous"
 msgstr "&larr; Previous"
+
+#: plugin/Defaults/PostTypeDefaults.php:17
+msgid "Date"
+msgstr "Date"
 
 #: plugin/Defaults/SlackDefaults.php:15
 msgid "View Review"
@@ -1860,21 +1852,21 @@ msgstr "Syncing..."
 msgid "Download System Info"
 msgstr "Download System Info"
 
-#: views/partials/addons/addon.php:16
-msgid "Installed"
-msgstr "Installed"
-
-#: views/partials/addons/addon.php:20
-msgid "Activate"
-msgstr "Activate"
+#: views/partials/addons/addon.php:29
+msgid "More Info"
+msgstr "More Info"
 
 #: views/partials/addons/addon.php:25
 msgid "Try the beta"
 msgstr "Try the beta"
 
-#: views/partials/addons/addon.php:29
-msgid "More Info"
-msgstr "More Info"
+#: views/partials/addons/addon.php:20
+msgid "Activate"
+msgstr "Activate"
+
+#: views/partials/addons/addon.php:16
+msgid "Installed"
+msgstr "Installed"
 
 #: views/partials/addons/license-missing.php:4
 msgid "Enter a valid license key for automatic updates."

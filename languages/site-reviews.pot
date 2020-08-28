@@ -473,7 +473,7 @@ msgstr ""
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:435, plugin/Controllers/EditorController.php:392, plugin/Controllers/MainController.php:34, plugin/Shortcodes/SiteReviewsPopup.php:30
+#: config/settings.php:435, plugin/Controllers/MainController.php:34, plugin/Shortcodes/SiteReviewsPopup.php:30
 msgid "Rating"
 msgstr ""
 
@@ -485,11 +485,11 @@ msgstr ""
 msgid "Review"
 msgstr ""
 
-#: config/settings.php:438, plugin/Controllers/EditorController.php:395
+#: config/settings.php:438
 msgid "Name"
 msgstr ""
 
-#: config/settings.php:439, plugin/Controllers/EditorController.php:396, plugin/Controllers/MainController.php:30
+#: config/settings.php:439, plugin/Controllers/MainController.php:30
 msgid "Email"
 msgstr ""
 
@@ -882,26 +882,6 @@ msgstr ""
 msgid "RE:"
 msgstr ""
 
-#: plugin/Controllers/EditorController.php:393, plugin/Controllers/MainController.php:33, plugin/Shortcodes/TinymcePopupGenerator.php:140
-msgid "Type"
-msgstr ""
-
-#: plugin/Controllers/EditorController.php:394, plugin/Defaults/PostTypeDefaults.php:17
-msgid "Date"
-msgstr ""
-
-#: plugin/Controllers/EditorController.php:397
-msgid "User"
-msgstr ""
-
-#: plugin/Controllers/EditorController.php:398, plugin/Controllers/MainController.php:31
-msgid "IP Address"
-msgstr ""
-
-#: plugin/Controllers/EditorController.php:399
-msgid "Avatar"
-msgstr ""
-
 #: plugin/Controllers/ListTableController.php:65
 msgid "Submitted"
 msgstr ""
@@ -923,8 +903,16 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
+#: plugin/Controllers/MainController.php:31
+msgid "IP Address"
+msgstr ""
+
 #: plugin/Controllers/MainController.php:32
 msgid "Response"
+msgstr ""
+
+#: plugin/Controllers/MainController.php:33, plugin/Shortcodes/TinymcePopupGenerator.php:140
+msgid "Type"
 msgstr ""
 
 #: plugin/Controllers/MainController.php:35, views/partials/editor/pinned.php:4
@@ -1007,12 +995,12 @@ msgstr ""
 msgid "Settings updated."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:136
-msgid "Please install/activate the %s plugin to enable integration."
-msgstr ""
-
 #: plugin/Controllers/SettingsController.php:142
 msgid "Please update the %s plugin to v%s or greater to enable integration."
+msgstr ""
+
+#: plugin/Controllers/SettingsController.php:136
+msgid "Please install/activate the %s plugin to enable integration."
 msgstr ""
 
 #: plugin/Controllers/SettingsController.php:170
@@ -1107,6 +1095,10 @@ msgstr ""
 
 #: plugin/Defaults/PaginationDefaults.php:19
 msgid "&larr; Previous"
+msgstr ""
+
+#: plugin/Defaults/PostTypeDefaults.php:17
+msgid "Date"
 msgstr ""
 
 #: plugin/Defaults/SlackDefaults.php:15
@@ -1781,20 +1773,20 @@ msgstr ""
 msgid "Download System Info"
 msgstr ""
 
-#: views/partials/addons/addon.php:16
-msgid "Installed"
-msgstr ""
-
-#: views/partials/addons/addon.php:20
-msgid "Activate"
+#: views/partials/addons/addon.php:29
+msgid "More Info"
 msgstr ""
 
 #: views/partials/addons/addon.php:25
 msgid "Try the beta"
 msgstr ""
 
-#: views/partials/addons/addon.php:29
-msgid "More Info"
+#: views/partials/addons/addon.php:20
+msgid "Activate"
+msgstr ""
+
+#: views/partials/addons/addon.php:16
+msgid "Installed"
 msgstr ""
 
 #: views/partials/addons/license-missing.php:4
