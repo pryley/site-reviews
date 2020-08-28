@@ -41,7 +41,7 @@ class Str
      */
     public static function convertName($name, $nameType = '', $initialType = '')
     {
-        $names = preg_split('/\W/', $name, 0, PREG_SPLIT_NO_EMPTY);
+        $names = preg_split('/\W/u', $name, 0, PREG_SPLIT_NO_EMPTY);
         $firstName = array_shift($names);
         $lastName = array_pop($names);
         $initialTypes = [
@@ -55,9 +55,9 @@ class Str
         }
         $nameTypes = [
             'first' => $firstName,
-            'first_initial' => substr($firstName, 0, 1).$initialPunctuation.$lastName,
+            'first_initial' => static::convertToInitials($firstName).$initialPunctuation.$lastName,
             'last' => $lastName,
-            'last_initial' => $firstName.' '.substr($lastName, 0, 1).$initialPunctuation,
+            'last_initial' => $firstName.' '.static::convertToInitials($lastName).$initialPunctuation,
         ];
         return trim((string) Arr::get($nameTypes, $nameType, $name));
     }
