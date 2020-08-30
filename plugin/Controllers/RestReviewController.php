@@ -28,7 +28,11 @@ class RestReviewController extends RestController
         //  ['callback' => [$this, 'getReviews'], 'methods' => Server::READABLE],
         // ]);
         register_rest_route($this->namespace, '/types', [
-            ['callback' => [$this, 'getReviewTypes'], 'methods' => Server::READABLE],
+            [
+                'callback' => [$this, 'getReviewTypes'],
+                'methods' => Server::READABLE,
+                'permission_callback' => [$this, 'get_items_permissions_check'],
+            ],
         ]);
     }
 
