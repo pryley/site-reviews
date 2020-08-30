@@ -14,6 +14,7 @@ spl_autoload_register(function ($className) {
         'GeminiLabs\\SiteReviews\\Tests\\' => __DIR__.'/tests/',
         'GeminiLabs\\Sepia\\PoParser\\' => __DIR__.'/vendors/sepia/po-parser/',
         'GeminiLabs\\Sinergi\\BrowserDetector\\' => __DIR__.'/vendors/sinergi/browser-detector/',
+        'GeminiLabs\\Symfony\\Polyfill\\Mbstring\\' => __DIR__.'/vendors/symfony/polyfill-mbstring/',
         'GeminiLabs\\Vectorface\\Whip\\' => __DIR__.'/vendors/vectorface/whip/',
     ];
     foreach ($namespaces as $prefix => $baseDir) {

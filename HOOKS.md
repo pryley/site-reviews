@@ -133,6 +133,7 @@
     site-reviews/summary/counts                             (): string
     site-reviews/summary/wrap/{tag_or_field_key}            (string $value, array $ratings, string $rawValue, Modules\Html\Tags\{Tag} $tagClass): string
     site-reviews/support/deprecated/v4                      (): bool
+    site-reviews/support/multibyte                          (): bool
     site-reviews/system/{key}                               (): array
     site-reviews/tinymce/editor-ids                         (): array
     site-reviews/translation/entries                        (): array

@@ -94,7 +94,9 @@ class Str
     {
         preg_match_all('/(?<=\s|\b)\pL/u', $name, $matches);
         $result = array_reduce($matches[0], function ($carry, $word) use ($initialPunctuation) {
-            return $carry.strtoupper(substr($word, 0, 1)).$initialPunctuation;
+            $initial = mb_substr($word, 0, 1, 'UTF-8');
+            $initial = mb_strtoupper($initial, 'UTF-8');
+            return $carry.$initial.$initialPunctuation;
         });
         return trim($result);
     }
@@ -247,9 +249,7 @@ class Str
         if (!ctype_lower($string)) {
             $string = preg_replace('/\s+/u', '', $string);
             $string = preg_replace('/(.)(?=[A-Z])/u', '$1_', $string);
-            $string = function_exists('mb_strtolower')
-                ? mb_strtolower($string, 'UTF-8')
-                : strtolower($string);
+            $string = mb_strtolower($string, 'UTF-8');
         }
         return str_replace('-', '_', $string);
     }
@@ -285,14 +285,15 @@ class Str
     }
 
     /**
-     * @param string $string
+     * @param string $value
      * @param int $length
+     * @param string $end
      * @return string
      */
-    public static function truncate($string, $length)
+    public static function truncate($value, $length, $end = '')
     {
-        return strlen($string) > $length
-            ? substr($string, 0, $length)
-            : $string;
+        return mb_strwidth($value, 'UTF-8') > $length
+            ? mb_substr($value, 0, $length, 'UTF-8').$end
+            : $value;
     }
 }

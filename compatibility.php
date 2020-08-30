@@ -2,6 +2,17 @@
 
 defined('WPINC') || die;
 
+add_action('plugins_loaded', function () {
+    /*
+     * Provide a partial, native PHP implementation for the Mbstring extension.
+     * @return bool
+     * @see https://github.com/symfony/polyfill-mbstring
+     */
+    if (glsr()->filterBool('support/multibyte', true)) {
+        require_once __DIR__.'/vendors/symfony/polyfill-mbstring/bootstrap.php';
+    }
+});
+
 /*
  * Add human-readable capability names
  * @return void
