@@ -81,9 +81,6 @@ class Field
      */
     public function getField()
     {
-        if ('choice' === $this->fieldType()) {
-            $this->field['class'] = 'glsr-field-'.$this->field['type'];
-        }
         return $this->builder()->raw($this->field);
     }
 

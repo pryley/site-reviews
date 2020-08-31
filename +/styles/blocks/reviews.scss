@@ -113,16 +113,6 @@
 [data-block] .glsr-pagination {
     margin-top: glsr(spacing);
 }
-[data-block] .glsr .page-numbers {
-    display: inline-flex;
-    text-decoration: none;
-}
-[data-block] .glsr .dots {
-    font-family: glsr('font-family');
-    font-size: glsr('font-size-small');
-    line-height: glsr('line-height');
-    padding: 6px 10px;
-}
 .glsr-base-conditional-control {
     margin-top: 4px;
 }

@@ -2,7 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Blocks;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Html\Attributes;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode as Shortcode;
 
@@ -80,6 +82,7 @@ class SiteReviewsFormBlock extends Block
     {
         add_filter('site-reviews/config/forms/submission-form', function (array $config) {
             array_walk($config, function (&$field) {
+                $field['class'] = $this->formFieldClass(Arr::get($field, 'type'));
                 $field['disabled'] = true;
                 $field['tabindex'] = '-1';
             });
@@ -125,5 +128,22 @@ class SiteReviewsFormBlock extends Block
         add_filter('site-reviews/rendered/template/form/submit-button', function ($template) {
             return str_replace('type="submit"', 'tabindex="-1"', $template);
         });
+    }
+
+    /**
+     * @return string
+     */
+    protected function formFieldClass($type)
+    {
+        if (in_array($type, ['button', 'submit'])) {
+            return 'components-button is-secondary';
+        }
+        if (in_array($type, ['checkbox', 'radio', 'select', 'textarea'])) {
+            return sprintf('components-%s-control__input', $type);
+        }
+        if (in_array($type, Attributes::INPUT_TYPES)) {
+            return sprintf('components-text-control__input', $type);
+        }
+        return '';
     }
 }

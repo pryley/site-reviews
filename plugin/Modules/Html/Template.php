@@ -69,10 +69,9 @@ class Template
         $arrayKeys = ['context', 'globals'];
         $data = wp_parse_args($data, array_fill_keys($arrayKeys, []));
         foreach ($arrayKeys as $key) {
-            if (is_array($data[$key])) {
-                continue;
+            if (!is_array($data[$key])) {
+                $data[$key] = [];
             }
-            $data[$key] = [];
         }
         return $data;
     }

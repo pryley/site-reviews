@@ -257,14 +257,17 @@ class Builder
         return array_reduce(array_keys($this->args->options), function ($carry, $value) use (&$index) {
             $input = $this->input([
                 'checked' => Cast::toString($value) === $this->args->cast('value', 'string'),
+                'class' => $this->args->class,
                 'id' => Helper::ifTrue(!empty($this->args->id), $this->args->id.'-'.++$index),
                 'label' => $this->args->options[$value],
                 'name' => $this->args->name,
+                'required' => $this->args->required,
+                'tabindex' => $this->args->tabindex,
                 'type' => $this->args->type,
                 'value' => $value,
             ]);
             return $carry.$this->div([
-                'class' => $this->args->class,
+                'class' => 'glsr-field-'.$this->args->type,
                 'text' => $input,
             ]);
         });
