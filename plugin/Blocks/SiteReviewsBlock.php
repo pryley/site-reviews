@@ -113,7 +113,9 @@ class SiteReviewsBlock extends Block
     protected function filterReviewLinks()
     {
         add_filter('site-reviews/rendered/template/reviews', function ($template) {
-            return str_replace('<a', '<a tabindex="-1"', $template);
+            $template = str_replace('<a', '<a tabindex="-1"', $template);
+            $template = str_replace('page-numbers', 'page-numbers components-button is-secondary', $template);
+            return $template;
         });
     }
 
