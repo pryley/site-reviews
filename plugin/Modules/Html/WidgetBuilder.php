@@ -26,7 +26,7 @@ class WidgetBuilder extends Builder
         $index = 0;
         foreach ($this->args->options as $value => $label) {
             $fields[] = $this->input([
-                'checked' => Cast::toString($value) === $this->args->cast('value', 'string'),
+                'checked' => in_array($value, $this->args->cast('value', 'array')),
                 'id' => Helper::ifTrue(!empty($this->args->id), $this->args->id.'-'.++$index),
                 'label' => $label,
                 'name' => $this->args->name,

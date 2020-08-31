@@ -18,7 +18,7 @@ class FieldDefaults extends Defaults
         'options' => 'array',
         'text' => 'string',
         'type' => 'string',
-        'value' => 'string',
+        // 'value' => 'string', // disabled because checkbox field value can be an array
     ];
 
     /**

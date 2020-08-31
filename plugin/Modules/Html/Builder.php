@@ -256,7 +256,7 @@ class Builder
         $index = 0;
         return array_reduce(array_keys($this->args->options), function ($carry, $value) use (&$index) {
             $input = $this->input([
-                'checked' => Cast::toString($value) === $this->args->cast('value', 'string'),
+                'checked' => in_array($value, $this->args->cast('value', 'array')),
                 'class' => $this->args->class,
                 'id' => Helper::ifTrue(!empty($this->args->id), $this->args->id.'-'.++$index),
                 'label' => $this->args->options[$value],
