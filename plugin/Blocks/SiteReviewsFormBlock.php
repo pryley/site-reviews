@@ -126,7 +126,9 @@ class SiteReviewsFormBlock extends Block
     protected function filterSubmitButton()
     {
         add_filter('site-reviews/rendered/template/form/submit-button', function ($template) {
-            return str_replace('type="submit"', 'tabindex="-1"', $template);
+            $template = str_replace('type="submit"', 'tabindex="-1"', $template);
+            $template = str_replace('glsr-button button btn', 'components-button is-secondary', $template);
+            return $template;
         });
     }
 
@@ -135,9 +137,6 @@ class SiteReviewsFormBlock extends Block
      */
     protected function formFieldClass($type)
     {
-        if (in_array($type, ['button', 'submit'])) {
-            return 'components-button is-secondary';
-        }
         if (in_array($type, ['checkbox', 'radio', 'select', 'textarea'])) {
             return sprintf('components-%s-control__input', $type);
         }

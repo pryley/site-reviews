@@ -66,7 +66,7 @@ msgstr "Tell us your email"
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
-#: plugin/Blocks/SiteReviewsBlock.php:129, plugin/Modules/Html/Tags/ReviewContentTag.php:25
+#: plugin/Blocks/SiteReviewsBlock.php:131, plugin/Modules/Html/Tags/ReviewContentTag.php:25
 msgid "Show more"
 msgstr "Show more"
 
@@ -146,7 +146,7 @@ msgstr "This field is required."
 msgid "The review could not be submitted (unsupported browser)."
 msgstr "The review could not be submitted (unsupported browser)."
 
-#: plugin/Helpers/Str.php:144
+#: plugin/Helpers/Str.php:146
 msgid "and"
 msgstr "and"
 
@@ -347,57 +347,57 @@ msgctxt "admin-text"
 msgid "This plugin requires %s or greater in order to work properly."
 msgstr "This plugin requires %s or greater in order to work properly."
 
-#: compatibility.php:12
+#: compatibility.php:23
 msgctxt "admin-text"
 msgid "Delete Others' Reviews"
 msgstr "Delete Others' Reviews"
 
-#: compatibility.php:15
+#: compatibility.php:26
 msgctxt "admin-text"
 msgid "Delete Reviews"
 msgstr "Delete Reviews"
 
-#: compatibility.php:18
+#: compatibility.php:29
 msgctxt "admin-text"
 msgid "Delete Private Reviews"
 msgstr "Delete Private Reviews"
 
-#: compatibility.php:21
+#: compatibility.php:32
 msgctxt "admin-text"
 msgid "Delete Approved Reviews"
 msgstr "Delete Approved Reviews"
 
-#: compatibility.php:24
+#: compatibility.php:35
 msgctxt "admin-text"
 msgid "Edit Others' Reviews"
 msgstr "Edit Others' Reviews"
 
-#: compatibility.php:27
+#: compatibility.php:38
 msgctxt "admin-text"
 msgid "Edit Reviews"
 msgstr "Edit Reviews"
 
-#: compatibility.php:30
+#: compatibility.php:41
 msgctxt "admin-text"
 msgid "Edit Private Reviews"
 msgstr "Edit Private Reviews"
 
-#: compatibility.php:33
+#: compatibility.php:44
 msgctxt "admin-text"
 msgid "Edit Approved Reviews"
 msgstr "Edit Approved Reviews"
 
-#: compatibility.php:36
+#: compatibility.php:47
 msgctxt "admin-text"
 msgid "Approve Reviews"
 msgstr "Approve Reviews"
 
-#: compatibility.php:39
+#: compatibility.php:50
 msgctxt "admin-text"
 msgid "Read Private Reviews"
 msgstr "Read Private Reviews"
 
-#: compatibility.php:42
+#: compatibility.php:53
 msgctxt "admin-text"
 msgid "Create Review (inactive)"
 msgstr "Create Review (inactive)"
@@ -1422,7 +1422,7 @@ msgctxt "admin-text"
 msgid "Settings"
 msgstr "Settings"
 
-#: plugin/Blocks/SiteReviewsBlock.php:105, plugin/Blocks/SiteReviewsFormBlock.php:97, plugin/Blocks/SiteReviewsSummaryBlock.php:90
+#: plugin/Blocks/SiteReviewsBlock.php:105, plugin/Blocks/SiteReviewsFormBlock.php:100, plugin/Blocks/SiteReviewsSummaryBlock.php:90
 msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr "You have hidden all of the fields for this block."
@@ -1784,8 +1784,8 @@ msgstr "All plugin migrations have been run successfully."
 
 #: plugin/Controllers/ToolsController.php:170
 msgctxt "admin-text"
-msgid "The assigned meta values have been recalculated."
-msgstr "The assigned meta values have been recalculated."
+msgid "The assigned meta values have been reset."
+msgstr "The assigned meta values have been reset."
 
 #: plugin/Controllers/ToolsController.php:192
 msgctxt "admin-text"
@@ -2092,8 +2092,8 @@ msgstr "Hide the date"
 
 #: plugin/Shortcodes/SiteReviewsShortcode.php:13
 msgctxt "admin-text"
-msgid "Hide the assigned to links (if shown)"
-msgstr "Hide the assigned to links (if shown)"
+msgid "Hide the assigned links (if shown)"
+msgstr "Hide the assigned links (if shown)"
 
 #: plugin/Shortcodes/SiteReviewsShortcode.php:14
 msgctxt "admin-text"
@@ -2746,21 +2746,6 @@ msgid ""
 msgstr ""
 "A recent update may have broken your reviews. Please run the %s tool to fix "
 "it."
-
-#: views/partials/notices/rate.php:4
-msgctxt "admin-text"
-msgid "Rate the plugin"
-msgstr "Rate the plugin"
-
-#: views/partials/notices/rate.php:5
-msgctxt "admin-text"
-msgid "Remind me later"
-msgstr "Remind me later"
-
-#: views/partials/notices/rate.php:6
-msgctxt "admin-text"
-msgid "Don't show again"
-msgstr "Don't show again"
 
 #: views/partials/notices/welcome.php:3
 msgctxt "admin-text"

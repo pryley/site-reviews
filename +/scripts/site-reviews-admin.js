@@ -14,7 +14,7 @@ jQuery(function ($) {
     GLSR.notices = new GLSR.Notices();
     GLSR.shortcode = new GLSR.Shortcode('.glsr-mce');
     GLSR.stars = new StarRating(document.querySelectorAll('select.glsr-star-rating'), {
-        showText: true,
+        showText: false,
     });
     GLSR.ColorPicker();
     new GLSR.Forms('form.glsr-form');

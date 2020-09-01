@@ -239,6 +239,7 @@
         height: 30px;
     }
 }
+/*
 .glsr-toggle {
     position: relative;
     display: inline-block;
@@ -249,7 +250,7 @@
     box-sizing: border-box;
     vertical-align: top;
     background-color: #fff;
-    border: 2px solid #6c7781;
+    border: 1px solid #1e1e1e;
     width: 36px;
     height: 18px;
     border-radius: 9px;
@@ -259,14 +260,14 @@
     display: block;
     position: absolute;
     box-sizing: border-box;
-    top: 4px;
-    left: 4px;
-    width: 10px;
-    height: 10px;
+    top: 3px;
+    left: 3px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     transition: transform .1s ease;
-    background-color: #6c7781;
-    border: 5px solid #6c7781;
+    background-color: #1e1e1e;
+    border: 5px solid #1e1e1e;
 }
 
 .glsr-toggle__on {
@@ -289,16 +290,7 @@
     box-sizing: border-box;
     opacity: 1;
 }
-.glsr-toggle:hover .glsr-toggle__off {
-    color: #555d66;
-}
-.glsr-toggle:hover .glsr-toggle__track {
-    border: 2px solid #555d66;
-}
-.glsr-toggle:hover .glsr-toggle__thumb {
-    background-color: #555d66;
-    border: 5px solid #6c7781;
-}
+
 .glsr-toggle input.glsr-toggle__input[type=checkbox] {
     position: absolute;
     top: 0;
@@ -318,12 +310,14 @@
     outline: 2px solid transparent;
 }
 .glsr-toggle__input:focus + .glsr-toggle__track {
-    box-shadow: 0 0 0 2px #fff, 0 0 0 3px #6c7781;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px #007cba;
+    box-shadow: 0 0 0 2px #fff,0 0 0 3.5px var(--wp-admin-theme-color);
     outline: 2px solid transparent;
     outline-offset: 2px;
 }
 .glsr-toggle input.glsr-toggle__input[type=checkbox]:checked ~ .glsr-toggle__track {
-    background-color: #11a0d2;
+    background-color: #007cba;
+    background-color: var(--wp-admin-theme-color);
     border: 9px solid transparent;
 }
 .glsr-toggle input.glsr-toggle__input[type=checkbox]:checked ~ .glsr-toggle__thumb {
@@ -336,6 +330,81 @@
 }
 .glsr-toggle input.glsr-toggle__input[type=checkbox]:checked ~ .glsr-toggle__on {
     opacity: 1;
+}
+*/
+
+
+
+.glsr-toggle {
+    position: relative;
+    display: inline-block
+}
+.glsr-toggle .glsr-toggle__track {
+    content: "";
+    display: inline-block;
+    box-sizing: border-box;
+    vertical-align: top;
+    background-color: #fff;
+    border: 1px solid #1e1e1e;
+    width: 36px;
+    height: 18px;
+    border-radius: 9px;
+    transition: background .2s ease
+}
+@media (prefers-reduced-motion:reduce) {
+    .glsr-toggle .glsr-toggle__track {
+        transition-duration: 0s
+    }
+}
+.glsr-toggle .glsr-toggle__thumb {
+    display: block;
+    position: absolute;
+    box-sizing: border-box;
+    top: 3px;
+    left: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: transform .1s ease;
+    background-color: #1e1e1e;
+    border: 5px solid #1e1e1e
+}
+@media (prefers-reduced-motion:reduce) {
+    .glsr-toggle .glsr-toggle__thumb {
+        transition-duration: 0s
+    }
+}
+.glsr-toggle .glsr-toggle__input[type=checkbox]:checked ~ .glsr-toggle__track {
+    background-color: #007cba;
+    border: 9px solid transparent
+}
+.glsr-toggle .glsr-toggle__input:focus+.glsr-toggle__track {
+    box-shadow: 0 0 0 2px #fff,0 0 0 3.5px #007cba;
+    outline: 2px solid transparent;
+    outline-offset: 2px
+}
+.glsr-toggle .glsr-toggle__input[type=checkbox]:checked ~ .glsr-toggle__thumb {
+    background-color: #fff;
+    border-width: 0;
+    transform: translateX(18px)
+}
+.glsr-toggle input.glsr-toggle__input[type=checkbox] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+    border: none
+}
+.glsr-toggle input.glsr-toggle__input[type=checkbox]:checked {
+    background: none
+}
+.glsr-toggle input.glsr-toggle__input[type=checkbox]:before {
+    content: ""
 }
 
 

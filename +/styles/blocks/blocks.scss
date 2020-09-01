@@ -28,8 +28,11 @@
     background-image: url(../images/star-full.svg) !important;
 }
 [data-block] .glsr-block-disabled {
-    font-size: 13px;
-    text-align: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.06);
+    display: flex;
+    justify-content: center;
+    min-height: 90px;
 }
 .components-panel .glsr-checkbox-control:not(:last-of-type) {
     margin-bottom: 0 !important;
