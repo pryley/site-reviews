@@ -89,6 +89,7 @@
     site-reviews/path                                       (string $path, string $file): string
     site-reviews/personal-data/erase-all                    (bool $eraseAll): bool
     site-reviews/personal-data/export                       (array $data, Review $review): array
+    site-reviews/query/sql/clause/operator                  (): string
     site-reviews/query/sql/from                             (): string
     site-reviews/query/sql/group-by                         (): string
     site-reviews/query/sql/join                             (): array

@@ -7,6 +7,14 @@ use GeminiLabs\SiteReviews\Helper;
 class ReviewLimitsValidator extends ValidatorAbstract
 {
     /**
+     * @return string
+     */
+    public function filterSqlClauseOperator()
+    {
+        return 'AND';
+    }
+
+    /**
      * @return void
      */
     public function performValidation()
@@ -90,7 +98,9 @@ class ReviewLimitsValidator extends ValidatorAbstract
             return true;
         }
         $queryArgs['assigned_posts'] = $this->request->assign_to;
+        add_filter('query/sql/clause/operator', [$this, 'filterSqlClauseOperator']);
         $reviews = glsr_get_reviews($queryArgs);
+        remove_filter('query/sql/clause/operator', [$this, 'filterSqlClauseOperator']);
         $result = 0 === $reviews->total;
         return glsr()->filterBool('validate/review-limits', $result, $reviews, $this->request, $key);
     }
