@@ -89,6 +89,7 @@ class SiteReviewsBlock extends Block
             $this->filterShowMoreLinks('content');
             $this->filterShowMoreLinks('response');
             if (!$this->hasVisibleFields($shortcode, $attributes)) {
+                $attributes['pagination'] = false;
                 $this->filterInterpolation();
             }
         }

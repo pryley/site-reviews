@@ -48,10 +48,6 @@
     &:last-child {
         padding-bottom: 0;
     }
-
-    img {
-        // display: block;
-    }
 }
 
 .glsr-metabox-actions {
@@ -95,7 +91,8 @@
 .glsr-remove-icon::before {
     margin-left: 0px;
     border-radius: 50%;
-    color: #0073aa;
+    color: #007cba;
+    color: var(--wp-admin-theme-color);
     line-height: 1.28;
     background: 0 0;
     content: "\f153";
@@ -108,18 +105,22 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-.glsr-assigned-entry a {
-    // text-overflow: ellipsis;
-    // white-space: nowrap;
+
+
+
+
+
+/**
+ * Fix select focus color to match admin color theme
+ */
+.glsr-metabox-field select:focus {
+    border-color: #007cba;
+    border-color: var(--wp-admin-theme-color);
+    color: #016087;
+    color: var(--wp-admin-theme-color-darker-20);
+    box-shadow: 0 0 0 1px #007cba;
+    box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
 }
-
-
-
-
-
-
-
-
 
 .glsr-metabox-field {
     box-sizing: border-box;
@@ -239,99 +240,6 @@
         height: 30px;
     }
 }
-/*
-.glsr-toggle {
-    position: relative;
-    display: inline-block;
-}
-.glsr-toggle__track {
-    content: "";
-    display: inline-block;
-    box-sizing: border-box;
-    vertical-align: top;
-    background-color: #fff;
-    border: 1px solid #1e1e1e;
-    width: 36px;
-    height: 18px;
-    border-radius: 9px;
-    transition: background .2s ease;
-}
-.glsr-toggle__thumb {
-    display: block;
-    position: absolute;
-    box-sizing: border-box;
-    top: 3px;
-    left: 3px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    transition: transform .1s ease;
-    background-color: #1e1e1e;
-    border: 5px solid #1e1e1e;
-}
-
-.glsr-toggle__on {
-    outline: 1px solid transparent;
-    outline-offset: -1px;
-    border: 1px solid #000;
-    filter: invert(100%) contrast(500%);
-    left: 8px;
-    position: absolute;
-    top: 6px;
-    box-sizing: border-box;
-    opacity: 0;
-}
-.glsr-toggle__off {
-    color: #6c7781;
-    fill: currentColor;
-    right: 6px;
-    position: absolute;
-    top: 6px;
-    box-sizing: border-box;
-    opacity: 1;
-}
-
-.glsr-toggle input.glsr-toggle__input[type=checkbox] {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    margin: 0;
-    padding: 0;
-    z-index: 1;
-    border: none;
-}
-.glsr-toggle input.glsr-toggle__input[type=checkbox]:focus {
-    border-color: #6c7781;
-    box-shadow: 0 0 0 1px #6c7781;
-    color: #191e23;
-    outline: 2px solid transparent;
-}
-.glsr-toggle__input:focus + .glsr-toggle__track {
-    box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px #007cba;
-    box-shadow: 0 0 0 2px #fff,0 0 0 3.5px var(--wp-admin-theme-color);
-    outline: 2px solid transparent;
-    outline-offset: 2px;
-}
-.glsr-toggle input.glsr-toggle__input[type=checkbox]:checked ~ .glsr-toggle__track {
-    background-color: #007cba;
-    background-color: var(--wp-admin-theme-color);
-    border: 9px solid transparent;
-}
-.glsr-toggle input.glsr-toggle__input[type=checkbox]:checked ~ .glsr-toggle__thumb {
-    background-color: #fff;
-    border-width: 0;
-    transform: translateX(18px);
-}
-.glsr-toggle input.glsr-toggle__input[type=checkbox]:checked ~ .glsr-toggle__off {
-    opacity: 0;
-}
-.glsr-toggle input.glsr-toggle__input[type=checkbox]:checked ~ .glsr-toggle__on {
-    opacity: 1;
-}
-*/
 
 
 
@@ -376,10 +284,12 @@
 }
 .glsr-toggle .glsr-toggle__input[type=checkbox]:checked ~ .glsr-toggle__track {
     background-color: #007cba;
+    background-color: var(--wp-admin-theme-color);
     border: 9px solid transparent
 }
 .glsr-toggle .glsr-toggle__input:focus+.glsr-toggle__track {
-    box-shadow: 0 0 0 2px #fff,0 0 0 3.5px #007cba;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px #007cba;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--wp-admin-theme-color);
     outline: 2px solid transparent;
     outline-offset: 2px
 }
@@ -470,7 +380,9 @@
 .glsr-metabox-field .gl-star-rating[data-star-rating] > select:focus + .gl-star-rating-stars::before {
     border-radius: 3px;
     border: 1px solid #007cba;
+    border: 1px solid var(--wp-admin-theme-color);
     box-shadow: 0 0 0 1px #007cba;
+    box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
     box-sizing: border-box;
     content: '';
     display: block;

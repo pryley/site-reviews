@@ -12,7 +12,6 @@ class SiteReviewsSummaryDefaults extends Defaults
      * @var array
      */
     public $casts = [
-        'is_block_editor' => 'bool',
         'rating' => 'int',
         'schema' => 'bool',
     ];
@@ -21,7 +20,6 @@ class SiteReviewsSummaryDefaults extends Defaults
      * @var array
      */
     public $guarded = [
-        'is_block_editor',
         'labels',
         'text',
         'title',
@@ -55,7 +53,6 @@ class SiteReviewsSummaryDefaults extends Defaults
             'class' => '',
             'hide' => '',
             'id' => '',
-            'is_block_editor' => false,
             'labels' => '',
             'rating' => 1,
             'schema' => false,

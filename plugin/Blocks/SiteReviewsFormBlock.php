@@ -63,7 +63,6 @@ class SiteReviewsFormBlock extends Block
         $attributes['class'] = $attributes['className'];
         $shortcode = glsr(Shortcode::class);
         if ('edit' == filter_input(INPUT_GET, 'context')) {
-            $attributes['is_block_editor'] = true;
             $this->filterBlockClass();
             $this->filterFormFields();
             $this->filterRatingField();

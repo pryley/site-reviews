@@ -33,7 +33,7 @@ class SiteReviews
      */
     public function generateSchema(Reviews $reviews)
     {
-        if (Cast::toBool($this->args['schema']) && !Cast::toBool($this->args['is_block_editor'])) {
+        if (Cast::toBool($this->args['schema'])) {
             glsr(Schema::class)->store(
                 glsr(Schema::class)->build($this->args, $reviews)
             );

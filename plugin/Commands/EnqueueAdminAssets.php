@@ -47,7 +47,7 @@ class EnqueueAdminAssets implements Contract
         wp_enqueue_style(
             glsr()->id.'/admin',
             glsr()->url('assets/styles/'.glsr()->id.'-admin.css'),
-            [],
+            ['wp-list-reusable-blocks'], // load the :root admin theme colors
             glsr()->version
         );
         wp_enqueue_script(

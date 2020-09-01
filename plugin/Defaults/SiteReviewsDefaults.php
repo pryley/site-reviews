@@ -13,7 +13,6 @@ class SiteReviewsDefaults extends Defaults
      */
     public $casts = [
         'display' => 'int',
-        'is_block_editor' => 'bool',
         'page' => 'int',
         'rating' => 'int',
         'schema' => 'bool',
@@ -24,7 +23,6 @@ class SiteReviewsDefaults extends Defaults
      */
     public $guarded = [
         'fallback',
-        'is_block_editor',
         'title',
     ];
 
@@ -59,7 +57,6 @@ class SiteReviewsDefaults extends Defaults
             'fallback' => '',
             'hide' => [],
             'id' => '',
-            'is_block_editor' => false,
             'offset' => '',
             'page' => 1,
             'pagination' => false,

@@ -11,16 +11,8 @@ class SiteReviewsFormDefaults extends Defaults
     /**
      * @var array
      */
-    public $casts = [
-        'is_block_editor' => 'bool',
-    ];
-
-    /**
-     * @var array
-     */
     public $guarded = [
         'description',
-        'is_block_editor',
         'title',
     ];
 
@@ -54,7 +46,6 @@ class SiteReviewsFormDefaults extends Defaults
             'excluded' => '',
             'hide' => '',
             'id' => '',
-            'is_block_editor' => false,
             'title' => '',
         ];
     }

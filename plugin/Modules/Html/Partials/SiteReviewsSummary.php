@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 use GeminiLabs\SiteReviews\Contracts\PartialContract;
 use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Schema;
 
@@ -64,7 +65,7 @@ class SiteReviewsSummary implements PartialContract
      */
     protected function generateSchema()
     {
-        if (wp_validate_boolean($this->args['schema']) && !wp_validate_boolean($this->args['is_block_editor'])) {
+        if (Cast::toBool($this->args['schema'])) {
             glsr(Schema::class)->store(
                 glsr(Schema::class)->buildSummary($this->args, $this->ratings)
             );
