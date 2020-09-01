@@ -81,15 +81,15 @@ class TestValidation extends WP_Ajax_UnitTestCase
         $this->assertJsonError($this->request());
         glsr(OptionManager::class)->set('settings.submissions.blacklist.integration', 'comments');
         $this->assertJsonSuccess($this->request());
-        update_option('blacklist_keys', $blacklist);
+        update_option('disallowed_keys', $blacklist);
         $this->assertJsonError($this->request(['content' => 'Give me a xxx!!']));
         $this->assertJsonError($this->request(['email' => 'john@apple.com']));
         $this->assertJsonError($this->request(['name' => 'Johnxxx Doe']));
         $this->assertJsonError($this->request(['title' => 'This is a xxx title']));
-        update_option('blacklist_keys', "{$blacklist}\n{$this->ipaddress}");
+        update_option('disallowed_keys', "{$blacklist}\n{$this->ipaddress}");
         $response1 = $this->assertJsonError($this->request());
         $this->assertEquals($response1->data->message, $this->messageFailedBlacklist);
-        update_option('blacklist_keys', $blacklist);
+        update_option('disallowed_keys', $blacklist);
         glsr(OptionManager::class)->set('settings.submissions.blacklist.action', 'unapprove');
         $response2 = $this->assertJsonSuccess($this->request(['email' => 'john@apple.com']));
         $this->assertFalse($response2->data->review->is_approved);
