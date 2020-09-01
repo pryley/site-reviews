@@ -123,6 +123,18 @@ class ReviewController extends Controller
     }
 
     /**
+     * Triggered after a review is created.
+     *
+     * @return void
+     * @action site-reviews/review/created
+     */
+    public function onCreatedReview(Review $review, CreateReview $command)
+    {
+        $this->execute(new AssignPosts($review, $command->assigned_posts));
+        $this->execute(new AssignUsers($review, $command->assigned_users));
+    }
+
+    /**
      * Triggered when a review is created.
      *
      * @param int $postId
