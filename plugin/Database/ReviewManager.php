@@ -78,7 +78,7 @@ class ReviewManager
         $review = $this->get($postId);
         if ($review->isValid()) {
             glsr()->action('review/created', $review, $command);
-            return $review;
+            return $this->get($review->ID);
         }
         return false;
     }
