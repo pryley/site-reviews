@@ -18,12 +18,16 @@ class ReviewManager
      */
     public function assignPost(Review $review, $postId)
     {
-        glsr(Cache::class)->delete($review->ID, 'reviews');
-        return glsr(Database::class)->insert('assigned_posts', [
+        $where = [
             'is_published' => 'publish' === get_post_status($postId),
             'post_id' => $postId,
             'rating_id' => $review->rating_id,
-        ]);
+        ];
+        if ($result = glsr(Database::class)->insert('assigned_posts', $where)) {
+            glsr(Cache::class)->delete($review->ID, 'reviews');
+            glsr(CountManager::class)->posts($postId);
+        }
+        return $result;
     }
 
     /**
@@ -32,11 +36,15 @@ class ReviewManager
      */
     public function assignTerm(Review $review, $termId)
     {
-        glsr(Cache::class)->delete($review->ID, 'reviews');
-        return glsr(Database::class)->insert('assigned_terms', [
+        $where = [
             'rating_id' => $review->rating_id,
             'term_id' => $termId,
-        ]);
+        ];
+        if ($result = glsr(Database::class)->insert('assigned_terms', $where)) {
+            glsr(Cache::class)->delete($review->ID, 'reviews');
+            glsr(CountManager::class)->terms($termId);
+        }
+        return $result;
     }
 
     /**
@@ -45,11 +53,15 @@ class ReviewManager
      */
     public function assignUser(Review $review, $userId)
     {
-        glsr(Cache::class)->delete($review->ID, 'reviews');
-        return glsr(Database::class)->insert('assigned_users', [
+        $where = [
             'rating_id' => $review->rating_id,
             'user_id' => $userId,
-        ]);
+        ];
+        if ($result = glsr(Database::class)->insert('assigned_users', $where)) {
+            glsr(Cache::class)->delete($review->ID, 'reviews');
+            glsr(CountManager::class)->users($userId);
+        }
+        return $result;
     }
 
     /**
@@ -143,11 +155,15 @@ class ReviewManager
      */
     public function unassignPost(Review $review, $postId)
     {
-        glsr(Cache::class)->delete($review->ID, 'reviews');
-        return glsr(Database::class)->delete('assigned_posts', [
+        $where = [
             'post_id' => $postId,
             'rating_id' => $review->rating_id,
-        ]);
+        ];
+        if ($result = glsr(Database::class)->delete('assigned_posts', $where)) {
+            glsr(Cache::class)->delete($review->ID, 'reviews');
+            glsr(CountManager::class)->posts($postId);
+        }
+        return $result;
     }
 
     /**
@@ -156,11 +172,15 @@ class ReviewManager
      */
     public function unassignTerm(Review $review, $termId)
     {
-        glsr(Cache::class)->delete($review->ID, 'reviews');
-        return glsr(Database::class)->delete('assigned_terms', [
+        $where = [
             'rating_id' => $review->rating_id,
             'term_id' => $termId,
-        ]);
+        ];
+        if ($result = glsr(Database::class)->delete('assigned_terms', $where)) {
+            glsr(Cache::class)->delete($review->ID, 'reviews');
+            glsr(CountManager::class)->terms($termId);
+        }
+        return $result;
     }
 
     /**
@@ -169,11 +189,15 @@ class ReviewManager
      */
     public function unassignUser(Review $review, $userId)
     {
-        glsr(Cache::class)->delete($review->ID, 'reviews');
-        return glsr(Database::class)->delete('assigned_users', [
+        $where = [
             'rating_id' => $review->rating_id,
             'user_id' => $userId,
-        ]);
+        ];
+        if ($result = glsr(Database::class)->delete('assigned_users', $where)) {
+            glsr(Cache::class)->delete($review->ID, 'reviews');
+            glsr(CountManager::class)->users($userId);
+        }
+        return $result;
     }
 
     /**

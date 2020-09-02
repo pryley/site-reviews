@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
-use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Review;
 
@@ -24,9 +23,7 @@ class AssignUsers implements Contract
     public function handle()
     {
         foreach ($this->userIds as $userId) {
-            if (glsr(ReviewManager::class)->assignUser($this->review, $userId)) {
-                glsr(CountManager::class)->users($userId);
-            }
+            glsr(ReviewManager::class)->assignUser($this->review, $userId);
         }
     }
 }

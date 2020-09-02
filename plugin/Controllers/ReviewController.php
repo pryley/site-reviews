@@ -151,7 +151,7 @@ class ReviewController extends Controller
             wp_delete_post($postId, true); // remove post as review was not created
             return;
         }
-        glsr(TaxonomyManager::class)->setTerms($postId, $values->assigned_terms);
+        glsr(TaxonomyManager::class)->setTerms($postId, $values->assigned_terms); // terms are assigned with the set_object_terms hook
         foreach ($values->custom as $key => $value) {
             glsr(Database::class)->metaSet($postId, 'custom_'.$key, $value);
         }
@@ -159,6 +159,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a review is edited.
+     * It's unnecessary to trigger a term recount as this is done by the set_object_terms hook
      * We need to use "edit_post" to support revisions (vs "save_post").
      *
      * @param int $postId
@@ -174,8 +175,8 @@ class ReviewController extends Controller
         $input = 'edit' === glsr_current_screen()->base ? INPUT_GET : INPUT_POST;
         $assignedPostIds = filter_input($input, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
         $assignedUserIds = filter_input($input, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
-        glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds));
-        glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds));
+        glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds)); // trigger a recount of assigned posts
+        glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
         glsr(MetaboxController::class)->saveResponseMetabox($postId);
         $submittedValues = Helper::filterInputArray(glsr()->id);
         if (Arr::get($submittedValues, 'is_editing_review')) {

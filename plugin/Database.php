@@ -137,7 +137,7 @@ class Database
 
     /**
      * @param string $table
-     * @return int
+     * @return int|false
      */
     public function insert($table, array $data)
     {
