@@ -9,7 +9,7 @@ use WP_UnitTestCase;
  * Test case for the Plugin.
  * @group plugin
  */
-class TestHelper extends WP_UnitTestCase
+class HelperTest extends WP_UnitTestCase
 {
     public function test_build_class_name()
     {

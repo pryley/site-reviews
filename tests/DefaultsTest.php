@@ -11,7 +11,7 @@ use WP_UnitTestCase;
  * Test case for the Plugin.
  * @group plugin
  */
-class TestDefaults extends WP_UnitTestCase
+class DefaultsTest extends WP_UnitTestCase
 {
     public function test_reviews_restrict()
     {

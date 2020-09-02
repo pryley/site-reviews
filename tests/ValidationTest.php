@@ -17,7 +17,7 @@ use WP_Ajax_UnitTestCase;
 use WPAjaxDieContinueException;
 use WPAjaxDieStopException;
 
-class TestValidation extends WP_Ajax_UnitTestCase
+class ValidationTest extends WP_Ajax_UnitTestCase
 {
     use Setup;
 

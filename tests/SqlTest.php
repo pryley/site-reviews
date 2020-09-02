@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews\Tests;
 use GeminiLabs\SiteReviews\Database\Query;
 use WP_Ajax_UnitTestCase;
 
-class TestSql extends WP_Ajax_UnitTestCase
+class SqlTest extends WP_Ajax_UnitTestCase
 {
     public function test_sql_join()
     {

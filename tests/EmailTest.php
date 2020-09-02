@@ -10,7 +10,7 @@ use WP_UnitTestCase;
  * Test case for the Emails.
  * @group email
  */
-class TestEmail extends WP_UnitTestCase
+class EmailTest extends WP_UnitTestCase
 {
     use Setup;
 

@@ -9,7 +9,7 @@ use WP_UnitTestCase;
  * Test case for the Plugin.
  * @group plugin
  */
-class TestArr extends WP_UnitTestCase
+class ArrTest extends WP_UnitTestCase
 {
     public function test_compare()
     {

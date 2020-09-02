@@ -9,7 +9,7 @@ use WP_UnitTestCase;
  * Test case for the Plugin.
  * @group plugin
  */
-class TestSanitizer extends WP_UnitTestCase
+class SanitizerTest extends WP_UnitTestCase
 {
     protected $testValues;
 

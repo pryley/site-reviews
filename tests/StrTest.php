@@ -9,7 +9,7 @@ use WP_UnitTestCase;
  * Test case for the Plugin.
  * @group plugin
  */
-class TestStr extends WP_UnitTestCase
+class StrTest extends WP_UnitTestCase
 {
     public function test_camel_case()
     {
@@ -123,9 +123,9 @@ class TestStr extends WP_UnitTestCase
     public function test_natural_join()
     {
         $this->assertEquals(Str::naturalJoin(['1']), '1');
-        $this->assertEquals(Str::naturalJoin(['1','2']), '1 and 2');
-        $this->assertEquals(Str::naturalJoin(['1','2','3']), '1, 2 and 3');
-        $this->assertEquals(Str::naturalJoin(['1','2','3','4']), '1, 2, 3 and 4');
+        $this->assertEquals(Str::naturalJoin(['1', '2']), '1 and 2');
+        $this->assertEquals(Str::naturalJoin(['1', '2', '3']), '1, 2 and 3');
+        $this->assertEquals(Str::naturalJoin(['1', '2', '3', '4']), '1, 2, 3 and 4');
     }
 
     public function test_prefix()
