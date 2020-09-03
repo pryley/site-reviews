@@ -6,7 +6,18 @@ require('laravel-mix-bundle-analyzer');
 mix.disableSuccessNotifications();
 
 mix.babelConfig({
-  presets: ["@wordpress/default"],
+  plugins: [
+    ['prismjs', {
+        'languages': ['javascript', 'php', 'html', 'css'],
+        'plugins': ['line-numbers'],
+        'theme': 'tomorrow',
+        'css': true,
+    }]
+  ],
+  presets: [
+    "@babel/preset-env",
+    "@wordpress/default",
+  ],
 });
 
 mix.options({
@@ -56,10 +67,8 @@ mix
     '+/scripts/public/validation.js',
     '+/scripts/site-reviews.js',
   ], 'assets/scripts/site-reviews.js')
-  .combine([
-    'node_modules/star-rating.js/src/star-rating.js',
+  .js([
     '+/scripts/admin/ajax.js',
-    '+/scripts/admin/categories.js',
     '+/scripts/admin/color-picker.js',
     '+/scripts/admin/forms.js',
     '+/scripts/admin/metabox.js',

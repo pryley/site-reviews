@@ -32,7 +32,7 @@
             <p>Backup and restore your plugin settings as needed.</p>
         </li>
         <li class="glsr-column">
-            <h3><a data-expand="#faq-14" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">Bayesian Ranking</a></h3>
+            <h3><a data-expand="#faq-query-by-rank" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">Bayesian Ranking</a></h3>
             <p>Easily rank pages with assigned reviews using the bayesian algorithm.</p>
         </li>
         <li class="glsr-column">
@@ -76,11 +76,11 @@
             <p>Send notifications to one or more emails when a review is submitted.</p>
         </li>
         <li class="glsr-column">
-            <h3><a data-expand="#faq-03" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">Page Assignment</a></h3>
+            <h3><a data-expand="#faq-assign-reviews" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">Page Assignment</a></h3>
             <p>Assign reviews to Posts, Pages, and Custom Post Types.</p>
         </li>
         <li class="glsr-column">
-            <h3><a data-expand="#faq-02" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">Pagination</a></h3>
+            <h3><a data-expand="#faq-add-review-pagination" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">Pagination</a></h3>
             <p>Enable AJAX pagination to display a custom number of reviews per-page.</p>
         </li>
         <li class="glsr-column">
@@ -120,7 +120,7 @@
             <p>Free premium-level support included on the WordPress support forum.</p>
         </li>
         <li class="glsr-column">
-            <h3><a data-expand="#faq-18" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">Templates</a></h3>
+            <h3><a data-expand="#faq-plugin-templates" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">Templates</a></h3>
             <p>Use the Site Reviews templates in your theme for full control over the HTML.</p>
         </li>
         <li class="glsr-column">

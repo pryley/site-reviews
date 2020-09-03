@@ -1,3 +1,6 @@
+import Prism from 'prismjs';
+import StarRating from 'star-rating.js';
+
 /** global: GLSR, jQuery, StarRating, wp */
 
 GLSR.keys = {
@@ -10,6 +13,8 @@ GLSR.keys = {
 };
 
 jQuery(function ($) {
+
+    Prism.highlightAll();
 
     GLSR.notices = new GLSR.Notices();
     GLSR.shortcode = new GLSR.Shortcode('.glsr-mce');
@@ -102,7 +107,7 @@ jQuery(function ($) {
     $('select[data-glsr-track]').on('change', trackValue);
 
     $('.glsr-card.postbox').addClass('closed')
-        .find('.handlediv').attr('aria-expanded', false)
+        .find('.glsr-accordion-trigger').attr('aria-expanded', false)
         .closest('.glsr-nav-view').addClass('collapsed');
 
     if ($('.glsr-support-step').not(':checked').length < 1) {
@@ -114,11 +119,11 @@ jQuery(function ($) {
         $('.glsr-card-result')[action + 'Class']('hidden');
     });
 
-    $('.glsr-card.postbox .glsr-card-header').on('click', function () {
+    $('.glsr-card.postbox .glsr-card-heading').on('click', function () {
         var parent = $(this).parent();
         var view = parent.closest('.glsr-nav-view');
         var action = parent.hasClass('closed') ? 'remove' : 'add';
-        parent[action + 'Class']('closed').find('.handlediv').attr('aria-expanded', action !== 'add');
+        parent[action + 'Class']('closed').find('.glsr-accordion-trigger').attr('aria-expanded', action !== 'add');
         action = view.find('.glsr-card.postbox').not('.closed').length > 0 ? 'remove' : 'add';
         view[action + 'Class']('collapsed');
     });

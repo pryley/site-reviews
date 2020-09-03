@@ -112,7 +112,7 @@
             var action = viewEl.hasClass('collapsed') ? 'remove' : 'add';
             viewEl[action + 'Class']('collapsed')
                 .find('.glsr-card.postbox')[action + 'Class']('closed')
-                .find('.handlediv').attr('aria-expanded', action !== 'add');
+                .find('.glsr-accordion-trigger').attr('aria-expanded', action !== 'add');
         },
 
         /** @return void */

@@ -99,7 +99,7 @@ td.glsr-string-td1 .row-actions.visible {
 }
 
 .glsr-card {
-	max-width: 750px;
+	max-width: 800px;
 	box-sizing: border-box;
 }
 
@@ -128,8 +128,99 @@ td.glsr-string-td1 .row-actions.visible {
 
 .glsr-card.postbox {
 	padding: 0;
+	margin-bottom: 0;
 }
 
+.glsr-card.postbox:not(:last-child) {
+	border-bottom: none;
+}
+.glsr-card.postbox.closed:last-child {
+	border-bottom: 1px solid #ccd0d4;
+}
+
+
+
+
+
+.glsr-card-heading {
+    border-top: 1px solid #ccd0d4;
+    color: inherit;
+    font-size: inherit;
+    font-weight: 600;
+    line-height: inherit;
+    margin: 0;
+}
+.glsr-card-heading:first-child {
+    border-top: none;
+}
+.glsr-accordion-trigger {
+    background: #fff;
+    border: 0;
+    color: #32373c;
+    cursor: pointer;
+    display: flex;
+    font-weight: 400;
+    margin: 0;
+    padding: 1em 3.5em 1em 1.5em;
+    min-height: 46px;
+    position: relative;
+    text-align: left;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    user-select: auto;
+}
+.glsr-accordion-trigger:hover,
+.glsr-accordion-trigger:active {
+    background: #f8f9f9;
+}
+.glsr-accordion-trigger:focus {
+    color: #191e23;
+    border: none;
+    box-shadow: none;
+    outline-offset: -1px;
+    outline: 2px solid #0071a1;
+    background-color: #f8f9f9;
+    z-index: 1;
+}
+.glsr-accordion-trigger .title {
+    pointer-events: none;
+    font-weight: 600;
+    font-size: 16px;
+    flex-grow: 1;
+}
+.glsr-accordion-trigger .icon {
+    border: solid #555d66;
+    border-width: 0 2px 2px 0;
+    height: 0.5rem;
+    pointer-events: none;
+    position: absolute;
+    right: 1.5em;
+    top: 50%;
+    transform: translateY(-70%) rotate(45deg);
+    width: 0.5rem;
+}
+.glsr-accordion-trigger[aria-expanded="true"] .icon {
+    transform: translateY(-30%) rotate(-135deg)
+}
+.glsr-accordion-trigger .badge {
+    padding: 0.1rem 0.5rem 0.15rem;
+    color: #32373c;
+    font-weight: 500;
+    margin-left: 0.5rem;
+    border: 1px solid #ffb900; /*orange*/
+    border: 1px solid #46b450; /*green*/
+    border: 1px solid #826eb4; /*purple*/
+    border: 1px solid #ccd0d4; /*gray*/
+    border: 1px solid #bfe7f3; /*blue*/
+}
+.glsr-accordion-trigger .badge.important {
+    border: 1px solid #dc3232; /*red*/
+}
+
+
+
+/*
 .glsr-card.postbox .glsr-card-header {
 	position: relative;
 	padding: 1em 0 calc(1em + 1px) 1.5em;
@@ -137,7 +228,7 @@ td.glsr-string-td1 .row-actions.visible {
 	cursor: pointer;
 	user-select: none;
 	box-sizing: border-box;
-	border-bottom: 1px solid #ccd0d4;
+	border-bottom: none;
 }
 
 .glsr-card.postbox.closed .glsr-card-header {
@@ -148,11 +239,28 @@ td.glsr-string-td1 .row-actions.visible {
 .glsr-card.postbox .glsr-card-header h2 {
 	margin: 0 48px 0 0;
 	line-height: normal;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
-
+@media screen and (max-width: 720px) {
+	.glsr-card.postbox .glsr-card-header h2 {
+		flex-direction: row-reverse;
+		justify-content: flex-end;
+	}
+	.glsr-card.postbox .glsr-card-header h2 span {
+		width: 100%;
+	}
+	.glsr-card.postbox .glsr-card-header h2 code {
+		margin-top: .75em;
+	}
+}
+*/
 .glsr-card.postbox .inside {
-	padding: 0 1.5em;
-	margin: 1.5em 0;
+	border-bottom: none;
+	border-top: 1px solid #ccd0d4;
+	margin: 0;
+	padding: 0.5em 1.5em;
 }
 
 .glsr-card.postbox .handlediv {
@@ -162,6 +270,15 @@ td.glsr-string-td1 .row-actions.visible {
 	width: 48px;
 	height: 100%;
 }
+.glsr-card.postbox .handlediv:focus {
+	z-index: 1;
+}
+@media screen and (max-width: 782px) {
+	.glsr-card.postbox .handlediv {
+		margin-top: 0;
+	}
+}
+
 
 .glsr-card.postbox .handlediv .toggle-indicator::before {
 	width: 20px;
