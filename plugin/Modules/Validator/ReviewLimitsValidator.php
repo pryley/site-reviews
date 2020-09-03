@@ -15,6 +15,15 @@ class ReviewLimitsValidator extends ValidatorAbstract
     }
 
     /**
+     * This method can be used outside of validation
+     * @return bool
+     */
+    public function hasReachedLimit()
+    {
+        return !$this->isValid();
+    }
+
+    /**
      * @return void
      */
     public function performValidation()
