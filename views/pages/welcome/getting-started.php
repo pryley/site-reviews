@@ -20,10 +20,6 @@
     <h2>Features</h2>
     <ul class="glsr-flex-row glsr-has-3-columns">
         <li class="glsr-column">
-            <h3><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=addons'); ?>">Add-ons</a></h3>
-            <p>Extend Site Reviews with add-ons that provide additional features.</p>
-        </li>
-        <li class="glsr-column">
             <h3><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings#tab-reviews'); ?>">Avatars</a></h3>
             <p>Enable avatars to generate images using the WordPress Gravatar service.</p>
         </li>

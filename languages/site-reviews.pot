@@ -927,10 +927,6 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:53
-msgid "Add-ons"
-msgstr ""
-
 #: plugin/Controllers/MenuController.php:86, plugin/Controllers/WelcomeController.php:95
 msgid "Support"
 msgstr ""

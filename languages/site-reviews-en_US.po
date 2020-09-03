@@ -958,10 +958,6 @@ msgstr "Reviews"
 msgid "Tools"
 msgstr "Tools"
 
-#: plugin/Controllers/MenuController.php:53
-msgid "Add-ons"
-msgstr "Add-ons"
-
 #: plugin/Controllers/MenuController.php:86, plugin/Controllers/WelcomeController.php:95
 msgid "Support"
 msgstr "Support"
