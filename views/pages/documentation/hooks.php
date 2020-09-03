@@ -1,9 +1,6 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('WPINC') || die;
 
-<p>Hooks (also known as <a href="https://developer.wordpress.org/plugins/hooks/index.html">Actions and Filters</a>) are used in your theme's <code>functions.php</code> file to make changes to the plugin.</p>
-
-<?php
-
+include trailingslashit(__DIR__).'hooks/readme.php';
 include trailingslashit(__DIR__).'hooks/filter-form-field-order.php';
 include trailingslashit(__DIR__).'hooks/filter-star-images.php';
 include trailingslashit(__DIR__).'hooks/filter-scripts.php';

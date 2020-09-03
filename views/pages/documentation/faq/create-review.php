@@ -10,12 +10,12 @@
         <p>Here is an example:</p>
         <pre><code class="language-php">if (function_exists('glsr_create_review')) {
     $review = glsr_create_review([
-        'content' => 'This is my review.',
-        'date' => '2018-06-13',
-        'email' => 'jane@doe.com',
-        'name' => 'Jane Doe',
         'rating' => 5,
         'title' => 'Fantastic plugin!',
+        'content' => 'This is my review.',
+        'name' => 'Jane Doe',
+        'email' => 'jane@doe.com',
+        'date' => '2020-06-13',
     ]);
 }
 </code></pre>

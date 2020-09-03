@@ -1,7 +1,8 @@
 <div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="hooks-do-something-after-submission">
-            <span class="title">Do something immediately after a review has been submitted</span>
+            <span class="title">Do something after a review has been submitted</span>
+            <span class="badge code">site-reviews/review/created</span>
             <span class="icon"></span>
         </button>
     </h3>

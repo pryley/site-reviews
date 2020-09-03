@@ -2,6 +2,7 @@
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="hooks-filter-schema">
             <span class="title">Modify the schema</span>
+            <span class="badge code">site-reviews/schema/&lt;schema_type&gt;</span>
             <span class="icon"></span>
         </button>
     </h3>

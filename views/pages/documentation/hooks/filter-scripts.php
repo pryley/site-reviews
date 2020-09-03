@@ -2,6 +2,7 @@
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="hooks-filter-scripts">
             <span class="title">Disable the plugin javascript</span>
+            <span class="badge code">site-reviews/assets/js</span>
             <span class="icon"></span>
         </button>
     </h3>

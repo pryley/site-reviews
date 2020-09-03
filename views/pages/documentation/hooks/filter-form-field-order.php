@@ -1,7 +1,8 @@
 <div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="hooks-filter-form-field-order">
-            <span class="title">Customise the order of the fields in the review submission form</span>
+            <span class="title">Customise the submission form field order</span>
+            <span class="badge code">site-reviews/submission-form/order</span>
             <span class="icon"></span>
         </button>
     </h3>

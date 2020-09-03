@@ -2,6 +2,7 @@
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="hooks-filter-star-images">
             <span class="title">Customise the star images</span>
+            <span class="badge code">site-reviews/config/inline-styles</span>
             <span class="icon"></span>
         </button>
     </h3>

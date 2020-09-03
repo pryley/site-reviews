@@ -1,24 +1,24 @@
-<div id="support-contact-support" class="glsr-card postbox">
+<div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="support-contact-support">
             <span class="title">Contact Support</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
+    <div id="support-contact-support" class="inside">
         <p><strong>The fastest way to get help</strong> is to post a support request in the <a href="https://wordpress.org/support/plugin/site-reviews/">WordPress Support Forum</a>. Using the support forum will also allow existing and future users of the plugin to benefit from the solution.</p>
         <p>However, you may also contact us directly (expect a slower response time) after confirming the following:</p>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-1" class="glsr-support-step">
-            <label for="step-1">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-support'); ?>" data-expand="#support-common-problems-and-solutions">Common Problems and Solutions</a></code> and it does not answer my question.</label>
+            <label for="step-3">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-shortcodes'); ?>">Shortcodes</a></code> page and it does not answer my question.</label>
         </p>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-2" class="glsr-support-step">
-            <label for="step-2">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">FAQ</a></code> page and it does not answer my question.</label>
+            <label for="step-1">I have read the <code><a data-expand="#support-common-problems-and-solutions" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-support'); ?>">Common Problems and Solutions</a></code> and it does not answer my question.</label>
         </p>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-3" class="glsr-support-step">
-            <label for="step-3">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-shortcodes'); ?>">Shortcodes</a></code> page and it does not answer my question.</label>
+            <label for="step-2">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">FAQ</a></code> page and it does not answer my question.</label>
         </p>
         <?php if (glsr()->hasPermission('documentation', 'hooks')) : ?>
         <p class="glsr-card-field">
@@ -28,7 +28,7 @@
         <?php endif; ?>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-5" class="glsr-support-step">
-            <label for="step-5">I have completed the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-support'); ?>" data-expand="#support-basic-troubleshooting">Basic Troubleshooting Steps</a></code> provided above.</label>
+            <label for="step-5">I have completed the <code><a data-expand="#support-basic-troubleshooting" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-support'); ?>">Basic Troubleshooting Steps</a></code> provided above.</label>
         </p>
         <div class="glsr-card-result hidden">
             <p><strong>Please send an email to <a href="mailto:site-reviews@geminilabs.io?subject=Support%20request">site-reviews@geminilabs.io</a> and include the following details:</strong></p>

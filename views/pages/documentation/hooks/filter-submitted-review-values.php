@@ -2,6 +2,7 @@
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="hooks-filter-submitted-review-values">
             <span class="title">Modify the submitted review before it is saved</span>
+            <span class="badge code">site-reviews/create/review-values</span>
             <span class="icon"></span>
         </button>
     </h3>
