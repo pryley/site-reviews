@@ -43,7 +43,8 @@ class EmailDefaults extends Defaults
     protected function normalize(array $values = [])
     {
         if (empty($values['from'])) {
-            if (empty($email = sanitize_email(glsr_get_option('general.notification_from')))) {
+            $email = sanitize_email(glsr_get_option('general.notification_from', null, 'string'));
+            if (empty($email)) {
                 $email = glsr(OptionManager::class)->getWP('admin_email');
             }
             $from = wp_specialchars_decode(glsr(OptionManager::class)->getWP('blogname'), ENT_QUOTES);
