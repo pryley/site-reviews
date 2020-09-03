@@ -8,7 +8,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
 
-class ReviewAssignedLinkTag extends ReviewTag
+class ReviewAssignedLinksTag extends ReviewTag
 {
     /**
      * @param mixed $value

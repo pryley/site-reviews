@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
-use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewAssignedToTag;
+use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewAssignedLinksTag;
 use GeminiLabs\SiteReviews\Review;
 
 class ColumnValueAssignedPosts implements ColumnValue
@@ -12,7 +12,7 @@ class ColumnValueAssignedPosts implements ColumnValue
      */
     public function handle(Review $review)
     {
-        $links = ReviewAssignedToTag::assignedLinks($review->assigned_posts);
+        $links = ReviewAssignedLinksTag::assignedLinks($review->assigned_posts);
         return implode(', ', $links);
     }
 }
