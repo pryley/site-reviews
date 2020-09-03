@@ -47,7 +47,7 @@ class ReviewsHtml extends ArrayObject
                 'category' => $this->args->assigned_terms,
                 'class' => $this->getClass(),
                 'id' => '', // @deprecated in v5.0
-                'pagination' => Helper::ifTrue($this->args->pagination, $this->getPagination()),
+                'pagination' => Helper::ifTrue(Cast::toBool($this->args->pagination), $this->getPagination()),
                 'reviews' => $this->getReviews(),
             ],
         ]);
@@ -59,9 +59,6 @@ class ReviewsHtml extends ArrayObject
      */
     public function getPagination($wrap = true)
     {
-        if (!wp_validate_boolean($this->args->pagination)) {
-            return;
-        }
         $html = glsr(Partial::class)->build('pagination', [
             'baseUrl' => $this->args->pageUrl,
             'current' => $this->args->page,
@@ -103,6 +100,9 @@ class ReviewsHtml extends ArrayObject
     {
         if (array_key_exists($key, $this->reviews)) {
             return $this->reviews[$key];
+        }
+        if (in_array($key, ['navigation', 'pagination'])) { // @deprecated in v5.0 (navigation)
+            return $this->getPagination();
         }
         return property_exists($this, $key)
             ? $this->$key
