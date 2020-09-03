@@ -2,10 +2,12 @@
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Arguments;
+use GeminiLabs\SiteReviews\BlackHole;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Exceptions\BindingResolutionException;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -52,9 +54,15 @@ add_filter('plugins_loaded', function () {
 function glsr($alias = null, array $parameters = [])
 {
     $app = Application::load();
-    return !is_null($alias)
-        ? $app->make($alias, $parameters)
-        : $app;
+    if (is_null($alias)) {
+        return $app;
+    }
+    try {
+        return $app->make($alias, $parameters);
+    } catch (BindingResolutionException $e) {
+        glsr_log()->error($e->getMessage());
+        return $app->make(BlackHole::class);
+    }
 }
 
 /**
