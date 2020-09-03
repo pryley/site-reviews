@@ -28,26 +28,16 @@ add_action('plugins_loaded', function () {
     }, 10, 3);
 });
 
-add_action('admin_footer', 'glsr_log_deprecated_notices');
-add_action('wp_footer', 'glsr_log_deprecated_notices');
-
-function glsr_log_deprecated_notices() {
-    $notices = (array) glsr()->retrieve('deprecated', []);
-    $notices = array_keys(array_flip(array_filter($notices)));
-    natsort($notices);
-    foreach ($notices as $notice) {
-        glsr_log()->warning($notice);
-    }
-}
-
 /**
  * @return void
  * @since 5.0.0
  */
 function glsr_calculate_ratings() {
+    _deprecated_function('glsr_calculate_ratings', '5.0 (of Site Reviews)');
     glsr_log()->error(sprintf(
-        _x('The %s function has been deprecated and removed, please update your code.', 'admin-text', 'site-reviews'), 
-        'glsr_calculate_ratings()'
+        __('%s is <strong>deprecated</strong> since version %s with no alternative available.', 'site-reviews'),
+        'glsr_calculate_ratings',
+        '5.0'
     ));
 }
 
@@ -56,10 +46,24 @@ function glsr_calculate_ratings() {
  * @since 5.0.0
  */
 function glsr_get_rating($args = array()) {
+    _deprecated_function('glsr_get_rating', '5.0 (of Site Reviews)', 'glsr_get_ratings');
     glsr_log()->warning(sprintf(
-        _x('The %s function has been deprecated and will be removed in a future version, please use %s instead.', 'admin-text', 'site-reviews'), 
-        'glsr_get_rating()',
-        'glsr_get_ratings()'
+        __('%s is <strong>deprecated</strong> since version %s! Use %s instead.', 'site-reviews'),
+        'glsr_get_rating',
+        '5.0',
+        'glsr_get_ratings'
     ));
     return glsr_get_ratings($args);
 }
+
+function glsr_log_deprecated_notices() {
+    $notices = (array) glsr()->retrieve('deprecated', []);
+    $notices = array_keys(array_flip(array_filter($notices)));
+    natsort($notices);
+    foreach ($notices as $notice) {
+        trigger_error($notice, E_USER_DEPRECATED);
+        glsr_log()->warning($notice);
+    }
+}
+add_action('admin_footer', 'glsr_log_deprecated_notices');
+add_action('wp_footer', 'glsr_log_deprecated_notices');
