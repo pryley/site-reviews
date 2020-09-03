@@ -217,8 +217,15 @@ td.glsr-string-td1 .row-actions.visible {
 .glsr-accordion-trigger .badge.important {
     border: 1px solid #dc3232; /*red*/
 }
-
-
+@media screen and (max-width: 782px) {
+	.glsr-accordion-trigger {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+	.glsr-accordion-trigger .badge {
+		margin: 1em 0 0
+	}
+}
 
 /*
 .glsr-card.postbox .glsr-card-header {
@@ -260,8 +267,15 @@ td.glsr-string-td1 .row-actions.visible {
 	border-bottom: none;
 	border-top: 1px solid #ccd0d4;
 	margin: 0;
-	padding: 0.5em 1.5em;
+	padding: 1em 1.5em;
 }
+.glsr-card.postbox .inside > *:first-child {
+	margin-top: .5em;
+}
+.glsr-card.postbox .inside > *:last-child {
+	margin-bottom: .5em;
+}
+
 
 .glsr-card.postbox .handlediv {
 	position: absolute;
