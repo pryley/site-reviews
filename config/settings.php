@@ -104,12 +104,22 @@ return [
         ],
         'type' => 'checkbox',
     ],
+    'settings.general.notification_from' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.general.notifications' => ['admin', 'author', 'custom', 'slack'],
+        ],
+        'description' => _x('If emails are not sent, make sure this email shares the same domain as your website.', 'site-reviews'),
+        'label' => _x('Send Emails From', 'admin-text', 'site-reviews'),
+        'placeholder' => get_option('admin_email'),
+        'type' => 'text',
+    ],
     'settings.general.notification_email' => [
         'default' => '',
         'depends_on' => [
             'settings.general.notifications' => ['custom'],
         ],
-        'label' => _x('Send Notification Emails To', 'admin-text', 'site-reviews'),
+        'label' => _x('Send Emails To', 'admin-text', 'site-reviews'),
         'placeholder' => esc_attr_x('Separate multiple emails with a comma', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
