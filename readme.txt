@@ -131,6 +131,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Changed minimum PHP version to 5.6.20
 - Changed minimum WordPress version to 5.2
 - Changed settings to use the Comments blacklist by default
+- Changed the "assigned_to" hide option to "assigned_links" (i.e. [site_reviews hide="assigned_links"])
 - Fixed compatibility with Divi theme and Divi Builder plugin
 - Fixed compatibility with Elementor plugin
 - Fixed compatibility with GeneratePress plugin

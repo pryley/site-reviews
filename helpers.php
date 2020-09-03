@@ -21,7 +21,7 @@ defined('WPINC') || die;
 
 /*
  * Alternate method of using the functions without having to use `function_exists()`
- * Example: apply_filters('glsr_get_reviews', [], ['assigned_to' => 'post_id']);
+ * Example: apply_filters('glsr_get_reviews', [], ['assigned_posts' => 'post_id']);
  * @param mixed ...
  * @return mixed
  */

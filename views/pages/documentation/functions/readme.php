@@ -7,7 +7,7 @@
         </button>
     </h3>
     <div id="fn-readme" class="inside">
-        <p>The problem with using plugin-specific helper functions is that they only exist when the plugin is active. When the plugin is disabled, any helper functions that have been used will throw a PHP error unless you have used a <a href="https://php.net/manual/en/function.function-exists.php">function_exists</a> check.</p>
+        <p>The problem with using plugin-specific functions is that they only exist when the plugin is active. When the plugin is disabled, any helper functions that have been used will throw a PHP error unless you have used a <a href="https://php.net/manual/en/function.function-exists.php">function_exists</a> check.</p>
         <p>Site Reviews provides an alternative way of using these functions which is much safer:</p>
         <pre><code class="language-php">/**
  * @param string $function_name (required) This is the name of the function you want to use

@@ -7,7 +7,7 @@
         </button>
     </h3>
     <div id="hooks-filter-submitted-review-values" class="inside">
-        <p>Use this hook if you want to modify the values of the submitted review before the review is created.</p>
+        <p>Use this hook if you want to modify the values of a submitted review before it is created.</p>
         <pre><code class="language-php">/**
  * Modifies the review values before they are saved
  * Paste this in your active theme's functions.php file.

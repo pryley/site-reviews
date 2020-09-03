@@ -12,7 +12,7 @@
  * @return \GeminiLabs\SiteReviews\Review
  */
 glsr_get_review($post_id);</code></pre>
-        <p>This helper function returns an arrayable Review object with super-powers!</p>
+        <p>This helper function returns an arrayable Review object.</p>
         <p>The <code>$post_id</code> variable is required and is the $post->ID of the review you want to get. An invalid post ID will return an empty Review object.</p>
         <p><strong>Example Usage:</strong></p>
         <pre><code class="language-php">$review = glsr_get_review(13);

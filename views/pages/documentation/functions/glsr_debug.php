@@ -12,7 +12,7 @@
  * @return void
  */
 glsr_debug(...$variable);</code></pre>
-        <p>This function prints one or more variables (strings, arrays, objects, etc.) to the screen in human-readable format. You can include as many variables as you want separated by commas.</p>
+        <p>This function prints one or more variables (strings, arrays, objects, etc.) to the screen in an easy-to-read format. You can include as many variables as you want separated by commas.</p>
         <p><strong>Example Usage:</strong></p>
         <pre><code class="language-php">glsr_debug($var1, $var2, $var3);
 

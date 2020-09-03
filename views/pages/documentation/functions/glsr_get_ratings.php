@@ -22,7 +22,7 @@ glsr_get_ratings(array $args = []);</code></pre>
     'email' => '',
     'ip_address' => '',
     'rating' => '',
-    'status' => 'approved', // accepted values are all|approved|unapproved
+    'status' => 'approved', // accepted values are "all", "approved", and "unapproved"
     'type' => '',
 ];</code></pre>
         <p><strong>Example Usage:</strong></p>

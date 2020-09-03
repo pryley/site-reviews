@@ -64,12 +64,12 @@ $reviews = apply_filters('glsr_get_reviews', [], [
                 <pre><code class="language-php">$totalPages = $reviews->max_num_pages;</code></pre>
             </li>
             <li>
-                <p>Render (as HTML) all reviews, including pagination (if included in the $args), and return them as an arrayable object. You can then loop through this object like an array, the object also contains the navigation HTML (if "pagination"  is included in the $args):</p>
+                <p>Render (as HTML) all reviews, including pagination, and return them as an arrayable object. You can then loop through this object like an array, the object also contains the pagination HTML:</p>
                 <pre><code class="language-php">$reviewsHtml = $reviews->build();
 foreach ($reviewsHtml as $reviewHtml) {
     echo $reviewHtml;
 }
-echo $reviewsHtml->navigation;</code></pre>
+echo $reviewsHtml->pagination;</code></pre>
             </li>
             <li>
                 <p>You can also use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to print both arrayable objects to the screen:</p>
