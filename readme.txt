@@ -145,6 +145,23 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Removed tool to calculate rating counts (no longer needed)
 - Updated Trustalyze integration
 
+= 4.7.0 (2020-09-03) =
+
+- Temporarily removed the Add-ons page in preparation for v5.0
+
+= 4.6.5 (2020-08-28) =
+
+- Fixed PHP Notice introduced in WP 5.5
+- Fixed unicode support for review author names
+
+= 4.6.4 (2020-08-14) =
+
+- Fixed PHPMailer issue
+
+= 4.6.3 (2020-05-09) =
+
+- Updated Trustalyze integration
+
 = 4.6.2 (2020-04-25) =
 
 - Fixed a PHP notice
