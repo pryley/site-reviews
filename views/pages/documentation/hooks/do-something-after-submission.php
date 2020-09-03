@@ -1,11 +1,11 @@
-<div id="hooks-06" class="glsr-card postbox">
+<div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="hooks-do-something-after-submission">
             <span class="title">Do something immediately after a review has been submitted</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
+    <div id="hooks-do-something-after-submission" class="inside">
         <p>Use this hook if you want to do something immediately after a review has been successfully submitted.</p>
         <p>The <code>$review</code> object is the review that was created. The <code>$request</code> object is the request that was submitted to create the review.</p>
         <pre><code class="language-php">/**

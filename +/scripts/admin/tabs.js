@@ -68,13 +68,13 @@
         /** @return void */
         scrollSectionIntoView_: function (el) {
             if (el.length) {
-                var parentEl = el.parent();
+                var parentEl = el.parent().parent();
                 parentEl.removeClass('collapsed');
                 this.toggleCollapsibleSections_(parentEl);
                 parentEl.removeClass('collapsed');
-                el.removeClass('closed').find('.handlediv').attr('aria-expanded', true);
+                el.parent().removeClass('closed').find('.glsr-accordion-trigger').attr('aria-expanded', true);
                 window.setTimeout(function () {
-                    el[0].scrollIntoView({behavior: 'smooth', block: 'center'});
+                    el.parent()[0].scrollIntoView({behavior: 'smooth', block: 'center'});
                     localStorage.removeItem('glsr-expand');
                 }, 10);
             }

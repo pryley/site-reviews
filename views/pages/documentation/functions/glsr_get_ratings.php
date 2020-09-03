@@ -1,16 +1,14 @@
-<div id="fn-glsr_get_ratings" class="glsr-card postbox">
+<div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="fn-glsr_get_ratings">
             <span class="title">Get the rating information</span>
             <span class="badge code">glsr_get_ratings()</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
-
+    <div id="fn-glsr_get_ratings" class="inside">
         <pre><code class="language-php">/**
  * @return object
-
  */
 glsr_get_ratings(array $args = []);</code></pre>
         <p>This helper function returns an object with the rating information. You can use this function to get the aggregate (combined average) rating if you are generating your own JSON-LD schema.</p>

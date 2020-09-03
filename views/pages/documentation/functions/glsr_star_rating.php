@@ -1,12 +1,12 @@
 <div id="fn-glsr_star_rating" class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="fn-glsr_star_rating">
             <span class="title">Generate HTML stars for a rating</span>
             <span class="badge code">glsr_star_rating()</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
+    <div id="fn-glsr_star_rating" class="inside">
         <p>This helper function allows you to build a 1-5 star rating HTML string.</p>
         <pre><code class="language-php">/**
  * @param int $rating (a number from 1-5)

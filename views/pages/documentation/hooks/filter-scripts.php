@@ -1,11 +1,11 @@
-<div id="hooks-03" class="glsr-card postbox">
+<div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="hooks-filter-scripts">
             <span class="title">Disable the plugin javascript</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
+    <div id="hooks-filter-scripts" class="inside">
         <p>Use this hook if you want to disable the plugin javascript from loading on your website.</p>
         <pre><code class="language-php">/**
  * Disables the Site Reviews javascript.

@@ -1,12 +1,12 @@
-<div id="faq-add-schema-values" class="glsr-card postbox">
+<div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="faq-add-schema-values">
             <span class="title">How do I add additional values to the schema?</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
-        <p>To add additional values to the generated schema, use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-hooks'); ?>" data-expand="#hooks-07">site-reviews/schema/[SCHEMA_TYPE]</a></code> hook in your theme's functions.php file.</p>
+    <div id="faq-add-schema-values" class="inside">
+        <p>To add additional values to the generated schema, use the <code><a data-expand="#hooks-filter-schema" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-hooks'); ?>">site-reviews/schema/[SCHEMA_TYPE]</a></code> hook in your theme's functions.php file.</p>
         <p>Make sure to use Google's <a href="https://search.google.com/test/rich-results">Rich Results</a> tool to test the schema after any custom modifications have been made.</p>
         <pre><code class="language-php">/**
  * Modifies the schema created by Site Reviews.

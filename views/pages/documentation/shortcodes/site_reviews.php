@@ -1,12 +1,12 @@
-<div id="shortcodes-01" class="glsr-card postbox">
+<div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="shortcode-site_reviews">
             <span class="title">Display the reviews</span>
             <span class="badge code">[site_reviews]</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
+    <div id="shortcode-site_reviews" class="inside">
         <h3>This shortcode displays your most recently submitted reviews.</h3>
 
         <div class="notice inline notice-info notice-alt">

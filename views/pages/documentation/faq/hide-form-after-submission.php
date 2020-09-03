@@ -1,11 +1,11 @@
-<div id="faq-hide-form-after-submission" class="glsr-card postbox">
+<div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="faq-hide-form-after-submission">
             <span class="title">How do I hide the form after a review is submitted?</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
+    <div id="faq-hide-form-after-submission" class="inside">
         <p>To hide the form after a review has been submitted, use the following code snippet:</p>
         <pre><code class="language-php">/**
  * Hides the submission form after a review has been submitted

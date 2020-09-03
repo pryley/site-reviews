@@ -1,11 +1,11 @@
-<div id="hooks-08" class="glsr-card postbox">
+<div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="hooks-filter-submitted-review-values">
             <span class="title">Modify the submitted review before it is saved</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
+    <div id="hooks-filter-submitted-review-values" class="inside">
         <p>Use this hook if you want to modify the values of the submitted review before the review is created.</p>
         <pre><code class="language-php">/**
  * Modifies the review values before they are saved

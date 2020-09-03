@@ -1,11 +1,11 @@
-<div id="hooks-02" class="glsr-card postbox">
+<div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="hooks-filter-star-images">
             <span class="title">Customise the star images</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
+    <div id="hooks-filter-star-images" class="inside">
         <p>Use this hook to customise the star images used by Site Reviews.</p>
         <p>See the <code><a data-expand="#faq-customise-stars" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">FAQ</a></code> for a detailed example of how to use this hook.</p>
         <pre><code class="language-php">/**

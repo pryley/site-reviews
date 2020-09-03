@@ -1,11 +1,11 @@
-<div id="faq-query-by-rank" class="glsr-card postbox">
+<div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="faq-query-by-rank">
             <span class="title">How do I order pages with assigned reviews by rating or ranking?</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
+    <div id="faq-query-by-rank" class="inside">
         <p>Site Reviews provides two meta keys that can be used for sorting pages that have reviews assigned to them.</p>
         <p>The <code>_glsr_average</code> meta key contains the average rating of the page.</p>
         <p>The <code>_glsr_ranking</code> meta key contains the page rank determined by a bayesian ranking algorithm (the exact same way that films are ranked on IMDB). To understand why sorting by rank may be preferable to sorting by average rating, please see: <a target="_blank" href="https://imgs.xkcd.com/comics/tornadoguard.png">The problem with averaging star ratings</a>.</p>

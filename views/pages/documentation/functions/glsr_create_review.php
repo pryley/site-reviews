@@ -1,12 +1,12 @@
-<div id="fn-glsr_create_review" class="glsr-card postbox">
+<div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="fn-glsr_create_review">
             <span class="title">Create a review</span>
             <span class="badge code">glsr_create_review()</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
+    <div id="fn-glsr_create_review" class="inside">
         <pre><code class="language-php">/**
  * Default values in the $reviewValues array:
  * - 'assigned_posts' => '',

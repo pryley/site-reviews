@@ -1,12 +1,12 @@
-<div id="fn-readme" class="glsr-card postbox">
+<div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="fn-readme">
             <span class="title">Read me first!</span>
             <span class="badge important code">Important</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
+    <div id="fn-readme" class="inside">
         <p>The problem with using plugin-specific helper functions is that they only exist when the plugin is active. When the plugin is disabled, any helper functions that have been used will throw a PHP error unless you have used a <a href="https://php.net/manual/en/function.function-exists.php">function_exists</a> check.</p>
         <p>Site Reviews provides an alternative way of using these functions which is much safer:</p>
         <pre><code class="language-php">/**

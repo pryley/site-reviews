@@ -1,11 +1,11 @@
-<div id="faq-limit-review-length" class="glsr-card postbox">
+<div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="faq-limit-review-length">
             <span class="title">How do I limit the submitted review length?</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
+    <div id="faq-limit-review-length" class="inside">
         <p>To limit the allowed length of submitted reviews, use the following filter hooks in your theme's <code>functions.php</code> file:</p>
         <pre><code class="language-php">/**
  * Set the "maxlength" HTML attribute to limit review length to 100 characters

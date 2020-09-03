@@ -1,11 +1,11 @@
-<div id="hooks-07" class="glsr-card postbox">
+<div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="hooks-filter-schema">
             <span class="title">Modify the schema</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
+    <div id="hooks-filter-schema" class="inside">
         <p>Use this hook if you would like to modify the schema type properties.</p>
         <p>This hook is specific to the schema type. For example, to modify the schema properties for the LocalBusiness schema type you would use the <code>site-reviews/schema/LocalBusiness</code> hook, but to modify the schema properties for the Product schema type you would use the <code>site-reviews/schema/Product</code> hook.</p>
         <p>See the <code><a data-expand="#faq-add-schema-values" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">FAQ</a></code> for a detailed example of how to use this hook.</p>

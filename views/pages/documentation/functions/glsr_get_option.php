@@ -1,12 +1,12 @@
-<div id="fn-glsr_get_option" class="glsr-card postbox">
+<div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="fn-glsr_get_option">
             <span class="title">Get a plugin setting</span>
             <span class="badge code">glsr_get_option()</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
+    <div id="fn-glsr_get_option" class="inside">
         <pre><code class="language-php">/**
  * @param string $path
  * @param mixed $fallback

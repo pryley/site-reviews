@@ -1,12 +1,12 @@
-<div id="faq-customise-stars" class="glsr-card postbox">
+<div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="faq-customise-stars">
             <span class="title">How do I customise the stars?</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
-        <p>To customise the star images used by the plugin, use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-hooks'); ?>" data-expand="#hooks-02">site-reviews/config/inline-styles</a></code> filter hook in your theme's <code>functions.php</code> file.</p>
+    <div id="faq-customise-stars" class="inside">
+        <p>To customise the star images used by the plugin, use the <code><a data-expand="#hooks-filter-star-images" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-hooks'); ?>">site-reviews/config/inline-styles</a></code> filter hook in your theme's <code>functions.php</code> file.</p>
         <p>Here is an example:</p>
         <pre><code class="language-php">/**
  * Customises the stars used by Site Reviews.

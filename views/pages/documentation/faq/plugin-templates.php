@@ -1,11 +1,11 @@
-<div id="faq-plugin-templates" class="glsr-card postbox">
+<div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="faq-plugin-templates">
             <span class="title">How do I use the plugin templates in my theme?</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div class="inside">
+    <div id="faq-plugin-templates" class="inside">
         <p>Site Reviews uses a custom templating system which makes it easy to customize the HTML of the widgets and shortcodes to meet your needs.</p>
         <ol>
             <li>Create a folder in your theme called "site-reviews".</li>
