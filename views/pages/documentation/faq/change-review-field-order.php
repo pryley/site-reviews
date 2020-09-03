@@ -15,7 +15,7 @@
     {{ title }}
     {{ rating }}
     {{ date }}
-    {{ assigned_to }}
+    {{ assigned_links }}
     {{ content }}
     {{ avatar }}
     {{ author }}

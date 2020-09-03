@@ -49,7 +49,7 @@
         <p class="glsr-heading">hide</p>
         <p>Include the "hide" attribute to hide any specific fields you don't want to show. If all fields are hidden, the shortcode will not be displayed.</p>
         <p>The default hide value is: <code>""</code></p>
-        <pre><code>[site_reviews hide="assigned_to,author,avatar,content,date,rating,response,title"]</code></pre>
+        <pre><code class="language-html">[site_reviews hide="assigned_links,author,avatar,content,date,rating,response,title"]</code></pre>
 
         <p class="glsr-heading">id</p>
         <p>Include the "id" attribute to add a custom HTML id attribute to the shortcode. This is especially useful when using pagination with the ajax option.</p>
