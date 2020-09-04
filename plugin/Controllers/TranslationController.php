@@ -41,24 +41,10 @@ class TranslationController
     /**
      * @param string $translation
      * @param string $text
-     * @param string $domain
      * @return string
-     * @filter gettext
+     * @filter gettext_.glsr()->id
      */
-    public function filterGettext($translation, $text, $domain)
-    {
-        return Str::startsWith(glsr()->id, $domain)
-            ? apply_filters('site-reviews/gettext/'.$domain, $translation, $text)
-            : $translation;
-    }
-
-    /**
-     * @param string $translation
-     * @param string $text
-     * @return string
-     * @filter site-reviews/gettext/site-reviews
-     */
-    public function filterGettextSiteReviews($translation, $text)
+    public function filterGettext($translation, $text)
     {
         return $this->translator->translate($translation, glsr()->id, [
             'single' => $text,
@@ -69,25 +55,10 @@ class TranslationController
      * @param string $translation
      * @param string $text
      * @param string $context
-     * @param string $domain
      * @return string
-     * @filter gettext_with_context
+     * @filter gettext_with_context_.glsr()->id
      */
-    public function filterGettextWithContext($translation, $text, $context, $domain)
-    {
-        return Str::startsWith(glsr()->id, $domain)
-            ? apply_filters('site-reviews/gettext_with_context/'.$domain, $translation, $text, $context)
-            : $translation;
-    }
-
-    /**
-     * @param string $translation
-     * @param string $text
-     * @param string $context
-     * @return string
-     * @filter site-reviews/gettext_with_context/site-reviews
-     */
-    public function filterGettextWithContextSiteReviews($translation, $text, $context)
+    public function filterGettextWithContext($translation, $text, $context)
     {
         if (Str::contains($context, Translation::CONTEXT_ADMIN_KEY)) {
             return $translation;
@@ -103,26 +74,10 @@ class TranslationController
      * @param string $single
      * @param string $plural
      * @param int $number
-     * @param string $domain
      * @return string
-     * @filter ngettext
+     * @filter ngettext_.glsr()->id
      */
-    public function filterNgettext($translation, $single, $plural, $number, $domain)
-    {
-        return Str::startsWith(glsr()->id, $domain)
-            ? apply_filters('site-reviews/ngettext/'.$domain, $translation, $single, $plural, $number)
-            : $translation;
-    }
-
-    /**
-     * @param string $translation
-     * @param string $single
-     * @param string $plural
-     * @param int $number
-     * @return string
-     * @filter site-reviews/ngettext/site-reviews
-     */
-    public function filterNgettextSiteReviews($translation, $single, $plural, $number)
+    public function filterNgettext($translation, $single, $plural, $number)
     {
         return $this->translator->translate($translation, glsr()->id, [
             'number' => $number,
@@ -137,27 +92,10 @@ class TranslationController
      * @param string $plural
      * @param int $number
      * @param string $context
-     * @param string $domain
      * @return string
-     * @filter ngettext_with_context
+     * @filter ngettext_with_context_.glsr()->id
      */
-    public function filterNgettextWithContext($translation, $single, $plural, $number, $context, $domain)
-    {
-        return Str::startsWith(glsr()->id, $domain)
-            ? apply_filters('site-reviews/ngettext_with_context/'.$domain, $translation, $single, $plural, $number, $context)
-            : $translation;
-    }
-
-    /**
-     * @param string $translation
-     * @param string $single
-     * @param string $plural
-     * @param int $number
-     * @param string $context
-     * @return string
-     * @filter site-reviews/ngettext_with_context/site-reviews
-     */
-    public function filterNgettextWithContextSiteReviews($translation, $single, $plural, $number, $context)
+    public function filterNgettextWithContext($translation, $single, $plural, $number, $context)
     {
         if (Str::contains($context, Translation::CONTEXT_ADMIN_KEY)) {
             return $translation;
@@ -189,12 +127,11 @@ class TranslationController
      * @param string $translation
      * @param string $text
      * @return string
-     * @filter gettext
-     * @filter gettext_with_context
+     * @filter gettext_default
      */
-    public function filterPostStatusLabels($translation, $text, $domainOrContext, $domain = null)
+    public function filterPostStatusLabels($translation, $text)
     {
-        if (in_array('default', [$domainOrContext, $domain]) && $this->canModifyTranslation()) {
+        if ($this->canModifyTranslation()) {
             $replacements = $this->statusLabels();
             return array_key_exists($text, $replacements)
                 ? $replacements[$text]
@@ -209,11 +146,11 @@ class TranslationController
      * @param string $plural
      * @param int $number
      * @return string
-     * @filter site-reviews/ngettext/default
+     * @filter ngettext_default
      */
-    public function filterPostStatusText($translation, $single, $plural, $number, $domain)
+    public function filterPostStatusText($translation, $single, $plural, $number)
     {
-        if ('default' === $domain && $this->canModifyTranslation()) {
+        if ($this->canModifyTranslation()) {
             $strings = [
                 'Published' => _x('Approved', 'admin-text', 'site-reviews'),
                 'Pending' => _x('Unapproved', 'admin-text', 'site-reviews'),

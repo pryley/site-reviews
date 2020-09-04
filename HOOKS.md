@@ -74,12 +74,8 @@
     site-reviews/field/{field_type}                         (): array
     site-reviews/form/build/{tag_or_field_key}              (string $field, Arguments $with, Modules\Html\Partials\SiteReviewsForm $partial): string
     site-reviews/get/defaults                               (): array
-    site-reviews/gettext/{text_domain}                      (): string
-    site-reviews/gettext_with_context/{text_domain}         (): string
     site-reviews/interpolate/{template_path}                (): array
     site-reviews/metabox/details                            (): array
-    site-reviews/ngettext/{text_domain}                     (): string
-    site-reviews/ngettext_with_context/{text_domain}        (): string
     site-reviews/notices                                    (): string
     site-reviews/notification/emails                        (): array
     site-reviews/notification/title                         (): string

@@ -221,8 +221,8 @@ class Hooks implements HooksContract
         if (glsr()->post_type === glsr_current_screen()->post_type) {
             add_filter('bulk_post_updated_messages', [$this->translator, 'filterBulkUpdateMessages'], 10, 2);
             add_filter('display_post_states', [$this->translator, 'filterPostStates'], 10, 2);
-            add_filter('gettext', [$this->translator, 'filterPostStatusLabels'], 10, 3);
-            add_filter('ngettext', [$this->translator, 'filterPostStatusText'], 10, 5);
+            add_filter('gettext_default', [$this->translator, 'filterPostStatusLabels'], 10, 2);
+            add_filter('ngettext_default', [$this->translator, 'filterPostStatusText'], 10, 4);
         }
     }
 
@@ -233,7 +233,7 @@ class Hooks implements HooksContract
     public function translateAdminPostPage()
     {
         if (glsr()->post_type === glsr_current_screen()->post_type) {
-            add_filter('gettext', [$this->translator, 'filterPostStatusLabels'], 10, 3);
+            add_filter('gettext_default', [$this->translator, 'filterPostStatusLabels'], 10, 2);
             add_action('admin_print_scripts-post.php', [$this->translator, 'translatePostStatusLabels']);
         }
     }
@@ -245,14 +245,10 @@ class Hooks implements HooksContract
     public function translatePlugin()
     {
         if (!empty(glsr(Translation::class)->translations())) {
-            add_filter('gettext', [$this->translator, 'filterGettext'], 9, 3);
-            add_filter('site-reviews/gettext/site-reviews', [$this->translator, 'filterGettextSiteReviews'], 10, 2);
-            add_filter('gettext_with_context', [$this->translator, 'filterGettextWithContext'], 9, 4);
-            add_filter('site-reviews/gettext_with_context/site-reviews', [$this->translator, 'filterGettextWithContextSiteReviews'], 10, 3);
-            add_filter('ngettext', [$this->translator, 'filterNgettext'], 9, 5);
-            add_filter('site-reviews/ngettext/site-reviews', [$this->translator, 'filterNgettextSiteReviews'], 10, 4);
-            add_filter('ngettext_with_context', [$this->translator, 'filterNgettextWithContext'], 9, 6);
-            add_filter('site-reviews/ngettext_with_context/site-reviews', [$this->translator, 'filterNgettextWithContextSiteReviews'], 10, 5);
+            add_filter('gettext_'.glsr()->id, [$this->translator, 'filterGettext'], 10, 2);
+            add_filter('gettext_with_context_'.glsr()->id, [$this->translator, 'filterGettextWithContext'], 10, 3);
+            add_filter('ngettext_'.glsr()->id, [$this->translator, 'filterNgettext'], 10, 4);
+            add_filter('ngettext_with_context_'.glsr()->id, [$this->translator, 'filterNgettextWithContext'], 10, 5);
         }
     }
 }

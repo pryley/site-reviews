@@ -113,7 +113,7 @@ abstract class Controller extends BaseController
      * @param string $translation
      * @param string $text
      * @return string
-     * @filter site-reviews/gettext/{addon_id}
+     * @filter gettext_{addon_id}
      */
     public function filterGettext($translation, $text)
     {
@@ -127,7 +127,7 @@ abstract class Controller extends BaseController
      * @param string $text
      * @param string $context
      * @return string
-     * @filter site-reviews/gettext_with_context/{addon_id}
+     * @filter gettext_with_context_{addon_id}
      */
     public function filterGettextWithContext($translation, $text, $context)
     {
@@ -143,7 +143,7 @@ abstract class Controller extends BaseController
      * @param string $plural
      * @param int $number
      * @return string
-     * @filter site-reviews/ngettext/{addon_id}
+     * @filter ngettext_{addon_id}
      */
     public function filterNgettext($translation, $single, $plural, $number)
     {
@@ -161,7 +161,7 @@ abstract class Controller extends BaseController
      * @param int $number
      * @param string $context
      * @return string
-     * @filter site-reviews/ngettext_with_context/{addon_id}
+     * @filter ngettext_with_context_{addon_id}
      */
     public function filterNgettextWithContext($translation, $single, $plural, $number, $context)
     {

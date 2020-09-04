@@ -20,10 +20,10 @@ abstract class Hooks
         add_filter('plugin_action_links_'.$this->basename,                 [$this->controller, 'filterActionLinks']);
         add_filter('site-reviews/config',                                  [$this->controller, 'filterConfigPath']);
         add_filter('site-reviews/addon/documentation',                     [$this->controller, 'filterDocumentation']);
-        add_filter('site-reviews/gettext/'.$this->addon->id,               [$this->controller, 'filterGettext'], 10, 2);
-        add_filter('site-reviews/gettext_with_context/'.$this->addon->id,  [$this->controller, 'filterGettextWithContext'], 10, 3);
-        add_filter('site-reviews/ngettext/'.$this->addon->id,              [$this->controller, 'filterNgettext'], 10, 4);
-        add_filter('site-reviews/ngettext_with_context/'.$this->addon->id, [$this->controller, 'filterNgettextWithContext'], 10, 5);
+        add_filter('gettext_'.$this->addon->id,                            [$this->controller, 'filterGettext'], 10, 2);
+        add_filter('gettext_with_context_'.$this->addon->id,               [$this->controller, 'filterGettextWithContext'], 10, 3);
+        add_filter('ngettext_'.$this->addon->id,                           [$this->controller, 'filterNgettext'], 10, 4);
+        add_filter('ngettext_with_context_'.$this->addon->id,              [$this->controller, 'filterNgettextWithContext'], 10, 5);
         add_filter('site-reviews/path',                                    [$this->controller, 'filterFilePaths'], 10, 2);
         add_filter('site-reviews/addon/settings',                          [$this->controller, 'filterSettings']);
         add_filter('site-reviews/addon/system-info',                       [$this->controller, 'filterSystemInfo']);
