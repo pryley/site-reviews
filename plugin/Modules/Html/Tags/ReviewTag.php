@@ -9,7 +9,7 @@ class ReviewTag extends Tag
     /**
      * @var \GeminiLabs\SiteReviews\Review
      */
-    protected $review;
+    public $review;
 
     /**
      * @param mixed $with

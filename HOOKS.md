@@ -110,6 +110,7 @@
     site-reviews/review/tag/{tag}                           (string $className): string
     site-reviews/review/redirect                            (): string
     site-reviews/review/wrap/{tag_or_field_key}             (string $value, Review $review, string $rawValue, Modules\Html\Tags\{Tag} $tag): string
+    site-reviews/review/value/{tag_or_field_key}            (string $value, Modules\Html\Tags\{Tag} $tag): string
     site-reviews/reviews/fallback                           (): string
     site-reviews/route/request                              (): array
     site-reviews/router/unguarded-actions                   (): array
@@ -129,6 +130,7 @@
     site-reviews/summary/build/{tag_or_field_key}           (string $field, array $ratings, Modules\Html\Partials\SiteReviewsSummary $partial): string
     site-reviews/summary/counts                             (): string
     site-reviews/summary/wrap/{tag_or_field_key}            (string $value, array $ratings, string $rawValue, Modules\Html\Tags\{Tag} $tagClass): string
+    site-reviews/summary/value/{tag_or_field_key}           (string $value, Modules\Html\Tags\{Tag} $tag): string
     site-reviews/support/deprecated/v4                      (): bool
     site-reviews/support/multibyte                          (): bool
     site-reviews/system/{key}                               (): array

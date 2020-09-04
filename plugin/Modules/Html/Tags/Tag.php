@@ -74,6 +74,7 @@ abstract class Tag
     public function wrap($value, $wrapWith = null)
     {
         $rawValue = $value;
+        $value = glsr()->filterString($this->for.'/value/'.$this->tag, $value, $this);
         if (Helper::isNotEmpty($value)) {
             if (!empty($wrapWith)) {
                 $value = glsr(Builder::class)->$wrapWith($value);
