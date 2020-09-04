@@ -1,7 +1,7 @@
 <div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="faq-ipaddress-incorrectly-detected">
-            <span class="title">Why are the IP Addresses being incorrectly detected?</span>
+            <span class="title">Why are the IP addresses being incorrectly detected?</span>
             <span class="icon"></span>
         </button>
     </h3>

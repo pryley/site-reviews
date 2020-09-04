@@ -11,12 +11,12 @@
         <pre><code class="language-php">/**
  * Modifies the review values before they are saved
  * Paste this in your active theme's functions.php file.
- * @param array $reviewValues
+ * @param array $values
  * @return array
  */
-add_filter('site-reviews/create/review-values', function ($reviewValues) {
-    // modify the $reviewValues array here
-    return $reviewValues;
+add_filter('site-reviews/create/review-values', function ($values) {
+    // modify the $values array here
+    return $values;
 });</code></pre>
     </div>
 </div>

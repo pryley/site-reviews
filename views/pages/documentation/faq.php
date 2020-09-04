@@ -2,6 +2,7 @@
 
 include trailingslashit(__DIR__).'faq/add-schema-values.php';
 include trailingslashit(__DIR__).'faq/add-review-pagination.php';
+include trailingslashit(__DIR__).'faq/change-review-title-tag.php';
 include trailingslashit(__DIR__).'faq/change-font.php';
 include trailingslashit(__DIR__).'faq/change-review-field-order.php';
 include trailingslashit(__DIR__).'faq/change-summary-field-order.php';
@@ -13,7 +14,9 @@ include trailingslashit(__DIR__).'faq/customise-stars.php';
 include trailingslashit(__DIR__).'faq/hide-form-after-submission.php';
 include trailingslashit(__DIR__).'faq/limit-review-length.php';
 include trailingslashit(__DIR__).'faq/query-by-rank.php';
+include trailingslashit(__DIR__).'faq/dont-store-ipaddress.php';
 include trailingslashit(__DIR__).'faq/redirect-after-submission.php';
 include trailingslashit(__DIR__).'faq/remove-name-dash.php';
+include trailingslashit(__DIR__).'faq/replace-avatar-with-featured-image.php';
 include trailingslashit(__DIR__).'faq/plugin-templates.php';
 include trailingslashit(__DIR__).'faq/ipaddress-incorrectly-detected.php';
