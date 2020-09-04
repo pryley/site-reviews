@@ -49,8 +49,7 @@ $review = apply_filters('glsr_create_review', false, [
     'rating' => 5,
     'title' => 'Fantastic plugin!',
     'xyz' => 'This is a custom field!'
-]);
-</code></pre>
+]);</code></pre>
         <p><strong>Helpful Tip:</strong></p>
         <p>You can use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to view the review object that is returned.</p>
         <pre><code class="language-php">glsr_debug($review);</code></pre>

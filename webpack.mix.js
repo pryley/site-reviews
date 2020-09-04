@@ -10,8 +10,7 @@ mix.babelConfig({
     ['prismjs', {
         'languages': ['javascript', 'php', 'html', 'css'],
         'plugins': ['line-numbers'],
-        'theme': 'tomorrow',
-        'css': true,
+        'css': false,
     }]
   ],
   presets: [

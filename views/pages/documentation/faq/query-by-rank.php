@@ -34,18 +34,18 @@
     'posts_per_page' => 10, // change this as needed
 ]);</code></pre>
         <p>Once you have your custom query, you use it in your WordPress theme template like this:</p>
-        <pre><code class="language-php">if( $query->have_posts() ) {
-    while( $query->have_posts() ) {
+        <pre><code class="language-php">if ($query->have_posts()) {
+    while ($query->have_posts()) {
         $query->the_post();
-        $average = sprintf( '%s (average rating: %s)',
+        $average = sprintf('%s (average rating: %s)',
             get_the_title(),
-            get_post_meta( $post->ID, '_glsr_average', true )
+            get_post_meta($post->ID, '_glsr_average', true)
         );
-        $ranking = sprintf( '%s (ranking: %s)',
+        $ranking = sprintf('%s (ranking: %s)',
             get_the_title(),
-            get_post_meta( $post->ID, '_glsr_ranking', true )
+            get_post_meta($post->ID, '_glsr_ranking', true)
         );
-        apply_filters( 'glsr_debug', 'Site Reviews is not installed', $average, $ranking );
+        apply_filters('glsr_debug', 'Site Reviews is not installed', $average, $ranking);
     }
     wp_reset_postdata();
 }</code></pre>

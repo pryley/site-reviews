@@ -12,7 +12,7 @@
             <li>Copy the template files that you would like to customise from <code>/wp-content/plugins/site-reviews/templates/</code> into this new folder.</li>
             <li>Open the template files that you copied over in a text editor and make your changes.</li>
         </ol>
-        <pre><code> wp-content/plugins/site-reviews/templates
+        <pre><code class="language-html"> wp-content/plugins/site-reviews/templates
  ├── form                        This folder contains the template files for the form fields
  │   ├── field-errors.php        This template displays the field errors
  │   ├── field.php               This template displays the field
