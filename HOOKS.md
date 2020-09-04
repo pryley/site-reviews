@@ -1,11 +1,11 @@
 ## Actions
 
     site-reviews/addon/register                             ()
-    site-reviews/addon/settings/{tab}                       ()
+    site-reviews/addon/settings/<tab>                       ()
     site-reviews/builder                                    ()
-    site-reviews/customize/{style}                          ()
+    site-reviews/customize/<style>                          ()
     site-reviews/database/sql                               (string $sql, string $handle)
-    site-reviews/database/sql/{handle}                      (string $sql)
+    site-reviews/database/sql/<handle>                      (string $sql)
     site-reviews/defaults                                   (DefaultsAbstract $defaultsClass, string $hook, string $method)
     site-reviews/export/cleanup                             ()
     site-reviews/get/review                                 ()
@@ -19,7 +19,7 @@
     site-reviews/review/updated/post_ids                    (Review $review, array $assignedPostIds)
     site-reviews/review/updated/user_ids                    (Review $review, array $assignedUserIds)
         ?? site-reviews/review/updated
-    site-reviews/route/{request_type}/{route_action}        (Request $request)
+    site-reviews/route/<request_type>/<route_action>        (Request $request)
     site-reviews/whip                                       ()
 
 ## Filters
@@ -42,24 +42,24 @@
     site-reviews/assets/js                                  (): bool
     site-reviews/assets/polyfill                            (): bool
     site-reviews/async-scripts                              (): array
-    site-reviews/block/{block}/attributes                   (): array
-    site-reviews/build/template/{template_path}             (): string
-    site-reviews/builder/field/{field_type}                 (string $className): string
-        !! site-reviews/builder/field/{field_type}/args
+    site-reviews/block/<block>/attributes                   (): array
+    site-reviews/build/template/<template_path>             (): string
+    site-reviews/builder/field/<field_type>                 (string $className): string
+        !! site-reviews/builder/field/<field_type>/args
         !! site-reviews/builder/field/classname
     site-reviews/builder/result                             (string $result, Builder $builder): string
-    site-reviews/builder/{tag}/args                         (array $args, Builder $builder): array
+    site-reviews/builder/<tag>/args                         (array $args, Builder $builder): array
     site-reviews/capabilities                               (array $capabilities): array
     site-reviews/capabilities/for-roles                     (array $capabilities): array
-    site-reviews/column/{column}                            (string $className): string
-    site-reviews/columns/{column_slug}                      (string $value, int $postId): string
+    site-reviews/column/<column>                            (string $className): string
+    site-reviews/columns/<column_slug>                      (string $value, int $postId): string
     site-reviews/columns/orderby-is-null                    (array $columns): array
     site-reviews/config                                     (string $configPath): string
-    site-reviews/config/{config_id}                         (array $config): array
+    site-reviews/config/<config_id>                         (array $config): array
     site-reviews/console/level                              (int $level): int
-    site-reviews/const/{constant}                           (string $constantName): string
+    site-reviews/const/<constant>                           (string $constantName): string
     site-reviews/create/review-values                       (array $reviewValues, CreateReview $command): array
-    site-reviews/defaults/{defaults_name}                   (): array
+    site-reviews/defaults/<defaults_name>                   (): array
     site-reviews/defaults/custom/sanitize                   (array $sanitize): array
     site-reviews/defer-scripts                              (): array
     site-reviews/email/compose                              (): array
@@ -71,16 +71,16 @@
     site-reviews/enqueue/public/inline-script               (): string
     site-reviews/enqueue/public/localize                    (): array
     site-reviews/enqueue/public/localize/ajax-pagination    (): array
-    site-reviews/field/{field_type}                         (): array
-    site-reviews/form/build/{tag_or_field_key}              (string $field, Arguments $with, Modules\Html\Partials\SiteReviewsForm $partial): string
+    site-reviews/field/<field_type>                         (): array
+    site-reviews/form/build/<tag_or_field_key>              (string $field, Arguments $with, Modules\Html\Partials\SiteReviewsForm $partial): string
     site-reviews/get/defaults                               (): array
-    site-reviews/interpolate/{template_path}                (): array
+    site-reviews/interpolate/<template_path>                (): array
     site-reviews/metabox/details                            (): array
     site-reviews/notices                                    (): string
     site-reviews/notification/emails                        (): array
     site-reviews/notification/title                         (): string
     site-reviews/paginate_links                             (string $links, array $args): string
-    site-reviews/partial/args/{partial_path}                (): array
+    site-reviews/partial/args/<partial_path>                (): array
     site-reviews/partial/classname                          (): string
     site-reviews/path                                       (string $path, string $file): string
     site-reviews/personal-data/erase-all                    (bool $eraseAll): bool
@@ -102,21 +102,21 @@
     site-reviews/rendered/field                             (): string
     site-reviews/rendered/field/classes                     (): array
     site-reviews/rendered/partial                           (): string
-    site-reviews/rendered/partial/{partial_path}            (): string
+    site-reviews/rendered/partial/<partial_path>            (): string
     site-reviews/rendered/template                          (): string
-    site-reviews/rendered/template/{template_path}          (): string
+    site-reviews/rendered/template/<template_path>          (): string
     site-reviews/review/build/after                         (array $templateTags, Review $review, Modules\Html\ReviewHtml $reviewHtml): array
-    site-reviews/review/build/{tag_or_field_key}            (string $field, string $value, Review $review, Modules\Html\ReviewHtml $reviewHtml): string
-    site-reviews/review/tag/{tag}                           (string $className): string
+    site-reviews/review/build/<tag_or_field_key>            (string $field, string $value, Review $review, Modules\Html\ReviewHtml $reviewHtml): string
+    site-reviews/review/tag/<tag>                           (string $className): string
     site-reviews/review/redirect                            (): string
-    site-reviews/review/wrap/{tag_or_field_key}             (string $value, Review $review, string $rawValue, Modules\Html\Tags\{Tag} $tag): string
-    site-reviews/review/value/{tag_or_field_key}            (string $value, Modules\Html\Tags\{Tag} $tag): string
+    site-reviews/review/value/<tag_or_field_key>            (string $value, Modules\Html\Tags\<Tag> $tag): string
+    site-reviews/review/wrap/<tag_or_field_key>             (string $value, Review $review, string $rawValue, Modules\Html\Tags\<Tag> $tag): string
     site-reviews/reviews/fallback                           (): string
     site-reviews/route/request                              (): array
     site-reviews/router/unguarded-actions                   (): array
     site-reviews/schema/all                                 (): array
     site-reviews/schema/review                              (): array
-    site-reviews/schema/{schema_type}                       (): array
+    site-reviews/schema/<schema_type>                       (): array
     site-reviews/settings/callback                          (): array
     site-reviews/shortcode/args                             (): array
     site-reviews/shortcode/atts                             (): array
@@ -127,13 +127,13 @@
     site-reviews/style                                      (): string
     site-reviews/style/views                                (): array
     site-reviews/submission-form/order                      (): array
-    site-reviews/summary/build/{tag_or_field_key}           (string $field, array $ratings, Modules\Html\Partials\SiteReviewsSummary $partial): string
+    site-reviews/summary/build/<tag_or_field_key>           (string $field, array $ratings, Modules\Html\Partials\SiteReviewsSummary $partial): string
     site-reviews/summary/counts                             (): string
-    site-reviews/summary/wrap/{tag_or_field_key}            (string $value, array $ratings, string $rawValue, Modules\Html\Tags\{Tag} $tagClass): string
-    site-reviews/summary/value/{tag_or_field_key}           (string $value, Modules\Html\Tags\{Tag} $tag): string
+    site-reviews/summary/value/<tag_or_field_key>           (string $value, Modules\Html\Tags\<Tag> $tag): string
+    site-reviews/summary/wrap/<tag_or_field_key>            (string $value, array $ratings, string $rawValue, Modules\Html\Tags\<Tag> $tagClass): string
     site-reviews/support/deprecated/v4                      (): bool
     site-reviews/support/multibyte                          (): bool
-    site-reviews/system/{key}                               (): array
+    site-reviews/system/<key>                               (): array
     site-reviews/tinymce/editor-ids                         (): array
     site-reviews/translation/entries                        (): array
     site-reviews/translator/domains                         (): array
