@@ -46,7 +46,6 @@ trait Sql
 
     /**
      * @param string $statement
-     * @param string $handle
      * @return string
      */
     public function sql($statement)

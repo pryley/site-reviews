@@ -58,7 +58,7 @@ class SettingField extends Field
 
     /**
      * @param string $className
-     * @return void
+     * @return array
      */
     protected function mergeFieldArgs($className)
     {

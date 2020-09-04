@@ -97,7 +97,7 @@ class ReviewManager
 
     /**
      * @param int $reviewId
-     * @return void
+     * @return int|false
      */
     public function delete($reviewId)
     {
@@ -184,7 +184,7 @@ class ReviewManager
     }
 
     /**
-     * @param int $termId
+     * @param int $userId
      * @return int|false
      */
     public function unassignUser(Review $review, $userId)

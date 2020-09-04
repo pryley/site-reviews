@@ -29,7 +29,7 @@ class MetaboxField extends Field
 
     /**
      * @param string $className
-     * @return void
+     * @return array
      */
     protected function mergeFieldArgs($className)
     {

@@ -18,10 +18,14 @@ use ReflectionMethod;
  * @method string div(string|array ...$params)
  * @method string i(string|array ...$params)
  * @method string img(string|array ...$params)
+ * @method string input(string|array ...$params)
  * @method string label(string|array ...$params)
+ * @method string option(string|array ...$params)
  * @method string p(string|array ...$params)
  * @method string select(string|array ...$params)
+ * @method string small(string|array ...$params)
  * @method string span(string|array ...$params)
+ * @method string textarea(string|array ...$params)
  */
 class Builder
 {

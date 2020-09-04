@@ -43,7 +43,6 @@ class SiteReviewsForm implements PartialContract
 
     /**
      * @param string $tag
-     * @param string $value
      * @return false|string
      */
     protected function buildTemplateTag($tag)

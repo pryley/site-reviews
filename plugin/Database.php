@@ -48,7 +48,7 @@ class Database
 
     /**
      * @param string $sql
-     * @param string $object
+     * @param string $output
      * @return array|object|null
      */
     public function dbGetResults($sql, $output)

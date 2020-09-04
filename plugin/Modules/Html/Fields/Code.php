@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 class Code extends Field
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public static function defaults($fieldLocation = null)
     {
@@ -22,7 +22,7 @@ class Code extends Field
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public static function required($fieldLocation = null)
     {
@@ -32,7 +32,7 @@ class Code extends Field
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function tag()
     {

@@ -188,9 +188,9 @@ class Email
         $this->data = [];
         $this->email = [];
         $this->headers = [];
-        $this->message = null;
-        $this->subject = null;
-        $this->to = null;
+        $this->message = '';
+        $this->subject = '';
+        $this->to = '';
     }
 
     /**

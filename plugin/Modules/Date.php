@@ -62,7 +62,7 @@ class Date
 
     /**
      * @param mixed $date
-     * @return string
+     * @return string|void
      */
     public function relative($date)
     {

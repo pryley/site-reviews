@@ -1,0 +1,23 @@
+includes:
+    - phar://phpstan.phar/conf/bleedingEdge.neon
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+parameters:
+  checkGenericClassInNonGenericObjectType: false
+  checkMissingIterableValueType: false
+
+  ignoreErrors:
+    - '#Call to static method [a-zA-Z_\(\)]+ on an unknown class Akismet.#'
+    - '#Call to protected method get_views\(\) of class WP_Posts_List_Table.#'
+    - '#Function pll_[a-z_]+ not found.#'
+    - '#Constant DB_|ICL_|WP[a-zA-Z_]+ not found.#'
+    - '#^Function apply_filters(_ref_array)? invoked with [34567] parameters, 2 required\.$#'
+    - '#Access to an undefined property WP_|GeminiLabs\\SiteReviews\\(Arguments|Request)::(.+)#'
+    - '/^Parameter #2 \$callback of function array_filter expects callable\(mixed, mixed\): bool, \S+ given\.$/'
+  level: 5
+  paths:
+    - plugin
+  scanFiles:
+    - autoload.php
+    - helpers.php
+  scanDirectories:
+    - vendors

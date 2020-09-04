@@ -10,7 +10,7 @@ class SiteReviewsWidget extends Widget
 {
     /**
      * @param array $instance
-     * @return void
+     * @return string
      */
     public function form($instance)
     {
@@ -66,6 +66,7 @@ class SiteReviewsWidget extends Widget
             'name' => 'hide',
             'options' => $this->shortcode()->getHideOptions(),
         ]);
+        return ''; // WP_Widget::form should return a string
     }
 
     /**
@@ -83,7 +84,7 @@ class SiteReviewsWidget extends Widget
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function shortcode()
     {

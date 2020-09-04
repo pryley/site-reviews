@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewAssignedToTag;
 use GeminiLabs\SiteReviews\Review;
 
 class ColumnValueAssignedUsers implements ColumnValue

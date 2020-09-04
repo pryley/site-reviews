@@ -35,7 +35,7 @@ abstract class Widget extends WP_Widget
     }
 
     /**
-     * @param string $tag
+     * @param string $key
      * @return mixed
      */
     protected function mapped($key)

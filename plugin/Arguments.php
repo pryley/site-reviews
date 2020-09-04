@@ -18,9 +18,8 @@ class Arguments extends \ArrayObject
     }
 
     /**
-     * @param string $cast
      * @param mixed $key
-     * @param mixed $fallback
+     * @param string $cast
      * @return mixed
      */
     public function cast($key, $cast)

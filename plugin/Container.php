@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use Closure;
+use Exception;
 use GeminiLabs\SiteReviews\Exceptions\BindingResolutionException;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;

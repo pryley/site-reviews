@@ -47,7 +47,7 @@ class PublicController extends Controller
         $atts = glsr(SiteReviewsDefaults::class)->merge(Arr::consolidate($request->atts));
         $args = wp_parse_args($args, $atts);
         $html = glsr(SiteReviews::class)->build($args);
-        return wp_send_json_success([
+        wp_send_json_success([
             'pagination' => $html->getPagination($wrap = false),
             'reviews' => $html->getReviews($wrap = false),
         ]);
@@ -114,7 +114,7 @@ class PublicController extends Controller
     }
 
     /**
-     * @return CreateReview
+     * @return void
      * @action site-reviews/route/public/submit-review
      */
     public function submitReview(Request $request)

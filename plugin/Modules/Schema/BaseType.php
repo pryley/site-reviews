@@ -189,10 +189,13 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
     {
         $this->serializeIdentifier();
         $properties = $this->serializeProperty($this->getProperties());
-        return [
+        $array = [
             '@context' => $this->getContext(),
             '@type' => $this->getType(),
-        ] + $properties;
+        ];
+        return is_array($properties)
+            ? $array + $properties
+            : $array;
     }
 
     /**

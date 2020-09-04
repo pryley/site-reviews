@@ -140,7 +140,7 @@ class SiteReviewsFormBlock extends Block
             return sprintf('components-%s-control__input', $type);
         }
         if (in_array($type, Attributes::INPUT_TYPES)) {
-            return sprintf('components-text-control__input', $type);
+            return 'components-text-control__input';
         }
         return '';
     }

@@ -106,7 +106,7 @@ class CountManager
 
     /**
      * @param string $metaType
-     * @return string
+     * @return array
      */
     protected function ratingValuesForInsert($metaType)
     {

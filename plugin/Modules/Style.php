@@ -73,7 +73,7 @@ class Style
     }
 
     /**
-     * @return array
+     * @return void
      */
     public function setConfig()
     {

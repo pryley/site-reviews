@@ -231,7 +231,7 @@ abstract class DefaultsAbstract
      * @param mixed $values
      * @return array
      */
-    protected function parseRestricted(array $values)
+    protected function parseRestricted($values)
     {
         $values = Cast::toArray($values);
         $parsed = [];

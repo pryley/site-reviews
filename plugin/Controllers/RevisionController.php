@@ -87,7 +87,7 @@ class RevisionController extends Controller
     }
 
     /**
-     * @param int $postId
+     * @param int $revisionId
      * @return void
      * @action _wp_put_post_revision
      */

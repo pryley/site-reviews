@@ -132,7 +132,7 @@ class NoticeController extends Controller
 
     /**
      * @param string $key
-     * @param mixed $fallback
+     * @param mixed $value
      * @return mixed
      */
     protected function setUserMeta($key, $value)

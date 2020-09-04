@@ -122,7 +122,7 @@ class Query
     }
 
     /**
-     * @return array
+     * @return void
      */
     public function setArgs(array $args = [], array $unset = [])
     {
@@ -306,7 +306,7 @@ class Query
     }
 
     /**
-     * @param int|string $postIds
+     * @param int|string $reviewIds
      * @return string
      */
     protected function queryReviews($reviewIds)

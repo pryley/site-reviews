@@ -229,7 +229,7 @@ class ValidationTest extends WP_Ajax_UnitTestCase
             $this->_handleAjax($action);
         } catch (WPAjaxDieContinueException $e) {
         } catch (WPAjaxDieStopException $e) {
-            error_log(print_r('WPAjaxDieStopException: '.$e->getMessage(), 1));
+            error_log(print_r('WPAjaxDieStopException: '.$e->getMessage(), true));
         }
         $response = json_decode($this->_last_response);
         // Empty _last_response so we can call ajax_response more than once in the same method.

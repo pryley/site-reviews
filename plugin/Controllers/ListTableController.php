@@ -49,7 +49,7 @@ class ListTableController extends Controller
 
     /**
      * @param array $hidden
-     * @param WP_Screen $post
+     * @param WP_Screen $screen
      * @return array
      * @filter default_hidden_columns
      */

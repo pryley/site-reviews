@@ -21,7 +21,7 @@ class Checkbox extends Field
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public static function required($fieldLocation = null)
     {
@@ -32,7 +32,7 @@ class Checkbox extends Field
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function tag()
     {

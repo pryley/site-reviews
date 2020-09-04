@@ -51,7 +51,7 @@ class BlacklistValidator extends ValidatorAbstract
     }
 
     /**
-     * @param string
+     * @param string $target
      * @return bool
      */
     protected function validateBlacklist($target)

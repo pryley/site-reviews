@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 class Number extends Field
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public static function defaults($fieldLocation = null)
     {

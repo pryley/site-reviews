@@ -231,7 +231,7 @@ class Console
     {
         return $data instanceof Throwable
             ? $this->normalizeThrowableMessage($data->getMessage())
-            : print_r($data, 1);
+            : print_r($data, true);
     }
 
     /**

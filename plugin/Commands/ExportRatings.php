@@ -51,7 +51,7 @@ class ExportRatings implements Contract
     }
 
     /**
-     * @return bool
+     * @return void
      */
     protected function export()
     {

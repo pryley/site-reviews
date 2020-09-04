@@ -167,7 +167,7 @@ class Rating
 
     /**
      * Returns array sorted by key DESC
-     * @param int $target
+     * @param int $totalPercent
      * @return array
      */
     protected function roundedPercentages(array $percentages, $totalPercent = 100)

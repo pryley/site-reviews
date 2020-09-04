@@ -26,8 +26,6 @@ class Sanitizer
     }
 
     /**
-     * @param mixed $value
-     * @param string $key
      * @return array|bool|string
      */
     public function run()
@@ -128,7 +126,7 @@ class Sanitizer
 
     /**
      * @param mixed $value
-     * @return string
+     * @return int
      */
     protected function sanitizeInt($value)
     {

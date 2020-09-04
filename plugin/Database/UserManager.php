@@ -9,7 +9,7 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 class UserManager
 {
     /**
-     * @param int|string $postId
+     * @param int|string $userId
      * @return int
      */
     public function normalizeId($userId)

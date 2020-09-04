@@ -37,6 +37,9 @@ class ImportRatings implements Contract
         glsr(Migrate::class)->reset();
     }
 
+    /**
+     * @return void
+     */
     protected function import()
     {
         $page = 0;
@@ -57,7 +60,7 @@ class ImportRatings implements Contract
     }
 
     /**
-     * @return array
+     * @return void
      */
     protected function importAssignedPosts(array $values)
     {
@@ -71,7 +74,7 @@ class ImportRatings implements Contract
     }
 
     /**
-     * @return array
+     * @return void
      */
     protected function importAssignedUsers(array $values)
     {
@@ -84,7 +87,7 @@ class ImportRatings implements Contract
     }
 
     /**
-     * @return array
+     * @return void
      */
     protected function importRatings(array $values)
     {

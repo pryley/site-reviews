@@ -272,8 +272,7 @@ class Str
 
     /**
      * @param string $string
-     * @param string $prefix
-     * @param string|null $trim
+     * @param string $suffix
      * @return string
      */
     public static function suffix($string, $suffix)

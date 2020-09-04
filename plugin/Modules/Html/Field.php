@@ -133,7 +133,7 @@ class Field
     }
 
     /**
-     * @return string
+     * @return string|void
      */
     public function getFieldLabel()
     {

@@ -8,7 +8,7 @@ class Partial
 {
     /**
      * @param string $partialPath
-     * @return string
+     * @return string|void
      */
     public function build($partialPath, array $args = [])
     {

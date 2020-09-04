@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use IntlRuleBasedBreakIterator;
 
@@ -13,7 +14,7 @@ class ReviewContentTag extends ReviewTag
      */
     public function excerpt($text)
     {
-        $limit = glsr_get_option('reviews.excerpts_length', 55, 'int');
+        $limit = Cast::toInt(glsr_get_option('reviews.excerpts_length', 55));
         $split = extension_loaded('intl')
             ? $this->excerptIntlSplit($text, $limit)
             : $this->excerptSplit($text, $limit);

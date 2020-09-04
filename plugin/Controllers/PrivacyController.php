@@ -98,7 +98,7 @@ class PrivacyController extends Controller
     }
 
     /**
-     * @return bool
+     * @return void
      */
     protected function erase(Review $review)
     {

@@ -176,7 +176,7 @@ class Notification
         $notification = $this->buildSlackNotification($args);
         $result = $notification->send();
         if (is_wp_error($result)) {
-            $notification->review = null;
+            unset($notification->review);
             glsr_log()->error($result->get_error_message())->debug($notification);
         }
     }

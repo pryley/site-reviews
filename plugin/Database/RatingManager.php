@@ -54,8 +54,6 @@ class RatingManager
 
     /**
      * Combine ratings grouped by type into a single rating array.
-     * @param int $min
-     * @param int $max
      * @return array
      */
     protected function reduce(array $ratings, array $args = [])

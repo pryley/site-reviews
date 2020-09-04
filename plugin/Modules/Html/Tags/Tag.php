@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Review;
 
@@ -53,7 +54,7 @@ abstract class Tag
      */
     public function isEnabled($path)
     {
-        return glsr_get_option($path, true, 'bool');
+        return Cast::toBool(glsr_get_option($path, true));
     }
 
     /**
@@ -87,7 +88,7 @@ abstract class Tag
 
     /**
      * @param string $value
-     * @return string|null
+     * @return string|void
      */
     protected function handle($value = null)
     {

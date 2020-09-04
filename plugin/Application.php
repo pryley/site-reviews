@@ -183,7 +183,7 @@ final class Application extends Container
     public function hasPermission($page = '', $tab = 'index')
     {
         $isAdmin = $this->isAdmin();
-        return !$isAdmin || ($isAdmin && $this->can($this->getPermission($page, $tab)));
+        return !$isAdmin || $this->can($this->getPermission($page, $tab));
     }
 
     /**

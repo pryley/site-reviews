@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews\Helpers;
 class Url
 {
     /**
-     * @param string $url
+     * @param string $path
      * @return string
      */
     public static function home($path = null)

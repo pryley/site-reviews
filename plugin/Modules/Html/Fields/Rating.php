@@ -8,7 +8,7 @@ use GeminiLabs\SiteReviews\Modules\Rating as RatingModule;
 class Rating extends Field
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public static function required($fieldLocation = null)
     {
@@ -24,7 +24,7 @@ class Rating extends Field
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function tag()
     {

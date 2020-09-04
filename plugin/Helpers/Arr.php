@@ -83,7 +83,7 @@ class Arr
     /**
      * Get a value from an array of values using a dot-notation path as reference.
      * @param mixed $data
-     * @param string $path
+     * @param string|int $path
      * @param mixed $fallback
      * @return mixed
      */
