@@ -69,11 +69,9 @@
 		color: glsr(color-error);
 		font-size: glsr(font-size-small);
 	}
-	form.glsr-form .glsr-form-messages {
+	form.glsr-form .glsr-form-message {
 		color: glsr(color-success);
-	}
-	form.glsr-form .glsr-form-messages p {
-		margin-top: glsr(font-size);
+        margin: glsr(font-size) 0;
 	}
 	form.glsr-form .glsr-has-errors {
 		color: glsr(color-error);

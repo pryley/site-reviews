@@ -103,11 +103,8 @@ $star-rating: (
     form.glsr-form .glsr-required label span::after {
         content: '\002a';
     }
-    form.glsr-form .glsr-form-messages {
+    form.glsr-form .glsr-form-message {
         color: glsr(color-success);
-    }
-    form.glsr-form .glsr-form-messages p {
-        margin-top: glsr(font-size);
     }
     form.glsr-form .glsr-field-error {
         font-family: glsr(font-family);
