@@ -33,7 +33,7 @@ class MetaboxController
             add_meta_box(glsr()->post_type.'-responsediv', _x('Respond Publicly', 'admin-text', 'site-reviews'), [$this, 'renderResponseMetaBox'], null, 'normal', 'high');
         }
         add_meta_box(glsr()->post_type.'-detailsdiv', _x('Review Details', 'admin-text', 'site-reviews'), [$this, 'renderDetailsMetaBox'], null, 'normal', 'high');
-        add_meta_box(glsr()->post_type.'-postsdiv', _x('Assigned To', 'admin-text', 'site-reviews'), [$this, 'renderAssignedPostsMetabox'], null, 'side');
+        add_meta_box(glsr()->post_type.'-postsdiv', _x('Assigned Posts', 'admin-text', 'site-reviews'), [$this, 'renderAssignedPostsMetabox'], null, 'side');
         add_meta_box(glsr()->post_type.'-usersdiv', _x('Assigned Users', 'admin-text', 'site-reviews'), [$this, 'renderAssignedUsersMetabox'], null, 'side');
         if (post_type_supports(glsr()->post_type, 'author') && glsr()->can('edit_others_posts')) {
             add_meta_box(glsr()->post_type.'-authordiv', _x('Author', 'admin-text', 'site-reviews'), [$this, 'renderAuthorMetabox'], null, 'side');

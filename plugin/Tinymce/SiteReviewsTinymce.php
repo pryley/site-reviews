@@ -53,7 +53,7 @@ class SiteReviewsTinymce extends TinymceGenerator
         $this->getTypes(_x('Which type of review would you like to display?', 'admin-text', 'site-reviews')),
         $this->getCategories(_x('Limit reviews to this category.', 'admin-text', 'site-reviews')),
         [
-            'label' => _x('Assigned To', 'admin-text', 'site-reviews'),
+            'label' => _x('Assigned Posts', 'admin-text', 'site-reviews'),
             'name' => 'assigned_to',
             'tooltip' => _x('Limit reviews to those assigned to this post ID (separate multiple IDs with a comma). You can also enter "post_id" to use the ID of the current page, or "parent_id" to use the ID of the parent page.', 'admin-text', 'site-reviews'),
             'type' => 'textbox',
