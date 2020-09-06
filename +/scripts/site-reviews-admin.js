@@ -106,7 +106,7 @@ jQuery(function ($) {
     $('select[data-glsr-track]').each(trackValue);
     $('select[data-glsr-track]').on('change', trackValue);
 
-    $('.glsr-card.postbox').addClass('closed')
+    $('.glsr-card.postbox:not(.open)').addClass('closed')
         .find('.glsr-accordion-trigger').attr('aria-expanded', false)
         .closest('.glsr-nav-view').addClass('collapsed');
 

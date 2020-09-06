@@ -8,7 +8,7 @@
         <div class="glsr-column">
             <h3>Free Support</h3>
             <p>If you have any question about how to use the plugin, please open a new topic on the WordPress support forum. We will try to answer as soon as we can.</p>
-            <p><a target="_blank" class="button" target="_blank" href="https://wordpress.org/support/plugin/site-reviews">Go to the Support Forum &rarr;</a></p>
+            <p><a class="components-button is-secondary" target="_blank" href="https://wordpress.org/support/plugin/site-reviews">Go to the Support Forum &rarr;</a></p>
         </div>
     </div>
 </div>

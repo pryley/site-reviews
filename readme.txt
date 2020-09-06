@@ -118,7 +118,6 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 - Added [loading="lazy"] attribute to avatar images
 - Added option to delete plugin data on uninstall
-- Added option to display a privacy notice in the submission form
 - Added review revisions
 - Added [suggested privacy policy content](https://wordpress.org/support/article/wordpress-privacy/#privacy-policy-editing-helper)
 - Added support for additional schema types

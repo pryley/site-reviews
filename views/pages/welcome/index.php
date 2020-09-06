@@ -10,9 +10,6 @@
         <a class="components-button is-secondary dashicon dashicons-facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//geminilabs.io/site-reviews">Share</a>
         <a class="components-button is-secondary dashicon dashicons-twitter" target="_blank" href="https://twitter.com/intent/tweet?text=Site Reviews is a fantastic WordPress review plugin with advanced features that makes it easy to manage reviews on your website.&url=https://geminilabs.io/site-reviews&hashtags=WordPress,reviewplugins,">Tweet</a>
     </p>
-    <div class="glsr-welcome-banner">
-        <img src="<?= glsr()->url('assets/images/banner.png'); ?>">
-    </div>
     <nav class="glsr-nav-tab-wrapper nav-tab-wrapper">
         <?php foreach ($tabs as $id => $title) : ?>
         <a class="glsr-nav-tab nav-tab" href="#<?= $id; ?>"><?= $title; ?></a>

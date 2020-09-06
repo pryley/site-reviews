@@ -1,12 +1,11 @@
 <div class="glsr-card postbox is-fullwidth">
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="welcome-v450">
-            <span class="title">Version 4.5</span>
+            <span class="title">Version 4.5.0</span>
             <span class="icon"></span>
         </button>
     </h3>
     <div id="welcome-v450" class="inside">
-        <h3>Version 4.5</h3>
         <p><em>Release Date &mdash; February 24th, 2020</em></p>
         <h4>Changes</h4>
         <ul>
