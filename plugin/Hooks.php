@@ -198,7 +198,7 @@ class Hooks implements HooksContract
         add_filter('wp_get_revision_ui_diff', [$this->revisions, 'filterRevisionUiDiff'], 10, 3);
         add_filter('site-reviews/settings/callback', [$this->trustalyze, 'filterSettingsCallback']);
         add_filter('site-reviews/interpolate/partials/form/table-row-multiple', [$this->trustalyze, 'filterSettingsTableRow'], 10, 3);
-        add_filter('plugin_action_links_'.$this->basename, [$this->welcome, 'filterActionLinks'], 9);
+        add_filter('plugin_action_links_'.$this->basename, [$this->welcome, 'filterActionLinks'], 11);
         add_filter('admin_title', [$this->welcome, 'filterAdminTitle']);
         add_filter('admin_footer_text', [$this->welcome, 'filterFooterText']);
     }
