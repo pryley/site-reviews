@@ -68,7 +68,7 @@ class MetaboxController
                         'data.id' => $postId,
                         'data.name' => 'post_ids[]',
                         'data.url' => (string) get_permalink($postId),
-                        'data.title' => get_the_title($postId),
+                        'data.title' => Helper::ifEmpty(get_the_title($postId), _x('(no title)', 'admin-text', 'site-reviews')),
                     ],
                 ]);
             });
