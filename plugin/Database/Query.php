@@ -76,13 +76,16 @@ class Query
 
     /**
      * @todo make sure we delete the cached review when modifying it
+     * @param bool $bypassCache
      * @param int $postId
      * @return Review
      */
-    public function review($postId)
+    public function review($postId, $bypassCache = false)
     {
         $reviewId = Cast::toInt($postId);
-        $review = glsr(Cache::class)->get($reviewId, 'reviews');
+        $review = Helper::ifTrue($bypassCache, null, function () use ($reviewId) {
+            return glsr(Cache::class)->get($reviewId, 'reviews');
+        });
         if (!$review instanceof Review) {
             $result = glsr(Database::class)->dbGetRow($this->queryReviews($reviewId), OBJECT);
             $review = new Review($result);

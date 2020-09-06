@@ -37,7 +37,7 @@ class RevisionController extends Controller
         if (!Review::isReview($post)) {
             return $hasChanged;
         }
-        $review = glsr(Query::class)->review($post->ID);
+        $review = glsr(Query::class)->review($post->ID, true); // bypass the cache
         $revision = glsr(Database::class)->meta($lastRevision->ID, 'review');
         foreach ($revision as $key => $value) {
             if ((string) $review->$key !== (string) $value) {
