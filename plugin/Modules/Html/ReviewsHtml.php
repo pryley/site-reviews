@@ -47,7 +47,7 @@ class ReviewsHtml extends ArrayObject
                 'category' => $this->args->assigned_terms,
                 'class' => $this->getClass(),
                 'id' => '', // @deprecated in v5.0
-                'pagination' => Helper::ifTrue(Cast::toBool($this->args->pagination), $this->getPagination()),
+                'pagination' => Helper::ifTrue(!empty($this->args->pagination), $this->getPagination()),
                 'reviews' => $this->getReviews(),
             ],
         ]);
