@@ -6,8 +6,8 @@
     "star-rating.js": "^3.2.0"
   },
   "devDependencies": {
-    "@babel/compat-data": "^7.10.5",
-    "@wordpress/babel-preset-default": "^4.17.0",
+    "@babel/compat-data": "^7.11.0",
+    "@wordpress/babel-preset-default": "^4.18.0",
     "browser-sync": "^2.26.12",
     "browser-sync-webpack-plugin": "^2.0.1",
     "cross-env": "^7.0.2",
@@ -19,12 +19,12 @@
     "gulp-sort": "^2.0.0",
     "gulp-wp-pot": "^2.4.3",
     "imports-loader": "^1.1.0",
-    "laravel-mix": "^5.0.4",
+    "laravel-mix": "^5.0.5",
     "laravel-mix-bundle-analyzer": "^1.0.5",
     "pump": "^3.0.0",
     "sass": "^1.26.10",
-    "sass-loader": "^9.0.2",
-    "vue-template-compiler": "^2.6.11",
+    "sass-loader": "^10.0.2",
+    "vue-template-compiler": "^2.6.12",
     "yamljs": "^0.3.0",
     "yargs": "^15.4.1"
   },

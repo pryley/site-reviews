@@ -142,7 +142,7 @@ td.glsr-string-td1 .row-actions.visible {
 
 
 
-.glsr-card-heading {
+.glsr-card h3.glsr-card-heading {
     border-top: 1px solid #ccd0d4;
     color: inherit;
     font-size: inherit;
@@ -150,7 +150,7 @@ td.glsr-string-td1 .row-actions.visible {
     line-height: inherit;
     margin: 0;
 }
-.glsr-card-heading:first-child {
+.glsr-card h3.glsr-card-heading:first-child {
     border-top: none;
 }
 .glsr-accordion-trigger {
@@ -277,38 +277,6 @@ td.glsr-string-td1 .row-actions.visible {
 }
 
 
-.glsr-card.postbox .handlediv {
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 48px;
-	height: 100%;
-}
-.glsr-card.postbox .handlediv:focus {
-	z-index: 1;
-}
-@media screen and (max-width: 782px) {
-	.glsr-card.postbox .handlediv {
-		margin-top: 0;
-	}
-}
-
-
-.glsr-card.postbox .handlediv .toggle-indicator::before {
-	width: 20px;
-	text-indent: -2px;
-	content: "\f142";
-	display: inline-block;
-	font: normal 20px/1 dashicons;
-	speak: none;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-decoration: none !important;
-}
-
-.glsr-card.postbox.closed .handlediv .toggle-indicator::before {
-	content: "\f140";
-}
 
 .glsr-card p.submit {
 	margin: 0;

@@ -21,6 +21,8 @@ You can pin your best reviews so that they are always shown first, require appro
 
 [Follow plugin development on Github.](https://github.com/pryley/site-reviews/)
 
+Images adapted from [freepik](https://www.freepik.com/vectors).
+
 = Current Features =
 
 - Actively developed and supported

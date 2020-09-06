@@ -2,14 +2,17 @@
 
 <div class="glsr-welcome wrap about-wrap about-wrap-content">
     <h1>Welcome to <?= glsr()->name; ?></h1>
-    <div class="about-text">Site Reviews is a free WordPress review plugin with advanced features that makes it easy to manage reviews on your website. Follow the instructions below to get started!</div>
-    <div class="wp-badge">Version <?= glsr()->version; ?></div>
+    <div class="glsr-about-text about-text">Site Reviews is a free WordPress review plugin with advanced features that makes it easy to manage reviews on your website. Follow the instructions below to get started!</div>
+    <div class="badge">Version <?= glsr()->version; ?></div>
     <p class="about-buttons">
-        <a class="button" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation'); ?>">Documentation</a>
-        <a class="button" href="https://wordpress.org/support/plugin/site-reviews/">Support</a>
-        <a target="_blank" class="button" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//geminilabs.io/site-reviews"><span class="dashicons dashicons-facebook-alt"></span> Share</a>
-        <a target="_blank" class="button" href="https://twitter.com/intent/tweet?text=Site Reviews is a fantastic WordPress review plugin with advanced features that makes it easy to manage reviews on your website.&url=https://geminilabs.io/site-reviews&hashtags=WordPress,reviewplugins,"><span class="dashicons dashicons-twitter"></span> Tweet</a>
+        <a class="components-button is-secondary" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation'); ?>">Documentation</a>
+        <a class="components-button is-secondary" href="https://wordpress.org/support/plugin/site-reviews/">Support</a>
+        <a class="components-button is-secondary dashicon dashicons-facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//geminilabs.io/site-reviews">Share</a>
+        <a class="components-button is-secondary dashicon dashicons-twitter" target="_blank" href="https://twitter.com/intent/tweet?text=Site Reviews is a fantastic WordPress review plugin with advanced features that makes it easy to manage reviews on your website.&url=https://geminilabs.io/site-reviews&hashtags=WordPress,reviewplugins,">Tweet</a>
     </p>
+    <div class="glsr-welcome-banner">
+        <img src="<?= glsr()->url('assets/images/banner.png'); ?>">
+    </div>
     <nav class="glsr-nav-tab-wrapper nav-tab-wrapper">
         <?php foreach ($tabs as $id => $title) : ?>
         <a class="glsr-nav-tab nav-tab" href="#<?= $id; ?>"><?= $title; ?></a>
