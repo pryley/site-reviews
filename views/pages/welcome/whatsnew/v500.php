@@ -18,17 +18,17 @@
             <li>Added tool to test IP address detection</li>
             <li>Added <a href="https://wordpress.org/support/article/wordpress-privacy/#erase-personal-data-tool">WordPress Personal Data Eraser</a> integration</li>
             <li>Added <a href="https://wordpress.org/support/article/wordpress-privacy/#export-personal-data-tool">WordPress Personal Data Exporter</a> integration</li>
-            <li>Reviews now use WordPress Revisions</li>
+            <li>Added <a href="https://wordpress.org/support/article/revisions/">WordPress Revisions</a> integration</li>
             <li>Site Reviews now uses custom database tables, however you may still use the WordPress Export/Import tools as before</li>
             <li>The Review Details metabox now allows you to modify any value</li>
             <li>The <code>site-reviews/after/submission</code> javascript event now contains the submitted review</li>
         </ul>
         <h4>Changes</h4>
         <ul>
-            <li>Changed minimum PHP version to 5.6.20</li>
-            <li>Changed minimum WordPress version to 5.5</li>
-            <li>Changed settings to use the Comments blacklist by default</li>
-            <li>Changed the <code>assigned_to</code> <strong>hide option</strong> to <code>assigned_links</code> (i.e. [site_reviews hide="assigned_links"])</li>
+            <li>Changed the <code>assigned_to</code> <strong>hide option value</strong> to <code>assigned_links</code> (i.e. [site_reviews hide="assigned_links"])</li>
+            <li>Changed the minimum PHP version to 5.6.20</li>
+            <li>Changed the minimum WordPress version to 5.5</li>
+            <li>Changed the settings to use the WordPress "Disallowed Comment Keys" by default</li>
             <li>Renamed the <code>glsr_get_rating()</code> helper function to <code>glsr_get_ratings()</code></li>
             <li>Replaced the <code>assign_to</code> and <code>assigned_to</code> shortcode options with the <code>assigned_posts</code> option</li>
             <li>Replaced the <code>category</code> shortcode option with "assigned_terms" option</li>
