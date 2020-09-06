@@ -228,6 +228,9 @@ class MetaboxController
     protected function normalizeDetailsMetaBox(Review $review)
     {
         $fields = glsr()->config('forms/metabox-fields');
+        if (count(glsr()->reviewTypes) < 2) {
+            unset($fields['type']);
+        }
         foreach ($fields as $key => &$field) {
             $field['class'] = 'glsr-input-value';
             $field['name'] = $key;
