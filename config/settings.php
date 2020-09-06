@@ -547,13 +547,13 @@ return [
     ],
     'settings.submissions.blacklist.integration' => [
         'default' => 'comments',
-        'description' => sprintf(_x('Choose which Blacklist you would prefer to use for reviews. The %s can be found in the WordPress Discussion Settings page.', 'admin-text', 'site-reviews'),
-            '<a href="'.admin_url('options-discussion.php#users_can_register').'">'._x('Comment Blacklist', 'admin-text', 'site-reviews').'</a>'
+        'description' => sprintf(_x('Choose which Blacklist you would prefer to use for reviews. The %s option can be found in the WordPress Discussion Settings page.', 'admin-text', 'site-reviews'),
+            '<a href="'.admin_url('options-discussion.php').'">'._x('Disallowed Comment Keys', 'admin-text', 'site-reviews').'</a>'
         ),
         'label' => _x('Blacklist', 'admin-text', 'site-reviews'),
         'options' => [
             '' => _x('Use the Site Reviews Blacklist', 'admin-text', 'site-reviews'),
-            'comments' => _x('Use the WordPress Comment Blacklist', 'admin-text', 'site-reviews'),
+            'comments' => _x('Use the WordPress Disallowed Comment Keys', 'admin-text', 'site-reviews'),
         ],
         'type' => 'select',
     ],
