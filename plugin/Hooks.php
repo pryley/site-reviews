@@ -82,6 +82,7 @@ class Hooks implements HooksContract
         add_action('plugins_loaded', [$this, 'translatePlugin']);
         add_action('site-reviews/export/cleanup', [$this->admin, 'cleanupAfterExport']);
         add_action('admin_enqueue_scripts', [$this->admin, 'enqueueAssets']);
+        add_action('admin_head', [$this->admin, 'printInlineStyle']);
         add_action('admin_init', [$this->admin, 'registerTinymcePopups']);
         add_action('media_buttons', [$this->admin, 'renderTinymceButton'], 11);
         add_action('import_end', [$this->admin, 'onImportEnd']);

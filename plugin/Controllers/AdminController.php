@@ -133,6 +133,11 @@ class AdminController extends Controller
         $this->execute(new ImportRatings());
     }
 
+    public function printInlineStyle()
+    {
+        echo '<style type="text/css">a[href="edit.php?post_type=site-review&page=addons"]:not(.current):not(:hover) { color:#F6E05E!important; }</style>';
+    }
+
     /**
      * @return void
      * @action admin_init
