@@ -83,7 +83,7 @@ abstract class TinymceGenerator
         }
         return [
             'label' => _x('Category', 'admin-text', 'site-reviews'),
-            'name' => 'category',
+            'name' => 'assigned_terms',
             'options' => $terms,
             'tooltip' => $tooltip,
             'type' => 'listbox',

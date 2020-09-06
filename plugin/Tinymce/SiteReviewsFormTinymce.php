@@ -28,9 +28,14 @@ class SiteReviewsFormTinymce extends TinymceGenerator
         ],
         $this->getCategories(_x('Automatically assign a category to reviews submitted with this shortcode.', 'admin-text', 'site-reviews')),
         [
-            'label' => _x('Assign To', 'admin-text', 'site-reviews'),
-            'name' => 'assign_to',
-            'tooltip' => esc_attr_x('Assign submitted reviews to a custom page/post ID. You can also enter "post_id" to assign reviews to the ID of the current page.', 'admin-text', 'site-reviews'),
+            'label' => _x('Assign to Post ID', 'admin-text', 'site-reviews'),
+            'name' => 'assigned_posts',
+            'tooltip' => sprintf(esc_attr_x('Automatically assign reviews to a Post ID. You may also enter "%s" to use the Post ID of the current page.', 'admin-text', 'site-reviews'), 'post_id'),
+            'type' => 'textbox',
+        ], [
+            'label' => _x('Assign to User ID', 'admin-text', 'site-reviews'),
+            'name' => 'assigned_users',
+            'tooltip' => sprintf(esc_attr_x('Automatically assign reviews to a User ID. You may also enter "%s" to use the ID of the logged-in user.', 'admin-text', 'site-reviews'), 'user_id'),
             'type' => 'textbox',
         ], [
             'label' => _x('Classes', 'admin-text', 'site-reviews'),
