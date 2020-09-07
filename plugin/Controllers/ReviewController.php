@@ -168,11 +168,11 @@ class ReviewController extends Controller
      */
     public function onEditReview($postId)
     {
-        if (!glsr()->can('edit_posts')) {
-            return;
+        $input = 'edit' === glsr_current_screen()->base ? INPUT_GET : INPUT_POST;
+        if (!glsr()->can('edit_posts') || 'glsr_action' === filter_input($input, 'action')) {
+            return; // abort if user does not have permission or if not a proper post update (i.e. approve/unapprove)
         }
         $review = glsr(Query::class)->review($postId);
-        $input = 'edit' === glsr_current_screen()->base ? INPUT_GET : INPUT_POST;
         $assignedPostIds = filter_input($input, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
         $assignedUserIds = filter_input($input, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
         glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds)); // trigger a recount of assigned posts

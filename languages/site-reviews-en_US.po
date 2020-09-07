@@ -1299,16 +1299,16 @@ msgstr "Enable Akismet Integration"
 #: config/settings.php:550
 msgctxt "admin-text"
 msgid ""
-"Choose which Blacklist you would prefer to use for reviews. The %s can be "
-"found in the WordPress Discussion Settings page."
+"Choose which Blacklist you would prefer to use for reviews. The %s option "
+"can be found in the WordPress Discussion Settings page."
 msgstr ""
-"Choose which Blacklist you would prefer to use for reviews. The %s can be "
-"found in the WordPress Discussion Settings page."
+"Choose which Blacklist you would prefer to use for reviews. The %s option "
+"can be found in the WordPress Discussion Settings page."
 
 #: config/settings.php:551
 msgctxt "admin-text"
-msgid "Comment Blacklist"
-msgstr "Comment Blacklist"
+msgid "Disallowed Comment Keys"
+msgstr "Disallowed Comment Keys"
 
 #: config/settings.php:553
 msgctxt "admin-text"
@@ -1322,8 +1322,8 @@ msgstr "Use the Site Reviews Blacklist"
 
 #: config/settings.php:556
 msgctxt "admin-text"
-msgid "Use the WordPress Comment Blacklist"
-msgstr "Use the WordPress Comment Blacklist"
+msgid "Use the WordPress Disallowed Comment Keys"
+msgstr "Use the WordPress Disallowed Comment Keys"
 
 #: config/settings.php:565
 msgctxt "admin-text"
@@ -1619,7 +1619,7 @@ msgctxt "admin-text"
 msgid "Submissions"
 msgstr "Submissions"
 
-#: plugin/Controllers/MenuController.php:117, plugin/Tinymce/SiteReviewsSummaryTinymce.php:30, plugin/Tinymce/SiteReviewsTinymce.php:61
+#: plugin/Controllers/MenuController.php:117, plugin/Tinymce/SiteReviewsSummaryTinymce.php:35, plugin/Tinymce/SiteReviewsTinymce.php:66
 msgctxt "admin-text"
 msgid "Schema"
 msgstr "Schema"
@@ -2152,29 +2152,43 @@ msgstr "Automatically assign a category to reviews submitted with this shortcode
 
 #: plugin/Tinymce/SiteReviewsFormTinymce.php:31
 msgctxt "admin-text"
-msgid "Assign To"
-msgstr "Assign To"
+msgid "Assign to Post ID"
+msgstr "Assign to Post ID"
 
 #: plugin/Tinymce/SiteReviewsFormTinymce.php:33
 msgctxt "admin-text"
 msgid ""
-"Assign submitted reviews to a custom page/post ID. You can also enter "
-"\"post_id\" to assign reviews to the ID of the current page."
+"Automatically assign reviews to a Post ID. You may also enter \"%s\" to use "
+"the Post ID of the current page."
 msgstr ""
-"Assign submitted reviews to a custom page/post ID. You can also enter "
-"\"post_id\" to assign reviews to the ID of the current page."
+"Automatically assign reviews to a Post ID. You may also enter \"%s\" to use "
+"the Post ID of the current page."
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:36, plugin/Tinymce/SiteReviewsSummaryTinymce.php:39, plugin/Tinymce/SiteReviewsTinymce.php:70
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:36, plugin/Tinymce/SiteReviewsSummaryTinymce.php:30, plugin/Tinymce/SiteReviewsTinymce.php:61
+msgctxt "admin-text"
+msgid "Assign to User ID"
+msgstr "Assign to User ID"
+
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:38
+msgctxt "admin-text"
+msgid ""
+"Automatically assign reviews to a User ID. You may also enter \"%s\" to use "
+"the ID of the logged-in user."
+msgstr ""
+"Automatically assign reviews to a User ID. You may also enter \"%s\" to use "
+"the ID of the logged-in user."
+
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:41, plugin/Tinymce/SiteReviewsSummaryTinymce.php:44, plugin/Tinymce/SiteReviewsTinymce.php:75
 msgctxt "admin-text"
 msgid "Classes"
 msgstr "Classes"
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:38, plugin/Tinymce/SiteReviewsSummaryTinymce.php:41, plugin/Tinymce/SiteReviewsTinymce.php:72
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:43, plugin/Tinymce/SiteReviewsSummaryTinymce.php:46, plugin/Tinymce/SiteReviewsTinymce.php:77
 msgctxt "admin-text"
 msgid "Add custom CSS classes to the shortcode."
 msgstr "Add custom CSS classes to the shortcode."
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:43, plugin/Tinymce/SiteReviewsSummaryTinymce.php:46, plugin/Tinymce/SiteReviewsTinymce.php:77
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:48, plugin/Tinymce/SiteReviewsSummaryTinymce.php:51, plugin/Tinymce/SiteReviewsTinymce.php:82
 msgctxt "admin-text"
 msgid "Hide"
 msgstr "Hide"
@@ -2192,25 +2206,32 @@ msgstr "Limit reviews to this category."
 #: plugin/Tinymce/SiteReviewsSummaryTinymce.php:27, plugin/Tinymce/SiteReviewsTinymce.php:58
 msgctxt "admin-text"
 msgid ""
-"Limit reviews to those assigned to this post ID (separate multiple IDs with "
-"a comma). You can also enter \"post_id\" to use the ID of the current page, "
-"or \"parent_id\" to use the ID of the parent page."
+"Limit reviews to those assigned to a Post ID. You may also enter \"%s\" to "
+"use the Post ID of the current page."
 msgstr ""
-"Limit reviews to those assigned to this post ID (separate multiple IDs with "
-"a comma). You can also enter \"post_id\" to use the ID of the current page, "
-"or \"parent_id\" to use the ID of the parent page."
+"Limit reviews to those assigned to a Post ID. You may also enter \"%s\" to "
+"use the Post ID of the current page."
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:33, plugin/Tinymce/SiteReviewsTinymce.php:64
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:32, plugin/Tinymce/SiteReviewsTinymce.php:63
+msgctxt "admin-text"
+msgid ""
+"Limit reviews to those assigned to a User ID. You may also enter \"%s\" to "
+"use the ID of the logged-in user."
+msgstr ""
+"Limit reviews to those assigned to a User ID. You may also enter \"%s\" to "
+"use the ID of the logged-in user."
+
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:38, plugin/Tinymce/SiteReviewsTinymce.php:69
 msgctxt "admin-text"
 msgid "Enable rich snippets"
 msgstr "Enable rich snippets"
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:34, plugin/Tinymce/SiteReviewsTinymce.php:65
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:39, plugin/Tinymce/SiteReviewsTinymce.php:70
 msgctxt "admin-text"
 msgid "Disable rich snippets"
 msgstr "Disable rich snippets"
 
-#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:36, plugin/Tinymce/SiteReviewsTinymce.php:67
+#: plugin/Tinymce/SiteReviewsSummaryTinymce.php:41, plugin/Tinymce/SiteReviewsTinymce.php:72
 msgctxt "admin-text"
 msgid "Rich snippets are disabled by default."
 msgstr "Rich snippets are disabled by default."
@@ -2311,22 +2332,32 @@ msgctxt "admin-text"
 msgid "Automatically assign a category"
 msgstr "Automatically assign a category"
 
-#: plugin/Widgets/SiteReviewsFormWidget.php:31
+#: plugin/Widgets/SiteReviewsFormWidget.php:31, plugin/Widgets/SiteReviewsSummaryWidget.php:34, plugin/Widgets/SiteReviewsWidget.php:52
 msgctxt "admin-text"
 msgid "Do not assign a category"
 msgstr "Do not assign a category"
 
-#: plugin/Widgets/SiteReviewsFormWidget.php:36
+#: plugin/Widgets/SiteReviewsFormWidget.php:36, plugin/Widgets/SiteReviewsSummaryWidget.php:39, plugin/Widgets/SiteReviewsWidget.php:57
 msgctxt "admin-text"
-msgid "You may also enter %s to assign to the current post."
-msgstr "You may also enter %s to assign to the current post."
+msgid "You may also enter %s to use the Post ID of the current page."
+msgstr "You may also enter %s to use the Post ID of the current page."
 
 #: plugin/Widgets/SiteReviewsFormWidget.php:37
 msgctxt "admin-text"
-msgid "Assign reviews to a custom page/post ID"
-msgstr "Assign reviews to a custom page/post ID"
+msgid "Automatically assign reviews to a Post ID"
+msgstr "Automatically assign reviews to a Post ID"
 
-#: plugin/Widgets/SiteReviewsFormWidget.php:41, plugin/Widgets/SiteReviewsSummaryWidget.php:44, plugin/Widgets/SiteReviewsWidget.php:62
+#: plugin/Widgets/SiteReviewsFormWidget.php:42, plugin/Widgets/SiteReviewsSummaryWidget.php:45, plugin/Widgets/SiteReviewsWidget.php:63
+msgctxt "admin-text"
+msgid "You may also enter %s to use the ID of the logged-in user."
+msgstr "You may also enter %s to use the ID of the logged-in user."
+
+#: plugin/Widgets/SiteReviewsFormWidget.php:43
+msgctxt "admin-text"
+msgid "Automatically assign reviews to a User ID"
+msgstr "Automatically assign reviews to a User ID"
+
+#: plugin/Widgets/SiteReviewsFormWidget.php:47, plugin/Widgets/SiteReviewsSummaryWidget.php:50, plugin/Widgets/SiteReviewsWidget.php:68
 msgctxt "admin-text"
 msgid "Enter any custom CSS classes here"
 msgstr "Enter any custom CSS classes here"
@@ -2341,24 +2372,15 @@ msgctxt "admin-text"
 msgid "Limit summary to this category"
 msgstr "Limit summary to this category"
 
-#: plugin/Widgets/SiteReviewsSummaryWidget.php:34, plugin/Widgets/SiteReviewsWidget.php:52
-msgctxt "admin-text"
-msgid "All Categories"
-msgstr "All Categories"
-
-#: plugin/Widgets/SiteReviewsSummaryWidget.php:39, plugin/Widgets/SiteReviewsWidget.php:57
-msgctxt "admin-text"
-msgid ""
-"Separate multiple ID's with a comma. You may also enter %s to automatically "
-"represent the current page/post ID."
-msgstr ""
-"Separate multiple ID's with a comma. You may also enter %s to automatically "
-"represent the current page/post ID."
-
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:40
 msgctxt "admin-text"
-msgid "Limit summary to reviews assigned to a page/post ID"
-msgstr "Limit summary to reviews assigned to a page/post ID"
+msgid "Limit summary to reviews assigned to a Post ID"
+msgstr "Limit summary to reviews assigned to a Post ID"
+
+#: plugin/Widgets/SiteReviewsSummaryWidget.php:46
+msgctxt "admin-text"
+msgid "Limit summary to reviews assigned to a User ID"
+msgstr "Limit summary to reviews assigned to a User ID"
 
 #: plugin/Widgets/SiteReviewsWidget.php:25
 msgctxt "admin-text"
@@ -2382,8 +2404,13 @@ msgstr "Limit reviews to this category"
 
 #: plugin/Widgets/SiteReviewsWidget.php:58
 msgctxt "admin-text"
-msgid "Limit reviews to those assigned to this page/post ID"
-msgstr "Limit reviews to those assigned to this page/post ID"
+msgid "Limit reviews to those assigned to a Post ID"
+msgstr "Limit reviews to those assigned to a Post ID"
+
+#: plugin/Widgets/SiteReviewsWidget.php:64
+msgctxt "admin-text"
+msgid "Limit reviews to those assigned to a User ID"
+msgstr "Limit reviews to those assigned to a User ID"
 
 #: plugin/Controllers/ListTableColumns/ColumnFilterRating.php:16
 msgctxt "admin-text"
