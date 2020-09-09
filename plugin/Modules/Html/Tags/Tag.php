@@ -2,12 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
+use GeminiLabs\SiteReviews\Contracts\TagContract;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Review;
 
-abstract class Tag
+abstract class Tag implements TagContract
 {
     /**
      * @var \GeminiLabs\SiteReviews\Arguments

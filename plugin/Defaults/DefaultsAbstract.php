@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
+use GeminiLabs\SiteReviews\Contracts\DefaultsContract;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -21,7 +22,7 @@ use ReflectionClass;
  * @method array unguardedMerge(array $values = [])
  * @method array unguardedRestrict(array $values = [])
  */
-abstract class DefaultsAbstract
+abstract class DefaultsAbstract implements DefaultsContract
 {
     /**
      * The values that should be cast.
@@ -97,8 +98,8 @@ abstract class DefaultsAbstract
     }
 
     /**
-     * Restrict provided values to defaults, remove empty and unchanged values, 
-     * and return data attribute keys with JSON encoded values
+     * Restrict provided values to defaults, remove empty and unchanged values,
+     * and return data attribute keys with JSON encoded values.
      * @return array
      */
     protected function dataAttributes(array $values = [])
@@ -128,7 +129,7 @@ abstract class DefaultsAbstract
     }
 
     /**
-     * The default values
+     * The default values.
      * @return array
      */
     protected function defaults()
@@ -137,7 +138,7 @@ abstract class DefaultsAbstract
     }
 
     /**
-     * Remove empty values from the provided values and merge with the defaults
+     * Remove empty values from the provided values and merge with the defaults.
      * @return array
      */
     protected function filter(array $values = [])
@@ -159,7 +160,7 @@ abstract class DefaultsAbstract
     }
 
     /**
-     * Remove guarded keys from the provided values
+     * Remove guarded keys from the provided values.
      * @return array
      */
     protected function guard(array $values)
@@ -173,7 +174,7 @@ abstract class DefaultsAbstract
     }
 
     /**
-     * Map old or deprecated keys to new keys
+     * Map old or deprecated keys to new keys.
      * @return array
      */
     protected function mapKeys(array $args)
@@ -188,7 +189,7 @@ abstract class DefaultsAbstract
     }
 
     /**
-     * Merge provided values with the defaults
+     * Merge provided values with the defaults.
      * @return array
      */
     protected function merge(array $values = [])
@@ -250,7 +251,7 @@ abstract class DefaultsAbstract
     }
 
     /**
-     * Merge the provided values with the defaults and remove any non-default keys
+     * Merge the provided values with the defaults and remove any non-default keys.
      * @return array
      */
     protected function restrict(array $values = [])
