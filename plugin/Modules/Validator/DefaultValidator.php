@@ -2,7 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
+use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Defaults\ValidateReviewDefaults;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Validator;
 use GeminiLabs\SiteReviews\Request;
 
@@ -49,11 +51,15 @@ class DefaultValidator extends ValidatorAbstract
      */
     protected function rules()
     {
-        $rules = array_intersect_key(
-            glsr()->filterArray('validation/rules', static::VALIDATION_RULES, $this->request),
+        $rules = glsr()->filterArray('validation/rules', static::VALIDATION_RULES, $this->request);
+        $customRules = array_diff_key($rules,
+            glsr(DefaultsManager::class)->pluck('settings.submissions.required.options')
+        );
+        $requiredRules = array_intersect_key($rules, 
             array_flip(glsr_get_option('submissions.required', []))
         );
-        $excluded = explode(',', $this->request->excluded);
+        $rules = array_merge($requiredRules, $customRules);
+        $excluded = Arr::convertFromString($this->request->excluded); // these fields were ommited with the hide option
         return array_diff_key($rules, array_flip($excluded));
     }
 }

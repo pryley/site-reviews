@@ -28,6 +28,16 @@ class DefaultsManager
     }
 
     /**
+     * @param string $path
+     * @return mixed
+     */
+    public function pluck($path)
+    {
+        $settings = Arr::convertFromDotNotation($this->settings());
+        return Arr::get($settings, $path);
+    }
+
+    /**
      * @return array
      */
     public function set()
