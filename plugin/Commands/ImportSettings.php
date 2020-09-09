@@ -29,7 +29,7 @@ class ImportSettings extends Upload implements Contract
      */
     protected function import()
     {
-        if ($settings = json_decode(file_get_contents($this->file()->tmp_name), true)) { // @todo catch Exception if an invalid json file
+        if ($settings = json_decode(file_get_contents($this->file()->tmp_name), true)) {
             glsr(OptionManager::class)->set(
                 glsr(OptionManager::class)->normalize($settings)
             );

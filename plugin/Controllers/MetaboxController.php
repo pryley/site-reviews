@@ -19,7 +19,7 @@ class MetaboxController
     public function filterFieldOrder(array $config)
     {
         $order = array_keys($config);
-        $order = glsr()->filterArray('metabox-fields/order', $order);
+        $order = glsr()->filterArray('metabox/fields/order', $order);
         return array_intersect_key(array_merge(array_flip($order), $config), $config);
     }
 

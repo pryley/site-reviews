@@ -121,7 +121,7 @@ class PublicController extends Controller
     {
         $command = $this->execute(new CreateReview($request));
         if ($command->success()) {
-            wp_safe_redirect($command->referer()); // @todo add review ID to referer
+            wp_safe_redirect($command->referer()); // @todo add review ID to referer?
             exit;
         }
     }

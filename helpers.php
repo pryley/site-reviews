@@ -166,7 +166,7 @@ function glsr_get_review($postId)
 }
 
 /**
- * @return array
+ * @return \GeminiLabs\SiteReviews\Reviews
  */
 function glsr_get_reviews($args = array())
 {

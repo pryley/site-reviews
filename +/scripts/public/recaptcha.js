@@ -78,8 +78,8 @@
                 }
                 this.id = grecaptcha.render(this.recaptchaEl, {
                     callback: this.submitForm_.bind(this.Form, this.counter),
-                    // 'error-callback': this.reset_.bind(this), //@todo
-                    // error-callback: The name of your callback function, executed when reCAPTCHA encounters an error (usually network connectivity) and cannot continue until connectivity is restored. If you specify a function here, you are responsible for informing the user that they should retry.
+                    // 'error-callback': this.reset_.bind(this), // @todo
+                    // 'error-callback': The name of your callback function, executed when reCAPTCHA encounters an error (usually network connectivity) and cannot continue until connectivity is restored. If you specify a function here, you are responsible for informing the user that they should retry.
                     'expired-callback': this.reset_.bind(this),
                     isolated: true,
                 }, true);

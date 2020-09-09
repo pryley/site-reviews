@@ -75,7 +75,6 @@ class Query
     }
 
     /**
-     * @todo make sure we delete the cached review when modifying it
      * @param bool $bypassCache
      * @param int $postId
      * @return Review
