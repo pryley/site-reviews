@@ -71,22 +71,6 @@ class TrustalyzeController extends Controller
     }
 
     /**
-     * Triggered when a review is reverted to its original title/content/date_timestamp.
-     * @return void
-     * @action site-reviews/review/reverted
-     */
-    public function onReverted(Review $review)
-    {
-        if (!$this->canPostReview($review)) {
-            return;
-        }
-        $trustalyze = glsr(Trustalyze::class)->sendReview($review);
-        if ($trustalyze->success) {
-            glsr(Database::class)->metaSet($review->ID, 'trustalyze', $trustalyze->review_id);
-        }
-    }
-
-    /**
      * Triggered when an existing review is updated.
      * @return void
      * @action site-reviews/review/saved

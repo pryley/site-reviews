@@ -141,7 +141,6 @@ class Hooks implements HooksContract
         add_action('init', [$this->router, 'routePublicPostRequest']);
         add_action('admin_init', [$this->settings, 'registerSettings']);
         add_action('site-reviews/review/created', [$this->trustalyze, 'onCreated']);
-        add_action('site-reviews/review/reverted', [$this->trustalyze, 'onReverted']);
         add_action('site-reviews/review/saved', [$this->trustalyze, 'onSaved']);
         add_action('updated_postmeta', [$this->trustalyze, 'onUpdatedMeta'], 10, 3);
         add_action('site-reviews/route/admin/clear-console', [$this->tools, 'clearConsole']);
