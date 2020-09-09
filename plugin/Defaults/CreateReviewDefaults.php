@@ -10,6 +10,7 @@ class CreateReviewDefaults extends Defaults
      * @return array
      */
     public $mapped = [
+        '_referer' => 'referer',
         'author' => 'name',
         'pinned' => 'is_pinned',
     ];

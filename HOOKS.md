@@ -106,6 +106,7 @@
     site-reviews/rendered/template                          (): string
     site-reviews/rendered/template/<template_path>          (): string
     site-reviews/review-form/order                          (array $order): array
+    site-reviews/review-form/referer                        (string $referer): string
     site-reviews/review/build/<tag_or_field_key>            (string $field, string $value, Review $review, Modules\Html\ReviewHtml $reviewHtml): string
     site-reviews/review/build/after                         (array $templateTags, Review $review, Modules\Html\ReviewHtml $reviewHtml): array
     site-reviews/review/redirect                            (): string

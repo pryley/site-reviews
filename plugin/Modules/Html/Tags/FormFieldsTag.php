@@ -45,12 +45,14 @@ class FormFieldsTag extends FormTag
     protected function hiddenFields()
     {
         $fields = [];
+        $referer = filter_input(INPUT_SERVER, 'REQUEST_URI');
+        $referer = glsr()->filterString('review-form/referer', $referer);
         $hiddenFields = [
             '_action' => 'submit-review',
             '_counter' => null,
             '_nonce' => wp_create_nonce('submit-review'),
             '_post_id' => get_the_ID(),
-            '_referer' => wp_unslash(filter_input(INPUT_SERVER, 'REQUEST_URI')),
+            '_referer' => wp_unslash($referer),
             'assigned_posts' => $this->args->assigned_posts,
             'assigned_terms' => $this->args->assigned_terms,
             'assigned_users' => $this->args->assigned_users,
