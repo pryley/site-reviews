@@ -84,8 +84,12 @@
 
         /** @return void */
         init: function () {
-            this.fields = [].map.call(this.form.querySelectorAll(this.SELECTOR_), function (input) {
-                return this.initField_(input);
+            [].forEach.call(this.form.querySelectorAll(this.SELECTOR_), function (field) {
+                if (!this.fields.find(function (item) {
+                    return item.input.name === field.name;
+                })) {
+                    this.fields.push(this.initField_(field));
+                }
             }.bind(this));
         },
 

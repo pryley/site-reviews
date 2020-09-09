@@ -146,7 +146,7 @@
             this.validation.reset_();
         },
 
-        /** @return void */
+        /** @return void - displays field errors from the server response */
         showFieldErrors_: function (errors) { // object
             if (!errors) return;
             for (var error in errors) {
