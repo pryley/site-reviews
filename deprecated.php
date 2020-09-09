@@ -32,6 +32,19 @@ add_action('plugins_loaded', function () {
     }, 10, 3);
 
     /**
+     * Application.php
+     * @since 5.0.0
+     */
+    add_filter('site-reviews/config/forms/review-form', function ($config) {
+        if (has_filter('site-reviews/config/forms/submission-form')) {
+            $message = 'The "site-reviews/config/forms/submission-form" hook has been deprecated. Please use the "site-reviews/config/forms/review-form" hook instead.';
+            glsr()->append('deprecated', $message);
+            return apply_filters('site-reviews/config/forms/submission-form', $config);
+        }
+        return $config;
+    }, 9);
+
+    /**
      * Controllers\PublicController.php
      * @since 5.0.0
      */

@@ -50,7 +50,7 @@ Images adapted from [freepik](https://www.freepik.com/vectors).
 - Shortcodes: Configurable shortcodes complete with full documentation
 - Slack Integration: Receive notifications in Slack when a review is submitted
 - SPAM Protection: Built-in Honeypot protection; integrate with Invisible reCAPTCHA and Akismet
-- Styles: Change the submission form style to match popular themes and form plugins
+- Styles: Change the review form style to match popular themes and form plugins
 - Support: Free premium-level support included on the WordPress.org support forum
 - Templates: Use the Site Reviews templates in your theme for full control over the HTML
 - Widgets: Configurable widgets for your sidebars
@@ -143,7 +143,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Improved documentation
 - Improved plugin performance with thousands of reviews
 - Improved the blocks to visually match the WordPress 5.5 editor style
-- Improved the Terms checkbox in the submission form to align correctly with the text
+- Improved the Terms checkbox in the review form to align correctly with the text
 - Improved translation settings
 - Removed the glsr_calculate_ratings() helper function
 - Removed tool to calculate rating counts (no longer needed)

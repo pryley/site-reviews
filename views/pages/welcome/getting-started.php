@@ -129,7 +129,7 @@
         </li>
         <li class="glsr-column">
             <h3><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings#tab-general'); ?>">Styles</a></h3>
-            <p>Change the submission form style to match popular themes and form plugins.</p>
+            <p>Change the review form style to match popular themes and form plugins.</p>
         </li>
         <li class="glsr-column">
             <h3><a target="_blank" href="https://wordpress.org/support/plugin/site-reviews/">Support</a></h3>

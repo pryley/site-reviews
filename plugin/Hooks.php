@@ -193,7 +193,7 @@ class Hooks implements HooksContract
         add_filter('wp_privacy_personal_data_erasers', [$this->privacy, 'filterPersonalDataErasers']);
         add_filter('wp_privacy_personal_data_exporters', [$this->privacy, 'filterPersonalDataExporters']);
         add_filter('script_loader_tag', [$this->public, 'filterEnqueuedScriptTags'], 10, 2);
-        add_filter('site-reviews/config/forms/submission-form', [$this->public, 'filterFieldOrder'], 11);
+        add_filter('site-reviews/config/forms/review-form', [$this->public, 'filterFieldOrder'], 11);
         add_filter('site-reviews/render/view', [$this->public, 'filterRenderView']);
         add_filter('wp_save_post_revision_check_for_changes', [$this->revisions, 'filterCheckForChanges'], 99, 3);
         add_filter('wp_save_post_revision_post_has_changed', [$this->revisions, 'filterReviewHasChanged'], 10, 3);

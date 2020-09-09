@@ -14,7 +14,7 @@
  * @param array $config
  * @return array
  */
-add_filter('site-reviews/config/forms/submission-form', function ($config) {
+add_filter('site-reviews/config/forms/review-form', function ($config) {
     if (array_key_exists('content', $config)) {
         $config['content']['maxlength'] = 100;
     }

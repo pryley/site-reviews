@@ -1,13 +1,13 @@
 <div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="shortcode-site_reviews_form">
-            <span class="title">Display the submission form</span>
+            <span class="title">Display the review form</span>
             <span class="badge code">[site_reviews_form]</span>
             <span class="icon"></span>
         </button>
     </h3>
     <div id="shortcode-site_reviews_form" class="inside">
-        <h3>This shortcode displays the review submission form.</h3>
+        <h3>This shortcode displays the review form.</h3>
         <div class="notice inline notice-info notice-alt">
             <p>Each example below demonstrates a different shortcode option. If you need to use multiple options, simply combine the options together (separated with a space) in the same shortcode.</p>
         </div>

@@ -111,7 +111,7 @@ export default registerBlockType(
     blockName, {
         attributes: attributes,
         category: GLSR.nameprefix,
-        description: _x('Display a review submission form.', 'admin-text', 'site-reviews'),
+        description: _x('Display a review form.', 'admin-text', 'site-reviews'),
         edit: edit,
         example: {},
         icon: {src: FormIcon},

@@ -15,7 +15,7 @@ return [
     ],
     'settings.general.style' => [
         'default' => 'default',
-        'description' => _x('Site Reviews relies on the CSS of your theme to style the submission form. If your theme does not provide proper CSS rules for form elements and you are using a WordPress plugin/theme or CSS Framework listed here, please try selecting it, otherwise choose "Site Reviews (default)".', 'admin-text', 'site-reviews'),
+        'description' => _x('Site Reviews relies on the CSS of your theme to style the review form. If your theme does not provide proper CSS rules for form elements and you are using a WordPress plugin/theme or CSS Framework listed here, please try selecting it, otherwise choose "Site Reviews (default)".', 'admin-text', 'site-reviews'),
         'label' => _x('Plugin Style', 'admin-text', 'site-reviews'),
         'options' => [
             'bootstrap_4' => _x('CSS Framework: Bootstrap 4', 'admin-text', 'site-reviews'),
@@ -109,7 +109,7 @@ return [
         'depends_on' => [
             'settings.general.notifications' => ['admin', 'author', 'custom', 'slack'],
         ],
-        'description' => _x('If emails are not sent, make sure this email shares the same domain as your website.', 'site-reviews'),
+        'description' => _x('If emails are not sent, make sure this email shares the same domain as your website.', 'admin-text', 'site-reviews'),
         'label' => _x('Send Emails From', 'admin-text', 'site-reviews'),
         'placeholder' => get_option('admin_email'),
         'type' => 'text',
@@ -444,7 +444,7 @@ return [
     ],
     'settings.submissions.required' => [
         'default' => ['content', 'email', 'name', 'rating', 'terms', 'title'],
-        'description' => _x('Choose which fields should be required in the submission form.', 'admin-text', 'site-reviews'),
+        'description' => _x('Choose which fields should be required in the review form.', 'admin-text', 'site-reviews'),
         'label' => _x('Required Fields', 'admin-text', 'site-reviews'),
         'options' => [
             'rating' => _x('Rating', 'admin-text', 'site-reviews'),

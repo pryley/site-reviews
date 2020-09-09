@@ -116,7 +116,7 @@ add_filter('sf_edit_query_args', function ($query) {
 }, 20);
 
 /*
- * Fix Star Rating control when submission form is used inside an Elementor Pro Popup
+ * Fix Star Rating control when review form is used inside an Elementor Pro Popup
  * @return void
  * @see https://elementor.com/
  */

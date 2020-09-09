@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: en_US\n"
 
-#: deprecated.php:38
+#: deprecated.php:78
 msgid ""
 "%s is <strong>deprecated</strong> since version %s with no alternative "
 "available."
@@ -26,7 +26,7 @@ msgstr ""
 "%s is <strong>deprecated</strong> since version %s with no alternative "
 "available."
 
-#: deprecated.php:51
+#: deprecated.php:91
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 
@@ -38,43 +38,43 @@ msgstr "There are no reviews yet. Be the first one to write one."
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr "The form could not be submitted. Please notify the site administrator."
 
-#: config/forms/submission-form.php:5
+#: config/forms/review-form.php:5
 msgid "Your overall rating"
 msgstr "Your overall rating"
 
-#: config/forms/submission-form.php:9
+#: config/forms/review-form.php:9
 msgid "Title of your review"
 msgstr "Title of your review"
 
-#: config/forms/submission-form.php:10
+#: config/forms/review-form.php:10
 msgid "Summarize your review or highlight an interesting detail"
 msgstr "Summarize your review or highlight an interesting detail"
 
-#: config/forms/submission-form.php:14, plugin/Modules/Honeypot.php:18
+#: config/forms/review-form.php:14, plugin/Modules/Honeypot.php:18
 msgid "Your review"
 msgstr "Your review"
 
-#: config/forms/submission-form.php:15
+#: config/forms/review-form.php:15
 msgid "Tell people your review"
 msgstr "Tell people your review"
 
-#: config/forms/submission-form.php:20
+#: config/forms/review-form.php:20
 msgid "Your name"
 msgstr "Your name"
 
-#: config/forms/submission-form.php:21
+#: config/forms/review-form.php:21
 msgid "Tell us your name"
 msgstr "Tell us your name"
 
-#: config/forms/submission-form.php:25
+#: config/forms/review-form.php:25
 msgid "Your email"
 msgstr "Your email"
 
-#: config/forms/submission-form.php:26
+#: config/forms/review-form.php:26
 msgid "Tell us your email"
 msgstr "Tell us your email"
 
-#: config/forms/submission-form.php:30
+#: config/forms/review-form.php:30
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
@@ -126,7 +126,7 @@ msgstr "This field must have between %s and %s characters."
 msgid "This field requires a valid e-mail address."
 msgstr "This field requires a valid e-mail address."
 
-#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/DefaultValidator.php:26
+#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/DefaultValidator.php:28
 msgid "Please fix the submission errors."
 msgstr "Please fix the submission errors."
 
@@ -162,43 +162,43 @@ msgstr "The review could not be submitted (unsupported browser)."
 msgid "and"
 msgstr "and"
 
-#: plugin/Modules/Date.php:79
+#: plugin/Modules/Date.php:89
 msgid "%s second ago"
 msgid_plural "%s seconds ago"
 msgstr[0] "%s second ago"
 msgstr[1] "%s seconds ago"
 
-#: plugin/Modules/Date.php:80
+#: plugin/Modules/Date.php:90
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "%s minute ago"
 msgstr[1] "%s minutes ago"
 
-#: plugin/Modules/Date.php:81
+#: plugin/Modules/Date.php:91
 msgid "an hour ago"
 msgid_plural "%s hours ago"
 msgstr[0] "an hour ago"
 msgstr[1] "%s hours ago"
 
-#: plugin/Modules/Date.php:82
+#: plugin/Modules/Date.php:92
 msgid "yesterday"
 msgid_plural "%s days ago"
 msgstr[0] "yesterday"
 msgstr[1] "%s days ago"
 
-#: plugin/Modules/Date.php:83
+#: plugin/Modules/Date.php:93
 msgid "a week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "a week ago"
 msgstr[1] "%s weeks ago"
 
-#: plugin/Modules/Date.php:84
+#: plugin/Modules/Date.php:94
 msgid "%s month ago"
 msgid_plural "%s months ago"
 msgstr[0] "%s month ago"
 msgstr[1] "%s months ago"
 
-#: plugin/Modules/Date.php:85
+#: plugin/Modules/Date.php:95
 msgid "%s year ago"
 msgid_plural "%s years ago"
 msgstr[0] "%s year ago"
@@ -442,14 +442,14 @@ msgstr "Delete data on uninstall"
 #: config/settings.php:18
 msgctxt "admin-text"
 msgid ""
-"Site Reviews relies on the CSS of your theme to style the submission form. "
-"If your theme does not provide proper CSS rules for form elements and you "
-"are using a WordPress plugin/theme or CSS Framework listed here, please try "
+"Site Reviews relies on the CSS of your theme to style the review form. If "
+"your theme does not provide proper CSS rules for form elements and you are "
+"using a WordPress plugin/theme or CSS Framework listed here, please try "
 "selecting it, otherwise choose \"Site Reviews (default)\"."
 msgstr ""
-"Site Reviews relies on the CSS of your theme to style the submission form. "
-"If your theme does not provide proper CSS rules for form elements and you "
-"are using a WordPress plugin/theme or CSS Framework listed here, please try "
+"Site Reviews relies on the CSS of your theme to style the review form. If "
+"your theme does not provide proper CSS rules for form elements and you are "
+"using a WordPress plugin/theme or CSS Framework listed here, please try "
 "selecting it, otherwise choose \"Site Reviews (default)\"."
 
 #: config/settings.php:19
@@ -643,6 +643,15 @@ msgstr "Send to one or more email addresses"
 msgctxt "admin-text"
 msgid "Send to <a href=\"https://slack.com/\">Slack</a>"
 msgstr "Send to <a href=\"https://slack.com/\">Slack</a>"
+
+#: config/settings.php:112
+msgctxt "admin-text"
+msgid ""
+"If emails are not sent, make sure this email shares the same domain as your "
+"website."
+msgstr ""
+"If emails are not sent, make sure this email shares the same domain as your "
+"website."
 
 #: config/settings.php:113
 msgctxt "admin-text"
@@ -1092,8 +1101,8 @@ msgstr "USD"
 
 #: config/settings.php:447
 msgctxt "admin-text"
-msgid "Choose which fields should be required in the submission form."
-msgstr "Choose which fields should be required in the submission form."
+msgid "Choose which fields should be required in the review form."
+msgstr "Choose which fields should be required in the review form."
 
 #: config/settings.php:448
 msgctxt "admin-text"
@@ -1387,6 +1396,51 @@ msgctxt "admin-text"
 msgid "There was an error (try reloading the page)."
 msgstr "There was an error (try reloading the page)."
 
+#: plugin/Upload.php:26
+msgctxt "admin-text"
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
+msgstr "The uploaded file exceeds the upload_max_filesize directive in php.ini."
+
+#: plugin/Upload.php:27
+msgctxt "admin-text"
+msgid "The uploaded file is too big."
+msgstr "The uploaded file is too big."
+
+#: plugin/Upload.php:28
+msgctxt "admin-text"
+msgid "The uploaded file was only partially uploaded."
+msgstr "The uploaded file was only partially uploaded."
+
+#: plugin/Upload.php:29
+msgctxt "admin-text"
+msgid "No file was uploaded."
+msgstr "No file was uploaded."
+
+#: plugin/Upload.php:30
+msgctxt "admin-text"
+msgid "Missing a temporary folder."
+msgstr "Missing a temporary folder."
+
+#: plugin/Upload.php:31
+msgctxt "admin-text"
+msgid "Failed to write file to disk."
+msgstr "Failed to write file to disk."
+
+#: plugin/Upload.php:32
+msgctxt "admin-text"
+msgid "A PHP extension stopped the file upload."
+msgstr "A PHP extension stopped the file upload."
+
+#: plugin/Upload.php:34
+msgctxt "admin-text"
+msgid "Unknown upload error."
+msgstr "Unknown upload error."
+
+#: plugin/Upload.php:46
+msgctxt "admin-text"
+msgid "Please upload a valid %s file."
+msgstr "Please upload a valid %s file."
+
 #: config/forms/metabox-fields.php:9, plugin/Defaults/PostTypeColumnDefaults.php:24, plugin/Defaults/RevisionFieldsDefaults.php:17, plugin/Tinymce/TinymceGenerator.php:144
 msgctxt "admin-text"
 msgid "Type"
@@ -1422,60 +1476,38 @@ msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr "Pin Your Reviews"
 
-#: plugin/Commands/ImportSettings.php:27
+#: plugin/Commands/ImportReviews.php:100
 msgctxt "admin-text"
-msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
-msgstr "The uploaded file exceeds the upload_max_filesize directive in php.ini."
+msgid "%s review was imported."
+msgid_plural "%s reviews were imported."
+msgstr[0] "%s review was imported."
+msgstr[1] "%s reviews were imported."
 
-#: plugin/Commands/ImportSettings.php:28
+#: plugin/Commands/ImportReviews.php:108
 msgctxt "admin-text"
-msgid "The uploaded file is too big."
-msgstr "The uploaded file is too big."
+msgid "%s entry was skipped."
+msgid_plural "%s entries were skipped."
+msgstr[0] "%s entry was skipped."
+msgstr[1] "%s entries were skipped."
 
-#: plugin/Commands/ImportSettings.php:29
+#: plugin/Commands/ImportReviews.php:125
 msgctxt "admin-text"
-msgid "The uploaded file was only partially uploaded."
-msgstr "The uploaded file was only partially uploaded."
+msgid ""
+"Importing reviews requires that your database tables use the InnoDB Storage "
+"Engine."
+msgstr ""
+"Importing reviews requires that your database tables use the InnoDB Storage "
+"Engine."
 
-#: plugin/Commands/ImportSettings.php:30
-msgctxt "admin-text"
-msgid "No file was uploaded."
-msgstr "No file was uploaded."
-
-#: plugin/Commands/ImportSettings.php:31
-msgctxt "admin-text"
-msgid "Missing a temporary folder."
-msgstr "Missing a temporary folder."
-
-#: plugin/Commands/ImportSettings.php:32
-msgctxt "admin-text"
-msgid "Failed to write file to disk."
-msgstr "Failed to write file to disk."
-
-#: plugin/Commands/ImportSettings.php:33
-msgctxt "admin-text"
-msgid "A PHP extension stopped the file upload."
-msgstr "A PHP extension stopped the file upload."
-
-#: plugin/Commands/ImportSettings.php:35
-msgctxt "admin-text"
-msgid "Unknown upload error."
-msgstr "Unknown upload error."
-
-#: plugin/Commands/ImportSettings.php:51
+#: plugin/Commands/ImportSettings.php:22
 msgctxt "admin-text"
 msgid "Settings imported."
 msgstr "Settings imported."
 
-#: plugin/Commands/ImportSettings.php:68
+#: plugin/Commands/ImportSettings.php:39
 msgctxt "admin-text"
 msgid "There were no settings found to import."
 msgstr "There were no settings found to import."
-
-#: plugin/Commands/ImportSettings.php:82
-msgctxt "admin-text"
-msgid "Please use a valid Site Reviews settings file."
-msgstr "Please use a valid Site Reviews settings file."
 
 #: plugin/Commands/TogglePinned.php:36
 msgctxt "admin-text"
@@ -1524,12 +1556,12 @@ msgctxt "admin-text"
 msgid "Nothing found."
 msgstr "Nothing found."
 
-#: plugin/Controllers/EditorController.php:112
+#: plugin/Controllers/EditorController.php:115
 msgctxt "admin-text"
 msgid "Okay"
 msgstr "Okay"
 
-#: plugin/Controllers/EditorController.php:184
+#: plugin/Controllers/EditorController.php:187
 msgctxt "admin-text"
 msgid "%s reviews are read-only."
 msgstr "%s reviews are read-only."
@@ -1579,7 +1611,7 @@ msgctxt "admin-text"
 msgid "Support"
 msgstr "Support"
 
-#: plugin/Controllers/MenuController.php:89, plugin/Controllers/ToolsController.php:51
+#: plugin/Controllers/MenuController.php:89, plugin/Controllers/ToolsController.php:52
 msgctxt "admin-text"
 msgid "FAQ"
 msgstr "FAQ"
@@ -1674,12 +1706,12 @@ msgctxt "admin-text"
 msgid "(no title)"
 msgstr "(no title)"
 
-#: plugin/Controllers/MetaboxController.php:156, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17
+#: plugin/Controllers/MetaboxController.php:156, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:16
 msgctxt "admin-text"
 msgid "No"
 msgstr "No"
 
-#: plugin/Controllers/MetaboxController.php:157, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:16
+#: plugin/Controllers/MetaboxController.php:157, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17
 msgctxt "admin-text"
 msgid "Yes"
 msgstr "Yes"
@@ -1738,17 +1770,17 @@ msgctxt "admin-text"
 msgid "A license you entered was invalid."
 msgstr "A license you entered was invalid."
 
-#: plugin/Controllers/ToolsController.php:26
+#: plugin/Controllers/ToolsController.php:27
 msgctxt "admin-text"
 msgid "Console cleared."
 msgstr "Console cleared."
 
-#: plugin/Controllers/ToolsController.php:60
+#: plugin/Controllers/ToolsController.php:61
 msgctxt "admin-text"
 msgid "Your detected IP address is %s. If this looks incorrect, please see the %s."
 msgstr "Your detected IP address is %s. If this looks incorrect, please see the %s."
 
-#: plugin/Controllers/ToolsController.php:55
+#: plugin/Controllers/ToolsController.php:56
 msgctxt "admin-text"
 msgid ""
 "Site Reviews was unable to detect an IP address. To fix this, please see "
@@ -1757,37 +1789,37 @@ msgstr ""
 "Site Reviews was unable to detect an IP address. To fix this, please see "
 "the %s."
 
-#: plugin/Controllers/ToolsController.php:111
+#: plugin/Controllers/ToolsController.php:112
 msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr "Console reloaded."
 
-#: plugin/Controllers/ToolsController.php:147
+#: plugin/Controllers/ToolsController.php:157
 msgctxt "admin-text"
 msgid "The plugin has been migrated sucessfully."
 msgstr "The plugin has been migrated sucessfully."
 
-#: plugin/Controllers/ToolsController.php:144
+#: plugin/Controllers/ToolsController.php:154
 msgctxt "admin-text"
 msgid "All plugin migrations have been run successfully."
 msgstr "All plugin migrations have been run successfully."
 
-#: plugin/Controllers/ToolsController.php:170
+#: plugin/Controllers/ToolsController.php:180
 msgctxt "admin-text"
 msgid "The assigned meta values have been reset."
 msgstr "The assigned meta values have been reset."
 
-#: plugin/Controllers/ToolsController.php:192
+#: plugin/Controllers/ToolsController.php:202
 msgctxt "admin-text"
 msgid "The permissions have been reset."
 msgstr "The permissions have been reset."
 
-#: plugin/Controllers/ToolsController.php:203
+#: plugin/Controllers/ToolsController.php:213
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr "reload the page"
 
-#: plugin/Controllers/ToolsController.php:207
+#: plugin/Controllers/ToolsController.php:217
 msgctxt "admin-text"
 msgid "The permissions have been reset, please %s for them to take effect."
 msgstr "The permissions have been reset, please %s for them to take effect."
@@ -2016,12 +2048,12 @@ msgctxt "admin-text"
 msgid "View review"
 msgstr "View review"
 
-#: plugin/Modules/Console.php:77
+#: plugin/Modules/Console.php:78
 msgctxt "admin-text"
 msgid "Console is empty"
 msgstr "Console is empty"
 
-#: plugin/Modules/Console.php:304
+#: plugin/Modules/Console.php:301
 msgctxt "admin-text"
 msgid "Console was automatically cleared (256KB maximum size)"
 msgstr "Console was automatically cleared (256KB maximum size)"
@@ -2493,13 +2525,13 @@ msgstr ""
 #: views/pages/settings/translations.php:3
 msgctxt "admin-text"
 msgid ""
-"Here you can customise any text of the plugin, including the submission "
-"form labels and placeholders. However, if you have a multilingual website "
-"you should use the %s plugin instead."
+"Here you can customise any text of the plugin, including the review form "
+"labels and placeholders. However, if you have a multilingual website you "
+"should use the %s plugin instead."
 msgstr ""
-"Here you can customise any text of the plugin, including the submission "
-"form labels and placeholders. However, if you have a multilingual website "
-"you should use the %s plugin instead."
+"Here you can customise any text of the plugin, including the review form "
+"labels and placeholders. However, if you have a multilingual website you "
+"should use the %s plugin instead."
 
 #: views/pages/settings/translations.php:7
 msgctxt "admin-text"
@@ -2551,52 +2583,62 @@ msgctxt "admin-text"
 msgid "Export Settings"
 msgstr "Export Settings"
 
-#: views/pages/tools/general.php:24
+#: views/pages/tools/general.php:26, views/pages/tools/general.php:54
+msgctxt "admin-text"
+msgid "Importing, please wait..."
+msgstr "Importing, please wait..."
+
+#: views/pages/tools/general.php:26
 msgctxt "admin-text"
 msgid "Import Settings"
 msgstr "Import Settings"
 
-#: views/pages/tools/general.php:37
+#: views/pages/tools/general.php:54
+msgctxt "admin-text"
+msgid "Import Reviews"
+msgstr "Import Reviews"
+
+#: views/pages/tools/general.php:72
 msgctxt "admin-text"
 msgid "Run All Migrations"
 msgstr "Run All Migrations"
 
-#: views/pages/tools/general.php:37
+#: views/pages/tools/general.php:72
 msgctxt "admin-text"
 msgid "Migrating, please wait..."
 msgstr "Migrating, please wait..."
 
-#: views/pages/tools/general.php:37
+#: views/pages/tools/general.php:72
 msgctxt "admin-text"
 msgid "Run Migration"
 msgstr "Run Migration"
 
-#: views/pages/tools/general.php:54
+#: views/pages/tools/general.php:89
 msgctxt "admin-text"
 msgid "Resetting values, please wait..."
 msgstr "Resetting values, please wait..."
 
-#: views/pages/tools/general.php:54
+#: views/pages/tools/general.php:89
 msgctxt "admin-text"
 msgid "Reset Meta Values"
 msgstr "Reset Meta Values"
 
-#: views/pages/tools/general.php:69
+#: views/pages/tools/general.php:104
 msgctxt "admin-text"
 msgid "Resetting, please wait..."
 msgstr "Resetting, please wait..."
 
-#: views/pages/tools/general.php:69
+#: views/pages/tools/general.php:104
 msgctxt "admin-text"
 msgid "Reset Permissions"
 msgstr "Reset Permissions"
 
-#: views/pages/tools/general.php:86
+#: views/pages/tools/general.php:121
 msgctxt "admin-text"
 msgid "Testing, please wait..."
 msgstr "Testing, please wait..."
 
-#: views/pages/tools/general.php:86
+#: views/pages/tools/general.php:121
 msgctxt "admin-text"
 msgid "Test Detection"
 msgstr "Test Detection"
@@ -2788,15 +2830,6 @@ msgstr "singular"
 msgctxt "admin-text"
 msgid "plural"
 msgstr "plural"
-
-#: config/settings.php:112
-msgctxt "site-reviews"
-msgid ""
-"If emails are not sent, make sure this email shares the same domain as your "
-"website."
-msgstr ""
-"If emails are not sent, make sure this email shares the same domain as your "
-"website."
 
 #: plugin/Controllers/ListTableController.php:107
 msgctxt "Approve the review (admin-text)"

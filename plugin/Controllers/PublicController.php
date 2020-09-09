@@ -73,7 +73,7 @@ class PublicController extends Controller
 
     /**
      * @return array
-     * @filter site-reviews/config/forms/submission-form
+     * @filter site-reviews/config/forms/review-form
      */
     public function filterFieldOrder(array $config)
     {

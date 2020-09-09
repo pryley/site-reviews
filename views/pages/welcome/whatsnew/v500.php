@@ -41,7 +41,7 @@
             <li>Improved documentation</li>
             <li>Improved translation settings</li>
             <li>Refreshed the blocks to visually match the WordPress 5.5 editor style</li>
-            <li>The Terms checkbox in the submission form should now align correctly with the text</li>
+            <li>The Terms checkbox in the review form should now align correctly with the text</li>
             <li>Updated Trustalyze integration</li>
         </ul>
         <h4>Removed</h4>

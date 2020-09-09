@@ -10,7 +10,7 @@
         <h4>New Features</h4>
         <ul>
             <li>Added migration tool for cases when auto-migration is not triggered when upgrading to version 4</li>
-            <li>Added permission validation to the submission form</li>
+            <li>Added permission validation to the review form</li>
             <li>Added update functionality for add-ons</li>
         </ul>
         <h4>Tweaks</h4>

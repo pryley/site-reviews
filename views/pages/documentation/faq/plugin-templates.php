@@ -27,7 +27,7 @@
  ├── login-register.php          This template displays the login/register message
  ├── pagination.php              This template displays the review pagination
  ├── review.php                  This template displays a single review
- ├── reviews-form.php            This template displays the submission form
+ ├── reviews-form.php            This template displays the review form
  ├── reviews-summary.php         This template displays the review summary
  └── reviews.php                 This template displays the reviews</code></pre>
     </div>

@@ -15,7 +15,7 @@ class FormFieldsTag extends FormTag
      */
     protected function fields()
     {
-        $fields = glsr(Form::class)->getFields('submission-form');
+        $fields = glsr(Form::class)->getFields('review-form');
         $fields = $this->normalizeFields($fields);
         $hiddenFields = $this->hiddenFields();
         $paths = wp_list_pluck(wp_list_pluck($hiddenFields, 'field'), 'path');

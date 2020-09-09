@@ -79,7 +79,7 @@ class SiteReviewsFormBlock extends Block
      */
     protected function filterFormFields()
     {
-        add_filter('site-reviews/config/forms/submission-form', function (array $config) {
+        add_filter('site-reviews/config/forms/review-form', function (array $config) {
             array_walk($config, function (&$field) {
                 $field['class'] = $this->formFieldClass(Arr::get($field, 'type'));
                 $field['disabled'] = true;

@@ -1,6 +1,6 @@
 <?php defined('WPINC') || die; ?>
 
-<p><?= sprintf(_x('Here you can customise any text of the plugin, including the submission form labels and placeholders. However, if you have a multilingual website you should use the %s plugin instead.', 'admin-text', 'site-reviews'), '<a href="https://wordpress.org/plugins/loco-translate/">Loco Translate</a>'); ?></p>
+<p><?= sprintf(_x('Here you can customise any text of the plugin, including the review form labels and placeholders. However, if you have a multilingual website you should use the %s plugin instead.', 'admin-text', 'site-reviews'), '<a href="https://wordpress.org/plugins/loco-translate/">Loco Translate</a>'); ?></p>
 
 <div class="glsr-strings-form">
     <div class="glsr-search-box" id="glsr-search-translations">
