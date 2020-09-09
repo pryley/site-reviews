@@ -20,8 +20,9 @@ add_action('plugins_loaded', function () {
         }
         $metaKey = Str::removePrefix($metaKey, '_');
         $metaKeys = [
-            'assigned_to', 'author', 'avatar', 'content', 'date', 'email', 'ip_address',
-            'pinned', 'rating', 'review_id', 'review_type', 'title', 'url',
+            'assigned_to', 'author', 'avatar', 'content', 'date', 'email', 
+            'ip_address', 'pinned', 'rating', 'review_id', 'review_type', 
+            'title', 'trustalyze', 'trustalyze_response', 'url',
         ];
         if (!in_array($metaKey, $metaKeys)) {
             return $data;

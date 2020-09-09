@@ -36,6 +36,7 @@ class TrustalyzeController extends Controller
     }
 
     /**
+     * Insert the "Create your Trustalyze Account" button
      * @param string $template
      * @return array
      * @filter site-reviews/interpolate/partials/form/table-row-multiple
