@@ -245,12 +245,7 @@ class Translation
         ];
         array_walk($entries, function (&$entry) use ($keys) {
             foreach ($keys as $key) {
-                try {
-                    $entry = $this->normalizeEntryString($entry, $key);
-                } catch (\TypeError $error) {
-                    glsr_log()->once('error', 'Translation/normalize', $error);
-                    glsr_log()->once('debug', 'Translation/normalize', $entry);
-                }
+                $entry = $this->normalizeEntryString($entry, $key);
             }
         });
         return $entries;
