@@ -12,7 +12,7 @@
  * Author URI:        https://geminilabs.io
  * License:           GPL2
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Requires at least: 5.2
+ * Requires at least: 5.5
  * Requires PHP:      5.6.20
  * Text Domain:       site-reviews
  * Domain Path:       languages
