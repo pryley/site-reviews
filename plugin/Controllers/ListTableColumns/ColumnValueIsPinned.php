@@ -2,10 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
+use GeminiLabs\SiteReviews\Contracts\ColumnValueContract;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Review;
 
-class ColumnValueIsPinned implements ColumnValue
+class ColumnValueIsPinned implements ColumnValueContract
 {
     /**
      * {@inheritdoc}

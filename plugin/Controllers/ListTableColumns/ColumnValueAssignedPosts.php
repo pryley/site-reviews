@@ -2,10 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
+use GeminiLabs\SiteReviews\Contracts\ColumnValueContract;
 use GeminiLabs\SiteReviews\Modules\Html\Tags\ReviewAssignedLinksTag;
 use GeminiLabs\SiteReviews\Review;
 
-class ColumnValueAssignedPosts implements ColumnValue
+class ColumnValueAssignedPosts implements ColumnValueContract
 {
     /**
      * {@inheritdoc}

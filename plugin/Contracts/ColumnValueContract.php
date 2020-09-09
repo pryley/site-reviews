@@ -1,10 +1,10 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
+namespace GeminiLabs\SiteReviews\Contracts;
 
 use GeminiLabs\SiteReviews\Review;
 
-interface ColumnValue
+interface ColumnValueContract
 {
     /**
      * @return string|void

@@ -2,9 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
+use GeminiLabs\SiteReviews\Contracts\ColumnValueContract;
 use GeminiLabs\SiteReviews\Review;
 
-class ColumnValueAuthorEmail implements ColumnValue
+class ColumnValueAuthorEmail implements ColumnValueContract
 {
     /**
      * {@inheritdoc}

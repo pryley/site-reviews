@@ -2,10 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
+use GeminiLabs\SiteReviews\Contracts\ColumnFilterContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
-class ColumnFilterType implements ColumnFilter
+class ColumnFilterType implements ColumnFilterContract
 {
     /**
      * {@inheritdoc}
