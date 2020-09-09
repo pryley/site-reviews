@@ -15,7 +15,6 @@ use GeminiLabs\SiteReviews\Request;
 
 class CreateReview implements Contract
 {
-    public $ajax_request;
     public $assigned_posts;
     public $assigned_terms;
     public $assigned_users;

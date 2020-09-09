@@ -6,6 +6,7 @@ use BadMethodCallException;
 use DateTime;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Backtrace;
 use ReflectionClass;
@@ -109,7 +110,7 @@ class Console
      */
     public function humanSize()
     {
-        return Str::replaceLast(' B', ' bytes', size_format($this->size()));
+        return Str::replaceLast(' B', ' bytes', Cast::toString(size_format($this->size())));
     }
 
     /**

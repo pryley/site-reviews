@@ -219,7 +219,7 @@ class System
     {
         return [
             'Console level' => glsr(Console::class)->humanLevel(),
-            'Console size' => glsr(Console::class)->humanSize('0'),
+            'Console size' => glsr(Console::class)->humanSize(),
             'Last Migration Run' => glsr(Date::class)->localized(glsr(OptionManager::class)->get('last_migration_run'), 'unknown'),
             'Version (current)' => glsr()->version,
             'Version (previous)' => glsr(OptionManager::class)->get('version_upgraded_from'),

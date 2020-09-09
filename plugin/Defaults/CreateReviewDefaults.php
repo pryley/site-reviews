@@ -10,6 +10,7 @@ class CreateReviewDefaults extends Defaults
      * @return array
      */
     public $mapped = [
+        '_post_id' => 'post_id',
         '_referer' => 'referer',
         'author' => 'name',
         'pinned' => 'is_pinned',
@@ -19,7 +20,6 @@ class CreateReviewDefaults extends Defaults
      * @return array
      */
     public $sanitize = [
-        'ajax_request' => 'bool',
         'assigned_posts' => 'array-int',
         'assigned_terms' => 'array-int',
         'assigned_users' => 'array-int',
@@ -47,7 +47,6 @@ class CreateReviewDefaults extends Defaults
     protected function defaults()
     {
         return [
-            'ajax_request' => false,
             'assigned_posts' => [],
             'assigned_terms' => [],
             'assigned_users' => [],
