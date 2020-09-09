@@ -12,6 +12,7 @@ spl_autoload_register(function ($className) {
     $namespaces = [
         'GeminiLabs\\SiteReviews\\' => __DIR__.'/plugin/',
         'GeminiLabs\\SiteReviews\\Tests\\' => __DIR__.'/tests/',
+        'GeminiLabs\\League\\Csv\\' => __DIR__.'/vendors/thephpleague/csv/',
         'GeminiLabs\\Sepia\\PoParser\\' => __DIR__.'/vendors/sepia/po-parser/',
         'GeminiLabs\\Sinergi\\BrowserDetector\\' => __DIR__.'/vendors/sinergi/browser-detector/',
         'GeminiLabs\\Symfony\\Polyfill\\Mbstring\\' => __DIR__.'/vendors/symfony/polyfill-mbstring/',
