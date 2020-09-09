@@ -107,14 +107,9 @@ class Console
      * @param string|null $valueIfEmpty
      * @return string
      */
-    public function humanSize($valueIfEmpty = null)
+    public function humanSize()
     {
-        $bytes = $this->size();
-        if (empty($bytes) && is_string($valueIfEmpty)) {
-            return $valueIfEmpty;
-        }
-        $exponent = floor(log(max($bytes, 1), 1024));
-        return round($bytes / pow(1024, $exponent), 2).' '.['bytes', 'KB', 'MB', 'GB'][$exponent];
+        return Str::replaceLast(' B', ' bytes', size_format($this->size()));
     }
 
     /**
@@ -293,9 +288,10 @@ class Console
      */
     protected function reset()
     {
-        if ($this->size() <= pow(1024, 2) / 4) {
+        if ($this->size() <= wp_convert_hr_to_bytes('256kb')) {
             return;
         }
+        // wp_convert_hr_to_bytes
         $this->clear();
         file_put_contents(
             $this->file,
