@@ -23,14 +23,17 @@ class CustomFieldsDefaults extends Defaults
         'assigned_posts',
         'assigned_terms',
         'assigned_users',
+        'avatar',
         'content',
         'date', // special
         'email',
         'excluded',
         'form_id',
         'ip_address',
+        'is_pinned',
         'name',
         'rating',
+        'response',
         'terms',
         'title',
         'url', // special

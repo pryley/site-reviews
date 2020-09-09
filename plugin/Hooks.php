@@ -155,6 +155,7 @@ class Hooks implements HooksContract
         add_action('site-reviews/route/admin/migrate-plugin', [$this->tools, 'migratePlugin']);
         add_action('site-reviews/route/ajax/migrate-plugin', [$this->tools, 'migratePluginAjax']);
         add_action('site-reviews/route/admin/export-settings', [$this->tools, 'exportSettings']);
+        add_action('site-reviews/route/admin/import-reviews', [$this->tools, 'importReviews']);
         add_action('site-reviews/route/admin/import-settings', [$this->tools, 'importSettings']);
         add_action('site-reviews/route/admin/reset-assigned-meta', [$this->tools, 'resetAssignedMeta']);
         add_action('site-reviews/route/ajax/reset-assigned-meta', [$this->tools, 'resetAssignedMetaAjax']);

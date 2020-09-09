@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Commands\ImportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportSettings;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
@@ -122,6 +123,15 @@ class ToolsController extends Controller
             'console' => glsr(Console::class)->get(),
             'notices' => glsr(Notice::class)->get(),
         ]);
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/admin/import-reviews
+     */
+    public function importReviews()
+    {
+        $this->execute(new ImportReviews());
     }
 
     /**

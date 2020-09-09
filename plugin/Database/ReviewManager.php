@@ -69,6 +69,21 @@ class ReviewManager
      */
     public function create(CreateReview $command)
     {
+        if ($postId = $this->createRaw($command)) {
+            $review = $this->get($postId);
+            if ($review->isValid()) {
+                glsr()->action('review/created', $review, $command);
+                return $this->get($review->ID);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @return false|int
+     */
+    public function createRaw(CreateReview $command)
+    {
         $values = glsr()->args($command->toArray()); // this filters the values
         $postValues = [
             'comment_status' => 'closed',
@@ -87,12 +102,7 @@ class ReviewManager
             return false;
         }
         glsr()->action('review/create', $postId, $command);
-        $review = $this->get($postId);
-        if ($review->isValid()) {
-            glsr()->action('review/created', $review, $command);
-            return $this->get($review->ID);
-        }
-        return false;
+        return $postId;
     }
 
     /**

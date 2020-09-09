@@ -151,6 +151,9 @@ class ReviewController extends Controller
             wp_delete_post($postId, true); // remove post as review was not created
             return;
         }
+        if (!empty($values->response)) {
+            glsr(Database::class)->metaSet($postId, 'response', $values->response); // save the response if one is provided
+        }
         glsr(TaxonomyManager::class)->setTerms($postId, $values->assigned_terms); // terms are assigned with the set_object_terms hook
         foreach ($values->custom as $key => $value) {
             glsr(Database::class)->metaSet($postId, 'custom_'.$key, $value);

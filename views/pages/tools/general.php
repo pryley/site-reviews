@@ -17,12 +17,47 @@
     <h3>Import Settings</h3>
     <p>Import the Site Reviews settings from a <code>*.json</code> file. This file can be obtained by exporting the settings on another site using the export tool below.</p>
     <p>To import your Site Reviews' reviews and categories from another website, please use the WordPress <a href="<?= admin_url('import.php'); ?>">Import</a> tool.</p>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" onsubmit="submit.disabled = true;">
         <input type="file" name="import-file">
         <input type="hidden" name="{{ id }}[_action]" value="import-settings">
         <?php wp_nonce_field('import-settings'); ?>
-        <?php submit_button(_x('Import Settings', 'admin-text', 'site-reviews'), 'secondary'); ?>
+        <p class="submit">
+            <button type="submit" class="glsr-button button" name="submit" id="import-settings">
+                <span data-loading="<?= esc_attr_x('Importing, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Import Settings', 'admin-text', 'site-reviews'); ?></span>
+            </button>
+        </p>
     </form>
+</div>
+
+<div class="glsr-card card">
+    <h3>Import Third Party Reviews</h3>
+    <p>Here you can import third party reviews from a <code>*.CSV</code> file. The CSV file should include a header row, use a comma as the delimiter, and may contain the following columns:</p>
+    <p>
+        <code>avatar</code> The avatar URL of the reviewer<br>
+        <code>content</code> The review (<span class="required">required</span>)<br>
+        <code>date</code> The review date as <span class="code">yyyy-mm-dd</span> or a timestamp (<span class="required">required</span>)<br>
+        <code>email</code> The reviewer's email<br>
+        <code>ip_address</code> The IP address of the reviewer<br>
+        <code>is_pinned</code> True or false<br>
+        <code>name</code> The reviewer's name<br>
+        <code>rating</code> A number from 0-<?= glsr()->constant('MAX_RATING', 'GeminiLabs\SiteReviews\Modules\Rating'); ?> (<span class="required">required</span>)<br>
+        <code>response</code> The review response<br>
+        <code>title</code> The title of the review<br>
+    </p>
+    <p>Entries in the CSV file that do not contain required values will be skipped.</p>
+    <form method="post" enctype="multipart/form-data" onsubmit="submit.disabled = true;">
+        <input type="file" name="import-file">
+        <input type="hidden" name="{{ id }}[_action]" value="import-reviews">
+        <?php wp_nonce_field('import-reviews'); ?>
+        <p class="submit">
+            <button type="submit" class="glsr-button button" name="submit" id="import-reviews">
+                <span data-loading="<?= esc_attr_x('Importing, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Import Reviews', 'admin-text', 'site-reviews'); ?></span>
+            </button>
+        </p>
+    </form>
+    <div class="notice inline notice-warning">
+        <p>Please make a backup of your database before running this tool! You can use the <a href="https://wordpress.org/plugins/updraftplus/">UpdraftPlus</a> plugin to do this.</p>
+    </div>
 </div>
 
 <div class="glsr-card card">
@@ -33,7 +68,7 @@
         <input type="hidden" name="{{ id }}[alt]" value="0" data-alt>
         <?php wp_nonce_field('migrate-plugin'); ?>
         <p class="submit">
-            <button type="submit" class="glsr-button button" name="migrate-plugin" id="migrate-plugin" data-remove-notice="migrate" data-ajax-click>
+            <button type="submit" class="glsr-button button" name="migrate-plugin" id="migrate-plugin" data-ajax-click>
                 <span data-alt-text="<?= esc_attr_x('Run All Migrations', 'admin-text', 'site-reviews'); ?>" data-loading="<?= esc_attr_x('Migrating, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Run Migration', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>
