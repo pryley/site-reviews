@@ -64,6 +64,15 @@ class Rating
     }
 
     /**
+     * @param int|string $rating
+     * @return bool
+     */
+    public function isValid($rating)
+    {
+        return array_key_exists($rating, $this->emptyArray());
+    }
+
+    /**
      * Get the lower bound for up/down ratings
      * Method receives an up/down ratings array: [1, -1, -1, 1, 1, -1].
      * @see http://www.evanmiller.org/how-not-to-sort-by-average-rating.html

@@ -50,12 +50,22 @@ class Date
 
     /**
      * @param mixed $date
+     * @param string $format
+     * @return bool
+     */
+    public function isValid($date, $format = 'Y-m-d H:i:s')
+    {
+        return $this->isDate($date, $format) || $this->isTimestamp($date);
+    }
+
+    /**
+     * @param mixed $date
      * @param string $fallback
      * @return string
      */
     public function localized($date, $fallback = '')
     {
-        return $this->isDate($date) || $this->isTimestamp($date)
+        return $this->isValid($date)
             ? date_i18n('Y-m-d H:i', $date)
             : $fallback;
     }
