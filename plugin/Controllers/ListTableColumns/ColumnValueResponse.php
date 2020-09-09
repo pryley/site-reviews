@@ -12,8 +12,8 @@ class ColumnValueResponse implements ColumnValue
      */
     public function handle(Review $review)
     {
-        return glsr(Database::class)->meta($review->ID, 'response')
-            ? _x('Yes', 'admin-text', 'site-reviews')
-            : _x('No', 'admin-text', 'site-reviews');
+        return empty($review->response)
+            ? _x('No', 'admin-text', 'site-reviews')
+            : _x('Yes', 'admin-text', 'site-reviews');
     }
 }
