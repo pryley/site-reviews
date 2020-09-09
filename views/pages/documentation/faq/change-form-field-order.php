@@ -6,14 +6,14 @@
         </button>
     </h3>
     <div id="faq-change-form-field-order" class="inside">
-        <p>To customise the order of the fields in the review submission form, use the <code><a data-expand="#hooks-filter-form-field-order" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-hooks'); ?>">site-reviews/submission-form/order</a></code> filter hook in your theme's <code>functions.php</code> file.</p>
+        <p>To customise the order of the fields in the review submission form, use the <code><a data-expand="#hooks-filter-form-field-order" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-hooks'); ?>">site-reviews/review-form/order</a></code> filter hook in your theme's <code>functions.php</code> file.</p>
         <pre><code class="language-php">/**
  * Customises the order of the fields used in the Site Reviews submission form.
  * Paste this in your active theme's functions.php file.
  * @param array $order
  * @return array
  */
-add_filter('site-reviews/submission-form/order', function ($order) {
+add_filter('site-reviews/review-form/order', function ($order) {
     // The $order array contains the field keys returned below.
     // Simply change the order of the field keys to the desired field order.
     return [

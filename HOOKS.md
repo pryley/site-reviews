@@ -105,10 +105,11 @@
     site-reviews/rendered/partial/<partial_path>            (): string
     site-reviews/rendered/template                          (): string
     site-reviews/rendered/template/<template_path>          (): string
-    site-reviews/review/build/after                         (array $templateTags, Review $review, Modules\Html\ReviewHtml $reviewHtml): array
+    site-reviews/review-form/order                          (array $order): array
     site-reviews/review/build/<tag_or_field_key>            (string $field, string $value, Review $review, Modules\Html\ReviewHtml $reviewHtml): string
-    site-reviews/review/tag/<tag>                           (string $className): string
+    site-reviews/review/build/after                         (array $templateTags, Review $review, Modules\Html\ReviewHtml $reviewHtml): array
     site-reviews/review/redirect                            (): string
+    site-reviews/review/tag/<tag>                           (string $className): string
     site-reviews/review/value/<tag_or_field_key>            (string $value, Modules\Html\Tags\<Tag> $tag): string
     site-reviews/review/wrap/<tag_or_field_key>             (string $value, Review $review, string $rawValue, Modules\Html\Tags\<Tag> $tag): string
     site-reviews/reviews/fallback                           (): string
@@ -126,7 +127,6 @@
     site-reviews/sslverify/post                             (): bool
     site-reviews/style                                      (): string
     site-reviews/style/views                                (): array
-    site-reviews/submission-form/order                      (): array
     site-reviews/summary/build/<tag_or_field_key>           (string $field, array $ratings, Modules\Html\Partials\SiteReviewsSummary $partial): string
     site-reviews/summary/counts                             (): string
     site-reviews/summary/value/<tag_or_field_key>           (string $value, Modules\Html\Tags\<Tag> $tag): string

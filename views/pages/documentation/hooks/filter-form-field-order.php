@@ -2,7 +2,7 @@
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="hooks-filter-form-field-order">
             <span class="title">Customise the submission form field order</span>
-            <span class="badge code">site-reviews/submission-form/order</span>
+            <span class="badge code">site-reviews/review-form/order</span>
             <span class="icon"></span>
         </button>
     </h3>
@@ -15,7 +15,7 @@
  * @param array $order
  * @return array
  */
-add_filter('site-reviews/submission-form/order', function ($order) {
+add_filter('site-reviews/review-form/order', function ($order) {
     // modify the $order array here
     return $order;
 });</code></pre>

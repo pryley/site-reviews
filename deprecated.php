@@ -30,6 +30,19 @@ add_action('plugins_loaded', function () {
         glsr()->append('deprecated', $message);
         return glsr_get_review($postId)->{$metaKey};
     }, 10, 3);
+
+    /**
+     * Controllers\PublicController.php
+     * @since 5.0.0
+     */
+    add_filter('site-reviews/review-form/order', function ($order) {
+        if (has_filter('site-reviews/submission-form/order')) {
+            $message = 'The "site-reviews/submission-form/order" hook has been deprecated. Please use the "site-reviews/review-form/order" hook instead.';
+            glsr()->append('deprecated', $message);
+            return apply_filters('site-reviews/submission-form/order', $order);
+        }
+        return $order;
+    }, 9);
 });
 
 /**

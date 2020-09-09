@@ -78,7 +78,7 @@ class PublicController extends Controller
     public function filterFieldOrder(array $config)
     {
         $order = array_keys($config);
-        $order = glsr()->filterArray('submission-form/order', $order);
+        $order = glsr()->filterArray('review-form/order', $order);
         return array_intersect_key(array_merge(array_flip($order), $config), $config);
     }
 
