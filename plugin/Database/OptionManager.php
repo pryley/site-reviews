@@ -100,11 +100,12 @@ class OptionManager
     }
 
     /**
+     * Restricts the provided settings keys to the defaults
      * @return array
      */
     public function normalize(array $settings = [])
     {
-        $settings = wp_parse_args(Arr::flatten($settings), glsr(DefaultsManager::class)->defaults());
+        $settings = shortcode_atts(glsr(DefaultsManager::class)->defaults(), Arr::flatten($settings));
         array_walk($settings, function (&$value) {
             if (is_string($value)) {
                 $value = wp_kses($value, wp_kses_allowed_html('post'));
