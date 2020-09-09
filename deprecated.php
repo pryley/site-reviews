@@ -2,6 +2,7 @@
 
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Backtrace;
 
 defined('WPINC') || die;
 
@@ -18,11 +19,14 @@ add_action('plugins_loaded', function () {
             return $data;
         }
         $metaKey = Str::removePrefix($metaKey, '_');
-        $metaKeys = array_keys(glsr(CreateReviewDefaults::class)->defaults());
+        $metaKeys = [
+            'assigned_to', 'author', 'avatar', 'content', 'date', 'email', 'ip_address',
+            'pinned', 'rating', 'review_id', 'review_type', 'title', 'url',
+        ];
         if (!in_array($metaKey, $metaKeys)) {
             return $data;
         }
-        $message = 'Site Reviews no longer stores review values as meta data. Please use the glsr_get_review() helper function instead.';
+        $message = 'Site Reviews no longer stores the "'.$metaKey.'" review value as meta data. Please use the glsr_get_review() helper function instead.';
         glsr()->append('deprecated', $message);
         return glsr_get_review($postId)->{$metaKey};
     }, 10, 3);
