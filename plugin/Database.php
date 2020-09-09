@@ -29,6 +29,19 @@ class Database
     }
 
     /**
+     * Use this before bulk insert (see: $this->finishTransaction())
+     * @param string $table
+     * @return void
+     */
+    public function beginTransaction($table)
+    {
+        $sql = glsr(SqlSchema::class)->isInnodb($table)
+            ? 'START TRANSACTION;'
+            : 'SET autocommit = 0;';
+        $this->dbQuery($sql);
+    }
+
+    /**
      * @return void
      */
     public function createTables()
@@ -133,6 +146,19 @@ class Database
             $search[] = "{$this->db->posts}.post_password = ''";
         }
         return ' AND '.implode(' AND ', $search);
+    }
+
+    /**
+     * Use this after bulk insert (see: $this->beginTransaction())
+     * @param string $table
+     * @return void
+     */
+    public function finishTransaction($table)
+    {
+        $sql = glsr(SqlSchema::class)->isInnodb($table)
+            ? 'COMMIT;'
+            : 'SET autocommit = 1;';
+        $this->dbQuery($sql);
     }
 
     /**

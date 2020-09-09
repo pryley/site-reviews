@@ -34,6 +34,7 @@ class Migrate_5_0_0
      */
     public function migrateAssignedTo()
     {
+        glsr(Database::class)->beginTransaction('assigned_posts');
         $offset = 0;
         $table = glsr(Query::class)->table('ratings');
         while (true) {
@@ -56,6 +57,7 @@ class Migrate_5_0_0
             ]);
             $offset += $this->limit;
         }
+        glsr(Database::class)->finishTransaction('assigned_posts');
     }
 
     /**
@@ -63,6 +65,7 @@ class Migrate_5_0_0
      */
     public function migrateCustom()
     {
+        glsr(Database::class)->beginTransaction('postmeta');
         $offset = 0;
         while (true) {
             $sql = glsr(Query::class)->sql($this->db->prepare("
@@ -89,6 +92,7 @@ class Migrate_5_0_0
             }
             $offset += $this->limit;
         }
+        glsr(Database::class)->finishTransaction('postmeta');
     }
 
     /**
@@ -96,6 +100,7 @@ class Migrate_5_0_0
      */
     public function migrateRatings()
     {
+        glsr(Database::class)->beginTransaction('ratings');
         $offset = 0;
         while (true) {
             $sql = glsr(Query::class)->sql($this->db->prepare("
@@ -121,6 +126,7 @@ class Migrate_5_0_0
             glsr(Database::class)->insertBulk('ratings', $values, $fields);
             $offset += $this->limit;
         }
+        glsr(Database::class)->finishTransaction('ratings');
     }
 
     /**
@@ -150,6 +156,7 @@ class Migrate_5_0_0
      */
     public function migrateTerms()
     {
+        glsr(Database::class)->beginTransaction('assigned_terms');
         $offset = 0;
         $table = glsr(Query::class)->table('ratings');
         while (true) {
@@ -170,6 +177,7 @@ class Migrate_5_0_0
             ]);
             $offset += $this->limit;
         }
+        glsr(Database::class)->finishTransaction('assigned_terms');
     }
 
     /**

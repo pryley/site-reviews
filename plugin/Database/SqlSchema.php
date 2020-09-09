@@ -218,6 +218,22 @@ class SqlSchema
     }
 
     /**
+     * @return bool
+     */
+    public function isInnodb($table)
+    {
+        $engine = $this->db->get_var("
+           SELECT ENGINE
+           FROM information_schema.TABLES
+           WHERE TABLE_SCHEMA = '{$this->db->dbname}' AND TABLE_NAME = '{$this->table($table)}'
+        ");
+        if (empty($engine)) {
+            glsr_log()->warning(sprintf('The %s database table does not exist.', $this->table($table)));
+        }
+        return 'innodb' === strtolower($engine);
+    }
+
+    /**
      * @return string
      */
     public function prefix($table)
@@ -255,7 +271,9 @@ class SqlSchema
     {
         if (!isset($this->constraints)) {
             $this->constraints = $this->db->get_col("
-                SELECT CONSTRAINT_NAME FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = '{$this->db->dbname}'
+                SELECT CONSTRAINT_NAME
+                FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
+                WHERE CONSTRAINT_SCHEMA = '{$this->db->dbname}'
             ");
         }
         return in_array($constraint, $this->constraints);
