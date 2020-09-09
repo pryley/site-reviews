@@ -138,6 +138,7 @@ class Migrate
      */
     protected function runMigrations()
     {
+        wp_raise_memory_limit('admin');
         $transient = $this->transient();
         foreach ($this->pendingMigrations($transient) as $migration) {
             if (class_exists($classname = __NAMESPACE__.'\Migrations\\'.$migration)) {

@@ -51,6 +51,7 @@ class ImportReviews extends Upload implements Contract
         }
         require_once glsr()->path('vendors/thephpleague/csv/functions_include.php');
         try {
+            wp_raise_memory_limit('admin');
             $reader = Reader::createFromPath($this->file()->tmp_name, 'r');
             $reader->setHeaderOffset(0);
             if (!empty(array_diff(static::REQUIRED_KEYS, $reader->getHeader()))) {
