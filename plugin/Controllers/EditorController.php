@@ -57,10 +57,13 @@ class EditorController extends Controller
      */
     public function filterIsProtectedMeta($protected, $metaKey, $metaType)
     {
-        if ('post' == $metaType 
-            && Str::startsWith('_custom_,_'.glsr()->prefix, $metaKey)
-            && glsr()->post_type === get_post_type()) {
-            $protected = false;
+        if ('post' == $metaType && Str::startsWith('_custom_,_'.glsr()->prefix, $metaKey)) {
+            if ('delete-meta' === filter_input(INPUT_POST, 'action')) {
+                return false; // allow delete but not update
+            }
+            if (glsr()->post_type === get_post_type()) {
+                return false; // display the field in the Custom Fields metabox
+            }
         }
         return $protected;
     }
