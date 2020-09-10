@@ -10,6 +10,5 @@
 coverage.xml
 mix-manifest.json
 
-/_
 /node_modules
 /vendor

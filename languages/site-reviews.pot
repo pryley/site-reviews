@@ -105,11 +105,11 @@ msgctxt "admin-text"
 msgid "Create Review (inactive)"
 msgstr ""
 
-#: deprecated.php:78
+#: deprecated.php:69
 msgid "%s is <strong>deprecated</strong> since version %s with no alternative available."
 msgstr ""
 
-#: deprecated.php:91
+#: deprecated.php:82
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr ""
 
@@ -125,7 +125,7 @@ msgstr ""
 
 #: config/settings.php:10
 msgctxt "admin-text"
-msgid "Delete all plugin settings, widgets, and caches"
+msgid "Delete all plugin settings, widgets settings, and caches"
 msgstr ""
 
 #: config/settings.php:11
@@ -967,7 +967,7 @@ msgctxt "admin-text"
 msgid "Reject submission"
 msgstr ""
 
-#: plugin/Application.php:251
+#: plugin/Application.php:249
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr ""
@@ -977,7 +977,7 @@ msgctxt "admin-text"
 msgid "The [%s] method has been deprecated and will be soon be removed, please use the [%s] method instead."
 msgstr ""
 
-#: plugin/Review.php:268, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:19
+#: plugin/Review.php:268, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr ""
@@ -1091,9 +1091,14 @@ msgstr ""
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr ""
 
-#: plugin/Addons/Controller.php:68, plugin/Controllers/AdminController.php:47, plugin/Controllers/MenuController.php:50, views/pages/tools/sync.php:23
+#: plugin/Addons/Controller.php:70, plugin/Controllers/AdminController.php:47, plugin/Controllers/MenuController.php:50, views/pages/tools/sync.php:23
 msgctxt "admin-text"
 msgid "Settings"
+msgstr ""
+
+#: plugin/Addons/Controller.php:76, plugin/Controllers/AdminController.php:53, plugin/Controllers/MenuController.php:53
+msgctxt "admin-text"
+msgid "Help"
 msgstr ""
 
 #: plugin/Blocks/SiteReviewsBlock.php:106, plugin/Blocks/SiteReviewsFormBlock.php:99, plugin/Blocks/SiteReviewsSummaryBlock.php:90
@@ -1165,11 +1170,6 @@ msgstr ""
 #: plugin/Commands/ToggleStatus.php:51, views/partials/editor/pinned.php:7
 msgctxt "admin-text"
 msgid "Edit"
-msgstr ""
-
-#: plugin/Controllers/AdminController.php:53, plugin/Controllers/MenuController.php:53
-msgctxt "admin-text"
-msgid "Help"
 msgstr ""
 
 #: plugin/Controllers/AdminController.php:84
@@ -1354,12 +1354,12 @@ msgctxt "admin-text"
 msgid "(no title)"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:156, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:16
+#: plugin/Controllers/MetaboxController.php:156, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17
 msgctxt "admin-text"
 msgid "No"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:157, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17
+#: plugin/Controllers/MetaboxController.php:157, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:18
 msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
@@ -1529,12 +1529,12 @@ msgctxt "admin-text"
 msgid "Save as Unapproved"
 msgstr ""
 
-#: plugin/Controllers/TrustalyzeController.php:130
+#: plugin/Controllers/TrustalyzeController.php:114
 msgctxt "admin-text"
 msgid "Create Your Trustalyze Account"
 msgstr ""
 
-#: plugin/Controllers/TrustalyzeController.php:215
+#: plugin/Controllers/TrustalyzeController.php:199
 msgctxt "admin-text"
 msgid "Your Trustalyze account details could not be verified, please try again. %s"
 msgstr ""
@@ -1812,12 +1812,12 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-#: plugin/Modules/Console.php:78
+#: plugin/Modules/Console.php:79
 msgctxt "admin-text"
 msgid "Console is empty"
 msgstr ""
 
-#: plugin/Modules/Console.php:301
+#: plugin/Modules/Console.php:290
 msgctxt "admin-text"
 msgid "Console was automatically cleared (256KB maximum size)"
 msgstr ""
@@ -2095,7 +2095,7 @@ msgctxt "admin-text"
 msgid "How many reviews would you like to display (default: 10)?"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsTinymce.php:33, plugin/Tinymce/SiteReviewsTinymce.php:34, plugin/Tinymce/SiteReviewsTinymce.php:35, plugin/Tinymce/SiteReviewsTinymce.php:36, plugin/Tinymce/SiteReviewsTinymce.php:37, plugin/Widgets/SiteReviewsWidget.php:33, plugin/Widgets/SiteReviewsWidget.php:34, plugin/Widgets/SiteReviewsWidget.php:35, plugin/Widgets/SiteReviewsWidget.php:36, plugin/Widgets/SiteReviewsWidget.php:37, plugin/Widgets/SiteReviewsWidget.php:38, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:18
+#: plugin/Tinymce/SiteReviewsTinymce.php:33, plugin/Tinymce/SiteReviewsTinymce.php:34, plugin/Tinymce/SiteReviewsTinymce.php:35, plugin/Tinymce/SiteReviewsTinymce.php:36, plugin/Tinymce/SiteReviewsTinymce.php:37, plugin/Widgets/SiteReviewsWidget.php:33, plugin/Widgets/SiteReviewsWidget.php:34, plugin/Widgets/SiteReviewsWidget.php:35, plugin/Widgets/SiteReviewsWidget.php:36, plugin/Widgets/SiteReviewsWidget.php:37, plugin/Widgets/SiteReviewsWidget.php:38, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:19
 msgctxt "admin-text"
 msgid "%s star"
 msgid_plural "%s stars"
@@ -2262,27 +2262,27 @@ msgctxt "admin-text"
 msgid "Limit reviews to those assigned to a User ID"
 msgstr ""
 
-#: plugin/Controllers/ListTableColumns/ColumnFilterRating.php:16
+#: plugin/Controllers/ListTableColumns/ColumnFilterRating.php:17
 msgctxt "admin-text"
 msgid "All ratings"
 msgstr ""
 
-#: plugin/Controllers/ListTableColumns/ColumnFilterRating.php:24
+#: plugin/Controllers/ListTableColumns/ColumnFilterRating.php:25
 msgctxt "admin-text"
 msgid "Filter by rating"
 msgstr ""
 
-#: plugin/Controllers/ListTableColumns/ColumnFilterType.php:21
+#: plugin/Controllers/ListTableColumns/ColumnFilterType.php:22
 msgctxt "admin-text"
 msgid "Filter by type"
 msgstr ""
 
-#: plugin/Controllers/ListTableColumns/ColumnFilterType.php:25
+#: plugin/Controllers/ListTableColumns/ColumnFilterType.php:26
 msgctxt "admin-text"
 msgid "All types"
 msgstr ""
 
-#: plugin/Controllers/ListTableColumns/ColumnValueType.php:16
+#: plugin/Controllers/ListTableColumns/ColumnValueType.php:17
 msgctxt "admin-text"
 msgid "Unsupported Type"
 msgstr ""
