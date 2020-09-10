@@ -40,7 +40,11 @@ class Migrate
         if (empty($this->migrations)) {
             return false;
         }
-        return !empty($this->pendingMigrations());
+        if (!empty($this->pendingMigrations())) {
+            // check if this is a fresh install of the plugin
+            return glsr(OptionManager::class)->get('version_upgraded_from') !== '0.0.0';
+        }
+        return false;
     }
 
     /**
