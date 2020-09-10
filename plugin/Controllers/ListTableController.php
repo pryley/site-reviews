@@ -70,7 +70,7 @@ class ListTableController extends Controller
      */
     public function filterPostClauses(array $clauses, WP_Query $query)
     {
-        if (!$this->hasPermission($query) || (!$this->isListFiltered() && !$this->isListOrdered())) {
+        if (!$this->hasQueryPermission($query) || (!$this->isListFiltered() && !$this->isListOrdered())) {
             return $clauses;
         }
         $table = glsr(Query::class)->table('ratings');
@@ -177,7 +177,7 @@ class ListTableController extends Controller
      */
     public function setQueryForColumn(WP_Query $query)
     {
-        if (!$this->hasPermission($query)) {
+        if (!$this->hasQueryPermission($query)) {
             return;
         }
         $orderby = $query->get('orderby');
@@ -185,18 +185,6 @@ class ListTableController extends Controller
             $query->set('meta_key', Str::prefix($orderby, '_'));
             $query->set('orderby', 'meta_value');
         }
-    }
-
-    /**
-     * @return bool
-     */
-    protected function hasPermission(WP_Query $query)
-    {
-        global $pagenow;
-        return is_admin()
-            && $query->is_main_query()
-            && glsr()->post_type === $query->get('post_type')
-            && 'edit.php' === $pagenow;
     }
 
     /**

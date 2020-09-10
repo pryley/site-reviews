@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract;
+use WP_Query;
 
 abstract class Controller
 {
@@ -36,6 +37,18 @@ abstract class Controller
     protected function getPostId()
     {
         return intval(filter_input(INPUT_GET, 'post'));
+    }
+
+    /**
+     * @return bool
+     */
+    protected function hasQueryPermission(WP_Query $query)
+    {
+        global $pagenow;
+        return is_admin()
+            && $query->is_main_query()
+            && glsr()->post_type === $query->get('post_type')
+            && 'edit.php' === $pagenow;
     }
 
     /**
