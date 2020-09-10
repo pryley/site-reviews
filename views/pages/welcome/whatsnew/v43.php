@@ -1,12 +1,12 @@
 <div class="glsr-card postbox is-fullwidth">
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="welcome-v430">
-            <span class="title">Version 4.3.0</span>
+            <span class="title">Version 4.3</span>
             <span class="icon"></span>
         </button>
     </h3>
     <div id="welcome-v430" class="inside">
-        <p><em>Release Date &mdash; January 12th, 2020</em></p>
+        <p><em>Initial Release Date &mdash; January 12th, 2020</em></p>
         <h4>New Features</h4>
         <ul>
             <li>Added migration tool for cases when auto-migration is not triggered when upgrading to version 4</li>

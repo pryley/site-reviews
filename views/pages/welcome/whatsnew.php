@@ -4,13 +4,14 @@
 <div class="is-fullwidth">
     <div class="glsr-flex-row">
         <div class="glsr-column">
-            <?php include trailingslashit(__DIR__).'whatsnew/v500.php'; ?>
-            <?php include trailingslashit(__DIR__).'whatsnew/v450.php'; ?>
-            <?php include trailingslashit(__DIR__).'whatsnew/v440.php'; ?>
-            <?php include trailingslashit(__DIR__).'whatsnew/v430.php'; ?>
-            <?php include trailingslashit(__DIR__).'whatsnew/v420.php'; ?>
-            <?php include trailingslashit(__DIR__).'whatsnew/v410.php'; ?>
-            <?php include trailingslashit(__DIR__).'whatsnew/v400.php'; ?>
+            <?php include trailingslashit(__DIR__).'whatsnew/v50.php'; ?>
+            <?php include trailingslashit(__DIR__).'whatsnew/v46.php'; ?>
+            <?php include trailingslashit(__DIR__).'whatsnew/v45.php'; ?>
+            <?php include trailingslashit(__DIR__).'whatsnew/v44.php'; ?>
+            <?php include trailingslashit(__DIR__).'whatsnew/v43.php'; ?>
+            <?php include trailingslashit(__DIR__).'whatsnew/v42.php'; ?>
+            <?php include trailingslashit(__DIR__).'whatsnew/v41.php'; ?>
+            <?php include trailingslashit(__DIR__).'whatsnew/v40.php'; ?>
         </div>
     </div>
 </div>

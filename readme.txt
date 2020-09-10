@@ -151,4 +151,5 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Replaced the assign_to and assigned_to shortcode options with the assigned_posts option
 - Replaced the category shortcode option with "assigned_terms" option
 - Site Reviews now uses custom database tables, however you may still use the WordPress Export/Import tools as before
+- The Translations Settings search results are now restricted to public text that is actually shown on your website, if you would like to change plugin text shown in the WordPress admin, you should use the Loco Translate plugin instead
 - Updated Trustalyze integration

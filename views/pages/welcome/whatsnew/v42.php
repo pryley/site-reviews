@@ -1,12 +1,12 @@
 <div class="glsr-card postbox is-fullwidth">
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="welcome-v420">
-            <span class="title">Version 4.2.0</span>
+            <span class="title">Version 4.2</span>
             <span class="icon"></span>
         </button>
     </h3>
     <div id="welcome-v420" class="inside">
-        <p><em>Release Date &mdash; October 29th, 2019</em></p>
+        <p><em>Initial Release Date &mdash; October 29th, 2019</em></p>
         <h4>New Features</h4>
         <ul>
             <li>Added the <code>site-reviews/support/deprecated/v4</code> filter hook. If this hook returns <code>false</code> then the plugin will skip deprecated checks. If the plugin console does not show any deprecated notices, then it should be safe to use this hook for increased performance.</li>
