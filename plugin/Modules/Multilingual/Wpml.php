@@ -36,7 +36,7 @@ class Wpml implements Contract
             return $postIds;
         }
         $newPostIds = [];
-        foreach (Arr::unique($postIds) as $postId) {
+        foreach (Arr::uniqueInt($postIds) as $postId) {
             $postType = get_post_type($postId);
             if (!$postType) {
                 continue;
@@ -49,7 +49,7 @@ class Wpml implements Contract
             }
             $newPostIds = array_merge($newPostIds, wp_list_pluck($translations, 'element_id'));
         }
-        return Arr::unique($newPostIds);
+        return Arr::uniqueInt($newPostIds);
     }
 
     /**

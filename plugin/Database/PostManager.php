@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Modules\Multilingual;
 
 class PostManager
 {
@@ -29,13 +30,12 @@ class PostManager
      */
     public function normalizeIds($postIds)
     {
-        $postIds = Cast::toArray($postIds);
-        $postIds = array_filter($postIds, function ($postId) {
+        $postIds = array_filter(Cast::toArray($postIds), function ($postId) {
             return is_numeric($postId) || in_array($postId, ['post_id', 'parent_id']);
         });
         foreach ($postIds as &$postId) {
             $postId = $this->normalizeId($postId);
         }
-        return Arr::uniqueInt($postIds);
+        return Arr::uniqueInt(glsr(Multilingual::class)->getPostIds($postIds));
     }
 }
