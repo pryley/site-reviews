@@ -188,7 +188,14 @@ class Builder
         $args = Arr::consolidate($args);
         if (!empty($args)) {
             $args = $this->normalize($args, $type);
+            $options = glsr()->args($args)->options;
             $args = glsr(FieldDefaults::class)->merge($args);
+            if (is_array($options)) {
+                // Merging reindexes the options array, this may not be desirable 
+                // if the array is indexed so here we restore the original options array. 
+                // It's a messy hack, but it will have to do for now.
+                $args['options'] = $options;
+            }
         }
         $args = glsr()->filterArray('builder/'.$type.'/args', $args, $this);
         $this->args = glsr()->args($args);
