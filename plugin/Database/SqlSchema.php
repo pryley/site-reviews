@@ -259,7 +259,9 @@ class SqlSchema
     {
         if (!isset($this->tables)) {
             $prefix = $this->db->prefix.glsr()->prefix;
-            $this->tables = $this->db->get_col("SHOW TABLES LIKE '{$prefix}%'");
+            $this->tables = $this->db->get_col(
+                $this->db->prepare("SHOW TABLES LIKE %s", $this->db->esc_like($prefix).'%')
+            );
         }
         return in_array($this->table($table), $this->tables);
     }

@@ -15,7 +15,6 @@ class TrustalyzeController extends Controller
     protected $apiKey = 'settings.general.trustalyze_serial';
     protected $emailKey = 'settings.general.trustalyze_email';
     protected $enabledKey = 'settings.general.trustalyze';
-    protected $trustalyzeKey = '_glsr_trustalyze';
 
     /**
      * @return array
@@ -28,7 +27,7 @@ class TrustalyzeController extends Controller
         }
         $isApiKeyModified = $this->isEmptyOrModified($this->apiKey, $settings);
         $isEmailModified = $this->isEmptyOrModified($this->emailKey, $settings);
-        $isAccountVerified = glsr(OptionManager::class)->getWP($this->trustalyzeKey, false);
+        $isAccountVerified = glsr(OptionManager::class)->getWP($this->trustalyzeKey(), false);
         if (!$isAccountVerified || $isApiKeyModified || $isEmailModified) {
             $settings = $this->sanitizeTrustalyzeSettings($settings);
         }
@@ -46,7 +45,7 @@ class TrustalyzeController extends Controller
         if ($this->enabledKey !== Arr::get($data, 'field.path')) {
             return $context;
         }
-        $isAccountValidated = !empty(glsr(OptionManager::class)->getWP($this->trustalyzeKey));
+        $isAccountValidated = !empty(glsr(OptionManager::class)->getWP($this->trustalyzeKey()));
         $isIntegrationEnabled = glsr(OptionManager::class)->getBool('settings.general.trustalyze');
         if ($isAccountValidated && $isIntegrationEnabled) {
             return $context;
@@ -192,9 +191,9 @@ class TrustalyzeController extends Controller
             Arr::get($settings, $this->emailKey)
         );
         if ($trustalyze->success) {
-            update_option($this->trustalyzeKey, Arr::get($trustalyze->response, 'producttype'));
+            update_option($this->trustalyzeKey(), Arr::get($trustalyze->response, 'producttype'));
         } else {
-            delete_option($this->trustalyzeKey);
+            delete_option($this->trustalyzeKey());
             $settings = Arr::set($settings, $this->enabledKey, 'no');
             glsr(Notice::class)->addError(sprintf(
                 _x('Your Trustalyze account details could not be verified, please try again. %s', 'admin-text', 'site-reviews'),
@@ -202,5 +201,13 @@ class TrustalyzeController extends Controller
             ));
         }
         return $settings;
+    }
+
+    /**
+     * @return string
+     */
+    protected function trustalyzeKey()
+    {
+        return glsr()->prefix.'trustalyze';
     }
 }

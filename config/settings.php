@@ -7,7 +7,7 @@ return [
         'description' => _x('Site Reviews will not delete anything when uninstalled unless you change this setting.', 'admin-text', 'site-reviews'),
         'options' => [
             '' => _x('Do not delete anything', 'admin-text', 'site-reviews'),
-            'minimal' => _x('Delete all plugin settings, widgets, and caches', 'admin-text', 'site-reviews'),
+            'minimal' => _x('Delete all plugin settings, widgets settings, and caches', 'admin-text', 'site-reviews'),
             'all' => _x('Delete everything (including all reviews and categories)', 'admin-text', 'site-reviews'),
         ],
         'label' => _x('Delete data on uninstall', 'admin-text', 'site-reviews'),

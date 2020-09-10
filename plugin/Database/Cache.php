@@ -41,7 +41,7 @@ class Cache
      */
     public function getCloudflareIps()
     {
-        if (false === ($ipAddresses = get_transient(glsr()->id.'_cloudflare_ips'))) {
+        if (false === ($ipAddresses = get_transient(glsr()->prefix.'cloudflare_ips'))) {
             $ipAddresses = array_fill_keys(['v4', 'v6'], []);
             foreach (array_keys($ipAddresses) as $version) {
                 $url = 'https://www.cloudflare.com/ips-'.$version;
@@ -58,7 +58,7 @@ class Cache
                     (array) preg_split('/\R/', wp_remote_retrieve_body($response))
                 );
             }
-            set_transient(glsr()->id.'_cloudflare_ips', $ipAddresses, WEEK_IN_SECONDS);
+            set_transient(glsr()->prefix.'cloudflare_ips', $ipAddresses, WEEK_IN_SECONDS);
         }
         return $ipAddresses;
     }
@@ -68,12 +68,12 @@ class Cache
      */
     public function getRemotePostTest()
     {
-        if (false === ($test = get_transient(glsr()->id.'_remote_post_test'))) {
+        if (false === ($test = get_transient(glsr()->prefix.'remote_post_test'))) {
             $response = wp_remote_post('https://api.wordpress.org/stats/php/1.0/');
             $test = !is_wp_error($response) && in_array($response['response']['code'], range(200, 299))
                 ? 'Works'
                 : 'Does not work';
-            set_transient(glsr()->id.'_remote_post_test', $test, WEEK_IN_SECONDS);
+            set_transient(glsr()->prefix.'remote_post_test', $test, WEEK_IN_SECONDS);
         }
         return $test;
     }

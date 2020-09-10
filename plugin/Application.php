@@ -55,7 +55,7 @@ final class Application extends Container
     public function activate()
     {
         $this->scheduleCronJob();
-        add_option(static::ID.'activated', true);
+        add_option(static::PREFIX.'activated', true);
         $this->make(Role::class)->resetAll();
     }
 
@@ -85,10 +85,9 @@ final class Application extends Container
     public function catchFatalError()
     {
         $error = error_get_last();
-        if (E_ERROR !== Arr::get($error, 'type') || !Str::contains($this->path(), Arr::get($error, 'message'))) {
-            return;
+        if (E_ERROR === Arr::get($error, 'type') && Str::contains($this->path(), Arr::get($error, 'message'))) {
+            glsr_log()->error($error['message']);
         }
-        glsr_log()->error($error['message']);
     }
 
     /**
@@ -139,10 +138,9 @@ final class Application extends Container
         $filePaths[] = $this->path($view);
         $filePaths[] = $this->path('views/'.$view);
         foreach ($filePaths as $file) {
-            if (!file_exists($file)) {
-                continue;
+            if (file_exists($file)) {
+                return $file;
             }
-            return $file;
         }
     }
 
@@ -284,9 +282,9 @@ final class Application extends Container
      */
     public function setDefaultSettings()
     {
-        if (get_option(static::ID.'activated')) {
+        if (get_option(static::PREFIX.'activated')) {
             $this->make(DefaultsManager::class)->set();
-            delete_option(static::ID.'activated');
+            delete_option(static::PREFIX.'activated');
         }
     }
 
