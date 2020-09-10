@@ -3,7 +3,7 @@
 <?php if (glsr()->hasPermission('settings')) : ?>
 
 <div class="glsr-card card">
-    <h3>Export Settings</h3>
+    <h3>Export Plugin Settings</h3>
     <p>Export the Site Reviews settings for this site to a <code>*.json</code> file. This allows you to easily import the plugin settings into another site.</p>
     <p>To export your Site Reviews' reviews and categories, please use the WordPress <a href="<?= admin_url('export.php'); ?>">Export</a> tool.</p>
     <form method="post">
@@ -14,7 +14,7 @@
 </div>
 
 <div class="glsr-card card">
-    <h3>Import Settings</h3>
+    <h3>Import Plugin Settings</h3>
     <p>Import the Site Reviews settings from a <code>*.json</code> file. This file can be obtained by exporting the settings on another site using the export tool below.</p>
     <p>To import your Site Reviews' reviews and categories from another website, please use the WordPress <a href="<?= admin_url('import.php'); ?>">Import</a> tool.</p>
     <form method="post" enctype="multipart/form-data" onsubmit="submit.disabled = true;">
@@ -23,7 +23,7 @@
         <?php wp_nonce_field('import-settings'); ?>
         <p class="submit">
             <button type="submit" class="glsr-button button" name="submit" id="import-settings">
-                <span data-loading="<?= esc_attr_x('Importing, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Import Settings', 'admin-text', 'site-reviews'); ?></span>
+                <span data-loading="<?= esc_attr_x('Importing settings, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Import Settings', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>
     </form>
@@ -31,6 +31,9 @@
 
 <div class="glsr-card card">
     <h3>Import Third Party Reviews</h3>
+    <div class="components-notice is-warning">
+        <p class="components-notice__content">Please backup your database before running this tool! You can use the <a href="https://wordpress.org/plugins/updraftplus/">UpdraftPlus</a> plugin to do this.</p>
+    </div>
     <p>Here you can import third party reviews from a <code>*.CSV</code> file. The CSV file should include a header row, use a comma as the delimiter, and may contain the following columns:</p>
     <p>
         <code>avatar</code> The avatar URL of the reviewer<br>
@@ -51,17 +54,17 @@
         <?php wp_nonce_field('import-reviews'); ?>
         <p class="submit">
             <button type="submit" class="glsr-button button" name="submit" id="import-reviews">
-                <span data-loading="<?= esc_attr_x('Importing, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Import Reviews', 'admin-text', 'site-reviews'); ?></span>
+                <span data-loading="<?= esc_attr_x('Importing reviews, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Import Reviews', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>
     </form>
-    <div class="notice inline notice-warning">
-        <p>Please make a backup of your database before running this tool! You can use the <a href="https://wordpress.org/plugins/updraftplus/">UpdraftPlus</a> plugin to do this.</p>
-    </div>
 </div>
 
 <div class="glsr-card card">
     <h3>Migrate Plugin</h3>
+    <div class="components-notice is-info">
+        <p class="components-notice__content">Hold down the ALT/Option key to force-run all previous migrations.</p>
+    </div>
     <p>Run this tool if your reviews stopped working correctly after upgrading the plugin to the latest version (i.e. read-only reviews, zero-star ratings, missing role capabilities, etc.).</p>
     <form method="post">
         <input type="hidden" name="{{ id }}[_action]" value="migrate-plugin">
@@ -73,9 +76,6 @@
             </button>
         </p>
     </form>
-    <div class="notice inline notice-info">
-        <p>Hold down the Alt/Option key to force-run all previous migrations.</p>
-    </div>
 </div>
 
 <div class="glsr-card card">
@@ -111,7 +111,7 @@
 
 <div class="glsr-card card">
     <h3>Test IP Address Detection</h3>
-    <p>When reviews are submitted on your website, Site Reviews detects the IP address of the reviewer and saves it to the submitted review. This allows you to limit review submissions or to blacklist reviewers based on their IP address. The IP address is also used by Akismet (if you have enabled the integration) to catch spam submissions.</p>
+    <p>When reviews are submitted on your website, Site Reviews detects the IP address of the person submitting the review and saves it to the submitted review. This allows you to limit review submissions or to blacklist reviewers based on their IP address. The IP address is also used by Akismet (if you have enabled the integration) to catch spam submissions.</p>
     <p>If you are getting an "unknown" value for IP addresses in your reviews, you may use this tool to check the visitor IP address detection.</p>
     <form method="post">
         <input type="hidden" name="{{ id }}[_action]" value="detect-ip-address">
