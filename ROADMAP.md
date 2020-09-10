@@ -4,12 +4,15 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 ## Proposed features
 
+- [ ] Add "More Details" modal to addons (ref: Plugins > Add New)
 - [ ] Add a single-use notice on the settings page to encourage users to rate the plugin (ref: Polylang)
 - [ ] Add a time constraint to review limits
-- [ ] reCAPTCHA v3 support
+- [ ] Add Initial REST API support for querying reviews
+- [ ] Integrate with Antispam Bee (https://wordpress.org/plugins/antispam-bee/)
 - [ ] Restrict reviews in the admin to those assigned to pages of the current user
 - [ ] Review statistics
 - [ ] Store the review GEO location by IP
+- [ ] Use new option keys in widgets and migrate old widgets
 - [ ] Version rollback (ref: WP Rocket)
 - [ ] View all reviews by author
 
