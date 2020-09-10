@@ -29,7 +29,8 @@ if (in_array($uninstallOption, ['all', 'minimal'])) {
     $wpdb->query("DELETE FROM {$wpdb->usermeta} WHERE meta_key = '_glsr_notices'");
 }
 if ('all' === $uninstallOption) {
-    $like = '%'.$wpdb->esc_like(glsr()->prefix).'%';
+    $likePrefix = '%'.$wpdb->esc_like(glsr()->prefix).'%';
+    $likeTaxonomy = '%'.$wpdb->esc_like(glsr()->taxonomy).'%';
     // delete all reviews and revisions
     $wpdb->query($wpdb->prepare("
         DELETE p, pr, tr, pm
@@ -48,11 +49,12 @@ if ('all' === $uninstallOption) {
         WHERE tt.taxonomy = %s", glsr()->taxonomy
     ));
     // delete all assigned_posts meta
-    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->postmeta} WHERE meta_key LIKE %s", $like));
+    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->postmeta} WHERE meta_key LIKE %s", $likePrefix));
     // delete all assigned_users meta
-    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->usermeta} WHERE meta_key LIKE %s", $like));
+    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->usermeta} WHERE meta_key LIKE %s", $likePrefix));
     // delete any remaining options
-    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", $like));
+    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", $likePrefix));
+    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", $likeTaxonomy));
     // drop all custom tables
     $prefix = $wpdb->prefix.glsr()->prefix;
     $wpdb->query("DROP TABLE {$prefix}assigned_posts");
