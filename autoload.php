@@ -2,6 +2,10 @@
 
 defined('WPINC') || die;
 
+if (!function_exists('wp_hash')) {
+    require_once ABSPATH.WPINC.'/pluggable.php';
+}
+
 spl_autoload_register(function ($className) {
     $classMap = [
         'WP_Posts_List_Table' => ABSPATH.'wp-admin/includes/class-wp-posts-list-table.php',

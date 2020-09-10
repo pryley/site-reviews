@@ -75,7 +75,9 @@ class Console
      */
     public function get()
     {
-        return Helper::ifEmpty($this->log, _x('Console is empty', 'admin-text', 'site-reviews'));
+        return esc_html(
+            Helper::ifEmpty($this->log, _x('Console is empty', 'admin-text', 'site-reviews'))
+        );
     }
 
     /**
@@ -238,7 +240,7 @@ class Console
     protected function interpolate($message, $context = [])
     {
         $context = Arr::consolidate($context);
-        if ($this->isObjectOrArray($message) || empty($context)) {
+        if (!is_scalar($message) || empty($context)) {
             return print_r($message, true);
         }
         $replace = [];
@@ -246,15 +248,6 @@ class Console
             $replace['{'.$key.'}'] = $this->normalizeValue($value);
         }
         return strtr($message, $replace);
-    }
-
-    /**
-     * @param mixed $value
-     * @return bool
-     */
-    protected function isObjectOrArray($value)
-    {
-        return is_object($value) || is_array($value);
     }
 
     /**
@@ -277,7 +270,7 @@ class Console
     {
         if ($value instanceof DateTime) {
             $value = $value->format('Y-m-d H:i:s');
-        } elseif ($this->isObjectOrArray($value)) {
+        } elseif (!is_scalar($value)) {
             $value = json_encode($value);
         }
         return (string) $value;
@@ -291,12 +284,9 @@ class Console
         if ($this->size() <= wp_convert_hr_to_bytes('256kb')) {
             return;
         }
-        // wp_convert_hr_to_bytes
         $this->clear();
-        file_put_contents(
-            $this->file,
-            $this->buildLogEntry(
-                static::NOTICE,
+        file_put_contents($this->file,
+            $this->buildLogEntry(static::NOTICE,
                 _x('Console was automatically cleared (256KB maximum size)', 'admin-text', 'site-reviews')
             )
         );
@@ -307,9 +297,6 @@ class Console
      */
     protected function setLogFile()
     {
-        if (!function_exists('wp_hash')) {
-            require_once ABSPATH.WPINC.'/pluggable.php';
-        }
         $uploads = wp_upload_dir();
         $base = trailingslashit($uploads['basedir'].'/'.glsr()->id);
         $this->file = $base.'logs/'.sanitize_file_name('console-'.wp_hash(glsr()->id).'.log');
