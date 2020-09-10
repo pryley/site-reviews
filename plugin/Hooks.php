@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews;
 use GeminiLabs\SiteReviews\Contracts\HooksContract;
 use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Controllers\BlocksController;
+use GeminiLabs\SiteReviews\Controllers\BulkEditorController;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
 use GeminiLabs\SiteReviews\Controllers\ListTableController;
 use GeminiLabs\SiteReviews\Controllers\MainController;
@@ -27,6 +28,7 @@ class Hooks implements HooksContract
     protected $admin;
     protected $basename;
     protected $blocks;
+    protected $bulkeditor;
     protected $editor;
     protected $listtable;
     protected $main;
@@ -49,6 +51,7 @@ class Hooks implements HooksContract
         $this->admin = glsr(AdminController::class);
         $this->basename = plugin_basename(glsr()->file);
         $this->blocks = glsr(BlocksController::class);
+        $this->bulkeditor = glsr(BulkEditorController::class);
         $this->editor = glsr(EditorController::class);
         $this->listtable = glsr(ListTableController::class);
         $this->main = glsr(MainController::class);
@@ -93,12 +96,12 @@ class Hooks implements HooksContract
         add_action('site-reviews/route/ajax/toggle-status', [$this->admin, 'toggleStatusAjax']);
         add_action('init', [$this->blocks, 'registerAssets'], 9);
         add_action('init', [$this->blocks, 'registerBlocks']);
+        add_action('bulk_edit_custom_box', [$this->bulkeditor, 'renderBulkEditFields'], 10, 2);
         add_action('site-reviews/route/ajax/mce-shortcode', [$this->editor, 'mceShortcodeAjax']);
         add_action('admin_print_scripts', [$this->editor, 'removeAutosave'], 999);
         add_action('current_screen', [$this->editor, 'removePostTypeSupport']);
         add_action('admin_head', [$this->editor, 'renderReviewFields']);
         add_action('pre_get_posts', [$this->listtable, 'setQueryForColumn']);
-        add_action('bulk_edit_custom_box', [$this->listtable, 'renderBulkEditFields'], 10, 2);
         add_action('restrict_manage_posts', [$this->listtable, 'renderColumnFilters']);
         add_action('manage_'.glsr()->post_type.'_posts_custom_column', [$this->listtable, 'renderColumnValues'], 10, 2);
         add_action('admin_footer', [$this->main, 'logOnce']);
