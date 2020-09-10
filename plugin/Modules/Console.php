@@ -105,7 +105,6 @@ class Console
     }
 
     /**
-     * @param string|null $valueIfEmpty
      * @return string
      */
     public function humanSize()

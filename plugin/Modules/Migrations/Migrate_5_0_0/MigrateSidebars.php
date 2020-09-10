@@ -113,7 +113,7 @@ class MigrateSidebars
 
     /**
      * @param mixed $option
-     * @return array
+     * @return string|array
      */
     protected function migrateWidgetData($option)
     {

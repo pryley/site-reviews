@@ -342,7 +342,7 @@ class Builder
     }
 
     /**
-     * @param string $type
+     * @param string $tag
      * @return string
      */
     protected function getFieldClassName($tag)
