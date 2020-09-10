@@ -8,6 +8,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Add a single-use notice on the settings page to encourage users to rate the plugin (ref: Polylang)
 - [ ] Add a time constraint to review limits
 - [ ] Add Initial REST API support for querying reviews
+- [ ] Allow review submissions without javascript (ref: comment form)
 - [ ] Integrate with Antispam Bee (https://wordpress.org/plugins/antispam-bee/)
 - [ ] Restrict reviews in the admin to those assigned to pages of the current user
 - [ ] Review statistics
