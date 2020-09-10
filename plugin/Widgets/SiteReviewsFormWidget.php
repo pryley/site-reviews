@@ -27,7 +27,7 @@ class SiteReviewsFormWidget extends Widget
         if (!empty($terms)) {
             $this->renderField('select', [
                 'label' => _x('Automatically assign a category', 'admin-text', 'site-reviews'),
-                'name' => 'category',
+                'name' => 'assigned_terms',
                 'options' => Arr::prepend($terms, _x('Do not assign a category', 'admin-text', 'site-reviews'), ''),
             ]);
         }
@@ -35,7 +35,7 @@ class SiteReviewsFormWidget extends Widget
             'default' => '',
             'description' => sprintf(_x("You may also enter %s to use the Post ID of the current page.", 'admin-text', 'site-reviews'), '<code>post_id</code>'),
             'label' => _x('Automatically assign reviews to a Post ID', 'admin-text', 'site-reviews'),
-            'name' => 'assign_to',
+            'name' => 'assigned_posts',
         ]);
         $this->renderField('text', [
             'default' => '',

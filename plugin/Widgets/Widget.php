@@ -11,7 +11,7 @@ abstract class Widget extends WP_Widget
     /**
      * @var array
      */
-    protected $mapped = [
+    protected $mapped = [ // @compat 4.0
         'assign_to' => 'assigned_posts',
         'assigned_to' => 'assigned_posts',
         'category' => 'assigned_terms',
