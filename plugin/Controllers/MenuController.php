@@ -151,9 +151,9 @@ class MenuController extends Controller
             'data' => [
                 'context' => [
                     'base_url' => admin_url('edit.php?post_type='.glsr()->post_type),
-                    'console' => strval(glsr(Console::class)),
+                    'console' => glsr(Console::class)->get(),
                     'id' => glsr()->id,
-                    'system' => strval(glsr(System::class)),
+                    'system' => glsr(System::class)->get(),
                 ],
                 'services' => glsr()->filterArray('addon/sync/services', []),
             ],
