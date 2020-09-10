@@ -313,6 +313,7 @@ class Query
      */
     protected function queryReviews($reviewIds)
     {
+        $orderBy = !empty($this->args['order']) ? $this->sqlOrderBy() : '';
         return $this->sql("
             SELECT
                 r.*,
@@ -331,6 +332,7 @@ class Query
             LEFT JOIN {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id
             WHERE r.review_id IN ({$reviewIds})
             GROUP BY r.ID
+            {$orderBy}
         ");
     }
 
