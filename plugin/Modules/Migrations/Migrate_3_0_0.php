@@ -68,11 +68,7 @@ class Migrate_3_0_0
         if (empty($this->oldSettings) || empty($this->newSettings)) {
             return;
         }
-        foreach (static::MAPPED_SETTINGS as $old => $new) {
-            if (!empty($this->oldSettings[$old])) {
-                $this->newSettings[$new] = $this->oldSettings[$old];
-            }
-        }
+        $this->mapSettings();
         $this->migrateNotificationSettings();
         $this->migrateRecaptchaSettings();
         $this->migrateRequiredSettings();
@@ -110,6 +106,18 @@ class Migrate_3_0_0
         return !empty($settings)
             ? wp_parse_args($settings, $defaults)
             : [];
+    }
+
+    /**
+     * @return void
+     */
+    public function mapSettings()
+    {
+        foreach (static::MAPPED_SETTINGS as $old => $new) {
+            if (!empty($this->oldSettings[$old])) {
+                $this->newSettings[$new] = $this->oldSettings[$old];
+            }
+        }
     }
 
     /**
