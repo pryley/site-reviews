@@ -18,7 +18,7 @@
     <p>Import the Site Reviews settings from a <code>*.json</code> file. This file can be obtained by exporting the settings on another site using the export tool below.</p>
     <p>To import your Site Reviews' reviews and categories from another website, please use the WordPress <a href="<?= admin_url('import.php'); ?>">Import</a> tool.</p>
     <form method="post" enctype="multipart/form-data" onsubmit="submit.disabled = true;">
-        <input type="file" name="import-file">
+        <input type="file" name="import-file" accept="application/json">
         <input type="hidden" name="{{ id }}[_action]" value="import-settings">
         <?php wp_nonce_field('import-settings'); ?>
         <p class="submit">
@@ -49,7 +49,7 @@
     </p>
     <p>Entries in the CSV file that do not contain required values will be skipped.</p>
     <form method="post" enctype="multipart/form-data" onsubmit="submit.disabled = true;">
-        <input type="file" name="import-file">
+        <input type="file" name="import-file" accept="text/csv">
         <input type="hidden" name="{{ id }}[_action]" value="import-reviews">
         <?php wp_nonce_field('import-reviews'); ?>
         <p class="submit">
