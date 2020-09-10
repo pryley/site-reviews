@@ -137,13 +137,13 @@ trait Sql
     {
         $clauses = [];
         if ($postIds = $this->args['assigned_posts']) {
-            $clauses[] = $this->db->prepare('(apt.post_id IN (%s) AND apt.is_published = 1)', implode(',', $postIds));
+            $clauses[] = sprintf('(apt.post_id IN (%s) AND apt.is_published = 1)', implode(',', $postIds));
         }
         if ($termIds = $this->args['assigned_terms']) {
-            $clauses[] = $this->db->prepare('(att.term_id IN (%s))', implode(',', $termIds));
+            $clauses[] = sprintf('(att.term_id IN (%s))', implode(',', $termIds));
         }
         if ($userIds = $this->args['assigned_users']) {
-            $clauses[] = $this->db->prepare('(aut.user_id IN (%s))', implode(',', $userIds));
+            $clauses[] = sprintf('(aut.user_id IN (%s))', implode(',', $userIds));
         }
         $operator = glsr()->filterString('query/sql/clause/operator', 'OR', $clauses, $this->args);
         $operator = strtoupper($operator);
