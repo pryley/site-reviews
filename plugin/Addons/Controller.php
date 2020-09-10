@@ -65,8 +65,15 @@ abstract class Controller extends BaseController
     public function filterActionLinks(array $links)
     {
         if (glsr()->hasPermission('settings')) {
-            $links['settings'] = glsr(Builder::class)->a(_x('Settings', 'admin-text', 'site-reviews'), [
+            $links['settings'] = glsr(Builder::class)->a([
                 'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings#tab-addons'),
+                'text' => _x('Settings', 'admin-text', 'site-reviews'),
+            ]);
+        }
+        if (glsr()->hasPermission('documentation')) {
+            $links['documentation'] = glsr(Builder::class)->a([
+                'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-addons'),
+                'text' => _x('Help', 'admin-text', 'site-reviews'),
             ]);
         }
         return $links;
