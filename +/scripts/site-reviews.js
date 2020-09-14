@@ -1,4 +1,14 @@
 /** global: GLSR */
+
+import Excerpts from './public/excerpts.js';
+import Forms from './public/forms.js';
+import Pagination from './public/pagination.js';
+
+if (!window.hasOwnProperty('GLSR')) {
+    window.GLSR = {};
+}
+window.GLSR.forms = [];
+
 document.addEventListener('DOMContentLoaded', function () {
     // set text direction class
     var widgets = document.querySelectorAll('.glsr');
@@ -8,8 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     // Check for unsupported browser versions (<=IE9)
     if (!(document.all && !window.atob)) {
-        new GLSR.Forms();
-        new GLSR.Pagination();
-        new GLSR.Excerpts();
+        new Forms();
+        new Pagination();
+        new Excerpts();
     }
 });

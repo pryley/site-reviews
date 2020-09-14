@@ -1,7 +1,21 @@
-import Prism from 'prismjs';
-import StarRating from 'star-rating.js';
-
 /** global: GLSR, jQuery, StarRating, wp */
+
+import Ajax from './admin/ajax.js';
+import ColorPicker from './admin/color-picker.js';
+import Forms from './admin/forms.js';
+import Metabox from './admin/metabox.js';
+import Notices from './admin/notices.js';
+import Pinned from './admin/pinned.js';
+import Pointers from './admin/pointers.js';
+import Prism from 'prismjs';
+import Search from './admin/search.js';
+import Shortcode from './admin/shortcode.js';
+import StarRating from 'star-rating.js';
+import Status from './admin/status.js';
+import Sync from './admin/sync.js';
+import Tabs from './admin/tabs.js';
+import TextareaResize from './admin/textarea-resize.js';
+import Tools from './admin/tools.js';
 
 GLSR.keys = {
     ALT: 18,
@@ -13,20 +27,18 @@ GLSR.keys = {
 };
 
 jQuery(function ($) {
-
     Prism.highlightAll();
-
-    GLSR.notices = new GLSR.Notices();
-    GLSR.shortcode = new GLSR.Shortcode('.glsr-mce');
+    GLSR.notices = new Notices();
+    GLSR.shortcode = new Shortcode('.glsr-mce');
     GLSR.stars = new StarRating(document.querySelectorAll('select.glsr-star-rating'), {
         showText: false,
     });
-    GLSR.ColorPicker();
-    new GLSR.Forms('form.glsr-form');
-    new GLSR.Metabox();
-    new GLSR.Pinned();
-    new GLSR.Pointers();
-    new GLSR.Search('#glsr-search-posts', {
+    ColorPicker();
+    new Forms('form.glsr-form');
+    new Metabox();
+    new Pinned();
+    new Pointers();
+    new Search('#glsr-search-posts', {
         action: 'search-posts',
         onInit: function () {
             this.el.find('.glsr-remove-button').on('click', this.onUnassign_.bind(this));
@@ -49,7 +61,7 @@ jQuery(function ($) {
             this.options.searchEl.focus();
         },
     });
-    new GLSR.Search('#glsr-search-users', {
+    new Search('#glsr-search-users', {
         action: 'search-users',
         onInit: function () {
             this.el.find('.glsr-remove-button').on('click', this.onUnassign_.bind(this));
@@ -72,7 +84,7 @@ jQuery(function ($) {
             this.options.searchEl.focus();
         },
     });
-    new GLSR.Search('#glsr-search-translations', {
+    new Search('#glsr-search-translations', {
         action: 'search-translations',
         onInit: function () {
             this.makeSortable_();
@@ -93,11 +105,11 @@ jQuery(function ($) {
             this.setVisibility_();
         },
     });
-    new GLSR.Status('a.glsr-toggle-status');
-    new GLSR.Tabs();
-    new GLSR.TextareaResize();
-    new GLSR.Tools();
-    new GLSR.Sync();
+    new Status('a.glsr-toggle-status');
+    new Tabs();
+    new TextareaResize();
+    new Tools();
+    new Sync();
 
     var trackValue = function () {
         this.dataset.glsrTrack = this.value;
