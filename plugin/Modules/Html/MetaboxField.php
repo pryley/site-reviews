@@ -19,9 +19,12 @@ class MetaboxField extends Field
     {
         return glsr(Template::class)->build('partials/editor/metabox-field', [
             'context' => [
-                'class' => $this->getFieldClass(),
+                'class' => $this->getFieldClasses(),
                 'field' => $this->builder()->raw($this->field),
-                'label' => $this->builder()->label($this->field['label'], ['for' => $this->field['id']]),
+                'label' => $this->builder()->label([
+                    'for' => $this->field['id'],
+                    'text' => $this->field['label'],
+                ]),
             ],
             'field' => $this->field,
         ]);

@@ -1,6 +1,6 @@
 <?php defined('WPINC') || die; ?>
 
-<tr class="glsr-field {{ class }}">
+<tr class="glsr-setting-field {{ class }}">
     <th scope="row">{{ label }}</th>
     <td>
         <fieldset data-depends='{{ depends_on }}'>

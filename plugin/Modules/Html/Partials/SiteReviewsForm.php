@@ -32,7 +32,7 @@ class SiteReviewsForm implements PartialContract
         return glsr(Template::class)->build('templates/reviews-form', [
             'args' => $args,
             'context' => [
-                'class' => $this->getClass(),
+                'class' => $this->getFormClasses(),
                 'fields' => $this->buildTemplateTag('fields'),
                 'id' => '', // @deprecated in v5.0
                 'response' => $this->buildTemplateTag('response'),
@@ -59,7 +59,7 @@ class SiteReviewsForm implements PartialContract
     /**
      * @return string
      */
-    protected function getClass()
+    protected function getFormClasses()
     {
         return trim('glsr-form '.$this->args['class']);
     }

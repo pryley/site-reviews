@@ -20,7 +20,6 @@ class Field
     {
         $this->field = wp_parse_args($field, [
             'errors' => false,
-            'is_hidden' => false,
             'is_multi' => false,
             'is_raw' => false,
             'is_valid' => true,
@@ -43,9 +42,6 @@ class Field
         }
     }
 
-    /**
-     * @return string
-     */
     public function __toString()
     {
         return (string) $this->build();
@@ -79,6 +75,26 @@ class Field
     /**
      * @return string
      */
+    public function fieldType()
+    {
+        $isChoice = in_array($this->field['type'], ['checkbox', 'radio']);
+        return Helper::ifTrue($isChoice, 'choice', $this->field['type']);
+    }
+
+    /**
+     * @return array
+     */
+    public function getBaseClasses($baseClass)
+    {
+        return [
+            $baseClass,
+            Str::suffix($baseClass, '-'.$this->field['raw_type']),
+        ];
+    }
+
+    /**
+     * @return string
+     */
     public function getField()
     {
         return $this->builder()->raw($this->field);
@@ -87,14 +103,11 @@ class Field
     /**
      * @return string
      */
-    public function getFieldClass()
+    public function getFieldClasses()
     {
-        $classes = [];
+        $classes = $this->getBaseClasses('glsr-field');
         if (!empty($this->field['errors'])) {
             $classes[] = 'glsr-has-error';
-        }
-        if ($this->field['is_hidden']) {
-            $classes[] = 'hidden';
         }
         if (!empty($this->field['required'])) {
             $classes[] = 'glsr-required';
@@ -138,8 +151,9 @@ class Field
     public function getFieldLabel()
     {
         if (!empty($this->field['label'])) {
+            $classes = $this->getBaseClasses('glsr-label');
             return $this->builder()->label([
-                'class' => 'glsr-'.$this->fieldType().'-label',
+                'class' => implode(' ', $classes),
                 'for' => $this->field['id'],
                 'text' => $this->builder()->span($this->field['label']),
             ]);
@@ -169,7 +183,7 @@ class Field
     {
         $field = glsr(Template::class)->build('templates/form/field_'.$this->field['type'], [
             'context' => [
-                'class' => $this->getFieldClass(),
+                'class' => $this->getFieldClasses(),
                 'errors' => $this->getFieldErrors(),
                 'field' => $this->getField(),
                 'label' => $this->getFieldLabel(),
@@ -185,15 +199,6 @@ class Field
     protected function buildMultiField()
     {
         return $this->buildField();
-    }
-
-    /**
-     * @return string
-     */
-    protected function fieldType()
-    {
-        $isChoice = in_array($this->field['type'], ['checkbox', 'radio']);
-        return Helper::ifTrue($isChoice, 'choice', $this->field['type']);
     }
 
     /**
@@ -249,12 +254,12 @@ class Field
         if (!$this->isFieldValid()) {
             return;
         }
-        $rawType = $this->field['type'];
         $this->field['path'] = $this->field['name'];
+        $this->field['raw_type'] = $this->fieldType();
         $this->normalizeFieldArgs();
         $this->normalizeFieldId();
         $this->normalizeFieldName();
-        $this->field = glsr()->filterArray('field/'.$rawType, $this->field);
+        $this->field = glsr()->filterArray('field/'.$this->field['raw_type'], $this->field);
     }
 
     /**

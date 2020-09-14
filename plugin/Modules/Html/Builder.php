@@ -255,6 +255,7 @@ class Builder
         $input = $this->span('&#8203;'.$this->buildOpeningTag()); // using a zero-width character to assist with alignment
         $label = $this->span($this->args->label);
         return $this->buildFormLabel([
+            'class' => 'glsr-label-'.$this->args->type,
             'text' => $input.' '.$label,
         ]);
     }

@@ -6,12 +6,38 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 
 class SettingField extends Field
 {
+    public function __construct(array $field = [])
+    {
+        $this->field = wp_parse_args($field, [
+            'errors' => false,
+            'is_hidden' => false,
+            'is_multi' => false,
+            'is_raw' => false,
+            'is_valid' => true,
+            'path' => '',
+        ]);
+        $this->normalize();
+    }
+
     /**
      * @return SettingBuilder
      */
     public function builder()
     {
         return glsr(SettingBuilder::class);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFieldClasses()
+    {
+        $classes = [];
+        if ($this->field['is_hidden']) {
+            $classes[] = 'hidden';
+        }
+        $classes = glsr()->filterArray('rendered/field/classes', $classes, $this->field);
+        return implode(' ', $classes);
     }
 
     /**
@@ -29,9 +55,12 @@ class SettingField extends Field
     {
         return glsr(Template::class)->build('partials/form/table-row', [
             'context' => [
-                'class' => $this->getFieldClass(),
+                'class' => $this->getFieldClasses(),
                 'field' => $this->builder()->{$this->field['type']}($this->field),
-                'label' => $this->builder()->label($this->field['legend'], ['for' => $this->field['id']]),
+                'label' => $this->builder()->label([
+                    'for' => $this->field['id'],
+                    'text' => $this->field['legend'],
+                ]),
             ],
             'field' => $this->field,
         ]);
@@ -46,7 +75,7 @@ class SettingField extends Field
         unset($this->field['data-depends']);
         return glsr(Template::class)->build('partials/form/table-row-multiple', [
             'context' => [
-                'class' => $this->getFieldClass(),
+                'class' => $this->getFieldClasses(),
                 'depends_on' => $dependsOn,
                 'field' => $this->builder()->{$this->field['type']}($this->field),
                 'label' => $this->field['legend'],

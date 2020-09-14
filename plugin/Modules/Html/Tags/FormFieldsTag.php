@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Honeypot;
+use GeminiLabs\SiteReviews\Modules\Html\Attributes;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Field;
 use GeminiLabs\SiteReviews\Modules\Html\Form;
@@ -72,9 +73,21 @@ class FormFieldsTag extends FormTag
     /**
      * @return void
      */
-    protected function normalizeFieldClass(Field &$field)
+    protected function normalizeFieldClasses(Field &$field)
     {
-        $field->field['class'] = trim(Arr::get($field->field, 'class').' glsr-field-control');
+        $classes = [];
+        $isInput = in_array($field->field['type'], Attributes::INPUT_TYPES);
+        $isChoice = 'choice' === $field->fieldType();
+        if ($isInput) {
+            if (!$isChoice) {
+                $classes[] = 'glsr-input';
+            }
+            $classes[] = 'glsr-input-'.$field->field['type'];
+        } else {
+            $classes[] = 'glsr-'.$field->field['type'];
+        }
+        $classes[] = trim(Arr::get($field->field, 'class'));
+        $field->field['class'] = implode(' ', $classes);
     }
 
     /**
@@ -115,7 +128,7 @@ class FormFieldsTag extends FormTag
         $normalizedFields = [];
         foreach ($fields as $field) {
             if (!in_array($field->field['path'], $this->args->hide)) {
-                $this->normalizeFieldClass($field);
+                $this->normalizeFieldClasses($field);
                 $this->normalizeFieldErrors($field);
                 $this->normalizeFieldRequired($field);
                 $this->normalizeFieldValue($field);

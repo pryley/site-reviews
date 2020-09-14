@@ -14,7 +14,7 @@ class Honeypot
     public function build($formId)
     {
         $honeypot = new Field([
-            'class' => 'glsr-field-control',
+            'class' => 'glsr-input glsr-input-text',
             'label' => esc_html__('Your review', 'site-reviews'),
             'name' => $this->hash($formId),
             'required' => true,

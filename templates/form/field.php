@@ -1,6 +1,6 @@
 <?php defined('WPINC') || die; ?>
 
-<div class="glsr-field {{ class }}">
+<div class="{{ class }}">
     {{ label }}
     {{ field }}
     {{ errors }}
