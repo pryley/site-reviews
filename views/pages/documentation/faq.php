@@ -18,5 +18,6 @@ include trailingslashit(__DIR__).'faq/dont-store-ipaddress.php';
 include trailingslashit(__DIR__).'faq/redirect-after-submission.php';
 include trailingslashit(__DIR__).'faq/remove-name-dash.php';
 include trailingslashit(__DIR__).'faq/replace-avatar-with-featured-image.php';
+include trailingslashit(__DIR__).'faq/notify-author-when-responding.php';
 include trailingslashit(__DIR__).'faq/plugin-templates.php';
 include trailingslashit(__DIR__).'faq/ipaddress-incorrectly-detected.php';

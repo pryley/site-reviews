@@ -194,10 +194,10 @@ class MetaboxController
     }
 
     /**
-     * @param int $postId
+     * Save the review response from $_POST
      * @return mixed
      */
-    public function saveResponseMetabox($postId)
+    public function saveResponseMetabox(Review $review)
     {
         if (!wp_verify_nonce(Helper::filterInput('_nonce-response'), 'response')) {
             return;
@@ -208,7 +208,8 @@ class MetaboxController
             'em' => [],
             'strong' => [],
         ]));
-        glsr(Database::class)->metaSet($postId, 'response', $response);
+        glsr()->action('review/respond', $response, $review);
+        glsr(Database::class)->metaSet($review->ID, 'response', $response);
     }
 
     /**

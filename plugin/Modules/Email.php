@@ -89,6 +89,7 @@ class Email
     public function send()
     {
         if (!$this->message || !$this->subject || !$this->to) {
+            glsr_log()->warning('The email was not sent because it is missing either the email address, subject, or message.');
             return;
         }
         add_action('wp_mail_failed', [$this, 'logMailError']);
@@ -143,21 +144,7 @@ class Email
      */
     protected function buildHtmlMessage()
     {
-        $template = trim(glsr(OptionManager::class)->get('settings.general.notification_message'));
-        if (!empty($template)) {
-            $message = glsr(Template::class)->interpolate(
-                $template, 
-                ['context' => $this->email['template-tags']], 
-                $this->email['template']
-            );
-        } elseif ($this->email['template']) {
-            $message = glsr(Template::class)->build('templates/'.$this->email['template'], [
-                'context' => $this->email['template-tags'],
-            ]);
-        }
-        if (!isset($message)) {
-            $message = $this->email['message'];
-        }
+        $message = $this->buildMessage();
         $message = $this->email['before'].$message.$this->email['after'];
         $message = strip_shortcodes($message);
         $message = wptexturize($message);
@@ -168,6 +155,24 @@ class Email
             'context' => ['message' => $message],
         ]);
         return glsr()->filterString('email/message', stripslashes($message), 'html', $this);
+    }
+
+    /**
+     * @return string
+     */
+    protected function buildMessage()
+    {
+        if (!empty($this->email['message'])) {
+            return $this->email['message'];
+        }
+        $context = ['context' => $this->email['template-tags']];
+        $template = trim(glsr(OptionManager::class)->get('settings.general.notification_message'));
+        if (!empty($template)) {
+            return glsr(Template::class)->interpolate($template, $context, $this->email['template']);
+        } elseif ($this->email['template']) {
+            return glsr(Template::class)->build('templates/'.$this->email['template'], $context);
+        }
+        return '';
     }
 
     /**
