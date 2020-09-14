@@ -76,7 +76,7 @@ class Review extends Arguments
         $args = glsr(ReviewDefaults::class)->restrict($values->toArray());
         $args['custom'] = $this->custom();
         $args['ID'] = $this->id;
-        $args['response'] = $this->meta()->response;
+        $args['response'] = $this->meta()->_response;
         parent::__construct($args);
     }
 
