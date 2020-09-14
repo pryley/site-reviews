@@ -346,15 +346,15 @@ td.glsr-string-td1 .row-actions.visible {
 /* Field
  ------------------------- */
 
-tr.glsr-field td .inline br {
+tr.glsr-setting-field td .inline br {
 	display: none;
 }
-tr.glsr-field td label::after {
+tr.glsr-setting-field td label::after {
 	content: '';
 	margin-right: 1em;
 }
 
-.glsr-field .button {
+.glsr-setting-field .button {
 	margin-top: 6px;
 }
 
@@ -369,7 +369,7 @@ tr.glsr-field td label::after {
 	}
 }
 
-.glsr-field {
+.glsr-setting-field {
 	margin: 1em 0;
 	line-height: 1.5;
 
