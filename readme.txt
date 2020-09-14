@@ -145,6 +145,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Improved the blocks to visually match the WordPress 5.5 editor style
 - Improved the Terms checkbox in the review form to align correctly with the text
 - Improved translation settings
+- Refreshed the stars SVG images
 - Removed the glsr_calculate_ratings() helper function
 - Removed tool to calculate rating counts (no longer needed)
 - Renamed the glsr_get_rating() helper function to glsr_get_ratings()

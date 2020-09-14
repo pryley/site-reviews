@@ -29,6 +29,7 @@
             <li>Changed the settings to use the WordPress "Disallowed Comment Keys" by default</li>
             <li>Increased the minimum PHP version to 5.6.20</li>
             <li>Increased the minimum WordPress version to 5.5</li>
+            <li>Refreshed the stars SVG images</li>
             <li>Renamed the <code>glsr_get_rating()</code> helper function to <code>glsr_get_ratings()</code></li>
             <li>Replaced the <code>assign_to</code> and <code>assigned_to</code> shortcode options with the <code>assigned_posts</code> option</li>
             <li>Replaced the <code>category</code> shortcode option with <code>assigned_terms</code> option</li>
