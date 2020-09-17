@@ -88,7 +88,7 @@ Forms.prototype = {
 
     /** @return void */
     toggleHiddenField_: function (el, bool) {
-        var row = el.closest('.glsr-field');
+        var row = el.closest('.glsr-setting-field');
         if (!row) return;
         row.classList[bool ? 'remove' : 'add']('hidden');
     },
