@@ -32,11 +32,10 @@ final class Application extends Container
     use Session;
     use Storage;
 
-    const CAPABILITY = 'edit_others_posts';
     const CRON_EVENT = 'site-reviews/schedule/session/purge';
     const EXPORT_KEY = '_glsr_export';
     const ID = 'site-reviews';
-    const PAGED_QUERY_VAR = 'reviews-page';
+    const PAGED_QUERY_VAR = 'reviews-page'; // filtered
     const POST_TYPE = 'site-review';
     const PREFIX = 'glsr_';
     const TAXONOMY = 'site-review-category';
@@ -102,18 +101,6 @@ final class Application extends Container
             ? include $configFile
             : [];
         return $this->filterArray('config/'.$name, $config);
-    }
-
-    /**
-     * @param string $property
-     * @return string
-     */
-    public function constant($property, $className = 'static')
-    {
-        $constant = $className.'::'.$property;
-        return defined($constant)
-            ? $this->filterString('const/'.$property, constant($constant))
-            : '';
     }
 
     /**

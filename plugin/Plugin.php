@@ -66,7 +66,7 @@ trait Plugin
         if (property_exists($this, $property)) {
             return $this->$property;
         }
-        $constant = 'static::'.strtoupper(Str::snakeCase($property));
+        $constant = 'static::'.strtoupper($property);
         if (defined($constant)) {
             return constant($constant);
         }
@@ -89,6 +89,19 @@ trait Plugin
     public function args($args = [])
     {
         return new Arguments($args);
+    }
+
+    /**
+     * @param string $property
+     * @return string
+     */
+    public function constant($property, $className = 'static')
+    {
+        $property = strtoupper($property);
+        $constant = $className.'::'.$property;
+        return defined($constant)
+            ? $this->filterString('const/'.$property, constant($constant))
+            : '';
     }
 
     /**
