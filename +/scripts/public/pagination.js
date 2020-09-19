@@ -1,4 +1,6 @@
 /** global: GLSR */
+import Ajax from './ajax.js';
+import Excerpts from './excerpts.js';
 
 const Paginate = function (paginationEl, reviewsEl) { // HTMLElement, HTMLElement
     this.paginationEl = paginationEl;
@@ -37,7 +39,7 @@ Paginate.prototype = {
         if (GLSR.urlparameter) {
             window.history.pushState(null, '', location);
         }
-        new GLSR.Excerpts(this.reviewsEl);
+        new Excerpts(this.reviewsEl);
     },
 
     /** @return void */
@@ -65,7 +67,7 @@ Paginate.prototype = {
         this.paginationEl.classList.add(this.config.hideClass);
         this.reviewsEl.classList.add(this.config.hideClass);
         ev.preventDefault();
-        (new GLSR.Ajax()).post(data, this.handleResponse_.bind(this, ev.currentTarget.href));
+        (new Ajax).post(data, this.handleResponse_.bind(this, ev.currentTarget.href));
     },
 
     /** @return void */

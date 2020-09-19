@@ -16,10 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var direction = window.getComputedStyle(widgets[i], null).getPropertyValue('direction');
         widgets[i].classList.add('glsr-' + direction);
     }
-    // Check for unsupported browser versions (<=IE9)
-    if (!(document.all && !window.atob)) {
-        new Forms();
-        new Pagination();
-        new Excerpts();
-    }
+    new Forms();
+    new Pagination();
+    new Excerpts();
 });
