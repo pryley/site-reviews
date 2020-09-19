@@ -1,0 +1,32 @@
+:--namespace .glsr-loader {
+    animation: glsr-loader 0.5s infinite linear;
+    border-radius: 50%;
+    bottom: 0;
+    display: none;
+    height: 24px;
+    left: calc(50% - 12px);
+    margin: 0;
+    position: absolute;
+    transform: translateZ(0);
+    width: 24px;
+}
+:--namespace .glsr-hide .glsr-loader {
+    display: block;
+}
+:--namespace .glsr-loader::before,
+:--namespace .glsr-loader::after {
+    background: var(--glsr-black);
+    border-radius: 50%;
+    content: '';
+    height: 8px;
+    position: absolute;
+    width: 8px;
+}
+:--namespace .glsr-loader::before {
+    left: 0;
+    top: 0;
+}
+:--namespace .glsr-loader::after {
+    bottom: 0;
+    right: 0;
+}

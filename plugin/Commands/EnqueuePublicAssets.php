@@ -149,9 +149,7 @@ class EnqueuePublicAssets implements Contract
      */
     protected function getStylesheet()
     {
-        $currentStyle = glsr(Style::class)->style;
-        return file_exists(glsr()->path('assets/styles/custom/'.$currentStyle.'.css'))
-            ? glsr()->url('assets/styles/custom/'.$currentStyle.'.css')
-            : glsr()->url('assets/styles/'.glsr()->id.'.css');
+        $style = glsr(Style::class)->style;
+        return glsr()->url('assets/styles/'.$style.'.css');
     }
 }

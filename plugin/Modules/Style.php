@@ -35,7 +35,7 @@ class Style
 
     public function __construct()
     {
-        $this->style = glsr(OptionManager::class)->get('settings.general.style', 'default');
+        $this->style = glsr_get_option('general.style', 'default');
         $this->setConfig();
     }
 

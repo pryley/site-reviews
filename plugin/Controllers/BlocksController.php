@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Modules\Style;
 
 class BlocksController extends Controller
 {
@@ -71,7 +72,7 @@ class BlocksController extends Controller
     {
         wp_register_style(
             glsr()->id.'/blocks',
-            glsr()->url('assets/styles/'.glsr()->id.'-blocks.css'),
+            $this->getStylesheet(),
             ['wp-edit-blocks'],
             glsr()->version
         );
@@ -101,5 +102,14 @@ class BlocksController extends Controller
             }
             glsr($blockClass)->register($block);
         }
+    }
+
+    /**
+     * @return string
+     */
+    protected function getStylesheet()
+    {
+        $style = glsr(Style::class)->style;
+        return glsr()->url('assets/styles/blocks/'.$style.'-blocks.css');
     }
 }
