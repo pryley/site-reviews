@@ -28,7 +28,6 @@ return [
     ],
     'terms' => [
         'label' => esc_html__('This review is based on my own experience and is my genuine opinion.', 'site-reviews'),
-        'type' => 'checkbox',
-        'value' => 1,
+        'type' => 'toggle',
     ],
 ];

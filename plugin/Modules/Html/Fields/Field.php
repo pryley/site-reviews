@@ -27,6 +27,7 @@ abstract class Field
     }
 
     /**
+     * This is used to build a custom Field type
      * @return string|void
      */
     public function build()
