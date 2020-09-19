@@ -1,5 +1,16 @@
 const mix = require('laravel-mix');
 const path = require('path');
+const postCss = namespace => {
+  return [
+    require('postcss-import'),
+    require('precss')(),
+    require('postcss-calc')({preserve: false}),
+    require('postcss-custom-properties')({preserve: false}),
+    require('postcss-hexrgba'),
+    require('postcss-selector-namespace')({namespace: namespace}),
+    require('autoprefixer'),
+  ];
+};
 
 require('laravel-mix-bundle-analyzer');
 
@@ -9,7 +20,7 @@ mix.babelConfig({
         'languages': ['javascript', 'php', 'html', 'css'],
         'plugins': ['line-numbers'],
         'css': false,
-    }]
+    }],
   ],
   presets: [
     "@babel/preset-env",
@@ -18,18 +29,6 @@ mix.babelConfig({
 });
 
 mix.disableSuccessNotifications();
-
-let postCss = namespace => {
-  return [
-    require('postcss-import'),
-    require('precss')(),
-    require('postcss-calc')({preserve: false}),
-    require('postcss-custom-properties')({preserve: false}),
-    require('postcss-hexrgba'),
-    require('postcss-selector-namespace')({ namespace: namespace}),
-    require('autoprefixer'),
-  ];
-};
 
 mix.options({
   clearConsole: false,
@@ -50,7 +49,7 @@ mix.options({
         drop_console: mix.inProduction(),
       },
       mangle: {
-        properties: {regex: /[a-zA-Z]+_$/}
+        properties: {regex: /[a-zA-Z]+_$/},
       },
     },
   },

@@ -2395,9 +2395,9 @@ msgctxt "admin-text"
 msgid "Export Settings"
 msgstr ""
 
-#: views/pages/tools/general.php:26, views/pages/tools/general.php:54
+#: views/pages/tools/general.php:26
 msgctxt "admin-text"
-msgid "Importing, please wait..."
+msgid "Importing settings, please wait..."
 msgstr ""
 
 #: views/pages/tools/general.php:26
@@ -2405,22 +2405,27 @@ msgctxt "admin-text"
 msgid "Import Settings"
 msgstr ""
 
-#: views/pages/tools/general.php:54
+#: views/pages/tools/general.php:57
+msgctxt "admin-text"
+msgid "Importing reviews, please wait..."
+msgstr ""
+
+#: views/pages/tools/general.php:57
 msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr ""
 
-#: views/pages/tools/general.php:72
+#: views/pages/tools/general.php:75
 msgctxt "admin-text"
 msgid "Run All Migrations"
 msgstr ""
 
-#: views/pages/tools/general.php:72
+#: views/pages/tools/general.php:75
 msgctxt "admin-text"
 msgid "Migrating, please wait..."
 msgstr ""
 
-#: views/pages/tools/general.php:72
+#: views/pages/tools/general.php:75
 msgctxt "admin-text"
 msgid "Run Migration"
 msgstr ""
