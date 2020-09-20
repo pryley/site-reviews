@@ -28,6 +28,7 @@ return [
             'divi' => _x('Theme: Divi (v3)', 'admin-text', 'site-reviews'),
             'materialize' => _x('Theme: Materialize', 'admin-text', 'site-reviews'),
             'twentyfifteen' => _x('Theme: Twenty Fifteen', 'admin-text', 'site-reviews'),
+            'twentysixteen' => _x('Theme: Twenty Sixteen', 'admin-text', 'site-reviews'),
             'twentyseventeen' => _x('Theme: Twenty Seventeen', 'admin-text', 'site-reviews'),
             'twentynineteen' => _x('Theme: Twenty Nineteen', 'admin-text', 'site-reviews'),
         ],

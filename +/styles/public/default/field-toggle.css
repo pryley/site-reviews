@@ -1,0 +1,69 @@
+/*Form Toggle*/
+:--namespace form.glsr-form .glsr-toggle-switch {
+    align-items: flex-start;
+    display: inline-flex;
+    flex-direction: row-reverse;
+}
+:--namespace form.glsr-form label.glsr-label-toggle {
+    font-size: var(--glsr-form-font-size);
+    line-height:var(--glsr-form-line-height);
+    margin-left: calc(var(--glsr-form-font-size) * 0.5);
+}
+:--namespace.glsr-rtl form.glsr-form label.glsr-label-toggle {
+    margin-left: 0;
+    margin-right: calc(var(--glsr-form-font-size) * 0.5);
+}
+:--namespace form.glsr-form .glsr-toggle-wrap {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    position: relative;
+}
+:--namespace form.glsr-form input[type=checkbox].glsr-toggle {
+    appearance: none;
+    background-color: transparent;
+    border-radius: var(--glsr-toggle-size);
+    box-sizing: border-box;
+    cursor: pointer;
+    height: var(--glsr-toggle-size);
+    margin: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    user-select: none;
+    width: calc(calc(var(--glsr-toggle-size) * 2) - 4px);
+}
+:--namespace form.glsr-form input[type=checkbox].glsr-toggle + .glsr-toggle-track {
+    background-color: var(--glsr-gray);
+    border-radius: var(--glsr-toggle-size);
+    box-sizing: border-box;
+    height: var(--glsr-toggle-size);
+    opacity: 1;
+    padding: 2px;
+    pointer-events: none;
+    transition: background-color 0.15s ease-in-out;
+    width: calc(calc(var(--glsr-toggle-size) * 2) - 4px);
+}
+:--namespace form.glsr-form input[type=checkbox].glsr-toggle:checked + .glsr-toggle-track {
+    background-color: currentColor;
+    transition: background-color 0.15s ease-in-out;
+}
+:--namespace form.glsr-form input[type=checkbox].glsr-toggle:focus + .glsr-toggle-track {
+    box-shadow: var(--glsr-box-shadow);
+    outline: none;
+}
+:--namespace form.glsr-form input[type=checkbox].glsr-toggle + .glsr-toggle-track::before {
+    background-color: var(--glsr-white);
+    border-radius:calc(var(--glsr-toggle-size) - 4px);
+    box-shadow: 0 calc(var(--glsr-toggle-size) * 0.125) calc(var(--glsr-toggle-size) * 0.25) rgba(0, 0, 0, 0.2);
+    content: '';
+    display: block;
+    height: calc(var(--glsr-toggle-size) - 4px);
+    pointer-events: none;
+    transition: transform 0.075s ease-in-out;
+    width: calc(var(--glsr-toggle-size) - 4px);
+}
+:--namespace form.glsr-form input[type=checkbox].glsr-toggle:checked + .glsr-toggle-track::before {
+    transform: translateX(calc(var(--glsr-toggle-size) - 4px));
+}

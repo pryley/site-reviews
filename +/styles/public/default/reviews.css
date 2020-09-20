@@ -15,7 +15,7 @@
     opacity: 0 !important;
 }
 :--namespace .glsr-review p {
-    line-height: 1.5;
+    line-height:var(--glsr-line-height);
     margin: var(--glsr-font-size) 0;
     white-space: pre-line;
 }

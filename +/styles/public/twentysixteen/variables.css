@@ -1,10 +1,10 @@
 :root {
     --glsr-white                : #ffffff;
-    --glsr-gray-light           : #d2d6dc; /*gray-300*/
-    --glsr-gray                 : #9fa6b2; /*gray-400*/
-    --glsr-gray-dark            : #6b7280; /*gray-500*/
-    --glsr-black                : #161e2e; /*gray-900*/
-    --glsr-blue                 : #1c64f2; /*blue-600*/
+    --glsr-gray-light           : #f7f7f7;
+    --glsr-gray                 : #d1d1d1;
+    --glsr-gray-dark            : #686868;
+    --glsr-black                : #1a1a1a;
+    --glsr-blue                 : #007acc;
     --glsr-green                : #057a55; /*green-600*/
     --glsr-red                  : #e02424; /*red-600*/
     --glsr-yellow               : #faca15; /*yellow-300*/
@@ -12,11 +12,11 @@
     --glsr-base-font-size       : 16px;
     --glsr-border-radius        : calc(var(--glsr-font-size) * .15);
     --glsr-box-shadow           : 0 0 0 3px rgba(var(--glsr-gray-dark), .15);
-    --glsr-font-family-sans     : inherit;
-    --glsr-font-family-serif    : inherit;
-    --glsr-font-size-small      : 0.875rem;
+    --glsr-font-family-sans     : Montserrat, "Helvetica Neue", sans-serif;
+    --glsr-font-family-serif    : Merriweather, Georgia, serif;
+    --glsr-font-size-small      : 0.8125rem;
     --glsr-font-size            : 1rem;
-    --glsr-font-size-large      : 1.125rem;
+    --glsr-font-size-large      : 1.1875rem;
     --glsr-line-height          : 1.5;
     --glsr-toggle-size          : 1.25rem;
 
@@ -37,7 +37,7 @@
     --glsr-form-border-width    : 1px;
     --glsr-form-font-size-small : var(--glsr-font-size-small);
     --glsr-form-font-size       : var(--glsr-font-size);
-    --glsr-form-line-height     : var(--glsr-line-height);
+    --glsr-form-line-height     : 1.75;
     --glsr-form-pb              : calc(var(--glsr-form-font-size) * .5);
     --glsr-form-pl              : calc(var(--glsr-form-font-size) * .75);
     --glsr-form-pr              : calc(var(--glsr-form-font-size) * .75);

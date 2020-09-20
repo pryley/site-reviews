@@ -1,0 +1,10 @@
+/*Field Labels*/
+:--namespace form.glsr-form label.glsr-label {
+    display: block;
+    float: none;
+    font-size: var(--glsr-form-font-size-small);
+    font-weight: 500;
+    hyphens: none;
+    line-height:var(--glsr-form-line-height);
+    margin-bottom: calc(var(--glsr-form-font-size) * .25);
+}

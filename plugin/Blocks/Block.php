@@ -68,16 +68,6 @@ abstract class Block
     abstract public function render(array $attributes);
 
     /**
-     * @return void
-     */
-    protected function filterBlockClass()
-    {
-        add_filter('site-reviews/style', function () {
-            return 'default';
-        });
-    }
-
-    /**
      * @param mixed $shortcode
      * @return bool
      */

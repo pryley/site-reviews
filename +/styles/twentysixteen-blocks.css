@@ -1,0 +1,35 @@
+@import "public/twentysixteen/variables";
+@import "public/default/keyframes";
+@import "public/default/screen-reader";
+@import "public/default/reviews";
+@import "public/default/read-more";
+@import "public/default/reviews-form";
+@import "public/twentysixteen/field-labels";
+@import "public/twentysixteen/field-input";
+@import "public/default/field-choice";
+@import "public/default/field-toggle";
+@import "public/default/field-star-rating";
+@import "public/default/submit-button";
+@import "public/default/reviews-summary";
+@import "blocks/base";
+@import "blocks/twentysixteen/pagination";
+
+:--namespace form.glsr-form input.glsr-input,
+:--namespace form.glsr-form select.glsr-select,
+:--namespace form.glsr-form textarea.glsr-textarea {
+    background-color: var(--glsr-gray-light);
+    border-color: var(--glsr-gray);
+    font-family: var(--glsr-font-family-sans);
+    font-size: var(--glsr-form-font-size);
+    padding: var(--glsr-form-pt);
+}
+
+:--namespace form.glsr-form .components-button {
+    background-color: var(--glsr-black);
+    box-shadow: none;
+    color: var(--glsr-white);
+    font-family: var(--glsr-font-family-sans);
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}

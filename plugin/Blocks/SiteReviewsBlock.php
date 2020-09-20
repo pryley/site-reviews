@@ -84,7 +84,6 @@ class SiteReviewsBlock extends Block
         $shortcode = glsr(Shortcode::class);
         if ('edit' == filter_input(INPUT_GET, 'context')) {
             $attributes = $this->normalize($attributes);
-            $this->filterBlockClass();
             $this->filterReviewLinks();
             $this->filterShowMoreLinks('content');
             $this->filterShowMoreLinks('response');
@@ -102,7 +101,7 @@ class SiteReviewsBlock extends Block
     protected function filterInterpolation()
     {
         add_filter('site-reviews/interpolate/reviews', function ($context) {
-            $context['class'] = 'glsr-default glsr-block-disabled';
+            $context['class'] = 'glsr-block-disabled';
             $context['reviews'] = _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews');
             return $context;
         });
