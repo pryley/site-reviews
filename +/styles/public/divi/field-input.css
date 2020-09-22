@@ -1,0 +1,8 @@
+/*Form Input*/
+:--namespace form.glsr-form input[type=email],
+:--namespace form.glsr-form input[type=tel],
+:--namespace form.glsr-form input[type=text],
+:--namespace form.glsr-form select.glsr-select,
+:--namespace form.glsr-form textarea.glsr-textarea {
+    width: 100%;
+}

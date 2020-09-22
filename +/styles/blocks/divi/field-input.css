@@ -1,0 +1,37 @@
+/*Form Input*/
+:--namespace form.glsr-form .et_pb_contact_field > input,
+:--namespace form.glsr-form select,
+:--namespace form.glsr-form textarea {
+    appearance: none;
+    background-clip: padding-box;
+    background: var(--glsr-form-bg-color);
+    border-radius: var(--glsr-form-border-radius);
+    border: var(--glsr-form-border-width) solid var(--glsr-form-border-color);
+    box-shadow: none;
+    box-sizing: border-box;
+    color: inherit; /* reset text color */
+    display: block;
+    float: none;
+    font-family: var(--glsr-font-family-sans);
+    font-size: var(--glsr-form-font-size);
+    line-height: var(--glsr-form-line-height);
+    margin: 0; /* Remove the margin in Firefox and Safari. */
+    max-width: none;
+    opacity: 1;
+    padding: var(--glsr-form-pt);
+    transition: border-color 0.15s ease-in-out;
+    width: 100%;
+}
+:--namespace form.glsr-form .glsr-field-select::after {
+    border: 6px solid;
+    border-color: var(--glsr-gray-dark) transparent transparent transparent;
+    content: '';
+    height: 0;
+    margin-top: 3px;
+    pointer-events: none;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+}

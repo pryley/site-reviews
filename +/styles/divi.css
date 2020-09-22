@@ -1,1 +1,22 @@
-@import "default";
+@import "public/divi/variables";
+@import "public/default/keyframes";
+@import "public/default/screen-reader";
+@import "public/default/reviews";
+@import "public/default/read-more";
+@import "public/default/pagination";
+@import "public/divi/reviews-form";
+@import "public/divi/field-input";
+@import "public/divi/field-choice";
+@import "public/divi/field-toggle";
+@import "public/default/field-star-rating";
+@import "public/default/submit-button";
+@import "public/default/reviews-summary";
+
+:--namespace .glsr-field-rating::after {
+    display: none;
+}
+:--namespace .glsr-field-rating label,
+:--namespace .et_pb_contact_field_options_title label {
+    display: block;
+    font-weight: 600;
+}

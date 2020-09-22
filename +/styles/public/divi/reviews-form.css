@@ -1,0 +1,20 @@
+:--namespace form.glsr-hide-form {
+    max-height: 0 !important;
+    opacity: 0;
+    overflow: hidden;
+}
+:--namespace form.glsr-form .glsr-recaptcha-holder {
+    margin-top: var(--glsr-font-size);
+}
+:--namespace form.glsr-form .glsr-form-message {
+    display: none;
+}
+:--namespace form.glsr-form .glsr-field-error,
+:--namespace form.glsr-form .glsr-has-errors {
+    color: var(--glsr-red);
+    display: block;
+}
+:--namespace form.glsr-form .glsr-has-success {
+    color: var(--glsr-green);
+    display: block;
+}

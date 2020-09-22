@@ -1,1 +1,14 @@
-@import "default-blocks"
+@import "public/divi/variables";
+@import "public/default/keyframes";
+@import "public/default/screen-reader";
+@import "public/default/reviews";
+@import "public/default/read-more";
+@import "blocks/divi/reviews-form";
+@import "blocks/divi/field-labels";
+@import "blocks/divi/field-input";
+@import "blocks/divi/field-choice";
+@import "public/divi/field-toggle";
+@import "public/default/field-star-rating";
+@import "blocks/divi/submit-button";
+@import "public/default/reviews-summary";
+@import "blocks/base";

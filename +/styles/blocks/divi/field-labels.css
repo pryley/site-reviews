@@ -1,0 +1,8 @@
+/*Field Labels*/
+:--namespace .et_pb_contact_field:not(.glsr-field-rating) > label.et_pb_contact_form_label {
+    display: none;
+}
+:--namespace .glsr-field-rating > label,
+:--namespace .et_pb_contact_field_options_title label {
+    font-weight: 600;
+}

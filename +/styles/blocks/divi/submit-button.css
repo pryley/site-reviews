@@ -1,0 +1,15 @@
+/*Submit button*/
+:--namespace form.glsr-form .et_contact_bottom_container {
+    text-align: right;
+}
+:--namespace form.glsr-form button.et_pb_contact_submit {
+    background-color: transparent;
+    border-radius: 3px;
+    border: 2px solid;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.7em !important;
+    padding: 0.3em 1em;
+    position: relative;
+    white-space: nowrap;
+}
