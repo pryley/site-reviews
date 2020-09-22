@@ -20,9 +20,13 @@
     display: inline-block;
     flex-shrink: 0;
     height: var(--glsr-form-font-size);
+    left: 0;
+    margin-left: 0;
     margin-right: calc(var(--glsr-form-font-size) * .5);
+    margin-top: 0;
     outline: none;
     padding: 0; /* Remove the padding in IE 10. */
+    top: 0;
     user-select: none;
     vertical-align: middle;
     width: var(--glsr-form-font-size);

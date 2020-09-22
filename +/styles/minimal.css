@@ -9,6 +9,6 @@
 @import "public/minimal/field-input";
 @import "public/minimal/field-choice";
 @import "public/minimal/field-toggle";
-@import "public/minimal/field-star-rating";
+@import "public/default/field-star-rating";
 @import "public/default/submit-button";
 @import "public/default/reviews-summary";

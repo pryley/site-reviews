@@ -5,6 +5,10 @@
     box-sizing: border-box;
     display: block;
     float: none;
+    margin-bottom: 0;
+    margin-top: 0;
+    max-width: none;
+    min-width: none;
     width: 100%;
 }
 :--namespace form.glsr-form input.glsr-input {
