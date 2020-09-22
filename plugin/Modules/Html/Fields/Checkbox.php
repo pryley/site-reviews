@@ -15,7 +15,8 @@ class Checkbox extends Field
             $label = $field->get('label', $field->text);
             $value = $field->get('value', 1);
             $field->options = [$value => $label];
-            $field->label = $field->value = '';
+            $field->label = '';
+            $field->value = '';
         }
         return $field->toArray();
     }

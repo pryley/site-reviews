@@ -1,6 +1,10 @@
 /*Form Checkbox/Radio*/
-:--namespace form.glsr-form .glsr-field-checkbox label.glsr-label-checkbox,
-:--namespace form.glsr-form .glsr-field-radio label.glsr-label-radio {
+:--namespace form.glsr-form .glsr-field-checkbox,
+:--namespace form.glsr-form .glsr-field-radio {
+    display: flex;
+}
+:--namespace form.glsr-form .glsr-field-checkbox label,
+:--namespace form.glsr-form .glsr-field-radio label {
     align-items: flex-start;
     display: inline-flex;
     margin: 0;
@@ -10,8 +14,8 @@
     align-items: center;
     display: flex;
 }
-:--namespace form.glsr-form input.glsr-input-checkbox,
-:--namespace form.glsr-form input.glsr-input-radio {
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
+:--namespace form.glsr-form input[type=radio].glsr-input-radio {
     appearance: none;
     background-color: var(--glsr-white);
     background-origin: border-box;
@@ -29,44 +33,44 @@
     vertical-align: middle;
     width: var(--glsr-form-font-size);
 }
-:--namespace form.glsr-form input.glsr-input-checkbox {
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox {
     border-radius: calc(var(--glsr-form-font-size) * .15);
 }
-:--namespace form.glsr-form input.glsr-input-radio {
+:--namespace form.glsr-form input[type=radio].glsr-input-radio {
     border-radius: 100%;
 }
-:--namespace.glsr-rtl form.glsr-form input.glsr-input-checkbox,
-:--namespace.glsr-rtl form.glsr-form input.glsr-input-radio {
+:--namespace.glsr-rtl form.glsr-form input[type=checkbox].glsr-input-checkbox,
+:--namespace.glsr-rtl form.glsr-form input[type=radio].glsr-input-radio {
     margin-left: calc(var(--glsr-form-font-size) * .5);
     margin-right: 0;
 }
-:--namespace form.glsr-form input.glsr-input-checkbox:checked,
-:--namespace form.glsr-form input.glsr-input-radio:checked {
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox:checked,
+:--namespace form.glsr-form input[type=radio].glsr-input-radio:checked {
     background-color: currentColor;
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100% 100%;
     border-color: transparent;
 }
-:--namespace form.glsr-form input.glsr-input-checkbox:checked {
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox:checked {
     background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
 }
-:--namespace form.glsr-form input.glsr-input-radio:checked {
+:--namespace form.glsr-form input[type=radio].glsr-input-radio:checked {
     background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
 }
-:--namespace form.glsr-form input.glsr-input-checkbox:focus,
-:--namespace form.glsr-form input.glsr-input-radio:focus {
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox:focus,
+:--namespace form.glsr-form input[type=radio].glsr-input-radio:focus {
     border-color: var(--glsr-gray-dark);
     box-shadow: var(--glsr-box-shadow);
     outline: none;
 }
-:--namespace form.glsr-form input.glsr-input-checkbox:checked:focus,
-:--namespace form.glsr-form input.glsr-input-radio:checked:focus {
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox:checked:focus,
+:--namespace form.glsr-form input[type=radio].glsr-input-radio:checked:focus {
     border-color: transparent;
 }
 @media not print {
-    :--namespace form.glsr-form input.glsr-input-checkbox::-ms-check,
-    :--namespace form.glsr-form input.glsr-input-radio::-ms-check {
+    :--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox::-ms-check,
+    :--namespace form.glsr-form input[type=radio].glsr-input-radio::-ms-check {
         background: inherit;
         border-color: inherit;
         border-radius: inherit;

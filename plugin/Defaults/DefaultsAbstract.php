@@ -31,6 +31,12 @@ abstract class DefaultsAbstract implements DefaultsContract
     public $casts = [];
 
     /**
+     * The keys that should be concatenated, value is the glue.
+     * @var array
+     */
+    public $concatenated = [];
+
+    /**
      * The values that should be guarded.
      * @var array
      */
@@ -98,6 +104,29 @@ abstract class DefaultsAbstract implements DefaultsContract
     }
 
     /**
+     * @return string
+     */
+    protected function currentHook()
+    {
+        $hookName = (new ReflectionClass($this))->getShortName();
+        $hookName = str_replace('Defaults', '', $hookName);
+        return Str::dashCase($hookName);
+    }
+
+    /**
+     * @return string
+     */
+    protected function concatenate($key, $value)
+    {
+        if (array_key_exists($key, $this->concatenated)) {
+            $default = glsr()->args($this->defaults())->$key;
+            $glue = glsr()->args($this->concatenated)->$key;
+            return trim($default.$glue.$value);
+        }
+        return $value;
+    }
+
+    /**
      * Restrict provided values to defaults, remove empty and unchanged values,
      * and return data attribute keys with JSON encoded values.
      * @return array
@@ -116,16 +145,6 @@ abstract class DefaultsAbstract implements DefaultsContract
                 : $value;
         }
         return $filteredJson;
-    }
-
-    /**
-     * @return string
-     */
-    protected function currentHook()
-    {
-        $hookName = (new ReflectionClass($this))->getShortName();
-        $hookName = str_replace('Defaults', '', $hookName);
-        return Str::dashCase($hookName);
     }
 
     /**
@@ -223,7 +242,7 @@ abstract class DefaultsAbstract implements DefaultsContract
                 $parsed[$key] = Arr::unique($this->parse($value, $parsed[$key]));
                 continue;
             }
-            $parsed[$key] = $value;
+            $parsed[$key] = $this->concatenate($key, $value);
         }
         return $parsed;
     }
@@ -245,7 +264,7 @@ abstract class DefaultsAbstract implements DefaultsContract
                 $parsed[$key] = $this->parse($values[$key], $default);
                 continue;
             }
-            $parsed[$key] = $values[$key];
+            $parsed[$key] = $this->concatenate($key, $values[$key]);
         }
         return $parsed;
     }

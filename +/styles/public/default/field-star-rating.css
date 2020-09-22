@@ -1,10 +1,10 @@
-:--namespace .gl-star-rating[data-star-rating] {
+:--namespace form.glsr-form .gl-star-rating[data-star-rating] {
     align-items: center;
     display: flex;
     position: relative;
 }
 /*remove the SELECT from view*/
-:--namespace .gl-star-rating[data-star-rating] > select {
+:--namespace form.glsr-form .gl-star-rating[data-star-rating] > select {
     clip: rect(1px, 1px, 1px, 1px); /*IE/Edge*/
     clip-path: circle(1px at 0 0); /*Modern*/
     height: 1px;
@@ -15,12 +15,12 @@
     white-space: nowrap;
     width: 1px;
 }
-:--namespace .gl-star-rating[data-star-rating] > select::before,
-:--namespace .gl-star-rating[data-star-rating] > select::after {
+:--namespace form.glsr-form .gl-star-rating[data-star-rating] > select::before,
+:--namespace form.glsr-form .gl-star-rating[data-star-rating] > select::after {
     display: none !important;
 }
 /*allow SELECT focus*/
-:--namespace .gl-star-rating[data-star-rating] > select:focus + .gl-star-rating-stars::before {
+:--namespace form.glsr-form .gl-star-rating[data-star-rating] > select:focus + .gl-star-rating-stars::before {
     content: '';
     display: block;
     height: 100%;
@@ -33,7 +33,7 @@
     width: 100%;
 }
 /*Stars wrapper*/
-:--namespace .gl-star-rating-stars {
+:--namespace form.glsr-form .gl-star-rating-stars {
     align-items: center;
     cursor: pointer;
     display: flex;
@@ -43,28 +43,28 @@
     cursor: default;
 }
 /*Stars*/
-:--namespace .gl-star-rating-stars > span {
+:--namespace form.glsr-form .gl-star-rating-stars > span {
     background-image: var(--glsr-star-empty);
     background-repeat: no-repeat;
     background-size: contain;
     height: var(--glsr-star-size-form);
     width: var(--glsr-star-size-form);
 }
-:--namespace .gl-star-rating-stars.s10 > span:nth-child(1),
-:--namespace .gl-star-rating-stars.s20 > span:nth-child(-1n+2),
-:--namespace .gl-star-rating-stars.s30 > span:nth-child(-1n+3),
-:--namespace .gl-star-rating-stars.s40 > span:nth-child(-1n+4),
-:--namespace .gl-star-rating-stars.s50 > span:nth-child(-1n+5),
-:--namespace .gl-star-rating-stars.s60 > span:nth-child(-1n+6),
-:--namespace .gl-star-rating-stars.s70 > span:nth-child(-1n+7),
-:--namespace .gl-star-rating-stars.s80 > span:nth-child(-1n+8),
-:--namespace .gl-star-rating-stars.s90 > span:nth-child(-1n+9),
-:--namespace .gl-star-rating-stars.s100 > span {
+:--namespace form.glsr-form .gl-star-rating-stars.s10 > span:nth-child(1),
+:--namespace form.glsr-form .gl-star-rating-stars.s20 > span:nth-child(-1n+2),
+:--namespace form.glsr-form .gl-star-rating-stars.s30 > span:nth-child(-1n+3),
+:--namespace form.glsr-form .gl-star-rating-stars.s40 > span:nth-child(-1n+4),
+:--namespace form.glsr-form .gl-star-rating-stars.s50 > span:nth-child(-1n+5),
+:--namespace form.glsr-form .gl-star-rating-stars.s60 > span:nth-child(-1n+6),
+:--namespace form.glsr-form .gl-star-rating-stars.s70 > span:nth-child(-1n+7),
+:--namespace form.glsr-form .gl-star-rating-stars.s80 > span:nth-child(-1n+8),
+:--namespace form.glsr-form .gl-star-rating-stars.s90 > span:nth-child(-1n+9),
+:--namespace form.glsr-form .gl-star-rating-stars.s100 > span {
     background-image: var(--glsr-star-full);
 }
 
 /*Text*/
-:--namespace .gl-star-rating-text {
+:--namespace form.glsr-form .gl-star-rating-text {
     align-items: center;
     background-color: var(--glsr-black);
     border-color: transparent;
@@ -75,7 +75,7 @@
     position: relative;
     white-space: nowrap;
 }
-:--namespace .gl-star-rating-text::before {
+:--namespace form.glsr-form .gl-star-rating-text::before {
     border-style: solid;
     content: "";
     height: 0;
@@ -84,10 +84,10 @@
     width: 0;
 }
 /*Text LTR*/
-:--namespace .gl-star-rating-ltr[data-star-rating] > select {
+:--namespace form.glsr-form .gl-star-rating-ltr[data-star-rating] > select {
     left: 0;
 }
-:--namespace .gl-star-rating-ltr[data-star-rating] .gl-star-rating-text {
+:--namespace form.glsr-form .gl-star-rating-ltr[data-star-rating] .gl-star-rating-text {
     border-radius: 0 calc(var(--glsr-font-size) * .15) calc(var(--glsr-font-size) * .15) 0;
     margin-bottom: 0;
     margin-left: calc(var(--glsr-star-size-form) / 1.5);
@@ -98,7 +98,7 @@
     padding-right: calc(var(--glsr-star-size-form) / 2);
     padding-top: 0;
 }
-:--namespace .gl-star-rating-ltr[data-star-rating] .gl-star-rating-text::before {
+:--namespace form.glsr-form .gl-star-rating-ltr[data-star-rating] .gl-star-rating-text::before {
     border-bottom-width: calc(var(--glsr-star-size-form) / 2);
     border-left-width: 0;
     border-right-color: var(--glsr-black);
@@ -108,10 +108,10 @@
     margin-left: calc(calc(var(--glsr-star-size-form) / 2) * -1);
 }
 /*Text RTL*/
-:--namespace .gl-star-rating-rtl[data-star-rating] > select {
+:--namespace form.glsr-form .gl-star-rating-rtl[data-star-rating] > select {
     right: 0;
 }
-:--namespace .gl-star-rating-rtl[data-star-rating] .gl-star-rating-text {
+:--namespace form.glsr-form .gl-star-rating-rtl[data-star-rating] .gl-star-rating-text {
     border-radius: 0 calc(var(--glsr-font-size) * .15) calc(var(--glsr-font-size) * .15) 0;
     margin-bottom: 0;
     margin-left: 0;
@@ -122,7 +122,7 @@
     padding-right: calc(var(--glsr-star-size-form) / 4);
     padding-top: 0;
 }
-:--namespace .gl-star-rating-rtl[data-star-rating] .gl-star-rating-text::before {
+:--namespace form.glsr-form .gl-star-rating-rtl[data-star-rating] .gl-star-rating-text::before {
     border-bottom-width: calc(var(--glsr-star-size-form) / 2);
     border-left-color: var(--glsr-black);
     border-left-width: calc(var(--glsr-star-size-form) / 2);

@@ -18,6 +18,7 @@
     --glsr-font-size            : 1rem;
     --glsr-font-size-large      : 1.1875rem;
     --glsr-line-height          : 1.5;
+    --glsr-toggle-bg            : var(--glsr-gray);
     --glsr-toggle-size          : 1.25rem;
 
     --glsr-star-empty           : none;

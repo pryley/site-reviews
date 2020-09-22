@@ -49,6 +49,9 @@ class Style
             'templates/form/field',
             'templates/form/response',
             'templates/form/submit-button',
+            'templates/form/type-checkbox',
+            'templates/form/type-radio',
+            'templates/form/type-toggle',
             'templates/reviews-form',
         ]);
         if (!preg_match('('.implode('|', $styledViews).')', $view)) {

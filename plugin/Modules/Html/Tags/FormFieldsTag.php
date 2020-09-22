@@ -82,7 +82,7 @@ class FormFieldsTag extends FormTag
             if (!$isChoice) {
                 $classes[] = 'glsr-input';
             }
-            $classes[] = 'glsr-input-'.$field->field['type'];
+            $classes[] = 'glsr-input-'.$field->choiceType();
         } else {
             $classes[] = 'glsr-'.$field->field['type'];
         }

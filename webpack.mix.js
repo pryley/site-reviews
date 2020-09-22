@@ -7,7 +7,7 @@ const postCss = namespace => {
     require('postcss-calc')({preserve: false}),
     require('postcss-custom-properties')({preserve: false}),
     require('postcss-hexrgba'),
-    require('postcss-selector-namespace')({namespace: namespace}),
+    require('./+/postcss/postcss-selector-namespaces')({namespace: namespace}),
     require('autoprefixer'),
   ];
 };
@@ -77,7 +77,7 @@ mix
   .postCss('+/styles/contact_form_7-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
   .postCss('+/styles/default.css', 'assets/styles', postCss('.glsr-default'))
   .postCss('+/styles/default-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
-  .postCss('+/styles/divi.css', 'assets/styles', postCss('.glsr-divi'))
+  .postCss('+/styles/divi.css', 'assets/styles', postCss('.et-db #et-main-area .glsr-divi, .et-db #et-boc .glsr-divi, .glsr-divi'))
   .postCss('+/styles/divi-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
   .postCss('+/styles/materialize.css', 'assets/styles', postCss('.glsr-materialize'))
   .postCss('+/styles/materialize-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))

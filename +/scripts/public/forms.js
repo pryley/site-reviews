@@ -4,6 +4,7 @@ import Ajax from './ajax.js';
 import Recaptcha from './recaptcha.js';
 import StarRating from 'star-rating.js';
 import Validation from './validation.js';
+import { classListAddRemove } from './classlist.js';
 
 const SingleForm = function (formEl, buttonEl) { // HTMLElement, HTMLElement
     this.button = buttonEl;
@@ -72,15 +73,10 @@ SingleForm.prototype = {
     /** @return void */
     initStarRatings: function () {
         this.destroyStarRatings();
-        this.stars = new StarRating(this.form.querySelectorAll('select.glsr-star-rating'), {
+        this.stars = new StarRating(this.form.querySelectorAll('.glsr-field-rating select'), {
             clearable: false,
             showText: false,
         });
-    },
-
-    /** @return void */
-    addRemoveClass_: function (el, classValue, bool) { // HTMLElement, string, bool
-        el.classList[bool ? 'add' : 'remove'](classValue);
     },
 
     /** @return void */
@@ -164,15 +160,15 @@ SingleForm.prototype = {
 
     /** @return void */
     showResults_: function (message, success) { // object, bool
-        var resultsEl = this.form.querySelector('.' + this.config.message_tag_class);
+        var resultsEl = this.form.querySelector('.' + this.config.message_tag_class.trim().split(' ').join('.'));
         if (resultsEl === null) {
             resultsEl = document.createElement(this.config.message_tag);
             resultsEl.className = this.config.message_tag_class;
             this.button.parentNode.insertBefore(resultsEl, this.button.nextSibling);
         }
-        this.addRemoveClass_(resultsEl, this.config.message_error_class, false === success);
-        this.addRemoveClass_(resultsEl, this.config.message_success_class, true === success);
-        resultsEl.classList.remove(this.config.message_initial_class);
+        classListAddRemove(resultsEl, this.config.message_error_class, false === success);
+        classListAddRemove(resultsEl, this.config.message_success_class, true === success);
+        classListAddRemove(resultsEl, this.config.message_initial_class, false);
         resultsEl.innerHTML = message;
     },
 

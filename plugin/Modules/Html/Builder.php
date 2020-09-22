@@ -7,12 +7,10 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use ReflectionClass;
-use ReflectionMethod;
 
 /**
- * This class generates raw HTML tags without additional DOM markup
- * 
+ * This class generates raw HTML tags without additional DOM markup.
+ *
  * @method string a(string|array ...$params)
  * @method string button(string|array ...$params)
  * @method string div(string|array ...$params)
@@ -191,8 +189,8 @@ class Builder
             $options = glsr()->args($args)->options;
             $args = glsr(FieldDefaults::class)->merge($args);
             if (is_array($options)) {
-                // Merging reindexes the options array, this may not be desirable 
-                // if the array is indexed so here we restore the original options array. 
+                // Merging reindexes the options array, this may not be desirable
+                // if the array is indexed so here we restore the original options array.
                 // It's a messy hack, but it will have to do for now.
                 $args['options'] = $options;
             }
@@ -251,13 +249,12 @@ class Builder
      */
     protected function buildFormInputChoice()
     {
-        $this->args->set('label', Helper::ifEmpty($this->args->text, $this->args->label));
-        $input = $this->span('&#8203;'.$this->buildOpeningTag()); // using a zero-width character to assist with alignment
-        $label = $this->span($this->args->label);
-        return $this->buildFormLabel([
-            'class' => 'glsr-label-'.$this->args->type,
-            'text' => $input.' '.$label,
-        ]);
+        if ($label = Helper::ifEmpty($this->args->text, $this->args->label)) {
+            return $this->buildFormLabel([
+                'text' => $this->buildOpeningTag().' '.$label,
+            ]);
+        }
+        return $this->buildOpeningTag();
     }
 
     /**
@@ -267,20 +264,16 @@ class Builder
     {
         $index = 0;
         return array_reduce(array_keys($this->args->options), function ($carry, $value) use (&$index) {
-            $input = $this->input([
+            return $carry.$this->input([
                 'checked' => in_array($value, $this->args->cast('value', 'array')),
                 'class' => $this->args->class,
-                'id' => Helper::ifTrue(!empty($this->args->id), $this->args->id.'-'.++$index),
+                'id' => $this->indexedId(++$index),
                 'label' => $this->args->options[$value],
                 'name' => $this->args->name,
                 'required' => $this->args->required,
                 'tabindex' => $this->args->tabindex,
                 'type' => $this->args->type,
                 'value' => $value,
-            ]);
-            return $carry.$this->div([
-                'class' => 'glsr-field-'.$this->args->type,
-                'text' => $input,
             ]);
         });
     }
@@ -326,6 +319,17 @@ class Builder
     protected function buildFormTextarea()
     {
         return $this->buildFormLabel().$this->buildDefaultElement($this->args->cast('value', 'string'));
+    }
+
+    /**
+     * @return string
+     */
+    protected function indexedId($index)
+    {
+        if (!empty($this->args->id && count($this->args->options) > 1)) {
+            return $this->args->id.'-'.$index;
+        }
+        return $this->args->id;
     }
 
     /**

@@ -24,6 +24,7 @@ class Field
             'is_raw' => false,
             'is_valid' => true,
             'path' => '',
+            'raw_type' => '',
         ]);
         $this->normalize();
     }
@@ -75,10 +76,21 @@ class Field
     /**
      * @return string
      */
+    public function choiceType()
+    {
+        return Helper::ifTrue('toggle' === $this->field['raw_type'], 
+            $this->field['raw_type'],
+            $this->field['type']
+        );
+    }
+
+    /**
+     * @return string
+     */
     public function fieldType()
     {
-        $isChoice = in_array($this->field['type'], ['checkbox', 'radio']);
-        return Helper::ifTrue($isChoice, 'choice', $this->field['type']);
+        $isChoice = in_array($this->field['raw_type'], ['checkbox', 'radio', 'toggle']);
+        return Helper::ifTrue($isChoice, 'choice', $this->field['raw_type']);
     }
 
     /**
@@ -88,7 +100,7 @@ class Field
     {
         return [
             $baseClass,
-            Str::suffix($baseClass, '-'.$this->field['raw_type']),
+            Str::suffix($baseClass, '-'.$this->fieldType()),
         ];
     }
 
@@ -97,6 +109,9 @@ class Field
      */
     public function getField()
     {
+        if ('choice' === $this->fieldType()) {
+            return $this->buildFieldChoiceOptions();
+        }
         return $this->builder()->raw($this->field);
     }
 
@@ -179,18 +194,53 @@ class Field
     /**
      * @return string
      */
+    protected function buildFieldChoiceOptions()
+    {
+        $index = 0;
+        return array_reduce(array_keys($this->field['options']), function ($carry, $value) use (&$index) {
+            $args = glsr()->args($this->field);
+            $type = $this->choiceType();
+            $field = [
+                'checked' => in_array($value, $args->cast('value', 'array')),
+                'class' => $args->class,
+                'id' => Helper::ifTrue(!empty($args->id), $args->id.'-'.++$index),
+                'name' => $args->name,
+                'required' => $args->required,
+                'tabindex' => $args->tabindex,
+                'type' => $args->type,
+                'value' => $value,
+            ];
+            $html = glsr(Template::class)->build('templates/form/type-'.$type, [
+                'context' => [
+                    'class' => 'glsr-field-'.$type,
+                    'id' => $field['id'],
+                    'input' => $this->builder()->raw($field),
+                    'text' => $args->options[$value],
+                ],
+                'field' => $field,
+            ]);
+            $html = glsr()->filterString('rendered/field', $html, $type, $field);
+            return $carry.$html;
+        });
+    }
+
+    /**
+     * @return string
+     */
     protected function buildField()
     {
-        $field = glsr(Template::class)->build('templates/form/field_'.$this->field['type'], [
+        $field = glsr(Template::class)->build('templates/form/field_'.$this->field['raw_type'], [
             'context' => [
                 'class' => $this->getFieldClasses(),
                 'errors' => $this->getFieldErrors(),
                 'field' => $this->getField(),
+                'for' => $this->field['id'],
                 'label' => $this->getFieldLabel(),
+                'label_text' => $this->field['label'],
             ],
             'field' => $this->field,
         ]);
-        return glsr()->filterString('rendered/field', $field, $this->field['type'], $this->field);
+        return glsr()->filterString('rendered/field', $field, $this->field['raw_type'], $this->field);
     }
 
     /**
@@ -255,7 +305,7 @@ class Field
             return;
         }
         $this->field['path'] = $this->field['name'];
-        $this->field['raw_type'] = $this->fieldType();
+        $this->field['raw_type'] = $this->field['type']; // save the original type before it's normalized
         $this->normalizeFieldArgs();
         $this->normalizeFieldId();
         $this->normalizeFieldName();

@@ -3,6 +3,8 @@
 /* jshint -W030 */
 /* jshint -W093 */
 
+import { classListAddRemove } from './classlist.js';
+
 let countGroupedElements = inputEl => {
     let selector = 'input[name="' + inputEl.getAttribute('name') + '"]:checked';
     return inputEl.validation.form.querySelectorAll(selector).length;
@@ -129,11 +131,11 @@ Validation.prototype = {
         for (var i in this.fields) {
             if (!this.fields.hasOwnProperty(i)) continue;
             this.fields[i].errorElements = null;
-            this.fields[i].input.classList.remove(this.config.input_error_class);
-            this.fields[i].input.classList.remove(this.config.input_valid_class);
+            classListAddRemove(this.fields[i].input, this.config.input_error_class, false);
+            classListAddRemove(this.fields[i].input, this.config.input_valid_class, false);
         }
         [].map.call(this.form.querySelectorAll('.' + this.config.error_tag_class), function (el) {
-            el.parentNode.classList.remove(this.config.field_error_class);
+            classListAddRemove(el.parentNode, this.config.field_error_class, false);
             el.parentNode.removeChild(el);
         }.bind(this));
     },
@@ -198,10 +200,10 @@ Validation.prototype = {
     toggleError_: function (field, action) {
         var errorEls = this.getErrorElements_(field);
         var isShowingError = action === 'add';
-        field.input.classList[action](this.config.input_error_class);
-        field.input.classList[isShowingError ? 'remove' : 'add'](this.config.input_valid_class);
+        classListAddRemove(field.input, this.config.input_error_class, isShowingError);
+        classListAddRemove(field.input, this.config.input_valid_class, !isShowingError);
         if (errorEls[0]) {
-            errorEls[0].classList[action](this.config.field_error_class);
+            classListAddRemove(errorEls[0], this.config.field_error_class, isShowingError);
         }
         if (errorEls[1]) {
             errorEls[1].innerHTML = (isShowingError ? field.errors.join('<br>') : '');
