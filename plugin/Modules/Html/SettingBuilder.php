@@ -8,6 +8,28 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 class SettingBuilder extends Builder
 {
     /**
+     * @return void|string
+     */
+    public function buildFormElement()
+    {
+        $method = Helper::buildMethodName($this->tag, 'buildForm');
+        return $this->$method().$this->buildFieldDescription();
+    }
+
+    /**
+     * @return string|void
+     */
+    protected function buildFieldDescription()
+    {
+        if (!empty($this->args->description)) {
+            return $this->p([
+                'class' => 'description',
+                'text' => $this->args->description,
+            ]);
+        }
+    }
+
+    /**
      * @return string|void
      */
     protected function buildFormInputChoices()

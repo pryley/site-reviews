@@ -160,7 +160,7 @@ class Validator
      * Get a rule and its parameters for a given attribute.
      * @param string $attribute
      * @param string|array $rules
-     * @return array|void
+     * @return array|null|void
      */
     protected function getRule($attribute, $rules)
     {

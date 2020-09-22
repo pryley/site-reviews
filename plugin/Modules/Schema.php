@@ -23,7 +23,7 @@ class Schema
     protected $keyValues = [];
 
     /**
-     * @var array
+     * @var array|null
      */
     protected $ratingCounts;
 

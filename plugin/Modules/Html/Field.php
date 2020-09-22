@@ -9,6 +9,9 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Attributes;
 
+/**
+ * @property string $id
+ */
 class Field
 {
     /**
@@ -132,24 +135,14 @@ class Field
     }
 
     /**
-     * @return string
-     */
-    public function getFieldDependsOn()
-    {
-        return !empty($this->field['data-depends'])
-            ? $this->field['data-depends']
-            : '';
-    }
-
-    /**
      * @return void|string
      */
     public function getFieldErrors()
     {
-        if (empty($this->field['errors']) || !is_array($this->field['errors'])) {
+        if (empty($errors = Cast::toArray($this->field['errors']))) {
             return;
         }
-        $errors = array_reduce($this->field['errors'], function ($carry, $error) {
+        $errors = array_reduce($errors, function ($carry, $error) {
             return $carry.$this->builder()->span($error, ['class' => 'glsr-field-error']);
         });
         return glsr(Template::class)->build('templates/form/field-errors', [
@@ -261,11 +254,10 @@ class Field
             'name', 'type',
         ];
         foreach ($requiredValues as $value) {
-            if (isset($this->field[$value])) {
-                continue;
+            if (!isset($this->field[$value])) {
+                $missingValues[] = $value;
+                $this->field['is_valid'] = false;
             }
-            $missingValues[] = $value;
-            $this->field['is_valid'] = false;
         }
         if (!empty($missingValues)) {
             glsr_log()

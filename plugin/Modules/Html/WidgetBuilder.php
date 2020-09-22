@@ -8,6 +8,15 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 class WidgetBuilder extends Builder
 {
     /**
+     * @return void|string
+     */
+    public function buildFormElement()
+    {
+        $method = Helper::buildMethodName($this->tag, 'buildForm');
+        return $this->$method().$this->buildFieldDescription();
+    }
+
+    /**
      * @return string|void
      */
     protected function buildFieldDescription()

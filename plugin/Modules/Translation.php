@@ -15,7 +15,7 @@ class Translation
     const SEARCH_THRESHOLD = 3;
 
     /**
-     * @var array
+     * @var array|null
      */
     protected $entries;
 

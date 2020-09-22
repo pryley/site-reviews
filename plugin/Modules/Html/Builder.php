@@ -123,6 +123,18 @@ class Builder
     }
 
     /**
+     * @param string $tag
+     * @return void|string
+     */
+    public function buildCustom($tag)
+    {
+        if (class_exists($className = $this->getFieldClassName($tag))) {
+            return (new $className($this))->build();
+        }
+        glsr_log()->error("Field [$className] missing.");
+    }
+
+    /**
      * @return string
      */
     public function buildDefaultElement($text = '')
@@ -140,22 +152,18 @@ class Builder
             return $this->buildOpeningTag();
         }
         if (in_array($this->tag, static::TAGS_FORM)) {
-            $method = Helper::buildMethodName($this->tag, 'buildForm');
-            return $this->$method().$this->buildFieldDescription();
+            return $this->buildFormElement();
         }
         return $this->buildDefaultElement();
     }
 
     /**
-     * @param string $tag
      * @return void|string
      */
-    public function buildCustom($tag)
+    public function buildFormElement()
     {
-        if (class_exists($className = $this->getFieldClassName($tag))) {
-            return (new $className($this))->build();
-        }
-        glsr_log()->error("Field [$className] missing.");
+        $method = Helper::buildMethodName($this->tag, 'buildForm');
+        return $this->$method();
     }
 
     /**
@@ -216,19 +224,6 @@ class Builder
     {
         $tag = Cast::toString($tag);
         $this->tag = Helper::ifTrue(in_array($tag, static::INPUT_TYPES), 'input', $tag);
-    }
-
-    /**
-     * @return string|void
-     */
-    protected function buildFieldDescription()
-    {
-        if (!empty($this->args->description)) {
-            return $this->p([
-                'class' => 'description',
-                'text' => $this->args->description,
-            ]);
-        }
     }
 
     /**
@@ -326,7 +321,7 @@ class Builder
      */
     protected function indexedId($index)
     {
-        if (!empty($this->args->id && count($this->args->options) > 1)) {
+        if (count($this->args->options) > 1) {
             return $this->args->id.'-'.$index;
         }
         return $this->args->id;

@@ -43,6 +43,16 @@ class SettingField extends Field
     /**
      * @return string
      */
+    public function getFieldDependsOn()
+    {
+        return !empty($this->field['data-depends'])
+            ? $this->field['data-depends']
+            : '';
+    }
+
+    /**
+     * @return string
+     */
     public function getFieldPrefix()
     {
         return OptionManager::databaseKey();
