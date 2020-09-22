@@ -501,7 +501,7 @@ return [
     ],
     'settings.submissions.recaptcha.integration' => [
         'default' => '',
-        'description' => _x('Invisible reCAPTCHA is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
+        'description' => _x('The Invisible reCAPTCHA badge (reCAPTCHA v2) is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
         'label' => _x('Invisible reCAPTCHA', 'admin-text', 'site-reviews'),
         'options' => [
             '' => _x('Do not use reCAPTCHA', 'admin-text', 'site-reviews'),
