@@ -1,0 +1,30 @@
+:--namespace form.glsr-form {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    row-gap: var(--glsr-form-font-size);
+}
+:--namespace form.glsr-hide-form {
+    max-height: 0 !important;
+    opacity: 0;
+    overflow: hidden;
+}
+:--namespace form.glsr-form .glsr-field {
+    position: relative;
+}
+:--namespace form.glsr-form .glsr-field-error {
+    color: var(--glsr-red);
+}
+:--namespace form.glsr-form .glsr-form-message {
+    display: none;
+}
+:--namespace form.glsr-form .glsr-has-errors {
+    color: var(--glsr-red);
+    display: block;
+}
+:--namespace form.glsr-form .glsr-has-success {
+    color: var(--glsr-green);
+    display: block;
+}
+:--namespace form.glsr-form .glsr-recaptcha-holder {
+    margin-top: var(--glsr-font-size);
+}

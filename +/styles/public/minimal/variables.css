@@ -1,0 +1,46 @@
+:root {
+    --glsr-white                : #ffffff;
+    --glsr-gray-light           : #D3D3D3; /*lightgray*/
+    --glsr-gray                 : #C0C0C0; /*silver*/
+    --glsr-gray-dark            : #808080; /*gray*/
+    --glsr-black                : #161e2e; /*gray-900*/
+    --glsr-blue                 : #1c64f2; /*blue-600*/
+    --glsr-green                : #057a55; /*green-600*/
+    --glsr-red                  : #e02424; /*red-600*/
+    --glsr-yellow               : #faca15; /*yellow-300*/
+
+    --glsr-base-font-size       : 16px;
+    --glsr-border-radius        : calc(var(--glsr-font-size) * .15);
+    --glsr-box-shadow           : 0 0 0 3px rgba(var(--glsr-gray-dark), .15);
+    --glsr-font-family-sans     : inherit;
+    --glsr-font-family-serif    : inherit;
+    --glsr-font-size-small      : 0.875rem;
+    --glsr-font-size            : 1rem;
+    --glsr-font-size-large      : 1.125rem;
+    --glsr-line-height          : 1.5;
+    --glsr-toggle-bg            : var(--glsr-gray);
+    --glsr-toggle-size          : 1.25rem;
+
+    --glsr-star-empty           : none;
+    --glsr-star-full            : none;
+    --glsr-star-half            : none;
+    --glsr-star-size-form       : calc(var(--glsr-font-size) * 2);
+    --glsr-star-size-review     : calc(var(--glsr-font-size) * 1.5);
+    --glsr-star-size-summary    : calc(var(--glsr-font-size) * 1.5);
+
+    --glsr-summary-bar-opacity  : 0.1;
+    --glsr-summary-max-width    : 400px;
+    --glsr-summary-spacing      : 10px;
+
+    --glsr-form-bg-color        : var(--glsr-white);
+    --glsr-form-border-color    : var(--glsr-gray);
+    --glsr-form-border-radius   : var(--glsr-border-radius);
+    --glsr-form-border-width    : 1px;
+    --glsr-form-font-size-small : var(--glsr-font-size-small);
+    --glsr-form-font-size       : var(--glsr-font-size);
+    --glsr-form-line-height     : var(--glsr-line-height);
+    --glsr-form-pb              : calc(var(--glsr-form-font-size) * .5);
+    --glsr-form-pl              : calc(var(--glsr-form-font-size) * .75);
+    --glsr-form-pr              : calc(var(--glsr-form-font-size) * .75);
+    --glsr-form-pt              : calc(var(--glsr-form-font-size) * .5);
+}

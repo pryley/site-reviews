@@ -5,7 +5,7 @@
 @import "public/default/read-more";
 @import "public/default/reviews-form";
 @import "public/default/field-labels";
-@import "public/default/field-input";
+@import "blocks/default/field-input";
 @import "public/default/field-choice";
 @import "public/default/field-toggle";
 @import "public/default/field-star-rating";
