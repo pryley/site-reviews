@@ -7,6 +7,7 @@ import Validation from './validation.js';
 import { classListAddRemove } from './classlist.js';
 
 const SingleForm = function (formEl, buttonEl) { // HTMLElement, HTMLElement
+    this.ajax = new Ajax();
     this.button = buttonEl;
     this.config = GLSR.validationconfig;
     this.events = {
@@ -118,7 +119,7 @@ SingleForm.prototype = {
         var isUploadSupported = true;
         [].forEach.call(this.form.elements, function (el) {
             if (el.type !== 'file') return;
-            isUploadSupported = Ajax.isFileSupported() && Ajax.isUploadSupported();
+            isUploadSupported = this.ajax.isFileSupported() && this.ajax.isUploadSupported();
         });
         return isUploadSupported && !this.form.classList.contains('no-ajax');
     },
@@ -174,13 +175,13 @@ SingleForm.prototype = {
 
     /** @return void */
     submitForm_: function (counter) { // int|null
-        if (!Ajax.isFormDataSupported()) {
+        if (!this.ajax.isFormDataSupported()) {
             this.showResults_(this.strings.unsupported, false);
             return;
         }
         this.disableButton_();
         this.form[GLSR.nameprefix + '[_counter]'].value = counter || 0;
-        (new Ajax).post(this.form, this.handleResponse_.bind(this));
+        this.ajax.post(this.form, this.handleResponse_.bind(this));
     },
 };
 
