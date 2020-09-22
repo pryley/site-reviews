@@ -33,8 +33,8 @@
 :--namespace .glsr-field .glsr-star {
     background-repeat: no-repeat;
     background-size: contain;
-    height: var(--glsr-star-size-form);
-    width: var(--glsr-star-size-form);
+    height: var(--glsr-form-star-size);
+    width: var(--glsr-form-star-size);
 }
 :root .glsr-star-empty {
     background-image: url(../../images/stars/star-empty.svg) !important;

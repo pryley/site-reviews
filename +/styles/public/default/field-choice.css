@@ -22,13 +22,17 @@
     border: 1px solid var(--glsr-gray);
     box-sizing: border-box; /* Add the correct box sizing in IE 10. */
     color-adjust: exact;
-    color: var(--glsr-black);
+    color: currentColor;
     display: inline-block;
     flex-shrink: 0;
     height: var(--glsr-form-font-size);
+    left: 0;
+    margin-left: 0;
     margin-right: calc(var(--glsr-form-font-size) * .5);
+    margin-top: 0;
     outline: none;
     padding: 0; /* Remove the padding in IE 10. */
+    top: 0;
     user-select: none;
     vertical-align: middle;
     width: var(--glsr-form-font-size);
@@ -60,9 +64,10 @@
 }
 :--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox:focus,
 :--namespace form.glsr-form input[type=radio].glsr-input-radio:focus {
-    border-color: var(--glsr-gray-dark);
-    box-shadow: var(--glsr-box-shadow);
-    outline: none;
+    outline: 1px solid transparent;
+    box-shadow: 0 0 0 3px Highlight;
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    box-shadow: 0 0 0 3px -webkit-focus-ring-color;
 }
 :--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox:checked:focus,
 :--namespace form.glsr-form input[type=radio].glsr-input-radio:checked:focus {

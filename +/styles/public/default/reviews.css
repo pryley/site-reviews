@@ -59,14 +59,14 @@
     flex-grow: 1;
     font-style: italic;
     white-space: nowrap;
-    flex-basis: calc(100% - calc(var(--glsr-star-size-review) * 5));
+    flex-basis: calc(100% - calc(var(--glsr-star-size) * 5));
 }
 :--namespace .glsr-review-avatar + .glsr-review-author span,
 :--namespace .glsr-review-rating + .glsr-review-date span {
     margin-left: var(--glsr-font-size);
 }
 :--namespace.glsr-rtl .glsr-review-avatar + .glsr-review-author span ,
-:--namespace.glsr-rtl .glsr-review-rating + .glsr-review-date span{
+:--namespace.glsr-rtl .glsr-review-rating + .glsr-review-date span {
     margin-left: 0;
     margin-right: var(--glsr-font-size);
 }
@@ -109,7 +109,7 @@
 }
 :--namespace .glsr-review-response::after {
     background-color: currentColor;
-    border-radius: calc(var(--glsr-font-size) * .15);
+    border-radius: var(--glsr-border-radius);
     content: '';
     height: 100%;
     left: 0;
@@ -125,11 +125,10 @@
 :--namespace .glsr-stars {
     align-items: center;
     display: flex;
-    width: calc(var(--glsr-star-size-review) * 5);
 }
 :--namespace .glsr-star {
-    background-size: var(--glsr-star-size-review);
+    background-size: var(--glsr-star-size);
     font-size: inherit;
-    height: var(--glsr-star-size-review);
-    width: var(--glsr-star-size-review);
+    height: var(--glsr-star-size);
+    width: var(--glsr-star-size);
 }

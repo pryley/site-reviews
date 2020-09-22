@@ -14,16 +14,19 @@
     font-family: inherit;
     font-size: var(--glsr-form-font-size);
     line-height: var(--glsr-form-line-height);
-    margin: 0; /* Remove the margin in Firefox and Safari. */
-    transition: border-color 0.15s ease-in-out;
+    margin-bottom: 0;
+    margin-top: 0;
+    max-width: none;
+    min-width: none;
+    transition: border-color var(--glsr-form-duration) ease-in-out;
     width: 100%;
 }
 :--namespace form.glsr-form input.glsr-input {
     overflow: visible; /* Show the overflow in IE and Edge. */
-    padding-top: var(--glsr-form-pt);
-    padding-right: var(--glsr-form-pr);
-    padding-bottom: var(--glsr-form-pb);
-    padding-left: var(--glsr-form-pl);
+    padding-top: var(--glsr-form-py);
+    padding-right: var(--glsr-form-px);
+    padding-bottom: var(--glsr-form-py);
+    padding-left: var(--glsr-form-px);
 }
 :--namespace form.glsr-form select.glsr-select {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3e%3cpath d='M7 7l3-3 3 3m0 6l-3 3-3-3' stroke='%239fa6b2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
@@ -31,10 +34,15 @@
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;
     color-adjust: exact;
-    padding-top: var(--glsr-form-pt);
-    padding-right: calc(var(--glsr-form-pr) * 3);
-    padding-bottom: var(--glsr-form-pb);
-    padding-left: var(--glsr-form-pl);
+    height: auto;
+    max-height: none;
+    max-width: none;
+    min-height: none;
+    min-width: none;
+    padding-top: var(--glsr-form-py);
+    padding-right: calc(var(--glsr-form-px) * 3);
+    padding-bottom: var(--glsr-form-py);
+    padding-left: var(--glsr-form-px);
     text-transform: none; /* Remove the inheritance of text transform in Firefox. */
 }
 :--namespace form.glsr-form select.glsr-select::-ms-expand {
@@ -48,14 +56,14 @@
 }
 @media print and (-ms-high-contrast: active), print and (-ms-high-contrast: none) {
     :--namespace form.glsr-form select.glsr-select {
-        padding-right: var(--glsr-form-pr);
+        padding-right: var(--glsr-form-px);
     }
 }
 :--namespace form.glsr-form textarea.glsr-textarea {
-    padding-top: var(--glsr-form-pt);
-    padding-right: var(--glsr-form-pr);
-    padding-bottom: var(--glsr-form-pb);
-    padding-left: var(--glsr-form-pl);
+    padding-top: var(--glsr-form-py);
+    padding-right: var(--glsr-form-px);
+    padding-bottom: var(--glsr-form-py);
+    padding-left: var(--glsr-form-px);
     overflow: auto; /* Remove the default vertical scrollbar in IE 10+. */
     resize: vertical;
 }
@@ -63,9 +71,10 @@
 :--namespace form.glsr-form select.glsr-select:focus,
 :--namespace form.glsr-form textarea.glsr-textarea:focus {
     background-color: var(--glsr-form-bg-color);
-    border-color: var(--glsr-gray-dark);
-    box-shadow: var(--glsr-box-shadow);
-    outline: none;
+    outline: 1px solid transparent;
+    box-shadow: 0 0 0 3px Highlight;
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    box-shadow: 0 0 0 3px -webkit-focus-ring-color;
 }
 :--namespace form.glsr-form input.glsr-input.glsr-is-invalid,
 :--namespace form.glsr-form select.glsr-select.glsr-is-invalid,

@@ -1,14 +1,10 @@
 @import "public/default/variables";
-@import "public/default/keyframes";
-@import "public/default/screen-reader";
 @import "public/default/reviews";
 @import "public/default/read-more";
-@import "public/default/reviews-form";
+@import "blocks/default/reviews-form";
 @import "public/default/field-labels";
 @import "blocks/default/field-input";
-@import "public/default/field-choice";
-@import "public/default/field-toggle";
-@import "public/default/field-star-rating";
-@import "public/default/submit-button";
+@import "blocks/default/field-choice";
+@import "blocks/default/field-toggle";
 @import "public/default/reviews-summary";
 @import "blocks/base";

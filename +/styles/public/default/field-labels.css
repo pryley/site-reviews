@@ -3,7 +3,7 @@
     display: block;
     float: none;
     font-size: var(--glsr-form-font-size-small);
-    font-weight: 500;
+    font-weight: var(--glsr-form-label-font-weight);
     hyphens: none;
     line-height:var(--glsr-form-line-height);
     margin-bottom: calc(var(--glsr-form-font-size) * .25);

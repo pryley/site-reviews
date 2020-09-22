@@ -1,6 +1,6 @@
 :--namespace form.glsr-form {
     display: grid;
-    font-size: var(--glsr-base-font-size);
+    font-size: var(--glsr-form-font-size);
     grid-template-columns: repeat(1, minmax(0, 1fr));
     line-height: var(--glsr-form-line-height);
     row-gap: var(--glsr-form-font-size);
@@ -13,20 +13,14 @@
 :--namespace form.glsr-form .glsr-field {
     position: relative;
 }
-:--namespace form.glsr-form .glsr-field ul {
-    list-style-type: none;
-}
 :--namespace form.glsr-form .glsr-field-error {
     color: var(--glsr-red);
-    font-family:  var(--glsr-font-family-sans);
+    font-family:  var(--glsr-form-font-family-sans);
     font-size: var(--glsr-form-font-size-small);
     line-height: var(--glsr-form-line-height);
 }
 :--namespace form.glsr-form .glsr-form-message {
     display: none;
-}
-:--namespace form.glsr-form .glsr-recaptcha-holder {
-    margin-top: var(--glsr-font-size);
 }
 :--namespace form.glsr-form .glsr-has-errors {
     color: var(--glsr-red);
@@ -35,5 +29,8 @@
 :--namespace form.glsr-form .glsr-has-success {
     color: var(--glsr-green);
     display: block;
+}
+:--namespace form.glsr-form .glsr-recaptcha-holder {
+    margin-top: var(--glsr-form-font-size);
 }
 
