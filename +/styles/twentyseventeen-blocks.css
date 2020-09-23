@@ -1,9 +1,8 @@
 @import "public/default/variables";
 @import "public/default/reviews";
 @import "public/default/read-more";
-@import "blocks/twentyseventeen/pagination";
 @import "public/default/reviews-form";
-@import "public/twentyseventeen/field-labels";
+@import "public/minimal/field-labels";
 @import "blocks/minimal/field-input";
 @import "public/minimal/field-choice";
 @import "public/minimal/field-toggle";
@@ -18,6 +17,12 @@
     font-size: var(--glsr-form-font-size);
     padding: var(--glsr-form-py) var(--glsr-form-px);
 }
+:--namespace form.glsr-form label.glsr-label {
+    font-weight: 800;
+}
+:--namespace form.glsr-form .glsr-field-choice span label {
+    font-weight: normal;
+}
 :--namespace form.glsr-form .components-button {
     background-color: #222;
     box-shadow: none;
@@ -27,4 +32,47 @@
     font-size: 1rem;
     line-height: 1.5;
     padding: 1em 2em;
+}
+:--namespace .glsr-pagination {
+    border-top: 1px solid #eee;
+    font-size: 0.875rem;
+    font-weight: 800;
+    margin: 0 10%;
+    min-height: 56px;
+    padding-top: 2em;
+    position: relative;
+    text-align: center;
+}
+:--namespace .glsr-pagination .page-numbers {
+    border-radius: 0;
+    box-shadow: none;
+    color: var(--glsr-black);
+    display: none;
+    line-height: 1.5;
+    padding: 0.5em 0.75em;
+    font-family: var(--glsr-form-font-family-sans);
+}
+:--namespace .glsr-pagination a.next {
+    background-color: #ddd;
+    border-radius: 2px;
+    display: inline-block;
+    float: right;
+    font-size: 1.5rem;
+    line-height: 1;
+    padding: 0.25em 0.5em 0.4em;
+}
+:--namespace .glsr-pagination .current {
+    color: #767676;
+    display: inline-block;
+}
+@media screen and (max-width: 699px) {
+    :--namespace .glsr-pagination .current .screen-reader-text {
+        clip-path: none !important;
+        position: static !important;
+    }
+}
+@media screen and (min-width: 700px) {
+    :--namespace .glsr-pagination .page-numbers {
+        display: inline-block;
+    }
 }

@@ -5,9 +5,20 @@
 @import "public/default/read-more";
 @import "public/default/pagination";
 @import "public/default/reviews-form";
-@import "public/twentysixteen/field-labels";
+@import "public/minimal/field-labels";
 @import "public/minimal/field-choice";
 @import "public/minimal/field-toggle";
 @import "public/default/field-star-rating";
 @import "public/default/submit-button";
 @import "public/default/reviews-summary";
+
+:--namespace form.glsr-form label.glsr-label:not(.glsr-label-toggle) {
+    color:  var(--glsr-gray-dark);
+    font-family: var(--glsr-form-font-family-sans);
+    font-size: var(--glsr-form-font-size-small);
+    font-weight: 500;
+    letter-spacing: 1px;
+    line-height: var(--glsr-form-line-height);
+    margin-bottom: calc(var(--glsr-base-font-size) * .25);
+    text-transform: uppercase;
+}

@@ -1,5 +1,0 @@
-:--namespace form.glsr-form {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    row-gap: 0;
-}

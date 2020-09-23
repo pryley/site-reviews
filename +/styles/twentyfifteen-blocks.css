@@ -1,12 +1,127 @@
 @import "public/default/variables";
 @import "public/default/reviews";
 @import "public/default/read-more";
-@import "blocks/twentyfifteen/pagination";
-@import "blocks/twentyfifteen/reviews-form";
-@import "blocks/twentyfifteen/field-labels";
-@import "blocks/twentyfifteen/field-input";
+@import "public/minimal/reviews-form";
+@import "public/minimal/field-labels";
+@import "public/minimal/field-input";
 @import "public/minimal/field-choice";
 @import "public/minimal/field-toggle";
-@import "blocks/twentyfifteen/submit-button";
 @import "public/default/reviews-summary";
 @import "blocks/base";
+
+:--namespace form.glsr-form {
+    row-gap: 0;
+}
+:--namespace form.glsr-form input.glsr-input,
+:--namespace form.glsr-form select.glsr-select,
+:--namespace form.glsr-form textarea.glsr-textarea {
+    background-color: #f7f7f7;
+    background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+    border-radius: 0;
+    border: 1px solid rgba(51, 51, 51, 0.1);
+    box-shadow: none;
+    color: rgba(51, 51, 51, 0.7);
+    font-size: 1rem;
+    line-height: 1.6842;
+    padding: 0.5278em;
+}
+:--namespace form.glsr-form label {
+    font-family: "Noto Sans", sans-serif;
+}
+:--namespace form.glsr-form .glsr-label {
+    color: rgba(51, 51, 51, 0.7);
+    font-size: .875rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+    text-transform: uppercase;
+}
+:--namespace form.glsr-form button {
+    background-color: #333;
+    border-radius: 0;
+    border-width: 0;
+    box-shadow: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    height: auto;
+    outline: none;
+    padding: 0.7917em 1.5em;
+    position: relative;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+:--namespace .glsr-pagination {
+    margin: 0 7.5%;
+    position: relative;
+}
+:--namespace .glsr-pagination .nav-links {
+    height: 48px;
+    border: 1px solid rgba(51, 51, 51, 0.1);
+    position: relative;
+    text-align: center;
+}
+:--namespace .glsr-pagination a.next {
+    display: inline-block;
+    border-width: 0;
+    height: 48px;
+    padding: 0;
+    box-shadow: none;
+    outline: none;
+    position: absolute;
+    width: 48px;
+    right: -1px;
+    top: -1px;
+    overflow: hidden;
+}
+:--namespace .glsr-pagination a.next::before {
+    background-color: #333;
+    color: #fff;
+    content: "\f344";
+    font-family: "dashicons";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: normal;
+    height: 48px;
+    line-height: 48px;
+    position: absolute;
+    right: 0;
+    width: 48px;
+    z-index: 1;
+}
+:--namespace .glsr-pagination .current {
+    display: inline-block;
+    font-weight: 700;
+}
+:--namespace .glsr-pagination .dots,
+:--namespace .glsr-pagination a.page-numbers:not(.next) {
+    display: none;
+}
+:--namespace .glsr-pagination .page-numbers {
+    border-radius: 0;
+    box-shadow: none;
+    outline: none;
+    color:  #333;
+    font-family: "Noto Sans", sans-serif;
+    font-size: 19px;
+    height: 47px;
+    line-height: 47px;
+    padding: 0 0.6667em;
+}
+:--namespace .glsr-pagination a.page-numbers {
+    border-bottom: 1px solid #333;
+}
+@media screen and (max-width: 699px) {
+    :--namespace .glsr-pagination .current .screen-reader-text {
+        clip-path: none !important;
+        position: static !important;
+        height: auto !important;
+        width: auto !important;
+    }
+}
+@media screen and (min-width: 700px) {
+    :--namespace .glsr-pagination .dots,
+    :--namespace .glsr-pagination a.page-numbers:not(.next) {
+        display: inline-block;
+    }
+}
