@@ -1,0 +1,24 @@
+@import "../default/variables";
+
+:root {
+    --glsr-gray-light                : #d2d6dc; /*gray-300*/
+    --glsr-gray                      : #9fa6b2; /*gray-400*/
+    --glsr-gray-dark                 : #333333; /*gray-500*/
+    --glsr-red                       : #c0392b;
+    --glsr-blue                      : #21759b;
+
+    --glsr-base-font-size            : 1.6rem; /*16px*/
+    --glsr-form-font-family-sans     : "Noto Sans", sans-serif;
+    --glsr-form-font-family-serif    : "Noto Serif", sans-serif;
+    --glsr-form-label-font-weight    : 700;
+    --glsr-form-label-text-transform : uppercase;
+
+    --glsr-font-size-small      : inherit;
+    --glsr-font-size            : inherit;
+    --glsr-font-size-large      : inherit;
+    --glsr-line-height          : inherit;
+    --glsr-toggle-size          : 2.2rem;
+    --glsr-form-border-width    : 0.1rem;
+    --glsr-form-font-size-small : inherit;
+    --glsr-form-font-size       : inherit;
+}

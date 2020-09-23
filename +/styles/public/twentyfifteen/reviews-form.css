@@ -1,0 +1,58 @@
+:--namespace form.glsr-form {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    line-height: var(--glsr-form-line-height);
+    row-gap: 0;
+}
+:--namespace form.glsr-hide-form {
+    max-height: 0 !important;
+    opacity: 0;
+    overflow: hidden;
+}
+:--namespace form.glsr-form .glsr-field {
+    position: relative;
+}
+:--namespace form.glsr-form .glsr-form-message {
+    display: none;
+}
+:--namespace form.glsr-form .glsr-has-errors {
+    color: var(--glsr-red);
+    display: block;
+}
+:--namespace form.glsr-form .glsr-has-success {
+    color: var(--glsr-blue);
+    display: block;
+}
+:--namespace form.glsr-form .glsr-recaptcha-holder {
+    margin-top: var(--glsr-base-font-size);
+}
+:--namespace form.glsr-form .glsr-field-error {
+    color: var(--glsr-red);
+    font-family: var(--glsr-form-font-family-sans);
+    font-size: 1.2rem;
+}
+@media screen and (min-width: 46.25em) {
+    :--namespace form.glsr-form .glsr-field-error {
+        font-size: 1.4rem;
+    }
+}
+@media screen and (min-width: 55em) {
+    :--namespace form.glsr-form .glsr-field-error {
+        font-size: 1.6rem;
+    }
+}
+@media screen and (min-width: 59.6875em) {
+    :--namespace form.glsr-form .glsr-field-error {
+        font-size: 1.2rem;
+    }
+}
+@media screen and (min-width: 68.75em) {
+    :--namespace form.glsr-form .glsr-field-error {
+        font-size: 1.4rem;
+    }
+}
+@media screen and (min-width: 77.5em) {
+    :--namespace form.glsr-form .glsr-field-error {
+        font-size: 1.6rem;
+    }
+}

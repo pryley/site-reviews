@@ -1,0 +1,13 @@
+/*Field Labels*/
+:--namespace form.glsr-form label {
+    font-family: "Noto Sans", sans-serif;
+}
+:--namespace form.glsr-form .glsr-label {
+    color: rgba(51, 51, 51, 0.7);
+    display: block;
+    font-size: .875rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+    text-transform: uppercase;
+}

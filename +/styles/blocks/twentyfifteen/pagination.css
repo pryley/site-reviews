@@ -1,0 +1,76 @@
+
+:--namespace .glsr-pagination {
+    margin: 0 7.5%;
+    position: relative;
+}
+:--namespace .glsr-pagination .nav-links {
+    height: 48px;
+    border: 1px solid rgba(51, 51, 51, 0.1);
+    position: relative;
+    text-align: center;
+}
+:--namespace .glsr-pagination a.next {
+    display: inline-block;
+    border-width: 0;
+    height: 48px;
+    padding: 0;
+    box-shadow: none;
+    outline: none;
+    position: absolute;
+    width: 48px;
+    right: -1px;
+    top: -1px;
+    overflow: hidden;
+}
+:--namespace .glsr-pagination a.next::before {
+    background-color: #333;
+    color: #fff;
+    content: "\f344";
+    font-family: "dashicons";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: normal;
+    height: 48px;
+    line-height: 48px;
+    position: absolute;
+    right: 0;
+    width: 48px;
+    z-index: 1;
+}
+:--namespace .glsr-pagination .current {
+    display: inline-block;
+    font-weight: 700;
+}
+:--namespace .glsr-pagination .dots,
+:--namespace .glsr-pagination a.page-numbers:not(.next) {
+    display: none;
+}
+:--namespace .glsr-pagination .page-numbers {
+    border-radius: 0;
+    box-shadow: none;
+    outline: none;
+    color:  #333;
+    font-family: "Noto Sans", sans-serif;
+    font-size: 19px;
+    height: 47px;
+    line-height: 47px;
+    padding: 0 0.6667em;
+}
+:--namespace .glsr-pagination a.page-numbers {
+    border-bottom: 1px solid #333;
+}
+
+@media screen and (max-width: 699px) {
+    :--namespace .glsr-pagination .current .screen-reader-text {
+        clip-path: none !important;
+        position: static !important;
+        height: auto !important;
+        width: auto !important;
+    }
+}
+@media screen and (min-width: 700px) {
+    :--namespace .glsr-pagination .dots,
+    :--namespace .glsr-pagination a.page-numbers:not(.next) {
+        display: inline-block;
+    }
+}

@@ -1,0 +1,16 @@
+/*Submit button*/
+:--namespace form.glsr-form button {
+    background-color: #333;
+    border-radius: 0;
+    border-width: 0;
+    box-shadow: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    height: auto;
+    outline: none;
+    padding: 0.7917em 1.5em;
+    position: relative;
+    text-transform: uppercase;
+    white-space: nowrap;
+}

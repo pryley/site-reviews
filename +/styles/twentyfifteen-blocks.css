@@ -1,1 +1,12 @@
-@import "default-blocks"
+@import "public/default/variables";
+@import "public/default/reviews";
+@import "public/default/read-more";
+@import "blocks/twentyfifteen/pagination";
+@import "blocks/twentyfifteen/reviews-form";
+@import "blocks/twentyfifteen/field-labels";
+@import "blocks/twentyfifteen/field-input";
+@import "public/minimal/field-choice";
+@import "public/minimal/field-toggle";
+@import "blocks/twentyfifteen/submit-button";
+@import "public/default/reviews-summary";
+@import "blocks/base";

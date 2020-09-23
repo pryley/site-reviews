@@ -1,1 +1,13 @@
-@import "default";
+@import "public/twentyfifteen/variables";
+@import "public/default/keyframes";
+@import "public/default/screen-reader";
+@import "public/default/reviews";
+@import "public/default/read-more";
+@import "public/default/pagination";
+@import "public/twentyfifteen/reviews-form";
+@import "public/twentyfifteen/field-labels";
+@import "public/minimal/field-choice";
+@import "public/minimal/field-toggle";
+@import "public/default/field-star-rating";
+@import "public/default/submit-button";
+@import "public/default/reviews-summary";

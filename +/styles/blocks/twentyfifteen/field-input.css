@@ -1,0 +1,26 @@
+:--namespace form.glsr-form input.glsr-input,
+:--namespace form.glsr-form select.glsr-select,
+:--namespace form.glsr-form textarea.glsr-textarea {
+    background-color: #f7f7f7;
+    background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+    border-radius: 0;
+    border: 1px solid rgba(51, 51, 51, 0.1);
+    box-shadow: none;
+    color: rgba(51, 51, 51, 0.7);
+    font-size: 1rem;
+    line-height: 1.6842;
+    padding: 0.5278em;
+    width: 100%;
+}
+:--namespace form.glsr-form select.glsr-select {
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E');
+    background-position: right 0.5em center;
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    height: auto;
+    max-height: none;
+    max-width: none;
+    min-height: none;
+    min-width: none;
+    opacity: 1;
+}
