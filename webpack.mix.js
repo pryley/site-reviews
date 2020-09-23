@@ -5,8 +5,8 @@ const postCss = namespace => {
     require('postcss-import'),
     require('precss')(),
     require('postcss-calc')({preserve: false}),
-    require('postcss-custom-properties')({preserve: false}),
     require('postcss-hexrgba'),
+    require('postcss-custom-properties')({preserve: false}),
     require('./+/postcss/postcss-selector-namespaces')({namespace: namespace}),
     require('autoprefixer'),
   ];
@@ -91,6 +91,8 @@ mix
   .postCss('+/styles/twentyseventeen-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
   .postCss('+/styles/twentysixteen.css', 'assets/styles', postCss('.glsr-twentysixteen'))
   .postCss('+/styles/twentysixteen-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
+  .postCss('+/styles/twentytwenty.css', 'assets/styles', postCss('.glsr-twentytwenty'))
+  .postCss('+/styles/twentytwenty-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
   .browserSync('site-reviews.test');
 
 if (mix.inProduction()) {
