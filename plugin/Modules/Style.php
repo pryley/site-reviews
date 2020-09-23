@@ -59,10 +59,9 @@ class Style
         }
         $views = $this->generatePossibleViews($view);
         foreach ($views as $possibleView) {
-            if (!file_exists(glsr()->file($possibleView))) {
-                continue;
+            if (file_exists(glsr()->file($possibleView))) {
+                return Str::removePrefix($possibleView, 'views/');
             }
-            return Str::removePrefix($possibleView, 'views/');
         }
         return $view;
     }
@@ -94,10 +93,9 @@ class Style
      */
     public function modifyField(Builder $instance)
     {
-        if (!$this->isPublicInstance($instance) || empty(array_filter($this->fields))) {
-            return;
+        if ($this->isPublicInstance($instance) && array_filter($this->fields)) {
+            call_user_func_array([$this, 'customize'], [$instance]);
         }
-        call_user_func_array([$this, 'customize'], [$instance]);
     }
 
     /**
@@ -113,14 +111,12 @@ class Style
      */
     protected function customize(Builder $instance)
     {
-        if (!array_key_exists($instance->tag, $this->fields)) {
-            return;
+        if (array_key_exists($instance->tag, $this->fields)) {
+            $key = $instance->tag.'_'.$instance->args->type;
+            $classes = Arr::get($this->fields, $key, Arr::get($this->fields, $instance->tag));
+            $instance->args->class = trim($instance->args->class.' '.$classes);
+            glsr()->action('customize/'.$this->style, $instance);
         }
-        $args = wp_parse_args($instance->args, array_fill_keys(['class', 'type'], ''));
-        $key = $instance->tag.'_'.$args['type'];
-        $classes = Arr::get($this->fields, $key, Arr::get($this->fields, $instance->tag));
-        $instance->args['class'] = trim($args['class'].' '.$classes);
-        glsr()->action('customize/'.$this->style, $instance);
     }
 
     /**

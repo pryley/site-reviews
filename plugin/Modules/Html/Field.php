@@ -293,15 +293,14 @@ class Field
      */
     protected function normalize()
     {
-        if (!$this->isFieldValid()) {
-            return;
+        if ($this->isFieldValid()) {
+            $this->field['path'] = $this->field['name'];
+            $this->field['raw_type'] = $this->field['type']; // save the original type before it's normalized
+            $this->normalizeFieldArgs();
+            $this->normalizeFieldId();
+            $this->normalizeFieldName();
+            $this->field = glsr()->filterArray('field/'.$this->field['raw_type'], $this->field);
         }
-        $this->field['path'] = $this->field['name'];
-        $this->field['raw_type'] = $this->field['type']; // save the original type before it's normalized
-        $this->normalizeFieldArgs();
-        $this->normalizeFieldId();
-        $this->normalizeFieldName();
-        $this->field = glsr()->filterArray('field/'.$this->field['raw_type'], $this->field);
     }
 
     /**
