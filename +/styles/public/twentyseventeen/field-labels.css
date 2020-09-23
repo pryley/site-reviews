@@ -1,0 +1,10 @@
+/*Field Labels*/
+:--namespace form.glsr-form label.glsr-label {
+    display: block;
+    float: none;
+    font-weight: 800;
+    hyphens: none;
+}
+:--namespace form.glsr-form .glsr-field-choice span label {
+    font-weight: normal;
+}
