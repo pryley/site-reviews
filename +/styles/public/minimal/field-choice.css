@@ -19,20 +19,20 @@
     box-sizing: border-box; /* Add the correct box sizing in IE 10. */
     display: inline-block;
     flex-shrink: 0;
-    height: var(--glsr-form-font-size);
+    height: var(--glsr-base-font-size);
     left: 0;
     margin-left: 0;
-    margin-right: calc(var(--glsr-form-font-size) * .5);
+    margin-right: calc(var(--glsr-base-font-size) * .5);
     margin-top: 0;
     outline: none;
     padding: 0; /* Remove the padding in IE 10. */
     top: 0;
     user-select: none;
     vertical-align: middle;
-    width: var(--glsr-form-font-size);
+    width: var(--glsr-base-font-size);
 }
 :--namespace.glsr-rtl form.glsr-form input[type=checkbox].glsr-input-checkbox,
 :--namespace.glsr-rtl form.glsr-form input[type=radio].glsr-input-radio {
-    margin-left: calc(var(--glsr-form-font-size) * .5);
+    margin-left: calc(var(--glsr-base-font-size) * .5);
     margin-right: 0;
 }

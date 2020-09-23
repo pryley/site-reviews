@@ -6,11 +6,11 @@
 }
 :--namespace form.glsr-form .glsr-field-toggle label {
     display: block;
-    margin-left: calc(var(--glsr-form-font-size) * 0.5);
+    margin-left: calc(var(--glsr-base-font-size) * .5);
 }
 :--namespace.glsr-rtl form.glsr-form .glsr-field-toggle label {
     margin-left: 0;
-    margin-right: calc(var(--glsr-form-font-size) * 0.5);
+    margin-right: calc(var(--glsr-base-font-size) * .5);
 }
 :--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] {
     appearance: none;

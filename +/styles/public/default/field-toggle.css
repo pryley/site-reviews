@@ -9,11 +9,11 @@
     font-size: var(--glsr-form-font-size);
     font-weight: var(--glsr-toggle-font-weight);
     line-height:var(--glsr-form-line-height);
-    margin-left: calc(var(--glsr-form-font-size) * 0.5);
+    margin-left: calc(var(--glsr-base-font-size) * .5);
 }
 :--namespace.glsr-rtl form.glsr-form .glsr-field-toggle label {
     margin-left: 0;
-    margin-right: calc(var(--glsr-form-font-size) * 0.5);
+    margin-right: calc(var(--glsr-base-font-size) * .5);
 }
 :--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] {
     appearance: none;
@@ -81,7 +81,7 @@
 :--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::after {
     background-color: var(--glsr-white);
     border-radius: var(--glsr-toggle-radius-inner);
-    box-shadow: 0 calc(var(--glsr-toggle-size) * 0.125) calc(var(--glsr-toggle-size) * 0.25) rgba(0, 0, 0, 0.2);
+    box-shadow: 0 calc(var(--glsr-toggle-size) * 0.125) calc(var(--glsr-toggle-size) * .25) rgba(0, 0, 0, 0.2);
     content: '';
     display: block;
     height: calc(var(--glsr-toggle-size) - calc(var(--glsr-toggle-padding) * 2));

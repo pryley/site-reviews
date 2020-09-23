@@ -3,7 +3,7 @@
     font-size: var(--glsr-form-font-size);
     grid-template-columns: repeat(1, minmax(0, 1fr));
     line-height: var(--glsr-form-line-height);
-    row-gap: var(--glsr-form-font-size);
+    row-gap: var(--glsr-base-font-size);
 }
 :--namespace form.glsr-hide-form {
     max-height: 0 !important;
@@ -31,6 +31,6 @@
     display: block;
 }
 :--namespace form.glsr-form .glsr-recaptcha-holder {
-    margin-top: var(--glsr-form-font-size);
+    margin-top: var(--glsr-base-font-size);
 }
 
