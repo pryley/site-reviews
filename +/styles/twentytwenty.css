@@ -1,0 +1,26 @@
+@import "public/twentytwenty/variables";
+@import "public/default/keyframes";
+@import "public/default/screen-reader";
+@import "public/default/reviews";
+@import "public/default/read-more";
+@import "public/default/pagination";
+@import "public/minimal/reviews-form";
+@import "public/minimal/field-labels";
+@import "public/minimal/field-input";
+@import "public/minimal/field-choice";
+@import "public/minimal/field-toggle";
+@import "public/default/field-star-rating";
+@import "public/default/submit-button";
+@import "public/default/reviews-summary";
+
+:--namespace .glsr-toggle-switch {
+    font-size: var(--glsr-form-font-size-small);
+}
+:--namespace form.glsr-form label.glsr-label {
+    font-family: var(--glsr-font-family-sans);
+    line-height: 1.1;
+}
+:--namespace form.glsr-form .glsr-field-error {
+    font-family: var(--glsr-font-family-sans);
+    font-size: var(--glsr-form-font-size-small);
+}

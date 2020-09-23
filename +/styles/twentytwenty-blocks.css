@@ -1,0 +1,51 @@
+@import "blocks/twentytwenty/variables";
+@import "public/default/reviews";
+@import "public/default/read-more";
+@import "public/default/reviews-form";
+@import "public/minimal/field-labels";
+@import "blocks/minimal/field-input";
+@import "public/minimal/field-choice";
+@import "public/minimal/field-toggle";
+@import "public/default/reviews-summary";
+@import "blocks/base";
+
+:--namespace .glsr-toggle-switch {
+    font-size: var(--glsr-form-font-size);
+}
+:--namespace form.glsr-form label {
+    font-family: var(--glsr-font-family-sans);
+    font-size: var(--glsr-form-font-size);
+    font-weight: normal;
+}
+:--namespace form.glsr-form .components-button {
+    background-color: var(--glsr-red);
+    border-radius: 0;
+    box-shadow: none;
+    color: var(--glsr-white);
+    font-family: var(--glsr-form-font-family-sans);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.0333em;
+    line-height: 1.25;
+    padding: 1.5em;
+    text-transform: uppercase;
+}
+:--namespace .glsr-pagination .nav-links {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+}
+:--namespace .glsr-pagination .page-numbers {
+    border-radius: 0;
+    box-shadow: none;
+    color: var(--glsr-black);
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1.5;
+    padding: 0.5em 0.75em;
+    font-family: var(--glsr-font-family-serif);
+}
+:--namespace .glsr-pagination a.page-numbers {
+    color: var(--glsr-red);
+}
+
