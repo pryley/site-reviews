@@ -3,12 +3,12 @@
     color:  var(--glsr-gray-dark);
     display: block;
     float: none;
-    font-family: var(--glsr-font-family-sans);
+    font-family: var(--glsr-form-font-family-sans);
     font-size: var(--glsr-form-font-size-small);
     font-weight: 500;
     hyphens: none;
     letter-spacing: 1px;
     line-height: var(--glsr-form-line-height);
-    margin-bottom: calc(var(--glsr-form-font-size) * .25);
+    margin-bottom: calc(var(--glsr-base-font-size) * .25);
     text-transform: uppercase;
 }

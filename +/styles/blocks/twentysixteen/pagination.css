@@ -47,11 +47,11 @@
     border-radius: 0;
     display: none;
     line-height: 1;
-    margin-left: calc(calc(var(--glsr-font-size) * .875) * -1);
-    margin-right: calc(var(--glsr-font-size) * .875);
-    padding: var(--glsr-font-size) calc(var(--glsr-font-size) * .875) calc(var(--glsr-font-size) / 2);
+    margin-left: calc(calc(var(--glsr-base-font-size) * .875) * -1);
+    margin-right: calc(var(--glsr-base-font-size) * .875);
+    padding: var(--glsr-base-font-size) calc(var(--glsr-base-font-size) * .875) calc(var(--glsr-base-font-size) / 2);
     text-transform: uppercase;
-    font-family: var(--glsr-font-family-sans);
+    font-family: var(--glsr-form-font-family-sans);
     font-size: var(--glsr-font-size-large);
 }
 :--namespace .glsr-pagination a.page-numbers {

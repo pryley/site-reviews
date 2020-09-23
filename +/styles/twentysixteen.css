@@ -6,9 +6,8 @@
 @import "public/default/pagination";
 @import "public/default/reviews-form";
 @import "public/twentysixteen/field-labels";
-@import "public/twentysixteen/field-input";
-@import "public/default/field-choice";
-@import "public/default/field-toggle";
+@import "public/minimal/field-choice";
+@import "public/minimal/field-toggle";
 @import "public/default/field-star-rating";
 @import "public/default/submit-button";
 @import "public/default/reviews-summary";
