@@ -3,7 +3,7 @@
 /* jshint -W030 */
 /* jshint -W093 */
 
-import { classListAddRemove } from './classlist.js';
+import { classListAddRemove, classListSelector } from './classlist.js';
 
 let countGroupedElements = inputEl => {
     let selector = 'input[name="' + inputEl.getAttribute('name') + '"]:checked';
@@ -134,7 +134,7 @@ Validation.prototype = {
             classListAddRemove(this.fields[i].input, this.config.input_error_class, false);
             classListAddRemove(this.fields[i].input, this.config.input_valid_class, false);
         }
-        [].map.call(this.form.querySelectorAll('.' + this.config.error_tag_class), function (el) {
+        [].map.call(this.form.querySelectorAll(classListSelector(this.config.error_tag_class)), function (el) {
             classListAddRemove(el.parentNode, this.config.field_error_class, false);
             el.parentNode.removeChild(el);
         }.bind(this));
@@ -160,9 +160,9 @@ Validation.prototype = {
             return field.errorElements;
         }
         var errorEl;
-        var parentEl = field.input.closest('.' + this.config.field_class);
+        var parentEl = field.input.closest(classListSelector(this.config.field_class));
         if (parentEl) {
-            errorEl = parentEl.closest('.' + this.config.error_tag_class);
+            errorEl = parentEl.closest(classListSelector(this.config.error_tag_class));
             if (errorEl === null) {
                 errorEl = document.createElement(this.config.error_tag);
                 errorEl.className = this.config.error_tag_class;

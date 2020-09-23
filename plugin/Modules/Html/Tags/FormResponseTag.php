@@ -2,9 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
-use GeminiLabs\SiteReviews\Defaults\StyleValidationDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
+use GeminiLabs\SiteReviews\Modules\Style;
 
 class FormResponseTag extends FormTag
 {
@@ -13,10 +13,12 @@ class FormResponseTag extends FormTag
      */
     protected function contextClass()
     {
+        $defaults = glsr(Style::class)->validation;
+        $classes = Arr::get($defaults, 'message_tag_class');
         if (!empty($this->with->errors)) {
-            $defaults = glsr(StyleValidationDefaults::class)->defaults();
-            return Arr::get($defaults, 'message_error_class');
+            $classes .= ' '.Arr::get($defaults, 'message_error_class');
         }
+        return $classes;
     }
 
     /**

@@ -4,3 +4,7 @@ export const classListAddRemove = (el, classValue, bool) => { // HTMLElement, st
         el.classList[bool ? 'add' : 'remove'](value);
     });
 };
+/** @return string */
+export const classListSelector = (classValue) => { // string
+    return '.' + classValue.trim().split(' ').join('.');
+};

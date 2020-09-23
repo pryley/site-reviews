@@ -4,7 +4,7 @@ import Ajax from './ajax.js';
 import Recaptcha from './recaptcha.js';
 import StarRating from 'star-rating.js';
 import Validation from './validation.js';
-import { classListAddRemove } from './classlist.js';
+import { classListAddRemove, classListSelector } from './classlist.js';
 
 const SingleForm = function (formEl, buttonEl) { // HTMLElement, HTMLElement
     this.ajax = new Ajax();
@@ -161,7 +161,7 @@ SingleForm.prototype = {
 
     /** @return void */
     showResults_: function (message, success) { // object, bool
-        var resultsEl = this.form.querySelector('.' + this.config.message_tag_class.trim().split(' ').join('.'));
+        var resultsEl = this.form.querySelector(classListSelector(this.config.message_tag_class));
         if (resultsEl === null) {
             resultsEl = document.createElement(this.config.message_tag);
             resultsEl.className = this.config.message_tag_class;
