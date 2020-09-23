@@ -7,7 +7,7 @@ return [
         'input_radio' => 'custom-control-input',
         'label_checkbox' => 'custom-control-label',
         'label_radio' => 'custom-control-label',
-        'select' => 'form-control',
+        'select' => 'form-control custom-select',
         'textarea' => 'form-control',
     ],
     'validation' => [
@@ -15,5 +15,6 @@ return [
         'error_tag_class' => 'invalid-feedback',
         'field_class' => 'form-group',
         'input_error_class' => 'is-invalid',
+        'message_tag_class' => 'form-group',
     ],
 ];

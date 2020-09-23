@@ -1,1 +1,17 @@
-@import "default";
+@import "public/minimal/variables";
+@import "public/default/keyframes";
+@import "public/default/screen-reader";
+@import "public/default/reviews";
+@import "public/default/read-more";
+@import "public/default/pagination";
+@import "public/minimal/reviews-form";
+@import "public/default/field-star-rating";
+@import "public/default/submit-button";
+@import "public/default/reviews-summary";
+
+:--namespace form.glsr-form {
+    row-gap: 0;
+}
+:--namespace form.glsr-form .glsr-has-error .glsr-field-error {
+    display: block;
+}

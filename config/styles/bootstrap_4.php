@@ -15,5 +15,6 @@ return [
         'error_tag_class' => 'invalid-feedback',
         'field_class' => 'form-group',
         'input_error_class' => 'is-invalid',
+        'message_tag_class' => 'form-group',
     ],
 ];
