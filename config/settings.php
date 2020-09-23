@@ -31,6 +31,7 @@ return [
             'twentysixteen' => _x('Theme: Twenty Sixteen', 'admin-text', 'site-reviews'),
             'twentyseventeen' => _x('Theme: Twenty Seventeen', 'admin-text', 'site-reviews'),
             'twentynineteen' => _x('Theme: Twenty Nineteen', 'admin-text', 'site-reviews'),
+            'twentytwenty' => _x('Theme: Twenty Twenty', 'admin-text', 'site-reviews'),
         ],
         'type' => 'select',
     ],
