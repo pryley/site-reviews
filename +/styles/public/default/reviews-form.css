@@ -22,11 +22,11 @@
 :--namespace form.glsr-form .glsr-form-message {
     display: none;
 }
-:--namespace form.glsr-form .glsr-has-errors {
+:--namespace form.glsr-form .glsr-error-message {
     color: var(--glsr-red);
     display: block;
 }
-:--namespace form.glsr-form .glsr-has-success {
+:--namespace form.glsr-form .glsr-success-message {
     color: var(--glsr-green);
     display: block;
 }

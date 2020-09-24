@@ -167,6 +167,7 @@ SingleForm.prototype = {
             resultsEl.className = this.config.message_tag_class;
             this.button.parentNode.insertBefore(resultsEl, this.button.nextSibling);
         }
+        classListAddRemove(this.form, this.config.form_error_class, false === success);
         classListAddRemove(resultsEl, this.config.message_error_class, false === success);
         classListAddRemove(resultsEl, this.config.message_success_class, true === success);
         classListAddRemove(resultsEl, this.config.message_initial_class, false);

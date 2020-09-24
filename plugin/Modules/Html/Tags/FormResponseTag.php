@@ -13,12 +13,11 @@ class FormResponseTag extends FormTag
      */
     protected function contextClass()
     {
-        $defaults = glsr(Style::class)->validation;
-        $classes = Arr::get($defaults, 'message_tag_class');
+        $classes = [glsr(Style::class)->validation('message_tag_class')];
         if (!empty($this->with->errors)) {
-            $classes .= ' '.Arr::get($defaults, 'message_error_class');
+            $classes[] = glsr(Style::class)->validation('message_error_class');
         }
-        return $classes;
+        return Arr::implode($classes);
     }
 
     /**

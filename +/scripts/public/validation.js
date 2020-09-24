@@ -5,12 +5,12 @@
 
 import { classListAddRemove, classListSelector } from './classlist.js';
 
-let countGroupedElements = inputEl => {
+const countGroupedElements = inputEl => {
     let selector = 'input[name="' + inputEl.getAttribute('name') + '"]:checked';
     return inputEl.validation.form.querySelectorAll(selector).length;
-}
+};
 
-let validators = {
+const validators = {
     email: {
         fn: function fn(val) {
             return !val || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
@@ -128,6 +128,7 @@ Validation.prototype = {
 
     /** @return void */
     reset_: function () {
+        classListAddRemove(this.form, this.config.form_error_class, false);
         for (var i in this.fields) {
             if (!this.fields.hasOwnProperty(i)) continue;
             this.fields[i].errorElements = null;

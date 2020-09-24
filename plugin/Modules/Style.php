@@ -40,6 +40,15 @@ class Style
     }
 
     /**
+     * @param string $key
+     * @return string
+     */
+    public function fields($key)
+    {
+        return glsr()->args($this->fields)->$key;
+    }
+
+    /**
      * @param string $view
      * @return string
      */
@@ -104,6 +113,15 @@ class Style
     public function paginationArgs(array $args)
     {
         return wp_parse_args($args, $this->pagination);
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    public function validation($key)
+    {
+        return glsr()->args($this->validation)->$key;
     }
 
     /**

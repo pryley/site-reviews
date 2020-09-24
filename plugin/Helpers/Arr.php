@@ -108,6 +108,15 @@ class Arr
     }
 
     /**
+     * @param string $glue
+     * @return string
+     */
+    public static function implode(array $array, $glue = ' ')
+    {
+        return trim(implode($glue, static::unique($array)));
+    }
+
+    /**
      * @param string $key
      * @return array
      */
