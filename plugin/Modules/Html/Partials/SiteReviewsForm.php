@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
 use GeminiLabs\SiteReviews\Contracts\PartialContract;
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Style;
@@ -70,7 +69,7 @@ class SiteReviewsForm implements PartialContract
         if (!empty($this->with->errors)) {
             $classes[] = glsr(Style::class)->validation('form_error_class');
         }
-        return Arr::implode($classes);
+        return trim(implode(' ', array_filter($classes)));
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Style;
 
@@ -17,7 +16,7 @@ class FormResponseTag extends FormTag
         if (!empty($this->with->errors)) {
             $classes[] = glsr(Style::class)->validation('message_error_class');
         }
-        return Arr::implode($classes);
+        return trim(implode(' ', array_filter($classes)));
     }
 
     /**
