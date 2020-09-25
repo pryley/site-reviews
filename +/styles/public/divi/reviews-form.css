@@ -10,11 +10,11 @@
     display: none;
 }
 :--namespace form.glsr-form .glsr-field-error,
-:--namespace form.glsr-form .glsr-has-errors {
+:--namespace form.glsr-form .glsr-form-failed {
     color: var(--glsr-red);
     display: block;
 }
-:--namespace form.glsr-form .glsr-has-success {
+:--namespace form.glsr-form .glsr-form-success {
     color: var(--glsr-green);
     display: block;
 }

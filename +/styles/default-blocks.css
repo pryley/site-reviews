@@ -1,10 +1,10 @@
-@import "public/default/variables";
-@import "public/default/reviews";
-@import "public/default/read-more";
+@import "blocks/default/variables";
+@import "blocks/default/reviews";
+@import "blocks/default/read-more";
 @import "blocks/default/reviews-form";
-@import "public/default/field-labels";
+@import "blocks/default/field-labels";
 @import "blocks/default/field-input";
 @import "blocks/default/field-choice";
 @import "blocks/default/field-toggle";
-@import "public/default/reviews-summary";
+@import "blocks/default/reviews-summary";
 @import "blocks/base";

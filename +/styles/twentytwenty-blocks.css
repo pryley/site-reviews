@@ -1,12 +1,12 @@
 @import "blocks/twentytwenty/variables";
-@import "public/default/reviews";
-@import "public/default/read-more";
-@import "public/default/reviews-form";
-@import "public/minimal/field-labels";
+@import "blocks/minimal/reviews";
+@import "blocks/minimal/read-more";
+@import "blocks/default/reviews-form";
+@import "blocks/minimal/field-labels";
 @import "blocks/minimal/field-input";
-@import "public/minimal/field-choice";
-@import "public/minimal/field-toggle";
-@import "public/default/reviews-summary";
+@import "blocks/minimal/field-choice";
+@import "blocks/minimal/field-toggle";
+@import "blocks/minimal/reviews-summary";
 @import "blocks/base";
 
 :--namespace .glsr-toggle-switch {
