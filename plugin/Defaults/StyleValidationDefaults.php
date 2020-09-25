@@ -7,22 +7,25 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 class StyleValidationDefaults extends Defaults
 {
     /**
-     * The keys that should be concatenated, value is the glue.
-     * @var array
+     * @var string[]
      */
     public $concatenated = [
-        'error_tag_class' => ' ',
-        'field_class' => ' ',
-        'field_error_class' => ' ',
-        'form_class' => ' ',
-        'form_error_class' => ' ',
-        'input_error_class' => ' ',
-        'input_valid_class' => ' ',
-        'message_error_class' => ' ',
-        'message_initial_class' => ' ',
-        'message_success_class' => ' ',
-        'message_tag_class' => ' ',
+        'field_error',
+        'field_message',
+        'field_required',
+        'field_valid',
+        'form_error',
+        'form_message',
+        'form_message_failed',
+        'form_message_success',
+        'input_error',
+        'input_valid',
     ];
+
+    /**
+     * @var string
+     */
+    public $glue = ' ';
 
     /**
      * @return array
@@ -30,19 +33,16 @@ class StyleValidationDefaults extends Defaults
     protected function defaults()
     {
         return [
-            'error_tag' => 'div',
-            'error_tag_class' => 'glsr-field-error',
-            'field_class' => 'glsr-field',
-            'field_error_class' => 'glsr-has-error',
-            'form_class' => 'glsr-form',
-            'form_error_class' => 'glsr-has-errors',
-            'input_error_class' => 'glsr-is-invalid',
-            'input_valid_class' => 'glsr-is-valid',
-            'message_error_class' => 'glsr-error-message',
-            'message_initial_class' => 'glsr-is-visible',
-            'message_success_class' => 'glsr-success-message',
-            'message_tag' => 'div',
-            'message_tag_class' => 'glsr-form-message',
+            'field_error' => 'glsr-field-is-invalid',
+            'field_message' => 'glsr-field-error',
+            'field_required' => 'glsr-required',
+            'field_valid' => 'glsr-field-is-valid',
+            'form_error' => 'glsr-form-is-invalid',
+            'form_message' => 'glsr-form-message',
+            'form_message_failed' => 'glsr-form-failed',
+            'form_message_success' => 'glsr-form-success',
+            'input_error' => 'glsr-is-invalid',
+            'input_valid' => 'glsr-is-valid',
         ];
     }
 }

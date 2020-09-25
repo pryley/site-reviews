@@ -3,7 +3,7 @@
 /* jshint -W030 */
 /* jshint -W093 */
 
-import { classListAddRemove, classListSelector } from './classlist.js';
+import { addRemoveClass, classListSelector } from './helpers.js';
 
 const countGroupedElements = inputEl => {
     let selector = 'input[name="' + inputEl.getAttribute('name') + '"]:checked';
@@ -72,6 +72,7 @@ Validation.prototype = {
     ALLOWED_ATTRIBUTES_: ['required', 'max', 'maxlength', 'min', 'minlength', 'pattern'],
     SELECTOR_: 'input:not([type^=hidden]):not([type^=submit]), select, textarea, [data-glsr-validate]',
 
+    /** @return void */
     destroy: function () {
         this.reset_();
         while (this.fields.length) {
@@ -83,13 +84,13 @@ Validation.prototype = {
 
     /** @return void */
     init: function () {
-        [].forEach.call(this.form.querySelectorAll(this.SELECTOR_), function (field) {
-            if (!this.fields.find(function (item) {
-                return item.input.name === field.name;
-            })) {
+        [].forEach.call(this.form.querySelectorAll(this.SELECTOR_), field => {
+            if (this.fields.find(item => item.input.name === field.name)) return;
+            let fieldEl = field.closest(classListSelector(this.config.field));
+            if ('none' !== fieldEl.style.display) {
                 this.fields.push(this.initField_(field));
             }
-        }.bind(this));
+        });
     },
 
     /** @return void */
@@ -128,49 +129,15 @@ Validation.prototype = {
 
     /** @return void */
     reset_: function () {
-        classListAddRemove(this.form, this.config.form_error_class, false);
-        for (var i in this.fields) {
+        for (var i in this.fields) { // remove input error classes
             if (!this.fields.hasOwnProperty(i)) continue;
             this.fields[i].errorElements = null;
-            classListAddRemove(this.fields[i].input, this.config.input_error_class, false);
-            classListAddRemove(this.fields[i].input, this.config.input_valid_class, false);
+            let field = this.fields[i].input.closest(classListSelector(this.config.field));
+            addRemoveClass(this.fields[i].input, this.config.input_error, false);
+            addRemoveClass(this.fields[i].input, this.config.input_valid, false);
+            addRemoveClass(field, this.config.field_error, false);
+            addRemoveClass(field, this.config.field_valid, false);
         }
-        [].map.call(this.form.querySelectorAll(classListSelector(this.config.error_tag_class)), function (el) {
-            classListAddRemove(el.parentNode, this.config.field_error_class, false);
-            el.parentNode.removeChild(el);
-        }.bind(this));
-    },
-
-    /** @return object */
-    extend_: function () { // ...object
-        var args = [].slice.call(arguments);
-        var result = args[0];
-        var extenders = args.slice(1);
-        Object.keys(extenders).forEach(function (i) {
-            for (var key in extenders[i]) {
-                if (!extenders[i].hasOwnProperty(key)) continue;
-                result[key] = extenders[i][key];
-            }
-        });
-        return result;
-    },
-
-    /** @return array */
-    getErrorElements_: function (field) {
-        if (field.errorElements) {
-            return field.errorElements;
-        }
-        var errorEl;
-        var parentEl = field.input.closest(classListSelector(this.config.field_class));
-        if (parentEl) {
-            errorEl = parentEl.closest(classListSelector(this.config.error_tag_class));
-            if (errorEl === null) {
-                errorEl = document.createElement(this.config.error_tag);
-                errorEl.className = this.config.error_tag_class;
-                parentEl.appendChild(errorEl);
-            }
-        }
-        return field.errorElements = [parentEl, errorEl];
     },
 
     /** @return string */
@@ -198,17 +165,16 @@ Validation.prototype = {
     },
 
     /** @return void */
-    toggleError_: function (field, action) {
-        var errorEls = this.getErrorElements_(field);
-        var isShowingError = action === 'add';
-        classListAddRemove(field.input, this.config.input_error_class, isShowingError);
-        classListAddRemove(field.input, this.config.input_valid_class, !isShowingError);
-        if (errorEls[0]) {
-            classListAddRemove(errorEls[0], this.config.field_error_class, isShowingError);
-        }
-        if (errorEls[1]) {
-            errorEls[1].innerHTML = (isShowingError ? field.errors.join('<br>') : '');
-            errorEls[1].style.display = (!isShowingError ? 'none' : '');
+    toggleError_: function (field, isShowingError) {
+        let fieldEl = field.input.closest(classListSelector(this.config.field));
+        addRemoveClass(field.input, this.config.input_error, isShowingError);
+        addRemoveClass(field.input, this.config.input_valid, !isShowingError);
+        if (fieldEl) { // field Element
+            addRemoveClass(fieldEl, this.config.field_error, isShowingError);
+            addRemoveClass(fieldEl, this.config.field_valid, !isShowingError);
+            let errorEl = fieldEl.querySelector(classListSelector(this.config.field_message));
+            errorEl.innerHTML = (isShowingError ? field.errors.join('<br>') : ''); // because <br> is used in Field.php
+            errorEl.style.display = (!isShowingError ? 'none' : '');
         }
     },
 
@@ -222,9 +188,7 @@ Validation.prototype = {
 
     /** @return void */
     sortValidators_: function (fns) {
-        fns.sort(function (a, b) {
-            return (b.priority || 1) - (a.priority || 1);
-        });
+        fns.sort((a, b) => (b.priority || 1) - (a.priority || 1));
     },
 
     /** @return bool */
@@ -238,11 +202,11 @@ Validation.prototype = {
             if (!fields.hasOwnProperty(i)) continue;
             var field = fields[i];
             if (this.validateField_(field)) {
-                this.toggleError_(field, 'remove');
+                this.toggleError_(field, false); // remove error
             }
             else {
                 isValid = false;
-                this.toggleError_(field, 'add');
+                this.toggleError_(field, true); // add error
             }
         }
         return isValid;

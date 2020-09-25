@@ -12,9 +12,9 @@ class FormResponseTag extends FormTag
      */
     protected function contextClass()
     {
-        $classes = [glsr(Style::class)->validation('message_tag_class')];
+        $classes = [glsr(Style::class)->validation('form_message')];
         if (!empty($this->with->errors)) {
-            $classes[] = glsr(Style::class)->validation('message_error_class');
+            $classes[] = glsr(Style::class)->validation('form_message_failed');
         }
         return trim(implode(' ', array_filter($classes)));
     }

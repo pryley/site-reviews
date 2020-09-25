@@ -4,7 +4,7 @@ import Ajax from './ajax.js';
 import Recaptcha from './recaptcha.js';
 import StarRating from 'star-rating.js';
 import Validation from './validation.js';
-import { classListAddRemove, classListSelector } from './classlist.js';
+import { addRemoveClass, classListSelector } from './helpers.js';
 
 const SingleForm = function (formEl, buttonEl) { // HTMLElement, HTMLElement
     this.ajax = new Ajax();
@@ -23,7 +23,6 @@ const SingleForm = function (formEl, buttonEl) { // HTMLElement, HTMLElement
 };
 
 SingleForm.prototype = {
-
     /** @return void */
     destroy: function () {
         this.destroyForm();
@@ -141,6 +140,7 @@ SingleForm.prototype = {
 
     /** @return void */
     resetErrors_: function () {
+        addRemoveClass(this.form, this.config.form_error, false);
         this.showResults_('', null);
         this.validation.reset_();
     },
@@ -161,17 +161,13 @@ SingleForm.prototype = {
 
     /** @return void */
     showResults_: function (message, success) { // object, bool
-        var resultsEl = this.form.querySelector(classListSelector(this.config.message_tag_class));
-        if (resultsEl === null) {
-            resultsEl = document.createElement(this.config.message_tag);
-            resultsEl.className = this.config.message_tag_class;
-            this.button.parentNode.insertBefore(resultsEl, this.button.nextSibling);
+        var resultsEl = this.form.querySelector(classListSelector(this.config.form_message));
+        if (resultsEl !== null) {
+            addRemoveClass(this.form, this.config.form_error, false === success);
+            addRemoveClass(resultsEl, this.config.form_message_failed, false === success);
+            addRemoveClass(resultsEl, this.config.form_message_success, true === success);
+            resultsEl.innerHTML = message;
         }
-        classListAddRemove(this.form, this.config.form_error_class, false === success);
-        classListAddRemove(resultsEl, this.config.message_error_class, false === success);
-        classListAddRemove(resultsEl, this.config.message_success_class, true === success);
-        classListAddRemove(resultsEl, this.config.message_initial_class, false);
-        resultsEl.innerHTML = message;
     },
 
     /** @return void */
@@ -192,7 +188,7 @@ const Forms = function () {
         form.destroy();
     }
     var form, forms, submitButton;
-    forms = document.querySelectorAll('form.glsr-form');
+    forms = document.querySelectorAll('form' + classListSelector(GLSR.validationconfig.form));
     for (var i = 0; i < forms.length; i++) {
         submitButton = forms[i].querySelector('[type=submit]');
         if (!submitButton) continue;

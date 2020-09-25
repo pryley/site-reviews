@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Attributes;
+use GeminiLabs\SiteReviews\Modules\Style;
 
 /**
  * @property string $id
@@ -97,10 +98,12 @@ class Field
     }
 
     /**
+     * @param string $key
      * @return array
      */
-    public function getBaseClasses($baseClass)
+    public function getBaseClasses($key)
     {
+        $baseClass = glsr(Style::class)->defaultClasses($key);
         return [
             $baseClass,
             Str::suffix($baseClass, '-'.$this->fieldType()),
@@ -123,12 +126,12 @@ class Field
      */
     public function getFieldClasses()
     {
-        $classes = $this->getBaseClasses('glsr-field');
+        $classes = $this->getBaseClasses('field');
         if (!empty($this->field['errors'])) {
-            $classes[] = 'glsr-has-error';
+            $classes[] = glsr(Style::class)->validation('field_error');
         }
         if (!empty($this->field['required'])) {
-            $classes[] = 'glsr-required';
+            $classes[] = glsr(Style::class)->validation('field_required');
         }
         $classes = glsr()->filterArray('rendered/field/classes', $classes, $this->field);
         return implode(' ', $classes);
@@ -139,15 +142,10 @@ class Field
      */
     public function getFieldErrors()
     {
-        if (empty($errors = Cast::toArray($this->field['errors']))) {
-            return;
-        }
-        $errors = array_reduce($errors, function ($carry, $error) {
-            return $carry.$this->builder()->span($error, ['class' => 'glsr-field-error']);
-        });
         return glsr(Template::class)->build('templates/form/field-errors', [
             'context' => [
-                'errors' => $errors,
+                'class' => glsr(Style::class)->validation('field_message'),
+                'errors' => implode('<br>', Cast::toArray($this->field['errors'])), // because <br> is used in validation.js
             ],
             'field' => $this->field,
         ]);
@@ -159,9 +157,8 @@ class Field
     public function getFieldLabel()
     {
         if (!empty($this->field['label'])) {
-            $classes = $this->getBaseClasses('glsr-label');
             return $this->builder()->label([
-                'class' => implode(' ', $classes),
+                'class' => implode(' ', $this->getBaseClasses('label')),
                 'for' => $this->field['id'],
                 'text' => $this->builder()->span($this->field['label']),
             ]);

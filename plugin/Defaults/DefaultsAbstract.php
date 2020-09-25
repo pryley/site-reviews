@@ -31,14 +31,20 @@ abstract class DefaultsAbstract implements DefaultsContract
     public $casts = [];
 
     /**
-     * The keys that should be concatenated, value is the glue.
-     * @var array
+     * The values that should be concatenated.
+     * @var string[]
      */
     public $concatenated = [];
 
     /**
+     * The string that should be used for concatenation.
+     * @var string
+     */
+    public $glue = '';
+
+    /**
      * The values that should be guarded.
-     * @var array
+     * @var string[]
      */
     public $guarded = [];
 
@@ -118,10 +124,9 @@ abstract class DefaultsAbstract implements DefaultsContract
      */
     protected function concatenate($key, $value)
     {
-        if (array_key_exists($key, $this->concatenated)) {
+        if (in_array($key, $this->concatenated)) {
             $default = glsr()->args($this->defaults())->$key;
-            $glue = glsr()->args($this->concatenated)->$key;
-            return trim($default.$glue.$value);
+            return trim($default.$this->glue.$value);
         }
         return $value;
     }

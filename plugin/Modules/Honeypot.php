@@ -17,7 +17,7 @@ class Honeypot
             'class' => 'glsr-input glsr-input-text',
             'label' => esc_html__('Your review', 'site-reviews'),
             'name' => $this->hash($formId),
-            'required' => true,
+            // 'required' => true,
             'type' => 'text',
         ]);
         $honeypot->id = $honeypot->id.'-'.$formId;

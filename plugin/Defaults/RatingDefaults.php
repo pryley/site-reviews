@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 class RatingDefaults extends Defaults
 {
     /**
-     * @var array
+     * @var string[]
      */
     public $guarded = [
         'ID',

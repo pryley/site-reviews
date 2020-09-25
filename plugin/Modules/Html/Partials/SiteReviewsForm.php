@@ -63,11 +63,11 @@ class SiteReviewsForm implements PartialContract
     protected function getFormClasses()
     {
         $classes = [
-            glsr(Style::class)->validation('form_class'),
+            glsr(Style::class)->classes('form'),
             $this->args['class'],
         ];
         if (!empty($this->with->errors)) {
-            $classes[] = glsr(Style::class)->validation('form_error_class');
+            $classes[] = glsr(Style::class)->validation('form_error');
         }
         return trim(implode(' ', array_filter($classes)));
     }

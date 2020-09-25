@@ -9,7 +9,7 @@ use GeminiLabs\SiteReviews\Modules\Honeypot;
 class CustomFieldsDefaults extends Defaults
 {
     /**
-     * @var array
+     * @var string[]
      */
     public $guarded = [
         '_action',

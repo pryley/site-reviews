@@ -19,7 +19,7 @@ class SiteReviewsDefaults extends Defaults
     ];
 
     /**
-     * @var array
+     * @var string[]
      */
     public $guarded = [
         'fallback',

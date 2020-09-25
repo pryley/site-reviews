@@ -7,6 +7,25 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 class StyleFieldsDefaults extends Defaults
 {
     /**
+     * @var string[]
+     */
+    public $concatenated = [
+        'input',
+        'input_checkbox',
+        'input_radio',
+        'label',
+        'label_checkbox',
+        'label_radio',
+        'select',
+        'textarea',
+    ];
+
+    /**
+     * @var string
+     */
+    public $glue = ' ';
+
+    /**
      * @return array
      */
     protected function defaults()

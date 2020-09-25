@@ -4,6 +4,8 @@ namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Defaults\StyleClassesDefaults;
+use GeminiLabs\SiteReviews\Defaults\StyleValidationDefaults;
 use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
 use GeminiLabs\SiteReviews\Modules\Style;
 
@@ -92,7 +94,13 @@ class EnqueuePublicAssets implements Contract
             'ajaxurl' => admin_url('admin-ajax.php'),
             'nameprefix' => glsr()->id,
             'urlparameter' => glsr(OptionManager::class)->getBool('settings.reviews.pagination.url_parameter'),
-            'validationconfig' => glsr(Style::class)->validation,
+            'validationconfig' => array_merge(
+                [
+                    'field' => glsr(Style::class)->defaultClasses('field'),
+                    'form' => glsr(Style::class)->defaultClasses('form'),
+                ],
+                glsr(Style::class)->validation,
+            ),
             'validationstrings' => glsr(ValidationStringsDefaults::class)->defaults(),
         ];
         $variables = glsr()->filterArray('enqueue/public/localize', $variables);
