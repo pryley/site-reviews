@@ -120,6 +120,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Added "Send Emails From" option to send notifications from a custom email address
 - Added a loading="lazy" attribute to avatar images
 - Added a new Review Details metabox which allows you to modify review values
+- Added a tool to import 3rd-party reviews
 - Added a tool to test IP address detection
 - Added assigned_posts shortcode option, this replaces the "assign_to" and "assigned_to" options and allows you to assign reviews to multiple Post IDs
 - Added assigned_terms shortcode option, this replaces the "category" option and allows you to assign reviews to multiple Categories

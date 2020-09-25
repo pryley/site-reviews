@@ -13,9 +13,10 @@
             <li>Added <code>assigned_terms</code> shortcode option, this <strong>replaces</strong> the <code>category</code> option and allows you to assign reviews to multiple Categories</li>
             <li>Added <code>assigned_users</code> shortcode option, this allows you to assign reviews to multiple User IDs</li>
             <li>Added "Delete data on uninstall" option to selectively delete plugin data when removing the plugin</li>
+            <li>Added "Import Third Party Reviews" tool</li>
             <li>Added "Send Emails From" option to send notifications from a custom email address</li>
+            <li>Added "Test IP Address Detection" tool</li>
             <li>Added <a href="https://wordpress.org/support/article/wordpress-privacy/#privacy-policy-editing-helper">suggested privacy policy content</a></li>
-            <li>Added tool to test IP address detection</li>
             <li>Added <a href="https://wordpress.org/support/article/wordpress-privacy/#erase-personal-data-tool">WordPress Personal Data Eraser</a> integration</li>
             <li>Added <a href="https://wordpress.org/support/article/wordpress-privacy/#export-personal-data-tool">WordPress Personal Data Exporter</a> integration</li>
             <li>Added <a href="https://wordpress.org/support/article/revisions/">WordPress Revisions</a> integration</li>
