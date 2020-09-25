@@ -1,6 +1,5 @@
 <?php defined('WPINC') || die; ?>
 
-<br>
 <span class="wpcf7-form-control-wrap">
     <span class="wpcf7-form-control wpcf7-checkbox {{ class }}">
         <span class="wpcf7-list-item">

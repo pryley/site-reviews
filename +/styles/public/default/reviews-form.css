@@ -19,18 +19,15 @@
     font-size: var(--glsr-form-font-size-small);
     line-height: var(--glsr-form-line-height);
 }
-:--namespace form.glsr-form .glsr-form-message {
+:--namespace form.glsr-form .glsr-form-message:not(.glsr-form-failed):not(.glsr-form-success) {
     display: none;
 }
 :--namespace form.glsr-form .glsr-form-failed {
     color: var(--glsr-red);
-    display: block;
 }
 :--namespace form.glsr-form .glsr-form-success {
     color: var(--glsr-green);
-    display: block;
 }
 :--namespace form.glsr-form .glsr-recaptcha-holder {
     margin-top: var(--glsr-base-font-size);
 }
-

@@ -2,7 +2,7 @@
 :root .gl-star-rating-stars > span {
 	background-image: url(:star-empty)!important;
 }
-:root .glsr-has-error .gl-star-rating-stars > span {
+:root .glsr-field-is-invalid .gl-star-rating-stars > span {
 	background-image: url(:star-error)!important;
 }
 :root .glsr-star-half {

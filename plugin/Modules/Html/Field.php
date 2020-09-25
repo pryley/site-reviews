@@ -103,10 +103,9 @@ class Field
      */
     public function getBaseClasses($key)
     {
-        $baseClass = glsr(Style::class)->defaultClasses($key);
         return [
-            $baseClass,
-            Str::suffix($baseClass, '-'.$this->fieldType()),
+            glsr(Style::class)->classes($key),
+            Str::suffix(glsr(Style::class)->defaultClasses($key), '-'.$this->fieldType()),
         ];
     }
 
@@ -202,7 +201,7 @@ class Field
             ];
             $html = glsr(Template::class)->build('templates/form/type-'.$type, [
                 'context' => [
-                    'class' => 'glsr-field-'.$type,
+                    'class' => glsr(Style::class)->defaultClasses('field').'-'.$type,
                     'id' => $field['id'],
                     'input' => $this->builder()->raw($field),
                     'text' => $args->options[$value],
