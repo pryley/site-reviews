@@ -83,6 +83,8 @@ mix
   .postCss('+/styles/materialize-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
   .postCss('+/styles/minimal.css', 'assets/styles', postCss('.glsr-minimal'))
   .postCss('+/styles/minimal-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
+  .postCss('+/styles/ninja_forms.css', 'assets/styles', postCss('.glsr-ninja_forms'))
+  .postCss('+/styles/ninja_forms-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
   .postCss('+/styles/twentyfifteen.css', 'assets/styles', postCss('.glsr-twentyfifteen'))
   .postCss('+/styles/twentyfifteen-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
   .postCss('+/styles/twentynineteen.css', 'assets/styles', postCss('.glsr-twentynineteen'))

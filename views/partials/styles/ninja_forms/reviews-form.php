@@ -5,10 +5,8 @@
         <form class="{{ class }}" id="{{ id }}" method="post" enctype="multipart/form-data">
             <div class="nf-form-content">
                 {{ fields }}
-                {{ submit_button }}
-            </div>
-            <div class="nf-after-form-content">
                 {{ response }}
+                {{ submit_button }}
             </div>
         </form>
     </div>

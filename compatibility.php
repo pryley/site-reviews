@@ -2,18 +2,7 @@
 
 defined('WPINC') || die;
 
-add_action('plugins_loaded', function () {
-    /*
-     * Provide a partial, native PHP implementation for the Mbstring extension.
-     * @return bool
-     * @see https://github.com/symfony/polyfill-mbstring
-     */
-    if (glsr()->filterBool('support/multibyte', true)) {
-        require_once __DIR__.'/vendors/symfony/polyfill-mbstring/bootstrap.php';
-    }
-});
-
-/*
+/**
  * Add human-readable capability names
  * @return void
  * @see https://wordpress.org/plugins/members/
@@ -54,7 +43,47 @@ add_action('members_register_caps', function () {
     ]);
 });
 
-/*
+/**
+ * Provide a partial, native PHP implementation for the Mbstring extension.
+ * @return bool
+ * @see https://github.com/symfony/polyfill-mbstring
+ */
+add_action('plugins_loaded', function () {
+    if (glsr()->filterBool('support/multibyte', true)) {
+        require_once __DIR__.'/vendors/symfony/polyfill-mbstring/bootstrap.php';
+    }
+});
+
+/**
+ * Exclude the reCAPTCHA script from being defered
+ * @param array $scriptHandles
+ * @return array
+ * @see https://wordpress.org/plugins/speed-booster-pack/
+ */
+add_filter('sbp_exclude_defer_scripts', function ($scriptHandles) {
+    $scriptHandles[] = 'site-reviews/google-recaptcha';
+    return array_keys(array_flip($scriptHandles));
+});
+
+/**
+ * Fix to display all reviews when sorting by rank
+ * @param array $query
+ * @return array
+ * @see https://searchandfilter.com/
+ */
+add_filter('sf_edit_query_args', function ($query) {
+    if (!empty($query['meta_key']) && '_glsr_ranking' == $query['meta_key']) {
+        unset($query['meta_key']);
+        $query['meta_query'] = [
+            'relation' => 'OR',
+            ['key' => '_glsr_ranking', 'compare' => 'NOT EXISTS'], // this comes first!
+            ['key' => '_glsr_ranking', 'compare' => 'EXISTS'],
+        ];
+    }
+    return $query;
+}, 20);
+
+/**
  * Fix checkboxes for the Divi plugin style
  * @param \GeminiLabs\SiteReviews\Modules\Html\Builder $instance
  * @return void
@@ -67,7 +96,30 @@ add_action('site-reviews/customize/divi', function ($instance) {
     }
 });
 
-/*
+/**
+ * Load the Ninja Forms (v3) CSS if the plugin style is selected
+ * @return void
+ * @see https://ninjaforms.com/
+ */
+add_action('enqueue_block_editor_assets', function () {
+    if ('ninja_forms' === glsr_get_option('general.style') && glsr_compatible('ninja_forms')) {
+        NF_Display_Render::enqueue_styles_display(Ninja_Forms::$url.'assets/css/');
+    }
+});
+add_filter('site-reviews/config/styles/ninja_forms', function ($config) {
+    if (glsr_compatible('ninja_forms')) {
+        $formClass = 'nf-style-'.Ninja_Forms()->get_setting('opinionated_styles');
+        $config = glsr_set($config, 'classes.form', $formClass);
+    }
+    return $config;
+});
+add_action('site-reviews/customize/ninja_forms', function ($instance) {
+    if (glsr_compatible('ninja_forms')) {
+        NF_Display_Render::enqueue_styles_display(Ninja_Forms::$url.'assets/css/');
+    }
+});
+
+/**
  * Clears the WP-Super-Cache plugin cache after a review has been submitted
  * @param \GeminiLabs\SiteReviews\Review $review
  * @param \GeminiLabs\SiteReviews\Commands\CreateReview $request
@@ -86,36 +138,7 @@ add_action('site-reviews/review/created', function ($review, $request) {
     }
 }, 10, 2);
 
-/*
- * Exclude the reCAPTCHA script from being defered
- * @param array $scriptHandles
- * @return array
- * @see https://wordpress.org/plugins/speed-booster-pack/
- */
-add_filter('sbp_exclude_defer_scripts', function ($scriptHandles) {
-    $scriptHandles[] = 'site-reviews/google-recaptcha';
-    return array_keys(array_flip($scriptHandles));
-});
-
-/*
- * Fix to display all reviews when sorting by rank
- * @param array $query
- * @return array
- * @see https://searchandfilter.com/
- */
-add_filter('sf_edit_query_args', function ($query) {
-    if (!empty($query['meta_key']) && '_glsr_ranking' == $query['meta_key']) {
-        unset($query['meta_key']);
-        $query['meta_query'] = [
-            'relation' => 'OR',
-            ['key' => '_glsr_ranking', 'compare' => 'NOT EXISTS'], // this comes first!
-            ['key' => '_glsr_ranking', 'compare' => 'EXISTS'],
-        ];
-    }
-    return $query;
-}, 20);
-
-/*
+/**
  * Fix Star Rating control when review form is used inside an Elementor Pro Popup
  * @return void
  * @see https://elementor.com/

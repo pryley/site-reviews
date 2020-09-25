@@ -66,6 +66,18 @@ function glsr($alias = null, array $parameters = [])
 }
 
 /**
+ * @return bool
+ */
+function glsr_compatible($style)
+{
+    switch ($style) {
+        case 'ninja_forms': // require version 3
+            return defined('Ninja_Forms::VERSION') && version_compare(Ninja_Forms::VERSION, '4.0.0', '<');
+    }
+    return false;
+}
+
+/**
  * @return \GeminiLabs\SiteReviews\Review|false
  */
 function glsr_create_review($reviewValues = array())
@@ -183,6 +195,17 @@ function glsr_log(...$args)
     return !empty($args)
         ? call_user_func_array([$console, 'debug'], $args)
         : $console;
+}
+
+/**
+ * @param array $array
+ * @param string $path
+ * @param mixed $value
+ * @return array
+ */
+function glsr_set(array $data, $path, $value)
+{
+    return Arr::set($data, $path, $value);
 }
 
 /**
