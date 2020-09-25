@@ -66,18 +66,6 @@ function glsr($alias = null, array $parameters = [])
 }
 
 /**
- * @return bool
- */
-function glsr_compatible($style)
-{
-    switch ($style) {
-        case 'ninja_forms': // require version 3
-            return defined('Ninja_Forms::VERSION') && version_compare(Ninja_Forms::VERSION, '4.0.0', '<');
-    }
-    return false;
-}
-
-/**
  * @return \GeminiLabs\SiteReviews\Review|false
  */
 function glsr_create_review($reviewValues = array())

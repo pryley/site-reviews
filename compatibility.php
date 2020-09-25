@@ -97,24 +97,30 @@ add_action('site-reviews/customize/divi', function ($instance) {
 });
 
 /**
- * Load the Ninja Forms (v3) CSS if the plugin style is selected
+ * Load the Ninja Forms (v3) CSS if the plugin style is selected.
  * @return void
  * @see https://ninjaforms.com/
  */
+function glsr_is_ninja_forms_compatible() {
+    return class_exists('Ninja_Forms')
+        && class_exists('NF_Display_Render')
+        && method_exists('Ninja_Forms', 'get_setting')
+        && method_exists('NF_Display_Render', 'enqueue_styles_display');
+}
 add_action('enqueue_block_editor_assets', function () {
-    if ('ninja_forms' === glsr_get_option('general.style') && glsr_compatible('ninja_forms')) {
+    if ('ninja_forms' === glsr_get_option('general.style') && glsr_is_ninja_forms_compatible()) {
         NF_Display_Render::enqueue_styles_display(Ninja_Forms::$url.'assets/css/');
     }
 });
 add_filter('site-reviews/config/styles/ninja_forms', function ($config) {
-    if (glsr_compatible('ninja_forms')) {
+    if (glsr_is_ninja_forms_compatible()) {
         $formClass = 'nf-style-'.Ninja_Forms()->get_setting('opinionated_styles');
         $config = glsr_set($config, 'classes.form', $formClass);
     }
     return $config;
 });
 add_action('site-reviews/customize/ninja_forms', function ($instance) {
-    if (glsr_compatible('ninja_forms')) {
+    if (glsr_is_ninja_forms_compatible()) {
         NF_Display_Render::enqueue_styles_display(Ninja_Forms::$url.'assets/css/');
     }
 });
