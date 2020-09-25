@@ -17,11 +17,11 @@
 :--namespace form.glsr-form .glsr-form-message {
     display: none;
 }
-:--namespace form.glsr-form .glsr-error-message {
+:--namespace form.glsr-form .glsr-form-failed {
     color: var(--glsr-red);
     display: block;
 }
-:--namespace form.glsr-form .glsr-success-message {
+:--namespace form.glsr-form .glsr-form-success {
     color: var(--glsr-green);
     display: block;
 }

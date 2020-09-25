@@ -14,8 +14,7 @@ return [
         'form_class' => 'wpcf7-form',
         'form_error_class' => 'invalid',
         'input_error_class' => 'wpcf7-not-valid',
-        'message_initial_class' => 'wpcf7-display-none',
-        'message_success_class' => 'wpcf7-mail-sent-ok',
-        'message_tag_class' => 'wpcf7-response-output',
+        'message_tag_class' => 'wpcf7-response-output wpcf7-display-none',
+        'message_tag_success_class' => 'wpcf7-mail-sent-ok',
     ],
 ];
