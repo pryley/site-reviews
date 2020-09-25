@@ -6,6 +6,7 @@ parameters:
   checkMissingIterableValueType: false
 
   ignoreErrors:
+    - '#Unsafe usage of new static\(\).#'
     - '#Call to static method [a-zA-Z_\(\)]+ on an unknown class Akismet.#'
     - '#Call to protected method get_views\(\) of class WP_Posts_List_Table.#'
     - '#Function pll_[a-z_]+ not found.#'
