@@ -10,9 +10,16 @@ class StyleClassesDefaults extends Defaults
      * @var string[]
      */
     public $concatenated = [
-        'label',
         'field',
         'form',
+        'input',
+        'input_checkbox',
+        'input_radio',
+        'label',
+        'label_checkbox',
+        'label_radio',
+        'select',
+        'textarea',
     ];
 
     /**
@@ -26,9 +33,16 @@ class StyleClassesDefaults extends Defaults
     protected function defaults()
     {
         return [
-            'label' => 'glsr-label',
             'field' => 'glsr-field',
             'form' => 'glsr-form',
+            'input' => '',
+            'input_checkbox' => '',
+            'input_radio' => '',
+            'label' => 'glsr-label',
+            'label_checkbox' => '',
+            'label_radio' => '',
+            'select' => '',
+            'textarea' => '',
         ];
     }
 }

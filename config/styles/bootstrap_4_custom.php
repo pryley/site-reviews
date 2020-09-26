@@ -3,8 +3,6 @@
 return [
     'classes' => [
         'field' => 'form-group',
-    ],
-    'fields' => [
         'input' => 'form-control',
         'input_checkbox' => 'custom-control-input',
         'input_radio' => 'custom-control-input',

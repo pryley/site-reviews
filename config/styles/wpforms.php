@@ -4,9 +4,6 @@ return [
     'classes' => [
         'field' => 'wpforms-field',
         'form' => 'wpforms-form',
-        'label' => 'wpforms-field-label',
-    ],
-    'fields' => [
         'input' => 'wpforms-field-large',
         'input_checkbox' => '',
         'input_radio' => '',

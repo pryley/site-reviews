@@ -4,8 +4,6 @@ return [
     'classes' => [
         'field' => 'et_pb_contact_field',
         'form' => 'et_pb_contact_form clearfix',
-    ],
-    'fields' => [
         'input' => 'input',
         'input_checkbox' => 'input',
         'input_radio' => 'input',

@@ -69,7 +69,6 @@ abstract class Widget extends WP_Widget
     {
         $args = $this->normalizeFieldAttributes($tag, $args);
         echo glsr(WidgetBuilder::class)->p([
-            'class' => 'glsr-field',
             'text' => glsr(WidgetBuilder::class)->$tag($args),
         ]);
     }

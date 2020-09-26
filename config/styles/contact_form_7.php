@@ -3,8 +3,6 @@
 return [
     'classes' => [
         'form' => 'wpcf7-form',
-    ],
-    'fields' => [
         'input' => 'wpcf7-form-control',
         'input_email' => 'wpcf7-form-control wpcf7-text wpcf7-email',
         'input_text' => 'wpcf7-form-control wpcf7-text',

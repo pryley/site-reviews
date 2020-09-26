@@ -2,10 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\PaginationDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleClassesDefaults;
-use GeminiLabs\SiteReviews\Defaults\StyleFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleValidationDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -16,9 +14,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 /**
  * @method string classes(string $key)
  * @method string defaultClasses(string $key)
- * @method string defaultFields(string $key)
  * @method string defaultValidation(string $key)
- * @method string fields(string $key)
  * @method string validation(string $key)
  */
 class Style
@@ -27,11 +23,6 @@ class Style
      * @var array
      */
     public $classes;
-
-    /**
-     * @var array
-     */
-    public $fields;
 
     /**
      * @var string
@@ -53,18 +44,17 @@ class Style
      * @var array
      */
     protected $callable = [
-        'classes', 'fields', 'validation',
+        'classes', 'validation',
     ];
 
     public function __construct()
     {
         $this->style = glsr_get_option('general.style', 'default');
         $config = shortcode_atts(
-            array_fill_keys(['classes', 'fields', 'pagination', 'validation'], []),
+            array_fill_keys(['classes', 'pagination', 'validation'], []),
             glsr()->config('styles/'.$this->style)
         );
         $this->classes = glsr(StyleClassesDefaults::class)->restrict($config['classes']);
-        $this->fields = glsr(StyleFieldsDefaults::class)->restrict($config['fields']);
         $this->pagination = glsr(PaginationDefaults::class)->restrict($config['pagination']);
         $this->validation = glsr(StyleValidationDefaults::class)->restrict($config['validation']);
     }
@@ -123,13 +113,13 @@ class Style
      */
     public function modifyField(Builder $instance)
     {
-        if ($this->isPublicInstance($instance) && array_filter($this->fields)) {
+        if ($this->isPublicInstance($instance)) {
             call_user_func_array([$this, 'customize'], [$instance]);
         }
     }
 
     /**
-     * This allows us to override the pagination config in /config/styles instead of using a filter hook
+     * This allows us to override the pagination config in /config/styles instead of using a filter hook.
      * @return array
      */
     public function paginationArgs(array $args)
@@ -138,14 +128,14 @@ class Style
     }
 
     /**
-     * Add the custom form field classes
+     * Add the custom form classes.
      * @return void
      */
     protected function customize(Builder $instance)
     {
-        if (array_key_exists($instance->tag, $this->fields)) {
+        if (array_key_exists($instance->tag, $this->classes)) {
             $key = $instance->tag.'_'.$instance->args->type;
-            $classes = Arr::get($this->fields, $key, Arr::get($this->fields, $instance->tag));
+            $classes = Arr::get($this->classes, $key, Arr::get($this->classes, $instance->tag));
             $classes = trim($instance->args->class.' '.$classes);
             $classes = implode(' ', Arr::unique(explode(' ', $classes))); // remove duplicate classes
             $instance->args->class = $classes;
