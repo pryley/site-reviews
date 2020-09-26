@@ -1,46 +1,30 @@
+@import "../default/variables";
+
 :root {
-    --glsr-white                : #ffffff;
     --glsr-gray-light           : #eee;
     --glsr-gray                 : #999;
     --glsr-gray-dark            : #666;
-    --glsr-black                : #161e2e; /*gray-900*/
-    --glsr-blue                 : #1c64f2; /*blue-600*/
-    --glsr-green                : #057a55; /*green-600*/
-    --glsr-red                  : #e02424; /*red-600*/
-    --glsr-yellow               : #faca15; /*yellow-300*/
+    --glsr-black                : #333;
+    --glsr-blue                 : #3e8ff4;
+    --glsr-green                : #4dab46;
+    --glsr-red                  : #d85353;
 
-    --glsr-base-font-size       : 16px;
-    --glsr-border-radius        : calc(var(--glsr-font-size) * .15);
-    --glsr-box-shadow           : 0 0 0 3px rgba(var(--glsr-gray-dark), .15);
     --glsr-font-family-sans     : 'Open Sans', Arial, sans-serif;
-    --glsr-font-family-serif    : inherit;
-    --glsr-font-size-small      : 0.875rem;
-    --glsr-font-size            : 1rem;
-    --glsr-font-size-large      : 1.125rem;
-    --glsr-line-height          : 1.5;
-    --glsr-toggle-bg            : var(--glsr-gray-light);
-    --glsr-toggle-size          : 1.25rem;
 
-    --glsr-star-empty           : none;
-    --glsr-star-full            : none;
-    --glsr-star-half            : none;
-    --glsr-star-size-form       : calc(var(--glsr-font-size) * 2);
-    --glsr-star-size-review     : calc(var(--glsr-font-size) * 1.5);
-    --glsr-star-size-summary    : calc(var(--glsr-font-size) * 1.5);
-
-    --glsr-summary-bar-opacity  : 0.1;
-    --glsr-summary-max-width    : 400px;
-    --glsr-summary-spacing      : 10px;
+    --glsr-toggle-box-shadow         : none;
+    --glsr-toggle-bg-inactive        : var(--glsr-gray-light);
+    --glsr-toggle-opacity-inactive   : 1;
+    --glsr-toggle-padding            : 4px;
+    --glsr-toggle-radius-inner       : 0;
+    --glsr-toggle-radius-outer       : 0;
+    --glsr-toggle-size               : 1.4rem;
 
     --glsr-form-bg-color        : var(--glsr-gray-light);
     --glsr-form-border-color    : transparent;
     --glsr-form-border-radius   : 0;
-    --glsr-form-border-width    : 1px;
     --glsr-form-font-size-small : 14px;
     --glsr-form-font-size       : 14px;
     --glsr-form-line-height     : normal;
-    --glsr-form-pb              : 16px;
-    --glsr-form-pl              : 16px;
-    --glsr-form-pr              : 16px;
-    --glsr-form-pt              : 16px;
+    --glsr-form-px              : 16px;
+    --glsr-form-py              : 16px;
 }

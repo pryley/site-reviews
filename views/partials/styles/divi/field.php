@@ -1,6 +1,6 @@
 <?php defined('WPINC') || die; ?>
 
-<p class="et_pb_contact_field {{ class }}">
+<p class="{{ class }}">
     {{ label }}
     {{ field }}
     {{ errors }}

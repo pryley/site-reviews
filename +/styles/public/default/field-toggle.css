@@ -19,7 +19,7 @@
     appearance: none;
     background-color: transparent;
     border-radius: var(--glsr-toggle-radius-outer);
-    border-color: transparent;
+    border-color: transparent !important;
     border-width: 1px;
     box-shadow: none;
     box-sizing: border-box;
@@ -81,7 +81,7 @@
 :--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::after {
     background-color: var(--glsr-white);
     border-radius: var(--glsr-toggle-radius-inner);
-    box-shadow: 0 calc(var(--glsr-toggle-size) * 0.125) calc(var(--glsr-toggle-size) * .25) rgba(0, 0, 0, 0.2);
+    box-shadow: var(--glsr-toggle-box-shadow);
     content: '';
     display: block;
     height: calc(var(--glsr-toggle-size) - calc(var(--glsr-toggle-padding) * 2));

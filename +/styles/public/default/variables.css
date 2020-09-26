@@ -26,6 +26,7 @@
 
     --glsr-toggle-bg-active          : currentColor;
     --glsr-toggle-bg-inactive        : currentColor;
+    --glsr-toggle-box-shadow         : 0 calc(var(--glsr-toggle-size) * 0.125) calc(var(--glsr-toggle-size) * .25) rgba(0, 0, 0, 0.2);
     --glsr-toggle-font-weight        : normal;
     --glsr-toggle-opacity-active     : 1;
     --glsr-toggle-opacity-inactive   : 0.15;

@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'classes' => [
+        'field' => 'et_pb_contact_field',
+        'form' => 'et_pb_contact_form clearfix',
+    ],
     'fields' => [
         'input' => 'input',
         'input_checkbox' => 'input',
@@ -10,13 +14,7 @@ return [
         'textarea' => 'et_pb_contact_message input',
     ],
     'validation' => [
-        'field_error_class' => 'et_contact_error',
-        'input_error_class' => 'et_contact_error',
-        // 'input_valid_class' => 'glsr-is-valid',
-        // 'message_error_class' => 'glsr-has-errors',
-        // 'message_initial_class' => 'glsr-is-visible',
-        // 'message_success_class' => 'glsr-has-success',
-        // 'message_tag' => 'div',
-        // 'message_tag_class' => 'glsr-form-message',
+        'form_message' => 'et-pb-contact-message et_pb_contact_field',
+        'input_error' => 'et_contact_error',
     ],
 ];

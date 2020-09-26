@@ -1,17 +1,43 @@
 @import "public/divi/variables";
-@import "public/default/keyframes";
-@import "public/default/screen-reader";
-@import "public/default/reviews";
-@import "public/default/read-more";
-@import "public/default/pagination";
-@import "public/divi/reviews-form";
-@import "public/divi/field-input";
-@import "public/divi/field-choice";
-@import "public/divi/field-toggle";
-@import "public/default/field-star-rating";
-@import "public/default/submit-button";
-@import "public/default/reviews-summary";
+@import "public/minimal/keyframes";
+@import "public/minimal/screen-reader";
+@import "public/minimal/reviews";
+@import "public/minimal/read-more";
+@import "public/minimal/pagination";
+@import "public/minimal/field-toggle";
+@import "public/minimal/field-star-rating";
+@import "public/minimal/submit-button";
+@import "public/minimal/reviews-summary";
 
+:--namespace form.glsr-hide-form {
+    max-height: 0 !important;
+    opacity: 0;
+    overflow: hidden;
+}
+:--namespace form.glsr-form .glsr-recaptcha-holder {
+    margin-top: var(--glsr-base-font-size);
+}
+:--namespace form.glsr-form:not(.glsr-form-is-invalid) .glsr-field-error,
+:--namespace form.glsr-form .glsr-form-message:not(.glsr-form-failed):not(.glsr-form-success) {
+    display: none;
+}
+:--namespace form.glsr-form .glsr-field-error {
+    display: flex;
+}
+:--namespace form.glsr-form .glsr-field-error,
+:--namespace form.glsr-form .glsr-form-failed {
+    color: var(--glsr-red);
+}
+:--namespace form.glsr-form .glsr-form-success {
+    color: var(--glsr-green);
+}
+:--namespace form.glsr-form input[type=email],
+:--namespace form.glsr-form input[type=tel],
+:--namespace form.glsr-form input[type=text],
+:--namespace form.glsr-form select.glsr-select,
+:--namespace form.glsr-form textarea.glsr-textarea {
+    width: 100%;
+}
 :--namespace .glsr-field-rating::after {
     display: none;
 }
