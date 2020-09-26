@@ -26,7 +26,6 @@ return [
             'default' => _x('Site Reviews (default)', 'admin-text', 'site-reviews'),
             'minimal' => _x('Site Reviews (minimal)', 'admin-text', 'site-reviews'),
             'divi' => _x('Theme: Divi (v3)', 'admin-text', 'site-reviews'),
-            'materialize' => _x('Theme: Materialize', 'admin-text', 'site-reviews'),
             'twentyfifteen' => _x('Theme: Twenty Fifteen', 'admin-text', 'site-reviews'),
             'twentysixteen' => _x('Theme: Twenty Sixteen', 'admin-text', 'site-reviews'),
             'twentyseventeen' => _x('Theme: Twenty Seventeen', 'admin-text', 'site-reviews'),
