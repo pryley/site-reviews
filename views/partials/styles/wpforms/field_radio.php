@@ -1,6 +1,6 @@
 <?php defined('WPINC') || die; ?>
 
-<div class="wpforms-field-checkbox {{ class }}">
+<div class="wpforms-field-radio {{ class }}">
     {{ label }}
     <ul>
         {{ field }}
