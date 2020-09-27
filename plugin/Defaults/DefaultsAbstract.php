@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use ReflectionClass;
+use ReflectionException;
 
 /**
  * @method array dataAttributes(array $values = [])
@@ -75,6 +76,11 @@ abstract class DefaultsAbstract implements DefaultsContract
     protected $called;
 
     /**
+     * @var string[]
+     */
+    protected $defaults = [];
+
+    /**
      * @var string
      */
     protected $hook;
@@ -83,6 +89,12 @@ abstract class DefaultsAbstract implements DefaultsContract
      * @var string
      */
     protected $method;
+
+    public function __construct()
+    {
+        $hook = 'defaults/'.$this->currentHook().'/defaults';
+        $this->defaults = glsr()->filterArray($hook, $this->defaults());
+    }
 
     /**
      * @param string $name
@@ -124,8 +136,8 @@ abstract class DefaultsAbstract implements DefaultsContract
      */
     protected function concatenate($key, $value)
     {
-        if (in_array($key, $this->concatenated)) {
-            $default = glsr()->args($this->defaults())->$key;
+        if (in_array($key, $this->property('concatenated'))) {
+            $default = glsr()->args($this->defaults)->$key;
             return trim($default.$this->glue.$value);
         }
         return $value;
@@ -138,7 +150,7 @@ abstract class DefaultsAbstract implements DefaultsContract
      */
     protected function dataAttributes(array $values = [])
     {
-        $defaults = $this->flattenArrayValues($this->defaults());
+        $defaults = $this->flattenArrayValues($this->defaults);
         $values = $this->flattenArrayValues(shortcode_atts($defaults, $values));
         $filtered = array_filter(array_diff_assoc($values, $defaults));  // remove all empty values
         $filtered = $this->sanitize($filtered);
@@ -190,9 +202,7 @@ abstract class DefaultsAbstract implements DefaultsContract
     protected function guard(array $values)
     {
         if (!Str::startsWith('unguarded', $this->called)) {
-            $hook = 'defaults/'.$this->hook.'/guarded';
-            $guarded = glsr()->filterArray($hook, $this->guarded, $this->method);
-            return array_diff_key($values, array_flip($guarded));
+            return array_diff_key($values, array_flip($this->property('guarded')));
         }
         return $values;
     }
@@ -203,7 +213,7 @@ abstract class DefaultsAbstract implements DefaultsContract
      */
     protected function mapKeys(array $args)
     {
-        foreach ($this->mapped as $old => $new) {
+        foreach ($this->property('mapped') as $old => $new) {
             if (!empty($args[$old])) { // old always takes precedence
                 $args[$new] = $args[$old];
             }
@@ -218,7 +228,7 @@ abstract class DefaultsAbstract implements DefaultsContract
      */
     protected function merge(array $values = [])
     {
-        return $this->parse($values, $this->defaults());
+        return $this->parse($values, $this->defaults);
     }
 
     /**
@@ -260,7 +270,7 @@ abstract class DefaultsAbstract implements DefaultsContract
     {
         $values = Cast::toArray($values);
         $parsed = [];
-        foreach ($this->defaults() as $key => $default) {
+        foreach ($this->defaults as $key => $default) {
             if (!array_key_exists($key, $values)) {
                 $parsed[$key] = $default;
                 continue;
@@ -272,6 +282,25 @@ abstract class DefaultsAbstract implements DefaultsContract
             $parsed[$key] = $this->concatenate($key, $values[$key]);
         }
         return $parsed;
+    }
+
+    /**
+     * @return array|void
+     */
+    protected function property($key)
+    {
+        try {
+            $reflection = new ReflectionClass($this);
+            $property = $reflection->getProperty($key);
+            $value = $property->getValue($this);
+            if ($property->isPublic() && is_array($value)) {
+                $hook = 'defaults/'.$this->hook.'/'.$key;
+                return glsr()->filterArray($hook, $value, $this->method);
+            }
+        }
+        catch (ReflectionException $e) {
+            glsr_log()->error("Invalid or protected property [$key].");
+        }
     }
 
     /**
@@ -288,12 +317,12 @@ abstract class DefaultsAbstract implements DefaultsContract
      */
     protected function sanitize(array $values = [])
     {
-        foreach ($this->casts as $key => $cast) {
+        foreach ($this->property('casts') as $key => $cast) {
             if (array_key_exists($key, $values)) {
                 $values[$key] = Cast::to($cast, $values[$key]);
             }
         }
-        return (new Sanitizer($values, $this->sanitize))->run();
+        return (new Sanitizer($values, $this->property('sanitize')))->run();
     }
 
     /**
@@ -301,7 +330,7 @@ abstract class DefaultsAbstract implements DefaultsContract
      */
     protected function unmapKeys(array $args)
     {
-        foreach ($this->mapped as $old => $new) {
+        foreach ($this->property('mapped') as $old => $new) {
             if (array_key_exists($new, $args)) {
                 $args[$old] = $args[$new];
                 unset($args[$new]);

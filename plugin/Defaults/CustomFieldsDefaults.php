@@ -45,8 +45,7 @@ class CustomFieldsDefaults extends Defaults
     protected function sanitize(array $values = [])
     {
         $this->guarded[] = glsr(Honeypot::class)->hash(Arr::get($values, 'form_id'));
-        $sanitize = array_fill_keys(array_keys($this->guard($values)), 'text');
-        $this->sanitize = glsr()->filterArray('defaults/custom/sanitize', $sanitize);
+        $this->sanitize = array_fill_keys(array_keys($this->guard($values)), 'text');
         return parent::sanitize($values);
     }
 }

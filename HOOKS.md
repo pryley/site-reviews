@@ -58,7 +58,12 @@
     site-reviews/const/<constant>                           (string $constantName): string
     site-reviews/create/review-values                       (array $reviewValues, Commands\CreateReview $command): array
     site-reviews/defaults/<defaults_name>                   (array $defaults, string $method): array
-    site-reviews/defaults/custom/sanitize                   (array $sanitize): array
+    site-reviews/defaults/<defaults_name>/casts             (array $casts, string $method): array
+    site-reviews/defaults/<defaults_name>/concatenated      (array $concatenated, string $method): array
+    site-reviews/defaults/<defaults_name>/defaults          (array $defaults): array
+    site-reviews/defaults/<defaults_name>/guarded           (array $guarded, string $method): array
+    site-reviews/defaults/<defaults_name>/mapped            (array $mapped, string $method): array
+    site-reviews/defaults/<defaults_name>/sanitize          (array $sanitize, string $method): array
     site-reviews/defer-scripts                              (array $scripts): array
     site-reviews/email/compose                              (array $email, Modules\Mail $mail): array
     site-reviews/email/headers                              (array $headers, Modules\Mail $mail): array
