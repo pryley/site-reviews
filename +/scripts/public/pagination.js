@@ -1,4 +1,4 @@
-/** global: GLSR */
+/** global: CustomEvent, GLSR */
 import Excerpts from './excerpts.js';
 
 const Paginate = function (paginationEl, reviewsEl) { // HTMLElement, HTMLElement
@@ -39,6 +39,7 @@ Paginate.prototype = {
             window.history.pushState(null, '', location);
         }
         new Excerpts(this.reviewsEl);
+        document.dispatchEvent(new CustomEvent('site-reviews/after/pagination', { detail: response }));
     },
 
     /** @return void */
