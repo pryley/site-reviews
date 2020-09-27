@@ -52,6 +52,7 @@ trait Sql
     {
         $e = new \Exception();
         $handle = Str::dashCase(Arr::get($e->getTrace(), '1.function'));
+        $statement = glsr()->filterString('database/sql/'.$handle, $statement);
         glsr()->action('database/sql/'.$handle, $statement);
         glsr()->action('database/sql', $statement, $handle);
         return $statement;
