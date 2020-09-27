@@ -1,5 +1,4 @@
 /** global: GLSR */
-import Ajax from './ajax.js';
 import Excerpts from './excerpts.js';
 
 const Paginate = function (paginationEl, reviewsEl) { // HTMLElement, HTMLElement
@@ -67,7 +66,7 @@ Paginate.prototype = {
         this.paginationEl.classList.add(this.config.hideClass);
         this.reviewsEl.classList.add(this.config.hideClass);
         ev.preventDefault();
-        (new Ajax).post(data, this.handleResponse_.bind(this, ev.currentTarget.href));
+        GLSR.ajax.post(data, this.handleResponse_.bind(this, ev.currentTarget.href));
     },
 
     /** @return void */

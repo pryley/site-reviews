@@ -64,8 +64,8 @@ mix.webpackConfig({
 
 mix
   .babel('+/scripts/mce-plugin.js', 'assets/scripts/mce-plugin.js')
-  .js('+/scripts/site-reviews.js', 'assets/scripts/site-reviews.js')
-  .js('+/scripts/site-reviews-admin.js', 'assets/scripts/site-reviews-admin.js')
+  .js('+/scripts/site-reviews.js', 'assets/scripts')
+  .js('+/scripts/site-reviews-admin.js', 'assets/scripts')
   .js('+/scripts/site-reviews-blocks.js', 'assets/scripts')
   .sass('+/styles/admin.scss', 'assets/styles/admin')
   .postCss('+/styles/inline-styles.css', 'assets/styles', postCss())
