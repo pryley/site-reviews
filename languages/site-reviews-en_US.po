@@ -2467,7 +2467,7 @@ msgctxt "admin-text"
 msgid "Unsupported Type"
 msgstr "Unsupported Type"
 
-#: views/pages/addons/index.php:11
+#: views/pages/addons/index.php:10
 msgctxt "admin-text"
 msgid ""
 "This add-on allows your site visitors to filter, search, and sort your "
@@ -2476,7 +2476,7 @@ msgstr ""
 "This add-on allows your site visitors to filter, search, and sort your "
 "reviews. Apply now to test the unreleased beta version."
 
-#: views/pages/addons/index.php:21
+#: views/pages/addons/index.php:19
 msgctxt "admin-text"
 msgid ""
 "This add-on allows your site visitors to submit images with their reviews. "
@@ -2691,15 +2691,10 @@ msgctxt "admin-text"
 msgid "Download System Info"
 msgstr "Download System Info"
 
-#: views/partials/addons/addon.php:29
+#: views/partials/addons/addon.php:25
 msgctxt "admin-text"
 msgid "More Info"
 msgstr "More Info"
-
-#: views/partials/addons/addon.php:25
-msgctxt "admin-text"
-msgid "Try the beta"
-msgstr "Try the beta"
 
 #: views/partials/addons/addon.php:20
 msgctxt "admin-text"

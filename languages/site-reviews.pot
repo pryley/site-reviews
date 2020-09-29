@@ -2315,12 +2315,12 @@ msgstr ""
 msgid "You have already submitted a review."
 msgstr ""
 
-#: views/pages/addons/index.php:11
+#: views/pages/addons/index.php:10
 msgctxt "admin-text"
 msgid "This add-on allows your site visitors to filter, search, and sort your reviews. Apply now to test the unreleased beta version."
 msgstr ""
 
-#: views/pages/addons/index.php:21
+#: views/pages/addons/index.php:19
 msgctxt "admin-text"
 msgid "This add-on allows your site visitors to submit images with their reviews. Apply now to test the unreleased beta version."
 msgstr ""
@@ -2505,14 +2505,9 @@ msgctxt "admin-text"
 msgid "Download System Info"
 msgstr ""
 
-#: views/partials/addons/addon.php:29
-msgctxt "admin-text"
-msgid "More Info"
-msgstr ""
-
 #: views/partials/addons/addon.php:25
 msgctxt "admin-text"
-msgid "Try the beta"
+msgid "More Info"
 msgstr ""
 
 #: views/partials/addons/addon.php:20
