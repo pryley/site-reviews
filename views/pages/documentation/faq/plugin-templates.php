@@ -36,5 +36,5 @@
  ├── reviews-form.php        This template displays the review form
  ├── reviews-summary.php     This template displays the review summary
  └── reviews.php             This template displays the reviews</code></pre>
-    </
+    </div>
 </div>
