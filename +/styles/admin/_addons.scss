@@ -78,11 +78,6 @@
 		padding-top: 100%;
 		margin: -1px;
 
-		&[data-slug="tripadvisor"] {
-			background-color: #4b7e37;
-			background-image: url(../../images/addon-tripadvisor.svg);
-		}
-
 		&[data-slug="images"] {
 			background-color: #553C9A;
 			background-image: url(../../images/addon-images.svg);
@@ -94,7 +89,7 @@
 		}
 
 		&[data-slug="trustalyze"] {
-			background-color: #fff;
+			background-color: #4282D6;
 			background-image: url(../../images/addon-trustalyze.svg);
 		}
 	}
