@@ -6,7 +6,6 @@
     <div class="glsr-addons wp-clearfix">
     <?php
         $template->render('partials/addons/addon', [
-            'beta' => false,
             'context' => [
                 'description' => _x('This add-on allows your site visitors to filter, search, and sort your reviews. Apply now to test the unreleased beta version.', 'admin-text', 'site-reviews'),
                 'link' => 'https://niftyplugins.com/plugins/site-reviews-filters/',
@@ -16,7 +15,6 @@
             'plugin' => 'site-reviews-filters/site-reviews-filters.php',
         ]);
         $template->render('partials/addons/addon', [
-            'beta' => true,
             'context' => [
                 'description' => _x('This add-on allows your site visitors to submit images with their reviews. Apply now to test the unreleased beta version.', 'admin-text', 'site-reviews'),
                 'link' => 'https://niftyplugins.com/plugins/site-reviews-images/',
