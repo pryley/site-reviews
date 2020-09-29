@@ -45,12 +45,12 @@
             <li>Improved translation settings</li>
             <li>Refreshed the blocks to visually match the WordPress 5.5 editor style</li>
             <li>The Terms checkbox in the review form should now align correctly with the text</li>
-            <li>Updated Trustalyze integration</li>
         </ul>
         <h4>Removed</h4>
         <ul>
             <li>Removed the <code>glsr_calculate_ratings()</code> helper function</li>
             <li>Removed the tool to calculate rating counts</li>
+            <li>Removed the Trustalyze integration, it is now an add-on</li>
         </ul>
         <h4>Bugs Fixed</h4>
         <ul>

@@ -76,7 +76,7 @@ abstract class DefaultsAbstract implements DefaultsContract
     protected $called;
 
     /**
-     * @var string[]
+     * @var array
      */
     protected $defaults = [];
 

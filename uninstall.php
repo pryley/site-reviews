@@ -22,7 +22,6 @@ if (in_array($uninstallOption, ['all', 'minimal'])) {
     delete_option('widget_'.glsr()->prefix.'site-reviews-form');
     delete_option('widget_'.glsr()->prefix.'site-reviews-summary');
     delete_option(glsr()->prefix.'activated');
-    delete_option(glsr()->prefix.'trustalyze');
     delete_transient(glsr()->prefix.'cloudflare_ips');
     delete_transient(glsr()->prefix.'migrations');
     delete_transient(glsr()->prefix.'remote_post_test');

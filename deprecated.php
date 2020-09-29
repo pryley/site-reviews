@@ -22,7 +22,7 @@ add_action('plugins_loaded', function () {
         $metaKeys = [
             'assigned_to', 'author', 'avatar', 'content', 'date', 'email', 
             'ip_address', 'pinned', 'rating', 'review_id', 'review_type', 
-            'title', 'trustalyze', 'trustalyze_response', 'url',
+            'title', 'url',
         ];
         if (!in_array($metaKey, $metaKeys)) {
             return $data;

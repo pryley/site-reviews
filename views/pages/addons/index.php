@@ -7,7 +7,7 @@
     <?php
         $template->render('partials/addons/addon', [
             'context' => [
-                'description' => _x('This add-on allows your site visitors to filter, search, and sort your reviews. Apply now to test the unreleased beta version.', 'admin-text', 'site-reviews'),
+                'description' => _x('Allow your website visitors to sort, filter by rating, and search reviews.', 'admin-text', 'site-reviews'),
                 'link' => 'https://niftyplugins.com/plugins/site-reviews-filters/',
                 'slug' => 'filters',
                 'title' => 'Filters',
@@ -16,12 +16,21 @@
         ]);
         $template->render('partials/addons/addon', [
             'context' => [
-                'description' => _x('This add-on allows your site visitors to submit images with their reviews. Apply now to test the unreleased beta version.', 'admin-text', 'site-reviews'),
+                'description' => _x('Allow your website visitors to add images with captions to their reviews.', 'admin-text', 'site-reviews'),
                 'link' => 'https://niftyplugins.com/plugins/site-reviews-images/',
                 'slug' => 'images',
                 'title' => 'Images',
             ],
             'plugin' => 'site-reviews-images/site-reviews-images.php',
+        ]);
+        $template->render('partials/addons/addon', [
+            'context' => [
+                'description' => _x('Integrate with the Trustalyze Confidence System and post reviews to the blockchain.', 'admin-text', 'site-reviews'),
+                'link' => 'https://niftyplugins.com/plugins/site-reviews-trustalyze/',
+                'slug' => 'trustalyze',
+                'title' => 'Trustalyze',
+            ],
+            'plugin' => 'site-reviews-trustalyze/site-reviews-trustalyze.php',
         ]);
     ?>
     </div>

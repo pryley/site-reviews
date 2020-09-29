@@ -363,12 +363,11 @@ class System
      */
     protected function purgeSensitiveData(array $settings)
     {
-        $keys = [
-            'general.trustalyze_serial',
+        $keys = glsr()->filterArray('addon/system-info/purge', [
             'licenses.',
             'submissions.recaptcha.key',
             'submissions.recaptcha.secret',
-        ];
+        ]);
         array_walk($settings, function (&$value, $setting) use ($keys) {
             foreach ($keys as $key) {
                 if (!Str::startsWith($key, $setting) || empty($value)) {

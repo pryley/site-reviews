@@ -33,6 +33,7 @@
     site-reviews/addon/sync/enable                          (bool $enable): bool
     site-reviews/addon/sync/services                        (array $services): array
     site-reviews/addon/system-info                          (array $settings): array
+    site-reviews/addon/system-info/purge                    (array $keys): array
     site-reviews/addon/tools/tabs                           (array $tabs): array
     site-reviews/addon/types                                (array $types): array
     site-reviews/addon/welcome/tabs                         (array $tabs): array
@@ -140,8 +141,6 @@
     site-reviews/tinymce/editor-ids                         (array $editorIds, string $editorId): array
     site-reviews/translation/entries                        (array $entries): array
     site-reviews/translator/domains                         (array $domains): array
-    site-reviews/trustalyze/response                        (array $trustalyzeResponse, Review $review): array
-    site-reviews/trustalyze/review                          (array $trustalyzeReview, Review $review): array
     site-reviews/url                                        (string $url, string $path): string
     site-reviews/validate/akismet                           (bool $isValid, array $submission, array $response): bool
     site-reviews/validate/akismet/is-active                 (bool $isActive): bool

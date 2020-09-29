@@ -19,7 +19,6 @@ use GeminiLabs\SiteReviews\Controllers\RevisionController;
 use GeminiLabs\SiteReviews\Controllers\SettingsController;
 use GeminiLabs\SiteReviews\Controllers\ToolsController;
 use GeminiLabs\SiteReviews\Controllers\TranslationController;
-use GeminiLabs\SiteReviews\Controllers\TrustalyzeController;
 use GeminiLabs\SiteReviews\Controllers\WelcomeController;
 use GeminiLabs\SiteReviews\Modules\Translation;
 
@@ -43,7 +42,6 @@ class Hooks implements HooksContract
     protected $settings;
     protected $tools;
     protected $translator;
-    protected $trustalyze;
     protected $welcome;
 
     public function __construct()
@@ -66,7 +64,6 @@ class Hooks implements HooksContract
         $this->settings = glsr(SettingsController::class);
         $this->tools = glsr(ToolsController::class);
         $this->translator = glsr(TranslationController::class);
-        $this->trustalyze = glsr(TrustalyzeController::class);
         $this->welcome = glsr(WelcomeController::class);
     }
 
@@ -143,9 +140,6 @@ class Hooks implements HooksContract
         add_action('wp_ajax_nopriv_'.glsr()->prefix.'action', [$this->router, 'routeAjaxRequest']);
         add_action('init', [$this->router, 'routePublicPostRequest']);
         add_action('admin_init', [$this->settings, 'registerSettings']);
-        add_action('site-reviews/review/created', [$this->trustalyze, 'onCreated']);
-        add_action('site-reviews/review/saved', [$this->trustalyze, 'onSaved']);
-        add_action('updated_postmeta', [$this->trustalyze, 'onUpdatedMeta'], 10, 3);
         add_action('site-reviews/route/admin/clear-console', [$this->tools, 'clearConsole']);
         add_action('site-reviews/route/ajax/clear-console', [$this->tools, 'clearConsoleAjax']);
         add_action('site-reviews/route/admin/detect-ip-address', [$this->tools, 'detectIpAddress']);
@@ -200,8 +194,6 @@ class Hooks implements HooksContract
         add_filter('wp_save_post_revision_check_for_changes', [$this->revisions, 'filterCheckForChanges'], 99, 3);
         add_filter('wp_save_post_revision_post_has_changed', [$this->revisions, 'filterReviewHasChanged'], 10, 3);
         add_filter('wp_get_revision_ui_diff', [$this->revisions, 'filterRevisionUiDiff'], 10, 3);
-        add_filter('site-reviews/settings/callback', [$this->trustalyze, 'filterSettingsCallback']);
-        add_filter('site-reviews/interpolate/partials/form/table-row-multiple', [$this->trustalyze, 'filterSettingsTableRow'], 10, 3);
         add_filter('plugin_action_links_'.$this->basename, [$this->welcome, 'filterActionLinks'], 11);
         add_filter('admin_title', [$this->welcome, 'filterAdminTitle']);
         add_filter('admin_footer_text', [$this->welcome, 'filterFooterText']);

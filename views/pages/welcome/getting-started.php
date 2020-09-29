@@ -44,10 +44,6 @@
             <p>Blacklist words, phrases, IP addresses, names, and emails.</p>
         </li>
         <li class="glsr-column">
-            <h3><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings#tab-general'); ?>">Blockchain Validation</a></h3>
-            <p>Verify your reviews on the Blockchain with <a href="https://trustalyze.com?ref=105">Trustalyze</a>.</p>
-        </li>
-        <li class="glsr-column">
             <h3><a href="<?= admin_url('edit-tags.php?taxonomy=site-review-category&post_type=site-review'); ?>">Categories</a></h3>
             <p>Add your own categories and assign reviews to them.</p>
         </li>

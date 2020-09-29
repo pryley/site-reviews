@@ -31,7 +31,6 @@ Images adapted from [freepik](https://www.freepik.com/vectors).
 - Backup and restore your plugin settings as needed
 - Bayesian Ranking: Easily sort pages with assigned reviews by rank (using the bayesian algorithm) in your custom WP_Query
 - Blacklist words, phrases, IP addresses, names, and emails
-- Blockchain Validation: Verify your reviews on the Blockchain with Trustalyze
 - Categories: Add your own categories and assign reviews to them.
 - Developer Friendly: Designed for WordPress developers with over 100 filter hooks and convenient functions
 - Documentation: FAQ and documenation for hooks and all shortcodes and functions
@@ -148,10 +147,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Improved translation settings
 - Refreshed the stars SVG images
 - Removed the glsr_calculate_ratings() helper function
+- Removed the Trustalyze integration, it is now an add-on
 - Removed tool to calculate rating counts (no longer needed)
 - Renamed the glsr_get_rating() helper function to glsr_get_ratings()
 - Replaced the assign_to and assigned_to shortcode options with the assigned_posts option
 - Replaced the category shortcode option with "assigned_terms" option
 - Site Reviews now uses custom database tables, however you may still use the WordPress Export/Import tools as before
 - The Translations Settings search results are now restricted to public text that is actually shown on your website, if you would like to change plugin text shown in the WordPress admin, you should use the Loco Translate plugin instead
-- Updated Trustalyze integration

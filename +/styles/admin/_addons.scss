@@ -92,6 +92,11 @@
 			background-color: #319796;
 			background-image: url(../../images/addon-filters.svg);
 		}
+
+		&[data-slug="trustalyze"] {
+			background-color: #fff;
+			background-image: url(../../images/addon-trustalyze.svg);
+		}
 	}
 
 	&-link {

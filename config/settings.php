@@ -68,32 +68,6 @@ return [
         ],
         'type' => 'select',
     ],
-    'settings.general.trustalyze' => [
-        'default' => 'no',
-        'description' => sprintf(_x('Integrate with the %s and validate your reviews on the blockchain to increase online reputation, trust, and transparency.', 'admin-text', 'site-reviews'),
-            '<a href="https://trustalyze.com/plans?ref=105" target="_blank">Trustalyze Confidence System</a>'
-        ),
-        'label' => _x('Blockchain Validation', 'admin-text', 'site-reviews'),
-        'type' => 'yes_no',
-    ],
-    'settings.general.trustalyze_email' => [
-        'default' => '',
-        'depends_on' => [
-            'settings.general.trustalyze' => ['yes'],
-        ],
-        'description' => _x('Enter your Trustalyze account email here.', 'admin-text', 'site-reviews'),
-        'label' => _x('Trustalyze Email', 'admin-text', 'site-reviews'),
-        'type' => 'text',
-    ],
-    'settings.general.trustalyze_serial' => [
-        'default' => '',
-        'depends_on' => [
-            'settings.general.trustalyze' => ['yes'],
-        ],
-        'description' => _x('Enter your Trustalyze account serial key here.', 'admin-text', 'site-reviews'),
-        'label' => _x('Trustalyze Serial Key', 'admin-text', 'site-reviews'),
-        'type' => 'password',
-    ],
     'settings.general.notifications' => [
         'default' => [],
         'label' => _x('Notifications', 'admin-text', 'site-reviews'),
