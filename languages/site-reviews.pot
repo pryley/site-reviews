@@ -2470,17 +2470,17 @@ msgctxt "admin-text"
 msgid "Download System Info"
 msgstr ""
 
-#: views/partials/addons/addon.php:25
+#: views/partials/addons/addon.php:24
 msgctxt "admin-text"
 msgid "More Info"
 msgstr ""
 
-#: views/partials/addons/addon.php:20
+#: views/partials/addons/addon.php:19
 msgctxt "admin-text"
 msgid "Activate"
 msgstr ""
 
-#: views/partials/addons/addon.php:16
+#: views/partials/addons/addon.php:15
 msgctxt "admin-text"
 msgid "Installed"
 msgstr ""
