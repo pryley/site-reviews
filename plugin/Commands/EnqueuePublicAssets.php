@@ -99,7 +99,7 @@ class EnqueuePublicAssets implements Contract
                     'field' => glsr(Style::class)->defaultClasses('field'),
                     'form' => glsr(Style::class)->defaultClasses('form'),
                 ],
-                glsr(Style::class)->validation,
+                glsr(Style::class)->validation
             ),
             'validationstrings' => glsr(ValidationStringsDefaults::class)->defaults(),
         ];
