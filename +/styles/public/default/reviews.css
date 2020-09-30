@@ -85,6 +85,7 @@
     margin-top: var(--glsr-base-font-size);
     padding: calc(var(--glsr-base-font-size) * 1.5);
     position: relative;
+    width: 100%;
 }
 :--namespace .glsr-review-response::before {
     border-color: currentColor transparent;
