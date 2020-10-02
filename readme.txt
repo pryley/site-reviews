@@ -136,7 +136,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Fixed compatibility with the Divi theme and Divi Builder plugin
 - Fixed compatibility with the Elementor Pro plugin popups
 - Fixed compatibility with the GeneratePress Premium plugin
+- Fixed compatibility with the Hummingbird Performance plugin
 - Fixed compatibility with the Members plugin
+- Fixed compatibility with the WP-Optimize plugin
+- Fixed compatibility with the WP Super Cache plugin
 - Fixed the review summary bars in IE11
 - Fixed Welcome page permissions
 - Improved console logging

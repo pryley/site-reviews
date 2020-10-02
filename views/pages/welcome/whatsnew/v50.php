@@ -55,9 +55,12 @@
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed compatibility with the Divi theme and Divi Builder plugin</li>
-            <li>Fixed compatibility with the Elementor Pro plugin</li>
+            <li>Fixed compatibility with the Elementor Pro plugin popups</li>
             <li>Fixed compatibility with the GeneratePress Premium plugin</li>
+            <li>Fixed compatibility with the Hummingbird Performance plugin</li>
             <li>Fixed compatibility with the Members plugin</li>
+            <li>Fixed compatibility with the WP-Optimize plugin</li>
+            <li>Fixed compatibility with the WP Super Cache plugin</li>
             <li>Fixed review summary bars in IE11</li>
             <li>Fixed Welcome page permissions</li>
         </ul>

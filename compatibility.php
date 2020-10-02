@@ -125,23 +125,48 @@ add_action('site-reviews/customize/ninja_forms', function () {
 });
 
 /**
- * Clears the WP-Super-Cache plugin cache after a review has been submitted
+ * Purge the WP-Super-Cache plugin cache after a review has been created.
  * @param \GeminiLabs\SiteReviews\Review $review
- * @param \GeminiLabs\SiteReviews\Commands\CreateReview $request
+ * @param \GeminiLabs\SiteReviews\Commands\CreateReview $command
  * @return void
  * @see https://wordpress.org/plugins/wp-super-cache/
  */
-add_action('site-reviews/review/created', function ($review, $request) {
+add_action('site-reviews/review/created', function ($review, $command) {
     if (!function_exists('wp_cache_post_change')) {
         return;
     }
-    wp_cache_post_change($request->post_id);
+    wp_cache_post_change($command->post_id);
     foreach ($review->assigned_posts as $postId) {
-        if ($postId != $request->post_id) {
+        if ($postId != $command->post_id) {
             wp_cache_post_change($postId);
         }
     }
 }, 10, 2);
+
+/**
+ * Purge the Hummingbird page cache after a review has been created.
+ * @param \GeminiLabs\SiteReviews\Review $review
+ * @param \GeminiLabs\SiteReviews\Commands\CreateReview $command
+ * @return void
+ * @see https://premium.wpmudev.org/docs/api-plugin-development/hummingbird-api-docs/#action-wphb_clear_page_cache
+ */
+add_action('site-reviews/review/created', function ($review, $command) {
+    do_action('wphb_clear_page_cache', $command->post_id);
+}, 10, 2);
+
+/**
+ * Purge the WP-Optimize page cache after a review has been created.
+ * @param \GeminiLabs\SiteReviews\Review $review
+ * @param \GeminiLabs\SiteReviews\Commands\CreateReview $command
+ * @return void
+ * @see https://getwpo.com/documentation/#Purging-the-cache-from-an-other-plugin-or-theme
+ */
+add_action('site-reviews/review/created', function ($review, $command) {
+    if (class_exists('WPO_Page_Cache')) {
+        WPO_Page_Cache::delete_single_post_cache($command->post_id);
+    }
+}, 10, 2);
+
 
 /**
  * Fix Star Rating control when review form is used inside an Elementor Pro Popup
