@@ -37,13 +37,13 @@
     width: var(--glsr-form-star-size);
 }
 :root .glsr-star-empty {
-    background-image: url(../../images/stars/star-empty.svg) !important;
+    background-image: url(../../images/star-empty.svg) !important;
 }
 :root .glsr-star-half {
-    background-image: url(../../images/stars/star-half.svg) !important;
+    background-image: url(../../images/star-half.svg) !important;
 }
 :root .glsr-star-full {
-    background-image: url(../../images/stars/star-full.svg) !important;
+    background-image: url(../../images/star-full.svg) !important;
 }
 :root .components-panel .glsr-checkbox-control:not(:last-of-type) {
     margin-bottom: 0 !important;
