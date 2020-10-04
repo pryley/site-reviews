@@ -101,8 +101,9 @@ Validation.prototype = {
     /** @return void */
     addValidators_: function (attributes, fns, params) {
         [].forEach.call(attributes, function (attr) {
-            if (~this.ALLOWED_ATTRIBUTES_.indexOf(attr.name)) {
-                this.addValidatorToField_(fns, params, attr.name, attr.value);
+            let name = attr.name.replace('data-', ''); // using data-* attributes we can simulate the requirement without the HTML5 restriction
+            if (~this.ALLOWED_ATTRIBUTES_.indexOf(name)) {
+                this.addValidatorToField_(fns, params, name, attr.value);
             }
             else if (attr.name === 'type') {
                 this.addValidatorToField_(fns, params, attr.value);
