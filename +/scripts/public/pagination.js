@@ -108,9 +108,12 @@ const Pagination = function () {
     var pagination = document.querySelectorAll('.glsr-ajax-pagination');
     if (!pagination.length) return;
     pagination.forEach(function (paginationEl) {
-        var reviewsEl = document.querySelector('[data-reviews][data-id=' + paginationEl.dataset.id);
-        if (reviewsEl) {
-            this.navs.push(new Paginate(paginationEl, reviewsEl));
+        var wrapperEl = paginationEl.closest('.glsr[data-id=' + paginationEl.dataset.id);
+        if (wrapperEl) {
+            var reviewsEl = wrapperEl.querySelector('.glsr-reviews');
+            if (reviewsEl) {
+                this.navs.push(new Paginate(paginationEl, reviewsEl));
+            }
         }
     }.bind(this));
 };

@@ -3,6 +3,6 @@
 <div class="glsr-reviews-wrap">
     <div class="{{ class }}">
         {{ reviews }}
-        {{ pagination }}
     </div>
+    {{ pagination }}
 </div>

@@ -33,7 +33,7 @@ add_action('plugins_loaded', function () {
     }, 10, 3);
 
     /**
-     * Application.php
+     * Application
      * @since 5.0.0
      */
     add_filter('site-reviews/config/forms/review-form', function ($config) {
@@ -46,7 +46,19 @@ add_action('plugins_loaded', function () {
     }, 9);
 
     /**
-     * Controllers\PublicController.php
+     * Modules\Html\ReviewsHtml
+     * @since 5.0.0
+     */
+    add_filter('site-reviews/rendered/template/reviews', function ($html) {
+        if (has_filter('site-reviews/reviews/reviews-wrapper')) {
+           $message = 'The "site-reviews/reviews/reviews-wrapper" hook has been removed. Please use a custom "reviews.php" template instead.';
+           glsr()->append('deprecated', $message);
+        }
+        return $html;
+    });
+
+    /**
+     * Controllers\PublicController
      * @since 5.0.0
      */
     add_filter('site-reviews/review-form/order', function ($order) {
