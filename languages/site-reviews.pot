@@ -105,11 +105,11 @@ msgctxt "admin-text"
 msgid "Create Review (inactive)"
 msgstr ""
 
-#: deprecated.php:69
+#: deprecated.php:81
 msgid "%s is <strong>deprecated</strong> since version %s with no alternative available."
 msgstr ""
 
-#: deprecated.php:82
+#: deprecated.php:94
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr ""
 
@@ -513,7 +513,7 @@ msgctxt "admin-text"
 msgid "Translations"
 msgstr ""
 
-#: config/settings.php:224, plugin/Modules/Html/ReviewsHtml.php:145
+#: config/settings.php:224, plugin/Modules/Html/ReviewsHtml.php:118
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr ""
 

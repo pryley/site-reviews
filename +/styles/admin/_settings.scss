@@ -119,6 +119,10 @@ td.glsr-string-td1 .row-actions.visible {
 	list-style: disc;
 	margin-left: 1.5em;
 }
+.glsr-card h2 {
+	margin-top: 0;
+	text-align: left;
+}
 
 .glsr-heading {
 	color: #000;
@@ -277,7 +281,7 @@ td.glsr-string-td1 .row-actions.visible {
 	margin: 0;
 	padding: 1em 1.5em;
 }
-.glsr-card.postbox .inside > *:first-child {
+.glsr-card.postbox .inside > *:not(h2):first-child {
 	margin-top: .5em;
 }
 .glsr-card.postbox .inside > *:last-child {

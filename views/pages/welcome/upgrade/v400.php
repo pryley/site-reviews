@@ -6,7 +6,7 @@
         </button>
     </h3>
     <div id="upgrade-v400" class="inside">
-        <h3>Meta Keys</h3>
+        <h2>Meta Keys</h2>
         <p><em>Likelihood Of Impact: Low</em></p>
         <p><span class="required">This will not apply to most people. You only need to read this if you have made custom modifications to your website that involve custom manipulation of your reviews using hooks, helper functions, or otherwise.</span></p>
         <p>The Meta Keys that Site Reviews 4.0 uses to store information to reviews are now protected (they begin with an underscore) so that they don't show up in the Custom Fields Meta Box on other pages. This change can potentially affect you if one of the following cases apply:</p>

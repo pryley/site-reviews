@@ -49,7 +49,7 @@ class PublicController extends Controller
         $html = glsr(SiteReviews::class)->build($args);
         wp_send_json_success([
             'pagination' => $html->getPagination($wrap = false),
-            'reviews' => $html->getReviews($wrap = false),
+            'reviews' => $html->getReviews(),
         ]);
     }
 

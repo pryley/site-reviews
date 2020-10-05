@@ -6,7 +6,7 @@
         </button>
     </h3>
     <div id="upgrade-v500" class="inside">
-        <h3>Shortcode option changes</h3>
+        <h2>Shortcode option changes</h2>
         <p><em>Likelihood Of Impact: <span class="required">High</span></em></p>
         <p>The changes to the shortcode options introduced in v5.0.0 are backwards compatible with version 4, meaning the old shortcode options will continue to work; however, if you are using these options then you should still update them as they may be removed in a future version.</p>
         <p>Affected shortcode options:</p>
@@ -27,7 +27,24 @@
 <span class="tag">[site_reviews_form</span> <span class="attr-name">assigned_posts</span>=<span class="attr-value">"post_id"</span> <span class="attr-name">assigned_terms</span>=<span class="attr-value">"13"</span><span class="tag">]</span>
 </code></pre>
 
-        <h3>Helper function changes</h3>
+        <h2>Action and Filter Hook changes</h2>
+        <p><em>Likelihood Of Impact: Medium</em></p>
+        <ol>
+            <li>
+                <p><strong>The <code>site-reviews/config/forms/submission-form</code> filter hook has been deprecated.</strong></p>
+                <p>If you were previously using this hook to add custom form fields, you should change it to: <code>site-reviews/config/forms/review-form</code>.</p>
+            </li>
+            <li>
+                <p><strong>The <code>site-reviews/reviews/reviews-wrapper</code> filter hook has been removed.</strong></p>
+                <p>If you were previously using this hook, it was likely to add a Bootstrap ".row" class to the reviews wrapper so that you could display the reviews in columns. This is no longer needed as you can now add the class directly in the <code>reviews.php</code> template.</p>
+            </li>
+            <li>
+                <p><strong>The <code>site-reviews/submission-form/order</code> filter hook has been deprecated.</strong></p>
+                <p>If you were previously using this hook to set a custom order to custom form fields, you should change it to: <code>site-reviews/review-form/order</code>.</p>
+            </li>
+        </ol>
+
+        <h2>Helper function changes</h2>
         <p><em>Likelihood Of Impact: Medium</em></p>
         <ol>
             <li>
@@ -71,7 +88,7 @@ glsr_debug($review->custom->custom_field_key);
             </li>
         </ol>
 
-        <h3>Review meta data</h3>
+        <h2>Review meta data</h2>
         <p><em>Likelihood Of Impact: Low</em></p>
         <p>Site Reviews now saves review values in a custom database table and they are no longer stored as meta data; however, this does not apply to custom form field data which is still stored as meta data.</p>
         <p>To access your review data with PHP (including custom field data), use the provided <code><a data-expand="#fn-glsr_get_review" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-functions'); ?>">glsr_get_review()</a></code> helper function instead of the <code>get_post_meta()</code> function. </p>

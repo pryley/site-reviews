@@ -149,6 +149,9 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Improved the Terms checkbox in the review form to align correctly with the text
 - Improved translation settings
 - Refreshed the stars SVG images
+- Removed the "site-reviews/config/forms/submission-form" filter hook (see the Upgrade Guide on the Welcome page)
+- Removed the "site-reviews/reviews/reviews-wrapper" filter hook (see the Upgrade Guide on the Welcome page)
+- Removed the "site-reviews/submission-form/order" filter hook (see the Upgrade Guide on the Welcome page)
 - Removed the glsr_calculate_ratings() helper function
 - Removed the Trustalyze integration, it is now an add-on
 - Removed tool to calculate rating counts (no longer needed)

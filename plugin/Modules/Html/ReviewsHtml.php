@@ -72,10 +72,9 @@ class ReviewsHtml extends \ArrayObject
     }
 
     /**
-     * @param bool $wrap
      * @return string
      */
-    public function getReviews($wrap = true)
+    public function getReviews()
     {
         return empty($this->reviews)
             ? $this->getReviewsFallback()
