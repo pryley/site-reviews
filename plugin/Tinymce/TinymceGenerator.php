@@ -115,9 +115,8 @@ abstract class TinymceGenerator
      */
     protected function getHideOptions()
     {
-        $reflection = new \ReflectionClass($this);
-        $shortname = str_replace('Tinymce', 'Shortcode', $reflection->getShortName());
-        $classname = Helper::buildClassName($shortname, 'Shortcodes');
+        $classname = str_replace('Tinymce\\', 'Shortcodes\\', get_class($this));
+        $classname = str_replace('Tinymce', 'Shortcode', $classname);
         $hideOptions = glsr($classname)->getHideOptions();
         $options = [];
         foreach ($hideOptions as $name => $tooltip) {

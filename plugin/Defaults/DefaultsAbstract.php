@@ -297,8 +297,7 @@ abstract class DefaultsAbstract implements DefaultsContract
                 $hook = 'defaults/'.$this->hook.'/'.$key;
                 return glsr()->filterArray($hook, $value, $this->method);
             }
-        }
-        catch (ReflectionException $e) {
+        } catch (ReflectionException $e) {
             glsr_log()->error("Invalid or protected property [$key].");
         }
     }

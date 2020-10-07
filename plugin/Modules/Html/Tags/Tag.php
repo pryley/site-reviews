@@ -36,10 +36,11 @@ abstract class Tag implements TagContract
     }
 
     /**
-     * @param string $value
+     * @param string|null $value
+     * @param string|null $with
      * @return string|void
      */
-    public function handleFor($for, $value, $with = null)
+    public function handleFor($for, $value = null, $with = null)
     {
         $this->for = $for;
         if ($this->validate($with)) {

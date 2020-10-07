@@ -92,6 +92,20 @@ trait Plugin
     }
 
     /**
+     * @param string $name
+     * @return array
+     */
+    public function config($name)
+    {
+        $path = $this->filterString('config', 'config/'.$name.'.php');
+        $configFile = $this->path($path);
+        $config = file_exists($configFile)
+            ? include $configFile
+            : [];
+        return $this->filterArray('config/'.$name, $config);
+    }
+
+    /**
      * @param string $property
      * @return string
      */

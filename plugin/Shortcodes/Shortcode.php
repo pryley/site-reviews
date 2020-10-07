@@ -101,8 +101,8 @@ abstract class Shortcode implements ShortcodeContract
      */
     public function getShortcodeDefaultsClassName()
     {
-        $className = Str::replaceLast('Shortcode', 'Defaults', get_class($this));
-        return str_replace('Shortcodes', 'Defaults', $className);
+        $classname = str_replace('Shortcodes\\', 'Defaults\\', get_class($this));
+        return str_replace('Shortcode', 'Defaults', $classname);
     }
 
     /**
