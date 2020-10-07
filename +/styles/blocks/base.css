@@ -51,3 +51,8 @@
 :root .components-panel .glsr-base-conditional-control {
     margin-top: 4px;
 }
+@media screen and (max-width: 782px) {
+    :root .components-panel select {
+        max-width: 100%;
+    }
+}

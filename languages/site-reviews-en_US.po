@@ -1345,7 +1345,7 @@ msgctxt "admin-text"
 msgid "Reject submission"
 msgstr "Reject submission"
 
-#: plugin/Application.php:236
+#: plugin/Application.php:222
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr "Local Review"
@@ -1414,7 +1414,7 @@ msgctxt "admin-text"
 msgid "Please upload a valid %s file."
 msgstr "Please upload a valid %s file."
 
-#: config/forms/metabox-fields.php:9, plugin/Defaults/PostTypeColumnDefaults.php:24, plugin/Defaults/RevisionFieldsDefaults.php:17, plugin/Tinymce/TinymceGenerator.php:144
+#: config/forms/metabox-fields.php:9, plugin/Defaults/PostTypeColumnDefaults.php:24, plugin/Defaults/RevisionFieldsDefaults.php:17, plugin/Tinymce/TinymceGenerator.php:143
 msgctxt "admin-text"
 msgid "Type"
 msgstr "Type"
@@ -2303,12 +2303,12 @@ msgctxt "admin-text"
 msgid "Category"
 msgstr "Category"
 
-#: plugin/Tinymce/TinymceGenerator.php:215
+#: plugin/Tinymce/TinymceGenerator.php:214
 msgctxt "admin-text"
 msgid "- Select -"
 msgstr "- Select -"
 
-#: plugin/Tinymce/TinymceGenerator.php:321
+#: plugin/Tinymce/TinymceGenerator.php:320
 msgctxt "admin-text"
 msgid "Some of the shortcode options are required."
 msgstr "Some of the shortcode options are required."
@@ -2860,7 +2860,7 @@ msgid_plural "New %s-star review of %s"
 msgstr[0] "New %s-star review"
 msgstr[1] "New %s-star review of %s"
 
-#: plugin/Tinymce/TinymceGenerator.php:326
+#: plugin/Tinymce/TinymceGenerator.php:325
 msgctxt "the option label (admin-text)"
 msgid "The \"%s\" option is required."
 msgstr "The \"%s\" option is required."
