@@ -8,6 +8,13 @@ abstract class Hooks
     protected $basename;
     protected $controller;
 
+    public function __construct()
+    {
+        $this->addon = $this->addon();
+        $this->basename = plugin_basename($this->addon->file);
+        $this->controller = $this->controller();
+    }
+
     /**
      * @return void
      */
@@ -36,4 +43,14 @@ abstract class Hooks
         add_action('widgets_init',                                         [$this->controller, 'registerWidgets']);
         add_action('site-reviews/addon/settings/'.$this->addon->slug,      [$this->controller, 'renderSettings']);
     }
+
+    /**
+     * @return mixed
+     */
+    abstract protected function addon();
+
+    /**
+     * @return mixed
+     */
+    abstract protected function controller();
 }
