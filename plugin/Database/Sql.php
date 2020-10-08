@@ -21,7 +21,7 @@ trait Sql
         foreach (array_keys($this->args) as $key) {
             $method = Helper::buildMethodName($key, 'clause-'.$prefix);
             if (method_exists($this, $method)) {
-                $values[] = call_user_func([$this, $method]);
+                $values[$key] = call_user_func([$this, $method]);
             }
         }
         return $values;
@@ -50,8 +50,7 @@ trait Sql
      */
     public function sql($statement)
     {
-        $e = new \Exception();
-        $handle = Str::dashCase(Arr::get($e->getTrace(), '1.function'));
+        $handle = $this->sqlHandle();
         $statement = glsr()->filterString('database/sql/'.$handle, $statement);
         glsr()->action('database/sql/'.$handle, $statement);
         glsr()->action('database/sql', $statement, $handle);
@@ -64,7 +63,7 @@ trait Sql
     public function sqlJoin()
     {
         $join = $this->clauses('join');
-        $join = glsr()->filterArrayUnique('query/sql/join', $join, $this);
+        $join = glsr()->filterArrayUnique('query/sql/join', $join, $this->sqlHandle(), $this);
         return implode(' ', $join);
     }
 
@@ -76,7 +75,7 @@ trait Sql
         $limit = Helper::ifTrue($this->args['per_page'] > 0,
             $this->db->prepare('LIMIT %d', $this->args['per_page'])
         );
-        return glsr()->filterString('query/sql/limit', $limit, $this);
+        return glsr()->filterString('query/sql/limit', $limit, $this->sqlHandle(), $this);
     }
 
     /**
@@ -88,29 +87,30 @@ trait Sql
         $offset = Helper::ifTrue($offsetBy > 0,
             $this->db->prepare('OFFSET %d', $offsetBy)
         );
-        return glsr()->filterString('query/sql/offset', $offset, $this);
+        return glsr()->filterString('query/sql/offset', $offset, $this->sqlHandle(), $this);
     }
 
     /**
-     * @return string
+     * @return string|void
      */
     public function sqlOrderBy()
     {
         $values = [
-            'none' => '',
-            'rand' => 'ORDER BY RAND()',
-            'relevance' => '',
+            'rand' => 'RAND()',
         ];
         $order = $this->args['order'];
         $orderby = $this->args['orderby'];
+        $orderedby = [];
         if (Str::startsWith('p.', $orderby)) {
-            $orderBy = "ORDER BY r.is_pinned {$order}, {$orderby} {$order}";
+            $orderedby[] = "r.is_pinned {$order}";
+            $orderedby[] = "{$orderby} {$order}";
         } elseif (array_key_exists($orderby, $values)) {
-            $orderBy = $orderby;
-        } else {
-            $orderBy = '';
+            $orderedby[] = $orderby;
         }
-        return glsr()->filterString('query/sql/order-by', $orderBy, $this);
+        $orderedby = glsr()->filterArrayUnique('query/sql/order-by', $orderedby, $this->sqlHandle(), $this);
+        if (!empty($orderedby)) {
+            return "ORDER BY ".implode(', ', $orderedby);
+        }
     }
 
     /**
@@ -119,7 +119,7 @@ trait Sql
     public function sqlWhere()
     {
         $and = $this->clauses('and');
-        $and = glsr()->filterArrayUnique('query/sql/and', $and, $this);
+        $and = glsr()->filterArrayUnique('query/sql/and', $and, $this->sqlHandle(), $this);
         return 'WHERE 1=1 '.implode(' ', $and);
     }
 
@@ -263,5 +263,14 @@ trait Sql
         return Helper::ifTrue(Str::startsWith('p.', $this->args['orderby']),
             "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
         );
+    }
+
+    /**
+     * @param int $depth
+     * @return string
+     */
+    protected function sqlHandle($depth = 2)
+    {
+        return Str::dashCase(Arr::get((new \Exception())->getTrace(), $depth.'.function'));
     }
 }
