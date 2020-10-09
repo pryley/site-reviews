@@ -31,26 +31,20 @@ class PublicController extends Controller
      */
     public function fetchPagedReviewsAjax(Request $request)
     {
+        glsr()->store(glsr()->paged_handle, $request);
         $args = [
-            'page' => $request->get('page', 0),
-            'pageUrl' => '',
             'pagination' => 'ajax',
             'schema' => false,
         ];
-        if (!$args['page']) {
-            $urlPath = Url::path($request->url);
-            $args['page'] = Helper::getPageNumber($request->url);
-            $args['pageUrl'] = Url::path(home_url()) === $urlPath
-                ? Url::home()
-                : Url::home($urlPath);
-        }
-        $atts = glsr(SiteReviewsDefaults::class)->merge(Arr::consolidate($request->atts));
-        $args = wp_parse_args($args, $atts);
+        $args = wp_parse_args($args, Arr::consolidate($request->atts));
+        $args = glsr(SiteReviewsDefaults::class)->restrict($args);
         $html = glsr(SiteReviews::class)->build($args);
-        wp_send_json_success([
+        $response = [
             'pagination' => $html->getPagination($wrap = false),
             'reviews' => $html->getReviews(),
-        ]);
+        ];
+        glsr()->discard(glsr()->paged_handle);
+        wp_send_json_success($response);
     }
 
     /**

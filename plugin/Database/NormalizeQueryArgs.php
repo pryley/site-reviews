@@ -4,9 +4,7 @@ namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-
 
 /**
  * @property int[] $assigned_posts;
@@ -43,11 +41,12 @@ class NormalizeQueryArgs extends Arguments
     }
 
     /**
+     * @param string $value
      * @return string
      */
-    protected function normalizeOrderBy($orderBy)
+    protected function normalizeOrderBy($value)
     {
-        $orderBy = Str::restrictTo('author,comment_count,date,ID,menu_order,none,rand,relevance', $orderBy, 'date');
+        $orderBy = Str::restrictTo('author,comment_count,date,ID,menu_order,none,rand,relevance', $value, 'date');
         if (in_array($orderBy, ['comment_count', 'ID', 'menu_order'])) {
             return Str::prefix($orderBy, 'p.');
         }
@@ -58,16 +57,17 @@ class NormalizeQueryArgs extends Arguments
     }
 
     /**
+     * @param string $value
      * @return string
      */
-    protected function normalizeStatus($status)
+    protected function normalizeStatus($value)
     {
         $statuses = [
             'all' => '',
             'approved' => '1',
             'unapproved' => '0',
         ];
-        $status = Str::restrictTo(array_keys($statuses), $status, 'approved', $strict = true);
+        $status = Str::restrictTo(array_keys($statuses), $value, 'approved', $strict = true);
         return $statuses[$status];
     }
 }

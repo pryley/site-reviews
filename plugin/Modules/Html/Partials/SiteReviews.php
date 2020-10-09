@@ -25,7 +25,7 @@ class SiteReviews
         $this->args = glsr(SiteReviewsDefaults::class)->unguardedMerge($args);
         $reviews = glsr(ReviewManager::class)->reviews($this->args);
         $this->generateSchema($reviews);
-        return new ReviewsHtml($reviews, $this->args);
+        return new ReviewsHtml($reviews);
     }
 
     /**

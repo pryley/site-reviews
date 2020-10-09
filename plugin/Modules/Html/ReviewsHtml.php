@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Reviews;
 
 class ReviewsHtml extends \ArrayObject
@@ -23,9 +24,9 @@ class ReviewsHtml extends \ArrayObject
      */
     public $reviews;
 
-    public function __construct(Reviews $reviews, array $args)
+    public function __construct(Reviews $reviews)
     {
-        $this->args = glsr()->args($args);
+        $this->args = glsr()->args($reviews->args);
         $this->max_num_pages = $reviews->max_num_pages;
         $this->reviews = $this->renderReviews($reviews);
         parent::__construct($this->reviews, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
@@ -56,6 +57,7 @@ class ReviewsHtml extends \ArrayObject
     public function getPagination($wrap = true)
     {
         $html = glsr(Partial::class)->build('pagination', [
+            'add_args' => $this->args->pageUrlParameters,
             'baseUrl' => $this->args->pageUrl,
             'current' => $this->args->page,
             'total' => $this->max_num_pages,

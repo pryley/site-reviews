@@ -9,11 +9,15 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 class Arguments extends \ArrayObject
 {
     /**
-     * @param array $args
+     * @param mixed $args
      */
     public function __construct($args)
     {
-        $args = Arr::consolidate($args);
+        if ($args instanceof Arguments) {
+            $args = $args->toArray();
+        } else {
+            $args = Arr::consolidate($args);
+        }
         parent::__construct($args, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
     }
 

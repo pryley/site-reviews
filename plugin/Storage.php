@@ -34,6 +34,15 @@ Trait Storage
 
     /**
      * @param string $property
+     * @return void
+     */
+    public function discard($property)
+    {
+        unset($this->storage()->$property);
+    }
+
+    /**
+     * @param string $property
      * @param mixed $fallback
      * @return mixed
      */

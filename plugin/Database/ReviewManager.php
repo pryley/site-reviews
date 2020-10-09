@@ -145,6 +145,7 @@ class ReviewManager
      */
     public function reviews(array $args = [])
     {
+        $args = (new NormalizePaginationArgs($args))->toArray();
         $results = glsr(Query::class)->reviews($args);
         $total = $this->total($args, $results);
         $reviews = new Reviews($results, $total, $args);

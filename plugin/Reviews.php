@@ -51,7 +51,7 @@ class Reviews extends ArrayObject
      */
     public function build()
     {
-        return new ReviewsHtml($this, $this->args);
+        return new ReviewsHtml($this);
     }
 
     /**

@@ -19,6 +19,7 @@ use ReflectionClass;
  * @property string $id
  * @property string $languages
  * @property string $name
+ * @property string $paged_handle
  * @property string $paged_query_var
  * @property string $post_type
  * @property string $prefix
@@ -35,6 +36,7 @@ final class Application extends Container
     const CRON_EVENT = 'site-reviews/schedule/session/purge';
     const EXPORT_KEY = '_glsr_export';
     const ID = 'site-reviews';
+    const PAGED_HANDLE = 'pagination_request';
     const PAGED_QUERY_VAR = 'reviews-page'; // filtered
     const POST_TYPE = 'site-review';
     const PREFIX = 'glsr_';
