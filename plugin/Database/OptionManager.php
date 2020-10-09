@@ -57,7 +57,13 @@ class OptionManager
      */
     public function get($path = '', $fallback = '', $cast = '')
     {
-        return Cast::to($cast, Arr::get($this->all(), $path, $fallback));
+        $option = Arr::get($this->all(), $path, $fallback);
+        $path = ltrim(Str::removePrefix($path, 'settings'), '.');
+        if (!empty($path)) {
+            $hook = 'option/'.str_replace('.', '/', $path);
+            $option = glsr()->filter($hook, $option);
+        }
+        return Cast::to($cast, $option);
     }
 
     /**

@@ -85,6 +85,7 @@
     site-reviews/notices                                    (string $notices): string
     site-reviews/notification/emails                        (array $emails, Review $review): array
     site-reviews/notification/title                         (string $title, Review $review): string
+    site-reviews/option/<path>                              (mixed $value): mixed
     site-reviews/paginate_links                             (string $links, array $args): string
     site-reviews/partial/args/<partial_path>                (array $args): array
     site-reviews/partial/classname                          (string $className, string $partialPath): string
