@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Defaults\FieldDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -290,6 +291,7 @@ class Field
     protected function normalize()
     {
         if ($this->isFieldValid()) {
+            $this->field = glsr(FieldDefaults::class)->merge($this->field);
             $this->field['path'] = $this->field['name'];
             $this->field['raw_type'] = $this->field['type']; // save the original type before it's normalized
             $this->normalizeFieldArgs();
