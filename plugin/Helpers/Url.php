@@ -24,14 +24,23 @@ class Url
 
     /**
      * @param string $url
+     * @return array
+     */
+    public static function queries($url)
+    {
+        $queries = [];
+        parse_str(parse_url($url, PHP_URL_QUERY), $queries);
+        return $queries;
+    }
+
+    /**
+     * @param string $url
      * @param string $param
      * @param string|int $fallback
      * @return string
      */
     public static function query($url, $param, $fallback = null)
     {
-        $queries = [];
-        parse_str(parse_url($url, PHP_URL_QUERY), $queries);
-        return Arr::get($queries, $param, $fallback);
+        return Arr::get(static::queries($url), $param, $fallback);
     }
 }
