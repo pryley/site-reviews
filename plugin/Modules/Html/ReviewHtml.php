@@ -97,6 +97,7 @@ class ReviewHtml extends ArrayObject
     {
         $mappedTags = [
             'assigned_posts' => 'assigned_links',
+            'ID' => 'review_id',
         ];
         return Arr::get($mappedTags, $tag, $tag);
     }
