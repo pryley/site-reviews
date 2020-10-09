@@ -85,7 +85,7 @@ abstract class Tag implements TagContract
                 'text' => $value,
             ]);
         }
-        return glsr()->filterString($this->for.'/wrap/'.$this->tag, $value, $this->with, $rawValue, $this);
+        return glsr()->filterString($this->for.'/wrap/'.$this->tag, $value, $rawValue, $this);
     }
 
     /**

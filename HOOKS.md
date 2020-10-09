@@ -116,7 +116,7 @@
     site-reviews/review/redirect                            (string $redirect, Commands\CreateReview $createReview): string
     site-reviews/review/tag/<tag>                           (string $className): string
     site-reviews/review/value/<tag_or_field_key>            (string $value, Contracts\TagContract $tag): string
-    site-reviews/review/wrap/<tag_or_field_key>             (string $value, Review $review, string $rawValue, Contracts\TagContract $tag): string
+    site-reviews/review/wrap/<tag_or_field_key>             (string $value, string $rawValue, Contracts\TagContract $tag): string
     site-reviews/reviews/fallback                           (string $fallback, array $args): string
     site-reviews/route/request                              (array $request, string $action, string $requestType): array
     site-reviews/router/unguarded-actions                   (array $unguardedActions): array
@@ -135,7 +135,7 @@
     site-reviews/summary/build/<tag_or_field_key>           (string $field, array $ratings, Modules\Html\Partials\SiteReviewsSummary $partial): string
     site-reviews/summary/counts                             (string $ratingCount, int $ratingLevel): string
     site-reviews/summary/value/<tag_or_field_key>           (string $value, Contracts\TagContract $tag): string
-    site-reviews/summary/wrap/<tag_or_field_key>            (string $value, array $ratings, string $rawValue, Contracts\TagContract $tag): string
+    site-reviews/summary/wrap/<tag_or_field_key>            (string $value, string $rawValue, Contracts\TagContract $tag): string
     site-reviews/support/deprecated/v5                      (bool $supportDeprecated): bool
     site-reviews/support/multibyte                          (bool $useMultibytePolyfill): bool
     site-reviews/system/<key>                               (array $details): array
