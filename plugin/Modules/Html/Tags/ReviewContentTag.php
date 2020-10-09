@@ -83,7 +83,9 @@ class ReviewContentTag extends ReviewTag
      */
     protected function normalizeText($text)
     {
-        $text = wp_kses($text, wp_kses_allowed_html());
+        $allowedHtml = wp_kses_allowed_html();
+        $allowedHtml['mark'] = []; // allow using the <mark> tag to highlight text
+        $text = wp_kses($text, $allowedHtml);
         $text = convert_smilies(strip_shortcodes($text));
         $text = str_replace(']]>', ']]&gt;', $text);
         $text = preg_replace('/(\R){2,}/u', '$1', $text);
