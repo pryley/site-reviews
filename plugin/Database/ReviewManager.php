@@ -145,10 +145,11 @@ class ReviewManager
      */
     public function reviews(array $args = [])
     {
-        $reviews = glsr(Query::class)->reviews($args);
-        $total = $this->total($args, $reviews);
+        $results = glsr(Query::class)->reviews($args);
+        $total = $this->total($args, $results);
+        $reviews = new Reviews($results, $total, $args);
         glsr()->action('get/reviews', $reviews, $args);
-        return new Reviews($reviews, $total, $args);
+        return $reviews;
     }
 
     /**
