@@ -58,7 +58,7 @@ class ReviewsHtml extends \ArrayObject
     {
         $html = glsr(Partial::class)->build('pagination', [
             'add_args' => $this->args->pageUrlParameters,
-            'baseUrl' => $this->args->pageUrl,
+            'baseUrl' => Url::path($this->args->pageUrl),
             'current' => $this->args->page,
             'total' => $this->max_num_pages,
         ]);

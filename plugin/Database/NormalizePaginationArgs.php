@@ -47,6 +47,8 @@ class NormalizePaginationArgs extends Arguments
             $this->pageUrl = Url::path(home_url()) === $urlPath
                 ? Url::home()
                 : Url::home($urlPath);
+        } else {
+            $this->pageUrl = filter_input(INPUT_SERVER, 'REQUEST_URI');
         }
     }
 
@@ -59,6 +61,5 @@ class NormalizePaginationArgs extends Arguments
         $parameters = Url::queries($args->url);
         unset($parameters[glsr()->constant('PAGED_QUERY_VAR')]);
         $this->pageUrlParameters = $parameters;
-
     }
 }
