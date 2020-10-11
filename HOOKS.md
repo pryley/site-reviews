@@ -67,6 +67,10 @@
     site-reviews/defaults/<defaults_name>/mapped            (array $mapped, string $method): array
     site-reviews/defaults/<defaults_name>/sanitize          (array $sanitize, string $method): array
     site-reviews/defer-scripts                              (array $scripts): array
+    site-reviews/documentation/faq                          (array $sections): array
+    site-reviews/documentation/functions                    (array $sections): array
+    site-reviews/documentation/hooks                        (array $sections): array
+    site-reviews/documentation/shortcodes                   (array $sections): array
     site-reviews/email/compose                              (array $email, Modules\Mail $mail): array
     site-reviews/email/headers                              (array $headers, Modules\Mail $mail): array
     site-reviews/email/message                              (string $message, string $type, Modules\Mail $mail): string

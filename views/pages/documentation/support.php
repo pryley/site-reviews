@@ -1,6 +1,13 @@
 <?php defined('WPINC') || die;
 
-include trailingslashit(__DIR__).'support/basic-troubleshooting.php';
-include trailingslashit(__DIR__).'support/common-problems-and-solutions.php';
-include trailingslashit(__DIR__).'support/contact-support.php';
-include trailingslashit(__DIR__).'support/upgrade-guide.php';
+$sections = [
+    trailingslashit(__DIR__).'support/basic-troubleshooting.php',
+    trailingslashit(__DIR__).'support/common-problems-and-solutions.php',
+    trailingslashit(__DIR__).'support/contact-support.php',
+    trailingslashit(__DIR__).'support/upgrade-guide.php',
+];
+$filename = pathinfo(__FILE__, PATHINFO_FILENAME);
+$sections = glsr()->filterArrayUnique('documentation/'.$filename, $sections);
+foreach ($sections as $section) {
+    include $section;
+}
