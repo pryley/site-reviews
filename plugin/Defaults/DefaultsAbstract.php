@@ -108,17 +108,24 @@ abstract class DefaultsAbstract implements DefaultsContract
         $values = $this->mapKeys($values);
         array_unshift($args, $values);
         if (method_exists($this, $this->method) && in_array($this->method, $this->callable)) {
-            $this->hook = $this->currentHook();
-            glsr()->action('defaults', $this, $this->hook, $this->method);
-            $defaults = call_user_func_array([$this, $this->method], $args);
-            if ('dataAttributes' !== $this->method) {
-                $defaults = $this->sanitize($defaults);
-                $defaults = $this->guard($defaults);
-            }
-            return glsr()->filterArray('defaults/'.$this->hook, $defaults, $this->method);
+            return $this->callMethod($args);
         }
         glsr_log()->error("Invalid method [$this->method].");
         return $args;
+    }
+
+    protected function callMethod(array $args)
+    {
+        $this->hook = $this->currentHook();
+        glsr()->action('defaults', $this, $this->hook, $this->method);
+        $values = 'defaults' === $this->method
+            ? $this->defaults // use the filtered defaults (these have not been normalized!)
+            : call_user_func_array([$this, $this->method], $args);
+        if ('dataAttributes' !== $this->method) {
+            $values = $this->sanitize($values);
+            $values = $this->guard($values);
+        }
+        return glsr()->filterArray('defaults/'.$this->hook, $values, $this->method);        
     }
 
     /**
