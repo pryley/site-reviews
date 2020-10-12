@@ -1,8 +1,12 @@
+:--namespace .glsr-reviews,
+:--namespace .glsr-reviews-wrap {
+    display: grid;
+    gap: calc(var(--glsr-base-font-size) * 4);;
+}
 :--namespace .glsr-review {
     align-items: center;
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: calc(var(--glsr-base-font-size) * 4);
     quotes: "“" "”";
 }
 :--namespace .glsr-review,
