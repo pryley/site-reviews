@@ -13,7 +13,7 @@ use GeminiLabs\SiteReviews\Helpers\Url;
 /**
  * @property int $page;
  * @property string $pageUrl;
- * @property string $pageUrlParameters;
+ * @property array $pageUrlParameters;
  */
 class NormalizePaginationArgs extends Arguments
 {

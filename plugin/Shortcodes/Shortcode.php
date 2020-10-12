@@ -8,7 +8,6 @@ use GeminiLabs\SiteReviews\Database\PostManager;
 use GeminiLabs\SiteReviews\Database\TaxonomyManager;
 use GeminiLabs\SiteReviews\Database\UserManager;
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -22,17 +21,17 @@ abstract class Shortcode implements ShortcodeContract
     /**
      * @var array
      */
-    protected $dataAttributes;
+    public $dataAttributes;
 
     /**
      * @var string
      */
-    protected $partialName;
+    public $partialName;
 
     /**
      * @var string
      */
-    protected $shortcodeName;
+    public $shortcodeName;
 
     public function __construct()
     {
@@ -150,9 +149,9 @@ abstract class Shortcode implements ShortcodeContract
         $atts = glsr($this->getShortcodeDefaultsClassName())->unguardedRestrict($atts);
         $atts = glsr()->args($atts);
         foreach ($atts as $key => &$value) {
-            $methodName = Helper::buildMethodName($key, 'normalize');
-            if (method_exists($this, $methodName)) {
-                $value = $this->$methodName($value, $atts);
+            $method = Helper::buildMethodName($key, 'normalize');
+            if (method_exists($this, $method)) {
+                $value = call_user_func([$this, $method], $value, $atts);
             }
         }
         $this->setDataAttributes($atts, $type);
