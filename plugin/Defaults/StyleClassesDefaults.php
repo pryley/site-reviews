@@ -25,7 +25,7 @@ class StyleClassesDefaults extends Defaults
     /**
      * @var string
      */
-    public $glue = ' ';
+    protected $glue = ' ';
 
     /**
      * @return array

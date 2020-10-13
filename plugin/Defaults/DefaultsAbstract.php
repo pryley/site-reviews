@@ -38,12 +38,6 @@ abstract class DefaultsAbstract implements DefaultsContract
     public $concatenated = [];
 
     /**
-     * The string that should be used for concatenation.
-     * @var string
-     */
-    public $glue = '';
-
-    /**
      * The values that should be guarded.
      * @var string[]
      */
@@ -81,6 +75,12 @@ abstract class DefaultsAbstract implements DefaultsContract
     protected $defaults = [];
 
     /**
+     * The string that should be used for concatenation.
+     * @var string
+     */
+    protected $glue = '';
+
+    /**
      * @var string
      */
     protected $hook;
@@ -107,7 +107,7 @@ abstract class DefaultsAbstract implements DefaultsContract
         $values = $this->normalize(Arr::consolidate(array_shift($args)));
         $values = $this->mapKeys($values);
         array_unshift($args, $values);
-        if (method_exists($this, $this->method) && in_array($this->method, $this->callable)) {
+        if (in_array($this->method, $this->callable)) { // this also means that the method exists
             return $this->callMethod($args);
         }
         glsr_log()->error("Invalid method [$this->method].");
@@ -300,7 +300,7 @@ abstract class DefaultsAbstract implements DefaultsContract
             $reflection = new ReflectionClass($this);
             $property = $reflection->getProperty($key);
             $value = $property->getValue($this);
-            if ($property->isPublic() && is_array($value)) {
+            if ($property->isPublic()) { // all public properties are expected to be an array
                 $hook = 'defaults/'.$this->hook.'/'.$key;
                 return glsr()->filterArray($hook, $value, $this->method);
             }
