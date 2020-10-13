@@ -22,7 +22,9 @@ abstract class Block
     {
         $hide = array_flip(explode(',', $attributes['hide']));
         unset($hide['if_empty']);
-        $attributes['schema'] = false;
+        if (!empty($attributes['schema'])) {
+            $attributes['schema'] = false;
+        }
         $attributes['hide'] = implode(',', array_keys($hide));
         $attributes = $this->normalizeAssignment($attributes, 'assign_to');
         $attributes = $this->normalizeAssignment($attributes, 'assigned_to');
