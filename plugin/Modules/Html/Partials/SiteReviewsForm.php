@@ -63,6 +63,7 @@ class SiteReviewsForm implements PartialContract
     protected function getFormClasses()
     {
         $classes = [
+            'glsr-review-form',
             glsr(Style::class)->classes('form'),
             $this->args['class'],
         ];

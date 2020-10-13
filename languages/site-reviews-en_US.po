@@ -30,7 +30,7 @@ msgstr ""
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 
-#: config/settings.php:224, plugin/Modules/Html/ReviewsHtml.php:118
+#: config/settings.php:224, plugin/Modules/Html/ReviewsHtml.php:120
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
 
@@ -94,15 +94,15 @@ msgstr ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site admin."
 
-#: plugin/Defaults/PaginationDefaults.php:15
+#: plugin/Defaults/PaginationDefaults.php:16
 msgid "Page"
 msgstr "Page"
 
-#: plugin/Defaults/PaginationDefaults.php:18
+#: plugin/Defaults/PaginationDefaults.php:19
 msgid "Next &rarr;"
 msgstr "Next &rarr;"
 
-#: plugin/Defaults/PaginationDefaults.php:19
+#: plugin/Defaults/PaginationDefaults.php:20
 msgid "&larr; Previous"
 msgstr "&larr; Previous"
 
@@ -208,23 +208,23 @@ msgstr[1] "%s years ago"
 msgid "Anonymous"
 msgstr "Anonymous"
 
-#: plugin/Shortcodes/Shortcode.php:213
+#: plugin/Shortcodes/Shortcode.php:212
 msgid "Excellent"
 msgstr "Excellent"
 
-#: plugin/Shortcodes/Shortcode.php:214
+#: plugin/Shortcodes/Shortcode.php:213
 msgid "Very good"
 msgstr "Very good"
 
-#: plugin/Shortcodes/Shortcode.php:215
+#: plugin/Shortcodes/Shortcode.php:214
 msgid "Average"
 msgstr "Average"
 
-#: plugin/Shortcodes/Shortcode.php:216
+#: plugin/Shortcodes/Shortcode.php:215
 msgid "Poor"
 msgstr "Poor"
 
-#: plugin/Shortcodes/Shortcode.php:217
+#: plugin/Shortcodes/Shortcode.php:216
 msgid "Terrible"
 msgstr "Terrible"
 
@@ -274,19 +274,19 @@ msgstr "No"
 msgid "Yes"
 msgstr "Yes"
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:94
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:95
 msgid "logged in"
 msgstr "logged in"
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:96
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:97
 msgid "You must be %s to submit a review."
 msgstr "You must be %s to submit a review."
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:107
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:108
 msgid "register"
 msgstr "register"
 
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:109
+#: plugin/Modules/Html/Partials/SiteReviewsForm.php:110
 msgid "You may also %s for an account."
 msgstr "You may also %s for an account."
 
@@ -1345,7 +1345,7 @@ msgctxt "admin-text"
 msgid "Reject submission"
 msgstr "Reject submission"
 
-#: plugin/Application.php:222
+#: plugin/Application.php:224
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr "Local Review"

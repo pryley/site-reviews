@@ -186,7 +186,7 @@ const Forms = function () {
         form.destroy();
     }
     var form, forms, submitButton;
-    forms = document.querySelectorAll('form' + classListSelector(GLSR.validationconfig.form));
+    forms = document.querySelectorAll('form.glsr-review-form');
     for (var i = 0; i < forms.length; i++) {
         submitButton = forms[i].querySelector('[type=submit]');
         if (!submitButton) continue;
