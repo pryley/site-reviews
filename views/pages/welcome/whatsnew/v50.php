@@ -34,6 +34,7 @@
             <li>Renamed the <code>glsr_get_rating()</code> helper function to <code>glsr_get_ratings()</code></li>
             <li>Replaced the <code>assign_to</code> and <code>assigned_to</code> shortcode options with the <code>assigned_posts</code> option</li>
             <li>Replaced the <code>category</code> shortcode option with <code>assigned_terms</code> option</li>
+            <li>Review limit validation now performs strict checking for assigned posts, categories and users (AND instead of OR).</li>
             <li>The Translations Settings search results are now restricted to public text that is actually shown on your website, if you would like to change plugin text shown in the WordPress admin, you should use the Loco Translate plugin instead.</li>
         </ul>
         <h4>🛠 Tweaks</h4>

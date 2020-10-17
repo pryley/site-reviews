@@ -132,6 +132,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Changed the assigned_to hide option to assigned_links (i.e. [site_reviews hide="assigned_links"])
 - Changed the minimum PHP version to 5.6.20
 - Changed the minimum WordPress version to 5.5
+- Changed the review limit validation to perform strict checking for assigned posts, categories and users (AND instead of OR)
 - Changed the settings to use the WordPress "Disallowed Comment Keys" option by default
 - Fixed compatibility with the Divi theme and Divi Builder plugin
 - Fixed compatibility with the Elementor Pro plugin popups
