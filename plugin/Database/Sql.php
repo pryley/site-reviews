@@ -97,6 +97,7 @@ trait Sql
     {
         $values = [
             'rand' => 'RAND()',
+            'random' => 'RAND()',
         ];
         $order = $this->args['order'];
         $orderby = $this->args['orderby'];
