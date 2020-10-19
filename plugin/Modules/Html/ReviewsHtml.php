@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Url;
+use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Reviews;
 
 class ReviewsHtml extends \ArrayObject
@@ -24,11 +25,17 @@ class ReviewsHtml extends \ArrayObject
      */
     public $reviews;
 
+    /**
+     * @var string
+     */
+    public $style;
+
     public function __construct(Reviews $reviews)
     {
         $this->args = glsr()->args($reviews->args);
         $this->max_num_pages = $reviews->max_num_pages;
         $this->reviews = $this->renderReviews($reviews);
+        $this->style = 'glsr glsr-'.glsr(Style::class)->get();
         parent::__construct($this->reviews, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
     }
 
