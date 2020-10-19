@@ -513,7 +513,7 @@ msgctxt "admin-text"
 msgid "Translations"
 msgstr ""
 
-#: config/settings.php:224, plugin/Modules/Html/ReviewsHtml.php:120
+#: config/settings.php:224, plugin/Modules/Html/ReviewsHtml.php:127
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr ""
 
