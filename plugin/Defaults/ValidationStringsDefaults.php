@@ -23,7 +23,7 @@ class ValidationStringsDefaults extends Defaults
             'minlength' => __('This field requires a minimum of %s characters.', 'site-reviews'),
             'number' => __('This field requires a number.', 'site-reviews'),
             'required' => __('This field is required.', 'site-reviews'),
-            'unsupported' => __('The review could not be submitted because the browser is too old. Please try again with a modern browser.', 'site-reviews'),
+            'unsupported' => __('The review could not be submitted because this browser is too old. Please try again with a modern browser.', 'site-reviews'),
         ];
     }
 }

@@ -156,10 +156,10 @@ msgstr "This field is required."
 
 #: plugin/Defaults/ValidationStringsDefaults.php:26
 msgid ""
-"The review could not be submitted because the browser is too old. Please "
+"The review could not be submitted because this browser is too old. Please "
 "try again with a modern browser."
 msgstr ""
-"The review could not be submitted because the browser is too old. Please "
+"The review could not be submitted because this browser is too old. Please "
 "try again with a modern browser."
 
 #: plugin/Helpers/Str.php:146
