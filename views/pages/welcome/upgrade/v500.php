@@ -35,6 +35,14 @@
                 <p>If you were previously using this hook to add custom form fields, you should change it to: <code>site-reviews/config/forms/review-form</code>.</p>
             </li>
             <li>
+                <p><strong>The <code>site-reviews/rating/average</code> filter hook argument order has changed.</strong></p>
+                <p>If you were previously using this hook to customise the average rating, you should change the argument order to match the following:</p>
+                <pre><code class="language-php">add_filter('site-reviews/rating/average', function ($roundedAverage, $average, $ratingCounts) {
+    return $roundedAverage;
+}, 10, 3);
+</code></pre>
+            </li>
+            <li>
                 <p><strong>The <code>site-reviews/reviews/reviews-wrapper</code> filter hook has been removed.</strong></p>
                 <p>If you were previously using this hook, it was likely to add a Bootstrap ".row" class to the reviews wrapper so that you could display the reviews in columns. This is no longer needed as you can now add the class directly in the <code>reviews.php</code> template.</p>
             </li>

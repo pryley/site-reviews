@@ -67,7 +67,7 @@ coding_style:
   php:
     indentation:
       general:
-        use_tabs: true
+        use_tabs: false
       switch:
         indent_case: true
     spaces:

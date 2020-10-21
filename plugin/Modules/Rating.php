@@ -52,7 +52,7 @@ class Rating
             $average = $this->totalSum($ratingCounts) / $average;
         }
         $roundedAverage = round($average, intval($roundBy));
-        return glsr()->filterFloat('rating/average', $roundedAverage, $ratingCounts, $average);
+        return glsr()->filterFloat('rating/average', $roundedAverage, $average, $ratingCounts);
     }
 
     /**
