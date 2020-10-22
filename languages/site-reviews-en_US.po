@@ -622,11 +622,11 @@ msgstr "Send to <a href=\"https://slack.com/\">Slack</a>"
 #: config/settings.php:87
 msgctxt "admin-text"
 msgid ""
-"If emails are not sent, make sure this email shares the same domain as your "
-"website."
+"If emails are not sending, make sure this email uses the same domain as "
+"your website."
 msgstr ""
-"If emails are not sent, make sure this email shares the same domain as your "
-"website."
+"If emails are not sending, make sure this email uses the same domain as "
+"your website."
 
 #: config/settings.php:88
 msgctxt "admin-text"

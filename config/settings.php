@@ -84,7 +84,7 @@ return [
         'depends_on' => [
             'settings.general.notifications' => ['admin', 'author', 'custom', 'slack'],
         ],
-        'description' => _x('If emails are not sent, make sure this email shares the same domain as your website.', 'admin-text', 'site-reviews'),
+        'description' => _x('If emails are not sending, make sure this email uses the same domain as your website.', 'admin-text', 'site-reviews'),
         'label' => _x('Send Emails From', 'admin-text', 'site-reviews'),
         'placeholder' => get_option('admin_email'),
         'type' => 'text',

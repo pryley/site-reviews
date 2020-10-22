@@ -300,7 +300,7 @@ msgstr ""
 
 #: config/settings.php:87
 msgctxt "admin-text"
-msgid "If emails are not sent, make sure this email shares the same domain as your website."
+msgid "If emails are not sending, make sure this email uses the same domain as your website."
 msgstr ""
 
 #: config/settings.php:88
