@@ -21,7 +21,7 @@ Metabox.prototype = {
             } else {
                 el.value =jQuery(el).data('value');
                 if ('url' !== el.type) return;
-                this.switchImage_($(el).parent().find('img'), el.value);
+                this.switchImage_(jQuery(el).parent().find('img'), el.value);
             }
         }.bind(this));
        jQuery('.glsr-input-value').prop('disabled', !isChecked);

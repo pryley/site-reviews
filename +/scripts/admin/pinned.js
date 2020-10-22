@@ -26,7 +26,7 @@ Pinned.prototype = {
     onClickCancel_: function (ev) { // MouseEvent
         ev.preventDefault();
         this.restoreEditLink_();
-        this.el.find('select').val($('#hidden-pinned-status').val() === '0' ? 1 : 0);
+        this.el.find('select').val(jQuery('#hidden-pinned-status').val() === '0' ? 1 : 0);
     },
 
     /** @return void */

@@ -1,4 +1,4 @@
-/** global: GLSR, $ */
+/** global: GLSR */
 
 import Serializer from './serializer.js';
 
