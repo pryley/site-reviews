@@ -192,6 +192,7 @@ class Updater
         $updateInfo->plugin = $this->plugin;
         $updateInfo->requires_php = Arr::get($this->data, 'RequiresPHP');
         $updateInfo->tested = Arr::get($this->data, 'testedTo');
+        unset($updateInfo->upgrade_notice); // @todo for some reason, this is returned as an array
         $transient->checked[$this->plugin] = Arr::get($this->data, 'Version');
         $transient->last_checked = time();
         if (Helper::isGreaterThan($updateInfo->new_version, Arr::get($this->data, 'Version'))) {
@@ -217,6 +218,7 @@ class Updater
         $updateInfo->requires_php = Arr::get($this->data, 'RequiresPHP');
         $updateInfo->tested = Arr::get($this->data, 'testedTo');
         $updateInfo->version = $updateInfo->new_version;
+        unset($updateInfo->contributors); // @todo for some reason, this is not being parsed as an array
         return $updateInfo;
     }
 
