@@ -13,7 +13,6 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Restrict reviews in the admin to those assigned to pages of the current user
 - [ ] Review statistics
 - [ ] Store the review GEO location by IP
-- [ ] Use new option keys in widgets and migrate old widgets
 - [ ] Version rollback (ref: WP Rocket)
 - [ ] View all reviews by author
 
@@ -42,7 +41,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Etsy Reviews
 - [ ] Facebook Reviews
 - [ ] Google Reviews
-- [x] Tripadvisor Reviews
+- [x] Tripadvisor Reviews (done, but needs an additional service to make it work consistantly)
 - [ ] Trustpilot Reviews
 - [ ] WooCommerce (incl. review reminders, verified reviews)
 - [ ] Yelp Reviews
