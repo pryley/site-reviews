@@ -190,8 +190,8 @@ class Updater
     {
         $updateInfo->id = glsr()->id.'/'.Arr::get($this->data, 'TextDomain');
         $updateInfo->plugin = $this->plugin;
-        $updateInfo->requires_php = Arr::get($this->data, 'RequiresPHP');
-        $updateInfo->tested = Arr::get($this->data, 'testedTo');
+        // $updateInfo->requires_php = Arr::get($this->data, 'RequiresPHP');
+        // $updateInfo->tested = Arr::get($this->data, 'testedTo');
         unset($updateInfo->upgrade_notice); // @todo for some reason, this is returned as an array
         $transient->checked[$this->plugin] = Arr::get($this->data, 'Version');
         $transient->last_checked = time();
@@ -214,9 +214,9 @@ class Updater
     {
         $updateInfo->author = Arr::get($this->data, 'Author');
         $updateInfo->author_profile = Arr::get($this->data, 'AuthorURI');
-        $updateInfo->requires = Arr::get($this->data, 'RequiresWP');
-        $updateInfo->requires_php = Arr::get($this->data, 'RequiresPHP');
-        $updateInfo->tested = Arr::get($this->data, 'testedTo');
+        // $updateInfo->requires = Arr::get($this->data, 'RequiresWP');
+        // $updateInfo->requires_php = Arr::get($this->data, 'RequiresPHP');
+        // $updateInfo->tested = Arr::get($this->data, 'testedTo');
         $updateInfo->version = $updateInfo->new_version;
         unset($updateInfo->contributors); // @todo for some reason, this is not being parsed as an array
         return $updateInfo;
