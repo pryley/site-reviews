@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Str;
 
 class FieldDefaults extends Defaults
 {
@@ -56,7 +57,7 @@ class FieldDefaults extends Defaults
      */
     protected function normalize(array $values = [])
     {
-        if ($this->isMultiField($values) && !empty($values['name'])) {
+        if ($this->isMultiField($values) && !empty($values['name']) && !Str::endsWith('[]', $values['name'])) {
             $values['name'] .= '[]';
         }
         return $values;

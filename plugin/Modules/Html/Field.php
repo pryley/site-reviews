@@ -291,12 +291,12 @@ class Field
     protected function normalize()
     {
         if ($this->isFieldValid()) {
-            $this->field = glsr(FieldDefaults::class)->merge($this->field);
             $this->field['path'] = $this->field['name'];
             $this->field['raw_type'] = $this->field['type']; // save the original type before it's normalized
             $this->normalizeFieldArgs();
             $this->normalizeFieldId();
             $this->normalizeFieldName();
+            $this->field = glsr(FieldDefaults::class)->merge($this->field);
             $this->field = glsr()->filterArray('field/'.$this->field['raw_type'], $this->field);
         }
     }
