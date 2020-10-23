@@ -26,7 +26,7 @@
         $template->render('partials/addons/addon', [
             'context' => [
                 'description' => _x('Integrate with the Trustalyze Confidence System and post reviews to the blockchain.', 'admin-text', 'site-reviews'),
-                'link' => 'https://niftyplugins.com/plugins/site-reviews-trustalyze/',
+                'link' => 'https://niftyplugins.com/plugins/trustalyze/',
                 'slug' => 'trustalyze',
                 'title' => 'Trustalyze',
             ],
