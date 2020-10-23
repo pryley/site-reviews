@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <div class="wrap">
     <h1 class="wp-heading-inline">

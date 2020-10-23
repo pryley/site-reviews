@@ -1,6 +1,6 @@
 <?php
 
-defined('WPINC') || die;
+defined('ABSPATH') || die;
 
 /**
  * Add human-readable capability names

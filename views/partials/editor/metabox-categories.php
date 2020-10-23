@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <div id="taxonomy-<?= $tax_name; ?>" class="categorydiv">
 

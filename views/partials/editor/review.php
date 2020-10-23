@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <div id="titlediv">
     <input type="text" id="title" value="<?= $post->post_title ? esc_attr($post->post_title) : sprintf('(%s)', esc_attr_x('no title', 'admin-text', 'site-reviews')); ?>" readonly>

@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <div class="glsr-review" id="{{ review_id }}">
     {{ title }}

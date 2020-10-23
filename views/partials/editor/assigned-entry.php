@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <span class="glsr-assigned-entry">
     <input type="hidden" name="{{ data.name }}" value="{{ data.id }}">

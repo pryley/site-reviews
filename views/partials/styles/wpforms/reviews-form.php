@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <div class="glsr-form-wrap wpforms-container wpforms-container-full">
     <form class="{{ class }}" method="post" enctype="multipart/form-data">

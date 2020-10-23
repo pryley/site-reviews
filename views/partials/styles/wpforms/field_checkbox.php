@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <div class="wpforms-field-checkbox {{ class }}">
     {{ label }}

@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <div class="glsr-form-wrap et_pb_contact">
     <form class="{{ class }}" id="{{ id }}" method="post" enctype="multipart/form-data">

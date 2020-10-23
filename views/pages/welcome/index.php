@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <div class="glsr-welcome wrap about-wrap about-wrap-content">
     <h1>Welcome to <?= glsr()->name; ?></h1>

@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <tr class="glsr-setting-field {{ class }}">
     <th scope="row">{{ label }}</th>

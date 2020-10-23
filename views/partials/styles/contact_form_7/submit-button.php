@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <p>
     <button type="submit" class="glsr-button wpcf7-form-control wpcf7-submit button">

@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <div class="glsr-addon">
     <a href="{{ link }}" class="glsr-addon-screenshot" data-slug="{{ slug }}">

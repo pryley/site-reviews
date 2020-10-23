@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die;
+<?php defined('ABSPATH') || die;
 
 $sections = [
     trailingslashit(__DIR__).'hooks/readme.php',

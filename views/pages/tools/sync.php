@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <form method="post" class="glsr-form-sync glsr-status">
     <?php $selected = key($services); ?>

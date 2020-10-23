@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die;
+<?php defined('ABSPATH') || die;
 
 include trailingslashit(__DIR__).'header.php';
 include trailingslashit(__DIR__).'body.php';

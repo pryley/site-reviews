@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <strong>A new {review_rating}-star review has been submitted:</strong>
 

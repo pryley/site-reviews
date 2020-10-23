@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <span class="custom-control custom-switch {{ class }}">
     {{ input }}

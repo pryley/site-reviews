@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <textarea id="log-file" class="large-text code glsr-code glsr-code-large" rows="20" readonly>{{ console }}</textarea>
 <form method="post" class="glsr-float-left">

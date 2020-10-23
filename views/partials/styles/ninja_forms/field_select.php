@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <div class="nf-field-container label-above list-container listselect-container {{ class }}">
     <div class="nf-field">

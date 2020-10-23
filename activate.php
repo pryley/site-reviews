@@ -1,6 +1,6 @@
 <?php
 
-defined('WPINC') || die;
+defined('ABSPATH') || die;
 
 /**
  * Check for minimum system requirments on plugin activation.

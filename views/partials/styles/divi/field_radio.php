@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <p class="{{ class }}">
     <span class="et_pb_contact_field_options_wrapper">

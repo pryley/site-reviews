@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <?php foreach ($addons as $title => $section) : ?>
 <div class="glsr-card postbox">

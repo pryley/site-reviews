@@ -17,7 +17,7 @@
  * Text Domain:       site-reviews
  * Domain Path:       languages
  */
-defined('WPINC') || die;
+defined('ABSPATH') || die;
 
 if (!class_exists('GL_Plugin_Check_v5')) {
     require_once __DIR__.'/activate.php';

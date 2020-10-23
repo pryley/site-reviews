@@ -4,7 +4,7 @@ use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Backtrace;
 
-defined('WPINC') || die;
+defined('ABSPATH') || die;
 
 add_action('plugins_loaded', function () {
     if (!glsr()->filterBool('support/deprecated/v5', true)) {

@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <fieldset class="inline-edit-col-right">
     <div class="inline-edit-col">

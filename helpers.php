@@ -17,7 +17,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Request;
 
-defined('WPINC') || die;
+defined('ABSPATH') || die;
 
 /*
  * Alternate method of using the functions without having to use `function_exists()`

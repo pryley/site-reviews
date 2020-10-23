@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <div>
     <button type="submit" class="glsr-button button btn btn-primary">

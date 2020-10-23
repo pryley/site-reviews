@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <div class="glsr-form-wrap nf-form-wrap ninja-forms-form-wrap">
     <div class="nf-form-layout">

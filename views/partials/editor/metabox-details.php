@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <div class="glsr-metabox-field">
     <div class="glsr-label"><label>Edit Details</label></div>

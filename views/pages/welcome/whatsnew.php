@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <p class="about-description">We hope you love the changes in this new release!</p>
 <div class="is-fullwidth">

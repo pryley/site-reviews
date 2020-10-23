@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <p class="about-description">Please take some time to read this upgrade guide.</p>
 <div class="is-fullwidth">

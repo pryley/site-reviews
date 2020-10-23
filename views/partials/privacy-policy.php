@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <strong class="privacy-policy-tutorial">Suggested Text:</strong> When visitors leave reviews on the site, we collect the data shown in the review form and also the visitor’s IP address to help spam detection. The review may be checked through Akismet, an automated spam detection service. The Akismet service privacy policy is available here: <a href="https://akismet.com/privacy/">https://akismet.com/privacy/</a>.
 

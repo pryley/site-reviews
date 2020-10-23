@@ -1,4 +1,4 @@
-<?php defined('WPINC') || die; ?>
+<?php defined('ABSPATH') || die; ?>
 
 <div class="nf-field-container listradio-container label-above list-container">
     <div class="nf-field">
