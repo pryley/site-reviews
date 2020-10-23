@@ -234,7 +234,7 @@ class System
         global $wpdb;
         $theme = wp_get_theme();
         return [
-            'Active Theme' => sprintf('%s v%s', (string) $theme->Name, (string) $theme->Version),
+            'Active Theme' => sprintf('%s v%s', (string) $theme->name, (string) $theme->version),
             'Email Domain' => substr(strrchr(glsr(OptionManager::class)->getWP('admin_email'), '@'), 1),
             'Home URL' => home_url(),
             'Language' => get_locale(),

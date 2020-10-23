@@ -2,23 +2,25 @@ includes:
     - phar://phpstan.phar/conf/bleedingEdge.neon
     - vendor/szepeviktor/phpstan-wordpress/extension.neon
 parameters:
-  checkGenericClassInNonGenericObjectType: false
-  checkMissingIterableValueType: false
-
-  ignoreErrors:
-    - '#Unsafe usage of new static\(\).#'
-    - '#Call to static method [a-zA-Z_\(\)]+ on an unknown class Akismet.#'
-    - '#Call to protected method get_views\(\) of class WP_Posts_List_Table.#'
-    - '#Function pll_[a-z_]+ not found.#'
-    - '#Constant DB_|ICL_|WP[a-zA-Z_]+ not found.#'
-    - '#^Function apply_filters(_ref_array)? invoked with [34567] parameters, 2 required\.$#'
-    - '#Access to an undefined property WP_|GeminiLabs\\SiteReviews\\(Arguments|Request)::(.+)#'
-    - '/^Parameter #2 \$callback of function array_filter expects callable\(mixed, mixed\): bool, \S+ given\.$/'
   level: 5
-  paths:
-    - plugin
-  scanFiles:
+  bootstrapFiles:
+    - tests/phpstan/bootstrap.php
     - autoload.php
     - helpers.php
-  scanDirectories:
-    - vendors
+  paths:
+    - plugin/
+  ignoreErrors:
+    # Uses func_get_args()
+    - '#^Function apply_filters(_ref_array)? invoked with [34567] parameters, 2 required\.$#'
+    # TODO
+    - '#^Unsafe usage of new static\(\)\.$#'
+    # TODO Add Akismet stubs
+    - '#^Call to static method (get_api_key|http_post)\(\) on an unknown class Akismet\.$#'
+    # get_views() is in the $compat_methods array for public access
+    - '#^Call to protected method get_views\(\) of class WP_Posts_List_Table\.$#'
+    # TODO Add Polylang stubs
+    - '#^Function (pll_get_post|pll_get_post_language|pll_get_post_translations) not found\.$#'
+    # Define properties!!
+    - '#^Access to an undefined property GeminiLabs\\SiteReviews\\(Arguments|Request)::\S+\.$#'
+    # PHPStan has trouble recognizing global functions as callbacks
+    - '#^Parameter \#2 \$callback of function array_filter expects callable\(mixed, mixed\): bool, .\b(strlen|trim)\b. given\.$#'

@@ -1,6 +1,6 @@
 <?php
 
-defined('WPINC') || die;
+defined('ABSPATH') || die;
 
 if (!function_exists('wp_hash')) {
     require_once ABSPATH.WPINC.'/pluggable.php';
