@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, 
 Tested up to: 5.5
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.0.0
+Stable tag: 5.0.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -113,7 +113,11 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 == Changelog ==
 
-= 5.0.0 (2020-09-13) =
+= 5.0.1 (2020-10-23) =
+
+- Added back the deprecated "count" option on the [site_reviews] shortcode so that it will still work for people who have not yet replaced it with the "display" option.
+
+= 5.0.0 (2020-10-22) =
 
 - Added "Delete data on uninstall" option to selectively delete plugin data when removing the plugin
 - Added "Send Emails From" option to send notifications from a custom email address
@@ -151,6 +155,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Improved the Terms checkbox in the review form to align correctly with the text
 - Improved translation settings
 - Refreshed the stars SVG images
+- Removed the deprecated "count" option from the [site_reviews] ahortcode (use the "display" option instead).
 - Removed the "site-reviews/config/forms/submission-form" filter hook (see the Upgrade Guide on the Welcome page)
 - Removed the "site-reviews/reviews/reviews-wrapper" filter hook (see the Upgrade Guide on the Welcome page)
 - Removed the "site-reviews/submission-form/order" filter hook (see the Upgrade Guide on the Welcome page)

@@ -23,19 +23,19 @@ class SqlSchema
      */
     public function addAssignedPostsTableConstraints()
     {
-        if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_posts').'_rating_id_foreign')) {
+        if (!$this->tableConstraintExists($ratingIdConstraint = $this->prefix('assigned_posts').'_rating_id_foreign')) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_posts')}
-                ADD CONSTRAINT {$constraint}
+                ADD CONSTRAINT {$ratingIdConstraint}
                 FOREIGN KEY (rating_id)
                 REFERENCES {$this->table('ratings')} (ID)
                 ON DELETE CASCADE
             "));
         }
-        if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_posts').'_post_id_foreign')) {
+        if (!$this->tableConstraintExists($postIdConstraint = $this->prefix('assigned_posts').'_post_id_foreign')) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_posts')}
-                ADD CONSTRAINT {$constraint}
+                ADD CONSTRAINT {$postIdConstraint}
                 FOREIGN KEY (post_id)
                 REFERENCES {$this->db->posts} (ID)
                 ON DELETE CASCADE
@@ -48,19 +48,19 @@ class SqlSchema
      */
     public function addAssignedTermsTableConstraints()
     {
-        if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_terms').'_rating_id_foreign')) {
+        if (!$this->tableConstraintExists($ratingIdConstraint = $this->prefix('assigned_terms').'_rating_id_foreign')) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_terms')}
-                ADD CONSTRAINT {$constraint}
+                ADD CONSTRAINT {$ratingIdConstraint}
                 FOREIGN KEY (rating_id)
                 REFERENCES {$this->table('ratings')} (ID)
                 ON DELETE CASCADE
             "));
         }
-        if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_terms').'_term_id_foreign')) {
+        if (!$this->tableConstraintExists($termIdConstraint = $this->prefix('assigned_terms').'_term_id_foreign')) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_terms')}
-                ADD CONSTRAINT {$constraint}
+                ADD CONSTRAINT {$termIdConstraint}
                 FOREIGN KEY (term_id)
                 REFERENCES {$this->db->terms} (term_id)
                 ON DELETE CASCADE
@@ -73,19 +73,19 @@ class SqlSchema
      */
     public function addAssignedUsersTableConstraints()
     {
-        if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_users').'_rating_id_foreign')) {
+        if (!$this->tableConstraintExists($ratingIdConstraint = $this->prefix('assigned_users').'_rating_id_foreign')) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_users')}
-                ADD CONSTRAINT {$constraint}
+                ADD CONSTRAINT {$ratingIdConstraint}
                 FOREIGN KEY (rating_id)
                 REFERENCES {$this->table('ratings')} (ID)
                 ON DELETE CASCADE
             "));
         }
-        if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_users').'_user_id_foreign')) {
+        if (!$this->tableConstraintExists($userIdConstraint = $this->prefix('assigned_users').'_user_id_foreign')) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_users')}
-                ADD CONSTRAINT {$constraint}
+                ADD CONSTRAINT {$userIdConstraint}
                 FOREIGN KEY (user_id)
                 REFERENCES {$this->db->users} (ID)
                 ON DELETE CASCADE
@@ -98,10 +98,10 @@ class SqlSchema
      */
     public function addReviewsTableConstraints()
     {
-        if (!$this->tableConstraintExists($constraint = $this->prefix('assigned_posts').'_review_id_foreign')) {
+        if (!$this->tableConstraintExists($reviewIdConstraint = $this->prefix('assigned_posts').'_review_id_foreign')) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('ratings')}
-                ADD CONSTRAINT {$constraint}
+                ADD CONSTRAINT {$reviewIdConstraint}
                 FOREIGN KEY (review_id)
                 REFERENCES {$this->db->posts} (ID)
                 ON DELETE CASCADE

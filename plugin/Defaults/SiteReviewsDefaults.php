@@ -32,6 +32,7 @@ class SiteReviewsDefaults extends Defaults
     public $mapped = [
         'assigned_to' => 'assigned_posts',
         'category' => 'assigned_terms',
+        'count' => 'display', // @deprecated in v4.1.0
         'per_page' => 'display',
         'user' => 'assigned_users',
     ];
