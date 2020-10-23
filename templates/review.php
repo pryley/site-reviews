@@ -1,10 +1,10 @@
 <?php defined('WPINC') || die; ?>
 
-<div class="glsr-review">
+<div class="glsr-review" id="{{ review_id }}">
     {{ title }}
     {{ rating }}
     {{ date }}
-    {{ assigned_to }}
+    {{ assigned_links }}
     {{ content }}
     {{ avatar }}
     {{ author }}

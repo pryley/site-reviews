@@ -7,14 +7,14 @@ class SiteReviewsShortcode extends Shortcode
     protected function hideOptions()
     {
         return [
-            'title' => __('Hide the title', 'site-reviews'),
-            'rating' => __('Hide the rating', 'site-reviews'),
-            'date' => __('Hide the date', 'site-reviews'),
-            'assigned_to' => __('Hide the assigned to link (if shown)', 'site-reviews'),
-            'content' => __('Hide the content', 'site-reviews'),
-            'avatar' => __('Hide the avatar (if shown)', 'site-reviews'),
-            'author' => __('Hide the author', 'site-reviews'),
-            'response' => __('Hide the response', 'site-reviews'),
+            'title' => _x('Hide the title', 'admin-text', 'site-reviews'),
+            'rating' => _x('Hide the rating', 'admin-text', 'site-reviews'),
+            'date' => _x('Hide the date', 'admin-text', 'site-reviews'),
+            'assigned_links' => _x('Hide the assigned links (if shown)', 'admin-text', 'site-reviews'),
+            'content' => _x('Hide the content', 'admin-text', 'site-reviews'),
+            'avatar' => _x('Hide the avatar (if shown)', 'admin-text', 'site-reviews'),
+            'author' => _x('Hide the author', 'admin-text', 'site-reviews'),
+            'response' => _x('Hide the response', 'admin-text', 'site-reviews'),
         ];
     }
 }

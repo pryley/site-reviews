@@ -2,16 +2,46 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
-use GeminiLabs\SiteReviews\Application;
-
 class Cache
 {
+    /**
+     * @param string $key
+     * @param string $group
+     * @return void
+     */
+    public function delete($key, $group)
+    {
+        global $_wp_suspend_cache_invalidation;
+        if (empty($_wp_suspend_cache_invalidation)) {
+            $group = glsr()->prefix.$group;
+            wp_cache_delete($key, $group);
+        }
+    }
+
+    /**
+     * @param string $key
+     * @param string $group
+     * @param \Closure|null $callback
+     * @return mixed
+     */
+    public function get($key, $group, $callback = null)
+    {
+        $group = glsr()->prefix.$group;
+        $value = wp_cache_get($key, $group);
+        if (false === $value && $callback instanceof \Closure) {
+            if ($value = $callback()) {
+                wp_cache_add($key, $value, $group);
+            }
+        }
+        return $value;
+    }
+
     /**
      * @return array
      */
     public function getCloudflareIps()
     {
-        if (false === ($ipAddresses = get_transient(Application::ID.'_cloudflare_ips'))) {
+        if (false === ($ipAddresses = get_transient(glsr()->prefix.'cloudflare_ips'))) {
             $ipAddresses = array_fill_keys(['v4', 'v6'], []);
             foreach (array_keys($ipAddresses) as $version) {
                 $url = 'https://www.cloudflare.com/ips-'.$version;
@@ -28,27 +58,9 @@ class Cache
                     (array) preg_split('/\R/', wp_remote_retrieve_body($response))
                 );
             }
-            set_transient(Application::ID.'_cloudflare_ips', $ipAddresses, WEEK_IN_SECONDS);
+            set_transient(glsr()->prefix.'cloudflare_ips', $ipAddresses, WEEK_IN_SECONDS);
         }
         return $ipAddresses;
-    }
-
-    /**
-     * @param string $metaKey
-     * @return array
-     */
-    public function getReviewCountsFor($metaKey)
-    {
-        $counts = wp_cache_get(Application::ID, $metaKey.'_count');
-        if (false === $counts) {
-            $counts = [];
-            $results = glsr(SqlQueries::class)->getReviewCountsFor($metaKey);
-            foreach ($results as $result) {
-                $counts[$result->name] = $result->num_posts;
-            }
-            wp_cache_set(Application::ID, $counts, $metaKey.'_count');
-        }
-        return $counts;
     }
 
     /**
@@ -56,13 +68,25 @@ class Cache
      */
     public function getRemotePostTest()
     {
-        if (false === ($test = get_transient(Application::ID.'_remote_post_test'))) {
+        if (false === ($test = get_transient(glsr()->prefix.'remote_post_test'))) {
             $response = wp_remote_post('https://api.wordpress.org/stats/php/1.0/');
             $test = !is_wp_error($response) && in_array($response['response']['code'], range(200, 299))
                 ? 'Works'
                 : 'Does not work';
-            set_transient(Application::ID.'_remote_post_test', $test, WEEK_IN_SECONDS);
+            set_transient(glsr()->prefix.'remote_post_test', $test, WEEK_IN_SECONDS);
         }
         return $test;
+    }
+
+    /**
+     * @param string $key
+     * @param string $group
+     * @return mixed
+     */
+    public function store($key, $group, $value)
+    {
+        $group = glsr()->prefix.$group;
+        wp_cache_add($key, $value, $group);
+        return $value;
     }
 }

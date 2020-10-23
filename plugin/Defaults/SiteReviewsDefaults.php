@@ -3,13 +3,25 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
+use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class SiteReviewsDefaults extends Defaults
 {
     /**
      * @var array
      */
-    protected $guarded = [
+    public $casts = [
+        'display' => 'int',
+        'page' => 'int',
+        'rating' => 'int',
+        'schema' => 'bool',
+    ];
+
+    /**
+     * @var string[]
+     */
+    public $guarded = [
         'fallback',
         'title',
     ];
@@ -17,9 +29,18 @@ class SiteReviewsDefaults extends Defaults
     /**
      * @var array
      */
-    protected $mapped = [
-        'count' => 'display', // @deprecated since v4.1.0
+    public $mapped = [
+        'assigned_to' => 'assigned_posts',
+        'category' => 'assigned_terms',
         'per_page' => 'display',
+        'user' => 'assigned_users',
+    ];
+
+    /**
+     * @var array
+     */
+    public $sanitize = [
+        'id' => 'id',
     ];
 
     /**
@@ -28,19 +49,36 @@ class SiteReviewsDefaults extends Defaults
     protected function defaults()
     {
         return [
-            'assigned_to' => '',
-            'category' => '',
+            'assigned_posts' => '',
+            'assigned_terms' => '',
+            'assigned_users' => '',
             'class' => '',
             'display' => 5,
             'fallback' => '',
             'hide' => [],
             'id' => '',
             'offset' => '',
+            'page' => 1,
             'pagination' => false,
             'rating' => 0,
             'schema' => false,
             'title' => '',
             'type' => 'local',
         ];
+    }
+
+    /**
+     * Normalize provided values, this always runs first.
+     * @return array
+     */
+    protected function normalize(array $values = [])
+    {
+        foreach ($this->mapped as $old => $new) {
+            $value = Helper::ifTrue('assigned_to' === $old, 'custom', 'glsr_custom');
+            if ($value === Arr::get($values, $old)) {
+                $values[$old] = Arr::get($values, $new);
+            }
+        }
+        return parent::normalize($values);
     }
 }

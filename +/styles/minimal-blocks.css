@@ -1,0 +1,10 @@
+@import "blocks/minimal/variables";
+@import "blocks/minimal/reviews";
+@import "blocks/minimal/read-more";
+@import "blocks/minimal/reviews-form";
+@import "blocks/minimal/field-labels";
+@import "blocks/minimal/field-input";
+@import "blocks/minimal/field-choice";
+@import "blocks/minimal/field-toggle";
+@import "blocks/minimal/reviews-summary";
+@import "blocks/base";

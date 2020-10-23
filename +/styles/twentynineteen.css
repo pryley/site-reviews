@@ -1,0 +1,41 @@
+@import "public/twentynineteen/variables";
+@import "public/minimal/keyframes";
+@import "public/minimal/screen-reader";
+@import "public/minimal/reviews";
+@import "public/minimal/read-more";
+@import "public/minimal/pagination";
+@import "public/minimal/reviews-form";
+@import "public/minimal/field-labels";
+@import "public/minimal/field-input";
+@import "public/minimal/field-choice";
+@import "public/minimal/field-toggle";
+@import "public/minimal/field-star-rating";
+@import "public/minimal/submit-button";
+@import "public/minimal/reviews-summary";
+
+:--namespace .glsr-toggle-switch {
+    font-size: var(--glsr-form-font-size-small);
+}
+:--namespace .glsr-review-date {
+    color: #767676;
+    font-family: var(--glsr-font-family-sans);
+    font-size: var(--glsr-form-font-size-small);
+    font-style: normal;
+    font-weight: 500;
+}
+:--namespace .glsr-review-author,
+:--namespace .glsr-review-response-inner p:first-of-type strong {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: var(--glsr-font-family-sans);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+:--namespace .glsr-review-response-inner p:first-of-type strong {
+    font-size: 1.125em;
+}
+:--namespace form.glsr-form .glsr-field-error {
+    font-family: var(--glsr-form-font-family-sans);
+    font-size: var(--glsr-form-font-size-small);
+}

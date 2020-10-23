@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use ArrayObject;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
-use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews as SiteReviewsPartial;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewsHtml;
 
 class Reviews extends ArrayObject
@@ -24,12 +24,18 @@ class Reviews extends ArrayObject
      */
     public $reviews;
 
-    public function __construct(array $reviews, $maxPageCount, array $args)
+    /**
+     * @var int
+     */
+    public $total;
+
+    public function __construct(array $reviews, $total, array $args)
     {
-        $this->args = $args;
-        $this->max_num_pages = $maxPageCount;
+        $this->args = glsr(SiteReviewsDefaults::class)->unguardedMerge($args);
+        $this->max_num_pages = Cast::toInt(ceil($total / $this->args['display']));
         $this->reviews = $reviews;
-        parent::__construct($reviews, ArrayObject::STD_PROP_LIST | ArrayObject::ARRAY_AS_PROPS);
+        $this->total = $total;
+        parent::__construct($this->reviews, ArrayObject::STD_PROP_LIST | ArrayObject::ARRAY_AS_PROPS);
     }
 
     /**
@@ -45,8 +51,7 @@ class Reviews extends ArrayObject
      */
     public function build()
     {
-        $args = glsr(SiteReviewsDefaults::class)->merge($this->args);
-        return glsr(SiteReviewsPartial::class)->build($args, $this);
+        return new ReviewsHtml($this);
     }
 
     /**

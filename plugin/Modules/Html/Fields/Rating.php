@@ -2,24 +2,15 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Rating as RatingModule;
 
 class Rating extends Field
 {
     /**
-     * @return string|void
+     * {@inheritdoc}
      */
-    public function build()
-    {
-        $this->builder->tag = 'select';
-        $this->mergeFieldArgs();
-        return $this->builder->getTag();
-    }
-
-    /**
-     * @return array
-     */
-    public static function required()
+    public static function required($fieldLocation = null)
     {
         $options = ['' => __('Select a Rating', 'site-reviews')];
         foreach (range(glsr()->constant('MAX_RATING', RatingModule::class), 1) as $rating) {
@@ -30,5 +21,13 @@ class Rating extends Field
             'options' => $options,
             'type' => 'select',
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function tag()
+    {
+        return 'select';
     }
 }

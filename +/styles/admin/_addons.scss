@@ -1,107 +1,86 @@
-// =============================================================================
-// Partials -> Add-ons
-// =============================================================================
 
 .glsr-addons {
-	margin: -20px 0 0 -20px;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    width: 100%;
+    @media only screen and (min-width: 480px) {}
+    @media only screen and (min-width: 783px) {
+        gap: 20px;
+        margin: 12px 0;
+    }
+    @media only screen and (min-width: 1400px) {}
 }
-
-.glsr-addon-wrap {
-	float: left;
-	position: relative;
-	width: 100%;
-	box-sizing: border-box;
-	padding: 20px 0 0 20px;
-
-	@media only screen and (min-width: 480px) {
-		width: 50%;
-	}
-
-	@media only screen and (min-width: 782px) {
-		width: 33.33%;
-	}
-
-	@media only screen and (min-width: 1400px) {
-		width: 25%;
-	}
-}
-
 .glsr-addon {
-	border: 1px solid #ccd0d4;
-	box-shadow: 0 1px 1px -1px rgba(0,0,0,0.1);
-
-	&-description {
-		background-color: #fff;
-		padding: 1em 15px;
-
-		p {
-			height: calc(13px * 1.5 * 3);
-			overflow: hidden;
-			text-overflow: ellipsis;
-			margin: 0;
-
-			// @media only screen and (min-width: 1120px) {
-			// 	height: calc(13px * 1.5 * 3);
-			// }
-		}
-	}
-
-	&-name {
-		font-size: 15px;
-		margin-top: 0;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-
-	&-footer {
-		height: 48px;
-		background: rgba(255,255,255,0.65);
-		box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
-		box-sizing: border-box;
-		padding: 15px;
-		margin: 0;
-		overflow: hidden;
-
-		@media screen and (max-width: 782px) {
-			height: 58px;
-		}
-	}
-
-	&-screenshot {
-		display: block;
-		background-position: 50%;
-		background-repeat: no-repeat;
-		background-size: cover;
-		border-bottom: 1px solid #ccd0d4;
-		padding-top: 50%;
-
-		&[data-slug="tripadvisor"] {
-			background-color: #4b7e37;
-			background-image: url(../images/addon-tripadvisor.svg);
-		}
-
-		&[data-slug="images"] {
-			background-color: #553C9A;
-			background-image: url(../images/addon-images.svg);
-		}
-	}
-
-	&-link {
-		position: absolute;
-		right: 15px;
-		bottom: 10px;
-
-		@media screen and (max-width: 782px) {
-			bottom: 6px;
-		}
-
-		&.glsr-external::after {
-			content: "\00a0\f504";
-			font-family: dashicons;
-			line-height: 1.2;
-			vertical-align: text-bottom;
-			-webkit-font-smoothing: antialiased;
-			-moz-osx-font-smoothing: grayscale;
-		}
-	}
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px -1px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.glsr-addon-description {
+    background-color: #fff;
+    padding: 20px;
+    flex: auto;
+}
+.glsr-addon-description p {
+    margin: 0;
+}
+.glsr-addon-name {
+    font-size: 15px;
+    margin-top: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.glsr-addon-footer {
+    height: 48px;
+    background: rgba(255,255,255,0.65);
+    box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    padding: 15px;
+    margin: 0;
+    overflow: hidden;
+    @media screen and (max-width: 782px) {
+        height: 58px;
+    }
+}
+.glsr-addon-screenshot {
+    display: block;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-bottom: 1px solid #ccd0d4;
+    padding-top: 66.67%;
+    margin: -1px;
+    @media screen and (min-width: 514px) {
+        padding-top: 100%;
+    }
+    &[data-slug="images"] {
+        background-color: #6B46C1;
+        background-image: url(../../images/addon-images.svg);
+    }
+    &[data-slug="filters"] {
+        background-color: #319796;
+        background-image: url(../../images/addon-filters.svg);
+    }
+    &[data-slug="trustalyze"] {
+        background-color: #4282D6;
+        background-image: url(../../images/addon-trustalyze.svg);
+    }
+}
+.glsr-addon-link {
+    position: absolute;
+    right: 15px;
+    bottom: 10px;
+    @media screen and (max-width: 782px) {
+        bottom: 6px;
+    }
+    &.glsr-external::after {
+        content: "\00a0\f504";
+        font-family: dashicons;
+        line-height: 1.2;
+        vertical-align: text-bottom;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
 }

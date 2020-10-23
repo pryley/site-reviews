@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use BadMethodCallException;
 use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidationRules;
 
@@ -95,7 +96,8 @@ class Validator
             return;
         }
         $value = $this->getValue($attribute);
-        if (!method_exists($this, $method = 'validate'.$rule)) {
+        $method = Helper::buildMethodName($rule, 'validate');
+        if (!method_exists($this, $method)) {
             throw new BadMethodCallException("Method [$method] does not exist.");
         }
         if (!$this->$method($value, $attribute, $parameters)) {
@@ -158,7 +160,7 @@ class Validator
      * Get a rule and its parameters for a given attribute.
      * @param string $attribute
      * @param string|array $rules
-     * @return array|null
+     * @return array|null|void
      */
     protected function getRule($attribute, $rules)
     {
@@ -262,7 +264,7 @@ class Validator
     protected function parseRule($rule)
     {
         $parameters = [];
-        if (Str::contains($rule, ':')) {
+        if (Str::contains(':', $rule)) {
             list($rule, $parameter) = explode(':', $rule, 2);
             $parameters = $this->parseParameters($rule, $parameter);
         }
@@ -299,7 +301,6 @@ class Validator
     /**
      * Returns a translated message for the attribute.
      * @param string $key
-     * @param string $attribute
      * @return void|string
      */
     protected function translator($key, array $parameters)

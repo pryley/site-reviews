@@ -3,12 +3,11 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use Exception;
-use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Notice;
-use GeminiLabs\SiteReviews\Modules\Updater;
 
 class SettingsController extends Controller
 {
@@ -19,16 +18,16 @@ class SettingsController extends Controller
      */
     public function callbackRegisterSettings($input)
     {
-        $settings = Arr::consolidateArray($input);
+        $settings = Arr::consolidate($input);
         if (1 === count($settings) && array_key_exists('settings', $settings)) {
             $options = array_replace_recursive(glsr(OptionManager::class)->all(), $input);
             $options = $this->sanitizeGeneral($input, $options);
             $options = $this->sanitizeLicenses($input, $options);
             $options = $this->sanitizeSubmissions($input, $options);
             $options = $this->sanitizeTranslations($input, $options);
-            $options = apply_filters('site-reviews/settings/callback', $options, $settings);
-            if (filter_input(INPUT_POST, 'option_page') == Application::ID.'-settings') {
-                glsr(Notice::class)->addSuccess(__('Settings updated.', 'site-reviews'));
+            $options = glsr()->filterArray('settings/callback', $options, $settings);
+            if (filter_input(INPUT_POST, 'option_page') == glsr()->id.'-settings') {
+                glsr(Notice::class)->addSuccess(_x('Settings updated.', 'admin-text', 'site-reviews'));
             }
             return $options;
         }
@@ -41,7 +40,7 @@ class SettingsController extends Controller
      */
     public function registerSettings()
     {
-        register_setting(Application::ID.'-settings', OptionManager::databaseKey(), [
+        register_setting(glsr()->id.'-settings', OptionManager::databaseKey(), [
             'sanitize_callback' => [$this, 'callbackRegisterSettings'],
         ]);
     }
@@ -71,7 +70,7 @@ class SettingsController extends Controller
     protected function sanitizeLicenses(array $input, array $options)
     {
         $key = 'settings.licenses';
-        $licenses = Arr::consolidateArray(Arr::get($input, $key));
+        $licenses = Arr::consolidate(Arr::get($input, $key));
         foreach ($licenses as $slug => &$license) {
             if (empty($license)) {
                 continue;
@@ -102,7 +101,7 @@ class SettingsController extends Controller
     protected function sanitizeTranslations(array $input, array $options)
     {
         $key = 'settings.strings';
-        $inputForm = Arr::consolidateArray(Arr::get($input, $key));
+        $inputForm = Arr::consolidate(Arr::get($input, $key));
         if (!empty($inputForm)) {
             $options = Arr::set($options, $key, array_values(array_filter($inputForm)));
             $allowedTags = [
@@ -133,13 +132,13 @@ class SettingsController extends Controller
         }
         if (!$integration->isActive()) {
             glsr(Notice::class)->addError(sprintf(
-                __('Please install/activate the %s plugin to enable integration.', 'site-reviews'),
+                _x('Please install/activate the %s plugin to enable integration.', 'admin-text', 'site-reviews'),
                 $integration->pluginName
             ));
             return false;
         } elseif (!$integration->isSupported()) {
             glsr(Notice::class)->addError(sprintf(
-                __('Please update the %s plugin to v%s or greater to enable integration.', 'site-reviews'),
+                _x('Please update the %s plugin to v%s or greater to enable integration.', 'admin-text', 'site-reviews'),
                 $integration->pluginName,
                 $integration->supportedVersion
             ));
@@ -167,7 +166,7 @@ class SettingsController extends Controller
         } catch (Exception $e) {
             $license = '';
             glsr_log()->debug($e->getMessage());
-            glsr(Notice::class)->addError(__('A license you entered was invalid.', 'site-reviews'));
+            glsr(Notice::class)->addError(_x('A license you entered was invalid.', 'admin-text', 'site-reviews'));
         }
         return $license;
     }

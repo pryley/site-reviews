@@ -2,20 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Helpers;
 
+use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Cast;
+
 class Str
 {
-    /**
-     * @param string $subject
-     * @param string $search
-     * @return string
-     */
-    public static function afterLast($subject, $search)
-    {
-        return '' === $search
-            ? $subject
-            : array_reverse(explode($search, $subject))[0];
-    }
-
     /**
      * @param string $string
      * @return string
@@ -27,13 +18,19 @@ class Str
     }
 
     /**
+     * @param string|string[] $needles
      * @param string $haystack
-     * @param string $needle
      * @return bool
      */
-    public static function contains($haystack, $needle)
+    public static function contains($needles, $haystack)
     {
-        return false !== strpos($haystack, $needle);
+        $needles = array_filter(Cast::toArray($needles), Helper::class.'::isNotEmpty');
+        foreach ($needles as $needle) {
+            if (false !== strpos($haystack, $needle)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -96,10 +93,12 @@ class Str
     public static function convertToInitials($name, $initialPunctuation = '')
     {
         preg_match_all('/(?<=\s|\b)\pL/u', $name, $matches);
-        return array_reduce($matches[0], function ($carry, $word) use ($initialPunctuation) {
-            $string = extension_loaded('mbstring') ? mb_substr($word, 0, 1) : substr($word, 0, 1);
-            return $carry.strtoupper($string).$initialPunctuation;
+        $result = array_reduce($matches[0], function ($carry, $word) use ($initialPunctuation) {
+            $initial = mb_substr($word, 0, 1, 'UTF-8');
+            $initial = mb_strtoupper($initial, 'UTF-8');
+            return $carry.$initial.$initialPunctuation;
         });
+        return trim($result);
     }
 
     /**
@@ -112,30 +111,68 @@ class Str
     }
 
     /**
-     * @param string $needle
+     * @param string|string[] $needles
      * @param string $haystack
      * @return bool
      */
-    public static function endsWith($needle, $haystack)
+    public static function endsWith($needles, $haystack)
     {
-        $length = strlen($needle);
-        return 0 != $length
-            ? substr($haystack, -$length) === $needle
-            : true;
+        $needles = array_filter(Cast::toArray($needles), Helper::class.'::isNotEmpty');
+        foreach ($needles as $needle) {
+            if (substr($haystack, -strlen(Cast::toString($needle))) === $needle) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
-     * @param string $prefix
+     * @param mixed $value
+     * @param string $fallback
+     * @return string
+     */
+    public static function fallback($value, $fallback)
+    {
+        return is_scalar($value) && !empty(trim($value))
+            ? Cast::toString($value)
+            : Cast::toString($fallback);
+    }
+
+    /**
+     * @return string
+     */
+    public static function naturalJoin(array $values)
+    {
+        $and = __('and', 'site-reviews');
+        $values[] = implode(' '.$and.' ', array_splice($values, -2));
+        return implode(', ', $values);
+    }
+
+    /**
      * @param string $string
+     * @param string $prefix
      * @param string|null $trim
      * @return string
      */
-    public static function prefix($prefix, $string, $trim = null)
+    public static function prefix($string, $prefix, $trim = null)
     {
+        if (empty($string)) {
+            return $string;
+        }
         if (null === $trim) {
             $trim = $prefix;
         }
-        return $prefix.trim(static::removePrefix($trim, $string));
+        return $prefix.trim(static::removePrefix($string, $trim));
+    }
+
+    /**
+     * @param int $length
+     * @return string
+     */
+    public static function random($length = 8)
+    {
+        $text = base64_encode(wp_generate_password());
+        return substr(str_replace(['/','+','='], '', $text), 0, $length);
     }
 
     /**
@@ -143,11 +180,64 @@ class Str
      * @param string $string
      * @return string
      */
-    public static function removePrefix($prefix, $string)
+    public static function removePrefix($string, $prefix)
     {
         return static::startsWith($prefix, $string)
             ? substr($string, strlen($prefix))
             : $string;
+    }
+
+    /**
+     * @param string $search
+     * @param string $replace
+     * @param string $subject
+     * @return string
+     */
+    public static function replaceFirst($search, $replace, $subject)
+    {
+        if ($search == '') {
+            return $subject;
+        }
+        $position = strpos($subject, $search);
+        if ($position !== false) {
+            return substr_replace($subject, $replace, $position, strlen($search));
+        }
+        return $subject;
+    }
+
+    /**
+     * @param string $search
+     * @param string $replace
+     * @param string $subject
+     * @return string
+     */
+    public static function replaceLast($search, $replace, $subject)
+    {
+        $position = strrpos($subject, $search);
+        if ($position !== false) {
+            return substr_replace($subject, $replace, $position, strlen($search));
+        }
+        return $subject;
+    }
+
+    /**
+     * @param string|string[] $restrictions
+     * @param string $value
+     * @param string $fallback
+     * @param bool $strict
+     * @return string
+     */
+    public static function restrictTo($restrictions, $value, $fallback = '', $strict = false)
+    {
+        $needle = $value;
+        $haystack = Cast::toArray($restrictions);
+        if (true !== $strict) {
+            $needle = strtolower($needle);
+            $haystack = array_map('strtolower', $haystack);
+        }
+        return in_array($needle, $haystack)
+            ? $value
+            : $fallback;
     }
 
     /**
@@ -159,32 +249,50 @@ class Str
         if (!ctype_lower($string)) {
             $string = preg_replace('/\s+/u', '', $string);
             $string = preg_replace('/(.)(?=[A-Z])/u', '$1_', $string);
-            $string = function_exists('mb_strtolower')
-                ? mb_strtolower($string, 'UTF-8')
-                : strtolower($string);
+            $string = mb_strtolower($string, 'UTF-8');
         }
         return str_replace('-', '_', $string);
     }
 
     /**
-     * @param string $needle
+     * @param string|string[] $needles
      * @param string $haystack
      * @return bool
      */
-    public static function startsWith($needle, $haystack)
+    public static function startsWith($needles, $haystack)
     {
-        return substr($haystack, 0, strlen($needle)) === $needle;
+        $needles = array_filter(Cast::toArray($needles), Helper::class.'::isNotEmpty');
+        foreach ($needles as $needle) {
+            if (substr($haystack, 0, strlen(Cast::toString($needle))) === $needle) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
      * @param string $string
-     * @param int $length
+     * @param string $suffix
      * @return string
      */
-    public static function truncate($string, $length)
+    public static function suffix($string, $suffix)
     {
-        return strlen($string) > $length
-            ? substr($string, 0, $length)
-            : $string;
+        if (!static::endsWith($suffix, $string)) {
+            return $string.$suffix;
+        }
+        return $string;
+    }
+
+    /**
+     * @param string $value
+     * @param int $length
+     * @param string $end
+     * @return string
+     */
+    public static function truncate($value, $length, $end = '')
+    {
+        return mb_strwidth($value, 'UTF-8') > $length
+            ? mb_substr($value, 0, $length, 'UTF-8').$end
+            : $value;
     }
 }

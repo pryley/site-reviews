@@ -1,22 +1,22 @@
 <?php defined('WPINC') || die; ?>
 
-<p><?= sprintf(__('Here you can customise any text of the plugin, including the submission form labels and placeholders. However, if you have a multilingual website you should use the %s plugin instead.', 'site-reviews'), '<a href="https://wordpress.org/plugins/loco-translate/">Loco Translate</a>'); ?></p>
+<p><?= sprintf(_x('Here you can customise any text of the plugin, including the review form labels and placeholders. However, if you have a multilingual website you should use the %s plugin instead.', 'admin-text', 'site-reviews'), '<a href="https://wordpress.org/plugins/loco-translate/">Loco Translate</a>'); ?></p>
 
 <div class="glsr-strings-form">
     <div class="glsr-search-box" id="glsr-search-translations">
-        <span class="screen-reader-text"><?= __('Search for translatable text', 'site-reviews'); ?></span>
+        <span class="screen-reader-text"><?= _x('Search for translatable text', 'admin-text', 'site-reviews'); ?></span>
         <div class="glsr-spinner">
             <span class="spinner"></span>
         </div>
-        <input type="search" class="glsr-search-input" autocomplete="off" placeholder="<?= __('Search here for text to translate...', 'site-reviews'); ?>">
+        <input type="search" class="glsr-search-input" autocomplete="off" placeholder="<?= _x('Search here for text to translate...', 'admin-text', 'site-reviews'); ?>">
         <?php wp_nonce_field('search-translations', '_search_nonce', false); ?>
         <div class="glsr-search-results" data-prefix="{{ database_key }}"></div>
     </div>
     <table class="glsr-strings-table wp-list-table widefat striped {{ class }}">
         <thead>
             <tr>
-                <th scope="col" class="manage-column column-primary"><?= __('Original Text', 'site-reviews'); ?></th>
-                <th scope="col" class="manage-column"><?= __('Custom Translation', 'site-reviews'); ?></th>
+                <th scope="col" class="manage-column column-primary"><?= _x('Original Text', 'admin-text', 'site-reviews'); ?></th>
+                <th scope="col" class="manage-column"><?= _x('Custom Translation', 'admin-text', 'site-reviews'); ?></th>
             </tr>
         </thead>
         <tbody>{{ translations }}</tbody>

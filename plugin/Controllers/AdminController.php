@@ -2,42 +2,37 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\EnqueueAdminAssets;
+use GeminiLabs\SiteReviews\Commands\ExportRatings;
+use GeminiLabs\SiteReviews\Commands\ImportRatings;
 use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups;
-use GeminiLabs\SiteReviews\Database\CountsManager;
-use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Commands\TogglePinned;
+use GeminiLabs\SiteReviews\Commands\ToggleStatus;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
-use GeminiLabs\SiteReviews\Modules\System;
-use GeminiLabs\SiteReviews\Role;
+use GeminiLabs\SiteReviews\Modules\Translation;
+use GeminiLabs\SiteReviews\Request;
 
 class AdminController extends Controller
 {
+    /**
+     * @return void
+     * @action site-reviews/export/cleanup
+     */
+    public function cleanupAfterExport()
+    {
+        glsr(Database::class)->deleteMeta(glsr()->export_key);
+    }
+
     /**
      * @return void
      * @action admin_enqueue_scripts
      */
     public function enqueueAssets()
     {
-        $command = new EnqueueAdminAssets([
-            'pointers' => [[
-                'content' => __('You can pin exceptional reviews so that they are always shown first.', 'site-reviews'),
-                'id' => 'glsr-pointer-pinned',
-                'position' => [
-                    'edge' => 'right',
-                    'align' => 'middle',
-                ],
-                'screen' => Application::POST_TYPE,
-                'target' => '#misc-pub-pinned',
-                'title' => __('Pin Your Reviews', 'site-reviews'),
-            ]],
-        ]);
-        $this->execute($command);
+        $this->execute(new EnqueueAdminAssets());
     }
 
     /**
@@ -46,12 +41,18 @@ class AdminController extends Controller
      */
     public function filterActionLinks(array $links)
     {
-        $links['documentation'] = glsr(Builder::class)->a(__('Help', 'site-reviews'), [
-            'href' => admin_url('edit.php?post_type='.Application::POST_TYPE.'&page=documentation'),
-        ]);
-        $links['settings'] = glsr(Builder::class)->a(__('Settings', 'site-reviews'), [
-            'href' => admin_url('edit.php?post_type='.Application::POST_TYPE.'&page=settings'),
-        ]);
+        if (glsr()->hasPermission('settings')) {
+            $links['settings'] = glsr(Builder::class)->a([
+                'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings'),
+                'text' => _x('Settings', 'admin-text', 'site-reviews'),
+            ]);
+        }
+        if (glsr()->hasPermission('documentation')) {
+            $links['documentation'] = glsr(Builder::class)->a([
+                'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation'),
+                'text' => _x('Help', 'admin-text', 'site-reviews'),
+            ]);
+        }
         return $links;
     }
 
@@ -63,7 +64,7 @@ class AdminController extends Controller
      */
     public function filterCreateCapability($capabilities, $capability)
     {
-        if ($capability == 'create_'.Application::POST_TYPE) {
+        if ($capability == 'create_'.glsr()->post_type) {
             $capabilities[] = 'do_not_allow';
         }
         return $capabilities;
@@ -76,22 +77,37 @@ class AdminController extends Controller
      */
     public function filterDashboardGlanceItems($items)
     {
-        $postCount = wp_count_posts(Application::POST_TYPE);
+        $postCount = wp_count_posts(glsr()->post_type);
         if (empty($postCount->publish)) {
             return $items;
         }
-        $text = _n('%s Review', '%s Reviews', $postCount->publish, 'site-reviews');
+        $text = _nx('%s Review', '%s Reviews', $postCount->publish, 'admin-text', 'site-reviews');
         $text = sprintf($text, number_format_i18n($postCount->publish));
-        $items = Arr::consolidateArray($items);
-        $items[] = glsr()->can('edit_posts')
-            ? glsr(Builder::class)->a($text, [
+        $items = Arr::consolidate($items);
+        if (glsr()->can('edit_posts')) {
+            $items[] = glsr(Builder::class)->a($text, [
                 'class' => 'glsr-review-count',
-                'href' => 'edit.php?post_type='.Application::POST_TYPE,
-            ])
-            : glsr(Builder::class)->span($text, [
+                'href' => 'edit.php?post_type='.glsr()->post_type,
+            ]);
+        } else {
+            $items[] = glsr(Builder::class)->span($text, [
                 'class' => 'glsr-review-count',
             ]);
+        }
         return $items;
+    }
+
+    /**
+     * @param array $args
+     * @return array
+     * @filter export_args
+     */
+    public function filterExportArgs($args)
+    {
+        if (in_array(Arr::get($args, 'content'), ['all', glsr()->post_type])) {
+            $this->execute(new ExportRatings(glsr()->args($args)));
+        }
+        return $args;
     }
 
     /**
@@ -102,10 +118,24 @@ class AdminController extends Controller
     public function filterTinymcePlugins($plugins)
     {
         if (glsr()->can('edit_posts')) {
-            $plugins = Arr::consolidateArray($plugins);
+            $plugins = Arr::consolidate($plugins);
             $plugins['glsr_shortcode'] = glsr()->url('assets/scripts/mce-plugin.js');
         }
         return $plugins;
+    }
+
+    /**
+     * @return void
+     * @action import_end
+     */
+    public function onImportEnd()
+    {
+        $this->execute(new ImportRatings());
+    }
+
+    public function printInlineStyle()
+    {
+        echo '<style type="text/css">a[href="edit.php?post_type=site-review&page=addons"]:not(.current):not(:hover) { color:#F6E05E!important; }</style>';
     }
 
     /**
@@ -114,12 +144,11 @@ class AdminController extends Controller
      */
     public function registerTinymcePopups()
     {
-        $command = new RegisterTinymcePopups([
-            'site_reviews' => esc_html__('Recent Reviews', 'site-reviews'),
-            'site_reviews_form' => esc_html__('Submit a Review', 'site-reviews'),
-            'site_reviews_summary' => esc_html__('Summary of Reviews', 'site-reviews'),
-        ]);
-        $this->execute($command);
+        $this->execute(new RegisterTinymcePopups([
+            'site_reviews' => _x('Recent Reviews', 'admin-text', 'site-reviews'),
+            'site_reviews_form' => _x('Submit a Review', 'admin-text', 'site-reviews'),
+            'site_reviews_summary' => _x('Summary of Reviews', 'admin-text', 'site-reviews'),
+        ]));
     }
 
     /**
@@ -129,12 +158,12 @@ class AdminController extends Controller
      */
     public function renderTinymceButton($editorId)
     {
-        $allowedEditors = apply_filters('site-reviews/tinymce/editor-ids', ['content'], $editorId);
-        if ('post' != glsr_current_screen()->base || !in_array($editorId, $allowedEditors)) {
+        $allowedEditors = glsr()->filterArray('tinymce/editor-ids', ['content'], $editorId);
+        if ('post' !== glsr_current_screen()->base || !in_array($editorId, $allowedEditors)) {
             return;
         }
         $shortcodes = [];
-        foreach (glsr()->mceShortcodes as $shortcode => $values) {
+        foreach (glsr()->retrieve('mce', []) as $shortcode => $values) {
             $shortcodes[$shortcode] = $values;
         }
         if (empty($shortcodes)) {
@@ -147,119 +176,70 @@ class AdminController extends Controller
 
     /**
      * @return void
+     * @action site-reviews/route/ajax/search-posts
      */
-    public function routerClearConsole()
+    public function searchPostsAjax(Request $request)
     {
-        glsr(Console::class)->clear();
-        glsr(Notice::class)->addSuccess(__('Console cleared.', 'site-reviews'));
+        $results = glsr(Database::class)->searchPosts($request->search);
+        wp_send_json_success([
+            'empty' => '<div>'._x('Nothing found.', 'admin-text', 'site-reviews').'</div>',
+            'items' => $results,
+        ]);
     }
 
     /**
      * @return void
+     * @action site-reviews/route/ajax/search-translations
      */
-    public function routerCountReviews()
+    public function searchTranslationsAjax(Request $request)
     {
-        glsr(CountsManager::class)->updateAll();
-        glsr(Notice::class)->clear()->addSuccess(__('Recalculated rating counts.', 'site-reviews'));
-    }
-
-    /**
-     * @return void
-     */
-    public function routerDownloadConsole()
-    {
-        $this->download(Application::ID.'-console.txt', glsr(Console::class)->get());
-    }
-
-    /**
-     * @return void
-     */
-    public function routerDownloadSystemInfo()
-    {
-        $this->download(Application::ID.'-system-info.txt', glsr(System::class)->get());
-    }
-
-    /**
-     * @return void
-     */
-    public function routerExportSettings()
-    {
-        $this->download(Application::ID.'-settings.json', glsr(OptionManager::class)->json());
-    }
-
-    /**
-     * @return void
-     */
-    public function routerFetchConsole()
-    {
-        glsr(Notice::class)->addSuccess(__('Console reloaded.', 'site-reviews'));
-    }
-
-    /**
-     * @return void
-     */
-    public function routerImportSettings()
-    {
-        $file = $_FILES['import-file'];
-        if (UPLOAD_ERR_OK !== $file['error']) {
-            return glsr(Notice::class)->addError($this->getUploadError($file['error']));
+        if (empty($request->exclude)) {
+            $request->exclude = [];
         }
-        if ('application/json' !== $file['type'] || !Str::endsWith('.json', $file['name'])) {
-            return glsr(Notice::class)->addError(__('Please use a valid Site Reviews settings file.', 'site-reviews'));
-        }
-        $settings = json_decode(file_get_contents($file['tmp_name']), true);
-        if (empty($settings)) {
-            return glsr(Notice::class)->addWarning(__('There were no settings found to import.', 'site-reviews'));
-        }
-        glsr(OptionManager::class)->set(glsr(OptionManager::class)->normalize($settings));
-        glsr(Notice::class)->addSuccess(__('Settings imported.', 'site-reviews'));
+        $results = glsr(Translation::class)
+            ->search($request->search)
+            ->exclude()
+            ->exclude($request->exclude)
+            ->renderResults();
+        wp_send_json_success([
+            'empty' => '<div>'._x('Nothing found.', 'admin-text', 'site-reviews').'</div>',
+            'items' => $results,
+        ]);
     }
 
     /**
      * @return void
+     * @action site-reviews/route/ajax/search-users
      */
-    public function routerMigrateReviews()
+    public function searchUsersAjax(Request $request)
     {
-        glsr(Migrate::class)->runAll();
-        glsr(Notice::class)->clear()->addSuccess(__('The plugin has been migrated to the latest version.', 'site-reviews'));
+        $results = glsr(Database::class)->searchUsers($request->search);
+        wp_send_json_success([
+            'empty' => '<div>'._x('Nothing found.', 'admin-text', 'site-reviews').'</div>',
+            'items' => $results,
+        ]);
     }
 
     /**
      * @return void
+     * @action site-reviews/route/ajax/toggle-pinned
      */
-    public function routerResetPermissions()
+    public function togglePinnedAjax(Request $request)
     {
-        glsr(Role::class)->resetAll();
-        glsr(Notice::class)->clear()->addSuccess(__('The permissions have been reset.', 'site-reviews'));
+        wp_send_json_success([
+            'notices' => glsr(Notice::class)->get(),
+            'pinned' => $this->execute(new TogglePinned($request->toArray())),
+        ]);
     }
 
     /**
      * @return void
-     * @action admin_init
+     * @action site-reviews/route/ajax/toggle-status
      */
-    public function runMigrations()
+    public function toggleStatusAjax(Request $request)
     {
-        if (glsr(Migrate::class)->isMigrationNeeded()) {
-            glsr(Migrate::class)->run();
-            glsr(CountsManager::class)->updateAll();
-        }
-    }
-
-    /**
-     * @param int $errorCode
-     * @return string
-     */
-    protected function getUploadError($errorCode)
-    {
-        $errors = [
-            UPLOAD_ERR_INI_SIZE => __('The uploaded file exceeds the upload_max_filesize directive in php.ini.', 'site-reviews'),
-            UPLOAD_ERR_FORM_SIZE => __('The uploaded file is too big.', 'site-reviews'),
-            UPLOAD_ERR_PARTIAL => __('The uploaded file was only partially uploaded.', 'site-reviews'),
-            UPLOAD_ERR_NO_FILE => __('No file was uploaded.', 'site-reviews'),
-            UPLOAD_ERR_NO_TMP_DIR => __('Missing a temporary folder.', 'site-reviews'),
-            UPLOAD_ERR_CANT_WRITE => __('Failed to write file to disk.', 'site-reviews'),
-            UPLOAD_ERR_EXTENSION => __('A PHP extension stopped the file upload.', 'site-reviews'),
-        ];
-        return Arr::get($errors, $errorCode, __('Unknown upload error.', 'site-reviews'));
+        wp_send_json_success(
+            $this->execute(new ToggleStatus($request->post_id, $request->status))
+        );
     }
 }

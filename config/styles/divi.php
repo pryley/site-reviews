@@ -1,7 +1,9 @@
 <?php
 
 return [
-    'fields' => [
+    'classes' => [
+        'field' => 'et_pb_contact_field',
+        'form' => 'et_pb_contact_form clearfix',
         'input' => 'input',
         'input_checkbox' => 'input',
         'input_radio' => 'input',
@@ -10,7 +12,7 @@ return [
         'textarea' => 'et_pb_contact_message input',
     ],
     'validation' => [
-        'field_error_class' => 'et_contact_error',
-        'input_error_class' => 'et_contact_error',
+        'form_message' => 'et-pb-contact-message et_pb_contact_field',
+        'input_error' => 'et_contact_error',
     ],
 ];

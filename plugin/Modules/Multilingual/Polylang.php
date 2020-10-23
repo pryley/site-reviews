@@ -39,13 +39,12 @@ class Polylang implements Contract
             return $postIds;
         }
         $newPostIds = [];
-        foreach (Arr::unique($postIds) as $postId) {
-            $newPostIds = array_merge(
-                $newPostIds,
+        foreach (Arr::uniqueInt($postIds) as $postId) {
+            $newPostIds = array_merge($newPostIds,
                 array_values(pll_get_post_translations($postId))
             );
         }
-        return Arr::unique($newPostIds);
+        return Arr::uniqueInt($newPostIds);
     }
 
     /**

@@ -2,9 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Migrations;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Migrate_4_0_2
@@ -53,14 +51,12 @@ class Migrate_4_0_2
     public function protectMetaKeys()
     {
         global $wpdb;
-        $keys = array_keys(glsr(CreateReviewDefaults::class)->defaults());
-        $keys = implode("','", $keys);
-        $postType = Application::POST_TYPE;
+        $postType = glsr()->post_type;
         $wpdb->query("
             UPDATE {$wpdb->postmeta} pm
             INNER JOIN {$wpdb->posts} p ON p.id = pm.post_id
             SET pm.meta_key = CONCAT('_', pm.meta_key)
-            WHERE pm.meta_key IN ('{$keys}')
+            WHERE pm.meta_key IN ('assigned_to','author','avatar','content','custom','date','email','ip_address','pinned','rating','response','review_id','review_type','title','url')
             AND p.post_type = '{$postType}'
         ");
     }
@@ -73,6 +69,6 @@ class Migrate_4_0_2
         $this->migrateSettings();
         $this->protectMetaKeys();
         $this->deleteSessions();
-        delete_transient(Application::ID.'_cloudflare_ips');
+        delete_transient(glsr()->id.'_cloudflare_ips');
     }
 }

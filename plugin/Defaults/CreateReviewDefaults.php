@@ -7,17 +7,38 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 class CreateReviewDefaults extends Defaults
 {
     /**
-     * @var array
+     * @return array
      */
-    protected $guarded = [
-        'assigned_to',
-        'content',
-        'date',
-        'pinned',
-        'response',
-        'review_id',
-        'review_type',
-        'title',
+    public $mapped = [
+        '_post_id' => 'post_id',
+        '_referer' => 'referer',
+        'author' => 'name',
+        'pinned' => 'is_pinned',
+    ];
+
+    /**
+     * @return array
+     */
+    public $sanitize = [
+        'assigned_posts' => 'array-int',
+        'assigned_terms' => 'array-int',
+        'assigned_users' => 'array-int',
+        'avatar' => 'url',
+        'content' => 'text-multiline',
+        'custom' => 'array',
+        'date' => 'date',
+        'email' => 'email',
+        'form_id' => 'int',
+        'ip_address' => 'text',
+        'is_pinned' => 'bool',
+        'name' => 'text',
+        'post_id' => 'int',
+        'rating' => 'int',
+        'referer' => 'text',
+        'response' => 'text',
+        'title' => 'text',
+        'type' => 'text',
+        'url' => 'url',
     ];
 
     /**
@@ -26,20 +47,24 @@ class CreateReviewDefaults extends Defaults
     protected function defaults()
     {
         return [
-            'assigned_to' => '',
-            'author' => '',
+            'assigned_posts' => [],
+            'assigned_terms' => [],
+            'assigned_users' => [],
             'avatar' => '',
             'content' => '',
-            'custom' => '',
+            'custom' => [],
             'date' => '',
             'email' => '',
+            'form_id' => '',
             'ip_address' => '',
-            'pinned' => false,
+            'is_pinned' => '',
+            'name' => '',
+            'post_id' => '',
             'rating' => '',
+            'referer' => '',
             'response' => '',
-            'review_id' => md5(time().mt_rand()),
-            'review_type' => 'local',
             'title' => '',
+            'type' => '',
             'url' => '',
         ];
     }

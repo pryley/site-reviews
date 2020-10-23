@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Blocks;
 
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode as Shortcode;
 
-class SiteReviewsSummaryBlock extends BlockGenerator
+class SiteReviewsSummaryBlock extends Block
 {
     /**
      * @return array
@@ -13,6 +13,18 @@ class SiteReviewsSummaryBlock extends BlockGenerator
     {
         return [
             'assigned_to' => [
+                'default' => '',
+                'type' => 'string',
+            ],
+            'assigned_posts' => [
+                'default' => '',
+                'type' => 'string',
+            ],
+            'assigned_terms' => [
+                'default' => '',
+                'type' => 'string',
+            ],
+            'assigned_users' => [
                 'default' => '',
                 'type' => 'string',
             ],
@@ -44,6 +56,10 @@ class SiteReviewsSummaryBlock extends BlockGenerator
                 'default' => 'local',
                 'type' => 'string',
             ],
+            'user' => [
+                'default' => '',
+                'type' => 'string',
+            ],
         ];
     }
 
@@ -56,12 +72,11 @@ class SiteReviewsSummaryBlock extends BlockGenerator
         $shortcode = glsr(Shortcode::class);
         if ('edit' == filter_input(INPUT_GET, 'context')) {
             $attributes = $this->normalize($attributes);
-            $this->filterShortcodeClass();
             if (!$this->hasVisibleFields($shortcode, $attributes)) {
                 $this->filterInterpolation();
             }
         }
-        return $shortcode->buildShortcode($attributes);
+        return $shortcode->buildBlock($attributes);
     }
 
     /**
@@ -70,19 +85,9 @@ class SiteReviewsSummaryBlock extends BlockGenerator
     protected function filterInterpolation()
     {
         add_filter('site-reviews/interpolate/reviews-summary', function ($context) {
-            $context['class'] = 'glsr-default glsr-block-disabled';
-            $context['text'] = __('You have hidden all of the fields for this block.', 'site-reviews');
+            $context['class'] = 'glsr-block-disabled';
+            $context['text'] = _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews');
             return $context;
-        });
-    }
-
-    /**
-     * @return void
-     */
-    protected function filterShortcodeClass()
-    {
-        add_filter('site-reviews/style', function () {
-            return 'default';
         });
     }
 }

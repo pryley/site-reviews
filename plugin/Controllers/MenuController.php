@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -23,19 +22,19 @@ class MenuController extends Controller
     {
         global $menu, $typenow;
         foreach ($menu as $key => $value) {
-            if (!isset($value[2]) || $value[2] != 'edit.php?post_type='.Application::POST_TYPE) {
+            if (!isset($value[2]) || $value[2] != 'edit.php?post_type='.glsr()->post_type) {
                 continue;
             }
-            $postCount = wp_count_posts(Application::POST_TYPE);
+            $postCount = wp_count_posts(glsr()->post_type);
             $pendingCount = glsr(Builder::class)->span(number_format_i18n($postCount->pending), [
                 'class' => 'unapproved-count',
             ]);
             $awaitingModeration = glsr(Builder::class)->span($pendingCount, [
                 'class' => 'awaiting-mod count-'.$postCount->pending,
             ]);
-            $menu[$key][0].= ' '.$awaitingModeration;
-            if (Application::POST_TYPE === $typenow) {
-                $menu[$key][4].= ' current';
+            $menu[$key][0] .= ' '.$awaitingModeration;
+            if (glsr()->post_type === $typenow) {
+                $menu[$key][4] .= ' current';
             }
             break;
         }
@@ -48,18 +47,21 @@ class MenuController extends Controller
     public function registerSubMenus()
     {
         $pages = $this->parseWithFilter('submenu/pages', [
-            'settings' => __('Settings', 'site-reviews'),
-            'tools' => __('Tools', 'site-reviews'),
-            // 'addons' => __('Add-ons', 'site-reviews'),
-            'documentation' => __('Help', 'site-reviews'),
+            'settings' => _x('Settings', 'admin-text', 'site-reviews'),
+            'tools' => _x('Tools', 'admin-text', 'site-reviews'),
+            'addons' => _x('Add-ons', 'admin-text', 'site-reviews'),
+            'documentation' => _x('Help', 'admin-text', 'site-reviews'),
         ]);
         foreach ($pages as $slug => $title) {
             $method = Helper::buildMethodName('render-'.$slug.'-menu');
-            $callback = apply_filters('site-reviews/addon/submenu/callback', [$this, $method], $slug);
+            if (!method_exists($this, $method)) {
+                continue;
+            }
+            $callback = glsr()->filter('addon/submenu/callback', [$this, $method], $slug);
             if (!is_callable($callback)) {
                 continue;
             }
-            add_submenu_page('edit.php?post_type='.Application::POST_TYPE, $title, $title, glsr()->getPermission($slug), $slug, $callback);
+            add_submenu_page('edit.php?post_type='.glsr()->post_type, $title, $title, glsr()->getPermission($slug), $slug, $callback);
         }
     }
 
@@ -83,14 +85,14 @@ class MenuController extends Controller
     public function renderDocumentationMenu()
     {
         $tabs = $this->parseWithFilter('documentation/tabs', [
-            'support' => __('Support', 'site-reviews'),
-            'faq' => __('FAQ', 'site-reviews'),
-            'shortcodes' => __('Shortcodes', 'site-reviews'),
-            'hooks' => __('Hooks', 'site-reviews'),
-            'functions' => __('Functions', 'site-reviews'),
-            'addons' => __('Addons', 'site-reviews'),
+            'support' => _x('Support', 'admin-text', 'site-reviews'),
+            'faq' => _x('FAQ', 'admin-text', 'site-reviews'),
+            'shortcodes' => _x('Shortcodes', 'admin-text', 'site-reviews'),
+            'hooks' => _x('Hooks', 'admin-text', 'site-reviews'),
+            'functions' => _x('Functions', 'admin-text', 'site-reviews'),
+            'addons' => _x('Addons', 'admin-text', 'site-reviews'),
         ]);
-        $addons = apply_filters('site-reviews/addon/documentation', []);
+        $addons = glsr()->filterArray('addon/documentation', []);
         ksort($addons);
         if (empty($addons)) {
             unset($tabs['addons']);
@@ -109,13 +111,13 @@ class MenuController extends Controller
     public function renderSettingsMenu()
     {
         $tabs = $this->parseWithFilter('settings/tabs', [
-            'general' => __('General', 'site-reviews'),
-            'reviews' => __('Reviews', 'site-reviews'),
-            'submissions' => __('Submissions', 'site-reviews'),
-            'schema' => __('Schema', 'site-reviews'),
-            'translations' => __('Translations', 'site-reviews'),
-            'addons' => __('Addons', 'site-reviews'),
-            'licenses' => __('Licenses', 'site-reviews'),
+            'general' => _x('General', 'admin-text', 'site-reviews'),
+            'reviews' => _x('Reviews', 'admin-text', 'site-reviews'),
+            'submissions' => _x('Submissions', 'admin-text', 'site-reviews'),
+            'schema' => _x('Schema', 'admin-text', 'site-reviews'),
+            'translations' => _x('Translations', 'admin-text', 'site-reviews'),
+            'addons' => _x('Addons', 'admin-text', 'site-reviews'),
+            'licenses' => _x('Licenses', 'admin-text', 'site-reviews'),
         ]);
         if (empty(Arr::get(glsr()->defaults, 'settings.addons'))) {
             unset($tabs['addons']);
@@ -137,23 +139,23 @@ class MenuController extends Controller
     public function renderToolsMenu()
     {
         $tabs = $this->parseWithFilter('tools/tabs', [
-            'general' => __('General', 'site-reviews'),
-            'sync' => __('Sync Reviews', 'site-reviews'),
-            'console' => __('Console', 'site-reviews'),
-            'system-info' => __('System Info', 'site-reviews'),
+            'general' => _x('General', 'admin-text', 'site-reviews'),
+            'sync' => _x('Sync Reviews', 'admin-text', 'site-reviews'),
+            'console' => _x('Console', 'admin-text', 'site-reviews'),
+            'system-info' => _x('System Info', 'admin-text', 'site-reviews'),
         ]);
-        if (!apply_filters('site-reviews/addon/sync/enable', false)) {
+        if (!glsr()->filterBool('addon/sync/enable', false)) {
             unset($tabs['sync']);
         }
         $this->renderPage('tools', [
             'data' => [
                 'context' => [
-                    'base_url' => admin_url('edit.php?post_type='.Application::POST_TYPE),
-                    'console' => strval(glsr(Console::class)),
-                    'id' => Application::ID,
-                    'system' => strval(glsr(System::class)),
+                    'base_url' => admin_url('edit.php?post_type='.glsr()->post_type),
+                    'console' => glsr(Console::class)->get(),
+                    'id' => glsr()->id,
+                    'system' => glsr(System::class)->get(),
                 ],
-                'services' => apply_filters('site-reviews/addon/sync/services', []),
+                'services' => glsr()->filterArray('addon/sync/services', []),
             ],
             'tabs' => $tabs,
             'template' => glsr(Template::class),
@@ -167,7 +169,7 @@ class MenuController extends Controller
     public function setCustomPermissions()
     {
         foreach (wp_roles()->roles as $role => $value) {
-            wp_roles()->remove_cap($role, 'create_'.Application::POST_TYPE);
+            wp_roles()->remove_cap($role, 'create_'.glsr()->post_type);
         }
     }
 
@@ -195,7 +197,7 @@ class MenuController extends Controller
                 }
             }
         }
-        return apply_filters('site-reviews/addon/'.$hookSuffix, $args);
+        return glsr()->filterArray('addon/'.$hookSuffix, $args);
     }
 
     /**

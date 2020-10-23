@@ -1,0 +1,60 @@
+:--namespace .glsr {
+    min-height: 20px;
+}
+:--namespace .glsr a,
+:--namespace .glsr button,
+:--namespace .glsr input,
+:--namespace .glsr label,
+:--namespace .glsr select,
+:--namespace .glsr span,
+:--namespace .glsr textarea {
+    cursor: default !important;
+    pointer-events: none !important;
+}
+:--namespace .glsr-read-more::before {
+    display: none;
+}
+:--namespace .glsr-block-disabled {
+    align-items: center;
+    background-color: rgba(0,0,0,0.06);
+    display: flex;
+    justify-content: center;
+    min-height: 90px;
+    padding: 24px;
+    text-align: center;
+}
+:--namespace .glsr-form-message {
+    display: none;
+}
+:--namespace .glsr-field .glsr-stars {
+    align-items: center;
+    display: flex;
+    position: relative;
+    width: auto;
+}
+:--namespace .glsr-field .glsr-star {
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: var(--glsr-form-star-size);
+    width: var(--glsr-form-star-size);
+}
+:root .glsr-star-empty {
+    background-image: url(../../images/star-empty.svg) !important;
+}
+:root .glsr-star-half {
+    background-image: url(../../images/star-half.svg) !important;
+}
+:root .glsr-star-full {
+    background-image: url(../../images/star-full.svg) !important;
+}
+:root .components-panel .glsr-checkbox-control:not(:last-of-type) {
+    margin-bottom: 0 !important;
+}
+:root .components-panel .glsr-base-conditional-control {
+    margin-top: 4px;
+}
+@media screen and (max-width: 782px) {
+    :root .components-panel select {
+        max-width: 100%;
+    }
+}

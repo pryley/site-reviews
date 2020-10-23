@@ -68,17 +68,12 @@ class Migrate_3_0_0
         if (empty($this->oldSettings) || empty($this->newSettings)) {
             return;
         }
-        foreach (static::MAPPED_SETTINGS as $old => $new) {
-            if (empty($this->oldSettings[$old])) {
-                continue;
-            }
-            $this->newSettings[$new] = $this->oldSettings[$old];
-        }
+        $this->mapSettings();
         $this->migrateNotificationSettings();
         $this->migrateRecaptchaSettings();
         $this->migrateRequiredSettings();
-        $oldSettings = Arr::convertDotNotationArray($this->oldSettings);
-        $newSettings = Arr::convertDotNotationArray($this->newSettings);
+        $oldSettings = Arr::convertFromDotNotation($this->oldSettings);
+        $newSettings = Arr::convertFromDotNotation($this->newSettings);
         if (isset($oldSettings['settings']['strings']) && is_array($oldSettings['settings']['strings'])) {
             $newSettings['settings']['strings'] = $oldSettings['settings']['strings'];
         }
@@ -98,7 +93,7 @@ class Migrate_3_0_0
      */
     protected function getNewSettings()
     {
-        return  Arr::flattenArray(Arr::consolidateArray(OptionManager::databaseKey(3)));
+        return  Arr::flatten(Arr::consolidate(OptionManager::databaseKey(3)));
     }
 
     /**
@@ -107,11 +102,22 @@ class Migrate_3_0_0
     protected function getOldSettings()
     {
         $defaults = array_fill_keys(array_keys(static::MAPPED_SETTINGS), '');
-        $settings = Arr::consolidateArray(get_option(OptionManager::databaseKey(2)));
-        $settings = Arr::flattenArray($settings);
+        $settings = Arr::flatten(Arr::consolidate(get_option(OptionManager::databaseKey(2))));
         return !empty($settings)
             ? wp_parse_args($settings, $defaults)
             : [];
+    }
+
+    /**
+     * @return void
+     */
+    public function mapSettings()
+    {
+        foreach (static::MAPPED_SETTINGS as $old => $new) {
+            if (!empty($this->oldSettings[$old])) {
+                $this->newSettings[$new] = $this->oldSettings[$old];
+            }
+        }
     }
 
     /**

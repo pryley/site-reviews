@@ -1,0 +1,6 @@
+/*Field Labels*/
+:--namespace form.glsr-form label.glsr-label {
+    display: block;
+    float: none;
+    hyphens: none;
+}

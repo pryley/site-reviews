@@ -1,5 +1,5 @@
 <?php defined('WPINC') || die; ?>
 
-<span class="glsr-field-error">
+<div class="{{ class }}">
     {{ errors }}
-</span>
+</div>

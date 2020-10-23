@@ -2,22 +2,58 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Commands\AssignPosts;
+use GeminiLabs\SiteReviews\Commands\AssignTerms;
+use GeminiLabs\SiteReviews\Commands\AssignUsers;
+use GeminiLabs\SiteReviews\Commands\CreateReview;
+use GeminiLabs\SiteReviews\Commands\ToggleStatus;
+use GeminiLabs\SiteReviews\Commands\UnassignPosts;
+use GeminiLabs\SiteReviews\Commands\UnassignTerms;
+use GeminiLabs\SiteReviews\Commands\UnassignUsers;
 use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Database\CountsManager;
-use GeminiLabs\SiteReviews\Database\GlobalCountsManager;
-use GeminiLabs\SiteReviews\Database\PostCountsManager;
-use GeminiLabs\SiteReviews\Database\TermCountsManager;
+use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Database\TaxonomyManager;
+use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Review;
-use WP_Post;
 
 class ReviewController extends Controller
 {
     /**
-     * Triggered when a category is added to a review.
+     * @return void
+     * @action admin_action_approve
+     */
+    public function approve()
+    {
+        if (glsr()->id == filter_input(INPUT_GET, 'plugin')) {
+            check_admin_referer('approve-review_'.($postId = $this->getPostId()));
+            $this->execute(new ToggleStatus($postId, 'publish'));
+            wp_safe_redirect(wp_get_referer());
+            exit;
+        }
+    }
+
+    /**
+     * @param array $posts
+     * @return array
+     * @filter the_posts
+     */
+    public function filterPostsToCacheReviews($posts)
+    {
+        $reviews = array_filter($posts, function ($post) {
+            return glsr()->post_type === $post->post_type;
+        });
+        if ($postIds = wp_list_pluck($reviews, 'ID')) {
+            glsr(Query::class)->reviews([], $postIds); // this caches the associated Review objects
+        }
+        return $posts;
+    }
+
+    /**
+     * Triggered when one or more categories are added or removed from a review.
      *
      * @param int $postId
      * @param array $terms
@@ -28,30 +64,18 @@ class ReviewController extends Controller
      * @return void
      * @action set_object_terms
      */
-    public function onAfterChangeCategory($postId, $terms, $newTTIds, $taxonomy, $append, $oldTTIds)
+    public function onAfterChangeAssignedTerms($postId, $terms, $newTTIds, $taxonomy, $append, $oldTTIds)
     {
-        sort($newTTIds);
-        sort($oldTTIds);
-        if ($newTTIds === $oldTTIds || !$this->isReviewPostId($postId)) {
-            return;
-        }
-        $review = glsr_get_review($postId);
-        if ('publish' !== $review->status) {
-            return;
-        }
-        $ignoredIds = array_intersect($oldTTIds, $newTTIds);
-        $decreasedIds = array_diff($oldTTIds, $ignoredIds);
-        $increasedIds = array_diff($newTTIds, $ignoredIds);
-        if ($review->term_ids = glsr(Database::class)->getTermIds($decreasedIds, 'term_taxonomy_id')) {
-            glsr(TermCountsManager::class)->decrease($review);
-        }
-        if ($review->term_ids = glsr(Database::class)->getTermIds($increasedIds, 'term_taxonomy_id')) {
-            glsr(TermCountsManager::class)->increase($review);
+        if (Review::isReview($postId)) {
+            $review = glsr(Query::class)->review($postId);
+            $diff = $this->getAssignedDiffs($oldTTIds, $newTTIds);
+            $this->execute(new UnassignTerms($review, $diff['old']));
+            $this->execute(new AssignTerms($review, $diff['new']));
         }
     }
 
     /**
-     * Triggered when an existing review is approved|unapproved.
+     * Triggered when a post status changes or when a review is approved|unapproved|trashed.
      *
      * @param string $oldStatus
      * @param string $newStatus
@@ -61,114 +85,141 @@ class ReviewController extends Controller
      */
     public function onAfterChangeStatus($newStatus, $oldStatus, $post)
     {
-        if (Application::POST_TYPE != Arr::get($post, 'post_type') 
-            || in_array($oldStatus, ['new', $newStatus])) {
+        if (in_array($oldStatus, ['new', $newStatus])) {
             return;
         }
-        $review = glsr_get_review($post);
-        if ('publish' == $post->post_status) {
-            glsr(CountsManager::class)->increaseAll($review);
+        $isPublished = 'publish' === $newStatus;
+        if (Review::isReview($post)) {
+            glsr(ReviewManager::class)->update($post->ID, ['is_approved' => $isPublished]);
         } else {
-            glsr(CountsManager::class)->decreaseAll($review);
+            glsr(ReviewManager::class)->updateAssignedPost($post->ID, $isPublished);
         }
     }
 
     /**
-     * Triggered when a review is first created.
+     * Triggered when a review's assigned post IDs are updated.
+     *
+     * @return void
+     * @action site-reviews/review/updated/post_ids
+     */
+    public function onChangeAssignedPosts(Review $review, array $postIds = [])
+    {
+        $diff = $this->getAssignedDiffs($review->assigned_posts, $postIds);
+        $this->execute(new UnassignPosts($review, $diff['old']));
+        $this->execute(new AssignPosts($review, $diff['new']));
+    }
+
+    /**
+     * Triggered when a review's assigned users IDs are updated.
+     *
+     * @return void
+     * @action site-reviews/review/updated/user_ids
+     */
+    public function onChangeAssignedUsers(Review $review, array $userIds = [])
+    {
+        $diff = $this->getAssignedDiffs($review->assigned_users, $userIds);
+        $this->execute(new UnassignUsers($review, $diff['old']));
+        $this->execute(new AssignUsers($review, $diff['new']));
+    }
+
+    /**
+     * Triggered after a review is created.
      *
      * @return void
      * @action site-reviews/review/created
      */
-    public function onAfterCreate(Review $review)
+    public function onCreatedReview(Review $review, CreateReview $command)
     {
-        if ('publish' !== $review->status) {
-            return;
-        }
-        glsr(GlobalCountsManager::class)->increase($review);
-        glsr(PostCountsManager::class)->increase($review);
+        $this->execute(new AssignPosts($review, $command->assigned_posts));
+        $this->execute(new AssignUsers($review, $command->assigned_users));
     }
 
     /**
-     * Triggered when a review is deleted.
+     * Triggered when a review is created.
      *
      * @param int $postId
      * @return void
-     * @action before_delete_post
+     * @action site-reviews/review/create
      */
-    public function onBeforeDelete($postId)
+    public function onCreateReview($postId, CreateReview $command)
     {
-        if (!$this->isReviewPostId($postId)) {
+        $values = glsr()->args($command->toArray()); // this filters the values
+        $data = glsr(RatingDefaults::class)->restrict($values->toArray());
+        $data['review_id'] = $postId;
+        $data['is_approved'] = 'publish' === get_post_status($postId);
+        if (false === glsr(Database::class)->insert('ratings', $data)) {
+            wp_delete_post($postId, true); // remove post as review was not created
             return;
         }
-        $review = glsr_get_review($postId);
-        if ('trash' !== $review->status) { // do not run for trashed posts
-            glsr(CountsManager::class)->decreaseAll($review);
+        if (!empty($values->response)) {
+            glsr(Database::class)->metaSet($postId, 'response', $values->response); // save the response if one is provided
+        }
+        glsr(TaxonomyManager::class)->setTerms($postId, $values->assigned_terms); // terms are assigned with the set_object_terms hook
+        foreach ($values->custom as $key => $value) {
+            glsr(Database::class)->metaSet($postId, 'custom_'.$key, $value);
         }
     }
 
     /**
-     * Triggered when a review's rating, assigned_to, or review_type is changed.
+     * Triggered when a review is edited.
+     * It's unnecessary to trigger a term recount as this is done by the set_object_terms hook
+     * We need to use "edit_post" to support revisions (vs "save_post").
      *
-     * @param int $metaId
      * @param int $postId
-     * @param string $metaKey
-     * @param mixed $metaValue
      * @return void
-     * @action update_postmeta
+     * @action edit_post_{glsr()->post_type}
      */
-    public function onBeforeUpdate($metaId, $postId, $metaKey, $metaValue)
+    public function onEditReview($postId)
     {
-        if (!$this->isReviewPostId($postId)) {
-            return;
+        $input = 'edit' === glsr_current_screen()->base ? INPUT_GET : INPUT_POST;
+        if (!glsr()->can('edit_posts') || 'glsr_action' === filter_input($input, 'action')) {
+            return; // abort if user does not have permission or if not a proper post update (i.e. approve/unapprove)
         }
-        $metaKey = Str::removePrefix('_', $metaKey);
-        if (!in_array($metaKey, ['assigned_to', 'rating', 'review_type'])) {
-            return;
+        $review = glsr(Query::class)->review($postId);
+        $assignedPostIds = filter_input($input, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
+        $assignedUserIds = filter_input($input, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
+        glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds)); // trigger a recount of assigned posts
+        glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
+        glsr(MetaboxController::class)->saveResponseMetabox($review);
+        $submittedValues = Helper::filterInputArray(glsr()->id);
+        if (Arr::get($submittedValues, 'is_editing_review')) {
+            $submittedValues['rating'] = Arr::get($submittedValues, 'rating');
+            glsr(ReviewManager::class)->update($postId, $submittedValues);
+            glsr(ReviewManager::class)->updateCustom($postId, $submittedValues);
         }
-        $review = glsr_get_review($postId);
-        if ($review->$metaKey == $metaValue) {
-            return;
-        }
-        $method = Helper::buildMethodName($metaKey, 'onBeforeChange');
-        call_user_func([$this, $method], $review, $metaValue);
+        glsr()->action('review/saved', glsr(Query::class)->review($postId), $submittedValues);
     }
 
     /**
-     * Triggered by the onBeforeUpdate method.
-     *
-     * @param string|int $assignedTo
      * @return void
+     * @action admin_action_unapprove
      */
-    protected function onBeforeChangeAssignedTo(Review $review, $assignedTo)
+    public function unapprove()
     {
-        glsr(PostCountsManager::class)->decrease($review);
-        $review->assigned_to = $assignedTo;
-        glsr(PostCountsManager::class)->increase($review);
+        if (glsr()->id == filter_input(INPUT_GET, 'plugin')) {
+            check_admin_referer('unapprove-review_'.($postId = $this->getPostId()));
+            $this->execute(new ToggleStatus($postId, 'pending'));
+            wp_safe_redirect(wp_get_referer());
+            exit;
+        }
     }
 
     /**
-     * Triggered by the onBeforeUpdate method.
-     *
-     * @param string|int $rating
-     * @return void
+     * @return array
      */
-    protected function onBeforeChangeRating(Review $review, $rating)
+    protected function getAssignedDiffs(array $existing, array $replacements)
     {
-        glsr(CountsManager::class)->decreaseAll($review);
-        $review->rating = $rating;
-        glsr(CountsManager::class)->increaseAll($review);
-    }
-
-    /**
-     * Triggered by the onBeforeUpdate method.
-     *
-     * @param string $reviewType
-     * @return void
-     */
-    protected function onBeforeChangeReviewType(Review $review, $reviewType)
-    {
-        glsr(CountsManager::class)->decreaseAll($review);
-        $review->review_type = $reviewType;
-        glsr(CountsManager::class)->increaseAll($review);
+        sort($existing);
+        sort($replacements);
+        $new = $old = [];
+        if ($existing !== $replacements) {
+            $ignored = array_intersect($existing, $replacements);
+            $new = array_diff($replacements, $ignored);
+            $old = array_diff($existing, $ignored);
+        }
+        return [
+            'new' => $new,
+            'old' => $old,
+        ];
     }
 }

@@ -8,6 +8,14 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 class EmailDefaults extends Defaults
 {
     /**
+     * @var array
+     */
+    public $sanitize = [
+        'attachments' => 'array',
+        'template-tags' => 'array',
+    ];
+
+    /**
      * @return array
      */
     protected function defaults()
@@ -18,7 +26,7 @@ class EmailDefaults extends Defaults
             'bcc' => '',
             'before' => '',
             'cc' => '',
-            'from' => $this->getFromName().' <'.$this->getFromEmail().'>',
+            'from' => '',
             'message' => '',
             'reply-to' => '',
             'subject' => '',
@@ -29,18 +37,22 @@ class EmailDefaults extends Defaults
     }
 
     /**
-     * @return string
+     * Normalize provided values, this always runs first.
+     * @return array
      */
-    protected function getFromEmail()
+    protected function normalize(array $values = [])
     {
-        return glsr(OptionManager::class)->getWP('admin_email');
-    }
-
-    /**
-     * @return string
-     */
-    protected function getFromName()
-    {
-        return wp_specialchars_decode(glsr(OptionManager::class)->getWP('blogname'), ENT_QUOTES);
+        if (empty($values['from'])) {
+            $email = sanitize_email(glsr_get_option('general.notification_from', null, 'string'));
+            if (empty($email)) {
+                $email = glsr(OptionManager::class)->getWP('admin_email');
+            }
+            $from = wp_specialchars_decode(glsr(OptionManager::class)->getWP('blogname'), ENT_QUOTES);
+            $values['from'] = sprintf('%s <%s>', $from, $email);
+        }
+        if (empty($values['reply-to'])) {
+            $values['reply-to'] = $values['from'];
+        }
+        return parent::normalize($values);
     }
 }

@@ -50,19 +50,29 @@ class Date
 
     /**
      * @param mixed $date
+     * @param string $format
+     * @return bool
+     */
+    public function isValid($date, $format = 'Y-m-d H:i:s')
+    {
+        return $this->isDate($date, $format) || $this->isTimestamp($date);
+    }
+
+    /**
+     * @param mixed $date
      * @param string $fallback
      * @return string
      */
     public function localized($date, $fallback = '')
     {
-        return $this->isDate($date) || $this->isTimestamp($date)
+        return $this->isValid($date)
             ? date_i18n('Y-m-d H:i', $date)
             : $fallback;
     }
 
     /**
      * @param mixed $date
-     * @return string
+     * @return string|void
      */
     public function relative($date)
     {
@@ -85,7 +95,7 @@ class Date
                 _n('%s year ago', '%s years ago', $unit, 'site-reviews'),
             ];
             $relativeDate = $relativeDates[$i];
-            return Str::contains($relativeDate, '%s')
+            return Str::contains('%s', $relativeDate)
                 ? sprintf($relativeDate, $unit)
                 : $relativeDate;
         }

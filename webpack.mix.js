@@ -1,13 +1,34 @@
 const mix = require('laravel-mix');
 const path = require('path');
+const postCss = namespace => {
+  return [
+    require('postcss-import'),
+    require('precss')(),
+    require('postcss-calc')({preserve: false}),
+    require('postcss-hexrgba'),
+    require('postcss-custom-properties')({preserve: false}),
+    require('./+/postcss/postcss-selector-namespaces')({namespace: namespace}),
+    require('autoprefixer'),
+  ];
+};
 
 require('laravel-mix-bundle-analyzer');
 
-mix.disableSuccessNotifications();
-
 mix.babelConfig({
-  presets: ["@wordpress/default"],
+  plugins: [
+    ['prismjs', {
+        'languages': ['javascript', 'php', 'html', 'css'],
+        'plugins': ['line-numbers'],
+        'css': false,
+    }],
+  ],
+  presets: [
+    "@babel/preset-env",
+    "@wordpress/default",
+  ],
 });
+
+mix.disableSuccessNotifications();
 
 mix.options({
   clearConsole: false,
@@ -28,7 +49,7 @@ mix.options({
         drop_console: mix.inProduction(),
       },
       mangle: {
-        properties: {regex: /[a-zA-Z]+_$/}
+        properties: {regex: /[a-zA-Z]+_$/},
       },
     },
   },
@@ -42,51 +63,38 @@ mix.webpackConfig({
 });
 
 mix
-  .babel([
-    '+/scripts/mce-plugin.js',
-  ], 'assets/scripts/mce-plugin.js')
-  .combine([
-    'node_modules/star-rating.js/src/star-rating.js',
-    '+/scripts/public/init.js',
-    '+/scripts/public/ajax.js',
-    '+/scripts/public/excerpts.js',
-    '+/scripts/public/forms.js',
-    '+/scripts/public/pagination.js',
-    '+/scripts/public/recaptcha.js',
-    '+/scripts/public/validation.js',
-    '+/scripts/site-reviews.js',
-  ], 'assets/scripts/site-reviews.js')
-  .combine([
-    '+/scripts/admin/ajax.js',
-    '+/scripts/admin/categories.js',
-    '+/scripts/admin/color-picker.js',
-    '+/scripts/admin/forms.js',
-    '+/scripts/admin/notices.js',
-    '+/scripts/admin/pinned.js',
-    '+/scripts/admin/pointers.js',
-    '+/scripts/admin/search.js',
-    '+/scripts/admin/serializer.js',
-    '+/scripts/admin/shortcode.js',
-    '+/scripts/admin/status.js',
-    '+/scripts/admin/sync.js',
-    '+/scripts/admin/tabs.js',
-    '+/scripts/admin/textarea-resize.js',
-    '+/scripts/admin/tools.js',
-    '+/scripts/site-reviews-admin.js',
-  ], 'assets/scripts/site-reviews-admin.js')
+  .babel('+/scripts/mce-plugin.js', 'assets/scripts/mce-plugin.js')
+  .js('+/scripts/site-reviews.js', 'assets/scripts')
+  .js('+/scripts/site-reviews-admin.js', 'assets/scripts')
   .js('+/scripts/site-reviews-blocks.js', 'assets/scripts')
-  .sass('+/styles/inline-styles.scss', 'assets/styles')
-  .sass('+/styles/site-reviews.scss', 'assets/styles')
-  .sass('+/styles/site-reviews-admin.scss', 'assets/styles')
-  .sass('+/styles/site-reviews-blocks.scss', 'assets/styles')
-  .sass('+/styles/custom/bootstrap_4_custom.scss', 'assets/styles/custom')
-  .sass('+/styles/custom/contact_form_7.scss', 'assets/styles/custom')
-  .sass('+/styles/custom/divi.scss', 'assets/styles/custom')
-  .sass('+/styles/custom/materialize.scss', 'assets/styles/custom')
-  .sass('+/styles/custom/minimal.scss', 'assets/styles/custom')
-  .sass('+/styles/custom/twentyfifteen.scss', 'assets/styles/custom')
-  .sass('+/styles/custom/twentynineteen.scss', 'assets/styles/custom')
-  .sass('+/styles/custom/twentyseventeen.scss', 'assets/styles/custom')
+  .sass('+/styles/admin.scss', 'assets/styles/admin')
+  .postCss('+/styles/inline-styles.css', 'assets/styles', postCss())
+  .postCss('+/styles/bootstrap_4.css', 'assets/styles', postCss('.glsr-bootstrap_4'))
+  .postCss('+/styles/bootstrap_4_custom.css', 'assets/styles', postCss('.glsr-bootstrap_4_custom'))
+  .postCss('+/styles/contact_form_7.css', 'assets/styles', postCss('.glsr-contact_form_7'))
+  .postCss('+/styles/default.css', 'assets/styles', postCss('.glsr-default'))
+  .postCss('+/styles/divi.css', 'assets/styles', postCss('.et-db #et-main-area .glsr-divi, .et-db #et-boc .glsr-divi, .glsr-divi'))
+  .postCss('+/styles/minimal.css', 'assets/styles', postCss('.glsr-minimal'))
+  .postCss('+/styles/ninja_forms.css', 'assets/styles', postCss('.glsr-ninja_forms'))
+  .postCss('+/styles/twentyfifteen.css', 'assets/styles', postCss('.glsr-twentyfifteen'))
+  .postCss('+/styles/twentynineteen.css', 'assets/styles', postCss('.glsr-twentynineteen'))
+  .postCss('+/styles/twentyseventeen.css', 'assets/styles', postCss('.glsr-twentyseventeen'))
+  .postCss('+/styles/twentysixteen.css', 'assets/styles', postCss('.glsr-twentysixteen'))
+  .postCss('+/styles/twentytwenty.css', 'assets/styles', postCss('.glsr-twentytwenty'))
+  .postCss('+/styles/wpforms.css', 'assets/styles', postCss('.glsr-wpforms'))
+  .postCss('+/styles/bootstrap_4-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
+  .postCss('+/styles/bootstrap_4_custom-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
+  .postCss('+/styles/contact_form_7-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
+  .postCss('+/styles/default-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
+  .postCss('+/styles/divi-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
+  .postCss('+/styles/minimal-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
+  .postCss('+/styles/ninja_forms-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
+  .postCss('+/styles/twentyfifteen-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
+  .postCss('+/styles/twentynineteen-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
+  .postCss('+/styles/twentyseventeen-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
+  .postCss('+/styles/twentysixteen-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
+  .postCss('+/styles/twentytwenty-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
+  .postCss('+/styles/wpforms-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
   .browserSync('site-reviews.test');
 
 if (mix.inProduction()) {

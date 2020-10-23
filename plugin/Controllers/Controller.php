@@ -2,11 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use Exception;
-use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Modules\Notice;
-use InvalidArgumentException;
-use WP_Error;
+use GeminiLabs\SiteReviews\Contracts\CommandContract;
+use WP_Query;
 
 abstract class Controller
 {
@@ -15,33 +12,22 @@ abstract class Controller
      */
     public function download($filename, $content)
     {
-        if (!glsr()->can('edit_others_posts')) {
-            return;
+        if (glsr()->can('edit_others_posts')) {
+            nocache_headers();
+            header('Content-Type: text/plain');
+            header('Content-Disposition: attachment; filename="'.$filename.'"');
+            echo html_entity_decode($content);
+            exit;
         }
-        nocache_headers();
-        header('Content-Type: text/plain');
-        header('Content-Disposition: attachment; filename="'.$filename.'"');
-        echo html_entity_decode($content);
-        exit;
     }
 
     /**
-     * @param object $command
      * @return mixed
-     * @throws InvalidArgumentException
      */
-    public function execute($command)
+    public function execute(CommandContract $command)
     {
-        $handlerClass = str_replace('Commands', 'Handlers', get_class($command));
-        if (!class_exists($handlerClass)) {
-            throw new InvalidArgumentException('Handler '.$handlerClass.' not found.');
-        }
-        try {
-            return glsr($handlerClass)->handle($command);
-        } catch (Exception $e) {
-            status_header(400);
-            glsr(Notice::class)->addError(new WP_Error('site_reviews_error', $e->getMessage()));
-            glsr_log()->error($e->getMessage());
+        if (method_exists($command, 'handle')) {
+            return $command->handle();
         }
     }
 
@@ -54,11 +40,23 @@ abstract class Controller
     }
 
     /**
-     * @param int $postId
      * @return bool
      */
-    protected function isReviewPostId($postId)
+    protected function hasQueryPermission(WP_Query $query)
     {
-        return Application::POST_TYPE == get_post_field('post_type', $postId);
+        global $pagenow;
+        return is_admin()
+            && $query->is_main_query()
+            && glsr()->post_type === $query->get('post_type')
+            && 'edit.php' === $pagenow;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isReviewAdminPage()
+    {
+        return is_admin()
+            && in_array(glsr()->post_type, [get_post_type(), filter_input(INPUT_GET, 'post_type')]);
     }
 }

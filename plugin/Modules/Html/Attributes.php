@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Attributes
@@ -21,8 +22,8 @@ class Attributes
     ];
 
     const ATTRIBUTES_IMG = [
-        'alt', 'crossorigin', 'decoding', 'height', 'ismap', 'referrerpolicy', 'sizes', 'src',
-        'srcset', 'width', 'usemap',
+        'alt', 'crossorigin', 'decoding', 'height', 'ismap', 'loading', 'referrerpolicy', 'sizes', 
+        'src', 'srcset', 'width', 'usemap',
     ];
 
     const ATTRIBUTES_INPUT = [
@@ -84,13 +85,21 @@ class Attributes
      */
     public function __call($method, $args)
     {
-        $args += [[], false];
         $constant = 'static::ATTRIBUTES_'.strtoupper($method);
         $allowedAttributeKeys = defined($constant)
             ? constant($constant)
             : [];
-        $this->normalize((array) $args[0], $allowedAttributeKeys);
+        $this->normalize(Arr::consolidate(Arr::get($args, 0)), $allowedAttributeKeys);
         $this->normalizeInputType($method);
+        return $this;
+    }
+
+    /**
+     * @return static
+     */
+    public function set(array $attributes)
+    {
+        $this->normalize($attributes);
         return $this;
     }
 
@@ -179,7 +188,7 @@ class Attributes
     /**
      * @return void
      */
-    protected function normalize(array $args, array $allowedAttributeKeys)
+    protected function normalize(array $args, array $allowedAttributeKeys = [])
     {
         $this->attributes = array_change_key_case($args, CASE_LOWER);
         $this->normalizeBooleanAttributes();
@@ -236,10 +245,9 @@ class Attributes
     protected function normalizeStringAttributes()
     {
         foreach ($this->attributes as $key => $value) {
-            if (!is_string($value)) {
-                continue;
+            if (is_string($value)) {
+                $this->attributes[$key] = trim($value);
             }
-            $this->attributes[$key] = trim($value);
         }
     }
 

@@ -16,6 +16,11 @@ class Email
     /**
      * @var array
      */
+    public $data;
+
+    /**
+     * @var array
+     */
     public $email;
 
     /**
@@ -41,8 +46,9 @@ class Email
     /**
      * @return Email
      */
-    public function compose(array $email)
+    public function compose(array $email, array $data = [])
     {
+        $this->data = $data;
         $this->normalize($email);
         $this->attachments = $this->email['attachments'];
         $this->headers = $this->buildHeaders();
@@ -54,14 +60,25 @@ class Email
     }
 
     /**
+     * @param \WP_Error $error
+     * @return void
+     */
+    public function logMailError($error)
+    {
+        glsr_log()->error('Email was not sent (wp_mail failed)')
+            ->debug($this)
+            ->debug($error);
+    }
+
+    /**
      * @param string $format
-     * @return string|null
+     * @return string
      */
     public function read($format = '')
     {
         if ('plaintext' == $format) {
             $message = $this->stripHtmlTags($this->message);
-            return apply_filters('site-reviews/email/message', $message, 'text', $this);
+            return glsr()->filterString('email/message', $message, 'text', $this);
         }
         return $this->message;
     }
@@ -72,6 +89,7 @@ class Email
     public function send()
     {
         if (!$this->message || !$this->subject || !$this->to) {
+            glsr_log()->warning('The email was not sent because it is missing either the email address, subject, or message.');
             return;
         }
         add_action('wp_mail_failed', [$this, 'logMailError']);
@@ -100,7 +118,7 @@ class Email
             return;
         }
         $message = $this->stripHtmlTags($phpmailer->Body);
-        $phpmailer->AltBody = apply_filters('site-reviews/email/message', $message, 'text', $this);
+        $phpmailer->AltBody = glsr()->filterString('email/message', $message, 'text', $this);
     }
 
     /**
@@ -118,7 +136,7 @@ class Email
             $headers[] = $key.': '.$value;
         }
         $headers[] = 'Content-Type: text/html';
-        return apply_filters('site-reviews/email/headers', $headers, $this);
+        return glsr()->filterArray('email/headers', $headers, $this);
     }
 
     /**
@@ -126,21 +144,7 @@ class Email
      */
     protected function buildHtmlMessage()
     {
-        $template = trim(glsr(OptionManager::class)->get('settings.general.notification_message'));
-        if (!empty($template)) {
-            $message = glsr(Template::class)->interpolate(
-                $template, 
-                ['context' => $this->email['template-tags']], 
-                $this->email['template']
-            );
-        } elseif ($this->email['template']) {
-            $message = glsr(Template::class)->build('templates/'.$this->email['template'], [
-                'context' => $this->email['template-tags'],
-            ]);
-        }
-        if (!isset($message)) {
-            $message = $this->email['message'];
-        }
+        $message = $this->buildMessage();
         $message = $this->email['before'].$message.$this->email['after'];
         $message = strip_shortcodes($message);
         $message = wptexturize($message);
@@ -150,18 +154,25 @@ class Email
         $message = glsr(Template::class)->build('partials/email/index', [
             'context' => ['message' => $message],
         ]);
-        return apply_filters('site-reviews/email/message', stripslashes($message), 'html', $this);
+        return glsr()->filterString('email/message', stripslashes($message), 'html', $this);
     }
 
     /**
-     * @param \WP_Error $error
-     * @return void
+     * @return string
      */
-    protected function logMailError($error)
+    protected function buildMessage()
     {
-        glsr_log()->error('Email was not sent (wp_mail failed)')
-            ->debug($this)
-            ->debug($error);
+        if (!empty($this->email['message'])) {
+            return $this->email['message'];
+        }
+        $context = ['context' => $this->email['template-tags']];
+        $template = trim(glsr(OptionManager::class)->get('settings.general.notification_message'));
+        if (!empty($template)) {
+            return glsr(Template::class)->interpolate($template, $context, $this->email['template']);
+        } elseif ($this->email['template']) {
+            return glsr(Template::class)->build('templates/'.$this->email['template'], $context);
+        }
+        return '';
     }
 
     /**
@@ -169,11 +180,8 @@ class Email
      */
     protected function normalize(array $email = [])
     {
-        $email = shortcode_atts(glsr(EmailDefaults::class)->defaults(), $email);
-        if (empty($email['reply-to'])) {
-            $email['reply-to'] = $email['from'];
-        }
-        $this->email = apply_filters('site-reviews/email/compose', $email, $this);
+        $email = glsr(EmailDefaults::class)->restrict($email);
+        $this->email = glsr()->filterArray('email/compose', $email, $this);
     }
 
     /**
@@ -182,11 +190,12 @@ class Email
     protected function reset()
     {
         $this->attachments = [];
+        $this->data = [];
         $this->email = [];
         $this->headers = [];
-        $this->message = null;
-        $this->subject = null;
-        $this->to = null;
+        $this->message = '';
+        $this->subject = '';
+        $this->to = '';
     }
 
     /**

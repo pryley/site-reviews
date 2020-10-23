@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\Vectorface\Whip\Whip;
 
 class Helper
@@ -29,7 +30,7 @@ class Helper
      */
     public static function buildMethodName($name, $prefix = '')
     {
-        return lcfirst($prefix.static::buildClassName($name));
+        return lcfirst(Str::camelCase($prefix.'-'.$name));
     }
 
     /**
@@ -42,76 +43,16 @@ class Helper
     }
 
     /**
-     * @param string $cast
-     * @param mixed $value
-     * @return mixed
-     */
-    public static function castTo($cast = '', $value)
-    {
-        $method = static::buildMethodName($cast, 'castTo');
-        return !empty($cast) && method_exists(__CLASS__, $method)
-            ? static::$method($value)
-            : $value;
-    }
-
-    /**
-     * @param mixed $value
-     * @return array
-     */
-    public static function castToArray($value)
-    {
-        return (array) $value;
-    }
-
-    /**
-     * @param mixed $value
+     * @param int|string $version1
+     * @param int|string $version2
+     * @param string $operator
      * @return bool
      */
-    public static function castToBool($value)
+    public static function compareVersions($version1, $version2, $operator = '=')
     {
-        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
-    }
-
-    /**
-     * @param mixed $value
-     * @return float
-     */
-    public static function castToFloat($value)
-    {
-        return (float) filter_var($value, FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_THOUSAND);
-    }
-
-    /**
-     * @param mixed $value
-     * @return int
-     */
-    public static function castToInt($value)
-    {
-        return (int) filter_var($value, FILTER_VALIDATE_INT);
-    }
-
-    /**
-     * @param mixed $value
-     * @return object
-     */
-    public static function castToObject($value)
-    {
-        return (object) (array) $value;
-    }
-
-    /**
-     * @param mixed $value
-     * @return string
-     */
-    public static function castToString($value)
-    {
-        if (is_object($value) && in_array('__toString', get_class_methods($value))) {
-            return (string) $value->__toString();
-        }
-        if (is_array($value) || is_object($value)) {
-            return serialize($value);
-        }
-        return (string) $value;
+        $version1 = implode('.', array_pad(explode('.', $version1), 3, 0));
+        $version2 = implode('.', array_pad(explode('.', $version2), 3, 0));
+        return version_compare($version1, $version2, $operator);
     }
 
     /**
@@ -150,22 +91,76 @@ class Helper
     {
         $whitelist = [];
         $isUsingCloudflare = !empty(filter_input(INPUT_SERVER, 'CF-Connecting-IP'));
-        if (apply_filters('site-reviews/whip/whitelist/cloudflare', $isUsingCloudflare)) {
+        if (glsr()->filterBool('whip/whitelist/cloudflare', $isUsingCloudflare)) {
             $cloudflareIps = glsr(Cache::class)->getCloudflareIps();
             $whitelist[Whip::CLOUDFLARE_HEADERS] = [Whip::IPV4 => $cloudflareIps['v4']];
             if (defined('AF_INET6')) {
                 $whitelist[Whip::CLOUDFLARE_HEADERS][Whip::IPV6] = $cloudflareIps['v6'];
             }
         }
-        $whitelist = apply_filters('site-reviews/whip/whitelist', $whitelist);
-        $methods = apply_filters('site-reviews/whip/methods', Whip::ALL_METHODS);
+        $whitelist = glsr()->filterArray('whip/whitelist', $whitelist);
+        $methods = glsr()->filterInt('whip/methods', Whip::ALL_METHODS);
         $whip = new Whip($methods, $whitelist);
-        do_action_ref_array('site-reviews/whip', [$whip]);
+        glsr()->action('whip', $whip);
         if (false !== ($clientAddress = $whip->getValidIpAddress())) {
             return (string) $clientAddress;
         }
-        glsr_log()->error('Unable to detect IP address.');
+        glsr_log()->error('Unable to detect IP address, please see the FAQ page for a possible solution.');
         return 'unknown';
+    }
+
+    /**
+     * @param string $fromUrl
+     * @param int $fallback
+     * @return int
+     */
+    public static function getPageNumber($fromUrl = null, $fallback = 1)
+    {
+        $pagedQueryVar = glsr()->constant('PAGED_QUERY_VAR');
+        $pageNum = empty($fromUrl)
+            ? filter_input(INPUT_GET, $pagedQueryVar, FILTER_VALIDATE_INT)
+            : filter_var(Url::query($fromUrl, $pagedQueryVar), FILTER_VALIDATE_INT);
+        if (empty($pageNum)) {
+            $pageNum = (int) $fallback;
+        }
+        return max(1, $pageNum);
+    }
+
+    /**
+     * @param mixed $post
+     * @return int
+     */
+    public static function getPostId($post)
+    {
+        if (is_numeric($post) || $post instanceof \WP_Post) {
+            $post = get_post($post);
+        }
+        if ($post instanceof \WP_Post) {
+            return $post->ID;
+        }
+        return 0;
+    }
+
+    /**
+     * @param mixed $value
+     * @param mixed $fallback
+     * @return mixed
+     */
+    public static function ifEmpty($value, $fallback, $strict = false)
+    {
+        $isEmpty = $strict ? empty($value) : static::isEmpty($value);
+        return $isEmpty ? $fallback : $value;
+    }
+
+    /**
+     * @param bool $condition
+     * @param mixed $ifTrue
+     * @param mixed $ifFalse
+     * @return mixed
+     */
+    public static function ifTrue($condition, $ifTrue, $ifFalse = null)
+    {
+        return $condition ? static::runClosure($ifTrue) : static::runClosure($ifFalse);
     }
 
     /**
@@ -184,13 +179,22 @@ class Helper
     }
 
     /**
+     * @param mixed $value
+     * @return bool
+     */
+    public static function isEmpty($value)
+    {
+        return !is_numeric($value) && !is_bool($value) && empty($value);
+    }
+
+    /**
      * @param int|string $value
      * @param int|string $compareWithValue
      * @return bool
      */
     public static function isGreaterThan($value, $compareWithValue)
     {
-        return version_compare($value, $compareWithValue, '>');
+        return static::compareVersions($value, $compareWithValue, '>');
     }
 
     /**
@@ -200,7 +204,7 @@ class Helper
      */
     public static function isGreaterThanOrEqual($value, $compareWithValue)
     {
-        return version_compare($value, $compareWithValue, '>=');
+        return static::compareVersions($value, $compareWithValue, '>=');
     }
 
     /**
@@ -210,7 +214,7 @@ class Helper
      */
     public static function isLessThan($value, $compareWithValue)
     {
-        return version_compare($value, $compareWithValue, '<');
+        return static::compareVersions($value, $compareWithValue, '<');
     }
 
     /**
@@ -220,6 +224,27 @@ class Helper
      */
     public static function isLessThanOrEqual($value, $compareWithValue)
     {
-        return version_compare($value, $compareWithValue, '<=');
+        return static::compareVersions($value, $compareWithValue, '<=');
+    }
+
+    /**
+     * @param mixed $value
+     * @return bool
+     */
+    public static function isNotEmpty($value)
+    {
+        return !static::isEmpty($value);
+    }
+
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    public static function runClosure($value)
+    {
+        if ($value instanceof \Closure || (is_array($value) && is_callable($value))) {
+            return call_user_func($value);
+        }
+        return $value;
     }
 }

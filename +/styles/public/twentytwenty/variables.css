@@ -1,0 +1,35 @@
+@import "../default/variables";
+
+:root {
+    --glsr-white                : #ffffff;
+    --glsr-gray-light           : #dcd7ca;
+    --glsr-gray                 : #9fa6b2; /*gray-400*/
+    --glsr-gray-dark            : #6b7280; /*gray-500*/
+    --glsr-black                : #161e2e; /*gray-900*/
+    --glsr-blue                 : #21759b; /*blue-600*/
+    --glsr-green                : #057a55; /*green-600*/
+    --glsr-red                  : #cd2653; /*red-600*/
+    --glsr-yellow               : #faca15; /*yellow-300*/
+
+    --glsr-base-font-size       : 18px;
+    --glsr-border-radius        : 0;
+    --glsr-box-shadow           : 0 0 0 0.2rem rgba(var(--glsr-gray-dark), .15);
+    --glsr-font-family-sans     : "Inter var", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif;
+    --glsr-font-family-serif    : NonBreakingSpaceOverride, "Hoefler Text", Garamond, "Times New Roman", serif;
+    --glsr-font-size-small      : 1.6rem;
+    --glsr-font-size            : 1.8rem;
+    --glsr-font-size-large      : 2rem;
+    --glsr-line-height          : 1.5;
+
+    --glsr-toggle-bg-active     : var(--glsr-red);
+    --glsr-toggle-size          : 2.2rem;
+
+    --glsr-form-border-color    : var(--glsr-gray-light);
+    --glsr-form-border-width    : 0.1rem;
+    --glsr-form-font-size-small : 1.4rem;
+    --glsr-form-font-size       : 1.6rem;
+    --glsr-form-py              : 1.5rem;
+    --glsr-form-px              : 1.8rem;
+
+    --glsr-summary-max-width    : 40rem;
+}

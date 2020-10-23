@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\RegisterPostType;
 use GeminiLabs\SiteReviews\Commands\RegisterShortcodes;
 use GeminiLabs\SiteReviews\Commands\RegisterTaxonomy;
@@ -12,39 +11,21 @@ class MainController extends Controller
 {
     /**
      * @return void
+     * @action admin_footer
+     * @action wp_footer
+     */
+    public function logOnce()
+    {
+        glsr_log()->logOnce();
+    }
+
+    /**
+     * @return void
      * @action init
      */
     public function registerPostType()
     {
-        if (!glsr()->hasPermission()) {
-            return;
-        }
-        $command = new RegisterPostType([
-            'capabilities' => ['create_posts' => 'create_'.Application::POST_TYPE],
-            'capability_type' => Application::POST_TYPE,
-            'columns' => [
-                'title' => '',
-                'category' => '',
-                'assigned_to' => __('Assigned To', 'site-reviews'),
-                'reviewer' => __('Author', 'site-reviews'),
-                'email' => __('Email', 'site-reviews'),
-                'ip_address' => __('IP Address', 'site-reviews'),
-                'response' => __('Response', 'site-reviews'),
-                'review_type' => __('Type', 'site-reviews'),
-                'rating' => __('Rating', 'site-reviews'),
-                'pinned' => __('Pinned', 'site-reviews'),
-                'date' => '',
-            ],
-            'menu_icon' => 'dashicons-star-half',
-            'menu_name' => glsr()->name,
-            'map_meta_cap' => true,
-            'plural' => __('Reviews', 'site-reviews'),
-            'post_type' => Application::POST_TYPE,
-            'rest_controller_class' => RestReviewController::class,
-            'show_in_rest' => true,
-            'single' => __('Review', 'site-reviews'),
-        ]);
-        $this->execute($command);
+        $this->execute(new RegisterPostType());
     }
 
     /**
@@ -53,12 +34,11 @@ class MainController extends Controller
      */
     public function registerShortcodes()
     {
-        $command = new RegisterShortcodes([
+        $this->execute(new RegisterShortcodes([
             'site_reviews',
             'site_reviews_form',
             'site_reviews_summary',
-        ]);
-        $this->execute($command);
+        ]));
     }
 
     /**
@@ -67,16 +47,15 @@ class MainController extends Controller
      */
     public function registerTaxonomy()
     {
-        $command = new RegisterTaxonomy([
+        $this->execute(new RegisterTaxonomy([
             'hierarchical' => true,
-            'meta_box_cb' => [glsr(EditorController::class), 'renderTaxonomyMetabox'],
+            'meta_box_cb' => [glsr(MetaboxController::class), 'renderTaxonomyMetabox'],
             'public' => false,
             'rest_controller_class' => RestCategoryController::class,
             'show_admin_column' => true,
             'show_in_rest' => true,
             'show_ui' => true,
-        ]);
-        $this->execute($command);
+        ]));
     }
 
     /**
@@ -85,11 +64,19 @@ class MainController extends Controller
      */
     public function registerWidgets()
     {
-        $command = new RegisterWidgets([
-            'site-reviews',
-            'site-reviews-form',
-            'site-reviews-summary',
-        ]);
-        $this->execute($command);
+        $this->execute(new RegisterWidgets([
+            'site-reviews' => [
+                'description' => _x('Site Reviews: Display your recent reviews.', 'admin-text', 'site-reviews'),
+                'name' => _x('Recent Reviews', 'admin-text', 'site-reviews'),
+            ],
+            'site-reviews-form' => [
+                'description' => _x('Site Reviews: Display a form to submit reviews.', 'admin-text', 'site-reviews'),
+                'name' => _x('Submit a Review', 'admin-text', 'site-reviews'),
+            ],
+            'site-reviews-summary' => [
+                'description' => _x('Site Reviews: Display a summary of your reviews.', 'admin-text', 'site-reviews'),
+                'name' => _x('Summary of Reviews', 'admin-text', 'site-reviews'),
+            ],
+        ]));
     }
 }

@@ -2,9 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
-use WP_REST_Request as Request;
-use WP_REST_Response as Response;
 use WP_REST_Server as Server;
 use WP_REST_Term_Meta_Fields;
 use WP_REST_Terms_Controller as RestController;
@@ -13,10 +10,10 @@ class RestCategoryController extends RestController
 {
     public function __construct()
     {
-        $this->meta = new WP_REST_Term_Meta_Fields(Application::TAXONOMY);
-        $this->namespace = Application::ID.'/v1';
+        $this->meta = new WP_REST_Term_Meta_Fields(glsr()->taxonomy);
+        $this->namespace = glsr()->id.'/v1';
         $this->rest_base = 'categories';
-        $this->taxonomy = Application::TAXONOMY;
+        $this->taxonomy = glsr()->taxonomy;
     }
 
     /**

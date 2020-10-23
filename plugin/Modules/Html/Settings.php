@@ -67,10 +67,9 @@ class Settings
         $rows = '';
         foreach ($fields as $name => $field) {
             $field = wp_parse_args($field, [
-                'is_setting' => true,
                 'name' => $name,
             ]);
-            $rows.= new Field($this->normalize($field));
+            $rows.= new SettingField($this->normalize($field));
         }
         return $rows;
     }
@@ -96,7 +95,7 @@ class Settings
     protected function getTemplateDataForAddons($id)
     {
         $fields = $this->getSettingFields($this->normalizeSettingPath($id));
-        $settings = Arr::convertDotNotationArray($fields);
+        $settings = Arr::convertFromDotNotation($fields);
         $settingKeys = array_keys($settings['settings']['addons']);
         $results = [];
         foreach ($settingKeys as $key) {
@@ -244,6 +243,6 @@ class Settings
      */
     protected function normalizeSettingPath($path)
     {
-        return Str::prefix('settings.', rtrim($path, '.'));
+        return Str::prefix(rtrim($path, '.'), 'settings.');
     }
 }

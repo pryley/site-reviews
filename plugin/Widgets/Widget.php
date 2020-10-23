@@ -2,7 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Widgets;
 
-use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Modules\Html\WidgetBuilder;
 use WP_Widget;
 
 abstract class Widget extends WP_Widget
@@ -10,19 +11,37 @@ abstract class Widget extends WP_Widget
     /**
      * @var array
      */
+    protected $mapped = [ // @compat 4.0
+        'assign_to' => 'assigned_posts',
+        'assigned_to' => 'assigned_posts',
+        'category' => 'assigned_terms',
+        'per_page' => 'display',
+        'user' => 'assigned_users',
+    ];
+
+    /**
+     * @var array
+     */
     protected $widgetArgs;
 
     /**
-     * @param string $tag
+     * @param array $args
+     * @param array $instance
      * @return void
      */
-    protected function renderField($tag, array $args = [])
+    public function widget($args, $instance)
     {
-        $args = $this->normalizeFieldAttributes($tag, $args);
-        $field = glsr(Builder::class)->$tag($args['name'], $args);
-        echo glsr(Builder::class)->div($field, [
-            'class' => 'glsr-field',
-        ]);
+        echo $this->shortcode()->build($instance, $args, 'widget');
+    }
+
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    protected function mapped($key)
+    {
+        $key = Arr::get($this->mapped, $key, $key);
+        return Arr::get($this->widgetArgs, $key);
     }
 
     /**
@@ -32,14 +51,30 @@ abstract class Widget extends WP_Widget
     protected function normalizeFieldAttributes($tag, array $args)
     {
         if (empty($args['value'])) {
-            $args['value'] = $this->widgetArgs[$args['name']];
+            $args['value'] = $this->mapped($args['name']);
         }
-        if (empty($this->widgetArgs['options']) && in_array($tag, ['checkbox', 'radio'])) {
-            $args['checked'] = in_array($args['value'], (array) $this->widgetArgs[$args['name']]);
+        if (empty($this->mapped('options')) && in_array($tag, ['checkbox', 'radio'])) {
+            $args['checked'] = in_array($args['value'], (array) $this->mapped($args['name']));
         }
         $args['id'] = $this->get_field_id($args['name']);
         $args['name'] = $this->get_field_name($args['name']);
-        $args['is_widget'] = true;
         return $args;
     }
+
+    /**
+     * @param string $tag
+     * @return void
+     */
+    protected function renderField($tag, array $args = [])
+    {
+        $args = $this->normalizeFieldAttributes($tag, $args);
+        echo glsr(WidgetBuilder::class)->p([
+            'text' => glsr(WidgetBuilder::class)->$tag($args),
+        ]);
+    }
+
+    /**
+     * @return \GeminiLabs\SiteReviews\Shortcodes\Shortcode
+     */
+    abstract protected function shortcode();
 }

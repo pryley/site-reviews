@@ -2,12 +2,25 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Modules\Style;
 
 class BlocksController extends Controller
 {
+    /**
+     * @param array $blockTypes
+     * @param \WP_Post $post
+     * @return array
+     * @filter allowed_block_types
+     */
+    public function filterAllowedBlockTypes($blockTypes, $post)
+    {
+        return glsr()->post_type !== get_post_type($post)
+            ? $blockTypes
+            : [];
+    }
+
     /**
      * @param array $categories
      * @return array
@@ -15,10 +28,10 @@ class BlocksController extends Controller
      */
     public function filterBlockCategories($categories)
     {
-        $categories = Arr::consolidateArray($categories);
+        $categories = Arr::consolidate($categories);
         $categories[] = [
             'icon' => null,
-            'slug' => Application::ID,
+            'slug' => glsr()->id,
             'title' => glsr()->name,
         ];
         return $categories;
@@ -33,7 +46,7 @@ class BlocksController extends Controller
      */
     public function filterEnabledEditors($editors, $postType)
     {
-        return Application::POST_TYPE == $postType
+        return glsr()->post_type == $postType
             ? ['block_editor' => false, 'classic_editor' => false]
             : $editors;
     }
@@ -46,7 +59,7 @@ class BlocksController extends Controller
      */
     public function filterUseBlockEditor($bool, $postType)
     {
-        return Application::POST_TYPE == $postType
+        return glsr()->post_type == $postType
             ? false
             : $bool;
     }
@@ -58,15 +71,15 @@ class BlocksController extends Controller
     public function registerAssets()
     {
         wp_register_style(
-            Application::ID.'/blocks',
-            glsr()->url('assets/styles/'.Application::ID.'-blocks.css'),
+            glsr()->id.'/blocks',
+            $this->getStylesheet(),
             ['wp-edit-blocks'],
             glsr()->version
         );
         wp_register_script(
-            Application::ID.'/blocks',
-            glsr()->url('assets/scripts/'.Application::ID.'-blocks.js'),
-            ['wp-api-fetch', 'wp-blocks', 'wp-i18n', 'wp-editor', 'wp-element', Application::ID],
+            glsr()->id.'/blocks',
+            glsr()->url('assets/scripts/'.glsr()->id.'-blocks.js'),
+            ['wp-api-fetch', 'wp-blocks', 'wp-i18n', 'wp-editor', 'wp-element', glsr()->id.'/admin'],
             glsr()->version
         );
     }
@@ -81,13 +94,22 @@ class BlocksController extends Controller
             'form', 'reviews', 'summary',
         ];
         foreach ($blocks as $block) {
-            $id = str_replace('_reviews', '', Application::ID.'_'.$block);
+            $id = str_replace('_reviews', '', glsr()->id.'_'.$block);
             $blockClass = Helper::buildClassName($id.'-block', 'Blocks');
             if (!class_exists($blockClass)) {
-                glsr_log()->error(sprintf('Class missing (%s)', $blockClass));
+                glsr_log()->error(sprintf('Block class missing (%s)', $blockClass));
                 continue;
             }
             glsr($blockClass)->register($block);
         }
+    }
+
+    /**
+     * @return string
+     */
+    protected function getStylesheet()
+    {
+        $style = glsr(Style::class)->style;
+        return glsr()->url('assets/styles/blocks/'.$style.'-blocks.css');
     }
 }

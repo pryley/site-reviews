@@ -1,0 +1,9 @@
+@import "../default/variables";
+
+:root {
+    --glsr-white                   : #ffffff; /*white*/
+    --glsr-gray-light              : #D3D3D3; /*lightgray*/
+    --glsr-gray                    : #C0C0C0; /*silver*/
+    --glsr-gray-dark               : #808080; /*gray*/
+    --glsr-black                   : #000000; /*black*/
+}

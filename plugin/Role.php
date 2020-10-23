@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews;
 
-use GeminiLabs\SiteReviews\Application;
-
 class Role
 {
     /**
@@ -79,7 +77,7 @@ class Role
             'read_post',
             'read_private_posts',
         ];
-        return apply_filters('site-reviews/capabilities', $capabilities);
+        return glsr()->filterArray('capabilities', $capabilities);
     }
 
     /**
@@ -88,7 +86,7 @@ class Role
      */
     protected function normalizeCapability($capability)
     {
-        return str_replace('post', Application::POST_TYPE, $capability);
+        return str_replace('post', glsr()->post_type, $capability);
     }
 
     /**
@@ -133,6 +131,6 @@ class Role
                 'edit_posts',
             ],
         ];
-        return apply_filters('site-reviews/capabilities/for-roles', $capabilities);
+        return glsr()->filterArray('capabilities/for-roles', $capabilities);
     }
 }

@@ -4,19 +4,17 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 ## Proposed features
 
-- [ ] Add a CSS class to shortcodes to reflect the selected plugin style (i.e. .glsr-minimal)
+- [ ] Add "More Details" modal to addons (ref: Plugins > Add New)
 - [ ] Add a single-use notice on the settings page to encourage users to rate the plugin (ref: Polylang)
-- [ ] Custom classes to track form submission status (i.e. is-spam, has-failed, nonce-failed, etc.)
-- [ ] Integrate with WordPress GDPR controls
-- [ ] reCAPTCHA v3 support
-- [ ] Restrict summary rating counts to latest user reviews only (option only available if "require login" setting is enabled)
+- [ ] Add a time constraint to review limits
+- [ ] Add Initial REST API support for querying reviews
+- [ ] Allow review submissions without javascript (ref: comment form)
+- [ ] Integrate with Antispam Bee (https://wordpress.org/plugins/antispam-bee/)
+- [ ] Restrict reviews in the admin to those assigned to pages of the current user
 - [ ] Review statistics
 - [ ] Store the review GEO location by IP
-- [ ] Throttle anonymous review submissions
-- [ ] Use REST API for ajax calls instead of admin-ajax.php (ref: Contact Form 7)
 - [ ] Version rollback (ref: WP Rocket)
 - [ ] View all reviews by author
-- [ ] WP REST API support
 
 ## Upcoming Add-ons
 
@@ -29,7 +27,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Multi-Ratings (for rating individual services of a business)
 - [ ] Questions and Answers
 - [ ] Review Builder (add/remove/drag-drop to order)
-- [-] Review Filters (filter, search, sort)
+- [x] Review Filters (filter, search, sort)
 - [ ] Review Form Builder
 - [x] Review Images
 - [ ] Review Themes (customization of stars (star, thumb, emote, percent), fonts, colors, layouts, etc.)
@@ -43,7 +41,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Etsy Reviews
 - [ ] Facebook Reviews
 - [ ] Google Reviews
-- [x] Tripadvisor Reviews
+- [x] Tripadvisor Reviews (done, but needs an additional service to make it work consistantly)
 - [ ] Trustpilot Reviews
 - [ ] WooCommerce (incl. review reminders, verified reviews)
 - [ ] Yelp Reviews

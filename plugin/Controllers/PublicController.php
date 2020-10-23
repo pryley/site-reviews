@@ -2,14 +2,17 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
-use GeminiLabs\SiteReviews\Handlers\EnqueuePublicAssets;
+use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
+use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Modules\Style;
-use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
+use GeminiLabs\SiteReviews\Request;
 
 class PublicController extends Controller
 {
@@ -19,7 +22,29 @@ class PublicController extends Controller
      */
     public function enqueueAssets()
     {
-        (new EnqueuePublicAssets())->handle();
+        $this->execute(new EnqueuePublicAssets());
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/ajax/fetch-paged-reviews
+     */
+    public function fetchPagedReviewsAjax(Request $request)
+    {
+        glsr()->store(glsr()->paged_handle, $request);
+        $args = [
+            'pagination' => 'ajax',
+            'schema' => false,
+        ];
+        $args = wp_parse_args($args, Arr::consolidate($request->atts));
+        $args = glsr(SiteReviewsDefaults::class)->restrict($args);
+        $html = glsr(SiteReviews::class)->build($args);
+        $response = [
+            'pagination' => $html->getPagination($wrap = false),
+            'reviews' => $html->getReviews(),
+        ];
+        glsr()->discard(glsr()->paged_handle);
+        wp_send_json_success($response);
     }
 
     /**
@@ -28,13 +53,13 @@ class PublicController extends Controller
      * @return string
      * @filter script_loader_tag
      */
-    public function filterEnqueuedScripts($tag, $handle)
+    public function filterEnqueuedScriptTags($tag, $handle)
     {
-        $scripts = [Application::ID.'/google-recaptcha'];
-        if (in_array($handle, apply_filters('site-reviews/async-scripts', $scripts))) {
+        $scripts = [glsr()->id.'/google-recaptcha'];
+        if (in_array($handle, glsr()->filterArray('async-scripts', $scripts))) {
             $tag = str_replace(' src=', ' async src=', $tag);
         }
-        if (in_array($handle, apply_filters('site-reviews/defer-scripts', $scripts))) {
+        if (in_array($handle, glsr()->filterArray('defer-scripts', $scripts))) {
             $tag = str_replace(' src=', ' defer src=', $tag);
         }
         return $tag;
@@ -42,11 +67,12 @@ class PublicController extends Controller
 
     /**
      * @return array
-     * @filter site-reviews/config/forms/submission-form
+     * @filter site-reviews/config/forms/review-form
      */
     public function filterFieldOrder(array $config)
     {
-        $order = (array) apply_filters('site-reviews/submission-form/order', array_keys($config));
+        $order = array_keys($config);
+        $order = glsr()->filterArray('review-form/order', $order);
         return array_intersect_key(array_merge(array_flip($order), $config), $config);
     }
 
@@ -64,9 +90,12 @@ class PublicController extends Controller
      * @return void
      * @action site-reviews/builder
      */
-    public function modifyBuilder(Builder $instance)
+    public function modifyBuilder(Builder $builder)
     {
-        call_user_func_array([glsr(Style::class), 'modifyField'], [$instance]);
+        $reflection = new \ReflectionClass($builder);
+        if ('Builder' === $reflection->getShortName()) { // only modify public fields
+            call_user_func_array([glsr(Style::class), 'modifyField'], [$builder]);
+        }
     }
 
     /**
@@ -79,15 +108,28 @@ class PublicController extends Controller
     }
 
     /**
-     * @return CreateReview
+     * @return void
+     * @action site-reviews/route/public/submit-review
      */
-    public function routerSubmitReview(array $request)
+    public function submitReview(Request $request)
     {
-        $validated = glsr(ValidateReview::class)->validate($request);
-        $command = new CreateReview($validated->request);
-        if (empty($validated->error) && !$validated->recaptchaIsUnset) {
-            $this->execute($command);
+        $command = $this->execute(new CreateReview($request));
+        if ($command->success()) {
+            wp_safe_redirect($command->referer()); // @todo add review ID to referer?
+            exit;
         }
-        return $command;
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/ajax/submit-review
+     */
+    public function submitReviewAjax(Request $request)
+    {
+        $command = $this->execute(new CreateReview($request));
+        if ($command->success()) {
+            wp_send_json_success($command->response());
+        }
+        wp_send_json_error($command->response());
     }
 }

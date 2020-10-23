@@ -12,10 +12,10 @@ class DefaultsManager
     public function defaults()
     {
         $settings = $this->settings();
-        $defaults = (array) array_combine(array_keys($settings), glsr_array_column($settings, 'default'));
+        $defaults = (array) array_combine(array_keys($settings), wp_list_pluck($settings, 'default'));
         return wp_parse_args($defaults, [
             'version' => '',
-            'version_upgraded_from' => '',
+            'version_upgraded_from' => '0.0.0',
         ]);
     }
 
@@ -24,7 +24,17 @@ class DefaultsManager
      */
     public function get()
     {
-        return Arr::convertDotNotationArray($this->defaults());
+        return Arr::convertFromDotNotation($this->defaults());
+    }
+
+    /**
+     * @param string $path
+     * @return mixed
+     */
+    public function pluck($path)
+    {
+        $settings = Arr::convertFromDotNotation($this->settings());
+        return Arr::get($settings, $path);
     }
 
     /**
@@ -33,7 +43,7 @@ class DefaultsManager
     public function set()
     {
         $settings = glsr(OptionManager::class)->all();
-        $currentSettings = Arr::removeEmptyArrayValues($settings);
+        $currentSettings = Arr::removeEmptyValues($settings);
         $defaultSettings = array_replace_recursive($this->get(), $currentSettings);
         $updatedSettings = array_replace_recursive($settings, $defaultSettings);
         update_option(OptionManager::databaseKey(), $updatedSettings);
@@ -45,7 +55,7 @@ class DefaultsManager
      */
     public function settings()
     {
-        $settings = apply_filters('site-reviews/addon/settings', glsr()->config('settings'));
+        $settings = glsr()->filterArray('addon/settings', glsr()->config('settings'));
         return $this->normalize($settings);
     }
 

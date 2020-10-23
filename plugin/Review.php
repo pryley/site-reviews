@@ -3,57 +3,81 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
+use GeminiLabs\SiteReviews\Defaults\ReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Avatar;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews as SiteReviewsPartial;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
-use WP_Post;
 
-class Review implements \ArrayAccess
+/**
+ * @property array $assigned_posts
+ * @property array $assigned_terms
+ * @property array $assigned_users
+ * @property string $author
+ * @property int $author_id
+ * @property string $avatar;
+ * @property string $content
+ * @property Arguments $custom
+ * @property string $date
+ * @property string $email
+ * @property int $ID
+ * @property string $ip_address
+ * @property bool $is_approved
+ * @property bool $is_modified
+ * @property bool $is_pinned
+ * @property int $rating
+ * @property int $rating_id
+ * @property string $response
+ * @property string $status
+ * @property string $title
+ * @property string $type
+ * @property string $url
+ */
+class Review extends Arguments
 {
-    public $assigned_to;
-    public $author;
-    public $avatar;
-    public $content;
-    public $custom;
-    public $date;
-    public $email;
-    public $ID;
-    public $ip_address;
-    public $modified;
-    public $pinned;
-    public $rating;
-    public $response;
-    public $review_id;
-    public $review_type;
-    public $status;
-    public $term_ids;
-    public $title;
-    public $url;
-    public $user_id;
-
-    public function __construct(WP_Post $post)
-    {
-        if (Application::POST_TYPE != $post->post_type) {
-            return;
-        }
-        $this->content = $post->post_content;
-        $this->date = $post->post_date;
-        $this->ID = intval($post->ID);
-        $this->status = $post->post_status;
-        $this->title = $post->post_title;
-        $this->user_id = intval($post->post_author);
-        $this->setProperties($post);
-        $this->setTermIds($post);
-    }
+    /**
+     * @var Arguments
+     */
+    protected $_meta;
 
     /**
-     * @return mixed
+     * @var \WP_Post
      */
-    public function __get($key)
+    protected $_post;
+
+    /**
+     * @var object
+     */
+    protected $_review;
+
+    /**
+     * @var bool
+     */
+    protected $has_checked_revisions;
+
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
+     * @param array|object $values
+     */
+    public function __construct($values)
     {
-        return $this->offsetGet($key);
+        $values = glsr()->args($values);
+        $this->id = Cast::toInt($values->review_id);
+        $args = glsr(ReviewDefaults::class)->restrict($values->toArray());
+        $args['custom'] = $this->custom();
+        $args['ID'] = $this->id;
+        $args['response'] = $this->meta()->_response;
+        parent::__construct($args);
     }
 
     /**
@@ -65,17 +89,85 @@ class Review implements \ArrayAccess
     }
 
     /**
+     * @param int $size
+     * @return string
+     */
+    public function avatar($size = null)
+    {
+        return glsr(Avatar::class)->img($this->get('avatar'), $size);
+    }
+
+    /**
      * @return ReviewHtml
      */
     public function build(array $args = [])
     {
-        if (empty($this->ID)) {
-            return new ReviewHtml($this);
+        return new ReviewHtml($this, $args);
+    }
+
+    /**
+     * @return Arguments
+     */
+    public function custom()
+    {
+        $custom = array_filter($this->meta()->toArray(), function ($key) {
+            return Str::startsWith('_custom', $key);
+        }, ARRAY_FILTER_USE_KEY);
+        $custom = Arr::unprefixKeys($custom, '_custom_');
+        $custom = Arr::unprefixKeys($custom, '_');
+        return glsr()->args($custom);
+    }
+
+    /**
+     * @return string
+     */
+    public function date($format = 'F j, Y')
+    {
+        return get_date_from_gmt($this->get('date'), $format);
+    }
+
+    /**
+     * @param int|\WP_Post $post
+     * @return bool
+     */
+    public static function isEditable($post)
+    {
+        $postId = Helper::getPostId($post);
+        return static::isReview($postId)
+            && post_type_supports(glsr()->post_type, 'title')
+            && 'local' === glsr(Query::class)->review($postId)->type;
+    }
+
+    /**
+     * @param \WP_Post|int|false $post
+     * @return bool
+     */
+    public static function isReview($post)
+    {
+        return glsr()->post_type === get_post_type($post);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValid()
+    {
+        return !empty($this->id) && !empty($this->get('rating_id'));
+    }
+
+    /**
+     * @return Arguments
+     */
+    public function meta()
+    {
+        if (!$this->_meta instanceof Arguments) {
+            $meta = Arr::consolidate(get_post_meta($this->id));
+            $meta = array_map('array_shift', array_filter($meta));
+            $meta = array_filter($meta, 'strlen');
+            $meta = array_map('maybe_unserialize', $meta);
+            $this->_meta = glsr()->args($meta);
         }
-        $partial = glsr(SiteReviewsPartial::class);
-        $partial->args = glsr(SiteReviewsDefaults::class)->merge($args);
-        $partial->options = Arr::flattenArray(glsr(OptionManager::class)->all());
-        return $partial->buildReview($this);
+        return $this->_meta;
     }
 
     /**
@@ -84,7 +176,7 @@ class Review implements \ArrayAccess
      */
     public function offsetExists($key)
     {
-        return property_exists($this, $key) || array_key_exists($key, (array) $this->custom);
+        return parent::offsetExists($key) || !is_null($this->custom()->$key);
     }
 
     /**
@@ -93,26 +185,40 @@ class Review implements \ArrayAccess
      */
     public function offsetGet($key)
     {
-        return property_exists($this, $key)
-            ? $this->$key
-            : Arr::get($this->custom, $key, null);
+        $alternateKeys = [
+            'approved' => 'is_approved',
+            'has_revisions' => 'is_modified',
+            'modified' => 'is_modified',
+            'name' => 'author',
+            'pinned' => 'is_pinned',
+            'user_id' => 'author_id',
+        ];
+        if (array_key_exists($key, $alternateKeys)) {
+            return $this->offsetGet($alternateKeys[$key]);
+        }
+        if ('is_modified' === $key) {
+            return $this->hasRevisions();
+        }
+        if (is_null($value = parent::offsetGet($key))) {
+            return $this->custom()->$key;
+        }
+        return $value;
     }
 
     /**
      * @param mixed $key
-     * @param mixed $value
      * @return void
      */
     public function offsetSet($key, $value)
     {
-        if (property_exists($this, $key)) {
-            $this->$key = $value;
-            return;
+        // This class is read-only, except for custom fields
+        if ('custom' === $key) {
+            $value = Arr::consolidate($value);
+            $value = Arr::prefixKeys($value, '_custom_');
+            $meta = wp_parse_args($this->_meta->toArray(), $value);
+            $this->_meta = glsr()->args($meta);
+            parent::offsetSet($key, $this->custom());
         }
-        if (!is_array($this->custom)) {
-            $this->custom = array_filter((array) $this->custom);
-        }
-        $this->custom[$key] = $value;
     }
 
     /**
@@ -121,7 +227,18 @@ class Review implements \ArrayAccess
      */
     public function offsetUnset($key)
     {
-        $this->offsetSet($key, null);
+        // This class is read-only
+    }
+
+    /**
+     * @return \WP_Post|null
+     */
+    public function post()
+    {
+        if (!$this->_post instanceof \WP_Post) {
+            $this->_post = get_post($this->id);
+        }
+        return $this->_post;
     }
 
     /**
@@ -133,52 +250,34 @@ class Review implements \ArrayAccess
     }
 
     /**
+     * @return string
+     */
+    public function rating()
+    {
+        return glsr_star_rating($this->get('rating'));
+    }
+
+    /**
+     * @return string
+     */
+    public function type()
+    {
+        $type = $this->get('type');
+        return array_key_exists($type, glsr()->reviewTypes)
+            ? glsr()->reviewTypes[$type]
+            : _x('Unknown', 'admin-text', 'site-reviews');
+    }
+
+    /**
      * @return bool
      */
-    protected function isModified(array $properties)
+    protected function hasRevisions()
     {
-        return $this->date != $properties['date']
-            || $this->content != $properties['content']
-            || $this->title != $properties['title'];
-    }
-
-    /**
-     * @return void
-     */
-    protected function setProperties(WP_Post $post)
-    {
-        $defaults = [
-            'author' => __('Anonymous', 'site-reviews'),
-            'date' => '',
-            'review_id' => '',
-            'review_type' => 'local',
-        ];
-        $meta = array_filter(
-            array_map('array_shift', array_filter((array) get_post_meta($post->ID))),
-            'strlen'
-        );
-        $meta = array_merge($defaults, Arr::unprefixArrayKeys($meta));
-        $properties = glsr(CreateReviewDefaults::class)->restrict(array_merge($defaults, $meta));
-        $this->modified = $this->isModified($properties);
-        array_walk($properties, function ($value, $key) {
-            if (!property_exists($this, $key) || isset($this->$key)) {
-                return;
-            }
-            $this->$key = maybe_unserialize($value);
-        });
-    }
-
-    /**
-     * @return void
-     */
-    protected function setTermIds(WP_Post $post)
-    {
-        $this->term_ids = [];
-        if (!is_array($terms = get_the_terms($post, Application::TAXONOMY))) {
-            return;
+        if (!$this->has_checked_revisions) {
+            $modified = glsr(Query::class)->hasRevisions($this->ID);
+            $this->set('is_modified', $modified);
+            $this->has_checked_revisions = true;
         }
-        foreach ($terms as $term) {
-            $this->term_ids[] = $term->term_id;
-        }
+        return $this->get('is_modified');
     }
 }

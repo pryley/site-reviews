@@ -1,0 +1,83 @@
+/*Form Input*/
+:--namespace form.glsr-form input.glsr-input,
+:--namespace form.glsr-form select.glsr-select,
+:--namespace form.glsr-form textarea.glsr-textarea {
+    appearance: none;
+    background-clip: padding-box;
+    background-color: var(--glsr-form-bg-color);
+    border-radius: var(--glsr-form-border-radius);
+    border: var(--glsr-form-border-width) solid var(--glsr-form-border-color);
+    box-sizing: border-box;
+    color: inherit; /* reset text color */
+    display: block;
+    float: none;
+    font-family: inherit;
+    font-size: var(--glsr-form-font-size);
+    line-height: var(--glsr-form-line-height);
+    margin-bottom: 0;
+    margin-top: 0;
+    max-width: none;
+    min-width: none;
+    transition: border-color var(--glsr-form-duration) ease-in-out;
+    width: 100%;
+}
+:--namespace form.glsr-form input.glsr-input {
+    overflow: visible; /* Show the overflow in IE and Edge. */
+    padding-top: var(--glsr-form-py);
+    padding-right: var(--glsr-form-px);
+    padding-bottom: var(--glsr-form-py);
+    padding-left: var(--glsr-form-px);
+}
+:--namespace form.glsr-form select.glsr-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3e%3cpath d='M7 7l3-3 3 3m0 6l-3 3-3-3' stroke='%239fa6b2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+    background-position: right 0.5em center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    color-adjust: exact;
+    height: auto;
+    max-height: none;
+    max-width: none;
+    min-height: none;
+    min-width: none;
+    padding-top: var(--glsr-form-py);
+    padding-right: 3em;
+    padding-bottom: var(--glsr-form-py);
+    padding-left: var(--glsr-form-px);
+    text-transform: none; /* Remove the inheritance of text transform in Firefox. */
+}
+:--namespace form.glsr-form select.glsr-select::-ms-expand {
+    border: none;
+    color: var(--glsr-gray);
+}
+@media not print {
+    :--namespace form.glsr-form select.glsr-select::-ms-expand {
+        display: none;
+    }
+}
+@media print and (-ms-high-contrast: active), print and (-ms-high-contrast: none) {
+    :--namespace form.glsr-form select.glsr-select {
+        padding-right: var(--glsr-form-px);
+    }
+}
+:--namespace form.glsr-form textarea.glsr-textarea {
+    padding-top: var(--glsr-form-py);
+    padding-right: var(--glsr-form-px);
+    padding-bottom: var(--glsr-form-py);
+    padding-left: var(--glsr-form-px);
+    overflow: auto; /* Remove the default vertical scrollbar in IE 10+. */
+    resize: vertical;
+}
+:--namespace form.glsr-form input.glsr-input:focus,
+:--namespace form.glsr-form select.glsr-select:focus,
+:--namespace form.glsr-form textarea.glsr-textarea:focus {
+    background-color: var(--glsr-form-bg-color);
+    outline: 1px solid transparent;
+    box-shadow: 0 0 0 3px Highlight;
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    box-shadow: 0 0 0 3px -webkit-focus-ring-color;
+}
+:--namespace form.glsr-form input.glsr-input.glsr-is-invalid,
+:--namespace form.glsr-form select.glsr-select.glsr-is-invalid,
+:--namespace form.glsr-form textarea.glsr-textarea.glsr-is-invalid {
+    border-color: var(--glsr-red);
+}

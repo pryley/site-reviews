@@ -4,7 +4,8 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
 use GeminiLabs\SiteReviews\Contracts\PartialContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Database\QueryBuilder;
+use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Style;
@@ -17,21 +18,20 @@ class Pagination implements PartialContract
     protected $args;
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function build(array $args = [])
     {
         $this->args = $this->normalize($args);
-        if ($this->args['total'] < 2) {
-            return '';
+        if ($this->args['total'] > 1) {
+            return glsr(Template::class)->build('templates/pagination', [
+                'context' => [
+                    'links' => glsr()->filterString('paginate_links', $this->buildLinks(), $this->args),
+                    'loader' => '<div class="glsr-loader"></div>',
+                    'screen_reader_text' => _x('Site Reviews navigation', 'screen reader text', 'site-reviews'),
+                ],
+            ]);
         }
-        return glsr(Template::class)->build('templates/pagination', [
-            'context' => [
-                'links' => apply_filters('site-reviews/paginate_links', $this->buildLinks(), $this->args),
-                'loader' => '<div class="glsr-loader"></div>',
-                'screen_reader_text' => __('Site Reviews navigation', 'site-reviews'),
-            ],
-        ]);
     }
 
     /**
@@ -42,13 +42,11 @@ class Pagination implements PartialContract
         $links = (array) paginate_links(wp_parse_args(['type' => 'array'], $this->args));
         $pattern = '/(href=["\'])([^"\']*?)(["\'])/i';
         foreach ($links as &$link) {
-            if (!preg_match($pattern, $link, $matches)) {
-                continue;
+            if (preg_match($pattern, $link, $matches)) {
+                $page = Helper::getPageNumber(Arr::get($matches, 2));
+                $replacement = sprintf('data-page="%d" href="#"', $page);
+                $link = str_replace(Arr::get($matches, 0), $replacement, $link);
             }
-            parse_str(parse_url(Arr::get($matches, 2), PHP_URL_QUERY), $urlQuery);
-            $page = (int) Arr::get($urlQuery, glsr()->constant('PAGED_QUERY_VAR'), 1);
-            $replacement = sprintf('data-page="%d" href="#"', $page);
-            $link = str_replace(Arr::get($matches, 0), $replacement, $link);
         }
         return implode("\n", $links);
     }
@@ -72,7 +70,7 @@ class Pagination implements PartialContract
             $args['base'] = $baseUrl.'%_%';
         }
         $args = wp_parse_args(array_filter($args), [
-            'current' => glsr(QueryBuilder::class)->getPaged(),
+            'current' => Helper::getPageNumber(),
             'total' => 1,
         ]);
         return glsr(Style::class)->paginationArgs($args);

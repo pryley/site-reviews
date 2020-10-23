@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Review;
 use WP_Post;
 
@@ -58,6 +59,10 @@ class Notification
      */
     protected function buildEmail(array $args)
     {
+        $data = [
+            'args' => $args,
+            'review' => $this->review,
+        ];
         return glsr(Email::class)->compose([
             'to' => $this->getEmailAddresses(),
             'subject' => $args['title'],
@@ -71,7 +76,7 @@ class Notification
                 'review_rating' => $this->review->rating,
                 'review_title' => $this->review->title,
             ],
-        ]);
+        ], $data);
     }
 
     /**
@@ -96,10 +101,12 @@ class Notification
             $emails[] = glsr(OptionManager::class)->getWP('admin_email');
         }
         if (in_array('author', $this->types)) {
-            $assignedPost = get_post(intval($this->review->assigned_to));
-            if ($assignedPost instanceof WP_Post) {
-                $this->email = true;
-                $emails[] = get_the_author_meta('user_email', intval($assignedPost->post_author));
+            foreach ($this->review->assigned_posts as $postId) {
+                $post = get_post($postId);
+                if ($post instanceof WP_Post) {
+                    $this->email = true;
+                    $emails[] = get_the_author_meta('user_email', intval($post->post_author));
+                }
             }
         }
         if (in_array('custom', $this->types)) {
@@ -109,7 +116,7 @@ class Notification
             $emails = array_merge($emails, $customEmails);
         }
         $emails = array_filter(array_keys(array_flip($emails)));
-        return apply_filters('site-reviews/notification/emails', $emails, $this->review);
+        return glsr()->filterArray('notification/emails', $emails, $this->review);
     }
 
     /**
@@ -125,19 +132,24 @@ class Notification
      */
     protected function getTitle()
     {
-        $assignedTitle = get_the_title(intval($this->review->assigned_to));
+        $titles = [];
+        foreach ($this->review->assigned_posts as $postId) {
+            $titles[] = get_the_title($postId);
+        }
+        $titles = array_filter($titles);
+        $pageTitles = Str::naturalJoin($titles);
         $title = _nx(
             'New %s-star review',
-            'New %s-star review of: %s',
-            intval(empty($assignedTitle)),
+            'New %s-star review of %s',
+            count($titles),
             'This string differs depending on whether or not the review has been assigned to a post.',
             'site-reviews'
         );
         $title = sprintf('[%s] %s',
             wp_specialchars_decode(glsr(OptionManager::class)->getWP('blogname'), ENT_QUOTES),
-            sprintf($title, $this->review->rating, $assignedTitle)
+            sprintf($title, $this->review->rating, $pageTitles)
         );
-        return apply_filters('site-reviews/notification/title', $title, $this->review);
+        return glsr()->filterString('notification/title', $title, $this->review);
     }
 
     /**
@@ -164,7 +176,7 @@ class Notification
         $notification = $this->buildSlackNotification($args);
         $result = $notification->send();
         if (is_wp_error($result)) {
-            $notification->review = null;
+            unset($notification->review);
             glsr_log()->error($result->get_error_message())->debug($notification);
         }
     }

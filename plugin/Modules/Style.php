@@ -2,20 +2,27 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\PaginationDefaults;
-use GeminiLabs\SiteReviews\Defaults\StyleFieldsDefaults;
+use GeminiLabs\SiteReviews\Defaults\StyleClassesDefaults;
 use GeminiLabs\SiteReviews\Defaults\StyleValidationDefaults;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
+/**
+ * @method string classes(string $key)
+ * @method string defaultClasses(string $key)
+ * @method string defaultValidation(string $key)
+ * @method string validation(string $key)
+ */
 class Style
 {
     /**
      * @var array
      */
-    public $fields;
+    public $classes;
 
     /**
      * @var string
@@ -32,10 +39,38 @@ class Style
      */
     public $validation;
 
+    /**
+     * The methods that are callable.
+     * @var array
+     */
+    protected $callable = [
+        'classes', 'validation',
+    ];
+
     public function __construct()
     {
-        $this->style = glsr(OptionManager::class)->get('settings.general.style', 'default');
-        $this->setConfig();
+        $this->style = glsr_get_option('general.style', 'default');
+        $config = shortcode_atts(
+            array_fill_keys(['classes', 'pagination', 'validation'], []),
+            glsr()->config('styles/'.$this->style)
+        );
+        $this->classes = glsr(StyleClassesDefaults::class)->restrict($config['classes']);
+        $this->pagination = glsr(PaginationDefaults::class)->restrict($config['pagination']);
+        $this->validation = glsr(StyleValidationDefaults::class)->restrict($config['validation']);
+    }
+
+    public function __call($method, $args)
+    {
+        $property = strtolower(Str::removePrefix($method, 'default'));
+        if (!in_array($property, $this->callable)) {
+            return;
+        }
+        $key = Arr::get($args, 0);
+        if (Str::startsWith('default', $method)) {
+            $className = Helper::buildClassName('style-'.$property.'-defaults', 'Defaults');
+            return glsr()->args(glsr($className)->defaults())->$key;
+        }
+        return glsr()->args($this->$property)->$key;
     }
 
     /**
@@ -44,21 +79,23 @@ class Style
      */
     public function filterView($view)
     {
-        $styledViews = [
+        $styledViews = glsr()->filterArray('style/views', [
             'templates/form/field',
             'templates/form/response',
             'templates/form/submit-button',
+            'templates/form/type-checkbox',
+            'templates/form/type-radio',
+            'templates/form/type-toggle',
             'templates/reviews-form',
-        ];
+        ]);
         if (!preg_match('('.implode('|', $styledViews).')', $view)) {
             return $view;
         }
         $views = $this->generatePossibleViews($view);
         foreach ($views as $possibleView) {
-            if (!file_exists(glsr()->file($possibleView))) {
-                continue;
+            if (file_exists(glsr()->file($possibleView))) {
+                return Str::removePrefix($possibleView, 'views/');
             }
-            return Str::removePrefix('views/', $possibleView);
         }
         return $view;
     }
@@ -68,21 +105,7 @@ class Style
      */
     public function get()
     {
-        return apply_filters('site-reviews/style', $this->style);
-    }
-
-    /**
-     * @return array
-     */
-    public function setConfig()
-    {
-        $config = shortcode_atts(
-            array_fill_keys(['fields', 'pagination', 'validation'], []),
-            glsr()->config('styles/'.$this->style)
-        );
-        $this->fields = glsr(StyleFieldsDefaults::class)->restrict($config['fields']);
-        $this->pagination = glsr(PaginationDefaults::class)->restrict($config['pagination']);
-        $this->validation = glsr(StyleValidationDefaults::class)->restrict($config['validation']);
+        return glsr()->filterString('style', $this->style);
     }
 
     /**
@@ -90,13 +113,13 @@ class Style
      */
     public function modifyField(Builder $instance)
     {
-        if (!$this->isPublicInstance($instance) || empty(array_filter($this->fields))) {
-            return;
+        if ($this->isPublicInstance($instance)) {
+            call_user_func_array([$this, 'customize'], [$instance]);
         }
-        call_user_func_array([$this, 'customize'], [$instance]);
     }
 
     /**
+     * This allows us to override the pagination config in /config/styles instead of using a filter hook.
      * @return array
      */
     public function paginationArgs(array $args)
@@ -105,18 +128,19 @@ class Style
     }
 
     /**
+     * Add the custom form classes.
      * @return void
      */
     protected function customize(Builder $instance)
     {
-        if (!array_key_exists($instance->tag, $this->fields)) {
-            return;
+        if (array_key_exists($instance->tag, $this->classes)) {
+            $key = $instance->tag.'_'.$instance->args->type;
+            $classes = Arr::get($this->classes, $key, Arr::get($this->classes, $instance->tag));
+            $classes = trim($instance->args->class.' '.$classes);
+            $classes = implode(' ', Arr::unique(explode(' ', $classes))); // remove duplicate classes
+            $instance->args->class = $classes;
+            glsr()->action('customize/'.$this->style, $instance);
         }
-        $args = wp_parse_args($instance->args, array_fill_keys(['class', 'type'], ''));
-        $key = $instance->tag.'_'.$args['type'];
-        $classes = Arr::get($this->fields, $key, Arr::get($this->fields, $instance->tag));
-        $instance->args['class'] = trim($args['class'].' '.$classes);
-        do_action_ref_array('site-reviews/customize/'.$this->style, [$instance]);
     }
 
     /**
@@ -143,13 +167,7 @@ class Style
      */
     protected function isPublicInstance(Builder $instance)
     {
-        $args = wp_parse_args($instance->args, [
-            'is_public' => false,
-            'is_raw' => false,
-        ]);
-        if (is_admin() || !$args['is_public'] || $args['is_raw']) {
-            return false;
-        }
-        return true;
+        $args = glsr()->args($instance->args)->merge(['is_raw' => false]);
+        return !is_admin() && !Cast::toBool($args->is_raw);
     }
 }

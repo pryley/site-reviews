@@ -3,77 +3,91 @@
 namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Helpers\Str;
+use ReflectionClass;
 
 abstract class Field
 {
     /**
-     * @var Builder
+     * @var \GeminiLabs\SiteReviews\Modules\Html\Builder
      */
     protected $builder;
 
-    public function __construct(Builder $builder)
+    public function __construct($builder)
     {
         $this->builder = $builder;
     }
 
     /**
+     * @return \GeminiLabs\SiteReviews\Arguments
+     */
+    public function args()
+    {
+        return $this->builder->args;
+    }
+
+    /**
+     * This is used to build a custom Field type
      * @return string|void
      */
     public function build()
     {
-        glsr_log()->error('Build method is not implemented for '.get_class($this));
+        return $this->builder->build($this->tag(), $this->args()->toArray());
     }
 
     /**
+     * @param string $fieldLocation
      * @return array
      */
-    public static function defaults()
+    public static function defaults($fieldLocation = null)
     {
         return [];
     }
 
     /**
+     * @param string $fieldLocation
      * @return array
      */
-    public static function merge(array $args)
+    public static function merge(array $args, $fieldLocation = null)
     {
         $merged = array_merge(
-            wp_parse_args($args, static::defaults()),
-            static::required()
+            wp_parse_args($args, static::defaults($fieldLocation)),
+            static::required($fieldLocation)
         );
-        $merged['class'] = implode(' ', static::mergedAttribute('class', ' ', $args));
-        $merged['style'] = implode(';', static::mergedAttribute('style', ';', $args));
+        $merged['class'] = implode(' ', static::mergedAttribute('class', ' ', $args, $fieldLocation));
+        $merged['style'] = implode(';', static::mergedAttribute('style', ';', $args, $fieldLocation));
         return $merged;
     }
 
     /**
-     * @param string $delimiter
      * @param string $key
+     * @param string $delimiter
+     * @param string $fieldLocation
      * @return array
      */
-    public static function mergedAttribute($key, $delimiter, array $args)
+    public static function mergedAttribute($key, $delimiter, array $args, $fieldLocation)
     {
-        return array_filter(array_merge(
+        return Arr::unique(array_merge(
             explode($delimiter, Arr::get($args, $key)),
-            explode($delimiter, Arr::get(static::defaults(), $key)),
-            explode($delimiter, Arr::get(static::required(), $key))
+            explode($delimiter, Arr::get(static::defaults($fieldLocation), $key)),
+            explode($delimiter, Arr::get(static::required($fieldLocation), $key))
         ));
     }
 
     /**
+     * @param string $fieldLocation
      * @return array
      */
-    public static function required()
+    public static function required($fieldLocation = null)
     {
         return [];
     }
 
     /**
-     * @return void
+     * @return string
      */
-    protected function mergeFieldArgs()
+    public function tag()
     {
-        $this->builder->args = static::merge($this->builder->args);
+        return $this->builder->tag;
     }
 }

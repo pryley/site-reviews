@@ -2,11 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
 use WP_Error;
 use WP_REST_Post_Meta_Fields;
 use WP_REST_Posts_Controller as RestController;
-use WP_REST_Request as Request;
 use WP_REST_Response as Response;
 use WP_REST_Server as Server;
 
@@ -14,9 +12,9 @@ class RestReviewController extends RestController
 {
     public function __construct()
     {
-        $this->meta = new WP_REST_Post_Meta_Fields(Application::POST_TYPE);
-        $this->namespace = Application::ID.'/v1';
-        $this->post_type = Application::POST_TYPE;
+        $this->meta = new WP_REST_Post_Meta_Fields(glsr()->post_type);
+        $this->namespace = glsr()->id.'/v1';
+        $this->post_type = glsr()->post_type;
         $this->rest_base = 'reviews';
     }
 

@@ -2,12 +2,16 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Controllers\ListTableController\Columns;
-use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterRating;
+use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterType;
+use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
+use GeminiLabs\SiteReviews\Defaults\ColumnOrderbyDefaults;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Migrate;
 use WP_Post;
 use WP_Query;
 use WP_Screen;
@@ -15,40 +19,18 @@ use WP_Screen;
 class ListTableController extends Controller
 {
     /**
-     * @return void
-     * @action admin_action_approve
-     */
-    public function approve()
-    {
-        if (Application::ID != filter_input(INPUT_GET, 'plugin')) {
-            return;
-        }
-        check_admin_referer('approve-review_'.($postId = $this->getPostId()));
-        wp_update_post([
-            'ID' => $postId,
-            'post_status' => 'publish',
-        ]);
-        wp_safe_redirect(wp_get_referer());
-        exit;
-    }
-
-    /**
      * @param array $columns
      * @return array
-     * @filter manage_.Application::POST_TYPE._posts_columns
+     * @filter manage_{glsr()->post_type}_posts_columns
      */
     public function filterColumnsForPostType($columns)
     {
-        $columns = Arr::consolidateArray($columns);
-        $postTypeColumns = glsr()->postTypeColumns[Application::POST_TYPE];
+        $columns = Arr::consolidate($columns);
+        $postTypeColumns = glsr()->retrieve('columns.'.glsr()->post_type, []);
         foreach ($postTypeColumns as $key => &$value) {
-            if (!array_key_exists($key, $columns) || !empty($value)) {
-                continue;
+            if (array_key_exists($key, $columns) && empty($value)) {
+                $value = $columns[$key];
             }
-            $value = $columns[$key];
-        }
-        if (count(glsr(Database::class)->getReviewsMeta('review_type')) < 2) {
-            unset($postTypeColumns['review_type']);
         }
         return array_filter($postTypeColumns, 'strlen');
     }
@@ -61,27 +43,44 @@ class ListTableController extends Controller
      */
     public function filterDateColumnStatus($status, $post)
     {
-        if (Application::POST_TYPE == Arr::get($post, 'post_type')) {
-            $status = __('Submitted', 'site-reviews');
-        }
-        return $status;
+        $isReview = glsr()->post_type === Arr::get($post, 'post_type');
+        return Helper::ifTrue(!$isReview, $status, _x('Submitted', 'admin-text', 'site-reviews'));
     }
 
     /**
      * @param array $hidden
-     * @param WP_Screen $post
+     * @param WP_Screen $screen
      * @return array
      * @filter default_hidden_columns
      */
     public function filterDefaultHiddenColumns($hidden, $screen)
     {
-        if (Arr::get($screen, 'id') == 'edit-'.Application::POST_TYPE) {
-            $hidden = Arr::consolidateArray($hidden);
+        if (Arr::get($screen, 'id') === 'edit-'.glsr()->post_type) {
+            $hidden = Arr::consolidate($hidden);
             $hidden = array_unique(array_merge($hidden, [
-                'email', 'ip_address', 'response', 'reviewer',
+                'assigned_users', 'author_name', 'author_email', 'ip_address', 'response',
             ]));
         }
         return $hidden;
+    }
+
+    /**
+     * @return array
+     * @filter posts_clauses
+     */
+    public function filterPostClauses(array $clauses, WP_Query $query)
+    {
+        if (!$this->hasQueryPermission($query) || (!$this->isListFiltered() && !$this->isListOrdered())) {
+            return $clauses;
+        }
+        $table = glsr(Query::class)->table('ratings');
+        foreach ($clauses as $key => &$clause) {
+            $method = Helper::buildMethodName($key, 'modifyClause');
+            if (method_exists($this, $method)) {
+                $clause = call_user_func([$this, $method], $clause, $table, $query);
+            }
+        }
+        return $clauses;
     }
 
     /**
@@ -92,60 +91,46 @@ class ListTableController extends Controller
      */
     public function filterRowActions($actions, $post)
     {
-        if (Application::POST_TYPE != Arr::get($post, 'post_type')
+        if (glsr()->post_type !== Arr::get($post, 'post_type')
             || 'trash' == $post->post_status
             || !user_can(get_current_user_id(), 'edit_post', $post->ID)) {
             return $actions;
         }
         unset($actions['inline hide-if-no-js']); //Remove Quick-edit
         $rowActions = [
-            'approve' => esc_attr__('Approve', 'site-reviews'),
-            'unapprove' => esc_attr__('Unapprove', 'site-reviews'),
+            'approve' => _x('Approve', 'admin-text', 'site-reviews'),
+            'unapprove' => _x('Unapprove', 'admin-text', 'site-reviews'),
         ];
         $newActions = [];
         foreach ($rowActions as $key => $text) {
             $newActions[$key] = glsr(Builder::class)->a($text, [
-                'aria-label' => sprintf(esc_attr_x('%s this review', 'Approve the review', 'site-reviews'), $text),
-                'class' => 'glsr-change-status',
+                'aria-label' => esc_attr(sprintf(_x('%s this review', 'Approve the review (admin-text)', 'site-reviews'), $text)),
+                'class' => 'glsr-toggle-status',
                 'href' => wp_nonce_url(
-                    admin_url('post.php?post='.$post->ID.'&action='.$key.'&plugin='.Application::ID),
+                    admin_url('post.php?post='.$post->ID.'&action='.$key.'&plugin='.glsr()->id),
                     $key.'-review_'.$post->ID
                 ),
             ]);
         }
-        return $newActions + Arr::consolidateArray($actions);
+        return $newActions + Arr::consolidate($actions);
     }
 
     /**
      * @param array $columns
      * @return array
-     * @filter manage_edit-.Application::POST_TYPE._sortable_columns
+     * @filter manage_edit-{glsr()->post_type}_sortable_columns
      */
     public function filterSortableColumns($columns)
     {
-        $columns = Arr::consolidateArray($columns);
-        $postTypeColumns = glsr()->postTypeColumns[Application::POST_TYPE];
+        $columns = Arr::consolidate($columns);
+        $postTypeColumns = glsr()->retrieve('columns.'.glsr()->post_type, []);
         unset($postTypeColumns['cb']);
         foreach ($postTypeColumns as $key => $value) {
-            if (Str::startsWith('taxonomy', $key)) {
-                continue;
+            if (!Str::startsWith('assigned', $key) && !Str::startsWith('taxonomy', $key)) {
+                $columns[$key] = $key;
             }
-            $columns[$key] = $key;
         }
         return $columns;
-    }
-
-    /**
-     * @param string $columnName
-     * @param string $postType
-     * @return void
-     * @action bulk_edit_custom_box
-     */
-    public function renderBulkEditFields($columnName, $postType)
-    {
-        if ('assigned_to' == $columnName && Application::POST_TYPE == $postType) {
-            glsr()->render('partials/editor/bulk-edit-assigned-to');
-        }
     }
 
     /**
@@ -155,34 +140,35 @@ class ListTableController extends Controller
      */
     public function renderColumnFilters($postType)
     {
-        glsr(Columns::class)->renderFilters($postType);
+        if (glsr()->post_type !== $postType) {
+            return;
+        }
+        if ($filter = glsr()->runIf(ColumnFilterRating::class)) {
+            echo $filter;
+        }
+        if ($filter = glsr()->runIf(ColumnFilterType::class)) {
+            echo $filter;
+        }
     }
 
     /**
      * @param string $column
-     * @param string $postId
+     * @param int $postId
      * @return void
      * @action manage_posts_custom_column
      */
     public function renderColumnValues($column, $postId)
     {
-        glsr(Columns::class)->renderValues($column, $postId);
-    }
-
-    /**
-     * @param int $postId
-     * @return void
-     * @action save_post_.Application::POST_TYPE
-     */
-    public function saveBulkEditFields($postId)
-    {
-        if (!glsr()->can('edit_posts')) {
+        $review = glsr(Query::class)->review($postId);
+        if (!$review->isValid()) {
+            glsr(Migrate::class)->reset(); // looks like a migration is needed!
             return;
         }
-        $assignedTo = filter_input(INPUT_GET, 'assigned_to');
-        if ($assignedTo && get_post($assignedTo)) {
-            glsr(Database::class)->update($postId, 'assigned_to', $assignedTo);
-        }
+        $className = Helper::buildClassName('column-value-'.$column, 'Controllers\ListTableColumns');
+        $className = glsr()->filterString('column/'.$column, $className);
+        $value = glsr()->runIf($className, $review);
+        $value = glsr()->filterString('columns/'.$column, $value, $postId);
+        echo Helper::ifEmpty($value, '&mdash;');
     }
 
     /**
@@ -191,91 +177,88 @@ class ListTableController extends Controller
      */
     public function setQueryForColumn(WP_Query $query)
     {
-        if (!$this->hasPermission($query)) {
+        if (!$this->hasQueryPermission($query)) {
             return;
         }
-        $this->setMetaQuery($query, [
-            'rating', 'review_type',
-        ]);
-        $this->setOrderby($query);
-    }
-
-    /**
-     * @return void
-     * @action admin_action_unapprove
-     */
-    public function unapprove()
-    {
-        if (Application::ID != filter_input(INPUT_GET, 'plugin')) {
-            return;
-        }
-        check_admin_referer('unapprove-review_'.($postId = $this->getPostId()));
-        wp_update_post([
-            'ID' => $postId,
-            'post_status' => 'pending',
-        ]);
-        wp_safe_redirect(wp_get_referer());
-        exit;
-    }
-
-    /**
-     * Check if the translation string can be modified.
-     * @param string $domain
-     * @return bool
-     */
-    protected function canModifyTranslation($domain = 'default')
-    {
-        $screen = glsr_current_screen();
-        return 'default' == $domain
-            && 'edit' == $screen->base
-            && Application::POST_TYPE == $screen->post_type;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function hasPermission(WP_Query $query)
-    {
-        global $pagenow;
-        return is_admin()
-            && $query->is_main_query()
-            && Application::POST_TYPE == $query->get('post_type')
-            && 'edit.php' == $pagenow;
-    }
-
-    /**
-     * @return void
-     */
-    protected function setMetaQuery(WP_Query $query, array $metaKeys)
-    {
-        foreach ($metaKeys as $key) {
-            $value = (string) filter_input(INPUT_GET, $key);
-            if ('' === $value) {
-                continue;
-            }
-            $metaQuery = (array) $query->get('meta_query');
-            $metaQuery[] = [
-                'key' => Str::prefix('_', $key, '_'),
-                'value' => $value,
-            ];
-            $query->set('meta_query', array_filter($metaQuery));
-        }
-    }
-
-    /**
-     * @return void
-     */
-    protected function setOrderby(WP_Query $query)
-    {
         $orderby = $query->get('orderby');
-        $columns = glsr()->postTypeColumns[Application::POST_TYPE];
-        unset($columns['cb'], $columns['title'], $columns['date']);
-        if (in_array($orderby, array_keys($columns))) {
-            if ('reviewer' == $orderby) {
-                $orderby = 'author';
-            }
-            $query->set('meta_key', Str::prefix('_', $orderby, '_'));
+        if ('response' === $orderby) {
+            $query->set('meta_key', Str::prefix($orderby, '_'));
             $query->set('orderby', 'meta_value');
         }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isListFiltered()
+    {
+        $filterBy = glsr(ColumnFilterbyDefaults::class)->defaults();
+        $filterBy = filter_input_array(INPUT_GET, $filterBy);
+        $filterBy = Arr::removeEmptyValues($filterBy);
+        return !empty($filterBy);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isListOrdered()
+    {
+        $columns = glsr(ColumnOrderbyDefaults::class)->defaults();
+        return array_key_exists(get_query_var('orderby'), $columns);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isOrderbyWithIsNull($column)
+    {
+        $columns = [
+            'email', 'name', 'ip_address', 'type',
+        ];
+        $columns = glsr()->filterArray('columns/orderby-is-null', $columns);
+        return in_array($column, $columns);
+    }
+
+    /**
+     * @param string $join
+     * @return string
+     */
+    protected function modifyClauseJoin($join, $table, WP_Query $query)
+    {
+        global $wpdb;
+        $join .= " INNER JOIN {$table} ON {$table}.review_id = {$wpdb->posts}.ID ";
+        return $join;
+    }
+
+    /**
+     * @param string $orderby
+     * @return string
+     */
+    protected function modifyClauseOrderby($orderby, $table, WP_Query $query)
+    {
+        $columns = glsr(ColumnOrderbyDefaults::class)->defaults();
+        if ($column = Arr::get($columns, $query->get('orderby'))) {
+            $order = $query->get('order');
+            $orderby = "{$table}.{$column} {$order}";
+            if ($this->isOrderbyWithIsNull($column)) {
+                $orderby = "NULLIF({$table}.{$column}, '') IS NULL, {$orderby}";
+            }
+        }
+        return $orderby;
+    }
+
+    /**
+     * @param string $where
+     * @return string
+     */
+    protected function modifyClauseWhere($where, $table, WP_Query $query)
+    {
+        $filterBy = glsr(ColumnFilterbyDefaults::class)->defaults();
+        $filterBy = filter_input_array(INPUT_GET, $filterBy);
+        $filterBy = Arr::removeEmptyValues($filterBy);
+        foreach ($filterBy as $key => $value) {
+            $where .= " AND {$table}.{$key} = '{$value}' ";
+        }
+        return $where;
     }
 }

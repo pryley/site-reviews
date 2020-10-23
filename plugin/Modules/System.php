@@ -4,12 +4,12 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\Sinergi\BrowserDetector\Browser;
 use GeminiLabs\SiteReviews\Database\Cache;
-use GeminiLabs\SiteReviews\Database\CountsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Date;
 
 class System
 {
@@ -47,7 +47,7 @@ class System
             if (method_exists($this, $methodName) && $systemDetails = $this->$methodName()) {
                 return $carry.$this->implode(
                     strtoupper($details[$key]),
-                    apply_filters('site-reviews/system/'.$key, $systemDetails)
+                    glsr()->filterArray('system/'.$key, $systemDetails)
                 );
             }
             return $carry;
@@ -71,7 +71,7 @@ class System
      */
     public function getAddonDetails()
     {
-        $details = apply_filters('site-reviews/addon/system-info', []);
+        $details = glsr()->filterArray('addon/system-info', []);
         ksort($details);
         return $details;
     }
@@ -97,11 +97,14 @@ class System
     public function getInactivePluginDetails()
     {
         $activePlugins = glsr(OptionManager::class)->getWP('active_plugins', [], 'array');
-        $inactivePlugins = $this->normalizePluginList(array_diff_key(get_plugins(), array_flip($activePlugins)));
+        $inactivePlugins = $this->normalizePluginList(
+            array_diff_key(get_plugins(), array_flip($activePlugins))
+        );
         $multisitePlugins = $this->getMultisitePluginDetails();
-        return empty($multisitePlugins)
-            ? $inactivePlugins
-            : array_diff($inactivePlugins, $multisitePlugins);
+        return Helper::ifTrue(empty($multisitePlugins),
+            $inactivePlugins,
+            array_diff($inactivePlugins, $multisitePlugins)
+        );
     }
 
     /**
@@ -109,10 +112,10 @@ class System
      */
     public function getMuPluginDetails()
     {
-        if (empty($plugins = get_mu_plugins())) {
-            return [];
-        }
-        return $this->normalizePluginList($plugins);
+        $plugins = get_mu_plugins();
+        return Helper::ifTrue(empty($plugins), [], function () use ($plugins) {
+            return $this->normalizePluginList($plugins);
+        });
     }
 
     /**
@@ -132,31 +135,26 @@ class System
      */
     public function getPhpDetails()
     {
-        $displayErrors = $this->getINI('display_errors', null)
-            ? 'On ('.$this->getINI('display_errors').')'
-            : 'N/A';
-        $intlSupport = extension_loaded('intl')
-            ? phpversion('intl')
-            : 'false';
+        $displayErrors = $this->getIni('display_errors', null);
         return [
             'cURL' => var_export(function_exists('curl_init'), true),
-            'Default Charset' => $this->getINI('default_charset'),
-            'Display Errors' => $displayErrors,
+            'Default Charset' => $this->getIni('default_charset'),
+            'Display Errors' => Helper::ifTrue(empty($displayErrors), 'N/A', 'On ('.$displayErrors.')'),
             'fsockopen' => var_export(function_exists('fsockopen'), true),
-            'Intl' => $intlSupport,
+            'Intl' => Helper::ifTrue(extension_loaded('intl'), phpversion('intl'), 'false'),
             'IPv6' => var_export(defined('AF_INET6'), true),
-            'Max Execution Time' => $this->getINI('max_execution_time'),
-            'Max Input Nesting Level' => $this->getINI('max_input_nesting_level'),
-            'Max Input Vars' => $this->getINI('max_input_vars'),
-            'Memory Limit' => $this->getINI('memory_limit'),
-            'Post Max Size' => $this->getINI('post_max_size'),
-            'Sendmail Path' => $this->getINI('sendmail_path'),
-            'Session Cookie Path' => esc_html($this->getINI('session.cookie_path')),
-            'Session Name' => esc_html($this->getINI('session.name')),
-            'Session Save Path' => esc_html($this->getINI('session.save_path')),
-            'Session Use Cookies' => var_export(wp_validate_boolean($this->getINI('session.use_cookies', false)), true),
-            'Session Use Only Cookies' => var_export(wp_validate_boolean($this->getINI('session.use_only_cookies', false)), true),
-            'Upload Max Filesize' => $this->getINI('upload_max_filesize'),
+            'Max Execution Time' => $this->getIni('max_execution_time'),
+            'Max Input Nesting Level' => $this->getIni('max_input_nesting_level'),
+            'Max Input Vars' => $this->getIni('max_input_vars'),
+            'Memory Limit' => $this->getIni('memory_limit'),
+            'Post Max Size' => $this->getIni('post_max_size'),
+            'Sendmail Path' => $this->getIni('sendmail_path'),
+            'Session Cookie Path' => esc_html($this->getIni('session.cookie_path')),
+            'Session Name' => esc_html($this->getIni('session.name')),
+            'Session Save Path' => esc_html($this->getIni('session.save_path')),
+            'Session Use Cookies' => var_export(wp_validate_boolean($this->getIni('session.use_cookies', false)), true),
+            'Session Use Only Cookies' => var_export(wp_validate_boolean($this->getIni('session.use_only_cookies', false)), true),
+            'Upload Max Filesize' => $this->getIni('upload_max_filesize'),
         ];
     }
 
@@ -165,8 +163,7 @@ class System
      */
     public function getReviewsDetails()
     {
-        $counts = glsr(CountsManager::class)->getCounts();
-        $counts = Arr::flattenArray($counts);
+        $counts = glsr(Query::class)->ratings();
         array_walk($counts, function (&$ratings) use ($counts) {
             if (is_array($ratings)) {
                 $ratings = array_sum($ratings).' ('.implode(', ', $ratings).')';
@@ -201,7 +198,7 @@ class System
     public function getSettingDetails()
     {
         $settings = glsr(OptionManager::class)->get('settings', []);
-        $settings = Arr::flattenArray($settings, true);
+        $settings = Arr::flatten($settings, true);
         $settings = $this->purgeSensitiveData($settings);
         ksort($settings);
         $details = [];
@@ -222,9 +219,8 @@ class System
     {
         return [
             'Console level' => glsr(Console::class)->humanLevel(),
-            'Console size' => glsr(Console::class)->humanSize('0'),
+            'Console size' => glsr(Console::class)->humanSize(),
             'Last Migration Run' => glsr(Date::class)->localized(glsr(OptionManager::class)->get('last_migration_run'), 'unknown'),
-            'Last Rating Count' => glsr(Date::class)->localized(glsr(OptionManager::class)->get('last_review_count'), 'unknown'),
             'Version (current)' => glsr()->version,
             'Version (previous)' => glsr(OptionManager::class)->get('version_upgraded_from'),
         ];
@@ -251,7 +247,7 @@ class System
             'Remote Post' => glsr(Cache::class)->getRemotePostTest(),
             'Show On Front' => glsr(OptionManager::class)->getWP('show_on_front'),
             'Site URL' => site_url(),
-            'Timezone' => glsr(OptionManager::class)->getWP('timezone_string', $this->getINI('date.timezone').' (PHP)'),
+            'Timezone' => glsr(OptionManager::class)->getWP('timezone_string', $this->getIni('date.timezone').' (PHP)'),
             'Version' => get_bloginfo('version'),
             'WP Debug' => var_export(defined('WP_DEBUG'), true),
             'WP Max Upload Size' => size_format(wp_max_upload_size()),
@@ -298,17 +294,14 @@ class System
      */
     protected function getHostName()
     {
-        return sprintf('%s (%s)',
-            $this->detectWebhostProvider(),
-            Helper::getIpAddress()
-        );
+        return sprintf('%s (%s)', $this->detectWebhostProvider(), Helper::getIpAddress());
     }
 
-    protected function getINI($name, $disabledValue = 'ini_get() is disabled.')
+    protected function getIni($name, $disabledValue = 'ini_get() is disabled.')
     {
-        return function_exists('ini_get')
-            ? ini_get($name)
-            : $disabledValue;
+        return Helper::ifTrue(!function_exists('ini_get'), $disabledValue, function () use ($name) {
+            return ini_get($name);
+        });
     }
 
     /**
@@ -348,9 +341,9 @@ class System
     {
         return defined($key)
             || filter_input(INPUT_SERVER, $key)
-            || Str::contains(filter_input(INPUT_SERVER, 'SERVER_NAME'), $key)
-            || Str::contains(DB_HOST, $key)
-            || Str::contains(php_uname(), $key);
+            || Str::contains($key, filter_input(INPUT_SERVER, 'SERVER_NAME'))
+            || Str::contains($key, DB_HOST)
+            || Str::contains($key, php_uname());
     }
 
     /**
@@ -370,12 +363,11 @@ class System
      */
     protected function purgeSensitiveData(array $settings)
     {
-        $keys = [
-            'general.trustalyze_serial',
+        $keys = glsr()->filterArray('addon/system-info/purge', [
             'licenses.',
             'submissions.recaptcha.key',
             'submissions.recaptcha.secret',
-        ];
+        ]);
         array_walk($settings, function (&$value, $setting) use ($keys) {
             foreach ($keys as $key) {
                 if (!Str::startsWith($key, $setting) || empty($value)) {

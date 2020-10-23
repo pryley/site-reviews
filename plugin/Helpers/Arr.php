@@ -2,12 +2,15 @@
 
 namespace GeminiLabs\SiteReviews\Helpers;
 
+use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Cast;
+
 class Arr
 {
     /**
      * @return bool
      */
-    public static function compareArrays(array $arr1, array $arr2)
+    public static function compare(array $arr1, array $arr2)
     {
         sort($arr1);
         sort($arr2);
@@ -15,20 +18,23 @@ class Arr
     }
 
     /**
+     * Returns an empty array if value is scalar
      * @param mixed $array
      * @return array
      */
-    public static function consolidateArray($array)
+    public static function consolidate($array)
     {
-        return is_array($array) || is_object($array)
-            ? (array) $array
-            : [];
+        if (is_object($array)) {
+            $values = get_object_vars($array);
+            $array = Helper::ifEmpty($values, (array) $array, $strict = true);
+        }
+        return is_array($array) ? $array : [];
     }
 
     /**
      * @return array
      */
-    public static function convertDotNotationArray(array $array)
+    public static function convertFromDotNotation(array $array)
     {
         $results = [];
         foreach ($array as $path => $value) {
@@ -38,16 +44,17 @@ class Arr
     }
 
     /**
-     * @param string $string
+     * @param mixed $value
      * @param mixed $callback
      * @return array
      */
-    public static function convertStringToArray($string, $callback = null)
+    public static function convertFromString($value, $callback = null)
     {
-        $array = array_map('trim', explode(',', $string));
-        return $callback
-            ? array_filter($array, $callback)
-            : array_filter($array);
+        if (is_scalar($value)) {
+            $value = array_map('trim', explode(',', Cast::toString($value)));
+        }
+        $callback = Helper::ifEmpty(Cast::toString($callback), Helper::class.'::isNotEmpty');
+        return static::reindex(array_filter((array) $value, $callback));
     }
 
     /**
@@ -55,17 +62,17 @@ class Arr
      * @param string $prefix
      * @return array
      */
-    public static function flattenArray(array $array, $flattenValue = false, $prefix = '')
+    public static function flatten(array $array, $flattenValue = false, $prefix = '')
     {
         $result = [];
         foreach ($array as $key => $value) {
             $newKey = ltrim($prefix.'.'.$key, '.');
-            if (static::isIndexedFlatArray($value)) {
-                if ($flattenValue) {
-                    $value = '['.implode(', ', $value).']';
-                }
+            if (static::isIndexedAndFlat($value)) {
+                $value = Helper::ifTrue(!$flattenValue, $value, function () use ($value) {
+                    return '['.implode(', ', $value).']';
+                });
             } elseif (is_array($value)) {
-                $result = array_merge($result, static::flattenArray($value, $flattenValue, $newKey));
+                $result = array_merge($result, static::flatten($value, $flattenValue, $newKey));
                 continue;
             }
             $result[$newKey] = $value;
@@ -76,21 +83,28 @@ class Arr
     /**
      * Get a value from an array of values using a dot-notation path as reference.
      * @param mixed $data
-     * @param string $path
+     * @param string|int $path
      * @param mixed $fallback
      * @return mixed
      */
     public static function get($data, $path = '', $fallback = '')
     {
-        $data = static::consolidateArray($data);
+        $data = static::consolidate($data);
         $keys = explode('.', $path);
+        $result = $fallback;
         foreach ($keys as $key) {
             if (!isset($data[$key])) {
                 return $fallback;
             }
-            $data = $data[$key];
+            if (is_object($data[$key])) {
+                $result = $data[$key];
+                $data = static::consolidate($result);
+                continue;
+            }
+            $result = $data[$key];
+            $data = $result;
         }
-        return $data;
+        return $result;
     }
 
     /**
@@ -99,7 +113,7 @@ class Arr
      */
     public static function insertAfter($key, array $array, array $insert)
     {
-        return static::insertInArray($array, $insert, $key, 'after');
+        return static::insert($array, $insert, $key, 'after');
     }
 
     /**
@@ -108,7 +122,7 @@ class Arr
      */
     public static function insertBefore($key, array $array, array $insert)
     {
-        return static::insertInArray($array, $insert, $key, 'before');
+        return static::insert($array, $insert, $key, 'before');
     }
 
     /**
@@ -116,13 +130,14 @@ class Arr
      * @param string $position
      * @return array
      */
-    public static function insertInArray(array $array, array $insert, $key, $position = 'before')
+    public static function insert(array $array, array $insert, $key, $position = 'before')
     {
-        $keyPosition = intval(array_search($key, array_keys($array)));
-        if ('after' == $position) {
-            ++$keyPosition;
-        }
+        $keyPosition = array_search($key, array_keys($array));
         if (false !== $keyPosition) {
+            $keyPosition = Cast::toInt($keyPosition);
+            if ('after' == $position) {
+                ++$keyPosition;
+            }
             $result = array_slice($array, 0, $keyPosition);
             $result = array_merge($result, $insert);
             return array_merge($result, array_slice($array, $keyPosition));
@@ -134,7 +149,7 @@ class Arr
      * @param mixed $array
      * @return bool
      */
-    public static function isIndexedFlatArray($array)
+    public static function isIndexedAndFlat($array)
     {
         if (!is_array($array) || array_filter($array, 'is_array')) {
             return false;
@@ -146,54 +161,100 @@ class Arr
      * @param bool $prefixed
      * @return array
      */
-    public static function prefixArrayKeys(array $values, $prefixed = true)
+    public static function prefixKeys(array $values, $prefix = '_', $prefixed = true)
     {
-        $trim = '_';
-        $prefix = $prefixed
-            ? $trim
-            : '';
+        $trim = Helper::ifTrue($prefixed, $prefix, '');
         $prefixed = [];
         foreach ($values as $key => $value) {
             $key = trim($key);
-            if (0 === strpos($key, $trim)) {
-                $key = substr($key, strlen($trim));
+            if (0 === strpos($key, $prefix)) {
+                $key = substr($key, strlen($prefix));
             }
-            $prefixed[$prefix.$key] = $value;
+            $prefixed[$trim.$key] = $value;
         }
         return $prefixed;
     }
 
     /**
+     * @param array $array
+     * @param mixed $value
+     * @param mixed $key
      * @return array
      */
-    public static function removeEmptyArrayValues(array $array)
+    public static function prepend($array, $value, $key = null)
+    {
+        if (!is_null($key)) {
+            return [$key => $value] + $array;
+        }
+        array_unshift($array, $value);
+        return $array;
+    }
+
+    /**
+     * @param mixed $array
+     * @return array
+     */
+    public static function reindex($array)
+    {
+        return Helper::ifTrue(static::isIndexedAndFlat($array), array_values($array), $array);
+    }
+
+    /**
+     * Unset a value from an array of values using a dot-notation path as reference.
+     * @param mixed $data
+     * @param string $path
+     * @return array
+     */
+    public static function remove($data, $path = '')
+    {
+        $data = static::consolidate($data);
+        $keys = explode('.', $path);
+        $last = array_pop($keys);
+        $pointer = &$data;
+        foreach ($keys as $key) {
+            if (is_array(static::get($pointer, $key))) {
+                $pointer = &$pointer[$key];
+            }
+        }
+        unset($pointer[$last]);
+        return $data;
+    }
+
+    /**
+     * @return array
+     */
+    public static function removeEmptyValues(array $array)
     {
         $result = [];
         foreach ($array as $key => $value) {
-            if (!$value) {
+            if (Helper::isEmpty($value)) {
                 continue;
             }
-            $result[$key] = is_array($value)
-                ? static::removeEmptyArrayValues($value)
-                : $value;
+            $result[$key] = Helper::ifTrue(!is_array($value), $value, function () use ($value) {
+                return static::removeEmptyValues($value);
+            });
         }
         return $result;
     }
 
-
     /**
      * Set a value to an array of values using a dot-notation path as reference.
+     * @param mixed $data
      * @param string $path
      * @param mixed $value
      * @return array
      */
-    public static function set(array $data, $path, $value)
+    public static function set($data, $path, $value)
     {
         $token = strtok($path, '.');
         $ref = &$data;
         while (false !== $token) {
-            $ref = static::consolidateArray($ref);
-            $ref = &$ref[$token];
+            if (is_object($ref)) {
+                $ref = &$ref->$token;
+            } else {
+                $ref = static::consolidate($ref);
+                $ref = &$ref[$token];
+            }
             $token = strtok('.');
         }
         $ref = $value;
@@ -205,14 +266,26 @@ class Arr
      */
     public static function unique(array $values)
     {
-        return array_filter(array_unique($values));
+        return Helper::ifTrue(!static::isIndexedAndFlat($values), $values, function () use ($values) {
+            return array_values(array_filter(array_unique($values)));
+        });
+    }
+
+    /**
+     * @param array|string $values
+     * @return array
+     */
+    public static function uniqueInt($values)
+    {
+        $values = array_filter(static::convertFromString($values), 'is_numeric');
+        return static::unique(array_values(array_map('absint', $values)));
     }
 
     /**
      * @return array
      */
-    public static function unprefixArrayKeys(array $values)
+    public static function unprefixKeys(array $values, $prefix = '_')
     {
-        return static::prefixArrayKeys($values, false);
+        return static::prefixKeys($values, $prefix, false);
     }
 }

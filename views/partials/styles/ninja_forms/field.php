@@ -1,17 +1,15 @@
 <?php defined('WPINC') || die; ?>
 
-<div class="glsr-field nf-field-container label-above {{ class }}">
+<div class="nf-field-container label-above">
     <div class="nf-field">
-        <div class="field-wrap">
+        <div class="field-wrap {{ class }}">
             <div class="nf-field-label">
                 {{ label }}
             </div>
             <div class="nf-field-element">
                 {{ field }}
             </div>
+            {{ errors }}
         </div>
-    </div>
-    <div class="nf-after-field">
-        {{ errors }}
     </div>
 </div>

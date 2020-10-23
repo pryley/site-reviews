@@ -1,0 +1,18 @@
+:--namespace .glsr-hidden {
+    display: none;
+}
+:--namespace .glsr-read-more {
+    white-space: nowrap;
+}
+:--namespace .glsr-read-more::before {
+    content: '\2026';
+    margin-left: 0;
+    margin-right: 0.5em;
+}
+:--namespace .glsr-visible + .glsr-read-more::before {
+    content: '';
+}
+:--namespace.glsr-rtl .glsr-read-more::before {
+    margin-left: 0.5em;
+    margin-right: 0;
+}

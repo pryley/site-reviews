@@ -1,0 +1,39 @@
+@import "public/minimal/variables";
+@import "public/minimal/keyframes";
+@import "public/minimal/screen-reader";
+@import "public/minimal/reviews";
+@import "public/minimal/read-more";
+@import "public/minimal/pagination";
+@import "public/minimal/field-toggle";
+@import "public/minimal/field-star-rating";
+@import "public/minimal/submit-button";
+@import "public/minimal/reviews-summary";
+
+:--namespace form.glsr-hide-form {
+    max-height: 0 !important;
+    opacity: 0;
+    overflow: hidden;
+}
+:--namespace form.glsr-form .glsr-field-toggle {
+    line-height: 1.5;
+}
+:--namespace form.glsr-form:not(.glsr-form-is-invalid) .glsr-field-error,
+:--namespace form.glsr-form .glsr-form-message:not(.glsr-form-failed):not(.glsr-form-success) {
+    display: none;
+}
+:--namespace form.glsr-form .glsr-form-message {
+    border: 1px solid transparent;
+    margin: var(--glsr-base-font-size) auto;
+    padding: var(--glsr-base-font-size);
+}
+:--namespace form.glsr-form .glsr-form-failed {
+    background-color: #f2dede;
+    border-color: #eed3d7;
+}
+:--namespace form.glsr-form .glsr-form-success {
+    background-color: #e0ffc7;
+    border-color: #b4d39b;
+}
+:--namespace form.glsr-form .glsr-recaptcha-holder {
+    margin-top: var(--glsr-base-font-size);
+}

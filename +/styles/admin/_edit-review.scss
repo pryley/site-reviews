@@ -2,8 +2,8 @@
 // Partials -> Edit Review Page
 // =============================================================================
 
-.post-type-site-review .wp-editor-expand #wp-content-editor-container {
-	margin-top: 17px;
+.post-type-site-review #titlediv #title {
+	margin-bottom: 20px;
 }
 .post-type-site-review #contentdiv textarea,
 .post-type-site-review .wp-editor-area {
@@ -37,7 +37,7 @@
 	}
 }
 
-.glsr-response {
+.wp-admin .glsr-response {
 	display: block;
 	height: 6em;
 	width: 100%;

@@ -2,11 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
+use GeminiLabs\SiteReviews\Request;
 
 class NoticeController extends Controller
 {
@@ -20,39 +22,40 @@ class NoticeController extends Controller
     public function __construct()
     {
         $this->dismissValuesMap = [
-            'trustalyze' => glsr()->version('major'),
             'welcome' => glsr()->version('minor'),
         ];
     }
 
     /**
      * @return void
-     * @action admin_notices
+     * @filter admin_notices
      */
-    public function filterAdminNotices()
+    public function adminNotices()
     {
         $screen = glsr_current_screen();
+        $this->renderMigrationNotice($screen->post_type);
         $this->renderWelcomeNotice($screen->post_type);
-        $this->renderTrustalyzeNotice($screen->post_type);
     }
 
     /**
      * @return void
+     * @action site-reviews/route/admin/dismiss-notice
      */
-    public function routerDismissNotice(array $request)
+    public function dismissNotice(Request $request)
     {
-        if ($key = Arr::get($request, 'notice')) {
-            $this->dismissNotice($key);
+        if ($request->notice) {
+            $this->setUserMeta($request->notice, $this->getVersionFor($request->notice));
         }
     }
 
     /**
-     * @param string $key
      * @return void
+     * @action site-reviews/route/ajax/dismiss-notice
      */
-    protected function dismissNotice($key)
+    public function dismissNoticeAjax(Request $request)
     {
-        $this->setUserMeta($key, $this->getVersionFor($key));
+        $this->dismissNotice($request);
+        wp_send_json_success();
     }
 
     /**
@@ -79,13 +82,17 @@ class NoticeController extends Controller
      * @param string $screenPostType
      * @return void
      */
-    protected function renderTrustalyzeNotice($screenPostType)
+    protected function renderMigrationNotice($screenPostType)
     {
-        if (Application::POST_TYPE == $screenPostType
-            && Helper::isGreaterThan($this->getVersionFor('trustalyze'), $this->getUserMeta('trustalyze', 0))
-            && !glsr(OptionManager::class)->getBool('settings.general.trustalyze')
-            && glsr()->can('manage_options')) {
-            glsr()->render('partials/notices/trustalyze');
+        if (glsr()->post_type == $screenPostType
+            && glsr()->hasPermission('tools', 'general')
+            && (glsr(Migrate::class)->isMigrationNeeded() || glsr(Database::class)->isMigrationNeeded())) {
+            glsr()->render('partials/notices/migrate', [
+                'action' => glsr(Builder::class)->a([
+                    'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-general'),
+                    'text' => _x('Migrate Plugin', 'admin-text', 'site-reviews'),
+                ]),
+            ]);
         }
     }
 
@@ -95,12 +102,12 @@ class NoticeController extends Controller
      */
     protected function renderWelcomeNotice($screenPostType)
     {
-        if (Application::POST_TYPE == $screenPostType
+        if (glsr()->post_type == $screenPostType
             && Helper::isGreaterThan($this->getVersionFor('welcome'), $this->getUserMeta('welcome', 0))
             && glsr()->can('edit_others_posts')) {
             $welcomeText = '0.0.0' == glsr(OptionManager::class)->get('version_upgraded_from')
-                ? __('Thanks for installing Site Reviews v%s, we hope you love it!', 'site-reviews')
-                : __('Thanks for updating to Site Reviews v%s, we hope you love the changes!', 'site-reviews');
+                ? _x('Thanks for installing Site Reviews v%s, we hope you love it!', 'admin-text', 'site-reviews')
+                : _x('Thanks for updating to Site Reviews v%s, we hope you love the changes!', 'admin-text', 'site-reviews');
             glsr()->render('partials/notices/welcome', [
                 'text' => sprintf($welcomeText, glsr()->version),
             ]);
@@ -109,7 +116,7 @@ class NoticeController extends Controller
 
     /**
      * @param string $key
-     * @param mixed $fallback
+     * @param mixed $value
      * @return mixed
      */
     protected function setUserMeta($key, $value)

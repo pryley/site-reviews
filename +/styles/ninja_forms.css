@@ -1,0 +1,33 @@
+@import "public/minimal/variables";
+@import "public/minimal/keyframes";
+@import "public/minimal/screen-reader";
+@import "public/minimal/reviews";
+@import "public/minimal/read-more";
+@import "public/minimal/pagination";
+@import "public/minimal/field-toggle";
+@import "public/minimal/field-star-rating";
+@import "public/minimal/submit-button";
+@import "public/minimal/reviews-summary";
+
+:--namespace form.glsr-form textarea {
+    display: block;
+}
+:--namespace form.glsr-form.nf-style-light .listcheckbox-wrap input[type=checkbox]:not(:checked) + label::after,
+:--namespace form.glsr-form.nf-style-light .listradio-wrap input[type=radio]:not(:checked) + label::after {
+    border-color: #c4c4c4;
+}
+:--namespace form.glsr-form.nf-style-dark .listcheckbox-wrap input[type=checkbox]:not(:checked) + label::after,
+:--namespace form.glsr-form.nf-style-dark .listradio-wrap input[type=radio]:not(:checked) + label::after {
+    border-color: #3c3c3c;
+}
+:--namespace form.glsr-form .listcheckbox-wrap input[type=checkbox]:not(:checked) + label::before,
+:--namespace form.glsr-form .listradio-wrap input[type=radio]:not(:checked) + label::before {
+    opacity: 0;
+}
+:--namespace form.glsr-form .glsr-field-error {
+    order: 50;
+}
+:--namespace form.glsr-form .glsr-form-failed,
+:--namespace form.glsr-form .glsr-form-success {
+    display: block;
+}

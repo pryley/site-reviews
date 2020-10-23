@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use GeminiLabs\SiteReviews\Application;
-
 class Translator
 {
     /**
@@ -13,7 +11,7 @@ class Translator
      */
     public function translate($original, $domain, array $args)
     {
-        $domains = apply_filters('site-reviews/translator/domains', [Application::ID]);
+        $domains = glsr()->filterArray('translator/domains', [glsr()->id]);
         if (!in_array($domain, $domains)) {
             return $original;
         }
@@ -29,13 +27,13 @@ class Translator
     }
 
     /**
-     * Used when search/replacing a default text-domain translation
+     * Used when search/replacing a default text-domain translation.
      * @return string
      */
     public function getTranslation(array $args)
     {
         $args = $this->normalizeTranslationArgs($args);
-        return get_translations_for_domain(Application::ID)->translate_plural($args['single'], $args['plural'], $args['number']);
+        return get_translations_for_domain(glsr()->id)->translate_plural($args['single'], $args['plural'], $args['number']);
     }
 
     /**

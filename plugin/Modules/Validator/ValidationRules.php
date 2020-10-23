@@ -25,7 +25,7 @@ trait ValidationRules
      */
     protected function replace($message, array $parameters)
     {
-        if (!Str::contains($message, '%s')) {
+        if (!Str::contains('%s', $message)) {
             return $message;
         }
         return preg_replace_callback('/(%s)/', function () use (&$parameters) {
@@ -36,9 +36,8 @@ trait ValidationRules
     }
 
     /**
-     * Validate that an attribute was "accepted".
+     * Validate that an attribute value was "accepted".
      * This validation rule implies the attribute is "required".
-     * @param string $attribute
      * @param mixed $value
      * @return bool
      */
@@ -62,7 +61,7 @@ trait ValidationRules
     }
 
     /**
-     * Validate that an attribute is a valid e-mail address.
+     * Validate that an attribute value is a valid e-mail address.
      * @param mixed $value
      * @return bool
      */

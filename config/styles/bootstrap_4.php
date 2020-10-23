@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'fields' => [
+    'classes' => [
+        'field' => 'form-group',
         'input' => 'form-control',
         'input_checkbox' => 'form-check-input',
         'input_radio' => 'form-check-input',
@@ -11,9 +12,10 @@ return [
         'textarea' => 'form-control',
     ],
     'validation' => [
-        'error_tag' => 'div',
-        'error_tag_class' => 'invalid-feedback',
-        'field_class' => 'form-group',
-        'input_error_class' => 'is-invalid',
+        'field_message' => 'invalid-feedback',
+        'form_message' => 'alert',
+        'form_message_failed' => 'alert-danger',
+        'form_message_success' => 'alert-success',
+        'input_error' => 'is-invalid',
     ],
 ];

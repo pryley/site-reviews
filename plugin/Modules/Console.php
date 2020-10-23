@@ -2,12 +2,26 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use BadMethodCallException;
 use DateTime;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Backtrace;
 use ReflectionClass;
 use Throwable;
 
+/**
+ * @method static debug($message, $context = [])
+ * @method static info($message, $context = [])
+ * @method static notice($message, $context = [])
+ * @method static warning($message, $context = [])
+ * @method static error($message, $context = [])
+ * @method static critical($message, $context = [])
+ * @method static alert($message, $context = [])
+ * @method static emergency($message, $context = [])
+ */
 class Console
 {
     const DEBUG = 0;      // Detailed debug information
@@ -25,11 +39,18 @@ class Console
 
     public function __construct()
     {
-        $this->file = glsr()->path('console.log');
-        $this->log = file_exists($this->file)
-            ? file_get_contents($this->file)
-            : '';
+        $this->setLogFile();
         $this->reset();
+    }
+
+    public function __call($method, $args)
+    {
+        $constant = 'static::'.strtoupper($method);
+        if (defined($constant)) {
+            $args = Arr::prepend($args, constant($constant));
+            return call_user_func_array([$this, 'log'], array_slice($args, 0, 3));
+        }
+        throw new BadMethodCallException("Method [$method] does not exist.");
     }
 
     /**
@@ -38,18 +59,6 @@ class Console
     public function __toString()
     {
         return $this->get();
-    }
-
-    /**
-     * Action must be taken immediately
-     * Example: Entire website down, database unavailable, etc. This should trigger the SMS alerts and wake you up.
-     * @param mixed $message
-     * @param array $context
-     * @return static
-     */
-    public function alert($message, array $context = [])
-    {
-        return $this->log(static::ALERT, $message, $context);
     }
 
     /**
@@ -62,58 +71,13 @@ class Console
     }
 
     /**
-     * Critical conditions
-     * Example: Application component unavailable, unexpected exception.
-     * @param mixed $message
-     * @param array $context
-     * @return static
-     */
-    public function critical($message, array $context = [])
-    {
-        return $this->log(static::CRITICAL, $message, $context);
-    }
-
-    /**
-     * Detailed debug information.
-     * @param mixed $message
-     * @param array $context
-     * @return static
-     */
-    public function debug($message, array $context = [])
-    {
-        return $this->log(static::DEBUG, $message, $context);
-    }
-
-    /**
-     * System is unusable.
-     * @param mixed $message
-     * @param array $context
-     * @return static
-     */
-    public function emergency($message, array $context = [])
-    {
-        return $this->log(static::EMERGENCY, $message, $context);
-    }
-
-    /**
-     * Runtime errors that do not require immediate action but should typically be logged and monitored.
-     * @param mixed $message
-     * @param array $context
-     * @return static
-     */
-    public function error($message, array $context = [])
-    {
-        return $this->log(static::ERROR, $message, $context);
-    }
-
-    /**
      * @return string
      */
     public function get()
     {
-        return empty($this->log)
-            ? __('Console is empty', 'site-reviews')
-            : $this->log;
+        return esc_html(
+            Helper::ifEmpty($this->log, _x('Console is empty', 'admin-text', 'site-reviews'))
+        );
     }
 
     /**
@@ -121,7 +85,7 @@ class Console
      */
     public function getLevel()
     {
-        return intval(apply_filters('site-reviews/console/level', static::INFO));
+        return glsr()->filterInt('console/level', static::INFO);
     }
 
     /**
@@ -143,29 +107,11 @@ class Console
     }
 
     /**
-     * @param string|null $valueIfEmpty
      * @return string
      */
-    public function humanSize($valueIfEmpty = null)
+    public function humanSize()
     {
-        $bytes = $this->size();
-        if (empty($bytes) && is_string($valueIfEmpty)) {
-            return $valueIfEmpty;
-        }
-        $exponent = floor(log(max($bytes, 1), 1024));
-        return round($bytes / pow(1024, $exponent), 2).' '.['bytes', 'KB', 'MB', 'GB'][$exponent];
-    }
-
-    /**
-     * Interesting events
-     * Example: User logs in, SQL logs.
-     * @param mixed $message
-     * @param array $context
-     * @return static
-     */
-    public function info($message, array $context = [])
-    {
-        return $this->log(static::INFO, $message, $context);
+        return Str::replaceLast(' B', ' bytes', Cast::toString(size_format($this->size())));
     }
 
     /**
@@ -178,12 +124,11 @@ class Console
     public function log($level, $message, $context = [], $backtraceLine = '')
     {
         if (empty($backtraceLine)) {
-            $backtraceLine = $this->getBacktraceLine();
+            $backtraceLine = glsr(Backtrace::class)->line();
         }
         if ($this->canLogEntry($level, $backtraceLine)) {
             $levelName = Arr::get($this->getLevels(), $level);
-            $context = Arr::consolidateArray($context);
-            $backtraceLine = $this->normalizeBacktraceLine($backtraceLine);
+            $backtraceLine = glsr(Backtrace::class)->normalizeLine($backtraceLine);
             $message = $this->interpolate($message, $context);
             $entry = $this->buildLogEntry($levelName, $message, $backtraceLine);
             file_put_contents($this->file, $entry.PHP_EOL, FILE_APPEND | LOCK_EX);
@@ -198,30 +143,18 @@ class Console
      */
     public function logOnce()
     {
-        $once = Arr::consolidateArray(glsr()->{$this->logOnceKey});
+        $once = Arr::consolidate(glsr()->{$this->logOnceKey});
         $levels = $this->getLevels();
         foreach ($once as $entry) {
             $levelName = Arr::get($entry, 'level');
-            if (!in_array($levelName, $levels)) {
-                continue;
+            if (in_array($levelName, $levels)) {
+                $level = Arr::get(array_flip($levels), $levelName);
+                $message = Arr::get($entry, 'message');
+                $backtraceLine = Arr::get($entry, 'backtrace');
+                $this->log($level, $message, [], $backtraceLine);
             }
-            $level = Arr::get(array_flip($levels), $levelName);
-            $message = Arr::get($entry, 'message');
-            $backtraceLine = Arr::get($entry, 'backtrace');
-            $this->log($level, $message, [], $backtraceLine);
         }
         glsr()->{$this->logOnceKey} = [];
-    }
-
-    /**
-     * Normal but significant events.
-     * @param mixed $message
-     * @param array $context
-     * @return static
-     */
-    public function notice($message, array $context = [])
-    {
-        return $this->log(static::NOTICE, $message, $context);
     }
 
     /**
@@ -232,21 +165,20 @@ class Console
      */
     public function once($levelName, $handle, $data)
     {
-        $once = Arr::consolidateArray(glsr()->{$this->logOnceKey});
+        $once = Arr::consolidate(glsr()->{$this->logOnceKey});
         $filtered = array_filter($once, function ($entry) use ($levelName, $handle) {
             return Arr::get($entry, 'level') == $levelName
                 && Arr::get($entry, 'handle') == $handle;
         });
-        if (!empty($filtered)) {
-            return;
+        if (empty($filtered)) {
+            $once[] = [
+                'backtrace' => glsr(Backtrace::class)->lineFromData($data),
+                'handle' => $handle,
+                'level' => $levelName,
+                'message' => '[RECURRING] '.$this->getMessageFromData($data),
+            ];
+            glsr()->{$this->logOnceKey} = $once;
         }
-        $once[] = [
-            'backtrace' => $this->getBacktraceLineFromData($data),
-            'handle' => $handle,
-            'level' => $levelName,
-            'message' => '[RECURRING] '.$this->getMessageFromData($data),
-        ];
-        glsr()->{$this->logOnceKey} = $once;
     }
 
     /**
@@ -257,31 +189,6 @@ class Console
         return file_exists($this->file)
             ? filesize($this->file)
             : 0;
-    }
-
-    /**
-     * Exceptional occurrences that are not errors
-     * Example: Use of deprecated APIs, poor use of an API, undesirable things that are not necessarily wrong.
-     * @param mixed $message
-     * @param array $context
-     * @return static
-     */
-    public function warning($message, array $context = [])
-    {
-        return $this->log(static::WARNING, $message, $context);
-    }
-
-    /**
-     * @param array $backtrace
-     * @param int $index
-     * @return string
-     */
-    protected function buildBacktraceLine($backtrace, $index)
-    {
-        return sprintf('%s:%s',
-            Arr::get($backtrace, $index.'.file'), // realpath
-            Arr::get($backtrace, $index.'.line')
-        );
     }
 
     /**
@@ -307,42 +214,10 @@ class Console
     protected function canLogEntry($level, $backtraceLine)
     {
         $levelExists = array_key_exists($level, $this->getLevels());
-        if (!Str::contains($backtraceLine, glsr()->path())) {
+        if (!Str::contains(glsr()->path(), $backtraceLine)) {
             return $levelExists; // ignore level restriction if triggered outside of the plugin
         }
         return $levelExists && $level >= $this->getLevel();
-    }
-
-    /**
-     * @return void|string
-     */
-    protected function getBacktraceLine()
-    {
-        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 6);
-        $search = array_search('glsr_log', glsr_array_column($backtrace, 'function'));
-        if (false !== $search) {
-            return $this->buildBacktraceLine($backtrace, (int) $search);
-        }
-        $search = array_search('log', glsr_array_column($backtrace, 'function'));
-        if (false !== $search) {
-            $index = '{closure}' == Arr::get($backtrace, ($search + 2).'.function')
-                ? $search + 4
-                : $search + 1;
-            return $this->buildBacktraceLine($backtrace, $index);
-        }
-        return 'Unknown';
-    }
-
-    /**
-     * @param mixed $data
-     * @return string
-     */
-    protected function getBacktraceLineFromData($data)
-    {
-        $backtrace = $data instanceof Throwable
-            ? $data->getTrace()
-            : debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
-        return $this->buildBacktraceLine($backtrace, 0);
     }
 
     /**
@@ -353,7 +228,7 @@ class Console
     {
         return $data instanceof Throwable
             ? $this->normalizeThrowableMessage($data->getMessage())
-            : print_r($data, 1);
+            : print_r($data, true);
     }
 
     /**
@@ -364,7 +239,8 @@ class Console
      */
     protected function interpolate($message, $context = [])
     {
-        if ($this->isObjectOrArray($message) || !is_array($context)) {
+        $context = Arr::consolidate($context);
+        if (!is_scalar($message) || empty($context)) {
             return print_r($message, true);
         }
         $replace = [];
@@ -372,32 +248,6 @@ class Console
             $replace['{'.$key.'}'] = $this->normalizeValue($value);
         }
         return strtr($message, $replace);
-    }
-
-    /**
-     * @param mixed $value
-     * @return bool
-     */
-    protected function isObjectOrArray($value)
-    {
-        return is_object($value) || is_array($value);
-    }
-
-    /**
-     * @param string $backtraceLine
-     * @return string
-     */
-    protected function normalizeBacktraceLine($backtraceLine)
-    {
-        $search = [
-            glsr()->path('plugin/'),
-            glsr()->path('plugin/', false),
-            trailingslashit(glsr()->path()),
-            trailingslashit(glsr()->path('', false)),
-            WP_CONTENT_DIR,
-            ABSPATH,
-        ];
-        return str_replace(array_unique($search), '', $backtraceLine);
     }
 
     /**
@@ -420,7 +270,7 @@ class Console
     {
         if ($value instanceof DateTime) {
             $value = $value->format('Y-m-d H:i:s');
-        } elseif ($this->isObjectOrArray($value)) {
+        } elseif (!is_scalar($value)) {
             $value = json_encode($value);
         }
         return (string) $value;
@@ -431,16 +281,36 @@ class Console
      */
     protected function reset()
     {
-        if ($this->size() <= pow(1024, 2) / 8) {
+        if ($this->size() <= wp_convert_hr_to_bytes('256kb')) {
             return;
         }
         $this->clear();
-        file_put_contents(
-            $this->file,
-            $this->buildLogEntry(
-                static::NOTICE,
-                __('Console was automatically cleared (128 KB maximum size)', 'site-reviews')
+        file_put_contents($this->file,
+            $this->buildLogEntry(static::NOTICE,
+                _x('Console was automatically cleared (256KB maximum size)', 'admin-text', 'site-reviews')
             )
         );
+    }
+
+    /**
+     * @return void
+     */
+    protected function setLogFile()
+    {
+        $uploads = wp_upload_dir();
+        $base = trailingslashit($uploads['basedir'].'/'.glsr()->id);
+        $this->file = $base.'logs/'.sanitize_file_name('console-'.wp_hash(glsr()->id).'.log');
+        $files = [
+            $base.'index.php' => '<?php',
+            $base.'logs/.htaccess' => 'deny from all',
+            $base.'logs/index.php' => '<?php',
+            $this->file => '',
+        ];
+        foreach ($files as $file => $contents) {
+            if (wp_mkdir_p(dirname($file)) && !file_exists($file)) {
+                file_put_contents($file, $contents);
+            }
+        }
+        $this->log = file_get_contents($this->file);
     }
 }

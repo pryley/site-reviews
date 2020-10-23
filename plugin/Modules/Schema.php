@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use DateTime;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Schema\UnknownType;
@@ -23,23 +23,29 @@ class Schema
     protected $keyValues = [];
 
     /**
-     * @var array
+     * @var array|null
      */
     protected $ratingCounts;
 
     /**
+     * @var \GeminiLabs\SiteReviews\Reviews|array
+     */
+    protected $reviews;
+
+    /**
      * @return array
      */
-    public function build(array $args = [])
+    public function build(array $args = [], $reviews = [])
     {
         $this->args = $args;
+        $this->reviews = $reviews;
         $schema = $this->buildSummary($args);
         if (!empty($schema)) {
             $reviews = $this->buildReviews();
-            foreach ($reviews as &$review) {
+            array_walk($reviews, function (&$review) {
                 unset($review['@context']);
                 unset($review['itemReviewed']);
-            }
+            });
         }
         if (!empty($reviews)) {
             $schema['review'] = $reviews;
@@ -51,16 +57,17 @@ class Schema
      * @param array|null $args
      * @return array
      */
-    public function buildSummary($args = null)
+    public function buildSummary($args = null, array $ratings = [])
     {
         if (is_array($args)) {
             $this->args = $args;
         }
         $buildSummary = Helper::buildMethodName($this->getSchemaOptionValue('type'), 'buildSummaryFor');
-        if ($count = array_sum($this->getRatingCounts())) {
-            $schema = method_exists($this, $buildSummary)
-                ? $this->$buildSummary()
-                : $this->buildSummaryForCustom();
+        if ($count = array_sum($this->getRatingCounts($ratings))) {
+            $schema = Helper::ifTrue(method_exists($this, $buildSummary),
+                [$this, $buildSummary],
+                [$this, 'buildSummaryForCustom']
+            );
             $schema->aggregateRating(
                 $this->getSchemaType('AggregateRating')
                     ->ratingValue($this->getRatingValue())
@@ -69,9 +76,45 @@ class Schema
                     ->worstRating(glsr()->constant('MIN_RATING', Rating::class))
             );
             $schema = $schema->toArray();
-            return apply_filters('site-reviews/schema/'.$schema['@type'], $schema, $args);
+            return glsr()->filterArray('schema/'.$schema['@type'], $schema, $args);
         }
         return [];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function buildSummaryForCustom()
+    {
+        return $this->buildSchemaValues($this->getSchemaType(), [
+            'description', 'image', 'name', 'url',
+        ]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function buildSummaryForLocalBusiness()
+    {
+        return $this->buildSchemaValues($this->buildSummaryForCustom(), [
+            'address', 'priceRange', 'telephone',
+        ]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function buildSummaryForProduct()
+    {
+        $offerType = $this->getSchemaOption('offerType', 'AggregateOffer');
+        $offers = $this->buildSchemaValues($this->getSchemaType($offerType), [
+            'highPrice', 'lowPrice', 'price', 'priceCurrency',
+        ]);
+        return $this->buildSummaryForCustom()
+            ->doIf(!empty($offers->getProperties()), function ($schema) use ($offers) {
+                $schema->offers($offers);
+            })
+            ->setProperty('@id', $this->getSchemaOptionValue('url').'#product');
     }
 
     /**
@@ -79,13 +122,12 @@ class Schema
      */
     public function render()
     {
-        if (empty(glsr()->schemas)) {
-            return;
+        if ($schemas = glsr()->retrieve('schemas', [])) {
+            printf('<script type="application/ld+json">%s</script>', json_encode(
+                glsr()->filterArray('schema/all', $schemas),
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+            ));
         }
-        printf('<script type="application/ld+json">%s</script>', json_encode(
-            apply_filters('site-reviews/schema/all', glsr()->schemas),
-            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-        ));
     }
 
     /**
@@ -93,12 +135,12 @@ class Schema
      */
     public function store(array $schema)
     {
-        if (empty($schema)) {
-            return;
+        if (!empty($schema)) {
+            $schemas = Arr::consolidate(glsr()->retrieve('schemas'));
+            $schemas[] = $schema;
+            $schemas = array_map('unserialize', array_unique(array_map('serialize', $schemas)));
+            glsr()->store('schemas', $schemas);
         }
-        $schemas = glsr()->schemas;
-        $schemas[] = $schema;
-        glsr()->schemas = array_map('unserialize', array_unique(array_map('serialize', $schemas)));
     }
 
     /**
@@ -125,7 +167,7 @@ class Schema
                     ->worstRating(glsr()->constant('MIN_RATING', Rating::class))
             );
         }
-        return apply_filters('site-reviews/schema/review', $schema->toArray(), $review, $this->args);
+        return glsr()->filterArray('schema/review', $schema->toArray(), $review, $this->args);
     }
 
     /**
@@ -134,10 +176,10 @@ class Schema
     protected function buildReviews()
     {
         $reviews = [];
-        foreach (glsr(ReviewManager::class)->get($this->args) as $review) {
+        foreach ($this->reviews as $review) {
             // Only include critic reviews that have been directly produced by your site, not reviews from third-party sites or syndicated reviews.
             // @see https://developers.google.com/search/docs/data-types/review
-            if ('local' === $review->review_type) {
+            if ('local' === $review->type) {
                 $reviews[] = $this->buildReview($review);
             }
         }
@@ -152,57 +194,22 @@ class Schema
     {
         foreach ($values as $value) {
             $option = $this->getSchemaOptionValue($value);
-            if (empty($option)) {
-                continue;
+            if (!empty($option)) {
+                $schema->$value($option);
             }
-            $schema->$value($option);
         }
         return $schema;
     }
 
     /**
-     * @return mixed
-     */
-    protected function buildSummaryForCustom()
-    {
-        return $this->buildSchemaValues($this->getSchemaType(), [
-            'description', 'image', 'name', 'url',
-        ]);
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function buildSummaryForLocalBusiness()
-    {
-        return $this->buildSchemaValues($this->buildSummaryForCustom(), [
-            'address', 'priceRange', 'telephone',
-        ]);
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function buildSummaryForProduct()
-    {
-        $offerType = $this->getSchemaOption('offerType', 'AggregateOffer');
-        $offers = $this->buildSchemaValues($this->getSchemaType($offerType), [
-            'highPrice', 'lowPrice', 'price', 'priceCurrency',
-        ]);
-        return $this->buildSummaryForCustom()
-            ->doIf(!empty($offers->getProperties()), function ($schema) use ($offers) {
-                $schema->offers($offers);
-            })
-            ->setProperty('@id', $this->getSchemaOptionValue('url').'#product');
-    }
-
-    /**
      * @return array
      */
-    protected function getRatingCounts()
+    protected function getRatingCounts(array $ratings = [])
     {
         if (!isset($this->ratingCounts)) {
-            $this->ratingCounts = glsr(ReviewManager::class)->getRatingCounts($this->args);
+            $this->ratingCounts = Helper::ifTrue(!empty($ratings), $ratings, function () {
+                return glsr(RatingManager::class)->ratings($this->args);
+            });
         }
         return $this->ratingCounts;
     }
@@ -212,7 +219,7 @@ class Schema
      */
     protected function getRatingValue()
     {
-        return glsr(Rating::class)->getAverage($this->getRatingCounts());
+        return glsr(Rating::class)->average($this->getRatingCounts());
     }
 
     /**
@@ -230,9 +237,7 @@ class Schema
         if (is_array($setting)) {
             return $this->getSchemaOptionDefault($setting, $fallback);
         }
-        return !empty($setting)
-            ? $setting
-            : $fallback;
+        return Helper::ifEmpty($setting, $fallback, $strict = true);
     }
 
     /**
@@ -245,9 +250,10 @@ class Schema
             'custom' => '',
             'default' => $fallback,
         ]);
-        return 'custom' != $setting['default']
-            ? $setting['default']
-            : $setting['custom'];
+        return Helper::ifTrue('custom' === $setting['default'], 
+            $setting['custom'], 
+            $setting['default']
+        );
     }
 
     /**
@@ -264,7 +270,7 @@ class Schema
         if ($value != $fallback) {
             return $this->setAndGetKeyValue($option, $value);
         }
-        if (!is_single() && !is_page()) {
+        if (!is_singular()) {
             return;
         }
         $method = Helper::buildMethodName($option, 'getThing');
@@ -283,9 +289,14 @@ class Schema
             $type = $this->getSchemaOption('type', 'LocalBusiness');
         }
         $className = Helper::buildClassName($type, 'Modules\Schema');
-        return class_exists($className)
-            ? new $className()
-            : new UnknownType($type);
+        return Helper::ifTrue(class_exists($className),
+            function () use ($className) {
+                return new $className();
+            },
+            function () use ($type) {
+                return new UnknownType($type);
+            }
+        );
     }
 
     /**

@@ -2,11 +2,18 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
-use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Defaults\FieldDefaults;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Html\Attributes;
+use GeminiLabs\SiteReviews\Modules\Style;
 
+/**
+ * @property string $id
+ */
 class Field
 {
     /**
@@ -18,21 +25,29 @@ class Field
     {
         $this->field = wp_parse_args($field, [
             'errors' => false,
-            'is_hidden' => false,
             'is_multi' => false,
-            'is_public' => false,
             'is_raw' => false,
-            'is_setting' => false,
             'is_valid' => true,
-            'is_widget' => false,
             'path' => '',
+            'raw_type' => '',
         ]);
         $this->normalize();
     }
 
-    /**
-     * @return string
-     */
+    public function __get($key)
+    {
+        if (array_key_exists($key, $this->field)) {
+            return $this->field[$key];
+        }
+    }
+
+    public function __set($key, $value)
+    {
+        if (array_key_exists($key, $this->field)) {
+            $this->field[$key] = $value;
+        }
+    }
+
     public function __toString()
     {
         return (string) $this->build();
@@ -47,15 +62,115 @@ class Field
             return;
         }
         if ($this->field['is_raw']) {
-            return glsr(Builder::class)->{$this->field['type']}($this->field);
+            return $this->builder()->{$this->field['type']}($this->field);
         }
-        if (!$this->field['is_setting']) {
-            return $this->buildField();
+        if ($this->field['is_multi']) {
+            return $this->buildMultiField();
         }
-        if (!$this->field['is_multi']) {
-            return $this->buildSettingField();
+        return $this->buildField();
+    }
+
+    /**
+     * @return Builder
+     */
+    public function builder()
+    {
+        return glsr(Builder::class);
+    }
+
+    /**
+     * @return string
+     */
+    public function choiceType()
+    {
+        return Helper::ifTrue('toggle' === $this->field['raw_type'], 
+            $this->field['raw_type'],
+            $this->field['type']
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function fieldType()
+    {
+        $isChoice = in_array($this->field['raw_type'], ['checkbox', 'radio', 'toggle']);
+        return Helper::ifTrue($isChoice, 'choice', $this->field['raw_type']);
+    }
+
+    /**
+     * @param string $key
+     * @return array
+     */
+    public function getBaseClasses($key)
+    {
+        return [
+            glsr(Style::class)->classes($key),
+            Str::suffix(glsr(Style::class)->defaultClasses($key), '-'.$this->fieldType()),
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getField()
+    {
+        if ('choice' === $this->fieldType()) {
+            return $this->buildFieldChoiceOptions();
         }
-        return $this->buildSettingMultiField();
+        return $this->builder()->raw($this->field);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFieldClasses()
+    {
+        $classes = $this->getBaseClasses('field');
+        if (!empty($this->field['errors'])) {
+            $classes[] = glsr(Style::class)->validation('field_error');
+        }
+        if (!empty($this->field['required'])) {
+            $classes[] = glsr(Style::class)->validation('field_required');
+        }
+        $classes = glsr()->filterArray('rendered/field/classes', $classes, $this->field);
+        return implode(' ', $classes);
+    }
+
+    /**
+     * @return void|string
+     */
+    public function getFieldErrors()
+    {
+        return glsr(Template::class)->build('templates/form/field-errors', [
+            'context' => [
+                'class' => glsr(Style::class)->validation('field_message'),
+                'errors' => implode('<br>', Cast::toArray($this->field['errors'])), // because <br> is used in validation.js
+            ],
+            'field' => $this->field,
+        ]);
+    }
+
+    /**
+     * @return string|void
+     */
+    public function getFieldLabel()
+    {
+        if (!empty($this->field['label'])) {
+            return $this->builder()->label([
+                'class' => implode(' ', $this->getBaseClasses('label')),
+                'for' => $this->field['id'],
+                'text' => $this->builder()->span($this->field['label']),
+            ]);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getFieldPrefix()
+    {
+        return glsr()->id;
     }
 
     /**
@@ -69,116 +184,61 @@ class Field
     /**
      * @return string
      */
+    protected function buildFieldChoiceOptions()
+    {
+        $index = 0;
+        return array_reduce(array_keys($this->field['options']), function ($carry, $value) use (&$index) {
+            $args = glsr()->args($this->field);
+            $type = $this->choiceType();
+            $field = [
+                'checked' => in_array($value, $args->cast('value', 'array')),
+                'class' => $args->class,
+                'id' => Helper::ifTrue(!empty($args->id), $args->id.'-'.++$index),
+                'name' => $args->name,
+                'required' => $args->required,
+                'tabindex' => $args->tabindex,
+                'type' => $args->type,
+                'value' => $value,
+            ];
+            $html = glsr(Template::class)->build('templates/form/type-'.$type, [
+                'context' => [
+                    'class' => glsr(Style::class)->defaultClasses('field').'-'.$type,
+                    'id' => $field['id'],
+                    'input' => $this->builder()->raw($field),
+                    'text' => $args->options[$value],
+                ],
+                'field' => $field,
+            ]);
+            $html = glsr()->filterString('rendered/field', $html, $type, $field);
+            return $carry.$html;
+        });
+    }
+
+    /**
+     * @return string
+     */
     protected function buildField()
     {
-        $field = glsr(Template::class)->build('templates/form/field_'.$this->field['type'], [
+        $field = glsr(Template::class)->build('templates/form/field_'.$this->field['raw_type'], [
             'context' => [
-                'class' => $this->getFieldClass(),
+                'class' => $this->getFieldClasses(),
                 'errors' => $this->getFieldErrors(),
-                'field' => glsr(Builder::class)->raw($this->field),
-                'label' => glsr(Builder::class)->label([
-                    'class' => 'glsr-'.$this->field['type'].'-label',
-                    'for' => $this->field['id'],
-                    'is_public' => $this->field['is_public'],
-                    'text' => $this->field['label'].'<span></span>',
-                    'type' => $this->field['type'],
-                ]),
+                'field' => $this->getField(),
+                'for' => $this->field['id'],
+                'label' => $this->getFieldLabel(),
+                'label_text' => $this->field['label'],
             ],
             'field' => $this->field,
         ]);
-        return apply_filters('site-reviews/rendered/field', $field, $this->field['type'], $this->field);
+        return glsr()->filterString('rendered/field', $field, $this->field['raw_type'], $this->field);
     }
 
     /**
      * @return string
      */
-    protected function buildSettingField()
+    protected function buildMultiField()
     {
-        return glsr(Template::class)->build('partials/form/table-row', [
-            'context' => [
-                'class' => $this->getFieldClass(),
-                'field' => glsr(Builder::class)->{$this->field['type']}($this->field),
-                'label' => glsr(Builder::class)->label($this->field['legend'], ['for' => $this->field['id']]),
-            ],
-            'field' => $this->field,
-        ]);
-    }
-
-    /**
-     * @return string
-     */
-    protected function buildSettingMultiField()
-    {
-        $dependsOn = $this->getFieldDependsOn();
-        unset($this->field['data-depends']);
-        return glsr(Template::class)->build('partials/form/table-row-multiple', [
-            'context' => [
-                'class' => $this->getFieldClass(),
-                'depends_on' => $dependsOn,
-                'field' => glsr(Builder::class)->{$this->field['type']}($this->field),
-                'label' => glsr(Builder::class)->label($this->field['legend'], ['for' => $this->field['id']]),
-                'legend' => $this->field['legend'],
-            ],
-            'field' => $this->field,
-        ]);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getFieldClass()
-    {
-        $classes = [];
-        if (!empty($this->field['errors'])) {
-            $classes[] = 'glsr-has-error';
-        }
-        if ($this->field['is_hidden']) {
-            $classes[] = 'hidden';
-        }
-        if (!empty($this->field['required'])) {
-            $classes[] = 'glsr-required';
-        }
-        $classes = apply_filters('site-reviews/rendered/field/classes', $classes, $this->field);
-        return implode(' ', $classes);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getFieldDependsOn()
-    {
-        return !empty($this->field['data-depends'])
-            ? $this->field['data-depends']
-            : '';
-    }
-
-    /**
-     * @return void|string
-     */
-    protected function getFieldErrors()
-    {
-        if (empty($this->field['errors']) || !is_array($this->field['errors'])) {
-            return;
-        }
-        $errors = array_reduce($this->field['errors'], function ($carry, $error) {
-            return $carry.glsr(Builder::class)->span($error, ['class' => 'glsr-field-error']);
-        });
-        return glsr(Template::class)->build('templates/form/field-errors', [
-            'context' => [
-                'errors' => $errors,
-            ],
-            'field' => $this->field,
-        ]);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getFieldPrefix()
-    {
-        return $this->field['is_setting']
-            ? OptionManager::databaseKey()
-            : Application::ID;
+        return $this->buildField();
     }
 
     /**
@@ -191,11 +251,10 @@ class Field
             'name', 'type',
         ];
         foreach ($requiredValues as $value) {
-            if (isset($this->field[$value])) {
-                continue;
+            if (!isset($this->field[$value])) {
+                $missingValues[] = $value;
+                $this->field['is_valid'] = false;
             }
-            $missingValues[] = $value;
-            $this->field['is_valid'] = false;
         }
         if (!empty($missingValues)) {
             glsr_log()
@@ -206,20 +265,40 @@ class Field
     }
 
     /**
+     * @param string $className
+     * @return array
+     */
+    protected function mergeFieldArgs($className)
+    {
+        return $className::merge($this->field);
+    }
+
+    /**
+     * @return void
+     */
+    protected function normalizeFieldArgs()
+    {
+        $className = Helper::buildClassName($this->field['type'], __NAMESPACE__.'\Fields');
+        $className = glsr()->filterString('builder/field/'.$this->field['type'], $className);
+        if (class_exists($className)) {
+            $this->field = $this->mergeFieldArgs($className);
+        }
+    }
+
+    /**
      * @return void
      */
     protected function normalize()
     {
-        if (!$this->isFieldValid()) {
-            return;
+        if ($this->isFieldValid()) {
+            $this->field['path'] = $this->field['name'];
+            $this->field['raw_type'] = $this->field['type']; // save the original type before it's normalized
+            $this->normalizeFieldArgs();
+            $this->normalizeFieldId();
+            $this->normalizeFieldName();
+            $this->field = glsr(FieldDefaults::class)->merge($this->field);
+            $this->field = glsr()->filterArray('field/'.$this->field['raw_type'], $this->field);
         }
-        $this->field['path'] = $this->field['name'];
-        $className = Helper::buildClassName($this->field['type'], __NAMESPACE__.'\Fields');
-        if (class_exists($className)) {
-            $this->field = $className::merge($this->field);
-        }
-        $this->normalizeFieldId();
-        $this->normalizeFieldName();
     }
 
     /**

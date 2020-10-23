@@ -4,17 +4,18 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use Exception;
 use GeminiLabs\Sepia\PoParser\Parser;
-use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 
 class Translation
 {
+    const CONTEXT_ADMIN_KEY = 'admin-text';
     const SEARCH_THRESHOLD = 3;
 
     /**
-     * @var array
+     * @var array|null
      */
     protected $entries;
 
@@ -45,9 +46,9 @@ class Translation
     public function entries()
     {
         if (!isset($this->entries)) {
-            $potFile = glsr()->path(glsr()->languages.'/'.Application::ID.'.pot');
+            $potFile = glsr()->path(glsr()->languages.'/'.glsr()->id.'.pot');
             $entries = $this->extractEntriesFromPotFile($potFile);
-            $entries = apply_filters('site-reviews/translation/entries', $entries);
+            $entries = glsr()->filterArray('translation/entries', $entries);
             $this->entries = $entries;
         }
         return $this->entries;
@@ -72,6 +73,9 @@ class Translation
         try {
             $potEntries = $this->normalize(Parser::parseFile($potFile)->getEntries());
             foreach ($potEntries as $key => $entry) {
+                if (Str::contains(Arr::get($entry, 'msgctxt'), static::CONTEXT_ADMIN_KEY)) {
+                    continue;
+                }
                 $entries[html_entity_decode($key, ENT_COMPAT, 'UTF-8')] = $entry;
             }
         } catch (Exception $e) {
@@ -94,7 +98,7 @@ class Translation
         if (!is_array($filterWith)) {
             $filterWith = $this->translations();
         }
-        $keys = array_flip(glsr_array_column($filterWith, 'id'));
+        $keys = array_flip(wp_list_pluck($filterWith, 'id'));
         $this->results = $intersect
             ? array_intersect_key($entries, $keys)
             : array_diff_key($entries, $keys);
@@ -112,9 +116,9 @@ class Translation
             $entry
         );
         $data['data.class'] = $data['data.error'] = '';
-        if (false === array_search($entry['s1'], glsr_array_column($this->entries(), 'msgid'))) {
+        if (false === array_search($entry['s1'], wp_list_pluck($this->entries(), 'msgid'))) {
             $data['data.class'] = 'is-invalid';
-            $data['data.error'] = __('This custom translation is no longer valid as the original text has been changed or removed.', 'site-reviews');
+            $data['data.error'] = _x('This custom translation is no longer valid as the original text has been changed or removed.', 'admin-text', 'site-reviews');
         }
         return glsr(Template::class)->build('partials/translations/'.$template, [
             'context' => array_map('esc_html', $data),
@@ -131,7 +135,7 @@ class Translation
         foreach ($this->all() as $index => $entry) {
             $entry['index'] = $index;
             $entry['prefix'] = OptionManager::databaseKey();
-            $rendered.= $this->render($entry['type'], $entry);
+            $rendered .= $this->render($entry['type'], $entry);
         }
         return $rendered;
     }
@@ -153,7 +157,7 @@ class Translation
             $text = !empty($data['p1'])
                 ? sprintf('%s | %s', $data['s1'], $data['p1'])
                 : $data['s1'];
-            $rendered.= $this->render('result', [
+            $rendered .= $this->render('result', [
                 'entry' => json_encode($data, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
                 'text' => wp_strip_all_tags($text),
             ]);
@@ -197,7 +201,7 @@ class Translation
                 if (in_array($needle, [$single, $plural])) {
                     $this->results[$key] = $entry;
                 }
-            } elseif (Str::contains(sprintf('%s %s', $single, $plural), $needle)) {
+            } elseif (Str::contains($needle, sprintf('%s %s', $single, $plural))) {
                 $this->results[$key] = $entry;
             }
         }
@@ -241,12 +245,7 @@ class Translation
         ];
         array_walk($entries, function (&$entry) use ($keys) {
             foreach ($keys as $key) {
-                try {
-                    $entry = $this->normalizeEntryString($entry, $key);
-                } catch (\TypeError $error) {
-                    glsr_log()->once('error', 'Translation/normalize', $error);
-                    glsr_log()->once('debug', 'Translation/normalize', $entry);
-                }
+                $entry = $this->normalizeEntryString($entry, $key);
             }
         });
         return $entries;

@@ -1,136 +1,112 @@
 <?php
 
+use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
+use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Backtrace;
+
 defined('WPINC') || die;
 
-if (apply_filters('site-reviews/support/deprecated/v4', true)) {
-    // Unprotected review meta has been deprecated
-    add_filter('get_post_metadata', function ($data, $postId, $metaKey, $single) {
-        $metaKeys = array_keys(glsr('Defaults\CreateReviewDefaults')->defaults());
-        if (!in_array($metaKey, $metaKeys) || glsr()->post_type != get_post_type($postId)) {
+add_action('plugins_loaded', function () {
+    if (!glsr()->filterBool('support/deprecated/v5', true)) {
+        return;
+    }
+    /**
+     * Review meta data has been deprecated
+     * @since 5.0.0
+     */
+    add_filter('get_post_metadata', function ($data, $postId, $metaKey) {
+        if (glsr()->post_type !== get_post_type($postId)) {
             return $data;
         }
-        glsr()->deprecated[] = sprintf(
-            'The "%1$s" meta_key has been deprecated for Reviews. Please use the protected "_%1$s" meta_key instead.',
-            $metaKey
-        );
-        return get_post_meta($postId, '_'.$metaKey, $single);
-    }, 10, 4);
-
-    // Modules/Html/Template.php
-    add_filter('site-reviews/interpolate/reviews', function ($context, $template) {
-        $search = '{{ navigation }}';
-        if (false !== strpos($template, $search)) {
-            $context['navigation'] = $context['pagination'];
-            glsr()->deprecated[] = 'The {{ navigation }} template key in "YOUR_THEME/site-reviews/reviews.php" has been deprecated. Please use the {{ pagination }} template key instead.';
+        $metaKey = Str::removePrefix($metaKey, '_');
+        $metaKeys = [
+            'assigned_to', 'author', 'avatar', 'content', 'date', 'email', 
+            'ip_address', 'pinned', 'rating', 'review_id', 'review_type', 
+            'title', 'url',
+        ];
+        if (!in_array($metaKey, $metaKeys)) {
+            return $data;
         }
-        return $context;
-    }, 10, 2);
+        $message = 'Site Reviews no longer stores the "'.$metaKey.'" review value as meta data. Please use the glsr_get_review() helper function instead.';
+        glsr()->append('deprecated', $message);
+        return glsr_get_review($postId)->{$metaKey};
+    }, 10, 3);
 
-    // Database/ReviewManager.php
-    add_action('site-reviews/review/created', function ($review) {
-        if (has_action('site-reviews/local/review/create')) {
-            glsr()->deprecated[] = 'The "site-reviews/local/review/create" hook has been deprecated. Please use the "site-reviews/review/created" hook instead.';
-            do_action('site-reviews/local/review/create', (array) get_post($review->ID), (array) $review, $review->ID);
+    /**
+     * Application
+     * @since 5.0.0
+     */
+    add_filter('site-reviews/config/forms/review-form', function ($config) {
+        if (has_filter('site-reviews/config/forms/submission-form')) {
+            $message = 'The "site-reviews/config/forms/submission-form" hook has been deprecated. Please use the "site-reviews/config/forms/review-form" hook instead.';
+            glsr()->append('deprecated', $message);
+            return apply_filters('site-reviews/config/forms/submission-form', $config);
         }
+        return $config;
     }, 9);
 
-    // Handlers/CreateReview.php
-    add_action('site-reviews/review/submitted', function ($review) {
-        if (has_action('site-reviews/local/review/submitted')) {
-            glsr()->deprecated[] = 'The "site-reviews/local/review/submitted" hook has been deprecated. Please use the "site-reviews/review/submitted" hook instead.';
-            do_action('site-reviews/local/review/submitted', null, $review);
+    /**
+     * Modules\Html\ReviewsHtml
+     * @since 5.0.0
+     */
+    add_filter('site-reviews/rendered/template/reviews', function ($html) {
+        if (has_filter('site-reviews/reviews/reviews-wrapper')) {
+           $message = 'The "site-reviews/reviews/reviews-wrapper" hook has been removed. Please use a custom "reviews.php" template instead.';
+           glsr()->append('deprecated', $message);
         }
-        if (has_filter('site-reviews/local/review/submitted/message')) {
-            glsr()->deprecated[] = 'The "site-reviews/local/review/submitted/message" hook has been deprecated.';
+        return $html;
+    });
+
+    /**
+     * Controllers\PublicController
+     * @since 5.0.0
+     */
+    add_filter('site-reviews/review-form/order', function ($order) {
+        if (has_filter('site-reviews/submission-form/order')) {
+            $message = 'The "site-reviews/submission-form/order" hook has been deprecated. Please use the "site-reviews/review-form/order" hook instead.';
+            glsr()->append('deprecated', $message);
+            return apply_filters('site-reviews/submission-form/order', $order);
         }
+        return $order;
     }, 9);
+});
 
-    // Database/ReviewManager.php
-    add_filter('site-reviews/create/review-values', function ($values, $command) {
-        if (has_filter('site-reviews/local/review')) {
-            glsr()->deprecated[] = 'The "site-reviews/local/review" hook has been deprecated. Please use the "site-reviews/create/review-values" hook instead.';
-            return apply_filters('site-reviews/local/review', $values, $command);
-        }
-        return $values;
-    }, 9, 2);
-
-    // Handlers/EnqueuePublicAssets.php
-    add_filter('site-reviews/enqueue/public/localize', function ($variables) {
-        if (has_filter('site-reviews/enqueue/localize')) {
-            glsr()->deprecated[] = 'The "site-reviews/enqueue/localize" hook has been deprecated. Please use the "site-reviews/enqueue/public/localize" hook instead.';
-            return apply_filters('site-reviews/enqueue/localize', $variables);
-        }
-        return $variables;
-    }, 9);
-
-    // Modules/Rating.php
-    add_filter('site-reviews/rating/average', function ($average) {
-        if (has_filter('site-reviews/average/rating')) {
-            glsr()->deprecated[] = 'The "site-reviews/average/rating" hook has been deprecated. Please use the "site-reviews/rating/average" hook instead.';
-        }
-        return $average;
-    }, 9);
-
-    // Modules/Rating.php
-    add_filter('site-reviews/rating/ranking', function ($ranking) {
-        if (has_filter('site-reviews/bayesian/ranking')) {
-            glsr()->deprecated[] = 'The "site-reviews/bayesian/ranking" hook has been deprecated. Please use the "site-reviews/rating/ranking" hook instead.';
-        }
-        return $ranking;
-    }, 9);
-
-    // Modules/Html/Partials/SiteReviews.php
-    add_filter('site-reviews/review/build/after', function ($renderedFields) {
-        if (has_filter('site-reviews/reviews/review/text')) {
-            glsr()->deprecated[] = 'The "site-reviews/reviews/review/text" hook has been deprecated. Please use the "site-reviews/review/build/after" hook instead.';
-        }
-        if (has_filter('site-reviews/reviews/review/title')) {
-            glsr()->deprecated[] = 'The "site-reviews/reviews/review/title" hook has been deprecated. Please use the "site-reviews/review/build/after" hook instead.';
-        }
-        return $renderedFields;
-    }, 9);
-
-    // Modules/Html/Partials/SiteReviews.php
-    add_filter('site-reviews/review/build/before', function ($review) {
-        if (has_filter('site-reviews/rendered/review')) {
-            glsr()->deprecated[] = 'The "site-reviews/rendered/review" hook has been deprecated. Please either use a custom "review.php" template (refer to the documentation), or use the "site-reviews/review/build/after" hook instead.';
-        }
-        if (has_filter('site-reviews/rendered/review/meta/order')) {
-            glsr()->deprecated[] = 'The "site-reviews/rendered/review/meta/order" hook has been deprecated. Please use a custom "review.php" template instead (refer to the documentation).';
-        }
-        if (has_filter('site-reviews/rendered/review/order')) {
-            glsr()->deprecated[] = 'The "site-reviews/rendered/review/order" hook has been deprecated. Please use a custom "review.php" template instead (refer to the documentation).';
-        }
-        if (has_filter('site-reviews/rendered/review-form/login-register')) {
-            glsr()->deprecated[] = 'The "site-reviews/rendered/review-form/login-register" hook has been deprecated. Please use a custom "login-register.php" template instead (refer to the documentation).';
-        }
-        if (has_filter('site-reviews/reviews/navigation_links')) {
-            glsr()->deprecated[] = 'The "site-reviews/reviews/navigation_links" hook has been deprecated. Please use a custom "pagination.php" template instead (refer to the documentation).';
-        }
-        return $review;
-    }, 9);
-
-    add_filter('site-reviews/validate/custom', function ($result, $request) {
-        if (has_filter('site-reviews/validate/review/submission')) {
-            glsr_log()->warning('The "site-reviews/validate/review/submission" hook has been deprecated. Please use the "site-reviews/validate/custom" hook instead.');
-            return apply_filters('site-reviews/validate/review/submission', $result, $request);
-        }
-        return $result;
-    }, 9, 2);
-
-    add_filter('site-reviews/views/file', function ($file, $view, $data) {
-        if (has_filter('site-reviews/addon/views/file')) {
-            glsr()->deprecated[] = 'The "site-reviews/addon/views/file" hook has been deprecated. Please use the "site-reviews/views/file" hook instead.';
-            $file = apply_filters('site-reviews/addon/views/file', $file, $view, $data);
-        }
-        return $file;
-    }, 9, 3);
+/**
+ * @return void
+ * @since 5.0.0
+ */
+function glsr_calculate_ratings() {
+    _deprecated_function('glsr_calculate_ratings', '5.0 (of Site Reviews)');
+    glsr_log()->error(sprintf(
+        __('%s is <strong>deprecated</strong> since version %s with no alternative available.', 'site-reviews'),
+        'glsr_calculate_ratings',
+        '5.0'
+    ));
 }
 
-add_action('wp_footer', function () {
-    $notices = array_keys(array_flip(glsr()->deprecated));
+/**
+ * @return object
+ * @since 5.0.0
+ */
+function glsr_get_rating($args = array()) {
+    _deprecated_function('glsr_get_rating', '5.0 (of Site Reviews)', 'glsr_get_ratings');
+    glsr_log()->warning(sprintf(
+        __('%s is <strong>deprecated</strong> since version %s! Use %s instead.', 'site-reviews'),
+        'glsr_get_rating',
+        '5.0',
+        'glsr_get_ratings'
+    ));
+    return glsr_get_ratings($args);
+}
+
+function glsr_log_deprecated_notices() {
+    $notices = (array) glsr()->retrieve('deprecated', []);
+    $notices = array_keys(array_flip(array_filter($notices)));
     natsort($notices);
     foreach ($notices as $notice) {
+        trigger_error($notice, E_USER_DEPRECATED);
         glsr_log()->warning($notice);
     }
-});
+}
+add_action('admin_footer', 'glsr_log_deprecated_notices');
+add_action('wp_footer', 'glsr_log_deprecated_notices');

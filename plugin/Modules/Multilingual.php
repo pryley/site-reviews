@@ -19,7 +19,7 @@ class Multilingual
     /**
      * @param string $method
      * @param array $args
-     * @return 
+     * @return mixed
      */
     public function __call($method, $args = [])
     {

@@ -1,0 +1,24 @@
+@import "public/twentysixteen/variables";
+@import "public/minimal/keyframes";
+@import "public/minimal/screen-reader";
+@import "public/minimal/reviews";
+@import "public/minimal/read-more";
+@import "public/minimal/pagination";
+@import "public/default/reviews-form";
+@import "public/minimal/field-labels";
+@import "public/minimal/field-choice";
+@import "public/minimal/field-toggle";
+@import "public/minimal/field-star-rating";
+@import "public/minimal/submit-button";
+@import "public/minimal/reviews-summary";
+
+:--namespace form.glsr-form label.glsr-label:not(.glsr-label-toggle) {
+    color:  var(--glsr-gray-dark);
+    font-family: var(--glsr-form-font-family-sans);
+    font-size: var(--glsr-form-font-size-small);
+    font-weight: 500;
+    letter-spacing: 1px;
+    line-height: var(--glsr-form-line-height);
+    margin-bottom: calc(var(--glsr-base-font-size) * .25);
+    text-transform: uppercase;
+}

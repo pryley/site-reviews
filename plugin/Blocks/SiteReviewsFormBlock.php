@@ -2,10 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Blocks;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Html\Attributes;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode as Shortcode;
 
-class SiteReviewsFormBlock extends BlockGenerator
+class SiteReviewsFormBlock extends Block
 {
     /**
      * @return array
@@ -14,6 +17,18 @@ class SiteReviewsFormBlock extends BlockGenerator
     {
         return [
             'assign_to' => [
+                'default' => '',
+                'type' => 'string',
+            ],
+            'assigned_posts' => [
+                'default' => '',
+                'type' => 'string',
+            ],
+            'assigned_terms' => [
+                'default' => '',
+                'type' => 'string',
+            ],
+            'assigned_users' => [
                 'default' => '',
                 'type' => 'string',
             ],
@@ -33,6 +48,10 @@ class SiteReviewsFormBlock extends BlockGenerator
                 'default' => '',
                 'type' => 'string',
             ],
+            'user' => [
+                'default' => '',
+                'type' => 'string',
+            ],
         ];
     }
 
@@ -46,13 +65,12 @@ class SiteReviewsFormBlock extends BlockGenerator
         if ('edit' == filter_input(INPUT_GET, 'context')) {
             $this->filterFormFields();
             $this->filterRatingField();
-            $this->filterShortcodeClass();
             $this->filterSubmitButton();
             if (!$this->hasVisibleFields($shortcode, $attributes)) {
                 $this->filterInterpolation();
             }
         }
-        return $shortcode->buildShortcode($attributes);
+        return $shortcode->buildBlock($attributes);
     }
 
     /**
@@ -60,8 +78,9 @@ class SiteReviewsFormBlock extends BlockGenerator
      */
     protected function filterFormFields()
     {
-        add_filter('site-reviews/config/forms/submission-form', function (array $config) {
+        add_filter('site-reviews/config/forms/review-form', function (array $config) {
             array_walk($config, function (&$field) {
+                $field['class'] = $this->formFieldClass(Arr::get($field, 'type'));
                 $field['disabled'] = true;
                 $field['tabindex'] = '-1';
             });
@@ -75,8 +94,8 @@ class SiteReviewsFormBlock extends BlockGenerator
     protected function filterInterpolation()
     {
         add_filter('site-reviews/interpolate/reviews-form', function ($context) {
-            $context['class'] = 'glsr-default glsr-block-disabled';
-            $context['fields'] = __('You have hidden all of the fields for this block.', 'site-reviews');
+            $context['class'] = 'glsr-block-disabled';
+            $context['fields'] = _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews');
             $context['response'] = '';
             $context['submit_button'] = '';
             return $context;
@@ -89,7 +108,7 @@ class SiteReviewsFormBlock extends BlockGenerator
     protected function filterRatingField()
     {
         add_filter('site-reviews/rendered/field', function ($html, $type, $args) {
-            if ('rating' == $args['path']) {
+            if (Str::contains('glsr-star-rating', $args['class'])) {
                 $stars = '<span class="glsr-stars">';
                 $stars.= str_repeat('<span class="glsr-star glsr-star-empty" aria-hidden="true"></span>', (int) glsr()->constant('MAX_RATING', Rating::class));
                 $stars.= '</span>';
@@ -102,20 +121,26 @@ class SiteReviewsFormBlock extends BlockGenerator
     /**
      * @return void
      */
-    protected function filterShortcodeClass()
+    protected function filterSubmitButton()
     {
-        add_filter('site-reviews/style', function () {
-            return 'default';
+        add_filter('site-reviews/rendered/template/form/submit-button', function ($template) {
+            $template = str_replace('type="submit"', 'tabindex="-1"', $template);
+            $template = str_replace('glsr-button button btn', 'components-button is-secondary', $template);
+            return $template;
         });
     }
 
     /**
-     * @return void
+     * @return string
      */
-    protected function filterSubmitButton()
+    protected function formFieldClass($type)
     {
-        add_filter('site-reviews/rendered/template/form/submit-button', function ($template) {
-            return str_replace('type="submit"', 'tabindex="-1"', $template);
-        });
+        if (in_array($type, ['checkbox', 'radio', 'select', 'textarea'])) {
+            return sprintf('components-%s-control__input', $type);
+        }
+        if (in_array($type, Attributes::INPUT_TYPES)) {
+            return 'components-text-control__input';
+        }
+        return '';
     }
 }

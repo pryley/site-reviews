@@ -5,9 +5,9 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 class Button extends Field
 {
     /**
-     * @return array
+     * {@inheritdoc}
      */
-    public static function defaults()
+    public static function defaults($fieldLocation = null)
     {
         return [
             'class' => 'button',

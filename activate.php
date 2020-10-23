@@ -4,12 +4,12 @@ defined('WPINC') || die;
 
 /**
  * Check for minimum system requirments on plugin activation.
- * @version 4.0.0
+ * @version 5.5.0
  */
-class GL_Plugin_Check_v4
+class GL_Plugin_Check_v5
 {
-    const MIN_PHP_VERSION = '5.6.0';
-    const MIN_WORDPRESS_VERSION = '4.7.0';
+    const MIN_PHP_VERSION = '5.6.20';
+    const MIN_WORDPRESS_VERSION = '5.5.0';
 
     /**
      * @var array
@@ -99,13 +99,13 @@ class GL_Plugin_Check_v4
     protected function getMessages()
     {
         return [
-            'notice' => __('The %s plugin was deactivated.', 'site-reviews'),
-            'php_version' => __('PHP version', 'site-reviews'),
-            'rollback' => __('You can use the %s plugin to restore %s to the previous version.', 'site-reviews'),
-            'update_php' => __('Please contact your hosting provider or server administrator to upgrade the version of PHP on your server (your server is running PHP version %s), or try to find an alternative plugin.', 'site-reviews'),
-            'update_wp' => __('Update WordPress', 'site-reviews'),
-            'wp_version' => __('WordPress version', 'site-reviews'),
-            'wrong_version' => __('This plugin requires %s or greater in order to work properly.', 'site-reviews'),
+            'notice' => _x('The %s plugin was deactivated.', 'admin-text', 'site-reviews'),
+            'php_version' => _x('PHP version', 'admin-text', 'site-reviews'),
+            'rollback' => _x('You can use the %s plugin to restore %s to the previous version.', 'admin-text', 'site-reviews'),
+            'update_php' => _x('Please contact your hosting provider or server administrator to upgrade the version of PHP on your server (your server is running PHP version %s), or try to find an alternative plugin.', 'admin-text', 'site-reviews'),
+            'update_wp' => _x('Update WordPress', 'admin-text', 'site-reviews'),
+            'wp_version' => _x('WordPress version', 'admin-text', 'site-reviews'),
+            'wrong_version' => _x('This plugin requires %s or greater in order to work properly.', 'admin-text', 'site-reviews'),
         ];
     }
 

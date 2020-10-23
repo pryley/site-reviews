@@ -1,0 +1,30 @@
+@import "../default/variables";
+
+:root {
+    --glsr-gray-light           : #eee;
+    --glsr-gray                 : #999;
+    --glsr-gray-dark            : #666;
+    --glsr-black                : #333;
+    --glsr-blue                 : #3e8ff4;
+    --glsr-green                : #4dab46;
+    --glsr-red                  : #d85353;
+
+    --glsr-font-family-sans     : 'Open Sans', Arial, sans-serif;
+
+    --glsr-toggle-box-shadow         : none;
+    --glsr-toggle-bg-inactive        : var(--glsr-gray-light);
+    --glsr-toggle-opacity-inactive   : 1;
+    --glsr-toggle-padding            : 4px;
+    --glsr-toggle-radius-inner       : 0;
+    --glsr-toggle-radius-outer       : 0;
+    --glsr-toggle-size               : 1.4rem;
+
+    --glsr-form-bg-color        : var(--glsr-gray-light);
+    --glsr-form-border-color    : transparent;
+    --glsr-form-border-radius   : 0;
+    --glsr-form-font-size-small : 14px;
+    --glsr-form-font-size       : 14px;
+    --glsr-form-line-height     : normal;
+    --glsr-form-px              : 16px;
+    --glsr-form-py              : 16px;
+}

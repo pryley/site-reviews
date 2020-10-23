@@ -8,19 +8,20 @@ class Partial
 {
     /**
      * @param string $partialPath
-     * @return string
+     * @return string|void
      */
     public function build($partialPath, array $args = [])
     {
         $className = Helper::buildClassName($partialPath, 'Modules\Html\Partials');
+        $className = glsr()->filterString('partial/classname', $className, $partialPath);
         if (!class_exists($className)) {
             glsr_log()->error('Partial missing: '.$className);
             return;
         }
-        $args = apply_filters('site-reviews/partial/args/'.$partialPath, $args);
+        $args = glsr()->filterArray('partial/args/'.$partialPath, $args);
         $partial = glsr($className)->build($args);
-        $partial = apply_filters('site-reviews/rendered/partial', $partial, $partialPath, $args);
-        $partial = apply_filters('site-reviews/rendered/partial/'.$partialPath, $partial, $args);
+        $partial = glsr()->filterString('rendered/partial', $partial, $partialPath, $args);
+        $partial = glsr()->filterString('rendered/partial/'.$partialPath, $partial, $args);
         return $partial;
     }
 

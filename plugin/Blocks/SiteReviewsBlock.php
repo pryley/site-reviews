@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Blocks;
 
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode as Shortcode;
 
-class SiteReviewsBlock extends BlockGenerator
+class SiteReviewsBlock extends Block
 {
     /**
      * @return array
@@ -13,6 +13,18 @@ class SiteReviewsBlock extends BlockGenerator
     {
         return [
             'assigned_to' => [
+                'default' => '',
+                'type' => 'string',
+            ],
+            'assigned_posts' => [
+                'default' => '',
+                'type' => 'string',
+            ],
+            'assigned_terms' => [
+                'default' => '',
+                'type' => 'string',
+            ],
+            'assigned_users' => [
                 'default' => '',
                 'type' => 'string',
             ],
@@ -56,6 +68,10 @@ class SiteReviewsBlock extends BlockGenerator
                 'default' => 'local',
                 'type' => 'string',
             ],
+            'user' => [
+                'default' => '',
+                'type' => 'string',
+            ],
         ];
     }
 
@@ -69,14 +85,14 @@ class SiteReviewsBlock extends BlockGenerator
         if ('edit' == filter_input(INPUT_GET, 'context')) {
             $attributes = $this->normalize($attributes);
             $this->filterReviewLinks();
-            $this->filterShortcodeClass();
             $this->filterShowMoreLinks('content');
             $this->filterShowMoreLinks('response');
             if (!$this->hasVisibleFields($shortcode, $attributes)) {
+                $attributes['pagination'] = false;
                 $this->filterInterpolation();
             }
         }
-        return $shortcode->buildShortcode($attributes);
+        return $shortcode->buildBlock($attributes);
     }
 
     /**
@@ -85,8 +101,8 @@ class SiteReviewsBlock extends BlockGenerator
     protected function filterInterpolation()
     {
         add_filter('site-reviews/interpolate/reviews', function ($context) {
-            $context['class'] = 'glsr-default glsr-block-disabled';
-            $context['reviews'] = __('You have hidden all of the fields for this block.', 'site-reviews');
+            $context['class'] = 'glsr-block-disabled';
+            $context['reviews'] = _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews');
             return $context;
         });
     }
@@ -97,17 +113,9 @@ class SiteReviewsBlock extends BlockGenerator
     protected function filterReviewLinks()
     {
         add_filter('site-reviews/rendered/template/reviews', function ($template) {
-            return str_replace('<a', '<a tabindex="-1"', $template);
-        });
-    }
-
-    /**
-     * @return void
-     */
-    protected function filterShortcodeClass()
-    {
-        add_filter('site-reviews/style', function () {
-            return 'default';
+            $template = str_replace('<a', '<a tabindex="-1"', $template);
+            $template = str_replace('page-numbers', 'page-numbers components-button is-secondary', $template);
+            return $template;
         });
     }
 

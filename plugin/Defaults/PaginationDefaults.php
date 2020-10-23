@@ -12,6 +12,7 @@ class PaginationDefaults extends Defaults
     protected function defaults()
     {
         return [
+            'add_args' => [],
             'before_page_number' => '<span class="meta-nav screen-reader-text">'.__('Page', 'site-reviews').' </span>',
             'format' => '?'.glsr()->constant('PAGED_QUERY_VAR').'=%#%',
             'mid_size' => 1,

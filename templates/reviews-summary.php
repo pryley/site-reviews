@@ -1,7 +1,7 @@
 <?php defined('WPINC') || die; ?>
 
 <div class="glsr-summary-wrap">
-    <div class="{{ class }}" id="{{ id }}">
+    <div class="{{ class }}">
         {{ rating }}
         {{ stars }}
         {{ text }}

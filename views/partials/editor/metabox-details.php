@@ -1,20 +1,17 @@
 <?php defined('WPINC') || die; ?>
 
-<table class="glsr-metabox-table">
-    <tbody>
-    <?php foreach ($metabox as $key => $value) : ?>
-        <tr>
-            <td><?= $key; ?></td>
-            <td><?= $value; ?></td>
-        </tr>
-    <?php endforeach; ?>
-    </tbody>
-</table>
-
-<div class="glsr-metabox-actions clearfix">
-    <div class="glsr-revert-action">
-        <span class="spinner"></span>
-        <?= $button; ?>
+<div class="glsr-metabox-field">
+    <div class="glsr-label"><label>Edit Details</label></div>
+    <div class="glsr-input wp-clearfix">
+        <div class="glsr-toggle-field">
+            <span class="glsr-toggle">
+                <input name="<?= glsr()->id; ?>[is_editing_review]" class="glsr-toggle__input" type="checkbox">
+                <span class="glsr-toggle__track"></span>
+                <span class="glsr-toggle__thumb"></span>
+            </span>
+        </div>
     </div>
-    <div class="clear"></div>
 </div>
+<?php foreach ($metabox as $field) : ?>
+    <?= $field; ?>
+<?php endforeach; ?>

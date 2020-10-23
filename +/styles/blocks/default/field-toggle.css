@@ -1,0 +1,63 @@
+/*Form Toggle*/
+:--namespace form.glsr-form .glsr-field-toggle {
+    align-items: flex-start;
+    display: inline-flex;
+    flex-direction: row-reverse;
+}
+:--namespace form.glsr-form .glsr-field-toggle label {
+    display: block;
+    font-size: var(--glsr-form-font-size);
+    font-weight: var(--glsr-toggle-font-weight);
+    line-height:var(--glsr-form-line-height);
+    margin-left: calc(var(--glsr-base-font-size) * .5);
+}
+:--namespace.glsr-rtl form.glsr-form .glsr-field-toggle label {
+    margin-left: 0;
+    margin-right: calc(var(--glsr-base-font-size) * .5);
+}
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] {
+    display:  none;
+}
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track {
+    background-color: transparent;
+    border-radius: var(--glsr-toggle-radius-outer);
+    box-sizing: border-box;
+    height: var(--glsr-toggle-size);
+    opacity: 1;
+    padding: var(--glsr-toggle-padding);
+    pointer-events: none;
+    position: relative;
+    transition: background-color var(--glsr-form-duration) ease-in-out;
+    width: calc(calc(var(--glsr-toggle-size) * 2) - calc(var(--glsr-toggle-padding) * 2));
+}
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::before {
+    background-color: var(--glsr-toggle-bg-inactive);
+    border-radius: var(--glsr-toggle-radius-outer);
+    content: '';
+    display: block;
+    height: 100%;
+    left: 0;
+    opacity: var(--glsr-toggle-opacity-inactive);
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::after {
+    background-color: var(--glsr-white);
+    border-radius: var(--glsr-toggle-radius-inner);
+    box-shadow: 0 calc(var(--glsr-toggle-size) * 0.125) calc(var(--glsr-toggle-size) * 0.25) rgba(0, 0, 0, 0.2);
+    content: '';
+    display: block;
+    height: calc(var(--glsr-toggle-size) - calc(var(--glsr-toggle-padding) * 2));
+    pointer-events: none;
+    position: relative;
+    transition: transform 0.075s ease-in-out;
+    width: calc(var(--glsr-toggle-size) - calc(var(--glsr-toggle-padding) * 2));
+    z-index: 1;
+}
+:--namespace form.glsr-form .glsr-field-toggle .glsr-toggle-switch {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    position: relative;
+}

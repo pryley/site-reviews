@@ -2,12 +2,12 @@
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
 }
-.glsr-button {
+.wp-admin .glsr-button {
 	position: relative;
 	white-space: nowrap;
 }
-.glsr-button::before,
-.glsr-button::after {
+.wp-admin .glsr-button::before,
+.wp-admin .glsr-button::after {
 	display: inline-block;
 	position: absolute;
 	top: 50%;
@@ -19,29 +19,40 @@
 	margin: -0.5em auto 0;
 	animation: glsr-loader 0.5s infinite linear;
 }
-.glsr-button::before {
+.wp-admin .glsr-button::before {
 	border-top-color: transparent;
 	opacity: 0.5;
 }
-.glsr-button::after {
+.wp-admin .glsr-button::after {
 	border-color: transparent;
 	border-top-color: currentColor;
 }
 
-.glsr-button[disabled] {
+.wp-admin .glsr-button[disabled] {
 	padding-left: calc(1em + 15px);
 }
-.glsr-button[disabled]::before,
-.glsr-button[disabled]::after {
+.wp-admin .glsr-button[disabled]::before,
+.wp-admin .glsr-button[disabled]::after {
 	content: '';
 	left: 10px;
 }
-.glsr-button[disabled] span {
+.wp-admin .glsr-button[disabled] span {
 	visibility: hidden;
 	font-size: 0;
 }
-.glsr-button[disabled] span::after {
+.wp-admin .glsr-button[disabled] span::after {
 	visibility: visible;
 	content: attr(data-loading);
+	font-size: 13px;
+}
+
+.wp-admin .glsr-button:not([disabled]) span[data-alt-text].alt {
+	visibility: hidden;
+	font-size: 0;
+}
+
+.wp-admin .glsr-button:not([disabled]) span[data-alt-text].alt::after {
+	visibility: visible;
+	content: attr(data-alt-text);
 	font-size: 13px;
 }

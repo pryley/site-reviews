@@ -1,0 +1,21 @@
+@import "blocks/minimal/variables";
+@import "blocks/minimal/reviews";
+@import "blocks/minimal/read-more";
+@import "blocks/minimal/field-toggle";
+@import "blocks/minimal/reviews-summary";
+@import "blocks/base";
+
+:--namespace form.glsr-form input.glsr-input:disabled,
+:--namespace form.glsr-form select.glsr-select:disabled,
+:--namespace form.glsr-form textarea.glsr-textarea:disabled {
+    background-color:  #fff;
+    border-color: #ccc;
+    opacity: 1;
+}
+:--namespace form.glsr-form .wpforms-submit {
+    background-color: #eee;
+    border: 1px solid #ddd;
+    color: #333;
+    font-size: 1em;
+    padding: 10px 15px;
+}

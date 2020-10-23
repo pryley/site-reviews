@@ -1,22 +1,39 @@
 <?php
 
+use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Arguments;
+use GeminiLabs\SiteReviews\BlackHole;
+use GeminiLabs\SiteReviews\Commands\CreateReview;
+use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\RatingManager;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Exceptions\BindingResolutionException;
+use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Console;
+use GeminiLabs\SiteReviews\Modules\Html\Partial;
+use GeminiLabs\SiteReviews\Modules\Rating;
+use GeminiLabs\SiteReviews\Request;
+
 defined('WPINC') || die;
 
 /*
  * Alternate method of using the functions without having to use `function_exists()`
- * Example: apply_filters('glsr_get_reviews', [], ['assigned_to' => 'post_id']);
+ * Example: apply_filters('glsr_get_reviews', [], ['assigned_posts' => 'post_id']);
  * @param mixed ...
  * @return mixed
  */
 add_filter('plugins_loaded', function () {
     $hooks = array(
-        'glsr_calculate_ratings' => 1,
         'glsr_create_review' => 2,
         'glsr_debug' => 10,
         'glsr_get' => 4,
         'glsr_get_option' => 4,
         'glsr_get_options' => 1,
         'glsr_get_rating' => 2,
+        'glsr_get_ratings' => 2,
         'glsr_get_review' => 2,
         'glsr_get_reviews' => 2,
         'glsr_log' => 3,
@@ -34,39 +51,18 @@ add_filter('plugins_loaded', function () {
 /**
  * @return mixed
  */
-function glsr($alias = null)
+function glsr($alias = null, array $parameters = [])
 {
-    $app = \GeminiLabs\SiteReviews\Application::load();
-    return !is_null($alias)
-        ? $app->make($alias)
-        : $app;
-}
-
-/**
- * array_column() alternative specifically for PHP v7.0.x.
- * @param $column string
- * @return array
- */
-function glsr_array_column(array $array, $column)
-{
-    $result = array();
-    foreach ($array as $subarray) {
-        $subarray = (array) $subarray;
-        if (!isset($subarray[$column])) {
-            continue;
-        }
-        $result[] = $subarray[$column];
+    $app = Application::load();
+    if (is_null($alias)) {
+        return $app;
     }
-    return $result;
-}
-
-/**
- * @return void
- */
-function glsr_calculate_ratings()
-{
-    glsr('Database\CountsManager')->updateAll();
-    glsr_log()->notice(__('Recalculated rating counts.', 'site-reviews'));
+    try {
+        return $app->make($alias, $parameters);
+    } catch (BindingResolutionException $e) {
+        glsr_log()->error($e->getMessage());
+        return $app->make(BlackHole::class);
+    }
 }
 
 /**
@@ -74,10 +70,11 @@ function glsr_calculate_ratings()
  */
 function glsr_create_review($reviewValues = array())
 {
-    $review = new \GeminiLabs\SiteReviews\Commands\CreateReview(
-        \GeminiLabs\SiteReviews\Helpers\Arr::consolidateArray($reviewValues)
-    );
-    return glsr('Database\ReviewManager')->create($review);
+    $request = new Request(Arr::consolidate($reviewValues));
+    $command = new CreateReview($request);
+    return $command->validate()
+        ? glsr(ReviewManager::class)->create($command)
+        : false;
 }
 
 /**
@@ -119,7 +116,7 @@ function glsr_debug(...$vars)
  */
 function glsr_get($array, $path = '', $fallback = '')
 {
-    return \GeminiLabs\SiteReviews\Helpers\Arr::get($array, $path, $fallback);
+    return Arr::get($array, $path, $fallback);
 }
 
 /**
@@ -131,7 +128,7 @@ function glsr_get($array, $path = '', $fallback = '')
 function glsr_get_option($path = '', $fallback = '', $cast = '')
 {
     return is_string($path)
-        ? glsr('Database\OptionManager')->get(\GeminiLabs\SiteReviews\Helpers\Str::prefix('settings.', $path), $fallback, $cast)
+        ? glsr(OptionManager::class)->get(Str::prefix($path, 'settings.'), $fallback, $cast)
         : $fallback;
 }
 
@@ -140,59 +137,63 @@ function glsr_get_option($path = '', $fallback = '', $cast = '')
  */
 function glsr_get_options()
 {
-    return glsr('Database\OptionManager')->get('settings');
+    return glsr(OptionManager::class)->get('settings');
 }
 
 /**
- * @return object
+ * @return \GeminiLabs\SiteReviews\Arguments
  */
-function glsr_get_rating($args = array())
+function glsr_get_ratings($args = array())
 {
-    $args = \GeminiLabs\SiteReviews\Helpers\Arr::consolidateArray($args);
-    $counts = glsr('Database\ReviewManager')->getRatingCounts($args);
-    return (object) array(
-        'average' => glsr('Modules\Rating')->getAverage($counts),
-        'maximum' => glsr()->constant('MAX_RATING', \GeminiLabs\SiteReviews\Modules\Rating::class),
-        'minimum' => glsr()->constant('MIN_RATING', \GeminiLabs\SiteReviews\Modules\Rating::class),
+    $counts = glsr(RatingManager::class)->ratings(Arr::consolidate($args));
+    return new Arguments(array(
+        'average' => glsr(Rating::class)->average($counts),
+        'maximum' => Cast::toInt(glsr()->constant('MAX_RATING', Rating::class)),
+        'minimum' => Cast::toInt(glsr()->constant('MIN_RATING', Rating::class)),
+        'ranking' => glsr(Rating::class)->ranking($counts),
         'ratings' => $counts,
         'reviews' => array_sum($counts),
-    );
+    ));
 }
 
 /**
- * @param \WP_Post|int $post
+ * @param int|\WP_Post $postId
  * @return \GeminiLabs\SiteReviews\Review
  */
-function glsr_get_review($post)
+function glsr_get_review($postId)
 {
-    if (is_numeric($post)) {
-        $post = get_post($post);
-    }
-    if (!($post instanceof WP_Post)) {
-        $post = new WP_Post((object) []);
-    }
-    return glsr('Database\ReviewManager')->single($post);
+    return glsr(ReviewManager::class)->get(Helper::getPostId($postId));
 }
 
 /**
- * @return array
+ * @return \GeminiLabs\SiteReviews\Reviews
  */
 function glsr_get_reviews($args = array())
 {
-    return glsr('Database\ReviewManager')->get(\GeminiLabs\SiteReviews\Helpers\Arr::consolidateArray($args));
+    glsr()->sessionSet('glsr_get_reviews', true); // Tell Site Reviews that the helper function was used
+    return glsr(ReviewManager::class)->reviews(Arr::consolidate($args));
 }
 
 /**
  * @return \GeminiLabs\SiteReviews\Modules\Console
  */
-function glsr_log()
+function glsr_log(...$args)
 {
-    $args = func_get_args();
-    $console = glsr('Modules\Console');
-    if ($value = \GeminiLabs\SiteReviews\Helpers\Arr::get($args, '0')) {
-        return $console->debug($value, \GeminiLabs\SiteReviews\Helpers\Arr::get($args, '1', []));
-    }
-    return $console;
+    $console = glsr(Console::class);
+    return !empty($args)
+        ? call_user_func_array([$console, 'debug'], $args)
+        : $console;
+}
+
+/**
+ * @param array $array
+ * @param string $path
+ * @param mixed $value
+ * @return array
+ */
+function glsr_set(array $data, $path, $value)
+{
+    return Arr::set($data, $path, $value);
 }
 
 /**
@@ -200,5 +201,5 @@ function glsr_log()
  */
 function glsr_star_rating($rating)
 {
-    return glsr('Modules\Html\Partial')->build('star-rating', ['rating' => $rating]);
+    return glsr(Partial::class)->build('star-rating', ['rating' => $rating]);
 }
