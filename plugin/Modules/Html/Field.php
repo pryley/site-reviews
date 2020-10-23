@@ -293,10 +293,10 @@ class Field
         if ($this->isFieldValid()) {
             $this->field['path'] = $this->field['name'];
             $this->field['raw_type'] = $this->field['type']; // save the original type before it's normalized
+            $this->field = glsr(FieldDefaults::class)->merge($this->field);
             $this->normalizeFieldArgs();
             $this->normalizeFieldId();
             $this->normalizeFieldName();
-            $this->field = glsr(FieldDefaults::class)->merge($this->field);
             $this->field = glsr()->filterArray('field/'.$this->field['raw_type'], $this->field);
         }
     }
@@ -306,7 +306,7 @@ class Field
      */
     protected function normalizeFieldId()
     {
-        if (isset($this->field['id']) || $this->field['is_raw']) {
+        if (!empty($this->field['id']) || $this->field['is_raw']) {
             return;
         }
         $this->field['id'] = Str::convertPathToId(
