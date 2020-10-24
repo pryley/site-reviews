@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Commands\UnassignPosts;
 use GeminiLabs\SiteReviews\Commands\UnassignTerms;
 use GeminiLabs\SiteReviews\Commands\UnassignUsers;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Database\TaxonomyManager;
@@ -157,6 +158,64 @@ class ReviewController extends Controller
         glsr(TaxonomyManager::class)->setTerms($postId, $values->assigned_terms); // terms are assigned with the set_object_terms hook
         foreach ($values->custom as $key => $value) {
             glsr(Database::class)->metaSet($postId, 'custom_'.$key, $value);
+        }
+    }
+
+    /**
+     * Triggered when a review or other post type is deleted and the posts table uses the MyISAM engine.
+     * @param int $postId
+     * @param \WP_Post $post
+     * @return void
+     * @action deleted_post
+     */
+    public function onDeletePost($postId, $post)
+    {
+        if (glsr()->post_type === $post->post_type) {
+            $this->onDeleteReview($postId);
+            return;
+        }
+        $reviews = glsr(Query::class)->reviews([
+            'assigned_posts' => $postId,
+            'per_page' => -1,
+            'status' => 'all',
+        ]);
+        if ($result = glsr(Database::class)->delete('assigned_posts', ['post_id' => $postId])) {
+            foreach ($reviews as $review) {
+                glsr(Cache::class)->delete($review->ID, 'reviews');
+            }
+        }
+    }
+
+    /**
+     * Triggered when a review is deleted and the posts table uses the MyISAM engine.
+     * @param int $reviewId
+     * @return void
+     * @see $this->onDeletePost()
+     */
+    public function onDeleteReview($reviewId)
+    {
+        if ($result = glsr(Database::class)->delete('ratings', ['review_id' => $reviewId])) {
+            glsr(Cache::class)->delete($reviewId, 'reviews');
+        }
+    }
+
+    /**
+     * Triggered when a user is deleted and the users table uses the MyISAM engine.
+     * @param int $userId
+     * @return void
+     * @action deleted_user
+     */
+    public function onDeleteUser($userId)
+    {
+        $reviews = glsr(Query::class)->reviews([
+            'assigned_users' => $userId,
+            'per_page' => -1,
+            'status' => 'all',
+        ]);
+        if ($result = glsr(Database::class)->delete('assigned_users', ['user_id' => $userId])) {
+            foreach ($reviews as $review) {
+                glsr(Cache::class)->delete($review->ID, 'reviews');
+            }
         }
     }
 

@@ -20,6 +20,7 @@ use GeminiLabs\SiteReviews\Controllers\SettingsController;
 use GeminiLabs\SiteReviews\Controllers\ToolsController;
 use GeminiLabs\SiteReviews\Controllers\TranslationController;
 use GeminiLabs\SiteReviews\Controllers\WelcomeController;
+use GeminiLabs\SiteReviews\Database\SqlSchema;
 use GeminiLabs\SiteReviews\Modules\Translation;
 
 class Hooks implements HooksContract
@@ -77,6 +78,7 @@ class Hooks implements HooksContract
         add_action('plugins_loaded', [glsr(), 'registerLanguages']);
         add_action('plugins_loaded', [glsr(), 'registerReviewTypes']);
         add_action('admin_init', [glsr(), 'setDefaultSettings']);
+        add_action('plugins_loaded', [$this, 'myIsamFallback']);
         add_action('load-edit.php', [$this, 'translateAdminEditPage']);
         add_action('load-post.php', [$this, 'translateAdminPostPage']);
         add_action('plugins_loaded', [$this, 'translatePlugin']);
@@ -197,6 +199,19 @@ class Hooks implements HooksContract
         add_filter('plugin_action_links_'.$this->basename, [$this->welcome, 'filterActionLinks'], 11);
         add_filter('admin_title', [$this->welcome, 'filterAdminTitle']);
         add_filter('admin_footer_text', [$this->welcome, 'filterFooterText']);
+    }
+
+    /**
+     * @return void
+     */
+    public function myIsamFallback()
+    {
+        if (!glsr(SqlSchema::class)->isInnodb('posts')) {
+            add_action('deleted_post', [$this->review, 'onDeletePost'], 10, 2);
+        }
+        if (!glsr(SqlSchema::class)->isInnodb('users')) {
+            add_action('deleted_user', [$this->review, 'onDeleteUser'], 10);
+        }
     }
 
     /**

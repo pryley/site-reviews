@@ -32,6 +32,9 @@ class SqlSchema
                 ON DELETE CASCADE
             "));
         }
+        if (!$this->isInnodb('posts')) {
+            return;
+        }
         if (!$this->tableConstraintExists($postIdConstraint = $this->prefix('assigned_posts').'_post_id_foreign')) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_posts')}
@@ -56,6 +59,9 @@ class SqlSchema
                 REFERENCES {$this->table('ratings')} (ID)
                 ON DELETE CASCADE
             "));
+        }
+        if (!$this->isInnodb('terms')) {
+            return;
         }
         if (!$this->tableConstraintExists($termIdConstraint = $this->prefix('assigned_terms').'_term_id_foreign')) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
@@ -82,6 +88,9 @@ class SqlSchema
                 ON DELETE CASCADE
             "));
         }
+        if (!$this->isInnodb('users')) {
+            return;
+        }
         if (!$this->tableConstraintExists($userIdConstraint = $this->prefix('assigned_users').'_user_id_foreign')) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_users')}
@@ -98,6 +107,9 @@ class SqlSchema
      */
     public function addReviewsTableConstraints()
     {
+        if (!$this->isInnodb('posts')) {
+            return;
+        }
         if (!$this->tableConstraintExists($reviewIdConstraint = $this->prefix('assigned_posts').'_review_id_foreign')) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('ratings')}
@@ -222,15 +234,14 @@ class SqlSchema
      */
     public function isInnodb($table)
     {
-        $engine = $this->db->get_var("
-           SELECT ENGINE
-           FROM information_schema.TABLES
-           WHERE TABLE_SCHEMA = '{$this->db->dbname}' AND TABLE_NAME = '{$this->table($table)}'
+        $tableStatus = $this->db->get_row("
+            SHOW TABLE STATUS WHERE Name = '{$this->table($table)}'
         ");
-        if (empty($engine)) {
+        if (!isset($tableStatus->Engine)) {
             glsr_log()->warning(sprintf('The %s database table does not exist.', $this->table($table)));
+            return false;
         }
-        return 'innodb' === strtolower($engine);
+        return 'innodb' === strtolower($tableStatus->Engine);
     }
 
     /**
