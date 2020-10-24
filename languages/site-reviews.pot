@@ -1334,17 +1334,17 @@ msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:93
+#: plugin/Controllers/NoticeController.php:108
 msgctxt "admin-text"
 msgid "Import Third Party Reviews"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:109
+#: plugin/Controllers/NoticeController.php:124
 msgctxt "admin-text"
 msgid "Thanks for installing Site Reviews v%s, we hope you love it!"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:110
+#: plugin/Controllers/NoticeController.php:125
 msgctxt "admin-text"
 msgid "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 msgstr ""
@@ -2275,17 +2275,22 @@ msgstr ""
 msgid "You have already submitted a review."
 msgstr ""
 
-#: views/pages/addons/index.php:10
+#: views/pages/addons/index.php:6
+msgctxt "admin-text"
+msgid "I hope that you will find these add-ons useful! Each purchase goes towards the continued support and development of Site Reviews."
+msgstr ""
+
+#: views/pages/addons/index.php:11
 msgctxt "admin-text"
 msgid "Allow your website visitors to sort, filter by rating, and search reviews."
 msgstr ""
 
-#: views/pages/addons/index.php:19
+#: views/pages/addons/index.php:20
 msgctxt "admin-text"
 msgid "Allow your website visitors to add images with captions to their reviews."
 msgstr ""
 
-#: views/pages/addons/index.php:28
+#: views/pages/addons/index.php:29
 msgctxt "admin-text"
 msgid "Integrate with the Trustalyze Confidence System and post reviews to the blockchain."
 msgstr ""
@@ -2565,14 +2570,29 @@ msgctxt "admin-text"
 msgid "Public Response"
 msgstr ""
 
-#: views/partials/notices/migrate.php:3
+#: views/partials/notices/addons.php:22
+msgctxt "admin-text"
+msgid "Add-ons for Site Reviews are now available!"
+msgstr ""
+
+#: views/partials/notices/addons.php:23
+msgctxt "admin-text"
+msgid "Allow people to submit captioned images with their review, and sort, filter, and search reviews."
+msgstr ""
+
+#: views/partials/notices/addons.php:26
+msgctxt "admin-text"
+msgid "Check Them Out"
+msgstr ""
+
+#: views/partials/notices/migrate.php:6
 msgctxt "admin-text"
 msgid "Database Update Required"
 msgstr ""
 
-#: views/partials/notices/migrate.php:4
+#: views/partials/notices/migrate.php:7
 msgctxt "admin-text"
-msgid "Site Reviews needs to update the database and your reviews to the newest version. If this notice keeps appearing, then you have 3rd-party reviews that were not imported correctly. To fix this, please delete the invalid reviews and use the %s tool to re-import them."
+msgid "Site Reviews needs to update the database and your reviews to the newest version. If this notice keeps appearing, you may have 3rd-party reviews that were not imported correctly. To fix this, please delete the invalid reviews and use the %s tool to re-import them."
 msgstr ""
 
 #: views/partials/notices/migrate.php:10
@@ -2582,17 +2602,17 @@ msgstr ""
 
 #: views/partials/notices/migrate.php:10
 msgctxt "admin-text"
-msgid "Update database"
+msgid "Update Database"
 msgstr ""
 
 #: views/partials/notices/welcome.php:4
 msgctxt "admin-text"
-msgid "See what's new"
+msgid "See What's New"
 msgstr ""
 
 #: views/partials/notices/welcome.php:6
 msgctxt "admin-text"
-msgid "Read the Upgrade Guide"
+msgid "Read the upgrade guide"
 msgstr ""
 
 #: views/partials/translations/plural.php:4, views/partials/translations/single.php:4

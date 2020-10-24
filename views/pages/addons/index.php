@@ -3,6 +3,7 @@
 <div class="wrap">
     <h1 class="wp-heading-inline"><?= esc_html(get_admin_page_title()); ?></h1>
     <?= $notices; ?>
+    <p><?= _x('I hope that you will find these add-ons useful! Each purchase goes towards the continued support and development of Site Reviews.', 'admin-text', 'site-reviews'); ?></p>
     <div class="glsr-addons">
     <?php
         $template->render('partials/addons/addon', [
