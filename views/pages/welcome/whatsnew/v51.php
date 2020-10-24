@@ -16,6 +16,7 @@
         <ul>
             <li>Fixed a regression which prevented translations from including a link (i.e. the terms toggle)</li>
             <li>Fixed database integration with WordPress tables that still use the old MyISAM engine</li>
+            <li>Fixed the submission date of reviews to account for the timezone</li>
             <li>Fixed the terms toggle validation</li>
             <li>Fixed the trustalyze add-on link</li>
         </ul>

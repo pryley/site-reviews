@@ -116,6 +116,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 = 5.1.0 (2020-10-24) =
 
 - Fixed database integration with WordPress tables that still use the old MyISAM engine
+- Fixed the submission date of reviews to account for the timezone
 - Improved the plugin migration notice
 
 = 5.0.3 (2020-10-23) =

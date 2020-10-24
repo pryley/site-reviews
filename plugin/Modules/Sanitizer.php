@@ -99,7 +99,7 @@ class Sanitizer
         if (false === $date) {
             $date = time();
         }
-        return gmdate('Y-m-d H:i:s', $date);
+        return get_date_from_gmt(gmdate('Y-m-d H:i:s', $date));
     }
 
     /**
