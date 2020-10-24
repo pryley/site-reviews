@@ -221,7 +221,7 @@ class MigrateReviews
             $meta['name'] = Arr::get($meta, 'author');
             $meta['is_pinned'] = Arr::get($meta, 'pinned');
             $meta['review_id'] = $postId;
-            $meta['type'] = Arr::get($meta, 'review_type');
+            $meta['type'] = Arr::get($meta, 'review_type', 'local');
             $meta = Arr::removeEmptyValues($meta);
             $meta = glsr(RatingDefaults::class)->restrict($meta);
             $results[] = $meta;
