@@ -90,7 +90,7 @@ class NoticeController extends Controller
             glsr()->render('partials/notices/migrate', [
                 'action' => glsr(Builder::class)->a([
                     'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-general'),
-                    'text' => _x('Migrate Plugin', 'admin-text', 'site-reviews'),
+                    'text' => _x('Import Third Party Reviews', 'admin-text', 'site-reviews'),
                 ]),
             ]);
         }

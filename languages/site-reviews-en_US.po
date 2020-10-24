@@ -1686,8 +1686,8 @@ msgstr "Yes"
 
 #: plugin/Controllers/NoticeController.php:93
 msgctxt "admin-text"
-msgid "Migrate Plugin"
-msgstr "Migrate Plugin"
+msgid "Import Third Party Reviews"
+msgstr "Import Third Party Reviews"
 
 #: plugin/Controllers/NoticeController.php:109
 msgctxt "admin-text"
@@ -2562,7 +2562,7 @@ msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr "Import Reviews"
 
-#: views/pages/tools/general.php:75
+#: views/pages/tools/general.php:75, views/partials/notices/migrate.php:10
 msgctxt "admin-text"
 msgid "Run All Migrations"
 msgstr "Run All Migrations"
@@ -2751,19 +2751,33 @@ msgctxt "admin-text"
 msgid "Public Response"
 msgstr "Public Response"
 
-#: views/partials/notices/migrate.php:2
-msgctxt "admin-text"
-msgid "Database Update Required."
-msgstr "Database Update Required."
-
 #: views/partials/notices/migrate.php:3
 msgctxt "admin-text"
+msgid "Database Update Required"
+msgstr "Database Update Required"
+
+#: views/partials/notices/migrate.php:4
+msgctxt "admin-text"
 msgid ""
-"Please run the %s tool to update your database to the newest version, this "
-"should also fix any broken reviews."
+"Site Reviews needs to update the database and your reviews to the newest "
+"version. If this notice keeps appearing, then you have 3rd-party reviews "
+"that were not imported correctly. To fix this, please delete the invalid "
+"reviews and use the %s tool to re-import them."
 msgstr ""
-"Please run the %s tool to update your database to the newest version, this "
-"should also fix any broken reviews."
+"Site Reviews needs to update the database and your reviews to the newest "
+"version. If this notice keeps appearing, then you have 3rd-party reviews "
+"that were not imported correctly. To fix this, please delete the invalid "
+"reviews and use the %s tool to re-import them."
+
+#: views/partials/notices/migrate.php:10
+msgctxt "admin-text"
+msgid "Updating, please wait..."
+msgstr "Updating, please wait..."
+
+#: views/partials/notices/migrate.php:10
+msgctxt "admin-text"
+msgid "Update database"
+msgstr "Update database"
 
 #: views/partials/notices/welcome.php:4
 msgctxt "admin-text"

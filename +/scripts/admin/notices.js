@@ -10,7 +10,7 @@ Notices.prototype = {
         if (!notices) return;
         if (!jQuery('#glsr-notices').length) {
             jQuery('#message.notice').remove();
-            jQuery('form#post').before('<div id="glsr-notices" />');
+            jQuery('hr.wp-header-end').after('<div id="glsr-notices" />');
         }
         jQuery('#glsr-notices').html(notices);
         jQuery(document).trigger('wp-updates-notice-added');
