@@ -179,7 +179,7 @@ class ReviewController extends Controller
             'per_page' => -1,
             'status' => 'all',
         ]);
-        if ($result = glsr(Database::class)->delete('assigned_posts', ['post_id' => $postId])) {
+        if (glsr(Database::class)->delete('assigned_posts', ['post_id' => $postId])) {
             foreach ($reviews as $review) {
                 glsr(Cache::class)->delete($review->ID, 'reviews');
             }
@@ -194,7 +194,7 @@ class ReviewController extends Controller
      */
     public function onDeleteReview($reviewId)
     {
-        if ($result = glsr(Database::class)->delete('ratings', ['review_id' => $reviewId])) {
+        if (glsr(Database::class)->delete('ratings', ['review_id' => $reviewId])) {
             glsr(Cache::class)->delete($reviewId, 'reviews');
         }
     }
@@ -212,7 +212,7 @@ class ReviewController extends Controller
             'per_page' => -1,
             'status' => 'all',
         ]);
-        if ($result = glsr(Database::class)->delete('assigned_users', ['user_id' => $userId])) {
+        if (glsr(Database::class)->delete('assigned_users', ['user_id' => $userId])) {
             foreach ($reviews as $review) {
                 glsr(Cache::class)->delete($review->ID, 'reviews');
             }
