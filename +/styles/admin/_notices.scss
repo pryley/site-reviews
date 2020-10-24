@@ -2,7 +2,24 @@
 // Partials -> Notices
 // =============================================================================
 
-.glsr-notice:not(.notice-error):not(.notice-info):not(.notice-warning) {
+.glsr-notice-branded {
+    border-left-color: #F6E05E !important;
+    padding-left: 98px;
+}
+.glsr-notice-branded-image {
+    align-items: center;
+    background-color: #FAF089;
+    border-right: 1px solid #ccd0d4;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    left: 0;
+    padding: 0 5px;
+    position: absolute;
+    top: 0;
+    width: 75px;
+}
+.glsr-notice:not(.notice-error):not(.notice-info):not(.notice-warning):not(.glsr-notice-branded) {
     display: flex;
     border-left-color: #32373c;
 }
@@ -33,13 +50,4 @@
 .glsr-notice-content .button {
     margin-top: 0;
     margin-bottom: 12px;
-}
-
-/* WordPress compatibility
--------------------------------------------------------------------- */
-
-body.branch-4 {
-    .notice-warning {
-        border-color: #ffba00;
-    }
 }

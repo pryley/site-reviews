@@ -22,6 +22,7 @@ class NoticeController extends Controller
     public function __construct()
     {
         $this->dismissValuesMap = [
+            'addons' => glsr()->version('major'),
             'welcome' => glsr()->version('minor'),
         ];
     }
@@ -33,8 +34,10 @@ class NoticeController extends Controller
     public function adminNotices()
     {
         $screen = glsr_current_screen();
-        $this->renderMigrationNotice($screen->post_type);
+        // order is intentional!
+        $this->renderAddonsNotice();
         $this->renderWelcomeNotice($screen->post_type);
+        $this->renderMigrationNotice($screen->post_type);
     }
 
     /**
@@ -76,6 +79,18 @@ class NoticeController extends Controller
     protected function getVersionFor($noticeKey)
     {
         return Arr::get($this->dismissValuesMap, $noticeKey, glsr()->version('major'));
+    }
+
+    /**
+     * @return void
+     */
+    protected function renderAddonsNotice()
+    {
+        if ('site-review_page_addons' !== glsr_current_screen()->id
+            && Helper::isGreaterThan($this->getVersionFor('addons'), $this->getUserMeta('addons', 0))
+            && glsr()->can('edit_others_posts')) {
+            glsr()->render('partials/notices/addons');
+        }
     }
 
     /**
