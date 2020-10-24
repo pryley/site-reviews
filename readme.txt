@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, 
 Tested up to: 5.5
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.0.3
+Stable tag: 5.1.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -113,18 +113,17 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 == Changelog ==
 
+= 5.1.0 (2020-10-24) =
+
+- Fixed database integration with WordPress tables that still use the old MyISAM engine
+- Improved the plugin migration notice
+
 = 5.0.3 (2020-10-23) =
 
-- Fixed a regression which prevented translations from including a link (i.e. the terms toggle)
-- Fixed the trustalyze add-on link
-
-= 5.0.2 (2020-10-23) =
-
-- Fixed the terms toggle (Sorry about that! It was caused by a last-minute adjustment of the conditional checkboxes in the settings)
-
-= 5.0.1 (2020-10-23) =
-
 - Added back the deprecated "count" option on the [site_reviews] shortcode so that it will still work for people who have not yet replaced it with the "display" option.
+- Fixed a regression which prevented translations from including a link (i.e. the terms toggle)
+- Fixed the terms toggle validation
+- Fixed the trustalyze add-on link
 
 = 5.0.0 (2020-10-22) =
 

@@ -1,4 +1,4 @@
-<div class="glsr-card postbox is-fullwidth open">
+<div class="glsr-card postbox is-fullwidth">
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="welcome-v500">
             <span class="title">Version 5.0</span>
@@ -6,7 +6,7 @@
         </button>
     </h3>
     <div id="welcome-v500" class="inside">
-        <p><em>Initial Release Date &mdash; September 13th, 2020</em></p>
+        <p><em>Initial Release Date &mdash; October 22nd, 2020</em></p>
         <h4>✨ New Features</h4>
         <ul>
             <li>Added <code>assigned_posts</code> shortcode option, this <strong>replaces</strong> the <code>assign_to</code> and <code>assigned_to</code> options and allows you to assign reviews to multiple Post IDs</li>
