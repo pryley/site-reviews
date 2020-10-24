@@ -2567,12 +2567,22 @@ msgstr ""
 
 #: views/partials/notices/migrate.php:2
 msgctxt "admin-text"
-msgid "A recent update may have broken your reviews. Please run the %s tool to fix it."
+msgid "Database Update Required."
 msgstr ""
 
-#: views/partials/notices/welcome.php:3
+#: views/partials/notices/migrate.php:3
+msgctxt "admin-text"
+msgid "Please run the %s tool to update your database to the newest version, this should also fix any broken reviews."
+msgstr ""
+
+#: views/partials/notices/welcome.php:4
 msgctxt "admin-text"
 msgid "See what's new"
+msgstr ""
+
+#: views/partials/notices/welcome.php:6
+msgctxt "admin-text"
+msgid "Read the Upgrade Guide"
 msgstr ""
 
 #: views/partials/translations/plural.php:4, views/partials/translations/single.php:4
