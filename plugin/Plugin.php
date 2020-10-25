@@ -47,7 +47,8 @@ trait Plugin
 
     public function __construct()
     {
-        $this->file = str_replace('plugin/Application', $this->id, (new ReflectionClass($this))->getFileName());
+        $file = wp_normalize_path((new ReflectionClass($this))->getFileName());
+        $this->file = str_replace('plugin/Application', $this->id, $file);
         $plugin = get_file_data($this->file, [
             'languages' => 'Domain Path',
             'name' => 'Plugin Name',
