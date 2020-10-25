@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, 
 Tested up to: 5.5
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.1.1
+Stable tag: 5.1.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -113,9 +113,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 == Changelog ==
 
-= 5.1.1 (2020-10-24) =
+= 5.1.2 (2020-10-24) =
 
 - Add "ORDER BY" in migration SQL queries. This will make it a little slower, but hopefully fix the problem where the database migration notice is shown multiple times.
+- Fixed notice styling
 
 = 5.1.0 (2020-10-24) =
 
