@@ -3,8 +3,6 @@
 namespace GeminiLabs\SiteReviews\Modules\Html\Fields;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
-use ReflectionClass;
 
 abstract class Field
 {
@@ -27,7 +25,7 @@ abstract class Field
     }
 
     /**
-     * This is used to build a custom Field type
+     * This is used to build a custom Field type.
      * @return string|void
      */
     public function build()

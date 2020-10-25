@@ -1354,7 +1354,7 @@ msgctxt "admin-text"
 msgid "Local Review"
 msgstr "Local Review"
 
-#: plugin/Deprecated.php:21
+#: plugin/Deprecated.php:24
 msgctxt "admin-text"
 msgid ""
 "The [%s] method has been deprecated and will be soon be removed, please use "
@@ -1363,7 +1363,7 @@ msgstr ""
 "The [%s] method has been deprecated and will be soon be removed, please use "
 "the [%s] method instead."
 
-#: plugin/Review.php:268, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
+#: plugin/Review.php:264, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr "Unknown"

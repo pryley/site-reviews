@@ -8,7 +8,14 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 trait Sql
 {
+    /**
+     * @var array
+     */
     public $args;
+
+    /**
+     * @var \wpdb
+     */
     public $db;
 
     /**

@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, 
 Tested up to: 5.5
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.1.3
+Stable tag: 5.1.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -115,13 +115,11 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 = 5.1.4 (2020-10-25) =
 
+- Added "ORDER BY" to migration SQL queries; this will make migrations run a little slower but fix a potential problem where database migrations may not complete successfully
+- Fixed addons notice styling and placement
 - Fixed plugin file paths on IIS Windows servers
 - Fixed plugin migrations to work better with caching plugins
-
-= 5.1.3 (2020-10-25) =
-
-- Add "ORDER BY" in migration SQL queries. This will make it a little slower, but hopefully fix the problem where the database migration notice is shown multiple times.
-- Fixed addons notice styling and placement
+- Fixed strict standard notices in PHP 5.6
 
 = 5.1.0 (2020-10-24) =
 
