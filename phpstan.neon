@@ -23,4 +23,5 @@ parameters:
     - "#^Parameter \\#2 \\$callback of function array_filter expects callable\\(mixed, mixed\\): bool, '(strlen|trim)' given\\.$#"
   level: 5
   paths:
+    - config/
     - plugin/
