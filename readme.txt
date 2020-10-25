@@ -113,7 +113,12 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 == Changelog ==
 
-= 5.1.2 (2020-10-24) =
+= 5.1.4 (2020-10-25) =
+
+- Fixed plugin file paths on IIS Windows servers
+- Fixed plugin migrations to work better with caching plugins
+
+= 5.1.3 (2020-10-25) =
 
 - Add "ORDER BY" in migration SQL queries. This will make it a little slower, but hopefully fix the problem where the database migration notice is shown multiple times.
 - Fixed addons notice styling and placement

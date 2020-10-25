@@ -1334,17 +1334,17 @@ msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:118
+#: plugin/Controllers/NoticeController.php:119
 msgctxt "admin-text"
-msgid "Import Third Party Reviews"
+msgid "Common Problems and Solutions"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:133
+#: plugin/Controllers/NoticeController.php:134
 msgctxt "admin-text"
 msgid "Thanks for installing Site Reviews v%s, we hope you love it!"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:134
+#: plugin/Controllers/NoticeController.php:135
 msgctxt "admin-text"
 msgid "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 msgstr ""
@@ -2592,7 +2592,7 @@ msgstr ""
 
 #: views/partials/notices/migrate.php:7
 msgctxt "admin-text"
-msgid "Site Reviews needs to update the database and your reviews to the newest version. If this notice keeps appearing, you may have 3rd-party reviews that were not imported correctly. To fix this, please delete the invalid reviews and use the %s tool to re-import them."
+msgid "Site Reviews needs to update the database and your reviews to the newest version. If this notice keeps appearing, please read the %s section on the Help page."
 msgstr ""
 
 #: views/partials/notices/migrate.php:10

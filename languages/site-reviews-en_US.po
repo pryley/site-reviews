@@ -1684,17 +1684,17 @@ msgctxt "admin-text"
 msgid "Yes"
 msgstr "Yes"
 
-#: plugin/Controllers/NoticeController.php:118
+#: plugin/Controllers/NoticeController.php:119
 msgctxt "admin-text"
-msgid "Import Third Party Reviews"
-msgstr "Import Third Party Reviews"
+msgid "Common Problems and Solutions"
+msgstr "Common Problems and Solutions"
 
-#: plugin/Controllers/NoticeController.php:133
+#: plugin/Controllers/NoticeController.php:134
 msgctxt "admin-text"
 msgid "Thanks for installing Site Reviews v%s, we hope you love it!"
 msgstr "Thanks for installing Site Reviews v%s, we hope you love it!"
 
-#: plugin/Controllers/NoticeController.php:134
+#: plugin/Controllers/NoticeController.php:135
 msgctxt "admin-text"
 msgid "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 msgstr "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
@@ -2788,14 +2788,12 @@ msgstr "Database Update Required"
 msgctxt "admin-text"
 msgid ""
 "Site Reviews needs to update the database and your reviews to the newest "
-"version. If this notice keeps appearing, you may have 3rd-party reviews "
-"that were not imported correctly. To fix this, please delete the invalid "
-"reviews and use the %s tool to re-import them."
+"version. If this notice keeps appearing, please read the %s section on the "
+"Help page."
 msgstr ""
 "Site Reviews needs to update the database and your reviews to the newest "
-"version. If this notice keeps appearing, you may have 3rd-party reviews "
-"that were not imported correctly. To fix this, please delete the invalid "
-"reviews and use the %s tool to re-import them."
+"version. If this notice keeps appearing, please read the %s section on the "
+"Help page."
 
 #: views/partials/notices/migrate.php:10
 msgctxt "admin-text"

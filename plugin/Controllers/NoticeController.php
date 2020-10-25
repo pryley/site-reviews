@@ -114,8 +114,9 @@ class NoticeController extends Controller
             && (glsr(Migrate::class)->isMigrationNeeded() || glsr(Database::class)->isMigrationNeeded())) {
             glsr()->render('partials/notices/migrate', [
                 'action' => glsr(Builder::class)->a([
-                    'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-general'),
-                    'text' => _x('Import Third Party Reviews', 'admin-text', 'site-reviews'),
+                    'data-expand' => '#support-common-problems-and-solutions',
+                    'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-support'),
+                    'text' => _x('Common Problems and Solutions', 'admin-text', 'site-reviews'),
                 ]),
             ]);
         }

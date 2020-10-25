@@ -23,13 +23,13 @@ class Migrate
     /**
      * @var string
      */
-    public $transientKey;
+    public $migrationsKey;
 
     public function __construct()
     {
         $this->currentVersion = $this->currentVersion();
-        $this->migrations = $this->migrations();
-        $this->transientKey = glsr()->prefix.'migrations';
+        $this->migrations = $this->availableMigrations();
+        $this->migrationsKey = glsr()->prefix.'migrations';
     }
 
     /**
@@ -52,7 +52,7 @@ class Migrate
      */
     public function reset()
     {
-        delete_transient($this->transientKey);
+        delete_option($this->migrationsKey);
     }
 
     /**
@@ -79,13 +79,32 @@ class Migrate
     /**
      * @return array
      */
-    protected function createTransient()
+    protected function availableMigrations()
     {
-        $transient = [];
-        foreach ($this->migrations as $migration) {
-            $transient[$migration] = false;
+        $migrations = [];
+        $dir = glsr()->path('plugin/Modules/Migrations');
+        if (is_dir($dir)) {
+            $iterator = new DirectoryIterator($dir);
+            foreach ($iterator as $fileinfo) {
+                if ($fileinfo->isFile()) {
+                    $migrations[] = str_replace('.php', '', $fileinfo->getFilename());
+                }
+            }
+            natsort($migrations);
         }
-        return $transient;
+        return Arr::reindex($migrations);
+    }
+
+    /**
+     * @return array
+     */
+    protected function createMigrations()
+    {
+        $migrations = [];
+        foreach ($this->migrations as $migration) {
+            $migrations[$migration] = false;
+        }
+        return $migrations;
     }
 
     /**
@@ -106,33 +125,14 @@ class Migrate
     }
 
     /**
-     * @return array
-     */
-    protected function migrations()
-    {
-        $migrations = [];
-        $dir = glsr()->path('plugin/Modules/Migrations');
-        if (is_dir($dir)) {
-            $iterator = new DirectoryIterator($dir);
-            foreach ($iterator as $fileinfo) {
-                if ($fileinfo->isFile()) {
-                    $migrations[] = str_replace('.php', '', $fileinfo->getFilename());
-                }
-            }
-            natsort($migrations);
-        }
-        return Arr::reindex($migrations);
-    }
-
-    /**
      * @return string[]
      */
-    protected function pendingMigrations(array $transient = [])
+    protected function pendingMigrations(array $migrations = [])
     {
-        if (empty($transient)) {
-            $transient = $this->transient();
+        if (empty($migrations)) {
+            $migrations = $this->storedMigrations();
         }
-        return array_keys(array_filter($transient, function ($hasRun) {
+        return array_keys(array_filter($migrations, function ($hasRun) {
             return !$hasRun;
         }));
     }
@@ -143,44 +143,46 @@ class Migrate
     protected function runMigrations()
     {
         wp_raise_memory_limit('admin');
-        $transient = $this->transient();
-        foreach ($this->pendingMigrations($transient) as $migration) {
+        $migrations = $this->storedMigrations();
+        glsr()->action('migration/start', $migrations);
+        foreach ($this->pendingMigrations($migrations) as $migration) {
             if (class_exists($classname = __NAMESPACE__.'\Migrations\\'.$migration)) {
                 glsr($classname)->run();
-                $transient[$migration] = true;
+                $migrations[$migration] = true;
                 glsr_log()->debug("[$migration] has run successfully.");
             }
         }
-        $this->storeTransient($transient);
+        $this->storeMigrations($migrations);
         if ($this->currentVersion !== glsr()->version) {
             $this->updateVersionFrom($this->currentVersion);
         }
         glsr(OptionManager::class)->set('last_migration_run', current_time('timestamp'));
+        glsr()->action('migration/end', $migrations);
     }
 
     /**
      * @return void
      */
-    protected function storeTransient(array $transient)
+    protected function storeMigrations(array $migrations)
     {
-        set_transient($this->transientKey, $transient);
+        update_option($this->migrationsKey, $migrations);
     }
 
     /**
      * @return array
      */
-    protected function transient()
+    protected function storedMigrations()
     {
-        $transient = Arr::consolidate(get_transient($this->transientKey));
-        if (!Arr::compare(array_keys($transient), array_values($this->migrations))) {
-            $newTransient = $this->createTransient();
-            foreach ($newTransient as $migration => &$hasRun) {
-                $hasRun = Arr::get($transient, $migration, false);
+        $migrations = Arr::consolidate(get_option($this->migrationsKey));
+        if (!Arr::compare(array_keys($migrations), array_values($this->migrations))) {
+            $newMigrations = $this->createMigrations();
+            foreach ($newMigrations as $migration => &$hasRun) {
+                $hasRun = Arr::get($migrations, $migration, false);
             }
-            $transient = $newTransient;
-            $this->storeTransient($transient);
+            $migrations = $newMigrations;
+            $this->storeMigrations($migrations);
         }
-        return array_map('wp_validate_boolean', $transient);
+        return array_map('wp_validate_boolean', $migrations);
     }
 
     /**

@@ -10,6 +10,8 @@
     site-reviews/export/cleanup                             ()
     site-reviews/get/review                                 (Review $review, int $reviewId)
     site-reviews/get/reviews                                (array $reviews, array $args)
+    site-reviews/migration/end                              (array $migrations)
+    site-reviews/migration/start                            (array $migrations)
     site-reviews/personal-data/erase                        (Review $review, bool $retainReview)
     site-reviews/review/build/before                        (Review $review)
     site-reviews/review/create                              (int $postId, Commands\CreateReview $command)

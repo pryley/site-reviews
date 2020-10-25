@@ -10,6 +10,16 @@
         <p>Site Reviews uses the standard WordPress mail functions to send email. However, this does not guarantee that emails will send successfully if your WordPress settings and server configuration are incorrect.</p>
         <p>To make sure that emails notifications are sent, please verify that you are sending from an email address that uses the same domain as your website. For example, if your website is <code>https://reviews.com</code>, then the email address you are sending from should end with <code>@reviews.com</code>. You can change the email address that notifications are sent from in the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings#tab-general'); ?>">settings</a></code>. If the "Send Emails From" email address you have saved in the settings does not share the same domain as your website, you will likely experience issues sending email.</p>
         <p>If your email notifications are still not sending, I recommend that you install the <a href="https://wordpress.org/plugins/check-email/">Check Email</a> plugin to verify that your website is able to correctly send email. See also, <a href="https://www.butlerblog.com/2013/12/12/easy-smtp-email-wordpress-wp_mail/">Easy SMTP email settings for WordPress</a>.</p>
+        <h3>The "Database Update Required" notice keeps appearing.</h3>
+        <p>This notice may appear after updating Site Reviews. If it does, please click the "Update Database" button to run it. If it continues to appear after reloading your pages:</p>
+        <ol>
+            <li>
+                <p>You may be using a caching plugin which is caching the database and preventing Site Reviews from storing the migration status. To fix this, you will need to flush your database cache and/or object cache and then try again.</p>
+            </li>
+            <li>
+                <p>You may have 3rd-party reviews that were not imported correctly. You can verify this by looking for reviews on the <a href="<?= admin_url('edit.php?post_type='.glsr()->post_type); ?>">All Reviews</a> page that do not have any stars. Clicking on these reviews will show a read-only editor and a notice alerting you that the review is an, "Unsupported Review Type". To fix this, please delete the invalid reviews and use the provided <a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-general'); ?>">Import Third Party Reviews</a> tool to re-import them.</p>
+            </li>
+        </ol>
         <h3>The review form is not working, the submit button just spins.</h3>
         <ol>
             <li>

@@ -125,6 +125,20 @@ add_action('site-reviews/customize/ninja_forms', function () {
 });
 
 /**
+ * Purge the W3 Total Cache database and object caches after plugin migrations.
+ * @return void
+ * @see https://wordpress.org/plugins/w3-total-cache/
+ */
+add_action('site-reviews/migration/end', function () {
+    if (function_exists('w3tc_dbcache_flush')) {
+        w3tc_dbcache_flush();
+    }
+    if (function_exists('w3tc_objectcache_flush')) {
+        w3tc_objectcache_flush();
+    }
+});
+
+/**
  * Purge the WP-Super-Cache plugin cache after a review has been created.
  * @param \GeminiLabs\SiteReviews\Review $review
  * @param \GeminiLabs\SiteReviews\Commands\CreateReview $command

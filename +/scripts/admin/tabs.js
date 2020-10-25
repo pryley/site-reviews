@@ -12,6 +12,7 @@ const Tabs = function (options) {
 
 Tabs.prototype = {
     defaults: {
+        expandSelectors: '.glsr-nav-view, .glsr-notice',
         tabSelector: '.glsr-nav-tab',
         viewSelector: '.glsr-nav-view',
     },
@@ -28,7 +29,7 @@ Tabs.prototype = {
             tab.addEventListener('click', self.onClick_.bind(self));
             tab.addEventListener('touchend', self.onClick_.bind(self));
         }.bind(self));
-        jQuery(self.options.viewSelector).on('click', 'a', function () {
+        jQuery(self.options.expandSelectors).on('click', 'a', function () {
             var elId = jQuery(this).data('expand');
             localStorage.setItem('glsr-expand', elId);
             self.scrollSectionIntoView_(jQuery(elId));
