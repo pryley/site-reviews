@@ -85,6 +85,7 @@ class MigrateReviews
                 INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID
                 INNER JOIN {$this->db->postmeta} AS m ON r.review_id = m.post_id
                 WHERE m.meta_key = '_assigned_to' AND m.meta_value > 0 
+                ORDER BY r.ID
                 LIMIT %d, %d
             ", $offset, $this->limit), 'migrate-assigned-posts');
             $results = glsr(Database::class)->dbGetResults($sql, ARRAY_A);
@@ -118,6 +119,7 @@ class MigrateReviews
                 AND p.post_type = '%s'
                 AND m1.meta_value != '%s'
                 AND m1.meta_key LIKE '_custom%%'
+                ORDER BY m1.meta_id
                 LIMIT %d, %d
             ", glsr()->post_type, serialize([]), $offset, $this->limit), 'migrate-custom');
             $results = glsr(Database::class)->dbGetResults($sql, OBJECT);
@@ -153,6 +155,7 @@ class MigrateReviews
                         SELECT ID
                         FROM {$this->db->posts}
                         WHERE post_type = '%s'
+                        ORDER BY ID
                         LIMIT %d, %d
                     ) AS post_ids
                 )
@@ -184,6 +187,7 @@ class MigrateReviews
                 FROM {$table} AS r
                 INNER JOIN {$this->db->term_relationships} AS tr ON r.review_id = tr.object_id
                 INNER JOIN {$this->db->term_taxonomy} AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+                ORDER BY r.ID
                 LIMIT %d, %d
             ", $offset, $this->limit), 'migrate-assigned-terms');
             $results = glsr(Database::class)->dbGetResults($sql, ARRAY_A);
