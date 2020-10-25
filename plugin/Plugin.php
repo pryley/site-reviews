@@ -9,12 +9,8 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
 
 /**
- * @property string $file
  * @property string $id
- * @property string $languages
  * @property string $name
- * @property string $testedTo
- * @property string $version
  * @method array filterArray($hook, ...$args)
  * @method bool filterBool($hook, ...$args)
  * @method float filterFloat($hook, ...$args)

@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-Trait Session
+trait Session
 {
     /**
      * @var array

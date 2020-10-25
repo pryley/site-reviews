@@ -10,12 +10,14 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use WP_Query;
 use WP_User_Query;
 
+/**
+ * @property array $mappedDeprecatedMethods
+ */
 class Database
 {
     use Deprecated;
 
     protected $db;
-    protected $mappedDeprecatedMethods;
 
     public function __construct()
     {

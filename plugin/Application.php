@@ -24,8 +24,11 @@ use ReflectionClass;
  * @property string $post_type
  * @property string $prefix
  * @property array $reviewTypes
+ * @property array $session
+ * @property \GeminiLabs\SiteReviews\Arguments $storage
  * @property string $taxonomy
  * @property string $version
+ * @property string $testedTo;
  */
 final class Application extends Container
 {
@@ -44,11 +47,8 @@ final class Application extends Container
 
     protected $addons = [];
     protected $defaults;
-    protected $file;
-    protected $languages;
     protected $name;
     protected $reviewTypes;
-    protected $version;
 
     /**
      * @return void

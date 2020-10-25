@@ -9,12 +9,13 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Review;
 
+/**
+ * @property array $args
+ * @property \wpdb $db
+ */
 class Query
 {
     use Sql;
-
-    public $args;
-    public $db;
 
     public function __construct()
     {

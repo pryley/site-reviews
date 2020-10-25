@@ -8,6 +8,9 @@ use ReflectionClass;
 
 trait Deprecated
 {
+    /**
+     * @var array
+     */
     protected $mappedDeprecatedMethods;
 
     public function __call($oldMethod, $args)
