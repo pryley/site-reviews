@@ -33,11 +33,10 @@ class NoticeController extends Controller
      */
     public function adminNotices()
     {
-        $screen = glsr_current_screen();
         // order is intentional!
         $this->renderAddonsNotice();
-        $this->renderWelcomeNotice($screen->post_type);
-        $this->renderMigrationNotice($screen->post_type);
+        $this->renderWelcomeNotice();
+        $this->renderMigrationNotice();
     }
 
     /**
@@ -82,11 +81,23 @@ class NoticeController extends Controller
     }
 
     /**
+     * @return bool
+     */
+    protected function isCurrentScreen()
+    {
+        $screen = glsr_current_screen();
+        $screenIds = [
+            'dashboard',
+        ];
+        return glsr()->post_type == $screen->post_type || in_array($screen->id, $screenIds);
+    }
+
+    /**
      * @return void
      */
     protected function renderAddonsNotice()
     {
-        if ('site-review_page_addons' !== glsr_current_screen()->id
+        if ($this->isCurrentScreen()
             && Helper::isGreaterThan($this->getVersionFor('addons'), $this->getUserMeta('addons', 0))
             && glsr()->can('edit_others_posts')) {
             glsr()->render('partials/notices/addons');
@@ -94,12 +105,11 @@ class NoticeController extends Controller
     }
 
     /**
-     * @param string $screenPostType
      * @return void
      */
-    protected function renderMigrationNotice($screenPostType)
+    protected function renderMigrationNotice()
     {
-        if (glsr()->post_type == $screenPostType
+        if ($this->isCurrentScreen()
             && glsr()->hasPermission('tools', 'general')
             && (glsr(Migrate::class)->isMigrationNeeded() || glsr(Database::class)->isMigrationNeeded())) {
             glsr()->render('partials/notices/migrate', [
@@ -112,12 +122,11 @@ class NoticeController extends Controller
     }
 
     /**
-     * @param string $screenPostType
      * @return void
      */
-    protected function renderWelcomeNotice($screenPostType)
+    protected function renderWelcomeNotice()
     {
-        if (glsr()->post_type == $screenPostType
+        if ($this->isCurrentScreen()
             && Helper::isGreaterThan($this->getVersionFor('welcome'), $this->getUserMeta('welcome', 0))
             && glsr()->can('edit_others_posts')) {
             $welcomeText = '0.0.0' == glsr(OptionManager::class)->get('version_upgraded_from')

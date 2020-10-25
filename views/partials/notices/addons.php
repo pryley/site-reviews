@@ -1,5 +1,5 @@
-<div class="notice is-dismissible glsr-notice glsr-notice-branded" data-dismiss="addons" style="border-left-color:#f6e05e!important;padding-left:98px">
-    <div class="glsr-notice-branded-image" style="align-items:center;background-color:#faf089;border-right:1px solid #ccd0d4;bottom:0;display:flex;justify-content:center;left:0;padding:0 5px;position:absolute;top:0;width:75px">
+<div class="notice is-dismissible glsr-notice glsr-notice-branded" data-dismiss="addons">
+    <div class="glsr-notice-branded-image">
         <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
             <path fill="#212121" fill-rule="nonzero" d="M458 80a14 14 0 0114 14v364a14 14 0 01-14 14H54a14 14 0 01-14-14V94a14 14 0 0114-14h404z"/>
             <path fill="ivory" fill-rule="nonzero" d="M458 83H54a11 11 0 00-11 10.71V458a11 11 0 0010.71 11H458a11 11 0 0011-10.71V94a11 11 0 00-10.71-11H458z"/>

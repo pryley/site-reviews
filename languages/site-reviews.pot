@@ -1334,17 +1334,17 @@ msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:108
+#: plugin/Controllers/NoticeController.php:118
 msgctxt "admin-text"
 msgid "Import Third Party Reviews"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:124
+#: plugin/Controllers/NoticeController.php:133
 msgctxt "admin-text"
 msgid "Thanks for installing Site Reviews v%s, we hope you love it!"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:125
+#: plugin/Controllers/NoticeController.php:134
 msgctxt "admin-text"
 msgid "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 msgstr ""
