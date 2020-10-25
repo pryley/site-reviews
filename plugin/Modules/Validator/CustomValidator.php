@@ -7,6 +7,14 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 class CustomValidator extends ValidatorAbstract
 {
     /**
+     * @return bool
+     */
+    public function isValid()
+    {
+        return Cast::toBool(glsr()->filter('validate/custom', true, $this->request));
+    }
+
+    /**
      * @return void
      */
     public function performValidation()

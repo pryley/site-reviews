@@ -24,6 +24,17 @@ class ReviewLimitsValidator extends ValidatorAbstract
     }
 
     /**
+     * @return bool
+     */
+    public function isValid()
+    {
+        $method = Helper::buildMethodName(glsr_get_option('submissions.limit'), 'validateBy');
+        return method_exists($this, $method)
+            ? call_user_func([$this, $method])
+            : true;
+    }
+
+    /**
      * @return void
      */
     public function performValidation()
@@ -31,17 +42,6 @@ class ReviewLimitsValidator extends ValidatorAbstract
         if (!$this->isValid()) {
             $this->setErrors(__('You have already submitted a review.', 'site-reviews'));
         }
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isValid()
-    {
-        $method = Helper::buildMethodName(glsr_get_option('submissions.limit'), 'validateBy');
-        return method_exists($this, $method)
-            ? call_user_func([$this, $method])
-            : true;
     }
 
     /**

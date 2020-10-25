@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Notification;
+use GeminiLabs\SiteReviews\Modules\Validator\DefaultValidator;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
 use GeminiLabs\SiteReviews\Request;
 
@@ -120,6 +121,15 @@ class CreateReview implements Contract
         $this->message = $validator->message;
         $this->recaptcha = $validator->recaptcha;
         return $validator->isValid();
+    }
+
+    /**
+     * This only validates the provided values in the Request
+     * @return bool
+     */
+    public function isValid()
+    {
+        return glsr(DefaultValidator::class, ['request' => $this->request])->isValidRequest();
     }
 
     /**

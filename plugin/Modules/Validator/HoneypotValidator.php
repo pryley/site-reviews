@@ -7,6 +7,16 @@ use GeminiLabs\SiteReviews\Modules\Honeypot;
 class HoneypotValidator extends ValidatorAbstract
 {
     /**
+     * @return bool
+     */
+    public function isValid()
+    {
+        $hash = glsr(Honeypot::class)->hash($this->request->form_id);
+        $isValid = isset($this->request[$hash]) && empty($this->request[$hash]);
+        return glsr()->filterBool('validate/honeypot', $isValid, $this->request);
+    }
+
+    /**
      * @return void
      */
     public function performValidation()
@@ -17,15 +27,5 @@ class HoneypotValidator extends ValidatorAbstract
                 'The Honeypot caught a bad submission.'
             );
         }
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isValid()
-    {
-        $hash = glsr(Honeypot::class)->hash($this->request->form_id);
-        $isValid = isset($this->request[$hash]) && empty($this->request[$hash]);
-        return glsr()->filterBool('validate/honeypot', $isValid, $this->request);
     }
 }

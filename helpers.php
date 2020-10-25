@@ -26,7 +26,7 @@ defined('ABSPATH') || die;
  * @return mixed
  */
 add_filter('plugins_loaded', function () {
-    $hooks = array(
+    $hooks = [
         'glsr_create_review' => 2,
         'glsr_debug' => 10,
         'glsr_get' => 4,
@@ -38,7 +38,7 @@ add_filter('plugins_loaded', function () {
         'glsr_get_reviews' => 2,
         'glsr_log' => 3,
         'glsr_star_rating' => 2,
-    );
+    ];
     foreach ($hooks as $function => $acceptedArgs) {
         add_filter($function, function () use ($function) {
             $args = func_get_args();
@@ -68,11 +68,11 @@ function glsr($alias = null, array $parameters = [])
 /**
  * @return \GeminiLabs\SiteReviews\Review|false
  */
-function glsr_create_review($reviewValues = array())
+function glsr_create_review($reviewValues = [])
 {
     $request = new Request(Arr::consolidate($reviewValues));
     $command = new CreateReview($request);
-    return $command->validate()
+    return $command->isValid()
         ? glsr(ReviewManager::class)->create($command)
         : false;
 }
@@ -143,17 +143,17 @@ function glsr_get_options()
 /**
  * @return \GeminiLabs\SiteReviews\Arguments
  */
-function glsr_get_ratings($args = array())
+function glsr_get_ratings($args = [])
 {
     $counts = glsr(RatingManager::class)->ratings(Arr::consolidate($args));
-    return new Arguments(array(
+    return new Arguments([
         'average' => glsr(Rating::class)->average($counts),
         'maximum' => Cast::toInt(glsr()->constant('MAX_RATING', Rating::class)),
         'minimum' => Cast::toInt(glsr()->constant('MIN_RATING', Rating::class)),
         'ranking' => glsr(Rating::class)->ranking($counts),
         'ratings' => $counts,
         'reviews' => array_sum($counts),
-    ));
+    ]);
 }
 
 /**
@@ -168,7 +168,7 @@ function glsr_get_review($postId)
 /**
  * @return \GeminiLabs\SiteReviews\Reviews
  */
-function glsr_get_reviews($args = array())
+function glsr_get_reviews($args = [])
 {
     glsr()->sessionSet('glsr_get_reviews', true); // Tell Site Reviews that the helper function was used
     return glsr(ReviewManager::class)->reviews(Arr::consolidate($args));

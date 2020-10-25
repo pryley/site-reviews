@@ -9,6 +9,37 @@ use GeminiLabs\SiteReviews\Request;
 class AkismetValidator extends ValidatorAbstract
 {
     /**
+     * @return bool
+     */
+    public function isValid()
+    {
+        if (!$this->isActive()) {
+            return true;
+        }
+        $submission = [
+            'blog' => glsr(OptionManager::class)->getWP('home'),
+            'blog_charset' => glsr(OptionManager::class)->getWP('blog_charset', 'UTF-8'),
+            'blog_lang' => get_locale(),
+            'comment_author' => $this->request->name,
+            'comment_author_email' => $this->request->email,
+            'comment_content' => $this->request->title."\n\n".$this->request->content,
+            'comment_type' => 'review',
+            'referrer' => filter_input(INPUT_SERVER, 'HTTP_REFERER'),
+            'user_agent' => filter_input(INPUT_SERVER, 'HTTP_USER_AGENT'),
+            'user_ip' => $this->request->ip_address,
+            // 'user_role' => 'administrator',
+            // 'is_test' => 1,
+        ];
+        foreach ($_SERVER as $key => $value) {
+            if (!is_array($value) && !in_array($key, ['HTTP_COOKIE', 'HTTP_COOKIE2', 'PHP_AUTH_PW'])) {
+                $submission[$key] = $value;
+            }
+        }
+        $submission = glsr()->filterArray('validate/akismet/submission', $submission, $this->request);
+        return $this->validateAkismet($submission);
+    }
+
+    /**
      * @return void
      */
     public function performValidation()
@@ -54,37 +85,6 @@ class AkismetValidator extends ValidatorAbstract
             ? false
             : !empty(Akismet::get_api_key());
         return glsr()->filterBool('validate/akismet/is-active', $check);
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isValid()
-    {
-        if (!$this->isActive()) {
-            return true;
-        }
-        $submission = [
-            'blog' => glsr(OptionManager::class)->getWP('home'),
-            'blog_charset' => glsr(OptionManager::class)->getWP('blog_charset', 'UTF-8'),
-            'blog_lang' => get_locale(),
-            'comment_author' => $this->request->name,
-            'comment_author_email' => $this->request->email,
-            'comment_content' => $this->request->title."\n\n".$this->request->content,
-            'comment_type' => 'review',
-            'referrer' => filter_input(INPUT_SERVER, 'HTTP_REFERER'),
-            'user_agent' => filter_input(INPUT_SERVER, 'HTTP_USER_AGENT'),
-            'user_ip' => $this->request->ip_address,
-            // 'user_role' => 'administrator',
-            // 'is_test' => 1,
-        ];
-        foreach ($_SERVER as $key => $value) {
-            if (!is_array($value) && !in_array($key, ['HTTP_COOKIE', 'HTTP_COOKIE2', 'PHP_AUTH_PW'])) {
-                $submission[$key] = $value;
-            }
-        }
-        $submission = glsr()->filterArray('validate/akismet/submission', $submission, $this->request);
-        return $this->validateAkismet($submission);
     }
 
     /**

@@ -20,30 +20,40 @@ class DefaultValidator extends ValidatorAbstract
     ];
 
     /**
+     * @return bool
+     */
+    public function isValid()
+    {
+        $this->errors = glsr(Validator::class)->validate(
+            $this->request->toArray(),
+            $this->rules()
+        );
+        return empty($this->errors);
+    }
+
+    /**
+     * This only validates the provided values in the Request
+     * @return bool
+     */
+    public function isValidRequest()
+    {
+        $options = glsr(DefaultsManager::class)->pluck('settings.submissions.required.options');
+        $excludedKeys = array_keys(array_diff_key($options, $this->request->toArray()));
+        $this->request->excluded = $excludedKeys;
+        return $this->isValid();
+    }
+
+    /**
      * @return void
      */
     public function performValidation()
     {
         if (!$this->isValid()) {
             $this->setErrors(__('Please fix the submission errors.', 'site-reviews'));
+            return;
         }
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isValid()
-    {
-        $this->errors = glsr(Validator::class)->validate(
-            $this->request->toArray(),
-            $this->rules()
-        );
-        if (empty($this->errors)) {
-            $values = glsr(ValidateReviewDefaults::class)->merge($this->request->toArray());
-            $this->request = new Request($values);
-            return true;
-        }
-        return false;
+        $values = glsr(ValidateReviewDefaults::class)->merge($this->request->toArray());
+        $this->request = new Request($values);
     }
 
     /**
@@ -55,7 +65,7 @@ class DefaultValidator extends ValidatorAbstract
         $customRules = array_diff_key($rules,
             glsr(DefaultsManager::class)->pluck('settings.submissions.required.options')
         );
-        $requiredRules = array_intersect_key($rules, 
+        $requiredRules = array_intersect_key($rules,
             array_flip(glsr_get_option('submissions.required', []))
         );
         $rules = array_merge($requiredRules, $customRules);

@@ -82,11 +82,11 @@ msgstr "This review is based on my own experience and is my genuine opinion."
 msgid "Show more"
 msgstr "Show more"
 
-#: plugin/Commands/CreateReview.php:145
+#: plugin/Commands/CreateReview.php:155
 msgid "Your review has been submitted!"
 msgstr "Your review has been submitted!"
 
-#: plugin/Commands/CreateReview.php:150
+#: plugin/Commands/CreateReview.php:160
 msgid ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site admin."
@@ -126,7 +126,7 @@ msgstr "This field must have between %s and %s characters."
 msgid "This field requires a valid e-mail address."
 msgstr "This field requires a valid e-mail address."
 
-#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/DefaultValidator.php:28
+#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/DefaultValidator.php:52
 msgid "Please fix the submission errors."
 msgstr "Please fix the submission errors."
 
@@ -232,31 +232,31 @@ msgstr "Poor"
 msgid "Terrible"
 msgstr "Terrible"
 
-#: plugin/Modules/Validator/AkismetValidator.php:18
+#: plugin/Modules/Validator/AkismetValidator.php:49
 msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr "This review has been flagged as possible spam and cannot be submitted."
 
-#: plugin/Modules/Validator/BlacklistValidator.php:21
+#: plugin/Modules/Validator/BlacklistValidator.php:37
 msgid "Your review cannot be submitted at this time."
 msgstr "Your review cannot be submitted at this time."
 
-#: plugin/Modules/Validator/CustomValidator.php:19, plugin/Modules/Validator/HoneypotValidator.php:16
+#: plugin/Modules/Validator/CustomValidator.php:27, plugin/Modules/Validator/HoneypotValidator.php:26
 msgid "The review submission failed. Please notify the site administrator."
 msgstr "The review submission failed. Please notify the site administrator."
 
-#: plugin/Modules/Validator/PermissionValidator.php:15
+#: plugin/Modules/Validator/PermissionValidator.php:26
 msgid "You must be logged in to submit a review."
 msgstr "You must be logged in to submit a review."
 
-#: plugin/Modules/Validator/RecaptchaValidator.php:28
+#: plugin/Modules/Validator/RecaptchaValidator.php:44
 msgid "The reCAPTCHA failed to load, please refresh the page and try again."
 msgstr "The reCAPTCHA failed to load, please refresh the page and try again."
 
-#: plugin/Modules/Validator/RecaptchaValidator.php:29
+#: plugin/Modules/Validator/RecaptchaValidator.php:45
 msgid "The reCAPTCHA verification failed, please try again."
 msgstr "The reCAPTCHA verification failed, please try again."
 
-#: plugin/Modules/Validator/ReviewLimitsValidator.php:32
+#: plugin/Modules/Validator/ReviewLimitsValidator.php:43
 msgid "You have already submitted a review."
 msgstr "You have already submitted a review."
 

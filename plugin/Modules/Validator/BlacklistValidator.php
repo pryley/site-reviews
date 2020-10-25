@@ -8,6 +8,22 @@ use GeminiLabs\SiteReviews\Request;
 class BlacklistValidator extends ValidatorAbstract
 {
     /**
+     * @return bool
+     */
+    public function isValid()
+    {
+        $target = implode("\n", array_filter([
+            $this->request->name,
+            $this->request->content,
+            $this->request->email,
+            $this->request->ip_address,
+            $this->request->title,
+        ]));
+        $isValid = $this->validateBlacklist($target);
+        return glsr()->filterBool('validate/blacklist', $isValid, $target, $this->request);
+    }
+
+    /**
      * @return void
      */
     public function performValidation()
@@ -32,22 +48,6 @@ class BlacklistValidator extends ValidatorAbstract
         return 'comments' === glsr_get_option('submissions.blacklist.integration')
             ? trim(glsr(OptionManager::class)->getWP('disallowed_keys'))
             : trim(glsr_get_option('submissions.blacklist.entries'));
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isValid()
-    {
-        $target = implode("\n", array_filter([
-            $this->request->name,
-            $this->request->content,
-            $this->request->email,
-            $this->request->ip_address,
-            $this->request->title,
-        ]));
-        $isValid = $this->validateBlacklist($target);
-        return glsr()->filterBool('validate/blacklist', $isValid, $target, $this->request);
     }
 
     /**

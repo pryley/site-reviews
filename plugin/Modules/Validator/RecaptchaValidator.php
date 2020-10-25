@@ -18,6 +18,22 @@ class RecaptchaValidator extends ValidatorAbstract
     protected $status;
 
     /**
+     * @return bool
+     */
+    public function isValid()
+    {
+        if (in_array($this->status, [static::RECAPTCHA_DISABLED, static::RECAPTCHA_VALID])) {
+            return true;
+        }
+        if (static::RECAPTCHA_EMPTY === $this->status) {
+            glsr()->sessionSet($this->sessionKey('recaptcha'), 'unset');
+            return true;
+        }
+        glsr()->sessionSet($this->sessionKey('recaptcha'), 'reset');
+        return false;
+    }
+
+    /**
      * @return void
      */
     public function performValidation()
@@ -30,22 +46,6 @@ class RecaptchaValidator extends ValidatorAbstract
             );
             $this->setErrors($message);
         }
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isValid()
-    {
-        if (in_array($this->status, [static::RECAPTCHA_DISABLED, static::RECAPTCHA_VALID])) {
-            return true;
-        }
-        if (static::RECAPTCHA_EMPTY === $this->status) {
-            glsr()->sessionSet($this->sessionKey('recaptcha'), 'unset');
-            return true;
-        }
-        glsr()->sessionSet($this->sessionKey('recaptcha'), 'reset');
-        return false;
     }
 
     /**
