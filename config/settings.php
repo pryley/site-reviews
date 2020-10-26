@@ -433,7 +433,7 @@ return [
     ],
     'settings.submissions.limit' => [
         'default' => '',
-        'description' => _x('Limits the number of reviews that can be submitted to one-per-person. If you are assigning reviews, then the limit will be applied to the assigned page or category.', 'admin-text', 'site-reviews'),
+        'description' => _x('Limits the number of reviews that can be submitted to one-per-person. If you are assigning reviews, then the limit will be applied to the assigned page and/or category.', 'admin-text', 'site-reviews'),
         'label' => _x('Limit Reviews', 'admin-text', 'site-reviews'),
         'options' => [
             '' => _x('No Limit', 'admin-text', 'site-reviews'),

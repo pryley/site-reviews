@@ -1119,11 +1119,11 @@ msgctxt "admin-text"
 msgid ""
 "Limits the number of reviews that can be submitted to one-per-person. If "
 "you are assigning reviews, then the limit will be applied to the assigned "
-"page or category."
+"page and/or category."
 msgstr ""
 "Limits the number of reviews that can be submitted to one-per-person. If "
 "you are assigning reviews, then the limit will be applied to the assigned "
-"page or category."
+"page and/or category."
 
 #: config/settings.php:437
 msgctxt "admin-text"

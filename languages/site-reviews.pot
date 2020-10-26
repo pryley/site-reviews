@@ -759,7 +759,7 @@ msgstr ""
 
 #: config/settings.php:436
 msgctxt "admin-text"
-msgid "Limits the number of reviews that can be submitted to one-per-person. If you are assigning reviews, then the limit will be applied to the assigned page or category."
+msgid "Limits the number of reviews that can be submitted to one-per-person. If you are assigning reviews, then the limit will be applied to the assigned page and/or category."
 msgstr ""
 
 #: config/settings.php:437
