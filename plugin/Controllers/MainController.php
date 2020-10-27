@@ -21,6 +21,15 @@ class MainController extends Controller
 
     /**
      * @return void
+     * @action plugins_loaded
+     */
+    public function registerAddons()
+    {
+        glsr()->action('addon/register', glsr());
+    }
+
+    /**
+     * @return void
      * @action init
      */
     public function registerPostType()
