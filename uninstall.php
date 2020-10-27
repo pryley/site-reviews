@@ -67,6 +67,8 @@ if ('all' === $uninstallOption) {
     $wpdb->query("OPTIMIZE TABLE {$wpdb->termmeta}");
     $wpdb->query("OPTIMIZE TABLE {$wpdb->terms}");
     $wpdb->query("OPTIMIZE TABLE {$wpdb->usermeta}");
+    // delete the saved database version
+    delete_option(glsr()->prefix.'db_version');
     // finally, flush the entire cache
     wp_cache_flush();
 }
