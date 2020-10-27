@@ -234,14 +234,16 @@ class SqlSchema
      */
     public function isInnodb($table)
     {
-        $tableStatus = $this->db->get_row("
-            SHOW TABLE STATUS WHERE Name = '{$this->table($table)}'
+        $engine = $this->db->get_var("
+            SELECT ENGINE
+            FROM INFORMATION_SCHEMA.TABLES
+            WHERE TABLE_SCHEMA = '{$this->db->dbname}' AND TABLE_NAME = '{$this->table($table)}'
         ");
-        if (!isset($tableStatus->Engine)) {
+        if (empty($engine)) {
             glsr_log()->warning(sprintf('The %s database table does not exist.', $this->table($table)));
             return false;
         }
-        return 'innodb' === strtolower($tableStatus->Engine);
+        return 'innodb' === strtolower($engine);
     }
 
     /**
@@ -290,5 +292,30 @@ class SqlSchema
             ");
         }
         return in_array($constraint, $this->constraints);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function tableEngines()
+    {
+        $results = $this->db->get_results("
+            SELECT TABLE_NAME, ENGINE
+            FROM INFORMATION_SCHEMA.TABLES
+            WHERE TABLE_SCHEMA = '{$this->db->dbname}'
+            AND TABLE_NAME IN ('{$this->db->options}','{$this->db->posts}','{$this->db->terms}','{$this->db->users}')
+        ");
+        $engines = [];
+        foreach ($results as $result) {
+            if (!array_key_exists($result->ENGINE, $engines)) {
+                $engines[$result->ENGINE] = [];
+            }
+            $engines[$result->ENGINE][] = Str::removePrefix($result->TABLE_NAME, $this->db->prefix);
+        }
+        $tableEngines = [];
+        foreach ($engines as $engine => $tables) {
+          $tableEngines[] = sprintf('%s (%s)', $engine, implode('|', $tables));
+        }
+        return $tableEngines;
     }
 }

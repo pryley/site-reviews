@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\RatingManager;
+use GeminiLabs\SiteReviews\Database\SqlSchema;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -187,6 +188,7 @@ class System
         global $wpdb;
         return [
             'Host Name' => $this->getHostName(),
+            'MySQL Table Engines' => implode(', ', glsr(SqlSchema::class)->tableEngines()),
             'MySQL Version' => $wpdb->db_version(),
             'PHP Version' => PHP_VERSION,
             'Server Software' => filter_input(INPUT_SERVER, 'SERVER_SOFTWARE'),
