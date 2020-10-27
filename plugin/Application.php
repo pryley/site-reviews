@@ -6,8 +6,6 @@ use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Defaults\PermissionDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Role;
-use ReflectionClass;
 
 /**
  * @property array $addons
@@ -118,19 +116,6 @@ final class Application extends Container
     }
 
     /**
-     * This returns void if run by the plugins_loaded actions hook
-     * @return array|void
-     * @action plugins_loaded
-     */
-    public function getDefaultSettings()
-    {
-        if (empty($this->defaults)) {
-            $this->defaults = $this->make(DefaultsManager::class)->get();
-        }
-        return $this->filterArray('get/defaults', $this->defaults);
-    }
-
-    /**
      * @param string $page
      * @param string $tab
      * @return string
@@ -166,6 +151,7 @@ final class Application extends Container
     {
         $this->make(Database::class)->createTables();
         $this->make(Hooks::class)->run();
+        $this->storeDefaults();
     }
 
     /**
@@ -225,13 +211,12 @@ final class Application extends Container
 
     /**
      * @return void
-     * @action admin_init
      */
-    public function setDefaultSettings()
+    public function storeDefaults()
     {
-        if (get_option(static::PREFIX.'activated')) {
-            $this->make(DefaultsManager::class)->set();
-            delete_option(static::PREFIX.'activated');
+        if (empty($this->defaults)) {
+            $defaults = $this->make(DefaultsManager::class)->get();
+            $this->defaults = $this->filterArray('get/defaults', $defaults);
         }
     }
 

@@ -6,9 +6,22 @@ use GeminiLabs\SiteReviews\Commands\RegisterPostType;
 use GeminiLabs\SiteReviews\Commands\RegisterShortcodes;
 use GeminiLabs\SiteReviews\Commands\RegisterTaxonomy;
 use GeminiLabs\SiteReviews\Commands\RegisterWidgets;
+use GeminiLabs\SiteReviews\Database\DefaultsManager;
 
 class MainController extends Controller
 {
+    /**
+     * @return void
+     * @action admin_init
+     */
+    public function initDefaultSettings()
+    {
+        if (get_option(glsr()->prefix.'activated')) {
+            glsr(DefaultsManager::class)->set();
+            delete_option(glsr()->prefix.'activated');
+        }
+    }
+
     /**
      * @return void
      * @action admin_footer

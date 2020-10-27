@@ -73,8 +73,6 @@ class Hooks implements HooksContract
      */
     public function addActions()
     {
-        add_action('plugins_loaded', [glsr(), 'getDefaultSettings'], 11);
-        add_action('admin_init', [glsr(), 'setDefaultSettings']);
         add_action('plugins_loaded', [$this, 'myIsamFallback']);
         add_action('load-edit.php', [$this, 'translateAdminEditPage']);
         add_action('load-post.php', [$this, 'translateAdminPostPage']);
@@ -100,6 +98,7 @@ class Hooks implements HooksContract
         add_action('pre_get_posts', [$this->listtable, 'setQueryForColumn']);
         add_action('restrict_manage_posts', [$this->listtable, 'renderColumnFilters']);
         add_action('manage_'.glsr()->post_type.'_posts_custom_column', [$this->listtable, 'renderColumnValues'], 10, 2);
+        add_action('admin_init', [$this->main, 'initDefaultSettings']);
         add_action('admin_footer', [$this->main, 'logOnce']);
         add_action('wp_footer', [$this->main, 'logOnce']);
         add_action('plugins_loaded', [$this->main, 'registerAddons']);
