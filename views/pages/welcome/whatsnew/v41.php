@@ -11,7 +11,7 @@
         <ul>
             <li>Added optional "Email", "IP Address", and "Response" columns to the reviews table</li>
         </ul>
-        <h4>♻️ Changes</h4>
+        <h4>📢 Changes</h4>
         <ul>
             <li>Changed <code>[site_reviews]</code> "count" option name to "display" (i.e. [site_reviews display=10])</li>
             <li>Changed <code>glsr_get_reviews()</code> "count" option name to "per_page" (i.e. glsr_get_reviews(['per_page' => 10]))</li>

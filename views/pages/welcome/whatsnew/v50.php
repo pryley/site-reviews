@@ -24,7 +24,7 @@
             <li>The Review Details metabox now allows you to modify any value</li>
             <li>The <code>site-reviews/after/submission</code> javascript event now contains the submitted review</li>
         </ul>
-        <h4>♻️ Changes</h4>
+        <h4>📢 Changes</h4>
         <ul>
             <li>Changed the settings to use the WordPress "Disallowed Comment Keys" by default</li>
             <li>Increased the minimum PHP version to 5.6.20</li>

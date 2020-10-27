@@ -12,7 +12,7 @@
             <li>Added an option to disable paginated URLs (see Settings > Reviews page)</li>
             <li>Added the <code>glsr_get_rating()</code> helper function (see Help > Functions page)</li>
         </ul>
-        <h4>♻️ Changes</h4>
+        <h4>📢 Changes</h4>
         <ul>
             <li>Updated Trustalyze integration</li>
         </ul>

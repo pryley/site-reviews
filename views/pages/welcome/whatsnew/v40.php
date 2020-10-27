@@ -19,7 +19,7 @@
             <li>Added widget icons in the WordPress customizer</li>
             <li>Added WPML integration for summary counts</li>
         </ul>
-        <h4>♻️ Changes</h4>
+        <h4>📢 Changes</h4>
         <ul>
             <li>Changed category assignment to one-per-review</li>
             <li>Removed $_SESSION usage</li>

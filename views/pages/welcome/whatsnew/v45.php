@@ -7,7 +7,7 @@
     </h3>
     <div id="welcome-v450" class="inside">
         <p><em>Initial Release Date &mdash; February 24th, 2020</em></p>
-        <h4>♻️ Changes</h4>
+        <h4>📢 Changes</h4>
         <ul>
             <li>Updated the author column on the "All Reviews" page to link to the author if they exist</li>
             <li>Updated the Rebusify integration as they have rebranded to <a href="https://trustalyze.com?ref=105">Trustalyze</a></li>
