@@ -2,10 +2,6 @@
 
 defined('ABSPATH') || die;
 
-if (!function_exists('wp_hash')) {
-    require_once ABSPATH.WPINC.'/pluggable.php';
-}
-
 spl_autoload_register(function ($className) {
     $classMap = [
         'WP_Posts_List_Table' => ABSPATH.'wp-admin/includes/class-wp-posts-list-table.php',
@@ -35,3 +31,15 @@ spl_autoload_register(function ($className) {
         break;
     }
 });
+
+if (!function_exists('wp_hash')) {
+    require_once ABSPATH.WPINC.'/pluggable.php';
+}
+
+/**
+ * Provide a partial, native PHP implementation for the Mbstring extension.
+ * @see https://github.com/symfony/polyfill-mbstring
+ */
+if (!extension_loaded('mbstring')) {
+    require_once __DIR__.'/vendors/symfony/polyfill-mbstring/bootstrap.php';
+}

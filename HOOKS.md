@@ -143,7 +143,6 @@
     site-reviews/summary/value/<tag_or_field_key>           (string $value, Contracts\TagContract $tag): string
     site-reviews/summary/wrap/<tag_or_field_key>            (string $value, string $rawValue, Contracts\TagContract $tag): string
     site-reviews/support/deprecated/v5                      (bool $supportDeprecated): bool
-    site-reviews/support/multibyte                          (bool $useMultibytePolyfill): bool
     site-reviews/system/<key>                               (array $details): array
     site-reviews/tinymce/editor-ids                         (array $editorIds, string $editorId): array
     site-reviews/translation/entries                        (array $entries): array

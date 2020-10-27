@@ -147,6 +147,7 @@ class System
             'Max Input Nesting Level' => $this->getIni('max_input_nesting_level'),
             'Max Input Vars' => $this->getIni('max_input_vars'),
             'Memory Limit' => $this->getIni('memory_limit'),
+            'Multibyte' => Helper::ifTrue(extension_loaded('mbstring'), phpversion('mbstring'), 'false'),
             'Post Max Size' => $this->getIni('post_max_size'),
             'Sendmail Path' => $this->getIni('sendmail_path'),
             'Session Cookie Path' => esc_html($this->getIni('session.cookie_path')),

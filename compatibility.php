@@ -44,17 +44,6 @@ add_action('members_register_caps', function () {
 });
 
 /**
- * Provide a partial, native PHP implementation for the Mbstring extension.
- * @return bool
- * @see https://github.com/symfony/polyfill-mbstring
- */
-add_action('plugins_loaded', function () {
-    if (glsr()->filterBool('support/multibyte', true)) {
-        require_once __DIR__.'/vendors/symfony/polyfill-mbstring/bootstrap.php';
-    }
-});
-
-/**
  * Exclude the reCAPTCHA script from being defered
  * @param array $scriptHandles
  * @return array
