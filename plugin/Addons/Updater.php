@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Addons;
 
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Url;
 
 class Updater
 {
@@ -110,7 +111,7 @@ class Updater
      */
     public function init()
     {
-        if ($this->apiUrl === trailingslashit(home_url())) {
+        if ($this->apiUrl === Url::home()) {
             return;
         }
         add_filter('plugins_api', [$this, 'filterPluginUpdateDetails'], 10, 3);
@@ -253,7 +254,7 @@ class Updater
                 'item_name' => Arr::get($data, 'Name'),
                 'license' => Arr::get($data, 'license'),
                 'slug' => Arr::get($data, 'TextDomain'),
-                'url' => home_url(),
+                'url' => Url::home(),
             ],
             'sslverify' => glsr()->filterBool('sslverify/post', false),
             'timeout' => 15,

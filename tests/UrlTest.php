@@ -13,7 +13,7 @@ class UrlTest extends WP_UnitTestCase
 {
     public function test_home()
     {
-        $url = home_url();
+        $url = network_home_url();
         $this->assertEquals(Url::home(), $url.'/');
         $this->assertEquals(Url::home('test'), $url.'/test/');
     }

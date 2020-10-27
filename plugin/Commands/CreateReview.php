@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Notification;
 use GeminiLabs\SiteReviews\Modules\Validator\DefaultValidator;
@@ -70,7 +71,7 @@ class CreateReview implements Contract
             return $referer;
         }
         glsr_log()->warning('The form referer ($_SERVER[REQUEST_URI]) was empty.')->debug($this);
-        return home_url();
+        return Url::home();
     }
 
     /**

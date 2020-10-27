@@ -8,9 +8,9 @@ class Url
      * @param string $path
      * @return string
      */
-    public static function home($path = null)
+    public static function home($path = '')
     {
-        return trailingslashit(home_url($path));
+        return trailingslashit(network_home_url($path));
     }
 
     /**

@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Database\SqlSchema;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Helpers\Url;
 
 class System
 {
@@ -239,7 +240,7 @@ class System
         return [
             'Active Theme' => sprintf('%s v%s', (string) $theme->name, (string) $theme->version),
             'Email Domain' => substr(strrchr(glsr(OptionManager::class)->getWP('admin_email'), '@'), 1),
-            'Home URL' => home_url(),
+            'Home URL' => Url::home(),
             'Language' => get_locale(),
             'Memory Limit' => WP_MEMORY_LIMIT,
             'Multisite' => var_export(is_multisite(), true),
