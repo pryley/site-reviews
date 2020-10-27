@@ -53,7 +53,6 @@ final class Application extends Container
     {
         $this->scheduleCronJob();
         add_option(static::PREFIX.'activated', true);
-        $this->make(Role::class)->resetAll();
     }
 
     /**

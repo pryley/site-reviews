@@ -7,21 +7,10 @@ use GeminiLabs\SiteReviews\Commands\RegisterShortcodes;
 use GeminiLabs\SiteReviews\Commands\RegisterTaxonomy;
 use GeminiLabs\SiteReviews\Commands\RegisterWidgets;
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
+use GeminiLabs\SiteReviews\Role;
 
 class MainController extends Controller
 {
-    /**
-     * @return void
-     * @action admin_init
-     */
-    public function initDefaultSettings()
-    {
-        if (get_option(glsr()->prefix.'activated')) {
-            glsr(DefaultsManager::class)->set();
-            delete_option(glsr()->prefix.'activated');
-        }
-    }
-
     /**
      * @return void
      * @action admin_footer
@@ -124,5 +113,19 @@ class MainController extends Controller
                 'name' => _x('Summary of Reviews', 'admin-text', 'site-reviews'),
             ],
         ]));
+    }
+
+    /**
+     * Plugin activation stuff is done here
+     * @return void
+     * @action admin_init
+     */
+    public function runAfterActivation()
+    {
+        if (get_option(glsr()->prefix.'activated')) {
+            glsr(DefaultsManager::class)->set(); // save default settings
+            glsr(Role::class)->resetAll(); // add role capabilities
+            delete_option(glsr()->prefix.'activated');
+        }
     }
 }
