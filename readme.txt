@@ -113,6 +113,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 == Changelog ==
 
+= 5.2.0 (2020-10-27) =
+
+- Fixed the submission date of reviews to use the timezone offset in the WordPress settings
+
 = 5.1.6 (2020-10-25) =
 
 - Fixed compatibility issue with the Elementor Pro Popups

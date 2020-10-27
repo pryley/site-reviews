@@ -90,16 +90,17 @@ class Sanitizer
     }
 
     /**
+     * If date is invalid then return the current WordPress date
      * @param mixed $value
      * @return string
      */
     protected function sanitizeDate($value)
     {
         $date = strtotime(Cast::toString($value));
-        if (false === $date) {
-            $date = time();
+        if (false !== $date) {
+            return wp_date('Y-m-d H:i:s', $date, get_option('gmt_offset'));
         }
-        return get_date_from_gmt(gmdate('Y-m-d H:i:s', $date));
+        return current_time('mysql');
     }
 
     /**
