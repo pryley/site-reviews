@@ -115,9 +115,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 = 5.2.0 (2020-10-??) =
 
-- Add a review assignment setting
+- Added a review assignment setting
 - Added additional System Information
 - Fixed autoloading of the PHP multibyte polyfill
+- Fixed multisite compatibility
 - Fixed the submission date of reviews to use the timezone offset in the WordPress settings
 
 = 5.1.6 (2020-10-25) =
@@ -130,7 +131,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Added "ORDER BY" to migration SQL queries; this will make migrations run a little slower but fix a potential problem where database migrations may not complete successfully
 - Fixed addons notice styling and placement
 - Fixed plugin file paths on IIS Windows servers
-- Fixed plugin migrations to work better with caching plugins
+- Fixed plugin migrations to work better with the W3 Total Cache plugin
 - Fixed strict standard notices in PHP 5.6
 
 = 5.1.0 (2020-10-24) =

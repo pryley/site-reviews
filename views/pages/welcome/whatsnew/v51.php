@@ -1,6 +1,6 @@
-<div class="glsr-card postbox is-fullwidth open">
+<div class="glsr-card postbox is-fullwidth">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="true" aria-controls="welcome-v510">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="welcome-v510">
             <span class="title">Version 5.1</span>
             <span class="icon"></span>
         </button>

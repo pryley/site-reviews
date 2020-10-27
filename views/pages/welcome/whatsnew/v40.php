@@ -7,7 +7,7 @@
     </h3>
     <div id="welcome-v400" class="inside">
         <p><em>Initial Release Date &mdash; October 6th, 2019</em></p>
-        <h4>New Features</h4>
+        <h4>✨ New Features</h4>
         <ul>
             <li>Added Multisite support</li>
             <li>Added product schema price options</li>
@@ -19,12 +19,12 @@
             <li>Added widget icons in the WordPress customizer</li>
             <li>Added WPML integration for summary counts</li>
         </ul>
-        <h4>Changes</h4>
+        <h4>♻️ Changes</h4>
         <ul>
             <li>Changed category assignment to one-per-review</li>
             <li>Removed $_SESSION usage</li>
         </ul>
-        <h4>Tweaks</h4>
+        <h4>🛠 Tweaks</h4>
         <ul>
             <li>Improved AJAX pagination</li>
             <li>Improved documentation</li>
@@ -35,7 +35,7 @@
             <li>Updated plugin hooks</li>
             <li>Updated templates</li>
         </ul>
-        <h4>Bugs Fixed</h4>
+        <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed badge counter in menu when reviews are approved/unapproved</li>
             <li>Fixed overriding star styles on the "Add plugin" page</li>

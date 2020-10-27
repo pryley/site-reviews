@@ -7,18 +7,18 @@
     </h3>
     <div id="welcome-v430" class="inside">
         <p><em>Initial Release Date &mdash; January 12th, 2020</em></p>
-        <h4>New Features</h4>
+        <h4>✨ New Features</h4>
         <ul>
             <li>Added migration tool for cases when auto-migration is not triggered when upgrading to version 4</li>
             <li>Added permission validation to the review form</li>
             <li>Added update functionality for add-ons</li>
         </ul>
-        <h4>Tweaks</h4>
+        <h4>🛠 Tweaks</h4>
         <ul>
             <li>Rebuilt the star rating to account for a MAX_RATING greater than 5</li>
             <li>Updated the version requirement checks</li>
         </ul>
-        <h4>Bugs Fixed</h4>
+        <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed assigned_to links</li>
             <li>Fixed avatar regeneration</li>

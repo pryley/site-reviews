@@ -7,21 +7,21 @@
     </h3>
     <div id="welcome-v410" class="inside">
         <p><em>Initial Release Date &mdash; October 16th, 2019</em></p>
-        <h4>New Features</h4>
+        <h4>✨ New Features</h4>
         <ul>
             <li>Added optional "Email", "IP Address", and "Response" columns to the reviews table</li>
         </ul>
-        <h4>Changes</h4>
+        <h4>♻️ Changes</h4>
         <ul>
             <li>Changed <code>[site_reviews]</code> "count" option name to "display" (i.e. [site_reviews display=10])</li>
             <li>Changed <code>glsr_get_reviews()</code> "count" option name to "per_page" (i.e. glsr_get_reviews(['per_page' => 10]))</li>
             <li>Renamed "Documentation" page to "Help"</li>
         </ul>
-        <h4>Tweaks</h4>
+        <h4>🛠 Tweaks</h4>
         <ul>
             <li>Updated the "Common Problems and Solutions" help section</li>
         </ul>
-        <h4>Bugs Fixed</h4>
+        <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed a HTML5 validation issue in the plugin settings</li>
             <li>Fixed column sorting on the reviews table</li>
