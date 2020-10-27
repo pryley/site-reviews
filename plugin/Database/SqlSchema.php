@@ -190,7 +190,9 @@ class SqlSchema
     }
 
     /**
+     * WordPress codex says there must be two spaces between PRIMARY KEY and the key definition.
      * @return bool
+     * @see https://codex.wordpress.org/Creating_Tables_with_Plugins
      */
     public function createRatingTable()
     {
@@ -210,7 +212,7 @@ class SqlSchema
                 avatar varchar(200) DEFAULT NULL,
                 ip_address varchar(100) DEFAULT NULL,
                 url varchar(250) DEFAULT NULL,
-                PRIMARY KEY (ID),
+                PRIMARY KEY  (ID),
                 UNIQUE KEY {$this->prefix('ratings')}_review_id_unique (review_id),
                 KEY {$this->prefix('ratings')}_rating_type_is_pinned_index (rating,type,is_pinned)
             ) {$this->db->get_charset_collate()};
