@@ -32,9 +32,9 @@ add_filter('site-reviews/enqueue/public/inline-script', function ($script) {
  * @return string
  */
 add_filter('site-reviews/rendered/template/reviews-form', function ($template) {
-    return glsr('Modules\Validator\ReviewLimitsValidator')->hasReachedLimit()
-        ? sprintf('&lt;p&gt;%s&lt;/p&gt;', __('Thank you for your review!'))
-        : $template;
+    return glsr('Modules\Validator\ReviewLimitsValidator')->isValid()
+        ? $template
+        : sprintf('&lt;p&gt;%s&lt;/p&gt;', __('Thank you for your review!'));
 });</code></pre>
     </div>
 </div>

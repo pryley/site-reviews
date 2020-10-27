@@ -119,6 +119,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Added additional System Information
 - Fixed autoloading of the PHP multibyte polyfill
 - Fixed multisite compatibility
+- Fixed review limits validation for assigned reviews
 - Fixed the submission date of reviews to use the timezone offset in the WordPress settings
 
 = 5.1.6 (2020-10-25) =

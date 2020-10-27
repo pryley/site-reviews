@@ -15,15 +15,6 @@ class ReviewLimitsValidator extends ValidatorAbstract
     }
 
     /**
-     * This method can be used outside of validation
-     * @return bool
-     */
-    public function hasReachedLimit()
-    {
-        return !$this->isValid();
-    }
-
-    /**
      * @return bool
      */
     public function isValid()
@@ -106,7 +97,7 @@ class ReviewLimitsValidator extends ValidatorAbstract
             || $this->isWhitelisted($value, glsr_get_option('submissions.limit_whitelist.'.$key))) {
             return true;
         }
-        $queryArgs['assigned_posts'] = $this->request->assign_to;
+        $queryArgs['assigned_posts'] = $this->request->assigned_posts;
         add_filter('query/sql/clause/operator', [$this, 'filterSqlClauseOperator']);
         $reviews = glsr_get_reviews($queryArgs);
         remove_filter('query/sql/clause/operator', [$this, 'filterSqlClauseOperator']);
