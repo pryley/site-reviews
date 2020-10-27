@@ -31,7 +31,7 @@ class Database
     }
 
     /**
-     * Use this before bulk insert (see: $this->finishTransaction())
+     * Use this before bulk insert (see: $this->finishTransaction()).
      * @param string $table
      * @return void
      */
@@ -151,7 +151,7 @@ class Database
     }
 
     /**
-     * Use this after bulk insert (see: $this->beginTransaction())
+     * Use this after bulk insert (see: $this->beginTransaction()).
      * @param string $table
      * @return void
      */

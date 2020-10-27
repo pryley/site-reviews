@@ -120,7 +120,9 @@ final class Application extends Container
     }
 
     /**
-     * @return array
+     * This returns void if run by the plugins_loaded actions hook
+     * @return array|void
+     * @action plugins_loaded
      */
     public function getDefaultSettings()
     {
@@ -198,6 +200,7 @@ final class Application extends Container
 
     /**
      * @return void
+     * @action plugins_loaded
      */
     public function registerAddons()
     {
@@ -206,6 +209,7 @@ final class Application extends Container
 
     /**
      * @return void
+     * @action plugins_loaded
      */
     public function registerLanguages()
     {
@@ -216,6 +220,7 @@ final class Application extends Container
 
     /**
      * @return void
+     * @action plugins_loaded
      */
     public function registerReviewTypes()
     {
@@ -254,6 +259,7 @@ final class Application extends Container
 
     /**
      * @return void
+     * @action admin_init
      */
     public function setDefaultSettings()
     {
