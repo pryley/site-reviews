@@ -229,7 +229,7 @@ class MetaboxController
     protected function normalizeDetailsMetaBox(Review $review)
     {
         $fields = glsr()->config('forms/metabox-fields');
-        if (count(glsr()->reviewTypes) < 2) {
+        if (count(glsr()->retrieveAs('array', 'review_types')) < 2) {
             unset($fields['type']);
         }
         foreach ($fields as $key => &$field) {

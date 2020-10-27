@@ -7,7 +7,7 @@ return [
     ],
     'type' => [
         'label' => esc_html_x('Type', 'admin-text', 'site-reviews'),
-        'options' => glsr()->reviewTypes,
+        'options' => glsr()->retrieve('review_types'),
         'type' => 'select',
     ],
     'name' => [

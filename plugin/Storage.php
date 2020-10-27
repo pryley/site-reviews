@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 
 trait Storage
 {
@@ -49,6 +50,17 @@ trait Storage
     public function retrieve($property, $fallback = null)
     {
         return $this->storage()->get($property, $fallback);
+    }
+
+    /**
+     * @param string $cast
+     * @param string $property
+     * @param mixed $fallback
+     * @return mixed
+     */
+    public function retrieveAs($cast, $property, $fallback = null)
+    {
+        return Cast::to($cast, $this->storage()->get($property, $fallback));
     }
 
     /**

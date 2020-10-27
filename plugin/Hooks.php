@@ -76,7 +76,6 @@ class Hooks implements HooksContract
         add_action('plugins_loaded', [glsr(), 'getDefaultSettings'], 11);
         add_action('plugins_loaded', [glsr(), 'registerAddons']);
         add_action('plugins_loaded', [glsr(), 'registerLanguages']);
-        add_action('plugins_loaded', [glsr(), 'registerReviewTypes']);
         add_action('admin_init', [glsr(), 'setDefaultSettings']);
         add_action('plugins_loaded', [$this, 'myIsamFallback']);
         add_action('load-edit.php', [$this, 'translateAdminEditPage']);
@@ -106,6 +105,7 @@ class Hooks implements HooksContract
         add_action('admin_footer', [$this->main, 'logOnce']);
         add_action('wp_footer', [$this->main, 'logOnce']);
         add_action('init', [$this->main, 'registerPostType'], 8);
+        add_action('plugins_loaded', [$this->main, 'registerReviewTypes']);
         add_action('init', [$this->main, 'registerShortcodes']);
         add_action('init', [$this->main, 'registerTaxonomy']);
         add_action('widgets_init', [$this->main, 'registerWidgets']);

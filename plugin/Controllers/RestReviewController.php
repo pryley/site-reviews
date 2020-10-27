@@ -60,7 +60,7 @@ class RestReviewController extends RestController
     public function getReviewTypes()
     {
         $response = [];
-        foreach (glsr()->reviewTypes as $slug => $name) {
+        foreach (glsr()->retrieveAs('array', 'review_types') as $slug => $name) {
             $response[] = [
                 'name' => $name,
                 'slug' => $slug,

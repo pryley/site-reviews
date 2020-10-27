@@ -259,9 +259,8 @@ class Review extends Arguments
     public function type()
     {
         $type = $this->get('type');
-        return array_key_exists($type, glsr()->reviewTypes)
-            ? glsr()->reviewTypes[$type]
-            : _x('Unknown', 'admin-text', 'site-reviews');
+        $reviewTypes = glsr()->retrieveAs('array', 'review_types');
+        return Arr::get($reviewTypes, $type, _x('Unknown', 'admin-text', 'site-reviews'));
     }
 
     /**

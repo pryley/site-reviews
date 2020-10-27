@@ -203,6 +203,7 @@ class CreateReview implements Contract
      */
     protected function type()
     {
-        return array_key_exists($this->type, glsr()->reviewTypes) ? $this->type : 'local';
+        $reviewTypes = glsr()->retrieveAs('array', 'review_types');
+        return array_key_exists($this->type, $reviewTypes) ? $this->type : 'local';
     }
 }

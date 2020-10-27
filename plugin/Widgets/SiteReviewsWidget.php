@@ -38,11 +38,11 @@ class SiteReviewsWidget extends Widget
                 '5' => esc_attr(sprintf(_nx('%s star', '%s stars', 5, 'admin-text', 'site-reviews'), 5)),
             ],
         ]);
-        if (count(glsr()->reviewTypes) > 1) {
+        if (count($reviewTypes = glsr()->retrieveAs('array', 'review_types')) > 1) {
             $this->renderField('select', [
                 'label' => _x('Which type of review would you like to display?', 'admin-text', 'site-reviews'),
                 'name' => 'type',
-                'options' => Arr::prepend(glsr()->reviewTypes, _x('All Reviews', 'admin-text', 'site-reviews'), ''),
+                'options' => Arr::prepend($reviewTypes, _x('All Reviews', 'admin-text', 'site-reviews'), ''),
             ]);
         }
         if (!empty($terms)) {

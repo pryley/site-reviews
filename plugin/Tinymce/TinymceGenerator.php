@@ -136,13 +136,13 @@ abstract class TinymceGenerator
      */
     protected function getTypes($tooltip = '')
     {
-        if (count(glsr()->reviewTypes) < 2) {
+        if (count($reviewTypes = glsr()->retrieveAs('array', 'review_types')) < 2) {
             return [];
         }
         return [
             'label' => _x('Type', 'admin-text', 'site-reviews'),
             'name' => 'type',
-            'options' => glsr()->reviewTypes,
+            'options' => $reviewTypes,
             'tooltip' => $tooltip,
             'type' => 'listbox',
         ];

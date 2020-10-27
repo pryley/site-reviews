@@ -23,7 +23,6 @@ use ReflectionClass;
  * @property string $paged_query_var
  * @property string $post_type
  * @property string $prefix
- * @property array $reviewTypes
  * @property array $session
  * @property \GeminiLabs\SiteReviews\Arguments $storage
  * @property string $taxonomy
@@ -48,7 +47,6 @@ final class Application extends Container
     protected $addons = [];
     protected $defaults;
     protected $name;
-    protected $reviewTypes;
 
     /**
      * @return void
@@ -218,17 +216,7 @@ final class Application extends Container
         );
     }
 
-    /**
-     * @return void
-     * @action plugins_loaded
-     */
-    public function registerReviewTypes()
-    {
-        $types = $this->filterArray('addon/types', []);
-        $this->reviewTypes = wp_parse_args($types, [
-            'local' => _x('Local Review', 'admin-text', 'site-reviews'),
-        ]);
-    }
+
 
     /**
      * @param string $view

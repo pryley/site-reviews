@@ -13,7 +13,7 @@ class ColumnFilterType implements ColumnFilterContract
      */
     public function handle()
     {
-        if (count(glsr()->reviewTypes) < 2) {
+        if (count($reviewTypes = glsr()->retrieveAs('array', 'review_types')) < 2) {
             return;
         }
         $label = glsr(Builder::class)->label([
@@ -23,7 +23,7 @@ class ColumnFilterType implements ColumnFilterContract
         ]);
         $filter = glsr(Builder::class)->select([
             'name' => 'type',
-            'options' => Arr::prepend(glsr()->reviewTypes, _x('All types', 'admin-text', 'site-reviews'), ''),
+            'options' => Arr::prepend($reviewTypes, _x('All types', 'admin-text', 'site-reviews'), ''),
             'value' => filter_input(INPUT_GET, 'type'),
         ]);
         return $label.$filter;

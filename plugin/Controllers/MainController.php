@@ -30,6 +30,19 @@ class MainController extends Controller
 
     /**
      * @return void
+     * @action plugins_loaded
+     */
+    public function registerReviewTypes()
+    {
+        $types = glsr()->filterArray('addon/types', []);
+        $types = wp_parse_args($types, [
+            'local' => _x('Local Review', 'admin-text', 'site-reviews'),
+        ]);
+        glsr()->store('review_types', $types);
+    }
+
+    /**
+     * @return void
      * @action init
      */
     public function registerShortcodes()

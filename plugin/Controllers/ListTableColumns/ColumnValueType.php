@@ -12,8 +12,6 @@ class ColumnValueType implements ColumnValueContract
      */
     public function handle(Review $review)
     {
-        return array_key_exists($review->type, glsr()->reviewTypes)
-            ? glsr()->reviewTypes[$review->type]
-            : _x('Unsupported Type', 'admin-text', 'site-reviews');
+        return $review->type();
     }
 }

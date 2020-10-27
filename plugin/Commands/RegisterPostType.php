@@ -47,7 +47,7 @@ class RegisterPostType implements Contract
                 ['class' => 'pinned-icon']
             );
         }
-        if (count(glsr()->reviewTypes) < 2) {
+        if (count(glsr()->retrieveAs('array', 'review_types')) < 2) {
             unset($this->columns['type']);
         }
         $columns = wp_parse_args(glsr()->retrieve('columns', []), [
