@@ -54,6 +54,17 @@ class ReviewController extends Controller
     }
 
     /**
+     * @param string $operator
+     * @return string
+     * @filter site-reviews/query/sql/clause/operator
+     */
+    public function filterSqlClauseOperator($operator)
+    {
+        $operators = ['loose' => 'OR', 'strict' => 'AND'];
+        return Arr::get($operators, glsr_get_option('settings.reviews.assignment'), $operator);
+    }
+
+    /**
      * Triggered when one or more categories are added or removed from a review.
      *
      * @param int $postId
