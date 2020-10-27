@@ -197,17 +197,6 @@ final class Application extends Container
     }
 
     /**
-     * @return void
-     * @action plugins_loaded
-     */
-    public function registerLanguages()
-    {
-        load_plugin_textdomain(static::ID, false,
-            trailingslashit(plugin_basename($this->path()).'/'.$this->languages)
-        );
-    }
-
-    /**
      * @param string $view
      * @return void
      */

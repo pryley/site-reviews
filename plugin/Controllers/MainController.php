@@ -30,6 +30,17 @@ class MainController extends Controller
 
     /**
      * @return void
+     * @action plugins_loaded
+     */
+    public function registerLanguages()
+    {
+        load_plugin_textdomain(glsr()->id, false,
+            trailingslashit(plugin_basename(glsr()->path()).'/'.glsr()->languages)
+        );
+    }
+
+    /**
+     * @return void
      * @action init
      */
     public function registerPostType()
