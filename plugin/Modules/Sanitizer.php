@@ -90,7 +90,7 @@ class Sanitizer
     }
 
     /**
-     * If date is invalid then return the current WordPress date
+     * If date is invalid then return the current WordPress date.
      * @param mixed $value
      * @return string
      */
@@ -182,5 +182,33 @@ class Sanitizer
         }
         $url = wp_http_validate_url($url);
         return esc_url_raw(Cast::toString($url));
+    }
+
+    /**
+     * @param mixed $value
+     * @return string
+     */
+    protected function sanitizeUserEmail($value)
+    {
+        $user = wp_get_current_user();
+        $value = Cast::toString($value);
+        if ($user->exists()) {
+            return Helper::ifEmpty($value, $user->user_email);
+        }
+        return sanitize_email($value);
+    }
+
+    /**
+     * @param mixed $value
+     * @return string
+     */
+    protected function sanitizeUserName($value)
+    {
+        $user = wp_get_current_user();
+        $value = Cast::toString($value);
+        if ($user->exists()) {
+            return Helper::ifEmpty($value, $user->display_name);
+        }
+        return sanitize_text_field($value);
     }
 }
