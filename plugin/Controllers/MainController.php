@@ -13,6 +13,16 @@ class MainController extends Controller
 {
     /**
      * @return void
+     * @action plugins_loaded
+     */
+    public function initSettings()
+    {
+        // This cannot be done before plugins_loaded as it uses the gettext functions
+        glsr()->storeDefaults();
+    }
+
+    /**
+     * @return void
      * @action admin_footer
      * @action wp_footer
      */

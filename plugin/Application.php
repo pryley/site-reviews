@@ -150,7 +150,6 @@ final class Application extends Container
     {
         $this->make(Database::class)->createTables();
         $this->make(Hooks::class)->run();
-        $this->storeDefaults();
     }
 
     /**

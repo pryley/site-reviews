@@ -102,7 +102,8 @@ class Hooks implements HooksContract
         add_action('admin_footer', [$this->main, 'logOnce']);
         add_action('wp_footer', [$this->main, 'logOnce']);
         add_action('plugins_loaded', [$this->main, 'registerAddons']);
-        add_action('plugins_loaded', [$this->main, 'registerLanguages']);
+        add_action('plugins_loaded', [$this->main, 'registerLanguages'], 1); // do this first (may not be needed)
+        add_action('plugins_loaded', [$this->main, 'initSettings'], 2);  // do this directly after registerLanguages (may not be needed)
         add_action('init', [$this->main, 'registerPostType'], 8);
         add_action('plugins_loaded', [$this->main, 'registerReviewTypes']);
         add_action('init', [$this->main, 'registerShortcodes']);
