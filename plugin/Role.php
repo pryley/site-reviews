@@ -73,7 +73,7 @@ class Role
      */
     protected function capabilities()
     {
-        $capabilities = [
+        return [
             'delete_others_posts',
             'delete_post',
             'delete_posts',
@@ -88,7 +88,6 @@ class Role
             'read_post',
             'read_private_posts',
         ];
-        return glsr()->filterArray('capabilities', $capabilities);
     }
 
     /**
@@ -105,7 +104,7 @@ class Role
      */
     protected function roleCapabilities()
     {
-        $capabilities = [
+        return [
             'administrator' => [
                 'delete_others_posts',
                 'delete_posts',
@@ -142,6 +141,5 @@ class Role
                 'edit_posts',
             ],
         ];
-        return glsr()->filterArray('capabilities/for-roles', $capabilities);
     }
 }

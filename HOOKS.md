@@ -50,8 +50,6 @@
     site-reviews/builder/<tag>/args                         (array $args, Modules\Html\Builder $builder): array
     site-reviews/builder/field/<field_type>                 (string $className): string
     site-reviews/builder/result                             (string $result, Modules\Html\Builder $builder): string
-    site-reviews/capabilities                               (array $capabilities): array
-    site-reviews/capabilities/for-roles                     (array $capabilities): array
     site-reviews/column/<column>                            (string $className): string
     site-reviews/columns/<column_slug>                      (string $value, int $postId): string
     site-reviews/columns/orderby-is-null                    (array $columns): array
