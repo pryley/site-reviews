@@ -196,9 +196,13 @@ class ToolsController extends Controller
      * @return void
      * @action site-reviews/route/admin/reset-permissions
      */
-    public function resetPermissions()
+    public function resetPermissions(Request $request)
     {
-        glsr(Role::class)->resetAll();
+        if (wp_validate_boolean($request->alt)) {
+            glsr(Role::class)->hardResetAll();
+        } else {
+            glsr(Role::class)->resetAll();
+        }
         glsr(Notice::class)->clear()->addSuccess(_x('The permissions have been reset.', 'admin-text', 'site-reviews'));
     }
 
@@ -206,9 +210,9 @@ class ToolsController extends Controller
      * @return void
      * @action site-reviews/route/ajax/reset-permissions
      */
-    public function resetPermissionsAjax()
+    public function resetPermissionsAjax(Request $request)
     {
-        glsr(Role::class)->resetAll();
+        $this->resetPermissions($request);
         $reloadLink = glsr(Builder::class)->a([
             'text' => _x('reload the page', 'admin-text', 'site-reviews'),
             'href' => 'javascript:window.location.reload(1)',

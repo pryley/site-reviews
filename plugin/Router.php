@@ -52,7 +52,7 @@ class Router
      */
     public function routePublicPostRequest()
     {
-        if (is_admin()) {
+        if (glsr()->isAdmin()) {
             return;
         }
         $request = $this->getRequest();

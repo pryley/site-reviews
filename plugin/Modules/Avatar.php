@@ -50,7 +50,7 @@ class Avatar
             'style' => sprintf('width:%1$spx; height:%1$spx;', $size),
             'width' => $size * 2,
         ];
-        if (is_admin()) {
+        if (glsr()->isAdmin()) {
             $attributes['data-fallback'] = $this->fallback($size);
         }
         return glsr(Builder::class)->img($attributes);

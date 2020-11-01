@@ -94,14 +94,18 @@
 
 <div class="glsr-card card">
     <h3>Reset Permissions</h3>
+    <div class="components-notice is-info">
+        <p class="components-notice__content">Hold down the ALT/Option key to perform a "Hard Reset"; this removes all Site Reviews capabilites from your Editor, Author, and Contributor roles before re-adding them.</p>
+    </div>
     <p>Site Reviews provides custom post_type capabilities that mirror the capabilities of your posts by default. For example, if a user role has permission to edit others posts, then that role will also have permission to edit other users reviews.</p>
-    <p>If you have changed the capabilities of your user roles and you suspect that Site Reviews is not working correctly due to your changes, you may use this tool to reset the Site Reviews capabilities for your user roles.</p>
+    <p>If you have changed the capabilities of your user roles (Administrator, Editor, Author, and Contributor) and you suspect that Site Reviews is not working correctly due to your changes, you may use this tool to reset the Site Reviews capabilities for your user roles.</p>
     <form method="post">
         <input type="hidden" name="{{ id }}[_action]" value="reset-permissions">
+        <input type="hidden" name="{{ id }}[alt]" value="0" data-alt>
         <?php wp_nonce_field('reset-permissions'); ?>
         <p class="submit">
             <button type="submit" class="glsr-button button" name="reset-permissions" id="reset-permissions" data-ajax-click>
-                <span data-loading="<?= esc_attr_x('Resetting, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Reset Permissions', 'admin-text', 'site-reviews'); ?></span>
+                <span data-alt-text="<?= esc_attr_x('Hard Reset Permissions', 'admin-text', 'site-reviews'); ?>" data-loading="<?= esc_attr_x('Resetting, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Reset Permissions', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>
     </form>

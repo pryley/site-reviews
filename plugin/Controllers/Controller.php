@@ -45,7 +45,7 @@ abstract class Controller
     protected function hasQueryPermission(WP_Query $query)
     {
         global $pagenow;
-        return is_admin()
+        return glsr()->isAdmin()
             && $query->is_main_query()
             && glsr()->post_type === $query->get('post_type')
             && 'edit.php' === $pagenow;
@@ -56,7 +56,7 @@ abstract class Controller
      */
     protected function isReviewAdminPage()
     {
-        return is_admin()
+        return glsr()->isAdmin()
             && in_array(glsr()->post_type, [get_post_type(), filter_input(INPUT_GET, 'post_type')]);
     }
 }

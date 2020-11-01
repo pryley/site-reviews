@@ -158,7 +158,7 @@ final class Application extends Container
      */
     public function isAdmin()
     {
-        return is_admin() && !wp_doing_ajax();
+        return (is_admin() || is_network_admin()) && !wp_doing_ajax();
     }
 
     /**

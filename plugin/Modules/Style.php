@@ -168,6 +168,6 @@ class Style
     protected function isPublicInstance(Builder $instance)
     {
         $args = glsr()->args($instance->args)->merge(['is_raw' => false]);
-        return !is_admin() && !Cast::toBool($args->is_raw);
+        return !glsr()->isAdmin() && !Cast::toBool($args->is_raw);
     }
 }
