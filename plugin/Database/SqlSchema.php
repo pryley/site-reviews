@@ -23,7 +23,7 @@ class SqlSchema
      */
     public function addAssignedPostsTableConstraints()
     {
-        if (!$this->tableConstraintExists($ratingIdConstraint = $this->prefix('assigned_posts').'_rating_id_foreign')) {
+        if (!$this->tableConstraintExists($ratingIdConstraint = $this->prefixConstraint('assigned_posts_rating_id_foreign'))) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_posts')}
                 ADD CONSTRAINT {$ratingIdConstraint}
@@ -35,7 +35,7 @@ class SqlSchema
         if (!$this->isInnodb('posts')) {
             return;
         }
-        if (!$this->tableConstraintExists($postIdConstraint = $this->prefix('assigned_posts').'_post_id_foreign')) {
+        if (!$this->tableConstraintExists($postIdConstraint = $this->prefixConstraint('assigned_posts_post_id_foreign'))) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_posts')}
                 ADD CONSTRAINT {$postIdConstraint}
@@ -51,7 +51,7 @@ class SqlSchema
      */
     public function addAssignedTermsTableConstraints()
     {
-        if (!$this->tableConstraintExists($ratingIdConstraint = $this->prefix('assigned_terms').'_rating_id_foreign')) {
+        if (!$this->tableConstraintExists($ratingIdConstraint = $this->prefixConstraint('assigned_terms_rating_id_foreign'))) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_terms')}
                 ADD CONSTRAINT {$ratingIdConstraint}
@@ -63,7 +63,7 @@ class SqlSchema
         if (!$this->isInnodb('terms')) {
             return;
         }
-        if (!$this->tableConstraintExists($termIdConstraint = $this->prefix('assigned_terms').'_term_id_foreign')) {
+        if (!$this->tableConstraintExists($termIdConstraint = $this->prefixConstraint('assigned_terms_term_id_foreign'))) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_terms')}
                 ADD CONSTRAINT {$termIdConstraint}
@@ -79,7 +79,7 @@ class SqlSchema
      */
     public function addAssignedUsersTableConstraints()
     {
-        if (!$this->tableConstraintExists($ratingIdConstraint = $this->prefix('assigned_users').'_rating_id_foreign')) {
+        if (!$this->tableConstraintExists($ratingIdConstraint = $this->prefixConstraint('assigned_users_rating_id_foreign'))) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_users')}
                 ADD CONSTRAINT {$ratingIdConstraint}
@@ -91,7 +91,7 @@ class SqlSchema
         if (!$this->isInnodb('users')) {
             return;
         }
-        if (!$this->tableConstraintExists($userIdConstraint = $this->prefix('assigned_users').'_user_id_foreign')) {
+        if (!$this->tableConstraintExists($userIdConstraint = $this->prefixConstraint('assigned_users_user_id_foreign'))) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_users')}
                 ADD CONSTRAINT {$userIdConstraint}
@@ -110,7 +110,7 @@ class SqlSchema
         if (!$this->isInnodb('posts')) {
             return;
         }
-        if (!$this->tableConstraintExists($reviewIdConstraint = $this->prefix('assigned_posts').'_review_id_foreign')) {
+        if (!$this->tableConstraintExists($reviewIdConstraint = $this->prefixConstraint('assigned_posts_review_id_foreign'))) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('ratings')}
                 ADD CONSTRAINT {$reviewIdConstraint}
@@ -260,12 +260,28 @@ class SqlSchema
     /**
      * @return string
      */
+    public function prefixConstraint($constraint)
+    {
+        $constraint = Str::prefix($constraint, glsr()->prefix);
+        if (is_multisite() && $this->db->blogid > 1) {
+            return $constraint.'_'.$this->db->blogid;
+        }
+        return $constraint;
+    }
+
+    /**
+     * @return string
+     */
     public function table($table)
     {
         if (Str::endsWith(['ratings', 'assigned_posts', 'assigned_terms', 'assigned_users'], $table)) {
             $table = $this->prefix($table);
+            return $this->db->get_blog_prefix().$table;
         }
-        return $this->db->prefix.$table;
+        if (array_key_exists($table, $this->db->tables())) {
+            return $this->db->{$table};
+        }
+        glsr_log()->error(sprintf('$wpdb->%s does not exist.', $table));
     }
 
     /**
@@ -274,7 +290,7 @@ class SqlSchema
     public function tableExists($table)
     {
         if (!isset($this->tables)) {
-            $prefix = $this->db->prefix.glsr()->prefix;
+            $prefix = $this->db->get_blog_prefix().glsr()->prefix;
             $this->tables = $this->db->get_col(
                 $this->db->prepare("SHOW TABLES LIKE %s", $this->db->esc_like($prefix).'%')
             );
@@ -313,7 +329,7 @@ class SqlSchema
             if (!array_key_exists($result->ENGINE, $engines)) {
                 $engines[$result->ENGINE] = [];
             }
-            $engines[$result->ENGINE][] = Str::removePrefix($result->TABLE_NAME, $this->db->prefix);
+            $engines[$result->ENGINE][] = Str::removePrefix($result->TABLE_NAME, $this->db->get_blog_prefix());
         }
         $tableEngines = [];
         foreach ($engines as $engine => $tables) {
