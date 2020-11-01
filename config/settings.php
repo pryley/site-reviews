@@ -173,7 +173,7 @@ return [
         'type' => 'select',
     ],
     'settings.reviews.assignment' => [
-        'default' => 'loose',
+        'default' => 'strict',
         'description' => sprintf('%s<br>%s<br>%s',
             _x('This setting determines how the assigned options work in the reviews and summary shortcodes and blocks.', 'admin-text', 'site-reviews'),
             _x('"Loose Assignment" means <code>display reviews that are assigned to this OR this</code>.', 'admin-text', 'site-reviews'),

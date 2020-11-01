@@ -117,6 +117,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 - Added a review assignment setting
 - Added additional System Information
+- Changed review assignment in SQL queries to use strict assignments by default (it was previously using loose assignments, use the new "review assignment" setting to change this back)
 - Fixed autoloading of the PHP multibyte polyfill
 - Fixed multisite compatibility
 - Fixed review limits validation for assigned reviews
