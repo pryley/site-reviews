@@ -38,15 +38,6 @@ class Install
     /**
      * @return void
      */
-    protected function install()
-    {
-        $this->createRoleCapabilities();
-        $this->createTables();
-    }
-
-    /**
-     * @return void
-     */
     protected function createRoleCapabilities()
     {
         glsr(Role::class)->resetAll();
@@ -59,5 +50,14 @@ class Install
     {
         glsr(SqlSchema::class)->createTables();
         glsr(SqlSchema::class)->addTableConstraints();
+    }
+
+    /**
+     * @return void
+     */
+    protected function install()
+    {
+        $this->createRoleCapabilities();
+        $this->createTables();
     }
 }
