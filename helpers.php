@@ -70,7 +70,8 @@ function glsr($alias = null, array $parameters = [])
  */
 function glsr_create_review($reviewValues = [])
 {
-    $request = new Request(Arr::consolidate($reviewValues));
+    $values = Arr::removeEmptyValues(Arr::consolidate($reviewValues));
+    $request = new Request($values);
     $command = new CreateReview($request);
     return $command->isValid()
         ? glsr(ReviewManager::class)->create($command)
