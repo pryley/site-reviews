@@ -82,11 +82,11 @@ msgstr "This review is based on my own experience and is my genuine opinion."
 msgid "Show more"
 msgstr "Show more"
 
-#: plugin/Commands/CreateReview.php:155
+#: plugin/Commands/CreateReview.php:156
 msgid "Your review has been submitted!"
 msgstr "Your review has been submitted!"
 
-#: plugin/Commands/CreateReview.php:160
+#: plugin/Commands/CreateReview.php:161
 msgid ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site admin."
@@ -256,7 +256,7 @@ msgstr "The reCAPTCHA failed to load, please refresh the page and try again."
 msgid "The reCAPTCHA verification failed, please try again."
 msgstr "The reCAPTCHA verification failed, please try again."
 
-#: plugin/Modules/Validator/ReviewLimitsValidator.php:43
+#: plugin/Modules/Validator/ReviewLimitsValidator.php:34
 msgid "You have already submitted a review."
 msgstr "You have already submitted a review."
 
@@ -1391,11 +1391,6 @@ msgctxt "admin-text"
 msgid "Reject submission"
 msgstr "Reject submission"
 
-#: plugin/Application.php:224
-msgctxt "admin-text"
-msgid "Local Review"
-msgstr "Local Review"
-
 #: plugin/Deprecated.php:24
 msgctxt "admin-text"
 msgid ""
@@ -1405,7 +1400,7 @@ msgstr ""
 "The [%s] method has been deprecated and will be soon be removed, please use "
 "the [%s] method instead."
 
-#: plugin/Review.php:264, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
+#: plugin/Review.php:263, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr "Unknown"
@@ -1546,17 +1541,17 @@ msgid_plural "%s Reviews"
 msgstr[0] "%s Review"
 msgstr[1] "%s Reviews"
 
-#: plugin/Controllers/AdminController.php:148, plugin/Controllers/MainController.php:70
+#: plugin/Controllers/AdminController.php:148, plugin/Controllers/MainController.php:148
 msgctxt "admin-text"
 msgid "Recent Reviews"
 msgstr "Recent Reviews"
 
-#: plugin/Controllers/AdminController.php:149, plugin/Controllers/MainController.php:74
+#: plugin/Controllers/AdminController.php:149, plugin/Controllers/MainController.php:152
 msgctxt "admin-text"
 msgid "Submit a Review"
 msgstr "Submit a Review"
 
-#: plugin/Controllers/AdminController.php:150, plugin/Controllers/MainController.php:78
+#: plugin/Controllers/AdminController.php:150, plugin/Controllers/MainController.php:156
 msgctxt "admin-text"
 msgid "Summary of Reviews"
 msgstr "Summary of Reviews"
@@ -1591,17 +1586,22 @@ msgctxt "admin-text"
 msgid "Unapprove"
 msgstr "Unapprove"
 
-#: plugin/Controllers/MainController.php:69
+#: plugin/Controllers/MainController.php:104
+msgctxt "admin-text"
+msgid "Local Review"
+msgstr "Local Review"
+
+#: plugin/Controllers/MainController.php:147
 msgctxt "admin-text"
 msgid "Site Reviews: Display your recent reviews."
 msgstr "Site Reviews: Display your recent reviews."
 
-#: plugin/Controllers/MainController.php:73
+#: plugin/Controllers/MainController.php:151
 msgctxt "admin-text"
 msgid "Site Reviews: Display a form to submit reviews."
 msgstr "Site Reviews: Display a form to submit reviews."
 
-#: plugin/Controllers/MainController.php:77
+#: plugin/Controllers/MainController.php:155
 msgctxt "admin-text"
 msgid "Site Reviews: Display a summary of your reviews."
 msgstr "Site Reviews: Display a summary of your reviews."
@@ -1819,17 +1819,17 @@ msgctxt "admin-text"
 msgid "The assigned meta values have been reset."
 msgstr "The assigned meta values have been reset."
 
-#: plugin/Controllers/ToolsController.php:202
+#: plugin/Controllers/ToolsController.php:206
 msgctxt "admin-text"
 msgid "The permissions have been reset."
 msgstr "The permissions have been reset."
 
-#: plugin/Controllers/ToolsController.php:213
+#: plugin/Controllers/ToolsController.php:217
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr "reload the page"
 
-#: plugin/Controllers/ToolsController.php:217
+#: plugin/Controllers/ToolsController.php:221
 msgctxt "admin-text"
 msgid "The permissions have been reset, please %s for them to take effect."
 msgstr "The permissions have been reset, please %s for them to take effect."
@@ -2464,11 +2464,6 @@ msgctxt "admin-text"
 msgid "All types"
 msgstr "All types"
 
-#: plugin/Controllers/ListTableColumns/ColumnValueType.php:17
-msgctxt "admin-text"
-msgid "Unsupported Type"
-msgstr "Unsupported Type"
-
 #: views/pages/addons/index.php:6
 msgctxt "admin-text"
 msgid ""
@@ -2638,22 +2633,27 @@ msgctxt "admin-text"
 msgid "Reset Meta Values"
 msgstr "Reset Meta Values"
 
-#: views/pages/tools/general.php:104
+#: views/pages/tools/general.php:108
+msgctxt "admin-text"
+msgid "Hard Reset Permissions"
+msgstr "Hard Reset Permissions"
+
+#: views/pages/tools/general.php:108
 msgctxt "admin-text"
 msgid "Resetting, please wait..."
 msgstr "Resetting, please wait..."
 
-#: views/pages/tools/general.php:104
+#: views/pages/tools/general.php:108
 msgctxt "admin-text"
 msgid "Reset Permissions"
 msgstr "Reset Permissions"
 
-#: views/pages/tools/general.php:121
+#: views/pages/tools/general.php:125
 msgctxt "admin-text"
 msgid "Testing, please wait..."
 msgstr "Testing, please wait..."
 
-#: views/pages/tools/general.php:121
+#: views/pages/tools/general.php:125
 msgctxt "admin-text"
 msgid "Test Detection"
 msgstr "Test Detection"
@@ -2810,11 +2810,13 @@ msgstr "Add-ons for Site Reviews are now available!"
 #: views/partials/notices/addons.php:23
 msgctxt "admin-text"
 msgid ""
-"Allow people to submit captioned images with their review, and sort, "
-"filter, and search reviews."
+"Allow people to add captioned images to their reviews; provide sorting, "
+"filtering, and search functionality; and integrate with the Trustalyze "
+"platform."
 msgstr ""
-"Allow people to submit captioned images with their review, and sort, "
-"filter, and search reviews."
+"Allow people to add captioned images to their reviews; provide sorting, "
+"filtering, and search functionality; and integrate with the Trustalyze "
+"platform."
 
 #: views/partials/notices/addons.php:26
 msgctxt "admin-text"
