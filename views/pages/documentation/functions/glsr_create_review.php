@@ -7,6 +7,11 @@
         </button>
     </h3>
     <div id="fn-glsr_create_review" class="inside">
+        <div class="components-notice is-warning">
+            <p class="components-notice__content">This function uses basic validation on the provided values. If validation fails, the function will return false and the validation errors will be logged to the <a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-console'); ?>">Plugin Console</a>.</p>
+
+        </div>
+        <br>
         <pre><code class="language-php">/**
  * Default values in the $reviewValues array:
  * - 'assigned_posts' => '',
