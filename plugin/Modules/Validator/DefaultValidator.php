@@ -42,7 +42,11 @@ class DefaultValidator extends ValidatorAbstract
         $options = glsr(DefaultsManager::class)->pluck('settings.submissions.required.options');
         $excludedKeys = array_keys(array_diff_key($options, $this->request->toArray()));
         $this->request->excluded = $excludedKeys;
-        return $this->isValid();
+        if ($this->isValid()) {
+            return true;
+        }
+        glsr_log()->warning($this->errors);
+        return false;
     }
 
     /**
