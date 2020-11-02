@@ -46,11 +46,13 @@ final class Application extends Container
     protected $name;
 
     /**
+     * @param bool $networkWide
      * @return void
+     * @callback register_activation_hook
      */
-    public function activate()
+    public function activate($networkWide)
     {
-        add_option(static::PREFIX.'activated', true);
+        $this->make(Install::class)->run();
     }
 
     /**
@@ -138,7 +140,11 @@ final class Application extends Container
      */
     public function init()
     {
-        $this->make(Database::class)->createTables();
+        // Ensure the custom database tables exist, this is needed in cases
+        // where the plugin has been updated instead of activated.
+        if (empty(get_option(static::PREFIX.'db_version'))) {
+            $this->make(Install::class)->run();
+        }
         $this->make(Hooks::class)->run();
     }
 

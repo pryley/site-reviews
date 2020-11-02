@@ -6,11 +6,32 @@ use GeminiLabs\SiteReviews\Commands\RegisterPostType;
 use GeminiLabs\SiteReviews\Commands\RegisterShortcodes;
 use GeminiLabs\SiteReviews\Commands\RegisterTaxonomy;
 use GeminiLabs\SiteReviews\Commands\RegisterWidgets;
-use GeminiLabs\SiteReviews\Database\DefaultsManager;
-use GeminiLabs\SiteReviews\Role;
+use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Install;
 
 class MainController extends Controller
 {
+    /**
+     * @param array $tables
+     * @param int $blogId
+     * @return array
+     * @see http://developer.wordpress.org/reference/functions/wp_uninitialize_site/
+     * @filter wpmu_drop_tables
+     */
+    public function filterDropTables($tables, $siteId)
+    {
+        switch_to_blog($siteId);
+        $tables = Arr::insertBefore(0, $tables, [
+            glsr(Query::class)->table('ratings'),
+            glsr(Query::class)->table('assigned_posts'),
+            glsr(Query::class)->table('assigned_terms'),
+            glsr(Query::class)->table('assigned_users'),
+        ]);
+        restore_current_blog();
+        return $tables;
+    }
+
     /**
      * @return void
      * @action plugins_loaded
@@ -19,6 +40,18 @@ class MainController extends Controller
     {
         // This cannot be done before plugins_loaded as it uses the gettext functions
         glsr()->storeDefaults();
+    }
+
+    /**
+     * @param int $blogId
+     * @return void
+     * @action wp_insert_site
+     */
+    public function installOnNewSite($siteId)
+    {
+        if (is_plugin_active_for_network(glsr()->file)) {
+            glsr(Install::class)->runOnSite($siteId);
+        }
     }
 
     /**
@@ -123,19 +156,5 @@ class MainController extends Controller
                 'name' => _x('Summary of Reviews', 'admin-text', 'site-reviews'),
             ],
         ]));
-    }
-
-    /**
-     * Plugin activation stuff is done here
-     * @return void
-     * @action admin_init
-     */
-    public function runAfterActivation()
-    {
-        if (get_option(glsr()->prefix.'activated')) {
-            glsr(DefaultsManager::class)->set(); // save default settings
-            glsr(Role::class)->resetAll(); // add role capabilities
-            delete_option(glsr()->prefix.'activated');
-        }
     }
 }

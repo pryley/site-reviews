@@ -35,6 +35,9 @@ spl_autoload_register(function ($className) {
 if (!function_exists('wp_hash')) {
     require_once ABSPATH.WPINC.'/pluggable.php';
 }
+if (!function_exists('is_plugin_active_for_network')) {
+    require_once ABSPATH.'/wp-admin/includes/plugin.php';
+}
 
 /**
  * Provide a partial, native PHP implementation for the Mbstring extension.

@@ -98,7 +98,7 @@ class Hooks implements HooksContract
         add_action('pre_get_posts', [$this->listtable, 'setQueryForColumn']);
         add_action('restrict_manage_posts', [$this->listtable, 'renderColumnFilters']);
         add_action('manage_'.glsr()->post_type.'_posts_custom_column', [$this->listtable, 'renderColumnValues'], 10, 2);
-        add_action('admin_init', [$this->main, 'runAfterActivation']);
+        add_action('wp_insert_site', [$this->main, 'installOnNewSite']);
         add_action('admin_footer', [$this->main, 'logOnce']);
         add_action('wp_footer', [$this->main, 'logOnce']);
         add_action('plugins_loaded', [$this->main, 'registerAddons']);
@@ -187,6 +187,7 @@ class Hooks implements HooksContract
         add_filter('posts_clauses', [$this->listtable, 'filterPostClauses'], 10, 2);
         add_filter('post_row_actions', [$this->listtable, 'filterRowActions'], 10, 2);
         add_filter('manage_edit-'.glsr()->post_type.'_sortable_columns', [$this->listtable, 'filterSortableColumns']);
+        add_filter('wpmu_drop_tables', [$this->main, 'filterDropTables'], 20, 2); // run late
         add_filter('site-reviews/config/forms/metabox-fields', [$this->metabox, 'filterFieldOrder'], 11);
         add_filter('wp_privacy_personal_data_erasers', [$this->privacy, 'filterPersonalDataErasers']);
         add_filter('wp_privacy_personal_data_exporters', [$this->privacy, 'filterPersonalDataExporters']);

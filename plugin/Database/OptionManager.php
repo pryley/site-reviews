@@ -125,9 +125,9 @@ class OptionManager
      */
     public function reset()
     {
-        $settings = Arr::consolidate(get_option(static::databaseKey()));
+        $settings = Arr::consolidate($this->getWP(static::databaseKey(), []));
         if (empty($settings)) {
-            glsr(Migrate::class)->reset();
+            glsr(Migrate::class)->reset(); // @todo why do we this here again? It should only run if this is not a fresh install.
             delete_option(static::databaseKey());
             $settings = Arr::consolidate(glsr()->defaults);
         }

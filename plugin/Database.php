@@ -44,15 +44,6 @@ class Database
     }
 
     /**
-     * @return void
-     */
-    public function createTables()
-    {
-        glsr(SqlSchema::class)->createTables();
-        glsr(SqlSchema::class)->addTableConstraints();
-    }
-
-    /**
      * @param string $sql
      * @return array
      */

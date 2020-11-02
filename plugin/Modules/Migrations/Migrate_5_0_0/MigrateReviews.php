@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Install;
 
 class MigrateReviews
 {
@@ -36,7 +37,7 @@ class MigrateReviews
      */
     protected function createDatabaseTable()
     {
-        glsr(Database::class)->createTables();
+        glsr(Install::class)->run();
     }
 
     /**

@@ -22,6 +22,8 @@ $versions = array(
     5 => $app['id'].'-v5',
 );
 
+wp_clear_scheduled_hook('site-reviews/schedule/session/purge'); // @removed in v5.2
+
 if (in_array($uninstall, ['all', 'minimal'])) {
     foreach ($versions as $version) {
         delete_option($version);
