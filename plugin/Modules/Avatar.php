@@ -78,7 +78,7 @@ class Avatar
         if ($size = Cast::toInt($size)) {
             return $size;
         }
-        $size = glsr_get_option('settings.reviews.avatars_size', static::FALLBACK_SIZE, 'int');
+        $size = glsr_get_option('reviews.avatars_size', static::FALLBACK_SIZE, 'int');
         return Helper::ifEmpty($size, static::FALLBACK_SIZE, $strict = true);
     }
 }

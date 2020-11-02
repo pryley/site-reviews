@@ -11,7 +11,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
  * @property array $addons
  * @property string $capability
  * @property string $cron_event
- * @property string $defaults
+ * @property array $defaults
  * @property string $export_key
  * @property string $file
  * @property string $id
@@ -41,16 +41,26 @@ final class Application extends Container
     const PREFIX = 'glsr_';
     const TAXONOMY = 'site-review-category';
 
+    /**
+     * @var array
+     */
     protected $addons = [];
+
+    /**
+     * @var array
+     */
     protected $defaults;
+
+    /**
+     * @var string
+     */
     protected $name;
 
     /**
-     * @param bool $networkWide
      * @return void
      * @callback register_activation_hook
      */
-    public function activate($networkWide)
+    public function activate()
     {
         $this->make(Install::class)->run();
     }

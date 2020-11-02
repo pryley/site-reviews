@@ -61,7 +61,7 @@ class ReviewController extends Controller
     public function filterSqlClauseOperator($operator)
     {
         $operators = ['loose' => 'OR', 'strict' => 'AND'];
-        return Arr::get($operators, glsr_get_option('settings.reviews.assignment'), $operator);
+        return Arr::get($operators, glsr_get_option('reviews.assignment', 'strict', 'string'), $operator);
     }
 
     /**

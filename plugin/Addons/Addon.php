@@ -56,7 +56,7 @@ abstract class Addon
     public function update()
     {
         $this->updater = new Updater(static::UPDATE_URL, $this->file, [
-            'license' => glsr_get_option('settings.licenses.'.static::ID),
+            'license' => glsr_get_option('licenses.'.static::ID),
             // 'testedTo' => $this->testedTo,
         ]);
         $this->updater->init();
