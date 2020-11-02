@@ -23,7 +23,8 @@ class SqlSchema
      */
     public function addAssignedPostsTableConstraints()
     {
-        if (!$this->tableConstraintExists($ratingIdConstraint = $this->prefixConstraint('assigned_posts_rating_id_foreign'))) {
+        $ratingIdConstraint = $this->prefixConstraint('assigned_posts_rating_id_foreign');
+        if (!$this->tableConstraintExists($ratingIdConstraint)) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_posts')}
                 ADD CONSTRAINT {$ratingIdConstraint}
@@ -32,10 +33,8 @@ class SqlSchema
                 ON DELETE CASCADE
             "));
         }
-        if (!$this->isInnodb('posts')) {
-            return;
-        }
-        if (!$this->tableConstraintExists($postIdConstraint = $this->prefixConstraint('assigned_posts_post_id_foreign'))) {
+        $postIdConstraint = $this->prefixConstraint('assigned_posts_post_id_foreign');
+        if (!$this->tableConstraintExists($postIdConstraint, $foreignTable = 'posts')) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_posts')}
                 ADD CONSTRAINT {$postIdConstraint}
@@ -51,7 +50,8 @@ class SqlSchema
      */
     public function addAssignedTermsTableConstraints()
     {
-        if (!$this->tableConstraintExists($ratingIdConstraint = $this->prefixConstraint('assigned_terms_rating_id_foreign'))) {
+        $ratingIdConstraint = $this->prefixConstraint('assigned_terms_rating_id_foreign');
+        if (!$this->tableConstraintExists($ratingIdConstraint)) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_terms')}
                 ADD CONSTRAINT {$ratingIdConstraint}
@@ -60,10 +60,8 @@ class SqlSchema
                 ON DELETE CASCADE
             "));
         }
-        if (!$this->isInnodb('terms')) {
-            return;
-        }
-        if (!$this->tableConstraintExists($termIdConstraint = $this->prefixConstraint('assigned_terms_term_id_foreign'))) {
+        $termIdConstraint = $this->prefixConstraint('assigned_terms_term_id_foreign');
+        if (!$this->tableConstraintExists($termIdConstraint, $foreignTable = 'terms')) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_terms')}
                 ADD CONSTRAINT {$termIdConstraint}
@@ -79,7 +77,8 @@ class SqlSchema
      */
     public function addAssignedUsersTableConstraints()
     {
-        if (!$this->tableConstraintExists($ratingIdConstraint = $this->prefixConstraint('assigned_users_rating_id_foreign'))) {
+        $ratingIdConstraint = $this->prefixConstraint('assigned_users_rating_id_foreign');
+        if (!$this->tableConstraintExists($ratingIdConstraint)) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_users')}
                 ADD CONSTRAINT {$ratingIdConstraint}
@@ -88,10 +87,8 @@ class SqlSchema
                 ON DELETE CASCADE
             "));
         }
-        if (!$this->isInnodb('users')) {
-            return;
-        }
-        if (!$this->tableConstraintExists($userIdConstraint = $this->prefixConstraint('assigned_users_user_id_foreign'))) {
+        $userIdConstraint = $this->prefixConstraint('assigned_users_user_id_foreign');
+        if (!$this->tableConstraintExists($userIdConstraint, $foreignTable = 'users')) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('assigned_users')}
                 ADD CONSTRAINT {$userIdConstraint}
@@ -107,10 +104,8 @@ class SqlSchema
      */
     public function addReviewsTableConstraints()
     {
-        if (!$this->isInnodb('posts')) {
-            return;
-        }
-        if (!$this->tableConstraintExists($reviewIdConstraint = $this->prefixConstraint('assigned_posts_review_id_foreign'))) {
+        $reviewIdConstraint = $this->prefixConstraint('assigned_posts_review_id_foreign');
+        if (!$this->tableConstraintExists($reviewIdConstraint, $foreignTable = 'posts')) {
             glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
                 ALTER TABLE {$this->table('ratings')}
                 ADD CONSTRAINT {$reviewIdConstraint}
@@ -299,10 +294,14 @@ class SqlSchema
     }
 
     /**
+     * @param string $foreignTable
      * @return bool
      */
-    public function tableConstraintExists($constraint)
+    public function tableConstraintExists($constraint, $foreignTable = '')
     {
+        if (!empty($foreignTable) && !$this->isInnodb($foreignTable)) {
+            return true; // we cannot create foreign contraints on MyISAM tables
+        }
         if (!isset($this->constraints)) {
             $this->constraints = $this->db->get_col("
                 SELECT CONSTRAINT_NAME
