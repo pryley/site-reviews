@@ -126,7 +126,7 @@ msgstr "This field must have between %s and %s characters."
 msgid "This field requires a valid e-mail address."
 msgstr "This field requires a valid e-mail address."
 
-#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/DefaultValidator.php:52
+#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/DefaultValidator.php:58
 msgid "Please fix the submission errors."
 msgstr "Please fix the submission errors."
 
@@ -1541,17 +1541,17 @@ msgid_plural "%s Reviews"
 msgstr[0] "%s Review"
 msgstr[1] "%s Reviews"
 
-#: plugin/Controllers/AdminController.php:148, plugin/Controllers/MainController.php:148
+#: plugin/Controllers/AdminController.php:148, plugin/Controllers/MainController.php:149
 msgctxt "admin-text"
 msgid "Recent Reviews"
 msgstr "Recent Reviews"
 
-#: plugin/Controllers/AdminController.php:149, plugin/Controllers/MainController.php:152
+#: plugin/Controllers/AdminController.php:149, plugin/Controllers/MainController.php:153
 msgctxt "admin-text"
 msgid "Submit a Review"
 msgstr "Submit a Review"
 
-#: plugin/Controllers/AdminController.php:150, plugin/Controllers/MainController.php:156
+#: plugin/Controllers/AdminController.php:150, plugin/Controllers/MainController.php:157
 msgctxt "admin-text"
 msgid "Summary of Reviews"
 msgstr "Summary of Reviews"
@@ -1586,22 +1586,22 @@ msgctxt "admin-text"
 msgid "Unapprove"
 msgstr "Unapprove"
 
-#: plugin/Controllers/MainController.php:104
+#: plugin/Controllers/MainController.php:105
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr "Local Review"
 
-#: plugin/Controllers/MainController.php:147
+#: plugin/Controllers/MainController.php:148
 msgctxt "admin-text"
 msgid "Site Reviews: Display your recent reviews."
 msgstr "Site Reviews: Display your recent reviews."
 
-#: plugin/Controllers/MainController.php:151
+#: plugin/Controllers/MainController.php:152
 msgctxt "admin-text"
 msgid "Site Reviews: Display a form to submit reviews."
 msgstr "Site Reviews: Display a form to submit reviews."
 
-#: plugin/Controllers/MainController.php:155
+#: plugin/Controllers/MainController.php:156
 msgctxt "admin-text"
 msgid "Site Reviews: Display a summary of your reviews."
 msgstr "Site Reviews: Display a summary of your reviews."
