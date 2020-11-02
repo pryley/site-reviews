@@ -20,7 +20,7 @@
     </div>
     <p>
         <strong><?= _x('Add-ons for Site Reviews are now available!', 'admin-text', 'site-reviews'); ?></strong>
-        <br><?= _x('Allow people to submit captioned images with their review, and sort, filter, and search reviews.', 'admin-text', 'site-reviews'); ?>
+        <br><?= _x('Allow people to add captioned images to their reviews; provide sorting, filtering, and search functionality; and integrate with the Trustalyze platform.', 'admin-text', 'site-reviews'); ?>
     </p>
     <p>
         <a class="components-button is-secondary is-small" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=addons'); ?>"><?= _x('Check Them Out', 'admin-text', 'site-reviews'); ?> →</a>
