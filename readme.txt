@@ -118,9 +118,12 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Added a review assignment setting
 - Added additional System Information
 - Changed review assignment in SQL queries to use strict assignments by default (it was previously using loose assignments, use the new "review assignment" setting to change this back)
-- Fixed autoloading of the PHP multibyte polyfill
-- Fixed multisite compatibility
+- Changed the glsr_create_review function to log validation errors to the plugin console
+- Fixed Multibyte String support
+- Fixed Multisite compatibility
+- Fixed rating validation when using a custom maximum rating value
 - Fixed review limits validation for assigned reviews
+- Fixed review name and email fallback values to use those of the logged-in user
 - Fixed the submission date of reviews, it now uses the timezone offset in the WordPress settings
 
 = 5.1.6 (2020-10-25) =
@@ -130,7 +133,6 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 = 5.1.4 (2020-10-25) =
 
-- Added "ORDER BY" to migration SQL queries; this will make migrations run a little slower but fix a potential problem where database migrations may not complete successfully
 - Fixed addons notice styling and placement
 - Fixed plugin file paths on IIS Windows servers
 - Fixed plugin migrations to work better with the W3 Total Cache plugin

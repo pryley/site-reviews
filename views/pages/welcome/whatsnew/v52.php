@@ -11,22 +11,24 @@
         <ul>
             <li>Added a review assignment setting</li>
         </ul>
-        <h4>🛠 Tweaks</h4>
+        <h4>📢 Changes</h4>
         <ul>
-            <li>Added additional System Information</li>
-            <li>Added "ORDER BY" to migration SQL queries; this will make migrations run a little slower but fix a potential problem where database migrations may not complete successfully</li>
+            <li>Changed review assignment in SQL queries to use strict assignments by default (it was previously using loose assignments, use the new "review assignment" setting to change this back)</li>
         </ul>
         <h4>🐞 Bugs Fixed</h4>
         <ul>
-            <li>Fixed autoloading of the PHP multibyte polyfill</li>
-            <li>Fixed multisite compatibility</li>
-            <li>Fixed the submission date of reviews to use the timezone offset in the WordPress settings</li>
-            <li>Fixed compatibility issue with the Elementor Pro Popups</li>
-            <li>Fixed validation in the glsr_create_review helper function</li>
             <li>Fixed addons notice styling and placement</li>
+            <li>Fixed compatibility issue with the Elementor Pro Popups</li>
+            <li>Fixed Multibyte String support</li>
+            <li>Fixed Multisite compatibility</li>
             <li>Fixed plugin file paths on IIS Windows servers</li>
             <li>Fixed plugin migrations to work better with the W3 Total Cache plugin</li>
+            <li>Fixed rating validation when using a custom maximum rating value</li>
+            <li>Fixed review limits validation for assigned reviews</li>
+            <li>Fixed review name and email fallback values to use those of the logged-in user</li>
             <li>Fixed strict standard notices in PHP 5.6</li>
+            <li>Fixed the submission date of reviews, it now uses the timezone offset in the WordPress settings</li>
+            <li>Fixed validation in the glsr_create_review helper function</li>
         </ul>
     </div>
 </div>
