@@ -148,7 +148,7 @@ class SqlSchema
                 post_id bigint(20) unsigned NOT NULL,
                 is_published tinyint(1) NOT NULL DEFAULT '1',
                 UNIQUE KEY {$this->prefix('assigned_posts')}_rating_id_post_id_unique (rating_id,post_id)
-            ) {$this->db->get_charset_collate()};
+            ) ENGINE=InnoDB {$this->db->get_charset_collate()};
         "));
         return true;
     }
@@ -166,7 +166,7 @@ class SqlSchema
                 rating_id bigint(20) unsigned NOT NULL,
                 term_id bigint(20) unsigned NOT NULL,
                 UNIQUE KEY {$this->prefix('assigned_terms')}_rating_id_term_id_unique (rating_id,term_id)
-            ) {$this->db->get_charset_collate()};
+            ) ENGINE=InnoDB {$this->db->get_charset_collate()};
         "));
         return true;
     }
@@ -184,7 +184,7 @@ class SqlSchema
                 rating_id bigint(20) unsigned NOT NULL,
                 user_id bigint(20) unsigned NOT NULL,
                 UNIQUE KEY {$this->prefix('assigned_users')}_rating_id_user_id_unique (rating_id,user_id)
-            ) {$this->db->get_charset_collate()};
+            ) ENGINE=InnoDB {$this->db->get_charset_collate()};
         "));
         return true;
     }
@@ -215,7 +215,7 @@ class SqlSchema
                 PRIMARY KEY  (ID),
                 UNIQUE KEY {$this->prefix('ratings')}_review_id_unique (review_id),
                 KEY {$this->prefix('ratings')}_rating_type_is_pinned_index (rating,type,is_pinned)
-            ) {$this->db->get_charset_collate()};
+            ) ENGINE=InnoDB {$this->db->get_charset_collate()};
         "));
         return true;
     }
