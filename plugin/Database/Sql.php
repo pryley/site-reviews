@@ -103,7 +103,6 @@ trait Sql
     public function sqlOrderBy()
     {
         $values = [
-            'rand' => 'RAND()',
             'random' => 'RAND()',
         ];
         $order = $this->args['order'];
@@ -113,7 +112,7 @@ trait Sql
             $orderedby[] = "r.is_pinned {$order}";
             $orderedby[] = "{$orderby} {$order}";
         } elseif (array_key_exists($orderby, $values)) {
-            $orderedby[] = $orderby;
+            $orderedby[] = $values[$orderby];
         }
         $orderedby = glsr()->filterArrayUnique('query/sql/order-by', $orderedby, $this->sqlHandle(), $this);
         if (!empty($orderedby)) {

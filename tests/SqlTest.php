@@ -29,7 +29,7 @@ class SqlTest extends WP_Ajax_UnitTestCase
     public function _test_sql_order_by()
     {
         $query = glsr(Query::class);
-        $query->setArgs(['orderby' => 'rand']);
+        $query->setArgs(['orderby' => 'random']);
         $this->assertEquals($query->sqlOrderBy(), 'ORDER BY RAND()');
         $query->setArgs(['orderby' => 'xxx']);
         $this->assertEquals($query->sqlOrderBy(), '');

@@ -22,15 +22,15 @@ glsr_get_reviews(array $args = []);</code></pre>
     'email' => '',
     'ip_address' => '',
     'offset' => '',
-    'order' => 'DESC',
-    'orderby' => 'date',
+    'order' => 'DESC', // value can be "ASC" or "DESC"
+    'orderby' => 'date', // value can be "author", "date", "ID", or "random"
     'page' => 1,
     'pagination' => false,
     'per_page' => 10,
     'post__in' => [],
     'post__not_in' => [],
     'rating' => '',
-    'status' => 'approved',
+    'status' => 'approved', // value can be "all", "approved", or "unapproved"
     'type' => '',
 ];</code></pre>
         <p><strong>Example Usage:</strong></p>
