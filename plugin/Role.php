@@ -26,9 +26,6 @@ class Role
      */
     public function can($capability)
     {
-        if (is_multisite() && is_super_admin()) {
-            return true; // always return true for network admins
-        }
         return in_array($capability, $this->capabilities())
             ? current_user_can($this->normalizeCapability($capability))
             : current_user_can($capability);
