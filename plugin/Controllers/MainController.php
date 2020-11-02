@@ -22,6 +22,7 @@ class MainController extends Controller
     public function filterDropTables($tables, $siteId)
     {
         switch_to_blog($siteId);
+        // The custom tables have foreign indexes so they must be removed first!
         $tables = Arr::insertBefore(0, $tables, [
             glsr(Query::class)->table('ratings'),
             glsr(Query::class)->table('assigned_posts'),
