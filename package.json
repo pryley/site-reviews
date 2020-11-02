@@ -21,6 +21,7 @@
     "laravel-mix": "^5.0.7",
     "laravel-mix-bundle-analyzer": "^1.0.5",
     "npm-check": "^5.9.2",
+    "postcss": "^7",
     "postcss-calc": "^7.0.5",
     "postcss-custom-properties": "^10.0.0",
     "postcss-hexrgba": "^2.0.1",

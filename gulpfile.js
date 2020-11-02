@@ -11,10 +11,10 @@ const yaml            = require('yamljs');
 
 const config = yaml.load('+/config.yml');
 
-gulp.task('bump', function(cb) {
+gulp.task('bump', cb => {
   var type = 'patch';
-  ['prerelease','patch','minor','major'].some(function(arg) {
-    if( !args[arg] )return;
+  ['prerelease','patch','minor','major'].some(arg => {
+    if (!args[arg]) return;
     type = arg;
     return true;
   });
@@ -25,7 +25,7 @@ gulp.task('bump', function(cb) {
   ], cb);
 });
 
-gulp.task('po-to-mo', function(cb) {
+gulp.task('po-to-mo', cb => {
   pump([
     gulp.src(config.language.destination + '*.po'),
     potomo(),
@@ -33,7 +33,7 @@ gulp.task('po-to-mo', function(cb) {
   ], cb);
 });
 
-gulp.task('pot', function(cb) {
+gulp.task('pot', cb => {
   pump([
     gulp.src(config.language.watch),
     checktextdomain({
@@ -65,7 +65,7 @@ gulp.task('pot', function(cb) {
   ], cb);
 });
 
-gulp.task('pot-to-po', function(cb) {
+gulp.task('pot-to-po', cb => {
   pump([
     gulp.src(config.language.destination + '*.pot'),
     pottopo(),

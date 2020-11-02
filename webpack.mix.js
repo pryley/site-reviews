@@ -23,7 +23,7 @@ mix.babelConfig({
     }],
   ],
   presets: [
-    "@babel/preset-env",
+    ['@babel/preset-env', { forceAllTransforms: true, modules: false }],
     "@wordpress/default",
   ],
 });
