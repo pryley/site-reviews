@@ -30,7 +30,6 @@ if ((new GL_Plugin_Check_v5(__FILE__))->canProceed()) {
     $app = GeminiLabs\SiteReviews\Application::load();
     $app->make('Provider')->register($app);
     register_activation_hook(__FILE__, array($app, 'activate'));
-    register_deactivation_hook(__FILE__, array($app, 'deactivate'));
     register_shutdown_function(array($app, 'catchFatalError'));
     $app->init();
 }

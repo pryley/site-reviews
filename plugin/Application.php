@@ -33,7 +33,6 @@ final class Application extends Container
     use Session;
     use Storage;
 
-    const CRON_EVENT = 'site-reviews/schedule/session/purge';
     const EXPORT_KEY = '_glsr_export';
     const ID = 'site-reviews';
     const PAGED_HANDLE = 'pagination_request';
@@ -51,7 +50,6 @@ final class Application extends Container
      */
     public function activate()
     {
-        $this->scheduleCronJob();
         add_option(static::PREFIX.'activated', true);
     }
 
@@ -84,14 +82,6 @@ final class Application extends Container
         if (E_ERROR === Arr::get($error, 'type') && Str::contains($this->path(), Arr::get($error, 'message'))) {
             glsr_log()->error($error['message']);
         }
-    }
-
-    /**
-     * @return void
-     */
-    public function deactivate()
-    {
-        $this->unscheduleCronJob();
     }
 
     /**
@@ -200,16 +190,6 @@ final class Application extends Container
     /**
      * @return void
      */
-    public function scheduleCronJob()
-    {
-        if (false === wp_next_scheduled(static::CRON_EVENT)) {
-            wp_schedule_event(time(), 'twicedaily', static::CRON_EVENT);
-        }
-    }
-
-    /**
-     * @return void
-     */
     public function storeDefaults()
     {
         if (empty($this->defaults)) {
@@ -225,13 +205,5 @@ final class Application extends Container
     public function themePath($file = '')
     {
         return get_stylesheet_directory().'/'.static::ID.'/'.ltrim(trim($file), '/');
-    }
-
-    /**
-     * @return void
-     */
-    public function unscheduleCronJob()
-    {
-        wp_unschedule_event(intval(wp_next_scheduled(static::CRON_EVENT)), static::CRON_EVENT);
     }
 }

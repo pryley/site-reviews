@@ -42,7 +42,6 @@ class Install
     {
         $this->createRoleCapabilities();
         $this->createTables();
-        $this->scheduleCronJob();
     }
 
     /**
@@ -60,14 +59,5 @@ class Install
     {
         glsr(SqlSchema::class)->createTables();
         glsr(SqlSchema::class)->addTableConstraints();
-    }
-
-    /**
-     * @return void
-     */
-    protected function scheduleCronJob()
-    {
-        wp_clear_scheduled_hook(glsr()->cron_event);
-        wp_schedule_event(time() + MINUTE_IN_SECONDS, 'daily', glsr()->cron_event);
     }
 }
