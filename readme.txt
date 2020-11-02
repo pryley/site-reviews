@@ -113,7 +113,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 == Changelog ==
 
-= 5.2.0 (2020-10-??) =
+= 5.2.0 (2020-11-03) =
 
 - Added a review assignment setting
 - Added additional System Information
@@ -129,7 +129,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 = 5.1.6 (2020-10-25) =
 
 - Fixed compatibility issue with the Elementor Pro Popups
-- Fixed validation in the glsr_create_review helper function
+- Fixed the glsr_create_review helper function validation
 
 = 5.1.4 (2020-10-25) =
 

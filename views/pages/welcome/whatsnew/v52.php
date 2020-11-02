@@ -6,7 +6,7 @@
         </button>
     </h3>
     <div id="welcome-v520" class="inside">
-        <p><em>Initial Release Date &mdash; October 24th, 2020</em></p>
+        <p><em>Initial Release Date &mdash; November 3rd, 2020</em></p>
         <h4>✨ New Features</h4>
         <ul>
             <li>Added a review assignment setting</li>
@@ -27,8 +27,8 @@
             <li>Fixed review limits validation for assigned reviews</li>
             <li>Fixed review name and email fallback values to use those of the logged-in user</li>
             <li>Fixed strict standard notices in PHP 5.6</li>
+            <li>Fixed the glsr_create_review helper function validation</li>
             <li>Fixed the submission date of reviews, it now uses the timezone offset in the WordPress settings</li>
-            <li>Fixed validation in the glsr_create_review helper function</li>
         </ul>
     </div>
 </div>
