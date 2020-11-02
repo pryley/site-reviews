@@ -5,6 +5,8 @@ namespace GeminiLabs\SiteReviews\Modules\Validator;
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Defaults\ValidateReviewDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Validator;
 use GeminiLabs\SiteReviews\Request;
 
@@ -59,9 +61,20 @@ class DefaultValidator extends ValidatorAbstract
     /**
      * @return array
      */
+    protected function normalizedRules()
+    {
+        $rules = static::VALIDATION_RULES;
+        $maxRating = max(1, Cast::toInt(glsr()->constant('MAX_RATING', Rating::class)));
+        $rules['rating'] = str_replace('between:1,5', 'between:1,'.$maxRating, $rules['rating']);
+        return glsr()->filterArray('validation/rules', $rules, $this->request);
+    }
+
+    /**
+     * @return array
+     */
     protected function rules()
     {
-        $rules = glsr()->filterArray('validation/rules', static::VALIDATION_RULES, $this->request);
+        $rules = $this->normalizedRules();
         $customRules = array_diff_key($rules,
             glsr(DefaultsManager::class)->pluck('settings.submissions.required.options')
         );
