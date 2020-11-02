@@ -98,7 +98,7 @@ class Sanitizer
     {
         $date = strtotime(Cast::toString($value));
         if (false !== $date) {
-            return wp_date('Y-m-d H:i:s', $date, get_option('gmt_offset'));
+            return wp_date('Y-m-d H:i:s', $date);
         }
         return current_time('mysql');
     }
