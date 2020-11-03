@@ -123,6 +123,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Fixed Multisite compatibility
 - Fixed rating validation when using a custom maximum rating value
 - Fixed review limits validation for assigned reviews
+- Fixed review migration of invalid 3rd-party reviews (reviews that were previously imported incorrectly)
 - Fixed review name and email fallback values to use those of the logged-in user
 - Fixed the submission date of reviews, it now uses the timezone offset in the WordPress settings
 

@@ -146,11 +146,12 @@ class MigrateReviews
     {
         glsr(Database::class)->beginTransaction('ratings');
         $offset = 0;
+        $table = glsr(Query::class)->table('ratings');
         while (true) {
             $sql = glsr(Query::class)->sql($this->db->prepare("
                 SELECT p.ID, m.meta_key AS mk, m.meta_value AS mv, CAST(IF(p.post_status = 'publish', 1, 0) AS UNSIGNED) AS is_approved
                 FROM {$this->db->posts} AS p
-                INNER JOIN {$this->db->postmeta} AS m ON p.ID = m.post_id
+                LEFT JOIN {$this->db->postmeta} AS m ON p.ID = m.post_id
                 WHERE p.ID IN (
                     SELECT * FROM (
                         SELECT ID
@@ -160,7 +161,11 @@ class MigrateReviews
                         LIMIT %d, %d
                     ) AS post_ids
                 )
-                AND m.meta_key IN ('_author','_avatar','_email','_ip_address','_pinned','_rating','_review_type','_url')
+                AND NOT EXISTS (
+                    SELECT r.review_id
+                    FROM {$table} AS r
+                    WHERE r.review_id = p.ID
+                )
             ", glsr()->post_type, $offset, $this->limit), 'migrate-ratings');
             $results = glsr(Database::class)->dbGetResults($sql, OBJECT);
             if (empty($results)) {

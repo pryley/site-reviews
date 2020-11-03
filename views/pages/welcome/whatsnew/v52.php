@@ -25,6 +25,7 @@
             <li>Fixed plugin migrations to work better with the W3 Total Cache plugin</li>
             <li>Fixed rating validation when using a custom maximum rating value</li>
             <li>Fixed review limits validation for assigned reviews</li>
+            <li>Fixed review migration of invalid 3rd-party reviews (reviews that were previously imported incorrectly)</li>
             <li>Fixed review name and email fallback values to use those of the logged-in user</li>
             <li>Fixed strict standard notices in PHP 5.6</li>
             <li>Fixed the glsr_create_review helper function validation</li>
