@@ -11,6 +11,7 @@ class Install
      */
     public function run()
     {
+        require_once ABSPATH.'/wp-admin/includes/plugin.php';
         if (is_plugin_active_for_network(glsr()->file)) {
             $sites = get_sites([
                 'fields' => 'ids',

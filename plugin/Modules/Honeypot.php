@@ -34,6 +34,7 @@ class Honeypot
      */
     public function hash($formId)
     {
+        require_once ABSPATH.WPINC.'/pluggable.php';
         return substr(wp_hash($formId, 'nonce'), -12, 8);
     }
 

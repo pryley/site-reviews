@@ -118,6 +118,7 @@ class Sanitizer
      */
     protected function sanitizeId($value)
     {
+        require_once ABSPATH.WPINC.'/pluggable.php';
         $value = $this->sanitizeSlug($value);
         if (empty($value)) {
             $value = glsr()->prefix.substr(wp_hash(serialize($this->values), 'nonce'), -12, 8);
