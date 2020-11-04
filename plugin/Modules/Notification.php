@@ -68,7 +68,10 @@ class Notification
             'subject' => $args['title'],
             'template' => 'email-notification',
             'template-tags' => [
+                'review_assigned_posts' => $this->getAssignedPostTitles(),
+                'review_assigned_users' => $this->getAssignedUserTitles(),
                 'review_author' => $this->review->author ?: __('Anonymous', 'site-reviews'),
+                'review_categories' => $this->getAssignedCategories(),
                 'review_content' => $this->review->content,
                 'review_email' => $this->review->email,
                 'review_ip' => $this->review->ip_address,
@@ -89,6 +92,36 @@ class Notification
             'fallback' => $this->buildEmail($args)->read('plaintext'),
             'pretext' => $args['title'],
         ]);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getAssignedCategories()
+    {
+        $terms = $this->review->assignedTerms();
+        $termNames = array_filter(wp_list_pluck($terms, 'name'));
+        return Str::naturalJoin($termNames);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getAssignedPostTitles()
+    {
+        $posts = $this->review->assignedPosts();
+        $postTitles = array_filter(wp_list_pluck($posts, 'post_title'));
+        return Str::naturalJoin($postTitles);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getAssignedUserTitles()
+    {
+        $users = $this->review->assignedUsers();
+        $userNames = array_filter(wp_list_pluck($users, 'display_name'));
+        return Str::naturalJoin($userNames);
     }
 
     /**

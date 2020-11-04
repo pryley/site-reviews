@@ -19,6 +19,9 @@ class TemplateTagsDefaults extends Defaults
             'review_email' => _x('The email of the review author', 'admin-text', 'site-reviews'),
             'review_ip' => _x('The IP address of the review author', 'admin-text', 'site-reviews'),
             'review_link' => _x('The link to edit/view a review', 'admin-text', 'site-reviews'),
+            'review_assigned_posts' => _x('The review\'s assigned page titles', 'admin-text', 'site-reviews'),
+            'review_assigned_users' => _x('The review\'s assigned user display names', 'admin-text', 'site-reviews'),
+            'review_categories' => _x('The review\'s assigned categories', 'admin-text', 'site-reviews'),
         ];
     }
 }

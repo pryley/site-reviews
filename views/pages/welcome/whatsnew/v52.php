@@ -9,11 +9,12 @@
         <p><em>Initial Release Date &mdash; November 3rd, 2020</em></p>
         <h4>✨ New Features</h4>
         <ul>
-            <li>Added a review assignment setting</li>
+            <li>Added Notification Template tags for assigned categories, posts, and users</li>
+            <li>Added Review Assignment setting</li>
         </ul>
         <h4>📢 Changes</h4>
         <ul>
-            <li>Changed review assignment in SQL queries to use strict assignments by default (it was previously using loose assignments, use the new "review assignment" setting to change this back)</li>
+            <li>Changed review assignment in SQL queries to use strict assignments by default (it was previously using loose assignments, use the new "Review Assignment" setting to change this back)</li>
         </ul>
         <h4>🐞 Bugs Fixed</h4>
         <ul>

@@ -85,6 +85,48 @@ class Review extends Arguments
     }
 
     /**
+     * @return array
+     */
+    public function assignedPosts()
+    {
+        if (empty($this->assigned_posts)) {
+            return $this->assigned_posts;
+        }
+        return get_posts([
+            'post__in' => $this->assigned_posts,
+            'post_type' => 'any',
+            'posts_per_page' => -1,
+        ]);
+    }
+
+    /**
+     * @return array
+     */
+    public function assignedTerms()
+    {
+        if (empty($this->assigned_terms)) {
+            return $this->assigned_terms;
+        }
+        return get_terms(glsr()->taxonomy, [
+            'include' => $this->assigned_terms,
+        ]);
+    }
+
+    /**
+     * @return array
+     */
+    public function assignedUsers()
+    {
+        if (empty($this->assigned_users)) {
+            return $this->assigned_users;
+        }
+        return get_users([
+            'fields' => ['display_name', 'ID', 'user_email', 'user_nicename', 'user_url'],
+            'include' => $this->assigned_users,
+        ]);
+    }
+
+    /**
      * @param int $size
      * @return string
      */

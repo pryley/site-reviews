@@ -115,9 +115,9 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 = 5.2.0 (2020-11-03) =
 
-- Added a review assignment setting
-- Added additional System Information
-- Changed review assignment in SQL queries to use strict assignments by default (it was previously using loose assignments, use the new "review assignment" setting to change this back)
+- Added Notification Template tags for assigned categories, posts, and users
+- Added Review Assignment setting
+- Changed review assignment in SQL queries to use strict assignments by default (it was previously using loose assignments, use the new "Review Assignment" setting to change this back)
 - Changed the glsr_create_review function to log validation errors to the plugin console
 - Fixed Bulk Editing of reviews that are assigned to post types or users
 - Fixed Multibyte String support
