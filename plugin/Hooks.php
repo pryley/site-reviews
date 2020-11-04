@@ -133,7 +133,7 @@ class Hooks implements HooksContract
         add_action('site-reviews/review/updated/user_ids', [$this->review, 'onChangeAssignedUsers'], 10, 2);
         add_action('site-reviews/review/created', [$this->review, 'onCreatedReview'], 10, 2);
         add_action('site-reviews/review/create', [$this->review, 'onCreateReview'], 10, 2);
-        add_action('edit_post_'.glsr()->post_type, [$this->review, 'onEditReview']);
+        add_action('post_updated', [$this->review, 'onEditReview'], 10, 3);
         add_action('admin_action_unapprove', [$this->review, 'unapprove']);
         add_action('wp_restore_post_revision', [$this->revisions, 'restoreRevision'], 10, 2);
         add_action('_wp_put_post_revision', [$this->revisions, 'saveRevision']);

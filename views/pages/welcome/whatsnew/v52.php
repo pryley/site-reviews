@@ -18,6 +18,7 @@
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed addons notice styling and placement</li>
+            <li>Fixed Bulk Editing of reviews that are assigned to post types or users</li>
             <li>Fixed compatibility issue with the Elementor Pro Popups</li>
             <li>Fixed Multibyte String support</li>
             <li>Fixed Multisite compatibility</li>

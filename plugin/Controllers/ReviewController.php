@@ -191,9 +191,9 @@ class ReviewController extends Controller
             'status' => 'all',
         ]);
         if (glsr(Database::class)->delete('assigned_posts', ['post_id' => $postId])) {
-            foreach ($reviews as $review) {
+            array_walk($reviews, function ($review) {
                 glsr(Cache::class)->delete($review->ID, 'reviews');
-            }
+            });
         }
     }
 
@@ -224,40 +224,34 @@ class ReviewController extends Controller
             'status' => 'all',
         ]);
         if (glsr(Database::class)->delete('assigned_users', ['user_id' => $userId])) {
-            foreach ($reviews as $review) {
+            array_walk($reviews, function ($review) {
                 glsr(Cache::class)->delete($review->ID, 'reviews');
-            }
+            });
         }
     }
 
     /**
-     * Triggered when a review is edited.
+     * Triggered when a review is edited or trashed.
      * It's unnecessary to trigger a term recount as this is done by the set_object_terms hook
      * We need to use "edit_post" to support revisions (vs "save_post").
      *
      * @param int $postId
+     * @param \WP_Post $post
+     * @param \WP_Post $oldPost
      * @return void
-     * @action edit_post_{glsr()->post_type}
+     * @action post_updated
      */
-    public function onEditReview($postId)
+    public function onEditReview($postId, $post, $oldPost)
     {
-        $input = 'edit' === glsr_current_screen()->base ? INPUT_GET : INPUT_POST;
-        if (!glsr()->can('edit_posts') || 'glsr_action' === filter_input($input, 'action')) {
-            return; // abort if user does not have permission or if not a proper post update (i.e. approve/unapprove)
+        if (!glsr()->can('edit_posts') || !$this->isEditedReview($post, $oldPost)) {
+            return;
         }
         $review = glsr(Query::class)->review($postId);
-        $assignedPostIds = filter_input($input, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
-        $assignedUserIds = filter_input($input, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
-        glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds)); // trigger a recount of assigned posts
-        glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
-        glsr(MetaboxController::class)->saveResponseMetabox($review);
-        $submittedValues = Helper::filterInputArray(glsr()->id);
-        if (Arr::get($submittedValues, 'is_editing_review')) {
-            $submittedValues['rating'] = Arr::get($submittedValues, 'rating');
-            glsr(ReviewManager::class)->update($postId, $submittedValues);
-            glsr(ReviewManager::class)->updateCustom($postId, $submittedValues);
+        if ('post' === glsr_current_screen()->base) {
+            $this->updateReview($review);
+        } else {
+            $this->bulkUpdateReview($review);
         }
-        glsr()->action('review/saved', glsr(Query::class)->review($postId), $submittedValues);
     }
 
     /**
@@ -272,6 +266,21 @@ class ReviewController extends Controller
             wp_safe_redirect(wp_get_referer());
             exit;
         }
+    }
+
+    /**
+     * @return void
+     */
+    protected function bulkUpdateReview(Review $review)
+    {
+        if ($assignedPostIds = filter_input(INPUT_GET, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY)) {
+            glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds)); // trigger a recount of assigned posts
+        }
+        if ($assignedUserIds = filter_input(INPUT_GET, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY)) {
+            glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
+        }
+        $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
+        glsr()->action('review/saved', $review, []); // pass an empty array since review values are unchanged
     }
 
     /**
@@ -291,5 +300,42 @@ class ReviewController extends Controller
             'new' => $new,
             'old' => $old,
         ];
+    }
+
+    /**
+     * @param \WP_Post $post
+     * @param \WP_Post $oldPost
+     * @return bool
+     */
+    protected function isEditedReview($post, $oldPost)
+    {
+        if (glsr()->post_type !== $post->post_type) {
+            return false;
+        }
+        if (in_array('trash', [$post->post_status, $oldPost->post_status])) {
+            return false; // trashed posts cannot be edited
+        }
+        $input = 'edit' === glsr_current_screen()->base ? INPUT_GET : INPUT_POST;
+        return 'glsr_action' !== filter_input($input, 'action'); // abort if not a proper post update (i.e. approve/unapprove)
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateReview(Review $review)
+    {
+        $assignedPostIds = filter_input(INPUT_POST, 'post_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
+        $assignedUserIds = filter_input(INPUT_POST, 'user_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_FORCE_ARRAY);
+        glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds)); // trigger a recount of assigned posts
+        glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
+        glsr(MetaboxController::class)->saveResponseMetabox($review);
+        $submittedValues = Helper::filterInputArray(glsr()->id);
+        if (Arr::get($submittedValues, 'is_editing_review')) {
+            $submittedValues['rating'] = Arr::get($submittedValues, 'rating');
+            glsr(ReviewManager::class)->update($review->ID, $submittedValues);
+            glsr(ReviewManager::class)->updateCustom($review->ID, $submittedValues);
+        }
+        $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
+        glsr()->action('review/saved', $review, $submittedValues);
     }
 }
