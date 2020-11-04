@@ -108,7 +108,7 @@ class Arr
     }
 
     /**
-     * @param string $key
+     * @param string|int $key
      * @return array
      */
     public static function insertAfter($key, array $array, array $insert)
@@ -117,7 +117,7 @@ class Arr
     }
 
     /**
-     * @param string $key
+     * @param string|int $key
      * @return array
      */
     public static function insertBefore($key, array $array, array $insert)
@@ -126,7 +126,7 @@ class Arr
     }
 
     /**
-     * @param string $key
+     * @param string|int $key
      * @param string $position
      * @return array
      */

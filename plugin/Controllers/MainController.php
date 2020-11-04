@@ -14,7 +14,7 @@ class MainController extends Controller
 {
     /**
      * @param array $tables
-     * @param int $blogId
+     * @param int $siteId
      * @return array
      * @see http://developer.wordpress.org/reference/functions/wp_uninitialize_site/
      * @filter wpmu_drop_tables
@@ -44,7 +44,7 @@ class MainController extends Controller
     }
 
     /**
-     * @param int $blogId
+     * @param int $siteId
      * @return void
      * @action wp_insert_site
      */
