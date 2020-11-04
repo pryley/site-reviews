@@ -107,9 +107,11 @@ class Review extends Arguments
         if (empty($this->assigned_terms)) {
             return $this->assigned_terms;
         }
-        return get_terms(glsr()->taxonomy, [
-            'include' => $this->assigned_terms,
-        ]);
+        $terms = get_terms(glsr()->taxonomy, ['include' => $this->assigned_terms]);
+        if (is_wp_error($terms)) {
+            return $this->assigned_terms;
+        }
+        return $terms;
     }
 
     /**
