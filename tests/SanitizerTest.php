@@ -184,9 +184,9 @@ class SanitizerTest extends WP_UnitTestCase
 
     public function test_sanitize_date()
     {
-        $today = current_time('mysql');
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'date');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $today = current_time('mysql');
         $this->assertEquals($sanitized, [
             'a' => $today,
             'b' => $today,
@@ -204,7 +204,7 @@ class SanitizerTest extends WP_UnitTestCase
             'n' => '1989-06-13 00:00:00',
             'o' => '2020-12-03 00:00:00',
             'p' => '2019-11-30 00:00:00',
-            'q' => wp_date('Y-m-d H:i:s', strtotime('2020'), get_option('gmt_offset')),
+            'q' => wp_date('Y-m-d H:i:s', strtotime('2020')),
             'r' => $today,
             's' => $today,
             't' => $today,

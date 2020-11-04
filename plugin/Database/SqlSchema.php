@@ -277,7 +277,7 @@ class SqlSchema
             return $this->db->{$table};
         }
         glsr_log()->error(sprintf('$wpdb->%s does not exist.', $table));
-        return $table;
+        return $table; // @todo maybe throw an exception here instead...
     }
 
     /**
