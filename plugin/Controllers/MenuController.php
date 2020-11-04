@@ -10,7 +10,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Settings;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Notice;
-use GeminiLabs\SiteReviews\Modules\System;
+use GeminiLabs\SiteReviews\Modules\SystemInfo;
 
 class MenuController extends Controller
 {
@@ -153,7 +153,7 @@ class MenuController extends Controller
                     'base_url' => admin_url('edit.php?post_type='.glsr()->post_type),
                     'console' => glsr(Console::class)->get(),
                     'id' => glsr()->id,
-                    'system' => glsr(System::class)->get(),
+                    'system' => glsr(SystemInfo::class)->get(),
                 ],
                 'services' => glsr()->filterArray('addon/sync/services', []),
             ],

@@ -11,7 +11,7 @@ use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
-use GeminiLabs\SiteReviews\Modules\System;
+use GeminiLabs\SiteReviews\Modules\SystemInfo;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Role;
 
@@ -91,7 +91,7 @@ class ToolsController extends Controller
      */
     public function downloadSystemInfo()
     {
-        $this->download(glsr()->id.'-system-info.txt', glsr(System::class)->get());
+        $this->download(glsr()->id.'-system-info.txt', glsr(SystemInfo::class)->get());
     }
 
     /**
