@@ -90,7 +90,7 @@ class Sanitizer
     }
 
     /**
-     * If date is invalid then return the current WordPress date.
+     * If date is invalid then return an empty string.
      * @param mixed $value
      * @return string
      */
@@ -100,7 +100,7 @@ class Sanitizer
         if (false !== $date) {
             return wp_date('Y-m-d H:i:s', $date);
         }
-        return current_time('mysql');
+        return '';
     }
 
     /**
