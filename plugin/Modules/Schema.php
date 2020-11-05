@@ -123,10 +123,13 @@ class Schema
     public function render()
     {
         if ($schemas = glsr()->retrieve('schemas', [])) {
-            printf('<script type="application/ld+json">%s</script>', json_encode(
-                glsr()->filterArray('schema/all', $schemas),
-                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-            ));
+            printf('<script type="application/ld+json" class="%s-schema">%s</script>', 
+                glsr()->id,
+                json_encode(
+                    glsr()->filterArray('schema/all', $schemas),
+                    JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+                )
+            );
         }
     }
 
