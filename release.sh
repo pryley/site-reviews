@@ -43,10 +43,11 @@ fi
 
 echo ""
 read -p " - Updated the changelog for "${PLUGIN_VERSION}" and appended it to readme.txt?"
-read -p " - Verified compatibility with PHP v${MIN_PHP_VERSION} -> latest?"
-read -p " - Verified compatibility with Wordpress v${MIN_WORDPRESS_VERSION} -> latest?"
 read -p " - Updated the POT file?"
 read -p " - Updated the screenshots?"
+read -p " - Verified compatibility with PHP v${MIN_PHP_VERSION} -> latest?"
+read -p " - Verified compatibility with Wordpress v${MIN_WORDPRESS_VERSION} -> latest?"
+read -p " - Verified the changelog release date?"
 read -p " - Committed all changes to the master branch on GITHUB?"
 read -p " - Scrutinizer has passed all inspections?"
 echo ""
