@@ -12,6 +12,7 @@ function glsr_uninstall() {
     }
     if ('minimal' === $uninstall) {
         glsr_uninstall_minimal();
+        glsr_uninstall_minimal_drop_foreign_keys();
     }
 }
 
@@ -77,12 +78,11 @@ function glsr_uninstall_all_delete_reviews() {
 
 function glsr_uninstall_all_delete_tables() {
     global $wpdb;
-    $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}glsr_assigned_posts");
-    $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}glsr_assigned_terms");
+    // order is intentional
     $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}glsr_assigned_users");
+    $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}glsr_assigned_terms");
+    $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}glsr_assigned_posts");
     $wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}glsr_ratings");
-    // delete the saved database version
-    delete_option('glsr_db_version');
 }
 
 function glsr_uninstall_minimal() {
@@ -106,6 +106,33 @@ function glsr_uninstall_minimal() {
     delete_transient('glsr_migrations');
     delete_transient('glsr_remote_post_test');
     $wpdb->query("DELETE FROM {$wpdb->usermeta} WHERE meta_key = '_glsr_notices'");
+}
+
+function glsr_uninstall_minimal_drop_foreign_keys() {
+    $siteId = '';
+    if (get_current_blog_id() > 1) {
+        $siteId = '_'.get_current_blog_id();
+    }
+    $constraints = [ // order is intentional
+        "{$wpdb->prefix}glsr_assigned_users" => "glsr_assigned_users_user_id_foreign{$siteId}",
+        "{$wpdb->prefix}glsr_assigned_terms" => "glsr_assigned_terms_term_id_foreign{$siteId}",
+        "{$wpdb->prefix}glsr_assigned_posts" => "glsr_assigned_posts_post_id_foreign{$siteId}",
+        "{$wpdb->prefix}glsr_ratings" => "glsr_assigned_posts_review_id_foreign{$siteId}",
+    ];
+    foreach ($constraints as $table => $constraint) { // This should work for both MyISAM and InnoDB engines
+        $foreignKey = $wpdb->get_var("
+            SELECT INDEX_NAME
+            FROM INFORMATION_SCHEMA.STATISTICS
+            WHERE INDEX_SCHEMA = '{$wpdb->dbname}' AND TABLE_NAME = '{$table}' AND INDEX_NAME = '{$constraint}'
+        ");
+        if (!empty($foreignKey)) {
+            $wpdb->query("
+                ALTER TABLE {$table} DROP FOREIGN KEY {$constraint};
+            ");
+        }
+    }
+    // delete the saved database version
+    delete_option('glsr_db_version');
 }
 
 if (!is_multisite()) {
