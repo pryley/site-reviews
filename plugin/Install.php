@@ -79,7 +79,7 @@ class Install
     protected function createTables()
     {
         glsr(SqlSchema::class)->createTables();
-        glsr(SqlSchema::class)->addTableConstraints();
+        glsr(SqlSchema::class)->addForeignConstraints();
     }
 
     /**

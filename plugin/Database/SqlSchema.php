@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 class SqlSchema
 {
+    protected $constraints;
     protected $db;
     protected $tables;
 
@@ -18,48 +19,18 @@ class SqlSchema
     }
 
     /**
-     * @param string $table
-     * @param string $constraint
-     * @param string $foreignKey
-     * @param string $foreignTable
-     * @param string $foreignColumn
-     * @return int|bool
-     */
-    public function addTableConstraint($table, $constraint, $foreignKey, $foreignTable, $foreignColumn)
-    {
-        if (!$this->isInnodb($foreignTable)) {
-            glsr_log()->debug("Unable to create a foreign constraint because {$foreignTable} does not use the InnoDB engine.");
-            return false; // we cannot create foreign contraints on MyISAM tables
-        }
-        return glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
-            IF NOT EXISTS(
-                SELECT INDEX_NAME
-                FROM INFORMATION_SCHEMA.STATISTICS
-                WHERE INDEX_SCHEMA = '{$this->db->dbname}' AND TABLE_NAME = '{$table}' AND INDEX_NAME = '{$constraint}'
-            )
-            THEN
-                ALTER TABLE {$table}
-                ADD CONSTRAINT {$constraint}
-                FOREIGN KEY ({$foreignKey})
-                REFERENCES {$foreignTable} ({$foreignColumn})
-                ON DELETE CASCADE
-            END IF;
-        "));
-    }
-
-    /**
      * @return void
      */
-    public function addAssignedPostsTableConstraints()
+    public function addAssignedPostsForeignConstraints()
     {
-        $this->addTableConstraint(
+        $this->addForeignConstraint(
             $table = $this->table('assigned_posts'),
             $constraint = $this->prefixConstraint('assigned_posts_rating_id_foreign'),
             $foreignKey = 'rating_id',
             $foreignTable = $this->table('ratings'), 
             $foreignColumn = 'ID'
         );
-        $this->addTableConstraint(
+        $this->addForeignConstraint(
             $table = $this->table('assigned_posts'),
             $constraint = $this->prefixConstraint('assigned_posts_post_id_foreign'),
             $foreignKey = 'post_id',
@@ -71,16 +42,16 @@ class SqlSchema
     /**
      * @return void
      */
-    public function addAssignedTermsTableConstraints()
+    public function addAssignedTermsForeignConstraints()
     {
-        $this->addTableConstraint(
+        $this->addForeignConstraint(
             $table = $this->table('assigned_terms'),
             $constraint = $this->prefixConstraint('assigned_terms_rating_id_foreign'),
             $foreignKey = 'rating_id',
             $foreignTable = $this->table('ratings'), 
             $foreignColumn = 'ID'
         );
-        $this->addTableConstraint(
+        $this->addForeignConstraint(
             $table = $this->table('assigned_terms'),
             $constraint = $this->prefixConstraint('assigned_terms_term_id_foreign'),
             $foreignKey = 'term_id',
@@ -92,16 +63,16 @@ class SqlSchema
     /**
      * @return void
      */
-    public function addAssignedUsersTableConstraints()
+    public function addAssignedUsersForeignConstraints()
     {
-        $this->addTableConstraint(
+        $this->addForeignConstraint(
             $table = $this->table('assigned_users'),
             $constraint = $this->prefixConstraint('assigned_users_rating_id_foreign'),
             $foreignKey = 'rating_id',
             $foreignTable = $this->table('ratings'), 
             $foreignColumn = 'ID'
         );
-        $this->addTableConstraint(
+        $this->addForeignConstraint(
             $table = $this->table('assigned_users'),
             $constraint = $this->prefixConstraint('assigned_users_user_id_foreign'),
             $foreignKey = 'user_id',
@@ -113,9 +84,9 @@ class SqlSchema
     /**
      * @return void
      */
-    public function addReviewsTableConstraints()
+    public function addReviewsForeignConstraints()
     {
-        $this->addTableConstraint(
+        $this->addForeignConstraint(
             $table = $this->table('ratings'),
             $constraint = $this->prefixConstraint('assigned_posts_review_id_foreign'),
             $foreignKey = 'review_id',
@@ -125,15 +96,37 @@ class SqlSchema
     }
 
     /**
+     * @param string $table
+     * @param string $constraint
+     * @param string $foreignKey
+     * @param string $foreignTable
+     * @param string $foreignColumn
+     * @return int|bool
+     */
+    public function addForeignConstraint($table, $constraint, $foreignKey, $foreignTable, $foreignColumn)
+    {
+        if ($this->foreignConstraintExists($table, $foreignTable)) {
+            return false;
+        }
+        return glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
+            ALTER TABLE {$table}
+            ADD CONSTRAINT {$constraint}
+            FOREIGN KEY ({$foreignKey})
+            REFERENCES {$foreignTable} ({$foreignColumn})
+            ON DELETE CASCADE
+        "));
+    }
+
+    /**
      * @return void
      */
-    public function addTableConstraints()
+    public function addForeignConstraints()
     {
         if (!defined('GLSR_UNIT_TESTS')) {
-            $this->addAssignedPostsTableConstraints();
-            $this->addAssignedTermsTableConstraints();
-            $this->addAssignedUsersTableConstraints();
-            $this->addReviewsTableConstraints();
+            $this->addAssignedPostsForeignConstraints();
+            $this->addAssignedTermsForeignConstraints();
+            $this->addAssignedUsersForeignConstraints();
+            $this->addReviewsForeignConstraints();
         }
     }
 
@@ -241,6 +234,44 @@ class SqlSchema
 
     /**
      * @param string $table
+     * @param string $constraint
+     * @return int|bool
+     */
+    public function dropForeignConstraint($table, $constraint)
+    {
+        $table = $this->table($table);
+        $constraint = $this->prefixConstraint($constraint);
+        if (!$this->foreignConstraintExists($constraint)) {
+            return false;
+        }
+        return glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
+            ALTER TABLE {$table} DROP FOREIGN KEY {$constraint};
+        "));
+    }
+
+    /**
+     * @param string $constraint
+     * @param string $foreignTable
+     * @return bool
+     */
+    public function foreignConstraintExists($constraint, $foreignTable = '')
+    {
+        if (!empty($foreignTable) && !$this->isInnodb($foreignTable)) {
+            glsr_log()->debug("Cannot check for a foreign constraint because {$foreignTable} does not use the InnoDB engine.");
+            return true; // we cannot create foreign contraints on MyISAM tables
+        }
+        if (!isset($this->constraints)) {
+            $this->constraints = $this->db->get_col("
+                SELECT CONSTRAINT_NAME
+                FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
+                WHERE CONSTRAINT_SCHEMA = '{$this->db->dbname}'
+            ");
+        }
+        return in_array($constraint, $this->constraints);
+    }
+
+    /**
+     * @param string $table
      * @return bool
      */
     public function isInnodb($table)
@@ -276,7 +307,7 @@ class SqlSchema
     {
         $constraint = Str::prefix($constraint, glsr()->prefix);
         if (is_multisite() && $this->db->blogid > 1) {
-            return $constraint.'_'.$this->db->blogid;
+            return Str::suffix($constraint, '_'.$this->db->blogid);
         }
         return $constraint;
     }
