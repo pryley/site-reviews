@@ -41,7 +41,7 @@ class Install
     public function run()
     {
         require_once ABSPATH.'/wp-admin/includes/plugin.php';
-        if (is_plugin_active_for_network(glsr()->file)) {
+        if (is_plugin_active_for_network(plugin_basename(glsr()->file))) {
             $sites = get_sites([
                 'fields' => 'ids',
                 'network_id' => get_current_network_id(),

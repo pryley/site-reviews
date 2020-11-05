@@ -13,23 +13,23 @@ use GeminiLabs\SiteReviews\Install;
 class MainController extends Controller
 {
     /**
+     * switch_to_blog() was run before this hook was triggered.
      * @param array $tables
-     * @param int $siteId
      * @return array
      * @see http://developer.wordpress.org/reference/functions/wp_uninitialize_site/
      * @filter wpmu_drop_tables
      */
-    public function filterDropTables($tables, $siteId)
+    public function filterDropTables($tables)
     {
-        switch_to_blog($siteId);
-        // The custom tables have foreign indexes so they must be removed first!
-        $tables = Arr::insertBefore(0, $tables, [
-            glsr(Query::class)->table('ratings'),
-            glsr(Query::class)->table('assigned_posts'),
-            glsr(Query::class)->table('assigned_terms'),
-            glsr(Query::class)->table('assigned_users'),
-        ]);
-        restore_current_blog();
+        $customTables = [ // order is intentional
+            glsr()->prefix.'ratings' => glsr(Query::class)->table('ratings'),
+            glsr()->prefix.'assigned_posts' => glsr(Query::class)->table('assigned_posts'),
+            glsr()->prefix.'assigned_terms' => glsr(Query::class)->table('assigned_terms'),
+            glsr()->prefix.'assigned_users' => glsr(Query::class)->table('assigned_users'),
+        ];
+        foreach ($customTables as $key => $table) {
+            $tables = Arr::prepend($tables, $table, $key); // Custom tables have foreign indexes so they must be removed first!
+        }
         return $tables;
     }
 
@@ -44,14 +44,14 @@ class MainController extends Controller
     }
 
     /**
-     * @param int $siteId
+     * @param \WP_Site $site
      * @return void
      * @action wp_insert_site
      */
-    public function installOnNewSite($siteId)
+    public function installOnNewSite($site)
     {
-        if (is_plugin_active_for_network(glsr()->file)) {
-            glsr(Install::class)->runOnSite($siteId);
+        if (is_plugin_active_for_network(plugin_basename(glsr()->file))) {
+            glsr(Install::class)->runOnSite($site->blog_id);
         }
     }
 
