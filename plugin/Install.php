@@ -85,10 +85,21 @@ class Install
     /**
      * @return void
      */
+    protected function deleteInvalidAssignments()
+    {
+        glsr(Database::class)->deleteInvalidAssignments('assigned_posts');
+        glsr(Database::class)->deleteInvalidAssignments('assigned_terms');
+        glsr(Database::class)->deleteInvalidAssignments('assigned_users');
+    }
+
+    /**
+     * @return void
+     */
     protected function install()
     {
         $this->createRoleCapabilities();
         $this->createTables();
+        $this->deleteInvalidAssignments();
     }
 
     /**

@@ -104,6 +104,37 @@ class Database
     }
 
     /**
+     * @param string $table
+     * @return int|bool
+     */
+    public function deleteInvalidAssignments($table)
+    {
+        $tables = [
+            'assigned_posts' => ['post_id', 'posts', 'ID'],
+            'assigned_terms' => ['term_id', 'terms', 'term_id'],
+            'assigned_users' => ['user_id', 'users', 'ID'],
+        ];
+        if (!array_key_exists($table, $tables)) {
+            return false;
+        }
+        return $this->dbQuery(sprintf(
+            glsr(Query::class)->sql("
+                DELETE t
+                FROM %s AS t
+                LEFT JOIN %s AS r ON t.rating_id = r.ID
+                LEFT JOIN %s AS f ON t.%s = f.%s
+                WHERE (r.ID IS NULL OR f.%s IS NULL)
+            "),
+            glsr(Query::class)->table($table),
+            glsr(Query::class)->table('ratings'),
+            glsr(Query::class)->table($tables[$table][1]),
+            $tables[$table][0],
+            $tables[$table][2],
+            $tables[$table][2]
+        ));
+    }
+
+    /**
      * @param string|string[] $keys
      * @param string $table
      * @return int|false
@@ -112,7 +143,9 @@ class Database
     {
         $table = glsr(Query::class)->table($table);
         $metaKeys = glsr(Query::class)->escValuesForInsert(Arr::convertFromString($keys));
-        $sql = glsr(Query::class)->sql("DELETE FROM {$table} WHERE meta_key IN {$metaKeys}");
+        $sql = glsr(Query::class)->sql("
+            DELETE FROM {$table} WHERE meta_key IN {$metaKeys}
+        ");
         return $this->dbQuery($sql);
     }
 
