@@ -151,10 +151,10 @@ class ToolsController extends Controller
     {
         if (wp_validate_boolean($request->alt)) {
             glsr(Migrate::class)->runAll();
-            glsr(Notice::class)->clear()->addSuccess(_x('All plugin migrations have been run successfully.', 'admin-text', 'site-reviews'));
+            glsr(Notice::class)->clear()->addSuccess(_x('All plugin migrations have been run successfully, please reload the page.', 'admin-text', 'site-reviews'));
         } else {
             glsr(Migrate::class)->run();
-            glsr(Notice::class)->clear()->addSuccess(_x('The plugin has been migrated sucessfully.', 'admin-text', 'site-reviews'));
+            glsr(Notice::class)->clear()->addSuccess(_x('The plugin has been migrated sucessfully, please reload the page.', 'admin-text', 'site-reviews'));
         }
     }
 
