@@ -109,6 +109,7 @@ function glsr_uninstall_minimal() {
 }
 
 function glsr_uninstall_minimal_drop_foreign_keys() {
+    global $wpdb;
     $siteId = '';
     if (get_current_blog_id() > 1) {
         $siteId = '_'.get_current_blog_id();
