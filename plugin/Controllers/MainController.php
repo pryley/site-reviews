@@ -35,9 +35,9 @@ class MainController extends Controller
 
     /**
      * @return void
-     * @action plugins_loaded
+     * @action init
      */
-    public function initSettings()
+    public function initDefaults()
     {
         // This cannot be done before plugins_loaded as it uses the gettext functions
         glsr()->storeDefaults();

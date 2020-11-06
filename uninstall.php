@@ -3,9 +3,9 @@
 defined('WP_UNINSTALL_PLUGIN') || die;
 
 function glsr_uninstall() {
-    $settings = get_option('site-reviews-v5');
-    $uninstall = isset($settings['general']['delete_data_on_uninstall'])
-        ? $settings['general']['delete_data_on_uninstall']
+    $settings = get_option('site_reviews_v5');
+    $uninstall = isset($settings['settings']['general']['delete_data_on_uninstall'])
+        ? $settings['settings']['general']['delete_data_on_uninstall']
         : '';
     if ('all' === $uninstall) {
         glsr_uninstall_all();
@@ -14,7 +14,7 @@ function glsr_uninstall() {
         glsr_uninstall_minimal();
         glsr_uninstall_minimal_drop_foreign_keys();
     }
-    delete_option('glsr_is_activated');
+    delete_option('glsr_activated');
 }
 
 function glsr_uninstall_all() {
@@ -91,10 +91,9 @@ function glsr_uninstall_minimal() {
     $options = array(
         'geminilabs_site_reviews-v2', // v2 settings
         'geminilabs_site_reviews_settings', // v1 settings
-        'glsr_activated',
-        'site-reviews-v3', // v3 settings
-        'site-reviews-v4', // v4 settings
-        'site-reviews-v5', // v5 settings
+        'site_reviews_v3', // v3 settings
+        'site_reviews_v4', // v4 settings
+        'site_reviews_v5', // v5 settings
         'theme_mods_site-reviews',
         'widget_glsr_site-reviews',
         'widget_glsr_site-reviews-form',

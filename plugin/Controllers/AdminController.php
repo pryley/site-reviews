@@ -131,9 +131,9 @@ class AdminController extends Controller
      */
     public function onActivation()
     {
-        if (empty(get_option(glsr()->prefix.'is_activated'))) {
+        if (empty(get_option(glsr()->prefix.'activated'))) {
             glsr(Install::class)->run();
-            update_option(glsr()->prefix.'is_activated', true);
+            update_option(glsr()->prefix.'activated', true);
         }
     }
 

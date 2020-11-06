@@ -94,7 +94,7 @@ final class Application extends Container
     public function deactivate()
     {
         // register_activation_hook is inconsistant so we perform a workaround
-        delete_option(static::PREFIX.'is_activated');
+        delete_option(static::PREFIX.'activated');
         $this->make(Install::class)->dropForeignConstraints();
     }
 
