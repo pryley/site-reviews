@@ -2,12 +2,22 @@
 
 namespace GeminiLabs\SiteReviews;
 
-use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\SqlSchema;
 
 class Install
 {
+    /**
+     * @return void
+     */
+    public function dropForeignConstraints()
+    {
+        glsr(SqlSchema::class)->dropForeignConstraint('assigned_posts', 'assigned_posts_post_id');
+        glsr(SqlSchema::class)->dropForeignConstraint('assigned_terms', 'assigned_terms_term_id');
+        glsr(SqlSchema::class)->dropForeignConstraint('assigned_users', 'assigned_users_user_id');
+        glsr(SqlSchema::class)->dropForeignConstraint('ratings', 'assigned_posts_review_id');
+    }
+
     /**
      * @param bool $dropAll
      * @return void

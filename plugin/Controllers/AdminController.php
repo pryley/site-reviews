@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Commands\TogglePinned;
 use GeminiLabs\SiteReviews\Commands\ToggleStatus;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Install;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Translation;
@@ -126,6 +127,18 @@ class AdminController extends Controller
 
     /**
      * @return void
+     * @action admin_init
+     */
+    public function onActivation()
+    {
+        if (empty(get_option(glsr()->prefix.'is_activated'))) {
+            glsr(Install::class)->run();
+            update_option(glsr()->prefix.'is_activated', true);
+        }
+    }
+
+    /**
+     * @return void
      * @action import_end
      */
     public function onImportEnd()
@@ -133,6 +146,10 @@ class AdminController extends Controller
         $this->execute(new ImportRatings());
     }
 
+    /**
+     * @return void
+     * @action admin_head
+     */
     public function printInlineStyle()
     {
         echo '<style type="text/css">a[href="edit.php?post_type=site-review&page=addons"]:not(.current):not(:hover) { color:#F6E05E!important; }</style>';

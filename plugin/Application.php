@@ -57,15 +57,6 @@ final class Application extends Container
     protected $name;
 
     /**
-     * @return void
-     * @callback register_activation_hook
-     */
-    public function activate()
-    {
-        $this->make(Install::class)->run();
-    }
-
-    /**
      * @param string $view
      * @return string
      */
@@ -94,6 +85,17 @@ final class Application extends Container
         if (E_ERROR === Arr::get($error, 'type') && Str::contains($this->path(), Arr::get($error, 'message'))) {
             glsr_log()->error($error['message']);
         }
+    }
+
+    /**
+     * @return void
+     * @callback register_deactivation_hook
+     */
+    public function deactivate()
+    {
+        // register_activation_hook is inconsistant so we perform a workaround
+        delete_option(static::PREFIX.'is_activated');
+        $this->make(Install::class)->dropForeignConstraints();
     }
 
     /**

@@ -1470,12 +1470,12 @@ msgctxt "admin-text"
 msgid "Avatar"
 msgstr "Avatar"
 
-#: plugin/Addons/Controller.php:70, plugin/Controllers/AdminController.php:47, plugin/Controllers/MenuController.php:50, views/pages/tools/sync.php:23
+#: plugin/Addons/Controller.php:70, plugin/Controllers/AdminController.php:48, plugin/Controllers/MenuController.php:50, views/pages/tools/sync.php:23
 msgctxt "admin-text"
 msgid "Settings"
 msgstr "Settings"
 
-#: plugin/Addons/Controller.php:76, plugin/Controllers/AdminController.php:53, plugin/Controllers/MenuController.php:53
+#: plugin/Addons/Controller.php:76, plugin/Controllers/AdminController.php:54, plugin/Controllers/MenuController.php:53
 msgctxt "admin-text"
 msgid "Help"
 msgstr "Help"
@@ -1534,29 +1534,29 @@ msgctxt "admin-text"
 msgid "Edit"
 msgstr "Edit"
 
-#: plugin/Controllers/AdminController.php:84
+#: plugin/Controllers/AdminController.php:85
 msgctxt "admin-text"
 msgid "%s Review"
 msgid_plural "%s Reviews"
 msgstr[0] "%s Review"
 msgstr[1] "%s Reviews"
 
-#: plugin/Controllers/AdminController.php:148, plugin/Controllers/MainController.php:149
+#: plugin/Controllers/AdminController.php:165, plugin/Controllers/MainController.php:149
 msgctxt "admin-text"
 msgid "Recent Reviews"
 msgstr "Recent Reviews"
 
-#: plugin/Controllers/AdminController.php:149, plugin/Controllers/MainController.php:153
+#: plugin/Controllers/AdminController.php:166, plugin/Controllers/MainController.php:153
 msgctxt "admin-text"
 msgid "Submit a Review"
 msgstr "Submit a Review"
 
-#: plugin/Controllers/AdminController.php:150, plugin/Controllers/MainController.php:157
+#: plugin/Controllers/AdminController.php:167, plugin/Controllers/MainController.php:157
 msgctxt "admin-text"
 msgid "Summary of Reviews"
 msgstr "Summary of Reviews"
 
-#: plugin/Controllers/AdminController.php:185, plugin/Controllers/AdminController.php:205, plugin/Controllers/AdminController.php:218
+#: plugin/Controllers/AdminController.php:202, plugin/Controllers/AdminController.php:222, plugin/Controllers/AdminController.php:235
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr "Nothing found."

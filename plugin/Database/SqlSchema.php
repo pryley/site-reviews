@@ -275,7 +275,7 @@ class SqlSchema
             glsr_log()->debug("Cannot check for a foreign constraint because {$foreignTable} does not use the InnoDB engine.");
             return true; // we cannot create foreign contraints on MyISAM tables
         }
-        if (!isset($this->constraints)) {
+        if (!is_array($this->constraints)) {
             $this->constraints = $this->db->get_col("
                 SELECT CONSTRAINT_NAME
                 FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
@@ -356,7 +356,7 @@ class SqlSchema
      */
     public function tableExists($table)
     {
-        if (!isset($this->tables)) {
+        if (!is_array($this->tables)) {
             $prefix = $this->db->get_blog_prefix().glsr()->prefix;
             $this->tables = $this->db->get_col(
                 $this->db->prepare("SHOW TABLES LIKE %s", $this->db->esc_like($prefix).'%')

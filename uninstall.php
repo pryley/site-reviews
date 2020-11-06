@@ -14,6 +14,7 @@ function glsr_uninstall() {
         glsr_uninstall_minimal();
         glsr_uninstall_minimal_drop_foreign_keys();
     }
+    delete_option('glsr_is_activated');
 }
 
 function glsr_uninstall_all() {
