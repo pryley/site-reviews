@@ -1,12 +1,13 @@
 filter:
+  dependency_paths:
+    - vendor/
+    - vendors/
+    - wordpress/
   excluded_paths:
     - assets/
     - languages/
     - node_modules/
     - tests/
-    - vendor/
-    - vendors/
-    - wordpress/
 
 build:
   nodes:
