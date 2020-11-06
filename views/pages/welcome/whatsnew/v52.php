@@ -23,6 +23,7 @@
             <li>Fixed compatibility issue with the Elementor Pro Popups</li>
             <li>Fixed Multibyte String support</li>
             <li>Fixed Multisite compatibility</li>
+            <li>Fixed pagination URLs when used on the homepage</li>
             <li>Fixed plugin file paths on IIS Windows servers</li>
             <li>Fixed plugin migrations to work better with the W3 Total Cache plugin</li>
             <li>Fixed rating validation when using a custom maximum rating value</li>

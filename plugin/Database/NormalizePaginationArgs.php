@@ -3,11 +3,7 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Arguments;
-use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Cast;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Url;
 
 /**
@@ -26,6 +22,7 @@ class NormalizePaginationArgs extends Arguments
     }
 
     /**
+     * Get the page number.
      * @return void
      */
     protected function normalizePage()
@@ -38,6 +35,7 @@ class NormalizePaginationArgs extends Arguments
     }
 
     /**
+     * This should return an URL with the query string removed.
      * @return void
      */
     protected function normalizePageUrl()
@@ -48,11 +46,12 @@ class NormalizePaginationArgs extends Arguments
                 ? Url::home()
                 : Url::home($urlPath);
         } else {
-            $this->pageUrl = filter_input(INPUT_SERVER, 'REQUEST_URI');
+            $this->pageUrl = Url::home(Url::path(filter_input(INPUT_SERVER, 'REQUEST_URI')));
         }
     }
 
     /**
+     * Store the query string of the URL so that we don't lose it in pagination.
      * @return void
      */
     protected function normalizePageUrlParameters()

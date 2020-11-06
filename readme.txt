@@ -122,6 +122,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Fixed Bulk Editing of reviews that are assigned to post types or users
 - Fixed Multibyte String support
 - Fixed Multisite compatibility
+- Fixed pagination URLs when used on the homepage
 - Fixed rating validation when using a custom maximum rating value
 - Fixed review limits validation for assigned reviews
 - Fixed review migration of invalid 3rd-party reviews (reviews that were previously imported incorrectly)

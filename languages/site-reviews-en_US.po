@@ -30,7 +30,7 @@ msgstr ""
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 
-#: config/settings.php:238, plugin/Modules/Html/ReviewsHtml.php:127
+#: config/settings.php:238, plugin/Modules/Html/ReviewsHtml.php:126
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
 

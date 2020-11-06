@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Reviews;
 
@@ -65,7 +64,7 @@ class ReviewsHtml extends \ArrayObject
     {
         $html = glsr(Partial::class)->build('pagination', [
             'add_args' => $this->args->pageUrlParameters,
-            'baseUrl' => Url::path($this->args->pageUrl),
+            'baseUrl' => $this->args->pageUrl,
             'current' => $this->args->page,
             'total' => $this->max_num_pages,
         ]);
