@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\PermissionDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -213,6 +214,9 @@ final class Application extends Container
         if (empty($this->defaults)) {
             $defaults = $this->make(DefaultsManager::class)->get();
             $this->defaults = $this->filterArray('get/defaults', $defaults);
+        }
+        if (empty(get_option(OptionManager::databaseKey()))) {
+            update_option(OptionManager::databaseKey(), $this->defaults);
         }
     }
 
