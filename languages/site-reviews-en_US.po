@@ -208,7 +208,7 @@ msgid_plural "%s years ago"
 msgstr[0] "%s year ago"
 msgstr[1] "%s years ago"
 
-#: plugin/Modules/Notification.php:71
+#: plugin/Modules/Notification.php:73
 msgid "Anonymous"
 msgstr "Anonymous"
 
@@ -1400,7 +1400,7 @@ msgstr ""
 "The [%s] method has been deprecated and will be soon be removed, please use "
 "the [%s] method instead."
 
-#: plugin/Review.php:263, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
+#: plugin/Review.php:307, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr "Unknown"
@@ -1806,13 +1806,13 @@ msgstr "Console reloaded."
 
 #: plugin/Controllers/ToolsController.php:157
 msgctxt "admin-text"
-msgid "The plugin has been migrated sucessfully."
-msgstr "The plugin has been migrated sucessfully."
+msgid "The plugin has been migrated sucessfully, please reload the page."
+msgstr "The plugin has been migrated sucessfully, please reload the page."
 
 #: plugin/Controllers/ToolsController.php:154
 msgctxt "admin-text"
-msgid "All plugin migrations have been run successfully."
-msgstr "All plugin migrations have been run successfully."
+msgid "All plugin migrations have been run successfully, please reload the page."
+msgstr "All plugin migrations have been run successfully, please reload the page."
 
 #: plugin/Controllers/ToolsController.php:180
 msgctxt "admin-text"
@@ -1983,6 +1983,21 @@ msgstr "The IP address of the review author"
 msgctxt "admin-text"
 msgid "The link to edit/view a review"
 msgstr "The link to edit/view a review"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:22
+msgctxt "admin-text"
+msgid "The review's assigned page titles"
+msgstr "The review's assigned page titles"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:23
+msgctxt "admin-text"
+msgid "The review's assigned user display names"
+msgstr "The review's assigned user display names"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:24
+msgctxt "admin-text"
+msgid "The review's assigned categories"
+msgstr "The review's assigned categories"
 
 #: plugin/Defaults/UpdatedMessageDefaults.php:15
 msgctxt "admin-text"
@@ -2949,7 +2964,7 @@ msgctxt "View Post (admin-text)"
 msgid "View %s"
 msgstr "View %s"
 
-#: plugin/Modules/Notification.php:141
+#: plugin/Modules/Notification.php:174
 msgctxt ""
 "This string differs depending on whether or not the review has been "
 "assigned to a post."

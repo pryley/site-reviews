@@ -977,7 +977,7 @@ msgctxt "admin-text"
 msgid "The [%s] method has been deprecated and will be soon be removed, please use the [%s] method instead."
 msgstr ""
 
-#: plugin/Review.php:263, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
+#: plugin/Review.php:307, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr ""
@@ -1436,12 +1436,12 @@ msgstr ""
 
 #: plugin/Controllers/ToolsController.php:157
 msgctxt "admin-text"
-msgid "The plugin has been migrated sucessfully."
+msgid "The plugin has been migrated sucessfully, please reload the page."
 msgstr ""
 
 #: plugin/Controllers/ToolsController.php:154
 msgctxt "admin-text"
-msgid "All plugin migrations have been run successfully."
+msgid "All plugin migrations have been run successfully, please reload the page."
 msgstr ""
 
 #: plugin/Controllers/ToolsController.php:180
@@ -1690,6 +1690,21 @@ msgctxt "admin-text"
 msgid "The link to edit/view a review"
 msgstr ""
 
+#: plugin/Defaults/TemplateTagsDefaults.php:22
+msgctxt "admin-text"
+msgid "The review's assigned page titles"
+msgstr ""
+
+#: plugin/Defaults/TemplateTagsDefaults.php:23
+msgctxt "admin-text"
+msgid "The review's assigned user display names"
+msgstr ""
+
+#: plugin/Defaults/TemplateTagsDefaults.php:24
+msgctxt "admin-text"
+msgid "The review's assigned categories"
+msgstr ""
+
 #: plugin/Defaults/UpdatedMessageDefaults.php:15
 msgctxt "admin-text"
 msgid "Review has been approved and published."
@@ -1854,11 +1869,11 @@ msgid_plural "%s years ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Notification.php:71
+#: plugin/Modules/Notification.php:73
 msgid "Anonymous"
 msgstr ""
 
-#: plugin/Modules/Notification.php:141
+#: plugin/Modules/Notification.php:174
 msgctxt "This string differs depending on whether or not the review has been assigned to a post."
 msgid "New %s-star review"
 msgid_plural "New %s-star review of %s"
