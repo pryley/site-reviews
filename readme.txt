@@ -113,7 +113,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 == Changelog ==
 
-= 5.2.0 (2020-11-03) =
+= 5.2.0 (2020-11-06) =
 
 - Added Notification Template tags for assigned categories, posts, and users
 - Added Review Assignment setting

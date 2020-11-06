@@ -6,7 +6,7 @@
         </button>
     </h3>
     <div id="welcome-v520" class="inside">
-        <p><em>Initial Release Date &mdash; November 3rd, 2020</em></p>
+        <p><em>Initial Release Date &mdash; November 6th, 2020</em></p>
         <h4>✨ New Features</h4>
         <ul>
             <li>Added Notification Template tags for assigned categories, posts, and users</li>
