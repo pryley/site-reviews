@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\PermissionDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Install;
 
 /**
  * @property array $addons
@@ -89,14 +90,13 @@ final class Application extends Container
     }
 
     /**
+     * @param bool $networkDeactivating
      * @return void
      * @callback register_deactivation_hook
      */
-    public function deactivate()
+    public function deactivate($networkDeactivating)
     {
-        // register_activation_hook is inconsistant so we perform a workaround
-        delete_option(static::PREFIX.'activated');
-        $this->make(Install::class)->dropForeignConstraints();
+        $this->make(Install::class)->deactivate($networkDeactivating);
     }
 
     /**

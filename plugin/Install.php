@@ -8,6 +8,25 @@ use GeminiLabs\SiteReviews\Database\SqlSchema;
 class Install
 {
     /**
+     * @param bool $isNetworkDeactivating
+     * @return void
+     */
+    public function deactivate($isNetworkDeactivating)
+    {
+        if (!$isNetworkDeactivating) {
+            $this->dropForeignConstraints();
+            delete_option(glsr()->prefix.'activated');
+            return;
+        }
+        foreach ($this->sites() as $siteId) {
+            switch_to_blog($siteId);
+            $this->dropForeignConstraints();
+            delete_option(glsr()->prefix.'activated');
+            restore_current_blog();
+        }
+    }
+
+    /**
      * @return void
      */
     public function dropForeignConstraints()
@@ -26,11 +45,7 @@ class Install
     {
         $tables = $this->tables();
         if (is_multisite() && $dropAll) {
-            $sites = get_sites([
-                'fields' => 'ids',
-                'network_id' => get_current_network_id(),
-            ]);
-            foreach ($sites as $siteId) {
+            foreach ($this->sites() as $siteId) {
                 switch_to_blog($siteId);
                 $tables = array_unique(array_merge($tables, $this->tables()));
                 delete_option('glsr_db_version');
@@ -52,11 +67,7 @@ class Install
     {
         require_once ABSPATH.'/wp-admin/includes/plugin.php';
         if (is_plugin_active_for_network(plugin_basename(glsr()->file))) {
-            $sites = get_sites([
-                'fields' => 'ids',
-                'network_id' => get_current_network_id(),
-            ]);
-            foreach ($sites as $siteId) {
+            foreach ($this->sites() as $siteId) {
                 $this->runOnSite($siteId);
             }
             return;
@@ -110,6 +121,17 @@ class Install
         $this->createRoleCapabilities();
         $this->createTables();
         $this->deleteInvalidAssignments();
+    }
+
+    /**
+     * @return array
+     */
+    protected function sites()
+    {
+        return get_sites([
+            'fields' => 'ids',
+            'network_id' => get_current_network_id(),
+        ]);
     }
 
     /**
