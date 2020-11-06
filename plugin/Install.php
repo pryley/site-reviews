@@ -87,9 +87,9 @@ class Install
      */
     protected function deleteInvalidAssignments()
     {
-        glsr(Database::class)->deleteInvalidAssignments('assigned_posts');
-        glsr(Database::class)->deleteInvalidAssignments('assigned_terms');
-        glsr(Database::class)->deleteInvalidAssignments('assigned_users');
+        glsr(Database::class)->deleteInvalidPostAssignments();
+        glsr(Database::class)->deleteInvalidTermAssignments();
+        glsr(Database::class)->deleteInvalidUserAssignments();
     }
 
     /**

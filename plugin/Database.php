@@ -104,40 +104,64 @@ class Database
     }
 
     /**
-     * @param string $table
      * @return int|bool
      */
-    public function deleteInvalidAssignments($table)
+    public function deleteInvalidPostAssignments()
     {
-        $tables = [
-            'assigned_posts' => ['post_id', 'posts', 'ID'],
-            'assigned_terms' => ['term_id', 'terms', 'term_id'],
-            'assigned_users' => ['user_id', 'users', 'ID'],
-        ];
-        if (!array_key_exists($table, $tables)) {
-            return false;
-        }
         return $this->dbQuery(sprintf(
             glsr(Query::class)->sql("
                 DELETE t
                 FROM %s AS t
                 LEFT JOIN %s AS r ON t.rating_id = r.ID
-                LEFT JOIN %s AS f ON t.%s = f.%s
-                WHERE (r.ID IS NULL OR f.%s IS NULL)
+                LEFT JOIN {$this->db->posts} AS f ON t.post_id = f.ID
+                WHERE (r.ID IS NULL OR f.ID IS NULL)
             "),
-            glsr(Query::class)->table($table),
+            glsr(Query::class)->table('assigned_posts'),
+            glsr(Query::class)->table('ratings')
+        ));
+    }
+
+    /**
+     * @return int|bool
+     */
+    public function deleteInvalidTermAssignments()
+    {
+        return $this->dbQuery(sprintf(
+            glsr(Query::class)->sql("
+                DELETE t
+                FROM %s AS t
+                LEFT JOIN %s AS r ON t.rating_id = r.ID
+                LEFT JOIN {$this->db->term_taxonomy} AS f ON t.term_id = f.term_id
+                WHERE (r.ID IS NULL OR f.term_id IS NULL) OR f.taxonomy != '%s'
+            "),
+            glsr(Query::class)->table('assigned_terms'),
             glsr(Query::class)->table('ratings'),
-            glsr(Query::class)->table($tables[$table][1]),
-            $tables[$table][0],
-            $tables[$table][2],
-            $tables[$table][2]
+            glsr()->taxonomy
+        ));
+    }
+
+    /**
+     * @return int|bool
+     */
+    public function deleteInvalidUserAssignments()
+    {
+        return $this->dbQuery(sprintf(
+            glsr(Query::class)->sql("
+                DELETE t
+                FROM %s AS t
+                LEFT JOIN %s AS r ON t.rating_id = r.ID
+                LEFT JOIN {$this->db->users} AS f ON t.user_id = f.ID
+                WHERE (r.ID IS NULL OR f.ID IS NULL)
+            "),
+            glsr(Query::class)->table('assigned_users'),
+            glsr(Query::class)->table('ratings')
         ));
     }
 
     /**
      * @param string|string[] $keys
      * @param string $table
-     * @return int|false
+     * @return int|bool
      */
     public function deleteMeta($keys, $table = 'postmeta')
     {
