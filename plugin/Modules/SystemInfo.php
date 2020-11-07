@@ -231,7 +231,7 @@ class SystemInfo
         ksort($counts);
         return [
             'title' => 'Review Counts',
-            'values' => $counts,
+            'values' => wp_parse_args($counts, ['local' => 'No reviews']),
         ];
     }
 
