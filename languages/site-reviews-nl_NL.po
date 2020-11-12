@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Plugins - Site Reviews - Stable (latest release)\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-11-12 12:49+0100\n"
+"PO-Revision-Date: 2020-11-12 12:55+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -1236,7 +1236,7 @@ msgstr "Geef een samenvatting van uw beoordeling"
 
 #: config/forms/review-form.php:14, plugin/Modules/Honeypot.php:19
 msgid "Your review"
-msgstr "Jouw beoordeling"
+msgstr "Uw beoordeling"
 
 #: config/forms/review-form.php:15
 msgid "Tell people your review"
@@ -1252,7 +1252,7 @@ msgstr "Wat is uw naam?"
 
 #: config/forms/review-form.php:25
 msgid "Your email"
-msgstr "Jouw e-mailadres"
+msgstr "Uw e-mailadres"
 
 #: config/forms/review-form.php:26
 msgid "Tell us your email"
@@ -1308,7 +1308,7 @@ msgstr ""
 #: plugin/Commands/EnqueueAdminAssets.php:26
 msgctxt "admin-text"
 msgid "Pin Your Reviews"
-msgstr "Jouw beoordelingen vastzetten"
+msgstr "Uw beoordelingen vastzetten"
 
 #: plugin/Commands/ImportReviews.php:93
 msgctxt "admin-text"
@@ -3031,7 +3031,7 @@ msgid ""
 "version. If this notice keeps appearing, please read the %s section on the "
 "Help page."
 msgstr ""
-"Site Reviews moet jouw database en je reviews bijwerken naar de nieuwste "
+"Site Reviews moet uw database en je reviews bijwerken naar de nieuwste "
 "versie. Als deze melding blijft verschijnen, lees dan de %s sectie op de "
 "help-pagina."
 
@@ -3085,7 +3085,7 @@ msgstr "meervoud"
 
 #: plugin/Modules/Html/Fields/Rating.php:15
 msgid "Select a Rating"
-msgstr "Jouw score"
+msgstr "Uw score"
 
 #: plugin/Modules/Html/Fields/Rating.php:17
 msgid "%s Star"
@@ -3128,7 +3128,7 @@ msgstr "%s score"
 
 #: plugin/Modules/Html/Tags/FormSubmitButtonTag.php:43
 msgid "Submit your review"
-msgstr "Plaats jouw review"
+msgstr "Plaats uw review"
 
 #: plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:43
 msgid "Review of %s"
