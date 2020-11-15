@@ -1509,12 +1509,12 @@ msgid_plural "%s entries were skipped."
 msgstr[0] "%s entry was skipped."
 msgstr[1] "%s entries were skipped."
 
-#: plugin/Commands/ImportSettings.php:22
+#: plugin/Commands/ImportSettings.php:23
 msgctxt "admin-text"
 msgid "Settings imported."
 msgstr "Settings imported."
 
-#: plugin/Commands/ImportSettings.php:39
+#: plugin/Commands/ImportSettings.php:41
 msgctxt "admin-text"
 msgid "There were no settings found to import."
 msgstr "There were no settings found to import."
@@ -1686,42 +1686,42 @@ msgctxt "admin-text"
 msgid "System Info"
 msgstr "System Info"
 
-#: plugin/Controllers/MetaboxController.php:33, views/partials/editor/metabox-response.php:3
+#: plugin/Controllers/MetaboxController.php:34, views/partials/editor/metabox-response.php:3
 msgctxt "admin-text"
 msgid "Respond Publicly"
 msgstr "Respond Publicly"
 
-#: plugin/Controllers/MetaboxController.php:35
+#: plugin/Controllers/MetaboxController.php:36
 msgctxt "admin-text"
 msgid "Review Details"
 msgstr "Review Details"
 
-#: plugin/Controllers/MetaboxController.php:36, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/editor/bulk-edit-assigned-posts.php:6
+#: plugin/Controllers/MetaboxController.php:37, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/editor/bulk-edit-assigned-posts.php:6
 msgctxt "admin-text"
 msgid "Assigned Posts"
 msgstr "Assigned Posts"
 
-#: plugin/Controllers/MetaboxController.php:37, plugin/Defaults/PostTypeColumnDefaults.php:19, views/partials/editor/bulk-edit-assigned-users.php:6
+#: plugin/Controllers/MetaboxController.php:38, plugin/Defaults/PostTypeColumnDefaults.php:19, views/partials/editor/bulk-edit-assigned-users.php:6
 msgctxt "admin-text"
 msgid "Assigned Users"
 msgstr "Assigned Users"
 
-#: plugin/Controllers/MetaboxController.php:39, plugin/Controllers/MetaboxController.php:118
+#: plugin/Controllers/MetaboxController.php:40, plugin/Controllers/MetaboxController.php:119
 msgctxt "admin-text"
 msgid "Author"
 msgstr "Author"
 
-#: plugin/Controllers/MetaboxController.php:71
+#: plugin/Controllers/MetaboxController.php:72
 msgctxt "admin-text"
 msgid "(no title)"
 msgstr "(no title)"
 
-#: plugin/Controllers/MetaboxController.php:156, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17
+#: plugin/Controllers/MetaboxController.php:157, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17
 msgctxt "admin-text"
 msgid "No"
 msgstr "No"
 
-#: plugin/Controllers/MetaboxController.php:157, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:18
+#: plugin/Controllers/MetaboxController.php:158, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:18
 msgctxt "admin-text"
 msgid "Yes"
 msgstr "Yes"

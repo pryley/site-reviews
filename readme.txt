@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, 
 Tested up to: 5.5
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.2.0
+Stable tag: 5.2.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -112,6 +112,12 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 15. This is what the Slack notifications look like.
 
 == Changelog ==
+
+= 5.2.1 (2020-11-15) =
+
+- Fixed MariaDB support (removed subqueries from the SQL)
+- Fixed migration of imported settings
+- Fixed the "post__in" and "post__not_in" options of the glsr_get_reviews() helper function
 
 = 5.2.0 (2020-11-06) =
 
