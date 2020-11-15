@@ -195,6 +195,26 @@ trait Sql
     /**
      * @return string
      */
+    protected function clauseAndPostIn()
+    {
+        return Helper::ifTrue(!empty($this->args['post__in']),
+            $this->db->prepare('AND r.review_id IN (%s)', implode(',', $this->args['post__in']))
+        );
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseAndPostNotIn()
+    {
+        return Helper::ifTrue(!empty($this->args['post__not_in']),
+            $this->db->prepare('AND r.review_id NOT IN (%s)', implode(',', $this->args['post__not_in']))
+        );
+    }
+
+    /**
+     * @return string
+     */
     protected function clauseAndRating()
     {
         return Helper::ifTrue(!empty($this->args['rating']),
