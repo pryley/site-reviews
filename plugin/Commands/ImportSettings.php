@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Upload;
 
@@ -33,6 +34,7 @@ class ImportSettings extends Upload implements Contract
             glsr(OptionManager::class)->set(
                 glsr(OptionManager::class)->normalize($settings)
             );
+            glsr(Migrate::class)->runAll(); // migrate the imported settings
             return true;
         }
         glsr(Notice::class)->addWarning(
