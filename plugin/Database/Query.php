@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Review;
 
@@ -103,10 +104,11 @@ class Query
     {
         $this->setArgs($args);
         if (empty($postIds)) {
-            $reviewIds = $this->queryReviewIds();
-        } else {
-            $reviewIds = implode(',', Arr::uniqueInt(Cast::toArray($postIds)));
+            // We previously used a subquery here, but MariaDB doesn't support it.
+            $postIds = glsr(Database::class)->dbGetCol($this->queryReviewIds());
         }
+        $reviewIds = implode(',', Arr::uniqueInt(Cast::toArray($postIds)));
+        $reviewIds = Str::fallback($reviewIds, '0'); // if there are no review IDs, default to 0
         $results = glsr(Database::class)->dbGetResults($this->queryReviews($reviewIds), OBJECT);
         foreach ($results as &$result) {
             $result = new Review($result);
@@ -295,7 +297,7 @@ class Query
      */
     protected function queryReviewIds()
     {
-        $sql = $this->sql("
+        return $this->sql("
             SELECT r.review_id
             FROM {$this->table('ratings')} AS r
             {$this->sqlJoin()}
@@ -305,7 +307,6 @@ class Query
             {$this->sqlLimit()}
             {$this->sqlOffset()}
         ");
-        return "SELECT ids.* FROM ({$sql}) AS ids";
     }
 
     /**
