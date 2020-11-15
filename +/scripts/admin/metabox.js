@@ -1,7 +1,7 @@
 /** global: GLSR, Image, jQuery */
 
 const Metabox = function () {
-   jQuery('.glsr-metabox-field .glsr-toggle__input').on('change', this.onToggleInput_.bind(this));
+   jQuery('.glsr-metabox-field input[data-edit-review]').on('change', this.onToggleInput_.bind(this));
    jQuery('.glsr-metabox-field input[type=url]').on('change', this.onChangeImage_.bind(this));
 };
 

@@ -24,6 +24,7 @@ class MetaboxController
     }
 
     /**
+     * @param \WP_Post $post
      * @return void
      * @action add_meta_boxes_{glsr()->post_type}
      */
