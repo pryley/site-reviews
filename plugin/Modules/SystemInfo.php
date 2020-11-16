@@ -321,7 +321,7 @@ class SystemInfo
      */
     public function data()
     {
-        $data = WP_Debug_Data::debug_data();
+        $data = glsr(Cache::class)->getSystemInfo();
         array_walk($data, function (&$section) {
             $fields = Arr::consolidate(Arr::get($section, 'fields'));
             array_walk($fields, function (&$values) {

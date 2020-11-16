@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
+use GeminiLabs\SiteReviews\Controllers\TranslationController;
+
 class Cache
 {
     /**
@@ -76,6 +78,21 @@ class Cache
             set_transient(glsr()->prefix.'remote_post_test', $test, WEEK_IN_SECONDS);
         }
         return $test;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getSystemInfo()
+    {
+        if (false === ($data = get_transient(glsr()->prefix.'system_info'))) {
+            add_filter('gettext_default', [glsr(TranslationController::class), 'filterEnglishTranslation'], 10, 2);
+            $data = \WP_Debug_Data::debug_data(); // get the WordPress debug data in English
+            remove_filter('gettext_default', [glsr(TranslationController::class), 'filterEnglishTranslation'], 10);
+            set_transient(glsr()->prefix.'system_info', $data, 12 * HOUR_IN_SECONDS);
+        }
+        return $data;
     }
 
     /**

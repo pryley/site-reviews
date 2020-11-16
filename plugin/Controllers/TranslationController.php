@@ -42,6 +42,17 @@ class TranslationController
      * @param string $translation
      * @param string $text
      * @return string
+     * @filter gettext_default
+     */
+    public function filterEnglishTranslation($translation, $text)
+    {
+        return $text;
+    }
+
+    /**
+     * @param string $translation
+     * @param string $text
+     * @return string
      * @filter gettext_.glsr()->id
      */
     public function filterGettext($translation, $text)

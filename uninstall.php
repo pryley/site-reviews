@@ -15,6 +15,9 @@ function glsr_uninstall() {
         glsr_uninstall_minimal_drop_foreign_keys();
     }
     delete_option('glsr_activated');
+    delete_transient('glsr_cloudflare_ips');
+    delete_transient('glsr_remote_post_test');
+    delete_transient('glsr_system_info');
 }
 
 function glsr_uninstall_all() {
@@ -102,9 +105,7 @@ function glsr_uninstall_minimal() {
     foreach ($options as $option) {
         delete_option($option);
     }
-    delete_transient('glsr_cloudflare_ips');
     delete_transient('glsr_migrations');
-    delete_transient('glsr_remote_post_test');
     $wpdb->query("DELETE FROM {$wpdb->usermeta} WHERE meta_key = '_glsr_notices'");
 }
 
