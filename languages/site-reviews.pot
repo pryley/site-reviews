@@ -1209,7 +1209,7 @@ msgctxt "admin-text"
 msgid "Submitted"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:101, plugin/Controllers/TranslationController.php:186, plugin/Defaults/PostStatusLabelsDefaults.php:18
+#: plugin/Controllers/ListTableController.php:101, plugin/Controllers/TranslationController.php:197, plugin/Defaults/PostStatusLabelsDefaults.php:18
 msgctxt "admin-text"
 msgid "Approve"
 msgstr ""
@@ -1499,32 +1499,32 @@ msgid_plural "%s reviews restored from the Trash."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:121, plugin/Controllers/TranslationController.php:156, plugin/Defaults/PostStatusLabelsDefaults.php:15, plugin/Defaults/PostStatusLabelsDefaults.php:16
+#: plugin/Controllers/TranslationController.php:132, plugin/Controllers/TranslationController.php:167, plugin/Defaults/PostStatusLabelsDefaults.php:15, plugin/Defaults/PostStatusLabelsDefaults.php:16
 msgctxt "admin-text"
 msgid "Unapproved"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:155, plugin/Controllers/TranslationController.php:187, plugin/Defaults/PostStatusLabelsDefaults.php:19
+#: plugin/Controllers/TranslationController.php:166, plugin/Controllers/TranslationController.php:198, plugin/Defaults/PostStatusLabelsDefaults.php:19
 msgctxt "admin-text"
 msgid "Approved"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:185, plugin/Defaults/PostStatusLabelsDefaults.php:17
+#: plugin/Controllers/TranslationController.php:196, plugin/Defaults/PostStatusLabelsDefaults.php:17
 msgctxt "admin-text"
 msgid "Privately Approved"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:188
+#: plugin/Controllers/TranslationController.php:199
 msgctxt "admin-text"
 msgid "Approve on:"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:189
+#: plugin/Controllers/TranslationController.php:200
 msgctxt "admin-text"
 msgid "Approved on:"
 msgstr ""
 
-#: plugin/Controllers/TranslationController.php:190, plugin/Defaults/PostStatusLabelsDefaults.php:20
+#: plugin/Controllers/TranslationController.php:201, plugin/Defaults/PostStatusLabelsDefaults.php:20
 msgctxt "admin-text"
 msgid "Save as Unapproved"
 msgstr ""

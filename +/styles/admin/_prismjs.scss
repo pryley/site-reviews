@@ -199,9 +199,11 @@ pre[class*="language-"] > code {
     margin: 0;
     opacity: 0;
     appearance: none;
+    background-color: #181818;
     background-color: var(--base00);
     border-radius: 2px;
     border: 0;
+    color: #d8d8d8;
     color: var(--base05);
     display: block;
     font-family: "Operator Mono","Fira Code",monaco,monospace;
