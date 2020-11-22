@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
@@ -161,7 +162,7 @@ class EnqueueAdminAssets implements Contract
             'plugins_page_'.glsr()->id,
             'widgets',
         ];
-        return glsr()->post_type == $screen->post_type
+        return Str::startsWith(glsr()->post_type, $screen->post_type)
             || in_array($screen->id, $screenIds)
             || 'post' == $screen->base;
     }
