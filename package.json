@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "autosize": "^4.0.2",
     "prismjs": "^1.22.0",
     "star-rating.js": "^3.4.0"
   },

@@ -1,6 +1,7 @@
 /** global: GLSR, jQuery, StarRating, wp */
 
 import Ajax from './admin/ajax.js';
+import autosize from 'autosize';
 import ColorPicker from './admin/color-picker.js';
 import Forms from './admin/forms.js';
 import Metabox from './admin/metabox.js';
@@ -17,6 +18,7 @@ import Tabs from './admin/tabs.js';
 import TextareaResize from './admin/textarea-resize.js';
 import Tools from './admin/tools.js';
 
+GLSR.autosize = autosize;
 GLSR.keys = {
     ALT: 18,
     DOWN: 40,
