@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Modules\Honeypot;
 use GeminiLabs\SiteReviews\Modules\Html\Attributes;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Field;
-use GeminiLabs\SiteReviews\Modules\Html\Form;
 
 class FormFieldsTag extends FormTag
 {
@@ -16,8 +15,7 @@ class FormFieldsTag extends FormTag
      */
     protected function fields()
     {
-        $fields = glsr(Form::class)->getFields('review-form');
-        $fields = $this->normalizeFields($fields);
+        $fields = $this->getFields();
         $hiddenFields = $this->hiddenFields();
         $paths = wp_list_pluck(wp_list_pluck($hiddenFields, 'field'), 'path');
         foreach ($fields as $field) {
@@ -28,6 +26,19 @@ class FormFieldsTag extends FormTag
         }
         array_unshift($fields, glsr(Honeypot::class)->build($this->args->id));
         return array_merge($hiddenFields, $fields);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getFields()
+    {
+        $fields = glsr()->config('forms/review-form');
+        $fields = glsr()->filterArray('review-form/fields', $fields, $this->args);
+        foreach ($fields as $name => &$field) {
+            $field = new Field(wp_parse_args($field, ['name' => $name]));
+        }
+        return $this->normalizeFields($fields);
     }
 
     /**
