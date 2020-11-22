@@ -89,6 +89,28 @@ trait Plugin
     }
 
     /**
+     * @param string $view
+     * @return string
+     */
+    public function build($view, array $data = [])
+    {
+        ob_start();
+        $this->render($view, $data);
+        return ob_get_clean();
+    }
+
+    /**
+     * @return void
+     */
+    public function catchFatalError()
+    {
+        $error = error_get_last();
+        if (E_ERROR === Arr::get($error, 'type') && Str::contains($this->path(), Arr::get($error, 'message'))) {
+            glsr_log()->error($error['message']);
+        }
+    }
+
+    /**
      * @param string $name
      * @return array
      */
@@ -113,6 +135,26 @@ trait Plugin
         return defined($constant)
             ? $this->filterString('const/'.$property, constant($constant))
             : '';
+    }
+
+    /**
+     * @param string $view
+     * @return void|string
+     */
+    public function file($view)
+    {
+        $view .= '.php';
+        $filePaths = [];
+        if (Str::startsWith('templates/', $view)) {
+            $filePaths[] = $this->themePath(Str::removePrefix($view, 'templates/'));
+        }
+        $filePaths[] = $this->path($view);
+        $filePaths[] = $this->path('views/'.$view);
+        foreach ($filePaths as $file) {
+            if (file_exists($file)) {
+                return $file;
+            }
+        }
     }
 
     /**
@@ -162,6 +204,23 @@ trait Plugin
     }
 
     /**
+     * @param string $view
+     * @return void
+     */
+    public function render($view, array $data = [])
+    {
+        $view = $this->filterString('render/view', $view, $data);
+        $file = $this->filterString('views/file', $this->file($view), $view, $data);
+        if (!file_exists($file)) {
+            glsr_log()->error(sprintf('File not found: (%s) %s', $view, $file));
+            return;
+        }
+        $data = $this->filterArray('views/data', $data, $view);
+        extract($data);
+        include $file;
+    }
+
+    /**
      * @param string $className
      * @return mixed|false
      */
@@ -170,6 +229,15 @@ trait Plugin
         return class_exists($className)
             ? call_user_func_array([glsr($className), 'handle'], $args)
             : false;
+    }
+
+    /**
+     * @param string $file
+     * @return string
+     */
+    public function themePath($file = '')
+    {
+        return get_stylesheet_directory().'/'.$this->id.'/'.ltrim(trim($file), '/');
     }
 
     /**

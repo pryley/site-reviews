@@ -59,34 +59,12 @@ final class Application extends Container
     protected $name;
 
     /**
-     * @param string $view
-     * @return string
-     */
-    public function build($view, array $data = [])
-    {
-        ob_start();
-        $this->render($view, $data);
-        return ob_get_clean();
-    }
-
-    /**
      * @param string $capability
      * @return bool
      */
     public function can($capability)
     {
         return $this->make(Role::class)->can($capability);
-    }
-
-    /**
-     * @return void
-     */
-    public function catchFatalError()
-    {
-        $error = error_get_last();
-        if (E_ERROR === Arr::get($error, 'type') && Str::contains($this->path(), Arr::get($error, 'message'))) {
-            glsr_log()->error($error['message']);
-        }
     }
 
     /**
@@ -97,26 +75,6 @@ final class Application extends Container
     public function deactivate($networkDeactivating)
     {
         $this->make(Install::class)->deactivate($networkDeactivating);
-    }
-
-    /**
-     * @param string $view
-     * @return void|string
-     */
-    public function file($view)
-    {
-        $view .= '.php';
-        $filePaths = [];
-        if (Str::startsWith('templates/', $view)) {
-            $filePaths[] = $this->themePath(Str::removePrefix($view, 'templates/'));
-        }
-        $filePaths[] = $this->path($view);
-        $filePaths[] = $this->path('views/'.$view);
-        foreach ($filePaths as $file) {
-            if (file_exists($file)) {
-                return $file;
-            }
-        }
     }
 
     /**
@@ -190,23 +148,6 @@ final class Application extends Container
     }
 
     /**
-     * @param string $view
-     * @return void
-     */
-    public function render($view, array $data = [])
-    {
-        $view = $this->filterString('render/view', $view, $data);
-        $file = $this->filterString('views/file', $this->file($view), $view, $data);
-        if (!file_exists($file)) {
-            glsr_log()->error(sprintf('File not found: (%s) %s', $view, $file));
-            return;
-        }
-        $data = $this->filterArray('views/data', $data, $view);
-        extract($data);
-        include $file;
-    }
-
-    /**
      * @return void
      */
     public function storeDefaults()
@@ -218,14 +159,5 @@ final class Application extends Container
         if (empty(get_option(OptionManager::databaseKey()))) {
             update_option(OptionManager::databaseKey(), $this->defaults);
         }
-    }
-
-    /**
-     * @param string $file
-     * @return string
-     */
-    public function themePath($file = '')
-    {
-        return get_stylesheet_directory().'/'.static::ID.'/'.ltrim(trim($file), '/');
     }
 }
