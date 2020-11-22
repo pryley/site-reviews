@@ -93,7 +93,7 @@ abstract class DefaultsAbstract implements DefaultsContract
     public function __construct()
     {
         $hook = 'defaults/'.$this->currentHook().'/defaults';
-        $this->defaults = glsr()->filterArray($hook, $this->defaults());
+        $this->defaults = $this->app()->filterArray($hook, $this->defaults());
     }
 
     /**
@@ -114,10 +114,18 @@ abstract class DefaultsAbstract implements DefaultsContract
         return $args;
     }
 
+    /**
+     * @return \GeminiLabs\SiteReviews\Application|\GeminiLabs\SiteReviews\Addons\Addon
+     */
+    protected function app()
+    {
+        return glsr();
+    }
+
     protected function callMethod(array $args)
     {
         $this->hook = $this->currentHook();
-        glsr()->action('defaults', $this, $this->hook, $this->method);
+        $this->app()->action('defaults', $this, $this->hook, $this->method);
         $values = 'defaults' === $this->method
             ? $this->defaults // use the filtered defaults (these have not been normalized!)
             : call_user_func_array([$this, $this->method], $args);
@@ -125,7 +133,7 @@ abstract class DefaultsAbstract implements DefaultsContract
             $values = $this->sanitize($values);
             $values = $this->guard($values);
         }
-        return glsr()->filterArray('defaults/'.$this->hook, $values, $this->method);        
+        return $this->app()->filterArray($this->hook, $values, $this->method);
     }
 
     /**
@@ -134,7 +142,7 @@ abstract class DefaultsAbstract implements DefaultsContract
     protected function currentHook()
     {
         $hookName = (new ReflectionClass($this))->getShortName();
-        $hookName = str_replace('Defaults', '', $hookName);
+        $hookName = Str::replaceLast('Defaults', '', $hookName);
         return Str::dashCase($hookName);
     }
 
@@ -302,7 +310,7 @@ abstract class DefaultsAbstract implements DefaultsContract
             $value = $property->getValue($this);
             if ($property->isPublic()) { // all public properties are expected to be an array
                 $hook = 'defaults/'.$this->hook.'/'.$key;
-                return glsr()->filterArray($hook, $value, $this->method);
+                return $this->app()->filterArray($hook, $value, $this->method);
             }
         } catch (ReflectionException $e) {
             glsr_log()->error("Invalid or protected property [$key].");
