@@ -7,24 +7,31 @@ use GeminiLabs\SiteReviews\Helper;
 class Partial
 {
     /**
+     * @return \GeminiLabs\SiteReviews\Application|\GeminiLabs\SiteReviews\Addons\Addon
+     */
+    public function app()
+    {
+        return glsr();
+    }
+
+    /**
      * @param string $partialPath
      * @return string|void
      */
     public function build($partialPath, array $args = [])
     {
         $className = Helper::buildClassName($partialPath, 'Modules\Html\Partials');
-        $className = glsr()->filterString('partial/classname', $className, $partialPath);
+        $className = $this->app()->filterString('partial/classname', $className, $partialPath);
         if (!class_exists($className)) {
             glsr_log()->error('Partial missing: '.$className);
             return;
         }
-        $args = glsr()->filterArray('partial/args/'.$partialPath, $args);
+        $args = $this->app()->filterArray('partial/args/'.$partialPath, $args);
         $partial = glsr($className)->build($args);
-        $partial = glsr()->filterString('rendered/partial', $partial, $partialPath, $args);
-        $partial = glsr()->filterString('rendered/partial/'.$partialPath, $partial, $args);
+        $partial = $this->app()->filterString('rendered/partial', $partial, $partialPath, $args);
+        $partial = $this->app()->filterString('rendered/partial/'.$partialPath, $partial, $args);
         return $partial;
     }
-
     /**
      * @param string $partialPath
      * @return void
