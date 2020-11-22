@@ -112,16 +112,19 @@ trait Plugin
 
     /**
      * @param string $name
+     * @param bool $filtered
      * @return array
      */
-    public function config($name)
+    public function config($name, $filtered = true)
     {
         $path = $this->filterString('config', 'config/'.$name.'.php');
         $configFile = $this->path($path);
         $config = file_exists($configFile)
             ? include $configFile
             : [];
-        return $this->filterArray('config/'.$name, $config);
+        return $filtered
+            ? $this->filterArray('config/'.$name, $config)
+            : $config;
     }
 
     /**
