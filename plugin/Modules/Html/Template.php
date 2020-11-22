@@ -2,11 +2,20 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
+use GeminiLabs\SiteReviews\Contracts\TemplateContract as Contract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
-class Template
+class Template implements Contract
 {
+    /**
+     * @return \GeminiLabs\SiteReviews\Application|\GeminiLabs\SiteReviews\Addons\Addon
+     */
+    public function app()
+    {
+        return glsr();
+    }
+
     /**
      * @param string $templatePath
      * @return void|string
@@ -15,11 +24,11 @@ class Template
     {
         $data = $this->normalize($data);
         $path = str_replace('templates/', '', $templatePath);
-        $template = glsr()->build($templatePath, $data);
-        $template = glsr()->filterString('build/template/'.$path, $template, $data);
+        $template = $this->app()->build($templatePath, $data);
+        $template = $this->app()->filterString('build/template/'.$path, $template, $data);
         $template = $this->interpolate($template, $data, $path);
-        $template = glsr()->filterString('rendered/template', $template, $templatePath, $data);
-        $template = glsr()->filterString('rendered/template/'.$path, $template, $data);
+        $template = $this->app()->filterString('rendered/template', $template, $templatePath, $data);
+        $template = $this->app()->filterString('rendered/template/'.$path, $template, $data);
         return $template;
     }
 
@@ -32,7 +41,7 @@ class Template
     public function interpolate($template, array $data = [], $templatePath)
     {
         $context = $this->normalizeContext(Arr::get($data, 'context', []));
-        $context = glsr()->filterArray('interpolate/'.$templatePath, $context, $template, $data);
+        $context = $this->app()->filterArray('interpolate/'.$templatePath, $context, $template, $data);
         return $this->interpolateContext($template, $context);
     }
 
