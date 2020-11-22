@@ -155,7 +155,7 @@ class ListTableController extends Controller
      * @param string $column
      * @param int $postId
      * @return void
-     * @action manage_posts_custom_column
+     * @action manage_{glsr()->post_type}_posts_custom_column
      */
     public function renderColumnValues($column, $postId)
     {
