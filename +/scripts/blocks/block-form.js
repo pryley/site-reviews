@@ -29,6 +29,7 @@ const edit = props => {
     const { attributes: { assign_to, assigned_posts, assigned_terms, assigned_users, category, hide, id, user }, className, setAttributes } = props;
     const inspectorControls = {
         assign_to: <ConditionalSelectControl
+            key={ 'assigned_posts' }
             label={ _x('Assign Reviews to a Post ID', 'admin-text', 'site-reviews') }
             onChange={ assign_to => setAttributes({
                 assign_to: assign_to,
@@ -47,6 +48,7 @@ const edit = props => {
             />
         </ConditionalSelectControl>,
         category: <ConditionalSelectControl
+            key={ 'assigned_terms' }
             custom_value={ 'glsr_custom' }
             label={ _x('Assign Reviews to a Category', 'admin-text', 'site-reviews') }
             onChange={ category => setAttributes({
@@ -66,6 +68,7 @@ const edit = props => {
             />
         </ConditionalSelectControl>,
         user: <ConditionalSelectControl
+            key={ 'assigned_users' }
             custom_value={ 'glsr_custom' }
             label={ _x('Assign Reviews to a User', 'admin-text', 'site-reviews') }
             onChange={ user => setAttributes({
@@ -107,16 +110,14 @@ const edit = props => {
     ];
 };
 
-export default registerBlockType(
-    blockName, {
-        attributes: attributes,
-        category: GLSR.nameprefix,
-        description: _x('Display a review form.', 'admin-text', 'site-reviews'),
-        edit: edit,
-        example: {},
-        icon: {src: FormIcon},
-        keywords: ['reviews', 'form'],
-        save: () => null,
-        title: _x('Submit a Review', 'admin-text', 'site-reviews'),
-    }
-);
+export default registerBlockType(blockName, {
+    attributes: attributes,
+    category: GLSR.nameprefix,
+    description: _x('Display a review form.', 'admin-text', 'site-reviews'),
+    edit: edit,
+    example: {},
+    icon: {src: FormIcon},
+    keywords: ['reviews', 'form'],
+    save: () => null,
+    title: _x('Submit a Review', 'admin-text', 'site-reviews'),
+});

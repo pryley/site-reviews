@@ -37,6 +37,7 @@ const edit = props => {
     const { attributes: { assigned_to, assigned_posts, assigned_terms, assigned_users, category, display, hide, id, pagination, rating, schema, type, user }, className, setAttributes } = props;
     const inspectorControls = {
         assigned_to: <ConditionalSelectControl
+            key={ 'assigned_posts' }
             label={ _x('Limit Reviews to an Assigned Post ID', 'admin-text', 'site-reviews') }
             onChange={ assigned_to => setAttributes({
                 assigned_to: assigned_to,
@@ -55,6 +56,7 @@ const edit = props => {
             />
         </ConditionalSelectControl>,
         category: <ConditionalSelectControl
+            key={ 'assigned_terms' }
             custom_value={ 'glsr_custom' }
             label={ _x('Limit Reviews to an Assigned Category', 'admin-text', 'site-reviews') }
             onChange={ category => setAttributes({
@@ -74,6 +76,7 @@ const edit = props => {
             />
         </ConditionalSelectControl>,
         user: <ConditionalSelectControl
+            key={ 'assigned_users' }
             custom_value={ 'glsr_custom' }
             label={ _x('Limit Reviews to an Assigned User', 'admin-text', 'site-reviews') }
             onChange={ user => setAttributes({
@@ -93,6 +96,7 @@ const edit = props => {
             />
         </ConditionalSelectControl>,
         pagination: <SelectControl
+            key={ 'pagination' }
             label={ _x('Enable Pagination', 'admin-text', 'site-reviews') }
             onChange={ pagination => setAttributes({ pagination }) }
             options={[
@@ -103,12 +107,14 @@ const edit = props => {
             value={ pagination }
         />,
         type: <SelectControl
+            key={ 'type' }
             label={ _x('Limit the Type of Reviews', 'admin-text', 'site-reviews') }
             onChange={ type => setAttributes({ type }) }
             options={ type_options }
             value={ type }
         />,
         display: <RangeControl
+            key={ 'display' }
             label={ _x('Reviews Per Page', 'admin-text', 'site-reviews') }
             min={ 1 }
             max={ 50 }
@@ -116,6 +122,7 @@ const edit = props => {
             value={ display }
         />,
         rating: <RangeControl
+            key={ 'rating' }
             label={ _x('Minimum Rating', 'admin-text', 'site-reviews') }
             min={ 0 }
             max={ GLSR.maxrating }
@@ -123,6 +130,7 @@ const edit = props => {
             value={ rating }
         />,
         schema: <ToggleControl
+            key={ 'schema' }
             checked={ schema }
             help={ _x('The schema should only be enabled once per page.', 'admin-text', 'site-reviews') }
             label={ _x('Enable the schema?', 'admin-text', 'site-reviews') }
@@ -158,22 +166,20 @@ wp.hooks.addFilter('blocks.getBlockAttributes', blockName, (attributes, block, u
     return attributes;
 });
 
-export default registerBlockType(
-    blockName, {
-        attributes: attributes,
-        category: GLSR.nameprefix,
-        description: _x('Display your most recent reviews.', 'admin-text', 'site-reviews'),
-        edit: edit,
-        example: {
-            attributes: { 
-                display: 2,
-                pagination: 'ajax',
-                rating: 0,
-            },
+export default registerBlockType(blockName, {
+    attributes: attributes,
+    category: GLSR.nameprefix,
+    description: _x('Display your most recent reviews.', 'admin-text', 'site-reviews'),
+    edit: edit,
+    example: {
+        attributes: { 
+            display: 2,
+            pagination: 'ajax',
+            rating: 0,
         },
-        icon: {src: ReviewsIcon},
-        keywords: ['reviews'],
-        save: () => null,
-        title: _x('Latest Reviews', 'admin-text', 'site-reviews'),
-    }
-);
+    },
+    icon: {src: ReviewsIcon},
+    keywords: ['reviews'],
+    save: () => null,
+    title: _x('Latest Reviews', 'admin-text', 'site-reviews'),
+});

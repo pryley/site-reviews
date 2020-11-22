@@ -8,6 +8,7 @@ export const CheckboxControlList = (options, hide, setAttributes) => {
         const isAlreadyChecked = hide.split(',').indexOf(name) > -1;
         checkboxes.push((
             <CheckboxControl
+                key={ `hide-${ name }` }
                 className={ 'glsr-checkbox-control' }
                 checked={ isAlreadyChecked || isChecked }
                 label={ label }
