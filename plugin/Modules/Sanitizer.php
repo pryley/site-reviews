@@ -141,7 +141,7 @@ class Sanitizer
      */
     protected function sanitizeKey($value)
     {
-        return sanitize_key($this->sanitizeText($value));
+        return Str::snakeCase(sanitize_key($this->sanitizeText($value)));
     }
 
     /**
