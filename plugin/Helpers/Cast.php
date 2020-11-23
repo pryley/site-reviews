@@ -89,6 +89,9 @@ class Cast
         if (Helper::isEmpty($value)) {
             return '';
         }
+        if (Arr::isIndexedAndFlat($value)) {
+            return implode(', ', $value);
+        }
         if (!is_scalar($value)) {
             return $strict ? '' : serialize($value);
         }

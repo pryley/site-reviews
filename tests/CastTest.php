@@ -75,8 +75,10 @@ class CastTest extends WP_UnitTestCase
     {
         $this->assertEquals(Cast::toString([]), '');
         $this->assertEquals(Cast::toString(123), '123');
-        $this->assertEquals(Cast::toString([123]), '');
-        $this->assertEquals(Cast::toString([123], false), 'a:1:{i:0;i:123;}');
+        $this->assertEquals(Cast::toString([123]), '123');
+        $this->assertEquals(Cast::toString([123], false), '123');
+        $this->assertEquals(Cast::toString([1,2,3], false), '1, 2, 3');
+        $this->assertEquals(Cast::toString(['a' => 1, 'b' => 2, 'c' => 3], false), 'a:3:{s:1:"a";i:1;s:1:"b";i:2;s:1:"c";i:3;}');
         $this->assertEquals(Cast::toString(new MockClass()), '123');
     }
 }
