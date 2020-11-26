@@ -16,7 +16,7 @@ class DefaultValidator extends ValidatorAbstract
         'content' => 'required',
         'email' => 'required|email',
         'name' => 'required',
-        'rating' => 'required|number|between:1,5',
+        'rating' => 'required|between:0,5',
         'terms' => 'accepted',
         'title' => 'required',
     ];
