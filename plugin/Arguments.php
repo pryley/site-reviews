@@ -22,6 +22,14 @@ class Arguments extends \ArrayObject
     }
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return serialize($this->toArray());
+    }
+
+    /**
      * @param mixed $key
      * @param string $cast
      * @return mixed
