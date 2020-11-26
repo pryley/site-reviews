@@ -133,7 +133,8 @@ abstract class DefaultsAbstract implements DefaultsContract
             $values = $this->sanitize($values);
             $values = $this->guard($values);
         }
-        return $this->app()->filterArray($this->hook, $values, $this->method);
+        $args = array_shift($args);
+        return $this->app()->filterArray('defaults/'.$this->hook, $values, $this->method, $args);
     }
 
     /**

@@ -59,7 +59,7 @@
     site-reviews/const/<constant>                           (string $constantName): string
     site-reviews/create/review-values                       (array $reviewValues, Commands\CreateReview $command): array
     site-reviews/database/sql/<handle>                      (string $sql): string
-    site-reviews/defaults/<defaults_name>                   (array $defaults, string $method): array
+    site-reviews/defaults/<defaults_name>                   (array $defaults, string $method, array $args): array
     site-reviews/defaults/<defaults_name>/casts             (array $casts, string $method): array
     site-reviews/defaults/<defaults_name>/concatenated      (array $concatenated, string $method): array
     site-reviews/defaults/<defaults_name>/defaults          (array $defaults): array
