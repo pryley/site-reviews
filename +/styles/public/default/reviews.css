@@ -137,3 +137,17 @@
     height: var(--glsr-star-size);
     width: var(--glsr-star-size);
 }
+
+/* Custom fields */
+:--namespace .glsr-review > div:not([class]) {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: var(--glsr-base-font-size);
+    width: 100%;
+}
+:--namespace [class*=glsr-custom-] {
+    display: inline-flex;
+}
+:--namespace .glsr-review > [class*=glsr-custom-] {
+    margin-top: var(--glsr-base-font-size);
+}
