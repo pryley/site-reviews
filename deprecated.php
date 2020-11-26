@@ -6,6 +6,26 @@ use GeminiLabs\SiteReviews\Modules\Backtrace;
 
 defined('ABSPATH') || die;
 
+/**
+ * Provide support for the deprecated {{ assigned_to }} tag
+ * @param string $template
+ * @return string
+ * @since 5.0
+ */
+add_filter('site-reviews/rendered/template/review', function ($template) {
+    return str_replace('{{ assigned_to }}', '{{ assigned_links }}', $template);
+});
+
+/**
+ * Fix the {{ review_id }} tag in the review template which now only returns the ID
+ * @param string $template
+ * @return string
+ * @since 5.3
+ */
+add_filter('site-reviews/rendered/template/review', function ($template) {
+    return str_replace('id="{{ review_id }}"', 'id="review-{{ review_id }}"', $template);
+});
+
 add_action('plugins_loaded', function () {
     if (!glsr()->filterBool('support/deprecated/v5', true)) {
         return;

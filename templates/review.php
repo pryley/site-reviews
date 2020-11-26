@@ -1,6 +1,6 @@
 <?php defined('ABSPATH') || die; ?>
 
-<div class="glsr-review" id="{{ review_id }}">
+<div class="glsr-review" id="review-{{ review_id }}">
     {{ title }}
     {{ rating }}
     {{ date }}

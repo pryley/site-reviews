@@ -68,7 +68,6 @@ class ReviewHtml extends ArrayObject
             $tag = $this->normalizeTemplateTag($key);
             $templateTags[$tag] = $this->buildTemplateTag($review, $tag, $value);
         }
-        $templateTags['assigned_to'] = $templateTags['assigned_links']; // @deprecated in v5.0
         return glsr()->filterArray('review/build/after', $templateTags, $review, $this);
     }
 
