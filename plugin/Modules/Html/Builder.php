@@ -299,10 +299,14 @@ class Builder
      */
     protected function buildFormSelectOptions()
     {
-        return array_reduce(array_keys($this->args->cast('options', 'array')), function ($carry, $key) {
+        $options = $this->args->cast('options', 'array');
+        if ($this->args->placeholder) {
+            $options = Arr::prepend($options, $this->args->placeholder, '');
+        }
+        return array_reduce(array_keys($options), function ($carry, $key) use ($options) {
             return $carry.$this->option([
                 'selected' => $this->args->cast('value', 'string') === Cast::toString($key),
-                'text' => $this->args->options[$key],
+                'text' => $options[$key],
                 'value' => $key,
             ]);
         });
@@ -321,10 +325,10 @@ class Builder
      */
     protected function indexedId($index)
     {
-        if (count($this->args->options) > 1) {
-            return $this->args->id.'-'.$index;
-        }
-        return $this->args->id;
+        return Helper::ifTrue(count($this->args->options) > 1,
+            $this->args->id.'-'.$index,
+            $this->args->id
+        );
     }
 
     /**
