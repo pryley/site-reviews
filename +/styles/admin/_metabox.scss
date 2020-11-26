@@ -173,6 +173,9 @@
 .glsr-metabox-field select {
     margin: 0;
     width: 100%;
+    padding: 3px 8px;
+    line-height: 1.5;
+    min-height: 30px;
 }
 
 .glsr-input-value:disabled {
