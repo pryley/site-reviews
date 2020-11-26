@@ -6,6 +6,7 @@ use ArrayObject;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Review;
 
 class ReviewHtml extends ArrayObject
@@ -42,6 +43,7 @@ class ReviewHtml extends ArrayObject
             return '';
         }
         return glsr(Template::class)->build('templates/review', [
+            'args' => $this->args,
             'context' => $this->context,
             'review' => $this->review,
         ]);
@@ -84,7 +86,7 @@ class ReviewHtml extends ArrayObject
         $className = glsr()->filterString('review/tag/'.$tag, $className);
         $field = class_exists($className)
             ? glsr($className, compact('tag', 'args'))->handleFor('review', $value, $review)
-            : null;
+            : Cast::toString($value, false);
         return glsr()->filterString('review/build/'.$tag, $field, $value, $review, $this);
     }
 
