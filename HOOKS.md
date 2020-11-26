@@ -13,7 +13,7 @@
     site-reviews/migration/end                              (array $migrations)
     site-reviews/migration/start                            (array $migrations)
     site-reviews/personal-data/erase                        (Review $review, bool $retainReview)
-    site-reviews/review/build/before                        (Review $review)
+    site-reviews/review/build/before                        (Review $review, Modules\Html\ReviewHtml $reviewHtml)
     site-reviews/review/create                              (int $postId, Commands\CreateReview $command)
     site-reviews/review/created                             (Review $review, Commands\CreateReview $command)
     site-reviews/review/respond                             (string $response, Review $review)

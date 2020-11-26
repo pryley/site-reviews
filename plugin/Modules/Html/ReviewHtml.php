@@ -62,7 +62,7 @@ class ReviewHtml extends ArrayObject
 
     protected function buildContext(Review $review)
     {
-        glsr()->action('review/build/before', $review);
+        glsr()->action('review/build/before', $review, $this);
         $templateTags = [];
         foreach ($review as $key => $value) {
             $tag = $this->normalizeTemplateTag($key);
