@@ -148,7 +148,7 @@ class FormFieldsTag extends FormTag
                 $normalizedFields[] = $field;
             }
         }
-        return $normalizedFields;
+        return glsr()->filterArray('review-form/fields/normalized', $normalizedFields, $this->args);
     }
 
     /**
