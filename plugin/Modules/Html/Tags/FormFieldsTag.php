@@ -24,7 +24,6 @@ class FormFieldsTag extends FormTag
                 unset($hiddenFields[$index]);
             }
         }
-        array_unshift($fields, glsr(Honeypot::class)->build($this->args->id));
         return array_merge($hiddenFields, $fields);
     }
 
@@ -46,7 +45,9 @@ class FormFieldsTag extends FormTag
      */
     protected function handle($value = null)
     {
-        return array_reduce($this->fields(), function ($carry, $field) {
+        $fields = $this->fields();
+        array_unshift($fields, glsr(Honeypot::class)->build($this->args->id));
+        return array_reduce($fields, function ($carry, $field) {
             return $carry.$field;
         });
     }
