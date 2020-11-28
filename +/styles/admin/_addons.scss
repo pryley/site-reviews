@@ -55,13 +55,17 @@
     @media screen and (min-width: 514px) {
         padding-top: 100%;
     }
-    &[data-slug="images"] {
-        background-color: #6B46C1;
-        background-image: url(../../images/addon-images.svg);
-    }
     &[data-slug="filters"] {
         background-color: #319796;
         background-image: url(../../images/addon-filters.svg);
+    }
+    &[data-slug="forms"] {
+        background-color: #617C8B;
+        background-image: url(../../images/addon-forms.svg);
+    }
+    &[data-slug="images"] {
+        background-color: #6B46C1;
+        background-image: url(../../images/addon-images.svg);
     }
     &[data-slug="trustalyze"] {
         background-color: #4282D6;
