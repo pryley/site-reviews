@@ -13,6 +13,7 @@ class SiteReviewsDefaults extends Defaults
      */
     public $casts = [
         'display' => 'int',
+        'hide' => 'array',
         'page' => 'int',
         'rating' => 'int',
         'schema' => 'bool',
