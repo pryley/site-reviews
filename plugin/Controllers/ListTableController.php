@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
 use GeminiLabs\SiteReviews\Defaults\ColumnOrderbyDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
@@ -140,14 +141,10 @@ class ListTableController extends Controller
      */
     public function renderColumnFilters($postType)
     {
-        if (glsr()->post_type !== $postType) {
-            return;
-        }
-        if ($filter = glsr()->runIf(ColumnFilterRating::class)) {
-            echo $filter;
-        }
-        if ($filter = glsr()->runIf(ColumnFilterType::class)) {
-            echo $filter;
+        if (glsr()->post_type === $postType) {
+            echo Cast::toString(glsr()->runIf(ColumnFilterRating::class));
+            echo Cast::toString(glsr()->runIf(ColumnFilterType::class));
+            echo Cast::toString(glsr()->runIf(glsr()->filterString('review-table/filter', '')));
         }
     }
 
