@@ -81,7 +81,7 @@ class ListTableController extends Controller
                 $clause = call_user_func([$this, $method], $clause, $table, $query);
             }
         }
-        return $clauses;
+        return glsr()->filterArray('review-table/clauses', $clauses, $table, $query);
     }
 
     /**
