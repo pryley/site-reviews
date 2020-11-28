@@ -105,11 +105,11 @@ msgctxt "admin-text"
 msgid "Create Review (inactive)"
 msgstr ""
 
-#: deprecated.php:127
+#: deprecated.php:101
 msgid "%s is <strong>deprecated</strong> since version %s with no alternative available."
 msgstr ""
 
-#: deprecated.php:140
+#: deprecated.php:114
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr ""
 
@@ -1885,23 +1885,23 @@ msgctxt "admin-text"
 msgid "This custom translation is no longer valid as the original text has been changed or removed."
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:221
+#: plugin/Shortcodes/Shortcode.php:224
 msgid "Excellent"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:222
+#: plugin/Shortcodes/Shortcode.php:225
 msgid "Very good"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:223
+#: plugin/Shortcodes/Shortcode.php:226
 msgid "Average"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:224
+#: plugin/Shortcodes/Shortcode.php:227
 msgid "Poor"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:225
+#: plugin/Shortcodes/Shortcode.php:228
 msgid "Terrible"
 msgstr ""
 

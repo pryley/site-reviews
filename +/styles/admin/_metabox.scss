@@ -132,17 +132,21 @@
 }
 .glsr-metabox-field .glsr-label {
     box-sizing: border-box;
-    width: 100%;
+    line-height: 1.5;
+    margin: 0;
+    overflow: hidden;
     padding: 0 12px;
     position: relative;
-    margin: 0;
-    line-height: 1.5;
+    white-space: nowrap;
+    width: 100%;
 }
 .glsr-metabox-field .glsr-label label {
     display: block;
-    margin: 0;
-    padding: 0;
     font-size: 14px;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    text-overflow: ellipsis;
 }
 .glsr-metabox-field .glsr-input {
     box-sizing: border-box;
@@ -208,7 +212,7 @@
         background: #f9f9f9;
         border-right: 1px solid #ddd;
         padding: 6px 12px;
-        min-width: 128px;
+        min-width: 150px;
         width: 20%;
         line-height: 40px;
     }
