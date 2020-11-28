@@ -1,21 +1,24 @@
 /*Form Toggle*/
 :--namespace form.glsr-form .glsr-field-toggle {
+    display: flex;
+}
+:--namespace form.glsr-form .glsr-toggle {
     align-items: flex-start;
     display: inline-flex;
     flex-direction: row-reverse;
 }
-:--namespace form.glsr-form .glsr-field-toggle label {
+:--namespace form.glsr-form .glsr-toggle label {
     display: block;
     font-size: var(--glsr-form-font-size);
     font-weight: var(--glsr-toggle-font-weight);
     line-height:var(--glsr-form-line-height);
     margin-left: calc(var(--glsr-base-font-size) * .5);
 }
-:--namespace.glsr-rtl form.glsr-form .glsr-field-toggle label {
+:--namespace.glsr-rtl form.glsr-form .glsr-toggle label {
     margin-left: 0;
     margin-right: calc(var(--glsr-base-font-size) * .5);
 }
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] {
+:--namespace form.glsr-form .glsr-toggle input[type=checkbox] {
     appearance: none;
     background-color: transparent;
     border-radius: var(--glsr-toggle-radius-outer);
@@ -36,11 +39,11 @@
     width: calc(calc(var(--glsr-toggle-size) * 2) - calc(var(--glsr-toggle-padding) * 2));
     z-index: 0;
 }
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]::before,
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]::after {
+:--namespace form.glsr-form .glsr-toggle input[type=checkbox]::before,
+:--namespace form.glsr-form .glsr-toggle input[type=checkbox]::after {
     display:  none;
 }
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track {
+:--namespace form.glsr-form .glsr-toggle input[type=checkbox] + .glsr-toggle-track {
     background-color: transparent;
     border-radius: var(--glsr-toggle-radius-outer);
     box-sizing: border-box;
@@ -52,16 +55,16 @@
     transition: background-color var(--glsr-form-duration) ease-in-out;
     width: calc(calc(var(--glsr-toggle-size) * 2) - calc(var(--glsr-toggle-padding) * 2));
 }
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:focus {
+:--namespace form.glsr-form .glsr-toggle input[type=checkbox]:focus {
     outline: none;
 }
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:focus + .glsr-toggle-track {
+:--namespace form.glsr-form .glsr-toggle input[type=checkbox]:focus + .glsr-toggle-track {
     outline: 1px solid transparent;
     box-shadow: 0 0 0 3px Highlight;
     box-shadow: 0 0 0 3px -moz-mac-focusring;
     box-shadow: 0 0 0 3px -webkit-focus-ring-color;
 }
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::before {
+:--namespace form.glsr-form .glsr-toggle input[type=checkbox] + .glsr-toggle-track::before {
     background-color: var(--glsr-toggle-bg-inactive);
     border-radius: var(--glsr-toggle-radius-outer);
     content: '';
@@ -73,12 +76,12 @@
     top: 0;
     width: 100%;
 }
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track::before {
+:--namespace form.glsr-form .glsr-toggle input[type=checkbox]:checked + .glsr-toggle-track::before {
     background-color: var(--glsr-toggle-bg-active);
     opacity: var(--glsr-toggle-opacity-active);
     transition: background-color var(--glsr-form-duration) ease-in-out, opacity var(--glsr-form-duration) ease-in-out;
 }
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::after {
+:--namespace form.glsr-form .glsr-toggle input[type=checkbox] + .glsr-toggle-track::after {
     background-color: var(--glsr-white);
     border-radius: var(--glsr-toggle-radius-inner);
     box-shadow: var(--glsr-toggle-box-shadow);
@@ -91,10 +94,10 @@
     width: calc(var(--glsr-toggle-size) - calc(var(--glsr-toggle-padding) * 2));
     z-index: 1;
 }
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track::after {
+:--namespace form.glsr-form .glsr-toggle input[type=checkbox]:checked + .glsr-toggle-track::after {
     transform: translateX(calc(var(--glsr-toggle-size) - calc(var(--glsr-toggle-padding) * 2)));
 }
-:--namespace form.glsr-form .glsr-field-toggle .glsr-toggle-switch {
+:--namespace form.glsr-form .glsr-toggle .glsr-toggle-switch {
     align-items: center;
     display: flex;
     flex-shrink: 0;
