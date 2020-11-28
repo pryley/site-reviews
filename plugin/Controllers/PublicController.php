@@ -5,14 +5,12 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Html\Partials\SiteReviews;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Request;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
 class PublicController extends Controller
 {
@@ -38,7 +36,7 @@ class PublicController extends Controller
         ];
         $args = wp_parse_args($args, Arr::consolidate($request->atts));
         $args = glsr(SiteReviewsDefaults::class)->restrict($args);
-        $html = glsr(SiteReviews::class)->build($args);
+        $html = glsr(SiteReviewsShortcode::class)->buildReviewsHtml($args);
         $response = [
             'pagination' => $html->getPagination($wrap = false),
             'reviews' => $html->getReviews(),

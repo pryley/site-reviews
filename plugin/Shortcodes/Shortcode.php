@@ -11,13 +11,17 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Style;
 use ReflectionClass;
 
 abstract class Shortcode implements ShortcodeContract
 {
+    /**
+     * @var array
+     */
+    public $args;
+
     /**
      * @var array
      */
@@ -48,7 +52,7 @@ abstract class Shortcode implements ShortcodeContract
     {
         $args = $this->normalizeArgs($args, $type);
         $atts = $this->normalizeAtts($atts, $type);
-        $partial = glsr(Partial::class)->build($this->partialName, $atts->toArray());
+        $template = $this->buildTemplate($atts->toArray());
         if (!empty($atts->title)) {
             $title = $args->before_title.$atts->title.$args->after_title;
             $atts->title = $title;
@@ -56,7 +60,7 @@ abstract class Shortcode implements ShortcodeContract
         $attributes = wp_parse_args($this->dataAttributes, [
             'class' => 'glsr glsr-'.glsr(Style::class)->get(),
             'id' => $atts->id,
-            'text' => (string) $partial,
+            'text' => $template,
         ]);
         $html = glsr(Builder::class)->div($attributes);
         return $args->before_widget.$atts->title.$html.$args->after_widget;
@@ -79,12 +83,17 @@ abstract class Shortcode implements ShortcodeContract
     }
 
     /**
+     * @return string|void
+     */
+    abstract public function buildTemplate(array $args = []);
+
+    /**
      * @return array
      */
     public function getHideOptions()
     {
         $options = $this->hideOptions();
-        return glsr()->filterArray('shortcode/hide-options', $options, $this->shortcodeName);
+        return glsr()->filterArray('shortcode/hide-options', $options, $this->shortcodeName, $this);
     }
 
     /**

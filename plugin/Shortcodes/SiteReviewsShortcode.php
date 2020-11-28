@@ -2,8 +2,54 @@
 
 namespace GeminiLabs\SiteReviews\Shortcodes;
 
+use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
+use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Modules\Html\ReviewsHtml;
+use GeminiLabs\SiteReviews\Modules\Schema;
+use GeminiLabs\SiteReviews\Reviews;
+
 class SiteReviewsShortcode extends Shortcode
 {
+    /**
+     * @var array
+     */
+    public $args;
+
+    /**
+     * @return ReviewsHtml
+     */
+    public function buildReviewsHtml(array $args = [])
+    {
+        $this->args = glsr(SiteReviewsDefaults::class)->unguardedMerge($args);
+        $reviews = glsr(ReviewManager::class)->reviews($this->args);
+        $this->generateSchema($reviews);
+        return new ReviewsHtml($reviews);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildTemplate(array $args = [])
+    {
+        return (string) $this->buildReviewsHtml($args);
+    }
+
+    /**
+     * @return void
+     */
+    public function generateSchema(Reviews $reviews)
+    {
+        if (Cast::toBool($this->args['schema'])) {
+            glsr(Schema::class)->store(
+                glsr(Schema::class)->build($this->args, $reviews)
+            );
+        }
+    }
+
+    /**
+     * @return array
+     */
     protected function hideOptions()
     {
         return [
