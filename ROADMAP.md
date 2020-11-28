@@ -23,13 +23,12 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 - [ ] Edit authored reviews
 - [ ] Flag reviews
-- [ ] Form Builder (add/remove/drag-drop to order)
 - [ ] Importer (from 3rd-party WordPress review plugins)
 - [ ] Multi-Ratings (for rating individual services of a business)
 - [ ] Questions and Answers
 - [ ] Review Builder (add/remove/drag-drop to order)
 - [x] Review Filters (filter, search, sort)
-- [ ] Review Form Builder
+- [x] Review Form Builder
 - [x] Review Images
 - [ ] Review Themes (customization of stars (star, thumb, emote, percent), fonts, colors, layouts, etc.)
 - [ ] Review Threads
