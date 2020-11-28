@@ -85,7 +85,10 @@ abstract class Shortcode implements ShortcodeContract
     /**
      * @return string|void
      */
-    abstract public function buildTemplate(array $args = []);
+    public function buildTemplate(array $args = [])
+    {
+        return; // @todo make this abstract in v6.0
+    }
 
     /**
      * @return array
