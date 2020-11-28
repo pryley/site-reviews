@@ -2,10 +2,10 @@
 Contributors: geminilabs, pryley
 Donate link: https://www.paypal.me/pryley
 Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, star ratings
-Tested up to: 5.5
+Tested up to: 5.6
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.2.2
+Stable tag: 5.3.0-beta
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
