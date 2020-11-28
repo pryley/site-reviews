@@ -170,6 +170,14 @@ add_action('site-reviews/review/created', function ($review, $command) {
     }
 }, 10, 2);
 
+/**
+ * Allow using {{ assigned_posts }} as a template tag instead of {{ assigned_links }}
+ * @return array
+ */
+add_filter('site-reviews/review/build/after', function (array $templateTags) {
+    $templateTags['assigned_posts'] = glsr_get($templateTags, 'assigned_links');
+    return $templateTags;
+});
 
 /**
  * Fix Star Rating control when review form is used inside an Elementor Pro Popup
