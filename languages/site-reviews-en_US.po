@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: en_US\n"
 
-#: deprecated.php:81
+#: deprecated.php:127
 msgid ""
 "%s is <strong>deprecated</strong> since version %s with no alternative "
 "available."
@@ -26,7 +26,7 @@ msgstr ""
 "%s is <strong>deprecated</strong> since version %s with no alternative "
 "available."
 
-#: deprecated.php:94
+#: deprecated.php:140
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 
@@ -212,25 +212,41 @@ msgstr[1] "%s years ago"
 msgid "Anonymous"
 msgstr "Anonymous"
 
-#: plugin/Shortcodes/Shortcode.php:212
+#: plugin/Shortcodes/Shortcode.php:221
 msgid "Excellent"
 msgstr "Excellent"
 
-#: plugin/Shortcodes/Shortcode.php:213
+#: plugin/Shortcodes/Shortcode.php:222
 msgid "Very good"
 msgstr "Very good"
 
-#: plugin/Shortcodes/Shortcode.php:214
+#: plugin/Shortcodes/Shortcode.php:223
 msgid "Average"
 msgstr "Average"
 
-#: plugin/Shortcodes/Shortcode.php:215
+#: plugin/Shortcodes/Shortcode.php:224
 msgid "Poor"
 msgstr "Poor"
 
-#: plugin/Shortcodes/Shortcode.php:216
+#: plugin/Shortcodes/Shortcode.php:225
 msgid "Terrible"
 msgstr "Terrible"
+
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:109
+msgid "logged in"
+msgstr "logged in"
+
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:111
+msgid "You must be %s to submit a review."
+msgstr "You must be %s to submit a review."
+
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:122
+msgid "register"
+msgstr "register"
+
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:124
+msgid "You may also %s for an account."
+msgstr "You may also %s for an account."
 
 #: plugin/Modules/Validator/AkismetValidator.php:49
 msgid "This review has been flagged as possible spam and cannot be submitted."
@@ -260,15 +276,15 @@ msgstr "The reCAPTCHA verification failed, please try again."
 msgid "You have already submitted a review."
 msgstr "You have already submitted a review."
 
-#: plugin/Modules/Html/Fields/Rating.php:15
-msgid "Select a Rating"
-msgstr "Select a Rating"
-
 #: plugin/Modules/Html/Fields/Rating.php:17
 msgid "%s Star"
 msgid_plural "%s Stars"
 msgstr[0] "%s Star"
 msgstr[1] "%s Stars"
+
+#: plugin/Modules/Html/Fields/Rating.php:22
+msgid "Select a Rating"
+msgstr "Select a Rating"
 
 #: plugin/Modules/Html/Fields/YesNo.php:32
 msgid "No"
@@ -277,22 +293,6 @@ msgstr "No"
 #: plugin/Modules/Html/Fields/YesNo.php:33
 msgid "Yes"
 msgstr "Yes"
-
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:95
-msgid "logged in"
-msgstr "logged in"
-
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:97
-msgid "You must be %s to submit a review."
-msgstr "You must be %s to submit a review."
-
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:108
-msgid "register"
-msgstr "register"
-
-#: plugin/Modules/Html/Partials/SiteReviewsForm.php:110
-msgid "You may also %s for an account."
-msgstr "You may also %s for an account."
 
 #: plugin/Modules/Html/Partials/StarRating.php:29
 msgid "%s rating"
@@ -1485,12 +1485,12 @@ msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr "You have hidden all of the fields for this block."
 
-#: plugin/Commands/EnqueueAdminAssets.php:18
+#: plugin/Commands/EnqueueAdminAssets.php:19
 msgctxt "admin-text"
 msgid "You can pin exceptional reviews so that they are always shown first."
 msgstr "You can pin exceptional reviews so that they are always shown first."
 
-#: plugin/Commands/EnqueueAdminAssets.php:26
+#: plugin/Commands/EnqueueAdminAssets.php:27
 msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr "Pin Your Reviews"
@@ -1571,17 +1571,17 @@ msgctxt "admin-text"
 msgid "%s reviews are read-only."
 msgstr "%s reviews are read-only."
 
-#: plugin/Controllers/ListTableController.php:47
+#: plugin/Controllers/ListTableController.php:48
 msgctxt "admin-text"
 msgid "Submitted"
 msgstr "Submitted"
 
-#: plugin/Controllers/ListTableController.php:101, plugin/Controllers/TranslationController.php:197, plugin/Defaults/PostStatusLabelsDefaults.php:18
+#: plugin/Controllers/ListTableController.php:102, plugin/Controllers/TranslationController.php:197, plugin/Defaults/PostStatusLabelsDefaults.php:18
 msgctxt "admin-text"
 msgid "Approve"
 msgstr "Approve"
 
-#: plugin/Controllers/ListTableController.php:102
+#: plugin/Controllers/ListTableController.php:103
 msgctxt "admin-text"
 msgid "Unapprove"
 msgstr "Unapprove"
@@ -2082,92 +2082,92 @@ msgstr ""
 "This custom translation is no longer valid as the original text has been "
 "changed or removed."
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:10
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:81
 msgctxt "admin-text"
 msgid "Hide the rating field"
 msgstr "Hide the rating field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:11
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:82
 msgctxt "admin-text"
 msgid "Hide the title field"
 msgstr "Hide the title field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:12
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:83
 msgctxt "admin-text"
 msgid "Hide the review field"
 msgstr "Hide the review field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:13
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:84
 msgctxt "admin-text"
 msgid "Hide the name field"
 msgstr "Hide the name field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:14
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:85
 msgctxt "admin-text"
 msgid "Hide the email field"
 msgstr "Hide the email field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:15
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:86
 msgctxt "admin-text"
 msgid "Hide the terms field"
 msgstr "Hide the terms field"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:10
+#: plugin/Shortcodes/SiteReviewsShortcode.php:56
 msgctxt "admin-text"
 msgid "Hide the title"
 msgstr "Hide the title"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:11, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:10
+#: plugin/Shortcodes/SiteReviewsShortcode.php:57, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:88
 msgctxt "admin-text"
 msgid "Hide the rating"
 msgstr "Hide the rating"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:12
+#: plugin/Shortcodes/SiteReviewsShortcode.php:58
 msgctxt "admin-text"
 msgid "Hide the date"
 msgstr "Hide the date"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:13
+#: plugin/Shortcodes/SiteReviewsShortcode.php:59
 msgctxt "admin-text"
 msgid "Hide the assigned links (if shown)"
 msgstr "Hide the assigned links (if shown)"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:14
+#: plugin/Shortcodes/SiteReviewsShortcode.php:60
 msgctxt "admin-text"
 msgid "Hide the content"
 msgstr "Hide the content"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:15
+#: plugin/Shortcodes/SiteReviewsShortcode.php:61
 msgctxt "admin-text"
 msgid "Hide the avatar (if shown)"
 msgstr "Hide the avatar (if shown)"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:16
+#: plugin/Shortcodes/SiteReviewsShortcode.php:62
 msgctxt "admin-text"
 msgid "Hide the author"
 msgstr "Hide the author"
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:17
+#: plugin/Shortcodes/SiteReviewsShortcode.php:63
 msgctxt "admin-text"
 msgid "Hide the response"
 msgstr "Hide the response"
 
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:11
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:89
 msgctxt "admin-text"
 msgid "Hide the stars"
 msgstr "Hide the stars"
 
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:12
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:90
 msgctxt "admin-text"
 msgid "Hide the summary"
 msgstr "Hide the summary"
 
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:13
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:91
 msgctxt "admin-text"
 msgid "Hide the percentage bars"
 msgstr "Hide the percentage bars"
 
-#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:14
+#: plugin/Shortcodes/SiteReviewsSummaryShortcode.php:92
 msgctxt "admin-text"
 msgid "Hide if no reviews are found"
 msgstr "Hide if no reviews are found"
@@ -2479,26 +2479,22 @@ msgctxt "admin-text"
 msgid "All types"
 msgstr "All types"
 
-#: views/pages/addons/index.php:6
-msgctxt "admin-text"
-msgid ""
-"I hope that you will find these add-ons useful! Each purchase goes towards "
-"the continued support and development of Site Reviews."
-msgstr ""
-"I hope that you will find these add-ons useful! Each purchase goes towards "
-"the continued support and development of Site Reviews."
-
-#: views/pages/addons/index.php:11
+#: views/pages/addons/index.php:10
 msgctxt "admin-text"
 msgid "Allow your website visitors to sort, filter by rating, and search reviews."
 msgstr "Allow your website visitors to sort, filter by rating, and search reviews."
 
-#: views/pages/addons/index.php:20
+#: views/pages/addons/index.php:19
+msgctxt "admin-text"
+msgid "Create unique review forms with custom fields and review templates."
+msgstr "Create unique review forms with custom fields and review templates."
+
+#: views/pages/addons/index.php:28
 msgctxt "admin-text"
 msgid "Allow your website visitors to add images with captions to their reviews."
 msgstr "Allow your website visitors to add images with captions to their reviews."
 
-#: views/pages/addons/index.php:29
+#: views/pages/addons/index.php:37
 msgctxt "admin-text"
 msgid ""
 "Integrate with the Trustalyze Confidence System and post reviews to the "
@@ -2899,7 +2895,7 @@ msgctxt "admin-text"
 msgid "plural"
 msgstr "plural"
 
-#: plugin/Controllers/ListTableController.php:107
+#: plugin/Controllers/ListTableController.php:108
 msgctxt "Approve the review (admin-text)"
 msgid "%s this review"
 msgstr "%s this review"
