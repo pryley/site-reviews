@@ -8,12 +8,13 @@
     </h3>
     <div id="shortcode-site_reviews" class="inside">
         <h3>This shortcode displays your most recently submitted reviews.</h3>
-        <div class="notice inline notice-info notice-alt">
-            <p>Each example below demonstrates a different shortcode option. If you need to use multiple options, simply combine the options together (separated with a space) in the same shortcode.</p>
+
+        <div class="components-notice is-info">
+            <p class="components-notice__content">Each example below demonstrates a different shortcode option. If you need to use multiple options, simply combine the options together (separated with a space) in the same shortcode.</p>
         </div>
 
         <p class="glsr-heading">assigned_posts</p>
-        <p>Include the "assigned_posts" option to limit reviews to those assigned posts, pages, or other public post types. Accepted values are a numerical <a href="https://pagely.com/blog/find-post-id-wordpress/">WordPress Post ID</a>, <code>post_id</code> which automatically uses the ID of the current page, or <code>parent_id</code> which automatically uses the ID of the parent page. Separate multiple values with a comma.</p>
+        <p>Include the "assigned_posts" option to limit reviews to those assigned to specific posts, pages, or other public post types. Accepted values are a <a href="https://wpklik.com/wordpress-tutorials/how-to-quickly-find-your-wordpress-page-and-post-id/">WordPress Post ID</a>, <code>post_id</code> which automatically uses the Post ID of the current page, or <code>parent_id</code> which automatically uses the Post ID of the parent page. Separate multiple values with a comma.</p>
         <p><span class="required">Important:</span> If you are using this shortcode together with the [site_reviews_summary] shortcode, make sure to set the same option value for both shortcodes.</p>
         <p>The default assigned_posts value is: <code>""</code></p>
         <div class="shortcode-example">
@@ -22,7 +23,7 @@
         </div>
 
         <p class="glsr-heading">assigned_terms</p>
-        <p>Include the "assigned_terms" option to limit reviews to those assigned categories. Accepted values are either a category ID or slug. Separate multiple values with a comma.</p>
+        <p>Include the "assigned_terms" option to limit reviews to those assigned to specific categories. Accepted values are either a category ID or slug. Separate multiple values with a comma.</p>
         <p><span class="required">Important:</span> If you are using this shortcode together with the [site_reviews_summary] shortcode, make sure to set the same option value for both shortcodes.</p>
         <p>The default assigned_terms value is: <code>""</code></p>
         <div class="shortcode-example">
@@ -31,12 +32,12 @@
         </div>
 
         <p class="glsr-heading">assigned_users</p>
-        <p>Include the "assigned_users" option to limit reviews to those assigned users. Accepted values are either a user ID or username. Separate multiple values with a comma.</p>
+        <p>Include the "assigned_users" option to limit reviews to those assigned to specific users. Accepted values are a <a href="https://wpklik.com/wordpress-tutorials/wordpress-user-id/">WordPress User ID</a>, username, or <code>user_id</code> which automatically uses the User ID of the logged in user. Separate multiple values with a comma.</p>
         <p><span class="required">Important:</span> If you are using this shortcode together with the [site_reviews_summary] shortcode, make sure to set the same option value for both shortcodes.</p>
         <p>The default assigned_users value is: <code>""</code></p>
         <div class="shortcode-example">
-            <input type="text" readonly class="code" value='[site_reviews assigned_users="1,2"]'>
-            <pre><code class="syntax-shortcode"><span class="tag">[site_reviews</span> <span class="attr-name">assigned_users</span>=<span class="attr-value">"1,2"</span><span class="tag">]</span></code></pre>
+            <input type="text" readonly class="code" value='[site_reviews assigned_users="user_id"]'>
+            <pre><code class="syntax-shortcode"><span class="tag">[site_reviews</span> <span class="attr-name">assigned_users</span>=<span class="attr-value">"user_id"</span><span class="tag">]</span></code></pre>
         </div>
 
         <p class="glsr-heading">class</p>
