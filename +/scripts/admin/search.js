@@ -210,7 +210,7 @@ Search.prototype = {
     /** @return void */// Manage entries
     onUnassign_: function (ev) {
         ev.preventDefault();
-        var assignedEl = jQuery(ev.currentTarget).closest('.glsr-assigned-entry');
+        var assignedEl = jQuery(ev.currentTarget).closest('.glsr-multibox-entry');
         assignedEl.find('a').css({color:'#c00'});
         assignedEl.fadeOut('fast', function () {
             assignedEl.remove();
