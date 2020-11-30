@@ -31,11 +31,10 @@ class SystemInfo
     public function get()
     {
         $data = $this->data();
-        $details = [
+        $details = [ // order is intentional
             'plugin' => $this->getPluginDetails(),
             'addon' => $this->getAddonDetails(),
             'reviews' => $this->getReviewCounts(),
-            'setting' => $this->getPluginSettings(),
             'browser' => $this->getBrowserDetails(),
             'database' => $this->getDatabaseDetails($data),
             'server' => $this->getServerDetails($data),
@@ -44,6 +43,7 @@ class SystemInfo
             'network-plugins' => $this->getNetworkActivatedPluginDetails(),
             'activated-plugins' => $this->getActivePluginDetails(),
             'inactive-plugins' => $this->getInactivePluginDetails(),
+            'setting' => $this->getPluginSettings(),
         ];
         $systemInfo = array_reduce(array_keys($details), function ($carry, $key) use ($details) {
             if (empty(Arr::get($details[$key], 'values'))) {
