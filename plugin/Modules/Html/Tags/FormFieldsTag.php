@@ -87,16 +87,20 @@ class FormFieldsTag extends FormTag
      */
     protected function normalizeFieldClasses(Field &$field)
     {
-        $classes = [];
-        $isInput = in_array($field->field['type'], Attributes::INPUT_TYPES);
-        $isChoice = 'choice' === $field->fieldType();
-        if ($isInput) {
-            if (!$isChoice) {
-                $classes[] = 'glsr-input';
-            }
-            $classes[] = 'glsr-input-'.$field->choiceType();
+        if ('hidden' === $field->fieldType()) {
+            return;
+        }
+        $fieldClasses = [
+            'input' => ['glsr-input', 'glsr-input-'.$field->choiceType()],
+            'choice' => ['glsr-input-'.$field->choiceType()],
+            'other' => ['glsr-'.$field->field['type']],
+        ];
+        if ('choice' === $field->fieldType()) {
+            $classes = $fieldClasses['choice'];
+        } else if (in_array($field->field['type'], Attributes::INPUT_TYPES)) {
+            $classes = $fieldClasses['input'];
         } else {
-            $classes[] = 'glsr-'.$field->field['type'];
+            $classes = $fieldClasses['other'];
         }
         $classes[] = trim(Arr::get($field->field, 'class'));
         $field->field['class'] = implode(' ', $classes);
