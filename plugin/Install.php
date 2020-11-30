@@ -48,7 +48,7 @@ class Install
             foreach ($this->sites() as $siteId) {
                 switch_to_blog($siteId);
                 $tables = array_unique(array_merge($tables, $this->tables()));
-                delete_option('glsr_db_version');
+                delete_option(glsr()->prefix.'db_version');
                 restore_current_blog();
             }
         }
@@ -57,7 +57,7 @@ class Install
                 glsr(Query::class)->sql("DROP TABLE IF EXISTS {$table}")
             );
         }
-        delete_option('glsr_db_version');
+        delete_option(glsr()->prefix.'db_version');
     }
 
     /**

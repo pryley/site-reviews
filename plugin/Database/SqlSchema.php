@@ -242,7 +242,7 @@ class SqlSchema
         $this->createAssignedTermsTable();
         $this->createAssignedUsersTable();
         $this->createRatingTable();
-        add_option(glsr()->prefix.'db_version', glsr()->version('minor'));
+        add_option(glsr()->prefix.'db_version', '1.0');
     }
 
     /**
