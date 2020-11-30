@@ -5,6 +5,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 ## Proposed features
 
 - [ ] Add "More Details" modal to addons (ref: Plugins > Add New)
+- [ ] Add a setting to send an email notification after responding to a review
 - [ ] Add a single-use notice on the settings page to encourage users to rate the plugin (ref: Polylang)
 - [ ] Add a time constraint to review limits
 - [ ] Add Initial REST API support for querying reviews
