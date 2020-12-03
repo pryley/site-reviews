@@ -2,6 +2,10 @@
 // Partials -> WP List Table
 // =============================================================================
 
+[class*=post-type-site-review] .row-actions .id > span {
+    color: #999;
+}
+
 .glsr-metabox-table .star-rating .star,
 .post-type-site-review .star-rating .star {
 	width: 16px;

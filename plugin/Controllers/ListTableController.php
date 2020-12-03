@@ -102,7 +102,7 @@ class ListTableController extends Controller
             'approve' => _x('Approve', 'admin-text', 'site-reviews'),
             'unapprove' => _x('Unapprove', 'admin-text', 'site-reviews'),
         ];
-        $newActions = [];
+        $newActions = ['id' => sprintf(_x('<span>ID: %d</span>', 'The Review Post ID (admin-text)', 'site-reviews'), $post->ID)];
         foreach ($rowActions as $key => $text) {
             $newActions[$key] = glsr(Builder::class)->a($text, [
                 'aria-label' => esc_attr(sprintf(_x('%s this review', 'Approve the review (admin-text)', 'site-reviews'), $text)),

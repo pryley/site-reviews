@@ -17,6 +17,7 @@ use GeminiLabs\SiteReviews\Controllers\PublicController;
 use GeminiLabs\SiteReviews\Controllers\ReviewController;
 use GeminiLabs\SiteReviews\Controllers\RevisionController;
 use GeminiLabs\SiteReviews\Controllers\SettingsController;
+use GeminiLabs\SiteReviews\Controllers\TaxonomyController;
 use GeminiLabs\SiteReviews\Controllers\ToolsController;
 use GeminiLabs\SiteReviews\Controllers\TranslationController;
 use GeminiLabs\SiteReviews\Controllers\WelcomeController;
@@ -41,6 +42,7 @@ class Hooks implements HooksContract
     protected $revisions;
     protected $router;
     protected $settings;
+    protected $taxonomy;
     protected $tools;
     protected $translator;
     protected $welcome;
@@ -63,6 +65,7 @@ class Hooks implements HooksContract
         $this->revisions = glsr(RevisionController::class);
         $this->router = glsr(Router::class);
         $this->settings = glsr(SettingsController::class);
+        $this->taxonomy = glsr(TaxonomyController::class);
         $this->tools = glsr(ToolsController::class);
         $this->translator = glsr(TranslationController::class);
         $this->welcome = glsr(WelcomeController::class);
@@ -199,6 +202,7 @@ class Hooks implements HooksContract
         add_filter('wp_save_post_revision_check_for_changes', [$this->revisions, 'filterCheckForChanges'], 99, 3);
         add_filter('wp_save_post_revision_post_has_changed', [$this->revisions, 'filterReviewHasChanged'], 10, 3);
         add_filter('wp_get_revision_ui_diff', [$this->revisions, 'filterRevisionUiDiff'], 10, 3);
+        add_filter(glsr()->taxonomy.'_row_actions', [$this->taxonomy, 'filterRowActions'], 10, 2);
         add_filter('plugin_action_links_'.$this->basename, [$this->welcome, 'filterActionLinks'], 11);
         add_filter('admin_title', [$this->welcome, 'filterAdminTitle']);
         add_filter('admin_footer_text', [$this->welcome, 'filterFooterText']);
