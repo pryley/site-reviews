@@ -1219,6 +1219,11 @@ msgctxt "admin-text"
 msgid "Unapprove"
 msgstr ""
 
+#: plugin/Controllers/ListTableController.php:105
+msgctxt "The Review Post ID (admin-text)"
+msgid "<span>ID: %d</span>"
+msgstr ""
+
 #: plugin/Controllers/ListTableController.php:108
 msgctxt "Approve the review (admin-text)"
 msgid "%s this review"
@@ -1412,6 +1417,11 @@ msgstr ""
 #: plugin/Controllers/SettingsController.php:169
 msgctxt "admin-text"
 msgid "A license you entered was invalid."
+msgstr ""
+
+#: plugin/Controllers/TaxonomyController.php:15
+msgctxt "The Term ID (admin-text)"
+msgid "<span>ID: %d</span>"
 msgstr ""
 
 #: plugin/Controllers/ToolsController.php:27
@@ -1781,7 +1791,7 @@ msgstr ""
 msgid "This field requires a valid e-mail address."
 msgstr ""
 
-#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/DefaultValidator.php:58
+#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/DefaultValidator.php:59
 msgid "Please fix the submission errors."
 msgstr ""
 
@@ -2333,20 +2343,25 @@ msgstr ""
 
 #: views/pages/addons/index.php:10
 msgctxt "admin-text"
-msgid "Allow your website visitors to sort, filter by rating, and search reviews."
+msgid "Everything you need with all of the Site Reviews add-ons in one bundle."
 msgstr ""
 
 #: views/pages/addons/index.php:19
 msgctxt "admin-text"
-msgid "Create unique review forms with custom fields and review templates."
+msgid "Allow your website visitors to sort, filter by rating, and search reviews."
 msgstr ""
 
 #: views/pages/addons/index.php:28
 msgctxt "admin-text"
-msgid "Allow your website visitors to add images with captions to their reviews."
+msgid "Create unique review forms with custom fields and review templates."
 msgstr ""
 
 #: views/pages/addons/index.php:37
+msgctxt "admin-text"
+msgid "Allow your website visitors to add images with captions to their reviews."
+msgstr ""
+
+#: views/pages/addons/index.php:46
 msgctxt "admin-text"
 msgid "Integrate with the Trustalyze Confidence System and post reviews to the blockchain."
 msgstr ""

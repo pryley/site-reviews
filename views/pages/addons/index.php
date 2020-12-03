@@ -7,10 +7,19 @@
     <?php
         $template->render('partials/addons/addon', [
             'context' => [
+                'description' => _x('Everything you need with all of the Site Reviews add-ons in one bundle.', 'admin-text', 'site-reviews'),
+                'link' => 'https://niftyplugins.com/plugins/site-reviews-premium/',
+                'slug' => 'premium',
+                'title' => 'Site Reviews Premium',
+            ],
+            'plugin' => '',
+        ]);
+        $template->render('partials/addons/addon', [
+            'context' => [
                 'description' => _x('Allow your website visitors to sort, filter by rating, and search reviews.', 'admin-text', 'site-reviews'),
                 'link' => 'https://niftyplugins.com/plugins/site-reviews-filters/',
                 'slug' => 'filters',
-                'title' => 'Filters',
+                'title' => 'Review Filters',
             ],
             'plugin' => 'site-reviews-filters/site-reviews-filters.php',
         ]);
@@ -19,7 +28,7 @@
                 'description' => _x('Create unique review forms with custom fields and review templates.', 'admin-text', 'site-reviews'),
                 'link' => 'https://niftyplugins.com/plugins/site-reviews-forms/',
                 'slug' => 'forms',
-                'title' => 'Forms',
+                'title' => 'Review Forms',
             ],
             'plugin' => 'site-reviews-forms/site-reviews-forms.php',
         ]);
@@ -28,7 +37,7 @@
                 'description' => _x('Allow your website visitors to add images with captions to their reviews.', 'admin-text', 'site-reviews'),
                 'link' => 'https://niftyplugins.com/plugins/site-reviews-images/',
                 'slug' => 'images',
-                'title' => 'Images',
+                'title' => 'Review Images',
             ],
             'plugin' => 'site-reviews-images/site-reviews-images.php',
         ]);
