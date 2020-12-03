@@ -55,6 +55,7 @@ class DefaultValidator extends ValidatorAbstract
     public function performValidation()
     {
         if (!$this->isValid()) {
+            glsr_log()->debug($this->errors);
             $this->setErrors(__('Please fix the submission errors.', 'site-reviews'));
             return;
         }
