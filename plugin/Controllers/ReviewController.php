@@ -19,6 +19,7 @@ use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 use GeminiLabs\SiteReviews\Review;
 
 class ReviewController extends Controller
@@ -62,6 +63,16 @@ class ReviewController extends Controller
     {
         $operators = ['loose' => 'OR', 'strict' => 'AND'];
         return Arr::get($operators, glsr_get_option('reviews.assignment', 'strict', 'string'), $operator);
+    }
+
+    /**
+     * @return array
+     * @filter site-reviews/review/build/after
+     */
+    public function filterTemplateTags(array $tags, Review $review, ReviewHtml $reviewHtml)
+    {
+        $tags['assigned_links'] = $reviewHtml->buildTemplateTag($review, 'assigned_links', $review->assigned_posts);
+        return $tags;
     }
 
     /**

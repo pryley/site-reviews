@@ -50,19 +50,9 @@ class ReviewHtml extends ArrayObject
     }
 
     /**
-     * @param mixed $key
-     * @return mixed
+     * @return array
      */
-    public function offsetGet($key)
-    {
-        if (array_key_exists($key, $this->context)) {
-            return $this->context[$key];
-        }
-        $key = Helper::ifTrue('values' === $key, 'context', $key); // @deprecated in v5.0
-        return Helper::ifTrue(property_exists($this, $key), $this->$key);
-    }
-
-    protected function buildContext(Review $review)
+    public function buildContext(Review $review)
     {
         glsr()->action('review/build/before', $review, $this);
         $templateTags = [];
@@ -75,10 +65,10 @@ class ReviewHtml extends ArrayObject
 
     /**
      * @param string $tag
-     * @param string $value
+     * @param string|array $value
      * @return string
      */
-    protected function buildTemplateTag(Review $review, $tag, $value)
+    public function buildTemplateTag(Review $review, $tag, $value)
     {
         $args = $this->args;
         $tagSlug = implode('-', ['review', $tag, 'tag']);
@@ -91,13 +81,25 @@ class ReviewHtml extends ArrayObject
     }
 
     /**
+     * @param mixed $key
+     * @return mixed
+     */
+    public function offsetGet($key)
+    {
+        if (array_key_exists($key, $this->context)) {
+            return $this->context[$key];
+        }
+        $key = Helper::ifTrue('values' === $key, 'context', $key); // @deprecated in v5.0
+        return Helper::ifTrue(property_exists($this, $key), $this->$key);
+    }
+
+    /**
      * @param string $tag
      * @return string
      */
     protected function normalizeTemplateTag($tag)
     {
         $mappedTags = [
-            'assigned_posts' => 'assigned_links',
             'ID' => 'review_id',
         ];
         return Arr::get($mappedTags, $tag, $tag);
