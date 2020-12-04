@@ -78,13 +78,13 @@ class SiteReviewsFormBlock extends Block
      */
     protected function filterFormFields()
     {
-        add_filter('site-reviews/config/forms/review-form', function (array $config) {
-            array_walk($config, function (&$field) {
+        add_filter('site-reviews/review-form/fields', function (array $fields) {
+            array_walk($fields, function (&$field) {
                 $field['class'] = $this->formFieldClass(Arr::get($field, 'type'));
                 $field['disabled'] = true;
                 $field['tabindex'] = '-1';
             });
-            return $config;
+            return $fields;
         });
     }
 
