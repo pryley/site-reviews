@@ -30,17 +30,11 @@ abstract class Shortcode implements ShortcodeContract
     /**
      * @var string
      */
-    public $partialName;
-
-    /**
-     * @var string
-     */
-    public $shortcodeName;
+    public $shortcode;
 
     public function __construct()
     {
-        $this->partialName = $this->getShortcodePartialName();
-        $this->shortcodeName = $this->getShortcodeName();
+        $this->shortcode = Str::snakeCase($this->getShortClassName());
     }
 
     /**
@@ -96,7 +90,7 @@ abstract class Shortcode implements ShortcodeContract
     public function getHideOptions()
     {
         $options = $this->hideOptions();
-        return glsr()->filterArray('shortcode/hide-options', $options, $this->shortcodeName, $this);
+        return glsr()->filterArray('shortcode/hide-options', $options, $this->shortcode, $this);
     }
 
     /**
@@ -117,22 +111,6 @@ abstract class Shortcode implements ShortcodeContract
     }
 
     /**
-     * @return string
-     */
-    public function getShortcodeName()
-    {
-        return Str::snakeCase($this->getShortClassName());
-    }
-
-    /**
-     * @return string
-     */
-    public function getShortcodePartialName()
-    {
-        return Str::dashCase($this->getShortClassName());
-    }
-
-    /**
      * @param array|string $args
      * @param string $type
      * @return Arguments
@@ -145,7 +123,7 @@ abstract class Shortcode implements ShortcodeContract
             'before_title' => '<h2 class="glsr-title">',
             'after_title' => '</h2>',
         ]);
-        $args = glsr()->filterArray('shortcode/args', $args, $type, $this->partialName);
+        $args = glsr()->filterArray('shortcode/args', $args, $type, $this->shortcode);
         return glsr()->args($args);
     }
 
@@ -157,7 +135,8 @@ abstract class Shortcode implements ShortcodeContract
     public function normalizeAtts($atts, $type = 'shortcode')
     {
         $atts = wp_parse_args($atts);
-        $atts = glsr()->filterArray('shortcode/atts', $atts, $type, $this->partialName);
+        $atts = glsr()->filterArray('shortcode/atts', $atts, $type, $this->shortcode);
+        glsr_log($atts);
         $atts = glsr($this->getShortcodeDefaultsClassName())->unguardedRestrict($atts);
         $atts = glsr()->args($atts);
         foreach ($atts as $key => &$value) {
