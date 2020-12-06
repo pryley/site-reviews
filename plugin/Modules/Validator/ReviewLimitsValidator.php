@@ -45,7 +45,8 @@ class ReviewLimitsValidator extends ValidatorAbstract
         if (empty($whitelist)) {
             return false;
         }
-        return in_array($value, array_filter(explode("\n", $whitelist), 'trim'));
+        $values = array_filter(array_map('trim', explode("\n", $whitelist)));
+        return in_array($value, $values);
     }
 
     /**

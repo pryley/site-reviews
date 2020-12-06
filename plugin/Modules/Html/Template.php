@@ -26,7 +26,7 @@ class Template implements Contract
         $path = str_replace('templates/', '', $templatePath);
         $template = $this->app()->build($templatePath, $data);
         $template = $this->app()->filterString('build/template/'.$path, $template, $data);
-        $template = $this->interpolate($template, $data, $path);
+        $template = $this->interpolate($template, $path, $data);
         $template = $this->app()->filterString('rendered/template', $template, $templatePath, $data);
         $template = $this->app()->filterString('rendered/template/'.$path, $template, $data);
         return $template;
@@ -38,7 +38,7 @@ class Template implements Contract
      * @param string $templatePath
      * @return string
      */
-    public function interpolate($template, array $data = [], $templatePath)
+    public function interpolate($template, $templatePath, array $data = [])
     {
         $context = $this->normalizeContext(Arr::get($data, 'context', []));
         $context = $this->app()->filterArray('interpolate/'.$templatePath, $context, $template, $data);

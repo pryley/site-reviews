@@ -21,7 +21,7 @@ interface TemplateContract
      * @param string $templatePath
      * @return string
      */
-    public function interpolate($template, array $data = [], $templatePath);
+    public function interpolate($template, $templatePath, array $data = []);
 
     /**
      * Interpolate context values into template placeholders.

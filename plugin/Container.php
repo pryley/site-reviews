@@ -42,9 +42,7 @@ abstract class Container
     public function bind($abstract, $concrete = null, $shared = false)
     {
         $this->dropStaleInstances($abstract);
-        if (is_null($concrete)) {
-            $concrete = $abstract;
-        }
+        $concrete = Helper::ifTrue(is_null($concrete), $abstract, $concrete);
         if (!$concrete instanceof Closure) {
             $concrete = $this->getClosure($abstract, $concrete);
         }
@@ -114,6 +112,18 @@ abstract class Container
     protected function dropStaleInstances($abstract)
     {
         unset($this->instances[$abstract]);
+    }
+
+    /**
+     * @param \ReflectionParameter $parameter
+     * @return null|\ReflectionClass|\ReflectionNamedType|\ReflectionType
+     */
+    protected function getClass($parameter)
+    {
+        if (version_compare(phpversion(), '8', '<')) {
+            return $parameter->getClass(); // @compat PHP < 8
+        }
+        return $parameter->getType();
     }
 
     /**
@@ -219,7 +229,7 @@ abstract class Container
     protected function resolveClass(ReflectionParameter $parameter)
     {
         try {
-            return $this->make($parameter->getClass()->name);
+            return $this->make($this->getClass($parameter)->getName());
         } catch (Exception $error) {
             if ($parameter->isOptional()) {
                 return $parameter->getDefaultValue();
@@ -239,7 +249,7 @@ abstract class Container
                 $results[] = $this->getParameterOverride($dependency);
                 continue;
             }
-            $results[] = Helper::ifTrue(is_null($dependency->getClass()),
+            $results[] = Helper::ifTrue(is_null($this->getClass($dependency)),
                 function () use ($dependency) { return $this->resolvePrimitive($dependency); },
                 function () use ($dependency) { return $this->resolveClass($dependency); }
             );

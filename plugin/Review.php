@@ -202,7 +202,9 @@ class Review extends Arguments
     {
         if (!$this->_meta instanceof Arguments) {
             $meta = Arr::consolidate(get_post_meta($this->id));
-            $meta = array_map('array_shift', array_filter($meta));
+            $meta = array_map(function ($item) {
+                return array_shift($item);
+            }, array_filter($meta));
             $meta = array_filter($meta, 'strlen');
             $meta = array_map('maybe_unserialize', $meta);
             $this->_meta = glsr()->args($meta);
