@@ -134,14 +134,11 @@ final class Application extends Container
     public function register($addon)
     {
         try {
-            $reflection = new \ReflectionClass($addon);
-            if ($id = $reflection->getConstant('ID')) {
-                $this->addons[] = $id;
-                $this->bind($id, function () use ($addon) {
-                    return $addon;
-                });
-                $addon->init();
-            }
+            $reflection = new \ReflectionClass($addon); // make sure that the class exists
+            $addon = $reflection->getName();
+            $this->addons[] = $addon;
+            $this->singleton($addon);
+            $this->make($addon)->init();
         } catch (\ReflectionException $e) {
             glsr_log()->error('Attempted to register an invalid addon.');
         }
