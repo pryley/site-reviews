@@ -23,6 +23,14 @@
     margin: var(--glsr-base-font-size) 0;
     white-space: pre-line;
 }
+:--namespace .glsr-review p br {
+    content: '';
+    display: inherit;
+    margin-bottom: var(--glsr-base-font-size);
+}
+:--namespace .glsr-review .glsr-visible + .glsr-read-more::before {
+    display: none;
+}
 :--namespace .glsr-review > div:first-of-type,
 :--namespace .glsr-review p:first-of-type {
     margin-top: 0;

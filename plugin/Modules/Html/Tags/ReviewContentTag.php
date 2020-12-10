@@ -88,10 +88,12 @@ class ReviewContentTag extends ReviewTag
         $text = wp_kses($text, $allowedHtml);
         $text = convert_smilies(strip_shortcodes($text));
         $text = str_replace(']]>', ']]&gt;', $text);
-        $text = preg_replace('/(\R){2,}/u', '$1', $text);
+        $text = preg_replace('/(\v){2,}/u', '$1', $text);
         if (glsr_get_option('reviews.excerpts', false, 'bool')) {
             $text = $this->excerpt($text);
         }
-        return wptexturize(nl2br($text));
+        $text = wptexturize(nl2br($text));
+        $text = preg_replace('/(\v|\s){1,}/u', ' ', $text); // replace all multiple-space and carriage return characters with a space
+        return $text;
     }
 }
