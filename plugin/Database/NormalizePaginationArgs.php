@@ -45,8 +45,8 @@ class NormalizePaginationArgs extends Arguments
             $this->pageUrl = Url::path(Url::home()) === $urlPath
                 ? Url::home()
                 : Url::home($urlPath);
-        } else {
-            $this->pageUrl = Url::home(Url::path(filter_input(INPUT_SERVER, 'REQUEST_URI')));
+        } elseif (empty($this->pageUrl = get_permalink())) {
+            $this->pageUrl = Url::home(Url::path($_SERVER['REQUEST_URI']));
         }
     }
 
