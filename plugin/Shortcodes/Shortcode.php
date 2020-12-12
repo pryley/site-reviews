@@ -136,7 +136,6 @@ abstract class Shortcode implements ShortcodeContract
     {
         $atts = wp_parse_args($atts);
         $atts = glsr()->filterArray('shortcode/atts', $atts, $type, $this->shortcode);
-        glsr_log($atts);
         $atts = glsr($this->getShortcodeDefaultsClassName())->unguardedRestrict($atts);
         $atts = glsr()->args($atts);
         foreach ($atts as $key => &$value) {
