@@ -49,7 +49,7 @@ function glsr_uninstall_all_delete_logs() {
     global $wp_filesystem;
     // delete the Site Reviews logs directory
     if (WP_Filesystem()) {
-        $uploads = wp_upload_dir();
+        $uploads = wp_upload_dir(null, true, true); // do not use the cached path
         $dirname = trailingslashit($uploads['basedir'].'/site-reviews/logs');
         $wp_filesystem->rmdir(wp_normalize_path($dirname), true);
     }
