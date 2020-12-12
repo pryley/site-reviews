@@ -14,6 +14,9 @@
         <p>This notice may appear after updating Site Reviews. If it does, please click the "Update Database" button to run it. If it continues to appear after reloading your pages:</p>
         <ol>
             <li>
+                <p>Check the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-console'); ?>">Tools &rarr; Console</a></code> page. If there are any entries that say "Unknown character set", then you will need to check your wp-config.php file to see if it defines <a href="https://wordpress.org/support/article/editing-wp-config-php/#database-character-set" target="_blank">DB_CHARSET</a> or <a href="https://wordpress.org/support/article/editing-wp-config-php/#database-collation" target="_blank">DB_COLLATE</a>. If it does, either remove those entries, or make sure that the values they define are correct.</p>
+            </li>
+            <li>
                 <p>You may be using a caching plugin which is caching the database and preventing Site Reviews from storing the migration status. To fix this, you will need to flush your database cache and/or object cache and then try again.</p>
             </li>
             <li>
