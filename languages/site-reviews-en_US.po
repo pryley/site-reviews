@@ -212,23 +212,23 @@ msgstr[1] "%s years ago"
 msgid "Anonymous"
 msgstr "Anonymous"
 
-#: plugin/Shortcodes/Shortcode.php:224
+#: plugin/Shortcodes/Shortcode.php:202
 msgid "Excellent"
 msgstr "Excellent"
 
-#: plugin/Shortcodes/Shortcode.php:225
+#: plugin/Shortcodes/Shortcode.php:203
 msgid "Very good"
 msgstr "Very good"
 
-#: plugin/Shortcodes/Shortcode.php:226
+#: plugin/Shortcodes/Shortcode.php:204
 msgid "Average"
 msgstr "Average"
 
-#: plugin/Shortcodes/Shortcode.php:227
+#: plugin/Shortcodes/Shortcode.php:205
 msgid "Poor"
 msgstr "Poor"
 
-#: plugin/Shortcodes/Shortcode.php:228
+#: plugin/Shortcodes/Shortcode.php:206
 msgid "Terrible"
 msgstr "Terrible"
 
@@ -1400,7 +1400,7 @@ msgstr ""
 "The [%s] method has been deprecated and will be soon be removed, please use "
 "the [%s] method instead."
 
-#: plugin/Review.php:307, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
+#: plugin/Review.php:309, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr "Unknown"
@@ -2738,6 +2738,16 @@ msgstr "Installed"
 msgctxt "admin-text"
 msgid "Enter a valid license key for automatic updates."
 msgstr "Enter a valid license key for automatic updates."
+
+#: views/partials/addons/support-notice.php:5
+msgctxt "admin-text"
+msgid "To receive support for this add-on, please %s to your Nifty Plugins account."
+msgstr "To receive support for this add-on, please %s to your Nifty Plugins account."
+
+#: views/partials/addons/support-notice.php:6
+msgctxt "admin-text"
+msgid "login"
+msgstr "login"
 
 #: views/partials/editor/assigned-entry.php:7
 msgctxt "admin-text"

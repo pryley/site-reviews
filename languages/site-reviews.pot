@@ -977,7 +977,7 @@ msgctxt "admin-text"
 msgid "The [%s] method has been deprecated and will be soon be removed, please use the [%s] method instead."
 msgstr ""
 
-#: plugin/Review.php:307, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
+#: plugin/Review.php:309, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr ""
@@ -1895,23 +1895,23 @@ msgctxt "admin-text"
 msgid "This custom translation is no longer valid as the original text has been changed or removed."
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:224
+#: plugin/Shortcodes/Shortcode.php:202
 msgid "Excellent"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:225
+#: plugin/Shortcodes/Shortcode.php:203
 msgid "Very good"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:226
+#: plugin/Shortcodes/Shortcode.php:204
 msgid "Average"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:227
+#: plugin/Shortcodes/Shortcode.php:205
 msgid "Poor"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:228
+#: plugin/Shortcodes/Shortcode.php:206
 msgid "Terrible"
 msgstr ""
 
@@ -2569,6 +2569,16 @@ msgstr ""
 #: views/partials/addons/license-missing.php:4
 msgctxt "admin-text"
 msgid "Enter a valid license key for automatic updates."
+msgstr ""
+
+#: views/partials/addons/support-notice.php:5
+msgctxt "admin-text"
+msgid "To receive support for this add-on, please %s to your Nifty Plugins account."
+msgstr ""
+
+#: views/partials/addons/support-notice.php:6
+msgctxt "admin-text"
+msgid "login"
 msgstr ""
 
 #: views/partials/editor/assigned-entry.php:7
