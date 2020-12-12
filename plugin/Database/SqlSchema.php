@@ -160,6 +160,7 @@ class SqlSchema
                 UNIQUE KEY {$this->prefix('assigned_posts_rating_id_post_id_unique')} (rating_id,post_id)
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
         "));
+        glsr(Database::class)->logErrors();
         return true;
     }
 
@@ -179,6 +180,7 @@ class SqlSchema
                 UNIQUE KEY {$this->prefix('assigned_terms_rating_id_term_id_unique')} (rating_id,term_id)
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
         "));
+        glsr(Database::class)->logErrors();
         return true;
     }
 
@@ -198,6 +200,7 @@ class SqlSchema
                 UNIQUE KEY {$this->prefix('assigned_users_rating_id_user_id_unique')} (rating_id,user_id)
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
         "));
+        glsr(Database::class)->logErrors();
         return true;
     }
 
@@ -230,6 +233,7 @@ class SqlSchema
                 KEY {$this->prefix('ratings_rating_type_is_pinned_index')} (rating,type,is_pinned)
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
         "));
+        glsr(Database::class)->logErrors();
         return true;
     }
 
