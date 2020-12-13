@@ -137,7 +137,7 @@ final class Application extends Container
             $reflection = new \ReflectionClass($addon); // make sure that the class exists
             $addon = $reflection->getName();
             $this->addons[$addon::ID] = $addon;
-            $this->alias($addon::ID, $addon);
+            $this->alias($addon::ID, $this->make($addon)); // @todo for some reason we have to link an alias to an instantiated class
             $this->singleton($addon);
             $this->make($addon)->init();
         } catch (\ReflectionException $e) {
