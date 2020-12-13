@@ -21,7 +21,7 @@ You can pin your best reviews so that they are always shown first, require appro
 
 [Follow plugin development on Github.](https://github.com/pryley/site-reviews/)
 
-Images adapted from [freepik](https://www.freepik.com/vectors).
+Images adapted from [freepik](https://www.freepik.com).
 
 = Current Features =
 
@@ -116,10 +116,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 = 5.3.0 (2020-12-13) =
 
 - Added "Site Reviews Premium"
+- Added "Review Forms" add-on
 - Added debug logging for validation errors
 - Added error logging for database table creation errors
 - Added support for PHP 8
-- Added the "Review Forms" add-on
 - Added the Category and Review IDs to the action row in the admin tables
 - Added the {{ assigned_posts }}, {{ assigned_users }}, and {{ assigned_terms }} template tags
 - Fixed block attributes

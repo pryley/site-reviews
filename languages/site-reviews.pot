@@ -1369,17 +1369,17 @@ msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:119
+#: plugin/Controllers/NoticeController.php:120
 msgctxt "admin-text"
 msgid "Common Problems and Solutions"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:134
+#: plugin/Controllers/NoticeController.php:135
 msgctxt "admin-text"
 msgid "Thanks for installing Site Reviews v%s, we hope you love it!"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:135
+#: plugin/Controllers/NoticeController.php:136
 msgctxt "admin-text"
 msgid "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 msgstr ""
@@ -2343,7 +2343,7 @@ msgstr ""
 
 #: views/pages/addons/index.php:10
 msgctxt "admin-text"
-msgid "Everything you need with all of the Site Reviews add-ons in one bundle."
+msgid "All of the add-ons! Grab the special introductory discount while it still lasts..."
 msgstr ""
 
 #: views/pages/addons/index.php:19
@@ -2689,6 +2689,11 @@ msgstr ""
 #: views/partials/notices/migrate.php:10
 msgctxt "admin-text"
 msgid "Update Database"
+msgstr ""
+
+#: views/partials/notices/premium.php:10
+msgctxt "admin-text"
+msgid "Learn more"
 msgstr ""
 
 #: views/partials/notices/welcome.php:4

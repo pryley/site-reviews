@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Request;
@@ -22,7 +23,7 @@ class NoticeController extends Controller
     public function __construct()
     {
         $this->dismissValuesMap = [
-            'addons' => glsr()->version('major'),
+            'premium' => glsr()->version('major'),
             'welcome' => glsr()->version('minor'),
         ];
     }
@@ -34,8 +35,8 @@ class NoticeController extends Controller
     public function adminNotices()
     {
         // order is intentional!
-        $this->renderAddonsNotice();
         $this->renderWelcomeNotice();
+        $this->renderPremiumNotice();
         $this->renderMigrationNotice();
     }
 
@@ -89,18 +90,18 @@ class NoticeController extends Controller
         $screenIds = [
             'dashboard',
         ];
-        return glsr()->post_type == $screen->post_type || in_array($screen->id, $screenIds);
+        return Str::startsWith(glsr()->post_type, glsr_current_screen()->post_type) || in_array($screen->id, $screenIds);
     }
 
     /**
      * @return void
      */
-    protected function renderAddonsNotice()
+    protected function renderPremiumNotice()
     {
-        if ($this->isCurrentScreen()
-            && Helper::isGreaterThan($this->getVersionFor('addons'), $this->getUserMeta('addons', 0))
+        if (Str::startsWith(glsr()->post_type, glsr_current_screen()->post_type)
+            && Helper::isGreaterThan($this->getVersionFor('premium'), $this->getUserMeta('premium', 0))
             && glsr()->can('edit_others_posts')) {
-            glsr()->render('partials/notices/addons');
+            glsr()->render('partials/notices/premium');
         }
     }
 

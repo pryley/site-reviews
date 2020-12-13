@@ -155,7 +155,7 @@ class SettingsController extends Controller
     protected function verifyLicense($license, $slug)
     {
         try {
-            $addon = glsr(glsr()->addons[$slug]);
+            $addon = glsr($slug); // use addon alias to get the class
             $updater = new Updater($addon->update_url, $addon->file, [
                 'license' => $license,
                 'testedTo' => $addon->testedTo,

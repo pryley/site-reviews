@@ -27,7 +27,7 @@ class Backtrace
     }
 
     /**
-     * @param \Throwable $data
+     * @param \Throwable|mixed $data
      * @return string
      */
     public function lineFromData($data)

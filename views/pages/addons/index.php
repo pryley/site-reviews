@@ -7,7 +7,7 @@
     <?php
         $template->render('partials/addons/addon', [
             'context' => [
-                'description' => _x('Everything you need with all of the Site Reviews add-ons in one bundle.', 'admin-text', 'site-reviews'),
+                'description' => _x('All of the add-ons! Grab the special introductory discount while it still lasts...', 'admin-text', 'site-reviews').' 👀',
                 'link' => 'https://niftyplugins.com/plugins/site-reviews-premium/',
                 'slug' => 'premium',
                 'title' => 'Site Reviews Premium',

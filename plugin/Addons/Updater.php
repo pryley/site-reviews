@@ -137,9 +137,9 @@ class Updater
         if (!filter_input(INPUT_GET, 'force-check')) {
             return;
         }
-        foreach (glsr()->addons as $addon) {
+        foreach (glsr()->addons as $id => $className) {
             try {
-                glsr($addon)->updater->getPluginUpdate(true);
+                glsr($className)->updater->getPluginUpdate(true);
             } catch (\Exception $e) {
                 glsr_log()->error($e->getMessage());
             }

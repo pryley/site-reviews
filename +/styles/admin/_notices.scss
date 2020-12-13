@@ -4,11 +4,10 @@
 
 .glsr-notice-branded {
     border-left-color: #F6E05E !important;
-    padding-left: 98px;
+    padding-left: 123px;
 }
 .glsr-notice-branded-image {
     align-items: center;
-    background-color: #FAF089;
     border-right: 1px solid #ccd0d4;
     bottom: 0;
     display: flex;
@@ -16,8 +15,24 @@
     left: 0;
     padding: 0 5px;
     position: absolute;
+    width: 100px;
+}
+.glsr-notice-branded .glsr-notice-branded-image {
+    background-color: #FAF089;
     top: 0;
-    width: 75px;
+}
+.glsr-notice-premium .glsr-notice-branded-image {
+    background-color: #252f3f;
+    bottom: -1px;
+    top: -1px;
+}
+.glsr-notice-branded-image svg {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 .glsr-notice:not(.notice-error):not(.notice-info):not(.notice-warning):not(.glsr-notice-branded) {
     display: flex;
