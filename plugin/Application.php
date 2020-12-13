@@ -138,6 +138,7 @@ final class Application extends Container
             $addon = $reflection->getName();
             $this->addons[$addon::ID] = $addon;
             $this->singleton($addon);
+            $this->alias($addon::ID, $this->make($addon)); // @todo remove this in v6
             $this->make($addon)->init();
         } catch (\ReflectionException $e) {
             glsr_log()->error('Attempted to register an invalid addon.');

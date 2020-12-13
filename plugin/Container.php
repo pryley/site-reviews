@@ -34,6 +34,16 @@ abstract class Container
     protected $with = [];
 
     /**
+     * @param string $alias
+     * @param mixed $concrete
+     * @return void
+     */
+    public function alias($alias, $concrete)
+    {
+        $this->instances[$alias] = $concrete;
+    }
+
+    /**
      * @param string $abstract
      * @param mixed $concrete
      * @param bool $shared
