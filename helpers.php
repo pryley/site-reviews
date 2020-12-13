@@ -61,7 +61,7 @@ function glsr($alias = null, array $parameters = [])
         return $app->make($alias, $parameters);
     } catch (BindingResolutionException $e) {
         glsr_log()->error($e->getMessage());
-        return $app->make(BlackHole::class);
+        return $app->make(BlackHole::class, compact('alias'));
     }
 }
 

@@ -4,8 +4,11 @@ namespace GeminiLabs\SiteReviews;
 
 class BlackHole extends \ArrayObject
 {
-    public function __construct()
+    public $alias;
+
+    public function __construct($alias = '')
     {
+        $this->alias = $alias;
         parent::__construct([]);
     }
 
@@ -16,6 +19,6 @@ class BlackHole extends \ArrayObject
 
     public function __call($method, $args)
     {
-        glsr_log()->error("Call to a member function $method() on an unknown class");
+        glsr_log()->error("Attempting to call $method() on an unknown class [$this->alias]");
     }
 }
