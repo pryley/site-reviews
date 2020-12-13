@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, 
 Tested up to: 5.6
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.3.0-beta
+Stable tag: 5.3.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -112,6 +112,29 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 15. This is what the Slack notifications look like.
 
 == Changelog ==
+
+= 5.3.0 (2020-12-13) =
+
+- Added "Site Reviews Premium"
+- Added debug logging for validation errors
+- Added error logging for database table creation errors
+- Added support for PHP 8
+- Added the "Review Forms" add-on
+- Added the Category and Review IDs to the action row in the admin tables
+- Added the {{ assigned_posts }}, {{ assigned_users }}, and {{ assigned_terms }} template tags
+- Fixed block attributes
+- Fixed line-breaks in review excerpts
+- Fixed pagination URLs for servers that do not use REQUEST_URI
+- Fixed support for older custom fields using assign_to/category as names
+- Fixed the Backtrace used when logging entries to the Console
+- Fixed the Console on sites that have been duplicated but still have the upload dir cached to the old path
+- Improved the block options
+- Improved the documentation
+- Improved the System Info
+
+= 5.2.3 (2020-11-30) =
+
+- Fixed the PHP multibyte fallback when the iconv extension is missing
 
 = 5.2.2 (2020-11-17) =
 
