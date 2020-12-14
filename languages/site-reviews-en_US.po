@@ -212,23 +212,23 @@ msgstr[1] "%s years ago"
 msgid "Anonymous"
 msgstr "Anonymous"
 
-#: plugin/Shortcodes/Shortcode.php:202
+#: plugin/Shortcodes/Shortcode.php:207
 msgid "Excellent"
 msgstr "Excellent"
 
-#: plugin/Shortcodes/Shortcode.php:203
+#: plugin/Shortcodes/Shortcode.php:208
 msgid "Very good"
 msgstr "Very good"
 
-#: plugin/Shortcodes/Shortcode.php:204
+#: plugin/Shortcodes/Shortcode.php:209
 msgid "Average"
 msgstr "Average"
 
-#: plugin/Shortcodes/Shortcode.php:205
+#: plugin/Shortcodes/Shortcode.php:210
 msgid "Poor"
 msgstr "Poor"
 
-#: plugin/Shortcodes/Shortcode.php:206
+#: plugin/Shortcodes/Shortcode.php:211
 msgid "Terrible"
 msgstr "Terrible"
 
@@ -2831,27 +2831,6 @@ msgstr "Toggle panel: Public Response"
 msgctxt "admin-text"
 msgid "Public Response"
 msgstr "Public Response"
-
-#: views/partials/notices/addons.php:22
-msgctxt "admin-text"
-msgid "Add-ons for Site Reviews are now available!"
-msgstr "Add-ons for Site Reviews are now available!"
-
-#: views/partials/notices/addons.php:23
-msgctxt "admin-text"
-msgid ""
-"Allow people to add captioned images to their reviews; provide sorting, "
-"filtering, and search functionality; and integrate with the Trustalyze "
-"platform."
-msgstr ""
-"Allow people to add captioned images to their reviews; provide sorting, "
-"filtering, and search functionality; and integrate with the Trustalyze "
-"platform."
-
-#: views/partials/notices/addons.php:26
-msgctxt "admin-text"
-msgid "Check Them Out"
-msgstr "Check Them Out"
 
 #: views/partials/notices/migrate.php:6
 msgctxt "admin-text"

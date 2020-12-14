@@ -1895,23 +1895,23 @@ msgctxt "admin-text"
 msgid "This custom translation is no longer valid as the original text has been changed or removed."
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:202
+#: plugin/Shortcodes/Shortcode.php:207
 msgid "Excellent"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:203
+#: plugin/Shortcodes/Shortcode.php:208
 msgid "Very good"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:204
+#: plugin/Shortcodes/Shortcode.php:209
 msgid "Average"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:205
+#: plugin/Shortcodes/Shortcode.php:210
 msgid "Poor"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:206
+#: plugin/Shortcodes/Shortcode.php:211
 msgid "Terrible"
 msgstr ""
 
@@ -2654,21 +2654,6 @@ msgstr ""
 #: views/partials/editor/review.php:21
 msgctxt "admin-text"
 msgid "Public Response"
-msgstr ""
-
-#: views/partials/notices/addons.php:22
-msgctxt "admin-text"
-msgid "Add-ons for Site Reviews are now available!"
-msgstr ""
-
-#: views/partials/notices/addons.php:23
-msgctxt "admin-text"
-msgid "Allow people to add captioned images to their reviews; provide sorting, filtering, and search functionality; and integrate with the Trustalyze platform."
-msgstr ""
-
-#: views/partials/notices/addons.php:26
-msgctxt "admin-text"
-msgid "Check Them Out"
 msgstr ""
 
 #: views/partials/notices/migrate.php:6
