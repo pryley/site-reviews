@@ -20,10 +20,6 @@ class Updater
      * @var string
      */
     protected $plugin;
-    /**
-     * @var string
-     */
-    protected $transientName;
 
     /**
      * @param string $apiUrl
@@ -37,7 +33,6 @@ class Updater
         $this->apiUrl = trailingslashit(glsr()->filterString('addon/api-url', $apiUrl));
         $this->data = wp_parse_args($data, get_plugin_data($file));
         $this->plugin = plugin_basename($file);
-        $this->transientName = glsr()->prefix.md5(Arr::get($data, 'TextDomain'));
     }
 
     /**
@@ -137,12 +132,10 @@ class Updater
         if (!filter_input(INPUT_GET, 'force-check')) {
             return;
         }
-        foreach (glsr()->addons as $id => $className) {
-            try {
-                glsr($className)->updater->getPluginUpdate(true);
-            } catch (\Exception $e) {
-                glsr_log()->error($e->getMessage());
-            }
+        try {
+            $this->getPluginUpdate(true);
+        } catch (\Exception $e) {
+            glsr_log()->error($e->getMessage());
         }
     }
 
@@ -161,7 +154,7 @@ class Updater
      */
     protected function getCachedVersion()
     {
-        return get_transient($this->transientName);
+        return get_transient($this->getTransientName());
     }
 
     /**
@@ -171,7 +164,7 @@ class Updater
     protected function getPluginUpdate($force = false)
     {
         $version = $this->getCachedVersion();
-        if (false === $version || $force) {
+        if (false === $version || false !== $force) {
             $version = $this->getVersion();
             $this->setCachedVersion($version);
         }
@@ -180,6 +173,14 @@ class Updater
             return false;
         }
         return $version;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTransientName()
+    {
+        return glsr()->prefix.md5(Arr::get($this->data, 'TextDomain'));
     }
 
     /**
@@ -250,8 +251,8 @@ class Updater
         $response = wp_remote_post($this->apiUrl, [
             'body' => [
                 'edd_action' => $action,
-                'item_id' => Arr::get($data, 'item_id'),
-                'item_name' => Arr::get($data, 'Name'),
+                'item_id' => '', // we don't have access to the download ID which is why this is empty
+                'item_name' => Arr::get($data, 'TextDomain'), // we are using the slug for the name
                 'license' => Arr::get($data, 'license'),
                 'slug' => Arr::get($data, 'TextDomain'),
                 'url' => Url::home(),
@@ -269,7 +270,7 @@ class Updater
     protected function setCachedVersion($version)
     {
         if (!isset($version->error)) {
-            set_transient($this->transientName, $version, 3 * HOUR_IN_SECONDS);
+            set_transient($this->getTransientName(), $version, 3 * HOUR_IN_SECONDS);
         }
     }
 }

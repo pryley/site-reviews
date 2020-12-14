@@ -55,9 +55,12 @@ abstract class Addon
      */
     public function update()
     {
+        $doingCron = defined('DOING_CRON') && DOING_CRON;
+        if (!current_user_can('manage_options') && !$doingCron) {
+            return;
+        }
         $this->updater = new Updater(static::UPDATE_URL, $this->file, [
             'license' => glsr_get_option('licenses.'.static::ID),
-            // 'testedTo' => $this->testedTo,
         ]);
         $this->updater->init();
     }
