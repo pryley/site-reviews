@@ -37,6 +37,11 @@ abstract class Shortcode implements ShortcodeContract
         $this->shortcode = Str::snakeCase($this->getShortClassName());
     }
 
+    public function __get($parameter)
+    {
+        // @compat provides backwards compatibility with unsupported add-ons
+    }
+
     /**
      * @param string|array $atts
      * @param string $type
