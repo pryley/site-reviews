@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, 
 Tested up to: 5.6
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.3.3
+Stable tag: 5.3.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -112,6 +112,11 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 15. This is what the Slack notifications look like.
 
 == Changelog ==
+
+= 5.3.4 (2020-12-16) =
+
+- Fixed pagination to use the saved "hide" options
+- Fixed the import tool, it no longer substitutes empty review name/email fields with those of the logged in user
 
 = 5.3.3 (2020-12-14) =
 
