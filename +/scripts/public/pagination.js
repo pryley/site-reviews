@@ -59,7 +59,12 @@ Paginate.prototype = {
         }
         var data = {};
         for (var key of Object.keys(dataEl.dataset)) {
-            data[GLSR.nameprefix + '[atts][' + key + ']'] = dataEl.dataset[key];
+            var value = dataEl.dataset[key];
+            try {
+                var parsedValue = JSON.parse(value);
+                value = parsedValue;
+            } catch(e) {}
+            data[GLSR.nameprefix + '[atts][' + key + ']'] = value;
         }
         data[GLSR.nameprefix + '[_action]'] = 'fetch-paged-reviews';
         data[GLSR.nameprefix + '[page]'] = ev.currentTarget.dataset.page || '';
