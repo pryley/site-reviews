@@ -193,7 +193,7 @@ class Sanitizer
     {
         $user = wp_get_current_user();
         $value = Cast::toString($value);
-        if ($user->exists()) {
+        if ($user->exists() && !glsr()->retrieveAs('bool', 'import', false)) {
             return Helper::ifEmpty($value, $user->user_email);
         }
         return sanitize_email($value);
@@ -207,7 +207,7 @@ class Sanitizer
     {
         $user = wp_get_current_user();
         $value = Cast::toString($value);
-        if ($user->exists()) {
+        if ($user->exists() && !glsr()->retrieveAs('bool', 'import', false)) {
             return Helper::ifEmpty($value, $user->display_name);
         }
         return sanitize_text_field($value);

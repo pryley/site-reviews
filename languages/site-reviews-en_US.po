@@ -1495,14 +1495,14 @@ msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr "Pin Your Reviews"
 
-#: plugin/Commands/ImportReviews.php:93
+#: plugin/Commands/ImportReviews.php:95
 msgctxt "admin-text"
 msgid "%s review was imported."
 msgid_plural "%s reviews were imported."
 msgstr[0] "%s review was imported."
 msgstr[1] "%s reviews were imported."
 
-#: plugin/Commands/ImportReviews.php:101
+#: plugin/Commands/ImportReviews.php:103
 msgctxt "admin-text"
 msgid "%s entry was skipped."
 msgid_plural "%s entries were skipped."
