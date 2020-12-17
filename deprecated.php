@@ -12,7 +12,7 @@ defined('ABSPATH') || die;
  * @return string
  * @since 5.0
  */
-add_filter('site-reviews/rendered/template/review', function ($template) {
+add_filter('site-reviews/build/template/review', function ($template) {
     return str_replace('{{ assigned_to }}', '{{ assigned_links }}', $template);
 });
 
@@ -22,7 +22,7 @@ add_filter('site-reviews/rendered/template/review', function ($template) {
  * @return string
  * @since 5.3
  */
-add_filter('site-reviews/rendered/template/review', function ($template) {
+add_filter('site-reviews/build/template/review', function ($template) {
     return str_replace('id="{{ review_id }}"', 'id="review-{{ review_id }}"', $template);
 });
 
