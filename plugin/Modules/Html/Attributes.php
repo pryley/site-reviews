@@ -119,9 +119,10 @@ class Attributes
         $attributes = [];
         foreach ($this->attributes as $attribute => $value) {
             $quote = $this->getQuoteChar($attribute);
+            $value = esc_attr(implode(',', (array) $value));
             $attributes[] = in_array($attribute, static::BOOLEAN_ATTRIBUTES)
                 ? $attribute
-                : $attribute.'='.$quote.implode(',', (array) $value).$quote;
+                : $attribute.'='.$quote.$value.$quote;
         }
         return implode(' ', $attributes);
     }
@@ -168,9 +169,7 @@ class Attributes
      */
     protected function getQuoteChar($attribute)
     {
-        return Str::startsWith('data-', $attribute)
-            ? '\''
-            : '"';
+        return Str::startsWith('data-', $attribute) ? '\'' : '"';
     }
 
     /**

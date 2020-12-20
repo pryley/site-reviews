@@ -113,6 +113,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 == Changelog ==
 
+= 5.4.0 (2020-12-22) =
+
+- Fixed setting fields to use escaped HTML attributes
+
 = 5.3.5 (2020-12-16) =
 
 - Fixed template tag substitution in custom review templates
