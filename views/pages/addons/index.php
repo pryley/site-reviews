@@ -50,6 +50,15 @@
             ],
             'plugin' => 'site-reviews-trustalyze/site-reviews-trustalyze.php',
         ]);
+        $template->render('partials/addons/addon', [
+            'context' => [
+                'description' => _x('Integrate Site Reviews with your Woocommerce products.', 'admin-text', 'site-reviews'),
+                'link' => 'https://niftyplugins.com/plugins/woocommerce/',
+                'slug' => 'woocommerce',
+                'title' => 'Woocommerce Reviews',
+            ],
+            'plugin' => 'site-reviews-woocommerce/site-reviews-woocommerce.php',
+        ]);
     ?>
     </div>
 </div>
