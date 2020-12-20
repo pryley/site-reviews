@@ -126,6 +126,7 @@ class EnqueuePublicAssets implements Contract
             array_values($inlineStylesheetValues),
             file_get_contents($inlineStylesheetPath)
         );
+        $stylesheet = glsr()->filterString('enqueue/public/inline-styles', $stylesheet);
         wp_add_inline_style(glsr()->id, $stylesheet);
     }
 
