@@ -176,7 +176,7 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
             glsr_log()->warning($this->getType().' does not allow the "'.$property.'" property');
             return $this;
         }
-        if ($value !== null) {
+        if (!Helper::isEmpty($value)) {
             $this->properties[$property] = $value;
         }
         return $this;
@@ -270,7 +270,7 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
         if ($property instanceof DateTimeInterface) {
             $property = $property->format(DateTime::ATOM);
         }
-        if (method_exists($property, '__toString')) {
+        if (is_object($property) && method_exists($property, '__toString')) {
             $property = (string) $property;
         }
         if (is_object($property)) {
