@@ -13,7 +13,17 @@ class SettingBuilder extends Builder
     public function buildFormElement()
     {
         $method = Helper::buildMethodName($this->tag, 'buildForm');
-        return $this->$method().$this->buildFieldDescription();
+        return $this->$method().$this->buildAfter().$this->buildFieldDescription();
+    }
+
+    /**
+     * @return string|void
+     */
+    protected function buildAfter()
+    {
+        if (!empty($this->args->after)) {
+            return '&nbsp;'.$this->args->after;
+        }
     }
 
     /**

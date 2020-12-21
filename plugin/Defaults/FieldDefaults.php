@@ -12,6 +12,7 @@ class FieldDefaults extends Defaults
      * @return array
      */
     public $casts = [
+        'after' => 'string',
         'class' => 'string',
         'id' => 'string',
         'label' => 'string',
@@ -20,6 +21,13 @@ class FieldDefaults extends Defaults
         'text' => 'string',
         'type' => 'string',
         // 'value' => 'string', // disabled because checkbox field value can be an array
+    ];
+
+    /**
+     * @var array
+     */
+    public $sanitize = [
+        'after' => 'text',
     ];
 
     /**
