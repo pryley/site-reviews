@@ -87,7 +87,7 @@ class Schema
     public function buildSummaryForCustom()
     {
         return $this->buildSchemaValues($this->getSchemaType(), [
-            'description', 'image', 'name', 'url',
+            'description', 'identifier', 'image', 'name', 'url',
         ]);
     }
 
@@ -110,11 +110,13 @@ class Schema
         $offers = $this->buildSchemaValues($this->getSchemaType($offerType), [
             'highPrice', 'lowPrice', 'price', 'priceCurrency',
         ]);
-        return $this->buildSummaryForCustom()
-            ->doIf(!empty($offers->getProperties()), function ($schema) use ($offers) {
-                $schema->offers($offers);
-            })
-            ->setProperty('@id', $this->getSchemaOptionValue('url').'#product');
+        $schema = $this->buildSummaryForCustom();
+        if (empty($schema->toArray()['@id'])) {
+            $schema->setProperty('identifier', $this->getSchemaOptionValue('url').'#product'); // this is converted to @id
+        }
+        return $schema->doIf(!empty($offers->getProperties()), function ($schema) use ($offers) {
+            $schema->offers($offers);
+        });
     }
 
     /**
@@ -270,7 +272,7 @@ class Schema
             return $this->keyValues[$option];
         }
         $value = $this->getSchemaOption($option, $fallback);
-        if ($value != $fallback) {
+        if ($value !== $fallback) {
             return $this->setAndGetKeyValue($option, $value);
         }
         if (!is_singular()) {
