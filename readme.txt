@@ -115,6 +115,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 = 5.4.0 (2020-12-22) =
 
+- Added the "schema_identifier" meta key which can be used to set a custom '@id' schema property using the Custom Fields metabox
 - Added the Woocommerce Reviews add-on
 - Fixed setting fields to use escaped HTML attributes
 
