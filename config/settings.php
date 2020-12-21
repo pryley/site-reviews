@@ -2,6 +2,7 @@
 
 return [
     'settings.general.delete_data_on_uninstall' => [
+        'class' => 'regular-text',
         'data-glsr-track' => '',
         'default' => '',
         'description' => _x('Site Reviews will not delete anything when uninstalled unless you change this setting.', 'admin-text', 'site-reviews'),
@@ -14,6 +15,7 @@ return [
         'type' => 'select',
     ],
     'settings.general.style' => [
+        'class' => 'regular-text',
         'default' => 'default',
         'description' => _x('Site Reviews relies on the CSS of your theme to style the review form. If your theme does not provide proper CSS rules for form elements and you are using a WordPress plugin/theme or CSS Framework listed here, please try selecting it, otherwise choose "Site Reviews (default)".', 'admin-text', 'site-reviews'),
         'label' => _x('Plugin Style', 'admin-text', 'site-reviews'),
@@ -58,6 +60,7 @@ return [
         'type' => 'yes_no',
     ],
     'settings.general.multilingual' => [
+        'class' => 'regular-text',
         'default' => '',
         'description' => _x('Integrate with a multilingual plugin to calculate ratings for all languages of a post.', 'admin-text', 'site-reviews'),
         'label' => _x('Multilingual', 'admin-text', 'site-reviews'),
@@ -124,6 +127,7 @@ return [
         'type' => 'code',
     ],
     'settings.reviews.date.format' => [
+        'class' => 'regular-text',
         'default' => '',
         'description' => sprintf(_x('The default date format is the one set in your %s.', 'admin-text', 'site-reviews'),
             '<a href="'.admin_url('options-general.php#date_format_custom').'">'._x('WordPress settings', 'admin-text', 'site-reviews').'</a>'
@@ -146,6 +150,7 @@ return [
         'type' => 'text',
     ],
     'settings.reviews.name.format' => [
+        'class' => 'regular-text',
         'default' => '',
         'description' => _x('Choose how names are shown in your reviews.', 'admin-text', 'site-reviews'),
         'label' => _x('Name Format', 'admin-text', 'site-reviews'),
@@ -159,6 +164,7 @@ return [
         'type' => 'select',
     ],
     'settings.reviews.name.initial' => [
+        'class' => 'regular-text',
         'default' => '',
         'depends_on' => [
             'settings.reviews.name.format' => ['first_initial', 'last_initial', 'initials'],
@@ -173,6 +179,7 @@ return [
         'type' => 'select',
     ],
     'settings.reviews.assignment' => [
+        'class' => 'regular-text',
         'default' => 'strict',
         'description' => sprintf('%s<br>%s<br>%s',
             _x('This setting determines how the assigned options work in the reviews and summary shortcodes and blocks.', 'admin-text', 'site-reviews'),
@@ -208,11 +215,12 @@ return [
         'type' => 'yes_no',
     ],
     'settings.reviews.avatars_size' => [
+        'after' => _x('pixels', 'avatar size (admin-text)', 'site-reviews'),
         'default' => 40,
         'depends_on' => [
             'settings.reviews.avatars' => 'yes',
         ],
-        'description' => _x('Set the avatar size in pixels.', 'admin-text', 'site-reviews'),
+        'description' => _x('Set the height/width of the avatar in pixels.', 'admin-text', 'site-reviews'),
         'label' => _x('Avatar Size', 'admin-text', 'site-reviews'),
         'type' => 'number',
     ],
@@ -223,6 +231,7 @@ return [
         'type' => 'yes_no',
     ],
     'settings.reviews.excerpts_length' => [
+        'after' => _x('words', 'exceprt length (admin-text)', 'site-reviews'),
         'default' => 55,
         'depends_on' => [
             'settings.reviews.excerpts' => 'yes',
@@ -254,6 +263,7 @@ return [
         'type' => 'yes_no',
     ],
     'settings.schema.type.default' => [
+        'class' => 'regular-text',
         'default' => 'LocalBusiness',
         'description' => _x('Custom Field name', 'admin-text', 'site-reviews').': <code>schema_type</code>',
         'label' => _x('Default Schema Type', 'admin-text', 'site-reviews'),
@@ -274,6 +284,7 @@ return [
         'type' => 'text',
     ],
     'settings.schema.name.default' => [
+        'class' => 'regular-text',
         'default' => 'post',
         'description' => _x('Custom Field name', 'admin-text', 'site-reviews').': <code>schema_name</code>',
         'label' => _x('Default Name', 'admin-text', 'site-reviews'),
@@ -292,6 +303,7 @@ return [
         'type' => 'text',
     ],
     'settings.schema.description.default' => [
+        'class' => 'regular-text',
         'default' => 'post',
         'description' => _x('Custom Field name', 'admin-text', 'site-reviews').': <code>schema_description</code>',
         'label' => _x('Default Description', 'admin-text', 'site-reviews'),
@@ -310,6 +322,7 @@ return [
         'type' => 'text',
     ],
     'settings.schema.url.default' => [
+        'class' => 'regular-text',
         'default' => 'post',
         'description' => _x('Custom Field name', 'admin-text', 'site-reviews').': <code>schema_url</code>',
         'label' => _x('Default URL', 'admin-text', 'site-reviews'),
@@ -328,6 +341,7 @@ return [
         'type' => 'text',
     ],
     'settings.schema.image.default' => [
+        'class' => 'regular-text',
         'default' => 'post',
         'description' => _x('Custom Field name', 'admin-text', 'site-reviews').': <code>schema_image</code>',
         'label' => _x('Default Image', 'admin-text', 'site-reviews'),
@@ -376,6 +390,7 @@ return [
         'type' => 'text',
     ],
     'settings.schema.offertype' => [
+        'class' => 'regular-text',
         'default' => 'AggregateOffer',
         'depends_on' => [
             'settings.schema.type.default' => 'Product',
@@ -446,6 +461,7 @@ return [
         'type' => 'checkbox',
     ],
     'settings.submissions.limit' => [
+        'class' => 'regular-text',
         'default' => '',
         'description' => _x('Limits the number of reviews that can be submitted to one-per-person. If you are assigning reviews, then the limit will be applied to the assigned page and/or category.', 'admin-text', 'site-reviews'),
         'label' => _x('Limit Reviews', 'admin-text', 'site-reviews'),
@@ -488,6 +504,7 @@ return [
         'type' => 'code',
     ],
     'settings.submissions.recaptcha.integration' => [
+        'class' => 'regular-text',
         'default' => '',
         'description' => _x('The Invisible reCAPTCHA badge (reCAPTCHA v2) is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
         'label' => _x('Invisible reCAPTCHA', 'admin-text', 'site-reviews'),
@@ -515,6 +532,7 @@ return [
         'type' => 'text',
     ],
     'settings.submissions.recaptcha.position' => [
+        'class' => 'regular-text',
         'default' => 'bottomleft',
         'depends_on' => [
             'settings.submissions.recaptcha.integration' => ['all', 'guest'],
@@ -535,6 +553,7 @@ return [
         'type' => 'yes_no',
     ],
     'settings.submissions.blacklist.integration' => [
+        'class' => 'regular-text',
         'default' => 'comments',
         'description' => sprintf(_x('Choose which Blacklist you would prefer to use for reviews. The %s option can be found in the WordPress Discussion Settings page.', 'admin-text', 'site-reviews'),
             '<a href="'.admin_url('options-discussion.php').'">'._x('Disallowed Comment Keys', 'admin-text', 'site-reviews').'</a>'
@@ -557,6 +576,7 @@ return [
         'type' => 'code',
     ],
     'settings.submissions.blacklist.action' => [
+        'class' => 'regular-text',
         'default' => 'unapprove',
         'description' => _x('Choose the action that should be taken when a review is blacklisted.', 'admin-text', 'site-reviews'),
         'label' => _x('Blacklist Action', 'admin-text', 'site-reviews'),
