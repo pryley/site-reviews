@@ -123,6 +123,7 @@
     site-reviews/review-table/filter                        (string $className): string
     site-reviews/review/build/<tag_or_field_key>            (string $field, string $value, Review $review, Modules\Html\ReviewHtml $reviewHtml): string
     site-reviews/review/build/after                         (array $templateTags, Review $review, Modules\Html\ReviewHtml $reviewHtml): array
+    site-reviews/review/call/<methodName>                   (Review $review, ...$args): void|mixed
     site-reviews/review/redirect                            (string $redirect, Commands\CreateReview $createReview): string
     site-reviews/review/tag/<tag>                           (string $className): string
     site-reviews/review/value/<tag_or_field_key>            (string $value, Contracts\TagContract $tag): string

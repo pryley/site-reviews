@@ -77,6 +77,18 @@ class Review extends Arguments
     }
 
     /**
+     * @return mixed
+     */
+    public function __call($method, $args)
+    {
+        array_unshift($args, $this);
+        $result = apply_filters_ref_array(glsr()->id.'/review/call/'.$method, $args);
+        if (!is_a($result, get_class($this))) {
+            return $result;
+        }
+    }
+
+    /**
      * @return string
      */
     public function __toString()
