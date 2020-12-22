@@ -23,19 +23,18 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 ### Functionality
 
-- [ ] Edit authored reviews
-- [ ] Flag reviews
-- [ ] Importer (from 3rd-party WordPress review plugins)
-- [ ] Multi-Ratings (for rating individual services of a business)
-- [ ] Questions and Answers
-- [ ] Review Builder (add/remove/drag-drop to order)
+- [ ] Review Adjuster (drag-drop order of review details)
+- [ ] Review Authors (allow people to update their submitted reviews)
 - [x] Review Filters (filter, search, sort)
-- [x] Review Form Builder
+- [x] Review Forms
 - [x] Review Images
+- [ ] Review Importer (from 3rd-party WordPress review plugins)
+- [ ] Review Snitch (flag reviews as inappropriate)
 - [ ] Review Themes (customization of stars (star, thumb, emote, percent), fonts, colors, layouts, etc.)
 - [ ] Review Threads
 - [ ] Review Upvotes
-- [ ] Social reviews (share review links)
+- [ ] Review Sharing
+- [ ] Questions and Answers
 
 ### Integrations
 
@@ -45,6 +44,6 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Google Reviews
 - [x] Tripadvisor Reviews (done, but needs an additional service to make it work consistantly)
 - [ ] Trustpilot Reviews
-- [ ] WooCommerce (incl. review reminders, verified reviews)
+- [x] WooCommerce (incl. review reminders, verified reviews)
 - [ ] Yelp Reviews
 
