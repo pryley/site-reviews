@@ -205,7 +205,7 @@ class MetaboxController
         }
         $response = strval(Helper::filterInput('response'));
         $response = trim(wp_kses($response, [
-            'a' => ['href' => [], 'target' => [], 'title' => []],
+            'a' => ['href' => [], 'rel' => [], 'target' => [], 'title' => []],
             'em' => [],
             'strong' => [],
         ]));
