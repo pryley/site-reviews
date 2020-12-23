@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, 
 Tested up to: 5.6
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.3.5
+Stable tag: 5.4.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -115,8 +115,9 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 = 5.4.0 (2020-12-22) =
 
-- Added the "schema_identifier" meta key which can be used to set a custom '@id' schema property using the Custom Fields metabox
-- Added the Woocommerce Reviews add-on
+- Added the "schema_identifier" meta key which can be used to set a custom '@id' schema property with the Custom Fields metabox
+- Added the "Woocommerce Reviews" add-on
+- Fixed a PHP 8 error with the schema
 - Fixed setting fields to use escaped HTML attributes
 
 = 5.3.5 (2020-12-16) =

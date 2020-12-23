@@ -53,7 +53,7 @@
         $template->render('partials/addons/addon', [
             'context' => [
                 'description' => _x('Integrate Site Reviews with your Woocommerce products.', 'admin-text', 'site-reviews'),
-                'link' => 'https://niftyplugins.com/plugins/woocommerce/',
+                'link' => 'https://niftyplugins.com/plugins/woocommerce-reviews/',
                 'slug' => 'woocommerce',
                 'title' => 'Woocommerce Reviews',
             ],
