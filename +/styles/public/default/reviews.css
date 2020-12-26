@@ -25,11 +25,8 @@
 }
 :--namespace .glsr-review p br {
     content: '';
-    display: inherit;
+    display: flex;
     margin-bottom: var(--glsr-base-font-size);
-}
-:--namespace .glsr-review .glsr-visible + .glsr-read-more::before {
-    display: none;
 }
 :--namespace .glsr-review > div:first-of-type,
 :--namespace .glsr-review p:first-of-type {
