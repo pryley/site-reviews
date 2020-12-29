@@ -55,7 +55,7 @@ class GL_Plugin_Check_v5
      */
     public function isPhpValid()
     {
-        return !version_compare(PHP_VERSION, $this->versions['php'], '<');
+        return version_compare(PHP_VERSION, $this->versions['php'], '>=');
     }
 
     /**
@@ -72,7 +72,7 @@ class GL_Plugin_Check_v5
     public function isWpValid()
     {
         global $wp_version;
-        return !version_compare($wp_version, $this->versions['wordpress'], '<');
+        return version_compare($wp_version, $this->versions['wordpress'], '>=');
     }
 
     /**
