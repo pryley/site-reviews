@@ -10,6 +10,7 @@ import Pinned from './admin/pinned.js';
 import Pointers from './admin/pointers.js';
 import Prism from 'prismjs';
 import Search from './admin/search.js';
+import Sections from './admin/sections.js';
 import Shortcode from './admin/shortcode.js';
 import StarRating from 'star-rating.js';
 import Status from './admin/status.js';
@@ -108,6 +109,7 @@ jQuery(function ($) {
         },
     });
     new Status('a.glsr-toggle-status');
+    new Sections(); // this comes before Tabs
     new Tabs();
     new TextareaResize();
     new Tools();

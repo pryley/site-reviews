@@ -87,13 +87,13 @@ td.glsr-string-td1 .row-actions.visible {
 }
 
 @media screen and (max-width: 720px) {
-    h2 a.glsr-nav-tab,
-    h2 a.glsr-nav-tab.nav-tab-active:hover {
+    nav a.glsr-nav-tab,
+    nav a.glsr-nav-tab.nav-tab-active:hover {
         transition-property: background, color;
         border-bottom: 1px solid #ccc;
         margin: 10px 10px 0 0;
     }
-    .wrap h2.glsr-nav-tab-wrapper {
+    .wrap nav.glsr-nav-tab-wrapper {
         border-bottom: 0;
     }
 }
@@ -353,12 +353,12 @@ td.glsr-string-td1 .row-actions.visible {
 tr.glsr-setting-field td .inline br {
     display: none;
 }
-tr.glsr-setting-field td label::after {
+tr.glsr-setting-field td .inline label::after {
     content: '';
     margin-right: 1em;
 }
 
-.glsr-setting-field .button {
+.glsr-setting-field a.button {
     margin-top: 6px;
 }
 

@@ -1,5 +1,7 @@
 <?php defined('ABSPATH') || die; ?>
 
+<h2 class="title"><?= _x('JSON-LD Schema Settings', 'admin-text', 'site-reviews'); ?></h2>
+
 <p><?php
     printf(_x('Schema is disabled by default. To enable it, use the schema option in your blocks or shortcodes. All of the options below may be overriden on a per-page basis by using its Custom Field name in the %s metabox.', 'admin-text', 'site-reviews'),
         sprintf('<a href="https://codex.wordpress.org/Using_Custom_Fields#Usage" target="_blank">%s</a>', _x('Custom Fields', 'admin-text', 'site-reviews'))
@@ -15,6 +17,7 @@
         '<code><a href="https://rich-snippets.io/how-to-build-complex-structured-data/#b-reference-by-id" target="_blank">@id</a></code>'
     );
 ?></p>
+
 <table class="form-table">
     <tbody>
         {{ rows }}

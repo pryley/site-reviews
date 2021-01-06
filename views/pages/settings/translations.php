@@ -1,5 +1,7 @@
 <?php defined('ABSPATH') || die; ?>
 
+<h2 class="title"><?= _x('Translation Settings', 'admin-text', 'site-reviews'); ?></h2>
+
 <p><?= sprintf(_x('Here you can customise any text of the plugin, including the review form labels and placeholders. However, if you have a multilingual website you should use the %s plugin instead.', 'admin-text', 'site-reviews'), '<a href="https://wordpress.org/plugins/loco-translate/">Loco Translate</a>'); ?></p>
 
 <div class="glsr-strings-form">

@@ -1,13 +1,33 @@
-.wrap h2.glsr-nav-tab-wrapper {
-	padding-top: 0;
-	margin-top: 9px;
+.wrap nav.glsr-nav-tab-wrapper {
+    margin-top: 12px;
+    padding-top: 0;
+}
+nav.glsr-nav-tab-wrapper a.glsr-nav-tab:focus {
+    box-shadow: none;
+    outline-offset: -1px;
+    outline: 2px solid #0071a1;
 }
 
-.glsr-nav-view {
-	margin-top: 20px;
+.wrap > .glsr-nav-view {
+    margin-top: 20px;
 }
-
 .glsr-subsubsub {
-	float: none;
-	text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    float: none;
+    margin-top: 0.5em;
+    text-align: left;
+}
+.glsr-subsubsub li {
+    align-items: center;
+    display: flex;
+}
+.glsr-subsubsub li a {
+    padding: 0 .2em;
+}
+.glsr-subsubsub li span {
+    margin: 0 .2em;
+}
+.glsr-subsubsub li:last-child span {
+    display: none;
 }

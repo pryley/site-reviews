@@ -7,11 +7,11 @@
     </h1>
     <?= $notices; ?>
     <p><?= _x('Click an active tab to expand/collapse all sections.', 'admin-text', 'site-reviews'); ?></p>
-    <h2 class="glsr-nav-tab-wrapper nav-tab-wrapper">
+    <nav class="glsr-nav-tab-wrapper nav-tab-wrapper">
         <?php foreach ($tabs as $id => $title) : ?>
-        <a class="glsr-nav-tab nav-tab" href="#<?= $id; ?>"><?= $title; ?></a>
+        <a class="glsr-nav-tab nav-tab" href="#<?= $id; ?>" tabindex="0"><?= $title; ?></a>
         <?php endforeach; ?>
-    </h2>
+    </nav>
     <?php foreach ($tabs as $id => $title) : ?>
     <div class="glsr-nav-view ui-tabs-hide" id="<?= $id; ?>">
         <?php glsr()->render('pages/documentation/'.$id, $data); ?>
