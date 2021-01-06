@@ -45,7 +45,7 @@ class Settings
     {
         $fieldName = Str::convertPathToName($path, OptionManager::databaseKey());
         return $this->isMultiDependency($path)
-            ? $fieldName.'[]'
+            ? Str::suffix($fieldName, '[]')
             : $fieldName;
     }
 

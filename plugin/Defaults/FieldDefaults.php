@@ -65,8 +65,8 @@ class FieldDefaults extends Defaults
      */
     protected function normalize(array $values = [])
     {
-        if ($this->isMultiField($values) && !empty($values['name']) && !Str::endsWith('[]', $values['name'])) {
-            $values['name'] .= '[]';
+        if ($this->isMultiField($values) && !empty($values['name'])) {
+            $values['name'] = Str::suffix($values['name'], '[]');
         }
         return $values;
     }
