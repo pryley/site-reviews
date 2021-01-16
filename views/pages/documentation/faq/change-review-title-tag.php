@@ -12,7 +12,7 @@
  * @param string $field
  * @return string
  */
-add_filter('site-reviews/review/build/title', function ($field) {
+add_filter('site-reviews/review/build/tag/title', function ($field) {
     return str_replace(['&lt;h3','h3&gt;'], ['&lt;h4','h4&gt;'], $field);
 });</code></pre>
     </div>
