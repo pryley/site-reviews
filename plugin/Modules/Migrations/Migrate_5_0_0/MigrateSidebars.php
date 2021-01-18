@@ -181,7 +181,8 @@ class MigrateSidebars
      */
     protected function widgetsExist(array $sidebars)
     {
-        $widgets = call_user_func_array('array_merge', array_filter($sidebars, 'is_array'));
+        $sidebars = array_filter($sidebars, 'is_array');
+        $widgets = call_user_func_array('array_merge', array_values($sidebars));
         foreach ($widgets as $widget) {
             if (Str::startsWith(glsr()->id.'_', $widget)) {
                 return true;
