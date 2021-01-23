@@ -3,7 +3,7 @@
 <?php if (count($settings) > 1) : ?>
     <ul class="glsr-subsubsub subsubsub">
         <?php foreach ($settings as $key => $rows) : ?>
-            <li><a href="#addons|<?= $key; ?>" tabindex="0"><?= ucfirst($key); ?></a><span>|</span></li>
+            <li><a href="#addons_<?= $key; ?>" tabindex="0"><?= ucfirst($key); ?></a><span>|</span></li>
         <?php endforeach; ?>
     </ul>
 <?php endif; ?>

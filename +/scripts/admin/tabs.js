@@ -28,7 +28,7 @@ Tabs.prototype = {
         jQuery(self.options.viewSubsubsub).on('click', self.onClick_.bind(self));
         jQuery(self.options.tabSelector).each(function (index) {
             var active = location.hash 
-                ? this.getAttribute('href').slice(1) === location.hash.slice(5).split('|')[0]
+                ? this.getAttribute('href').slice(1) === location.hash.slice(5).split('_')[0]
                 : index === 0;
             if (active) {
                 self.setTab_(this);
@@ -54,7 +54,7 @@ Tabs.prototype = {
 
     /** @return void */
     onHashchange_: function () {
-        var id = this.unprefixedHash_().split('|')[0];
+        var id = this.unprefixedHash_().split('_')[0];
         for(var i = 0; i < this.views.length; i++) {
             if (id !== this.views[i].id) continue;
             this.setTab_(this.tabs[i]);
@@ -112,6 +112,7 @@ Tabs.prototype = {
         });
         if (this.subsubsub[activeIndex]) {
             this.subsubsub[activeIndex].classList.add('current');
+            this.setReferrer_(this.subsubsub[activeIndex].getAttribute('href').slice(1));
         }
         [].forEach.call(this.sections, (el, index) => {
             var action = this.getAction_(index !== activeIndex);

@@ -62,8 +62,8 @@ Sections.prototype = {
     /** @return void */
     toggleCollapsibleViewSections_: function (el) {
         if (!el.classList.contains('nav-tab-active')) return;
-        var view = jQuery(el.getAttribute('href'));
-        this.toggleCollapsibleSections_(view);
+        var viewEl = jQuery(el.getAttribute('href'));
+        this.toggleCollapsibleSections_(viewEl);
     },
 };
 
