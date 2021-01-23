@@ -1,4 +1,4 @@
-# Copyright (C) 2020 site-reviews
+# Copyright (C) 2021 site-reviews
 # This file is distributed under the same license as the site-reviews package.
 msgid ""
 msgstr ""
@@ -2386,52 +2386,82 @@ msgctxt "admin-text"
 msgid "Click an active tab to expand/collapse all sections."
 msgstr ""
 
-#: views/pages/settings/schema.php:4
+#: views/pages/settings/general.php:3
+msgctxt "admin-text"
+msgid "General Settings"
+msgstr ""
+
+#: views/pages/settings/licenses.php:3
+msgctxt "admin-text"
+msgid "Add-on Licenses"
+msgstr ""
+
+#: views/pages/settings/reviews.php:3
+msgctxt "admin-text"
+msgid "Review Settings"
+msgstr ""
+
+#: views/pages/settings/schema.php:3
+msgctxt "admin-text"
+msgid "JSON-LD Schema Settings"
+msgstr ""
+
+#: views/pages/settings/schema.php:6
 msgctxt "admin-text"
 msgid "Schema is disabled by default. To enable it, use the schema option in your blocks or shortcodes. All of the options below may be overriden on a per-page basis by using its Custom Field name in the %s metabox."
 msgstr ""
 
-#: views/pages/settings/schema.php:5
+#: views/pages/settings/schema.php:7
 msgctxt "admin-text"
 msgid "Custom Fields"
 msgstr ""
 
-#: views/pages/settings/schema.php:9
+#: views/pages/settings/schema.php:11
 msgctxt "admin-text"
 msgid "The (JSON-LD) schema is used to display rich review snippets in Google's search results. If the schema has been enabled, you can use the %s tool to test your pages for valid schema."
 msgstr ""
 
-#: views/pages/settings/schema.php:10
+#: views/pages/settings/schema.php:12
 msgctxt "admin-text"
 msgid "Google Rich Results"
 msgstr ""
 
-#: views/pages/settings/schema.php:14
+#: views/pages/settings/schema.php:16
 msgctxt "admin-text"
 msgid "In some cases it may be useful to link the Site Reviews schema with other schema on your page, this is done by adding the %s unique identifier property to each schema that you wish to link. If you are using Woocommerce and have set the Schema Type to \"Product\", Site Reviews will automatically do this for you. In all other cases, either use the <code>schema_identifier</code> Custom Field name in the Custom Fields metabox, or use the hook provided on the Help page."
 msgstr ""
 
+#: views/pages/settings/submissions.php:3
+msgctxt "admin-text"
+msgid "Review Form Settings"
+msgstr ""
+
 #: views/pages/settings/translations.php:3
+msgctxt "admin-text"
+msgid "Translation Settings"
+msgstr ""
+
+#: views/pages/settings/translations.php:5
 msgctxt "admin-text"
 msgid "Here you can customise any text of the plugin, including the review form labels and placeholders. However, if you have a multilingual website you should use the %s plugin instead."
 msgstr ""
 
-#: views/pages/settings/translations.php:7
+#: views/pages/settings/translations.php:9
 msgctxt "admin-text"
 msgid "Search for translatable text"
 msgstr ""
 
-#: views/pages/settings/translations.php:11
+#: views/pages/settings/translations.php:13
 msgctxt "admin-text"
 msgid "Search here for text to translate..."
 msgstr ""
 
-#: views/pages/settings/translations.php:18
+#: views/pages/settings/translations.php:20
 msgctxt "admin-text"
 msgid "Original Text"
 msgstr ""
 
-#: views/pages/settings/translations.php:19
+#: views/pages/settings/translations.php:21
 msgctxt "admin-text"
 msgid "Custom Translation"
 msgstr ""
