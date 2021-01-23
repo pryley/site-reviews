@@ -82,7 +82,6 @@ class ReviewLimitsValidator extends ValidatorAbstract
         }
         glsr_log()->debug('Username is: '.$user->user_login);
         return $this->validateLimit('username', $user->user_login, [
-            'status' => 'all',
             'author_id' => $user->ID,
         ]);
     }
@@ -99,6 +98,7 @@ class ReviewLimitsValidator extends ValidatorAbstract
             return true;
         }
         $queryArgs['assigned_posts'] = $this->request->assigned_posts;
+        $queryArgs['status'] = 'all';
         add_filter('query/sql/clause/operator', [$this, 'filterSqlClauseOperator']);
         $reviews = glsr_get_reviews($queryArgs);
         remove_filter('query/sql/clause/operator', [$this, 'filterSqlClauseOperator']);
