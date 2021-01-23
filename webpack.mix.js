@@ -7,7 +7,7 @@ const postCss = namespace => {
     require('postcss-calc')({preserve: false}),
     require('postcss-hexrgba'),
     require('postcss-custom-properties')({preserve: false}),
-    require('./+/postcss/postcss-selector-namespaces')({namespace: namespace}),
+    require('postcss-selector-namespace')({namespace: namespace}),
     require('autoprefixer'),
   ];
 };
@@ -56,6 +56,7 @@ mix.options({
 });
 
 mix.webpackConfig({
+  target: ['web', 'es5'],
   resolve: {
     alias: {'@': path.resolve(__dirname, '+/scripts/')},
     modules: ['node_modules'],

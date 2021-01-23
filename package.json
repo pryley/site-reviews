@@ -1,16 +1,14 @@
 {
   "dependencies": {
     "autosize": "^4.0.2",
-    "prismjs": "^1.22.0",
-    "star-rating.js": "^3.4.0"
+    "prismjs": "^1.23.0",
+    "star-rating.js": "^4.0.2"
   },
   "devDependencies": {
-    "@babel/compat-data": "^7.12.1",
-    "@wordpress/babel-preset-default": "^4.19.0",
+    "@wordpress/babel-preset-default": "^5.0.0",
     "babel-plugin-prismjs": "^2.0.1",
     "browser-sync": "^2.26.13",
-    "browser-sync-webpack-plugin": "^2.0.1",
-    "cross-env": "^7.0.2",
+    "browser-sync-webpack-plugin": "^2.2.2",
     "gulp": "^4.0.2",
     "gulp-bump": "^3.2.0",
     "gulp-checktextdomain": "^2.2.2",
@@ -18,34 +16,28 @@
     "gulp-pottopo": "^1.0.1",
     "gulp-sort": "^2.0.0",
     "gulp-wp-pot": "^2.5.0",
-    "imports-loader": "^1.2.0",
-    "laravel-mix": "^5.0.7",
+    "laravel-mix": "^6.0.10",
     "laravel-mix-bundle-analyzer": "^1.0.5",
-    "npm-check": "^5.9.2",
-    "postcss": "^7",
-    "postcss-calc": "^7.0.5",
-    "postcss-custom-properties": "^10.0.0",
+    "postcss-calc": "^8.0.0",
+    "postcss-custom-properties": "^11.0.0",
     "postcss-hexrgba": "^2.0.1",
-    "postcss-import": "^12.0.1",
-    "postcss-selector-namespace": "^3.0.1",
+    "postcss-import": "^14.0.0",
+    "postcss-selector-namespace": "github:pryley/postcss-selector-namespace#master",
     "precss": "^4.0.0",
     "pump": "^3.0.0",
-    "sass": "^1.27.0",
-    "sass-loader": "^10.0.3",
-    "vue-template-compiler": "^2.6.12",
+    "sass": "^1.32.5",
+    "sass-loader": "^10.1.1",
     "yamljs": "^0.3.0",
-    "yargs": "^16.1.0"
+    "yargs": "^16.2.0"
   },
   "private": true,
   "scripts": {
-    "build": "gulp && npm run production",
-    "dev": "npm run development",
-    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "build": "gulp && mix --production",
+    "development": "mix",
     "lang": "gulp",
-    "prod": "npm run production",
-    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "npm run development -- --watch",
-    "watch-poll": "npm run watch -- --watch-poll"
+    "watch": "mix watch",
+    "watch-poll": "mix watch -- --watch-options-poll=1000",
+    "hot": "mix watch --hot",
+    "production": "mix --production"
   }
 }
