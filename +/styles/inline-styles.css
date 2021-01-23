@@ -1,23 +1,23 @@
 :root .glsr-star-empty,
-:root .gl-star-rating-stars > span {
+:root .gl-star-rating--stars[class*=" s"] > span {
 	background-image: url(:star-empty)!important;
 }
-:root .glsr-field-is-invalid .gl-star-rating-stars > span {
+:root .glsr-field-is-invalid .gl-star-rating--stars[class*=" s"] > span {
 	background-image: url(:star-error)!important;
 }
 :root .glsr-star-half {
 	background-image: url(:star-half)!important;
 }
 :root .glsr-star-full,
-:root .gl-star-rating-stars.s10 > span:nth-child(1),
-:root .gl-star-rating-stars.s20 > span:nth-child(-1n+2),
-:root .gl-star-rating-stars.s30 > span:nth-child(-1n+3),
-:root .gl-star-rating-stars.s40 > span:nth-child(-1n+4),
-:root .gl-star-rating-stars.s50 > span:nth-child(-1n+5),
-:root .gl-star-rating-stars.s60 > span:nth-child(-1n+6),
-:root .gl-star-rating-stars.s70 > span:nth-child(-1n+7),
-:root .gl-star-rating-stars.s80 > span:nth-child(-1n+8),
-:root .gl-star-rating-stars.s90 > span:nth-child(-1n+9),
-:root .gl-star-rating-stars.s100 > span {
+:root .gl-star-rating--stars.s10 > span:nth-child(1),
+:root .gl-star-rating--stars.s20 > span:nth-child(-1n+2),
+:root .gl-star-rating--stars.s30 > span:nth-child(-1n+3),
+:root .gl-star-rating--stars.s40 > span:nth-child(-1n+4),
+:root .gl-star-rating--stars.s50 > span:nth-child(-1n+5),
+:root .gl-star-rating--stars.s60 > span:nth-child(-1n+6),
+:root .gl-star-rating--stars.s70 > span:nth-child(-1n+7),
+:root .gl-star-rating--stars.s80 > span:nth-child(-1n+8),
+:root .gl-star-rating--stars.s90 > span:nth-child(-1n+9),
+:root .gl-star-rating--stars.s100 > span {
 	background-image: url(:star-full)!important;
 }

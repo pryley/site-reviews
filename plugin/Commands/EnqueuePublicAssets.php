@@ -93,6 +93,10 @@ class EnqueuePublicAssets implements Contract
             'ajaxpagination' => $this->getFixedSelectorsForPagination(),
             'ajaxurl' => admin_url('admin-ajax.php'),
             'nameprefix' => glsr()->id,
+            'stars' => [
+                'clearable' => false,
+                'tooltip' => false,
+            ],
             'urlparameter' => glsr(OptionManager::class)->getBool('settings.reviews.pagination.url_parameter'),
             'validationconfig' => array_merge(
                 [

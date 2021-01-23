@@ -33,9 +33,7 @@ jQuery(function ($) {
     Prism.highlightAll();
     GLSR.notices = new Notices();
     GLSR.shortcode = new Shortcode('.glsr-mce');
-    GLSR.stars = new StarRating(document.querySelectorAll('select.glsr-star-rating'), {
-        showText: false,
-    });
+    GLSR.stars = new StarRating('select.glsr-star-rating', { tooltip: false });
     ColorPicker();
     new Forms('form.glsr-form');
     new Metabox();

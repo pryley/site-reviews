@@ -287,23 +287,24 @@
 
 
 
-.glsr-metabox-field .gl-star-rating[data-star-rating] > select {
-    clip-path: circle(1px at 0 0); // Modern
-    clip: rect(1px, 1px, 1px, 1px); // IE/Edge
+.glsr-metabox-field .gl-star-rating > select {
+    clip: rect(1px, 1px, 1px, 1px) !important; /*IE/Edge*/
+    clip-path: circle(1px at 0 0) !important;
+    height: 1px !important;
+    margin: 0 !important;
     overflow: hidden !important;
-    padding-left: 0;
-    padding-right: 0;
+    padding: 0 !important;
     position: absolute !important;
-    top: 0;
+    top: 0 !important;
     visibility: visible !important;
-    white-space: nowrap;
+    white-space: nowrap !important;
     width: 1px !important;
 }
-.glsr-metabox-field .gl-star-rating[data-star-rating] > select::before,
-.glsr-metabox-field .gl-star-rating[data-star-rating] > select::after {
-    display: none;
+.glsr-metabox-field .gl-star-rating > select::before,
+.glsr-metabox-field .gl-star-rating > select::after {
+    display: none !important;
 }
-.glsr-metabox-field .gl-star-rating-stars {
+.glsr-metabox-field .gl-star-rating--stars {
     align-items: center;
     color: #555d66;
     cursor: pointer;
@@ -312,11 +313,11 @@
     position: relative;
     white-space: nowrap;
 }
-.glsr-metabox-field .gl-star-rating[data-star-rating] > select[disabled] + .gl-star-rating-stars {
+.glsr-metabox-field .gl-star-rating > select[disabled] + .gl-star-rating--stars {
     color: #72777c;
     cursor: default;
 }
-.glsr-metabox-field .gl-star-rating-stars > span {
+.glsr-metabox-field .gl-star-rating--stars > span {
     -webkit-font-smoothing: antialiased;
     font-family: dashicons;
     font-size: 30px;
@@ -326,26 +327,29 @@
     transition: color .1s ease-in;
 }
 @media screen and (min-width: 783px) {
-    .glsr-metabox-field .gl-star-rating-stars > span {
+    .glsr-metabox-field .gl-star-rating--stars > span {
         font-size: 24px;
     }
 }
-.glsr-metabox-field .gl-star-rating-stars > span::before {
+.glsr-metabox-field .gl-star-rating--stars > span::before {
     content: "\f154";
 }
-.glsr-metabox-field .gl-star-rating-stars.s10 > span:first-child::before,
-.glsr-metabox-field .gl-star-rating-stars.s20 > span:nth-child(-1n+2)::before,
-.glsr-metabox-field .gl-star-rating-stars.s30 > span:nth-child(-1n+3)::before,
-.glsr-metabox-field .gl-star-rating-stars.s40 > span:nth-child(-1n+4)::before,
-.glsr-metabox-field .gl-star-rating-stars.s50 > span:nth-child(-1n+5)::before,
-.glsr-metabox-field .gl-star-rating-stars.s60 > span:nth-child(-1n+6)::before,
-.glsr-metabox-field .gl-star-rating-stars.s70 > span:nth-child(-1n+7)::before,
-.glsr-metabox-field .gl-star-rating-stars.s80 > span:nth-child(-1n+8)::before,
-.glsr-metabox-field .gl-star-rating-stars.s90 > span:nth-child(-1n+9)::before,
-.glsr-metabox-field .gl-star-rating-stars.s100 > span::before {
+.glsr-metabox-field .gl-star-rating--stars.s10 > span:first-child::before,
+.glsr-metabox-field .gl-star-rating--stars.s20 > span:nth-child(-1n+2)::before,
+.glsr-metabox-field .gl-star-rating--stars.s30 > span:nth-child(-1n+3)::before,
+.glsr-metabox-field .gl-star-rating--stars.s40 > span:nth-child(-1n+4)::before,
+.glsr-metabox-field .gl-star-rating--stars.s50 > span:nth-child(-1n+5)::before,
+.glsr-metabox-field .gl-star-rating--stars.s60 > span:nth-child(-1n+6)::before,
+.glsr-metabox-field .gl-star-rating--stars.s70 > span:nth-child(-1n+7)::before,
+.glsr-metabox-field .gl-star-rating--stars.s80 > span:nth-child(-1n+8)::before,
+.glsr-metabox-field .gl-star-rating--stars.s90 > span:nth-child(-1n+9)::before,
+.glsr-metabox-field .gl-star-rating--stars.s100 > span::before {
     content: "\f155";
 }
-.glsr-metabox-field .gl-star-rating[data-star-rating] > select:focus + .gl-star-rating-stars::before {
+
+
+/*allow SELECT focus*/
+.glsr-metabox-field .gl-star-rating > select:focus + .gl-star-rating--stars::before {
     border-radius: 3px;
     border: 1px solid #007cba;
     border: 1px solid var(--wp-admin-theme-color);
@@ -360,7 +364,7 @@
     width: 100%;
 }
 @media screen and (min-width: 783px) {
-    .glsr-metabox-field .gl-star-rating[data-star-rating] > select:focus + .gl-star-rating-stars::before {
+    .glsr-metabox-field .gl-star-rating > select:focus + .gl-star-rating--stars::before {
         height: 30px;
     }
 }

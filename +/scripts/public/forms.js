@@ -71,10 +71,7 @@ SingleForm.prototype = {
     /** @return void */
     initStarRatings: function () {
         this.destroyStarRatings();
-        this.stars = new StarRating(this.form.querySelectorAll('.glsr-field-rating select'), {
-            clearable: false,
-            showText: false,
-        });
+        this.stars = new StarRating(this.form.querySelectorAll('.glsr-field-rating select'), GLSR.stars);
     },
 
     /** @return void */

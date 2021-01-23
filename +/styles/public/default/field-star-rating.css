@@ -1,66 +1,78 @@
-:--namespace form.glsr-form .gl-star-rating[data-star-rating] {
+:--namespace form.glsr-form .gl-star-rating {
     align-items: center;
     display: flex;
     position: relative;
 }
 /*remove the SELECT from view*/
-:--namespace form.glsr-form .gl-star-rating[data-star-rating] > select {
-    clip: rect(1px, 1px, 1px, 1px); /*IE/Edge*/
-    clip-path: circle(1px at 0 0); /*Modern*/
-    height: 1px;
-    overflow: hidden;
+:--namespace form.glsr-form .gl-star-rating > select {
+    clip: rect(1px, 1px, 1px, 1px) !important; /*IE/Edge*/
+    clip-path: circle(1px at 0 0) !important;
+    height: 1px !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
     position: absolute !important;
-    top: 0;
+    top: 0 !important;
     visibility: visible !important;
-    white-space: nowrap;
-    width: 1px;
+    white-space: nowrap !important;
+    width: 1px !important;
 }
-:--namespace form.glsr-form .gl-star-rating[data-star-rating] > select::before,
-:--namespace form.glsr-form .gl-star-rating[data-star-rating] > select::after {
+:--namespace form.glsr-form .gl-star-rating--ltr > select {
+    left: 0 !important;
+}
+:--namespace form.glsr-form .gl-star-rating--rtl > select {
+    right: 0 !important;
+}
+:--namespace form.glsr-form .gl-star-rating > select::before,
+:--namespace form.glsr-form .gl-star-rating > select::after {
     display: none !important;
 }
 /*allow SELECT focus*/
-:--namespace form.glsr-form .gl-star-rating[data-star-rating] > select:focus + .gl-star-rating-stars::before {
+:--namespace form.glsr-form .gl-star-rating > select:focus + .gl-star-rating--stars::before {
+    border-radius: var(--glsr-form-border-radius);
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    box-shadow: 0 0 0 3px -webkit-focus-ring-color;
+    box-shadow: 0 0 0 3px Highlight;
     content: '';
     display: block;
     height: 100%;
-    border-radius: var(--glsr-form-border-radius);
     outline: 1px solid transparent;
-    box-shadow: 0 0 0 3px Highlight;
-    box-shadow: 0 0 0 3px -moz-mac-focusring;
-    box-shadow: 0 0 0 3px -webkit-focus-ring-color;
-    outline: none;
     pointer-events: none;
     position: absolute;
     width: 100%;
 }
 /*Stars wrapper*/
-:--namespace form.glsr-form .gl-star-rating-stars {
+:--namespace form.glsr-form .gl-star-rating--stars {
     align-items: center;
     cursor: pointer;
     display: flex;
     position: relative;
 }
-:--namespace select[disabled] + .gl-star-rating-stars {
+:--namespace select[disabled] + .gl-star-rating--stars {
     cursor: default;
 }
 /*Stars*/
-:--namespace form.glsr-form .gl-star-rating-stars > span {
-    background-image: var(--glsr-star-empty);
-    background-repeat: no-repeat;
-    background-size: contain;
+:--namespace form.glsr-form .gl-star-rating--stars > span {
+    display: flex;
     height: var(--glsr-form-star-size);
+    margin: 0;
     width: var(--glsr-form-star-size);
 }
-:--namespace form.glsr-form .gl-star-rating-stars.s10 > span:nth-child(1),
-:--namespace form.glsr-form .gl-star-rating-stars.s20 > span:nth-child(-1n+2),
-:--namespace form.glsr-form .gl-star-rating-stars.s30 > span:nth-child(-1n+3),
-:--namespace form.glsr-form .gl-star-rating-stars.s40 > span:nth-child(-1n+4),
-:--namespace form.glsr-form .gl-star-rating-stars.s50 > span:nth-child(-1n+5),
-:--namespace form.glsr-form .gl-star-rating-stars.s60 > span:nth-child(-1n+6),
-:--namespace form.glsr-form .gl-star-rating-stars.s70 > span:nth-child(-1n+7),
-:--namespace form.glsr-form .gl-star-rating-stars.s80 > span:nth-child(-1n+8),
-:--namespace form.glsr-form .gl-star-rating-stars.s90 > span:nth-child(-1n+9),
-:--namespace form.glsr-form .gl-star-rating-stars.s100 > span {
+:--namespace form.glsr-form .gl-star-rating--stars[class*=" s"] > span {
+    background-image: var(--glsr-star-empty);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+:--namespace form.glsr-form .gl-star-rating--stars.s10 > span:nth-child(1),
+:--namespace form.glsr-form .gl-star-rating--stars.s20 > span:nth-child(-1n+2),
+:--namespace form.glsr-form .gl-star-rating--stars.s30 > span:nth-child(-1n+3),
+:--namespace form.glsr-form .gl-star-rating--stars.s40 > span:nth-child(-1n+4),
+:--namespace form.glsr-form .gl-star-rating--stars.s50 > span:nth-child(-1n+5),
+:--namespace form.glsr-form .gl-star-rating--stars.s60 > span:nth-child(-1n+6),
+:--namespace form.glsr-form .gl-star-rating--stars.s70 > span:nth-child(-1n+7),
+:--namespace form.glsr-form .gl-star-rating--stars.s80 > span:nth-child(-1n+8),
+:--namespace form.glsr-form .gl-star-rating--stars.s90 > span:nth-child(-1n+9),
+:--namespace form.glsr-form .gl-star-rating--stars.s100 > span {
     background-image: var(--glsr-star-full);
 }
