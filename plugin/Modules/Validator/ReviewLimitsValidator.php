@@ -50,6 +50,25 @@ class ReviewLimitsValidator extends ValidatorAbstract
     }
 
     /**
+     * @return array
+     */
+    protected function normalizeArgs(array $args)
+    {
+        $assignments = glsr_get_option('submissions.limit_assignments', ['assigned_posts'], 'array'); // assigned_posts is the default
+        if (in_array('assigned_posts', $assignments)) {
+            $args['assigned_posts'] = $this->request->assigned_posts;
+        }
+        if (in_array('assigned_terms', $assignments)) {
+            $args['assigned_terms'] = $this->request->assigned_terms;
+        }
+        if (in_array('assigned_users', $assignments)) {
+            $args['assigned_users'] = $this->request->assigned_users;
+        }
+        $args['status'] = 'all';
+        return $args;
+    }
+
+    /**
      * @return bool
      */
     protected function validateByEmail()
@@ -91,16 +110,14 @@ class ReviewLimitsValidator extends ValidatorAbstract
      * @param string $value
      * @return bool
      */
-    protected function validateLimit($key, $value, array $queryArgs)
+    protected function validateLimit($key, $value, array $args)
     {
         if (empty($value) 
             || $this->isWhitelisted($value, glsr_get_option('submissions.limit_whitelist.'.$key))) {
             return true;
         }
-        $queryArgs['assigned_posts'] = $this->request->assigned_posts;
-        $queryArgs['status'] = 'all';
         add_filter('query/sql/clause/operator', [$this, 'filterSqlClauseOperator']);
-        $reviews = glsr_get_reviews($queryArgs);
+        $reviews = glsr_get_reviews($this->normalizeArgs($args));
         remove_filter('query/sql/clause/operator', [$this, 'filterSqlClauseOperator']);
         $result = 0 === $reviews->total;
         return glsr()->filterBool('validate/review-limits', $result, $reviews, $this->request, $key);

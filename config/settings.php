@@ -463,7 +463,7 @@ return [
     'settings.submissions.limit' => [
         'class' => 'regular-text',
         'default' => '',
-        'description' => _x('Limits the number of reviews that can be submitted to one-per-person. If you are assigning reviews, then the limit will be applied to the assigned page and/or category.', 'admin-text', 'site-reviews'),
+        'description' => _x('Limits the number of reviews that can be submitted to one-per-person.', 'admin-text', 'site-reviews'),
         'label' => _x('Limit Reviews', 'admin-text', 'site-reviews'),
         'options' => [
             '' => _x('No Limit', 'admin-text', 'site-reviews'),
@@ -472,6 +472,23 @@ return [
             'username' => _x('By Username (will only work for registered users)', 'admin-text', 'site-reviews'),
         ],
         'type' => 'select',
+    ],
+    'settings.submissions.limit_assignments' => [
+        'default' => ['assigned_posts'],
+        'depends_on' => [
+            'settings.submissions.limit' => ['email', 'ip_address', 'username'],
+        ],
+        'description' => sprintf('%s %s',
+            _x('Select which assignments the review limits should be restricted to.', 'admin-text', 'site-reviews'),
+            _x('The review limits use strict assignment, i.e. <code>restrict limits to reviews assigned to this AND this</code>.', 'admin-text', 'site-reviews')
+        ),
+        'label' => _x('Restrict Limits To', 'admin-text', 'site-reviews'),
+        'options' => [
+            'assigned_posts' => _x('Assigned Posts', 'admin-text', 'site-reviews'),
+            'assigned_terms' => _x('Assigned Terms', 'admin-text', 'site-reviews'),
+            'assigned_users' => _x('Assigned Users', 'admin-text', 'site-reviews'),
+        ],
+        'type' => 'checkbox',
     ],
     'settings.submissions.limit_whitelist.email' => [
         'default' => '',
