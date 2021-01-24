@@ -200,11 +200,16 @@ function glsr_set(array $data, $path, $value)
 }
 
 /**
+ * @param int $rating
+ * @param int $count
  * @return string
  */
-function glsr_star_rating($rating)
+function glsr_star_rating($rating, $count = 0)
 {
-    return glsr(Partial::class)->build('star-rating', ['rating' => $rating]);
+    return glsr(Partial::class)->build('star-rating', [
+        'count' => $count,
+        'rating' => $rating,
+    ]);
 }
 
 /**

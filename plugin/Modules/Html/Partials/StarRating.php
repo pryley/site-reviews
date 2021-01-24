@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Modules\Rating;
 
 class StarRating implements PartialContract
 {
+    protected $count;
     protected $prefix;
     protected $rating;
 
@@ -17,16 +18,20 @@ class StarRating implements PartialContract
     public function build(array $args = [])
     {
         $this->setProperties($args);
+        $maxRating = glsr()->constant('MAX_RATING', Rating::class);
         $fullStars = intval(floor($this->rating));
         $halfStars = intval(ceil($this->rating - $fullStars));
-        $emptyStars = max(0, glsr()->constant('MAX_RATING', Rating::class) - $fullStars - $halfStars);
+        $emptyStars = max(0, $maxRating - $fullStars - $halfStars);
+        $title = $this->count > 0
+            ? __('Rated <strong>%s</strong> out of %s based on %s ratings', 'site-reviews')
+            : __('Rated <strong>%s</strong> out of %s', 'site-reviews');
         return glsr(Template::class)->build('templates/rating/stars', [
             'context' => [
                 'empty_stars' => $this->getTemplate('empty-star', $emptyStars),
                 'full_stars' => $this->getTemplate('full-star', $fullStars),
                 'half_stars' => $this->getTemplate('half-star', $halfStars),
                 'prefix' => $this->prefix,
-                'title' => sprintf(__('%s rating', 'site-reviews'), number_format_i18n($this->rating, 1)),
+                'title' => sprintf($title, $this->rating, $maxRating, $this->count),
             ],
         ]);
     }
@@ -52,10 +57,12 @@ class StarRating implements PartialContract
     protected function setProperties(array $args)
     {
         $args = wp_parse_args($args, [
+            'count' => 0,
             'prefix' => glsr()->isAdmin() ? '' : 'glsr-',
             'rating' => 0,
         ]);
+        $this->count = (int) $args['count'];
         $this->prefix = $args['prefix'];
-        $this->rating = (float) str_replace(',', '.', $args['rating']);
+        $this->rating = sprintf('%g', $args['rating']); // remove unnecessary trailing zeros
     }
 }
