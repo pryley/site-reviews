@@ -32,6 +32,7 @@ Tabs.prototype = {
                 : index === 0;
             if (active) {
                 self.setTab_(this);
+                self.setReferrer_(self.unprefixedHash_());
             }
         });
     },
@@ -58,6 +59,7 @@ Tabs.prototype = {
         for(var i = 0; i < this.views.length; i++) {
             if (id !== this.views[i].id) continue;
             this.setTab_(this.tabs[i]);
+            this.setReferrer_(this.unprefixedHash_());
             break;
         }
     },
@@ -69,14 +71,16 @@ Tabs.prototype = {
 
     /** @return void */
     unprefixedHash_: function () {
-        return location.hash.split('#tab-')[1]
+        return location.hash ? location.hash.split('#tab-')[1] : '';
     },
 
     /** @return void */
     setReferrer_: function (id) {
-        var url = this.referrerEl.value.split('#')[0];
-        var hash = this.prefixedHash_(id);
-        this.referrerEl.value =  url + '#' + hash;
+        if (id) {
+            var url = this.referrerEl.value.split('#')[0];
+            var hash = this.prefixedHash_(id);
+            this.referrerEl.value =  url + '#' + hash;
+        }
     },
 
     /** @return void */
@@ -85,7 +89,6 @@ Tabs.prototype = {
             var action = this.getAction_(tab === el);
             if (action === 'add') {
                 this.active.value = this.views[index].id;
-                this.setReferrer_(this.active.value);
                 this.setView_(index);
             }
             tab.classList[action]('nav-tab-active');
@@ -112,7 +115,6 @@ Tabs.prototype = {
         });
         if (this.subsubsub[activeIndex]) {
             this.subsubsub[activeIndex].classList.add('current');
-            this.setReferrer_(this.subsubsub[activeIndex].getAttribute('href').slice(1));
         }
         [].forEach.call(this.sections, (el, index) => {
             var action = this.getAction_(index !== activeIndex);
