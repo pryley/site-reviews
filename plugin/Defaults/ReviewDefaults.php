@@ -53,6 +53,7 @@ class ReviewDefaults extends Defaults
             'content' => '',
             'custom' => '',
             'date' => '',
+            'date_gmt' => '',
             'email' => '',
             'ID' => '',
             'ip_address' => '',

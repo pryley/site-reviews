@@ -21,6 +21,7 @@ use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
  * @property string $content
  * @property Arguments $custom
  * @property string $date
+ * @property string $date_gmt
  * @property string $name  This property is mapped to $author
  * @property string $email
  * @property bool $has_revisions  This property is mapped to $is_modified

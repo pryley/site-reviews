@@ -104,7 +104,7 @@ class Query
     {
         $this->setArgs($args);
         if (empty($postIds)) {
-            // We previously used a subquery here, but MariaDB doesn't support it.
+            // We previously used a subquery here, but MariaDB didn't support it.
             $postIds = glsr(Database::class)->dbGetCol($this->queryReviewIds());
         }
         $reviewIds = implode(',', Arr::uniqueInt(Cast::toArray($postIds)));
@@ -321,6 +321,7 @@ class Query
                 r.*,
                 p.post_author AS author_id,
                 p.post_date AS date,
+                p.post_date_gmt AS date_gmt,
                 p.post_content AS content,
                 p.post_title AS title,
                 p.post_status AS status,
