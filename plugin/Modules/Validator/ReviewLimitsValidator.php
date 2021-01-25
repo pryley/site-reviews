@@ -116,9 +116,9 @@ class ReviewLimitsValidator extends ValidatorAbstract
             || $this->isWhitelisted($value, glsr_get_option('submissions.limit_whitelist.'.$key))) {
             return true;
         }
-        add_filter('query/sql/clause/operator', [$this, 'filterSqlClauseOperator']);
+        add_filter('query/sql/clause/operator', [$this, 'filterSqlClauseOperator'], 20);
         $reviews = glsr_get_reviews($this->normalizeArgs($args));
-        remove_filter('query/sql/clause/operator', [$this, 'filterSqlClauseOperator']);
+        remove_filter('query/sql/clause/operator', [$this, 'filterSqlClauseOperator'], 20);
         $result = 0 === $reviews->total;
         return glsr()->filterBool('validate/review-limits', $result, $reviews, $this->request, $key);
     }
