@@ -70,6 +70,8 @@ class NormalizeQueryArgs extends Arguments
         $statuses = [
             'all' => '',
             'approved' => '1',
+            'pending' => '0',
+            'publish' => '1',
             'unapproved' => '0',
         ];
         $status = Str::restrictTo(array_keys($statuses), $value, 'approved', $strict = true);
