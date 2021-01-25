@@ -48,12 +48,15 @@ class NormalizeQueryArgs extends Arguments
      */
     protected function normalizeOrderBy($value)
     {
-        $orderBy = Str::restrictTo('author,comment_count,date,ID,menu_order,none,random,relevance', $value, 'date');
+        $orderBy = Str::restrictTo('author,comment_count,date,date_gmt,ID,menu_order,none,random,rating,relevance', $value, 'date');
         if (in_array($orderBy, ['comment_count', 'ID', 'menu_order'])) {
             return Str::prefix($orderBy, 'p.');
         }
-        if (in_array($orderBy, ['author', 'date'])) {
+        if (in_array($orderBy, ['author', 'date', 'date_gmt'])) {
             return Str::prefix($orderBy, 'p.post_');
+        }
+        if (in_array($orderBy, ['rating'])) {
+            return Str::prefix($orderBy, 'r.');
         }
         return $orderBy;
     }

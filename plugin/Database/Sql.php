@@ -108,7 +108,7 @@ trait Sql
         $order = $this->args['order'];
         $orderby = $this->args['orderby'];
         $orderedby = [];
-        if (Str::startsWith('p.', $orderby)) {
+        if (Str::startsWith(['p.', 'r.'], $orderby)) {
             $orderedby[] = "r.is_pinned {$order}";
             $orderedby[] = "{$orderby} {$order}";
         } elseif (array_key_exists($orderby, $values)) {
@@ -116,7 +116,7 @@ trait Sql
         }
         $orderedby = glsr()->filterArrayUnique('query/sql/order-by', $orderedby, $this->sqlHandle(), $this);
         if (!empty($orderedby)) {
-            return "ORDER BY ".implode(', ', $orderedby);
+            return 'ORDER BY '.implode(', ', $orderedby);
         }
     }
 
