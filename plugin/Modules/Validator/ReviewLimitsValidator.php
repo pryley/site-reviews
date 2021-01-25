@@ -101,7 +101,7 @@ class ReviewLimitsValidator extends ValidatorAbstract
         }
         glsr_log()->debug('Username is: '.$user->user_login);
         return $this->validateLimit('username', $user->user_login, [
-            'author_id' => $user->ID,
+            'user__in' => $user->ID,
         ]);
     }
 

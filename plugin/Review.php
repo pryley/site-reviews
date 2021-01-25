@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 
 /**
+ * @property bool $approved  This property is mapped to $is_approved
  * @property array $assigned_posts
  * @property array $assigned_terms
  * @property array $assigned_users
@@ -22,11 +23,14 @@ use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
  * @property string $date
  * @property string $name  This property is mapped to $author
  * @property string $email
+ * @property bool $has_revisions  This property is mapped to $is_modified
  * @property int $ID
  * @property string $ip_address
  * @property bool $is_approved
  * @property bool $is_modified
  * @property bool $is_pinned
+ * @property bool $modified  This property is mapped to $is_modified
+ * @property bool $pinned  This property is mapped to $is_pinned
  * @property int $rating
  * @property int $rating_id
  * @property string $response
@@ -34,6 +38,7 @@ use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
  * @property string $title
  * @property string $type
  * @property string $url
+ * @property int $user_id  This property is mapped to $author_id
  */
 class Review extends Arguments
 {

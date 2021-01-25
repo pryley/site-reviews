@@ -10,7 +10,6 @@ class ReviewsDefaults extends Defaults
      * @var array
      */
     public $casts = [
-        'author_id' => 'int',
         'ip_address' => 'string',
         'offset' => 'int',
         'order' => 'string',
@@ -27,6 +26,7 @@ class ReviewsDefaults extends Defaults
      */
     public $mapped = [
         'assigned_to' => 'assigned_posts',
+        'author_id' => 'user__in',
         'category' => 'assigned_terms',
         'count' => 'per_page', // @deprecated in v4.1.0
         'display' => 'per_page',
@@ -37,10 +37,14 @@ class ReviewsDefaults extends Defaults
      * @var array
      */
     public $sanitize = [
+        'date_after' => 'date',
+        'date_before' => 'date',
         'email' => 'email',
         'post__in' => 'array-int',
         'post__not_in' => 'array-int',
         'type' => 'key',
+        'user__in' => 'array-int',
+        'user__not_in' => 'array-int',
     ];
 
     /**
@@ -52,7 +56,8 @@ class ReviewsDefaults extends Defaults
             'assigned_posts' => '',
             'assigned_terms' => '',
             'assigned_users' => '',
-            'author_id' => '',
+            'date_after' => '',
+            'date_before' => '',
             'email' => '',
             'ip_address' => '',
             'offset' => '',
@@ -66,6 +71,8 @@ class ReviewsDefaults extends Defaults
             'rating' => '',
             'status' => 'approved',
             'type' => '',
+            'user__in' => [],
+            'user__not_in' => [],
         ];
     }
 }

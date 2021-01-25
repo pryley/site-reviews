@@ -10,7 +10,8 @@ use GeminiLabs\SiteReviews\Helpers\Str;
  * @property int[] $assigned_posts;
  * @property int[] $assigned_terms;
  * @property int[] $assigned_users;
- * @property int $author_id;
+ * @property string $date_after;
+ * @property string $date_before;
  * @property string $email;
  * @property string $ip_address;
  * @property int $offset;
@@ -24,6 +25,8 @@ use GeminiLabs\SiteReviews\Helpers\Str;
  * @property int $rating;
  * @property string $status;
  * @property string $type;
+ * @property int[] $user__in;
+ * @property int[] $user__not_in;
  */
 class NormalizeQueryArgs extends Arguments
 {
@@ -33,7 +36,6 @@ class NormalizeQueryArgs extends Arguments
         $args['assigned_posts'] = glsr(PostManager::class)->normalizeIds($args['assigned_posts']);
         $args['assigned_terms'] = glsr(TaxonomyManager::class)->normalizeIds($args['assigned_terms']);
         $args['assigned_users'] = glsr(UserManager::class)->normalizeIds($args['assigned_users']);
-        $args['author_id'] = glsr(UserManager::class)->normalizeId($args['author_id']);
         $args['order'] = Str::restrictTo('ASC,DESC,', sanitize_key($args['order']), 'DESC'); // include an empty value
         $args['orderby'] = $this->normalizeOrderBy($args['orderby']);
         $args['status'] = $this->normalizeStatus($args['status']);

@@ -18,12 +18,13 @@ glsr_get_reviews(array $args = []);</code></pre>
     'assigned_posts' => '',
     'assigned_terms' => '',
     'assigned_users' => '',
-    'author_id' => '',
+    'date_after' => '',
+    'date_before' => '',
     'email' => '',
     'ip_address' => '',
     'offset' => '',
     'order' => 'DESC', // value can be "ASC" or "DESC"
-    'orderby' => 'date', // value can be "author", "date", "ID", or "random"
+    'orderby' => 'date', // value can be "author", "date", "ID", "random" or "random"
     'page' => 1,
     'pagination' => false,
     'per_page' => 10,
@@ -32,11 +33,14 @@ glsr_get_reviews(array $args = []);</code></pre>
     'rating' => '',
     'status' => 'approved', // value can be "all", "approved", or "unapproved"
     'type' => '',
+    'user__in' => [],
+    'user__not_in' => [],
 ];</code></pre>
         <p><strong>Example Usage:</strong></p>
         <pre><code class="language-php">$reviews = glsr_get_reviews([
     'assigned_posts' => 'post_id',
-    'author_id' => get_current_user_id(),
+    'date_after' => '2020-12-31',
+    'user__in' => [get_current_user_id()],
     'rating' => 3,
 ]);
 

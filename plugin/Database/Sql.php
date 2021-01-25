@@ -165,10 +165,28 @@ trait Sql
     /**
      * @return string
      */
-    protected function clauseAndAuthorId()
+    protected function clauseAndDateAfter()
     {
-        return Helper::ifTrue(!empty($this->args['author_id']),
-            $this->db->prepare('AND p.post_author = %d', $this->args['author_id'])
+        $clauses = [];
+        if (!empty($this->args['date_after'])) {
+            $clauses[] = $this->db->prepare('(p.post_date > %s)', $this->args['date_after']);
+        }
+        if (!empty($this->args['date_before'])) {
+            $clauses[] = $this->db->prepare('(p.post_date < %s)', $this->args['date_before']);
+        }
+        if ($clauses = implode(' AND ', $clauses)) {
+            return sprintf('AND (%s)', $clauses);
+        }
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseAndDateBefore()
+    {
+        return Helper::ifTrue(!empty($this->args['date_before']),
+            $this->db->prepare('AND p.post_date < %s', $this->args['date_before'])
         );
     }
 
@@ -245,6 +263,26 @@ trait Sql
     /**
      * @return string
      */
+    protected function clauseAndUserIn()
+    {
+        return Helper::ifTrue(!empty($this->args['user__in']),
+            $this->db->prepare('AND p.post_author IN (%s)', implode(',', $this->args['user__in']))
+        );
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseAndUserNotIn()
+    {
+        return Helper::ifTrue(!empty($this->args['user__not_in']),
+            $this->db->prepare('AND p.post_author NOT IN (%s)', implode(',', $this->args['user__not_in']))
+        );
+    }
+
+    /**
+     * @return string
+     */
     protected function clauseJoinAssignedPosts()
     {
         return Helper::ifTrue(!empty($this->args['assigned_posts']),
@@ -275,9 +313,29 @@ trait Sql
     /**
      * @return string
      */
-    protected function clauseJoinAuthorId()
+    protected function clauseJoinDateAfter()
     {
-        return Helper::ifTrue(!empty($this->args['author_id']),
+        return Helper::ifTrue(!empty($this->args['date_after']) || !empty($this->args['date_before']),
+            "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
+        );
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseJoinUserIn()
+    {
+        return Helper::ifTrue(!empty($this->args['user__in']),
+            "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
+        );
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseJoinUserNotIn()
+    {
+        return Helper::ifTrue(!empty($this->args['user__not_in']),
             "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
         );
     }
