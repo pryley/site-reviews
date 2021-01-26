@@ -54,9 +54,10 @@ class ImportReviews extends Upload implements Contract
         require_once glsr()->path('vendors/thephpleague/csv/functions_include.php');
         try {
             wp_raise_memory_limit('admin');
-            $reader = Reader::createFromPath($this->file()->tmp_name, 'r');
+            $reader = Reader::createFromPath($this->file()->tmp_name);
             $reader->setHeaderOffset(0);
-            if (!empty(array_diff(static::REQUIRED_KEYS, $reader->getHeader()))) {
+            $header = array_map('trim', $reader->getHeader());
+            if (!empty(array_diff(static::REQUIRED_KEYS, $header))) {
                 throw new Exception('The CSV import header is missing required columns.');
             }
             $this->totalRecords = count($reader);
@@ -64,7 +65,7 @@ class ImportReviews extends Upload implements Contract
                 ->where(function ($record) {
                     return $this->validateRecord($record);
                 })
-                ->process($reader);
+                ->process($reader, $header);
             return $this->importRecords($records);
         } catch (Exception $e) {
             glsr(Notice::class)->addError($e->getMessage());
