@@ -214,7 +214,7 @@ class Str
     public static function replaceLast($search, $replace, $subject)
     {
         $position = strrpos($subject, $search);
-        if ($position !== false) {
+        if (!empty($search) && $position !== false) {
             return substr_replace($subject, $replace, $position, strlen($search));
         }
         return $subject;

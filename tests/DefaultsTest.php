@@ -35,7 +35,8 @@ class DefaultsTest extends WP_UnitTestCase
             'assigned_posts' => 4466,
             'assigned_terms' => 48,
             'assigned_users' => 1,
-            'author_id' => 0,
+            'date_after' => '',
+            'date_before' => '',
             'email' => '',
             'ip_address' => '',
             'offset' => 0,
@@ -49,6 +50,8 @@ class DefaultsTest extends WP_UnitTestCase
             'rating' => 0,
             'status' => 'approved',
             'type' => 'local',
+            'user__in' => [],
+            'user__not_in' => [],
         ];
         $test = glsr()->args(glsr(ReviewsDefaults::class)->restrict($args));
         $this->assertEquals(count($test), count(glsr(ReviewsDefaults::class)->defaults()));
