@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, 
 Tested up to: 5.6
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.5.0-beta
+Stable tag: 5.5.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -142,7 +142,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Changed the "site-reviews/review/build/<tag>" hooks to "site-reviews/review/build/tag/<tag>"
 - Fixed CSV importing when header values contain trailing spaces
 - Fixed email and IP address review limits to include all reviews (not just approved reviews)
-- Upgraded star-ratings.js library to v4
+- Upgraded star-ratings.js library to v4 in preparation for the "Review Themes" add-on
 
 = 5.4.3 (2021-01-16) =
 
