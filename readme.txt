@@ -1,7 +1,7 @@
 === Site Reviews ===
 Contributors: geminilabs, pryley
 Donate link: https://www.paypal.me/pryley
-Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, star ratings
+Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, star ratings, woocommerce
 Tested up to: 5.6
 Requires at least: 5.5
 Requires PHP: 5.6
@@ -13,53 +13,71 @@ Site Reviews allows you to easily receive and display reviews for your website, 
 
 == Description ==
 
-Site Reviews allows your visitors to submit reviews with a 1-5 star rating on your website, similar to the way you would on TripAdvisor or Yelp.
-
-The plugin provides blocks, shortcodes, and widgets, along with full documentation.
+Site Reviews allows your visitors to submit reviews with a 1-5 star rating on your website, similar to the way you would on TripAdvisor or Yelp. The plugin provides blocks, shortcodes, and widgets, along with full documentation.
 
 You can pin your best reviews so that they are always shown first, require approval before new review submissions are published, require visitors to be logged-in in order to write a review, send custom notifications on a new submission, and much more.
+
+__Site Reviews provides full Woocommerce integration__ with the free [Woocommerce Reviews](https://niftyplugins.com/plugins/woocommerce-reviews/) add-on.
 
 [Follow plugin development on Github.](https://github.com/pryley/site-reviews/)
 
 Images adapted from [freepik](https://www.freepik.com).
 
-= Current Features =
+### Current Features
 
-- Actively developed and supported
-- Asian language support
-- Avatars: Provided by the WordPress Gravatar service
-- Backup and restore your plugin settings as needed
-- Bayesian Ranking: Easily sort pages with assigned reviews by rank (using the bayesian algorithm) in your custom WP_Query
-- Blacklist words, phrases, IP addresses, names, and emails
-- Categories: Add your own categories and assign reviews to them.
-- Developer Friendly: Designed for WordPress developers with over 100 filter hooks and convenient functions
-- Documentation: FAQ and documenation for hooks and all shortcodes and functions
-- Easy setup and implementation
-- Editor Blocks that allow full customisation
-- JSON-LD Schema: Display your reviews and ratings in search results
-- Multilingual: Integrates with Polylang and WPML and provides easy search/replace translation
-- Multisite Support
-- Notifications: Send notifications to one or more emails when a review is submitted
-- Page Assignment: Assign reviews to Posts, Pages, and Custom Post Types (i.e. Products)
-- Pagination: Display a set number of reviews per-page with AJAX
-- Relative dates
-- Responses: Write responses to reviews
-- Restrictions: Require approval before publishing reviews, restrict review submissions to registered users, and limit review submissions by email address, IP address, or username
-- Review Summaries: Display a summary of your review ratings from high to low.
-- Shortcodes: Configurable shortcodes complete with full documentation
-- Slack Integration: Receive notifications in Slack when a review is submitted
-- SPAM Protection: Built-in Honeypot protection; integrate with Invisible reCAPTCHA and Akismet
-- Styles: Change the review form style to match popular themes and form plugins
-- Support: Free premium-level support included on the WordPress.org support forum
-- Templates: Use the Site Reviews templates in your theme for full control over the HTML
-- Widgets: Configurable widgets for your sidebars
+- __Actively Developed and Supported__
+- __Asian Language Support__
+- __Assign Reviews to Categories__: Add your own categories and assign reviews to them.
+- __Assign Reviews to Pages__: Assign reviews to Posts, Pages, and Custom Post Types like Woocommerce Products.
+- __Assign Reviews to Users__: Assign reviews to Users on your website.
+- __Avatars__: Provided by the WordPress Gravatar service
+- __Backup and Restore__: Export/Import your settings and custom translations, and use the WordPress Export and Import tools to backup your reviews.
+- __Bayesian Ranking__: Easily sort pages with assigned reviews by rank (using the bayesian algorithm) in your custom WP_Query
+- __Blacklist__: Block review submissions which contain specific words, phrases, IP addresses, names, and emails
+- __Developer Friendly__: Designed for WordPress developers with over 100 hooks and convenient functions
+- __Documentation__: FAQ and documenation for hooks and all shortcodes and functions
+- __Editor Blocks__: Use the custom editor blocks in the Gutenberg editor
+- __Form Styles__: Match the review form with popular themes and form plugins
+- __Import Third-Party Reviews__: Includes a built-in CSV importer
+- __JSON-LD Schema__: Display your reviews and ratings in search results
+- __Members Only__: Require users to be logged in before submitting a review
+- __Multilingual__: Integrates with Polylang and WPML
+- __Multisite Support__: Fully supports network/multisite websites
+- __Notifications__: Send notifications to one or more emails when a review is submitted
+- __Pagination__: Display a set number of reviews per-page with AJAX
+- __Premium Support__: Free premium-level support included on the WordPress.org support forum
+- __Privacy__: Integrates with the WordPress privacy tools
+- __Rating Summaries__: Display a summary of your review ratings from high to low.
+- __Relative Dates__: You decide the date format that is displayed in your reviews
+- __Responses__: Write responses to your reviews
+- __Restrictions__: Require approval before publishing reviews and limit review submissions by email address, IP address, or username
+- __Shortcodes__: Configurable shortcodes complete with full documentation
+- __Slack Integration__: Receive notifications in Slack when a review is submitted
+- __SPAM Protection__: Includes 5 layers of protection from spam! Built-in Honeypot protection; Invisible reCAPTCHA, Akismet, Blacklist, and Review limits
+- __Templates__: Use the Site Reviews templates in your theme for full control over the HTML
+- __Translations__: Easily change any text of the plugin to your own
+- __Widgets__: Use the configurable widgets in your sidebars.
+
+### Site Reviews Add-ons
+
+Site Reviews provides a ton of absolutely free features, possibly more than any other review plugin! But when those features are not enough, Site Reviews provides additional features (both free and premium) through add-ons. Current add-ons include:
+
+- __[Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/) (premium)__: Create custom review forms with over 20 field types and individual review templates.
+- __[Review Filters](https://niftyplugins.com/plugins/site-reviews-filters/) (premium)__: Sort, filter, and search your reviews.
+- __[Review Images](https://niftyplugins.com/plugins/site-reviews-images/) (premium)__: Add images with captions to your reviews.
+- __[Trustalyze Confidence System](https://niftyplugins.com/plugins/trustalyze/) (free)__: Integrate with the Trustalyze Confidence System and post reviews on the blockchain.
+- __[Woocommerce Reviews](https://niftyplugins.com/plugins/woocommerce-reviews/) (free)__: Integrate Site Reviews with your Woocommerce products.
+
+### Site Reviews Premium
+
+[Site Reviews Premium](https://niftyplugins.com/plugins/site-reviews-premium/) provides access to all of our free and premium add-ons, and automatically includes access to future add-ons as they are released.
 
 == Installation ==
 
 = Minimum plugin requirements =
 
-- WordPress 4.7.0
-- PHP 5.6
+- WordPress 5.5.0
+- PHP 5.6.20
 
 If your server and website does not meet the minimum requirements shown below, the plugin will automatically deactivate and a notice will appear explaining why.
 
@@ -74,12 +92,12 @@ Download the Site Reviews plugin and upload it to your server with your favorite
 == Frequently Asked Questions ==
 
 = How do I use Site Reviews? =
-Use the provided shortcodes, widgets, and blocks on your website. Make sure to also view the screenshots above and read the Help page included in the plugin menu once the plugin has been installed and activated.
+Use the provided shortcodes, widgets, and blocks on your website. Please also see the screenshots above which demontrate many of the features, and read the Help page included in the Site Reviews menu once the plugin has been installed and activated.
 
 = I need help with something else =
 All documentation can be found in the "Help" page of the plugin. If your question is not answered there, please create a new topic in the [WordPress support forum](https://wordpress.org/support/plugin/site-reviews/).
 
-== Screenshots ==
+## Screenshots
 
 1. The "All Reviews" page.
 
@@ -111,15 +129,18 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 15. This is what the Slack notifications look like.
 
-== Changelog ==
+## Changelog
 
-= 5.5.0 (2021-01-??) =
+= 5.5.0 (2021-01-25) =
 
-- Added sub-sections for add-on settings
+- Added "date_after", "date_before", "user__in", and "user__not_in" parameters to the glsr_get_reviews() function
 - Added glsr_trace() helper function
-- Fixed email and IP address review limits
-- Renamed the "site-reviews/review/build/<tag>" hook to "site-reviews/review/build/tag/<tag>"
-- Updated star-ratings.js library to v4
+- Added "Restrict Limits To" setting which allows you to choose which assignments are used in the review limits.
+- Added sub-sections for add-on settings
+- Changed the "site-reviews/review/build/<tag>" hooks to "site-reviews/review/build/tag/<tag>"
+- Fixed CSV importing when header values contain trailing spaces
+- Fixed email and IP address review limits to include all reviews (not just approved reviews)
+- Upgraded star-ratings.js library to v4
 
 = 5.4.3 (2021-01-16) =
 
