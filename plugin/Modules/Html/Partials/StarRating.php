@@ -63,6 +63,6 @@ class StarRating implements PartialContract
         ]);
         $this->count = (int) $args['count'];
         $this->prefix = $args['prefix'];
-        $this->rating = sprintf('%g', $args['rating']); // remove unnecessary trailing zeros
+        $this->rating = (float) sprintf('%g', $args['rating']); // remove unnecessary trailing zeros
     }
 }

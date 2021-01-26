@@ -185,14 +185,21 @@ class ListTableController extends Controller
     }
 
     /**
+     * @return array
+     * */
+    protected function filterByValues()
+    {
+        $filterBy = glsr(ColumnFilterbyDefaults::class)->defaults();
+        $filterBy = filter_input_array(INPUT_GET, $filterBy);
+        return Arr::removeEmptyValues(Arr::consolidate($filterBy));
+    }
+
+    /**
      * @return bool
      */
     protected function isListFiltered()
     {
-        $filterBy = glsr(ColumnFilterbyDefaults::class)->defaults();
-        $filterBy = filter_input_array(INPUT_GET, $filterBy);
-        $filterBy = Arr::removeEmptyValues($filterBy);
-        return !empty($filterBy);
+        return !empty($this->filterByValues());
     }
 
     /**
@@ -250,10 +257,7 @@ class ListTableController extends Controller
      */
     protected function modifyClauseWhere($where, $table, WP_Query $query)
     {
-        $filterBy = glsr(ColumnFilterbyDefaults::class)->defaults();
-        $filterBy = filter_input_array(INPUT_GET, $filterBy);
-        $filterBy = Arr::removeEmptyValues($filterBy);
-        foreach ($filterBy as $key => $value) {
+        foreach ($this->filterByValues() as $key => $value) {
             $where .= " AND {$table}.{$key} = '{$value}' ";
         }
         return $where;
