@@ -18,8 +18,7 @@ glsr_get_reviews(array $args = []);</code></pre>
     'assigned_posts' => '',
     'assigned_terms' => '',
     'assigned_users' => '',
-    'date_after' => '',
-    'date_before' => '',
+    'date' => '', // value can be a date string, or an array (see example below)
     'email' => '',
     'ip_address' => '',
     'offset' => '',
@@ -39,7 +38,11 @@ glsr_get_reviews(array $args = []);</code></pre>
         <p><strong>Example Usage:</strong></p>
         <pre><code class="language-php">$reviews = glsr_get_reviews([
     'assigned_posts' => 'post_id',
-    'date_after' => '2020-12-31',
+    'date' => [
+        'after' => '2020-12-01', // all reviews after this date (or if using the "inclusive" option, all reviews after and on this date)
+        'before' => '2020-12-31',  // all reviews before this date (or if using the "inclusive" option, all reviews before and on this date)
+        'inclusive' => true,
+    ],
     'user__in' => [get_current_user_id()],
     'rating' => 3,
 ]);
@@ -49,6 +52,12 @@ glsr_get_reviews(array $args = []);</code></pre>
 $reviews = apply_filters('glsr_get_reviews', [], [
     'assigned_posts' => 'post_id',
     'author_id' => get_current_user_id(),
+    'date' => [
+        'after' => '2020-12-01',
+        'before' => '2020-12-31',
+        'inclusive' => true,
+    ],
+    'user__in' => [get_current_user_id()],
     'rating' => 3,
 ]);</code></pre>
         <p><strong>Helpful Tips:</strong></p>

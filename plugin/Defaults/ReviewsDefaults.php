@@ -37,8 +37,6 @@ class ReviewsDefaults extends Defaults
      * @var array
      */
     public $sanitize = [
-        'date_after' => 'date',
-        'date_before' => 'date',
         'email' => 'email',
         'post__in' => 'array-int',
         'post__not_in' => 'array-int',
@@ -56,8 +54,7 @@ class ReviewsDefaults extends Defaults
             'assigned_posts' => '',
             'assigned_terms' => '',
             'assigned_users' => '',
-            'date_after' => '',
-            'date_before' => '',
+            'date' => '',
             'email' => '',
             'ip_address' => '',
             'offset' => '',

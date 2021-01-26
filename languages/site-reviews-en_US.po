@@ -294,9 +294,13 @@ msgstr "No"
 msgid "Yes"
 msgstr "Yes"
 
-#: plugin/Modules/Html/Partials/StarRating.php:29
-msgid "%s rating"
-msgstr "%s rating"
+#: plugin/Modules/Html/Partials/StarRating.php:26
+msgid "Rated <strong>%s</strong> out of %s based on %s ratings"
+msgstr "Rated <strong>%s</strong> out of %s based on %s ratings"
+
+#: plugin/Modules/Html/Partials/StarRating.php:27
+msgid "Rated <strong>%s</strong> out of %s"
+msgstr "Rated <strong>%s</strong> out of %s"
 
 #: plugin/Modules/Html/Tags/FormSubmitButtonTag.php:43
 msgid "Submit your review"
@@ -1158,14 +1162,8 @@ msgstr "Terms"
 
 #: config/settings.php:466
 msgctxt "admin-text"
-msgid ""
-"Limits the number of reviews that can be submitted to one-per-person. If "
-"you are assigning reviews, then the limit will be applied to the assigned "
-"page and/or category."
-msgstr ""
-"Limits the number of reviews that can be submitted to one-per-person. If "
-"you are assigning reviews, then the limit will be applied to the assigned "
-"page and/or category."
+msgid "Limits the number of reviews that can be submitted to one-per-person."
+msgstr "Limits the number of reviews that can be submitted to one-per-person."
 
 #: config/settings.php:467
 msgctxt "admin-text"
@@ -1192,7 +1190,41 @@ msgctxt "admin-text"
 msgid "By Username (will only work for registered users)"
 msgstr "By Username (will only work for registered users)"
 
-#: config/settings.php:481
+#: config/settings.php:482
+msgctxt "admin-text"
+msgid "Select which assignments the review limits should be restricted to."
+msgstr "Select which assignments the review limits should be restricted to."
+
+#: config/settings.php:483
+msgctxt "admin-text"
+msgid ""
+"The review limits use strict assignment, i.e. <code>restrict limits to "
+"reviews assigned to this AND this</code>."
+msgstr ""
+"The review limits use strict assignment, i.e. <code>restrict limits to "
+"reviews assigned to this AND this</code>."
+
+#: config/settings.php:485
+msgctxt "admin-text"
+msgid "Restrict Limits To"
+msgstr "Restrict Limits To"
+
+#: config/settings.php:487, plugin/Controllers/MetaboxController.php:37, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/editor/bulk-edit-assigned-posts.php:6
+msgctxt "admin-text"
+msgid "Assigned Posts"
+msgstr "Assigned Posts"
+
+#: config/settings.php:488
+msgctxt "admin-text"
+msgid "Assigned Terms"
+msgstr "Assigned Terms"
+
+#: config/settings.php:489, plugin/Controllers/MetaboxController.php:38, plugin/Defaults/PostTypeColumnDefaults.php:19, views/partials/editor/bulk-edit-assigned-users.php:6
+msgctxt "admin-text"
+msgid "Assigned Users"
+msgstr "Assigned Users"
+
+#: config/settings.php:498
 msgctxt "admin-text"
 msgid ""
 "One Email per line. All emails in the whitelist will be excluded from the "
@@ -1201,12 +1233,12 @@ msgstr ""
 "One Email per line. All emails in the whitelist will be excluded from the "
 "review submission limit."
 
-#: config/settings.php:482
+#: config/settings.php:499
 msgctxt "admin-text"
 msgid "Email Whitelist"
 msgstr "Email Whitelist"
 
-#: config/settings.php:491
+#: config/settings.php:508
 msgctxt "admin-text"
 msgid ""
 "One IP Address per line. All IP Addresses in the whitelist will be excluded "
@@ -1215,12 +1247,12 @@ msgstr ""
 "One IP Address per line. All IP Addresses in the whitelist will be excluded "
 "from the review submission limit.."
 
-#: config/settings.php:492
+#: config/settings.php:509
 msgctxt "admin-text"
 msgid "IP Address Whitelist"
 msgstr "IP Address Whitelist"
 
-#: config/settings.php:501
+#: config/settings.php:518
 msgctxt "admin-text"
 msgid ""
 "One Username per line. All registered users with a Username in the "
@@ -1229,12 +1261,12 @@ msgstr ""
 "One Username per line. All registered users with a Username in the "
 "whitelist will be excluded from the review submission limit."
 
-#: config/settings.php:502
+#: config/settings.php:519
 msgctxt "admin-text"
 msgid "Username Whitelist"
 msgstr "Username Whitelist"
 
-#: config/settings.php:509
+#: config/settings.php:526
 msgctxt "admin-text"
 msgid ""
 "The Invisible reCAPTCHA badge (reCAPTCHA v2) is a free anti-spam service "
@@ -1247,37 +1279,37 @@ msgstr ""
 "href=\"https://www.google.com/recaptcha/admin\" target=\"_blank\">sign "
 "up</a> for an API key pair for your site."
 
-#: config/settings.php:510
+#: config/settings.php:527
 msgctxt "admin-text"
 msgid "Invisible reCAPTCHA"
 msgstr "Invisible reCAPTCHA"
 
-#: config/settings.php:512
+#: config/settings.php:529
 msgctxt "admin-text"
 msgid "Do not use reCAPTCHA"
 msgstr "Do not use reCAPTCHA"
 
-#: config/settings.php:513
+#: config/settings.php:530
 msgctxt "admin-text"
 msgid "Use reCAPTCHA"
 msgstr "Use reCAPTCHA"
 
-#: config/settings.php:514
+#: config/settings.php:531
 msgctxt "admin-text"
 msgid "Use reCAPTCHA only for guest users"
 msgstr "Use reCAPTCHA only for guest users"
 
-#: config/settings.php:523
+#: config/settings.php:540
 msgctxt "admin-text"
 msgid "Site Key"
 msgstr "Site Key"
 
-#: config/settings.php:531
+#: config/settings.php:548
 msgctxt "admin-text"
 msgid "Site Secret"
 msgstr "Site Secret"
 
-#: config/settings.php:540
+#: config/settings.php:557
 msgctxt "admin-text"
 msgid ""
 "This option may not work consistently if another plugin is loading "
@@ -1286,27 +1318,27 @@ msgstr ""
 "This option may not work consistently if another plugin is loading "
 "reCAPTCHA on the same page as Site Reviews."
 
-#: config/settings.php:541
+#: config/settings.php:558
 msgctxt "admin-text"
 msgid "Badge Position"
 msgstr "Badge Position"
 
-#: config/settings.php:543
+#: config/settings.php:560
 msgctxt "admin-text"
 msgid "Bottom Left"
 msgstr "Bottom Left"
 
-#: config/settings.php:544
+#: config/settings.php:561
 msgctxt "admin-text"
 msgid "Bottom Right"
 msgstr "Bottom Right"
 
-#: config/settings.php:545
+#: config/settings.php:562
 msgctxt "admin-text"
 msgid "Inline"
 msgstr "Inline"
 
-#: config/settings.php:551
+#: config/settings.php:568
 msgctxt "admin-text"
 msgid ""
 "The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> "
@@ -1319,12 +1351,12 @@ msgstr ""
 "setting to have any affect, you will need to first install and activate the "
 "Akismet plugin and set up a WordPress.com API key."
 
-#: config/settings.php:552
+#: config/settings.php:569
 msgctxt "admin-text"
 msgid "Enable Akismet Integration"
 msgstr "Enable Akismet Integration"
 
-#: config/settings.php:558
+#: config/settings.php:575
 msgctxt "admin-text"
 msgid ""
 "Choose which Blacklist you would prefer to use for reviews. The %s option "
@@ -1333,27 +1365,27 @@ msgstr ""
 "Choose which Blacklist you would prefer to use for reviews. The %s option "
 "can be found in the WordPress Discussion Settings page."
 
-#: config/settings.php:559
+#: config/settings.php:576
 msgctxt "admin-text"
 msgid "Disallowed Comment Keys"
 msgstr "Disallowed Comment Keys"
 
-#: config/settings.php:561
+#: config/settings.php:578
 msgctxt "admin-text"
 msgid "Blacklist"
 msgstr "Blacklist"
 
-#: config/settings.php:563
+#: config/settings.php:580
 msgctxt "admin-text"
 msgid "Use the Site Reviews Blacklist"
 msgstr "Use the Site Reviews Blacklist"
 
-#: config/settings.php:564
+#: config/settings.php:581
 msgctxt "admin-text"
 msgid "Use the WordPress Disallowed Comment Keys"
 msgstr "Use the WordPress Disallowed Comment Keys"
 
-#: config/settings.php:573
+#: config/settings.php:590
 msgctxt "admin-text"
 msgid ""
 "One entry or IP address per line. When a review contains any of these "
@@ -1366,27 +1398,27 @@ msgstr ""
 "rejected. It is case-insensitive and will match partial words, so \"press\" "
 "will match \"WordPress\"."
 
-#: config/settings.php:574
+#: config/settings.php:591
 msgctxt "admin-text"
 msgid "Review Blacklist"
 msgstr "Review Blacklist"
 
-#: config/settings.php:581
+#: config/settings.php:598
 msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr "Choose the action that should be taken when a review is blacklisted."
 
-#: config/settings.php:582
+#: config/settings.php:599
 msgctxt "admin-text"
 msgid "Blacklist Action"
 msgstr "Blacklist Action"
 
-#: config/settings.php:584
+#: config/settings.php:601
 msgctxt "admin-text"
 msgid "Require approval"
 msgstr "Require approval"
 
-#: config/settings.php:585
+#: config/settings.php:602
 msgctxt "admin-text"
 msgid "Reject submission"
 msgstr "Reject submission"
@@ -1400,7 +1432,7 @@ msgstr ""
 "The [%s] method has been deprecated and will be soon be removed, please use "
 "the [%s] method instead."
 
-#: plugin/Review.php:321, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
+#: plugin/Review.php:327, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr "Unknown"
@@ -1495,14 +1527,14 @@ msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr "Pin Your Reviews"
 
-#: plugin/Commands/ImportReviews.php:95
+#: plugin/Commands/ImportReviews.php:96
 msgctxt "admin-text"
 msgid "%s review was imported."
 msgid_plural "%s reviews were imported."
 msgstr[0] "%s review was imported."
 msgstr[1] "%s reviews were imported."
 
-#: plugin/Commands/ImportReviews.php:103
+#: plugin/Commands/ImportReviews.php:104
 msgctxt "admin-text"
 msgid "%s entry was skipped."
 msgid_plural "%s entries were skipped."
@@ -1695,16 +1727,6 @@ msgstr "Respond Publicly"
 msgctxt "admin-text"
 msgid "Review Details"
 msgstr "Review Details"
-
-#: plugin/Controllers/MetaboxController.php:37, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/editor/bulk-edit-assigned-posts.php:6
-msgctxt "admin-text"
-msgid "Assigned Posts"
-msgstr "Assigned Posts"
-
-#: plugin/Controllers/MetaboxController.php:38, plugin/Defaults/PostTypeColumnDefaults.php:19, views/partials/editor/bulk-edit-assigned-users.php:6
-msgctxt "admin-text"
-msgid "Assigned Users"
-msgstr "Assigned Users"
 
 #: plugin/Controllers/MetaboxController.php:40, plugin/Controllers/MetaboxController.php:119
 msgctxt "admin-text"

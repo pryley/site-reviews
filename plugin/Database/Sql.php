@@ -165,29 +165,25 @@ trait Sql
     /**
      * @return string
      */
-    protected function clauseAndDateAfter()
+    protected function clauseAndDate()
     {
         $clauses = [];
-        if (!empty($this->args['date_after'])) {
-            $clauses[] = $this->db->prepare('(p.post_date > %s)', $this->args['date_after']);
+        $date = $this->args['date'];
+        if (!empty($date['after'])) {
+            $clauses[] = $this->db->prepare("(p.post_date >{$date['inclusive']} %s)", $date['after']);
         }
-        if (!empty($this->args['date_before'])) {
-            $clauses[] = $this->db->prepare('(p.post_date < %s)', $this->args['date_before']);
+        if (!empty($date['before'])) {
+            $clauses[] = $this->db->prepare("(p.post_date <{$date['inclusive']} %s)", $date['before']);
+        }
+        if (!empty($date['year'])) {
+            $clauses[] = $this->db->prepare('(YEAR(p.post_date) = %d AND MONTH(p.post_date) = %d AND DAYOFMONTH(p.post_date) = %d)',
+                $date['year'], $date['month'], $date['day']
+            );
         }
         if ($clauses = implode(' AND ', $clauses)) {
             return sprintf('AND (%s)', $clauses);
         }
         return '';
-    }
-
-    /**
-     * @return string
-     */
-    protected function clauseAndDateBefore()
-    {
-        return Helper::ifTrue(!empty($this->args['date_before']),
-            $this->db->prepare('AND p.post_date < %s', $this->args['date_before'])
-        );
     }
 
     /**
@@ -313,9 +309,9 @@ trait Sql
     /**
      * @return string
      */
-    protected function clauseJoinDateAfter()
+    protected function clauseJoinDate()
     {
-        return Helper::ifTrue(!empty($this->args['date_after']) || !empty($this->args['date_before']),
+        return Helper::ifTrue(!empty(array_filter($this->args['date'])),
             "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
         );
     }

@@ -131,10 +131,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
-= 5.5.0 (2021-01-25) =
+= 5.5.0 (2021-01-26) =
 
 - Added "data-field" attributes to form fields; this should make it easier to build custom CSS layouts
-- Added "date_after", "date_before", "user__in", and "user__not_in" parameters to the glsr_get_reviews() function
+- Added "date", "user__in", and "user__not_in" parameters to the glsr_get_reviews() function
 - Added glsr_trace() helper function
 - Added "Restrict Limits To" setting which allows you to choose which assignments are used in the review limits.
 - Added sub-sections for add-on settings

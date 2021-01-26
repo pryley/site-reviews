@@ -4,14 +4,15 @@ namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 /**
  * @property int[] $assigned_posts;
  * @property int[] $assigned_terms;
  * @property int[] $assigned_users;
- * @property string $date_after;
- * @property string $date_before;
+ * @property string|array $date;
  * @property string $email;
  * @property string $ip_address;
  * @property int $offset;
@@ -36,10 +37,37 @@ class NormalizeQueryArgs extends Arguments
         $args['assigned_posts'] = glsr(PostManager::class)->normalizeIds($args['assigned_posts']);
         $args['assigned_terms'] = glsr(TaxonomyManager::class)->normalizeIds($args['assigned_terms']);
         $args['assigned_users'] = glsr(UserManager::class)->normalizeIds($args['assigned_users']);
+        $args['date'] = $this->normalizeDate($args['date']);
         $args['order'] = Str::restrictTo('ASC,DESC,', sanitize_key($args['order']), 'DESC'); // include an empty value
         $args['orderby'] = $this->normalizeOrderBy($args['orderby']);
         $args['status'] = $this->normalizeStatus($args['status']);
         parent::__construct($args);
+    }
+
+    /**
+     * @param string|array $value
+     * @return array
+     */
+    protected function normalizeDate($value)
+    {
+        $date = array_fill_keys(['after', 'before', 'day', 'inclusive', 'month', 'year'], '');
+        $timestamp = strtotime(Cast::toString($value));
+        if (false !== $timestamp) {
+            $date['year'] = date('Y', $timestamp);
+            $date['month'] = date('n', $timestamp);
+            $date['day'] = date('j', $timestamp);
+            return $date;
+        }
+        if (false !== strtotime(Arr::get($value, 'after'))) {
+            $date['after'] = $value['after'];
+        }
+        if (false !== strtotime(Arr::get($value, 'before'))) {
+            $date['before'] = $value['before'];
+        }
+        if (!empty(array_filter($date))) {
+            $date['inclusive'] = Cast::toBool(Arr::get($value, 'inclusive')) ? '=' : '';
+        }
+        return $date;
     }
 
     /**
