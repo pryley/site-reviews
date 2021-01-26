@@ -1,6 +1,6 @@
 <?php defined('ABSPATH') || die; ?>
 
-<div class="{{ class }}">
+<div class="{{ class }}" data-field="{{ field_name }}">
     {{ label }}
     {{ field }}
     {{ errors }}

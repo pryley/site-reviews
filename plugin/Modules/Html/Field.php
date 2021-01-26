@@ -224,6 +224,7 @@ class Field
                 'class' => $this->getFieldClasses(),
                 'errors' => $this->getFieldErrors(),
                 'field' => $this->getField(),
+                'field_name' => $this->field['path'],
                 'for' => $this->field['id'],
                 'label' => $this->getFieldLabel(),
                 'label_text' => $this->field['label'],
