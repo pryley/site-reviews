@@ -55,6 +55,18 @@ class ReviewController extends Controller
     }
 
     /**
+     * @param string $template
+     * @return string
+     * @filter site-reviews/rendered/template/review
+     */
+    public function filterReviewTemplate($template, array $data)
+    {
+        $search = 'id="review-';
+        $replace = sprintf('data-type="%s" %s', $data['review']->type, $search);
+        return str_replace($search, $replace, $template);
+    }   
+
+    /**
      * @param string $operator
      * @return string
      * @filter site-reviews/query/sql/clause/operator
