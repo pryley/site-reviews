@@ -82,6 +82,7 @@ mix
   .postCss('+/styles/twentyseventeen.css', 'assets/styles', postCss('.glsr-twentyseventeen'))
   .postCss('+/styles/twentysixteen.css', 'assets/styles', postCss('.glsr-twentysixteen'))
   .postCss('+/styles/twentytwenty.css', 'assets/styles', postCss('.glsr-twentytwenty'))
+  .postCss('+/styles/twentytwentyone.css', 'assets/styles', postCss('.glsr-twentytwentyone'))
   .postCss('+/styles/wpforms.css', 'assets/styles', postCss('.glsr-wpforms'))
   .postCss('+/styles/bootstrap_4-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
   .postCss('+/styles/bootstrap_4_custom-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
@@ -95,6 +96,7 @@ mix
   .postCss('+/styles/twentyseventeen-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
   .postCss('+/styles/twentysixteen-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
   .postCss('+/styles/twentytwenty-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
+  .postCss('+/styles/twentytwentyone-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
   .postCss('+/styles/wpforms-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
   .browserSync('site-reviews.test');
 

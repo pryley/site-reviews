@@ -1,0 +1,85 @@
+@import "blocks/minimal/variables";
+@import "blocks/minimal/reviews";
+@import "blocks/minimal/read-more";
+@import "blocks/default/reviews-form";
+@import "blocks/minimal/field-labels";
+@import "blocks/minimal/field-input";
+@import "public/twentytwentyone/field-choice";
+@import "public/twentytwentyone/field-toggle";
+@import "blocks/minimal/reviews-summary";
+@import "blocks/base";
+
+:root {
+    --glsr-gray-dark: #28303d;
+    --glsr-gray: #39414d;
+    --glsr-form-border-radius: 0;
+    --glsr-form-border-width: 3px;
+    --glsr-form-font-size:  var(--glsr-font-size-large);
+    --glsr-spacing: 30px;
+    --glsr-toggle-bg-active: var(--glsr-form-border-color);
+    --glsr-toggle-bg-inactive:  var(--glsr-white);
+    --glsr-toggle-opacity-inactive: 1;
+    --glsr-toggle-size: 25px;
+}
+
+:--namespace form.glsr-form label {
+    font-size: var(--glsr-form-font-size);
+    font-weight: var(--glsr-form-label-font-weight);
+    margin-bottom: 10px;
+}
+:--namespace form.glsr-form input[type=checkbox] {
+    border-radius: var(--glsr-form-border-radius);
+}
+:--namespace form.glsr-form input[type=checkbox],
+:--namespace form.glsr-form input[type=radio] {
+    background: var(--glsr-toggle-bg-inactive);
+    border: var(--glsr-form-border-width) solid var(--glsr-form-border-color);
+    height: var(--glsr-toggle-size);
+    width: var(--glsr-toggle-size);
+}
+:--namespace form.glsr-form .glsr-field-checkbox span:first-of-type,
+:--namespace form.glsr-form .glsr-field-radio span:first-of-type {
+    height: var(--glsr-spacing);
+}
+:--namespace form.glsr-form .components-button {
+    background-color: var(--glsr-gray-dark);
+    border-radius: var(--glsr-form-border-radius);
+    box-shadow: none;
+    color: var(--glsr-white);
+    font-size: var(--glsr-form-font-size);
+    font-weight: var(--glsr-form-label-font-weight);
+    height: auto;
+    padding: calc(var(--glsr-spacing) / 2) var(--glsr-spacing);
+}
+:--namespace .glsr-pagination .pagination {
+    border-top: var(--glsr-form-border-width) solid var(--glsr-gray-dark);
+    margin: var(--glsr-spacing) auto;
+}
+:--namespace .glsr-pagination .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+:--namespace .glsr-pagination .page-numbers {
+    box-shadow: none;
+    color: var(--glsr-gray-dark);
+    font-size: 1.5rem;
+    font-weight: normal;
+    margin-top: var(--glsr-spacing);
+    margin-left: calc(20px * 0.66);
+    margin-right: calc(20px * 0.66);
+    min-width: 44px;
+    min-height: 44px;
+}
+:--namespace .glsr-pagination .page-numbers:first-child {
+    margin-left: 0;
+}
+:--namespace .glsr-pagination .page-numbers:last-child {
+    margin-right: 0;
+}
+:--namespace .glsr-pagination .page-numbers.current {
+    text-decoration: underline;
+}
+:--namespace .glsr-pagination .page-numbers.next {
+    margin-left: auto;
+}

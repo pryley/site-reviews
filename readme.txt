@@ -136,6 +136,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Added "data-field" attributes to form fields; this should make it easier to build custom CSS layouts
 - Added "date", "user__in", and "user__not_in" parameters to the glsr_get_reviews() function
 - Added glsr_trace() helper function
+- Added plugin style for the "Twenty Twenty-One" theme
 - Added "Restrict Limits To" setting which allows you to choose which assignments are used in the review limits.
 - Added sub-sections for add-on settings
 - Changed the "site-reviews/review/build/<tag>" hooks to "site-reviews/review/build/tag/<tag>"

@@ -1,0 +1,32 @@
+@import "public/minimal/variables";
+@import "public/minimal/keyframes";
+@import "public/minimal/screen-reader";
+@import "public/minimal/reviews";
+@import "public/minimal/read-more";
+@import "public/minimal/pagination";
+@import "public/minimal/reviews-form";
+@import "public/minimal/field-labels";
+@import "public/minimal/field-input";
+@import "public/twentytwentyone/field-choice";
+@import "public/twentytwentyone/field-toggle";
+@import "public/minimal/field-star-rating";
+@import "public/minimal/submit-button";
+@import "public/minimal/reviews-summary";
+
+:root {
+    --glsr-toggle-bg-active: var(--form--border-color);
+    --glsr-toggle-bg-inactive:  var(--global--color-white);
+    --glsr-toggle-size: 25px;
+    --glsr-toggle-opacity-inactive: 1;
+}
+
+:--namespace form.glsr-form .glsr-field-error {
+    font-family: var(--glsr-font-family-sans);
+    font-size: var(--glsr-form-font-size-small);
+}
+
+:--namespace form.glsr-form input.glsr-input,
+:--namespace form.glsr-form input.glsr-input-checkbox,
+:--namespace form.glsr-form input.glsr-input-radio:not(:checked) {
+    border: var(--form--border-width) solid var(--form--border-color);
+}

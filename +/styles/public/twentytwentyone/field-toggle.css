@@ -1,24 +1,22 @@
 /*Form Toggle*/
 :--namespace form.glsr-form .glsr-field-toggle {
+    align-items: flex-start;
     display: flex;
 }
 :--namespace form.glsr-form .glsr-toggle {
-    align-items: flex-start;
-    display: inline-flex;
+    display: flex;
     flex-direction: row-reverse;
 }
-:--namespace form.glsr-form .glsr-toggle label {
+:--namespace form.glsr-form .glsr-field-toggle label {
     display: block;
-    font-size: var(--glsr-form-font-size);
-    font-weight: var(--glsr-toggle-font-weight);
-    line-height:var(--glsr-form-line-height);
+    margin-bottom: 0;
     margin-left: calc(var(--glsr-base-font-size) * .5);
 }
-:--namespace.glsr-rtl form.glsr-form .glsr-toggle label {
+:--namespace.glsr-rtl form.glsr-form .glsr-field-toggle label {
     margin-left: 0;
     margin-right: calc(var(--glsr-base-font-size) * .5);
 }
-:--namespace form.glsr-form .glsr-toggle input[type=checkbox] {
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] {
     appearance: none;
     background-color: transparent;
     border-radius: var(--glsr-toggle-radius-outer);
@@ -39,12 +37,11 @@
     width: calc(calc(var(--glsr-toggle-size) * 2) - calc(var(--glsr-toggle-padding) * 2));
     z-index: 0;
 }
-:--namespace form.glsr-form .glsr-toggle input[type=checkbox]::before,
-:--namespace form.glsr-form .glsr-toggle input[type=checkbox]::after {
-    box-sizing: border-box;
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]::before,
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]::after {
     display:  none;
 }
-:--namespace form.glsr-form .glsr-toggle input[type=checkbox] + .glsr-toggle-track {
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track {
     background-color: transparent;
     border-radius: var(--glsr-toggle-radius-outer);
     box-sizing: border-box;
@@ -56,17 +53,13 @@
     transition: background-color var(--glsr-form-duration) ease-in-out;
     width: calc(calc(var(--glsr-toggle-size) * 2) - calc(var(--glsr-toggle-padding) * 2));
 }
-:--namespace form.glsr-form .glsr-toggle input[type=checkbox]:focus {
-    outline: none;
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track {
+    background-color: currentColor;
+    transition: background-color 0.15s ease-in-out;
 }
-:--namespace form.glsr-form .glsr-toggle input[type=checkbox]:focus + .glsr-toggle-track {
-    outline: 1px solid transparent;
-    box-shadow: 0 0 0 3px Highlight;
-    box-shadow: 0 0 0 3px -moz-mac-focusring;
-    box-shadow: 0 0 0 3px -webkit-focus-ring-color;
-}
-:--namespace form.glsr-form .glsr-toggle input[type=checkbox] + .glsr-toggle-track::before {
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::before {
     background-color: var(--glsr-toggle-bg-inactive);
+    border: var(--form--border-width) solid var(--glsr-toggle-bg-active);
     border-radius: var(--glsr-toggle-radius-outer);
     content: '';
     display: block;
@@ -77,15 +70,15 @@
     top: 0;
     width: 100%;
 }
-:--namespace form.glsr-form .glsr-toggle input[type=checkbox]:checked + .glsr-toggle-track::before {
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track::before {
     background-color: var(--glsr-toggle-bg-active);
     opacity: var(--glsr-toggle-opacity-active);
     transition: background-color var(--glsr-form-duration) ease-in-out, opacity var(--glsr-form-duration) ease-in-out;
 }
-:--namespace form.glsr-form .glsr-toggle input[type=checkbox] + .glsr-toggle-track::after {
-    background-color: var(--glsr-white);
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::after {
+    background-color: var(--glsr-toggle-bg-active);
+    border: 2px solid var(--glsr-toggle-bg-inactive);
     border-radius: var(--glsr-toggle-radius-inner);
-    box-shadow: var(--glsr-toggle-box-shadow);
     content: '';
     display: block;
     height: calc(var(--glsr-toggle-size) - calc(var(--glsr-toggle-padding) * 2));
@@ -95,12 +88,16 @@
     width: calc(var(--glsr-toggle-size) - calc(var(--glsr-toggle-padding) * 2));
     z-index: 1;
 }
-:--namespace form.glsr-form .glsr-toggle input[type=checkbox]:checked + .glsr-toggle-track::after {
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track::after {
+    background-color: var(--glsr-toggle-bg-inactive);
+    border-color: var(--glsr-toggle-bg-active);
+    border-width: 1px;
     transform: translateX(calc(var(--glsr-toggle-size) - calc(var(--glsr-toggle-padding) * 2)));
 }
-:--namespace form.glsr-form .glsr-toggle .glsr-toggle-switch {
+:--namespace form.glsr-form .glsr-field-toggle .glsr-toggle-switch {
     align-items: center;
     display: flex;
     flex-shrink: 0;
+    height: calc(var(--form--font-size) * var(--global--line-height-body));
     position: relative;
 }
