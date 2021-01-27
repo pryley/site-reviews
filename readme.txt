@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, 
 Tested up to: 5.6
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.5.0
+Stable tag: 5.5.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -131,9 +131,13 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
+= 5.5.1 (2021-01-26) =
+
+- Added the missing "What's New" sections
+
 = 5.5.0 (2021-01-26) =
 
-- Added "data-field" attributes to form fields; this should make it easier to build custom CSS layouts
+- Added "data-field" attribute to form fields; this should make it easier to build custom CSS layouts
 - Added "date", "user__in", and "user__not_in" parameters to the glsr_get_reviews() function
 - Added glsr_trace() helper function
 - Added plugin style for the "Twenty Twenty-One" theme

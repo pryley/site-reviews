@@ -1,6 +1,6 @@
-<div class="glsr-card postbox is-fullwidth open">
+<div class="glsr-card postbox is-fullwidth">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="true" aria-controls="welcome-v520">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="welcome-v520">
             <span class="title">Version 5.2</span>
             <span class="icon"></span>
         </button>
@@ -31,7 +31,7 @@
             <li>Fixed review migration of invalid 3rd-party reviews (reviews that were previously imported incorrectly)</li>
             <li>Fixed review name and email fallback values to use those of the logged-in user</li>
             <li>Fixed strict standard notices in PHP 5.6</li>
-            <li>Fixed the glsr_create_review helper function validation</li>
+            <li>Fixed the <code>glsr_create_review</code> helper function validation</li>
             <li>Fixed the submission date of reviews, it now uses the timezone offset in the WordPress settings</li>
         </ul>
     </div>
