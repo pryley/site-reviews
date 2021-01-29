@@ -9,9 +9,14 @@
         <p>Site Reviews uses a custom templating system which makes it easy to customize the HTML of the widgets and shortcodes to meet your needs.</p>
         <ol>
             <li>Create a folder in your theme called "site-reviews".</li>
-            <li>Copy the template files that you would like to customise from <code>/wp-content/plugins/site-reviews/templates/</code> into this new folder.</li>
+            <li>Copy the template files that you would like to customise from <code>/wp-content/plugins/site-reviews/templates/</code> into this new folder, keeping the subdirectories the same.</li>
             <li>Open the template files that you copied over in a text editor and make your changes.</li>
         </ol>
+        <p>For example:</p>
+        <p><code>/wp-content/plugins/site-reviews/templates/form/field.php</code><br><br>
+            Would be copied here:<br><br>
+            <code>/wp-content/themes/&lt;your-child-theme&gt;/site-reviews/form/field.php</code>
+        </p>
         <pre><code class="language-html"> wp-content/plugins/site-reviews/templates
  ├── form                    This folder contains the template files for the form fields
  │   ├── field.php           This template displays the field. To target a specific field type, append the type with an underscore (i.e. field_email.php, field_textarea.php)
