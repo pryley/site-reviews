@@ -5,9 +5,10 @@
     "star-rating.js": "^4.0.2"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.12.7",
     "@wordpress/babel-preset-default": "^5.0.0",
     "babel-plugin-prismjs": "^2.0.1",
-    "browser-sync": "^2.26.13",
+    "browser-sync": "^2.26.14",
     "browser-sync-webpack-plugin": "^2.2.2",
     "gulp": "^4.0.2",
     "gulp-bump": "^3.2.0",
@@ -16,7 +17,7 @@
     "gulp-pottopo": "^1.0.1",
     "gulp-sort": "^2.0.0",
     "gulp-wp-pot": "^2.5.0",
-    "laravel-mix": "^6.0.10",
+    "laravel-mix": "^6.0.11",
     "laravel-mix-bundle-analyzer": "^1.0.5",
     "postcss-calc": "^8.0.0",
     "postcss-custom-properties": "^11.0.0",

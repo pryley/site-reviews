@@ -1,4 +1,5 @@
 .*
+!.babelrc
 !.gitattributes
 !.gitignore
 !.jshintrc

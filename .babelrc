@@ -1,0 +1,13 @@
+{
+  "plugins": [
+    "@babel/plugin-proposal-optional-chaining",
+    ["prismjs", {
+        "css": false,
+        "languages": ["javascript", "php", "html", "css"],
+        "plugins": ["line-numbers"]
+    }]
+  ],
+  "presets": [
+    "@wordpress/default"
+  ]
+}

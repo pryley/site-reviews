@@ -14,20 +14,6 @@ const postCss = namespace => {
 
 require('laravel-mix-bundle-analyzer');
 
-mix.babelConfig({
-  plugins: [
-    ['prismjs', {
-        'languages': ['javascript', 'php', 'html', 'css'],
-        'plugins': ['line-numbers'],
-        'css': false,
-    }],
-  ],
-  presets: [
-    ['@babel/preset-env', { forceAllTransforms: true, modules: false }],
-    "@wordpress/default",
-  ],
-});
-
 mix.disableSuccessNotifications();
 
 mix.options({
