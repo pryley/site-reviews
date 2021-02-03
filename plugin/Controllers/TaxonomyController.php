@@ -8,7 +8,7 @@ class TaxonomyController extends Controller
      * @param array $actions
      * @param \WP_Term $term
      * @return array
-     * @filter {Application::TAXONOMY}_row_actions
+     * @filter {glsr()->taxonomy}_row_actions
      */
     public function filterRowActions($actions, $term)
     {

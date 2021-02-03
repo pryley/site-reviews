@@ -68,6 +68,7 @@ class Updater
      * @param string $action
      * @param object $args
      * @return mixed
+     * @filter plugins_api
      */
     public function filterPluginUpdateDetails($result, $action, $args)
     {
@@ -84,6 +85,7 @@ class Updater
     /**
      * @param object $transient
      * @return object
+     * @filter pre_set_site_transient_update_plugins
      */
     public function filterPluginUpdates($transient)
     {
@@ -126,6 +128,7 @@ class Updater
 
     /**
      * @return void
+     * @action load-update-core.php
      */
     public function onForceUpdateCheck()
     {
@@ -141,6 +144,7 @@ class Updater
 
     /**
      * @return void
+     * @action in_plugin_update_message-{$this->plugin}
      */
     public function renderLicenseMissingLink()
     {

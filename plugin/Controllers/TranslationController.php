@@ -53,7 +53,7 @@ class TranslationController
      * @param string $translation
      * @param string $text
      * @return string
-     * @filter gettext_.glsr()->id
+     * @filter gettext_{glsr()->id}
      */
     public function filterGettext($translation, $text)
     {
@@ -67,7 +67,7 @@ class TranslationController
      * @param string $text
      * @param string $context
      * @return string
-     * @filter gettext_with_context_.glsr()->id
+     * @filter gettext_with_context_{glsr()->id}
      */
     public function filterGettextWithContext($translation, $text, $context)
     {
@@ -86,7 +86,7 @@ class TranslationController
      * @param string $plural
      * @param int $number
      * @return string
-     * @filter ngettext_.glsr()->id
+     * @filter ngettext_{glsr()->id}
      */
     public function filterNgettext($translation, $single, $plural, $number)
     {
@@ -104,7 +104,7 @@ class TranslationController
      * @param int $number
      * @param string $context
      * @return string
-     * @filter ngettext_with_context_.glsr()->id
+     * @filter ngettext_with_context_{glsr()->id}
      */
     public function filterNgettextWithContext($translation, $single, $plural, $number, $context)
     {

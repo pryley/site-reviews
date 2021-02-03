@@ -138,6 +138,7 @@ class EditorController extends Controller
 
     /**
      * @return void
+     * @action current_screen
      */
     public function removePostTypeSupport()
     {

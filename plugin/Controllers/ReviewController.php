@@ -64,7 +64,7 @@ class ReviewController extends Controller
         $search = 'id="review-';
         $replace = sprintf('data-type="%s" %s', $data['review']->type, $search);
         return str_replace($search, $replace, $template);
-    }   
+    }
 
     /**
      * @param string $operator
@@ -89,7 +89,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when one or more categories are added or removed from a review.
-     *
+     * 
      * @param int $postId
      * @param array $terms
      * @param array $newTTIds
@@ -111,7 +111,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a post status changes or when a review is approved|unapproved|trashed.
-     *
+     * 
      * @param string $oldStatus
      * @param string $newStatus
      * @param \WP_Post $post
@@ -133,7 +133,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a review's assigned post IDs are updated.
-     *
+     * 
      * @return void
      * @action site-reviews/review/updated/post_ids
      */
@@ -146,7 +146,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a review's assigned users IDs are updated.
-     *
+     * 
      * @return void
      * @action site-reviews/review/updated/user_ids
      */
@@ -159,7 +159,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered after a review is created.
-     *
+     * 
      * @return void
      * @action site-reviews/review/created
      */
@@ -171,7 +171,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a review is created.
-     *
+     * 
      * @param int $postId
      * @return void
      * @action site-reviews/review/create
@@ -197,6 +197,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a review or other post type is deleted and the posts table uses the MyISAM engine.
+     * 
      * @param int $postId
      * @param \WP_Post $post
      * @return void
@@ -222,6 +223,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a review is deleted and the posts table uses the MyISAM engine.
+     * 
      * @param int $reviewId
      * @return void
      * @see $this->onDeletePost()
@@ -235,6 +237,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a user is deleted and the users table uses the MyISAM engine.
+     * 
      * @param int $userId
      * @return void
      * @action deleted_user
