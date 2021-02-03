@@ -12,6 +12,7 @@ use GeminiLabs\SiteReviews\Commands\UnassignTerms;
 use GeminiLabs\SiteReviews\Commands\UnassignUsers;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Cache;
+use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Database\TaxonomyManager;
@@ -126,6 +127,8 @@ class ReviewController extends Controller
         $isPublished = 'publish' === $newStatus;
         if (Review::isReview($post)) {
             glsr(ReviewManager::class)->update($post->ID, ['is_approved' => $isPublished]);
+            glsr(Cache::class)->delete($post->ID, 'reviews');
+            glsr(CountManager::class)->recalculate();
         } else {
             glsr(ReviewManager::class)->updateAssignedPost($post->ID, $isPublished);
         }
