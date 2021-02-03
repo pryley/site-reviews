@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\Cache;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\Vectorface\Whip\Whip;
@@ -81,7 +82,7 @@ class Helper
         if (empty($variable) && !empty($_POST[$key]) && is_array($_POST[$key])) {
             $variable = $_POST[$key];
         }
-        return (array) $variable;
+        return Cast::toArray($variable);
     }
 
     /**
