@@ -61,6 +61,7 @@
 :--namespace .glsr-review-content {
     margin: var(--glsr-base-font-size) 0;
     width: 100%;
+    word-break: break-word;
 }
 :--namespace .glsr-review-date {
     align-items: center;
