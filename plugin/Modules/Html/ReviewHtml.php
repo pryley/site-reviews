@@ -2,14 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
-use ArrayObject;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Review;
 
-class ReviewHtml extends ArrayObject
+class ReviewHtml extends \ArrayObject
 {
     /**
      * @var array
@@ -31,7 +30,7 @@ class ReviewHtml extends ArrayObject
         $this->args = glsr(SiteReviewsDefaults::class)->merge($args);
         $this->context = $this->buildContext($review);
         $this->review = $review;
-        parent::__construct($this->context, ArrayObject::STD_PROP_LIST|ArrayObject::ARRAY_AS_PROPS);
+        parent::__construct($this->context, \ArrayObject::STD_PROP_LIST|\ArrayObject::ARRAY_AS_PROPS);
     }
 
     /**

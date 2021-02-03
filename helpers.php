@@ -200,7 +200,7 @@ function glsr_set(array $data, $path, $value)
 }
 
 /**
- * @param int $rating
+ * @param mixed $rating
  * @param int $count
  * @return string
  */
