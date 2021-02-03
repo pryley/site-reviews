@@ -3,6 +3,18 @@
 defined('ABSPATH') || die;
 
 /**
+ * @param array $editors
+ * @param string $postType
+ * @return array
+ * @see https://wordpress.org/plugins/classic-editor/
+ */
+add_filter('classic_editor_enabled_editors_for_post_type', function ($editors, $postType) {
+    return glsr()->post_type == $postType
+        ? ['block_editor' => false, 'classic_editor' => false]
+        : $editors;
+}, 10, 2);
+
+/**
  * Add human-readable capability names
  * @return void
  * @see https://wordpress.org/plugins/members/

@@ -38,20 +38,6 @@ class BlocksController extends Controller
     }
 
     /**
-     * @param array $editors
-     * @param string $postType
-     * @return array
-     * @filter classic_editor_enabled_editors_for_post_type
-     * @plugin classic-editor/classic-editor.php
-     */
-    public function filterEnabledEditors($editors, $postType)
-    {
-        return glsr()->post_type == $postType
-            ? ['block_editor' => false, 'classic_editor' => false]
-            : $editors;
-    }
-
-    /**
      * @param bool $bool
      * @param string $postType
      * @return bool

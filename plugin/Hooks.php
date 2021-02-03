@@ -179,7 +179,6 @@ class Hooks implements HooksContract
         add_filter('mce_external_plugins', [$this->admin, 'filterTinymcePlugins'], 15);
         add_filter('allowed_block_types', [$this->blocks, 'filterAllowedBlockTypes'], 10, 2);
         add_filter('block_categories', [$this->blocks, 'filterBlockCategories']);
-        add_filter('classic_editor_enabled_editors_for_post_type', [$this->blocks, 'filterEnabledEditors'], 10, 2);
         add_filter('use_block_editor_for_post_type', [$this->blocks, 'filterUseBlockEditor'], 10, 2);
         add_filter('wp_editor_settings', [$this->editor, 'filterEditorSettings']);
         add_filter('the_editor', [$this->editor, 'filterEditorTextarea']);
