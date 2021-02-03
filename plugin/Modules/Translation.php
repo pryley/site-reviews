@@ -116,7 +116,7 @@ class Translation
             $entry
         );
         $data['data.class'] = $data['data.error'] = '';
-        if (false === array_search($entry['s1'], wp_list_pluck($this->entries(), 'msgid'))) {
+        if (false === array_search($entry['s1'], wp_list_pluck($this->entries(), 'msgid'))) { // @todo handle htmlentities i.e. &rarr;
             $data['data.class'] = 'is-invalid';
             $data['data.error'] = _x('This custom translation is no longer valid as the original text has been changed or removed.', 'admin-text', 'site-reviews');
         }
