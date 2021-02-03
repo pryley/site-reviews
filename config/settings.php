@@ -231,6 +231,20 @@ return [
         'label' => _x('Enable Excerpts', 'admin-text', 'site-reviews'),
         'type' => 'yes_no',
     ],
+    'settings.reviews.excerpts_action' => [
+        'class' => 'regular-text',
+        'default' => '',
+        'depends_on' => [
+            'settings.reviews.excerpts' => 'yes',
+        ],
+        'description' => 'The action that is performed when you click the "Read more" link',
+        'label' => _x('Excerpt Action', 'admin-text', 'site-reviews'),
+        'options' => [
+            '' => _x('Collapse/Expand the review', 'admin-text', 'site-reviews'),
+            'modal' => _x('Display the review in a modal', 'admin-text', 'site-reviews'),
+        ],
+        'type' => 'select',
+    ],
     'settings.reviews.excerpts_length' => [
         'after' => _x('words', 'exceprt length (admin-text)', 'site-reviews'),
         'default' => 55,

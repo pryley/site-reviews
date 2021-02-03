@@ -14,12 +14,18 @@ Excerpts.prototype = {
 
     /** @return void */
     createLinks_: function (el) { // HTMLElement
+        var trigger = el.getAttribute('data-trigger');
         var readMoreSpan = document.createElement('span');
         var readmoreLink = document.createElement('a');
         readmoreLink.setAttribute('href', '#');
         readmoreLink.setAttribute('data-text', el.getAttribute('data-show-less'));
         readmoreLink.innerHTML = el.getAttribute('data-show-more');
-        readmoreLink.addEventListener('click', this.onClick_.bind(this));
+        if ('excerpt' === trigger) { // don't trigger for modals
+            readmoreLink.addEventListener('click', this.onClick_.bind(this));
+        }
+        if ('modal' === trigger) {
+            readmoreLink.setAttribute('data-excerpt-trigger', 'glsr-modal');
+        }
         readMoreSpan.setAttribute('class', this.config.readMoreClass);
         readMoreSpan.appendChild(readmoreLink);
         el.parentNode.insertBefore(readMoreSpan, el.nextSibling);
@@ -42,6 +48,7 @@ Excerpts.prototype = {
         for (var i = 0; i < excerpts.length; i++) {
             this.createLinks_(excerpts[i]);
         }
+        document.dispatchEvent(new CustomEvent('site-reviews/init/excerpts', { detail: el }));
     },
 };
 

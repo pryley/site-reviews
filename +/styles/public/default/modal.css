@@ -1,0 +1,91 @@
+:root .glsr-modal {
+    display: none;
+    position: relative;
+    z-index: 1000000; /* this z-index is higher than #wpadminbar and blackbar */
+}
+:root .glsr-modal.is-open {
+    display: block;
+}
+:root .glsr-modal__overlay {
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+}
+:root .glsr-modal__dialog {
+    -webkit-overflow-scrolling: touch;
+    background-color: var(--glsr-white);
+    border-radius: var(--glsr-border-radius);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.07), 
+                0 2px 4px rgba(0,0,0,0.07), 
+                0 4px 8px rgba(0,0,0,0.07), 
+                0 8px 16px rgba(0,0,0,0.07),
+                0 16px 32px rgba(0,0,0,0.07), 
+                0 32px 64px rgba(0,0,0,0.07);
+    box-sizing: border-box;
+    max-height: calc(100vh - 2rem);
+    width: calc(100vw - 2rem);
+    max-width: 65ch;
+    overflow-y: auto;
+    padding: 2rem;
+    position: relative;
+    will-change: transform;
+}
+:root [aria-hidden="false"] .glsr-modal__dialog {
+  animation: glsr-zoomIn .3s cubic-bezier(0, 0, .2, 1);
+}
+:root [aria-hidden="true"] .glsr-modal__dialog {
+  animation: glsr-zoomOut .3s cubic-bezier(0, 0, .2, 1);
+}
+
+:root .glsr-modal__close {
+    all: revert;
+    appearance: none;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    font-size: 32px;
+    height: 40px;
+    line-height: 1;
+    margin: 1.5rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: scale(1);
+    transition: transform .2s ease-in;
+    width: 40px;
+    z-index: 10;
+}
+:root .glsr-modal__close:hover {
+    transform: scale(1.1);
+}
+:root .glsr-modal__close::before {
+    all: revert;
+    content: "\2715";
+}
+:root .glsr-modal__close::after {
+    display: none;
+}
+:root .glsr-modal__content .glsr-read-more  {
+    display: none !important;
+}
+:root .glsr-modal__content .glsr-hidden {
+    display: inherit !important;
+}
+:root .glsr-modal[aria-hidden="false"] .glsr-modal__overlay {
+    animation-duration: .3s;
+    animation-name: glsr-fadeIn;
+}
+:root .glsr-modal[aria-hidden="true"] .glsr-modal__overlay {
+    animation-duration: .3s;
+    animation-name: glsr-fadeOut;
+}
+:root .glsr-modal .glsr-modal__overlay {
+    animation-timing-function: cubic-bezier(0, 0, .2, 1);
+    will-change: transform;
+}

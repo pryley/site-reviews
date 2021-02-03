@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "autosize": "^4.0.2",
+    "body-scroll-lock": "^3.1.5",
     "prismjs": "^1.23.0",
     "star-rating.js": "^4.0.4"
   },

@@ -125,6 +125,7 @@ class Hooks implements HooksContract
         add_action('wp_enqueue_scripts', [$this->public, 'enqueueAssets'], 999);
         add_action('site-reviews/route/ajax/fetch-paged-reviews', [$this->public, 'fetchPagedReviewsAjax']);
         add_filter('site-reviews/builder', [$this->public, 'modifyBuilder']);
+        add_action('wp_footer', [$this->public, 'renderModal'], 50);
         add_action('wp_footer', [$this->public, 'renderSchema']);
         add_action('site-reviews/route/public/submit-review', [$this->public, 'submitReview']);
         add_action('site-reviews/route/ajax/submit-review', [$this->public, 'submitReviewAjax']);

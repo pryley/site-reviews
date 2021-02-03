@@ -24,6 +24,7 @@ class ReviewContentTag extends ReviewTag
                 'class' => 'glsr-hidden glsr-hidden-text',
                 'data-show-less' => __('Show less', 'site-reviews'),
                 'data-show-more' => __('Show more', 'site-reviews'),
+                'data-trigger' => glsr_get_option('reviews.excerpts_action') ?: 'excerpt',
             ]);
             $text = ltrim(substr($text, 0, $split)).$showMore;
         }
