@@ -40,7 +40,7 @@ class SiteReviewsFormShortcode extends Shortcode
                 'response' => $this->buildTemplateTag('response'),
                 'submit_button' => $this->buildTemplateTag('submit_button'),
             ],
-            'fields' => $fields,
+            'form' => $fields,
         ]);
     }
 

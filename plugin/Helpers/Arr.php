@@ -196,7 +196,7 @@ class Arr
      */
     public static function reindex($array)
     {
-        return Helper::ifTrue(static::isIndexedAndFlat($array), array_values($array), $array);
+        return static::isIndexedAndFlat($array) ? array_values($array) : $array;
     }
 
     /**
