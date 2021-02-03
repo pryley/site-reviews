@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, 
 Tested up to: 5.6
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.5.2
+Stable tag: 5.6.0-beta
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,8 +20,6 @@ You can pin your best reviews so that they are always shown first, require appro
 __Site Reviews provides full Woocommerce integration__ with the free [Woocommerce Reviews](https://niftyplugins.com/plugins/woocommerce-reviews/) add-on.
 
 [Follow plugin development on Github.](https://github.com/pryley/site-reviews/)
-
-Images adapted from [freepik](https://www.freepik.com).
 
 ### Current Features
 
@@ -71,6 +69,10 @@ Site Reviews provides a ton of absolutely free features, possibly more than any 
 ### Site Reviews Premium
 
 [Site Reviews Premium](https://niftyplugins.com/plugins/site-reviews-premium/) provides access to all of our free and premium add-ons, and automatically includes access to future add-ons as they are released.
+
+### Attribution
+
+Images adapted from [freepik](https://www.freepik.com).
 
 == Installation ==
 
@@ -130,6 +132,14 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 15. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.6.0 (2021-02-04) =
+
+- Added an option to display reviews with an excerpt in a modal
+- Fixed assigned ranking meta when reviews are manually approved/unapproved
+- Fixed incorrect triggering of the rating validation after a form submission
+- Fixed translation bug with htmlentities
+- Fixed paragraph word wrapping in reviews
 
 = 5.5.2 (2021-01-29) =
 
