@@ -12,7 +12,7 @@ import Prism from 'prismjs';
 import Search from './admin/search.js';
 import Sections from './admin/sections.js';
 import Shortcode from './admin/shortcode.js';
-import StarRating from '@/star-rating.js';
+import StarRating from 'star-rating.js';
 import Status from './admin/status.js';
 import Sync from './admin/sync.js';
 import Tabs from './admin/tabs.js';

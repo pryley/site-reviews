@@ -1,5 +1,5 @@
-const mix = require('laravel-mix');
-const path = require('path');
+const mix = require('laravel-mix')
+const path = require('path')
 const postCss = namespace => {
   return [
     require('postcss-import'),
@@ -9,12 +9,12 @@ const postCss = namespace => {
     require('postcss-custom-properties')({preserve: false}),
     require('postcss-selector-namespace')({namespace: namespace}),
     require('autoprefixer'),
-  ];
-};
+  ]
+}
 
-require('laravel-mix-bundle-analyzer');
+require('laravel-mix-bundle-analyzer')
 
-mix.disableSuccessNotifications();
+mix.disableSuccessNotifications()
 
 mix.options({
   clearConsole: false,
@@ -39,7 +39,7 @@ mix.options({
       },
     },
   },
-});
+})
 
 mix.webpackConfig({
   target: ['web', 'es5'],
@@ -47,7 +47,7 @@ mix.webpackConfig({
     alias: {'@': path.resolve(__dirname, '+/scripts/')},
     modules: ['node_modules'],
   },
-});
+})
 
 mix
   .babel('+/scripts/mce-plugin.js', 'assets/scripts/mce-plugin.js')
@@ -84,8 +84,8 @@ mix
   .postCss('+/styles/twentytwenty-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
   .postCss('+/styles/twentytwentyone-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
   .postCss('+/styles/wpforms-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
-  .browserSync('site-reviews.test');
+  .browserSync('site-reviews.test')
 
 if (mix.inProduction()) {
-  // mix.bundleAnalyzer();
+  // mix.bundleAnalyzer()
 }

@@ -1,7 +1,7 @@
 /** global: CustomEvent, FormData, GLSR, HTMLFormElement, StarRating */
 
 import Recaptcha from './recaptcha.js';
-import StarRating from '@/star-rating.js';
+import StarRating from 'star-rating.js';
 import Validation from './validation.js';
 import { addRemoveClass, classListSelector } from './helpers.js';
 
