@@ -34,6 +34,9 @@
             <li>
                 <p>Have you used a security plugin to disable access to <code>/wp-admin/admin-ajax.php</code> on the frontend of your website, or have you disabled <code>/wp-admin/</code> access for non-administrators? If you have, then it's possible this is preventing Site Reviews from submitting reviews.</p>
             </li>
+            <li>
+                <p>If the review is created but the button keeps spinning, then your server is likely not configured to send email and is preventing WordPress from sending the email notifications. You will need to either disable the notification setting for new reviews, or fix the problem on your server.</p>
+            </li>
         </ol>
     </div>
 </div>
