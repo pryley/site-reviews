@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Modules\Honeypot;
 use GeminiLabs\SiteReviews\Modules\Html\Attributes;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Field;
+use GeminiLabs\SiteReviews\Modules\Html\Form;
 
 class FormFieldsTag extends FormTag
 {
@@ -14,23 +15,6 @@ class FormFieldsTag extends FormTag
      * @return array
      */
     protected function fields()
-    {
-        $fields = $this->getFields();
-        $hiddenFields = $this->hiddenFields();
-        $paths = wp_list_pluck(wp_list_pluck($hiddenFields, 'field'), 'path');
-        foreach ($fields as $field) {
-            $index = array_search($field->field['path'], $paths);
-            if (false !== $index) {
-                unset($hiddenFields[$index]);
-            }
-        }
-        return array_merge($hiddenFields, $fields);
-    }
-
-    /**
-     * @return array
-     */
-    protected function getFields()
     {
         $fields = glsr()->config('forms/review-form');
         $fields = glsr()->filterArray('review-form/fields', $fields, $this->args);
@@ -46,10 +30,13 @@ class FormFieldsTag extends FormTag
     protected function handle($value = null)
     {
         $fields = $this->fields();
-        array_unshift($fields, glsr(Honeypot::class)->build($this->args->id));
-        return array_reduce($fields, function ($carry, $field) {
-            return $carry.$field;
-        });
+        $hiddenFields = array_merge($this->hiddenFields(), [
+            'honeypot' => glsr(Honeypot::class)->build($this->args->id)
+        ]);
+        foreach ($fields as $name => $field) {
+            unset($hiddenFields[$name]);
+        }
+        return new Form($fields, $hiddenFields);
     }
 
     /**
@@ -73,7 +60,7 @@ class FormFieldsTag extends FormTag
             'form_id' => $this->args->id,
         ];
         foreach ($hiddenFields as $name => $value) {
-            $fields[] = new Field([
+            $fields[$name] = new Field([
                 'name' => $name,
                 'type' => 'hidden',
                 'value' => $value,
@@ -142,14 +129,14 @@ class FormFieldsTag extends FormTag
     protected function normalizeFields($fields)
     {
         $normalizedFields = [];
-        foreach ($fields as $field) {
+        foreach ($fields as $name => $field) {
             if (!in_array($field->field['path'], $this->args->hide)) {
                 $this->normalizeFieldClasses($field);
                 $this->normalizeFieldErrors($field);
                 $this->normalizeFieldRequired($field);
                 $this->normalizeFieldValue($field);
                 $this->normalizeFieldId($field);
-                $normalizedFields[] = $field;
+                $normalizedFields[$name] = $field;
             }
         }
         return glsr()->filterArray('review-form/fields/normalized', $normalizedFields, $this->args);

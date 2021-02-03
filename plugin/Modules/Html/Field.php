@@ -190,7 +190,7 @@ class Field
         return array_reduce(array_keys($this->field['options']), function ($carry, $value) use (&$index) {
             $args = glsr()->args($this->field);
             $type = $this->choiceType();
-            $field = [
+            $inputField = [
                 'checked' => in_array($value, $args->cast('value', 'array')),
                 'class' => $args->class,
                 'id' => Helper::ifTrue(!empty($args->id), $args->id.'-'.++$index),
@@ -203,13 +203,14 @@ class Field
             $html = glsr(Template::class)->build('templates/form/type-'.$type, [
                 'context' => [
                     'class' => glsr(Style::class)->defaultClasses('field').'-'.$type,
-                    'id' => $field['id'],
-                    'input' => $this->builder()->raw($field),
+                    'id' => $inputField['id'],
+                    'input' => $this->builder()->raw($inputField),
                     'text' => $args->options[$value],
                 ],
-                'field' => $field,
+                'field' => $this->field,
+                'input' => $inputField,
             ]);
-            $html = glsr()->filterString('rendered/field', $html, $type, $field);
+            $html = glsr()->filterString('rendered/field', $html, $type, $inputField);
             return $carry.$html;
         });
     }
