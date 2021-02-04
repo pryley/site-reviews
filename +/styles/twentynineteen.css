@@ -40,3 +40,7 @@
     font-family: var(--glsr-form-font-family-sans);
     font-size: var(--glsr-form-font-size-small);
 }
+
+:root .theme-twentynineteen .glsr-modal__dialog {
+    font-size: 0.88889em;
+ }
