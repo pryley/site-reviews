@@ -3,10 +3,10 @@
     "autosize": "^4.0.2",
     "body-scroll-lock": "^3.1.5",
     "prismjs": "^1.23.0",
-    "star-rating.js": "^4.0.4"
+    "star-rating.js": "^4.0.5"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "^7.12.7",
+    "@babel/plugin-proposal-optional-chaining": "^7.12.13",
     "@wordpress/babel-preset-default": "^5.0.1",
     "babel-plugin-prismjs": "^2.0.1",
     "browser-sync": "^2.26.14",
