@@ -25,6 +25,7 @@ class CreateReview implements Contract
     public $content;
     public $custom;
     public $date;
+    public $date_gmt;
     public $email;
     public $form_id;
     public $ip_address;
@@ -192,6 +193,9 @@ class CreateReview implements Contract
             if (property_exists($this, $key)) {
                 $this->{$key} = $value;
             }
+        }
+        if (!empty($this->date)) {
+            $this->date_gmt = get_gmt_from_date($this->date); // set the GMT date
         }
         $this->avatar = $this->avatar();
         $this->custom = $this->custom();

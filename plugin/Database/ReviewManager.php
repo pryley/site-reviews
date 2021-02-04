@@ -90,6 +90,7 @@ class ReviewManager
             'ping_status' => 'closed',
             'post_content' => $values->content,
             'post_date' => $values->date,
+            'post_date_gmt' => $values->date_gmt,
             'post_name' => uniqid($values->type),
             'post_status' => $this->postStatus($values->type, $values->blacklisted),
             'post_title' => $values->title,

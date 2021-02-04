@@ -1170,11 +1170,11 @@ msgstr ""
 msgid "Show more"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:156
+#: plugin/Commands/CreateReview.php:157
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:161
+#: plugin/Commands/CreateReview.php:162
 msgid "Your review could not be submitted and the error has been logged. Please notify the site admin."
 msgstr ""
 

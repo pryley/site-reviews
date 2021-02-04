@@ -15,6 +15,7 @@
         <ul>
             <li>Fixed assigned ranking meta when reviews are manually approved/unapproved</li>
             <li>Fixed browser support in star-ratings.js</li>
+            <li>Fixed imported reviews losing their submission date when approved/unapproved</li>
             <li>Fixed incorrect triggering of the rating validation after a form submission</li>
             <li>Fixed paragraph word wrapping in reviews</li>
             <li>Fixed translation bug with htmlentities</li>

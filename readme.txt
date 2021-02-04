@@ -137,6 +137,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 - Added an option to display reviews with an excerpt in a modal
 - Fixed assigned ranking meta when reviews are manually approved/unapproved
+- Fixed imported reviews losing their submission date when approved/unapproved
 - Fixed incorrect triggering of the rating validation after a form submission
 - Fixed translation bug with htmlentities
 - Fixed paragraph word wrapping in reviews
