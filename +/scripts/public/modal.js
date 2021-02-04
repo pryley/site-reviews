@@ -23,7 +23,7 @@ class Modal {
         this.modal = document.getElementById(targetModalId)
         this.config = { openTrigger, closeTrigger, openClass, onOpen, onClose }
         this.events = {
-            mousedown: this.onClick.bind(this),
+            mouseup: this.onClick.bind(this),
             keydown: this.onKeydown.bind(this),
             touchstart: this.onClick.bind(this),
         };
@@ -33,7 +33,7 @@ class Modal {
     }
 
     addEventListeners () {
-        this.eventListener(this.modal, 'add', ['mousedown', 'touchstart'])
+        this.eventListener(this.modal, 'add', ['mouseup', 'touchstart'])
         this.eventListener(document, 'add', ['keydown'])
     }
 
@@ -110,7 +110,7 @@ class Modal {
     }
 
     removeEventListeners () {
-        this.eventListener(this.modal, 'remove', ['mousedown', 'touchstart'])
+        this.eventListener(this.modal, 'remove', ['mouseup', 'touchstart'])
         this.eventListener(document, 'remove', ['keydown'])
     }
 
