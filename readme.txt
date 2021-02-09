@@ -136,6 +136,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 = 5.6.2 (2021-02-09) =
 
 - Added the "Review Themes" add-on, premium members may request early access to try out the beta.
+- Fixed the FAQ for hiding the form after submission.
 
 = 5.6.1 (2021-02-05) =
 

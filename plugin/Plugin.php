@@ -224,6 +224,15 @@ trait Plugin
     }
 
     /**
+     * @param mixed $args
+     * @return Request
+     */
+    public function request($args = [])
+    {
+        return new Request($args);
+    }
+
+    /**
      * @param string $className
      * @return mixed|false
      */

@@ -31,10 +31,11 @@ add_filter('site-reviews/enqueue/public/inline-script', function ($script) {
  * @param string $template
  * @return string
  */
-add_filter('site-reviews/rendered/template/reviews-form', function ($template) {
-    return glsr('Modules\Validator\ReviewLimitsValidator')->isValid()
+add_filter('site-reviews/rendered/template/reviews-form', function ($template, $data) {
+    $request = glsr()->request($data['args']);
+    return glsr('Modules\Validator\ReviewLimitsValidator', ['request' => $request])->isValid()
         ? $template
         : sprintf('&lt;p&gt;%s&lt;/p&gt;', __('Thank you for your review!'));
-});</code></pre>
+}, 10, 2);</code></pre>
     </div>
 </div>
