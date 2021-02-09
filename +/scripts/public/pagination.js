@@ -23,7 +23,9 @@ class Pagination {
         this.links = this.wrapperEl.querySelectorAll(`${config.paginationSelector} ${config.linkSelector}`);
         if (this.links.length) {
             [].forEach.call(this.links, link => {
+                if (link.dataset.ready) return; // @hack only init once
                 link.addEventListener('click', this.onClick.bind(this, link));
+                link.dataset.ready = true;
             })
         }
     }

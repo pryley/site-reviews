@@ -15,7 +15,7 @@ class Excerpts {
     }
 
     init (el) {
-        if (el.querySelector('.' + config.readMoreClass)) return; // only init once
+        if (el.parentNode.querySelector('.' + config.readMoreClass)) return; // @hack only init once
         const trigger = el.dataset.trigger;
         const readMoreSpan = document.createElement('span');
         const readmoreLink = document.createElement('a');

@@ -34,7 +34,7 @@ const initPlugin = () => {
     })
     new Excerpts();
     new Forms();
-    Pagination(); // @todo only run once, support template literals with babel
+    Pagination(); // @todo only run once
 }
 
 if (!window.hasOwnProperty('GLSR')) {
