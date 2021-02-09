@@ -9,13 +9,16 @@
     flex-wrap: wrap;
     quotes: "“" "”";
 }
+:--namespace .glsr-pagination {
+    position: relative;
+}
 :--namespace .glsr-review,
 :--namespace .glsr-pagination .navigation {
     opacity: 1;
     transition: opacity .5s;
 }
-:--namespace .glsr-hide .glsr-review,
-:--namespace .glsr-hide .glsr-pagination .navigation {
+:--namespace.glsr-hide .glsr-review,
+:--namespace.glsr-hide .glsr-pagination .navigation {
     opacity: 0 !important;
 }
 :--namespace .glsr-review p {

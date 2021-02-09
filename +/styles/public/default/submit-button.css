@@ -11,7 +11,7 @@
 }
 :--namespace form.glsr-form [type=submit] .glsr-button-loading::before,
 :--namespace form.glsr-form [type=submit] .glsr-button-loading::after {
-    animation: glsr-loader 0.5s infinite linear;
+    animation: glsr-spin 0.5s infinite linear;
     border-radius: 100%;
     border: 0.2em solid currentColor;
     box-sizing: border-box;

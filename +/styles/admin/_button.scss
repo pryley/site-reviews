@@ -1,4 +1,4 @@
-@keyframes glsr-loader {
+@keyframes glsr-spin {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
 }
@@ -17,7 +17,7 @@
 	border-radius: 100%;
 	box-sizing: border-box;
 	margin: -0.5em auto 0;
-	animation: glsr-loader 0.5s infinite linear;
+	animation: glsr-spin 0.5s infinite linear;
 }
 .wp-admin .glsr-button::before {
 	border-top-color: transparent;

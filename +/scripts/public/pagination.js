@@ -1,126 +1,118 @@
-/** global: CustomEvent, GLSR */
+/** global: GLSR */
+
 import Excerpts from './excerpts.js';
 
-const Paginate = function (paginationEl, reviewsEl) { // HTMLElement, HTMLElement
-    this.paginationEl = paginationEl;
-    this.reviewsEl = reviewsEl;
-    this.initEvents_();
-};
+const config = {
+    hideClass: 'glsr-hide',
+    linkSelector: 'a.page-numbers',
+    paginationSelector: '.glsr-ajax-pagination',
+    reviewsSelector: '.glsr-reviews',
+    scrollOffset: 16,
+    scrollTime: 468,
+}
 
-Paginate.prototype = {
-    config: {
-        hideClass: 'glsr-hide',
-        linkSelector: 'a.page-numbers',
-        scrollTime: 468,
-    },
+class Pagination {
+    constructor (wrapperEl) {
+        this.links = [];
+        this.reviewsEl = wrapperEl.querySelector(config.reviewsSelector);
+        this.wrapperEl = wrapperEl;
+        this.init()
+    }
 
-    /** @return DOMElement|null */
-    dataEl_: function () {
-        var dataEl = document.getElementById(this.paginationEl.dataset.id);
-        if (dataEl) {
-            return dataEl
+    init () {
+        this.links = this.wrapperEl.querySelectorAll(`${config.paginationSelector} ${config.linkSelector}`);
+        if (this.links.length) {
+            [].forEach.call(this.links, link => {
+                link.addEventListener('click', this.onClick.bind(this, link));
+            })
         }
-        return this.reviewsEl;
-    },
+    }
 
-    /** @return void */
-    handleResponse_: function (location, response, success) { // string, string
-        if (!success) {
-            window.location = location;
-            return;
-        }
-        this.paginationEl.innerHTML = response.pagination;
-        this.reviewsEl.innerHTML = response.reviews;
-        this.scrollToTop_(this.reviewsEl);
-        this.paginationEl.classList.remove(this.config.hideClass);
-        this.reviewsEl.classList.remove(this.config.hideClass);
-        this.initEvents_();
-        if (GLSR.urlparameter) {
-            window.history.pushState(null, '', location);
-        }
-        new Excerpts(this.reviewsEl);
-        document.dispatchEvent(new CustomEvent('site-reviews/after/pagination', { detail: response }));
-    },
-
-    /** @return void */
-    initEvents_: function () {
-        var links = this.paginationEl.querySelectorAll(this.config.linkSelector);
-        for (var i = 0; i < links.length; i++) {
-            links[i].addEventListener('click', this.onClick_.bind(this));
-        }
-    },
-
-    /** @return void */
-    onClick_: function (ev) { // MouseEvent
-        var dataEl = this.dataEl_();
-        if (!dataEl) {
+    onClick (el, ev) {
+        const paginationEl = el.closest(config.paginationSelector);
+        if (!paginationEl) {
             console.log('pagination config not found.');
             return;
         }
-        var data = {};
-        for (var key of Object.keys(dataEl.dataset)) {
-            var value = dataEl.dataset[key];
+        const data = {};
+        for (var key of Object.keys(paginationEl.dataset)) {
+            var value = paginationEl.dataset[key];
             try {
                 var parsedValue = JSON.parse(value);
                 value = parsedValue;
             } catch(e) {}
-            data[GLSR.nameprefix + '[atts][' + key + ']'] = value;
+            data[`${GLSR.nameprefix}[atts][${key}]`] = value;
         }
-        data[GLSR.nameprefix + '[_action]'] = 'fetch-paged-reviews';
-        data[GLSR.nameprefix + '[page]'] = ev.currentTarget.dataset.page || '';
-        data[GLSR.nameprefix + '[url]'] = ev.currentTarget.href || '';
-        this.paginationEl.classList.add(this.config.hideClass);
-        this.reviewsEl.classList.add(this.config.hideClass);
+        data[`${GLSR.nameprefix}[_action]`] = 'fetch-paged-reviews';
+        data[`${GLSR.nameprefix}[page]`] = ev.currentTarget.dataset.page || '';
+        data[`${GLSR.nameprefix}[url]`] = ev.currentTarget.href || '';
+        this.wrapperEl.classList.add(config.hideClass);
+        // this.reviewsEl.classList.add(config.hideClass);
+        // [].forEach.call(this.wrapperEl.querySelectorAll(config.paginationSelector), el => {
+        //     el.classList.add(config.hideClass);
+        // })
         ev.preventDefault();
-        GLSR.ajax.post(data, this.handleResponse_.bind(this, ev.currentTarget.href));
-    },
+        GLSR.ajax.post(data, this.handleResponse.bind(this, ev.currentTarget.href));
+    }
 
-    /** @return void */
-    scrollToTop_: function (el, offset) { // HTMLElement, int
-        offset = offset || 16; // 1rem
-        var fixedElement;
-        for (var i = 0; i < GLSR.ajaxpagination.length; i++) {
-            fixedElement = document.querySelector(GLSR.ajaxpagination[i]);
-            if (!fixedElement || window.getComputedStyle(fixedElement).getPropertyValue('position') !== 'fixed') continue;
-            offset = offset + fixedElement.clientHeight;
+    handleResponse (location, response, success) {
+        if (!success) {
+            window.location = location;
+            return;
         }
-        var clientBounds = el.getBoundingClientRect();
-        var offsetTop = clientBounds.top - offset;
+        [].forEach.call(this.wrapperEl.querySelectorAll(config.paginationSelector), el => {
+            el.innerHTML = response.pagination;
+            // el.classList.remove(config.hideClass);
+        })
+        this.reviewsEl.innerHTML = response.reviews;
+        // this.reviewsEl.classList.remove(config.hideClass);
+        this.scrollToTop();
+        this.init();
+        this.wrapperEl.classList.remove(config.hideClass);
+        if (GLSR.urlparameter) {
+            window.history.pushState(null, '', location);
+        }
+        new Excerpts(this.reviewsEl);
+        GLSR.Event.trigger('site-reviews/pagination/handle', response, this);
+    }
+
+    scrollToTop () {
+        let offset = config.scrollOffset;
+        [].forEach.call(GLSR.ajaxpagination, selector => {
+            const fixedEl = document.querySelector(selector);
+            if (fixedEl && 'fixed' === window.getComputedStyle(fixedEl).getPropertyValue('position')) {
+                offset = offset + fixedEl.clientHeight;
+            }
+        })
+        const clientBounds = this.reviewsEl.getBoundingClientRect();
+        const offsetTop = clientBounds.top - offset;
         if (offsetTop > 0) return; // if top is in view, don't scroll!
-        this.scrollToTopStep_({
+        this.scrollStep({
             endY: offsetTop,
             offset: window.pageYOffset,
             startTime: window.performance.now(),
-            startY: el.scrollTop,
+            startY: this.reviewsEl.scrollTop,
         });
-    },
+    }
 
-    /** @return void */
-    scrollToTopStep_: function (context) { // object
-        var elapsed = (window.performance.now() - context.startTime) / this.config.scrollTime;
-        elapsed = elapsed > 1 ? 1 : elapsed;
-        var easedValue = 0.5 * (1 - Math.cos(Math.PI * elapsed));
-        var currentY = context.startY + (context.endY - context.startY) * easedValue;
+    scrollStep (context) {
+        const elapsed = Math.min(1, (window.performance.now() - context.startTime) / config.scrollTime);
+        const easedValue = 0.5 * (1 - Math.cos(Math.PI * elapsed));
+        const currentY = context.startY + (context.endY - context.startY) * easedValue;
         window.scroll(0, context.offset + currentY); // set the starting scoll position
         if (currentY !== context.endY) {
-            window.requestAnimationFrame(this.scrollToTopStep_.bind(this, context));
+            window.requestAnimationFrame(this.scrollStep.bind(this, context));
         }
-    },
-};
+    }
+}
 
-const Pagination = function () {
-    this.navs = [];
-    var pagination = document.querySelectorAll('.glsr-ajax-pagination');
-    if (!pagination.length) return;
-    pagination.forEach(function (paginationEl) {
-        var wrapperEl = paginationEl.closest('.glsr[data-id=' + paginationEl.dataset.id);
+export default () => {
+    [].forEach.call(document.querySelectorAll(config.paginationSelector), el => {
+        const wrapperEl = el.closest('.glsr');
+        console.log(el)
         if (wrapperEl) {
-            var reviewsEl = wrapperEl.querySelector('.glsr-reviews');
-            if (reviewsEl) {
-                this.navs.push(new Paginate(paginationEl, reviewsEl));
-            }
+            console.log(wrapperEl)
+            new Pagination(wrapperEl);
         }
-    }.bind(this));
-};
-
-export default Pagination;
+    })
+}

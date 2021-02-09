@@ -1,20 +1,28 @@
-:--namespace .glsr-loader {
-    animation: glsr-loader 0.5s infinite linear;
-    border-radius: 50%;
-    bottom: 0;
+:--namespace .glsr-pagination .glsr-loader {
+    align-items: center;
     display: none;
-    height: 24px;
-    left: calc(50% - 12px);
+    height: 100%;
+    justify-content: center;
+    left: 0;
     margin: 0;
     position: absolute;
+    top: 0;
     transform: translateZ(0);
+    width: 100%;
+}
+:--namespace.glsr-hide .glsr-pagination .glsr-loader,
+:--namespace .glsr-hide .glsr-pagination .glsr-loader {
+    display: flex;
+}
+:--namespace .glsr-spinner {
+    animation: glsr-spin 0.5s infinite linear;
+    border-radius: 50%;
+    height: 24px;
+    position: relative;
     width: 24px;
 }
-:--namespace .glsr-hide .glsr-loader {
-    display: block;
-}
-:--namespace .glsr-loader::before,
-:--namespace .glsr-loader::after {
+:--namespace .glsr-spinner::before,
+:--namespace .glsr-spinner::after {
     background: var(--glsr-black);
     border-radius: 50%;
     content: '';
@@ -22,11 +30,11 @@
     position: absolute;
     width: 8px;
 }
-:--namespace .glsr-loader::before {
+:--namespace .glsr-spinner::before {
     left: 0;
     top: 0;
 }
-:--namespace .glsr-loader::after {
+:--namespace .glsr-spinner::after {
     bottom: 0;
     right: 0;
 }

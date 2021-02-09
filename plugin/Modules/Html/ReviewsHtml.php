@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Reviews;
@@ -68,15 +69,16 @@ class ReviewsHtml extends \ArrayObject
             'current' => $this->args->page,
             'total' => $this->max_num_pages,
         ]);
-        if (!$wrap) {
+        if (!$wrap || empty($html)) { // only display the pagination when it's needed
             return $html;
         }
         $ajaxClass = Helper::ifTrue('ajax' == $this->args->pagination, 'glsr-ajax-pagination');
-        return glsr(Builder::class)->div([
+        $dataAttributes = glsr(SiteReviewsDefaults::class)->dataAttributes($this->args->toArray());
+        return glsr(Builder::class)->div(wp_parse_args([
             'class' => trim('glsr-pagination '.$ajaxClass),
             'data-id' => $this->args->id,
             'text' => $html,
-        ]);
+        ], $dataAttributes));
     }
 
     /**
