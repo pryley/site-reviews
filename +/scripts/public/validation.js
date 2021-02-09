@@ -1,4 +1,4 @@
-/** global: CustomEvent, FormData, GLSR, HTMLFormElement, StarRating */
+/** global: FormData, GLSR, HTMLFormElement, StarRating */
 /* jshint -W014 */
 /* jshint -W030 */
 /* jshint -W093 */

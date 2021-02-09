@@ -16,10 +16,10 @@
  */
 add_filter('site-reviews/enqueue/public/inline-script', function ($script) {
     return $script."
-    document.addEventListener('site-reviews/after/submission', function (ev) {
-        if (false !== ev.detail.errors) return;
-        ev.detail.form.classList.add('glsr-hide-form');
-        ev.detail.form.insertAdjacentHTML('afterend', '&lt;p&gt;' + ev.detail.message + '&lt;/p&gt;');
+    GLSR.on('site-reviews/form/handle', function (response, formEl) {
+        if (false !== response.errors) return;
+        formEl.classList.add('glsr-hide-form');
+        formEl.insertAdjacentHTML('afterend', '&lt;p&gt;' + response.message + '&lt;/p&gt;');
     });";
 });</code></pre>
         <p>You can also hide the form from registered users who have already submitted a review.</p>

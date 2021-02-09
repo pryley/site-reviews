@@ -101,8 +101,9 @@ SingleForm.prototype = {
         this.showFieldErrors_(response.errors);
         this.showResults_(response.message, wasSuccessful);
         this.enableButton_();
-        response.form = this.form;
-        document.dispatchEvent(new CustomEvent('site-reviews/after/submission', { detail: response }));
+        GLSR.Event.trigger('site-reviews/form/handle', response, this.form);
+        response.form = this.form; // @compat
+        document.dispatchEvent(new CustomEvent('site-reviews/after/submission', { detail: response })); // @compat
         if (wasSuccessful && response.redirect !== '') {
             window.location = response.redirect;
         }

@@ -187,6 +187,7 @@ const init = (config) => {
         options.triggers = triggerMap[key]
         activeModals[key] = new Modal(options)
     })
+    return activeModals
 }
 
 /**

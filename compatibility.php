@@ -190,7 +190,7 @@ add_action('site-reviews/review/created', function ($review, $command) {
 add_action('wp_enqueue_scripts', function () {
     if (defined('ELEMENTOR_PRO_VERSION') && 0 > version_compare('2.7.0', ELEMENTOR_PRO_VERSION)) {
         wp_add_inline_script(glsr()->id,
-            '"undefined"!==typeof jQuery&&jQuery(document).on("elementor/popup/show",function(){new GLSR.Forms()})'
+            '"undefined"!==typeof jQuery&&jQuery(document).on("elementor/popup/show",function(){GLSR.Event.trigger("site-reviews/init")})'
         );
     }
 }, 1000);
