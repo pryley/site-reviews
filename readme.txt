@@ -133,6 +133,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
+= 5.6.2 (2021-02-09) =
+
+- Added the "Review Themes" add-on, premium members may request early access to try out the beta.
+
 = 5.6.1 (2021-02-05) =
 
 - Fixed the star rating field on touch devices

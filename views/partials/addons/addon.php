@@ -21,7 +21,7 @@
         <?php endif; ?>
     <?php else: ?>
         <a href="{{ link }}" class="glsr-addon-link glsr-external button button-secondary">
-            <?= _x('More Info', 'admin-text', 'site-reviews'); ?>
+            {{ link_text }}
         </a>
     <?php endif; ?>
     </div>
