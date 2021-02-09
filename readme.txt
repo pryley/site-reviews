@@ -1,11 +1,11 @@
 === Site Reviews ===
 Contributors: geminilabs, pryley
 Donate link: https://www.paypal.me/pryley
-Tags: reviews, ratings, testimonials, business reviews, product reviews, stars, star ratings, woocommerce
+Tags: reviews, ratings, testimonials, woocommerce, product reviews
 Tested up to: 5.6
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.6.1
+Stable tag: 5.6.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 

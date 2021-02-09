@@ -2534,22 +2534,46 @@ msgstr ""
 "All of the add-ons! Grab the special introductory discount while it still "
 "lasts..."
 
-#: views/pages/addons/index.php:19
+#: views/pages/addons/index.php:12
+msgctxt "admin-text"
+msgid "Discover Premium"
+msgstr "Discover Premium"
+
+#: views/pages/addons/index.php:20
 msgctxt "admin-text"
 msgid "Allow your website visitors to sort, filter by rating, and search reviews."
 msgstr "Allow your website visitors to sort, filter by rating, and search reviews."
 
-#: views/pages/addons/index.php:28
+#: views/pages/addons/index.php:22, views/pages/addons/index.php:32, views/pages/addons/index.php:42, views/pages/addons/index.php:62, views/pages/addons/index.php:72
+msgctxt "admin-text"
+msgid "View Add-on"
+msgstr "View Add-on"
+
+#: views/pages/addons/index.php:30
 msgctxt "admin-text"
 msgid "Create unique review forms with custom fields and review templates."
 msgstr "Create unique review forms with custom fields and review templates."
 
-#: views/pages/addons/index.php:37
+#: views/pages/addons/index.php:40
 msgctxt "admin-text"
 msgid "Allow your website visitors to add images with captions to their reviews."
 msgstr "Allow your website visitors to add images with captions to their reviews."
 
-#: views/pages/addons/index.php:46
+#: views/pages/addons/index.php:50
+msgctxt "admin-text"
+msgid ""
+"Create custom review designs, display reviews in a grid, change the rating "
+"images, and more. Early access available to Premium members only."
+msgstr ""
+"Create custom review designs, display reviews in a grid, change the rating "
+"images, and more. Early access available to Premium members only."
+
+#: views/pages/addons/index.php:52
+msgctxt "admin-text"
+msgid "Request Early Access"
+msgstr "Request Early Access"
+
+#: views/pages/addons/index.php:60
 msgctxt "admin-text"
 msgid ""
 "Integrate with the Trustalyze Confidence System and post reviews to the "
@@ -2558,7 +2582,7 @@ msgstr ""
 "Integrate with the Trustalyze Confidence System and post reviews to the "
 "blockchain."
 
-#: views/pages/addons/index.php:55
+#: views/pages/addons/index.php:70
 msgctxt "admin-text"
 msgid "Integrate Site Reviews with your Woocommerce products."
 msgstr "Integrate Site Reviews with your Woocommerce products."
@@ -2824,11 +2848,6 @@ msgstr "Syncing..."
 msgctxt "admin-text"
 msgid "Download System Info"
 msgstr "Download System Info"
-
-#: views/partials/addons/addon.php:24
-msgctxt "admin-text"
-msgid "More Info"
-msgstr "More Info"
 
 #: views/partials/addons/addon.php:19
 msgctxt "admin-text"
