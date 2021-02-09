@@ -1,55 +1,50 @@
 /** global: GLSR */
 
-const Excerpts = function (el) { // HTMLElement
-    this.init_(el || document);
-};
+const config = {
+    hiddenClass: 'glsr-hidden',
+    hiddenTextSelector: '.glsr-hidden-text',
+    readMoreClass: 'glsr-read-more',
+    visibleClass: 'glsr-visible',
+}
 
-Excerpts.prototype = {
-    config: {
-        hiddenClass: 'glsr-hidden',
-        hiddenTextSelector: '.glsr-hidden-text',
-        readMoreClass: 'glsr-read-more',
-        visibleClass: 'glsr-visible',
-    },
+class Excerpts {
+    constructor (el) {
+        const excerpts = (el || document).querySelectorAll(config.hiddenTextSelector);
+        [].forEach.call(excerpts, el => this.init(el));
+        GLSR.Event.trigger('site-reviews/excerpts/init', el);
+    }
 
-    /** @return void */
-    createLinks_: function (el) { // HTMLElement
-        var trigger = el.getAttribute('data-trigger');
-        var readMoreSpan = document.createElement('span');
-        var readmoreLink = document.createElement('a');
+    init (el) {
+        if (el.querySelector('.' + config.readMoreClass)) return; // only init once
+        const trigger = el.dataset.trigger;
+        const readMoreSpan = document.createElement('span');
+        const readmoreLink = document.createElement('a');
         readmoreLink.setAttribute('href', '#');
-        readmoreLink.setAttribute('data-text', el.getAttribute('data-show-less'));
-        readmoreLink.innerHTML = el.getAttribute('data-show-more');
+        readmoreLink.innerHTML = el.dataset.showMore;
         if ('excerpt' === trigger) { // don't trigger for modals
-            readmoreLink.addEventListener('click', this.onClick_.bind(this));
+            readmoreLink.addEventListener('click', this.onClick.bind(this));
+            // we can't use dataset until the node has been inserted in the DOM
+            readmoreLink.setAttribute('data-text', el.dataset.showLess);
         }
         if ('modal' === trigger) {
+            // we can't use dataset until the node has been inserted in the DOM
             readmoreLink.setAttribute('data-excerpt-trigger', 'glsr-modal');
         }
-        readMoreSpan.setAttribute('class', this.config.readMoreClass);
+        readMoreSpan.setAttribute('class', config.readMoreClass);
         readMoreSpan.appendChild(readmoreLink);
         el.parentNode.insertBefore(readMoreSpan, el.nextSibling);
-    },
+    }
 
-    /** @return void */
-    onClick_: function (ev) { // MouseEvent
+    onClick (ev) {
         ev.preventDefault();
-        var el = ev.currentTarget;
-        var hiddenNode = el.parentNode.previousSibling;
-        var text = el.getAttribute('data-text');
-        hiddenNode.classList.toggle(this.config.hiddenClass);
-        hiddenNode.classList.toggle(this.config.visibleClass);
-        el.setAttribute('data-text', el.innerText);
+        const el = ev.currentTarget;
+        const hiddenNode = el.parentNode.previousSibling;
+        const text = el.dataset.text;
+        hiddenNode.classList.toggle(config.hiddenClass);
+        hiddenNode.classList.toggle(config.visibleClass);
+        el.dataset.text = el.innerText;
         el.innerText = text;
-    },
-
-    init_: function (el) { // HTMLElement
-        var excerpts = el.querySelectorAll(this.config.hiddenTextSelector);
-        for (var i = 0; i < excerpts.length; i++) {
-            this.createLinks_(excerpts[i]);
-        }
-        document.dispatchEvent(new CustomEvent('site-reviews/init/excerpts', { detail: el }));
-    },
-};
+    }
+}
 
 export default Excerpts;
