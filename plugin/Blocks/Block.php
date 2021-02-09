@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Blocks;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 
 abstract class Block
 {
@@ -20,7 +21,7 @@ abstract class Block
      */
     public function normalize(array $attributes)
     {
-        $hide = array_flip(explode(',', $attributes['hide']));
+        $hide = array_flip(Cast::toArray($attributes['hide']));
         unset($hide['if_empty']);
         if (!empty($attributes['schema'])) {
             $attributes['schema'] = false;
