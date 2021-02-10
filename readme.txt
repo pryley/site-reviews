@@ -133,6 +133,12 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
+= 5.7.0 (2021-02-14) =
+
+- Added a custom Event Emitter which will allow you to manually initialise the Site Reviews javascript after the DOMContentLoaded event has fired or from Popup events (see: [EVENTS.md](https://github.com/pryley/site-reviews/blob/master/EVENTS.md)
+- Improved the excerpt and pagination scripts
+- 🌹 Happy Valentines day
+
 = 5.6.2 (2021-02-09) =
 
 - Added the "Review Themes" add-on, premium members may request early access to try out the beta.
