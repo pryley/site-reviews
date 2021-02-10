@@ -159,7 +159,7 @@ class CreateReview implements Contract
             return;
         }
         $this->errors = [];
-        $this->message = __('Your review could not be submitted and the error has been logged. Please notify the site admin.', 'site-reviews');
+        $this->message = __('Your review could not be submitted and the error has been logged. Please notify the site administrator.', 'site-reviews');
     }
 
     /**

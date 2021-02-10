@@ -23,7 +23,7 @@ class HoneypotValidator extends ValidatorAbstract
     {
         if (!$this->isValid()) {
             $this->setErrors(
-                __('The review submission failed. Please notify the site administrator.', 'site-reviews'),
+                __('This review has been flagged as possible spam and cannot be submitted.', 'site-reviews'),
                 'The Honeypot caught a bad submission.'
             );
         }

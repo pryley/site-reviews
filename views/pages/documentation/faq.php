@@ -18,6 +18,7 @@ $sections = [
     trailingslashit(__DIR__).'faq/dont-store-ipaddress.php',
     trailingslashit(__DIR__).'faq/redirect-after-submission.php',
     trailingslashit(__DIR__).'faq/remove-name-dash.php',
+    trailingslashit(__DIR__).'faq/remove-nonce-check.php',
     trailingslashit(__DIR__).'faq/replace-avatar-with-featured-image.php',
     trailingslashit(__DIR__).'faq/notify-author-when-responding.php',
     trailingslashit(__DIR__).'faq/plugin-templates.php',
