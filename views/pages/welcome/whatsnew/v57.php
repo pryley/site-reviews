@@ -14,6 +14,7 @@
         </ul>
         <h4>🛠 Tweaks</h4>
         <ul>
+            <li>Added documentaion on troubleshooting problems with the review form (see the "Common Problems and Solutions" section on the Help page)</li>
             <li>Improved the excerpt and pagination scripts</li>
             <li>Updated the FAQ documentation for hiding the form after submission</li>
         </ul>
