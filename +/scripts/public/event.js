@@ -10,8 +10,8 @@ const off = (name, fn) => {
             }
         })
     }
-    if (liveEvents.length) {
-        events[name] = liveEvents
+    if (liveTriggers.length) {
+        events[name] = liveTriggers
     } else {
         delete events[name]
     }
