@@ -66,7 +66,7 @@ class FormFieldsTag extends FormTag
                 'value' => $value,
             ]);
         }
-        return $fields;
+        return glsr()->filterArray('review-form/fields/hidden', $fields, $this->args);
     }
 
     /**

@@ -116,6 +116,7 @@
     site-reviews/rendered/template                          (string $template, string $templatePath, array $data): string
     site-reviews/rendered/template/<template_path>          (string $template, array $data): string
     site-reviews/review-form/fields                         (array $fields, Arguments $args): array
+    site-reviews/review-form/fields/hidden                  (array $fields, Arguments $args): array
     site-reviews/review-form/fields/normalized              (array $fields, Arguments $args): array
     site-reviews/review-form/order                          (array $order): array
     site-reviews/review-form/referer                        (string $referer): string
