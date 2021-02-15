@@ -6,11 +6,12 @@
         </button>
     </h3>
     <div id="welcome-v570" class="inside">
-        <p><em>Initial Release Date &mdash; February 14th, 2021</em></p>
+        <p><em>Initial Release Date &mdash; February 16th, 2021</em></p>
         <h4>✨ New Features</h4>
         <ul>
             <li>Added the "Review Themes" add-on</li>
             <li>Added a custom Event Emitter which will allow you to manually initialise the Site Reviews javascript after the DOMContentLoaded event (e.g. from a Popup event. See also: <a href="https://github.com/pryley/site-reviews/blob/master/EVENTS.md" target="_blank">EVENTS.md</a>)</li>
+            <li>Added the "Optimise Your Database Tables" tool which allows you to convert tables from MyISAM to InnoDB for better performance.</li>
         </ul>
         <h4>🛠 Tweaks</h4>
         <ul>

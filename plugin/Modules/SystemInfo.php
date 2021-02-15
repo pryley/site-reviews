@@ -110,13 +110,17 @@ class SystemInfo
     public function getDatabaseDetails($data)
     {
         $database = Arr::get($data, 'wp-database');
+        $engines = glsr(SqlSchema::class)->tableEngines($removeDbPrefix = true);
+        foreach ($engines as $engine => $tables) {
+          $engines[$engine] = sprintf('%s (%s)', $engine, implode('|', $tables));
+        }
         return [
             'title' => 'Database Details',
             'values' => [
                 'Charset' => Arr::get($database, 'database_charset'),
                 'Collation' => Arr::get($database, 'database_collate'),
                 'Extension' => Arr::get($database, 'extension'),
-                'Table Engines' => implode(', ', glsr(SqlSchema::class)->tableEngines()),
+                'Table Engines' => implode(', ', $engines),
                 'Version (client)' => Arr::get($database, 'client_version'),
                 'Version (server)' => Arr::get($database, 'server_version'),
             ],

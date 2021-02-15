@@ -144,12 +144,31 @@ class SqlSchema
     }
 
     /**
+     * @param string $table
+     * @return bool|int
+     */
+    public function convertTableEngine($table)
+    {
+        $result = -1;
+        $table = $this->table($table);
+        if ($this->isMyisam($table)) {
+            $result = glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
+                ALTER TABLE {$this->db->dbname}.{$table} ENGINE = InnoDB;
+            "));
+        }
+        if (true === $result) {
+            update_option(glsr()->prefix.'engine_'.$table, 'innodb');
+            $this->addForeignConstraints(); // apply InnoDB constraints
+        }
+        return $result;
+    }
+
+    /**
      * @return bool
      */
     public function createAssignedPostsTable()
     {
         if ($this->tableExists('assigned_posts')) {
-            glsr_log()->debug(sprintf('Cannot create the %s table because it already exists.', $this->table('assigned_posts')));
             return false;
         }
         dbDelta(glsr(Query::class)->sql("
@@ -170,7 +189,6 @@ class SqlSchema
     public function createAssignedTermsTable()
     {
         if ($this->tableExists('assigned_terms')) {
-            glsr_log()->debug(sprintf('Cannot create the %s table because it already exists.', $this->table('assigned_terms')));
             return false;
         }
         dbDelta(glsr(Query::class)->sql("
@@ -190,7 +208,6 @@ class SqlSchema
     public function createAssignedUsersTable()
     {
         if ($this->tableExists('assigned_users')) {
-            glsr_log()->debug(sprintf('Cannot create the %s table because it already exists.', $this->table('assigned_users')));
             return false;
         }
         dbDelta(glsr(Query::class)->sql("
@@ -212,7 +229,6 @@ class SqlSchema
     public function createRatingTable()
     {
         if ($this->tableExists('ratings')) {
-            glsr_log()->debug(sprintf('Cannot create the %s table because it already exists.', $this->table('ratings')));
             return false;
         }
         dbDelta(glsr(Query::class)->sql("
@@ -279,6 +295,7 @@ class SqlSchema
             glsr_log()->debug("Cannot check for a foreign constraint because {$foreignTable} does not use the InnoDB engine.");
             return true; // we cannot create foreign contraints on MyISAM tables
         }
+        // we don't need to cache this since it only runs on install
         if (!is_array($this->constraints)) {
             $this->constraints = $this->db->get_col("
                 SELECT CONSTRAINT_NAME
@@ -293,18 +310,18 @@ class SqlSchema
      * @param string $table
      * @return bool
      */
+    public function isMyisam($table)
+    {
+        return 'myisam' === $this->tableEngine($table);
+    }
+
+    /**
+     * @param string $table
+     * @return bool
+     */
     public function isInnodb($table)
     {
-        $engine = $this->db->get_var("
-            SELECT ENGINE
-            FROM INFORMATION_SCHEMA.TABLES
-            WHERE TABLE_SCHEMA = '{$this->db->dbname}' AND TABLE_NAME = '{$this->table($table)}'
-        ");
-        if (empty($engine)) {
-            glsr_log()->warning(sprintf('InnoDB: The %s database table does not exist.', $this->table($table)));
-            return false;
-        }
-        return 'innodb' === strtolower($engine);
+        return 'innodb' === $this->tableEngine($table);
     }
 
     /**
@@ -356,6 +373,31 @@ class SqlSchema
 
     /**
      * @param string $table
+     * @return string (lowercased)
+     */
+    public function tableEngine($table)
+    {
+        $table = $this->table($table);
+        $option = glsr()->prefix.'engine_'.$table;
+        $engine = get_option($option);
+        if (empty($engine)) {
+            $engine = $this->db->get_var("
+                SELECT ENGINE
+                FROM INFORMATION_SCHEMA.TABLES
+                WHERE TABLE_SCHEMA = '{$this->db->dbname}' AND TABLE_NAME = '{$table}'
+            ");
+            if (empty($engine)) {
+                glsr_log()->warning(sprintf('DB Table Engine: The %s table does not exist in %s.', $table, $this->db->dbname));
+                return '';
+            }
+            $engine = strtolower($engine);
+            update_option($option, $engine);
+        }
+        return $engine;
+    }
+
+    /**
+     * @param string $table
      * @return bool
      */
     public function tableExists($table)
@@ -370,9 +412,10 @@ class SqlSchema
     }
 
     /**
-     * @return string[]
+     * @param bool $removeDbPrefix
+     * @return array
      */
-    public function tableEngines()
+    public function tableEngines($removeDbPrefix = false)
     {
         $results = $this->db->get_results("
             SELECT TABLE_NAME, ENGINE
@@ -385,12 +428,11 @@ class SqlSchema
             if (!array_key_exists($result->ENGINE, $engines)) {
                 $engines[$result->ENGINE] = [];
             }
-            $engines[$result->ENGINE][] = Str::removePrefix($result->TABLE_NAME, $this->db->get_blog_prefix());
+            if ($removeDbPrefix) {
+                $result->TABLE_NAME = Str::removePrefix($result->TABLE_NAME, $this->db->get_blog_prefix());
+            }
+            $engines[$result->ENGINE][] = $result->TABLE_NAME;
         }
-        $tableEngines = [];
-        foreach ($engines as $engine => $tables) {
-          $tableEngines[] = sprintf('%s (%s)', $engine, implode('|', $tables));
-        }
-        return $tableEngines;
+        return $engines;
     }
 }

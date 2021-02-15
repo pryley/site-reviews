@@ -5,6 +5,9 @@
 .wp-admin .glsr-button {
 	position: relative;
 	white-space: nowrap;
+	display: inline-flex;
+	align-items: center;
+
 }
 .wp-admin .glsr-button::before,
 .wp-admin .glsr-button::after {
@@ -37,22 +40,29 @@
 	left: 10px;
 }
 .wp-admin .glsr-button[disabled] span {
-	visibility: hidden;
 	font-size: 0;
+	visibility: hidden;
+}
+.wp-admin .glsr-button.is-small[disabled] span {
+	height: 22px;
 }
 .wp-admin .glsr-button[disabled] span::after {
-	visibility: visible;
 	content: attr(data-loading);
 	font-size: 13px;
+	visibility: visible;
 }
-
+.wp-admin .glsr-button.is-small[disabled] span::after {
+	font-size: 11px;
+}
 .wp-admin .glsr-button:not([disabled]) span[data-alt-text].alt {
 	visibility: hidden;
 	font-size: 0;
 }
-
 .wp-admin .glsr-button:not([disabled]) span[data-alt-text].alt::after {
 	visibility: visible;
 	content: attr(data-alt-text);
 	font-size: 13px;
+}
+.wp-admin .glsr-button.is-small:not([disabled]) span[data-alt-text].alt::after {
+	font-size: 11px;
 }

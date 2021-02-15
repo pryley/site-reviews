@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Database\SqlSchema;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -155,6 +156,7 @@ class MenuController extends Controller
                     'id' => glsr()->id,
                     'system' => glsr(SystemInfo::class)->get(),
                 ],
+                'myisam_tables' => Arr::get(glsr(SqlSchema::class)->tableEngines(), 'MyISAM', []),
                 'services' => glsr()->filterArray('addon/sync/services', []),
             ],
             'tabs' => $tabs,

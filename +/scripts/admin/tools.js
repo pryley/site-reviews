@@ -20,15 +20,23 @@ Tools.prototype = {
         }
     },
     onClick_: function (ev) {
-        (new Ajax({}, ev, ev.currentTarget.closest('form'))).post(function (response, success) {
+        var el = jQuery(ev.currentTarget);
+        (new Ajax({}, ev, el.closest('form'))).post(function (response, success) {
             if (typeof ev.data === 'function') {
                 ev.data(response, success);
             }
-            jQuery('html, body').animate({ scrollTop: 0 }, 500);
+            if (el.get(0).hasAttribute('data-ajax-scroll')) {
+                jQuery('html, body').animate({ scrollTop: 0 }, 500);
+            }
+            el.closest('[data-ajax-hide]')
+                .css({ backgroundColor: 'rgba(74,184,102,.25)' })
+                .fadeOut('normal', function() {
+                    jQuery(this).remove();
+                });
             jQuery('#glsr-notices').on('click', 'a', function () {
-                localStorage.setItem('glsr-expand', jQuery(this).data('expand'));
+                localStorage.setItem('glsr-expand', el.data('expand'));
             });
-            jQuery('.glsr-notice[data-notice="' + jQuery(ev.currentTarget).data('remove-notice') + '"]').remove();
+            jQuery('.glsr-notice[data-notice="' + el.data('remove-notice') + '"]').remove();
         });
     },
     onKeyDown_: function (alt, ev) {

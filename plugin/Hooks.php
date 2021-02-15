@@ -149,6 +149,8 @@ class Hooks implements HooksContract
         add_action('admin_init', [$this->settings, 'registerSettings']);
         add_action('site-reviews/route/admin/clear-console', [$this->tools, 'clearConsole']);
         add_action('site-reviews/route/ajax/clear-console', [$this->tools, 'clearConsoleAjax']);
+        add_action('site-reviews/route/admin/convert-table-engine', [$this->tools, 'convertTableEngine']);
+        add_action('site-reviews/route/ajax/convert-table-engine', [$this->tools, 'convertTableEngineAjax']);
         add_action('site-reviews/route/admin/detect-ip-address', [$this->tools, 'detectIpAddress']);
         add_action('site-reviews/route/ajax/detect-ip-address', [$this->tools, 'detectIpAddressAjax']);
         add_action('site-reviews/route/admin/download-console', [$this->tools, 'downloadConsole']);

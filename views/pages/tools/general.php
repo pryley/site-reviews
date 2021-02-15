@@ -71,11 +71,50 @@
         <input type="hidden" name="{{ id }}[alt]" value="0" data-alt>
         <?php wp_nonce_field('migrate-plugin'); ?>
         <p class="submit">
-            <button type="submit" class="glsr-button button" name="migrate-plugin" id="migrate-plugin" data-ajax-click data-remove-notice="migrate">
+            <button type="submit" class="glsr-button button" name="migrate-plugin" id="migrate-plugin" data-ajax-click data-ajax-scroll data-remove-notice="migrate">
                 <span data-alt-text="<?= esc_attr_x('Run All Migrations', 'admin-text', 'site-reviews'); ?>" data-loading="<?= esc_attr_x('Migrating, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Run Migration', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>
     </form>
+</div>
+
+<div class="glsr-card card">
+    <h3>Optimise Your Database Tables</h3>
+    <?php if (!empty($myisam_tables)) : ?>
+        <p>The old MyISAM table engine in MySQL was replaced by the InnoDB engine as the default over 10 years ago! If your database tables still use the MyISAM engine, you are missing out on substantial performance and reliability gains that the InnoDB engine provides.</p>
+        <p>Site Reviews makes use of specific InnoDB engine features in order to perform faster database queries. However, some of your database tables (shown below) are still using the old MyISAM engine. If you convert these tables to use the InnoDB engine, it will make Site Reviews perform faster.</p>
+        <table class="wp-list-table widefat striped" style="margin-bottom:1em;">
+            <thead>
+                <tr>
+                    <th scope="col"><strong>Table</strong></th>
+                    <th scope="col"><strong>Engine</strong></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($myisam_tables as $table) : ?>
+                <tr data-ajax-hide>
+                    <td style="vertical-align:middle;"><?= $table; ?></td>
+                    <td style="vertical-align:middle;">MyISAM</td>
+                    <td style="text-align:right;">
+                        <form method="post">
+                            <?php wp_nonce_field('convert-table-engine'); ?>
+                            <input type="hidden" name="{{ id }}[_action]" value="convert-table-engine">
+                            <input type="hidden" name="{{ id }}[table]" value="<?= $table; ?>">
+                            <button type="submit" class="glsr-button glsr-button components-button is-secondary is-small" name="convert-table-engine" data-ajax-click>
+                                <span data-loading="<?= esc_attr_x('Converting, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Convert table engine to InnoDB', 'admin-text', 'site-reviews'); ?></span>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else : ?>
+        <div class="components-notice is-success" style="margin-bottom:1em;">
+            <p class="components-notice__content">Optimisation is unecessary because your database tables already use the InnoDB engine! ✨</p>
+        </div>
+    <?php endif; ?>
 </div>
 
 <div class="glsr-card card">
@@ -85,7 +124,7 @@
         <input type="hidden" name="{{ id }}[_action]" value="reset-assigned-meta">
         <?php wp_nonce_field('reset-assigned-meta'); ?>
         <p class="submit">
-            <button type="submit" class="glsr-button button" name="reset-assigned-meta" id="reset-assigned-meta" data-ajax-click>
+            <button type="submit" class="glsr-button button" name="reset-assigned-meta" id="reset-assigned-meta" data-ajax-click data-ajax-scroll>
                 <span data-loading="<?= esc_attr_x('Resetting values, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Reset Meta Values', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>
@@ -104,7 +143,7 @@
         <input type="hidden" name="{{ id }}[alt]" value="0" data-alt>
         <?php wp_nonce_field('reset-permissions'); ?>
         <p class="submit">
-            <button type="submit" class="glsr-button button" name="reset-permissions" id="reset-permissions" data-ajax-click>
+            <button type="submit" class="glsr-button button" name="reset-permissions" id="reset-permissions" data-ajax-click data-ajax-scroll>
                 <span data-alt-text="<?= esc_attr_x('Hard Reset Permissions', 'admin-text', 'site-reviews'); ?>" data-loading="<?= esc_attr_x('Resetting, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Reset Permissions', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>
@@ -121,7 +160,7 @@
         <input type="hidden" name="{{ id }}[_action]" value="detect-ip-address">
         <?php wp_nonce_field('detect-ip-address'); ?>
         <p class="submit">
-            <button type="submit" class="glsr-button button" name="detect-ip-address" id="detect-ip-address" data-ajax-click>
+            <button type="submit" class="glsr-button button" name="detect-ip-address" id="detect-ip-address" data-ajax-click data-ajax-scroll>
                 <span data-loading="<?= esc_attr_x('Testing, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Test Detection', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>

@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Commands\ImportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportSettings;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\SqlSchema;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -36,6 +37,42 @@ class ToolsController extends Controller
         $this->clearConsole();
         wp_send_json_success([
             'console' => glsr(Console::class)->get(),
+            'notices' => glsr(Notice::class)->get(),
+        ]);
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/admin/convert-table-engine
+     */
+    public function convertTableEngine(Request $request)
+    {
+        $result = glsr(SqlSchema::class)->convertTableEngine($request->table);
+        if (true === $result) {
+            glsr(Notice::class)->addSuccess(
+                sprintf(_x('The <code>%s</code> table was successfully converted to InnoDB.', 'admin-text', 'site-reviews'), $request->table)
+            );
+        }
+        if (false === $result) {
+            glsr(Notice::class)->addError(
+                sprintf(_x('The <code>%s</code> table could not be converted to InnoDB.', 'admin-text', 'site-reviews'), $request->table)
+            );
+        }
+        if (-1 === $result) {
+            glsr(Notice::class)->addWarning(
+                sprintf(_x('The <code>%s</code> table was not found in the database.', 'admin-text', 'site-reviews'), $request->table)
+            );
+        }
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/ajax/convert-table-engine
+     */
+    public function convertTableEngineAjax(Request $request)
+    {
+        $this->convertTableEngine($request);
+        wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
         ]);
     }

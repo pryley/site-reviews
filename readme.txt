@@ -133,12 +133,12 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
-= 5.7.0 (2021-02-14) =
+= 5.7.0 (2021-02-16) =
 
 - Added a custom Event Emitter which will allow you to manually initialise the Site Reviews javascript after the DOMContentLoaded event has fired or from Popup events (see: [EVENTS.md](https://github.com/pryley/site-reviews/blob/master/EVENTS.md).
 - Added documentaion on troubleshooting problems with the review form (see the "Common Problems and Solutions" section on the Help page).
+- Added the "Optimise Your Database Tables" tool which allows you to convert tables from MyISAM to InnoDB for better performance.
 - Improved the excerpt and pagination scripts.
-- 🌹 Happy Valentines day
 
 = 5.6.2 (2021-02-09) =
 
