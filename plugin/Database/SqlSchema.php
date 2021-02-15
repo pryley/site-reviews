@@ -295,6 +295,10 @@ class SqlSchema
      */
     public function isInnodb($table)
     {
+        // Performance improvement: Skip checking innodb if you are sure your db is innodb only
+        if (defined('GLSR_FORCE_INNODB') && GLSR_FORCE_INNODB == true) {
+            return true;
+        }
         $engine = $this->db->get_var("
             SELECT ENGINE
             FROM INFORMATION_SCHEMA.TABLES
