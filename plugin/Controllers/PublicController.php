@@ -104,7 +104,7 @@ class PublicController extends Controller
     {
         if (glsr()->retrieve('use_modal', true)) {
             glsr()->render('views/partials/modal', [
-                'style' => 'glsr glsr-'.glsr(Style::class)->get(),
+                'style' => glsr(Style::class)->styleClasses(),
             ]);
         }
     }

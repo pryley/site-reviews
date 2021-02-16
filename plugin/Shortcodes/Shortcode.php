@@ -57,7 +57,7 @@ abstract class Shortcode implements ShortcodeContract
             $atts->title = $title;
         }
         $attributes = wp_parse_args($this->dataAttributes, [
-            'class' => 'glsr glsr-'.glsr(Style::class)->get(),
+            'class' => glsr(Style::class)->styleClasses(),
             'id' => $atts->id,
             'text' => $template,
         ]);

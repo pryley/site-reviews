@@ -41,7 +41,7 @@ class ReviewsHtml extends \ArrayObject
         $this->max_num_pages = $reviews->max_num_pages;
         $this->reviews = $reviews;
         $this->rendered = $this->renderReviews($reviews);
-        $this->style = 'glsr glsr-'.glsr(Style::class)->get();
+        $this->style = glsr(Style::class)->styleClasses();
         parent::__construct($this->reviews, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
     }
 
@@ -120,7 +120,7 @@ class ReviewsHtml extends \ArrayObject
      */
     protected function getClasses()
     {
-        $defaults = ['glsr-reviews', 'glsr-reviews-default'];
+        $defaults = ['glsr-reviews'];
         $classes = explode(' ', $this->args->class);
         $classes = array_unique(array_merge($defaults, array_filter($classes)));
         return implode(' ', $classes);

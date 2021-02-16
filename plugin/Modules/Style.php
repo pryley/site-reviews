@@ -101,14 +101,6 @@ class Style
     }
 
     /**
-     * @return string
-     */
-    public function get()
-    {
-        return glsr()->filterString('style', $this->style);
-    }
-
-    /**
      * @return void
      */
     public function modifyField(Builder $instance)
@@ -125,6 +117,14 @@ class Style
     public function paginationArgs(array $args)
     {
         return wp_parse_args($args, $this->pagination);
+    }
+
+    /**
+     * @return string
+     */
+    public function styleClasses()
+    {
+        return glsr()->filterString('style', 'glsr glsr-'.$this->style);
     }
 
     /**
