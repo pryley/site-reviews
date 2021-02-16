@@ -120,7 +120,7 @@ class ReviewsHtml extends \ArrayObject
      */
     protected function getClasses()
     {
-        $defaults = ['glsr-reviews'];
+        $defaults = ['glsr-reviews', 'glsr-reviews-default'];
         $classes = explode(' ', $this->args->class);
         $classes = array_unique(array_merge($defaults, array_filter($classes)));
         return implode(' ', $classes);
