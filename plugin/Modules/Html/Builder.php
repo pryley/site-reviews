@@ -262,6 +262,7 @@ class Builder
             return $carry.$this->input([
                 'checked' => in_array($value, $this->args->cast('value', 'array')),
                 'class' => $this->args->class,
+                'disabled' => $this->args->disabled,
                 'id' => $this->indexedId(++$index),
                 'label' => $this->args->options[$value],
                 'name' => $this->args->name,
