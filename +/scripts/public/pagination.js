@@ -111,9 +111,7 @@ class Pagination {
 export default () => {
     [].forEach.call(document.querySelectorAll(config.paginationSelector), el => {
         const wrapperEl = el.closest('.glsr');
-        console.log(el)
         if (wrapperEl) {
-            console.log(wrapperEl)
             new Pagination(wrapperEl);
         }
     })
