@@ -51,6 +51,7 @@ class ValidationTest extends WP_Ajax_UnitTestCase
             'title' => '',
         ]);
         $this->messageFailed = 'The review submission failed. Please notify the site administrator.';
+        $this->messageFailedHoneypot = 'This review has been flagged as possible spam and cannot be submitted.';
         $this->messageFailedBlacklist = 'Your review cannot be submitted at this time.';
         $this->messageFailedCustom = 'Bad review.';
         $this->messageFailedPermission = 'You must be logged in to submit a review.';
@@ -147,8 +148,8 @@ class ValidationTest extends WP_Ajax_UnitTestCase
         $response1 = $this->assertJsonError($this->request());
         $response2 = $this->assertJsonError($this->request(['form_id' => $formId, $honeypotHash => 'x']));
         $response3 = $this->assertJsonSuccess($this->request(['form_id' => $formId, $honeypotHash => '']));
-        $this->assertEquals($response1->data->message, $this->messageFailed);
-        $this->assertEquals($response2->data->message, $this->messageFailed);
+        $this->assertEquals($response1->data->message, $this->messageFailedHoneypot);
+        $this->assertEquals($response2->data->message, $this->messageFailedHoneypot);
         $this->assertEquals($response3->data->message, $this->messageSuccess);
     }
 
