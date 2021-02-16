@@ -63,7 +63,8 @@ class ReviewController extends Controller
     public function filterReviewTemplate($template, array $data)
     {
         $search = 'id="review-';
-        $replace = sprintf('data-type="%s" %s', $data['review']->type, $search);
+        $dataType = Arr::get($data, 'review.type', 'local');
+        $replace = sprintf('data-type="%s" %s', $dataType, $search);
         return str_replace($search, $replace, $template);
     }
 
