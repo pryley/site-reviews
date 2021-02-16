@@ -1,13 +1,7 @@
 :--namespace .glsr-reviews,
 :--namespace .glsr-reviews-wrap {
     display: grid;
-    gap: calc(var(--glsr-base-font-size) * 4);;
-}
-:--namespace .glsr-review {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-    quotes: "“" "”";
+    gap: calc(var(--glsr-base-font-size) * 4);
 }
 :--namespace .glsr-pagination {
     position: relative;
@@ -21,81 +15,27 @@
 :--namespace.glsr-hide .glsr-pagination .navigation {
     opacity: 0 !important;
 }
-:--namespace .glsr-review p {
-    line-height:var(--glsr-line-height);
-    margin: var(--glsr-base-font-size) 0;
-    white-space: pre-line;
+:--namespace .glsr-review {
+    quotes: "“" "”";
 }
 :--namespace .glsr-review p br {
     content: '';
     display: flex;
     margin-bottom: var(--glsr-base-font-size);
 }
-:--namespace .glsr-review > div:first-of-type,
 :--namespace .glsr-review p:first-of-type {
     margin-top: 0;
 }
-:--namespace .glsr-review > div:last-of-type,
 :--namespace .glsr-review p:last-of-type {
     margin-bottom: 0;
 }
-:--namespace .glsr-review-assigned_links {
-    font-style: italic;
-}
-:--namespace .glsr-review-assigned_links {
-    margin-top: var(--glsr-base-font-size);
-    width: 100%;
-}
-:--namespace .glsr-review-author {
-    align-items: center;
-    display: flex;
-}
-:--namespace *:not(.glsr-review-avatar) + .glsr-review-author::before {
-    content: '\2014'; /*&mdash;*/
-}
-:--namespace .glsr-review-avatar {
-    align-items: center;
-    display: flex;
-}
-:--namespace .glsr-review-avatar img {
-    display: block;
-    object-fit: cover;
-}
 :--namespace .glsr-review-content {
-    margin: var(--glsr-base-font-size) 0;
-    width: 100%;
     word-break: break-word;
 }
 :--namespace .glsr-review-date {
-    align-items: center;
-    display: flex;
-    flex-grow: 1;
-    font-style: italic;
     white-space: nowrap;
-    flex-basis: calc(100% - calc(var(--glsr-star-size) * 5));
-}
-:--namespace .glsr-review-avatar + .glsr-review-author span,
-:--namespace .glsr-review-rating + .glsr-review-date span {
-    margin-left: var(--glsr-base-font-size);
-}
-:--namespace.glsr-rtl .glsr-review-avatar + .glsr-review-author span ,
-:--namespace.glsr-rtl .glsr-review-rating + .glsr-review-date span {
-    margin-left: 0;
-    margin-right: var(--glsr-base-font-size);
-}
-:--namespace .glsr-review-rating {
-    align-items: center;
-    display: inline-flex;
-}
-:--namespace .glsr-review-title {
-    width: 100%;
-}
-:--namespace .glsr-review-title > * {
-    margin-bottom: var(--glsr-base-font-size);
-    margin-top: 0;
 }
 :--namespace .glsr-review-response {
-    margin-top: var(--glsr-base-font-size);
     padding: calc(var(--glsr-base-font-size) * 1.5);
     position: relative;
     width: 100%;
@@ -136,11 +76,86 @@
     position: relative;
     z-index: 1;
 }
-:--namespace .glsr-stars {
+
+/* Default styles */
+
+:--namespace .glsr-reviews-default .glsr-review {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+:--namespace .glsr-reviews-default .glsr-review > div:first-of-type {
+    margin-top: 0;
+}
+:--namespace .glsr-reviews-default .glsr-review > div:last-of-type {
+    margin-bottom: 0;
+}
+:--namespace .glsr-reviews-default .glsr-review p {
+    line-height:var(--glsr-line-height);
+    margin: var(--glsr-base-font-size) 0;
+    white-space: pre-line;
+}
+:--namespace .glsr-reviews-default .glsr-review-assigned_links {
+    font-style: italic;
+}
+:--namespace .glsr-reviews-default .glsr-review-assigned_links {
+    margin-top: var(--glsr-base-font-size);
+    width: 100%;
+}
+:--namespace .glsr-reviews-default .glsr-review-author {
     align-items: center;
     display: flex;
 }
-:--namespace .glsr-star {
+:--namespace .glsr-reviews-default *:not(.glsr-review-avatar) + .glsr-review-author::before {
+    content: '\2014'; /*&mdash;*/
+}
+:--namespace .glsr-reviews-default .glsr-review-avatar {
+    align-items: center;
+    display: flex;
+}
+:--namespace .glsr-reviews-default .glsr-review-avatar img {
+    display: block;
+    object-fit: cover;
+}
+:--namespace .glsr-reviews-default .glsr-review-content {
+    margin: var(--glsr-base-font-size) 0;
+    width: 100%;
+}
+:--namespace .glsr-reviews-default .glsr-review-date {
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+    font-style: italic;
+    flex-basis: calc(100% - calc(var(--glsr-star-size) * 5));
+}
+:--namespace .glsr-reviews-default .glsr-review-avatar + .glsr-review-author span,
+:--namespace .glsr-reviews-default .glsr-review-rating + .glsr-review-date span {
+    margin-left: var(--glsr-base-font-size);
+}
+:--namespace.glsr-rtl .glsr-reviews-default .glsr-review-avatar + .glsr-review-author span ,
+:--namespace.glsr-rtl .glsr-reviews-default .glsr-review-rating + .glsr-review-date span {
+    margin-left: 0;
+    margin-right: var(--glsr-base-font-size);
+}
+:--namespace .glsr-reviews-default .glsr-review-rating {
+    align-items: center;
+    display: inline-flex;
+}
+:--namespace .glsr-reviews-default .glsr-review-title {
+    width: 100%;
+}
+:--namespace .glsr-reviews-default .glsr-review-title > * {
+    margin-bottom: var(--glsr-base-font-size);
+    margin-top: 0;
+}
+:--namespace .glsr-reviews-default .glsr-review-response {
+    margin-top: var(--glsr-base-font-size);
+}
+:--namespace .glsr-reviews-default .glsr-stars {
+    align-items: center;
+    display: flex;
+}
+:--namespace .glsr-reviews-default .glsr-star {
     background-size: var(--glsr-star-size);
     font-size: inherit;
     height: var(--glsr-star-size);
@@ -148,15 +163,16 @@
 }
 
 /* Custom fields */
-:--namespace .glsr-review > div:not([class]) {
+
+:--namespace .glsr-reviews-default .glsr-review > div:not([class]) {
     display: flex;
     flex-wrap: wrap;
     margin-top: var(--glsr-base-font-size);
     width: 100%;
 }
-:--namespace [class*=glsr-custom-] {
+:--namespace .glsr-reviews-default [class*=glsr-custom-] {
     display: inline-flex;
 }
-:--namespace .glsr-review > [class*=glsr-custom-] {
+:--namespace .glsr-reviews-default .glsr-review > [class*=glsr-custom-] {
     margin-top: var(--glsr-base-font-size);
 }
