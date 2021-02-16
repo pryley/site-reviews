@@ -142,12 +142,16 @@
     line-height: 1.5;
     min-height: 30px;
 }
-
+.glsr-metabox-field .glsr-input label,
+.glsr-metabox-field input:disabled,
+.glsr-metabox-field select:disabled,
+.glsr-metabox-field textarea:disabled {
+    cursor: default;
+}
 .glsr-input-value:disabled {
     color: #32373c !important;
     background-color: #eee !important;
     border-color: #7e8993 !important;
-    cursor: default;
     opacity: 1;
 }
 
