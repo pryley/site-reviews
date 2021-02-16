@@ -12,6 +12,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Add Elementor blocks
 - [ ] Allow review submissions without javascript (ref: comment form)
 - [ ] Integrate with Antispam Bee (https://wordpress.org/plugins/antispam-bee/)
+- [ ] Integrate with hCaptcha
 - [ ] Integrate with reCAPTCHA v3 (ref: Contact Form 7)
 - [ ] Restrict reviews in the admin to those assigned to pages of the current user
 - [ ] Review statistics
@@ -25,12 +26,8 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 - [ ] Review Adjuster (drag-drop order of review details)
 - [ ] Review Authors (allow people to update their submitted reviews)
-- [x] Review Filters (filter, search, sort)
-- [x] Review Forms
-- [x] Review Images
 - [ ] Review Importer (from 3rd-party WordPress review plugins)
 - [ ] Review Snitch (flag reviews as inappropriate)
-- [ ] Review Themes (customization of stars (star, thumb, emote, percent), fonts, colors, layouts, etc.)
 - [ ] Review Threads
 - [ ] Review Upvotes
 - [ ] Review Sharing
@@ -44,6 +41,5 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Google Reviews
 - [x] Tripadvisor Reviews (done, but needs an additional service to make it work consistantly)
 - [ ] Trustpilot Reviews
-- [x] WooCommerce (incl. review reminders, verified reviews)
 - [ ] Yelp Reviews
 
