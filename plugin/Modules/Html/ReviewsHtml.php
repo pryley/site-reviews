@@ -21,9 +21,14 @@ class ReviewsHtml extends \ArrayObject
     public $max_num_pages;
 
     /**
-     * @var array
+     * @var Reviews
      */
     public $reviews;
+
+    /**
+     * @var array
+     */
+    public $rendered;
 
     /**
      * @var string
@@ -34,7 +39,8 @@ class ReviewsHtml extends \ArrayObject
     {
         $this->args = glsr()->args($reviews->args);
         $this->max_num_pages = $reviews->max_num_pages;
-        $this->reviews = $this->renderReviews($reviews);
+        $this->reviews = $reviews;
+        $this->rendered = $this->renderReviews($reviews);
         $this->style = 'glsr glsr-'.glsr(Style::class)->get();
         parent::__construct($this->reviews, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
     }
@@ -54,6 +60,7 @@ class ReviewsHtml extends \ArrayObject
                 'pagination' => Helper::ifTrue(!empty($this->args->pagination), $this->getPagination()),
                 'reviews' => $this->getReviews(),
             ],
+            'reviews' => $this->reviews,
         ]);
     }
 
@@ -86,9 +93,9 @@ class ReviewsHtml extends \ArrayObject
      */
     public function getReviews()
     {
-        return empty($this->reviews)
+        return empty($this->rendered)
             ? $this->getReviewsFallback()
-            : implode(PHP_EOL, $this->reviews);
+            : implode(PHP_EOL, $this->rendered);
     }
 
     /**
@@ -97,8 +104,8 @@ class ReviewsHtml extends \ArrayObject
      */
     public function offsetGet($key)
     {
-        if (array_key_exists($key, $this->reviews)) {
-            return $this->reviews[$key];
+        if (array_key_exists($key, $this->rendered)) {
+            return $this->rendered[$key];
         }
         if (in_array($key, ['navigation', 'pagination'])) { // @deprecated in v5.0 (navigation)
             return $this->getPagination();
