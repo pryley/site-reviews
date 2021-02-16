@@ -18,6 +18,9 @@
 :root .glsr .glsr-review {
     quotes: "“" "”";
 }
+:root .glsr .glsr-review p {
+    white-space: pre-line;
+}
 :root .glsr .glsr-review p br {
     content: '';
     display: flex;
@@ -107,58 +110,57 @@
 :--namespace .glsr-review p {
     line-height:var(--glsr-line-height);
     margin: var(--glsr-base-font-size) 0;
-    white-space: pre-line;
 }
-:--namespace .glsr-review-assigned_links {
+:--namespace .glsr-review > .glsr-review-assigned_links {
     font-style: italic;
 }
-:--namespace .glsr-review-assigned_links {
+:--namespace .glsr-review > .glsr-review-assigned_links {
     margin-top: var(--glsr-base-font-size);
     width: 100%;
 }
-:--namespace .glsr-review-author {
+:--namespace .glsr-review > .glsr-review-author {
     align-items: center;
     display: flex;
 }
-:--namespace *:not(.glsr-review-avatar) + .glsr-review-author::before {
+:--namespace .glsr-review > *:not(.glsr-review-avatar) + .glsr-review-author::before {
     content: '\2014'; /*&mdash;*/
 }
-:--namespace .glsr-review-avatar {
+:--namespace .glsr-review > .glsr-review-avatar {
     align-items: center;
     display: flex;
 }
-:--namespace .glsr-review-avatar img {
+:--namespace .glsr-review > .glsr-review-avatar img {
     display: block;
     object-fit: cover;
 }
-:--namespace .glsr-review-content {
+:--namespace .glsr-review > .glsr-review-content {
     margin: var(--glsr-base-font-size) 0;
     width: 100%;
 }
-:--namespace .glsr-review-date {
+:--namespace .glsr-review > .glsr-review-date {
     align-items: center;
     display: flex;
     flex-grow: 1;
     font-style: italic;
     flex-basis: calc(100% - calc(var(--glsr-star-size) * 5));
 }
-:--namespace .glsr-review-avatar + .glsr-review-author span,
-:--namespace .glsr-review-rating + .glsr-review-date span {
+:--namespace .glsr-review > .glsr-review-avatar + .glsr-review-author span,
+:--namespace .glsr-review > .glsr-review-rating + .glsr-review-date span {
     margin-left: var(--glsr-base-font-size);
 }
-:--namespace.glsr-rtl .glsr-reviews-default .glsr-review-avatar + .glsr-review-author span ,
-:--namespace.glsr-rtl .glsr-reviews-default .glsr-review-rating + .glsr-review-date span {
+:--namespace.glsr-rtl .glsr-review > .glsr-review-avatar + .glsr-review-author span ,
+:--namespace.glsr-rtl .glsr-review > .glsr-review-rating + .glsr-review-date span {
     margin-left: 0;
     margin-right: var(--glsr-base-font-size);
 }
-:--namespace .glsr-review-title {
+:--namespace .glsr-review > .glsr-review-title {
     width: 100%;
 }
-:--namespace .glsr-review-title > * {
+:--namespace .glsr-review > .glsr-review-title > * {
     margin-bottom: var(--glsr-base-font-size);
     margin-top: 0;
 }
-:--namespace .glsr-review-response {
+:--namespace .glsr-review > .glsr-review-response {
     margin-top: var(--glsr-base-font-size);
 }
 
@@ -170,9 +172,7 @@
     margin-top: var(--glsr-base-font-size);
     width: 100%;
 }
-:--namespace [class*=glsr-custom-] {
-    display: inline-flex;
-}
 :--namespace .glsr-review > [class*=glsr-custom-] {
+    display: inline-flex;
     margin-top: var(--glsr-base-font-size);
 }

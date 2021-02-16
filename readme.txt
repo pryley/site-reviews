@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews
 Tested up to: 5.6
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.6.2
+Stable tag: 5.7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -136,7 +136,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 = 5.7.0 (2021-02-16) =
 
 - Added a custom Event Emitter which will allow you to manually initialise the Site Reviews javascript after the DOMContentLoaded event has fired or from Popup events (see: [EVENTS.md](https://github.com/pryley/site-reviews/blob/master/EVENTS.md).
-- Added documentaion on troubleshooting problems with the review form (see the "Common Problems and Solutions" section on the Help page).
+- Added documentation on troubleshooting problems with the review form (see the "Common Problems and Solutions" section on the Help page).
 - Added the "Optimise Your Database Tables" tool which allows you to convert tables from MyISAM to InnoDB for better performance.
 - Improved the excerpt and pagination scripts.
 
