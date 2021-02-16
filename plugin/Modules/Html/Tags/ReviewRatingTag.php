@@ -10,7 +10,7 @@ class ReviewRatingTag extends ReviewTag
     protected function handle($value = null)
     {
         if (!$this->isHidden()) {
-            return $this->wrap(glsr_star_rating($value));
+            return $this->wrap(glsr_star_rating($value, 0, $this->args->toArray()));
         }
     }
 }

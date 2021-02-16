@@ -38,7 +38,7 @@ add_filter('plugins_loaded', function () {
         'glsr_get_review' => 2,
         'glsr_get_reviews' => 2,
         'glsr_log' => 3,
-        'glsr_star_rating' => 2,
+        'glsr_star_rating' => 4,
         'glsr_trace' => 2,
     ];
     foreach ($hooks as $function => $acceptedArgs) {
@@ -201,12 +201,13 @@ function glsr_set(array $data, $path, $value)
 
 /**
  * @param mixed $rating
- * @param int $count
+ * @param int|null $count
  * @return string
  */
-function glsr_star_rating($rating, $count = 0)
+function glsr_star_rating($rating, $count = 0, array $args = [])
 {
     return glsr(Partial::class)->build('star-rating', [
+        'args' => $args,
         'count' => $count,
         'rating' => $rating,
     ]);

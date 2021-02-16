@@ -8,16 +8,32 @@ use GeminiLabs\SiteReviews\Modules\Rating;
 
 class StarRating implements PartialContract
 {
+    /**
+     * @var \GeminiLabs\SiteReviews\Arguments
+     */
+    protected $args;
+
+    /**
+     * @var int
+     */
     protected $count;
+
+    /**
+     * @var string
+     */
     protected $prefix;
+
+    /**
+     * @var float
+     */
     protected $rating;
 
     /**
      * {@inheritdoc}
      */
-    public function build(array $args = [])
+    public function build(array $data = [])
     {
-        $this->setProperties($args);
+        $this->setProperties($data);
         $maxRating = glsr()->constant('MAX_RATING', Rating::class);
         $fullStars = intval(floor($this->rating));
         $halfStars = intval(ceil($this->rating - $fullStars));
@@ -26,6 +42,7 @@ class StarRating implements PartialContract
             ? __('Rated <strong>%s</strong> out of %s based on %s ratings', 'site-reviews')
             : __('Rated <strong>%s</strong> out of %s', 'site-reviews');
         return glsr(Template::class)->build('templates/rating/stars', [
+            'args' => $this->args,
             'context' => [
                 'empty_stars' => $this->getTemplate('empty-star', $emptyStars),
                 'full_stars' => $this->getTemplate('full-star', $fullStars),
@@ -44,6 +61,7 @@ class StarRating implements PartialContract
     protected function getTemplate($templateName, $timesRepeated)
     {
         $template = glsr(Template::class)->build('templates/rating/'.$templateName, [
+            'args' => $this->args,
             'context' => [
                 'prefix' => $this->prefix,
             ],
@@ -54,15 +72,17 @@ class StarRating implements PartialContract
     /**
      * @return void
      */
-    protected function setProperties(array $args)
+    protected function setProperties(array $data)
     {
-        $args = wp_parse_args($args, [
+        $data = wp_parse_args($data, [
+            'args' => [],
             'count' => 0,
             'prefix' => glsr()->isAdmin() ? '' : 'glsr-',
             'rating' => 0,
         ]);
-        $this->count = (int) $args['count'];
-        $this->prefix = $args['prefix'];
-        $this->rating = (float) sprintf('%g', $args['rating']); // remove unnecessary trailing zeros
+        $this->args = glsr()->args($data['args']);
+        $this->count = (int) $data['count'];
+        $this->prefix = $data['prefix'];
+        $this->rating = (float) sprintf('%g', $data['rating']); // remove unnecessary trailing zeros
     }
 }
