@@ -287,7 +287,7 @@
 
 
 
-.glsr-metabox-field .gl-star-rating > select {
+.glsr-metabox-field [data-star-rating] > select {
     clip: rect(1px, 1px, 1px, 1px) !important; /*IE/Edge*/
     clip-path: circle(1px at 0 0) !important;
     height: 1px !important;
@@ -300,8 +300,11 @@
     white-space: nowrap !important;
     width: 1px !important;
 }
-.glsr-metabox-field .gl-star-rating > select::before,
-.glsr-metabox-field .gl-star-rating > select::after {
+.glsr-metabox-field [data-star-rating] > select::before,
+.glsr-metabox-field [data-star-rating] > select::after {
+    display: none !important;
+}
+.glsr-metabox-field .gl-star-rating:not([data-star-rating]) .gl-star-rating--stars {
     display: none !important;
 }
 .glsr-metabox-field .gl-star-rating--stars {
@@ -313,7 +316,7 @@
     position: relative;
     white-space: nowrap;
 }
-.glsr-metabox-field .gl-star-rating > select[disabled] + .gl-star-rating--stars {
+.glsr-metabox-field [data-star-rating] > select[disabled] + .gl-star-rating--stars {
     color: #72777c;
     cursor: default;
 }
@@ -349,7 +352,7 @@
 
 
 /*allow SELECT focus*/
-.glsr-metabox-field .gl-star-rating > select:focus + .gl-star-rating--stars::before {
+.glsr-metabox-field [data-star-rating] > select:focus + .gl-star-rating--stars::before {
     border-radius: 3px;
     border: 1px solid #007cba;
     border: 1px solid var(--wp-admin-theme-color);
@@ -364,7 +367,7 @@
     width: 100%;
 }
 @media screen and (min-width: 783px) {
-    .glsr-metabox-field .gl-star-rating > select:focus + .gl-star-rating--stars::before {
+    .glsr-metabox-field [data-star-rating] > select:focus + .gl-star-rating--stars::before {
         height: 30px;
     }
 }

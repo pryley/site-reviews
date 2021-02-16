@@ -1,10 +1,10 @@
-:--namespace form.glsr-form .gl-star-rating {
+:--namespace form.glsr-form [data-star-rating] {
     align-items: center;
     display: flex;
     position: relative;
 }
 /*remove the SELECT from view*/
-:--namespace form.glsr-form .gl-star-rating > select {
+:--namespace form.glsr-form [data-star-rating] > select {
     clip: rect(1px, 1px, 1px, 1px) !important; /*IE/Edge*/
     clip-path: circle(1px at 0 0) !important;
     height: 1px !important;
@@ -17,18 +17,18 @@
     white-space: nowrap !important;
     width: 1px !important;
 }
-:--namespace form.glsr-form .gl-star-rating--ltr > select {
+:--namespace form.glsr-form [data-star-rating].gl-star-rating--ltr > select {
     left: 0 !important;
 }
-:--namespace form.glsr-form .gl-star-rating--rtl > select {
+:--namespace form.glsr-form [data-star-rating].gl-star-rating--rtl > select {
     right: 0 !important;
 }
-:--namespace form.glsr-form .gl-star-rating > select::before,
-:--namespace form.glsr-form .gl-star-rating > select::after {
+:--namespace form.glsr-form [data-star-rating] > select::before,
+:--namespace form.glsr-form [data-star-rating] > select::after {
     display: none !important;
 }
 /*allow SELECT focus*/
-:--namespace form.glsr-form .gl-star-rating > select:focus + .gl-star-rating--stars::before {
+:--namespace form.glsr-form [data-star-rating] > select:focus + .gl-star-rating--stars::before {
     border-radius: var(--glsr-form-border-radius);
     box-shadow: 0 0 0 3px -moz-mac-focusring;
     box-shadow: 0 0 0 3px -webkit-focus-ring-color;
@@ -42,6 +42,9 @@
     width: 100%;
 }
 /*Stars wrapper*/
+:--namespace form.glsr-form .gl-star-rating:not([data-star-rating]) .gl-star-rating--stars {
+    display: none !important;
+}
 :--namespace form.glsr-form .gl-star-rating--stars {
     align-items: center;
     cursor: pointer;
