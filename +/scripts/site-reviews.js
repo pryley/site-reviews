@@ -17,8 +17,11 @@ const initModal = () => {
             GLSR.Event.trigger('site-reviews/modal/close', modal, triggerEl, ev)
         },
         onOpen: (modal, triggerEl, ev) => {
+            const baseEl = triggerEl.closest('.glsr').cloneNode(true);
             const reviewEl = triggerEl.closest('.glsr-review').cloneNode(true);
-            modal.querySelector('.' + classNames.content).appendChild(reviewEl);
+            baseEl.innerHTML = '';
+            baseEl.appendChild(reviewEl);
+            modal.querySelector('.' + classNames.content).appendChild(baseEl);
             modal.classList.add(classNames.review);
             GLSR.Event.trigger('site-reviews/modal/open', modal, triggerEl, ev)
         },
