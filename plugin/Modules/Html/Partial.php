@@ -21,7 +21,7 @@ class Partial
     public function build($partialPath, array $args = [])
     {
         $className = Helper::buildClassName($partialPath, 'Modules\Html\Partials');
-        $className = $this->app()->filterString('partial/classname', $className, $partialPath);
+        $className = $this->app()->filterString('partial/classname', $className, $partialPath, $args);
         if (!class_exists($className)) {
             glsr_log()->error('Partial missing: '.$className);
             return;

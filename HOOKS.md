@@ -94,7 +94,7 @@
     site-reviews/option/<path>                              (mixed $value): mixed
     site-reviews/paginate_links                             (string $links, array $args): string
     site-reviews/partial/args/<partial_path>                (array $args): array
-    site-reviews/partial/classname                          (string $className, string $partialPath): string
+    site-reviews/partial/classname                          (string $className, string $partialPath, array $args): string
     site-reviews/path                                       (string $path, string $file): string
     site-reviews/personal-data/erase-all                    (bool $eraseAll): bool
     site-reviews/personal-data/export                       (array $data, Review $review): array
