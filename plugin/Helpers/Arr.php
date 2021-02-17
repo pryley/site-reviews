@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Helpers;
 
+use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 
@@ -19,16 +20,19 @@ class Arr
 
     /**
      * Returns an empty array if value is scalar
-     * @param mixed $array
+     * @param mixed $value
      * @return array
      */
-    public static function consolidate($array)
+    public static function consolidate($value)
     {
-        if (is_object($array)) {
-            $values = get_object_vars($array);
-            $array = Helper::ifEmpty($values, (array) $array, $strict = true);
+        if ($value instanceof Arguments) {
+            return $value->toArray();
         }
-        return is_array($array) ? $array : [];
+        if (is_object($value)) {
+            $values = get_object_vars($value);
+            $value = Helper::ifEmpty($values, (array) $value, $strict = true);
+        }
+        return is_array($value) ? $value : [];
     }
 
     /**
