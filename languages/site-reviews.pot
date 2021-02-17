@@ -2630,7 +2630,7 @@ msgctxt "admin-text"
 msgid "Import Third Party Reviews"
 msgstr ""
 
-#: views/pages/tools/general.php:48
+#: views/pages/tools/general.php:48, views/pages/tools/general.php:104
 msgctxt "admin-text"
 msgid "Please backup your database before running this tool! You can use the %s plugin to do this."
 msgstr ""
@@ -2745,112 +2745,112 @@ msgctxt "admin-text"
 msgid "Optimise Your Database Tables"
 msgstr ""
 
-#: views/pages/tools/general.php:133
+#: views/pages/tools/general.php:139
 msgctxt "admin-text"
 msgid "Optimisation is unnecessary because your database tables already use the InnoDB engine!"
 msgstr ""
 
-#: views/pages/tools/general.php:102
+#: views/pages/tools/general.php:108
 msgctxt "admin-text"
 msgid "The old MyISAM table engine in MySQL was replaced by the InnoDB engine as the default over 10 years ago! If your database tables still use the MyISAM engine, you are missing out on substantial performance and reliability gains that the InnoDB engine provides."
 msgstr ""
 
-#: views/pages/tools/general.php:103
+#: views/pages/tools/general.php:109
 msgctxt "admin-text"
 msgid "Site Reviews makes use of specific InnoDB engine features in order to perform faster database queries. However, some of your database tables (shown below) are still using the old MyISAM engine. If you convert these tables to use the InnoDB engine, it will make Site Reviews perform faster."
 msgstr ""
 
-#: views/pages/tools/general.php:107
+#: views/pages/tools/general.php:113
 msgctxt "admin-text"
 msgid "Table"
 msgstr ""
 
-#: views/pages/tools/general.php:108
+#: views/pages/tools/general.php:114
 msgctxt "admin-text"
 msgid "Engine"
 msgstr ""
 
-#: views/pages/tools/general.php:123
+#: views/pages/tools/general.php:129
 msgctxt "admin-text"
 msgid "Converting, please wait..."
 msgstr ""
 
-#: views/pages/tools/general.php:123
+#: views/pages/tools/general.php:129
 msgctxt "admin-text"
 msgid "Convert table engine to InnoDB"
 msgstr ""
 
-#: views/pages/tools/general.php:139
+#: views/pages/tools/general.php:145
 msgctxt "admin-text"
 msgid "Reset Assigned Meta Values"
 msgstr ""
 
-#: views/pages/tools/general.php:140
+#: views/pages/tools/general.php:146
 msgctxt "admin-text"
 msgid "Site Reviews stores the individual review count, average rating, and ranking for each assigned post, category, and user. If you suspect that these meta values are incorrect (perhaps you cloned a page that had reviews assigned to it), you may use this tool to recalculate them."
 msgstr ""
 
-#: views/pages/tools/general.php:146
+#: views/pages/tools/general.php:152
 msgctxt "admin-text"
 msgid "Resetting values, please wait..."
 msgstr ""
 
-#: views/pages/tools/general.php:146
+#: views/pages/tools/general.php:152
 msgctxt "admin-text"
 msgid "Reset Meta Values"
 msgstr ""
 
-#: views/pages/tools/general.php:153, views/pages/tools/general.php:165
+#: views/pages/tools/general.php:159, views/pages/tools/general.php:171
 msgctxt "admin-text"
 msgid "Reset Permissions"
 msgstr ""
 
-#: views/pages/tools/general.php:155
+#: views/pages/tools/general.php:161
 msgctxt "admin-text"
 msgid "Hold down the ALT/Option key to perform a \"Hard Reset\"; this removes all Site Reviews capabilites from your Editor, Author, and Contributor roles before re-adding them."
 msgstr ""
 
-#: views/pages/tools/general.php:157
+#: views/pages/tools/general.php:163
 msgctxt "admin-text"
 msgid "Site Reviews provides custom post_type capabilities that mirror the capabilities of your posts by default. For example, if a user role has permission to edit others posts, then that role will also have permission to edit other users reviews."
 msgstr ""
 
-#: views/pages/tools/general.php:158
+#: views/pages/tools/general.php:164
 msgctxt "admin-text"
 msgid "If you have changed the capabilities of your user roles (Administrator, Editor, Author, and Contributor) and you suspect that Site Reviews is not working correctly due to your changes, you may use this tool to reset the Site Reviews capabilities for your user roles."
 msgstr ""
 
-#: views/pages/tools/general.php:165
+#: views/pages/tools/general.php:171
 msgctxt "admin-text"
 msgid "Hard Reset Permissions"
 msgstr ""
 
-#: views/pages/tools/general.php:165
+#: views/pages/tools/general.php:171
 msgctxt "admin-text"
 msgid "Resetting, please wait..."
 msgstr ""
 
-#: views/pages/tools/general.php:174
+#: views/pages/tools/general.php:180
 msgctxt "admin-text"
 msgid "Test IP Address Detection"
 msgstr ""
 
-#: views/pages/tools/general.php:175
+#: views/pages/tools/general.php:181
 msgctxt "admin-text"
 msgid "When reviews are submitted on your website, Site Reviews detects the IP address of the person submitting the review and saves it to the submitted review. This allows you to limit review submissions or to blacklist reviewers based on their IP address. The IP address is also used by Akismet (if you have enabled the integration) to catch spam submissions."
 msgstr ""
 
-#: views/pages/tools/general.php:176
+#: views/pages/tools/general.php:182
 msgctxt "admin-text"
 msgid "If you are getting an \"unknown\" value for IP addresses in your reviews, you may use this tool to check the visitor IP address detection."
 msgstr ""
 
-#: views/pages/tools/general.php:182
+#: views/pages/tools/general.php:188
 msgctxt "admin-text"
 msgid "Testing, please wait..."
 msgstr ""
 
-#: views/pages/tools/general.php:182
+#: views/pages/tools/general.php:188
 msgctxt "admin-text"
 msgid "Test Detection"
 msgstr ""
@@ -3083,11 +3083,11 @@ msgctxt "screen reader text"
 msgid "Site Reviews navigation"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/StarRating.php:42
+#: plugin/Modules/Html/Partials/StarRating.php:28
 msgid "Rated <strong>%s</strong> out of %s based on %s ratings"
 msgstr ""
 
-#: plugin/Modules/Html/Partials/StarRating.php:43
+#: plugin/Modules/Html/Partials/StarRating.php:29
 msgid "Rated <strong>%s</strong> out of %s"
 msgstr ""
 

@@ -99,6 +99,12 @@
 <div class="glsr-card card">
     <h3><?= _x('Optimise Your Database Tables', 'admin-text', 'site-reviews'); ?></h3>
     <?php if (!empty($myisam_tables)) { ?>
+        <div class="components-notice is-warning">
+            <p class="components-notice__content"><?= sprintf(
+                _x('Please backup your database before running this tool! You can use the %s plugin to do this.', 'admin-text', 'site-reviews'),
+                '<a href="https://wordpress.org/plugins/updraftplus/">UpdraftPlus</a>'
+            ); ?></p>
+        </div>
         <p><?= _x('The old MyISAM table engine in MySQL was replaced by the InnoDB engine as the default over 10 years ago! If your database tables still use the MyISAM engine, you are missing out on substantial performance and reliability gains that the InnoDB engine provides.', 'admin-text', 'site-reviews'); ?></p>
         <p><?= _x('Site Reviews makes use of specific InnoDB engine features in order to perform faster database queries. However, some of your database tables (shown below) are still using the old MyISAM engine. If you convert these tables to use the InnoDB engine, it will make Site Reviews perform faster.', 'admin-text', 'site-reviews'); ?></p>
         <table class="wp-list-table widefat striped" style="margin-bottom:1em;">
