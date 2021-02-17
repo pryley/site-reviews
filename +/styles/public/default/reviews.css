@@ -163,16 +163,3 @@
 :--namespace .glsr-review > .glsr-review-response {
     margin-top: var(--glsr-base-font-size);
 }
-
-/* Custom fields */
-
-:--namespace .glsr-review > div:not([class]) {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: var(--glsr-base-font-size);
-    width: 100%;
-}
-:--namespace .glsr-review > [class*=glsr-custom-] {
-    display: inline-flex;
-    margin-top: var(--glsr-base-font-size);
-}
