@@ -52,6 +52,14 @@ class Arguments extends \ArrayObject
     }
 
     /**
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return empty($this->toArray());
+    }
+
+    /**
      * @return self
      */
     public function merge(array $data = [])
