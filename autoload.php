@@ -32,6 +32,7 @@ spl_autoload_register(function ($className) {
         'GeminiLabs\\League\\Csv\\' => __DIR__.'/vendors/thephpleague/csv/',
         'GeminiLabs\\Sepia\\PoParser\\' => __DIR__.'/vendors/sepia/po-parser/',
         'GeminiLabs\\Sinergi\\BrowserDetector\\' => __DIR__.'/vendors/sinergi/browser-detector/',
+        'GeminiLabs\\Symfony\\Polyfill\\Ctype\\' => __DIR__.'/vendors/symfony/polyfill-ctype/',
         'GeminiLabs\\Symfony\\Polyfill\\Mbstring\\' => __DIR__.'/vendors/symfony/polyfill-mbstring/',
         'GeminiLabs\\Vectorface\\Whip\\' => __DIR__.'/vendors/vectorface/whip/',
     ];
