@@ -133,6 +133,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
+= 5.7.1 (2021-02-18) =
+
+- Fixed support for PHP compiled without a built-in ctype extension (i.e. FreeBSD servers)
+
 = 5.7.0 (2021-02-16) =
 
 - Added a custom Event Emitter which will allow you to manually initialise the Site Reviews javascript after the DOMContentLoaded event has fired or from Popup events (see: [EVENTS.md](https://github.com/pryley/site-reviews/blob/master/EVENTS.md).

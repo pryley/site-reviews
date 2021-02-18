@@ -3,6 +3,14 @@
 defined('ABSPATH') || die;
 
 /**
+ * Provide a partial, native PHP implementation for the Ctype extension.
+ * @see https://github.com/symfony/polyfill-ctype
+ */
+if (!extension_loaded('ctype')) {
+    require_once __DIR__.'/vendors/symfony/polyfill-ctype/bootstrap.php';
+}
+
+/**
  * Provide a partial, native PHP implementation for the Mbstring extension.
  * @see https://github.com/symfony/polyfill-mbstring
  */
