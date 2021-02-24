@@ -1,5 +1,8 @@
 /*Form Toggle*/
 :--namespace form.glsr-form .glsr-field-toggle {
+    display: flex;
+}
+:--namespace form.glsr-form .glsr-toggle {
     align-items: flex-start;
     display: inline-flex;
     flex-direction: row-reverse;
