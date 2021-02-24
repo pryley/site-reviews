@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews
 Tested up to: 5.6
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.7.2
+Stable tag: 5.7.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -136,6 +136,8 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 = 5.7.3 (2021-02-24) =
 
 - Fixed Elementor Pro popup support
+- Fixed the "Minimal" plugin style of the toggle
+- Fixed validation event listeners
 
 = 5.7.2 (2021-02-18) =
 
