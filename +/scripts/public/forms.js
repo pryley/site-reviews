@@ -33,6 +33,7 @@ SingleForm.prototype = {
     destroyForm: function () {
         this.form.removeEventListener('submit', this.events.submit);
         this.resetErrors_();
+        this.validation.destroy();
     },
 
     /** @return void */
@@ -60,6 +61,7 @@ SingleForm.prototype = {
     initForm: function () {
         this.destroyForm();
         this.form.addEventListener('submit', this.events.submit);
+        this.validation.init();
     },
 
     /** @return void */

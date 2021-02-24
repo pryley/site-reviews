@@ -65,14 +65,13 @@ const Validation = function (formEl) { // HTMLElement
     this.form = formEl;
     this.form.setAttribute('novalidate', '');
     this.strings = GLSR.validationstrings;
-    this.init();
+    this.validateEvent = this.onChange_.bind(this);
 };
 
 Validation.prototype = {
     ALLOWED_ATTRIBUTES_: ['required', 'max', 'maxlength', 'min', 'minlength', 'pattern'],
     SELECTOR_: 'input:not([type^=hidden]):not([type^=submit]), select, textarea, [data-glsr-validate]',
 
-    /** @return void */
     destroy: function () {
         this.reset_();
         while (this.fields.length) {
@@ -82,7 +81,6 @@ Validation.prototype = {
         }
     },
 
-    /** @return void */
     init: function () {
         [].forEach.call(this.form.querySelectorAll(this.SELECTOR_), field => {
             if (this.fields.find(item => item.input.name === field.name)) return;
@@ -93,12 +91,10 @@ Validation.prototype = {
         });
     },
 
-    /** @return void */
     addEvent_: function (input) {
-        input.addEventListener(this.getEventName_(input), this.validate_.bind(this, input));
+        input.addEventListener(this.getEventName_(input), this.validateEvent);
     },
 
-    /** @return void */
     addValidators_: function (attributes, fns, params) {
         [].forEach.call(attributes, function (attr) {
             let name = attr.name.replace('data-', ''); // using data-* attributes we can simulate the requirement without the HTML5 restriction
@@ -111,7 +107,6 @@ Validation.prototype = {
         }.bind(this));
     },
 
-    /** @return void */
     addValidatorToField_: function (fns, params, name, value) {
         if (!validators[name]) return;
         validators[name].name = name;
@@ -123,12 +118,14 @@ Validation.prototype = {
         }
     },
 
-    /** @return void */
-    removeEvent_: function (input) {
-        input.removeEventListener(this.getEventName_(input), this.validate_.bind(this, input));
+    onChange_: function (ev) {
+        this.validate_(ev.currentTarget)
     },
 
-    /** @return void */
+    removeEvent_: function (input) {
+        input.removeEventListener(this.getEventName_(input), this.validateEvent);
+    },
+
     reset_: function () {
         for (var i in this.fields) { // remove input error classes
             if (!this.fields.hasOwnProperty(i)) continue;
@@ -141,14 +138,12 @@ Validation.prototype = {
         }
     },
 
-    /** @return string */
     getEventName_: function (input) {
         return ~['radio', 'checkbox'].indexOf(input.getAttribute('type')) || input.nodeName === 'SELECT'
             ? 'change'
             : 'input';
     },
 
-    /** @return object */
     initField_: function (inputEl) {
         var params = {};
         var rules = [];
@@ -165,7 +160,6 @@ Validation.prototype = {
         };
     },
 
-    /** @return void */
     toggleError_: function (field, isShowingError) {
         let fieldEl = field.input.closest(classListSelector(this.config.field));
         addRemoveClass(field.input, this.config.input_error, isShowingError);
@@ -179,7 +173,6 @@ Validation.prototype = {
         }
     },
 
-    /** @return void */
     setErrors_: function (inputEl, errors) {
         if (inputEl.hasOwnProperty('validation')) {
             this.initField_(inputEl);
@@ -187,12 +180,10 @@ Validation.prototype = {
         inputEl.validation.errors = errors;
     },
 
-    /** @return void */
     sortValidators_: function (fns) {
         fns.sort((a, b) => (b.priority || 1) - (a.priority || 1));
     },
 
-    /** @return bool */
     validate_: function (input) {
         var isValid = true;
         var fields = this.fields;
@@ -213,7 +204,6 @@ Validation.prototype = {
         return isValid;
     },
 
-    /** @return bool */
     validateField_: function (field) {
         var errors = [];
         var isValid = true;
