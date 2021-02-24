@@ -44,7 +44,6 @@ SingleForm.prototype = {
     destroyStarRatings: function () {
         if (this.stars) {
             this.stars.destroy();
-            delete this.stars;
         }
     },
 
@@ -70,8 +69,11 @@ SingleForm.prototype = {
 
     /** @return void */
     initStarRatings: function () {
-        this.destroyStarRatings();
-        this.stars = new StarRating(this.form.querySelectorAll('.glsr-field-rating select'), GLSR.stars);
+        if (null !== this.stars) {
+            this.stars.rebuild();
+        } else {
+            this.stars = new StarRating(this.form.querySelectorAll('.glsr-field-rating select'), GLSR.stars);
+        }
     },
 
     /** @return void */

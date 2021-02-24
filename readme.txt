@@ -133,6 +133,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
+= 5.7.3 (2021-02-24) =
+
+- Fixed Elementor Pro popup support
+
 = 5.7.2 (2021-02-18) =
 
 - Fixed support for PHP compiled without a built-in ctype extension (i.e. FreeBSD servers)

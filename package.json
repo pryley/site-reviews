@@ -3,10 +3,10 @@
     "autosize": "^4.0.2",
     "body-scroll-lock": "^3.1.5",
     "prismjs": "^1.23.0",
-    "star-rating.js": "^4.1.1"
+    "star-rating.js": "^4.1.2"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "^7.12.16",
+    "@babel/plugin-proposal-optional-chaining": "^7.13.0",
     "@wordpress/babel-preset-default": "^5.0.1",
     "babel-plugin-prismjs": "^2.0.1",
     "browser-sync": "^2.26.14",
@@ -18,7 +18,7 @@
     "gulp-pottopo": "^1.0.1",
     "gulp-sort": "^2.0.0",
     "gulp-wp-pot": "^2.5.0",
-    "laravel-mix": "^6.0.11",
+    "laravel-mix": "^6.0.13",
     "laravel-mix-bundle-analyzer": "^1.0.5",
     "postcss-calc": "^8.0.0",
     "postcss-custom-properties": "^11.0.0",
@@ -27,7 +27,7 @@
     "postcss-selector-namespace": "github:pryley/postcss-selector-namespace#master",
     "precss": "^4.0.0",
     "pump": "^3.0.0",
-    "sass": "^1.32.7",
+    "sass": "^1.32.8",
     "sass-loader": "^11.0.1",
     "yamljs": "^0.3.0",
     "yargs": "^16.2.0"
