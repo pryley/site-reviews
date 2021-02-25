@@ -170,6 +170,19 @@ add_action('site-reviews/review/created', function ($review, $command) {
 }, 10, 2);
 
 /**
+ * Purge the SiteGround page cache after a review has been created.
+ * @param \GeminiLabs\SiteReviews\Review $review
+ * @param \GeminiLabs\SiteReviews\Commands\CreateReview $command
+ * @return void
+ * @see https://wordpress.org/plugins/sg-cachepress/
+ */
+add_action('site-reviews/review/created', function ($review, $command) {
+    if (function_exists('sg_cachepress_purge_cache')) {
+        sg_cachepress_purge_cache(get_permalink($command->post_id));
+    }
+}, 10, 2);
+
+/**
  * Purge the WP-Optimize page cache after a review has been created.
  * @param \GeminiLabs\SiteReviews\Review $review
  * @param \GeminiLabs\SiteReviews\Commands\CreateReview $command
