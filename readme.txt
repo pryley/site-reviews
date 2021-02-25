@@ -135,8 +135,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 = 5.7.3 (2021-02-24) =
 
-- Fixed Elementor Pro popup support
-- Fixed the "Minimal" plugin style of the toggle
+- Fixed compatibility with Elementor Pro popups
+- Fixed compatibility with SG Optimiser
+- Fixed compatibility with WPForms
+- Fixed the toggle alignment in the "Minimal" plugin style
 - Fixed validation event listeners
 
 = 5.7.2 (2021-02-18) =
