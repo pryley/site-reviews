@@ -196,6 +196,19 @@ add_action('site-reviews/review/created', function ($review, $command) {
 }, 10, 2);
 
 /**
+ * Load the WPForms stylesheet when using the WPForms plugin style
+ * @param string $template
+ * @return string
+ * @see https://wordpress.org/plugins/wpforms-lite/
+ */
+add_filter('site-reviews/build/template/reviews-form', function ($template) {
+    if ('wpforms' === glsr_get_option('general.style')) {
+        add_filter('wpforms_global_assets', '__return_true');
+    }
+    return $template;
+});
+
+/**
  * Fix Star Rating control when review form is used inside an Elementor Pro Popup
  * @return void
  * @see https://elementor.com/
