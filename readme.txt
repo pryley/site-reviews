@@ -133,6 +133,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
+= 5.7.4 (2021-03-02) =
+
+- Fixed review star CSS
+
 = 5.7.3 (2021-02-24) =
 
 - Fixed compatibility with Elementor Pro popups

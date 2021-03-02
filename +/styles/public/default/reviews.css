@@ -89,6 +89,7 @@
 }
 :root .glsr .glsr-star {
     background-size: var(--glsr-star-size);
+    flex-shrink: 0;
     font-size: inherit;
     height: var(--glsr-star-size);
     width: var(--glsr-star-size);
