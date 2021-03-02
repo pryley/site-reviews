@@ -24,10 +24,10 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 ### Functionality
 
-- [ ] Review Adjuster (drag-drop order of review details)
 - [ ] Review Authors (allow people to update their submitted reviews)
 - [ ] Review Importer (from 3rd-party WordPress review plugins)
 - [ ] Review Snitch (flag reviews as inappropriate)
+- [x] Review Themes
 - [ ] Review Threads
 - [ ] Review Upvotes
 - [ ] Review Sharing
