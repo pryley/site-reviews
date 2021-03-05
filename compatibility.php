@@ -140,6 +140,24 @@ add_action('site-reviews/migration/end', function () {
 });
 
 /**
+ * Purge the WP Rocket plugin cache of assigned posts after a review has been created.
+ * @param \GeminiLabs\SiteReviews\Review $review
+ * @param \GeminiLabs\SiteReviews\Commands\CreateReview $command
+ * @return void
+ * @see https://docs.wp-rocket.me/article/93-rocketcleanpost
+ */
+add_action('site-reviews/review/created', function ($review, $command) {
+    if (!function_exists('rocket_clean_post')) {
+        return;
+    }
+    foreach ($command->assigned_posts as $postId) {
+        if ($postId != $command->post_id) {
+            rocket_clean_post($postId);
+        }
+    }
+}, 10, 2);
+
+/**
  * Purge the WP-Super-Cache plugin cache after a review has been created.
  * @param \GeminiLabs\SiteReviews\Review $review
  * @param \GeminiLabs\SiteReviews\Commands\CreateReview $command
