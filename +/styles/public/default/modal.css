@@ -1,10 +1,13 @@
 :root .glsr-modal {
     display: none;
+    pointer-events: none;
     position: relative;
-    z-index: 1000000; /* this z-index is higher than #wpadminbar and blackbar */
+    z-index: -1;
 }
 :root .glsr-modal.is-open {
     display: block;
+    pointer-events: auto;
+    z-index: 1000000; /* this z-index is higher than #wpadminbar and blackbar */
 }
 :root .glsr-modal__overlay {
     align-items: center;
