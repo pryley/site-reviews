@@ -18,6 +18,7 @@ import Sync from './admin/sync.js';
 import Tabs from './admin/tabs.js';
 import TextareaResize from './admin/textarea-resize.js';
 import Tools from './admin/tools.js';
+import tippy, {followCursor} from 'tippy.js';
 
 GLSR.autosize = autosize;
 GLSR.keys = {
@@ -28,6 +29,8 @@ GLSR.keys = {
     SPACE: 32,
     UP: 38,
 };
+
+GLSR.Tippy = { tippy, plugins: { followCursor }}
 
 jQuery(function ($) {
     Prism.highlightAll();

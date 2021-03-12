@@ -1,0 +1,56 @@
+$arrow-size: 16px;
+$color: #2c3338;
+
+body[class*="type-site-review"] [data-tippy-root] {
+  max-width: calc(100vw - 10px);
+}
+
+body[class*="type-site-review"] .tippy-box {
+  background-color: $color;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+  line-height: 1.4;
+  outline: 0;
+  position: relative;
+  transition-property: transform, visibility, opacity;
+}
+
+body[class*="type-site-review"] .tippy-box[data-animation='fade'][data-state='hidden'] {
+  opacity: 0;
+}
+
+body[class*="type-site-review"] .tippy-box[data-placement^='top'] > .tippy-arrow {
+  bottom: 0;
+}
+
+body[class*="type-site-review"] .tippy-box[data-placement^='top'] > .tippy-arrow::before {
+  border-top-color: initial;
+  border-width: 8px 8px 0;
+  bottom: -7px;
+  left: 0;
+  transform-origin: center top;
+}
+
+body[class*="type-site-review"] .tippy-box[data-inertia][data-state='visible'] {
+  transition-timing-function: cubic-bezier(0.54, 1.5, 0.38, 1.11);
+}
+
+body[class*="type-site-review"] .tippy-arrow {
+  color: $color;
+  height: $arrow-size;
+  width: $arrow-size;
+}
+
+body[class*="type-site-review"] .tippy-arrow::before {
+  border-color: transparent;
+  border-style: solid;
+  content: '';
+  position: absolute;
+}
+
+body[class*="type-site-review"] .tippy-content {
+  padding: 5px 9px;
+  position: relative;
+  z-index: 1;
+}

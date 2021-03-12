@@ -3,7 +3,8 @@
     "autosize": "^4.0.2",
     "body-scroll-lock": "^3.1.5",
     "prismjs": "^1.23.0",
-    "star-rating.js": "^4.1.2"
+    "star-rating.js": "^4.1.2",
+    "tippy.js": "^6.3.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.13.0",
