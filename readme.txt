@@ -2,7 +2,7 @@
 Contributors: geminilabs, pryley
 Donate link: https://www.paypal.me/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews
-Tested up to: 5.6
+Tested up to: 5.7
 Requires at least: 5.5
 Requires PHP: 5.6
 Stable tag: 5.7.4
