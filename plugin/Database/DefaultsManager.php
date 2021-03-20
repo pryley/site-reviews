@@ -55,8 +55,12 @@ class DefaultsManager
      */
     public function settings()
     {
-        $settings = glsr()->filterArray('addon/settings', glsr()->config('settings'));
-        return $this->normalize($settings);
+        static $settings;
+        if (empty($settings)) {
+            $settings = glsr()->filterArray('addon/settings', glsr()->config('settings'));
+            $settings = $this->normalize($settings);
+        }
+        return $settings;
     }
 
     /**
