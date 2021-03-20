@@ -189,7 +189,9 @@ abstract class Controller extends BaseController
     {
         $settingsFile = $this->addon->path('config/settings.php');
         if (file_exists($settingsFile)) {
-            $settings = array_merge((include $settingsFile), $settings);
+            $addonSettings = include $settingsFile;
+            $addonSettings = $this->addon->filterArray('settings', $addonSettings);
+            $settings = array_merge($addonSettings, $settings);
         }
         return $settings;
     }
