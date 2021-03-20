@@ -645,10 +645,10 @@ msgstr "Send Emails From"
 #: config/settings.php:94
 msgctxt "admin-text"
 msgid ""
-"If emails are not sending, make sure the this email address uses the same "
+"If emails are not sending, make sure that this email address uses the same "
 "domain as your website."
 msgstr ""
-"If emails are not sending, make sure the this email address uses the same "
+"If emails are not sending, make sure that this email address uses the same "
 "domain as your website."
 
 #: config/settings.php:102

@@ -315,7 +315,7 @@ msgstr ""
 
 #: config/settings.php:94
 msgctxt "admin-text"
-msgid "If emails are not sending, make sure the this email address uses the same domain as your website."
+msgid "If emails are not sending, make sure that this email address uses the same domain as your website."
 msgstr ""
 
 #: config/settings.php:102

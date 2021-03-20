@@ -10,6 +10,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Add a time constraint to review limits
 - [ ] Add Initial REST API support for querying reviews
 - [ ] Add Elementor blocks
+- [ ] restrict displayed reviews by empty content (setting only?)
 - [ ] Allow review submissions without javascript (ref: comment form)
 - [ ] Integrate with Antispam Bee (https://wordpress.org/plugins/antispam-bee/)
 - [ ] Integrate with hCaptcha

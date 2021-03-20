@@ -91,7 +91,7 @@ return [
         ],
         'label' => _x('Send Emails From', 'admin-text', 'site-reviews'),
         'placeholder' => get_option('admin_email'),
-        'tooltip' => _x('If emails are not sending, make sure the this email address uses the same domain as your website.', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('If emails are not sending, make sure that this email address uses the same domain as your website.', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
     'settings.general.notification_email' => [
