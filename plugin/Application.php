@@ -59,6 +59,18 @@ final class Application extends Container
     protected $name;
 
     /**
+     * @param string $addonId
+     * @return false|\GeminiLabs\SiteReviews\Addons\Addon
+     */
+    public function addon($addonId)
+    {
+        if (isset($this->addons[$addonId])) {
+            return $this->addons[$addonId];
+        }
+        return false;
+    }
+
+    /**
      * @param string $capability
      * @return bool
      */
