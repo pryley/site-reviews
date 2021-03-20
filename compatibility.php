@@ -227,6 +227,16 @@ add_filter('site-reviews/build/template/reviews-form', function ($template) {
 });
 
 /**
+ * Remove the "Launch Thrive Architect" button from reviews
+ * @return array
+ * @see https://thrivethemes.com/architect/
+ */
+add_filter('tcb_post_types', function ($blacklist) {
+    $blacklist[] = glsr()->post_type;
+    return $blacklist;
+});
+
+/**
  * Fix Star Rating control when review form is used inside an Elementor Pro Popup
  * @return void
  * @see https://elementor.com/
