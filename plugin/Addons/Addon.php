@@ -10,6 +10,7 @@ use ReflectionClass;
  * @property string $file
  * @property string $id
  * @property string $languages
+ * @property bool $licensed
  * @property string $name
  * @property string $slug
  * @property string $testedTo
@@ -22,6 +23,7 @@ abstract class Addon
     use Plugin;
 
     const ID = '';
+    const LICENSED = false;
     const NAME = '';
     const SLUG = '';
     const UPDATE_URL = '';
