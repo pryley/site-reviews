@@ -50,7 +50,9 @@
 :root [aria-hidden="true"] .glsr-modal__dialog {
   animation: glsr-zoomOut .3s cubic-bezier(0, 0, .2, 1);
 }
-
+:root [aria-hidden="true"] .glsr-modal__close {
+    display: none !important;
+}
 :root .glsr-modal__close,
 :root .glsr-modal__close:hover,
 :root .glsr-modal__close:focus {
