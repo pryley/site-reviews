@@ -193,6 +193,20 @@ abstract class Controller extends BaseController
             $addonSettings = $this->addon->filterArray('settings', $addonSettings);
             $settings = array_merge($addonSettings, $settings);
         }
+        if ($this->addon->licensed) {
+            $license = [
+                'settings.licenses.'.$this->addon->id => [
+                    'class' => 'regular-text',
+                    'default' => '',
+                    'label' => $this->addon->name,
+                    'tooltip' => sprintf(_x('Make sure to first activate your website domain with your license before adding it here. You can do this by visiting the %s page on your Nifty Plugins account and clicking the "Manage Sites" button.', 'admin-text', 'site-reviews'),
+                        sprintf('<a href="https://niftyplugins.com/account/license-keys/" target="_blank">%s</a>', _x('License Keys', 'admin-text', 'site-reviews'))
+                    ),
+                    'type' => 'text',
+                ],
+            ];
+            $settings = array_merge($license, $settings);
+        }
         return $settings;
     }
 
