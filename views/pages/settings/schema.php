@@ -2,13 +2,9 @@
 
 <h2 class="title"><?= _x('JSON-LD Schema Settings', 'admin-text', 'site-reviews'); ?></h2>
 
-<p><?php
-    printf(_x('Schema is disabled by default. To enable it, use the schema option in your blocks or shortcodes. All of the options below may be overriden on a per-page basis by using its Custom Field name in the %s metabox.', 'admin-text', 'site-reviews'),
-        sprintf('<a href="https://codex.wordpress.org/Using_Custom_Fields#Usage" target="_blank">%s</a>', _x('Custom Fields', 'admin-text', 'site-reviews'))
-    );
-?></p>
-<p><?php
-    printf(_x('The (JSON-LD) schema is used to display rich review snippets in Google\'s search results. If the schema has been enabled, you can use the %s tool to test your pages for valid schema.', 'admin-text', 'site-reviews'),
+<p>
+    <?= _x('The (JSON-LD) schema is disabled by default. To enable it, use the schema option in your blocks or shortcodes.', 'admin-text', 'site-reviews'); ?>
+    <?= sprintf(_x('The schema is used to display rich review snippets in Google\'s search results. If the schema has been enabled, you can use the %s tool to test your pages for valid schema.', 'admin-text', 'site-reviews'),
         sprintf('<a href="https://search.google.com/test/rich-results" target="_blank">%s</a>', _x('Google Rich Results', 'admin-text', 'site-reviews'))
     );
 ?></p>
