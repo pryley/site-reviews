@@ -3,18 +3,18 @@
 // =============================================================================
 
 select[data-glsr-track="minimal"] {
-    border-color: #ffb900 !important;
-    color: darken(#ffb900, 5) !important;
+    border-color: #dba617 !important;
+    color: darken(#dba617, 5) !important;
 }
 select[data-glsr-track="minimal"]:focus {
-    box-shadow: 0 0 0 1px #ffb900;
+    box-shadow: 0 0 0 1px #dba617;
 }
 select[data-glsr-track="all"] {
-    border-color: #dc3232 !important;
-    color: #dc3232 !important;
+    border-color: #d63638 !important;
+    color: #d63638 !important;
 }
 select[data-glsr-track="all"]:focus {
-    box-shadow: 0 0 0 1px #dc3232;
+    box-shadow: 0 0 0 1px #d63638;
 }
 
 td.glsr-string-td1 {
@@ -37,7 +37,7 @@ td.glsr-string-td2 .description {
 }
 
 .is-invalid td.glsr-string-td2 .description {
-    color: #dc3232;
+    color: #d63638;
 }
 
 .no-js td.glsr-string-td1 .row-actions,
@@ -220,14 +220,14 @@ td.glsr-string-td1 .row-actions.visible {
     color: #32373c;
     font-weight: 500;
     margin-left: 0.5rem;
-    border: 1px solid #ffb900; /*orange*/
-    border: 1px solid #46b450; /*green*/
-    border: 1px solid #826eb4; /*purple*/
-    border: 1px solid #ccd0d4; /*gray*/
-    border: 1px solid #bfe7f3; /*blue*/
+    // border: 1px solid #dba617; /*orange*/
+    // border: 1px solid #00ba37; /*green*/
+    // border: 1px solid #826eb4; /*purple*/
+    // border: 1px solid #c3c4c7; /*gray*/
+    border: 1px solid #9ec2e6; /*blue*/
 }
 .glsr-accordion-trigger .badge.important {
-    border: 1px solid #dc3232; /*red*/
+    border: 1px solid #d63638; /*red*/
 }
 @media screen and (max-width: 782px) {
     .glsr-accordion-trigger {
@@ -350,6 +350,25 @@ td.glsr-string-td1 .row-actions.visible {
 /* Field
  ------------------------- */
 
+.glsr-tooltip {
+    color: #646970;
+    cursor: help;
+    margin-left: 6px;
+}
+tr.glsr-setting-field th {
+    width: 210px;
+}
+tr.glsr-setting-field th .tippy-box {
+    font-weight: 400;
+}
+
+@media only screen and (min-width: 783px) {
+    .glsr-tooltip {
+        float: left;
+        margin-left: 0;
+        margin-right: 6px;
+    }
+}
 tr.glsr-setting-field td .inline br {
     display: none;
 }

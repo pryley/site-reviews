@@ -19,8 +19,10 @@ class TemplateTags
      */
     protected function formatTags(array $tags)
     {
-        return array_reduce(array_keys($tags), function ($carry, $tag) use ($tags) {
-            return $carry.sprintf('<br><code>{%s}</code> %s', $tag, $tags[$tag]);
-        });
+        $result = [];
+        foreach ($tags as $tag => $description) {
+            $result[] = sprintf('<code>{%s}</code> %s', $tag, $description);
+        }
+        return implode('<br>', $result);
     }
 }

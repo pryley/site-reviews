@@ -15,6 +15,7 @@ class SettingField extends Field
             'is_raw' => false,
             'is_valid' => true,
             'path' => '',
+            'tooltip' => '',
         ]);
         $this->normalize();
     }
@@ -67,12 +68,35 @@ class SettingField extends Field
             'context' => [
                 'class' => $this->getFieldClasses(),
                 'field' => $this->builder()->{$this->field['type']}($this->field),
-                'label' => $this->builder()->label([
-                    'for' => $this->field['id'],
-                    'text' => $this->field['legend'],
-                ]),
+                'label' => $this->buildLabelWithTooltip(),
             ],
             'field' => $this->field,
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    protected function buildLabelWithTooltip()
+    {
+        $text = $this->field['legend'];
+        if (!empty($this->field['tooltip'])) {
+            $text .= $this->builder()->span([
+                'class' => 'glsr-tooltip dashicons-before dashicons-editor-help',
+                'data-tippy-allowHTML' => true,
+                // 'data-tippy-animation' => 'scale',
+                'data-tippy-content' => $this->field['tooltip'],
+                'data-tippy-delay' => [150, null],
+                // 'data-tippy-inertia' => true,
+                'data-tippy-interactive' => true,
+                'data-tippy-offset' => [-10, 10],
+                'data-tippy-placement' => 'top-start',
+                // 'data-tippy-trigger' => 'click',
+            ]);
+        }
+        return $this->builder()->label([
+            'for' => $this->field['id'],
+            'text' => $text,
         ]);
     }
 
@@ -88,7 +112,7 @@ class SettingField extends Field
                 'class' => $this->getFieldClasses(),
                 'depends_on' => $dependsOn,
                 'field' => $this->builder()->{$this->field['type']}($this->field),
-                'label' => $this->field['legend'],
+                'label' => $this->buildLabelWithTooltip(),
                 'legend' => $this->field['legend'],
             ],
             'field' => $this->field,

@@ -37,6 +37,7 @@ jQuery(function ($) {
     GLSR.notices = new Notices();
     GLSR.shortcode = new Shortcode('.glsr-mce');
     GLSR.stars = new StarRating('select.glsr-star-rating', { tooltip: false });
+    GLSR.Tippy.tippy('.glsr-tooltip', {appendTo: () => document.body});
     ColorPicker();
     new Forms('form.glsr-form');
     new Metabox();
