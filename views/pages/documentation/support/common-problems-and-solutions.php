@@ -66,6 +66,10 @@
                 <p>You should almost never see this error. It is usually triggered when WordPress encounters an error when saving the review to the database. It may also be due to an error in a custom function that you have added to your theme's functions.php file that is triggered after a review is created.</p>
                 <p>If you encounter this error, please contact support for assistance.</p>
             </li>
+            <li>
+                <h4 style="font-size:15px;"><?= __('The review submission failed. Please notify the site administrator.', 'site-reviews'); ?></h4>
+                <p>This error is shown if you have added your own custom validation which is returning false. You can override this error with your own by returning an error message instead of <code>false</code> in your custom validation logic.</p>
+            </li>
         </ol>
         <p>Finally, in each case you should also check the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-console'); ?>">Tools &rarr; Console</a></code> page for any error messages that may have been logged as this will provide you additional information on the error and why it happened.</p>
     </div>
