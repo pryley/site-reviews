@@ -112,8 +112,12 @@ class ImportReviews extends Upload implements Contract
      */
     protected function validateRecord(array $record)
     {
-        return !empty($record['content'])
-            && glsr(Date::class)->isValid(Arr::get($record, 'date'), 'Y-m-d')
-            && glsr(Rating::class)->isValid(Arr::get($record, 'rating'));
+        $date = Arr::get($record, 'date');
+        $required = [
+            'date' => glsr(Date::class)->isValid($date) || glsr(Date::class)->isValid($date, 'Y-m-d'), // allow datetime
+            'content' => !empty($record['content']),
+            'rating' => glsr(Rating::class)->isValid(Arr::get($record, 'rating')),
+        ];
+        return count(array_filter($required)) === 3;
     }
 }
