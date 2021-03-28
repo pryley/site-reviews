@@ -10,7 +10,7 @@ class Notice
     /**
      * @param string $type
      * @param string|array|WP_Error $message
-     * @return void
+     * @return static
      */
     public function add($type, $message, array $args = [])
     {
@@ -20,33 +20,37 @@ class Notice
         $args['message'] = $message;
         $args['type'] = $type;
         add_settings_error(glsr()->id, '', json_encode($this->normalize($args)));
+        return $this;
     }
 
     /**
      * @param string|array|WP_Error $message
-     * @return void
+     * @return static
      */
     public function addError($message, array $args = [])
     {
         $this->add('error', $message, $args);
+        return $this;
     }
 
     /**
      * @param string|array|WP_Error $message
-     * @return void
+     * @return static
      */
     public function addSuccess($message, array $args = [])
     {
         $this->add('success', $message, $args);
+        return $this;
     }
 
     /**
      * @param string|array|WP_Error $message
-     * @return void
+     * @return static
      */
     public function addWarning($message, array $args = [])
     {
         $this->add('warning', $message, $args);
+        return $this;
     }
 
     /**
