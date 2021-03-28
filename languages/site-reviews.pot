@@ -817,12 +817,12 @@ msgctxt "admin-text"
 msgid "Review"
 msgstr ""
 
-#: config/settings.php:504, config/forms/metabox-fields.php:14, plugin/Controllers/PrivacyController.php:128, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:18
+#: config/settings.php:504, config/forms/metabox-fields.php:14, plugin/Controllers/PrivacyController.php:129, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:18
 msgctxt "admin-text"
 msgid "Name"
 msgstr ""
 
-#: config/settings.php:505, config/forms/metabox-fields.php:18, plugin/Controllers/PrivacyController.php:129, plugin/Defaults/PostTypeColumnDefaults.php:21, plugin/Defaults/RevisionFieldsDefaults.php:19
+#: config/settings.php:505, config/forms/metabox-fields.php:18, plugin/Controllers/PrivacyController.php:130, plugin/Defaults/PostTypeColumnDefaults.php:21, plugin/Defaults/RevisionFieldsDefaults.php:19
 msgctxt "admin-text"
 msgid "Email"
 msgstr ""
@@ -1131,7 +1131,7 @@ msgctxt "admin-text"
 msgid "Type"
 msgstr ""
 
-#: config/forms/metabox-fields.php:22, plugin/Controllers/PrivacyController.php:130, plugin/Defaults/PostTypeColumnDefaults.php:22, plugin/Defaults/RevisionFieldsDefaults.php:20
+#: config/forms/metabox-fields.php:22, plugin/Controllers/PrivacyController.php:131, plugin/Defaults/PostTypeColumnDefaults.php:22, plugin/Defaults/RevisionFieldsDefaults.php:20
 msgctxt "admin-text"
 msgid "IP Address"
 msgstr ""
@@ -1394,7 +1394,7 @@ msgctxt "admin-text"
 msgid "General"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:116, plugin/Controllers/PrivacyController.php:140, plugin/Defaults/PostTypeLabelDefaults.php:14, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
+#: plugin/Controllers/MenuController.php:116, plugin/Controllers/PrivacyController.php:141, plugin/Defaults/PostTypeLabelDefaults.php:14, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
 msgctxt "admin-text"
 msgid "Reviews"
 msgstr ""
@@ -1479,12 +1479,12 @@ msgctxt "admin-text"
 msgid "The email and associated name and IP address has been removed from all reviews, but the reviews themselves were not removed."
 msgstr ""
 
-#: plugin/Controllers/PrivacyController.php:126
+#: plugin/Controllers/PrivacyController.php:127
 msgctxt "admin-text"
 msgid "Review Title"
 msgstr ""
 
-#: plugin/Controllers/PrivacyController.php:127
+#: plugin/Controllers/PrivacyController.php:128
 msgctxt "admin-text"
 msgid "Review Content"
 msgstr ""
