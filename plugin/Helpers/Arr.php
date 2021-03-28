@@ -271,7 +271,7 @@ class Arr
     public static function unique(array $values)
     {
         return Helper::ifTrue(!static::isIndexedAndFlat($values), $values, function () use ($values) {
-            return array_values(array_filter(array_unique($values)));
+            return array_filter(array_unique($values));
         });
     }
 
@@ -282,7 +282,7 @@ class Arr
     public static function uniqueInt($values)
     {
         $values = array_filter(static::convertFromString($values), 'is_numeric');
-        return static::unique(array_values(array_map('absint', $values)));
+        return static::reindex(static::unique(array_values(array_map('absint', $values))));
     }
 
     /**

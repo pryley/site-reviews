@@ -26,7 +26,7 @@ class ReviewAssignedLinksTag extends ReviewTag
                     'text' => get_the_title($postId),
                 ]);
                 $usedIds[] = $postId;
-                $usedIds = Arr::unique($usedIds);
+                $usedIds = Arr::reindex(Arr::unique($usedIds));
             }
         }
         return $links;

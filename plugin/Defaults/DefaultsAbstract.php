@@ -270,7 +270,7 @@ abstract class DefaultsAbstract implements DefaultsContract
         $parsed = $defaults;
         foreach ($values as $key => $value) {
             if (!is_scalar($value) && isset($parsed[$key])) {
-                $parsed[$key] = Arr::unique($this->parse($value, $parsed[$key]));
+                $parsed[$key] = Arr::unique($this->parse($value, $parsed[$key])); // does not reindex
                 continue;
             }
             $parsed[$key] = $this->concatenate($key, $value);
