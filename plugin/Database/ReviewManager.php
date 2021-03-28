@@ -87,6 +87,7 @@ class ReviewManager
         $values = glsr()->args($command->toArray()); // this filters the values
         $postValues = [
             'comment_status' => 'closed',
+            'meta_input' => ['_submitted' => $command->request->toArray()], // save the original submitted request in metadata
             'ping_status' => 'closed',
             'post_content' => $values->content,
             'post_date' => $values->date,
