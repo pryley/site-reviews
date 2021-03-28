@@ -262,7 +262,9 @@ class SqlSchema
         $this->createAssignedTermsTable();
         $this->createAssignedUsersTable();
         $this->createRatingTable();
-        add_option(glsr()->prefix.'db_version', '1.0');
+        if ($this->tablesExist()) {
+            add_option(glsr()->prefix.'db_version', '1.0');
+        }
     }
 
     /**
@@ -434,5 +436,16 @@ class SqlSchema
             $engines[$result->ENGINE][] = $result->TABLE_NAME;
         }
         return $engines;
+    }
+
+    /**
+     * @return bool
+     */
+    public function tablesExist()
+    {
+        return $this->tableExists('assigned_posts')
+            && $this->tableExists('assigned_terms')
+            && $this->tableExists('assigned_users')
+            && $this->tableExists('ratings');
     }
 }
