@@ -1,6 +1,6 @@
 const events = {}
 
-const off = (name, fn) => {
+const off = function (name, fn) {
     const triggers = events[name] || []
     const liveTriggers = [];
     if (fn) {
@@ -17,11 +17,11 @@ const off = (name, fn) => {
     }
 }
 
-const on = (name, fn, context) => {
+const on = function (name, fn, context) {
     (events[name] || (events[name] = [])).push({ fn, context })
 }
 
-const once = (name, fn, context) => {
+const once = function (name, fn, context) {
     const listener = () => {
         off(name, listener)
         fn.apply(context, arguments)
@@ -30,7 +30,7 @@ const once = (name, fn, context) => {
     on(name, listener, context)
 }
 
-const trigger = (name) => {
+const trigger = function (name) {
     const data = [].slice.call(arguments, 1)
     const triggers = (events[name] || []).slice(); // shallow copy
     [].forEach.call(triggers, event => event.fn.apply(event.context, data))
