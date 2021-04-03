@@ -16,7 +16,7 @@
  */
 add_filter('site-reviews/enqueue/public/inline-script/after', function ($javascript) {
     return $javascript."
-    GLSR.on('site-reviews/form/handle', function (response, formEl) {
+    GLSR.Event.on('site-reviews/form/handle', function (response, formEl) {
         if (false !== response.errors) return;
         formEl.classList.add('glsr-hide-form');
         formEl.insertAdjacentHTML('afterend', '&lt;p&gt;' + response.message + '&lt;/p&gt;');
