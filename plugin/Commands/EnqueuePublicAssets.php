@@ -109,6 +109,7 @@ class EnqueuePublicAssets implements Contract
         ];
         $variables = glsr()->filterArray('enqueue/public/localize', $variables);
         wp_add_inline_script(glsr()->id, $this->buildInlineScript($variables), 'before');
+        wp_add_inline_script(glsr()->id, glsr()->filterString('enqueue/public/inline-script/after', ''));
     }
 
     /**

@@ -14,8 +14,8 @@
  * @param string $script
  * @return string
  */
-add_filter('site-reviews/enqueue/public/inline-script', function ($script) {
-    return $script."
+add_filter('site-reviews/enqueue/public/inline-script/after', function ($javascript) {
+    return $javascript."
     GLSR.on('site-reviews/form/handle', function (response, formEl) {
         if (false !== response.errors) return;
         formEl.classList.add('glsr-hide-form');
