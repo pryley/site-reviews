@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews
 Tested up to: 5.7
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.8.2
+Stable tag: 5.8.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -133,7 +133,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
-= 5.9.0 (2021-04-12) =
+= 5.8.3 (2021-04-12) =
 
 - Fixed widget compatibility with page builder plugins
 

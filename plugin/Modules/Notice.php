@@ -15,7 +15,7 @@ class Notice
     public function add($type, $message, array $args = [])
     {
         if (empty(array_filter([$message, $type]))) {
-            return;
+            return $this;
         }
         $args['message'] = $message;
         $args['type'] = $type;
