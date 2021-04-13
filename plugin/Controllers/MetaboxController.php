@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\MetaboxBuilder;
 use GeminiLabs\SiteReviews\Modules\Html\MetaboxField;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Review;
 
 class MetaboxController
@@ -204,11 +205,7 @@ class MetaboxController
             return;
         }
         $response = strval(Helper::filterInput('response'));
-        $response = trim(wp_kses($response, [
-            'a' => ['href' => [], 'rel' => [], 'target' => [], 'title' => []],
-            'em' => [],
-            'strong' => [],
-        ]));
+        $response = glsr(Sanitizer::class)->sanitizeTextHtml($response);
         glsr()->action('review/respond', $response, $review);
         glsr(Database::class)->metaSet($review->ID, 'response', $response);
     }

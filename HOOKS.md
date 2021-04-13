@@ -134,6 +134,7 @@
     site-reviews/reviews/fallback                           (string $fallback, array $args): string
     site-reviews/route/request                              (array $request, string $action, string $requestType): array
     site-reviews/router/unguarded-actions                   (array $unguardedActions): array
+    site-reviews/sanitize/allowed-html-tags                 (array $allowedHtml, array $allowedPostTags): array
     site-reviews/schema/<schema_type>                       (array $schema, array $args): array
     site-reviews/schema/all                                 (array $schemas): array
     site-reviews/schema/review                              (array $schema, Review $review, array $args): array

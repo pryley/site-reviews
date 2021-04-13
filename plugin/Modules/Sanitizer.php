@@ -19,7 +19,7 @@ class Sanitizer
      */
     protected $values;
 
-    public function __construct($values, $sanitizers)
+    public function __construct(array $values = [], array $sanitizers = [])
     {
         $this->sanitizers = $this->buildSanitizers(Arr::consolidate($sanitizers));
         $this->values = Arr::consolidate($values);
@@ -40,24 +40,10 @@ class Sanitizer
     }
 
     /**
-     * @return array
-     */
-    protected function buildSanitizers(array $sanitizers)
-    {
-        foreach ($sanitizers as $key => &$type) {
-            $method = Helper::buildMethodName($type, 'sanitize');
-            $type = method_exists($this, $method)
-                ? $method
-                : 'sanitizeText';
-        }
-        return $sanitizers;
-    }
-
-    /**
      * @param mixed $value
      * @return array
      */
-    protected function sanitizeArray($value)
+    public function sanitizeArray($value)
     {
         return Arr::consolidate($value);
     }
@@ -66,7 +52,7 @@ class Sanitizer
      * @param mixed $value
      * @return int[]
      */
-    protected function sanitizeArrayInt($value)
+    public function sanitizeArrayInt($value)
     {
         return Arr::uniqueInt(Cast::toArray($value));
     }
@@ -75,7 +61,7 @@ class Sanitizer
      * @param mixed $value
      * @return string[]
      */
-    protected function sanitizeArrayString($value)
+    public function sanitizeArrayString($value)
     {
         return array_filter(Cast::toArray($value), 'is_string');
     }
@@ -84,7 +70,7 @@ class Sanitizer
      * @param mixed $value
      * @return bool
      */
-    protected function sanitizeBool($value)
+    public function sanitizeBool($value)
     {
         return Cast::toBool($value);
     }
@@ -94,7 +80,7 @@ class Sanitizer
      * @param mixed $value
      * @return string
      */
-    protected function sanitizeDate($value)
+    public function sanitizeDate($value)
     {
         $date = strtotime(Cast::toString($value));
         if (false !== $date) {
@@ -107,7 +93,7 @@ class Sanitizer
      * @param mixed $value
      * @return string
      */
-    protected function sanitizeEmail($value)
+    public function sanitizeEmail($value)
     {
         return sanitize_email(Cast::toString($value));
     }
@@ -116,7 +102,7 @@ class Sanitizer
      * @param mixed $value
      * @return string
      */
-    protected function sanitizeId($value)
+    public function sanitizeId($value)
     {
         require_once ABSPATH.WPINC.'/pluggable.php';
         $value = $this->sanitizeSlug($value);
@@ -130,7 +116,7 @@ class Sanitizer
      * @param mixed $value
      * @return int
      */
-    protected function sanitizeInt($value)
+    public function sanitizeInt($value)
     {
         return Cast::toInt($value);
     }
@@ -139,7 +125,7 @@ class Sanitizer
      * @param mixed $value
      * @return string
      */
-    protected function sanitizeKey($value)
+    public function sanitizeKey($value)
     {
         return Str::snakeCase(sanitize_key($this->sanitizeText($value)));
     }
@@ -148,7 +134,7 @@ class Sanitizer
      * @param mixed $value
      * @return string
      */
-    protected function sanitizeSlug($value)
+    public function sanitizeSlug($value)
     {
         return sanitize_title($this->sanitizeText($value));
     }
@@ -157,7 +143,7 @@ class Sanitizer
      * @param mixed $value
      * @return string
      */
-    protected function sanitizeText($value)
+    public function sanitizeText($value)
     {
         return sanitize_text_field(Cast::toString($value));
     }
@@ -166,7 +152,23 @@ class Sanitizer
      * @param mixed $value
      * @return string
      */
-    protected function sanitizeTextMultiline($value)
+    public function sanitizeTextHtml($value)
+    {
+        global $allowedposttags;
+        $allowedHtml = [
+            'a' => glsr_get($allowedposttags, 'a'),
+            'em' => glsr_get($allowedposttags, 'em'),
+            'strong' => glsr_get($allowedposttags, 'strong'),
+        ];
+        $allowedHtml = glsr()->filterString('sanitize/allowed-html-tags', $allowedHtml, $allowedposttags);
+        return trim(wp_kses(Cast::toString($value), $allowedHtml));
+    }
+
+    /**
+     * @param mixed $value
+     * @return string
+     */
+    public function sanitizeTextMultiline($value)
     {
         return sanitize_textarea_field(Cast::toString($value));
     }
@@ -175,7 +177,7 @@ class Sanitizer
      * @param mixed $value
      * @return string
      */
-    protected function sanitizeUrl($value)
+    public function sanitizeUrl($value)
     {
         $url = Cast::toString($value);
         if (!Str::startsWith('http://, https://', $url)) {
@@ -189,7 +191,7 @@ class Sanitizer
      * @param mixed $value
      * @return string
      */
-    protected function sanitizeUserEmail($value)
+    public function sanitizeUserEmail($value)
     {
         $user = wp_get_current_user();
         $value = Cast::toString($value);
@@ -203,7 +205,7 @@ class Sanitizer
      * @param mixed $value
      * @return string
      */
-    protected function sanitizeUserName($value)
+    public function sanitizeUserName($value)
     {
         $user = wp_get_current_user();
         $value = Cast::toString($value);
@@ -211,5 +213,19 @@ class Sanitizer
             return Helper::ifEmpty($value, $user->display_name);
         }
         return sanitize_text_field($value);
+    }
+
+    /**
+     * @return array
+     */
+    protected function buildSanitizers(array $sanitizers)
+    {
+        foreach ($sanitizers as $key => &$type) {
+            $method = Helper::buildMethodName($type, 'sanitize');
+            $type = method_exists($this, $method)
+                ? $method
+                : 'sanitizeText';
+        }
+        return $sanitizers;
     }
 }
