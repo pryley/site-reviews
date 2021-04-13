@@ -61,4 +61,20 @@ class SiteReviewsFormWidget extends Widget
     {
         return glsr(SiteReviewsFormShortcode::class);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function widgetDescription()
+    {
+        return _x('Site Reviews: Display a form to submit reviews.', 'admin-text', 'site-reviews');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function widgetName()
+    {
+        return _x('Submit a Review', 'admin-text', 'site-reviews');
+    }
 }

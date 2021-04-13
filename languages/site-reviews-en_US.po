@@ -1241,7 +1241,7 @@ msgctxt "admin-text"
 msgid "Restrict Limits To"
 msgstr "Restrict Limits To"
 
-#: config/settings.php:531, plugin/Controllers/MetaboxController.php:37, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/editor/bulk-edit-assigned-posts.php:6
+#: config/settings.php:531, plugin/Controllers/MetaboxController.php:38, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/editor/bulk-edit-assigned-posts.php:6
 msgctxt "admin-text"
 msgid "Assigned Posts"
 msgstr "Assigned Posts"
@@ -1251,7 +1251,7 @@ msgctxt "admin-text"
 msgid "Assigned Terms"
 msgstr "Assigned Terms"
 
-#: config/settings.php:533, plugin/Controllers/MetaboxController.php:38, plugin/Defaults/PostTypeColumnDefaults.php:19, views/partials/editor/bulk-edit-assigned-users.php:6
+#: config/settings.php:533, plugin/Controllers/MetaboxController.php:39, plugin/Defaults/PostTypeColumnDefaults.php:19, views/partials/editor/bulk-edit-assigned-users.php:6
 msgctxt "admin-text"
 msgid "Assigned Users"
 msgstr "Assigned Users"
@@ -1645,17 +1645,17 @@ msgid_plural "%s Reviews"
 msgstr[0] "%s Review"
 msgstr[1] "%s Reviews"
 
-#: plugin/Controllers/AdminController.php:165, plugin/Controllers/MainController.php:149
+#: plugin/Controllers/AdminController.php:165, plugin/Widgets/SiteReviewsWidget.php:113
 msgctxt "admin-text"
 msgid "Recent Reviews"
 msgstr "Recent Reviews"
 
-#: plugin/Controllers/AdminController.php:166, plugin/Controllers/MainController.php:153
+#: plugin/Controllers/AdminController.php:166, plugin/Widgets/SiteReviewsFormWidget.php:78
 msgctxt "admin-text"
 msgid "Submit a Review"
 msgstr "Submit a Review"
 
-#: plugin/Controllers/AdminController.php:167, plugin/Controllers/MainController.php:157
+#: plugin/Controllers/AdminController.php:167, plugin/Widgets/SiteReviewsSummaryWidget.php:81
 msgctxt "admin-text"
 msgid "Summary of Reviews"
 msgstr "Summary of Reviews"
@@ -1694,21 +1694,6 @@ msgstr "Unapprove"
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr "Local Review"
-
-#: plugin/Controllers/MainController.php:148
-msgctxt "admin-text"
-msgid "Site Reviews: Display your recent reviews."
-msgstr "Site Reviews: Display your recent reviews."
-
-#: plugin/Controllers/MainController.php:152
-msgctxt "admin-text"
-msgid "Site Reviews: Display a form to submit reviews."
-msgstr "Site Reviews: Display a form to submit reviews."
-
-#: plugin/Controllers/MainController.php:156
-msgctxt "admin-text"
-msgid "Site Reviews: Display a summary of your reviews."
-msgstr "Site Reviews: Display a summary of your reviews."
 
 #: plugin/Controllers/MenuController.php:52
 msgctxt "admin-text"
@@ -1790,32 +1775,32 @@ msgctxt "admin-text"
 msgid "System Info"
 msgstr "System Info"
 
-#: plugin/Controllers/MetaboxController.php:34, views/partials/editor/metabox-response.php:3
+#: plugin/Controllers/MetaboxController.php:35, views/partials/editor/metabox-response.php:3
 msgctxt "admin-text"
 msgid "Respond Publicly"
 msgstr "Respond Publicly"
 
-#: plugin/Controllers/MetaboxController.php:36
+#: plugin/Controllers/MetaboxController.php:37
 msgctxt "admin-text"
 msgid "Review Details"
 msgstr "Review Details"
 
-#: plugin/Controllers/MetaboxController.php:40, plugin/Controllers/MetaboxController.php:119
+#: plugin/Controllers/MetaboxController.php:41, plugin/Controllers/MetaboxController.php:120
 msgctxt "admin-text"
 msgid "Author"
 msgstr "Author"
 
-#: plugin/Controllers/MetaboxController.php:72
+#: plugin/Controllers/MetaboxController.php:73
 msgctxt "admin-text"
 msgid "(no title)"
 msgstr "(no title)"
 
-#: plugin/Controllers/MetaboxController.php:157, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17
+#: plugin/Controllers/MetaboxController.php:158, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17
 msgctxt "admin-text"
 msgid "No"
 msgstr "No"
 
-#: plugin/Controllers/MetaboxController.php:158, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:18
+#: plugin/Controllers/MetaboxController.php:159, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:18
 msgctxt "admin-text"
 msgid "Yes"
 msgstr "Yes"
@@ -2518,6 +2503,11 @@ msgctxt "admin-text"
 msgid "Enter any custom CSS classes here"
 msgstr "Enter any custom CSS classes here"
 
+#: plugin/Widgets/SiteReviewsFormWidget.php:70
+msgctxt "admin-text"
+msgid "Site Reviews: Display a form to submit reviews."
+msgstr "Site Reviews: Display a form to submit reviews."
+
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:27
 msgctxt "admin-text"
 msgid "All review types"
@@ -2537,6 +2527,11 @@ msgstr "Limit summary to reviews assigned to a Post ID"
 msgctxt "admin-text"
 msgid "Limit summary to reviews assigned to a User ID"
 msgstr "Limit summary to reviews assigned to a User ID"
+
+#: plugin/Widgets/SiteReviewsSummaryWidget.php:73
+msgctxt "admin-text"
+msgid "Site Reviews: Display a summary of your reviews."
+msgstr "Site Reviews: Display a summary of your reviews."
 
 #: plugin/Widgets/SiteReviewsWidget.php:25
 msgctxt "admin-text"
@@ -2567,6 +2562,16 @@ msgstr "Limit reviews to those assigned to a Post ID"
 msgctxt "admin-text"
 msgid "Limit reviews to those assigned to a User ID"
 msgstr "Limit reviews to those assigned to a User ID"
+
+#: plugin/Widgets/SiteReviewsWidget.php:105
+msgctxt "admin-text"
+msgid "Site Reviews: Display your recent reviews."
+msgstr "Site Reviews: Display your recent reviews."
+
+#: plugin/Widgets/Widget.php:103
+msgctxt "admin-text"
+msgid "Site Reviews: Unknown Widget"
+msgstr "Site Reviews: Unknown Widget"
 
 #: plugin/Controllers/ListTableColumns/ColumnFilterRating.php:17
 msgctxt "admin-text"

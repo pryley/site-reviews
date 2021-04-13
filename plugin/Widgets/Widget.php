@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Widgets;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\WidgetBuilder;
 use WP_Widget;
 
@@ -23,6 +24,14 @@ abstract class Widget extends WP_Widget
      * @var array
      */
     protected $widgetArgs;
+
+    public function __construct()
+    {
+        $className = (new \ReflectionClass($this))->getShortName();
+        $className = str_replace('Widget', '', $className);
+        $baseId = glsr()->prefix.Str::dashCase($className);
+        parent::__construct($baseId, $this->widgetName(), $this->widgetOptions());
+    }
 
     /**
      * @param array $args
@@ -77,4 +86,31 @@ abstract class Widget extends WP_Widget
      * @return \GeminiLabs\SiteReviews\Shortcodes\Shortcode
      */
     abstract protected function shortcode();
+
+    /**
+     * @return string
+     */
+    protected function widgetDescription()
+    {
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    protected function widgetName()
+    {
+        return _x('Site Reviews: Unknown Widget', 'admin-text', 'site-reviews');
+    }
+
+    /**
+     * @return array
+     */
+    protected function widgetOptions()
+    {
+        return [
+            'description' => $this->widgetDescription(),
+            'name' => $this->widgetName(),
+        ];
+    }
 }

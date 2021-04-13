@@ -133,6 +133,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
+= 5.9.0 (2021-04-12) =
+
+- Fixed widget compatibility with page builder plugins
+
 = 5.8.2 (2021-04-03) =
 
 - Fixed javascript event system

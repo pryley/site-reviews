@@ -64,4 +64,20 @@ class SiteReviewsSummaryWidget extends Widget
     {
         return glsr(SiteReviewsSummaryShortcode::class);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function widgetDescription()
+    {
+        return _x('Site Reviews: Display a summary of your reviews.', 'admin-text', 'site-reviews');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function widgetName()
+    {
+        return _x('Summary of Reviews', 'admin-text', 'site-reviews');
+    }
 }
