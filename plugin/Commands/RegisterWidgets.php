@@ -18,12 +18,12 @@ class RegisterWidgets implements Contract
         }
         $iterator = new \DirectoryIterator($dir);
         foreach ($iterator as $fileinfo) {
-            if (!$fileinfo->isFile()) {
+            if ('file' !== $fileinfo->getType()) {
                 continue;
             }
             $className = str_replace('.php', '', $fileinfo->getFilename());
             $widgetClass = Helper::buildClassName($className, 'Widgets');
-            if (!(new \ReflectionClass($widgetClass))->isAbstract()) {
+            if (class_exists($widgetClass) && !(new \ReflectionClass($widgetClass))->isAbstract()) {
                 register_widget($widgetClass);
             }
         }
