@@ -31,7 +31,7 @@ class PostTypeDefaults extends Defaults
             'show_in_menu' => true,
             'show_in_rest' => true,
             'show_ui' => true,
-            'supports' => ['title', 'editor', 'revisions'],
+            'supports' => ['author', 'title', 'editor', 'revisions'],
             'taxonomies' => [],
         ];
     }

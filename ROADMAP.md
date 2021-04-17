@@ -28,6 +28,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Review Authors (allow people to update their submitted reviews)
 - [ ] Review Importer (from 3rd-party WordPress review plugins)
 - [ ] Review Snitch (flag reviews as inappropriate)
+- [ ] Review Summaries (single positive/negative ratings, summary styles, etc.)
 - [x] Review Themes
 - [ ] Review Threads
 - [ ] Review Upvotes

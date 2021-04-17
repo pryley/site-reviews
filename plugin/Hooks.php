@@ -200,6 +200,7 @@ class Hooks implements HooksContract
         add_filter('script_loader_tag', [$this->public, 'filterEnqueuedScriptTags'], 10, 2);
         add_filter('site-reviews/config/forms/review-form', [$this->public, 'filterFieldOrder'], 11);
         add_filter('site-reviews/render/view', [$this->public, 'filterRenderView']);
+        add_filter('wp_insert_post_data', [$this->review, 'filterReviewPostData'], 10, 2);
         add_filter('site-reviews/rendered/template/review', [$this->review, 'filterReviewTemplate'], 10, 2);
         add_filter('site-reviews/query/sql/clause/operator', [$this->review, 'filterSqlClauseOperator'], 1);
         add_filter('site-reviews/review/build/after', [$this->review, 'filterTemplateTags'], 10, 3);

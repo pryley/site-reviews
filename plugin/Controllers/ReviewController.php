@@ -56,6 +56,26 @@ class ReviewController extends Controller
     }
 
     /**
+     * @param array $data
+     * @param array $postArr
+     * @return array
+     * @filter wp_insert_post_data
+     */
+    public function filterReviewPostData($data, $postArr)
+    {
+        if (empty($postArr['ID']) || glsr()->post_type !== glsr_get($postArr, 'post_type')) {
+            return $data;
+        }
+        if (empty(filter_input(INPUT_POST, 'post_author'))) {
+            $data['post_author'] = 0; // the review has an unknown author
+        }
+        if (isset($_POST['post_author_override'])) {
+            $data['post_author'] = $_POST['post_author_override']; // use the value from the author meta box
+        }
+        return $data;
+    }
+
+    /**
      * @param string $template
      * @return string
      * @filter site-reviews/rendered/template/review
