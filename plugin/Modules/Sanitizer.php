@@ -122,12 +122,24 @@ class Sanitizer
     }
 
     /**
+     * This allows lowercase alphannumeric, dash, and underscore characters
      * @param mixed $value
      * @return string
      */
     public function sanitizeKey($value)
     {
         return Str::snakeCase(sanitize_key($this->sanitizeText($value)));
+    }
+
+    /**
+     * This allows lowercase alpha and underscore characters
+     * @param mixed $value
+     * @return string
+     */
+    public function sanitizeName($value)
+    {
+        $value = Str::snakeCase($this->sanitizeText($value));
+        return preg_replace('/[^a-z_]/', '', $value);
     }
 
     /**
