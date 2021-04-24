@@ -3,8 +3,10 @@
 namespace GeminiLabs\SiteReviews\Modules\Migrations;
 
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\SqlSchema;
+use GeminiLabs\SiteReviews\Install;
 
 class Migrate_5_9_0
 {
@@ -31,10 +33,41 @@ class Migrate_5_9_0
     }
 
     /**
+     * @return void
+     */
+    public function repairDatabase()
+    {
+        require_once ABSPATH.'/wp-admin/includes/plugin.php';
+        if (is_plugin_active_for_network(plugin_basename(glsr()->file))) {
+            foreach (glsr(Install::class)->sites() as $siteId) {
+                switch_to_blog($siteId);
+                $this->install();
+                restore_current_blog();
+            }
+            return;
+        }
+        $this->install();
+    }
+
+    /**
      * @return bool
      */
     public function run()
     {
+        $this->repairDatabase(); // fix orphaned rows and foreign indexes
+        glsr(CountManager::class)->recalculate();
         return $this->migrateDatabase();
+    }
+
+    /**
+     * @return void
+     */
+    protected function install()
+    {
+        glsr(SqlSchema::class)->createTables();
+        glsr(SqlSchema::class)->addForeignConstraints();
+        glsr(Database::class)->deleteInvalidPostAssignments();
+        glsr(Database::class)->deleteInvalidTermAssignments();
+        glsr(Database::class)->deleteInvalidUserAssignments();
     }
 }

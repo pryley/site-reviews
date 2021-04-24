@@ -122,6 +122,7 @@ class SqlSchema
         if ($this->foreignConstraintExists($constraint, $foreignTable)) {
             return false;
         }
+        $this->removeOrphanedRows($table, $foreignKey, $foreignTable, $foreignColumn);
         return glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
             ALTER TABLE {$table}
             ADD CONSTRAINT {$constraint}
@@ -294,6 +295,20 @@ class SqlSchema
     }
 
     /**
+     * @param string $constraint
+     * @return string
+     */
+    public function foreignConstraint($constraint)
+    {
+        $constraint = Str::prefix($constraint, glsr()->prefix);
+        $constraint = Str::suffix($constraint, '_foreign');
+        if (is_multisite() && $this->db->blogid > 1) {
+            return Str::suffix($constraint, '_'.$this->db->blogid);
+        }
+        return $constraint;
+    }
+
+    /**
      * This method expects the fully formed foreign constraint key
      * @param string $constraint
      * @param string $foreignTable
@@ -347,17 +362,21 @@ class SqlSchema
     }
 
     /**
-     * @param string $constraint
-     * @return string
+     * @param string $table
+     * @param string $foreignKey
+     * @param string $foreignTable
+     * @param string $foreignColumn
+     * @return int|bool
      */
-    public function foreignConstraint($constraint)
+    public function removeOrphanedRows($table, $foreignKey, $foreignTable, $foreignColumn)
     {
-        $constraint = Str::prefix($constraint, glsr()->prefix);
-        $constraint = Str::suffix($constraint, '_foreign');
-        if (is_multisite() && $this->db->blogid > 1) {
-            return Str::suffix($constraint, '_'.$this->db->blogid);
-        }
-        return $constraint;
+        // Remove all rows from the custom table where the referenced foreign table row does not exist
+        return glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
+            DELETE t
+            FROM {$this->table($table)} AS t
+            LEFT JOIN {$this->table($foreignTable)} AS ft ON t.{$foreignKey} = ft.{$foreignColumn}
+            WHERE ft.{$foreignColumn} IS NULL
+        "));
     }
 
     /**
