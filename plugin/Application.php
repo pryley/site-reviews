@@ -13,6 +13,7 @@ use GeminiLabs\SiteReviews\Install;
  * @property array $addons
  * @property string $capability
  * @property string $cron_event
+ * @property array $db_version
  * @property array $defaults
  * @property string $export_key
  * @property string $file
@@ -35,6 +36,7 @@ final class Application extends Container
     use Session;
     use Storage;
 
+    const DB_VERSION = '1.1';
     const EXPORT_KEY = '_glsr_export';
     const ID = 'site-reviews';
     const PAGED_HANDLE = 'pagination_request';
