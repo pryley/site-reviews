@@ -103,33 +103,35 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 1. The "All Reviews" page.
 
-2. The "Edit Review" page.
+2. Add-ons provide additional functionality to Site Reviews
 
-3. Site Reviews has full support for the new Blocks Editor and includes custom blocks for each of the shortcodes.
+3. The "Edit Review" page.
 
-4. If you are still using the Classic page editor, you can use the Site Reviews  dropdown button to easily add any of the shortcodes.
+4. Site Reviews has full support for the new Blocks Editor and includes custom blocks for each of the shortcodes.
 
-5. Site Reviews includes three widgets.
+5. If you are still using the Classic page editor, you can use the Site Reviews  dropdown button to easily add any of the shortcodes.
 
-6. Site Reviews includes a Help page with answers to frequently asked questions and complete documentation for all available shortcode options.
+6. Site Reviews includes three widgets.
 
-7. The "General" settings page.
+7. Site Reviews includes a Help page with answers to frequently asked questions and complete documentation for all available shortcode options.
 
-8. The "Reviews" settings page.
+8. The "General" settings page.
 
-9. The "Submissions" settings page.
+9. The "Reviews" settings page.
 
-10. The "Schema" settings page.
+10. The "Submissions" settings page.
 
-11. Easily add a custom translation for any text in the plugin.
+11. The "Schema" settings page.
 
-12. Export/import the plugin settings, and perform various other tasks.
+12. Easily add a custom translation for any text in the plugin.
 
-13. If you experience any issues with the plugin, the console logger is the first pace to look.
+13. Export/import the plugin settings, and perform various other tasks.
 
-14. View information about the configuration of your server, your website, and the Site Reviews plugin.
+14. If you experience any issues with the plugin, the console logger is the first pace to look.
 
-15. This is what the Slack notifications look like.
+15. View information about the configuration of your server, your website, and the Site Reviews plugin.
+
+16. This is what the Slack notifications look like.
 
 ## Changelog
 

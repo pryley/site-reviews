@@ -82,11 +82,11 @@ msgstr "This review is based on my own experience and is my genuine opinion."
 msgid "Show more"
 msgstr "Show more"
 
-#: plugin/Commands/CreateReview.php:157
+#: plugin/Commands/CreateReview.php:159
 msgid "Your review has been submitted!"
 msgstr "Your review has been submitted!"
 
-#: plugin/Commands/CreateReview.php:162, views/pages/documentation/support/common-problems-and-solutions.php:65
+#: plugin/Commands/CreateReview.php:164, views/pages/documentation/support/common-problems-and-solutions.php:65
 msgid ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site administrator."
