@@ -24,8 +24,7 @@ Tabs.prototype = {
     init_: function () {
         var self = this;
         jQuery(window).on('hashchange', self.onHashchange_.bind(self));
-        jQuery(self.options.tabSelector).on('click', self.onClick_.bind(self));
-        jQuery(self.options.viewSubsubsub).on('click', self.onClick_.bind(self));
+        jQuery(self.options.tabSelector + ',' + self.options.viewSubsubsub).on('click touchend', self.onClick_.bind(self));
         jQuery(self.options.tabSelector).each(function (index) {
             var active = location.hash 
                 ? this.getAttribute('href').slice(1) === location.hash.slice(5).split('_')[0]
