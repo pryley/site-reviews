@@ -27,6 +27,7 @@ if ((new GL_Plugin_Check_v5(__FILE__))->canProceed()) {
     require_once __DIR__.'/compatibility.php';
     require_once __DIR__.'/deprecated.php';
     require_once __DIR__.'/helpers.php';
+    require_once __DIR__.'/migration.php';
     $app = GeminiLabs\SiteReviews\Application::load();
     $app->make('Provider')->register($app);
     register_deactivation_hook(__FILE__, array($app, 'deactivate'));
