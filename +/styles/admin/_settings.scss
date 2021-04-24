@@ -182,6 +182,10 @@ td.glsr-string-td1 .row-actions.visible {
     justify-content: space-between;
     user-select: auto;
 }
+.glsr-accordion-trigger .title.dashicons-before::before {
+  margin-left: -.25em;
+  padding-right: .5em;
+}
 .glsr-accordion-trigger:hover,
 .glsr-accordion-trigger:active {
     background: #f8f9f9;

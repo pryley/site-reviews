@@ -6,7 +6,7 @@
         <p><strong><?= _x('Database Update Required', 'admin-text', 'site-reviews'); ?></strong></p>
         <p><?= sprintf(_x('Site Reviews needs to update the database and your reviews to the newest version. If this notice keeps appearing, please read the %s section on the Help page.', 'admin-text', 'site-reviews'), $action); ?></p>
         <p>
-            <button type="submit" class="components-button is-secondary glsr-button" name="migrate-plugin" id="migrate-plugin" data-ajax-click data-remove-notice="migrate">
+            <button type="submit" class="glsr-button components-button is-secondary" data-ajax-click data-remove-notice="migrate">
                 <span data-alt-text="<?= esc_attr_x('Run All Migrations', 'admin-text', 'site-reviews'); ?>" data-loading="<?= esc_attr_x('Updating, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Update Database', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </p>

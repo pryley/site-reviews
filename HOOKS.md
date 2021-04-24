@@ -154,6 +154,7 @@
     site-reviews/support/deprecated/v5                      (bool $supportDeprecated): bool
     site-reviews/system/<key>                               (array $details): array
     site-reviews/tinymce/editor-ids                         (array $editorIds, string $editorId): array
+    site-reviews/tools/general                              (array $paths): array
     site-reviews/translation/entries                        (array $entries): array
     site-reviews/translator/domains                         (array $domains): array
     site-reviews/url                                        (string $url, string $path): string

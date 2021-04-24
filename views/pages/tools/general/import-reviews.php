@@ -1,0 +1,45 @@
+<?php glsr()->hasPermission('settings') || die; ?>
+
+<div class="glsr-card postbox">
+    <h3 class="glsr-card-heading">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="tools-import-reviews">
+            <span class="title dashicons-before dashicons-admin-tools"><?= _x('Import Third Party Reviews', 'admin-text', 'site-reviews'); ?></span>
+            <span class="icon"></span>
+        </button>
+    </h3>
+    <div id="tools-import-reviews" class="inside">
+        <div class="components-notice is-warning">
+            <p class="components-notice__content"><?= sprintf(
+                _x('Please backup your database before running this tool! You can use the %s plugin to do this.', 'admin-text', 'site-reviews'),
+                '<a href="https://wordpress.org/plugins/updraftplus/">UpdraftPlus</a>'
+            ); ?></p>
+        </div>
+        <p><?= sprintf(
+            _x('Here you can import third party reviews from a %s file. The CSV file should include a header row, use a comma as the delimiter, and may contain the following columns:', 'admin-text', 'site-reviews'),
+            '<code>*.CSV</code>'
+        ); ?></p>
+        <p>
+            <code>avatar</code> <?= _x('The avatar URL of the reviewer', 'admin-text', 'site-reviews'); ?><br>
+            <code>content</code> <?= sprintf('%s (<span class="required">%s</span>)', _x('The review', 'admin-text', 'site-reviews'), _x('required', 'admin-text', 'site-reviews')); ?><br>
+            <code>date</code> <?= sprintf('%s (<span class="required">%s</span>)', sprintf(_x('The review date as %s or a timestamp', 'admin-text', 'site-reviews'), '<span class="code"><strong>yyyy-mm-dd</strong></span>'), _x('required', 'admin-text', 'site-reviews')); ?><br>
+            <code>email</code> <?= _x('The reviewer\'s email', 'admin-text', 'site-reviews'); ?><br>
+            <code>ip_address</code> <?= _x('The IP address of the reviewer', 'admin-text', 'site-reviews'); ?><br>
+            <code>is_pinned</code> <?= _x('TRUE or FALSE', 'admin-text', 'site-reviews'); ?><br>
+            <code>name</code> <?= _x('The reviewer\'s name', 'admin-text', 'site-reviews'); ?><br>
+            <code>rating</code> <?= sprintf('%s (<span class="required">%s</span>)', sprintf(_x('A number from 0-%d', 'admin-text', 'site-reviews'), glsr()->constant('MAX_RATING', 'GeminiLabs\SiteReviews\Modules\Rating')), _x('required', 'admin-text', 'site-reviews')); ?><br>
+            <code>response</code> <?= _x('The review response', 'admin-text', 'site-reviews'); ?><br>
+            <code>title</code> <?= _x('The title of the review', 'admin-text', 'site-reviews'); ?><br>
+        </p>
+        <p><?= _x('Entries in the CSV file that do not contain required values will be skipped.', 'admin-text', 'site-reviews'); ?></p>
+        <form method="post" enctype="multipart/form-data" onsubmit="submit.disabled = true;">
+            <?php wp_nonce_field('import-reviews'); ?>
+            <input type="hidden" name="{{ id }}[_action]" value="import-reviews">
+            <p>
+                <input type="file" name="import-file" accept="text/csv">
+            </p>
+            <button type="submit" class="glsr-button components-button is-secondary" id="import-reviews" data-expand="#tools-import-reviews">
+                <span data-loading="<?= esc_attr_x('Importing reviews, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Import Reviews', 'admin-text', 'site-reviews'); ?></span>
+            </button>
+        </form>
+    </div>
+</div>
