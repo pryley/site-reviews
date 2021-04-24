@@ -6,7 +6,7 @@
         </button>
     </h3>
     <div id="welcome-v590" class="inside">
-        <p><em>Initial Release Date &mdash; April 23rd, 2021</em></p>
+        <p><em>Initial Release Date &mdash; April 24th, 2021</em></p>
         <h4>✨ New Features</h4>
         <ul>
             <li>Added a "Compatibility Issues" section to the Help page to document incompatible plugins along with possible workarounds.</li>

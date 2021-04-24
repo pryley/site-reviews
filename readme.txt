@@ -133,6 +133,14 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
+= 5.9.0 (2021-04-24) =
+
+- Added a "Compatibility Issues" section to the Help page to document incompatible plugins along with possible workarounds.
+- Added a "terms" option to the shortcodes which allow you to only display reviews where the terms field was accepted in the form. All reviews that were submitted before this update will have their terms set as accepted.
+- Fixed database foreign table constraints
+- Fixed settings tabs on touch devices
+- Improved the Tools page
+
 = 5.8.5 (2021-04-17) =
 
 - Fixed anonymous reviews from inheriting the author ID of the logged in user after being edited
