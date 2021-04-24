@@ -112,6 +112,9 @@ class Install
     {
         glsr(SqlSchema::class)->createTables();
         glsr(SqlSchema::class)->addForeignConstraints();
+        if (glsr(SqlSchema::class)->tablesExist() && empty(get_option(glsr()->prefix.'db_version'))) {
+            add_option(glsr()->prefix.'db_version', Application::DB_VERSION);
+        }
     }
 
     /**
