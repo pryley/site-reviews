@@ -22,6 +22,7 @@ Tools.prototype = {
     },
     onClick_: function (ev) {
         var el = jQuery(ev.currentTarget);
+        var self = this;
         el.addClass('is-busy');
         (new Ajax({}, ev, el.closest('form'))).post(function (response, success) {
             if (typeof ev.data === 'function') {
@@ -36,9 +37,7 @@ Tools.prototype = {
                 .fadeOut('normal', function() {
                     jQuery(this).remove();
                 });
-            jQuery('#glsr-notices').on('click', 'a', function () {
-                localStorage.setItem('glsr-expand', el.data('expand'));
-            });
+            jQuery('#glsr-notices').on('click', 'a', self.setExpand_);
             jQuery('.glsr-notice[data-notice="' + el.data('remove-notice') + '"]').remove();
         });
     },
