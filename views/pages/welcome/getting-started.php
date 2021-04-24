@@ -32,7 +32,7 @@
             <p>Enable avatars to generate images using the WordPress Gravatar service.</p>
         </li>
         <li class="glsr-column">
-            <h3><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-general'); ?>">Backup/Restore</a></h3>
+            <h3><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-general'); ?>" data-expand="#tools-export-plugin-settings">Backup/Restore</a></h3>
             <p>Backup and restore your plugin settings as needed.</p>
         </li>
         <li class="glsr-column">
