@@ -27,10 +27,13 @@ trait Sql
     public function clauses($clause, array $values = [])
     {
         $prefix = Str::restrictTo('and,join', $clause);
-        foreach (array_keys($this->args) as $key) {
+        foreach ($this->args as $key => $value) {
             $method = Helper::buildMethodName($key, 'clause-'.$prefix);
-            if (method_exists($this, $method)) {
-                $values[$key] = call_user_func([$this, $method]);
+            if (!method_exists($this, $method) || Helper::isEmpty($value)) {
+                continue;
+            }
+            if ($statement = call_user_func([$this, $method])) {
+                $values[$key] = $statement;
             }
         }
         return $values;
@@ -129,6 +132,7 @@ trait Sql
     {
         $and = $this->clauses('and');
         $and = glsr()->filterArrayUnique('query/sql/and', $and, $this->sqlHandle(), $this);
+        $and = $this->normalizeAndClauses($and);
         return 'WHERE 1=1 '.implode(' ', $and);
     }
 
@@ -145,23 +149,26 @@ trait Sql
      */
     protected function clauseAndAssignedPosts()
     {
-        $clauses = [];
-        if ($postIds = $this->args['assigned_posts']) {
-            $clauses[] = sprintf('(apt.post_id IN (%s) AND apt.is_published = 1)', implode(',', $postIds));
-        }
-        if ($termIds = $this->args['assigned_terms']) {
-            $clauses[] = sprintf('(att.term_id IN (%s))', implode(',', $termIds));
-        }
-        if ($userIds = $this->args['assigned_users']) {
-            $clauses[] = sprintf('(aut.user_id IN (%s))', implode(',', $userIds));
-        }
-        $operator = glsr()->filterString('query/sql/clause/operator', 'OR', $clauses, $this->args);
-        $operator = strtoupper($operator);
-        $operator = Helper::ifTrue(in_array($operator, ['AND', 'OR']), $operator, 'OR');
-        if ($clauses = implode(" {$operator} ", $clauses)) {
-            return "AND ($clauses)";
-        }
-        return '';
+        $postIds = implode(',', $this->args['assigned_posts']);
+        return sprintf('(apt.post_id IN (%s) AND apt.is_published = 1)', $postIds);
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseAndAssignedTerms()
+    {
+        $termIds = implode(',', $this->args['assigned_terms']);
+        return sprintf('(att.term_id IN (%s))', $termIds);
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseAndAssignedUsers()
+    {
+        $userIds = implode(',', $this->args['assigned_users']);
+        return sprintf('(aut.user_id IN (%s))', $userIds);
     }
 
     /**
@@ -193,9 +200,7 @@ trait Sql
      */
     protected function clauseAndEmail()
     {
-        return Helper::ifTrue(!empty($this->args['email']),
-            $this->db->prepare('AND r.email = %s', $this->args['email'])
-        );
+        return $this->db->prepare('AND r.email = %s', $this->args['email']);
     }
 
     /**
@@ -203,9 +208,7 @@ trait Sql
      */
     protected function clauseAndIpAddress()
     {
-        return Helper::ifTrue(!empty($this->args['ip_address']),
-            $this->db->prepare('AND r.ip_address = %s', $this->args['ip_address'])
-        );
+        return $this->db->prepare('AND r.ip_address = %s', $this->args['ip_address']);
     }
 
     /**
@@ -213,9 +216,7 @@ trait Sql
      */
     protected function clauseAndPostIn()
     {
-        return Helper::ifTrue(!empty($this->args['post__in']),
-            $this->db->prepare('AND r.review_id IN (%s)', implode(',', $this->args['post__in']))
-        );
+        return $this->db->prepare('AND r.review_id IN (%s)', implode(',', $this->args['post__in']));
     }
 
     /**
@@ -223,9 +224,7 @@ trait Sql
      */
     protected function clauseAndPostNotIn()
     {
-        return Helper::ifTrue(!empty($this->args['post__not_in']),
-            $this->db->prepare('AND r.review_id NOT IN (%s)', implode(',', $this->args['post__not_in']))
-        );
+        return $this->db->prepare('AND r.review_id NOT IN (%s)', implode(',', $this->args['post__not_in']));
     }
 
     /**
@@ -233,7 +232,7 @@ trait Sql
      */
     protected function clauseAndRating()
     {
-        return Helper::ifTrue(!empty($this->args['rating']),
+        return Helper::ifTrue($this->args['rating'] > 0,
             $this->db->prepare('AND r.rating > %d', --$this->args['rating'])
         );
     }
@@ -243,8 +242,7 @@ trait Sql
      */
     protected function clauseAndStatus()
     {
-        return Helper::ifTrue(!Helper::isEmpty($this->args['status']),
-            $this->db->prepare('AND r.is_approved = %d', $this->args['status'])
+        return $this->db->prepare('AND r.is_approved = %d', $this->args['status']);
     }
 
     /**
@@ -252,10 +250,7 @@ trait Sql
      */
     protected function clauseAndTerms()
     {
-        if (!glsr(Database::class)->version('1.1')) {
-            return;
-        }
-        return Helper::ifTrue(!Helper::isEmpty($this->args['terms']),
+        return Helper::ifTrue(glsr(Database::class)->version('1.1'),
             $this->db->prepare('AND r.terms = %d', Cast::toBool($this->args['terms']))
         );
     }
@@ -265,9 +260,7 @@ trait Sql
      */
     protected function clauseAndType()
     {
-        return Helper::ifTrue(!empty($this->args['type']),
-            $this->db->prepare('AND r.type = %s', $this->args['type'])
-        );
+        return $this->db->prepare('AND r.type = %s', $this->args['type']);
     }
 
     /**
@@ -275,9 +268,7 @@ trait Sql
      */
     protected function clauseAndUserIn()
     {
-        return Helper::ifTrue(!empty($this->args['user__in']),
-            $this->db->prepare('AND p.post_author IN (%s)', implode(',', $this->args['user__in']))
-        );
+        return $this->db->prepare('AND p.post_author IN (%s)', implode(',', $this->args['user__in']));
     }
 
     /**
@@ -285,9 +276,7 @@ trait Sql
      */
     protected function clauseAndUserNotIn()
     {
-        return Helper::ifTrue(!empty($this->args['user__not_in']),
-            $this->db->prepare('AND p.post_author NOT IN (%s)', implode(',', $this->args['user__not_in']))
-        );
+        return $this->db->prepare('AND p.post_author NOT IN (%s)', implode(',', $this->args['user__not_in']));
     }
 
     /**
@@ -295,9 +284,7 @@ trait Sql
      */
     protected function clauseJoinAssignedPosts()
     {
-        return Helper::ifTrue(!empty($this->args['assigned_posts']),
-            "INNER JOIN {$this->table('assigned_posts')} AS apt ON r.ID = apt.rating_id"
-        );
+        return "INNER JOIN {$this->table('assigned_posts')} AS apt ON r.ID = apt.rating_id";
     }
 
     /**
@@ -305,9 +292,7 @@ trait Sql
      */
     protected function clauseJoinAssignedTerms()
     {
-        return Helper::ifTrue(!empty($this->args['assigned_terms']),
-            "INNER JOIN {$this->table('assigned_terms')} AS att ON r.ID = att.rating_id"
-        );
+        return "INNER JOIN {$this->table('assigned_terms')} AS att ON r.ID = att.rating_id";
     }
 
     /**
@@ -315,9 +300,7 @@ trait Sql
      */
     protected function clauseJoinAssignedUsers()
     {
-        return Helper::ifTrue(!empty($this->args['assigned_users']),
-            "INNER JOIN {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id"
-        );
+        return "INNER JOIN {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id";
     }
 
     /**
@@ -335,9 +318,7 @@ trait Sql
      */
     protected function clauseJoinUserIn()
     {
-        return Helper::ifTrue(!empty($this->args['user__in']),
-            "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
-        );
+        return "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID";
     }
 
     /**
@@ -345,9 +326,7 @@ trait Sql
      */
     protected function clauseJoinUserNotIn()
     {
-        return Helper::ifTrue(!empty($this->args['user__not_in']),
-            "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
-        );
+        return "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID";
     }
 
     /**
@@ -358,6 +337,27 @@ trait Sql
         return Helper::ifTrue(Str::startsWith('p.', $this->args['orderby']),
             "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
         );
+    }
+
+    /**
+     * @return array
+     */
+    protected function normalizeAndClauses(array $and)
+    {
+        $clauses = [];
+        foreach ($and as $key => $value) {
+            if (Str::startsWith('assigned_', $key)) {
+                $clauses[] = $value;
+                unset($and[$key]);
+            }
+        }
+        $operator = glsr()->filterString('query/sql/clause/operator', 'OR', $clauses, $this->args);
+        $operator = strtoupper($operator);
+        $operator = Helper::ifTrue(in_array($operator, ['AND', 'OR']), $operator, 'OR');
+        if ($clauses = implode(" {$operator} ", $clauses)) {
+            $and['assigned'] = "AND ($clauses)";
+        }
+        return $and;
     }
 
     /**
