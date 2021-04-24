@@ -16,7 +16,7 @@ class Migrate_5_9_0
     public function migrateDatabase()
     {
         $table = glsr(SqlSchema::class)->table('ratings');
-        if (glsr(SqlSchema::class)->columnExists($table, 'terms')) {
+        if ($this->isDatabaseVersionUpdated()) {
             return true;
         }
         glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
@@ -24,8 +24,7 @@ class Migrate_5_9_0
             ADD terms tinyint(1) NOT NULL DEFAULT '1'
             AFTER url
         "));
-        if (glsr(SqlSchema::class)->columnExists($table, 'terms')) {
-            update_option(glsr()->prefix.'db_version', '1.1');
+        if ($this->isDatabaseVersionUpdated()) {
             return true;
         }
         glsr_log()->error(sprintf('Database table [%s] could not be altered, column [terms] not added.', $table));
@@ -70,4 +69,20 @@ class Migrate_5_9_0
         glsr(Database::class)->deleteInvalidTermAssignments();
         glsr(Database::class)->deleteInvalidUserAssignments();
     }
+
+    /**
+     * @return bool
+     */
+    protected function isDatabaseVersionUpdated()
+    {
+        $table = glsr(SqlSchema::class)->table('ratings');
+        if (glsr(SqlSchema::class)->columnExists($table, 'terms')) {
+            if (!glsr(Database::class)->version('1.1')) {
+                update_option(glsr()->prefix.'db_version', '1.1');
+            }
+            return true;
+        }
+        return false;
+    }
+
 }

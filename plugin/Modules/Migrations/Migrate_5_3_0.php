@@ -20,9 +20,9 @@ class Migrate_5_3_0
      */
     protected function fixDatabaseVersion()
     {
-        $databaseVersion = get_option(Application::PREFIX.'db_version');
+        $databaseVersion = get_option(glsr()->prefix.'db_version');
         if ('5.2' === $databaseVersion) {
-            update_option(Application::PREFIX.'db_version', '1.0');
+            update_option(glsr()->prefix.'db_version', '1.0');
         }
     }
 
