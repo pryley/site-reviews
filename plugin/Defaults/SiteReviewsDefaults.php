@@ -64,6 +64,7 @@ class SiteReviewsDefaults extends Defaults
             'pagination' => false,
             'rating' => 0,
             'schema' => false,
+            'terms' => '',
             'title' => '',
             'type' => 'local',
         ];

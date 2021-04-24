@@ -67,6 +67,7 @@ class ReviewsDefaults extends Defaults
             'post__not_in' => [],
             'rating' => '',
             'status' => 'approved',
+            'terms' => '',
             'type' => '',
             'user__in' => [],
             'user__not_in' => [],

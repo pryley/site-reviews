@@ -87,6 +87,17 @@ class Install
     }
 
     /**
+     * @return array
+     */
+    public function sites()
+    {
+        return get_sites([
+            'fields' => 'ids',
+            'network_id' => get_current_network_id(),
+        ]);
+    }
+
+    /**
      * @return void
      */
     protected function createRoleCapabilities()
@@ -121,17 +132,6 @@ class Install
         $this->createRoleCapabilities();
         $this->createTables();
         $this->deleteInvalidAssignments();
-    }
-
-    /**
-     * @return array
-     */
-    protected function sites()
-    {
-        return get_sites([
-            'fields' => 'ids',
-            'network_id' => get_current_network_id(),
-        ]);
     }
 
     /**

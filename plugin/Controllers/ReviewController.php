@@ -382,6 +382,7 @@ class ReviewController extends Controller
         $submittedValues = Helper::filterInputArray(glsr()->id);
         if (Arr::get($submittedValues, 'is_editing_review')) {
             $submittedValues['rating'] = Arr::get($submittedValues, 'rating');
+            $submittedValues['terms'] = Arr::get($submittedValues, 'terms', 0);
             glsr(ReviewManager::class)->update($review->ID, $submittedValues);
             glsr(ReviewManager::class)->updateCustom($review->ID, $submittedValues);
         }

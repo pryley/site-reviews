@@ -26,4 +26,9 @@ return [
         'label' => esc_html_x('Avatar', 'admin-text', 'site-reviews'),
         'type' => 'url',
     ],
+    'terms' => [
+        'label' => esc_html_x('Terms', 'admin-text', 'site-reviews'),
+        'options' => [1 => _x('Terms Accepted', 'admin-text', 'site-reviews')],
+        'type' => 'checkbox',
+    ],
 ];

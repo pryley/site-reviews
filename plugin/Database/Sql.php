@@ -2,8 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 trait Sql
@@ -243,6 +245,18 @@ trait Sql
     {
         return Helper::ifTrue(!Helper::isEmpty($this->args['status']),
             $this->db->prepare('AND r.is_approved = %d', $this->args['status'])
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseAndTerms()
+    {
+        if (!glsr(Database::class)->version('1.1')) {
+            return;
+        }
+        return Helper::ifTrue(!Helper::isEmpty($this->args['terms']),
+            $this->db->prepare('AND r.terms = %d', Cast::toBool($this->args['terms']))
         );
     }
 

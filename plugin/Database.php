@@ -393,4 +393,16 @@ class Database
         glsr(Query::class)->sql($this->db->last_query); // for logging use only
         return $this->logErrors($result);
     }
+
+    /**
+     * @param string $compareToVersion
+     * @return bool|string
+     */
+    public function version($compareToVersion = null)
+    {
+        $dbVersion = Cast::toString(get_option(glsr()->prefix.'db_version'));
+        return isset($compareToVersion)
+            ? version_compare($dbVersion, Cast::toString($compareToVersion), '>=')
+            : $dbVersion;
+    }
 }

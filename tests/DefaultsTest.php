@@ -28,6 +28,7 @@ class DefaultsTest extends WP_UnitTestCase
             'pageUrl' => 'http://site-reviews.test/reviews/',
             'pagination' => 'ajax',
             'schema' => '',
+            'terms' => '',
             'type' => 'local',
             'user' => 1,
         ];
@@ -48,6 +49,7 @@ class DefaultsTest extends WP_UnitTestCase
             'post__not_in' => [],
             'rating' => 0,
             'status' => 'approved',
+            'terms' => '',
             'type' => 'local',
             'user__in' => [],
             'user__not_in' => [],
@@ -71,6 +73,7 @@ class DefaultsTest extends WP_UnitTestCase
             'post_id' => 4466,
             'rating' => 3,
             'schema' => 1,
+            'terms' => '',
             'type' => 'local',
             'user' => 1,
         ];
@@ -90,6 +93,7 @@ class DefaultsTest extends WP_UnitTestCase
             'pagination' => 'ajax',
             'rating' => 3,
             'schema' => true,
+            'terms' => '',
             'type' => 'local',
        ]);
     }

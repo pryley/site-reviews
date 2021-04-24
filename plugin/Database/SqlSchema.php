@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 class SqlSchema
@@ -141,6 +142,14 @@ class SqlSchema
             $this->addAssignedUsersForeignConstraints();
             $this->addReviewsForeignConstraints();
         }
+    }
+
+    public function columnExists($table, $column)
+    {
+        $result = glsr(Database::class)->dbQuery(
+            glsr(Query::class)->sql("SHOW COLUMNS FROM {$this->table($table)} LIKE '{$column}'")
+        );
+        return Cast::toBool($result);
     }
 
     /**

@@ -36,6 +36,7 @@ use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
  * @property int $rating_id
  * @property string $response
  * @property string $status
+ * @property bool $terms
  * @property string $title
  * @property string $type
  * @property string $url

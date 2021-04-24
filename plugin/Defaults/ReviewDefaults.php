@@ -16,6 +16,7 @@ class ReviewDefaults extends Defaults
         'is_pinned' => 'bool',
         'rating' => 'int',
         'rating_id' => 'int',
+        'terms' => 'bool',
     ];
 
     /**
@@ -64,6 +65,7 @@ class ReviewDefaults extends Defaults
             'rating_id' => '',
             'response' => '',
             'status' => '',
+            'terms' => true,
             'title' => '',
             'type' => '',
             'url' => '',

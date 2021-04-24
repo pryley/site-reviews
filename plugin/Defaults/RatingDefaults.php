@@ -26,6 +26,7 @@ class RatingDefaults extends Defaults
         'name' => 'text',
         'rating' => 'int',
         'review_id' => 'int',
+        'terms' => 'bool',
         'type' => 'text',
         'url' => 'url',
     ];
@@ -45,6 +46,7 @@ class RatingDefaults extends Defaults
             'name' => '',
             'rating' => '',
             'review_id' => '',
+            'terms' => true,
             'type' => '',
             'url' => '',
         ];

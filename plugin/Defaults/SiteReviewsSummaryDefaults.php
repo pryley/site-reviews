@@ -56,6 +56,7 @@ class SiteReviewsSummaryDefaults extends Defaults
             'labels' => '',
             'rating' => 1,
             'schema' => false,
+            'terms' => '',
             'text' => '',
             'title' => '',
             'type' => 'local',
