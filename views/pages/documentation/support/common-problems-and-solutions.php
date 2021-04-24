@@ -20,7 +20,7 @@
                 <p>You may be using a caching plugin which is caching the database and preventing Site Reviews from storing the migration status. To fix this, you will need to flush your database cache and/or object cache and then try again.</p>
             </li>
             <li>
-                <p>You may have 3rd-party reviews that were not imported correctly. You can verify this by looking for reviews on the <a href="<?= admin_url('edit.php?post_type='.glsr()->post_type); ?>">All Reviews</a> page that do not have any stars. Clicking on these reviews will show a read-only editor and a notice alerting you that the review is an, "Unsupported Review Type". To fix this, please delete the invalid reviews and use the provided <a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-general'); ?>">Import Third Party Reviews</a> tool to re-import them.</p>
+                <p>You may have 3rd-party reviews that were not imported correctly. You can verify this by looking for reviews on the <a href="<?= admin_url('edit.php?post_type='.glsr()->post_type); ?>">All Reviews</a> page that do not have any stars. Clicking on these reviews will show a read-only editor and a notice alerting you that the review is an, "Unsupported Review Type". To fix this, please delete the invalid reviews and use the provided <a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-general'); ?>" data-expand="#tools-import-reviews">Import Third Party Reviews</a> tool to re-import them.</p>
             </li>
         </ol>
         <h3>The review form is not working, the submit button just spins.</h3>
