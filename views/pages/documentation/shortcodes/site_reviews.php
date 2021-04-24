@@ -25,6 +25,7 @@
                 trailingslashit(__DIR__).'site_reviews/pagination.php',
                 trailingslashit(__DIR__).'site_reviews/rating.php',
                 trailingslashit(__DIR__).'site_reviews/schema.php',
+                trailingslashit(__DIR__).'site_reviews/terms.php',
             ];
             $filename = pathinfo(__FILE__, PATHINFO_FILENAME);
             $options = glsr()->filterArrayUnique('documentation/shortcodes/'.$filename, $options);
