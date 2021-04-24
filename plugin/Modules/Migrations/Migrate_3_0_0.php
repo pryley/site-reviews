@@ -81,11 +81,12 @@ class Migrate_3_0_0
     }
 
     /**
-     * @return void
+     * @return bool
      */
     public function run()
     {
         $this->migrateSettings();
+        return true;
     }
 
     /**
@@ -93,7 +94,7 @@ class Migrate_3_0_0
      */
     protected function getNewSettings()
     {
-        return  Arr::flatten(Arr::consolidate(OptionManager::databaseKey(3)));
+        return Arr::flatten(Arr::consolidate(OptionManager::databaseKey(3)));
     }
 
     /**

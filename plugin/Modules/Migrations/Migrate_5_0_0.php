@@ -51,7 +51,7 @@ class Migrate_5_0_0
     }
 
     /**
-     * @return void
+     * @return bool
      */
     public function run()
     {
@@ -59,5 +59,6 @@ class Migrate_5_0_0
         $this->migrateWpOptions();
         glsr(MigrateSidebars::class)->run();
         glsr(MigrateReviews::class)->run();
+        return true;
     }
 }

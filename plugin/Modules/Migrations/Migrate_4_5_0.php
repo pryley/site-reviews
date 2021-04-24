@@ -62,12 +62,13 @@ class Migrate_4_5_0
     }
 
     /**
-     * @return void
+     * @return bool
      */
     public function run()
     {
         $this->migrateOptions();
         $this->migrateSettings();
         $this->migrateUserMeta();
+        return true;
     }
 }

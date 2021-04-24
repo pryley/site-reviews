@@ -62,7 +62,7 @@ class Migrate_4_0_2
     }
 
     /**
-     * @return void
+     * @return bool
      */
     public function run()
     {
@@ -70,5 +70,6 @@ class Migrate_4_0_2
         $this->protectMetaKeys();
         $this->deleteSessions();
         delete_transient(glsr()->id.'_cloudflare_ips');
+        return true;
     }
 }

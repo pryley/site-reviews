@@ -86,7 +86,7 @@ class Migrate
         if (is_dir($dir)) {
             $iterator = new DirectoryIterator($dir);
             foreach ($iterator as $fileinfo) {
-                if ($fileinfo->isFile()) {
+                if ('file' === $fileinfo->getType()) {
                     $migrations[] = str_replace('.php', '', $fileinfo->getFilename());
                 }
             }
@@ -147,9 +147,12 @@ class Migrate
         glsr()->action('migration/start', $migrations);
         foreach ($this->pendingMigrations($migrations) as $migration) {
             if (class_exists($classname = __NAMESPACE__.'\Migrations\\'.$migration)) {
-                glsr($classname)->run();
-                $migrations[$migration] = true;
-                glsr_log()->debug("[$migration] has run successfully.");
+                if (glsr($classname)->run()) {
+                    $migrations[$migration] = true;
+                    glsr_log()->debug("[$migration] has run successfully");
+                    continue;
+                }
+                glsr_log()->error("[$migration] was unsuccessful");
             }
         }
         $this->storeMigrations($migrations);
