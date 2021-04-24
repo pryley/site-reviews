@@ -827,7 +827,7 @@ msgctxt "admin-text"
 msgid "Email"
 msgstr ""
 
-#: config/settings.php:506
+#: config/settings.php:506, config/forms/metabox-fields.php:30
 msgctxt "admin-text"
 msgid "Terms"
 msgstr ""
@@ -1067,7 +1067,7 @@ msgctxt "admin-text"
 msgid "The [%s] method has been deprecated and will be soon be removed, please use the [%s] method instead."
 msgstr ""
 
-#: plugin/Review.php:327, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
+#: plugin/Review.php:328, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr ""
@@ -1139,6 +1139,11 @@ msgstr ""
 #: config/forms/metabox-fields.php:26, plugin/Defaults/RevisionFieldsDefaults.php:21
 msgctxt "admin-text"
 msgid "Avatar"
+msgstr ""
+
+#: config/forms/metabox-fields.php:31
+msgctxt "admin-text"
+msgid "Terms Accepted"
 msgstr ""
 
 #: config/forms/review-form.php:5
@@ -1629,7 +1634,7 @@ msgctxt "admin-text"
 msgid "Save as Unapproved"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:27, views/pages/documentation/index.php:6
+#: plugin/Controllers/WelcomeController.php:27, views/pages/addons/index.php:6, views/pages/documentation/index.php:6, views/pages/settings/index.php:6, views/pages/tools/index.php:6
 msgctxt "admin-text"
 msgid "About"
 msgstr ""
@@ -2455,52 +2460,52 @@ msgstr ""
 msgid "You have already submitted a review."
 msgstr ""
 
-#: views/pages/addons/index.php:10
+#: views/pages/addons/index.php:13
 msgctxt "admin-text"
 msgid "All of the add-ons! Grab the special introductory discount while it still lasts..."
 msgstr ""
 
-#: views/pages/addons/index.php:12
+#: views/pages/addons/index.php:15
 msgctxt "admin-text"
 msgid "Discover Premium"
 msgstr ""
 
-#: views/pages/addons/index.php:20
+#: views/pages/addons/index.php:23
 msgctxt "admin-text"
 msgid "Allow your website visitors to sort, filter by rating, and search reviews."
 msgstr ""
 
-#: views/pages/addons/index.php:22, views/pages/addons/index.php:32, views/pages/addons/index.php:42, views/pages/addons/index.php:62, views/pages/addons/index.php:72
+#: views/pages/addons/index.php:25, views/pages/addons/index.php:35, views/pages/addons/index.php:45, views/pages/addons/index.php:65, views/pages/addons/index.php:75
 msgctxt "admin-text"
 msgid "View Add-on"
 msgstr ""
 
-#: views/pages/addons/index.php:30
+#: views/pages/addons/index.php:33
 msgctxt "admin-text"
 msgid "Create unique review forms with custom fields and review templates."
 msgstr ""
 
-#: views/pages/addons/index.php:40
+#: views/pages/addons/index.php:43
 msgctxt "admin-text"
 msgid "Allow your website visitors to add images with captions to their reviews."
 msgstr ""
 
-#: views/pages/addons/index.php:50
+#: views/pages/addons/index.php:53
 msgctxt "admin-text"
 msgid "Create custom review designs, display reviews in a grid, change the rating images, and more. Early access available to Premium members only."
 msgstr ""
 
-#: views/pages/addons/index.php:52
+#: views/pages/addons/index.php:55
 msgctxt "admin-text"
 msgid "Request Early Access"
 msgstr ""
 
-#: views/pages/addons/index.php:60
+#: views/pages/addons/index.php:63
 msgctxt "admin-text"
 msgid "Integrate with the Trustalyze Confidence System and post reviews to the blockchain."
 msgstr ""
 
-#: views/pages/addons/index.php:70
+#: views/pages/addons/index.php:73
 msgctxt "admin-text"
 msgid "Integrate Site Reviews with your Woocommerce products."
 msgstr ""
@@ -2585,314 +2590,29 @@ msgctxt "admin-text"
 msgid "Custom Translation"
 msgstr ""
 
-#: views/pages/tools/console.php:7
+#: views/pages/tools/console.php:8
 msgctxt "admin-text"
 msgid "Download Console"
 msgstr ""
 
-#: views/pages/tools/console.php:13
+#: views/pages/tools/console.php:15
 msgctxt "admin-text"
 msgid "Reloading..."
 msgstr ""
 
-#: views/pages/tools/console.php:13
+#: views/pages/tools/console.php:15
 msgctxt "admin-text"
 msgid "Reload"
 msgstr ""
 
-#: views/pages/tools/console.php:20
+#: views/pages/tools/console.php:22
 msgctxt "admin-text"
 msgid "Clearing..."
 msgstr ""
 
-#: views/pages/tools/console.php:20
+#: views/pages/tools/console.php:22
 msgctxt "admin-text"
 msgid "Clear"
-msgstr ""
-
-#: views/pages/tools/general.php:6
-msgctxt "admin-text"
-msgid "Export Plugin Settings"
-msgstr ""
-
-#: views/pages/tools/general.php:8
-msgctxt "admin-text"
-msgid "Export the Site Reviews settings for this site to a %s file. This allows you to easily import the plugin settings into another site."
-msgstr ""
-
-#: views/pages/tools/general.php:12
-msgctxt "admin-text"
-msgid "To export your reviews and categories, please use the WordPress %s tool."
-msgstr ""
-
-#: views/pages/tools/general.php:13
-msgctxt "admin-text"
-msgid "Export"
-msgstr ""
-
-#: views/pages/tools/general.php:18
-msgctxt "admin-text"
-msgid "Export Settings"
-msgstr ""
-
-#: views/pages/tools/general.php:23
-msgctxt "admin-text"
-msgid "Import Plugin Settings"
-msgstr ""
-
-#: views/pages/tools/general.php:25
-msgctxt "admin-text"
-msgid "Import the Site Reviews settings from a %s file. This file can be obtained by exporting the settings on another site using the export tool below."
-msgstr ""
-
-#: views/pages/tools/general.php:29
-msgctxt "admin-text"
-msgid "To import your reviews and categories from another website, please use the WordPress %s tool."
-msgstr ""
-
-#: views/pages/tools/general.php:30
-msgctxt "admin-text"
-msgid "Import"
-msgstr ""
-
-#: views/pages/tools/general.php:38
-msgctxt "admin-text"
-msgid "Importing settings, please wait..."
-msgstr ""
-
-#: views/pages/tools/general.php:38
-msgctxt "admin-text"
-msgid "Import Settings"
-msgstr ""
-
-#: views/pages/tools/general.php:45
-msgctxt "admin-text"
-msgid "Import Third Party Reviews"
-msgstr ""
-
-#: views/pages/tools/general.php:48, views/pages/tools/general.php:104
-msgctxt "admin-text"
-msgid "Please backup your database before running this tool! You can use the %s plugin to do this."
-msgstr ""
-
-#: views/pages/tools/general.php:53
-msgctxt "admin-text"
-msgid "Here you can import third party reviews from a %s file. The CSV file should include a header row, use a comma as the delimiter, and may contain the following columns:"
-msgstr ""
-
-#: views/pages/tools/general.php:57
-msgctxt "admin-text"
-msgid "The avatar URL of the reviewer"
-msgstr ""
-
-#: views/pages/tools/general.php:58
-msgctxt "admin-text"
-msgid "The review"
-msgstr ""
-
-#: views/pages/tools/general.php:58, views/pages/tools/general.php:59, views/pages/tools/general.php:64
-msgctxt "admin-text"
-msgid "required"
-msgstr ""
-
-#: views/pages/tools/general.php:59
-msgctxt "admin-text"
-msgid "The review date as %s or a timestamp"
-msgstr ""
-
-#: views/pages/tools/general.php:60
-msgctxt "admin-text"
-msgid "The reviewer's email"
-msgstr ""
-
-#: views/pages/tools/general.php:61
-msgctxt "admin-text"
-msgid "The IP address of the reviewer"
-msgstr ""
-
-#: views/pages/tools/general.php:62
-msgctxt "admin-text"
-msgid "TRUE or FALSE"
-msgstr ""
-
-#: views/pages/tools/general.php:63
-msgctxt "admin-text"
-msgid "The reviewer's name"
-msgstr ""
-
-#: views/pages/tools/general.php:64
-msgctxt "admin-text"
-msgid "A number from 0-%d"
-msgstr ""
-
-#: views/pages/tools/general.php:65
-msgctxt "admin-text"
-msgid "The review response"
-msgstr ""
-
-#: views/pages/tools/general.php:66
-msgctxt "admin-text"
-msgid "The title of the review"
-msgstr ""
-
-#: views/pages/tools/general.php:68
-msgctxt "admin-text"
-msgid "Entries in the CSV file that do not contain required values will be skipped."
-msgstr ""
-
-#: views/pages/tools/general.php:75
-msgctxt "admin-text"
-msgid "Importing reviews, please wait..."
-msgstr ""
-
-#: views/pages/tools/general.php:75
-msgctxt "admin-text"
-msgid "Import Reviews"
-msgstr ""
-
-#: views/pages/tools/general.php:82
-msgctxt "admin-text"
-msgid "Migrate Plugin"
-msgstr ""
-
-#: views/pages/tools/general.php:84
-msgctxt "admin-text"
-msgid "Hold down the ALT/Option key to force-run all previous migrations."
-msgstr ""
-
-#: views/pages/tools/general.php:86
-msgctxt "admin-text"
-msgid "Run this tool if your reviews stopped working correctly after upgrading the plugin to the latest version (i.e. read-only reviews, zero-star ratings, missing role capabilities, etc.)."
-msgstr ""
-
-#: views/pages/tools/general.php:93, views/partials/notices/migrate.php:10
-msgctxt "admin-text"
-msgid "Run All Migrations"
-msgstr ""
-
-#: views/pages/tools/general.php:93
-msgctxt "admin-text"
-msgid "Migrating, please wait..."
-msgstr ""
-
-#: views/pages/tools/general.php:93
-msgctxt "admin-text"
-msgid "Run Migration"
-msgstr ""
-
-#: views/pages/tools/general.php:100
-msgctxt "admin-text"
-msgid "Optimise Your Database Tables"
-msgstr ""
-
-#: views/pages/tools/general.php:139
-msgctxt "admin-text"
-msgid "Optimisation is unnecessary because your database tables already use the InnoDB engine!"
-msgstr ""
-
-#: views/pages/tools/general.php:108
-msgctxt "admin-text"
-msgid "The old MyISAM table engine in MySQL was replaced by the InnoDB engine as the default over 10 years ago! If your database tables still use the MyISAM engine, you are missing out on substantial performance and reliability gains that the InnoDB engine provides."
-msgstr ""
-
-#: views/pages/tools/general.php:109
-msgctxt "admin-text"
-msgid "Site Reviews makes use of specific InnoDB engine features in order to perform faster database queries. However, some of your database tables (shown below) are still using the old MyISAM engine. If you convert these tables to use the InnoDB engine, it will make Site Reviews perform faster."
-msgstr ""
-
-#: views/pages/tools/general.php:113
-msgctxt "admin-text"
-msgid "Table"
-msgstr ""
-
-#: views/pages/tools/general.php:114
-msgctxt "admin-text"
-msgid "Engine"
-msgstr ""
-
-#: views/pages/tools/general.php:129
-msgctxt "admin-text"
-msgid "Converting, please wait..."
-msgstr ""
-
-#: views/pages/tools/general.php:129
-msgctxt "admin-text"
-msgid "Convert table engine to InnoDB"
-msgstr ""
-
-#: views/pages/tools/general.php:145
-msgctxt "admin-text"
-msgid "Reset Assigned Meta Values"
-msgstr ""
-
-#: views/pages/tools/general.php:146
-msgctxt "admin-text"
-msgid "Site Reviews stores the individual review count, average rating, and ranking for each assigned post, category, and user. If you suspect that these meta values are incorrect (perhaps you cloned a page that had reviews assigned to it), you may use this tool to recalculate them."
-msgstr ""
-
-#: views/pages/tools/general.php:152
-msgctxt "admin-text"
-msgid "Resetting values, please wait..."
-msgstr ""
-
-#: views/pages/tools/general.php:152
-msgctxt "admin-text"
-msgid "Reset Meta Values"
-msgstr ""
-
-#: views/pages/tools/general.php:159, views/pages/tools/general.php:171
-msgctxt "admin-text"
-msgid "Reset Permissions"
-msgstr ""
-
-#: views/pages/tools/general.php:161
-msgctxt "admin-text"
-msgid "Hold down the ALT/Option key to perform a \"Hard Reset\"; this removes all Site Reviews capabilites from your Editor, Author, and Contributor roles before re-adding them."
-msgstr ""
-
-#: views/pages/tools/general.php:163
-msgctxt "admin-text"
-msgid "Site Reviews provides custom post_type capabilities that mirror the capabilities of your posts by default. For example, if a user role has permission to edit others posts, then that role will also have permission to edit other users reviews."
-msgstr ""
-
-#: views/pages/tools/general.php:164
-msgctxt "admin-text"
-msgid "If you have changed the capabilities of your user roles (Administrator, Editor, Author, and Contributor) and you suspect that Site Reviews is not working correctly due to your changes, you may use this tool to reset the Site Reviews capabilities for your user roles."
-msgstr ""
-
-#: views/pages/tools/general.php:171
-msgctxt "admin-text"
-msgid "Hard Reset Permissions"
-msgstr ""
-
-#: views/pages/tools/general.php:171
-msgctxt "admin-text"
-msgid "Resetting, please wait..."
-msgstr ""
-
-#: views/pages/tools/general.php:180
-msgctxt "admin-text"
-msgid "Test IP Address Detection"
-msgstr ""
-
-#: views/pages/tools/general.php:181
-msgctxt "admin-text"
-msgid "When reviews are submitted on your website, Site Reviews detects the IP address of the person submitting the review and saves it to the submitted review. This allows you to limit review submissions or to blacklist reviewers based on their IP address. The IP address is also used by Akismet (if you have enabled the integration) to catch spam submissions."
-msgstr ""
-
-#: views/pages/tools/general.php:182
-msgctxt "admin-text"
-msgid "If you are getting an \"unknown\" value for IP addresses in your reviews, you may use this tool to check the visitor IP address detection."
-msgstr ""
-
-#: views/pages/tools/general.php:188
-msgctxt "admin-text"
-msgid "Testing, please wait..."
-msgstr ""
-
-#: views/pages/tools/general.php:188
-msgctxt "admin-text"
-msgid "Test Detection"
 msgstr ""
 
 #: views/pages/tools/sync.php:9
@@ -2935,7 +2655,7 @@ msgctxt "admin-text"
 msgid "Syncing..."
 msgstr ""
 
-#: views/pages/tools/system-info.php:7
+#: views/pages/tools/system-info.php:8
 msgctxt "admin-text"
 msgid "Download System Info"
 msgstr ""
@@ -3050,6 +2770,11 @@ msgctxt "admin-text"
 msgid "Site Reviews needs to update the database and your reviews to the newest version. If this notice keeps appearing, please read the %s section on the Help page."
 msgstr ""
 
+#: views/partials/notices/migrate.php:10, views/pages/tools/general/migrate-plugin.php:20
+msgctxt "admin-text"
+msgid "Run All Migrations"
+msgstr ""
+
 #: views/partials/notices/migrate.php:10
 msgctxt "admin-text"
 msgid "Updating, please wait..."
@@ -3157,3 +2882,283 @@ msgid "{rating} out of {max} stars (based on {num} review)"
 msgid_plural "{rating} out of {max} stars (based on {num} reviews)"
 msgstr[0] ""
 msgstr[1] ""
+
+#: views/pages/tools/general/export-plugin-settings.php:6
+msgctxt "admin-text"
+msgid "Export Plugin Settings"
+msgstr ""
+
+#: views/pages/tools/general/export-plugin-settings.php:12
+msgctxt "admin-text"
+msgid "Export the Site Reviews settings for this site to a %s file. This allows you to easily import the plugin settings into another site."
+msgstr ""
+
+#: views/pages/tools/general/export-plugin-settings.php:16
+msgctxt "admin-text"
+msgid "To export your reviews and categories, please use the WordPress %s tool."
+msgstr ""
+
+#: views/pages/tools/general/export-plugin-settings.php:17
+msgctxt "admin-text"
+msgid "Export"
+msgstr ""
+
+#: views/pages/tools/general/export-plugin-settings.php:23
+msgctxt "admin-text"
+msgid "Export Settings"
+msgstr ""
+
+#: views/pages/tools/general/import-plugin-settings.php:6
+msgctxt "admin-text"
+msgid "Import Plugin Settings"
+msgstr ""
+
+#: views/pages/tools/general/import-plugin-settings.php:12
+msgctxt "admin-text"
+msgid "Import the Site Reviews settings from a %s file. This file can be obtained by exporting the settings on another site using the export tool below."
+msgstr ""
+
+#: views/pages/tools/general/import-plugin-settings.php:16
+msgctxt "admin-text"
+msgid "To import your reviews and categories from another website, please use the WordPress %s tool."
+msgstr ""
+
+#: views/pages/tools/general/import-plugin-settings.php:17
+msgctxt "admin-text"
+msgid "Import"
+msgstr ""
+
+#: views/pages/tools/general/import-plugin-settings.php:26
+msgctxt "admin-text"
+msgid "Importing settings, please wait..."
+msgstr ""
+
+#: views/pages/tools/general/import-plugin-settings.php:26
+msgctxt "admin-text"
+msgid "Import Settings"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:6
+msgctxt "admin-text"
+msgid "Import Third Party Reviews"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:13, views/pages/tools/general/optimise-db-tables.php:14
+msgctxt "admin-text"
+msgid "Please backup your database before running this tool! You can use the %s plugin to do this."
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:18
+msgctxt "admin-text"
+msgid "Here you can import third party reviews from a %s file. The CSV file should include a header row, use a comma as the delimiter, and may contain the following columns:"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:22
+msgctxt "admin-text"
+msgid "The avatar URL of the reviewer"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:23
+msgctxt "admin-text"
+msgid "The review"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:23, views/pages/tools/general/import-reviews.php:24, views/pages/tools/general/import-reviews.php:29
+msgctxt "admin-text"
+msgid "required"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:24
+msgctxt "admin-text"
+msgid "The review date as %s or a timestamp"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:25
+msgctxt "admin-text"
+msgid "The reviewer's email"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:26
+msgctxt "admin-text"
+msgid "The IP address of the reviewer"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:27
+msgctxt "admin-text"
+msgid "TRUE or FALSE"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:28
+msgctxt "admin-text"
+msgid "The reviewer's name"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:29
+msgctxt "admin-text"
+msgid "A number from 0-%d"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:30
+msgctxt "admin-text"
+msgid "The review response"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:31
+msgctxt "admin-text"
+msgid "The title of the review"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:33
+msgctxt "admin-text"
+msgid "Entries in the CSV file that do not contain required values will be skipped."
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:41
+msgctxt "admin-text"
+msgid "Importing reviews, please wait..."
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:41
+msgctxt "admin-text"
+msgid "Import Reviews"
+msgstr ""
+
+#: views/pages/tools/general/migrate-plugin.php:6
+msgctxt "admin-text"
+msgid "Migrate Plugin"
+msgstr ""
+
+#: views/pages/tools/general/migrate-plugin.php:12
+msgctxt "admin-text"
+msgid "Hold down the ALT/Option key to force-run all previous migrations."
+msgstr ""
+
+#: views/pages/tools/general/migrate-plugin.php:14
+msgctxt "admin-text"
+msgid "Run this tool if your reviews stopped working correctly after upgrading the plugin to the latest version (i.e. read-only reviews, zero-star ratings, missing role capabilities, etc.)."
+msgstr ""
+
+#: views/pages/tools/general/migrate-plugin.php:20
+msgctxt "admin-text"
+msgid "Migrating, please wait..."
+msgstr ""
+
+#: views/pages/tools/general/migrate-plugin.php:20
+msgctxt "admin-text"
+msgid "Run Migration"
+msgstr ""
+
+#: views/pages/tools/general/optimise-db-tables.php:6
+msgctxt "admin-text"
+msgid "Optimise Your Database Tables"
+msgstr ""
+
+#: views/pages/tools/general/optimise-db-tables.php:49
+msgctxt "admin-text"
+msgid "Optimisation is unnecessary because your database tables already use the InnoDB engine!"
+msgstr ""
+
+#: views/pages/tools/general/optimise-db-tables.php:18
+msgctxt "admin-text"
+msgid "The old MyISAM table engine in MySQL was replaced by the InnoDB engine as the default over 10 years ago! If your database tables still use the MyISAM engine, you are missing out on substantial performance and reliability gains that the InnoDB engine provides."
+msgstr ""
+
+#: views/pages/tools/general/optimise-db-tables.php:19
+msgctxt "admin-text"
+msgid "Site Reviews makes use of specific InnoDB engine features in order to perform faster database queries. However, some of your database tables (shown below) are still using the old MyISAM engine. If you convert these tables to use the InnoDB engine, it will make Site Reviews perform faster."
+msgstr ""
+
+#: views/pages/tools/general/optimise-db-tables.php:23
+msgctxt "admin-text"
+msgid "Table"
+msgstr ""
+
+#: views/pages/tools/general/optimise-db-tables.php:24
+msgctxt "admin-text"
+msgid "Engine"
+msgstr ""
+
+#: views/pages/tools/general/optimise-db-tables.php:39
+msgctxt "admin-text"
+msgid "Converting, please wait..."
+msgstr ""
+
+#: views/pages/tools/general/optimise-db-tables.php:39
+msgctxt "admin-text"
+msgid "Convert table engine to InnoDB"
+msgstr ""
+
+#: views/pages/tools/general/reset-assigned-meta.php:6
+msgctxt "admin-text"
+msgid "Reset Assigned Meta Values"
+msgstr ""
+
+#: views/pages/tools/general/reset-assigned-meta.php:11
+msgctxt "admin-text"
+msgid "Site Reviews stores the individual review count, average rating, and ranking for each assigned post, category, and user. If you suspect that these meta values are incorrect (perhaps you cloned a page that had reviews assigned to it), you may use this tool to recalculate them."
+msgstr ""
+
+#: views/pages/tools/general/reset-assigned-meta.php:16
+msgctxt "admin-text"
+msgid "Resetting values, please wait..."
+msgstr ""
+
+#: views/pages/tools/general/reset-assigned-meta.php:16
+msgctxt "admin-text"
+msgid "Reset Meta Values"
+msgstr ""
+
+#: views/pages/tools/general/reset-permissions.php:6, views/pages/tools/general/reset-permissions.php:21
+msgctxt "admin-text"
+msgid "Reset Permissions"
+msgstr ""
+
+#: views/pages/tools/general/reset-permissions.php:12
+msgctxt "admin-text"
+msgid "Hold down the ALT/Option key to perform a \"Hard Reset\"; this removes all Site Reviews capabilites from your Editor, Author, and Contributor roles before re-adding them."
+msgstr ""
+
+#: views/pages/tools/general/reset-permissions.php:14
+msgctxt "admin-text"
+msgid "Site Reviews provides custom post_type capabilities that mirror the capabilities of your posts by default. For example, if a user role has permission to edit others posts, then that role will also have permission to edit other users reviews."
+msgstr ""
+
+#: views/pages/tools/general/reset-permissions.php:15
+msgctxt "admin-text"
+msgid "If you have changed the capabilities of your user roles (Administrator, Editor, Author, and Contributor) and you suspect that Site Reviews is not working correctly due to your changes, you may use this tool to reset the Site Reviews capabilities for your user roles."
+msgstr ""
+
+#: views/pages/tools/general/reset-permissions.php:21
+msgctxt "admin-text"
+msgid "Hard Reset Permissions"
+msgstr ""
+
+#: views/pages/tools/general/reset-permissions.php:21
+msgctxt "admin-text"
+msgid "Resetting, please wait..."
+msgstr ""
+
+#: views/pages/tools/general/test-ip-detection.php:4
+msgctxt "admin-text"
+msgid "Test IP Address Detection"
+msgstr ""
+
+#: views/pages/tools/general/test-ip-detection.php:9
+msgctxt "admin-text"
+msgid "When reviews are submitted on your website, Site Reviews detects the IP address of the person submitting the review and saves it to the submitted review. This allows you to limit review submissions or to blacklist reviewers based on their IP address. The IP address is also used by Akismet (if you have enabled the integration) to catch spam submissions."
+msgstr ""
+
+#: views/pages/tools/general/test-ip-detection.php:10
+msgctxt "admin-text"
+msgid "If you are getting an \"unknown\" value for IP addresses in your reviews, you may use this tool to check the visitor IP address detection."
+msgstr ""
+
+#: views/pages/tools/general/test-ip-detection.php:15
+msgctxt "admin-text"
+msgid "Testing, please wait..."
+msgstr ""
+
+#: views/pages/tools/general/test-ip-detection.php:15
+msgctxt "admin-text"
+msgid "Test Detection"
+msgstr ""
