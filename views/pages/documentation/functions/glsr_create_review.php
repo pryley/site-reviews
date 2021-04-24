@@ -25,6 +25,7 @@
  * - 'is_pinned' => false,
  * - 'name' => '',
  * - 'rating' => '',
+ * - 'terms' => true,
  * - 'title' => '',
  * - 'url' => '',
  * @return \GeminiLabs\SiteReviews\Review|false

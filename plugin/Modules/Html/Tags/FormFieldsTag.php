@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Honeypot;
 use GeminiLabs\SiteReviews\Modules\Html\Attributes;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -58,6 +59,7 @@ class FormFieldsTag extends FormTag
             'assigned_users' => $this->args->assigned_users,
             'excluded' => $this->args->hide,
             'form_id' => $this->args->id,
+            'terms_exist' => Cast::toInt(!in_array('terms', $this->args->hide)),
         ];
         foreach ($hiddenFields as $name => $value) {
             $fields[$name] = new Field([

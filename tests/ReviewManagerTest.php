@@ -6,6 +6,7 @@ use Faker\Factory;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Request;
+use GeminiLabs\SiteReviews\Review;
 use WP_UnitTestCase;
 
 /**
@@ -21,7 +22,10 @@ class ReviewManagerTest extends WP_UnitTestCase
 
     public function createReview(Request $request)
     {
-        return glsr(ReviewManager::class)->create(new CreateReview($request));
+        if ($review = glsr(ReviewManager::class)->create(new CreateReview($request))) {
+            return $review;
+        }
+        return new Review([]);
     }
 
     public function setUp()
@@ -140,6 +144,32 @@ class ReviewManagerTest extends WP_UnitTestCase
     {
         $review = $this->createReview($this->request);
         $this->assertTrue($review->isValid());
+    }
+
+    public function test_create_with_terms()
+    {
+        // if terms field does not exist, set them to true
+        $request = $this->request;
+        $request->set('terms_exist', false);
+        $review = $this->createReview($request);
+        $this->assertTrue($review->isValid());
+        $this->assertTrue($review->terms);
+        // if terms field does exist but the terms are not accepted, set them to false
+        $request = clone $this->request;
+        $request->set('terms_exist', true);
+        $review = $this->createReview($request);
+        $this->assertTrue($review->isValid());
+        $this->assertFalse($review->terms);
+        // if terms are false (i.e. using the helper function), set them to false
+        $request = clone $this->request;
+        $request->set('terms', false);
+        $review = $this->createReview($request);
+        $this->assertTrue($review->isValid());
+        $this->assertFalse($review->terms);
+        // test the helper function directly
+        $review = glsr_create_review($this->request->toArray());
+        $this->assertTrue($review->isValid());
+        $this->assertTrue($review->terms);
     }
 
     public function test_unassign_post()

@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class CreateReviewDefaults extends Defaults
 {
@@ -39,6 +40,7 @@ class CreateReviewDefaults extends Defaults
         'referer' => 'text',
         'response' => 'text',
         'terms' => 'bool',
+        'terms_exist' => 'bool',
         'title' => 'text',
         'type' => 'text',
         'url' => 'url',
@@ -60,16 +62,28 @@ class CreateReviewDefaults extends Defaults
             'email' => '',
             'form_id' => '',
             'ip_address' => '',
-            'is_pinned' => '',
+            'is_pinned' => false,
             'name' => '',
             'post_id' => '',
             'rating' => '',
             'referer' => '',
             'response' => '',
-            'terms' => '',
+            'terms' => true,
+            'terms_exist' => false,
             'title' => '',
             'type' => '',
             'url' => '',
         ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function normalize(array $values = [])
+    {
+        if (Cast::toBool(glsr_get($values, 'terms_exist', false))) {
+            $values['terms'] = !empty($values['terms']);
+        }
+        return $values;
     }
 }
