@@ -3,6 +3,7 @@ import { CheckboxControlList } from './checkbox-control-list';
 import ConditionalSelectControl from './ConditionalSelectControl';
 import assigned_to_options from './assigned_to-options';
 import category_options from './category-options';
+import terms_options from './terms-options';
 import type_options from './type-options';
 import user_options from './user-options';
 
@@ -25,13 +26,14 @@ const attributes = {
     post_id: { default: '', type: 'string' },
     rating: { default: 0, type: 'number' },
     schema: { default: false, type: 'boolean' },
+    terms: { default: '', type: 'string' },
     type: { default: 'local', type: 'string' },
     user: { default: '', type: 'string' },
 };
 
 const edit = props => {
     props.attributes.post_id = jQuery('#post_ID').val();
-    const { attributes: { assigned_to, assigned_posts, assigned_terms, assigned_users, category, display, hide, id, pagination, rating, schema, type, user }, className, setAttributes } = props;
+    const { attributes: { assigned_to, assigned_posts, assigned_terms, assigned_users, category, display, hide, id, pagination, rating, schema, terms, type, user }, className, setAttributes } = props;
     const inspectorControls = {
         assigned_to: <ConditionalSelectControl
             key={ 'assigned_posts' }
@@ -92,6 +94,13 @@ const edit = props => {
                 value={ assigned_users }
             />
         </ConditionalSelectControl>,
+        terms: <SelectControl
+            key={ 'terms' }
+            label={ _x('Limit Reviews to terms', 'admin-text', 'site-reviews') }
+            onChange={ terms => setAttributes({ terms }) }
+            options={ terms_options }
+            value={ terms }
+        />,
         type: <SelectControl
             key={ 'type' }
             label={ _x('Limit the Type of Reviews', 'admin-text', 'site-reviews') }

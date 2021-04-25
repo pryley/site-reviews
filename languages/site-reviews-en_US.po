@@ -78,7 +78,7 @@ msgstr "Tell us your email"
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
-#: plugin/Blocks/SiteReviewsBlock.php:131, plugin/Modules/Html/Tags/ReviewContentTag.php:26
+#: plugin/Blocks/SiteReviewsBlock.php:135, plugin/Modules/Html/Tags/ReviewContentTag.php:26
 msgid "Show more"
 msgstr "Show more"
 
@@ -1589,7 +1589,7 @@ msgctxt "admin-text"
 msgid "License Keys"
 msgstr "License Keys"
 
-#: plugin/Blocks/SiteReviewsBlock.php:105, plugin/Blocks/SiteReviewsFormBlock.php:98, plugin/Blocks/SiteReviewsSummaryBlock.php:89
+#: plugin/Blocks/SiteReviewsBlock.php:109, plugin/Blocks/SiteReviewsFormBlock.php:98, plugin/Blocks/SiteReviewsSummaryBlock.php:93
 msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr "You have hidden all of the fields for this block."

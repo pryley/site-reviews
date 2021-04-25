@@ -52,6 +52,10 @@ class SiteReviewsSummaryBlock extends Block
                 'default' => false,
                 'type' => 'boolean',
             ],
+            'terms' => [
+                'default' => '',
+                'type' => 'string',
+            ],
             'type' => [
                 'default' => 'local',
                 'type' => 'string',
