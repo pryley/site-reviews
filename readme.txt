@@ -15,7 +15,7 @@ Site Reviews allows you to easily receive and display reviews for your website, 
 
 Site Reviews allows your visitors to submit reviews with a 1-5 star rating on your website, similar to the way you would on TripAdvisor or Yelp. The plugin provides blocks, shortcodes, and widgets, along with full documentation.
 
-You can pin your best reviews so that they are always shown first, require approval before new review submissions are published, require visitors to be logged-in in order to write a review, send custom notifications on a new submission, and much more.
+You can pin your best reviews so that they are always shown first, require approval before new review submissions are published, require visitors to be logged-in in order to write a review, send custom notifications on a new submission, and a whole lot more!
 
 __Site Reviews provides full Woocommerce integration__ with the free [Woocommerce Reviews](https://niftyplugins.com/plugins/woocommerce-reviews/) add-on.
 
@@ -58,7 +58,7 @@ __Site Reviews provides full Woocommerce integration__ with the free [Woocommerc
 
 ### Site Reviews Add-ons
 
-Site Reviews provides a ton of absolutely free features, possibly more than any other review plugin! But when those features are not enough, Site Reviews provides additional features (both free and premium) through add-ons. Current add-ons include:
+Site Reviews provides a ton of absolutely free features, possibly more than any other review plugin! But when those features are not enough, Site Reviews provides additional features through add-ons. Current add-ons include:
 
 - __[Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/) (premium)__: Create custom review forms with over 20 field types and individual review templates.
 - __[Review Filters](https://niftyplugins.com/plugins/site-reviews-filters/) (premium)__: Sort, filter, and search your reviews.

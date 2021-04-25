@@ -25,6 +25,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
  * @property int[] $post__not_in;
  * @property int $rating;
  * @property string $status;
+ * @property string $terms;
  * @property string $type;
  * @property int[] $user__in;
  * @property int[] $user__not_in;

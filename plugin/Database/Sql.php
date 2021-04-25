@@ -250,9 +250,7 @@ trait Sql
      */
     protected function clauseAndTerms()
     {
-        return Helper::ifTrue(glsr(Database::class)->version('1.1'),
-            $this->db->prepare('AND r.terms = %d', Cast::toBool($this->args['terms']))
-        );
+        return $this->db->prepare('AND r.terms = %d', Cast::toBool($this->args['terms']));
     }
 
     /**
