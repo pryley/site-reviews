@@ -99,7 +99,7 @@ abstract class TinymceGenerator
         if (!empty($this->errors)) {
             $errors = [];
             foreach ($this->required as $name => $alert) {
-                if (false === array_search($name, wp_list_pluck($fields, 'name'))) {
+                if (false === Arr::searchByKey($name, $fields, 'name')) {
                     $errors[] = $this->errors[$name];
                 }
             }

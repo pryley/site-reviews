@@ -242,6 +242,25 @@ class Arr
     }
 
     /**
+     * Search a multidimensional array by key value
+     * @param mixed $needle
+     * @param array $haystack
+     * @param int|string $key
+     * @return array|false
+     */
+    public static function searchByKey($needle, $haystack, $key)
+    {
+        if (!is_array($haystack) || array_diff_key($haystack, array_filter($haystack, 'is_array'))) {
+            return false;
+        }
+        $index = array_search($needle, wp_list_pluck($haystack, $key));
+        if (false !== $index) {
+            return $haystack[$index];
+        }
+        return false;
+    }
+
+    /**
      * Set a value to an array of values using a dot-notation path as reference.
      * @param mixed $data
      * @param string $path

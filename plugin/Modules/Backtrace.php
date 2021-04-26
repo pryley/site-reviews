@@ -72,9 +72,9 @@ class Backtrace
     {
         $file = Arr::get($backtrace, '0.file');
         $class = Arr::get($backtrace, '1.class');
-        $search = array_search('glsr_log', wp_list_pluck($backtrace, 'function'));
+        $search = Arr::searchByKey('glsr_log', $backtrace, 'function');
         if (false !== $search) {
-            $class = Arr::get($backtrace, $search.'.class',  Arr::get($backtrace, $search.'.file'));
+            $class = Arr::get($search, 'class', Arr::get($search, 'file'));
         } elseif (Str::endsWith('helpers.php', $file)) {
             $file = Arr::get($backtrace, '1.file');
             $class = Arr::get($backtrace, '2.class');
@@ -89,9 +89,9 @@ class Backtrace
      */
     protected function getLineNumber(array $backtrace)
     {
-        $search = array_search('glsr_log', wp_list_pluck($backtrace, 'function'));
+        $search = Arr::searchByKey('glsr_log', $backtrace, 'function');
         if (false !== $search) {
-            return Arr::get($backtrace, $search.'.line');
+            return Arr::get($search, 'line');
         }
         $file = Arr::get($backtrace, '0.file');
         $line = Arr::get($backtrace, '0.line');
