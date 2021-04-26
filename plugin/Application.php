@@ -4,10 +4,10 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Database\SqlSchema;
 use GeminiLabs\SiteReviews\Defaults\PermissionDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Install;
+use GeminiLabs\SiteReviews\Modules\Migrate;
 
 /**
  * @property array $addons
@@ -127,8 +127,14 @@ final class Application extends Container
     {
         // Ensure the custom database tables exist, this is needed in cases
         // where the plugin has been updated instead of activated.
-        if (empty(get_option(static::PREFIX.'db_version'))) {
+        $version = get_option(static::PREFIX.'db_version');
+        if (empty($version)) {
             $this->make(Install::class)->run();
+        } elseif ('1.1' === $version) { // @todo remove this in v5.12.0
+            if (!$this->make(SqlSchema::class)->columnExists('ratings', 'terms')) {
+                $this->make(Migrate::class)->reset();
+                update_option(static::PREFIX.'db_version', '1.0');
+            }
         }
         $this->make(Hooks::class)->run();
     }

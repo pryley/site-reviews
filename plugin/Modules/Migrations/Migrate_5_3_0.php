@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules\Migrations;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Database\SqlSchema;
 
 class Migrate_5_3_0
 {
@@ -22,7 +23,11 @@ class Migrate_5_3_0
     {
         $databaseVersion = get_option(glsr()->prefix.'db_version');
         if ('5.2' === $databaseVersion) {
-            update_option(glsr()->prefix.'db_version', '1.0');
+            $version = '1.0'; // @compat
+            if (glsr(SqlSchema::class)->columnExists('ratings', 'terms')) {
+                $version = Application::DB_VERSION;
+            }
+            update_option(glsr()->prefix.'db_version', $version);
         }
     }
 

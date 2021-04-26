@@ -113,7 +113,11 @@ class Install
         glsr(SqlSchema::class)->createTables();
         glsr(SqlSchema::class)->addForeignConstraints();
         if (glsr(SqlSchema::class)->tablesExist() && empty(get_option(glsr()->prefix.'db_version'))) {
-            add_option(glsr()->prefix.'db_version', Application::DB_VERSION);
+            $version = '1.0'; // @compat
+            if (glsr(SqlSchema::class)->columnExists('ratings', 'terms')) {
+                $version = Application::DB_VERSION;
+            }
+            add_option(glsr()->prefix.'db_version', $version);
         }
     }
 
