@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews
 Tested up to: 5.7
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.9.0
+Stable tag: 5.10.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,11 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.10.0 (2021-04-26) =
+
+- Added delimiter and date format options in the "Import third party reviews" tool
+- Fixed the missing "terms" database column in a fresh install of Site Reviews
 
 = 5.9.0 (2021-04-24) =
 

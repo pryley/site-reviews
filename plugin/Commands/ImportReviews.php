@@ -160,7 +160,7 @@ class ImportReviews extends Upload implements Contract
             'content' => !empty($record['content']),
             'rating' => glsr(Rating::class)->isValid(Arr::get($record, 'rating')),
         ];
-        if ($isValid = count(array_filter($required)) === 3) {
+        if (count(array_filter($required)) === 3) {
             return true;
         }
         $errorMessages = [

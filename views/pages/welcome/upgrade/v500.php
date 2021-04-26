@@ -1,11 +1,11 @@
 <div class="glsr-card postbox is-fullwidth open">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="upgrade-v500">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="upgrade-v5_0_0">
             <span class="title">Version 5.0.0</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div id="upgrade-v500" class="inside">
+    <div id="upgrade-v5_0_0" class="inside">
         <h2>Shortcode option changes</h2>
         <p><em>Likelihood Of Impact: <span class="required">High</span></em></p>
         <p>The changes to the shortcode options introduced in v5.0.0 are backwards compatible with version 4, meaning the old shortcode options will continue to work; however, if you are using these options then you should still update them as they may be removed in a future version.</p>

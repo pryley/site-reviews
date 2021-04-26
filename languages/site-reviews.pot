@@ -353,7 +353,7 @@ msgctxt "admin-text"
 msgid "To restore the default text, save an empty template. If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href=\"https://api.slack.com/docs/attachments\">Message Attachments</a> have been disabled."
 msgstr ""
 
-#: config/settings.php:132
+#: config/settings.php:132, views/pages/tools/general/import-reviews.php:49
 msgctxt "admin-text"
 msgid "Date Format"
 msgstr ""
@@ -1233,19 +1233,44 @@ msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:96
+#: plugin/Commands/ImportReviews.php:132
 msgctxt "admin-text"
 msgid "%s review was imported."
 msgid_plural "%s reviews were imported."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ImportReviews.php:104
+#: plugin/Commands/ImportReviews.php:140
 msgctxt "admin-text"
 msgid "%s entry was skipped."
 msgid_plural "%s entries were skipped."
 msgstr[0] ""
 msgstr[1] ""
+
+#: plugin/Commands/ImportReviews.php:143
+msgctxt "admin-text"
+msgid "See the %s for more details."
+msgstr ""
+
+#: plugin/Commands/ImportReviews.php:146, plugin/Controllers/MenuController.php:145
+msgctxt "admin-text"
+msgid "Console"
+msgstr ""
+
+#: plugin/Commands/ImportReviews.php:167
+msgctxt "admin-text"
+msgid "invalid date"
+msgstr ""
+
+#: plugin/Commands/ImportReviews.php:168
+msgctxt "admin-text"
+msgid "invalid content"
+msgstr ""
+
+#: plugin/Commands/ImportReviews.php:169
+msgctxt "admin-text"
+msgid "invalid rating"
+msgstr ""
 
 #: plugin/Commands/ImportSettings.php:23
 msgctxt "admin-text"
@@ -1407,11 +1432,6 @@ msgstr ""
 #: plugin/Controllers/MenuController.php:144, views/pages/tools/sync.php:57
 msgctxt "admin-text"
 msgid "Sync Reviews"
-msgstr ""
-
-#: plugin/Controllers/MenuController.php:145
-msgctxt "admin-text"
-msgid "Console"
 msgstr ""
 
 #: plugin/Controllers/MenuController.php:146
@@ -2950,7 +2970,7 @@ msgstr ""
 
 #: views/pages/tools/general/import-reviews.php:18
 msgctxt "admin-text"
-msgid "Here you can import third party reviews from a %s file. The CSV file should include a header row, use a comma as the delimiter, and may contain the following columns:"
+msgid "Here you can import third party reviews from a %s file. The CSV file should include a header row and may contain the following columns:"
 msgstr ""
 
 #: views/pages/tools/general/import-reviews.php:22
@@ -2970,7 +2990,7 @@ msgstr ""
 
 #: views/pages/tools/general/import-reviews.php:24
 msgctxt "admin-text"
-msgid "The review date as %s or a timestamp"
+msgid "The review date"
 msgstr ""
 
 #: views/pages/tools/general/import-reviews.php:25
@@ -3015,10 +3035,35 @@ msgstr ""
 
 #: views/pages/tools/general/import-reviews.php:41
 msgctxt "admin-text"
+msgid "Delimiter"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:43
+msgctxt "admin-text"
+msgid "Select the delimiter used in the CSV file"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:44
+msgctxt "admin-text"
+msgid "Commas (,)"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:45
+msgctxt "admin-text"
+msgid "Semicolons (;)"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:51
+msgctxt "admin-text"
+msgid "Select the date format used in the reviews"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:62
+msgctxt "admin-text"
 msgid "Importing reviews, please wait..."
 msgstr ""
 
-#: views/pages/tools/general/import-reviews.php:41
+#: views/pages/tools/general/import-reviews.php:62
 msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr ""

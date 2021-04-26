@@ -1,11 +1,11 @@
 <div class="glsr-card postbox is-fullwidth">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="welcome-v500">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="welcome-v5_0_0">
             <span class="title">Version 5.0</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div id="welcome-v500" class="inside">
+    <div id="welcome-v5_0_0" class="inside">
         <p><em>Initial Release Date &mdash; October 22nd, 2020</em></p>
         <h4>✨ New Features</h4>
         <ul>
@@ -35,7 +35,7 @@
             <li>Replaced the <code>assign_to</code> and <code>assigned_to</code> shortcode options with the <code>assigned_posts</code> option</li>
             <li>Replaced the <code>category</code> shortcode option with <code>assigned_terms</code> option</li>
             <li>Review limit validation now performs strict checking for assigned posts, categories and users (AND instead of OR).</li>
-            <li>The <code>site-reviews/rating/average</code> filter hook argument order has changed (see the <a data-expand="#upgrade-v500" href="<?= admin_url('index.php?page='.glsr()->id.'-welcome#tab-upgrade-guide'); ?>">Upgrade Guide</a>).</li>
+            <li>The <code>site-reviews/rating/average</code> filter hook argument order has changed (see the <a data-expand="#upgrade-v5_0_0" href="<?= admin_url('index.php?page='.glsr()->id.'-welcome#tab-upgrade-guide'); ?>">Upgrade Guide</a>).</li>
             <li>The Translations Settings search results are now restricted to public text that is actually shown on your website, if you would like to change plugin text shown in the WordPress admin, you should use the Loco Translate plugin instead.</li>
         </ul>
         <h4>🛠 Tweaks</h4>
