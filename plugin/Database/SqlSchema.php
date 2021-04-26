@@ -254,6 +254,7 @@ class SqlSchema
                 avatar varchar(200) DEFAULT NULL,
                 ip_address varchar(100) DEFAULT NULL,
                 url varchar(250) DEFAULT NULL,
+                terms tinyint(1) NOT NULL DEFAULT '1',
                 PRIMARY KEY  (ID),
                 UNIQUE KEY {$this->prefix('ratings_review_id_unique')} (review_id),
                 KEY {$this->prefix('ratings_rating_type_is_pinned_index')} (rating,type,is_pinned)
