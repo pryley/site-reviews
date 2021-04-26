@@ -8,6 +8,7 @@ use GeminiLabs\League\Csv\Statement;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Rating;
@@ -16,14 +17,46 @@ use GeminiLabs\SiteReviews\Upload;
 
 class ImportReviews extends Upload implements Contract
 {
+    const ALLOWED_DATE_FORMATS = [
+        'd-m-Y', 'd/m/Y',
+        'm-d-Y', 'm/d/Y',
+        'Y-m-d', 'Y-m-d H:i:s', 'Y/m/d',
+    ];
+
+    const ALLOWED_DELIMITERS = [
+        ',', ';',
+    ];
+
     const REQUIRED_KEYS = [
         'content', 'date', 'rating',
     ];
 
     /**
+     * @var string
+     */
+    protected $date_format = 'Y-m-d';
+
+    /**
+     * @var string
+     */
+    protected $delimiter = ',';
+
+    /**
+     * @var string[]
+     */
+    protected $errors = [];
+
+    /**
      * @var int
      */
     protected $totalRecords = 0;
+
+    public function __construct(Request $request)
+    {
+        $this->date_format = Str::restrictTo(static::ALLOWED_DATE_FORMATS, $request->date_format, 'Y-m-d');
+        $this->delimiter = Str::restrictTo(static::ALLOWED_DELIMITERS, $request->delimiter, ',');
+        $this->errors = [];
+    }
 
     /**
      * @return void
@@ -55,10 +88,11 @@ class ImportReviews extends Upload implements Contract
         try {
             wp_raise_memory_limit('admin');
             $reader = Reader::createFromPath($this->file()->tmp_name);
+            $reader->setDelimiter($this->delimiter);
             $reader->setHeaderOffset(0);
             $header = array_map('trim', $reader->getHeader());
             if (!empty(array_diff(static::REQUIRED_KEYS, $header))) {
-                throw new Exception('The CSV import header is missing required columns.');
+                throw new Exception('The CSV import header is missing the required columns (did you select the correct delimiter?).');
             }
             $this->totalRecords = count($reader);
             $records = Statement::create()
@@ -79,6 +113,8 @@ class ImportReviews extends Upload implements Contract
     protected function importRecords($records)
     {
         foreach ($records as $offset => $record) {
+            $date = \DateTime::createFromFormat($this->date_format, $record['date']);
+            $record['date'] = $date->format('Y-m-d H:i:s'); // format the provided date
             $request = new Request($record);
             $command = new CreateReview($request);
             glsr(ReviewManager::class)->createRaw($command);
@@ -104,7 +140,14 @@ class ImportReviews extends Upload implements Contract
             _nx('%s entry was skipped.', '%s entries were skipped.', $skippedRecords, 'admin-text', 'site-reviews'),
             number_format_i18n($skippedRecords)
         );
-        glsr(Notice::class)->addWarning(sprintf('%s %s', $notice, $skipped));
+        $consoleLink = sprintf(_x('See the %s for more details.', 'admin-text', 'site-reviews'),
+            sprintf('<a href="%s">%s</a>)',
+                admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-console'),
+                _x('Console', 'admin-text', 'site-reviews')
+            )
+        );
+        glsr(Notice::class)->addWarning(sprintf('%s (%s)', sprintf('%s %s', $notice, $skipped), $consoleLink));
+        glsr_log()->warning(sprintf('One or more of the following errors were encountered during import: %s', Str::naturalJoin($this->errors)));
     }
 
     /**
@@ -112,12 +155,21 @@ class ImportReviews extends Upload implements Contract
      */
     protected function validateRecord(array $record)
     {
-        $date = Arr::get($record, 'date');
         $required = [
-            'date' => glsr(Date::class)->isValid($date) || glsr(Date::class)->isValid($date, 'Y-m-d'), // allow datetime
+            'date' => glsr(Date::class)->isValid(Arr::get($record, 'date'), $this->date_format),
             'content' => !empty($record['content']),
             'rating' => glsr(Rating::class)->isValid(Arr::get($record, 'rating')),
         ];
-        return count(array_filter($required)) === 3;
+        if ($isValid = count(array_filter($required)) === 3) {
+            return true;
+        }
+        $errorMessages = [
+            'date' => _x('invalid date', 'admin-text', 'site-reviews'),
+            'content' => _x('invalid content', 'admin-text', 'site-reviews'),
+            'rating' => _x('invalid rating', 'admin-text', 'site-reviews'),
+        ];
+        $errors = array_intersect_key($errorMessages, array_diff_key($required, array_filter($required)));
+        $this->errors = array_merge($this->errors, $errors);
+        return false;
     }
 }

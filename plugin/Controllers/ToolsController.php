@@ -166,9 +166,9 @@ class ToolsController extends Controller
      * @return void
      * @action site-reviews/route/admin/import-reviews
      */
-    public function importReviews()
+    public function importReviews(Request $request)
     {
-        $this->execute(new ImportReviews());
+        $this->execute(new ImportReviews($request));
     }
 
     /**

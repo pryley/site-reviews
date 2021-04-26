@@ -15,13 +15,13 @@
             ); ?></p>
         </div>
         <p><?= sprintf(
-            _x('Here you can import third party reviews from a %s file. The CSV file should include a header row, use a comma as the delimiter, and may contain the following columns:', 'admin-text', 'site-reviews'),
+            _x('Here you can import third party reviews from a %s file. The CSV file should include a header row and may contain the following columns:', 'admin-text', 'site-reviews'),
             '<code>*.CSV</code>'
         ); ?></p>
         <p>
             <code>avatar</code> <?= _x('The avatar URL of the reviewer', 'admin-text', 'site-reviews'); ?><br>
             <code>content</code> <?= sprintf('%s (<span class="required">%s</span>)', _x('The review', 'admin-text', 'site-reviews'), _x('required', 'admin-text', 'site-reviews')); ?><br>
-            <code>date</code> <?= sprintf('%s (<span class="required">%s</span>)', sprintf(_x('The review date as %s or a timestamp', 'admin-text', 'site-reviews'), '<span class="code"><strong>yyyy-mm-dd</strong></span>'), _x('required', 'admin-text', 'site-reviews')); ?><br>
+            <code>date</code> <?= sprintf('%s (<span class="required">%s</span>)', _x('The review date', 'admin-text', 'site-reviews'), _x('required', 'admin-text', 'site-reviews')); ?><br>
             <code>email</code> <?= _x('The reviewer\'s email', 'admin-text', 'site-reviews'); ?><br>
             <code>ip_address</code> <?= _x('The IP address of the reviewer', 'admin-text', 'site-reviews'); ?><br>
             <code>is_pinned</code> <?= _x('TRUE or FALSE', 'admin-text', 'site-reviews'); ?><br>
@@ -36,6 +36,27 @@
             <input type="hidden" name="{{ id }}[_action]" value="import-reviews">
             <p>
                 <input type="file" name="import-file" accept="text/csv">
+            </p>
+            <p>
+                <label for="csv_delimiter"><strong><?= _x('Delimiter', 'admin-text', 'site-reviews'); ?></strong></label><br>
+                <select name="{{ id }}[delimiter]" id="csv_delimiter" required>
+                    <option value=""><?= _x('Select the delimiter used in the CSV file', 'admin-text', 'site-reviews'); ?></option>
+                    <option value=","><?= _x('Commas (,)', 'admin-text', 'site-reviews'); ?></option>
+                    <option value=";"><?= _x('Semicolons (;)', 'admin-text', 'site-reviews'); ?></option>
+                </select>
+            </p>
+            <p>
+                <label for="csv_date_format"><strong><?= _x('Date Format', 'admin-text', 'site-reviews'); ?></strong></label><br>
+                <select name="{{ id }}[date_format]" id="csv_date_format" required>
+                    <option value=""><?= _x('Select the date format used in the reviews', 'admin-text', 'site-reviews'); ?></option>
+                    <option value="d-m-Y">d-m-Y &nbsp; (13-01-2021)</option>
+                    <option value="d/m/Y">d/m/Y &nbsp; (13/01/2021)</option>
+                    <option value="m-d-Y">m-d-Y &nbsp; (01-13-2021)</option>
+                    <option value="m/d/Y">m/d/Y &nbsp; (01/13/2021)</option>
+                    <option value="Y-m-d">Y-m-d &nbsp; (2021-01-13)</option>
+                    <option value="Y-m-d H:i:s">Y-m-d H:i:s &nbsp; (2021-01-13 12:00:00)</option>
+                    <option value="Y/m/d">Y/m/d &nbsp; (2021/01/13)</option>
+                </select>
             </p>
             <button type="submit" class="glsr-button components-button is-secondary" id="import-reviews" data-expand="#tools-import-reviews">
                 <span data-loading="<?= esc_attr_x('Importing reviews, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Import Reviews', 'admin-text', 'site-reviews'); ?></span>
