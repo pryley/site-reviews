@@ -401,6 +401,10 @@ class Database
     public function version($compareToVersion = null)
     {
         $dbVersion = Cast::toString(get_option(glsr()->prefix.'db_version'));
+        if (version_compare($dbVersion, '2', '>')) { // @compat version should always be less than 2 for now
+            update_option(glsr()->prefix.'db_version', '1.0');
+            $dbVersion = '1.0';
+        }
         return isset($compareToVersion)
             ? version_compare($dbVersion, Cast::toString($compareToVersion), '>=')
             : $dbVersion;

@@ -75,8 +75,7 @@ class Migrate_5_9_0
      */
     protected function isDatabaseVersionUpdated()
     {
-        $table = glsr(SqlSchema::class)->table('ratings');
-        if (glsr(SqlSchema::class)->columnExists($table, 'terms')) {
+        if (glsr(SqlSchema::class)->columnExists('ratings', 'terms')) {
             if (!glsr(Database::class)->version('1.1')) {
                 update_option(glsr()->prefix.'db_version', '1.1');
             }
