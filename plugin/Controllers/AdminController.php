@@ -12,6 +12,7 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Install;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Request;
@@ -133,6 +134,7 @@ class AdminController extends Controller
     {
         if (empty(get_option(glsr()->prefix.'activated'))) {
             glsr(Install::class)->run();
+            glsr(Migrate::class)->run();
             update_option(glsr()->prefix.'activated', true);
         }
     }
