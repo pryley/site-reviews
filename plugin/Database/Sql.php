@@ -149,8 +149,7 @@ trait Sql
      */
     protected function clauseAndAssignedPosts()
     {
-        $postIds = implode(',', $this->args['assigned_posts']);
-        return sprintf('(apt.post_id IN (%s) AND apt.is_published = 1)', $postIds);
+        return $this->clauseIfValueNotEmpty('(apt.post_id IN (%s) AND apt.is_published = 1)', $this->args['assigned_posts']);
     }
 
     /**
@@ -158,8 +157,7 @@ trait Sql
      */
     protected function clauseAndAssignedTerms()
     {
-        $termIds = implode(',', $this->args['assigned_terms']);
-        return sprintf('(att.term_id IN (%s))', $termIds);
+        return $this->clauseIfValueNotEmpty('(att.term_id IN (%s))', $this->args['assigned_terms']);
     }
 
     /**
@@ -167,8 +165,7 @@ trait Sql
      */
     protected function clauseAndAssignedUsers()
     {
-        $userIds = implode(',', $this->args['assigned_users']);
-        return sprintf('(aut.user_id IN (%s))', $userIds);
+        return $this->clauseIfValueNotEmpty('(aut.user_id IN (%s))', $this->args['assigned_users']);
     }
 
     /**
@@ -200,7 +197,7 @@ trait Sql
      */
     protected function clauseAndEmail()
     {
-        return $this->db->prepare('AND r.email = %s', $this->args['email']);
+        return $this->clauseIfValueNotEmpty('AND r.email = %s', $this->args['email']);
     }
 
     /**
@@ -208,7 +205,7 @@ trait Sql
      */
     protected function clauseAndIpAddress()
     {
-        return $this->db->prepare('AND r.ip_address = %s', $this->args['ip_address']);
+        return $this->clauseIfValueNotEmpty('AND r.ip_address = %s', $this->args['ip_address']);
     }
 
     /**
@@ -216,7 +213,7 @@ trait Sql
      */
     protected function clauseAndPostIn()
     {
-        return $this->db->prepare('AND r.review_id IN (%s)', implode(',', $this->args['post__in']));
+        return $this->clauseIfValueNotEmpty('AND r.review_id IN (%s)', $this->args['post__in']);
     }
 
     /**
@@ -224,7 +221,7 @@ trait Sql
      */
     protected function clauseAndPostNotIn()
     {
-        return $this->db->prepare('AND r.review_id NOT IN (%s)', implode(',', $this->args['post__not_in']));
+        return $this->clauseIfValueNotEmpty('AND r.review_id NOT IN (%s)', $this->args['post__not_in']);
     }
 
     /**
@@ -242,7 +239,7 @@ trait Sql
      */
     protected function clauseAndStatus()
     {
-        return $this->db->prepare('AND r.is_approved = %d', $this->args['status']);
+        return $this->clauseIfValueNotEmpty('AND r.is_approved = %d', $this->args['status']);
     }
 
     /**
@@ -250,7 +247,11 @@ trait Sql
      */
     protected function clauseAndTerms()
     {
-        return $this->db->prepare('AND r.terms = %d', Cast::toBool($this->args['terms']));
+        if (Helper::isEmpty($this->args['terms'])) {
+            return '';
+        }
+        $value = Cast::toInt(Cast::toBool($this->args['terms']));
+        return $this->clauseIfValueNotEmpty('AND r.terms = %d', $value);
     }
 
     /**
@@ -258,7 +259,7 @@ trait Sql
      */
     protected function clauseAndType()
     {
-        return $this->db->prepare('AND r.type = %s', $this->args['type']);
+        return $this->clauseIfValueNotEmpty('AND r.type = %s', $this->args['type']);
     }
 
     /**
@@ -266,7 +267,7 @@ trait Sql
      */
     protected function clauseAndUserIn()
     {
-        return $this->db->prepare('AND p.post_author IN (%s)', implode(',', $this->args['user__in']));
+        return $this->clauseIfValueNotEmpty('AND p.post_author IN (%s)', $this->args['user__in']);
     }
 
     /**
@@ -274,7 +275,27 @@ trait Sql
      */
     protected function clauseAndUserNotIn()
     {
-        return $this->db->prepare('AND p.post_author NOT IN (%s)', implode(',', $this->args['user__not_in']));
+        return $this->clauseIfValueNotEmpty('AND p.post_author NOT IN (%s)', $this->args['user__not_in']);
+    }
+
+    /**
+     * @param string $clause
+     * @param array|int|string $value
+     * @param bool $prepare
+     * @return string
+     */
+    protected function clauseIfValueNotEmpty($clause, $value, $prepare = true)
+    {
+        if (Helper::isEmpty($value)) {
+            return '';
+        }
+        if (!$prepare) {
+            return $clause;
+        }
+        if (is_array($value)) {
+            $value = implode(',', $value);
+        }
+        return $this->db->prepare($clause, $value);
     }
 
     /**
@@ -282,7 +303,11 @@ trait Sql
      */
     protected function clauseJoinAssignedPosts()
     {
-        return "INNER JOIN {$this->table('assigned_posts')} AS apt ON r.ID = apt.rating_id";
+        return $this->clauseIfValueNotEmpty(
+            "INNER JOIN {$this->table('assigned_posts')} AS apt ON r.ID = apt.rating_id",
+            $this->args['assigned_posts'],
+            $prepare = false
+        );
     }
 
     /**
@@ -290,7 +315,11 @@ trait Sql
      */
     protected function clauseJoinAssignedTerms()
     {
-        return "INNER JOIN {$this->table('assigned_terms')} AS att ON r.ID = att.rating_id";
+        return $this->clauseIfValueNotEmpty(
+            "INNER JOIN {$this->table('assigned_terms')} AS att ON r.ID = att.rating_id",
+            $this->args['assigned_terms'],
+            $prepare = false
+        );
     }
 
     /**
@@ -298,7 +327,11 @@ trait Sql
      */
     protected function clauseJoinAssignedUsers()
     {
-        return "INNER JOIN {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id";
+        return $this->clauseIfValueNotEmpty(
+            "INNER JOIN {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id",
+            $this->args['assigned_users'],
+            $prepare = false
+        );
     }
 
     /**
@@ -306,8 +339,10 @@ trait Sql
      */
     protected function clauseJoinDate()
     {
-        return Helper::ifTrue(!empty(array_filter($this->args['date'])),
-            "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
+        return $this->clauseIfValueNotEmpty(
+            "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID",
+            array_filter($this->args['date']),
+            $prepare = false
         );
     }
 
@@ -316,7 +351,11 @@ trait Sql
      */
     protected function clauseJoinUserIn()
     {
-        return "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID";
+        return $this->clauseIfValueNotEmpty(
+            "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID",
+            $this->args['user__in'],
+            $prepare = false
+        );
     }
 
     /**
@@ -324,7 +363,11 @@ trait Sql
      */
     protected function clauseJoinUserNotIn()
     {
-        return "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID";
+        return $this->clauseIfValueNotEmpty(
+            "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID",
+            $this->args['user__not_in'],
+            $prepare = false
+        );
     }
 
     /**
