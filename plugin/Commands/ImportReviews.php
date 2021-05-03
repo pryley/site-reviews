@@ -156,7 +156,7 @@ class ImportReviews extends Upload implements Contract
     protected function validateRecord(array $record)
     {
         $required = [
-            'date' => glsr(Date::class)->isValid(Arr::get($record, 'date'), $this->date_format),
+            'date' => glsr(Date::class)->isDate(Arr::get($record, 'date'), $this->date_format),
             'content' => !empty($record['content']),
             'rating' => glsr(Rating::class)->isValid(Arr::get($record, 'rating')),
         ];
