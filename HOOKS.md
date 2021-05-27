@@ -48,6 +48,7 @@
     site-reviews/build/template/<template_path>             (string $template, array $data): string
     site-reviews/builder/<field_type>/args                  (array $args, Modules\Html\Builder $builder): array
     site-reviews/builder/<tag>/args                         (array $args, Modules\Html\Builder $builder): array
+    site-reviews/builder/enable/optgroup                    (bool $enable): bool
     site-reviews/builder/field/<field_type>                 (string $className): string
     site-reviews/builder/result                             (string $result, Modules\Html\Builder $builder): string
     site-reviews/column/<column>                            (string $className): string

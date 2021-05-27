@@ -39,6 +39,10 @@ class Attributes
         'for',
     ];
 
+    const ATTRIBUTES_OPTGROUP = [
+        'disabled', 'label',
+    ];
+
     const ATTRIBUTES_OPTION = [
         'disabled', 'label', 'selected', 'value',
     ];

@@ -46,8 +46,8 @@ class Builder
     ];
 
     const TAGS_TEXT = [
-        'a', 'button', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'i', 'label', 'li', 'option', 'p', 'pre',
-        'small', 'span',
+        'a', 'button', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'i', 'label', 'li', 'option', 'optgroup',
+        'p', 'pre', 'small', 'span',
     ];
 
     /**
@@ -301,16 +301,38 @@ class Builder
     protected function buildFormSelectOptions()
     {
         $options = $this->args->cast('options', 'array');
+        $optgroupEnabled = glsr()->filterBool('builder/enable/optgroup', false);
         if ($this->args->placeholder) {
             $options = Arr::prepend($options, $this->args->placeholder, '');
         }
-        return array_reduce(array_keys($options), function ($carry, $key) use ($options) {
+        return array_reduce(array_keys($options), function ($carry, $key) use ($options, $optgroupEnabled) {
+            if ($optgroupEnabled && is_array($options[$key])) {
+                return $carry.$this->buildFormSelectOptGroup($options[$key], $key);
+            }
             return $carry.$this->option([
                 'selected' => $this->args->cast('value', 'string') === Cast::toString($key),
                 'text' => $options[$key],
                 'value' => $key,
             ]);
         });
+    }
+
+    /**
+     * @return string
+     */
+    protected function buildFormSelectOptGroup($options, $label)
+    {
+        $children = array_reduce(array_keys($options), function ($carry, $key) use ($options) {
+           return $carry.glsr(Builder::class)->option([
+                'selected' => $this->args->cast('value', 'string') === Cast::toString($key),
+                'text' => $options[$key],
+                'value' => $key,
+            ]);
+        });
+        return glsr(Builder::class)->optgroup([
+            'label' => $label,
+            'text' => $children,
+        ]);
     }
 
     /**
