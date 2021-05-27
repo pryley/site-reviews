@@ -90,6 +90,7 @@ class Hooks implements HooksContract
         add_action('site-reviews/route/ajax/search-posts', [$this->admin, 'searchPostsAjax']);
         add_action('site-reviews/route/ajax/search-translations', [$this->admin, 'searchTranslationsAjax']);
         add_action('site-reviews/route/ajax/search-users', [$this->admin, 'searchUsersAjax']);
+        add_action('site-reviews/route/ajax/toggle-filters', [$this->admin, 'toggleFiltersAjax']);
         add_action('site-reviews/route/ajax/toggle-pinned', [$this->admin, 'togglePinnedAjax']);
         add_action('site-reviews/route/ajax/toggle-status', [$this->admin, 'toggleStatusAjax']);
         add_action('init', [$this->blocks, 'registerAssets'], 9);
@@ -192,6 +193,7 @@ class Hooks implements HooksContract
         add_filter('default_hidden_columns', [$this->listtable, 'filterDefaultHiddenColumns'], 10, 2);
         add_filter('posts_clauses', [$this->listtable, 'filterPostClauses'], 10, 2);
         add_filter('post_row_actions', [$this->listtable, 'filterRowActions'], 10, 2);
+        add_filter('screen_settings', [$this->listtable, 'filterScreenFilters'], 10, 2);
         add_filter('manage_edit-'.glsr()->post_type.'_sortable_columns', [$this->listtable, 'filterSortableColumns']);
         add_filter('wpmu_drop_tables', [$this->main, 'filterDropTables'], 999); // run last
         add_filter('site-reviews/config/forms/metabox-fields', [$this->metabox, 'filterFieldOrder'], 11);

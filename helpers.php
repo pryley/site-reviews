@@ -89,7 +89,7 @@ function glsr_current_screen()
         $screen = get_current_screen();
     }
     return empty($screen)
-        ? (object) array_fill_keys(['base', 'id', 'post_type'], null)
+        ? (object) array_fill_keys(['action', 'base', 'id', 'post_type'], null)
         : $screen;
 }
 

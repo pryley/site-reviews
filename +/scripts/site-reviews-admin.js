@@ -3,6 +3,7 @@
 import Ajax from './admin/ajax.js';
 import autosize from 'autosize';
 import ColorPicker from './admin/color-picker.js';
+import Filters from './admin/filters.js';
 import Forms from './admin/forms.js';
 import Metabox from './admin/metabox.js';
 import Notices from './admin/notices.js';
@@ -39,6 +40,7 @@ jQuery(function ($) {
     GLSR.stars = new StarRating('select.glsr-star-rating', { tooltip: false });
     GLSR.Tippy.tippy('.glsr-tooltip', {appendTo: () => document.body});
     ColorPicker();
+    new Filters();
     new Forms('form.glsr-form');
     new Metabox();
     new Pinned();

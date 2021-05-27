@@ -2,11 +2,15 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedPost;
+use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedUser;
+use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterCategory;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterRating;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterType;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
 use GeminiLabs\SiteReviews\Defaults\ColumnOrderbyDefaults;
+use GeminiLabs\SiteReviews\Defaults\ReviewTableFiltersDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -117,6 +121,38 @@ class ListTableController extends Controller
     }
 
     /**
+     * @param \WP_Screen $screen
+     * @return string
+     * @filter screen_settings
+     */
+    public function filterScreenFilters($settings, $screen)
+    {
+        if ('edit-'.glsr()->post_type === $screen->id) {
+            $userId = get_current_user_id();
+            $filters = glsr(ReviewTableFiltersDefaults::class)->defaults();
+            if (count(glsr()->retrieveAs('array', 'review_types')) < 2) {
+                unset($filters['type']);
+            }
+            foreach ($filters as $key => &$value) {
+                $value = Str::titleCase($key);
+            }
+            ksort($filters);
+            $setting = 'edit_'.glsr()->post_type.'_filters';
+            $enabled = get_user_meta($userId, $setting, true);
+            if (!is_array($enabled)) {
+                 $enabled = ['rating']; // the default enabled filters
+                 update_user_meta($userId, $setting, $enabled);
+            }
+            $settings .= glsr()->build('partials/screen/filters', [
+                'enabled' => $enabled,
+                'filters' => $filters,
+                'setting' => $setting,
+            ]);
+        }
+        return $settings;
+    }
+
+    /**
      * @param array $columns
      * @return array
      * @filter manage_edit-{glsr()->post_type}_sortable_columns
@@ -142,9 +178,13 @@ class ListTableController extends Controller
     public function renderColumnFilters($postType)
     {
         if (glsr()->post_type === $postType) {
-            echo Cast::toString(glsr()->runIf(ColumnFilterRating::class));
-            echo Cast::toString(glsr()->runIf(ColumnFilterType::class));
-            echo Cast::toString(glsr()->runIf(glsr()->filterString('review-table/filter', '')));
+            $filters = glsr(ReviewTableFiltersDefaults::class)->defaults();
+            $enabledFilters = Arr::consolidate(
+                get_user_meta(get_current_user_id(), 'edit_'.glsr()->post_type.'_filters', true)
+            );
+            foreach ($filters as $filter) {
+                echo Cast::toString(glsr()->runIf($filter, $enabledFilters));
+            }
         }
     }
 
@@ -181,6 +221,12 @@ class ListTableController extends Controller
         if ('response' === $orderby) {
             $query->set('meta_key', Str::prefix($orderby, '_'));
             $query->set('orderby', 'meta_value');
+        }
+        if ($termId = filter_input(INPUT_GET, 'assigned_term_id', FILTER_SANITIZE_NUMBER_INT)) {
+            $query->set('tax_query', [[
+                'taxonomy' => glsr()->taxonomy,
+                'terms' => $termId,
+            ]]);
         }
     }
 
@@ -257,8 +303,25 @@ class ListTableController extends Controller
      */
     protected function modifyClauseWhere($where, $table, WP_Query $query)
     {
+        $mapped = [
+            'assigned_post' => 'post',
+            'assigned_user' => 'user',
+        ];
         foreach ($this->filterByValues() as $key => $value) {
-            $where .= " AND {$table}.{$key} = '{$value}' ";
+            if (in_array($key, ['assigned_post', 'assigned_user'])) {
+                global $wpdb;
+                $assignedTable = glsr(Query::class)->table($key.'s');
+                $ids = $wpdb->get_col("
+                    SELECT DISTINCT r.review_id 
+                    FROM {$table} r
+                    INNER JOIN {$assignedTable} at ON at.rating_id = r.ID 
+                    WHERE at.{$mapped[$key]}_id = '{$value}' 
+                ");
+                $where .= sprintf(" AND {$wpdb->posts}.ID IN (%s) ", implode(',', $ids));
+            }
+            else {
+                $where .= " AND {$table}.{$key} = '{$value}' ";
+            }
         }
         return $where;
     }

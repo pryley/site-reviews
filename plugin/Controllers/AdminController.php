@@ -241,6 +241,19 @@ class AdminController extends Controller
 
     /**
      * @return void
+     * @action site-reviews/route/ajax/toggle-filters
+     */
+    public function toggleFiltersAjax(Request $request)
+    {
+        if ($userId = get_current_user_id()) {
+            $enabled = Arr::consolidate($request->enabled);
+            update_user_meta($userId, 'edit_'.glsr()->post_type.'_filters', $enabled);
+        }
+        wp_send_json_success();
+    }
+
+    /**
+     * @return void
      * @action site-reviews/route/ajax/toggle-pinned
      */
     public function togglePinnedAjax(Request $request)

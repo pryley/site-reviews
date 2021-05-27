@@ -19,7 +19,7 @@ Metabox.prototype = {
             if (isChecked) {
                jQuery(el).data('value', el.value);
             } else {
-                el.value =jQuery(el).data('value');
+                el.value = jQuery(el).data('value');
                 if ('url' !== el.type) return;
                 this.switchImage_(jQuery(el).parent().find('img'), el.value);
             }

@@ -284,6 +284,16 @@ class Str
     }
 
     /**
+     * @param string $string
+     * @return string
+     */
+    public static function titleCase($string)
+    {
+        $value = str_replace(['-', '_'], ' ', $string);
+        return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
+    }
+
+    /**
      * @param string $value
      * @param int $length
      * @param string $end

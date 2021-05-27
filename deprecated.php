@@ -89,6 +89,18 @@ add_action('plugins_loaded', function () {
         }
         return $order;
     }, 9);
+
+    /*
+     * Controllers\ListTableController
+     * @since 5.11.0
+     */
+    add_filter('site-reviews/defaults/review-table-filters', function ($defaults) {
+        if (has_filter('site-reviews/review-table/filter')) {
+            $message = 'The "site-reviews/review-table/filter" hook has been deprecated. Please use the "site-reviews/defaults/review-table-filters" hook instead.';
+            glsr()->append('deprecated', $message);
+        }
+        return $defaults;
+    });
 });
 
 /**
