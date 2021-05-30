@@ -8,6 +8,16 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Review;
 
+/**
+ * @property string $avatar;
+ * @property string $content
+ * @property string $date
+ * @property string $author
+ * @property int $rating
+ * @property string $response
+ * @property string $title
+ * etc.
+ */
 class ReviewHtml extends \ArrayObject
 {
     /**

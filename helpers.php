@@ -16,9 +16,10 @@ use GeminiLabs\SiteReviews\Modules\Backtrace;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Rating;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Request;
 
-defined('ABSPATH') || die;
+defined('ABSPATH') || exit;
 
 /*
  * Alternate method of using the functions without having to use `function_exists()`
@@ -33,13 +34,13 @@ add_filter('plugins_loaded', function () {
         'glsr_get' => 4,
         'glsr_get_option' => 4,
         'glsr_get_options' => 1,
-        'glsr_get_rating' => 2,
         'glsr_get_ratings' => 2,
         'glsr_get_review' => 2,
         'glsr_get_reviews' => 2,
         'glsr_log' => 3,
         'glsr_star_rating' => 4,
         'glsr_trace' => 2,
+        'glsr_update_review' => 3,
     ];
     foreach ($hooks as $function => $acceptedArgs) {
         add_filter($function, function () use ($function) {
@@ -70,9 +71,9 @@ function glsr($alias = null, array $parameters = [])
 /**
  * @return \GeminiLabs\SiteReviews\Review|false
  */
-function glsr_create_review($reviewValues = [])
+function glsr_create_review($values = [])
 {
-    $values = Arr::removeEmptyValues(Arr::consolidate($reviewValues));
+    $values = Arr::removeEmptyValues(Arr::consolidate($values));
     $request = new Request($values);
     $command = new CreateReview($request);
     return $command->isValid()
@@ -165,7 +166,7 @@ function glsr_get_ratings($args = [])
  */
 function glsr_get_review($postId)
 {
-    return glsr(ReviewManager::class)->get(Helper::getPostId($postId));
+    return glsr(ReviewManager::class)->get($postId);
 }
 
 /**
@@ -220,4 +221,13 @@ function glsr_star_rating($rating, $count = 0, array $args = [])
 function glsr_trace($limit = 5)
 {
     glsr_log(glsr(Backtrace::class)->trace($limit));
+}
+
+/**
+ * @param int $postId
+ * @return \GeminiLabs\SiteReviews\Review|false
+ */
+function glsr_update_review($postId, $values = [])
+{
+    return glsr(ReviewManager::class)->update($postId, Arr::consolidate($values));
 }

@@ -16,7 +16,9 @@ class NormalizePaginationArgs extends Arguments
     public function __construct(array $args = [])
     {
         parent::__construct($args);
-        $this->normalizePage();
+        if (empty($this->page)) {
+            $this->normalizePage();
+        }
         $this->normalizePageUrl();
         $this->normalizePageUrlParameters();
     }

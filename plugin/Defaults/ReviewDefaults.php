@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class ReviewDefaults extends Defaults
 {
@@ -70,5 +71,18 @@ class ReviewDefaults extends Defaults
             'type' => '',
             'url' => '',
         ];
+    }
+
+    /**
+     * Normalize provided values, this always runs first.
+     * @return array
+     */
+    protected function normalize(array $values = [])
+    {
+        $date = Arr::get($values, 'date');
+        if ($date && '0000-00-00 00:00:00' === Arr::get($values, 'date_gmt')) {
+            $values['date_gmt'] = get_gmt_from_date($date);
+        }
+        return $values;
     }
 }

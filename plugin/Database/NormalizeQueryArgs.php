@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 /**
  * @property int[] $assigned_posts;
@@ -59,12 +60,8 @@ class NormalizeQueryArgs extends Arguments
             $date['day'] = date('j', $timestamp);
             return $date;
         }
-        if (false !== strtotime(Arr::get($value, 'after'))) {
-            $date['after'] = $value['after'];
-        }
-        if (false !== strtotime(Arr::get($value, 'before'))) {
-            $date['before'] = $value['before'];
-        }
+        $date['after'] = glsr(Sanitizer::class)->sanitizeDate(Arr::get($value, 'after'));
+        $date['before'] = glsr(Sanitizer::class)->sanitizeDate(Arr::get($value, 'before'));
         if (!empty(array_filter($date))) {
             $date['inclusive'] = Cast::toBool(Arr::get($value, 'inclusive')) ? '=' : '';
         }
@@ -77,8 +74,12 @@ class NormalizeQueryArgs extends Arguments
      */
     protected function normalizeOrderBy($value)
     {
-        $orderBy = Str::restrictTo('author,comment_count,date,date_gmt,ID,menu_order,none,random,rating,relevance', $value, 'date');
-        if (in_array($orderBy, ['comment_count', 'ID', 'menu_order'])) {
+        $value = strtolower($value);
+        $orderBy = Str::restrictTo('author,comment_count,date,date_gmt,id,menu_order,none,random,rating', $value, 'date');
+        if ('id' === $orderBy) {
+            return 'p.ID';
+        }
+        if (in_array($orderBy, ['comment_count', 'menu_order'])) {
             return Str::prefix($orderBy, 'p.');
         }
         if (in_array($orderBy, ['author', 'date', 'date_gmt'])) {

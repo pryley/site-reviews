@@ -19,11 +19,11 @@ class Arr
     }
 
     /**
-     * Returns an empty array if value is scalar
+     * Returns an empty array by default if value is scalar
      * @param mixed $value
      * @return array
      */
-    public static function consolidate($value)
+    public static function consolidate($value, array $fallback = [])
     {
         if ($value instanceof Arguments) {
             return $value->toArray();
@@ -32,7 +32,7 @@ class Arr
             $values = get_object_vars($value);
             $value = Helper::ifEmpty($values, (array) $value, $strict = true);
         }
-        return is_array($value) ? $value : [];
+        return is_array($value) ? $value : $fallback;
     }
 
     /**

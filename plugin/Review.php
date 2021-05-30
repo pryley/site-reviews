@@ -55,11 +55,6 @@ class Review extends Arguments
     protected $_post;
 
     /**
-     * @var object
-     */
-    protected $_review;
-
-    /**
      * @var bool
      */
     protected $has_checked_revisions;
@@ -77,6 +72,7 @@ class Review extends Arguments
         $values = glsr()->args($values);
         $this->id = Cast::toInt($values->review_id);
         $args = glsr(ReviewDefaults::class)->restrict($values->toArray());
+        $args['avatar'] = glsr(Avatar::class)->url($values->avatar);
         $args['custom'] = $this->custom();
         $args['ID'] = $this->id;
         $args['response'] = $this->meta()->_response;
@@ -193,8 +189,7 @@ class Review extends Arguments
     {
         $postId = Helper::getPostId($post);
         return static::isReview($postId)
-            && post_type_supports(glsr()->post_type, 'title')
-            && 'local' === glsr(Query::class)->review($postId)->type;
+            && in_array(glsr(Query::class)->review($postId)->type, ['', 'local']);
     }
 
     /**

@@ -78,15 +78,16 @@ class Sanitizer
     /**
      * If date is invalid then return an empty string.
      * @param mixed $value
+     * @param string $fallback
      * @return string
      */
-    public function sanitizeDate($value)
+    public function sanitizeDate($value, $fallback = '')
     {
         $date = strtotime(Cast::toString($value));
         if (false !== $date) {
             return wp_date('Y-m-d H:i:s', $date);
         }
-        return '';
+        return $fallback;
     }
 
     /**

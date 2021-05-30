@@ -30,6 +30,8 @@ class ReviewsDefaults extends Defaults
         'category' => 'assigned_terms',
         'count' => 'per_page', // @deprecated in v4.1.0
         'display' => 'per_page',
+        'exclude' => 'post__not_in',
+        'include' => 'post__in',
         'user' => 'assigned_users',
     ];
 
