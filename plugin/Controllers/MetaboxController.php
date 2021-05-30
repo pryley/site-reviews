@@ -201,13 +201,10 @@ class MetaboxController
      */
     public function saveResponseMetabox(Review $review)
     {
-        if (!wp_verify_nonce(Helper::filterInput('_nonce-response'), 'response')) {
-            return;
+        if (wp_verify_nonce(Helper::filterInput('_nonce-response'), 'response')) {
+            $response = strval(Helper::filterInput('response'));
+            return glsr(ReviewManager::class)->updateResponse($review->ID, $response);
         }
-        $response = strval(Helper::filterInput('response'));
-        $response = glsr(Sanitizer::class)->sanitizeTextHtml($response);
-        glsr()->action('review/respond', $response, $review);
-        glsr(Database::class)->metaSet($review->ID, 'response', $response);
     }
 
     /**

@@ -71,7 +71,7 @@ class CreateReviewDefaults extends Defaults
             'terms' => true,
             'terms_exist' => false,
             'title' => '',
-            'type' => '',
+            'type' => 'local',
             'url' => '',
         ];
     }

@@ -107,7 +107,7 @@ class PrivacyController extends Controller
             wp_delete_post($review->ID, true);
         } else {
             glsr(ReviewManager::class)->deleteRevisions($review->ID);
-            glsr(ReviewManager::class)->update($review->ID, [
+            glsr(ReviewManager::class)->updateRating($review->ID, [
                 'email' => '',
                 'ip_address' => '',
                 'name' => '',

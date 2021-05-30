@@ -82,7 +82,7 @@ class RevisionController extends Controller
             return;
         }
         if (is_array($revision = glsr(Database::class)->meta($revisionId, 'review'))) {
-            glsr(ReviewManager::class)->update($reviewId, $revision);
+            glsr(ReviewManager::class)->updateRating($reviewId, $revision);
         }
     }
 

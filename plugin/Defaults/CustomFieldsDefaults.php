@@ -23,20 +23,30 @@ class CustomFieldsDefaults extends Defaults
         'assigned_posts',
         'assigned_terms',
         'assigned_users',
+        'author',
+        'author_id',
         'avatar',
         'content',
-        'date', // special
+        'custom',
+        'date',
+        'date_gmt',
         'email',
         'excluded',
         'form_id',
+        'ID',
         'ip_address',
+        'is_approved',
+        'is_modified',
         'is_pinned',
         'name',
         'rating',
+        'rating_id',
         'response',
+        'review_id',
         'terms',
         'title',
-        'url', // special
+        'type',
+        'url',
     ];
 
     /**

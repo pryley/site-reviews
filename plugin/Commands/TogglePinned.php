@@ -29,7 +29,7 @@ class TogglePinned implements Contract
             return wp_validate_boolean($this->review->is_pinned);
         }
         if ($this->isPinned !== $this->review->is_pinned) {
-            glsr(ReviewManager::class)->update($this->review->ID, [
+            glsr(ReviewManager::class)->updateRating($this->review->ID, [
                 'is_pinned' => $this->isPinned,
             ]);
             $notice = $this->isPinned

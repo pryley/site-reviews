@@ -21,6 +21,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
+use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
 
 class ReviewController extends Controller
@@ -145,9 +146,12 @@ class ReviewController extends Controller
         if (in_array($oldStatus, ['new', $newStatus])) {
             return;
         }
+        if ('auto-draft' === $oldStatus && 'auto-draft' !== $newStatus) { // create review
+            glsr(ReviewManager::class)->createFromPost($post->ID);
+        }
         $isPublished = 'publish' === $newStatus;
         if (Review::isReview($post)) {
-            glsr(ReviewManager::class)->update($post->ID, ['is_approved' => $isPublished]);
+            glsr(ReviewManager::class)->updateRating($post->ID, ['is_approved' => $isPublished]);
             glsr(Cache::class)->delete($post->ID, 'reviews');
             glsr(CountManager::class)->recalculate();
         } else {
@@ -383,7 +387,7 @@ class ReviewController extends Controller
         if (Arr::get($submittedValues, 'is_editing_review')) {
             $submittedValues['rating'] = Arr::get($submittedValues, 'rating');
             $submittedValues['terms'] = Arr::get($submittedValues, 'terms', 0);
-            glsr(ReviewManager::class)->update($review->ID, $submittedValues);
+            glsr(ReviewManager::class)->updateRating($review->ID, $submittedValues);
             glsr(ReviewManager::class)->updateCustom($review->ID, $submittedValues);
         }
         $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review

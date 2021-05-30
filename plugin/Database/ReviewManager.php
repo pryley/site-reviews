@@ -4,9 +4,14 @@ namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
+use GeminiLabs\SiteReviews\Defaults\UpdateReviewDefaults;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
+use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Reviews;
 
@@ -67,16 +72,28 @@ class ReviewManager
     /**
      * @return false|Review
      */
-    public function create(CreateReview $command)
+    public function create(CreateReview $command, $postId = null)
     {
-        if ($postId = $this->createRaw($command)) {
-            $review = $this->get($postId);
-            if ($review->isValid()) {
-                glsr()->action('review/created', $review, $command);
-                return $this->get($review->ID); // return a fresh copy of the review
-            }
+        if (empty($postId)) {
+            $postId = $this->createRaw($command);
+        }
+        $review = $this->get($postId);
+        if ($review->isValid()) {
+            glsr()->action('review/created', $review, $command);
+            return $this->get($review->ID); // return a fresh copy of the review
         }
         return false;
+    }
+
+    /**
+     * @param int $postId
+     * @return false|Review
+     */
+    public function createFromPost($postId)
+    {
+        $command = new CreateReview(new Request([]));
+        glsr()->action('review/create', $postId, $command);
+        return $this->create($command, $postId);
     }
 
     /**
@@ -136,6 +153,7 @@ class ReviewManager
      */
     public function get($reviewId)
     {
+        $reviewId = Helper::getPostId($reviewId);
         $review = glsr(Query::class)->review($reviewId);
         glsr()->action('get/review', $review, $reviewId);
         return $review;
@@ -215,35 +233,28 @@ class ReviewManager
 
     /**
      * @param int $reviewId
-     * @return int|bool
+     * @return Review|false  Return false on failure
      */
     public function update($reviewId, array $data = [])
     {
-        glsr(Cache::class)->delete($reviewId, 'reviews');
-        $defaults = glsr(RatingDefaults::class)->restrict($data);
-        if ($data = array_intersect_key($data, $defaults)) {
-            return glsr(Database::class)->update('ratings', $data, [
-                'review_id' => $reviewId,
-            ]);
+        if (false === $this->updateRating($reviewId, $data)) {
+            return false;
         }
-        return 0;
-    }
-
-    /**
-     * @param int $reviewId
-     * @return void
-     */
-    public function updateCustom($reviewId, array $data = [])
-    {
-        $fields = glsr()->config('forms/metabox-fields');
-        $defaults = glsr(RatingDefaults::class)->defaults();
-        $customKeys = array_keys(array_diff_key($fields, $defaults));
-        if ($data = shortcode_atts(array_fill_keys($customKeys, ''), $data)) {
-            $data = Arr::prefixKeys($data, 'custom_');
-            foreach ($data as $metaKey => $metaValue) {
-                glsr(Database::class)->metaSet($reviewId, $metaKey, $metaValue);
-            }
+        if (false === $this->updateReview($reviewId, $data)) {
+            return false;
         }
+        $this->updateCustom($reviewId, $data);
+        $this->updateResponse($reviewId, Arr::get($data, 'response'));
+        $review = glsr(Query::class)->review($reviewId);
+        if ($assignedPosts = Arr::uniqueInt(Arr::get($data, 'assigned_posts'))) {
+            glsr()->action('review/updated/post_ids', $review, $assignedPosts); // trigger a recount of assigned posts
+        }
+        if ($assignedUsers = Arr::uniqueInt(Arr::get($data, 'assigned_users'))) {
+            glsr()->action('review/updated/user_ids', $review, $assignedUsers); // trigger a recount of assigned posts
+        }
+        $review = glsr(Query::class)->review($reviewId); // get a fresh copy of the review
+        glsr()->action('review/saved', $review, $data);
+        return $review;
     }
 
     /**
@@ -259,6 +270,78 @@ class ReviewManager
             ['is_published' => $isPublished],
             ['post_id' => $postId]
         );
+    }
+
+    /**
+     * @param int $reviewId
+     * @return array
+     */
+    public function updateCustom($reviewId, array $data = [])
+    {
+        $data = glsr(CustomFieldsDefaults::class)->merge($data);
+        $data = Arr::prefixKeys($data, 'custom_');
+        foreach ($data as $metaKey => $metaValue) {
+            glsr(Database::class)->metaSet($reviewId, $metaKey, $metaValue);
+        }
+        return $data;
+    }
+
+    /**
+     * @param int $reviewId
+     * @return int|false  Returns false on error
+     */
+    public function updateRating($reviewId, array $data = [])
+    {
+        glsr(Cache::class)->delete($reviewId, 'reviews');
+        $defaults = glsr(RatingDefaults::class)->restrict($data);
+        if ($data = array_intersect_key($data, $defaults)) {
+            return glsr(Database::class)->update('ratings', $data, [
+                'review_id' => $reviewId,
+            ]);
+        }
+        return 0;
+    }
+
+    /**
+     * @param int $reviewId
+     * @param string $response
+     * @return int|bool
+     */
+    public function updateResponse($reviewId, $response = '')
+    {
+        $response = Cast::toString($response);
+        $response = glsr(Sanitizer::class)->sanitizeTextHtml($response);
+        return glsr(Database::class)->metaSet($reviewId, 'response', $response);
+    }
+
+    /**
+     * @param int $reviewId
+     * @return int|false  Returns false on failure
+     */
+    public function updateReview($reviewId, array $data = [])
+    {
+        if (glsr()->post_type !== get_post_type($reviewId)) {
+            return 0;
+        }
+        glsr(Cache::class)->delete($reviewId, 'reviews');
+        $defaults = glsr(UpdateReviewDefaults::class)->restrict($data);
+        if ($data = array_intersect_key($data, $defaults)) {
+            $data = array_filter([
+                'post_content' => Arr::get($data, 'content'),
+                'post_date' => Arr::get($data, 'date'),
+                'post_date_gmt' => Arr::get($data, 'date_gmt'),
+                'post_status' => Arr::get($data, 'status'),
+                'post_title' => Arr::get($data, 'title'),
+            ]);
+        }
+        if (!empty($data)) {
+            $result = wp_update_post(wp_parse_args(['ID' => $reviewId], $data), true);
+            if (is_wp_error($result)) {
+                glsr_log()->error($result->get_error_message());
+                return false;
+            }
+        }
+        return 0;
     }
 
     /**
