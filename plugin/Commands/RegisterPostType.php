@@ -13,12 +13,13 @@ class RegisterPostType implements Contract
     public $args;
     public $columns;
 
-    public function __construct()
+    public function __construct(array $input = [])
     {
-        $this->args = glsr(PostTypeDefaults::class)->merge([
+        $input = wp_parse_args($input, [
             'labels' => glsr(PostTypeLabelDefaults::class)->defaults(),
         ]);
-        $this->columns = glsr(PostTypeColumnDefaults::class)->merge([]);
+        $this->args = glsr(PostTypeDefaults::class)->merge($input);
+        $this->columns = glsr(PostTypeColumnDefaults::class)->defaults();
     }
 
     /**

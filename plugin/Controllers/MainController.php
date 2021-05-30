@@ -126,15 +126,7 @@ class MainController extends Controller
      */
     public function registerTaxonomy()
     {
-        $this->execute(new RegisterTaxonomy([
-            'hierarchical' => true,
-            'meta_box_cb' => [glsr(MetaboxController::class), 'renderTaxonomyMetabox'],
-            'public' => false,
-            'rest_controller_class' => RestCategoryController::class,
-            'show_admin_column' => true,
-            'show_in_rest' => true,
-            'show_ui' => true,
-        ]));
+        $this->execute(new RegisterTaxonomy());
     }
 
     /**

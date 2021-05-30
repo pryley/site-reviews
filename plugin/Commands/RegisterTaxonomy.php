@@ -3,14 +3,15 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
+use GeminiLabs\SiteReviews\Defaults\TaxonomyDefaults;
 
 class RegisterTaxonomy implements Contract
 {
     public $args;
 
-    public function __construct($input)
+    public function __construct(array $input = [])
     {
-        $this->args = $input;
+        $this->args = glsr(TaxonomyDefaults::class)->merge($input);
     }
 
     /**
