@@ -68,6 +68,24 @@ class MenuController extends Controller
 
     /**
      * @return void
+     * @action admin_menu
+     */
+    public function removeSubMenus()
+    {
+        global $submenu;
+        $menuKey = 'edit.php?post_type='.glsr()->post_type;
+        if (!isset($submenu[$menuKey])) {
+            return;
+        }
+        $submenuKey = 'post-new.php?post_type='.glsr()->post_type;
+        $index = array_search($submenuKey, wp_list_pluck($submenu[$menuKey], 2));
+        if (false !== $index) {
+            unset($submenu[$menuKey][$index]);
+        }
+    }
+
+    /**
+     * @return void
      * @see $this->registerSubMenus()
      * @callback add_submenu_page
      */

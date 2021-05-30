@@ -23,7 +23,7 @@ class EditorController extends Controller
      */
     public function filterEditorSettings($settings)
     {
-        if ($this->isReviewEditable()) {
+        if ($this->isReviewEditor()) {
             $settings = [
                 'media_buttons' => false,
                 'quicktags' => false,
@@ -42,7 +42,7 @@ class EditorController extends Controller
      */
     public function filterEditorTextarea($html)
     {
-        if ($this->isReviewEditable()) {
+        if ($this->isReviewEditor()) {
             $html = str_replace('<textarea', '<div id="ed_toolbar"></div><textarea', $html);
         }
         return $html;
@@ -126,66 +126,18 @@ class EditorController extends Controller
     }
 
     /**
-     * @return void
-     * @action admin_print_scripts
-     */
-    public function removeAutosave()
-    {
-        if ($this->isReviewEditor() && !$this->isReviewEditable()) {
-            wp_deregister_script('autosave');
-        }
-    }
-
-    /**
-     * @return void
-     * @action current_screen
-     */
-    public function removePostTypeSupport()
-    {
-        if ($this->isReviewEditor() && !$this->isReviewEditable()) {
-            remove_post_type_support(glsr()->post_type, 'title');
-            remove_post_type_support(glsr()->post_type, 'editor');
-        }
-    }
-
-    /**
-     * @param WP_Post $post
-     * @return void
-     * @action edit_form_after_title
-     */
-    public function renderReviewEditor($post)
-    {
-        if (Review::isReview($post) && !Review::isEditable($post)) {
-            glsr()->render('partials/editor/review', [
-                'post' => $post,
-                'response' => glsr(Database::class)->meta($post->ID, 'response'),
-            ]);
-        }
-    }
-
-    /**
-     * @return void
-     * @action admin_head
-     */
-    public function renderReviewFields()
-    {
-        $screen = glsr_current_screen();
-        if ('post' === $screen->base && glsr()->post_type === $screen->post_type) {
-            add_action('edit_form_after_title', [$this, 'renderReviewEditor']);
-            add_action('edit_form_top', [$this, 'renderReviewNotice']);
-        }
-    }
-
-    /**
      * @param WP_Post $post
      * @return void
      * @action edit_form_top
      */
     public function renderReviewNotice($post)
     {
+        if (!$this->isReviewEditor()) {
+            return;
+        }
         if (Review::isReview($post) && !Review::isEditable($post)) {
             glsr(Notice::class)->addWarning(sprintf(
-                _x('%s reviews are read-only.', 'admin-text', 'site-reviews'),
+                _x('Publicly responding to third-party %s reviews is disabled.', 'admin-text', 'site-reviews'),
                 glsr(ColumnValueType::class)->handle(glsr(Query::class)->review($post->ID))
             ));
             glsr(Template::class)->render('partials/editor/notice', [
@@ -199,23 +151,10 @@ class EditorController extends Controller
     /**
      * @return bool
      */
-    protected function isReviewEditable()
-    {
-        if ($this->isReviewEditor()) {
-            $postId = intval(filter_input(INPUT_GET, 'post'));
-            $review = glsr(Query::class)->review($postId);
-            return 'local' == $review->type;
-        }
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
     protected function isReviewEditor()
     {
         $screen = glsr_current_screen();
-        return 'post' == $screen->base
+        return ('post' == $screen->base)
             && glsr()->post_type == $screen->id
             && glsr()->post_type == $screen->post_type;
     }

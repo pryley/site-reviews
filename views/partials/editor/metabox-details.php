@@ -5,7 +5,7 @@
     <div class="glsr-input wp-clearfix">
         <div class="glsr-toggle-field">
             <span class="glsr-toggle">
-                <input name="<?= glsr()->id; ?>[is_editing_review]" class="glsr-toggle__input" type="checkbox" data-edit-review>
+                <input name="<?= glsr()->id; ?>[is_editing_review]" class="glsr-toggle__input" type="checkbox" <?php checked(glsr_current_screen()->action, 'add'); ?> data-edit-review>
                 <span class="glsr-toggle__track"></span>
                 <span class="glsr-toggle__thumb"></span>
             </span>

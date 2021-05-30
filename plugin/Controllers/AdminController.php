@@ -61,13 +61,15 @@ class AdminController extends Controller
     /**
      * @param array $capabilities
      * @param string $capability
+     * @param int $userId
+     * @param array $args
      * @return array
      * @filter map_meta_cap
      */
-    public function filterCreateCapability($capabilities, $capability)
+    public function filterCapabilities($capabilities, $capability, $userId, $args)
     {
-        if ($capability == 'create_'.glsr()->post_type) {
-            $capabilities[] = 'do_not_allow';
+        if (is_multisite() && is_super_admin()) {
+            return $capabilities;
         }
         return $capabilities;
     }

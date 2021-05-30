@@ -97,9 +97,7 @@ class Hooks implements HooksContract
         add_action('init', [$this->blocks, 'registerBlocks']);
         add_action('bulk_edit_custom_box', [$this->bulkeditor, 'renderBulkEditFields'], 10, 2);
         add_action('site-reviews/route/ajax/mce-shortcode', [$this->editor, 'mceShortcodeAjax']);
-        add_action('admin_print_scripts', [$this->editor, 'removeAutosave'], 999);
-        add_action('current_screen', [$this->editor, 'removePostTypeSupport']);
-        add_action('admin_head', [$this->editor, 'renderReviewFields']);
+        add_action('edit_form_top', [$this->editor, 'renderReviewNotice']);
         add_action('pre_get_posts', [$this->listtable, 'setQueryForColumn']);
         add_action('restrict_manage_posts', [$this->listtable, 'renderColumnFilters']);
         add_action('manage_'.glsr()->post_type.'_posts_custom_column', [$this->listtable, 'renderColumnValues'], 10, 2);
@@ -116,6 +114,7 @@ class Hooks implements HooksContract
         add_action('widgets_init', [$this->main, 'registerWidgets']);
         add_action('admin_menu', [$this->menu, 'registerMenuCount']);
         add_action('admin_menu', [$this->menu, 'registerSubMenus']);
+        add_action('admin_menu', [$this->menu, 'removeSubMenus'], 20);
         add_action('admin_init', [$this->menu, 'setCustomPermissions'], 999);
         add_action('add_meta_boxes_'.glsr()->post_type, [$this->metabox, 'registerMetaBoxes']);
         add_action('do_meta_boxes', [$this->metabox, 'removeMetaBoxes']);
@@ -177,7 +176,7 @@ class Hooks implements HooksContract
     public function addFilters()
     {
         add_filter('plugin_action_links_'.$this->basename, [$this->admin, 'filterActionLinks']);
-        add_filter('map_meta_cap', [$this->admin, 'filterCreateCapability'], 10, 2);
+        add_filter('map_meta_cap', [$this->admin, 'filterCapabilities'], 10, 4);
         add_filter('dashboard_glance_items', [$this->admin, 'filterDashboardGlanceItems']);
         add_filter('export_args', [$this->admin, 'filterExportArgs'], 11);
         add_filter('mce_external_plugins', [$this->admin, 'filterTinymcePlugins'], 15);

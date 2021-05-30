@@ -20,6 +20,9 @@ add_filter('classic_editor_enabled_editors_for_post_type', function ($editors, $
  * @see https://wordpress.org/plugins/members/
  */
 add_action('members_register_caps', function () {
+    members_register_cap('create_site-reviews', [
+        'label' => _x('Create Reviews', 'admin-text', 'site-reviews'),
+    ]);
     members_register_cap('delete_others_site-reviews', [
         'label' => _x("Delete Others' Reviews", 'admin-text', 'site-reviews'),
     ]);

@@ -14,7 +14,7 @@ class PostTypeDefaults extends Defaults
     {
         return [
             'capabilities' => [
-                'create_posts' => 'create_'.glsr()->post_type,
+                'create_posts' => sprintf('create_%ss', glsr()->post_type),
             ],
             'capability_type' => glsr()->post_type,
             'exclude_from_search' => true,
