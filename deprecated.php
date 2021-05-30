@@ -1,10 +1,8 @@
 <?php
 
-use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Backtrace;
 
-defined('ABSPATH') || die;
+defined('ABSPATH') || exit;
 
 /**
  * Provide support for the deprecated {{ assigned_to }} tag
@@ -40,8 +38,8 @@ add_action('plugins_loaded', function () {
         }
         $metaKey = Str::removePrefix($metaKey, '_');
         $metaKeys = [
-            'assigned_to', 'author', 'avatar', 'content', 'date', 'email', 
-            'ip_address', 'pinned', 'rating', 'review_id', 'review_type', 
+            'assigned_to', 'author', 'avatar', 'content', 'date', 'email',
+            'ip_address', 'pinned', 'rating', 'review_id', 'review_type',
             'title', 'url',
         ];
         if (!in_array($metaKey, $metaKeys)) {
@@ -52,7 +50,7 @@ add_action('plugins_loaded', function () {
         return glsr_get_review($postId)->{$metaKey};
     }, 10, 3);
 
-    /**
+    /*
      * Application
      * @since 5.0.0
      */
@@ -65,14 +63,14 @@ add_action('plugins_loaded', function () {
         return $config;
     }, 9);
 
-    /**
+    /*
      * Modules\Html\ReviewsHtml
      * @since 5.0.0
      */
     add_filter('site-reviews/rendered/template/reviews', function ($html) {
         if (has_filter('site-reviews/reviews/reviews-wrapper')) {
-           $message = 'The "site-reviews/reviews/reviews-wrapper" hook has been removed. Please use a custom "reviews.php" template instead.';
-           glsr()->append('deprecated', $message);
+            $message = 'The "site-reviews/reviews/reviews-wrapper" hook has been removed. Please use a custom "reviews.php" template instead.';
+            glsr()->append('deprecated', $message);
         }
         return $html;
     });
@@ -120,7 +118,7 @@ function glsr_calculate_ratings() {
  * @return object
  * @since 5.0.0
  */
-function glsr_get_rating($args = array()) {
+function glsr_get_rating($args = []) {
     _deprecated_function('glsr_get_rating', '5.0 (of Site Reviews)', 'glsr_get_ratings');
     glsr_log()->warning(sprintf(
         __('%s is <strong>deprecated</strong> since version %s! Use %s instead.', 'site-reviews'),
