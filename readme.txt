@@ -48,6 +48,7 @@ __Site Reviews provides full Woocommerce integration__ with the free [Woocommerc
 - __Rating Summaries__: Display a summary of your review ratings from high to low.
 - __Relative Dates__: You decide the date format that is displayed in your reviews
 - __Responses__: Write responses to your reviews
+- __REST API__: Access your reviews from remote websites and applications using the API.
 - __Restrictions__: Require approval before publishing reviews and limit review submissions by email address, IP address, or username
 - __Shortcodes__: Configurable shortcodes complete with full documentation
 - __Slack Integration__: Receive notifications in Slack when a review is submitted

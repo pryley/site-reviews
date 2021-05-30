@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Controllers\RestReviewController;
+use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestReviewController;
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 
 class PostTypeDefaults extends Defaults

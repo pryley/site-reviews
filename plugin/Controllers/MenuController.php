@@ -109,6 +109,7 @@ class MenuController extends Controller
             'shortcodes' => _x('Shortcodes', 'admin-text', 'site-reviews'),
             'hooks' => _x('Hooks', 'admin-text', 'site-reviews'),
             'functions' => _x('Functions', 'admin-text', 'site-reviews'),
+            'api' => _x('API', 'admin-text', 'site-reviews'),
             'addons' => _x('Addons', 'admin-text', 'site-reviews'),
         ]);
         $addons = glsr()->filterArray('addon/documentation', []);

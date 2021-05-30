@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Contracts\HooksContract;
 use GeminiLabs\SiteReviews\Controllers\AdminController;
+use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestController;
 use GeminiLabs\SiteReviews\Controllers\BlocksController;
 use GeminiLabs\SiteReviews\Controllers\BulkEditorController;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
@@ -38,6 +39,7 @@ class Hooks implements HooksContract
     protected $notices;
     protected $privacy;
     protected $public;
+    protected $rest;
     protected $review;
     protected $revisions;
     protected $router;
@@ -61,6 +63,7 @@ class Hooks implements HooksContract
         $this->notices = glsr(NoticeController::class);
         $this->privacy = glsr(PrivacyController::class);
         $this->public = glsr(PublicController::class);
+        $this->rest = glsr(RestController::class);
         $this->review = glsr(ReviewController::class);
         $this->revisions = glsr(RevisionController::class);
         $this->router = glsr(Router::class);
@@ -133,6 +136,7 @@ class Hooks implements HooksContract
         add_action('site-reviews/route/public/submit-review', [$this->public, 'submitReview']);
         add_action('site-reviews/route/ajax/submit-review', [$this->public, 'submitReviewAjax']);
         add_action('admin_init', [$this->privacy, 'privacyPolicyContent']);
+        add_action('rest_api_init', [$this->rest, 'registerRoutes']);
         add_action('admin_action_approve', [$this->review, 'approve']);
         add_action('the_posts', [$this->review, 'filterPostsToCacheReviews']);
         add_action('set_object_terms', [$this->review, 'onAfterChangeAssignedTerms'], 10, 6);

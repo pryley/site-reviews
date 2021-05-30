@@ -55,6 +55,9 @@ abstract class Tag implements TagContract
      */
     public function isEnabled($path)
     {
+        if (glsr()->retrieveAs('bool', 'api', false)) {
+            return true;
+        }
         return Cast::toBool(glsr_get_option($path, true));
     }
 
