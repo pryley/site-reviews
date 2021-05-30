@@ -330,6 +330,7 @@ class Database
                     'title' => esc_attr(get_the_title()),
                 ]);
             }
+            // @phpstan-ignore-next-line
             wp_reset_postdata();
             return $results;
         }

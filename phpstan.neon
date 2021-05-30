@@ -9,7 +9,7 @@ parameters:
   ignoreErrors:
     # Uses func_get_args()
     - '#^Function apply_filters(_ref_array)? invoked with [34567] parameters, 2 required\.$#'
-    # These are simply glorified ArrayObject classes
+    # These are ArrayObject classes
     - '#Access to an undefined property WP_|GeminiLabs\\SiteReviews\\(Arguments|Request)::(.+)#'
     # get_views() is in the $compat_methods array for public access, leave this for now
     - '#Call to protected method get_views\(\) of class WP_Posts_List_Table.#'
