@@ -6,6 +6,33 @@
     color: #999;
 }
 
+#wpbody-content .inline-edit-row .glsr-inline-edit-col-right {
+	margin-top: calc(30px + .2em);
+}
+#wpbody-content .inline-edit-row .glsr-inline-edit-col-left,
+#wpbody-content .inline-edit-row .glsr-inline-edit-col-right {
+	width: 50%;
+	textarea {
+		height: 8em;
+	}
+	@media screen and (max-width: 782px) {
+		float: none;
+		margin-top: 0;
+		width: 100%;
+	}
+}
+
+
+.glsr-responsive-table {
+	position: relative;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	width: 100%;
+	td {
+		white-space: nowrap;
+	}
+}
+
 .glsr-metabox-table .star-rating .star,
 .post-type-site-review .star-rating .star {
 	width: 16px;

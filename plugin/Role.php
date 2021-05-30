@@ -52,6 +52,8 @@ class Role
             'publish_posts',
             'read_post',
             'read_private_posts',
+            'respond_to_others_posts',
+            'respond_to_posts',
         ];
     }
 
@@ -116,6 +118,8 @@ class Role
                 'edit_published_posts',
                 'publish_posts',
                 'read_private_posts',
+                'respond_to_others_posts',
+                'respond_to_posts',
             ],
             'editor' => [
                 'create_posts',
@@ -129,6 +133,8 @@ class Role
                 'edit_published_posts',
                 'publish_posts',
                 'read_private_posts',
+                'respond_to_others_posts',
+                'respond_to_posts',
             ],
             'author' => [
                 'create_posts',
@@ -137,10 +143,12 @@ class Role
                 'edit_posts',
                 'edit_published_posts',
                 'publish_posts',
+                'respond_to_posts',
             ],
             'contributor' => [
                 'delete_posts',
                 'edit_posts',
+                'respond_to_posts',
             ],
         ];
     }

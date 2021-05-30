@@ -147,4 +147,14 @@ jQuery(function ($) {
         action = view.find('.glsr-card.postbox').not('.closed').length > 0 ? 'remove' : 'add';
         view[action + 'Class']('collapsed');
     });
+
+    $('.post-type-site-review #the-list').on('click', '.editinline', function() {
+        var row = $(this).closest('tr');
+        $(':input[data-name="post_content"]').val('');
+        $(':input[name="_response"]').val('');
+        setTimeout(function () {
+            $(':input[data-name="post_content"]').val(row.find('.post_content').text());
+            $(':input[name="_response"]').val(row.find('._response').text());
+        }, 50);
+    });
 });

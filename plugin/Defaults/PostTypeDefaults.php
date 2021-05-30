@@ -15,6 +15,8 @@ class PostTypeDefaults extends Defaults
         return [
             'capabilities' => [
                 'create_posts' => sprintf('create_%ss', glsr()->post_type),
+                'respond_to_posts' => sprintf('respond_to_%ss', glsr()->post_type),
+                'respond_to_others_posts' => sprintf('respond_to_others_%ss', glsr()->post_type),
             ],
             'capability_type' => glsr()->post_type,
             'exclude_from_search' => true,

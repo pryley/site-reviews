@@ -16,6 +16,7 @@ use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Request;
+use GeminiLabs\SiteReviews\Role;
 
 class AdminController extends Controller
 {
@@ -70,6 +71,17 @@ class AdminController extends Controller
     {
         if (is_multisite() && is_super_admin()) {
             return $capabilities;
+        }
+        if ('respond_to_post' === $capability) {
+            $capabilities = [];
+            $post = get_post(Arr::get($args, 0));
+            if (!$post) {
+                $capabilities[] = 'do_not_allow';
+            } elseif ($userId == $post->post_author) {
+                $capabilities[] = glsr(Role::class)->capability('respond_to_posts');
+            } else {
+                $capabilities[] = glsr(Role::class)->capability('respond_to_others_posts');
+            }
         }
         return $capabilities;
     }

@@ -31,7 +31,7 @@ class MetaboxController
      */
     public function registerMetaBoxes($post)
     {
-        if (Review::isEditable($post)) {
+        if (Review::isEditable($post) && glsr()->can('respond_to_post', $post->ID)) {
             add_meta_box(glsr()->post_type.'-responsediv', _x('Respond Publicly', 'admin-text', 'site-reviews'), [$this, 'renderResponseMetaBox'], null, 'normal', 'high');
         }
         add_meta_box(glsr()->post_type.'-detailsdiv', _x('Review Details', 'admin-text', 'site-reviews'), [$this, 'renderDetailsMetaBox'], null, 'normal', 'high');

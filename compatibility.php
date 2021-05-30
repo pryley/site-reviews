@@ -53,8 +53,11 @@ add_action('members_register_caps', function () {
     members_register_cap('read_private_site-reviews', [
         'label' => _x('Read Private Reviews', 'admin-text', 'site-reviews'),
     ]);
-    members_register_cap('create_site-review', [
-        'label' => _x('Create Review (inactive)', 'admin-text', 'site-reviews'),
+    members_register_cap('respond_to_site-reviews', [
+        'label' => _x('Respond To Reviews', 'admin-text', 'site-reviews'),
+    ]);
+    members_register_cap('respond_to_others_site-reviews', [
+        'label' => _x("Respond To Others' Reviews", 'admin-text', 'site-reviews'),
     ]);
 });
 

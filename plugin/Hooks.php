@@ -98,6 +98,9 @@ class Hooks implements HooksContract
         add_action('bulk_edit_custom_box', [$this->bulkeditor, 'renderBulkEditFields'], 10, 2);
         add_action('site-reviews/route/ajax/mce-shortcode', [$this->editor, 'mceShortcodeAjax']);
         add_action('edit_form_top', [$this->editor, 'renderReviewNotice']);
+        add_action('add_inline_data', [$this->listtable, 'addInlineData']);
+        add_action('wp_ajax_inline-save', [$this->listtable, 'overrideInlineSaveAjax'], 0);
+        add_action('load-edit.php', [$this->listtable, 'overridePostsListTable']);
         add_action('pre_get_posts', [$this->listtable, 'setQueryForColumn']);
         add_action('restrict_manage_posts', [$this->listtable, 'renderColumnFilters']);
         add_action('manage_'.glsr()->post_type.'_posts_custom_column', [$this->listtable, 'renderColumnValues'], 10, 2);

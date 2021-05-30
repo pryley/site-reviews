@@ -2,12 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedPost;
-use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedUser;
-use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterCategory;
-use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterRating;
-use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterType;
 use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
 use GeminiLabs\SiteReviews\Defaults\ColumnOrderbyDefaults;
 use GeminiLabs\SiteReviews\Defaults\ReviewTableFiltersDefaults;
@@ -17,12 +13,28 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
+use GeminiLabs\SiteReviews\Overrides\ReviewsListTable;
 use WP_Post;
 use WP_Query;
 use WP_Screen;
 
 class ListTableController extends Controller
 {
+    /**
+     * @param \WP_Post $post
+     * @return void
+     * @action add_inline_data
+     */
+    public function addInlineData($post)
+    {
+        if (glsr()->post_type === $post->post_type) {
+            $content = esc_textarea(trim($post->post_content));
+            $response = esc_textarea(trim(get_post_meta($post->ID, '_response', true)));
+            echo '<div class="post_content">'.$content.'</div>';
+            echo '<div class="_response">'.$response.'</div>';
+        }
+    }
+
     /**
      * @param array $columns
      * @return array
@@ -101,7 +113,6 @@ class ListTableController extends Controller
             || !user_can(get_current_user_id(), 'edit_post', $post->ID)) {
             return $actions;
         }
-        unset($actions['inline hide-if-no-js']); //Remove Quick-edit
         $rowActions = [
             'approve' => _x('Approve', 'admin-text', 'site-reviews'),
             'unapprove' => _x('Unapprove', 'admin-text', 'site-reviews'),
@@ -115,6 +126,16 @@ class ListTableController extends Controller
                     admin_url('post.php?post='.$post->ID.'&action='.$key.'&plugin='.glsr()->id),
                     $key.'-review_'.$post->ID
                 ),
+            ]);
+        }
+        unset($actions['inline hide-if-no-js']);
+        if (glsr()->can('respond_to_post', $post->ID)) {
+            $newActions['inline hide-if-no-js'] = glsr(Builder::class)->button([
+                'aria-expanded' => false,
+                'aria-label' => esc_attr(sprintf(_x('Respond inline to &#8220;%s&#8221;', 'admin-text', 'site-reviews'), _draft_or_post_title())),
+                'class' => 'button-link editinline',
+                'text' => _x('Respond', 'admin-text', 'site-reviews'),
+                'type' => 'button',
             ]);
         }
         return $newActions + Arr::consolidate($actions);
@@ -140,8 +161,8 @@ class ListTableController extends Controller
             $setting = 'edit_'.glsr()->post_type.'_filters';
             $enabled = get_user_meta($userId, $setting, true);
             if (!is_array($enabled)) {
-                 $enabled = ['rating']; // the default enabled filters
-                 update_user_meta($userId, $setting, $enabled);
+                $enabled = ['rating']; // the default enabled filters
+                update_user_meta($userId, $setting, $enabled);
             }
             $settings .= glsr()->build('partials/screen/filters', [
                 'enabled' => $enabled,
@@ -168,6 +189,56 @@ class ListTableController extends Controller
             }
         }
         return $columns;
+    }
+
+    /**
+     * @return void
+     * @action wp_ajax_inline_save
+     */
+    public function overrideInlineSaveAjax()
+    {
+        $screen = filter_input(INPUT_POST, 'screen');
+        if ('edit-'.glsr()->post_type !== $screen) {
+            return; // don't override
+        }
+        global $mode;
+        check_ajax_referer('inlineeditnonce', '_inline_edit');
+        if (empty($postId = filter_input(INPUT_POST, 'post_ID', FILTER_VALIDATE_INT))) {
+            wp_die();
+        }
+        if (!glsr()->can('respond_to_post', $postId)) {
+            wp_die(_x('Sorry, you are not allowed to respond to this review.', 'admin-text', 'site-reviews'));
+        }
+        if ($last = wp_check_post_lock($postId)) {
+            $user = get_userdata($last);
+            $username = Arr::get($user, 'display_name', _x('Someone', 'admin-text', 'site-reviews'));
+            $message = _x('Saving is disabled: %s is currently editing this review.', 'admin-text', 'site-reviews');
+            printf($message, esc_html($username));
+            wp_die();
+        }
+        glsr(ReviewManager::class)->updateResponse($postId, filter_input(INPUT_POST, '_response'));
+        $mode = Str::restrictTo(['excerpt', 'list'], filter_input(INPUT_POST, 'post_view'), 'list');
+        $table = _get_list_table('WP_Posts_List_Table', compact('screen'));
+        $table->display_rows([get_post($postId)], 0);
+        wp_die();
+    }
+
+    /**
+     * @return void
+     * @action load-edit.php
+     */
+    public function overridePostsListTable()
+    {
+        if ('edit-'.glsr()->post_type === glsr_current_screen()->id
+            && glsr()->can('respond_to_posts')) {
+            $table = new ReviewsListTable();
+            $table->prepare_items();
+            add_filter('views_edit-'.glsr()->post_type, function ($views) use ($table) {
+                global $wp_list_table;
+                $wp_list_table = clone $table;
+                return $views;
+            });
+        }
     }
 
     /**
@@ -318,8 +389,7 @@ class ListTableController extends Controller
                     WHERE at.{$mapped[$key]}_id = '{$value}' 
                 ");
                 $where .= sprintf(" AND {$wpdb->posts}.ID IN (%s) ", implode(',', $ids));
-            }
-            else {
+            } else {
                 $where .= " AND {$table}.{$key} = '{$value}' ";
             }
         }

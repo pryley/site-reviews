@@ -74,11 +74,12 @@ final class Application extends Container
 
     /**
      * @param string $capability
+     * @param mixed ...$args
      * @return bool
      */
-    public function can($capability)
+    public function can($capability, ...$args)
     {
-        return $this->make(Role::class)->can($capability);
+        return $this->make(Role::class)->can($capability, ...$args);
     }
 
     /**
