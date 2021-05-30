@@ -39,7 +39,7 @@ class Rating
     /**
      * @var int
      */
-    const MIN_RATING = 1;
+    const MIN_RATING = 0;
 
     /**
      * @param int $roundBy
