@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews
 Tested up to: 5.7
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.10.4
+Stable tag: 5.11.0-beta3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -135,6 +135,19 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.11.0-beta3 (2021-06-01) =
+
+- Added a REST API (see the provided documentation to learn how to use it)
+- Added custom capabilities for responding to reviews (`respond_to_site-review` and `respond_to_others_site-review`)
+- Added filters for categories, assigned posts, and assigned users on the "All Reviews" admin page (enable them in the "Screen Options" on the top-right of the page)
+- Added support for <optgroup> in dropdown fields (this may be useful when using the Review Forms add-on to display a category dropdown with parent/child categories). To learn how to enable this, please see the FAQ Help page.
+- Added the `glsr_update_review` helper function (see the provided documentation to learn how to use it)
+- Added the ability to create reviews from the admin
+- Added the ability to respond to reviews from the "All Reviews" page
+- Fixed inline styles (overriding the star images should now display correctly in the block editor)
+- Fixed summary review counts for 0-star ratings
+- Fixed the star rating when resetting the submission form where a default rating is set
 
 = 5.10.4 (2021-05-03) =
 
