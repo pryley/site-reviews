@@ -281,13 +281,13 @@ class Console
      */
     protected function reset()
     {
-        if ($this->size() <= wp_convert_hr_to_bytes('256kb')) {
+        if ($this->size() <= wp_convert_hr_to_bytes('512kb')) {
             return;
         }
         $this->clear();
         file_put_contents($this->file,
             $this->buildLogEntry(static::NOTICE,
-                _x('Console was automatically cleared (256KB maximum size)', 'admin-text', 'site-reviews')
+                _x('Console was automatically cleared (512KB maximum size)', 'admin-text', 'site-reviews')
             )
         );
     }
