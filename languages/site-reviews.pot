@@ -2353,12 +2353,12 @@ msgctxt "admin-text"
 msgid "- Select -"
 msgstr ""
 
-#: plugin/Tinymce/TinymceGenerator.php:320
+#: plugin/Tinymce/TinymceGenerator.php:322
 msgctxt "admin-text"
 msgid "Some of the shortcode options are required."
 msgstr ""
 
-#: plugin/Tinymce/TinymceGenerator.php:325
+#: plugin/Tinymce/TinymceGenerator.php:327
 msgctxt "the option label (admin-text)"
 msgid "The \"%s\" option is required."
 msgstr ""

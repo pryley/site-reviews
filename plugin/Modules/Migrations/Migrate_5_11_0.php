@@ -15,7 +15,7 @@ class Migrate_5_11_0
     }
 
     /**
-     * @return void
+     * @return bool
      */
     protected function migrateRoles()
     {

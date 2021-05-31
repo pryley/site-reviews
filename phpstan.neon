@@ -6,6 +6,9 @@ parameters:
     - autoload.php
     - helpers.php
     - tests/phpstan/bootstrap.php
+  excludePaths:
+    - plugin/Controllers/IntegrationController.php
+    - plugin/Integrations
   ignoreErrors:
     # Uses func_get_args()
     - '#^Function apply_filters(_ref_array)? invoked with [34567] parameters, 2 required\.$#'
@@ -23,6 +26,8 @@ parameters:
     - "#^Parameter \\#2 \\$callback of function array_filter expects (callable\\(mixed, mixed\\): bool|null), 'strlen' given\\.$#"
     # The wpdb class provides access to $dbname with __get
     - '#Access to protected property wpdb::\$dbname.#'
+    # The WP_Posts_List_Table class overrides this method with two parameters
+    - '#Method WP_List_Table::display_rows\(\) invoked with 2 parameters, 0 required.#'
   level: 5
   paths:
     - config/

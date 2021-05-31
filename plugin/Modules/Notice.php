@@ -113,6 +113,7 @@ class Notice
         if (!in_array($args['type'], ['error', 'warning', 'success'])) {
             $args['type'] = 'success';
         }
+        // @phpstan-ignore-next-line
         $args['messages'] = is_wp_error($args['message'])
             ? (array) $args['message']->get_error_message()
             : (array) $args['message'];

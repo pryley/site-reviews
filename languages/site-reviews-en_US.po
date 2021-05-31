@@ -2528,7 +2528,7 @@ msgctxt "admin-text"
 msgid "- Select -"
 msgstr "- Select -"
 
-#: plugin/Tinymce/TinymceGenerator.php:320
+#: plugin/Tinymce/TinymceGenerator.php:322
 msgctxt "admin-text"
 msgid "Some of the shortcode options are required."
 msgstr "Some of the shortcode options are required."
@@ -4220,7 +4220,7 @@ msgid_plural "New %s-star review of %s"
 msgstr[0] "New %s-star review"
 msgstr[1] "New %s-star review of %s"
 
-#: plugin/Tinymce/TinymceGenerator.php:325
+#: plugin/Tinymce/TinymceGenerator.php:327
 msgctxt "the option label (admin-text)"
 msgid "The \"%s\" option is required."
 msgstr "The \"%s\" option is required."
