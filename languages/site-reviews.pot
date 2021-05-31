@@ -1344,52 +1344,52 @@ msgctxt "admin-text"
 msgid "Publicly responding to third-party %s reviews is disabled."
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:64
+#: plugin/Controllers/ListTableController.php:66
 msgctxt "admin-text"
 msgid "Submitted"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:117, plugin/Controllers/TranslationController.php:197, plugin/Defaults/PostStatusLabelsDefaults.php:18
+#: plugin/Controllers/ListTableController.php:119, plugin/Controllers/TranslationController.php:197, plugin/Defaults/PostStatusLabelsDefaults.php:18
 msgctxt "admin-text"
 msgid "Approve"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:118
+#: plugin/Controllers/ListTableController.php:120
 msgctxt "admin-text"
 msgid "Unapprove"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:120
+#: plugin/Controllers/ListTableController.php:122
 msgctxt "The Review Post ID (admin-text)"
 msgid "<span>ID: %d</span>"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:123
+#: plugin/Controllers/ListTableController.php:125
 msgctxt "Approve the review (admin-text)"
 msgid "%s this review"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:135
+#: plugin/Controllers/ListTableController.php:137
 msgctxt "admin-text"
 msgid "Respond inline to &#8220;%s&#8221;"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:137
+#: plugin/Controllers/ListTableController.php:139
 msgctxt "admin-text"
 msgid "Respond"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:210
+#: plugin/Controllers/ListTableController.php:212
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to respond to this review."
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:214
+#: plugin/Controllers/ListTableController.php:216
 msgctxt "admin-text"
 msgid "Someone"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:215
+#: plugin/Controllers/ListTableController.php:217
 msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr ""
@@ -3095,12 +3095,12 @@ msgctxt "admin-text"
 msgid "Sorry, you are not allowed to create reviews as this user."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:68, plugin/Controllers/Api/Version1/RestReviewController.php:306
+#: plugin/Controllers/Api/Version1/RestReviewController.php:68, plugin/Controllers/Api/Version1/RestReviewController.php:309
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to assign the provided terms."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:82, plugin/Controllers/Api/Version1/RestReviewController.php:121, plugin/Controllers/Api/Version1/RestReviewController.php:294
+#: plugin/Controllers/Api/Version1/RestReviewController.php:82, plugin/Controllers/Api/Version1/RestReviewController.php:121, plugin/Controllers/Api/Version1/RestReviewController.php:297
 msgctxt "admin-text"
 msgid "Invalid review ID."
 msgstr ""
@@ -3120,37 +3120,37 @@ msgctxt "admin-text"
 msgid "The page number requested is larger than the number of pages available."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:171
+#: plugin/Controllers/Api/Version1/RestReviewController.php:174
 msgctxt "admin-text"
 msgid "Sorry, you do not have permission to access reviews."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:174
+#: plugin/Controllers/Api/Version1/RestReviewController.php:177
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to edit reviews."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:251
+#: plugin/Controllers/Api/Version1/RestReviewController.php:254
 msgctxt "admin-text"
 msgid "Whether to bypass Trash and force deletion."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:261
+#: plugin/Controllers/Api/Version1/RestReviewController.php:264
 msgctxt "admin-text"
 msgid "Unique identifier for the object."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:277
+#: plugin/Controllers/Api/Version1/RestReviewController.php:280
 msgctxt "admin-text"
 msgid "Review update failed, please check the Site Reviews console log for more details."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:298
+#: plugin/Controllers/Api/Version1/RestReviewController.php:301
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to edit this review."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:302
+#: plugin/Controllers/Api/Version1/RestReviewController.php:305
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to update reviews as this user."
 msgstr ""

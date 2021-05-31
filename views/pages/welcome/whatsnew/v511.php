@@ -6,7 +6,7 @@
         </button>
     </h3>
     <div id="welcome-v5_11_0" class="inside">
-        <p><em>Initial Release Date &mdash; June 1st, 2021</em></p>
+        <p><em>Initial Release Date &mdash; June 3rd, 2021</em></p>
         <h4>✨ New Features</h4>
         <ul>
             <li>Added a REST API (see the <a data-expand="#fn-glsr_update_review" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-api'); ?>">provided documentation</a> to learn how to use it)</li>
