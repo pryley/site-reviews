@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 
 class ColumnFilterAssignedUser extends ColumnFilter
@@ -36,12 +37,7 @@ class ColumnFilterAssignedUser extends ColumnFilter
         if (empty($userIds)) {
             return [];
         }
-        $users = get_users([
-            'fields' => ['ID', 'display_name'],
-            'include' => $userIds,
-            'orderby' => 'display_name',
-        ]);
-        return wp_list_pluck($users, 'display_name', 'ID');
+        return glsr(Database::class)->users(['include' => $userIds]);
     }
 
     /**

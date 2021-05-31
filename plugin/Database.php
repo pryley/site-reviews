@@ -396,6 +396,19 @@ class Database
     }
 
     /**
+     * @return array
+     */
+    public function users(array $args = [])
+    {
+        $args = wp_parse_args($args, [
+            'fields' => ['ID', 'display_name'],
+            'orderby' => 'display_name',
+        ]);
+        $users = get_users($args);
+        return wp_list_pluck($users, 'display_name', 'ID');
+    }
+
+    /**
      * @param string $compareToVersion
      * @return bool|string
      */
