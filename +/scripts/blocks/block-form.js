@@ -30,7 +30,7 @@ const edit = props => {
     const inspectorControls = {
         assign_to: <ConditionalSelectControl
             key={ 'assigned_posts' }
-            label={ _x('Assign Reviews to a Post ID', 'admin-text', 'site-reviews') }
+            label={ _x('Assign Reviews to a Page', 'admin-text', 'site-reviews') }
             onChange={ assign_to => setAttributes({
                 assign_to: assign_to,
                 assigned_posts: ('custom' === assign_to ? assigned_posts : ''),

@@ -12,6 +12,7 @@
             <li>Added a REST API (see the <a data-expand="#fn-glsr_update_review" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-api'); ?>">provided documentation</a> to learn how to use it)</li>
             <li>Added custom capabilities for responding to reviews (<code>respond_to_site-review</code> and <code>respond_to_others_site-review</code>)</li>
             <li>Added filters for categories, assigned posts, and assigned users on the "All Reviews" admin page (enable them in the "Screen Options" on the top-right of the page)</li>
+            <li>Added native Elementor widgets</li>
             <li>Added support for &lt;optgroup&gt; in dropdown fields (this may be useful when using the Review Forms add-on to display a category dropdown with parent/child categories). To learn how to enable this, please see the <a data-expand="#faq-enable-optgroup" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">FAQ</a> Help page.</li>
             <li>Added the ability to create reviews from the admin</li>
             <li>Added the ability to respond to reviews from the "All Reviews" page</li>

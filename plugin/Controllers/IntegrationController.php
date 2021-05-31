@@ -1,0 +1,53 @@
+<?php
+
+namespace GeminiLabs\SiteReviews\Controllers;
+
+use GeminiLabs\SiteReviews\Integrations\Elementor\ElementorFormWidget;
+use GeminiLabs\SiteReviews\Integrations\Elementor\ElementorReviewsWidget;
+use GeminiLabs\SiteReviews\Integrations\Elementor\ElementorSummaryWidget;
+
+class IntegrationController extends Controller
+{
+    /**
+     * Fix Star Rating control when review form is used inside an Elementor Pro Popup
+     * @param string $script
+     * @return string
+     * @filter site-reviews/enqueue/public/inline-script/after
+     */
+    public function filterElementorInlineScript($js)
+    {
+        if (defined('ELEMENTOR_PRO_VERSION') && 0 > version_compare('2.7.0', ELEMENTOR_PRO_VERSION)) {
+            $js .= '"undefined"!==typeof jQuery&&jQuery(document).on("elementor/popup/show",function(){GLSR.Event.trigger("site-reviews/init")});';
+        }
+        return $js;
+    }
+
+    /**
+     * @return void
+     * @action elementor/init
+     */
+    public function registerElementorCategory()
+    {
+        \Elementor\Plugin::instance()->elements_manager->add_category(glsr()->id, [
+            'title' => glsr()->name,
+            'icon' => 'eicon-star-o', // default icon
+        ]);
+    }
+
+    /**
+     * @return void
+     * @action elementor/widgets/widgets_registered
+     */
+    public function registerElementorWidgets()
+    {
+        \Elementor\Plugin::instance()->widgets_manager->register_widget_type(
+            new ElementorFormWidget()
+        );
+        \Elementor\Plugin::instance()->widgets_manager->register_widget_type(
+            new ElementorReviewsWidget()
+        );
+        \Elementor\Plugin::instance()->widgets_manager->register_widget_type(
+            new ElementorSummaryWidget()
+        );
+    }
+}

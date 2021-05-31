@@ -35,6 +35,7 @@ __Site Reviews provides full Woocommerce integration__ with the free [Woocommerc
 - __Developer Friendly__: Designed for WordPress developers with over 100 hooks and convenient functions
 - __Documentation__: FAQ and documenation for hooks and all shortcodes and functions
 - __Editor Blocks__: Use the custom editor blocks in the Gutenberg editor
+- __Elementor Support__: Use the native Elementor Widgets in the Elementor editor
 - __Form Styles__: Match the review form with popular themes and form plugins
 - __Import Third-Party Reviews__: Includes a built-in CSV importer
 - __JSON-LD Schema__: Display your reviews and ratings in search results
@@ -141,6 +142,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Added a REST API (see the provided documentation to learn how to use it)
 - Added custom capabilities for responding to reviews (`respond_to_site-review` and `respond_to_others_site-review`)
 - Added filters for categories, assigned posts, and assigned users on the "All Reviews" admin page (enable them in the "Screen Options" on the top-right of the page)
+- Added native Elementor widgets
 - Added support for <optgroup> in dropdown fields (this may be useful when using the Review Forms add-on to display a category dropdown with parent/child categories). To learn how to enable this, please see the FAQ Help page.
 - Added the `glsr_update_review` helper function (see the provided documentation to learn how to use it)
 - Added the ability to create reviews from the admin

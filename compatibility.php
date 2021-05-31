@@ -233,18 +233,6 @@ add_filter('site-reviews/build/template/reviews-form', function ($template) {
 });
 
 /**
- * Fix Star Rating control when review form is used inside an Elementor Pro Popup
- * @return string
- * @see https://elementor.com/
- */
-add_filter('site-reviews/enqueue/public/inline-script/after', function ($javascript) {
-    if (defined('ELEMENTOR_PRO_VERSION') && 0 > version_compare('2.7.0', ELEMENTOR_PRO_VERSION)) {
-        $javascript .= '"undefined"!==typeof jQuery&&jQuery(document).on("elementor/popup/show",function(){GLSR.Event.trigger("site-reviews/init")});';
-    }
-    return $javascript;
-}, 1);
-
-/**
  * Remove the "Launch Thrive Architect" button from reviews
  * @return array
  * @see https://thrivethemes.com/architect/
