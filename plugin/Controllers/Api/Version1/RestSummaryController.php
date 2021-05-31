@@ -28,7 +28,7 @@ class RestSummaryController extends RestReviewController
     public function get_item_schema()
     {
         if (empty($this->schema)) {
-            $schema = [
+            $this->schema = [
                 '$schema' => 'http://json-schema.org/draft-04/schema#',
                 'properties' => [
                     'average' => [

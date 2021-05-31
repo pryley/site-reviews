@@ -74,8 +74,8 @@ class AdminController extends Controller
         }
         if ('respond_to_post' === $capability) {
             $capabilities = [];
-            $post = get_post(Arr::get($args, 0));
-            if (!$post) {
+            $post = get_post((int) Arr::get($args, 0));
+            if (is_null($post)) {
                 $capabilities[] = 'do_not_allow';
             } elseif ($userId == $post->post_author) {
                 $capabilities[] = glsr(Role::class)->capability('respond_to_posts');

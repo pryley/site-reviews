@@ -35,7 +35,7 @@ class RestReviewController extends \WP_REST_Controller
     public function create_item($request)
     {
         $review = glsr_create_review($request->get_params());
-        if (!$review->isValid()) {
+        if (false === $review || !$review->isValid()) {
             $error = _x('Review creation failed, please check the Site Reviews console log for more details.', 'admin-text', 'site-reviews');
             return new WP_Error('rest_review_create_item', $error, ['status' => 500]);
         }
@@ -158,6 +158,9 @@ class RestReviewController extends \WP_REST_Controller
             return new WP_Error('rest_invalid_page_number', $error, ['status' => 400]);
         }
         $response = rest_ensure_response($reviews);
+        if (is_wp_error($response)) {
+            return $response;
+        }
         return $this->prepareResponse($response, $request, $results);
     }
 

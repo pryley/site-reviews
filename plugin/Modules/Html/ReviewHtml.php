@@ -9,7 +9,7 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Review;
 
 /**
- * @property string $avatar;
+ * @property string $avatar
  * @property string $content
  * @property string $date
  * @property string $author

@@ -8,7 +8,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 abstract class ElementorWidget extends Widget_Base
 {
     /**
-     * @var \GeminiLabs\SiteReviews\Shortcodes\Shortcode
+     * @var \GeminiLabs\SiteReviews\Shortcodes\Shortcode|callable
      */
     private $_shortcode_instance = null;
 

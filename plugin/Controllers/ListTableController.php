@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
@@ -29,7 +30,8 @@ class ListTableController extends Controller
     {
         if (glsr()->post_type === $post->post_type) {
             $content = esc_textarea(trim($post->post_content));
-            $response = esc_textarea(trim(get_post_meta($post->ID, '_response', true)));
+            $response = Cast::toString(glsr(Database::class)->meta($post->ID, 'response'));
+            $response = esc_textarea(trim($response));
             echo '<div class="post_content">'.$content.'</div>';
             echo '<div class="_response">'.$response.'</div>';
         }

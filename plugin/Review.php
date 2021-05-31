@@ -17,7 +17,7 @@ use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
  * @property array $assigned_users
  * @property string $author
  * @property int $author_id
- * @property string $avatar;
+ * @property string $avatar
  * @property string $content
  * @property Arguments $custom
  * @property string $date
