@@ -124,15 +124,17 @@ class ReviewManager
     }
 
     /**
+     * This only deletes the entry in the ratings table!
      * @param int $reviewId
      * @return int|false
      */
     public function delete($reviewId)
     {
-        glsr(Cache::class)->delete($reviewId, 'reviews');
-        return glsr(Database::class)->delete('ratings', [
-            'review_id' => $reviewId,
-        ]);
+        $result = glsr(Database::class)->delete('ratings', ['review_id' => $reviewId]);
+        if ($result) {
+            glsr(Cache::class)->delete($reviewId, 'reviews');
+        }
+        return $result;
     }
 
     /**

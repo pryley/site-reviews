@@ -8,7 +8,11 @@
     </h3>
     <div id="api-summary" class="inside">
         <h3>Schema</h3>
-        <p>The schema defines all the fields that exist within the response. The response can be expected to contain the fields below unless the <code>_filter</code> query parameter is used.</p>
+        <p>The schema defines all the fields that exist within the response. The response can be expected to contain the fields below unless one of the following conditions is true:</p>
+        <ol>
+            <li>The <code>_fields</code> query parameter is used.</li>
+            <li>The <code>_rendered</code> query parameter is used.</li>
+        </ol>
         <div class="glsr-responsive-table">
             <table class="wp-list-table widefat striped">
                 <thead>
@@ -59,6 +63,12 @@
                 </tbody>
             </table>
         </div>
+
+        <h3>Global Parameters</h3>
+        <p>To instruct Site Reviews to return only a subset of the fields in a response, you may use the <code>_fields</code> query parameter. If for example you only need the average and ranking of the summary, you can restrict the response to only those properties with this fields query:</p>
+        <pre><code class="language-bash">/site-reviews/v1/summary?_fields=average,ranking</code></pre>
+        <p>To instruct Site Reviews to return the rendered HTML of the summary in the response instead of the summary values, you may use the <code>_rendered</code> query parameter. For example:</p>
+        <pre><code class="language-bash">/site-reviews/v1/summary?_rendered=1</code></pre>
 
         <h3>List The Summary</h3>
         <p>Query this endpoint to retrieve the rating summary. The response you receive can be controlled and filtered using the URL query parameters below.</p>

@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers\Api\Version1;
 
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\Schema\SummaryParameters;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 use WP_Error;
 
 class RestSummaryController extends RestReviewController
@@ -76,9 +77,13 @@ class RestSummaryController extends RestReviewController
      */
     public function get_items($request)
     {
-        $data = glsr_get_ratings($this->normalizedArgs($request));
-        $response = rest_ensure_response($data->toArray());
-        return $response;
+        $args = $this->normalizedArgs($request);
+        if ($request['_rendered']) {
+            return rest_ensure_response([
+                'rendered' => glsr(SiteReviewsSummaryShortcode::class)->build($args),
+            ]);
+        }
+        return rest_ensure_response(glsr_get_ratings($args)->toArray());
     }
 
     /**

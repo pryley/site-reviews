@@ -3280,7 +3280,7 @@ msgctxt "admin-text"
 msgid "plural"
 msgstr "plural"
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:39
+#: plugin/Controllers/Api/Version1/RestReviewController.php:40
 msgctxt "admin-text"
 msgid ""
 "Review creation failed, please check the Site Reviews console log for more "
@@ -3289,62 +3289,77 @@ msgstr ""
 "Review creation failed, please check the Site Reviews console log for more "
 "details."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:56
+#: plugin/Controllers/Api/Version1/RestReviewController.php:61
 msgctxt "admin-text"
 msgid "Cannot create existing review."
 msgstr "Cannot create existing review."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:60, plugin/Controllers/Api/Version1/RestReviewController.php:64
+#: plugin/Controllers/Api/Version1/RestReviewController.php:65, plugin/Controllers/Api/Version1/RestReviewController.php:69
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to create reviews as this user."
 msgstr "Sorry, you are not allowed to create reviews as this user."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:68, plugin/Controllers/Api/Version1/RestReviewController.php:309
+#: plugin/Controllers/Api/Version1/RestReviewController.php:73, plugin/Controllers/Api/Version1/RestReviewController.php:349
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to assign the provided terms."
 msgstr "Sorry, you are not allowed to assign the provided terms."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:82, plugin/Controllers/Api/Version1/RestReviewController.php:121, plugin/Controllers/Api/Version1/RestReviewController.php:297
+#: plugin/Controllers/Api/Version1/RestReviewController.php:90
+msgctxt "admin-text"
+msgid "The review does not support trashing. Set \"%s\" to delete."
+msgstr "The review does not support trashing. Set \"%s\" to delete."
+
+#: plugin/Controllers/Api/Version1/RestReviewController.php:94
+msgctxt "admin-text"
+msgid "The review has already been deleted."
+msgstr "The review has already been deleted."
+
+#: plugin/Controllers/Api/Version1/RestReviewController.php:98, plugin/Controllers/Api/Version1/RestReviewController.php:382
+msgctxt "admin-text"
+msgid "The review cannot be deleted."
+msgstr "The review cannot be deleted."
+
+#: plugin/Controllers/Api/Version1/RestReviewController.php:113, plugin/Controllers/Api/Version1/RestReviewController.php:155, plugin/Controllers/Api/Version1/RestReviewController.php:337
 msgctxt "admin-text"
 msgid "Invalid review ID."
 msgstr "Invalid review ID."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:86
+#: plugin/Controllers/Api/Version1/RestReviewController.php:117
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to delete this review."
 msgstr "Sorry, you are not allowed to delete this review."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:125
+#: plugin/Controllers/Api/Version1/RestReviewController.php:159
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to view this review."
 msgstr "Sorry, you are not allowed to view this review."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:157
+#: plugin/Controllers/Api/Version1/RestReviewController.php:194
 msgctxt "admin-text"
 msgid "The page number requested is larger than the number of pages available."
 msgstr "The page number requested is larger than the number of pages available."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:174
+#: plugin/Controllers/Api/Version1/RestReviewController.php:211
 msgctxt "admin-text"
 msgid "Sorry, you do not have permission to access reviews."
 msgstr "Sorry, you do not have permission to access reviews."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:177
+#: plugin/Controllers/Api/Version1/RestReviewController.php:214
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to edit reviews."
 msgstr "Sorry, you are not allowed to edit reviews."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:254
+#: plugin/Controllers/Api/Version1/RestReviewController.php:291
 msgctxt "admin-text"
 msgid "Whether to bypass Trash and force deletion."
 msgstr "Whether to bypass Trash and force deletion."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:264
+#: plugin/Controllers/Api/Version1/RestReviewController.php:301
 msgctxt "admin-text"
 msgid "Unique identifier for the object."
 msgstr "Unique identifier for the object."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:280
+#: plugin/Controllers/Api/Version1/RestReviewController.php:317
 msgctxt "admin-text"
 msgid ""
 "Review update failed, please check the Site Reviews console log for more "
@@ -3353,37 +3368,37 @@ msgstr ""
 "Review update failed, please check the Site Reviews console log for more "
 "details."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:301
+#: plugin/Controllers/Api/Version1/RestReviewController.php:341
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to edit this review."
 msgstr "Sorry, you are not allowed to edit this review."
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:305
+#: plugin/Controllers/Api/Version1/RestReviewController.php:345
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to update reviews as this user."
 msgstr "Sorry, you are not allowed to update reviews as this user."
 
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:36
+#: plugin/Controllers/Api/Version1/RestSummaryController.php:37
 msgctxt "admin-text"
 msgid "The average rating."
 msgstr "The average rating."
 
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:41
+#: plugin/Controllers/Api/Version1/RestSummaryController.php:42
 msgctxt "admin-text"
 msgid "The defined maximum rating."
 msgstr "The defined maximum rating."
 
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:46
+#: plugin/Controllers/Api/Version1/RestSummaryController.php:47
 msgctxt "admin-text"
 msgid "The defined minimum rating."
 msgstr "The defined minimum rating."
 
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:51
+#: plugin/Controllers/Api/Version1/RestSummaryController.php:52
 msgctxt "admin-text"
 msgid "The bayesian ranking number."
 msgstr "The bayesian ranking number."
 
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:56
+#: plugin/Controllers/Api/Version1/RestSummaryController.php:57
 msgctxt "admin-text"
 msgid ""
 "The total number of reviews for each rating level from zero to maximum "
@@ -3392,12 +3407,12 @@ msgstr ""
 "The total number of reviews for each rating level from zero to maximum "
 "rating."
 
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:62
+#: plugin/Controllers/Api/Version1/RestSummaryController.php:63
 msgctxt "admin-text"
 msgid "The total number of reviews used to calculate the average."
 msgstr "The total number of reviews used to calculate the average."
 
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:91
+#: plugin/Controllers/Api/Version1/RestSummaryController.php:96
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to view review summaries."
 msgstr "Sorry, you are not allowed to view review summaries."
@@ -3887,167 +3902,97 @@ msgctxt "admin-text"
 msgid "The avatar of the person who submitted the review."
 msgstr "The avatar of the person who submitted the review."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:152
-msgctxt "admin-text"
-msgid "Avatar of the person who submitted the review, as it exists in the database."
-msgstr "Avatar of the person who submitted the review, as it exists in the database."
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:157
-msgctxt "admin-text"
-msgid "HTML avatar of the person who submitted the review, transformed for display."
-msgstr "HTML avatar of the person who submitted the review, transformed for display."
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:170
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:153
 msgctxt "admin-text"
 msgid "The content of the review."
 msgstr "The content of the review."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:174
-msgctxt "admin-text"
-msgid "Content of the review, as it exists in the database."
-msgstr "Content of the review, as it exists in the database."
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:179
-msgctxt "admin-text"
-msgid "HTML content of the review, transformed for display."
-msgstr "HTML content of the review, transformed for display."
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:192
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:162
 msgctxt "admin-text"
 msgid "Custom fields."
 msgstr "Custom fields."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:197
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:167
 msgctxt "admin-text"
 msgid "The date the review was published, in the site's timezone."
 msgstr "The date the review was published, in the site's timezone."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:201
-msgctxt "admin-text"
-msgid "Date the review was published, as it exists in the database."
-msgstr "Date the review was published, as it exists in the database."
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:207
-msgctxt "admin-text"
-msgid "HTML date of the review, transformed for display."
-msgstr "HTML date of the review, transformed for display."
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:216
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:173
 msgctxt "admin-text"
 msgid "The date the review was published, as GMT."
 msgstr "The date the review was published, as GMT."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:222
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:179
 msgctxt "admin-text"
 msgid "The email of the person who submitted the review."
 msgstr "The email of the person who submitted the review."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:227
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:184
 msgctxt "admin-text"
 msgid "Unique identifier for the review."
 msgstr "Unique identifier for the review."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:233
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:190
 msgctxt "admin-text"
 msgid "The IP address of the person who submitted the review."
 msgstr "The IP address of the person who submitted the review."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:239
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:196
 msgctxt "admin-text"
 msgid "If the review has an approved status."
 msgstr "If the review has an approved status."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:245
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:202
 msgctxt "admin-text"
 msgid "If the review has been modified."
 msgstr "If the review has been modified."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:251
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:208
 msgctxt "admin-text"
 msgid "If the review has been pinned."
 msgstr "If the review has been pinned."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:256
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:213
 msgctxt "admin-text"
 msgid "The date the review was last modified, in the site's timezone."
 msgstr "The date the review was last modified, in the site's timezone."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:263
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:220
 msgctxt "admin-text"
 msgid "The date the review was last modified, as GMT."
 msgstr "The date the review was last modified, as GMT."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:274
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:227
 msgctxt "admin-text"
 msgid "The name of the person who submitted the review."
 msgstr "The name of the person who submitted the review."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:279
-msgctxt "admin-text"
-msgid "Name of the person who submitted the review, as it exists in the database."
-msgstr "Name of the person who submitted the review, as it exists in the database."
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:284
-msgctxt "admin-text"
-msgid "HTML name of the person who submitted the review, transformed for display."
-msgstr "HTML name of the person who submitted the review, transformed for display."
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:296
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:232
 msgctxt "admin-text"
 msgid "The rating of the review."
 msgstr "The rating of the review."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:301
-msgctxt "admin-text"
-msgid "Rating of the review, as it exists in the database."
-msgstr "Rating of the review, as it exists in the database."
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:306
-msgctxt "admin-text"
-msgid "HTML rating of the review, transformed for display."
-msgstr "HTML rating of the review, transformed for display."
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:318
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:237
 msgctxt "admin-text"
 msgid "The response given to the review."
 msgstr "The response given to the review."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:323
-msgctxt "admin-text"
-msgid "Response given to the review, as it exists in the database."
-msgstr "Response given to the review, as it exists in the database."
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:328
-msgctxt "admin-text"
-msgid "HTML response given to the review, transformed for display."
-msgstr "HTML response given to the review, transformed for display."
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:336
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:242
 msgctxt "admin-text"
 msgid "A named status for the review."
 msgstr "A named status for the review."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:342
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:248
 msgctxt "admin-text"
 msgid "If the terms were accepted when the review was submitted."
 msgstr "If the terms were accepted when the review was submitted."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:351
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:253
 msgctxt "admin-text"
 msgid "The title of the review."
 msgstr "The title of the review."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:356
-msgctxt "admin-text"
-msgid "Title of the review, as it exists in the database."
-msgstr "Title of the review, as it exists in the database."
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:361
-msgctxt "admin-text"
-msgid "HTML title of the review, transformed for display."
-msgstr "HTML title of the review, transformed for display."
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:369
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:258
 msgctxt "admin-text"
 msgid "Type of Review for the object."
 msgstr "Type of Review for the object."

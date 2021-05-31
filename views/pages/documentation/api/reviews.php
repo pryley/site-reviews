@@ -8,7 +8,12 @@
     </h3>
     <div id="api-reviews" class="inside">
         <h3>Schema</h3>
-        <p>The schema defines all the fields that exist within a review record. Any response from these endpoints can be expected to contain the fields below unless the <code>_filter</code> query parameter is used or the schema field only appears in a specific context.</p>
+        <p>The schema defines all the fields that exist within a review record. Any response from these endpoints can be expected to contain the fields below unless one of the following conditions is true:</p>
+        <ol>
+            <li>The <code>_fields</code> query parameter is used.</li>
+            <li>The <code>_rendered</code> query parameter is used.</li>
+            <li>The schema field only appears in a specific context.</li>
+        </ol>
         <div class="glsr-responsive-table">
             <table class="wp-list-table widefat striped">
                 <thead>
@@ -46,13 +51,13 @@
                     </tr>
                     <tr>
                         <td><strong>avatar</strong></td>
-                        <td>object</td>
+                        <td>string</td>
                         <td>view, edit</td>
                         <td>The avatar URL of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>content</strong></td>
-                        <td>object</td>
+                        <td>string</td>
                         <td>view, edit</td>
                         <td>The content field of the review.</td>
                     </tr>
@@ -64,7 +69,7 @@
                     </tr>
                     <tr>
                         <td><strong>date</strong></td>
-                        <td>object</td>
+                        <td>string or null, datetime</td>
                         <td>view, edit</td>
                         <td>The date the review was published, in the site's timezone.</td>
                     </tr>
@@ -130,19 +135,19 @@
                     </tr>
                     <tr>
                         <td><strong>name</strong></td>
-                        <td>object</td>
+                        <td>string</td>
                         <td>view, edit</td>
                         <td>The name field of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>rating</strong></td>
-                        <td>object</td>
+                        <td>integer</td>
                         <td>view, edit</td>
                         <td>The rating field of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>response</strong></td>
-                        <td>object</td>
+                        <td>string</td>
                         <td>view, edit</td>
                         <td>The response given for a review.</td>
                     </tr>
@@ -160,7 +165,7 @@
                     </tr>
                     <tr>
                         <td><strong>title</strong></td>
-                        <td>object</td>
+                        <td>string</td>
                         <td>view, edit</td>
                         <td>The title of the review.</td>
                     </tr>
@@ -179,6 +184,12 @@
                 </tbody>
             </table>
         </div>
+
+        <h3>Global Parameters</h3>
+        <p>To instruct Site Reviews to return only a subset of the fields in a response, you may use the <code>_fields</code> query parameter. If for example you only need the ID, title, content and rating for a collection of reviews, you can restrict the response to only those properties with this fields query:</p>
+        <pre><code class="language-bash">/site-reviews/v1/reviews?_fields=id,title,content,rating</code></pre>
+        <p>To instruct Site Reviews to return the rendered HTML of the reviews in the response instead of an array of review values, you may use the <code>_rendered</code> query parameter. For example:</p>
+        <pre><code class="language-bash">/site-reviews/v1/reviews?_rendered=1</code></pre>
 
         <h3>List Reviews</h3>
         <p>Query this endpoint to retrieve a collection of reviews. The response you receive can be controlled and filtered using the URL query parameters below.</p>
@@ -272,6 +283,11 @@
                         <td><strong>rating</strong></td>
                         <td></td>
                         <td>Limit result set to reviews containing a given <em>minimum</em> rating.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>rendered</strong></td>
+                        <td>0</td>
+                        <td>Return a rendered result of the reviews and the corresponding pagination. One of: <code>0</code>, <code>1</code></td>
                     </tr>
                     <tr>
                         <td><strong>status</strong></td>

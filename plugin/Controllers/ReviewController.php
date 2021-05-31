@@ -258,9 +258,7 @@ class ReviewController extends Controller
      */
     public function onDeleteReview($reviewId)
     {
-        if (glsr(Database::class)->delete('ratings', ['review_id' => $reviewId])) {
-            glsr(Cache::class)->delete($reviewId, 'reviews');
-        }
+        glsr(ReviewManager::class)->delete($reviewId);
     }
 
     /**

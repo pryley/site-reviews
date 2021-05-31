@@ -146,42 +146,12 @@ class ReviewSchema
             'avatar' => [
                 'context' => ['edit', 'view'],
                 'description' => _x('The avatar of the person who submitted the review.', 'admin-text', 'site-reviews'),
-                'properties' => [
-                    'raw' => [
-                        'context' => ['edit', 'view'],
-                        'description' => _x('Avatar of the person who submitted the review, as it exists in the database.', 'admin-text', 'site-reviews'),
-                        'type' => 'string',
-                    ],
-                    'rendered' => [
-                        'context' => ['view'],
-                        'description' => _x('HTML avatar of the person who submitted the review, transformed for display.', 'admin-text', 'site-reviews'),
-                        'type' => 'string',
-                        'readonly' => true,
-                    ],
-                ],
-                'type' => 'object',
+                'type' => 'string',
             ],
             'content' => [
-                'arg_options' => [
-                    'sanitize_callback' => null, // Note: sanitization implemented in self::prepare_item_for_database().
-                    'validate_callback' => null, // Note: validation implemented in self::prepare_item_for_database().
-                ],
                 'context' => ['edit', 'view'],
                 'description' => _x('The content of the review.', 'admin-text', 'site-reviews'),
-                'properties' => [
-                    'raw' => [
-                        'context' => ['edit', 'view'],
-                        'description' => _x('Content of the review, as it exists in the database.', 'admin-text', 'site-reviews'),
-                        'type' => 'string',
-                    ],
-                    'rendered' => [
-                        'context' => ['view'],
-                        'description' => _x('HTML content of the review, transformed for display.', 'admin-text', 'site-reviews'),
-                        'type' => 'string',
-                        'readonly' => true,
-                    ],
-                ],
-                'type' => 'object',
+                'type' => 'string',
             ],
             'custom' => [
                 'arg_options' => [
@@ -195,21 +165,8 @@ class ReviewSchema
             'date' => [
                 'context' => ['edit', 'view'],
                 'description' => _x('The date the review was published, in the site\'s timezone.', 'admin-text', 'site-reviews'),
-                'properties' => [
-                    'raw' => [
-                        'context' => ['edit', 'view'],
-                        'description' => _x('Date the review was published, as it exists in the database.', 'admin-text', 'site-reviews'),
-                        'format' => 'date-time',
-                        'type' => ['null', 'string'],
-                    ],
-                    'rendered' => [
-                        'context' => ['view'],
-                        'description' => _x('HTML date of the review, transformed for display.', 'admin-text', 'site-reviews'),
-                        'type' => 'string',
-                        'readonly' => true,
-                    ],
-                ],
-                'type' => 'object',
+                'format' => 'date-time',
+                'type' => ['null', 'string'],
             ],
             'date_gmt' => [
                 'context' => ['edit', 'view'],
@@ -266,70 +223,19 @@ class ReviewSchema
                 'type' => 'string',
             ],
             'name' => [
-                'arg_options' => [
-                    'sanitize_callback' => null, // Note: sanitization implemented in self::prepare_item_for_database().
-                    'validate_callback' => null, // Note: validation implemented in self::prepare_item_for_database().
-                ],
                 'context' => ['edit', 'view'],
                 'description' => _x('The name of the person who submitted the review.', 'admin-text', 'site-reviews'),
-                'type' => 'object',
-                'properties' => [
-                    'raw' => [
-                        'context' => ['edit', 'view'],
-                        'description' => _x('Name of the person who submitted the review, as it exists in the database.', 'admin-text', 'site-reviews'),
-                        'type' => 'string',
-                    ],
-                    'rendered' => [
-                        'context' => ['view'],
-                        'description' => _x('HTML name of the person who submitted the review, transformed for display.', 'admin-text', 'site-reviews'),
-                        'type' => 'string',
-                        'readonly' => true,
-                    ],
-                ],
+                'type' => 'string',
             ],
             'rating' => [
-                'arg_options' => [
-                    'sanitize_callback' => null, // Note: sanitization implemented in self::prepare_item_for_database().
-                    'validate_callback' => null, // Note: validation implemented in self::prepare_item_for_database().
-                ],
                 'context' => ['edit', 'view'],
                 'description' => _x('The rating of the review.', 'admin-text', 'site-reviews'),
-                'type' => 'object',
-                'properties' => [
-                    'raw' => [
-                        'context' => ['edit', 'view'],
-                        'description' => _x('Rating of the review, as it exists in the database.', 'admin-text', 'site-reviews'),
-                        'type' => 'integer',
-                    ],
-                    'rendered' => [
-                        'context' => ['view'],
-                        'description' => _x('HTML rating of the review, transformed for display.', 'admin-text', 'site-reviews'),
-                        'type' => 'string',
-                        'readonly' => true,
-                    ],
-                ],
+                'type' => 'integer',
             ],
             'response' => [
-                'arg_options' => [
-                    'sanitize_callback' => null, // Note: sanitization implemented in self::prepare_item_for_database().
-                    'validate_callback' => null, // Note: validation implemented in self::prepare_item_for_database().
-                ],
                 'context' => ['edit', 'view'],
                 'description' => _x('The response given to the review.', 'admin-text', 'site-reviews'),
-                'type' => 'object',
-                'properties' => [
-                    'raw' => [
-                        'context' => ['edit', 'view'],
-                        'description' => _x('Response given to the review, as it exists in the database.', 'admin-text', 'site-reviews'),
-                        'type' => 'string',
-                    ],
-                    'rendered' => [
-                        'context' => ['view'],
-                        'description' => _x('HTML response given to the review, transformed for display.', 'admin-text', 'site-reviews'),
-                        'type' => 'string',
-                        'readonly' => true,
-                    ],
-                ],
+                'type' => 'string',
             ],
             'status' => [
                 'context' => ['edit', 'view'],
@@ -343,26 +249,9 @@ class ReviewSchema
                 'type' => 'boolean',
             ],
             'title' => [
-                'arg_options' => [
-                    'sanitize_callback' => null, // Note: sanitization implemented in self::prepare_item_for_database().
-                    'validate_callback' => null, // Note: validation implemented in self::prepare_item_for_database().
-                ],
                 'context' => ['edit', 'view'],
                 'description' => _x('The title of the review.', 'admin-text', 'site-reviews'),
-                'type' => 'object',
-                'properties' => [
-                    'raw' => [
-                        'context' => ['edit', 'view'],
-                        'description' => _x('Title of the review, as it exists in the database.', 'admin-text', 'site-reviews'),
-                        'type' => 'string',
-                    ],
-                    'rendered' => [
-                        'context' => ['view'],
-                        'description' => _x('HTML title of the review, transformed for display.', 'admin-text', 'site-reviews'),
-                        'type' => 'string',
-                        'readonly' => true,
-                    ],
-                ],
+                'type' => 'string',
             ],
             'type' => [
                 'context' => ['edit', 'view'],

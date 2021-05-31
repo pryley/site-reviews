@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Controllers\Api\Version1\Schema\ReviewSchema;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
 use GeminiLabs\SiteReviews\Reviews;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -39,8 +40,12 @@ class RestReviewController extends \WP_REST_Controller
             $error = _x('Review creation failed, please check the Site Reviews console log for more details.', 'admin-text', 'site-reviews');
             return new WP_Error('rest_review_create_item', $error, ['status' => 500]);
         }
-        $data = $this->prepare_item_for_response($review, $request);
-        $response = rest_ensure_response($data);
+        if ($request['_rendered']) {
+            $response = $this->renderedItems($request);
+        } else {
+            $data = $this->prepare_item_for_response($review, $request);
+            $response = rest_ensure_response($data);
+        }
         $response->set_status(201);
         $response->header('Location', rest_url(sprintf('%s/%s/%d', $this->namespace, $this->rest_base, $review->ID)));
         return $response;
@@ -69,6 +74,32 @@ class RestReviewController extends \WP_REST_Controller
             return new WP_Error('rest_cannot_assign_term', $error, ['status' => rest_authorization_required_code()]);
         }
         return true;
+    }
+
+    /**
+     * @param WP_REST_Request $request
+     * @return \WP_REST_Response|WP_Error
+     */
+    public function delete_item($request)
+    {
+        $request->set_param('context', 'edit');
+        if ((bool) $request['force']) {
+            return $this->forceDeleteItem($request);
+        }
+        if (EMPTY_TRASH_DAYS < 1) {
+            $error = sprintf(_x('The review does not support trashing. Set "%s" to delete.', 'admin-text', 'site-reviews'), 'force=true');
+            return new WP_Error('rest_trash_not_supported', $error, ['status' => 501]);
+        }
+        if ('trash' === get_post_status($request['id'])) {
+            $error = _x('The review has already been deleted.', 'admin-text', 'site-reviews');
+            return new WP_Error('rest_already_trashed', $error, ['status' => 410]);
+        }
+        if (!wp_trash_post($request['id'])) {
+            $error = _x('The review cannot be deleted.', 'admin-text', 'site-reviews');
+            return new WP_Error('rest_cannot_delete', $error, ['status' => 500]);
+        }
+        $review = glsr_get_review($request['id']);
+        return $this->prepare_item_for_response($review, $request);
     }
 
     /**
@@ -105,6 +136,9 @@ class RestReviewController extends \WP_REST_Controller
      */
     public function get_item($request)
     {
+        if ($request['_rendered']) {
+            return $this->renderedItem($request);
+        }
         $review = glsr_get_review($request['id']);
         $data = $this->prepare_item_for_response($review, $request);
         return rest_ensure_response($data);
@@ -145,6 +179,9 @@ class RestReviewController extends \WP_REST_Controller
      */
     public function get_items($request)
     {
+        if ($request['_rendered']) {
+            return $this->renderedItems($request);
+        }
         $results = glsr_get_reviews($this->normalizedArgs($request));
         $reviews = [];
         foreach ($results->reviews as $review) {
@@ -242,7 +279,7 @@ class RestReviewController extends \WP_REST_Controller
                 'permission_callback' => [$this, 'get_item_permissions_check'],
             ],
             [
-                'args' =>  $this->get_endpoint_args_for_item_schema(\WP_REST_Server::EDITABLE),
+                'args' => $this->get_endpoint_args_for_item_schema(\WP_REST_Server::EDITABLE),
                 'callback' => [$this, 'update_item'],
                 'methods' => \WP_REST_Server::EDITABLE,
                 'permission_callback' => [$this, 'update_item_permissions_check'],
@@ -281,6 +318,9 @@ class RestReviewController extends \WP_REST_Controller
             return new WP_Error('rest_update_review', $error, ['status' => 500]);
         }
         $request->set_param('context', 'edit');
+        if ($request['_rendered']) {
+            return $this->renderedItem($request);
+        }
         $data = $this->prepare_item_for_response($review, $request);
         $response = rest_ensure_response($data);
         return $response;
@@ -327,6 +367,25 @@ class RestReviewController extends \WP_REST_Controller
             }
         }
         return true;
+    }
+
+    /**
+     * @param WP_REST_Request $request
+     * @return \WP_REST_Response|WP_Error
+     */
+    public function forceDeleteItem($request)
+    {
+        $review = glsr_get_review($request['id']);
+        $previous = $this->prepare_item_for_response($review, $request);
+        $result = wp_delete_post($review->ID, true);
+        if (false === $result) {
+            $error = _x('The review cannot be deleted.', 'admin-text', 'site-reviews');
+            return new WP_Error('rest_cannot_delete', $error, ['status' => 500]);
+        }
+        return rest_ensure_response([
+            'deleted' => true,
+            'previous' => $previous->get_data(),
+        ]);
     }
 
     /**
@@ -458,5 +517,23 @@ class RestReviewController extends \WP_REST_Controller
             $response->link_header('next', $nextLink);
         }
         return $response;
+    }
+
+    protected function renderedItem(WP_REST_Request $request)
+    {
+        $review = glsr_get_review($request['id']);
+        return rest_ensure_response([
+            'rendered' => (string) $review->build(),
+        ]);
+    }
+
+    protected function renderedItems(WP_REST_Request $request)
+    {
+        $html = glsr(SiteReviewsShortcode::class)->buildReviewsHtml($this->normalizedArgs($request));
+        $response = rest_ensure_response([
+            'pagination' => $html->getPagination($wrap = false),
+            'rendered' => $html->getReviews(),
+        ]);
+        return $this->prepareResponse($response, $request, $html->reviews);
     }
 }

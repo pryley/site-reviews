@@ -88,24 +88,12 @@ class Prepare
 
     protected function prepareAvatar()
     {
-        $this->data['avatar'] = [];
-        if (rest_is_field_included('avatar.raw', $this->fields)) {
-            $this->data['avatar']['raw'] = $this->review->avatar;
-        }
-        if (rest_is_field_included('avatar.rendered', $this->fields)) {
-            $this->data['avatar']['rendered'] = $this->html->avatar;
-        }
+        $this->data['avatar'] = $this->review->avatar;
     }
 
     protected function prepareContent()
     {
-        $this->data['content'] = [];
-        if (rest_is_field_included('content.raw', $this->fields)) {
-            $this->data['content']['raw'] = $this->review->content;
-        }
-        if (rest_is_field_included('content.rendered', $this->fields)) {
-            $this->data['content']['rendered'] = $this->html->content;
-        }
+        $this->data['content'] = $this->review->content;
     }
 
     protected function prepareCustom()
@@ -115,13 +103,7 @@ class Prepare
 
     protected function prepareDate()
     {
-        $this->data['date'] = [];
-        if (rest_is_field_included('date.raw', $this->fields)) {
-            $this->data['date']['raw'] = mysql_to_rfc3339($this->review->date);
-        }
-        if (rest_is_field_included('date.rendered', $this->fields)) {
-            $this->data['date']['rendered'] = $this->html->date;
-        }
+        $this->data['date'] = mysql_to_rfc3339($this->review->date);
     }
 
     protected function prepareDateGmt()
@@ -171,35 +153,17 @@ class Prepare
 
     protected function prepareName()
     {
-        $this->data['name'] = [];
-        if (rest_is_field_included('name.raw', $this->fields)) {
-            $this->data['name']['raw'] = $this->review->author;
-        }
-        if (rest_is_field_included('name.rendered', $this->fields)) {
-            $this->data['name']['rendered'] = $this->html->author;
-        }
+        $this->data['name'] = $this->review->author;
     }
 
     protected function prepareRating()
     {
-        $this->data['rating'] = [];
-        if (rest_is_field_included('rating.raw', $this->fields)) {
-            $this->data['rating']['raw'] = $this->review->rating;
-        }
-        if (rest_is_field_included('rating.rendered', $this->fields)) {
-            $this->data['rating']['rendered'] = $this->html->rating;
-        }
+        $this->data['rating'] = $this->review->rating;
     }
 
     protected function prepareResponse()
     {
-        $this->data['response'] = [];
-        if (rest_is_field_included('response.raw', $this->fields)) {
-            $this->data['response']['raw'] = $this->review->response;
-        }
-        if (rest_is_field_included('response.rendered', $this->fields)) {
-            $this->data['response']['rendered'] = $this->html->response;
-        }
+        $this->data['response'] = $this->review->response;
     }
 
     protected function prepareStatus()
@@ -214,13 +178,7 @@ class Prepare
 
     protected function prepareTitle()
     {
-        $this->data['title'] = [];
-        if (rest_is_field_included('title.raw', $this->fields)) {
-            $this->data['title']['raw'] = $this->review->title;
-        }
-        if (rest_is_field_included('title.rendered', $this->fields)) {
-            $this->data['title']['rendered'] = $this->html->title;
-        }
+        $this->data['title'] = $this->review->title;
     }
 
     protected function prepareType()

@@ -8,7 +8,7 @@
     </h3>
     <div id="api-categories" class="inside">
         <h3>Schema</h3>
-        <p>The schema defines all the fields that exist within a category record. Any response from these endpoints can be expected to contain the fields below unless the <code>_filter</code> query parameter is used or the schema field only appears in a specific context.</p>
+        <p>The schema defines all the fields that exist within a category record. Any response from these endpoints can be expected to contain the fields below unless the <code>_fields</code> query parameter is used or the schema field only appears in a specific context.</p>
         <div class="glsr-responsive-table">
             <table class="wp-list-table widefat striped">
                 <thead>
@@ -59,6 +59,10 @@
                 </tbody>
             </table>
         </div>
+
+        <h3>Global Parameters</h3>
+        <p>To instruct Site Reviews to return only a subset of the fields in a response, you may use the <code>_fields</code> query parameter. If for example you only need the ID and name for a collection of categories, you can restrict the response to only those properties with this fields query:</p>
+        <pre><code class="language-bash">/site-reviews/v1/categories?_fields=id,name</code></pre>
 
         <h3>List Categories</h3>
         <p>Query this endpoint to retrieve a collection of review categories. The response you receive can be controlled and filtered using the URL query parameters below.</p>
