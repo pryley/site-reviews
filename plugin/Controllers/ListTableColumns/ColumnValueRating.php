@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
 use GeminiLabs\SiteReviews\Contracts\ColumnValueContract;
+use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Review;
 
 class ColumnValueRating implements ColumnValueContract
@@ -12,6 +13,9 @@ class ColumnValueRating implements ColumnValueContract
      */
     public function handle(Review $review)
     {
-        return glsr_star_rating($review->rating);
+        return glsr(Partial::class)->build('star-rating', [
+            'prefix' => '',
+            'rating' => $review->rating,
+        ]);
     }
 }

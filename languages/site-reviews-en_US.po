@@ -1715,42 +1715,47 @@ msgctxt "admin-text"
 msgid "Publicly responding to third-party %s reviews is disabled."
 msgstr "Publicly responding to third-party %s reviews is disabled."
 
-#: plugin/Controllers/ListTableController.php:66
+#: plugin/Controllers/ListTableController.php:41, plugin/Overrides/ReviewsListTable.php:69
+msgctxt "admin-text"
+msgid "%s is currently editing"
+msgstr "%s is currently editing"
+
+#: plugin/Controllers/ListTableController.php:81
 msgctxt "admin-text"
 msgid "Submitted"
 msgstr "Submitted"
 
-#: plugin/Controllers/ListTableController.php:119, plugin/Controllers/TranslationController.php:197, plugin/Defaults/PostStatusLabelsDefaults.php:18
+#: plugin/Controllers/ListTableController.php:135, plugin/Controllers/TranslationController.php:197, plugin/Defaults/PostStatusLabelsDefaults.php:18
 msgctxt "admin-text"
 msgid "Approve"
 msgstr "Approve"
 
-#: plugin/Controllers/ListTableController.php:120
+#: plugin/Controllers/ListTableController.php:136
 msgctxt "admin-text"
 msgid "Unapprove"
 msgstr "Unapprove"
 
-#: plugin/Controllers/ListTableController.php:137
+#: plugin/Controllers/ListTableController.php:152
 msgctxt "admin-text"
 msgid "Respond inline to &#8220;%s&#8221;"
 msgstr "Respond inline to &#8220;%s&#8221;"
 
-#: plugin/Controllers/ListTableController.php:139
+#: plugin/Controllers/ListTableController.php:154
 msgctxt "admin-text"
 msgid "Respond"
 msgstr "Respond"
 
-#: plugin/Controllers/ListTableController.php:212
+#: plugin/Controllers/ListTableController.php:227
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to respond to this review."
 msgstr "Sorry, you are not allowed to respond to this review."
 
-#: plugin/Controllers/ListTableController.php:216
+#: plugin/Controllers/ListTableController.php:231
 msgctxt "admin-text"
 msgid "Someone"
 msgstr "Someone"
 
-#: plugin/Controllers/ListTableController.php:217
+#: plugin/Controllers/ListTableController.php:232
 msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr "Saving is disabled: %s is currently editing this review."
@@ -3245,6 +3250,11 @@ msgctxt "admin-text"
 msgid "Update"
 msgstr "Update"
 
+#: views/partials/screen/locked-indicator.php:6
+msgctxt "admin-text"
+msgid "&#8220;%s&#8221; is locked"
+msgstr "&#8220;%s&#8221; is locked"
+
 #: views/partials/translations/plural.php:4, views/partials/translations/single.php:4
 msgctxt "admin-text"
 msgid "Show custom translation"
@@ -4136,12 +4146,12 @@ msgctxt "exceprt length (admin-text)"
 msgid "words"
 msgstr "words"
 
-#: plugin/Controllers/ListTableController.php:122
+#: plugin/Controllers/ListTableController.php:132
 msgctxt "The Review Post ID (admin-text)"
 msgid "<span>ID: %d</span>"
 msgstr "<span>ID: %d</span>"
 
-#: plugin/Controllers/ListTableController.php:125
+#: plugin/Controllers/ListTableController.php:140
 msgctxt "Approve the review (admin-text)"
 msgid "%s this review"
 msgstr "%s this review"

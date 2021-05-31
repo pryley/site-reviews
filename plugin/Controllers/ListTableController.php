@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
@@ -22,19 +21,35 @@ use WP_Screen;
 class ListTableController extends Controller
 {
     /**
-     * @param \WP_Post $post
-     * @return void
-     * @action add_inline_data
+     * @param array $response
+     * @param array $data
+     * @param string $screenId
+     * @return array
+     * @filter heartbeat_received
      */
-    public function addInlineData($post)
+    public function filterCheckLockedReviews($response, $data, $screenId)
     {
-        if (glsr()->post_type === $post->post_type) {
-            $content = esc_textarea(trim($post->post_content));
-            $response = Cast::toString(glsr(Database::class)->meta($post->ID, 'response'));
-            $response = esc_textarea(trim($response));
-            echo '<div class="post_content">'.$content.'</div>';
-            echo '<div class="_response">'.$response.'</div>';
+        $checked = [];
+        if (!is_array(Arr::get($data, 'wp-check-locked-posts'))) {
+            return $response;
         }
+        foreach ($data['wp-check-locked-posts'] as $key) {
+            $postId = absint(substr($key, 5));
+            $userId = wp_check_post_lock($postId);
+            $user = get_userdata($userId);
+            if ($user && !glsr()->can('edit_post', $postId) && glsr()->can('respond_to_post', $postId)) {
+                $send = ['text' => sprintf(_x('%s is currently editing', 'admin-text', 'site-reviews'), $user->display_name)];
+                if (get_option('show_avatars')) {
+                    $send['avatar_src'] = get_avatar_url($user->ID, ['size' => 18]);
+                    $send['avatar_src_2x'] = get_avatar_url($user->ID, ['size' => 36]);
+                }
+                $checked[$key] = $send;
+            }
+        }
+        if (!empty($checked)) {
+            $response['wp-check-locked-posts'] = $checked;
+        }
+        return $response;
     }
 
     /**
@@ -110,29 +125,29 @@ class ListTableController extends Controller
      */
     public function filterRowActions($actions, $post)
     {
-        if (glsr()->post_type !== Arr::get($post, 'post_type')
-            || 'trash' == $post->post_status
-            || !user_can(get_current_user_id(), 'edit_post', $post->ID)) {
+        if (glsr()->post_type !== Arr::get($post, 'post_type') || 'trash' == $post->post_status) {
             return $actions;
         }
-        $rowActions = [
-            'approve' => _x('Approve', 'admin-text', 'site-reviews'),
-            'unapprove' => _x('Unapprove', 'admin-text', 'site-reviews'),
-        ];
-        $newActions = ['id' => sprintf(_x('<span>ID: %d</span>', 'The Review Post ID (admin-text)', 'site-reviews'), $post->ID)];
-        foreach ($rowActions as $key => $text) {
-            $newActions[$key] = glsr(Builder::class)->a($text, [
-                'aria-label' => esc_attr(sprintf(_x('%s this review', 'Approve the review (admin-text)', 'site-reviews'), $text)),
-                'class' => 'glsr-toggle-status',
-                'href' => wp_nonce_url(
-                    admin_url('post.php?post='.$post->ID.'&action='.$key.'&plugin='.glsr()->id),
-                    $key.'-review_'.$post->ID
-                ),
-            ]);
-        }
         unset($actions['inline hide-if-no-js']);
+        $newActions = ['id' => sprintf(_x('<span>ID: %d</span>', 'The Review Post ID (admin-text)', 'site-reviews'), $post->ID)];
+        if (glsr()->can('edit_post', $post->ID)) {
+            $rowActions = [
+                'approve' => _x('Approve', 'admin-text', 'site-reviews'),
+                'unapprove' => _x('Unapprove', 'admin-text', 'site-reviews'),
+            ];
+            foreach ($rowActions as $key => $text) {
+                $newActions[$key] = glsr(Builder::class)->a($text, [
+                    'aria-label' => esc_attr(sprintf(_x('%s this review', 'Approve the review (admin-text)', 'site-reviews'), $text)),
+                    'class' => 'glsr-toggle-status',
+                    'href' => wp_nonce_url(
+                        admin_url('post.php?post='.$post->ID.'&action='.$key.'&plugin='.glsr()->id),
+                        $key.'-review_'.$post->ID
+                    ),
+                ]);
+            }
+        }
         if (glsr()->can('respond_to_post', $post->ID)) {
-            $newActions['inline hide-if-no-js'] = glsr(Builder::class)->button([
+            $newActions['hide-if-no-js'] = glsr(Builder::class)->button([
                 'aria-expanded' => false,
                 'aria-label' => esc_attr(sprintf(_x('Respond inline to &#8220;%s&#8221;', 'admin-text', 'site-reviews'), _draft_or_post_title())),
                 'class' => 'button-link editinline',
@@ -220,7 +235,7 @@ class ListTableController extends Controller
         }
         glsr(ReviewManager::class)->updateResponse($postId, filter_input(INPUT_POST, '_response'));
         $mode = Str::restrictTo(['excerpt', 'list'], filter_input(INPUT_POST, 'post_view'), 'list');
-        $table = _get_list_table('WP_Posts_List_Table', compact('screen'));
+        $table = new ReviewsListTable(['screen' => convert_to_screen($screen)]);
         $table->display_rows([get_post($postId)], 0);
         wp_die();
     }

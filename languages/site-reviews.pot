@@ -1344,52 +1344,57 @@ msgctxt "admin-text"
 msgid "Publicly responding to third-party %s reviews is disabled."
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:66
+#: plugin/Controllers/ListTableController.php:41, plugin/Overrides/ReviewsListTable.php:69
+msgctxt "admin-text"
+msgid "%s is currently editing"
+msgstr ""
+
+#: plugin/Controllers/ListTableController.php:81
 msgctxt "admin-text"
 msgid "Submitted"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:119, plugin/Controllers/TranslationController.php:197, plugin/Defaults/PostStatusLabelsDefaults.php:18
-msgctxt "admin-text"
-msgid "Approve"
-msgstr ""
-
-#: plugin/Controllers/ListTableController.php:120
-msgctxt "admin-text"
-msgid "Unapprove"
-msgstr ""
-
-#: plugin/Controllers/ListTableController.php:122
+#: plugin/Controllers/ListTableController.php:132
 msgctxt "The Review Post ID (admin-text)"
 msgid "<span>ID: %d</span>"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:125
+#: plugin/Controllers/ListTableController.php:135, plugin/Controllers/TranslationController.php:197, plugin/Defaults/PostStatusLabelsDefaults.php:18
+msgctxt "admin-text"
+msgid "Approve"
+msgstr ""
+
+#: plugin/Controllers/ListTableController.php:136
+msgctxt "admin-text"
+msgid "Unapprove"
+msgstr ""
+
+#: plugin/Controllers/ListTableController.php:140
 msgctxt "Approve the review (admin-text)"
 msgid "%s this review"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:137
+#: plugin/Controllers/ListTableController.php:152
 msgctxt "admin-text"
 msgid "Respond inline to &#8220;%s&#8221;"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:139
+#: plugin/Controllers/ListTableController.php:154
 msgctxt "admin-text"
 msgid "Respond"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:212
+#: plugin/Controllers/ListTableController.php:227
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to respond to this review."
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:216
+#: plugin/Controllers/ListTableController.php:231
 msgctxt "admin-text"
 msgid "Someone"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:217
+#: plugin/Controllers/ListTableController.php:232
 msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr ""
@@ -3053,6 +3058,11 @@ msgstr ""
 #: views/partials/screen/inline-edit.php:31
 msgctxt "admin-text"
 msgid "Update"
+msgstr ""
+
+#: views/partials/screen/locked-indicator.php:6
+msgctxt "admin-text"
+msgid "&#8220;%s&#8221; is locked"
 msgstr ""
 
 #: views/partials/translations/plural.php:4, views/partials/translations/single.php:4

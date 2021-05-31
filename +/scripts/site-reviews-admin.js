@@ -153,7 +153,7 @@ jQuery(function ($) {
         $(':input[data-name="post_content"]').val('');
         $(':input[name="_response"]').val('');
         setTimeout(function () {
-            $(':input[data-name="post_content"]').val(row.find('.post_content').text());
+            $(':input[data-name="post_content"]').val(row.find('._post_content').text());
             $(':input[name="_response"]').val(row.find('._response').text());
         }, 50);
     });
