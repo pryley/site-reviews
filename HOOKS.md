@@ -86,8 +86,8 @@
     site-reviews/field/<field_type>                         (array $field): array
     site-reviews/form/build/<tag_or_field_key>              (string $field, Arguments $with, Modules\Html\Partials\SiteReviewsForm $partial): string
     site-reviews/get/defaults                               (array $defaults): array
-    site-reviews/integration/elementor/advanced/<shortcode> (array $options): array
-    site-reviews/integration/elementor/settings/<shortcode> (array $options): array
+    site-reviews/integration/elementor/advanced             (array $options, string $shortcode): array
+    site-reviews/integration/elementor/settings             (array $options, string $shortcode): array
     site-reviews/interpolate/<template_path>                (array $context, string $template, array $data): array
     site-reviews/metabox/fields                             (array $fields, Review $review): array
     site-reviews/metabox/fields/order                       (array $order): array

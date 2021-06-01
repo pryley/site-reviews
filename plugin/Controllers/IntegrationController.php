@@ -9,7 +9,7 @@ use GeminiLabs\SiteReviews\Integrations\Elementor\ElementorSummaryWidget;
 class IntegrationController extends Controller
 {
     /**
-     * Fix Star Rating control when review form is used inside an Elementor Pro Popup
+     * Fix Star Rating control when review form is used inside an Elementor Pro Popup.
      * @param string $script
      * @return string
      * @filter site-reviews/enqueue/public/inline-script/after
@@ -17,7 +17,7 @@ class IntegrationController extends Controller
     public function filterElementorInlineScript($js)
     {
         if (defined('ELEMENTOR_PRO_VERSION') && 0 > version_compare('2.7.0', ELEMENTOR_PRO_VERSION)) {
-            $js .= '"undefined"!==typeof jQuery&&jQuery(document).on("elementor/popup/show",function(){GLSR.Event.trigger("site-reviews/init")});';
+            $js .= 'function glsr_init_elementor(){GLSR.Event.trigger("site-reviews/init")}"undefined"!==typeof jQuery&&(jQuery(document).on("elementor/popup/show",glsr_init_elementor),jQuery(window).on("elementor/frontend/init",function(){elementorFrontend.hooks.addAction("frontend/element_ready/site_reviews.default",glsr_init_elementor);elementorFrontend.hooks.addAction("frontend/element_ready/site_reviews_form.default",glsr_init_elementor)}));';
         }
         return $js;
     }

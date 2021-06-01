@@ -53,6 +53,33 @@ abstract class Addon
     }
 
     /**
+     * @param int $perPage
+     * @return array
+     */
+    public function posts($perPage = 50)
+    {
+        if (!defined('static::POST_TYPE')) {
+            return [];
+        }
+        $posts = get_posts([
+            'order' => 'ASC',
+            'orderby' => 'post_title',
+            'post_type' => static::POST_TYPE,
+            'post_status' => 'publish',
+            'posts_per_page' => $perPage,
+        ]);
+        $results = wp_list_pluck($posts, 'post_title', 'ID');
+        foreach ($results as $id => &$title) {
+            if (empty(trim($title))) {
+                $title = _x('Untitled', 'admin-text', 'site-reviews');
+            }
+            $title = sprintf('%s (ID: %s)', $title, $id);
+        }
+        natsort($results);
+        return $results;
+    }
+
+    /**
      * @return void
      */
     public function update()

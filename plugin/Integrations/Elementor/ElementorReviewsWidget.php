@@ -78,13 +78,22 @@ class ElementorReviewsWidget extends ElementorWidget
             'pagination' => [
                 'default' => '',
                 'label' => _x('Enable Pagination', 'admin-text', 'site-reviews'),
-                'label_block' => true,
                 'options' => [
-                    'true' => _x('Enabled', 'admin-text', 'site-reviews'),
-                    'ajax' => _x('Enabled (using ajax)', 'admin-text', 'site-reviews'),
+                    '' => [
+                        'icon' => 'fa fa-times',
+                        'title' => _x('No', 'admin-text', 'site-reviews'),
+                    ],
+                    'true' => [
+                        'icon' => 'fa fa-check',
+                        'title' => _x('Yes (with a page reload)', 'admin-text', 'site-reviews'),
+                    ],
+                    'ajax' => [
+                        'icon' => 'fa fa-check-double',
+                        'title' => _x('Yes (without a page reload)', 'admin-text', 'site-reviews'),
+                    ],
                 ],
                 'separator' => 'before',
-                'type' => \Elementor\Controls_Manager::SELECT2,
+                'type' => \Elementor\Controls_Manager::CHOOSE,
             ],
             'display' => [
                 'default' => 10,

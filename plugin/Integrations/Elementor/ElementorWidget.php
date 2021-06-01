@@ -94,11 +94,11 @@ abstract class ElementorWidget extends Widget_Base
     protected function register_controls()
     {
         $shortcode = $this->get_shortcode_instance()->shortcode;
-        $settings = array_filter(glsr()->filterArray('integration/elementor/settings/'.$shortcode, $this->settings_basic()));
+        $settings = array_filter(glsr()->filterArray('integration/elementor/settings', $this->settings_basic(), $shortcode));
         if (!empty($settings)) {
             $this->register_shortcode_options($settings, 'settings', _x('Settings', 'admin-text', 'site-reviews'));
         }
-        $advanced = array_filter(glsr()->filterArray('integration/elementor/advanced/'.$shortcode, $this->settings_advanced()));
+        $advanced = array_filter(glsr()->filterArray('integration/elementor/advanced', $this->settings_advanced(), $shortcode));
         if (!empty($advanced)) {
             $this->register_shortcode_options($advanced, 'advanced', _x('Advanced', 'admin-text', 'site-reviews'));
         }
@@ -121,7 +121,9 @@ abstract class ElementorWidget extends Widget_Base
 
     protected function render()
     {
-        echo $this->get_shortcode_instance()->build($this->get_settings_for_display());
+        $shortcode = $this->get_shortcode_instance()->build($this->get_settings_for_display());
+        $shortcode = str_replace('class="glsr-fallback">', 'class="glsr-fallback" style="display:none;">', $shortcode);
+        echo $shortcode;
     }
 
     /**
