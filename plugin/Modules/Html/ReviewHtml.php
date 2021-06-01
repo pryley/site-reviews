@@ -65,6 +65,12 @@ class ReviewHtml extends \ArrayObject
     {
         glsr()->action('review/build/before', $review, $this);
         $templateTags = [];
+        $assignedTag = array_filter([
+            'assigned_posts' => $review->assigned_posts,
+            'assigned_terms' => $review->assigned_terms,
+            'assigned_users' => $review->assigned_users,
+        ]);
+        $templateTags['assigned'] = json_encode($assignedTag);
         foreach ($review as $key => $value) {
             $tag = $this->normalizeTemplateTag($key);
             $templateTags[$tag] = $this->buildTemplateTag($review, $tag, $value);
