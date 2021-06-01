@@ -147,6 +147,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Added the `glsr_update_review` helper function (see the provided documentation to learn how to use it)
 - Added the ability to create reviews from the admin
 - Added the ability to respond to reviews from the "All Reviews" page
+- Added the `site-reviews/review/build/tag/response/by` hook (see the FAQ to learn how to use it to change the name in the response)
 - Fixed inline styles (overriding the star images should now display correctly in the block editor)
 - Fixed summary review counts for 0-star ratings
 - Fixed the star rating when resetting the submission form where a default rating is set

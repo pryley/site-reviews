@@ -16,6 +16,7 @@
             <li>Added support for &lt;optgroup&gt; in dropdown fields (this may be useful when using the Review Forms add-on to display a category dropdown with parent/child categories). To learn how to enable this, please see the <a data-expand="#faq-enable-optgroup" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">FAQ</a> Help page.</li>
             <li>Added the ability to create reviews from the admin</li>
             <li>Added the ability to respond to reviews from the "All Reviews" page</li>
+            <li>Added the <code>site-reviews/review/build/tag/response/by</code> hook (see the <a data-expand="#faq-change-response-name" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">FAQ</a> to learn how to use it to change the name in the response)</li>
             <li>Added the <code>glsr_update_review</code> helper function (see the <a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-functions'); ?>">provided documentation</a> to learn how to use it)</li>
         </ul>
         <h4>🐞 Bugs Fixed</h4>

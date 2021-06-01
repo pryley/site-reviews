@@ -5,6 +5,7 @@ $sections = [
     trailingslashit(__DIR__).'faq/add-review-pagination.php',
     trailingslashit(__DIR__).'faq/change-review-title-tag.php',
     trailingslashit(__DIR__).'faq/change-font.php',
+    trailingslashit(__DIR__).'faq/change-response-name.php',
     trailingslashit(__DIR__).'faq/change-review-field-order.php',
     trailingslashit(__DIR__).'faq/change-summary-field-order.php',
     trailingslashit(__DIR__).'faq/change-form-field-order.php',

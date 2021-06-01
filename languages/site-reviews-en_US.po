@@ -318,7 +318,7 @@ msgstr "Review of %s"
 msgid "Show less"
 msgstr "Show less"
 
-#: plugin/Modules/Html/Tags/ReviewResponseTag.php:15
+#: plugin/Modules/Html/Tags/ReviewResponseTag.php:16, views/pages/documentation/faq/change-response-name.php:9
 msgid "Response from %s"
 msgstr "Response from %s"
 
