@@ -35,7 +35,7 @@ class ListTableController extends Controller
         }
         foreach ($data['wp-check-locked-posts'] as $key) {
             $postId = absint(substr($key, 5));
-            $userId = wp_check_post_lock($postId);
+            $userId = (int) wp_check_post_lock($postId);
             $user = get_userdata($userId);
             if ($user && !glsr()->can('edit_post', $postId) && glsr()->can('respond_to_post', $postId)) {
                 $send = ['text' => sprintf(_x('%s is currently editing', 'admin-text', 'site-reviews'), $user->display_name)];

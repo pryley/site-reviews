@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews
 Tested up to: 5.7
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.11.0-beta5
+Stable tag: 5.11.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,7 +137,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
-= 5.11.0-beta3 (2021-06-03) =
+= 5.11.0 (2021-06-01) =
 
 - Added a REST API (see the provided documentation to learn how to use it)
 - Added custom capabilities for responding to reviews (`respond_to_site-review` and `respond_to_others_site-review`)

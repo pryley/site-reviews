@@ -1196,6 +1196,11 @@ msgstr ""
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr ""
 
+#: plugin/Addons/Addon.php:74
+msgctxt "admin-text"
+msgid "Untitled"
+msgstr ""
+
 #: plugin/Addons/Controller.php:70, plugin/Controllers/AdminController.php:50, plugin/Controllers/MenuController.php:51, plugin/Integrations/Elementor/ElementorWidget.php:99, views/pages/tools/sync.php:23
 msgctxt "admin-text"
 msgid "Settings"
@@ -1504,7 +1509,7 @@ msgctxt "admin-text"
 msgid "(no title)"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:158, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17
+#: plugin/Controllers/MetaboxController.php:158, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17, plugin/Integrations/Elementor/ElementorReviewsWidget.php:84
 msgctxt "admin-text"
 msgid "No"
 msgstr ""
@@ -2622,32 +2627,32 @@ msgctxt "admin-text"
 msgid "Enable Pagination"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:83
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:88
 msgctxt "admin-text"
-msgid "Enabled"
+msgid "Yes (with a page reload)"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:84
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:92
 msgctxt "admin-text"
-msgid "Enabled (using ajax)"
+msgid "Yes (without a page reload)"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:91
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:100
 msgctxt "admin-text"
 msgid "Reviews Per Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:98, plugin/Integrations/Elementor/ElementorSummaryWidget.php:77
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:107, plugin/Integrations/Elementor/ElementorSummaryWidget.php:77
 msgctxt "admin-text"
 msgid "Minimum Rating"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:105, plugin/Integrations/Elementor/ElementorSummaryWidget.php:84
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:114, plugin/Integrations/Elementor/ElementorSummaryWidget.php:84
 msgctxt "admin-text"
 msgid "The schema should only be enabled once per page."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:106, plugin/Integrations/Elementor/ElementorSummaryWidget.php:85
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:115, plugin/Integrations/Elementor/ElementorSummaryWidget.php:85
 msgctxt "admin-text"
 msgid "Enable the schema?"
 msgstr ""
@@ -2667,17 +2672,17 @@ msgctxt "admin-text"
 msgid "Advanced"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:135
+#: plugin/Integrations/Elementor/ElementorWidget.php:137
 msgctxt "admin-text"
 msgid "Custom ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:139
+#: plugin/Integrations/Elementor/ElementorWidget.php:141
 msgctxt "admin-text"
 msgid "Separate multiple classes with spaces."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:141
+#: plugin/Integrations/Elementor/ElementorWidget.php:143
 msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr ""

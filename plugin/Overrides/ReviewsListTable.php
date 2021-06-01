@@ -63,7 +63,7 @@ class ReviewsListTable extends \WP_Posts_List_Table
     {
         if ('trash' !== $post->post_status) {
             $lockHolder = wp_check_post_lock($post->ID);
-            if ($lockHolder) {
+            if (false !== $lockHolder) {
                 $lockHolder = get_userdata($lockHolder);
                 $lockedAvatar = get_avatar($lockHolder->ID, 18);
                 $lockedText = esc_html(sprintf(_x('%s is currently editing', 'admin-text', 'site-reviews'), $lockHolder->display_name));
