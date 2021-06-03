@@ -304,7 +304,7 @@ trait Sql
     protected function clauseJoinAssignedPosts()
     {
         return $this->clauseIfValueNotEmpty(
-            "INNER JOIN {$this->table('assigned_posts')} AS apt ON r.ID = apt.rating_id",
+            "{$this->joinMethod()} {$this->table('assigned_posts')} AS apt ON r.ID = apt.rating_id",
             $this->args['assigned_posts'],
             $prepare = false
         );
@@ -316,7 +316,7 @@ trait Sql
     protected function clauseJoinAssignedTerms()
     {
         return $this->clauseIfValueNotEmpty(
-            "INNER JOIN {$this->table('assigned_terms')} AS att ON r.ID = att.rating_id",
+            "{$this->joinMethod()} {$this->table('assigned_terms')} AS att ON r.ID = att.rating_id",
             $this->args['assigned_terms'],
             $prepare = false
         );
@@ -328,7 +328,7 @@ trait Sql
     protected function clauseJoinAssignedUsers()
     {
         return $this->clauseIfValueNotEmpty(
-            "INNER JOIN {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id",
+            "{$this->joinMethod()} {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id",
             $this->args['assigned_users'],
             $prepare = false
         );
@@ -378,6 +378,16 @@ trait Sql
         return Helper::ifTrue(Str::startsWith('p.', $this->args['orderby']),
             "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
         );
+    }
+
+    /**
+     * Used to determine the join method used in review assignments
+     * @return string
+     */
+    protected function joinMethod()
+    {
+        $joins = ['loose' => 'LEFT JOIN', 'strict' => 'INNER JOIN'];
+        return Arr::get($joins, glsr_get_option('reviews.assignment', 'strict'), 'INNER JOIN');
     }
 
     /**

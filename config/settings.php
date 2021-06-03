@@ -187,8 +187,8 @@ return [
         ),
         'label' => _x('Review Assignment', 'admin-text', 'site-reviews'),
         'options' => [
-            'loose' => _x('Loose Assignment', 'admin-text', 'site-reviews'),
-            'strict' => _x('Strict Assignment', 'admin-text', 'site-reviews'),
+            'loose' => _x('Loose Assignment (slower database queries)', 'admin-text', 'site-reviews'),
+            'strict' => _x('Strict Assignment (faster database queries)', 'admin-text', 'site-reviews'),
         ],
         'tooltip' => _x('This setting determines how the assigned options work in the reviews and summary shortcodes and blocks.', 'admin-text', 'site-reviews'),
         'type' => 'select',

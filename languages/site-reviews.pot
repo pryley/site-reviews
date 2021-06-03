@@ -480,12 +480,12 @@ msgstr ""
 
 #: config/settings.php:190
 msgctxt "admin-text"
-msgid "Loose Assignment"
+msgid "Loose Assignment (slower database queries)"
 msgstr ""
 
 #: config/settings.php:191
 msgctxt "admin-text"
-msgid "Strict Assignment"
+msgid "Strict Assignment (faster database queries)"
 msgstr ""
 
 #: config/settings.php:193
