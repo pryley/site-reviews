@@ -229,8 +229,19 @@ trait Sql
      */
     protected function clauseAndRating()
     {
+        $column = $this->isCustomRatingField() ? 'pm.meta_value' : 'r.rating';
         return Helper::ifTrue($this->args['rating'] > 0,
-            $this->db->prepare('AND r.rating > %d', --$this->args['rating'])
+            $this->db->prepare("AND {$column} > %d", --$this->args['rating'])
+        );
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseAndRatingField()
+    {
+        return Helper::ifTrue($this->isCustomRatingField(),
+            $this->db->prepare("AND pm.meta_key = %s", sprintf('_custom_%s', $this->args['rating_field']))
         );
     }
 
@@ -381,6 +392,24 @@ trait Sql
     }
 
     /**
+     * @return string
+     */
+    protected function clauseJoinRatingField()
+    {
+        return Helper::ifTrue($this->isCustomRatingField(), 
+            "INNER JOIN {$this->db->postmeta} AS pm ON r.review_id = pm.post_id"
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isCustomRatingField()
+    {
+        return 'rating' !== $this->args['rating_field'] && !empty($this->args['rating_field']);
+    }
+
+    /**
      * Used to determine the join method used in review assignments
      * @return string
      */
@@ -409,6 +438,14 @@ trait Sql
             $and['assigned'] = "AND ($clauses)";
         }
         return $and;
+    }
+
+    /**
+     * @return string
+     */
+    protected function ratingColumn()
+    {
+        return Helper::ifTrue($this->isCustomRatingField(), 'pm.meta_value', 'r.rating');
     }
 
     /**

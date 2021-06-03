@@ -55,6 +55,7 @@ class SiteReviewsSummaryDefaults extends Defaults
             'id' => '',
             'labels' => '',
             'rating' => 1,
+            'rating_field' => 'rating', // used for custom rating fields
             'schema' => false,
             'terms' => '',
             'text' => '',

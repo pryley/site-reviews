@@ -57,7 +57,10 @@ class Query
     public function ratings(array $args = [])
     {
         $this->setArgs($args, $unset = ['orderby']);
-        $results = glsr(Database::class)->dbGetResults($this->queryRatings(), ARRAY_A);
+        $query = empty($this->args['custom'])
+            ? $this->queryRatings()
+            : $this->queryRatingsForCustom();
+        $results = glsr(Database::class)->dbGetResults($query, ARRAY_A);
         return $this->normalizeRatings($results);
     }
 
@@ -236,11 +239,11 @@ class Query
     protected function queryRatings()
     {
         return $this->sql("
-            SELECT r.rating, r.type, COUNT(r.rating) AS count
+            SELECT {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
             FROM {$this->table('ratings')} AS r
             {$this->sqlJoin()}
             {$this->sqlWhere()}
-            GROUP BY r.type, r.rating
+            GROUP BY r.type, {$this->ratingColumn()}
         ");
     }
 
@@ -250,13 +253,13 @@ class Query
     public function queryRatingsForPostmeta()
     {
         return $this->sql("
-            SELECT apt.post_id AS ID, r.rating, r.type, COUNT(r.rating) AS count
+            SELECT apt.post_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
             FROM {$this->table('ratings')} AS r
             INNER JOIN {$this->table('assigned_posts')} AS apt ON r.ID = apt.rating_id
             WHERE 1=1
             {$this->clauseAndStatus()}
             {$this->clauseAndType()}
-            GROUP BY r.type, r.rating, apt.post_id
+            GROUP BY r.type, {$this->ratingColumn()}, apt.post_id
         ");
     }
 
@@ -266,13 +269,13 @@ class Query
     protected function queryRatingsForTermmeta()
     {
         return $this->sql("
-            SELECT att.term_id AS ID, r.rating, r.type, COUNT(r.rating) AS count
+            SELECT att.term_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
             FROM {$this->table('ratings')} AS r
             INNER JOIN {$this->table('assigned_terms')} AS att ON r.ID = att.rating_id
             WHERE 1=1
             {$this->clauseAndStatus()}
             {$this->clauseAndType()}
-            GROUP BY r.type, r.rating, att.term_id
+            GROUP BY r.type, {$this->ratingColumn()}, att.term_id
         ");
     }
 
@@ -282,13 +285,13 @@ class Query
     protected function queryRatingsForUsermeta()
     {
         return $this->sql("
-            SELECT aut.user_id AS ID, r.rating, r.type, COUNT(r.rating) AS count
+            SELECT aut.user_id AS ID, {$this->ratingColumn()} AS rating, r.type, COUNT(DISTINCT r.ID) AS count
             FROM {$this->table('ratings')} AS r
             INNER JOIN {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id
             WHERE 1=1
             {$this->clauseAndStatus()}
             {$this->clauseAndType()}
-            GROUP BY r.type, r.rating, aut.user_id
+            GROUP BY r.type, {$this->ratingColumn()}, aut.user_id
         ");
     }
 

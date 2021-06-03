@@ -25,6 +25,7 @@ use GeminiLabs\SiteReviews\Modules\Sanitizer;
  * @property int[] $post__in;
  * @property int[] $post__not_in;
  * @property int $rating;
+ * @property string $rating_field;
  * @property string $status;
  * @property string $terms;
  * @property string $type;

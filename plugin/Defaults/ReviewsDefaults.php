@@ -18,6 +18,7 @@ class ReviewsDefaults extends Defaults
         'pagination' => 'string',
         'per_page' => 'int',
         'rating' => 'int',
+        'rating_field' => 'string',
         'status' => 'string',
     ];
 
@@ -42,6 +43,7 @@ class ReviewsDefaults extends Defaults
         'email' => 'email',
         'post__in' => 'array-int',
         'post__not_in' => 'array-int',
+        'rating_field' => 'name',
         'type' => 'key',
         'user__in' => 'array-int',
         'user__not_in' => 'array-int',
@@ -68,6 +70,7 @@ class ReviewsDefaults extends Defaults
             'post__in' => [],
             'post__not_in' => [],
             'rating' => '',
+            'rating_field' => 'rating', // used for custom rating fields
             'status' => 'approved',
             'terms' => '',
             'type' => '',

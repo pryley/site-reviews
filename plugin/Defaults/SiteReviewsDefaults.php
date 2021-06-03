@@ -63,6 +63,7 @@ class SiteReviewsDefaults extends Defaults
             'page' => 1,
             'pagination' => false,
             'rating' => 0,
+            'rating_field' => 'rating', // used for custom rating fields
             'schema' => false,
             'terms' => '',
             'title' => '',
