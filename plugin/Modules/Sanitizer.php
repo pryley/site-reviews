@@ -83,7 +83,7 @@ class Sanitizer
      */
     public function sanitizeDate($value, $fallback = '')
     {
-        $date = strtotime(Cast::toString($value));
+        $date = strtotime(trim(Cast::toString($value)));
         if (false !== $date) {
             return wp_date('Y-m-d H:i:s', $date);
         }
@@ -96,7 +96,7 @@ class Sanitizer
      */
     public function sanitizeEmail($value)
     {
-        return sanitize_email(Cast::toString($value));
+        return sanitize_email(trim(Cast::toString($value)));
     }
 
     /**
@@ -123,7 +123,7 @@ class Sanitizer
     }
 
     /**
-     * This allows lowercase alphannumeric, dash, and underscore characters
+     * This allows lowercase alphannumeric and underscore characters
      * @param mixed $value
      * @return string
      */
@@ -158,7 +158,7 @@ class Sanitizer
      */
     public function sanitizeText($value)
     {
-        return sanitize_text_field(Cast::toString($value));
+        return sanitize_text_field(trim(Cast::toString($value)));
     }
 
     /**
@@ -174,7 +174,7 @@ class Sanitizer
             'strong' => glsr_get($allowedposttags, 'strong'),
         ];
         $allowedHtml = glsr()->filterString('sanitize/allowed-html-tags', $allowedHtml, $allowedposttags);
-        return trim(wp_kses(Cast::toString($value), $allowedHtml));
+        return wp_kses(trim(Cast::toString($value)), $allowedHtml);
     }
 
     /**
@@ -183,7 +183,7 @@ class Sanitizer
      */
     public function sanitizeTextMultiline($value)
     {
-        return sanitize_textarea_field(Cast::toString($value));
+        return sanitize_textarea_field(trim(Cast::toString($value)));
     }
 
     /**
@@ -192,7 +192,7 @@ class Sanitizer
      */
     public function sanitizeUrl($value)
     {
-        $url = Cast::toString($value);
+        $url = trim(Cast::toString($value));
         if (!Str::startsWith('http://, https://', $url)) {
             $url = Str::prefix($url, 'https://');
         }
@@ -207,7 +207,7 @@ class Sanitizer
     public function sanitizeUserEmail($value)
     {
         $user = wp_get_current_user();
-        $value = Cast::toString($value);
+        $value = trim(Cast::toString($value));
         if ($user->exists() && !glsr()->retrieveAs('bool', 'import', false)) {
             return Helper::ifEmpty($value, $user->user_email);
         }
@@ -221,7 +221,7 @@ class Sanitizer
     public function sanitizeUserName($value)
     {
         $user = wp_get_current_user();
-        $value = Cast::toString($value);
+        $value = trim(Cast::toString($value));
         if ($user->exists() && !glsr()->retrieveAs('bool', 'import', false)) {
             return Helper::ifEmpty($value, $user->display_name);
         }
