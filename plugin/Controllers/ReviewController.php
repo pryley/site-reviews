@@ -211,6 +211,7 @@ class ReviewController extends Controller
         $data['review_id'] = $postId;
         $data['is_approved'] = 'publish' === get_post_status($postId);
         if (false === glsr(Database::class)->insert('ratings', $data)) {
+            glsr_log()->error('To fix your reviews, please try running the "Migrate Plugin" and "Reset Assigned Meta Values" tools.');
             wp_delete_post($postId, true); // remove post as review was not created
             return;
         }
