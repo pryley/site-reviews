@@ -16,9 +16,7 @@ class NormalizePaginationArgs extends Arguments
     public function __construct(array $args = [])
     {
         parent::__construct($args);
-        if (empty($this->page)) {
-            $this->normalizePage();
-        }
+        $this->normalizePage();
         $this->normalizePageUrl();
         $this->normalizePageUrlParameters();
     }
@@ -33,7 +31,7 @@ class NormalizePaginationArgs extends Arguments
         $page = $args->get('page', 0);
         $this->page = $page
             ? $page
-            : Helper::getPageNumber($args->url);
+            : Helper::getPageNumber($args->url, $this->page);
     }
 
     /**
