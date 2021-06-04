@@ -319,6 +319,7 @@ class Query
     protected function queryReviews($reviewIds)
     {
         $orderBy = !empty($this->args['order']) ? $this->sqlOrderBy() : '';
+        $postType = glsr()->post_type;
         return $this->sql("
             SELECT
                 r.*,
@@ -336,7 +337,7 @@ class Query
             LEFT JOIN {$this->table('assigned_posts')} AS apt ON r.ID = apt.rating_id
             LEFT JOIN {$this->table('assigned_terms')} AS att ON r.ID = att.rating_id
             LEFT JOIN {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id
-            WHERE r.review_id IN ({$reviewIds})
+            WHERE r.review_id IN ({$reviewIds}) AND p.post_type = '{$postType}'
             GROUP BY r.ID
             {$orderBy}
         ");
