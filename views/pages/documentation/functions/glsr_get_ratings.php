@@ -22,6 +22,7 @@ glsr_get_ratings(array $args = []);</code></pre>
     'email' => '',
     'ip_address' => '',
     'rating' => '',
+    'rating_field' => '',
     'status' => 'approved', // accepted values are "all", "approved", and "unapproved"
     'type' => '',
 ];</code></pre>

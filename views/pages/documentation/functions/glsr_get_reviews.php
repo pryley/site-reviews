@@ -30,6 +30,7 @@ glsr_get_reviews(array $args = []);</code></pre>
     'post__in' => [],
     'post__not_in' => [],
     'rating' => '',
+    'rating_field' => '',
     'status' => 'approved', // value can be "all", "approved", or "unapproved"
     'type' => '',
     'user__in' => [],
