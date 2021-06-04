@@ -21,6 +21,7 @@
                 trailingslashit(__DIR__).'site_reviews_summary/id.php',
                 trailingslashit(__DIR__).'site_reviews_summary/labels.php',
                 trailingslashit(__DIR__).'site_reviews_summary/rating.php',
+                trailingslashit(__DIR__).'site_reviews_summary/rating_field.php',
                 trailingslashit(__DIR__).'site_reviews_summary/schema.php',
                 trailingslashit(__DIR__).'site_reviews_summary/terms.php',
                 trailingslashit(__DIR__).'site_reviews_summary/text.php',

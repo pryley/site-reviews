@@ -24,6 +24,7 @@
                 trailingslashit(__DIR__).'site_reviews/offset.php',
                 trailingslashit(__DIR__).'site_reviews/pagination.php',
                 trailingslashit(__DIR__).'site_reviews/rating.php',
+                trailingslashit(__DIR__).'site_reviews/rating_field.php',
                 trailingslashit(__DIR__).'site_reviews/schema.php',
                 trailingslashit(__DIR__).'site_reviews/terms.php',
             ];
