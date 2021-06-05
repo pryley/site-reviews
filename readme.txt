@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews
 Tested up to: 5.7
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.12.0-beta1
+Stable tag: 5.12.0-beta2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,9 +137,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
-= 5.12.0-beta1 (2021-06-04) =
+= 5.12.0-beta2 (2021-06-05) =
 
 - Added the "rating_field" shortcode option which allows you to use a custom rating field with the summary
+- Added the "Repair Review Relations" tool
 - Fixed "loose assignment" database queries
 
 = 5.11.1 (2021-06-03) =

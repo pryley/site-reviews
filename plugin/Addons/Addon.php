@@ -25,6 +25,7 @@ abstract class Addon
     const ID = '';
     const LICENSED = false;
     const NAME = '';
+    const POST_TYPE = '';
     const SLUG = '';
     const UPDATE_URL = '';
 
@@ -58,7 +59,7 @@ abstract class Addon
      */
     public function posts($perPage = 50)
     {
-        if (!defined('static::POST_TYPE')) {
+        if (empty(static::POST_TYPE)) {
             return [];
         }
         $posts = get_posts([

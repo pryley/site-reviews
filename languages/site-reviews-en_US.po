@@ -1573,7 +1573,7 @@ msgctxt "admin-text"
 msgid "Terms Accepted"
 msgstr "Terms Accepted"
 
-#: plugin/Addons/Addon.php:74
+#: plugin/Addons/Addon.php:75
 msgctxt "admin-text"
 msgid "Untitled"
 msgstr "Untitled"
@@ -1785,7 +1785,7 @@ msgctxt "admin-text"
 msgid "Support"
 msgstr "Support"
 
-#: plugin/Controllers/MenuController.php:108, plugin/Controllers/ToolsController.php:89
+#: plugin/Controllers/MenuController.php:108, plugin/Controllers/ToolsController.php:90
 msgctxt "admin-text"
 msgid "FAQ"
 msgstr "FAQ"
@@ -1934,32 +1934,32 @@ msgctxt "admin-text"
 msgid "A license you entered was invalid."
 msgstr "A license you entered was invalid."
 
-#: plugin/Controllers/ToolsController.php:28
+#: plugin/Controllers/ToolsController.php:29
 msgctxt "admin-text"
 msgid "Console cleared."
 msgstr "Console cleared."
 
-#: plugin/Controllers/ToolsController.php:53
+#: plugin/Controllers/ToolsController.php:54
 msgctxt "admin-text"
 msgid "The <code>%s</code> table was successfully converted to InnoDB."
 msgstr "The <code>%s</code> table was successfully converted to InnoDB."
 
-#: plugin/Controllers/ToolsController.php:58
+#: plugin/Controllers/ToolsController.php:59
 msgctxt "admin-text"
 msgid "The <code>%s</code> table could not be converted to InnoDB."
 msgstr "The <code>%s</code> table could not be converted to InnoDB."
 
-#: plugin/Controllers/ToolsController.php:63
+#: plugin/Controllers/ToolsController.php:64
 msgctxt "admin-text"
 msgid "The <code>%s</code> table was not found in the database."
 msgstr "The <code>%s</code> table was not found in the database."
 
-#: plugin/Controllers/ToolsController.php:98
+#: plugin/Controllers/ToolsController.php:99
 msgctxt "admin-text"
 msgid "Your detected IP address is %s. If this looks incorrect, please see the %s."
 msgstr "Your detected IP address is %s. If this looks incorrect, please see the %s."
 
-#: plugin/Controllers/ToolsController.php:93
+#: plugin/Controllers/ToolsController.php:94
 msgctxt "admin-text"
 msgid ""
 "Site Reviews was unable to detect an IP address. To fix this, please see "
@@ -1968,37 +1968,42 @@ msgstr ""
 "Site Reviews was unable to detect an IP address. To fix this, please see "
 "the %s."
 
-#: plugin/Controllers/ToolsController.php:149
+#: plugin/Controllers/ToolsController.php:150
 msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr "Console reloaded."
 
-#: plugin/Controllers/ToolsController.php:194
+#: plugin/Controllers/ToolsController.php:195
 msgctxt "admin-text"
 msgid "The plugin has been migrated sucessfully, please reload the page."
 msgstr "The plugin has been migrated sucessfully, please reload the page."
 
-#: plugin/Controllers/ToolsController.php:191
+#: plugin/Controllers/ToolsController.php:192
 msgctxt "admin-text"
 msgid "All plugin migrations have been run successfully, please reload the page."
 msgstr "All plugin migrations have been run successfully, please reload the page."
 
-#: plugin/Controllers/ToolsController.php:217
+#: plugin/Controllers/ToolsController.php:218
+msgctxt "admin-text"
+msgid "The review relationships have been repaired."
+msgstr "The review relationships have been repaired."
+
+#: plugin/Controllers/ToolsController.php:240
 msgctxt "admin-text"
 msgid "The assigned meta values have been reset."
 msgstr "The assigned meta values have been reset."
 
-#: plugin/Controllers/ToolsController.php:243
+#: plugin/Controllers/ToolsController.php:266
 msgctxt "admin-text"
 msgid "The permissions have been reset."
 msgstr "The permissions have been reset."
 
-#: plugin/Controllers/ToolsController.php:254
+#: plugin/Controllers/ToolsController.php:277
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr "reload the page"
 
-#: plugin/Controllers/ToolsController.php:258
+#: plugin/Controllers/ToolsController.php:281
 msgctxt "admin-text"
 msgid "The permissions have been reset, please %s for them to take effect."
 msgstr "The permissions have been reset, please %s for them to take effect."
@@ -3648,7 +3653,7 @@ msgctxt "admin-text"
 msgid "Run Migration"
 msgstr "Run Migration"
 
-#: views/pages/tools/general/optimise-db-tables.php:6
+#: views/pages/tools/general/optimise-db-tables.php:6, views/pages/tools/general/repair-review-relations.php:17
 msgctxt "admin-text"
 msgid "Optimise Your Database Tables"
 msgstr "Optimise Your Database Tables"
@@ -3707,6 +3712,104 @@ msgstr "Converting, please wait..."
 msgctxt "admin-text"
 msgid "Convert table engine to InnoDB"
 msgstr "Convert table engine to InnoDB"
+
+#: views/pages/tools/general/repair-review-relations.php:6
+msgctxt "admin-text"
+msgid "Repair Review Relations"
+msgstr "Repair Review Relations"
+
+#: views/pages/tools/general/repair-review-relations.php:36
+msgctxt "admin-text"
+msgid "Repair is unnecessary because your database tables use the InnoDB engine!"
+msgstr "Repair is unnecessary because your database tables use the InnoDB engine!"
+
+#: views/pages/tools/general/repair-review-relations.php:14
+msgctxt "admin-text"
+msgid ""
+"Once you have repaired the review relationships, it is recommended that you "
+"run the %s tool to prevent the problem from happening again."
+msgstr ""
+"Once you have repaired the review relationships, it is recommended that you "
+"run the %s tool to prevent the problem from happening again."
+
+#: views/pages/tools/general/repair-review-relations.php:22
+msgctxt "admin-text"
+msgid ""
+"Site Reviews stores review details in a custom database table, these "
+"entries are linked to the review post type in the WordPress posts table "
+"using the review's Post ID."
+msgstr ""
+"Site Reviews stores review details in a custom database table, these "
+"entries are linked to the review post type in the WordPress posts table "
+"using the review's Post ID."
+
+#: views/pages/tools/general/repair-review-relations.php:23
+msgctxt "admin-text"
+msgid ""
+"If your database tables use the standard InnoDB engine, foreign indexes are "
+"used to maintain the relationship between the two so that when a review is "
+"deleted from the WordPress posts table, the review details are also removed "
+"from the custom table."
+msgstr ""
+"If your database tables use the standard InnoDB engine, foreign indexes are "
+"used to maintain the relationship between the two so that when a review is "
+"deleted from the WordPress posts table, the review details are also removed "
+"from the custom table."
+
+#: views/pages/tools/general/repair-review-relations.php:24
+msgctxt "admin-text"
+msgid ""
+"However, if your database tables use the outdated MyISAM engine, then "
+"foreign indexes cannot be used so Site Reviews depends on the built-in "
+"WordPress hooks (which are triggered when a review is deleted) in order to "
+"remove the relationship and delete the review details from the custom "
+"database table."
+msgstr ""
+"However, if your database tables use the outdated MyISAM engine, then "
+"foreign indexes cannot be used so Site Reviews depends on the built-in "
+"WordPress hooks (which are triggered when a review is deleted) in order to "
+"remove the relationship and delete the review details from the custom "
+"database table."
+
+#: views/pages/tools/general/repair-review-relations.php:25
+msgctxt "admin-text"
+msgid ""
+"Depending on the WordPress hooks is problematic because there are many "
+"unknown factors involved which may prevent these hooks from being triggered "
+"(i.e. manually deleting a review from the database, using a third-party "
+"plugin which overrides the hooks, etc.), this can mess up the relationships "
+"between the review in the WordPress posts table and the review details in "
+"the custom database table and when this happens, it may cause your reviews "
+"to incorrectly use the content of a non-review post type."
+msgstr ""
+"Depending on the WordPress hooks is problematic because there are many "
+"unknown factors involved which may prevent these hooks from being triggered "
+"(i.e. manually deleting a review from the database, using a third-party "
+"plugin which overrides the hooks, etc.), this can mess up the relationships "
+"between the review in the WordPress posts table and the review details in "
+"the custom database table and when this happens, it may cause your reviews "
+"to incorrectly use the content of a non-review post type."
+
+#: views/pages/tools/general/repair-review-relations.php:26
+msgctxt "admin-text"
+msgid ""
+"This tool will repair the review relationships in your database by removing "
+"any review details in the custom database table that do not point to a "
+"valid review."
+msgstr ""
+"This tool will repair the review relationships in your database by removing "
+"any review details in the custom database table that do not point to a "
+"valid review."
+
+#: views/pages/tools/general/repair-review-relations.php:31
+msgctxt "admin-text"
+msgid "Repairing relations, please wait..."
+msgstr "Repairing relations, please wait..."
+
+#: views/pages/tools/general/repair-review-relations.php:31
+msgctxt "admin-text"
+msgid "Repair Relations"
+msgstr "Repair Relations"
 
 #: views/pages/tools/general/reset-assigned-meta.php:6
 msgctxt "admin-text"
