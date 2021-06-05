@@ -68,6 +68,7 @@ class Migrate_5_9_0
         glsr(Database::class)->deleteInvalidPostAssignments();
         glsr(Database::class)->deleteInvalidTermAssignments();
         glsr(Database::class)->deleteInvalidUserAssignments();
+        glsr(Database::class)->deleteInvalidReviews();
     }
 
     /**

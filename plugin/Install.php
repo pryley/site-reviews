@@ -129,6 +129,7 @@ class Install
         glsr(Database::class)->deleteInvalidPostAssignments();
         glsr(Database::class)->deleteInvalidTermAssignments();
         glsr(Database::class)->deleteInvalidUserAssignments();
+        glsr(Database::class)->deleteInvalidReviews();
     }
 
     /**

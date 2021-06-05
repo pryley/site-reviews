@@ -35,6 +35,7 @@ class SqlSchema
      */
     public function addAssignedPostsForeignConstraints()
     {
+        glsr(Database::class)->deleteInvalidPostAssignments();
         $this->addForeignConstraint(
             $table = $this->table('assigned_posts'),
             $constraint = $this->foreignConstraint('assigned_posts_rating_id'),
@@ -56,6 +57,7 @@ class SqlSchema
      */
     public function addAssignedTermsForeignConstraints()
     {
+        glsr(Database::class)->deleteInvalidTermAssignments();
         $this->addForeignConstraint(
             $table = $this->table('assigned_terms'),
             $constraint = $this->foreignConstraint('assigned_terms_rating_id'),
@@ -77,6 +79,7 @@ class SqlSchema
      */
     public function addAssignedUsersForeignConstraints()
     {
+        glsr(Database::class)->deleteInvalidUserAssignments();
         $this->addForeignConstraint(
             $table = $this->table('assigned_users'),
             $constraint = $this->foreignConstraint('assigned_users_rating_id'),
@@ -98,6 +101,7 @@ class SqlSchema
      */
     public function addReviewsForeignConstraints()
     {
+        glsr(Database::class)->deleteInvalidReviews();
         $this->addForeignConstraint(
             $table = $this->table('ratings'),
             $constraint = $this->foreignConstraint('assigned_posts_review_id'),

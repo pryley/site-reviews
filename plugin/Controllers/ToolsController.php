@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\ImportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportSettings;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\SqlSchema;
@@ -202,6 +203,28 @@ class ToolsController extends Controller
     public function migratePluginAjax(Request $request)
     {
         $this->migratePlugin($request);
+        wp_send_json_success([
+            'notices' => glsr(Notice::class)->get(),
+        ]);
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/admin/repair-review-relations
+     */
+    public function repairReviewRelations()
+    {
+        glsr(Database::class)->deleteInvalidReviews();
+        glsr(Notice::class)->clear()->addSuccess(_x('The review relationships have been repaired.', 'admin-text', 'site-reviews'));
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/ajax/repair-review-relations
+     */
+    public function repairReviewRelationsAjax()
+    {
+        $this->repairReviewRelations();
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
         ]);

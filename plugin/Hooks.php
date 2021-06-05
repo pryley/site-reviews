@@ -173,6 +173,8 @@ class Hooks implements HooksContract
         add_action('site-reviews/route/admin/export-settings', [$this->tools, 'exportSettings']);
         add_action('site-reviews/route/admin/import-reviews', [$this->tools, 'importReviews']);
         add_action('site-reviews/route/admin/import-settings', [$this->tools, 'importSettings']);
+        add_action('site-reviews/route/admin/repair-review-relations', [$this->tools, 'repairReviewRelations']);
+        add_action('site-reviews/route/ajax/repair-review-relations', [$this->tools, 'repairReviewRelationsAjax']);
         add_action('site-reviews/route/admin/reset-assigned-meta', [$this->tools, 'resetAssignedMeta']);
         add_action('site-reviews/route/ajax/reset-assigned-meta', [$this->tools, 'resetAssignedMetaAjax']);
         add_action('site-reviews/route/admin/reset-permissions', [$this->tools, 'resetPermissions']);

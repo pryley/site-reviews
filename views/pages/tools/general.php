@@ -6,6 +6,7 @@ $sections = [
     trailingslashit(__DIR__).'general/import-reviews.php',
     trailingslashit(__DIR__).'general/migrate-plugin.php',
     trailingslashit(__DIR__).'general/optimise-db-tables.php',
+    trailingslashit(__DIR__).'general/repair-review-relations.php',
     trailingslashit(__DIR__).'general/reset-assigned-meta.php',
     trailingslashit(__DIR__).'general/reset-permissions.php',
     trailingslashit(__DIR__).'general/test-ip-detection.php',

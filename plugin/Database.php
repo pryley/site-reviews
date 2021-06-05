@@ -124,6 +124,23 @@ class Database
     /**
      * @return int|bool
      */
+    public function deleteInvalidReviews()
+    {
+        return $this->dbQuery(sprintf(
+            glsr(Query::class)->sql("
+                DELETE r
+                FROM %s AS r
+                LEFT JOIN {$this->db->posts} AS p ON r.review_id = p.ID
+                WHERE (p.post_type IS NULL OR p.post_type != '%s')
+            "),
+            glsr(Query::class)->table('ratings'),
+            glsr()->post_type
+        ));
+    }
+
+    /**
+     * @return int|bool
+     */
     public function deleteInvalidTermAssignments()
     {
         return $this->dbQuery(sprintf(
