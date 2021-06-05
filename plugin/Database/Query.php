@@ -57,10 +57,7 @@ class Query
     public function ratings(array $args = [])
     {
         $this->setArgs($args, $unset = ['orderby']);
-        $query = empty($this->args['custom'])
-            ? $this->queryRatings()
-            : $this->queryRatingsForCustom();
-        $results = glsr(Database::class)->dbGetResults($query, ARRAY_A);
+        $results = glsr(Database::class)->dbGetResults($this->queryRatings(), ARRAY_A);
         return $this->normalizeRatings($results);
     }
 
