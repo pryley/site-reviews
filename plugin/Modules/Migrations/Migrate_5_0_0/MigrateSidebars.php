@@ -182,7 +182,9 @@ class MigrateSidebars
     protected function widgetsExist(array $sidebars)
     {
         $sidebars = array_filter($sidebars, 'is_array');
-        $widgets = call_user_func_array('array_merge', array_values($sidebars));
+        $sidebars = array_values($sidebars);
+        $widgets = call_user_func_array('array_merge', $sidebars);
+        $widgets = Arr::consolidate($widgets); // ensure this is an array in case call_user_func_array() errors
         foreach ($widgets as $widget) {
             if (Str::startsWith(glsr()->id.'_', $widget)) {
                 return true;
