@@ -1251,7 +1251,7 @@ msgctxt "admin-text"
 msgid "Restrict Limits To"
 msgstr "Restrict Limits To"
 
-#: config/settings.php:531, plugin/Controllers/MetaboxController.php:38, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/editor/bulk-edit-assigned-posts.php:6
+#: config/settings.php:531, plugin/Controllers/MetaboxController.php:38, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/screen/inline-edit.php:102
 msgctxt "admin-text"
 msgid "Assigned Posts"
 msgstr "Assigned Posts"
@@ -1261,7 +1261,7 @@ msgctxt "admin-text"
 msgid "Assigned Terms"
 msgstr "Assigned Terms"
 
-#: config/settings.php:533, plugin/Controllers/MetaboxController.php:39, plugin/Defaults/PostTypeColumnDefaults.php:19, views/partials/editor/bulk-edit-assigned-users.php:6
+#: config/settings.php:533, plugin/Controllers/MetaboxController.php:39, plugin/Defaults/PostTypeColumnDefaults.php:19, views/partials/screen/inline-edit.php:113
 msgctxt "admin-text"
 msgid "Assigned Users"
 msgstr "Assigned Users"
@@ -1720,7 +1720,7 @@ msgctxt "admin-text"
 msgid "Publicly responding to third-party %s reviews is disabled."
 msgstr "Publicly responding to third-party %s reviews is disabled."
 
-#: plugin/Controllers/ListTableController.php:41, plugin/Overrides/ReviewsListTable.php:69
+#: plugin/Controllers/ListTableController.php:41, plugin/Overrides/ReviewsListTable.php:109
 msgctxt "admin-text"
 msgid "%s is currently editing"
 msgstr "%s is currently editing"
@@ -1860,7 +1860,7 @@ msgctxt "admin-text"
 msgid "Review Details"
 msgstr "Review Details"
 
-#: plugin/Controllers/MetaboxController.php:41, plugin/Controllers/MetaboxController.php:120
+#: plugin/Controllers/MetaboxController.php:41, plugin/Controllers/MetaboxController.php:120, views/partials/screen/inline-edit.php:63
 msgctxt "admin-text"
 msgid "Author"
 msgstr "Author"
@@ -2043,12 +2043,12 @@ msgid_plural "%s reviews restored from the Trash."
 msgstr[0] "%s review restored from the Trash."
 msgstr[1] "%s reviews restored from the Trash."
 
-#: plugin/Controllers/TranslationController.php:132, plugin/Controllers/TranslationController.php:167, plugin/Defaults/PostStatusLabelsDefaults.php:15, plugin/Defaults/PostStatusLabelsDefaults.php:16
+#: plugin/Controllers/TranslationController.php:132, plugin/Controllers/TranslationController.php:167, plugin/Defaults/PostStatusLabelsDefaults.php:15, plugin/Defaults/PostStatusLabelsDefaults.php:16, views/partials/screen/inline-edit.php:73
 msgctxt "admin-text"
 msgid "Unapproved"
 msgstr "Unapproved"
 
-#: plugin/Controllers/TranslationController.php:166, plugin/Controllers/TranslationController.php:198, plugin/Defaults/PostStatusLabelsDefaults.php:19
+#: plugin/Controllers/TranslationController.php:166, plugin/Controllers/TranslationController.php:198, plugin/Defaults/PostStatusLabelsDefaults.php:19, views/partials/screen/inline-edit.php:71
 msgctxt "admin-text"
 msgid "Approved"
 msgstr "Approved"
@@ -2255,6 +2255,11 @@ msgid ""
 msgstr ""
 "This custom translation is no longer valid as the original text has been "
 "changed or removed."
+
+#: plugin/Overrides/ReviewsListTable.php:79, views/partials/screen/inline-edit.php:69, views/partials/screen/inline-edit.php:83, views/partials/screen/inline-edit.php:93
+msgctxt "admin-text"
+msgid "No Change"
+msgstr "No Change"
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:96
 msgctxt "admin-text"
@@ -3130,15 +3135,10 @@ msgctxt "admin-text"
 msgid "Remove assignment"
 msgstr "Remove assignment"
 
-#: views/partials/editor/bulk-edit-assigned-posts.php:11, views/partials/editor/metabox-assigned-posts.php:6
+#: views/partials/editor/metabox-assigned-posts.php:6, views/partials/screen/inline-edit.php:107
 msgctxt "admin-text"
 msgid "Search by ID or title..."
 msgstr "Search by ID or title..."
-
-#: views/partials/editor/bulk-edit-assigned-users.php:11, views/partials/editor/metabox-assigned-users.php:6
-msgctxt "admin-text"
-msgid "Search by ID or name..."
-msgstr "Search by ID or name..."
 
 #: views/partials/editor/metabox-assigned-posts.php:9
 msgctxt "admin-text"
@@ -3148,6 +3148,11 @@ msgid ""
 msgstr ""
 "Search for a Page, Post, or <abbr title=\"Custom Post Type\">CPT</abbr> "
 "that you would like to assign this review to."
+
+#: views/partials/editor/metabox-assigned-users.php:6, views/partials/screen/inline-edit.php:118
+msgctxt "admin-text"
+msgid "Search by ID or name..."
+msgstr "Search by ID or name..."
 
 #: views/partials/editor/metabox-assigned-users.php:9
 msgctxt "admin-text"
@@ -3184,7 +3189,7 @@ msgctxt "admin-text"
 msgid "OK"
 msgstr "OK"
 
-#: views/partials/editor/pinned.php:17, views/partials/screen/inline-edit.php:30
+#: views/partials/editor/pinned.php:17, views/partials/screen/inline-edit.php:30, views/partials/screen/inline-edit.php:127
 msgctxt "admin-text"
 msgid "Cancel"
 msgstr "Cancel"
@@ -3255,10 +3260,40 @@ msgctxt "admin-text"
 msgid "Your Response"
 msgstr "Your Response"
 
-#: views/partials/screen/inline-edit.php:31
+#: views/partials/screen/inline-edit.php:31, views/partials/screen/inline-edit.php:128
 msgctxt "admin-text"
 msgid "Update"
 msgstr "Update"
+
+#: views/partials/screen/inline-edit.php:43
+msgctxt "admin-text"
+msgid "Bulk Edit"
+msgstr "Bulk Edit"
+
+#: views/partials/screen/inline-edit.php:67
+msgctxt "admin-text"
+msgid "Status"
+msgstr "Status"
+
+#: views/partials/screen/inline-edit.php:81
+msgctxt "admin-text"
+msgid "Comments"
+msgstr "Comments"
+
+#: views/partials/screen/inline-edit.php:84, views/partials/screen/inline-edit.php:94
+msgctxt "admin-text"
+msgid "Allow"
+msgstr "Allow"
+
+#: views/partials/screen/inline-edit.php:85, views/partials/screen/inline-edit.php:95
+msgctxt "admin-text"
+msgid "Do not allow"
+msgstr "Do not allow"
+
+#: views/partials/screen/inline-edit.php:91
+msgctxt "admin-text"
+msgid "Pings"
+msgstr "Pings"
 
 #: views/partials/screen/locked-indicator.php:6
 msgctxt "admin-text"

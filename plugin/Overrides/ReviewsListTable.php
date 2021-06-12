@@ -37,10 +37,50 @@ class ReviewsListTable extends \WP_Posts_List_Table
      */
     public function inline_edit()
     {
+        global $mode;
         glsr()->render('partials/screen/inline-edit', [
+            'additional_fieldsets' => $this->getAdditionalFieldsets(),
+            'author_dropdown' => $this->getAuthorDropdown(),
             'columns' => $this->get_column_count(),
-            'screenId' => esc_attr($this->screen->id),
+            'mode' => esc_attr((isset($mode) && 'excerpt' === $mode) ? 'excerpt' : 'list'),
+            'screen_id' => esc_attr($this->screen->id),
+            'taxonomy' => get_taxonomy(glsr()->taxonomy),
         ]);
+    }
+
+    protected function getAdditionalFieldsets()
+    {
+        ob_start();
+        list($columns) = $this->get_column_info();
+        $coreColumns = ['author', 'categories', 'cb', 'comments', 'date', 'tags', 'title'];
+        foreach ($columns as $columnName => $columnTitle) {
+            if (!in_array($columnName, $coreColumns)) {
+                do_action('bulk_edit_custom_box', $columnName, glsr()->post_type); // @since WP 2.7.0
+            }
+        }
+        return ob_get_clean();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getAuthorDropdown()
+    {
+        if (!glsr()->can('edit_others_posts')) {
+            return '';
+        }
+        $args = [
+            'class' => 'authors',
+            'echo' => 0,
+            'hide_if_only_one_author' => false,
+            'multi' => 1,
+            'name' => 'post_author',
+            'show' => 'display_name_with_login',
+            'show_option_none' => '&mdash; '._x('No Change', 'admin-text', 'site-reviews').' &mdash;',
+            'who' => 'authors',
+        ];
+        $args = apply_filters('quick_edit_dropdown_authors_args', $args, $bool = true); // @since WP 5.6.0
+        return wp_dropdown_users($args);
     }
 
     /**

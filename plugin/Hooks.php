@@ -6,7 +6,6 @@ use GeminiLabs\SiteReviews\Contracts\HooksContract;
 use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestController;
 use GeminiLabs\SiteReviews\Controllers\BlocksController;
-use GeminiLabs\SiteReviews\Controllers\BulkEditorController;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
 use GeminiLabs\SiteReviews\Controllers\IntegrationController;
 use GeminiLabs\SiteReviews\Controllers\ListTableController;
@@ -31,7 +30,6 @@ class Hooks implements HooksContract
     protected $admin;
     protected $basename;
     protected $blocks;
-    protected $bulkeditor;
     protected $editor;
     protected $integrations;
     protected $listtable;
@@ -56,7 +54,6 @@ class Hooks implements HooksContract
         $this->admin = glsr(AdminController::class);
         $this->basename = plugin_basename(glsr()->file);
         $this->blocks = glsr(BlocksController::class);
-        $this->bulkeditor = glsr(BulkEditorController::class);
         $this->editor = glsr(EditorController::class);
         $this->integrations = glsr(IntegrationController::class);
         $this->listtable = glsr(ListTableController::class);
@@ -101,7 +98,6 @@ class Hooks implements HooksContract
         add_action('site-reviews/route/ajax/toggle-status', [$this->admin, 'toggleStatusAjax']);
         add_action('init', [$this->blocks, 'registerAssets'], 9);
         add_action('init', [$this->blocks, 'registerBlocks']);
-        add_action('bulk_edit_custom_box', [$this->bulkeditor, 'renderBulkEditFields'], 10, 2);
         add_action('site-reviews/route/ajax/mce-shortcode', [$this->editor, 'mceShortcodeAjax']);
         add_action('edit_form_top', [$this->editor, 'renderReviewNotice']);
         add_action('elementor/init', [$this->integrations, 'registerElementorCategory']);
