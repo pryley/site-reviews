@@ -52,7 +52,9 @@ class Role
             'publish_posts',
             'read_post',
             'read_private_posts',
+            'respond_to_others_post',
             'respond_to_others_posts',
+            'respond_to_post',
             'respond_to_posts',
         ];
     }

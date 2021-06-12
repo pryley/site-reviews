@@ -69,21 +69,28 @@ class AdminController extends Controller
      */
     public function filterCapabilities($capabilities, $capability, $userId, $args)
     {
-        if (is_multisite() && is_super_admin()) {
+        if ('respond_to_'.glsr()->post_type !== $capability) {
             return $capabilities;
         }
-        if ('respond_to_post' === $capability) {
-            $capabilities = [];
-            $post = get_post((int) Arr::get($args, 0));
-            if (is_null($post)) {
-                $capabilities[] = 'do_not_allow';
-            } elseif ($userId == $post->post_author) {
-                $capabilities[] = glsr(Role::class)->capability('respond_to_posts');
-            } else {
-                $capabilities[] = glsr(Role::class)->capability('respond_to_others_posts');
+        $review = glsr_get_review(Arr::get($args, 0));
+        if (!$review->isValid()) {
+            return ['do_not_allow'];
+        }
+        $capabilities = [];
+        $respondToReviews = glsr(Role::class)->capability('respond_to_posts');
+        if ($userId == $review->author_id) {
+            $capabilities[] = $respondToReviews; // they are the author of the review
+        }
+        foreach ($review->assignedPosts() as $assignedPost) {
+            if ($userId == $assignedPost->post_author) {
+                $capabilities[] = $respondToReviews;  // they are the author of the post that the review is assigned to
+                break;
             }
         }
-        return $capabilities;
+        if (!in_array($respondToReviews, $capabilities)) {
+            $capabilities[] = glsr(Role::class)->capability('respond_to_others_posts');
+        }
+        return array_unique($capabilities);
     }
 
     /**
