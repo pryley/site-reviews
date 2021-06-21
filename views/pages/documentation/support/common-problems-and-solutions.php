@@ -20,7 +20,7 @@
                 <p>You may be using a caching plugin which is caching the database and preventing Site Reviews from storing the migration status. To fix this, you will need to flush your database cache and/or object cache and then try again.</p>
             </li>
             <li>
-                <p>You may have 3rd-party reviews that were not imported correctly. You can verify this by looking for reviews on the <a href="<?= admin_url('edit.php?post_type='.glsr()->post_type); ?>">All Reviews</a> page that do not have any stars. Clicking on these reviews will show a read-only editor and a notice alerting you that the review is an, "Unsupported Review Type". To fix this, please delete the invalid reviews and use the provided <a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-general'); ?>" data-expand="#tools-import-reviews">Import Third Party Reviews</a> tool to re-import them.</p>
+                <p>You may have 3rd-party reviews that were not imported correctly. You can verify this by looking for reviews on the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type); ?>">All Reviews</a></code> page that do not have any stars. Clicking on these reviews will show a read-only editor and a notice alerting you that the review is an, "Unsupported Review Type". To fix this, please delete the invalid reviews and use the provided <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-general'); ?>" data-expand="#tools-import-reviews">Import Third Party Reviews</a></code> tool to re-import them.</p>
             </li>
         </ol>
         <h3>The review form is not working, the submit button just spins.</h3>
@@ -51,7 +51,7 @@
                     <li>The Form Request is invalid</li>
                 </ul>
                 <p>To fix the nonce errors, make sure that you are not caching the review page for logged in users because Site Reviews adds a <a href="https://www.bynicolas.com/code/wordpress-nonce/" target="_blank">WordPress Nonce</a> token to the form if the user is logged in. Nonces are a standard WordPress security feature that r malicious form submissions, but they will not work if your web pages are being cached because the nonce tokens are time-sensitive and their validity expires after 12 hours.</p>
-                <p>Alternatively, you may remove the Nonce check <a data-expand="#faq-remove-nonce-check" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">as shown here</a>.</p>
+                <p>Alternatively, you may remove the Nonce check as shown in the FAQ page: <code><a data-expand="#faq-remove-nonce-check" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">How do I remove the WordPress Nonce check for logged in users?</a></code>.</p>
             </li>
             <li>
                 <h4 style="font-size:15px;"><?= __('Your review cannot be submitted at this time.', 'site-reviews'); ?></h4>
