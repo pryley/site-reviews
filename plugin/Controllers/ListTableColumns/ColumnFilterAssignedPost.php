@@ -37,13 +37,20 @@ class ColumnFilterAssignedPost extends ColumnFilter
             return [];
         }
         $posts = get_posts([
-            'order' => 'ASC',
-            'orderby' => 'post_title',
+            'no_found_rows' => true, // skip counting the total rows found
             'post_type' => 'any',
-            'posts_per_page' => -1,
             'post__in' => $postIds,
+            'posts_per_page' => -1,
         ]);
-        return wp_list_pluck($posts, 'post_title', 'ID');
+        $options = wp_list_pluck($posts, 'post_title', 'ID');
+        foreach ($options as $id => &$title) {
+            if (empty($title)) {
+                $title = sprintf('%s', _x('No title', 'admin-text', 'site-reviews'));
+            }
+            $title = sprintf('%s (ID: %s)', $title, $id);
+        }
+        natcasesort($options);
+        return $options;
     }
 
     /**

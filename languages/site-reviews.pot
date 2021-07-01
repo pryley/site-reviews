@@ -2502,6 +2502,11 @@ msgctxt "admin-text"
 msgid "All assigned posts"
 msgstr ""
 
+#: plugin/Controllers/ListTableColumns/ColumnFilterAssignedPost.php:48, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:26
+msgctxt "admin-text"
+msgid "No title"
+msgstr ""
+
 #: plugin/Controllers/ListTableColumns/ColumnFilterAssignedUser.php:20
 msgctxt "admin-text"
 msgid "Filter by assigned user"
@@ -3305,7 +3310,7 @@ msgstr ""
 msgid "Submit your review"
 msgstr ""
 
-#: plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:43
+#: plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:47
 msgid "Review of %s"
 msgstr ""
 

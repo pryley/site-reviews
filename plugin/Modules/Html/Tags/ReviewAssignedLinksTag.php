@@ -21,9 +21,13 @@ class ReviewAssignedLinksTag extends ReviewTag
         foreach (Arr::consolidate($value) as $postId) {
             $postId = Helper::getPostId(glsr(Multilingual::class)->getPostId($postId));
             if (!empty($postId) && !in_array($postId, $usedIds)) {
+                $title = get_the_title($postId);
+                if (empty(trim($title))) {
+                    $title = _x('No title', 'admin-text', 'site-reviews');
+                }
                 $links[] = glsr(Builder::class)->a([
                     'href' => get_the_permalink($postId),
-                    'text' => get_the_title($postId),
+                    'text' => $title,
                 ]);
                 $usedIds[] = $postId;
                 $usedIds = Arr::unique($usedIds);

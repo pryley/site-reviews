@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 abstract class ColumnFilter
 {
     protected $enabled = false;
-    protected $maxWidth = 150;
+    protected $maxWidth = 160;
 
     /**
      * @return string|void

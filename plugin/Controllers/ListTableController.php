@@ -310,7 +310,7 @@ class ListTableController extends Controller
             $query->set('meta_key', Str::prefix($orderby, '_'));
             $query->set('orderby', 'meta_value');
         }
-        if ($termId = filter_input(INPUT_GET, 'assigned_term_id', FILTER_SANITIZE_NUMBER_INT)) {
+        if ($termId = filter_input(INPUT_GET, 'assigned_term', FILTER_SANITIZE_NUMBER_INT)) {
             $query->set('tax_query', [[
                 'taxonomy' => glsr()->taxonomy,
                 'terms' => $termId,

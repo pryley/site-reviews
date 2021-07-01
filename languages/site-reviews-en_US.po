@@ -310,7 +310,7 @@ msgstr "Rated <strong>%s</strong> out of %s"
 msgid "Submit your review"
 msgstr "Submit your review"
 
-#: plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:43
+#: plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:47
 msgid "Review of %s"
 msgstr "Review of %s"
 
@@ -2669,6 +2669,11 @@ msgstr "Filter by assigned post"
 msgctxt "admin-text"
 msgid "All assigned posts"
 msgstr "All assigned posts"
+
+#: plugin/Controllers/ListTableColumns/ColumnFilterAssignedPost.php:48, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:26
+msgctxt "admin-text"
+msgid "No title"
+msgstr "No title"
 
 #: plugin/Controllers/ListTableColumns/ColumnFilterAssignedUser.php:20
 msgctxt "admin-text"
