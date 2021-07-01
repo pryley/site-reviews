@@ -34,6 +34,7 @@ class StarRating implements PartialContract
                 'full_stars' => $this->getTemplate('full-star', $fullStars),
                 'half_stars' => $this->getTemplate('half-star', $halfStars),
                 'prefix' => $this->data->prefix,
+                'rating' => $this->data->rating,
                 'title' => sprintf($title, $this->data->rating, $maxRating, $this->data->count),
             ],
             'partial' => $this,
