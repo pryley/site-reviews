@@ -23,8 +23,12 @@ class Migrate_5_11_0
         $newCapabilities = ['create_posts', 'respond_to_posts', 'respond_to_others_posts'];
         foreach ($roles as $role => $capabilities) {
             foreach ($newCapabilities as $capability) {
-                if (in_array($capability, $capabilities)) {
-                    get_role($role)->add_cap(glsr(Role::class)->capability($capability));
+                if (!in_array($capability, $capabilities)) {
+                    continue;
+                }
+                $wpRole = get_role($role);
+                if (!empty($wpRole)) {
+                    $wpRole->add_cap(glsr(Role::class)->capability($capability));
                 }
             }
         }
