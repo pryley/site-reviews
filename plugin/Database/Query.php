@@ -104,7 +104,8 @@ class Query
     {
         $this->setArgs($args);
         if (empty($postIds)) {
-            // We previously used a subquery here, but MariaDB didn't support it.
+            // We previously used a subquery here, but MariaDB doesn't support LIMIT in subqueries
+            // https://mariadb.com/kb/en/subquery-limitations/
             $postIds = glsr(Database::class)->dbGetCol($this->queryReviewIds());
         }
         $reviewIds = implode(',', Arr::uniqueInt(Cast::toArray($postIds)));

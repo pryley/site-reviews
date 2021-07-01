@@ -69,7 +69,7 @@ return [
             'polylang' => _x('Integrate with Polylang', 'admin-text', 'site-reviews'),
             'wpml' => _x('Integrate with WPML', 'admin-text', 'site-reviews'),
         ],
-        'tooltip' => _x('Integrate with a multilingual plugin to calculate the combined ratings for all languages of a post.', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('Integrate with a multilingual plugin to calculate the combined ratings for all languages of a page; and if you are assigning reviews to your pages, display reviews assigned to all languages of that page.', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
     'settings.general.notifications' => [
