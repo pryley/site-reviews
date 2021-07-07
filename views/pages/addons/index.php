@@ -6,11 +6,14 @@
         <a href="<?= admin_url('index.php?page='.glsr()->id.'-welcome'); ?>" class="page-title-action"><?= _x('About', 'admin-text', 'site-reviews'); ?></a>
     </h1>
     <?= $notices; ?>
+    <div class="notice notice-success">
+        <p>If you love Site Reviews and would like to support my work, please consider purchasing some add-ons. ❤️</p>
+    </div>
     <div class="glsr-addons">
     <?php
         $template->render('partials/addons/addon', [
             'context' => [
-                'description' => _x('All of the add-ons! Grab the special introductory discount while it still lasts...', 'admin-text', 'site-reviews').' 👀',
+                'description' => _x('The Premium license allows you to install all of the add-ons, including all future add-ons as they become available!', 'admin-text', 'site-reviews').' 👀',
                 'link' => 'https://niftyplugins.com/plugins/site-reviews-premium/',
                 'link_text' => _x('Discover Premium', 'admin-text', 'site-reviews'),
                 'slug' => 'premium',

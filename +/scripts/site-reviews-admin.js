@@ -33,6 +33,17 @@ GLSR.keys = {
 
 GLSR.Tippy = { tippy, plugins: { followCursor }}
 
+function discover_site_reviews () {
+    jQuery('.post-type-site-review.edit-php .page-title-action').after('<a href="' + GLSR.addonsurl + '" class="page-title-action" style="color:#DC3232;">' + GLSR.text.discover + '</a>');
+}
+function rate_site_reviews () {
+    let rateUrl = 'https://wordpress.org/support/view/plugin-reviews/site-reviews?filter=5#new-post';
+    let rateMsg = GLSR.text.rate;
+    let url1 = '<strong>Site Reviews</strong> <a href="' + rateUrl + '" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>';
+    let url2 = '<a href="' + rateUrl + '" target="_blank">wordpress.org</a>';
+    jQuery('#footer-left', '.post-type-site-review, .post-type-site-review-form, .post-type-site-review-theme, .dashboard_page_site-reviews-welcome').html(rateMsg.replace('%s', url1).replace('%s', url2));
+}
+
 jQuery(function ($) {
     Prism.highlightAll();
     GLSR.notices = new Notices();
@@ -157,4 +168,7 @@ jQuery(function ($) {
             $(':input[name="_response"]').val(row.find('._response').text());
         }, 50);
     });
+
+    discover_site_reviews();
+    rate_site_reviews();
 });

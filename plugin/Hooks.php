@@ -222,7 +222,6 @@ class Hooks implements HooksContract
         add_filter(glsr()->taxonomy.'_row_actions', [$this->taxonomy, 'filterRowActions'], 10, 2);
         add_filter('plugin_action_links_'.$this->basename, [$this->welcome, 'filterActionLinks'], 11);
         add_filter('admin_title', [$this->welcome, 'filterAdminTitle']);
-        add_filter('admin_footer_text', [$this->welcome, 'filterFooterText']);
     }
 
     /**

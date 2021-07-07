@@ -41,24 +41,6 @@ class WelcomeController extends Controller
     }
 
     /**
-     * @param string $text
-     * @return string
-     * @filter admin_footer_text
-     */
-    public function filterFooterText($text)
-    {
-        if ('dashboard_page_'.$this->welcomePage !== glsr_current_screen()->id) {
-            return $text;
-        }
-        $url = 'https://wordpress.org/support/view/plugin-reviews/site-reviews?filter=5#new-post';
-        return wp_kses_post(sprintf(
-            _x('Please rate %s on %s and help us spread the word. Thank you so much!', 'admin-text', 'site-reviews'),
-            '<strong>'.glsr()->name.'</strong> <a href="'.$url.'" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>',
-            '<a href="'.$url.'" target="_blank">wordpress.org</a>'
-        ));
-    }
-
-    /**
      * @param string $plugin
      * @param bool $isNetworkActivation
      * @return void

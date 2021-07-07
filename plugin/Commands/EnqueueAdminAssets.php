@@ -72,6 +72,7 @@ class EnqueueAdminAssets implements Contract
         $variables = [
             'action' => glsr()->prefix.'action',
             'addons' => [],
+            'addonsurl' => admin_url('edit.php?page=addons&post_type='.glsr()->post_type),
             'ajaxurl' => admin_url('admin-ajax.php'),
             'hideoptions' => [
                 'site_reviews' => glsr(SiteReviewsShortcode::class)->getHideOptions(),
@@ -92,6 +93,10 @@ class EnqueueAdminAssets implements Contract
             ],
             'pointers' => $this->pointers,
             'shortcodes' => [],
+            'text' => [
+                'rate' => _x('Please rate %s on %s and help us spread the word. Thank you so much!', 'admin-text', 'site-reviews'),
+                'discover' => _x('Discover Premium', 'admin-text', 'site-reviews'),
+            ],
             'tinymce' => [
                 'glsr_shortcode' => glsr()->url('assets/scripts/mce-plugin.js'),
             ],
