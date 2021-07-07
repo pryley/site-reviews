@@ -38,6 +38,7 @@ class ColumnFilterAssignedPost extends ColumnFilter
         }
         $posts = get_posts([
             'no_found_rows' => true, // skip counting the total rows found
+            'post_status' => 'any',
             'post_type' => 'any',
             'post__in' => $postIds,
             'posts_per_page' => -1,

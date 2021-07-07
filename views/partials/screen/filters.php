@@ -8,4 +8,7 @@
             <?= $filter; ?>
         </label>
     <?php endforeach; ?>
+    <div style="margin-top:8px;">
+        <?= _x('Enabling a filter will only display the dropdown if there are options to filter by, otherwise it will remain hidden.', 'admin-text', 'site-reviews'); ?>
+    </div>
 </fieldset>
