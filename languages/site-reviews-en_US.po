@@ -1621,6 +1621,16 @@ msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr "Pin Your Reviews"
 
+#: plugin/Commands/EnqueueAdminAssets.php:97
+msgctxt "admin-text"
+msgid "Please rate %s on %s and help us spread the word. Thank you so much!"
+msgstr "Please rate %s on %s and help us spread the word. Thank you so much!"
+
+#: plugin/Commands/EnqueueAdminAssets.php:98, views/pages/addons/index.php:18
+msgctxt "admin-text"
+msgid "Discover Premium"
+msgstr "Discover Premium"
+
 #: plugin/Commands/ImportReviews.php:132
 msgctxt "admin-text"
 msgid "%s review was imported."
@@ -1782,7 +1792,7 @@ msgctxt "admin-text"
 msgid "Add-ons"
 msgstr "Add-ons"
 
-#: plugin/Controllers/MenuController.php:107, plugin/Controllers/WelcomeController.php:104
+#: plugin/Controllers/MenuController.php:107, plugin/Controllers/WelcomeController.php:86
 msgctxt "admin-text"
 msgid "Support"
 msgstr "Support"
@@ -2085,27 +2095,22 @@ msgctxt "admin-text"
 msgid "Welcome to %s &#8212; WordPress"
 msgstr "Welcome to %s &#8212; WordPress"
 
-#: plugin/Controllers/WelcomeController.php:55
-msgctxt "admin-text"
-msgid "Please rate %s on %s and help us spread the word. Thank you so much!"
-msgstr "Please rate %s on %s and help us spread the word. Thank you so much!"
-
-#: plugin/Controllers/WelcomeController.php:84
+#: plugin/Controllers/WelcomeController.php:66
 msgctxt "admin-text"
 msgid "Welcome to %s"
 msgstr "Welcome to %s"
 
-#: plugin/Controllers/WelcomeController.php:101
+#: plugin/Controllers/WelcomeController.php:83
 msgctxt "admin-text"
 msgid "Getting Started"
 msgstr "Getting Started"
 
-#: plugin/Controllers/WelcomeController.php:102
+#: plugin/Controllers/WelcomeController.php:84
 msgctxt "admin-text"
 msgid "What's New"
 msgstr "What's New"
 
-#: plugin/Controllers/WelcomeController.php:103
+#: plugin/Controllers/WelcomeController.php:85
 msgctxt "admin-text"
 msgid "Upgrade Guide"
 msgstr "Upgrade Guide"
@@ -2670,7 +2675,7 @@ msgctxt "admin-text"
 msgid "All assigned posts"
 msgstr "All assigned posts"
 
-#: plugin/Controllers/ListTableColumns/ColumnFilterAssignedPost.php:48, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:26
+#: plugin/Controllers/ListTableColumns/ColumnFilterAssignedPost.php:49, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:26
 msgctxt "admin-text"
 msgid "No title"
 msgstr "No title"
@@ -2870,41 +2875,36 @@ msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr "Additional CSS classes"
 
-#: views/pages/addons/index.php:13
+#: views/pages/addons/index.php:16
 msgctxt "admin-text"
 msgid ""
-"All of the add-ons! Grab the special introductory discount while it still "
-"lasts..."
+"The Premium license allows you to install all of the add-ons, including all "
+"future add-ons as they become available!"
 msgstr ""
-"All of the add-ons! Grab the special introductory discount while it still "
-"lasts..."
+"The Premium license allows you to install all of the add-ons, including all "
+"future add-ons as they become available!"
 
-#: views/pages/addons/index.php:15
-msgctxt "admin-text"
-msgid "Discover Premium"
-msgstr "Discover Premium"
-
-#: views/pages/addons/index.php:23
+#: views/pages/addons/index.php:26
 msgctxt "admin-text"
 msgid "Allow your website visitors to sort, filter by rating, and search reviews."
 msgstr "Allow your website visitors to sort, filter by rating, and search reviews."
 
-#: views/pages/addons/index.php:25, views/pages/addons/index.php:35, views/pages/addons/index.php:45, views/pages/addons/index.php:65, views/pages/addons/index.php:75
+#: views/pages/addons/index.php:28, views/pages/addons/index.php:38, views/pages/addons/index.php:48, views/pages/addons/index.php:68, views/pages/addons/index.php:78
 msgctxt "admin-text"
 msgid "View Add-on"
 msgstr "View Add-on"
 
-#: views/pages/addons/index.php:33
+#: views/pages/addons/index.php:36
 msgctxt "admin-text"
 msgid "Create unique review forms with custom fields and review templates."
 msgstr "Create unique review forms with custom fields and review templates."
 
-#: views/pages/addons/index.php:43
+#: views/pages/addons/index.php:46
 msgctxt "admin-text"
 msgid "Allow your website visitors to add images with captions to their reviews."
 msgstr "Allow your website visitors to add images with captions to their reviews."
 
-#: views/pages/addons/index.php:53
+#: views/pages/addons/index.php:56
 msgctxt "admin-text"
 msgid ""
 "Create custom review designs, display reviews in a grid, change the rating "
@@ -2913,12 +2913,12 @@ msgstr ""
 "Create custom review designs, display reviews in a grid, change the rating "
 "images, and more. Early access available to Premium members only."
 
-#: views/pages/addons/index.php:55
+#: views/pages/addons/index.php:58
 msgctxt "admin-text"
 msgid "Request Early Access"
 msgstr "Request Early Access"
 
-#: views/pages/addons/index.php:63
+#: views/pages/addons/index.php:66
 msgctxt "admin-text"
 msgid ""
 "Integrate with the Trustalyze Confidence System and post reviews to the "
@@ -2927,7 +2927,7 @@ msgstr ""
 "Integrate with the Trustalyze Confidence System and post reviews to the "
 "blockchain."
 
-#: views/pages/addons/index.php:73
+#: views/pages/addons/index.php:76
 msgctxt "admin-text"
 msgid "Integrate Site Reviews with your Woocommerce products."
 msgstr "Integrate Site Reviews with your Woocommerce products."
@@ -3251,6 +3251,15 @@ msgstr "Read the upgrade guide"
 msgctxt "admin-text"
 msgid "Filters"
 msgstr "Filters"
+
+#: views/partials/screen/filters.php:12
+msgctxt "admin-text"
+msgid ""
+"Enabling a filter will only display the dropdown if there are options to "
+"filter by, otherwise it will remain hidden."
+msgstr ""
+"Enabling a filter will only display the dropdown if there are options to "
+"filter by, otherwise it will remain hidden."
 
 #: views/partials/screen/inline-edit.php:10
 msgctxt "admin-text"

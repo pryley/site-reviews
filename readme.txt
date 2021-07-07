@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews
 Tested up to: 5.7
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.12.5
+Stable tag: 5.12.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -136,6 +136,11 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.12.6 (2021-07-07) =
+
+- Fixed invalid schema output on the [site_reviews] shortcode when there are no reviews
+- Fixed the Assigned Posts filter on the All Reviews page
 
 = 5.12.5 (2021-07-01) =
 
