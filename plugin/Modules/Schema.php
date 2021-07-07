@@ -41,14 +41,14 @@ class Schema
         $this->reviews = $reviews;
         $schema = $this->buildSummary($args);
         if (!empty($schema)) {
-            $reviews = $this->buildReviews();
-            array_walk($reviews, function (&$review) {
+            $reviewSchema = $this->buildReviews();
+            array_walk($reviewSchema, function (&$review) {
                 unset($review['@context']);
                 unset($review['itemReviewed']);
             });
         }
-        if (!empty($reviews)) {
-            $schema['review'] = $reviews;
+        if (!empty($reviewSchema)) {
+            $schema['review'] = $reviewSchema;
         }
         return $schema;
     }
