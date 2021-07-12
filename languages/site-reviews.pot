@@ -1238,22 +1238,22 @@ msgstr ""
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:20
+#: plugin/Commands/EnqueueAdminAssets.php:21
 msgctxt "admin-text"
 msgid "You can pin exceptional reviews so that they are always shown first."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:28
+#: plugin/Commands/EnqueueAdminAssets.php:29
 msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:99
+#: plugin/Commands/EnqueueAdminAssets.php:101
 msgctxt "admin-text"
 msgid "Please rate %s on %s and help us spread the word. Thank you so much!"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:100, views/pages/addons/index.php:18
+#: plugin/Commands/EnqueueAdminAssets.php:102, views/pages/addons/index.php:18
 msgctxt "admin-text"
 msgid "Discover Premium"
 msgstr ""

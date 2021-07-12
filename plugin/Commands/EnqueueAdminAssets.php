@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
@@ -70,6 +71,7 @@ class EnqueueAdminAssets implements Contract
      */
     public function localizeAssets()
     {
+        $licenses = array_filter(Arr::consolidate(glsr_get_option('licenses')));
         $variables = [
             'action' => glsr()->prefix.'action',
             'addons' => [],
@@ -80,7 +82,7 @@ class EnqueueAdminAssets implements Contract
                 'site_reviews_form' => glsr(SiteReviewsFormShortcode::class)->getHideOptions(),
                 'site_reviews_summary' => glsr(SiteReviewsSummaryShortcode::class)->getHideOptions(),
             ],
-            'isLicensed' => Helper::ifTrue(empty(array_filter(glsr_get_option('licenses'))), 'no', 'yes'),
+            'isLicensed' => Helper::ifTrue(empty($licenses), 'no', 'yes'),
             'maxrating' => glsr()->constant('MAX_RATING', Rating::class),
             'minrating' => glsr()->constant('MIN_RATING', Rating::class),
             'nameprefix' => glsr()->id,
