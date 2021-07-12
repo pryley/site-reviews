@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews
 Tested up to: 5.7
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.12.6
+Stable tag: 5.12.7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -136,6 +136,11 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.12.7 (2021-07-12) =
+
+- Improved the error message when saving add-on licenses to make it more descriptive and helpful.
+- Removed the "Discover Premium" button for licensed add-on users
 
 = 5.12.6 (2021-07-07) =
 

@@ -34,7 +34,9 @@ GLSR.keys = {
 GLSR.Tippy = { tippy, plugins: { followCursor }}
 
 function discover_site_reviews () {
-    jQuery('.post-type-site-review.edit-php .page-title-action').after('<a href="' + GLSR.addonsurl + '" class="page-title-action" style="color:#DC3232;">' + GLSR.text.discover + '</a>');
+    if ('no' === GLSR.isLicensed) {
+        jQuery('.post-type-site-review.edit-php .page-title-action').after('<a href="' + GLSR.addonsurl + '" class="page-title-action" style="color:#DC3232;">' + GLSR.text.discover + '</a>');
+    }
 }
 function rate_site_reviews () {
     let rateUrl = 'https://wordpress.org/support/view/plugin-reviews/site-reviews?filter=5#new-post';

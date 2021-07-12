@@ -1216,7 +1216,7 @@ msgctxt "admin-text"
 msgid "Make sure to first activate your website domain with your license before adding it here. You can do this by visiting the %s page on your Nifty Plugins account and clicking the \"Manage Sites\" button."
 msgstr ""
 
-#: plugin/Addons/Controller.php:203
+#: plugin/Addons/Controller.php:203, plugin/Controllers/SettingsController.php:171
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr ""
@@ -1238,22 +1238,22 @@ msgstr ""
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:19
+#: plugin/Commands/EnqueueAdminAssets.php:20
 msgctxt "admin-text"
 msgid "You can pin exceptional reviews so that they are always shown first."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:27
+#: plugin/Commands/EnqueueAdminAssets.php:28
 msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:97
+#: plugin/Commands/EnqueueAdminAssets.php:99
 msgctxt "admin-text"
 msgid "Please rate %s on %s and help us spread the word. Thank you so much!"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:98, views/pages/addons/index.php:18
+#: plugin/Commands/EnqueueAdminAssets.php:100, views/pages/addons/index.php:18
 msgctxt "admin-text"
 msgid "Discover Premium"
 msgstr ""
@@ -1576,7 +1576,12 @@ msgstr ""
 
 #: plugin/Controllers/SettingsController.php:169
 msgctxt "admin-text"
-msgid "A license you entered was invalid."
+msgid "The license you entered is either invalid or has not yet been activated."
+msgstr ""
+
+#: plugin/Controllers/SettingsController.php:170
+msgctxt "admin-text"
+msgid "To activate your license, please visit the %s page on your Nifty Plugins account and click the \"Manage Sites\" button to activate it for your website."
 msgstr ""
 
 #: plugin/Controllers/TaxonomyController.php:15

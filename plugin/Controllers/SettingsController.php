@@ -165,8 +165,12 @@ class SettingsController extends Controller
             }
         } catch (Exception $e) {
             $license = '';
-            glsr_log()->debug($e->getMessage());
-            glsr(Notice::class)->addError(_x('A license you entered was invalid.', 'admin-text', 'site-reviews'));
+            glsr_log()->error($e->getMessage());
+            $error = _x('The license you entered is either invalid or has not yet been activated.', 'admin-text', 'site-reviews');
+            $message = sprintf(_x('To activate your license, please visit the %s page on your Nifty Plugins account and click the "Manage Sites" button to activate it for your website.', 'admin-text', 'site-reviews'),
+                sprintf('<a href="https://niftyplugins.com/account/license-keys/" target="_blank">%s</a>', _x('License Keys', 'admin-text', 'site-reviews'))
+            );
+            glsr(Notice::class)->addError(sprintf('<strong>%s</strong><br>%s', $error, $message));
         }
         return $license;
     }
