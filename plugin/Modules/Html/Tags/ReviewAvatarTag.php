@@ -47,8 +47,9 @@ class ReviewAvatarTag extends ReviewTag
         if ($this->review->author_id) {
             $authorId = get_the_author_meta('ID', $this->review->author_id);
         }
-        return empty($authorId)
+        $value = empty($authorId)
             ? $this->review->email
             : $authorId;
+        return glsr()->filterString('avatar/id_or_email', $value, $this->review->toArray());
     }
 }

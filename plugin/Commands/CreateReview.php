@@ -14,6 +14,7 @@ use GeminiLabs\SiteReviews\Modules\Notification;
 use GeminiLabs\SiteReviews\Modules\Validator\DefaultValidator;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
 use GeminiLabs\SiteReviews\Request;
+use GeminiLabs\SiteReviews\Review;
 
 class CreateReview implements Contract
 {
@@ -147,6 +148,7 @@ class CreateReview implements Contract
         $userField = empty($this->email)
             ? get_current_user_id()
             : $this->email;
+        $userField = glsr()->filterString('avatar/id_or_email', $userField, $this->toArray());
         return glsr(Avatar::class)->generate($userField);
     }
 
@@ -199,9 +201,9 @@ class CreateReview implements Contract
         if (!empty($this->date)) {
             $this->date_gmt = get_gmt_from_date($this->date); // set the GMT date
         }
-        $this->avatar = $this->avatar();
         $this->custom = $this->custom();
         $this->type = $this->type();
+        $this->avatar = $this->avatar(); // do this last
     }
 
     /**
