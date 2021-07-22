@@ -80,6 +80,9 @@ class Date
             return '';
         }
         $diff = time() - strtotime($date);
+        if ($diff < 0) {
+            return __('A moment ago', 'site-reviews'); // Display something vague if the date is in the future
+        }
         foreach (static::$TIME_PERIODS as $i => $timePeriod) {
             if ($diff > $timePeriod[0]) {
                 continue;

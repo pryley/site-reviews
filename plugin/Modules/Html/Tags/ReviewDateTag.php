@@ -29,6 +29,7 @@ class ReviewDateTag extends ReviewTag
     protected function handle($value = null)
     {
         if (!$this->isHidden()) {
+            $value = $this->review->date_gmt; // use the GMT date!
             return $this->wrap($this->formattedDate($value), 'span');
         }
     }
