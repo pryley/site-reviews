@@ -144,6 +144,17 @@ class Review extends Arguments
     }
 
     /**
+     * @return string
+     */
+    public function author()
+    {
+        return Str::convertName($this->get('author'),
+            glsr_get_option('reviews.name.format'),
+            glsr_get_option('reviews.name.initial')
+        );
+    }
+
+    /**
      * @param int $size
      * @return string
      */

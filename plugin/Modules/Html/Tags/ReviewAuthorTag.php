@@ -12,11 +12,7 @@ class ReviewAuthorTag extends ReviewTag
     protected function handle($value = null)
     {
         if (!$this->isHidden()) {
-            $tagValue = Str::convertName($value,
-                glsr_get_option('reviews.name.format'),
-                glsr_get_option('reviews.name.initial')
-            );
-            return $this->wrap($tagValue, 'span');
+            return $this->wrap($this->review->author(), 'span');
         }
     }
 }
