@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Review;
 
 class Avatar
 {
@@ -40,10 +41,12 @@ class Avatar
      * @param int $size
      * @return string
      */
-    public function img($src, $size = null)
+    public function img(Review $review, $size = null)
     {
         $size = $this->size($size);
+        $src = $review->get('avatar');
         $attributes = [
+            'alt' => sprintf(__('Avatar for %s', 'site-reviews'), $review->author()),
             'height' => $size * 2,
             'loading' => 'lazy',
             'src' => $this->url($src, $size * 2),
@@ -53,6 +56,7 @@ class Avatar
         if (glsr()->isAdmin()) {
             $attributes['data-fallback'] = $this->fallback($size);
         }
+        $attributes = glsr()->filterArray('avatar/attributes', $attributes, $review);
         return glsr(Builder::class)->img($attributes);
     }
 

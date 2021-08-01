@@ -160,7 +160,7 @@ class Review extends Arguments
      */
     public function avatar($size = null)
     {
-        return glsr(Avatar::class)->img($this->get('avatar'), $size);
+        return glsr(Avatar::class)->img($this, $size);
     }
 
     /**

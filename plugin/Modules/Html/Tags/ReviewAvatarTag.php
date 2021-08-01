@@ -33,8 +33,9 @@ class ReviewAvatarTag extends ReviewTag
     protected function handle($value = null)
     {
         if (!$this->isHidden('reviews.avatars')) {
+            $this->review->set('avatar', $this->regenerateAvatar($value));
             return $this->wrap(
-                glsr(Avatar::class)->img($this->regenerateAvatar($value))
+                glsr(Avatar::class)->img($this->review)
             );
         }
     }

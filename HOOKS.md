@@ -43,6 +43,7 @@
     site-reviews/assets/js                                  (bool $loadJs): bool
     site-reviews/assets/polyfill                            (bool $loadPolyfill): bool
     site-reviews/async-scripts                              (array $scripts): array
+    site-reviews/avatar/attributes                          (array $attributes, Review $review): array
     site-reviews/avatar/fallback                            (string $fallbackUrl, int $size): string
     site-reviews/avatar/id_or_email                         (string $id_or_email, array $reviewValues): string
     site-reviews/block/<block>/attributes                   (array $attributes): array
