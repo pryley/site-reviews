@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews
 Tested up to: 5.8
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.12.9
+Stable tag: 5.13.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -136,6 +136,15 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.13.0 (2021-08-01) =
+
+- Added the $review->author() method on review objects which returns the author name as defined in the settings
+- Added the "site-reviews/avatar/attributes" hook which allows you to modify the attributes on the avatar <img> tag
+- Internal changes to support the upcoming Review Themes add-on
+- Renamed the "site-reviews/review/response" hook to "site-reviews/review/responded" (see the related FAQ section)
+- Updated the "Common Problems and Solutions"
+- Updated the "FAQ"
 
 = 5.12.9 (2021-07-21) =
 
