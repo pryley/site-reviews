@@ -322,9 +322,10 @@ class Field
      */
     protected function normalizeFieldName()
     {
-        $this->field['name'] = Str::convertPathToName(
-            $this->field['path'],
-            $this->getFieldPrefix()
-        );
+        $name = Str::convertPathToName($this->field['path'], $this->getFieldPrefix());
+        if ($this->field['is_multi'] && 'checkbox' === $this->field['type']) {
+            $name = Str::suffix($name, '[]'); // @todo is it necessary to do this both here and in the defaults?
+        }
+        $this->field['name'] = $name;
     }
 }
