@@ -137,6 +137,7 @@
     site-reviews/review/wrapped                             (string $value, string $rawValue, Contracts\TagContract $tag): string
     site-reviews/review/wrap/<tag_or_field_key>             (string $value, string $rawValue, Contracts\TagContract $tag): string
     site-reviews/reviews/fallback                           (string $fallback, array $args): string
+    site-reviews/reviews/html/<property>                    (mixed $value, Modules\Html\ReviewHtml $reviewHtml): mixed
     site-reviews/route/request                              (array $request, string $action, string $requestType): array
     site-reviews/router/unguarded-actions                   (array $unguardedActions): array
     site-reviews/sanitize/allowed-html-tags                 (array $allowedHtml, array $allowedPostTags): array

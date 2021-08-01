@@ -112,7 +112,7 @@ class ReviewsHtml extends \ArrayObject
         }
         return property_exists($this, $key)
             ? $this->$key
-            : null;
+            : glsr()->filter('reviews/html/'.$key, null, $this);
     }
 
     /**
