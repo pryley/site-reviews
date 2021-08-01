@@ -62,9 +62,9 @@ class Attributes
         'webkitdirectory',
     ];
 
-    const GLOBAL_ATTRIBUTES = [
+    const GLOBAL_ATTRIBUTES = [ // ie-style is used by https://github.com/nuxodin/ie11CustomProperties
         'accesskey', 'class', 'contenteditable', 'contextmenu', 'dir', 'draggable', 'dropzone',
-        'hidden', 'id', 'lang', 'spellcheck', 'style', 'tabindex', 'title',
+        'hidden', 'id', 'ie-style', 'lang', 'spellcheck', 'style', 'tabindex', 'title',
     ];
 
     const GLOBAL_WILDCARD_ATTRIBUTES = [
