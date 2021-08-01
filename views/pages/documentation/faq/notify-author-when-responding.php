@@ -10,12 +10,14 @@
  * Send an email notification to the review author after responding to a review
  * This snippet assumes that your review form includes the email field
  * Paste this code in your theme's functions.php file.
- * @param string $response
  * @param \GeminiLabs\SiteReviews\Review $review
+ * @param string $response
  * @return void
  */
-add_action('site-reviews/review/respond', function ($response, $review) {
-    if (empty($response) || !empty($review->response)) {
+add_action('site-reviews/review/responded', function ($review, $response) {
+    $hasResponse = !empty($review->response);
+    $hasResponseUserId = !empty(get_post_meta($review->ID, '_response_by', true));
+    if (empty($response) || $hasResponse || $hasResponseUserId) {
         return; // only send an email if the response is not empty and there is no previous response
     }
     $email = glsr('Modules\Email')->compose([

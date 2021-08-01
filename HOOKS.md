@@ -16,6 +16,7 @@
     site-reviews/review/build/before                        (Review $review, Modules\Html\ReviewHtml $reviewHtml)
     site-reviews/review/create                              (int $postId, Commands\CreateReview $command)
     site-reviews/review/created                             (Review $review, Commands\CreateReview $command)
+    site-reviews/review/responded                           (Review $review, string $response, int $userId)
     site-reviews/review/saved                               (Review $review, array $submittedValues)
     site-reviews/review/updated/post_ids                    (Review $review, array $assignedPostIds)
     site-reviews/review/updated/user_ids                    (Review $review, array $assignedUserIds)

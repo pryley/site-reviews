@@ -99,6 +99,18 @@ add_action('plugins_loaded', function () {
         }
         return $defaults;
     });
+
+    /*
+     * Database\ReviewManager
+     * @since 5.11.0
+     */
+    add_action('site-reviews/review/responded', function ($review, $response) {
+        if (has_action('site-reviews/review/response')) {
+            $message = 'The "site-reviews/review/response" hook has been deprecated. Please use the "site-reviews/review/responded" hook instead which is documented on the FAQ page.';
+            glsr()->append('deprecated', $message);
+            do_action('site-reviews/review/response', $response, $review);
+        }
+    }, 9, 2);
 });
 
 /**
