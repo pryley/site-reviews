@@ -20,7 +20,10 @@
                 <p>You may be using a caching plugin which is caching the database and preventing Site Reviews from storing the migration status. To fix this, you will need to flush your database cache and/or object cache and then try again.</p>
             </li>
             <li>
-                <p>You may have 3rd-party reviews that were not imported correctly. You can verify this by looking for reviews on the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type); ?>">All Reviews</a></code> page that do not have any stars. Clicking on these reviews will show a read-only editor and a notice alerting you that the review is an, "Unsupported Review Type". To fix this, please delete the invalid reviews and use the provided <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-general'); ?>" data-expand="#tools-import-reviews">Import Third Party Reviews</a></code> tool to re-import them.</p>
+                <p>You may have 3rd-party reviews that were not imported correctly. You can verify this by looking for reviews on the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type); ?>">All Reviews</a></code> page that do not have any stars. To fix this, please delete the invalid reviews, empty the trash, and then try again. Afterwards, use the provided <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-general'); ?>" data-expand="#tools-import-reviews">Import Third Party Reviews</a></code> tool to re-import the reviews.</p>
+            </li>
+            <li>
+                <p>You may have reviews that were duplicated with a plugin (i.e. "Duplicate Page" plugin). Duplication plugins will not work correctly with Site Reviews because the review details are stored in a custom database table and then linked to the review; this allows Site Reviews to perform much faster database queries. To fix this, please delete the duplicated reviews, empty the trash, then try again.</p>
             </li>
         </ol>
         <h3>The review form is not working, the submit button just spins.</h3>
