@@ -37,7 +37,6 @@ class Avatar
     }
 
     /**
-     * @param string $src
      * @param int $size
      * @return string
      */
