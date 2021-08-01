@@ -133,7 +133,7 @@ class Str
      */
     public static function fallback($value, $fallback)
     {
-        return is_scalar($value) && !empty(trim($value))
+        return is_scalar($value) && '' !== trim($value)
             ? Cast::toString($value)
             : Cast::toString($fallback);
     }
@@ -156,7 +156,7 @@ class Str
      */
     public static function prefix($string, $prefix, $trim = null)
     {
-        if (empty($string)) {
+        if ('' === $string) {
             return $string;
         }
         if (null === $trim) {
@@ -214,7 +214,7 @@ class Str
     public static function replaceLast($search, $replace, $subject)
     {
         $position = strrpos($subject, $search);
-        if (!empty($search) && $position !== false) {
+        if ('' !== $search && false !== $position) {
             return substr_replace($subject, $replace, $position, strlen($search));
         }
         return $subject;
