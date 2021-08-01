@@ -61,6 +61,7 @@ abstract class Shortcode implements ShortcodeContract
             'id' => $atts->id,
             'text' => $template,
         ]);
+        $attributes = glsr()->filterArray('shortcode/'.$this->shortcode.'/attributes', $attributes, $this);
         $html = glsr(Builder::class)->div($attributes);
         return $args->before_widget.$atts->title.$html.$args->after_widget;
     }

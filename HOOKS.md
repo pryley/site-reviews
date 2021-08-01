@@ -145,6 +145,7 @@
     site-reviews/schema/all                                 (array $schemas): array
     site-reviews/schema/review                              (array $schema, Review $review, array $args): array
     site-reviews/settings/callback                          (array $options, array $settings): array
+    site-reviews/shortcode/<shortcode>/attributes           (array $attributes, Shortcodes\Shortcode $shortcode): array
     site-reviews/shortcode/args                             (array $args, string $type, string $partialName): array
     site-reviews/shortcode/atts                             (array $atts, string $type, string $partialName): array
     site-reviews/shortcode/hide-options                     (array $hideOptions, string $shortcode): array
