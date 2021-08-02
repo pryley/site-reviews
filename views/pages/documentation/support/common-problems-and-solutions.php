@@ -53,7 +53,7 @@
                     <li>The Form Request is missing a required action</li>
                     <li>The Form Request is invalid</li>
                 </ul>
-                <p>To fix the nonce errors, make sure that you are not caching the review page for logged in users because Site Reviews adds a <a href="https://www.bynicolas.com/code/wordpress-nonce/" target="_blank">WordPress Nonce</a> token to the form if the user is logged in. Nonces are a standard WordPress security feature that r malicious form submissions, but they will not work if your web pages are being cached because the nonce tokens are time-sensitive and their validity expires after 12 hours.</p>
+                <p>To fix the nonce errors, make sure that you are not caching the review page for logged in users because Site Reviews adds a <a href="https://www.bynicolas.com/code/wordpress-nonce/" target="_blank">WordPress Nonce</a> token to the form if the user is logged in. Nonces are a standard WordPress security feature that help to prevent malicious form submissions, but they will not work if your web pages are being cached because the nonce tokens are time-sensitive and their validity expires after 12 hours.</p>
                 <p>Alternatively, you may remove the Nonce check as shown in the FAQ page: <code><a data-expand="#faq-remove-nonce-check" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">How do I remove the WordPress Nonce check for logged in users?</a></code>.</p>
             </li>
             <li>

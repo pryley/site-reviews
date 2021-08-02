@@ -10,13 +10,13 @@
         <h4>✨ New Features</h4>
         <ul>
             <li>Added a <code>data-rating</code> attribute to the review ratings</li>
-            <li>Added the "site-reviews/avatar/attributes" hook which allows you to modify the attributes on the avatar <img> tag</li>
+            <li>Added the <code>site-reviews/avatar/attributes</code> hook which allows you to modify the attributes on the avatar &lt;img&gt; tag</li>
             <li>Added the <code>$review->author()</code> method on review objects which returns the author name as defined in the settings</li>
         </ul>
         <h4>📢 Changes</h4>
         <ul>
             <li>Internal changes to support the upcoming Review Themes add-on</li>
-            <li>Renamed the "site-reviews/review/response" hook to "site-reviews/review/responded" (see the related FAQ section)</li>
+            <li>Renamed the <code>site-reviews/review/response</code> hook to <code>site-reviews/review/responded</code> (see the related FAQ section)</li>
         </ul>
         <h4>🛠 Tweaks</h4>
         <ul>
@@ -27,10 +27,10 @@
         </ul>
         <h4>🐞 Bugs Fixed</h4>
         <ul>
-            <li>Fixed invalid schema output on the [site_reviews] shortcode when there are no reviews</li>
+            <li>Fixed invalid schema output on the <code>[site_reviews]</code> shortcode when there are no reviews</li>
             <li>Fixed PHP warning introduced in v5.12.7</li>
             <li>Fixed relative dates to use the GMT date of the review</li>
-            <li>Fixed the "respond_to_*" capabilities, users can now respond to reviews if they are the author of one of the assigned posts</li>
+            <li>Fixed the <code>respond_to_*</code> capabilities, users can now respond to reviews if they are the author of one of the assigned posts</li>
             <li>Fixed the Assigned Posts filter on the All Reviews page</li>
             <li>Fixed the Bulk Edit actions</li>
             <li>Fixed the filters on the "All Reviews" admin page</li>

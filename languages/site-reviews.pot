@@ -115,11 +115,11 @@ msgctxt "admin-text"
 msgid "Respond To Others' Reviews"
 msgstr ""
 
-#: deprecated.php:111
+#: deprecated.php:123
 msgid "%s is <strong>deprecated</strong> since version %s with no alternative available."
 msgstr ""
 
-#: deprecated.php:124
+#: deprecated.php:136
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr ""
 
@@ -1077,7 +1077,7 @@ msgctxt "admin-text"
 msgid "The [%s] method has been deprecated and will be soon be removed, please use the [%s] method instead."
 msgstr ""
 
-#: plugin/Review.php:323, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
+#: plugin/Review.php:334, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr ""
@@ -1087,7 +1087,7 @@ msgctxt "admin-text"
 msgid "There was an error (try reloading the page)."
 msgstr ""
 
-#: plugin/Router.php:156, views/pages/documentation/support/common-problems-and-solutions.php:45
+#: plugin/Router.php:156, views/pages/documentation/support/common-problems-and-solutions.php:48
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 
@@ -1234,7 +1234,7 @@ msgstr ""
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:166, views/pages/documentation/support/common-problems-and-solutions.php:65
+#: plugin/Commands/CreateReview.php:166, views/pages/documentation/support/common-problems-and-solutions.php:68
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
@@ -2007,6 +2007,10 @@ msgstr ""
 msgid "and"
 msgstr ""
 
+#: plugin/Modules/Avatar.php:48
+msgid "Avatar for %s"
+msgstr ""
+
 #: plugin/Modules/Console.php:79
 msgctxt "admin-text"
 msgid "Console is empty"
@@ -2084,23 +2088,23 @@ msgctxt "admin-text"
 msgid "No Change"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:207
+#: plugin/Shortcodes/Shortcode.php:208
 msgid "Excellent"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:208
+#: plugin/Shortcodes/Shortcode.php:209
 msgid "Very good"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:209
+#: plugin/Shortcodes/Shortcode.php:210
 msgid "Average"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:210
+#: plugin/Shortcodes/Shortcode.php:211
 msgid "Poor"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:211
+#: plugin/Shortcodes/Shortcode.php:212
 msgid "Terrible"
 msgstr ""
 
@@ -2716,15 +2720,15 @@ msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr ""
 
-#: plugin/Modules/Validator/AkismetValidator.php:49, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:61
+#: plugin/Modules/Validator/AkismetValidator.php:49, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:64
 msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr ""
 
-#: plugin/Modules/Validator/BlacklistValidator.php:37, views/pages/documentation/support/common-problems-and-solutions.php:57
+#: plugin/Modules/Validator/BlacklistValidator.php:37, views/pages/documentation/support/common-problems-and-solutions.php:60
 msgid "Your review cannot be submitted at this time."
 msgstr ""
 
-#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:70
+#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:73
 msgid "The review submission failed. Please notify the site administrator."
 msgstr ""
 

@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: en_US\n"
 
-#: deprecated.php:111
+#: deprecated.php:123
 msgid ""
 "%s is <strong>deprecated</strong> since version %s with no alternative "
 "available."
@@ -26,7 +26,7 @@ msgstr ""
 "%s is <strong>deprecated</strong> since version %s with no alternative "
 "available."
 
-#: deprecated.php:124
+#: deprecated.php:136
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 
@@ -34,7 +34,7 @@ msgstr "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
 
-#: plugin/Router.php:156, views/pages/documentation/support/common-problems-and-solutions.php:45
+#: plugin/Router.php:156, views/pages/documentation/support/common-problems-and-solutions.php:48
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr "The form could not be submitted. Please notify the site administrator."
 
@@ -86,7 +86,7 @@ msgstr "Show more"
 msgid "Your review has been submitted!"
 msgstr "Your review has been submitted!"
 
-#: plugin/Commands/CreateReview.php:166, views/pages/documentation/support/common-problems-and-solutions.php:65
+#: plugin/Commands/CreateReview.php:166, views/pages/documentation/support/common-problems-and-solutions.php:68
 msgid ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site administrator."
@@ -166,6 +166,10 @@ msgstr ""
 msgid "and"
 msgstr "and"
 
+#: plugin/Modules/Avatar.php:48
+msgid "Avatar for %s"
+msgstr "Avatar for %s"
+
 #: plugin/Modules/Date.php:84
 msgid "A moment ago"
 msgstr "A moment ago"
@@ -216,23 +220,23 @@ msgstr[1] "%s years ago"
 msgid "Anonymous"
 msgstr "Anonymous"
 
-#: plugin/Shortcodes/Shortcode.php:207
+#: plugin/Shortcodes/Shortcode.php:208
 msgid "Excellent"
 msgstr "Excellent"
 
-#: plugin/Shortcodes/Shortcode.php:208
+#: plugin/Shortcodes/Shortcode.php:209
 msgid "Very good"
 msgstr "Very good"
 
-#: plugin/Shortcodes/Shortcode.php:209
+#: plugin/Shortcodes/Shortcode.php:210
 msgid "Average"
 msgstr "Average"
 
-#: plugin/Shortcodes/Shortcode.php:210
+#: plugin/Shortcodes/Shortcode.php:211
 msgid "Poor"
 msgstr "Poor"
 
-#: plugin/Shortcodes/Shortcode.php:211
+#: plugin/Shortcodes/Shortcode.php:212
 msgid "Terrible"
 msgstr "Terrible"
 
@@ -256,15 +260,15 @@ msgstr "You may also %s for an account."
 msgid "Close modal"
 msgstr "Close modal"
 
-#: plugin/Modules/Validator/AkismetValidator.php:49, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:61
+#: plugin/Modules/Validator/AkismetValidator.php:49, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:64
 msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr "This review has been flagged as possible spam and cannot be submitted."
 
-#: plugin/Modules/Validator/BlacklistValidator.php:37, views/pages/documentation/support/common-problems-and-solutions.php:57
+#: plugin/Modules/Validator/BlacklistValidator.php:37, views/pages/documentation/support/common-problems-and-solutions.php:60
 msgid "Your review cannot be submitted at this time."
 msgstr "Your review cannot be submitted at this time."
 
-#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:70
+#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:73
 msgid "The review submission failed. Please notify the site administrator."
 msgstr "The review submission failed. Please notify the site administrator."
 
@@ -1504,7 +1508,7 @@ msgstr ""
 "The [%s] method has been deprecated and will be soon be removed, please use "
 "the [%s] method instead."
 
-#: plugin/Review.php:323, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
+#: plugin/Review.php:334, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr "Unknown"
