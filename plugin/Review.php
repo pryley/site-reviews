@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\ReviewDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -181,6 +182,7 @@ class Review extends Arguments
         }, ARRAY_FILTER_USE_KEY);
         $custom = Arr::unprefixKeys($custom, '_custom_');
         $custom = Arr::unprefixKeys($custom, '_');
+        $custom = glsr(CustomFieldsDefaults::class)->merge($custom);
         return glsr()->args($custom);
     }
 
