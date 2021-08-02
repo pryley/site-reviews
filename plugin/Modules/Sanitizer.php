@@ -207,11 +207,11 @@ class Sanitizer
     public function sanitizeUserEmail($value)
     {
         $user = wp_get_current_user();
-        $value = trim(Cast::toString($value));
+        $value = $this->sanitizeEmail($value);
         if ($user->exists() && !glsr()->retrieveAs('bool', 'import', false)) {
             return Helper::ifEmpty($value, $user->user_email);
         }
-        return sanitize_email($value);
+        return $value;
     }
 
     /**
@@ -221,11 +221,11 @@ class Sanitizer
     public function sanitizeUserName($value)
     {
         $user = wp_get_current_user();
-        $value = trim(Cast::toString($value));
+        $value = $this->sanitizeText($value);
         if ($user->exists() && !glsr()->retrieveAs('bool', 'import', false)) {
             return Helper::ifEmpty($value, $user->display_name);
         }
-        return sanitize_text_field($value);
+        return $value;
     }
 
     /**
