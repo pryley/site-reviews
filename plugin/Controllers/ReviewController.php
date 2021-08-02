@@ -16,6 +16,7 @@ use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Database\TaxonomyManager;
+use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -386,8 +387,8 @@ class ReviewController extends Controller
         if (Arr::get($submittedValues, 'is_editing_review')) {
             $submittedValues['rating'] = Arr::get($submittedValues, 'rating');
             $submittedValues['terms'] = Arr::get($submittedValues, 'terms', 0);
-            glsr(ReviewManager::class)->updateRating($review->ID, $submittedValues);
-            glsr(ReviewManager::class)->updateCustom($review->ID, $submittedValues);
+            glsr(ReviewManager::class)->updateRating($review->ID, $submittedValues); // values are sanitized here
+            glsr(ReviewManager::class)->updateCustom($review->ID, $submittedValues); // values are sanitized here
         }
         $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
         glsr()->action('review/saved', $review, $submittedValues);

@@ -295,8 +295,8 @@ class ReviewManager
     public function updateRating($reviewId, array $data = [])
     {
         glsr(Cache::class)->delete($reviewId, 'reviews');
-        $defaults = glsr(RatingDefaults::class)->restrict($data);
-        if ($data = array_intersect_key($data, $defaults)) {
+        $sanitized = glsr(RatingDefaults::class)->restrict($data);
+        if ($data = array_intersect_key($sanitized, $data)) {
             return glsr(Database::class)->update('ratings', $data, [
                 'review_id' => $reviewId,
             ]);
@@ -330,8 +330,8 @@ class ReviewManager
             return 0;
         }
         glsr(Cache::class)->delete($reviewId, 'reviews');
-        $defaults = glsr(UpdateReviewDefaults::class)->restrict($data);
-        if ($data = array_intersect_key($data, $defaults)) {
+        $sanitized = glsr(UpdateReviewDefaults::class)->restrict($data);
+        if ($data = array_intersect_key($sanitized, $data)) {
             $data = array_filter([
                 'post_content' => Arr::get($data, 'content'),
                 'post_date' => Arr::get($data, 'date'),
