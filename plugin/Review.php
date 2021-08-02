@@ -72,7 +72,7 @@ class Review extends Arguments
         $values = glsr()->args($values);
         $this->id = Cast::toInt($values->review_id);
         $args = glsr(ReviewDefaults::class)->restrict($values->toArray());
-        $args['avatar'] = glsr(Avatar::class)->url($values->avatar);
+        $args['avatar'] = glsr(Avatar::class)->url($args['avatar']);
         $args['custom'] = $this->custom();
         $args['ID'] = $this->id;
         $args['response'] = $this->meta()->_response;

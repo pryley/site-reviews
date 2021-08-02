@@ -45,6 +45,7 @@ abstract class DefaultsAbstract implements DefaultsContract
 
     /**
      * The keys that should be mapped to other keys.
+     * Keys are mapped before the values are sanitized!
      * Note: Mapped keys should not be included in the defaults!
      * @var array
      */

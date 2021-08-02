@@ -38,6 +38,23 @@ class ReviewDefaults extends Defaults
         'assigned_posts' => 'array-int',
         'assigned_terms' => 'array-int',
         'assigned_users' => 'array-int',
+        'author' => 'text',
+        'avatar' => 'url',
+        'content' => 'text-multiline',
+        'date' => 'date',
+        'date_gmt' => 'date',
+        'email' => 'email',
+        'ip_address' => 'text',
+        'is_approved' => 'bool',
+        'is_modified' => 'bool',
+        'is_pinned' => 'bool',
+        'rating' => 'int',
+        'response' => 'text-multiline',
+        'status' => 'text',
+        'terms' => 'bool',
+        'title' => 'text',
+        'type' => 'text',
+        'url' => 'url',
     ];
 
     /**
