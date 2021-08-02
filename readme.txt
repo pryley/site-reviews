@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews
 Tested up to: 5.8
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.13.0
+Stable tag: 5.13.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,10 +137,16 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
+= 5.13.1 (2021-08-02) =
+
+- Fixed a possible stored XSS vulnerability which allowed an admin user to add a malicious value when editing a review from the WordPress admin.
+- Fixed the terms toggle which broke due to the multi-checkbox fix in a previous update
+
 = 5.13.0 (2021-08-01) =
 
 - Added the $review->author() method on review objects which returns the author name as defined in the settings
 - Added the "site-reviews/avatar/attributes" hook which allows you to modify the attributes on the avatar <img> tag
+- Fixed Custom field multi-checkboxes
 - Internal changes to support the upcoming Review Themes add-on
 - Renamed the "site-reviews/review/response" hook to "site-reviews/review/responded" (see the related FAQ section)
 - Updated the "Common Problems and Solutions"

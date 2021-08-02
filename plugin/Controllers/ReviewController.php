@@ -16,13 +16,11 @@ use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Database\TaxonomyManager;
-use GeminiLabs\SiteReviews\Defaults\CreateReviewDefaults;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
-use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
 
 class ReviewController extends Controller
@@ -113,7 +111,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when one or more categories are added or removed from a review.
-     * 
+     *
      * @param int $postId
      * @param array $terms
      * @param array $newTTIds
@@ -135,7 +133,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a post status changes or when a review is approved|unapproved|trashed.
-     * 
+     *
      * @param string $oldStatus
      * @param string $newStatus
      * @param \WP_Post $post
@@ -162,7 +160,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a review's assigned post IDs are updated.
-     * 
+     *
      * @return void
      * @action site-reviews/review/updated/post_ids
      */
@@ -175,7 +173,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a review's assigned users IDs are updated.
-     * 
+     *
      * @return void
      * @action site-reviews/review/updated/user_ids
      */
@@ -188,7 +186,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered after a review is created.
-     * 
+     *
      * @return void
      * @action site-reviews/review/created
      */
@@ -200,7 +198,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a review is created.
-     * 
+     *
      * @param int $postId
      * @return void
      * @action site-reviews/review/create
@@ -227,7 +225,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a review or other post type is deleted and the posts table uses the MyISAM engine.
-     * 
+     *
      * @param int $postId
      * @param \WP_Post $post
      * @return void
@@ -253,7 +251,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a review is deleted and the posts table uses the MyISAM engine.
-     * 
+     *
      * @param int $reviewId
      * @return void
      * @see $this->onDeletePost()
@@ -265,7 +263,7 @@ class ReviewController extends Controller
 
     /**
      * Triggered when a user is deleted and the users table uses the MyISAM engine.
-     * 
+     *
      * @param int $userId
      * @return void
      * @action deleted_user
