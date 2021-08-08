@@ -94,6 +94,9 @@
     border-width: 1px;
     transform: translateX(calc(var(--glsr-toggle-size) - calc(var(--glsr-toggle-padding) * 2)));
 }
+:--namespace.glsr-rtl form.glsr-form .glsr-toggle input[type=checkbox]:checked + .glsr-toggle-track::after {
+    transform: translateX(calc(- var(--glsr-toggle-size) + calc(var(--glsr-toggle-padding) * 2)));
+}
 :--namespace form.glsr-form .glsr-field-toggle .glsr-toggle-switch {
     align-items: center;
     display: flex;
