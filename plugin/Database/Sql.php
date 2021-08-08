@@ -304,7 +304,8 @@ trait Sql
             return $clause;
         }
         if (is_array($value)) {
-            $value = implode(',', $value);
+            $value = implode(',', Arr::uniqueInt($value));
+            return sprintf($clause, $value); // this clause uses IN(%s) so we need to bypass db->prepare
         }
         return $this->db->prepare($clause, $value);
     }
