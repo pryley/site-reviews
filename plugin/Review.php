@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Defaults\CustomFieldsDefaults;
 use GeminiLabs\SiteReviews\Defaults\ReviewDefaults;
@@ -10,6 +11,7 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Text;
 use GeminiLabs\SiteReviews\Modules\Avatar;
+use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 
 /**
@@ -189,7 +191,18 @@ class Review extends Arguments
      */
     public function date($format = 'F j, Y')
     {
-        return get_date_from_gmt($this->get('date'), $format);
+        $value = $this->get('date_gmt');
+        if (!empty(func_get_args())) {
+            return date_i18n($format, strtotime($value));
+        }
+        $dateFormat = glsr_get_option('reviews.date.format', 'default');
+        if ('relative' == $dateFormat) {
+            return glsr(Date::class)->relative($value);
+        }
+        $format = 'custom' == $dateFormat
+            ? glsr_get_option('reviews.date.custom', 'M j, Y')
+            : glsr(OptionManager::class)->getWP('date_format', 'F j, Y');
+        return date_i18n($format, strtotime($value));
     }
 
     /**
