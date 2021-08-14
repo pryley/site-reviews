@@ -358,7 +358,8 @@ class RestReviewController extends \WP_REST_Controller
      */
     protected function check_assign_terms_permission($request)
     {
-        foreach ($request['assigned_terms'] as $termId) {
+        $terms = Arr::consolidate($request['assigned_terms']);
+        foreach ($terms as $termId) {
             if (!get_term($termId, glsr()->taxonomy)) {
                 continue; // Invalid terms will be rejected later
             }
