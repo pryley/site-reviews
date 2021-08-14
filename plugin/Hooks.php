@@ -198,6 +198,7 @@ class Hooks implements HooksContract
         add_filter('is_protected_meta', [$this->editor, 'filterIsProtectedMeta'], 10, 3);
         add_filter('post_updated_messages', [$this->editor, 'filterUpdateMessages']);
         add_filter('site-reviews/enqueue/public/inline-script/after', [$this->integrations, 'filterElementorPublicInlineScript'], 1);
+        add_filter('site-reviews/defaults/star-rating/defaults', [$this->integrations, 'filterElementorStarRatingDefaults']);
         add_filter('heartbeat_received', [$this->listtable, 'filterCheckLockedReviews'], 20, 3);
         add_filter('manage_'.glsr()->post_type.'_posts_columns', [$this->listtable, 'filterColumnsForPostType']);
         add_filter('post_date_column_status', [$this->listtable, 'filterDateColumnStatus'], 10, 2);

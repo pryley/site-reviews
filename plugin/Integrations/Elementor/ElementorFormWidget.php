@@ -66,7 +66,7 @@ class ElementorFormWidget extends ElementorWidget
             $options['hide-'.$key] = [
                 'label' => $label,
                 'separator' => $separator,
-                'return_value' => 1,
+                'return_value' => '1',
                 'type' => \Elementor\Controls_Manager::SWITCHER,
             ];
         }
