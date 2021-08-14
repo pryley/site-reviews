@@ -5,13 +5,17 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Style;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
 class BlocksController extends Controller
 {
     /**
      * @param array $blockTypes
-     * @param \WP_Block_Editor_Context $context
+     * @param \WP_Post|\WP_Block_Editor_Context $context
      * @return array
      * @filter allowed_block_types_all
      */
@@ -69,9 +73,9 @@ class BlocksController extends Controller
         wp_add_inline_style(glsr()->id.'/blocks', (new EnqueuePublicAssets())->inlineStyles());
         if ('widgets.php' === $pagenow) {
             // $dependencies = ['wp-customize-widgets', glsr()->id.'/admin'];
-            $dependencies = ['wp-edit-widgets', glsr()->id.'/admin'];
+            $dependencies = ['wp-edit-widgets'];
         } else {
-            $dependencies = ['wp-editor', glsr()->id.'/admin'];
+            $dependencies = ['wp-editor'];
         }
         wp_register_script(
             glsr()->id.'/blocks',
@@ -79,6 +83,15 @@ class BlocksController extends Controller
             $dependencies,
             glsr()->version
         );
+        wp_localize_script(glsr()->id.'/blocks', 'GLSR_Block', [
+            'hideoptions' => [
+                'site_reviews' => glsr(SiteReviewsShortcode::class)->getHideOptions(),
+                'site_reviews_form' => glsr(SiteReviewsFormShortcode::class)->getHideOptions(),
+                'site_reviews_summary' => glsr(SiteReviewsSummaryShortcode::class)->getHideOptions(),
+            ],
+            'maxrating' => glsr()->constant('MAX_RATING', Rating::class),
+            'nameprefix' => glsr()->id,
+        ]);
     }
 
     /**

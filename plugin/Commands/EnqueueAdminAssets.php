@@ -68,7 +68,7 @@ class EnqueueAdminAssets implements Contract
     }
 
     /**
-     * @return void
+     * @return string
      */
     public function inlineScript()
     {

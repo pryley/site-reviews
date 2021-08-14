@@ -14,7 +14,7 @@ const { InspectorAdvancedControls, InspectorControls } = wp.blockEditor;
 const { PanelBody, RangeControl, SelectControl, TextControl, ToggleControl } = wp.components;
 const { serverSideRender: ServerSideRender } = wp;
 
-const blockName = GLSR.nameprefix + '/summary';
+const blockName = GLSR_Block.nameprefix + '/summary';
 
 const attributes = {
     assigned_to: { default: '', type: 'string' },
@@ -113,7 +113,7 @@ const edit = props => {
             key={ 'rating' }
             label={ _x('Minimum Rating', 'admin-text', 'site-reviews') }
             min={ 0 }
-            max={ GLSR.maxrating }
+            max={ GLSR_Block.maxrating }
             onChange={ rating => setAttributes({ rating }) }
             value={ rating }
         />,
@@ -124,16 +124,16 @@ const edit = props => {
             label={ _x('Enable the schema?', 'admin-text', 'site-reviews') }
             onChange={ schema => setAttributes({ schema }) }
         />,
-        hide: CheckboxControlList(GLSR.hideoptions.site_reviews_summary, hide, setAttributes),
+        hide: CheckboxControlList(GLSR_Block.hideoptions.site_reviews_summary, hide, setAttributes),
     };
     return [
         <InspectorControls>
             <PanelBody title={ _x('Settings', 'admin-text', 'site-reviews')}>
-                { Object.values(wp.hooks.applyFilters(GLSR.nameprefix+'.summary.InspectorControls', inspectorControls, props)) }
+                { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.summary.InspectorControls', inspectorControls, props)) }
             </PanelBody>
         </InspectorControls>,
         <InspectorAdvancedControls>
-            { Object.values(wp.hooks.applyFilters(GLSR.nameprefix+'.summary.InspectorAdvancedControls', {}, props)) }
+            { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.summary.InspectorAdvancedControls', {}, props)) }
         </InspectorAdvancedControls>,
         <ServerSideRender block={ blockName } attributes={ props.attributes }>
         </ServerSideRender>
@@ -142,7 +142,7 @@ const edit = props => {
 
 export default registerBlockType(blockName, {
     attributes: attributes,
-    category: GLSR.nameprefix,
+    category: GLSR_Block.nameprefix,
     description: _x('Display a summary of your reviews.', 'admin-text', 'site-reviews'),
     edit: edit,
     example: {},

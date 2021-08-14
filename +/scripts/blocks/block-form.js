@@ -12,7 +12,7 @@ const { InspectorAdvancedControls, InspectorControls } = wp.blockEditor;
 const { PanelBody, SelectControl, TextControl } = wp.components;
 const { serverSideRender: ServerSideRender } = wp;
 
-const blockName = GLSR.nameprefix + '/form';
+const blockName = GLSR_Block.nameprefix + '/form';
 
 const attributes = {
     assign_to: { default: '', type: 'string' },
@@ -88,7 +88,7 @@ const edit = props => {
                 value={ assigned_users }
             />
         </ConditionalSelectControl>,
-        hide: CheckboxControlList(GLSR.hideoptions.site_reviews_form, hide, setAttributes),
+        hide: CheckboxControlList(GLSR_Block.hideoptions.site_reviews_form, hide, setAttributes),
     };
     const inspectorAdvancedControls = {
         id: <TextControl
@@ -100,11 +100,11 @@ const edit = props => {
     return [
         <InspectorControls>
             <PanelBody title={ _x('Settings', 'admin-text', 'site-reviews')}>
-                { Object.values(wp.hooks.applyFilters(GLSR.nameprefix+'.form.InspectorControls', inspectorControls, props)) }
+                { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.form.InspectorControls', inspectorControls, props)) }
             </PanelBody>
         </InspectorControls>,
         <InspectorAdvancedControls>
-            { Object.values(wp.hooks.applyFilters(GLSR.nameprefix+'.form.InspectorAdvancedControls', inspectorAdvancedControls, props)) }
+            { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.form.InspectorAdvancedControls', inspectorAdvancedControls, props)) }
         </InspectorAdvancedControls>,
         <ServerSideRender block={ blockName } attributes={ props.attributes }>
         </ServerSideRender>
@@ -113,7 +113,7 @@ const edit = props => {
 
 export default registerBlockType(blockName, {
     attributes: attributes,
-    category: GLSR.nameprefix,
+    category: GLSR_Block.nameprefix,
     description: _x('Display a review form.', 'admin-text', 'site-reviews'),
     edit: edit,
     example: {},

@@ -14,7 +14,7 @@ const { InspectorAdvancedControls, InspectorControls } = wp.blockEditor;
 const { PanelBody, RangeControl, SelectControl, TextControl, ToggleControl } = wp.components;
 const { serverSideRender: ServerSideRender } = wp;
 
-const blockName = GLSR.nameprefix + '/reviews';
+const blockName = GLSR_Block.nameprefix + '/reviews';
 
 const attributes = {
     assigned_to: { default: '', type: 'string' },
@@ -135,7 +135,7 @@ const edit = props => {
             key={ 'rating' }
             label={ _x('Minimum Rating', 'admin-text', 'site-reviews') }
             min={ 0 }
-            max={ GLSR.maxrating }
+            max={ GLSR_Block.maxrating }
             onChange={ rating => setAttributes({ rating }) }
             value={ rating }
         />,
@@ -146,7 +146,7 @@ const edit = props => {
             label={ _x('Enable the schema?', 'admin-text', 'site-reviews') }
             onChange={ schema => setAttributes({ schema }) }
         />,
-        hide: CheckboxControlList(GLSR.hideoptions.site_reviews, hide, setAttributes),
+        hide: CheckboxControlList(GLSR_Block.hideoptions.site_reviews, hide, setAttributes),
     };
     const inspectorAdvancedControls = {
         id: <TextControl
@@ -158,11 +158,11 @@ const edit = props => {
     return [
         <InspectorControls>
             <PanelBody title={ _x('Settings', 'admin-text', 'site-reviews')}>
-                { Object.values(wp.hooks.applyFilters(GLSR.nameprefix+'.reviews.InspectorControls', inspectorControls, props)) }
+                { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.reviews.InspectorControls', inspectorControls, props)) }
             </PanelBody>
         </InspectorControls>,
         <InspectorAdvancedControls>
-            { Object.values(wp.hooks.applyFilters(GLSR.nameprefix+'.reviews.InspectorAdvancedControls', inspectorAdvancedControls, props)) }
+            { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.reviews.InspectorAdvancedControls', inspectorAdvancedControls, props)) }
         </InspectorAdvancedControls>,
         <ServerSideRender block={ blockName } attributes={ props.attributes }>
         </ServerSideRender>
@@ -178,7 +178,7 @@ wp.hooks.addFilter('blocks.getBlockAttributes', blockName, (attributes, block, u
 
 export default registerBlockType(blockName, {
     attributes: attributes,
-    category: GLSR.nameprefix,
+    category: GLSR_Block.nameprefix,
     description: _x('Display your most recent reviews.', 'admin-text', 'site-reviews'),
     edit: edit,
     example: {
