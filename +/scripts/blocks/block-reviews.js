@@ -4,11 +4,12 @@ import ConditionalSelectControl from './ConditionalSelectControl';
 import assigned_to_options from './assigned_to-options';
 import category_options from './category-options';
 import terms_options from './terms-options';
+import transformWidgetAttributes from './transform-widget';
 import type_options from './type-options';
 import user_options from './user-options';
 
 const { _x } = wp.i18n;
-const { registerBlockType } = wp.blocks;
+const { createBlock, registerBlockType } = wp.blocks;
 const { InspectorAdvancedControls, InspectorControls } = wp.blockEditor;
 const { PanelBody, RangeControl, SelectControl, TextControl, ToggleControl } = wp.components;
 const { serverSideRender: ServerSideRender } = wp;
@@ -191,4 +192,12 @@ export default registerBlockType(blockName, {
     keywords: ['reviews'],
     save: () => null,
     title: _x('Latest Reviews', 'admin-text', 'site-reviews'),
+    transforms: {
+        from: [{
+            type: 'block',
+            blocks: ['core/legacy-widget'],
+            isMatch: ({ idBase, instance }) => idBase === 'glsr_site-reviews' && !! instance?.raw,
+            transform: ({ instance }) => createBlock(blockName, transformWidgetAttributes(instance, attributes)),
+        }],
+    },
 });

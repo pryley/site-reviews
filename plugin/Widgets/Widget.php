@@ -111,6 +111,7 @@ abstract class Widget extends WP_Widget
         return [
             'description' => $this->widgetDescription(),
             'name' => $this->widgetName(),
+            'show_instance_in_rest' => true,
         ];
     }
 }

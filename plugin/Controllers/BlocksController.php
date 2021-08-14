@@ -11,13 +11,15 @@ class BlocksController extends Controller
 {
     /**
      * @param array $blockTypes
-     * @param \WP_Post $post
+     * @param \WP_Block_Editor_Context $context
      * @return array
-     * @filter allowed_block_types
+     * @filter allowed_block_types_all
      */
-    public function filterAllowedBlockTypes($blockTypes, $post)
+    public function filterAllowedBlockTypes($blockTypes, $context)
     {
-        return glsr()->post_type !== get_post_type($post)
+        $fallback = Arr::get($context, 'post_type'); // @compat <5.8
+        $postType = Arr::get($context, 'post.post_type', $fallback);
+        return glsr()->post_type !== $postType
             ? $blockTypes
             : [];
     }
@@ -25,7 +27,7 @@ class BlocksController extends Controller
     /**
      * @param array $categories
      * @return array
-     * @filter block_categories
+     * @filter block_categories_all
      */
     public function filterBlockCategories($categories)
     {
@@ -57,6 +59,7 @@ class BlocksController extends Controller
      */
     public function registerAssets()
     {
+        global $pagenow;
         wp_register_style(
             glsr()->id.'/blocks',
             $this->getStylesheet(),
@@ -64,10 +67,16 @@ class BlocksController extends Controller
             glsr()->version
         );
         wp_add_inline_style(glsr()->id.'/blocks', (new EnqueuePublicAssets())->inlineStyles());
+        if ('widgets.php' === $pagenow) {
+            // $dependencies = ['wp-customize-widgets', glsr()->id.'/admin'];
+            $dependencies = ['wp-edit-widgets', glsr()->id.'/admin'];
+        } else {
+            $dependencies = ['wp-editor', glsr()->id.'/admin'];
+        }
         wp_register_script(
             glsr()->id.'/blocks',
             glsr()->url('assets/scripts/'.glsr()->id.'-blocks.js'),
-            ['wp-api-fetch', 'wp-blocks', 'wp-i18n', 'wp-editor', 'wp-element', glsr()->id.'/admin'],
+            $dependencies,
             glsr()->version
         );
     }
@@ -90,6 +99,17 @@ class BlocksController extends Controller
             }
             glsr($blockClass)->register($block);
         }
+    }
+
+    /**
+     * @param array  $types
+     * @return array
+     * @filter widget_types_to_hide_from_legacy_widget_block
+     */
+    public function replaceLegacyWidgets($types)
+    {
+        // array_push($types, 'glsr_site-reviews', 'glsr_site-reviews-form', 'glsr_site-reviews-summary');
+        return $types;
     }
 
     /**

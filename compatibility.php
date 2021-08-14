@@ -1,5 +1,7 @@
 <?php
 
+use GeminiLabs\SiteReviews\Controllers\BlocksController;
+
 defined('ABSPATH') || die;
 
 /**
@@ -241,3 +243,11 @@ add_filter('tcb_post_types', function ($blacklist) {
     $blacklist[] = glsr()->post_type;
     return $blacklist;
 });
+
+/**
+ * WordPress <5.8 compatibility
+ */
+if (!is_wp_version_compatible('5.8')) {
+    add_filter('allowed_block_types', [glsr(BlocksController::class), 'filterAllowedBlockTypes']);
+    add_filter('block_categories', [glsr(BlocksController::class), 'filterBlockCategories']);
+}

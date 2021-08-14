@@ -31,7 +31,7 @@ class SiteReviewsSummaryWidget extends Widget
             $this->renderField('select', [
                 'label' => _x('Limit summary to this category', 'admin-text', 'site-reviews'),
                 'name' => 'assigned_terms',
-                'options' => Arr::prepend($terms, _x('Do not assign a category', 'admin-text', 'site-reviews'), ''),
+                'options' => Arr::prepend($terms, _x('Do not limit by category', 'admin-text', 'site-reviews'), ''),
             ]);
         }
         $this->renderField('text', [

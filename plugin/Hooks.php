@@ -96,8 +96,8 @@ class Hooks implements HooksContract
         add_action('site-reviews/route/ajax/toggle-filters', [$this->admin, 'toggleFiltersAjax']);
         add_action('site-reviews/route/ajax/toggle-pinned', [$this->admin, 'togglePinnedAjax']);
         add_action('site-reviews/route/ajax/toggle-status', [$this->admin, 'toggleStatusAjax']);
-        add_action('init', [$this->blocks, 'registerAssets'], 9);
-        add_action('init', [$this->blocks, 'registerBlocks']);
+        add_action('init', [$this->blocks, 'registerAssets']); // This must be done before the blocks are registered
+        add_action('init', [$this->blocks, 'registerBlocks'], 20);
         add_action('site-reviews/route/ajax/mce-shortcode', [$this->editor, 'mceShortcodeAjax']);
         add_action('edit_form_top', [$this->editor, 'renderReviewNotice']);
         add_action('elementor/init', [$this->integrations, 'registerElementorCategory']);
@@ -189,9 +189,10 @@ class Hooks implements HooksContract
         add_filter('dashboard_glance_items', [$this->admin, 'filterDashboardGlanceItems']);
         add_filter('export_args', [$this->admin, 'filterExportArgs'], 11);
         add_filter('mce_external_plugins', [$this->admin, 'filterTinymcePlugins'], 15);
-        add_filter('allowed_block_types', [$this->blocks, 'filterAllowedBlockTypes'], 10, 2);
-        add_filter('block_categories', [$this->blocks, 'filterBlockCategories']);
+        add_filter('allowed_block_types_all', [$this->blocks, 'filterAllowedBlockTypes'], 10, 2);
+        add_filter('block_categories_all', [$this->blocks, 'filterBlockCategories']);
         add_filter('use_block_editor_for_post_type', [$this->blocks, 'filterUseBlockEditor'], 10, 2);
+        add_filter('widget_types_to_hide_from_legacy_widget_block', [$this->blocks, 'replaceLegacyWidgets']);
         add_filter('wp_editor_settings', [$this->editor, 'filterEditorSettings']);
         add_filter('the_editor', [$this->editor, 'filterEditorTextarea']);
         add_filter('is_protected_meta', [$this->editor, 'filterIsProtectedMeta'], 10, 3);

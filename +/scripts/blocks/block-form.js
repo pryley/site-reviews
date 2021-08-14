@@ -3,10 +3,11 @@ import { FormIcon } from './icons';
 import assign_to_options from './assign_to-options';
 import category_options from './category-options';
 import user_options from './user-options';
+import transformWidgetAttributes from './transform-widget';
 import ConditionalSelectControl from './ConditionalSelectControl';
 
 const { _x } = wp.i18n;
-const { registerBlockType } = wp.blocks;
+const { createBlock, registerBlockType } = wp.blocks;
 const { InspectorAdvancedControls, InspectorControls } = wp.blockEditor;
 const { PanelBody, SelectControl, TextControl } = wp.components;
 const { serverSideRender: ServerSideRender } = wp;
@@ -120,4 +121,12 @@ export default registerBlockType(blockName, {
     keywords: ['reviews', 'form'],
     save: () => null,
     title: _x('Submit a Review', 'admin-text', 'site-reviews'),
+    transforms: {
+        from: [{
+            type: 'block',
+            blocks: ['core/legacy-widget'],
+            isMatch: ({ idBase, instance }) => idBase === 'glsr_site-reviews-form' && !! instance?.raw,
+            transform: ({ instance }) => createBlock(blockName, transformWidgetAttributes(instance, attributes)),
+        }],
+    },
 });
