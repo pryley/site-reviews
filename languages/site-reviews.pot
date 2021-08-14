@@ -50,67 +50,67 @@ msgctxt "admin-text"
 msgid "This plugin requires %s or greater in order to work properly."
 msgstr ""
 
-#: compatibility.php:24
+#: compatibility.php:26
 msgctxt "admin-text"
 msgid "Create Reviews"
 msgstr ""
 
-#: compatibility.php:27
+#: compatibility.php:29
 msgctxt "admin-text"
 msgid "Delete Others' Reviews"
 msgstr ""
 
-#: compatibility.php:30
+#: compatibility.php:32
 msgctxt "admin-text"
 msgid "Delete Reviews"
 msgstr ""
 
-#: compatibility.php:33
+#: compatibility.php:35
 msgctxt "admin-text"
 msgid "Delete Private Reviews"
 msgstr ""
 
-#: compatibility.php:36
+#: compatibility.php:38
 msgctxt "admin-text"
 msgid "Delete Approved Reviews"
 msgstr ""
 
-#: compatibility.php:39
+#: compatibility.php:41
 msgctxt "admin-text"
 msgid "Edit Others' Reviews"
 msgstr ""
 
-#: compatibility.php:42
+#: compatibility.php:44
 msgctxt "admin-text"
 msgid "Edit Reviews"
 msgstr ""
 
-#: compatibility.php:45
+#: compatibility.php:47
 msgctxt "admin-text"
 msgid "Edit Private Reviews"
 msgstr ""
 
-#: compatibility.php:48
+#: compatibility.php:50
 msgctxt "admin-text"
 msgid "Edit Approved Reviews"
 msgstr ""
 
-#: compatibility.php:51
+#: compatibility.php:53
 msgctxt "admin-text"
 msgid "Approve Reviews"
 msgstr ""
 
-#: compatibility.php:54
+#: compatibility.php:56
 msgctxt "admin-text"
 msgid "Read Private Reviews"
 msgstr ""
 
-#: compatibility.php:57
+#: compatibility.php:59
 msgctxt "admin-text"
 msgid "Respond To Reviews"
 msgstr ""
 
-#: compatibility.php:60
+#: compatibility.php:62
 msgctxt "admin-text"
 msgid "Respond To Others' Reviews"
 msgstr ""
@@ -1077,7 +1077,7 @@ msgctxt "admin-text"
 msgid "The [%s] method has been deprecated and will be soon be removed, please use the [%s] method instead."
 msgstr ""
 
-#: plugin/Review.php:336, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
+#: plugin/Review.php:347, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr ""
@@ -1201,7 +1201,7 @@ msgctxt "admin-text"
 msgid "Untitled"
 msgstr ""
 
-#: plugin/Addons/Controller.php:70, plugin/Controllers/AdminController.php:50, plugin/Controllers/MenuController.php:51, plugin/Integrations/Elementor/ElementorWidget.php:99, views/pages/tools/sync.php:23
+#: plugin/Addons/Controller.php:70, plugin/Controllers/AdminController.php:50, plugin/Controllers/MenuController.php:51, plugin/Integrations/Elementor/ElementorWidget.php:98, views/pages/tools/sync.php:23
 msgctxt "admin-text"
 msgid "Settings"
 msgstr ""
@@ -1226,7 +1226,7 @@ msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr ""
 
-#: plugin/Blocks/SiteReviewsBlock.php:135, plugin/Modules/Html/Tags/ReviewContentTag.php:26
+#: plugin/Blocks/SiteReviewsBlock.php:135, plugin/Helpers/Text.php:25
 msgid "Show more"
 msgstr ""
 
@@ -1248,12 +1248,12 @@ msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:101
+#: plugin/Commands/EnqueueAdminAssets.php:102
 msgctxt "admin-text"
 msgid "Please rate %s on %s and help us spread the word. Thank you so much!"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:102, views/pages/addons/index.php:18
+#: plugin/Commands/EnqueueAdminAssets.php:103, views/pages/addons/index.php:18
 msgctxt "admin-text"
 msgid "Discover Premium"
 msgstr ""
@@ -2007,6 +2007,10 @@ msgstr ""
 msgid "and"
 msgstr ""
 
+#: plugin/Helpers/Text.php:24
+msgid "Show less"
+msgstr ""
+
 #: plugin/Modules/Avatar.php:48
 msgid "Avatar for %s"
 msgstr ""
@@ -2406,7 +2410,7 @@ msgctxt "admin-text"
 msgid "Automatically assign a category"
 msgstr ""
 
-#: plugin/Widgets/SiteReviewsFormWidget.php:31, plugin/Widgets/SiteReviewsSummaryWidget.php:34, plugin/Widgets/SiteReviewsWidget.php:52
+#: plugin/Widgets/SiteReviewsFormWidget.php:31, plugin/Widgets/SiteReviewsWidget.php:52
 msgctxt "admin-text"
 msgid "Do not assign a category"
 msgstr ""
@@ -2449,6 +2453,11 @@ msgstr ""
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:32
 msgctxt "admin-text"
 msgid "Limit summary to this category"
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsSummaryWidget.php:34
+msgctxt "admin-text"
+msgid "Do not limit by category"
 msgstr ""
 
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:40
@@ -2700,22 +2709,22 @@ msgctxt "admin-text"
 msgid "Limit the Type of Reviews"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:103
+#: plugin/Integrations/Elementor/ElementorWidget.php:102
 msgctxt "admin-text"
 msgid "Advanced"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:137
+#: plugin/Integrations/Elementor/ElementorWidget.php:136
 msgctxt "admin-text"
 msgid "Custom ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:141
+#: plugin/Integrations/Elementor/ElementorWidget.php:140
 msgctxt "admin-text"
 msgid "Separate multiple classes with spaces."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:143
+#: plugin/Integrations/Elementor/ElementorWidget.php:142
 msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr ""
@@ -3188,7 +3197,7 @@ msgctxt "admin-text"
 msgid "The review has already been deleted."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestReviewController.php:98, plugin/Controllers/Api/Version1/RestReviewController.php:382
+#: plugin/Controllers/Api/Version1/RestReviewController.php:98, plugin/Controllers/Api/Version1/RestReviewController.php:383
 msgctxt "admin-text"
 msgid "The review cannot be deleted."
 msgstr ""
@@ -3332,11 +3341,7 @@ msgstr ""
 msgid "Review of %s"
 msgstr ""
 
-#: plugin/Modules/Html/Tags/ReviewContentTag.php:25
-msgid "Show less"
-msgstr ""
-
-#: plugin/Modules/Html/Tags/ReviewResponseTag.php:16, views/pages/documentation/faq/change-response-name.php:9
+#: plugin/Modules/Html/Tags/ReviewResponseTag.php:17, views/pages/documentation/faq/change-response-name.php:9
 msgid "Response from %s"
 msgstr ""
 
