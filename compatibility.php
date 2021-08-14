@@ -248,6 +248,8 @@ add_filter('tcb_post_types', function ($blacklist) {
  * WordPress <5.8 compatibility
  */
 if (!is_wp_version_compatible('5.8')) {
-    add_filter('allowed_block_types', [glsr(BlocksController::class), 'filterAllowedBlockTypes']);
-    add_filter('block_categories', [glsr(BlocksController::class), 'filterBlockCategories']);
+    add_action('init', function () {
+        add_filter('allowed_block_types', [glsr(BlocksController::class), 'filterAllowedBlockTypes']);
+        add_filter('block_categories', [glsr(BlocksController::class), 'filterBlockCategories']);
+    });
 }
