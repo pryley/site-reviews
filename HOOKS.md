@@ -79,6 +79,8 @@
     site-reviews/email/headers                              (array $headers, Modules\Mail $mail): array
     site-reviews/email/message                              (string $message, string $type, Modules\Mail $mail): string
     site-reviews/enqueue/admin/dependencies                 (array $dependencies): array
+    site-reviews/enqueue/admin/inline-script                (string $optimizedScript, string $script, array $variables): string
+    site-reviews/enqueue/admin/inline-script/after          (string $javascript): string
     site-reviews/enqueue/admin/localize                     (array $variables): array
     site-reviews/enqueue/public/dependencies                (array $dependencies): array
     site-reviews/enqueue/public/inline-script               (string $optimizedScript, string $script, array $variables): string

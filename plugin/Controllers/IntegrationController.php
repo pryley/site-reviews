@@ -14,7 +14,7 @@ class IntegrationController extends Controller
      * @return string
      * @filter site-reviews/enqueue/public/inline-script/after
      */
-    public function filterElementorInlineScript($js)
+    public function filterElementorPublicInlineScript($js)
     {
         if (defined('ELEMENTOR_PRO_VERSION') && 0 > version_compare('2.7.0', ELEMENTOR_PRO_VERSION)) {
             $js .= 'function glsr_init_elementor(){GLSR.Event.trigger("site-reviews/init")}"undefined"!==typeof jQuery&&(jQuery(document).on("elementor/popup/show",glsr_init_elementor),jQuery(window).on("elementor/frontend/init",function(){elementorFrontend.hooks.addAction("frontend/element_ready/site_reviews.default",glsr_init_elementor);elementorFrontend.hooks.addAction("frontend/element_ready/site_reviews_form.default",glsr_init_elementor)}));';

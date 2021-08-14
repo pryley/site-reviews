@@ -36,7 +36,6 @@ class EnqueueAdminAssets implements Contract
     public function handle()
     {
         $this->enqueueAssets();
-        $this->localizeAssets();
     }
 
     /**
@@ -64,12 +63,14 @@ class EnqueueAdminAssets implements Contract
             wp_enqueue_style('wp-pointer');
             wp_enqueue_script('wp-pointer');
         }
+        wp_add_inline_script(glsr()->id.'/admin', $this->inlineScript(), 'before');
+        wp_add_inline_script(glsr()->id.'/admin', glsr()->filterString('enqueue/admin/inline-script/after', ''));
     }
 
     /**
      * @return void
      */
-    public function localizeAssets()
+    public function inlineScript()
     {
         $licenses = array_filter(Arr::consolidate(glsr_get_option('licenses')));
         $variables = [
@@ -109,7 +110,21 @@ class EnqueueAdminAssets implements Contract
             $variables['shortcodes'] = $this->localizeShortcodes();
         }
         $variables = glsr()->filterArray('enqueue/admin/localize', $variables);
-        wp_localize_script(glsr()->id.'/admin', 'GLSR', $variables);
+        return $this->buildInlineScript($variables);
+    }
+
+    /**
+     * @return string
+     */
+    protected function buildInlineScript(array $variables)
+    {
+        $script = 'window.hasOwnProperty("GLSR")||(window.GLSR={});';
+        foreach ($variables as $key => $value) {
+            $script .= sprintf('GLSR.%s=%s;', $key, json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+        }
+        $pattern = '/\"([^ \-\"]+)\"(:[{\[\"])/'; // removes unnecessary quotes surrounding object keys
+        $optimizedScript = preg_replace($pattern, '$1$2', $script);
+        return glsr()->filterString('enqueue/admin/inline-script', $optimizedScript, $script, $variables);
     }
 
     /**
