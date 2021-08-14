@@ -14,9 +14,11 @@ class Cast
     public static function to($cast = '', ...$args)
     {
         $method = Helper::buildMethodName($cast, 'to');
-        return !empty($cast) && method_exists(__CLASS__, $method)
-            ? call_user_func_array(Cast::class.'::'.$method, $args)
-            : array_shift($args);
+        if (!empty($cast) && method_exists(__CLASS__, $method)) {
+            // @phpstan-ignore-next-line
+            return call_user_func_array('static::'.$method, $args);
+        }
+        return array_shift($args);
     }
 
     /**

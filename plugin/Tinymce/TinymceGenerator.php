@@ -288,11 +288,9 @@ abstract class TinymceGenerator
             'name' => false,
             'required' => false,
         ], $field);
-        // @phpstan-ignore-next-line
         if (!$args['name']) {
             return false;
         }
-        // @phpstan-ignore-next-line
         return $this->validateErrors($args) && $this->validateRequired($args);
     }
 

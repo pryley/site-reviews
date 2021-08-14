@@ -80,9 +80,7 @@ class RecaptchaValidator extends ValidatorAbstract
         }
         $response = json_decode(wp_remote_retrieve_body($response));
         if (!empty($response->success)) {
-            return boolval($response->success)
-                ? static::RECAPTCHA_VALID
-                : static::RECAPTCHA_INVALID;
+            return static::RECAPTCHA_VALID;
         }
         foreach ($response->{'error-codes'} as $error) {
             glsr_log()->error('reCAPTCHA error: '.$error);
