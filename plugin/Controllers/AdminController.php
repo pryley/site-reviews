@@ -175,7 +175,7 @@ class AdminController extends Controller
      */
     public function printInlineStyle()
     {
-        echo '<style type="text/css">a[href="edit.php?post_type=site-review&page=addons"]:not(.current):not(:hover) { color:#F6E05E!important; }</style>';
+        echo '<style type="text/css">a[href="edit.php?post_type=site-review&page=addons"]:not(.current),a[href="edit.php?post_type=site-review&page=addons"]:focus,a[href="edit.php?post_type=site-review&page=addons"]:hover{color:#F6E05E!important;}</style>';
     }
 
     /**
