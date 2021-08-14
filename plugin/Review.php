@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Defaults\ReviewDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Helpers\Text;
 use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
 
@@ -149,10 +150,7 @@ class Review extends Arguments
      */
     public function author()
     {
-        return Str::convertName($this->get('author'),
-            glsr_get_option('reviews.name.format'),
-            glsr_get_option('reviews.name.initial')
-        );
+        return Text::name($this->get('author'));
     }
 
     /**

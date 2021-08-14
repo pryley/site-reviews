@@ -13,8 +13,8 @@ class ReviewResponseTag extends ReviewContentTag
     {
         if (!$this->isHidden() && !empty(trim($value))) {
             $responseBy = glsr()->filterString('review/build/tag/response/by', get_bloginfo('name'), $this->review);
+            $text = $this->textExcerpt($value);
             $title = sprintf(__('Response from %s', 'site-reviews'), $responseBy);
-            $text = $this->normalizeText($value);
             $response = glsr(Builder::class)->div([
                 'class' => 'glsr-review-response-inner',
                 'text' => sprintf('<p><strong>%s</strong></p><p>%s</p>', $title, $text),

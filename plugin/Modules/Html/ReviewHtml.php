@@ -37,7 +37,7 @@ class ReviewHtml extends \ArrayObject
 
     public function __construct(Review $review, array $args = [])
     {
-        $this->args = glsr(SiteReviewsDefaults::class)->merge($args);
+        $this->args = glsr(SiteReviewsDefaults::class)->unguardedMerge($args);
         $this->context = $this->buildContext($review);
         $this->review = $review;
         parent::__construct($this->context, \ArrayObject::STD_PROP_LIST|\ArrayObject::ARRAY_AS_PROPS);
