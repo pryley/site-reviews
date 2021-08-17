@@ -167,9 +167,9 @@ class Email
         }
         $context = ['context' => $this->email['template-tags']];
         $template = trim(glsr(OptionManager::class)->get('settings.general.notification_message'));
-        if (!empty($template)) {
+        if ('email-notification' === $this->email['template'] && !empty($template)) {
             return glsr(Template::class)->interpolate($template, $this->email['template'], $context);
-        } elseif ($this->email['template']) {
+        } elseif (!empty($this->email['template'])) {
             return glsr(Template::class)->build('templates/'.$this->email['template'], $context);
         }
         return '';
