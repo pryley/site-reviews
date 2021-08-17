@@ -44,6 +44,7 @@ class CustomFieldsDefaults extends Defaults
         'response',
         'review_id',
         'terms',
+        'terms_exist',
         'title',
         'type',
         'url',
