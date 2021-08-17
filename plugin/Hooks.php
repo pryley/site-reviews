@@ -96,8 +96,8 @@ class Hooks implements HooksContract
         add_action('site-reviews/route/ajax/toggle-filters', [$this->admin, 'toggleFiltersAjax']);
         add_action('site-reviews/route/ajax/toggle-pinned', [$this->admin, 'togglePinnedAjax']);
         add_action('site-reviews/route/ajax/toggle-status', [$this->admin, 'toggleStatusAjax']);
-        add_action('init', [$this->blocks, 'registerAssets']); // This must be done before the blocks are registered
-        add_action('init', [$this->blocks, 'registerBlocks'], 20);
+        add_action('init', [$this->blocks, 'registerAssets'], 9); // This must be done before the blocks are registered
+        add_action('init', [$this->blocks, 'registerBlocks']);
         add_action('site-reviews/route/ajax/mce-shortcode', [$this->editor, 'mceShortcodeAjax']);
         add_action('edit_form_top', [$this->editor, 'renderReviewNotice']);
         add_action('elementor/init', [$this->integrations, 'registerElementorCategory']);

@@ -127,7 +127,7 @@ class EnqueuePublicAssets implements Contract
         foreach ($variables as $key => $value) {
             $script .= sprintf('GLSR.%s=%s;', $key, json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
         }
-        $pattern = '/\"([^ \-\"]+)\"(:[{\[\"])/'; // removes unnecessary quotes surrounding object keys
+        $pattern = '/\"([a-zA-Z]+)\"(:[{\[\"])/'; // remove unnecessary quotes surrounding object keys
         $optimizedScript = preg_replace($pattern, '$1$2', $script);
         return glsr()->filterString('enqueue/public/inline-script', $optimizedScript, $script, $variables);
     }
