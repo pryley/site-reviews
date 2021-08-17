@@ -88,10 +88,11 @@ class SettingsController extends Controller
     {
         $key = 'settings.submissions';
         $inputForm = Arr::get($input, $key);
-        $defaultValue = isset($inputForm['required'])
-            ? $inputForm['required']
-            : [];
-        $options = Arr::set($options, $key.'.required', $defaultValue);
+        $multiFields = ['limit_assignments', 'required'];
+        foreach ($multiFields as $name) {
+            $defaultValue = Arr::get($inputForm, $name, []);
+            $options = Arr::set($options, $key.'.'.$name, $defaultValue);
+        }
         return $options;
     }
 
