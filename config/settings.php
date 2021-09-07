@@ -301,7 +301,9 @@ return [
             'settings.schema.type.default' => 'custom',
         ],
         'label' => _x('Custom Schema Type', 'admin-text', 'site-reviews'),
-        'tooltip' => '<a href="https://schema.org/docs/schemas.html">'._x('View more information on schema types here', 'admin-text', 'site-reviews').'</a>',
+        'tooltip' => sprintf(_x('Google limits the schema types that can potentially trigger review rich results in search. To learn which schema types can be used, please %s.', 'read this (admin-text)', 'site-reviews'),
+            '<a href="https://developers.google.com/search/blog/2019/09/making-review-rich-results-more-helpful">'._x('read this', 'admin-text', 'site-reviews').'</a>'
+        ),
         'type' => 'text',
     ],
     'settings.schema.name.default' => [
