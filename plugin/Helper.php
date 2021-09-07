@@ -11,12 +11,15 @@ use GeminiLabs\Vectorface\Whip\Whip;
 class Helper
 {
     /**
-     * @param string $name
+     * @param array|string $name
      * @param string $path
      * @return string
      */
     public static function buildClassName($name, $path = '')
     {
+        if (is_array($name)) {
+            $name = implode('-', $name);
+        }
         $className = Str::camelCase($name);
         $path = ltrim(str_replace(__NAMESPACE__, '', $path), '\\');
         return !empty($path)

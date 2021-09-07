@@ -86,8 +86,7 @@ class ReviewHtml extends \ArrayObject
     public function buildTemplateTag(Review $review, $tag, $value)
     {
         $args = $this->args;
-        $tagSlug = implode('-', ['review', $tag, 'tag']);
-        $className = Helper::buildClassName($tagSlug, 'Modules\Html\Tags');
+        $className = Helper::buildClassName(['review', $tag, 'tag'], 'Modules\Html\Tags');
         $className = glsr()->filterString('review/tag/'.$tag, $className);
         $field = class_exists($className)
             ? glsr($className, compact('tag', 'args'))->handleFor('review', $value, $review)

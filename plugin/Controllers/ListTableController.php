@@ -289,7 +289,7 @@ class ListTableController extends Controller
             glsr(Migrate::class)->reset(); // looks like a migration is needed!
             return;
         }
-        $className = Helper::buildClassName('column-value-'.$column, 'Controllers\ListTableColumns');
+        $className = Helper::buildClassName(['ColumnValue', $column], 'Controllers\ListTableColumns');
         $className = glsr()->filterString('column/'.$column, $className);
         $value = glsr()->runIf($className, $review);
         $value = glsr()->filterString('columns/'.$column, $value, $postId);

@@ -105,7 +105,7 @@ class BlocksController extends Controller
         ];
         foreach ($blocks as $block) {
             $id = str_replace('_reviews', '', glsr()->id.'_'.$block);
-            $blockClass = Helper::buildClassName($id.'-block', 'Blocks');
+            $blockClass = Helper::buildClassName([$id, 'block'], 'Blocks');
             if (!class_exists($blockClass)) {
                 glsr_log()->error(sprintf('Block class missing (%s)', $blockClass));
                 continue;

@@ -51,8 +51,7 @@ class SiteReviewsSummaryShortcode extends Shortcode
     protected function buildTemplateTag($tag)
     {
         $args = $this->args;
-        $classname = implode('-', ['summary', $tag, 'tag']);
-        $className = Helper::buildClassName($classname, 'Modules\Html\Tags');
+        $className = Helper::buildClassName(['summary', $tag, 'tag'], 'Modules\Html\Tags');
         $field = class_exists($className)
             ? glsr($className, compact('tag', 'args'))->handleFor('summary', null, $this->ratings)
             : null;

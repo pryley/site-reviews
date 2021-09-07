@@ -20,7 +20,7 @@ class RegisterShortcodes implements Contract
     public function handle()
     {
         foreach ($this->shortcodes as $shortcode) {
-            $shortcodeClass = Helper::buildClassName($shortcode.'-shortcode', 'Shortcodes');
+            $shortcodeClass = Helper::buildClassName([$shortcode, 'shortcode'], 'Shortcodes');
             if (!class_exists($shortcodeClass)) {
                 glsr_log()->error(sprintf('Shortcode class missing (%s)', $shortcodeClass));
                 continue;

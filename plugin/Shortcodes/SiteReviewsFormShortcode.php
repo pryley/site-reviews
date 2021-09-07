@@ -63,8 +63,7 @@ class SiteReviewsFormShortcode extends Shortcode
     protected function buildTemplateTag($tag)
     {
         $args = $this->args;
-        $classname = implode('-', ['form', $tag, 'tag']);
-        $className = Helper::buildClassName($classname, 'Modules\Html\Tags');
+        $className = Helper::buildClassName(['form', $tag, 'tag'], 'Modules\Html\Tags');
         $field = class_exists($className)
             ? glsr($className, compact('tag', 'args'))->handleFor('form', null, $this->with)
             : null;
