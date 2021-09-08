@@ -12,7 +12,7 @@ class PermissionDefaults extends Defaults
     protected function defaults()
     {
         return [
-            'addons' => 'install_plugins',
+            'addons' => 'activate_plugins',
             'documentation' => [
                 'faq' => 'edit_others_posts',
                 'functions' => 'manage_options',
@@ -24,9 +24,9 @@ class PermissionDefaults extends Defaults
             'tools' => [
                 'console' => 'edit_others_posts',
                 'general' => 'edit_others_posts',
-                'index' => 'edit_others_posts',
+                'index' => 'edit_posts',
                 'sync' => 'manage_options',
-                'system-info' => 'edit_others_posts',
+                'system-info' => 'edit_posts',
             ],
         ];
     }
