@@ -147,7 +147,7 @@ class ListTableController extends Controller
             }
         }
         if (glsr()->can('respond_to_post', $post->ID)) {
-            $newActions['hide-if-no-js'] = glsr(Builder::class)->button([
+            $newActions['respond hide-if-no-js'] = glsr(Builder::class)->button([
                 'aria-expanded' => false,
                 'aria-label' => esc_attr(sprintf(_x('Respond inline to &#8220;%s&#8221;', 'admin-text', 'site-reviews'), _draft_or_post_title())),
                 'class' => 'button-link editinline',

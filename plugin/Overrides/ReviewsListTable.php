@@ -11,23 +11,10 @@ class ReviewsListTable extends \WP_Posts_List_Table
      * @param \WP_Post $post
      * @return void
      */
-    public function column_cb($post)
-    {
-        parent::column_cb($post);
-        if (!glsr()->can('edit_post', $post->ID) && glsr()->can('respond_to_post', $post->ID)) {
-            glsr()->render('partials/screen/locked-indicator');
-        }
-    }
-
-    /**
-     * @param \WP_Post $post
-     * @return void
-     */
     public function column_title($post)
     {
         if (glsr()->can('respond_to_post', $post->ID)) {
             $this->renderInlineData($post);
-            $this->renderLockedInfo($post);
         }
         parent::column_title($post);
     }
@@ -94,27 +81,5 @@ class ReviewsListTable extends \WP_Posts_List_Table
             'postId' => $post->ID,
             'response' => esc_textarea(trim($response)),
         ]);
-    }
-
-    /**
-     * @return void
-     */
-    protected function renderLockedInfo(\WP_Post $post)
-    {
-        if ('trash' !== $post->post_status) {
-            $lockHolder = wp_check_post_lock($post->ID);
-            if (false !== $lockHolder) {
-                $lockHolder = get_userdata($lockHolder);
-                $lockedAvatar = get_avatar($lockHolder->ID, 18);
-                $lockedText = esc_html(sprintf(_x('%s is currently editing', 'admin-text', 'site-reviews'), $lockHolder->display_name));
-            } else {
-                $lockedAvatar = '';
-                $lockedText = '';
-            }
-            glsr()->render('partials/screen/locked-info', [
-                'lockedAvatar' => $lockedAvatar,
-                'lockedText' => $lockedText,
-            ]);
-        }
     }
 }

@@ -22,6 +22,11 @@
 	}
 }
 
+.wp-locked .row-actions .approve,
+.wp-locked .row-actions .unapprove,
+.wp-locked .row-actions .respond {
+    display: none;
+}
 
 .glsr-responsive-table {
 	position: relative;
