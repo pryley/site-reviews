@@ -63,16 +63,6 @@
         ]);
         $template->render('partials/addons/addon', [
             'context' => [
-                'description' => _x('Integrate with the Trustalyze Confidence System and post reviews to the blockchain.', 'admin-text', 'site-reviews'),
-                'link' => 'https://niftyplugins.com/plugins/trustalyze/',
-                'link_text' => _x('View Add-on', 'admin-text', 'site-reviews'),
-                'slug' => 'trustalyze',
-                'title' => 'Trustalyze',
-            ],
-            'plugin' => 'site-reviews-trustalyze/site-reviews-trustalyze.php',
-        ]);
-        $template->render('partials/addons/addon', [
-            'context' => [
                 'description' => _x('Integrate Site Reviews with your Woocommerce products.', 'admin-text', 'site-reviews'),
                 'link' => 'https://niftyplugins.com/plugins/woocommerce-reviews/',
                 'link_text' => _x('View Add-on', 'admin-text', 'site-reviews'),

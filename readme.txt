@@ -65,7 +65,6 @@ Site Reviews provides a ton of absolutely free features, possibly more than any 
 - __[Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/) (premium)__: Create custom review forms with over 20 field types and individual review templates.
 - __[Review Filters](https://niftyplugins.com/plugins/site-reviews-filters/) (premium)__: Sort, filter, and search your reviews.
 - __[Review Images](https://niftyplugins.com/plugins/site-reviews-images/) (premium)__: Add images with captions to your reviews.
-- __[Trustalyze Confidence System](https://niftyplugins.com/plugins/trustalyze/) (free)__: Integrate with the Trustalyze Confidence System and post reviews on the blockchain.
 - __[Woocommerce Reviews](https://niftyplugins.com/plugins/woocommerce-reviews/) (free)__: Integrate Site Reviews with your Woocommerce products.
 
 ### Site Reviews Premium
@@ -136,6 +135,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.14.0 (2021-09-26) =
+
+- Removed the "Trustalyze Confidence System" add-on (since the service has been discontinued).
 
 = 5.13.2 (2021-08-08) =
 
