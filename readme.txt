@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews
 Tested up to: 5.8
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.13.2
+Stable tag: 5.14.0-beta
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -136,9 +136,20 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
-= 5.14.0 (2021-09-26) =
+= 5.14.0 (2021-09-??) =
 
-- Removed the "Trustalyze Confidence System" add-on (since the service has been discontinued).
+- Changed permission defaults for admin pages
+- Fixed add-on settings link on Plugins page
+- Fixed API permission check for categories
+- Fixed Elementor widgets
+- Fixed ghost reviews from being created from non-reviews
+- Fixed locked review status indicators
+- Fixed permission check for approve/unapprove actions
+- Fixed review limit assignment settings
+- Fixed widget compatibility with WordPress 5.8
+- Fixed widgets in Customizer
+- Improved tooltips
+- Removed the "Trustalyze Confidence System" add-on (the service has been discontinued).
 
 = 5.13.2 (2021-08-08) =
 
