@@ -45,7 +45,7 @@ abstract class Tag implements TagContract
         $this->for = $for;
         if ($this->validate($with)) {
             $this->with = $with;
-            return $this->handle($value);
+            return $this->handle($this->value($value));
         }
     }
 
@@ -55,7 +55,7 @@ abstract class Tag implements TagContract
      */
     public function isEnabled($path)
     {
-        if (glsr()->retrieveAs('bool', 'api', false)) {
+        if ($this->isRaw() || glsr()->retrieveAs('bool', 'api', false)) {
             return true;
         }
         return Cast::toBool(glsr_get_option($path, true));
@@ -67,7 +67,16 @@ abstract class Tag implements TagContract
      */
     public function isHidden($path = '')
     {
-        return in_array($this->hideOption(), $this->args->hide) || !$this->isEnabled($path);
+        $isHidden = in_array($this->hideOption(), $this->args->hide);
+        return ($isHidden && !$this->isRaw()) || !$this->isEnabled($path);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRaw()
+    {
+        return Cast::toBool($this->args->raw);
     }
 
     /**
@@ -84,10 +93,12 @@ abstract class Tag implements TagContract
                 $value = glsr(Builder::class)->$wrapWith($value);
             }
             $value = glsr()->filterString($this->for.'/wrapped', $value, $rawValue, $this);
-            $value = glsr(Builder::class)->div([
-                'class' => sprintf('glsr-%s-%s', $this->for, $this->tag),
-                'text' => $value,
-            ]);
+            if (!$this->isRaw()) {
+                $value = glsr(Builder::class)->div([
+                    'class' => sprintf('glsr-%s-%s', $this->for, $this->tag),
+                    'text' => $value,
+                ]);
+            }
         }
         return glsr()->filterString($this->for.'/wrap/'.$this->tag, $value, $rawValue, $this);
     }
@@ -116,5 +127,14 @@ abstract class Tag implements TagContract
     protected function validate($with)
     {
         return true;
+    }
+
+    /**
+     * @param mixed $value
+     * @return string
+     */
+    protected function value($value = null)
+    {
+        return $value;
     }
 }
