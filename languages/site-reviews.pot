@@ -2867,7 +2867,7 @@ msgctxt "admin-text"
 msgid "Search for translatable text"
 msgstr ""
 
-#: views/pages/settings/translations.php:13
+#: views/pages/settings/translations.php:12
 msgctxt "admin-text"
 msgid "Search here for text to translate..."
 msgstr ""

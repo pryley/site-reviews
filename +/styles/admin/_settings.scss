@@ -469,7 +469,7 @@ tr.glsr-setting-field td .inline label::after {
     height: 20px;
     width: 20px;
     background-color: #fff;
-    z-index: 5;
+    z-index: 30;
     .spinner {
         margin: 0;
     }
@@ -553,7 +553,13 @@ tr.glsr-setting-field td .inline label::after {
     }
 }
 .glsr-search-box-wrap {
+    align-items: center;
+    display: flex;
     position: relative;
+    .glsr-spinner {
+        top: auto;
+        right: 6px;
+    }
 }
 
 

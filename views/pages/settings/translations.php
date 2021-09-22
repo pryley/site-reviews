@@ -7,12 +7,12 @@
 <div class="glsr-strings-form">
     <div class="glsr-search-box" id="glsr-search-translations">
         <span class="screen-reader-text"><?= _x('Search for translatable text', 'admin-text', 'site-reviews'); ?></span>
-        <div class="glsr-spinner">
-            <span class="spinner"></span>
+        <div class="glsr-search-box-wrap">
+            <span class="glsr-spinner"><span class="spinner"></span></span>
+            <input type="search" class="glsr-search-input" autocomplete="off" placeholder="<?= _x('Search here for text to translate...', 'admin-text', 'site-reviews'); ?>">
+            <?php wp_nonce_field('search-translations', '_search_nonce', false); ?>
+            <div class="glsr-search-results" data-prefix="{{ database_key }}"></div>
         </div>
-        <input type="search" class="glsr-search-input" autocomplete="off" placeholder="<?= _x('Search here for text to translate...', 'admin-text', 'site-reviews'); ?>">
-        <?php wp_nonce_field('search-translations', '_search_nonce', false); ?>
-        <div class="glsr-search-results" data-prefix="{{ database_key }}"></div>
     </div>
     <table class="glsr-strings-table wp-list-table widefat striped {{ class }}">
         <thead>

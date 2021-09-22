@@ -144,6 +144,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Fixed Elementor widgets
 - Fixed ghost reviews from being created from non-reviews
 - Fixed HTML entities in Console output
+- Fixed loading indicator on translations search input
 - Fixed locked review status indicators
 - Fixed permission check for approve/unapprove actions
 - Fixed Response column value after a response is given
