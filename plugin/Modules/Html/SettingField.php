@@ -86,7 +86,7 @@ class SettingField extends Field
                 'data-tippy-allowHTML' => true,
                 // 'data-tippy-animation' => 'scale',
                 'data-tippy-content' => $this->field['tooltip'],
-                'data-tippy-delay' => [150, null],
+                'data-tippy-delay' => [200, null],
                 // 'data-tippy-inertia' => true,
                 'data-tippy-interactive' => true,
                 'data-tippy-offset' => [-10, 10],
