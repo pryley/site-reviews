@@ -210,7 +210,11 @@ class ReviewController extends Controller
         $data['review_id'] = $postId;
         $data['is_approved'] = 'publish' === get_post_status($postId);
         if (false === glsr(Database::class)->insert('ratings', $data)) {
-            glsr_log()->error('To fix your reviews, please try running the "Migrate Plugin" and "Reset Assigned Meta Values" tools.');
+            glsr_log()->error(sprintf('A review could not be created. Here are some things to try which may fix the problem: %s %s %s',
+                PHP_EOL.'1. First, run the "Repair Review Relations" tool.',
+                PHP_EOL.'2. Next, hold down the ALT key and run the Migrate Plugin tool.',
+                PHP_EOL.'3. If the problem persists, please use the "Contact Support" section on the Help page.'
+            ))->debug($data);
             wp_delete_post($postId, true); // remove post as review was not created
             return;
         }
