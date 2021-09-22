@@ -143,6 +143,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Fixed API permission check for categories
 - Fixed Elementor widgets
 - Fixed ghost reviews from being created from non-reviews
+- Fixed HTML entities in Console output
 - Fixed locked review status indicators
 - Fixed permission check for approve/unapprove actions
 - Fixed review limit assignment settings

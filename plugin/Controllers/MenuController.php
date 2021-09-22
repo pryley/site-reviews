@@ -171,7 +171,7 @@ class MenuController extends Controller
             'data' => [
                 'context' => [
                     'base_url' => admin_url('edit.php?post_type='.glsr()->post_type),
-                    'console' => glsr(Console::class)->get(),
+                    'console' => htmlspecialchars_decode(glsr(Console::class)->get(), ENT_QUOTES),
                     'id' => glsr()->id,
                     'system' => glsr(SystemInfo::class)->get(),
                 ],
