@@ -81,6 +81,14 @@ class Console
     }
 
     /**
+     * @return string
+     */
+    public function getRaw()
+    {
+        return htmlspecialchars_decode($this->get(), ENT_QUOTES);
+    }
+
+    /**
      * @return int
      */
     public function getLevel()
