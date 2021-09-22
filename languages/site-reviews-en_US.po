@@ -2268,7 +2268,7 @@ msgctxt "admin-text"
 msgid "Console is empty"
 msgstr "Console is empty"
 
-#: plugin/Modules/Console.php:290
+#: plugin/Modules/Console.php:298
 msgctxt "admin-text"
 msgid "Console was automatically cleared (512KB maximum size)"
 msgstr "Console was automatically cleared (512KB maximum size)"
