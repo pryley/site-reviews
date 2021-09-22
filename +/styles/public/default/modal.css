@@ -87,8 +87,8 @@
 :root .glsr-modal__content .glsr-read-more  {
     display: none !important;
 }
-:root .glsr-modal__content .glsr-hidden {
-    display: inherit !important;
+:root div:not(.glsr-modal__content) > .glsr .glsr-hidden {
+    display: none !important;
 }
 :root .glsr-modal[aria-hidden="false"] .glsr-modal__overlay {
     animation-duration: .3s;
