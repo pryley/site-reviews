@@ -19,26 +19,36 @@ class StarRating implements PartialContract
      */
     public function build(array $data = [])
     {
-        $this->data = glsr()->args(glsr(StarRatingDefaults::class)->merge($data));
+        $this->data($data);
         $maxRating = glsr()->constant('MAX_RATING', Rating::class);
-        $fullStars = intval(floor($this->data->rating));
-        $halfStars = intval(ceil($this->data->rating - $fullStars));
-        $emptyStars = max(0, $maxRating - $fullStars - $halfStars);
+        $numFull = intval(floor($this->data->rating));
+        $numHalf = intval(ceil($this->data->rating - $numFull));
+        $numEmpty = max(0, $maxRating - $numFull - $numHalf);
         $title = $this->data->count > 0
             ? __('Rated <strong>%s</strong> out of %s based on %s ratings', 'site-reviews')
             : __('Rated <strong>%s</strong> out of %s', 'site-reviews');
         return glsr(Template::class)->build('templates/rating/stars', [
             'args' => glsr()->args($this->data->args),
             'context' => [
-                'empty_stars' => $this->getTemplate('empty-star', $emptyStars),
-                'full_stars' => $this->getTemplate('full-star', $fullStars),
-                'half_stars' => $this->getTemplate('half-star', $halfStars),
+                'empty_stars' => $this->getTemplate('empty-star', $numEmpty),
+                'full_stars' => $this->getTemplate('full-star', $numFull),
+                'half_stars' => $this->getTemplate('half-star', $numHalf),
                 'prefix' => $this->data->prefix,
                 'rating' => $this->data->rating,
                 'title' => sprintf($title, $this->data->rating, $maxRating, $this->data->count),
             ],
             'partial' => $this,
         ]);
+    }
+
+    /**
+     * @return static
+     */
+    public function data(array $data = [])
+    {
+        $data = glsr(StarRatingDefaults::class)->merge($data);
+        $this->data = glsr()->args($data);
+        return $this;
     }
 
     /**
