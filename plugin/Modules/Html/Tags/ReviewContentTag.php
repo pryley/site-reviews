@@ -19,9 +19,11 @@ class ReviewContentTag extends ReviewTag
 
     protected function textExcerpt($value)
     {
+        $useExcerpts = glsr_get_option('reviews.excerpts', false, 'bool');
+        if ($this->isRaw() || !$useExcerpts) {
+            return Text::text($value);
+        }
         $limit = Cast::toInt(glsr_get_option('reviews.excerpts_length', 55));
-        return glsr_get_option('reviews.excerpts', false, 'bool')
-            ? Text::excerpt($value, $limit)
-            : Text::text($value);
+        return Text::excerpt($value, $limit);
     }
 }
