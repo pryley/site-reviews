@@ -8,13 +8,14 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Add a setting to send an email notification after responding to a review
 - [ ] Add a single-use notice on the settings page to encourage users to rate the plugin (ref: Polylang)
 - [ ] Add a time constraint to review limits
-- [ ] Add Initial REST API support for querying reviews
 - [ ] Add Elementor blocks
-- [ ] restrict displayed reviews by empty content (setting only?)
+- [ ] Add Initial REST API support for querying reviews
 - [ ] Allow review submissions without javascript (ref: comment form)
+- [ ] Export reviews as XML for Google Shopping
 - [ ] Integrate with Antispam Bee (https://wordpress.org/plugins/antispam-bee/)
 - [ ] Integrate with hCaptcha
 - [ ] Integrate with reCAPTCHA v3 (ref: Contact Form 7)
+- [ ] restrict displayed reviews by empty content (setting only?)
 - [ ] Restrict reviews in the admin to those assigned to pages of the current user
 - [ ] Review statistics
 - [ ] Store the review GEO location by IP
@@ -40,6 +41,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Booking.com Reviews
 - [ ] Etsy Reviews
 - [ ] Facebook Reviews
+- [ ] Gamipress (i.e. Buddypress users earn points based on the review rating)
 - [ ] Google Reviews
 - [x] Tripadvisor Reviews (done, but needs an additional service to make it work consistantly)
 - [ ] Trustpilot Reviews
