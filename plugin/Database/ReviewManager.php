@@ -320,7 +320,9 @@ class ReviewManager
         $review = glsr_get_review($reviewId);
         glsr()->action('review/responded', $review, $response, $userId);
         glsr(Database::class)->metaSet($reviewId, 'response_by', $userId); // prefixed metakey
-        return glsr(Database::class)->metaSet($reviewId, 'response', $response); // prefixed metakey
+        $result = glsr(Database::class)->metaSet($reviewId, 'response', $response); // prefixed metakey
+        glsr(Cache::class)->delete($review->ID, 'reviews');
+        return $result;
     }
 
     /**

@@ -146,6 +146,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Fixed HTML entities in Console output
 - Fixed locked review status indicators
 - Fixed permission check for approve/unapprove actions
+- Fixed Response column value after a response is given
 - Fixed review limit assignment settings
 - Fixed widget compatibility with WordPress 5.8
 - Fixed widgets in Customizer
