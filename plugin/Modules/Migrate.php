@@ -194,7 +194,10 @@ class Migrate
      */
     protected function updateVersionFrom($previousVersion)
     {
+        $storedPreviousVersion = glsr(OptionManager::class)->get('version_upgraded_from');
         glsr(OptionManager::class)->set('version', glsr()->version);
-        glsr(OptionManager::class)->set('version_upgraded_from', $previousVersion);
+        if ('0.0.0' !== $previousVersion || empty($storedPreviousVersion)) {
+            glsr(OptionManager::class)->set('version_upgraded_from', $previousVersion);
+        }
     }
 }
