@@ -136,15 +136,15 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
-= 5.14.0 (2021-09-??) =
+= 5.14.0 (2021-09-23) =
 
 - Changed permission defaults for admin pages
 - Fixed ability to remove plugin hooks
 - Fixed add-on settings link on Plugins page
 - Fixed API permission check for categories
 - Fixed Elementor widgets
-- Fixed ghost reviews from being created from non-reviews
 - Fixed HTML entities in Console output
+- Fixed invalid reviews being created from non-review post types
 - Fixed loading indicator on translations search input
 - Fixed locked review status indicators
 - Fixed permission check for approve/unapprove actions
