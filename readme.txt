@@ -139,6 +139,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 = 5.14.0 (2021-09-??) =
 
 - Changed permission defaults for admin pages
+- Fixed ability to remove plugin hooks
 - Fixed add-on settings link on Plugins page
 - Fixed API permission check for categories
 - Fixed Elementor widgets

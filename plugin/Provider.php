@@ -40,7 +40,8 @@ class Provider implements ProviderContract
         $app->singleton(Style::class);
         $app->singleton(Translator::class);
         $app->singleton(Translation::class);
-        // Using controllers as singletons allow people to remove hooks!
+        $app->singleton(Router::class);
+        // All controllers should be singletons to allow people to remove hooks!
         $app->singleton(AdminController::class);
         $app->singleton(BlocksController::class);
         $app->singleton(EditorController::class);
@@ -55,7 +56,6 @@ class Provider implements ProviderContract
         $app->singleton(RestController::class);
         $app->singleton(ReviewController::class);
         $app->singleton(RevisionController::class);
-        $app->singleton(Router::class);
         $app->singleton(SettingsController::class);
         $app->singleton(TaxonomyController::class);
         $app->singleton(ToolsController::class);
