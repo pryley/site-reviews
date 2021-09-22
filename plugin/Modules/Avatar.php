@@ -78,7 +78,8 @@ class Avatar
      */
     protected function size($size = null)
     {
-        if ($size = Cast::toInt($size)) {
+        $size = Cast::toInt($size);
+        if ($size > 0) { // @todo change this to 16? What is the minimum size in settings?
             return $size;
         }
         $size = glsr_get_option('reviews.avatars_size', static::FALLBACK_SIZE, 'int');
