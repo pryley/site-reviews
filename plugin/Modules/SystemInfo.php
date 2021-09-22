@@ -34,7 +34,7 @@ class SystemInfo
         $details = [ // order is intentional
             'plugin' => $this->getPluginDetails(),
             'addon' => $this->getAddonDetails(),
-            'reviews' => $this->getReviewCounts(),
+            'reviews' => $this->getReviewDetails(),
             'browser' => $this->getBrowserDetails(),
             'database' => $this->getDatabaseDetails($data),
             'server' => $this->getServerDetails($data),
@@ -219,23 +219,15 @@ class SystemInfo
     /**
      * @return array
      */
-    public function getReviewCounts()
+    public function getReviewDetails()
     {
-        $counts = glsr(Query::class)->ratings();
-        array_walk($counts, function (&$ratings) use ($counts) {
-            if (is_array($ratings)) {
-                $ratings = array_sum($ratings).' ('.implode(', ', $ratings).')';
-                return;
-            }
-            glsr_log()
-                ->error('$ratings is not an array, possibly due to incorrectly imported reviews.')
-                ->debug($ratings)
-                ->debug($counts);
-        });
-        ksort($counts);
+        $ratings = $this->ratingCounts();
+        $reviews = $this->reviewCounts();
+        $values = array_merge($ratings, $reviews);
+        ksort($values);
         return [
-            'title' => 'Review Counts',
-            'values' => wp_parse_args($counts, ['local' => 'No reviews']),
+            'title' => 'Review Details',
+            'values' => $values,
         ];
     }
 
@@ -458,5 +450,42 @@ class SystemInfo
             }
         });
         return $settings;
+    }
+
+    /**
+     * @return array
+     */
+    protected function ratingCounts()
+    {
+        $ratings = glsr(Query::class)->ratings();
+        $results = [];
+        foreach ($ratings as $type => $counts) {
+            if (is_array($counts)) {
+                $label = sprintf('Type: %s', $type);
+                $results[$label] = array_sum($counts).' ('.implode(', ', $counts).')';
+                continue;
+            }
+            glsr_log()->error('$ratings is not an array, possibly due to incorrectly imported reviews.')
+                ->debug($counts)
+                ->debug($ratings);
+        }
+        if (empty($results)) {
+            return ['Type: local' => 'No reviews'];
+        }
+        return $results;
+    }
+
+    /**
+     * @return array
+     */
+    protected function reviewCounts()
+    {
+        $reviews = array_filter((array) wp_count_posts(glsr()->post_type));
+        $counts = array_sum($reviews);
+        foreach ($reviews as $status => &$num) {
+            $num = sprintf('%s: %d', $status, $num);
+        }
+        $results = $counts.' ('.implode(', ', $reviews).')';
+        return ['Reviews' => $results];
     }
 }
