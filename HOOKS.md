@@ -132,9 +132,10 @@
     site-reviews/review/build/tag/<tag_or_field_key>        (string $field, string $value, Review $review, Modules\Html\ReviewHtml $reviewHtml): string
     site-reviews/review/build/tag/response/by               (string $responseBy, Review $review): string
     site-reviews/review/build/after                         (array $templateTags, Review $review, Modules\Html\ReviewHtml $reviewHtml): array
+    site-reviews/review/build/context                       (array $context, Review $review, Modules\Html\ReviewHtml $reviewHtml): array
     site-reviews/review/call/<methodName>                   (Review $review, ...$args): void|mixed
     site-reviews/review/redirect                            (string $redirect, Commands\CreateReview $createReview): string
-    site-reviews/review/tag/<tag>                           (string $className): string
+    site-reviews/review/tag/<tag>                           (string $className, Modules\Html\ReviewHtml $reviewHtml): string
     site-reviews/review/value/<tag_or_field_key>            (string $value, Contracts\TagContract $tag): string
     site-reviews/review/wrapped                             (string $value, string $rawValue, Contracts\TagContract $tag): string
     site-reviews/review/wrap/<tag_or_field_key>             (string $value, string $rawValue, Contracts\TagContract $tag): string

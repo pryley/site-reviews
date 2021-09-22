@@ -63,6 +63,31 @@ class ReviewHtml extends \ArrayObject
      */
     public function buildContext(Review $review)
     {
+        $context = $this->buildTemplateTags($review);
+        return glsr()->filterArray('review/build/context', $context, $review, $this);
+    }
+
+    /**
+     * @param string $tag
+     * @param string|array $value
+     * @return string
+     */
+    public function buildTemplateTag(Review $review, $tag, $value)
+    {
+        $args = $this->args;
+        $className = Helper::buildClassName(['review', $tag, 'tag'], 'Modules\Html\Tags');
+        $className = glsr()->filterString('review/tag/'.$tag, $className, $this);
+        $field = class_exists($className)
+            ? glsr($className, compact('tag', 'args'))->handleFor('review', $value, $review)
+            : Cast::toString($value, false);
+        return glsr()->filterString('review/build/tag/'.$tag, $field, $value, $review, $this);
+    }
+
+    /**
+     * @return array
+     */
+    public function buildTemplateTags(Review $review)
+    {
         glsr()->action('review/build/before', $review, $this);
         $templateTags = [];
         $assignedTag = array_filter([
@@ -76,22 +101,6 @@ class ReviewHtml extends \ArrayObject
             $templateTags[$tag] = $this->buildTemplateTag($review, $tag, $value);
         }
         return glsr()->filterArray('review/build/after', $templateTags, $review, $this);
-    }
-
-    /**
-     * @param string $tag
-     * @param string|array $value
-     * @return string
-     */
-    public function buildTemplateTag(Review $review, $tag, $value)
-    {
-        $args = $this->args;
-        $className = Helper::buildClassName(['review', $tag, 'tag'], 'Modules\Html\Tags');
-        $className = glsr()->filterString('review/tag/'.$tag, $className);
-        $field = class_exists($className)
-            ? glsr($className, compact('tag', 'args'))->handleFor('review', $value, $review)
-            : Cast::toString($value, false);
-        return glsr()->filterString('review/build/tag/'.$tag, $field, $value, $review, $this);
     }
 
     /**
