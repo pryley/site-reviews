@@ -217,11 +217,7 @@ abstract class Controller extends BaseController
     public function filterSystemInfo(array $details)
     {
         $version = $this->addon->version;
-        $previousVersion = glsr(OptionManager::class)->get('addons.'.$this->addon->id.'.version_upgraded_from');
-        if (empty($previousVersion)) {
-            $previousVersion = $version;
-        }
-        $details[$this->addon->name] = sprintf('%s (%s)', $this->addon->version, $previousVersion);
+        $details[$this->addon->name] = sprintf('%s', $this->addon->version);
         return $details;
     }
 
