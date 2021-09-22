@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Helpers;
 
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
@@ -9,15 +10,20 @@ class Text
 {
     /**
      * @param string $text
+     * @param int $limit
+     * @param bool $splitWords
      * @return string
      */
-    public static function excerpt($text, $limit = 55)
+    public static function excerpt($text, $limit = 55, $splitWords = true)
     {
         $text = static::normalize($text);
-        $split = extension_loaded('intl')
-            ? static::excerptIntlSplit($text, $limit)
-            : static::excerptSplit($text, $limit);
-        $hiddenText = substr($text, $split);
+        $splitLength = $limit;
+        if ($splitWords) {
+            $splitLength = extension_loaded('intl')
+                ? static::excerptIntlSplit($text, $limit)
+                : static::excerptSplit($text, $limit);
+        }
+        $hiddenText = mb_substr($text, $splitLength);
         if (!empty($hiddenText)) {
             $showMore = glsr(Builder::class)->span($hiddenText, [
                 'class' => 'glsr-hidden glsr-hidden-text',
@@ -25,9 +31,10 @@ class Text
                 'data-show-more' => __('Show more', 'site-reviews'),
                 'data-trigger' => glsr_get_option('reviews.excerpts_action') ?: 'excerpt',
             ]);
-            $text = ltrim(substr($text, 0, $split)).$showMore;
+            $text = ltrim(mb_substr($text, 0, $splitLength)).$showMore;
         }
-        $text = wptexturize(nl2br($text));
+        $text = nl2br($text);
+        $text = wptexturize($text);
         $text = preg_replace('/(\v|\s){1,}/u', ' ', $text); // replace all multiple-space and carriage return characters with a space
         return $text;
     }
@@ -53,7 +60,9 @@ class Text
         $allowedHtml = wp_kses_allowed_html();
         $allowedHtml['mark'] = []; // allow using the <mark> tag to highlight text
         $text = wp_kses($text, $allowedHtml);
-        $text = convert_smilies(strip_shortcodes($text));
+        $text = strip_shortcodes($text);
+        $text = excerpt_remove_blocks($text); // just in case...
+        $text = convert_smilies($text);
         $text = str_replace(']]>', ']]&gt;', $text);
         $text = preg_replace('/(\v){2,}/u', '$1', $text);
         return $text;
@@ -66,7 +75,8 @@ class Text
     public static function text($text)
     {
         $text = static::normalize($text);
-        $text = wptexturize(nl2br($text));
+        $text = nl2br($text);
+        $text = wptexturize($text);
         $text = preg_replace('/(\v|\s){1,}/u', ' ', $text); // replace all multiple-space and carriage return characters with a space
         return $text;
     }
