@@ -216,7 +216,6 @@ abstract class Controller extends BaseController
      */
     public function filterSystemInfo(array $details)
     {
-        $version = $this->addon->version;
         $details[$this->addon->name] = sprintf('%s', $this->addon->version);
         return $details;
     }

@@ -38,6 +38,13 @@ abstract class DefaultsAbstract implements DefaultsContract
     public $concatenated = [];
 
     /**
+     * The keys which should be restricted to specific values
+     * @return array
+     * @todo Not yet implemented!
+     */
+    public $enum = [];
+
+    /**
      * The values that should be guarded.
      * @var string[]
      */
