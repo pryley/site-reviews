@@ -21,7 +21,7 @@ use ReflectionClass;
 trait Plugin
 {
     /**
-     * @var static
+     * @var static|null
      */
     protected static $instance;
 

@@ -15,7 +15,6 @@ class Cast
     {
         $method = Helper::buildMethodName($cast, 'to');
         if (!empty($cast) && method_exists(__CLASS__, $method)) {
-            // @phpstan-ignore-next-line
             return call_user_func_array('static::'.$method, $args);
         }
         return array_shift($args);
