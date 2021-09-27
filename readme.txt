@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews
 Tested up to: 5.8
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.14.1
+Stable tag: 5.15.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -135,6 +135,13 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.15.0 (2021-09-28) =
+
+- Added link for Premium members to download the beta version of the Review Themes add-on
+- Fixed compatibility with the beta version of the Review Themes add-on
+- Fixed missing translation strings
+- Updated star-ratings.js library
 
 = 5.14.1 (2021-09-24) =
 
