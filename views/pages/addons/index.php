@@ -13,7 +13,7 @@
     <?php
         $template->render('partials/addons/addon', [
             'context' => [
-                'description' => _x('The Premium license allows you to install all of the add-ons, including all future add-ons as they become available!', 'admin-text', 'site-reviews').' 👀',
+                'description' => _x('The Premium license gives you access to all of the add-ons, including all future add-ons as they become available!', 'admin-text', 'site-reviews').' 👀',
                 'link' => 'https://niftyplugins.com/plugins/site-reviews-premium/',
                 'link_text' => _x('Discover Premium', 'admin-text', 'site-reviews'),
                 'slug' => 'premium',
@@ -33,7 +33,7 @@
         ]);
         $template->render('partials/addons/addon', [
             'context' => [
-                'description' => _x('Create unique review forms with custom fields and review templates.', 'admin-text', 'site-reviews'),
+                'description' => _x('Form builder with 22 different field types, each form has its own Review Template which can be customised as needed.', 'admin-text', 'site-reviews'),
                 'link' => 'https://niftyplugins.com/plugins/site-reviews-forms/',
                 'link_text' => _x('View Add-on', 'admin-text', 'site-reviews'),
                 'slug' => 'forms',
@@ -43,7 +43,7 @@
         ]);
         $template->render('partials/addons/addon', [
             'context' => [
-                'description' => _x('Allow your website visitors to add images with captions to their reviews.', 'admin-text', 'site-reviews'),
+                'description' => _x('Allow your website visitors to submit images (and optional captions) with their reviews.', 'admin-text', 'site-reviews'),
                 'link' => 'https://niftyplugins.com/plugins/site-reviews-images/',
                 'link_text' => _x('View Add-on', 'admin-text', 'site-reviews'),
                 'slug' => 'images',
@@ -53,11 +53,11 @@
         ]);
         $template->render('partials/addons/addon', [
             'context' => [
-                'description' => _x('Create custom review designs, display reviews in a grid, change the rating images, and more. Early access available to Premium members only.', 'admin-text', 'site-reviews'),
-                'link' => 'https://niftyplugins.com/account/',
-                'link_text' => _x('Request Early Access', 'admin-text', 'site-reviews'),
+                'description' => _x('Design reviews with a drag-and-drop builder, display reviews in a grid or carousel, choose custom rating images, and more!', 'admin-text', 'site-reviews'),
+                'link' => 'https://niftyplugins.com/account/downloads/',
+                'link_text' => _x('Premium members only', 'admin-text', 'site-reviews'),
                 'slug' => 'themes',
-                'title' => 'Review Themes',
+                'title' => 'Review Themes (beta)',
             ],
             'plugin' => 'site-reviews-themes/site-reviews-themes.php',
         ]);

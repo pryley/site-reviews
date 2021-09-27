@@ -2902,10 +2902,10 @@ msgstr "Additional CSS classes"
 #: views/pages/addons/index.php:16
 msgctxt "admin-text"
 msgid ""
-"The Premium license allows you to install all of the add-ons, including all "
+"The Premium license gives you access to all of the add-ons, including all "
 "future add-ons as they become available!"
 msgstr ""
-"The Premium license allows you to install all of the add-ons, including all "
+"The Premium license gives you access to all of the add-ons, including all "
 "future add-ons as they become available!"
 
 #: views/pages/addons/index.php:26
@@ -2920,27 +2920,35 @@ msgstr "View Add-on"
 
 #: views/pages/addons/index.php:36
 msgctxt "admin-text"
-msgid "Create unique review forms with custom fields and review templates."
-msgstr "Create unique review forms with custom fields and review templates."
+msgid ""
+"Form builder with 22 different field types, each form has its own Review "
+"Template which can be customised as needed."
+msgstr ""
+"Form builder with 22 different field types, each form has its own Review "
+"Template which can be customised as needed."
 
 #: views/pages/addons/index.php:46
 msgctxt "admin-text"
-msgid "Allow your website visitors to add images with captions to their reviews."
-msgstr "Allow your website visitors to add images with captions to their reviews."
+msgid ""
+"Allow your website visitors to submit images (and optional captions) with "
+"their reviews."
+msgstr ""
+"Allow your website visitors to submit images (and optional captions) with "
+"their reviews."
 
 #: views/pages/addons/index.php:56
 msgctxt "admin-text"
 msgid ""
-"Create custom review designs, display reviews in a grid, change the rating "
-"images, and more. Early access available to Premium members only."
+"Design reviews with a drag-and-drop builder, display reviews in a grid or "
+"carousel, choose custom rating images, and more!"
 msgstr ""
-"Create custom review designs, display reviews in a grid, change the rating "
-"images, and more. Early access available to Premium members only."
+"Design reviews with a drag-and-drop builder, display reviews in a grid or "
+"carousel, choose custom rating images, and more!"
 
 #: views/pages/addons/index.php:58
 msgctxt "admin-text"
-msgid "Request Early Access"
-msgstr "Request Early Access"
+msgid "Premium members only"
+msgstr "Premium members only"
 
 #: views/pages/addons/index.php:66
 msgctxt "admin-text"
