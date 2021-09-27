@@ -36,7 +36,8 @@
     width: 100%;
 }
 :--namespace .glsr-bar-background-percent {
-    background-color: var(--glsr-yellow);
+    background-color: currentColor;
+    color: var(--glsr-yellow);
     display: block;
     height: var(--glsr-base-font-size);
     position: relative;

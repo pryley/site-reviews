@@ -35,6 +35,7 @@ class SummaryPercentagesTag extends SummaryTag
             ]);
             return $carry.glsr(Builder::class)->div([
                 'class' => 'glsr-bar',
+                'data-level' => $level,
                 'text' => $value,
             ]);
         });
