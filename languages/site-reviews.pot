@@ -3007,6 +3007,11 @@ msgctxt "admin-text"
 msgid "Most Used"
 msgstr ""
 
+#: views/partials/editor/metabox-details.php:4
+msgctxt "admin-text"
+msgid "Edit Details"
+msgstr ""
+
 #: views/partials/editor/metabox-response.php:5
 msgctxt "admin-text"
 msgid "If you need to publicly respond to this review, enter your response here."

@@ -1,7 +1,7 @@
 <?php defined('ABSPATH') || die; ?>
 
 <div class="glsr-metabox-field">
-    <div class="glsr-label"><label>Edit Details</label></div>
+    <div class="glsr-label"><label><?= _x('Edit Details', 'admin-text', 'site-reviews'); ?></label></div>
     <div class="glsr-input wp-clearfix">
         <div class="glsr-toggle-field">
             <span class="glsr-toggle">
