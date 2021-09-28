@@ -18,19 +18,25 @@ class SummaryParameters
             'assigned_posts' => [
                 'default' => [],
                 'description' => _x('Limit result set to reviews assigned to specific posts of any public post type.', 'admin-text', 'site-reviews'),
-                'items'  => ['type' => 'integer'],
+                'items'  => [
+                    'type' => ['integer', 'string'],
+                ],
                 'type' => 'array',
             ],
             'assigned_terms' => [
                 'default' => [],
                 'description' => sprintf(_x('Limit result set to reviews assigned to specific terms in the %s taxonomy.', 'admin-text', 'site-reviews'), glsr()->taxonomy),
-                'items'  => ['type' => 'integer'],
+                'items'  => [
+                    'type' => ['integer', 'string'],
+                ],
                 'type' => 'array',
             ],
             'assigned_users' => [
                 'default' => [],
                 'description' => _x('Limit result set to reviews assigned to specific users.', 'admin-text', 'site-reviews'),
-                'items'  => ['type' => 'integer'],
+                'items'  => [
+                    'type' => ['integer', 'string'],
+                ],
                 'type' => 'array',
             ],
             'before' => [
@@ -89,13 +95,17 @@ class SummaryParameters
             'user__in' => [
                 'default' => [],
                 'description' => _x('Limit result set to reviews authored by specific users.', 'admin-text', 'site-reviews'),
-                'items'  => ['type' => 'integer'],
+                'items'  => [
+                    'type' => ['integer', 'string'],
+                ],
                 'type' => 'array',
             ],
             'user__not_in' => [
                 'default' => [],
                 'description' => _x('Ensure result set excludes reviews authored by specific users.', 'admin-text', 'site-reviews'),
-                'items' => ['type' => 'integer'],
+                'items'  => [
+                    'type' => ['integer', 'string'],
+                ],
                 'type' => 'array',
             ],
         ];

@@ -91,17 +91,17 @@
                     <tr>
                         <td>assigned_posts</td>
                         <td></td>
-                        <td>Limit summary to reviews assigned to specific posts of any public post type.</td>
+                        <td>Limit summary to reviews assigned to specific posts of any public post type (IDs or slugs in the format of SLUG:POST_TYPE).</td>
                     </tr>
                     <tr>
                         <td>assigned_terms</td>
                         <td></td>
-                        <td>Limit summary to reviews assigned to specific terms in the <code>site-review-category</code> taxonomy.</td>
+                        <td>Limit summary to reviews assigned to specific terms in the <code>site-review-category</code> taxonomy (IDs or slugs).</td>
                     </tr>
                     <tr>
                         <td>assigned_users</td>
                         <td></td>
-                        <td>Limit summary to reviews assigned to specific users.</td>
+                        <td>Limit summary to reviews assigned to specific users (IDs or usernames).</td>
                     </tr>
                     <tr>
                         <td>before</td>
@@ -156,12 +156,12 @@
                     <tr>
                         <td>user__in</td>
                         <td></td>
-                        <td>Limit summary to reviews authored by specific users.</td>
+                        <td>Limit summary to reviews authored by specific users (IDs or usernames).</td>
                     </tr>
                     <tr>
                         <td>user__not_in</td>
                         <td></td>
-                        <td>Ensure summary excludes reviews authored by specific users.</td>
+                        <td>Ensure summary excludes reviews authored by specific users (IDs or usernames).</td>
                     </tr>
                 </tbody>
             </table>

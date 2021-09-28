@@ -29,19 +29,19 @@
                         <td><strong>assigned_posts</strong></td>
                         <td>array</td>
                         <td>view, edit</td>
-                        <td>The posts (of any public post type) assigned to the review.</td>
+                        <td>The post IDs (of any public post type) assigned to the review.</td>
                     </tr>
                     <tr>
                         <td><strong>assigned_terms</strong></td>
                         <td>array</td>
                         <td>view, edit</td>
-                        <td>The terms assigned to the review in the <code>site-reviews-category</code> taxonomy.</td>
+                        <td>The term IDs assigned to the review in the <code>site-reviews-category</code> taxonomy.</td>
                     </tr>
                     <tr>
                         <td><strong>assigned_users</strong></td>
                         <td>array</td>
                         <td>view, edit</td>
-                        <td>The users assigned to the review.</td>
+                        <td>The user IDs assigned to the review.</td>
                     </tr>
                     <tr>
                         <td><strong>author</strong></td>
@@ -212,17 +212,17 @@
                     <tr>
                         <td><strong>assigned_posts</strong></td>
                         <td></td>
-                        <td>Limit result set to reviews assigned to specific posts of any public post type.</td>
+                        <td>Limit result set to reviews assigned to specific posts of any public post type (IDs or slugs in the format of SLUG:POST_TYPE).</td>
                     </tr>
                     <tr>
                         <td><strong>assigned_terms</strong></td>
                         <td></td>
-                        <td>Limit result set to reviews assigned to specific terms in the <code>site-review-category</code> taxonomy.</td>
+                        <td>Limit result set to reviews assigned to specific terms in the <code>site-review-category</code> taxonomy (IDs or slugs).</td>
                     </tr>
                     <tr>
                         <td><strong>assigned_users</strong></td>
                         <td></td>
-                        <td>Limit result set to reviews assigned to specific users.</td>
+                        <td>Limit result set to reviews assigned to specific users (IDs or usernames).</td>
                     </tr>
                     <tr>
                         <td><strong>before</strong></td>
@@ -307,12 +307,12 @@
                     <tr>
                         <td><strong>user__in</strong></td>
                         <td></td>
-                        <td>Limit result set to reviews authored by specific users.</td>
+                        <td>Limit result set to reviews authored by specific users (IDs or usernames).</td>
                     </tr>
                     <tr>
                         <td><strong>user__not_in</strong></td>
                         <td></td>
-                        <td>Ensure result set excludes reviews authored by specific users.</td>
+                        <td>Ensure result set excludes reviews authored by specific users (IDs or usernames).</td>
                     </tr>
                 </tbody>
             </table>
@@ -392,7 +392,7 @@
                 <tbody>
                     <tr>
                         <td><strong>assigned_posts</strong></td>
-                        <td>The posts (of any public post type) assigned to the review. One or more IDs separated with commas.</td>
+                        <td>The posts (of any public post type) assigned to the review. One or more IDs separated with commas. If you want to use slugs, they should be in the format of SLUG:POST_TYPE.</td>
                     </tr>
                     <tr>
                         <td><strong>assigned_terms</strong></td>
@@ -400,7 +400,7 @@
                     </tr>
                     <tr>
                         <td><strong>assigned_users</strong></td>
-                        <td>The users assigned to the review. One or more IDs separated with commas.</td>
+                        <td>The users assigned to the review. One or more IDs or usernames separated with commas.</td>
                     </tr>
                     <tr>
                         <td><strong>avatar</strong></td>
@@ -476,7 +476,7 @@
                 <tbody>
                     <tr>
                         <td><strong>assigned_posts</strong></td>
-                        <td>The posts (of any public post type) assigned to the review. One or more IDs separated with commas.</td>
+                        <td>The posts (of any public post type) assigned to the review. One or more IDs separated with commas.  If you want to use slugs, they should be in the format of SLUG:POST_TYPE.</td>
                     </tr>
                     <tr>
                         <td><strong>assigned_terms</strong></td>
@@ -484,7 +484,7 @@
                     </tr>
                     <tr>
                         <td><strong>assigned_users</strong></td>
-                        <td>The users assigned to the review. One or more IDs separated with commas.</td>
+                        <td>The users assigned to the review. One or more IDs or usernames separated with commas.</td>
                     </tr>
                     <tr>
                         <td><strong>avatar</strong></td>

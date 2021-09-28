@@ -44,6 +44,8 @@ class NormalizeQueryArgs extends Arguments
         $args['order'] = Str::restrictTo('ASC,DESC,', sanitize_key($args['order']), 'DESC'); // include an empty value
         $args['orderby'] = $this->normalizeOrderBy($args['orderby']);
         $args['status'] = $this->normalizeStatus($args['status']);
+        $args['user__in'] = glsr(UserManager::class)->normalizeIds($args['user__in']);
+        $args['user__not_in'] = glsr(UserManager::class)->normalizeIds($args['user__not_in']);
         parent::__construct($args);
     }
 

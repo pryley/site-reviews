@@ -21,11 +21,25 @@ class PostManager
         elseif ('post_id' == $postId) {
             $postId = get_the_ID();
         }
+        elseif (!is_numeric($postId) && is_string($postId)) {
+            $parts = explode(':', $postId);
+            $slug = Arr::get($parts, 0);
+            $type = Arr::get($parts, 1);
+            if (!empty($slug) && !empty($type)) {
+                $args = [
+                    'fields' => 'ids',
+                    'post_name__in' => [$slug],
+                    'post_type' => $type,
+                    'posts_per_page' => 1,
+                ];
+                $postId = Arr::get(get_posts($args), 0);
+            }
+        }
         return Helper::getPostId($postId);
     }
 
     /**
-     * @param int[]|string $postIds
+     * @param array|string $postIds
      * @return array
      */
     public function normalizeIds($postIds)

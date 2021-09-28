@@ -45,8 +45,6 @@ class ReviewsDefaults extends Defaults
         'post__not_in' => 'array-int',
         'rating_field' => 'name',
         'type' => 'key',
-        'user__in' => 'array-int',
-        'user__not_in' => 'array-int',
     ];
 
     /**
