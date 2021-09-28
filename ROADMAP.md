@@ -8,8 +8,6 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Add a setting to send an email notification after responding to a review
 - [ ] Add a single-use notice on the settings page to encourage users to rate the plugin (ref: Polylang)
 - [ ] Add a time constraint to review limits
-- [ ] Add Elementor blocks
-- [ ] Add Initial REST API support for querying reviews
 - [ ] Allow review submissions without javascript (ref: comment form)
 - [ ] Export reviews as XML for Google Shopping
 - [ ] Integrate with Antispam Bee (https://wordpress.org/plugins/antispam-bee/)
