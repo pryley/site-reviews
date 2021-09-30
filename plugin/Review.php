@@ -70,17 +70,20 @@ class Review extends Arguments
 
     /**
      * @param array|object $values
+     * @param bool $init
      */
-    public function __construct($values)
+    public function __construct($values, $init = true)
     {
         $values = glsr()->args($values);
         $this->id = Cast::toInt($values->review_id);
         $args = glsr(ReviewDefaults::class)->restrict($values->toArray());
-        $args['avatar'] = glsr(Avatar::class)->url($args['avatar']);
-        $args['custom'] = $this->custom();
         $args['ID'] = $this->id;
-        $args['response'] = $this->meta()->_response;
         parent::__construct($args);
+        if ($init) {
+            $this->set('avatar', glsr(Avatar::class)->url($this));
+            $this->set('custom', $this->custom());
+            $this->set('response', $this->meta()->_response);
+        }
     }
 
     /**
@@ -159,7 +162,7 @@ class Review extends Arguments
      * @param int $size
      * @return string
      */
-    public function avatar($size = null)
+    public function avatar($size = 0)
     {
         return glsr(Avatar::class)->img($this, $size);
     }

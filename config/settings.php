@@ -205,6 +205,26 @@ return [
         'tooltip' => _x('The avatars are generated from the email address of the reviewer using <a href="https://gravatar.com">Gravatar</a>.', 'admin-text', 'site-reviews'),
         'type' => 'yes_no',
     ],
+    'settings.reviews.avatars_fallback' => [
+        'class' => 'regular-text',
+        'default' => 'mystery',
+        'depends_on' => [
+            'settings.reviews.avatars' => 'yes',
+        ],
+        'label' => _x('Fallback Avatar', 'admin-text', 'site-reviews'),
+        'options' => [
+            'identicon' => _x('Identicon (geometric patterns)', 'admin-text', 'site-reviews'),
+            'initials' => _x('Initials (initials of reviewer\'s name)', 'admin-text', 'site-reviews'),
+            'monsterid' => _x('Monster (monsters with generated faces)', 'admin-text', 'site-reviews'),
+            'mystery' => _x('Mystery (silhouetted outline of a person)', 'admin-text', 'site-reviews'),
+            'pixels' => _x('Pixel Avatars (locally generated)', 'admin-text', 'site-reviews'),
+            'retro' => _x('Retro (8-bit arcade-style pixelated faces)', 'admin-text', 'site-reviews'),
+            'robohash' => _x('Robohash (robots with generated faces)', 'admin-text', 'site-reviews'),
+            'wavatar' => _x('Wavatar (faces with generated features)', 'admin-text', 'site-reviews'),
+        ],
+        'tooltip' => _x('This image is displayed when there is no avatar.', 'admin-text', 'site-reviews'),
+        'type' => 'select',
+    ],
     'settings.reviews.avatars_regenerate' => [
         'default' => 'no',
         'depends_on' => [

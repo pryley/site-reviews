@@ -13,9 +13,10 @@ class ReviewAvatarTag extends ReviewTag
      */
     public function regenerateAvatar($avatarUrl)
     {
-        return $this->canRegenerateAvatar()
-            ? glsr(Avatar::class)->generate($this->userField())
-            : $avatarUrl;
+        if ($this->canRegenerateAvatar()) {
+            return glsr(Avatar::class)->generate($this->review);
+        }
+        return $avatarUrl;
     }
 
     /**
@@ -38,19 +39,5 @@ class ReviewAvatarTag extends ReviewTag
                 glsr(Avatar::class)->img($this->review)
             );
         }
-    }
-
-    /**
-     * @return int|string
-     */
-    protected function userField()
-    {
-        if ($this->review->author_id) {
-            $authorId = get_the_author_meta('ID', $this->review->author_id);
-        }
-        $value = empty($authorId)
-            ? $this->review->email
-            : $authorId;
-        return glsr()->filterString('avatar/id_or_email', $value, $this->review->toArray());
     }
 }

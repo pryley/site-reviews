@@ -145,11 +145,11 @@ class CreateReview implements Contract
         if (!empty($this->avatar)) {
             return $this->avatar;
         }
-        $userField = empty($this->email)
-            ? get_current_user_id()
-            : $this->email;
-        $userField = glsr()->filterString('avatar/id_or_email', $userField, $this->toArray());
-        return glsr(Avatar::class)->generate($userField);
+        $review = new Review($this->toArray(), false); // don't init!
+        if (empty($this->email)) {
+            $review->set('author_id', get_current_user_id());
+        }
+        return glsr(Avatar::class)->generate($review);
     }
 
     /**

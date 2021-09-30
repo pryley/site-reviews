@@ -3,86 +3,234 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\PixelAvatar;
 use GeminiLabs\SiteReviews\Review;
 
 class Avatar
 {
-    const FALLBACK = 'https://gravatar.com/avatar/?d=mm&s=128';
     const FALLBACK_SIZE = 40;
+    const GRAVATAR_URL = 'https://secure.gravatar.com/avatar';
 
     /**
-     * @param int $size
+     * @var string
+     */
+    public $type;
+
+    public function __construct()
+    {
+        $this->type = glsr_get_option('reviews.avatars_fallback', 'mystery');
+    }
+
+    /**
+     * @param \GeminiLabs\SiteReviews\Review $review
      * @return string
      */
-    public function fallback($size = null)
+    public function fallbackDefault($review)
     {
-        $fallbackUrl = static::FALLBACK;
-        if ($size = $this->size($size)) {
-            $fallbackUrl = add_query_arg('s', $size, remove_query_arg('s', $fallbackUrl));
+        if ('pixels' === $this->type) {
+            return $this->generatePixels($review);
         }
-        return glsr()->filterString('avatar/fallback', $fallbackUrl, $size);
+        if ('initials' === $this->type) {
+            if (!empty($review->author)) {
+                return $this->generateInitials($review);
+            }
+            $this->type = 'mystery'; // can't create initials without a name
+        }
+        return $this->type;
     }
 
     /**
-     * @param \WP_User|int|string $userField
+     * @param \GeminiLabs\SiteReviews\Review $review
      * @param int $size
      * @return string
      */
-    public function generate($userField, $size = null)
+    public function fallbackUrl($review, $size = 0)
     {
-        $size = $this->size($size);
-        return $this->url(get_avatar_url($userField, ['size' => $size]), $size);
+        $fallbackUrl = $this->fallbackDefault($review);
+        if ($fallbackUrl === $this->type) {
+            $fallbackUrl = add_query_arg('d', $this->type, static::GRAVATAR_URL);
+            $fallbackUrl = add_query_arg('s', $this->size($size), $fallbackUrl);
+        }
+        return glsr()->filterString('avatar/fallback', $fallbackUrl, $size, $review);
     }
 
     /**
+     * @param \GeminiLabs\SiteReviews\Review $review
      * @param int $size
      * @return string
      */
-    public function img(Review $review, $size = null)
+    public function generate($review, $size = 0)
+    {
+        $default = $this->fallbackDefault($review);
+        $size = $this->size($size);
+        $avatarUrl = get_avatar_url($this->userField($review), [
+            'default' => $default,
+            'size' => $size,
+        ]);
+        if (!$this->isUrl($avatarUrl)) {
+            return $this->fallbackUrl($review, $size);
+        }
+        return $avatarUrl;
+    }
+
+    /**
+     * @param \GeminiLabs\SiteReviews\Review $review
+     * @return string
+     */
+    public function generateInitials($review)
+    {
+        $initials = Str::convertToInitials($review->author);
+        if (mb_strlen($initials) === 1) {
+            $initials = mb_substr(trim($review->author), 0, 2, 'UTF-8');
+            $initials = mb_strtoupper($initials, 'UTF-8');
+        }
+        $contents = $this->svgContent($initials);
+        return $this->svg($contents, $initials);
+    }
+
+    /**
+     * @param \GeminiLabs\SiteReviews\Review $review
+     * @return string
+     */
+    public function generatePixels($review)
+    {
+        $hash = md5(strtolower(trim($this->userField($review))));
+        $hash = substr($hash, 0, 15);
+        $contents = glsr(PixelAvatar::class)->generate($hash);
+        return $this->svg($contents, $hash);
+    }
+
+    /**
+     * @param \GeminiLabs\SiteReviews\Review $review
+     * @param int $size
+     * @return string
+     */
+    public function img($review, $size = 0)
     {
         $size = $this->size($size);
-        $src = $review->get('avatar');
         $attributes = [
             'alt' => sprintf(__('Avatar for %s', 'site-reviews'), $review->author()),
-            'height' => $size * 2,
+            'height' => $size, // @2x
             'loading' => 'lazy',
-            'src' => $this->url($src, $size * 2),
-            'style' => sprintf('width:%1$spx; height:%1$spx;', $size),
-            'width' => $size * 2,
+            'src' => $this->url($review, $size), // @2x
+            'style' => sprintf('width:%1$spx; height:%1$spx;', $size / 2), // @1x
+            'width' => $size, // @2x
         ];
         if (glsr()->isAdmin()) {
-            $attributes['data-fallback'] = $this->fallback($size);
+            $attributes['data-fallback'] = $this->fallbackUrl($review, $size);
         }
         $attributes = glsr()->filterArray('avatar/attributes', $attributes, $review);
         return glsr(Builder::class)->img($attributes);
     }
 
     /**
-     * @param string|false $avatarUrl
+     * @param \GeminiLabs\SiteReviews\Review $review
      * @param int $size
      * @return string
      */
-    public function url($avatarUrl, $size = null)
+    public function url($review, $size = 0)
     {
-        if (filter_var($avatarUrl, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)) {
-            return $avatarUrl;
+        if ($this->isUrl($review->avatar)) {
+            return $review->avatar;
         }
-        return $this->fallback($size);
+        return $this->fallbackUrl($review, $size);
+    }
+
+    /**
+     * @param string $url
+     * @return bool
+     */
+    protected function isUrl($url)
+    {
+        return !empty(filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED));
     }
 
     /**
      * @param int $size
      * @return int
      */
-    protected function size($size = null)
+    protected function size($size = 0)
     {
         $size = Cast::toInt($size);
-        if ($size > 0) { // @todo change this to 16? What is the minimum size in settings?
-            return $size;
+        if ($size < 1) {
+            $size = glsr_get_option('reviews.avatars_size', static::FALLBACK_SIZE, 'int');
+            $size = Helper::ifEmpty($size, static::FALLBACK_SIZE, $strict = true);
         }
-        $size = glsr_get_option('reviews.avatars_size', static::FALLBACK_SIZE, 'int');
-        return Helper::ifEmpty($size, static::FALLBACK_SIZE, $strict = true);
+        return $size * 2; // @2x
+    }
+
+    /**
+     * @param string $contents
+     * @param string $name
+     * @return string
+     */
+    protected function svg($contents, $name)
+    {
+        $uploadsDir = wp_upload_dir();
+        $baseDir = trailingslashit($uploadsDir['basedir']);
+        $baseUrl = trailingslashit($uploadsDir['baseurl']);
+        $pathDir = trailingslashit(glsr()->id).trailingslashit('avatars');
+        $filename = sprintf('%s.svg', $name);
+        $filepath = $baseDir.$pathDir.$filename;
+        if (!file_exists($filepath)) {
+            wp_mkdir_p($baseDir.$pathDir);
+            $fp = @fopen($filepath, 'wb');
+            if (!$fp) {
+                return '';
+            }
+            mbstring_binary_safe_encoding();
+            $dataLength = strlen($contents);
+            $bytesWritten = fwrite($fp, $contents);
+            reset_mbstring_encoding();
+            fclose($fp);
+            if ($dataLength !== $bytesWritten) {
+                return '';
+            }
+            chmod($filepath, (fileperms(ABSPATH.'index.php') & 0777 | 0644));
+        }
+        return set_url_scheme($baseUrl.$pathDir.$filename);
+    }
+
+    /**
+     * @param string $initials
+     * @return string
+     */
+    protected function svgContent($initials)
+    {
+        $colors = [
+            ['background' => '#e3effb', 'color' => '#134d92'], // blue
+            ['background' => '#e1f0ee', 'color' => '#125960'], // green
+            ['background' => '#ffeff7', 'color' => '#ba3a80'], // pink
+            ['background' => '#fcece3', 'color' => '#a14326'], // red
+            ['background' => '#faf7d9', 'color' => '#da9640'], // yellow
+        ];
+        $colors = glsr()->filterArray('avatar/colors', $colors);
+        shuffle($colors);
+        $color = Cast::toArray(Arr::get($colors, 0));
+        $data = wp_parse_args($color, [
+            'background' => '#dcdce6',
+            'color' => '#6f6f87',
+            'text' => $initials,
+        ]);
+        return trim(glsr()->build('avatar', $data));
+    }
+
+    /**
+     * @param \GeminiLabs\SiteReviews\Review $review
+     * @return int|string
+     */
+    protected function userField($review)
+    {
+        if ($review->author_id) {
+            $value = get_the_author_meta('user_email', $review->author_id);
+        }
+        if (empty($value)) {
+            $value = $review->email;
+        }
+        return glsr()->filterString('avatar/id_or_email', $value, $review->toArray());
     }
 }
