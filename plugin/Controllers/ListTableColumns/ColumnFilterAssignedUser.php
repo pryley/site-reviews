@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class ColumnFilterAssignedUser extends ColumnFilter
 {
@@ -37,7 +38,9 @@ class ColumnFilterAssignedUser extends ColumnFilter
         if (empty($userIds)) {
             return [];
         }
-        return glsr(Database::class)->users(['include' => $userIds]);
+        $options = glsr(Database::class)->users(['include' => $userIds]);
+        $options = Arr::prepend($options, _x('No assigned user', 'admin-text', 'site-reviews'), '-1');
+        return $options;
     }
 
     /**

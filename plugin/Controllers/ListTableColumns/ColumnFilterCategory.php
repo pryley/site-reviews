@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
+
 class ColumnFilterCategory extends ColumnFilter
 {
     /**
@@ -37,12 +39,14 @@ class ColumnFilterCategory extends ColumnFilter
      */
     protected function options()
     {
-        return get_terms([
+        $options = get_terms([
             'count' => false,
             'fields' => 'id=>name',
             'hide_empty' => true,
             'taxonomy' => glsr()->taxonomy,
         ]);
+        $options = Arr::prepend($options, _x('No category', 'admin-text', 'site-reviews'), '-1');
+        return $options;
     }
 
     /**

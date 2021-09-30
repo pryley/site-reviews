@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
 use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class ColumnFilterAssignedPost extends ColumnFilter
 {
@@ -51,6 +52,7 @@ class ColumnFilterAssignedPost extends ColumnFilter
             $title = sprintf('%s (ID: %s)', $title, $id);
         }
         natcasesort($options);
+        $options = Arr::prepend($options, _x('No assigned post', 'admin-text', 'site-reviews'), '-1');
         return $options;
     }
 

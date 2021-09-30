@@ -311,10 +311,13 @@ class ListTableController extends Controller
             $query->set('orderby', 'meta_value');
         }
         if ($termId = filter_input(INPUT_GET, 'assigned_term', FILTER_SANITIZE_NUMBER_INT)) {
-            $query->set('tax_query', [[
-                'taxonomy' => glsr()->taxonomy,
-                'terms' => $termId,
-            ]]);
+            $taxQuery = ['taxonomy' => glsr()->taxonomy];
+            if (-1 === Cast::toInt($termId)) {
+                $taxQuery['operator'] = 'NOT EXISTS';
+            } else {
+                $taxQuery['terms'] = $termId;
+            }
+            $query->set('tax_query', [$taxQuery]);
         }
     }
 
@@ -399,12 +402,21 @@ class ListTableController extends Controller
             if (in_array($key, ['assigned_post', 'assigned_user'])) {
                 global $wpdb;
                 $assignedTable = glsr(Query::class)->table($key.'s');
-                $ids = $wpdb->get_col("
-                    SELECT DISTINCT r.review_id 
-                    FROM {$table} r
-                    INNER JOIN {$assignedTable} at ON at.rating_id = r.ID 
-                    WHERE at.{$mapped[$key]}_id = '{$value}' 
-                ");
+                if (-1 === Cast::toInt($value)) {
+                    $ids = $wpdb->get_col("
+                        SELECT DISTINCT r.review_id 
+                        FROM {$table} r
+                        LEFT JOIN {$assignedTable} at ON at.rating_id = r.ID
+                        WHERE at.{$mapped[$key]}_id IS NULL
+                    ");
+                } else {
+                    $ids = $wpdb->get_col("
+                        SELECT DISTINCT r.review_id 
+                        FROM {$table} r
+                        INNER JOIN {$assignedTable} at ON at.rating_id = r.ID 
+                        WHERE at.{$mapped[$key]}_id = '{$value}' 
+                    ");
+                }
                 $where .= sprintf(" AND {$wpdb->posts}.ID IN (%s) ", implode(',', $ids));
             } else {
                 $where .= " AND {$table}.{$key} = '{$value}' ";
