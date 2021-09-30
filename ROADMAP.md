@@ -28,7 +28,6 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Review Importer (from 3rd-party WordPress review plugins)
 - [ ] Review Snitch (flag reviews as inappropriate)
 - [ ] Review Summaries (single positive/negative ratings, summary styles, etc.)
-- [x] Review Themes
 - [ ] Review Threads
 - [ ] Review Upvotes
 - [ ] Review Sharing
@@ -41,6 +40,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Facebook Reviews
 - [ ] Gamipress (i.e. Buddypress users earn points based on the review rating)
 - [ ] Google Reviews
+- [ ] LearnDash Reviews
 - [x] Tripadvisor Reviews (done, but needs an additional service to make it work consistantly)
 - [ ] Trustpilot Reviews
 - [ ] Yelp Reviews
