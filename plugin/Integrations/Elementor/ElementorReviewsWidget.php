@@ -80,15 +80,15 @@ class ElementorReviewsWidget extends ElementorWidget
                 'label' => _x('Enable Pagination', 'admin-text', 'site-reviews'),
                 'options' => [
                     '' => [
-                        'icon' => 'fa fa-times',
+                        'icon' => 'eicon eicon-close',
                         'title' => _x('No', 'admin-text', 'site-reviews'),
                     ],
                     'true' => [
-                        'icon' => 'fa fa-check',
+                        'icon' => 'eicon eicon-redo',
                         'title' => _x('Yes (with a page reload)', 'admin-text', 'site-reviews'),
                     ],
                     'ajax' => [
-                        'icon' => 'fa fa-check-double',
+                        'icon' => 'eicon eicon-spinner',
                         'title' => _x('Yes (without a page reload)', 'admin-text', 'site-reviews'),
                     ],
                 ],
