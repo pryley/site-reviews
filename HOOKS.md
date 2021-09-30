@@ -179,7 +179,7 @@
     site-reviews/validate/honeypot                          (bool $isValid, Request $request): bool
     site-reviews/validate/review-limits                     (bool $isValid, Reviews $reviews, Request $request, string $key): bool
     site-reviews/validation/rules                           (array $rules, Request $request): array
-    site-reviews/validation/rules/normalized                (array $rules, array $defaults, Request $request): array
+    site-reviews/validation/rules/normalized                (array $rules, Request $request, array $defaults): array
     site-reviews/validators                                 (array $validatorClasses): array
     site-reviews/views/data                                 (array $data, string $view): array
     site-reviews/views/file                                 (string $filePath, string $view, array $data): string
