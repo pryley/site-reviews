@@ -244,6 +244,26 @@ class Helper
     }
 
     /**
+     * @param string $url
+     * @param int $maxRedirects
+     * @return int|false
+     */
+    public static function remoteStatusCheck($url, $maxRedirects = 0)
+    {
+        $headers = get_headers($url, 0, stream_context_create([
+            'http' => [
+                'ignore_errors' => 1,
+                'max_redirects' => $maxRedirects,
+                'method' => 'HEAD',
+            ],
+        ]));
+        if (false !== $headers) {
+            return Cast::toInt(substr($headers[0], 9, 3));
+        }
+        return false;
+    }
+
+    /**
      * @param mixed $value
      * @return mixed
      */

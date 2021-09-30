@@ -207,6 +207,7 @@ class Hooks implements HooksContract
         add_filter('post_row_actions', [$this->listtable, 'filterRowActions'], 10, 2);
         add_filter('screen_settings', [$this->listtable, 'filterScreenFilters'], 10, 2);
         add_filter('manage_edit-'.glsr()->post_type.'_sortable_columns', [$this->listtable, 'filterSortableColumns']);
+        add_filter('site-reviews/devmode', [$this->main, 'filterDevmode'], 1);
         add_filter('wpmu_drop_tables', [$this->main, 'filterDropTables'], 999); // run last
         add_filter('site-reviews/config/forms/metabox-fields', [$this->metabox, 'filterFieldOrder'], 11);
         add_filter('wp_privacy_personal_data_erasers', [$this->privacy, 'filterPersonalDataErasers']);

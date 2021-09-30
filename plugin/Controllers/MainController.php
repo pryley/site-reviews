@@ -13,6 +13,18 @@ use GeminiLabs\SiteReviews\Install;
 class MainController extends Controller
 {
     /**
+     * @param bool $bool
+     * @return bool
+     * @filter site-reviews/devmode
+     */
+    public function filterDevmode($bool)
+    {
+        $parts = explode('.', parse_url(get_home_url(), PHP_URL_HOST));
+        $tld = end($parts);
+        return 'test' === $tld;
+    }
+
+    /**
      * switch_to_blog() was run before this hook was triggered.
      * @param array $tables
      * @return array

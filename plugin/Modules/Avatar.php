@@ -74,6 +74,11 @@ class Avatar
         if (!$this->isUrl($avatarUrl)) {
             return $this->fallbackUrl($review, $size);
         }
+        if ($default !== $this->type && glsr()->filterBool('devmode', false)) {
+            if (200 !== Helper::remoteStatusCheck($avatarUrl)) {
+                return $this->fallbackUrl($review, $size);
+            }
+        }
         return $avatarUrl;
     }
 
