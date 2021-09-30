@@ -52,6 +52,7 @@ class SiteReviewsSummaryShortcode extends Shortcode
     {
         $args = $this->args;
         $className = Helper::buildClassName(['summary', $tag, 'tag'], 'Modules\Html\Tags');
+        $className = glsr()->filterString('summary/tag/'.$tag, $className, $this);
         $field = class_exists($className)
             ? glsr($className, compact('tag', 'args'))->handleFor('summary', null, $this->ratings)
             : null;

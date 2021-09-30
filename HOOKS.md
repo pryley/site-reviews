@@ -161,6 +161,7 @@
     site-reviews/style/views                                (array $views): array
     site-reviews/summary/build/<tag_or_field_key>           (string $field, array $ratings, Modules\Html\Partials\SiteReviewsSummary $partial): string
     site-reviews/summary/counts                             (string $ratingCount, int $ratingLevel): string
+    site-reviews/summary/tag/<tag>                          (string $className, Shortcodes\SiteReviewsSummaryShortcode $shortcode): string
     site-reviews/summary/value/<tag_or_field_key>           (string $value, Contracts\TagContract $tag): string
     site-reviews/summary/wrap/<tag_or_field_key>            (string $value, string $rawValue, Contracts\TagContract $tag): string
     site-reviews/support/deprecated/v5                      (bool $supportDeprecated): bool
