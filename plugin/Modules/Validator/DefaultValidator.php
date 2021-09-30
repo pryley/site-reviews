@@ -79,15 +79,16 @@ class DefaultValidator extends ValidatorAbstract
      */
     protected function rules()
     {
-        $rules = $this->normalizedRules();
-        $customRules = array_diff_key($rules,
+        $defaults = $this->normalizedRules();
+        $customRules = array_diff_key($defaults,
             glsr(DefaultsManager::class)->pluck('settings.submissions.required.options')
         );
-        $requiredRules = array_intersect_key($rules,
+        $requiredRules = array_intersect_key($defaults,
             array_flip(glsr_get_option('submissions.required', []))
         );
-        $rules = array_merge($requiredRules, $customRules);
         $excluded = Arr::convertFromString($this->request->excluded); // these fields were ommited with the hide option
-        return array_diff_key($rules, array_flip($excluded));
+        $rules = array_merge($requiredRules, $customRules);
+        $rules = array_diff_key($rules, array_flip($excluded));
+        return glsr()->filterArray('validation/rules/normalized', $rules, $defaults, $this->request);
     }
 }
