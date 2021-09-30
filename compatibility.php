@@ -158,6 +158,7 @@ add_action('site-reviews/review/created', function ($review, $command) {
     if (!function_exists('rocket_clean_post')) {
         return;
     }
+    rocket_clean_post($command->post_id); // The page the review was submitted on
     foreach ($command->assigned_posts as $postId) {
         if ($postId != $command->post_id) {
             rocket_clean_post($postId);
