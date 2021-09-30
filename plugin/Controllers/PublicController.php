@@ -102,7 +102,7 @@ class PublicController extends Controller
      */
     public function renderModal()
     {
-        if (glsr()->retrieve('use_modal', true)) {
+        if (glsr()->retrieve('use_modal', false)) {
             glsr()->render('views/partials/modal');
         }
     }
