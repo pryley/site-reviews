@@ -3,6 +3,7 @@
 import Ajax from './admin/ajax.js';
 import autosize from 'autosize';
 import ColorPicker from './admin/color-picker.js';
+import Event from './public/event.js';
 import Filters from './admin/filters.js';
 import Forms from './admin/forms.js';
 import Metabox from './admin/metabox.js';
@@ -31,6 +32,7 @@ GLSR.keys = {
     UP: 38,
 };
 
+GLSR.Event = Event;
 GLSR.Tippy = { tippy, plugins: { followCursor }}
 
 function discover_site_reviews () {

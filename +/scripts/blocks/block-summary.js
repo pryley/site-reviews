@@ -3,16 +3,17 @@ import { CheckboxControlList } from './checkbox-control-list';
 import ConditionalSelectControl from './ConditionalSelectControl';
 import assigned_to_options from './assigned_to-options';
 import category_options from './category-options';
+import onRender from './on-render';
 import terms_options from './terms-options';
 import transformWidgetAttributes from './transform-widget';
 import type_options from './type-options';
 import user_options from './user-options';
+import ServerSideRender from './server-side-render';
 
 const { _x } = wp.i18n;
 const { createBlock, registerBlockType } = wp.blocks;
 const { InspectorAdvancedControls, InspectorControls } = wp.blockEditor;
 const { PanelBody, RangeControl, SelectControl, TextControl, ToggleControl } = wp.components;
-const { serverSideRender: ServerSideRender } = wp;
 
 const blockName = GLSR_Block.nameprefix + '/summary';
 
@@ -135,7 +136,7 @@ const edit = props => {
         <InspectorAdvancedControls>
             { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.summary.InspectorAdvancedControls', {}, props)) }
         </InspectorAdvancedControls>,
-        <ServerSideRender block={ blockName } attributes={ props.attributes }>
+        <ServerSideRender block={ blockName } attributes={ props.attributes } onRender={ onRender }>
         </ServerSideRender>
     ];
 };
