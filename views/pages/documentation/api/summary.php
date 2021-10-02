@@ -91,7 +91,7 @@
                     <tr>
                         <td>assigned_posts</td>
                         <td></td>
-                        <td>Limit summary to reviews assigned to specific posts of any public post type (IDs or slugs in the format of SLUG:POST_TYPE).</td>
+                        <td>Limit summary to reviews assigned to specific posts of any public post type (IDs or slugs in the format of <code>post_type:slug</code>).</td>
                     </tr>
                     <tr>
                         <td>assigned_terms</td>

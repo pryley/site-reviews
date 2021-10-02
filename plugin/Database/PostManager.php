@@ -23,8 +23,8 @@ class PostManager
         }
         elseif (!is_numeric($postId) && is_string($postId)) {
             $parts = explode(':', $postId);
-            $slug = Arr::get($parts, 0);
-            $type = Arr::get($parts, 1);
+            $type = Arr::get($parts, 0);
+            $slug = Arr::get($parts, 1);
             if (!empty($slug) && !empty($type)) {
                 $args = [
                     'fields' => 'ids',
@@ -44,9 +44,7 @@ class PostManager
      */
     public function normalizeIds($postIds)
     {
-        $postIds = array_filter(Cast::toArray($postIds), function ($postId) {
-            return is_numeric($postId) || in_array($postId, ['post_id', 'parent_id']);
-        });
+        $postIds = Cast::toArray($postIds);
         foreach ($postIds as &$postId) {
             $postId = $this->normalizeId($postId);
         }

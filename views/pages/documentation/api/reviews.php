@@ -212,7 +212,7 @@
                     <tr>
                         <td><strong>assigned_posts</strong></td>
                         <td></td>
-                        <td>Limit result set to reviews assigned to specific posts of any public post type (IDs or slugs in the format of SLUG:POST_TYPE).</td>
+                        <td>Limit result set to reviews assigned to specific posts of any public post type (IDs or slugs in the format of <code>post_type:slug</code>).</td>
                     </tr>
                     <tr>
                         <td><strong>assigned_terms</strong></td>
@@ -392,7 +392,7 @@
                 <tbody>
                     <tr>
                         <td><strong>assigned_posts</strong></td>
-                        <td>The posts (of any public post type) assigned to the review. One or more IDs separated with commas. If you want to use slugs, they should be in the format of SLUG:POST_TYPE.</td>
+                        <td>The posts (of any public post type) assigned to the review. One or more IDs separated with commas. If you want to use slugs, they should be in the format of <code>post_type:slug</code>.</td>
                     </tr>
                     <tr>
                         <td><strong>assigned_terms</strong></td>
@@ -476,7 +476,7 @@
                 <tbody>
                     <tr>
                         <td><strong>assigned_posts</strong></td>
-                        <td>The posts (of any public post type) assigned to the review. One or more IDs separated with commas.  If you want to use slugs, they should be in the format of SLUG:POST_TYPE.</td>
+                        <td>The posts (of any public post type) assigned to the review. One or more IDs separated with commas.  If you want to use slugs, they should be in the format of <code>post_type:slug</code>.</td>
                     </tr>
                     <tr>
                         <td><strong>assigned_terms</strong></td>
