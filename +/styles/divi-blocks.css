@@ -3,6 +3,7 @@
 @import "blocks/minimal/read-more";
 @import "blocks/minimal/field-toggle";
 @import "blocks/minimal/reviews-summary";
+@import "public/default/field-star-rating";
 @import "blocks/base";
 
 :--namespace form.glsr-form p.et_pb_contact_field {

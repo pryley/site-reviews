@@ -1276,7 +1276,7 @@ msgctxt "admin-text"
 msgid "License Keys"
 msgstr ""
 
-#: plugin/Blocks/SiteReviewsBlock.php:109, plugin/Blocks/SiteReviewsFormBlock.php:98, plugin/Blocks/SiteReviewsSummaryBlock.php:93
+#: plugin/Blocks/SiteReviewsBlock.php:109, plugin/Blocks/SiteReviewsFormBlock.php:97, plugin/Blocks/SiteReviewsSummaryBlock.php:93
 msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr ""

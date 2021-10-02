@@ -137,7 +137,6 @@ jQuery(function ($) {
     var trackValue = function () {
         this.dataset.glsrTrack = this.value;
     };
-
     $('select[data-glsr-track]').each(trackValue);
     $('select[data-glsr-track]').on('change', trackValue);
 
@@ -175,4 +174,28 @@ jQuery(function ($) {
 
     discover_site_reviews();
     rate_site_reviews();
+});
+
+const setTextDirection = (type) => {
+    [].forEach.call(document.querySelectorAll(`[data-type="site-reviews/${type}"] .glsr`), el => {
+        const direction = 'glsr-' + window.getComputedStyle(el, null).getPropertyValue('direction');
+        el.classList.add(direction);
+    })
+}
+
+Event.on('site-reviews/form', (response, attributes) => {
+    if (!_.isEmpty(response) && !response.error) {
+        setTextDirection('form')
+        GLSR.stars = new StarRating('select.glsr-star-rating', { tooltip: false });
+    }
+});
+Event.on('site-reviews/reviews', (response, attributes) => {
+    if (!_.isEmpty(response) && !response.error) {
+        setTextDirection('reviews')
+    }
+});
+Event.on('site-reviews/summary', (response, attributes) => {
+    if (!_.isEmpty(response) && !response.error) {
+        setTextDirection('summary')
+    }
 });

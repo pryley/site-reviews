@@ -6,6 +6,7 @@
 @import "blocks/minimal/field-input";
 @import "blocks/minimal/field-choice";
 @import "blocks/minimal/field-toggle";
+@import "public/default/field-star-rating";
 @import "blocks/minimal/reviews-summary";
 @import "blocks/base";
 

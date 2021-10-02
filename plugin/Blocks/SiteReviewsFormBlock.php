@@ -64,7 +64,6 @@ class SiteReviewsFormBlock extends Block
         $shortcode = glsr(Shortcode::class);
         if ('edit' == filter_input(INPUT_GET, 'context')) {
             $this->filterFormFields();
-            $this->filterRatingField();
             $this->filterSubmitButton();
             if (!$this->hasVisibleFields($shortcode, $attributes)) {
                 $this->filterInterpolation();
@@ -100,22 +99,6 @@ class SiteReviewsFormBlock extends Block
             $context['submit_button'] = '';
             return $context;
         });
-    }
-
-    /**
-     * @return void
-     */
-    protected function filterRatingField()
-    {
-        add_filter('site-reviews/rendered/field', function ($html, $type, $args) {
-            if (Str::contains('glsr-star-rating', $args['class'])) {
-                $stars = '<span class="glsr-stars">';
-                $stars.= str_repeat('<span class="glsr-star glsr-star-empty" aria-hidden="true"></span>', (int) glsr()->constant('MAX_RATING', Rating::class));
-                $stars.= '</span>';
-                $html = preg_replace('/(.*)(<select.*)(<\/select>)(.*)/u', '$1'.$stars.'$4', $html);
-            }
-            return $html;
-        }, 10, 3);
     }
 
     /**
