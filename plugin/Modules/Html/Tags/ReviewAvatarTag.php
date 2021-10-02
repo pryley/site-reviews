@@ -40,4 +40,13 @@ class ReviewAvatarTag extends ReviewTag
             );
         }
     }
+
+    /**
+     * @compat for Review Themes v1.0.0-beta1
+     * @todo remove this in v5.17.0!
+     */
+    protected function userField()
+    {
+        return $this->review;
+    }
 }

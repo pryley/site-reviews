@@ -22,7 +22,7 @@ class Avatar
 
     public function __construct()
     {
-        $this->type = glsr_get_option('reviews.avatars_fallback', 'mystery');
+        $this->type = glsr_get_option('reviews.avatars_fallback', 'mystery', 'string');
     }
 
     /**
@@ -146,7 +146,7 @@ class Avatar
     }
 
     /**
-     * @param string $url
+     * @param mixed $url
      * @return bool
      */
     protected function isUrl($url)
@@ -184,7 +184,7 @@ class Avatar
         if (!file_exists($filepath)) {
             wp_mkdir_p($baseDir.$pathDir);
             $fp = @fopen($filepath, 'wb');
-            if (!$fp) {
+            if (false === $fp) {
                 return '';
             }
             mbstring_binary_safe_encoding();

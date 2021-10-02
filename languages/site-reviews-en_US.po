@@ -1835,7 +1835,7 @@ msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr "Saving is disabled: %s is currently editing this review."
 
-#: plugin/Controllers/MainController.php:117
+#: plugin/Controllers/MainController.php:116
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr "Local Review"
@@ -2784,7 +2784,7 @@ msgctxt "admin-text"
 msgid "All categories"
 msgstr "All categories"
 
-#: plugin/Controllers/ListTableColumns/ColumnFilterCategory.php:48
+#: plugin/Controllers/ListTableColumns/ColumnFilterCategory.php:51
 msgctxt "admin-text"
 msgid "No category"
 msgstr "No category"

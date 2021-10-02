@@ -45,6 +45,9 @@ class ColumnFilterCategory extends ColumnFilter
             'hide_empty' => true,
             'taxonomy' => glsr()->taxonomy,
         ]);
+        if (is_wp_error($options)) {
+            return [];
+        }
         $options = Arr::prepend($options, _x('No category', 'admin-text', 'site-reviews'), '-1');
         return $options;
     }

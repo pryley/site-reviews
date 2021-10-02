@@ -351,8 +351,9 @@ class PixelAvatar
     {
         $color = $this->getColor(40, 65, 'skin');
         $pixels = $this->getPixels('face');
+        $numPixels = count($pixels);
         $yOffset = 3;
-        for ($y = 0; $y < count($pixels); ++$y) {
+        for ($y = 0; $y < $numPixels; ++$y) {
             for ($x = 0; $x < static::WIDTH; ++$x) {
                 $pixelColor = $this->setPixelColour($pixels[$y][$x], $this->data[$y + $yOffset][$x], $color);
                 $this->data[$y + $yOffset][$x] = $pixelColor;
@@ -367,7 +368,8 @@ class PixelAvatar
     {
         $color = $this->getColor(70, 45);
         $pixels = $this->getPixels('hair');
-        for ($y = 0; $y < count($pixels); ++$y) {
+        $numPixels = count($pixels);
+        for ($y = 0; $y < $numPixels; ++$y) {
             for ($x = 0; $x < static::WIDTH; ++$x) {
                 $pixelColor = $this->setPixelColour($pixels[$y][$x], $this->data[$y][$x], $color);
                 $this->data[$y][$x] = $pixelColor;

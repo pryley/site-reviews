@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews
 Tested up to: 5.8
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.15.0
+Stable tag: 5.16.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,20 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.16.0 (2021-10-03) =
+
+- Added "No category", "No assigned post", and "No assigned term" options to the filters on the All Reviews admin page.
+- Added a "Fallback Avatar" setting
+- Added a locally generated Initials Avatar option in the "Fallback Avatar" setting
+- Added a locally generated Pixel Avatar option in the "Fallback Avatar" setting
+- Added API and shortcode support for slugs in the `assigned_posts` parameter; these should be entered in the format of `post_type:slug`.
+- Added API support for usernames in the `assigned_users` parameter.
+- Fixed compatibility with WP Rocket (purges the cache of the page the review was submitted on)
+- Added custom ServerSideRender functionality to allow post-render events in Gutenberg blocks
+- Fixed Elementor widget icons
+- Fixed loading of modal HTML
+- Fixed text on the Translations settings page with instructions for the "Loco Translate" plugin.
 
 = 5.15.0 (2021-09-28) =
 
