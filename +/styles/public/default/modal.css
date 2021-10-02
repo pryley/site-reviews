@@ -7,7 +7,7 @@
 :root .glsr-modal.is-open {
     display: block;
     pointer-events: auto;
-    z-index: 1000000; /* this z-index is higher than #wpadminbar and blackbar */
+    z-index: 10000; /* this z-index is 89999 less than spotlight.js */
 }
 :root .glsr-modal__overlay {
     align-items: center;
