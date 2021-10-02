@@ -19,6 +19,8 @@ You can pin your best reviews so that they are always shown first, require appro
 
 __Site Reviews provides full Woocommerce integration__ with the free [Woocommerce Reviews](https://niftyplugins.com/plugins/woocommerce-reviews/) add-on.
 
+[View the demo](https://site-reviews.skybox.one)
+
 [Follow plugin development on Github.](https://github.com/pryley/site-reviews/)
 
 ### Current Features
