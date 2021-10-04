@@ -16,6 +16,11 @@ require('laravel-mix-bundle-analyzer')
 
 mix.disableSuccessNotifications()
 
+let pureFuncs = Object
+  .keys(console)
+  .filter(key => !~['info', 'warn', 'error'].indexOf(key))
+  .map(key => `console.${key}`);
+
 mix.options({
   clearConsole: false,
   cssNano: {
@@ -32,7 +37,7 @@ mix.options({
   terser: {
     terserOptions: {
       compress: {
-        drop_console: mix.inProduction(),
+        pure_funcs: mix.inProduction() ? pureFuncs : [],
       },
       mangle: {
         properties: {regex: /[a-zA-Z]+_$/},
