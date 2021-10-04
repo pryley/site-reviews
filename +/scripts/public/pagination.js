@@ -6,7 +6,7 @@ const config = {
     hideClass: 'glsr-hide',
     linkSelector: 'a.page-numbers',
     paginationSelector: '.glsr-ajax-pagination',
-    reviewsSelector: '.glsr-reviews',
+    reviewsSelector: '.glsr-reviews, [data-reviews]',
     scrollOffset: 16,
     scrollTime: 468,
 }
