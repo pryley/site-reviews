@@ -158,7 +158,7 @@ export default function ServerSideRender(props) {
 
     useEffect(() => {
         if (props.onRender) {
-            return props.onRender(response, block, attributes);
+            props.onRender(response, block, attributes);
         }
     }, [response]);
 
