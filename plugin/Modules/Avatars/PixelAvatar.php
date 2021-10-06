@@ -5,9 +5,9 @@
  * @see: https://www.binarymoon.co.uk/2020/08/pixel-avatars-a-privacy-first-gravatar-replacement/
  */
 
-namespace GeminiLabs\SiteReviews\Modules;
+namespace GeminiLabs\SiteReviews\Modules\Avatars;
 
-class PixelAvatar
+class PixelAvatar extends SvgAvatar
 {
     const HEIGHT = 11;
     const WIDTH = 11;
@@ -313,13 +313,13 @@ class PixelAvatar
     ];
 
     /**
-     * @param string $hash
+     * @param string $from
      * @return string
      */
-    public function generate($hash)
+    public function generate($from)
     {
         $this->data = $this->newData();
-        $this->hash = $hash;
+        $this->hash = $this->filename($from);
         $this->hashIndex = 0;
         $this->addBody();
         $this->addFace();
@@ -422,6 +422,17 @@ class PixelAvatar
             static::HEIGHT,
             implode('', $paths)
         );
+    }
+
+    /**
+     * @param string $from
+     * @return string
+     */
+    protected function filename($from)
+    {
+        $hash = md5(strtolower(trim($from)));
+        $hash = substr($hash, 0, 15);
+        return $hash;
     }
 
     /**

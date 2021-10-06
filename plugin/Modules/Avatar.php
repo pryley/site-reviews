@@ -6,8 +6,9 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Avatars\InitialsAvatar;
+use GeminiLabs\SiteReviews\Modules\Avatars\PixelAvatar;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\PixelAvatar;
 use GeminiLabs\SiteReviews\Review;
 
 class Avatar
@@ -66,6 +67,9 @@ class Avatar
     public function generate($review, $size = 0)
     {
         $default = $this->fallbackDefault($review);
+        if ($default !== $this->type) {
+            $default = '404';
+        }
         $size = $this->size($size);
         $avatarUrl = get_avatar_url($this->userField($review), [
             'default' => $default,
@@ -74,10 +78,9 @@ class Avatar
         if (!$this->isUrl($avatarUrl)) {
             return $this->fallbackUrl($review, $size);
         }
-        if ($default !== $this->type && glsr()->filterBool('devmode', false)) {
-            if (200 !== Helper::remoteStatusCheck($avatarUrl)) {
-                return $this->fallbackUrl($review, $size);
-            }
+        if (404 === Helper::remoteStatusCheck($avatarUrl)) {
+            // @todo generate the images with javascript on canvas to avoid this status check
+            return $this->fallbackUrl($review, $size);
         }
         return $avatarUrl;
     }
@@ -88,13 +91,7 @@ class Avatar
      */
     public function generateInitials($review)
     {
-        $initials = Str::convertToInitials($review->author);
-        if (mb_strlen($initials) === 1) {
-            $initials = mb_substr(trim($review->author), 0, 2, 'UTF-8');
-            $initials = mb_strtoupper($initials, 'UTF-8');
-        }
-        $contents = $this->svgContent($initials);
-        return $this->svg($contents, $initials);
+        return glsr(InitialsAvatar::class)->create($review->author);
     }
 
     /**
@@ -103,10 +100,7 @@ class Avatar
      */
     public function generatePixels($review)
     {
-        $hash = md5(strtolower(trim($this->userField($review))));
-        $hash = substr($hash, 0, 15);
-        $contents = glsr(PixelAvatar::class)->generate($hash);
-        return $this->svg($contents, $hash);
+        return glsr(PixelAvatar::class)->create($this->userField($review));
     }
 
     /**

@@ -24,14 +24,15 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 ### Functionality
 
+- [ ] Questions and Answers
 - [ ] Review Authors (allow people to update their submitted reviews)
 - [ ] Review Importer (from 3rd-party WordPress review plugins)
+- [ ] Review Notifications
+- [ ] Review Sharing
 - [ ] Review Snitch (flag reviews as inappropriate)
 - [ ] Review Summaries (single positive/negative ratings, summary styles, etc.)
 - [ ] Review Threads
 - [ ] Review Upvotes
-- [ ] Review Sharing
-- [ ] Questions and Answers
 
 ### Integrations
 

@@ -2066,7 +2066,7 @@ msgstr ""
 msgid "Show less"
 msgstr ""
 
-#: plugin/Modules/Avatar.php:121
+#: plugin/Modules/Avatar.php:115
 msgid "Avatar for %s"
 msgstr ""
 
