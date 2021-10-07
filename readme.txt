@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews
 Tested up to: 5.8
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.16.2-beta1
+Stable tag: 5.16.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
