@@ -167,13 +167,13 @@ class Sanitizer
      */
     public function sanitizeTextHtml($value)
     {
-        global $allowedposttags;
+        $allowedHtmlPost = wp_kses_allowed_html('post');
         $allowedHtml = [
-            'a' => glsr_get($allowedposttags, 'a'),
-            'em' => glsr_get($allowedposttags, 'em'),
-            'strong' => glsr_get($allowedposttags, 'strong'),
+            'a' => glsr_get($allowedHtmlPost, 'a'),
+            'em' => glsr_get($allowedHtmlPost, 'em'),
+            'strong' => glsr_get($allowedHtmlPost, 'strong'),
         ];
-        $allowedHtml = glsr()->filterString('sanitize/allowed-html-tags', $allowedHtml, $allowedposttags);
+        $allowedHtml = glsr()->filterArray('sanitize/allowed-html', $allowedHtml, $this);
         return wp_kses(trim(Cast::toString($value)), $allowedHtml);
     }
 

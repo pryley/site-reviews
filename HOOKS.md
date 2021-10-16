@@ -145,7 +145,7 @@
     site-reviews/reviews/html/<property>                    (mixed $value, Modules\Html\ReviewHtml $reviewHtml): mixed
     site-reviews/route/request                              (array $request, string $action, string $requestType): array
     site-reviews/router/unguarded-actions                   (array $unguardedActions): array
-    site-reviews/sanitize/allowed-html-tags                 (array $allowedHtml, array $allowedPostTags): array
+    site-reviews/sanitize/allowed-html                      (array $allowedHtml, Modules\Sanitizer $sanitizer): array
     site-reviews/schema/<schema_type>                       (array $schema, array $args): array
     site-reviews/schema/all                                 (array $schemas): array
     site-reviews/schema/review                              (array $schema, Review $review, array $args): array
