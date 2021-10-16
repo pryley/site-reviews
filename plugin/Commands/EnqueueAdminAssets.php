@@ -46,6 +46,7 @@ class EnqueueAdminAssets implements Contract
         if (!$this->isCurrentScreen()) {
             return;
         }
+        wp_enqueue_style('wp-color-picker'); 
         wp_enqueue_style(
             glsr()->id.'/admin',
             glsr()->url('assets/styles/admin/admin.css'),
@@ -134,7 +135,7 @@ class EnqueueAdminAssets implements Contract
     {
         $dependencies = glsr()->filterArray('enqueue/admin/dependencies', []);
         $dependencies = array_merge($dependencies, [
-            'jquery', 'jquery-ui-sortable', 'underscore', 'wp-util',
+            'jquery', 'jquery-ui-sortable', 'underscore', 'wp-color-picker', 'wp-util',
         ]);
         return $dependencies;
     }

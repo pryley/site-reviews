@@ -801,3 +801,11 @@ tr.glsr-setting-field td .inline label::after {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.glsr-setting-field .wp-picker-container {
+    position: relative;
+}
+.glsr-setting-field .wp-picker-holder {
+    position: absolute;
+    z-index: 5;
+}
