@@ -34,8 +34,7 @@ class OptionManager
             return 'geminilabs_site_reviews-v2';
         }
         if (null === $version) {
-            $version = explode('.', glsr()->version);
-            $version = array_shift($version);
+            $version = glsr()->version('major');
         }
         return Str::snakeCase(glsr()->id.'-v'.intval($version));
     }
