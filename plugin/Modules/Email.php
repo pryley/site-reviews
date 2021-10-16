@@ -151,8 +151,9 @@ class Email
         $message = wpautop($message);
         $message = str_replace('&lt;&gt; ', '', $message);
         $message = str_replace(']]>', ']]&gt;', $message);
-        $message = glsr(Template::class)->build('partials/email/index', [
-            'context' => ['message' => $message],
+        $context = wp_parse_args(['message' => $message], $this->email['template-tags']);
+        $message = glsr(Template::class)->build('templates/emails/'.$this->email['template'], [
+            'context' => $context,
         ]);
         return glsr()->filterString('email/message', stripslashes($message), 'html', $this);
     }
@@ -165,12 +166,11 @@ class Email
         if (!empty($this->email['message'])) {
             return $this->email['message'];
         }
-        $context = ['context' => $this->email['template-tags']];
         $template = trim(glsr(OptionManager::class)->get('settings.general.notification_message'));
-        if ('email-notification' === $this->email['template'] && !empty($template)) {
-            return glsr(Template::class)->interpolate($template, $this->email['template'], $context);
-        } elseif (!empty($this->email['template'])) {
-            return glsr(Template::class)->build('templates/'.$this->email['template'], $context);
+        if (!empty($template)) {
+            $context = ['context' => $this->email['template-tags']];
+            $templatePathForHook = 'notification_message';
+            return glsr(Template::class)->interpolate($template, $templatePathForHook, $context);
         }
         return '';
     }

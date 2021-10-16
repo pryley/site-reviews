@@ -66,7 +66,7 @@ class Notification
         return glsr(Email::class)->compose([
             'to' => $this->getEmailAddresses(),
             'subject' => $args['title'],
-            'template' => 'email-notification',
+            'template' => 'default',
             'template-tags' => [
                 'review_assigned_posts' => $this->getAssignedPostTitles(),
                 'review_assigned_users' => $this->getAssignedUserTitles(),

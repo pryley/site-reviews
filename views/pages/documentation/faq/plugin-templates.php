@@ -18,6 +18,8 @@
             <code>/wp-content/themes/&lt;your-child-theme&gt;/site-reviews/form/field.php</code>
         </p>
         <pre><code class="language-html"> wp-content/plugins/site-reviews/templates
+├── emails                   This folder contains the email template files
+ │   └── default.php         This is the default template for HTML emails
  ├── form                    This folder contains the template files for the form fields
  │   ├── field.php           This template displays the field. To target a specific field type, append the type with an underscore (i.e. field_email.php, field_textarea.php)
  │   ├── field_checkbox.php  This template displays the field used for one or more checkboxes
@@ -34,8 +36,8 @@
  │   ├── full-star.php       This template displays the full star
  │   ├── half-star.php       This template displays the half star
  │   └── stars.php           This template displays the combined stars
- ├── email-notification.php  This template contains the content of the notification email
  ├── login-register.php      This template displays the login/register message
+ ├── notification.php        This template contains the message contents of the notification email
  ├── pagination.php          This template displays the review pagination
  ├── review.php              This template displays a single review
  ├── reviews-form.php        This template displays the review form

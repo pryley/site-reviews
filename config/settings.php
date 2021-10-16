@@ -116,7 +116,7 @@ return [
         'type' => 'text',
     ],
     'settings.general.notification_message' => [
-        'default' => glsr('Modules\Html\Template')->build('templates/email-notification'),
+        'default' => glsr('Modules\Html\Template')->build('templates/notification'),
         'depends_on' => [
             'settings.general.notifications' => ['admin', 'author', 'custom', 'slack'],
         ],

@@ -30,7 +30,7 @@ class EmailDefaults extends Defaults
             'message' => '',
             'reply-to' => '',
             'subject' => '',
-            'template' => '',
+            'template' => 'default',
             'template-tags' => [],
             'to' => '',
         ];
