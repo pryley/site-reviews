@@ -1633,7 +1633,7 @@ msgctxt "admin-text"
 msgid "Terms Accepted"
 msgstr "Terms Accepted"
 
-#: plugin/Addons/Addon.php:75
+#: plugin/Addons/Addon.php:89
 msgctxt "admin-text"
 msgid "Untitled"
 msgstr "Untitled"
@@ -1679,12 +1679,12 @@ msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr "Pin Your Reviews"
 
-#: plugin/Commands/EnqueueAdminAssets.php:102
+#: plugin/Commands/EnqueueAdminAssets.php:103
 msgctxt "admin-text"
 msgid "Please rate %s on %s and help us spread the word. Thank you so much!"
 msgstr "Please rate %s on %s and help us spread the word. Thank you so much!"
 
-#: plugin/Commands/EnqueueAdminAssets.php:103, views/pages/addons/index.php:18
+#: plugin/Commands/EnqueueAdminAssets.php:104, views/pages/addons/index.php:18
 msgctxt "admin-text"
 msgid "Discover Premium"
 msgstr "Discover Premium"

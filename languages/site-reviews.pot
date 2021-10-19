@@ -1251,7 +1251,7 @@ msgstr ""
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr ""
 
-#: plugin/Addons/Addon.php:75
+#: plugin/Addons/Addon.php:89
 msgctxt "admin-text"
 msgid "Untitled"
 msgstr ""
@@ -1303,12 +1303,12 @@ msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:102
+#: plugin/Commands/EnqueueAdminAssets.php:103
 msgctxt "admin-text"
 msgid "Please rate %s on %s and help us spread the word. Thank you so much!"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:103, views/pages/addons/index.php:18
+#: plugin/Commands/EnqueueAdminAssets.php:104, views/pages/addons/index.php:18
 msgctxt "admin-text"
 msgid "Discover Premium"
 msgstr ""

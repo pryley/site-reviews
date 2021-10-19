@@ -127,7 +127,7 @@ function glsr_get($array, $path = '', $fallback = '')
  * @param string $path
  * @param mixed $fallback
  * @param string $cast
- * @return string|array
+ * @return mixed
  */
 function glsr_get_option($path = '', $fallback = '', $cast = '')
 {
