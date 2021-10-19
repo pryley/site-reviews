@@ -18,6 +18,12 @@ if (!extension_loaded('mbstring')) {
     require_once __DIR__.'/vendors/symfony/polyfill-mbstring/bootstrap.php';
 }
 
+/**
+ * Load the Action Scheduler library
+ * @see https://actionscheduler.org
+ */
+require_once __DIR__.'/vendors/woocommerce/action-scheduler/action-scheduler.php';
+
 spl_autoload_register(function ($className) {
     $classMap = [
         'WP_Debug_Data' => ABSPATH.'wp-admin/includes/class-wp-debug-data.php',
