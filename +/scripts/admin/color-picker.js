@@ -6,7 +6,7 @@ const ColorPicker = function () {
         const el = jQuery(this);
         const options = jQuery.extend({}, el.data('colorpicker') || {}, {
             change: (ev, ui) => {
-                jQuery(ev.target).val(ui.color.toString()).trigger('change:setting:colorpicker')
+                jQuery(ev.target).val(ui.color.toString()).trigger('change')
             },
             mode: 'hsl',
             palettes: false,
