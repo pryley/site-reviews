@@ -54,6 +54,20 @@ abstract class Addon
     }
 
     /**
+     * @param string $path
+     * @param mixed $fallback
+     * @param string $cast
+     * @return mixed
+     */
+    public function option($path = '', $fallback = '', $cast = '')
+    {
+        $path = Str::removePrefix($path, 'settings.');
+        $path = Str::prefix($path, 'addons.'.static::SLUG.'.');
+        $path = Str::prefix($path, 'settings.');
+        return glsr_get_option($path, $fallback, $cast);
+    }
+
+    /**
      * @param int $perPage
      * @return array
      */
