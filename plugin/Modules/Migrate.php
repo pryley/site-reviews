@@ -54,7 +54,7 @@ class Migrate
     public function reset()
     {
         delete_option($this->migrationsKey);
-        if (!glsr(Queue::class)->isPending('site-reviews/queue/migration')) {
+        if (!defined('GLSR_UNIT_TESTS') && !glsr(Queue::class)->isPending('site-reviews/queue/migration')) {
             glsr(Queue::class)->once(time() + MINUTE_IN_SECONDS, 'site-reviews/queue/migration');
         }
     }

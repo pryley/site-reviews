@@ -50,6 +50,7 @@ class Bootstrap
     public function load_plugin_environment()
     {
         define('GLSR_UNIT_TESTS', true);
+        // include_once $this->plugin_dir.'/vendors/woocommerce/action-scheduler/tests/bootstrap.php';
         require_once $this->plugin_dir.'/site-reviews.php';
     }
 

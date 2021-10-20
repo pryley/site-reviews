@@ -148,18 +148,25 @@ class ReviewManagerTest extends WP_UnitTestCase
 
     public function test_create_with_terms()
     {
-        // if terms field does not exist, set them to true
+        // if terms field does not exist, set them to false
         $request = $this->request;
         $request->set('terms_exist', false);
         $review = $this->createReview($request);
         $this->assertTrue($review->isValid());
-        $this->assertTrue($review->terms);
+        $this->assertFalse($review->terms);
         // if terms field does exist but the terms are not accepted, set them to false
         $request = clone $this->request;
         $request->set('terms_exist', true);
         $review = $this->createReview($request);
         $this->assertTrue($review->isValid());
         $this->assertFalse($review->terms);
+        // if terms field exists and the terms are accepted, set them to true
+        $request = clone $this->request;
+        $request->set('terms_exist', true);
+        $request->set('terms', true);
+        $review = $this->createReview($request);
+        $this->assertTrue($review->isValid());
+        $this->assertTrue($review->terms);
         // if terms are false (i.e. using the helper function), set them to false
         $request = clone $this->request;
         $request->set('terms', false);
@@ -169,7 +176,7 @@ class ReviewManagerTest extends WP_UnitTestCase
         // test the helper function directly
         $review = glsr_create_review($this->request->toArray());
         $this->assertTrue($review->isValid());
-        $this->assertTrue($review->terms);
+        $this->assertFalse($review->terms);
     }
 
     public function test_unassign_post()
