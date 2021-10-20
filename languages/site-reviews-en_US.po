@@ -34,7 +34,7 @@ msgstr "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
 
-#: plugin/Router.php:156, views/pages/documentation/support/common-problems-and-solutions.php:48
+#: plugin/Router.php:156, views/pages/documentation/support/common-problems-and-solutions.php:52
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr "The form could not be submitted. Please notify the site administrator."
 
@@ -86,7 +86,7 @@ msgstr "Show more"
 msgid "Your review has been submitted!"
 msgstr "Your review has been submitted!"
 
-#: plugin/Commands/CreateReview.php:166, views/pages/documentation/support/common-problems-and-solutions.php:68
+#: plugin/Commands/CreateReview.php:166, views/pages/documentation/support/common-problems-and-solutions.php:72
 msgid ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site administrator."
@@ -264,15 +264,15 @@ msgstr "You may also %s for an account."
 msgid "Close modal"
 msgstr "Close modal"
 
-#: plugin/Modules/Validator/AkismetValidator.php:49, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:64
+#: plugin/Modules/Validator/AkismetValidator.php:49, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:68
 msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr "This review has been flagged as possible spam and cannot be submitted."
 
-#: plugin/Modules/Validator/BlacklistValidator.php:37, views/pages/documentation/support/common-problems-and-solutions.php:60
+#: plugin/Modules/Validator/BlacklistValidator.php:37, views/pages/documentation/support/common-problems-and-solutions.php:64
 msgid "Your review cannot be submitted at this time."
 msgstr "Your review cannot be submitted at this time."
 
-#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:73
+#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:77
 msgid "The review submission failed. Please notify the site administrator."
 msgstr "The review submission failed. Please notify the site administrator."
 
@@ -1256,12 +1256,12 @@ msgctxt "admin-text"
 msgid "Review"
 msgstr "Review"
 
-#: config/settings.php:527, config/forms/metabox-fields.php:14, plugin/Controllers/PrivacyController.php:129, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:18
+#: config/settings.php:527, config/forms/metabox-fields.php:14, plugin/Controllers/PrivacyController.php:130, plugin/Defaults/PostTypeColumnDefaults.php:20, plugin/Defaults/RevisionFieldsDefaults.php:18
 msgctxt "admin-text"
 msgid "Name"
 msgstr "Name"
 
-#: config/settings.php:528, config/forms/metabox-fields.php:18, plugin/Controllers/PrivacyController.php:130, plugin/Defaults/PostTypeColumnDefaults.php:21, plugin/Defaults/RevisionFieldsDefaults.php:19
+#: config/settings.php:528, config/forms/metabox-fields.php:18, plugin/Controllers/PrivacyController.php:131, plugin/Defaults/PostTypeColumnDefaults.php:21, plugin/Defaults/RevisionFieldsDefaults.php:19
 msgctxt "admin-text"
 msgid "Email"
 msgstr "Email"
@@ -1618,7 +1618,7 @@ msgctxt "admin-text"
 msgid "Type"
 msgstr "Type"
 
-#: config/forms/metabox-fields.php:22, plugin/Controllers/PrivacyController.php:131, plugin/Defaults/PostTypeColumnDefaults.php:22, plugin/Defaults/RevisionFieldsDefaults.php:20
+#: config/forms/metabox-fields.php:22, plugin/Controllers/PrivacyController.php:132, plugin/Defaults/PostTypeColumnDefaults.php:22, plugin/Defaults/RevisionFieldsDefaults.php:20
 msgctxt "admin-text"
 msgid "IP Address"
 msgstr "IP Address"
@@ -1628,7 +1628,7 @@ msgctxt "admin-text"
 msgid "Avatar"
 msgstr "Avatar"
 
-#: config/forms/metabox-fields.php:31
+#: config/forms/metabox-fields.php:31, plugin/Controllers/PrivacyController.php:133
 msgctxt "admin-text"
 msgid "Terms Accepted"
 msgstr "Terms Accepted"
@@ -1638,12 +1638,12 @@ msgctxt "admin-text"
 msgid "Untitled"
 msgstr "Untitled"
 
-#: plugin/Addons/Controller.php:70, plugin/Controllers/AdminController.php:50, plugin/Controllers/MenuController.php:51, plugin/Integrations/Elementor/ElementorWidget.php:98, views/pages/tools/sync.php:23
+#: plugin/Addons/Controller.php:70, plugin/Controllers/AdminController.php:51, plugin/Controllers/MenuController.php:51, plugin/Integrations/Elementor/ElementorWidget.php:98, views/pages/tools/sync.php:23
 msgctxt "admin-text"
 msgid "Settings"
 msgstr "Settings"
 
-#: plugin/Addons/Controller.php:76, plugin/Controllers/AdminController.php:56, plugin/Controllers/MenuController.php:54
+#: plugin/Addons/Controller.php:76, plugin/Controllers/AdminController.php:57, plugin/Controllers/MenuController.php:54
 msgctxt "admin-text"
 msgid "Help"
 msgstr "Help"
@@ -1753,29 +1753,29 @@ msgctxt "admin-text"
 msgid "Edit"
 msgstr "Edit"
 
-#: plugin/Controllers/AdminController.php:107
+#: plugin/Controllers/AdminController.php:108
 msgctxt "admin-text"
 msgid "%s Review"
 msgid_plural "%s Reviews"
 msgstr[0] "%s Review"
 msgstr[1] "%s Reviews"
 
-#: plugin/Controllers/AdminController.php:188, plugin/Widgets/SiteReviewsWidget.php:113
+#: plugin/Controllers/AdminController.php:189, plugin/Widgets/SiteReviewsWidget.php:113
 msgctxt "admin-text"
 msgid "Recent Reviews"
 msgstr "Recent Reviews"
 
-#: plugin/Controllers/AdminController.php:189, plugin/Widgets/SiteReviewsFormWidget.php:78, plugin/Integrations/Elementor/ElementorFormWidget.php:21
+#: plugin/Controllers/AdminController.php:190, plugin/Widgets/SiteReviewsFormWidget.php:78, plugin/Integrations/Elementor/ElementorFormWidget.php:21
 msgctxt "admin-text"
 msgid "Submit a Review"
 msgstr "Submit a Review"
 
-#: plugin/Controllers/AdminController.php:190, plugin/Widgets/SiteReviewsSummaryWidget.php:81
+#: plugin/Controllers/AdminController.php:191, plugin/Widgets/SiteReviewsSummaryWidget.php:81
 msgctxt "admin-text"
 msgid "Summary of Reviews"
 msgstr "Summary of Reviews"
 
-#: plugin/Controllers/AdminController.php:225, plugin/Controllers/AdminController.php:245, plugin/Controllers/AdminController.php:258
+#: plugin/Controllers/AdminController.php:250, plugin/Controllers/AdminController.php:270, plugin/Controllers/AdminController.php:283
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr "Nothing found."
@@ -1890,7 +1890,7 @@ msgctxt "admin-text"
 msgid "General"
 msgstr "General"
 
-#: plugin/Controllers/MenuController.php:135, plugin/Controllers/PrivacyController.php:141, plugin/Defaults/PostTypeLabelDefaults.php:14, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
+#: plugin/Controllers/MenuController.php:135, plugin/Controllers/PrivacyController.php:146, plugin/Defaults/PostTypeLabelDefaults.php:14, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
 msgctxt "admin-text"
 msgid "Reviews"
 msgstr "Reviews"
@@ -1950,22 +1950,22 @@ msgctxt "admin-text"
 msgid "Yes"
 msgstr "Yes"
 
-#: plugin/Controllers/NoticeController.php:120
+#: plugin/Controllers/NoticeController.php:108
 msgctxt "admin-text"
 msgid "Common Problems and Solutions"
 msgstr "Common Problems and Solutions"
 
-#: plugin/Controllers/NoticeController.php:135
+#: plugin/Controllers/NoticeController.php:123
 msgctxt "admin-text"
 msgid "Thanks for installing Site Reviews v%s, we hope you love it!"
 msgstr "Thanks for installing Site Reviews v%s, we hope you love it!"
 
-#: plugin/Controllers/NoticeController.php:136
+#: plugin/Controllers/NoticeController.php:124
 msgctxt "admin-text"
 msgid "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 msgstr "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 
-#: plugin/Controllers/PrivacyController.php:24
+#: plugin/Controllers/PrivacyController.php:25
 msgctxt "admin-text"
 msgid ""
 "The email and associated name and IP address has been removed from all "
@@ -1974,12 +1974,12 @@ msgstr ""
 "The email and associated name and IP address has been removed from all "
 "reviews, but the reviews themselves were not removed."
 
-#: plugin/Controllers/PrivacyController.php:127
+#: plugin/Controllers/PrivacyController.php:128
 msgctxt "admin-text"
 msgid "Review Title"
 msgstr "Review Title"
 
-#: plugin/Controllers/PrivacyController.php:128
+#: plugin/Controllers/PrivacyController.php:129
 msgctxt "admin-text"
 msgid "Review Content"
 msgstr "Review Content"
@@ -3298,34 +3298,31 @@ msgstr "Cancel"
 
 #: views/partials/notices/migrate.php:6
 msgctxt "admin-text"
-msgid "Database Update Required"
-msgstr "Database Update Required"
-
-#: views/partials/notices/migrate.php:7
-msgctxt "admin-text"
 msgid ""
-"Site Reviews needs to update the database and your reviews to the newest "
-"version. If this notice keeps appearing, please read the %s section on the "
-"Help page."
+"Site Reviews will automatically migrate your reviews and settings to the "
+"latest version; if you don't want to wait, you may also run the migration "
+"by clicking the button below. If this notice continues to appear after 5 "
+"minutes, please read the %s section on the Help page."
 msgstr ""
-"Site Reviews needs to update the database and your reviews to the newest "
-"version. If this notice keeps appearing, please read the %s section on the "
-"Help page."
+"Site Reviews will automatically migrate your reviews and settings to the "
+"latest version; if you don't want to wait, you may also run the migration "
+"by clicking the button below. If this notice continues to appear after 5 "
+"minutes, please read the %s section on the Help page."
 
-#: views/partials/notices/migrate.php:10, views/pages/tools/general/migrate-plugin.php:20
+#: views/partials/notices/migrate.php:9, views/pages/tools/general/migrate-plugin.php:20
 msgctxt "admin-text"
 msgid "Run All Migrations"
 msgstr "Run All Migrations"
 
-#: views/partials/notices/migrate.php:10
+#: views/partials/notices/migrate.php:9
 msgctxt "admin-text"
 msgid "Updating, please wait..."
 msgstr "Updating, please wait..."
 
-#: views/partials/notices/migrate.php:10
+#: views/partials/notices/migrate.php:9, views/pages/tools/general/migrate-plugin.php:20
 msgctxt "admin-text"
-msgid "Update Database"
-msgstr "Update Database"
+msgid "Run Migration"
+msgstr "Run Migration"
 
 #: views/partials/notices/premium.php:10
 msgctxt "admin-text"
@@ -3793,11 +3790,6 @@ msgstr ""
 msgctxt "admin-text"
 msgid "Migrating, please wait..."
 msgstr "Migrating, please wait..."
-
-#: views/pages/tools/general/migrate-plugin.php:20
-msgctxt "admin-text"
-msgid "Run Migration"
-msgstr "Run Migration"
 
 #: views/pages/tools/general/optimise-db-tables.php:6, views/pages/tools/general/repair-review-relations.php:17
 msgctxt "admin-text"
