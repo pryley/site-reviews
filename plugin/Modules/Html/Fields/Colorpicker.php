@@ -64,7 +64,7 @@ class Colorpicker extends Field
         $args = Arr::consolidate(Arr::get($this->args()->repeat, (string) $index));
         $args = wp_parse_args($args, $this->args()->toArray());
         $args['default'] = Arr::get($this->args()->default, $index);
-        $args['id'] = Str::suffix($this->args()->id, $index);
+        $args['id'] = Str::suffix($this->args()->id, (string) $index);
         $args['name'] = Str::suffix($this->args()->name, '[]');
         $args['value'] = Arr::get($this->args()->value, $index);
         return $this->builder->input($args);
