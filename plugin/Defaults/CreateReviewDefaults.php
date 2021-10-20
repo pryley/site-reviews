@@ -68,7 +68,7 @@ class CreateReviewDefaults extends Defaults
             'rating' => '',
             'referer' => '',
             'response' => '',
-            'terms' => true,
+            'terms' => false,
             'terms_exist' => false,
             'title' => '',
             'type' => 'local',
