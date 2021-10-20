@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use WP_Query;
 
 abstract class Controller
@@ -58,5 +59,17 @@ abstract class Controller
     {
         return glsr()->isAdmin()
             && in_array(glsr()->post_type, [get_post_type(), filter_input(INPUT_GET, 'post_type')]);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isReviewAdminScreen()
+    {
+        $screen = glsr_current_screen();
+        $screenIds = [
+            'dashboard',
+        ];
+        return Str::startsWith(glsr()->post_type, $screen->post_type) || in_array($screen->id, $screenIds);
     }
 }

@@ -28,3 +28,5 @@ parameters:
   paths:
     - config/
     - plugin/
+  scanDirectories:
+    - vendors/woocommerce/action-scheduler

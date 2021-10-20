@@ -126,9 +126,9 @@ class OptionManager
     {
         $settings = Arr::consolidate($this->getWP(static::databaseKey(), []));
         if (empty($settings)) {
-            glsr(Migrate::class)->reset(); // @todo why do we this here again? It should only run if this is not a fresh install.
             delete_option(static::databaseKey());
             $settings = Arr::consolidate(glsr()->defaults);
+            glsr(Migrate::class)->reset(); // Do this to migrate any previous version settings
         }
         glsr()->store('settings', $settings);
         return $settings;

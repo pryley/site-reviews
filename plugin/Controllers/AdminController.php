@@ -14,6 +14,7 @@ use GeminiLabs\SiteReviews\Install;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Role;
@@ -212,6 +213,29 @@ class AdminController extends Controller
         glsr()->render('partials/editor/tinymce', [
             'shortcodes' => $shortcodes,
         ]);
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/queue/migration
+     */
+    public function performMigration()
+    {
+        glsr(Migrate::class)->run();
+    }
+
+    /**
+     * @return void
+     * @action admin_init
+     */
+    public function scheduleMigration()
+    {
+        if ($this->isReviewAdminScreen() 
+            && !glsr(Queue::class)->isPending('site-reviews/queue/migration')) {
+            if (glsr(Migrate::class)->isMigrationNeeded() || glsr(Database::class)->isMigrationNeeded()) {
+                glsr(Queue::class)->once(time() + MINUTE_IN_SECONDS, 'site-reviews/queue/migration');
+            }
+        }
     }
 
     /**

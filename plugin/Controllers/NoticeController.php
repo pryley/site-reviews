@@ -82,18 +82,6 @@ class NoticeController extends Controller
     }
 
     /**
-     * @return bool
-     */
-    protected function isCurrentScreen()
-    {
-        $screen = glsr_current_screen();
-        $screenIds = [
-            'dashboard',
-        ];
-        return Str::startsWith(glsr()->post_type, glsr_current_screen()->post_type) || in_array($screen->id, $screenIds);
-    }
-
-    /**
      * @return void
      */
     protected function renderPremiumNotice()
@@ -110,7 +98,7 @@ class NoticeController extends Controller
      */
     protected function renderMigrationNotice()
     {
-        if ($this->isCurrentScreen()
+        if ($this->isReviewAdminScreen()
             && glsr()->hasPermission('tools', 'general')
             && (glsr(Migrate::class)->isMigrationNeeded() || glsr(Database::class)->isMigrationNeeded())) {
             glsr()->render('partials/notices/migrate', [
@@ -128,7 +116,7 @@ class NoticeController extends Controller
      */
     protected function renderWelcomeNotice()
     {
-        if ($this->isCurrentScreen()
+        if ($this->isReviewAdminScreen()
             && Helper::isGreaterThan($this->getVersionFor('welcome'), $this->getUserMeta('welcome', 0))
             && glsr()->can('edit_others_posts')) {
             $welcomeText = '0.0.0' == glsr(OptionManager::class)->get('version_upgraded_from')
