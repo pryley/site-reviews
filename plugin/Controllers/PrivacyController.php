@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Review;
 
 class PrivacyController extends Controller
@@ -129,9 +130,13 @@ class PrivacyController extends Controller
             'name' => _x('Name', 'admin-text', 'site-reviews'),
             'email' => _x('Email', 'admin-text', 'site-reviews'),
             'ip_address' => _x('IP Address', 'admin-text', 'site-reviews'),
+            'terms' => _x('Terms Accepted', 'admin-text', 'site-reviews'),
         ];
         foreach ($fields as $field => $name) {
             if ($value = $review->$field) {
+                if ('terms' === $field && Cast::toBool($value)) {
+                    $value = $review->date_gmt;
+                }
                 $data[] = ['name' => $name, 'value' => $value];
             }
         }
