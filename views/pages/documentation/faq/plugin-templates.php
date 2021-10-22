@@ -17,31 +17,31 @@
             Would be copied here:<br><br>
             <code>/wp-content/themes/&lt;your-child-theme&gt;/site-reviews/form/field.php</code>
         </p>
-        <pre><code class="language-html"> wp-content/plugins/site-reviews/templates
-├── emails                   This folder contains the email template files
- │   └── default.php         This is the default template for HTML emails
- ├── form                    This folder contains the template files for the form fields
- │   ├── field.php           This template displays the field. To target a specific field type, append the type with an underscore (i.e. field_email.php, field_textarea.php)
- │   ├── field_checkbox.php  This template displays the field used for one or more checkboxes
- │   ├── field_radio.php     This template displays the field used for one or more radios
- │   ├── field_select.php    This template displays the field used for a select
- │   ├── field_toggle.php    This template displays the field used for one or more toggle switches
- │   ├── response.php        This template displays the form submission response
- │   ├── submit-button.php   This template displays the submit button
- │   ├── type-checkbox.php   This template is used by the field_checkbox.php template to display each checkbox
- │   ├── type-radio.php      This template is used by the field_radio.php template to display each radio
- │   └── type-toggle.php     This template is used by the field_toggle.php template to display each toggle switch
- ├── rating                  This folder contains the template files for the stars
- │   ├── empty-star.php      This template displays the empty star
- │   ├── full-star.php       This template displays the full star
- │   ├── half-star.php       This template displays the half star
- │   └── stars.php           This template displays the combined stars
- ├── login-register.php      This template displays the login/register message
- ├── notification.php        This template contains the message contents of the notification email
- ├── pagination.php          This template displays the review pagination
- ├── review.php              This template displays a single review
- ├── reviews-form.php        This template displays the review form
- ├── reviews-summary.php     This template displays the review summary
- └── reviews.php             This template displays the reviews</code></pre>
+        <pre><code class="language-html">wp-content/plugins/site-reviews/templates
+├── emails                  This folder contains the email template files
+│   └── default.php         This is the default template for HTML emails
+├── form                    This folder contains the template files for the form fields
+│   ├── field.php           This template displays the field. To target a specific field type, append the type with an underscore (i.e. field_email.php, field_textarea.php)
+│   ├── field_checkbox.php  This template displays the field used for one or more checkboxes
+│   ├── field_radio.php     This template displays the field used for one or more radios
+│   ├── field_select.php    This template displays the field used for a select
+│   ├── field_toggle.php    This template displays the field used for one or more toggle switches
+│   ├── response.php        This template displays the form submission response
+│   ├── submit-button.php   This template displays the submit button
+│   ├── type-checkbox.php   This template is used by the field_checkbox.php template to display each checkbox
+│   ├── type-radio.php      This template is used by the field_radio.php template to display each radio
+│   └── type-toggle.php     This template is used by the field_toggle.php template to display each toggle switch
+├── rating                  This folder contains the template files for the stars
+│   ├── empty-star.php      This template displays the empty star
+│   ├── full-star.php       This template displays the full star
+│   ├── half-star.php       This template displays the half star
+│   └── stars.php           This template displays the combined stars
+├── login-register.php      This template displays the login/register message
+├── notification.php        This template contains the default message contents of the notification email
+├── pagination.php          This template displays the review pagination
+├── review.php              This template displays a single review
+├── reviews-form.php        This template displays the review form
+├── reviews-summary.php     This template displays the review summary
+└── reviews.php             This template displays the reviews</code></pre>
     </div>
 </div>
