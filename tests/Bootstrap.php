@@ -20,6 +20,7 @@ class Bootstrap
         $this->tests_dir = __DIR__;
         $this->plugin_dir = dirname($this->tests_dir);
         $this->wp_tests_dir = $this->get_tests_dir($_SERVER['HOME'].'/Sites/wordpress/tests/current');
+        require_once $this->plugin_dir.'/vendor/autoload.php';
         // load test function so tests_add_filter() is available
         require_once $this->wp_tests_dir.'/includes/functions.php';
         tests_add_filter('muplugins_loaded', array($this, 'load_plugin_environment'));

@@ -39,6 +39,8 @@
     "fzaninotto/faker": "^1.9",
     "phpstan/phpstan": "^0.12.42",
     "phpunit/phpunit": "^7.5",
-    "szepeviktor/phpstan-wordpress": "^0.7.7"
+    "szepeviktor/phpstan-wordpress": "^0.7.7",
+    "yoast/phpunit-polyfills": "^1.0",
+    "brain/monkey": "^2.6"
   }
 }

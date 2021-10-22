@@ -4,11 +4,11 @@
     "body-scroll-lock": "^3.1.5",
     "prismjs": "^1.25.0",
     "star-rating.js": "^4.1.5",
-    "tippy.js": "^6.3.1"
+    "tippy.js": "^6.3.2"
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.14.5",
-    "@wordpress/babel-preset-default": "^6.3.2",
+    "@wordpress/babel-preset-default": "^6.3.3",
     "babel-plugin-prismjs": "^2.1.0",
     "browser-sync": "^2.27.5",
     "browser-sync-webpack-plugin": "^2.2.2",
@@ -19,7 +19,7 @@
     "gulp-pottopo": "^1.0.1",
     "gulp-sort": "^2.0.0",
     "gulp-wp-pot": "^2.5.0",
-    "laravel-mix": "^6.0.31",
+    "laravel-mix": "^6.0.34",
     "laravel-mix-bundle-analyzer": "^1.0.5",
     "postcss-calc": "^8.0.0",
     "postcss-custom-properties": "^11.0.0",
@@ -28,10 +28,10 @@
     "postcss-selector-namespace": "github:pryley/postcss-selector-namespace#master",
     "precss": "^4.0.0",
     "pump": "^3.0.0",
-    "sass": "^1.42.1",
-    "sass-loader": "^12.1.0",
+    "sass": "^1.43.3",
+    "sass-loader": "^12.2.0",
     "yamljs": "^0.3.0",
-    "yargs": "^17.2.0"
+    "yargs": "^17.2.1"
   },
   "private": true,
   "scripts": {
