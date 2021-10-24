@@ -8,23 +8,85 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 class Date
 {
     /**
-     * [60, 1],
-     * [60 * 100, 60],
-     * [3600 * 70, 3600],
-     * [3600 * 24 * 10, 3600 * 24],
-     * [3600 * 24 * 30, 3600 * 24 * 7],
-     * [3600 * 24 * 30 * 30, 3600 * 24 * 30],
-     * [INF, 3600 * 24 * 265],.
+     * @var array
      */
-    protected static $TIME_PERIODS = [
-        [60, 1],
-        [6000, 60],
-        [252000, 3600],
-        [864000, 86400],
-        [2592000, 604800],
-        [77760000, 2592000],
-        [INF, 22896000],
-    ];
+    protected $timePeriods;
+
+    public function __construct()
+    {
+        $this->timePeriods = [
+            [
+                'future' => _nx_noop('in %s year', 'in %s years', '%s: amount of time', 'site-reviews'),
+                'name' => _nx_noop('%s year', '%s years', '%s: amount of time', 'site-reviews'),
+                'past' => _nx_noop('%s year ago', '%s years ago', '%s: amount of time', 'site-reviews'),
+                'seconds' => YEAR_IN_SECONDS,
+            ],
+            [
+                'future' => _nx_noop('in %s month', 'in %s months', '%s: amount of time', 'site-reviews'),
+                'name' => _nx_noop('%s month', '%s months', '%s: amount of time', 'site-reviews'),
+                'past' => _nx_noop('%s month ago', '%s months ago', '%s: amount of time', 'site-reviews'),
+                'seconds' => MONTH_IN_SECONDS,
+            ],
+            [
+                'future' => _nx_noop('in %s week', 'in %s weeks', '%s: amount of time', 'site-reviews'),
+                'name' => _nx_noop('%s week', '%s weeks', '%s: amount of time', 'site-reviews'),
+                'past' => _nx_noop('%s week ago', '%s weeks ago', '%s: amount of time', 'site-reviews'),
+                'seconds' => WEEK_IN_SECONDS,
+            ],
+            [
+                'future' => _nx_noop('in %s day', 'in %s days', '%s: amount of time', 'site-reviews'),
+                'name' => _nx_noop('%s day', '%s days', '%s: amount of time', 'site-reviews'),
+                'past' => _nx_noop('%s day ago', '%s days ago', '%s: amount of time', 'site-reviews'),
+                'seconds' => DAY_IN_SECONDS,
+            ],
+            [
+                'future' => _nx_noop('in %s hour', 'in %s hours', '%s: amount of time', 'site-reviews'),
+                'name' => _nx_noop('%s hour', '%s hours', '%s: amount of time', 'site-reviews'),
+                'past' => _nx_noop('%s hour ago', '%s hours ago', '%s: amount of time', 'site-reviews'),
+                'seconds' => HOUR_IN_SECONDS,
+            ],
+            [
+                'future' => _nx_noop('in %s minute', 'in %s minutes', '%s: amount of time', 'site-reviews'),
+                'name' => _nx_noop('%s minute', '%s minutes', '%s: amount of time', 'site-reviews'),
+                'past' => _nx_noop('%s minute ago', '%s minutes ago', '%s: amount of time', 'site-reviews'),
+                'seconds' => MINUTE_IN_SECONDS,
+            ],
+            [
+                'future' => _nx_noop('in %s second', 'in %s seconds', '%s: amount of time', 'site-reviews'),
+                'name' => _nx_noop('%s second', '%s seconds', '%s: amount of time', 'site-reviews'),
+                'past' => _nx_noop('%s second ago', '%s seconds ago', '%s: amount of time', 'site-reviews'),
+                'seconds' => 1,
+            ],
+        ];
+    }
+
+    /**
+     * @param int $seconds
+     * @param string $tense
+     * @param int $levels
+     * @return string
+     */
+    public function interval($seconds, $tense = '', $levels = 2)
+    {
+        $tense = Str::restrictTo(['future', 'past'], $tense, '');
+        if ($seconds <= 0) {
+            return _nx('A moment ago', 'Now', (int)('past' === $tense), 'The past and present/future tense of now', 'site-reviews');
+        }
+        $output = [];
+        for (
+            $index = 0, $level = 0;
+            $index < count($this->timePeriods) && $seconds > 0 && $level < $levels;
+            ++$index
+        ) {
+            $unit = intval(floor($seconds / $this->timePeriods[$index]['seconds']));
+            if ($unit > 0) {
+                ++$level;
+                $seconds -= $unit * $this->timePeriods[$index]['seconds'];
+                $output[] = $this->intervalLevel(compact('index', 'level', 'levels', 'seconds', 'tense', 'unit'));
+            }
+        }
+        return implode(', ', $output);
+    }
 
     /**
      * @param mixed $date
@@ -43,9 +105,7 @@ class Date
      */
     public function isTimestamp($date)
     {
-        return ctype_digit($date)
-            ? true
-            : false;
+        return ctype_digit($date) ? true : false;
     }
 
     /**
@@ -66,41 +126,50 @@ class Date
     public function localized($date, $fallback = '')
     {
         return $this->isValid($date)
-            ? date_i18n('Y-m-d H:i', $date)
+            ? date_i18n('Y-m-d H:i:s', $date)
             : $fallback;
     }
 
     /**
      * @param mixed $date
-     * @return string|void
+     * @return string
      */
     public function relative($date)
     {
-        if (!$this->isDate($date)) {
-            return '';
+        $seconds = time() - $this->toTimestamp($date);
+        return $this->interval($seconds, 'past', 1);
+    }
+
+    /**
+     * @param mixed $date
+     * @return int
+     */
+    public function toTimestamp($date)
+    {
+        if ($this->isTimestamp($date)) {
+            return $date;
         }
-        $diff = time() - strtotime($date);
-        if ($diff < 0) {
-            return __('A moment ago', 'site-reviews'); // Display something vague if the date is in the future
+        if ($this->isDate($date)) {
+            return strtotime($date);
         }
-        foreach (static::$TIME_PERIODS as $i => $timePeriod) {
-            if ($diff > $timePeriod[0]) {
-                continue;
-            }
-            $unit = intval(floor($diff / $timePeriod[1]));
-            $relativeDates = [
-                _n('%s second ago', '%s seconds ago', $unit, 'site-reviews'),
-                _n('%s minute ago', '%s minutes ago', $unit, 'site-reviews'),
-                _n('an hour ago', '%s hours ago', $unit, 'site-reviews'),
-                _n('yesterday', '%s days ago', $unit, 'site-reviews'),
-                _n('a week ago', '%s weeks ago', $unit, 'site-reviews'),
-                _n('%s month ago', '%s months ago', $unit, 'site-reviews'),
-                _n('%s year ago', '%s years ago', $unit, 'site-reviews'),
-            ];
-            $relativeDate = $relativeDates[$i];
-            return Str::contains('%s', $relativeDate)
-                ? sprintf($relativeDate, $unit)
-                : $relativeDate;
+        return time(); // fallback to the current time
+    }
+
+    /**
+     * @return string
+     */
+    protected function intervalLevel(array $args)
+    {
+        $keys = ['index', 'level', 'levels', 'seconds', 'tense', 'unit'];
+        $args = wp_parse_args($args, array_fill_keys($keys, 0));
+        extract($args);
+        if (1 === $level && 'future' === $tense) {
+            $string = $this->timePeriods[$index]['future'];
+        } elseif (($level === $levels || $seconds <= 0) && 'past' === $tense) {
+            $string = $this->timePeriods[$index]['past'];
+        } else {
+            $string = $this->timePeriods[$index]['name'];
         }
+        return sprintf(translate_nooped_plural($string, $unit, 'site-reviews'), $unit);
     }
 }

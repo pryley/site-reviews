@@ -200,7 +200,7 @@ class Review extends Arguments
         }
         $dateFormat = glsr_get_option('reviews.date.format', 'default');
         if ('relative' == $dateFormat) {
-            return glsr(Date::class)->relative($value);
+            return glsr(Date::class)->relative($value, 'past');
         }
         $format = 'custom' == $dateFormat
             ? glsr_get_option('reviews.date.custom', 'M j, Y')
