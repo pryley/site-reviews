@@ -232,9 +232,9 @@ class AdminController extends Controller
     {
         if ($this->isReviewAdminScreen() 
             && !defined('GLSR_UNIT_TESTS')
-            && !glsr(Queue::class)->isPending('site-reviews/queue/migration')) {
+            && !glsr(Queue::class)->isPending('queue/migration')) {
             if (glsr(Migrate::class)->isMigrationNeeded() || glsr(Database::class)->isMigrationNeeded()) {
-                glsr(Queue::class)->once(time() + MINUTE_IN_SECONDS, 'site-reviews/queue/migration');
+                glsr(Queue::class)->once(time() + MINUTE_IN_SECONDS, 'queue/migration');
             }
         }
     }

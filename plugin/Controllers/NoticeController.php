@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
+use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Request;
 
 class NoticeController extends Controller
@@ -98,9 +99,21 @@ class NoticeController extends Controller
      */
     protected function renderMigrationNotice()
     {
-        if ($this->isReviewAdminScreen()
-            && glsr()->hasPermission('tools', 'general')
-            && (glsr(Migrate::class)->isMigrationNeeded() || glsr(Database::class)->isMigrationNeeded())) {
+        if ($this->isReviewAdminScreen() && glsr()->hasPermission('tools', 'general')) {
+            $args = [];
+            if (glsr(Database::class)->isMigrationNeeded()) {
+                $args['database'] = true;
+            }
+            if (glsr(Migrate::class)->isMigrationNeeded()) {
+                $args['migrations'] = glsr(Migrate::class)->pendingVersions();
+            }
+            if (empty($args)) {
+                return;
+            }
+            if (!glsr(Queue::class)->isPending('queue/migration')) {
+                // The $args are informational only
+                glsr(Queue::class)->once(time() + MINUTE_IN_SECONDS, 'queue/migration', $args);
+            }
             glsr()->render('partials/notices/migrate', [
                 'action' => glsr(Builder::class)->a([
                     'data-expand' => '#support-common-problems-and-solutions',

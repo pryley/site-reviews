@@ -3,9 +3,10 @@ includes:
     - vendor/szepeviktor/phpstan-wordpress/extension.neon
 parameters:
   bootstrapFiles:
-    - autoload.php
-    - helpers.php
     - tests/phpstan/bootstrap.php
+    - tests/phpstan/stubs/packages.php
+    - helpers.php
+    - autoload.php
   excludePaths:
     - plugin/Controllers/IntegrationController.php
     - plugin/Integrations
@@ -24,9 +25,19 @@ parameters:
     - '#Unsafe usage of new static\(\).#'
     # The wpdb class provides access to $dbname with __get
     - '#Access to protected property wpdb::\$dbname.#'
+    # PHPstan seems to have trouble with wp_parse_args combined with extract
+    - '#Variable \$index might not be defined.#'
+    - '#Variable \$level might not be defined.#'
+    - '#Variable \$levels might not be defined.#'
+    - '#Variable \$seconds might not be defined.#'
+    - '#Variable \$tense might not be defined.#'
+    - '#Variable \$unit might not be defined.#'
+    # Technically, these errors are correct. However, since this is a third-party package we will ignore them for now
+    - '#Call to an undefined method ActionScheduler_Schedule::get_recurrence\(\).#'
+    - '#Call to an undefined method ActionScheduler_Schedule::get_date\(\).#'
   level: 5
   paths:
-    - config/
-    - plugin/
-  scanDirectories:
-    - vendors/woocommerce/action-scheduler
+    - config
+    - plugin
+  scanFiles:
+    - vendors/woocommerce/action-scheduler/functions.php

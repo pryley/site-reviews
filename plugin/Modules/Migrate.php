@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Modules\Queue;
 
 class Migrate
 {
@@ -54,9 +53,6 @@ class Migrate
     public function reset()
     {
         delete_option($this->migrationsKey);
-        if (!defined('GLSR_UNIT_TESTS') && !glsr(Queue::class)->isPending('site-reviews/queue/migration')) {
-            glsr(Queue::class)->once(time() + MINUTE_IN_SECONDS, 'site-reviews/queue/migration');
-        }
     }
 
     /**

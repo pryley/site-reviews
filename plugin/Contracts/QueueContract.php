@@ -11,10 +11,9 @@ interface QueueContract
      *
      * @param string $hook the hook to trigger
      * @param array $args arguments to pass when the hook triggers
-     * @param string $group the group to assign this job to
      * @return int the action ID
      */
-    public function async($hook, $args = [], $group = Application::ID);
+    public function async($hook, $args = []);
 
     /**
      * Cancel the next occurrence of a scheduled action.
@@ -28,19 +27,17 @@ interface QueueContract
      *
      * @param string $hook the hook that the job will trigger
      * @param array $args args that would have been passed to the job
-     * @param string $group the group the job is assigned to
      * @return string|null the scheduled action ID if a scheduled action was found, or null if no matching action found
      */
-    public function cancel($hook, $args = [], $group = Application::ID);
+    public function cancel($hook, $args = []);
 
     /**
      * Cancel all occurrences of a scheduled action.
      *
      * @param string $hook the hook that the job will trigger
      * @param array $args args that would have been passed to the job
-     * @param string $group the group the job is assigned to
      */
-    public function cancelAll($hook, $args = [], $group = Application::ID);
+    public function cancelAll($hook, $args = []);
 
     /**
      * Schedule an action that recurs on a cron-like schedule.
@@ -61,10 +58,9 @@ interface QueueContract
      *   +------------------------- min (0 - 59)
      * @param string $hook the hook to trigger
      * @param array $args arguments to pass when the hook triggers
-     * @param string $group the group to assign this job to
      * @return int the action ID
      */
-    public function cron($timestamp, $schedule, $hook, $args = [], $group = Application::ID);
+    public function cron($timestamp, $schedule, $hook, $args = []);
 
     /**
      * Check if there is a scheduled action in the queue but more efficiently than as_next_scheduled_action().
@@ -73,10 +69,9 @@ interface QueueContract
      *
      * @param string $hook  the hook of the action
      * @param array  $args  Args that have been passed to the action. Null will matches any args.
-     * @param string $group the group the job is assigned to
      * @return bool true if a matching action is pending or in-progress, false otherwise
      */
-    public function isPending($hook, $args = [], $group = Application::ID);
+    public function isPending($hook, $args = []);
 
     /**
      * Check if there is an existing action in the queue with a given hook, args and group combination.
@@ -89,10 +84,9 @@ interface QueueContract
      *
      * @param string $hook
      * @param array $args
-     * @param string $group
      * @return \DateTime|bool the timestamp for the next occurrence of a pending scheduled action, true for an async or in-progress action or false if there is no matching action
      */
-    public function next($hook, $args = null, $group = Application::ID);
+    public function next($hook, $args = null);
 
     /**
      * Schedule an action to run one time.
@@ -100,10 +94,9 @@ interface QueueContract
      * @param int $timestamp when the job will run
      * @param string $hook the hook to trigger
      * @param array $args arguments to pass when the hook triggers
-     * @param string $group the group to assign this job to
      * @return int the action ID
      */
-    public function once($timestamp, $hook, $args = [], $group = Application::ID);
+    public function once($timestamp, $hook, $args = []);
 
     /**
      * Schedule a recurring action.
@@ -112,10 +105,9 @@ interface QueueContract
      * @param int $intervalInSeconds how long to wait between runs
      * @param string $hook the hook to trigger
      * @param array $args arguments to pass when the hook triggers
-     * @param string $group the group to assign this job to
      * @return int the action ID
      */
-    public function recurring($timestamp, $intervalInSeconds, $hook, $args = [], $group = Application::ID);
+    public function recurring($timestamp, $intervalInSeconds, $hook, $args = []);
 
     /**
      * Find scheduled actions.

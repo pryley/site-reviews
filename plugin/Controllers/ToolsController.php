@@ -13,6 +13,7 @@ use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Modules\SystemInfo;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Role;
@@ -187,6 +188,7 @@ class ToolsController extends Controller
      */
     public function migratePlugin(Request $request)
     {
+        glsr(Queue::class)->cancelAll('queue/migration');
         if (wp_validate_boolean($request->alt)) {
             glsr(Migrate::class)->runAll();
             glsr(Notice::class)->clear()->addSuccess(_x('All plugin migrations have been run successfully, please reload the page.', 'admin-text', 'site-reviews'));

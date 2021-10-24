@@ -135,6 +135,7 @@ class Hooks implements HooksContract
         add_filter('site-reviews/builder', [$this->public, 'modifyBuilder']);
         add_action('wp_footer', [$this->public, 'renderModal'], 50);
         add_action('wp_footer', [$this->public, 'renderSchema']);
+        add_action('site-reviews/queue/notification', [$this->public, 'sendNotification']);
         add_action('site-reviews/route/public/submit-review', [$this->public, 'submitReview']);
         add_action('site-reviews/route/ajax/submit-review', [$this->public, 'submitReviewAjax']);
         add_action('admin_init', [$this->privacy, 'privacyPolicyContent']);
