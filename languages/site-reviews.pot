@@ -1285,11 +1285,11 @@ msgstr ""
 msgid "Show more"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:161
+#: plugin/Commands/CreateReview.php:162
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:166, views/pages/documentation/support/common-problems-and-solutions.php:72
+#: plugin/Commands/CreateReview.php:167, views/pages/documentation/support/common-problems-and-solutions.php:72
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
@@ -1332,7 +1332,7 @@ msgctxt "admin-text"
 msgid "See the %s for more details."
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:146, plugin/Controllers/MenuController.php:164
+#: plugin/Commands/ImportReviews.php:146, plugin/Controllers/MenuController.php:165
 msgctxt "admin-text"
 msgid "Console"
 msgstr ""
@@ -1489,7 +1489,7 @@ msgctxt "admin-text"
 msgid "Support"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:108, plugin/Controllers/ToolsController.php:90
+#: plugin/Controllers/MenuController.php:108, plugin/Controllers/ToolsController.php:91
 msgctxt "admin-text"
 msgid "FAQ"
 msgstr ""
@@ -1544,12 +1544,17 @@ msgctxt "admin-text"
 msgid "Licenses"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:163, views/pages/tools/sync.php:57
+#: plugin/Controllers/MenuController.php:163
+msgctxt "admin-text"
+msgid "Scheduled Actions"
+msgstr ""
+
+#: plugin/Controllers/MenuController.php:164, views/pages/tools/sync.php:57
 msgctxt "admin-text"
 msgid "Sync Reviews"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:165
+#: plugin/Controllers/MenuController.php:166
 msgctxt "admin-text"
 msgid "System Info"
 msgstr ""
@@ -1584,17 +1589,17 @@ msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:108
+#: plugin/Controllers/NoticeController.php:121
 msgctxt "admin-text"
 msgid "Common Problems and Solutions"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:123
+#: plugin/Controllers/NoticeController.php:136
 msgctxt "admin-text"
 msgid "Thanks for installing Site Reviews v%s, we hope you love it!"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:124
+#: plugin/Controllers/NoticeController.php:137
 msgctxt "admin-text"
 msgid "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 msgstr ""
@@ -1644,72 +1649,72 @@ msgctxt "The Term ID (admin-text)"
 msgid "<span>ID: %d</span>"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:29
+#: plugin/Controllers/ToolsController.php:30
 msgctxt "admin-text"
 msgid "Console cleared."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:54
+#: plugin/Controllers/ToolsController.php:55
 msgctxt "admin-text"
 msgid "The <code>%s</code> table was successfully converted to InnoDB."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:59
+#: plugin/Controllers/ToolsController.php:60
 msgctxt "admin-text"
 msgid "The <code>%s</code> table could not be converted to InnoDB."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:64
+#: plugin/Controllers/ToolsController.php:65
 msgctxt "admin-text"
 msgid "The <code>%s</code> table was not found in the database."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:99
+#: plugin/Controllers/ToolsController.php:100
 msgctxt "admin-text"
 msgid "Your detected IP address is %s. If this looks incorrect, please see the %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:94
+#: plugin/Controllers/ToolsController.php:95
 msgctxt "admin-text"
 msgid "Site Reviews was unable to detect an IP address. To fix this, please see the %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:150
+#: plugin/Controllers/ToolsController.php:151
 msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:195
+#: plugin/Controllers/ToolsController.php:197
 msgctxt "admin-text"
 msgid "The plugin has been migrated sucessfully, please reload the page."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:192
+#: plugin/Controllers/ToolsController.php:194
 msgctxt "admin-text"
 msgid "All plugin migrations have been run successfully, please reload the page."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:218
+#: plugin/Controllers/ToolsController.php:220
 msgctxt "admin-text"
 msgid "The review relationships have been repaired."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:240
+#: plugin/Controllers/ToolsController.php:242
 msgctxt "admin-text"
 msgid "The assigned meta values have been reset."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:266
+#: plugin/Controllers/ToolsController.php:268
 msgctxt "admin-text"
 msgid "The permissions have been reset."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:277
+#: plugin/Controllers/ToolsController.php:279
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:281
+#: plugin/Controllers/ToolsController.php:283
 msgctxt "admin-text"
 msgid "The permissions have been reset, please %s for them to take effect."
 msgstr ""
@@ -2080,49 +2085,157 @@ msgctxt "admin-text"
 msgid "Console was automatically cleared (512KB maximum size)"
 msgstr ""
 
-#: plugin/Modules/Date.php:84
-msgid "A moment ago"
-msgstr ""
-
-#: plugin/Modules/Date.php:92
-msgid "%s second ago"
-msgid_plural "%s seconds ago"
+#: plugin/Modules/Date.php:19
+msgctxt "%s: amount of time"
+msgid "in %s year"
+msgid_plural "in %s years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Date.php:93
-msgid "%s minute ago"
-msgid_plural "%s minutes ago"
+#: plugin/Modules/Date.php:20
+msgctxt "%s: amount of time"
+msgid "%s year"
+msgid_plural "%s years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Date.php:94
-msgid "an hour ago"
-msgid_plural "%s hours ago"
+#: plugin/Modules/Date.php:21
+msgctxt "%s: amount of time"
+msgid "%s year ago"
+msgid_plural "%s years ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Date.php:95
-msgid "yesterday"
-msgid_plural "%s days ago"
+#: plugin/Modules/Date.php:25
+msgctxt "%s: amount of time"
+msgid "in %s month"
+msgid_plural "in %s months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Date.php:96
-msgid "a week ago"
-msgid_plural "%s weeks ago"
+#: plugin/Modules/Date.php:26
+msgctxt "%s: amount of time"
+msgid "%s month"
+msgid_plural "%s months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Date.php:97
+#: plugin/Modules/Date.php:27
+msgctxt "%s: amount of time"
 msgid "%s month ago"
 msgid_plural "%s months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Date.php:98
-msgid "%s year ago"
-msgid_plural "%s years ago"
+#: plugin/Modules/Date.php:31
+msgctxt "%s: amount of time"
+msgid "in %s week"
+msgid_plural "in %s weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:32
+msgctxt "%s: amount of time"
+msgid "%s week"
+msgid_plural "%s weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:33
+msgctxt "%s: amount of time"
+msgid "%s week ago"
+msgid_plural "%s weeks ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:37
+msgctxt "%s: amount of time"
+msgid "in %s day"
+msgid_plural "in %s days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:38
+msgctxt "%s: amount of time"
+msgid "%s day"
+msgid_plural "%s days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:39
+msgctxt "%s: amount of time"
+msgid "%s day ago"
+msgid_plural "%s days ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:43
+msgctxt "%s: amount of time"
+msgid "in %s hour"
+msgid_plural "in %s hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:44
+msgctxt "%s: amount of time"
+msgid "%s hour"
+msgid_plural "%s hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:45
+msgctxt "%s: amount of time"
+msgid "%s hour ago"
+msgid_plural "%s hours ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:49
+msgctxt "%s: amount of time"
+msgid "in %s minute"
+msgid_plural "in %s minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:50
+msgctxt "%s: amount of time"
+msgid "%s minute"
+msgid_plural "%s minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:51
+msgctxt "%s: amount of time"
+msgid "%s minute ago"
+msgid_plural "%s minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:55
+msgctxt "%s: amount of time"
+msgid "in %s second"
+msgid_plural "in %s seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:56
+msgctxt "%s: amount of time"
+msgid "%s second"
+msgid_plural "%s seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:57
+msgctxt "%s: amount of time"
+msgid "%s second ago"
+msgid_plural "%s seconds ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugin/Modules/Date.php:73
+msgctxt "The past and present/future tense of now"
+msgid "A moment ago"
+msgid_plural "Now"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -2145,6 +2258,130 @@ msgstr ""
 #: plugin/Overrides/ReviewsListTable.php:66, views/partials/screen/inline-edit.php:69, views/partials/screen/inline-edit.php:83, views/partials/screen/inline-edit.php:93
 msgctxt "admin-text"
 msgid "No Change"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:87, plugin/Overrides/ScheduledActionsTable.php:120, views/partials/translations/plural.php:11, views/partials/translations/single.php:10
+msgctxt "admin-text"
+msgid "Delete"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:90
+msgctxt "admin-text"
+msgid "Hook"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:91, views/partials/screen/inline-edit.php:67
+msgctxt "admin-text"
+msgid "Status"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:92
+msgctxt "admin-text"
+msgid "Recurrence"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:93
+msgctxt "admin-text"
+msgid "Scheduled Date"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:94
+msgctxt "admin-text"
+msgid "Args"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:95
+msgctxt "admin-text"
+msgid "Log"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:101
+msgid "Claim ID"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:107
+msgctxt "admin-text"
+msgid "Retry"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:108
+msgctxt "admin-text"
+msgid "Retry the action now as if it were run as part of a queue"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:111
+msgctxt "admin-text"
+msgid "Run Now"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:112
+msgctxt "admin-text"
+msgid "Process the action now as if it were run as part of a queue"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:115, views/partials/editor/pinned.php:17, views/partials/screen/inline-edit.php:30, views/partials/screen/inline-edit.php:127
+msgctxt "admin-text"
+msgid "Cancel"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:116
+msgctxt "admin-text"
+msgid "Cancel the action now to avoid it being run in future"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:121
+msgctxt "admin-text"
+msgid "Delete the action now"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:224
+msgid "It appears one or more database tables were missing. Attempting to re-create the missing table(s)."
+msgstr ""
+
+#. translators: %d: seconds
+#: plugin/Overrides/ScheduledActionsTable.php:256
+msgid "The next queue will begin processing in approximately %d seconds."
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:253
+msgid "A new queue has begun processing. <a href=\"%s\">View actions in-progress &raquo;</a>"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:238
+msgid "Maximum simultaneous queues already in progress (%s queue). No additional queues will begin processing until the current queues are complete."
+msgid_plural "Maximum simultaneous queues already in progress (%s queues). No additional queues will begin processing until the current queues are complete."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1: action HTML 2: action ID 3: error message
+#: plugin/Overrides/ScheduledActionsTable.php:290
+msgid "Could not process change for action: \"%1$s\" (ID: %2$d). Error: %3$s"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:273
+msgid "Successfully executed action: %s"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:277
+msgid "Successfully canceled action: %s"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:280
+msgid "Successfully deleted action"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:284
+msgid "Successfully processed change for action: %s"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:449
+msgctxt "admin-text"
+msgid "Non-repeating"
+msgstr ""
+
+#: plugin/Overrides/ScheduledActionsTable.php:453
+msgctxt "%s: time interval (admin-text)"
+msgid "Every %s"
 msgstr ""
 
 #: plugin/Shortcodes/Shortcode.php:208
@@ -3102,11 +3339,6 @@ msgctxt "admin-text"
 msgid "OK"
 msgstr ""
 
-#: views/partials/editor/pinned.php:17, views/partials/screen/inline-edit.php:30, views/partials/screen/inline-edit.php:127
-msgctxt "admin-text"
-msgid "Cancel"
-msgstr ""
-
 #: views/partials/notices/migrate.php:6
 msgctxt "admin-text"
 msgid "Site Reviews will automatically migrate your reviews and settings to the latest version; if you don't want to wait, you may also run the migration by clicking the button below. If this notice continues to appear after 5 minutes, please read the %s section on the Help page."
@@ -3117,9 +3349,9 @@ msgctxt "admin-text"
 msgid "Run All Migrations"
 msgstr ""
 
-#: views/partials/notices/migrate.php:9
+#: views/partials/notices/migrate.php:9, views/pages/tools/general/migrate-plugin.php:20
 msgctxt "admin-text"
-msgid "Updating, please wait..."
+msgid "Migrating, please wait..."
 msgstr ""
 
 #: views/partials/notices/migrate.php:9, views/pages/tools/general/migrate-plugin.php:20
@@ -3177,11 +3409,6 @@ msgctxt "admin-text"
 msgid "Bulk Edit"
 msgstr ""
 
-#: views/partials/screen/inline-edit.php:67
-msgctxt "admin-text"
-msgid "Status"
-msgstr ""
-
 #: views/partials/screen/inline-edit.php:81
 msgctxt "admin-text"
 msgid "Comments"
@@ -3215,11 +3442,6 @@ msgstr ""
 #: views/partials/translations/plural.php:11, views/partials/translations/single.php:10
 msgctxt "admin-text"
 msgid "Delete translation string"
-msgstr ""
-
-#: views/partials/translations/plural.php:11, views/partials/translations/single.php:10
-msgctxt "admin-text"
-msgid "Delete"
 msgstr ""
 
 #: views/partials/translations/plural.php:19
@@ -3421,6 +3643,10 @@ msgid_plural "{rating} out of {max} stars (based on {num} reviews)"
 msgstr[0] ""
 msgstr[1] ""
 
+#: views/pages/documentation/support/common-problems-and-solutions.php:81
+msgid "Service Unavailable."
+msgstr ""
+
 #: views/pages/tools/general/export-plugin-settings.php:6
 msgctxt "admin-text"
 msgid "Export Plugin Settings"
@@ -3599,11 +3825,6 @@ msgstr ""
 #: views/pages/tools/general/migrate-plugin.php:14
 msgctxt "admin-text"
 msgid "Run this tool if your reviews stopped working correctly after upgrading the plugin to the latest version (i.e. read-only reviews, zero-star ratings, missing role capabilities, etc.)."
-msgstr ""
-
-#: views/pages/tools/general/migrate-plugin.php:20
-msgctxt "admin-text"
-msgid "Migrating, please wait..."
 msgstr ""
 
 #: views/pages/tools/general/optimise-db-tables.php:6, views/pages/tools/general/repair-review-relations.php:17

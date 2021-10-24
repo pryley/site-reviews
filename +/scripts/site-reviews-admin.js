@@ -53,7 +53,16 @@ jQuery(function ($) {
     GLSR.notices = new Notices();
     GLSR.shortcode = new Shortcode('.glsr-mce');
     GLSR.stars = new StarRating('select.glsr-star-rating', { tooltip: false });
+
     GLSR.Tippy.tippy('.glsr-tooltip', {appendTo: () => document.body});
+    $('.glsr-tooltip').each((i, el) => {
+        const content = el.dataset.tippyContent;
+        const syntax = el.dataset.syntax;
+        if (el._tippy && content && syntax && Prism.languages[syntax]) {
+            el._tippy.setContent('<pre class="language-' + syntax + '"><code>' + Prism.highlight(content, Prism.languages[syntax], syntax) + '</code></pre>')
+        }
+    });
+
     ColorPicker();
     new Filters();
     new Forms('form.glsr-form');

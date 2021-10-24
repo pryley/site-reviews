@@ -113,4 +113,17 @@ body[class*="type-site-review"] .tippy-content {
   padding: 8px 10px;
   position: relative;
   z-index: 1;
+  max-height: 320px;
+  overflow: auto;
+}
+body[class*="type-site-review"] .tippy-content ol {
+  margin: 0.5em 0.5em 0.5em 1.5em;
+}
+body[class*="type-site-review"] .tippy-box pre[class*=language-] {
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+}
+body[class*="type-site-review"] .tippy-box pre[class*=language-] code {
+  background-color: transparent;
 }

@@ -42,9 +42,20 @@ class Migrate
         }
         if (!empty($this->pendingMigrations())) {
             // check if this is a fresh install of the plugin
-            return glsr(OptionManager::class)->get('version_upgraded_from') !== '0.0.0';
+            return '0.0.0' !== glsr(OptionManager::class)->get('version_upgraded_from');
         }
         return false;
+    }
+
+    /**
+     * @return string
+     */
+    public function pendingVersions()
+    {
+        $versions = array_map(function ($migration) {
+            return str_replace(['Migrate_', '_'], ['', '.'], $migration);
+        }, $this->pendingMigrations());
+        return implode(', ', $versions);
     }
 
     /**

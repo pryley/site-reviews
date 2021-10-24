@@ -160,6 +160,7 @@ class MenuController extends Controller
     {
         $tabs = $this->parseWithFilter('tools/tabs', [
             'general' => _x('General', 'admin-text', 'site-reviews'),
+            'scheduled' => _x('Scheduled Actions', 'admin-text', 'site-reviews'),
             'sync' => _x('Sync Reviews', 'admin-text', 'site-reviews'),
             'console' => _x('Console', 'admin-text', 'site-reviews'),
             'system-info' => _x('System Info', 'admin-text', 'site-reviews'),
