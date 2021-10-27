@@ -21,7 +21,7 @@ Sections.prototype = {
             tab.addEventListener('touchend', self.onClick_.bind(self));
         }.bind(self));
         jQuery(self.options.expandSelectors).on('click', 'a', function () {
-            var elId = jQuery(this).data('expand');
+            var elId = this.dataset.expand;
             localStorage.setItem('glsr-expand', elId);
             self.scrollSectionIntoView_(jQuery(elId));
         });
@@ -62,7 +62,7 @@ Sections.prototype = {
     /** @return void */
     toggleCollapsibleViewSections_: function (el) {
         if (!el.classList.contains('nav-tab-active')) return;
-        var viewEl = jQuery(el.getAttribute('href'));
+        var viewEl = jQuery('#' + el.dataset.id);
         this.toggleCollapsibleSections_(viewEl);
     },
 };

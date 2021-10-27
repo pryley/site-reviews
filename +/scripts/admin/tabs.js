@@ -3,12 +3,12 @@
 const Tabs = function (options) {
     this.options = jQuery.extend({}, this.defaults, options);
     this.active = document.querySelector('input[name=_active_tab]');
-    this.referrerEl = document.querySelector('input[name=_wp_http_referer]');
+    this.refererInputs = jQuery('input[name=_wp_http_referer]');
     this.sections = document.querySelectorAll(this.options.viewSectionSelector);
     this.subsubsub = document.querySelectorAll(this.options.viewSubsubsub);
     this.tabs = document.querySelectorAll(this.options.tabSelector);
     this.views = document.querySelectorAll(this.options.viewSelector);
-    if (!this.active || !this.referrerEl || !this.tabs || !this.views) return;
+    if (!this.active || !this.refererInputs.length || !this.tabs || !this.views) return;
     this.init_();
 };
 
@@ -20,95 +20,74 @@ Tabs.prototype = {
         viewSubsubsub: '.glsr-subsubsub a',
     },
 
-    /** @return void */
     init_: function () {
-        var self = this;
-        jQuery(window).on('hashchange', self.onHashchange_.bind(self));
-        jQuery(self.options.tabSelector + ',' + self.options.viewSubsubsub).on('click touchend', self.onClick_.bind(self));
-        jQuery(self.options.tabSelector).each(function (index) {
-            var active = location.hash 
-                ? this.getAttribute('href').slice(1) === location.hash.slice(5).split('_')[0]
-                : index === 0;
-            if (active) {
-                self.setTab_(this);
-                self.setReferrer_(self.unprefixedHash_());
+        jQuery(this.options.tabSelector).each((index, el) => {
+            const href = el.getAttribute('href')
+            const tab = this.queryHref_(el, 'tab')
+            let currentTab = this.queryLocation_('tab')
+            if (null === currentTab && 0 === index) {
+                currentTab = tab;
+            }
+            if (currentTab === tab) {
+                history.replaceState({ href, tab }, '', href)
+                this.refererInputs.val(href);
+                this.setActiveTab_(tab)
             }
         });
+        jQuery(window).on('popstate', this.onPopstate_.bind(this));
+        jQuery(this.options.tabSelector + ',' + this.options.viewSubsubsub).on('click', this.onClick_.bind(this));
     },
 
-    /** @return string */
+    onClick_: function (ev) {
+        const el = ev.currentTarget;
+        const href = el.getAttribute('href')
+        const tab = this.queryHref_(el, 'tab')
+        if (tab) {
+            history.pushState({ href, tab }, '', href)
+            this.refererInputs.val(href);
+            this.setActiveTab_(tab)
+            ev.preventDefault();
+            el.blur();
+        }
+    },
+
+    onPopstate_: function (ev) {
+        const state = ev.originalEvent.state;
+        if (state && state.tab && state.href) {
+            this.refererInputs.val(state.href);
+            this.setActiveTab_(state.tab)
+        }
+    },
+
     getAction_: function (bool) {
         return bool ? 'add' : 'remove';
     },
 
-    /** @return void */
-    onClick_: function (ev) {
-        var el = ev.currentTarget;
-        var href = el.getAttribute('href');
-        if (href.startsWith('#')) {
-            location.hash = this.prefixedHash_(href.slice(1)); // trigger hashchange
-            el.blur();
-            ev.preventDefault();
-        }
+    queryHref_: function (el, param) {
+        let urlParams = new URLSearchParams(el.getAttribute('href'));
+        return urlParams.get(param)
     },
 
-    /** @return void */
-    onHashchange_: function () {
-        var id = this.unprefixedHash_().split('_')[0];
-        for(var i = 0; i < this.views.length; i++) {
+    queryLocation_: function (param) {
+        let urlParams = new URLSearchParams(location.search);
+        return urlParams.get(param)
+    },
+
+    setActiveTab_: function (id) {
+        for (var i = 0; i < this.views.length; i++) {
             if (id !== this.views[i].id) continue;
             this.setTab_(this.tabs[i]);
-            this.setReferrer_(this.unprefixedHash_());
             break;
         }
     },
 
-    /** @return void */
-    prefixedHash_: function (id) {
-        return 'tab-' + id;
-    },
-
-    /** @return void */
-    unprefixedHash_: function () {
-        return location.hash ? location.hash.split('#tab-')[1] : '';
-    },
-
-    /** @return void */
-    setReferrer_: function (id) {
-        if (id) {
-            var url = this.referrerEl.value.split('#')[0];
-            var hash = this.prefixedHash_(id);
-            this.referrerEl.value =  url + '#' + hash;
-        }
-    },
-
-    /** @return void */
-    setTab_: function (el) {
-        [].forEach.call(this.tabs, function (tab, index) {
-            var action = this.getAction_(tab === el);
-            if (action === 'add') {
-                this.active.value = this.views[index].id;
-                this.setView_(index);
-            }
-            tab.classList[action]('nav-tab-active');
-        }.bind(this));
-    },
-
-    /** @return void */
-    setView_: function (idx) {
-        [].forEach.call(this.views, function (view, index) {
-            var action = this.getAction_(index !== idx);
-            view.classList[action]('ui-tabs-hide');
-            this.setViewSection_();
-        }.bind(this));
-    },
-
-    /** @return void */
-    setViewSection_: function () {
+    setSubsubsub_: function () {
         let activeIndex = 0;
         [].forEach.call(this.subsubsub, (el, index) => {
             el.classList.remove('current');
-            if (el.getAttribute('href').slice(1) === this.unprefixedHash_()) {
+            const currentSub = this.queryHref_(el, 'sub')
+            const sub = this.queryLocation_('sub')
+            if (currentSub === sub) {
                 activeIndex = index;
             }
         });
@@ -118,6 +97,25 @@ Tabs.prototype = {
         [].forEach.call(this.sections, (el, index) => {
             var action = this.getAction_(index !== activeIndex);
             el.classList[action]('ui-tabs-hide');
+        });
+    },
+
+    setTab_: function (el) {
+        [].forEach.call(this.tabs, (tab, index) => {
+            var action = this.getAction_(tab === el);
+            if (action === 'add') {
+                this.active.value = this.views[index].id;
+                this.setView_(index);
+            }
+            tab.classList[action]('nav-tab-active');
+        });
+    },
+
+    setView_: function (tabIndex) {
+        [].forEach.call(this.views, (view, viewIndex) => {
+            let action = this.getAction_(viewIndex !== tabIndex);
+            view.classList[action]('ui-tabs-hide');
+            this.setSubsubsub_();
         });
     },
 };

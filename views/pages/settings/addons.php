@@ -2,9 +2,9 @@
 
 <?php if (count($settings) > 1) : ?>
     <ul class="glsr-subsubsub subsubsub">
-        <?php foreach ($settings as $key => $rows) : ?>
-            <li><a href="#addons_<?= $key; ?>" tabindex="0"><?= ucfirst($key); ?></a><span>|</span></li>
-        <?php endforeach; ?>
+    <?php foreach ($settings as $key => $rows) : ?>
+        <li><a href="<?= admin_url('edit.php?post_type=site-review&page=settings&tab=addons&sub='.$key); ?>" tabindex="0"><?= ucfirst($key); ?></a><span>|</span></li>
+    <?php endforeach; ?>
     </ul>
 <?php endif; ?>
 
