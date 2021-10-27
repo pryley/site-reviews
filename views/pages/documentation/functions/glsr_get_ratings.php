@@ -39,7 +39,7 @@ $ratingInfo = apply_filters('glsr_get_ratings', null, [
         <p><strong>Helpful Tips:</strong></p>
         <ol>
             <li>
-                <p>You can use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to print the rating info to the screen:</p>
+                <p>You can use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation&tab=functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to print the rating info to the screen:</p>
                 <pre><code class="language-php">glsr_debug($ratingInfo);</code></pre>
             </li>
         </ol>

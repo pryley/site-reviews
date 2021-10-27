@@ -66,13 +66,13 @@ abstract class Controller extends BaseController
     {
         if (glsr()->hasPermission('settings')) {
             $links['settings'] = glsr(Builder::class)->a([
-                'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings#tab-addons_'.$this->addon->slug),
+                'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings&tab=addons&sub='.$this->addon->slug),
                 'text' => _x('Settings', 'admin-text', 'site-reviews'),
             ]);
         }
         if (glsr()->hasPermission('documentation')) {
             $links['documentation'] = glsr(Builder::class)->a([
-                'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-addons'),
+                'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation&tab=addons'),
                 'text' => _x('Help', 'admin-text', 'site-reviews'),
             ]);
         }

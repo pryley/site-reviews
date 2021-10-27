@@ -13,6 +13,6 @@
             <input type="text" readonly class="code" value='[site_reviews pagination="ajax" count="10"]'>
             <pre><code class="syntax-shortcode"><span class="tag">[site_reviews</span> <span class="attr-name">pagination</span>=<span class="attr-value">"ajax"</span> <span class="attr-name">count</span>=<span class="attr-value">"10"</span><span class="tag">]</span></code></pre>
         </div>
-        <p>To lean more about the available shortcode options and how to use them, please see the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-shortcodes'); ?>">Documentation > Shortcodes</a></code> page.</p>
+        <p>To lean more about the available shortcode options and how to use them, please see the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation&tab=shortcodes'); ?>">Documentation > Shortcodes</a></code> page.</p>
     </div>
 </div>

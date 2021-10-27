@@ -117,7 +117,7 @@ class NoticeController extends Controller
             glsr()->render('partials/notices/migrate', [
                 'action' => glsr(Builder::class)->a([
                     'data-expand' => '#support-common-problems-and-solutions',
-                    'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-support'),
+                    'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation&tab=support'),
                     'text' => _x('Common Problems and Solutions', 'admin-text', 'site-reviews'),
                 ]),
             ]);

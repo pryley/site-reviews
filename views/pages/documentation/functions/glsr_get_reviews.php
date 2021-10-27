@@ -68,7 +68,7 @@ $reviews = apply_filters('glsr_get_reviews', [], [
                 <pre><code class="language-php">echo $reviews; // This is identical to: $reviews->render();</code></pre>
             </li>
             <li>
-                <p>Loop through all reviews and handle each review as needed. Each <code>$review</code> is identical to what the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-functions'); ?>" data-expand="#fn-glsr_get_review">glsr_get_review</a></code> helper function returns, so make sure to read the "Helpful Tips" from that section above for more information.</p>
+                <p>Loop through all reviews and handle each review as needed. Each <code>$review</code> is identical to what the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation&tab=functions'); ?>" data-expand="#fn-glsr_get_review">glsr_get_review</a></code> helper function returns, so make sure to read the "Helpful Tips" from that section above for more information.</p>
                 <pre><code class="language-php">foreach ($reviews as $review) {
     echo $review;
 };</code></pre>
@@ -86,7 +86,7 @@ foreach ($reviewsHtml as $reviewHtml) {
 echo $reviewsHtml->pagination;</code></pre>
             </li>
             <li>
-                <p>You can also use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to print both arrayable objects to the screen:</p>
+                <p>You can also use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation&tab=functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to print both arrayable objects to the screen:</p>
                 <pre><code class="language-php">glsr_debug($reviews, $reviewsHtml);</code></pre>
             </li>
 

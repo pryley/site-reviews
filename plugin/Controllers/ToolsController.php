@@ -87,7 +87,7 @@ class ToolsController extends Controller
     {
         $link = glsr(Builder::class)->a([
             'data-expand' => '#faq-ipaddress-incorrectly-detected',
-            'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'),
+            'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation&tab=faq'),
             'text' => _x('FAQ', 'admin-text', 'site-reviews'),
         ]);
         if ('unknown' === $ipAddress = Helper::getIpAddress()) {

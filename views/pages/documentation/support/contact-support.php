@@ -13,32 +13,32 @@
         <p>You may also contact us directly, however, unless we have specifically asked you to do this on the support forum, you should expect a slower response time. You will need to confirm the following questions before proceeding:</p>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-1" class="glsr-support-step">
-            <label for="step-1">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-shortcodes'); ?>">Shortcodes</a></code> help page and it does not answer my question.</label>
+            <label for="step-1">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation&tab=shortcodes'); ?>">Shortcodes</a></code> help page and it does not answer my question.</label>
         </p>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-2" class="glsr-support-step">
-            <label for="step-2">I have read the <code><a data-expand="#support-common-problems-and-solutions" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-support'); ?>">Common Problems and Solutions</a></code> section provided above and it does not answer my question.</label>
+            <label for="step-2">I have read the <code><a data-expand="#support-common-problems-and-solutions" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation&tab=support'); ?>">Common Problems and Solutions</a></code> section provided above and it does not answer my question.</label>
         </p>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-3" class="glsr-support-step">
-            <label for="step-3">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">FAQ</a></code> help page and it does not answer my question.</label>
+            <label for="step-3">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation&tab=faq'); ?>">FAQ</a></code> help page and it does not answer my question.</label>
         </p>
         <?php if (glsr()->hasPermission('documentation', 'hooks')) : ?>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-4" class="glsr-support-step">
-            <label for="step-4">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-hooks'); ?>">Hooks</a></code> help page and it does not answer my question.</label>
+            <label for="step-4">I have read the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation&tab=hooks'); ?>">Hooks</a></code> help page and it does not answer my question.</label>
         </p>
         <?php endif; ?>
         <p class="glsr-card-field">
             <input type="checkbox" id="step-5" class="glsr-support-step">
-            <label for="step-5">I have completed each step in the <code><a data-expand="#support-basic-troubleshooting" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-support'); ?>">Basic Troubleshooting Steps</a></code> section provided above.</label>
+            <label for="step-5">I have completed each step in the <code><a data-expand="#support-basic-troubleshooting" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation&tab=support'); ?>">Basic Troubleshooting Steps</a></code> section provided above.</label>
         </p>
         <div class="glsr-card-result hidden">
             <p><strong>Please send an email to <a href="mailto:site-reviews@geminilabs.io?subject=Support%20request">site-reviews@geminilabs.io</a> and include the following details:</strong></p>
             <ul>
                 <li>A detailed description of the problem you are having and the steps to reproduce it.</li>
-                <li>Download and attach the Site Reviews <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-console'); ?>">Tools &rarr; Console</a></code> log file to the email.</li>
-                <li>Download and attach the Site Reviews <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-system-info'); ?>">Tools &rarr; System Info</a></code> report to the email.</li>
+                <li>Download and attach the Site Reviews <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools&tab=console'); ?>">Tools &rarr; Console</a></code> log file to the email.</li>
+                <li>Download and attach the Site Reviews <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools&tab=system-info'); ?>">Tools &rarr; System Info</a></code> report to the email.</li>
                 <li>Please also include screenshots if they will help explain the problem.</li>
             </ul>
             <p><span class="required">Please be aware that if your email does not include the Site Reviews System Info report and Console log (as requested above), the response may be delayed or possibly ignored altogether. Thank you for understanding.</span></p>

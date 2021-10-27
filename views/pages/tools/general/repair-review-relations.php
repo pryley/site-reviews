@@ -13,7 +13,7 @@
                 <p class="components-notice__content"><?= sprintf(
                     _x('Once you have repaired the review relationships, it is recommended that you run the %s tool to prevent the problem from happening again.', 'admin-text', 'site-reviews'),
                         sprintf('<a data-expand="#tools-optimise-db-tables" href="%s">%s</a>',
-                            admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-general'),
+                            admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools&tab=general'),
                             _x('Optimise Your Database Tables', 'admin-text', 'site-reviews')
                         )
                     ); ?>

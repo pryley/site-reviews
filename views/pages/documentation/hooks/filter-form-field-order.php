@@ -8,7 +8,7 @@
     </h3>
     <div id="hooks-filter-form-field-order" class="inside">
         <p>Use this hook to customise the order of the fields in the review form used by Site Reviews.</p>
-        <p>See the <code><a data-expand="#faq-change-form-field-order" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-faq'); ?>">FAQ</a></code> for a detailed example of how to use this hook.</p>
+        <p>See the <code><a data-expand="#faq-change-form-field-order" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation&tab=faq'); ?>">FAQ</a></code> for a detailed example of how to use this hook.</p>
         <pre><code class="language-php">/**
  * Customises the order of the fields used in the Site Reviews review form.
  * Paste this in your active theme's functions.php file.

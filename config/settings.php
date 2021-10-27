@@ -282,7 +282,7 @@ return [
         ),
         'label' => _x('Enable Fallback Text', 'admin-text', 'site-reviews'),
         'tooltip' => sprintf(_x('Display the fallback text when there are no reviews to display. This can be changed on the %s page. You may also override this by using the "fallback" option on the shortcode.', 'admin-text', 'site-reviews'),
-            '<a href="'.admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings#tab-translations').'">'._x('Translations', 'admin-text', 'site-reviews').'</a>'
+            '<a href="'.admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings&tab=translations').'">'._x('Translations', 'admin-text', 'site-reviews').'</a>'
         ),
         'type' => 'yes_no',
     ],

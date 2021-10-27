@@ -8,7 +8,7 @@
     </h3>
     <div id="fn-glsr_create_review" class="inside">
         <div class="components-notice is-warning">
-            <p class="components-notice__content">This function uses basic validation on the provided values. If validation fails, the function will return false and the validation errors will be logged to the <a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools#tab-console'); ?>">Plugin Console</a>.</p>
+            <p class="components-notice__content">This function uses basic validation on the provided values. If validation fails, the function will return false and the validation errors will be logged to the <a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools&tab=console'); ?>">Plugin Console</a>.</p>
         </div>
         <br>
         <pre><code class="language-php">/**
@@ -56,7 +56,7 @@ $review = apply_filters('glsr_create_review', false, [
     'xyz' => 'This is a custom field!'
 ]);</code></pre>
         <p><strong>Helpful Tip:</strong></p>
-        <p>You can use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation#tab-functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to view the review object that is returned.</p>
+        <p>You can use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation&tab=functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to view the review object that is returned.</p>
         <pre><code class="language-php">glsr_debug($review);</code></pre>
     </div>
 </div>
