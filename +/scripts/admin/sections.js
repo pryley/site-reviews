@@ -39,13 +39,18 @@ Sections.prototype = {
     /** @return void */
     scrollSectionIntoView_: function (el) {
         if (el.length) {
-            var parentEl = el.parent().parent();
-            parentEl.removeClass('collapsed');
-            this.toggleCollapsibleSections_(parentEl);
-            parentEl.removeClass('collapsed');
-            el.parent().removeClass('closed').find('.glsr-accordion-trigger').attr('aria-expanded', true);
-            window.setTimeout(function () {
-                el.parent()[0].scrollIntoView({behavior: 'smooth', block: 'center'});
+            var navEl = el.closest('.glsr-nav-view')
+            var cardEl = el.closest('.glsr-card');
+            navEl.removeClass('collapsed');
+            this.toggleCollapsibleSections_(navEl);
+            navEl.removeClass('collapsed'); // just in case
+            cardEl.removeClass('closed').find('.glsr-accordion-trigger').attr('aria-expanded', true);
+            window.setTimeout(() => {
+                // if height of card is greater than window height, scroll to start, otherwise scroll to center
+                cardEl[0].scrollIntoView({
+                    behavior: 'smooth',
+                    block: (cardEl.outerHeight() >= window.innerHeight ? 'start' : 'center'),
+                });
                 localStorage.removeItem('glsr-expand');
             }, 10);
         }

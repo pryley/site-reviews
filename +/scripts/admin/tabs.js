@@ -14,6 +14,7 @@ const Tabs = function (options) {
 
 Tabs.prototype = {
     defaults: {
+        smartLinks: '.glsr-card a',
         tabSelector: '.glsr-nav-tab',
         viewSelector: '.glsr-nav-view',
         viewSectionSelector: '.glsr-nav-view-section',
@@ -35,6 +36,7 @@ Tabs.prototype = {
             }
         });
         jQuery(window).on('popstate', this.onPopstate_.bind(this));
+        jQuery(this.options.smartLinks).on('click', this.onClickLink_.bind(this));
         jQuery(this.options.tabSelector + ',' + this.options.viewSubsubsub).on('click', this.onClick_.bind(this));
     },
 
@@ -48,6 +50,27 @@ Tabs.prototype = {
             this.setActiveTab_(tab)
             ev.preventDefault();
             el.blur();
+        }
+    },
+
+    onClickLink_: function (ev) {
+        const el = ev.currentTarget;
+        const currentPage = this.queryLocation_('page')
+        const currentPostType = this.queryLocation_('postType')
+        const currentTab = this.queryLocation_('tab')
+        const page = this.queryHref_(el, 'page')
+        const postType = this.queryHref_(el, 'postType')
+        const tab = this.queryHref_(el, 'tab')
+        if (page === currentPage && postType === currentPostType && tab) {
+            const href = el.getAttribute('href')
+            history.pushState({ href, tab }, '', href)
+            this.refererInputs.val(href);
+            this.setActiveTab_(tab)
+            if (tab !== currentTab) {
+                // scroll to the top of the page if visiting a different tab from a link
+                window.scrollTo(0, 0);
+            }
+            ev.preventDefault();
         }
     },
 
