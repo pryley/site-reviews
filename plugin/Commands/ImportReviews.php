@@ -18,9 +18,12 @@ use GeminiLabs\SiteReviews\Upload;
 class ImportReviews extends Upload implements Contract
 {
     const ALLOWED_DATE_FORMATS = [
-        'd-m-Y', 'd/m/Y',
-        'm-d-Y', 'm/d/Y',
-        'Y-m-d', 'Y-m-d H:i:s', 'Y/m/d',
+        'd-m-Y', 'd-m-Y H:i', 'd-m-Y H:i:s',
+        'd/m/Y', 'd/m/Y H:i', 'd/m/Y H:i:s',
+        'm-d-Y', 'm-d-Y H:i', 'm-d-Y H:i:s',
+        'm/d/Y', 'm/d/Y H:i', 'm/d/Y H:i:s',
+        'Y-m-d', 'Y-m-d H:i', 'Y-m-d H:i:s',
+        'Y/m/d', 'Y/m/d H:i', 'Y/m/d H:i:s'
     ];
 
     const ALLOWED_DELIMITERS = [

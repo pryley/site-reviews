@@ -41,21 +41,32 @@
                 <label for="csv_delimiter"><strong><?= _x('Delimiter', 'admin-text', 'site-reviews'); ?></strong></label><br>
                 <select name="{{ id }}[delimiter]" id="csv_delimiter" required>
                     <option value=""><?= _x('Select the delimiter used in the CSV file', 'admin-text', 'site-reviews'); ?></option>
-                    <option value=","><?= _x('Commas (,)', 'admin-text', 'site-reviews'); ?></option>
-                    <option value=";"><?= _x('Semicolons (;)', 'admin-text', 'site-reviews'); ?></option>
+                    <option value=","><?= _x('Comma (,)', 'admin-text', 'site-reviews'); ?></option>
+                    <option value=";"><?= _x('Semicolon (;)', 'admin-text', 'site-reviews'); ?></option>
                 </select>
             </p>
             <p>
                 <label for="csv_date_format"><strong><?= _x('Date Format', 'admin-text', 'site-reviews'); ?></strong></label><br>
                 <select name="{{ id }}[date_format]" id="csv_date_format" required>
                     <option value=""><?= _x('Select the date format used in the reviews', 'admin-text', 'site-reviews'); ?></option>
-                    <option value="d-m-Y">d-m-Y &nbsp; (13-01-2021)</option>
-                    <option value="d/m/Y">d/m/Y &nbsp; (13/01/2021)</option>
-                    <option value="m-d-Y">m-d-Y &nbsp; (01-13-2021)</option>
-                    <option value="m/d/Y">m/d/Y &nbsp; (01/13/2021)</option>
-                    <option value="Y-m-d">Y-m-d &nbsp; (2021-01-13)</option>
-                    <option value="Y-m-d H:i:s">Y-m-d H:i:s &nbsp; (2021-01-13 12:00:00)</option>
-                    <option value="Y/m/d">Y/m/d &nbsp; (2021/01/13)</option>
+                    <option value="d-m-Y">13-01-2021 &nbsp; (d-m-Y)</option>
+                    <option value="d/m/Y">13/01/2021 &nbsp; (d/m/Y)</option>
+                    <option value="m-d-Y">01-13-2021 &nbsp; (m-d-Y)</option>
+                    <option value="m/d/Y">01/13/2021 &nbsp; (m/d/Y)</option>
+                    <option value="Y-m-d">2021-01-13 &nbsp; (Y-m-d)</option>
+                    <option value="Y/m/d">2021/01/13 &nbsp; (Y/m/d)</option>
+                    <option value="d-m-Y H:i">13-01-2021 12:00 &nbsp; (d-m-Y H:i)</option>
+                    <option value="d/m/Y H:i">13/01/2021 12:00 &nbsp; (d/m/Y H:i)</option>
+                    <option value="m-d-Y H:i">01-13-2021 12:00 &nbsp; (m-d-Y H:i)</option>
+                    <option value="m/d/Y H:i">01/13/2021 12:00 &nbsp; (m/d/Y H:i)</option>
+                    <option value="Y-m-d H:i">2021-01-13 12:00 &nbsp; (Y-m-d H:i)</option>
+                    <option value="Y/m/d H:i">2021/01/13 12:00 &nbsp; (Y/m/d H:i)</option>
+                    <option value="d-m-Y H:i:s">13-01-2021 12:00:00 &nbsp; (d-m-Y H:i:s)</option>
+                    <option value="d/m/Y H:i:s">13/01/2021 12:00:00 &nbsp; (d/m/Y H:i:s)</option>
+                    <option value="m-d-Y H:i:s">01-13-2021 12:00:00 &nbsp; (m-d-Y H:i:s)</option>
+                    <option value="m/d/Y H:i:s">01/13/2021 12:00:00 &nbsp; (m/d/Y H:i:s)</option>
+                    <option value="Y-m-d H:i:s">2021-01-13 12:00:00 &nbsp; (Y-m-d H:i:s)</option>
+                    <option value="Y/m/d H:i:s">2021/01/13 12:00:00 &nbsp; (Y/m/d H:i:s)</option>
                 </select>
             </p>
             <button type="submit" class="glsr-button components-button is-secondary" id="import-reviews" data-expand="#tools-import-reviews">
