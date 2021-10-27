@@ -31,8 +31,11 @@ class Install
      */
     public function dropForeignConstraints()
     {
+        glsr(SqlSchema::class)->dropForeignConstraint('assigned_posts', 'assigned_posts_rating_id');
         glsr(SqlSchema::class)->dropForeignConstraint('assigned_posts', 'assigned_posts_post_id');
+        glsr(SqlSchema::class)->dropForeignConstraint('assigned_terms', 'assigned_terms_rating_id');
         glsr(SqlSchema::class)->dropForeignConstraint('assigned_terms', 'assigned_terms_term_id');
+        glsr(SqlSchema::class)->dropForeignConstraint('assigned_users', 'assigned_users_rating_id');
         glsr(SqlSchema::class)->dropForeignConstraint('assigned_users', 'assigned_users_user_id');
         glsr(SqlSchema::class)->dropForeignConstraint('ratings', 'assigned_posts_review_id');
     }
