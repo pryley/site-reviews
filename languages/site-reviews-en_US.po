@@ -34,7 +34,7 @@ msgstr "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
 
-#: plugin/Router.php:156, views/pages/documentation/support/common-problems-and-solutions.php:52
+#: plugin/Router.php:156, views/pages/documentation/support/common-problems-and-solutions.php:55
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr "The form could not be submitted. Please notify the site administrator."
 
@@ -86,7 +86,7 @@ msgstr "Show more"
 msgid "Your review has been submitted!"
 msgstr "Your review has been submitted!"
 
-#: plugin/Commands/CreateReview.php:167, views/pages/documentation/support/common-problems-and-solutions.php:72
+#: plugin/Commands/CreateReview.php:167, views/pages/documentation/support/common-problems-and-solutions.php:75
 msgid ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site administrator."
@@ -278,15 +278,15 @@ msgstr "You may also %s for an account."
 msgid "Close modal"
 msgstr "Close modal"
 
-#: plugin/Modules/Validator/AkismetValidator.php:49, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:68
+#: plugin/Modules/Validator/AkismetValidator.php:49, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:71
 msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr "This review has been flagged as possible spam and cannot be submitted."
 
-#: plugin/Modules/Validator/BlacklistValidator.php:37, views/pages/documentation/support/common-problems-and-solutions.php:64
+#: plugin/Modules/Validator/BlacklistValidator.php:37, views/pages/documentation/support/common-problems-and-solutions.php:67
 msgid "Your review cannot be submitted at this time."
 msgstr "Your review cannot be submitted at this time."
 
-#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:77
+#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:80
 msgid "The review submission failed. Please notify the site administrator."
 msgstr "The review submission failed. Please notify the site administrator."
 
@@ -348,7 +348,7 @@ msgstr "Response from %s"
 msgid "No Title"
 msgstr "No Title"
 
-#: views/pages/documentation/support/common-problems-and-solutions.php:81
+#: views/pages/documentation/support/common-problems-and-solutions.php:84
 msgid "Service Unavailable."
 msgstr "Service Unavailable."
 
@@ -1707,41 +1707,41 @@ msgctxt "admin-text"
 msgid "Discover Premium"
 msgstr "Discover Premium"
 
-#: plugin/Commands/ImportReviews.php:132
+#: plugin/Commands/ImportReviews.php:135
 msgctxt "admin-text"
 msgid "%s review was imported."
 msgid_plural "%s reviews were imported."
 msgstr[0] "%s review was imported."
 msgstr[1] "%s reviews were imported."
 
-#: plugin/Commands/ImportReviews.php:140
+#: plugin/Commands/ImportReviews.php:143
 msgctxt "admin-text"
 msgid "%s entry was skipped."
 msgid_plural "%s entries were skipped."
 msgstr[0] "%s entry was skipped."
 msgstr[1] "%s entries were skipped."
 
-#: plugin/Commands/ImportReviews.php:143
+#: plugin/Commands/ImportReviews.php:146
 msgctxt "admin-text"
 msgid "See the %s for more details."
 msgstr "See the %s for more details."
 
-#: plugin/Commands/ImportReviews.php:146, plugin/Controllers/MenuController.php:165
+#: plugin/Commands/ImportReviews.php:149, plugin/Controllers/MenuController.php:165
 msgctxt "admin-text"
 msgid "Console"
 msgstr "Console"
 
-#: plugin/Commands/ImportReviews.php:167
+#: plugin/Commands/ImportReviews.php:170
 msgctxt "admin-text"
 msgid "invalid date"
 msgstr "invalid date"
 
-#: plugin/Commands/ImportReviews.php:168
+#: plugin/Commands/ImportReviews.php:171
 msgctxt "admin-text"
 msgid "invalid content"
 msgstr "invalid content"
 
-#: plugin/Commands/ImportReviews.php:169
+#: plugin/Commands/ImportReviews.php:172
 msgctxt "admin-text"
 msgid "invalid rating"
 msgstr "invalid rating"
@@ -3825,25 +3825,25 @@ msgstr "Select the delimiter used in the CSV file"
 
 #: views/pages/tools/general/import-reviews.php:44
 msgctxt "admin-text"
-msgid "Commas (,)"
-msgstr "Commas (,)"
+msgid "Comma (,)"
+msgstr "Comma (,)"
 
 #: views/pages/tools/general/import-reviews.php:45
 msgctxt "admin-text"
-msgid "Semicolons (;)"
-msgstr "Semicolons (;)"
+msgid "Semicolon (;)"
+msgstr "Semicolon (;)"
 
 #: views/pages/tools/general/import-reviews.php:51
 msgctxt "admin-text"
 msgid "Select the date format used in the reviews"
 msgstr "Select the date format used in the reviews"
 
-#: views/pages/tools/general/import-reviews.php:62
+#: views/pages/tools/general/import-reviews.php:73
 msgctxt "admin-text"
 msgid "Importing reviews, please wait..."
 msgstr "Importing reviews, please wait..."
 
-#: views/pages/tools/general/import-reviews.php:62
+#: views/pages/tools/general/import-reviews.php:73
 msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr "Import Reviews"

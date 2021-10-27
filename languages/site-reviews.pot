@@ -1142,7 +1142,7 @@ msgctxt "admin-text"
 msgid "There was an error (try reloading the page)."
 msgstr ""
 
-#: plugin/Router.php:156, views/pages/documentation/support/common-problems-and-solutions.php:52
+#: plugin/Router.php:156, views/pages/documentation/support/common-problems-and-solutions.php:55
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 
@@ -1289,7 +1289,7 @@ msgstr ""
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:167, views/pages/documentation/support/common-problems-and-solutions.php:72
+#: plugin/Commands/CreateReview.php:167, views/pages/documentation/support/common-problems-and-solutions.php:75
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
@@ -1313,41 +1313,41 @@ msgctxt "admin-text"
 msgid "Discover Premium"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:132
+#: plugin/Commands/ImportReviews.php:135
 msgctxt "admin-text"
 msgid "%s review was imported."
 msgid_plural "%s reviews were imported."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ImportReviews.php:140
+#: plugin/Commands/ImportReviews.php:143
 msgctxt "admin-text"
 msgid "%s entry was skipped."
 msgid_plural "%s entries were skipped."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ImportReviews.php:143
+#: plugin/Commands/ImportReviews.php:146
 msgctxt "admin-text"
 msgid "See the %s for more details."
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:146, plugin/Controllers/MenuController.php:165
+#: plugin/Commands/ImportReviews.php:149, plugin/Controllers/MenuController.php:165
 msgctxt "admin-text"
 msgid "Console"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:167
+#: plugin/Commands/ImportReviews.php:170
 msgctxt "admin-text"
 msgid "invalid date"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:168
+#: plugin/Commands/ImportReviews.php:171
 msgctxt "admin-text"
 msgid "invalid content"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:169
+#: plugin/Commands/ImportReviews.php:172
 msgctxt "admin-text"
 msgid "invalid rating"
 msgstr ""
@@ -3036,15 +3036,15 @@ msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr ""
 
-#: plugin/Modules/Validator/AkismetValidator.php:49, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:68
+#: plugin/Modules/Validator/AkismetValidator.php:49, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:71
 msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr ""
 
-#: plugin/Modules/Validator/BlacklistValidator.php:37, views/pages/documentation/support/common-problems-and-solutions.php:64
+#: plugin/Modules/Validator/BlacklistValidator.php:37, views/pages/documentation/support/common-problems-and-solutions.php:67
 msgid "Your review cannot be submitted at this time."
 msgstr ""
 
-#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:77
+#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:80
 msgid "The review submission failed. Please notify the site administrator."
 msgstr ""
 
@@ -3643,7 +3643,7 @@ msgid_plural "{rating} out of {max} stars (based on {num} reviews)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/pages/documentation/support/common-problems-and-solutions.php:81
+#: views/pages/documentation/support/common-problems-and-solutions.php:84
 msgid "Service Unavailable."
 msgstr ""
 
@@ -3789,12 +3789,12 @@ msgstr ""
 
 #: views/pages/tools/general/import-reviews.php:44
 msgctxt "admin-text"
-msgid "Commas (,)"
+msgid "Comma (,)"
 msgstr ""
 
 #: views/pages/tools/general/import-reviews.php:45
 msgctxt "admin-text"
-msgid "Semicolons (;)"
+msgid "Semicolon (;)"
 msgstr ""
 
 #: views/pages/tools/general/import-reviews.php:51
@@ -3802,12 +3802,12 @@ msgctxt "admin-text"
 msgid "Select the date format used in the reviews"
 msgstr ""
 
-#: views/pages/tools/general/import-reviews.php:62
+#: views/pages/tools/general/import-reviews.php:73
 msgctxt "admin-text"
 msgid "Importing reviews, please wait..."
 msgstr ""
 
-#: views/pages/tools/general/import-reviews.php:62
+#: views/pages/tools/general/import-reviews.php:73
 msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr ""

@@ -89,7 +89,14 @@ mix
   .postCss('+/styles/twentytwenty-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
   .postCss('+/styles/twentytwentyone-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
   .postCss('+/styles/wpforms-blocks.css', 'assets/styles/blocks', postCss('[data-block]'))
-  .browserSync('site-reviews.test')
+  .browserSync({
+    files: [
+        '+/**/*.(css|js)', 
+        'plugin/(views|templates)/**/*.php', 
+    ],
+    notify: false,
+    proxy: 'https://site-reviews.test',
+  })
 
 if (mix.inProduction()) {
   // mix.bundleAnalyzer()
