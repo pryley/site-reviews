@@ -93,6 +93,7 @@ class ImportReviews extends Upload implements Contract
             $reader = Reader::createFromPath($this->file()->tmp_name);
             $reader->setDelimiter($this->delimiter);
             $reader->setHeaderOffset(0);
+            $reader->skipEmptyRecords();
             $header = array_map('trim', $reader->getHeader());
             if (!empty(array_diff(static::REQUIRED_KEYS, $header))) {
                 throw new Exception('The CSV import header is missing the required columns (did you select the correct delimiter?).');
