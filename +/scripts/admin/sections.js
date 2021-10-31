@@ -46,12 +46,16 @@ Sections.prototype = {
             navEl.removeClass('collapsed'); // just in case
             cardEl.removeClass('closed').find('.glsr-accordion-trigger').attr('aria-expanded', true);
             window.setTimeout(() => {
+                localStorage.removeItem('glsr-expand');
+                // if notices are visible, do not scroll section into view
+                if (jQuery('#glsr-notices .notice').length) {
+                    return;
+                }
                 // if height of card is greater than window height, scroll to start, otherwise scroll to center
                 cardEl[0].scrollIntoView({
                     behavior: 'smooth',
                     block: (cardEl.outerHeight() >= window.innerHeight ? 'start' : 'center'),
                 });
-                localStorage.removeItem('glsr-expand');
             }, 10);
         }
     },

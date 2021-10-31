@@ -14,7 +14,7 @@ const Tabs = function (options) {
 
 Tabs.prototype = {
     defaults: {
-        smartLinks: '.glsr-card a',
+        smartLinks: '.glsr-card a, #glsr-notices a',
         tabSelector: '.glsr-nav-tab',
         viewSelector: '.glsr-nav-view',
         viewSectionSelector: '.glsr-nav-view-section',
