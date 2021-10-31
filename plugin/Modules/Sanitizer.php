@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Multilingual;
 
 class Sanitizer
 {
@@ -171,6 +172,39 @@ class Sanitizer
     {
         $value = Str::snakeCase($this->sanitizeText($value));
         return preg_replace('/[^a-z_]/', '', $value);
+    }
+
+    /**
+     * @param mixed $value
+     * @return int[]
+     */
+    public function sanitizePostIds($value)
+    {
+        $postIds = Cast::toArray($value);
+        $postIds = array_map('\GeminiLabs\SiteReviews\Helper::getPostId', $postIds);
+        return Arr::uniqueInt($postIds);
+    }
+
+    /**
+     * @param mixed $value
+     * @return int[]
+     */
+    public function sanitizeTermIds($value)
+    {
+        $termIds = Cast::toArray($value);
+        $termIds = array_map('\GeminiLabs\SiteReviews\Helper::getTermTaxonomyId', $termIds);
+        return Arr::uniqueInt($termIds);
+    }
+
+    /**
+     * @param mixed $value
+     * @return int[]
+     */
+    public function sanitizeUserIds($value)
+    {
+        $userIds = Cast::toArray($value);
+        $userIds = array_map('\GeminiLabs\SiteReviews\Helper::getUserId', $userIds);
+        return Arr::uniqueInt($userIds);
     }
 
     /**

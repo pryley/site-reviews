@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\Cache;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Helpers\Url;
@@ -141,6 +142,63 @@ class Helper
         }
         if ($post instanceof \WP_Post) {
             return $post->ID;
+        }
+        if ('parent_id' == $post) {
+            return (int) wp_get_post_parent_id(intval(get_the_ID()));
+        }
+        if ('post_id' == $post) {
+            return (int) get_the_ID();
+        }
+        if (is_string($post)) {
+            $parts = explode(':', $post);
+            if (2 === count($parts)) {
+                $posts = get_posts([
+                    'fields' => 'ids',
+                    'post_name__in' => [$parts[1]],
+                    'post_type' => $parts[0],
+                    'posts_per_page' => 1,
+                ]);
+                return Cast::toInt(Arr::get($posts, 0));
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * @param mixed $term
+     * @return int
+     */
+    public static function getTermTaxonomyId($term)
+    {
+        if ($term instanceof \WP_Term) {
+            return $term->term_id;
+        }
+        if (is_numeric($term)) {
+            $term = Cast::toInt($term);
+        }
+        $tt = term_exists($term, glsr()->taxonomy);
+        return Cast::toInt(Arr::get($tt, 'term_id'));
+    }
+
+    /**
+     * @param mixed $user
+     * @return int
+     */
+    public static function getUserId($user)
+    {
+        if ($user instanceof \WP_User) {
+            return $user->ID;
+        }
+        if ('user_id' === $user) {
+            return get_current_user_id();
+        }
+        if (is_numeric($user)) {
+            $user = get_user_by('ID', $user);
+            return Cast::toInt(Arr::get($user, 'ID'));
+        }
+        if (is_string($user)) {
+            $user = get_user_by('login', $user);
+            return Cast::toInt(Arr::get($user, 'ID'));
         }
         return 0;
     }
