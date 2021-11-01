@@ -15,10 +15,13 @@ class DefaultsTest extends WP_UnitTestCase
 {
     public function test_reviews_restrict()
     {
+        $postId = self::factory()->post->create();
+        $termId = self::factory()->term->create(['taxonomy' => glsr()->taxonomy]);
+        $userId = self::factory()->user->create();
         $args = [
-            'assigned_to' => 4466,
+            'assigned_to' => $postId,
             'block' => '',
-            'category' => 48,
+            'category' => $termId,
             'class' => '',
             'display' => 1,
             'hide' => [],
@@ -30,12 +33,12 @@ class DefaultsTest extends WP_UnitTestCase
             'schema' => '',
             'terms' => '',
             'type' => 'local',
-            'user' => 1,
+            'user' => $userId,
         ];
         $expected = [
-            'assigned_posts' => 4466,
-            'assigned_terms' => 48,
-            'assigned_users' => 1,
+            'assigned_posts' => [$postId],
+            'assigned_terms' => [$termId],
+            'assigned_users' => [$userId],
             'date' => '',
             'email' => '',
             'ip_address' => '',
@@ -62,9 +65,12 @@ class DefaultsTest extends WP_UnitTestCase
 
     public function test_site_reviews_restrict()
     {
+        $postId = self::factory()->post->create();
+        $termId = self::factory()->term->create(['taxonomy' => glsr()->taxonomy]);
+        $userId = self::factory()->user->create();
         $args = [
-            'assigned_to' => 4466,
-            'category' => 103,
+            'assigned_to' => $postId,
+            'category' => $termId,
             'class' => '',
             'className' => '',
             'display' => 1,
@@ -76,16 +82,16 @@ class DefaultsTest extends WP_UnitTestCase
             'schema' => 1,
             'terms' => '',
             'type' => 'local',
-            'user' => 1,
+            'user' => $userId,
         ];
         $test = glsr(SiteReviewsDefaults::class)->restrict($args);
         $this->assertEquals(count($test), count(glsr(SiteReviewsDefaults::class)->defaults()));
         $this->assertTrue(Str::startsWith(glsr()->prefix, $test['id']));
         unset($test['id']);
         $this->assertEquals($test, [
-            'assigned_posts' => 4466,
-            'assigned_terms' => 103,
-            'assigned_users' => 1,
+            'assigned_posts' => $postId,
+            'assigned_terms' => $termId,
+            'assigned_users' => $userId,
             'class' => '',
             'display' => 1,
             'hide' => [],
