@@ -8,9 +8,7 @@ $_SERVER['REQUEST_URI'] = parse_url(admin_url('edit.php'), PHP_URL_PATH).'?post_
 /**
  * Display the list table
  */
-$table = glsr('Overrides\ScheduledActionsTable');
-$table->process_actions();
-$table->display_page();
+glsr('Overrides\ScheduledActionsTable')->display_page();
 /**
  * Finally, restore the original REQUEST_URI
  */

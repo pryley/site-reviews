@@ -303,6 +303,8 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
      */
     public function display_page()
     {
+        $this->process_bulk_action();
+        $this->process_row_actions();
         $this->prepare_items();
         $this->display_admin_notices();
         $this->display_filter_by_status();

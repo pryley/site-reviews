@@ -217,20 +217,11 @@ class AdminController extends Controller
 
     /**
      * @return void
-     * @action site-reviews/queue/migration
-     */
-    public function performMigration()
-    {
-        glsr(Migrate::class)->run();
-    }
-
-    /**
-     * @return void
      * @action admin_init
      */
     public function scheduleMigration()
     {
-        if ($this->isReviewAdminScreen() 
+        if ($this->isReviewAdminScreen()
             && !defined('GLSR_UNIT_TESTS')
             && !glsr(Queue::class)->isPending('queue/migration')) {
             if (glsr(Migrate::class)->isMigrationNeeded() || glsr(Database::class)->isMigrationNeeded()) {

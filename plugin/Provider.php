@@ -15,6 +15,7 @@ use GeminiLabs\SiteReviews\Controllers\MetaboxController;
 use GeminiLabs\SiteReviews\Controllers\NoticeController;
 use GeminiLabs\SiteReviews\Controllers\PrivacyController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
+use GeminiLabs\SiteReviews\Controllers\QueueController;
 use GeminiLabs\SiteReviews\Controllers\ReviewController;
 use GeminiLabs\SiteReviews\Controllers\RevisionController;
 use GeminiLabs\SiteReviews\Controllers\SettingsController;
@@ -55,6 +56,7 @@ class Provider implements ProviderContract
         $app->singleton(NoticeController::class);
         $app->singleton(PrivacyController::class);
         $app->singleton(PublicController::class);
+        $app->singleton(QueueController::class);
         $app->singleton(RestController::class);
         $app->singleton(ReviewController::class);
         $app->singleton(RevisionController::class);

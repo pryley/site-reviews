@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Modules\Notification;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Request;
@@ -115,19 +114,6 @@ class PublicController extends Controller
     public function renderSchema()
     {
         glsr(Schema::class)->render();
-    }
-
-    /**
-     * @param int $reviewId
-     * @return void
-     * @action site-reviews/queue/notification
-     */
-    public function sendNotification($reviewId)
-    {
-        $review = glsr_get_review($reviewId);
-        if ($review->isValid()) {
-            glsr(Notification::class)->send($review);
-        }
     }
 
     /**

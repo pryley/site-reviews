@@ -15,6 +15,7 @@ use GeminiLabs\SiteReviews\Controllers\MetaboxController;
 use GeminiLabs\SiteReviews\Controllers\NoticeController;
 use GeminiLabs\SiteReviews\Controllers\PrivacyController;
 use GeminiLabs\SiteReviews\Controllers\PublicController;
+use GeminiLabs\SiteReviews\Controllers\QueueController;
 use GeminiLabs\SiteReviews\Controllers\ReviewController;
 use GeminiLabs\SiteReviews\Controllers\RevisionController;
 use GeminiLabs\SiteReviews\Controllers\SettingsController;
@@ -39,6 +40,7 @@ class Hooks implements HooksContract
     protected $notices;
     protected $privacy;
     protected $public;
+    protected $queue;
     protected $rest;
     protected $review;
     protected $revisions;
@@ -63,6 +65,7 @@ class Hooks implements HooksContract
         $this->notices = glsr(NoticeController::class);
         $this->privacy = glsr(PrivacyController::class);
         $this->public = glsr(PublicController::class);
+        $this->queue = glsr(QueueController::class);
         $this->rest = glsr(RestController::class);
         $this->review = glsr(ReviewController::class);
         $this->revisions = glsr(RevisionController::class);
@@ -90,7 +93,6 @@ class Hooks implements HooksContract
         add_action('media_buttons', [$this->admin, 'renderTinymceButton'], 11);
         add_action('admin_init', [$this->admin, 'onActivation']);
         add_action('import_end', [$this->admin, 'onImportEnd']);
-        add_action('site-reviews/queue/migration', [$this->admin, 'performMigration']);
         add_action('admin_init', [$this->admin, 'scheduleMigration']);
         add_action('site-reviews/route/ajax/search-posts', [$this->admin, 'searchPostsAjax']);
         add_action('site-reviews/route/ajax/search-translations', [$this->admin, 'searchTranslationsAjax']);
@@ -135,10 +137,12 @@ class Hooks implements HooksContract
         add_filter('site-reviews/builder', [$this->public, 'modifyBuilder']);
         add_action('wp_footer', [$this->public, 'renderModal'], 50);
         add_action('wp_footer', [$this->public, 'renderSchema']);
-        add_action('site-reviews/queue/notification', [$this->public, 'sendNotification']);
         add_action('site-reviews/route/public/submit-review', [$this->public, 'submitReview']);
         add_action('site-reviews/route/ajax/submit-review', [$this->public, 'submitReviewAjax']);
         add_action('admin_init', [$this->privacy, 'privacyPolicyContent']);
+        add_action('site-reviews/queue/recalculate-meta', [$this->queue, 'recalculateAssignmentMeta']);
+        add_action('site-reviews/queue/migration', [$this->queue, 'runMigration']);
+        add_action('site-reviews/queue/notification', [$this->queue, 'sendNotification']);
         add_action('rest_api_init', [$this->rest, 'registerRoutes']);
         add_action('admin_action_approve', [$this->review, 'approve']);
         add_action('the_posts', [$this->review, 'filterPostsToCacheReviews']);
