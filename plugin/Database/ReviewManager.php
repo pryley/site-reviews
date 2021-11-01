@@ -113,7 +113,7 @@ class ReviewManager
             'post_date' => $values->date,
             'post_date_gmt' => $values->date_gmt,
             'post_name' => uniqid($values->type),
-            'post_status' => $this->postStatus($values->type, $values->blacklisted),
+            'post_status' => $this->postStatus($command),
             'post_title' => $values->title,
             'post_type' => glsr()->post_type,
         ];
@@ -356,14 +356,14 @@ class ReviewManager
     }
 
     /**
-     * @param string $reviewType
-     * @param bool $isBlacklisted
      * @return string
      */
-    protected function postStatus($reviewType, $isBlacklisted)
+    protected function postStatus(CreateReview $command)
     {
-        $requireApproval = glsr(OptionManager::class)->getBool('settings.general.require.approval');
-        return 'local' == $reviewType && ($requireApproval || $isBlacklisted)
+        $isApproved = defined('WP_IMPORTING')
+            ? $command->is_approved
+            : !glsr(OptionManager::class)->getBool('settings.general.require.approval');
+        return !$isApproved || ('local' === $command->type && $command->blacklisted)
             ? 'pending'
             : 'publish';
     }
