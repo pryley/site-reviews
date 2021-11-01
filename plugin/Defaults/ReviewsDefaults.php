@@ -40,11 +40,16 @@ class ReviewsDefaults extends Defaults
      * @var array
      */
     public $sanitize = [
+        'assigned_posts' => 'post-ids',
+        'assigned_terms' => 'term-ids',
+        'assigned_users' => 'user-ids',
         'email' => 'email',
         'post__in' => 'array-int',
         'post__not_in' => 'array-int',
         'rating_field' => 'name',
         'type' => 'key',
+        'user__in' => 'user-ids',
+        'user__not_in' => 'user-ids',
     ];
 
     /**

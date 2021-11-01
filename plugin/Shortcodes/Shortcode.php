@@ -4,14 +4,13 @@ namespace GeminiLabs\SiteReviews\Shortcodes;
 
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
-use GeminiLabs\SiteReviews\Database\PostManager;
-use GeminiLabs\SiteReviews\Database\TaxonomyManager;
-use GeminiLabs\SiteReviews\Database\UserManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Rating;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Style;
 use ReflectionClass;
 
@@ -165,7 +164,9 @@ abstract class Shortcode implements ShortcodeContract
      */
     protected function normalizeAssignedPosts($postIds, Arguments $atts)
     {
-        return implode(',', glsr(PostManager::class)->normalizeIds($postIds));
+        $postIds = glsr(Sanitizer::class)->sanitizePostIds($postIds);
+        $postIds = glsr(Multilingual::class)->getPostIds($postIds);
+        return implode(',', $postIds);
     }
 
     /**
@@ -174,7 +175,7 @@ abstract class Shortcode implements ShortcodeContract
      */
     protected function normalizeAssignedTerms($termIds)
     {
-        return implode(',', glsr(TaxonomyManager::class)->normalizeIds($termIds));
+        return implode(',', glsr(Sanitizer::class)->sanitizeTermIds($termIds));
     }
 
     /**
@@ -183,7 +184,7 @@ abstract class Shortcode implements ShortcodeContract
      */
     protected function normalizeAssignedUsers($userIds)
     {
-        return implode(',', glsr(UserManager::class)->normalizeIds($userIds));
+        return implode(',', glsr(Sanitizer::class)->sanitizeUserIds($userIds));
     }
 
     /**

@@ -14,7 +14,6 @@ class ReviewAssignedPostsTag extends ReviewTag
     protected function handle($value = null)
     {
         $postIds = glsr(Multilingual::class)->getPostIds(Arr::consolidate($value));
-        $postIds = array_unique($postIds);
         if (!empty($postIds)) {
             $posts = get_posts([
                 'post__in' => $postIds,

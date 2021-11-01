@@ -23,9 +23,9 @@ class CreateReviewDefaults extends Defaults
      * @return array
      */
     public $sanitize = [
-        'assigned_posts' => 'array-int',
-        'assigned_terms' => 'array-int',
-        'assigned_users' => 'array-int',
+        'assigned_posts' => 'post-ids',
+        'assigned_terms' => 'term-ids',
+        'assigned_users' => 'user-ids',
         'avatar' => 'url',
         'content' => 'text-multiline',
         'custom' => 'array',

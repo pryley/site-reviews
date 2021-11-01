@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 /**
@@ -37,15 +38,11 @@ class NormalizeQueryArgs extends Arguments
     public function __construct(array $args = [])
     {
         $args = glsr(ReviewsDefaults::class)->restrict($args);
-        $args['assigned_posts'] = glsr(PostManager::class)->normalizeIds($args['assigned_posts']);
-        $args['assigned_terms'] = glsr(TaxonomyManager::class)->normalizeIds($args['assigned_terms']);
-        $args['assigned_users'] = glsr(UserManager::class)->normalizeIds($args['assigned_users']);
+        $args['assigned_posts'] = glsr(Multilingual::class)->getPostIds($args['assigned_posts']);
         $args['date'] = $this->normalizeDate($args['date']);
         $args['order'] = Str::restrictTo('ASC,DESC,', sanitize_key($args['order']), 'DESC'); // include an empty value
         $args['orderby'] = $this->normalizeOrderBy($args['orderby']);
         $args['status'] = $this->normalizeStatus($args['status']);
-        $args['user__in'] = glsr(UserManager::class)->normalizeIds($args['user__in']);
-        $args['user__not_in'] = glsr(UserManager::class)->normalizeIds($args['user__not_in']);
         parent::__construct($args);
     }
 
