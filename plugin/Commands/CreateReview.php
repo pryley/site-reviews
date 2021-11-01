@@ -51,7 +51,9 @@ class CreateReview implements Contract
 
     public function __construct(Request $request)
     {
-        $request->set('ip_address', Helper::getIpAddress()); // required for Akismet and Blacklist validation
+        if (!defined('WP_IMPORTING') || empty($request->ip_address)) {
+            $request->set('ip_address', Helper::getIpAddress()); // required for Akismet and Blacklist validation
+        }
         $this->request = $request;
         $this->sanitize();
     }
