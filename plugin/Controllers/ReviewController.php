@@ -15,7 +15,6 @@ use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
-use GeminiLabs\SiteReviews\Database\TaxonomyManager;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -221,7 +220,6 @@ class ReviewController extends Controller
         if (!empty($values->response)) {
             glsr(Database::class)->metaSet($postId, 'response', $values->response); // save the response if one is provided
         }
-        glsr(TaxonomyManager::class)->setTerms($postId, $values->assigned_terms); // terms are assigned with the set_object_terms hook
         foreach ($values->custom as $key => $value) {
             glsr(Database::class)->metaSet($postId, 'custom_'.$key, $value);
         }
