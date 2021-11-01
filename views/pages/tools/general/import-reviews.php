@@ -19,15 +19,20 @@
             '<code>*.CSV</code>'
         ); ?></p>
         <p>
+            <code>assigned_posts</code> <?= _x('The Posts that the review is assigned to (separate multiple IDs with a comma)', 'admin-text', 'site-reviews'); ?><br>
+            <code>assigned_terms</code> <?= _x('The Categories that the review is assigned to (separate multiple IDs with a comma)', 'admin-text', 'site-reviews'); ?><br>
+            <code>assigned_users</code> <?= _x('The Users that the review is assigned to (separate multiple IDs with a comma)', 'admin-text', 'site-reviews'); ?><br>
             <code>avatar</code> <?= _x('The avatar URL of the reviewer', 'admin-text', 'site-reviews'); ?><br>
             <code>content</code> <?= sprintf('%s (<span class="required">%s</span>)', _x('The review', 'admin-text', 'site-reviews'), _x('required', 'admin-text', 'site-reviews')); ?><br>
             <code>date</code> <?= sprintf('%s (<span class="required">%s</span>)', _x('The review date', 'admin-text', 'site-reviews'), _x('required', 'admin-text', 'site-reviews')); ?><br>
             <code>email</code> <?= _x('The reviewer\'s email', 'admin-text', 'site-reviews'); ?><br>
             <code>ip_address</code> <?= _x('The IP address of the reviewer', 'admin-text', 'site-reviews'); ?><br>
+            <code>is_approved</code> <?= _x('TRUE or FALSE', 'admin-text', 'site-reviews'); ?><br>
             <code>is_pinned</code> <?= _x('TRUE or FALSE', 'admin-text', 'site-reviews'); ?><br>
             <code>name</code> <?= _x('The reviewer\'s name', 'admin-text', 'site-reviews'); ?><br>
             <code>rating</code> <?= sprintf('%s (<span class="required">%s</span>)', sprintf(_x('A number from 0-%d', 'admin-text', 'site-reviews'), glsr()->constant('MAX_RATING', 'GeminiLabs\SiteReviews\Modules\Rating')), _x('required', 'admin-text', 'site-reviews')); ?><br>
             <code>response</code> <?= _x('The review response', 'admin-text', 'site-reviews'); ?><br>
+            <code>terms</code> <?= _x('TRUE or FALSE', 'admin-text', 'site-reviews'); ?><br>
             <code>title</code> <?= _x('The title of the review', 'admin-text', 'site-reviews'); ?><br>
         </p>
         <p><?= _x('Entries in the CSV file that do not contain required values will be skipped.', 'admin-text', 'site-reviews'); ?></p>

@@ -30,7 +30,9 @@ class ReviewManager
         ];
         if ($result = glsr(Database::class)->insert('assigned_posts', $where)) {
             glsr(Cache::class)->delete($review->ID, 'reviews');
-            glsr(CountManager::class)->posts($postId);
+            if (!defined('WP_IMPORTING')) {
+                glsr(CountManager::class)->posts($postId);
+            }
         }
         return $result;
     }
@@ -47,7 +49,9 @@ class ReviewManager
         ];
         if ($result = glsr(Database::class)->insert('assigned_terms', $where)) {
             glsr(Cache::class)->delete($review->ID, 'reviews');
-            glsr(CountManager::class)->terms($termId);
+            if (!defined('WP_IMPORTING')) {
+                glsr(CountManager::class)->terms($termId);
+            }
         }
         return $result;
     }
@@ -64,7 +68,9 @@ class ReviewManager
         ];
         if ($result = glsr(Database::class)->insert('assigned_users', $where)) {
             glsr(Cache::class)->delete($review->ID, 'reviews');
-            glsr(CountManager::class)->users($userId);
+            if (!defined('WP_IMPORTING')) {
+                glsr(CountManager::class)->users($userId);
+            }
         }
         return $result;
     }

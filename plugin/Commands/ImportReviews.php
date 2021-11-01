@@ -5,12 +5,14 @@ namespace GeminiLabs\SiteReviews\Commands;
 use GeminiLabs\League\Csv\Exception;
 use GeminiLabs\League\Csv\Reader;
 use GeminiLabs\League\Csv\Statement;
+use GeminiLabs\League\Csv\TabularDataReader;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Date;
 use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Upload;
@@ -23,7 +25,7 @@ class ImportReviews extends Upload implements Contract
         'm-d-Y', 'm-d-Y H:i', 'm-d-Y H:i:s',
         'm/d/Y', 'm/d/Y H:i', 'm/d/Y H:i:s',
         'Y-m-d', 'Y-m-d H:i', 'Y-m-d H:i:s',
-        'Y/m/d', 'Y/m/d H:i', 'Y/m/d H:i:s'
+        'Y/m/d', 'Y/m/d H:i', 'Y/m/d H:i:s',
     ];
 
     const ALLOWED_DELIMITERS = [
@@ -96,7 +98,7 @@ class ImportReviews extends Upload implements Contract
             $reader->skipEmptyRecords();
             $header = array_map('trim', $reader->getHeader());
             if (!empty(array_diff(static::REQUIRED_KEYS, $header))) {
-                throw new Exception('The CSV import header is missing the required columns (did you select the correct delimiter?).');
+                throw new Exception('The CSV import header is missing some of the required columns (or maybe you selected the correct delimiter).');
             }
             $this->totalRecords = count($reader);
             $records = Statement::create()
@@ -114,15 +116,16 @@ class ImportReviews extends Upload implements Contract
     /**
      * @return int
      */
-    protected function importRecords($records)
+    protected function importRecords(TabularDataReader $records)
     {
         foreach ($records as $offset => $record) {
             $date = \DateTime::createFromFormat($this->date_format, $record['date']);
             $record['date'] = $date->format('Y-m-d H:i:s'); // format the provided date
             $request = new Request($record);
             $command = new CreateReview($request);
-            glsr(ReviewManager::class)->createRaw($command);
+            glsr(ReviewManager::class)->create($command);
         }
+        glsr(Queue::class)->async('queue/recalculate-meta');
         return count($records);
     }
 
@@ -164,13 +167,13 @@ class ImportReviews extends Upload implements Contract
             'content' => !empty($record['content']),
             'rating' => glsr(Rating::class)->isValid(Arr::get($record, 'rating')),
         ];
-        if (count(array_filter($required)) === 3) {
+        if (3 === count(array_filter($required))) {
             return true;
         }
         $errorMessages = [
-            'date' => _x('invalid date', 'admin-text', 'site-reviews'),
-            'content' => _x('invalid content', 'admin-text', 'site-reviews'),
-            'rating' => _x('invalid rating', 'admin-text', 'site-reviews'),
+            'date' => _x('wrong date format', 'admin-text', 'site-reviews'),
+            'content' => _x('empty or missing content', 'admin-text', 'site-reviews'),
+            'rating' => _x('empty or invalid rating', 'admin-text', 'site-reviews'),
         ];
         $errors = array_intersect_key($errorMessages, array_diff_key($required, array_filter($required)));
         $this->errors = array_merge($this->errors, $errors);
