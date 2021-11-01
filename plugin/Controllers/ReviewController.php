@@ -217,6 +217,10 @@ class ReviewController extends Controller
             wp_delete_post($postId, true); // remove post as review was not created
             return;
         }
+        $termIds = wp_set_object_terms($postId, $values->assigned_terms, glsr()->taxonomy);
+        if (is_wp_error($termIds)) {
+            glsr_log()->error($termIds->get_error_message());
+        }
         if (!empty($values->response)) {
             glsr(Database::class)->metaSet($postId, 'response', $values->response); // save the response if one is provided
         }

@@ -122,7 +122,6 @@ class ReviewManager
             'post_status' => $this->postStatus($command),
             'post_title' => $values->title,
             'post_type' => glsr()->post_type,
-            'tax_input' => [glsr()->taxonomy => $values->assigned_terms],
         ];
         $postId = wp_insert_post($postValues, true);
         if (is_wp_error($postId)) {
