@@ -265,12 +265,15 @@ class Sanitizer
      */
     public function sanitizeUrl($value)
     {
-        $url = trim(Cast::toString($value));
-        if (!Str::startsWith('http://, https://', $url)) {
-            $url = Str::prefix($url, 'https://');
+        $value = trim(Cast::toString($value));
+        if (!Str::startsWith('http://, https://', $value)) {
+            $value = Str::prefix($value, 'https://');
         }
-        $url = wp_http_validate_url($url);
-        return esc_url_raw(Cast::toString($url));
+        $url = esc_url_raw($value);
+        if (mb_strtolower($value) === mb_strtolower($url) && filter_var($url, FILTER_VALIDATE_URL) !== false) {
+            return $url;
+        }
+        return '';
     }
 
     /**
