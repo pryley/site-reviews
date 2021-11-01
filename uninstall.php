@@ -37,6 +37,7 @@ function glsr_uninstall_all_cleanup() {
     $wpdb->query("OPTIMIZE TABLE {$wpdb->options}");
     $wpdb->query("OPTIMIZE TABLE {$wpdb->postmeta}");
     $wpdb->query("OPTIMIZE TABLE {$wpdb->posts}");
+    $wpdb->query("OPTIMIZE TABLE {$wpdb->term_taxonomy}");
     $wpdb->query("OPTIMIZE TABLE {$wpdb->termmeta}");
     $wpdb->query("OPTIMIZE TABLE {$wpdb->terms}");
     $wpdb->query("OPTIMIZE TABLE {$wpdb->usermeta}");
