@@ -30,7 +30,7 @@ msgstr ""
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 
-#: config/settings.php:281, plugin/Modules/Html/ReviewsHtml.php:135
+#: config/settings.php:281, plugin/Modules/Html/ReviewsHtml.php:136
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
 
@@ -82,11 +82,11 @@ msgstr "This review is based on my own experience and is my genuine opinion."
 msgid "Show more"
 msgstr "Show more"
 
-#: plugin/Commands/CreateReview.php:162
+#: plugin/Commands/CreateReview.php:165
 msgid "Your review has been submitted!"
 msgstr "Your review has been submitted!"
 
-#: plugin/Commands/CreateReview.php:167, views/pages/documentation/support/common-problems-and-solutions.php:75
+#: plugin/Commands/CreateReview.php:170, views/pages/documentation/support/common-problems-and-solutions.php:75
 msgid ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site administrator."
@@ -238,23 +238,23 @@ msgstr "Successfully deleted action"
 msgid "Successfully processed change for action: %s"
 msgstr "Successfully processed change for action: %s"
 
-#: plugin/Shortcodes/Shortcode.php:208
+#: plugin/Shortcodes/Shortcode.php:209
 msgid "Excellent"
 msgstr "Excellent"
 
-#: plugin/Shortcodes/Shortcode.php:209
+#: plugin/Shortcodes/Shortcode.php:210
 msgid "Very good"
 msgstr "Very good"
 
-#: plugin/Shortcodes/Shortcode.php:210
+#: plugin/Shortcodes/Shortcode.php:211
 msgid "Average"
 msgstr "Average"
 
-#: plugin/Shortcodes/Shortcode.php:211
+#: plugin/Shortcodes/Shortcode.php:212
 msgid "Poor"
 msgstr "Poor"
 
-#: plugin/Shortcodes/Shortcode.php:212
+#: plugin/Shortcodes/Shortcode.php:213
 msgid "Terrible"
 msgstr "Terrible"
 
@@ -738,7 +738,7 @@ msgstr ""
 "href=\"https://api.slack.com/docs/attachments\">Message Attachments</a> "
 "have been disabled."
 
-#: config/settings.php:132, views/pages/tools/general/import-reviews.php:49
+#: config/settings.php:132, views/pages/tools/general/import-reviews.php:54
 msgctxt "admin-text"
 msgid "Date Format"
 msgstr "Date Format"
@@ -1707,44 +1707,44 @@ msgctxt "admin-text"
 msgid "Discover Premium"
 msgstr "Discover Premium"
 
-#: plugin/Commands/ImportReviews.php:135
+#: plugin/Commands/ImportReviews.php:139
 msgctxt "admin-text"
 msgid "%s review was imported."
 msgid_plural "%s reviews were imported."
 msgstr[0] "%s review was imported."
 msgstr[1] "%s reviews were imported."
 
-#: plugin/Commands/ImportReviews.php:143
+#: plugin/Commands/ImportReviews.php:147
 msgctxt "admin-text"
 msgid "%s entry was skipped."
 msgid_plural "%s entries were skipped."
 msgstr[0] "%s entry was skipped."
 msgstr[1] "%s entries were skipped."
 
-#: plugin/Commands/ImportReviews.php:146
+#: plugin/Commands/ImportReviews.php:150
 msgctxt "admin-text"
 msgid "See the %s for more details."
 msgstr "See the %s for more details."
 
-#: plugin/Commands/ImportReviews.php:149, plugin/Controllers/MenuController.php:165
+#: plugin/Commands/ImportReviews.php:153, plugin/Controllers/MenuController.php:165
 msgctxt "admin-text"
 msgid "Console"
 msgstr "Console"
 
-#: plugin/Commands/ImportReviews.php:170
+#: plugin/Commands/ImportReviews.php:174
 msgctxt "admin-text"
-msgid "invalid date"
-msgstr "invalid date"
+msgid "wrong date format"
+msgstr "wrong date format"
 
-#: plugin/Commands/ImportReviews.php:171
+#: plugin/Commands/ImportReviews.php:175
 msgctxt "admin-text"
-msgid "invalid content"
-msgstr "invalid content"
+msgid "empty or missing content"
+msgstr "empty or missing content"
 
-#: plugin/Commands/ImportReviews.php:172
+#: plugin/Commands/ImportReviews.php:176
 msgctxt "admin-text"
-msgid "invalid rating"
-msgstr "invalid rating"
+msgid "empty or invalid rating"
+msgstr "empty or invalid rating"
 
 #: plugin/Commands/ImportSettings.php:23
 msgctxt "admin-text"
@@ -1793,7 +1793,7 @@ msgctxt "admin-text"
 msgid "Summary of Reviews"
 msgstr "Summary of Reviews"
 
-#: plugin/Controllers/AdminController.php:250, plugin/Controllers/AdminController.php:270, plugin/Controllers/AdminController.php:283
+#: plugin/Controllers/AdminController.php:241, plugin/Controllers/AdminController.php:261, plugin/Controllers/AdminController.php:274
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr "Nothing found."
@@ -2430,7 +2430,7 @@ msgctxt "admin-text"
 msgid "Delete the action now"
 msgstr "Delete the action now"
 
-#: plugin/Overrides/ScheduledActionsTable.php:449
+#: plugin/Overrides/ScheduledActionsTable.php:451
 msgctxt "admin-text"
 msgid "Non-repeating"
 msgstr "Non-repeating"
@@ -3755,95 +3755,122 @@ msgstr ""
 
 #: views/pages/tools/general/import-reviews.php:22
 msgctxt "admin-text"
+msgid ""
+"The Posts that the review is assigned to (separate multiple IDs with a "
+"comma)"
+msgstr ""
+"The Posts that the review is assigned to (separate multiple IDs with a "
+"comma)"
+
+#: views/pages/tools/general/import-reviews.php:23
+msgctxt "admin-text"
+msgid ""
+"The Categories that the review is assigned to (separate multiple IDs with a "
+"comma)"
+msgstr ""
+"The Categories that the review is assigned to (separate multiple IDs with a "
+"comma)"
+
+#: views/pages/tools/general/import-reviews.php:24
+msgctxt "admin-text"
+msgid ""
+"The Users that the review is assigned to (separate multiple IDs with a "
+"comma)"
+msgstr ""
+"The Users that the review is assigned to (separate multiple IDs with a "
+"comma)"
+
+#: views/pages/tools/general/import-reviews.php:25
+msgctxt "admin-text"
 msgid "The avatar URL of the reviewer"
 msgstr "The avatar URL of the reviewer"
 
-#: views/pages/tools/general/import-reviews.php:23
+#: views/pages/tools/general/import-reviews.php:26
 msgctxt "admin-text"
 msgid "The review"
 msgstr "The review"
 
-#: views/pages/tools/general/import-reviews.php:23, views/pages/tools/general/import-reviews.php:24, views/pages/tools/general/import-reviews.php:29
+#: views/pages/tools/general/import-reviews.php:26, views/pages/tools/general/import-reviews.php:27, views/pages/tools/general/import-reviews.php:33
 msgctxt "admin-text"
 msgid "required"
 msgstr "required"
 
-#: views/pages/tools/general/import-reviews.php:24
+#: views/pages/tools/general/import-reviews.php:27
 msgctxt "admin-text"
 msgid "The review date"
 msgstr "The review date"
 
-#: views/pages/tools/general/import-reviews.php:25
+#: views/pages/tools/general/import-reviews.php:28
 msgctxt "admin-text"
 msgid "The reviewer's email"
 msgstr "The reviewer's email"
 
-#: views/pages/tools/general/import-reviews.php:26
+#: views/pages/tools/general/import-reviews.php:29
 msgctxt "admin-text"
 msgid "The IP address of the reviewer"
 msgstr "The IP address of the reviewer"
 
-#: views/pages/tools/general/import-reviews.php:27
+#: views/pages/tools/general/import-reviews.php:30, views/pages/tools/general/import-reviews.php:31, views/pages/tools/general/import-reviews.php:35
 msgctxt "admin-text"
 msgid "TRUE or FALSE"
 msgstr "TRUE or FALSE"
 
-#: views/pages/tools/general/import-reviews.php:28
+#: views/pages/tools/general/import-reviews.php:32
 msgctxt "admin-text"
 msgid "The reviewer's name"
 msgstr "The reviewer's name"
 
-#: views/pages/tools/general/import-reviews.php:29
+#: views/pages/tools/general/import-reviews.php:33
 msgctxt "admin-text"
 msgid "A number from 0-%d"
 msgstr "A number from 0-%d"
 
-#: views/pages/tools/general/import-reviews.php:30
+#: views/pages/tools/general/import-reviews.php:34
 msgctxt "admin-text"
 msgid "The review response"
 msgstr "The review response"
 
-#: views/pages/tools/general/import-reviews.php:31
+#: views/pages/tools/general/import-reviews.php:36
 msgctxt "admin-text"
 msgid "The title of the review"
 msgstr "The title of the review"
 
-#: views/pages/tools/general/import-reviews.php:33
+#: views/pages/tools/general/import-reviews.php:38
 msgctxt "admin-text"
 msgid "Entries in the CSV file that do not contain required values will be skipped."
 msgstr "Entries in the CSV file that do not contain required values will be skipped."
 
-#: views/pages/tools/general/import-reviews.php:41
+#: views/pages/tools/general/import-reviews.php:46
 msgctxt "admin-text"
 msgid "Delimiter"
 msgstr "Delimiter"
 
-#: views/pages/tools/general/import-reviews.php:43
+#: views/pages/tools/general/import-reviews.php:48
 msgctxt "admin-text"
 msgid "Select the delimiter used in the CSV file"
 msgstr "Select the delimiter used in the CSV file"
 
-#: views/pages/tools/general/import-reviews.php:44
+#: views/pages/tools/general/import-reviews.php:49
 msgctxt "admin-text"
 msgid "Comma (,)"
 msgstr "Comma (,)"
 
-#: views/pages/tools/general/import-reviews.php:45
+#: views/pages/tools/general/import-reviews.php:50
 msgctxt "admin-text"
 msgid "Semicolon (;)"
 msgstr "Semicolon (;)"
 
-#: views/pages/tools/general/import-reviews.php:51
+#: views/pages/tools/general/import-reviews.php:56
 msgctxt "admin-text"
 msgid "Select the date format used in the reviews"
 msgstr "Select the date format used in the reviews"
 
-#: views/pages/tools/general/import-reviews.php:73
+#: views/pages/tools/general/import-reviews.php:78
 msgctxt "admin-text"
 msgid "Importing reviews, please wait..."
 msgstr "Importing reviews, please wait..."
 
-#: views/pages/tools/general/import-reviews.php:73
+#: views/pages/tools/general/import-reviews.php:78
 msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr "Import Reviews"
@@ -4610,7 +4637,7 @@ msgid_plural "New %s-star review of %s"
 msgstr[0] "New %s-star review"
 msgstr[1] "New %s-star review of %s"
 
-#: plugin/Overrides/ScheduledActionsTable.php:453
+#: plugin/Overrides/ScheduledActionsTable.php:455
 msgctxt "%s: time interval (admin-text)"
 msgid "Every %s"
 msgstr "Every %s"
