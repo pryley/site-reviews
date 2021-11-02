@@ -75,6 +75,7 @@ class ReviewsHtml extends \ArrayObject
             'baseUrl' => $this->args->pageUrl,
             'current' => $this->args->page,
             'total' => $this->max_num_pages,
+            'type' => $this->args->pagination, // @hack this is overridden by paginate_links, we use it to pass the pagination setting
         ]);
         if (!$wrap || empty($html)) { // only display the pagination when it's needed
             return $html;
