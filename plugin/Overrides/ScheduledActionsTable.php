@@ -256,7 +256,7 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
                 $async_request_message = sprintf(__('The next queue will begin processing in approximately %d seconds.', 'site-reviews'), $async_request_lock_expiration - time());
             }
             $this->admin_notices[] = [
-                'class' => 'notice notice-info',
+                'class' => 'notice notice-info is-dismissible',
                 'message' => $async_request_message,
             ];
         }
