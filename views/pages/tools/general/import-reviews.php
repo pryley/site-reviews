@@ -36,7 +36,7 @@
             <code>title</code> <?= _x('The title of the review', 'admin-text', 'site-reviews'); ?><br>
         </p>
         <p><?= _x('Entries in the CSV file that do not contain required values will be skipped.', 'admin-text', 'site-reviews'); ?></p>
-        <form method="post" enctype="multipart/form-data" onsubmit="submit.disabled = true;">
+        <form method="post" enctype="multipart/form-data" onsubmit="submit.classList.add('is-busy'); submit.disabled = true;">
             <?php wp_nonce_field('import-reviews'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="import-reviews">
             <p>
@@ -74,7 +74,7 @@
                     <option value="Y/m/d H:i:s">2021/01/13 12:00:00 &nbsp; (Y/m/d H:i:s)</option>
                 </select>
             </p>
-            <button type="submit" class="glsr-button components-button is-secondary" id="import-reviews" data-expand="#tools-import-reviews">
+            <button type="submit" name="submit" class="glsr-button components-button is-secondary" id="import-reviews" data-expand="#tools-import-reviews">
                 <span data-loading="<?= esc_attr_x('Importing reviews, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Import Reviews', 'admin-text', 'site-reviews'); ?></span>
             </button>
         </form>
