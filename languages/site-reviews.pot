@@ -1285,11 +1285,11 @@ msgstr ""
 msgid "Show more"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:165
+#: plugin/Commands/CreateReview.php:163
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:170, views/pages/documentation/support/common-problems-and-solutions.php:75
+#: plugin/Commands/CreateReview.php:167, views/pages/documentation/support/common-problems-and-solutions.php:75
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
@@ -3074,7 +3074,7 @@ msgctxt "admin-text"
 msgid "Allow your website visitors to sort, filter by rating, and search reviews."
 msgstr ""
 
-#: views/pages/addons/index.php:28, views/pages/addons/index.php:38, views/pages/addons/index.php:48, views/pages/addons/index.php:68
+#: views/pages/addons/index.php:28, views/pages/addons/index.php:38, views/pages/addons/index.php:48, views/pages/addons/index.php:78
 msgctxt "admin-text"
 msgid "View Add-on"
 msgstr ""
@@ -3091,15 +3091,20 @@ msgstr ""
 
 #: views/pages/addons/index.php:56
 msgctxt "admin-text"
-msgid "Design reviews with a drag-and-drop builder, display reviews in a grid or carousel, choose custom rating images, and more!"
+msgid "Create and schedule conditional notifications."
 msgstr ""
 
-#: views/pages/addons/index.php:58
+#: views/pages/addons/index.php:58, views/pages/addons/index.php:68
 msgctxt "admin-text"
 msgid "Premium members only"
 msgstr ""
 
 #: views/pages/addons/index.php:66
+msgctxt "admin-text"
+msgid "Design reviews with a drag-and-drop builder, display reviews in a grid or carousel, choose custom rating images, and more!"
+msgstr ""
+
+#: views/pages/addons/index.php:76
 msgctxt "admin-text"
 msgid "Integrate Site Reviews with your Woocommerce products."
 msgstr ""

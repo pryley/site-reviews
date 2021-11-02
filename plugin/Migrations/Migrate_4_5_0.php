@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules\Migrations;
+namespace GeminiLabs\SiteReviews\Migrations;
 
 use GeminiLabs\SiteReviews\Controllers\NoticeController;
 use GeminiLabs\SiteReviews\Database\OptionManager;

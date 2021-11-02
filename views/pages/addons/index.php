@@ -53,6 +53,16 @@
         ]);
         $template->render('partials/addons/addon', [
             'context' => [
+                'description' => _x('Create and schedule conditional notifications.', 'admin-text', 'site-reviews'),
+                'link' => 'https://niftyplugins.com/account/downloads/',
+                'link_text' => _x('Premium members only', 'admin-text', 'site-reviews'),
+                'slug' => 'notifications',
+                'title' => 'Review Notifications (beta)',
+            ],
+            'plugin' => 'site-reviews-notifications/site-reviews-notifications.php',
+        ]);
+        $template->render('partials/addons/addon', [
+            'context' => [
                 'description' => _x('Design reviews with a drag-and-drop builder, display reviews in a grid or carousel, choose custom rating images, and more!', 'admin-text', 'site-reviews'),
                 'link' => 'https://niftyplugins.com/account/downloads/',
                 'link_text' => _x('Premium members only', 'admin-text', 'site-reviews'),

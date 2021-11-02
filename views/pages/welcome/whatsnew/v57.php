@@ -9,7 +9,7 @@
         <p><em>Initial Release Date &mdash; February 16th, 2021</em></p>
         <h4>✨ New Features</h4>
         <ul>
-            <li>Added the "Review Themes" add-on</li>
+            <li>Added the <a href="<?= admin_url('edit.php?post_type=site-review&page=addons'); ?>">Review Themes</a> add-on</li>
             <li>Added a custom Event Emitter which will allow you to manually initialise the Site Reviews javascript after the DOMContentLoaded event (e.g. from a Popup event. See also: <a href="https://github.com/pryley/site-reviews/blob/master/EVENTS.md" target="_blank">EVENTS.md</a>)</li>
             <li>Added the "Optimise Your Database Tables" tool which allows you to convert tables from MyISAM to InnoDB for better performance.</li>
         </ul>

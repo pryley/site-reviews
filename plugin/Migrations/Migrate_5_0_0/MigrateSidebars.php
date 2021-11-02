@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules\Migrations\Migrate_5_0_0;
+namespace GeminiLabs\SiteReviews\Migrations\Migrate_5_0_0;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;

@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules\Migrations;
+namespace GeminiLabs\SiteReviews\Migrations;
 
 class Migrate_5_2_0
 {

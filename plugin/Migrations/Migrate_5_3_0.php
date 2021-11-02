@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules\Migrations;
+namespace GeminiLabs\SiteReviews\Migrations;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Database\SqlSchema;

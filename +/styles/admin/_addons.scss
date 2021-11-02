@@ -67,6 +67,10 @@
         background-color: #6B46C1;
         background-image: url(../../images/addon-images.svg);
     }
+    &[data-slug="notifications"] {
+        background-color: #4282D6;
+        background-image: url(../../images/addon-notifications.svg);
+    }
     &[data-slug="premium"] {
         background-color: #1A2349;
         background-image: url(../../images/addon-premium.svg);
@@ -74,10 +78,6 @@
     &[data-slug="themes"] {
         background-color: #00ACC1;
         background-image: url(../../images/addon-themes.svg);
-    }
-    &[data-slug="trustalyze"] {
-        background-color: #4282D6;
-        background-image: url(../../images/addon-trustalyze.svg);
     }
     &[data-slug="woocommerce"] {
         background-color: #7F54B3;

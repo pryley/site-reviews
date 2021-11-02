@@ -93,7 +93,7 @@ class Migrate
     protected function availableMigrations()
     {
         $migrations = [];
-        $dir = glsr()->path('plugin/Modules/Migrations');
+        $dir = glsr()->path('plugin/Migrations');
         if (is_dir($dir)) {
             $iterator = new DirectoryIterator($dir);
             foreach ($iterator as $fileinfo) {
@@ -157,7 +157,7 @@ class Migrate
         $migrations = $this->storedMigrations();
         glsr()->action('migration/start', $migrations);
         foreach ($this->pendingMigrations($migrations) as $migration) {
-            if (class_exists($classname = __NAMESPACE__.'\Migrations\\'.$migration)) {
+            if (class_exists($classname = '\\GeminiLabs\\SiteReviews\\Migrations\\'.$migration)) {
                 if (glsr($classname)->run()) {
                     $migrations[$migration] = true;
                     glsr_log()->debug("[$migration] has run successfully");

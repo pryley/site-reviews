@@ -1,7 +1,7 @@
 === Site Reviews ===
 Contributors: geminilabs, pryley
 Donate link: https://www.paypal.me/pryley
-Tags: reviews, ratings, testimonials, woocommerce, product reviews
+Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, star ratings
 Tested up to: 5.8
 Requires at least: 5.5
 Requires PHP: 5.6
@@ -15,9 +15,9 @@ Site Reviews allows you to easily receive and display reviews for your website, 
 
 Site Reviews allows your visitors to submit reviews with a 1-5 star rating on your website, similar to the way you would on TripAdvisor or Yelp. The plugin provides blocks, shortcodes, and widgets, along with full documentation.
 
-You can pin your best reviews so that they are always shown first, require approval before new review submissions are published, require visitors to be logged-in in order to write a review, send custom notifications on a new submission, and a whole lot more!
+You can pin your best reviews so that they are always shown first, require approval before new review submissions are published, require visitors to be logged-in in order to write a review, send custom notifications on a new submission, and a lot more!
 
-__Site Reviews provides full Woocommerce integration__ with the free [Woocommerce Reviews](https://niftyplugins.com/plugins/woocommerce-reviews/) add-on.
+__Site Reviews integrates with Woocommerce__ with the free [Woocommerce Reviews](https://niftyplugins.com/plugins/woocommerce-reviews/) add-on.
 
 [View the demo](https://site-reviews.skybox.one)
 
@@ -42,7 +42,7 @@ __Site Reviews provides full Woocommerce integration__ with the free [Woocommerc
 - __Import Third-Party Reviews__: Includes a built-in CSV importer
 - __JSON-LD Schema__: Display your reviews and ratings in search results
 - __Members Only__: Require users to be logged in before submitting a review
-- __Multilingual__: Integrates with Polylang and WPML
+- __Multilingual Support__: Integrates with Polylang and WPML allowing you to assign reviews to multilingual pages
 - __Multisite Support__: Fully supports network/multisite websites
 - __Notifications__: Send notifications to one or more emails when a review is submitted
 - __Pagination__: Display a set number of reviews per-page with AJAX
@@ -62,11 +62,12 @@ __Site Reviews provides full Woocommerce integration__ with the free [Woocommerc
 
 ### Site Reviews Add-ons
 
-Site Reviews provides a ton of absolutely free features, possibly more than any other review plugin! But when those features are not enough, Site Reviews provides additional features through add-ons. Current add-ons include:
+Site Reviews provides a ton of absolutely free features, possibly more than any other review plugin. But when those features are not enough, Site Reviews provides additional features through add-ons. Current add-ons include:
 
-- __[Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/) (premium)__: Create custom review forms with over 20 field types and individual review templates.
 - __[Review Filters](https://niftyplugins.com/plugins/site-reviews-filters/) (premium)__: Sort, filter, and search your reviews.
+- __[Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/) (premium)__: Create custom review forms with over 20 field types and individual review templates.
 - __[Review Images](https://niftyplugins.com/plugins/site-reviews-images/) (premium)__: Add images with captions to your reviews.
+- __[Review Themes](https://niftyplugins.com/plugins/site-reviews-themes/) (premium)__: Create custom review designs with a drag-and-drop builder.
 - __[Woocommerce Reviews](https://niftyplugins.com/plugins/woocommerce-reviews/) (free)__: Integrate Site Reviews with your Woocommerce products.
 
 ### Site Reviews Premium
@@ -138,20 +139,20 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
-
 = 5.17.0 (2021-11-02) =
 
-- Added Accepted Terms field to privacy export with the review creation date as the value if the terms were accepted
-- Added an [Action Scheduler](https://actionscheduler.org/) which allows plugin migrations and review notifications to be queued and dispatched automatically.
-- Added support for additional date formats, assigned_posts, assigned_terms, assigned_users, is_approved, and terms in the "Import Third Party Reviews" tool
+- Added the "Review Notifications" add-on!
+- Added Accepted Terms field to privacy export (using the review creation date as the value if the terms were accepted)
+- Added [Action Scheduler](https://actionscheduler.org/) which allows plugin migrations and review notifications to be queued and dispatched automatically.
+- Added support for additional date formats and columns in the "Import Third Party Reviews" tool
 - Fixed HTML sanitization in review values
 - Fixed importing of IP Addresses in the "Import Third Party Reviews" tool
 - Fixed importing to skip empty CSV rows
 - Fixed non-ajax pagination when paginated URLs are disabled in the settings
 - Fixed the removal of foreign key constraints in database tables when plugin is deactivated
-- Fixed the terms field value to be false by default
+- Fixed the "terms" field value to be false by default
 - Renamed the "email-notification.php" template file to "notification.php". If you are using this template file in your theme, please rename it.
-- Updated "Common Problems and Solutions" documentation
+- Updated the "Common Problems and Solutions" documentation
 
 = 5.16.2 (2021-10-06) =
 

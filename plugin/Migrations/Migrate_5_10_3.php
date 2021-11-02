@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Modules\Migrations;
+namespace GeminiLabs\SiteReviews\Migrations;
 
 use GeminiLabs\SiteReviews\Database\CountManager;
 

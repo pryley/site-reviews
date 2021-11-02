@@ -28,10 +28,10 @@ Tabs.prototype = {
             let currentTab = this.queryLocation_('tab')
             if (null === currentTab && 0 === index) {
                 currentTab = tab;
-            }
-            if (currentTab === tab) {
                 history.replaceState({ href, tab }, '', href)
                 this.refererInputs.val(href);
+            }
+            if (currentTab === tab) {
                 this.setActiveTab_(tab)
             }
         });
