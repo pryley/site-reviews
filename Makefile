@@ -31,14 +31,6 @@ update: ## Update Composer and NPM
 	composer update
 	npm-check -u
 
-.PHONY: update-as
-update-as: ## Update action-scheduler
-ifndef version
-override version = master
-endif
-	git fetch subtree-action-scheduler $(version)
-	git subtree pull --prefix vendors/woocommerce/action-scheduler subtree-action-scheduler $(version) --squash
-
 .PHONY: watch
 watch: ## Build all plugin assets and run Browsersync
 	npm run watch
