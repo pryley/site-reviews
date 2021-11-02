@@ -57,7 +57,7 @@ class Pagination implements PartialContract
     protected function buildLinks()
     {
         $useUrlParams = glsr(OptionManager::class)->getBool('settings.reviews.pagination.url_parameter');
-        return $useUrlParams || $this->args['type'] !== 'ajax'
+        return ($useUrlParams || $this->args['type'] !== 'ajax')
             ? paginate_links(wp_parse_args(['type' => 'plain'], $this->args))
             : $this->buildFauxLinks();
     }

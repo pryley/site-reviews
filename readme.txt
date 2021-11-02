@@ -139,7 +139,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 ## Changelog
 
 
-= 5.17.0 (2021-11-01) =
+= 5.17.0 (2021-11-02) =
 
 - Added Accepted Terms field to privacy export with the review creation date as the value if the terms were accepted
 - Added an [Action Scheduler](https://actionscheduler.org/) which allows plugin migrations and review notifications to be queued and dispatched automatically.
