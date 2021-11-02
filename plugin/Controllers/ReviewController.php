@@ -20,6 +20,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
+use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Review;
 
 class ReviewController extends Controller
@@ -310,6 +311,17 @@ class ReviewController extends Controller
         } else {
             $this->bulkUpdateReview($review);
         }
+    }
+
+    /**
+     * Triggered after a review is created.
+     *
+     * @return void
+     * @action site-reviews/review/created
+     */
+    public function sendNotification(Review $review)
+    {
+        glsr(Queue::class)->async('queue/notification', ['review_id' => $review->ID]);
     }
 
     /**

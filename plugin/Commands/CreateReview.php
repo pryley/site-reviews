@@ -10,8 +10,6 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Url;
 use GeminiLabs\SiteReviews\Modules\Avatar;
-use GeminiLabs\SiteReviews\Modules\Notification;
-use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Modules\Validator\DefaultValidator;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
 use GeminiLabs\SiteReviews\Request;
@@ -133,7 +131,7 @@ class CreateReview implements Contract
     }
 
     /**
-     * This only validates the provided values in the Request
+     * This only validates the provided values in the Request.
      * @return bool
      */
     public function isValid()
@@ -163,7 +161,6 @@ class CreateReview implements Contract
     {
         if ($this->review = glsr(ReviewManager::class)->create($this)) {
             $this->message = __('Your review has been submitted!', 'site-reviews');
-            glsr(Queue::class)->async('queue/notification', ['review_id' => $this->review->ID]);
             return;
         }
         $this->errors = [];
