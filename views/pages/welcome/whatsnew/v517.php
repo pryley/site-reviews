@@ -10,6 +10,7 @@
         <h4>✨ New Features</h4>
         <ul>
             <li>Added the <a href="<?= admin_url('edit.php?post_type=site-review&page=addons'); ?>">Review Notifications</a> add-on</li>
+            <li>Added a setting to restrict the "Require Approval" setting to a minimum rating</li>
             <li>Added Accepted Terms field to privacy export (using the review creation date as the value if the terms were accepted)</li>
             <li>Added <a href="https://actionscheduler.org/">Action Scheduler</a> which allows plugin migrations and review notifications to be queued and dispatched automatically.</li>
             <li>Added support for additional date formats and columns in the "Import Third Party Reviews" tool</li>

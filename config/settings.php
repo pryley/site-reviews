@@ -43,6 +43,17 @@ return [
         'tooltip' => _x('This will set the status of new review submissions to "unapproved".', 'admin-text', 'site-reviews'),
         'type' => 'yes_no',
     ],
+    'settings.general.require.approval_for' => [
+        'class' => 'regular-text',
+        'default' => 5,
+        'depends_on' => [
+            'settings.general.require.approval' => 'yes',
+        ],
+        'label' => _x('Require Approval For', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('The minimum rating that will change the status of a new review submission to "unapproved".', 'admin-text', 'site-reviews'),
+        'options' => glsr('Modules\Rating')->optionsArray(_n_noop('%s star or less', '%s stars or less', 'site-reviews')),
+        'type' => 'select',
+    ],
     'settings.general.require.login' => [
         'default' => 'no',
         'label' => _x('Require Login', 'admin-text', 'site-reviews'),

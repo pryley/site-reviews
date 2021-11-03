@@ -94,6 +94,20 @@ class Rating
     }
 
     /**
+     * @param array $noopedPlural The result of _n_noop()
+     * @param int $minRating
+     * @return array
+     */
+    public function optionsArray($noopedPlural, $minRating = 1)
+    {
+        $options = [];
+        foreach (range(glsr()->constant('MAX_RATING', __CLASS__), $minRating) as $rating) {
+            $options[$rating] = sprintf(translate_nooped_plural($noopedPlural, $rating, 'site-reviews'), $rating);
+        }
+        return $options;
+    }
+
+    /**
      * @return int|float
      */
     public function overallPercentage(array $ratingCounts)
@@ -175,7 +189,7 @@ class Rating
     }
 
     /**
-     * Returns array sorted by key DESC
+     * Returns array sorted by key DESC.
      * @param int $totalPercent
      * @return array
      */

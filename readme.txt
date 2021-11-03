@@ -142,6 +142,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 = 5.17.0 (2021-11-02) =
 
 - Added the "Review Notifications" add-on!
+- Added a setting to restrict the "Require Approval" setting to a minimum rating
 - Added Accepted Terms field to privacy export (using the review creation date as the value if the terms were accepted)
 - Added [Action Scheduler](https://actionscheduler.org/) which allows plugin migrations and review notifications to be queued and dispatched automatically.
 - Added support for additional date formats and columns in the "Import Third Party Reviews" tool

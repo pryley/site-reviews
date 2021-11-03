@@ -12,10 +12,9 @@ class Rating extends Field
      */
     public static function required($fieldLocation = null)
     {
-        $options = [];
-        foreach (range(glsr()->constant('MAX_RATING', RatingModule::class), 1) as $rating) {
-            $options[$rating] = sprintf(_n('%s Star', '%s Stars', $rating, 'site-reviews'), $rating);
-        }
+        $options = glsr(RatingModule::class)->optionsArray(
+            _n_noop('%s Star', '%s Stars', 'site-reviews')
+        );
         return [
             'class' => 'glsr-star-rating',
             'options' => $options,

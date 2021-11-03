@@ -290,7 +290,7 @@ class Arr
     public static function unique(array $values)
     {
         return Helper::ifTrue(!static::isIndexedAndFlat($values), $values, function () use ($values) {
-            return array_filter(array_unique($values));
+            return array_filter(array_unique($values)); // we do not want to reindex the array!
         });
     }
 

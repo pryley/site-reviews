@@ -69,7 +69,7 @@ class Settings
             $field = wp_parse_args($field, [
                 'name' => $name,
             ]);
-            $rows.= new SettingField($this->normalize($field));
+            $rows .= new SettingField($this->normalize($field));
         }
         return $rows;
     }

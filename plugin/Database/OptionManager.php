@@ -67,12 +67,32 @@ class OptionManager
 
     /**
      * @param string $path
+     * @param array $fallback
+     * @return array
+     */
+    public function getArray($path, $fallback = [])
+    {
+        return $this->get($path, $fallback, 'array');
+    }
+
+    /**
+     * @param string $path
      * @param string|int|bool $fallback
      * @return bool
      */
     public function getBool($path, $fallback = false)
     {
         return $this->get($path, $fallback, 'bool');
+    }
+
+    /**
+     * @param string $path
+     * @param int $fallback
+     * @return int
+     */
+    public function getInt($path, $fallback = 0)
+    {
+        return $this->get($path, $fallback, 'int');
     }
 
     /**
