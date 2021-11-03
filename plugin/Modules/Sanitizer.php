@@ -11,16 +11,16 @@ use GeminiLabs\SiteReviews\Modules\Multilingual;
 class Sanitizer
 {
     const JSON_ERROR_CODES = [
-        JSON_ERROR_CTRL_CHAR => 'JSON Error: Control character error, possibly incorrectly encoded',
         JSON_ERROR_DEPTH => 'JSON Error: The maximum stack depth has been exceeded',
-        JSON_ERROR_INF_OR_NAN => 'JSON Error: One or more NAN or INF values in the value to be encoded',
-        JSON_ERROR_INVALID_PROPERTY_NAME => 'JSON Error: A property name that cannot be encoded was given',
-        JSON_ERROR_RECURSION => 'JSON Error: One or more recursive references in the value to be encoded',
         JSON_ERROR_STATE_MISMATCH => 'JSON Error: Invalid or malformed JSON',
+        JSON_ERROR_CTRL_CHAR => 'JSON Error: Control character error, possibly incorrectly encoded',
         JSON_ERROR_SYNTAX => 'JSON Error: Syntax error',
-        JSON_ERROR_UNSUPPORTED_TYPE => 'JSON Error: A value of a type that cannot be encoded was given',
-        JSON_ERROR_UTF16 => 'JSON Error: Malformed UTF-16 characters, possibly incorrectly encoded',
         JSON_ERROR_UTF8 => 'JSON Error: Malformed UTF-8 characters, possibly incorrectly encoded',
+        JSON_ERROR_RECURSION => 'JSON Error: One or more recursive references in the value to be encoded',
+        JSON_ERROR_INF_OR_NAN => 'JSON Error: One or more NAN or INF values in the value to be encoded',
+        JSON_ERROR_UNSUPPORTED_TYPE => 'JSON Error: A value of a type that cannot be encoded was given',
+        JSON_ERROR_INVALID_PROPERTY_NAME => 'JSON Error: A property name that cannot be encoded was given',
+        JSON_ERROR_UTF16 => 'JSON Error: Malformed UTF-16 characters, possibly incorrectly encoded',
     ];
 
     /**
@@ -142,8 +142,9 @@ class Sanitizer
      */
     public function sanitizeJson($value)
     {
-        if (is_scalar($value)) {
-            $value = htmlspecialchars_decode((string) $value);
+        if (is_scalar($value) && !Helper::isEmpty($value)) {
+            $value = trim((string) $value);
+            $value = htmlspecialchars_decode($value);
             $value = json_decode($value, true);
             $error = json_last_error();
             if (array_key_exists($error, static::JSON_ERROR_CODES)) {
