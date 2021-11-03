@@ -3,7 +3,9 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Review;
 use WP_Post;
 
@@ -31,7 +33,7 @@ class Notification
 
     public function __construct()
     {
-        $types = glsr(OptionManager::class)->get('settings.general.notifications', []);
+        $types = glsr(OptionManager::class)->getArray('settings.general.notifications');
         $this->email = count(array_intersect(['admin', 'custom'], $types)) > 0;
         $this->slack = in_array('slack', $types);
         $this->types = $types;
@@ -134,21 +136,22 @@ class Notification
             $emails[] = glsr(OptionManager::class)->getWP('admin_email');
         }
         if (in_array('author', $this->types)) {
-            foreach ($this->review->assigned_posts as $postId) {
-                $post = get_post($postId);
-                if ($post instanceof WP_Post) {
-                    $this->email = true;
-                    $emails[] = get_the_author_meta('user_email', intval($post->post_author));
-                }
+            $posts = $this->review->assignedPosts();
+            $userIds = wp_list_pluck($posts, 'post_author');
+            if (!empty($userIds)) {
+                $users = get_users(['fields' => ['user_email'], 'include' => $userIds]);
+                $userEmails = wp_list_pluck($users, 'user_email');
+                $emails = array_merge($emails, $userEmails);
             }
         }
         if (in_array('custom', $this->types)) {
-            $customEmails = glsr(OptionManager::class)->get('settings.general.notification_email');
+            $customEmails = glsr_get_option('general.notification_email', '', 'string');
             $customEmails = str_replace([' ', ',', ';'], ',', $customEmails);
             $customEmails = explode(',', $customEmails);
             $emails = array_merge($emails, $customEmails);
         }
-        $emails = array_filter(array_keys(array_flip($emails)));
+        $emails = array_map([glsr(Sanitizer::class), 'sanitizeEmail'], $emails);
+        $emails = Arr::reindex(Arr::unique($emails));
         return glsr()->filterArray('notification/emails', $emails, $this->review);
     }
 
