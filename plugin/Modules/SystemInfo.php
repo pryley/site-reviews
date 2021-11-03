@@ -198,7 +198,7 @@ class SystemInfo
      */
     public function getPluginSettings()
     {
-        $settings = glsr(OptionManager::class)->get('settings', []);
+        $settings = glsr(OptionManager::class)->getArray('settings');
         $settings = Arr::flatten($settings, true);
         $settings = $this->purgeSensitiveData($settings);
         ksort($settings);

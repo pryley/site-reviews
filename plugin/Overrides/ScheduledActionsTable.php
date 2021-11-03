@@ -556,7 +556,8 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
                     break;
                 case 'retry':
                     $action = $this->store->fetch_action((string) $action_id);
-                    glsr(Queue::class)->once(time(), $action->get_hook(), $action->get_args());
+                    // don't use Queue because we want to keep the original hook
+                    as_schedule_single_action(time(), $action->get_hook(), $action->get_args(), glsr()->id);
                     $this->store->delete_action((string) $action_id);
                     break;
                 case 'run':

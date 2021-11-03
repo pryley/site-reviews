@@ -11,9 +11,9 @@
         <ul>
             <li>Added the <a href="<?= admin_url('edit.php?post_type=site-review&page=addons'); ?>">Review Notifications</a> add-on</li>
             <li>Added a setting to restrict the "Require Approval" setting to a minimum rating</li>
-            <li>Added Accepted Terms field to privacy export (using the review creation date as the value if the terms were accepted)</li>
-            <li>Added <a href="https://actionscheduler.org/">Action Scheduler</a> which allows plugin migrations and review notifications to be queued and dispatched automatically.</li>
             <li>Added support for additional date formats and columns in the "Import Third Party Reviews" tool</li>
+            <li>Added the Accepted Terms field to the privacy export (using the review creation date as the value if the terms were accepted)</li>
+            <li>Added the <a href="https://actionscheduler.org/">Action Scheduler</a> which allows plugin migrations and review notifications to be queued and dispatched automatically.</li>
         </ul>
         <h4>📢 Changes</h4>
         <ul>
@@ -30,7 +30,7 @@
             <li>Fixed importing to skip empty CSV rows</li>
             <li>Fixed non-ajax pagination when paginated URLs are disabled in the settings</li>
             <li>Fixed the removal of foreign key constraints in database tables when plugin is deactivated</li>
-            <li>Fixed the <code>terms</code> field value to be false by default</li>
+            <li>Fixed the <code>terms</code> field value in the form to be false by default</li>
         </ul>
     </div>
 </div>
