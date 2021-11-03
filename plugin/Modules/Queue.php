@@ -26,6 +26,14 @@ class Queue implements QueueContract
     }
 
     /**
+     * @return \GeminiLabs\SiteReviews\Application|\GeminiLabs\SiteReviews\Addons\Addon
+     */
+    public function app()
+    {
+        return glsr();
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function async($hook, $args = [])
@@ -150,6 +158,6 @@ class Queue implements QueueContract
      */
     protected function hook($hook)
     {
-        return Str::prefix($hook, glsr()->id.'/');
+        return Str::prefix($hook, $this->app()->id.'/');
     }
 }
