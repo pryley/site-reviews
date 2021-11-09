@@ -285,7 +285,7 @@ class Attributes
                 unset($attributes[$key]);
             }
         }
-        $this->attributes = array_merge(array_filter($attributes), $permanentAttributes);
+        $this->attributes = array_merge(Arr::removeEmptyValues($attributes), $permanentAttributes);
     }
 
     /**
