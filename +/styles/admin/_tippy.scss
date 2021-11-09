@@ -116,7 +116,14 @@ body[class*="type-site-review"] .tippy-content {
   max-height: 320px;
   overflow: auto;
 }
-body[class*="type-site-review"] .tippy-content ol {
+body[class*="type-site-review"] .tippy-content ul {
+  list-style: square;
+}
+body[class*="type-site-review"] .tippy-content ul li {
+  margin-bottom: 3px;
+}
+body[class*="type-site-review"] .tippy-content ol,
+body[class*="type-site-review"] .tippy-content ul {
   margin: 0.5em 0.5em 0.5em 1.5em;
 }
 body[class*="type-site-review"] .tippy-box pre[class*=language-] {

@@ -131,7 +131,7 @@ return [
         'depends_on' => [
             'settings.general.notifications' => ['admin', 'author', 'custom', 'slack'],
         ],
-        'description' => glsr('Modules\Html\TemplateTags')->getDescription(),
+        'description' => glsr('Modules\Html\TemplateTags')->description(),
         'label' => _x('Notification Template', 'admin-text', 'site-reviews'),
         'rows' => 10,
         'tooltip' => _x('To restore the default text, save an empty template. If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href="https://api.slack.com/docs/attachments">Message Attachments</a> have been disabled.', 'admin-text', 'site-reviews'),

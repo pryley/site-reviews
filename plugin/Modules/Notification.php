@@ -80,6 +80,8 @@ class Notification
                 'review_link' => sprintf('<a href="%1$s">%1$s</a>', $args['link']),
                 'review_rating' => $this->review->rating,
                 'review_title' => $this->review->title,
+                'site_title' => get_bloginfo('name'),
+                'site_url' => get_bloginfo('url'),
             ],
         ], $data);
     }
