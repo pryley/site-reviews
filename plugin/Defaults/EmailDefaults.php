@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 
 class EmailDefaults extends Defaults
@@ -45,9 +44,9 @@ class EmailDefaults extends Defaults
         if (empty($values['from'])) {
             $email = sanitize_email(glsr_get_option('general.notification_from', null, 'string'));
             if (empty($email)) {
-                $email = glsr(OptionManager::class)->getWP('admin_email');
+                $email = get_bloginfo('admin_email');
             }
-            $from = wp_specialchars_decode(glsr(OptionManager::class)->getWP('blogname'), ENT_QUOTES);
+            $from = wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES);
             $values['from'] = sprintf('%s <%s>', $from, $email);
         }
         if (empty($values['reply-to'])) {
