@@ -308,7 +308,7 @@ msgstr "The reCAPTCHA failed to load, please refresh the page and try again."
 msgid "The reCAPTCHA verification failed, please try again."
 msgstr "The reCAPTCHA verification failed, please try again."
 
-#: plugin/Modules/Validator/ReviewLimitsValidator.php:35
+#: plugin/Modules/Validator/ReviewLimitsValidator.php:34
 msgid "You have already submitted a review."
 msgstr "You have already submitted a review."
 
@@ -2244,53 +2244,63 @@ msgstr "Url"
 
 #: plugin/Defaults/TemplateTagsDefaults.php:15
 msgctxt "admin-text"
-msgid "The review rating number (1-5)"
-msgstr "The review rating number (1-5)"
-
-#: plugin/Defaults/TemplateTagsDefaults.php:16
-msgctxt "admin-text"
-msgid "The review title"
-msgstr "The review title"
-
-#: plugin/Defaults/TemplateTagsDefaults.php:17
-msgctxt "admin-text"
-msgid "The review content"
-msgstr "The review content"
-
-#: plugin/Defaults/TemplateTagsDefaults.php:18
-msgctxt "admin-text"
-msgid "The review author"
-msgstr "The review author"
-
-#: plugin/Defaults/TemplateTagsDefaults.php:19
-msgctxt "admin-text"
-msgid "The email of the review author"
-msgstr "The email of the review author"
-
-#: plugin/Defaults/TemplateTagsDefaults.php:20
-msgctxt "admin-text"
-msgid "The IP address of the review author"
-msgstr "The IP address of the review author"
-
-#: plugin/Defaults/TemplateTagsDefaults.php:21
-msgctxt "admin-text"
-msgid "The link to edit/view a review"
-msgstr "The link to edit/view a review"
-
-#: plugin/Defaults/TemplateTagsDefaults.php:22
-msgctxt "admin-text"
 msgid "The review's assigned page titles"
 msgstr "The review's assigned page titles"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:23
+#: plugin/Defaults/TemplateTagsDefaults.php:16
 msgctxt "admin-text"
 msgid "The review's assigned user display names"
 msgstr "The review's assigned user display names"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:24
+#: plugin/Defaults/TemplateTagsDefaults.php:17
+msgctxt "admin-text"
+msgid "The review author"
+msgstr "The review author"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:18
 msgctxt "admin-text"
 msgid "The review's assigned categories"
 msgstr "The review's assigned categories"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:19
+msgctxt "admin-text"
+msgid "The review content"
+msgstr "The review content"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:20
+msgctxt "admin-text"
+msgid "The email of the review author"
+msgstr "The email of the review author"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:21
+msgctxt "admin-text"
+msgid "The IP address of the review author"
+msgstr "The IP address of the review author"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:22
+msgctxt "admin-text"
+msgid "The link to edit/view a review"
+msgstr "The link to edit/view a review"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:23
+msgctxt "admin-text"
+msgid "The review rating number (1-5)"
+msgstr "The review rating number (1-5)"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:24
+msgctxt "admin-text"
+msgid "The review title"
+msgstr "The review title"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:25
+msgctxt "admin-text"
+msgid "Your website title"
+msgstr "Your website title"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:26
+msgctxt "admin-text"
+msgid "Your website URL"
+msgstr "Your website URL"
 
 #: plugin/Defaults/UpdatedMessageDefaults.php:15
 msgctxt "admin-text"
@@ -4653,7 +4663,7 @@ msgid_plural "Now"
 msgstr[0] "A moment ago"
 msgstr[1] "Now"
 
-#: plugin/Modules/Notification.php:177
+#: plugin/Modules/Notification.php:179
 msgctxt ""
 "This string differs depending on whether or not the review has been "
 "assigned to a post."

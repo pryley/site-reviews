@@ -1923,52 +1923,62 @@ msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:15
 msgctxt "admin-text"
-msgid "The review rating number (1-5)"
+msgid "The review's assigned page titles"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:16
 msgctxt "admin-text"
-msgid "The review title"
+msgid "The review's assigned user display names"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:17
 msgctxt "admin-text"
-msgid "The review content"
+msgid "The review author"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:18
 msgctxt "admin-text"
-msgid "The review author"
+msgid "The review's assigned categories"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:19
 msgctxt "admin-text"
-msgid "The email of the review author"
+msgid "The review content"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:20
 msgctxt "admin-text"
-msgid "The IP address of the review author"
+msgid "The email of the review author"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:21
 msgctxt "admin-text"
-msgid "The link to edit/view a review"
+msgid "The IP address of the review author"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:22
 msgctxt "admin-text"
-msgid "The review's assigned page titles"
+msgid "The link to edit/view a review"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:23
 msgctxt "admin-text"
-msgid "The review's assigned user display names"
+msgid "The review rating number (1-5)"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:24
 msgctxt "admin-text"
-msgid "The review's assigned categories"
+msgid "The review title"
+msgstr ""
+
+#: plugin/Defaults/TemplateTagsDefaults.php:25
+msgctxt "admin-text"
+msgid "Your website title"
+msgstr ""
+
+#: plugin/Defaults/TemplateTagsDefaults.php:26
+msgctxt "admin-text"
+msgid "Your website URL"
 msgstr ""
 
 #: plugin/Defaults/UpdatedMessageDefaults.php:15
@@ -2259,7 +2269,7 @@ msgstr[1] ""
 msgid "Anonymous"
 msgstr ""
 
-#: plugin/Modules/Notification.php:177
+#: plugin/Modules/Notification.php:179
 msgctxt "This string differs depending on whether or not the review has been assigned to a post."
 msgid "New %s-star review"
 msgid_plural "New %s-star review of %s"
@@ -3076,7 +3086,7 @@ msgstr ""
 msgid "The reCAPTCHA verification failed, please try again."
 msgstr ""
 
-#: plugin/Modules/Validator/ReviewLimitsValidator.php:35
+#: plugin/Modules/Validator/ReviewLimitsValidator.php:34
 msgid "You have already submitted a review."
 msgstr ""
 
