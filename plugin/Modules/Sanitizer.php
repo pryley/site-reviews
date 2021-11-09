@@ -142,16 +142,17 @@ class Sanitizer
      */
     public function sanitizeJson($value)
     {
+        $result = '';
         if (is_scalar($value) && !Helper::isEmpty($value)) {
-            $value = trim((string) $value);
-            $value = htmlspecialchars_decode($value);
-            $value = json_decode($value, true);
+            $result = trim((string) $value);
+            $result = htmlspecialchars_decode($result);
+            $result = json_decode($result, true);
             $error = json_last_error();
             if (array_key_exists($error, static::JSON_ERROR_CODES)) {
-                glsr_log()->error(static::JSON_ERROR_CODES[$error]);
+                glsr_log()->error(static::JSON_ERROR_CODES[$error])->debug($value);
             }
         }
-        return Arr::consolidate($value);
+        return wp_unslash(Arr::consolidate($result));
     }
 
     /**
@@ -252,6 +253,7 @@ class Sanitizer
     }
 
     /**
+     * Returns slashed data!
      * @param mixed $value
      * @return string
      */
