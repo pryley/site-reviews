@@ -1267,7 +1267,7 @@ msgstr ""
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr ""
 
-#: plugin/Addons/Addon.php:89
+#: plugin/Addons/Addon.php:103
 msgctxt "admin-text"
 msgid "Untitled"
 msgstr ""
@@ -1923,62 +1923,67 @@ msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:15
 msgctxt "admin-text"
-msgid "The review's assigned page titles"
+msgid "The admin email from your WordPress settings"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:16
 msgctxt "admin-text"
-msgid "The review's assigned user display names"
+msgid "The review's assigned page titles"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:17
 msgctxt "admin-text"
-msgid "The review author"
+msgid "The review's assigned user display names"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:18
 msgctxt "admin-text"
-msgid "The review's assigned categories"
+msgid "The review author"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:19
 msgctxt "admin-text"
-msgid "The review content"
+msgid "The review's assigned categories"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:20
 msgctxt "admin-text"
-msgid "The email of the review author"
+msgid "The review content"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:21
 msgctxt "admin-text"
-msgid "The IP address of the review author"
+msgid "The email of the review author"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:22
 msgctxt "admin-text"
-msgid "The link to edit/view a review"
+msgid "The IP address of the review author"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:23
 msgctxt "admin-text"
-msgid "The review rating number (1-5)"
+msgid "The link to edit/view a review"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:24
 msgctxt "admin-text"
-msgid "The review title"
+msgid "The review rating number (1-5)"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:25
 msgctxt "admin-text"
-msgid "Your website title"
+msgid "The review title"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:26
 msgctxt "admin-text"
-msgid "Your website URL"
+msgid "The Site Title from your WordPress settings"
+msgstr ""
+
+#: plugin/Defaults/TemplateTagsDefaults.php:27
+msgctxt "admin-text"
+msgid "The Site URL from your WordPress settings"
 msgstr ""
 
 #: plugin/Defaults/UpdatedMessageDefaults.php:15
@@ -2265,7 +2270,7 @@ msgid_plural "Now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Notification.php:75
+#: plugin/Modules/Notification.php:75, plugin/Modules/Html/TemplateTags.php:105
 msgid "Anonymous"
 msgstr ""
 
@@ -3060,6 +3065,11 @@ msgstr ""
 #: plugin/Integrations/Elementor/ElementorWidget.php:142
 msgctxt "admin-text"
 msgid "Additional CSS classes"
+msgstr ""
+
+#: plugin/Modules/Html/TemplateTags.php:149
+msgctxt "admin-text"
+msgid "View the review in WordPress &rarr;"
 msgstr ""
 
 #: plugin/Modules/Validator/AkismetValidator.php:49, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:71

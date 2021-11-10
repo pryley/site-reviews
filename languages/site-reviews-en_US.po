@@ -180,7 +180,7 @@ msgstr "Show less"
 msgid "Avatar for %s"
 msgstr "Avatar for %s"
 
-#: plugin/Modules/Notification.php:75
+#: plugin/Modules/Notification.php:75, plugin/Modules/Html/TemplateTags.php:105
 msgid "Anonymous"
 msgstr "Anonymous"
 
@@ -1671,7 +1671,7 @@ msgctxt "admin-text"
 msgid "Terms Accepted"
 msgstr "Terms Accepted"
 
-#: plugin/Addons/Addon.php:89
+#: plugin/Addons/Addon.php:103
 msgctxt "admin-text"
 msgid "Untitled"
 msgstr "Untitled"
@@ -2244,63 +2244,68 @@ msgstr "Url"
 
 #: plugin/Defaults/TemplateTagsDefaults.php:15
 msgctxt "admin-text"
+msgid "The admin email from your WordPress settings"
+msgstr "The admin email from your WordPress settings"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:16
+msgctxt "admin-text"
 msgid "The review's assigned page titles"
 msgstr "The review's assigned page titles"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:16
+#: plugin/Defaults/TemplateTagsDefaults.php:17
 msgctxt "admin-text"
 msgid "The review's assigned user display names"
 msgstr "The review's assigned user display names"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:17
+#: plugin/Defaults/TemplateTagsDefaults.php:18
 msgctxt "admin-text"
 msgid "The review author"
 msgstr "The review author"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:18
+#: plugin/Defaults/TemplateTagsDefaults.php:19
 msgctxt "admin-text"
 msgid "The review's assigned categories"
 msgstr "The review's assigned categories"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:19
+#: plugin/Defaults/TemplateTagsDefaults.php:20
 msgctxt "admin-text"
 msgid "The review content"
 msgstr "The review content"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:20
+#: plugin/Defaults/TemplateTagsDefaults.php:21
 msgctxt "admin-text"
 msgid "The email of the review author"
 msgstr "The email of the review author"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:21
+#: plugin/Defaults/TemplateTagsDefaults.php:22
 msgctxt "admin-text"
 msgid "The IP address of the review author"
 msgstr "The IP address of the review author"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:22
+#: plugin/Defaults/TemplateTagsDefaults.php:23
 msgctxt "admin-text"
 msgid "The link to edit/view a review"
 msgstr "The link to edit/view a review"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:23
+#: plugin/Defaults/TemplateTagsDefaults.php:24
 msgctxt "admin-text"
 msgid "The review rating number (1-5)"
 msgstr "The review rating number (1-5)"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:24
+#: plugin/Defaults/TemplateTagsDefaults.php:25
 msgctxt "admin-text"
 msgid "The review title"
 msgstr "The review title"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:25
-msgctxt "admin-text"
-msgid "Your website title"
-msgstr "Your website title"
-
 #: plugin/Defaults/TemplateTagsDefaults.php:26
 msgctxt "admin-text"
-msgid "Your website URL"
-msgstr "Your website URL"
+msgid "The Site Title from your WordPress settings"
+msgstr "The Site Title from your WordPress settings"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:27
+msgctxt "admin-text"
+msgid "The Site URL from your WordPress settings"
+msgstr "The Site URL from your WordPress settings"
 
 #: plugin/Defaults/UpdatedMessageDefaults.php:15
 msgctxt "admin-text"
@@ -3091,6 +3096,11 @@ msgstr "Separate multiple classes with spaces."
 msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr "Additional CSS classes"
+
+#: plugin/Modules/Html/TemplateTags.php:149
+msgctxt "admin-text"
+msgid "View the review in WordPress &rarr;"
+msgstr "View the review in WordPress &rarr;"
 
 #: views/pages/addons/index.php:16
 msgctxt "admin-text"
