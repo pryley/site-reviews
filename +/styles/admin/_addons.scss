@@ -1,3 +1,76 @@
+.glsr-premium-hero {
+    background-color: #252f3f;
+    background-image: radial-gradient(at left,#252f3f 50%,#161e2e 100%);
+    flex-direction: column;
+    flex-wrap: wrap;
+    display: flex;
+    margin: 12px 0;
+}
+@media screen and (min-width: 600px) {
+    .glsr-premium-hero {
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+}
+@media screen and (min-width: 783px) {
+    .glsr-premium-hero {
+        margin: 12px 0 20px;
+    }
+}
+.glsr-premium-hero-image {
+    display: flex;
+    flex: 1;
+    background-image: url(../../images/addon-premium.svg), radial-gradient(at center,#252f3f 10%,#161e2e 100%);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: auto;
+    padding-top: 66.67%;
+}
+@media screen and (min-width: 514px) {
+    .glsr-premium-hero-image {
+        padding-top: 50%;
+    }
+}
+@media screen and (min-width: 600px) {
+    .glsr-premium-hero-image {
+        padding-top: 0;
+        min-width: 250px;
+        max-width: 250px;
+    }
+}
+.glsr-premium-hero-content {
+    padding: 40px;
+    h2 {
+        color: #fff;
+        font-size: 24px;
+        line-height: 1.25;
+        margin-top: 0;
+    }
+    p {
+        color: #fff;
+        font-size: 16px;
+        margin-bottom: 1.5em;
+    }
+    .button {
+        color:#161e2e;
+        font-weight: 600;
+        border-color:transparent;
+        background-image: linear-gradient(45deg, #a57c23 0%, #ebd679 30%, #f2e085 50%, #f9efa3 70%, #a57c23 100%);
+        font-size: 15px !important;
+        &:hover,
+        &:focus {
+            color:#161e2e;
+            background-image: linear-gradient(65deg, #a57c23 0%, #ebd679 30%, #f2e085 50%, #f9efa3 70%, #a57c23 100%);
+            border-color:transparent;
+        }
+        &:focus {
+            box-shadow: 0 0 0 2px #252f3f, 0 0 0 3px #ebd679;
+        }
+    }
+}
+
+
+
 
 .glsr-addons {
     display: grid;
@@ -56,31 +129,27 @@
         padding-top: 100%;
     }
     &[data-slug="filters"] {
-        background-color: #319796;
+        background-color: #039588;
         background-image: url(../../images/addon-filters.svg);
     }
     &[data-slug="forms"] {
-        background-color: #617C8B;
+        background-color: #617c8b;
         background-image: url(../../images/addon-forms.svg);
     }
     &[data-slug="images"] {
-        background-color: #6B46C1;
+        background-color: #673ab7;
         background-image: url(../../images/addon-images.svg);
     }
     &[data-slug="notifications"] {
-        background-color: #4282D6;
+        background-color: #283a89;
         background-image: url(../../images/addon-notifications.svg);
     }
-    &[data-slug="premium"] {
-        background-color: #1A2349;
-        background-image: url(../../images/addon-premium.svg);
-    }
     &[data-slug="themes"] {
-        background-color: #00ACC1;
+        background-color: #00acc1;
         background-image: url(../../images/addon-themes.svg);
     }
     &[data-slug="woocommerce"] {
-        background-color: #7F54B3;
+        background-color: #7f54b3;
         background-image: url(../../images/addon-woocommerce.svg);
     }
 }
@@ -98,5 +167,21 @@
         vertical-align: text-bottom;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+#glsr-premium-button {
+    background-color: #2271b1;
+    border-color: #2271b1;
+    color: #fff;
+    font-weight: 400;
+    &:hover,
+    &:focus {
+        background-color: #135e96;
+        border-color: #135e96;
+        color: #fff;
+    }
+    &:focus {
+        box-shadow: 0 0 0 1px #fff, 0 0 0 3px #2271b1;
     }
 }

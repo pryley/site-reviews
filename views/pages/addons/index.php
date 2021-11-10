@@ -6,21 +6,18 @@
         <a href="<?= admin_url('index.php?page='.glsr()->id.'-welcome'); ?>" class="page-title-action"><?= _x('About', 'admin-text', 'site-reviews'); ?></a>
     </h1>
     <?= $notices; ?>
-    <div class="notice notice-success">
-        <p>If you love Site Reviews and would like to support my work, please consider purchasing some add-ons. ❤️</p>
+
+    <div class="glsr-premium-hero">
+        <div class="glsr-premium-hero-image"></div>
+        <div class="glsr-premium-hero-content">
+            <h2><?= _x('Site Reviews Premium', 'admin-text', 'site-reviews'); ?></h2>
+            <p><?= _x('Gain access to ALL of our free and paid add-ons with Site Reviews Premium, including access to future add-ons as they are released, and priority support!', 'admin-text', 'site-reviews'); ?></p>
+            <a href="https://niftyplugins.com/plugins/site-reviews-premium/" class="button button-hero button-primary"><?= _x('Check it out!', 'admin-text', 'site-reviews'); ?></a>
+        </div>
     </div>
+
     <div class="glsr-addons">
     <?php
-        $template->render('partials/addons/addon', [
-            'context' => [
-                'description' => _x('The Premium license gives you access to all of the add-ons, including all future add-ons as they become available!', 'admin-text', 'site-reviews').' 👀',
-                'link' => 'https://niftyplugins.com/plugins/site-reviews-premium/',
-                'link_text' => _x('Discover Premium', 'admin-text', 'site-reviews'),
-                'slug' => 'premium',
-                'title' => 'Site Reviews Premium',
-            ],
-            'plugin' => '',
-        ]);
         $template->render('partials/addons/addon', [
             'context' => [
                 'description' => _x('Allow your website visitors to sort, filter by rating, and search reviews.', 'admin-text', 'site-reviews'),
@@ -53,7 +50,7 @@
         ]);
         $template->render('partials/addons/addon', [
             'context' => [
-                'description' => _x('Create and schedule conditional notifications.', 'admin-text', 'site-reviews'),
+                'description' => _x('Schedule custom and conditional email notifications to send after a review is submitted.', 'admin-text', 'site-reviews'),
                 'link' => 'https://niftyplugins.com/account/downloads/',
                 'link_text' => _x('Premium members only', 'admin-text', 'site-reviews'),
                 'slug' => 'notifications',

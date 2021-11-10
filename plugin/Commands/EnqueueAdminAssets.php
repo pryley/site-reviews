@@ -98,10 +98,11 @@ class EnqueueAdminAssets implements Contract
                 'toggle-status' => wp_create_nonce('toggle-status'),
             ],
             'pointers' => $this->pointers,
+            'premiumurl' => 'https://niftyplugins.com/plugins/site-reviews-premium/',
             'shortcodes' => [],
             'text' => [
+                'premium' => _x('Try Premium', 'admin-text', 'site-reviews'),
                 'rate' => _x('Please rate %s on %s and help us spread the word. Thank you so much!', 'admin-text', 'site-reviews'),
-                'discover' => _x('Discover Premium', 'admin-text', 'site-reviews'),
             ],
             'tinymce' => [
                 'glsr_shortcode' => glsr()->url('assets/scripts/mce-plugin.js'),
