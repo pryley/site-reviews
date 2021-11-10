@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Addons;
 
+use GeminiLabs\SiteReviews\Contracts\DefaultsContract;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Plugin;
 use ReflectionClass;
@@ -65,6 +66,19 @@ abstract class Addon
         $path = Str::prefix($path, 'addons.'.static::SLUG.'.');
         $path = Str::prefix($path, 'settings.');
         return glsr_get_option($path, $fallback, $cast);
+    }
+
+    /**
+     * @param DefaultsContract $defaultsClass  The defaults class used to restrict the options
+     * @return \GeminiLabs\SiteReviews\Arguments
+     */
+    public function options($defaultsClass = '')
+    {
+        $options = glsr_get_option('settings.addons.'.static::SLUG, [], 'array');
+        if (class_exists($defaultsClass) && is_a($defaultsClass, DefaultsContract::class, true)) {
+            $options = glsr($defaultsClass)->restrict($options);
+        }
+        return glsr()->args($options);
     }
 
     /**
