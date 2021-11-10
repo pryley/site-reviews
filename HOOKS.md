@@ -77,9 +77,9 @@
     site-reviews/documentation/hooks                        (array $paths): array
     site-reviews/documentation/shortcodes                   (array $paths): array
     site-reviews/documentation/shortcodes/<shortcode>       (array $paths): array
-    site-reviews/email/compose                              (array $email, Modules\Mail $mail): array
-    site-reviews/email/headers                              (array $headers, Modules\Mail $mail): array
-    site-reviews/email/message                              (string $message, string $type, Modules\Mail $mail): string
+    site-reviews/email/compose                              (array $email, Modules\Email $mailer): array
+    site-reviews/email/headers                              (array $headers, Modules\Email $mailer): array
+    site-reviews/email/message                              (string $message, string $type, Modules\Email $mailer): string
     site-reviews/enqueue/admin/dependencies                 (array $dependencies): array
     site-reviews/enqueue/admin/inline-script                (string $optimizedScript, string $script, array $variables): string
     site-reviews/enqueue/admin/inline-script/after          (string $javascript): string
