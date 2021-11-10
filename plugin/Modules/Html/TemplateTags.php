@@ -171,7 +171,7 @@ class TemplateTags
      */
     protected function siteTitleTag()
     {
-        return get_bloginfo('name');
+        return wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES);
     }
 
     /**
