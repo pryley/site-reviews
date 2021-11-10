@@ -47,6 +47,10 @@ class MenuController extends Controller
      */
     public function registerSubMenus()
     {
+        global $pagenow;
+        if ('edit.php' !== $pagenow) {
+            return; // @compat this really shouldn't be needed, but for some reason the submenus are loading with admin.php?page=...
+        }
         $pages = $this->parseWithFilter('submenu/pages', [
             'settings' => _x('Settings', 'admin-text', 'site-reviews'),
             'tools' => _x('Tools', 'admin-text', 'site-reviews'),
