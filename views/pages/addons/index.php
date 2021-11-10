@@ -50,7 +50,7 @@
         ]);
         $template->render('partials/addons/addon', [
             'context' => [
-                'description' => _x('Schedule custom and conditional email notifications to send after a review is submitted.', 'admin-text', 'site-reviews'),
+                'description' => _x('Create notification emails with custom conditions and schedule them to send after a review is submitted.', 'admin-text', 'site-reviews'),
                 'link' => 'https://niftyplugins.com/account/downloads/',
                 'link_text' => _x('Premium members only', 'admin-text', 'site-reviews'),
                 'slug' => 'notifications',

@@ -139,7 +139,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
-= 5.17.0 (2021-11-02) =
+= 5.17.0 (2021-11-10) =
 
 - Added the "Review Notifications" add-on!
 - Added a setting to restrict the "Require Approval" setting to a minimum rating
