@@ -69,13 +69,13 @@ abstract class Addon
     }
 
     /**
-     * @param DefaultsContract $defaultsClass  The defaults class used to restrict the options
+     * @param string $defaultsClass  The defaults class used to restrict the options
      * @return \GeminiLabs\SiteReviews\Arguments
      */
     public function options($defaultsClass = '')
     {
         $options = glsr_get_option('settings.addons.'.static::SLUG, [], 'array');
-        if (class_exists($defaultsClass) && is_a($defaultsClass, DefaultsContract::class, true)) {
+        if (is_a($defaultsClass, DefaultsContract::class, true)) {
             $options = glsr($defaultsClass)->restrict($options);
         }
         return glsr()->args($options);

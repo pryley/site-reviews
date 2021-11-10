@@ -44,7 +44,7 @@ class Email
     public $to;
 
     /**
-     * @return \GeminiLabs\SiteReviews\Container
+     * @return \GeminiLabs\SiteReviews\Application|\GeminiLabs\SiteReviews\Addons\Addon
      */
     public function app()
     {
@@ -68,7 +68,7 @@ class Email
     }
 
     /**
-     * @return \GeminiLabs\SiteReviews\Contracts\DefaultsContract
+     * @return \GeminiLabs\SiteReviews\Defaults\DefaultsAbstract
      */
     public function defaults()
     {
