@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Defaults\TemplateTagsDefaults;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Review;
@@ -13,22 +14,21 @@ class TemplateTags
     /**
      * @return string
      */
-    public function description()
+    public function description(array $args = [])
     {
-        $tags = glsr(TemplateTagsDefaults::class)->defaults();
-        $descriptions = [];
-        foreach ($tags as $tag => $description) {
-            $descriptions[] = sprintf('<code>{%s}</code> %s', $tag, $description);
-        }
-        return implode('<br>', $descriptions);
+        $tags = $this->filteredTags($args);
+        array_walk($tags, function (&$description, $tag) {
+            $description = sprintf('<code>{%s}</code> %s', $tag, $description);
+        });
+        return implode('<br>', $tags);
     }
 
     /**
      * @return string
      */
-    public function tagList()
+    public function tagList(array $args = [])
     {
-        $tags = array_keys(glsr(TemplateTagsDefaults::class)->defaults());
+        $tags = array_keys($this->filteredTags($args));
         array_walk($tags, function (&$tag) {
             $tag = sprintf('<li><code>{%s}</code></li>', $tag);
         });
@@ -38,9 +38,9 @@ class TemplateTags
     /**
      * @return array
      */
-    public function tags(Review $review)
+    public function tags(Review $review, array $args = [])
     {
-        $tags = glsr(TemplateTagsDefaults::class)->defaults();
+        $tags = $this->filteredTags($args);
         array_walk($tags, function (&$content, $tag) use ($review) {
             $content = ''; // remove the tag description first!
             $method = Helper::buildMethodName($tag.'_tag');
@@ -49,6 +49,31 @@ class TemplateTags
             }
             $content = glsr()->filterString('notification/tag/'.$tag, $content, $review);
         });
+        return $tags;
+    }
+
+    /**
+     * @return string
+     */
+    protected function adminEmailTag()
+    {
+        return get_bloginfo('admin_email');
+    }
+
+    /**
+     * @return array
+     */
+    protected function filteredTags(array $args)
+    {
+        $exclude = Arr::consolidate(Arr::get($args, 'exclude'));
+        $include = Arr::consolidate(Arr::get($args, 'include'));
+        $tags = glsr(TemplateTagsDefaults::class)->defaults();
+        if (!empty($exclude)) {
+            $tags = array_diff_key($tags, array_flip($exclude));
+        }
+        if (!empty($include)) {
+            $tags = array_intersect_key($tags, array_flip($include));
+        }
         return $tags;
     }
 

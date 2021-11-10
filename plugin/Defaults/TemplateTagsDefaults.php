@@ -12,6 +12,7 @@ class TemplateTagsDefaults extends Defaults
     protected function defaults()
     {
         return [
+            'admin_email' => _x('The admin email from your WordPress settings', 'admin-text', 'site-reviews'),
             'review_assigned_posts' => _x('The review\'s assigned page titles', 'admin-text', 'site-reviews'),
             'review_assigned_users' => _x('The review\'s assigned user display names', 'admin-text', 'site-reviews'),
             'review_author' => _x('The review author', 'admin-text', 'site-reviews'),
@@ -22,8 +23,8 @@ class TemplateTagsDefaults extends Defaults
             'review_link' => _x('The link to edit/view a review', 'admin-text', 'site-reviews'),
             'review_rating' => _x('The review rating number (1-5)', 'admin-text', 'site-reviews'),
             'review_title' => _x('The review title', 'admin-text', 'site-reviews'),
-            'site_title' => _x('Your website title', 'admin-text', 'site-reviews'),
-            'site_url' => _x('Your website URL', 'admin-text', 'site-reviews'),
+            'site_title' => _x('The Site Title from your WordPress settings', 'admin-text', 'site-reviews'),
+            'site_url' => _x('The Site URL from your WordPress settings', 'admin-text', 'site-reviews'),
         ];
     }
 }
