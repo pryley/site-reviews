@@ -44,6 +44,14 @@ class Email
     public $to;
 
     /**
+     * @return \GeminiLabs\SiteReviews\Container
+     */
+    public function app()
+    {
+        return glsr();
+    }
+
+    /**
      * @return Email
      */
     public function compose(array $email, array $data = [])
@@ -57,6 +65,14 @@ class Email
         $this->to = $this->email['to'];
         add_action('phpmailer_init', [$this, 'buildPlainTextMessage']);
         return $this;
+    }
+
+    /**
+     * @return \GeminiLabs\SiteReviews\Contracts\DefaultsContract
+     */
+    public function defaults()
+    {
+        return glsr(EmailDefaults::class);
     }
 
     /**
@@ -78,7 +94,7 @@ class Email
     {
         if ('plaintext' == $format) {
             $message = $this->stripHtmlTags($this->message);
-            return glsr()->filterString('email/message', $message, 'text', $this);
+            return $this->app()->filterString('email/message', $message, 'text', $this);
         }
         return $this->message;
     }
@@ -106,6 +122,14 @@ class Email
     }
 
     /**
+     * @return \GeminiLabs\SiteReviews\Contracts\TemplateContract
+     */
+    public function template()
+    {
+        return glsr(Template::class);
+    }
+
+    /**
      * @return void
      * @action phpmailer_init
      */
@@ -118,7 +142,7 @@ class Email
             return;
         }
         $message = $this->stripHtmlTags($phpmailer->Body);
-        $phpmailer->AltBody = glsr()->filterString('email/message', $message, 'text', $this);
+        $phpmailer->AltBody = $this->app()->filterString('email/message', $message, 'text', $this);
     }
 
     /**
@@ -136,7 +160,7 @@ class Email
             $headers[] = $key.': '.$value;
         }
         $headers[] = 'Content-Type: text/html';
-        return glsr()->filterArray('email/headers', $headers, $this);
+        return $this->app()->filterArray('email/headers', $headers, $this);
     }
 
     /**
@@ -152,10 +176,10 @@ class Email
         $message = str_replace('&lt;&gt; ', '', $message);
         $message = str_replace(']]>', ']]&gt;', $message);
         $context = wp_parse_args(['message' => $message], $this->email['template-tags']);
-        $message = glsr(Template::class)->build('templates/emails/'.$this->email['template'], [
+        $message = $this->template()->build('templates/emails/'.$this->email['template'], [
             'context' => $context,
         ]);
-        return glsr()->filterString('email/message', stripslashes($message), 'html', $this);
+        return $this->app()->filterString('email/message', stripslashes($message), 'html', $this);
     }
 
     /**
@@ -170,7 +194,7 @@ class Email
         if (!empty($template)) {
             $context = ['context' => $this->email['template-tags']];
             $templatePathForHook = 'notification_message';
-            return glsr(Template::class)->interpolate($template, $templatePathForHook, $context);
+            return $this->template()->interpolate($template, $templatePathForHook, $context);
         }
         return '';
     }
@@ -180,8 +204,8 @@ class Email
      */
     protected function normalize(array $email = [])
     {
-        $email = glsr(EmailDefaults::class)->restrict($email);
-        $this->email = glsr()->filterArray('email/compose', $email, $this);
+        $email = $this->defaults()->restrict($email);
+        $this->email = $this->app()->filterArray('email/compose', $email, $this);
     }
 
     /**
