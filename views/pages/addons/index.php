@@ -26,7 +26,7 @@
                 'slug' => 'filters',
                 'title' => 'Review Filters',
             ],
-            'plugin' => 'site-reviews-filters/site-reviews-filtersz.php',
+            'plugin' => 'site-reviews-filters/site-reviews-filters.php',
         ]);
         $template->render('partials/addons/addon', [
             'context' => [
@@ -36,7 +36,7 @@
                 'slug' => 'forms',
                 'title' => 'Review Forms',
             ],
-            'plugin' => 'site-reviews-forms/site-reviews-formsz.php',
+            'plugin' => 'site-reviews-forms/site-reviews-forms.php',
         ]);
         $template->render('partials/addons/addon', [
             'context' => [
@@ -46,7 +46,7 @@
                 'slug' => 'images',
                 'title' => 'Review Images',
             ],
-            'plugin' => 'site-reviews-images/site-reviews-imagesz.php',
+            'plugin' => 'site-reviews-images/site-reviews-images.php',
         ]);
         $template->render('partials/addons/addon', [
             'context' => [
@@ -56,7 +56,7 @@
                 'slug' => 'notifications',
                 'title' => 'Review Notifications (beta)',
             ],
-            'plugin' => 'site-reviews-notifications/site-reviews-notificationsz.php',
+            'plugin' => 'site-reviews-notifications/site-reviews-notifications.php',
         ]);
         $template->render('partials/addons/addon', [
             'context' => [
@@ -66,7 +66,7 @@
                 'slug' => 'themes',
                 'title' => 'Review Themes (beta)',
             ],
-            'plugin' => 'site-reviews-themes/site-reviews-themesz.php',
+            'plugin' => 'site-reviews-themes/site-reviews-themes.php',
         ]);
         $template->render('partials/addons/addon', [
             'context' => [
@@ -76,7 +76,7 @@
                 'slug' => 'woocommerce',
                 'title' => 'Woocommerce Reviews',
             ],
-            'plugin' => 'site-reviews-woocommerce/site-reviews-woocommercez.php',
+            'plugin' => 'site-reviews-woocommerce/site-reviews-woocommerce.php',
         ]);
     ?>
     </div>

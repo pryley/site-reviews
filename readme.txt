@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews, business rev
 Tested up to: 5.8
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.17.0
+Stable tag: 5.17.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -138,6 +138,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.17.0 (2021-11-10) =
+
+- Fixed addon links
 
 = 5.17.0 (2021-11-10) =
 
