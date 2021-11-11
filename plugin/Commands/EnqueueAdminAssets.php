@@ -77,7 +77,7 @@ class EnqueueAdminAssets implements Contract
         $variables = [
             'action' => glsr()->prefix.'action',
             'addons' => [],
-            'addonsurl' => admin_url('edit.php?page=addons&post_type='.glsr()->post_type),
+            'addonsurl' => glsr_admin_url('addons'),
             'ajaxurl' => admin_url('admin-ajax.php'),
             'hideoptions' => [
                 'site_reviews' => glsr(SiteReviewsShortcode::class)->getHideOptions(),

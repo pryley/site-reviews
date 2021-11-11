@@ -69,6 +69,26 @@ function glsr($alias = null, array $parameters = [])
 }
 
 /**
+ * @param string $page
+ * @param string $tab
+ * @param string $sub
+ * @return string
+ */
+function glsr_admin_url($page = '', $tab = '', $sub = '')
+{
+    if (!empty($page)) {
+        $page = Str::dashCase(glsr()->prefix.$page);
+    }
+    $args = array_filter([
+        'post_type' => glsr()->post_type,
+        'page' => $page,
+        'tab' => $tab,
+        'sub' => $sub,
+    ]);
+    return add_query_arg($args, admin_url('edit.php'));
+}
+
+/**
  * @return \GeminiLabs\SiteReviews\Review|false
  */
 function glsr_create_review($values = [])

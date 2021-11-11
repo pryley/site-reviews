@@ -19,6 +19,6 @@ glsr_trace($limit = 5);</code></pre>
 // OR:
 
 apply_filters('glsr_trace', null, 10);</code></pre>
-    <p>The logged backtrace will be found in the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools&tab=console'); ?>">Tools &rarr; Console</a></code>.</p>
+    <p>The logged backtrace will be found in the <code><a href="<?= glsr_admin_url('tools', 'console'); ?>">Tools &rarr; Console</a></code>.</p>
     </div>
 </div>

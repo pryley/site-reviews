@@ -19,7 +19,7 @@ glsr_get_options();</code></pre>
 
 $pluginSettings = apply_filters('glsr_get_options', []);</code></pre>
         <p><strong>Helpful Tip:</strong></p>
-        <p>You can use the <code><a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation&tab=functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to print the settings array to the screen:</p>
+        <p>You can use the <code><a href="<?= glsr_admin_url('documentation', 'functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to print the settings array to the screen:</p>
         <pre><code class="language-php">glsr_debug($pluginSettings);</code></pre>
     </div>
 </div>

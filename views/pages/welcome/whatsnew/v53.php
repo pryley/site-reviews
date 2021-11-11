@@ -9,8 +9,8 @@
         <p><em>Initial Release Date &mdash; December 13th, 2020</em></p>
         <h4>✨ New Features</h4>
         <ul>
-            <li>Added <a href="<?= admin_url('edit.php?post_type=site-review&page=addons'); ?>">Site Reviews Premium</a></li>
-            <li>Added the <a href="<?= admin_url('edit.php?post_type=site-review&page=addons'); ?>">Review Forms</a> add-on</li>
+            <li>Added <a href="<?= glsr_admin_url('addons'); ?>">Site Reviews Premium</a></li>
+            <li>Added the <a href="<?= glsr_admin_url('addons'); ?>">Review Forms</a> add-on</li>
             <li>Added debug logging for validation errors</li>
             <li>Added error logging for database table creation errors</li>
             <li>Added support for PHP 8</li>

@@ -8,7 +8,7 @@
     <?= $notices; ?>
     <nav class="glsr-nav-tab-wrapper nav-tab-wrapper">
         <?php foreach ($tabs as $id => $title) : ?>
-        <a class="glsr-nav-tab nav-tab" data-id="<?= $id; ?>" href="<?= admin_url('edit.php?post_type=site-review&page=tools&tab='.$id); ?>" tabindex="0"><?= $title; ?></a>
+        <a class="glsr-nav-tab nav-tab" data-id="<?= $id; ?>" href="<?= glsr_admin_url('tools', $id); ?>" tabindex="0"><?= $title; ?></a>
         <?php endforeach; ?>
     </nav>
     <?php foreach ($tabs as $id => $title) : ?>

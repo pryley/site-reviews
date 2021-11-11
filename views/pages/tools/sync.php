@@ -20,9 +20,9 @@
                 <td class="column-primary has-row-actions">
                     <strong><?= $details['name']; ?></strong>
                     <div class="row-actions">
-                        <span><a href="{{ base_url }}&page=settings&tab=addons"><?= _x('Settings', 'admin-text', 'site-reviews'); ?></a> | </span>
-                        <span><a href="{{ base_url }}&page=settings&tab=licenses"><?= _x('License', 'admin-text', 'site-reviews'); ?></a> | </span>
-                        <span><a href="{{ base_url }}&page=documentation&tab=addons"><?= _x('Documentation', 'admin-text', 'site-reviews'); ?></a></span>
+                        <span><a href="<?= glsr_admin_url('settings', 'addons'); ?>"><?= _x('Settings', 'admin-text', 'site-reviews'); ?></a> | </span>
+                        <span><a href="<?= glsr_admin_url('settings', 'licenses'); ?>"><?= _x('License', 'admin-text', 'site-reviews'); ?></a> | </span>
+                        <span><a href="<?= glsr_admin_url('documentation', 'addons'); ?>"><?= _x('Documentation', 'admin-text', 'site-reviews'); ?></a></span>
                     </div>
                     <button type="button" class="toggle-row">
                         <span class="screen-reader-text"><?= _x('Show more details', 'admin-text', 'site-reviews'); ?></span>

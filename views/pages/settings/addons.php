@@ -3,7 +3,7 @@
 <?php if (count($settings) > 1) : ?>
     <ul class="glsr-subsubsub subsubsub">
     <?php foreach ($settings as $key => $rows) : ?>
-        <li><a href="<?= admin_url('edit.php?post_type=site-review&page=settings&tab=addons&sub='.$key); ?>" tabindex="0"><?= ucfirst($key); ?></a><span>|</span></li>
+        <li><a href="<?= glsr_admin_url('settings', 'addons', $key); ?>" tabindex="0"><?= ucfirst($key); ?></a><span>|</span></li>
     <?php endforeach; ?>
     </ul>
 <?php endif; ?>

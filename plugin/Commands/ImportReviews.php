@@ -149,7 +149,7 @@ class ImportReviews extends Upload implements Contract
         );
         $consoleLink = sprintf(_x('See the %s for more details.', 'admin-text', 'site-reviews'),
             sprintf('<a href="%s">%s</a>)',
-                admin_url('edit.php?post_type='.glsr()->post_type.'&page=tools&tab=console'),
+                glsr_admin_url('tools', 'console'),
                 _x('Console', 'admin-text', 'site-reviews')
             )
         );

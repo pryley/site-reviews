@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Commands\TogglePinned;
 use GeminiLabs\SiteReviews\Commands\ToggleStatus;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Install;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
@@ -47,13 +48,13 @@ class AdminController extends Controller
     {
         if (glsr()->hasPermission('settings')) {
             $links['settings'] = glsr(Builder::class)->a([
-                'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=settings'),
+                'href' => glsr_admin_url('settings'),
                 'text' => _x('Settings', 'admin-text', 'site-reviews'),
             ]);
         }
         if (glsr()->hasPermission('documentation')) {
             $links['documentation'] = glsr(Builder::class)->a([
-                'href' => admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation'),
+                'href' => glsr_admin_url('documentation'),
                 'text' => _x('Help', 'admin-text', 'site-reviews'),
             ]);
         }
@@ -111,7 +112,7 @@ class AdminController extends Controller
         if (glsr()->can('edit_posts')) {
             $items[] = glsr(Builder::class)->a($text, [
                 'class' => 'glsr-review-count',
-                'href' => 'edit.php?post_type='.glsr()->post_type,
+                'href' => glsr_admin_url(),
             ]);
         } else {
             $items[] = glsr(Builder::class)->span($text, [
@@ -176,7 +177,7 @@ class AdminController extends Controller
      */
     public function printInlineStyle()
     {
-        echo '<style type="text/css">a[href="edit.php?post_type=site-review&page=addons"]:not(.current),a[href="edit.php?post_type=site-review&page=addons"]:focus,a[href="edit.php?post_type=site-review&page=addons"]:hover{color:#F6E05E!important;}</style>';
+        echo '<style type="text/css">a[href="edit.php?post_type=site-review&page='.Str::dashCase(glsr()->prefix).'addons"]:not(.current),a[href="edit.php?post_type=site-review&page='.Str::dashCase(glsr()->prefix).'addons"]:focus,a[href="edit.php?post_type=site-review&page='.Str::dashCase(glsr()->prefix).'addons"]:hover{color:#F6E05E!important;}</style>';
     }
 
     /**

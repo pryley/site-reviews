@@ -150,6 +150,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Fixed importing of IP Addresses in the "Import Third Party Reviews" tool
 - Fixed importing to skip empty CSV rows
 - Fixed non-ajax pagination when paginated URLs are disabled in the settings
+- Fixed potential page collisions with other plugins due to a WordPress bug
 - Fixed the removal of foreign key constraints in database tables when plugin is deactivated
 - Fixed the "terms" field value to be false by default
 - Renamed the "email-notification.php" template file to "notification.php". If you are using this template file in your theme, please rename it.

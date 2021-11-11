@@ -9,7 +9,7 @@
         <p><em>Initial Release Date &mdash; June 7th, 2021</em></p>
         <h4>✨ New Features</h4>
         <ul>
-            <li>Added the "rating_field" shortcode option which allows you to use a custom rating field with the summary (the <a href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=addons'); ?>">Review Forms</a> add-on is required to add custom fields)</li>
+            <li>Added the "rating_field" shortcode option which allows you to use a custom rating field with the summary (the <a href="<?= glsr_admin_url('addons'); ?>">Review Forms</a> add-on is required to add custom fields)</li>
             <li>Added the "Repair Review Relations" tool</li>
         </ul>
         <h4>🐞 Bugs Fixed</h4>

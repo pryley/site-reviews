@@ -47,10 +47,6 @@ class MenuController extends Controller
      */
     public function registerSubMenus()
     {
-        global $pagenow;
-        if ('edit.php' !== $pagenow) {
-            return; // @compat this really shouldn't be needed, but for some reason the submenus are loading with admin.php?page=...
-        }
         $pages = $this->parseWithFilter('submenu/pages', [
             'settings' => _x('Settings', 'admin-text', 'site-reviews'),
             'tools' => _x('Tools', 'admin-text', 'site-reviews'),
@@ -66,7 +62,7 @@ class MenuController extends Controller
             if (!is_callable($callback)) {
                 continue;
             }
-            add_submenu_page('edit.php?post_type='.glsr()->post_type, $title, $title, glsr()->getPermission($slug), $slug, $callback);
+            add_submenu_page('edit.php?post_type='.glsr()->post_type, $title, $title, glsr()->getPermission($slug), Str::dashCase(glsr()->prefix).$slug, $callback);
         }
     }
 
@@ -175,7 +171,7 @@ class MenuController extends Controller
         $this->renderPage('tools', [
             'data' => [
                 'context' => [
-                    'base_url' => admin_url('edit.php?post_type='.glsr()->post_type),
+                    'base_url' => glsr_admin_url(),
                     'console' => glsr(Console::class)->getRaw(),
                     'id' => glsr()->id,
                     'system' => glsr(SystemInfo::class)->get(),

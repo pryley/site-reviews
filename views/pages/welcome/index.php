@@ -5,7 +5,7 @@
     <div class="glsr-about-text about-text">Site Reviews is a free WordPress review plugin with advanced features that makes it easy to manage reviews on your website. Follow the instructions below to get started!</div>
     <div class="badge">Version <?= glsr()->version; ?></div>
     <p class="about-buttons">
-        <a class="components-button is-secondary" href="<?= admin_url('edit.php?post_type='.glsr()->post_type.'&page=documentation'); ?>">Documentation</a>
+        <a class="components-button is-secondary" href="<?= glsr_admin_url('documentation'); ?>">Documentation</a>
         <a class="components-button is-secondary" href="https://wordpress.org/support/plugin/site-reviews/">Support</a>
         <a class="components-button is-secondary dashicon dashicons-facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//geminilabs.io/site-reviews">Share</a>
         <a class="components-button is-secondary dashicon dashicons-twitter" target="_blank" href="https://twitter.com/intent/tweet?text=Site Reviews is a fantastic WordPress review plugin with advanced features that makes it easy to manage reviews on your website.&url=https://geminilabs.io/site-reviews&hashtags=WordPress,reviewplugins,">Tweet</a>
