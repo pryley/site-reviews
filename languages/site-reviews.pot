@@ -663,7 +663,7 @@ msgctxt "admin-text"
 msgid "Display the fallback text when there are no reviews to display. This can be changed on the %s page. You may also override this by using the \"fallback\" option on the shortcode."
 msgstr ""
 
-#: config/settings.php:296, plugin/Controllers/MenuController.php:142
+#: config/settings.php:296, plugin/Controllers/MenuController.php:138
 msgctxt "admin-text"
 msgid "Translations"
 msgstr ""
@@ -1272,12 +1272,12 @@ msgctxt "admin-text"
 msgid "Untitled"
 msgstr ""
 
-#: plugin/Addons/Controller.php:70, plugin/Controllers/AdminController.php:51, plugin/Controllers/MenuController.php:55, plugin/Integrations/Elementor/ElementorWidget.php:98, views/pages/tools/sync.php:23
+#: plugin/Addons/Controller.php:70, plugin/Controllers/AdminController.php:52, plugin/Controllers/MenuController.php:51, plugin/Integrations/Elementor/ElementorWidget.php:98, views/pages/tools/sync.php:23
 msgctxt "admin-text"
 msgid "Settings"
 msgstr ""
 
-#: plugin/Addons/Controller.php:76, plugin/Controllers/AdminController.php:57, plugin/Controllers/MenuController.php:58
+#: plugin/Addons/Controller.php:76, plugin/Controllers/AdminController.php:58, plugin/Controllers/MenuController.php:54
 msgctxt "admin-text"
 msgid "Help"
 msgstr ""
@@ -1348,7 +1348,7 @@ msgctxt "admin-text"
 msgid "See the %s for more details."
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:153, plugin/Controllers/MenuController.php:169
+#: plugin/Commands/ImportReviews.php:153, plugin/Controllers/MenuController.php:165
 msgctxt "admin-text"
 msgid "Console"
 msgstr ""
@@ -1393,29 +1393,29 @@ msgctxt "admin-text"
 msgid "Edit"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:108
+#: plugin/Controllers/AdminController.php:109
 msgctxt "admin-text"
 msgid "%s Review"
 msgid_plural "%s Reviews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/AdminController.php:189, plugin/Widgets/SiteReviewsWidget.php:113
+#: plugin/Controllers/AdminController.php:190, plugin/Widgets/SiteReviewsWidget.php:113
 msgctxt "admin-text"
 msgid "Recent Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:190, plugin/Widgets/SiteReviewsFormWidget.php:78, plugin/Integrations/Elementor/ElementorFormWidget.php:21
+#: plugin/Controllers/AdminController.php:191, plugin/Widgets/SiteReviewsFormWidget.php:78, plugin/Integrations/Elementor/ElementorFormWidget.php:21
 msgctxt "admin-text"
 msgid "Submit a Review"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:191, plugin/Widgets/SiteReviewsSummaryWidget.php:81
+#: plugin/Controllers/AdminController.php:192, plugin/Widgets/SiteReviewsSummaryWidget.php:81
 msgctxt "admin-text"
 msgid "Summary of Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:241, plugin/Controllers/AdminController.php:261, plugin/Controllers/AdminController.php:274
+#: plugin/Controllers/AdminController.php:242, plugin/Controllers/AdminController.php:262, plugin/Controllers/AdminController.php:275
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr ""
@@ -1490,87 +1490,87 @@ msgctxt "admin-text"
 msgid "Local Review"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:56
+#: plugin/Controllers/MenuController.php:52
 msgctxt "admin-text"
 msgid "Tools"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:57
+#: plugin/Controllers/MenuController.php:53
 msgctxt "admin-text"
 msgid "Add-ons"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:111, plugin/Controllers/WelcomeController.php:86
+#: plugin/Controllers/MenuController.php:107, plugin/Controllers/WelcomeController.php:86
 msgctxt "admin-text"
 msgid "Support"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:112, plugin/Controllers/ToolsController.php:91
+#: plugin/Controllers/MenuController.php:108, plugin/Controllers/ToolsController.php:91
 msgctxt "admin-text"
 msgid "FAQ"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:113
+#: plugin/Controllers/MenuController.php:109
 msgctxt "admin-text"
 msgid "Shortcodes"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:114
+#: plugin/Controllers/MenuController.php:110
 msgctxt "admin-text"
 msgid "Hooks"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:115
+#: plugin/Controllers/MenuController.php:111
 msgctxt "admin-text"
 msgid "Functions"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:116
+#: plugin/Controllers/MenuController.php:112
 msgctxt "admin-text"
 msgid "API"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:117, plugin/Controllers/MenuController.php:143
+#: plugin/Controllers/MenuController.php:113, plugin/Controllers/MenuController.php:139
 msgctxt "admin-text"
 msgid "Addons"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:138, plugin/Controllers/MenuController.php:166
+#: plugin/Controllers/MenuController.php:134, plugin/Controllers/MenuController.php:162
 msgctxt "admin-text"
 msgid "General"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:139, plugin/Controllers/PrivacyController.php:146, plugin/Defaults/PostTypeLabelDefaults.php:14, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
+#: plugin/Controllers/MenuController.php:135, plugin/Controllers/PrivacyController.php:146, plugin/Defaults/PostTypeLabelDefaults.php:14, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
 msgctxt "admin-text"
 msgid "Reviews"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:140
+#: plugin/Controllers/MenuController.php:136
 msgctxt "admin-text"
 msgid "Submissions"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:141, plugin/Tinymce/SiteReviewsSummaryTinymce.php:35, plugin/Tinymce/SiteReviewsTinymce.php:66
+#: plugin/Controllers/MenuController.php:137, plugin/Tinymce/SiteReviewsSummaryTinymce.php:35, plugin/Tinymce/SiteReviewsTinymce.php:66
 msgctxt "admin-text"
 msgid "Schema"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:144
+#: plugin/Controllers/MenuController.php:140
 msgctxt "admin-text"
 msgid "Licenses"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:167
+#: plugin/Controllers/MenuController.php:163
 msgctxt "admin-text"
 msgid "Scheduled Actions"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:168, views/pages/tools/sync.php:57
+#: plugin/Controllers/MenuController.php:164, views/pages/tools/sync.php:57
 msgctxt "admin-text"
 msgid "Sync Reviews"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:170
+#: plugin/Controllers/MenuController.php:166
 msgctxt "admin-text"
 msgid "System Info"
 msgstr ""
@@ -3107,7 +3107,7 @@ msgstr ""
 
 #: views/pages/addons/index.php:14
 msgctxt "admin-text"
-msgid "Gain access to ALL of our free and paid add-ons with Site Reviews Premium, including access to future add-ons as they are released, and priority support!"
+msgid "Gain access to ALL of our free and paid add-ons with Site Reviews Premium, including access to future add-ons as they are released and priority support!"
 msgstr ""
 
 #: views/pages/addons/index.php:15
