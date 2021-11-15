@@ -174,7 +174,7 @@ class MenuController extends Controller
             'data' => [
                 'context' => [
                     'base_url' => glsr_admin_url(),
-                    'console' => glsr(Console::class)->getRaw(),
+                    'console' => glsr(Console::class)->get(),
                     'id' => glsr()->id,
                     'system' => glsr(SystemInfo::class)->get(),
                 ],

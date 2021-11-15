@@ -211,7 +211,7 @@ class Console
             current_time('mysql'),
             strtoupper($levelName),
             $backtraceLine,
-            $message
+            esc_html($message)
         );
     }
 
