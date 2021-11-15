@@ -9,6 +9,7 @@ use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups;
 use GeminiLabs\SiteReviews\Commands\TogglePinned;
 use GeminiLabs\SiteReviews\Commands\ToggleStatus;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Install;
@@ -16,6 +17,7 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Queue;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Translation;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Role;
@@ -237,7 +239,8 @@ class AdminController extends Controller
      */
     public function searchPostsAjax(Request $request)
     {
-        $results = glsr(Database::class)->searchPosts($request->search);
+        $search = glsr(Sanitizer::class)->sanitizeText($request->search);
+        $results = glsr(Database::class)->searchPosts($search);
         wp_send_json_success([
             'empty' => '<div>'._x('Nothing found.', 'admin-text', 'site-reviews').'</div>',
             'items' => $results,
@@ -250,13 +253,12 @@ class AdminController extends Controller
      */
     public function searchTranslationsAjax(Request $request)
     {
-        if (empty($request->exclude)) {
-            $request->exclude = [];
-        }
+        $search = glsr(Sanitizer::class)->sanitizeText($request->search);
+        $exclude = glsr(Sanitizer::class)->sanitizeArray($request->exclude);
         $results = glsr(Translation::class)
-            ->search($request->search)
+            ->search($search)
             ->exclude()
-            ->exclude($request->exclude)
+            ->exclude($exclude)
             ->renderResults();
         wp_send_json_success([
             'empty' => '<div>'._x('Nothing found.', 'admin-text', 'site-reviews').'</div>',
@@ -270,7 +272,8 @@ class AdminController extends Controller
      */
     public function searchUsersAjax(Request $request)
     {
-        $results = glsr(Database::class)->searchUsers($request->search);
+        $search = glsr(Sanitizer::class)->sanitizeText($request->search);
+        $results = glsr(Database::class)->searchUsers($search);
         wp_send_json_success([
             'empty' => '<div>'._x('Nothing found.', 'admin-text', 'site-reviews').'</div>',
             'items' => $results,
@@ -284,7 +287,9 @@ class AdminController extends Controller
     public function toggleFiltersAjax(Request $request)
     {
         if ($userId = get_current_user_id()) {
-            $enabled = Arr::consolidate($request->enabled);
+            $filters = array_keys(glsr(ColumnFilterbyDefaults::class)->defaults());
+            $enabled = glsr(Sanitizer::class)->sanitizeArrayString($request->enabled);
+            $enabled = array_intersect($filters, $enabled);
             update_user_meta($userId, 'edit_'.glsr()->post_type.'_filters', $enabled);
         }
         wp_send_json_success();
@@ -309,7 +314,7 @@ class AdminController extends Controller
     public function toggleStatusAjax(Request $request)
     {
         wp_send_json_success(
-            $this->execute(new ToggleStatus($request->post_id, $request->status))
+            $this->execute(new ToggleStatus($request->toArray()))
         );
     }
 }

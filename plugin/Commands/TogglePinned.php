@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Commands;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Defaults\TogglePinnedDefaults;
 use GeminiLabs\SiteReviews\Modules\Notice;
 
 class TogglePinned implements Contract
@@ -12,11 +13,12 @@ class TogglePinned implements Contract
     public $isPinned;
     public $review;
 
-    public function __construct($input)
+    public function __construct(array $input)
     {
-        $this->review = glsr(Query::class)->review($input['id']);
-        $this->isPinned = isset($input['pinned'])
-            ? wp_validate_boolean($input['pinned'])
+        $args = glsr()->args(glsr(TogglePinnedDefaults::class)->restrict($input));
+        $this->review = glsr(Query::class)->review($args->id);
+        $this->isPinned = $args->pinned >= 0
+            ? wp_validate_boolean($args->pinned)
             : !$this->review->is_pinned;
     }
 

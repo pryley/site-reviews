@@ -159,7 +159,7 @@ class ToolsController extends Controller
     {
         $this->fetchConsole();
         wp_send_json_success([
-            'console' => glsr(Console::class)->getRaw(),
+            'console' => glsr(Console::class)->getRaw(), // we don't need to esc_html here
             'notices' => glsr(Notice::class)->get(),
         ]);
     }

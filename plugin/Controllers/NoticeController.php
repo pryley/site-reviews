@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Queue;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Request;
 
 class NoticeController extends Controller
@@ -47,8 +48,9 @@ class NoticeController extends Controller
      */
     public function dismissNotice(Request $request)
     {
-        if ($request->notice) {
-            $this->setUserMeta($request->notice, $this->getVersionFor($request->notice));
+        $notice = glsr(Sanitizer::class)->sanitizeText($request->notice);
+        if ($notice) {
+            $this->setUserMeta($notice, $this->getVersionFor($notice));
         }
     }
 

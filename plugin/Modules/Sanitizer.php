@@ -77,7 +77,11 @@ class Sanitizer
      */
     public function sanitizeArrayString($value)
     {
-        return array_filter(Cast::toArray($value), 'is_string');
+        $sanitized = array_filter(Cast::toArray($value), 'is_string');
+        array_walk($sanitized, function (&$value) {
+            $value = $this->sanitizeText($value);
+        });
+        return $sanitized;
     }
 
     /**

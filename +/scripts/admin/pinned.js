@@ -59,6 +59,7 @@ Pinned.prototype = {
         var request = {
             _action: 'toggle-pinned',
             id: ev.currentTarget.getAttribute('data-id'),
+            pinned:-1,
         };
        jQuery(this.target).addClass('spinner is-active').removeClass('dashicons-sticky');
         (new Ajax(request)).post(this.togglePinned_.bind(this));

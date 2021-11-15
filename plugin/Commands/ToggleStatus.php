@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
+use GeminiLabs\SiteReviews\Defaults\ToggleStatusDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use WP_Posts_List_Table;
 
@@ -11,12 +12,11 @@ class ToggleStatus implements Contract
     public $id;
     public $status;
 
-    public function __construct($id, $status)
+    public function __construct(array $input)
     {
-        $this->id = $id;
-        $this->status = 'approve' == $status
-            ? 'publish'
-            : 'pending';
+        $args = glsr(ToggleStatusDefaults::class)->restrict($input);
+        $this->id = $args['id'];
+        $this->status = $args['status'];
     }
 
     /**
