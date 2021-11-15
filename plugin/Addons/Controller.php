@@ -64,7 +64,7 @@ abstract class Controller extends BaseController
      */
     public function filterActionLinks(array $links)
     {
-        if (glsr()->hasPermission('settings')) {
+        if (glsr()->hasPermission('settings') && !empty($this->addon->config('settings'))) {
             $links['settings'] = glsr(Builder::class)->a([
                 'href' => glsr_admin_url('settings', 'addons', $this->addon->slug),
                 'text' => _x('Settings', 'admin-text', 'site-reviews'),
@@ -72,6 +72,7 @@ abstract class Controller extends BaseController
         }
         if (glsr()->hasPermission('documentation')) {
             $links['documentation'] = glsr(Builder::class)->a([
+                'data-expand' => '#addon-'.$this->addon->id,
                 'href' => glsr_admin_url('documentation', 'addons'),
                 'text' => _x('Help', 'admin-text', 'site-reviews'),
             ]);
@@ -99,7 +100,7 @@ abstract class Controller extends BaseController
     public function filterDocumentation(array $documentation)
     {
         $notice = glsr(Template::class)->build('/views/partials/addons/support-notice');
-        $documentation[$this->addon->name] = $notice.glsr(Template::class)->build($this->addon->id.'/views/documentation');
+        $documentation[$this->addon->id] = $notice.glsr(Template::class)->build($this->addon->id.'/views/documentation');
         return $documentation;
     }
 
