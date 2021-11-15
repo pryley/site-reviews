@@ -210,6 +210,8 @@ final class Application extends Container
                 $updater->init();
                 $this->updated[] = $addonId;
             }
-        } catch (\ReflectionException $e) {}
+        } catch (\ReflectionException $e) {
+            // We don't need to log an error here.
+        }
     }
 }
