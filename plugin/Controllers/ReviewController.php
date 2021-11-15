@@ -33,7 +33,10 @@ class ReviewController extends Controller
     {
         if (glsr()->id == filter_input(INPUT_GET, 'plugin')) {
             check_admin_referer('approve-review_'.($postId = $this->getPostId()));
-            $this->execute(new ToggleStatus($postId, 'publish'));
+            $this->execute(new ToggleStatus([
+                'id' => $postId,
+                'status' => 'publish',
+            ]));
             wp_safe_redirect(wp_get_referer());
             exit;
         }
@@ -334,7 +337,10 @@ class ReviewController extends Controller
     {
         if (glsr()->id == filter_input(INPUT_GET, 'plugin')) {
             check_admin_referer('unapprove-review_'.($postId = $this->getPostId()));
-            $this->execute(new ToggleStatus($postId, 'pending'));
+            $this->execute(new ToggleStatus([
+                'id' => $postId,
+                'status' => 'pending',
+            ]));
             wp_safe_redirect(wp_get_referer());
             exit;
         }
