@@ -188,12 +188,7 @@ abstract class Controller extends BaseController
      */
     public function filterSettings(array $settings)
     {
-        $settingsFile = $this->addon->path('config/settings.php');
-        if (file_exists($settingsFile)) {
-            $addonSettings = include $settingsFile;
-            $addonSettings = $this->addon->filterArray('settings', $addonSettings);
-            $settings = array_merge($addonSettings, $settings);
-        }
+        $settings = array_merge($this->addon->config('settings'), $settings);
         if ($this->addon->licensed) {
             $license = [
                 'settings.licenses.'.$this->addon->id => [
