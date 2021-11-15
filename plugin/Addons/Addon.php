@@ -16,7 +16,6 @@ use ReflectionClass;
  * @property string $slug
  * @property string $testedTo
  * @property string $update_url
- * @property Updater $updater
  * @property string $version
  */
 abstract class Addon
@@ -28,9 +27,7 @@ abstract class Addon
     const NAME = '';
     const POST_TYPE = '';
     const SLUG = '';
-    const UPDATE_URL = '';
-
-    protected $updater;
+    const UPDATE_URL = 'https://niftyplugins.com';
 
     /**
      * @return void
@@ -106,20 +103,5 @@ abstract class Addon
         }
         natsort($results);
         return $results;
-    }
-
-    /**
-     * @return void
-     */
-    public function update()
-    {
-        $doingCron = defined('DOING_CRON') && DOING_CRON;
-        if (!current_user_can('manage_options') && !$doingCron) {
-            return;
-        }
-        $this->updater = new Updater(static::UPDATE_URL, $this->file, [
-            'license' => glsr_get_option('licenses.'.static::ID),
-        ]);
-        $this->updater->init();
     }
 }

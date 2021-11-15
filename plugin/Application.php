@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\SqlSchema;
@@ -27,6 +28,7 @@ use GeminiLabs\SiteReviews\Modules\Migrate;
  * @property array $session
  * @property \GeminiLabs\SiteReviews\Arguments $storage
  * @property string $taxonomy
+ * @property array $updated
  * @property string $version
  * @property string $testedTo;
  */
@@ -59,6 +61,11 @@ final class Application extends Container
      * @var string
      */
     protected $name;
+
+    /**
+     * @var array
+     */
+    protected $updated = [];
 
     /**
      * @param string $addonId
@@ -149,7 +156,7 @@ final class Application extends Container
     }
 
     /**
-     * @param object $addon
+     * @param string|object $addon
      * @return void
      */
     public function register($addon)
@@ -177,6 +184,31 @@ final class Application extends Container
         }
         if (empty(get_option(OptionManager::databaseKey()))) {
             update_option(OptionManager::databaseKey(), $this->defaults);
+        }
+    }
+
+    /**
+     * @param object|string $addon
+     * @param string $file
+     * @return void
+     */
+    public function update($addon, $file)
+    {
+        if (!current_user_can('manage_options') && !(defined('DOING_CRON') && DOING_CRON)) {
+            return;
+        }
+        try {
+            $reflection = new \ReflectionClass($addon);
+            $addonId = $reflection->getConstant('ID');
+            $updateUrl = $reflection->getConstant('UPDATE_URL');
+            if ($addonId && $updateUrl && !in_array($addonId, $this->updated)) {
+                $license = glsr_get_option('licenses.'.$addonId);
+                $updater = new Updater($updateUrl, $file, compact('license'));
+                $updater->init();
+                $this->updated[] = $addonId;
+            }
+        } catch (\ReflectionException $e) {
+            glsr_log()->error($e->getMessage());
         }
     }
 }

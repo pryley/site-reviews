@@ -17,6 +17,10 @@ class Updater
      */
     protected $data;
     /**
+     * @var bool
+     */
+    protected $isReady = false;
+    /**
      * @var string
      */
     protected $plugin;
@@ -27,12 +31,19 @@ class Updater
      */
     public function __construct($apiUrl, $file, array $data = [])
     {
+        if (!file_exists($file)) {
+            return;
+        }
         if (!function_exists('get_plugin_data')) {
             require_once ABSPATH.WPINC.'/plugin.php';
         }
         $this->apiUrl = trailingslashit(glsr()->filterString('addon/api-url', $apiUrl));
+        if ($this->apiUrl === Url::home()) {
+            return;
+        }
         $this->data = wp_parse_args($data, get_plugin_data($file));
         $this->plugin = plugin_basename($file);
+        $this->isReady = true;
     }
 
     /**
@@ -108,13 +119,12 @@ class Updater
      */
     public function init()
     {
-        if ($this->apiUrl === Url::home()) {
-            return;
+        if ($this->isReady) {
+            add_filter('plugins_api', [$this, 'filterPluginUpdateDetails'], 10, 3);
+            add_filter('pre_set_site_transient_update_plugins', [$this, 'filterPluginUpdates'], 999);
+            add_action('load-update-core.php', [$this, 'onForceUpdateCheck'], 9);
+            add_action('in_plugin_update_message-'.$this->plugin, [$this, 'renderLicenseMissingLink']);
         }
-        add_filter('plugins_api', [$this, 'filterPluginUpdateDetails'], 10, 3);
-        add_filter('pre_set_site_transient_update_plugins', [$this, 'filterPluginUpdates'], 999);
-        add_action('load-update-core.php', [$this, 'onForceUpdateCheck'], 9);
-        add_action('in_plugin_update_message-'.$this->plugin, [$this, 'renderLicenseMissingLink']);
     }
 
     /**

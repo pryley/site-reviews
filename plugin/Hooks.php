@@ -122,6 +122,7 @@ class Hooks implements HooksContract
         add_action('init', [$this->main, 'registerShortcodes']);
         add_action('init', [$this->main, 'registerTaxonomy']);
         add_action('widgets_init', [$this->main, 'registerWidgets']);
+        add_action('init', [$this->main, 'updateAddons'], 1);
         add_action('admin_menu', [$this->menu, 'registerMenuCount']);
         add_action('admin_menu', [$this->menu, 'registerSubMenus']);
         add_action('admin_menu', [$this->menu, 'removeSubMenus'], 20);

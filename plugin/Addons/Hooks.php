@@ -20,7 +20,6 @@ abstract class Hooks
      */
     public function run()
     {
-        add_action('init',                                                 [$this->addon, 'update']);
         add_action('admin_enqueue_scripts',                                [$this->controller, 'enqueueAdminAssets']);
         add_action('enqueue_block_editor_assets',                          [$this->controller, 'enqueueBlockAssets'], 9);
         add_action('wp_enqueue_scripts',                                   [$this->controller, 'enqueuePublicAssets']);

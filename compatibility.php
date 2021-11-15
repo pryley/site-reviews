@@ -254,3 +254,24 @@ if (!is_wp_version_compatible('5.8')) {
         add_filter('block_categories', [glsr(BlocksController::class), 'filterBlockCategories']);
     });
 }
+
+/**
+ * This will check updates for any add-ons which do not yet use the "site-reviews/addon/update" hook
+ * @param \GeminiLabs\SiteReviews\Application $app
+ */
+add_action('site-reviews/addon/update', function ($app) {
+    $addons = [
+        'site-reviews-filters/site-reviews-filters.php' => 'GeminiLabs\SiteReviews\Addon\Filters\Application',
+        'site-reviews-forms/site-reviews-forms.php' => 'GeminiLabs\SiteReviews\Addon\Forms\Application',
+        'site-reviews-images/site-reviews-images.php' => 'GeminiLabs\SiteReviews\Addon\Images\Application',
+        'site-reviews-notifications/site-reviews-notifications.php' => 'GeminiLabs\SiteReviews\Addon\Notifications\Application',
+        'site-reviews-themes/site-reviews-themes.php' => 'GeminiLabs\SiteReviews\Addon\Themes\Application',
+        'site-reviews-woocommerce/site-reviews-woocommerce.php' => 'GeminiLabs\SiteReviews\Addon\Woocommerce\Application',
+    ];
+    foreach ($addons as $basename => $addon) {
+        $file = trailingslashit(WP_PLUGIN_DIR).$basename;
+        if (file_exists($file)) {
+            $app->update($addon, $file);
+        }
+    }
+});

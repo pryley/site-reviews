@@ -148,4 +148,13 @@ class MainController extends Controller
     {
         $this->execute(new RegisterWidgets());
     }
+
+    /**
+     * @return void
+     * @action init
+     */
+    public function updateAddons()
+    {
+        glsr()->action('addon/update', glsr());
+    }
 }
