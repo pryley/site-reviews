@@ -2,55 +2,69 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use WP_Error;
 
 class Notice
 {
     /**
-     * @param string $type
-     * @param string|array|WP_Error $message
-     * @return static
+     * @var array
      */
-    public function add($type, $message, array $args = [])
+    protected $notices;
+
+    public function __construct()
     {
-        if (empty(array_filter([$message, $type]))) {
-            return $this;
+        $this->notices = [];
+        $notices = get_transient(glsr()->prefix.'notices');
+        if (is_array($notices)) {
+            $this->notices = $notices;
+            delete_transient(glsr()->prefix.'notices');
         }
-        $args['message'] = $message;
-        $args['type'] = $type;
-        add_settings_error(glsr()->id, '', json_encode($this->normalize($args)));
+    }
+
+    /**
+     * @param string $type
+     * @param string|array|\WP_Error $message
+     * @return static
+     */
+    public function add($type, $message)
+    {
+        if (is_wp_error($message)) {
+            $message = $message->get_error_message();
+        }
+        $this->notices[] = [
+            'messages' => (array) $message,
+            'type' => Str::restrictTo(['error', 'warning', 'info', 'success'], $type, 'info'),
+        ];
         return $this;
     }
 
     /**
-     * @param string|array|WP_Error $message
+     * @param string|array|\WP_Error $message
      * @return static
      */
-    public function addError($message, array $args = [])
+    public function addError($message)
     {
-        $this->add('error', $message, $args);
-        return $this;
+        return $this->add('error', $message);
     }
 
     /**
-     * @param string|array|WP_Error $message
+     * @param string|array|\WP_Error $message
      * @return static
      */
-    public function addSuccess($message, array $args = [])
+    public function addSuccess($message)
     {
-        $this->add('success', $message, $args);
-        return $this;
+        return $this->add('success', $message);
     }
 
     /**
-     * @param string|array|WP_Error $message
+     * @param string|array|\WP_Error $message
      * @return static
      */
-    public function addWarning($message, array $args = [])
+    public function addWarning($message)
     {
-        $this->add('warning', $message, $args);
-        return $this;
+        return $this->add('warning', $message);
     }
 
     /**
@@ -58,66 +72,50 @@ class Notice
      */
     public function clear()
     {
-        global $wp_settings_errors;
-        $wp_settings_errors = [];
-        delete_transient('settings_errors');
+        $this->notices = [];
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function get()
-    {
-        $notices = array_map('unserialize',
-            array_unique(array_map('serialize', get_settings_errors(glsr()->id)))
-        );
-        $notices = array_reduce($notices, function ($carry, $notice) {
-            return $carry.$this->buildNotice(json_decode($notice['message'], true));
-        });
-        return glsr()->filterString('notices', $notices);
-    }
-
-    /**
-     * @return string
-     */
-    protected function buildNotice(array $args)
-    {
-        $messages = array_reduce($args['messages'], function ($carry, $message) {
-            return $carry.glsr(Builder::class)->p($message);
-        });
-        $class = 'notice notice-'.$args['type'];
-        if ($args['inline']) {
-            $class .= ' inline';
-        }
-        if ($args['dismissible']) {
-            $class .= ' is-dismissible';
-        }
-        return glsr(Builder::class)->div($messages, [
-            'class' => $class,
-        ]);
     }
 
     /**
      * @return array
      */
-    protected function normalize(array $args)
+    public function get()
     {
-        $defaults = [
-            'dismissible' => true,
-            'inline' => true,
-            'message' => '',
-            'type' => '',
-        ];
-        $args = shortcode_atts($defaults, $args);
-        if (!in_array($args['type'], ['error', 'warning', 'success'])) {
-            $args['type'] = 'success';
+        $this->sort();
+        $notices = glsr()->filterArray('notices', $this->notices);
+        return array_reduce($notices, function ($carry, $args) {
+            $text = array_reduce($args['messages'], function ($carry, $message) {
+                return $carry.wpautop($message);
+            });
+            return $carry.glsr(Builder::class)->div([
+                'class' => sprintf('notice notice-%s inline is-dismissible', $args['type']),
+                'text' => $text,
+            ]);
+        });
+    }
+
+    /**
+     * @return static
+     */
+    public function sort()
+    {
+        $notices = array_map('unserialize', array_unique(array_map('serialize', $this->notices)));
+        usort($notices, function ($a, $b) {
+            $order = ['error', 'warning', 'info', 'success'];
+            return array_search($a['type'], $order) - array_search($b['type'], $order);
+        });
+        $this->notices = $notices;
+        return $this;
+    }
+
+    /**
+     * @return static
+     */
+    public function store()
+    {
+        if (!empty($this->notices)) {
+            set_transient(glsr()->prefix.'notices', $this->notices, 30);
         }
-        // @phpstan-ignore-next-line
-        $args['messages'] = is_wp_error($args['message'])
-            ? (array) $args['message']->get_error_message()
-            : (array) $args['message'];
-        unset($args['message']);
-        return $args;
+        return $this;
     }
 }

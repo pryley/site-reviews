@@ -23,6 +23,7 @@ use GeminiLabs\SiteReviews\Controllers\TaxonomyController;
 use GeminiLabs\SiteReviews\Controllers\ToolsController;
 use GeminiLabs\SiteReviews\Controllers\TranslationController;
 use GeminiLabs\SiteReviews\Controllers\WelcomeController;
+use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Modules\Translation;
@@ -39,6 +40,7 @@ class Provider implements ProviderContract
             return $app;
         });
         $app->singleton(Hooks::class);
+        $app->singleton(Notice::class);
         $app->singleton(Queue::class);
         $app->singleton(Style::class);
         $app->singleton(Translator::class);

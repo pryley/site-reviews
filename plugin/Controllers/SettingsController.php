@@ -29,6 +29,7 @@ class SettingsController extends Controller
             if (filter_input(INPUT_POST, 'option_page') == glsr()->id.'-settings') {
                 glsr(Notice::class)->addSuccess(_x('Settings updated.', 'admin-text', 'site-reviews'));
             }
+            glsr(Notice::class)->store(); // store the notices before the page reloads
             return $options;
         }
         return $input;
