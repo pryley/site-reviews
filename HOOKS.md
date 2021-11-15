@@ -98,7 +98,7 @@
     site-reviews/interpolate/<template_path>                (array $context, string $template, array $data): array
     site-reviews/metabox/fields                             (array $fields, Review $review): array
     site-reviews/metabox/fields/order                       (array $order): array
-    site-reviews/notices                                    (string $notices): string
+    site-reviews/notices                                    (array $notices): array
     site-reviews/notification/emails                        (array $emails, Review $review): array
     site-reviews/notification/tag/<tag>                     (string $value, Review $review): string
     site-reviews/notification/title                         (string $title, Review $review): string

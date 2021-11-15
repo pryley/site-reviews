@@ -8,5 +8,6 @@
 /*.md        export-ignore
 /*.neon      export-ignore
 /*.sh        export-ignore
+/Makefile    export-ignore
 /phpunit.xml export-ignore
 /tests       export-ignore

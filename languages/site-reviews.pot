@@ -1267,7 +1267,7 @@ msgstr ""
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr ""
 
-#: plugin/Addons/Addon.php:103
+#: plugin/Addons/Addon.php:100
 msgctxt "admin-text"
 msgid "Untitled"
 msgstr ""
@@ -1287,7 +1287,7 @@ msgctxt "admin-text"
 msgid "Make sure to first activate your website domain with your license before adding it here. You can do this by visiting the %s page on your Nifty Plugins account and clicking the \"Manage Sites\" button."
 msgstr ""
 
-#: plugin/Addons/Controller.php:199, plugin/Controllers/SettingsController.php:172
+#: plugin/Addons/Controller.php:199, plugin/Controllers/SettingsController.php:173
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr ""
@@ -1640,22 +1640,22 @@ msgctxt "admin-text"
 msgid "Settings updated."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:142
+#: plugin/Controllers/SettingsController.php:143
 msgctxt "admin-text"
 msgid "Please update the %s plugin to v%s or greater to enable integration."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:136
+#: plugin/Controllers/SettingsController.php:137
 msgctxt "admin-text"
 msgid "Please install/activate the %s plugin to enable integration."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:170
+#: plugin/Controllers/SettingsController.php:171
 msgctxt "admin-text"
 msgid "The license you entered is either invalid or has not yet been activated."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:171
+#: plugin/Controllers/SettingsController.php:172
 msgctxt "admin-text"
 msgid "To activate your license, please visit the %s page on your Nifty Plugins account and click the \"Manage Sites\" button to activate it for your website."
 msgstr ""

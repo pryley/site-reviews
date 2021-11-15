@@ -77,7 +77,7 @@ class Notice
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function get()
     {
