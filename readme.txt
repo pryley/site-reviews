@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews, business rev
 Tested up to: 5.8
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.17.2
+Stable tag: 5.17.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,7 @@ Site Reviews provides a ton of absolutely free features, possibly more than any 
 - __[Review Filters](https://niftyplugins.com/plugins/site-reviews-filters/) (premium)__: Sort, filter, and search your reviews.
 - __[Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/) (premium)__: Create custom review forms with over 20 field types and individual review templates.
 - __[Review Images](https://niftyplugins.com/plugins/site-reviews-images/) (premium)__: Add images with captions to your reviews.
+- __[Review Notifications](https://niftyplugins.com/plugins/site-reviews-notifications/) (premium)__: Create and schedule custom review notifications with conditions.
 - __[Review Themes](https://niftyplugins.com/plugins/site-reviews-themes/) (premium)__: Create custom review designs with a drag-and-drop builder.
 - __[Woocommerce Reviews](https://niftyplugins.com/plugins/woocommerce-reviews/) (free)__: Integrate Site Reviews with your Woocommerce products.
 
@@ -138,6 +139,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.17.3 (2021-11-15) =
+
+- Fixed a potential XSS vunerability on the Console page (the console wasn't escaping HTML correctly when displaying logged errors)
 
 = 5.17.2 (2021-11-11) =
 
