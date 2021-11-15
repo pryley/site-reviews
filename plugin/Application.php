@@ -197,6 +197,9 @@ final class Application extends Container
         if (!current_user_can('manage_options') && !(defined('DOING_CRON') && DOING_CRON)) {
             return;
         }
+        if (!file_exists($file)) {
+            glsr_log()->error("Add-on does not exist: $file")->debug($addon);
+        }
         try {
             $reflection = new \ReflectionClass($addon);
             $addonId = $reflection->getConstant('ID');
@@ -207,8 +210,6 @@ final class Application extends Container
                 $updater->init();
                 $this->updated[] = $addonId;
             }
-        } catch (\ReflectionException $e) {
-            glsr_log()->error($e->getMessage());
-        }
+        } catch (\ReflectionException $e) {}
     }
 }
