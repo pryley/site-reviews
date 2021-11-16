@@ -224,6 +224,7 @@ return [
         ],
         'label' => _x('Fallback Avatar', 'admin-text', 'site-reviews'),
         'options' => [
+            'custom' => _x('Custom Image URL', 'admin-text', 'site-reviews'),
             'identicon' => _x('Identicon (geometric patterns)', 'admin-text', 'site-reviews'),
             'initials' => _x('Initials (initials of reviewer\'s name)', 'admin-text', 'site-reviews'),
             'monsterid' => _x('Monster (monsters with generated faces)', 'admin-text', 'site-reviews'),
@@ -235,6 +236,15 @@ return [
         ],
         'tooltip' => _x('This image is displayed when there is no avatar.', 'admin-text', 'site-reviews'),
         'type' => 'select',
+    ],
+    'settings.reviews.avatars_fallback_url' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.reviews.avatars_fallback' => 'custom',
+        ],
+        'label' => _x('Fallback Avatar URL', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('Enter a custom image URL to use as the fallback avatar.', 'admin-text', 'site-reviews'),
+        'type' => 'text',
     ],
     'settings.reviews.avatars_regenerate' => [
         'default' => 'no',

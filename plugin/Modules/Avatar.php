@@ -32,6 +32,13 @@ class Avatar
      */
     public function fallbackDefault($review)
     {
+        if ('custom' === $this->type) {
+            $customUrl = glsr_get_option('reviews.avatars_fallback_url');
+            if ($this->isUrl($customUrl)) {
+                return $customUrl;
+            }
+            $this->type = 'mystery'; // fallback to mystery if a custom url is not set
+        }
         if ('pixels' === $this->type) {
             return $this->generatePixels($review);
         }
