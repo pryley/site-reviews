@@ -118,6 +118,20 @@ class ListTableController extends Controller
     }
 
     /**
+     * @param $states string[]
+     * @param \WP_Post $post
+     * @return array
+     * @filter display_post_states
+     */
+    public function filterPostStates($states, $post)
+    {
+        if (get_post_type($post) === glsr()->post_type && array_key_exists('pending', $states)) {
+            $states['pending'] = _x('Unapproved', 'admin-text', 'site-reviews');
+        }
+        return $states;
+    }
+
+    /**
      * @param array $actions
      * @param WP_Post $post
      * @return array

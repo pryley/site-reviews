@@ -60,9 +60,7 @@ class ToggleStatus implements Contract
      */
     protected function getPostState($postId)
     {
-        ob_start();
-        _post_states(get_post($postId));
-        return ob_get_clean();
+        return _post_states(get_post($postId), false);
     }
 
     /**
@@ -70,18 +68,34 @@ class ToggleStatus implements Contract
      */
     protected function getStatusLinks()
     {
-        global $avail_post_stati;
+        global $avail_post_stati, $wp_post_statuses;
+        $avail_post_stati = get_available_post_statuses(glsr()->post_type);
+        if (isset($wp_post_statuses['publish']->label_count)) {
+            $wp_post_statuses['publish']->label_count = _nx_noop(
+                'Approved <span class="count">(%s)</span>',
+                'Approved <span class="count">(%s)</span>',
+                'admin-text',
+                'site-reviews'
+            );
+        }
+        if (isset($wp_post_statuses['pending']->label_count)) {
+            $wp_post_statuses['pending']->label_count = _nx_noop(
+                'Unapproved <span class="count">(%s)</span>',
+                'Unapproved <span class="count">(%s)</span>',
+                'admin-text',
+                'site-reviews'
+            );
+        }
         $hookName = 'edit-'.glsr()->post_type;
         set_current_screen($hookName);
-        $avail_post_stati = get_available_post_statuses(glsr()->post_type);
         $table = new WP_Posts_List_Table(['screen' => $hookName]);
         $views = apply_filters('views_'.$hookName, $table->get_views()); // get_views() is in the $compat_methods array for public access
         if (empty($views)) {
             return;
         }
         foreach ($views as $class => $view) {
-            $views[$class] = "\t<li class='$class'>$view";
+            $views[$class] = sprintf('<li class="%s">%s', $class, $view);
         }
-        return implode(' |</li>', $views).'</li>';
+        return implode(" |</li>\t", $views).'</li>';
     }
 }

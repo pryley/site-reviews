@@ -31,7 +31,7 @@ class ToggleStatusDefaults extends Defaults
      */
     protected function normalize(array $values = [])
     {
-        $values['status'] = 'approve' == glsr_get($values, 'status')
+        $values['status'] = 'approve' === glsr_get($values, 'status')
             ? 'publish'
             : 'pending';
         return $values;

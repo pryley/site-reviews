@@ -213,6 +213,7 @@ class Hooks implements HooksContract
         add_filter('post_date_column_status', [$this->listtable, 'filterDateColumnStatus'], 10, 2);
         add_filter('default_hidden_columns', [$this->listtable, 'filterDefaultHiddenColumns'], 10, 2);
         add_filter('posts_clauses', [$this->listtable, 'filterPostClauses'], 10, 2);
+        add_action('display_post_states', [$this->listtable, 'filterPostStates'], 10, 2);
         add_filter('post_row_actions', [$this->listtable, 'filterRowActions'], 10, 2);
         add_filter('screen_settings', [$this->listtable, 'filterScreenFilters'], 10, 2);
         add_filter('manage_edit-'.glsr()->post_type.'_sortable_columns', [$this->listtable, 'filterSortableColumns']);
