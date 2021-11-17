@@ -118,7 +118,7 @@ class ListTableController extends Controller
     }
 
     /**
-     * @param $states string[]
+     * @param string[] $states
      * @param \WP_Post $post
      * @return array
      * @filter display_post_states

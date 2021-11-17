@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews, business rev
 Tested up to: 5.8
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.17.5
+Stable tag: 5.17.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -139,6 +139,11 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.17.6 (2021-11-17) =
+
+- Fixed the Approve/Unapprove links on the All Reviews page
+- Fixed PHP error when php_uname() is disabled (used when detecting the webhosting on the System Info page)
 
 = 5.17.5 (2021-11-16) =
 
