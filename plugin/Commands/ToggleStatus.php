@@ -15,7 +15,7 @@ class ToggleStatus implements Contract
     public function __construct(array $input)
     {
         $args = glsr(ToggleStatusDefaults::class)->restrict($input);
-        $this->id = $args['id'];
+        $this->id = $args['post_id'];
         $this->status = $args['status'];
     }
 
