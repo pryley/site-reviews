@@ -392,7 +392,7 @@ class SystemInfo
             'WPE_APIKEY' => 'WP Engine',
         ];
         foreach ($checks as $key => $value) {
-            if (!$this->isWebhostCheckValid($key)) {
+            if (!$this->isWebhostFound($key)) {
                 continue;
             }
             return $value;
@@ -404,13 +404,13 @@ class SystemInfo
      * @param string $key
      * @return bool
      */
-    protected function isWebhostCheckValid($key)
+    protected function isWebhostFound($key)
     {
         return defined($key)
             || filter_input(INPUT_SERVER, $key)
             || Str::contains($key, filter_input(INPUT_SERVER, 'SERVER_NAME'))
             || Str::contains($key, DB_HOST)
-            || Str::contains($key, php_uname());
+            || (function_exists('php_uname') && Str::contains($key, php_uname()));
     }
 
     /**
