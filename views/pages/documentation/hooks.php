@@ -10,6 +10,7 @@ $sections = [
     trailingslashit(__DIR__).'hooks/do-something-after-submission.php',
     trailingslashit(__DIR__).'hooks/filter-schema.php',
     trailingslashit(__DIR__).'hooks/filter-submitted-review-values.php',
+    trailingslashit(__DIR__).'hooks/modify-request.php',
 ];
 $filename = pathinfo(__FILE__, PATHINFO_FILENAME);
 $sections = glsr()->filterArrayUnique('documentation/'.$filename, $sections);

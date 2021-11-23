@@ -1311,11 +1311,11 @@ msgstr ""
 msgid "Show more"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:163
+#: plugin/Commands/CreateReview.php:164
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:167, views/pages/documentation/support/common-problems-and-solutions.php:75
+#: plugin/Commands/CreateReview.php:168, views/pages/documentation/support/common-problems-and-solutions.php:75
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
