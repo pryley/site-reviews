@@ -232,9 +232,9 @@ class Avatar
     protected function userField($review)
     {
         if ($review->author_id) {
-            $value = get_the_author_meta('user_email', $review->author_id);
+            $value = $review->author_id;
         }
-        if (empty($value)) {
+        if (empty($value) || !is_numeric($value)) {
             $value = $review->email;
         }
         return glsr()->filterString('avatar/id_or_email', $value, $review->toArray());
