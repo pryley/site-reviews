@@ -3,9 +3,10 @@
 import Excerpts from './excerpts.js';
 
 const config = {
+    buttonSelector: 'button.glsr-button-loadmore',
     hideClass: 'glsr-hide',
     linkSelector: 'a.page-numbers',
-    paginationSelector: '.glsr-ajax-pagination',
+    paginationSelector: '.glsr-pagination',
     reviewsSelector: '.glsr-reviews, [data-reviews]',
     scrollOffset: 16,
     scrollTime: 468,
@@ -13,66 +14,110 @@ const config = {
 
 class Pagination {
     constructor (wrapperEl) {
-        this.links = [];
         this.reviewsEl = wrapperEl.querySelector(config.reviewsSelector);
         this.wrapperEl = wrapperEl;
         this.init()
     }
 
+    data (el) {
+        const paginationEl = el.closest(config.paginationSelector);
+        if (!paginationEl) {
+            console.error('Pagination config not found.');
+            return false;
+        }
+        try {
+            const dataset = JSON.parse(JSON.stringify(paginationEl.dataset));
+            const data = {};
+            for (var key of Object.keys(dataset)) {
+                data[`${GLSR.nameprefix}[atts][${key}]`] = dataset[key];
+            }
+            data[`${GLSR.nameprefix}[_action]`] = 'fetch-paged-reviews';
+            data[`${GLSR.nameprefix}[page]`] = el.dataset.page || '';
+            data[`${GLSR.nameprefix}[schema]`] = false;
+            data[`${GLSR.nameprefix}[url]`] = el.href || '';
+            return data;
+        } catch(e) {
+            console.error('Invalid pagination config.');
+            return false;
+        }
+    }
+
     init () {
-        this.links = this.wrapperEl.querySelectorAll(`${config.paginationSelector} ${config.linkSelector}`);
-        if (this.links.length) {
-            [].forEach.call(this.links, link => {
+        this.initLoadMore()
+        this.initPagination()
+    }
+
+    initLoadMore () {
+        const buttons = this.wrapperEl.querySelectorAll(config.buttonSelector);
+        if (buttons.length) {
+            [].forEach.call(buttons, button => {
+                if (button.dataset.ready) return; // @hack only init once
+                button.addEventListener('click', this.onLoadMore.bind(this, button));
+                button.dataset.ready = true;
+            })
+        }
+    }
+
+    initPagination () {
+        const links = this.wrapperEl.querySelectorAll(`${config.paginationSelector} ${config.linkSelector}`);
+        if (links.length) {
+            [].forEach.call(links, link => {
                 if (link.dataset.ready) return; // @hack only init once
-                link.addEventListener('click', this.onClick.bind(this, link));
+                link.addEventListener('click', this.onPaginate.bind(this, link));
                 link.dataset.ready = true;
             })
         }
     }
 
-    onClick (el, ev) {
-        const paginationEl = el.closest(config.paginationSelector);
-        if (!paginationEl) {
-            console.log('pagination config not found.');
-            return;
+    onLoadMore (el, ev) {
+        const data = this.data(el);
+        if (data) {
+            el.ariaBusy = 'true';
+            el.setAttribute('disabled', '');
+            ev.preventDefault();
+            GLSR.ajax.post(data, this.handleLoadMore.bind(this, el));
         }
-        const data = {};
-        for (var key of Object.keys(paginationEl.dataset)) {
-            var value = paginationEl.dataset[key];
-            try {
-                var parsedValue = JSON.parse(value);
-                value = parsedValue;
-            } catch(e) {}
-            data[`${GLSR.nameprefix}[atts][${key}]`] = value;
-        }
-        data[`${GLSR.nameprefix}[_action]`] = 'fetch-paged-reviews';
-        data[`${GLSR.nameprefix}[page]`] = ev.currentTarget.dataset.page || '';
-        data[`${GLSR.nameprefix}[url]`] = ev.currentTarget.href || '';
-        this.wrapperEl.classList.add(config.hideClass);
-        // this.reviewsEl.classList.add(config.hideClass);
-        // [].forEach.call(this.wrapperEl.querySelectorAll(config.paginationSelector), el => {
-        //     el.classList.add(config.hideClass);
-        // })
-        ev.preventDefault();
-        GLSR.ajax.post(data, this.handleResponse.bind(this, ev.currentTarget.href));
     }
 
-    handleResponse (location, response, success) {
+    onPaginate (el, ev) {
+        const data = this.data(el);
+        if (data) {
+            this.wrapperEl.classList.add(config.hideClass);
+            ev.preventDefault();
+            GLSR.ajax.post(data, this.handlePagination.bind(this, el));
+        }
+    }
+
+    handleLoadMore (el, response, success) {
+        el.ariaBusy = 'false';
+        el.removeAttribute('disabled');
         if (!success) {
             window.location = location;
             return;
         }
         [].forEach.call(this.wrapperEl.querySelectorAll(config.paginationSelector), el => {
             el.innerHTML = response.pagination;
-            // el.classList.remove(config.hideClass);
+        })
+        this.reviewsEl.innerHTML += response.reviews;
+        this.init();
+        new Excerpts(this.reviewsEl);
+        // GLSR.Event.trigger('site-reviews/pagination/handle', response, this);
+    }
+
+    handlePagination (el, response, success) {
+        if (!success) {
+            window.location = el.href; // reload page
+            return;
+        }
+        [].forEach.call(this.wrapperEl.querySelectorAll(config.paginationSelector), el => {
+            el.innerHTML = response.pagination;
         })
         this.reviewsEl.innerHTML = response.reviews;
-        // this.reviewsEl.classList.remove(config.hideClass);
         this.scrollToTop();
         this.init();
         this.wrapperEl.classList.remove(config.hideClass);
         if (GLSR.urlparameter) {
-            window.history.pushState(null, '', location);
+            window.history.replaceState(null, '', el.href); // don't add a new entry to browser History
         }
         new Excerpts(this.reviewsEl);
         GLSR.Event.trigger('site-reviews/pagination/handle', response, this);
@@ -111,7 +156,7 @@ class Pagination {
 export default () => {
     [].forEach.call(document.querySelectorAll(config.paginationSelector), el => {
         const wrapperEl = el.closest('.glsr');
-        if (wrapperEl) {
+        if (wrapperEl && (el.classList.contains('glsr-ajax-loadmore') || el.classList.contains('glsr-ajax-pagination'))) {
             new Pagination(wrapperEl);
         }
     })

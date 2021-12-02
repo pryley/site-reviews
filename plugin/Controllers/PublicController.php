@@ -30,11 +30,7 @@ class PublicController extends Controller
     public function fetchPagedReviewsAjax(Request $request)
     {
         glsr()->store(glsr()->paged_handle, $request);
-        $args = [
-            'pagination' => 'ajax',
-            'schema' => false,
-        ];
-        $args = wp_parse_args($args, Arr::consolidate($request->atts));
+        $args = Arr::consolidate($request->atts);
         $args = glsr(SiteReviewsDefaults::class)->restrict($args);
         $html = glsr(SiteReviewsShortcode::class)->buildReviewsHtml($args);
         $response = [

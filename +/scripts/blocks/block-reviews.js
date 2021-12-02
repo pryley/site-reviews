@@ -112,8 +112,9 @@ const edit = props => {
             onChange={ pagination => setAttributes({ pagination }) }
             options={[
                 { label: '- ' + _x('Select', 'admin-text', 'site-reviews') + ' -', value: '' },
-                { label: _x('Enabled', 'admin-text', 'site-reviews'), value: 'true' },
-                { label: _x('Enabled (using ajax)', 'admin-text', 'site-reviews'), value: 'ajax' },
+                { label: _x('Yes (AJAX load more)', 'admin-text', 'site-reviews'), value: 'loadmore' },
+                { label: _x('Yes (AJAX pagination)', 'admin-text', 'site-reviews'), value: 'ajax' },
+                { label: _x('Yes (page reload)', 'admin-text', 'site-reviews'), value: 'true' },
             ]}
             value={ pagination }
         />,

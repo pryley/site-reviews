@@ -11,7 +11,7 @@
 @import "public/twentytwentyone/field-choice";
 @import "public/twentytwentyone/field-toggle";
 @import "public/minimal/field-star-rating";
-@import "public/minimal/submit-button";
+@import "public/minimal/button";
 @import "public/minimal/reviews-summary";
 
 :root {

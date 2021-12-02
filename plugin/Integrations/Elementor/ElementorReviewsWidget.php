@@ -83,13 +83,17 @@ class ElementorReviewsWidget extends ElementorWidget
                         'icon' => 'eicon eicon-close',
                         'title' => _x('No', 'admin-text', 'site-reviews'),
                     ],
-                    'true' => [
-                        'icon' => 'eicon eicon-redo',
-                        'title' => _x('Yes (with a page reload)', 'admin-text', 'site-reviews'),
+                    'loadmore' => [
+                        'icon' => 'eicon eicon-spinner',
+                        'title' => _x('Yes (AJAX load more)', 'admin-text', 'site-reviews'),
                     ],
                     'ajax' => [
                         'icon' => 'eicon eicon-spinner',
-                        'title' => _x('Yes (without a page reload)', 'admin-text', 'site-reviews'),
+                        'title' => _x('Yes (AJAX pagination)', 'admin-text', 'site-reviews'),
+                    ],
+                    'true' => [
+                        'icon' => 'eicon eicon-redo',
+                        'title' => _x('Yes (page reload)', 'admin-text', 'site-reviews'),
                     ],
                 ],
                 'separator' => 'before',

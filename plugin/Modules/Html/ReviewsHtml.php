@@ -80,10 +80,16 @@ class ReviewsHtml extends \ArrayObject
         if (!$wrap || empty($html)) { // only display the pagination when it's needed
             return $html;
         }
-        $ajaxClass = Helper::ifTrue('ajax' == $this->args->pagination, 'glsr-ajax-pagination');
+        $classes = 'glsr-pagination';
+        if ('ajax' == $this->args->pagination) {
+            $classes .= ' glsr-ajax-pagination';
+        }
+        if ('loadmore' == $this->args->pagination) {
+            $classes .= ' glsr-ajax-loadmore';
+        }
         $dataAttributes = glsr(SiteReviewsDefaults::class)->dataAttributes($this->args->toArray());
         return glsr(Builder::class)->div(wp_parse_args([
-            'class' => trim('glsr-pagination '.$ajaxClass),
+            'class' => $classes,
             'data-id' => $this->args->id,
             'text' => $html,
         ], $dataAttributes));

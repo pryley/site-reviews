@@ -83,6 +83,6 @@ class SiteReviewsDefaults extends Defaults
                 $values[$old] = Arr::get($values, $new);
             }
         }
-        return parent::normalize($values);
+        return $values;
     }
 }

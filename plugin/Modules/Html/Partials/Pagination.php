@@ -23,12 +23,27 @@ class Pagination implements PartialContract
     public function build(array $args = [])
     {
         $this->args = $this->normalize($args);
-        if ($this->args['total'] > 1) {
-            return glsr(Template::class)->build('templates/pagination', [
+        if ($this->args['total'] < 2) {
+            return;
+        }
+        if ('loadmore' === $this->args['type']) {
+            return $this->buildLoadMoreButton();
+        }
+        return $this->buildPagination();
+    }
+
+    /**
+     * @return string
+     */
+    protected function buildLoadMoreButton()
+    {
+        if ($this->args['total'] > $this->args['current']) {
+            return glsr(Template::class)->build('templates/load-more-button', [
                 'context' => [
-                    'links' => glsr()->filterString('paginate_links', $this->buildLinks(), $this->args),
-                    'loader' => '<div class="glsr-loader"><div class="glsr-spinner"></div></div>',
-                    'screen_reader_text' => _x('Site Reviews navigation', 'screen reader text', 'site-reviews'),
+                    'loading_text' => __('Loading, please wait...', 'site-reviews'),
+                    'page' => $this->args['current'] + 1,
+                    'screen_reader_text' => _x('Load more reviews', 'screen reader text', 'site-reviews'),
+                    'text' => __('Load more', 'site-reviews'),
                 ],
             ]);
         }
@@ -37,7 +52,21 @@ class Pagination implements PartialContract
     /**
      * @return string
      */
-    protected function buildFauxLinks()
+    protected function buildPagination()
+    {
+        return glsr(Template::class)->build('templates/pagination', [
+            'context' => [
+                'links' => glsr()->filterString('paginate_links', $this->paginatedLinks(), $this->args),
+                'loader' => '<div class="glsr-loader"><div class="glsr-spinner"></div></div>',
+                'screen_reader_text' => _x('Site Reviews navigation', 'screen reader text', 'site-reviews'),
+            ],
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    protected function paginatedFauxLinks()
     {
         $links = (array) paginate_links(wp_parse_args(['type' => 'array'], $this->args));
         $pattern = '/(href=["\'])([^"\']*?)(["\'])/i';
@@ -54,12 +83,12 @@ class Pagination implements PartialContract
     /**
      * @return string
      */
-    protected function buildLinks()
+    protected function paginatedLinks()
     {
         $useUrlParams = glsr(OptionManager::class)->getBool('settings.reviews.pagination.url_parameter');
         return ($useUrlParams || $this->args['type'] !== 'ajax')
             ? paginate_links(wp_parse_args(['type' => 'plain'], $this->args))
-            : $this->buildFauxLinks();
+            : $this->paginatedFauxLinks();
     }
 
     /**

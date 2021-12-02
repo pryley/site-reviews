@@ -6,7 +6,7 @@
 @import "public/minimal/read-more";
 @import "public/minimal/pagination";
 @import "public/minimal/field-star-rating";
-@import "public/minimal/submit-button";
+@import "public/minimal/button";
 @import "public/minimal/reviews-summary";
 
 :--namespace form.glsr-hide-form {
