@@ -36,7 +36,7 @@ msgid_plural "%s stars or less"
 msgstr[0] "%s star or less"
 msgstr[1] "%s stars or less"
 
-#: config/settings.php:302, plugin/Modules/Html/ReviewsHtml.php:136
+#: config/settings.php:302, plugin/Modules/Html/ReviewsHtml.php:142
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
 
@@ -329,6 +329,14 @@ msgstr "No"
 #: plugin/Modules/Html/Fields/YesNo.php:33
 msgid "Yes"
 msgstr "Yes"
+
+#: plugin/Modules/Html/Partials/Pagination.php:43
+msgid "Loading, please wait..."
+msgstr "Loading, please wait..."
+
+#: plugin/Modules/Html/Partials/Pagination.php:46
+msgid "Load more"
+msgstr "Load more"
 
 #: plugin/Modules/Html/Partials/StarRating.php:28
 msgid "Rated <strong>%s</strong> out of %s based on %s ratings"
@@ -1071,7 +1079,7 @@ msgstr ""
 "changed on the %s page. You may also override this by using the "
 "\"fallback\" option on the shortcode."
 
-#: config/settings.php:306, plugin/Controllers/MenuController.php:140
+#: config/settings.php:306
 msgctxt "admin-text"
 msgid "Translations"
 msgstr "Translations"
@@ -1971,6 +1979,11 @@ msgstr "Submissions"
 msgctxt "admin-text"
 msgid "Schema"
 msgstr "Schema"
+
+#: plugin/Controllers/MenuController.php:140
+msgctxt "admin-text"
+msgid "Strings"
+msgstr "Strings"
 
 #: plugin/Controllers/MenuController.php:142
 msgctxt "admin-text"
@@ -3063,30 +3076,35 @@ msgstr "Enable Pagination"
 
 #: plugin/Integrations/Elementor/ElementorReviewsWidget.php:88
 msgctxt "admin-text"
-msgid "Yes (with a page reload)"
-msgstr "Yes (with a page reload)"
+msgid "Yes (AJAX load more)"
+msgstr "Yes (AJAX load more)"
 
 #: plugin/Integrations/Elementor/ElementorReviewsWidget.php:92
 msgctxt "admin-text"
-msgid "Yes (without a page reload)"
-msgstr "Yes (without a page reload)"
+msgid "Yes (AJAX pagination)"
+msgstr "Yes (AJAX pagination)"
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:100
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:96
+msgctxt "admin-text"
+msgid "Yes (page reload)"
+msgstr "Yes (page reload)"
+
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:104
 msgctxt "admin-text"
 msgid "Reviews Per Page"
 msgstr "Reviews Per Page"
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:107, plugin/Integrations/Elementor/ElementorSummaryWidget.php:77
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:111, plugin/Integrations/Elementor/ElementorSummaryWidget.php:77
 msgctxt "admin-text"
 msgid "Minimum Rating"
 msgstr "Minimum Rating"
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:114, plugin/Integrations/Elementor/ElementorSummaryWidget.php:84
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:118, plugin/Integrations/Elementor/ElementorSummaryWidget.php:84
 msgctxt "admin-text"
 msgid "The schema should only be enabled once per page."
 msgstr "The schema should only be enabled once per page."
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:115, plugin/Integrations/Elementor/ElementorSummaryWidget.php:85
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:119, plugin/Integrations/Elementor/ElementorSummaryWidget.php:85
 msgctxt "admin-text"
 msgid "Enable the schema?"
 msgstr "Enable the schema?"
@@ -3228,18 +3246,18 @@ msgctxt "admin-text"
 msgid "JSON-LD Schema Settings"
 msgstr "JSON-LD Schema Settings"
 
-#: views/pages/settings/schema.php:6
-msgctxt "admin-text"
-msgid ""
-"The (JSON-LD) schema is disabled by default. To enable it, use the schema "
-"option in your blocks or shortcodes."
-msgstr ""
-"The (JSON-LD) schema is disabled by default. To enable it, use the schema "
-"option in your blocks or shortcodes."
-
 #: views/pages/settings/schema.php:7
 msgctxt "admin-text"
 msgid ""
+"The (JSON-LD) schema is disabled by default. To enable it, use the schema "
+"option in your blocks or shortcodes."
+msgstr ""
+"The (JSON-LD) schema is disabled by default. To enable it, use the schema "
+"option in your blocks or shortcodes."
+
+#: views/pages/settings/schema.php:12
+msgctxt "admin-text"
+msgid ""
 "The schema is used to display rich review snippets in Google's search "
 "results. If the schema has been enabled, you can use the %s tool to test "
 "your pages for valid schema."
@@ -3248,12 +3266,12 @@ msgstr ""
 "results. If the schema has been enabled, you can use the %s tool to test "
 "your pages for valid schema."
 
-#: views/pages/settings/schema.php:8
+#: views/pages/settings/schema.php:13
 msgctxt "admin-text"
 msgid "Google Rich Results"
 msgstr "Google Rich Results"
 
-#: views/pages/settings/schema.php:12
+#: views/pages/settings/schema.php:17
 msgctxt "admin-text"
 msgid ""
 "In some cases it may be useful to link the Site Reviews schema with other "
@@ -3279,41 +3297,57 @@ msgstr "Review Form Settings"
 
 #: views/pages/settings/translations.php:3
 msgctxt "admin-text"
-msgid "Translation Settings"
-msgstr "Translation Settings"
+msgid "Custom Text Settings"
+msgstr "Custom Text Settings"
 
-#: views/pages/settings/translations.php:5
+#: views/pages/settings/translations.php:7
 msgctxt "admin-text"
 msgid ""
-"Here you can customise any text of the plugin, including the review form "
-"labels and placeholders. However, if you have a multilingual website you "
-"should use the %s plugin instead and select \"Custom\" when it asks you to "
-"choose a location for the new translation file."
+"If you have a multilingual website, you may need to use the %s plugin "
+"instead. Make sure to select \"Custom\" when Loco Translate asks for the "
+"location of the new translation file."
 msgstr ""
-"Here you can customise any text of the plugin, including the review form "
-"labels and placeholders. However, if you have a multilingual website you "
-"should use the %s plugin instead and select \"Custom\" when it asks you to "
-"choose a location for the new translation file."
+"If you have a multilingual website, you may need to use the %s plugin "
+"instead. Make sure to select \"Custom\" when Loco Translate asks for the "
+"location of the new translation file."
 
-#: views/pages/settings/translations.php:9
+#: views/pages/settings/translations.php:12
+msgctxt "admin-text"
+msgid ""
+"Here you can customise any text of the plugin that is shown on the frontend "
+"of your website, including the Review Form labels and placeholders."
+msgstr ""
+"Here you can customise any text of the plugin that is shown on the frontend "
+"of your website, including the Review Form labels and placeholders."
+
+#: views/pages/settings/translations.php:13
+msgctxt "admin-text"
+msgid ""
+"If you are using the Polylang plugin, any custom text you enter here will "
+"be translatable on the Polylang \"Strings translations\" page."
+msgstr ""
+"If you are using the Polylang plugin, any custom text you enter here will "
+"be translatable on the Polylang \"Strings translations\" page."
+
+#: views/pages/settings/translations.php:19
 msgctxt "admin-text"
 msgid "Search for translatable text"
 msgstr "Search for translatable text"
 
-#: views/pages/settings/translations.php:12
+#: views/pages/settings/translations.php:22
 msgctxt "admin-text"
-msgid "Search here for text to translate..."
-msgstr "Search here for text to translate..."
+msgid "Search here for text to customise..."
+msgstr "Search here for text to customise..."
 
-#: views/pages/settings/translations.php:20
+#: views/pages/settings/translations.php:30
 msgctxt "admin-text"
 msgid "Original Text"
 msgstr "Original Text"
 
-#: views/pages/settings/translations.php:21
+#: views/pages/settings/translations.php:31
 msgctxt "admin-text"
-msgid "Custom Translation"
-msgstr "Custom Translation"
+msgid "Custom Text"
+msgstr "Custom Text"
 
 #: views/pages/tools/console.php:8
 msgctxt "admin-text"
@@ -4732,7 +4766,12 @@ msgctxt "the option label (admin-text)"
 msgid "The \"%s\" option is required."
 msgstr "The \"%s\" option is required."
 
-#: plugin/Modules/Html/Partials/Pagination.php:31
+#: plugin/Modules/Html/Partials/Pagination.php:45
+msgctxt "screen reader text"
+msgid "Load more reviews"
+msgstr "Load more reviews"
+
+#: plugin/Modules/Html/Partials/Pagination.php:61
 msgctxt "screen reader text"
 msgid "Site Reviews navigation"
 msgstr "Site Reviews navigation"
