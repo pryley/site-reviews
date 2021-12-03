@@ -137,7 +137,7 @@ class MenuController extends Controller
             'reviews' => _x('Reviews', 'admin-text', 'site-reviews'),
             'submissions' => _x('Submissions', 'admin-text', 'site-reviews'),
             'schema' => _x('Schema', 'admin-text', 'site-reviews'),
-            'translations' => _x('Translations', 'admin-text', 'site-reviews'),
+            'translations' => _x('Strings', 'admin-text', 'site-reviews'),
             'addons' => _x('Addons', 'admin-text', 'site-reviews'),
             'licenses' => _x('Licenses', 'admin-text', 'site-reviews'),
         ]);

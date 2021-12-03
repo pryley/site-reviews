@@ -42,7 +42,7 @@ __Site Reviews integrates with Woocommerce__ with the free [Woocommerce Reviews]
 - __Import Third-Party Reviews__: Includes a built-in CSV importer
 - __JSON-LD Schema__: Display your reviews and ratings in search results
 - __Members Only__: Require users to be logged in before submitting a review
-- __Multilingual Support__: Integrates with Polylang and WPML allowing you to assign reviews to multilingual pages
+- __Multilingual Support__: Integrates with Polylang and WPML allowing you to assign reviews to all languages of a multilingual page (note: translating reviews is not supported)
 - __Multisite Support__: Fully supports network/multisite websites
 - __Notifications__: Send notifications to one or more emails when a review is submitted
 - __Pagination__: Display a set number of reviews per-page with AJAX

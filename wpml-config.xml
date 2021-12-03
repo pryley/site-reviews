@@ -1,0 +1,33 @@
+<wpml-config>
+	<admin-texts>
+		<key name="site_reviews_v5">
+			<key name="settings">
+				<key name="general">
+					<key name="notification_message"/>
+				</key>
+				<key name="reviews">
+					<key name="date">
+						<key name="custom"/>
+					</key>
+				</key>
+				<key name="schema">
+					<key name="name">
+						<key name="custom"/>
+					</key>
+					<key name="description">
+						<key name="custom"/>
+					</key>
+					<key name="pricecurrency"/>
+				</key>
+				<key name="strings">
+					<key name="*">
+						<key name="s2"/>
+					</key>
+				</key>
+			</key>
+		</key>
+	</admin-texts>
+    <custom-types>
+        <custom-type translate="0">site-review</custom-type>
+    </custom-types>
+</wpml-config>
