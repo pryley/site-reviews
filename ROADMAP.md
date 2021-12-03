@@ -12,7 +12,9 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Export reviews as XML for Google Shopping
 - [ ] Integrate with Antispam Bee (https://wordpress.org/plugins/antispam-bee/)
 - [ ] Integrate with hCaptcha
+- [ ] Mark reviews as validated (https://wordpress.org/support/topic/verified-review-option/)
 - [ ] Integrate with reCAPTCHA v3 (ref: Contact Form 7)
+- [ ] Rating "0.1" increments
 - [ ] restrict displayed reviews by empty content (setting only?)
 - [ ] Restrict reviews in the admin to those assigned to pages of the current user
 - [ ] Review statistics
