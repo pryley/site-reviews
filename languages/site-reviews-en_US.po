@@ -330,11 +330,11 @@ msgstr "No"
 msgid "Yes"
 msgstr "Yes"
 
-#: plugin/Modules/Html/Partials/Pagination.php:43
+#: plugin/Modules/Html/Partials/Pagination.php:39
 msgid "Loading, please wait..."
 msgstr "Loading, please wait..."
 
-#: plugin/Modules/Html/Partials/Pagination.php:46
+#: plugin/Modules/Html/Partials/Pagination.php:42
 msgid "Load more"
 msgstr "Load more"
 
@@ -1132,7 +1132,7 @@ msgstr ""
 "You can use the %s to override this value on your page. The Custom Field "
 "name to use is:"
 
-#: config/settings.php:335, config/settings.php:359, config/settings.php:381, config/settings.php:403, config/settings.php:425, config/settings.php:446, config/settings.php:458, config/settings.php:470, config/settings.php:486, config/settings.php:499, config/settings.php:512, config/settings.php:525, config/settings.php:537
+#: config/settings.php:335, config/settings.php:359, config/settings.php:381, config/settings.php:403, config/settings.php:425, config/settings.php:446, config/settings.php:458, config/settings.php:470, config/settings.php:486, config/settings.php:499, config/settings.php:512, config/settings.php:525, config/settings.php:537, views/pages/settings/schema.php:19
 msgctxt "admin-text"
 msgid "Custom Fields metabox"
 msgstr "Custom Fields metabox"
@@ -1694,7 +1694,7 @@ msgctxt "admin-text"
 msgid "Untitled"
 msgstr "Untitled"
 
-#: plugin/Addons/Controller.php:70, plugin/Controllers/AdminController.php:54, plugin/Controllers/MenuController.php:51, plugin/Integrations/Elementor/ElementorWidget.php:98, views/pages/tools/sync.php:23
+#: plugin/Addons/Controller.php:70, plugin/Controllers/AdminController.php:54, plugin/Controllers/MenuController.php:51, plugin/Integrations/Elementor/ElementorWidget.php:99, views/pages/tools/sync.php:23
 msgctxt "admin-text"
 msgid "Settings"
 msgstr "Settings"
@@ -2418,6 +2418,11 @@ msgctxt "admin-text"
 msgid "Console was automatically cleared (512KB maximum size)"
 msgstr "Console was automatically cleared (512KB maximum size)"
 
+#: plugin/Modules/Notice.php:141, views/pages/tools/sync.php:28
+msgctxt "admin-text"
+msgid "Show more details"
+msgstr "Show more details"
+
 #: plugin/Modules/Translation.php:121
 msgctxt "admin-text"
 msgid ""
@@ -3114,27 +3119,27 @@ msgctxt "admin-text"
 msgid "Rating Summary"
 msgstr "Rating Summary"
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:82
+#: plugin/Integrations/Elementor/ElementorWidget.php:83
 msgctxt "admin-text"
 msgid "Limit the Type of Reviews"
 msgstr "Limit the Type of Reviews"
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:102
+#: plugin/Integrations/Elementor/ElementorWidget.php:103
 msgctxt "admin-text"
 msgid "Advanced"
 msgstr "Advanced"
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:136
+#: plugin/Integrations/Elementor/ElementorWidget.php:137
 msgctxt "admin-text"
 msgid "Custom ID"
 msgstr "Custom ID"
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:140
+#: plugin/Integrations/Elementor/ElementorWidget.php:141
 msgctxt "admin-text"
 msgid "Separate multiple classes with spaces."
 msgstr "Separate multiple classes with spaces."
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:142
+#: plugin/Integrations/Elementor/ElementorWidget.php:143
 msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr "Additional CSS classes"
@@ -3279,16 +3284,16 @@ msgid ""
 "property to each schema that you wish to link. If you are using Woocommerce "
 "and have set the Schema Type to \"Product\", Site Reviews will "
 "automatically do this for you. In all other cases, either use the "
-"<code>schema_identifier</code> Custom Field name in the Custom Fields "
-"metabox, or use the hook provided on the Help page."
+"<code>schema_identifier</code> Custom Field name in the %s, or use the %s "
+"hook."
 msgstr ""
 "In some cases it may be useful to link the Site Reviews schema with other "
 "schema on your page, this is done by adding the %s unique identifier "
 "property to each schema that you wish to link. If you are using Woocommerce "
 "and have set the Schema Type to \"Product\", Site Reviews will "
 "automatically do this for you. In all other cases, either use the "
-"<code>schema_identifier</code> Custom Field name in the Custom Fields "
-"metabox, or use the hook provided on the Help page."
+"<code>schema_identifier</code> Custom Field name in the %s, or use the %s "
+"hook."
 
 #: views/pages/settings/submissions.php:3
 msgctxt "admin-text"
@@ -3315,10 +3320,12 @@ msgstr ""
 msgctxt "admin-text"
 msgid ""
 "Here you can customise any text of the plugin that is shown on the frontend "
-"of your website, including the Review Form labels and placeholders."
+"of your website, including the field labels and placeholders of the review "
+"form."
 msgstr ""
 "Here you can customise any text of the plugin that is shown on the frontend "
-"of your website, including the Review Form labels and placeholders."
+"of your website, including the field labels and placeholders of the review "
+"form."
 
 #: views/pages/settings/translations.php:13
 msgctxt "admin-text"
@@ -3393,11 +3400,6 @@ msgstr "License"
 msgctxt "admin-text"
 msgid "Documentation"
 msgstr "Documentation"
-
-#: views/pages/tools/sync.php:28
-msgctxt "admin-text"
-msgid "Show more details"
-msgstr "Show more details"
 
 #: views/pages/tools/sync.php:43
 msgctxt "admin-text"
@@ -4766,12 +4768,12 @@ msgctxt "the option label (admin-text)"
 msgid "The \"%s\" option is required."
 msgstr "The \"%s\" option is required."
 
-#: plugin/Modules/Html/Partials/Pagination.php:45
+#: plugin/Modules/Html/Partials/Pagination.php:41
 msgctxt "screen reader text"
 msgid "Load more reviews"
 msgstr "Load more reviews"
 
-#: plugin/Modules/Html/Partials/Pagination.php:61
+#: plugin/Modules/Html/Partials/Pagination.php:57
 msgctxt "screen reader text"
 msgid "Site Reviews navigation"
 msgstr "Site Reviews navigation"

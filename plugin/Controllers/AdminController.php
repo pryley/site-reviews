@@ -207,7 +207,7 @@ class AdminController extends Controller
             return;
         }
         $shortcodes = [];
-        foreach (glsr()->retrieve('mce', []) as $shortcode => $values) {
+        foreach (glsr()->retrieveAs('array', 'mce', []) as $shortcode => $values) {
             $shortcodes[$shortcode] = $values;
         }
         if (empty($shortcodes)) {

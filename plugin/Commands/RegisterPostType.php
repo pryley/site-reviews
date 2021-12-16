@@ -51,7 +51,7 @@ class RegisterPostType implements Contract
         if (count(glsr()->retrieveAs('array', 'review_types')) < 2) {
             unset($this->columns['type']);
         }
-        $columns = wp_parse_args(glsr()->retrieve('columns', []), [
+        $columns = wp_parse_args(glsr()->retrieveAs('array', 'columns', []), [
             glsr()->post_type => $this->columns,
         ]);
         glsr()->store('columns', $columns);

@@ -142,7 +142,7 @@ function glsr_get_rating($args = []) {
 }
 
 function glsr_log_deprecated_notices() {
-    $notices = (array) glsr()->retrieve('deprecated', []);
+    $notices = glsr()->retrieveAs('array', 'deprecated', []);
     $notices = array_keys(array_flip(array_filter($notices)));
     natsort($notices);
     foreach ($notices as $notice) {

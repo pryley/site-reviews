@@ -2,7 +2,7 @@
 
 use GeminiLabs\SiteReviews\Controllers\BlocksController;
 
-defined('ABSPATH') || die;
+defined('ABSPATH') || exit;
 
 /**
  * @param array $editors
@@ -204,8 +204,12 @@ add_action('site-reviews/review/created', function ($review, $command) {
  * @see https://wordpress.org/plugins/sg-cachepress/
  */
 add_action('site-reviews/review/created', function ($review, $command) {
-    if (function_exists('sg_cachepress_purge_cache')) {
-        sg_cachepress_purge_cache(get_permalink($command->post_id));
+    if (empty($review->images)) { // Review Images compatibility
+        if (function_exists('sg_cachepress_purge_cache')) {
+            sg_cachepress_purge_cache(get_permalink($command->post_id));
+        }
+    } elseif (function_exists('sg_cachepress_purge_everything')) {
+        sg_cachepress_purge_everything();
     }
 }, 10, 2);
 

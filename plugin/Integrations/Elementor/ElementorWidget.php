@@ -76,12 +76,13 @@ abstract class ElementorWidget extends Widget_Base
 
     protected function get_review_types()
     {
-        if (count(glsr()->retrieve('review_types')) > 2) {
+        $types = glsr()->retrieveAs('array', 'review_types', []);
+        if (count($types) > 2) {
             return [
                 'default' => 'local',
                 'label' => _x('Limit the Type of Reviews', 'admin-text', 'site-reviews'),
                 'label_block' => true,
-                'options' => glsr()->retrieve('review_types'),
+                'options' => $types,
                 'type' => \Elementor\Controls_Manager::SELECT,
             ];
         }

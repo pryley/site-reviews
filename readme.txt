@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews, business rev
 Tested up to: 5.8
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.17.8
+Stable tag: 5.18.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -139,6 +139,14 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.18.0 (2021-12-16) =
+
+- Added "Load more" pagination
+- Added Polylang and WPML translation support for the Notification Template setting and the Custom Text settings
+- Fixed compatibility with the SiteGround Optimizer plugin
+- Fixed pagination when using browser history
+- Renamed the "Translations" settings page to "Strings"
 
 = 5.17.8 (2021-11-24) =
 

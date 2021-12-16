@@ -200,7 +200,7 @@ class EnqueueAdminAssets implements Contract
     protected function localizeShortcodes()
     {
         $variables = [];
-        foreach (glsr()->retrieve('mce', []) as $tag => $args) {
+        foreach (glsr()->retrieveAs('array', 'mce', []) as $tag => $args) {
             if (empty($args['required'])) {
                 continue;
             }
