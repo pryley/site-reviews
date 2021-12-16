@@ -26,14 +26,16 @@ class Notice
     /**
      * @param string $type
      * @param string|array|\WP_Error $message
+     * @param string[] $details
      * @return static
      */
-    public function add($type, $message)
+    public function add($type, $message, array $details = [])
     {
         if (is_wp_error($message)) {
             $message = $message->get_error_message();
         }
         $this->notices[] = [
+            'details' => (array) $details,
             'messages' => (array) $message,
             'type' => Str::restrictTo(['error', 'warning', 'info', 'success'], $type, 'info'),
         ];
@@ -42,29 +44,42 @@ class Notice
 
     /**
      * @param string|array|\WP_Error $message
+     * @param string[] $details
      * @return static
      */
-    public function addError($message)
+    public function addError($message, array $details = [])
     {
-        return $this->add('error', $message);
+        return $this->add('error', $message, $details);
     }
 
     /**
      * @param string|array|\WP_Error $message
+     * @param string[] $details
      * @return static
      */
-    public function addSuccess($message)
+    public function addInfo($message, array $details = [])
     {
-        return $this->add('success', $message);
+        return $this->add('info', $message, $details);
     }
 
     /**
      * @param string|array|\WP_Error $message
+     * @param string[] $details
      * @return static
      */
-    public function addWarning($message)
+    public function addSuccess($message, array $details = [])
     {
-        return $this->add('warning', $message);
+        return $this->add('success', $message, $details);
+    }
+
+    /**
+     * @param string|array|\WP_Error $message
+     * @param string[] $details
+     * @return static
+     */
+    public function addWarning($message, array $details = [])
+    {
+        return $this->add('warning', $message, $details);
     }
 
     /**
@@ -84,13 +99,7 @@ class Notice
         $this->sort();
         $notices = glsr()->filterArray('notices', $this->notices);
         return array_reduce($notices, function ($carry, $args) {
-            $text = array_reduce($args['messages'], function ($carry, $message) {
-                return $carry.wpautop($message);
-            });
-            return $carry.glsr(Builder::class)->div([
-                'class' => sprintf('notice notice-%s inline is-dismissible', $args['type']),
-                'text' => $text,
-            ]);
+            return $carry.glsr(Builder::class)->div($this->normalizeArgs($args));
         });
     }
 
@@ -117,5 +126,28 @@ class Notice
             set_transient(glsr()->prefix.'notices', $this->notices, 30);
         }
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    protected function normalizeArgs(array $args)
+    {
+        $class = sprintf('notice notice-%s inline is-dismissible', $args['type']);
+        if (!empty($args['details'])) {
+            $class = 'bulk-action-notice '.$class;
+            $lastIndex = count($args['messages']) - 1;
+            $args['messages'][$lastIndex] .= sprintf(' <button class="button-link bulk-action-errors-collapsed" aria-expanded="false">%s <span class="toggle-indicator" aria-hidden="true"></span></button>',
+                _x('Show more details', 'admin-text', 'site-reviews')
+            );
+            $li = array_reduce($args['details'], function ($carry, $text) {
+                return sprintf('%s<li>%s</li>', $carry, $text);
+            });
+            $args['messages'][] = sprintf('<ul class="bulk-action-errors hidden">%s</ul>', $li);
+        }
+        $text = array_reduce($args['messages'], function ($carry, $message) {
+            return $carry.wpautop($message);
+        });
+        return compact('class', 'text');
     }
 }
