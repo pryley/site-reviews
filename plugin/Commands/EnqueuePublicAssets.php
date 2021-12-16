@@ -85,6 +85,9 @@ class EnqueuePublicAssets implements Contract
                 'clearable' => false,
                 'tooltip' => false,
             ],
+            'state' => [
+                'popstate' => false,
+            ],
             'urlparameter' => glsr(OptionManager::class)->getBool('settings.reviews.pagination.url_parameter'),
             'validationconfig' => array_merge(
                 [

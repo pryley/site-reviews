@@ -3,8 +3,6 @@
 namespace GeminiLabs\SiteReviews\Modules\Html\Partials;
 
 use GeminiLabs\SiteReviews\Contracts\PartialContract;
-use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
@@ -23,17 +21,15 @@ class Pagination implements PartialContract
     public function build(array $args = [])
     {
         $this->args = $this->normalize($args);
-        if ($this->args['total'] < 2) {
-            return;
+        if ($this->args['total'] > 1) { // total pages
+            return 'loadmore' === $this->args['type']
+                ? $this->buildLoadMoreButton()
+                : $this->buildPagination();
         }
-        if ('loadmore' === $this->args['type']) {
-            return $this->buildLoadMoreButton();
-        }
-        return $this->buildPagination();
     }
 
     /**
-     * @return string
+     * @return string|void
      */
     protected function buildLoadMoreButton()
     {
@@ -66,29 +62,20 @@ class Pagination implements PartialContract
     /**
      * @return string
      */
-    protected function paginatedFauxLinks()
+    protected function paginatedLinks()
     {
         $links = (array) paginate_links(wp_parse_args(['type' => 'array'], $this->args));
-        $pattern = '/(href=["\'])([^"\']*?)(["\'])/i';
+        $pattern = '/href=["\']([^"\']*?)["\']/i';
         foreach ($links as &$link) {
             if (preg_match($pattern, $link, $matches)) {
-                $page = Helper::getPageNumber(Arr::get($matches, 2));
-                $replacement = sprintf('data-page="%d" href="#"', $page);
-                $link = str_replace(Arr::get($matches, 0), $replacement, $link);
+                $hrefTag = Arr::get($matches, 0);
+                $hrefUrl = Arr::get($matches, 1);
+                $page = Helper::getPageNumber($hrefUrl);
+                $replacement = sprintf('%s data-page="%d"', $hrefTag, $page);
+                $link = str_replace($hrefTag, $replacement, $link);
             }
         }
         return implode("\n", $links);
-    }
-
-    /**
-     * @return string
-     */
-    protected function paginatedLinks()
-    {
-        $useUrlParams = glsr(OptionManager::class)->getBool('settings.reviews.pagination.url_parameter');
-        return ($useUrlParams || $this->args['type'] !== 'ajax')
-            ? paginate_links(wp_parse_args(['type' => 'plain'], $this->args))
-            : $this->paginatedFauxLinks();
     }
 
     /**
