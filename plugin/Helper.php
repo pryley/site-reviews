@@ -144,10 +144,12 @@ class Helper
             return $post->ID;
         }
         if ('parent_id' == $post) {
-            return (int) wp_get_post_parent_id(intval(get_the_ID()));
+            $parentId = (int) wp_get_post_parent_id(intval(get_the_ID()));
+            return glsr()->filterInt('assigned_posts/parent_id', $parentId);
         }
         if ('post_id' == $post) {
-            return (int) get_the_ID();
+            $postId = (int) get_the_ID();
+            return glsr()->filterInt('assigned_posts/post_id', $postId);
         }
         if (is_string($post)) {
             $parts = explode(':', $post);
@@ -189,8 +191,12 @@ class Helper
         if ($user instanceof \WP_User) {
             return $user->ID;
         }
+        if ('author_id' === $user) {
+            $authorId = Cast::toInt(get_the_author_meta('ID'));
+            return glsr()->filterInt('assigned_users/author_id', $authorId);
+        }
         if ('user_id' === $user) {
-            return get_current_user_id();
+            return glsr()->filterInt('assigned_users/user_id', get_current_user_id());
         }
         if (is_numeric($user)) {
             $user = get_user_by('ID', $user);

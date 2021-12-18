@@ -1,10 +1,10 @@
 import { CheckboxControlList } from './checkbox-control-list';
 import { FormIcon } from './icons';
-import assign_to_options from './assign_to-options';
-import category_options from './category-options';
+import AssignedPostsOptions from './assigned_posts';
+import AssignedTermsOptions from './assigned_terms';
+import AssignedUsersOptions from './assigned_users';
 import onRender from './on-render';
 import transformWidgetAttributes from './transform-widget';
-import user_options from './user-options';
 import ConditionalSelectControl from './ConditionalSelectControl';
 import ServerSideRender from './server-side-render';
 
@@ -37,7 +37,7 @@ const edit = props => {
                 assign_to: assign_to,
                 assigned_posts: ('custom' === assign_to ? assigned_posts : ''),
             })}
-            options={ assign_to_options }
+            options={ AssignedPostsOptions }
             value={ assign_to }
         >
             <TextControl
@@ -57,7 +57,7 @@ const edit = props => {
                 category: category,
                 assigned_terms: ('glsr_custom' === category ? assigned_terms : ''),
             })}
-            options={ category_options }
+            options={ AssignedTermsOptions }
             value={ category }
         >
             <TextControl
@@ -77,7 +77,7 @@ const edit = props => {
                 user: user,
                 assigned_users: ('glsr_custom' === user ? assigned_users : ''),
             })}
-            options={ user_options }
+            options={ AssignedUsersOptions }
             value={ user }
         >
             <TextControl

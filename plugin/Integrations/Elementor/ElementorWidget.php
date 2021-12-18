@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
 use Elementor\Widget_Base;
+use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 abstract class ElementorWidget extends Widget_Base
@@ -72,6 +73,38 @@ abstract class ElementorWidget extends Widget_Base
             $this->_shortcode_instance = glsr($this->get_shortcode());
         }
         return $this->_shortcode_instance;
+    }
+
+    /**
+     * @return array
+     */
+    protected function assigned_posts_options()
+    {
+        return [
+            'custom' => _x('Assign to multiple Post IDs', 'admin-text', 'site-reviews'),
+            'post_id' => _x('The Current Page', 'admin-text', 'site-reviews').' (post_id)',
+            'parent_id' => _x('The Parent Page', 'admin-text', 'site-reviews').' (parent_id)',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function assigned_terms_options()
+    {
+        return glsr(Database::class)->terms();
+    }
+
+    /**
+     * @return array
+     */
+    protected function assigned_users_options()
+    {
+        $options = [
+            'user_id' => _x('The Logged-in user', 'admin-text', 'site-reviews').' (user_id)',
+            'author_id' => _x('The Page author', 'admin-text', 'site-reviews').' (author_id)',
+        ];
+        return $options + glsr(Database::class)->users();
     }
 
     protected function get_review_types()

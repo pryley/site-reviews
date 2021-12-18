@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
-use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
 class ElementorFormWidget extends ElementorWidget
@@ -28,11 +26,7 @@ class ElementorFormWidget extends ElementorWidget
                 'default' => '',
                 'label' => _x('Assign Reviews to a Page', 'admin-text', 'site-reviews'),
                 'label_block' => true,
-                'options' => [
-                    'custom' => _x('Assign to multiple Post IDs', 'admin-text', 'site-reviews'),
-                    'post_id' => _x('Assign to the Current Page', 'admin-text', 'site-reviews'),
-                    'parent_id' => _x('Assign to the Parent Page', 'admin-text', 'site-reviews'),
-                ],
+                'options' => $this->assigned_posts_options(),
                 'type' => \Elementor\Controls_Manager::SELECT2,
             ],
             'assigned_posts_custom' => [
@@ -48,7 +42,7 @@ class ElementorFormWidget extends ElementorWidget
                 'label' => _x('Assign Reviews to a Category', 'admin-text', 'site-reviews'),
                 'label_block' => true,
                 'multiple' => true,
-                'options' => glsr(Database::class)->terms(),
+                'options' => $this->assigned_terms_options(),
                 'type' => \Elementor\Controls_Manager::SELECT2,
             ],
             'assigned_users' => [
@@ -56,7 +50,7 @@ class ElementorFormWidget extends ElementorWidget
                 'label' => _x('Assign Reviews to a User', 'admin-text', 'site-reviews'),
                 'label_block' => true,
                 'multiple' => true,
-                'options' => Arr::prepend(glsr(Database::class)->users(), sprintf('- %s -', _x('The Logged-in user', 'admin-text', 'site-reviews')), 'user_id'),
+                'options' => $this->assigned_users_options(),
                 'type' => \Elementor\Controls_Manager::SELECT2,
             ],
         ];

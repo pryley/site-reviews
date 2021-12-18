@@ -43,6 +43,10 @@
     site-reviews/assets/css                                 (bool $loadCss): bool
     site-reviews/assets/js                                  (bool $loadJs): bool
     site-reviews/assets/polyfill                            (bool $loadPolyfill): bool
+    site-reviews/assigned_posts/parent_id                   (int $postId): int
+    site-reviews/assigned_posts/post_id                     (int $postId): int
+    site-reviews/assigned_users/author_id                   (int $userId): int
+    site-reviews/assigned_users/user_id                     (int $userId): int
     site-reviews/async-scripts                              (array $scripts): array
     site-reviews/avatar/attributes                          (array $attributes, Review $review): array
     site-reviews/avatar/colors                              (array $colors): array

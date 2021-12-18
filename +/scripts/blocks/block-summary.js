@@ -1,13 +1,13 @@
 import { SummaryIcon } from './icons';
 import { CheckboxControlList } from './checkbox-control-list';
+import AssignedPostsOptions from './assigned_posts';
+import AssignedTermsOptions from './assigned_terms';
+import AssignedUsersOptions from './assigned_users';
 import ConditionalSelectControl from './ConditionalSelectControl';
-import assigned_to_options from './assigned_to-options';
-import category_options from './category-options';
 import onRender from './on-render';
 import terms_options from './terms-options';
 import transformWidgetAttributes from './transform-widget';
 import type_options from './type-options';
-import user_options from './user-options';
 import ServerSideRender from './server-side-render';
 
 const { _x } = wp.i18n;
@@ -44,7 +44,7 @@ const edit = props => {
                 assigned_to: assigned_to,
                 assigned_posts: ('custom' === assigned_to ? assigned_posts : ''),
             })}
-            options={ assigned_to_options }
+            options={ AssignedPostsOptions }
             value={ assigned_to }
         >
             <TextControl
@@ -64,7 +64,7 @@ const edit = props => {
                 category: category,
                 assigned_terms: ('glsr_custom' === category ? assigned_terms : ''),
             })}
-            options={ category_options }
+            options={ AssignedTermsOptions }
             value={ category }
         >
             <TextControl
@@ -84,7 +84,7 @@ const edit = props => {
                 user: user,
                 assigned_users: ('glsr_custom' === user ? assigned_users : ''),
             })}
-            options={ user_options }
+            options={ AssignedUsersOptions }
             value={ user }
         >
             <TextControl

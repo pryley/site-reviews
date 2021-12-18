@@ -1,5 +1,5 @@
-import category_options from './category-options';
-import user_options from './user-options';
+import AssignedTermsOptions from './assigned_terms';
+import AssignedUsersOptions from './assigned_users';
 
 const transformWidgetAttributes = (instance, attributes) => {
     const attr = { ...instance.raw }
@@ -23,11 +23,11 @@ const transformWidgetAttributes = (instance, attributes) => {
         }
     }
     attr.user = attr.assigned_users;
-    if (!~_.findIndex(user_options, user => user.value == attr.assigned_users)) {
+    if (!~_.findIndex(AssignedUsersOptions, user => user.value == attr.assigned_users)) {
         attr.user = 'glsr_custom';
     }
     attr.category = attr.assigned_terms;
-    if (!~_.findIndex(category_options, term => term.value == attr.assigned_terms)) {
+    if (!~_.findIndex(AssignedTermsOptions, term => term.value == attr.assigned_terms)) {
         attr.category = 'glsr_custom';
     }
     return attr
