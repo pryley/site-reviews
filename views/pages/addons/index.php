@@ -11,7 +11,11 @@
         <div class="glsr-premium-hero-image"></div>
         <div class="glsr-premium-hero-content">
             <h2><?= _x('Site Reviews Premium', 'admin-text', 'site-reviews'); ?></h2>
-            <p><?= _x('Gain access to ALL of our free and paid add-ons with Site Reviews Premium, including access to future add-ons as they are released and priority support!', 'admin-text', 'site-reviews'); ?></p>
+            <p>
+                <?= sprintf(_x('Gain access to ALL of our free and paid add-ons with Site Reviews Premium, including access to future add-ons as they are released and <a href="%s" target="_blank">priority support</a>!', 'admin-text', 'site-reviews'),
+                    'https://niftyplugins.com/account/support/'
+                ); ?>
+            </p>
             <a href="https://niftyplugins.com/plugins/site-reviews-premium/" class="button button-hero button-primary"><?= _x('Check it out!', 'admin-text', 'site-reviews'); ?></a>
         </div>
     </div>

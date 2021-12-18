@@ -1282,7 +1282,7 @@ msgctxt "admin-text"
 msgid "Untitled"
 msgstr ""
 
-#: plugin/Addons/Controller.php:70, plugin/Controllers/AdminController.php:54, plugin/Controllers/MenuController.php:51, plugin/Integrations/Elementor/ElementorWidget.php:99, views/pages/tools/sync.php:23
+#: plugin/Addons/Controller.php:70, plugin/Controllers/AdminController.php:54, plugin/Controllers/MenuController.php:51, plugin/Integrations/Elementor/ElementorWidget.php:132, views/pages/tools/sync.php:23
 msgctxt "admin-text"
 msgid "Settings"
 msgstr ""
@@ -1629,7 +1629,7 @@ msgctxt "admin-text"
 msgid "(no title)"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:158, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17, plugin/Integrations/Elementor/ElementorReviewsWidget.php:84
+#: plugin/Controllers/MetaboxController.php:158, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17, plugin/Integrations/Elementor/ElementorReviewsWidget.php:80
 msgctxt "admin-text"
 msgid "No"
 msgstr ""
@@ -2946,44 +2946,24 @@ msgctxt "admin-text"
 msgid "Assign Reviews to a Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:32
-msgctxt "admin-text"
-msgid "Assign to multiple Post IDs"
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:33
-msgctxt "admin-text"
-msgid "Assign to the Current Page"
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:34
-msgctxt "admin-text"
-msgid "Assign to the Parent Page"
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:40, plugin/Integrations/Elementor/ElementorReviewsWidget.php:45, plugin/Integrations/Elementor/ElementorSummaryWidget.php:42
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:36, plugin/Integrations/Elementor/ElementorReviewsWidget.php:41, plugin/Integrations/Elementor/ElementorSummaryWidget.php:38
 msgctxt "admin-text"
 msgid "Separate with commas."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:42, plugin/Integrations/Elementor/ElementorReviewsWidget.php:47, plugin/Integrations/Elementor/ElementorSummaryWidget.php:44
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:38, plugin/Integrations/Elementor/ElementorReviewsWidget.php:43, plugin/Integrations/Elementor/ElementorSummaryWidget.php:40
 msgctxt "admin-text"
 msgid "Enter the Post IDs"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:48
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:44
 msgctxt "admin-text"
 msgid "Assign Reviews to a Category"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:56
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:52
 msgctxt "admin-text"
 msgid "Assign Reviews to a User"
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:59, plugin/Integrations/Elementor/ElementorReviewsWidget.php:64, plugin/Integrations/Elementor/ElementorSummaryWidget.php:61
-msgctxt "admin-text"
-msgid "The Logged-in user"
 msgstr ""
 
 #: plugin/Integrations/Elementor/ElementorReviewsWidget.php:26
@@ -2996,82 +2976,67 @@ msgctxt "admin-text"
 msgid "Limit Reviews to an Assigned Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:37, plugin/Integrations/Elementor/ElementorSummaryWidget.php:34
-msgctxt "admin-text"
-msgid "Assigned to multiple Post IDs"
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:38, plugin/Integrations/Elementor/ElementorSummaryWidget.php:35
-msgctxt "admin-text"
-msgid "Assigned to the Current Page"
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:39, plugin/Integrations/Elementor/ElementorSummaryWidget.php:36
-msgctxt "admin-text"
-msgid "Assigned to the Parent Page"
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:53, plugin/Integrations/Elementor/ElementorSummaryWidget.php:50
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:49, plugin/Integrations/Elementor/ElementorSummaryWidget.php:46
 msgctxt "admin-text"
 msgid "Limit Reviews to an Assigned Category"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:61, plugin/Integrations/Elementor/ElementorSummaryWidget.php:58
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:57, plugin/Integrations/Elementor/ElementorSummaryWidget.php:54
 msgctxt "admin-text"
 msgid "Limit Reviews to an Assigned User"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:69, plugin/Integrations/Elementor/ElementorSummaryWidget.php:66
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:65, plugin/Integrations/Elementor/ElementorSummaryWidget.php:62
 msgctxt "admin-text"
 msgid "Limit Reviews to terms"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:72, plugin/Integrations/Elementor/ElementorSummaryWidget.php:69
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:68, plugin/Integrations/Elementor/ElementorSummaryWidget.php:65
 msgctxt "admin-text"
 msgid "Terms were accepted"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:73, plugin/Integrations/Elementor/ElementorSummaryWidget.php:70
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:69, plugin/Integrations/Elementor/ElementorSummaryWidget.php:66
 msgctxt "admin-text"
 msgid "Terms were not accepted"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:80
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:76
 msgctxt "admin-text"
 msgid "Enable Pagination"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:88
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:84
 msgctxt "admin-text"
 msgid "Yes (AJAX load more)"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:92
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:88
 msgctxt "admin-text"
 msgid "Yes (AJAX pagination)"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:96
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:92
 msgctxt "admin-text"
 msgid "Yes (page reload)"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:104
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:100
 msgctxt "admin-text"
 msgid "Reviews Per Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:111, plugin/Integrations/Elementor/ElementorSummaryWidget.php:77
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:107, plugin/Integrations/Elementor/ElementorSummaryWidget.php:73
 msgctxt "admin-text"
 msgid "Minimum Rating"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:118, plugin/Integrations/Elementor/ElementorSummaryWidget.php:84
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:114, plugin/Integrations/Elementor/ElementorSummaryWidget.php:80
 msgctxt "admin-text"
 msgid "The schema should only be enabled once per page."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:119, plugin/Integrations/Elementor/ElementorSummaryWidget.php:85
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:115, plugin/Integrations/Elementor/ElementorSummaryWidget.php:81
 msgctxt "admin-text"
 msgid "Enable the schema?"
 msgstr ""
@@ -3081,27 +3046,52 @@ msgctxt "admin-text"
 msgid "Rating Summary"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:83
+#: plugin/Integrations/Elementor/ElementorWidget.php:84
+msgctxt "admin-text"
+msgid "Assign to multiple Post IDs"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorWidget.php:85
+msgctxt "admin-text"
+msgid "The Current Page"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorWidget.php:86
+msgctxt "admin-text"
+msgid "The Parent Page"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorWidget.php:104
+msgctxt "admin-text"
+msgid "The Logged-in user"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorWidget.php:105
+msgctxt "admin-text"
+msgid "The Page author"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorWidget.php:116
 msgctxt "admin-text"
 msgid "Limit the Type of Reviews"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:103
+#: plugin/Integrations/Elementor/ElementorWidget.php:136
 msgctxt "admin-text"
 msgid "Advanced"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:137
+#: plugin/Integrations/Elementor/ElementorWidget.php:170
 msgctxt "admin-text"
 msgid "Custom ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:141
+#: plugin/Integrations/Elementor/ElementorWidget.php:174
 msgctxt "admin-text"
 msgid "Separate multiple classes with spaces."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:143
+#: plugin/Integrations/Elementor/ElementorWidget.php:176
 msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr ""
@@ -3144,52 +3134,52 @@ msgctxt "admin-text"
 msgid "Site Reviews Premium"
 msgstr ""
 
-#: views/pages/addons/index.php:14
+#: views/pages/addons/index.php:15
 msgctxt "admin-text"
-msgid "Gain access to ALL of our free and paid add-ons with Site Reviews Premium, including access to future add-ons as they are released and priority support!"
+msgid "Gain access to ALL of our free and paid add-ons with Site Reviews Premium, including access to future add-ons as they are released and <a href=\"%s\" target=\"_blank\">priority support</a>!"
 msgstr ""
 
-#: views/pages/addons/index.php:15
+#: views/pages/addons/index.php:19
 msgctxt "admin-text"
 msgid "Check it out!"
 msgstr ""
 
-#: views/pages/addons/index.php:23
+#: views/pages/addons/index.php:27
 msgctxt "admin-text"
 msgid "Allow your website visitors to sort, filter by rating, and search reviews."
 msgstr ""
 
-#: views/pages/addons/index.php:25, views/pages/addons/index.php:35, views/pages/addons/index.php:45, views/pages/addons/index.php:75
+#: views/pages/addons/index.php:29, views/pages/addons/index.php:39, views/pages/addons/index.php:49, views/pages/addons/index.php:79
 msgctxt "admin-text"
 msgid "View Add-on"
 msgstr ""
 
-#: views/pages/addons/index.php:33
+#: views/pages/addons/index.php:37
 msgctxt "admin-text"
 msgid "Form builder with 22 different field types, each form has its own Review Template which can be customised as needed."
 msgstr ""
 
-#: views/pages/addons/index.php:43
+#: views/pages/addons/index.php:47
 msgctxt "admin-text"
 msgid "Allow your website visitors to submit images (and optional captions) with their reviews."
 msgstr ""
 
-#: views/pages/addons/index.php:53
+#: views/pages/addons/index.php:57
 msgctxt "admin-text"
 msgid "Create notification emails with custom conditions and schedule them to send after a review is submitted."
 msgstr ""
 
-#: views/pages/addons/index.php:55, views/pages/addons/index.php:65
+#: views/pages/addons/index.php:59, views/pages/addons/index.php:69
 msgctxt "admin-text"
 msgid "Premium members only"
 msgstr ""
 
-#: views/pages/addons/index.php:63
+#: views/pages/addons/index.php:67
 msgctxt "admin-text"
 msgid "Design reviews with a drag-and-drop builder, display reviews in a grid or carousel, choose custom rating images, and more!"
 msgstr ""
 
-#: views/pages/addons/index.php:73
+#: views/pages/addons/index.php:77
 msgctxt "admin-text"
 msgid "Integrate Site Reviews with your Woocommerce products."
 msgstr ""
