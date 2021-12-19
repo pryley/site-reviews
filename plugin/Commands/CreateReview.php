@@ -55,7 +55,8 @@ class CreateReview implements Contract
         }
         glsr()->action('review/request', $request);
         $this->request = $request;
-        $this->sanitize();
+        $this->review = new Review($this->toArray(), false); // don't init the dummy review!
+        $this->sanitize(); // this goes last
     }
 
     /**
@@ -148,11 +149,11 @@ class CreateReview implements Contract
         if (!empty($this->avatar)) {
             return $this->avatar;
         }
-        $review = new Review($this->toArray(), false); // don't init!
         if (empty($this->email)) {
-            $review->set('author_id', get_current_user_id());
+            // This is a dummy review as it hasn't been created yet.
+            $this->review->set('author_id', get_current_user_id());
         }
-        return glsr(Avatar::class)->generate($review);
+        return glsr(Avatar::class)->generate($this->review);
     }
 
     /**
@@ -160,8 +161,9 @@ class CreateReview implements Contract
      */
     protected function create()
     {
-        if ($this->review = glsr(ReviewManager::class)->create($this)) {
+        if ($review = glsr(ReviewManager::class)->create($this)) {
             $this->message = __('Your review has been submitted!', 'site-reviews');
+            $this->review = $review; // overwrite the dummy review with the submitted review
             return;
         }
         $this->errors = [];
@@ -182,7 +184,7 @@ class CreateReview implements Contract
     protected function redirect($fallback = '')
     {
         $redirect = trim(strval(get_post_meta($this->post_id, 'redirect_to', true)));
-        $redirect = glsr()->filterString('review/redirect', $redirect, $this);
+        $redirect = glsr()->filterString('review/redirect', $redirect, $this, $this->review);
         if (empty($redirect)) {
             $redirect = $fallback;
         }

@@ -18,16 +18,17 @@
  * 2. Uses a "redirect_if_bad_rating" meta_key for all reviews with a 1-3 star rating
  * @param string $redirectUrl This is the URL that you saved to the page with the "redirect_to" meta_key
  * @param \GeminiLabs\SiteReviews\Commands\CreateReview $command
+ * @param \GeminiLabs\SiteReviews\Review $review
  * @return string
  */
-add_filter('site-reviews/review/redirect', function ($redirectUrl, $command) {
-    if ($command->rating < 4) {
+add_filter('site-reviews/review/redirect', function ($redirectUrl, $command, $review) {
+    if ($review->rating < 4) {
         if ($url = get_post_meta($command->post_id, 'redirect_if_bad_rating', true)) {
-            return add_query_arg('review_id', $command->ID, $url);
+            return add_query_arg('review_id', $review->ID, $url);
         }
     }
     return $redirectUrl;
-}, 10, 2);</code></pre>
+}, 10, 3);</code></pre>
                 <p>Since we are passing the Review ID in the "redirect_if_bad_rating" redirect URL, you can do something like this to get the review details on that page:</p>
                 <pre><code class="language-php">$review = apply_filters('glsr_get_review', null, filter_input(INPUT_GET, 'review_id', FILTER_VALIDATE_INT));
 if ($review) {
