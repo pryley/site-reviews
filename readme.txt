@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews, business rev
 Tested up to: 5.8
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.18.0
+Stable tag: 5.18.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -139,6 +139,11 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.18.1 (2021-12-19) =
+
+- Added "author_id" as an accepted value in the "assigned_users" shortcode option
+- Fixed FAQ documentation for redirects
 
 = 5.18.0 (2021-12-16) =
 
