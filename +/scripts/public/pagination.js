@@ -32,7 +32,13 @@ class Pagination {
             const dataset = JSON.parse(JSON.stringify(paginationEl.dataset));
             const data = {};
             for (var key of Object.keys(dataset)) {
-                data[`${GLSR.nameprefix}[atts][${key}]`] = dataset[key];
+                let value;
+                try {
+                    value = JSON.parse(dataset[key]);
+                } catch(e) {
+                    value = dataset[key];
+                }
+                data[`${GLSR.nameprefix}[atts][${key}]`] = value;
             }
             data[`${GLSR.nameprefix}[_action]`] = 'fetch-paged-reviews';
             data[`${GLSR.nameprefix}[page]`] = el.dataset.page || 1;
