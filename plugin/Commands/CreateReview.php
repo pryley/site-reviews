@@ -56,8 +56,11 @@ class CreateReview implements Contract
         }
         glsr()->action('review/request', $request);
         $this->request = $request;
-        $this->review = new Review($this->toArray(), false); // don't init the dummy review!
         $this->sanitize(); // this goes last
+        $this->review = new Review($this->toArray(), false); // don't init the dummy review!
+        $this->custom = $this->custom();
+        $this->type = $this->type();
+        $this->avatar = $this->avatar(); // do this last
     }
 
     /**
@@ -147,14 +150,10 @@ class CreateReview implements Contract
      */
     protected function avatar()
     {
-        if (!empty($this->avatar)) {
-            return $this->avatar;
+        if (empty($this->avatar)) {
+            return glsr(Avatar::class)->generate($this->review);
         }
-        if (empty($this->email)) {
-            // This is a dummy review as it hasn't been created yet.
-            $this->review->set('author_id', get_current_user_id());
-        }
-        return glsr(Avatar::class)->generate($this->review);
+        return $this->avatar;
     }
 
     /**
@@ -206,9 +205,6 @@ class CreateReview implements Contract
         if (!empty($this->date)) {
             $this->date_gmt = get_gmt_from_date($this->date); // set the GMT date
         }
-        $this->custom = $this->custom();
-        $this->type = $this->type();
-        $this->avatar = $this->avatar(); // do this last
     }
 
     /**
