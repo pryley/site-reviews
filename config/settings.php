@@ -60,7 +60,19 @@ return [
         'tooltip' => _x('This will only allow registered users to submit reviews.', 'admin-text', 'site-reviews'),
         'type' => 'yes_no',
     ],
-    'settings.general.require.login_register' => [
+    'settings.general.require.login_url' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.general.require.login' => 'yes',
+        ],
+        'label' => _x('Custom Login URL', 'admin-text', 'site-reviews'),
+        'placeholder' => wp_login_url(),
+        'tooltip' => sprintf(_x('Site Reviews uses the %s function to get the login URL. If you would like to use a custom login URL, enter it here.', 'admin-text', 'site-reviews'),
+            '<a href="http://developer.wordpress.org/reference/functions/wp_login_url/" target="_blank">wp_login_url()</a>'
+        ),
+        'type' => 'text',
+    ],
+    'settings.general.require.register' => [
         'default' => 'no',
         'depends_on' => [
             'settings.general.require.login' => 'yes',
@@ -70,6 +82,19 @@ return [
             '<a href="'.admin_url('options-general.php#users_can_register').'">'._x('Anyone can register', 'admin-text', 'site-reviews').'</a>'
         ),
         'type' => 'yes_no',
+    ],
+    'settings.general.require.register_url' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.general.require.login' => 'yes',
+            'settings.general.require.register' => 'yes',
+        ],
+        'label' => _x('Custom Registration URL', 'admin-text', 'site-reviews'),
+        'placeholder' => wp_registration_url(),
+        'tooltip' => sprintf(_x('Site Reviews uses the %s function to get the registration URL. If you would like to use a custom registration URL, enter it here.', 'admin-text', 'site-reviews'),
+            '<a href="http://developer.wordpress.org/reference/functions/wp_registration_url/" target="_blank">wp_registration_url()</a>'
+        ),
+        'type' => 'text',
     ],
     'settings.general.multilingual' => [
         'class' => 'regular-text',

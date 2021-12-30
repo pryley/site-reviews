@@ -45,6 +45,40 @@ class SiteReviewsFormShortcode extends Shortcode
     }
 
     /**
+     * @param string $url
+     * @param string $redirect
+     * @param bool $forceReauth
+     * @return string
+     * @filter login_url
+     */
+    public function filterLoginUrl($url, $redirect, $forceReauth)
+    {
+        if ($loginUrl = glsr_get_option('general.require.login_url')) {
+            if (!empty($redirect)) {
+                $loginUrl = add_query_arg('redirect_to', urlencode($redirect), $loginUrl);
+            }
+            if ($forceReauth) {
+                $loginUrl = add_query_arg('reauth', '1', $loginUrl);
+            }
+            return $loginUrl;
+        }
+        return $url;
+    }
+
+    /**
+     * @param string $url
+     * @return string
+     * @filter register_url
+     */
+    public function filterRegisterUrl($url)
+    {
+        if ($registerUrl = glsr_get_option('general.require.register_url')) {
+            return $registerUrl;
+        }
+        return $url;
+    }
+
+    /**
      * @return false|string
      */
     protected function buildTemplateFieldTags()
@@ -118,8 +152,11 @@ class SiteReviewsFormShortcode extends Shortcode
      */
     protected function loginText()
     {
+        add_filter('login_url', [$this, 'filterLoginUrl'], 20, 3);
+        $loginUrl = wp_login_url(strval(get_permalink()));
+        remove_filter('login_url', [$this, 'filterLoginUrl'], 20);
         $loginLink = glsr(Builder::class)->a([
-            'href' => wp_login_url(strval(get_permalink())),
+            'href' => $loginUrl,
             'text' => __('logged in', 'site-reviews'),
         ]);
         return sprintf(__('You must be %s to submit a review.', 'site-reviews'), $loginLink);
@@ -131,8 +168,11 @@ class SiteReviewsFormShortcode extends Shortcode
     protected function registerText()
     {
         if (get_option('users_can_register') && glsr_get_option('general.require.login', false, 'bool')) {
+            add_filter('register_url', [$this, 'filterRegisterUrl'], 20, 3);
+            $registerUrl = wp_registration_url();
+            remove_filter('register_url', [$this, 'filterRegisterUrl'], 20);
             $registerLink = glsr(Builder::class)->a([
-                'href' => wp_registration_url(),
+                'href' => $registerUrl,
                 'text' => __('register', 'site-reviews'),
             ]);
             return sprintf(__('You may also %s for an account.', 'site-reviews'), $registerLink);
