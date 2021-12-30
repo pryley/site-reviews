@@ -26,15 +26,6 @@ class AdminController extends Controller
 {
     /**
      * @return void
-     * @action site-reviews/export/cleanup
-     */
-    public function cleanupAfterExport()
-    {
-        glsr(Database::class)->deleteMeta(glsr()->export_key);
-    }
-
-    /**
-     * @return void
      * @action admin_enqueue_scripts
      */
     public function enqueueAssets()

@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Queue;
 
 class ExportRatings implements Contract
 {
@@ -46,8 +47,8 @@ class ExportRatings implements Contract
      */
     protected function cleanup()
     {
-        $tenMinutes = 10 * MINUTE_IN_SECONDS;
-        wp_schedule_single_event(time() + $tenMinutes, glsr()->id.'/export/cleanup');
+        $timestamp = time() + (10 * MINUTE_IN_SECONDS);
+        glsr(Queue::class)->once($timestamp, 'queue/export/cleanup');
     }
 
     /**
@@ -70,7 +71,7 @@ class ExportRatings implements Contract
                 'meta_key',
                 'meta_value',
             ]);
-            $page++;
+            ++$page;
         }
     }
 

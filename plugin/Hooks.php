@@ -86,7 +86,6 @@ class Hooks implements HooksContract
         add_action('load-edit.php', [$this, 'translateAdminEditPage']);
         add_action('load-post.php', [$this, 'translateAdminPostPage']);
         add_action('plugins_loaded', [$this, 'translatePlugin']);
-        add_action('site-reviews/export/cleanup', [$this->admin, 'cleanupAfterExport']);
         add_action('admin_enqueue_scripts', [$this->admin, 'enqueueAssets']);
         add_action('admin_head', [$this->admin, 'printInlineStyle']);
         add_action('admin_init', [$this->admin, 'registerTinymcePopups']);
@@ -141,6 +140,7 @@ class Hooks implements HooksContract
         add_action('site-reviews/route/public/submit-review', [$this->public, 'submitReview']);
         add_action('site-reviews/route/ajax/submit-review', [$this->public, 'submitReviewAjax']);
         add_action('admin_init', [$this->privacy, 'privacyPolicyContent']);
+        add_action('site-reviews/queue/export/cleanup', [$this->queue, 'cleanupAfterExport']);
         add_action('site-reviews/queue/recalculate-meta', [$this->queue, 'recalculateAssignmentMeta']);
         add_action('site-reviews/queue/migration', [$this->queue, 'runMigration']);
         add_action('site-reviews/queue/notification', [$this->queue, 'sendNotification']);
