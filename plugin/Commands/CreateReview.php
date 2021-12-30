@@ -20,6 +20,7 @@ class CreateReview implements Contract
     public $assigned_posts;
     public $assigned_terms;
     public $assigned_users;
+    public $author_id;
     public $avatar;
     public $blacklisted;
     public $content;

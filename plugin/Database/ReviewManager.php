@@ -115,6 +115,7 @@ class ReviewManager
             'comment_status' => 'closed',
             'meta_input' => ['_submitted' => $command->request->toArray()], // save the original submitted request in metadata
             'ping_status' => 'closed',
+            'post_author' => $values->author_id,
             'post_content' => $values->content,
             'post_date' => $values->date,
             'post_date_gmt' => $values->date_gmt,

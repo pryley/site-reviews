@@ -39,6 +39,7 @@ class ReviewDefaults extends Defaults
         'assigned_terms' => 'array-int',
         'assigned_users' => 'array-int',
         'author' => 'text',
+        'author_id' => 'int',
         'avatar' => 'url',
         'content' => 'text-multiline',
         'date' => 'date',

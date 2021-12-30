@@ -193,6 +193,15 @@ class Sanitizer
 
     /**
      * @param mixed $value
+     * @return string
+     */
+    public function sanitizeSlug($value)
+    {
+        return sanitize_title($this->sanitizeText($value));
+    }
+
+    /**
+     * @param mixed $value
      * @return int[]
      */
     public function sanitizeTermIds($value)
@@ -200,26 +209,6 @@ class Sanitizer
         $termIds = Cast::toArray($value);
         $termIds = array_map('\GeminiLabs\SiteReviews\Helper::getTermTaxonomyId', $termIds);
         return Arr::uniqueInt($termIds);
-    }
-
-    /**
-     * @param mixed $value
-     * @return int[]
-     */
-    public function sanitizeUserIds($value)
-    {
-        $userIds = Cast::toArray($value);
-        $userIds = array_map('\GeminiLabs\SiteReviews\Helper::getUserId', $userIds);
-        return Arr::uniqueInt($userIds);
-    }
-
-    /**
-     * @param mixed $value
-     * @return string
-     */
-    public function sanitizeSlug($value)
-    {
-        return sanitize_title($this->sanitizeText($value));
     }
 
     /**
@@ -295,6 +284,33 @@ class Sanitizer
             return Helper::ifEmpty($value, $user->user_email);
         }
         return $value;
+    }
+
+    /**
+     * @param mixed $value
+     * @return int
+     */
+    public function sanitizeUserId($value)
+    {
+        $user = get_user_by('ID', Cast::toInt($value));
+        if (false !== $user) {
+            return (int) $user->ID;
+        }
+        if (glsr()->retrieveAs('bool', 'import', false)) {
+            return 0;
+        }
+        return get_current_user_id();
+    }
+
+    /**
+     * @param mixed $value
+     * @return int[]
+     */
+    public function sanitizeUserIds($value)
+    {
+        $userIds = Cast::toArray($value);
+        $userIds = array_map('\GeminiLabs\SiteReviews\Helper::getUserId', $userIds);
+        return Arr::uniqueInt($userIds);
     }
 
     /**

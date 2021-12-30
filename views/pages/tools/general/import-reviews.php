@@ -22,6 +22,7 @@
             <code>assigned_posts</code> <?= _x('The Posts that the review is assigned to (separate multiple IDs with a comma)', 'admin-text', 'site-reviews'); ?><br>
             <code>assigned_terms</code> <?= _x('The Categories that the review is assigned to (separate multiple IDs with a comma)', 'admin-text', 'site-reviews'); ?><br>
             <code>assigned_users</code> <?= _x('The Users that the review is assigned to (separate multiple IDs with a comma)', 'admin-text', 'site-reviews'); ?><br>
+            <code>author_id</code> <?= _x('The User ID of the reviewer', 'admin-text', 'site-reviews'); ?><br>
             <code>avatar</code> <?= _x('The avatar URL of the reviewer', 'admin-text', 'site-reviews'); ?><br>
             <code>content</code> <?= sprintf('%s (<span class="required">%s</span>)', _x('The review', 'admin-text', 'site-reviews'), _x('required', 'admin-text', 'site-reviews')); ?><br>
             <code>date</code> <?= sprintf('%s (<span class="required">%s</span>)', _x('The review date', 'admin-text', 'site-reviews'), _x('required', 'admin-text', 'site-reviews')); ?><br>
