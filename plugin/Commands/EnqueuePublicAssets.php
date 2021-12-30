@@ -97,6 +97,7 @@ class EnqueuePublicAssets implements Contract
                 glsr(Style::class)->validation
             ),
             'validationstrings' => glsr(ValidationStringsDefaults::class)->defaults(),
+            'version' => glsr()->version,
         ];
         $variables = glsr()->filterArray('enqueue/public/localize', $variables);
         return $this->buildInlineScript($variables);
