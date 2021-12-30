@@ -140,6 +140,16 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
+= 5.19.0 (2021-12-23) =
+
+- Added `author_id` column to "Import Third Party Reviews" tool
+- Added settings to customise the login and register URLs
+- Fixed API usage when creating reviews using string values for the assigned_posts (i.e. post_type:slug), assigned_terms (i.e. slug), and assigned_users (i.e. username) parameters
+- Fixed approve/unapprove actions on the All Reviews page which was removing the post_author ID of reviews
+- Fixed importing reviews with unknown authors
+- Fixed the "hide" option when using AJAX pagination
+- Fixed the loading indicator (spinner) on the submit button of the review form
+
 = 5.18.1 (2021-12-19) =
 
 - Added "author_id" as an accepted value in the "assigned_users" shortcode option

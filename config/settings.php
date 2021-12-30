@@ -182,7 +182,7 @@ return [
             'settings.reviews.date.format' => 'custom',
         ],
         'label' => _x('Custom Date Format', 'admin-text', 'site-reviews'),
-        'tooltip' => _x('Enter a custom date format (<a href="https://codex.wordpress.org/Formatting_Date_and_Time">documentation on date and time formatting</a>).', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('Enter a custom date format (<a href="https://wordpress.org/support/article/formatting-date-and-time/">documentation on date and time formatting</a>).', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
     'settings.reviews.name.format' => [
