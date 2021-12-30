@@ -60,13 +60,13 @@ class ReviewController extends Controller
 
     /**
      * @param array $data
-     * @param array $postArr
+     * @param array $postArray
      * @return array
      * @filter wp_insert_post_data
      */
-    public function filterReviewPostData($data, $postArr)
+    public function filterReviewPostData($data, $postArray)
     {
-        if (empty($postArr['ID']) || glsr()->post_type !== glsr_get($postArr, 'post_type')) {
+        if (empty($postArray['ID']) || empty($postArray['action']) || glsr()->post_type !== glsr_get($postArray, 'post_type')) {
             return $data;
         }
         if (empty(filter_input(INPUT_POST, 'post_author'))) {
