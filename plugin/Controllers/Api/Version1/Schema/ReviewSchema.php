@@ -123,19 +123,25 @@ class ReviewSchema
             'assigned_posts' => [
                 'context' => ['edit', 'view'],
                 'description' => _x('The posts assigned to the review of any public post type.', 'admin-text', 'site-reviews'),
-                'items' => ['type' => 'integer'],
+                'items' => [
+                    'type' => ['integer', 'string'],
+                ],
                 'type' => 'array',
             ],
             'assigned_terms' => [
                 'context' => ['edit', 'view'],
                 'description' => sprintf(_x('The terms assigned to the review in the %s taxonomy.', 'admin-text', 'site-reviews'), glsr()->taxonomy),
-                'items' => ['type' => 'integer'],
+                'items' => [
+                    'type' => ['integer', 'string'],
+                ],
                 'type' => 'array',
             ],
             'assigned_users' => [
                 'context' => ['edit', 'view'],
                 'description' => _x('The users assigned to the review.', 'admin-text', 'site-reviews'),
-                'items' => ['type' => 'integer'],
+                'items' => [
+                    'type' => ['integer', 'string'],
+                ],
                 'type' => 'array',
             ],
             'author' => [
