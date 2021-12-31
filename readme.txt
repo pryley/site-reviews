@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews, business rev
 Tested up to: 5.8
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.18.1
+Stable tag: 5.19.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -140,7 +140,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
-= 5.19.0 (2021-12-23) =
+= 5.19.0 (2021-12-30) =
 
 - Added `author_id` column to "Import Third Party Reviews" tool
 - Added settings to customise the login and register URLs
