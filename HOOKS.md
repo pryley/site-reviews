@@ -6,7 +6,7 @@
     site-reviews/customize/<style>                          (Modules\Html\Builder $builder)
     site-reviews/database/sql                               (string $sql, string $handle)
     site-reviews/database/sql/<handle>                      (string $sql)
-    site-reviews/defaults                                   (Contracts\DefaultsContract $defaults, string $hook, string $method)
+    site-reviews/defaults                                   (Contracts\DefaultsContract $defaults, string $hook, string $method, array $values)
     site-reviews/export/cleanup                             ()
     site-reviews/get/review                                 (Review $review, int $reviewId)
     site-reviews/get/reviews                                (array $reviews, array $args)

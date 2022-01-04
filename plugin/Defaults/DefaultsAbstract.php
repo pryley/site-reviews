@@ -133,7 +133,7 @@ abstract class DefaultsAbstract implements DefaultsContract
     protected function callMethod(array $args)
     {
         $this->hook = $this->currentHook();
-        $this->app()->action('defaults', $this, $this->hook, $this->method);
+        $this->app()->action('defaults', $this, $this->hook, $this->method, $args[0]);
         $values = 'defaults' === $this->method
             ? $this->defaults // use the filtered defaults (these have not been normalized!)
             : call_user_func_array([$this, $this->method], $args);
