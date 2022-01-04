@@ -36,6 +36,7 @@ class CustomFieldsDefaults extends Defaults
         'ID',
         'ip_address',
         'is_approved',
+        'is_editing_review',
         'is_modified',
         'is_pinned',
         'name',
