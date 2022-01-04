@@ -52,12 +52,13 @@ class CustomFieldsDefaults extends Defaults
     ];
 
     /**
+     * Normalize provided values, this always runs first.
      * @return array
      */
-    protected function sanitize(array $values = [])
+    protected function normalize(array $values = [])
     {
         $this->guarded[] = glsr(Honeypot::class)->hash(Arr::get($values, 'form_id'));
         $this->sanitize = array_fill_keys(array_keys($this->guard($values)), 'text');
-        return parent::sanitize($values);
+        return $values;
     }
 }
