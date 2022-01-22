@@ -246,7 +246,7 @@ class Review extends Arguments
             $meta = array_map(function ($item) {
                 return array_shift($item);
             }, array_filter($meta));
-            $meta = array_filter($meta, 'strlen');
+            $meta = array_filter($meta, '\GeminiLabs\SiteReviews\Helper::isNotEmpty');
             $meta = array_map('maybe_unserialize', $meta);
             $this->_meta = glsr()->args($meta);
         }
