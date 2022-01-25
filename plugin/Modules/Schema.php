@@ -125,7 +125,7 @@ class Schema
     public function render()
     {
         if ($schemas = glsr()->retrieve('schemas', [])) {
-            printf('<script type="application/ld+json" class="%s-schema">%s</script>', 
+            printf('<script type="application/ld+json" class="%s-schema">%s</script>',
                 glsr()->id,
                 json_encode(
                     glsr()->filterArray('schema/all', $schemas),
@@ -255,8 +255,8 @@ class Schema
             'custom' => '',
             'default' => $fallback,
         ]);
-        return Helper::ifTrue('custom' === $setting['default'], 
-            $setting['custom'], 
+        return Helper::ifTrue('custom' === $setting['default'],
+            $setting['custom'],
             $setting['default']
         );
     }
@@ -274,9 +274,6 @@ class Schema
         $value = $this->getSchemaOption($option, $fallback);
         if ($value !== $fallback) {
             return $this->setAndGetKeyValue($option, $value);
-        }
-        if (!is_singular()) {
-            return;
         }
         $method = Helper::buildMethodName($option, 'getThing');
         if (method_exists($this, $method)) {
@@ -309,20 +306,27 @@ class Schema
      */
     protected function getThingDescription()
     {
-        $post = get_post();
-        $text = Arr::get($post, 'post_excerpt');
-        if (empty($text)) {
-            $text = Arr::get($post, 'post_content');
+        if (is_archive()) {
+            $text = get_the_archive_description();
+        } elseif (is_singular()) {
+            $post = get_post();
+            $text = Arr::get($post, 'post_excerpt');
+            if (empty($text)) {
+                $text = Arr::get($post, 'post_content');
+            }
         }
-        if (function_exists('excerpt_remove_blocks')) {
-            $text = excerpt_remove_blocks($text);
+        if (!empty($text)) {
+            if (function_exists('excerpt_remove_blocks')) {
+                $text = excerpt_remove_blocks($text);
+            }
+            $text = strip_shortcodes($text);
+            $text = wpautop($text);
+            $text = wptexturize($text);
+            $text = wp_strip_all_tags($text);
+            $text = str_replace(']]>', ']]&gt;', $text);
+            return wp_trim_words($text, apply_filters('excerpt_length', 55));
         }
-        $text = strip_shortcodes($text);
-        $text = wpautop($text);
-        $text = wptexturize($text);
-        $text = wp_strip_all_tags($text);
-        $text = str_replace(']]>', ']]&gt;', $text);
-        return wp_trim_words($text, apply_filters('excerpt_length', 55));
+        return '';
     }
 
     /**
@@ -330,7 +334,12 @@ class Schema
      */
     protected function getThingImage()
     {
-        return (string) get_the_post_thumbnail_url(null, 'large');
+        if (is_singular()) {
+            return (string) get_the_post_thumbnail_url(null, 'large');
+        }
+        // You will need to use the "site-reviews/schema/<schema_type>"
+        // filter hook to set the image for archive pages.
+        return '';
     }
 
     /**
@@ -338,7 +347,13 @@ class Schema
      */
     protected function getThingName()
     {
-        return get_the_title();
+        if (is_archive()) {
+            return wp_strip_all_tags(get_the_archive_title());
+        }
+        if (is_singular()) {
+            return get_the_title();
+        }
+        return '';
     }
 
     /**
@@ -346,7 +361,24 @@ class Schema
      */
     protected function getThingUrl()
     {
-        return (string) get_the_permalink();
+        $queried = get_queried_object();
+        if (is_singular()) {
+            $url = (string) get_the_permalink();
+        } elseif (is_category()) {
+            $url = get_category_link($queried);
+        } elseif (is_tag()) {
+            $url = get_tag_link($queried);
+        } elseif (is_author()) {
+            $url = get_author_posts_url($queried->ID);
+        } elseif (is_post_type_archive()) {
+            $url = get_post_type_archive_link($queried->name);
+        } elseif (is_tax()) {
+            $url = get_term_link($queried);
+        }
+        if (!empty($url) && !is_wp_error($url)) {
+            return (string) $url;
+        }
+        return '';
     }
 
     /**
