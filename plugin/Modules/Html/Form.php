@@ -61,6 +61,7 @@ class Form extends \ArrayObject
      * @param mixed $key
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($key)
     {
         if (array_key_exists($key, $this->fields)) {

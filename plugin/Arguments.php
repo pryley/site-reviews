@@ -73,6 +73,7 @@ class Arguments extends \ArrayObject
      * @param mixed $key
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($key)
     {
         return $this->get($key);
@@ -82,6 +83,7 @@ class Arguments extends \ArrayObject
      * @param mixed $key
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($key)
     {
         $storage = $this->toArray();

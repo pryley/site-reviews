@@ -2,12 +2,11 @@
 
 namespace GeminiLabs\SiteReviews;
 
-use ArrayObject;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewsHtml;
 
-class Reviews extends ArrayObject
+class Reviews extends \ArrayObject
 {
     /**
      * @var array
@@ -35,7 +34,7 @@ class Reviews extends ArrayObject
         $this->max_num_pages = Cast::toInt(ceil($total / $this->args['display']));
         $this->reviews = $reviews;
         $this->total = $total;
-        parent::__construct($this->reviews, ArrayObject::STD_PROP_LIST | ArrayObject::ARRAY_AS_PROPS);
+        parent::__construct($this->reviews, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
     }
 
     /**
@@ -58,6 +57,7 @@ class Reviews extends ArrayObject
      * @param mixed $key
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($key)
     {
         if (array_key_exists($key, $this->reviews)) {

@@ -257,6 +257,7 @@ class Review extends Arguments
      * @param mixed $key
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($key)
     {
         return parent::offsetExists($key) || !is_null($this->custom()->$key);
@@ -266,6 +267,7 @@ class Review extends Arguments
      * @param mixed $key
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($key)
     {
         $alternateKeys = [
@@ -292,6 +294,7 @@ class Review extends Arguments
      * @param mixed $key
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($key, $value)
     {
         // This class is read-only, except for custom fields
@@ -308,6 +311,7 @@ class Review extends Arguments
      * @param mixed $key
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($key)
     {
         // This class is read-only

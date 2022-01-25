@@ -131,6 +131,7 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
      * @param mixed $offset
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return array_key_exists($offset, $this->properties);
@@ -140,6 +141,7 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
      * @param string $offset
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->getProperty($offset);
@@ -150,6 +152,7 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
      * @param mixed $value
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->setProperty($offset, $value);
@@ -159,6 +162,7 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
      * @param string $offset
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->properties[$offset]);
