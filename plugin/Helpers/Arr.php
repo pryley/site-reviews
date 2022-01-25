@@ -94,7 +94,7 @@ class Arr
     public static function get($data, $path = '', $fallback = '')
     {
         $data = static::consolidate($data);
-        $keys = explode('.', $path);
+        $keys = explode('.', (string) $path);
         $result = $fallback;
         foreach ($keys as $key) {
             if (!isset($data[$key])) {

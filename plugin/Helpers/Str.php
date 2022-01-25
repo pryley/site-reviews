@@ -92,8 +92,8 @@ class Str
      */
     public static function convertToInitials($name, $initialPunctuation = '')
     {
-        preg_match_all('/(?<=\s|\b)\pL/u', $name, $matches);
-        $result = array_reduce($matches[0], function ($carry, $word) use ($initialPunctuation) {
+        preg_match_all('/(?<=\s|\b)\pL/u', (string) $name, $matches);
+        $result = (string) array_reduce($matches[0], function ($carry, $word) use ($initialPunctuation) {
             $initial = mb_substr($word, 0, 1, 'UTF-8');
             $initial = mb_strtoupper($initial, 'UTF-8');
             return $carry.$initial.$initialPunctuation;
@@ -259,11 +259,11 @@ class Str
      * @param string $haystack
      * @return bool
      */
-    public static function startsWith($needles, $haystack)
+    public static function startsWith($needles, $haystack = '')
     {
-        $needles = array_filter(Cast::toArray($needles), Helper::class.'::isNotEmpty');
+        $needles = array_filter(Cast::toArray($needles), '\GeminiLabs\SiteReviews\Helper::isNotEmpty');
         foreach ($needles as $needle) {
-            if (substr($haystack, 0, strlen(Cast::toString($needle))) === $needle) {
+            if (substr((string) $haystack, 0, strlen(Cast::toString($needle))) === $needle) {
                 return true;
             }
         }
