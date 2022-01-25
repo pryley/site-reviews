@@ -50,7 +50,7 @@ class EnqueuePublicAssets implements Contract
         wp_enqueue_script(glsr()->id.'/polyfill', add_query_arg([
             'features' => 'Array.prototype.find,Object.assign,CustomEvent,Element.prototype.closest,Element.prototype.dataset,Event,XMLHttpRequest,MutationObserver',
             'flags' => 'gated',
-        ], 'https://polyfill.io/v3/polyfill.min.js?version=3.101.0'));
+        ], 'https://polyfill.io/v3/polyfill.min.js?version=3.109.0'));
     }
 
     /**
