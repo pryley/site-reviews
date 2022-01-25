@@ -103,7 +103,7 @@ class TemplateTags
      */
     protected function reviewAuthorTag(Review $review)
     {
-        return $review->author ?: __('Anonymous', 'site-reviews');
+        return $review->author();
     }
 
     /**

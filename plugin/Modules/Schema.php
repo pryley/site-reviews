@@ -162,7 +162,7 @@ class Schema
                 $schema->reviewBody($review->content);
             })
             ->datePublished((new DateTime($review->date)))
-            ->author($this->getSchemaType('Person')->name($review->author))
+            ->author($this->getSchemaType('Person')->name($review->author()))
             ->itemReviewed($this->getSchemaType()->name($this->getSchemaOptionValue('name')));
         if (!empty($review->rating)) {
             $schema->reviewRating(
