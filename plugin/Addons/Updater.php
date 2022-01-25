@@ -19,6 +19,10 @@ class Updater
     /**
      * @var bool
      */
+    protected $forceCheck = false;
+    /**
+     * @var bool
+     */
     protected $isReady = false;
     /**
      * @var string
@@ -44,6 +48,9 @@ class Updater
         $this->data = wp_parse_args($data, get_plugin_data($file));
         $this->plugin = plugin_basename($file);
         $this->isReady = true;
+        if (!glsr()->addon(Arr::get($this->data, 'TextDomain'))) {
+            $this->forceCheck = true; // don't cache the version details if the addon is not fully active
+        }
     }
 
     /**
@@ -59,11 +66,7 @@ class Updater
      */
     public function checkLicense(array $data = [])
     {
-        $response = $this->request('check_license', $data);
-        if ('valid' === Arr::get($response, 'license')) {
-            $this->getPluginUpdate(true);
-        }
-        return $response;
+        return $this->request('check_license', $data);
     }
 
     /**
@@ -87,7 +90,7 @@ class Updater
             || Arr::get($this->data, 'TextDomain') != Arr::get($args, 'slug')) {
             return $result;
         }
-        if ($updateInfo = $this->getPluginUpdate()) {
+        if ($updateInfo = $this->getPluginUpdate($this->forceCheck)) {
             return $this->modifyUpdateDetails($updateInfo);
         }
         return $result;
@@ -100,7 +103,7 @@ class Updater
      */
     public function filterPluginUpdates($transient)
     {
-        if ($updateInfo = $this->getPluginUpdate()) {
+        if ($updateInfo = $this->getPluginUpdate($this->forceCheck)) {
             return $this->modifyPluginUpdates($transient, $updateInfo);
         }
         return $transient;
@@ -109,7 +112,7 @@ class Updater
     /**
      * @return object
      */
-    public function getVersion(array $data = [])
+    public function getLatestVersion(array $data = [])
     {
         return $this->request('get_version', $data);
     }
@@ -179,7 +182,7 @@ class Updater
     {
         $version = $this->getCachedVersion();
         if (false === $version || false !== $force) {
-            $version = $this->getVersion();
+            $version = $this->getLatestVersion();
             $this->setCachedVersion($version);
         }
         if (isset($version->error)) {
@@ -214,6 +217,9 @@ class Updater
         if (Helper::isGreaterThan($updateInfo->new_version, Arr::get($this->data, 'Version'))) {
             unset($transient->no_update[$this->plugin]);
             $updateInfo->update = true;
+            if (!$this->isLicenseValid()) {
+                $updateInfo->upgrade_notice = _x('A valid license key is required to download this update.', 'admin-text', 'site-reviews');
+            }
             $transient->response[$this->plugin] = $updateInfo;
         } else {
             unset($transient->response[$this->plugin]);
