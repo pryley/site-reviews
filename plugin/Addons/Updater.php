@@ -290,7 +290,7 @@ class Updater
     protected function setCachedVersion($version)
     {
         if (!isset($version->error)) {
-            set_transient($this->getTransientName(), $version, 3 * HOUR_IN_SECONDS);
+            set_transient($this->getTransientName(), $version, 15 * MINUTE_IN_SECONDS);
         }
     }
 }
