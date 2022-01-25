@@ -49,6 +49,16 @@ GLSR.Event.on('site-reviews/pagination/handle', (response) => {
 })
 ```
 
+5. `site-reviews/pagination/popstate`
+
+This event is fired after the previous/next browser buttons are used to navigate the pagination browser history.
+
+```js
+GLSR.Event.on('site-reviews/pagination/popstate', (event) => {
+    // `event.state` holds the saved history state for the page.
+})
+```
+
 ## Methods
 
 1. Create a custom event
