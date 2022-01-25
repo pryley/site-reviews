@@ -33,6 +33,7 @@ return [
             'twentynineteen' => _x('Theme: Twenty Nineteen', 'admin-text', 'site-reviews'),
             'twentytwenty' => _x('Theme: Twenty Twenty', 'admin-text', 'site-reviews'),
             'twentytwentyone' => _x('Theme: Twenty Twenty-One', 'admin-text', 'site-reviews'),
+            'twentytwentytwo' => _x('Theme: Twenty Twenty-Two', 'admin-text', 'site-reviews'),
         ],
         'tooltip' => _x('Site Reviews relies on the CSS of your theme to style the review form. If your theme does not provide proper CSS rules for form elements and you are using a WordPress plugin/theme or CSS Framework listed here, please try selecting it, otherwise choose "Site Reviews (default)".', 'admin-text', 'site-reviews'),
         'type' => 'select',

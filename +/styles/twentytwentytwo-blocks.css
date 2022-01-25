@@ -1,0 +1,33 @@
+@import "blocks/minimal/variables";
+@import "blocks/minimal/reviews";
+@import "blocks/minimal/read-more";
+@import "blocks/default/reviews-form";
+@import "blocks/minimal/field-labels";
+@import "blocks/minimal/field-input";
+@import "public/minimal/field-choice";
+@import "public/minimal/field-toggle";
+@import "public/default/field-star-rating";
+@import "blocks/minimal/reviews-summary";
+@import "blocks/base";
+
+:root {
+    --glsr-gray                    : #949494;
+    --glsr-border-radius           : 0;
+    --glsr-box-shadow              : none;
+    --glsr-form-px                 : calc(0.667em + 2px);
+    --glsr-form-py                 : calc(0.667em + 2px);
+    --glsr-toggle-bg-active        : var(--wp--preset--color--primary);
+}
+:--namespace form.glsr-form input.glsr-input {
+    height: 50px;
+}
+:--namespace .glsr-button-loadmore,
+:--namespace form.glsr-form .components-button {
+    background-color: var(--wp--preset--color--primary);
+    border: none;
+    box-shadow: none;
+    color: var(--wp--preset--color--background);
+    font-size: var(--wp--preset--font-size--medium);
+    padding: var(--glsr-form-px) calc(1.333em + 2px);
+    height: 50px;
+}
