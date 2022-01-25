@@ -240,3 +240,19 @@
 		width: 210px;
 	}
 }
+
+// Status loading indicator
+.locked-indicator.spinner {
+	background-position: center;
+	display: flex;
+	float: none;
+	justify-content: center;
+	margin: 3px 0 0;
+	width: auto;
+}
+.locked-indicator.spinner .locked-indicator-icon {
+	opacity: 0;
+}
+.status-pending .locked-indicator.spinner {
+	margin-right: 4px;
+}

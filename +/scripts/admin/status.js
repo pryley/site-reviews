@@ -22,9 +22,13 @@ Status.prototype = {
             post_id: post_id[1],
             status: status[1],
         };
+        // hide checkbox and display loading spinner
+        jQuery(ev.target).closest('tr').find('.locked-indicator').addClass('spinner is-active');
         (new Ajax(request, ev)).post(function (response) {
             if (!response.class) return;
             var el = jQuery(ev.target);
+            // show checkbox and remove loading spinner
+            el.closest('tr').find('.locked-indicator').removeClass('spinner is-active');
             el.closest('tr').removeClass('status-pending status-publish').addClass(response.class);
             el.closest('td.column-title').find('strong').html(response.link);
             if (!response.counts) return;
