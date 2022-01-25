@@ -9,9 +9,8 @@
 </div>
 
 <p>
-    <?= _x('Here you can customise any text of the plugin that is shown on the frontend of your website, including the field labels and placeholders of the review form.', 'admin-text', 'site-reviews'); ?>
+    <?= _x('Here you can customise any English text of the plugin that is shown on the frontend of your website, including the field labels and placeholders of the review form.', 'admin-text', 'site-reviews'); ?>
     <?= _x('If you are using the Polylang plugin, any custom text you enter here will be translatable on the Polylang "Strings translations" page.', 'admin-text', 'site-reviews'); ?>
-        
 </p>
 
 <div class="glsr-strings-form">
