@@ -110,7 +110,8 @@ class Pagination {
     }
 
     onPopstate (ev) {
-        if (ev.state) {
+        GLSR.Event.trigger('site-reviews/pagination/popstate', ev, this);
+        if (ev.state && ev.state[`${GLSR.nameprefix}[_action]`]) {
             this.wrapperEl.classList.add(selector.hide);
             GLSR.ajax.post(ev.state, this.handlePopstate.bind(this, ev.state));
         }
