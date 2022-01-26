@@ -59,16 +59,16 @@ abstract class Field
 
     /**
      * @param string $key
-     * @param string $delimiter
+     * @param string $separator
      * @param string $fieldLocation
      * @return array
      */
-    public static function mergedAttribute($key, $delimiter, array $args, $fieldLocation)
+    public static function mergedAttribute($key, $separator, array $args, $fieldLocation)
     {
         return Arr::unique(array_merge(
-            explode($delimiter, Arr::get($args, $key)),
-            explode($delimiter, Arr::get(static::defaults($fieldLocation), $key)),
-            explode($delimiter, Arr::get(static::required($fieldLocation), $key))
+            explode($separator, Arr::get($args, $key)),
+            explode($separator, Arr::get(static::defaults($fieldLocation), $key)),
+            explode($separator, Arr::get(static::required($fieldLocation), $key))
         ));
     }
 

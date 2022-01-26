@@ -293,6 +293,7 @@ class SystemInfo
                 'Page For Posts ID' => glsr(OptionManager::class)->getWP('page_for_posts'),
                 'Page On Front ID' => glsr(OptionManager::class)->getWP('page_on_front'),
                 'Permalink Structure' => Arr::get($wordpress, 'permalink'),
+                // @phpstan-ignore-next-line
                 'Post Stati' => implode(', ', get_post_stati()),
                 'Remote Post' => glsr(Cache::class)->getRemotePostTest(),
                 'SCRIPT_DEBUG' => Arr::get($constants, 'SCRIPT_DEBUG'),

@@ -319,7 +319,7 @@ class Database
 
     /**
      * @param string $searchTerm
-     * @return void|string
+     * @return string
      */
     public function searchPosts($searchTerm)
     {
@@ -337,20 +337,20 @@ class Database
         add_filter('posts_search', [$this, 'filterSearchByTitle'], 500, 2);
         $search = new WP_Query($args);
         remove_filter('posts_search', [$this, 'filterSearchByTitle'], 500);
-        if ($search->have_posts()) {
-            $results = '';
-            while ($search->have_posts()) {
-                $search->the_post();
-                $results .= glsr()->build('partials/editor/search-result', [
-                    'ID' => get_the_ID(),
-                    'permalink' => esc_url((string) get_permalink()),
-                    'title' => esc_attr(get_the_title()),
-                ]);
-            }
-            // @phpstan-ignore-next-line
-            wp_reset_postdata();
-            return $results;
+        $results = '';
+        while ($search->have_posts()) {
+            $search->the_post();
+            $results .= glsr()->build('partials/editor/search-result', [
+                'ID' => get_the_ID(),
+                'permalink' => esc_url((string) get_permalink()),
+                'title' => esc_attr(get_the_title()),
+            ]);
         }
+        // @phpstan-ignore-next-line
+        if ($search->have_posts()) {
+            wp_reset_postdata();
+        }
+        return $results;
     }
 
     /**

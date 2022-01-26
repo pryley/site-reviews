@@ -35,9 +35,14 @@ parameters:
     # Technically, these errors are correct. However, since this is a third-party package we will ignore them for now
     - '#Call to an undefined method ActionScheduler_Schedule::get_recurrence\(\).#'
     - '#Call to an undefined method ActionScheduler_Schedule::get_date\(\).#'
+    # Discrepancies between PHP versions (7.4 - 8)
+    - '#Parameter \#2 \$format of function get_headers expects int, false given.#'
+    - '#Parameter \#1 \$separator of function explode expects non-empty-string, string given.#'
+    - '#Parameter \#2 \$associative of function get_headers expects bool, int given.#'
   level: 5
   paths:
     - config
     - plugin
+  reportUnmatchedIgnoredErrors: false
   scanFiles:
     - vendors/woocommerce/action-scheduler/functions.php

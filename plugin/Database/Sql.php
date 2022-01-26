@@ -52,7 +52,9 @@ trait Sql
      */
     public function escValuesForInsert(array $values)
     {
-        $values = array_values(array_map('esc_sql', $values));
+        $values = array_values(
+            array_map('\GeminiLabs\SiteReviews\Helpers\Cast::toString', array_map('esc_sql', $values))
+        );
         return sprintf("('%s')", implode("','", $values));
     }
 
