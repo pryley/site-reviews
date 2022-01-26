@@ -64,7 +64,7 @@ class ReviewsListTable extends \WP_Posts_List_Table
             'name' => 'post_author',
             'show' => 'display_name_with_login',
             'show_option_none' => '&mdash; '._x('No Change', 'admin-text', 'site-reviews').' &mdash;',
-            'who' => 'authors',
+            'who' => 'authors', // @todo this may be deprecated in WP 5.9
         ];
         $args = apply_filters('quick_edit_dropdown_authors_args', $args, $bool = true); // @since WP 5.6.0
         return wp_dropdown_users($args);

@@ -112,7 +112,7 @@ class Review extends Arguments
     public function assignedPosts()
     {
         if (empty($this->assigned_posts)) {
-            return $this->assigned_posts;
+            return [];
         }
         return get_posts([
             'post__in' => $this->assigned_posts,
@@ -127,7 +127,7 @@ class Review extends Arguments
     public function assignedTerms()
     {
         if (empty($this->assigned_terms)) {
-            return $this->assigned_terms;
+            return [];
         }
         $terms = get_terms(glsr()->taxonomy, ['include' => $this->assigned_terms]);
         if (is_wp_error($terms)) {
@@ -142,7 +142,7 @@ class Review extends Arguments
     public function assignedUsers()
     {
         if (empty($this->assigned_users)) {
-            return $this->assigned_users;
+            return [];
         }
         return get_users([
             'fields' => ['display_name', 'ID', 'user_email', 'user_nicename', 'user_url'],

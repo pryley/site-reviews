@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews, business rev
 Tested up to: 5.8
 Requires at least: 5.5
 Requires PHP: 5.6
-Stable tag: 5.19.0
+Stable tag: 5.20.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -139,6 +139,11 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.19.1 (2022-01-08) =
+
+- Added loading spinner when changing review status on the All Reviews page
+- Fixed the default Schema title and description on archive pages, it will now use the archive title and description if one exists.
 
 = 5.19.0 (2021-12-30) =
 
