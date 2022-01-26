@@ -4,6 +4,7 @@
 <div class="is-fullwidth">
     <div class="glsr-flex-row">
         <div class="glsr-column">
+            <?php include trailingslashit(__DIR__).'whatsnew/v520.php'; ?>
             <?php include trailingslashit(__DIR__).'whatsnew/v519.php'; ?>
             <?php include trailingslashit(__DIR__).'whatsnew/v518.php'; ?>
             <?php include trailingslashit(__DIR__).'whatsnew/v517.php'; ?>

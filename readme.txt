@@ -140,6 +140,17 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
+= 5.20.0 (2022-01-26) =
+
+- Added hooks to override custom field sanitizers (for the Review Forms add-on)
+- Added twentytentytwo plugin style
+- Fixed a security issue with AJAX requests
+- Fixed compatibility with Object Caching plugins (i.e. Docket Cache)
+- Fixed compatibility with review pagination and the Review Images add-on lightbox
+- Fixed schema in review snippets when reviews have an anonymous author
+- Fixed the updater for inactive add-ons
+- Updated the polyfill.io script version
+
 = 5.19.1 (2022-01-08) =
 
 - Added loading spinner when changing review status on the All Reviews page
