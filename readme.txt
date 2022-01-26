@@ -148,6 +148,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Fixed compatibility with Object Caching plugins (i.e. Docket Cache)
 - Fixed compatibility with review pagination and the Review Images add-on lightbox
 - Fixed schema in review snippets when reviews have an anonymous author
+- Fixed the status option in the glsr_get_reviews() function, it will no longer return trashed reviews
 - Fixed the updater for inactive add-ons
 - Updated the polyfill.io script version
 

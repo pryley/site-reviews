@@ -230,7 +230,7 @@ trait Sql
     protected function clauseAndRating()
     {
         $column = $this->isCustomRatingField() ? 'pm.meta_value' : 'r.rating';
-        return Helper::ifTrue($this->args['rating'] > 0,
+        return (string) Helper::ifTrue($this->args['rating'] > 0,
             $this->db->prepare("AND {$column} > %d", --$this->args['rating'])
         );
     }
@@ -240,7 +240,7 @@ trait Sql
      */
     protected function clauseAndRatingField()
     {
-        return Helper::ifTrue($this->isCustomRatingField(),
+        return (string) Helper::ifTrue($this->isCustomRatingField(),
             $this->db->prepare("AND pm.meta_key = %s", sprintf('_custom_%s', $this->args['rating_field']))
         );
     }
@@ -250,7 +250,10 @@ trait Sql
      */
     protected function clauseAndStatus()
     {
-        return $this->clauseIfValueNotEmpty('AND r.is_approved = %d', $this->args['status']);
+        if (-1 !== Cast::toInt($this->args['status'])) {
+            return $this->clauseIfValueNotEmpty('AND r.is_approved = %d', $this->args['status']);
+        }
+        return "AND p.post_status IN ('pending','publish')";
     }
 
     /**
@@ -387,7 +390,7 @@ trait Sql
      */
     protected function clauseJoinOrderBy()
     {
-        return Helper::ifTrue(Str::startsWith('p.', $this->args['orderby']),
+        return (string) Helper::ifTrue(Str::startsWith('p.', $this->args['orderby']),
             "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
         );
     }
@@ -397,8 +400,18 @@ trait Sql
      */
     protected function clauseJoinRatingField()
     {
-        return Helper::ifTrue($this->isCustomRatingField(), 
+        return (string) Helper::ifTrue($this->isCustomRatingField(), 
             "INNER JOIN {$this->db->postmeta} AS pm ON r.review_id = pm.post_id"
+        );
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseJoinStatus()
+    {
+        return (string) Helper::ifTrue(-1 === Cast::toInt($this->args['status']), 
+            "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
         );
     }
 

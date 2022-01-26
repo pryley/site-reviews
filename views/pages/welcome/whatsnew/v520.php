@@ -24,6 +24,7 @@
             <li>Fixed compatibility with Object Caching plugins (i.e. Docket Cache)</li>
             <li>Fixed compatibility with review pagination and the <a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">Review Images</a> add-on lightbox</li>
             <li>Fixed schema in review snippets when reviews have an anonymous author</li>
+            <li>Fixed the status option in the <a data-expand="#fn-glsr_get_reviews" href="<?= glsr_admin_url('documentation', 'functions'); ?>">glsr_get_reviews</a> function, it will no longer return trashed reviews</li>
             <li>Fixed the updater for inactive add-ons</li>
         </ul>
     </div>

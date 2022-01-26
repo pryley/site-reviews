@@ -98,7 +98,7 @@ class NormalizeQueryArgs extends Arguments
     protected function normalizeStatus($value)
     {
         $statuses = [
-            'all' => '',
+            'all' => '-1',
             'approved' => '1',
             'pending' => '0',
             'publish' => '1',
