@@ -183,7 +183,7 @@ Search.prototype = {
         var data = {};
         data[GLSR.nameprefix] = {
             _action: this.options.action,
-            _nonce: this.el.find('#_search_nonce').val(),
+            _nonce: GLSR.nonce[this.options.action],
             exclude: this.options.exclude,
             search: this.searchTerm,
         };

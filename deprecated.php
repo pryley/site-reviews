@@ -111,6 +111,19 @@ add_action('plugins_loaded', function () {
             do_action('site-reviews/review/response', $response, $review);
         }
     }, 9, 2);
+
+    /*
+     * Router
+     * @since 5.20.0
+     */
+    add_action('site-reviews/router/public/unguarded-actions', function ($unguardedActions) {
+        if (has_filter('site-reviews/router/unguarded-actions')) {
+            $message = 'The "site-reviews/router/unguarded-actions" hook has been deprecated. Please use the "site-reviews/router/public/unguarded-actions" hook instead.';
+            glsr()->append('deprecated', $message);
+            return apply_filters('site-reviews/router/unguarded-actions', $unguardedActions);
+        }
+        return $unguardedActions;
+    }, 9);
 });
 
 /**

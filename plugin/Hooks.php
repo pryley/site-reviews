@@ -159,8 +159,8 @@ class Hooks implements HooksContract
         add_action('wp_restore_post_revision', [$this->revisions, 'restoreRevision'], 10, 2);
         add_action('_wp_put_post_revision', [$this->revisions, 'saveRevision']);
         add_action('admin_init', [$this->router, 'routeAdminPostRequest']);
-        add_action('wp_ajax_'.glsr()->prefix.'action', [$this->router, 'routeAjaxRequest']);
-        add_action('wp_ajax_nopriv_'.glsr()->prefix.'action', [$this->router, 'routeAjaxRequest']);
+        add_action('wp_ajax_'.glsr()->prefix.'action', [$this->router, 'routeAdminAjaxRequest']);
+        add_action('wp_ajax_nopriv_'.glsr()->prefix.'action', [$this->router, 'routePublicAjaxRequest']);
         add_action('init', [$this->router, 'routePublicPostRequest']);
         add_action('admin_init', [$this->settings, 'registerSettings']);
         add_action('site-reviews/route/admin/clear-console', [$this->tools, 'clearConsole']);

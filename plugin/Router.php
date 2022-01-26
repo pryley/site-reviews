@@ -11,16 +11,42 @@ class Router
     /**
      * @var array
      */
-    protected $unguardedActions;
+    protected $unguardedAdminActions;
+
+    /**
+     * @var array
+     */
+    protected $unguardedPublicActions;
 
     public function __construct()
     {
-        $this->unguardedActions = glsr()->filterArray('router/unguarded-actions', [
+        $this->unguardedAdminActions = glsr()->filterArray('router/admin/unguarded-actions', [
             'dismiss-notice',
-            'fetch-paged-reviews',
-            'search-posts',
-            'search-users',
         ]);
+        $this->unguardedPublicActions = glsr()->filterArray('router/public/unguarded-actions', [
+            'fetch-paged-reviews',
+            'submit-review',
+        ]);
+    }
+
+    /**
+     * @return void
+     */
+    public function routeAdminAjaxRequest()
+    {
+        $request = $this->getRequest();
+        $this->checkAjaxRequest($request);
+        if (glsr()->isAdmin()) { // if viewing a WP admin page
+            if (!in_array($request->_action, $this->unguardedAdminActions)) {
+                $this->checkAjaxNonce($request);
+            }
+        } else {
+            if (!in_array($request->_action, $this->unguardedPublicActions)) {
+                $this->checkAjaxNonce($request);
+            }
+        }
+        $this->routeRequest('ajax', $request);
+        wp_die();
     }
 
     /**
@@ -30,7 +56,7 @@ class Router
     {
         $request = $this->getRequest();
         if ($this->isValidPostRequest($request)) {
-            check_admin_referer($request->_action);
+            check_admin_referer($request->_action); // die() called if nonce is invalid
             $this->routeRequest('admin', $request);
         }
     }
@@ -38,11 +64,13 @@ class Router
     /**
      * @return void
      */
-    public function routeAjaxRequest()
+    public function routePublicAjaxRequest()
     {
         $request = $this->getRequest();
         $this->checkAjaxRequest($request);
-        $this->checkAjaxNonce($request);
+        if (!in_array($request->_action, $this->unguardedPublicActions)) {
+            $this->checkAjaxNonce($request);
+        }
         $this->routeRequest('ajax', $request);
         wp_die();
     }
@@ -66,14 +94,11 @@ class Router
      */
     protected function checkAjaxNonce(Request $request)
     {
-        if (!is_user_logged_in() || in_array($request->_action, $this->unguardedActions)) {
-            return;
-        }
         if (empty($request->_nonce)) {
-            $this->sendAjaxError('request is missing a nonce', $request);
+            $this->sendAjaxError('AJAX request is missing a nonce', $request, 400, 'Unauthorized request');
         }
         if (!wp_verify_nonce($request->_nonce, $request->_action)) {
-            $this->sendAjaxError('request failed the nonce check', $request, 403);
+            $this->sendAjaxError('AJAX request failed the nonce check', $request, 403, 'Unauthorized request');
         }
     }
 
@@ -83,10 +108,10 @@ class Router
     protected function checkAjaxRequest(Request $request)
     {
         if (empty($request->_action)) {
-            $this->sendAjaxError('request must include an action', $request);
+            $this->sendAjaxError('AJAX request must include an action', $request, 400, 'Invalid request');
         }
         if (empty($request->_ajax_request)) {
-            $this->sendAjaxError('request is invalid', $request);
+            $this->sendAjaxError('AJAX request is invalid', $request, 400, 'Invalid request');
         }
     }
 
@@ -120,6 +145,8 @@ class Router
      */
     protected function isValidPublicNonce(Request $request)
     {
+        // only require a nonce for public requests if user is logged in, this avoids 
+        // potential caching issues since unauthenticated requests should never be destructive.
         if (is_user_logged_in() && !wp_verify_nonce($request->_nonce, $request->_action)) {
             glsr_log()->error('nonce check failed for public request')->debug($request);
             return false;
@@ -144,18 +171,26 @@ class Router
 
     /**
      * @param string $error
-     * @param int $statusCode
+     * @param int $code
+     * @param string $message
      * @return void
      */
-    protected function sendAjaxError($error, Request $request, $statusCode = 400)
+    protected function sendAjaxError($error, Request $request, $code = 400, $message = '')
     {
         glsr_log()->error($error)->debug($request);
-        glsr(Notice::class)->addError(_x('There was an error (try reloading the page).', 'admin-text', 'site-reviews').' <code>'.$error.'</code>');
+        $notices = '';
+        if (glsr()->isAdmin()) {
+            glsr(Notice::class)->addError(_x('There was an error (try reloading the page).', 'admin-text', 'site-reviews').' <code>'.$error.'</code>');
+            $notices = glsr(Notice::class)->get();
+        }
+        if ('submit-review' === $request->_action) {
+            $message = __('The form could not be submitted. Please notify the site administrator.', 'site-reviews');
+        }
         wp_send_json_error([
-            'code' => $statusCode,
-            'message' => __('The form could not be submitted. Please notify the site administrator.', 'site-reviews'),
-            'notices' => glsr(Notice::class)->get(),
+            'code' => $code,
             'error' => $error,
+            'message' => $message ?: $error,
+            'notices' => $notices,
         ]);
     }
 }
