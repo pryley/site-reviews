@@ -24,6 +24,10 @@ class ToggleStatus implements Contract
      */
     public function handle()
     {
+        if (glsr()->post_type !== get_post_type($this->id)) {
+            glsr_log()->error('Cannot toggle review status: Invalid Post Type.');
+            return [];
+        }
         $postId = wp_update_post([
             'ID' => $this->id,
             'post_status' => $this->status,
