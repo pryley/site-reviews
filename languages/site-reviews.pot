@@ -1192,12 +1192,12 @@ msgctxt "admin-text"
 msgid "Unknown"
 msgstr ""
 
-#: plugin/Router.php:183
+#: plugin/Router.php:181
 msgctxt "admin-text"
 msgid "There was an error (try reloading the page)."
 msgstr ""
 
-#: plugin/Router.php:187, views/pages/documentation/support/common-problems-and-solutions.php:55
+#: plugin/Router.php:185, views/pages/documentation/support/common-problems-and-solutions.php:55
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 

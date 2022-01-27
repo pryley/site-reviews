@@ -44,7 +44,7 @@ msgstr "There are no reviews yet. Be the first one to write one."
 msgid "Anonymous"
 msgstr "Anonymous"
 
-#: plugin/Router.php:187, views/pages/documentation/support/common-problems-and-solutions.php:55
+#: plugin/Router.php:185, views/pages/documentation/support/common-problems-and-solutions.php:55
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr "The form could not be submitted. Please notify the site administrator."
 
@@ -1652,7 +1652,7 @@ msgctxt "admin-text"
 msgid "Unknown"
 msgstr "Unknown"
 
-#: plugin/Router.php:183
+#: plugin/Router.php:181
 msgctxt "admin-text"
 msgid "There was an error (try reloading the page)."
 msgstr "There was an error (try reloading the page)."

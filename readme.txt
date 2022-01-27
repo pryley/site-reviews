@@ -2,10 +2,10 @@
 Contributors: geminilabs, pryley
 Donate link: https://www.paypal.me/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, star ratings
-Tested up to: 5.8
+Tested up to: 5.9
 Requires at least: 5.5
-Requires PHP: 5.6
-Stable tag: 5.20.0
+Requires PHP: 5.6.20
+Stable tag: 5.20.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -139,6 +139,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.20.1 (2022-01-27) =
+
+- Fixed admin notices
 
 = 5.20.0 (2022-01-26) =
 
