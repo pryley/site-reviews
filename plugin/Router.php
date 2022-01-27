@@ -20,10 +20,14 @@ class Router
 
     public function __construct()
     {
+        // Authenticated routes to unguard
         $this->unguardedAdminActions = glsr()->filterArray('router/admin/unguarded-actions', [
             'dismiss-notice',
+            'fetch-paged-reviews',
         ]);
+        // Unauthenticated routes to unguard
         $this->unguardedPublicActions = glsr()->filterArray('router/public/unguarded-actions', [
+            'dismiss-notice',
             'fetch-paged-reviews',
             'submit-review',
         ]);
@@ -36,14 +40,8 @@ class Router
     {
         $request = $this->getRequest();
         $this->checkAjaxRequest($request);
-        if (glsr()->isAdmin()) { // if viewing a WP admin page
-            if (!in_array($request->_action, $this->unguardedAdminActions)) {
-                $this->checkAjaxNonce($request);
-            }
-        } else {
-            if (!in_array($request->_action, $this->unguardedPublicActions)) {
-                $this->checkAjaxNonce($request);
-            }
+        if (!in_array($request->_action, $this->unguardedAdminActions)) {
+            $this->checkAjaxNonce($request);
         }
         $this->routeRequest('ajax', $request);
         wp_die();
