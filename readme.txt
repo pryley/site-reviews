@@ -142,9 +142,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 = 5.20.0 (2022-01-26) =
 
+- Added an "Author" filter to the All Reviews table
 - Added hooks to override custom field sanitizers (for the Review Forms add-on)
-- Added twentytentytwo plugin style
-- Fixed a security issue with AJAX requests
+- Added Twenty Twenty-Two plugin style
+- Fixed a security issue with AJAX requests @patchstackapp
 - Fixed compatibility with Object Caching plugins (i.e. Docket Cache)
 - Fixed compatibility with review pagination and the Review Images add-on lightbox
 - Fixed schema in review snippets when reviews have an anonymous author

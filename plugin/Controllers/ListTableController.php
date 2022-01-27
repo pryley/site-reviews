@@ -408,13 +408,13 @@ class ListTableController extends Controller
      */
     protected function modifyClauseWhere($where, $table, WP_Query $query)
     {
+        global $wpdb;
         $mapped = [
             'assigned_post' => 'post',
             'assigned_user' => 'user',
         ];
         foreach ($this->filterByValues() as $key => $value) {
             if (in_array($key, ['assigned_post', 'assigned_user'])) {
-                global $wpdb;
                 $assignedTable = glsr(Query::class)->table($key.'s');
                 if (-1 === Cast::toInt($value)) {
                     $ids = $wpdb->get_col("
@@ -432,8 +432,12 @@ class ListTableController extends Controller
                     ");
                 }
                 $where .= sprintf(" AND {$wpdb->posts}.ID IN (%s) ", implode(',', $ids));
-            } else {
+            } elseif (in_array($key, ['rating','type'])) {
                 $where .= " AND {$table}.{$key} = '{$value}' ";
+            } elseif ('author' === $key && '0' === $value) {
+                // Filtering by the "author" URL parameter is automatically done
+                // by WordPress when the value is not empty
+                $where .= " AND {$wpdb->posts}.post_author IN (0) ";
             }
         }
         return $where;

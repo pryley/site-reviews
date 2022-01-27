@@ -10,9 +10,10 @@
         <h4>✨ New Features</h4>
         <ul>
             <li>Added a loading indicator when changing review status on the All Reviews page</li>
+            <li>Added an "Author" filter to the All Reviews table</li>
             <li>Added hooks to override custom field sanitizers (for the <a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">Review Forms</a> add-on)</li>
             <li>Added schema support for archive pages, it will now use the archive title and description if they exist</li>
-            <li>Added twentytentytwo plugin style</li>
+            <li>Added Twenty Twenty-Two plugin style</li>
         </ul>
         <h4>🛠 Tweaks</h4>
         <ul>
@@ -20,7 +21,7 @@
         </ul>
         <h4>🐞 Bugs Fixed</h4>
         <ul>
-            <li>Fixed a security issue with AJAX requests</li>
+            <li>Fixed a security issue with AJAX requests @patchstackapp</li>
             <li>Fixed compatibility with Object Caching plugins (i.e. Docket Cache)</li>
             <li>Fixed compatibility with review pagination and the <a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">Review Images</a> add-on lightbox</li>
             <li>Fixed schema in review snippets when reviews have an anonymous author</li>
