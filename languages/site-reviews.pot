@@ -2350,7 +2350,7 @@ msgctxt "admin-text"
 msgid "This custom translation is no longer valid as the original text has been changed or removed."
 msgstr ""
 
-#: plugin/Overrides/ReviewsListTable.php:124, views/partials/screen/inline-edit.php:69, views/partials/screen/inline-edit.php:83, views/partials/screen/inline-edit.php:93
+#: plugin/Overrides/ReviewsListTable.php:66, views/partials/screen/inline-edit.php:69, views/partials/screen/inline-edit.php:83, views/partials/screen/inline-edit.php:93
 msgctxt "admin-text"
 msgid "No Change"
 msgstr ""
@@ -2939,6 +2939,21 @@ msgstr ""
 #: plugin/Controllers/ListTableColumns/ColumnFilterAssignedUser.php:42
 msgctxt "admin-text"
 msgid "No assigned user"
+msgstr ""
+
+#: plugin/Controllers/ListTableColumns/ColumnFilterAuthor.php:20
+msgctxt "admin-text"
+msgid "Filter by author"
+msgstr ""
+
+#: plugin/Controllers/ListTableColumns/ColumnFilterAuthor.php:23
+msgctxt "admin-text"
+msgid "All authors"
+msgstr ""
+
+#: plugin/Controllers/ListTableColumns/ColumnFilterAuthor.php:44
+msgctxt "admin-text"
+msgid "No author (guest submissions)"
 msgstr ""
 
 #: plugin/Controllers/ListTableColumns/ColumnFilterCategory.php:19
