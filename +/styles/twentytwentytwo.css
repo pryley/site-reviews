@@ -37,3 +37,27 @@
 :--namespace button.glsr-button:hover {
     opacity: 0.90;
 }
+
+:--namespace .glsr-pagination .page-numbers {
+    margin-bottom: 0.5em;
+}
+:--namespace .glsr-pagination .page-numbers:not(.prev):not(.next) {
+    margin-left: 2px;
+    margin-right: 2px;
+}
+:--namespace .glsr-pagination .page-numbers.prev,
+:--namespace .glsr-pagination .page-numbers.next {
+    flex: 1;
+}
+:--namespace.glsr-ltr .glsr-pagination .page-numbers.prev,
+:--namespace.glsr-rtr .glsr-pagination .page-numbers.next {
+    margin-right: 0.5em;
+    text-align: left;
+}
+:--namespace.glsr-rtl .glsr-pagination .page-numbers.prev,
+:--namespace.glsr-ltr .glsr-pagination .page-numbers.next {
+    margin-left: 0.5em;
+    text-align: right;
+}
+
+
