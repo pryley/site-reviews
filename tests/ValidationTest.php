@@ -39,6 +39,7 @@ class ValidationTest extends WP_Ajax_UnitTestCase
         $this->ipaddress = Helper::getIpAddress();
         $this->request = new Request([
             '_action' => 'submit-review',
+            '_nonce' => wp_create_nonce('submit-review'), // wp_ajax_* is used in tests (?)
             '_post_id' => '13',
             '_referer' => $this->referer,
             'excluded' => '[]',
