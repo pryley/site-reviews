@@ -98,7 +98,7 @@ class ImportReviews extends Upload implements Contract
             $reader->skipEmptyRecords();
             $header = array_map('trim', $reader->getHeader());
             if (!empty(array_diff(static::REQUIRED_KEYS, $header))) {
-                throw new Exception('The CSV import header is missing some of the required columns (or maybe you selected the correct delimiter).');
+                throw new Exception('The CSV import header is missing some of the required columns (or maybe you selected the wrong delimiter).');
             }
             $this->totalRecords = count($reader);
             $records = Statement::create()
