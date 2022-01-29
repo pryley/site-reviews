@@ -287,6 +287,7 @@ class Database
     {
         if ($this->db->last_error) {
             glsr_log()->error($this->db->last_error);
+            glsr_trace();
         }
         return $result;
     }
