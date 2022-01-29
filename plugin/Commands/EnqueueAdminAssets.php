@@ -93,6 +93,7 @@ class EnqueueAdminAssets implements Contract
                 'fetch-console' => wp_create_nonce('fetch-console'),
                 'mce-shortcode' => wp_create_nonce('mce-shortcode'),
                 'search-posts' => wp_create_nonce('search-posts'),
+                'search-translations' => wp_create_nonce('search-translations'),
                 'search-users' => wp_create_nonce('search-users'),
                 'sync-reviews' => wp_create_nonce('sync-reviews'),
                 'toggle-filters' => wp_create_nonce('toggle-filters'),

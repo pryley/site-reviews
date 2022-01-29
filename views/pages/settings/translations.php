@@ -19,7 +19,6 @@
         <div class="glsr-search-box-wrap">
             <span class="glsr-spinner"><span class="spinner"></span></span>
             <input type="search" class="glsr-search-input" autocomplete="off" placeholder="<?= _x('Search here for text to customise...', 'admin-text', 'site-reviews'); ?>">
-            <?php wp_nonce_field('search-translations', '_search_nonce', false); ?>
             <div class="glsr-search-results" data-prefix="{{ database_key }}"></div>
         </div>
     </div>
