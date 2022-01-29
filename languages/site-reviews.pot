@@ -1363,12 +1363,12 @@ msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:106
+#: plugin/Commands/EnqueueAdminAssets.php:107
 msgctxt "admin-text"
 msgid "Try Premium"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:107
+#: plugin/Commands/EnqueueAdminAssets.php:108
 msgctxt "admin-text"
 msgid "Please rate %s on %s and help us spread the word. Thank you so much!"
 msgstr ""
@@ -3309,12 +3309,12 @@ msgctxt "admin-text"
 msgid "Search here for text to customise..."
 msgstr ""
 
-#: views/pages/settings/translations.php:29
+#: views/pages/settings/translations.php:28
 msgctxt "admin-text"
 msgid "Original Text"
 msgstr ""
 
-#: views/pages/settings/translations.php:30
+#: views/pages/settings/translations.php:29
 msgctxt "admin-text"
 msgid "Custom Text"
 msgstr ""

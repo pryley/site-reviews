@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews, business rev
 Tested up to: 5.9
 Requires at least: 5.5
 Requires PHP: 5.6.20
-Stable tag: 5.20.1
+Stable tag: 5.20.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,7 @@ __Site Reviews integrates with Woocommerce__ with the free [Woocommerce Reviews]
 - __Assign Reviews to Pages__: Assign reviews to Posts, Pages, and Custom Post Types like Woocommerce Products.
 - __Assign Reviews to Users__: Assign reviews to Users on your website.
 - __Avatars__: Provided by the WordPress Gravatar service
-- __Backup and Restore__: Export/Import your settings and custom translations, and use the WordPress Export and Import tools to backup your reviews.
+- __Backup and Restore__: Export/Import your settings and custom text strings, and use the WordPress Export and Import tools to backup your reviews.
 - __Bayesian Ranking__: Easily sort pages with assigned reviews by rank (using the bayesian algorithm) in your custom WP_Query
 - __Blacklist__: Block review submissions which contain specific words, phrases, IP addresses, names, and emails
 - __Developer Friendly__: Designed for WordPress developers with over 100 hooks and convenient functions
@@ -139,6 +139,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.20.2 (2022-01-29) =
+
+- Fixed the search on the Strings settings page
 
 = 5.20.1 (2022-01-27) =
 
