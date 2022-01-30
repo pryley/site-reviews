@@ -194,7 +194,6 @@ function glsr_get_review($postId)
  */
 function glsr_get_reviews($args = [])
 {
-    glsr()->sessionSet('glsr_get_reviews', true); // Tell Site Reviews that the helper function was used
     return glsr(ReviewManager::class)->reviews(Arr::consolidate($args));
 }
 
