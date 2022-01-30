@@ -59,7 +59,7 @@ class ImportReviews extends Upload implements Contract
     public function __construct(Request $request)
     {
         $this->date_format = Str::restrictTo(static::ALLOWED_DATE_FORMATS, $request->date_format, 'Y-m-d');
-        $this->delimiter = Str::restrictTo(static::ALLOWED_DELIMITERS, $request->delimiter, ',');
+        $this->delimiter = Str::restrictTo(static::ALLOWED_DELIMITERS, $request->delimiter, '');
         $this->errors = [];
     }
 
@@ -81,6 +81,26 @@ class ImportReviews extends Upload implements Contract
     }
 
     /**
+     * @return Reader
+     */
+    protected function createReader()
+    {
+        $reader = Reader::createFromPath($this->file()->tmp_name);
+        if (empty($this->delimiter)) {
+            $delimiters = \GeminiLabs\League\Csv\delimiter_detect($reader, [',',';']);
+            $delimiters = array_keys(array_filter($delimiters));
+            if (1 !== count($delimiters)) {
+                throw new Exception('Cannot detect the delimiter used in the CSV file (supported delimiters are comma and semicolon).');
+            }
+            $this->delimiter = $delimiters[0];
+        }
+        $reader->setDelimiter($this->delimiter);
+        $reader->setHeaderOffset(0);
+        $reader->skipEmptyRecords();
+        return $reader;
+    }
+
+    /**
      * @return int|bool
      */
     protected function import()
@@ -90,13 +110,10 @@ class ImportReviews extends Upload implements Contract
             ini_set('auto_detect_line_endings', '1');
         }
         require_once glsr()->path('vendors/thephpleague/csv/functions_include.php');
+        wp_raise_memory_limit('admin');
+        $reader = $this->createReader();
+        $header = array_map('trim', $reader->getHeader());
         try {
-            wp_raise_memory_limit('admin');
-            $reader = Reader::createFromPath($this->file()->tmp_name);
-            $reader->setDelimiter($this->delimiter);
-            $reader->setHeaderOffset(0);
-            $reader->skipEmptyRecords();
-            $header = array_map('trim', $reader->getHeader());
             if (!empty(array_diff(static::REQUIRED_KEYS, $header))) {
                 throw new Exception('The CSV import header is missing some of the required columns (or maybe you selected the wrong delimiter).');
             }

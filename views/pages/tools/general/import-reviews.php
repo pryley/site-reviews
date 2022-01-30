@@ -45,8 +45,8 @@
             </p>
             <p>
                 <label for="csv_delimiter"><strong><?= _x('Delimiter', 'admin-text', 'site-reviews'); ?></strong></label><br>
-                <select name="{{ id }}[delimiter]" id="csv_delimiter" required>
-                    <option value=""><?= _x('Select the delimiter used in the CSV file', 'admin-text', 'site-reviews'); ?></option>
+                <select name="{{ id }}[delimiter]" id="csv_delimiter">
+                    <option value=""><?= _x('Detect automatically', 'admin-text', 'site-reviews'); ?></option>
                     <option value=","><?= _x('Comma (,)', 'admin-text', 'site-reviews'); ?></option>
                     <option value=";"><?= _x('Semicolon (;)', 'admin-text', 'site-reviews'); ?></option>
                 </select>
