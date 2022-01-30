@@ -26,10 +26,10 @@ class RecaptchaValidator extends ValidatorAbstract
             return true;
         }
         if (static::RECAPTCHA_EMPTY === $this->status) {
-            glsr()->sessionSet($this->sessionKey('recaptcha'), 'unset');
+            glsr()->sessionSet('form_recaptcha', 'unset');
             return true;
         }
-        glsr()->sessionSet($this->sessionKey('recaptcha'), 'reset');
+        glsr()->sessionSet('form_recaptcha', 'reset');
         return false;
     }
 

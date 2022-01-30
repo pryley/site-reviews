@@ -29,6 +29,7 @@ class SiteReviewsFormDefaults extends Defaults
      * @var array
      */
     public $sanitize = [
+        'form_id' => 'id',
         'id' => 'id',
     ];
 
@@ -44,6 +45,7 @@ class SiteReviewsFormDefaults extends Defaults
             'class' => '',
             'description' => '',
             'excluded' => '',
+            'form_id' => '', // used for the validation session key and to generate the honeypot hash
             'hide' => '',
             'id' => '',
             'title' => '',

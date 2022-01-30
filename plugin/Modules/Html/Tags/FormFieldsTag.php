@@ -32,7 +32,7 @@ class FormFieldsTag extends FormTag
     {
         $fields = $this->fields();
         $hiddenFields = array_merge($this->hiddenFields(), [
-            'honeypot' => glsr(Honeypot::class)->build($this->args->id)
+            'honeypot' => glsr(Honeypot::class)->build($this->args->form_id)
         ]);
         foreach ($fields as $name => $field) {
             unset($hiddenFields[$name]);
@@ -58,7 +58,7 @@ class FormFieldsTag extends FormTag
             'assigned_terms' => $this->args->assigned_terms,
             'assigned_users' => $this->args->assigned_users,
             'excluded' => $this->args->hide,
-            'form_id' => $this->args->id,
+            'form_id' => $this->args->form_id,
             'terms_exist' => Cast::toInt(!in_array('terms', $this->args->hide)),
         ];
         foreach ($hiddenFields as $name => $value) {

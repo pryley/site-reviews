@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Request;
 
@@ -56,9 +57,9 @@ class ValidateReview
             }
         }
         $this->blacklisted = Cast::toBool($this->request->blacklisted);
-        $this->errors = glsr()->sessionGet($this->request->form_id.'_errors', false);
-        $this->message = glsr()->sessionGet($this->request->form_id.'_message');
-        $this->recaptcha = glsr()->sessionGet($this->request->form_id.'_recaptcha');
+        $this->errors = glsr()->sessionPluck($this->request->form_id.'_errors', false);
+        $this->message = glsr()->sessionPluck($this->request->form_id.'_message');
+        $this->recaptcha = glsr()->sessionPluck($this->request->form_id.'_recaptcha');
         return $this;
     }
 

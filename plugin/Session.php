@@ -32,7 +32,15 @@ trait Session
      */
     public function sessionGet($key, $fallback = '')
     {
-        $value = Arr::get($this->session, $key, $fallback);
+        return Arr::get($this->session, $key, $fallback);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function sessionPluck($key, $fallback = '')
+    {
+        $value = $this->sessionGet($key, $fallback);
         unset($this->session[$key]);
         return $value;
     }

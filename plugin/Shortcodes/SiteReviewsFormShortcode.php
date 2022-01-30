@@ -185,10 +185,10 @@ class SiteReviewsFormShortcode extends Shortcode
     protected function with()
     {
         return glsr()->args([
-            'errors' => glsr()->sessionGet($this->args['id'].'errors', []),
-            'message' => glsr()->sessionGet($this->args['id'].'message', ''),
+            'errors' => glsr()->sessionPluck($this->args['id'].'errors', []),
+            'message' => glsr()->sessionPluck($this->args['id'].'message', ''),
             'required' => glsr_get_option('submissions.required', []),
-            'values' => glsr()->sessionGet($this->args['id'].'values', []),
+            'values' => glsr()->sessionPluck($this->args['id'].'values', []),
         ]);
     }
 }

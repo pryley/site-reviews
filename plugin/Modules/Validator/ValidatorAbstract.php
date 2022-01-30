@@ -43,16 +43,7 @@ abstract class ValidatorAbstract
      */
     protected function alreadyFailed()
     {
-        return is_array(glsr()->session()->get($this->sessionKey('errors')));
-    }
-
-    /**
-     * @param string $type
-     * @return string
-     */
-    protected function sessionKey($type)
-    {
-        return $this->request->form_id.'_'.$type;
+        return is_array(glsr()->sessionGet('form_errors'));
     }
 
     /**
@@ -62,9 +53,9 @@ abstract class ValidatorAbstract
      */
     protected function setErrors($message, $loggedMessage = null)
     {
-        glsr()->sessionSet($this->sessionKey('errors'), $this->errors);
-        glsr()->sessionSet($this->sessionKey('message'), $message);
-        glsr()->sessionSet($this->sessionKey('values'), $this->request->toArray());
+        glsr()->sessionSet('form_errors', $this->errors);
+        glsr()->sessionSet('form_message', $message);
+        glsr()->sessionSet('form_values', $this->request->toArray());
         if (!empty($loggedMessage)) {
             glsr_log()->warning($loggedMessage)->debug($this->request->toArray());
         }

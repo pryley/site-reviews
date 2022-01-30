@@ -124,7 +124,7 @@ class Sanitizer
     public function sanitizeId($value)
     {
         require_once ABSPATH.WPINC.'/pluggable.php';
-        $value = $this->sanitizeSlug($value);
+        $value = substr(sanitize_key($value), 0, 32); // limit the id to 32 characters
         if (empty($value)) {
             $value = glsr()->prefix.substr(wp_hash(serialize($this->values), 'nonce'), -12, 8);
         }
