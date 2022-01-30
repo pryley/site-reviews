@@ -166,7 +166,7 @@ class Sanitizer
      */
     public function sanitizeKey($value)
     {
-        return Str::snakeCase(sanitize_key($this->sanitizeText($value)));
+        return Str::snakeCase(sanitize_key($value));
     }
 
     /**
