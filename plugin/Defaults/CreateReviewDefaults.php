@@ -32,7 +32,7 @@ class CreateReviewDefaults extends Defaults
         'custom' => 'array',
         'date' => 'date',
         'email' => 'user-email',
-        'form_id' => 'int',
+        'form_id' => 'key',
         'ip_address' => 'text',
         'is_approved' => 'bool',
         'is_pinned' => 'bool',

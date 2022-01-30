@@ -57,9 +57,9 @@ class ValidateReview
             }
         }
         $this->blacklisted = Cast::toBool($this->request->blacklisted);
-        $this->errors = glsr()->sessionPluck($this->request->form_id.'_errors', false);
-        $this->message = glsr()->sessionPluck($this->request->form_id.'_message');
-        $this->recaptcha = glsr()->sessionPluck($this->request->form_id.'_recaptcha');
+        $this->errors = glsr()->sessionPluck('form_errors', false);
+        $this->message = glsr()->sessionPluck('form_message');
+        $this->recaptcha = glsr()->sessionPluck('form_recaptcha');
         return $this;
     }
 
