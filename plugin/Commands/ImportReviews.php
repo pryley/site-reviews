@@ -44,7 +44,7 @@ class ImportReviews extends Upload implements Contract
     /**
      * @var string
      */
-    protected $delimiter = ',';
+    protected $delimiter = '';
 
     /**
      * @var string[]
@@ -125,7 +125,11 @@ class ImportReviews extends Upload implements Contract
                 ->process($reader, $header);
             return $this->importRecords($records);
         } catch (Exception $e) {
-            glsr(Notice::class)->addError($e->getMessage());
+            if ('The header record must be an empty or a flat array with unique string values.' === $e->getMessage()) {
+                glsr(Notice::class)->addError('Site Reviews does not support UTF-16 encoded CSV files. Please save as UTF-8 and try again.');
+            } else {
+                glsr(Notice::class)->addError($e->getMessage());
+            }
             return false;
         }
     }
