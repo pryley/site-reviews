@@ -11,7 +11,7 @@ class DefaultsManager
      */
     public function defaults()
     {
-        $settings = $this->settings();
+        $settings = glsr()->settings();
         $defaults = (array) array_combine(array_keys($settings), wp_list_pluck($settings, 'default'));
         return wp_parse_args($defaults, [
             'version' => '',
@@ -33,7 +33,7 @@ class DefaultsManager
      */
     public function pluck($path)
     {
-        $settings = Arr::convertFromDotNotation($this->settings());
+        $settings = Arr::convertFromDotNotation(glsr()->settings());
         return Arr::get($settings, $path);
     }
 
@@ -48,32 +48,5 @@ class DefaultsManager
         $updatedSettings = array_replace_recursive($settings, $defaultSettings);
         update_option(OptionManager::databaseKey(), $updatedSettings);
         return $defaultSettings;
-    }
-
-    /**
-     * @return array
-     */
-    public function settings()
-    {
-        static $settings;
-        if (empty($settings)) {
-            $settings = glsr()->filterArray('addon/settings', glsr()->config('settings'));
-            $settings = $this->normalize($settings);
-        }
-        return $settings;
-    }
-
-    /**
-     * @return array
-     */
-    protected function normalize(array $settings)
-    {
-        array_walk($settings, function (&$setting) {
-            if (isset($setting['default'])) {
-                return;
-            }
-            $setting['default'] = '';
-        });
-        return $settings;
     }
 }

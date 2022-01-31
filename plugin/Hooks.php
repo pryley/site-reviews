@@ -110,7 +110,7 @@ class Hooks implements HooksContract
         add_action('pre_get_posts', [$this->listtable, 'setQueryForColumn']);
         add_action('restrict_manage_posts', [$this->listtable, 'renderColumnFilters']);
         add_action('manage_'.glsr()->post_type.'_posts_custom_column', [$this->listtable, 'renderColumnValues'], 10, 2);
-        add_action('init', [$this->main, 'initDefaults'], 1);
+        add_action('init', [$this->main, 'initDefaults'], 2);
         add_action('wp_insert_site', [$this->main, 'installOnNewSite']);
         add_action('admin_footer', [$this->main, 'logOnce']);
         add_action('wp_footer', [$this->main, 'logOnce']);

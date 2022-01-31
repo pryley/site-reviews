@@ -274,8 +274,12 @@ add_action('site-reviews/addon/update', function ($app) {
     ];
     foreach ($addons as $basename => $addon) {
         $file = trailingslashit(WP_PLUGIN_DIR).$basename;
-        if (file_exists($file)) {
-            $app->update($addon, $file);
-        }
+        try {
+            $reflection = new \ReflectionClass($addon);
+            $addonId = $reflection->getConstant('ID');
+            if (file_exists($file) && !in_array($addonId, $app->updated)) {
+                $app->update($addon, $file);
+            }
+        } catch (\ReflectionException $e) {}
     }
 });

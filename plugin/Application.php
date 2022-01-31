@@ -65,6 +65,11 @@ final class Application extends Container
     /**
      * @var array
      */
+    protected $settings;
+
+    /**
+     * @var array
+     */
     protected $updated = [];
 
     /**
@@ -156,6 +161,34 @@ final class Application extends Container
     }
 
     /**
+     * @param object|string $addon
+     * @return void
+     */
+    public function licenseAddon($addon)
+    {
+        try {
+            $settings = $this->settings(); // populate the initial settings
+            $reflection = new \ReflectionClass($addon);
+            $licensed = $reflection->getConstant('LICENSED');
+            if (!$licensed) {
+                return;
+            }
+            $license = [
+                'settings.licenses.'.$reflection->getConstant('ID') => [
+                    'class' => 'regular-text',
+                    'default' => '',
+                    'label' => $reflection->getConstant('NAME'),
+                    'tooltip' => sprintf(_x('Make sure to first activate your website domain with your license before adding it here. You can do this by visiting the %s page on your Nifty Plugins account and clicking the "Manage Sites" button.', 'admin-text', 'site-reviews'),
+                        sprintf('<a href="https://niftyplugins.com/account/license-keys/" target="_blank">%s</a>', _x('License Keys', 'admin-text', 'site-reviews'))
+                    ),
+                    'type' => 'text',
+                ],
+            ];
+            $this->settings = array_merge($license, $settings);
+        } catch (\ReflectionException $e) {}
+    }
+
+    /**
      * @param string|object $addon
      * @return void
      */
@@ -171,6 +204,23 @@ final class Application extends Container
         } catch (\ReflectionException $e) {
             glsr_log()->error('Attempted to register an invalid addon.');
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function settings()
+    {
+        if (empty($this->settings)) {
+            $settings = $this->filterArray('addon/settings', $this->config('settings'));
+            array_walk($settings, function (&$setting) {
+                if (!isset($setting['default'])) {
+                    $setting['default'] = '';
+                }
+            });
+            $this->settings = $settings;
+        }
+        return $this->settings;
     }
 
     /**
@@ -205,6 +255,7 @@ final class Application extends Container
             $addonId = $reflection->getConstant('ID');
             $updateUrl = $reflection->getConstant('UPDATE_URL');
             if ($addonId && $updateUrl && !in_array($addonId, $this->updated)) {
+                $this->licenseAddon($addon);
                 $license = glsr_get_option('licenses.'.$addonId);
                 $updater = new Updater($updateUrl, $file, compact('license'));
                 $updater->init();

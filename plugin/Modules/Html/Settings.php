@@ -12,17 +12,11 @@ use GeminiLabs\SiteReviews\Modules\Translation;
 class Settings
 {
     /**
-     * @var array
-     */
-    public $settings;
-
-    /**
      * @param string $id
      * @return string
      */
     public function buildFields($id)
     {
-        $this->settings = glsr(DefaultsManager::class)->settings();
         $method = Helper::buildMethodName($id, 'getTemplateDataFor');
         $data = !method_exists($this, $method)
             ? $this->getTemplateData($id)
@@ -54,7 +48,7 @@ class Settings
      */
     protected function getSettingFields($path)
     {
-        return array_filter($this->settings, function ($key) use ($path) {
+        return array_filter(glsr()->settings, function ($key) use ($path) {
             return Str::startsWith($path, $key);
         }, ARRAY_FILTER_USE_KEY);
     }
@@ -172,8 +166,8 @@ class Settings
      */
     protected function isMultiDependency($path)
     {
-        if (isset($this->settings[$path])) {
-            $field = $this->settings[$path];
+        if (isset(glsr()->settings[$path])) {
+            $field = glsr()->settings[$path];
             return ('checkbox' == $field['type'] && !empty($field['options']))
                 || !empty($field['multiple']);
         }
