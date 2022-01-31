@@ -124,7 +124,8 @@ class Sanitizer
     public function sanitizeId($value)
     {
         require_once ABSPATH.WPINC.'/pluggable.php';
-        $value = substr(sanitize_key($value), 0, 32); // limit the id to 32 characters
+        $value = sanitize_key($this->sanitizeText($value));
+        $value = substr($value, 0, 32); // limit the id to 32 characters
         if (empty($value)) {
             $value = glsr()->prefix.substr(wp_hash(serialize($this->values), 'nonce'), -12, 8);
         }
@@ -166,7 +167,8 @@ class Sanitizer
      */
     public function sanitizeKey($value)
     {
-        return Str::snakeCase(sanitize_key($value));
+        $value = sanitize_key($this->sanitizeText($value));
+        return substr(Str::snakeCase($value), 0, 32); // limit the key to 32 characters
     }
 
     /**
