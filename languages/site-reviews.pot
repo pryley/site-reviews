@@ -1178,6 +1178,16 @@ msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr ""
 
+#: plugin/Application.php:183
+msgctxt "admin-text"
+msgid "Make sure to activate your website domain with your license before adding it here. You can do this by visiting the %s page on your Nifty Plugins account and clicking the \"Manage Sites\" button."
+msgstr ""
+
+#: plugin/Application.php:184, plugin/Controllers/SettingsController.php:173
+msgctxt "admin-text"
+msgid "License Keys"
+msgstr ""
+
 #: plugin/Deprecated.php:24
 msgctxt "admin-text"
 msgid "The [%s] method has been deprecated and will be soon be removed, please use the [%s] method instead."
@@ -1321,16 +1331,6 @@ msgctxt "admin-text"
 msgid "Help"
 msgstr ""
 
-#: plugin/Addons/Controller.php:198
-msgctxt "admin-text"
-msgid "Make sure to first activate your website domain with your license before adding it here. You can do this by visiting the %s page on your Nifty Plugins account and clicking the \"Manage Sites\" button."
-msgstr ""
-
-#: plugin/Addons/Controller.php:199, plugin/Controllers/SettingsController.php:173
-msgctxt "admin-text"
-msgid "License Keys"
-msgstr ""
-
 #: plugin/Addons/Updater.php:221
 msgctxt "admin-text"
 msgid "A valid license key is required to download this update."
@@ -1373,41 +1373,41 @@ msgctxt "admin-text"
 msgid "Please rate %s on %s and help us spread the word. Thank you so much!"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:139
+#: plugin/Commands/ImportReviews.php:160
 msgctxt "admin-text"
 msgid "%s review was imported."
 msgid_plural "%s reviews were imported."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ImportReviews.php:147
+#: plugin/Commands/ImportReviews.php:168
 msgctxt "admin-text"
 msgid "%s entry was skipped."
 msgid_plural "%s entries were skipped."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ImportReviews.php:150
+#: plugin/Commands/ImportReviews.php:171
 msgctxt "admin-text"
 msgid "See the %s for more details."
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:153, plugin/Controllers/MenuController.php:167
+#: plugin/Commands/ImportReviews.php:174, plugin/Controllers/MenuController.php:167
 msgctxt "admin-text"
 msgid "Console"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:174
+#: plugin/Commands/ImportReviews.php:195
 msgctxt "admin-text"
 msgid "wrong date format"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:175
+#: plugin/Commands/ImportReviews.php:196
 msgctxt "admin-text"
 msgid "empty or missing content"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:176
+#: plugin/Commands/ImportReviews.php:197
 msgctxt "admin-text"
 msgid "empty or invalid rating"
 msgstr ""
@@ -3947,7 +3947,7 @@ msgstr ""
 
 #: views/pages/tools/general/import-reviews.php:49
 msgctxt "admin-text"
-msgid "Select the delimiter used in the CSV file"
+msgid "Detect automatically"
 msgstr ""
 
 #: views/pages/tools/general/import-reviews.php:50

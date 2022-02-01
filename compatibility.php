@@ -280,6 +280,8 @@ add_action('site-reviews/addon/update', function ($app) {
             if (file_exists($file) && !in_array($addonId, $app->updated)) {
                 $app->update($addon, $file);
             }
-        } catch (\ReflectionException $e) {}
+        } catch (\ReflectionException $e) {
+            // Fail silently
+        }
     }
 });

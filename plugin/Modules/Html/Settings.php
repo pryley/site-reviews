@@ -48,7 +48,7 @@ class Settings
      */
     protected function getSettingFields($path)
     {
-        return array_filter(glsr()->settings, function ($key) use ($path) {
+        return array_filter(glsr()->settings(), function ($key) use ($path) {
             return Str::startsWith($path, $key);
         }, ARRAY_FILTER_USE_KEY);
     }
@@ -166,8 +166,8 @@ class Settings
      */
     protected function isMultiDependency($path)
     {
-        if (isset(glsr()->settings[$path])) {
-            $field = glsr()->settings[$path];
+        if (isset(glsr()->settings()[$path])) {
+            $field = glsr()->settings()[$path];
             return ('checkbox' == $field['type'] && !empty($field['options']))
                 || !empty($field['multiple']);
         }

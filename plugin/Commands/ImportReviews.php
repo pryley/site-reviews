@@ -110,10 +110,10 @@ class ImportReviews extends Upload implements Contract
             ini_set('auto_detect_line_endings', '1');
         }
         require_once glsr()->path('vendors/thephpleague/csv/functions_include.php');
-        wp_raise_memory_limit('admin');
-        $reader = $this->createReader();
-        $header = array_map('trim', $reader->getHeader());
         try {
+            wp_raise_memory_limit('admin');
+            $reader = $this->createReader();
+            $header = array_map('trim', $reader->getHeader());
             if (!empty(array_diff(static::REQUIRED_KEYS, $header))) {
                 throw new Exception('The CSV import header is missing some of the required columns (or maybe you selected the wrong delimiter).');
             }

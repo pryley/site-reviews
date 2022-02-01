@@ -164,28 +164,32 @@ final class Application extends Container
      * @param object|string $addon
      * @return void
      */
-    public function licenseAddon($addon)
+    public function license($addon)
     {
         try {
             $settings = $this->settings(); // populate the initial settings
             $reflection = new \ReflectionClass($addon);
+            $id = $reflection->getConstant('ID');
             $licensed = $reflection->getConstant('LICENSED');
-            if (!$licensed) {
+            $name = $reflection->getConstant('NAME');
+            if (true !== $licensed || 2 !== count(array_filter([$id, $name]))) {
                 return;
             }
             $license = [
-                'settings.licenses.'.$reflection->getConstant('ID') => [
+                'settings.licenses.'.$id => [
                     'class' => 'regular-text',
                     'default' => '',
-                    'label' => $reflection->getConstant('NAME'),
-                    'tooltip' => sprintf(_x('Make sure to first activate your website domain with your license before adding it here. You can do this by visiting the %s page on your Nifty Plugins account and clicking the "Manage Sites" button.', 'admin-text', 'site-reviews'),
+                    'label' => $name,
+                    'tooltip' => sprintf(_x('Make sure to activate your website domain with your license before adding it here. You can do this by visiting the %s page on your Nifty Plugins account and clicking the "Manage Sites" button.', 'admin-text', 'site-reviews'),
                         sprintf('<a href="https://niftyplugins.com/account/license-keys/" target="_blank">%s</a>', _x('License Keys', 'admin-text', 'site-reviews'))
                     ),
                     'type' => 'text',
                 ],
             ];
             $this->settings = array_merge($license, $settings);
-        } catch (\ReflectionException $e) {}
+        } catch (\ReflectionException $e) {
+            // Fail silently
+        }
     }
 
     /**
@@ -214,9 +218,7 @@ final class Application extends Container
         if (empty($this->settings)) {
             $settings = $this->filterArray('addon/settings', $this->config('settings'));
             array_walk($settings, function (&$setting) {
-                if (!isset($setting['default'])) {
-                    $setting['default'] = '';
-                }
+                isset($setting['default']) ?: $setting['default'] = '';
             });
             $this->settings = $settings;
         }
@@ -255,7 +257,7 @@ final class Application extends Container
             $addonId = $reflection->getConstant('ID');
             $updateUrl = $reflection->getConstant('UPDATE_URL');
             if ($addonId && $updateUrl && !in_array($addonId, $this->updated)) {
-                $this->licenseAddon($addon);
+                $this->license($addon);
                 $license = glsr_get_option('licenses.'.$addonId);
                 $updater = new Updater($updateUrl, $file, compact('license'));
                 $updater->init();

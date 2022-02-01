@@ -60,12 +60,16 @@ trait Plugin
 
     public function __get($property)
     {
-        if (property_exists($this, $property)) {
-            return $this->$property;
+        $instance = new \ReflectionClass($this);
+        if ($instance->hasProperty($property)) {
+            $prop = $instance->getProperty($property);
+            if ($prop->isPublic() || $prop->isProtected()) {
+                return $this->$property;
+            }
         }
-        $constant = 'static::'.strtoupper($property);
-        if (defined($constant)) {
-            return constant($constant);
+        $constant = strtoupper($property);
+        if ($instance->hasConstant($constant)) {
+            return $instance->getConstant($constant);
         }
     }
 
