@@ -153,6 +153,7 @@
     site-reviews/router/admin/unguarded-actions             (array $unguardedActions): array
     site-reviews/router/public/unguarded-actions            (array $unguardedActions): array
     site-reviews/sanitize/allowed-html                      (array $allowedHtml, Modules\Sanitizer $sanitizer): array
+    site-reviews/scheduler/per-page                         (int $perPage): int
     site-reviews/schema/<schema_type>                       (array $schema, array $args): array
     site-reviews/schema/all                                 (array $schemas): array
     site-reviews/schema/review                              (array $schema, Review $review, array $args): array

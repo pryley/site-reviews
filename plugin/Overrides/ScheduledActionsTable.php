@@ -32,6 +32,11 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
     protected static $did_notification = false;
 
     /**
+     * @var int
+     */
+    protected $items_per_page = 20;
+
+    /**
      * @var \ActionScheduler_Logger
      */
     protected $logger;
@@ -83,6 +88,7 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
         $this->store = ActionScheduler::store();
         $this->logger = ActionScheduler::logger();
         $this->runner = ActionScheduler::runner();
+        $this->items_per_page = glsr()->filterInt('scheduler/per-page', $this->items_per_page);
         $this->bulk_actions = [
             'delete' => _x('Delete', 'admin-text', 'site-reviews'),
         ];
