@@ -5,7 +5,6 @@ All proposed features are subject to change and are sorted alphabetically rather
 ## Proposed features
 
 - [ ] Add "More Details" modal to addons (ref: Plugins > Add New)
-- [ ] Add a setting to send an email notification after responding to a review
 - [ ] Add a single-use notice on the settings page to encourage users to rate the plugin (ref: Polylang)
 - [ ] Add a time constraint to review limits
 - [ ] Allow review submissions without javascript (ref: comment form)
@@ -28,11 +27,15 @@ All proposed features are subject to change and are sorted alphabetically rather
 
 - [ ] Review Authors (allow people to update their submitted reviews)
 - [ ] Review Discussions
+- [x] Review Filters
+- [x] Review Forms
 - [ ] Review Importer (from 3rd-party WordPress review plugins)
+- [x] Review Notifications
 - [ ] Review Q&A
 - [ ] Review Sharing
 - [ ] Review Snitch (flag reviews as inappropriate)
 - [ ] Review Summaries (single positive/negative ratings, summary styles, etc.)
+- [x] Review Themes
 - [ ] Review Upvotes
 
 ### Integrations
@@ -40,10 +43,11 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Booking.com Reviews
 - [ ] Etsy Reviews
 - [ ] Facebook Reviews
-- [ ] Gamipress (i.e. Buddypress users earn points based on the review rating)
+- [x] Gamipress Integration (i.e. Buddypress users earn points based on the review rating)
 - [ ] Google Reviews
 - [ ] LearnDash Reviews
 - [x] Tripadvisor Reviews (done, but needs an additional service to make it work consistantly)
 - [ ] Trustpilot Reviews
+- [x] Woocommerce Reviews
 - [ ] Yelp Reviews
 
