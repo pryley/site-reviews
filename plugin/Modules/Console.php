@@ -33,9 +33,11 @@ class Console
     const ALERT = 32;     // Action must be taken immediately
     const EMERGENCY = 64; // System is unusable
 
+    const LOG_LEVEL_KEY = 'glsr_console_level';
+    const LOG_ONCE_KEY = 'glsr_log_once';
+
     protected $file;
     protected $log;
-    protected $logOnceKey = 'glsr_log_once';
 
     public function __construct()
     {
@@ -93,7 +95,15 @@ class Console
      */
     public function getLevel()
     {
-        return glsr()->filterInt('console/level', static::INFO);
+        $level = Cast::toInt(get_option(static::LOG_LEVEL_KEY, static::INFO));
+        $levels = [
+            static::ALERT, static::CRITICAL, static::DEBUG, static::EMERGENCY,
+            static::ERROR, static::INFO, static::NOTICE, static::WARNING,
+        ];
+        if (in_array($level, $levels)) {
+            return $level;
+        }
+        return static::INFO;
     }
 
     /**
@@ -151,7 +161,7 @@ class Console
      */
     public function logOnce()
     {
-        $once = Arr::consolidate(glsr()->{$this->logOnceKey});
+        $once = glsr()->retrieveAs('array', static::LOG_ONCE_KEY);
         $levels = $this->getLevels();
         foreach ($once as $entry) {
             $levelName = Arr::get($entry, 'level');
@@ -162,7 +172,7 @@ class Console
                 $this->log($level, $message, [], $backtraceLine);
             }
         }
-        glsr()->{$this->logOnceKey} = [];
+        glsr()->store(static::LOG_ONCE_KEY, []);
     }
 
     /**
@@ -173,7 +183,7 @@ class Console
      */
     public function once($levelName, $handle, $data)
     {
-        $once = Arr::consolidate(glsr()->{$this->logOnceKey});
+        $once = glsr()->retrieveAs('array', static::LOG_ONCE_KEY);
         $filtered = array_filter($once, function ($entry) use ($levelName, $handle) {
             return Arr::get($entry, 'level') == $levelName
                 && Arr::get($entry, 'handle') == $handle;
@@ -185,7 +195,7 @@ class Console
                 'level' => $levelName,
                 'message' => '[RECURRING] '.$this->getMessageFromData($data),
             ];
-            glsr()->{$this->logOnceKey} = $once;
+            glsr()->store(static::LOG_ONCE_KEY, $once);
         }
     }
 

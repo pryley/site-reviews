@@ -163,6 +163,8 @@ class Hooks implements HooksContract
         add_action('wp_ajax_nopriv_'.glsr()->prefix.'action', [$this->router, 'routePublicAjaxRequest']);
         add_action('init', [$this->router, 'routePublicPostRequest']);
         add_action('admin_init', [$this->settings, 'registerSettings']);
+        add_action('site-reviews/route/admin/console-level', [$this->tools, 'changeConsoleLevel']);
+        add_action('site-reviews/route/ajax/console-level', [$this->tools, 'changeConsoleLevelAjax']);
         add_action('site-reviews/route/admin/clear-console', [$this->tools, 'clearConsole']);
         add_action('site-reviews/route/ajax/clear-console', [$this->tools, 'clearConsoleAjax']);
         add_action('site-reviews/route/admin/convert-table-engine', [$this->tools, 'convertTableEngine']);

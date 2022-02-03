@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Commands\ChangeLogLevel;
 use GeminiLabs\SiteReviews\Commands\ImportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportSettings;
 use GeminiLabs\SiteReviews\Database;
@@ -20,6 +21,27 @@ use GeminiLabs\SiteReviews\Role;
 
 class ToolsController extends Controller
 {
+    /**
+     * @return void
+     * @action site-reviews/route/admin/console-level
+     */
+    public function changeConsoleLevel(Request $request)
+    {
+        $this->execute(new ChangeLogLevel($request));
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/admin/console-level
+     */
+    public function changeConsoleLevelAjax(Request $request)
+    {
+        $this->changeConsoleLevel($request);
+        wp_send_json_success([
+            'notices' => glsr(Notice::class)->get(),
+        ]);
+    }
+
     /**
      * @return void
      * @action site-reviews/route/admin/clear-console

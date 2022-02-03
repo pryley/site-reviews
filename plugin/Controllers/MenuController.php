@@ -172,6 +172,7 @@ class MenuController extends Controller
         }
         $this->renderPage('tools', [
             'data' => [
+                'console_level' => glsr(Console::class)->getLevel(),
                 'context' => [
                     'base_url' => glsr_admin_url(),
                     'console' => glsr(Console::class)->get(),

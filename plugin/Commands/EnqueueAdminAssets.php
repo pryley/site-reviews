@@ -90,6 +90,7 @@ class EnqueueAdminAssets implements Contract
             'nameprefix' => glsr()->id,
             'nonce' => [
                 'clear-console' => wp_create_nonce('clear-console'),
+                'console-level' => wp_create_nonce('console-level'),
                 'fetch-console' => wp_create_nonce('fetch-console'),
                 'mce-shortcode' => wp_create_nonce('mce-shortcode'),
                 'search-posts' => wp_create_nonce('search-posts'),
