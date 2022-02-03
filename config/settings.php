@@ -266,6 +266,7 @@ return [
     'settings.reviews.avatars_fallback_url' => [
         'default' => '',
         'depends_on' => [
+            'settings.reviews.avatars' => 'yes',
             'settings.reviews.avatars_fallback' => 'custom',
         ],
         'label' => _x('Fallback Avatar URL', 'admin-text', 'site-reviews'),
