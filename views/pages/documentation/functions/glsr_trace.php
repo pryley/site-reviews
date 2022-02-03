@@ -7,6 +7,10 @@
         </button>
     </h3>
     <div id="fn-glsr_trace" class="inside">
+        <div class="components-notice is-warning">
+            <p class="components-notice__content">This function will only work if the logging level is set to "Level 0: Debugging", you can change the logging level on the <a href="<?= glsr_admin_url('tools', 'console'); ?>">Console</a> page.</p>
+        </div>
+        <br>
         <pre><code class="language-php">/**
  * @param int $limit
  * @return void

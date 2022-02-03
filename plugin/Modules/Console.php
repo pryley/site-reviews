@@ -144,7 +144,7 @@ class Console
         if (empty($backtraceLine)) {
             $backtraceLine = glsr(Backtrace::class)->line();
         }
-        if ($this->canLogEntry($level, $backtraceLine)) {
+        if ($this->canLogEntry($level)) {
             $levelName = Arr::get($this->getLevels(), $level);
             $backtraceLine = glsr(Backtrace::class)->normalizeLine($backtraceLine);
             $message = $this->interpolate($message, $context);
@@ -229,13 +229,9 @@ class Console
      * @param int $level
      * @return bool
      */
-    protected function canLogEntry($level, $backtraceLine)
+    protected function canLogEntry($level)
     {
-        $levelExists = array_key_exists($level, $this->getLevels());
-        if (!Str::contains(glsr()->path(), $backtraceLine)) {
-            return $levelExists; // ignore level restriction if triggered outside of the plugin
-        }
-        return $levelExists && $level >= $this->getLevel();
+        return array_key_exists($level, $this->getLevels()) && $level >= $this->getLevel();
     }
 
     /**
