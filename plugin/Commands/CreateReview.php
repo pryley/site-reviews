@@ -82,7 +82,7 @@ class CreateReview implements Contract
         if ($referer = $this->redirect($this->referer)) {
             return $referer;
         }
-        glsr_log()->warning('The form referer ($_SERVER[REQUEST_URI]) was empty.')->debug($this);
+        glsr_log()->warning('The form referer ($_SERVER[REQUEST_URI]) was empty.')->debug($this->request);
         return Url::home();
     }
 
