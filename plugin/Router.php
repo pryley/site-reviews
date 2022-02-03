@@ -146,7 +146,7 @@ class Router
         // only require a nonce for public requests if user is logged in, this avoids 
         // potential caching issues since unauthenticated requests should never be destructive.
         if (is_user_logged_in() && !wp_verify_nonce($request->_nonce, $request->_action)) {
-            glsr_log()->error('nonce check failed for public request')->debug($request);
+            glsr_log()->warning('nonce check failed for public request')->debug($request);
             return false;
         }
         return true;
@@ -163,7 +163,7 @@ class Router
         $request = new Request($request);
         glsr()->action($actionHook, $request);
         if (0 === did_action(glsr()->id.'/'.$actionHook)) {
-            glsr_log('Unknown '.$type.' router request: '.$request->_action);
+            glsr_log()->warning('Unknown '.$type.' router request: '.$request->_action);
         }
     }
 

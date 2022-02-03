@@ -353,9 +353,10 @@ class ReviewManager
             ]);
         }
         if (!empty($data)) {
-            $result = wp_update_post(wp_parse_args(['ID' => $reviewId], $data), true);
+            $data = wp_parse_args(['ID' => $reviewId], $data);
+            $result = wp_update_post($data, true);
             if (is_wp_error($result)) {
-                glsr_log()->error($result->get_error_message());
+                glsr_log()->error($result->get_error_message())->debug($data);
                 return false;
             }
         }

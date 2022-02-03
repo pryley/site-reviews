@@ -53,7 +53,7 @@ class Cache
                     continue;
                 }
                 if ('200' != ($statusCode = wp_remote_retrieve_response_code($response))) {
-                    glsr_log()->error('Unable to connect to '.$url.' ['.$statusCode.']');
+                    glsr_log()->error(sprintf('Unable to connect to %s [%s]', $url, $statusCode));
                     continue;
                 }
                 $ipAddresses[$version] = array_filter(

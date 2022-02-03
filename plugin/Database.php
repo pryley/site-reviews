@@ -397,6 +397,7 @@ class Database
         $terms = get_terms($args);
         if (is_wp_error($terms)) {
             glsr_log()->error($terms->get_error_message());
+            glsr_trace();
             return [];
         }
         return $terms;

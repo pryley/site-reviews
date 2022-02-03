@@ -82,8 +82,7 @@ class Email
     public function logMailError($error)
     {
         glsr_log()->error('Email was not sent (wp_mail failed)')
-            ->debug($this)
-            ->debug($error);
+            ->debug(['error' => $error, 'instance' => $this]);
     }
 
     /**

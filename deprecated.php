@@ -145,7 +145,7 @@ function glsr_calculate_ratings() {
  */
 function glsr_get_rating($args = []) {
     _deprecated_function('glsr_get_rating', '5.0 (of Site Reviews)', 'glsr_get_ratings');
-    glsr_log()->warning(sprintf(
+    glsr_log()->notice(sprintf(
         __('%s is <strong>deprecated</strong> since version %s! Use %s instead.', 'site-reviews'),
         'glsr_get_rating',
         '5.0',
@@ -160,7 +160,7 @@ function glsr_log_deprecated_notices() {
     natsort($notices);
     foreach ($notices as $notice) {
         trigger_error($notice, E_USER_DEPRECATED);
-        glsr_log()->warning($notice);
+        glsr_log()->notice($notice);
     }
 }
 add_action('admin_footer', 'glsr_log_deprecated_notices');

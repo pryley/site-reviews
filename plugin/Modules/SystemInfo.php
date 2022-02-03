@@ -467,8 +467,7 @@ class SystemInfo
                 continue;
             }
             glsr_log()->error('$ratings is not an array, possibly due to incorrectly imported reviews.')
-                ->debug($counts)
-                ->debug($ratings);
+                ->debug(compact('counts', 'ratings'));
         }
         if (empty($results)) {
             return ['Type: local' => 'No reviews'];
