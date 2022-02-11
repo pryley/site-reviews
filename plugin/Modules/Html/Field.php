@@ -24,6 +24,7 @@ class Field
     public function __construct(array $field = [])
     {
         $this->field = wp_parse_args($field, [
+            'custom' => false,
             'errors' => false,
             'is_multi' => false,
             'is_raw' => false,

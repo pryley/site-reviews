@@ -120,7 +120,8 @@ class FormFieldsTag extends FormTag
      */
     protected function normalizeFieldRequired(Field &$field)
     {
-        if (in_array($field->field['path'], $this->with->required)) {
+        if (!$field->field['custom'] // do not change custom fields
+            && in_array($field->field['path'], $this->with->required)) {
             $field->field['required'] = true;
         }
     }
