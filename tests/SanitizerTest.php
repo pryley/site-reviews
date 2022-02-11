@@ -316,6 +316,40 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
+    public function test_sanitize_numeric()
+    {
+        $sanitizers = array_fill_keys(array_keys($this->testValues), 'numeric');
+        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $this->assertEquals($sanitized, [
+            'a' => '',
+            'b' => '',
+            'c' => '',
+            'd' => '',
+            'e' => '',
+            'f' => '',
+            'g' => '',
+            'h' => '',
+            'i' => '',
+            'j' => '',
+            'k' => '',
+            'l' => '',
+            'm' => '',
+            'n' => '',
+            'o' => '',
+            'p' => '',
+            'q' => 2020,
+            'r' => '',
+            's' => '',
+            't' => '',
+            'u' => '',
+            'v' => '',
+            'w' => '',
+            'x' => '',
+            'y' => '',
+            'z' => '',
+        ]);
+    }
+
     public function test_sanitize_key()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'key');

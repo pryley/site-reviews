@@ -184,6 +184,15 @@ class Sanitizer
 
     /**
      * @param mixed $value
+     * @return int|string
+     */
+    public function sanitizeNumeric($value)
+    {
+        return is_numeric($value) ? Cast::toInt($value) : '';
+    }
+
+    /**
+     * @param mixed $value
      * @return int[]
      */
     public function sanitizePostIds($value)
