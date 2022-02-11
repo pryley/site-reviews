@@ -2179,12 +2179,12 @@ msgstr ""
 msgid "Avatar for %s"
 msgstr ""
 
-#: plugin/Modules/Console.php:81
+#: plugin/Modules/Console.php:82
 msgctxt "admin-text"
 msgid "Console is empty"
 msgstr ""
 
-#: plugin/Modules/Console.php:308
+#: plugin/Modules/Console.php:309
 msgctxt "admin-text"
 msgid "Console was automatically cleared (512KB maximum size)"
 msgstr ""

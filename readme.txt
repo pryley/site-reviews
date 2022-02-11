@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews, business rev
 Tested up to: 5.9
 Requires at least: 5.5
 Requires PHP: 5.6.20
-Stable tag: 5.20.3
+Stable tag: 5.20.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -139,6 +139,13 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.20.4 (2022-02-11) =
+
+- Added option to change the console logging level (find it on the Console page)
+- Added the "site-reviews/scheduler/per-page" hook to change the number of entries displayed per page in the Scheduler
+- Fixed logging when the form referer is empty (only log the submitted request, not the review object)
+- Fixed visibility of conditional avatar settings
 
 = 5.20.3 (2022-02-01) =
 

@@ -2456,12 +2456,12 @@ msgctxt "admin-text"
 msgid "View review"
 msgstr "View review"
 
-#: plugin/Modules/Console.php:81
+#: plugin/Modules/Console.php:82
 msgctxt "admin-text"
 msgid "Console is empty"
 msgstr "Console is empty"
 
-#: plugin/Modules/Console.php:308
+#: plugin/Modules/Console.php:309
 msgctxt "admin-text"
 msgid "Console was automatically cleared (512KB maximum size)"
 msgstr "Console was automatically cleared (512KB maximum size)"
