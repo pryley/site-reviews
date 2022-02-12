@@ -30,6 +30,7 @@
                 'slug' => 'filters',
                 'title' => 'Review Filters',
             ],
+            'id' => 'site-reviews-filters',
             'plugin' => 'site-reviews-filters/site-reviews-filters.php',
         ]);
         $template->render('partials/addons/addon', [
@@ -40,6 +41,7 @@
                 'slug' => 'forms',
                 'title' => 'Review Forms',
             ],
+            'id' => 'site-reviews-forms',
             'plugin' => 'site-reviews-forms/site-reviews-forms.php',
         ]);
         $template->render('partials/addons/addon', [
@@ -50,6 +52,7 @@
                 'slug' => 'images',
                 'title' => 'Review Images',
             ],
+            'id' => 'site-reviews-images',
             'plugin' => 'site-reviews-images/site-reviews-images.php',
         ]);
         $template->render('partials/addons/addon', [
@@ -60,6 +63,7 @@
                 'slug' => 'notifications',
                 'title' => 'Review Notifications (beta)',
             ],
+            'id' => 'site-reviews-notifications',
             'plugin' => 'site-reviews-notifications/site-reviews-notifications.php',
         ]);
         $template->render('partials/addons/addon', [
@@ -70,6 +74,7 @@
                 'slug' => 'themes',
                 'title' => 'Review Themes (beta)',
             ],
+            'id' => 'site-reviews-themes',
             'plugin' => 'site-reviews-themes/site-reviews-themes.php',
         ]);
         $template->render('partials/addons/addon', [
@@ -80,6 +85,7 @@
                 'slug' => 'woocommerce',
                 'title' => 'Woocommerce Reviews',
             ],
+            'id' => 'site-reviews-woocommerce',
             'plugin' => 'site-reviews-woocommerce/site-reviews-woocommerce.php',
         ]);
     ?>

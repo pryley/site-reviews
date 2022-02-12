@@ -11,13 +11,18 @@
     <div class="glsr-addon-footer">
     <?php if (!is_wp_error(validate_plugin($plugin))) : ?>
         <?php if (is_plugin_active($plugin)) : ?>
-        <span class="glsr-addon-link button button-secondary" disabled>
-            <?= _x('Installed', 'admin-text', 'site-reviews'); ?>
-        </span>
+            <?php if (glsr()->addon($id) && glsr()->hasPermission('settings') && !empty(glsr($id)->config('settings'))) : ?>
+                <a href="<?= glsr_admin_url('settings', 'addons', glsr($id)->slug); ?>" class="glsr-addon-link button button-secondary">
+                    <?= _x('Settings', 'admin-text', 'site-reviews'); ?>
+                </a>
+            <?php endif; ?>
+            <span class="glsr-addon-link button button-secondary" disabled>
+                <?= _x('Installed', 'admin-text', 'site-reviews'); ?>
+            </span>
         <?php else: ?>
-        <a href="<?= wp_nonce_url(self_admin_url('plugins.php?action=activate&plugin='.$plugin), 'activate-plugin_'.$plugin); ?>" class="glsr-addon-link button button-secondary">
-            <?= _x('Activate', 'admin-text', 'site-reviews'); ?>
-        </a>
+            <a href="<?= wp_nonce_url(self_admin_url('plugins.php?action=activate&plugin='.$plugin), 'activate-plugin_'.$plugin); ?>" class="glsr-addon-link button button-primary">
+                <?= _x('Activate', 'admin-text', 'site-reviews'); ?>
+            </a>
         <?php endif; ?>
     <?php else: ?>
         <a href="{{ link }}" class="glsr-addon-link glsr-external button button-secondary">
