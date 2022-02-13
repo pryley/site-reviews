@@ -57,6 +57,11 @@ const validators = {
         priority: 99,
         halt: true,
     },
+    tel: {
+        fn: function fn(val) {
+            return !val || (new RegExp("^[+]?[\\d\\s()-]*$")).test(val);
+        },
+    },
 };
 
 const Validation = function (formEl) { // HTMLElement
