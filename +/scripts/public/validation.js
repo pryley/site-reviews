@@ -3,6 +3,8 @@
 /* jshint -W030 */
 /* jshint -W093 */
 
+// Inspired by https://github.com/sha256/Pristine/
+
 import { addRemoveClass, classListSelector } from './helpers.js';
 
 const countGroupedElements = inputEl => {
@@ -47,6 +49,12 @@ const validators = {
             return !val || !isNaN(parseFloat(val));
         },
         priority: 2,
+    },
+    pattern: {
+        fn: function fn(val, pattern) {
+            var m = pattern.match(new RegExp('^/(.*?)/([gimy]*)$'));
+            return !val || (new RegExp(m[1], m[2])).test(val);
+        },
     },
     required: {
         fn: function fn(val) {
@@ -117,7 +125,7 @@ Validation.prototype = {
         validators[name].name = name;
         fns.push(validators[name]);
         if (value) {
-            var valueParams = value.split(',');
+            var valueParams = (name === 'pattern' ? [value]: value.split(','));
             valueParams.unshift(null); // placeholder for input value
             params[name] = valueParams;
         }
