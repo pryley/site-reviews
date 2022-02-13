@@ -47,8 +47,20 @@ class EnqueuePublicAssets implements Contract
         if (!glsr()->filterBool('assets/polyfill', true)) {
             return;
         }
+        $features = glsr()->filterArray('assets/polyfill/features', [
+            'Array.prototype.find',
+            'CustomEvent',
+            'Element.prototype.closest',
+            'Element.prototype.dataset',
+            'Event',
+            'MutationObserver',
+            'Object.assign',
+            'URL',
+            'URLSearchParams',
+            'XMLHttpRequest',
+        ]);
         wp_enqueue_script(glsr()->id.'/polyfill', add_query_arg([
-            'features' => 'Array.prototype.find,Object.assign,CustomEvent,Element.prototype.closest,Element.prototype.dataset,Event,XMLHttpRequest,MutationObserver',
+            'features' => implode(',', $features),
             'flags' => 'gated',
         ], 'https://polyfill.io/v3/polyfill.min.js?version=3.109.0'));
     }
