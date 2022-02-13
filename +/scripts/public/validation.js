@@ -52,7 +52,7 @@ const validators = {
     },
     pattern: {
         fn: function fn(val, pattern) {
-            var m = pattern.match(new RegExp('^/(.*?)/([gimy]*)$'));
+            let m = pattern.match(new RegExp('^/(.*?)/([gimy]*)$'));
             return !val || (new RegExp(m[1], m[2])).test(val);
         },
     },
@@ -67,7 +67,9 @@ const validators = {
     },
     tel: {
         fn: function fn(val) {
-            return !val || (new RegExp("^[+]?[\\d\\s()-]*$")).test(val);
+            let digits = val.replace(/[^0-9]/g, '').length;
+            let hasValidLength = 4 <= digits && 15 >= digits;
+            return !val || (hasValidLength && (new RegExp("^[+]?[\\d\\s()-]*$")).test(val));
         },
     },
 };

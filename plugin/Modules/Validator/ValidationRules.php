@@ -105,6 +105,21 @@ trait ValidationRules
     }
 
     /**
+     * Validate that an attribute passes a regular expression check.
+     * @param string $attribute
+     * @param mixed $value
+     * @return bool
+     */
+    public function validateRegex($value, $attribute, array $parameters)
+    {
+        if (!is_string($value) && !is_numeric($value)) {
+            return false;
+        }
+        $this->requireParameterCount(1, $parameters, 'regex');
+        return preg_match($parameters[0], $value) > 0;
+    }
+
+    /**
      * Validate that a required attribute exists.
      * @param mixed $value
      * @return bool
@@ -116,6 +131,21 @@ trait ValidationRules
             || (is_array($value) && empty($value))
             ? false
             : true;
+    }
+
+    /**
+     * Validate that a value is a valid(ish) telephone number.
+     * @param mixed $value
+     * @return bool
+     */
+    public function validateTel($value)
+    {
+        if (!is_string($value) && !is_numeric($value)) {
+            return false;
+        }
+        $digits = (int) preg_match_all('/[0-9]/', $value);
+        $hasValidLength = 4 <= $digits && 15 >= $digits;
+        return $hasValidLength && preg_match('/^([+]?[\d\s\-\(\)]*)$/', $value) > 0;
     }
 
     /**

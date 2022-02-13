@@ -22,7 +22,10 @@ class ValidationStringsDefaults extends Defaults
             'min' => __('Minimum value for this field is %s.', 'site-reviews'),
             'minlength' => __('This field requires a minimum of %s characters.', 'site-reviews'),
             'number' => __('This field requires a number.', 'site-reviews'),
+            'pattern' => __('Please match the requested format.', 'site-reviews'),
+            'regex' => __('Please match the requested format.', 'site-reviews'),
             'required' => __('This field is required.', 'site-reviews'),
+            'tel' => __('This field requires a valid telephone number.', 'site-reviews'),
             'unsupported' => __('The review could not be submitted because this browser is too old. Please try again with a modern browser.', 'site-reviews'),
         ];
     }
