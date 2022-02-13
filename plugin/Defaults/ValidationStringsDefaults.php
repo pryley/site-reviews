@@ -26,6 +26,7 @@ class ValidationStringsDefaults extends Defaults
             'regex' => __('Please match the requested format.', 'site-reviews'),
             'required' => __('This field is required.', 'site-reviews'),
             'tel' => __('This field requires a valid telephone number.', 'site-reviews'),
+            'url' => __('This field requires a valid website URL (make sure it starts with http or https).', 'site-reviews'),
             'unsupported' => __('The review could not be submitted because this browser is too old. Please try again with a modern browser.', 'site-reviews'),
         ];
     }

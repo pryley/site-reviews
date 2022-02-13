@@ -72,6 +72,17 @@ const validators = {
             return !val || (hasValidLength && (new RegExp("^[+]?[\\d\\s()-]*$")).test(val));
         },
     },
+    url: {
+        fn: function fn(val) {
+            let protocol = '(https?)://';
+            let domain = '([\\p{L}\\p{N}\\p{S}\\-_.])+(.?([\\p{L}\\p{N}]|xn--[\\p{L}\\p{N}\\-]+)+.?)';
+            let port = '(:[0-9]+)?';
+            let path = '(?:/(?:[\\p{L}\\p{N}\\-._~!$&\'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*';
+            let query = '(?:\\?(?:[\\p{L}\\p{N}\\-._~!$&\'\\[\\]()*+,;=:@/?]|%[0-9A-Fa-f]{2})*)?';
+            let fragment = '(?:#(?:[\\p{L}\\p{N}\\-._~!$&\'()*+,;=:@/?]|%[0-9A-Fa-f]{2})*)?';
+            return !val || (new RegExp('^'+protocol+domain+port+path+query+fragment+'$', 'iu')).test(val);
+        }
+    },
 };
 
 const Validation = function (formEl) { // HTMLElement

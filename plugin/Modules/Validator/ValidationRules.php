@@ -149,6 +149,33 @@ trait ValidationRules
     }
 
     /**
+     * Validate that a value is a valid URL.
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function validateUrl($value)
+    {
+        if (!is_string($value)) {
+            return false;
+        }
+        // This pattern is derived from Symfony\Component\Validator\Constraints\UrlValidator (5.0.7).
+        // (c) Fabien Potencier <fabien@symfony.com> http://symfony.com
+        $pattern = '~^
+            (https?)://                                                         # protocol
+            (
+                ([\pL\pN\pS\-\_\.])+(\.?([\pL\pN]|xn\-\-[\pL\pN-]+)+\.?)        # a domain name
+                    |                                                           # or
+                \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}                              # an IPv4 address
+            )
+            (:[0-9]+)?                                                          # a port (optional)
+            (?:/ (?:[\pL\pN\-._\~!$&\'()*+,;=:@]|%[0-9A-Fa-f]{2})* )*           # a path
+            (?:\? (?:[\pL\pN\-._\~!$&\'\[\]()*+,;=:@/?]|%[0-9A-Fa-f]{2})* )?    # a query (optional)
+            (?:\# (?:[\pL\pN\-._\~!$&\'()*+,;=:@/?]|%[0-9A-Fa-f]{2})* )?        # a fragment (optional)
+        $~ixu';
+        return preg_match($pattern, $value) > 0;
+    }
+
+    /**
      * Require a certain number of parameters to be present.
      * @param int $count
      * @param string $rule
