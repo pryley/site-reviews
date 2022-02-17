@@ -55,6 +55,7 @@ class EnqueuePublicAssets implements Contract
             'Event',
             'MutationObserver',
             'Object.assign',
+            'String.prototype.endsWith',
             'URL',
             'URLSearchParams',
             'XMLHttpRequest',

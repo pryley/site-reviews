@@ -109,7 +109,7 @@ Validation.prototype = {
 
     init: function () {
         [].forEach.call(this.form.querySelectorAll(this.SELECTOR_), field => {
-            if (this.fields.find(item => item.input.name === field.name)) return;
+            if (this.fields.find(item => item.input.name === field.name && !field.name.endsWith('[]'))) return;
             let fieldEl = field.closest(classListSelector(this.config.field));
             if ('none' !== fieldEl.style.display) {
                 this.fields.push(this.initField_(field));
