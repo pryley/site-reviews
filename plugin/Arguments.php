@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class Arguments extends \ArrayObject
 {
@@ -89,6 +90,19 @@ class Arguments extends \ArrayObject
         $storage = $this->toArray();
         unset($storage[$key]);
         $this->exchangeArray($storage);
+    }
+
+    /**
+     * @param mixed $key
+     * @param string $cast
+     * @return mixed
+     */
+    public function sanitize($key, $sanitizer)
+    {
+        $sanitizers = ['key' => $sanitizer];
+        $values = ['key' => $this->get($key)];
+        $values = glsr(Sanitizer::class, compact('values', 'sanitizers'))->run();
+        return Arr::get($values, 'key');
     }
 
     /**
