@@ -142,6 +142,14 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
+= 5.21.0 (2022-02-18) =
+
+- Added a basic GamiPress integration to award points when someone writes or receives a review. For more advanced GamiPress events, use the new [GamiPress Reviews](https://niftyplugins.com/plugins/site-reviews-gamipress/) add-on.
+- Added the [GamiPress Reviews](https://niftyplugins.com/plugins/site-reviews-gamipress/) add-on!
+- Added "profile_id" as an accepted value in the "assigned_users" shortcode option
+- Fixed CSS used in form validation
+- Fixed validation of custom checkbox fields
+
 = 5.20.4 (2022-02-11) =
 
 - Added option to change the console logging level (find it on the Console page)
