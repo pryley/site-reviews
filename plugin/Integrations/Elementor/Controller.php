@@ -1,12 +1,13 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Controllers;
+namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
-use GeminiLabs\SiteReviews\Integrations\Elementor\ElementorFormWidget;
-use GeminiLabs\SiteReviews\Integrations\Elementor\ElementorReviewsWidget;
-use GeminiLabs\SiteReviews\Integrations\Elementor\ElementorSummaryWidget;
+use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Integrations\Elementor\Widgets\FormWidget;
+use GeminiLabs\SiteReviews\Integrations\Elementor\Widgets\ReviewsWidget;
+use GeminiLabs\SiteReviews\Integrations\Elementor\Widgets\SummaryWidget;
 
-class IntegrationController extends Controller
+class Controller extends BaseController
 {
     /**
      * Fix Star Rating control when review form is used inside an Elementor Pro Popup.
@@ -58,13 +59,13 @@ class IntegrationController extends Controller
     public function registerElementorWidgets()
     {
         \Elementor\Plugin::instance()->widgets_manager->register_widget_type(
-            new ElementorFormWidget()
+            new FormWidget()
         );
         \Elementor\Plugin::instance()->widgets_manager->register_widget_type(
-            new ElementorReviewsWidget()
+            new ReviewsWidget()
         );
         \Elementor\Plugin::instance()->widgets_manager->register_widget_type(
-            new ElementorSummaryWidget()
+            new SummaryWidget()
         );
     }
 }

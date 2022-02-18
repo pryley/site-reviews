@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestController;
 use GeminiLabs\SiteReviews\Controllers\BlocksController;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
-use GeminiLabs\SiteReviews\Controllers\IntegrationController;
 use GeminiLabs\SiteReviews\Controllers\ListTableController;
 use GeminiLabs\SiteReviews\Controllers\MainController;
 use GeminiLabs\SiteReviews\Controllers\MenuController;
@@ -32,7 +31,6 @@ class Hooks implements HooksContract
     protected $basename;
     protected $blocks;
     protected $editor;
-    protected $integrations;
     protected $listtable;
     protected $main;
     protected $menu;
@@ -57,7 +55,6 @@ class Hooks implements HooksContract
         $this->basename = plugin_basename(glsr()->file);
         $this->blocks = glsr(BlocksController::class);
         $this->editor = glsr(EditorController::class);
-        $this->integrations = glsr(IntegrationController::class);
         $this->listtable = glsr(ListTableController::class);
         $this->main = glsr(MainController::class);
         $this->menu = glsr(MenuController::class);
@@ -82,6 +79,7 @@ class Hooks implements HooksContract
      */
     public function addActions()
     {
+        add_action('plugins_loaded', [$this, 'loadIntegrations'], 100); // run after all add-ons have loaded
         add_action('plugins_loaded', [$this, 'myIsamFallback']);
         add_action('load-edit.php', [$this, 'translateAdminEditPage']);
         add_action('load-post.php', [$this, 'translateAdminPostPage']);
@@ -103,8 +101,6 @@ class Hooks implements HooksContract
         add_action('init', [$this->blocks, 'registerBlocks']);
         add_action('site-reviews/route/ajax/mce-shortcode', [$this->editor, 'mceShortcodeAjax']);
         add_action('edit_form_top', [$this->editor, 'renderReviewNotice']);
-        add_action('elementor/init', [$this->integrations, 'registerElementorCategory']);
-        add_action('elementor/widgets/widgets_registered', [$this->integrations, 'registerElementorWidgets']);
         add_action('wp_ajax_inline-save', [$this->listtable, 'overrideInlineSaveAjax'], 0);
         add_action('load-edit.php', [$this->listtable, 'overridePostsListTable']);
         add_action('pre_get_posts', [$this->listtable, 'setQueryForColumn']);
@@ -208,8 +204,6 @@ class Hooks implements HooksContract
         add_filter('the_editor', [$this->editor, 'filterEditorTextarea']);
         add_filter('is_protected_meta', [$this->editor, 'filterIsProtectedMeta'], 10, 3);
         add_filter('post_updated_messages', [$this->editor, 'filterUpdateMessages']);
-        add_filter('site-reviews/enqueue/public/inline-script/after', [$this->integrations, 'filterElementorPublicInlineScript'], 1);
-        add_filter('site-reviews/defaults/star-rating/defaults', [$this->integrations, 'filterElementorStarRatingDefaults']);
         add_filter('heartbeat_received', [$this->listtable, 'filterCheckLockedReviews'], 20, 3);
         add_filter('manage_'.glsr()->post_type.'_posts_columns', [$this->listtable, 'filterColumnsForPostType']);
         add_filter('post_date_column_status', [$this->listtable, 'filterDateColumnStatus'], 10, 2);
@@ -237,6 +231,31 @@ class Hooks implements HooksContract
         add_filter(glsr()->taxonomy.'_row_actions', [$this->taxonomy, 'filterRowActions'], 10, 2);
         add_filter('plugin_action_links_'.$this->basename, [$this->welcome, 'filterActionLinks'], 11);
         add_filter('admin_title', [$this->welcome, 'filterAdminTitle']);
+    }
+
+    /**
+     * @return void
+     */
+    public function loadIntegrations()
+    {
+        $dir = glsr()->path('plugin/Integrations');
+        if (!is_dir($dir)) {
+            return;
+        }
+        $iterator = new \DirectoryIterator($dir);
+        foreach ($iterator as $fileinfo) {
+            if (!$fileinfo->isDir() || $fileinfo->isDot()) {
+                continue;
+            }
+            $basename = 'GeminiLabs\SiteReviews\Integrations\\'.$fileinfo->getBasename();
+            $controller = $basename.'\Controller';
+            $hooks = $basename.'\Hooks';
+            if (class_exists($controller) && class_exists($hooks)) {
+                glsr()->singleton($controller);
+                glsr()->singleton($hooks);
+                glsr($hooks)->run();
+            }
+        }
     }
 
     /**

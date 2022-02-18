@@ -6,7 +6,7 @@ use Elementor\Widget_Base;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
-abstract class ElementorWidget extends Widget_Base
+abstract class Widget extends Widget_Base
 {
     /**
      * @var \GeminiLabs\SiteReviews\Shortcodes\Shortcode|callable
