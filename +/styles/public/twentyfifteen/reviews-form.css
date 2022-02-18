@@ -11,7 +11,7 @@
 :--namespace form.glsr-form .glsr-field {
     position: relative;
 }
-:--namespace form.glsr-form:not(.glsr-form-is-invalid) .glsr-field-error,
+:--namespace form.glsr-form .glsr-field:not(.glsr-field-is-invalid) .glsr-field-error,
 :--namespace form.glsr-form .glsr-form-message:not(.glsr-form-failed):not(.glsr-form-success) {
     display: none;
 }

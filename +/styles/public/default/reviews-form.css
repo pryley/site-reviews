@@ -19,7 +19,6 @@
     font-size: var(--glsr-form-font-size-small);
     line-height: var(--glsr-form-line-height);
 }
-/*:--namespace form.glsr-form:not(.glsr-form-is-invalid) .glsr-field-error,*/
 :--namespace form.glsr-form .glsr-field:not(.glsr-field-is-invalid) .glsr-field-error,
 :--namespace form.glsr-form .glsr-form-message:not(.glsr-form-failed):not(.glsr-form-success) {
     display: none;
