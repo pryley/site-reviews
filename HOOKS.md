@@ -47,6 +47,7 @@
     site-reviews/assigned_posts/parent_id                   (int $postId): int
     site-reviews/assigned_posts/post_id                     (int $postId): int
     site-reviews/assigned_users/author_id                   (int $userId): int
+    site-reviews/assigned_users/profile_id                  (int $userId): int
     site-reviews/assigned_users/user_id                     (int $userId): int
     site-reviews/async-scripts                              (array $scripts): array
     site-reviews/avatar/attributes                          (array $attributes, Review $review): array
