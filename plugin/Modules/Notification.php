@@ -152,9 +152,10 @@ class Notification
             $customEmails = explode(',', $customEmails);
             $emails = array_merge($emails, $customEmails);
         }
+        $emails = glsr()->filterArray('notification/emails', $emails, $this->review);
         $emails = array_map([glsr(Sanitizer::class), 'sanitizeEmail'], $emails);
         $emails = Arr::reindex(Arr::unique($emails));
-        return glsr()->filterArray('notification/emails', $emails, $this->review);
+        return $emails;
     }
 
     /**
