@@ -94,7 +94,7 @@ class Arguments extends \ArrayObject
 
     /**
      * @param mixed $key
-     * @param string $cast
+     * @param string $sanitizer
      * @return mixed
      */
     public function sanitize($key, $sanitizer)

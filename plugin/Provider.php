@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestController;
 use GeminiLabs\SiteReviews\Controllers\BlocksController;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
-use GeminiLabs\SiteReviews\Controllers\IntegrationController;
 use GeminiLabs\SiteReviews\Controllers\ListTableController;
 use GeminiLabs\SiteReviews\Controllers\MainController;
 use GeminiLabs\SiteReviews\Controllers\MenuController;
@@ -50,7 +49,6 @@ class Provider implements ProviderContract
         $app->singleton(AdminController::class);
         $app->singleton(BlocksController::class);
         $app->singleton(EditorController::class);
-        $app->singleton(IntegrationController::class);
         $app->singleton(ListTableController::class);
         $app->singleton(MainController::class);
         $app->singleton(MenuController::class);

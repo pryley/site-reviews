@@ -134,7 +134,7 @@ function glsr_debug(...$vars)
 
 /**
  * @param array $data
- * @param string $path
+ * @param string|int $path
  * @param mixed $fallback
  * @return mixed
  */
