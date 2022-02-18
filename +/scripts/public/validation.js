@@ -182,6 +182,7 @@ Validation.prototype = {
             form: this.form,
             input: inputEl,
             params: params,
+            validate: () => this.validate_(inputEl),
             validators: rules,
         };
     },
