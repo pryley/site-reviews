@@ -79,6 +79,17 @@
         ]);
         $template->render('partials/addons/addon', [
             'context' => [
+                'description' => _x('Integrate Site Reviews with GamiPress and award your users for submitting and receiving reviews. Includes over 30 activity triggers!', 'admin-text', 'site-reviews'),
+                'link' => 'https://niftyplugins.com/plugins/site-reviews-gamipress/',
+                'link_text' => _x('View Add-on', 'admin-text', 'site-reviews'),
+                'slug' => 'gamipress',
+                'title' => 'GamiPress Reviews',
+            ],
+            'id' => 'site-reviews-gamipress',
+            'plugin' => 'site-reviews-gamipress/site-reviews-gamipress.php',
+        ]);
+        $template->render('partials/addons/addon', [
+            'context' => [
                 'description' => _x('Integrate Site Reviews with your Woocommerce products.', 'admin-text', 'site-reviews'),
                 'link' => 'https://niftyplugins.com/plugins/woocommerce-reviews/',
                 'link_text' => _x('View Add-on', 'admin-text', 'site-reviews'),

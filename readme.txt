@@ -39,6 +39,7 @@ __Site Reviews integrates with Woocommerce__ with the free [Woocommerce Reviews]
 - __Editor Blocks__: Use the custom editor blocks in the Gutenberg editor
 - __Elementor Support__: Use the native Elementor Widgets in the Elementor editor
 - __Form Styles__: Match the review form with popular themes and form plugins
+- __GamiPress Integration__: Award points when someone writes or receives a review. For more advanced GamiPress triggers, check out the [GamiPress Reviews](https://niftyplugins.com/plugins/site-reviews-gamipress/) add-on!
 - __Import Third-Party Reviews__: Includes a built-in CSV importer
 - __JSON-LD Schema__: Display your reviews and ratings in search results
 - __Members Only__: Require users to be logged in before submitting a review
@@ -69,7 +70,8 @@ Site Reviews provides a ton of absolutely free features, possibly more than any 
 - __[Review Images](https://niftyplugins.com/plugins/site-reviews-images/) (premium)__: Add images with captions to your reviews.
 - __[Review Notifications](https://niftyplugins.com/plugins/site-reviews-notifications/) (premium)__: Create and schedule custom review notifications with conditions.
 - __[Review Themes](https://niftyplugins.com/plugins/site-reviews-themes/) (premium)__: Create custom review designs with a drag-and-drop builder.
-- __[Woocommerce Reviews](https://niftyplugins.com/plugins/woocommerce-reviews/) (free)__: Integrate Site Reviews with your Woocommerce products.
+- __[GamiPress Reviews](https://niftyplugins.com/plugins/site-reviews-gamipress/) (premium)__: Integrate Site Reviews with GamiPress and award people for writing and receiving reviews.
+- __[Woocommerce Reviews](https://niftyplugins.com/plugins/site-reviews-woocommerce/) (free)__: Integrate Site Reviews with your Woocommerce products.
 
 ### Site Reviews Premium
 
