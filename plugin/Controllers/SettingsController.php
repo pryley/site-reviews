@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use Exception;
 use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Exceptions\LicenseException;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -151,24 +152,26 @@ class SettingsController extends Controller
 
     /**
      * @param string $license
-     * @param string $slug
+     * @param string $addonId
      * @return string
      */
-    protected function verifyLicense($license, $slug)
+    protected function verifyLicense($license, $addonId)
     {
+        if (empty(glsr()->updated[$addonId])) {
+            glsr_log()->error('Unknown add-on: '.$addonId);
+            glsr(Notice::class)->addError(_x('A license you entered could not be verified for the selected add-on.', 'admin-text', 'site-reviews'));
+            return '';
+        }
         try {
-            $addon = glsr($slug); // use addon alias to get the class
-            $updater = new Updater($addon->update_url, $addon->file, [
-                'license' => $license,
-                'testedTo' => $addon->testedTo,
-            ]);
+            $addon = glsr()->updated[$addonId];
+            $updater = new Updater($addon['updateUrl'], $addon['file'], compact('license'));
             if (!$updater->isLicenseValid()) {
-                throw new Exception('Invalid license: '.$license.' ('.$addon->id.')');
+                throw new LicenseException('Invalid license: '.$license.' ('.$addonId.')');
             }
-        } catch (Exception $e) {
+        } catch (LicenseException $e) {
             $license = '';
             glsr_log()->error($e->getMessage());
-            $error = _x('The license you entered is either invalid or has not yet been activated.', 'admin-text', 'site-reviews');
+            $error = _x('A license you entered is either invalid or has not yet been activated.', 'admin-text', 'site-reviews');
             $message = sprintf(_x('To activate your license, please visit the %s page on your Nifty Plugins account and click the "Manage Sites" button to activate it for your website.', 'admin-text', 'site-reviews'),
                 sprintf('<a href="https://niftyplugins.com/account/license-keys/" target="_blank">%s</a>', _x('License Keys', 'admin-text', 'site-reviews'))
             );

@@ -256,12 +256,12 @@ final class Application extends Container
             $reflection = new \ReflectionClass($addon);
             $addonId = $reflection->getConstant('ID');
             $updateUrl = $reflection->getConstant('UPDATE_URL');
-            if ($addonId && $updateUrl && !in_array($addonId, $this->updated)) {
+            if ($addonId && $updateUrl && !array_key_exists($addonId, $this->updated)) {
                 $this->license($addon);
                 $license = glsr_get_option('licenses.'.$addonId);
                 $updater = new Updater($updateUrl, $file, compact('license'));
                 $updater->init();
-                $this->updated[] = $addonId;
+                $this->updated[$addonId] = compact('file', 'updateUrl'); // store details for license verification in settings
             }
         } catch (\ReflectionException $e) {
             // We don't need to log an error here.
