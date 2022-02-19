@@ -3,9 +3,6 @@
 namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
-use GeminiLabs\SiteReviews\Integrations\Elementor\Widgets\FormWidget;
-use GeminiLabs\SiteReviews\Integrations\Elementor\Widgets\ReviewsWidget;
-use GeminiLabs\SiteReviews\Integrations\Elementor\Widgets\SummaryWidget;
 
 class Controller extends BaseController
 {
@@ -59,13 +56,13 @@ class Controller extends BaseController
     public function registerElementorWidgets()
     {
         \Elementor\Plugin::instance()->widgets_manager->register_widget_type(
-            new FormWidget()
+            new ElementorFormWidget()
         );
         \Elementor\Plugin::instance()->widgets_manager->register_widget_type(
-            new ReviewsWidget()
+            new ElementorReviewsWidget()
         );
         \Elementor\Plugin::instance()->widgets_manager->register_widget_type(
-            new SummaryWidget()
+            new ElementorSummaryWidget()
         );
     }
 }

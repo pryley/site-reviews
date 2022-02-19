@@ -1,13 +1,12 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Elementor\Widgets;
+namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
 use GeminiLabs\SiteReviews\Helpers\Cast;
-use GeminiLabs\SiteReviews\Integrations\Elementor\Widget;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
-class SummaryWidget extends Widget
+class ElementorSummaryWidget extends ElementorWidget
 {
     /**
      * @return string

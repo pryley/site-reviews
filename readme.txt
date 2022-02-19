@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews, business rev
 Tested up to: 5.9
 Requires at least: 5.5
 Requires PHP: 5.6.20
-Stable tag: 5.21.1
+Stable tag: 5.21.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -142,9 +142,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
-= 5.21.1 (2022-02-19) =
+= 5.21.2 (2022-02-19) =
 
 - Fixed add-on license validation when plugins required by the add-on are not installed or inactive
+- Fixed the Elementor integration when using the Review Filters add-on
 
 = 5.21.0 (2022-02-18) =
 

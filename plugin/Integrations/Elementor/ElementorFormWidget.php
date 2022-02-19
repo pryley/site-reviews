@@ -1,11 +1,10 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Elementor\Widgets;
+namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
-use GeminiLabs\SiteReviews\Integrations\Elementor\Widget;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
-class FormWidget extends Widget
+class ElementorFormWidget extends ElementorWidget
 {
     /**
      * @return string
