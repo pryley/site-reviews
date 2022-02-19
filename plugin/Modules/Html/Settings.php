@@ -111,11 +111,6 @@ class Settings
     protected function getTemplateDataForLicenses($id)
     {
         $fields = $this->getSettingFields($this->normalizeSettingPath($id));
-        foreach ($fields as $key => &$field) {
-            if (!empty(glsr(OptionManager::class)->get($key))) {
-                $field['type'] = 'password'; // mask saved licenses
-            }
-        }
         ksort($fields);
         return [
             'context' => [

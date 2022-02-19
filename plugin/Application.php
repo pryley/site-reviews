@@ -177,7 +177,7 @@ final class Application extends Container
             }
             $license = [
                 'settings.licenses.'.$id => [
-                    'class' => 'regular-text',
+                    'class' => 'glsr-license-key regular-text',
                     'default' => '',
                     'label' => $name,
                     'tooltip' => sprintf(_x('Make sure to activate your website domain with your license before adding it here. You can do this by visiting the %s page on your Nifty Plugins account and clicking the "Manage Sites" button.', 'admin-text', 'site-reviews'),
