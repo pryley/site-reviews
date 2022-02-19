@@ -52,6 +52,9 @@ mix.webpackConfig({
     alias: {'@': path.resolve(__dirname, '+/scripts/')},
     modules: ['node_modules'],
   },
+  // stats: {
+  //   children: true,
+  // },
 })
 
 mix

@@ -277,7 +277,7 @@ add_action('site-reviews/addon/update', function ($app) {
         try {
             $reflection = new \ReflectionClass($addon);
             $addonId = $reflection->getConstant('ID');
-            if (file_exists($file) && !in_array($addonId, $app->updated)) {
+            if (file_exists($file) && !array_key_exists($addonId, $app->updated)) {
                 $app->update($addon, $file);
             }
         } catch (\ReflectionException $e) {

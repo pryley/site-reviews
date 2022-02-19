@@ -1183,7 +1183,7 @@ msgctxt "admin-text"
 msgid "Make sure to activate your website domain with your license before adding it here. You can do this by visiting the %s page on your Nifty Plugins account and clicking the \"Manage Sites\" button."
 msgstr ""
 
-#: plugin/Application.php:184, plugin/Controllers/SettingsController.php:173
+#: plugin/Application.php:184, plugin/Controllers/SettingsController.php:176
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr ""
@@ -1331,7 +1331,7 @@ msgctxt "admin-text"
 msgid "Help"
 msgstr ""
 
-#: plugin/Addons/Updater.php:221
+#: plugin/Addons/Updater.php:222
 msgctxt "admin-text"
 msgid "A valid license key is required to download this update."
 msgstr ""
@@ -1713,27 +1713,32 @@ msgctxt "admin-text"
 msgid "Review Content"
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:30
+#: plugin/Controllers/SettingsController.php:31
 msgctxt "admin-text"
 msgid "Settings updated."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:143
+#: plugin/Controllers/SettingsController.php:144
 msgctxt "admin-text"
 msgid "Please update the %s plugin to v%s or greater to enable integration."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:137
+#: plugin/Controllers/SettingsController.php:138
 msgctxt "admin-text"
 msgid "Please install/activate the %s plugin to enable integration."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:171
+#: plugin/Controllers/SettingsController.php:162
 msgctxt "admin-text"
-msgid "The license you entered is either invalid or has not yet been activated."
+msgid "A license you entered could not be verified for the selected add-on."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:172
+#: plugin/Controllers/SettingsController.php:174
+msgctxt "admin-text"
+msgid "A license you entered is either invalid or has not yet been activated."
+msgstr ""
+
+#: plugin/Controllers/SettingsController.php:175
 msgctxt "admin-text"
 msgid "To activate your license, please visit the %s page on your Nifty Plugins account and click the \"Manage Sites\" button to activate it for your website."
 msgstr ""
