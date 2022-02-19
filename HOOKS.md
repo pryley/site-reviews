@@ -180,6 +180,7 @@
     site-reviews/tools/general                              (array $paths): array
     site-reviews/translation/entries                        (array $entries): array
     site-reviews/translator/domains                         (array $domains): array
+    site-reviews/updater/force-check                        (bool $force): bool
     site-reviews/url                                        (string $url, string $path): string
     site-reviews/validate/akismet                           (bool $isValid, array $submission, array $response): bool
     site-reviews/validate/akismet/is-active                 (bool $isActive): bool

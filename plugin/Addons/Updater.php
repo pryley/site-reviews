@@ -48,7 +48,8 @@ class Updater
         $this->data = wp_parse_args($data, get_plugin_data($file));
         $this->plugin = plugin_basename($file);
         $this->isReady = true;
-        if (!glsr()->addon(Arr::get($this->data, 'TextDomain'))) {
+        if (glsr()->filterBool('updater/force-check', false) 
+            || !glsr()->addon(Arr::get($this->data, 'TextDomain'))) {
             $this->forceCheck = true; // don't cache the version details if the addon is not fully active
         }
     }
