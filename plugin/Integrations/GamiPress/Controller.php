@@ -8,8 +8,8 @@ use GeminiLabs\SiteReviews\Review;
 
 class Controller extends BaseController
 {
-    public const TRIGGER_GET = 'site_reviews_gamipress/received/user';
-    public const TRIGGER_WRITE = 'site_reviews_gamipress/reviewed/any';
+    const TRIGGER_GET = 'site_reviews_gamipress/received/user';
+    const TRIGGER_WRITE = 'site_reviews_gamipress/reviewed/any';
 
     /**
      * @param string $label
