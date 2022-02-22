@@ -13,8 +13,8 @@ class ColumnValueRating implements ColumnValueContract
      */
     public function handle(Review $review)
     {
-        return glsr(Partial::class)->build('star-rating', [
-            'prefix' => '',
+        return wp_star_rating([
+            'echo' => false,
             'rating' => $review->rating,
         ]);
     }
