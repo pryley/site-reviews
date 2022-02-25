@@ -161,8 +161,9 @@ class Settings
      */
     protected function isMultiDependency($path)
     {
-        if (isset(glsr()->settings()[$path])) {
-            $field = glsr()->settings()[$path];
+        $settings = glsr()->settings();
+        if (isset($settings[$path])) {
+            $field = $settings[$path];
             return ('checkbox' == $field['type'] && !empty($field['options']))
                 || !empty($field['multiple']);
         }
