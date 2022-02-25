@@ -66,7 +66,7 @@ class Wpml implements Contract
     public function isEnabled()
     {
         return $this->isActive()
-            && 'wpml' == glsr(OptionManager::class)->get('settings.general.multilingual');
+            && 'wpml' === glsr(OptionManager::class)->get('settings.general.multilingual');
     }
 
     /**
