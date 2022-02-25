@@ -421,6 +421,7 @@ class Database
     {
         $args = wp_parse_args($args, [
             'fields' => ['ID', 'display_name'],
+            'number' => 50, // only get the first 50 users!
             'orderby' => 'display_name',
         ]);
         $users = get_users($args);
