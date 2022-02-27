@@ -359,7 +359,8 @@ class ListTableController extends Controller
     protected function isListOrdered()
     {
         $columns = glsr(ColumnOrderbyDefaults::class)->defaults();
-        return array_key_exists(get_query_var('orderby'), $columns);
+        $column = Cast::toString(get_query_var('orderby')); // get_query_var() output is unpredictable
+        return array_key_exists($column, $columns);
     }
 
     /**
