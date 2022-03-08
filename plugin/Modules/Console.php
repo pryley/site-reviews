@@ -8,7 +8,6 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Backtrace;
 use ReflectionClass;
 use Throwable;
 
@@ -247,7 +246,7 @@ class Console
     {
         return $data instanceof Throwable
             ? $this->normalizeThrowableMessage($data->getMessage())
-            : print_r($data, true);
+            : glsr(Dump::class)->dump($data);
     }
 
     /**
@@ -260,7 +259,7 @@ class Console
     {
         $context = Arr::consolidate($context);
         if (!is_scalar($message) || empty($context)) {
-            return print_r($message, true);
+            return glsr(Dump::class)->dump($message);
         }
         $replace = [];
         foreach ($context as $key => $value) {

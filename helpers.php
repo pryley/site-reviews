@@ -14,6 +14,7 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Backtrace;
 use GeminiLabs\SiteReviews\Modules\Console;
+use GeminiLabs\SiteReviews\Modules\Dump;
 use GeminiLabs\SiteReviews\Modules\Html\Partial;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
@@ -121,7 +122,8 @@ function glsr_current_screen()
 function glsr_debug(...$vars)
 {
     if (1 == count($vars)) {
-        $value = htmlspecialchars(print_r($vars[0], true), ENT_QUOTES, 'UTF-8');
+        $dump = glsr(Dump::class)->dump($vars[0]);
+        $value = htmlspecialchars($dump, ENT_QUOTES, 'UTF-8');
         printf('<div class="glsr-debug"><pre>%s</pre></div>', $value);
     } else {
         echo '<div class="glsr-debug-group">';
