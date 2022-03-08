@@ -2,66 +2,61 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
-use GeminiLabs\SiteReviews\Database\Query;
-use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class ColumnFilterAssignedPost extends ColumnFilter
 {
     /**
-     * {@inheritdoc}
+     * @return string
      */
-    public function handle(array $enabledFilters = [])
+    public function label()
     {
-        if (in_array('assigned_post', $enabledFilters)) {
-            $this->enabled = true;
-        }
-        if ($options = $this->options()) {
-            $label = $this->label('assigned_post',
-                _x('Filter by assigned post', 'admin-text', 'site-reviews')
-            );
-            $filter = $this->filter('assigned_post', $options,
-                _x('All assigned posts', 'admin-text', 'site-reviews')
-            );
-            return $label.$filter;
-        }
+        return _x('Filter by assigned post', 'admin-text', 'site-reviews');
     }
 
     /**
      * @return array
      */
-    protected function options()
+    public function options()
     {
-        global $wpdb;
-        $table = glsr(Query::class)->table('assigned_posts');
-        $postIds = $wpdb->get_col("SELECT DISTINCT post_id FROM {$table}");
-        if (empty($postIds)) {
-            return [];
-        }
-        $posts = get_posts([
-            'no_found_rows' => true, // skip counting the total rows found
-            'post_status' => 'any',
-            'post_type' => 'any',
-            'post__in' => $postIds,
-            'posts_per_page' => -1,
-        ]);
-        $options = wp_list_pluck($posts, 'post_title', 'ID');
-        foreach ($options as $id => &$title) {
-            if (empty($title)) {
-                $title = sprintf('%s', _x('No title', 'admin-text', 'site-reviews'));
-            }
-            $title = sprintf('%s (ID: %s)', $title, $id);
-        }
-        natcasesort($options);
-        $options = Arr::prepend($options, _x('No assigned post', 'admin-text', 'site-reviews'), '-1');
-        return $options;
+        return [
+            '' => _x('Any assigned post', 'admin-text', 'site-reviews'),
+            0 => _x('No assigned post', 'admin-text', 'site-reviews'),
+        ];
     }
 
     /**
-     * @param string $id
-     * @return int|string
+     * @return string
      */
-    protected function value($id)
+    public function placeholder()
     {
-        return filter_input(INPUT_GET, $id, FILTER_SANITIZE_NUMBER_INT);
+        return _x('Any assigned post', 'admin-text', 'site-reviews');
+    }
+
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        return $this->filterDynamic();
+    }
+
+    /**
+     * @return string
+     */
+    public function selected()
+    {
+        $value = Cast::toInt($this->value());
+        return empty($value)
+            ? $this->placeholder()
+            : get_the_title($value);
+    }
+
+    /**
+     * @return string|int
+     */
+    public function value()
+    {
+        return filter_input(INPUT_GET, $this->name(), FILTER_SANITIZE_NUMBER_INT);
     }
 }

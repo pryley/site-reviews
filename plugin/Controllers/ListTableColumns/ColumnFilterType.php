@@ -7,30 +7,26 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 class ColumnFilterType extends ColumnFilter
 {
     /**
-     * {@inheritdoc}
+     * @return string
      */
-    public function handle(array $enabledFilters = [])
+    public function label()
     {
-        if (in_array('type', $enabledFilters)) {
-            $this->enabled = true;
-        }
-        $options = $this->options();
-        if (count($options) > 1) {
-            $label = $this->label('type',
-                _x('Filter by review type', 'admin-text', 'site-reviews')
-            );
-            $filter = $this->filter('type', $options,
-                _x('All review types', 'admin-text', 'site-reviews')
-            );
-            return $label.$filter;
-        }
+        return _x('Filter by review type', 'admin-text', 'site-reviews');
     }
 
     /**
      * @return array
      */
-    protected function options()
+    public function options()
     {
         return glsr()->retrieveAs('array', 'review_types');
+    }
+
+    /**
+     * @return string
+     */
+    public function placeholder()
+    {
+        return _x('Any review type', 'admin-text', 'site-reviews');
     }
 }

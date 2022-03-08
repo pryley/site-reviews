@@ -4,6 +4,7 @@ import Ajax from './admin/ajax.js';
 import autosize from 'autosize';
 import ColorPicker from './admin/color-picker.js';
 import Event from './public/event.js';
+import Filter from './admin/filter.js';
 import Filters from './admin/filters.js';
 import Forms from './admin/forms.js';
 import Metabox from './admin/metabox.js';
@@ -29,6 +30,7 @@ GLSR.keys = {
     ENTER: 13,
     ESC: 27,
     SPACE: 32,
+    TAB: 9,
     UP: 38,
 };
 
@@ -65,6 +67,9 @@ jQuery(function ($) {
 
     ColorPicker();
     new Filters();
+    new Filter('#glsr-filter-by-author');
+    new Filter('#glsr-filter-by-assigned_post');
+    new Filter('#glsr-filter-by-assigned_user');
     new Forms('form.glsr-form');
     new Metabox();
     new Pinned();

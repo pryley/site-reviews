@@ -226,6 +226,45 @@ class AdminController extends Controller
 
     /**
      * @return void
+     * @action site-reviews/route/ajax/filter-assigned_post
+     */
+    public function searchAssignedPostsAjax(Request $request)
+    {
+        $search = glsr(Sanitizer::class)->sanitizeText($request->search);
+        $results = glsr(Database::class)->searchAssignedPosts($search);
+        wp_send_json_success([
+            'items' => $results,
+        ]);
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/ajax/filter-assigned_user
+     */
+    public function searchAssignedUsersAjax(Request $request)
+    {
+        $search = glsr(Sanitizer::class)->sanitizeText($request->search);
+        $results = glsr(Database::class)->searchAssignedUsers($search);
+        wp_send_json_success([
+            'items' => $results,
+        ]);
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/ajax/filter-author
+     */
+    public function searchAuthorsAjax(Request $request)
+    {
+        $search = glsr(Sanitizer::class)->sanitizeText($request->search);
+        $results = glsr(Database::class)->searchAuthors($search);
+        wp_send_json_success([
+            'items' => $results,
+        ]);
+    }
+
+    /**
+     * @return void
      * @action site-reviews/route/ajax/search-posts
      */
     public function searchPostsAjax(Request $request)

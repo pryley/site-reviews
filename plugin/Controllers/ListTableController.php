@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
 use GeminiLabs\SiteReviews\Defaults\ColumnOrderbyDefaults;
-use GeminiLabs\SiteReviews\Defaults\ReviewTableFiltersDefaults;
+use GeminiLabs\SiteReviews\Defaults\ListtableFiltersDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -181,7 +181,7 @@ class ListTableController extends Controller
     {
         if ('edit-'.glsr()->post_type === $screen->id) {
             $userId = get_current_user_id();
-            $filters = glsr(ReviewTableFiltersDefaults::class)->defaults();
+            $filters = glsr(ListtableFiltersDefaults::class)->defaults();
             if (count(glsr()->retrieveAs('array', 'review_types')) < 2) {
                 unset($filters['type']);
             }
@@ -280,7 +280,7 @@ class ListTableController extends Controller
     public function renderColumnFilters($postType)
     {
         if (glsr()->post_type === $postType) {
-            $filters = glsr(ReviewTableFiltersDefaults::class)->defaults();
+            $filters = glsr(ListtableFiltersDefaults::class)->defaults();
             $enabledFilters = Arr::consolidate(
                 get_user_meta(get_current_user_id(), 'edit_'.glsr()->post_type.'_filters', true)
             );
@@ -359,7 +359,7 @@ class ListTableController extends Controller
     protected function isListOrdered()
     {
         $columns = glsr(ColumnOrderbyDefaults::class)->defaults();
-        $column = Cast::toString(get_query_var('orderby')); // get_query_var() output is unpredictable
+        $column = Cast::toString(get_query_var('orderby')); // get_query_var output is unpredictable
         return array_key_exists($column, $columns);
     }
 

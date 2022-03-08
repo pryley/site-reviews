@@ -7,37 +7,17 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 class ColumnFilterCategory extends ColumnFilter
 {
     /**
-     * {@inheritdoc}
-     */
-    public function handle(array $enabledFilters = [])
-    {
-        if (in_array('category', $enabledFilters)) {
-            $this->enabled = true;
-        }
-        if ($options = $this->options()) {
-            $label = $this->label('assigned_term',
-                _x('Filter by category', 'admin-text', 'site-reviews')
-            );
-            $filter = $this->filter('assigned_term', $options,
-                _x('All categories', 'admin-text', 'site-reviews')
-            );
-            return $label.$filter;
-        }
-    }
-
-    /**
-     * @param string $id
      * @return string
      */
-    protected function id($id)
+    public function label()
     {
-        return 'glsr-filter-by-category';
+        return _x('Filter by category', 'admin-text', 'site-reviews');
     }
 
     /**
      * @return array
      */
-    protected function options()
+    public function options()
     {
         $options = get_terms([
             'count' => false,
@@ -53,11 +33,18 @@ class ColumnFilterCategory extends ColumnFilter
     }
 
     /**
-     * @param string $id
-     * @return int|string
+     * @return string
      */
-    protected function value($id)
+    public function placeholder()
     {
-        return filter_input(INPUT_GET, $id, FILTER_SANITIZE_NUMBER_INT);
+        return _x('Any category', 'admin-text', 'site-reviews');
+    }
+
+    /**
+     * @return string|int
+     */
+    public function value()
+    {
+        return filter_input(INPUT_GET, $this->name(), FILTER_SANITIZE_NUMBER_INT);
     }
 }

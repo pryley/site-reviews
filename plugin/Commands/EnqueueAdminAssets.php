@@ -3,6 +3,9 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
+use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedPost;
+use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedUser;
+use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAuthor;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -79,6 +82,11 @@ class EnqueueAdminAssets implements Contract
             'addons' => [],
             'addonsurl' => glsr_admin_url('addons'),
             'ajaxurl' => admin_url('admin-ajax.php'),
+            'filters' => [
+                'assigned_post' => glsr(ColumnFilterAssignedPost::class)->options(),
+                'assigned_user' => glsr(ColumnFilterAssignedUser::class)->options(),
+                'author' => glsr(ColumnFilterAuthor::class)->options(),
+            ],
             'hideoptions' => [
                 'site_reviews' => glsr(SiteReviewsShortcode::class)->getHideOptions(),
                 'site_reviews_form' => glsr(SiteReviewsFormShortcode::class)->getHideOptions(),
@@ -92,6 +100,9 @@ class EnqueueAdminAssets implements Contract
                 'clear-console' => wp_create_nonce('clear-console'),
                 'console-level' => wp_create_nonce('console-level'),
                 'fetch-console' => wp_create_nonce('fetch-console'),
+                'filter-assigned_post' => wp_create_nonce('filter-assigned_post'),
+                'filter-assigned_user' => wp_create_nonce('filter-assigned_user'),
+                'filter-author' => wp_create_nonce('filter-author'),
                 'mce-shortcode' => wp_create_nonce('mce-shortcode'),
                 'search-posts' => wp_create_nonce('search-posts'),
                 'search-translations' => wp_create_nonce('search-translations'),
@@ -107,6 +118,7 @@ class EnqueueAdminAssets implements Contract
             'text' => [
                 'premium' => _x('Try Premium', 'admin-text', 'site-reviews'),
                 'rate' => _x('Please rate %s on %s and help us spread the word. Thank you so much!', 'admin-text', 'site-reviews'),
+                'searching' => _x('Searching...', 'admin-text', 'site-reviews'),
             ],
             'tinymce' => [
                 'glsr_shortcode' => glsr()->url('assets/scripts/mce-plugin.js'),

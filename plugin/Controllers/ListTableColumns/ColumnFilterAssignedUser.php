@@ -2,53 +2,62 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
-use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Database\Query;
-use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class ColumnFilterAssignedUser extends ColumnFilter
 {
     /**
-     * {@inheritdoc}
+     * @return string
      */
-    public function handle(array $enabledFilters = [])
+    public function label()
     {
-        if (in_array('assigned_user', $enabledFilters)) {
-            $this->enabled = true;
-        }
-        if ($options = $this->options()) {
-            $label = $this->label('assigned_user',
-                _x('Filter by assigned user', 'admin-text', 'site-reviews')
-            );
-            $filter = $this->filter('assigned_user', $options,
-                _x('All assigned users', 'admin-text', 'site-reviews')
-            );
-            return $label.$filter;
-        }
+        return _x('Filter by assigned user', 'admin-text', 'site-reviews');
     }
 
     /**
      * @return array
      */
-    protected function options()
+    public function options()
     {
-        global $wpdb;
-        $table = glsr(Query::class)->table('assigned_users');
-        $userIds = $wpdb->get_col("SELECT DISTINCT user_id FROM {$table}");
-        if (empty($userIds)) {
-            return [];
-        }
-        $options = glsr(Database::class)->users(['include' => $userIds]);
-        $options = Arr::prepend($options, _x('No assigned user', 'admin-text', 'site-reviews'), '-1');
-        return $options;
+        return [
+            '' => _x('Any assigned user', 'admin-text', 'site-reviews'),
+            0 => _x('No assigned user', 'admin-text', 'site-reviews'),
+        ];
     }
 
     /**
-     * @param string $id
-     * @return int|string
+     * @return string
      */
-    protected function value($id)
+    public function placeholder()
     {
-        return filter_input(INPUT_GET, $id, FILTER_SANITIZE_NUMBER_INT);
+        return _x('Any assigned user', 'admin-text', 'site-reviews');
+    }
+
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        return $this->filterDynamic();
+    }
+
+    /**
+     * @return string
+     */
+    public function selected()
+    {
+        $value = Cast::toInt($this->value());
+        if (!empty($value) && $user = get_user_by('ID', $value)) {
+            return $user->display_name;
+        }
+        return $this->placeholder();
+    }
+
+    /**
+     * @return string|int
+     */
+    public function value()
+    {
+        return filter_input(INPUT_GET, $this->name(), FILTER_SANITIZE_NUMBER_INT);
     }
 }

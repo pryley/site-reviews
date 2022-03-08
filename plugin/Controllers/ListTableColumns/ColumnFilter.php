@@ -2,65 +2,147 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 abstract class ColumnFilter
 {
-    protected $enabled = false;
-    protected $maxWidth = 160;
+    protected $enabledFilters = [];
+    protected $name;
 
     /**
-     * @return string|void
-     */
-    abstract public function handle(array $enabledFilters = []);
-
-    /**
-     * @param string $id
-     * @param string $placeholder
      * @return string
      */
-    protected function filter($id, array $options, $placeholder)
+    public function action()
     {
-        return glsr(Builder::class)->select([
-            'class' => ($this->enabled ? '' : 'hidden'),
-            'name' => $id,
-            'id' => $this->id($id),
-            'options' => $options,
-            'placeholder' => $placeholder,
-            'style' => sprintf('max-width:%spx;', $this->maxWidth),
-            'value' => $this->value($id),
-        ]);
+        return sprintf('filter-%s', $this->name());
     }
 
     /**
-     * @param string $id
-     * @return string
+     * @return array
      */
-    protected function id($id)
+    public function data()
     {
-        return 'glsr-filter-by-'.$id;
+        return [
+            'class' => ($this->enabled() ? '' : 'is-hidden hidden'), // @compat with other WP filters
+            'id' => $this->id(),
+            'name' => $this->name(),
+            'options' => $this->options(),
+            'placeholder' => $this->placeholder(),
+            'value' => $this->value(),
+        ];
     }
 
     /**
-     * @param string $id
-     * @param string $text
+     * @return bool
+     */
+    public function enabled()
+    {
+        return in_array($this->name(), $this->enabledFilters);
+    }
+
+    /**
      * @return string
      */
-    protected function label($id, $text)
+    public function filter()
     {
-        return glsr(Builder::class)->label([
+        $label = glsr(Builder::class)->label([
             'class' => 'screen-reader-text',
-            'for' => $this->id($id),
-            'text' => $text,
+            'for' => $this->id(),
+            'text' => $this->label(),
         ]);
+        $select = glsr(Builder::class)->select($this->data());
+        return $label.$select;
     }
 
     /**
-     * @param string $id
-     * @return int|string
+     * @return string
      */
-    protected function value($id)
+    public function filterDynamic()
     {
-        return filter_input(INPUT_GET, $id);
+        $data = wp_parse_args($this->data(), [
+            'action' => $this->action(),
+            'selected' => $this->selected(),
+        ]);
+        return glsr()->build('partials/listtable/filter', $data);
+    }
+
+    /**
+     * @return string
+     */
+    public function handle(array $enabledFilters = [])
+    {
+        $this->enabledFilters = $enabledFilters;
+        return $this->render();
+    }
+
+    /**
+     * @return string
+     */
+    public function id()
+    {
+        return sprintf('glsr-filter-by-%s', $this->name());
+    }
+
+    /**
+     * @return string
+     */
+    public function label()
+    {
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    public function name()
+    {
+        if (empty($this->name)) {
+            $name = (new \ReflectionClass($this))->getShortName();
+            $name = Str::removePrefix($name, 'ColumnFilter');
+            $name = Str::snakeCase($name);
+            $this->name = $name;
+        }
+        return $this->name;
+    }
+
+    /**
+     * @return array
+     */
+    public function options()
+    {
+        return [];
+    }
+
+    /**
+     * @return string
+     */
+    public function placeholder()
+    {
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        return $this->filter();
+    }
+
+    /**
+     * @return string
+     */
+    public function selected()
+    {
+        return $this->placeholder();
+    }
+
+    /**
+     * @return string|int
+     */
+    public function value()
+    {
+        return filter_input(INPUT_GET, $this->name());
     }
 }

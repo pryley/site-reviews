@@ -15,7 +15,8 @@ Filters.prototype = {
     onClick_: function (ev) { // MouseEvent
         const el = jQuery(ev.currentTarget);
         const action = el.prop('checked') ? 'removeClass' : 'addClass';
-        jQuery('#glsr-filter-by-' + el.val())[action]('hidden');
+        jQuery('#glsr-filter-by-' + el.val())[action]('hidden'); // @compat with other WP filters
+        jQuery('#glsr-filter-by-' + el.val())[action]('is-hidden');
         this.saveState_();
     },
 

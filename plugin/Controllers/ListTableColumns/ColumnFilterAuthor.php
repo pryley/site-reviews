@@ -2,55 +2,49 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
-use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 
-class ColumnFilterAuthor extends ColumnFilter
+class ColumnFilterAuthor extends ColumnFilterAssignedUser
 {
     /**
-     * {@inheritdoc}
-     */
-    public function handle(array $enabledFilters = [])
-    {
-        if (in_array('author', $enabledFilters)) {
-            $this->enabled = true;
-        }
-        if ($options = $this->options()) {
-            $label = $this->label('author',
-                _x('Filter by author', 'admin-text', 'site-reviews')
-            );
-            $filter = $this->filter('author', $options,
-                _x('All authors', 'admin-text', 'site-reviews')
-            );
-            return $label.$filter;
-        }
-    }
-
-    /**
-     * @param string $id
      * @return string
      */
-    protected function id($id)
+    public function label()
     {
-        return 'glsr-filter-by-author';
+        return _x('Filter by author', 'admin-text', 'site-reviews');
     }
 
     /**
      * @return array
      */
-    protected function options()
+    public function options()
     {
-        $options = glsr(Database::class)->users();
-        $options = Arr::prepend($options, _x('No author (guest submissions)', 'admin-text', 'site-reviews'), '0');
-        return $options;
+        return [
+            '' => _x('Any author', 'admin-text', 'site-reviews'),
+            0 => _x('No author', 'admin-text', 'site-reviews'),
+        ];
     }
 
     /**
-     * @param string $id
-     * @return int|string
+     * @return string
      */
-    protected function value($id)
+    public function placeholder()
     {
-        return filter_input(INPUT_GET, $id, FILTER_SANITIZE_NUMBER_INT);
+        return _x('Any author', 'admin-text', 'site-reviews');
+    }
+
+    /**
+     * @return string
+     */
+    public function selected()
+    {
+        $value = $this->value();
+        if ($user = get_user_by('ID', $value)) {
+            return $user->display_name;
+        }
+        if (is_numeric($value) && 0 === Cast::toInt($value)) {
+            return _x('No author', 'admin-text', 'site-reviews');
+        }
+        return $this->placeholder();
     }
 }

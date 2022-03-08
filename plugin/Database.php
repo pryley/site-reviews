@@ -57,7 +57,7 @@ class Database
      * @param string $output
      * @return array|object|null
      */
-    public function dbGetResults($sql, $output)
+    public function dbGetResults($sql, $output = 'OBJECT')
     {
         $output = Str::restrictTo(['ARRAY_A', 'ARRAY_N', 'OBJECT', 'OBJECT_K'], $output, OBJECT);
         return $this->logErrors($this->db->get_results($sql, $output));
@@ -316,6 +316,84 @@ class Database
         $key = Str::prefix($key, '_');
         $postId = Cast::toInt($postId);
         return update_metadata('post', $postId, $key, $value); // update_metadata works with revisions
+    }
+
+    /**
+     * @param string $searchTerm
+     * @return array
+     */
+    public function searchAuthors($searchTerm)
+    {
+        if (empty($searchTerm)) {
+            return [];
+        }
+        $table = glsr(Query::class)->table('users');
+        $searchId = Cast::toInt($searchTerm);
+        $searchQuery = '%'.$this->db->esc_like($searchTerm).'%';
+        return $this->dbGetResults(
+            $this->db->prepare("
+                SELECT u.ID AS id, u.display_name AS name
+                FROM gl_users u
+                WHERE 1=1
+                AND (u.ID = %d OR u.display_name LIKE %s)
+                ORDER BY u.display_name
+                LIMIT 25
+            ", $searchId, $searchQuery)
+        );
+    }
+
+    /**
+     * @param string $searchTerm
+     * @return array
+     */
+    public function searchAssignedPosts($searchTerm)
+    {
+        if (empty($searchTerm)) {
+            return [];
+        }
+        $table = glsr(Query::class)->table('assigned_posts');
+        $postIds = $this->db->get_col("SELECT DISTINCT post_id FROM {$table}");
+        $postIds = implode(',', $postIds);
+        $searchId = Cast::toInt($searchTerm);
+        $searchQuery = '%'.$this->db->esc_like($searchTerm).'%';
+        return $this->dbGetResults(
+            $this->db->prepare("
+                SELECT p.ID AS id, p.post_title AS name
+                FROM gl_posts p
+                WHERE 1=1
+                AND p.ID IN ({$postIds}) 
+                AND (p.ID = %d OR p.post_title LIKE %s)
+                ORDER BY p.post_title
+                LIMIT 25
+            ", $searchId, $searchQuery)
+        );
+    }
+
+    /**
+     * @param string $searchTerm
+     * @return array
+     */
+    public function searchAssignedUsers($searchTerm)
+    {
+        if (empty($searchTerm)) {
+            return [];
+        }
+        $table = glsr(Query::class)->table('assigned_users');
+        $userIds = $this->db->get_col("SELECT DISTINCT user_id FROM {$table}");
+        $userIds = implode(',', $userIds);
+        $searchId = Cast::toInt($searchTerm);
+        $searchQuery = '%'.$this->db->esc_like($searchTerm).'%';
+        return $this->dbGetResults(
+            $this->db->prepare("
+                SELECT u.ID AS id, u.display_name AS name
+                FROM gl_users u
+                WHERE 1=1
+                AND u.ID IN ({$userIds}) 
+                AND (u.ID = %d OR u.display_name LIKE %s)
+                ORDER BY u.display_name
+                LIMIT 25
+            ", $searchId, $searchQuery)
+        );
     }
 
     /**

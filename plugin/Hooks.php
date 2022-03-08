@@ -91,6 +91,9 @@ class Hooks implements HooksContract
         add_action('admin_init', [$this->admin, 'onActivation']);
         add_action('import_end', [$this->admin, 'onImportEnd']);
         add_action('admin_init', [$this->admin, 'scheduleMigration']);
+        add_action('site-reviews/route/ajax/filter-assigned_post', [$this->admin, 'searchAssignedPostsAjax']);
+        add_action('site-reviews/route/ajax/filter-assigned_user', [$this->admin, 'searchAssignedUsersAjax']);
+        add_action('site-reviews/route/ajax/filter-author', [$this->admin, 'searchAuthorsAjax']);
         add_action('site-reviews/route/ajax/search-posts', [$this->admin, 'searchPostsAjax']);
         add_action('site-reviews/route/ajax/search-translations', [$this->admin, 'searchTranslationsAjax']);
         add_action('site-reviews/route/ajax/search-users', [$this->admin, 'searchUsersAjax']);

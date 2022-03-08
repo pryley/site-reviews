@@ -1,0 +1,140 @@
+.tablenav .glsr-filter {
+    max-width: 160px;
+}
+.glsr-filter {
+    display: inline-flex;
+    position: relative;
+    width: 160px;
+}
+.glsr-filter.is-hidden {
+    display: none;
+}
+.glsr-filter .glsr-filter__search,
+.glsr-filter .glsr-filter__selected {
+    background-color: #fff;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    background-position: right 5px top 55%;
+    border: 1px solid #8c8f94;
+    border-radius: 3px;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #2c3338;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    height: 30px;
+    line-height: 2;
+    margin: 0;
+    max-width: 25rem;
+    min-height: 30px;
+    padding: 0 24px 0 8px;
+    position: relative;
+    vertical-align: middle;
+    width: 100%;
+    z-index: 10;
+}
+// selected
+.glsr-filter .glsr-filter__selected {
+    background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.glsr-filter .glsr-filter__selected:focus {
+    border-color: #2271b1;
+    box-shadow: 0 0 0 1px #2271b1;
+    outline: 2px solid transparent;
+}
+.glsr-filter.is-active .glsr-filter__selected {
+    display: none;
+}
+// search
+.glsr-filter .glsr-filter__search {
+    -webkit-appearance: none;
+    background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%3E%3Cpath%20d%3D%22M9%203a6%206%200%200%201%206%206c0%201.296-.411%202.496-1.109%203.477l2.809%202.809a1%201%200%201%201-1.414%201.414l-2.809-2.809C11.496%2014.589%2010.296%2015%209%2015A6%206%200%201%201%209%203zm0%202a4%204%200%201%200%200%208%204%204%200%201%200%200-8z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E);
+    display: none;
+}
+.glsr-filter .glsr-filter__search::placeholder {
+    color: #2c3338 !important;
+}
+.glsr-filter.is-active .glsr-filter__search {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    display: block;
+}
+// results
+.glsr-filter .glsr-filter__results {
+    -webkit-overflow-scrolling: touch;
+    background-color: #fff;
+    border-radius: 3px;
+    border: 1px solid #7e8993;
+    box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+    box-sizing: border-box;
+    display: none;
+    font-size: 14px;
+    left: 0;
+    max-height: 270px;
+    overflow-y: scroll;
+    padding-top: 28px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 5;
+}
+.glsr-filter.is-active .glsr-filter__results {
+    border-color: #2271b1;
+    box-shadow: 0 0 0 1px #2271b1;
+    display: block;
+    outline: 2px solid transparent;
+}
+// entries
+.glsr-filter .glsr-filter__results > span {
+    align-items: center;
+    display: flex;
+    box-sizing: border-box;
+    height: 30px;
+    justify-content: space-between;
+    line-height: 30px;
+    padding: 0 2px 0 8px;
+    position: relative;
+}
+.glsr-filter .glsr-filter__results > span:first-child {
+    border-top: 1px solid #2271b1;
+}
+.glsr-filter .glsr-filter__results > span:not([data-id]) {
+    color: #646970;
+}
+.glsr-filter .glsr-filter__results span[data-id]:hover {
+    color: #2271b1;
+    cursor: pointer;
+}
+.glsr-filter .glsr-filter__results span[data-id].is-selected {
+    background-color: #2271b1;
+    color: #fff;
+    outline: none;
+}
+.glsr-filter .glsr-filter__results span[data-id] > span + span {
+    align-items: center;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px currentColor;
+    display: flex;
+    flex-shrink: 0;
+    font-family: monospace;
+    font-size: 10px;
+    height: 10px;
+    margin: 0 4px;
+    padding: 4px;
+}
+.glsr-filter .glsr-filter__results > span > span {
+    display: block;
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.glsr-filter .glsr-filter__results .spinner {
+    margin: 0 2px 0 0;
+    visibility: visible;
+}

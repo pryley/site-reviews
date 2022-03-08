@@ -7,29 +7,17 @@ use GeminiLabs\SiteReviews\Modules\Rating;
 class ColumnFilterRating extends ColumnFilter
 {
     /**
-     * {@inheritdoc}
+     * @return string
      */
-    public function handle(array $enabledFilters = [])
+    public function label()
     {
-        if (in_array('rating', $enabledFilters)) {
-            $this->enabled = true;
-        }
-        $options = $this->options();
-        if (count($options) > 1) {
-            $label = $this->label('rating',
-                _x('Filter by rating', 'admin-text', 'site-reviews')
-            );
-            $filter = $this->filter('rating', $options,
-                _x('All ratings', 'admin-text', 'site-reviews')
-            );
-            return $label.$filter;
-        }
+        return _x('Filter by rating', 'admin-text', 'site-reviews');
     }
 
     /**
      * @return array
      */
-    protected function options()
+    public function options()
     {
         $options = [];
         $ratings = range(glsr()->constant('MAX_RATING', Rating::class), 0);
@@ -41,11 +29,18 @@ class ColumnFilterRating extends ColumnFilter
     }
 
     /**
-     * @param string $id
-     * @return int|string
+     * @return string
      */
-    protected function value($id)
+    public function placeholder()
     {
-        return filter_input(INPUT_GET, $id, FILTER_SANITIZE_NUMBER_INT);
+        return _x('Any rating', 'admin-text', 'site-reviews');
+    }
+
+    /**
+     * @return string|int
+     */
+    public function value()
+    {
+        return filter_input(INPUT_GET, $this->name(), FILTER_SANITIZE_NUMBER_INT);
     }
 }
