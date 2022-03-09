@@ -7,6 +7,7 @@ const defaults = {
         active: 'is-active',
         selected: 'is-selected',
     },
+    inView: 5, // items to display before scolling, this is dependant of the accompanying CSS
     onInit: null,
     onDestroy: null,
     onSelect: null,
@@ -71,6 +72,14 @@ export class Filter {
         _.each(events, (func, event) => jQuery(el)[action](event, func))
     }
 
+    offsets() {
+        let height = this.resultsEl.outerHeight(false);
+        let selectedHeight = height / this.options.inView;
+        let top = this.selected * selectedHeight; // top Y of selection
+        let bottom = top + selectedHeight; // bottom Y of selection
+        return { bottom, height, top }
+    }
+
     onDocumentClick(ev) {
         if (jQuery(ev.target).find(this.el).length) {
             this.requestAbort()
@@ -111,9 +120,9 @@ export class Filter {
             this.resultsHide()
             _.debounce(() => this.selectedEl.focus(), 10)()
         } else if (GLSR.keys.DOWN === ev.which) {
-            this.resultsNavigate(1)
+            this.resultsMoveDown()
         } else if (GLSR.keys.UP === ev.which) {
-            this.resultsNavigate(-1)
+            this.resultsMoveUp()
         } else if (GLSR.keys.TAB === ev.which) {
             this.resultsHide()
         }
@@ -181,10 +190,26 @@ export class Filter {
         aria(this.resultsEl, 'hidden', 1)
     }
 
+    resultsMoveDown() {
+        this.resultsNavigate(1) // run this first
+        const offset = this.offsets();
+        if (offset.bottom > offset.height) {
+            this.resultsEl.scrollTop(offset.bottom - offset.height)
+        }
+    }
+
+    resultsMoveUp() {
+        this.resultsNavigate(-1) // run this first
+        const offset = this.offsets();
+        if (offset.bottom < offset.height) {
+            this.resultsEl.scrollTop(offset.top)
+        }
+    }
+
     resultsNavigate(diff) {
         this.selected += diff;
         const children = this.resultsEl.children()
-        children.removeClass(this.options.classes.selected)
+        children.attr('aria-selected', 'false').removeClass(this.options.classes.selected)
         if (this.selected < 0) { // reached the beginning
             this.selected = -1;
         }
@@ -192,7 +217,9 @@ export class Filter {
             this.selected = children.length - 1;
         }
         if (this.selected >= 0) {
-            children.eq(this.selected).addClass(this.options.classes.selected);
+            const el = children.eq(this.selected);
+            el.addClass(this.options.classes.selected)
+            aria(el, 'selected', 1);
         }
     }
 
@@ -205,16 +232,19 @@ export class Filter {
         aria(this.el, 'expanded', 1)
         aria(this.resultsEl, 'expanded', 1)
         aria(this.resultsEl, 'hidden', 0)
-        _.debounce(() => this.searchEl.focus(), 10)()
+        _.debounce(() => {
+            this.resultsEl.scrollTop(0)
+            this.searchEl.focus()
+        }, 10)()
     }
 
     templateResult(data) {
-        const template = _.template('<span data-id="<%= id %>" title="<%= name %>"><span><%= name %></span><% if (!~["","0",0].indexOf(id)) { %><span>ID:<%= id %></span><% } %></span>');
+        const template = _.template('<span aria-selected="false" data-id="<%= id %>" title="<%= name %>"><span><%= name %></span><% if (!~["","0",0].indexOf(id)) { %><span>ID:<%= id %></span><% } %></span>');
         return jQuery(template(data));
     }
 
     templateSearching() {
-        const template = _.template('<span><%= text %><span class="spinner"></span></span>');
+        const template = _.template('<span><span><%= text %></span><span class="spinner"></span></span>');
         return jQuery(template({ text: GLSR.text.searching }));
     }
 };

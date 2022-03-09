@@ -46,13 +46,9 @@ abstract class ColumnFilter
      */
     public function filter()
     {
-        $label = glsr(Builder::class)->label([
-            'class' => 'screen-reader-text',
-            'for' => $this->id(),
-            'text' => $this->label(),
-        ]);
-        $select = glsr(Builder::class)->select($this->data());
-        return $label.$select;
+        $filter = glsr(Builder::class)->select($this->data());
+        $label = $this->filterLabel();
+        return $label.$filter;
     }
 
     /**
@@ -64,7 +60,21 @@ abstract class ColumnFilter
             'action' => $this->action(),
             'selected' => $this->selected(),
         ]);
-        return glsr()->build('partials/listtable/filter', $data);
+        $filter = glsr()->build('partials/listtable/filter', $data);
+        $label = $this->filterLabel();
+        return $label.$filter;
+    }
+
+    /**
+     * @return string
+     */
+    public function filterLabel()
+    {
+        return glsr(Builder::class)->label([
+            'class' => 'screen-reader-text',
+            'for' => $this->id(),
+            'text' => $this->label(),
+        ]);
     }
 
     /**

@@ -24,27 +24,4 @@ class ColumnFilterAuthor extends ColumnFilterAssignedUser
             0 => _x('No author', 'admin-text', 'site-reviews'),
         ];
     }
-
-    /**
-     * @return string
-     */
-    public function placeholder()
-    {
-        return _x('Any author', 'admin-text', 'site-reviews');
-    }
-
-    /**
-     * @return string
-     */
-    public function selected()
-    {
-        $value = $this->value();
-        if ($user = get_user_by('ID', $value)) {
-            return $user->display_name;
-        }
-        if (is_numeric($value) && 0 === Cast::toInt($value)) {
-            return _x('No author', 'admin-text', 'site-reviews');
-        }
-        return $this->placeholder();
-    }
 }

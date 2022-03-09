@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class ColumnFilterAssignedUser extends ColumnFilter
@@ -30,7 +31,7 @@ class ColumnFilterAssignedUser extends ColumnFilter
      */
     public function placeholder()
     {
-        return _x('Any assigned user', 'admin-text', 'site-reviews');
+        return Arr::get($this->options(), '');
     }
 
     /**
@@ -46,9 +47,12 @@ class ColumnFilterAssignedUser extends ColumnFilter
      */
     public function selected()
     {
-        $value = Cast::toInt($this->value());
-        if (!empty($value) && $user = get_user_by('ID', $value)) {
+        $value = $this->value();
+        if ($user = get_user_by('ID', $value)) {
             return $user->display_name;
+        }
+        if (is_numeric($value) && 0 === Cast::toInt($value)) {
+            return Arr::get($this->options(), 0);
         }
         return $this->placeholder();
     }

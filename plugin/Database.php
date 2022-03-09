@@ -322,30 +322,6 @@ class Database
      * @param string $searchTerm
      * @return array
      */
-    public function searchAuthors($searchTerm)
-    {
-        if (empty($searchTerm)) {
-            return [];
-        }
-        $table = glsr(Query::class)->table('users');
-        $searchId = Cast::toInt($searchTerm);
-        $searchQuery = '%'.$this->db->esc_like($searchTerm).'%';
-        return $this->dbGetResults(
-            $this->db->prepare("
-                SELECT u.ID AS id, u.display_name AS name
-                FROM gl_users u
-                WHERE 1=1
-                AND (u.ID = %d OR u.display_name LIKE %s)
-                ORDER BY u.display_name
-                LIMIT 25
-            ", $searchId, $searchQuery)
-        );
-    }
-
-    /**
-     * @param string $searchTerm
-     * @return array
-     */
     public function searchAssignedPosts($searchTerm)
     {
         if (empty($searchTerm)) {
@@ -389,6 +365,30 @@ class Database
                 FROM gl_users u
                 WHERE 1=1
                 AND u.ID IN ({$userIds}) 
+                AND (u.ID = %d OR u.display_name LIKE %s)
+                ORDER BY u.display_name
+                LIMIT 25
+            ", $searchId, $searchQuery)
+        );
+    }
+
+    /**
+     * @param string $searchTerm
+     * @return array
+     */
+    public function searchAuthors($searchTerm)
+    {
+        if (empty($searchTerm)) {
+            return [];
+        }
+        $table = glsr(Query::class)->table('users');
+        $searchId = Cast::toInt($searchTerm);
+        $searchQuery = '%'.$this->db->esc_like($searchTerm).'%';
+        return $this->dbGetResults(
+            $this->db->prepare("
+                SELECT u.ID AS id, u.display_name AS name
+                FROM gl_users u
+                WHERE 1=1
                 AND (u.ID = %d OR u.display_name LIKE %s)
                 ORDER BY u.display_name
                 LIMIT 25
