@@ -383,6 +383,20 @@ class ListTableController extends Controller
     {
         global $wpdb;
         $join .= " INNER JOIN {$table} ON {$table}.review_id = {$wpdb->posts}.ID ";
+
+        foreach ($this->filterByValues() as $key => $value) {
+            if (!in_array($key, ['assigned_post', 'assigned_user'])) {
+                continue;
+            }
+            $assignedTable = glsr(Query::class)->table($key.'s');
+            $column = Str::suffix(Str::removePrefix($key, 'assigned_'), '_id');
+            $value = Cast::toInt($value);
+            if (0 === $value) {
+                $join .= " LEFT JOIN {$assignedTable} ON {$assignedTable}.rating_id = {$table}.ID ";
+            } else {
+                $join .= " INNER JOIN {$assignedTable} ON {$assignedTable}.rating_id = {$table}.ID ";
+            }
+        }
         return $join;
     }
 
@@ -410,29 +424,16 @@ class ListTableController extends Controller
     protected function modifyClauseWhere($where, $table, WP_Query $query)
     {
         global $wpdb;
-        $mapped = [
-            'assigned_post' => 'post',
-            'assigned_user' => 'user',
-        ];
         foreach ($this->filterByValues() as $key => $value) {
             if (in_array($key, ['assigned_post', 'assigned_user'])) {
                 $assignedTable = glsr(Query::class)->table($key.'s');
-                if (-1 === Cast::toInt($value)) {
-                    $ids = $wpdb->get_col("
-                        SELECT DISTINCT r.review_id 
-                        FROM {$table} r
-                        LEFT JOIN {$assignedTable} at ON at.rating_id = r.ID
-                        WHERE at.{$mapped[$key]}_id IS NULL
-                    ");
+                $column = Str::suffix(Str::removePrefix($key, 'assigned_'), '_id');
+                $value = Cast::toInt($value);
+                if (0 === $value) {
+                    $where .= " AND {$assignedTable}.{$column} IS NULL ";
                 } else {
-                    $ids = $wpdb->get_col("
-                        SELECT DISTINCT r.review_id 
-                        FROM {$table} r
-                        INNER JOIN {$assignedTable} at ON at.rating_id = r.ID 
-                        WHERE at.{$mapped[$key]}_id = '{$value}' 
-                    ");
+                    $where .= " AND {$assignedTable}.{$column} = {$value} ";
                 }
-                $where .= sprintf(" AND {$wpdb->posts}.ID IN (%s) ", implode(',', $ids));
             } elseif (in_array($key, ['rating','type'])) {
                 $where .= " AND {$table}.{$key} = '{$value}' ";
             } elseif ('author' === $key && '0' === $value) {
