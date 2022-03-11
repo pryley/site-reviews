@@ -42,7 +42,7 @@ const edit = props => {
         >
             <TextControl
                 className="glsr-base-conditional-control"
-                help={ _x('Separate with commas.', 'admin-text', 'site-reviews') }
+                help={ _x('Separate values with a comma.', 'admin-text', 'site-reviews') }
                 onChange={ assigned_posts => setAttributes({ assigned_posts }) }
                 placeholder={ _x('Enter the Post IDs', 'admin-text', 'site-reviews') }
                 type="text"
@@ -51,18 +51,17 @@ const edit = props => {
         </ConditionalSelectControl>,
         category: <ConditionalSelectControl
             key={ 'assigned_terms' }
-            custom_value={ 'glsr_custom' }
             label={ _x('Assign Reviews to a Category', 'admin-text', 'site-reviews') }
             onChange={ category => setAttributes({
                 category: category,
-                assigned_terms: ('glsr_custom' === category ? assigned_terms : ''),
+                assigned_terms: ('custom' === category ? assigned_terms : ''),
             })}
             options={ AssignedTermsOptions }
             value={ category }
         >
             <TextControl
                 className="glsr-base-conditional-control"
-                help={ _x('Separate with commas.', 'admin-text', 'site-reviews') }
+                help={ _x('Separate values with a comma.', 'admin-text', 'site-reviews') }
                 onChange={ assigned_terms => setAttributes({ assigned_terms }) }
                 placeholder={ _x('Enter the Category IDs or slugs', 'admin-text', 'site-reviews') }
                 type="text"
@@ -71,18 +70,17 @@ const edit = props => {
         </ConditionalSelectControl>,
         user: <ConditionalSelectControl
             key={ 'assigned_users' }
-            custom_value={ 'glsr_custom' }
             label={ _x('Assign Reviews to a User', 'admin-text', 'site-reviews') }
             onChange={ user => setAttributes({
                 user: user,
-                assigned_users: ('glsr_custom' === user ? assigned_users : ''),
+                assigned_users: ('custom' === user ? assigned_users : ''),
             })}
             options={ AssignedUsersOptions }
             value={ user }
         >
             <TextControl
                 className="glsr-base-conditional-control"
-                help={ _x('Separate with commas.', 'admin-text', 'site-reviews') }
+                help={ _x('Separate values with a comma.', 'admin-text', 'site-reviews') }
                 onChange={ assigned_users => setAttributes({ assigned_users }) }
                 placeholder={ _x('Enter the User IDs or usernames', 'admin-text', 'site-reviews') }
                 type="text"

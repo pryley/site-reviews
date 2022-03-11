@@ -52,7 +52,7 @@ class SiteReviewsBlock extends Block
                 'default' => '',
                 'type' => 'string',
             ],
-            'post_id' => [
+            'post_id' => [ // This is used to store the Post Id of the page that we get with jQuery.
                 'default' => '',
                 'type' => 'string',
             ],

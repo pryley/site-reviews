@@ -24,11 +24,11 @@ const transformWidgetAttributes = (instance, attributes) => {
     }
     attr.user = attr.assigned_users;
     if (!~_.findIndex(AssignedUsersOptions, user => user.value == attr.assigned_users)) {
-        attr.user = 'glsr_custom';
+        attr.user = 'custom';
     }
     attr.category = attr.assigned_terms;
     if (!~_.findIndex(AssignedTermsOptions, term => term.value == attr.assigned_terms)) {
-        attr.category = 'glsr_custom';
+        attr.category = 'custom';
     }
     return attr
 };

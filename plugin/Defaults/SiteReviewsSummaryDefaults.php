@@ -73,8 +73,7 @@ class SiteReviewsSummaryDefaults extends Defaults
     protected function normalize(array $values = [])
     {
         foreach ($this->mapped as $old => $new) {
-            $value = Helper::ifTrue('assigned_to' === $old, 'custom', 'glsr_custom');
-            if ($value === Arr::get($values, $old)) {
+            if ('custom' === Arr::get($values, $old)) {
                 $values[$old] = Arr::get($values, $new);
             }
         }

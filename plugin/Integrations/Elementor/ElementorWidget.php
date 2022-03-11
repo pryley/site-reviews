@@ -80,10 +80,10 @@ abstract class ElementorWidget extends Widget_Base
      */
     protected function assigned_posts_options()
     {
-        return [
-            'custom' => _x('Assign to multiple Post IDs', 'admin-text', 'site-reviews'),
-            'post_id' => _x('The Current Page', 'admin-text', 'site-reviews').' (post_id)',
-            'parent_id' => _x('The Parent Page', 'admin-text', 'site-reviews').' (parent_id)',
+        return [ // order is intentional
+            'custom' => _x('Specific Post ID', 'admin-text', 'site-reviews'),
+            'post_id' => _x('The Current Page', 'admin-text', 'site-reviews'),
+            'parent_id' => _x('The Parent Page', 'admin-text', 'site-reviews'),
         ];
     }
 
@@ -100,12 +100,12 @@ abstract class ElementorWidget extends Widget_Base
      */
     protected function assigned_users_options()
     {
-        $options = [
-            'author_id' => _x('The Page author', 'admin-text', 'site-reviews').' (author_id)',
-            'profile_id' => _x('The Profile user (BuddyPress/Ultimate Member)', 'admin-text', 'site-reviews').' (profile_id)',
-            'user_id' => _x('The Logged-in user', 'admin-text', 'site-reviews').' (user_id)',
+        return [ // order is intentional
+            'custom' => _x('Specific User ID', 'admin-text', 'site-reviews'),
+            'user_id' => _x('The Logged-in user', 'admin-text', 'site-reviews'),
+            'author_id' => _x('The Page author', 'admin-text', 'site-reviews'),
+            'profile_id' => _x('The Profile user (BuddyPress/Ultimate Member)', 'admin-text', 'site-reviews'),
         ];
-        return $options + glsr(Database::class)->users();
     }
 
     protected function get_review_types()

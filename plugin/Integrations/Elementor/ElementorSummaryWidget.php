@@ -33,7 +33,7 @@ class ElementorSummaryWidget extends ElementorWidget
             ],
             'assigned_posts_custom' => [
                 'condition' => ['assigned_posts' => 'custom'],
-                'description' => _x('Separate with commas.', 'admin-text', 'site-reviews'),
+                'description' => _x('Separate values with a comma.', 'admin-text', 'site-reviews'),
                 'label_block' => true,
                 'placeholder' => _x('Enter the Post IDs', 'admin-text', 'site-reviews'),
                 'show_label' => false,
@@ -51,9 +51,16 @@ class ElementorSummaryWidget extends ElementorWidget
                 'default' => '',
                 'label' => _x('Limit Reviews to an Assigned User', 'admin-text', 'site-reviews'),
                 'label_block' => true,
-                'multiple' => true,
                 'options' => $this->assigned_users_options(),
                 'type' => \Elementor\Controls_Manager::SELECT2,
+            ],
+            'assigned_users_custom' => [
+                'condition' => ['assigned_users' => 'custom'],
+                'description' => _x('Separate values with a comma.', 'admin-text', 'site-reviews'),
+                'label_block' => true,
+                'placeholder' => _x('Enter the User IDs', 'admin-text', 'site-reviews'),
+                'show_label' => false,
+                'type' => \Elementor\Controls_Manager::TEXT,
             ],
             'terms' => [
                 'default' => '',

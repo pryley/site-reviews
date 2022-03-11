@@ -5,8 +5,8 @@ const selectPlaceholder = {
     value: '',
 };
 const selectCustom = {
-    label: '- ' + _x('Select Multiple Categories', 'admin-text', 'site-reviews') + ' -',
-    value: 'glsr_custom',
+    label: '- ' + _x('Multiple Categories', 'admin-text', 'site-reviews') + ' -',
+    value: 'custom',
 };
 wp.apiFetch({ path: '/site-reviews/v1/categories?per_page=50' }).then(terms => {
     categories.push(selectPlaceholder);
