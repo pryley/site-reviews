@@ -22,7 +22,8 @@ class SiteReviewsShortcode extends Shortcode
     public function buildReviewsHtml(array $args = [])
     {
         $this->args = glsr(SiteReviewsDefaults::class)->unguardedMerge($args);
-        $reviews = glsr(ReviewManager::class)->reviews($this->args);
+        $reviews = glsr(ReviewManager::class)->reviews($args);
+        $this->debug((array) $reviews);
         $this->generateSchema($reviews);
         if ('modal' === glsr_get_option('reviews.excerpts_action')) {
             glsr()->store('use_modal', true);
@@ -47,6 +48,21 @@ class SiteReviewsShortcode extends Shortcode
             glsr(Schema::class)->store(
                 glsr(Schema::class)->build($this->args, $reviews)
             );
+        }
+    }
+
+    /**
+     * @return void
+     */
+    protected function debug(array $data = [])
+    {
+        if (!empty($this->args['debug'])) {
+            $reviews = [];
+            foreach ($data['reviews'] as $review) {
+                $reviews[$review->ID] = get_class($review);
+            }
+            $data['reviews'] = $reviews;
+            parent::debug($data);
         }
     }
 

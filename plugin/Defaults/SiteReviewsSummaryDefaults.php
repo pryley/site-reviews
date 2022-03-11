@@ -12,6 +12,7 @@ class SiteReviewsSummaryDefaults extends Defaults
      * @var array
      */
     public $casts = [
+        'debug' => 'bool',
         'rating' => 'int',
         'schema' => 'bool',
     ];
@@ -51,6 +52,7 @@ class SiteReviewsSummaryDefaults extends Defaults
             'assigned_terms' => '',
             'assigned_users' => '',
             'class' => '',
+            'debug' => false,
             'hide' => '',
             'id' => '',
             'labels' => '',

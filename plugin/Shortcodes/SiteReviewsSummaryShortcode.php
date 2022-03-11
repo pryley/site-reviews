@@ -25,8 +25,10 @@ class SiteReviewsSummaryShortcode extends Shortcode
      */
     public function buildTemplate(array $args = [])
     {
+        $ratings = glsr(RatingManager::class)->ratings($args);
         $this->args = $args;
-        $this->ratings = glsr(RatingManager::class)->ratings($args);
+        $this->ratings = $ratings;
+        $this->debug(compact('ratings'));
         if ($this->isEmpty()) {
             return;
         }

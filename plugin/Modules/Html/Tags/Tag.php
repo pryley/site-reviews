@@ -108,7 +108,7 @@ abstract class Tag implements TagContract
 
     /**
      * @param string $value
-     * @return string|void
+     * @return mixed
      */
     protected function handle($value = null)
     {

@@ -1,5 +1,6 @@
 @import "public/default/variables";
 @import "public/default/keyframes";
+@import "public/default/debug";
 @import "public/default/modal";
 @import "public/default/screen-reader";
 @import "public/default/reviews";

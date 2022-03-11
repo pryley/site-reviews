@@ -1,5 +1,6 @@
 @import "public/minimal/variables";
 @import "public/minimal/keyframes";
+@import "public/minimal/debug";
 @import "public/minimal/modal";
 @import "public/minimal/screen-reader";
 @import "public/minimal/reviews";

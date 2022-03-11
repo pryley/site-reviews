@@ -29,7 +29,17 @@ abstract class Shortcode implements ShortcodeContract
     /**
      * @var string
      */
+    public $debug;
+
+    /**
+     * @var string
+     */
     public $shortcode;
+
+    /**
+     * @var string
+     */
+    public $type;
 
     public function __construct()
     {
@@ -38,7 +48,7 @@ abstract class Shortcode implements ShortcodeContract
 
     public function __get($parameter)
     {
-        // @compat provides backwards compatibility with unsupported add-ons
+        // @compat provides backwards compatibility for unsupported add-ons
     }
 
     /**
@@ -48,6 +58,7 @@ abstract class Shortcode implements ShortcodeContract
      */
     public function build($atts, array $args = [], $type = 'shortcode')
     {
+        $this->type = $type;
         $args = $this->normalizeArgs($args, $type);
         $atts = $this->normalizeAtts($atts, $type);
         $template = $this->buildTemplate($atts->toArray());
@@ -62,7 +73,13 @@ abstract class Shortcode implements ShortcodeContract
         ]);
         $attributes = glsr()->filterArray('shortcode/'.$this->shortcode.'/attributes', $attributes, $this);
         $html = glsr(Builder::class)->div($attributes);
-        return $args->before_widget.$atts->title.$html.$args->after_widget;
+        return sprintf('%s%s%s%s%s',
+            $args->before_widget,
+            $atts->title,
+            $this->debug,
+            $html,
+            $args->after_widget
+        );
     }
 
     /**
@@ -151,6 +168,24 @@ abstract class Shortcode implements ShortcodeContract
         }
         $this->setDataAttributes($atts, $type);
         return $atts;
+    }
+
+    /**
+     * @return void
+     */
+    protected function debug(array $data = [])
+    {
+        if (empty($this->args['debug']) || 'shortcode' !== $this->type) {
+            return;
+        }
+        $data = wp_parse_args($data, [
+            'args' => $this->args,
+            'shortcode' => $this->shortcode,
+        ]);
+        ksort($data);
+        ob_start();
+        glsr_debug($data);
+        $this->debug = ob_get_clean();
     }
 
     /**

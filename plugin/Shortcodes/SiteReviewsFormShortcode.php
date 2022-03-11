@@ -25,12 +25,14 @@ class SiteReviewsFormShortcode extends Shortcode
      */
     public function buildTemplate(array $args = [])
     {
+        $this->args = $args;
         if (!is_user_logged_in() && glsr_get_option('general.require.login', false, 'bool')) {
+            $this->debug();
             return $this->loginOrRegister();
         }
-        $this->args = $args;
         $this->with = $this->with();
         $fields = $this->buildTemplateFieldTags();
+        $this->debug(compact('fields'));
         return glsr(Template::class)->build('templates/reviews-form', [
             'args' => $args,
             'context' => [
@@ -79,7 +81,7 @@ class SiteReviewsFormShortcode extends Shortcode
     }
 
     /**
-     * @return false|string
+     * @return \GeminiLabs\SiteReviews\Modules\Html\Form
      */
     protected function buildTemplateFieldTags()
     {
@@ -102,6 +104,24 @@ class SiteReviewsFormShortcode extends Shortcode
             ? glsr($className, compact('tag', 'args'))->handleFor('form', null, $this->with)
             : null;
         return glsr()->filterString('form/build/'.$tag, $field, $this->with, $this);
+    }
+
+    /**
+     * @return void
+     */
+    protected function debug(array $data = [])
+    {
+        if (!empty($this->args['debug']) && !empty($data['fields'])) {
+            $fields = $data['fields'];
+            $data = [
+                'fields' => [
+                    'hidden' => $fields->hidden(),
+                    'visible' => $fields->visible(),
+                ],
+                'with' => $this->with->toArray(),
+            ];
+        }
+        parent::debug($data);
     }
 
     /**

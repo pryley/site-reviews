@@ -93,6 +93,7 @@ class DefaultsTest extends WP_UnitTestCase
             'assigned_terms' => $termId,
             'assigned_users' => $userId,
             'class' => '',
+            'debug' => false,
             'display' => 1,
             'hide' => [],
             'offset' => '',

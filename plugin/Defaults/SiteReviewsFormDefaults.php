@@ -11,6 +11,13 @@ class SiteReviewsFormDefaults extends Defaults
     /**
      * @var array
      */
+    public $casts = [
+        'debug' => 'bool',
+    ];
+
+    /**
+     * @var array
+     */
     public $guarded = [
         'description',
         'title',
@@ -43,6 +50,7 @@ class SiteReviewsFormDefaults extends Defaults
             'assigned_terms' => '',
             'assigned_users' => '',
             'class' => '',
+            'debug' => false,
             'description' => '',
             'excluded' => '',
             'form_id' => '', // used for the validation session key and to generate the honeypot hash

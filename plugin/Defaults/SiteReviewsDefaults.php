@@ -12,6 +12,7 @@ class SiteReviewsDefaults extends Defaults
      * @var array
      */
     public $casts = [
+        'debug' => 'bool',
         'display' => 'int',
         'hide' => 'array',
         'page' => 'int',
@@ -56,6 +57,7 @@ class SiteReviewsDefaults extends Defaults
             'assigned_users' => '',
             'class' => '',
             'display' => 5,
+            'debug' => false,
             'fallback' => '',
             'hide' => [],
             'id' => '',
