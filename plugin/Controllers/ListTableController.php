@@ -383,7 +383,6 @@ class ListTableController extends Controller
     {
         global $wpdb;
         $join .= " INNER JOIN {$table} ON {$table}.review_id = {$wpdb->posts}.ID ";
-
         foreach ($this->filterByValues() as $key => $value) {
             if (!in_array($key, ['assigned_post', 'assigned_user'])) {
                 continue;

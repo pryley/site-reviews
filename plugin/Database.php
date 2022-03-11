@@ -3,6 +3,11 @@
 namespace GeminiLabs\SiteReviews;
 
 use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Database\Search\SearchAssignedPosts;
+use GeminiLabs\SiteReviews\Database\Search\SearchAssignedUsers;
+use GeminiLabs\SiteReviews\Database\Search\SearchAuthors;
+use GeminiLabs\SiteReviews\Database\Search\SearchPosts;
+use GeminiLabs\SiteReviews\Database\Search\SearchUsers;
 use GeminiLabs\SiteReviews\Database\SqlSchema;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -191,31 +196,6 @@ class Database
     }
 
     /**
-     * Search SQL filter for matching against post title only.
-     * @see http://wordpress.stackexchange.com/a/11826/1685
-     * @param string $search
-     * @return string
-     * @filter posts_search
-     */
-    public function filterSearchByTitle($search, WP_Query $query)
-    {
-        if (empty($search) || empty($query->get('search_terms'))) {
-            return $search;
-        }
-        $n = empty($query->get('exact'))
-            ? '%'
-            : '';
-        $search = [];
-        foreach ((array) $query->get('search_terms') as $term) {
-            $search[] = $this->db->prepare("{$this->db->posts}.post_title LIKE %s", $n.$this->db->esc_like($term).$n);
-        }
-        if (!is_user_logged_in()) {
-            $search[] = "{$this->db->posts}.post_password = ''";
-        }
-        return ' AND '.implode(' AND ', $search);
-    }
-
-    /**
      * Use this after bulk insert (see: $this->beginTransaction()).
      * @param string $table
      * @return void
@@ -320,145 +300,38 @@ class Database
 
     /**
      * @param string $searchTerm
-     * @return array
+     * @return SearchAssignedPosts
      */
     public function searchAssignedPosts($searchTerm)
     {
-        if (empty($searchTerm)) {
-            return [];
-        }
-        $table = glsr(Query::class)->table('assigned_posts');
-        $postIds = $this->db->get_col("SELECT DISTINCT post_id FROM {$table}");
-        $postIds = implode(',', $postIds);
-        $searchId = Cast::toInt($searchTerm);
-        $searchQuery = '%'.$this->db->esc_like($searchTerm).'%';
-        return $this->dbGetResults(
-            $this->db->prepare("
-                SELECT p.ID AS id, p.post_title AS name
-                FROM gl_posts p
-                WHERE 1=1
-                AND p.ID IN ({$postIds}) 
-                AND (p.ID = %d OR p.post_title LIKE %s)
-                ORDER BY p.post_title
-                LIMIT 25
-            ", $searchId, $searchQuery)
-        );
+        return glsr(SearchAssignedPosts::class)->search($searchTerm);
     }
 
     /**
      * @param string $searchTerm
-     * @return array
+     * @return SearchAssignedUsers
      */
     public function searchAssignedUsers($searchTerm)
     {
-        if (empty($searchTerm)) {
-            return [];
-        }
-        $table = glsr(Query::class)->table('assigned_users');
-        $userIds = $this->db->get_col("SELECT DISTINCT user_id FROM {$table}");
-        $userIds = implode(',', $userIds);
-        $searchId = Cast::toInt($searchTerm);
-        $searchQuery = '%'.$this->db->esc_like($searchTerm).'%';
-        return $this->dbGetResults(
-            $this->db->prepare("
-                SELECT u.ID AS id, u.display_name AS name
-                FROM gl_users u
-                WHERE 1=1
-                AND u.ID IN ({$userIds}) 
-                AND (u.ID = %d OR u.display_name LIKE %s)
-                ORDER BY u.display_name
-                LIMIT 25
-            ", $searchId, $searchQuery)
-        );
+        return glsr(SearchAssignedUsers::class)->search($searchTerm);
     }
 
     /**
      * @param string $searchTerm
-     * @return array
-     */
-    public function searchAuthors($searchTerm)
-    {
-        if (empty($searchTerm)) {
-            return [];
-        }
-        $table = glsr(Query::class)->table('users');
-        $searchId = Cast::toInt($searchTerm);
-        $searchQuery = '%'.$this->db->esc_like($searchTerm).'%';
-        return $this->dbGetResults(
-            $this->db->prepare("
-                SELECT u.ID AS id, u.display_name AS name
-                FROM gl_users u
-                WHERE 1=1
-                AND (u.ID = %d OR u.display_name LIKE %s)
-                ORDER BY u.display_name
-                LIMIT 25
-            ", $searchId, $searchQuery)
-        );
-    }
-
-    /**
-     * @param string $searchTerm
-     * @return string
+     * @return SearchPosts
      */
     public function searchPosts($searchTerm)
     {
-        $args = [
-            'post_status' => 'publish',
-            'post_type' => 'any',
-        ];
-        if (is_numeric($searchTerm)) {
-            $args['post__in'] = [$searchTerm];
-        } else {
-            $args['orderby'] = 'relevance';
-            $args['posts_per_page'] = 10;
-            $args['s'] = $searchTerm;
-        }
-        add_filter('posts_search', [$this, 'filterSearchByTitle'], 500, 2);
-        $search = new WP_Query($args);
-        remove_filter('posts_search', [$this, 'filterSearchByTitle'], 500);
-        $results = '';
-        while ($search->have_posts()) {
-            $search->the_post();
-            $results .= glsr()->build('partials/editor/search-result', [
-                'ID' => get_the_ID(),
-                'permalink' => esc_url((string) get_permalink()),
-                'title' => esc_attr(get_the_title()),
-            ]);
-        }
-        // @phpstan-ignore-next-line
-        if ($search->have_posts()) {
-            wp_reset_postdata();
-        }
-        return $results;
+        return glsr(SearchPosts::class)->search($searchTerm);
     }
 
     /**
      * @param string $searchTerm
-     * @return void|string
+     * @return SearchUsers
      */
     public function searchUsers($searchTerm)
     {
-        $args = [
-            'fields' => ['ID', 'user_login', 'display_name'],
-            'number' => 10,
-            'orderby' => 'display_name',
-        ];
-        if (is_numeric($searchTerm)) {
-            $args['include'] = [$searchTerm];
-        } else {
-            $args['search'] = '*'.$searchTerm.'*';
-            $args['search_columns'] = ['user_login', 'user_nicename', 'display_name'];
-        }
-        $users = (new WP_User_Query($args))->get_results();
-        if (!empty($users)) {
-            return array_reduce($users, function ($carry, $user) {
-                return $carry.glsr()->build('partials/editor/search-result', [
-                    'ID' => $user->ID,
-                    'permalink' => esc_url(get_author_posts_url($user->ID)),
-                    'title' => esc_attr($user->display_name.' ('.$user->user_login.')'),
-                ]);
-            });
-        }
+        return glsr(SearchUsers::class)->search($searchTerm);
     }
 
     /**

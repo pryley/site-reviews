@@ -120,6 +120,14 @@ class StrTest extends WP_UnitTestCase
         $this->assertEquals(Str::fallback([], '2'), '2');
     }
 
+    public function test_join()
+    {
+        $this->assertEquals(Str::join(['1']), '1');
+        $this->assertEquals(Str::join(['1'], true), "'1'");
+        $this->assertEquals(Str::join(['1', '2']), '1, 2');
+        $this->assertEquals(Str::join(['1', '2'], true), "'1','2'");
+    }
+
     public function test_natural_join()
     {
         $this->assertEquals(Str::naturalJoin(['1']), '1');

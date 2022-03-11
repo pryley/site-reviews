@@ -139,6 +139,17 @@ class Str
     }
 
     /**
+     * @param bool $quoted
+     * @return string
+     */
+    public static function join(array $values, $quoted = false)
+    {
+        return $quoted
+            ? "'".implode( "','", $values )."'"
+            : implode(', ', $values);
+    }
+
+    /**
      * @return string
      */
     public static function naturalJoin(array $values)
