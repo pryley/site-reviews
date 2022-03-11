@@ -124,7 +124,7 @@ export class Filter {
         } else if (GLSR.keys.UP === ev.which) {
             this.resultsMoveUp()
         } else if (GLSR.keys.TAB === ev.which) {
-            this.resultsHide()
+            ev.preventDefault()
         }
     }
 
@@ -174,7 +174,7 @@ export class Filter {
         let mergedResults = jQuery.merge(_.sortBy(results, 'name'), this.data);
         let id = this.valueEl.val();
         let name = this.selectedEl.text();
-        if (~['','0'].indexOf(id)) {
+        if (-1 !== _.findIndex(mergedResults, { id })) {
             return mergedResults;
         }
         return jQuery.merge(mergedResults, [{ id, name }])
@@ -244,7 +244,7 @@ export class Filter {
     }
 
     templateSearching() {
-        const template = _.template('<span><span><%= text %></span><span class="spinner"></span></span>');
+        const template = _.template('<span data-searching><span><%= text %></span><span class="spinner"></span></span>');
         return jQuery(template({ text: GLSR.text.searching }));
     }
 };

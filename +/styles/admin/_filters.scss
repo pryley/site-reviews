@@ -112,8 +112,13 @@
     padding: 0 6px;
     position: relative;
 }
-.glsr-filter .glsr-filter__results > span:not([data-id]) {
-    color: #646970;
+.glsr-filter .glsr-filter__results > span > span {
+    display: block;
+    font-size: 13px;
+    overflow: hidden;
+    padding: 0 2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .glsr-filter .glsr-filter__results span[data-id]:hover {
     color: #2271b1;
@@ -135,13 +140,8 @@
     height: 10px;
     padding: 4px;
 }
-.glsr-filter .glsr-filter__results > span > span {
-    display: block;
-    font-size: 13px;
-    overflow: hidden;
-    padding: 0 2px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.glsr-filter .glsr-filter__results > span[data-searching] {
+    color: #646970;
 }
 .glsr-filter .glsr-filter__results .spinner {
     margin: 0;

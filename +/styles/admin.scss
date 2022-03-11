@@ -31,6 +31,7 @@
 @import 'admin/tippy';
 @import "admin/welcome";
 @import "admin/wp-list-table";
+@import "admin/filters";
 
 #available-widgets [class*="site-reviews"] .widget-title::before {
     content: "\f459";
