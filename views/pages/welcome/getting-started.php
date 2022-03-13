@@ -2,8 +2,12 @@
 
 <div class="is-fullwidth">
     <div class="glsr-welcome-banner">
-        <img src="<?= glsr()->url('assets/images/banner.png'); ?>">
+        <div style="width: 100%; padding-bottom: 56.25%; position: relative;">
+            <iframe style="position: absolute; top: 0; left: 0; height: 1005; width: 100%;" width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/videoseries?list=PLn-nTn-jOuWnsMviIHjIMRIitM47aAanA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
     </div>
+
+    <hr>
 
     <div class="glsr-flex-row glsr-has-2-columns">
         <div class="glsr-column">

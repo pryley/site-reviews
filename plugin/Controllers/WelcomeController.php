@@ -8,12 +8,10 @@ use GeminiLabs\SiteReviews\Modules\Html\Template;
 class WelcomeController extends Controller
 {
     protected $welcomePage;
-    protected $welcomePath;
 
     public function __construct()
     {
         $this->welcomePage = glsr()->id.'-welcome';
-        $this->welcomePath = 'index.php?page='.$this->welcomePage;
     }
 
     /**
@@ -23,7 +21,7 @@ class WelcomeController extends Controller
     public function filterActionLinks(array $links)
     {
         $links['welcome'] = glsr(Builder::class)->a([
-            'href' => admin_url($this->welcomePath),
+            'href' => esc_url(glsr_admin_url('welcome')),
             'text' => _x('About', 'admin-text', 'site-reviews'),
         ]);
         return $links;
@@ -51,7 +49,7 @@ class WelcomeController extends Controller
         if (!$isNetworkActivation
             && 'cli' !== php_sapi_name()
             && $plugin === plugin_basename(glsr()->file)) {
-            wp_safe_redirect(admin_url($this->welcomePath));
+            wp_safe_redirect(glsr_admin_url('welcome'));
             exit;
         }
     }

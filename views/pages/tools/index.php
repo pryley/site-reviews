@@ -3,7 +3,7 @@
 <div class="wrap">
     <h1 class="wp-heading-inline">
         <?= esc_html(get_admin_page_title()); ?>
-        <a href="<?= admin_url('index.php?page='.glsr()->id.'-welcome'); ?>" class="page-title-action"><?= _x('About', 'admin-text', 'site-reviews'); ?></a>
+        <a href="<?= glsr_admin_url('welcome'); ?>" class="page-title-action"><?= _x('About', 'admin-text', 'site-reviews'); ?></a>
     </h1>
     <?= $notices; ?>
     <nav class="glsr-nav-tab-wrapper nav-tab-wrapper">

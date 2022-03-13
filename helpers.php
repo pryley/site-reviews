@@ -77,15 +77,16 @@ function glsr($alias = null, array $parameters = [])
  */
 function glsr_admin_url($page = '', $tab = '', $sub = '')
 {
+    if ('welcome' === $page) {
+        $page = glsr()->id.'-welcome';
+        $args = array_filter(compact('page', 'tab'));
+        return add_query_arg($args, admin_url('index.php'));
+    }
     if (!empty($page)) {
         $page = Str::dashCase(glsr()->prefix.$page);
     }
-    $args = array_filter([
-        'post_type' => glsr()->post_type,
-        'page' => $page,
-        'tab' => $tab,
-        'sub' => $sub,
-    ]);
+    $post_type = glsr()->post_type;
+    $args = array_filter(compact('post_type', 'page', 'tab', 'sub'));
     return add_query_arg($args, admin_url('edit.php'));
 }
 
