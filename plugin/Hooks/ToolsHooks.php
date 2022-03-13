@@ -25,6 +25,7 @@ class ToolsHooks extends AbstractHooks
             ['exportSettings', 'site-reviews/route/admin/export-settings'],
             ['fetchConsole', 'site-reviews/route/admin/fetch-console'],
             ['fetchConsoleAjax', 'site-reviews/route/ajax/fetch-console'],
+            ['filterUpdatePluginsTransient', 'site_transient_update_plugins'],
             ['importReviews', 'site-reviews/route/admin/import-reviews'],
             ['importSettings', 'site-reviews/route/admin/import-settings'],
             ['migratePlugin', 'site-reviews/route/admin/migrate-plugin'],
@@ -35,6 +36,9 @@ class ToolsHooks extends AbstractHooks
             ['resetAssignedMetaAjax', 'site-reviews/route/ajax/reset-assigned-meta'],
             ['resetPermissions', 'site-reviews/route/admin/reset-permissions'],
             ['resetPermissionsAjax', 'site-reviews/route/ajax/reset-permissions'],
+            ['rollbackPlugin', "update-custom_rollback-{$this->id}"],
+            ['rollbackPluginAjax', "site-reviews/route/ajax/rollback-{$this->id}"],
+            ['rollbackPluginReactivate', "update-custom_reactivate-{$this->id}"],
         ]);
     }
 }

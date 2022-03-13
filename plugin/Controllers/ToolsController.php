@@ -18,6 +18,7 @@ use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Modules\SystemInfo;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Role;
+use GeminiLabs\SiteReviews\Rollback;
 
 class ToolsController extends Controller
 {
@@ -187,6 +188,24 @@ class ToolsController extends Controller
     }
 
     /**
+     * @param object $value
+     * @return object
+     * @filter site_transient_update_plugins
+     */
+    public function filterUpdatePluginsTransient($value)
+    {
+        if ($version = get_transient(glsr()->prefix.'rollback_version')) {
+            $plugin = plugin_basename(glsr()->file);
+            $value->response[$plugin] = (object) [
+                'new_version' => $version,
+                'package' => sprintf('https://downloads.wordpress.org/plugin/%s.%s.zip', glsr()->id, $version),
+                'slug' => glsr()->id,
+            ];
+        }
+        return $value;
+    }
+
+    /**
      * @return void
      * @action site-reviews/route/admin/import-reviews
      */
@@ -307,5 +326,44 @@ class ToolsController extends Controller
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
         ]);
+    }
+
+    /**
+     * @return void
+     * @action update-custom_rollback-<Application::ID>
+     */
+    public function rollbackPlugin()
+    {
+        if (!current_user_can('update_plugins')) {
+            wp_die(sprintf(_x('Sorry, you are not allowed to rollback %s.', 'Site Reviews (admin-text)', 'site-reviews'), glsr()->name));
+        }
+        $request = Request::inputGet();
+        check_admin_referer($request->action);
+        glsr(Rollback::class)->rollback($request->version);
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/ajax/rollback-<Application::ID>
+     */
+    public function rollbackPluginAjax(Request $request)
+    {
+        wp_send_json_success(
+            glsr(Rollback::class)->rollbackAjax($request->version)
+        );
+    }
+
+    /**
+     * @return void
+     * @action update-custom_reactivate-<Application::ID>
+     */
+    public function rollbackPluginReactivate()
+    {
+        if (!current_user_can('update_plugins')) {
+            wp_die(sprintf(_x('Sorry, you are not allowed to reactivate %s.', 'Site Reviews (admin-text)', 'site-reviews'), glsr()->name));
+        }
+        $request = Request::inputGet();
+        check_admin_referer('reactivate-plugin_'.$request->plugin);
+        glsr(Rollback::class)->reactivate($request->plugin);
     }
 }

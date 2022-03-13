@@ -58,7 +58,7 @@ Ajax.prototype = {
             }
         }).always(function (response) {
             if (!response.data) {
-                GLSR.notices.add('<div class="notice notice-error inline is-dismissible"><p>Unknown error.</p></div>');
+                GLSR.notices.error('Unknown error.');
             }
             else if (response.data.notices) {
                 GLSR.notices.add(response.data.notices);

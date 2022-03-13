@@ -118,6 +118,7 @@ class EnqueueAdminAssets implements Contract
             'text' => [
                 'premium' => _x('Try Premium', 'admin-text', 'site-reviews'),
                 'rate' => _x('Please rate %s on %s and help us spread the word. Thank you so much!', 'admin-text', 'site-reviews'),
+                'rollback_error' => _x('Rollback failed', 'admin-text', 'site-reviews'),
                 'searching' => _x('Searching...', 'admin-text', 'site-reviews'),
             ],
             'tinymce' => [

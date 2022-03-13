@@ -18,8 +18,8 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Restrict reviews in the admin to those assigned to pages of the current user
 - [ ] Review statistics
 - [ ] Store the review GEO location by IP
-- [ ] Version rollback (ref: WP Rocket)
-- [ ] View all reviews by author
+- [x] Version rollback (ref: WP Rocket)
+- [x] View all reviews by author
 
 ## Upcoming Add-ons
 

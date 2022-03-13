@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\SqlSchema;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -180,6 +181,8 @@ class MenuController extends Controller
                     'system' => glsr(SystemInfo::class)->get(),
                 ],
                 'myisam_tables' => Arr::get(glsr(SqlSchema::class)->tableEngines(), 'MyISAM', []),
+                'rollback_script' => file_get_contents(glsr()->path('assets/scripts/rollback.js')),
+                'rollback_versions' => glsr(Cache::class)->getPluginVersions(),
                 'services' => glsr()->filterArray('addon/sync/services', []),
             ],
             'tabs' => $tabs,

@@ -22,6 +22,10 @@ open: ## Open the development site in the default browser
 release: ## Release a new version of Site Reviews
 	sh ./release.sh
 
+.PHONY: sync
+sync: ## Sync plugin files to development site
+	git archive --format=tar --prefix=site-reviews/ HEAD | (cd ~/Sites/site-reviews/public/app/plugins/ && tar xf -)
+
 .PHONY: test
 test: ## Run all phpunit tests
 	./vendor/bin/phpunit

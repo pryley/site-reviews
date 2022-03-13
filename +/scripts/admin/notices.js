@@ -1,4 +1,4 @@
-/** global: GLSR, jQuery */
+
 
 const Notices = function () { // string
     this.init_();
@@ -14,6 +14,11 @@ Notices.prototype = {
         }
         jQuery('#glsr-notices').html(notices);
         jQuery(document).trigger('wp-updates-notice-added');
+        jQuery('html').animate({ scrollTop: 0 }, 500);
+    },
+
+    error: function (message) {
+        this.add('<div class="notice notice-error inline is-dismissible"><p>' + message + '</p></div>');
     },
 
     /** @return void */

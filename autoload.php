@@ -26,6 +26,8 @@ require_once __DIR__.'/vendors/woocommerce/action-scheduler/action-scheduler.php
 
 spl_autoload_register(function ($className) {
     $classMap = [
+        'Plugin_Upgrader' => ABSPATH.'wp-admin/includes/class-plugin-upgrader.php',
+        'Plugin_Upgrader_Skin' => ABSPATH.'wp-admin/includes/class-plugin-upgrader-skin.php',
         'WP_Debug_Data' => ABSPATH.'wp-admin/includes/class-wp-debug-data.php',
         'WP_List_Table' => ABSPATH.'wp-admin/includes/class-wp-list-table.php',
         'WP_Posts_List_Table' => ABSPATH.'wp-admin/includes/class-wp-posts-list-table.php',
