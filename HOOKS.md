@@ -116,6 +116,7 @@
     site-reviews/path                                       (string $path, string $file): string
     site-reviews/personal-data/erase-all                    (bool $eraseAll): bool
     site-reviews/personal-data/export                       (array $data, Review $review): array
+    site-reviews/post/is-published                          (bool $isPublished, int|\WP_Post $postId): bool
     site-reviews/query/sql/and                              (array $whereAnd, string $handle, Database\Query $query): array
     site-reviews/query/sql/clause/operator                  (string $clauseOperator, array $clauses, array $args): string
     site-reviews/query/sql/join                             (array $join, string $handle, Database\Query $query): array

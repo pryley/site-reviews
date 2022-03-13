@@ -24,7 +24,7 @@ class ReviewManager
     public function assignPost(Review $review, $postId)
     {
         $where = [
-            'is_published' => 'publish' === get_post_status($postId),
+            'is_published' => $this->isPublishedPost($postId),
             'post_id' => $postId,
             'rating_id' => $review->rating_id,
         ];
@@ -271,16 +271,13 @@ class ReviewManager
 
     /**
      * @param int $postId
-     * @param bool $isPublished
      * @return int|bool
      */
-    public function updateAssignedPost($postId, $isPublished)
+    public function updateAssignedPost($postId)
     {
-        $isPublished = wp_validate_boolean($isPublished);
-        $postId = Cast::toInt($postId);
         return glsr(Database::class)->update('assigned_posts',
-            ['is_published' => $isPublished],
-            ['post_id' => $postId]
+            ['is_published' => $this->isPublishedPost($postId)],
+            ['post_id' => Cast::toInt($postId)]
         );
     }
 
@@ -361,6 +358,16 @@ class ReviewManager
             }
         }
         return 0;
+    }
+
+    /**
+     * @param int|\WP_Post $postId
+     * @return bool
+     */
+    protected function isPublishedPost($postId)
+    {
+        $isPublished = 'publish' === get_post_status($postId);
+        return glsr()->filterBool('post/is-published', $isPublished, $postId);
     }
 
     /**

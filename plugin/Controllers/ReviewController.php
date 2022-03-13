@@ -151,13 +151,13 @@ class ReviewController extends Controller
         if ('auto-draft' === $oldStatus && 'auto-draft' !== $newStatus) { // create review
             glsr(ReviewManager::class)->createFromPost($post->ID);
         }
-        $isPublished = 'publish' === $newStatus;
         if (Review::isReview($post)) {
+            $isPublished = 'publish' === $newStatus;
             glsr(ReviewManager::class)->updateRating($post->ID, ['is_approved' => $isPublished]);
             glsr(Cache::class)->delete($post->ID, 'reviews');
             glsr(CountManager::class)->recalculate();
         } else {
-            glsr(ReviewManager::class)->updateAssignedPost($post->ID, $isPublished);
+            glsr(ReviewManager::class)->updateAssignedPost($post->ID);
         }
     }
 

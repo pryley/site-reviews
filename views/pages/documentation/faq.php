@@ -13,6 +13,7 @@ $sections = [
     trailingslashit(__DIR__).'faq/translate-text.php',
     trailingslashit(__DIR__).'faq/create-review.php',
     trailingslashit(__DIR__).'faq/customise-stars.php',
+    trailingslashit(__DIR__).'faq/custom-post-status.php',
     trailingslashit(__DIR__).'faq/hide-form-after-submission.php',
     trailingslashit(__DIR__).'faq/limit-review-length.php',
     trailingslashit(__DIR__).'faq/query-by-rank.php',
