@@ -1,3 +1,7 @@
+.PHONY: analyse
+analyse: ## Run phpstan analyser
+	./vendor/bin/phpstan analyse
+
 .PHONY: build
 build: ## Build all assets and languages
 	npm run build
@@ -14,17 +18,13 @@ help:  ## Display help
 open: ## Open the development site in the default browser
 	open http://site-reviews.test/wp/wp-admin/edit.php?post_type=site-review
 
-.PHONY: phpstan
-phpstan: ## Run phpstan analyser
-	./vendor/bin/phpstan analyse
-
-.PHONY: phpunit
-phpunit: ## Run all phpunit tests
-	./vendor/bin/phpunit
-
 .PHONY: release
 release: ## Release a new version of Site Reviews
 	sh ./release.sh
+
+.PHONY: test
+test: ## Run all phpunit tests
+	./vendor/bin/phpunit
 
 .PHONY: update
 update: ## Update Composer and NPM
