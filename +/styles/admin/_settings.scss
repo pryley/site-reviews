@@ -147,7 +147,16 @@ td.glsr-string-td1 .row-actions.visible {
     margin: 0;
 }
 .glsr-card .components-notice.is-info {
-    background-color: rgba(231,245,254, 0.75);
+    background-color: #E5F5FA;
+}
+.glsr-card .components-notice.is-error {
+    background-color: #FBEAEA;
+}
+.glsr-card .components-notice.is-success {
+    background-color: #ECF7ED;
+}
+.glsr-card .components-notice.is-warning {
+    background-color: #FFF8E5;
 }
 
 
