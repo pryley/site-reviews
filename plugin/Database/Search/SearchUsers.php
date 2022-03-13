@@ -40,7 +40,7 @@ class SearchUsers extends AbstractSearch
      */
     protected function searchById($searchId)
     {
-        $this->db->prepare("
+        $sql = $this->db->prepare("
             SELECT u.ID AS id, u.user_login AS login, u.display_name AS name
             FROM {$this->db->users} u
             WHERE 1=1
