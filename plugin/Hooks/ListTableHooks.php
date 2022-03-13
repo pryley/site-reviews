@@ -1,0 +1,31 @@
+<?php
+
+namespace GeminiLabs\SiteReviews\Hooks;
+
+use GeminiLabs\SiteReviews\Controllers\ListTableController;
+
+class ListTableHooks extends AbstractHooks
+{
+    /**
+     * @return void
+     */
+    public function run()
+    {
+        $this->hook(ListTableController::class, [
+            ['filterCheckLockedReviews', 'heartbeat_received', 20, 3],
+            ['filterColumnsForPostType', "manage_{$this->type}_posts_columns"],
+            ['filterDateColumnStatus', 'post_date_column_status', 10, 2],
+            ['filterDefaultHiddenColumns', 'default_hidden_columns', 10, 2],
+            ['filterPostClauses', 'posts_clauses', 10, 2],
+            ['filterPostStates', 'display_post_states', 10, 2],
+            ['filterRowActions', 'post_row_actions', 10, 2],
+            ['filterScreenFilters', 'screen_settings', 10, 2],
+            ['filterSortableColumns', "manage_edit-{$this->type}_sortable_columns"],
+            ['overrideInlineSaveAjax', 'wp_ajax_inline-save', 0],
+            ['overridePostsListTable', 'load-edit.php'],
+            ['renderColumnFilters', 'restrict_manage_posts'],
+            ['renderColumnValues', "manage_{$this->type}_posts_custom_column", 10, 2],
+            ['setQueryForColumn', 'pre_get_posts'],
+        ]);
+    }
+}
