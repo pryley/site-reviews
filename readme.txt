@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews, business rev
 Tested up to: 5.9
 Requires at least: 5.5
 Requires PHP: 5.6.20
-Stable tag: 5.21.4
+Stable tag: 5.22.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -141,6 +141,15 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.22.0 (2022-03-15) =
+
+- Added a debug option to the shortcodes
+- Added the ability to rollback Site Reviews to a previous version
+- Added tutorial videos to the Help page
+- Fixed performance of Blocks and Elementor widgets when there are lots of users
+- Fixed performance of filters on the All Reviews admin page
+- Updated the FAQ Help page
 
 = 5.21.4 (2022-02-25) =
 
