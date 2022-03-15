@@ -150,6 +150,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Fixed expanding excerpts when using loadmore pagination
 - Fixed performance of Blocks and Elementor widgets when there are lots of users
 - Fixed performance of filters on the All Reviews admin page
+- Fixed the "Heads up! WPForms has detected an issue..." notice when using the WPForms plugin style
 - Updated the FAQ Help page
 
 = 5.21.4 (2022-02-25) =

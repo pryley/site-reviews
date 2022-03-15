@@ -234,6 +234,7 @@ add_action('site-reviews/review/created', function ($review, $command) {
  */
 add_filter('site-reviews/build/template/reviews-form', function ($template) {
     if ('wpforms' === glsr_get_option('general.style')) {
+        add_filter('wpforms_frontend_missing_assets_error_js_disable', '__return_true', PHP_INT_MAX);
         add_filter('wpforms_global_assets', '__return_true');
     }
     return $template;
