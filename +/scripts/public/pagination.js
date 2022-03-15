@@ -117,9 +117,9 @@ class Pagination {
         }
     }
 
-    handleLoadMore (el, request, response, success) {
-        el.ariaBusy = 'false';
-        el.removeAttribute('disabled');
+    handleLoadMore (buttonEl, request, response, success) {
+        buttonEl.ariaBusy = 'false';
+        buttonEl.removeAttribute('disabled');
         if (!success) {
             window.location = location;
             return;
@@ -127,21 +127,20 @@ class Pagination {
         [].forEach.call(this.wrapperEl.querySelectorAll(selector.pagination), el => {
             el.innerHTML = response.pagination;
         })
-        this.reviewsEl.innerHTML += response.reviews;
+        this.reviewsEl.insertAdjacentHTML('beforeend', response.reviews);
         this.init();
         new Excerpts(this.reviewsEl);
-        // GLSR.Event.trigger('site-reviews/pagination/handle', response, this);
     }
 
-    handlePagination (el, request, response, success) {
+    handlePagination (linkEl, request, response, success) {
         // console.info(request);
         if (!success) {
-            window.location = el.href; // reload page
+            window.location = linkEl.href; // reload page
             return;
         }
         this.paginate(response)
         if (GLSR.urlparameter) {
-            window.history.pushState(request, '', el.href); // add a new entry to browser History
+            window.history.pushState(request, '', linkEl.href); // add a new entry to browser History
         }
     }
 

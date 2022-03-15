@@ -147,6 +147,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Added a debug option to the shortcodes
 - Added the ability to rollback Site Reviews to a previous version
 - Added tutorial videos to the Help page
+- Fixed expanding excerpts when using loadmore pagination
 - Fixed performance of Blocks and Elementor widgets when there are lots of users
 - Fixed performance of filters on the All Reviews admin page
 - Updated the FAQ Help page
