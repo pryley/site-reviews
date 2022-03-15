@@ -5,15 +5,12 @@ namespace GeminiLabs\SiteReviews;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\Search\SearchAssignedPosts;
 use GeminiLabs\SiteReviews\Database\Search\SearchAssignedUsers;
-use GeminiLabs\SiteReviews\Database\Search\SearchAuthors;
 use GeminiLabs\SiteReviews\Database\Search\SearchPosts;
 use GeminiLabs\SiteReviews\Database\Search\SearchUsers;
 use GeminiLabs\SiteReviews\Database\SqlSchema;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use WP_Query;
-use WP_User_Query;
 
 /**
  * @property array $mappedDeprecatedMethods

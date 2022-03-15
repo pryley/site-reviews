@@ -22,45 +22,24 @@ add_filter('classic_editor_enabled_editors_for_post_type', function ($editors, $
  * @see https://wordpress.org/plugins/members/
  */
 add_action('members_register_caps', function () {
-    members_register_cap('create_site-reviews', [
-        'label' => _x('Create Reviews', 'admin-text', 'site-reviews'),
-    ]);
-    members_register_cap('delete_others_site-reviews', [
-        'label' => _x("Delete Others' Reviews", 'admin-text', 'site-reviews'),
-    ]);
-    members_register_cap('delete_site-reviews', [
-        'label' => _x('Delete Reviews', 'admin-text', 'site-reviews'),
-    ]);
-    members_register_cap('delete_private_site-reviews', [
-        'label' => _x('Delete Private Reviews', 'admin-text', 'site-reviews'),
-    ]);
-    members_register_cap('delete_published_site-reviews', [
-        'label' => _x('Delete Approved Reviews', 'admin-text', 'site-reviews'),
-    ]);
-    members_register_cap('edit_others_site-reviews', [
-        'label' => _x("Edit Others' Reviews", 'admin-text', 'site-reviews'),
-    ]);
-    members_register_cap('edit_site-reviews', [
-        'label' => _x('Edit Reviews', 'admin-text', 'site-reviews'),
-    ]);
-    members_register_cap('edit_private_site-reviews', [
-        'label' => _x('Edit Private Reviews', 'admin-text', 'site-reviews'),
-    ]);
-    members_register_cap('edit_published_site-reviews', [
-        'label' => _x('Edit Approved Reviews', 'admin-text', 'site-reviews'),
-    ]);
-    members_register_cap('publish_site-reviews', [
-        'label' => _x('Approve Reviews', 'admin-text', 'site-reviews'),
-    ]);
-    members_register_cap('read_private_site-reviews', [
-        'label' => _x('Read Private Reviews', 'admin-text', 'site-reviews'),
-    ]);
-    members_register_cap('respond_to_site-reviews', [
-        'label' => _x('Respond To Reviews', 'admin-text', 'site-reviews'),
-    ]);
-    members_register_cap('respond_to_others_site-reviews', [
-        'label' => _x("Respond To Others' Reviews", 'admin-text', 'site-reviews'),
-    ]);
+    $labels = [
+        'create_site-reviews' => _x('Create Reviews', 'admin-text', 'site-reviews'),
+        'delete_others_site-reviews' => _x("Delete Others' Reviews", 'admin-text', 'site-reviews'),
+        'delete_site-reviews' => _x('Delete Reviews', 'admin-text', 'site-reviews'),
+        'delete_private_site-reviews' => _x('Delete Private Reviews', 'admin-text', 'site-reviews'),
+        'delete_published_site-reviews' => _x('Delete Approved Reviews', 'admin-text', 'site-reviews'),
+        'edit_others_site-reviews' => _x("Edit Others' Reviews", 'admin-text', 'site-reviews'),
+        'edit_site-reviews' => _x('Edit Reviews', 'admin-text', 'site-reviews'),
+        'edit_private_site-reviews' => _x('Edit Private Reviews', 'admin-text', 'site-reviews'),
+        'edit_published_site-reviews' => _x('Edit Approved Reviews', 'admin-text', 'site-reviews'),
+        'publish_site-reviews' => _x('Approve Reviews', 'admin-text', 'site-reviews'),
+        'read_private_site-reviews' => _x('Read Private Reviews', 'admin-text', 'site-reviews'),
+        'respond_to_site-reviews' => _x('Respond To Reviews', 'admin-text', 'site-reviews'),
+        'respond_to_others_site-reviews' => _x("Respond To Others' Reviews", 'admin-text', 'site-reviews'),
+    ];
+    array_walk($labels, function ($label, $capability) {
+        members_register_cap($capability, ['label' => $label]);
+    });
 });
 
 /**
