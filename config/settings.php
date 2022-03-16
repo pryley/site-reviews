@@ -23,7 +23,7 @@ return [
             'bootstrap_4_custom' => _x('CSS Framework: Bootstrap 4 (Custom Forms)', 'admin-text', 'site-reviews'),
             'contact_form_7' => _x('Plugin: Contact Form 7 (v5)', 'admin-text', 'site-reviews'),
             'ninja_forms' => _x('Plugin: Ninja Forms (v3)', 'admin-text', 'site-reviews'),
-            'wpforms' => _x('Plugin: WPForms Lite (v1)', 'admin-text', 'site-reviews'),
+            'wpforms' => _x('Plugin: WPForms (v1)', 'admin-text', 'site-reviews'),
             'default' => _x('Site Reviews (default)', 'admin-text', 'site-reviews'),
             'minimal' => _x('Site Reviews (minimal)', 'admin-text', 'site-reviews'),
             'divi' => _x('Theme: Divi (v3)', 'admin-text', 'site-reviews'),
