@@ -43,7 +43,7 @@ class Pagination {
             data[`${GLSR.nameprefix}[_action]`] = 'fetch-paged-reviews';
             data[`${GLSR.nameprefix}[page]`] = el.dataset.page || 1;
             data[`${GLSR.nameprefix}[schema]`] = false;
-            data[`${GLSR.nameprefix}[url]`] = el.href || '';
+            data[`${GLSR.nameprefix}[url]`] = el.href || location.href;
             return data;
         } catch(e) {
             console.error('Invalid pagination config.');
