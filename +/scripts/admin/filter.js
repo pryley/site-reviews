@@ -7,7 +7,6 @@ const defaults = {
         active: 'is-active',
         selected: 'is-selected',
     },
-    inView: 5, // items to display before scolling, this is dependant of the accompanying CSS
     onInit: null,
     onDestroy: null,
     onSelect: null,
@@ -46,9 +45,16 @@ export class Filter {
         this.init()
     }
 
+    defaults() {
+        return _.sortBy(_.map(GLSR.filters[this.valueEl.attr('name')], (name, id) => ({ id, name })), 'name');
+    }
+
     init() {
         this.eventHandler('on')
         this.data = [];
+        if (-1 !== _.findIndex(this.defaults(), { name: this.selectedEl.text() })) {
+            this.valueEl.val(''); // fix issues with the browser cache
+        }
         if ('function' === typeof this.options.onInit) {
             this.options.onInit.call(this)
         }
@@ -70,14 +76,6 @@ export class Filter {
 
     eventListener(el, action, events) {
         _.each(events, (func, event) => jQuery(el)[action](event, func))
-    }
-
-    offsets() {
-        let height = this.resultsEl.outerHeight(false);
-        let selectedHeight = height / this.options.inView;
-        let top = this.selected * selectedHeight; // top Y of selection
-        let bottom = top + selectedHeight; // bottom Y of selection
-        return { bottom, height, top }
     }
 
     onDocumentClick(ev) {
@@ -120,9 +118,9 @@ export class Filter {
             this.resultsHide()
             _.debounce(() => this.selectedEl.focus(), 10)()
         } else if (GLSR.keys.DOWN === ev.which) {
-            this.resultsMoveDown()
+            this.resultsNavigate(1)
         } else if (GLSR.keys.UP === ev.which) {
-            this.resultsMoveUp()
+            this.resultsNavigate(-1)
         } else if (GLSR.keys.TAB === ev.which) {
             ev.preventDefault()
         }
@@ -133,9 +131,10 @@ export class Filter {
             this.options.onSelect.call(this, ev)
         }
         const selectedEl = jQuery(ev.currentTarget);
-        this.selectedEl.attr('title', selectedEl.attr('title'));
-        this.selectedEl.text(selectedEl.attr('title'));
-        this.valueEl.val(selectedEl.data('id'))
+        const value = selectedEl.data('id');
+        this.selectedEl.attr('title', !~["","0",0].indexOf(value) ? 'ID: ' + value : selectedEl.data('name'));
+        this.selectedEl.text(selectedEl.data('name'));
+        this.valueEl.val(value)
         this.resultsHide()
         _.debounce(() => this.selectedEl.focus(), 10)()
     }
@@ -170,14 +169,13 @@ export class Filter {
     }
 
     results() {
-        let results = _.map(GLSR.filters[this.valueEl.attr('name')], (name, id) => ({ id, name }));
-        let mergedResults = jQuery.merge(_.sortBy(results, 'name'), this.data);
+        let results = jQuery.merge(this.defaults(), this.data);
         let id = this.valueEl.val();
         let name = this.selectedEl.text();
-        if (-1 !== _.findIndex(mergedResults, { id })) {
-            return mergedResults;
+        if (-1 === _.findIndex(results, { id })) {
+            return jQuery.merge(results, [{ id, name }])
         }
-        return jQuery.merge(mergedResults, [{ id, name }])
+        return results;
     }
 
     resultsHide() {
@@ -188,22 +186,6 @@ export class Filter {
         aria(this.el, 'expanded', 0)
         aria(this.resultsEl, 'expanded', 0)
         aria(this.resultsEl, 'hidden', 1)
-    }
-
-    resultsMoveDown() {
-        this.resultsNavigate(1) // run this first
-        const offset = this.offsets();
-        if (offset.bottom > offset.height) {
-            this.resultsEl.scrollTop(offset.bottom - offset.height)
-        }
-    }
-
-    resultsMoveUp() {
-        this.resultsNavigate(-1) // run this first
-        const offset = this.offsets();
-        if (offset.bottom < offset.height) {
-            this.resultsEl.scrollTop(offset.top)
-        }
     }
 
     resultsNavigate(diff) {
@@ -220,14 +202,34 @@ export class Filter {
             const el = children.eq(this.selected);
             el.addClass(this.options.classes.selected)
             aria(el, 'selected', 1);
+            this.resultsScrollIntoView()
+        }
+    }
+
+    resultsScrollIntoView() {
+        const selectedEl = this.resultsEl.children().eq(this.selected);
+        const child = selectedEl[0].getBoundingClientRect();
+        const parent = this.resultsEl[0].getBoundingClientRect();
+        const isAbove = child.top < parent.top;
+        const isBelow = child.bottom > (parent.top + parent.height);
+        const top = this.resultsEl.scrollTop();
+        if (isAbove) {
+            const amount = parent.top - child.top;
+            this.resultsEl.scrollTop(top - amount);
+            return;
+        }
+        if (isBelow) {
+            const amount = child.bottom - (parent.top + parent.height);
+            this.resultsEl.scrollTop(top + amount);
+            return;
         }
     }
 
     resultsShow() {
         this.resultsEl.empty();
+        this.selected = -1;
         _.each(this.results(), data => this.resultsEl.append(this.templateResult(data)))
         this.resultsEl.children().on('mousedown', this.onSelect.bind(this))
-        this.selected = -1;
         this.el.addClass(this.options.classes.active)
         aria(this.el, 'expanded', 1)
         aria(this.resultsEl, 'expanded', 1)
@@ -239,7 +241,7 @@ export class Filter {
     }
 
     templateResult(data) {
-        const template = _.template('<span aria-selected="false" data-id="<%= id %>" title="<%= name %>"><span><%= name %></span><% if (!~["","0",0].indexOf(id)) { %><span>ID:<%= id %></span><% } %></span>');
+        const template = _.template('<span aria-selected="false" data-id="<%= id %>" data-name="<%= name %>" title="<% if (!~["","0",0].indexOf(id)) { %>ID: <%= id %><% } else { %><%= name %><% } %>"><span><%= name %></span></span>');
         return jQuery(template(data));
     }
 

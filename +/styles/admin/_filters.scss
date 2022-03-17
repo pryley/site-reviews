@@ -129,17 +129,6 @@
     color: #fff;
     outline: none;
 }
-.glsr-filter .glsr-filter__results span[data-id] > span + span {
-    align-items: center;
-    border-radius: 2px;
-    box-shadow: 0 0 0 1px currentColor;
-    display: flex;
-    flex-shrink: 0;
-    font-family: monospace;
-    font-size: 10px;
-    height: 10px;
-    padding: 4px;
-}
 .glsr-filter .glsr-filter__results > span[data-searching] {
     color: #646970;
 }

@@ -67,9 +67,9 @@ jQuery(function ($) {
 
     ColorPicker();
     new Filters();
-    new Filter('#glsr-filter-by-author');
-    new Filter('#glsr-filter-by-assigned_post');
-    new Filter('#glsr-filter-by-assigned_user');
+    $('.glsr-filter').each((index, filterEl) => {
+        new Filter(filterEl);
+    })
     new Forms('form.glsr-form');
     new Metabox();
     new Pinned();
