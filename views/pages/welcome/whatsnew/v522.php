@@ -1,0 +1,28 @@
+<div class="glsr-card postbox is-fullwidth open">
+    <h3 class="glsr-card-heading">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="true" aria-controls="welcome-v5_22_0">
+            <span class="title">Version 5.22</span>
+            <span class="icon"></span>
+        </button>
+    </h3>
+    <div id="welcome-v5_22_0" class="inside">
+        <p><em>Initial Release Date &mdash; March 20th, 2022</em></p>
+        <h4>✨ New Features</h4>
+        <ul>
+            <li>Added a debug option to the shortcodes</li>
+            <li>Added "Getting Started" videos to the Help page</li>
+            <li>Added the ability to rollback Site Reviews to a previous version</li>
+        </ul>
+        <h4>🛠 Tweaks</h4>
+        <ul>
+            <li>Updated the FAQ Help page</li>
+        </ul>
+        <h4>🐞 Bugs Fixed</h4>
+        <ul>
+            <li>Fixed expanding excerpts when using loadmore pagination</li>
+            <li>Fixed performance of Blocks and Elementor widgets when there are lots of users</li>
+            <li>Fixed performance of filters on the All Reviews admin page</li>
+            <li>Fixed the "Heads up! WPForms has detected an issue..." notice when using the WPForms plugin style</li>
+        </ul>
+    </div>
+</div>

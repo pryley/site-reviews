@@ -142,11 +142,11 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
-= 5.22.0 (2022-03-15) =
+= 5.22.0 (2022-03-20) =
 
 - Added a debug option to the shortcodes
+- Added "Getting Started" videos to the Help page
 - Added the ability to rollback Site Reviews to a previous version
-- Added tutorial videos to the Help page
 - Fixed expanding excerpts when using loadmore pagination
 - Fixed performance of Blocks and Elementor widgets when there are lots of users
 - Fixed performance of filters on the All Reviews admin page
