@@ -1,0 +1,72 @@
+
+.glsr-youtube {
+    margin-top: 2em;
+    padding-bottom: 56.25%; 
+    position: relative;
+    width: 100%;
+    background-image: url(../../images/video.png);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-color: #000;
+}
+.glsr-youtube-overlay {
+    color: rgba(201,153,3,.5);
+    display: block;
+    top: 0;
+    right: 0;
+    bottom: 50%;
+    left: 0;
+    mix-blend-mode: multiply;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 5;
+    overflow: hidden;
+    transition: opacity 1s cubic-bezier(0,0,0.2,1);
+}
+.glsr-youtube-overlay svg {
+    margin-top: -10%;
+}
+.glsr-youtube iframe {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+.glsr-youtube-button {
+    all: unset;
+    cursor: pointer;
+    height: 48px;
+    left: 50%;
+    margin-left: -34px;
+    margin-top: -24px;
+    position: absolute;
+    top: 50%;
+    transition: opacity .25s cubic-bezier(0,0,0.2,1);
+    width: 68px;
+    z-index: 5;
+}
+.glsr-youtube-button svg {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    pointer-events: none;
+}
+.glsr-youtube-button-bg {
+    transition: fill .1s cubic-bezier(0.4,0,1,1),fill-opacity .1s cubic-bezier(0.4,0,1,1);
+    fill: #212121;
+    fill-opacity: .8;
+}
+.glsr-youtube-button:hover .glsr-youtube-button-bg {
+    transition: fill .1s cubic-bezier(0,0,0.2,1),fill-opacity .1s cubic-bezier(0,0,0.2,1);
+    fill: #f00;
+    fill-opacity: 1;
+}
+.glsr-youtube-button:hover + .glsr-youtube-overlay {
+    opacity: 1;
+}

@@ -436,62 +436,62 @@ msgctxt "admin-text"
 msgid "Create Reviews"
 msgstr "Create Reviews"
 
-#: compatibility.php:29
+#: compatibility.php:27
 msgctxt "admin-text"
 msgid "Delete Others' Reviews"
 msgstr "Delete Others' Reviews"
 
-#: compatibility.php:32
+#: compatibility.php:28
 msgctxt "admin-text"
 msgid "Delete Reviews"
 msgstr "Delete Reviews"
 
-#: compatibility.php:35
+#: compatibility.php:29
 msgctxt "admin-text"
 msgid "Delete Private Reviews"
 msgstr "Delete Private Reviews"
 
-#: compatibility.php:38
+#: compatibility.php:30
 msgctxt "admin-text"
 msgid "Delete Approved Reviews"
 msgstr "Delete Approved Reviews"
 
-#: compatibility.php:41
+#: compatibility.php:31
 msgctxt "admin-text"
 msgid "Edit Others' Reviews"
 msgstr "Edit Others' Reviews"
 
-#: compatibility.php:44
+#: compatibility.php:32
 msgctxt "admin-text"
 msgid "Edit Reviews"
 msgstr "Edit Reviews"
 
-#: compatibility.php:47
+#: compatibility.php:33
 msgctxt "admin-text"
 msgid "Edit Private Reviews"
 msgstr "Edit Private Reviews"
 
-#: compatibility.php:50
+#: compatibility.php:34
 msgctxt "admin-text"
 msgid "Edit Approved Reviews"
 msgstr "Edit Approved Reviews"
 
-#: compatibility.php:53
+#: compatibility.php:35
 msgctxt "admin-text"
 msgid "Approve Reviews"
 msgstr "Approve Reviews"
 
-#: compatibility.php:56
+#: compatibility.php:36
 msgctxt "admin-text"
 msgid "Read Private Reviews"
 msgstr "Read Private Reviews"
 
-#: compatibility.php:59
+#: compatibility.php:37
 msgctxt "admin-text"
 msgid "Respond To Reviews"
 msgstr "Respond To Reviews"
 
-#: compatibility.php:62
+#: compatibility.php:38
 msgctxt "admin-text"
 msgid "Respond To Others' Reviews"
 msgstr "Respond To Others' Reviews"
@@ -552,8 +552,8 @@ msgstr "Plugin: Ninja Forms (v3)"
 
 #: config/settings.php:26
 msgctxt "admin-text"
-msgid "Plugin: WPForms Lite (v1)"
-msgstr "Plugin: WPForms Lite (v1)"
+msgid "Plugin: WPForms (v1)"
+msgstr "Plugin: WPForms (v1)"
 
 #: config/settings.php:27
 msgctxt "admin-text"
@@ -567,8 +567,8 @@ msgstr "Site Reviews (minimal)"
 
 #: config/settings.php:29
 msgctxt "admin-text"
-msgid "Theme: Divi (v3)"
-msgstr "Theme: Divi (v3)"
+msgid "Theme: Divi (v4)"
+msgstr "Theme: Divi (v4)"
 
 #: config/settings.php:30
 msgctxt "admin-text"
@@ -2341,7 +2341,7 @@ msgctxt "admin-text"
 msgid "Welcome to %s &#8212; WordPress"
 msgstr "Welcome to %s &#8212; WordPress"
 
-#: plugin/Controllers/WelcomeController.php:64, views/pages/welcome/index.php:6
+#: plugin/Controllers/WelcomeController.php:64
 msgctxt "admin-text"
 msgid "Welcome to %s"
 msgstr "Welcome to %s"

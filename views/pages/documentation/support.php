@@ -1,6 +1,7 @@
 <?php defined('ABSPATH') || die;
 
 $sections = [
+    trailingslashit(__DIR__).'support/get-started.php',
     trailingslashit(__DIR__).'support/basic-troubleshooting.php',
     trailingslashit(__DIR__).'support/common-problems-and-solutions.php',
     trailingslashit(__DIR__).'support/compatibility-issues.php',

@@ -195,6 +195,15 @@ jQuery(function ($) {
 
     discover_site_reviews();
     rate_site_reviews();
+
+    $('.glsr-youtube-button').on('click', function () {
+        let iframe = $(document.createElement('iframe'));
+        iframe.attr('frameborder', '0');
+        iframe.attr('allowfullscreen', '');
+        iframe.attr('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+        iframe.attr('src', 'https://www.youtube-nocookie.com/embed/videoseries?list='+ this.dataset.id +'&rel=0&showinfo=0&autoplay=1');
+        $(this).parent().prepend(iframe);
+    });
 });
 
 const setTextDirection = (type) => {
