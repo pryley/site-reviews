@@ -388,7 +388,6 @@ class ListTableController extends Controller
                 continue;
             }
             $assignedTable = glsr(Query::class)->table($key.'s');
-            $column = Str::suffix(Str::removePrefix($key, 'assigned_'), '_id');
             $value = Cast::toInt($value);
             if (0 === $value) {
                 $join .= " LEFT JOIN {$assignedTable} ON {$assignedTable}.rating_id = {$table}.ID ";

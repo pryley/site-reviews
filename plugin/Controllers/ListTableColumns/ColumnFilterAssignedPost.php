@@ -51,7 +51,7 @@ class ColumnFilterAssignedPost extends ColumnFilter
         if (is_numeric($value) && 0 === Cast::toInt($value)) {
             return Arr::get($this->options(), 0);
         }
-        if (!empty($value)) {
+        if (is_numeric($value)) {
             return get_the_title($value);
         }
         return $this->placeholder();
