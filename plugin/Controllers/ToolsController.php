@@ -196,11 +196,14 @@ class ToolsController extends Controller
     {
         if ($version = get_transient(glsr()->prefix.'rollback_version')) {
             $plugin = plugin_basename(glsr()->file);
-            $value->response[$plugin] = (object) [
+            $update = (object) [
                 'new_version' => $version,
                 'package' => sprintf('https://downloads.wordpress.org/plugin/%s.%s.zip', glsr()->id, $version),
                 'slug' => glsr()->id,
             ];
+            if (is_object($value)) {
+                $value->response[$plugin] = $update;
+            }
         }
         return $value;
     }
