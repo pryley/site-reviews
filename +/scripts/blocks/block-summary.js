@@ -125,14 +125,24 @@ const edit = props => {
         />,
         hide: CheckboxControlList(GLSR_Block.hideoptions.site_reviews_summary, hide, setAttributes),
     };
+    const inspectorPanels = {
+        panel_settings: <PanelBody title={ _x('Settings', 'admin-text', 'site-reviews')}>
+            { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.reviews.InspectorControls', inspectorControls, props)) }
+        </PanelBody>
+    };
+    const inspectorAdvancedControls = {
+        id: <TextControl
+            label={ _x('Custom ID', 'admin-text', 'site-reviews') }
+            onChange={ id => setAttributes({ id }) }
+            value={ id }
+        />,
+    };
     return [
         <InspectorControls>
-            <PanelBody title={ _x('Settings', 'admin-text', 'site-reviews')}>
-                { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.summary.InspectorControls', inspectorControls, props)) }
-            </PanelBody>
+            { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.summary.InspectorPanels', inspectorPanels, props)) }
         </InspectorControls>,
         <InspectorAdvancedControls>
-            { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.summary.InspectorAdvancedControls', {}, props)) }
+            { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.summary.InspectorAdvancedControls', inspectorAdvancedControls, props)) }
         </InspectorAdvancedControls>,
         <ServerSideRender block={ blockName } attributes={ props.attributes } onRender={ onRender }>
         </ServerSideRender>

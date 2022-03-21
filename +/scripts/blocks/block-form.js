@@ -89,6 +89,11 @@ const edit = props => {
         </ConditionalSelectControl>,
         hide: CheckboxControlList(GLSR_Block.hideoptions.site_reviews_form, hide, setAttributes),
     };
+    const inspectorPanels = {
+        panel_settings: <PanelBody title={ _x('Settings', 'admin-text', 'site-reviews')}>
+            { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.form.InspectorControls', inspectorControls, props)) }
+        </PanelBody>
+    };
     const inspectorAdvancedControls = {
         id: <TextControl
             label={ _x('Custom ID', 'admin-text', 'site-reviews') }
@@ -98,9 +103,7 @@ const edit = props => {
     };
     return [
         <InspectorControls>
-            <PanelBody title={ _x('Settings', 'admin-text', 'site-reviews')}>
-                { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.form.InspectorControls', inspectorControls, props)) }
-            </PanelBody>
+            { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.form.InspectorPanels', inspectorPanels, props)) }
         </InspectorControls>,
         <InspectorAdvancedControls>
             { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.form.InspectorAdvancedControls', inspectorAdvancedControls, props)) }
