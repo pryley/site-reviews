@@ -22,6 +22,7 @@
             <li>Fixed expanding excerpts when using loadmore pagination</li>
             <li>Fixed performance of Blocks and Elementor widgets when there are lots of users</li>
             <li>Fixed performance of filters on the All Reviews admin page</li>
+            <li>Fixed submit button loading indicator on Firefox</li>
             <li>Fixed the "Heads up! WPForms has detected an issue..." notice when using the WPForms plugin style</li>
         </ul>
     </div>

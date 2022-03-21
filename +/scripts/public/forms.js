@@ -80,13 +80,13 @@ SingleForm.prototype = {
 
     /** @return void */
     disableButton_: function () {
-        this.button.ariaBusy = 'true';
+        this.button.setAttribute('aria-busy', 'true');
         this.button.setAttribute('disabled', '');
     },
 
     /** @return void */
     enableButton_: function () {
-        this.button.ariaBusy = 'false';
+        this.button.setAttribute('aria-busy', 'false');
         this.button.removeAttribute('disabled');
     },
 
