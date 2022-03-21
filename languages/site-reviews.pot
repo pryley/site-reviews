@@ -3942,7 +3942,7 @@ msgctxt "admin-text"
 msgid "No title"
 msgstr ""
 
-#: plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:47
+#: plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:47, plugin/Modules/Html/Tags/ReviewAssignedPostsTag.php:26, plugin/Modules/Html/Tags/ReviewAssignedTermsTag.php:16, plugin/Modules/Html/Tags/ReviewAssignedUsersTag.php:16
 msgid "Review of %s"
 msgstr ""
 

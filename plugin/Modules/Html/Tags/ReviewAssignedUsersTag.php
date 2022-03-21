@@ -12,7 +12,9 @@ class ReviewAssignedUsersTag extends ReviewTag
     protected function handle($value = null)
     {
         $users = wp_list_pluck($this->review->assignedUsers(), 'display_name');
-        $tagValue = Str::naturalJoin($users);
+        $tagValue = !empty($users)
+            ? sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($users))
+            : '';
         return $this->wrap($tagValue, 'span');
     }
 }

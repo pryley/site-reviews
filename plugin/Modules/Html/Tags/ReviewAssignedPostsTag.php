@@ -21,7 +21,10 @@ class ReviewAssignedPostsTag extends ReviewTag
                 'posts_per_page' => -1,
             ]);
             $titles = wp_list_pluck($posts, 'post_title');
-            $tagValue = Str::naturalJoin(Arr::unique($titles));
+            $titles = Arr::unique($titles);
+            $tagValue = !empty($titles)
+                ? sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($titles))
+                : '';
             return $this->wrap($tagValue, 'span');
         }
     }

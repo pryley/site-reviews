@@ -112,10 +112,11 @@
     line-height:var(--glsr-line-height);
     margin: var(--glsr-base-font-size) 0;
 }
-:--namespace .glsr-review > .glsr-review-assigned_links {
+:--namespace .glsr-review > .glsr-review-assigned_links,
+:--namespace .glsr-review > .glsr-review-assigned_posts,
+:--namespace .glsr-review > .glsr-review-assigned_terms,
+:--namespace .glsr-review > .glsr-review-assigned_users {
     font-style: italic;
-}
-:--namespace .glsr-review > .glsr-review-assigned_links {
     margin-top: var(--glsr-base-font-size);
     width: 100%;
 }
