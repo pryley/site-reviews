@@ -1,15 +1,15 @@
 <?php defined('ABSPATH') || die; ?>
 
 <div class="is-fullwidth">
-    <p class="about-description">
-        Get introduced to Site Reviews by watching our "Getting Started" videos. These screen recordings demonstrate how to use Site Reviews on your website.
-    </p>
     <?php
         glsr()->render('views/partials/youtube', [
             'youtube_bg' => glsr()->url('assets/images/video.png'),
             'youtube_id' => 'PLn-nTn-jOuWnsMviIHjIMRIitM47aAanA',
         ]);
     ?>
+    <p class="about-description">
+        Get introduced to Site Reviews by watching our "Getting Started" videos. These screen recordings demonstrate how to use Site Reviews on your website.
+    </p>
 </div>
 <hr>
 <div class="is-fullwidth">

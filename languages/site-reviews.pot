@@ -1202,12 +1202,7 @@ msgctxt "admin-text"
 msgid "Unknown"
 msgstr ""
 
-#: plugin/Rollback.php:33, plugin/Overrides/PluginUpgraderSkin.php:24
-msgctxt "admin-text"
-msgid "Go back"
-msgstr ""
-
-#: plugin/Rollback.php:57
+#: plugin/Rollback.php:18
 msgctxt "admin-text"
 msgid "Rollback Site Reviews"
 msgstr ""
@@ -1843,11 +1838,6 @@ msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:366
-msgctxt "Site Reviews (admin-text)"
-msgid "Sorry, you are not allowed to reactivate %s."
-msgstr ""
-
 #: plugin/Controllers/TranslationController.php:32
 msgctxt "admin-text"
 msgid "%s review updated."
@@ -2405,6 +2395,11 @@ msgstr[1] ""
 #: plugin/Modules/Translation.php:121
 msgctxt "admin-text"
 msgid "This custom translation is no longer valid as the original text has been changed or removed."
+msgstr ""
+
+#: plugin/Overrides/PluginUpgrader.php:38
+msgctxt "admin-text"
+msgid "Plugin rollback successful! Please wait while it reactivates&#8230"
 msgstr ""
 
 #: plugin/Overrides/ReviewsListTable.php:66, views/partials/screen/inline-edit.php:69, views/partials/screen/inline-edit.php:83, views/partials/screen/inline-edit.php:93

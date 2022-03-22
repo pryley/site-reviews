@@ -52,7 +52,7 @@ class ColumnFilterAssignedPost extends ColumnFilter
             return Arr::get($this->options(), 0);
         }
         if (is_numeric($value)) {
-            return get_the_title($value);
+            return get_the_title((int) $value);
         }
         return $this->placeholder();
     }

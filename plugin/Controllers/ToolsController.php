@@ -352,7 +352,7 @@ class ToolsController extends Controller
     public function rollbackPluginAjax(Request $request)
     {
         wp_send_json_success(
-            glsr(Rollback::class)->rollbackAjax($request->version)
+            glsr(Rollback::class)->rollbackData($request->version)
         );
     }
 }

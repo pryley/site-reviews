@@ -6,7 +6,7 @@
         </button>
     </h3>
     <div id="welcome-v5_22_0" class="inside">
-        <p><em>Initial Release Date &mdash; March 20th, 2022</em></p>
+        <p><em>Initial Release Date &mdash; March 24th, 2022</em></p>
         <h4>✨ New Features</h4>
         <ul>
             <li>Added a debug option to the shortcodes</li>

@@ -29,9 +29,9 @@ class Rollback
 
     /**
      * @param string $version
-     * @return void
+     * @return array
      */
-    public function rollbackAjax($version)
+    public function rollbackData($version)
     {
         set_transient(glsr()->prefix.'rollback_version', $version, MINUTE_IN_SECONDS);
         return [
