@@ -38,7 +38,6 @@ class ToolsHooks extends AbstractHooks
             ['resetPermissionsAjax', 'site-reviews/route/ajax/reset-permissions'],
             ['rollbackPlugin', "update-custom_rollback-{$this->id}"],
             ['rollbackPluginAjax', "site-reviews/route/ajax/rollback-{$this->id}"],
-            ['rollbackPluginReactivate', "update-custom_reactivate-{$this->id}"],
         ]);
     }
 }

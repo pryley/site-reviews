@@ -355,18 +355,4 @@ class ToolsController extends Controller
             glsr(Rollback::class)->rollbackAjax($request->version)
         );
     }
-
-    /**
-     * @return void
-     * @action update-custom_reactivate-<Application::ID>
-     */
-    public function rollbackPluginReactivate()
-    {
-        if (!current_user_can('update_plugins')) {
-            wp_die(sprintf(_x('Sorry, you are not allowed to reactivate %s.', 'Site Reviews (admin-text)', 'site-reviews'), glsr()->name));
-        }
-        $request = Request::inputGet();
-        check_admin_referer('reactivate-plugin_'.$request->plugin);
-        glsr(Rollback::class)->reactivate($request->plugin);
-    }
 }

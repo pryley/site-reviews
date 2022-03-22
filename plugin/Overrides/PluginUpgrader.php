@@ -34,14 +34,7 @@ class PluginUpgrader extends \Plugin_Upgrader
 
     public function upgrade_strings()
     {
-        $this->strings['downloading_package'] = sprintf(__('Downloading from %s&#8230;'), '<span class="code">%s</span>');
-        $this->strings['installing_package']   = __( 'Installing the new version&#8230;' );
-        $this->strings['no_package'] = __('Update package not available.');
-        $this->strings['process_failed'] = __('Plugin rollback failed.');
-        $this->strings['process_success'] = __('Reactivating plugin&#8230');
-        $this->strings['remove_old'] = __('Removing the old version&#8230;');
-        $this->strings['remove_old_failed'] = __('Could not remove the old plugin.');
-        $this->strings['unpack_package'] = __('Unpacking the update&#8230;');
-        $this->strings['up_to_date'] = __('The plugin is at the latest version.');
+        parent::upgrade_strings();
+        $this->strings['process_success'] = _x('Plugin rollback successful! Please wait while it reactivates&#8230', 'admin-text', 'site-reviews');
     }
 }
