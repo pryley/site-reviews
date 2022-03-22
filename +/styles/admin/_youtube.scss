@@ -4,11 +4,13 @@
     padding-bottom: 56.25%; 
     position: relative;
     width: 100%;
-    background-image: url(../../images/video.png);
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: 100%;
     background-color: #000;
+}
+.glsr-card.postbox .glsr-youtube {
+    margin-top: 1.5em;
 }
 .glsr-youtube-overlay {
     color: rgba(201,153,3,.5);

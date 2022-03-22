@@ -1202,9 +1202,9 @@ msgctxt "admin-text"
 msgid "Unknown"
 msgstr ""
 
-#: plugin/Rollback.php:33
+#: plugin/Rollback.php:33, plugin/Overrides/PluginUpgraderSkin.php:24
 msgctxt "admin-text"
-msgid "Go backz"
+msgid "Go back"
 msgstr ""
 
 #: plugin/Rollback.php:57
@@ -1803,47 +1803,47 @@ msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:238
+#: plugin/Controllers/ToolsController.php:241
 msgctxt "admin-text"
 msgid "The plugin has been migrated sucessfully, please reload the page."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:235
+#: plugin/Controllers/ToolsController.php:238
 msgctxt "admin-text"
 msgid "All plugin migrations have been run successfully, please reload the page."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:261
+#: plugin/Controllers/ToolsController.php:264
 msgctxt "admin-text"
 msgid "The review relationships have been repaired."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:283
+#: plugin/Controllers/ToolsController.php:286
 msgctxt "admin-text"
 msgid "The assigned meta values have been reset."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:309
+#: plugin/Controllers/ToolsController.php:312
 msgctxt "admin-text"
 msgid "The permissions have been reset."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:320
+#: plugin/Controllers/ToolsController.php:323
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:324
+#: plugin/Controllers/ToolsController.php:327
 msgctxt "admin-text"
 msgid "The permissions have been reset, please %s for them to take effect."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:338
+#: plugin/Controllers/ToolsController.php:341
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:363
+#: plugin/Controllers/ToolsController.php:366
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to reactivate %s."
 msgstr ""
@@ -2405,11 +2405,6 @@ msgstr[1] ""
 #: plugin/Modules/Translation.php:121
 msgctxt "admin-text"
 msgid "This custom translation is no longer valid as the original text has been changed or removed."
-msgstr ""
-
-#: plugin/Overrides/PluginUpgraderSkin.php:24
-msgctxt "admin-text"
-msgid "Go back"
 msgstr ""
 
 #: plugin/Overrides/ReviewsListTable.php:66, views/partials/screen/inline-edit.php:69, views/partials/screen/inline-edit.php:83, views/partials/screen/inline-edit.php:93

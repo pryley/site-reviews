@@ -99,8 +99,11 @@ abstract class Controller extends BaseController
      */
     public function filterDocumentation(array $documentation)
     {
-        $notice = glsr(Template::class)->build('/views/partials/addons/support-notice');
-        $documentation[$this->addon->id] = $notice.glsr(Template::class)->build($this->addon->id.'/views/documentation');
+        $notice = glsr()->build('views/partials/addons/support-notice', [
+            'addon_id' => $this->addon->id,
+        ]);
+        $support = $this->addon->build('views/documentation');
+        $documentation[$this->addon->id] = $notice.$support;
         return $documentation;
     }
 

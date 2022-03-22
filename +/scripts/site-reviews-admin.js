@@ -197,11 +197,16 @@ jQuery(function ($) {
     rate_site_reviews();
 
     $('.glsr-youtube-button').on('click', function () {
+        let id = this.dataset.id;
         let iframe = $(document.createElement('iframe'));
         iframe.attr('frameborder', '0');
         iframe.attr('allowfullscreen', '');
         iframe.attr('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-        iframe.attr('src', 'https://www.youtube-nocookie.com/embed/videoseries?list='+ this.dataset.id +'&rel=0&showinfo=0&autoplay=1');
+        if (id.length > 12) {
+            iframe.attr('src', 'https://www.youtube-nocookie.com/embed/videoseries?list='+ id +'&rel=0&showinfo=0&autoplay=1');
+        } else {
+            iframe.attr('src', 'https://www.youtube-nocookie.com/embed/'+ id +'?rel=0&showinfo=0&autoplay=1');
+        }
         $(this).parent().prepend(iframe);
     });
 });
