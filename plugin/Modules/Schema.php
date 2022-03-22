@@ -63,7 +63,8 @@ class Schema
             $this->args = $args;
         }
         $buildSummary = Helper::buildMethodName($this->getSchemaOptionValue('type'), 'buildSummaryFor');
-        if ($count = array_sum($this->getRatingCounts($ratings))) {
+        $count = array_sum($this->getRatingCounts($ratings));
+        if (!glsr()->filterBool('schema/is-empty', empty($count))) {
             $schema = Helper::ifTrue(method_exists($this, $buildSummary),
                 [$this, $buildSummary],
                 [$this, 'buildSummaryForCustom']

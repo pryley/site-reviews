@@ -159,6 +159,7 @@
     site-reviews/scheduler/per-page                         (int $perPage): int
     site-reviews/schema/<schema_type>                       (array $schema, array $args): array
     site-reviews/schema/all                                 (array $schemas): array
+    site-reviews/schema/is-empty                            (bool $isEmpty): bool
     site-reviews/schema/review                              (array $schema, Review $review, array $args): array
     site-reviews/settings/callback                          (array $options, array $settings): array
     site-reviews/shortcode/<shortcode>/attributes           (array $attributes, Shortcodes\Shortcode $shortcode): array
