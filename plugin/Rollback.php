@@ -30,7 +30,7 @@ class Rollback
             printf('<p>%s</p>', __('Plugin reactivated successfully.'));
             $format = '<a href="%s" target="_parent">%s</a>';
             $actions = [
-                sprintf($format, glsr_admin_url('tools', 'general'), _x('Go backz', 'admin-text', 'site-reviews')),
+                sprintf($format, glsr_admin_url('tools', 'general'), _x('Go back', 'admin-text', 'site-reviews')),
                 sprintf($format, self_admin_url('plugins.php'), __('Go to Plugins page')),
             ];
             printf('<p>%s</p>', implode(' | ', $actions));
@@ -52,7 +52,7 @@ class Rollback
     public function rollback($version)
     {
         global $title, $parent_file;
-        $plugin = 'classic-editor/classic-editor.php';
+        $plugin = plugin_basename(glsr()->file);
         $parent_file = 'edit.php?post_type='.glsr()->post_type;
         $title = _x('Rollback Site Reviews', 'admin-text', 'site-reviews');
         $nonce = 'upgrade-plugin_'.$plugin;
