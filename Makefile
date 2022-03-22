@@ -8,7 +8,7 @@ build: ## Build all assets and languages
 
 .PHONY: db
 db: ## Open the database in TablePlus
-	open mysql://dev:dev@127.0.0.1/site-reviews?enviroment=local&name=Localhost&safeModeLevel=0&advancedSafeModeLevel=0
+	@open mysql://dev:dev@127.0.0.1/site-reviews?enviroment=local&name=Localhost&safeModeLevel=0&advancedSafeModeLevel=0
 
 .PHONY: help
 help:  ## Display help
@@ -16,7 +16,7 @@ help:  ## Display help
 
 .PHONY: open
 open: ## Open the development site in the default browser
-	open http://site-reviews.test/wp/wp-admin/edit.php?post_type=site-review
+	@open http://site-reviews.test/wp/wp-admin/edit.php?post_type=site-review
 
 .PHONY: release
 release: ## Release a new version of Site Reviews
@@ -24,7 +24,10 @@ release: ## Release a new version of Site Reviews
 
 .PHONY: sync
 sync: ## Sync plugin files to development site
-	git archive --format=tar --prefix=site-reviews/ HEAD | (cd ~/Sites/site-reviews/public/app/plugins/ && tar xf -)
+	@rsync --archive --recursive --delete \
+	--exclude={'/+','/*.md','/*.js','/*.json','/*.sh','/*.lock','/*.neon','/Makefile','/phpunit.xml','/tests'} \
+	--filter=":- .gitignore" \
+	. ~/Sites/site-reviews/public/app/plugins/site-reviews/
 
 .PHONY: test
 test: ## Run all phpunit tests
