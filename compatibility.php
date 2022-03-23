@@ -193,6 +193,17 @@ add_action('site-reviews/review/created', function ($review, $command) {
 }, 10, 2);
 
 /**
+ * Purge the WP Fastest Cache page cache after a review has been created.
+ * @param \GeminiLabs\SiteReviews\Review $review
+ * @param \GeminiLabs\SiteReviews\Commands\CreateReview $command
+ * @return void
+ * @see https://www.wpfastestcache.com/
+ */
+add_action('site-reviews/review/created', function ($review, $command) {
+    do_action('wpfc_clear_post_cache_by_id', false, $command->post_id);
+}, 10, 2);
+
+/**
  * Purge the WP-Optimize page cache after a review has been created.
  * @param \GeminiLabs\SiteReviews\Review $review
  * @param \GeminiLabs\SiteReviews\Commands\CreateReview $command
