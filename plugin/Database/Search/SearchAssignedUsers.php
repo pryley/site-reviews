@@ -53,11 +53,11 @@ class SearchAssignedUsers extends AbstractSearch
             FROM {$this->db->users} u
             INNER JOIN {$assignedUsers} AS ap ON ap.user_id = u.ID
             WHERE 1=1
-            AND u.display_name LIKE %s
+            AND (u.user_login LIKE %s OR u.display_name LIKE %s)
             GROUP BY u.ID
             ORDER BY u.display_name LIKE %s DESC
             LIMIT 20
-        ", $like, $like);
+        ", $like, $like, $like);
         return glsr(Database::class)->dbGetResults(
             glsr(Query::class)->sql($sql)
         );

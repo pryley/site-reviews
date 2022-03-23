@@ -62,10 +62,10 @@ class SearchUsers extends AbstractSearch
             SELECT u.ID AS id, u.user_login AS login, u.display_name AS name
             FROM {$this->db->users} u
             WHERE 1=1
-            AND u.display_name LIKE %s
+            AND (u.user_login LIKE %s OR u.display_name LIKE %s)
             ORDER BY u.display_name LIKE %s DESC
             LIMIT 0, 25
-        ", $like, $like);
+        ", $like, $like, $like);
         return glsr(Database::class)->dbGetResults(
             glsr(Query::class)->sql($sql)
         );

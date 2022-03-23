@@ -169,7 +169,7 @@ export class Filter {
         let results = jQuery.merge(this.defaults(), this.data);
         let id = this.valueEl.val();
         let name = this.selectedEl.text();
-        if (-1 === _.findIndex(results, { id })) {
+        if (-1 === _.findIndex(results, { id }) && -1 === _.findIndex(results, { name })) {
             return jQuery.merge(results, [{ id, name }])
         }
         return results;
