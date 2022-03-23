@@ -86,6 +86,13 @@ class EnqueueAdminAssets implements Contract
                 'assigned_post' => glsr(ColumnFilterAssignedPost::class)->options(),
                 'assigned_user' => glsr(ColumnFilterAssignedUser::class)->options(),
                 'author' => glsr(ColumnFilterAuthor::class)->options(),
+                'post_author' => (object) [
+                    '' => sprintf('&mdash; %s &mdash;', _x('No Change', 'admin-text', 'site-reviews')),
+                    0 => _x('No Author', 'admin-text', 'site-reviews'),
+                ],
+                'post_author_override' => (object) [
+                    0 => _x('Author Unknown', 'admin-text', 'site-reviews'),
+                ],
             ],
             'hideoptions' => [
                 'site_reviews' => glsr(SiteReviewsShortcode::class)->getHideOptions(),

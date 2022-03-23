@@ -490,12 +490,14 @@ tr.glsr-setting-field td .inline label::after {
 .glsr-search-input {
     position: relative;
     width: 100%;
-    font-size: 1.2em;
     font-weight: 300;
     line-height: 1.5;
     padding: 3px 5px;
     margin: 0;
     z-index: 2;
+    .glsr-strings-form & {
+        font-size: 1.2em;
+    }
     .site-review_page_settings & {
         height: 32px;
         font-size: 16px;

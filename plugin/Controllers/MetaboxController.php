@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\MetaboxBuilder;
 use GeminiLabs\SiteReviews\Modules\Html\MetaboxField;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
@@ -114,20 +115,28 @@ class MetaboxController
      */
     public function renderAuthorMetabox($post)
     {
-        echo glsr(MetaboxBuilder::class)->label([
+        $placeholder = _x('Author Unknown', 'admin-text', 'site-reviews');
+        $selected = $placeholder;
+        $value = (empty($post->ID) ? get_current_user_id() : $post->post_author);
+        if ($user = get_user_by('id', $value)) {
+            $selected = $user->display_name;
+        }
+        $label = glsr(MetaboxBuilder::class)->label([
             'class' => 'screen-reader-text',
             'for' => 'post_author_override',
             'text' => _x('Author', 'admin-text', 'site-reviews'),
         ]);
-        wp_dropdown_users([
-            'include_selected' => true,
+        $filter = glsr()->build('partials/listtable/filter', [
+            'action' => 'filter-author',
+            'class' => '',
+            'id' => 'post_author_override',
             'name' => 'post_author_override',
-            'option_none_value' => 0,
-            'selected' => empty($post->ID) ? get_current_user_id() : $post->post_author,
-            'show' => 'display_name_with_login',
-            'show_option_none' => 'Author Unknown',
-            'who' => 'authors',
+            'options' => [0 => $placeholder],
+            'placeholder' => $placeholder,
+            'selected' => $selected,
+            'value' => Cast::toInt($value),
         ]);
+        echo $label.$filter;
     }
 
     /**

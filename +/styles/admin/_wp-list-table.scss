@@ -6,6 +6,21 @@
     color: #999;
 }
 
+.bulk-edit-site-review select {
+	vertical-align: baseline;
+	width: 100%;
+}
+.bulk-edit-site-review .inline-edit-author {
+	width: 100%;
+}
+.bulk-edit-site-review .inline-edit-status {
+	box-sizing: border-box;
+	padding-right: 1em;
+	@media screen and (max-width: 782px) {
+		padding-right: 0;
+	}
+}
+
 #wpbody-content .inline-edit-row .glsr-inline-edit-col-right {
 	margin-top: calc(30px + .2em);
 }

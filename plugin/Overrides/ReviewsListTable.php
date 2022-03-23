@@ -56,18 +56,25 @@ class ReviewsListTable extends \WP_Posts_List_Table
         if (!glsr()->can('edit_others_posts')) {
             return '';
         }
-        $args = [
+        $placeholder = _x('Author Unknown', 'admin-text', 'site-reviews');
+        $selected = $placeholder;
+        $value = (empty($post->ID) ? get_current_user_id() : $post->post_author);
+        if ($user = get_user_by('id', $value)) {
+            $selected = $user->display_name;
+        }
+        return glsr()->build('partials/listtable/filter', [
+            'action' => 'filter-author',
             'class' => 'authors',
-            'echo' => 0,
-            'hide_if_only_one_author' => false,
-            'multi' => 1,
+            'id' => 'post_author',
             'name' => 'post_author',
-            'show' => 'display_name_with_login',
-            'show_option_none' => '&mdash; '._x('No Change', 'admin-text', 'site-reviews').' &mdash;',
-            'who' => 'authors', // @todo this may be deprecated in WP 5.9
-        ];
-        $args = apply_filters('quick_edit_dropdown_authors_args', $args, $bool = true); // @since WP 5.6.0
-        return wp_dropdown_users($args);
+            'options' => [
+                '' => sprintf('&mdash; %s &mdash;', _x('No Change', 'admin-text', 'site-reviews')),
+                0 => _x('No Author', 'admin-text', 'site-reviews'),
+            ],
+            'placeholder' => sprintf('&mdash; %s &mdash;', _x('No Change', 'admin-text', 'site-reviews')),
+            'selected' => sprintf('&mdash; %s &mdash;', _x('No Change', 'admin-text', 'site-reviews')),
+            'value' => '',
+        ]);
     }
 
     /**

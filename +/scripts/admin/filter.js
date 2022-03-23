@@ -52,9 +52,6 @@ export class Filter {
     init() {
         this.eventHandler('on')
         this.data = [];
-        if (-1 !== _.findIndex(this.defaults(), { name: this.selectedEl.text() })) {
-            this.valueEl.val(''); // fix issues with the browser cache
-        }
         if ('function' === typeof this.options.onInit) {
             this.options.onInit.call(this)
         }

@@ -43,7 +43,7 @@
                         <legend class="inline-edit-legend"><?= _x('Bulk Edit', 'admin-text', 'site-reviews'); ?></legend>
                         <div class="inline-edit-col">
                             <div id="bulk-title-div">
-                                <div id="bulk-titles" style="margin-bottom:0;"></div>
+                                <div id="bulk-titles" style="font-size:13px;margin-bottom:0;"></div>
                             </div>
                         </div>
                     </fieldset>
@@ -59,12 +59,8 @@
                     <fieldset class="inline-edit-col-right">
                         <div class="inline-edit-col">
                             <div class="inline-edit-group wp-clearfix">
-                                <label class="inline-edit-author alignleft">
-                                    <span class="title"><?= _x('Author', 'admin-text', 'site-reviews'); ?></span>
-                                    <?= $author_dropdown; ?>
-                                </label>
-                                <label class="inline-edit-status alignright">
-                                    <span class="title"><?= _x('Status', 'admin-text', 'site-reviews'); ?></span>
+                                <label class="inline-edit-status alignleft">
+                                    <span class="title" style="margin:.1em 0;width: 100%;"><?= _x('Status', 'admin-text', 'site-reviews'); ?></span>
                                     <select name="_status">
                                         <option value="-1">&mdash; <?= _x('No Change', 'admin-text', 'site-reviews'); ?> &mdash;</option>
                                         <?php if (glsr()->can('publish_posts')) : ?>
@@ -72,6 +68,10 @@
                                         <?php endif; ?>
                                         <option value="pending"><?= _x('Unapproved', 'admin-text', 'site-reviews'); ?></option>
                                     </select>
+                                </label>
+                                <label class="inline-edit-author alignleft">
+                                    <span class="title" style="margin:.1em 0;width: 100%;"><?= _x('Author', 'admin-text', 'site-reviews'); ?></span>
+                                    <?= $author_dropdown; ?>
                                 </label>
                             </div>
                             <?php if (post_type_supports(glsr()->post_type, 'comments') || post_type_supports(glsr()->post_type, 'trackbacks')) : ?>

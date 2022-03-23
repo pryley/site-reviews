@@ -988,7 +988,7 @@ msgctxt "admin-text"
 msgid "Restrict Limits To"
 msgstr ""
 
-#: config/settings.php:602, plugin/Controllers/MetaboxController.php:38, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/screen/inline-edit.php:102
+#: config/settings.php:602, plugin/Controllers/MetaboxController.php:39, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/screen/inline-edit.php:102
 msgctxt "admin-text"
 msgid "Assigned Posts"
 msgstr ""
@@ -998,7 +998,7 @@ msgctxt "admin-text"
 msgid "Assigned Terms"
 msgstr ""
 
-#: config/settings.php:604, plugin/Controllers/MetaboxController.php:39, plugin/Defaults/PostTypeColumnDefaults.php:19, views/partials/screen/inline-edit.php:113
+#: config/settings.php:604, plugin/Controllers/MetaboxController.php:40, plugin/Defaults/PostTypeColumnDefaults.php:19, views/partials/screen/inline-edit.php:113
 msgctxt "admin-text"
 msgid "Assigned Users"
 msgstr ""
@@ -1378,22 +1378,37 @@ msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:119
+#: plugin/Commands/EnqueueAdminAssets.php:90, plugin/Overrides/ReviewsListTable.php:71, plugin/Overrides/ReviewsListTable.php:74, plugin/Overrides/ReviewsListTable.php:75, views/partials/screen/inline-edit.php:65, views/partials/screen/inline-edit.php:83, views/partials/screen/inline-edit.php:93
+msgctxt "admin-text"
+msgid "No Change"
+msgstr ""
+
+#: plugin/Commands/EnqueueAdminAssets.php:91, plugin/Overrides/ReviewsListTable.php:72
+msgctxt "admin-text"
+msgid "No Author"
+msgstr ""
+
+#: plugin/Commands/EnqueueAdminAssets.php:94, plugin/Controllers/MetaboxController.php:118, plugin/Overrides/ReviewsListTable.php:59
+msgctxt "admin-text"
+msgid "Author Unknown"
+msgstr ""
+
+#: plugin/Commands/EnqueueAdminAssets.php:126
 msgctxt "admin-text"
 msgid "Try Premium"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:120
+#: plugin/Commands/EnqueueAdminAssets.php:127
 msgctxt "admin-text"
 msgid "Please rate %s on %s and help us spread the word. Thank you so much!"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:121
+#: plugin/Commands/EnqueueAdminAssets.php:128
 msgctxt "admin-text"
 msgid "Rollback failed"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:122
+#: plugin/Commands/EnqueueAdminAssets.php:129
 msgctxt "admin-text"
 msgid "Searching..."
 msgstr ""
@@ -1523,7 +1538,7 @@ msgctxt "admin-text"
 msgid "Submitted"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:129, plugin/Controllers/TranslationController.php:132, plugin/Controllers/TranslationController.php:167, plugin/Defaults/PostStatusLabelsDefaults.php:15, plugin/Defaults/PostStatusLabelsDefaults.php:16, views/partials/screen/inline-edit.php:73
+#: plugin/Controllers/ListTableController.php:129, plugin/Controllers/TranslationController.php:132, plugin/Controllers/TranslationController.php:167, plugin/Defaults/PostStatusLabelsDefaults.php:15, plugin/Defaults/PostStatusLabelsDefaults.php:16, views/partials/screen/inline-edit.php:69
 msgctxt "admin-text"
 msgid "Unapproved"
 msgstr ""
@@ -1668,32 +1683,32 @@ msgctxt "admin-text"
 msgid "System Info"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:35, views/partials/editor/metabox-response.php:3
+#: plugin/Controllers/MetaboxController.php:36, views/partials/editor/metabox-response.php:3
 msgctxt "admin-text"
 msgid "Respond Publicly"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:37
+#: plugin/Controllers/MetaboxController.php:38
 msgctxt "admin-text"
 msgid "Review Details"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:41, plugin/Controllers/MetaboxController.php:120, views/partials/screen/inline-edit.php:63
+#: plugin/Controllers/MetaboxController.php:42, plugin/Controllers/MetaboxController.php:127, views/partials/screen/inline-edit.php:73
 msgctxt "admin-text"
 msgid "Author"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:73
+#: plugin/Controllers/MetaboxController.php:74
 msgctxt "admin-text"
 msgid "(no title)"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:158, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17, plugin/Integrations/Elementor/ElementorReviewsWidget.php:85
+#: plugin/Controllers/MetaboxController.php:167, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17, plugin/Integrations/Elementor/ElementorReviewsWidget.php:85
 msgctxt "admin-text"
 msgid "No"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:159, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:18
+#: plugin/Controllers/MetaboxController.php:168, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:18
 msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
@@ -1873,7 +1888,7 @@ msgid_plural "%s reviews restored from the Trash."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:166, plugin/Controllers/TranslationController.php:198, plugin/Defaults/PostStatusLabelsDefaults.php:19, views/partials/screen/inline-edit.php:71
+#: plugin/Controllers/TranslationController.php:166, plugin/Controllers/TranslationController.php:198, plugin/Defaults/PostStatusLabelsDefaults.php:19, views/partials/screen/inline-edit.php:67
 msgctxt "admin-text"
 msgid "Approved"
 msgstr ""
@@ -2402,11 +2417,6 @@ msgctxt "admin-text"
 msgid "Plugin rollback successful! Please wait while it reactivates&#8230"
 msgstr ""
 
-#: plugin/Overrides/ReviewsListTable.php:66, views/partials/screen/inline-edit.php:69, views/partials/screen/inline-edit.php:83, views/partials/screen/inline-edit.php:93
-msgctxt "admin-text"
-msgid "No Change"
-msgstr ""
-
 #: plugin/Overrides/ScheduledActionsTable.php:93, plugin/Overrides/ScheduledActionsTable.php:126, views/partials/translations/plural.php:11, views/partials/translations/single.php:10
 msgctxt "admin-text"
 msgid "Delete"
@@ -2417,7 +2427,7 @@ msgctxt "admin-text"
 msgid "Hook"
 msgstr ""
 
-#: plugin/Overrides/ScheduledActionsTable.php:97, views/partials/screen/inline-edit.php:67
+#: plugin/Overrides/ScheduledActionsTable.php:97, views/partials/screen/inline-edit.php:63
 msgctxt "admin-text"
 msgid "Status"
 msgstr ""
