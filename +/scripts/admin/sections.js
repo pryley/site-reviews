@@ -5,6 +5,7 @@ const Sections = function (options) {
     this.tabs = document.querySelectorAll(this.options.tabSelector);
     if (!this.tabs) return;
     this.init_();
+    jQuery(() => this.scrollIntoView_(jQuery(localStorage.getItem('glsr-expand'))));
 };
 
 Sections.prototype = {
@@ -23,10 +24,7 @@ Sections.prototype = {
         jQuery(self.options.expandSelectors).on('click', 'a', function () {
             var elId = this.dataset.expand;
             localStorage.setItem('glsr-expand', elId);
-            self.scrollSectionIntoView_(jQuery(elId));
-        });
-        jQuery(window).on('load', function () {
-            self.scrollSectionIntoView_(jQuery(localStorage.getItem('glsr-expand')));
+            self.scrollIntoView_(jQuery(elId));
         });
     },
 
@@ -37,7 +35,7 @@ Sections.prototype = {
     },
 
     /** @return void */
-    scrollSectionIntoView_: function (el) {
+    scrollIntoView_: function (el) {
         if (el.length) {
             var navEl = el.closest('.glsr-nav-view')
             var cardEl = el.closest('.glsr-card');
