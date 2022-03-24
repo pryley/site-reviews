@@ -147,9 +147,9 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Added a debug option to the shortcodes
 - Added "Getting Started" videos to the Help page
 - Added the ability to rollback Site Reviews to a previous version
+- Fixed compatibility with the WP Fastest Cache plugin (to clear the current page cache when a review is submitted)
 - Fixed expanding excerpts when using loadmore pagination
-- Fixed performance of Blocks and Elementor widgets when there are lots of users
-- Fixed performance of filters on the All Reviews admin page
+- Fixed performance on websites with thousands of users
 - Fixed submit button loading indicator on Firefox
 - Fixed the "Heads up! WPForms has detected an issue..." notice when using the WPForms plugin style
 - Updated the FAQ Help page
