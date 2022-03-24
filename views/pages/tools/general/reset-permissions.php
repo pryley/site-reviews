@@ -8,7 +8,7 @@
         </button>
     </h3>
     <div id="tools-reset-permissions" class="inside">
-        <div class="components-notice is-info">
+        <div class="glsr-notice-inline components-notice is-info">
             <p class="components-notice__content"><?= _x('Hold down the ALT/Option key to perform a "Hard Reset"; this removes all Site Reviews capabilites from your Editor, Author, and Contributor roles before re-adding them.', 'admin-text', 'site-reviews'); ?></p>
         </div>
         <p><?= _x('Site Reviews provides custom post_type capabilities that mirror the capabilities of your posts by default. For example, if a user role has permission to edit others posts, then that role will also have permission to edit other users reviews.', 'admin-text', 'site-reviews'); ?></p>

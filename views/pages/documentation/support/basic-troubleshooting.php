@@ -7,7 +7,7 @@
         </button>
     </h3>
     <div id="support-basic-troubleshooting" class="inside">
-        <div class="components-notice is-info">
+        <div class="glsr-notice-inline components-notice is-info">
             <p class="components-notice__content">If you find an incompatible theme or plugin, please <code><a data-expand="#support-contact-support" href="<?= glsr_admin_url('documentation', 'support'); ?>">contact support</a></code> so we can fix it.</p>
         </div>
         <h3>1. Make sure you are using the latest version of Site Reviews.</h3>

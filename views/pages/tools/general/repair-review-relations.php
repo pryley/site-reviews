@@ -9,7 +9,7 @@
     </h3>
     <div id="tools-repair-review-relations" class="inside">
         <?php if (!empty($myisam_tables)) { ?>
-            <div class="components-notice is-info" style="margin-bottom:1em;">
+            <div class="glsr-notice-inline components-notice is-info" style="margin-bottom:1em;">
                 <p class="components-notice__content"><?= sprintf(
                     _x('Once you have repaired the review relationships, it is recommended that you run the %s tool to prevent the problem from happening again.', 'admin-text', 'site-reviews'),
                         sprintf('<a data-expand="#tools-optimise-db-tables" href="%s">%s</a>',

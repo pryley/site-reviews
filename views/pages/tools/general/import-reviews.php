@@ -8,7 +8,7 @@
         </button>
     </h3>
     <div id="tools-import-reviews" class="inside">
-        <div class="components-notice is-warning">
+        <div class="glsr-notice-inline components-notice is-warning">
             <p class="components-notice__content"><?= sprintf(
                 _x('Please backup your database before running this tool! You can use the %s plugin to do this.', 'admin-text', 'site-reviews'),
                 '<a href="https://wordpress.org/plugins/updraftplus/">UpdraftPlus</a>'

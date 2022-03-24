@@ -7,7 +7,7 @@
         </button>
     </h3>
     <div id="fn-glsr_create_review" class="inside">
-        <div class="components-notice is-warning">
+        <div class="glsr-notice-inline components-notice is-warning">
             <p class="components-notice__content">This function uses basic validation on the provided values. If validation fails, the function will return false and the validation errors will be logged to the <a href="<?= glsr_admin_url('tools', 'console'); ?>">Plugin Console</a>.</p>
         </div>
         <br>

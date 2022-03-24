@@ -8,7 +8,7 @@
         </button>
     </h3>
     <div id="tools-migrate-plugin" class="inside">
-        <div class="components-notice is-info">
+        <div class="glsr-notice-inline components-notice is-info">
             <p class="components-notice__content"><?= _x('Hold down the ALT/Option key to force-run all previous migrations.', 'admin-text', 'site-reviews'); ?></p>
         </div>
         <p><?= _x('Run this tool if your reviews stopped working correctly after upgrading the plugin to the latest version (i.e. read-only reviews, zero-star ratings, missing role capabilities, etc.).', 'admin-text', 'site-reviews'); ?></p>

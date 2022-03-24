@@ -9,7 +9,7 @@
     </h3>
     <div id="tools-rollback-plugin" class="inside">
         <?php if (empty($rollback_versions)) : ?>
-            <div class="components-notice is-error" style="margin-bottom:1em;">
+            <div class="glsr-notice-inline components-notice is-error" style="margin-bottom:1em;">
                 <p class="components-notice__content">
                     <?= sprintf(_x('Unable to connect to %s to get the available plugin versions.', 'wordpress.org (admin-text)', 'site-reviews'),
                         '<a href="wordpress.org">wordpress.org</a>'
@@ -17,7 +17,7 @@
                 </p>
             </div>
         <?php else: ?>
-            <div class="components-notice is-warning">
+            <div class="glsr-notice-inline components-notice is-warning">
                 <p class="components-notice__content">
                     <?= sprintf(_x('If you are using this tool to fix a problem with %s, please %ssubmit a support request%s so that it can be fixed.', 'admin-text', 'site-reviews'),
                         glsr()->name,

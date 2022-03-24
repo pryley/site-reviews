@@ -9,7 +9,7 @@
     </h3>
     <div id="tools-optimise-db-tables" class="inside">
         <?php if (!empty($myisam_tables)) { ?>
-            <div class="components-notice is-warning">
+            <div class="glsr-notice-inline components-notice is-warning">
                 <p class="components-notice__content"><?= sprintf(
                     _x('Please backup your database before running this tool! You can use the %s plugin to do this.', 'admin-text', 'site-reviews'),
                     '<a href="https://wordpress.org/plugins/updraftplus/">UpdraftPlus</a>'
@@ -45,7 +45,7 @@
                 </tbody>
             </table>
         <?php } else { ?>
-            <div class="components-notice is-success" style="margin-bottom:1em;">
+            <div class="glsr-notice-inline components-notice is-success" style="margin-bottom:1em;">
                 <p class="components-notice__content"><?= _x('Optimisation is unnecessary because your database tables already use the InnoDB engine!', 'admin-text', 'site-reviews'); ?> ✨</p>
             </div>
         <?php } ?>
