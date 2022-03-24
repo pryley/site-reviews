@@ -58,6 +58,7 @@ class ReviewsListTable extends \WP_Posts_List_Table
         }
         $placeholder = _x('Author Unknown', 'admin-text', 'site-reviews');
         $selected = $placeholder;
+        $post = get_default_post_to_edit($this->screen->post_type);
         $value = (empty($post->ID) ? get_current_user_id() : $post->post_author);
         if ($user = get_user_by('id', $value)) {
             $selected = $user->display_name;
