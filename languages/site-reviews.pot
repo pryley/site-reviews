@@ -988,7 +988,7 @@ msgctxt "admin-text"
 msgid "Restrict Limits To"
 msgstr ""
 
-#: config/settings.php:602, plugin/Controllers/MetaboxController.php:39, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/screen/inline-edit.php:102
+#: config/settings.php:602, plugin/Metaboxes/AssignedPostsMetabox.php:19, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/screen/inline-edit.php:102
 msgctxt "admin-text"
 msgid "Assigned Posts"
 msgstr ""
@@ -998,7 +998,7 @@ msgctxt "admin-text"
 msgid "Assigned Terms"
 msgstr ""
 
-#: config/settings.php:604, plugin/Controllers/MetaboxController.php:40, plugin/Defaults/PostTypeColumnDefaults.php:19, views/partials/screen/inline-edit.php:113
+#: config/settings.php:604, plugin/Defaults/PostTypeColumnDefaults.php:19, plugin/Metaboxes/AssignedUsersMetabox.php:18, views/partials/screen/inline-edit.php:113
 msgctxt "admin-text"
 msgid "Assigned Users"
 msgstr ""
@@ -1378,17 +1378,17 @@ msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:90, plugin/Overrides/ReviewsListTable.php:71, plugin/Overrides/ReviewsListTable.php:74, plugin/Overrides/ReviewsListTable.php:75, views/partials/screen/inline-edit.php:65, views/partials/screen/inline-edit.php:83, views/partials/screen/inline-edit.php:93
+#: plugin/Commands/EnqueueAdminAssets.php:90, plugin/Overrides/ReviewsListTable.php:72, plugin/Overrides/ReviewsListTable.php:75, plugin/Overrides/ReviewsListTable.php:76, views/partials/screen/inline-edit.php:65, views/partials/screen/inline-edit.php:83, views/partials/screen/inline-edit.php:93
 msgctxt "admin-text"
 msgid "No Change"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:91, plugin/Overrides/ReviewsListTable.php:72
+#: plugin/Commands/EnqueueAdminAssets.php:91, plugin/Overrides/ReviewsListTable.php:73
 msgctxt "admin-text"
 msgid "No Author"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:94, plugin/Controllers/MetaboxController.php:118, plugin/Overrides/ReviewsListTable.php:59
+#: plugin/Commands/EnqueueAdminAssets.php:94, plugin/Metaboxes/AuthorMetabox.php:29, plugin/Overrides/ReviewsListTable.php:59
 msgctxt "admin-text"
 msgid "Author Unknown"
 msgstr ""
@@ -1683,32 +1683,12 @@ msgctxt "admin-text"
 msgid "System Info"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:36, views/partials/editor/metabox-response.php:3
-msgctxt "admin-text"
-msgid "Respond Publicly"
-msgstr ""
-
-#: plugin/Controllers/MetaboxController.php:38
-msgctxt "admin-text"
-msgid "Review Details"
-msgstr ""
-
-#: plugin/Controllers/MetaboxController.php:42, plugin/Controllers/MetaboxController.php:127, views/partials/screen/inline-edit.php:73
-msgctxt "admin-text"
-msgid "Author"
-msgstr ""
-
-#: plugin/Controllers/MetaboxController.php:74
-msgctxt "admin-text"
-msgid "(no title)"
-msgstr ""
-
-#: plugin/Controllers/MetaboxController.php:167, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17, plugin/Integrations/Elementor/ElementorReviewsWidget.php:85
+#: plugin/Controllers/MetaboxController.php:62, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17, plugin/Integrations/Elementor/ElementorReviewsWidget.php:85
 msgctxt "admin-text"
 msgid "No"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:168, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:18
+#: plugin/Controllers/MetaboxController.php:63, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:18
 msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
@@ -2225,6 +2205,26 @@ msgstr ""
 
 #: plugin/Helpers/Text.php:30
 msgid "Show less"
+msgstr ""
+
+#: plugin/Metaboxes/AssignedPostsMetabox.php:37
+msgctxt "admin-text"
+msgid "(no title)"
+msgstr ""
+
+#: plugin/Metaboxes/AuthorMetabox.php:20, plugin/Metaboxes/AuthorMetabox.php:38, views/partials/screen/inline-edit.php:73
+msgctxt "admin-text"
+msgid "Author"
+msgstr ""
+
+#: plugin/Metaboxes/DetailsMetabox.php:44
+msgctxt "admin-text"
+msgid "Review Details"
+msgstr ""
+
+#: plugin/Metaboxes/ResponseMetabox.php:19, views/partials/editor/metabox-response.php:3
+msgctxt "admin-text"
+msgid "Respond Publicly"
 msgstr ""
 
 #: plugin/Modules/Avatar.php:122

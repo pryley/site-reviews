@@ -150,17 +150,6 @@ class EditorController extends Controller
     }
 
     /**
-     * @return bool
-     */
-    protected function isReviewEditor()
-    {
-        $screen = glsr_current_screen();
-        return ('post' == $screen->base)
-            && glsr()->post_type == $screen->id
-            && glsr()->post_type == $screen->post_type;
-    }
-
-    /**
      * @param int $postId
      * @param int $messageIndex
      * @return void

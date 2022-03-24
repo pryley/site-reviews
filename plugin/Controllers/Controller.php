@@ -72,4 +72,15 @@ abstract class Controller
         ];
         return Str::startsWith(glsr()->post_type, $screen->post_type) || in_array($screen->id, $screenIds);
     }
+
+    /**
+     * @return bool
+     */
+    protected function isReviewEditor()
+    {
+        $screen = glsr_current_screen();
+        return ('post' == $screen->base)
+            && glsr()->post_type == $screen->id
+            && glsr()->post_type == $screen->post_type;
+    }
 }
