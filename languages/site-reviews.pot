@@ -988,7 +988,7 @@ msgctxt "admin-text"
 msgid "Restrict Limits To"
 msgstr ""
 
-#: config/settings.php:602, plugin/Metaboxes/AssignedPostsMetabox.php:19, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/screen/inline-edit.php:102
+#: config/settings.php:602, plugin/Metaboxes/AssignedPostsMetabox.php:20, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/screen/inline-edit.php:102
 msgctxt "admin-text"
 msgid "Assigned Posts"
 msgstr ""
@@ -998,7 +998,7 @@ msgctxt "admin-text"
 msgid "Assigned Terms"
 msgstr ""
 
-#: config/settings.php:604, plugin/Defaults/PostTypeColumnDefaults.php:19, plugin/Metaboxes/AssignedUsersMetabox.php:18, views/partials/screen/inline-edit.php:113
+#: config/settings.php:604, plugin/Defaults/PostTypeColumnDefaults.php:19, plugin/Metaboxes/AssignedUsersMetabox.php:19, views/partials/screen/inline-edit.php:113
 msgctxt "admin-text"
 msgid "Assigned Users"
 msgstr ""
@@ -1388,7 +1388,7 @@ msgctxt "admin-text"
 msgid "No Author"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:94, plugin/Metaboxes/AuthorMetabox.php:29, plugin/Overrides/ReviewsListTable.php:59
+#: plugin/Commands/EnqueueAdminAssets.php:94, plugin/Metaboxes/AuthorMetabox.php:30, plugin/Overrides/ReviewsListTable.php:59
 msgctxt "admin-text"
 msgid "Author Unknown"
 msgstr ""
@@ -2207,22 +2207,22 @@ msgstr ""
 msgid "Show less"
 msgstr ""
 
-#: plugin/Metaboxes/AssignedPostsMetabox.php:37
+#: plugin/Metaboxes/AssignedPostsMetabox.php:38
 msgctxt "admin-text"
 msgid "(no title)"
 msgstr ""
 
-#: plugin/Metaboxes/AuthorMetabox.php:20, plugin/Metaboxes/AuthorMetabox.php:38, views/partials/screen/inline-edit.php:73
+#: plugin/Metaboxes/AuthorMetabox.php:21, plugin/Metaboxes/AuthorMetabox.php:39, views/partials/screen/inline-edit.php:73
 msgctxt "admin-text"
 msgid "Author"
 msgstr ""
 
-#: plugin/Metaboxes/DetailsMetabox.php:44
+#: plugin/Metaboxes/DetailsMetabox.php:45
 msgctxt "admin-text"
 msgid "Review Details"
 msgstr ""
 
-#: plugin/Metaboxes/ResponseMetabox.php:19, views/partials/editor/metabox-response.php:3
+#: plugin/Metaboxes/ResponseMetabox.php:20, views/partials/editor/metabox-response.php:3
 msgctxt "admin-text"
 msgid "Respond Publicly"
 msgstr ""
