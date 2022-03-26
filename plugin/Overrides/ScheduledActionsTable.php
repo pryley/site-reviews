@@ -323,7 +323,7 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
     public function prepare_items()
     {
         $this->prepare_column_headers();
-        $per_page = $this->get_items_per_page($this->package.'_items_per_page', $this->items_per_page);
+        $per_page = (int) $this->get_items_per_page($this->package.'_items_per_page', $this->items_per_page);
         $query = [
             'group' => glsr()->id,
             'per_page' => $per_page,
@@ -334,7 +334,7 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
             'search' => $this->get_request_search_query(),
         ];
         $this->items = [];
-        $total_items = $this->store->query_actions($query, 'count');
+        $total_items = (int) $this->store->query_actions($query, 'count');
         $status_labels = $this->store->get_status_labels();
         foreach ($this->store->query_actions($query) as $action_id) {
             try {

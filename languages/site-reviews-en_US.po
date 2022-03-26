@@ -1812,17 +1812,17 @@ msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr "Pin Your Reviews"
 
-#: plugin/Commands/EnqueueAdminAssets.php:90, plugin/Overrides/ReviewsListTable.php:72, plugin/Overrides/ReviewsListTable.php:75, plugin/Overrides/ReviewsListTable.php:76, views/partials/screen/inline-edit.php:65, views/partials/screen/inline-edit.php:83, views/partials/screen/inline-edit.php:93
+#: plugin/Commands/EnqueueAdminAssets.php:90, plugin/Overrides/ReviewsListTable.php:59, views/partials/screen/inline-edit.php:65, views/partials/screen/inline-edit.php:83, views/partials/screen/inline-edit.php:93
 msgctxt "admin-text"
 msgid "No Change"
 msgstr "No Change"
 
-#: plugin/Commands/EnqueueAdminAssets.php:91, plugin/Overrides/ReviewsListTable.php:73
+#: plugin/Commands/EnqueueAdminAssets.php:91, plugin/Overrides/ReviewsListTable.php:67
 msgctxt "admin-text"
 msgid "No Author"
 msgstr "No Author"
 
-#: plugin/Commands/EnqueueAdminAssets.php:94, plugin/Metaboxes/AuthorMetabox.php:30, plugin/Overrides/ReviewsListTable.php:59
+#: plugin/Commands/EnqueueAdminAssets.php:94, plugin/Metaboxes/AuthorMetabox.php:30
 msgctxt "admin-text"
 msgid "Author Unknown"
 msgstr "Author Unknown"
