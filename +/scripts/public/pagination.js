@@ -93,7 +93,7 @@ class Pagination {
     onLoadMore (el, ev) {
         const data = this.data(el);
         if (data) {
-            el.ariaBusy = 'true';
+            el.setAttribute('aria-busy', 'true');
             el.setAttribute('disabled', '');
             ev.preventDefault();
             GLSR.ajax.post(data, this.handleLoadMore.bind(this, el, data));
@@ -118,7 +118,7 @@ class Pagination {
     }
 
     handleLoadMore (buttonEl, request, response, success) {
-        buttonEl.ariaBusy = 'false';
+        buttonEl.setAttribute('aria-busy', 'false');
         buttonEl.removeAttribute('disabled');
         if (!success) {
             window.location = location;
