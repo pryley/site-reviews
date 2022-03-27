@@ -15,10 +15,10 @@
 
 <div class="glsr-strings-form">
     <div class="glsr-search-box" id="glsr-search-translations">
-        <span class="screen-reader-text"><?= _x('Search for translatable text', 'admin-text', 'site-reviews'); ?></span>
+        <span class="screen-reader-text"><?= _x('Search here for translatable text', 'admin-text', 'site-reviews'); ?></span>
         <div class="glsr-search-box-wrap">
             <span class="glsr-spinner"><span class="spinner"></span></span>
-            <input type="search" class="glsr-search-input" autocomplete="off" placeholder="<?= _x('Search here for text to customise...', 'admin-text', 'site-reviews'); ?>">
+            <input type="search" class="glsr-search-input" autocomplete="off" placeholder="<?= _x('Search here for text to change...', 'admin-text', 'site-reviews'); ?>">
             <div class="glsr-search-results" data-prefix="{{ database_key }}"></div>
         </div>
     </div>

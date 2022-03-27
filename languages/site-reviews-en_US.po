@@ -3479,13 +3479,13 @@ msgstr ""
 
 #: views/pages/settings/translations.php:18
 msgctxt "admin-text"
-msgid "Search for translatable text"
-msgstr "Search for translatable text"
+msgid "Search here for translatable text"
+msgstr "Search here for translatable text"
 
 #: views/pages/settings/translations.php:21
 msgctxt "admin-text"
-msgid "Search here for text to customise..."
-msgstr "Search here for text to customise..."
+msgid "Search here for text to change..."
+msgstr "Search here for text to change..."
 
 #: views/pages/settings/translations.php:28
 msgctxt "admin-text"
