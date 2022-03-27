@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews, business rev
 Tested up to: 5.9
 Requires at least: 5.5
 Requires PHP: 5.6.20
-Stable tag: 5.22.0
+Stable tag: 5.22.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -142,7 +142,12 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
-= 5.22.0 (2022-03-24) =
+= 5.22.1 (2022-03-26) =
+
+- Fixed custom translated strings
+- Fixed loading indication on load more button
+
+= 5.22.0 (2022-03-25) =
 
 - Added a debug option to the shortcodes
 - Added "Getting Started" videos to the Help page
