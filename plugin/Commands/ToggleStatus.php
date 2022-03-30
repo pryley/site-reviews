@@ -31,7 +31,7 @@ class ToggleStatus implements Contract
         $postId = wp_update_post([
             'ID' => $this->id,
             'post_status' => $this->status,
-        ]);
+        ], true); // return a \WP_Error on failure!
         if (is_wp_error($postId)) {
             glsr_log()->error($postId->get_error_message());
             return [];
