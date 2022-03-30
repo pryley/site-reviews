@@ -408,7 +408,9 @@ class ReviewController extends Controller
         glsr()->action('review/updated/post_ids', $review, Cast::toArray($assignedPostIds)); // trigger a recount of assigned posts
         glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
         glsr(ResponseMetabox::class)->save($review);
+        $customDefaults = array_fill_keys(array_keys($review->custom()->toArray()), '');
         $submittedValues = Helper::filterInputArray(glsr()->id);
+        $submittedValues = wp_parse_args($submittedValues, $customDefaults); // this ensures we save all empty custom values
         if (Arr::get($submittedValues, 'is_editing_review')) {
             $submittedValues['rating'] = Arr::get($submittedValues, 'rating');
             $submittedValues['terms'] = Arr::get($submittedValues, 'terms', 0);
