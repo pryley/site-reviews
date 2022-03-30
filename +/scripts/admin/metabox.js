@@ -8,7 +8,7 @@ const Metabox = function () {
 Metabox.prototype = {
     /** @return void */
     onChangeImage_: function (ev) {
-        var el =jQuery(ev.currentTarget);
+        var el = jQuery(ev.currentTarget);
         this.switchImage_(el.parent().find('img'), el.val());
     },
 
@@ -24,7 +24,7 @@ Metabox.prototype = {
                 this.switchImage_(jQuery(el).parent().find('img'), el.value);
             }
         }.bind(this));
-       jQuery('.glsr-input-value').prop('disabled', !isChecked);
+        jQuery('.glsr-input-value').prop('disabled', !isChecked);
         GLSR.stars.rebuild();
     },
 

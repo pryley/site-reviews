@@ -3,7 +3,7 @@
     "autosize": "^5.0.1",
     "body-scroll-lock": "^3.1.5",
     "prismjs": "^1.27.0",
-    "star-rating.js": "^4.2.0",
+    "star-rating.js": "^4.2.2",
     "tippy.js": "^6.3.7"
   },
   "devDependencies": {
