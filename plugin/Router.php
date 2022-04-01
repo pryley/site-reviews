@@ -9,38 +9,13 @@ use GeminiLabs\SiteReviews\Request;
 class Router
 {
     /**
-     * @var array
-     */
-    protected $unguardedAdminActions;
-
-    /**
-     * @var array
-     */
-    protected $unguardedPublicActions;
-
-    public function __construct()
-    {
-        // Authenticated routes to unguard
-        $this->unguardedAdminActions = glsr()->filterArray('router/admin/unguarded-actions', [
-            'dismiss-notice',
-            'fetch-paged-reviews',
-        ]);
-        // Unauthenticated routes to unguard
-        $this->unguardedPublicActions = glsr()->filterArray('router/public/unguarded-actions', [
-            'dismiss-notice',
-            'fetch-paged-reviews',
-            'submit-review',
-        ]);
-    }
-
-    /**
      * @return void
      */
     public function routeAdminAjaxRequest()
     {
         $request = $this->getRequest();
         $this->checkAjaxRequest($request);
-        if (!in_array($request->_action, $this->unguardedAdminActions)) {
+        if (!in_array($request->_action, $this->unguardedAdminActions())) {
             $this->checkAjaxNonce($request);
         }
         $this->routeRequest('ajax', $request);
@@ -66,7 +41,7 @@ class Router
     {
         $request = $this->getRequest();
         $this->checkAjaxRequest($request);
-        if (!in_array($request->_action, $this->unguardedPublicActions)) {
+        if (!in_array($request->_action, $this->unguardedPublicActions())) {
             $this->checkAjaxNonce($request);
         }
         $this->routeRequest('ajax', $request);
@@ -175,7 +150,7 @@ class Router
      */
     protected function sendAjaxError($error, Request $request, $code = 400, $message = '')
     {
-        glsr_log()->error($error)->debug($request);
+        glsr_log()->error($error)->debug($request->toArray());
         $notices = '';
         if (glsr()->isAdmin()) {
             glsr(Notice::class)->addError(_x('There was an error (try reloading the page).', 'admin-text', 'site-reviews').' <code>'.$error.'</code>');
@@ -189,6 +164,31 @@ class Router
             'error' => $error,
             'message' => $message ?: $error,
             'notices' => $notices,
+        ]);
+    }
+
+    /**
+     * Authenticated routes to unguard
+     * @return array
+     */
+    protected function unguardedAdminActions()
+    {
+        return glsr()->filterArray('router/admin/unguarded-actions', [
+            'dismiss-notice',
+            'fetch-paged-reviews',
+        ]);
+    }
+
+    /**
+     * Unauthenticated routes to unguard
+     * @return array
+     */
+    protected function unguardedPublicActions()
+    {
+        return glsr()->filterArray('router/public/unguarded-actions', [
+            'dismiss-notice',
+            'fetch-paged-reviews',
+            'submit-review',
         ]);
     }
 }
