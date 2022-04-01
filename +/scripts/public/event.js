@@ -36,4 +36,4 @@ const trigger = function (name) {
     [].forEach.call(triggers, event => event.fn.apply(event.context, data))
 }
 
-export default { events, trigger, off, on, once }
+export default { events, off, on, once, trigger }

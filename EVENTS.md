@@ -1,12 +1,12 @@
 # Javascript Events
 
-Site Reviews use a custom Event Emitting system which can be accessed globally at `GLSR.Event`.
+Site Reviews use a custom Event Emitting system which can be accessed globally using `GLSR.Event`.
 
 ## Available Triggers
 
-1. `site-reviews/init`
+**`site-reviews/init`**
 
-This event is fired on DOMContentLoaded to initialise Site Reviews. You can manually trigger this if you need to delay loading the Site Reviews script until after DOMContentLoaded.
+This event is fired on DOMContentLoaded to initialise Site Reviews. You can manually trigger this if you need to initialise Site Reviews after DOMContentLoaded.
 
 ```js
 GLSR.Event.trigger('site-reviews/init') // initialise Site Reviews
@@ -14,22 +14,21 @@ GLSR.Event.trigger('site-reviews/init') // initialise Site Reviews
 
 ```js
 GLSR.Event.on('site-reviews/init', () => {
-    // do something here after Site Reviews has been initialised...
-})
-```
-
-2. `site-reviews/excerpts/init`
-
-This event is fired immediately after Site Reviews is initialised and after every time AJAX pagination is used.
-
-```js
-GLSR.Event.on('site-reviews/excerpts/init', (el) => {
-    // el is either document or the HTMLElement of the reviews shortcode
     // do something here...
 })
 ```
 
-3. `site-reviews/form/handle`
+**`site-reviews/excerpts/init`**
+
+This event is fired immediately after Site Reviews is initialised and after every time AJAX pagination is used to initialise the review excerpts.
+
+```js
+GLSR.Event.on('site-reviews/excerpts/init', (reviewsEl) => {
+    // do something here...
+})
+```
+
+**`site-reviews/form/handle`**
 
 This event is fired after a review is submitted and the response returned from the server.
 
@@ -39,9 +38,49 @@ GLSR.Event.on('site-reviews/form/handle', (response, formEl) => {
 })
 ```
 
-4. `site-reviews/pagination/handle`
+**`site-reviews/modal/init`**
 
-This event is fired after a pagination link has been clicked and the response returned from the server. Site Reviews uses this event to initialise the excerpts and modals of the reviews returned in the response.
+This event is fired immediately after Site Reviews is initialised and after every time AJAX pagination is used to initialise the review modals.
+
+```js
+GLSR.Event.on('site-reviews/modal/init', () => {
+    // do something here...
+})
+```
+
+**`site-reviews/modal/open`**
+
+This event is fired after a modal is opened.
+
+```js
+GLSR.Event.on('site-reviews/modal/open', (modalEl, triggerEl, event) => {
+    // do something here...
+})
+```
+
+**`site-reviews/modal/close`**
+
+This event is fired after a modal is closed.
+
+```js
+GLSR.Event.on('site-reviews/modal/close', (modalEl, triggerEl, event) => {
+    // do something here...
+})
+```
+
+**`site-reviews/pagination/init`**
+
+This event is fired immediately after Site Reviews is initialised to initialise the AJAX pagination.
+
+```js
+GLSR.Event.on('site-reviews/pagination/init', () => {
+    // do something here...
+})
+```
+
+**`site-reviews/pagination/handle`**
+
+This event is fired after a pagination link or button has been clicked and the response returned from the server. Site Reviews uses this event to initialise the excerpts and modals of the reviews returned in the response.
 
 ```js
 GLSR.Event.on('site-reviews/pagination/handle', (response) => {
@@ -49,37 +88,37 @@ GLSR.Event.on('site-reviews/pagination/handle', (response) => {
 })
 ```
 
-5. `site-reviews/pagination/popstate`
+**`site-reviews/pagination/popstate`**
 
 This event is fired after the previous/next browser buttons are used to navigate the pagination browser history.
 
 ```js
 GLSR.Event.on('site-reviews/pagination/popstate', (event) => {
-    // `event.state` holds the saved history state for the page.
+    // event.state holds the saved history state for the page
 })
 ```
 
 ## Methods
 
-1. Create a custom event
+**Create a custom event**
 
 ```js
-GLSR.Event.on(name, callback, context) // `context` is the value of `this` provided to `callback`
+GLSR.Event.on(name, callback, context)
 ```
 
-2. Create a custom event that can be triggered only once
+**Create a custom event that can be triggered only once**
 
 ```js
-GLSR.Event.once(name, callback, context) // `context` is the value of `this` provided to `callback`
+GLSR.Event.once(name, callback, context)
 ```
 
-3. Trigger a custom event
+**Trigger a custom event**
 
 ```js
 GLSR.Event.trigger(name, ...args)
 ```
 
-4. Remove a custom event
+**Remove a custom event**
 
 ```js
 GLSR.Event.off(name, callback)

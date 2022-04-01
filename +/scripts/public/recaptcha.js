@@ -12,7 +12,7 @@ const Recaptcha = function (Form) { // Form object
         this.observer.disconnect();
         setTimeout(function () {
             if (this.is_submitting) return;
-            this.Form.enableButton_();
+            this.Form.enableButton();
         }.bind(this), 250);
     }.bind(this));
 };

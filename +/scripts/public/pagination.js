@@ -1,35 +1,58 @@
 /** global: GLSR */
 
-import Excerpts from './excerpts.js';
+const classNames = {
+    hide: 'glsr-hide',
+}
 
 const config = {
     scrollOffset: 16,
     scrollTime: 468,
 }
 
-const selector = {
+const selectors = {
     button: 'button.glsr-button-loadmore',
-    hide: 'glsr-hide',
-    link: 'a.page-numbers',
+    link: '.glsr-pagination a.page-numbers',
     pagination: '.glsr-pagination',
     reviews: '.glsr-reviews, [data-reviews]',
 }
 
 class Pagination {
-    constructor (wrapperEl) {
-        this.reviewsEl = wrapperEl.querySelector(selector.reviews);
+    constructor (wrapperEl, paginationEl) {
+        this.events = {
+            button: {
+                click: this._onLoadMore.bind(this),
+            },
+            link: {
+                click: this._onPaginate.bind(this),
+            },
+            window: {
+                popstate: this._onPopstate.bind(this),
+            },
+        };
+        this.paginationEl = paginationEl;
+        this.reviewsEl = wrapperEl.querySelector(selectors.reviews);
         this.wrapperEl = wrapperEl;
-        this.init()
     }
 
-    data (el, href) {
-        const paginationEl = el.closest(selector.pagination);
-        if (!paginationEl) {
-            console.error('Pagination config not found.');
-            return false;
+    destroy () {
+        this._eventHandler('remove')
+    }
+
+    init () {
+        this._eventHandler('add')
+        const current = this.paginationEl.querySelector('.current');
+        if (current) {
+            const data = this._data(current);
+            const nextLink = current.nextElementSibling;
+            if (data && nextLink && 2 === +nextLink.dataset.page && GLSR.urlparameter) { // window loaded page 1
+                window.history.replaceState(data, '', window.location);
+            }
         }
+    }
+
+    _data (el) {
         try {
-            const dataset = JSON.parse(JSON.stringify(paginationEl.dataset));
+            const dataset = JSON.parse(JSON.stringify(this.paginationEl.dataset));
             const data = {};
             for (var key of Object.keys(dataset)) {
                 let value;
@@ -51,120 +74,103 @@ class Pagination {
         }
     }
 
-    init () {
-        this.initLoadMore()
-        this.initPagination()
-        if (!GLSR.state.popstate) {
-            window.addEventListener('popstate', this.onPopstate.bind(this));
-            GLSR.state.popstate = true;
-        }
+    _eventHandler (action) {
+        this._eventListener(window, action, this.events.window)
+        this.wrapperEl.querySelectorAll(selectors.button).forEach(el => {
+            this._eventListener(el, action, this.events.button)
+        });
+        this.wrapperEl.querySelectorAll(selectors.link).forEach(el => {
+            this._eventListener(el, action, this.events.link)
+        });
     }
 
-    initLoadMore () {
-        const buttons = this.wrapperEl.querySelectorAll(selector.button);
-        if (buttons.length) {
-            [].forEach.call(buttons, button => {
-                if (button.dataset.ready) return; // @hack only init once
-                button.addEventListener('click', this.onLoadMore.bind(this, button));
-                button.dataset.ready = true;
-            })
-        }
+    _eventListener (el, action, events) {
+        Object.keys(events).forEach(event => el[action + 'EventListener'](event, events[event]))
     }
 
-    initPagination () {
-        const links = this.wrapperEl.querySelectorAll(`${selector.pagination} ${selector.link}`);
-        if (links.length) {
-            [].forEach.call(links, link => {
-                if (link.dataset.ready) return; // @hack only init once
-                link.addEventListener('click', this.onPaginate.bind(this, link));
-                link.dataset.ready = true;
-            })
-            const current = this.wrapperEl.querySelector(`${selector.pagination} .current`);
-            if (current) {
-                const data = this.data(current);
-                const nextLink = current.nextElementSibling;
-                if (data && nextLink && 2 === +nextLink.dataset.page && GLSR.urlparameter) { // window loaded page 1
-                    window.history.replaceState(data, '', window.location);
-                }
-            }
-        }
-    }
-
-    onLoadMore (el, ev) {
-        const data = this.data(el);
-        if (data) {
-            el.setAttribute('aria-busy', 'true');
-            el.setAttribute('disabled', '');
-            ev.preventDefault();
-            GLSR.ajax.post(data, this.handleLoadMore.bind(this, el, data));
-        }
-    }
-
-    onPaginate (el, ev) {
-        const data = this.data(el);
-        if (data) {
-            this.wrapperEl.classList.add(selector.hide);
-            ev.preventDefault();
-            GLSR.ajax.post(data, this.handlePagination.bind(this, el, data));
-        }
-    }
-
-    onPopstate (ev) {
-        GLSR.Event.trigger('site-reviews/pagination/popstate', ev, this);
-        if (ev.state && ev.state[`${GLSR.nameprefix}[_action]`]) {
-            this.wrapperEl.classList.add(selector.hide);
-            GLSR.ajax.post(ev.state, this.handlePopstate.bind(this, ev.state));
-        }
-    }
-
-    handleLoadMore (buttonEl, request, response, success) {
-        buttonEl.setAttribute('aria-busy', 'false');
-        buttonEl.removeAttribute('disabled');
+    _handleLoadMore (buttonEl, request, response, success) {
         if (!success) {
-            window.location = location;
+            window.location = location; // reload page
             return;
         }
-        [].forEach.call(this.wrapperEl.querySelectorAll(selector.pagination), el => {
-            el.innerHTML = response.pagination;
-        })
-        this.reviewsEl.insertAdjacentHTML('beforeend', response.reviews);
-        this.init();
-        new Excerpts(this.reviewsEl);
+        buttonEl.setAttribute('aria-busy', 'false')
+        buttonEl.removeAttribute('disabled')
+        this.destroy()
+        this.paginationEl.innerHTML = response.pagination;
+        this.reviewsEl.insertAdjacentHTML('beforeend', response.reviews)
+        this.init()
+        GLSR.Event.trigger('site-reviews/pagination/handle', response, this);
     }
 
-    handlePagination (linkEl, request, response, success) {
-        // console.info(request);
+    _handlePagination (linkEl, request, response, success) {
         if (!success) {
             window.location = linkEl.href; // reload page
             return;
         }
-        this.paginate(response)
+        this._paginate(response)
         if (GLSR.urlparameter) {
             window.history.pushState(request, '', linkEl.href); // add a new entry to browser History
         }
     }
 
-    handlePopstate (request, response, success) {
+    _handlePopstate (request, response, success) {
         if (success) {
-            this.paginate(response)
-            return;
+            this._paginate(response)
+        } else {
+            console.error(response);
         }
-        console.error(response);
     }
 
-    paginate (response) {
-        [].forEach.call(this.wrapperEl.querySelectorAll(selector.pagination), el => {
-            el.innerHTML = response.pagination;
-        })
+    _onLoadMore (ev) {
+        const el = ev.currentTarget;
+        const data = this._data(el);
+        if (data) {
+            el.setAttribute('aria-busy', 'true');
+            el.setAttribute('disabled', '');
+            ev.preventDefault();
+            GLSR.ajax.post(data, this._handleLoadMore.bind(this, el, data));
+        }
+    }
+
+    _onPaginate (ev) {
+        const el = ev.currentTarget;
+        const data = this._data(el);
+        if (data) {
+            this.wrapperEl.classList.add(classNames.hide);
+            ev.preventDefault();
+            GLSR.ajax.post(data, this._handlePagination.bind(this, el, data));
+        }
+    }
+
+    _onPopstate (ev) {
+        GLSR.Event.trigger('site-reviews/pagination/popstate', ev, this);
+        if (ev.state && ev.state[`${GLSR.nameprefix}[_action]`]) {
+            this.wrapperEl.classList.add(classNames.hide);
+            GLSR.ajax.post(ev.state, this._handlePopstate.bind(this, ev.state));
+        }
+    }
+
+    _paginate (response) {
+        this.destroy();
+        this.paginationEl.innerHTML = response.pagination;
         this.reviewsEl.innerHTML = response.reviews;
-        this.scrollToTop();
         this.init();
-        this.wrapperEl.classList.remove(selector.hide);
-        new Excerpts(this.reviewsEl);
+        this._scrollToTop();
+        this.wrapperEl.classList.remove(classNames.hide);
         GLSR.Event.trigger('site-reviews/pagination/handle', response, this);
     }
 
-    scrollToTop () {
+    _scrollStep (context) {
+        const elapsed = Math.min(1, (window.performance.now() - context.startTime) / config.scrollTime);
+        const easedValue = 0.5 * (1 - Math.cos(Math.PI * elapsed));
+        const currentY = context.startY + (context.endY - context.startY) * easedValue;
+        window.scroll(0, context.offset + currentY); // set the starting scoll position
+        if (currentY !== context.endY) {
+            window.requestAnimationFrame(this._scrollStep.bind(this, context));
+        }
+    }
+
+    _scrollToTop () {
         let offset = config.scrollOffset;
         [].forEach.call(GLSR.ajaxpagination, selector => {
             const fixedEl = document.querySelector(selector);
@@ -174,31 +180,14 @@ class Pagination {
         })
         const clientBounds = this.reviewsEl.getBoundingClientRect();
         const offsetTop = clientBounds.top - offset;
-        if (offsetTop > 0) return; // if top is in view, don't scroll!
-        this.scrollStep({
+        if (offsetTop > 0) return; // if top is in view, don't scroll
+        this._scrollStep({
             endY: offsetTop,
             offset: window.pageYOffset,
             startTime: window.performance.now(),
             startY: this.reviewsEl.scrollTop,
         });
     }
-
-    scrollStep (context) {
-        const elapsed = Math.min(1, (window.performance.now() - context.startTime) / config.scrollTime);
-        const easedValue = 0.5 * (1 - Math.cos(Math.PI * elapsed));
-        const currentY = context.startY + (context.endY - context.startY) * easedValue;
-        window.scroll(0, context.offset + currentY); // set the starting scoll position
-        if (currentY !== context.endY) {
-            window.requestAnimationFrame(this.scrollStep.bind(this, context));
-        }
-    }
 }
 
-export default () => {
-    [].forEach.call(document.querySelectorAll(selector.pagination), el => {
-        const wrapperEl = el.closest('.glsr');
-        if (wrapperEl && (el.classList.contains('glsr-ajax-loadmore') || el.classList.contains('glsr-ajax-pagination'))) {
-            new Pagination(wrapperEl);
-        }
-    })
-}
+export default Pagination;

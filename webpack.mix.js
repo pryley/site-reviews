@@ -40,7 +40,8 @@ mix.options({
         pure_funcs: mix.inProduction() ? pureFuncs : [],
       },
       mangle: {
-        properties: {regex: /[a-zA-Z]+_$/},
+        // properties: {regex: /[a-zA-Z]+_$/},
+        // properties: {regex: /^_[a-zA-Z]+$/},
       },
     },
   },
