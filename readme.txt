@@ -142,6 +142,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
+= 5.22.3 (2022-04-04) =
+
+- Fixed the star rating control when editing a review
+
 = 5.22.2 (2022-03-29) =
 
 - Fixed updating of reviews with custom checkbox and toggle fields.
