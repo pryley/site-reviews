@@ -44,7 +44,7 @@ const _handleSuccess = function (callback) {
         console.info(this);
     }
     else {
-        this._handleError(callback);
+        _handleError.bind(this, callback);
     }
 }
 

@@ -1,7 +1,7 @@
 /** global: CustomEvent, FormData, GLSR, HTMLFormElement, StarRating */
 
 import Recaptcha from './recaptcha.js';
-import StarRating from 'star-rating.js';
+import StarRating from 'star-rating.js/src';
 import Validation from './validation.js';
 import { addRemoveClass, classListSelector } from './helpers.js';
 
@@ -46,6 +46,12 @@ class Form {
         this.isActive = true;
     }
 
+    submitForm (counter) {
+        this.disableButton()
+        this.form[GLSR.nameprefix + '[_counter]'].value = counter || 0;
+        GLSR.ajax.post(this.form, this._handleResponse.bind(this))
+    }
+
     _destroyForm () {
         this.form.removeEventListener('submit', this.events.submit)
         this._resetErrors()
@@ -53,7 +59,7 @@ class Form {
     }
 
     _destroyRecaptcha () {
-        this.recaptcha.destroy_()
+        this.recaptcha.destroy()
     }
 
     _destroyStarRatings () {
@@ -65,7 +71,7 @@ class Form {
     _handleResponse (response, success) {
         const wasSuccessful = success === true;
         if ('unset' === response.recaptcha) {
-            this.recaptcha.execute_()
+            this.recaptcha.execute()
             return
         }
         if ('reset' === response.recaptcha) {
@@ -105,7 +111,7 @@ class Form {
     }
 
     _onSubmit (ev) {
-        if (!this.validation.validate_()) {
+        if (!this.validation.validate()) {
             ev.preventDefault()
             this._showResults(this.strings.errors, false)
             return
@@ -115,13 +121,13 @@ class Form {
             if (!this.useAjax) return;
         }
         ev.preventDefault()
-        this._submitForm()
+        this.submitForm()
     }
 
     _resetErrors () {
         addRemoveClass(this.form, this.config.form_error, false)
         this._showResults('', null)
-        this.validation.reset_()
+        this.validation.reset()
     }
 
     _showFieldErrors (errors) {
@@ -131,8 +137,8 @@ class Form {
             const nameSelector = GLSR.nameprefix ? GLSR.nameprefix + '[' + error + ']' : error;
             const inputEl = this.form.querySelector('[name="' + nameSelector + '"]');
             if (inputEl) {
-                this.validation.setErrors_(inputEl, errors[error])
-                this.validation.toggleError_(inputEl.validation, 'add')
+                this.validation.setErrors(inputEl, errors[error])
+                this.validation.toggleError(inputEl.validation, 'add')
             }
         }
     }
@@ -145,12 +151,6 @@ class Form {
             addRemoveClass(resultsEl, this.config.form_message_success, true === success)
             resultsEl.innerHTML = message;
         }
-    }
-
-    _submitForm (counter) {
-        this.disableButton()
-        this.form[GLSR.nameprefix + '[_counter]'].value = counter || 0;
-        GLSR.ajax.post(this.form, this._handleResponse.bind(this))
     }
 }
 

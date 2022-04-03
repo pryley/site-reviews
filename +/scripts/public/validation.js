@@ -1,8 +1,3 @@
-/** global: FormData, GLSR, HTMLFormElement, StarRating */
-/* jshint -W014 */
-/* jshint -W030 */
-/* jshint -W093 */
-
 // Inspired by https://github.com/sha256/Pristine/
 
 import { addRemoveClass, classListSelector } from './helpers.js';
@@ -85,172 +80,174 @@ const validators = {
     },
 };
 
-const Validation = function (formEl) { // HTMLElement
-    this.config = GLSR.validationconfig;
-    this.fields = [];
-    this.form = formEl;
-    this.form.setAttribute('novalidate', '');
-    this.strings = GLSR.validationstrings;
-    this.validateEvent = this.onChange_.bind(this);
-};
+const allowedAttributes = [
+    'required', 'max', 'maxlength', 'min', 'minlength', 'pattern',
+];
+const selector = 'input:not([type^=hidden]):not([type^=submit]), select, textarea, [data-glsr-validate]';
 
-Validation.prototype = {
-    ALLOWED_ATTRIBUTES_: ['required', 'max', 'maxlength', 'min', 'minlength', 'pattern'],
-    SELECTOR_: 'input:not([type^=hidden]):not([type^=submit]), select, textarea, [data-glsr-validate]',
+class Validation {
+    constructor (formEl) {
+        this.config = GLSR.validationconfig;
+        this.fields = [];
+        this.form = formEl;
+        this.form.setAttribute('novalidate', '');
+        this.strings = GLSR.validationstrings;
+        this.validateEvent = this._onChange.bind(this);
+    }
 
-    destroy: function () {
-        this.reset_();
+    destroy () {
+        this.reset();
         while (this.fields.length) {
-            var field = this.fields.shift();
-            this.removeEvent_(field.input);
+            const field = this.fields.shift();
+            this._removeEvent(field.input)
             delete field.input.validation;
         }
-    },
+    }
 
-    init: function () {
-        [].forEach.call(this.form.querySelectorAll(this.SELECTOR_), field => {
+    init () {
+        this.form.querySelectorAll(selector).forEach(field => {
             if (this.fields.find(item => item.input.name === field.name && !field.name.endsWith('[]'))) return;
             let fieldEl = field.closest(classListSelector(this.config.field));
             if ('none' !== fieldEl.style.display) {
-                this.fields.push(this.initField_(field));
+                this.fields.push(this._initField(field))
             }
-        });
-    },
+        })
+    }
 
-    addEvent_: function (input) {
-        input.addEventListener(this.getEventName_(input), this.validateEvent);
-    },
-
-    addValidators_: function (attributes, fns, params) {
-        [].forEach.call(attributes, function (attr) {
-            let name = attr.name.replace('data-', ''); // using data-* attributes we can simulate the requirement without the HTML5 restriction
-            if (~this.ALLOWED_ATTRIBUTES_.indexOf(name)) {
-                this.addValidatorToField_(fns, params, name, attr.value);
-            }
-            else if (attr.name === 'type') {
-                this.addValidatorToField_(fns, params, attr.value);
-            }
-        }.bind(this));
-    },
-
-    addValidatorToField_: function (fns, params, name, value) {
-        if (!validators[name]) return;
-        validators[name].name = name;
-        fns.push(validators[name]);
-        if (value) {
-            var valueParams = (name === 'pattern' ? [value]: value.split(','));
-            valueParams.unshift(null); // placeholder for input value
-            params[name] = valueParams;
-        }
-    },
-
-    onChange_: function (ev) {
-        this.validate_(ev.currentTarget)
-    },
-
-    removeEvent_: function (input) {
-        input.removeEventListener(this.getEventName_(input), this.validateEvent);
-    },
-
-    reset_: function () {
-        for (var i in this.fields) { // remove input error classes
+    reset () {
+        for (let i in this.fields) { // remove input error classes
             if (!this.fields.hasOwnProperty(i)) continue;
             this.fields[i].errorElements = null;
             let field = this.fields[i].input.closest(classListSelector(this.config.field));
-            addRemoveClass(this.fields[i].input, this.config.input_error, false);
-            addRemoveClass(this.fields[i].input, this.config.input_valid, false);
-            addRemoveClass(field, this.config.field_error, false);
-            addRemoveClass(field, this.config.field_valid, false);
+            addRemoveClass(this.fields[i].input, this.config.input_error, false)
+            addRemoveClass(this.fields[i].input, this.config.input_valid, false)
+            addRemoveClass(field, this.config.field_error, false)
+            addRemoveClass(field, this.config.field_valid, false)
         }
-    },
+    }
 
-    getEventName_: function (input) {
-        return ~['radio', 'checkbox'].indexOf(input.getAttribute('type')) || input.nodeName === 'SELECT'
-            ? 'change'
-            : 'input';
-    },
-
-    initField_: function (inputEl) {
-        var params = {};
-        var rules = [];
-        if (null !== inputEl.offsetParent) { // is inputEl visible?
-            this.addValidators_(inputEl.attributes, rules, params);
-            this.sortValidators_(rules);
-            this.addEvent_(inputEl);
+    setErrors (inputEl, errors) {
+        if (inputEl.hasOwnProperty('validation')) {
+            this._initField(inputEl)
         }
-        return inputEl.validation = {
-            form: this.form,
-            input: inputEl,
-            params: params,
-            validate: () => this.validate_(inputEl),
-            validators: rules,
-        };
-    },
+        inputEl.validation.errors = errors;
+    }
 
-    toggleError_: function (field, isShowingError) {
+    toggleError (field, isShowingError) {
         let fieldEl = field.input.closest(classListSelector(this.config.field));
-        addRemoveClass(field.input, this.config.input_error, isShowingError);
-        addRemoveClass(field.input, this.config.input_valid, !isShowingError);
-        if (fieldEl) { // field Element
-            addRemoveClass(fieldEl, this.config.field_error, isShowingError);
-            addRemoveClass(fieldEl, this.config.field_valid, !isShowingError);
+        addRemoveClass(field.input, this.config.input_error, isShowingError)
+        addRemoveClass(field.input, this.config.input_valid, !isShowingError)
+        if (fieldEl) {
+            addRemoveClass(fieldEl, this.config.field_error, isShowingError)
+            addRemoveClass(fieldEl, this.config.field_valid, !isShowingError)
             let errorEl = fieldEl.querySelector(classListSelector(this.config.field_message));
             errorEl.innerHTML = (isShowingError ? field.errors.join('<br>') : ''); // because <br> is used in Field.php
             errorEl.style.display = (!isShowingError ? 'none' : '');
         }
-    },
+    }
 
-    setErrors_: function (inputEl, errors) {
-        if (inputEl.hasOwnProperty('validation')) {
-            this.initField_(inputEl);
-        }
-        inputEl.validation.errors = errors;
-    },
-
-    sortValidators_: function (fns) {
-        fns.sort((a, b) => (b.priority || 1) - (a.priority || 1));
-    },
-
-    validate_: function (input) {
-        var isValid = true;
-        var fields = this.fields;
+    validate (input) {
+        let isValid = true;
+        const fields = this.fields;
         if (input instanceof HTMLElement) {
             fields = [input.validation];
         }
-        for (var i in fields) {
+        for (let i in fields) {
             if (!fields.hasOwnProperty(i)) continue;
-            var field = fields[i];
-            if (this.validateField_(field)) {
-                this.toggleError_(field, false); // remove error
+            const field = fields[i];
+            if (this._validateField(field)) {
+                this.toggleError(field, false) // remove error
             }
             else {
                 isValid = false;
-                this.toggleError_(field, true); // add error
+                this.toggleError(field, true) // add error
             }
         }
         return isValid;
-    },
+    }
 
-    validateField_: function (field) {
-        var errors = [];
-        var isValid = true;
-        for (var i in field.validators) {
+    _addEvent (inputEl) {
+        inputEl.addEventListener(this._getEventName(input), this.validateEvent)
+    }
+
+    _addValidators (attributes, fns, params) {
+        [].forEach.call(attributes, attr => {
+            let name = attr.name.replace('data-', ''); // using data-* attributes we can simulate the requirement without the HTML5 restriction
+            if (~allowedAttributes.indexOf(name)) {
+                this._addValidatorToField(fns, params, name, attr.value)
+            }
+            else if (attr.name === 'type') {
+                this._addValidatorToField(fns, params, attr.value)
+            }
+        })
+    }
+
+    _addValidatorToField (fns, params, name, value) {
+        if (!validators[name]) return;
+        validators[name].name = name;
+        fns.push(validators[name])
+        if (value) {
+            var valueParams = (name === 'pattern' ? [value] : value.split(','));
+            valueParams.unshift(null) // placeholder for input value
+            params[name] = valueParams;
+        }
+    }
+
+    _onChange (ev) {
+        this.validate(ev.currentTarget)
+    }
+
+    _removeEvent (input) {
+        input.removeEventListener(this._getEventName(input), this.validateEvent)
+    }
+
+    _getEventName (input) {
+        return ~['radio', 'checkbox'].indexOf(input.getAttribute('type')) || input.nodeName === 'SELECT'
+            ? 'change'
+            : 'input';
+    }
+
+    _initField (inputEl) {
+        let params = {};
+        let validators = [];
+        if (null !== inputEl.offsetParent) { // is inputEl visible?
+            this._addValidators(inputEl.attributes, validators, params)
+            this._sortValidators(validators)
+            this._addEvent(inputEl)
+        }
+        return inputEl.validation = {
+            form: this.form,
+            input: inputEl,
+            params,
+            validate: () => this.validate(inputEl),
+            validators,
+        };
+    }
+
+    _sortValidators (fns) {
+        fns.sort((a, b) => (b.priority || 1) - (a.priority || 1))
+    }
+
+    _validateField (field) {
+        let errors = [];
+        let isValid = true;
+        for (let i in field.validators) {
             if (!field.validators.hasOwnProperty(i)) continue;
-            var validator = field.validators[i];
-            var params = field.params[validator.name]
+            let validator = field.validators[i];
+            let params = field.params[validator.name]
                 ? field.params[validator.name]
                 : [];
             params[0] = field.input.value;
             if (!validator.fn.apply(field.input, params)) {
                 isValid = false;
-                var error = this.strings[validator.name];
-                errors.push(error.replace(/(\%s)/g, params[1]));
+                let error = this.strings[validator.name];
+                errors.push(error.replace(/(\%s)/g, params[1]))
                 if (validator.halt === true) break;
             }
         }
         field.errors = errors;
         return isValid;
-    },
-};
+    }
+}
 
 export default Validation;

@@ -127,7 +127,7 @@ const edit = props => {
     };
     const inspectorPanels = {
         panel_settings: <PanelBody title={ _x('Settings', 'admin-text', 'site-reviews')}>
-            { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.reviews.InspectorControls', inspectorControls, props)) }
+            { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.summary.InspectorControls', inspectorControls, props)) }
         </PanelBody>
     };
     const inspectorAdvancedControls = {

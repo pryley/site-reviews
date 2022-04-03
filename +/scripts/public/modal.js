@@ -162,7 +162,7 @@ const close = (targetModalId) => {
 const init = (config) => {
     const options = Object.assign({}, { openTrigger: 'data-glsr-trigger' }, config)
     const triggers = Array.prototype.slice.call(document.querySelectorAll(`[${ options.openTrigger }]`))
-    const triggerMap = generateTriggerMap_(triggers, options.openTrigger)
+    const triggerMap = _generateTriggerMap(triggers, options.openTrigger)
     Object.keys(triggerMap).forEach(key => {
         options.targetModalId = key
         options.triggers = triggerMap[key]
@@ -192,7 +192,7 @@ const open = (targetModalId, config) => {
  * @param {string} triggerAttr [The data-attribute which triggers the module]
  * @return {object}
  */
-const generateTriggerMap_ = (triggers, triggerAttr) => {
+const _generateTriggerMap = (triggers, triggerAttr) => {
     const triggerMap = {}
     triggers.forEach(trigger => {
         const targetModalId = trigger.attributes[triggerAttr].value
