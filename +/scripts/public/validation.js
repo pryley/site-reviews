@@ -146,11 +146,11 @@ class Validation {
         }
     }
 
-    validate (input) {
+    validate (inputEl) {
         let isValid = true;
-        const fields = this.fields;
-        if (input instanceof HTMLElement) {
-            fields = [input.validation];
+        let fields = this.fields;
+        if (inputEl instanceof HTMLElement) {
+            fields = [inputEl.validation];
         }
         for (let i in fields) {
             if (!fields.hasOwnProperty(i)) continue;
@@ -167,7 +167,7 @@ class Validation {
     }
 
     _addEvent (inputEl) {
-        inputEl.addEventListener(this._getEventName(input), this.validateEvent)
+        inputEl.addEventListener(this._getEventName(inputEl), this.validateEvent)
     }
 
     _addValidators (attributes, fns, params) {
@@ -197,12 +197,12 @@ class Validation {
         this.validate(ev.currentTarget)
     }
 
-    _removeEvent (input) {
-        input.removeEventListener(this._getEventName(input), this.validateEvent)
+    _removeEvent (inputEl) {
+        inputEl.removeEventListener(this._getEventName(inputEl), this.validateEvent)
     }
 
-    _getEventName (input) {
-        return ~['radio', 'checkbox'].indexOf(input.getAttribute('type')) || input.nodeName === 'SELECT'
+    _getEventName (inputEl) {
+        return ~['radio', 'checkbox'].indexOf(inputEl.getAttribute('type')) || inputEl.nodeName === 'SELECT'
             ? 'change'
             : 'input';
     }

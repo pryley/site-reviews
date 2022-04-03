@@ -99,7 +99,7 @@ class Form {
     }
 
     _initRecaptcha () {
-        this.recaptcha.render_()
+        this.recaptcha.render()
     }
 
     _initStarRatings () {
