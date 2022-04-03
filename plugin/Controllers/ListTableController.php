@@ -314,7 +314,7 @@ class ListTableController extends Controller
      * @return void
      * @action pre_get_posts
      */
-    public function setQueryForColumn(WP_Query $query)
+    public function setQueryForTable(WP_Query $query)
     {
         if (!$this->hasQueryPermission($query)) {
             return;

@@ -25,7 +25,7 @@ class ListTableHooks extends AbstractHooks
             ['overridePostsListTable', 'load-edit.php'],
             ['renderColumnFilters', 'restrict_manage_posts'],
             ['renderColumnValues', "manage_{$this->type}_posts_custom_column", 10, 2],
-            ['setQueryForColumn', 'pre_get_posts'],
+            ['setQueryForTable', 'pre_get_posts'],
         ]);
     }
 }
