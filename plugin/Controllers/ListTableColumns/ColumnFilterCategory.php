@@ -41,6 +41,14 @@ class ColumnFilterCategory extends ColumnFilter
     }
 
     /**
+     * @return string
+     */
+    public function title()
+    {
+        return _x('Category', 'admin-text', 'site-reviews');
+    }
+
+    /**
      * @return string|int
      */
     public function value()

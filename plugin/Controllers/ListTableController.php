@@ -186,7 +186,7 @@ class ListTableController extends Controller
                 unset($filters['type']);
             }
             foreach ($filters as $key => &$value) {
-                $value = Str::titleCase($key);
+                $value = glsr($value)->title();
             }
             ksort($filters);
             $setting = 'edit_'.glsr()->post_type.'_filters';

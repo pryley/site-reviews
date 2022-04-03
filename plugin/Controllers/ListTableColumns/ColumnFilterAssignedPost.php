@@ -58,6 +58,14 @@ class ColumnFilterAssignedPost extends ColumnFilter
     }
 
     /**
+     * @return string
+     */
+    public function title()
+    {
+        return _x('Assigned Post', 'admin-text', 'site-reviews');
+    }
+
+    /**
      * @return string|int
      */
     public function value()

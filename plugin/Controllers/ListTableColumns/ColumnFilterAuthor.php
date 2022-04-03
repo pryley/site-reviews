@@ -24,4 +24,12 @@ class ColumnFilterAuthor extends ColumnFilterAssignedUser
             0 => _x('No author', 'admin-text', 'site-reviews'),
         ];
     }
+
+    /**
+     * @return string
+     */
+    public function title()
+    {
+        return _x('Author', 'admin-text', 'site-reviews');
+    }
 }

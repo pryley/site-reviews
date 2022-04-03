@@ -29,4 +29,12 @@ class ColumnFilterType extends ColumnFilter
     {
         return _x('Any review type', 'admin-text', 'site-reviews');
     }
+
+    /**
+     * @return string
+     */
+    public function title()
+    {
+        return _x('Type', 'admin-text', 'site-reviews');
+    }
 }

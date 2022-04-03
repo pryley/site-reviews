@@ -37,6 +37,14 @@ class ColumnFilterRating extends ColumnFilter
     }
 
     /**
+     * @return string
+     */
+    public function title()
+    {
+        return _x('Rating', 'admin-text', 'site-reviews');
+    }
+
+    /**
      * @return string|int
      */
     public function value()

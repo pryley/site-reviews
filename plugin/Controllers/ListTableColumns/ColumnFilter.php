@@ -149,6 +149,14 @@ abstract class ColumnFilter
     }
 
     /**
+     * @return string
+     */
+    public function title()
+    {
+        return Str::titleCase($this->name());
+    }
+
+    /**
      * @return string|int
      */
     public function value()

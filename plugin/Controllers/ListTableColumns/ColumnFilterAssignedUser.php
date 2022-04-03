@@ -58,6 +58,14 @@ class ColumnFilterAssignedUser extends ColumnFilter
     }
 
     /**
+     * @return string
+     */
+    public function title()
+    {
+        return _x('Assigned User', 'admin-text', 'site-reviews');
+    }
+
+    /**
      * @return string|int
      */
     public function value()
