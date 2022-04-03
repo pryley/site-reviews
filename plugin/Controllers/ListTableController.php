@@ -324,7 +324,7 @@ class ListTableController extends Controller
             $query->set('meta_key', Str::prefix($orderby, '_'));
             $query->set('orderby', 'meta_value');
         }
-        if ($termId = filter_input(INPUT_GET, 'assigned_term', FILTER_SANITIZE_NUMBER_INT)) {
+        if ($termId = filter_input(INPUT_GET, 'category', FILTER_SANITIZE_NUMBER_INT)) {
             $taxQuery = ['taxonomy' => glsr()->taxonomy];
             if (-1 === Cast::toInt($termId)) {
                 $taxQuery['operator'] = 'NOT EXISTS';

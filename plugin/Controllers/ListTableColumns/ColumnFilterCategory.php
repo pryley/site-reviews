@@ -45,6 +45,10 @@ class ColumnFilterCategory extends ColumnFilter
      */
     public function value()
     {
+        global $wp_query;
+        if ($term = get_term_by('slug', $wp_query->get(glsr()->taxonomy), glsr()->taxonomy)) {
+            return $term->term_taxonomy_id;
+        }
         return filter_input(INPUT_GET, $this->name(), FILTER_SANITIZE_NUMBER_INT);
     }
 }
