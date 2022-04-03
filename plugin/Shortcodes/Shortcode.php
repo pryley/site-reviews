@@ -43,6 +43,7 @@ abstract class Shortcode implements ShortcodeContract
 
     public function __construct()
     {
+        $this->args = [];
         $this->shortcode = Str::snakeCase($this->getShortClassName());
     }
 
