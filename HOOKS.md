@@ -165,6 +165,7 @@
     site-reviews/shortcode/<shortcode>/attributes           (array $attributes, Shortcodes\Shortcode $shortcode): array
     site-reviews/shortcode/args                             (array $args, string $type, string $partialName): array
     site-reviews/shortcode/atts                             (array $atts, string $type, string $partialName): array
+    site-reviews/shortcode/display-options                  (array $displayOptions, string $shortcode): array
     site-reviews/shortcode/hide-options                     (array $hideOptions, string $shortcode): array
     site-reviews/slack/compose                              (array $notification, Modules\Slack $slack): array
     site-reviews/slack/stars                                (string $stars, int $rating, int $maxRating): string

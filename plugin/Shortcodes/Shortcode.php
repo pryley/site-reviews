@@ -109,6 +109,15 @@ abstract class Shortcode implements ShortcodeContract
     /**
      * @return array
      */
+    public function getDisplayOptions()
+    {
+        $options = $this->displayOptions();
+        return glsr()->filterArray('shortcode/display-options', $options, $this->shortcode, $this);
+    }
+
+    /**
+     * @return array
+     */
     public function getHideOptions()
     {
         $options = $this->hideOptions();
@@ -186,6 +195,14 @@ abstract class Shortcode implements ShortcodeContract
         ob_start();
         glsr_debug($data);
         $this->debug = ob_get_clean();
+    }
+
+    /**
+     * @return array
+     */
+    protected function displayOptions()
+    {
+        return [];
     }
 
     /**

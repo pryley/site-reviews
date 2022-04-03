@@ -84,6 +84,11 @@ class BlocksController extends Controller
             glsr()->version
         );
         wp_localize_script(glsr()->id.'/blocks', 'GLSR_Block', [
+            'displayoptions' => [
+                'site_reviews' => glsr(SiteReviewsShortcode::class)->getDisplayOptions(),
+                'site_reviews_form' => glsr(SiteReviewsFormShortcode::class)->getDisplayOptions(),
+                'site_reviews_summary' => glsr(SiteReviewsSummaryShortcode::class)->getDisplayOptions(),
+            ],
             'hideoptions' => [
                 'site_reviews' => glsr(SiteReviewsShortcode::class)->getHideOptions(),
                 'site_reviews_form' => glsr(SiteReviewsFormShortcode::class)->getHideOptions(),

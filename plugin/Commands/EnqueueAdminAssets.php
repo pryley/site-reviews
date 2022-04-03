@@ -82,6 +82,11 @@ class EnqueueAdminAssets implements Contract
             'addons' => [],
             'addonsurl' => glsr_admin_url('addons'),
             'ajaxurl' => admin_url('admin-ajax.php'),
+            'displayoptions' => [
+                'site_reviews' => glsr(SiteReviewsShortcode::class)->getDisplayOptions(),
+                'site_reviews_form' => glsr(SiteReviewsFormShortcode::class)->getDisplayOptions(),
+                'site_reviews_summary' => glsr(SiteReviewsSummaryShortcode::class)->getDisplayOptions(),
+            ],
             'filters' => [
                 'assigned_post' => glsr(ColumnFilterAssignedPost::class)->options(),
                 'assigned_user' => glsr(ColumnFilterAssignedUser::class)->options(),
