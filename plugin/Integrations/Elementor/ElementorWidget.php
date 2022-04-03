@@ -44,6 +44,8 @@ abstract class ElementorWidget extends Widget_Base
     public function get_settings_for_display($setting_key = null)
     {
         $settings = parent::get_settings_for_display();
+        $settings['class'] = $settings['shortcode_class']; // @compat
+        $settings['id'] = $settings['shortcode_id']; // @compat
         if (!empty($settings['assigned_posts_custom'])) {
             $settings['assigned_posts'] = $settings['assigned_posts_custom'];
         }
@@ -53,10 +55,8 @@ abstract class ElementorWidget extends Widget_Base
                 $hide[] = Str::removePrefix($key, 'hide-');
             }
         }
-        $settings['class'] = $settings['shortcode_class']; // @compat
         $settings['hide'] = array_filter($hide);
-        $settings['id'] = $settings['shortcode_id']; // @compat
-        return $settings;
+        return glsr()->filterArray('integration/elementor/display/settings', $settings, $this);
     }
 
     /**
@@ -108,6 +108,9 @@ abstract class ElementorWidget extends Widget_Base
         ];
     }
 
+    /**
+     * @return array
+     */
     protected function get_review_types()
     {
         $types = glsr()->retrieveAs('array', 'review_types', []);
@@ -128,14 +131,23 @@ abstract class ElementorWidget extends Widget_Base
      */
     protected function register_controls()
     {
-        $settings = array_filter(glsr()->filterArray('integration/elementor/settings', $this->settings_basic(), $this->get_name()));
-        if (!empty($settings)) {
-            $this->register_shortcode_options($settings, 'settings', _x('Settings', 'admin-text', 'site-reviews'));
-        }
-        $advanced = array_filter(glsr()->filterArray('integration/elementor/advanced', $this->settings_advanced(), $this->get_name()));
-        if (!empty($advanced)) {
-            $this->register_shortcode_options($advanced, 'advanced', _x('Advanced', 'admin-text', 'site-reviews'));
-        }
+        $controls = [
+            'settings' => [
+                'label' => _x('Settings', 'admin-text', 'site-reviews'),
+                'options' => $this->settings_basic(),
+            ],
+            'advanced' => [
+                'label' => _x('Advanced', 'admin-text', 'site-reviews'),
+                'options' => $this->settings_advanced(),
+            ],
+        ];
+        $controls = glsr()->filterArray('integration/elementor/register/controls', $controls, $this);
+        array_walk($controls, function($control, $key) {
+            $options = array_filter($control['options']);
+            if (!empty($options)) {
+                $this->register_shortcode_options($options, $key, $control['label']);
+            }
+        });
     }
 
     /**
@@ -153,6 +165,9 @@ abstract class ElementorWidget extends Widget_Base
         $this->end_controls_section();
     }
 
+    /**
+     * @return void
+     */
     protected function render()
     {
         $shortcode = $this->get_shortcode_instance()->build($this->get_settings_for_display());
