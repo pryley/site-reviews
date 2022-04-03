@@ -3,7 +3,7 @@ const path = require('path')
 const postCss = namespace => {
   return [
     require('postcss-import'),
-    require('precss')(),
+    require('postcss-preset-env')({stage: 0}),
     require('postcss-calc')({preserve: false}),
     require('postcss-hexrgba'),
     require('postcss-custom-properties')({preserve: false}),
