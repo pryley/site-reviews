@@ -23,11 +23,22 @@ Notices.prototype = {
 
     /** @return void */
     init_: function () {
-        jQuery('.glsr-notice[data-dismiss]').on('click.wp-dismiss-notice', this.onClick_.bind(this));
+        jQuery('.glsr-notice[data-dismiss]').on('click.wp-dismiss-notice', this.onClick_);
+        var topOfPageNotice = jQuery('.glsr-notice-top-of-page');
+        if (topOfPageNotice) {
+            var topOfPageNoticeEl = topOfPageNotice.detach();
+            jQuery('#wpbody-content').prepend(topOfPageNoticeEl);
+            topOfPageNotice.delay(1000).slideDown();
+        }
     },
 
     /** @return void */
     onClick_: function (ev) {
+        var notice = jQuery(this);
+        if (notice.hasClass('glsr-notice-top-of-page')) {
+            if (!jQuery(ev.target).hasClass('notice-dismiss')) return; // only dismiss with the close button
+            notice.slideUp();
+        }
         var data = {};
         data[GLSR.nameprefix] = {
             _action: 'dismiss-notice',

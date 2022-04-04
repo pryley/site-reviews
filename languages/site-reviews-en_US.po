@@ -1355,7 +1355,7 @@ msgctxt "admin-text"
 msgid "Required Fields"
 msgstr "Required Fields"
 
-#: config/settings.php:572, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:25, plugin/Defaults/RevisionFieldsDefaults.php:16, plugin/Tinymce/SiteReviewsTinymce.php:30
+#: config/settings.php:572, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:25, plugin/Defaults/RevisionFieldsDefaults.php:16, plugin/Tinymce/SiteReviewsTinymce.php:30, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:44
 msgctxt "admin-text"
 msgid "Rating"
 msgstr "Rating"
@@ -1748,7 +1748,7 @@ msgctxt "admin-text"
 msgid "Please upload a valid %s file."
 msgstr "Please upload a valid %s file."
 
-#: config/forms/metabox-fields.php:9, plugin/Defaults/PostTypeColumnDefaults.php:24, plugin/Defaults/RevisionFieldsDefaults.php:17, plugin/Tinymce/TinymceGenerator.php:143
+#: config/forms/metabox-fields.php:9, plugin/Defaults/PostTypeColumnDefaults.php:24, plugin/Defaults/RevisionFieldsDefaults.php:17, plugin/Tinymce/TinymceGenerator.php:143, plugin/Controllers/ListTableColumns/ColumnFilterType.php:38
 msgctxt "admin-text"
 msgid "Type"
 msgstr "Type"
@@ -2501,7 +2501,7 @@ msgctxt "admin-text"
 msgid "(no title)"
 msgstr "(no title)"
 
-#: plugin/Metaboxes/AuthorMetabox.php:21, plugin/Metaboxes/AuthorMetabox.php:39, views/partials/screen/inline-edit.php:73
+#: plugin/Metaboxes/AuthorMetabox.php:21, plugin/Metaboxes/AuthorMetabox.php:39, plugin/Controllers/ListTableColumns/ColumnFilterAuthor.php:33, views/partials/screen/inline-edit.php:73
 msgctxt "admin-text"
 msgid "Author"
 msgstr "Author"
@@ -2897,7 +2897,7 @@ msgctxt "admin-text"
 msgid "Shortcode"
 msgstr "Shortcode"
 
-#: plugin/Tinymce/TinymceGenerator.php:85
+#: plugin/Tinymce/TinymceGenerator.php:85, plugin/Controllers/ListTableColumns/ColumnFilterCategory.php:48
 msgctxt "admin-text"
 msgid "Category"
 msgstr "Category"
@@ -3042,6 +3042,11 @@ msgctxt "admin-text"
 msgid "No assigned post"
 msgstr "No assigned post"
 
+#: plugin/Controllers/ListTableColumns/ColumnFilterAssignedPost.php:65
+msgctxt "admin-text"
+msgid "Assigned Post"
+msgstr "Assigned Post"
+
 #: plugin/Controllers/ListTableColumns/ColumnFilterAssignedUser.php:15
 msgctxt "admin-text"
 msgid "Filter by assigned user"
@@ -3056,6 +3061,11 @@ msgstr "Any assigned user"
 msgctxt "admin-text"
 msgid "No assigned user"
 msgstr "No assigned user"
+
+#: plugin/Controllers/ListTableColumns/ColumnFilterAssignedUser.php:65
+msgctxt "admin-text"
+msgid "Assigned User"
+msgstr "Assigned User"
 
 #: plugin/Controllers/ListTableColumns/ColumnFilterAuthor.php:14
 msgctxt "admin-text"
@@ -3753,10 +3763,14 @@ msgctxt "admin-text"
 msgid "Run Migration"
 msgstr "Run Migration"
 
-#: views/partials/notices/premium.php:10
+#: views/partials/notices/premium.php:3
 msgctxt "admin-text"
-msgid "Learn more"
-msgstr "Learn more"
+msgid ""
+"You are using the free version of Site Reviews. %sPurchase premium%s to get "
+"images, filters, themes, custom forms, and more."
+msgstr ""
+"You are using the free version of Site Reviews. %sPurchase premium%s to get "
+"images, filters, themes, custom forms, and more."
 
 #: views/partials/notices/welcome.php:4
 msgctxt "admin-text"

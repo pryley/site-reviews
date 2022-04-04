@@ -25,7 +25,7 @@ class NoticeController extends Controller
     public function __construct()
     {
         $this->dismissValuesMap = [
-            'premium' => glsr()->version('major'),
+            'premium' => glsr()->version('minor'),
             'welcome' => glsr()->version('minor'),
         ];
     }
