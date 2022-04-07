@@ -75,10 +75,10 @@ class Form {
             return
         }
         if ('reset' === response.recaptcha) {
-            this.recaptcha.reset_()
+            this.recaptcha.reset()
         }
         if (wasSuccessful) {
-            this.recaptcha.reset_()
+            this.recaptcha.reset()
             this.form.reset()
         }
         this._showFieldErrors(response.errors)
