@@ -5,22 +5,12 @@ namespace GeminiLabs\SiteReviews\Modules\Validator;
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Defaults\ValidateReviewDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Validator;
 use GeminiLabs\SiteReviews\Request;
 
 class DefaultValidator extends ValidatorAbstract
 {
-    const VALIDATION_RULES = [
-        'content' => 'required',
-        'email' => 'required|email',
-        'name' => 'required',
-        'rating' => 'required|between:0,5',
-        'terms' => 'accepted',
-        'title' => 'required',
-    ];
-
     /**
      * @return bool
      */
@@ -34,7 +24,7 @@ class DefaultValidator extends ValidatorAbstract
     }
 
     /**
-     * This only validates the provided values in the Request
+     * This only validates the provided values in the Request.
      * @return bool
      */
     public function isValidRequest()
@@ -66,12 +56,35 @@ class DefaultValidator extends ValidatorAbstract
     /**
      * @return array
      */
+    protected function defaultRules()
+    {
+        $maxRating = max(1, (int) glsr()->constant('MAX_RATING', Rating::class));
+        $rules = [
+            'content' => 'required',
+            'email' => 'required|email',
+            'name' => 'required',
+            'rating' => 'required|between:0,'.$maxRating,
+            'terms' => 'accepted',
+            'title' => 'required',
+        ];
+        return glsr()->filterArray('validation/rules', $rules, $this->request);
+    }
+
+    /**
+     * @return array
+     */
     protected function normalizedRules()
     {
-        $rules = static::VALIDATION_RULES;
-        $maxRating = max(1, Cast::toInt(glsr()->constant('MAX_RATING', Rating::class)));
-        $rules['rating'] = str_replace('between:1,5', 'between:1,'.$maxRating, $rules['rating']);
-        return glsr()->filterArray('validation/rules', $rules, $this->request);
+        $rules = $this->defaultRules();
+        $required = glsr_get_option('submissions.required', []);
+        array_walk($rules, function (&$value, $key) use ($required) {
+            if (!in_array($key, $required)) {
+                $values = explode('|', $value);
+                $values = array_diff($values, ['required']); // remove the required rule from validation
+                $value = implode('|', $values);
+            }
+        });
+        return $rules;
     }
 
     /**
@@ -79,16 +92,16 @@ class DefaultValidator extends ValidatorAbstract
      */
     protected function rules()
     {
-        $defaults = $this->normalizedRules();
-        $customRules = array_diff_key($defaults,
+        $defaultRules = $this->normalizedRules();
+        $customRules = array_diff_key($defaultRules,
             glsr(DefaultsManager::class)->pluck('settings.submissions.required.options')
         );
-        $requiredRules = array_intersect_key($defaults,
-            array_flip(glsr_get_option('submissions.required', []))
-        );
         $excluded = Arr::convertFromString($this->request->excluded); // these fields were ommited with the hide option
-        $rules = array_merge($requiredRules, $customRules);
+        $rules = array_merge($defaultRules, $customRules);
         $rules = array_diff_key($rules, array_flip($excluded));
-        return glsr()->filterArray('validation/rules/normalized', $rules, $this->request, $defaults);
+
+        glsr_log($rules);
+
+        return glsr()->filterArray('validation/rules/normalized', $rules, $this->request, $defaultRules);
     }
 }

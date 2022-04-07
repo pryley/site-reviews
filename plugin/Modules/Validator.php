@@ -277,9 +277,14 @@ class Validator
     protected function setRules(array $rules)
     {
         foreach ($rules as $key => $rule) {
-            $rules[$key] = is_string($rule)
+            $validationRules = is_string($rule)
                 ? explode('|', $rule)
                 : $rule;
+            // unset rules if the attribute is not required and the value is an empty string
+            if (!in_array('required', $validationRules) && '' === $this->getValue($key)) {
+                $validationRules = [];
+            }
+            $rules[$key] = $validationRules;
         }
         $this->rules = $rules;
     }
