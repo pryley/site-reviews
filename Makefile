@@ -35,7 +35,7 @@ test: ## Run all phpunit tests
 
 .PHONY: update
 update: ## Update Composer and NPM
-	composer update
+	valet composer update
 	npm-check -u
 
 .PHONY: watch
