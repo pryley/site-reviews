@@ -2,7 +2,8 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
-use GeminiLabs\League\Csv\Exception;
+use GeminiLabs\League\Csv\Exceptions\UnableToProcessCsv;
+use GeminiLabs\League\Csv\Info;
 use GeminiLabs\League\Csv\Reader;
 use GeminiLabs\League\Csv\Statement;
 use GeminiLabs\League\Csv\TabularDataReader;
@@ -87,10 +88,10 @@ class ImportReviews extends Upload implements Contract
     {
         $reader = Reader::createFromPath($this->file()->tmp_name);
         if (empty($this->delimiter)) {
-            $delimiters = \GeminiLabs\League\Csv\delimiter_detect($reader, [',',';']);
+            $delimiters = \GeminiLabs\League\Csv\Info::getDelimiterStats($reader, [',',';']);
             $delimiters = array_keys(array_filter($delimiters));
             if (1 !== count($delimiters)) {
-                throw new Exception('Cannot detect the delimiter used in the CSV file (supported delimiters are comma and semicolon).');
+                throw new UnableToProcessCsv('Cannot detect the delimiter used in the CSV file (supported delimiters are comma and semicolon).');
             }
             $this->delimiter = $delimiters[0];
         }
@@ -115,7 +116,7 @@ class ImportReviews extends Upload implements Contract
             $reader = $this->createReader();
             $header = array_map('trim', $reader->getHeader());
             if (!empty(array_diff(static::REQUIRED_KEYS, $header))) {
-                throw new Exception('The CSV import header is missing some of the required columns (or maybe you selected the wrong delimiter).');
+                throw new UnableToProcessCsv('The CSV import header is missing some of the required columns (or maybe you selected the wrong delimiter).');
             }
             $this->totalRecords = count($reader);
             $records = Statement::create()
@@ -124,7 +125,7 @@ class ImportReviews extends Upload implements Contract
                 })
                 ->process($reader, $header);
             return $this->importRecords($records);
-        } catch (Exception $e) {
+        } catch (UnableToProcessCsv $e) {
             if ('The header record must be an empty or a flat array with unique string values.' === $e->getMessage()) {
                 glsr(Notice::class)->addError('Site Reviews does not support UTF-16 encoded CSV files. Please save as UTF-8 and try again.');
             } else {

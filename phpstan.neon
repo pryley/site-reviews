@@ -45,5 +45,4 @@ parameters:
     - plugin
   reportUnmatchedIgnoredErrors: false
   scanFiles:
-    - vendors/thephpleague/csv/functions.php
     - vendors/woocommerce/action-scheduler/functions.php

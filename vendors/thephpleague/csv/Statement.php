@@ -1,7 +1,7 @@
 <?php
 
 /**
- * League.Csv (https://csv.thephpleague.com)
+ * League.Csv (https://csv.thephpleague.com).
  *
  * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
  *
@@ -13,51 +13,30 @@ namespace GeminiLabs\League\Csv;
 
 use ArrayIterator;
 use CallbackFilterIterator;
+use GeminiLabs\League\Csv\Exceptions\InvalidArgument;
 use Iterator;
 use LimitIterator;
-use function array_reduce;
 
 /**
  * Criteria to filter a {@link Reader} object.
  */
 class Statement
 {
-    /**
-     * Callables to filter the iterator.
-     *
-     * @var callable[]
-     */
+    /** @var array<callable> Callables to filter the iterator. */
     protected $where = [];
-
-    /**
-     * Callables to sort the iterator.
-     *
-     * @var callable[]
-     */
+    /** @var array<callable> Callables to sort the iterator. */
     protected $order_by = [];
-
-    /**
-     * iterator Offset.
-     *
-     * @var int
-     */
+    /** iterator Offset. */
     protected $offset = 0;
-
-    /**
-     * iterator maximum length.
-     *
-     * @var int
-     */
+    /** iterator maximum length. */
     protected $limit = -1;
 
     /**
-     * Named Constructor to ease Statement instantiation.
-     *
      * @param callable $where
      * @param int $offset
      * @param int $limit
-     * @return static
-     * @throws Exception
+     * @return self
+     * @throws UnableToProcessCsv
      */
     public static function create($where = null, $offset = 0, $limit = -1)
     {
@@ -71,9 +50,8 @@ class Statement
 
     /**
      * Set the Iterator filter method.
-     * 
      * @param callable $where
-     * @return static
+     * @return self
      */
     public function where($where)
     {
@@ -85,9 +63,8 @@ class Statement
 
     /**
      * Set an Iterator sorting callable function.
-     * 
      * @param callable $order_by
-     * @return static
+     * @return self
      */
     public function orderBy($order_by)
     {
@@ -101,13 +78,13 @@ class Statement
      * Set LimitIterator Offset.
      *
      * @param int $offset
-     * @return static
-     * @throws Exception if the offset is lesser than 0
+     * @return self
+     * @throws UnableToProcessCsv if the offset is lesser than 0
      */
     public function offset($offset)
     {
         if (0 > $offset) {
-            throw new InvalidArgument(sprintf('%s() expects the offset to be a positive integer or 0, %s given', __METHOD__, $offset));
+            throw InvalidArgument::dueToInvalidRecordOffset($offset, __METHOD__);
         }
 
         if ($offset === $this->offset) {
@@ -124,13 +101,13 @@ class Statement
      * Set LimitIterator Count.
      *
      * @param int $limit
-     * @return static
-     * @throws Exception if the limit is lesser than -1
+     * @return self
+     * @throws UnableToProcessCsv if the limit is lesser than -1
      */
     public function limit($limit)
     {
         if (-1 > $limit) {
-            throw new InvalidArgument(sprintf('%s() expects the limit to be greater or equal to -1, %s given', __METHOD__, $limit));
+            throw InvalidArgument::dueToInvalidLimit($limit, __METHOD__);
         }
 
         if ($limit === $this->limit) {
@@ -146,7 +123,7 @@ class Statement
     /**
      * Execute the prepared Statement on the {@link Reader} object.
      *
-     * @param string[] $header an optional header to use instead of the CSV document header
+     * @param array<string> $header an optional header to use instead of the CSV document header
      * @return TabularDataReader
      */
     public function process(TabularDataReader $tabular_data, array $header = [])
@@ -174,7 +151,6 @@ class Statement
 
     /**
      * Sort the Iterator.
-     * 
      * @return Iterator
      */
     protected function buildOrderBy(Iterator $iterator)

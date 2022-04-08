@@ -1,7 +1,7 @@
 <?php
 
 /**
- * League.Csv (https://csv.thephpleague.com)
+ * League.Csv (https://csv.thephpleague.com).
  *
  * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
  *
@@ -19,17 +19,12 @@ use Traversable;
  *
  * @internal used internally to modify CSV content
  */
-class MapIterator extends IteratorIterator
+final class MapIterator extends IteratorIterator
 {
-    /**
-     * The callback to apply on all InnerIterator current value.
-     *
-     * @var callable
-     */
-    protected $callable;
+    /** @var callable The callback to apply on all InnerIterator current value. */
+    private $callable;
 
     /**
-     * New instance.
      * @param callable $callable
      */
     public function __construct(Traversable $iterator, $callable)
@@ -39,10 +34,11 @@ class MapIterator extends IteratorIterator
     }
 
     /**
-     * @return mixed The value of the current element.
+     * @return mixed the value of the current element
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
-        return call_user_func($this->callable, parent::current(), $this->key());
+        return call_user_func($this->callable, parent::current(), parent::key());
     }
 }

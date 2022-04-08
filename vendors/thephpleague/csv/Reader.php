@@ -1,75 +1,39 @@
 <?php
 
 /**
- * League.Csv (https://csv.thephpleague.com)
+ * League.Csv (https://csv.thephpleague.com).
  *
  * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- * 
- * @package thephpleague/csv v9.6.1 (modified for PHP 5.6 compatibility)
  */
 
 namespace GeminiLabs\League\Csv;
 
 use CallbackFilterIterator;
+use GeminiLabs\League\Csv\Exceptions\InvalidArgument;
+use GeminiLabs\League\Csv\Exceptions\SyntaxError;
+use GeminiLabs\League\Csv\Polyfill\EmptyEscapeParser;
 use Iterator;
 use JsonSerializable;
-use GeminiLabs\League\Csv\Polyfill\EmptyEscapeParser;
 use SplFileObject;
-use function array_combine;
-use function array_filter;
-use function array_pad;
-use function array_slice;
-use function array_unique;
-use function count;
-use function is_array;
-use function iterator_count;
-use function iterator_to_array;
-use function mb_strlen;
-use function mb_substr;
-use function sprintf;
-use function strlen;
-use function substr;
-use const PHP_VERSION_ID;
-use const STREAM_FILTER_READ;
 
 /**
  * A class to parse and read records from a CSV document.
  */
 class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
 {
-    /**
-     * header offset.
-     *
-     * @var int|null
-     */
-    protected $header_offset;
+    const STREAM_FILTER_MODE = STREAM_FILTER_READ;
 
-    /**
-     * header record.
-     *
-     * @var string[]
-     */
-    protected $header = [];
-
-    /**
-     * records count.
-     *
-     * @var int
-     */
+    /** @var int|null */
+    protected $header_offset = null;
+    /** @var int */
     protected $nb_records = -1;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $stream_filter_mode = STREAM_FILTER_READ;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $is_empty_records_included = false;
+    /** @var array<string> header record. */
+    protected $header = [];
 
     /**
      * {@inheritdoc}
@@ -84,17 +48,13 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
      */
     protected function resetProperties()
     {
-        parent::resetProperties();
         $this->nb_records = -1;
         $this->header = [];
     }
 
     /**
      * Returns the header offset.
-     *
-     * If no CSV header offset is set this method MUST return null
-     *
-     * @return ?int
+     * @return int|null
      */
     public function getHeaderOffset()
     {
@@ -102,8 +62,8 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
     }
 
     /**
-     * {@inheritDoc}
-     */
+     * @return array
+2     */
     public function getHeader()
     {
         if (null === $this->header_offset) {
@@ -122,15 +82,16 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
     /**
      * Determine the CSV record header.
      *
+     * @throws UnableToProcessCsv If the header offset is set and no record is found or is the empty array
+     *
      * @param int $offset
-     * @return string[]
-     * @throws Exception If the header offset is set and no record is found or is the empty array
+     * @return array<string>
      */
     protected function setHeader($offset)
     {
         $header = $this->seekRow($offset);
         if (in_array($header, [[], [null]], true)) {
-            throw new SyntaxError(sprintf('The header record does not exist or is empty at offset: `%s`', $offset));
+            throw SyntaxError::dueToHeaderNotFound($offset);
         }
 
         if (0 !== $offset) {
@@ -139,7 +100,7 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
 
         $header = $this->removeBOM($header, mb_strlen($this->getInputBOM()), $this->enclosure);
         if ([''] === $header) {
-            throw new SyntaxError(sprintf('The header record does not exist or is empty at offset: `%s`', $offset));
+            throw SyntaxError::dueToHeaderNotFound($offset);
         }
 
         return $header;
@@ -147,9 +108,8 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
 
     /**
      * Returns the row at a given offset.
-     * 
      * @param int $offset
-     * @return array
+     * @return arrau
      */
     protected function seekRow($offset)
     {
@@ -164,7 +124,6 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
 
     /**
      * Returns the document as an Iterator.
-     * 
      * @return Iterator
      */
     protected function getDocument()
@@ -188,7 +147,8 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
      * @param string[] $record
      * @param int $bom_length
      * @param string $enclosure
-     * @return string[]
+     *
+     * @return array<string>
      */
     protected function removeBOM(array $record, $bom_length, $enclosure)
     {
@@ -207,7 +167,26 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $name
+     * @return Iterator
+     */
+    public function fetchColumnByName($name)
+    {
+        return ResultSet::createFromTabularDataReader($this)->fetchColumnByName($name);
+    }
+
+    /**
+     * @param int $offset
+     * @return Iterator
+     */
+    public function fetchColumnByOffset($offset = 0)
+    {
+        return ResultSet::createFromTabularDataReader($this)->fetchColumnByOffset($offset);
+    }
+
+    /**
+     * @param int $index
+     * @return Iterator
      */
     public function fetchColumn($index = 0)
     {
@@ -215,7 +194,8 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
     }
 
     /**
-     * {@inheritdoc}
+     * @param int $nth_record
+     * @return array
      */
     public function fetchOne($nth_record = 0)
     {
@@ -223,7 +203,9 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
     }
 
     /**
-     * {@inheritdoc}
+     * @param int $offset_index
+     * @param int $value_index
+     * @return Iterator
      */
     public function fetchPairs($offset_index = 0, $value_index = 1)
     {
@@ -231,7 +213,7 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
     }
 
     /**
-     * {@inheritdoc}
+     * @return int
      */
     public function count()
     {
@@ -243,7 +225,7 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
     }
 
     /**
-     * {@inheritdoc}
+     * @return Iterator
      */
     public function getIterator()
     {
@@ -251,7 +233,7 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public function jsonSerialize()
     {
@@ -259,7 +241,7 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
     }
 
     /**
-     * {@inheritDoc}
+     * @return Iterator
      */
     public function getRecords(array $header = [])
     {
@@ -282,15 +264,12 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
         }
 
         if ($this->is_empty_records_included) {
-            $normalized_empty_records = static function (array $record) {
-                if ([null] === $record) {
-                    return [];
+            return $this->combineHeader(new MapIterator(
+                $records,
+                function (array $record) {
+                    return ([null] === $record) ? [] : $record;
                 }
-
-                return $record;
-            };
-
-            return $this->combineHeader(new MapIterator($records, $normalized_empty_records), $header);
+            ), $header);
         }
 
         return $this->combineHeader($records, $header);
@@ -300,8 +279,10 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
      * Returns the header to be used for iteration.
      *
      * @param string[] $header
-     * @return string[]
-     * @throws Exception If the header contains non unique column name
+     *
+     * @throws UnableToProcessCsv If the header contains non unique column name
+     *
+     * @return array<string>
      */
     protected function computeHeader(array $header)
     {
@@ -309,11 +290,15 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
             $header = $this->getHeader();
         }
 
-        if ($header === array_unique(array_filter($header, 'is_string'))) {
-            return $header;
+        if ($header !== ($filtered_header = array_filter($header, 'is_string'))) {
+            throw SyntaxError::dueToInvalidHeaderColumnNames();
         }
 
-        throw new SyntaxError('The header record must be an empty or a flat array with unique string values.');
+        if ($header !== array_unique($filtered_header)) {
+            throw SyntaxError::dueToDuplicateHeaderColumnNames($header);
+        }
+
+        return $header;
     }
 
     /**
@@ -345,12 +330,10 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
 
     /**
      * Strip the BOM sequence from the returned records if necessary.
-     * 
-     * @param Iterator $iterator
      * @param string $bom
      * @return Iterator
      */
-    protected function stripBOM($iterator, $bom)
+    protected function stripBOM(Iterator $iterator, $bom)
     {
         if ('' === $bom) {
             return $iterator;
@@ -370,11 +353,12 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
             return $record;
         };
 
-        $filter = function (array $record) {
-            return $this->is_empty_records_included || $record != [null];
-        };
-
-        return new CallbackFilterIterator(new MapIterator($iterator, $mapper), $filter);
+        return new CallbackFilterIterator(
+            new MapIterator($iterator, $mapper),
+            function (array $record) {
+                return $this->is_empty_records_included || $record != [null];
+            }
+        );
     }
 
     /**
@@ -384,7 +368,9 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
      * a header MUST contain only unique string value.
      *
      * @param int|null $offset the header record offset
-     * @throws Exception if the offset is a negative integer
+     *
+     * @throws UnableToProcessCsv if the offset is a negative integer
+     *
      * @return static
      */
     public function setHeaderOffset($offset)
@@ -394,7 +380,7 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
         }
 
         if (null !== $offset && 0 > $offset) {
-            throw new InvalidArgument(__METHOD__.'() expects 1 Argument to be greater or equal to 0');
+            throw InvalidArgument::dueToInvalidHeaderOffset($offset, __METHOD__);
         }
 
         $this->header_offset = $offset;
@@ -405,8 +391,7 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
 
     /**
      * Enable skipping empty records.
-     * 
-     * @return static
+     * @return self
      */
     public function skipEmptyRecords()
     {
@@ -420,8 +405,7 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
 
     /**
      * Disable skipping empty records.
-     * 
-     * @return static
+     * @return self
      */
     public function includeEmptyRecords()
     {
@@ -435,7 +419,6 @@ class Reader extends AbstractCsv implements TabularDataReader, JsonSerializable
 
     /**
      * Tells whether empty records are skipped by the instance.
-     * 
      * @return bool
      */
     public function isEmptyRecordsIncluded()

@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace GeminiLabs\League\Csv;
+namespace GeminiLabs\League\Csv\Exceptions;
 
 /**
- * InvalidArgument Exception.
+ * League Csv Base Exception.
  */
-class InvalidArgument extends Exception
+class UnableToProcessCsv extends \Exception
 {
 }
