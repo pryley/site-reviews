@@ -9,7 +9,6 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use ReflectionClass;
-use Throwable;
 
 /**
  * @method static debug($message, $context = [])
@@ -244,7 +243,7 @@ class Console
      */
     protected function getMessageFromData($data)
     {
-        return $data instanceof Throwable
+        return ((interface_exists('Throwable') && $data instanceof \Throwable) || $data instanceof \Exception)
             ? $this->normalizeThrowableMessage($data->getMessage())
             : glsr(Dump::class)->dump($data);
     }

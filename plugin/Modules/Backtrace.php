@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Modules;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use Throwable;
 
 class Backtrace
 {
@@ -32,7 +31,7 @@ class Backtrace
      */
     public function lineFromData($data)
     {
-        $backtrace = $data instanceof Throwable
+        $backtrace = ((interface_exists('Throwable') && $data instanceof \Throwable) || $data instanceof \Exception)
             ? $data->getTrace()
             : debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
         return $this->buildLine($backtrace);
