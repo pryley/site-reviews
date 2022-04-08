@@ -49,6 +49,7 @@ class ValidationTest extends WP_Ajax_UnitTestCase
             'name' => '',
             'rating' => '',
             'terms' => '',
+            // 'terms_exist' => 1,
             'title' => '',
         ]);
         $this->messageFailed = 'The review submission failed. Please notify the site administrator.';

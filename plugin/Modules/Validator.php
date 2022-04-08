@@ -281,7 +281,7 @@ class Validator
                 ? explode('|', $rule)
                 : $rule;
             // unset rules if the attribute is not required and the value is an empty string
-            if (!in_array('required', $validationRules) && '' === $this->getValue($key)) {
+            if (empty(array_intersect(['accepted','required'], $validationRules)) && '' === $this->getValue($key)) {
                 $validationRules = [];
             }
             $rules[$key] = $validationRules;
