@@ -110,17 +110,17 @@ class Database
      */
     public function deleteInvalidPostAssignments()
     {
-        return $this->dbQuery(sprintf(
-            glsr(Query::class)->sql("
+        return $this->dbQuery(
+            glsr(Query::class)->sql(sprintf("
                 DELETE t
                 FROM %s AS t
                 LEFT JOIN %s AS r ON t.rating_id = r.ID
                 LEFT JOIN {$this->db->posts} AS f ON t.post_id = f.ID
                 WHERE (r.ID IS NULL OR f.ID IS NULL)
-            "),
+            ",
             glsr(Query::class)->table('assigned_posts'),
             glsr(Query::class)->table('ratings')
-        ));
+        )));
     }
 
     /**
@@ -128,16 +128,16 @@ class Database
      */
     public function deleteInvalidReviews()
     {
-        return $this->dbQuery(sprintf(
-            glsr(Query::class)->sql("
+        return $this->dbQuery(
+            glsr(Query::class)->sql(sprintf("
                 DELETE r
                 FROM %s AS r
                 LEFT JOIN {$this->db->posts} AS p ON r.review_id = p.ID
                 WHERE (p.post_type IS NULL OR p.post_type != '%s')
-            "),
+            ",
             glsr(Query::class)->table('ratings'),
             glsr()->post_type
-        ));
+        )));
     }
 
     /**
@@ -145,18 +145,18 @@ class Database
      */
     public function deleteInvalidTermAssignments()
     {
-        return $this->dbQuery(sprintf(
-            glsr(Query::class)->sql("
+        return $this->dbQuery(
+            glsr(Query::class)->sql(sprintf("
                 DELETE t
                 FROM %s AS t
                 LEFT JOIN %s AS r ON t.rating_id = r.ID
                 LEFT JOIN {$this->db->term_taxonomy} AS f ON t.term_id = f.term_id
                 WHERE (r.ID IS NULL OR f.term_id IS NULL) OR f.taxonomy != '%s'
-            "),
+            ",
             glsr(Query::class)->table('assigned_terms'),
             glsr(Query::class)->table('ratings'),
             glsr()->taxonomy
-        ));
+        )));
     }
 
     /**
@@ -164,17 +164,17 @@ class Database
      */
     public function deleteInvalidUserAssignments()
     {
-        return $this->dbQuery(sprintf(
-            glsr(Query::class)->sql("
+        return $this->dbQuery(
+            glsr(Query::class)->sql(sprintf("
                 DELETE t
                 FROM %s AS t
                 LEFT JOIN %s AS r ON t.rating_id = r.ID
                 LEFT JOIN {$this->db->users} AS f ON t.user_id = f.ID
                 WHERE (r.ID IS NULL OR f.ID IS NULL)
-            "),
+            ",
             glsr(Query::class)->table('assigned_users'),
             glsr(Query::class)->table('ratings')
-        ));
+        )));
     }
 
     /**
