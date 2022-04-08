@@ -142,9 +142,15 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
-= 5.22.3 (2022-04-04) =
+= 5.23.0 (2022-04-09) =
 
+- Added an "Export Reviews" tool
+- Fixed Rollback feature compatibility with other plugins which use the WordPress Upgrader
+- Fixed PHP 5.6 compatibility
+- Fixed the filter labels on the All Reviews page, they are now translatable
 - Fixed the star rating control when editing a review
+- Fixed validation for fields which are empty and not required
+- Optimised frontend javascript
 
 = 5.22.2 (2022-03-29) =
 
