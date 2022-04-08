@@ -992,7 +992,7 @@ msgctxt "admin-text"
 msgid "Restrict Limits To"
 msgstr ""
 
-#: config/settings.php:602, plugin/Metaboxes/AssignedPostsMetabox.php:20, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/screen/inline-edit.php:102
+#: config/settings.php:602, plugin/Metaboxes/AssignedPostsMetabox.php:20, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/screen/inline-edit.php:102, views/pages/tools/general/export-reviews.php:34
 msgctxt "admin-text"
 msgid "Assigned Posts"
 msgstr ""
@@ -1415,6 +1415,11 @@ msgstr ""
 #: plugin/Commands/EnqueueAdminAssets.php:134
 msgctxt "admin-text"
 msgid "Searching..."
+msgstr ""
+
+#: plugin/Commands/ExportReviews.php:31
+msgctxt "admin-text"
+msgid "No reviews found."
 msgstr ""
 
 #: plugin/Commands/ImportReviews.php:161
@@ -4009,11 +4014,6 @@ msgctxt "admin-text"
 msgid "Here you can export your reviews to a %s file. If you have assigned your reviews to pages and are planning to import them into a different website, you may need to export Post Assignments as %s since the Post IDs on the other website will likely be different."
 msgstr ""
 
-#: views/pages/tools/general/export-reviews.php:34
-msgctxt "admin-text"
-msgid "Post Assignments"
-msgstr ""
-
 #: views/pages/tools/general/export-reviews.php:36
 msgctxt "post_type:slug (admin-text)"
 msgid "Export as %s"
@@ -4021,7 +4021,7 @@ msgstr ""
 
 #: views/pages/tools/general/export-reviews.php:37
 msgctxt "admin-text"
-msgid "Export Post IDs"
+msgid "Export as Post IDs"
 msgstr ""
 
 #: views/pages/tools/general/export-settings.php:6, views/pages/tools/general/export-settings.php:20

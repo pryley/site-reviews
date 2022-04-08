@@ -1425,7 +1425,7 @@ msgctxt "admin-text"
 msgid "Restrict Limits To"
 msgstr "Restrict Limits To"
 
-#: config/settings.php:602, plugin/Metaboxes/AssignedPostsMetabox.php:20, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/screen/inline-edit.php:102
+#: config/settings.php:602, plugin/Metaboxes/AssignedPostsMetabox.php:20, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/screen/inline-edit.php:102, views/pages/tools/general/export-reviews.php:34
 msgctxt "admin-text"
 msgid "Assigned Posts"
 msgstr "Assigned Posts"
@@ -1847,6 +1847,11 @@ msgstr "Rollback failed"
 msgctxt "admin-text"
 msgid "Searching..."
 msgstr "Searching..."
+
+#: plugin/Commands/ExportReviews.php:31
+msgctxt "admin-text"
+msgid "No reviews found."
+msgstr "No reviews found."
 
 #: plugin/Commands/ImportReviews.php:161
 msgctxt "admin-text"
@@ -4060,15 +4065,10 @@ msgstr ""
 "you may need to export Post Assignments as %s since the Post IDs on the "
 "other website will likely be different."
 
-#: views/pages/tools/general/export-reviews.php:34
-msgctxt "admin-text"
-msgid "Post Assignments"
-msgstr "Post Assignments"
-
 #: views/pages/tools/general/export-reviews.php:37
 msgctxt "admin-text"
-msgid "Export Post IDs"
-msgstr "Export Post IDs"
+msgid "Export as Post IDs"
+msgstr "Export as Post IDs"
 
 #: views/pages/tools/general/export-settings.php:6, views/pages/tools/general/export-settings.php:20
 msgctxt "admin-text"

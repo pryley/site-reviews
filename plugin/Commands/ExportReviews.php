@@ -26,27 +26,41 @@ class ExportReviews implements Contract
      */
     public function handle()
     {
-        if ('slug' === $this->assigned_posts) {
-            $results = glsr(Export::class)->export();
-        } else {
-            $results = glsr(Export::class)->exportWithIds();
+        $reviews = $this->results();
+        if (empty($reviews)) {
+            glsr(Notice::class)->addWarning(_x('No reviews found.', 'admin-text', 'site-reviews'));
+            return;
         }
         try {
+            $filename = sprintf('%s_%s.csv', date('YmdHi'), glsr()->id);
             $writer = Writer::createFromString('');
-            $writer->insertAll($results);
+            $writer->insertOne(array_keys($reviews[0]));
+            $writer->insertAll($reviews);
+            nocache_headers();
+            $writer->output($filename);
+            exit;
         } catch (CannotInsertRecord $e) {
             glsr(Notice::class)->addError($e->getMessage());
             glsr_log()
                 ->warning('Unable to insert row into CSV export file')
                 ->debug($e->getRecord());
-            return;
         }
-        $filename = sprintf('%s_%s.csv', date('YmdHi'), glsr()->id);
-        nocache_headers();
-        header('Content-Type: text/csv');
-        header('Content-Transfer-Encoding: binary');
-        header('Content-Disposition: attachment; filename="'.$filename.'"');
-        echo $writer->toString();
-        exit;
+    }
+
+    /**
+     * @return array
+     */
+    public function results()
+    {
+        if ('id' === $this->assigned_posts) {
+            $results = glsr(Export::class)->export();
+        }
+        if ('slug' === $this->assigned_posts) {
+            $results = glsr(Export::class)->exportWithSlugs();
+        }
+        if (empty($results)) {
+            return [];
+        }
+        return $results;
     }
 }

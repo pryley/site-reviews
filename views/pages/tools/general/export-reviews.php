@@ -31,10 +31,10 @@
             <?php wp_nonce_field('export-reviews'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="export-reviews">
             <p>
-                <label for="export_assigned_posts"><strong><?= _x('Post Assignments', 'admin-text', 'site-reviews'); ?></strong></label><br>
+                <label for="export_assigned_posts"><strong><?= _x('Assigned Posts', 'admin-text', 'site-reviews'); ?></strong></label><br>
                 <select name="{{ id }}[assigned_posts]" id="export_assigned_posts">
+                    <option value="id" selected><?= _x('Export as Post IDs', 'admin-text', 'site-reviews'); ?></option>
                     <option value="slug"><?= sprintf(_x('Export as %s', 'post_type:slug (admin-text)', 'site-reviews'), 'post_type:slug'); ?></option>
-                    <option value="id" selected><?= _x('Export Post IDs', 'admin-text', 'site-reviews'); ?></option>
                 </select>
             </p>
             <button type="submit" class="components-button is-secondary" id="export-reviews">
