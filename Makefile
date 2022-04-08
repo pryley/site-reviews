@@ -5,6 +5,7 @@ analyse: ## Run phpstan analyser
 .PHONY: build
 build: ## Build all assets and languages
 	npm run build
+	npx rollup -c
 
 .PHONY: db
 db: ## Open the database in TablePlus
