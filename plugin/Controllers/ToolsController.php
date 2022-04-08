@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\ChangeLogLevel;
+use GeminiLabs\SiteReviews\Commands\ExportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportSettings;
 use GeminiLabs\SiteReviews\Database;
@@ -154,6 +155,15 @@ class ToolsController extends Controller
     public function downloadSystemInfo()
     {
         $this->download(glsr()->id.'-system-info.txt', glsr(SystemInfo::class)->get());
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/admin/export-reviews
+     */
+    public function exportReviews(Request $request)
+    {
+        $this->execute(new ExportReviews($request));
     }
 
     /**

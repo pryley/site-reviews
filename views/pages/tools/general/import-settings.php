@@ -3,18 +3,15 @@
 <div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="tools-import-plugin-settings">
-            <span class="title dashicons-before dashicons-admin-tools"><?= _x('Import Plugin Settings', 'admin-text', 'site-reviews'); ?></span>
+            <span class="title dashicons-before dashicons-admin-tools"><?= _x('Import Settings', 'admin-text', 'site-reviews'); ?></span>
             <span class="icon"></span>
         </button>
     </h3>
     <div id="tools-import-plugin-settings" class="inside">
         <p><?= sprintf(
-            _x('Import the Site Reviews settings from a %s file. This file can be obtained by exporting the settings on another site using the export tool below.', 'admin-text', 'site-reviews'),
-            '<code>*.json</code>'
-        ); ?></p>
-        <p><?= sprintf(
-            _x('To import your reviews and categories from another website, please use the WordPress %s tool.', 'admin-text', 'site-reviews'),
-            sprintf('<a href="%s">%s</a>', admin_url('import.php'), _x('Import', 'admin-text', 'site-reviews'))
+            _x('Import the Site Reviews settings from a %s file. You can use the the %sExport Settings%s tool to export these settings from another website.', 'admin-text', 'site-reviews'),
+            '<code>*.json</code>',
+            '<a data-expand="#tools-export-plugin-settings" href="'.glsr_admin_url('tools', 'general').'">', '</a>'
         ); ?></p>
         <form method="post" enctype="multipart/form-data" onsubmit="submit.disabled = true;">
             <?php wp_nonce_field('import-settings'); ?>

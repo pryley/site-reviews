@@ -1,0 +1,45 @@
+<?php glsr()->hasPermission('settings') || die; ?>
+
+<div class="glsr-card postbox">
+    <h3 class="glsr-card-heading">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="tools-export-reviews">
+            <span class="title dashicons-before dashicons-admin-tools"><?= _x('Export Reviews', 'admin-text', 'site-reviews'); ?></span>
+            <span class="icon"></span>
+        </button>
+    </h3>
+    <div id="tools-export-reviews" class="inside">
+        <div class="glsr-notice-inline components-notice is-warning">
+            <p class="components-notice__content">
+                <?= _x('This tool does not yet support custom fields!', 'admin-text', 'site-reviews'); ?>
+            </p>
+        </div>
+        <div class="glsr-notice-inline components-notice is-info">
+            <p class="components-notice__content">
+                <?= sprintf(
+                    _x('You can also use the WordPress %s and %s tools to export and import your reviews and categories.', 'admin-text', 'site-reviews'),
+                    sprintf('<a href="%s">%s</a>', admin_url('export.php'), _x('Export', 'admin-text', 'site-reviews')),
+                    sprintf('<a href="%s">%s</a>', admin_url('import.php'), _x('Import', 'admin-text', 'site-reviews'))
+                ); ?>
+            </p>
+        </div>
+        <p><?= sprintf(
+            _x('Here you can export your reviews to a %s file. If you have assigned your reviews to pages and are planning to import them into a different website, you may need to export Post Assignments as %s since the Post IDs on the other website will likely be different.', 'admin-text', 'site-reviews'),
+            '<code>*.csv</code>',
+            '<code>post_type:slug</code>'
+        ); ?></p>
+        <form method="post">
+            <?php wp_nonce_field('export-reviews'); ?>
+            <input type="hidden" name="{{ id }}[_action]" value="export-reviews">
+            <p>
+                <label for="export_assigned_posts"><strong><?= _x('Post Assignments', 'admin-text', 'site-reviews'); ?></strong></label><br>
+                <select name="{{ id }}[assigned_posts]" id="export_assigned_posts">
+                    <option value="slug"><?= sprintf(_x('Export as %s', 'post_type:slug (admin-text)', 'site-reviews'), 'post_type:slug'); ?></option>
+                    <option value="id" selected><?= _x('Export Post IDs', 'admin-text', 'site-reviews'); ?></option>
+                </select>
+            </p>
+            <button type="submit" class="components-button is-secondary" id="export-reviews">
+                <?= _x('Export Reviews', 'admin-text', 'site-reviews'); ?>
+            </button>
+        </form>
+    </div>
+</div>

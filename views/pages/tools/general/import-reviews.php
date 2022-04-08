@@ -3,7 +3,7 @@
 <div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="tools-import-reviews">
-            <span class="title dashicons-before dashicons-admin-tools"><?= _x('Import Third Party Reviews', 'admin-text', 'site-reviews'); ?></span>
+            <span class="title dashicons-before dashicons-admin-tools"><?= _x('Import Reviews', 'admin-text', 'site-reviews'); ?></span>
             <span class="icon"></span>
         </button>
     </h3>
@@ -14,9 +14,18 @@
                 '<a href="https://wordpress.org/plugins/updraftplus/">UpdraftPlus</a>'
             ); ?></p>
         </div>
+        <div class="glsr-notice-inline components-notice is-info">
+            <p class="components-notice__content">
+                <?= sprintf(
+                    _x('You can also use the WordPress %s and %s tools to export and import your reviews and categories.', 'admin-text', 'site-reviews'),
+                    sprintf('<a href="%s">%s</a>', admin_url('export.php'), _x('Export', 'admin-text', 'site-reviews')),
+                    sprintf('<a href="%s">%s</a>', admin_url('import.php'), _x('Import', 'admin-text', 'site-reviews'))
+                ); ?>
+            </p>
+        </div>
         <p><?= sprintf(
             _x('Here you can import third party reviews from a %s file. The CSV file should include a header row and may contain the following columns:', 'admin-text', 'site-reviews'),
-            '<code>*.CSV</code>'
+            '<code>*.csv</code>'
         ); ?></p>
         <p>
             <code>assigned_posts</code> <?= _x('The Posts that the review is assigned to (separate multiple IDs with a comma)', 'admin-text', 'site-reviews'); ?><br>

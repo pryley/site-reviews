@@ -22,6 +22,7 @@ class ToolsHooks extends AbstractHooks
             ['detectIpAddressAjax', 'site-reviews/route/ajax/detect-ip-address'],
             ['downloadConsole', 'site-reviews/route/admin/download-console'],
             ['downloadSystemInfo', 'site-reviews/route/admin/download-system-info'],
+            ['exportReviews', 'site-reviews/route/admin/export-reviews'],
             ['exportSettings', 'site-reviews/route/admin/export-settings'],
             ['fetchConsole', 'site-reviews/route/admin/fetch-console'],
             ['fetchConsoleAjax', 'site-reviews/route/ajax/fetch-console'],

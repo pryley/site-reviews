@@ -3,18 +3,15 @@
 <div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="tools-export-plugin-settings">
-            <span class="title dashicons-before dashicons-admin-tools"><?= _x('Export Plugin Settings', 'admin-text', 'site-reviews'); ?></span>
+            <span class="title dashicons-before dashicons-admin-tools"><?= _x('Export Settings', 'admin-text', 'site-reviews'); ?></span>
             <span class="icon"></span>
         </button>
     </h3>
     <div id="tools-export-plugin-settings" class="inside">
         <p><?= sprintf(
-            _x('Export the Site Reviews settings for this site to a %s file. This allows you to easily import the plugin settings into another site.', 'admin-text', 'site-reviews'),
-            '<code>*.json</code>'
-        ); ?></p>
-        <p><?= sprintf(
-            _x('To export your reviews and categories, please use the WordPress %s tool.', 'admin-text', 'site-reviews'),
-            sprintf('<a href="%s">%s</a>', admin_url('export.php'), _x('Export', 'admin-text', 'site-reviews'))
+            _x('Export the Site Reviews settings to a %s file. You can use the the %sImport Settings%s tool to import this file on another website.', 'admin-text', 'site-reviews'),
+            '<code>*.json</code>',
+            '<a data-expand="#tools-import-plugin-settings" href="'.glsr_admin_url('tools', 'general').'">', '</a>'
         ); ?></p>
         <form method="post">
             <?php wp_nonce_field('export-settings'); ?>
