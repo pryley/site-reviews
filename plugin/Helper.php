@@ -324,7 +324,7 @@ class Helper
      */
     public static function remoteStatusCheck($url, $maxRedirects = 0)
     {
-        $headers = get_headers($url, 0, stream_context_create([
+        $headers = @get_headers($url, 0, stream_context_create([ // PHP 5.6 does not support $context
             'http' => [
                 'ignore_errors' => 1,
                 'max_redirects' => $maxRedirects,
