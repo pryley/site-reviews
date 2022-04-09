@@ -9,10 +9,13 @@
     </h3>
     <div id="tools-import-reviews" class="inside">
         <div class="glsr-notice-inline components-notice is-warning">
-            <p class="components-notice__content"><?= sprintf(
-                _x('Please backup your database before running this tool! You can use the %s plugin to do this.', 'admin-text', 'site-reviews'),
-                '<a href="https://wordpress.org/plugins/updraftplus/">UpdraftPlus</a>'
-            ); ?></p>
+            <p class="components-notice__content">
+                <?= sprintf(
+                    _x('Please backup your database before running this tool! You can use the %s plugin to do this.', 'admin-text', 'site-reviews'),
+                    '<a href="https://wordpress.org/plugins/updraftplus/">UpdraftPlus</a>'
+                ); ?>
+                <?= _x('Any entry in the CSV file that does not contain a required column value will be skipped.', 'admin-text', 'site-reviews'); ?>
+            </p>
         </div>
         <div class="glsr-notice-inline components-notice is-info">
             <p class="components-notice__content">
@@ -27,25 +30,99 @@
             _x('Here you can import third party reviews from a %s file. The CSV file should include a header row and may contain the following columns:', 'admin-text', 'site-reviews'),
             '<code>*.csv</code>'
         ); ?></p>
-        <p>
-            <code>assigned_posts</code> <?= _x('The Posts that the review is assigned to (separate multiple IDs with a comma)', 'admin-text', 'site-reviews'); ?><br>
-            <code>assigned_terms</code> <?= _x('The Categories that the review is assigned to (separate multiple IDs with a comma)', 'admin-text', 'site-reviews'); ?><br>
-            <code>assigned_users</code> <?= _x('The Users that the review is assigned to (separate multiple IDs with a comma)', 'admin-text', 'site-reviews'); ?><br>
-            <code>author_id</code> <?= _x('The User ID of the reviewer', 'admin-text', 'site-reviews'); ?><br>
-            <code>avatar</code> <?= _x('The avatar URL of the reviewer', 'admin-text', 'site-reviews'); ?><br>
-            <code>content</code> <?= sprintf('%s (<span class="required">%s</span>)', _x('The review', 'admin-text', 'site-reviews'), _x('required', 'admin-text', 'site-reviews')); ?><br>
-            <code>date</code> <?= sprintf('%s (<span class="required">%s</span>)', _x('The review date', 'admin-text', 'site-reviews'), _x('required', 'admin-text', 'site-reviews')); ?><br>
-            <code>email</code> <?= _x('The reviewer\'s email', 'admin-text', 'site-reviews'); ?><br>
-            <code>ip_address</code> <?= _x('The IP address of the reviewer', 'admin-text', 'site-reviews'); ?><br>
-            <code>is_approved</code> <?= _x('TRUE or FALSE', 'admin-text', 'site-reviews'); ?><br>
-            <code>is_pinned</code> <?= _x('TRUE or FALSE', 'admin-text', 'site-reviews'); ?><br>
-            <code>name</code> <?= _x('The reviewer\'s name', 'admin-text', 'site-reviews'); ?><br>
-            <code>rating</code> <?= sprintf('%s (<span class="required">%s</span>)', sprintf(_x('A number from 0-%d', 'admin-text', 'site-reviews'), glsr()->constant('MAX_RATING', 'GeminiLabs\SiteReviews\Modules\Rating')), _x('required', 'admin-text', 'site-reviews')); ?><br>
-            <code>response</code> <?= _x('The review response', 'admin-text', 'site-reviews'); ?><br>
-            <code>terms</code> <?= _x('TRUE or FALSE', 'admin-text', 'site-reviews'); ?><br>
-            <code>title</code> <?= _x('The title of the review', 'admin-text', 'site-reviews'); ?><br>
-        </p>
-        <p><?= _x('Entries in the CSV file that do not contain required values will be skipped.', 'admin-text', 'site-reviews'); ?></p>
+        <div class="glsr-responsive-table">
+            <table class="wp-list-table widefat striped">
+                <thead>
+                    <tr>
+                        <th scope="col"><strong>Column</strong></th>
+                        <th scope="col"><strong>Required</strong></th>
+                        <th scope="col"><strong>Description</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>assigned_posts</strong></td>
+                        <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('The Posts that the review is assigned to (separate multiple IDs with a comma)', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>assigned_terms</strong></td>
+                        <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('The Categories that the review is assigned to (separate multiple IDs with a comma)', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>assigned_users</strong></td>
+                        <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('The Users that the review is assigned to (separate multiple IDs with a comma)', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>author_id</strong></td>
+                        <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('The User ID of the reviewer', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>avatar</strong></td>
+                        <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('The avatar URL of the reviewer', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>content</strong></td>
+                        <td><span class="glsr-tag glsr-tag-required"><?= _x('Yes', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('The review', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>date</strong></td>
+                        <td><span class="glsr-tag glsr-tag-required"><?= _x('Yes', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('The review date', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>email</strong></td>
+                        <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('The reviewer\'s email', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>ip_address</strong></td>
+                        <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('The IP address of the reviewer', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>is_approved</strong></td>
+                        <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('TRUE or FALSE', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>is_pinned</strong></td>
+                        <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('TRUE or FALSE', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>name</strong></td>
+                        <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('The reviewer\'s name', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>rating</strong></td>
+                        <td><span class="glsr-tag glsr-tag-required"><?= _x('Yes', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= sprintf(_x('A number from 0-%d', 'admin-text', 'site-reviews'), glsr()->constant('MAX_RATING', 'GeminiLabs\SiteReviews\Modules\Rating')); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>response</strong></td>
+                        <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('The review response', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>terms</strong></td>
+                        <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('TRUE or FALSE', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>title</strong></td>
+                        <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('The title of the review', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <form method="post" enctype="multipart/form-data" onsubmit="submit.classList.add('is-busy'); submit.disabled = true;">
             <?php wp_nonce_field('import-reviews'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="import-reviews">

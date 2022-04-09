@@ -824,7 +824,7 @@ msgstr ""
 "href=\"https://api.slack.com/docs/attachments\">Message Attachments</a> "
 "have been disabled."
 
-#: config/settings.php:169, views/pages/tools/general/import-reviews.php:64
+#: config/settings.php:169, views/pages/tools/general/import-reviews.php:141
 msgctxt "admin-text"
 msgid "Date Format"
 msgstr "Date Format"
@@ -2113,12 +2113,12 @@ msgctxt "admin-text"
 msgid "System Info"
 msgstr "System Info"
 
-#: plugin/Controllers/MetaboxController.php:62, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17, plugin/Integrations/Elementor/ElementorReviewsWidget.php:85
+#: plugin/Controllers/MetaboxController.php:62, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17, plugin/Integrations/Elementor/ElementorReviewsWidget.php:85, views/pages/tools/general/import-reviews.php:45, views/pages/tools/general/import-reviews.php:50, views/pages/tools/general/import-reviews.php:55, views/pages/tools/general/import-reviews.php:60, views/pages/tools/general/import-reviews.php:65, views/pages/tools/general/import-reviews.php:80, views/pages/tools/general/import-reviews.php:85, views/pages/tools/general/import-reviews.php:90, views/pages/tools/general/import-reviews.php:95, views/pages/tools/general/import-reviews.php:100, views/pages/tools/general/import-reviews.php:110, views/pages/tools/general/import-reviews.php:115, views/pages/tools/general/import-reviews.php:120
 msgctxt "admin-text"
 msgid "No"
 msgstr "No"
 
-#: plugin/Controllers/MetaboxController.php:63, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:18
+#: plugin/Controllers/MetaboxController.php:63, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:18, views/pages/tools/general/import-reviews.php:70, views/pages/tools/general/import-reviews.php:75, views/pages/tools/general/import-reviews.php:105
 msgctxt "admin-text"
 msgid "Yes"
 msgstr "Yes"
@@ -4033,7 +4033,7 @@ msgctxt "admin-text"
 msgid "This tool does not yet support custom fields!"
 msgstr "This tool does not yet support custom fields!"
 
-#: views/pages/tools/general/export-reviews.php:19, views/pages/tools/general/import-reviews.php:20
+#: views/pages/tools/general/export-reviews.php:19, views/pages/tools/general/import-reviews.php:23
 msgctxt "admin-text"
 msgid ""
 "You can also use the WordPress %s and %s tools to export and import your "
@@ -4042,12 +4042,12 @@ msgstr ""
 "You can also use the WordPress %s and %s tools to export and import your "
 "reviews and categories."
 
-#: views/pages/tools/general/export-reviews.php:20, views/pages/tools/general/import-reviews.php:21
+#: views/pages/tools/general/export-reviews.php:20, views/pages/tools/general/import-reviews.php:24
 msgctxt "admin-text"
 msgid "Export"
 msgstr "Export"
 
-#: views/pages/tools/general/export-reviews.php:21, views/pages/tools/general/import-reviews.php:22
+#: views/pages/tools/general/export-reviews.php:21, views/pages/tools/general/import-reviews.php:25
 msgctxt "admin-text"
 msgid "Import"
 msgstr "Import"
@@ -4057,15 +4057,15 @@ msgctxt "admin-text"
 msgid ""
 "Here you can export your reviews to a %s file. If you have assigned your "
 "reviews to pages and are planning to import them into a different website, "
-"you may need to export Post Assignments as %s since the Post IDs on the "
+"you may need to export the Assigned Posts as %s since the Post IDs on the "
 "other website will likely be different."
 msgstr ""
 "Here you can export your reviews to a %s file. If you have assigned your "
 "reviews to pages and are planning to import them into a different website, "
-"you may need to export Post Assignments as %s since the Post IDs on the "
+"you may need to export the Assigned Posts as %s since the Post IDs on the "
 "other website will likely be different."
 
-#: views/pages/tools/general/export-reviews.php:37
+#: views/pages/tools/general/export-reviews.php:36
 msgctxt "admin-text"
 msgid "Export as Post IDs"
 msgstr "Export as Post IDs"
@@ -4078,18 +4078,18 @@ msgstr "Export Settings"
 #: views/pages/tools/general/export-settings.php:12
 msgctxt "admin-text"
 msgid ""
-"Export the Site Reviews settings to a %s file. You can use the the %sImport "
-"Settings%s tool to import this file on another website."
+"Here you can export your Site Reviews settings to a %s file. You can use "
+"the the %sImport Settings%s tool to import the settings on another website."
 msgstr ""
-"Export the Site Reviews settings to a %s file. You can use the the %sImport "
-"Settings%s tool to import this file on another website."
+"Here you can export your Site Reviews settings to a %s file. You can use "
+"the the %sImport Settings%s tool to import the settings on another website."
 
-#: views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:88
+#: views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:165
 msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr "Import Reviews"
 
-#: views/pages/tools/general/import-reviews.php:13, views/pages/tools/general/optimise-db-tables.php:14
+#: views/pages/tools/general/import-reviews.php:14, views/pages/tools/general/optimise-db-tables.php:14
 msgctxt "admin-text"
 msgid ""
 "Please backup your database before running this tool! You can use the %s "
@@ -4098,7 +4098,16 @@ msgstr ""
 "Please backup your database before running this tool! You can use the %s "
 "plugin to do this."
 
-#: views/pages/tools/general/import-reviews.php:27
+#: views/pages/tools/general/import-reviews.php:17
+msgctxt "admin-text"
+msgid ""
+"Any entry in the CSV file that does not contain a required column value "
+"will be skipped."
+msgstr ""
+"Any entry in the CSV file that does not contain a required column value "
+"will be skipped."
+
+#: views/pages/tools/general/import-reviews.php:30
 msgctxt "admin-text"
 msgid ""
 "Here you can import third party reviews from a %s file. The CSV file should "
@@ -4107,7 +4116,7 @@ msgstr ""
 "Here you can import third party reviews from a %s file. The CSV file should "
 "include a header row and may contain the following columns:"
 
-#: views/pages/tools/general/import-reviews.php:31
+#: views/pages/tools/general/import-reviews.php:46
 msgctxt "admin-text"
 msgid ""
 "The Posts that the review is assigned to (separate multiple IDs with a "
@@ -4116,7 +4125,7 @@ msgstr ""
 "The Posts that the review is assigned to (separate multiple IDs with a "
 "comma)"
 
-#: views/pages/tools/general/import-reviews.php:32
+#: views/pages/tools/general/import-reviews.php:51
 msgctxt "admin-text"
 msgid ""
 "The Categories that the review is assigned to (separate multiple IDs with a "
@@ -4125,7 +4134,7 @@ msgstr ""
 "The Categories that the review is assigned to (separate multiple IDs with a "
 "comma)"
 
-#: views/pages/tools/general/import-reviews.php:33
+#: views/pages/tools/general/import-reviews.php:56
 msgctxt "admin-text"
 msgid ""
 "The Users that the review is assigned to (separate multiple IDs with a "
@@ -4134,97 +4143,87 @@ msgstr ""
 "The Users that the review is assigned to (separate multiple IDs with a "
 "comma)"
 
-#: views/pages/tools/general/import-reviews.php:34
+#: views/pages/tools/general/import-reviews.php:61
 msgctxt "admin-text"
 msgid "The User ID of the reviewer"
 msgstr "The User ID of the reviewer"
 
-#: views/pages/tools/general/import-reviews.php:35
+#: views/pages/tools/general/import-reviews.php:66
 msgctxt "admin-text"
 msgid "The avatar URL of the reviewer"
 msgstr "The avatar URL of the reviewer"
 
-#: views/pages/tools/general/import-reviews.php:36
+#: views/pages/tools/general/import-reviews.php:71
 msgctxt "admin-text"
 msgid "The review"
 msgstr "The review"
 
-#: views/pages/tools/general/import-reviews.php:36, views/pages/tools/general/import-reviews.php:37, views/pages/tools/general/import-reviews.php:43
-msgctxt "admin-text"
-msgid "required"
-msgstr "required"
-
-#: views/pages/tools/general/import-reviews.php:37
+#: views/pages/tools/general/import-reviews.php:76
 msgctxt "admin-text"
 msgid "The review date"
 msgstr "The review date"
 
-#: views/pages/tools/general/import-reviews.php:38
+#: views/pages/tools/general/import-reviews.php:81
 msgctxt "admin-text"
 msgid "The reviewer's email"
 msgstr "The reviewer's email"
 
-#: views/pages/tools/general/import-reviews.php:39
+#: views/pages/tools/general/import-reviews.php:86
 msgctxt "admin-text"
 msgid "The IP address of the reviewer"
 msgstr "The IP address of the reviewer"
 
-#: views/pages/tools/general/import-reviews.php:40, views/pages/tools/general/import-reviews.php:41, views/pages/tools/general/import-reviews.php:45
+#: views/pages/tools/general/import-reviews.php:91, views/pages/tools/general/import-reviews.php:96, views/pages/tools/general/import-reviews.php:116
 msgctxt "admin-text"
 msgid "TRUE or FALSE"
 msgstr "TRUE or FALSE"
 
-#: views/pages/tools/general/import-reviews.php:42
+#: views/pages/tools/general/import-reviews.php:101
 msgctxt "admin-text"
 msgid "The reviewer's name"
 msgstr "The reviewer's name"
 
-#: views/pages/tools/general/import-reviews.php:43
+#: views/pages/tools/general/import-reviews.php:106
 msgctxt "admin-text"
 msgid "A number from 0-%d"
 msgstr "A number from 0-%d"
 
-#: views/pages/tools/general/import-reviews.php:44
+#: views/pages/tools/general/import-reviews.php:111
 msgctxt "admin-text"
 msgid "The review response"
 msgstr "The review response"
 
-#: views/pages/tools/general/import-reviews.php:46
+#: views/pages/tools/general/import-reviews.php:121
 msgctxt "admin-text"
 msgid "The title of the review"
 msgstr "The title of the review"
 
-#: views/pages/tools/general/import-reviews.php:48
-msgctxt "admin-text"
-msgid "Entries in the CSV file that do not contain required values will be skipped."
-msgstr "Entries in the CSV file that do not contain required values will be skipped."
-
-#: views/pages/tools/general/import-reviews.php:56
+#: views/pages/tools/general/import-reviews.php:133
 msgctxt "admin-text"
 msgid "Delimiter"
 msgstr "Delimiter"
 
-#: views/pages/tools/general/import-reviews.php:58
+#: views/pages/tools/general/import-reviews.php:135
 msgctxt "admin-text"
 msgid "Detect automatically"
 msgstr "Detect automatically"
 
-#: views/pages/tools/general/import-reviews.php:59
+#: views/pages/tools/general/import-reviews.php:136
 msgctxt "admin-text"
 msgid "Comma (,)"
 msgstr "Comma (,)"
 
-#: views/pages/tools/general/import-reviews.php:60
+#: views/pages/tools/general/import-reviews.php:137
 msgctxt "admin-text"
 msgid "Semicolon (;)"
 msgstr "Semicolon (;)"
 
-#: views/pages/tools/general/import-reviews.php:66
+#: views/pages/tools/general/import-reviews.php:143
 msgctxt "admin-text"
 msgid "Select the date format used in the reviews"
 msgstr "Select the date format used in the reviews"
 
-#: views/pages/tools/general/import-reviews.php:88
+#: views/pages/tools/general/import-reviews.php:165
 msgctxt "admin-text"
 msgid "Importing reviews, please wait..."
 msgstr "Importing reviews, please wait..."
@@ -4237,11 +4236,13 @@ msgstr "Import Settings"
 #: views/pages/tools/general/import-settings.php:12
 msgctxt "admin-text"
 msgid ""
-"Import the Site Reviews settings from a %s file. You can use the the "
-"%sExport Settings%s tool to export these settings from another website."
+"Here you can import the Site Reviews settings from a %s file. You can use "
+"the the %sExport Settings%s tool to export these settings from another "
+"website."
 msgstr ""
-"Import the Site Reviews settings from a %s file. You can use the the "
-"%sExport Settings%s tool to export these settings from another website."
+"Here you can import the Site Reviews settings from a %s file. You can use "
+"the the %sExport Settings%s tool to export these settings from another "
+"website."
 
 #: views/pages/tools/general/import-settings.php:23
 msgctxt "admin-text"
@@ -5080,7 +5081,7 @@ msgid_plural "{rating} out of {max} stars (based on {num} reviews)"
 msgstr[0] "{rating} out of {max} stars (based on {num} review)"
 msgstr[1] "{rating} out of {max} stars (based on {num} reviews)"
 
-#: views/pages/tools/general/export-reviews.php:36
+#: views/pages/tools/general/export-reviews.php:37
 msgctxt "post_type:slug (admin-text)"
 msgid "Export as %s"
 msgstr "Export as %s"

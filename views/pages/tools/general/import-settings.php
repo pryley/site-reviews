@@ -9,7 +9,7 @@
     </h3>
     <div id="tools-import-plugin-settings" class="inside">
         <p><?= sprintf(
-            _x('Import the Site Reviews settings from a %s file. You can use the the %sExport Settings%s tool to export these settings from another website.', 'admin-text', 'site-reviews'),
+            _x('Here you can import the Site Reviews settings from a %s file. You can use the the %sExport Settings%s tool to export these settings from another website.', 'admin-text', 'site-reviews'),
             '<code>*.json</code>',
             '<a data-expand="#tools-export-plugin-settings" href="'.glsr_admin_url('tools', 'general').'">', '</a>'
         ); ?></p>

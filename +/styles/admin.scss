@@ -38,6 +38,23 @@
     content: "\f459";
 }
 
+.glsr-tag {
+    background-color: #dcdcde;
+    border-radius: 3px;
+    color: #3c434a;
+    display: inline-block;
+    font-size: 11px;
+    line-height: 1;
+    margin-top: -1px;
+    margin-bottom: -1px;
+    padding: 4px 6px;
+    text-transform: uppercase;
+}
+.glsr-tag.glsr-tag-required {
+    background-color: #d63638;
+    color: #fff;
+}
+
 .glsr-no-margins {
     margin: 0 !important;
 }

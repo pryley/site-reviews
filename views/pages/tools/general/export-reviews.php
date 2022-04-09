@@ -23,7 +23,7 @@
             </p>
         </div>
         <p><?= sprintf(
-            _x('Here you can export your reviews to a %s file. If you have assigned your reviews to pages and are planning to import them into a different website, you may need to export Post Assignments as %s since the Post IDs on the other website will likely be different.', 'admin-text', 'site-reviews'),
+            _x('Here you can export your reviews to a %s file. If you have assigned your reviews to pages and are planning to import them into a different website, you may need to export the Assigned Posts as %s since the Post IDs on the other website will likely be different.', 'admin-text', 'site-reviews'),
             '<code>*.csv</code>',
             '<code>post_type:slug</code>'
         ); ?></p>
