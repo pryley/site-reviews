@@ -150,6 +150,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Fixed the filter labels on the All Reviews page, they are now translatable
 - Fixed the star rating control when editing a review
 - Fixed validation for fields which are empty and not required
+- Fixed WordPress admin theme support
 - Optimised frontend javascript
 
 = 5.22.2 (2022-03-29) =

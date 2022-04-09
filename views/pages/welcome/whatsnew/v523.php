@@ -25,6 +25,7 @@
             <li>Fixed the star rating control when editing a review</li>
             <li>Fixed updating of reviews with custom checkbox and toggle fields</li>
             <li>Fixed validation for fields that are empty and not required</li>
+            <li>Fixed WordPress admin theme support</li>
         </ul>
     </div>
 </div>
