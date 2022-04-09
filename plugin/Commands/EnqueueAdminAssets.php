@@ -76,7 +76,7 @@ class EnqueueAdminAssets implements Contract
      */
     public function inlineScript()
     {
-        $licenses = array_filter(Arr::consolidate(glsr_get_option('licenses')));
+        $licenses = array_filter(glsr_get_option('licenses', [], 'array'));
         $variables = [
             'action' => glsr()->prefix.'action',
             'addons' => [],
