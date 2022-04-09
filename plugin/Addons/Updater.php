@@ -11,6 +11,11 @@ class Updater
     /**
      * @var string
      */
+    protected $addonId;
+
+    /**
+     * @var string
+     */
     protected $apiUrl;
     /**
      * @var array
@@ -27,13 +32,18 @@ class Updater
     /**
      * @var string
      */
+    protected $status;
+    /**
+     * @var string
+     */
     protected $plugin;
 
     /**
      * @param string $apiUrl
      * @param string $file
+     * @param string $addonId
      */
-    public function __construct($apiUrl, $file, array $data = [])
+    public function __construct($apiUrl, $file, $addonId, array $data = [])
     {
         if (!file_exists($file)) {
             return;
@@ -41,6 +51,7 @@ class Updater
         if (!function_exists('get_plugin_data')) {
             require_once ABSPATH.WPINC.'/plugin.php';
         }
+        $this->addonId = $addonId;
         $this->apiUrl = trailingslashit(glsr()->filterString('addon/api-url', $apiUrl));
         if ($this->apiUrl === Url::home()) {
             return;
@@ -136,8 +147,12 @@ class Updater
      */
     public function isLicenseValid()
     {
-        $result = $this->checkLicense();
-        return 'valid' === Arr::get($result, 'license');
+        if (empty($this->status)) {
+            $result = $this->checkLicense();
+            $this->status = Arr::get($result, 'license');
+            update_option(glsr()->prefix.$this->addonId, $this->status); // store the license status
+        }
+        return 'valid' === $this->status;
     }
 
     /**

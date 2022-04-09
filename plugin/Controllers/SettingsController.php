@@ -164,7 +164,7 @@ class SettingsController extends Controller
         }
         try {
             $addon = glsr()->updated[$addonId];
-            $updater = new Updater($addon['updateUrl'], $addon['file'], compact('license'));
+            $updater = new Updater($addon['updateUrl'], $addon['file'], $addonId, compact('license'));
             if (!$updater->isLicenseValid()) {
                 throw new LicenseException('Invalid license: '.$license.' ('.$addonId.')');
             }

@@ -1340,7 +1340,7 @@ msgctxt "admin-text"
 msgid "Help"
 msgstr ""
 
-#: plugin/Addons/Updater.php:222
+#: plugin/Addons/Updater.php:237
 msgctxt "admin-text"
 msgid "A valid license key is required to download this update."
 msgstr ""
@@ -1702,17 +1702,17 @@ msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:123
+#: plugin/Controllers/NoticeController.php:158
 msgctxt "admin-text"
 msgid "Common Problems and Solutions"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:138
+#: plugin/Controllers/NoticeController.php:173
 msgctxt "admin-text"
 msgid "Thanks for installing Site Reviews v%s, we hope you love it!"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:139
+#: plugin/Controllers/NoticeController.php:174
 msgctxt "admin-text"
 msgid "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 msgstr ""
@@ -3678,9 +3678,19 @@ msgctxt "admin-text"
 msgid "Run Migration"
 msgstr ""
 
-#: views/partials/notices/premium.php:3
+#: views/partials/notices/premium.php:16
 msgctxt "admin-text"
-msgid "You are using the free version of Site Reviews. %sPurchase premium%s to support future development and get images, filters, themes, custom forms, and more."
+msgid "One or more add-ons are not receiving updates. %sSave your license%s in the settings to get the latest updates and priority support."
+msgstr ""
+
+#: views/partials/notices/premium.php:10
+msgctxt "admin-text"
+msgid "One or more of your licenses have expired. %sRenew your license%s to get the latest updates and priority support."
+msgstr ""
+
+#: views/partials/notices/premium.php:4
+msgctxt "admin-text"
+msgid "You are using the free version of Site Reviews. %sPurchase premium%s to support future development and get images, filters, themes, custom forms, and more!"
 msgstr ""
 
 #: views/partials/notices/welcome.php:4

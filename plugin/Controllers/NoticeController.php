@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
@@ -64,6 +65,34 @@ class NoticeController extends Controller
         wp_send_json_success();
     }
 
+    protected function licensing()
+    {
+        $isFree = true; // priority 1
+        $isValid = true; // priority 2
+        $isSaved = true; // priority 3
+        foreach (glsr()->updated as $addonId => $addon) {
+            if (!$addon['licensed']) {
+                continue; // this is a free add-on
+            }
+            $isFree = false; // there are premium add-ons installed
+            if (empty(glsr_get_option('licenses.'.$addonId))) {
+                $isSaved = false;
+                continue; // the license has not been saved in the settings
+            }
+            $licenseStatus = get_option(glsr()->prefix.$addonId);
+            if (empty($licenseStatus)) { // the license status has not been stored
+                $license = glsr_get_option('licenses.'.$addonId);
+                $updater = new Updater($addon['updateUrl'], $addon['file'], $addonId, compact('license'));
+                $licenseStatus = $updater->isLicenseValid() ? 'valid' : 'invalid';
+            }
+            if ('valid' !== $licenseStatus) {
+                $isValid = false;
+                break;
+            }
+        }
+        return compact('isFree', 'isSaved', 'isValid');
+    }
+
     /**
      * @param string $key
      * @param mixed $fallback
@@ -89,10 +118,16 @@ class NoticeController extends Controller
      */
     protected function renderPremiumNotice()
     {
-        if (Str::startsWith(glsr()->post_type, glsr_current_screen()->post_type)
-            && Helper::isGreaterThan($this->getVersionFor('premium'), $this->getUserMeta('premium', 0))
-            && glsr()->can('edit_others_posts')) {
-            glsr()->render('partials/notices/premium');
+        if (!Str::startsWith(glsr()->post_type, glsr_current_screen()->post_type)) {
+            return;
+        }
+        $licensing = $this->licensing();
+        if ($licensing['isFree']) {
+            if (Helper::isGreaterThan($this->getVersionFor('premium'), $this->getUserMeta('premium', 0))) {
+                glsr()->render('partials/notices/premium', $licensing);
+            }
+        } elseif ((glsr()->can('edit_others_posts') && !$licensing['isSaved']) || !$licensing['isValid']) {
+            glsr()->render('partials/notices/premium', $licensing); // always show this notice!
         }
     }
 
