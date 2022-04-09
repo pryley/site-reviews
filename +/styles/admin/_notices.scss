@@ -8,8 +8,8 @@
 }
 
 .glsr-notice-top-of-page {
-    background-color: #826EB4;
-    box-shadow: inset 0 -1px #4E426C;
+    background-color: var(--wp-admin-theme-color);
+    box-shadow: inset 0 -1px var(--wp-admin-theme-color-darker-20);
     color: #fff;
     display: none;
     font-size: 15px;

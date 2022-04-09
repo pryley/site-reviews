@@ -39,7 +39,7 @@ GLSR.Tippy = { tippy, plugins: { followCursor }}
 
 function discover_site_reviews () {
     if ('no' === GLSR.isLicensed) {
-        jQuery('.post-type-site-review.edit-php .page-title-action').after('<a href="' + GLSR.premiumurl + '" target="_blank" id="glsr-premium-button" class="page-title-action">' + GLSR.text.premium + '</a>');
+        jQuery('.post-type-site-review.edit-php .page-title-action').after('<a href="' + GLSR.premiumurl + '" target="_blank" id="glsr-premium-button" class="button button-primary">' + GLSR.text.premium + '</a>');
     }
 }
 function rate_site_reviews () {

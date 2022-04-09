@@ -174,17 +174,20 @@
 }
 
 #glsr-premium-button {
-    background-color: #2271b1;
-    border-color: #2271b1;
-    color: #fff;
-    font-weight: 400;
-    &:hover,
-    &:focus {
-        background-color: #135e96;
-        border-color: #135e96;
-        color: #fff;
-    }
-    &:focus {
-        box-shadow: 0 0 0 1px #fff, 0 0 0 3px #2271b1;
+    border-radius: 2px;
+    line-height: normal;
+    margin-left: 5px;
+    margin-right: 5px;
+    min-height: auto;
+    padding: 4px 8px;
+    position: relative;
+    top: -3px;
+    vertical-align: baseline;
+}
+@media screen and (max-width: 782px) {
+    #glsr-premium-button {
+        font-size: 14px;
+        padding: 10px 15px;
+        white-space: nowrap;
     }
 }
