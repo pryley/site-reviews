@@ -3771,11 +3771,13 @@ msgstr "Run Migration"
 #: views/partials/notices/premium.php:3
 msgctxt "admin-text"
 msgid ""
-"You are using the free version of Site Reviews. %sPurchase premium%s to get "
-"images, filters, themes, custom forms, and more."
+"You are using the free version of Site Reviews. %sPurchase premium%s to "
+"support future development and get images, filters, themes, custom forms, "
+"and more."
 msgstr ""
-"You are using the free version of Site Reviews. %sPurchase premium%s to get "
-"images, filters, themes, custom forms, and more."
+"You are using the free version of Site Reviews. %sPurchase premium%s to "
+"support future development and get images, filters, themes, custom forms, "
+"and more."
 
 #: views/partials/notices/welcome.php:4
 msgctxt "admin-text"

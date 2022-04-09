@@ -3680,7 +3680,7 @@ msgstr ""
 
 #: views/partials/notices/premium.php:3
 msgctxt "admin-text"
-msgid "You are using the free version of Site Reviews. %sPurchase premium%s to get images, filters, themes, custom forms, and more."
+msgid "You are using the free version of Site Reviews. %sPurchase premium%s to support future development and get images, filters, themes, custom forms, and more."
 msgstr ""
 
 #: views/partials/notices/welcome.php:4
