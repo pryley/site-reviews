@@ -41,7 +41,7 @@ msgstr[1] "%s stars or less"
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
 
-#: plugin/Review.php:158, plugin/Modules/Notification.php:75
+#: plugin/Review.php:158, plugin/Modules/Avatar.php:100, plugin/Modules/Notification.php:75
 msgid "Anonymous"
 msgstr "Anonymous"
 
@@ -197,7 +197,7 @@ msgstr "and"
 msgid "Show less"
 msgstr "Show less"
 
-#: plugin/Modules/Avatar.php:122
+#: plugin/Modules/Avatar.php:123
 msgid "Avatar for %s"
 msgstr "Avatar for %s"
 
@@ -2123,17 +2123,17 @@ msgctxt "admin-text"
 msgid "Yes"
 msgstr "Yes"
 
-#: plugin/Controllers/NoticeController.php:158
+#: plugin/Controllers/NoticeController.php:161
 msgctxt "admin-text"
 msgid "Common Problems and Solutions"
 msgstr "Common Problems and Solutions"
 
-#: plugin/Controllers/NoticeController.php:173
+#: plugin/Controllers/NoticeController.php:176
 msgctxt "admin-text"
 msgid "Thanks for installing Site Reviews v%s, we hope you love it!"
 msgstr "Thanks for installing Site Reviews v%s, we hope you love it!"
 
-#: plugin/Controllers/NoticeController.php:174
+#: plugin/Controllers/NoticeController.php:177
 msgctxt "admin-text"
 msgid "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 msgstr "Thanks for updating to Site Reviews v%s, we hope you love the changes!"

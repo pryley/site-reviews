@@ -1197,7 +1197,7 @@ msgctxt "admin-text"
 msgid "The [%s] method has been deprecated and will be soon be removed, please use the [%s] method instead."
 msgstr ""
 
-#: plugin/Review.php:158, plugin/Modules/Notification.php:75
+#: plugin/Review.php:158, plugin/Modules/Avatar.php:100, plugin/Modules/Notification.php:75
 msgid "Anonymous"
 msgstr ""
 
@@ -1702,17 +1702,17 @@ msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:158
+#: plugin/Controllers/NoticeController.php:161
 msgctxt "admin-text"
 msgid "Common Problems and Solutions"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:173
+#: plugin/Controllers/NoticeController.php:176
 msgctxt "admin-text"
 msgid "Thanks for installing Site Reviews v%s, we hope you love it!"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:174
+#: plugin/Controllers/NoticeController.php:177
 msgctxt "admin-text"
 msgid "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
 msgstr ""
@@ -2236,7 +2236,7 @@ msgctxt "admin-text"
 msgid "Respond Publicly"
 msgstr ""
 
-#: plugin/Modules/Avatar.php:122
+#: plugin/Modules/Avatar.php:123
 msgid "Avatar for %s"
 msgstr ""
 
