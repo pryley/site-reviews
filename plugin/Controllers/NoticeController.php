@@ -122,12 +122,15 @@ class NoticeController extends Controller
             return;
         }
         $licensing = $this->licensing();
+        $isNewVersion = Helper::isGreaterThan($this->getVersionFor('premium'), $this->getUserMeta('premium', 0));
+        $isUnsavedLicense = glsr()->can('edit_others_posts') && !$licensing['isSaved'];
         if ($licensing['isFree']) {
-            if (Helper::isGreaterThan($this->getVersionFor('premium'), $this->getUserMeta('premium', 0))) {
+            if ($isNewVersion) {
                 glsr()->render('partials/notices/premium', $licensing);
             }
-        } elseif ((glsr()->can('edit_others_posts') && !$licensing['isSaved']) || !$licensing['isValid']) {
-            glsr()->render('partials/notices/premium', $licensing); // always show this notice!
+        } elseif (($isUnsavedLicense && $isNewVersion) || !$licensing['isValid']) {
+            // always show this notice for invalid licenses!
+            glsr()->render('partials/notices/premium', $licensing);
         }
     }
 
