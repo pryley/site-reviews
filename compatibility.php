@@ -1,5 +1,6 @@
 <?php
 
+use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Controllers\BlocksController;
 
 defined('ABSPATH') || exit;
@@ -40,6 +41,18 @@ add_action('members_register_caps', function () {
     array_walk($labels, function ($label, $capability) {
         members_register_cap($capability, ['label' => $label]);
     });
+});
+
+/**
+ * Remove Oxygen Builder metabox from reviews
+ * @see https://oxygenbuilder.com
+ */
+add_action('plugins_loaded', function () {
+    global $ct_ignore_post_types;
+    if (!empty($ct_ignore_post_types) && is_array($ct_ignore_post_types)) {
+        $ct_ignore_post_types[] = Application::POST_TYPE;
+        add_filter('pre_option_oxygen_vsb_ignore_post_type_'.Application::POST_TYPE, '__return_true');
+    }
 });
 
 /**
