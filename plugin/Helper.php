@@ -319,20 +319,16 @@ class Helper
 
     /**
      * @param string $url
-     * @param int $maxRedirects
      * @return int|false
      */
-    public static function remoteStatusCheck($url, $maxRedirects = 0)
+    public static function remoteStatusCheck($url)
     {
-        $headers = @get_headers($url, 0, stream_context_create([ // PHP 5.6 does not support $context
-            'http' => [
-                'ignore_errors' => 1,
-                'max_redirects' => $maxRedirects,
-                'method' => 'HEAD',
-            ],
-        ]));
-        if (false !== $headers) {
-            return Cast::toInt(substr($headers[0], 9, 3));
+        $response = wp_safe_remote_head($url, [
+            'timeout' => 5,
+            'sslverify' => false,
+        ]);
+        if (!is_wp_error($response)) {
+            return $response['response']['code'];
         }
         return false;
     }

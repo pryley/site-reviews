@@ -43,10 +43,7 @@ class Avatar
             return $this->generatePixels($review);
         }
         if ('initials' === $this->type) {
-            if (!empty($review->author)) {
-                return $this->generateInitials($review);
-            }
-            $this->type = 'mystery'; // can't create initials without a name
+            return $this->generateInitials($review);
         }
         return $this->type;
     }
@@ -85,7 +82,7 @@ class Avatar
         if (!$this->isUrl($avatarUrl)) {
             return $this->fallbackUrl($review, $size);
         }
-        if (404 === Helper::remoteStatusCheck($avatarUrl)) {
+        if (200 !== Helper::remoteStatusCheck($avatarUrl)) {
             // @todo generate the images with javascript on canvas to avoid this status check
             return $this->fallbackUrl($review, $size);
         }
@@ -98,7 +95,11 @@ class Avatar
      */
     public function generateInitials($review)
     {
-        return glsr(InitialsAvatar::class)->create($review->author);
+        $name = $review->author;
+        if (empty($review->author)) {
+            $name = __('Anonymous', 'site-reviews');
+        }
+        return glsr(InitialsAvatar::class)->create($name);
     }
 
     /**
