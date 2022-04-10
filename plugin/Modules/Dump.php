@@ -116,8 +116,12 @@ class Dump
             $this->result[] = 'Nested '.$classname." Object\n";
             return;
         }
-        $this->result[] = $classname." Object (\n";
-        $subject = (array) $subject;
+        if ($subject instanceof \ArrayObject) {
+            $this->result[] = $classname." ArrayObject (\n";
+        } else {
+            $this->result[] = $classname." Object (\n";
+            $subject = (array) $subject;
+        }
         foreach ($subject as $key => $val) {
             if (false === $this->isIgnoredKey($key)) {
                 $this->result[] = $this->formatKey($key);
