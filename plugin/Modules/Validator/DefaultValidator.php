@@ -79,8 +79,10 @@ class DefaultValidator extends ValidatorAbstract
         $required = glsr_get_option('submissions.required', []);
         array_walk($rules, function (&$value, $key) use ($required) {
             if (!in_array($key, $required)) {
+                // remove the accepted and required rules from validation 
+                // since they are not required in the settings
                 $values = explode('|', $value);
-                $values = array_diff($values, ['required']); // remove the required rule from validation
+                $values = array_diff($values, ['accepted','required']);
                 $value = implode('|', $values);
             }
         });
@@ -99,9 +101,6 @@ class DefaultValidator extends ValidatorAbstract
         $excluded = Arr::convertFromString($this->request->excluded); // these fields were ommited with the hide option
         $rules = array_merge($defaultRules, $customRules);
         $rules = array_diff_key($rules, array_flip($excluded));
-
-        glsr_log($rules);
-
         return glsr()->filterArray('validation/rules/normalized', $rules, $this->request, $defaultRules);
     }
 }
