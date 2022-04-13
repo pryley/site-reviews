@@ -110,7 +110,6 @@ class ImportReviews extends Upload implements Contract
         if (!ini_get('auto_detect_line_endings')) {
             ini_set('auto_detect_line_endings', '1');
         }
-        require_once glsr()->path('vendors/thephpleague/csv/functions_include.php');
         try {
             wp_raise_memory_limit('admin');
             $reader = $this->createReader();
