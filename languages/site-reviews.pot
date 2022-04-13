@@ -1422,41 +1422,41 @@ msgctxt "admin-text"
 msgid "No reviews found."
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:161
+#: plugin/Commands/ImportReviews.php:160
 msgctxt "admin-text"
 msgid "%s review was imported."
 msgid_plural "%s reviews were imported."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ImportReviews.php:169
+#: plugin/Commands/ImportReviews.php:168
 msgctxt "admin-text"
 msgid "%s entry was skipped."
 msgid_plural "%s entries were skipped."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ImportReviews.php:172
+#: plugin/Commands/ImportReviews.php:171
 msgctxt "admin-text"
 msgid "See the %s for more details."
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:175, plugin/Controllers/MenuController.php:168
+#: plugin/Commands/ImportReviews.php:174, plugin/Controllers/MenuController.php:168
 msgctxt "admin-text"
 msgid "Console"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:196
+#: plugin/Commands/ImportReviews.php:195
 msgctxt "admin-text"
 msgid "wrong date format"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:197
+#: plugin/Commands/ImportReviews.php:196
 msgctxt "admin-text"
 msgid "empty or missing content"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:198
+#: plugin/Commands/ImportReviews.php:197
 msgctxt "admin-text"
 msgid "empty or invalid rating"
 msgstr ""
