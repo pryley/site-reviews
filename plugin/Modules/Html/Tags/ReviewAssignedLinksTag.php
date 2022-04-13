@@ -19,7 +19,7 @@ class ReviewAssignedLinksTag extends ReviewTag
         $links = [];
         $usedIds = [];
         foreach (Arr::consolidate($value) as $postId) {
-            $postId = Helper::getPostId(glsr(Multilingual::class)->getPostId($postId));
+            $postId = glsr(Multilingual::class)->getPostId(Helper::getPostId($postId));
             if (!empty($postId) && !in_array($postId, $usedIds)) {
                 $title = get_the_title($postId);
                 if (empty(trim($title))) {
