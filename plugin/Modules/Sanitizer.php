@@ -198,7 +198,11 @@ class Sanitizer
     public function sanitizePostIds($value)
     {
         $postIds = Cast::toArray($value);
-        $postIds = array_map('\GeminiLabs\SiteReviews\Helper::getPostId', $postIds);
+        foreach ($postIds as &$postId) {
+            if ($sanitizedId = Helper::getPostId($postId)) {
+                $postId = $sanitizedId;
+            }
+        }
         return Arr::uniqueInt($postIds);
     }
 
@@ -218,7 +222,11 @@ class Sanitizer
     public function sanitizeTermIds($value)
     {
         $termIds = Cast::toArray($value);
-        $termIds = array_map('\GeminiLabs\SiteReviews\Helper::getTermTaxonomyId', $termIds);
+        foreach ($termIds as &$termId) {
+            if ($sanitizedId = Helper::getTermTaxonomyId($termId)) {
+                $termId = $sanitizedId;
+            }
+        }
         return Arr::uniqueInt($termIds);
     }
 
@@ -320,7 +328,11 @@ class Sanitizer
     public function sanitizeUserIds($value)
     {
         $userIds = Cast::toArray($value);
-        $userIds = array_map('\GeminiLabs\SiteReviews\Helper::getUserId', $userIds);
+        foreach ($userIds as &$userId) {
+            if ($sanitizedId = Helper::getUserId($userId)) {
+                $userId = $sanitizedId;
+            }
+        }
         return Arr::uniqueInt($userIds);
     }
 
