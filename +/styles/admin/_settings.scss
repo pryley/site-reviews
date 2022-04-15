@@ -430,6 +430,12 @@ tr.glsr-setting-field td .inline label::after {
     textarea.code {
         font-family: "Operator Mono", "Fira Code", monaco, monospace;
     }
+
+    .glsr-experimental {
+        color: #000;
+        font-weight: 600;
+        font-style: italic;
+    }
 }
 
 .post-type-site-review code,
