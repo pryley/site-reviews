@@ -76,6 +76,11 @@
                         <td><?= _x('The review date', 'admin-text', 'site-reviews'); ?></td>
                     </tr>
                     <tr>
+                        <td><strong>date_gmt</strong></td>
+                        <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('The review GMT date', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                    <tr>
                         <td><strong>email</strong></td>
                         <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
                         <td><?= _x('The reviewer\'s email', 'admin-text', 'site-reviews'); ?></td>
