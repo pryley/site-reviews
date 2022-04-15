@@ -68,7 +68,7 @@ class Export
             LEFT JOIN {$this->assignedPostsTable} AS apt ON r.ID = apt.rating_id
             LEFT JOIN {$this->assignedTermsTable} AS att ON r.ID = att.rating_id
             LEFT JOIN {$this->assignedUsersTable} AS aut ON r.ID = aut.rating_id
-            LEFT JOIN gl_postmeta AS pm ON (r.review_id = pm.post_id AND pm.meta_key = '_response')
+            LEFT JOIN {$this->db->postmeta} AS pm ON (r.review_id = pm.post_id AND pm.meta_key = '_response')
             WHERE p.post_type = '{$this->postType}'
             AND p.post_status IN ('publish','pending')
             GROUP BY r.ID
@@ -104,7 +104,7 @@ class Export
             LEFT JOIN {$this->assignedTermsTable} AS att ON r.ID = att.rating_id
             LEFT JOIN {$this->assignedUsersTable} AS aut ON r.ID = aut.rating_id
             LEFT JOIN {$this->db->posts} AS p1 ON apt.post_id = p1.ID
-            LEFT JOIN gl_postmeta AS pm ON (r.review_id = pm.post_id AND pm.meta_key = '_response')
+            LEFT JOIN {$this->db->postmeta} AS pm ON (r.review_id = pm.post_id AND pm.meta_key = '_response')
             WHERE p.post_type = '{$this->postType}'
             AND p.post_status IN ('publish','pending')
             GROUP BY r.ID
