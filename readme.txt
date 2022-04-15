@@ -1,6 +1,6 @@
 === Site Reviews ===
 Contributors: geminilabs, pryley
-Donate link: https://www.paypal.me/pryley
+Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, star ratings
 Tested up to: 5.9
 Requires at least: 5.5
@@ -19,7 +19,7 @@ You can pin your best reviews so that they are always shown first, require appro
 
 __Site Reviews integrates with Woocommerce__ with the free [Woocommerce Reviews](https://niftyplugins.com/plugins/woocommerce-reviews/) add-on.
 
-[View the demo](https://site-reviews.skybox.one)
+[View the demo](https://demo.site-reviews.com)
 
 [Follow plugin development on Github.](https://github.com/pryley/site-reviews/)
 
