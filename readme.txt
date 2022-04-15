@@ -142,6 +142,11 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
+= 5.23.6 (2022-04-14) =
+
+- Fixed Export Tool
+- Fixed functionality of the assigned_posts option when use with the reviews and summary shortcodes: If the assigned_posts value is invalid, no reviews should be returned
+
 = 5.23.5 (2022-04-13) =
 
 - Fixed PHP error when importing reviews

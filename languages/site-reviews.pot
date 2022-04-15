@@ -408,7 +408,7 @@ msgctxt "admin-text"
 msgid "To restore the default text, save an empty template. If you are sending notifications to Slack then this template will only be used as a fallback in the event that <a href=\"https://api.slack.com/docs/attachments\">Message Attachments</a> have been disabled."
 msgstr ""
 
-#: config/settings.php:169, views/pages/tools/general/import-reviews.php:141
+#: config/settings.php:169, views/pages/tools/general/import-reviews.php:146
 msgctxt "admin-text"
 msgid "Date Format"
 msgstr ""
@@ -1692,12 +1692,12 @@ msgctxt "admin-text"
 msgid "System Info"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:62, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17, plugin/Integrations/Elementor/ElementorReviewsWidget.php:85, views/pages/tools/general/import-reviews.php:45, views/pages/tools/general/import-reviews.php:50, views/pages/tools/general/import-reviews.php:55, views/pages/tools/general/import-reviews.php:60, views/pages/tools/general/import-reviews.php:65, views/pages/tools/general/import-reviews.php:80, views/pages/tools/general/import-reviews.php:85, views/pages/tools/general/import-reviews.php:90, views/pages/tools/general/import-reviews.php:95, views/pages/tools/general/import-reviews.php:100, views/pages/tools/general/import-reviews.php:110, views/pages/tools/general/import-reviews.php:115, views/pages/tools/general/import-reviews.php:120
+#: plugin/Controllers/MetaboxController.php:62, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17, plugin/Integrations/Elementor/ElementorReviewsWidget.php:85, views/pages/tools/general/import-reviews.php:45, views/pages/tools/general/import-reviews.php:50, views/pages/tools/general/import-reviews.php:55, views/pages/tools/general/import-reviews.php:60, views/pages/tools/general/import-reviews.php:65, views/pages/tools/general/import-reviews.php:80, views/pages/tools/general/import-reviews.php:85, views/pages/tools/general/import-reviews.php:90, views/pages/tools/general/import-reviews.php:95, views/pages/tools/general/import-reviews.php:100, views/pages/tools/general/import-reviews.php:105, views/pages/tools/general/import-reviews.php:115, views/pages/tools/general/import-reviews.php:120, views/pages/tools/general/import-reviews.php:125
 msgctxt "admin-text"
 msgid "No"
 msgstr ""
 
-#: plugin/Controllers/MetaboxController.php:63, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:18, views/pages/tools/general/import-reviews.php:70, views/pages/tools/general/import-reviews.php:75, views/pages/tools/general/import-reviews.php:105
+#: plugin/Controllers/MetaboxController.php:63, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:18, views/pages/tools/general/import-reviews.php:70, views/pages/tools/general/import-reviews.php:75, views/pages/tools/general/import-reviews.php:110
 msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
@@ -4044,7 +4044,7 @@ msgctxt "admin-text"
 msgid "Here you can export your Site Reviews settings to a %s file. You can use the the %sImport Settings%s tool to import the settings on another website."
 msgstr ""
 
-#: views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:165
+#: views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:170
 msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr ""
@@ -4101,65 +4101,70 @@ msgstr ""
 
 #: views/pages/tools/general/import-reviews.php:81
 msgctxt "admin-text"
-msgid "The reviewer's email"
+msgid "The review GMT date"
 msgstr ""
 
 #: views/pages/tools/general/import-reviews.php:86
 msgctxt "admin-text"
+msgid "The reviewer's email"
+msgstr ""
+
+#: views/pages/tools/general/import-reviews.php:91
+msgctxt "admin-text"
 msgid "The IP address of the reviewer"
 msgstr ""
 
-#: views/pages/tools/general/import-reviews.php:91, views/pages/tools/general/import-reviews.php:96, views/pages/tools/general/import-reviews.php:116
+#: views/pages/tools/general/import-reviews.php:96, views/pages/tools/general/import-reviews.php:101, views/pages/tools/general/import-reviews.php:121
 msgctxt "admin-text"
 msgid "TRUE or FALSE"
 msgstr ""
 
-#: views/pages/tools/general/import-reviews.php:101
+#: views/pages/tools/general/import-reviews.php:106
 msgctxt "admin-text"
 msgid "The reviewer's name"
 msgstr ""
 
-#: views/pages/tools/general/import-reviews.php:106
+#: views/pages/tools/general/import-reviews.php:111
 msgctxt "admin-text"
 msgid "A number from 0-%d"
 msgstr ""
 
-#: views/pages/tools/general/import-reviews.php:111
+#: views/pages/tools/general/import-reviews.php:116
 msgctxt "admin-text"
 msgid "The review response"
 msgstr ""
 
-#: views/pages/tools/general/import-reviews.php:121
+#: views/pages/tools/general/import-reviews.php:126
 msgctxt "admin-text"
 msgid "The title of the review"
 msgstr ""
 
-#: views/pages/tools/general/import-reviews.php:133
+#: views/pages/tools/general/import-reviews.php:138
 msgctxt "admin-text"
 msgid "Delimiter"
 msgstr ""
 
-#: views/pages/tools/general/import-reviews.php:135
+#: views/pages/tools/general/import-reviews.php:140
 msgctxt "admin-text"
 msgid "Detect automatically"
 msgstr ""
 
-#: views/pages/tools/general/import-reviews.php:136
+#: views/pages/tools/general/import-reviews.php:141
 msgctxt "admin-text"
 msgid "Comma (,)"
 msgstr ""
 
-#: views/pages/tools/general/import-reviews.php:137
+#: views/pages/tools/general/import-reviews.php:142
 msgctxt "admin-text"
 msgid "Semicolon (;)"
 msgstr ""
 
-#: views/pages/tools/general/import-reviews.php:143
+#: views/pages/tools/general/import-reviews.php:148
 msgctxt "admin-text"
 msgid "Select the date format used in the reviews"
 msgstr ""
 
-#: views/pages/tools/general/import-reviews.php:165
+#: views/pages/tools/general/import-reviews.php:170
 msgctxt "admin-text"
 msgid "Importing reviews, please wait..."
 msgstr ""
