@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Shortcodes;
 
+use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Tags\FormFieldsTag;
@@ -180,6 +181,18 @@ class SiteReviewsFormShortcode extends Shortcode
             'text' => __('logged in', 'site-reviews'),
         ]);
         return sprintf(__('You must be %s to submit a review.', 'site-reviews'), $loginLink);
+    }
+
+    /**
+     * @param string $postIds
+     * @return string
+     */
+    protected function normalizeAssignedPosts($postIds, Arguments $atts)
+    {
+        $postIds = parent::normalizeAssignedPosts($postIds, $atts);
+        $postIds = explode(',', $postIds);
+        $postIds = array_filter($postIds, 'is_numeric'); // don't use post_types here
+        return implode(',', $postIds);
     }
 
     /**

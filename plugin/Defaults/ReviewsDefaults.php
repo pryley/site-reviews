@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class ReviewsDefaults extends Defaults
 {
@@ -59,6 +60,7 @@ class ReviewsDefaults extends Defaults
     {
         return [
             'assigned_posts' => '',
+            'assigned_posts_types' => [],
             'assigned_terms' => '',
             'assigned_users' => '',
             'date' => '',
@@ -80,5 +82,24 @@ class ReviewsDefaults extends Defaults
             'user__in' => [],
             'user__not_in' => [],
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function normalize(array $values = [])
+    {
+        if (empty($values['assigned_posts'])) {
+            return $values;
+        }
+        $postIds = Cast::toArray($values['assigned_posts']);
+        $values['assigned_posts_types'] = [];
+        foreach ($postIds as $postType) {
+            if (!is_numeric($postType) && post_type_exists($postType)) {
+                $values['assigned_posts'] = []; // query only by assigned post types!
+                $values['assigned_posts_types'][] = $postType;
+            }
+        }
+        return $values;
     }
 }

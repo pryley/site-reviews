@@ -37,6 +37,7 @@ class DefaultsTest extends WP_UnitTestCase
         ];
         $expected = [
             'assigned_posts' => [$postId],
+            'assigned_posts_types' => [],
             'assigned_terms' => [$termId],
             'assigned_users' => [$userId],
             'date' => '',

@@ -2550,69 +2550,69 @@ msgctxt "%s: time interval (admin-text)"
 msgid "Every %s"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:262
+#: plugin/Shortcodes/Shortcode.php:270
 msgid "Excellent"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:263
+#: plugin/Shortcodes/Shortcode.php:271
 msgid "Very good"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:264
+#: plugin/Shortcodes/Shortcode.php:272
 msgid "Average"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:265
+#: plugin/Shortcodes/Shortcode.php:273
 msgid "Poor"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:266
+#: plugin/Shortcodes/Shortcode.php:274
 msgid "Terrible"
-msgstr ""
-
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:149
-msgctxt "admin-text"
-msgid "Hide the rating field"
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:150
 msgctxt "admin-text"
-msgid "Hide the title field"
+msgid "Hide the rating field"
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:151
 msgctxt "admin-text"
-msgid "Hide the review field"
+msgid "Hide the title field"
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:152
 msgctxt "admin-text"
-msgid "Hide the name field"
+msgid "Hide the review field"
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:153
 msgctxt "admin-text"
-msgid "Hide the email field"
+msgid "Hide the name field"
 msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsFormShortcode.php:154
 msgctxt "admin-text"
+msgid "Hide the email field"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:155
+msgctxt "admin-text"
 msgid "Hide the terms field"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:180
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:181
 msgid "logged in"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:182
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:183
 msgid "You must be %s to submit a review."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:196
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:209
 msgid "register"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:198
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:211
 msgid "You may also %s for an account."
 msgstr ""
 

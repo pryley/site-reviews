@@ -217,8 +217,16 @@ abstract class Shortcode implements ShortcodeContract
      */
     protected function normalizeAssignedPosts($postIds, Arguments $atts)
     {
+        $postIds = Cast::toArray($postIds);
+        $postTypes = [];
+        foreach ($postIds as $postType) {
+            if (!is_numeric($postType) && post_type_exists((string) $postType)) {
+                $postTypes[] = $postType;
+            }
+        }
         $postIds = glsr(Sanitizer::class)->sanitizePostIds($postIds);
         $postIds = glsr(Multilingual::class)->getPostIds($postIds);
+        $postIds = array_merge($postIds, $postTypes);
         return implode(',', $postIds);
     }
 

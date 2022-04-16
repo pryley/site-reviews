@@ -157,6 +157,14 @@ trait Sql
     /**
      * @return string
      */
+    protected function clauseAndAssignedPostsTypes()
+    {
+        return $this->clauseIfValueNotEmpty('apt.is_published = 1', $this->args['assigned_posts_types']);
+    }
+
+    /**
+     * @return string
+     */
     protected function clauseAndAssignedTerms()
     {
         return $this->clauseIfValueNotEmpty('(att.term_id IN (%s))', $this->args['assigned_terms']);
@@ -325,6 +333,20 @@ trait Sql
             $this->args['assigned_posts'],
             $prepare = false
         );
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseJoinAssignedPostsTypes()
+    {
+        $clause1 = "{$this->joinMethod()} {$this->table('assigned_posts')} AS apt ON r.ID = apt.rating_id";
+        $clause2 = "INNER JOIN {$this->table('posts')} AS pt ON (apt.post_id = pt.ID AND pt.post_type IN ('%s'))";
+        $values = Arr::unique($this->args['assigned_posts_types']);
+        $values = array_map('esc_sql', $values);
+        $values = array_filter($values, 'is_string'); // for phpstan
+        $values = implode("','", $values);
+        return sprintf(sprintf('%s %s', $clause1, $clause2), $values);
     }
 
     /**

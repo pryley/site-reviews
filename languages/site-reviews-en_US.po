@@ -261,39 +261,39 @@ msgstr "Successfully deleted action"
 msgid "Successfully processed change for action: %s"
 msgstr "Successfully processed change for action: %s"
 
-#: plugin/Shortcodes/Shortcode.php:262
+#: plugin/Shortcodes/Shortcode.php:270
 msgid "Excellent"
 msgstr "Excellent"
 
-#: plugin/Shortcodes/Shortcode.php:263
+#: plugin/Shortcodes/Shortcode.php:271
 msgid "Very good"
 msgstr "Very good"
 
-#: plugin/Shortcodes/Shortcode.php:264
+#: plugin/Shortcodes/Shortcode.php:272
 msgid "Average"
 msgstr "Average"
 
-#: plugin/Shortcodes/Shortcode.php:265
+#: plugin/Shortcodes/Shortcode.php:273
 msgid "Poor"
 msgstr "Poor"
 
-#: plugin/Shortcodes/Shortcode.php:266
+#: plugin/Shortcodes/Shortcode.php:274
 msgid "Terrible"
 msgstr "Terrible"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:180
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:181
 msgid "logged in"
 msgstr "logged in"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:182
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:183
 msgid "You must be %s to submit a review."
 msgstr "You must be %s to submit a review."
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:196
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:209
 msgid "register"
 msgstr "register"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:198
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:211
 msgid "You may also %s for an account."
 msgstr "You may also %s for an account."
 
@@ -2625,32 +2625,32 @@ msgctxt "admin-text"
 msgid "Non-repeating"
 msgstr "Non-repeating"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:149
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:150
 msgctxt "admin-text"
 msgid "Hide the rating field"
 msgstr "Hide the rating field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:150
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:151
 msgctxt "admin-text"
 msgid "Hide the title field"
 msgstr "Hide the title field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:151
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:152
 msgctxt "admin-text"
 msgid "Hide the review field"
 msgstr "Hide the review field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:152
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:153
 msgctxt "admin-text"
 msgid "Hide the name field"
 msgstr "Hide the name field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:153
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:154
 msgctxt "admin-text"
 msgid "Hide the email field"
 msgstr "Hide the email field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:154
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:155
 msgctxt "admin-text"
 msgid "Hide the terms field"
 msgstr "Hide the terms field"
