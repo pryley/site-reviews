@@ -35,6 +35,9 @@
     opacity: 1;
     padding: var(--glsr-form-px);
 }
+:--namespace form.glsr-form textarea {
+    width: 100%;
+}
 :--namespace form.glsr-form .glsr-field-select::after {
     border: 6px solid;
     border-color: var(--glsr-gray-dark) transparent transparent transparent;

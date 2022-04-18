@@ -88,7 +88,7 @@ add_filter('sf_edit_query_args', function ($query) {
  * Fix checkboxes for the Divi plugin style
  * @param \GeminiLabs\SiteReviews\Modules\Html\Builder $instance
  * @return void
- * @see https://www.elegantthemes.com/gallery/divi/
+ * @see https://www.elegantthemes.com/divi/
  */
 add_action('site-reviews/customize/divi', function ($instance) {
     if ('label' == $instance->tag && 'checkbox' == $instance->args['type']) {
@@ -96,6 +96,25 @@ add_action('site-reviews/customize/divi', function ($instance) {
         return;
     }
 });
+
+/**
+ * Fix compatibility with the Divi Dynamic CSS option
+ * @param array $shortcodes
+ * @param string $content
+ * @return array
+ * @see https://www.elegantthemes.com/divi/
+ */
+add_filter('et_dynamic_assets_modules_atf', function ($shortcodes, $content) {
+    if (1 === preg_match('/site_reviews_form/', $content) || 1 === preg_match('/site-reviews\/form/', $content)) {
+        add_filter('et_required_module_assets', function ($assets) {
+            if (!in_array('et_pb_contact_form', $assets)) {
+                $assets[] = 'et_pb_contact_form';
+            }
+            return $assets;
+        });
+    }
+    return $shortcodes;
+}, 10, 2);
 
 /**
  * Load the Ninja Forms (v3) CSS if the plugin style is selected.
