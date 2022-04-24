@@ -12,29 +12,37 @@ const selectors = {
 
 class Excerpts {
     constructor (el) {
-        const excerpts = (el || document).querySelectorAll(selectors.hiddenText);
-        excerpts.forEach(el => this.init(el));
+        this.events = {
+            click: this._onClick.bind(this),
+        };
+        (el || document).querySelectorAll(selectors.hiddenText).forEach(el => this.init(el));
     }
 
     init (el) {
-        if (el.parentNode.querySelector('.' + classNames.readmore)) return; // @hack only init once
-        const trigger = el.dataset.trigger;
-        const readMoreSpan = document.createElement('span');
-        const readmoreLink = document.createElement('a');
-        readmoreLink.setAttribute('href', '#');
-        readmoreLink.innerHTML = el.dataset.showMore;
-        if ('excerpt' === trigger) { // don't trigger for modals
-            readmoreLink.addEventListener('click', this._onClick.bind(this));
-            // we can't use dataset until the node has been inserted in the DOM
-            readmoreLink.setAttribute('data-text', el.dataset.showLess);
+        const readMoreLink = this._insertLink(el)
+        if (!readMoreLink) return;
+        if ('expand' === el.dataset.trigger) {
+            readMoreLink.dataset.text = el.dataset.showLess;
+            readMoreLink.removeEventListener('click', this.events.click);
+            readMoreLink.addEventListener('click', this.events.click);
         }
-        if ('modal' === trigger) {
-            // we can't use dataset until the node has been inserted in the DOM
-            readmoreLink.setAttribute('data-excerpt-trigger', 'glsr-modal');
+        if ('modal' === el.dataset.trigger) {
+            readMoreLink.dataset.excerptTrigger = 'glsr-modal';
         }
-        readMoreSpan.setAttribute('class', classNames.readmore);
-        readMoreSpan.appendChild(readmoreLink);
-        el.parentNode.insertBefore(readMoreSpan, el.nextSibling);
+    }
+
+    _insertLink (el) {
+        let readMoreEl = el.parentNode.querySelector('.' + classNames.readmore);
+        if (!readMoreEl) {
+            const readMoreSpan = document.createElement('span');
+            const readmoreLink = document.createElement('a');
+            readmoreLink.setAttribute('href', '#');
+            readmoreLink.innerHTML = el.dataset.showMore;
+            readMoreSpan.setAttribute('class', classNames.readmore);
+            readMoreSpan.appendChild(readmoreLink);
+            readMoreEl = el.parentNode.insertBefore(readMoreSpan, el.nextSibling);
+        }
+        return readMoreEl.querySelector('a')
     }
 
     _onClick (ev) {
