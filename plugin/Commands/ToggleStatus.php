@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Commands;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Defaults\ToggleStatusDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Review;
 use WP_Posts_List_Table;
 
 class ToggleStatus implements Contract
@@ -24,18 +25,20 @@ class ToggleStatus implements Contract
      */
     public function handle()
     {
-        if (glsr()->post_type !== get_post_type($this->id)) {
+        if (!Review::isReview($this->id)) {
             glsr_log()->error('Cannot toggle review status: Invalid Post Type.');
             return [];
         }
-        $postId = wp_update_post([
+        $args = [
             'ID' => $this->id,
             'post_status' => $this->status,
-        ], true); // return a \WP_Error on failure!
+        ];
+        $postId = wp_update_post($args, true);
         if (is_wp_error($postId)) {
             glsr_log()->error($postId->get_error_message());
             return [];
         }
+        $review = glsr_get_review($postId);
         return [
             'class' => 'status-'.$this->status,
             'counts' => $this->getStatusLinks(),

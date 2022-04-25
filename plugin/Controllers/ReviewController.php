@@ -138,25 +138,35 @@ class ReviewController extends Controller
     /**
      * Triggered when a post status changes or when a review is approved|unapproved|trashed.
      *
-     * @param string $oldStatus
-     * @param string $newStatus
+     * @param string $old
+     * @param string $new
      * @param \WP_Post $post
      * @return void
      * @action transition_post_status
      */
-    public function onAfterChangeStatus($newStatus, $oldStatus, $post)
+    public function onAfterChangeStatus($new, $old, $post)
     {
-        if (in_array($oldStatus, ['new', $newStatus])) {
+        if (in_array($old, ['new', $new])) {
             return;
         }
-        if ('auto-draft' === $oldStatus && 'auto-draft' !== $newStatus) { // create review
-            glsr(ReviewManager::class)->createFromPost($post->ID);
-        }
         if (Review::isReview($post)) {
-            $isPublished = 'publish' === $newStatus;
+            $isAutoDraft = 'auto-draft' === $old && 'auto-draft' !== $new;
+            if ($isAutoDraft) {
+                glsr(ReviewManager::class)->createFromPost($post->ID);
+            }
+            $isPublished = 'publish' === $new;
             glsr(ReviewManager::class)->updateRating($post->ID, ['is_approved' => $isPublished]);
             glsr(Cache::class)->delete($post->ID, 'reviews');
             glsr(CountManager::class)->recalculate();
+            if (!$isAutoDraft) {
+                $review = glsr_get_review($post->ID);
+                if ('publish' === $new) {
+                    glsr()->action('review/approved', $review, $old, $new);
+                }
+                if ('pending' === $new) {
+                    glsr()->action('review/unapproved', $review, $old, $new);
+                }
+            }
         } else {
             glsr(ReviewManager::class)->updateAssignedPost($post->ID);
         }
