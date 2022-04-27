@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews, business rev
 Tested up to: 5.9
 Requires at least: 5.5
 Requires PHP: 5.6.20
-Stable tag: 5.23.6
+Stable tag: 5.24.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -141,6 +141,12 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.24.0 (2022-04-18) =
+
+- Added compatibility for the Divi Dynamic CSS option
+- Added the ability to use post types in the assigned_posts option. This allows you to display all reviews for a specific post type.
+- Fixed expanding excerpts
 
 = 5.23.6 (2022-04-14) =
 
