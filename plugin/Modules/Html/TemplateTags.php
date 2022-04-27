@@ -162,6 +162,14 @@ class TemplateTags
     /**
      * @return string
      */
+    protected function reviewResponseTag(Review $review)
+    {
+        return $review->response;
+    }
+
+    /**
+     * @return string
+     */
     protected function reviewTitleTag(Review $review)
     {
         return $review->title;

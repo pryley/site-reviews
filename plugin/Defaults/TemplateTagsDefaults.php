@@ -22,6 +22,7 @@ class TemplateTagsDefaults extends Defaults
             'review_ip' => _x('The IP address of the review author', 'admin-text', 'site-reviews'),
             'review_link' => _x('The link to edit/view a review', 'admin-text', 'site-reviews'),
             'review_rating' => _x('The review rating number (1-5)', 'admin-text', 'site-reviews'),
+            'review_response' => _x('The review response', 'admin-text', 'site-reviews'),
             'review_title' => _x('The review title', 'admin-text', 'site-reviews'),
             'site_title' => _x('The Site Title from your WordPress settings', 'admin-text', 'site-reviews'),
             'site_url' => _x('The Site URL from your WordPress settings', 'admin-text', 'site-reviews'),

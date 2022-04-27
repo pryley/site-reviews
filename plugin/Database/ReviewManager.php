@@ -314,19 +314,21 @@ class ReviewManager
     /**
      * @param int $reviewId
      * @param string $response
-     * @return int|bool
+     * @return bool
      */
     public function updateResponse($reviewId, $response = '')
     {
         $response = Cast::toString($response);
         $response = glsr(Sanitizer::class)->sanitizeTextHtml($response);
-        $userId = Helper::ifTrue(empty($response), 0, get_current_user_id());
         $review = glsr_get_review($reviewId);
-        glsr()->action('review/responded', $review, $response, $userId);
-        glsr(Database::class)->metaSet($reviewId, 'response_by', $userId); // prefixed metakey
-        $result = glsr(Database::class)->metaSet($reviewId, 'response', $response); // prefixed metakey
-        glsr(Cache::class)->delete($review->ID, 'reviews');
-        return $result;
+        glsr()->action('review/responded', $review, $response);
+        if (!empty($response) || !empty($review->response)) {
+            glsr(Database::class)->metaSet($review->ID, 'response', $response); // prefixed metakey
+            glsr(Database::class)->metaSet($review->ID, 'response_by', get_current_user_id()); // prefixed metakey
+            glsr(Cache::class)->delete($review->ID, 'reviews');
+            return true;
+        }
+        return false;
     }
 
     /**

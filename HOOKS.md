@@ -18,7 +18,7 @@
     site-reviews/review/create                              (int $postId, Commands\CreateReview $command)
     site-reviews/review/created                             (Review $review, Commands\CreateReview $command)
     site-reviews/review/request                             (Request $request)
-    site-reviews/review/responded                           (Review $review, string $response, int $userId)
+    site-reviews/review/responded                           (Review $review, string $response)
     site-reviews/review/saved                               (Review $review, array $submittedValues)
     site-reviews/review/unapproved                          (Review $review, string $prevStatus)
     site-reviews/review/updated/post_ids                    (Review $review, array $assignedPostIds)
