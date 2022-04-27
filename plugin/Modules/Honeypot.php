@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Field;
 use GeminiLabs\SiteReviews\Modules\Style;
@@ -35,6 +36,14 @@ class Honeypot
     public function hash($formId)
     {
         require_once ABSPATH.WPINC.'/pluggable.php';
+        if (is_array($formId)) {
+            glsr_log()
+                ->warning('Honeypot expects the submitted form ID to be a string, an array was passed instead.')
+                ->debug($formId);
+            glsr_trace(10);
+            $formId = array_shift($formId);
+        }
+        $formId = Cast::toString($formId);
         return substr(wp_hash($formId, 'nonce'), -12, 8);
     }
 
