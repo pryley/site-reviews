@@ -1,6 +1,6 @@
 .PHONY: analyse
 analyse: ## Run phpstan analyser
-	./vendor/bin/phpstan analyse
+	./vendor/bin/phpstan analyse --memory-limit 1G
 
 .PHONY: build
 build: ## Build all assets and languages

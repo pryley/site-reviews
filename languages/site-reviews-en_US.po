@@ -61,7 +61,7 @@ msgstr "Title of your review"
 msgid "Summarize your review or highlight an interesting detail"
 msgstr "Summarize your review or highlight an interesting detail"
 
-#: config/forms/review-form.php:14, plugin/Modules/Honeypot.php:19
+#: config/forms/review-form.php:14, plugin/Modules/Honeypot.php:20
 msgid "Your review"
 msgstr "Your review"
 
@@ -1912,19 +1912,19 @@ msgctxt "admin-text"
 msgid "Review unpinned."
 msgstr "Review unpinned."
 
-#: plugin/Commands/ToggleStatus.php:55, views/partials/editor/pinned.php:7
+#: plugin/Commands/ToggleStatus.php:58, views/partials/editor/pinned.php:7
 msgctxt "admin-text"
 msgid "Edit"
 msgstr "Edit"
 
-#: plugin/Commands/ToggleStatus.php:78
+#: plugin/Commands/ToggleStatus.php:81
 msgctxt "admin-text"
 msgid "Approved <span class=\"count\">(%s)</span>"
 msgid_plural "Approved <span class=\"count\">(%s)</span>"
 msgstr[0] "Approved <span class=\"count\">(%s)</span>"
 msgstr[1] "Approved <span class=\"count\">(%s)</span>"
 
-#: plugin/Commands/ToggleStatus.php:86
+#: plugin/Commands/ToggleStatus.php:89
 msgctxt "admin-text"
 msgid "Unapproved <span class=\"count\">(%s)</span>"
 msgid_plural "Unapproved <span class=\"count\">(%s)</span>"
@@ -2422,17 +2422,22 @@ msgctxt "admin-text"
 msgid "The review rating number (1-5)"
 msgstr "The review rating number (1-5)"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:25
+#: plugin/Defaults/TemplateTagsDefaults.php:25, views/pages/tools/general/import-reviews.php:116
+msgctxt "admin-text"
+msgid "The review response"
+msgstr "The review response"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:26
 msgctxt "admin-text"
 msgid "The review title"
 msgstr "The review title"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:26
+#: plugin/Defaults/TemplateTagsDefaults.php:27
 msgctxt "admin-text"
 msgid "The Site Title from your WordPress settings"
 msgstr "The Site Title from your WordPress settings"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:27
+#: plugin/Defaults/TemplateTagsDefaults.php:28
 msgctxt "admin-text"
 msgid "The Site URL from your WordPress settings"
 msgstr "The Site URL from your WordPress settings"
@@ -4212,11 +4217,6 @@ msgstr "The reviewer's name"
 msgctxt "admin-text"
 msgid "A number from 0-%d"
 msgstr "A number from 0-%d"
-
-#: views/pages/tools/general/import-reviews.php:116
-msgctxt "admin-text"
-msgid "The review response"
-msgstr "The review response"
 
 #: views/pages/tools/general/import-reviews.php:126
 msgctxt "admin-text"

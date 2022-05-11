@@ -36,7 +36,7 @@ class Honeypot
     public function hash($formId)
     {
         require_once ABSPATH.WPINC.'/pluggable.php';
-        if (is_array($formId)) {
+        if (is_array($formId)) { // @phpstan-ignore-line
             glsr_log()
                 ->warning('Honeypot expects the submitted form ID to be a string, an array was passed instead.')
                 ->debug($formId);
