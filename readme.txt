@@ -2,7 +2,7 @@
 Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, star ratings
-Tested up to: 5.9
+Tested up to: 6.0
 Requires at least: 5.5
 Requires PHP: 5.6.20
 Stable tag: 5.24.0
@@ -142,10 +142,10 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
-= 5.24.0 (2022-04-18) =
+= 5.24.0 (2022-05-26) =
 
-- Added compatibility for the Divi Dynamic CSS option
-- Added the ability to use post types in the assigned_posts option. This allows you to display all reviews for a specific post type.
+- Added the ability to use post types in the assigned_posts option allowing you to display all reviews for a specific post type.
+- Fixed compatibility with Divi Dynamic CSS
 - Fixed expanding excerpts
 
 = 5.23.6 (2022-04-14) =

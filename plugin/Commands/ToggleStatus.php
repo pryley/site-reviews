@@ -38,7 +38,6 @@ class ToggleStatus implements Contract
             glsr_log()->error($postId->get_error_message());
             return [];
         }
-        $review = glsr_get_review($postId);
         return [
             'class' => 'status-'.$this->status,
             'counts' => $this->getStatusLinks(),

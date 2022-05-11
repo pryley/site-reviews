@@ -1,3 +1,6 @@
+:root .glsr {
+    border-width: 0;
+}
 :root .glsr .glsr-reviews,
 :root .glsr .glsr-reviews-wrap {
     display: grid;
