@@ -29,7 +29,7 @@ class Text
                 'class' => 'glsr-hidden glsr-hidden-text',
                 'data-show-less' => __('Show less', 'site-reviews'),
                 'data-show-more' => __('Show more', 'site-reviews'),
-                'data-trigger' => glsr_get_option('reviews.excerpts_action') ?: 'excerpt',
+                'data-trigger' => glsr_get_option('reviews.excerpts_action') ?: 'expand',
             ]);
             $text = ltrim(mb_substr($text, 0, $splitLength)).$showMore;
         }
