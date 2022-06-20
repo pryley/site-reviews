@@ -13,7 +13,7 @@ const selectors = {
 class Excerpts {
     constructor (el) {
         this.events = {
-            click: this._onClick.bind(this),
+            click: this._onClick,
         };
         (el || document).querySelectorAll(selectors.hiddenText).forEach(el => this.init(el));
     }
