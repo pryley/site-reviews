@@ -12,7 +12,7 @@
  * This removes the nonce check for logged-in users when submitting a review.
  * @see http://developer.wordpress.org/plugins/security/nonces/
  */
-add_filter('site-reviews/router/unguarded-actions', function ($actions) {
+add_filter('site-reviews/router/admin/unguarded-actions', function ($actions) {
     $actions[] = 'submit-review';
     return $actions;
 });</code></pre>
