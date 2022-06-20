@@ -108,7 +108,7 @@ class Validation {
         this.form.querySelectorAll(selector).forEach(field => {
             if (this.fields.find(item => item.input.name === field.name && !field.name.endsWith('[]'))) return;
             let fieldEl = field.closest(classListSelector(this.config.field));
-            if ('none' !== fieldEl.style.display) {
+            if (fieldEl && 'none' !== fieldEl.style.display) {
                 this.fields.push(this._initField(field))
             }
         })
