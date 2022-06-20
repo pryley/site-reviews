@@ -48,6 +48,7 @@ const edit = props => {
             value={ assigned_to }
         >
             <TextControl
+                key={ 'custom_assigned_posts' }
                 className="glsr-base-conditional-control"
                 help={ _x('Separate values with a comma.', 'admin-text', 'site-reviews') }
                 onChange={ assigned_posts => setAttributes({ assigned_posts }) }
@@ -67,6 +68,7 @@ const edit = props => {
             value={ category }
         >
             <TextControl
+                key={ 'custom_assigned_terms' }
                 className="glsr-base-conditional-control"
                 help={ _x('Separate values with a comma.', 'admin-text', 'site-reviews') }
                 onChange={ assigned_terms => setAttributes({ assigned_terms }) }
@@ -86,6 +88,7 @@ const edit = props => {
             value={ user }
         >
             <TextControl
+                key={ 'custom_assigned_users' }
                 className="glsr-base-conditional-control"
                 help={ _x('Separate values with a comma.', 'admin-text', 'site-reviews') }
                 onChange={ assigned_users => setAttributes({ assigned_users }) }
