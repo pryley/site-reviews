@@ -119,11 +119,11 @@ msgctxt "admin-text"
 msgid "Respond To Others' Reviews"
 msgstr ""
 
-#: deprecated.php:136
+#: deprecated.php:123
 msgid "%s is <strong>deprecated</strong> since version %s with no alternative available."
 msgstr ""
 
-#: deprecated.php:149
+#: deprecated.php:136
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr ""
 

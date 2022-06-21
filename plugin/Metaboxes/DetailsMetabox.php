@@ -21,10 +21,10 @@ class DetailsMetabox implements MetaboxContract
         foreach ($fields as $key => &$field) {
             $field['class'] = 'glsr-input-value';
             $field['name'] = $key;
-            $field['data-value'] = $review->$key;
+            $field['data-value'] = $review->get($key, '');
             $field['disabled'] = 'add' !== glsr_current_screen()->action;
             $field['review_object'] = $review;
-            $field['value'] = $review->$key;
+            $field['value'] = $review->get($key, '');
         }
         $fields = glsr()->filterArray('metabox/fields', $fields, $review);
         array_walk($fields, function (&$field) {
