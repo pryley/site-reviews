@@ -10,6 +10,8 @@ filter:
     - tests/
 
 build:
+  dependencies:
+    override: true
   nodes:
     analysis:
       cache:
@@ -20,6 +22,7 @@ build:
         before:
           - composer require --dev johnpbloch/wordpress
       environment:
+        node: false
         php: '7.4.0'
         mysql: '5.7'
       project_setup:
