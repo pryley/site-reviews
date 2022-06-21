@@ -56,7 +56,7 @@
             <p>Add your own categories and assign reviews to them.</p>
         </li>
         <li class="glsr-column">
-            <h3><a target="_blank" href="https://github.com/pryley/site-reviews/blob/master/HOOKS.md">Developer Friendly</a></h3>
+            <h3><a target="_blank" href="https://github.com/pryley/site-reviews/blob/main/HOOKS.md">Developer Friendly</a></h3>
             <p>Designed for WordPress developers with over 100 filter hooks and convenient functions.</p>
         </li>
         <li class="glsr-column">

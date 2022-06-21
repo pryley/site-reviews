@@ -6,7 +6,7 @@
 # ----- START EDITING HERE -----
 
 ASSETS_DIR="+/screenshots"
-GIT_BRANCH="master"
+GIT_BRANCH="main"
 MIN_PHP_VERSION="5.6.20"
 MIN_WORDPRESS_VERSION="5.5"
 PLUGIN_SLUG="site-reviews"
@@ -50,7 +50,7 @@ read -p " - Verified compatibility with PHP v${MIN_PHP_VERSION} -> latest?"
 read -p " - Verified compatibility with Wordpress v${MIN_WORDPRESS_VERSION} -> latest?"
 read -p " - Verified the changelog release date?"
 read -p " - Verified that all add-ons and integrations work correctly with the update?"
-read -p " - Committed all changes to the master branch on GITHUB?"
+read -p " - Committed all changes to the main branch on GITHUB?"
 read -p " - Scrutinizer has passed all inspections?"
 echo ""
 read -p "PRESS [ENTER] TO BEGIN RELEASING "${PLUGIN_VERSION}
@@ -73,7 +73,7 @@ clear
 git fetch origin
 
 # Switch Branch
-echo "Switching to master branch"
+echo "Switching to main branch"
 mkdir -p $ROOT_PATH$TEMP_GITHUB_REPO
 git archive $GIT_BRANCH | tar -x -f - -C $ROOT_PATH$TEMP_GITHUB_REPO || { echo "Unable to archive/copy branch."; exit 1; }
 
