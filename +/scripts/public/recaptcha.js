@@ -6,7 +6,8 @@ class Recaptcha {
         this.counter = 0;
         this.id = -1;
         this.is_submitting = false;
-        this.recaptchaEl = Form.form.querySelector('.glsr-recaptcha-holder');
+        this.parentEl = this.Form.form.querySelector('.glsr-recaptcha-holder');
+        this.recaptchaEl = this._buildContainer();
         this.observer = new MutationObserver(mutations => {
             const mutation = mutations.pop();
             if (!mutation.target || mutation.target.style.visibility === 'visible') return;
@@ -16,15 +17,6 @@ class Recaptcha {
                 this.Form.enableButton();
             }, 250)
         })
-    }
-
-    destroy () {
-        this.counter = 0;
-        this.id = -1;
-        this.is_submitting = false;
-        if (this.recaptchaEl) {
-            this.recaptchaEl.innerHTML = '';
-        }
     }
 
     execute () {
@@ -42,16 +34,27 @@ class Recaptcha {
 
     render () {
         this.Form.form.onsubmit = null;
-        this.destroy()
+        this.reset()
         this._renderWait()
     }
 
     reset () {
-        this.counter = 0;
-        this.is_submitting = false;
         if (this.id !== -1) {
             grecaptcha.reset(this.id)
         }
+        this.counter = 0;
+        this.is_submitting = false;
+    }
+
+    _buildContainer () {
+        if (!this.parentEl) {
+            return false;
+        }
+        Array.from(this.parentEl.getElementsByClassName("g-recaptcha")).forEach(el => el.remove());
+        const el = document.createElement('div');
+        el.classList.add('g-recaptcha');
+        this.parentEl.appendChild(el);
+        return el;
     }
 
     _observeMutations (id) {
@@ -73,17 +76,27 @@ class Recaptcha {
     _renderWait () {
         if (!this.recaptchaEl) return;
         setTimeout(() => {
+            if (-1 !== this.id) return;
             if (typeof grecaptcha === 'undefined' || typeof grecaptcha.render === 'undefined') {
                 return this._renderWait()
             }
+            this._renderChallenge()
+        }, 250)
+    }
+
+    _renderChallenge () {
+        try {
             this.id = grecaptcha.render(this.recaptchaEl, {
+                badge: this.parentEl.dataset.badge,
                 callback: this._submitForm.bind(this.Form, this.counter),
-                // 'error-callback': this.reset.bind(this), // @todo
-                // 'error-callback': The name of your callback function, executed when reCAPTCHA encounters an error (usually network connectivity) and cannot continue until connectivity is restored. If you specify a function here, you are responsible for informing the user that they should retry.
                 'expired-callback': this.reset.bind(this),
                 isolated: true,
+                sitekey: this.parentEl.dataset.sitekey,
+                size: this.parentEl.dataset.size,
             }, true);
-        }, 250)
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     _submitForm (counter) {

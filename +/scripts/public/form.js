@@ -59,7 +59,7 @@ class Form {
     }
 
     _destroyRecaptcha () {
-        this.recaptcha.destroy()
+        this.recaptcha.reset()
     }
 
     _destroyStarRatings () {
