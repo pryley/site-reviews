@@ -39,6 +39,9 @@ parameters:
     - '#Parameter \#2 \$format of function get_headers expects int, false given.#'
     - '#Parameter \#1 \$separator of function explode expects non-empty-string, string given.#'
     - '#Parameter \#2 \$associative of function get_headers expects bool, int given.#'
+    # Literal String errors
+    - '#Parameter \#1 \$query of method wpdb::prepare\(\) expects literal-string, non-empty-string given.#'
+    - '#Parameter \#1 \$query of method wpdb::prepare\(\) expects literal-string, string given.#'
   level: 5
   paths:
     - config
@@ -46,3 +49,5 @@ parameters:
   reportUnmatchedIgnoredErrors: false
   scanFiles:
     - vendors/woocommerce/action-scheduler/functions.php
+  scanDirectories:
+    - ../../../Sites/site-reviews/public/app/plugins/akismet
