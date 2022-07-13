@@ -433,8 +433,12 @@ class SystemInfo
     {
         $keys = glsr()->filterArray('addon/system-info/purge', [
             'licenses.' => 8,
+            'submissions.hcaptcha.key' => 0,
+            'submissions.hcaptcha.secret' => 0,
             'submissions.recaptcha.key' => 0,
             'submissions.recaptcha.secret' => 0,
+            'submissions.recaptcha_v3.key' => 0,
+            'submissions.recaptcha_v3.secret' => 0,
         ]);
         array_walk($settings, function (&$value, $setting) use ($keys) {
             foreach ($keys as $key => $preserve) {

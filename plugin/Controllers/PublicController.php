@@ -44,17 +44,27 @@ class PublicController extends Controller
     /**
      * @param string $tag
      * @param string $handle
+     * @param string $src
      * @return string
      * @filter script_loader_tag
      */
-    public function filterEnqueuedScriptTags($tag, $handle)
+    public function filterEnqueuedScriptTags($tag, $handle, $src)
     {
-        $scripts = [glsr()->id.'/google-recaptcha'];
+        $scripts = [
+            glsr()->id.'/hcaptcha',
+            glsr()->id.'/google-recaptcha',
+        ];
         if (in_array($handle, glsr()->filterArray('async-scripts', $scripts))) {
             $tag = str_replace(' src=', ' async src=', $tag);
         }
         if (in_array($handle, glsr()->filterArray('defer-scripts', $scripts))) {
             $tag = str_replace(' src=', ' defer src=', $tag);
+        }
+        if (glsr()->id.'/friendlycaptcha-module' === $handle) {
+            $tag = sprintf('<script type="module" src="%s" async defer></script>', esc_url($src));
+        }
+        if (glsr()->id.'/friendlycaptcha-nomodule' === $handle) {
+            $tag = sprintf('<script nomodule src="%s" async defer></script>', esc_url($src));
         }
         return $tag;
     }

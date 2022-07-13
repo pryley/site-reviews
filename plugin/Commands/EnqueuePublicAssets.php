@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Commands;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
+use GeminiLabs\SiteReviews\Modules\Captcha;
 use GeminiLabs\SiteReviews\Modules\Style;
 
 class EnqueuePublicAssets implements Contract
@@ -15,8 +16,8 @@ class EnqueuePublicAssets implements Contract
     public function handle()
     {
         $this->enqueueAssets();
+        $this->enqueueCaptcha();
         $this->enqueuePolyfillService();
-        $this->enqueueRecaptchaScript();
     }
 
     /**
@@ -36,6 +37,39 @@ class EnqueuePublicAssets implements Contract
             wp_enqueue_script(glsr()->id, $this->getScript(), $dependencies, glsr()->version, true);
             wp_add_inline_script(glsr()->id, $this->inlineScript(), 'before');
             wp_add_inline_script(glsr()->id, glsr()->filterString('enqueue/public/inline-script/after', ''));
+        }
+    }
+
+    /**
+     * wpforms-recaptcha
+     * google-recaptcha
+     * nf-google-recaptcha.
+     * @return void
+     */
+    public function enqueueCaptcha()
+    {
+        if (!glsr(Captcha::class)->isEnabled()) {
+            return;
+        }
+        $integration = glsr_get_option('submissions.captcha.integration');
+        $language = glsr()->filterString('captcha/language', get_locale());
+        $apiUrl = 'https://www.google.com/recaptcha/api.js';
+        $handle = glsr()->id.'/google-recaptcha';
+        $render = 'explicit';
+        if ('hcaptcha' === $integration) {
+            $apiUrl = 'https://js.hcaptcha.com/1/api.js';
+            $handle = glsr()->id.'/hcaptcha';
+        }
+        if ('recaptcha_v3' === $integration) {
+            $render = glsr_get_option('submissions.recaptcha_v3.key');
+        }
+        if ('friendlycaptcha' === $integration) {
+            $moduleUrl = 'https://unpkg.com/friendly-challenge@0.9.4/widget.module.min.js';
+            $nomoduleUrl = 'https://unpkg.com/friendly-challenge@0.9.4/widget.min.js';
+            wp_enqueue_script(glsr()->id.'/friendlycaptcha-module', $moduleUrl);
+            wp_enqueue_script(glsr()->id.'/friendlycaptcha-nomodule', $nomoduleUrl);
+        } else {
+            wp_enqueue_script($handle, add_query_arg(['hl' => $language, 'render' => $render], $apiUrl));
         }
     }
 
@@ -69,24 +103,6 @@ class EnqueuePublicAssets implements Contract
     }
 
     /**
-     * @return void
-     */
-    public function enqueueRecaptchaScript()
-    {
-        // wpforms-recaptcha
-        // google-recaptcha
-        // nf-google-recaptcha
-        if (!glsr(OptionManager::class)->isRecaptchaEnabled()) {
-            return;
-        }
-        $language = glsr()->filterString('recaptcha/language', get_locale());
-        wp_enqueue_script(glsr()->id.'/google-recaptcha', add_query_arg([
-            'hl' => $language,
-            'render' => 'explicit',
-        ], 'https://www.google.com/recaptcha/api.js'));
-    }
-
-    /**
      * @return string
      */
     public function inlineScript()
@@ -95,6 +111,7 @@ class EnqueuePublicAssets implements Contract
             'action' => glsr()->prefix.'action',
             'ajaxpagination' => $this->getFixedSelectorsForPagination(),
             'ajaxurl' => admin_url('admin-ajax.php'),
+            'captcha' => glsr(Captcha::class)->config(),
             'nameprefix' => glsr()->id,
             'stars' => [
                 'clearable' => false,

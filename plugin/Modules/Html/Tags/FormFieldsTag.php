@@ -50,7 +50,6 @@ class FormFieldsTag extends FormTag
         $referer = glsr()->filterString('review-form/referer', $referer);
         $hiddenFields = [
             '_action' => 'submit-review',
-            '_counter' => null,
             '_nonce' => wp_create_nonce('submit-review'),
             '_post_id' => get_the_ID(),
             '_referer' => wp_unslash($referer),

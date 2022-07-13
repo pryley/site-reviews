@@ -639,49 +639,146 @@ return [
         'tooltip' => _x('One Username per line. All registered users with a Username in the whitelist will be excluded from the review submission limit.', 'admin-text', 'site-reviews'),
         'type' => 'code',
     ],
-    'settings.submissions.recaptcha.integration' => [
+    'settings.submissions.captcha.integration' => [
         'class' => 'regular-text',
         'default' => '',
-        'label' => _x('Invisible reCAPTCHA', 'admin-text', 'site-reviews'),
+        'label' => _x('CAPTCHA', 'admin-text', 'site-reviews'),
         'options' => [
-            '' => _x('Do not use reCAPTCHA', 'admin-text', 'site-reviews'),
-            'all' => _x('Use reCAPTCHA', 'admin-text', 'site-reviews'),
-            'guest' => _x('Use reCAPTCHA only for guest users', 'admin-text', 'site-reviews'),
+            '' => _x('Do not use', 'admin-text', 'site-reviews'),
+            'friendlycaptcha' => _x('Use Friendly Captcha', 'admin-text', 'site-reviews'),
+            'hcaptcha' => _x('Use hCaptcha', 'admin-text', 'site-reviews'),
+            'recaptcha_v2_invisible' => _x('Use reCAPTCHA v2 Invisible', 'admin-text', 'site-reviews'),
+            'recaptcha_v3' => _x('Use reCAPTCHA v3', 'admin-text', 'site-reviews'),
         ],
-        'tooltip' => _x('The Invisible reCAPTCHA badge (reCAPTCHA v2) is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('CAPTCHAs (Completely Automated Public Turing test to tell Computers and Humans Apart) are anti-bot solutions that protect forms from spam.', 'admin-text', 'site-reviews'),
         'type' => 'select',
+    ],
+    'settings.submissions.friendlycaptcha.key' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.submissions.captcha.integration' => ['friendlycaptcha'],
+        ],
+        'label' => _x('Site Key', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('<a href="https://friendlycaptcha.com/signup" target="_blank">Friendly Captcha</a> is privacy-first Schrems II and GDPR compliant anti-bot solution.', 'admin-text', 'site-reviews'),
+        'type' => 'text',
+    ],
+    'settings.submissions.friendlycaptcha.secret' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.submissions.captcha.integration' => ['friendlycaptcha'],
+        ],
+        'label' => _x('API Key', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('<a href="https://friendlycaptcha.com/signup" target="_blank">Friendly Captcha</a> is privacy-first Schrems II and GDPR compliant anti-bot solution.', 'admin-text', 'site-reviews'),
+        'type' => 'text',
+    ],
+    'settings.submissions.hcaptcha.key' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.submissions.captcha.integration' => ['hcaptcha'],
+        ],
+        'label' => _x('Site Key', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('hCaptcha is an anti-bot solution that protects user privacy. It is the most popular reCAPTCHA alternative. To use it, you will need to <a href="https://dashboard.hcaptcha.com/" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
+        'type' => 'text',
+    ],
+    'settings.submissions.hcaptcha.secret' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.submissions.captcha.integration' => ['hcaptcha'],
+        ],
+        'label' => _x('Secret Key', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('hCaptcha is an anti-bot solution that protects user privacy. It is the most popular reCAPTCHA alternative. To use it, you will need to <a href="https://dashboard.hcaptcha.com/" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
+        'type' => 'text',
     ],
     'settings.submissions.recaptcha.key' => [
         'default' => '',
         'depends_on' => [
-            'settings.submissions.recaptcha.integration' => ['all', 'guest'],
+            'settings.submissions.captcha.integration' => ['recaptcha_v2_invisible'],
         ],
         'label' => _x('Site Key', 'admin-text', 'site-reviews'),
-        'tooltip' => _x('Enter the Invisible reCAPTCHA Site Key here', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('reCAPTCHA v2 Invisible is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
     'settings.submissions.recaptcha.secret' => [
         'default' => '',
         'depends_on' => [
-            'settings.submissions.recaptcha.integration' => ['all', 'guest'],
+            'settings.submissions.captcha.integration' => ['recaptcha_v2_invisible'],
         ],
-        'label' => _x('Site Secret', 'admin-text', 'site-reviews'),
-        'tooltip' => _x('Enter the Invisible reCAPTCHA Site Secret here', 'admin-text', 'site-reviews'),
+        'label' => _x('Secret Key', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('reCAPTCHA v2 Invisible is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
-    'settings.submissions.recaptcha.position' => [
+    'settings.submissions.recaptcha_v3.key' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.submissions.captcha.integration' => ['recaptcha_v3'],
+        ],
+        'label' => _x('Site Key', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('reCAPTCHA v3 is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
+        'type' => 'text',
+    ],
+    'settings.submissions.recaptcha_v3.secret' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.submissions.captcha.integration' => ['recaptcha_v3'],
+        ],
+        'label' => _x('Secret Key', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('reCAPTCHA v3 is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
+        'type' => 'text',
+    ],
+    'settings.submissions.recaptcha_v3.threshold' => [
+        'default' => 0.5,
+        'depends_on' => [
+            'settings.submissions.captcha.integration' => 'recaptcha_v3',
+        ],
+        'description' => _x('Score threshold should be a value between 0 and 1, default: 0.5', 'admin-text', 'site-reviews'),
+        'label' => _x('Score Threshold', 'admin-text', 'site-reviews'),
+        'min' => 0,
+        'max' => 1,
+        'step' => 0.1,
+        'tooltip' => _x('Where 0 is a robot and 1 is a human', 'admin-text', 'site-reviews'),
+        'type' => 'number',
+    ],
+    'settings.submissions.captcha.position' => [
         'class' => 'regular-text',
         'default' => 'bottomleft',
         'depends_on' => [
-            'settings.submissions.recaptcha.integration' => ['all', 'guest'],
+            'settings.submissions.captcha.integration' => ['hcaptcha', 'recaptcha_v2_invisible'],
         ],
-        'label' => _x('Badge Position', 'admin-text', 'site-reviews'),
+        'label' => _x('CAPTCHA Badge Position', 'admin-text', 'site-reviews'),
         'options' => [
             'bottomleft' => _x('Bottom Left', 'admin-text', 'site-reviews'),
             'bottomright' => _x('Bottom Right', 'admin-text', 'site-reviews'),
             'inline' => _x('Inline', 'admin-text', 'site-reviews'),
         ],
         'tooltip' => _x('This option may not work consistently if another plugin is loading reCAPTCHA on the same page as Site Reviews.', 'admin-text', 'site-reviews'),
+        'type' => 'select',
+    ],
+    'settings.submissions.captcha.theme' => [
+        'class' => 'regular-text',
+        'default' => 'light',
+        'depends_on' => [
+            'settings.submissions.captcha.integration' => ['friendlycaptcha', 'hcaptcha', 'recaptcha_v2_invisible'],
+        ],
+        'label' => _x('CAPTCHA Theme', 'admin-text', 'site-reviews'),
+        'options' => [
+            'light' => _x('Light', 'admin-text', 'site-reviews'),
+            'dark' => _x('Dark', 'admin-text', 'site-reviews'),
+        ],
+        'tooltip' => _x('Set the color theme of the CAPTCHA widget.', 'admin-text', 'site-reviews'),
+        'type' => 'select',
+    ],
+    'settings.submissions.captcha.usage' => [
+        'class' => 'regular-text',
+        'default' => 'all',
+        'depends_on' => [
+            'settings.submissions.captcha.integration' => ['friendlycaptcha', 'hcaptcha', 'recaptcha_v2_invisible', 'recaptcha_v3'],
+        ],
+        'label' => _x('CAPTCHA Usage', 'admin-text', 'site-reviews'),
+        'options' => [
+            'all' => _x('Use for everyone', 'admin-text', 'site-reviews'),
+            'guest' => _x('Use only for guest users', 'admin-text', 'site-reviews'),
+        ],
+        'tooltip' => _x('Choose who you want to load the CAPTCHA for.', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
     'settings.submissions.akismet' => [

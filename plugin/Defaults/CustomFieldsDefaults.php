@@ -14,11 +14,11 @@ class CustomFieldsDefaults extends Defaults
     public $guarded = [
         '_action',
         '_ajax_request',
-        '_counter',
+        '_frcaptcha',
+        '_hcaptcha',
         '_nonce',
         '_post_id',
         '_recaptcha',
-        '_recaptcha-token',
         '_referer',
         'assigned_posts',
         'assigned_terms',

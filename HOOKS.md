@@ -127,8 +127,7 @@
     site-reviews/query/sql/order-by                         (array $orderBy, string $handle, Database\Query $query): array
     site-reviews/rating/average                             (float $roundedAverage, array $ratingCounts, int $average): float
     site-reviews/rating/ranking                             (float $ranking, array $ratingCounts, Modules\Rating $rating): float
-    site-reviews/recaptcha/language                         (string $locale): string
-    site-reviews/recaptcha/timeout                          (int $timeout): int
+    site-reviews/captcha/language                           (string $locale): string
     site-reviews/render/view                                (string $view, array $data): string
     site-reviews/rendered/field                             (string $field, string $fieldType, array $field): string
     site-reviews/rendered/field/classes                     (array $classes, array $field): array

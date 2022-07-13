@@ -100,7 +100,9 @@ class Router
             $request['_ajax_request'] = true;
         }
         if ('submit-review' == Helper::filterInput('_action', $request)) {
-            $request['_recaptcha-token'] = Helper::filterInput('g-recaptcha-response');
+            $request['_frcaptcha'] = Helper::filterInput('frc-captcha-solution');
+            $request['_hcaptcha'] = Helper::filterInput('h-captcha-response');
+            $request['_recaptcha'] = Helper::filterInput('g-recaptcha-response');
         }
         return new Request($request);
     }

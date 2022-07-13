@@ -108,15 +108,6 @@ class OptionManager
     }
 
     /**
-     * @return bool
-     */
-    public function isRecaptchaEnabled()
-    {
-        $integration = $this->get('settings.submissions.recaptcha.integration');
-        return 'all' == $integration || ('guest' == $integration && !is_user_logged_in());
-    }
-
-    /**
      * @return string
      */
     public function json()

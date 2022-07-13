@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: Gemini Labs <support@geminilabs.io>\n"
 "Last-Translator: Paul Ryley <paul@geminilabs.io>\n"
-"POT-Creation-Date: 2022-06-29 16:16+0000\n"
+"POT-Creation-Date: 2022-07-13 22:12+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Keywordslist: "
 "__;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_"
@@ -45,7 +45,7 @@ msgstr "There are no reviews yet. Be the first one to write one."
 msgid "Anonymous"
 msgstr "Anonymous"
 
-#: plugin/Router.php:160, views/pages/documentation/support/common-problems-and-solutions.php:55
+#: plugin/Router.php:162, views/pages/documentation/support/common-problems-and-solutions.php:55
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr "The form could not be submitted. Please notify the site administrator."
 
@@ -317,6 +317,14 @@ msgstr "This review has been flagged as possible spam and cannot be submitted."
 msgid "Your review cannot be submitted at this time."
 msgstr "Your review cannot be submitted at this time."
 
+#: plugin/Modules/Validator/CaptchaValidator.php:58
+msgid "The CAPTCHA failed to load, please refresh the page and try again."
+msgstr "The CAPTCHA failed to load, please refresh the page and try again."
+
+#: plugin/Modules/Validator/CaptchaValidator.php:59
+msgid "The CAPTCHA verification failed, please try again."
+msgstr "The CAPTCHA verification failed, please try again."
+
 #: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:80
 msgid "The review submission failed. Please notify the site administrator."
 msgstr "The review submission failed. Please notify the site administrator."
@@ -324,14 +332,6 @@ msgstr "The review submission failed. Please notify the site administrator."
 #: plugin/Modules/Validator/PermissionValidator.php:26
 msgid "You must be logged in to submit a review."
 msgstr "You must be logged in to submit a review."
-
-#: plugin/Modules/Validator/RecaptchaValidator.php:44
-msgid "The reCAPTCHA failed to load, please refresh the page and try again."
-msgstr "The reCAPTCHA failed to load, please refresh the page and try again."
-
-#: plugin/Modules/Validator/RecaptchaValidator.php:45
-msgid "The reCAPTCHA verification failed, please try again."
-msgstr "The reCAPTCHA verification failed, please try again."
 
 #: plugin/Modules/Validator/ReviewLimitsValidator.php:34
 msgid "You have already submitted a review."
@@ -371,7 +371,7 @@ msgstr "Rated <strong>%s</strong> out of %s based on %s ratings"
 msgid "Rated <strong>%s</strong> out of %s"
 msgstr "Rated <strong>%s</strong> out of %s"
 
-#: plugin/Modules/Html/Tags/FormSubmitButtonTag.php:43
+#: plugin/Modules/Html/Tags/FormSubmitButtonTag.php:16
 msgid "Submit your review"
 msgstr "Submit your review"
 
@@ -1498,78 +1498,140 @@ msgstr ""
 
 #: config/settings.php:645
 msgctxt "admin-text"
-msgid "Invisible reCAPTCHA"
-msgstr "Invisible reCAPTCHA"
+msgid "CAPTCHA"
+msgstr "CAPTCHA"
 
 #: config/settings.php:647
 msgctxt "admin-text"
-msgid "Do not use reCAPTCHA"
-msgstr "Do not use reCAPTCHA"
+msgid "Do not use"
+msgstr "Do not use"
 
 #: config/settings.php:648
 msgctxt "admin-text"
-msgid "Use reCAPTCHA"
-msgstr "Use reCAPTCHA"
+msgid "Use Friendly Captcha"
+msgstr "Use Friendly Captcha"
 
 #: config/settings.php:649
 msgctxt "admin-text"
-msgid "Use reCAPTCHA only for guest users"
-msgstr "Use reCAPTCHA only for guest users"
+msgid "Use hCaptcha"
+msgstr "Use hCaptcha"
+
+#: config/settings.php:650
+msgctxt "admin-text"
+msgid "Use reCAPTCHA v2 Invisible"
+msgstr "Use reCAPTCHA v2 Invisible"
 
 #: config/settings.php:651
 msgctxt "admin-text"
-msgid ""
-"The Invisible reCAPTCHA badge (reCAPTCHA v2) is a free anti-spam service "
-"from Google. To use it, you will need to <a "
-"href=\"https://www.google.com/recaptcha/admin\" target=\"_blank\">sign "
-"up</a> for an API key pair for your site."
-msgstr ""
-"The Invisible reCAPTCHA badge (reCAPTCHA v2) is a free anti-spam service "
-"from Google. To use it, you will need to <a "
-"href=\"https://www.google.com/recaptcha/admin\" target=\"_blank\">sign "
-"up</a> for an API key pair for your site."
+msgid "Use reCAPTCHA v3"
+msgstr "Use reCAPTCHA v3"
 
-#: config/settings.php:659
+#: config/settings.php:653
+msgctxt "admin-text"
+msgid ""
+"CAPTCHAs (Completely Automated Public Turing test to tell Computers and "
+"Humans Apart) are anti-bot solutions that protect forms from spam."
+msgstr ""
+"CAPTCHAs (Completely Automated Public Turing test to tell Computers and "
+"Humans Apart) are anti-bot solutions that protect forms from spam."
+
+#: config/settings.php:661, config/settings.php:679, config/settings.php:697, config/settings.php:715
 msgctxt "admin-text"
 msgid "Site Key"
 msgstr "Site Key"
 
-#: config/settings.php:660
+#: config/settings.php:662, config/settings.php:671
 msgctxt "admin-text"
-msgid "Enter the Invisible reCAPTCHA Site Key here"
-msgstr "Enter the Invisible reCAPTCHA Site Key here"
+msgid ""
+"<a href=\"https://friendlycaptcha.com/signup\" target=\"_blank\">Friendly "
+"Captcha</a> is privacy-first Schrems II and GDPR compliant anti-bot "
+"solution."
+msgstr ""
+"<a href=\"https://friendlycaptcha.com/signup\" target=\"_blank\">Friendly "
+"Captcha</a> is privacy-first Schrems II and GDPR compliant anti-bot "
+"solution."
 
-#: config/settings.php:668
+#: config/settings.php:670
 msgctxt "admin-text"
-msgid "Site Secret"
-msgstr "Site Secret"
+msgid "API Key"
+msgstr "API Key"
 
-#: config/settings.php:669
+#: config/settings.php:680, config/settings.php:689
 msgctxt "admin-text"
-msgid "Enter the Invisible reCAPTCHA Site Secret here"
-msgstr "Enter the Invisible reCAPTCHA Site Secret here"
+msgid ""
+"hCaptcha is an anti-bot solution that protects user privacy. It is the most "
+"popular reCAPTCHA alternative. To use it, you will need to <a "
+"href=\"https://dashboard.hcaptcha.com/\" target=\"_blank\">sign up</a> for "
+"an API key pair for your site."
+msgstr ""
+"hCaptcha is an anti-bot solution that protects user privacy. It is the most "
+"popular reCAPTCHA alternative. To use it, you will need to <a "
+"href=\"https://dashboard.hcaptcha.com/\" target=\"_blank\">sign up</a> for "
+"an API key pair for your site."
 
-#: config/settings.php:678
+#: config/settings.php:688, config/settings.php:706, config/settings.php:724
 msgctxt "admin-text"
-msgid "Badge Position"
-msgstr "Badge Position"
+msgid "Secret Key"
+msgstr "Secret Key"
 
-#: config/settings.php:680
+#: config/settings.php:698, config/settings.php:707
+msgctxt "admin-text"
+msgid ""
+"reCAPTCHA v2 Invisible is a free anti-spam service from Google. To use it, "
+"you will need to <a href=\"https://www.google.com/recaptcha/admin\" "
+"target=\"_blank\">sign up</a> for an API key pair for your site."
+msgstr ""
+"reCAPTCHA v2 Invisible is a free anti-spam service from Google. To use it, "
+"you will need to <a href=\"https://www.google.com/recaptcha/admin\" "
+"target=\"_blank\">sign up</a> for an API key pair for your site."
+
+#: config/settings.php:716, config/settings.php:725
+msgctxt "admin-text"
+msgid ""
+"reCAPTCHA v3 is a free anti-spam service from Google. To use it, you will "
+"need to <a href=\"https://www.google.com/recaptcha/admin\" "
+"target=\"_blank\">sign up</a> for an API key pair for your site."
+msgstr ""
+"reCAPTCHA v3 is a free anti-spam service from Google. To use it, you will "
+"need to <a href=\"https://www.google.com/recaptcha/admin\" "
+"target=\"_blank\">sign up</a> for an API key pair for your site."
+
+#: config/settings.php:733
+msgctxt "admin-text"
+msgid "Score threshold should be a value between 0 and 1, default: 0.5"
+msgstr "Score threshold should be a value between 0 and 1, default: 0.5"
+
+#: config/settings.php:734
+msgctxt "admin-text"
+msgid "Score Threshold"
+msgstr "Score Threshold"
+
+#: config/settings.php:738
+msgctxt "admin-text"
+msgid "Where 0 is a robot and 1 is a human"
+msgstr "Where 0 is a robot and 1 is a human"
+
+#: config/settings.php:747
+msgctxt "admin-text"
+msgid "CAPTCHA Badge Position"
+msgstr "CAPTCHA Badge Position"
+
+#: config/settings.php:749
 msgctxt "admin-text"
 msgid "Bottom Left"
 msgstr "Bottom Left"
 
-#: config/settings.php:681
+#: config/settings.php:750
 msgctxt "admin-text"
 msgid "Bottom Right"
 msgstr "Bottom Right"
 
-#: config/settings.php:682
+#: config/settings.php:751
 msgctxt "admin-text"
 msgid "Inline"
 msgstr "Inline"
 
-#: config/settings.php:684
+#: config/settings.php:753
 msgctxt "admin-text"
 msgid ""
 "This option may not work consistently if another plugin is loading "
@@ -1578,12 +1640,52 @@ msgstr ""
 "This option may not work consistently if another plugin is loading "
 "reCAPTCHA on the same page as Site Reviews."
 
-#: config/settings.php:689
+#: config/settings.php:762
+msgctxt "admin-text"
+msgid "CAPTCHA Theme"
+msgstr "CAPTCHA Theme"
+
+#: config/settings.php:764
+msgctxt "admin-text"
+msgid "Light"
+msgstr "Light"
+
+#: config/settings.php:765
+msgctxt "admin-text"
+msgid "Dark"
+msgstr "Dark"
+
+#: config/settings.php:767
+msgctxt "admin-text"
+msgid "Set the color theme of the CAPTCHA widget."
+msgstr "Set the color theme of the CAPTCHA widget."
+
+#: config/settings.php:776
+msgctxt "admin-text"
+msgid "CAPTCHA Usage"
+msgstr "CAPTCHA Usage"
+
+#: config/settings.php:778
+msgctxt "admin-text"
+msgid "Use for everyone"
+msgstr "Use for everyone"
+
+#: config/settings.php:779
+msgctxt "admin-text"
+msgid "Use only for guest users"
+msgstr "Use only for guest users"
+
+#: config/settings.php:781
+msgctxt "admin-text"
+msgid "Choose who you want to load the CAPTCHA for."
+msgstr "Choose who you want to load the CAPTCHA for."
+
+#: config/settings.php:786
 msgctxt "admin-text"
 msgid "Enable Akismet"
 msgstr "Enable Akismet"
 
-#: config/settings.php:690
+#: config/settings.php:787
 msgctxt "admin-text"
 msgid ""
 "The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> "
@@ -1596,22 +1698,22 @@ msgstr ""
 "setting to have any affect, you will need to first install and activate the "
 "Akismet plugin and set up a WordPress.com API key."
 
-#: config/settings.php:696
+#: config/settings.php:793
 msgctxt "admin-text"
 msgid "Blacklist"
 msgstr "Blacklist"
 
-#: config/settings.php:698
+#: config/settings.php:795
 msgctxt "admin-text"
 msgid "Use the Site Reviews Blacklist"
 msgstr "Use the Site Reviews Blacklist"
 
-#: config/settings.php:699
+#: config/settings.php:796
 msgctxt "admin-text"
 msgid "Use the WordPress Disallowed Comment Keys"
 msgstr "Use the WordPress Disallowed Comment Keys"
 
-#: config/settings.php:701
+#: config/settings.php:798
 msgctxt "admin-text"
 msgid ""
 "Choose which Blacklist you would prefer to use for reviews. The %s option "
@@ -1620,17 +1722,17 @@ msgstr ""
 "Choose which Blacklist you would prefer to use for reviews. The %s option "
 "can be found in the WordPress Discussion Settings page."
 
-#: config/settings.php:702
+#: config/settings.php:799
 msgctxt "admin-text"
 msgid "Disallowed Comment Keys"
 msgstr "Disallowed Comment Keys"
 
-#: config/settings.php:711
+#: config/settings.php:808
 msgctxt "admin-text"
 msgid "Review Blacklist"
 msgstr "Review Blacklist"
 
-#: config/settings.php:713
+#: config/settings.php:810
 msgctxt "admin-text"
 msgid ""
 "One entry or IP address per line. When a review contains any of these "
@@ -1643,22 +1745,22 @@ msgstr ""
 "rejected. It is case-insensitive and will match partial words, so \"press\" "
 "will match \"WordPress\"."
 
-#: config/settings.php:719
+#: config/settings.php:816
 msgctxt "admin-text"
 msgid "Blacklist Action"
 msgstr "Blacklist Action"
 
-#: config/settings.php:721
+#: config/settings.php:818
 msgctxt "admin-text"
 msgid "Require approval"
 msgstr "Require approval"
 
-#: config/settings.php:722
+#: config/settings.php:819
 msgctxt "admin-text"
 msgid "Reject submission"
 msgstr "Reject submission"
 
-#: config/settings.php:724
+#: config/settings.php:821
 msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr "Choose the action that should be taken when a review is blacklisted."
@@ -1698,7 +1800,7 @@ msgctxt "admin-text"
 msgid "Rollback Site Reviews"
 msgstr "Rollback Site Reviews"
 
-#: plugin/Router.php:156
+#: plugin/Router.php:158
 msgctxt "admin-text"
 msgid "There was an error (try reloading the page)."
 msgstr "There was an error (try reloading the page)."

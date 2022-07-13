@@ -1,0 +1,114 @@
+<?php
+
+namespace GeminiLabs\SiteReviews\Modules;
+
+use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
+
+class Captcha
+{
+    /**
+     * @return array
+     */
+    public function config()
+    {
+        if (!$this->isEnabled()) {
+            return [];
+        }
+        $method = Helper::buildMethodName(glsr_get_option('submissions.captcha.integration'), 'config');
+        if (!method_exists($this, $method)) {
+            return [];
+        }
+        return call_user_func([$this, $method]);
+    }
+
+    /**
+     * @return string|void
+     */
+    public function container()
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+        $config = $this->config();
+        if ($this->isEnabled('recaptcha_v3')) {
+            return glsr(Builder::class)->input([
+                'name' => 'g-recaptcha-response',
+                'type' => 'hidden',
+            ]);
+        } else {
+            return glsr(Builder::class)->div([
+                'class' => 'glsr-captcha-holder',
+            ]);
+        }
+    }
+
+    /**
+     * @param string $service
+     * @return bool
+     */
+    public function isEnabled($service = '')
+    {
+        $integration = glsr_get_option('submissions.captcha.integration');
+        $usage = glsr_get_option('submissions.captcha.usage');
+        $isEnabled = 'all' == $usage || ('guest' == $usage && !is_user_logged_in());
+        if (!empty($service)) {
+            return $integration === $service && $isEnabled;
+        }
+        return !empty($integration) && $isEnabled;
+    }
+
+    /**
+     * @return array
+     */
+    protected function configFriendlycaptcha()
+    {
+        return [
+            'class' => 'frc-captcha '.glsr_get_option('submissions.captcha.theme'),
+            'sitekey' => glsr_get_option('submissions.friendlycaptcha.key'),
+            'theme' => glsr_get_option('submissions.captcha.theme'),
+            'type' => 'friendlycaptcha',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function configHcaptcha()
+    {
+        return [
+            'class' => 'h-captcha',
+            'badge' => glsr_get_option('submissions.captcha.position'),
+            'sitekey' => glsr_get_option('submissions.hcaptcha.key'),
+            'size' => 'normal',
+            'theme' => glsr_get_option('submissions.captcha.theme'),
+            'type' => 'hcaptcha',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function configRecaptchaV2Invisible()
+    {
+        return [
+            'class' => 'g-recaptcha',
+            'badge' => glsr_get_option('submissions.captcha.position'),
+            'sitekey' => glsr_get_option('submissions.recaptcha.key'),
+            'size' => 'invisible',
+            'theme' => glsr_get_option('submissions.captcha.theme'),
+            'type' => 'recaptcha_v2_invisible',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function configRecaptchaV3()
+    {
+        return [
+            'sitekey' => glsr_get_option('submissions.recaptcha_v3.key'),
+            'type' => 'recaptcha_v3',
+        ];
+    }
+}

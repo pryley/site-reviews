@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
+use GeminiLabs\SiteReviews\Modules\Captcha;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Style;
 
@@ -23,6 +24,16 @@ class FormResponseTag extends FormTag
      * {@inheritdoc}
      */
     protected function handle($value = null)
+    {
+        $value = glsr(Captcha::class)->container();
+        $value .= $this->responseTemplate();
+        return $value;
+    }
+
+    /**
+     * @return string
+     */
+    protected function responseTemplate()
     {
         return glsr(Template::class)->build('templates/form/response', [
             'context' => [

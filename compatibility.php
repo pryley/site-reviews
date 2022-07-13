@@ -56,13 +56,16 @@ add_action('plugins_loaded', function () {
 });
 
 /**
- * Exclude the reCAPTCHA script from being defered
+ * Exclude the CAPTCHA scripts from being defered
  * @param array $scriptHandles
  * @return array
  * @see https://wordpress.org/plugins/speed-booster-pack/
  */
 add_filter('sbp_exclude_defer_scripts', function ($scriptHandles) {
-    $scriptHandles[] = 'site-reviews/google-recaptcha';
+    $scriptHandles[] = glsr()->id.'/hcaptcha';
+    $scriptHandles[] = glsr()->id.'/friendlycaptcha-module';
+    $scriptHandles[] = glsr()->id.'/friendlycaptcha-nomodule';
+    $scriptHandles[] = glsr()->id.'/google-recaptcha';
     return array_keys(array_flip($scriptHandles));
 });
 

@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Request;
 
@@ -14,6 +13,11 @@ class ValidateReview
     public $blacklisted;
 
     /**
+     * @var string
+     */
+    public $captcha;
+
+    /**
      * @var array|false
      */
     public $errors;
@@ -22,11 +26,6 @@ class ValidateReview
      * @var string
      */
     public $message;
-
-    /**
-     * @var string
-     */
-    public $recaptcha;
 
     /**
      * @var Request
@@ -47,7 +46,10 @@ class ValidateReview
             ReviewLimitsValidator::class,
             BlacklistValidator::class,
             AkismetValidator::class,
-            RecaptchaValidator::class,
+            FriendlyCaptchaValidator::class,
+            HcaptchaValidator::class,
+            Recaptcha2Validator::class,
+            Recaptcha3Validator::class,
         ]);
         foreach ($validators as $validator) {
             if (class_exists($validator)) {
@@ -57,9 +59,9 @@ class ValidateReview
             }
         }
         $this->blacklisted = Cast::toBool($this->request->blacklisted);
+        $this->captcha = glsr()->sessionPluck('form_captcha');
         $this->errors = glsr()->sessionPluck('form_errors', false);
         $this->message = glsr()->sessionPluck('form_message');
-        $this->recaptcha = glsr()->sessionPluck('form_recaptcha');
         return $this;
     }
 
@@ -68,6 +70,6 @@ class ValidateReview
      */
     public function isValid()
     {
-        return false === $this->errors && 'unset' !== $this->recaptcha;
+        return false === $this->errors;
     }
 }

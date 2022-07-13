@@ -1,6 +1,6 @@
 /** global: CustomEvent, FormData, GLSR, HTMLFormElement, StarRating */
 
-import Recaptcha from './recaptcha.js';
+import Captcha from './captcha.js';
 import StarRating from 'star-rating.js/src';
 import Validation from './validation.js';
 import { addRemoveClass, classListSelector } from './helpers.js';
@@ -14,17 +14,17 @@ class Form {
         };
         this.form = formEl;
         this.isActive = false;
-        this.recaptcha = new Recaptcha(this);
         this.stars = null;
         this.strings = GLSR.validationstrings;
         this.useAjax = !formEl.classList.contains('no-ajax');
+        this.captcha = new Captcha(this);
         this.validation = new Validation(formEl);
     }
 
     destroy () {
         this._destroyForm()
-        this._destroyRecaptcha()
         this._destroyStarRatings()
+        this.captcha.reset()
         this.isActive = false;
     }
 
@@ -42,13 +42,15 @@ class Form {
         if (this.isActive) return;
         this._initForm()
         this._initStarRatings()
-        this._initRecaptcha()
+        this.captcha.render()
         this.isActive = true;
     }
 
-    submitForm (counter) {
+    submitForm (token) {
         this.disableButton()
-        this.form[GLSR.nameprefix + '[_counter]'].value = counter || 0;
+        if (this.form['g-recaptcha-response']) {
+            this.form['g-recaptcha-response'].value = token;
+        }
         GLSR.ajax.post(this.form, this._handleResponse.bind(this))
     }
 
@@ -56,10 +58,6 @@ class Form {
         this.form.removeEventListener('submit', this.events.submit)
         this._resetErrors()
         this.validation.destroy()
-    }
-
-    _destroyRecaptcha () {
-        this.recaptcha.reset()
     }
 
     _destroyStarRatings () {
@@ -70,15 +68,11 @@ class Form {
 
     _handleResponse (response, success) {
         const wasSuccessful = success === true;
-        if ('unset' === response.recaptcha) {
-            this.recaptcha.execute()
-            return
-        }
         if ('reset' === response.recaptcha) {
-            this.recaptcha.reset()
+            this.captcha.reset()
         }
         if (wasSuccessful) {
-            this.recaptcha.reset()
+            this.captcha.reset()
             this.form.reset()
         }
         this._showFieldErrors(response.errors)
@@ -98,10 +92,6 @@ class Form {
         this.validation.init()
     }
 
-    _initRecaptcha () {
-        this.recaptcha.render()
-    }
-
     _initStarRatings () {
         if (null !== this.stars) {
             this.stars.rebuild()
@@ -116,12 +106,10 @@ class Form {
             this._showResults(this.strings.errors, false)
             return
         }
-        this._resetErrors()
-        if (!this.form['g-recaptcha-response'] || '' !== this.form['g-recaptcha-response'].value) {
-            if (!this.useAjax) return;
-        }
         ev.preventDefault()
-        this.submitForm()
+        this._resetErrors()
+        this.disableButton()
+        this.captcha.execute()
     }
 
     _resetErrors () {
