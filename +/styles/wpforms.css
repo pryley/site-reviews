@@ -36,9 +36,6 @@
     background-color: #e0ffc7;
     border-color: #b4d39b;
 }
-:--namespace form.glsr-form .glsr-recaptcha-holder {
-    margin-top: var(--glsr-base-font-size);
-}
 :--namespace form.glsr-form .glsr-toggle .glsr-toggle-switch,
 :--namespace form.glsr-form .glsr-field-toggle label {
     font-size: var(--glsr-base-font-size);

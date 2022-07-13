@@ -21,9 +21,6 @@
 :--namespace form.glsr-form .glsr-form-success {
     color: var(--glsr-blue);
 }
-:--namespace form.glsr-form .glsr-recaptcha-holder {
-    margin-top: var(--glsr-base-font-size);
-}
 :--namespace form.glsr-form .glsr-field-error {
     color: var(--glsr-red);
     font-family: var(--glsr-form-font-family-sans);

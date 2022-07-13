@@ -24,6 +24,3 @@
 :--namespace form.glsr-form .glsr-form-success {
     color: var(--glsr-green);
 }
-:--namespace form.glsr-form .glsr-recaptcha-holder {
-    margin-top: var(--glsr-base-font-size);
-}
