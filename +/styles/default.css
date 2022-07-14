@@ -3,6 +3,7 @@
 @import "public/default/debug";
 @import "public/default/modal";
 @import "public/default/screen-reader";
+@import "public/default/captcha";
 @import "public/default/reviews";
 @import "public/default/read-more";
 @import "public/default/pagination";

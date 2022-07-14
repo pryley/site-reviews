@@ -56,7 +56,7 @@ __Site Reviews integrates with Woocommerce__ with the free [Woocommerce Reviews]
 - __Restrictions__: Require approval before publishing reviews and limit review submissions by email address, IP address, or username
 - __Shortcodes__: Configurable shortcodes complete with full documentation
 - __Slack Integration__: Receive notifications in Slack when a review is submitted
-- __SPAM Protection__: Includes 5 layers of protection from spam! Built-in Honeypot protection; Invisible reCAPTCHA, Akismet, Blacklist, and Review limits
+- __SPAM Protection__: Includes 5 layers of protection from spam! Built-in Honeypot, 4 CAPTCHA options (FriendlyCaptcha, hCaptcha, reCAPTCHA v2 Invisible, and reCAPTCHA v3), Akismet, Blacklist, and Review limits
 - __Templates__: Use the Site Reviews templates in your theme for full control over the HTML
 - __Translations__: Easily change any text of the plugin to your own
 - __Widgets__: Use the configurable widgets in your sidebars.

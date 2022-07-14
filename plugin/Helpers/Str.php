@@ -158,6 +158,9 @@ class Str
     public static function mask($string, $preserveStart = 0, $preserveEnd = 0, $maxLength = 13)
     {
         $encoding = 'UTF-8';
+        if (empty($string)) {
+            return $string;
+        }
         $strlen = mb_strlen($string, $encoding);
         $startLength = max(0, $preserveStart);
         $endLength = max(0, $preserveEnd);

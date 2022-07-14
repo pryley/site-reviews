@@ -3,6 +3,7 @@
     font-size: var(--glsr-form-font-size);
     grid-template-columns: repeat(1, minmax(0, 1fr));
     line-height: var(--glsr-form-line-height);
+    position: relative;
     row-gap: var(--glsr-base-font-size);
 }
 :--namespace form.glsr-hide-form {

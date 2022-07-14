@@ -3,6 +3,7 @@
 @import "public/minimal/debug";
 @import "public/minimal/modal";
 @import "public/minimal/screen-reader";
+@import "public/minimal/captcha";
 @import "public/minimal/reviews";
 @import "public/minimal/read-more";
 @import "public/minimal/pagination";

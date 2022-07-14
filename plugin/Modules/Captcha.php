@@ -30,15 +30,15 @@ class Captcha
         if (!$this->isEnabled()) {
             return;
         }
-        $config = $this->config();
         if ($this->isEnabled('recaptcha_v3')) {
             return glsr(Builder::class)->input([
                 'name' => 'g-recaptcha-response',
                 'type' => 'hidden',
             ]);
         } else {
+            $config = $this->config();
             return glsr(Builder::class)->div([
-                'class' => 'glsr-captcha-holder',
+                'class' => 'glsr-captcha-holder glsr-'.$config['type'],
             ]);
         }
     }

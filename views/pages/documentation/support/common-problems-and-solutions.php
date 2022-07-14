@@ -25,7 +25,7 @@
                 <p>You may be using a caching plugin which is caching the database and preventing Site Reviews from storing the migration status. To fix this, you will need to flush your database cache and/or object cache and then try again.</p>
             </li>
             <li>
-                <p>You may have 3rd-party reviews that were not imported correctly. You can verify this by looking for reviews on the <code><a href="<?= glsr_admin_url(); ?>">All Reviews</a></code> page that do not have any stars. To fix this, please delete the invalid reviews, empty the trash, and then try again. Afterwards, use the provided <code><a href="<?= glsr_admin_url('tools', 'general'); ?>" data-expand="#tools-import-reviews">Import Third Party Reviews</a></code> tool to re-import the reviews.</p>
+                <p>You may have 3rd-party reviews that were not imported correctly. You can verify this by looking for reviews on the <code><a href="<?= glsr_admin_url(); ?>">All Reviews</a></code> page that do not have any stars. To fix this, please delete the invalid reviews, empty the trash, and then try again. Afterwards, use the provided <code><a href="<?= glsr_admin_url('tools', 'general'); ?>" data-expand="#tools-import-reviews">Import Reviews</a></code> tool to re-import the reviews.</p>
             </li>
             <li>
                 <p>You may have reviews that were duplicated with a plugin (i.e. "Duplicate Page" plugin). Duplication plugins will not work correctly with Site Reviews because the review details are stored in a custom database table and then linked to the review; this allows Site Reviews to perform much faster database queries. To fix this, please delete the duplicated reviews, empty the trash, then try again.</p>
@@ -38,13 +38,16 @@
                 <p>Does your website have a SSL certificate? If it does, make sure that your website is configured to always use it by using a SSL plugin such as <a href="https://wordpress.org/plugins/really-simple-ssl/">Really Simple SSL</a>. Site Reviews will use HTTPS to submit a review if possible, but if your site has a valid SSL certificate and you are viewing the website using HTTP (instead of HTTPS) then the browser will detect this as a cross-domain request and prevent the review submission from completing.</p>
             </li>
             <li>
-                <p>Have you enabled the reCAPTCHA setting? If you have, make sure that the "Site Key" and "Site Secret" have been entered and that they were generated for the <strong>Invisible reCAPTCHA badge</strong> (Google provides three different types of reCAPTCHA). Also, make sure that you correctly entered your website domain when creating the "Site Key" and "Site Secret".</p>
-            </li>
-            <li>
                 <p>Have you used a security plugin to disable access to <code>/wp-admin/admin-ajax.php</code> on the frontend of your website, or have you disabled <code>/wp-admin/</code> access for non-administrators? If you have, then it's possible this is preventing Site Reviews from submitting reviews.</p>
             </li>
             <li>
+                <p>Are you using Cloudflare? If you created a Cloudflare Firewall rule to block access to the WordPress admin, you may have incorrectly configured the rule. See also: <a href="https://turbofuture.com/internet/Cloudflare-Firewall-Rules-for-Securing-WordPress#3-protect-the-wp-admin-area" target="_blank">Cloudflare Firewall Rules for Securing WordPress</a></p>
+            </li>
+            <li>
                 <p>If the review is created but the button keeps spinning, then your server is likely not configured to send email and is preventing WordPress from sending the email notifications. You will need to either disable the notification setting for new reviews, or fix the problem on your server.</p>
+            </li>
+            <li>
+                <p>Finally, check the <code><a href="<?= glsr_admin_url('tools', 'console'); ?>">Tools &rarr; Console</a></code> page for any helpful messages which may help you track down the cause of the problem.</p>
             </li>
         </ol>
 

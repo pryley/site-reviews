@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: Gemini Labs <support@geminilabs.io>\n"
 "Last-Translator: Paul Ryley <paul@geminilabs.io>\n"
-"POT-Creation-Date: 2022-07-14 12:00+0000\n"
+"POT-Creation-Date: 2022-07-14 15:43+0000\n"
 "Project-Id-Version: undefined\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -1294,7 +1294,7 @@ msgctxt "admin-text"
 msgid "There was an error (try reloading the page)."
 msgstr ""
 
-#: plugin/Router.php:162, views/pages/documentation/support/common-problems-and-solutions.php:55
+#: plugin/Router.php:162, views/pages/documentation/support/common-problems-and-solutions.php:58
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 
@@ -1446,7 +1446,7 @@ msgstr ""
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:170, views/pages/documentation/support/common-problems-and-solutions.php:75
+#: plugin/Commands/CreateReview.php:170, views/pages/documentation/support/common-problems-and-solutions.php:78
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
@@ -2291,7 +2291,7 @@ msgstr ""
 msgid "The review could not be submitted because this browser is too old. Please try again with a modern browser."
 msgstr ""
 
-#: plugin/Helpers/Str.php:175
+#: plugin/Helpers/Str.php:178
 msgid "and"
 msgstr ""
 
@@ -3348,11 +3348,11 @@ msgctxt "admin-text"
 msgid "View the review in WordPress &rarr;"
 msgstr ""
 
-#: plugin/Modules/Validator/AkismetValidator.php:49, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:71
+#: plugin/Modules/Validator/AkismetValidator.php:49, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:74
 msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr ""
 
-#: plugin/Modules/Validator/BlacklistValidator.php:37, views/pages/documentation/support/common-problems-and-solutions.php:67
+#: plugin/Modules/Validator/BlacklistValidator.php:37, views/pages/documentation/support/common-problems-and-solutions.php:70
 msgid "Your review cannot be submitted at this time."
 msgstr ""
 
@@ -3364,7 +3364,7 @@ msgstr ""
 msgid "The CAPTCHA verification failed, please try again."
 msgstr ""
 
-#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:80
+#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:83
 msgid "The review submission failed. Please notify the site administrator."
 msgstr ""
 
@@ -4073,7 +4073,7 @@ msgid_plural "{rating} out of {max} stars (based on {num} reviews)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/pages/documentation/support/common-problems-and-solutions.php:84
+#: views/pages/documentation/support/common-problems-and-solutions.php:87
 msgid "Service Unavailable."
 msgstr ""
 
