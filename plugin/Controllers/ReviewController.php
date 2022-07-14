@@ -89,6 +89,9 @@ class ReviewController extends Controller
         $search = 'id="review-';
         $dataType = Arr::get($data, 'review.type', 'local');
         $replace = sprintf('data-type="%s" %s', $dataType, $search);
+        if (Arr::get($data, 'review.is_pinned')) {
+            $replace = 'data-pinned="1" '.$replace;
+        }
         return str_replace($search, $replace, $template);
     }
 
