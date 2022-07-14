@@ -161,7 +161,6 @@ class Str
         if (empty($string)) {
             return $string;
         }
-        $strlen = mb_strlen($string, $encoding);
         $startLength = max(0, $preserveStart);
         $endLength = max(0, $preserveEnd);
         $start = mb_substr($string, 0, $startLength, $encoding);

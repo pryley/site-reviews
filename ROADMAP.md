@@ -13,7 +13,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [x] Integrate with FriendlyCaptcha
 - [x] Integrate with hCaptcha
 - [x] Integrate with reCAPTCHA v3
-- [ ] Mark reviews as validated (https://wordpress.org/support/topic/verified-review-option/)
+- [ ] Mark reviews as verified (https://wordpress.org/support/topic/verified-review-option/)
 - [ ] Rating "0.1" increments
 - [ ] restrict displayed reviews by empty content (setting only?)
 - [ ] Restrict reviews in the admin to those assigned to pages of the current user
