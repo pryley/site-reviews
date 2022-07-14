@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: Gemini Labs <support@geminilabs.io>\n"
 "Last-Translator: Paul Ryley <paul@geminilabs.io>\n"
-"POT-Creation-Date: 2022-07-14 18:35+0000\n"
+"POT-Creation-Date: 2022-07-14 21:37+0000\n"
 "Project-Id-Version: undefined\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -990,7 +990,7 @@ msgctxt "admin-text"
 msgid "Restrict Limits To"
 msgstr ""
 
-#: config/settings.php:602, plugin/Metaboxes/AssignedPostsMetabox.php:20, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/screen/inline-edit.php:102, views/pages/tools/general/export-reviews.php:34
+#: config/settings.php:602, plugin/Metaboxes/AssignedPostsMetabox.php:20, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/screen/inline-edit.php:105, views/pages/tools/general/export-reviews.php:34
 msgctxt "admin-text"
 msgid "Assigned Posts"
 msgstr ""
@@ -1000,7 +1000,7 @@ msgctxt "admin-text"
 msgid "Assigned Terms"
 msgstr ""
 
-#: config/settings.php:604, plugin/Defaults/PostTypeColumnDefaults.php:19, plugin/Metaboxes/AssignedUsersMetabox.php:19, views/partials/screen/inline-edit.php:113
+#: config/settings.php:604, plugin/Defaults/PostTypeColumnDefaults.php:19, plugin/Metaboxes/AssignedUsersMetabox.php:19, views/partials/screen/inline-edit.php:116
 msgctxt "admin-text"
 msgid "Assigned Users"
 msgstr ""
@@ -1442,11 +1442,11 @@ msgctxt "admin-text"
 msgid "Console logging level could not be changed."
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:165
+#: plugin/Commands/CreateReview.php:162
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:170, views/pages/documentation/support/common-problems-and-solutions.php:78
+#: plugin/Commands/CreateReview.php:167, views/pages/documentation/support/common-problems-and-solutions.php:78
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
@@ -1460,7 +1460,7 @@ msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:95, plugin/Overrides/ReviewsListTable.php:59, views/partials/screen/inline-edit.php:65, views/partials/screen/inline-edit.php:83, views/partials/screen/inline-edit.php:93
+#: plugin/Commands/EnqueueAdminAssets.php:95, plugin/Overrides/ReviewsListTable.php:59, views/partials/screen/inline-edit.php:68, views/partials/screen/inline-edit.php:86, views/partials/screen/inline-edit.php:96
 msgctxt "admin-text"
 msgid "No Change"
 msgstr ""
@@ -1625,7 +1625,7 @@ msgctxt "admin-text"
 msgid "Submitted"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:129, plugin/Controllers/TranslationController.php:132, plugin/Controllers/TranslationController.php:167, plugin/Defaults/PostStatusLabelsDefaults.php:15, plugin/Defaults/PostStatusLabelsDefaults.php:16, views/partials/screen/inline-edit.php:69
+#: plugin/Controllers/ListTableController.php:129, plugin/Controllers/TranslationController.php:132, plugin/Controllers/TranslationController.php:167, plugin/Defaults/PostStatusLabelsDefaults.php:15, plugin/Defaults/PostStatusLabelsDefaults.php:16, views/partials/screen/inline-edit.php:72
 msgctxt "admin-text"
 msgid "Unapproved"
 msgstr ""
@@ -1955,7 +1955,7 @@ msgid_plural "%s reviews restored from the Trash."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Controllers/TranslationController.php:166, plugin/Controllers/TranslationController.php:198, plugin/Defaults/PostStatusLabelsDefaults.php:19, views/partials/screen/inline-edit.php:67
+#: plugin/Controllers/TranslationController.php:166, plugin/Controllers/TranslationController.php:198, plugin/Defaults/PostStatusLabelsDefaults.php:19, views/partials/screen/inline-edit.php:70
 msgctxt "admin-text"
 msgid "Approved"
 msgstr ""
@@ -2291,7 +2291,7 @@ msgstr ""
 msgid "The review could not be submitted because this browser is too old. Please try again with a modern browser."
 msgstr ""
 
-#: plugin/Helpers/Str.php:178
+#: plugin/Helpers/Str.php:181
 msgid "and"
 msgstr ""
 
@@ -2304,7 +2304,7 @@ msgctxt "admin-text"
 msgid "(no title)"
 msgstr ""
 
-#: plugin/Metaboxes/AuthorMetabox.php:21, plugin/Metaboxes/AuthorMetabox.php:39, plugin/Controllers/ListTableColumns/ColumnFilterAuthor.php:33, views/partials/screen/inline-edit.php:73
+#: plugin/Metaboxes/AuthorMetabox.php:21, plugin/Metaboxes/AuthorMetabox.php:39, plugin/Controllers/ListTableColumns/ColumnFilterAuthor.php:33, views/partials/screen/inline-edit.php:76
 msgctxt "admin-text"
 msgid "Author"
 msgstr ""
@@ -2519,7 +2519,7 @@ msgctxt "admin-text"
 msgid "Hook"
 msgstr ""
 
-#: plugin/Overrides/ScheduledActionsTable.php:97, views/partials/screen/inline-edit.php:63
+#: plugin/Overrides/ScheduledActionsTable.php:97, views/partials/screen/inline-edit.php:66
 msgctxt "admin-text"
 msgid "Status"
 msgstr ""
@@ -2568,7 +2568,7 @@ msgctxt "admin-text"
 msgid "Process the action now as if it were run as part of a queue"
 msgstr ""
 
-#: plugin/Overrides/ScheduledActionsTable.php:121, views/partials/editor/pinned.php:17, views/partials/screen/inline-edit.php:30, views/partials/screen/inline-edit.php:127
+#: plugin/Overrides/ScheduledActionsTable.php:121, views/partials/editor/pinned.php:17, views/partials/screen/inline-edit.php:31, views/partials/screen/inline-edit.php:130
 msgctxt "admin-text"
 msgid "Cancel"
 msgstr ""
@@ -3356,11 +3356,11 @@ msgstr ""
 msgid "Your review cannot be submitted at this time."
 msgstr ""
 
-#: plugin/Modules/Validator/CaptchaValidator.php:59
+#: plugin/Modules/Validator/CaptchaValidator.php:58
 msgid "The CAPTCHA failed to load, please refresh the page and try again."
 msgstr ""
 
-#: plugin/Modules/Validator/CaptchaValidator.php:60
+#: plugin/Modules/Validator/CaptchaValidator.php:59
 msgid "The CAPTCHA verification failed, please try again."
 msgstr ""
 
@@ -3676,7 +3676,7 @@ msgctxt "admin-text"
 msgid "Remove assignment"
 msgstr ""
 
-#: views/partials/editor/metabox-assigned-posts.php:6, views/partials/screen/inline-edit.php:107
+#: views/partials/editor/metabox-assigned-posts.php:6, views/partials/screen/inline-edit.php:110
 msgctxt "admin-text"
 msgid "Search by ID or title..."
 msgstr ""
@@ -3686,7 +3686,7 @@ msgctxt "admin-text"
 msgid "Search for a Page, Post, or <abbr title=\"Custom Post Type\">CPT</abbr> that you would like to assign this review to."
 msgstr ""
 
-#: views/partials/editor/metabox-assigned-users.php:6, views/partials/screen/inline-edit.php:118
+#: views/partials/editor/metabox-assigned-users.php:6, views/partials/screen/inline-edit.php:121
 msgctxt "admin-text"
 msgid "Search by ID or name..."
 msgstr ""
@@ -3796,47 +3796,47 @@ msgctxt "admin-text"
 msgid "Enabling a filter will only display the dropdown if there are options to filter by, otherwise it will remain hidden."
 msgstr ""
 
-#: views/partials/screen/inline-edit.php:10
+#: views/partials/screen/inline-edit.php:11
 msgctxt "admin-text"
 msgid "Respond to the review"
 msgstr ""
 
-#: views/partials/screen/inline-edit.php:14
+#: views/partials/screen/inline-edit.php:15
 msgctxt "admin-text"
 msgid "Their Review"
 msgstr ""
 
-#: views/partials/screen/inline-edit.php:22
+#: views/partials/screen/inline-edit.php:23
 msgctxt "admin-text"
 msgid "Your Response"
 msgstr ""
 
-#: views/partials/screen/inline-edit.php:31, views/partials/screen/inline-edit.php:128
+#: views/partials/screen/inline-edit.php:32, views/partials/screen/inline-edit.php:131
 msgctxt "admin-text"
 msgid "Update"
 msgstr ""
 
-#: views/partials/screen/inline-edit.php:43
+#: views/partials/screen/inline-edit.php:46
 msgctxt "admin-text"
 msgid "Bulk Edit"
 msgstr ""
 
-#: views/partials/screen/inline-edit.php:81
+#: views/partials/screen/inline-edit.php:84
 msgctxt "admin-text"
 msgid "Comments"
 msgstr ""
 
-#: views/partials/screen/inline-edit.php:84, views/partials/screen/inline-edit.php:94
+#: views/partials/screen/inline-edit.php:87, views/partials/screen/inline-edit.php:97
 msgctxt "admin-text"
 msgid "Allow"
 msgstr ""
 
-#: views/partials/screen/inline-edit.php:85, views/partials/screen/inline-edit.php:95
+#: views/partials/screen/inline-edit.php:88, views/partials/screen/inline-edit.php:98
 msgctxt "admin-text"
 msgid "Do not allow"
 msgstr ""
 
-#: views/partials/screen/inline-edit.php:91
+#: views/partials/screen/inline-edit.php:94
 msgctxt "admin-text"
 msgid "Pings"
 msgstr ""

@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class Captcha
@@ -32,10 +33,9 @@ class Captcha
         }
         $config = $this->config();
         return glsr(Builder::class)->div([
-            'class' => sprintf('glsr-captcha-holder glsr-captcha-%s glsr-captcha-%s',
-                $config['size'],
-                $config['badge']
-            ),
+            'class' => 'glsr-captcha-holder',
+            'data-badge' => Arr::get($config, 'badge'),
+            'data-size' => Arr::get($config, 'size'),
         ]);
     }
 

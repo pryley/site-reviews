@@ -1,4 +1,4 @@
-:--namespace .glsr-captcha-invisible:not(.glsr-captcha-inline) {
+:--namespace .glsr-captcha-holder[data-size=invisible]:not([data-badge=inline]) {
     bottom: 0;
     position: absolute;
 }
