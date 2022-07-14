@@ -19,6 +19,7 @@ class Recaptcha3Validator extends CaptchaValidator
      */
     public function isTokenValid(array $response)
     {
+        glsr()->debug('reCAPTCHA Score: '.$response['score']);
         return wp_validate_boolean($response['success'])
             && $response['score'] >= $this->threshold();
     }
