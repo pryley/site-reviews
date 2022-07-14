@@ -5,6 +5,7 @@
 if [ $1 == 'before' ]; then
 	composer self-update
 	# install php-coveralls to send coverage info
+	composer config --no-plugins allow-plugins.johnpbloch/wordpress-core-installer true
 	composer init --require=satooshi/php-coveralls:0.7.0 -n
 	composer install --no-interaction --ignore-platform-reqs
 
