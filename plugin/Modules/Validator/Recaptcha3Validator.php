@@ -17,6 +17,20 @@ class Recaptcha3Validator extends CaptchaValidator
 
     /**
      * @param object $response
+     * @return array
+     */
+    protected function isTokenError($response)
+    {
+        $errors = Arr::consolidate(glsr_get($response, 'error-codes'));
+        if (!empty($errors)) {
+            glsr_log()->error($errors);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param object $response
      * @return bool
      */
     public function isTokenValid($response)
@@ -59,14 +73,5 @@ class Recaptcha3Validator extends CaptchaValidator
     protected function token()
     {
         return $this->request['_recaptcha'];
-    }
-
-    /**
-     * @param object $response
-     * @return array
-     */
-    protected function tokenErrors($response)
-    {
-        return Arr::consolidate(glsr_get($response, 'error-codes'));
     }
 }

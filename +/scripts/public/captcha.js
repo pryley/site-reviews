@@ -17,7 +17,13 @@ class Captcha {
         } else if (~['hcaptcha', 'recaptcha_v2_invisible'].indexOf(GLSR.captcha.type)) {
             grecaptcha.execute(this.id);
         } else if ('friendlycaptcha' === GLSR.captcha.type) {
-            this.Form.submitForm();
+            setTimeout(() => {
+                if (1 === +this.captchaEl.dataset.token) {
+                    this.Form.submitForm();
+                } else {
+                    this.execute()
+                }
+            }, 200)
         }
     }
 
@@ -48,6 +54,7 @@ class Captcha {
             grecaptcha.reset(this.id)
         }
         if (this.instance) {
+            this.captchaEl.dataset.token = 0;
             this.instance.reset() // reset friendlycaptcha
         }
         this.is_submitting = false;
@@ -74,7 +81,9 @@ class Captcha {
         if ('friendlycaptcha' !== GLSR.captcha.type) return;
         this.captchaEl.dataset.sitekey = GLSR.captcha.sitekey;
         this.instance = new friendlyChallenge.WidgetInstance(this.captchaEl, {
-            // doneCallback: (token) => this.Form.submitForm(token),
+            doneCallback: (token) => {
+                this.captchaEl.dataset.token = 1;
+            },
             // readyCallback: () => widget.start(),
         });
     }

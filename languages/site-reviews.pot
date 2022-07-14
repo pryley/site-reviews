@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: Gemini Labs <support@geminilabs.io>\n"
 "Last-Translator: Paul Ryley <paul@geminilabs.io>\n"
-"POT-Creation-Date: 2022-07-13 22:12+0000\n"
+"POT-Creation-Date: 2022-07-14 10:17+0000\n"
 "Project-Id-Version: undefined\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -3356,11 +3356,11 @@ msgstr ""
 msgid "Your review cannot be submitted at this time."
 msgstr ""
 
-#: plugin/Modules/Validator/CaptchaValidator.php:58
+#: plugin/Modules/Validator/CaptchaValidator.php:67
 msgid "The CAPTCHA failed to load, please refresh the page and try again."
 msgstr ""
 
-#: plugin/Modules/Validator/CaptchaValidator.php:59
+#: plugin/Modules/Validator/CaptchaValidator.php:68
 msgid "The CAPTCHA verification failed, please try again."
 msgstr ""
 

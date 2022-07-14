@@ -26,6 +26,15 @@ class CaptchaValidator extends ValidatorAbstract
 
     /**
      * @param object $response
+     * @return array
+     */
+    protected function isTokenError($response)
+    {
+        return false;
+    }
+
+    /**
+     * @param object $response
      * @return bool
      */
     public function isTokenValid($response)
@@ -86,15 +95,6 @@ class CaptchaValidator extends ValidatorAbstract
     }
 
     /**
-     * @param object $response
-     * @return array
-     */
-    protected function tokenErrors($response)
-    {
-        return [];
-    }
-
-    /**
      * @return int
      */
     protected function verifyStatus()
@@ -122,12 +122,11 @@ class CaptchaValidator extends ValidatorAbstract
             return static::CAPTCHA_FAILED;
         }
         $response = json_decode(wp_remote_retrieve_body($response));
-        glsr_log()->debug($response);
         if ($this->isTokenValid($response)) {
             return static::CAPTCHA_VALID;
         }
-        foreach ($this->tokenErrors($response) as $error) {
-            glsr_log()->error('CAPTCHA error: '.$error);
+        if ($this->isTokenError($response)) {
+            glsr_log()->debug($request);
         }
         return static::CAPTCHA_INVALID;
     }
