@@ -742,7 +742,7 @@ return [ // order is intentional
         'class' => 'regular-text',
         'default' => 'bottomleft',
         'depends_on' => [
-            'settings.submissions.captcha.integration' => ['hcaptcha', 'recaptcha_v2_invisible'],
+            'settings.submissions.captcha.integration' => ['recaptcha_v2_invisible', 'recaptcha_v3'],
         ],
         'label' => _x('CAPTCHA Badge Position', 'admin-text', 'site-reviews'),
         'options' => [
@@ -757,7 +757,7 @@ return [ // order is intentional
         'class' => 'regular-text',
         'default' => 'light',
         'depends_on' => [
-            'settings.submissions.captcha.integration' => ['friendlycaptcha', 'hcaptcha', 'recaptcha_v2_invisible'],
+            'settings.submissions.captcha.integration' => ['friendlycaptcha', 'hcaptcha', 'recaptcha_v2_invisible', 'recaptcha_v3'],
         ],
         'label' => _x('CAPTCHA Theme', 'admin-text', 'site-reviews'),
         'options' => [

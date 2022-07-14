@@ -55,13 +55,9 @@ class EnqueuePublicAssets implements Contract
         $language = glsr()->filterString('captcha/language', get_locale());
         $apiUrl = 'https://www.google.com/recaptcha/api.js';
         $handle = glsr()->id.'/google-recaptcha';
-        $render = 'explicit';
         if ('hcaptcha' === $integration) {
             $apiUrl = 'https://js.hcaptcha.com/1/api.js';
             $handle = glsr()->id.'/hcaptcha';
-        }
-        if ('recaptcha_v3' === $integration) {
-            $render = glsr_get_option('submissions.recaptcha_v3.key');
         }
         if ('friendlycaptcha' === $integration) {
             $moduleUrl = 'https://unpkg.com/friendly-challenge@0.9.4/widget.module.min.js';
@@ -69,7 +65,7 @@ class EnqueuePublicAssets implements Contract
             wp_enqueue_script(glsr()->id.'/friendlycaptcha-module', $moduleUrl);
             wp_enqueue_script(glsr()->id.'/friendlycaptcha-nomodule', $nomoduleUrl);
         } else {
-            wp_enqueue_script($handle, add_query_arg(['hl' => $language, 'render' => $render], $apiUrl));
+            wp_enqueue_script($handle, add_query_arg(['hl' => $language, 'render' => 'explicit'], $apiUrl));
         }
     }
 

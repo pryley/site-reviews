@@ -3,29 +3,13 @@
 class Captcha {
     constructor (Form) {
         this.Form = Form;
-        this.containerEl = Form.form.querySelector('.glsr-captcha-holder');
         this.captchaEl = this._buildContainer();
         this.id = -1;
         this.instance = null;
     }
 
     execute () {
-        if ('recaptcha_v3' === GLSR.captcha.type) {
-            try {
-                grecaptcha.execute(GLSR.captcha.sitekey, { action: 'submit_review' }).then(token => {
-                    this.Form.submitForm(token);
-                });
-            } catch (error) {
-                this.Form.submitForm('sitekey_invalid');
-            }
-        } else if (~['hcaptcha', 'recaptcha_v2_invisible'].indexOf(GLSR.captcha.type)) {
-            if (1 === +this.captchaEl.dataset.error) {
-                // likely a site key error
-                this.Form.submitForm('sitekey_invalid');
-            } else {
-                grecaptcha.execute(this.id);
-            }
-        } else if ('friendlycaptcha' === GLSR.captcha.type) {
+        if ('friendlycaptcha' === GLSR.captcha.type) {
             setTimeout(() => {
                 if (1 === +this.captchaEl.dataset.token || '.ERROR' === this.Form.form['frc-captcha-solution'].value) {
                     this.Form.submitForm();
@@ -33,6 +17,13 @@ class Captcha {
                     this.execute()
                 }
             }, 200)
+        } else {
+            if (1 === +this.captchaEl.dataset.error) {
+                // likely a site key error
+                this.Form.submitForm('sitekey_invalid');
+            } else {
+                grecaptcha.execute(this.id, { action: 'submit_review' });
+            }
         }
     }
 
@@ -49,8 +40,11 @@ class Captcha {
                 this.render() // try again...
             } else {
                 try {
-                    this._renderFrcaptcha()
-                    this._renderRecaptcha()
+                    if ('friendlycaptcha' === GLSR.captcha.type) {
+                        this._renderFrcaptcha()
+                    } else {
+                        this._renderRecaptcha()
+                    }
                 } catch (error) {
                     console.error(error)
                 }
@@ -62,35 +56,32 @@ class Captcha {
         if (-1 !== this.id) {
             grecaptcha.reset(this.id)
         }
+        if (this.captchaEl) {
+            this.captchaEl.dataset.error = 0; // reset hcaptcha/recaptcha error
+        }
         if (this.instance) {
             this.captchaEl.dataset.token = 0;
             this.instance.reset() // reset friendlycaptcha
         }
-        if (this.captchaEl) {
-            this.captchaEl.dataset.error = 0; // reset hcaptcha/recaptcha error
-        }
         this.is_submitting = false;
-        if (this.Form.form['g-recaptcha-response']) {
-            this.Form.form['g-recaptcha-response'].value = '';
-        }
     }
 
     _buildContainer () {
-        if (!this.containerEl) {
+        const containerEl = this.Form.form.querySelector('.glsr-captcha-holder');
+        if (!containerEl) {
             return false;
         }
         if (this.instance) {
             this.instance.destroy() // remove friendlycaptcha
         }
-        Array.from(this.containerEl.getElementsByClassName(GLSR.captcha.class)).forEach(el => el.remove());
+        Array.from(containerEl.getElementsByClassName(GLSR.captcha.class)).forEach(el => el.remove());
         const el = document.createElement('div');
         el.className = GLSR.captcha.class;
-        this.containerEl.appendChild(el);
+        containerEl.appendChild(el);
         return el;
     }
 
     _renderFrcaptcha () {
-        if ('friendlycaptcha' !== GLSR.captcha.type) return;
         this.captchaEl.dataset.sitekey = GLSR.captcha.sitekey;
         this.instance = new friendlyChallenge.WidgetInstance(this.captchaEl, {
             doneCallback: (token) => {
@@ -104,7 +95,6 @@ class Captcha {
     }
 
     _renderRecaptcha () {
-        if (!~['hcaptcha', 'recaptcha_v2_invisible'].indexOf(GLSR.captcha.type)) return;
         try {
             this.id = grecaptcha.render(this.captchaEl, {
                 badge: GLSR.captcha.badge,
@@ -116,6 +106,7 @@ class Captcha {
                 isolated: true,
                 sitekey: GLSR.captcha.sitekey,
                 size: GLSR.captcha.size,
+                theme: GLSR.captcha.theme,
             });
         } catch (error) {
             this.captchaEl.dataset.error = 1;

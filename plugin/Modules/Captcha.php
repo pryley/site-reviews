@@ -30,17 +30,13 @@ class Captcha
         if (!$this->isEnabled()) {
             return;
         }
-        if ($this->isEnabled('recaptcha_v3')) {
-            return glsr(Builder::class)->input([
-                'name' => 'g-recaptcha-response',
-                'type' => 'hidden',
-            ]);
-        } else {
-            $config = $this->config();
-            return glsr(Builder::class)->div([
-                'class' => 'glsr-captcha-holder glsr-'.$config['type'],
-            ]);
-        }
+        $config = $this->config();
+        return glsr(Builder::class)->div([
+            'class' => sprintf('glsr-captcha-holder glsr-captcha-%s glsr-captcha-%s',
+                $config['size'],
+                $config['badge']
+            ),
+        ]);
     }
 
     /**
@@ -107,7 +103,11 @@ class Captcha
     protected function configRecaptchaV3()
     {
         return [
+            'class' => 'g-recaptcha',
+            'badge' => glsr_get_option('submissions.captcha.position'),
             'sitekey' => glsr_get_option('submissions.recaptcha_v3.key'),
+            'size' => 'invisible',
+            'theme' => glsr_get_option('submissions.captcha.theme'),
             'type' => 'recaptcha_v3',
         ];
     }

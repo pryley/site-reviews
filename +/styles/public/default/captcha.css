@@ -1,4 +1,7 @@
-:--namespace .glsr-recaptcha_v2_invisible {
+:--namespace .glsr-captcha-invisible:not(.glsr-captcha-inline) {
     bottom: 0;
     position: absolute;
+}
+:--namespace .h-captcha {
+    display: flex;
 }

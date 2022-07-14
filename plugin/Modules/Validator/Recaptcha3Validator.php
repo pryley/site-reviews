@@ -24,8 +24,9 @@ class Recaptcha3Validator extends CaptchaValidator
             && $response['score'] >= $threshold
             && 'submit_review' === $response['action'];
         if ($isValid) {
-            // this may be useful to fine-tune the threshold
-            glsr_log()->debug('reCAPTCHA Score: '.$response['score']);
+            glsr_log()->debug('reCAPTCHA v3 passed with score: '.$response['score']);
+        } else {
+            glsr_log()->debug('reCAPTCHA v3 failed with score: '.$response['score']);
         }
         return $isValid;
     }
