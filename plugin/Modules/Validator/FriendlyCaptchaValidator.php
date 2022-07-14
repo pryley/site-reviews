@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Captcha;
 
 class FriendlyCaptchaValidator extends CaptchaValidator
@@ -13,20 +12,6 @@ class FriendlyCaptchaValidator extends CaptchaValidator
     public function isEnabled()
     {
         return glsr(Captcha::class)->isEnabled('friendlycaptcha');
-    }
-
-    /**
-     * @param object $response
-     * @return array
-     */
-    protected function isTokenError($response)
-    {
-        $errors = Arr::consolidate(glsr_get($response, 'errors'));
-        if (!empty($errors)) {
-            glsr_log()->error($errors);
-            return true;
-        }
-        return false;
     }
 
     /**

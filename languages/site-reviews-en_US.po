@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: Gemini Labs <support@geminilabs.io>\n"
 "Last-Translator: Paul Ryley <paul@geminilabs.io>\n"
-"POT-Creation-Date: 2022-07-14 10:17+0000\n"
+"POT-Creation-Date: 2022-07-14 11:54+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Keywordslist: "
 "__;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_"
@@ -189,7 +189,7 @@ msgstr ""
 "The review could not be submitted because this browser is too old. Please "
 "try again with a modern browser."
 
-#: plugin/Helpers/Str.php:157
+#: plugin/Helpers/Str.php:175
 msgid "and"
 msgstr "and"
 
@@ -317,11 +317,11 @@ msgstr "This review has been flagged as possible spam and cannot be submitted."
 msgid "Your review cannot be submitted at this time."
 msgstr "Your review cannot be submitted at this time."
 
-#: plugin/Modules/Validator/CaptchaValidator.php:67
+#: plugin/Modules/Validator/CaptchaValidator.php:59
 msgid "The CAPTCHA failed to load, please refresh the page and try again."
 msgstr "The CAPTCHA failed to load, please refresh the page and try again."
 
-#: plugin/Modules/Validator/CaptchaValidator.php:68
+#: plugin/Modules/Validator/CaptchaValidator.php:60
 msgid "The CAPTCHA verification failed, please try again."
 msgstr "The CAPTCHA verification failed, please try again."
 

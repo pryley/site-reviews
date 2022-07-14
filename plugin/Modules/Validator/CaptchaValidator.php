@@ -3,7 +3,9 @@
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Captcha;
 
 class CaptchaValidator extends ValidatorAbstract
@@ -25,21 +27,11 @@ class CaptchaValidator extends ValidatorAbstract
     }
 
     /**
-     * @param object $response
-     * @return array
-     */
-    protected function isTokenError($response)
-    {
-        return false;
-    }
-
-    /**
-     * @param object $response
      * @return bool
      */
-    public function isTokenValid($response)
+    public function isTokenValid(array $response)
     {
-        return wp_validate_boolean($response->success);
+        return wp_validate_boolean($response['success']);
     }
 
     /**
@@ -68,6 +60,27 @@ class CaptchaValidator extends ValidatorAbstract
             __('The CAPTCHA verification failed, please try again.', 'site-reviews')
         );
         $this->setErrors($error);
+    }
+
+    /**
+     * @return array|false
+     */
+    protected function makeRequest(array $request)
+    {
+        $response = wp_remote_post($this->siteverifyUrl(), [
+            'body' => $request,
+        ]);
+        if (is_wp_error($response)) {
+            glsr_log()->error($response->get_error_message());
+            return false;
+        }
+        $body = json_decode(wp_remote_retrieve_body($response));
+        return [
+            'action' => Arr::get($body, 'action'),
+            'errors' => Arr::get($body, 'error-codes', Arr::get($body, 'errors', [])),
+            'score' => Arr::get($body, 'score', 0),
+            'success' => Arr::get($body, 'success'),
+        ];
     }
 
     /**
@@ -114,19 +127,16 @@ class CaptchaValidator extends ValidatorAbstract
     protected function verifyToken()
     {
         $request = $this->request();
-        $response = wp_remote_post($this->siteverifyUrl(), [
-            'body' => $request,
-        ]);
-        if (is_wp_error($response)) {
-            glsr_log()->error($response->get_error_message());
+        $response = $this->makeRequest($request);
+        if (empty($response)) {
             return static::CAPTCHA_FAILED;
         }
-        $response = json_decode(wp_remote_retrieve_body($response));
         if ($this->isTokenValid($response)) {
             return static::CAPTCHA_VALID;
         }
-        if ($this->isTokenError($response)) {
-            glsr_log()->debug($request);
+        if (!empty($response['errors'])) {
+            $request['secret'] = Str::mask($request['secret'], 4, 4, 20);
+            glsr_log()->error($response)->debug($request);
         }
         return static::CAPTCHA_INVALID;
     }

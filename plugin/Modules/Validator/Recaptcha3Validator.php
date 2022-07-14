@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Captcha;
 
 class Recaptcha3Validator extends CaptchaValidator
@@ -16,27 +15,12 @@ class Recaptcha3Validator extends CaptchaValidator
     }
 
     /**
-     * @param object $response
-     * @return array
-     */
-    protected function isTokenError($response)
-    {
-        $errors = Arr::consolidate(glsr_get($response, 'error-codes'));
-        if (!empty($errors)) {
-            glsr_log()->error($errors);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @param object $response
      * @return bool
      */
-    public function isTokenValid($response)
+    public function isTokenValid(array $response)
     {
-        return wp_validate_boolean($response->success)
-            && $response->score >= $this->threshold();
+        return wp_validate_boolean($response['success'])
+            && $response['score'] >= $this->threshold();
     }
 
     /**

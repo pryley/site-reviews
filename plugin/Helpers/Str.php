@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Helpers;
 
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class Str
 {
@@ -145,8 +144,27 @@ class Str
     public static function join(array $values, $quoted = false)
     {
         return $quoted
-            ? "'".implode( "','", $values )."'"
+            ? "'".implode("','", $values)."'"
             : implode(', ', $values);
+    }
+
+    /**
+     * @param string $string
+     * @param int $preserveStart
+     * @param int $preserveEnd
+     * @param int $maxLength
+     * @return string
+     */
+    public static function mask($string, $preserveStart = 0, $preserveEnd = 0, $maxLength = 13)
+    {
+        $encoding = 'UTF-8';
+        $strlen = mb_strlen($string, $encoding);
+        $startLength = max(0, $preserveStart);
+        $endLength = max(0, $preserveEnd);
+        $start = mb_substr($string, 0, $startLength, $encoding);
+        $end = mb_substr($string, -$endLength, $endLength);
+        $segmentLen = max($maxLength - ($startLength + $endLength), 0);
+        return $start.str_repeat(mb_substr('*', 0, 1, $encoding), $segmentLen).$end;
     }
 
     /**
@@ -183,7 +201,7 @@ class Str
     public static function random($length = 8)
     {
         $text = base64_encode(wp_generate_password());
-        return substr(str_replace(['/','+','='], '', $text), 0, $length);
+        return substr(str_replace(['/', '+', '='], '', $text), 0, $length);
     }
 
     /**
@@ -206,11 +224,11 @@ class Str
      */
     public static function replaceFirst($search, $replace, $subject)
     {
-        if ($search == '') {
+        if ('' == $search) {
             return $subject;
         }
         $position = strpos($subject, $search);
-        if ($position !== false) {
+        if (false !== $position) {
             return substr_replace($subject, $replace, $position, strlen($search));
         }
         return $subject;

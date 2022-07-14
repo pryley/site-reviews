@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Captcha;
 
 class Recaptcha2Validator extends CaptchaValidator
@@ -13,20 +12,6 @@ class Recaptcha2Validator extends CaptchaValidator
     public function isEnabled()
     {
         return glsr(Captcha::class)->isEnabled('recaptcha_v2_invisible');
-    }
-
-    /**
-     * @param object $response
-     * @return array
-     */
-    protected function isTokenError($response)
-    {
-        $errors = Arr::consolidate(glsr_get($response, 'error-codes'));
-        if (!empty($errors)) {
-            glsr_log()->error($errors);
-            return true;
-        }
-        return false;
     }
 
     /**
