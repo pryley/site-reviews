@@ -433,6 +433,8 @@ class SystemInfo
     {
         $keys = glsr()->filterArray('addon/system-info/purge', [
             'licenses.' => 8,
+            'submissions.friendlycaptcha.key' => 0,
+            'submissions.friendlycaptcha.secret' => 0,
             'submissions.hcaptcha.key' => 0,
             'submissions.hcaptcha.secret' => 0,
             'submissions.recaptcha.key' => 0,
@@ -448,8 +450,7 @@ class SystemInfo
                 }
                 if (Str::startsWith($key, $setting) && !empty($value)) {
                     $preserve = Cast::toInt($preserve);
-                    $value = substr($value, -$preserve, $preserve);
-                    $value = str_pad($value, 13, '*', STR_PAD_LEFT);
+                    $value = Str::mask($value, 0, $preserve, 13);
                     break;
                 }
             }
