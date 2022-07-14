@@ -46,7 +46,6 @@ class CreateReview implements Contract
 
     protected $errors;
     protected $message;
-    protected $recaptcha;
     protected $review;
 
     public function __construct(Request $request)
@@ -95,7 +94,6 @@ class CreateReview implements Contract
             'errors' => $this->errors,
             'html' => (string) $this->review,
             'message' => $this->message,
-            'recaptcha' => $this->recaptcha,
             'redirect' => $this->redirect(),
             'review' => Cast::toArray($this->review),
         ];
@@ -132,7 +130,6 @@ class CreateReview implements Contract
         $this->blacklisted = $validator->blacklisted;
         $this->errors = $validator->errors;
         $this->message = $validator->message;
-        $this->recaptcha = $validator->recaptcha;
         return $validator->isValid();
     }
 

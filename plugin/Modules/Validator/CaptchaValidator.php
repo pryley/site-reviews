@@ -42,7 +42,6 @@ class CaptchaValidator extends ValidatorAbstract
         if (in_array($this->status, [static::CAPTCHA_DISABLED, static::CAPTCHA_VALID])) {
             return true;
         }
-        glsr()->sessionSet('form_captcha', 'reset');
         return false;
     }
 

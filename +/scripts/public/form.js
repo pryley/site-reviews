@@ -68,11 +68,8 @@ class Form {
 
     _handleResponse (response, success) {
         const wasSuccessful = success === true;
-        if ('reset' === response.recaptcha) {
-            this.captcha.reset()
-        }
+        this.captcha.reset()
         if (wasSuccessful) {
-            this.captcha.reset()
             this.form.reset()
         }
         this._showFieldErrors(response.errors)

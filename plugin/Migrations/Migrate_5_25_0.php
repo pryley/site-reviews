@@ -16,7 +16,7 @@ class Migrate_5_25_0
     }
 
     /**
-     * @return void
+     * @return bool
      */
     public function migrateSettings()
     {

@@ -128,6 +128,21 @@ class StrTest extends WP_UnitTestCase
         $this->assertEquals(Str::join(['1', '2'], true), "'1','2'");
     }
 
+    public function test_mask()
+    {
+        $string = 'abcdefghijklmnopqrstuvwxyz';
+        $this->assertEquals(Str::mask($string), '*************');
+        $this->assertEquals(Str::mask($string, 4), 'abcd*********');
+        $this->assertEquals(Str::mask($string, 0, 4), '*********wxyz');
+        $this->assertEquals(Str::mask($string, 4, 4), 'abcd*****wxyz');
+        $this->assertEquals(Str::mask($string, 4, 4, 20), 'abcd************wxyz');
+        $this->assertEquals(Str::mask($string, 4, 4, 2), $string);
+        $this->assertEquals(Str::mask($string, 20, 20), $string);
+        $this->assertEquals(Str::mask($string, 40, 0), $string);
+        $this->assertEquals(Str::mask($string, 0, 40), $string);
+        $this->assertEquals(Str::mask($string, -10, 40), $string);
+    }
+
     public function test_natural_join()
     {
         $this->assertEquals(Str::naturalJoin(['1']), '1');

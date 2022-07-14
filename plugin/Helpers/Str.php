@@ -167,6 +167,9 @@ class Str
         $start = mb_substr($string, 0, $startLength, $encoding);
         $end = mb_substr($string, -$endLength, $endLength);
         $segmentLen = max($maxLength - ($startLength + $endLength), 0);
+        if (0 === $segmentLen) {
+            return $string;
+        }
         return $start.str_repeat(mb_substr('*', 0, 1, $encoding), $segmentLen).$end;
     }
 

@@ -13,11 +13,6 @@ class ValidateReview
     public $blacklisted;
 
     /**
-     * @var string
-     */
-    public $captcha;
-
-    /**
      * @var array|false
      */
     public $errors;
@@ -59,7 +54,6 @@ class ValidateReview
             }
         }
         $this->blacklisted = Cast::toBool($this->request->blacklisted);
-        $this->captcha = glsr()->sessionPluck('form_captcha');
         $this->errors = glsr()->sessionPluck('form_errors', false);
         $this->message = glsr()->sessionPluck('form_message');
         return $this;
