@@ -1,6 +1,6 @@
 <?php
 
-return [
+return [ // order is intentional
     'settings.general.delete_data_on_uninstall' => [
         'class' => 'regular-text',
         'data-glsr-track' => '',
