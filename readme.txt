@@ -5,7 +5,7 @@ Tags: reviews, ratings, testimonials, woocommerce, product reviews, business rev
 Tested up to: 6.0
 Requires at least: 5.5
 Requires PHP: 5.6.20
-Stable tag: 5.24.3
+Stable tag: 5.25.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -141,6 +141,16 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 16. This is what the Slack notifications look like.
 
 ## Changelog
+
+= 5.25.0 (2022-07-15) =
+
+- Added a `data-pinned` attribute to pinned reviews (this allows you to target pinned reviews with custom CSS)
+- Added FriendlyCaptcha integration
+- Added hCaptcha integration
+- Added reCAPTCHA v3 integration
+- Fixed block errors in Customizer Widgets
+- Fixed bulk-edit and quick-edit (i.e. Respond) layout
+- Fixed review submission response with invalid CAPTCHA keys
 
 = 5.24.3 (2022-06-29) =
 
