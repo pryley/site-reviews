@@ -9,6 +9,10 @@ class Captcha {
     }
 
     execute () {
+        if (!this.captchaEl) {
+            this.Form.submitForm();
+            return;
+        }
         if ('friendlycaptcha' === GLSR.captcha.type) {
             setTimeout(() => {
                 if (1 === +this.captchaEl.dataset.token || '.ERROR' === this.Form.form['frc-captcha-solution'].value) {
