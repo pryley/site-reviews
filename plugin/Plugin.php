@@ -100,7 +100,7 @@ trait Plugin
     {
         ob_start();
         $this->render($view, $data);
-        return ob_get_clean();
+        return trim(ob_get_clean());
     }
 
     /**

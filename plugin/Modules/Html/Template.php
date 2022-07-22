@@ -29,7 +29,7 @@ class Template implements Contract
         $template = $this->interpolate($template, $path, $data);
         $template = $this->app()->filterString('rendered/template', $template, $templatePath, $data);
         $template = $this->app()->filterString('rendered/template/'.$path, $template, $data);
-        return $template;
+        return trim($template);
     }
 
     /**
