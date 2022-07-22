@@ -50,6 +50,13 @@
 :root [aria-hidden="true"] .glsr-modal__dialog {
   animation: glsr-zoomOut .3s cubic-bezier(0, 0, .2, 1);
 }
+:root .glsr-modal__header {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding-right: 40px;
+    width: 100%;
+}
 :root [aria-hidden="true"] .glsr-modal__close {
     display: none !important;
 }

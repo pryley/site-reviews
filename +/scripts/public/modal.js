@@ -1,4 +1,4 @@
-import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock';
+import { lock, clearBodyLocks } from 'tua-body-scroll-lock';
 
 const FOCUSABLE_ELEMENTS = [
     '[contenteditable]',
@@ -13,7 +13,13 @@ const FOCUSABLE_ELEMENTS = [
 class Modal {
     constructor ({
         closeTrigger = 'data-glsr-close',
-        onClose = () => {},
+        onClose = () => {
+            const dom = this._dom();
+            dom.modal.className = 'glsr-modal';
+            dom.header.innerHTML = '';
+            dom.content.innerHTML = '';
+            dom.footer.innerHTML = '';
+        },
         onOpen = () => {},
         openClass = 'is-open',
         openTrigger = 'data-glsr-trigger',
@@ -37,16 +43,18 @@ class Modal {
             event.preventDefault();
             event.stopPropagation();
         }
+        
+
         this.modal.setAttribute('aria-hidden', 'true')
         this._eventHandler('remove')
-        clearAllBodyScrollLocks()
+        clearBodyLocks()
         if (this.activeElement && this.activeElement.focus) {
             this.activeElement.focus()
         }
         const handler = () => {
             this.modal.classList.remove(this.config.openClass)
             this.modal.removeEventListener('animationend', handler, false)
-            this.config.onClose(this.modal, this.activeElement, event) // triggered after the modal is hidden
+            this.config.onClose(this.modal, this.activeElement, event, this._dom()) // triggered after the modal is hidden
         }
         this.modal.addEventListener('animationend', handler, false)
         GLSR.Event.trigger('site-reviews/modal/close', this.modal, this.activeElement, event)
@@ -55,6 +63,16 @@ class Modal {
     _closeModalById (targetModal) {
         this.modal = document.getElementById(targetModal)
         if (this.modal) this._closeModal()
+    }
+
+    _dom () {
+        return {
+            modal: this.modal,
+            header: this.modal.querySelector('.glsr-modal__header'),
+            content: this.modal.querySelector('.glsr-modal__content'),
+            footer: this.modal.querySelector('.glsr-modal__footer'),
+            trigger: this.activeElement,
+        }
     }
 
     _eventHandler (action) {
@@ -88,10 +106,10 @@ class Modal {
             event.preventDefault()
             this.activeElement = event.currentTarget
         }
-        this.config.onOpen(this.modal, this.activeElement, event) // triggered before the modal is visible
+        this.config.onOpen(this.modal, this.activeElement, event, this._dom()) // triggered before the modal is visible
         this.modal.setAttribute('aria-hidden', 'false')
         this.modal.classList.add(this.config.openClass)
-        disableBodyScroll(this.modal.querySelector('[data-glsr-modal]'))
+        lock(this.modal.querySelector('[data-glsr-modal]'))
         this._eventHandler('add')
         const handler = () => {
             this.modal.removeEventListener('animationend', handler, false)
