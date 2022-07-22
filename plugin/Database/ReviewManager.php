@@ -95,12 +95,12 @@ class ReviewManager
      * @param int $postId
      * @return false|Review
      */
-    public function createFromPost($postId)
+    public function createFromPost($postId, array $data = [])
     {
         if (!Review::isReview($postId)) {
             return false;
         }
-        $command = new CreateReview(new Request([]));
+        $command = new CreateReview(new Request($data));
         glsr()->action('review/create', $postId, $command);
         return $this->create($command, $postId);
     }
