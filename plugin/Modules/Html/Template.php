@@ -90,6 +90,7 @@ class Template implements Contract
      */
     protected function normalizeContext(array $context)
     {
+        $context = Arr::flatten($context);
         $context = array_filter($context, function ($value) {
             return !is_array($value) && !is_object($value);
         });
