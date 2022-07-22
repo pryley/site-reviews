@@ -18,11 +18,14 @@ class OptimizeAssets
     public function __construct()
     {
         $this->reset();
+        if ('1' === filter_input(INPUT_GET, 'nocache')) {
+            $this->abort = true;
+        }
     }
 
     public function optimizeCss(array $handles = [])
     {
-        if (!glsr()->filterBool('optimize/css', false)) {
+        if (!glsr()->filterBool('optimize/css', false) || $this->abort) {
             return;
         }
         $this->handles = $handles;
@@ -36,7 +39,7 @@ class OptimizeAssets
 
     public function optimizeJs(array $handles = [])
     {
-        if (!glsr()->filterBool('optimize/js', false)) {
+        if (!glsr()->filterBool('optimize/js', false) || $this->abort) {
             return;
         }
         $this->handles = $handles;

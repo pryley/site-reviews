@@ -25,5 +25,7 @@ add_filter('site-reviews/optimize/css', '__return_true');</code></pre>
  * @return bool
  */
 add_filter('site-reviews/optimize/js', '__return_true');</code></pre>
+        <p><strong>Helpful Tip:</strong></p>
+        <p>You can disable merging by adding <code>?nocache=1</code> to your page URL.</p>
     </div>
 </div>
