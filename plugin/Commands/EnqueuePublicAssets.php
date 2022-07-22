@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
 use GeminiLabs\SiteReviews\Modules\Captcha;
+use GeminiLabs\SiteReviews\Modules\OptimizeAssets;
 use GeminiLabs\SiteReviews\Modules\Style;
 
 class EnqueuePublicAssets implements Contract
@@ -28,6 +29,9 @@ class EnqueuePublicAssets implements Contract
         if (glsr()->filterBool('assets/css', true)) {
             wp_enqueue_style(glsr()->id, $this->getStylesheet(), [], glsr()->version);
             wp_add_inline_style(glsr()->id, $this->inlineStyles());
+            glsr(OptimizeAssets::class)->optimizeCss(
+                glsr()->filterArray('optimized/styles', [glsr()->id])
+            );
         }
         if (glsr()->filterBool('assets/js', true)) {
             $dependencies = glsr()->filterBool('assets/polyfill', true)
@@ -37,6 +41,9 @@ class EnqueuePublicAssets implements Contract
             wp_enqueue_script(glsr()->id, $this->getScript(), $dependencies, glsr()->version, true);
             wp_add_inline_script(glsr()->id, $this->inlineScript(), 'before');
             wp_add_inline_script(glsr()->id, glsr()->filterString('enqueue/public/inline-script/after', ''));
+            glsr(OptimizeAssets::class)->optimizeJs(
+                glsr()->filterArray('optimized/scripts', [glsr()->id])
+            );
         }
     }
 

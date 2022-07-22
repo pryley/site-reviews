@@ -1,6 +1,6 @@
 <?php defined('ABSPATH') || die;
 
-$sections = [
+$sections = [ // order is intentional
     trailingslashit(__DIR__).'hooks/readme.php',
     trailingslashit(__DIR__).'hooks/filter-form-field-order.php',
     trailingslashit(__DIR__).'hooks/filter-star-images.php',
@@ -11,6 +11,7 @@ $sections = [
     trailingslashit(__DIR__).'hooks/filter-schema.php',
     trailingslashit(__DIR__).'hooks/filter-submitted-review-values.php',
     trailingslashit(__DIR__).'hooks/modify-request.php',
+    trailingslashit(__DIR__).'hooks/filter-optimize.php',
 ];
 $filename = pathinfo(__FILE__, PATHINFO_FILENAME);
 $sections = glsr()->filterArrayUnique('documentation/'.$filename, $sections);

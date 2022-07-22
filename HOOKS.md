@@ -112,6 +112,10 @@
     site-reviews/notification/emails                        (array $emails, Review $review): array
     site-reviews/notification/tag/<tag>                     (string $value, Review $review): string
     site-reviews/notification/title                         (string $title, Review $review): string
+    site-reviews/optimize/css                               (bool $bool): bool
+    site-reviews/optimize/js                                (bool $bool): bool
+    site-reviews/optimized/scripts                          (array $handles): array
+    site-reviews/optimized/styles                           (array $handles): array
     site-reviews/option/<path>                              (mixed $value): mixed
     site-reviews/paginate_links                             (string $links, array $args): string
     site-reviews/partial/args/<partial_path>                (array $args): array
