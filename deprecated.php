@@ -28,27 +28,6 @@ add_action('plugins_loaded', function () {
     if (!glsr()->filterBool('support/deprecated/v5', true)) {
         return;
     }
-    /**
-     * Review meta data has been deprecated
-     * @since 5.0.0
-     */
-    add_filter('get_post_metadata', function ($data, $postId, $metaKey) {
-        if (glsr()->post_type !== get_post_type($postId)) {
-            return $data;
-        }
-        $metaKey = Str::removePrefix($metaKey, '_');
-        $metaKeys = [
-            'assigned_to', 'author', 'avatar', 'content', 'date', 'email',
-            'ip_address', 'pinned', 'rating', 'review_id', 'review_type',
-            'title', 'url',
-        ];
-        if (!in_array($metaKey, $metaKeys)) {
-            return $data;
-        }
-        $message = 'Site Reviews no longer stores the "'.$metaKey.'" review value as meta data. Please use the glsr_get_review() helper function instead.';
-        glsr()->append('deprecated', $message);
-        return glsr_get_review($postId)->{$metaKey};
-    }, 10, 3);
 
     /*
      * Application
