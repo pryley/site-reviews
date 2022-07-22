@@ -46,7 +46,7 @@ class Arguments extends \ArrayObject
      */
     public function get($key, $fallback = null)
     {
-        $value = Arr::get($this->toArray(), $key, $fallback);
+        $value = Arr::get($this->getArrayCopy(), $key, null);
         return isset($fallback)
             ? Helper::ifEmpty($value, $fallback)
             : $value;
@@ -57,7 +57,7 @@ class Arguments extends \ArrayObject
      */
     public function isEmpty()
     {
-        return empty($this->toArray());
+        return empty($this->getArrayCopy());
     }
 
     /**
@@ -65,7 +65,7 @@ class Arguments extends \ArrayObject
      */
     public function merge(array $data = [])
     {
-        $storage = wp_parse_args($data, $this->toArray());
+        $storage = wp_parse_args($data, $this->getArrayCopy());
         $this->exchangeArray($storage);
         return $this;
     }
@@ -87,7 +87,7 @@ class Arguments extends \ArrayObject
     #[\ReturnTypeWillChange]
     public function offsetUnset($key)
     {
-        $storage = $this->toArray();
+        $storage = $this->getArrayCopy();
         unset($storage[$key]);
         $this->exchangeArray($storage);
     }
@@ -112,7 +112,7 @@ class Arguments extends \ArrayObject
      */
     public function set($path, $value)
     {
-        $storage = Arr::set($this->toArray(), $path, $value);
+        $storage = Arr::set($this->getArrayCopy(), $path, $value);
         $this->exchangeArray($storage);
     }
 
