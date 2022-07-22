@@ -24,7 +24,7 @@ class Dump
      */
     public function dump($value, $depth = 3, array $ignore = [])
     {
-        $this->depth = $depth;
+        $this->depth = glsr()->filterInt('console/depth', $depth);
         $this->ignore = $ignore;
         $this->reset();
         $this->inspect($value);

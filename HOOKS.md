@@ -68,6 +68,7 @@
     site-reviews/columns/orderby-is-null                    (array $columns): array
     site-reviews/config                                     (string $path): string
     site-reviews/config/<config_id>                         (array $config): array
+    site-reviews/console/depth                              (int $depth): int
     site-reviews/console/level                              (int $level): int
     site-reviews/const/<constant>                           (string $constantName): string
     site-reviews/create/review-values                       (array $reviewValues, Commands\CreateReview $command): array
