@@ -123,6 +123,9 @@ class EnqueuePublicAssets implements Contract
             'state' => [
                 'popstate' => false,
             ],
+            'text' => [
+                'closemodal' => __('Close Modal', 'site-reviews'),
+            ],
             'urlparameter' => glsr(OptionManager::class)->getBool('settings.reviews.pagination.url_parameter'),
             'validationconfig' => array_merge(
                 [

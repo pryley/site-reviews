@@ -27,7 +27,7 @@ class Excerpts {
             readMoreLink.addEventListener('click', this.events.click);
         }
         if ('modal' === el.dataset.trigger) {
-            readMoreLink.dataset.excerptTrigger = 'glsr-modal';
+            readMoreLink.dataset.glsrTrigger = 'glsr-modal-review'; // @compat
         }
     }
 

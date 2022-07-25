@@ -24,7 +24,6 @@
     outline: none;
 }
 :root .glsr-modal__dialog {
-    -webkit-overflow-scrolling: touch;
     background-color: var(--glsr-white);
     border-radius: var(--glsr-border-radius);
     box-shadow: 0 1px 2px rgba(0,0,0,0.07), 
@@ -34,11 +33,13 @@
                 0 16px 32px rgba(0,0,0,0.07), 
                 0 32px 64px rgba(0,0,0,0.07);
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     font-size: 16px;
     line-height: 1.5;
     max-height: calc(100vh - 2rem);
     max-width: 700px;
-    overflow-y: auto;
+    overflow: hidden;
     padding: 2rem;
     position: relative;
     width: calc(100vw - 2rem);
@@ -48,21 +49,20 @@
   animation: glsr-zoomIn .3s cubic-bezier(0, 0, .2, 1);
 }
 :root [aria-hidden="true"] .glsr-modal__dialog {
-  animation: glsr-zoomOut .3s cubic-bezier(0, 0, .2, 1);
+  animation: glsr-zoomOut .15s cubic-bezier(0, 0, .2, 1);
 }
 :root .glsr-modal__header {
-    position: absolute;
-    right: 0;
-    top: 0;
+    position: relative;
     padding-right: 40px;
-    width: 100%;
 }
-:root [aria-hidden="true"] .glsr-modal__close {
-    display: none !important;
+:root .glsr-modal__content {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+    position: relative;
 }
-:root .glsr-modal__close,
-:root .glsr-modal__close:hover,
-:root .glsr-modal__close:focus {
+:root body > .glsr-modal .glsr-modal__close,
+:root body > .glsr-modal .glsr-modal__close:hover,
+:root body > .glsr-modal .glsr-modal__close:focus {
     all: revert;
     appearance: none;
     background: transparent;
@@ -81,12 +81,16 @@
     width: 40px;
     z-index: 10;
 }
-:root .glsr-modal__close:hover {
+:root body > .glsr-modal .glsr-modal__close:hover {
     transform: scale(1.1);
+}
+:root body > .glsr-modal[aria-hidden="true"] .glsr-modal__close {
+    display: none !important;
 }
 :root .glsr-modal__close::before {
     all: revert;
     content: "\2715";
+    font-weight: 700;
 }
 :root .glsr-modal__close::after {
     display: none;
@@ -106,7 +110,7 @@
     animation-name: glsr-fadeIn;
 }
 :root .glsr-modal[aria-hidden="true"] .glsr-modal__overlay {
-    animation-duration: .3s;
+    animation-duration: .15s;
     animation-name: glsr-fadeOut;
 }
 :root .glsr-modal .glsr-modal__overlay {

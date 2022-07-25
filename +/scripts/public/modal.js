@@ -1,4 +1,8 @@
-import { lock, clearBodyLocks } from 'tua-body-scroll-lock';
+// see: https://github.com/ghosh/Micromodal
+
+import dom from './dom.js';
+import { debounce } from './helpers.js';
+import { lock, unlock } from 'tua-body-scroll-lock';
 
 const FOCUSABLE_ELEMENTS = [
     '[contenteditable]',
@@ -8,31 +12,34 @@ const FOCUSABLE_ELEMENTS = [
     'input:not([disabled]):not([type="hidden"]):not([aria-hidden])',
     'select:not([disabled]):not([aria-hidden])',
     'textarea:not([disabled]):not([aria-hidden])',
-]
+];
+
+const attr = (className, attributes = {}) => {
+    attributes.class = classBase + '__' + className;
+    return attributes
+}
+const classBase = 'glsr-modal';
+const closeTrigger = 'data-glsr-close';
+const openTrigger = 'data-glsr-trigger';
+const openClass = 'is-open';
 
 class Modal {
     constructor ({
-        closeTrigger = 'data-glsr-close',
-        onClose = () => {
-            const dom = this._dom();
-            dom.modal.className = 'glsr-modal';
-            dom.header.innerHTML = '';
-            dom.content.innerHTML = '';
-            dom.footer.innerHTML = '';
-        },
+        key = 'modal',
+        onClose = () => {},
         onOpen = () => {},
-        openClass = 'is-open',
-        openTrigger = 'data-glsr-trigger',
-        targetModalId = 'glsr-modal',
+        openTrigger = openTrigger, // @compat
         triggers = [],
     }) {
-        this.modal = document.getElementById(targetModalId)
-        this.config = { openTrigger, closeTrigger, openClass, onOpen, onClose }
+        this.activeElement = null;
+        this.id = key; // @compat
+        this.config = { onOpen, onClose }
         this.events = {
             mouseup: this._onClick.bind(this),
             keydown: this._onKeydown.bind(this),
             touchstart: this._onClick.bind(this),
         };
+        this.modal = null;
         if (triggers.length > 0) {
             this._registerTriggers(triggers)
         }
@@ -43,36 +50,25 @@ class Modal {
             event.preventDefault();
             event.stopPropagation();
         }
-        
-
         this.modal.setAttribute('aria-hidden', 'true')
         this._eventHandler('remove')
-        clearBodyLocks()
+        unlock(this.modal.content)
         if (this.activeElement && this.activeElement.focus) {
             this.activeElement.focus()
         }
         const handler = () => {
-            this.modal.classList.remove(this.config.openClass)
             this.modal.removeEventListener('animationend', handler, false)
-            this.config.onClose(this.modal, this.activeElement, event, this._dom()) // triggered after the modal is hidden
+            openModals.pop();
+            this.modal.classList.remove(openClass)
+            this.config.onClose(this.modal, this.activeElement, event) // triggered after the modal is hidden
+            GLSR.Event.trigger('site-reviews/modal/close', this.modal, this.activeElement, event)
+            debounce(() => {
+                this.modal.remove()
+                this.activeElement = null;
+                this.modal = null;
+            })()
         }
         this.modal.addEventListener('animationend', handler, false)
-        GLSR.Event.trigger('site-reviews/modal/close', this.modal, this.activeElement, event)
-    }
-
-    _closeModalById (targetModal) {
-        this.modal = document.getElementById(targetModal)
-        if (this.modal) this._closeModal()
-    }
-
-    _dom () {
-        return {
-            modal: this.modal,
-            header: this.modal.querySelector('.glsr-modal__header'),
-            content: this.modal.querySelector('.glsr-modal__content'),
-            footer: this.modal.querySelector('.glsr-modal__footer'),
-            trigger: this.activeElement,
-        }
     }
 
     _eventHandler (action) {
@@ -84,32 +80,55 @@ class Modal {
         events.forEach(event => el[action+'EventListener'](event, this.events[event]));
     }
 
-    _getFocusableNodes () {
-        const nodes = this.modal.querySelectorAll(FOCUSABLE_ELEMENTS)
+    _focusableNodes () {
+        const nodes = this.modal.querySelectorAll(FOCUSABLE_ELEMENTS);
         return Array.prototype.slice.call(nodes)
     }
 
+    _modal () {
+        const close = dom('button', attr('close', {'aria-label': GLSR.text.closemodal, 'data-glsr-close': '' }));
+        const content = dom('div', attr('content'));
+        const header = dom('div', attr('header'));
+        const footer = dom('div', attr('footer'));
+        const modal = dom('div', { class: classBase, id: this.id, 'aria-hidden': true },
+            dom('div', attr('overlay', { tabindex: -1, 'data-glsr-close': '' }),
+                dom('div', attr('dialog', { 'aria-modal': true, role: 'dialog' }),
+                    close, header, content, footer
+                )
+            )
+        )
+        modal.close = close;
+        modal.content = content;
+        modal.footer = footer;
+        modal.header = header;
+        return modal
+    }
+
     _onClick (event) {
-        if (event.target.hasAttribute(this.config.closeTrigger)) {
+        if (event.target.hasAttribute(closeTrigger)) {
             this._closeModal(event)
         }
     }
 
     _onKeydown (event) {
-        if (event.keyCode === 27) this._closeModal(event) // esc
+        if (event.keyCode === 27 && openModals.slice(-1)[0] === this.id) { // esc
+            this._closeModal(event)
+        }
         if (event.keyCode === 9) this._retainFocus(event) // tab
     }
 
     _openModal (event = null) {
+        openModals.push(this.id);
         this.activeElement = document.activeElement
         if (event) {
             event.preventDefault()
             this.activeElement = event.currentTarget
         }
-        this.config.onOpen(this.modal, this.activeElement, event, this._dom()) // triggered before the modal is visible
+        this.modal = document.body.appendChild(this._modal());
+        lock(this.modal.content)
+        this.config.onOpen(this.modal, this.activeElement, event) // triggered before the modal is visible
         this.modal.setAttribute('aria-hidden', 'false')
-        this.modal.classList.add(this.config.openClass)
-        lock(this.modal.querySelector('[data-glsr-modal]'))
+        this.modal.classList.add(openClass)
         this._eventHandler('add')
         const handler = () => {
             this.modal.removeEventListener('animationend', handler, false)
@@ -120,23 +139,23 @@ class Modal {
     }
 
     _registerTriggers (triggers) {
-        triggers.filter(Boolean).forEach(triggerEl => {
-            if (triggerEl.triggerModal) {
-                triggerEl.removeEventListener('click', triggerEl.triggerModal)
+        triggers.filter(Boolean).forEach(el => {
+            if (el.triggerModal) {
+                el.removeEventListener('click', el.triggerModal)
             }
-            triggerEl.triggerModal = this._openModal.bind(this) // store the handler directly on the trigger element
-            triggerEl.addEventListener('click', triggerEl.triggerModal)
+            el.triggerModal = this._openModal.bind(this) // store the handler directly on the trigger element
+            el.addEventListener('click', el.triggerModal)
         })
     }
 
     _retainFocus (event) {
-        let focusableNodes = this._getFocusableNodes()
+        let focusableNodes = this._focusableNodes();
         if (focusableNodes.length === 0) return
         focusableNodes = focusableNodes.filter(node => (node.offsetParent !== null)) // removes hidden nodes
         if (!this.modal.contains(document.activeElement)) {
             focusableNodes[0].focus()
         } else {
-            const focusedItemIndex = focusableNodes.indexOf(document.activeElement)
+            const focusedItemIndex = focusableNodes.indexOf(document.activeElement);
             if (event.shiftKey && focusedItemIndex === 0) {
                 focusableNodes[focusableNodes.length - 1].focus()
                 event.preventDefault()
@@ -149,75 +168,64 @@ class Modal {
     }
 
     _setFocusToFirstNode () {
-        const focusableNodes = this._getFocusableNodes()
+        const focusableNodes = this._focusableNodes();
         if (focusableNodes.length === 0) return
-        const focusableContentNodes = focusableNodes.filter(node => !node.hasAttribute(this.config.closeTrigger))
-        if (focusableContentNodes.length > 0) focusableContentNodes[0].focus()
-        if (focusableContentNodes.length === 0) focusableNodes[0].focus()
-    }
-}
-
-const activeModals = {}
-
-/**
- * @param {string} targetModalId [The id of the modal to close]
- * @return {void}
- */
-const close = (targetModalId) => {
-    if (targetModalId) {
-       activeModals[targetModalId]._closeModalById(targetModalId)
-    } else {
-        for (let id in activeModals) {
-            activeModals[id].closeModal()
+        const focusableContentNodes = focusableNodes.filter(node => !node.hasAttribute(closeTrigger));
+        if (focusableContentNodes.length > 0) {
+            focusableContentNodes[0].focus()
+        }
+        if (focusableContentNodes.length === 0) {
+            focusableNodes[0].focus()
         }
     }
 }
 
-/**
- * @param {object} config
- * @return void
- */
-const init = (config) => {
-    const options = Object.assign({}, { openTrigger: 'data-glsr-trigger' }, config)
-    const triggers = Array.prototype.slice.call(document.querySelectorAll(`[${ options.openTrigger }]`))
-    const triggerMap = _generateTriggerMap(triggers, options.openTrigger)
+const activeModals = {}
+const openModals = [];
+
+const _generateTriggerMap = (triggerAttr) => {
+    const triggerMap = {};
+    document.querySelectorAll('[' + triggerAttr + ']').forEach(triggerEl => {
+        const key = triggerEl.attributes[triggerAttr].value;
+        if (triggerMap[key] === undefined) {
+            triggerMap[key] = [];
+        }
+        triggerMap[key].push(triggerEl);
+    })
+    return triggerMap
+}
+
+const close = (key) => {
+    if (key) {
+        if (activeModals[key]) {
+            activeModals[key].closeModal(key)
+        }
+    } else {
+        for (let id in activeModals) {
+            activeModals[id].closeModal()
+        }
+        activeModals = {};
+    }
+}
+
+const init = (config = {}) => {
+    const options = Object.assign({ openTrigger }, config)
+    const triggerMap = _generateTriggerMap(options.openTrigger);
     Object.keys(triggerMap).forEach(key => {
-        options.targetModalId = key
-        options.triggers = triggerMap[key]
-        activeModals[key] = new Modal(options)
+        options.key = key;
+        options.triggers = triggerMap[key];
+        activeModals[key] = new Modal(options);
     })
     return activeModals
 }
 
-/**
- * @param {string} targetModalId [The id of the modal to display]
- * @param {object} config [The configuration object to pass]
- * @return {void}
- */
-const open = (targetModalId, config) => {
-    const options = config || {}
-    options.targetModalId = targetModalId
-    if (activeModals[targetModalId]) {
-        activeModals[targetModalId]._eventHandler('remove')
+const open = (key, config = {}) => {
+    if (activeModals[key]) {
+        activeModals[key]._eventHandler('remove')
     }
-    activeModals[targetModalId] = new Modal(options)
-    activeModals[targetModalId]._openModal()
-}
-
-/**
- * Generates an Object containing modals and their respective triggers
- * @param {array} triggers [An array of all triggers]
- * @param {string} triggerAttr [The data-attribute which triggers the module]
- * @return {object}
- */
-const _generateTriggerMap = (triggers, triggerAttr) => {
-    const triggerMap = {}
-    triggers.forEach(trigger => {
-        const targetModalId = trigger.attributes[triggerAttr].value
-        if (triggerMap[targetModalId] === undefined) triggerMap[targetModalId] = []
-        triggerMap[targetModalId].push(trigger)
-    })
-    return triggerMap
+    config.key = key;
+    activeModals[key] = new Modal(config);
+    activeModals[key]._openModal()
 }
 
 export default { init, open, close }

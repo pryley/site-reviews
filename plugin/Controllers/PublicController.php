@@ -106,17 +106,6 @@ class PublicController extends Controller
      * @return void
      * @action wp_footer
      */
-    public function renderModal()
-    {
-        if (glsr()->retrieve('use_modal', false)) {
-            glsr()->render('views/partials/modal');
-        }
-    }
-
-    /**
-     * @return void
-     * @action wp_footer
-     */
     public function renderSchema()
     {
         glsr(Schema::class)->render();

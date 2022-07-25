@@ -31,24 +31,15 @@ const initForms = () => {
 }
 
 const initModal = () => {
-    const classNames = {
-        content: 'glsr-modal__content',
-        review: 'glsr-modal__review',
-    }
-    window.GLSR.Modal.init({
-        onClose: (modal, triggerEl, ev) => {
-            modal.querySelector('.' + classNames.content).innerHTML = '';
-            modal.classList.remove(classNames.review);
-        },
-        onOpen: (modal, triggerEl, ev) => {
+    GLSR.Modal.init({
+        onOpen: (modalEl, triggerEl) => {
             const baseEl = triggerEl.closest('.glsr').cloneNode(true);
             const reviewEl = triggerEl.closest('.glsr-review').cloneNode(true);
             baseEl.innerHTML = '';
             baseEl.appendChild(reviewEl);
-            modal.querySelector('.' + classNames.content).appendChild(baseEl);
-            modal.classList.add(classNames.review);
+            modalEl.content.appendChild(baseEl);
+            modalEl.classList.add('glsr-modal__review');
         },
-        openTrigger: 'data-excerpt-trigger',
     })
 }
 

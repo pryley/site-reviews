@@ -1,4 +1,5 @@
-:--namespace .screen-reader-text {
+:--namespace .screen-reader-text,
+:root .glsr-modal .screen-reader-text {
     border: 0;
     clip: rect(0 0 0 0);
     height: 1px;

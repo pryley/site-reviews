@@ -18,7 +18,6 @@ class PublicHooks extends AbstractHooks
             ['filterFieldOrder', 'site-reviews/config/forms/review-form', 11],
             ['filterRenderView', 'site-reviews/render/view'],
             ['modifyBuilder', 'site-reviews/builder'],
-            ['renderModal', 'wp_footer', 50],
             ['renderSchema', 'wp_footer'],
             ['submitReview', 'site-reviews/route/public/submit-review'],
             ['submitReviewAjax', 'site-reviews/route/ajax/submit-review'],
