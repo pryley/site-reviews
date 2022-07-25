@@ -2,7 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
+use Exception;
 use GeminiLabs\League\Csv\Exceptions\UnableToProcessCsv;
+use GeminiLabs\League\Csv\CharsetConverter;
 use GeminiLabs\League\Csv\Info;
 use GeminiLabs\League\Csv\Reader;
 use GeminiLabs\League\Csv\Statement;
@@ -17,6 +19,7 @@ use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Upload;
+use OutOfRangeException;
 
 class ImportReviews extends Upload implements Contract
 {
@@ -91,13 +94,23 @@ class ImportReviews extends Upload implements Contract
             $delimiters = \GeminiLabs\League\Csv\Info::getDelimiterStats($reader, [',',';']);
             $delimiters = array_keys(array_filter($delimiters));
             if (1 !== count($delimiters)) {
-                throw new UnableToProcessCsv('Cannot detect the delimiter used in the CSV file (supported delimiters are comma and semicolon).');
+                throw new UnableToProcessCsv(
+                    _x('Cannot detect the delimiter used in the CSV file (supported delimiters are comma and semicolon).', 'admin-text', 'site-reviews')
+                );
             }
             $this->delimiter = $delimiters[0];
         }
         $reader->setDelimiter($this->delimiter);
         $reader->setHeaderOffset(0);
         $reader->skipEmptyRecords();
+        if ($reader->supportsStreamFilter()) {
+            $inputBom = $reader->getInputBOM();
+            if (in_array($inputBom, [Reader::BOM_UTF16_LE, Reader::BOM_UTF16_BE], true)) {
+                return CharsetConverter::addTo($reader, 'utf-16', 'utf-8');
+            } elseif (in_array($inputBom, [Reader::BOM_UTF32_LE, Reader::BOM_UTF32_BE], true)) {
+                return CharsetConverter::addTo($reader, 'utf-32', 'utf-8');
+            }
+        }
         return $reader;
     }
 
@@ -115,7 +128,9 @@ class ImportReviews extends Upload implements Contract
             $reader = $this->createReader();
             $header = array_map('trim', $reader->getHeader());
             if (!empty(array_diff(static::REQUIRED_KEYS, $header))) {
-                throw new UnableToProcessCsv('The CSV import header is missing some of the required columns (or maybe you selected the wrong delimiter).');
+                throw new UnableToProcessCsv(
+                    _x('The CSV file could not be imported. Please verify the following details and try again:', 'admin-text', 'site-reviews')
+                );
             }
             $records = Statement::create()
                 ->where(function (array $record) {
@@ -127,13 +142,17 @@ class ImportReviews extends Upload implements Contract
                 ->process($reader, $header);
             return $this->importRecords($records);
         } catch (UnableToProcessCsv $e) {
-            if ('The header record must be an empty or a flat array with unique string values.' === $e->getMessage()) {
-                glsr(Notice::class)->addError('Site Reviews does not support UTF-16 encoded CSV files. Please save as UTF-8 and try again.');
-            } else {
-                glsr(Notice::class)->addError($e->getMessage());
-            }
-            return false;
+            glsr(Notice::class)->addError($e->getMessage(), [
+                '👉🏼 '._x('Does the CSV file include the required columns?', 'admin-text', 'site-reviews'),
+                '👉🏼 '._x('Is the CSV file encoded as UTF-8?', 'admin-text', 'site-reviews'),
+                '👉🏼 '._x('Is the selected delimiter correct?', 'admin-text', 'site-reviews'),
+            ]);
+        } catch (OutOfRangeException $e) {
+            glsr(Notice::class)->addError($e->getMessage());
+        } catch (Exception $e) {
+            glsr(Notice::class)->addError($e->getMessage());
         }
+        return false;
     }
 
     /**
