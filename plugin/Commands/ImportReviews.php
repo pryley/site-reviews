@@ -34,7 +34,7 @@ class ImportReviews extends Upload implements Contract
     ];
 
     const REQUIRED_KEYS = [
-        'content', 'date', 'rating',
+        'date', 'rating',
     ];
 
     /**
@@ -55,7 +55,7 @@ class ImportReviews extends Upload implements Contract
     /**
      * @var int
      */
-    protected $totalRecords = 0;
+    protected $skippedRecords = 0;
 
     public function __construct(Request $request)
     {
@@ -117,9 +117,11 @@ class ImportReviews extends Upload implements Contract
             if (!empty(array_diff(static::REQUIRED_KEYS, $header))) {
                 throw new UnableToProcessCsv('The CSV import header is missing some of the required columns (or maybe you selected the wrong delimiter).');
             }
-            $this->totalRecords = count($reader);
             $records = Statement::create()
-                ->where(function ($record) {
+                ->where(function (array $record) {
+                    return !empty(array_filter($record, 'trim')); // remove empty rows
+                })
+                ->where(function (array $record) {
                     return $this->validateRecord($record);
                 })
                 ->process($reader, $header);
@@ -140,6 +142,7 @@ class ImportReviews extends Upload implements Contract
     protected function importRecords(TabularDataReader $records)
     {
         foreach ($records as $offset => $record) {
+            $record = array_map('trim', $record);
             $date = \DateTime::createFromFormat($this->date_format, $record['date']);
             $record['date'] = $date->format('Y-m-d H:i:s'); // format the provided date
             $request = new Request($record);
@@ -155,18 +158,17 @@ class ImportReviews extends Upload implements Contract
      */
     protected function notify($result)
     {
-        $skippedRecords = max(0, $this->totalRecords - $result);
         $notice = sprintf(
             _nx('%s review was imported.', '%s reviews were imported.', $result, 'admin-text', 'site-reviews'),
             number_format_i18n($result)
         );
-        if (0 === $skippedRecords) {
+        if (0 === $this->skippedRecords) {
             glsr(Notice::class)->addSuccess($notice);
             return;
         }
         $skipped = sprintf(
-            _nx('%s entry was skipped.', '%s entries were skipped.', $skippedRecords, 'admin-text', 'site-reviews'),
-            number_format_i18n($skippedRecords)
+            _nx('%s entry was skipped.', '%s entries were skipped.', $this->skippedRecords, 'admin-text', 'site-reviews'),
+            number_format_i18n($this->skippedRecords)
         );
         $consoleLink = sprintf(_x('See the %s for more details.', 'admin-text', 'site-reviews'),
             sprintf('<a href="%s">%s</a>)',
@@ -183,21 +185,21 @@ class ImportReviews extends Upload implements Contract
      */
     protected function validateRecord(array $record)
     {
+        $record = array_map('trim', $record);
         $required = [
             'date' => glsr(Date::class)->isDate(Arr::get($record, 'date'), $this->date_format),
-            'content' => !empty($record['content']),
             'rating' => glsr(Rating::class)->isValid(Arr::get($record, 'rating')),
         ];
-        if (3 === count(array_filter($required))) {
+        if (2 === count(array_filter($required))) {
             return true;
         }
         $errorMessages = [
             'date' => _x('wrong date format', 'admin-text', 'site-reviews'),
-            'content' => _x('empty or missing content', 'admin-text', 'site-reviews'),
             'rating' => _x('empty or invalid rating', 'admin-text', 'site-reviews'),
         ];
         $errors = array_intersect_key($errorMessages, array_diff_key($required, array_filter($required)));
         $this->errors = array_merge($this->errors, $errors);
+        $this->skippedRecords++;
         return false;
     }
 }

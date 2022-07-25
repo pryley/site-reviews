@@ -67,7 +67,7 @@
                     </tr>
                     <tr>
                         <td><strong>content</strong></td>
-                        <td><span class="glsr-tag glsr-tag-required"><?= _x('Yes', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
                         <td><?= _x('The review', 'admin-text', 'site-reviews'); ?></td>
                     </tr>
                     <tr>
