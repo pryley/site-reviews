@@ -1,4 +1,4 @@
-/** global: GLSR */
+import dom from './dom.js';
 
 const classNames = {
     hidden: 'glsr-hidden',
@@ -34,12 +34,8 @@ class Excerpts {
     _insertLink (el) {
         let readMoreEl = el.parentNode.querySelector('.' + classNames.readmore);
         if (!readMoreEl) {
-            const readMoreSpan = document.createElement('span');
-            const readmoreLink = document.createElement('a');
-            readmoreLink.setAttribute('href', '#');
-            readmoreLink.innerHTML = el.dataset.showMore;
-            readMoreSpan.setAttribute('class', classNames.readmore);
-            readMoreSpan.appendChild(readmoreLink);
+            const readMoreLink = dom('a', { href: '#' }, el.dataset.showMore);
+            const readMoreSpan = dom('span', { class: classNames.readmore }, readMoreLink);
             readMoreEl = el.parentNode.insertBefore(readMoreSpan, el.nextSibling);
         }
         return readMoreEl.querySelector('a')

@@ -1,4 +1,4 @@
-/** global: GLSR, grecaptcha, MutationObserver */
+import dom from './dom.js';
 
 class Captcha {
     constructor (Form) {
@@ -79,8 +79,7 @@ class Captcha {
             this.instance.destroy() // remove friendlycaptcha
         }
         Array.from(containerEl.getElementsByClassName(GLSR.captcha.class)).forEach(el => el.remove());
-        const el = document.createElement('div');
-        el.className = GLSR.captcha.class;
+        const el = dom('div', {class: GLSR.captcha.class});
         containerEl.appendChild(el);
         return el;
     }
