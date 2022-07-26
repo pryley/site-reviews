@@ -103,7 +103,7 @@ class ImportReviews extends Upload implements Contract
         $reader->setDelimiter($this->delimiter);
         $reader->setHeaderOffset(0);
         $reader->skipEmptyRecords();
-        if ($reader->supportsStreamFilter()) {
+        if ($reader->supportsStreamFilterOnRead()) {
             $inputBom = $reader->getInputBOM();
             if (in_array($inputBom, [Reader::BOM_UTF16_LE, Reader::BOM_UTF16_BE], true)) {
                 return CharsetConverter::addTo($reader, 'utf-16', 'utf-8'); // @phpstan-ignore-line
