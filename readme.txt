@@ -142,6 +142,15 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 ## Changelog
 
+= 5.26.0 (2022-07-??) =
+
+- Added a new Modal implementation (if you are using the Review Images add-on, please update to v3)
+- Added automatic conversion of UTF-16/UTF-32 encoded CSV files when importing reviews
+- Added filter hooks to combine css and javascript files (see Help > Hooks)
+- Fixed compatibility with [Yoast Duplicate Post](https://wordpress.org/plugins/duplicate-post/)
+- Fixed review importing: it now skips empty CSV rows without returning an error
+- Fixed WPML integration
+
 = 5.25.1 (2022-07-15) =
 
 - Fixed submit button when captcha is disabled
@@ -376,7 +385,7 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 = 5.16.1 (2021-10-04) =
 
-- Added compatibility fix for Review Themes v1.0.0-beta4
+- Fixed compatibility with for Review Themes v1.0.0-beta4
 
 = 5.16.0 (2021-10-03) =
 
