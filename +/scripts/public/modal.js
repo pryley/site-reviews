@@ -1,8 +1,8 @@
 // see: https://github.com/ghosh/Micromodal
 
-import dom from './dom.js';
-import { debounce } from './helpers.js';
-import { lock, unlock } from 'tua-body-scroll-lock';
+import dom from './dom.js'
+import { debounce } from './helpers.js'
+import { lock, unlock } from 'tua-body-scroll-lock'
 
 const FOCUSABLE_ELEMENTS = [
     '[contenteditable]',
@@ -18,12 +18,12 @@ const defaults = {
     id: 'glsr-modal',
     onClose: () => {},
     onOpen: () => {},
-    openTrigger: 'data-glsr-trigger',
 };
 
 const closeTrigger = 'data-glsr-close';
 const modalClass = 'glsr-modal';
 const openClass = 'is-open';
+const openTrigger = 'data-glsr-trigger';
 
 const attr = (className, attributes = {}) => {
     attributes.class = modalClass + '__' + className;
@@ -47,8 +47,8 @@ class Modal {
 
     _closeModal (event = null) {
         if (event) {
-            event.preventDefault();
-            event.stopPropagation();
+            event.preventDefault()
+            event.stopPropagation()
         }
         this.modal.setAttribute('aria-hidden', 'true')
         this._eventHandler('remove')
@@ -58,7 +58,7 @@ class Modal {
         }
         const handler = () => {
             this.modal.removeEventListener('animationend', handler, false)
-            openModals.pop();
+            openModals.pop()
             this.modal.classList.remove(openClass)
             this.config.onClose(this.modal, this.activeElement, event) // triggered after the modal is hidden
             GLSR.Event.trigger('site-reviews/modal/close', this.modal, this.activeElement, event)
@@ -77,12 +77,12 @@ class Modal {
     }
 
     _eventListener (el, action, events) {
-        events.forEach(event => el[action+'EventListener'](event, this.events[event]));
+        events.forEach(event => el[action+'EventListener'](event, this.events[event]))
     }
 
     _focusableNodes () {
         const nodes = this.modal.querySelectorAll(FOCUSABLE_ELEMENTS);
-        return Array.prototype.slice.call(nodes)
+        return [].slice.call(nodes)
     }
 
     _modal () {
@@ -118,11 +118,11 @@ class Modal {
     }
 
     _openModal (event) {
-        openModals.push(this.id);
-        this.activeElement = document.activeElement
+        openModals.push(this.id)
+        this.activeElement = document.activeElement;
         if (event) {
             event.preventDefault()
-            this.activeElement = event.currentTarget
+            this.activeElement = event.currentTarget;
         }
         this.modal = document.body.appendChild(this._modal());
         lock(this.modal.content)
@@ -144,25 +144,20 @@ class Modal {
         this.triggers.push(el)
     }
 
-    _registerTriggers (triggers) {
-        triggers.filter(Boolean).forEach(el => this._registerTrigger(el))
-        this.triggers = triggers;
-    }
-
     _removeTrigger (el) {
         this.triggers.filter(trigger => trigger !== el)
         el.removeEventListener('click', this.modalTrigger)
     }
 
     _removeTriggers () {
-        this.triggers.filter(Boolean).forEach(el => this._removeTrigger(el))
+        this.triggers.forEach(el => this._removeTrigger(el))
         this.triggers = [];
     }
 
     _retainFocus (event) {
         let focusableNodes = this._focusableNodes();
         if (focusableNodes.length === 0) return
-        focusableNodes = focusableNodes.filter(node => (node.offsetParent !== null)) // removes hidden nodes
+        focusableNodes = focusableNodes.filter(node => (node.offsetParent !== null)); // removes hidden nodes
         if (!this.modal.contains(document.activeElement)) {
             focusableNodes[0].focus()
         } else {
@@ -191,7 +186,7 @@ class Modal {
     }
 }
 
-const activeModals = {}
+const activeModals = {};
 const openModals = [];
 
 const close = (modalId) => {
@@ -208,8 +203,8 @@ const init = (config) => {
     const options = Object.assign({}, defaults, config || {});
     const modal = activeModals[options.id] || new Modal(options);
     modal._removeTriggers()
-    document.querySelectorAll('[' + options.openTrigger + ']').forEach(el => {
-        if (options.id === el.attributes[options.openTrigger].value) {
+    document.querySelectorAll('[' + openTrigger + ']').forEach(el => {
+        if (options.id === el.attributes[openTrigger].value) {
             modal._registerTrigger(el)
         }
     })
@@ -225,7 +220,5 @@ const open = (id, config) => {
     }
     modal._openModal()
 }
-
-window.xxx = { activeModals, openModals };
 
 export default { init, open, close }
