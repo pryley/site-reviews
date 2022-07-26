@@ -1,13 +1,13 @@
 :root .glsr-modal {
     display: none;
     pointer-events: none;
-    position: relative;
+    position: fixed;
     z-index: -1;
 }
 :root .glsr-modal.is-open {
     display: block;
     pointer-events: auto;
-    z-index: 10000; /* this z-index is 89999 less than spotlight.js */
+    z-index: 99999; /* this z-index is the same as wpadminbar and spotlight.js */
 }
 :root .glsr-modal__overlay {
     align-items: center;
@@ -19,9 +19,6 @@
     position: fixed;
     top: 0;
     width: 100vw;
-}
-:root .glsr-modal__overlay:focus {
-    outline: none;
 }
 :root .glsr-modal__dialog {
     background-color: var(--glsr-white);
@@ -37,12 +34,14 @@
     flex-direction: column;
     font-size: 16px;
     line-height: 1.5;
-    max-height: calc(100vh - 2rem);
+    min-width: 320px;
+    min-height: 320px;
+    max-height: calc(100vh - 2em);
     max-width: 700px;
     overflow: hidden;
-    padding: 2rem;
+    padding: 1.5em;
     position: relative;
-    width: calc(100vw - 2rem);
+    width: calc(100vw - 2em);
     will-change: transform;
 }
 :root [aria-hidden="false"] .glsr-modal__dialog {
@@ -60,15 +59,20 @@
     overflow-y: auto;
     position: relative;
 }
-:root body > .glsr-modal .glsr-modal__close,
-:root body > .glsr-modal .glsr-modal__close:hover,
-:root body > .glsr-modal .glsr-modal__close:focus {
-    all: revert;
+
+:root .glsr-modal button.glsr-modal__close,
+:root .glsr-modal button.glsr-modal__close:hover,
+:root .glsr-modal button.glsr-modal__close:focus {
+    all: initial;
     appearance: none;
-    background: transparent;
+    background: transparent !important;
     border: 0;
-    color: #000;
+    color: #000 !important;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: arial;
     font-size: 32px;
     height: 40px;
     line-height: 1;
@@ -81,20 +85,19 @@
     width: 40px;
     z-index: 10;
 }
-:root body > .glsr-modal .glsr-modal__close:hover {
+:root .glsr-modal button.glsr-modal__close:hover {
     transform: scale(1.1);
 }
-:root body > .glsr-modal[aria-hidden="true"] .glsr-modal__close {
-    display: none !important;
-}
-:root .glsr-modal__close::before {
+:root .glsr-modal button.glsr-modal__close::before {
     all: revert;
     content: "\2715";
     font-weight: 700;
 }
-:root .glsr-modal__close::after {
-    display: none;
+:root .glsr-modal button.glsr-modal__close::after,
+:root .glsr-modal[aria-hidden="true"] .glsr-modal__close {
+    display: none !important;
 }
+
 :root .glsr-modal__content .glsr-read-more  {
     display: none !important;
 }

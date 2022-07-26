@@ -221,4 +221,4 @@ const open = (id, config) => {
     modal._openModal()
 }
 
-export default { init, open, close }
+export default { close, init, open }

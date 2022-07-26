@@ -1,10 +1,10 @@
 import Ajax from './public/ajax.js';
-import Dom from './public/dom.js';
 import Event from './public/event.js';
 import Excerpts from './public/excerpts.js';
 import Form from './public/form.js';
 import Modal from './public/modal.js';
 import Pagination from './public/pagination.js';
+import dom from './public/dom.js';
 import { debounce } from './public/helpers.js';
 
 const events = {
@@ -79,7 +79,7 @@ window.GLSR.forms = [];
 window.GLSR.pagination = [];
 window.GLSR.Event = Event;
 window.GLSR.Modal = Modal;
-window.GLSR.Utils = { debounce, dom: Dom };
+window.GLSR.Utils = { debounce, dom };
 
 
 Event.on(events.excerpts, initExcerpts)
