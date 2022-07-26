@@ -33,7 +33,7 @@
     <ul class="glsr-flex-row glsr-has-3-columns">
         <li class="glsr-column">
             <h3><a href="<?= glsr_admin_url('addons'); ?>">Add-ons</a></h3>
-            <p>Extend Site Reviews with add-ons that provide additional features.</p>
+            <p>Extend Site Reviews with add-ons for additional features.</p>
         </li>
         <li class="glsr-column">
             <h3><a href="<?= glsr_admin_url('settings', 'reviews'); ?>">Avatars</a></h3>
@@ -41,7 +41,7 @@
         </li>
         <li class="glsr-column">
             <h3><a href="<?= glsr_admin_url('tools', 'general'); ?>" data-expand="#tools-export-plugin-settings">Backup/Restore</a></h3>
-            <p>Backup and restore your plugin settings as needed.</p>
+            <p>Backup and restore your plugin settings.</p>
         </li>
         <li class="glsr-column">
             <h3><a data-expand="#faq-query-by-rank" href="<?= glsr_admin_url('documentation', 'faq'); ?>">Bayesian Ranking</a></h3>
@@ -129,7 +129,7 @@
         </li>
         <li class="glsr-column">
             <h3><a href="<?= glsr_admin_url('settings', 'submissions'); ?>">SPAM Protection</a></h3>
-            <p>Uses a Honeypot and integrates with Invisible reCAPTCHA and Akismet.</p>
+            <p>Uses a Honeypot and integrates with FriendlyCaptcha, hCaptcha, reCAPTCHA, and Akismet.</p>
         </li>
         <li class="glsr-column">
             <h3><a href="<?= glsr_admin_url('settings', 'general'); ?>">Styles</a></h3>

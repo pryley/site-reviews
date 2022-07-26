@@ -744,13 +744,13 @@ return [ // order is intentional
         'depends_on' => [
             'settings.submissions.captcha.integration' => ['recaptcha_v2_invisible', 'recaptcha_v3'],
         ],
-        'label' => _x('CAPTCHA Badge Position', 'admin-text', 'site-reviews'),
+        'label' => _x('CAPTCHA Badge', 'admin-text', 'site-reviews'),
         'options' => [
             'bottomleft' => _x('Bottom Left', 'admin-text', 'site-reviews'),
             'bottomright' => _x('Bottom Right', 'admin-text', 'site-reviews'),
             'inline' => _x('Inline', 'admin-text', 'site-reviews'),
         ],
-        'tooltip' => _x('This option may not work consistently if another plugin is loading reCAPTCHA on the same page as Site Reviews.', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('Set the position of the CAPTCHA widget. This option may not work consistently if another plugin is loading reCAPTCHA on the same page as Site Reviews.', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
     'settings.submissions.captcha.theme' => [

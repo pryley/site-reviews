@@ -27,14 +27,14 @@
             </p>
         </div>
         <p><?= sprintf(
-            _x('Here you can import third party reviews from a %s file. The CSV file should include a header row and may contain the following columns:', 'admin-text', 'site-reviews'),
+            _x('Here you can import third party reviews from a %s file. The CSV file should be encoded as UTF-8, include a header row, and may contain the following columns:', 'admin-text', 'site-reviews'),
             '<code>*.csv</code>'
         ); ?></p>
         <div class="glsr-responsive-table">
             <table class="wp-list-table widefat striped">
                 <thead>
                     <tr>
-                        <th scope="col"><strong>Column</strong></th>
+                        <th scope="col"><strong>Column Name</strong></th>
                         <th scope="col"><strong>Required</strong></th>
                         <th scope="col"><strong>Description</strong></th>
                     </tr>
