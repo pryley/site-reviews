@@ -47,7 +47,8 @@ class Wpml implements Contract
             if (!is_array($translations)) {
                 $translations = [];
             }
-            $newPostIds = array_merge($newPostIds, wp_list_pluck($translations, 'element_id'));
+            $translatedPostIds = array_values(wp_list_pluck($translations, 'element_id'));
+            $newPostIds = array_merge($newPostIds, $translatedPostIds);
         }
         return Arr::uniqueInt($newPostIds);
     }
