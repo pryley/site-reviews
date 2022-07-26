@@ -8,7 +8,6 @@ parameters:
     - helpers.php
     - autoload.php
   excludePaths:
-    - plugin/Controllers/IntegrationController.php
     - plugin/Integrations
   ignoreErrors:
     # Uses func_get_args()

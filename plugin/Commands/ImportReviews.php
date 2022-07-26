@@ -106,9 +106,9 @@ class ImportReviews extends Upload implements Contract
         if ($reader->supportsStreamFilter()) {
             $inputBom = $reader->getInputBOM();
             if (in_array($inputBom, [Reader::BOM_UTF16_LE, Reader::BOM_UTF16_BE], true)) {
-                return CharsetConverter::addTo($reader, 'utf-16', 'utf-8');
+                return CharsetConverter::addTo($reader, 'utf-16', 'utf-8'); // @phpstan-ignore-line
             } elseif (in_array($inputBom, [Reader::BOM_UTF32_LE, Reader::BOM_UTF32_BE], true)) {
-                return CharsetConverter::addTo($reader, 'utf-32', 'utf-8');
+                return CharsetConverter::addTo($reader, 'utf-32', 'utf-8'); // @phpstan-ignore-line
             }
         }
         return $reader;
