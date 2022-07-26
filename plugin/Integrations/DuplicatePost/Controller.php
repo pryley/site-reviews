@@ -13,10 +13,9 @@ class Controller extends BaseController
     /**
      * @param int|\WP_Error $newPostId
      * @param \WP_Post $post
-     * @param string $status
      * @action duplicate_post_post_copy
      */
-    public function duplicateReview($newPostId, $post, $status)
+    public function duplicateReview($newPostId, $post)
     {
         if (!Review::isReview($post)) {
             return;
