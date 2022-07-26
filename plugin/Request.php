@@ -2,11 +2,26 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class Request extends Arguments
 {
+    /**
+     * @param mixed $key
+     * @param mixed $fallback
+     * @return mixed
+     */
+    public function get($key, $fallback = null)
+    {
+        $value = Arr::get($this->getArrayCopy(), $key, null);
+        if (!isset($fallback) || !Arr::isEmpty($value)) {
+            return $value;
+        }
+        return Helper::runClosure($fallback);
+    }
+
     /**
      * @return static
      * @todo support array values

@@ -227,7 +227,7 @@ class Helper
     public static function ifEmpty($value, $fallback, $strict = false)
     {
         $isEmpty = $strict ? empty($value) : static::isEmpty($value);
-        return $isEmpty ? static::runClosure($fallback) : $value;
+        return $isEmpty ? $fallback : $value;
     }
 
     /**
