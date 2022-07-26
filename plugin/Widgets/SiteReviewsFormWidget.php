@@ -75,6 +75,6 @@ class SiteReviewsFormWidget extends Widget
      */
     protected function widgetName()
     {
-        return _x('Submit a Review', 'admin-text', 'site-reviews');
+        return _x('Review Form', 'admin-text', 'site-reviews');
     }
 }

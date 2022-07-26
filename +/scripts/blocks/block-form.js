@@ -1,5 +1,4 @@
 import { CheckboxControlList } from './checkbox-control-list';
-import { FormIcon } from './icons';
 import AssignedPostsOptions from './assigned_posts';
 import AssignedTermsOptions from './assigned_terms';
 import AssignedUsersOptions from './assigned_users';
@@ -11,7 +10,7 @@ import ServerSideRender from './server-side-render';
 const { _x } = wp.i18n;
 const { createBlock, registerBlockType } = wp.blocks;
 const { InspectorAdvancedControls, InspectorControls } = wp.blockEditor;
-const { PanelBody, SelectControl, TextControl } = wp.components;
+const { Icon, PanelBody, SelectControl, TextControl } = wp.components;
 
 const blockName = GLSR_Block.nameprefix + '/form';
 
@@ -122,10 +121,12 @@ export default registerBlockType(blockName, {
     description: _x('Display a review form.', 'admin-text', 'site-reviews'),
     edit: edit,
     example: {},
-    icon: {src: FormIcon},
+    icon: () => (
+        <Icon icon={ <svg><path d="M12 2a.36.36 0 0 1 .321.199l2.968 6.01a.36.36 0 0 0 .268.196l6.634.963a.36.36 0 0 1 .199.612l-4.8 4.676a.36.36 0 0 0-.103.318l1.133 6.605a.36.36 0 0 1-.521.378l-5.933-3.12a.36.36 0 0 0-.334 0l-5.934 3.118a.36.36 0 0 1-.519-.377l1.133-6.605a.36.36 0 0 0-.103-.318L1.609 9.981a.36.36 0 0 1 .201-.612l6.632-.963a.36.36 0 0 0 .27-.196l2.967-6.01A.36.36 0 0 1 12 2zm0 2.95v12.505c.492 0 .982.117 1.43.35l3.328 1.745-.636-3.694c-.171-.995.16-2.009.885-2.713l2.693-2.617-3.724-.539c-1.001-.145-1.866-.772-2.313-1.675L12 4.95zM21 1v.963h-3.479v1.683h3.272v.963h-3.272V7.3h-1.017V1H21z"/></svg> } />
+    ),
     keywords: ['reviews', 'form'],
     save: () => null,
-    title: _x('Submit a Review', 'admin-text', 'site-reviews'),
+    title: _x('Review Form', 'admin-text', 'site-reviews'),
     transforms: {
         from: [{
             type: 'block',

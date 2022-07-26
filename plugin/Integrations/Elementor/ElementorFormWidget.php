@@ -16,7 +16,7 @@ class ElementorFormWidget extends ElementorWidget
 
     public function get_title()
     {
-        return _x('Submit a Review', 'admin-text', 'site-reviews');
+        return _x('Review Form', 'admin-text', 'site-reviews');
     }
 
     protected function settings_basic()
