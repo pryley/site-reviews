@@ -8,6 +8,14 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 abstract class Block
 {
     /**
+     * @return \GeminiLabs\SiteReviews\Application|\GeminiLabs\SiteReviews\Addons\Addon
+     */
+    public function app()
+    {
+        return glsr();
+    }
+
+    /**
      * @return array
      */
     public function attributes()
@@ -57,11 +65,11 @@ abstract class Block
             return;
         }
         register_block_type(glsr()->id.'/'.$block, [
-            'attributes' => glsr()->filterArray('block/'.$block.'/attributes', $this->attributes()),
-            'editor_script' => glsr()->id.'/blocks',
-            'editor_style' => glsr()->id.'/blocks',
+            'attributes' => $this->app()->filterArray('block/'.$block.'/attributes', $this->attributes()),
+            'editor_script' => $this->app()->id.'/blocks',
+            'editor_style' => $this->app()->id.'/blocks',
             'render_callback' => [$this, 'render'],
-            'style' => glsr()->id,
+            'style' => $this->app()->id,
         ]);
     }
 

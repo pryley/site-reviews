@@ -19,7 +19,6 @@
     background-color: rgba(0,0,0,0.06);
     display: flex;
     justify-content: center;
-    min-height: 90px;
     padding: 24px;
     text-align: center;
 }

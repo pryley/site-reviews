@@ -1,18 +1,19 @@
-import { CheckboxControlList } from './checkbox-control-list';
-import AssignedPostsOptions from './assigned_posts';
-import AssignedTermsOptions from './assigned_terms';
-import AssignedUsersOptions from './assigned_users';
-import onRender from './on-render';
-import transformWidgetAttributes from './transform-widget';
-import ConditionalSelectControl from './ConditionalSelectControl';
-import ServerSideRender from './server-side-render';
-
 const { _x } = wp.i18n;
 const { createBlock, registerBlockType } = wp.blocks;
 const { InspectorAdvancedControls, InspectorControls } = wp.blockEditor;
 const { Icon, PanelBody, SelectControl, TextControl } = wp.components;
+const {
+    AssignedPostsOptions,
+    AssignedTermsOptions,
+    AssignedUsersOptions,
+    CheckboxControlList,
+    ConditionalSelectControl,
+    ServerSideRender,
+    onRender,
+    transformWidgetAttributes,
+} = GLSR.blocks;
 
-const blockName = GLSR_Block.nameprefix + '/form';
+const blockName = GLSR.nameprefix + '/form';
 
 const attributes = {
     assign_to: { default: '', type: 'string' },
@@ -89,11 +90,11 @@ const edit = props => {
                 value={ assigned_users }
             />
         </ConditionalSelectControl>,
-        hide: CheckboxControlList(GLSR_Block.hideoptions.site_reviews_form, hide, setAttributes),
+        hide: CheckboxControlList(GLSR.hideoptions.site_reviews_form, hide, setAttributes),
     };
     const inspectorPanels = {
         panel_settings: <PanelBody title={ _x('Settings', 'admin-text', 'site-reviews')}>
-            { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.form.InspectorControls', inspectorControls, props)) }
+            { Object.values(wp.hooks.applyFilters(GLSR.nameprefix+'.form.InspectorControls', inspectorControls, props)) }
         </PanelBody>
     };
     const inspectorAdvancedControls = {
@@ -105,10 +106,10 @@ const edit = props => {
     };
     return [
         <InspectorControls>
-            { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.form.InspectorPanels', inspectorPanels, props)) }
+            { Object.values(wp.hooks.applyFilters(GLSR.nameprefix+'.form.InspectorPanels', inspectorPanels, props)) }
         </InspectorControls>,
         <InspectorAdvancedControls>
-            { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.form.InspectorAdvancedControls', inspectorAdvancedControls, props)) }
+            { Object.values(wp.hooks.applyFilters(GLSR.nameprefix+'.form.InspectorAdvancedControls', inspectorAdvancedControls, props)) }
         </InspectorAdvancedControls>,
         <ServerSideRender block={ blockName } attributes={ props.attributes } onRender={ onRender }>
         </ServerSideRender>
@@ -117,7 +118,7 @@ const edit = props => {
 
 export default registerBlockType(blockName, {
     attributes: attributes,
-    category: GLSR_Block.nameprefix,
+    category: GLSR.nameprefix,
     description: _x('Display a review form.', 'admin-text', 'site-reviews'),
     edit: edit,
     example: {},

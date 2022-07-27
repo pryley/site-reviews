@@ -1,20 +1,21 @@
-import { CheckboxControlList } from './checkbox-control-list';
-import AssignedPostsOptions from './assigned_posts';
-import AssignedTermsOptions from './assigned_terms';
-import AssignedUsersOptions from './assigned_users';
-import ConditionalSelectControl from './ConditionalSelectControl';
-import onRender from './on-render';
-import terms_options from './terms-options';
-import transformWidgetAttributes from './transform-widget';
-import type_options from './type-options';
-import ServerSideRender from './server-side-render';
-
 const { _x } = wp.i18n;
 const { createBlock, registerBlockType } = wp.blocks;
 const { InspectorAdvancedControls, InspectorControls } = wp.blockEditor;
 const { Icon, PanelBody, RangeControl, SelectControl, TextControl, ToggleControl } = wp.components;
+const {
+    AssignedPostsOptions,
+    AssignedTermsOptions,
+    AssignedUsersOptions,
+    CheckboxControlList,
+    ConditionalSelectControl,
+    ServerSideRender,
+    onRender,
+    TermOptions,
+    TypeOptions,
+    transformWidgetAttributes,
+} = GLSR.blocks;
 
-const blockName = GLSR_Block.nameprefix + '/reviews';
+const blockName = GLSR.nameprefix + '/reviews';
 
 const attributes = {
     assigned_to: { default: '', type: 'string' },
@@ -103,7 +104,7 @@ const edit = props => {
             key={ 'terms' }
             label={ _x('Limit Reviews to terms', 'admin-text', 'site-reviews') }
             onChange={ terms => setAttributes({ terms }) }
-            options={ terms_options }
+            options={ TermOptions }
             value={ terms }
         />,
         pagination: <SelectControl
@@ -122,7 +123,7 @@ const edit = props => {
             key={ 'type' }
             label={ _x('Limit the Type of Reviews', 'admin-text', 'site-reviews') }
             onChange={ type => setAttributes({ type }) }
-            options={ type_options }
+            options={ TypeOptions }
             value={ type }
         />,
         display: <RangeControl
@@ -137,7 +138,7 @@ const edit = props => {
             key={ 'rating' }
             label={ _x('Minimum Rating', 'admin-text', 'site-reviews') }
             min={ 0 }
-            max={ GLSR_Block.maxrating }
+            max={ GLSR.maxrating }
             onChange={ rating => setAttributes({ rating }) }
             value={ rating }
         />,
@@ -148,11 +149,11 @@ const edit = props => {
             label={ _x('Enable the schema?', 'admin-text', 'site-reviews') }
             onChange={ schema => setAttributes({ schema }) }
         />,
-        hide: CheckboxControlList(GLSR_Block.hideoptions.site_reviews, hide, setAttributes),
+        hide: CheckboxControlList(GLSR.hideoptions.site_reviews, hide, setAttributes),
     };
     const inspectorPanels = {
         panel_settings: <PanelBody title={ _x('Settings', 'admin-text', 'site-reviews')}>
-            { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.reviews.InspectorControls', inspectorControls, props)) }
+            { Object.values(wp.hooks.applyFilters(GLSR.nameprefix+'.reviews.InspectorControls', inspectorControls, props)) }
         </PanelBody>
     };
     const inspectorAdvancedControls = {
@@ -164,10 +165,10 @@ const edit = props => {
     };
     return [
         <InspectorControls>
-            { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.reviews.InspectorPanels', inspectorPanels, props)) }
+            { Object.values(wp.hooks.applyFilters(GLSR.nameprefix+'.reviews.InspectorPanels', inspectorPanels, props)) }
         </InspectorControls>,
         <InspectorAdvancedControls>
-            { Object.values(wp.hooks.applyFilters(GLSR_Block.nameprefix+'.reviews.InspectorAdvancedControls', inspectorAdvancedControls, props)) }
+            { Object.values(wp.hooks.applyFilters(GLSR.nameprefix+'.reviews.InspectorAdvancedControls', inspectorAdvancedControls, props)) }
         </InspectorAdvancedControls>,
         <ServerSideRender block={ blockName } attributes={ props.attributes } onRender={ onRender }>
         </ServerSideRender>
@@ -183,7 +184,7 @@ wp.hooks.addFilter('blocks.getBlockAttributes', blockName, (attributes, block, u
 
 export default registerBlockType(blockName, {
     attributes: attributes,
-    category: GLSR_Block.nameprefix,
+    category: GLSR.nameprefix,
     description: _x('Display your most recent reviews.', 'admin-text', 'site-reviews'),
     edit: edit,
     example: {

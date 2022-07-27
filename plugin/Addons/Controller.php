@@ -43,7 +43,7 @@ abstract class Controller extends BaseController
     {
         $this->registerAsset('css', ['suffix' => 'blocks']);
         $this->registerAsset('js', [
-            'dependencies' => [glsr()->id.'/admin'],
+            'dependencies' => [glsr()->id.'/admin', glsr()->id.'/blocks'],
             'suffix' => 'blocks',
         ]);
     }
