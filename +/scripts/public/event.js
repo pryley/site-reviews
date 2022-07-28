@@ -22,7 +22,7 @@ const on = function (name, fn, context) {
 }
 
 const once = function (name, fn, context) {
-    const listener = () => {
+    const listener = function () {
         off(name, listener)
         fn.apply(context, arguments)
     }
