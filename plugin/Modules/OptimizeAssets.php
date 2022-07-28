@@ -184,6 +184,9 @@ class OptimizeAssets
         if (!file_exists($uploads['basedir'])) {
             $uploads = wp_upload_dir(null, true, true); // maybe the site has been moved, so refresh the cached uploads path
         }
+        if (is_ssl()) { // fix SSL just in case...
+            $uploads['baseurl'] = str_replace('http://', 'https://', $uploads['baseurl']);
+        }
         $basedir = sprintf('%s/%s/assets', $uploads['basedir'], glsr()->id);
         $baseurl = sprintf('%s/%s/assets', $uploads['baseurl'], glsr()->id);
         if (wp_mkdir_p($basedir)) {
