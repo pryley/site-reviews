@@ -15,6 +15,7 @@ const FOCUSABLE_ELEMENTS = [
 ];
 
 const defaults = {
+    focus: false,
     onClose: () => {},
     onOpen: () => {},
 };
@@ -34,7 +35,6 @@ class Modal {
         this.config = Object.assign({}, defaults, config);
         this.events = {
             _open: this._openModal.bind(this),
-            _opened: this._setFocusToFirstNode.bind(this),
             mouseup: this._onClick.bind(this),
             keydown: this._onKeydown.bind(this),
             touchstart: this._onClick.bind(this),
@@ -128,7 +128,6 @@ class Modal {
         }
         this._insertModal()
         lock(this.content)
-        GLSR.Event.on('site-reviews/modal/focus', this.events._opened)
         this.config.onOpen(this, event) // triggered before the modal is visible
         this.root.setAttribute('aria-hidden', 'false')
         this.root.classList.add(openClass)
@@ -166,7 +165,6 @@ class Modal {
         this.footer = null;
         this.header = null;
         this.trigger = null;
-        GLSR.Event.off('site-reviews/modal/focus', this.events._opened)
     }
 
     _retainFocus (event) {
@@ -187,8 +185,8 @@ class Modal {
         }
     }
 
-    _setFocusToFirstNode (id) {
-        if (id !== this.id) return;
+    _setFocusToFirstNode () {
+        if (!this.config.focus) return;
         const focusableNodes = this._focusableNodes();
         if (focusableNodes.length === 0) return
         const focusableContentNodes = focusableNodes.filter(node => !node.hasAttribute(closeTrigger));
@@ -233,7 +231,5 @@ const open = (id, config) => {
     activeModals[id] = modal;
     modal._openModal()
 }
-
-window.xxx = { activeModals, openModals };
 
 export default { close, init, open }
