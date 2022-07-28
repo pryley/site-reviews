@@ -33,15 +33,13 @@ const initForms = () => {
 }
 
 const initModal = () => {
-    GLSR.Modal.init({
-        id: 'glsr-modal-review',
-        onOpen: (modalEl, triggerEl) => {
-            const baseEl = triggerEl.closest('.glsr').cloneNode(true);
-            const reviewEl = triggerEl.closest('.glsr-review').cloneNode(true);
+    GLSR.Modal.init('glsr-modal-review', {
+        onOpen: (modal) => {
+            const baseEl = modal.trigger.closest('.glsr').cloneNode(true);
+            const reviewEl = modal.trigger.closest('.glsr-review').cloneNode(true);
             baseEl.innerHTML = '';
             baseEl.appendChild(reviewEl);
-            modalEl.content.appendChild(baseEl);
-            modalEl.classList.add('glsr-modal__review');
+            modal.content.appendChild(baseEl);
         },
     })
 }

@@ -35,7 +35,7 @@
     font-size: 16px;
     line-height: 1.5;
     min-width: 320px;
-    min-height: 320px;
+    min-height: 150px;
     max-height: calc(100vh - 2em);
     max-width: 700px;
     overflow: hidden;
@@ -63,7 +63,6 @@
 :root .glsr-modal button.glsr-modal__close,
 :root .glsr-modal button.glsr-modal__close:hover,
 :root .glsr-modal button.glsr-modal__close:focus {
-    all: initial;
     appearance: none;
     background: transparent !important;
     border: 0;
@@ -77,6 +76,8 @@
     height: 40px;
     line-height: 1;
     margin: 1.5rem;
+    outline-offset: 0;
+    padding: 0;
     position: absolute;
     right: 0;
     top: 0;
