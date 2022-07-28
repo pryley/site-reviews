@@ -16,7 +16,7 @@ class Request extends Arguments
     public function get($key, $fallback = null)
     {
         $value = Arr::get($this->getArrayCopy(), $key, null);
-        if (!isset($fallback) || !Helper::isEmpty($value)) {
+        if (is_null($fallback) || !Helper::isEmpty($value)) {
             return $value;
         }
         return Helper::runClosure($fallback);

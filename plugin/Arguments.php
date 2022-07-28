@@ -47,7 +47,7 @@ class Arguments extends \ArrayObject
     public function get($key, $fallback = null)
     {
         $value = Arr::get($this->getArrayCopy(), $key, null);
-        return isset($fallback)
+        return !is_null($fallback)
             ? Helper::ifEmpty($value, $fallback)
             : $value;
     }
@@ -117,9 +117,10 @@ class Arguments extends \ArrayObject
     }
 
     /**
+     * @param string|array $args Optional parameter that can be used to change the output
      * @return array
      */
-    public function toArray()
+    public function toArray($args = [])
     {
         return $this->getArrayCopy();
     }
