@@ -149,7 +149,7 @@ class Cache
     public function store($key, $group, $value)
     {
         $group = glsr()->prefix.$group;
-        wp_cache_add($key, $value, $group);
+        wp_cache_set($key, $value, $group);
         return $value;
     }
 }
