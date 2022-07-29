@@ -30,6 +30,7 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Review Discussions
 - [x] Review Filters
 - [x] Review Forms
+- [x] Review Images
 - [ ] Review Importer (from 3rd-party WordPress review plugins)
 - [x] Review Notifications
 - [ ] Review Q&A
