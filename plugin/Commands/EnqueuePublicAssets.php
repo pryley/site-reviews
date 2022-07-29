@@ -29,7 +29,7 @@ class EnqueuePublicAssets implements Contract
         if (glsr()->filterBool('assets/css', true)) {
             wp_enqueue_style(glsr()->id, $this->getStylesheet(), [], glsr()->version);
             wp_add_inline_style(glsr()->id, $this->inlineStyles());
-            glsr(OptimizeAssets::class)->optimizeCss(
+            glsr(OptimizeAssets::class)->optimize('css',
                 glsr()->filterArray('optimized/styles', [glsr()->id])
             );
         }
@@ -41,7 +41,7 @@ class EnqueuePublicAssets implements Contract
             wp_enqueue_script(glsr()->id, $this->getScript(), $dependencies, glsr()->version, true);
             wp_add_inline_script(glsr()->id, $this->inlineScript(), 'before');
             wp_add_inline_script(glsr()->id, glsr()->filterString('enqueue/public/inline-script/after', ''));
-            glsr(OptimizeAssets::class)->optimizeJs(
+            glsr(OptimizeAssets::class)->optimize('js',
                 glsr()->filterArray('optimized/scripts', [glsr()->id])
             );
         }

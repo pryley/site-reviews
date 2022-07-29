@@ -2,7 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use GeminiLabs\SiteReviews\Database\Cache;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 
 class OptimizeAssets
 {
@@ -23,30 +26,26 @@ class OptimizeAssets
         }
     }
 
-    public function optimizeCss(array $handles = [])
+    /**
+     * @param string $type
+     */
+    public function optimize($type, array $handles = [])
     {
-        if (!glsr()->filterBool('optimize/css', false) || $this->abort) {
+        $type = Str::restrictTo(['css','js'], $type);
+        if (empty($type) || $this->abort || !glsr()->filterBool('optimize/'.$type, false)) {
             return;
         }
+        $enqueueMethod = Helper::buildMethodName($type, 'enqueue');
+        $registeredMethod = Helper::buildMethodName($type, 'registered');
         $this->handles = $handles;
-        $this->prepare(wp_styles()->registered);
-        $this->combine();
-        if ($url = $this->store(glsr()->id.'.css')) {
-            $this->enqueueCss($url);
-        }
-        $this->reset();
-    }
-
-    public function optimizeJs(array $handles = [])
-    {
-        if (!glsr()->filterBool('optimize/js', false) || $this->abort) {
-            return;
-        }
-        $this->handles = $handles;
-        $this->prepare(wp_scripts()->registered);
-        $this->combine();
-        if ($url = $this->store(glsr()->id.'.js')) {
-            $this->enqueueJs($url);
+        $this->prepare(call_user_func([$this, $registeredMethod]));
+        $hash = $this->hash();
+        if ($hash !== glsr(Cache::class)->get($type, 'assets')) {
+            $this->combine();
+            if ($url = $this->store(glsr()->id.'.'.$type)) {
+                glsr(Cache::class)->store($type, 'assets', $hash);
+                call_user_func([$this, $enqueueMethod], $url, $hash);
+            }
         }
         $this->reset();
     }
@@ -70,14 +69,15 @@ class OptimizeAssets
 
     /**
      * @param string $url
+     * @param string $hash
      */
-    protected function enqueueCss($url)
+    protected function enqueueCss($url, $hash)
     {
         foreach ($this->handles as $handle) {
             wp_dequeue_style($handle);
             wp_deregister_style($handle);
         }
-        wp_enqueue_style(glsr()->id, $url, $this->dependencies, $this->hash());
+        wp_enqueue_style(glsr()->id, $url, $this->dependencies, $hash);
         if (!empty($this->after)) {
             $styles = array_reduce($this->after, function ($carry, $string) {
                 return $carry.$string;
@@ -88,14 +88,15 @@ class OptimizeAssets
 
     /**
      * @param string $url
+     * @param string $hash
      */
-    protected function enqueueJs($url)
+    protected function enqueueJs($url, $hash)
     {
         foreach ($this->handles as $handle) {
             wp_dequeue_script($handle);
             wp_deregister_script($handle);
         }
-        wp_enqueue_script(glsr()->id, $url, $this->dependencies, $this->hash(), true);
+        wp_enqueue_script(glsr()->id, $url, $this->dependencies, $hash, true);
         if (!empty($this->after)) {
             $script = array_reduce($this->after, function ($carry, $string) {
                 return $carry.$string;
@@ -133,6 +134,12 @@ class OptimizeAssets
 
     protected function prepare(array $registered)
     {
+        $handles = array_diff($this->handles, [glsr()->id]);
+        foreach ($registered as $handle => $dependancy) {
+            if (Str::startsWith(glsr()->id, $handle)) {
+                $dependancy->deps = array_diff($dependancy->deps, $handles);
+            }
+        }
         foreach ($this->handles as $handle) {
             if (!array_key_exists($handle, $registered)) {
                 continue;
@@ -156,6 +163,22 @@ class OptimizeAssets
             }
             $this->sources[] = $dependency->src;
         }
+    }
+
+    /**
+     * @return array
+     */
+    protected function registeredCss()
+    {
+        return wp_styles()->registered;
+    }
+
+    /**
+     * @return array
+     */
+    protected function registeredJs()
+    {
+        return wp_scripts()->registered;
     }
 
     protected function reset()
