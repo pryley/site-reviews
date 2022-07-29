@@ -99,14 +99,11 @@
     display: none !important;
 }
 
-:root .glsr-modal__content .glsr-read-more  {
+:root #glsr-modal-review .glsr-read-more  {
     display: none !important;
 }
-:root .glsr-modal__content .glsr-hidden-text  {
+:root #glsr-modal-review .glsr-hidden  {
     display: inline !important;
-}
-:root div:not(.glsr-modal__content) > .glsr .glsr-hidden {
-    display: none !important;
 }
 
 :root .glsr-modal[aria-hidden="false"] .glsr-modal__overlay {

@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: Gemini Labs <support@geminilabs.io>\n"
 "Last-Translator: Paul Ryley <paul@geminilabs.io>\n"
-"POT-Creation-Date: 2022-07-28 14:37+0000\n"
+"POT-Creation-Date: 2022-07-29 16:36+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Keywordslist: "
 "__;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_"
@@ -89,7 +89,7 @@ msgstr "Tell us your email"
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
-#: plugin/Blocks/SiteReviewsBlock.php:135, plugin/Helpers/Text.php:31
+#: plugin/Blocks/SiteReviewsBlock.php:135, plugin/Helpers/Text.php:40
 msgid "Show more"
 msgstr "Show more"
 
@@ -197,7 +197,7 @@ msgstr ""
 msgid "and"
 msgstr "and"
 
-#: plugin/Helpers/Text.php:30
+#: plugin/Helpers/Text.php:39
 msgid "Show less"
 msgstr "Show less"
 

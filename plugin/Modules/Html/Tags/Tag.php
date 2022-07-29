@@ -90,10 +90,7 @@ abstract class Tag implements TagContract
         $value = glsr()->filterString($this->for.'/value/'.$this->tag, $value, $this);
         if (Helper::isNotEmpty($value)) {
             if (!empty($wrapWith)) {
-                $value = glsr(Builder::class)->$wrapWith([
-                    'class' => 'glsr-tag-value',
-                    'text' => $value
-                ]);
+                $value = $this->wrapValue($wrapWith, $value);
             }
             $value = glsr()->filterString($this->for.'/wrapped', $value, $rawValue, $this);
             if (!$this->isRaw()) {
@@ -139,5 +136,18 @@ abstract class Tag implements TagContract
     protected function value($value = null)
     {
         return $value;
+    }
+
+    /**
+     * @param string $value
+     * @param string $tag
+     * @return string
+     */
+    protected function wrapValue($tag, $value)
+    {
+        return glsr(Builder::class)->$tag([
+            'class' => 'glsr-tag-value',
+            'text' => $value
+        ]);
     }
 }

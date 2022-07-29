@@ -8,12 +8,13 @@ const classNames = {
 
 const selectors = {
     hiddenText: '.glsr-hidden-text',
+    wrap: '.glsr-tag-value',
 }
 
 class Excerpts {
     constructor (el) {
         this.events = {
-            click: this._onClick,
+            click: this._onClick.bind(this),
         };
         (el || document).querySelectorAll(selectors.hiddenText).forEach(el => this.init(el));
     }
@@ -31,25 +32,36 @@ class Excerpts {
         }
     }
 
-    _insertLink (el) {
-        let readMoreEl = el.parentNode.querySelector('.' + classNames.readmore);
+    _insertLink (el) { // p.glsr-hidden-text
+        let readMoreEl = el.parentElement.querySelector('.' + classNames.readmore);
         if (!readMoreEl) {
             const readMoreLink = dom('a', { href: '#' }, el.dataset.showMore);
             const readMoreSpan = dom('span', { class: classNames.readmore }, readMoreLink);
-            readMoreEl = el.parentNode.insertBefore(readMoreSpan, el.nextSibling);
+            readMoreEl = el.appendChild(readMoreSpan);
         }
         return readMoreEl.querySelector('a')
     }
 
     _onClick (ev) {
         ev.preventDefault();
-        const el = ev.currentTarget;
-        const hiddenNode = el.parentNode.previousSibling;
-        const text = el.dataset.text;
-        hiddenNode.classList.toggle(classNames.hidden);
-        hiddenNode.classList.toggle(classNames.visible);
-        el.dataset.text = el.innerText;
-        el.innerText = text;
+        const el = ev.currentTarget; // a.glsr-read-more
+        const readmoreEl = el.parentElement;
+        const wrapEl = el.closest(selectors.wrap);
+        const parentEl = wrapEl.querySelector(selectors.hiddenText);
+        const newText = el.dataset.text;
+        const oldText = el.innerText;
+        el.dataset.text = oldText;
+        el.innerText = newText;
+        el.removeEventListener('click', this.events.click);
+        if (wrapEl.dataset.expanded === 'false') {
+            wrapEl.querySelector('p:last-of-type').appendChild(readmoreEl)
+            wrapEl.dataset.expanded = true;
+        } else {
+            parentEl.appendChild(readmoreEl)
+            wrapEl.dataset.expanded = false;
+        }
+        el.addEventListener('click', this.events.click);
+        el.focus();
     }
 }
 

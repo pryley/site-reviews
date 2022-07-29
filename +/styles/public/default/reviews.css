@@ -24,11 +24,6 @@
 :root .glsr .glsr-review p {
     white-space: pre-line;
 }
-:root .glsr .glsr-review p br {
-    content: '';
-    display: flex;
-    margin-bottom: var(--glsr-base-font-size);
-}
 :root .glsr .glsr-review p:first-of-type {
     margin-top: 0;
 }

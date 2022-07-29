@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Text;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class ReviewContentTag extends ReviewTag
 {
@@ -13,7 +14,7 @@ class ReviewContentTag extends ReviewTag
     protected function handle($value = null)
     {
         if (!$this->isHidden()) {
-            return $this->wrap($this->textExcerpt($value), 'p');
+            return $this->wrap($this->textExcerpt($value), 'div');
         }
     }
 
@@ -25,5 +26,19 @@ class ReviewContentTag extends ReviewTag
         }
         $limit = Cast::toInt(glsr_get_option('reviews.excerpts_length', 55));
         return Text::excerpt($value, $limit);
+    }
+
+    /**
+     * @param string $value
+     * @param string $tag
+     * @return string
+     */
+    protected function wrapValue($tag, $value)
+    {
+        return glsr(Builder::class)->$tag([
+            'class' => 'glsr-tag-value',
+            'data-expanded' => 'false',
+            'text' => $value
+        ]);
     }
 }
