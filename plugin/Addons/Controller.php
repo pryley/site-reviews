@@ -187,6 +187,15 @@ abstract class Controller extends BaseController
 
     /**
      * @return array
+     * @filter site-reviews/defer-scripts
+     */
+    public function filterScriptsDefer(array $handles)
+    {
+        return $handles;
+    }
+
+    /**
+     * @return array
      * @filter site-reviews/addon/settings
      */
     public function filterSettings(array $settings)
