@@ -63,6 +63,27 @@ class SettingBuilder extends Builder
     }
 
     /**
+     * @return string|void
+     */
+    protected function buildFormSelectOptions()
+    {
+        $options = $this->args->cast('options', 'array');
+        if ($this->args->placeholder) {
+            $options = Arr::prepend($options, $this->args->placeholder, '');
+        }
+        return array_reduce(array_keys($options), function ($carry, $key) use ($options) {
+            if (is_array($options[$key])) {
+                return $carry.$this->buildFormSelectOptGroup($options[$key], $key);
+            }
+            return $carry.$this->option([
+                'selected' => $this->args->cast('value', 'string') === Cast::toString($key),
+                'text' => $options[$key],
+                'value' => $key,
+            ]);
+        });
+    }
+
+    /**
      * @return array
      */
     protected function normalize(array $args, $type)
