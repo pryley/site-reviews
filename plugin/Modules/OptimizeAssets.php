@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
-use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -16,13 +15,14 @@ class OptimizeAssets
     public $dependencies;
     public $handles;
     public $sources;
-    public $versions;
 
     public function __construct()
     {
         $this->reset();
         if ('1' === filter_input(INPUT_GET, 'nocache')) {
             $this->abort = true;
+            delete_transient(glsr()->prefix.'optimized_css');
+            delete_transient(glsr()->prefix.'optimized_js');
         }
     }
 
@@ -35,17 +35,25 @@ class OptimizeAssets
         if (empty($type) || $this->abort || !glsr()->filterBool('optimize/'.$type, false)) {
             return;
         }
-        $enqueueMethod = Helper::buildMethodName($type, 'enqueue');
-        $registeredMethod = Helper::buildMethodName($type, 'registered');
+        $file = $this->file($type);
+        if (!$file) {
+            return;
+        }
         $this->handles = $handles;
-        $this->prepare(call_user_func([$this, $registeredMethod]));
         $hash = $this->hash();
-        if ($hash !== glsr(Cache::class)->get($type, 'assets')) {
+        $registeredMethod = Helper::buildMethodName($type, 'registered');
+        $registered = call_user_func([$this, $registeredMethod]);
+        $transient = glsr()->prefix.'optimized_'.$type;
+        $this->prepare($registered);
+        if ($hash !== get_transient($transient)) {
             $this->combine();
-            if ($url = $this->store(glsr()->id.'.'.$type)) {
-                glsr(Cache::class)->store($type, 'assets', $hash);
-                call_user_func([$this, $enqueueMethod], $url, $hash);
+            if ($this->store($file['path'])) {
+                set_transient($transient, $hash);
             }
+        }
+        if (file_exists($file['path'])) {
+            $enqueueMethod = Helper::buildMethodName($type, 'enqueue');
+            call_user_func([$this, $enqueueMethod], $file['url'], $hash);
         }
         $this->reset();
     }
@@ -112,6 +120,32 @@ class OptimizeAssets
     }
 
     /**
+     * @param string $type
+     * @return array|false
+     */
+    protected function file($type)
+    {
+        require_once ABSPATH.WPINC.'/pluggable.php';
+        $uploads = wp_upload_dir();
+        if (!file_exists($uploads['basedir'])) {
+            $uploads = wp_upload_dir(null, true, true); // maybe the site has been moved, so refresh the cached uploads path
+        }
+        $basedir = sprintf('%s/%s/assets', $uploads['basedir'], glsr()->id);
+        $baseurl = sprintf('%s/%s/assets', $uploads['baseurl'], glsr()->id);
+        if (is_ssl()) { // fix SSL just in case...
+            $baseurl = str_replace('http://', 'https://', $baseurl);
+        }
+        if (wp_mkdir_p($basedir)) {
+            return [
+                'path' => sprintf('%s/%s.%s', $basedir, glsr()->id, $type),
+                'url' => sprintf('%s/%s.%s', $baseurl, glsr()->id, $type),
+            ];
+        }
+        glsr_log()->error('Unable to store optimized assets in the uploads directory.');
+        return false;
+    }
+
+    /**
      * @return \WP_Filesystem_Base
      */
     protected function filesystem()
@@ -129,22 +163,27 @@ class OptimizeAssets
      */
     protected function hash()
     {
-        return md5(serialize($this->versions));
+        $versions = array_flip($this->handles);
+        $versions[glsr()->id] = glsr()->version;
+        array_walk($versions, function (&$version, $handle) {
+            if ($addon = glsr()->addon($handle)) {
+                $version = glsr($addon)->version;
+            }
+        });
+        return md5(serialize($versions));
     }
 
     protected function prepare(array $registered)
     {
-        $handles = array_diff($this->handles, [glsr()->id]);
-        foreach ($registered as $handle => $dependancy) {
+        $removedDeps = array_diff($this->handles, [glsr()->id]);
+        $this->sources = array_fill_keys($this->handles, ''); // ensure correct order!
+        foreach ($registered as $handle => $dependency) {
             if (Str::startsWith(glsr()->id, $handle)) {
-                $dependancy->deps = array_diff($dependancy->deps, $handles);
+                $dependency->deps = array_diff($dependency->deps, $removedDeps);
             }
-        }
-        foreach ($this->handles as $handle) {
-            if (!array_key_exists($handle, $registered)) {
+            if (!in_array($handle, $this->handles)) {
                 continue;
             }
-            $dependency = $registered[$handle];
             if (!empty($dependency->extra['after'])) {
                 $this->after = array_merge($this->after, $dependency->extra['after']);
                 $this->after = Arr::reindex(Arr::unique($this->after));
@@ -157,11 +196,7 @@ class OptimizeAssets
                 $this->dependencies = array_merge($this->dependencies, $dependency->deps);
                 $this->dependencies = array_diff($dependency->deps, [glsr()->id]);
             }
-            if (!empty($dependency->ver)) {
-                $filename = wp_basename($dependency->src); // @phpstan-ignore-line
-                $this->versions[] = [$filename, $dependency->ver];
-            }
-            $this->sources[] = $dependency->src;
+            $this->sources[$handle] = $dependency->src;
         }
     }
 
@@ -190,32 +225,21 @@ class OptimizeAssets
         $this->dependencies = [];
         $this->handles = [];
         $this->sources = [];
-        $this->versions = [];
     }
 
     /**
-     * @param string $file
-     * @return string|false
+     * @param string $filePath
+     * @return bool
      */
-    protected function store($file)
+    protected function store($filePath)
     {
         if ($this->abort) {
             return false;
         }
-        require_once ABSPATH.WPINC.'/pluggable.php';
-        $uploads = wp_upload_dir();
-        if (!file_exists($uploads['basedir'])) {
-            $uploads = wp_upload_dir(null, true, true); // maybe the site has been moved, so refresh the cached uploads path
+        if ($this->filesystem()->put_contents($filePath, $this->contents)) {
+            return true;
         }
-        if (is_ssl()) { // fix SSL just in case...
-            $uploads['baseurl'] = str_replace('http://', 'https://', $uploads['baseurl']);
-        }
-        $basedir = sprintf('%s/%s/assets', $uploads['basedir'], glsr()->id);
-        $baseurl = sprintf('%s/%s/assets', $uploads['baseurl'], glsr()->id);
-        if (wp_mkdir_p($basedir)) {
-            $this->filesystem()->put_contents($basedir.'/'.$file, $this->contents);
-            return $baseurl.'/'.$file;
-        }
+        glsr_log()->error('Unable to write content to optimized assets.');
         return false;
     }
 }
