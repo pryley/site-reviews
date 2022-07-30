@@ -101,7 +101,7 @@ abstract class Addon
             }
             $title = sprintf('%s (ID: %s)', $title, $id);
         }
-        natsort($results);
+        natcasesort($results);
         return $results;
     }
 }
