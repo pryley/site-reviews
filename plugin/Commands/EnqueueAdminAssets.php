@@ -213,6 +213,7 @@ class EnqueueAdminAssets implements Contract
     {
         $screen = glsr_current_screen();
         $screenIds = [
+            'customize',
             'dashboard',
             'dashboard_page_'.glsr()->id.'-welcome',
             'plugins_page_'.glsr()->id,
