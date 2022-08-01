@@ -30,7 +30,7 @@ abstract class Addon
     const UPDATE_URL = 'https://niftyplugins.com';
 
     /**
-     * @return void
+     * @return static
      */
     public function init()
     {

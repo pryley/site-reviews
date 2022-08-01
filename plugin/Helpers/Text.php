@@ -116,7 +116,7 @@ class Text
     protected static function excerptIntlSplit($text, $limit)
     {
         if (version_compare(PHP_VERSION, '7.4', '<')) {
-            return $this->excerptIntlSplitDeprecated($text, $limit);
+            return static::excerptIntlSplitDeprecated($text, $limit);
         }
         $text = \Normalizer::normalize($text);
         $iter = \IntlRuleBasedBreakIterator::createWordInstance("");
@@ -168,8 +168,8 @@ class Text
     {
         preg_match('/^\s*+(?:\S++\s*+){1,'.$limit.'}/u', $text, $matches);
         if (!isset($matches[0]) || mb_strlen($text) === mb_strlen($matches[0])) {
-            return $text;
+            return mb_strlen($text);
         }
-        return rtrim($matches[0]);
+        return mb_strlen(rtrim($matches[0]));
     }
 }
