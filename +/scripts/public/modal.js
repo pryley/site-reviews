@@ -129,12 +129,12 @@ class Modal {
         this._insertModal()
         lock(this.content)
         this.config.onOpen(this, event) // triggered before the modal is visible
+        GLSR.Event.trigger('site-reviews/modal/open', this.root, this.trigger, event)
         this.root.setAttribute('aria-hidden', 'false')
         this.root.classList.add(openClass)
         this._eventHandler('add')
         const handler = () => {
             this.root.removeEventListener('animationend', handler, false)
-            GLSR.Event.trigger('site-reviews/modal/open', this.root, this.trigger, event)
             this._setFocusToFirstNode()
         }
         this.root.addEventListener('animationend', handler, false)
