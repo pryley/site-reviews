@@ -16,7 +16,7 @@ class Rating extends Field
             _n_noop('%s Star', '%s Stars', 'site-reviews')
         );
         return [
-            'class' => 'glsr-star-rating',
+            'class' => 'glsr-star-rating browser-default no_wrap no-wrap',
             'options' => $options,
             'placeholder' => __('Select a Rating', 'site-reviews'),
             'type' => 'select',
