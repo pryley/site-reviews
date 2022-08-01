@@ -18,7 +18,7 @@ abstract class AssetAbstract
     public function __construct()
     {
         $this->reset();
-        if ('1' === filter_input(INPUT_GET, 'nocache')) {
+        if ('1' === filter_input(INPUT_GET, 'nocache') || $this->isOptimizationDisabled()) {
             $this->abort = true;
             delete_transient($this->transient());
         }
@@ -82,9 +82,6 @@ abstract class AssetAbstract
         $hash = $this->hash();
         $this->handles = array_keys($this->versions());
         $this->prepare();
-
-        glsr_log($this);
-
         if ($hash !== get_transient($this->transient())) {
             $this->combine();
             if ($this->store($file['path'])) {
@@ -92,7 +89,7 @@ abstract class AssetAbstract
             }
         }
         if (!$this->abort && file_exists($file['path'])) {
-            // $this->enqueue($file['url'], $hash);
+            $this->enqueue($file['url'], $hash);
         }
         $this->reset();
     }
