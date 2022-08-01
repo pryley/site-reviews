@@ -60,7 +60,7 @@ abstract class AssetAbstract
     public function isOptimized()
     {
         $hash = $this->hash();
-        $path = $this->file('path');
+        $path = (string) $this->file('path');
         if (file_exists($path) && $hash === get_transient($this->transient())) {
             return true;
         }
@@ -100,7 +100,7 @@ abstract class AssetAbstract
     public function url()
     {
         if ($this->canOptimize() && $this->isOptimized()) {
-            return $this->file('url');
+            return (string) $this->file('url');
         }
         return $this->originalUrl();
     }
