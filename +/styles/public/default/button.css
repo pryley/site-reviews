@@ -1,5 +1,7 @@
 :--namespace button.glsr-button {
     white-space: nowrap;
+    display: flex;
+    align-items: center;
 }
 :--namespace button.glsr-button .glsr-button-loading {
     display: none;
@@ -12,7 +14,7 @@
     display: none;
 }
 :--namespace button.glsr-button[aria-busy="true"]::after {
-    content: attr(data-loading);
+    content: attr(data-loading) !important;
 }
 :--namespace button.glsr-button .glsr-button-loading::before,
 :--namespace button.glsr-button .glsr-button-loading::after {

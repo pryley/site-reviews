@@ -66,6 +66,7 @@
     appearance: none;
     background: transparent !important;
     border: 0;
+    box-shadow: none;
     color: #000 !important;
     cursor: pointer;
     display: flex;
