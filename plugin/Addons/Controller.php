@@ -6,7 +6,8 @@ use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Asset;
+use GeminiLabs\SiteReviews\Modules\Assets\AssetCss;
+use GeminiLabs\SiteReviews\Modules\Assets\AssetJs;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Translation;
@@ -55,10 +56,11 @@ abstract class Controller extends BaseController
      */
     public function enqueuePublicAssets()
     {
-        if (!glsr(Asset::class)->isOptimized('css')) {
+
+        if (!glsr(AssetCss::class)->canOptimize() || !glsr(AssetCss::class)->isOptimized()) {
             $this->enqueueAsset('css');
         }
-        if (!glsr(Asset::class)->isOptimized('js')) {
+        if (!glsr(AssetJs::class)->canOptimize() || !glsr(AssetJs::class)->isOptimized()) {
             $this->enqueueAsset('js', ['in_footer' => true]);
         }
     }

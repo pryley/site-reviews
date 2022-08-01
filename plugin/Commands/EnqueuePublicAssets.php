@@ -5,7 +5,8 @@ namespace GeminiLabs\SiteReviews\Commands;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
-use GeminiLabs\SiteReviews\Modules\Asset;
+use GeminiLabs\SiteReviews\Modules\Assets\AssetCss;
+use GeminiLabs\SiteReviews\Modules\Assets\AssetJs;
 use GeminiLabs\SiteReviews\Modules\Captcha;
 use GeminiLabs\SiteReviews\Modules\Style;
 
@@ -27,19 +28,19 @@ class EnqueuePublicAssets implements Contract
     public function enqueueAssets()
     {
         if (glsr()->filterBool('assets/css', true)) {
-            wp_enqueue_style(glsr()->id, glsr(Asset::class)->url('css'), [], glsr()->version);
+            wp_enqueue_style(glsr()->id, glsr(AssetCss::class)->url(), [], glsr(AssetCss::class)->version());
             wp_add_inline_style(glsr()->id, $this->inlineStyles());
-            glsr(Asset::class)->optimize('css');
+            glsr(AssetCss::class)->optimize();
         }
         if (glsr()->filterBool('assets/js', true)) {
             $dependencies = glsr()->filterBool('assets/polyfill', true)
                 ? [glsr()->id.'/polyfill']
                 : [];
             $dependencies = glsr()->filterArray('enqueue/public/dependencies', $dependencies);
-            wp_enqueue_script(glsr()->id, glsr(Asset::class)->url('js'), $dependencies, glsr()->version, true);
+            wp_enqueue_script(glsr()->id, glsr(AssetJs::class)->url(), $dependencies, glsr(AssetJs::class)->version(), true);
             wp_add_inline_script(glsr()->id, $this->inlineScript(), 'before');
             wp_add_inline_script(glsr()->id, glsr()->filterString('enqueue/public/inline-script/after', ''));
-            glsr(Asset::class)->optimize('js');
+            glsr(AssetJs::class)->optimize();
         }
     }
 
