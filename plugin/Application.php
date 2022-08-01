@@ -204,7 +204,8 @@ final class Application extends Container
             $this->addons[$addon::ID] = $addon;
             $this->singleton($addon); // this goes first!
             $this->alias($addon::ID, $this->make($addon)); // @todo for some reason we have to link an alias to an instantiated class
-            $this->make($addon)->init();
+            $instance = $this->make($addon)->init();
+            $this->append('addons', $instance->version, $instance->id);
         } catch (\ReflectionException $e) {
             glsr_log()->error('Attempted to register an invalid addon.');
         }

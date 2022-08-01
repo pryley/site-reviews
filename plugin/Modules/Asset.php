@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
-class OptimizeAssets
+class Asset
 {
     public $abort;
     public $after;
@@ -29,17 +29,19 @@ class OptimizeAssets
     /**
      * @param string $type
      */
-    public function optimize($type, array $handles = [])
+    public function optimize($type)
     {
-        $type = Str::restrictTo(['css','js'], $type);
-        if (empty($type) || $this->abort || !glsr()->filterBool('optimize/'.$type, false)) {
+        if ($this->abort
+            || !glsr()->filterBool('optimize/'.$type, false)
+            || empty(Str::restrictTo(['css', 'js'], $type))
+            || $this->isOptimized($type)) {
             return;
         }
         $file = $this->file($type);
         if (!$file) {
             return;
         }
-        $this->handles = $handles;
+        $this->handles = array_keys($this->versions());
         $hash = $this->hash();
         $registeredMethod = Helper::buildMethodName($type, 'registered');
         $registered = call_user_func([$this, $registeredMethod]);
@@ -56,6 +58,40 @@ class OptimizeAssets
             call_user_func([$this, $enqueueMethod], $file['url'], $hash);
         }
         $this->reset();
+    }
+
+    /**
+     * @param string $type
+     * @return bool
+     */
+    public function isOptimized($type)
+    {
+        $file = $this->file($type);
+        $hash = $this->hash();
+        if (file_exists(Arr::get($file, 'path'))
+            && $hash === get_transient(glsr()->prefix.'optimized_'.$type)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param string $type
+     * @return string
+     */
+    public function url($type)
+    {
+        if ($this->isOptimized($type)) {
+            $file = $this->file($type);
+            return $file['url'];
+        }
+        if ('css' === $type) {
+            return glsr()->url(sprintf('assets/styles/%s.css', glsr(Style::class)->style));
+        }
+        if ('js' === $type) {
+            return glsr()->url(sprintf('assets/scripts/%s.js', glsr()->id));
+        }
+        return '';
     }
 
     protected function combine()
@@ -163,14 +199,7 @@ class OptimizeAssets
      */
     protected function hash()
     {
-        $versions = array_flip($this->handles);
-        $versions[glsr()->id] = glsr()->version;
-        array_walk($versions, function (&$version, $handle) {
-            if ($addon = glsr()->addon($handle)) {
-                $version = glsr($addon)->version;
-            }
-        });
-        return md5(serialize($versions));
+        return md5(serialize($this->versions()));
     }
 
     protected function prepare(array $registered)
@@ -241,5 +270,15 @@ class OptimizeAssets
         }
         glsr_log()->error('Unable to write content to optimized assets.');
         return false;
+    }
+
+    /**
+     * @return array
+     */
+    protected function versions()
+    {
+        $versions = glsr()->retrieveAs('array', 'addons');
+        $versions = Arr::prepend($versions, glsr()->version, glsr()->id);
+        return $versions;
     }
 }

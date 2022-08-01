@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Asset;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Translation;
@@ -54,8 +55,12 @@ abstract class Controller extends BaseController
      */
     public function enqueuePublicAssets()
     {
-        $this->enqueueAsset('css');
-        $this->enqueueAsset('js', ['in_footer' => true]);
+        if (!glsr(Asset::class)->isOptimized('css')) {
+            $this->enqueueAsset('css');
+        }
+        if (!glsr(Asset::class)->isOptimized('js')) {
+            $this->enqueueAsset('js', ['in_footer' => true]);
+        }
     }
 
     /**
@@ -205,16 +210,6 @@ abstract class Controller extends BaseController
 
     /**
      * @return array
-     * @filter site-reviews/addon/system-info
-     */
-    public function filterSystemInfo(array $details)
-    {
-        $details[$this->addon->name] = sprintf('%s', $this->addon->version);
-        return $details;
-    }
-
-    /**
-     * @return array
      * @filter site-reviews/translation/entries
      */
     public function filterTranslationEntries(array $entries)
@@ -324,7 +319,8 @@ abstract class Controller extends BaseController
      */
     protected function enqueueAsset($extension, array $args = [])
     {
-        if ($args = $this->buildAssetArgs($extension, $args)) {
+        $args = $this->buildAssetArgs($extension, $args);
+        if (!empty($args)) {
             $function = 'js' === $extension
                 ? 'wp_enqueue_script'
                 : 'wp_enqueue_style';

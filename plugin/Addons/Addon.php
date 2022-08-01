@@ -41,6 +41,7 @@ abstract class Addon
         } else {
             glsr_log()->error('The '.static::NAME.' add-on is missing a Hooks class');
         }
+        return $this;
     }
 
     public function make($class, array $parameters = [])

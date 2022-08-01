@@ -12,7 +12,7 @@ class PublicHooks extends AbstractHooks
     public function run()
     {
         $this->hook(PublicController::class, [
-            ['enqueueAssets', 'wp_enqueue_scripts', 999],
+            ['enqueueAssets', 'wp_enqueue_scripts', 999], // run after all add-ons
             ['fetchPagedReviewsAjax', 'site-reviews/route/ajax/fetch-paged-reviews'],
             ['filterEnqueuedScriptTags', 'script_loader_tag', 10, 3],
             ['filterFieldOrder', 'site-reviews/config/forms/review-form', 11],

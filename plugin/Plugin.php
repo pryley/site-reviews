@@ -146,7 +146,7 @@ trait Plugin
 
     /**
      * @param string $view
-     * @return void|string
+     * @return string
      */
     public function file($view)
     {
@@ -162,6 +162,7 @@ trait Plugin
                 return $file;
             }
         }
+        return '';
     }
 
     /**

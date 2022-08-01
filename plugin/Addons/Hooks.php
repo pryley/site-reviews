@@ -33,7 +33,6 @@ abstract class Hooks
         add_filter('site-reviews/path',                                    [$this->controller, 'filterFilePaths'], 10, 2);
         add_filter('site-reviews/defer-scripts',                           [$this->controller, 'filterScriptsDefer']);
         add_filter('site-reviews/addon/settings',                          [$this->controller, 'filterSettings']);
-        add_filter('site-reviews/addon/system-info',                       [$this->controller, 'filterSystemInfo']);
         add_filter('site-reviews/translation/entries',                     [$this->controller, 'filterTranslationEntries']);
         add_filter('site-reviews/translator/domains',                      [$this->controller, 'filterTranslatorDomains']);
         add_action('init',                                                 [$this->controller, 'registerBlocks'], 9);

@@ -5,8 +5,8 @@ namespace GeminiLabs\SiteReviews\Commands;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\ValidationStringsDefaults;
+use GeminiLabs\SiteReviews\Modules\Asset;
 use GeminiLabs\SiteReviews\Modules\Captcha;
-use GeminiLabs\SiteReviews\Modules\OptimizeAssets;
 use GeminiLabs\SiteReviews\Modules\Style;
 
 class EnqueuePublicAssets implements Contract
@@ -27,23 +27,19 @@ class EnqueuePublicAssets implements Contract
     public function enqueueAssets()
     {
         if (glsr()->filterBool('assets/css', true)) {
-            wp_enqueue_style(glsr()->id, $this->getStylesheet(), [], glsr()->version);
+            wp_enqueue_style(glsr()->id, glsr(Asset::class)->url('css'), [], glsr()->version);
             wp_add_inline_style(glsr()->id, $this->inlineStyles());
-            glsr(OptimizeAssets::class)->optimize('css',
-                glsr()->filterArray('optimized/styles', [glsr()->id])
-            );
+            glsr(Asset::class)->optimize('css');
         }
         if (glsr()->filterBool('assets/js', true)) {
             $dependencies = glsr()->filterBool('assets/polyfill', true)
                 ? [glsr()->id.'/polyfill']
                 : [];
             $dependencies = glsr()->filterArray('enqueue/public/dependencies', $dependencies);
-            wp_enqueue_script(glsr()->id, $this->getScript(), $dependencies, glsr()->version, true);
+            wp_enqueue_script(glsr()->id, glsr(Asset::class)->url('js'), $dependencies, glsr()->version, true);
             wp_add_inline_script(glsr()->id, $this->inlineScript(), 'before');
             wp_add_inline_script(glsr()->id, glsr()->filterString('enqueue/public/inline-script/after', ''));
-            glsr(OptimizeAssets::class)->optimize('js',
-                glsr()->filterArray('optimized/scripts', [glsr()->id])
-            );
+            glsr(Asset::class)->optimize('js');
         }
     }
 
@@ -181,22 +177,5 @@ class EnqueuePublicAssets implements Contract
     {
         $selectors = ['#wpadminbar', '.site-navigation-fixed'];
         return glsr()->filterArray('enqueue/public/localize/ajax-pagination', $selectors);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getScript()
-    {
-        return glsr()->url('assets/scripts/'.glsr()->id.'.js');
-    }
-
-    /**
-     * @return string
-     */
-    protected function getStylesheet()
-    {
-        $style = glsr(Style::class)->style;
-        return glsr()->url('assets/styles/'.$style.'.css');
     }
 }

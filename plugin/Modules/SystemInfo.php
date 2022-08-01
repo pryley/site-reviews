@@ -77,7 +77,12 @@ class SystemInfo
      */
     public function getAddonDetails()
     {
-        $details = glsr()->filterArray('addon/system-info', []);
+        $details = [];
+        foreach (glsr()->retrieveAs('array', 'addons') as $id => $version) {
+            if ($addon = glsr($id)) {
+                $details[$addon->name] = $addon->version;
+            }
+        }
         ksort($details);
         return [
             'title' => 'Addon Details',
@@ -180,6 +185,11 @@ class SystemInfo
     public function getPluginDetails()
     {
         require_once ABSPATH.'/wp-admin/includes/plugin.php';
+        $merged = array_keys(array_filter([
+            'css' => glsr()->filterBool('optimize/css', false),
+            'js' => glsr()->filterBool('optimize/js', false),
+        ]));
+        $merged = Helper::ifEmpty($merged, ['No']);
         return [
             'title' => 'Plugin Details',
             'values' => [
@@ -187,6 +197,7 @@ class SystemInfo
                 'Console Size' => glsr(Console::class)->humanSize(),
                 'Database Version' => glsr(OptionManager::class)->getWP(glsr()->prefix.'db_version'),
                 'Last Migration Run' => glsr(Date::class)->localized(glsr(OptionManager::class)->get('last_migration_run'), 'unknown'),
+                'Merged Assets' => implode('/', $merged),
                 'Network Activated' => Helper::ifTrue(is_plugin_active_for_network(plugin_basename(glsr()->file)), 'Yes', 'No'),
                 'Version' => sprintf('%s (%s)', glsr()->version, glsr(OptionManager::class)->get('version_upgraded_from')),
             ],

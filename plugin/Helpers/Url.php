@@ -29,7 +29,8 @@ class Url
     public static function queries($url)
     {
         $queries = [];
-        parse_str(parse_url($url, PHP_URL_QUERY), $queries);
+        $str = (string) parse_url((string) $url, PHP_URL_QUERY);
+        parse_str($str, $queries);
         return $queries;
     }
 
