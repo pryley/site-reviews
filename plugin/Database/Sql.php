@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Database;
 
-use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -251,7 +250,7 @@ trait Sql
     protected function clauseAndRatingField()
     {
         return (string) Helper::ifTrue($this->isCustomRatingField(),
-            $this->db->prepare("AND pm.meta_key = %s", sprintf('_custom_%s', $this->args['rating_field']))
+            $this->db->prepare('AND pm.meta_key = %s', sprintf('_custom_%s', $this->args['rating_field']))
         );
     }
 
@@ -424,7 +423,7 @@ trait Sql
      */
     protected function clauseJoinRatingField()
     {
-        return (string) Helper::ifTrue($this->isCustomRatingField(), 
+        return (string) Helper::ifTrue($this->isCustomRatingField(),
             "INNER JOIN {$this->db->postmeta} AS pm ON r.review_id = pm.post_id"
         );
     }
@@ -434,7 +433,7 @@ trait Sql
      */
     protected function clauseJoinStatus()
     {
-        return (string) Helper::ifTrue(-1 === Cast::toInt($this->args['status']), 
+        return (string) Helper::ifTrue(-1 === Cast::toInt($this->args['status']),
             "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
         );
     }
@@ -448,7 +447,7 @@ trait Sql
     }
 
     /**
-     * Used to determine the join method used in review assignments
+     * Used to determine the join method used in review assignments.
      * @return string
      */
     protected function joinMethod()

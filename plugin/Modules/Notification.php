@@ -5,9 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Review;
-use WP_Post;
 
 class Notification
 {

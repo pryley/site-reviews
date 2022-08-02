@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Modules\Validator;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Request;
 
 class BlacklistValidator extends ValidatorAbstract
 {

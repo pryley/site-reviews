@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedPost
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedUser;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAuthor;
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
@@ -49,7 +48,7 @@ class EnqueueAdminAssets implements Contract
         if (!$this->isCurrentScreen()) {
             return;
         }
-        wp_enqueue_style('wp-color-picker'); 
+        wp_enqueue_style('wp-color-picker');
         wp_enqueue_style(
             glsr()->id.'/admin',
             glsr()->url('assets/styles/admin/admin.css'),

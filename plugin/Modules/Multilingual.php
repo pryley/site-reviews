@@ -49,7 +49,7 @@ class Multilingual
     }
 
     /**
-     * return bool
+     * @return bool
      */
     public function isIntegrated()
     {

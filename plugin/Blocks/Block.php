@@ -24,7 +24,7 @@ abstract class Block
     }
 
     /**
-     * Triggered on render in block editor
+     * Triggered on render in block editor.
      * @return array
      */
     public function normalize(array $attributes)

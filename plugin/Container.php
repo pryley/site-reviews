@@ -126,7 +126,7 @@ abstract class Container
 
     /**
      * @param \ReflectionParameter $parameter
-     * @return null|\ReflectionClass|\ReflectionNamedType|\ReflectionType
+     * @return \ReflectionClass|\ReflectionNamedType|\ReflectionType|null
      */
     protected function getClass($parameter)
     {

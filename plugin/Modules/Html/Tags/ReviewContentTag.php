@@ -38,7 +38,7 @@ class ReviewContentTag extends ReviewTag
         return glsr(Builder::class)->$tag([
             'class' => 'glsr-tag-value',
             'data-expanded' => 'false',
-            'text' => $value
+            'text' => $value,
         ]);
     }
 }

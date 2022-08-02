@@ -20,7 +20,7 @@ class Recaptcha3Validator extends CaptchaValidator
     public function isTokenValid(array $response)
     {
         $threshold = glsr_get_option('submissions.recaptcha_v3.threshold');
-        $isValid = $response['success'] 
+        $isValid = $response['success']
             && $response['score'] >= $threshold
             && 'submit_review' === $response['action'];
         if ($isValid) {
@@ -77,7 +77,7 @@ class Recaptcha3Validator extends CaptchaValidator
             'remoteip' => $this->request->ip_address,
             'response' => $token,
             'secret' => glsr_get_option('submissions.recaptcha_v3.secret'),
-            // The sitekey does not need to be sent in the request, but it's here 
+            // The sitekey does not need to be sent in the request, but it's here
             // so we can return a better error response to the form.
             // @see CaptchaValidator::verifyToken()
             'sitekey' => glsr_get_option('submissions.recaptcha_v3.key'),

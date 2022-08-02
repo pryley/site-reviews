@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
-use GeminiLabs\SiteReviews\Modules\Html\Builder;
-
 class ColumnFilterType extends ColumnFilter
 {
     /**

@@ -3,8 +3,8 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use Exception;
-use GeminiLabs\League\Csv\Exceptions\UnableToProcessCsv;
 use GeminiLabs\League\Csv\CharsetConverter;
+use GeminiLabs\League\Csv\Exceptions\UnableToProcessCsv;
 use GeminiLabs\League\Csv\Info;
 use GeminiLabs\League\Csv\Reader;
 use GeminiLabs\League\Csv\Statement;
@@ -91,12 +91,10 @@ class ImportReviews extends Upload implements Contract
     {
         $reader = Reader::createFromPath($this->file()->tmp_name);
         if (empty($this->delimiter)) {
-            $delimiters = \GeminiLabs\League\Csv\Info::getDelimiterStats($reader, [',',';']);
+            $delimiters = Info::getDelimiterStats($reader, [',', ';']);
             $delimiters = array_keys(array_filter($delimiters));
             if (1 !== count($delimiters)) {
-                throw new UnableToProcessCsv(
-                    _x('Cannot detect the delimiter used in the CSV file (supported delimiters are comma and semicolon).', 'admin-text', 'site-reviews')
-                );
+                throw new UnableToProcessCsv(_x('Cannot detect the delimiter used in the CSV file (supported delimiters are comma and semicolon).', 'admin-text', 'site-reviews'));
             }
             $this->delimiter = $delimiters[0];
         }
@@ -128,9 +126,7 @@ class ImportReviews extends Upload implements Contract
             $reader = $this->createReader();
             $header = array_map('trim', $reader->getHeader());
             if (!empty(array_diff(static::REQUIRED_KEYS, $header))) {
-                throw new UnableToProcessCsv(
-                    _x('The CSV file could not be imported. Please verify the following details and try again:', 'admin-text', 'site-reviews')
-                );
+                throw new UnableToProcessCsv(_x('The CSV file could not be imported. Please verify the following details and try again:', 'admin-text', 'site-reviews'));
             }
             $records = Statement::create()
                 ->where(function (array $record) {
@@ -218,7 +214,7 @@ class ImportReviews extends Upload implements Contract
         ];
         $errors = array_intersect_key($errorMessages, array_diff_key($required, array_filter($required)));
         $this->errors = array_merge($this->errors, $errors);
-        $this->skippedRecords++;
+        ++$this->skippedRecords;
         return false;
     }
 }

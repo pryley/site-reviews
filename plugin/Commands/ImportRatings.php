@@ -55,7 +55,7 @@ class ImportRatings implements Contract
             $this->importAssignedPosts($values);
             $this->importAssignedUsers($values);
             // It is unecessary to import term assignments as this is done in Migration
-            $page++;
+            ++$page;
         }
     }
 

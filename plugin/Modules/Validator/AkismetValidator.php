@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Modules\Validator;
 
 use Akismet;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Request;
 
 class AkismetValidator extends ValidatorAbstract
 {

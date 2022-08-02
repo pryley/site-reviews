@@ -52,7 +52,7 @@ abstract class SvgAvatar
             if ($dataLength !== $bytesWritten) {
                 return '';
             }
-            chmod($filepath, (fileperms(ABSPATH.'index.php') & 0777 | 0644));
+            chmod($filepath, fileperms(ABSPATH.'index.php') & 0777 | 0644);
         }
         return set_url_scheme($baseUrl.$pathDir.$filename);
     }

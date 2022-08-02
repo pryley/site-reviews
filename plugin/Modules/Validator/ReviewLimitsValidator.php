@@ -119,7 +119,7 @@ class ReviewLimitsValidator extends ValidatorAbstract
      */
     protected function validateLimit($key, $value, array $args)
     {
-        if (empty($value) 
+        if (empty($value)
             || $this->isWhitelisted($value, glsr_get_option('submissions.limit_whitelist.'.$key))) {
             return true;
         }

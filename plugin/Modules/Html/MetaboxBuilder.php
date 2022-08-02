@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
-use GeminiLabs\SiteReviews\Helper;
-
 class MetaboxBuilder extends Builder
 {
     /**

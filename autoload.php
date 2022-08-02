@@ -19,7 +19,7 @@ if (!extension_loaded('mbstring')) {
 }
 
 /**
- * Load the Action Scheduler library
+ * Load the Action Scheduler library.
  * @see https://actionscheduler.org
  */
 require_once __DIR__.'/vendors/woocommerce/action-scheduler/action-scheduler.php';

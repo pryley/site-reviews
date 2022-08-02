@@ -113,7 +113,7 @@ class PrivacyController extends Controller
                 'ip_address' => '',
                 'name' => '',
             ]);
-            delete_post_meta($review->ID,  '_submitted'); // delete the original stored request
+            delete_post_meta($review->ID, '_submitted'); // delete the original stored request
         }
         $this->itemsRemoved = true;
     }

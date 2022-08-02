@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers\ListTableColumns;
 
-use GeminiLabs\SiteReviews\Helpers\Cast;
-
 class ColumnFilterAuthor extends ColumnFilterAssignedUser
 {
     /**

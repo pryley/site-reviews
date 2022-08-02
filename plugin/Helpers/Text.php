@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Helpers;
 
-use GeminiLabs\SiteReviews\Helpers\Cast;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class Text
@@ -119,7 +117,7 @@ class Text
             return static::excerptIntlSplitDeprecated($text, $limit);
         }
         $text = \Normalizer::normalize($text);
-        $iter = \IntlRuleBasedBreakIterator::createWordInstance("");
+        $iter = \IntlRuleBasedBreakIterator::createWordInstance('');
         $iter->setText($text);
         $words = $iter->getPartsIterator();
         $stringLength = 0;

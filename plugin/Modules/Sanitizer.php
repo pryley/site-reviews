@@ -6,7 +6,6 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Multilingual;
 
 class Sanitizer
 {
@@ -161,7 +160,7 @@ class Sanitizer
     }
 
     /**
-     * This allows lowercase alphannumeric and underscore characters
+     * This allows lowercase alphannumeric and underscore characters.
      * @param mixed $value
      * @return string
      */
@@ -172,7 +171,7 @@ class Sanitizer
     }
 
     /**
-     * This allows lowercase alpha and underscore characters
+     * This allows lowercase alpha and underscore characters.
      * @param mixed $value
      * @return string
      */
@@ -285,7 +284,7 @@ class Sanitizer
             $value = Str::prefix($value, 'https://');
         }
         $url = esc_url_raw($value);
-        if (mb_strtolower($value) === mb_strtolower($url) && filter_var($url, FILTER_VALIDATE_URL) !== false) {
+        if (mb_strtolower($value) === mb_strtolower($url) && false !== filter_var($url, FILTER_VALIDATE_URL)) {
             return $url;
         }
         return '';

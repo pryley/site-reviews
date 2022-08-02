@@ -1,7 +1,5 @@
 <?php
 
-use GeminiLabs\SiteReviews\Helpers\Str;
-
 defined('ABSPATH') || exit;
 
 /**

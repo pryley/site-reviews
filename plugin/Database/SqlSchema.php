@@ -40,14 +40,14 @@ class SqlSchema
             $table = $this->table('assigned_posts'),
             $constraint = $this->foreignConstraint('assigned_posts_rating_id'),
             $foreignKey = 'rating_id',
-            $foreignTable = $this->table('ratings'), 
+            $foreignTable = $this->table('ratings'),
             $foreignColumn = 'ID'
         );
         $this->addForeignConstraint(
             $table = $this->table('assigned_posts'),
             $constraint = $this->foreignConstraint('assigned_posts_post_id'),
             $foreignKey = 'post_id',
-            $foreignTable = $this->db->posts, 
+            $foreignTable = $this->db->posts,
             $foreignColumn = 'ID'
         );
     }
@@ -62,14 +62,14 @@ class SqlSchema
             $table = $this->table('assigned_terms'),
             $constraint = $this->foreignConstraint('assigned_terms_rating_id'),
             $foreignKey = 'rating_id',
-            $foreignTable = $this->table('ratings'), 
+            $foreignTable = $this->table('ratings'),
             $foreignColumn = 'ID'
         );
         $this->addForeignConstraint(
             $table = $this->table('assigned_terms'),
             $constraint = $this->foreignConstraint('assigned_terms_term_id'),
             $foreignKey = 'term_id',
-            $foreignTable = $this->db->terms, 
+            $foreignTable = $this->db->terms,
             $foreignColumn = 'term_id'
         );
     }
@@ -84,14 +84,14 @@ class SqlSchema
             $table = $this->table('assigned_users'),
             $constraint = $this->foreignConstraint('assigned_users_rating_id'),
             $foreignKey = 'rating_id',
-            $foreignTable = $this->table('ratings'), 
+            $foreignTable = $this->table('ratings'),
             $foreignColumn = 'ID'
         );
         $this->addForeignConstraint(
             $table = $this->table('assigned_users'),
             $constraint = $this->foreignConstraint('assigned_users_user_id'),
             $foreignKey = 'user_id',
-            $foreignTable = $this->db->users, 
+            $foreignTable = $this->db->users,
             $foreignColumn = 'ID'
         );
     }
@@ -106,13 +106,13 @@ class SqlSchema
             $table = $this->table('ratings'),
             $constraint = $this->foreignConstraint('assigned_posts_review_id'),
             $foreignKey = 'review_id',
-            $foreignTable = $this->db->posts, 
+            $foreignTable = $this->db->posts,
             $foreignColumn = 'ID'
         );
     }
 
     /**
-     * This method expects the fully formed foreign constraint key
+     * This method expects the fully formed foreign constraint key.
      * @param string $table
      * @param string $constraint
      * @param string $foreignKey
@@ -311,7 +311,7 @@ class SqlSchema
     }
 
     /**
-     * This method expects the fully formed foreign constraint key
+     * This method expects the fully formed foreign constraint key.
      * @param string $constraint
      * @param string $foreignTable
      * @return bool
@@ -437,7 +437,7 @@ class SqlSchema
         if (!is_array($this->tables)) {
             $prefix = $this->db->get_blog_prefix().glsr()->prefix;
             $this->tables = $this->db->get_col(
-                $this->db->prepare("SHOW TABLES LIKE %s", $this->db->esc_like($prefix).'%')
+                $this->db->prepare('SHOW TABLES LIKE %s', $this->db->esc_like($prefix).'%')
             );
         }
         return in_array($this->table($table), $this->tables);

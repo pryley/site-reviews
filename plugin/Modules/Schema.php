@@ -162,7 +162,7 @@ class Schema
             ->doIf(!in_array('excerpt', $this->args['hide']), function ($schema) use ($review) {
                 $schema->reviewBody($review->content);
             })
-            ->datePublished((new DateTime($review->date)))
+            ->datePublished(new DateTime($review->date))
             ->author($this->getSchemaType('Person')->name($review->author()))
             ->itemReviewed($this->getSchemaType()->name($this->getSchemaOptionValue('name')));
         if (!empty($review->rating)) {

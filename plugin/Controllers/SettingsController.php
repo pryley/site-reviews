@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
-use Exception;
 use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Exceptions\LicenseException;

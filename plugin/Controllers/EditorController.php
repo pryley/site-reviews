@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnValueType;
-use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Defaults\UpdatedMessageDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;

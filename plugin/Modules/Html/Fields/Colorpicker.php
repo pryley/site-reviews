@@ -38,7 +38,7 @@ class Colorpicker extends Field
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public static function required($fieldLocation = null)
     {
@@ -48,7 +48,7 @@ class Colorpicker extends Field
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function tag()
     {

@@ -92,7 +92,7 @@ function glsr_uninstall_all_delete_tables() {
 
 function glsr_uninstall_minimal() {
     global $wpdb;
-    $options = array(
+    $options = [
         'geminilabs_site_reviews-v2', // v2 settings
         'geminilabs_site_reviews_settings', // v1 settings
         'site_reviews_v3', // v3 settings
@@ -102,7 +102,7 @@ function glsr_uninstall_minimal() {
         'widget_glsr_site-reviews',
         'widget_glsr_site-reviews-form',
         'widget_glsr_site-reviews-summary',
-    );
+    ];
     foreach ($options as $option) {
         delete_option($option);
     }
@@ -146,7 +146,7 @@ if (!function_exists('get_sites')) {
     global $wpdb;
     $siteIds = $wpdb->get_col("SELECT blog_id FROM {$wpdb->blogs}");
 } else {
-    $siteIds = get_sites(array('fields' => 'ids'));
+    $siteIds = get_sites(['fields' => 'ids']);
 }
 foreach ($siteIds as $siteId) {
     switch_to_blog($siteId);

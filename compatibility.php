@@ -1,7 +1,6 @@
 <?php
 
 use GeminiLabs\SiteReviews\Application;
-use GeminiLabs\SiteReviews\Controllers\BlocksController;
 
 defined('ABSPATH') || exit;
 

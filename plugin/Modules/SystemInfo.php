@@ -11,7 +11,6 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use WP_Debug_Data;
 
 class SystemInfo
 {
@@ -117,7 +116,7 @@ class SystemInfo
         $database = Arr::get($data, 'wp-database');
         $engines = glsr(SqlSchema::class)->tableEngines($removeDbPrefix = true);
         foreach ($engines as $engine => $tables) {
-          $engines[$engine] = sprintf('%s (%s)', $engine, implode('|', $tables));
+            $engines[$engine] = sprintf('%s (%s)', $engine, implode('|', $tables));
         }
         return [
             'title' => 'Database Details',

@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
-use GeminiLabs\SiteReviews\Helpers\Str;
-
 class ReviewAuthorTag extends ReviewTag
 {
     /**

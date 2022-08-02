@@ -263,7 +263,7 @@ class Helper
     public static function isEmpty($value)
     {
         if (is_string($value)) {
-            return trim($value) === '';
+            return '' === trim($value);
         }
         return !is_numeric($value) && !is_bool($value) && empty($value);
     }

@@ -36,13 +36,13 @@ class SiteReviewsSummaryWidget extends Widget
         }
         $this->renderField('text', [
             'default' => '',
-            'description' => sprintf(_x("You may also enter %s to use the Post ID of the current page.", 'admin-text', 'site-reviews'), '<code>post_id</code>'),
+            'description' => sprintf(_x('You may also enter %s to use the Post ID of the current page.', 'admin-text', 'site-reviews'), '<code>post_id</code>'),
             'label' => _x('Limit summary to reviews assigned to a Post ID', 'admin-text', 'site-reviews'),
             'name' => 'assigned_posts',
         ]);
         $this->renderField('text', [
             'default' => '',
-            'description' => sprintf(esc_html_x("You may also enter %s to use the ID of the logged-in user.", 'admin-text', 'site-reviews'), '<code>user_id</code>'),
+            'description' => sprintf(esc_html_x('You may also enter %s to use the ID of the logged-in user.', 'admin-text', 'site-reviews'), '<code>user_id</code>'),
             'label' => _x('Limit summary to reviews assigned to a User ID', 'admin-text', 'site-reviews'),
             'name' => 'assigned_users',
         ]);

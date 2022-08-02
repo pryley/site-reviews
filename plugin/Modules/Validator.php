@@ -160,7 +160,7 @@ class Validator
      * Get a rule and its parameters for a given attribute.
      * @param string $attribute
      * @param string|array $rules
-     * @return array|null|void
+     * @return array|void|null
      */
     protected function getRule($attribute, $rules)
     {
@@ -281,7 +281,7 @@ class Validator
                 ? explode('|', $rule)
                 : $rule;
             // unset rules if the attribute is not required and the value is an empty string
-            if (empty(array_intersect(['accepted','required'], $validationRules)) && '' === $this->getValue($key)) {
+            if (empty(array_intersect(['accepted', 'required'], $validationRules)) && '' === $this->getValue($key)) {
                 $validationRules = [];
             }
             $rules[$key] = $validationRules;

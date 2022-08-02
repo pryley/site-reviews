@@ -36,7 +36,7 @@ class StarRatingDefaults extends Defaults
      */
     protected function normalize(array $values = [])
     {
-        $values['rating'] = sprintf('%g', Arr::get($values,'rating', 0));
+        $values['rating'] = sprintf('%g', Arr::get($values, 'rating', 0));
         return $values;
     }
 }

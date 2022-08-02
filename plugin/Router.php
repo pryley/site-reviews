@@ -2,9 +2,7 @@
 
 namespace GeminiLabs\SiteReviews;
 
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Notice;
-use GeminiLabs\SiteReviews\Request;
 
 class Router
 {
@@ -120,7 +118,7 @@ class Router
      */
     protected function isValidPublicNonce(Request $request)
     {
-        // only require a nonce for public requests if user is logged in, this avoids 
+        // only require a nonce for public requests if user is logged in, this avoids
         // potential caching issues since unauthenticated requests should never be destructive.
         if (is_user_logged_in() && !wp_verify_nonce($request->_nonce, $request->_action)) {
             glsr_log()->warning('nonce check failed for public request')->debug($request);
@@ -170,7 +168,7 @@ class Router
     }
 
     /**
-     * Authenticated routes to unguard
+     * Authenticated routes to unguard.
      * @return array
      */
     protected function unguardedAdminActions()
@@ -182,7 +180,7 @@ class Router
     }
 
     /**
-     * Unauthenticated routes to unguard
+     * Unauthenticated routes to unguard.
      * @return array
      */
     protected function unguardedPublicActions()

@@ -3,9 +3,7 @@
 namespace GeminiLabs\SiteReviews\Blocks;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Attributes;
-use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode as Shortcode;
 
 class SiteReviewsFormBlock extends Block

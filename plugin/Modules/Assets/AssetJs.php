@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Assets;
 
-use GeminiLabs\SiteReviews\Modules\Style;
-
 class AssetJs extends AssetAbstract
 {
     /**

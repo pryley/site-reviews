@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Database\Search;
 
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
-use GeminiLabs\SiteReviews\Helpers\Str;
 
 class SearchAssignedUsers extends AbstractSearch
 {

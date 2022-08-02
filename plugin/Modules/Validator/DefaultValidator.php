@@ -79,10 +79,10 @@ class DefaultValidator extends ValidatorAbstract
         $required = glsr_get_option('submissions.required', []);
         array_walk($rules, function (&$value, $key) use ($required) {
             if (!in_array($key, $required)) {
-                // remove the accepted and required rules from validation 
+                // remove the accepted and required rules from validation
                 // since they are not required in the settings
                 $values = explode('|', $value);
-                $values = array_diff($values, ['accepted','required']);
+                $values = array_diff($values, ['accepted', 'required']);
                 $value = implode('|', $values);
             }
         });

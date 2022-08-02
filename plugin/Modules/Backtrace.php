@@ -96,8 +96,7 @@ class Backtrace
         $line = Arr::get($backtrace, '0.line');
         if (Str::endsWith('helpers.php', $file)) {
             return Arr::get($backtrace, '1.line');
-        }
-        elseif (Str::endsWith('BlackHole.php', $file) && 'WP_Hook' !== Arr::get($backtrace, '2.class')) {
+        } elseif (Str::endsWith('BlackHole.php', $file) && 'WP_Hook' !== Arr::get($backtrace, '2.class')) {
             return Arr::get($backtrace, '1.line');
         }
         return $line;

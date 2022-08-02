@@ -323,7 +323,7 @@ class Builder
     protected function buildFormSelectOptGroup($options, $label)
     {
         $children = array_reduce(array_keys($options), function ($carry, $key) use ($options) {
-           return $carry.glsr(Builder::class)->option([
+            return $carry.glsr(Builder::class)->option([
                 'selected' => $this->args->cast('value', 'string') === Cast::toString($key),
                 'text' => $options[$key],
                 'value' => $key,

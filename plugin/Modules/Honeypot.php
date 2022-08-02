@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Modules;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Field;
-use GeminiLabs\SiteReviews\Modules\Style;
 
 class Honeypot
 {

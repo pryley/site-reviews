@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Helpers;
 
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class Arr
 {
@@ -19,7 +18,7 @@ class Arr
     }
 
     /**
-     * Returns an empty array by default if value is scalar
+     * Returns an empty array by default if value is scalar.
      * @param mixed $value
      * @return array
      */
@@ -242,7 +241,7 @@ class Arr
     }
 
     /**
-     * Search a multidimensional array by key value
+     * Search a multidimensional array by key value.
      * @param mixed $needle
      * @param array $haystack
      * @param int|string $key

@@ -32,6 +32,7 @@ class Partial
         $partial = $this->app()->filterString('rendered/partial/'.$partialPath, $partial, $args);
         return $partial;
     }
+
     /**
      * @param string $partialPath
      * @return void

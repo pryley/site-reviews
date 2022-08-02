@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class WidgetBuilder extends Builder
 {

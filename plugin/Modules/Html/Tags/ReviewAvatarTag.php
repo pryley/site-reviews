@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Modules\Html\Tags;
 
 use GeminiLabs\SiteReviews\Modules\Avatar;
-use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class ReviewAvatarTag extends ReviewTag
 {

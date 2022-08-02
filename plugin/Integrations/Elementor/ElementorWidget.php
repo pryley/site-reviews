@@ -142,7 +142,7 @@ abstract class ElementorWidget extends Widget_Base
             ],
         ];
         $controls = glsr()->filterArray('integration/elementor/register/controls', $controls, $this);
-        array_walk($controls, function($control, $key) {
+        array_walk($controls, function ($control, $key) {
             $options = array_filter($control['options']);
             if (!empty($options)) {
                 $this->register_shortcode_options($options, $key, $control['label']);

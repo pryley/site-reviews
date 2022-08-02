@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 
 use GeminiLabs\SiteReviews\Contracts\TemplateContract as Contract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Template implements Contract
 {

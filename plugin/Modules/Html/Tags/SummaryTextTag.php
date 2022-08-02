@@ -34,6 +34,6 @@ class SummaryTextTag extends SummaryTag
                 'site-reviews'
             );
         }
-        return str_replace(['{rating}','{max}','{num}'], [$rating, $max, $num], $text);
+        return str_replace(['{rating}', '{max}', '{num}'], [$rating, $max, $num], $text);
     }
 }

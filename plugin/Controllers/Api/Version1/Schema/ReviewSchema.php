@@ -48,7 +48,7 @@ class ReviewSchema
                 'rel' => 'https://api.w.org/action-publish',
                 'title' => _x('The current user can publish this review.', 'admin-text', 'site-reviews'),
                 'targetSchema' => [
-                    'type'  => 'object',
+                    'type' => 'object',
                     'properties' => [
                         'status' => [
                             'enum' => ['future', 'publish'],
@@ -62,7 +62,7 @@ class ReviewSchema
                 'rel' => 'https://api.w.org/action-unfiltered-html',
                 'title' => _x('The current user can post unfiltered HTML markup and JavaScript.', 'admin-text', 'site-reviews'),
                 'targetSchema' => [
-                    'type'  => 'object',
+                    'type' => 'object',
                     'properties' => [
                         'content' => [
                             'raw' => ['type' => 'string'],
@@ -75,7 +75,7 @@ class ReviewSchema
                 'rel' => 'https://api.w.org/action-assign-author',
                 'title' => _x('The current user can change the author on this review.', 'admin-text', 'site-reviews'),
                 'targetSchema' => [
-                    'type'  => 'object',
+                    'type' => 'object',
                     'properties' => [
                         'author' => [
                             'raw' => ['type' => 'integer'],
@@ -88,7 +88,7 @@ class ReviewSchema
                 'rel' => 'https://api.w.org/action-assign-'.glsr()->taxonomy,
                 'title' => sprintf(_x('The current user can assign terms in the %s taxonomy.', 'admin-text', 'site-reviews'), glsr()->taxonomy),
                 'targetSchema' => [
-                    'type'  => 'object',
+                    'type' => 'object',
                     'properties' => [
                         glsr()->taxonomy => [
                             'items' => ['type' => 'integer'],
@@ -102,7 +102,7 @@ class ReviewSchema
                 'rel' => 'https://api.w.org/action-create-'.glsr()->taxonomy,
                 'title' => sprintf(_x('The current user can create terms in the %s taxonomy.', 'admin-text', 'site-reviews'), glsr()->taxonomy),
                 'targetSchema' => [
-                    'type'  => 'object',
+                    'type' => 'object',
                     'properties' => [
                         glsr()->taxonomy => [
                             'items' => ['type' => 'integer'],

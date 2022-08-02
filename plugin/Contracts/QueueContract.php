@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Contracts;
 
-use GeminiLabs\SiteReviews\Application;
-
 interface QueueContract
 {
     /**

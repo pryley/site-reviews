@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Controllers\Api\Version1\Response;
 
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Modules\Avatar;
 use GeminiLabs\SiteReviews\Review;
 
 class Prepare

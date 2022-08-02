@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
-use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;

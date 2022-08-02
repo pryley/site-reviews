@@ -147,7 +147,7 @@ abstract class Tag implements TagContract
     {
         return glsr(Builder::class)->$tag([
             'class' => 'glsr-tag-value',
-            'text' => $value
+            'text' => $value,
         ]);
     }
 }

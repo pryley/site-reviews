@@ -5,11 +5,7 @@ namespace GeminiLabs\SiteReviews\Controllers;
 use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Style;
-use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
-use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
-use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
 class BlocksController extends Controller
 {

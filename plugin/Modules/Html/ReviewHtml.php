@@ -40,7 +40,7 @@ class ReviewHtml extends \ArrayObject
         $this->args = glsr(SiteReviewsDefaults::class)->unguardedMerge($args);
         $this->context = $this->buildContext($review);
         $this->review = $review;
-        parent::__construct($this->context, \ArrayObject::STD_PROP_LIST|\ArrayObject::ARRAY_AS_PROPS);
+        parent::__construct($this->context, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
     }
 
     /**

@@ -84,5 +84,4 @@ class Migrate_5_9_0
         }
         return false;
     }
-
 }

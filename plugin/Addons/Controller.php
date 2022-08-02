@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Addons;
 
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
-use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Assets\AssetCss;
@@ -56,7 +55,6 @@ abstract class Controller extends BaseController
      */
     public function enqueuePublicAssets()
     {
-
         if (!glsr(AssetCss::class)->canOptimize() || !glsr(AssetCss::class)->isOptimized()) {
             $this->enqueueAsset('css');
         }

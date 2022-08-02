@@ -2,13 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Modules\Html;
 
-use GeminiLabs\SiteReviews\Arguments;
-use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\FieldDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Html\Attributes;
 use GeminiLabs\SiteReviews\Modules\Style;
 
 /**
@@ -84,7 +81,7 @@ class Field
      */
     public function choiceType()
     {
-        return Helper::ifTrue('toggle' === $this->field['raw_type'], 
+        return Helper::ifTrue('toggle' === $this->field['raw_type'],
             $this->field['raw_type'],
             $this->field['type']
         );

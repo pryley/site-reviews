@@ -86,7 +86,7 @@ class GL_Plugin_Check_v6
         }
         $pluginSlug = plugin_basename($this->file);
         if ($plugin == $pluginSlug) {
-            $this->redirect(); //exit
+            $this->redirect(); // exit
         }
         $pluginData = get_file_data($this->file, ['name' => 'Plugin Name'], 'plugin');
         deactivate_plugins($pluginSlug);

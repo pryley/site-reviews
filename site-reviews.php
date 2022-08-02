@@ -30,7 +30,7 @@ if ((new GL_Plugin_Check_v6(__FILE__))->canProceed()) {
     require_once __DIR__.'/migration.php';
     $app = GeminiLabs\SiteReviews\Application::load();
     $app->make('Provider')->register($app);
-    register_deactivation_hook(__FILE__, array($app, 'deactivate'));
-    register_shutdown_function(array($app, 'catchFatalError'));
+    register_deactivation_hook(__FILE__, [$app, 'deactivate']);
+    register_shutdown_function([$app, 'catchFatalError']);
     $app->init();
 }

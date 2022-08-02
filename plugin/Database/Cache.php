@@ -101,7 +101,7 @@ class Cache
         $versions = array_keys(Arr::consolidate(Arr::get($response, 'versions')));
         $versions = array_filter($versions, function ($version) {
             $minorVersion = (float) glsr()->version('minor');
-            $versionLimit = sprintf('%.2f', ($minorVersion - (3 / 100)));
+            $versionLimit = sprintf('%.2f', $minorVersion - .03);
             $maxLimit = version_compare($version, glsr()->version, '<');
             $minLimit = version_compare($version, $versionLimit, '>=');
             return $maxLimit && $minLimit;

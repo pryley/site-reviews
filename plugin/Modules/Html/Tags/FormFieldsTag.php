@@ -6,7 +6,6 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Honeypot;
 use GeminiLabs\SiteReviews\Modules\Html\Attributes;
-use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Field;
 use GeminiLabs\SiteReviews\Modules\Html\Form;
 
@@ -32,7 +31,7 @@ class FormFieldsTag extends FormTag
     {
         $fields = $this->fields();
         $hiddenFields = array_merge($this->hiddenFields(), [
-            'honeypot' => glsr(Honeypot::class)->build($this->args->form_id)
+            'honeypot' => glsr(Honeypot::class)->build($this->args->form_id),
         ]);
         foreach ($fields as $name => $field) {
             unset($hiddenFields[$name]);
@@ -85,7 +84,7 @@ class FormFieldsTag extends FormTag
         ];
         if ('choice' === $field->fieldType()) {
             $classes = $fieldClasses['choice'];
-        } else if (in_array($field->field['type'], Attributes::INPUT_TYPES)) {
+        } elseif (in_array($field->field['type'], Attributes::INPUT_TYPES)) {
             $classes = $fieldClasses['input'];
         } else {
             $classes = $fieldClasses['other'];

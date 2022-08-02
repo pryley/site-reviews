@@ -70,7 +70,7 @@ class Date
     {
         $tense = Str::restrictTo(['future', 'past'], $tense, '');
         if ($seconds <= 0) {
-            return _nx('A moment ago', 'Now', (int)('past' === $tense), 'The past and present/future tense of now', 'site-reviews');
+            return _nx('A moment ago', 'Now', (int) ('past' === $tense), 'The past and present/future tense of now', 'site-reviews');
         }
         $output = [];
         for (

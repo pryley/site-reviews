@@ -112,11 +112,11 @@ class OptionManager
      */
     public function json()
     {
-        return json_encode($this->all(), JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_TAG|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+        return json_encode($this->all(), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     /**
-     * Restricts the provided settings keys to the defaults
+     * Restricts the provided settings keys to the defaults.
      * @return array
      */
     public function normalize(array $settings = [])

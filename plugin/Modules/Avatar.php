@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Modules;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Avatars\InitialsAvatar;
 use GeminiLabs\SiteReviews\Modules\Avatars\PixelAvatar;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -27,10 +26,9 @@ class Avatar
     }
 
     /**
-     * @param \GeminiLabs\SiteReviews\Review $review
      * @return string
      */
-    public function fallbackDefault($review)
+    public function fallbackDefault(Review $review)
     {
         if ('custom' === $this->type) {
             $customUrl = glsr_get_option('reviews.avatars_fallback_url');
@@ -49,11 +47,10 @@ class Avatar
     }
 
     /**
-     * @param \GeminiLabs\SiteReviews\Review $review
      * @param int $size
      * @return string
      */
-    public function fallbackUrl($review, $size = 0)
+    public function fallbackUrl(Review $review, $size = 0)
     {
         $fallbackUrl = $this->fallbackDefault($review);
         if ($fallbackUrl === $this->type) {
@@ -64,11 +61,10 @@ class Avatar
     }
 
     /**
-     * @param \GeminiLabs\SiteReviews\Review $review
      * @param int $size
      * @return string
      */
-    public function generate($review, $size = 0)
+    public function generate(Review $review, $size = 0)
     {
         $default = $this->fallbackDefault($review);
         if ($default !== $this->type) {
@@ -90,10 +86,9 @@ class Avatar
     }
 
     /**
-     * @param \GeminiLabs\SiteReviews\Review $review
      * @return string
      */
-    public function generateInitials($review)
+    public function generateInitials(Review $review)
     {
         $name = $review->author;
         if (empty($review->author)) {
@@ -103,20 +98,18 @@ class Avatar
     }
 
     /**
-     * @param \GeminiLabs\SiteReviews\Review $review
      * @return string
      */
-    public function generatePixels($review)
+    public function generatePixels(Review $review)
     {
         return glsr(PixelAvatar::class)->create($this->userField($review));
     }
 
     /**
-     * @param \GeminiLabs\SiteReviews\Review $review
      * @param int $size
      * @return string
      */
-    public function img($review, $size = 0)
+    public function img(Review $review, $size = 0)
     {
         $size = $this->size($size);
         $attributes = [
@@ -135,11 +128,10 @@ class Avatar
     }
 
     /**
-     * @param \GeminiLabs\SiteReviews\Review $review
      * @param int $size
      * @return string
      */
-    public function url($review, $size = 0)
+    public function url(Review $review, $size = 0)
     {
         if ($this->isUrl($review->avatar)) {
             return $review->avatar;
@@ -197,7 +189,7 @@ class Avatar
             if ($dataLength !== $bytesWritten) {
                 return '';
             }
-            chmod($filepath, (fileperms(ABSPATH.'index.php') & 0777 | 0644));
+            chmod($filepath, fileperms(ABSPATH.'index.php') & 0777 | 0644);
         }
         return set_url_scheme($baseUrl.$pathDir.$filename);
     }
@@ -227,10 +219,9 @@ class Avatar
     }
 
     /**
-     * @param \GeminiLabs\SiteReviews\Review $review
      * @return int|string
      */
-    protected function userField($review)
+    protected function userField(Review $review)
     {
         if ($review->author_id) {
             $value = $review->author_id;
