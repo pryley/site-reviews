@@ -3,13 +3,13 @@
 defined('ABSPATH') || die;
 
 /**
- * Check for minimum system requirments on plugin activation.
- * @version 5.5.0
+ * Check for minimum system requirements on plugin activation.
+ * @version 6.0.0
  */
-class GL_Plugin_Check_v5
+class GL_Plugin_Check_v6
 {
-    const MIN_PHP_VERSION = '5.6.20';
-    const MIN_WORDPRESS_VERSION = '5.5.0';
+    const MIN_PHP_VERSION = '7.2';
+    const MIN_WORDPRESS_VERSION = '5.8';
 
     /**
      * @var array

@@ -3,9 +3,9 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, star ratings
 Tested up to: 6.0
-Requires at least: 5.5
-Requires PHP: 5.6.20
 Stable tag: 5.26.0
+Requires at least: 5.8
+Requires PHP: 7.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 

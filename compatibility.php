@@ -276,16 +276,6 @@ add_filter('tcb_post_types', function ($blacklist) {
 });
 
 /**
- * WordPress <5.8 compatibility
- */
-if (!is_wp_version_compatible('5.8')) {
-    add_action('init', function () {
-        add_filter('allowed_block_types', [glsr(BlocksController::class), 'filterAllowedBlockTypes'], 10, 2);
-        add_filter('block_categories', [glsr(BlocksController::class), 'filterBlockCategories']);
-    });
-}
-
-/**
  * This will check updates for any add-ons which do not yet use the "site-reviews/addon/update" hook
  * @param \GeminiLabs\SiteReviews\Application $app
  */
