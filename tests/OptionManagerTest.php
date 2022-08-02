@@ -27,7 +27,7 @@ class OptionManagerTest extends WP_UnitTestCase
 
     public function test_database_key()
     {
-        $this->assertEquals(OptionManager::databaseKey(), 'site_reviews_v5');
+        $this->assertEquals(OptionManager::databaseKey(), 'site_reviews_v6');
     }
 
     public function test_delete()

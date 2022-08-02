@@ -1,14 +1,14 @@
 #!/bin/sh
 # By Paul Ryley, based on work by Mike Jolley
 # License: GPLv3
-# Version: 1.2.0
+# Version: 2.0.0
 
 # ----- START EDITING HERE -----
 
 ASSETS_DIR="+/screenshots"
 GIT_BRANCH="main"
-MIN_PHP_VERSION="5.6.20"
-MIN_WORDPRESS_VERSION="5.5"
+MIN_PHP_VERSION="7.2"
+MIN_WORDPRESS_VERSION="5.8"
 PLUGIN_SLUG="site-reviews"
 
 # ----- STOP EDITING HERE -----

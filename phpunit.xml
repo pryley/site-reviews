@@ -1,5 +1,7 @@
-<phpunit
-	bootstrap="tests/Bootstrap.php"
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+	bootstrap="tests/bootstrap.php"
 	backupGlobals="false"
 	colors="true"
 	convertErrorsToExceptions="true"
@@ -12,12 +14,13 @@
 			<directory>tests/</directory>
 		</testsuite>
 	</testsuites>
-	<filter>
-		<whitelist>
-			<directory>plugin/</directory>
-		</whitelist>
-	</filter>
-	<logging>
-		<log type="coverage-clover" target="tests/coverage.xml" />
-	</logging>
+	<coverage processUncoveredFiles="true">
+		<include>
+			<directory suffix=".php">./plugin</directory>
+		</include>
+		<report>
+			<clover outputFile="tests/coverage/clover.xml"/>
+			<html outputDirectory="tests/coverage/html" lowUpperBound="50" highLowerBound="90"/>
+		</report>
+	</coverage>
 </phpunit>

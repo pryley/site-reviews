@@ -13,9 +13,9 @@ class SanitizerTest extends WP_UnitTestCase
 {
     protected $testValues;
 
-    public function setUp()
+    public function set_up()
     {
-        parent::setUp();
+        parent::set_up();
         $this->testValues = [
             'a' => '',
             'b' => 'abc',
@@ -255,16 +255,16 @@ class SanitizerTest extends WP_UnitTestCase
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'id');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
         $pattern = '/glsr_([a-z0-9]{8})/';
-        $this->assertRegExp($pattern, $sanitized['a']);
+        $this->assertMatchesRegularExpression($pattern, $sanitized['a']);
         $this->assertEquals($sanitized['b'], 'abc');
         $this->assertEquals($sanitized['c'], '1');
-        $this->assertRegExp($pattern, $sanitized['d']);
+        $this->assertMatchesRegularExpression($pattern, $sanitized['d']);
         $this->assertEquals($sanitized['e'], '13');
-        $this->assertRegExp($pattern, $sanitized['f']);
+        $this->assertMatchesRegularExpression($pattern, $sanitized['f']);
         $this->assertEquals($sanitized['g'], '13');
-        $this->assertRegExp($pattern, $sanitized['h']);
+        $this->assertMatchesRegularExpression($pattern, $sanitized['h']);
         $this->assertEquals($sanitized['i'], '1');
-        $this->assertRegExp($pattern, $sanitized['j']);
+        $this->assertMatchesRegularExpression($pattern, $sanitized['j']);
         $this->assertEquals($sanitized['l'], 'thisisatitle');
         $this->assertEquals($sanitized['m'], 'nslookuphit-gx_wgukmocpc5c8ddddc');
         $this->assertEquals($sanitized['n'], 'june131989');

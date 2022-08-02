@@ -16,9 +16,9 @@ class EmailTest extends WP_UnitTestCase
 
     protected $review;
 
-    public function setUp()
+    public function set_up()
     {
-        parent::setUp();
+        parent::set_up();
         $faker = Factory::create();
         $this->review = [
             'content' => $faker->text,

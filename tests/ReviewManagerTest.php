@@ -28,9 +28,9 @@ class ReviewManagerTest extends WP_UnitTestCase
         return new Review([]);
     }
 
-    public function setUp()
+    public function set_up()
     {
-        parent::setUp();
+        parent::set_up();
         $faker = Factory::create();
         $this->request = new Request([
             '_action' => 'submit-review',

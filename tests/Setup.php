@@ -10,9 +10,9 @@ trait Setup
 {
     protected $referer;
 
-    public function setUp()
+    public function set_up()
     {
-        parent::setUp();
+        parent::set_up();
         $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
         $_SERVER['SERVER_NAME'] = '';
         $this->referer = $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';

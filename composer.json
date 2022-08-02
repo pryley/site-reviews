@@ -33,14 +33,12 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "php": ">=5.6.20"
+    "php": ">=7.2"
   },
   "require-dev": {
-    "fakerphp/faker": "1.9.2",
-    "phpstan/phpstan": "^1.4.2",
-    "phpunit/phpunit": "^7.5",
-    "szepeviktor/phpstan-wordpress": "^1.0.2",
-    "yoast/phpunit-polyfills": "^1.0",
-    "brain/monkey": "^2.6"
+    "fakerphp/faker": "1.20.0",
+    "phpstan/phpstan": "^1.8.2",
+    "szepeviktor/phpstan-wordpress": "^1.1.2",
+    "yoast/phpunit-polyfills": "^1.0.1"
   }
 }

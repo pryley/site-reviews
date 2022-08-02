@@ -12,5 +12,6 @@ coverage.xml
 mix-manifest.json
 
 /node_modules
+/tests/coverage
 /vendor
 assets/scripts/site-reviews-blocks.js.LICENSE.txt

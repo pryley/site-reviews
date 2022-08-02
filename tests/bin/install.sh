@@ -14,7 +14,7 @@ WP_VERSION=${5-latest}
 FORCE=${6-false}
 
 WP_TESTS_DIR=${WP_TESTS_DIR-/tmp/wordpress-tests-lib}
-WP_CORE_DIR=${WP_CORE_DIR-/tmp/wordpress/}
+WP_CORE_DIR=${WP_CORE_DIR-/tmp/wordpress}
 
 download() {
     if [ `which curl` ]; then
@@ -59,8 +59,11 @@ install_wp() {
         local ARCHIVE_NAME="wordpress-$WP_VERSION"
     fi
     download https://wordpress.org/${ARCHIVE_NAME}.tar.gz  /tmp/wordpress.tar.gz
-    tar --strip-components=1 -zxmf /tmp/wordpress.tar.gz -C $WP_CORE_DIR
+    tar --strip-components=1 -zxmf /tmp/wordpress.tar.gz -C $WP_CORE_DIR/
     download https://raw.github.com/markoheijnen/wp-mysqli/master/db.php $WP_CORE_DIR/wp-content/db.php
+    # we need Elementor for the code coverage
+    download https://downloads.wordpress.org/plugin/elementor.latest-stable.zip /tmp/elementor.zip
+    unzip -d $WP_CORE_DIR/wp-content/plugins/ /tmp/elementor.zip
 }
 
 install_test_suite() {
@@ -84,7 +87,7 @@ install_test_suite() {
     cd $WP_TESTS_DIR
     if [ ! -f wp-tests-config.php ]; then
         download https://develop.svn.wordpress.org/${WP_TESTS_TAG}/wp-tests-config-sample.php "$WP_TESTS_DIR"/wp-tests-config.php
-        sed $ioption "s:__DIR__.'/src/':'$WP_CORE_DIR':" "$WP_TESTS_DIR"/wp-tests-config.php
+        sed $ioption "s:__DIR__.'/src/':'$WP_CORE_DIR/':" "$WP_TESTS_DIR"/wp-tests-config.php
         sed $ioption "s/youremptytestdbnamehere/$DB_NAME/" "$WP_TESTS_DIR"/wp-tests-config.php
         sed $ioption "s/yourusernamehere/$DB_USER/" "$WP_TESTS_DIR"/wp-tests-config.php
         sed $ioption "s/yourpasswordhere/$DB_PASS/" "$WP_TESTS_DIR"/wp-tests-config.php

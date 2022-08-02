@@ -32,9 +32,9 @@ class ValidationTest extends WP_Ajax_UnitTestCase
     protected $messageSuccess;
     protected $request;
 
-    public function setUp()
+    public function set_up()
     {
-        parent::setUp();
+        parent::set_up();
         $this->faker = Factory::create();
         $this->ipaddress = Helper::getIpAddress();
         $this->request = new Request([
@@ -237,7 +237,7 @@ class ValidationTest extends WP_Ajax_UnitTestCase
         $response = json_decode($this->_last_response);
         // Empty _last_response so we can call ajax_response more than once in the same method.
         $this->_last_response = '';
-        $this->assertInternalType('object', $response);
+        $this->assertIsObject($response);
         return $response;
     }
 
