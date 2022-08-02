@@ -9,8 +9,8 @@ namespace GeminiLabs\SiteReviews\Modules\Avatars;
 
 class PixelAvatar extends SvgAvatar
 {
-    const HEIGHT = 11;
-    const WIDTH = 11;
+    public const HEIGHT = 11;
+    public const WIDTH = 11;
 
     /**
      * @var array

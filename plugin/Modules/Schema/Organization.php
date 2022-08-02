@@ -63,7 +63,7 @@ class Organization extends BaseType
      * community group.
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_ActionCollabClass
      */
-    const ActionCollabClass = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_ActionCollabClass';
+    public const ActionCollabClass = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_ActionCollabClass';
 
     /**
      * This element is based on the work of the Automotive Ontology Working Group,
@@ -72,7 +72,7 @@ class Organization extends BaseType
      * the free encyclopedia.
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#Automotive_Ontology_Working_Group
      */
-    const AutomotiveOntologyWGClass = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#Automotive_Ontology_Working_Group';
+    public const AutomotiveOntologyWGClass = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#Automotive_Ontology_Working_Group';
 
     /**
      * The W3C [Schema Bib Extend](http://www.w3.org/community/schemabibex/) (BibEx) group led the
@@ -82,7 +82,7 @@ class Organization extends BaseType
      * 'bibo'.
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_bibex
      */
-    const BibExTerm = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_bibex';
+    public const BibExTerm = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_bibex';
 
     /**
      * This class is based upon W3C DCAT work, and benefits from collaboration around the DCAT, ADMS
@@ -90,7 +90,7 @@ class Organization extends BaseType
      * mappings.
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_DatasetClass
      */
-    const DatasetClass = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_DatasetClass';
+    public const DatasetClass = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_DatasetClass';
 
     /**
      * This element is based on the work of the Financial Industry Business Ontology project (see
@@ -100,14 +100,14 @@ class Organization extends BaseType
      * definitions are inspired by or based on [http://www.fibo.org](http://www.fibo.org).
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#FIBO
      */
-    const FIBO = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#FIBO';
+    public const FIBO = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#FIBO';
 
     /**
      * The implementation and use of Legal Entity Identifier (LEI) is supported by Global Legal
      * Entity Identifier Foundation [https://www.gleif.org](https://www.gleif.org).
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#GLEIF
      */
-    const GLEIF = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#GLEIF';
+    public const GLEIF = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#GLEIF';
 
     /**
      * This class is derived from the GoodRelations Vocabulary for E-Commerce, created by Martin
@@ -117,7 +117,7 @@ class Organization extends BaseType
      * [http://purl.org/goodrelations/](http://purl.org/goodrelations/).
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_GoodRelationsClass
      */
-    const GoodRelationsClass = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_GoodRelationsClass';
+    public const GoodRelationsClass = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_GoodRelationsClass';
 
     /**
      * This term [uses](http://blog.schema.org/2012/11/good-relations-and-schemaorg.html)
@@ -127,20 +127,20 @@ class Organization extends BaseType
      * [http://purl.org/goodrelations/](http://purl.org/goodrelations/).
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_GoodRelationsTerms
      */
-    const GoodRelationsTerms = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_GoodRelationsTerms';
+    public const GoodRelationsTerms = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_GoodRelationsTerms';
 
     /**
      * This element is based on work by the Web Applications for the Future Internet Lab, Institute
      * of Informatics and Telematics, Pisa, Italy.
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#IIT-CNR.it
      */
-    const IITCNRit = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#IIT-CNR.it';
+    public const IITCNRit = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#IIT-CNR.it';
 
     /**
      * This class is based on the work of the LRMI project, see lrmi.net for details.
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_LRMIClass
      */
-    const LRMIClass = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_LRMIClass';
+    public const LRMIClass = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_LRMIClass';
 
     /**
      * This vocabulary was improved through collaboration with the MusicBrainz project
@@ -149,7 +149,7 @@ class Organization extends BaseType
      *     [Music Ontology](http://musicontology.com/docs/getting-started.html) schemas.
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#MBZ
      */
-    const MBZ = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#MBZ';
+    public const MBZ = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#MBZ';
 
     /**
      * This element is based on the STI Accommodation Ontology, see <a
@@ -159,35 +159,35 @@ class Organization extends BaseType
      * the free encyclopedia.
      * @see https://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#STI_Accommodation_Ontology
      */
-    const STI_Accommodation_Ontology = 'https://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#STI_Accommodation_Ontology';
+    public const STI_Accommodation_Ontology = 'https://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#STI_Accommodation_Ontology';
 
     /**
      * The Question/Answer types were [based
      * on](https://www.w3.org/wiki/WebSchemas/QASchemaResearch) the Stack Overflow API.
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_QAStackExchange
      */
-    const Stack_Exchange = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_QAStackExchange';
+    public const Stack_Exchange = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_QAStackExchange';
 
     /**
      * This term and associated definitions draws upon the work of [The Trust
      * Project](http://thetrustproject.org/).
      * @see https://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#TP-draws
      */
-    const The_Trust_Project = 'https://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#TP-draws';
+    public const The_Trust_Project = 'https://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#TP-draws';
 
     /**
      * This element is based on the work of the [Tourism Structured Web Data Community
      * Group](https://www.w3.org/community/tourismdata).
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#Tourism
      */
-    const Tourism = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#Tourism';
+    public const Tourism = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#Tourism';
 
     /**
      * This class contains information contributed by
      * [http://wikidoc.org>WikiDoc](http://wikidoc.org>WikiDoc).
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_WikiDoc
      */
-    const WikiDoc = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_WikiDoc';
+    public const WikiDoc = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_WikiDoc';
 
     /**
      * This class contains derivatives of IPTC rNews properties. rNews is a data model of publishing
@@ -195,7 +195,7 @@ class Organization extends BaseType
      * information about the IPTC and rNews can be found at [rnews.org](http://rnews.org).
      * @see http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_rNews
      */
-    const rNews = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_rNews';
+    public const rNews = 'http://www.w3.org/wiki/WebSchemas/SchemaDotOrgSources#source_rNews';
 
     /**
      * @var array

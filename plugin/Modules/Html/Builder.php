@@ -27,25 +27,25 @@ use GeminiLabs\SiteReviews\Helpers\Str;
  */
 class Builder
 {
-    const INPUT_TYPES = [
+    public const INPUT_TYPES = [
         'checkbox', 'date', 'datetime-local', 'email', 'file', 'hidden', 'image', 'month',
         'number', 'password', 'radio', 'range', 'reset', 'search', 'submit', 'tel', 'text', 'time',
         'url', 'week',
     ];
 
-    const TAGS_FORM = [
+    public const TAGS_FORM = [
         'input', 'select', 'textarea',
     ];
 
-    const TAGS_SINGLE = [
+    public const TAGS_SINGLE = [
         'img',
     ];
 
-    const TAGS_STRUCTURE = [
+    public const TAGS_STRUCTURE = [
         'div', 'form', 'nav', 'ol', 'section', 'ul',
     ];
 
-    const TAGS_TEXT = [
+    public const TAGS_TEXT = [
         'a', 'button', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'i', 'label', 'li', 'option', 'optgroup',
         'p', 'pre', 'small', 'span',
     ];

@@ -22,12 +22,12 @@ abstract class Addon
 {
     use Plugin;
 
-    const ID = '';
-    const LICENSED = false;
-    const NAME = '';
-    const POST_TYPE = '';
-    const SLUG = '';
-    const UPDATE_URL = 'https://niftyplugins.com';
+    public const ID = '';
+    public const LICENSED = false;
+    public const NAME = '';
+    public const POST_TYPE = '';
+    public const SLUG = '';
+    public const UPDATE_URL = 'https://niftyplugins.com';
 
     /**
      * @return static

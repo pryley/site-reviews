@@ -10,11 +10,11 @@ use GeminiLabs\SiteReviews\Modules\Captcha;
 
 class CaptchaValidator extends ValidatorAbstract
 {
-    const CAPTCHA_DISABLED = 0;
-    // const CAPTCHA_EMPTY = 1;
-    const CAPTCHA_FAILED = 2;
-    const CAPTCHA_INVALID = 3;
-    const CAPTCHA_VALID = 4;
+    public const CAPTCHA_DISABLED = 0;
+    // public const CAPTCHA_EMPTY = 1;
+    public const CAPTCHA_FAILED = 2;
+    public const CAPTCHA_INVALID = 3;
+    public const CAPTCHA_VALID = 4;
 
     protected $status;
 

@@ -11,8 +11,8 @@ use GeminiLabs\SiteReviews\Modules\Html\Template;
 
 class Translation
 {
-    const CONTEXT_ADMIN_KEY = 'admin-text';
-    const SEARCH_THRESHOLD = 3;
+    public const CONTEXT_ADMIN_KEY = 'admin-text';
+    public const SEARCH_THRESHOLD = 3;
 
     /**
      * @var array|null

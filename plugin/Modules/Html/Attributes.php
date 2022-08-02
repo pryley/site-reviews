@@ -7,26 +7,26 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Attributes
 {
-    const ATTRIBUTES_A = [
+    public const ATTRIBUTES_A = [
         'download', 'href', 'hreflang', 'ping', 'referrerpolicy', 'rel', 'target', 'type',
     ];
 
-    const ATTRIBUTES_BUTTON = [
+    public const ATTRIBUTES_BUTTON = [
         'autofocus', 'disabled', 'form', 'formaction', 'formenctype', 'formmethod',
         'formnovalidate', 'formtarget', 'name', 'type', 'value',
     ];
 
-    const ATTRIBUTES_FORM = [
+    public const ATTRIBUTES_FORM = [
         'accept', 'accept-charset', 'action', 'autocapitalize', 'autocomplete', 'enctype', 'method',
         'name', 'novalidate', 'target',
     ];
 
-    const ATTRIBUTES_IMG = [
-        'alt', 'crossorigin', 'decoding', 'height', 'ismap', 'loading', 'referrerpolicy', 'sizes', 
+    public const ATTRIBUTES_IMG = [
+        'alt', 'crossorigin', 'decoding', 'height', 'ismap', 'loading', 'referrerpolicy', 'sizes',
         'src', 'srcset', 'width', 'usemap',
     ];
 
-    const ATTRIBUTES_INPUT = [
+    public const ATTRIBUTES_INPUT = [
         'accept', 'autocomplete', 'autocorrect', 'autofocus', 'capture', 'checked', 'disabled',
         'form', 'formaction', 'formenctype', 'formmethod', 'formnovalidate', 'formtarget', 'height',
         'incremental', 'inputmode', 'list', 'max', 'maxlength', 'min', 'minlength', 'multiple',
@@ -35,43 +35,43 @@ class Attributes
         'value', 'webkitdirectory', 'width',
     ];
 
-    const ATTRIBUTES_LABEL = [
+    public const ATTRIBUTES_LABEL = [
         'for',
     ];
 
-    const ATTRIBUTES_OPTGROUP = [
+    public const ATTRIBUTES_OPTGROUP = [
         'disabled', 'label',
     ];
 
-    const ATTRIBUTES_OPTION = [
+    public const ATTRIBUTES_OPTION = [
         'disabled', 'label', 'selected', 'value',
     ];
 
-    const ATTRIBUTES_SELECT = [
+    public const ATTRIBUTES_SELECT = [
         'autofocus', 'disabled', 'form', 'multiple', 'name', 'required', 'size',
     ];
 
-    const ATTRIBUTES_TEXTAREA = [
+    public const ATTRIBUTES_TEXTAREA = [
         'autocapitalize', 'autocomplete', 'autofocus', 'cols', 'disabled', 'form', 'maxlength',
         'minlength', 'name', 'placeholder', 'readonly', 'required', 'rows', 'spellcheck', 'wrap',
     ];
 
-    const BOOLEAN_ATTRIBUTES = [
+    public const BOOLEAN_ATTRIBUTES = [
         'autofocus', 'capture', 'checked', 'disabled', 'draggable', 'formnovalidate', 'hidden',
         'multiple', 'novalidate', 'readonly', 'required', 'selected', 'spellcheck',
         'webkitdirectory',
     ];
 
-    const GLOBAL_ATTRIBUTES = [ // ie-style is used by https://github.com/nuxodin/ie11CustomProperties
+    public const GLOBAL_ATTRIBUTES = [ // ie-style is used by https://github.com/nuxodin/ie11CustomProperties
         'accesskey', 'class', 'contenteditable', 'contextmenu', 'dir', 'draggable', 'dropzone',
         'hidden', 'id', 'ie-style', 'lang', 'spellcheck', 'style', 'tabindex', 'title',
     ];
 
-    const GLOBAL_WILDCARD_ATTRIBUTES = [
+    public const GLOBAL_WILDCARD_ATTRIBUTES = [
         'aria-', 'data-', 'item', 'on',
     ];
 
-    const INPUT_TYPES = [
+    public const INPUT_TYPES = [
         'button', 'checkbox', 'color', 'date', 'datetime-local', 'email', 'file', 'hidden', 'image',
         'month', 'number', 'password', 'radio', 'range', 'reset', 'search', 'submit', 'tel', 'text',
         'time', 'url', 'week',

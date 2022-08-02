@@ -13,7 +13,7 @@ class Rating
      * @see https://en.wikipedia.org/wiki/Standard_score
      * @var array
      */
-    const CONFIDENCE_LEVEL_Z_SCORES = [
+    public const CONFIDENCE_LEVEL_Z_SCORES = [
         50 => 0.67449,
         70 => 1.04,
         75 => 1.15035,
@@ -34,12 +34,12 @@ class Rating
     /**
      * @var int
      */
-    const MAX_RATING = 5;
+    public const MAX_RATING = 5;
 
     /**
      * @var int
      */
-    const MIN_RATING = 0;
+    public const MIN_RATING = 0;
 
     /**
      * @param int $roundBy

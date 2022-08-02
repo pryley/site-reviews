@@ -15,7 +15,7 @@ use WP_Debug_Data;
 
 class SystemInfo
 {
-    const PAD = 40;
+    public const PAD = 40;
 
     /**
      * @return string

@@ -9,11 +9,11 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Queue implements QueueContract
 {
-    const STATUS_CANCELED = ActionScheduler_Store::STATUS_CANCELED;
-    const STATUS_COMPLETE = ActionScheduler_Store::STATUS_COMPLETE;
-    const STATUS_FAILED = ActionScheduler_Store::STATUS_FAILED;
-    const STATUS_PENDING = ActionScheduler_Store::STATUS_PENDING;
-    const STATUS_RUNNING = ActionScheduler_Store::STATUS_RUNNING;
+    public const STATUS_CANCELED = ActionScheduler_Store::STATUS_CANCELED;
+    public const STATUS_COMPLETE = ActionScheduler_Store::STATUS_COMPLETE;
+    public const STATUS_FAILED = ActionScheduler_Store::STATUS_FAILED;
+    public const STATUS_PENDING = ActionScheduler_Store::STATUS_PENDING;
+    public const STATUS_RUNNING = ActionScheduler_Store::STATUS_RUNNING;
 
     /**
      * @var bool

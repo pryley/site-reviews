@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class Migrate_3_0_0
 {
-    const MAPPED_SETTINGS = [
+    public const MAPPED_SETTINGS = [
         'settings.general.notification' => 'settings.general.notifications', // array
         'settings.general.notification_email' => 'settings.general.notification_email',
         'settings.general.notification_message' => 'settings.general.notification_message',

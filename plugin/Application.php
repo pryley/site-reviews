@@ -38,14 +38,14 @@ final class Application extends Container
     use Session;
     use Storage;
 
-    const DB_VERSION = '1.1';
-    const EXPORT_KEY = '_glsr_export';
-    const ID = 'site-reviews';
-    const PAGED_HANDLE = 'pagination_request';
-    const PAGED_QUERY_VAR = 'reviews-page'; // filtered
-    const POST_TYPE = 'site-review';
-    const PREFIX = 'glsr_';
-    const TAXONOMY = 'site-review-category';
+    public const DB_VERSION = '1.1';
+    public const EXPORT_KEY = '_glsr_export';
+    public const ID = 'site-reviews';
+    public const PAGED_HANDLE = 'pagination_request';
+    public const PAGED_QUERY_VAR = 'reviews-page'; // filtered
+    public const POST_TYPE = 'site-review';
+    public const PREFIX = 'glsr_';
+    public const TAXONOMY = 'site-review-category';
 
     /**
      * @var array

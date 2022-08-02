@@ -16,7 +16,7 @@ use GeminiLabs\SiteReviews\Request;
 
 class NoticeController extends Controller
 {
-    const USER_META_KEY = '_glsr_notices';
+    public const USER_META_KEY = '_glsr_notices';
 
     /**
      * @var array

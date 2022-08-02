@@ -22,17 +22,17 @@ use ReflectionClass;
  */
 class Console
 {
-    const DEBUG = 0;      // Detailed debug information
-    const INFO = 1;       // Interesting events
-    const NOTICE = 2;     // Normal but significant events
-    const WARNING = 4;    // Exceptional occurrences that are not errors
-    const ERROR = 8;      // Runtime errors that do not require immediate action
-    const CRITICAL = 16;  // Critical conditions
-    const ALERT = 32;     // Action must be taken immediately
-    const EMERGENCY = 64; // System is unusable
+    public const DEBUG = 0;      // Detailed debug information
+    public const INFO = 1;       // Interesting events
+    public const NOTICE = 2;     // Normal but significant events
+    public const WARNING = 4;    // Exceptional occurrences that are not errors
+    public const ERROR = 8;      // Runtime errors that do not require immediate action
+    public const CRITICAL = 16;  // Critical conditions
+    public const ALERT = 32;     // Action must be taken immediately
+    public const EMERGENCY = 64; // System is unusable
 
-    const LOG_LEVEL_KEY = 'glsr_console_level';
-    const LOG_ONCE_KEY = 'glsr_log_once';
+    public const LOG_LEVEL_KEY = 'glsr_console_level';
+    public const LOG_ONCE_KEY = 'glsr_log_once';
 
     protected $file;
     protected $log;

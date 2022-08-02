@@ -10,7 +10,7 @@ use GeminiLabs\SiteReviews\Modules\Multilingual;
 
 class Sanitizer
 {
-    const JSON_ERROR_CODES = [
+    public const JSON_ERROR_CODES = [
         JSON_ERROR_DEPTH => 'JSON Error: The maximum stack depth has been exceeded',
         JSON_ERROR_STATE_MISMATCH => 'JSON Error: Invalid or malformed JSON',
         JSON_ERROR_CTRL_CHAR => 'JSON Error: Control character error, possibly incorrectly encoded',

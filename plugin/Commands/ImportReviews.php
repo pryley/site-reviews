@@ -23,7 +23,7 @@ use OutOfRangeException;
 
 class ImportReviews extends Upload implements Contract
 {
-    const ALLOWED_DATE_FORMATS = [
+    public const ALLOWED_DATE_FORMATS = [
         'd-m-Y', 'd-m-Y H:i', 'd-m-Y H:i:s',
         'd/m/Y', 'd/m/Y H:i', 'd/m/Y H:i:s',
         'm-d-Y', 'm-d-Y H:i', 'm-d-Y H:i:s',
@@ -32,11 +32,11 @@ class ImportReviews extends Upload implements Contract
         'Y/m/d', 'Y/m/d H:i', 'Y/m/d H:i:s',
     ];
 
-    const ALLOWED_DELIMITERS = [
+    public const ALLOWED_DELIMITERS = [
         ',', ';',
     ];
 
-    const REQUIRED_KEYS = [
+    public const REQUIRED_KEYS = [
         'date', 'rating',
     ];
 

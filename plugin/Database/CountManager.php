@@ -9,9 +9,9 @@ use GeminiLabs\SiteReviews\Modules\Rating;
 
 class CountManager
 {
-    const META_AVERAGE = '_glsr_average';
-    const META_RANKING = '_glsr_ranking';
-    const META_REVIEWS = '_glsr_reviews';
+    public const META_AVERAGE = '_glsr_average';
+    public const META_RANKING = '_glsr_ranking';
+    public const META_REVIEWS = '_glsr_reviews';
 
     /**
      * @param int $postId

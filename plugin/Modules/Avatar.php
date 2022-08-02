@@ -13,8 +13,8 @@ use GeminiLabs\SiteReviews\Review;
 
 class Avatar
 {
-    const FALLBACK_SIZE = 40;
-    const GRAVATAR_URL = 'https://secure.gravatar.com/avatar';
+    public const FALLBACK_SIZE = 40;
+    public const GRAVATAR_URL = 'https://secure.gravatar.com/avatar';
 
     /**
      * @var string
