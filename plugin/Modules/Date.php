@@ -161,7 +161,7 @@ class Date
     protected function intervalLevel(array $args)
     {
         $keys = ['index', 'level', 'levels', 'seconds', 'tense', 'unit'];
-        $args = wp_parse_args($args, array_fill_keys($keys, 0));
+        $args = shortcode_atts(array_fill_keys($keys, 0), $args);
         extract($args);
         if (1 === $level && 'future' === $tense) {
             $string = $this->timePeriods[$index]['future'];

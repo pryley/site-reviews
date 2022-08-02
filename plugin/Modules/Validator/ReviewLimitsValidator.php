@@ -55,6 +55,7 @@ class ReviewLimitsValidator extends ValidatorAbstract
     protected function normalizeArgs(array $args)
     {
         $assignments = glsr_get_option('submissions.limit_assignments', ['assigned_posts'], 'array'); // assigned_posts is the default
+        $limitToDays = max(0, glsr_get_option('submissions.limit_time', 0, 'int'));
         if (in_array('assigned_posts', $assignments)) {
             $args['assigned_posts'] = $this->request->assigned_posts;
         }
@@ -63,6 +64,12 @@ class ReviewLimitsValidator extends ValidatorAbstract
         }
         if (in_array('assigned_users', $assignments)) {
             $args['assigned_users'] = $this->request->assigned_users;
+        }
+        if ($limitToDays > 0) {
+            $args['date'] = [
+                'after' => wp_date('Y-m-d H:i:s', time() - (DAY_IN_SECONDS * $limitToDays)),
+                'inclusive' => true, // all reviews after and on this exact date
+            ];
         }
         $args['status'] = 'all';
         return $args;

@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: Gemini Labs <support@geminilabs.io>\n"
 "Last-Translator: Paul Ryley <paul@geminilabs.io>\n"
-"POT-Creation-Date: 2022-08-01 18:06+0000\n"
+"POT-Creation-Date: 2022-08-02 15:46+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Keywordslist: "
 "__;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_"
@@ -1424,32 +1424,46 @@ msgctxt "admin-text"
 msgid "Limits the number of reviews that can be submitted to one-per-person."
 msgstr "Limits the number of reviews that can be submitted to one-per-person."
 
-#: config/settings.php:606
+#: config/settings.php:607
+msgctxt "admin-text"
+msgid "Limit Reviews For"
+msgstr "Limit Reviews For"
+
+#: config/settings.php:609
+msgctxt "admin-text"
+msgid ""
+"Set the amount of days that the review limits apply for. \"0\" means the "
+"limit always applies."
+msgstr ""
+"Set the amount of days that the review limits apply for. \"0\" means the "
+"limit always applies."
+
+#: config/settings.php:617
 msgctxt "admin-text"
 msgid "Restrict Limits To"
 msgstr "Restrict Limits To"
 
-#: config/settings.php:608, plugin/Metaboxes/AssignedPostsMetabox.php:20, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/screen/inline-edit.php:105, views/pages/tools/general/export-reviews.php:34
+#: config/settings.php:619, plugin/Metaboxes/AssignedPostsMetabox.php:20, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/screen/inline-edit.php:105, views/pages/tools/general/export-reviews.php:34
 msgctxt "admin-text"
 msgid "Assigned Posts"
 msgstr "Assigned Posts"
 
-#: config/settings.php:609
+#: config/settings.php:620
 msgctxt "admin-text"
 msgid "Assigned Terms"
 msgstr "Assigned Terms"
 
-#: config/settings.php:610, plugin/Defaults/PostTypeColumnDefaults.php:19, plugin/Metaboxes/AssignedUsersMetabox.php:19, views/partials/screen/inline-edit.php:116
+#: config/settings.php:621, plugin/Defaults/PostTypeColumnDefaults.php:19, plugin/Metaboxes/AssignedUsersMetabox.php:19, views/partials/screen/inline-edit.php:116
 msgctxt "admin-text"
 msgid "Assigned Users"
 msgstr "Assigned Users"
 
-#: config/settings.php:613
+#: config/settings.php:624
 msgctxt "admin-text"
 msgid "Select which assignments the review limits should be restricted to."
 msgstr "Select which assignments the review limits should be restricted to."
 
-#: config/settings.php:614
+#: config/settings.php:625
 msgctxt "admin-text"
 msgid ""
 "The review limits use strict assignment, i.e. <code>restrict limits to "
@@ -1458,12 +1472,12 @@ msgstr ""
 "The review limits use strict assignment, i.e. <code>restrict limits to "
 "reviews assigned to this AND this</code>."
 
-#: config/settings.php:623
+#: config/settings.php:634
 msgctxt "admin-text"
 msgid "Email Whitelist"
 msgstr "Email Whitelist"
 
-#: config/settings.php:625
+#: config/settings.php:636
 msgctxt "admin-text"
 msgid ""
 "One Email per line. All emails in the whitelist will be excluded from the "
@@ -1472,12 +1486,12 @@ msgstr ""
 "One Email per line. All emails in the whitelist will be excluded from the "
 "review submission limit."
 
-#: config/settings.php:633
+#: config/settings.php:644
 msgctxt "admin-text"
 msgid "IP Address Whitelist"
 msgstr "IP Address Whitelist"
 
-#: config/settings.php:635
+#: config/settings.php:646
 msgctxt "admin-text"
 msgid ""
 "One IP Address per line. All IP Addresses in the whitelist will be excluded "
@@ -1486,12 +1500,12 @@ msgstr ""
 "One IP Address per line. All IP Addresses in the whitelist will be excluded "
 "from the review submission limit.."
 
-#: config/settings.php:643
+#: config/settings.php:654
 msgctxt "admin-text"
 msgid "Username Whitelist"
 msgstr "Username Whitelist"
 
-#: config/settings.php:645
+#: config/settings.php:656
 msgctxt "admin-text"
 msgid ""
 "One Username per line. All registered users with a Username in the "
@@ -1500,37 +1514,37 @@ msgstr ""
 "One Username per line. All registered users with a Username in the "
 "whitelist will be excluded from the review submission limit."
 
-#: config/settings.php:651
+#: config/settings.php:662
 msgctxt "admin-text"
 msgid "CAPTCHA"
 msgstr "CAPTCHA"
 
-#: config/settings.php:653
+#: config/settings.php:664
 msgctxt "admin-text"
 msgid "Do not use"
 msgstr "Do not use"
 
-#: config/settings.php:654
+#: config/settings.php:665
 msgctxt "admin-text"
 msgid "Use Friendly Captcha"
 msgstr "Use Friendly Captcha"
 
-#: config/settings.php:655
+#: config/settings.php:666
 msgctxt "admin-text"
 msgid "Use hCaptcha"
 msgstr "Use hCaptcha"
 
-#: config/settings.php:656
+#: config/settings.php:667
 msgctxt "admin-text"
 msgid "Use reCAPTCHA v2 Invisible"
 msgstr "Use reCAPTCHA v2 Invisible"
 
-#: config/settings.php:657
+#: config/settings.php:668
 msgctxt "admin-text"
 msgid "Use reCAPTCHA v3"
 msgstr "Use reCAPTCHA v3"
 
-#: config/settings.php:659
+#: config/settings.php:670
 msgctxt "admin-text"
 msgid ""
 "CAPTCHAs (Completely Automated Public Turing test to tell Computers and "
@@ -1539,12 +1553,12 @@ msgstr ""
 "CAPTCHAs (Completely Automated Public Turing test to tell Computers and "
 "Humans Apart) are anti-bot solutions that protect forms from spam."
 
-#: config/settings.php:667, config/settings.php:685, config/settings.php:703, config/settings.php:721
+#: config/settings.php:678, config/settings.php:696, config/settings.php:714, config/settings.php:732
 msgctxt "admin-text"
 msgid "Site Key"
 msgstr "Site Key"
 
-#: config/settings.php:668, config/settings.php:677
+#: config/settings.php:679, config/settings.php:688
 msgctxt "admin-text"
 msgid ""
 "<a href=\"https://friendlycaptcha.com/signup\" target=\"_blank\">Friendly "
@@ -1555,12 +1569,12 @@ msgstr ""
 "Captcha</a> is privacy-first Schrems II and GDPR compliant anti-bot "
 "solution."
 
-#: config/settings.php:676
+#: config/settings.php:687
 msgctxt "admin-text"
 msgid "API Key"
 msgstr "API Key"
 
-#: config/settings.php:686, config/settings.php:695
+#: config/settings.php:697, config/settings.php:706
 msgctxt "admin-text"
 msgid ""
 "hCaptcha is an anti-bot solution that protects user privacy. It is the most "
@@ -1573,12 +1587,12 @@ msgstr ""
 "href=\"https://dashboard.hcaptcha.com/\" target=\"_blank\">sign up</a> for "
 "an API key pair for your site."
 
-#: config/settings.php:694, config/settings.php:712, config/settings.php:730
+#: config/settings.php:705, config/settings.php:723, config/settings.php:741
 msgctxt "admin-text"
 msgid "Secret Key"
 msgstr "Secret Key"
 
-#: config/settings.php:704, config/settings.php:713
+#: config/settings.php:715, config/settings.php:724
 msgctxt "admin-text"
 msgid ""
 "reCAPTCHA v2 Invisible is a free anti-spam service from Google. To use it, "
@@ -1589,7 +1603,7 @@ msgstr ""
 "you will need to <a href=\"https://www.google.com/recaptcha/admin\" "
 "target=\"_blank\">sign up</a> for an API key pair for your site."
 
-#: config/settings.php:722, config/settings.php:731
+#: config/settings.php:733, config/settings.php:742
 msgctxt "admin-text"
 msgid ""
 "reCAPTCHA v3 is a free anti-spam service from Google. To use it, you will "
@@ -1600,42 +1614,42 @@ msgstr ""
 "need to <a href=\"https://www.google.com/recaptcha/admin\" "
 "target=\"_blank\">sign up</a> for an API key pair for your site."
 
-#: config/settings.php:739
+#: config/settings.php:750
 msgctxt "admin-text"
 msgid "Score threshold should be a value between 0 and 1, default: 0.5"
 msgstr "Score threshold should be a value between 0 and 1, default: 0.5"
 
-#: config/settings.php:740
+#: config/settings.php:751
 msgctxt "admin-text"
 msgid "Score Threshold"
 msgstr "Score Threshold"
 
-#: config/settings.php:744
+#: config/settings.php:755
 msgctxt "admin-text"
 msgid "Where 0 is a robot and 1 is a human"
 msgstr "Where 0 is a robot and 1 is a human"
 
-#: config/settings.php:753
+#: config/settings.php:764
 msgctxt "admin-text"
 msgid "CAPTCHA Badge"
 msgstr "CAPTCHA Badge"
 
-#: config/settings.php:755
+#: config/settings.php:766
 msgctxt "admin-text"
 msgid "Bottom Left"
 msgstr "Bottom Left"
 
-#: config/settings.php:756
+#: config/settings.php:767
 msgctxt "admin-text"
 msgid "Bottom Right"
 msgstr "Bottom Right"
 
-#: config/settings.php:757
+#: config/settings.php:768
 msgctxt "admin-text"
 msgid "Inline"
 msgstr "Inline"
 
-#: config/settings.php:759
+#: config/settings.php:770
 msgctxt "admin-text"
 msgid ""
 "Set the position of the CAPTCHA widget. This option may not work "
@@ -1646,52 +1660,52 @@ msgstr ""
 "consistently if another plugin is loading reCAPTCHA on the same page as "
 "Site Reviews."
 
-#: config/settings.php:768
+#: config/settings.php:779
 msgctxt "admin-text"
 msgid "CAPTCHA Theme"
 msgstr "CAPTCHA Theme"
 
-#: config/settings.php:770
+#: config/settings.php:781
 msgctxt "admin-text"
 msgid "Light"
 msgstr "Light"
 
-#: config/settings.php:771
+#: config/settings.php:782
 msgctxt "admin-text"
 msgid "Dark"
 msgstr "Dark"
 
-#: config/settings.php:773
+#: config/settings.php:784
 msgctxt "admin-text"
 msgid "Set the color theme of the CAPTCHA widget."
 msgstr "Set the color theme of the CAPTCHA widget."
 
-#: config/settings.php:782
+#: config/settings.php:793
 msgctxt "admin-text"
 msgid "CAPTCHA Usage"
 msgstr "CAPTCHA Usage"
 
-#: config/settings.php:784
+#: config/settings.php:795
 msgctxt "admin-text"
 msgid "Use for everyone"
 msgstr "Use for everyone"
 
-#: config/settings.php:785
+#: config/settings.php:796
 msgctxt "admin-text"
 msgid "Use only for guest users"
 msgstr "Use only for guest users"
 
-#: config/settings.php:787
+#: config/settings.php:798
 msgctxt "admin-text"
 msgid "Choose who you want to load the CAPTCHA for."
 msgstr "Choose who you want to load the CAPTCHA for."
 
-#: config/settings.php:792
+#: config/settings.php:803
 msgctxt "admin-text"
 msgid "Enable Akismet"
 msgstr "Enable Akismet"
 
-#: config/settings.php:793
+#: config/settings.php:804
 msgctxt "admin-text"
 msgid ""
 "The <a href=\"https://akismet.com\" target=\"_blank\">Akismet plugin</a> "
@@ -1704,22 +1718,22 @@ msgstr ""
 "setting to have any affect, you will need to first install and activate the "
 "Akismet plugin and set up a WordPress.com API key."
 
-#: config/settings.php:799
+#: config/settings.php:810
 msgctxt "admin-text"
 msgid "Blacklist"
 msgstr "Blacklist"
 
-#: config/settings.php:801
+#: config/settings.php:812
 msgctxt "admin-text"
 msgid "Use the Site Reviews Blacklist"
 msgstr "Use the Site Reviews Blacklist"
 
-#: config/settings.php:802
+#: config/settings.php:813
 msgctxt "admin-text"
 msgid "Use the WordPress Disallowed Comment Keys"
 msgstr "Use the WordPress Disallowed Comment Keys"
 
-#: config/settings.php:804
+#: config/settings.php:815
 msgctxt "admin-text"
 msgid ""
 "Choose which Blacklist you would prefer to use for reviews. The %s option "
@@ -1728,17 +1742,17 @@ msgstr ""
 "Choose which Blacklist you would prefer to use for reviews. The %s option "
 "can be found in the WordPress Discussion Settings page."
 
-#: config/settings.php:805
+#: config/settings.php:816
 msgctxt "admin-text"
 msgid "Disallowed Comment Keys"
 msgstr "Disallowed Comment Keys"
 
-#: config/settings.php:814
+#: config/settings.php:825
 msgctxt "admin-text"
 msgid "Review Blacklist"
 msgstr "Review Blacklist"
 
-#: config/settings.php:816
+#: config/settings.php:827
 msgctxt "admin-text"
 msgid ""
 "One entry or IP address per line. When a review contains any of these "
@@ -1751,22 +1765,22 @@ msgstr ""
 "rejected. It is case-insensitive and will match partial words, so \"press\" "
 "will match \"WordPress\"."
 
-#: config/settings.php:822
+#: config/settings.php:833
 msgctxt "admin-text"
 msgid "Blacklist Action"
 msgstr "Blacklist Action"
 
-#: config/settings.php:824
+#: config/settings.php:835
 msgctxt "admin-text"
 msgid "Require approval"
 msgstr "Require approval"
 
-#: config/settings.php:825
+#: config/settings.php:836
 msgctxt "admin-text"
 msgid "Reject submission"
 msgstr "Reject submission"
 
-#: config/settings.php:827
+#: config/settings.php:838
 msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr "Choose the action that should be taken when a review is blacklisted."
@@ -4983,6 +4997,11 @@ msgid ""
 msgstr ""
 "Google limits the schema types that can potentially trigger review rich "
 "results in search. To learn which schema types can be used, please %s."
+
+#: config/settings.php:602
+msgctxt "limit time (admin-text)"
+msgid "days"
+msgstr "days"
 
 #: plugin/Controllers/ListTableController.php:146
 msgctxt "The Review Post ID (admin-text)"

@@ -598,6 +598,17 @@ return [ // order is intentional
         'tooltip' => _x('Limits the number of reviews that can be submitted to one-per-person.', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
+    'settings.submissions.limit_time' => [
+        'after' => _x('days', 'limit time (admin-text)', 'site-reviews'),
+        'default' => 7,
+        'depends_on' => [
+            'settings.submissions.limit' => ['email', 'ip_address', 'username'],
+        ],
+        'label' => _x('Limit Reviews For', 'admin-text', 'site-reviews'),
+        'min' => 0,
+        'tooltip' => _x('Set the amount of days that the review limits apply for. "0" means the limit applies forever.', 'admin-text', 'site-reviews'),
+        'type' => 'number',
+    ],
     'settings.submissions.limit_assignments' => [
         'default' => ['assigned_posts'],
         'depends_on' => [
