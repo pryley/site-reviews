@@ -47,18 +47,6 @@ class Style
         'classes', 'validation',
     ];
 
-    public function __construct()
-    {
-        $this->style = glsr_get_option('general.style', 'default');
-        $config = shortcode_atts(
-            array_fill_keys(['classes', 'pagination', 'validation'], []),
-            glsr()->config('styles/'.$this->style)
-        );
-        $this->classes = glsr(StyleClassesDefaults::class)->restrict($config['classes']);
-        $this->pagination = glsr(PaginationDefaults::class)->restrict($config['pagination']);
-        $this->validation = glsr(StyleValidationDefaults::class)->restrict($config['validation']);
-    }
-
     public function __call($method, $args)
     {
         $property = strtolower(Str::removePrefix($method, 'default'));
@@ -70,7 +58,26 @@ class Style
             $className = Helper::buildClassName(['style', $property, 'defaults'], 'Defaults');
             return glsr()->args(glsr($className)->defaults())->$key;
         }
-        return glsr()->args($this->$property)->$key;
+        return glsr()->args($this->__get($property))->$key;
+    }
+
+    public function __get($property)
+    {
+        $allowed = ['classes', 'style', 'pagination', 'validation'];
+        if (!in_array($property, $allowed)) {
+            return;
+        }
+        if (!isset($this->$property)) {
+            $style = glsr_get_option('general.style', 'default');
+            $config = shortcode_atts(array_fill_keys(['classes', 'pagination', 'validation'], []),
+                glsr()->config('styles/'.$style)
+            );
+            $this->classes = glsr(StyleClassesDefaults::class)->restrict($config['classes']);
+            $this->pagination = glsr(PaginationDefaults::class)->restrict($config['pagination']);
+            $this->style = $style;
+            $this->validation = glsr(StyleValidationDefaults::class)->restrict($config['validation']);
+        }
+        return $this->$property;
     }
 
     /**
@@ -116,7 +123,7 @@ class Style
      */
     public function paginationArgs(array $args)
     {
-        return wp_parse_args($args, $this->pagination);
+        return wp_parse_args($args, $this->__get('pagination'));
     }
 
     /**
@@ -124,7 +131,7 @@ class Style
      */
     public function styleClasses()
     {
-        return glsr()->filterString('style', 'glsr glsr-'.$this->style);
+        return glsr()->filterString('style', 'glsr glsr-'.$this->__get('style'));
     }
 
     /**
@@ -133,7 +140,7 @@ class Style
      */
     protected function customize(Builder $instance)
     {
-        if (array_key_exists($instance->tag, $this->classes)) {
+        if (array_key_exists($instance->tag, $this->__get('classes'))) {
             $key = $instance->tag.'_'.$instance->args->type;
             $classes = Arr::get($this->classes, $key, Arr::get($this->classes, $instance->tag));
             $classes = trim($instance->args->class.' '.$classes);
@@ -151,7 +158,7 @@ class Style
     {
         $basename = basename($view);
         $basepath = rtrim($view, $basename);
-        $customPath = 'views/partials/styles/'.$this->style.'/';
+        $customPath = 'views/partials/styles/'.$this->__get('style').'/';
         $parts = explode('_', $basename);
         $views = [
             $customPath.$basename,
