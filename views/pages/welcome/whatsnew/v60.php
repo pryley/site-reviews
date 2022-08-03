@@ -9,7 +9,7 @@
         <p><em>Initial Release Date &mdash; August 15th, 2022</em></p>
         <h4>✨ New Features</h4>
         <ul>
-            <li>Added a "Limit Reviews For" setting which allows you to apply review limits for a specified number of days</li>
+            <li>Added a "Limit Reviews For" setting which allows you to set a time-limit (in days) to Review Limits</li>
             <li>Added automatic conversion of UTF-16/UTF-32 encoded CSV files when importing reviews</li>
             <li>Added experimental filter hooks to combine css and javascript files when using add-ons (see <a data-expand="#hooks-filter-combine-assets" href="<?= glsr_admin_url('documentation', 'hooks'); ?>">Hooks documentation</a>)</li>
         </ul>
@@ -34,6 +34,7 @@
             <li>Fixed review importing to skip empty CSV rows without throwing an error</li>
             <li>Fixed the blocks in the Customizer widget panel</li>
             <li>Fixed the star rating field for some themes</li>
+            <li>Fixed the Version value in the System Info</li>
             <li>Fixed the WPML integration</li>
         </ul>
     </div>

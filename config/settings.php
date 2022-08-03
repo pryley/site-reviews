@@ -19,16 +19,16 @@ return [ // order is intentional
         'default' => 'default',
         'label' => _x('Plugin Style', 'admin-text', 'site-reviews'),
         'options' => [
-            'Styles' => [
+            _x('Styles', 'admin-text', 'site-reviews') => [
                 'default' => _x('Site Reviews (default)', 'admin-text', 'site-reviews'),
                 'minimal' => _x('Site Reviews (minimal)', 'admin-text', 'site-reviews'),
             ],
-            'Plugins' => [
+            _x('Plugins', 'admin-text', 'site-reviews') => [
                 'contact_form_7' => _x('Contact Form 7 (v5)', 'admin-text', 'site-reviews'),
                 'ninja_forms' => _x('Ninja Forms (v3)', 'admin-text', 'site-reviews'),
                 'wpforms' => _x('WPForms (v1)', 'admin-text', 'site-reviews'),
             ],
-            'Themes' => [
+            _x('Themes', 'admin-text', 'site-reviews') => [
                 'bootstrap_4' => _x('Bootstrap 4', 'admin-text', 'site-reviews'),
                 'bootstrap_4_custom' => _x('Bootstrap 4 (Custom Forms)', 'admin-text', 'site-reviews'),
                 'divi' => _x('Divi (v4)', 'admin-text', 'site-reviews'),

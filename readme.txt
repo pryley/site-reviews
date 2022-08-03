@@ -85,8 +85,8 @@ Images adapted from [freepik](https://www.freepik.com).
 
 = Minimum plugin requirements =
 
-- WordPress 5.5.0
-- PHP 5.6.20
+- WordPress 5.8
+- PHP 7.2
 
 If your server and website does not meet the minimum requirements shown below, the plugin will automatically deactivate and a notice will appear explaining why.
 
@@ -144,7 +144,12 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 
 = 6.0.0 (2022-08-??) =
 
-- Added a "Limit Reviews For" setting which allows you to apply review limits for a specified number of days
+- ❗️Removed support for Internet Explorer
+- ❗️Removed support for PHP 5.6, 7.0, and 7.1
+- ❗️Removed the Polyfill.io script
+- ❗️Requires at least PHP v7.2
+- ❗️Requires at least WordPress v5.8
+- Added a "Limit Reviews For" setting which allows you to set a time-limit (in days) to Review Limits
 - Added automatic conversion of UTF-16/UTF-32 encoded CSV files when importing reviews
 - Added experimental filter hooks to combine css and javascript files when using add-ons (see Help > Hooks)
 - Fixed compatibility with [Yoast Duplicate Post](https://wordpress.org/plugins/duplicate-post/)
@@ -152,12 +157,8 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 - Fixed review importing to skip empty CSV rows without throwing an error
 - Fixed the blocks in the Customizer widget panel
 - Fixed the star rating field for some themes
+- Fixed the Version value in the System Info
 - Fixed the WPML integration
-- Removed support for Internet Explorer
-- Removed support for PHP 5.6, 7.0, and 7.1
-- Removed the Polyfill.io script
-- Requires at least PHP v7.2
-- Requires at least WordPress v5.8
 - Rewrote expanding excerpts, they now support multiple paragraphs
 - Rewrote the review modals to support the new review image galleries ([Review Images](https://niftyplugins.com/plugins/site-reviews-images/) add-on required)
 - Submit and load more buttons now make use of the WordPress Block button classes

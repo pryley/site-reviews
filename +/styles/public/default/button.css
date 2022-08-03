@@ -1,3 +1,6 @@
+:root .glsr-button {
+    border:none;
+}
 :--namespace button.glsr-button {
     white-space: nowrap;
     display: flex;

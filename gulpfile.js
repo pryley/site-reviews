@@ -58,6 +58,7 @@ gulp.task('pot', cb => {
     sort(),
     wpPot({
       domain: config.language.domain,
+      includePOTCreationDate: false,
       lastTranslator: config.language.translator,
       team: config.language.team,
     }),
