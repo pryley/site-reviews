@@ -30,7 +30,7 @@ export default [
     output: {
       dir: 'assets/scripts',
       entryFileNames: '[name].js',
-      format: 'esm',
+      format: 'iife',
     },
     plugins: [
       resolve(),
