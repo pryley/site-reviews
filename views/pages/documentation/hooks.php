@@ -6,7 +6,6 @@ $sections = [ // order is intentional
     trailingslashit(__DIR__).'hooks/filter-star-images.php',
     trailingslashit(__DIR__).'hooks/filter-scripts.php',
     trailingslashit(__DIR__).'hooks/filter-styles.php',
-    trailingslashit(__DIR__).'hooks/filter-polyfill.php',
     trailingslashit(__DIR__).'hooks/do-something-after-submission.php',
     trailingslashit(__DIR__).'hooks/filter-schema.php',
     trailingslashit(__DIR__).'hooks/filter-submitted-review-values.php',

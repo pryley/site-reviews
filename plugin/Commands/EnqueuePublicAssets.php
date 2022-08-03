@@ -19,7 +19,6 @@ class EnqueuePublicAssets implements Contract
     {
         $this->enqueueAssets();
         $this->enqueueCaptcha();
-        $this->enqueuePolyfillService();
     }
 
     /**
@@ -33,10 +32,7 @@ class EnqueuePublicAssets implements Contract
             glsr(AssetCss::class)->optimize();
         }
         if (glsr()->filterBool('assets/js', true)) {
-            $dependencies = glsr()->filterBool('assets/polyfill', true)
-                ? [glsr()->id.'/polyfill']
-                : [];
-            $dependencies = glsr()->filterArray('enqueue/public/dependencies', $dependencies);
+            $dependencies = glsr()->filterArray('enqueue/public/dependencies', []);
             wp_enqueue_script(glsr()->id, glsr(AssetJs::class)->url(), $dependencies, glsr(AssetJs::class)->version(), true);
             wp_add_inline_script(glsr()->id, $this->inlineScript(), 'before');
             wp_add_inline_script(glsr()->id, glsr()->filterString('enqueue/public/inline-script/after', ''));
@@ -71,35 +67,6 @@ class EnqueuePublicAssets implements Contract
         } else {
             wp_enqueue_script($handle, add_query_arg(['hl' => $language, 'render' => 'explicit'], $apiUrl));
         }
-    }
-
-    /**
-     * @return void
-     */
-    public function enqueuePolyfillService()
-    {
-        if (!glsr()->filterBool('assets/polyfill', true)) {
-            return;
-        }
-        $features = glsr()->filterArray('assets/polyfill/features', [
-            'Array.prototype.find',
-            'CustomEvent',
-            'Element.prototype.closest',
-            'Element.prototype.dataset',
-            'Event',
-            'MutationObserver',
-            'NodeList.prototype.forEach',
-            'Object.assign',
-            'Object.keys',
-            'String.prototype.endsWith',
-            'URL',
-            'URLSearchParams',
-            'XMLHttpRequest',
-        ]);
-        wp_enqueue_script(glsr()->id.'/polyfill', add_query_arg([
-            'features' => implode(',', $features),
-            'flags' => 'gated',
-        ], 'https://polyfill.io/v3/polyfill.min.js?version=3.109.0'));
     }
 
     /**
