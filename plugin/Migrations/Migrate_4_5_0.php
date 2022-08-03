@@ -2,26 +2,32 @@
 
 namespace GeminiLabs\SiteReviews\Migrations;
 
+use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Controllers\NoticeController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class Migrate_4_5_0
+class Migrate_4_5_0 implements MigrateContract
 {
     /**
-     * @return void
+     * Run migration.
      */
-    public function migrateOptions()
+    public function run(): bool
+    {
+        $this->migrateOptions();
+        $this->migrateSettings();
+        $this->migrateUserMeta();
+        return true;
+    }
+
+    protected function migrateOptions(): void
     {
         $isAccountVerified = glsr(OptionManager::class)->getWP('_glsr_rebusify', false);
         update_option('_glsr_trustalyze', $isAccountVerified);
         delete_option('_glsr_rebusify');
     }
 
-    /**
-     * @return void
-     */
-    public function migrateSettings()
+    protected function migrateSettings(): void
     {
         if ($settings = get_option(OptionManager::databaseKey(4))) {
             $settings = Arr::set($settings, 'settings.general.trustalyze',
@@ -40,10 +46,7 @@ class Migrate_4_5_0
         }
     }
 
-    /**
-     * @return void
-     */
-    public function migrateUserMeta()
+    protected function migrateUserMeta(): void
     {
         $metaKey = NoticeController::USER_META_KEY;
         $userIds = get_users([
@@ -59,16 +62,5 @@ class Migrate_4_5_0
                 update_user_meta($userId, $metaKey, $meta);
             }
         }
-    }
-
-    /**
-     * @return bool
-     */
-    public function run()
-    {
-        $this->migrateOptions();
-        $this->migrateSettings();
-        $this->migrateUserMeta();
-        return true;
     }
 }

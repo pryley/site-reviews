@@ -2,22 +2,21 @@
 
 namespace GeminiLabs\SiteReviews\Migrations;
 
+use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 
-class Migrate_5_19_0
+class Migrate_5_19_0 implements MigrateContract
 {
     /**
-     * @return bool
+     * Run migration.
      */
-    public function run()
+    public function run(): bool
     {
-        return $this->migrateSettings();
+        $this->migrateSettings();
+        return true;
     }
 
-    /**
-     * @return bool
-     */
-    protected function migrateSettings()
+    protected function migrateSettings(): void
     {
         $optionKeys = [
             'settings.general.require.login_register' => 'settings.general.require.register',
@@ -30,6 +29,5 @@ class Migrate_5_19_0
             }
             glsr(OptionManager::class)->delete($oldKey);
         }
-        return true;
     }
 }

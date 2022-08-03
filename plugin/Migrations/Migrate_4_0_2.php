@@ -2,15 +2,25 @@
 
 namespace GeminiLabs\SiteReviews\Migrations;
 
+use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class Migrate_4_0_2
+class Migrate_4_0_2 implements MigrateContract
 {
     /**
-     * @return void
+     * Run migration
      */
-    public function deleteSessions()
+    public function run(): bool
+    {
+        $this->migrateSettings();
+        $this->protectMetaKeys();
+        $this->deleteSessions();
+        delete_transient(glsr()->id.'_cloudflare_ips');
+        return true;
+    }
+
+    protected function deleteSessions(): void
     {
         global $wpdb;
         $wpdb->query("
@@ -20,10 +30,7 @@ class Migrate_4_0_2
         ");
     }
 
-    /**
-     * @return void
-     */
-    public function migrateSettings()
+    protected function migrateSettings(): void
     {
         if ($settings = get_option(OptionManager::databaseKey(3))) {
             $multilingual = 'yes' == Arr::get($settings, 'settings.general.support.polylang')
@@ -45,10 +52,7 @@ class Migrate_4_0_2
         }
     }
 
-    /**
-     * @return void
-     */
-    public function protectMetaKeys()
+    protected function protectMetaKeys(): void
     {
         global $wpdb;
         $postType = glsr()->post_type;
@@ -59,17 +63,5 @@ class Migrate_4_0_2
             WHERE pm.meta_key IN ('assigned_to','author','avatar','content','custom','date','email','ip_address','pinned','rating','response','review_id','review_type','title','url')
             AND p.post_type = '{$postType}'
         ");
-    }
-
-    /**
-     * @return bool
-     */
-    public function run()
-    {
-        $this->migrateSettings();
-        $this->protectMetaKeys();
-        $this->deleteSessions();
-        delete_transient(glsr()->id.'_cloudflare_ips');
-        return true;
     }
 }

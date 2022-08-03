@@ -2,22 +2,21 @@
 
 namespace GeminiLabs\SiteReviews\Migrations;
 
+use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Role;
 
-class Migrate_5_11_0
+class Migrate_5_11_0 implements MigrateContract
 {
     /**
-     * @return bool
+     * Run migration.
      */
-    public function run()
+    public function run(): bool
     {
-        return $this->migrateRoles();
+        $this->migrateRoles();
+        return true;
     }
 
-    /**
-     * @return bool
-     */
-    protected function migrateRoles()
+    protected function migrateRoles(): void
     {
         $roles = glsr(Role::class)->roles();
         $newCapabilities = ['create_posts', 'respond_to_posts', 'respond_to_others_posts'];
@@ -32,6 +31,5 @@ class Migrate_5_11_0
                 }
             }
         }
-        return true;
     }
 }

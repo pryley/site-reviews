@@ -2,27 +2,26 @@
 
 namespace GeminiLabs\SiteReviews\Migrations;
 
+use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class Migrate_5_25_0
+class Migrate_5_25_0 implements MigrateContract
 {
     /**
-     * @return bool
+     * Run migration.
      */
-    public function run()
+    public function run(): bool
     {
-        return $this->migrateSettings();
+        $this->migrateSettings();
+        return true;
     }
 
-    /**
-     * @return bool
-     */
-    public function migrateSettings()
+    public function migrateSettings(): void
     {
         if ($settings = get_option(OptionManager::databaseKey(5))) {
             if (!empty(Arr::get($settings, 'settings.submissions.captcha'))) {
-                return true;
+                return;
             }
             $integration = !empty(Arr::get($settings, 'settings.submissions.recaptcha.integration'))
                 ? 'recaptcha_v2_invisible'
@@ -40,6 +39,5 @@ class Migrate_5_25_0
             delete_transient(glsr()->prefix.'system_info');
             glsr()->discard('settings');
         }
-        return true;
     }
 }

@@ -2,10 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Migrations\Migrate_5_0_0;
 
+use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
-class MigrateSidebars
+class MigrateSidebars implements MigrateContract
 {
     public $db;
     public $limit;
@@ -18,14 +19,15 @@ class MigrateSidebars
     }
 
     /**
-     * @return void
+     * Run migration.
      */
-    public function run()
+    public function run(): bool
     {
         $this->migrateSidebarWidgets();
         $this->migrateThemeModWidgets();
         $this->migrateUserMeta();
         $this->migrateWidgets();
+        return true;
     }
 
     /**

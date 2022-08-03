@@ -3,23 +3,21 @@
 namespace GeminiLabs\SiteReviews\Migrations;
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database\SqlSchema;
 
-class Migrate_5_3_0
+class Migrate_5_3_0 implements MigrateContract
 {
     /**
-     * @return bool
+     * Run migration.
      */
-    public function run()
+    public function run(): bool
     {
         $this->migrateDatabase();
         return true;
     }
 
-    /**
-     * @return void
-     */
-    protected function fixDatabaseVersion()
+    protected function fixDatabaseVersion(): void
     {
         $databaseVersion = get_option(glsr()->prefix.'db_version');
         if ('5.2' === $databaseVersion) {
@@ -31,10 +29,7 @@ class Migrate_5_3_0
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function migrateDatabase()
+    protected function migrateDatabase(): void
     {
         require_once ABSPATH.'/wp-admin/includes/plugin.php';
         if (!is_plugin_active_for_network(plugin_basename(glsr()->file))) {

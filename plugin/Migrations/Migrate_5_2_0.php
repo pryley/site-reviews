@@ -2,12 +2,14 @@
 
 namespace GeminiLabs\SiteReviews\Migrations;
 
-class Migrate_5_2_0
+use GeminiLabs\SiteReviews\Contracts\MigrateContract;
+
+class Migrate_5_2_0 implements MigrateContract
 {
     /**
-     * @return bool
+     * Run migration.
      */
-    public function run()
+    public function run(): bool
     {
         wp_clear_scheduled_hook('site-reviews/schedule/session/purge');
         return true;

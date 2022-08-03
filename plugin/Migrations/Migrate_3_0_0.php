@@ -2,10 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Migrations;
 
+use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class Migrate_3_0_0
+class Migrate_3_0_0 implements MigrateContract
 {
     public const MAPPED_SETTINGS = [
         'settings.general.notification' => 'settings.general.notifications', // array
@@ -59,9 +60,15 @@ class Migrate_3_0_0
     protected $oldSettings;
 
     /**
-     * @return void
+     * Run migration
      */
-    public function migrateSettings()
+    public function run(): bool
+    {
+        $this->migrateSettings();
+        return true;
+    }
+
+    protected function migrateSettings(): void
     {
         $this->newSettings = $this->getNewSettings();
         $this->oldSettings = $this->getOldSettings();
@@ -80,27 +87,12 @@ class Migrate_3_0_0
         update_option(OptionManager::databaseKey(3), $newSettings);
     }
 
-    /**
-     * @return bool
-     */
-    public function run()
-    {
-        $this->migrateSettings();
-        return true;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getNewSettings()
+    protected function getNewSettings(): array
     {
         return Arr::flatten(Arr::consolidate(OptionManager::databaseKey(3)));
     }
 
-    /**
-     * @return array
-     */
-    protected function getOldSettings()
+    protected function getOldSettings(): array
     {
         $defaults = array_fill_keys(array_keys(static::MAPPED_SETTINGS), '');
         $settings = Arr::flatten(Arr::consolidate(get_option(OptionManager::databaseKey(2))));
@@ -109,10 +101,7 @@ class Migrate_3_0_0
             : [];
     }
 
-    /**
-     * @return void
-     */
-    public function mapSettings()
+    protected function mapSettings(): void
     {
         foreach (static::MAPPED_SETTINGS as $old => $new) {
             if (!empty($this->oldSettings[$old])) {
@@ -121,10 +110,7 @@ class Migrate_3_0_0
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function migrateNotificationSettings()
+    protected function migrateNotificationSettings(): void
     {
         $notifications = [
             'custom' => 'custom',
@@ -140,10 +126,7 @@ class Migrate_3_0_0
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function migrateRecaptchaSettings()
+    protected function migrateRecaptchaSettings(): void
     {
         $recaptcha = [
             'BadgePosition' => $this->oldSettings['settings.reviews-form.recaptcha.position'],
@@ -161,10 +144,7 @@ class Migrate_3_0_0
         $this->newSettings['settings.submissions.recaptcha.position'] = $recaptcha['BadgePosition'];
     }
 
-    /**
-     * @return void
-     */
-    protected function migrateRequiredSettings()
+    protected function migrateRequiredSettings(): void
     {
         $this->newSettings['settings.submissions.required'] = array_filter((array) $this->oldSettings['settings.reviews-form.required']);
         $this->newSettings['settings.submissions.required'][] = 'rating';

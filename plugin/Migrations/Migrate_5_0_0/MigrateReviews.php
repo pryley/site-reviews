@@ -2,13 +2,14 @@
 
 namespace GeminiLabs\SiteReviews\Migrations\Migrate_5_0_0;
 
+use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Install;
 
-class MigrateReviews
+class MigrateReviews implements MigrateContract
 {
     public $db;
     public $limit;
@@ -21,15 +22,16 @@ class MigrateReviews
     }
 
     /**
-     * @return void
+     * Run migration.
      */
-    public function run()
+    public function run(): bool
     {
         $this->createDatabaseTable();
         $this->migrateRatings();
         $this->migrateAssignedTo();
         $this->migrateTerms();
         $this->migrateCustom();
+        return true;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use DirectoryIterator;
+use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
@@ -158,7 +159,12 @@ class Migrate
         glsr()->action('migration/start', $migrations);
         foreach ($this->pendingMigrations($migrations) as $migration) {
             if (class_exists($classname = '\\GeminiLabs\\SiteReviews\\Migrations\\'.$migration)) {
-                if (glsr($classname)->run()) {
+                $instance = glsr($classname);
+                if (!$instance instanceof MigrateContract) {
+                    glsr_log()->debug("[$migration] was skipped");
+                    continue;
+                }
+                if ($instance->run()) {
                     $migrations[$migration] = true;
                     glsr_log()->debug("[$migration] has run successfully");
                     continue;

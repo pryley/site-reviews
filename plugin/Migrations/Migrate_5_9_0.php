@@ -2,18 +2,47 @@
 
 namespace GeminiLabs\SiteReviews\Migrations;
 
+use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\SqlSchema;
 use GeminiLabs\SiteReviews\Install;
 
-class Migrate_5_9_0
+class Migrate_5_9_0 implements MigrateContract
 {
     /**
-     * @return bool
+     * Run migration.
      */
-    public function migrateDatabase()
+    public function run(): bool
+    {
+        $this->repairDatabase(); // fix orphaned rows and foreign indexes
+        glsr(CountManager::class)->recalculate();
+        return $this->migrateDatabase();
+    }
+
+    protected function install(): void
+    {
+        glsr(SqlSchema::class)->createTables();
+        glsr(SqlSchema::class)->addForeignConstraints();
+        glsr(Database::class)->deleteInvalidPostAssignments();
+        glsr(Database::class)->deleteInvalidTermAssignments();
+        glsr(Database::class)->deleteInvalidUserAssignments();
+        glsr(Database::class)->deleteInvalidReviews();
+    }
+
+    protected function isDatabaseVersionUpdated(): bool
+    {
+        if (glsr(SqlSchema::class)->columnExists('ratings', 'terms')) {
+            if (!glsr(Database::class)->version('1.1')) {
+                update_option(glsr()->prefix.'db_version', '1.1');
+            }
+            return true;
+        }
+        return false;
+    }
+
+    protected function migrateDatabase(): bool
     {
         $table = glsr(SqlSchema::class)->table('ratings');
         if ($this->isDatabaseVersionUpdated()) {
@@ -31,10 +60,7 @@ class Migrate_5_9_0
         return false;
     }
 
-    /**
-     * @return void
-     */
-    public function repairDatabase()
+    protected function repairDatabase(): void
     {
         require_once ABSPATH.'/wp-admin/includes/plugin.php';
         if (is_plugin_active_for_network(plugin_basename(glsr()->file))) {
@@ -46,42 +72,5 @@ class Migrate_5_9_0
             return;
         }
         $this->install();
-    }
-
-    /**
-     * @return bool
-     */
-    public function run()
-    {
-        $this->repairDatabase(); // fix orphaned rows and foreign indexes
-        glsr(CountManager::class)->recalculate();
-        return $this->migrateDatabase();
-    }
-
-    /**
-     * @return void
-     */
-    protected function install()
-    {
-        glsr(SqlSchema::class)->createTables();
-        glsr(SqlSchema::class)->addForeignConstraints();
-        glsr(Database::class)->deleteInvalidPostAssignments();
-        glsr(Database::class)->deleteInvalidTermAssignments();
-        glsr(Database::class)->deleteInvalidUserAssignments();
-        glsr(Database::class)->deleteInvalidReviews();
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isDatabaseVersionUpdated()
-    {
-        if (glsr(SqlSchema::class)->columnExists('ratings', 'terms')) {
-            if (!glsr(Database::class)->version('1.1')) {
-                update_option(glsr()->prefix.'db_version', '1.1');
-            }
-            return true;
-        }
-        return false;
     }
 }

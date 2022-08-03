@@ -2,14 +2,15 @@
 
 namespace GeminiLabs\SiteReviews\Migrations;
 
+use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;
 
-class Migrate_5_14_0
+class Migrate_5_14_0 implements MigrateContract
 {
     /**
-     * @return bool
+     * Run migration.
      */
-    public function run()
+    public function run(): bool
     {
         glsr(Database::class)->deleteInvalidReviews();
         return true;
