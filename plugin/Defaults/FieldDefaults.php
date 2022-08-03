@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 class FieldDefaults extends Defaults
@@ -56,7 +57,7 @@ class FieldDefaults extends Defaults
         if ('checkbox' === $args->type && count($args->cast('options', 'array')) > 1) {
             return true;
         }
-        return Helper::ifTrue(isset($args->multiple), true, false);
+        return Cast::toBool($args->multiple ?? false);
     }
 
     /**

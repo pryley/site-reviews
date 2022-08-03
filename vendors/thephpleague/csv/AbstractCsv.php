@@ -231,9 +231,7 @@ abstract class AbstractCsv implements ByteSequence
      */
     public function hasStreamFilter($filtername)
     {
-        return isset($this->stream_filters[$filtername])
-            ? $this->stream_filters[$filtername]
-            : false;
+        return $this->stream_filters[$filtername] ?? false;
     }
 
     /**

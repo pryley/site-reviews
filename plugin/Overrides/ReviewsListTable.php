@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Overrides;
 
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Helpers\Str;
 
 class ReviewsListTable extends \WP_Posts_List_Table
 {
@@ -29,7 +30,7 @@ class ReviewsListTable extends \WP_Posts_List_Table
             'additional_fieldsets' => $this->getAdditionalFieldsets(),
             'author_dropdown' => $this->getAuthorDropdown(),
             'columns' => $this->get_column_count(),
-            'mode' => esc_attr((isset($mode) && 'excerpt' === $mode) ? 'excerpt' : 'list'),
+            'mode' => esc_attr(Str::restrictTo(['excerpt', 'list'], $mode ?? 'list', 'list')),
             'screen_id' => esc_attr($this->screen->id),
             'taxonomy' => get_taxonomy(glsr()->taxonomy),
         ]);

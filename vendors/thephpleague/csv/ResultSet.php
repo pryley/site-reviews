@@ -290,7 +290,7 @@ class ResultSet implements TabularDataReader, JsonSerializable
                 return isset($record[$offset]);
             }),
             function (array $record) use ($offset) {
-                $val = isset($record[$value]) ? $record[$value] : null;
+                $val = $record[$value] ?? null;
                 return [$record[$offset], $val];
             }
         );

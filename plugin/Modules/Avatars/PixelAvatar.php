@@ -407,9 +407,7 @@ class PixelAvatar extends SvgAvatar
         for ($y = 0; $y < static::HEIGHT; ++$y) {
             for ($x = 0; $x < static::WIDTH; ++$x) {
                 if ($fill = $this->data[$y][$x]) {
-                    if (!isset($commands[$fill])) {
-                        $commands[$fill] = '';
-                    }
+                    $commands[$fill] = $commands[$fill] ?? '';
                     $commands[$fill] .= sprintf('M%d %dh1v1H%dz', $x, $y, $x);
                 }
             }

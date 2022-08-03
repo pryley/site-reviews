@@ -78,10 +78,7 @@ final class Application extends Container
      */
     public function addon($addonId)
     {
-        if (isset($this->addons[$addonId])) {
-            return $this->addons[$addonId];
-        }
-        return false;
+        return $this->addons[$addonId] ?? false;
     }
 
     /**

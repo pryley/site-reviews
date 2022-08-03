@@ -218,9 +218,7 @@ abstract class BaseType implements ArrayAccess, JsonSerializable, Type
      */
     protected function getParents($parents = null)
     {
-        if (!isset($parents)) {
-            $parents = $this->parents;
-        }
+        $parents = $parents ?? $this->parents;
         $newParents = $parents;
         foreach ($parents as $parent) {
             $parentClass = Helper::buildClassName($parent, __NAMESPACE__);

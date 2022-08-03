@@ -165,7 +165,7 @@ class Text
     protected static function excerptSplit($text, $limit)
     {
         preg_match('/^\s*+(?:\S++\s*+){1,'.$limit.'}/u', $text, $matches);
-        if (!isset($matches[0]) || mb_strlen($text) === mb_strlen($matches[0])) {
+        if (mb_strlen($text) === mb_strlen($matches[0] ?? '')) {
             return mb_strlen($text);
         }
         return mb_strlen(rtrim($matches[0]));

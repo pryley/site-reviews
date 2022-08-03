@@ -155,7 +155,7 @@ final class EmptyEscapeParser
                 $buffer = ltrim(self::$line, self::$trim_mask);
             }
 
-            if ((isset($buffer[0]) ? $buffer[0] : '') === self::$enclosure) {
+            if (($buffer[0] ?? '') === self::$enclosure) {
                 $is_field_enclosed = true;
                 self::$line = $buffer;
             }
@@ -244,7 +244,7 @@ final class EmptyEscapeParser
             return rtrim($content, "\r\n");
         }
 
-        $char = isset(self::$line[0]) ? self::$line[0] : '';
+        $char = self::$line[0] ?? '';
         if ($char === self::$delimiter) {
             self::$line = substr(self::$line, 1);
 

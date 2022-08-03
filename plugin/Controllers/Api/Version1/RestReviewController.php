@@ -427,13 +427,10 @@ class RestReviewController extends \WP_REST_Controller
             }
         }
         if (empty($args['date'])) {
-            $args['date'] = [];
-            if (isset($args['after'])) {
-                $args['date']['after'] = $args['after'];
-            }
-            if (isset($args['before'])) {
-                $args['date']['before'] = $args['before'];
-            }
+            $args['date'] = [
+                'after' => $args['after'] ?? '',
+                'before' => $args['before'] ?? '',
+            ];
         }
         return $args;
     }

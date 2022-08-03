@@ -163,7 +163,7 @@ final class Stream implements SeekableIterator
      */
     public function appendFilter($filtername, $read_write, array $params = null)
     {
-        $params = isset($params) ? $params : [];
+        $params = $params ?? [];
         $res = @stream_filter_append($this->stream, $filtername, $read_write, $params);
         if (!is_resource($res)) {
             throw InvalidArgument::dueToStreamFilterNotFound($filtername);
