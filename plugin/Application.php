@@ -137,14 +137,12 @@ final class Application extends Container
     {
         // Ensure the custom database tables exist, this is needed in cases
         // where the plugin has been updated instead of activated.
-        $version = get_option(static::PREFIX.'db_version');
-        if (empty($version)) {
+        if (empty(get_option(static::PREFIX.'db_version'))) {
             $this->make(Install::class)->run();
-        } elseif ('1.1' === $version) { // @todo remove this in v5.12.0
-            if (!$this->make(SqlSchema::class)->columnExists('ratings', 'terms')) {
-                $this->make(Migrate::class)->reset();
-                update_option(static::PREFIX.'db_version', '1.0');
-            }
+        }
+        // If this is a new major version, copy over the previous version settings
+        if (empty(get_option(OptionManager::databaseKey()))) {
+            update_option(OptionManager::databaseKey(), $this->make(OptionManager::class)->previous());
         }
         $this->make(Hooks::class)->run();
     }
@@ -209,6 +207,7 @@ final class Application extends Container
     }
 
     /**
+     * The settings config (these are not the saved settings!)
      * @return array
      */
     public function settings()
@@ -224,6 +223,7 @@ final class Application extends Container
     }
 
     /**
+     * The setting defaults (these are not the saved settings!)
      * @return void
      */
     public function storeDefaults()

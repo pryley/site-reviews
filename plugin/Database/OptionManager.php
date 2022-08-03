@@ -11,9 +11,9 @@ use GeminiLabs\SiteReviews\Modules\Migrate;
 class OptionManager
 {
     /**
-     * @return array
+     * Get all of the settings.
      */
-    public function all()
+    public function all(): array
     {
         if ($settings = Arr::consolidate(glsr()->retrieve('settings'))) {
             return $settings;
@@ -23,14 +23,13 @@ class OptionManager
 
     /**
      * @param int $version
-     * @return string
      */
-    public static function databaseKey($version = null)
+    public static function databaseKey(?int $version = null): string
     {
-        if (1 == $version) {
+        if (1 === $version) {
             return 'geminilabs_site_reviews_settings';
         }
-        if (2 == $version) {
+        if (2 === $version) {
             return 'geminilabs_site_reviews-v2';
         }
         if (null === $version) {
@@ -41,9 +40,8 @@ class OptionManager
 
     /**
      * @param string $path
-     * @return bool
      */
-    public function delete($path)
+    public function delete($path): bool
     {
         return $this->set(Arr::remove($this->all(), $path));
     }
@@ -68,9 +66,8 @@ class OptionManager
     /**
      * @param string $path
      * @param array $fallback
-     * @return array
      */
-    public function getArray($path, $fallback = [])
+    public function getArray($path, $fallback = []): array
     {
         return $this->get($path, $fallback, 'array');
     }
@@ -78,9 +75,8 @@ class OptionManager
     /**
      * @param string $path
      * @param string|int|bool $fallback
-     * @return bool
      */
-    public function getBool($path, $fallback = false)
+    public function getBool($path, $fallback = false): bool
     {
         return $this->get($path, $fallback, 'bool');
     }
@@ -88,38 +84,35 @@ class OptionManager
     /**
      * @param string $path
      * @param int $fallback
-     * @return int
      */
-    public function getInt($path, $fallback = 0)
+    public function getInt($path, $fallback = 0): int
     {
         return $this->get($path, $fallback, 'int');
     }
 
     /**
-     * @param string $path
      * @param mixed $fallback
      * @param string $cast
      * @return mixed
      */
-    public function getWP($path, $fallback = '', $cast = '')
+    public function getWP(string $path, $fallback = '', $cast = '')
     {
         $option = get_option($path, $fallback);
         return Cast::to($cast, Helper::ifEmpty($option, $fallback, $strict = true));
     }
 
     /**
-     * @return string
+     * JSON encoded string of the settings.
      */
-    public function json()
+    public function json(): string
     {
-        return json_encode($this->all(), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        return json_encode($this->all(), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     /**
      * Restricts the provided settings keys to the defaults.
-     * @return array
      */
-    public function normalize(array $settings = [])
+    public function normalize(array $settings = []): array
     {
         $settings = shortcode_atts(glsr(DefaultsManager::class)->defaults(), Arr::flatten($settings));
         array_walk($settings, function (&$value) {
@@ -131,9 +124,23 @@ class OptionManager
     }
 
     /**
-     * @return array
+     * Get the settings of the previous major version.
      */
-    public function reset()
+    public function previous(): ?array
+    {
+        $version = intval(glsr()->version('major'));
+        while (--$version) {
+            if ($settings = Arr::consolidate($this->getWP(static::databaseKey($version)))) {
+                return $settings;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Reset the settings to the defaults.
+     */
+    public function reset(): array
     {
         $settings = Arr::consolidate($this->getWP(static::databaseKey(), []));
         if (empty($settings)) {
@@ -148,9 +155,8 @@ class OptionManager
     /**
      * @param string|array $pathOrArray
      * @param mixed $value
-     * @return bool
      */
-    public function set($pathOrArray, $value = '')
+    public function set($pathOrArray, $value = ''): bool
     {
         if (is_string($pathOrArray)) {
             $pathOrArray = Arr::set($this->all(), $pathOrArray, $value);
