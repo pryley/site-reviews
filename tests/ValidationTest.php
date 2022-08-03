@@ -230,8 +230,7 @@ class ValidationTest extends WP_Ajax_UnitTestCase
         $_POST[glsr()->id] = $request;
         try {
             $this->_handleAjax($action);
-        } catch (WPAjaxDieContinueException $e) {
-        } catch (WPAjaxDieStopException $e) {
+        } catch (WPAjaxDieContinueException | WPAjaxDieStopException $e) {
             error_log(print_r('WPAjaxDieStopException: '.$e->getMessage(), true));
         }
         $response = json_decode($this->_last_response);
