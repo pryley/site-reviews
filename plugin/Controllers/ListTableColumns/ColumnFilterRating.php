@@ -20,10 +20,14 @@ class ColumnFilterRating extends ColumnFilter
     public function options()
     {
         $options = [];
-        $ratings = range(glsr()->constant('MAX_RATING', Rating::class), 0);
-        foreach ($ratings as $rating) {
-            $label = _nx('%s star', '%s stars', $rating, 'admin-text', 'site-reviews');
-            $options[$rating] = sprintf($label, $rating);
+        $max = glsr()->constant('MAX_RATING', Rating::class);
+        foreach (range($max, 0) as $rating) {
+            $empty = $max - $rating;
+            $title = _x('%s star rating', 'admin-text', 'site-reviews');
+            $options[$rating] = [
+                str_repeat('★', $rating).str_repeat('☆', $empty),
+                sprintf($title, $rating),
+            ];
         }
         return $options;
     }
