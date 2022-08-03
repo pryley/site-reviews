@@ -301,17 +301,22 @@ class Builder
     protected function buildFormSelectOptions()
     {
         $options = $this->args->cast('options', 'array');
-        $optgroupEnabled = glsr()->filterBool('builder/enable/optgroup', false);
         if ($this->args->placeholder) {
             $options = Arr::prepend($options, $this->args->placeholder, '');
         }
-        return array_reduce(array_keys($options), function ($carry, $key) use ($options, $optgroupEnabled) {
-            if ($optgroupEnabled && is_array($options[$key])) {
-                return $carry.$this->buildFormSelectOptGroup($options[$key], $key);
+        return array_reduce(array_keys($options), function ($carry, $key) use ($options) {
+            $option = $options[$key];
+            if (wp_is_numeric_array($option)) {
+                $option = Cast::toString(Arr::get($options[$key], 0));
+                $title = Cast::toString(Arr::get($options[$key], 1));
+            }
+            if (is_array($option)) {
+                return $carry.$this->buildFormSelectOptGroup($option, $key);
             }
             return $carry.$this->option([
                 'selected' => $this->args->cast('value', 'string') === Cast::toString($key),
-                'text' => $options[$key],
+                'text' => $option,
+                'title' => $title ?? '',
                 'value' => $key,
             ]);
         });
@@ -323,9 +328,15 @@ class Builder
     protected function buildFormSelectOptGroup($options, $label)
     {
         $children = array_reduce(array_keys($options), function ($carry, $key) use ($options) {
+            $option = $options[$key];
+            if (wp_is_numeric_array($option)) {
+                $option = Cast::toString(Arr::get($options[$key], 0));
+                $title = Cast::toString(Arr::get($options[$key], 1));
+            }
             return $carry.glsr(Builder::class)->option([
                 'selected' => $this->args->cast('value', 'string') === Cast::toString($key),
-                'text' => $options[$key],
+                'text' => $option,
+                'title' => $title ?? '',
                 'value' => $key,
             ]);
         });
