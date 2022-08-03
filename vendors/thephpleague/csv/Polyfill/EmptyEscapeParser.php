@@ -107,7 +107,7 @@ final class EmptyEscapeParser
     public static function parse($document)
     {
         self::$document = self::filterDocument($document);
-        list(self::$delimiter, self::$enclosure, ) = self::$document->getCsvControl();
+        [self::$delimiter, self::$enclosure, ] = self::$document->getCsvControl();
         self::$trim_mask = str_replace([self::$delimiter, self::$enclosure], '', " \t\0\x0B");
         self::$document->setFlags(0);
         self::$document->rewind();
@@ -186,7 +186,7 @@ final class EmptyEscapeParser
         /** @var array<string> $result */
         $result = explode(self::$delimiter, self::$line, 2);
         /** @var string $content */
-        list($content, $remainder) = $result + [1 => false];
+        [$content, $remainder] = $result + [1 => false];
 
         /* @var string|false line */
         self::$line = $remainder;
@@ -218,7 +218,7 @@ final class EmptyEscapeParser
         while (false !== self::$line) {
             /** @var array $result */
             $result = explode(self::$enclosure, self::$line, 2);
-            list($buffer, $remainder) = $result + [1 => false];
+            [$buffer, $remainder] = $result + [1 => false];
             $content .= $buffer;
             self::$line = $remainder;
             if (false !== self::$line) {

@@ -39,7 +39,7 @@ class ReviewsListTable extends \WP_Posts_List_Table
     protected function getAdditionalFieldsets()
     {
         ob_start();
-        list($columns) = $this->get_column_info();
+        $columns = $this->get_column_info();
         $coreColumns = ['author', 'categories', 'cb', 'comments', 'date', 'tags', 'title'];
         foreach ($columns as $columnName => $columnTitle) {
             if (!in_array($columnName, $coreColumns)) {

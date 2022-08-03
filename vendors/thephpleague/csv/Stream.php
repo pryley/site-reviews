@@ -183,7 +183,7 @@ final class Stream implements SeekableIterator
      */
     public function setCsvControl($delimiter = ',', $enclosure = '"', $escape = '\\')
     {
-        list($this->delimiter, $this->enclosure, $this->escape) = $this->filterControl($delimiter, $enclosure, $escape, __METHOD__);
+        [$this->delimiter, $this->enclosure, $this->escape] = $this->filterControl($delimiter, $enclosure, $escape, __METHOD__);
     }
 
     /**

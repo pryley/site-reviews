@@ -42,7 +42,7 @@ abstract class AbstractCsv implements ByteSequence
     protected function __construct($document)
     {
         $this->document = $document;
-        list($this->delimiter, $this->enclosure, $this->escape) = $this->document->getCsvControl();
+        [$this->delimiter, $this->enclosure, $this->escape] = $this->document->getCsvControl();
         $this->resetProperties();
     }
 

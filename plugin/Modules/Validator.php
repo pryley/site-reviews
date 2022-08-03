@@ -91,7 +91,7 @@ class Validator
      */
     public function validateAttribute($attribute, $rule)
     {
-        list($rule, $parameters) = $this->parseRule($rule);
+        [$rule, $parameters] = $this->parseRule($rule);
         if ('' == $rule) {
             return;
         }
@@ -169,7 +169,7 @@ class Validator
         }
         $rules = (array) $rules;
         foreach ($this->rules[$attribute] as $rule) {
-            list($rule, $parameters) = $this->parseRule($rule);
+            [$rule, $parameters] = $this->parseRule($rule);
             if (in_array($rule, $rules)) {
                 return [$rule, $parameters];
             }
@@ -263,7 +263,7 @@ class Validator
     {
         $parameters = [];
         if (Str::contains(':', $rule)) {
-            list($rule, $parameter) = explode(':', $rule, 2);
+            [$rule, $parameter] = explode(':', $rule, 2);
             $parameters = $this->parseParameters($rule, $parameter);
         }
         $rule = Str::camelCase($rule);

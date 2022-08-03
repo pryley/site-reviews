@@ -161,7 +161,7 @@ class CharsetConverter extends php_user_filter
     {
         $outputRecord = [];
         foreach ($record as $offset => $value) {
-            list($newOffset, $newValue) = $this->encodeField($value, $offset);
+            [$newOffset, $newValue] = $this->encodeField($value, $offset);
             $outputRecord[$newOffset] = $newValue;
         }
 
