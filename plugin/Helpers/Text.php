@@ -113,9 +113,6 @@ class Text
      */
     protected static function excerptIntlSplit($text, $limit)
     {
-        if (version_compare(PHP_VERSION, '7.4', '<')) {
-            return static::excerptIntlSplitDeprecated($text, $limit);
-        }
         $text = \Normalizer::normalize($text);
         $iter = \IntlRuleBasedBreakIterator::createWordInstance('');
         $iter->setText($text);
@@ -132,29 +129,6 @@ class Text
             }
         }
         return $stringLength;
-    }
-
-    /**
-     * @param string $text
-     * @param int $limit
-     * @return int
-     * @compat: PHP 5.6
-     */
-    protected static function excerptIntlSplitDeprecated($text, $limit)
-    {
-        $words = \IntlRuleBasedBreakIterator::createWordInstance('');
-        $words->setText($text);
-        $count = 0;
-        foreach ($words as $offset) {
-            if (\IntlRuleBasedBreakIterator::WORD_NONE === $words->getRuleStatus()) {
-                continue;
-            }
-            if (++$count != $limit) {
-                continue;
-            }
-            return $offset;
-        }
-        return mb_strlen($text);
     }
 
     /**
