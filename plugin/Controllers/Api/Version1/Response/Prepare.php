@@ -58,7 +58,7 @@ class Prepare
      */
     public function __call($method, array $args = [])
     {
-        $parent = explode('.', $method);
+        [$parent] = explode('.', $method);
         $method = Helper::buildMethodName($parent, 'prepare');
         if (method_exists($this, $method)) {
             call_user_func_array([$this, $method], $args);
