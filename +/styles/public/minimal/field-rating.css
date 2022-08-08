@@ -1,0 +1,59 @@
+:root form.glsr-form .glsr-star-rating:not([data-star-rating]) .glsr-star-rating--stars {
+    display: none !important;
+}
+:root form.glsr-form .glsr-star-rating > select {
+    clip-path: circle(1px at 0 0) !important;
+    height: 1px !important;
+    margin: 0 !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    top: 0 !important;
+    visibility: visible !important;
+    white-space: nowrap !important;
+    width: 1px !important;
+    &::before,
+    &::after {
+        display: none !important;
+    }
+    &:focus + .glsr-star-rating--stars::before {
+        border-radius: var(--gl-radius);
+        box-shadow: 0 0 0 3px -moz-mac-focusring;
+        box-shadow: 0 0 0 3px -webkit-focus-ring-color;
+        box-shadow: 0 0 0 3px Highlight;
+        content: '';
+        display: block;
+        height: 100%;
+        outline: 1px solid transparent;
+        pointer-events: none;
+        position: absolute;
+        width: 100%;
+    }
+}
+:root form.glsr-form .glsr-star-rating--ltr > select {
+    left: 0 !important;
+}
+:root form.glsr-form .glsr-star-rating--rtl > select {
+    right: 0 !important;
+}
+:root form.glsr-form .glsr-star-rating--stars {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    position: relative;
+}
+:root form.glsr-form select[disabled] + .glsr-star-rating--stars {
+    cursor: default;
+}
+:root form.glsr-form .glsr-star-rating--stars > span {
+    display: flex;
+    height: var(--gl-star-size);
+    margin: 0;
+    width: var(--gl-star-size);
+}
+:root form.glsr-form .glsr-star-rating--stars[class*=" s"] > span {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}

@@ -1,31 +1,37 @@
-/*Form Toggle*/
 :--namespace form.glsr-form .glsr-field-toggle {
+    --gl-tog-size: calc(var(--gl-tog-h) - calc(var(--gl-tog-p) * 2));
+    --gl-tog-w: calc(calc(var(--gl-tog-h) * 2) - calc(var(--gl-tog-p) * 2));
     display: flex;
 }
 :--namespace form.glsr-form .glsr-toggle {
     align-items: flex-start;
+    column-gap: var(--gl-gap-sm);
     display: inline-flex;
     flex-direction: row-reverse;
 }
-:--namespace form.glsr-form .glsr-field-toggle label {
+:--namespace form.glsr-form .glsr-toggle label {
     display: block;
-    margin-left: calc(var(--glsr-base-font-size) * .5);
+    margin: 0;
 }
-:--namespace.glsr-rtl form.glsr-form .glsr-field-toggle label {
-    margin-left: 0;
-    margin-right: calc(var(--glsr-base-font-size) * .5);
+:--namespace form.glsr-form .glsr-toggle .glsr-toggle-switch {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    position: relative;
+    width: var(--gl-tog-w);
 }
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] {
+:--namespace form.glsr-form .glsr-toggle input[type=checkbox] {
     appearance: none;
     background-color: transparent;
-    border-radius: var(--glsr-toggle-radius-outer);
+    border-radius: var(--gl-tog-radius-out);
     border-color: transparent !important;
     border-width: 1px;
     box-shadow: none;
     box-sizing: border-box;
     cursor: pointer;
     display: block;
-    height: var(--glsr-toggle-size);
+    font-size: inherit;
+    height: var(--gl-tog-h);
     left: auto;
     margin: 0 !important;
     overflow: hidden;
@@ -33,68 +39,57 @@
     position: absolute;
     top: auto !important;
     user-select: none;
-    width: calc(calc(var(--glsr-toggle-size) * 2) - calc(var(--glsr-toggle-padding) * 2));
+    width: var(--gl-tog-w);
     z-index: 0;
+    &::before,
+    &::after {
+        box-sizing: border-box;
+        display:  none;
+    }
 }
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]::before,
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]::after {
-    display:  none;
-}
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track {
-    background-color: transparent;
-    border-radius: var(--glsr-toggle-radius-outer);
+:--namespace form.glsr-form .glsr-toggle input[type=checkbox] + .glsr-toggle-track {
+    border-radius: var(--gl-tog-radius-out);
     box-sizing: border-box;
-    height: var(--glsr-toggle-size);
-    opacity: 1;
-    padding: var(--glsr-toggle-padding);
+    height: var(--gl-tog-h);
+    padding: var(--gl-tog-p);
     pointer-events: none;
-    position: relative;
-    transition: background-color var(--glsr-form-duration) ease-in-out;
-    width: calc(calc(var(--glsr-toggle-size) * 2) - calc(var(--glsr-toggle-padding) * 2));
-}
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track {
-    background-color: currentColor;
-    transition: background-color 0.15s ease-in-out;
-}
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::before {
-    background-color: var(--glsr-toggle-bg-inactive);
-    border-radius: var(--glsr-toggle-radius-outer);
-    content: '';
-    display: block;
-    height: 100%;
-    left: 0;
-    opacity: var(--glsr-toggle-opacity-inactive);
     position: absolute;
-    top: 0;
-    width: 100%;
+    width: var(--gl-tog-w);
+    &::before {
+        background-color: var(--gl-tog-bg-off);
+        border-radius: var(--gl-tog-radius-out);
+        content: '';
+        display: block;
+        height: 100%;
+        left: 0;
+        opacity: var(--gl-tog-opacity-off);
+        position: absolute;
+        top: 0;
+        transition: background-color var(--gl-duration-fast) ease-in-out, opacity var(--gl-duration-fast) ease-in-out;
+        width: 100%;
+    }
+    &::after {
+        background-color: var(--gl-tog-color);
+        border-radius: var(--gl-tog-radius-in);
+        box-shadow: 0 calc(var(--gl-tog-h) * 0.125) calc(var(--gl-tog-h) * .25) var(--gl-tog-shadow-color);
+        content: '';
+        display: block;
+        height: var(--gl-tog-size);
+        pointer-events: none;
+        position: relative;
+        transition: transform var(--gl-duration-fast) ease-in-out;
+        width: var(--gl-tog-size);
+        z-index: 1;
+    }
 }
 :--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track::before {
-    background-color: var(--glsr-toggle-bg-active);
-    opacity: var(--glsr-toggle-opacity-active);
-    transition: background-color var(--glsr-form-duration) ease-in-out, opacity var(--glsr-form-duration) ease-in-out;
-}
-:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::after {
-    background-color: var(--glsr-white);
-    border-radius: var(--glsr-toggle-radius-inner);
-    box-shadow: var(--glsr-toggle-box-shadow);
-    content: '';
-    display: block;
-    height: calc(var(--glsr-toggle-size) - calc(var(--glsr-toggle-padding) * 2));
-    pointer-events: none;
-    position: relative;
-    transition: transform 0.075s ease-in-out;
-    width: calc(var(--glsr-toggle-size) - calc(var(--glsr-toggle-padding) * 2));
-    z-index: 1;
+    background-color: var(--gl-tog-bg-on);
+    opacity: var(--gl-tog-opacity-on);
+    transition: background-color var(--gl-duration-fast) ease-in-out, opacity var(--gl-duration-fast) ease-in-out;
 }
 :--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track::after {
-    transform: translateX(calc(var(--glsr-toggle-size) - calc(var(--glsr-toggle-padding) * 2)));
+    transform: translateX(var(--gl-tog-size));
 }
-:--namespace.glsr-rtl form.glsr-form .glsr-toggle input[type=checkbox]:checked + .glsr-toggle-track::after {
-    transform: translateX(calc(- var(--glsr-toggle-size) + calc(var(--glsr-toggle-padding) * 2)));
-}
-:--namespace form.glsr-form .glsr-field-toggle .glsr-toggle-switch {
-    align-items: center;
-    display: flex;
-    flex-shrink: 0;
-    position: relative;
+:--namespace.glsr-rtl form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track::after {
+    transform: translateX(calc(-1 * var(--gl-tog-size)));
 }

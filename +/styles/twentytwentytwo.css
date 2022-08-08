@@ -1,65 +1,72 @@
 @import "public/minimal/variables";
 @import "public/minimal/keyframes";
-@import "public/minimal/debug";
-@import "public/minimal/modal";
-@import "public/minimal/screen-reader";
-@import "public/minimal/captcha";
-@import "public/minimal/reviews";
-@import "public/minimal/read-more";
+@import "public/minimal/base";
+@import "public/minimal/loaders";
 @import "public/minimal/pagination";
-@import "public/minimal/reviews-form";
-@import "public/minimal/field-labels";
-@import "public/twentytwentytwo/field-input";
+@import "public/minimal/star-rating";
+@import "public/minimal/review";
+@import "public/minimal/summary";
+@import "public/minimal/form";
+@import "public/minimal/field-label";
+@import "public/minimal/field-input";
 @import "public/minimal/field-choice";
 @import "public/minimal/field-toggle";
-@import "public/minimal/field-star-rating";
+@import "public/minimal/field-rating";
 @import "public/minimal/button";
-@import "public/minimal/reviews-summary";
+@import "public/minimal/modal";
+@import "public/minimal/debug";
 
 :root {
-    --glsr-gray                    : #949494;
-    --glsr-border-radius           : 0;
-    --glsr-box-shadow              : none;
-    --glsr-form-px                 : calc(0.667em + 2px);
-    --glsr-form-py                 : calc(0.667em + 2px);
-    --glsr-toggle-bg-active        : var(--wp--preset--color--primary);
+    --gl-radius: 0;
+    --gl-px: calc(0.667em + 2px);
+    --gl-py: calc(0.667em + 2px);
+    --gl-gray-500: #949494;
+    --gl-white: #fff;
 }
-
-:--namespace form.glsr-form .glsr-field-error {
-    font-family: var(--glsr-font-family-sans);
-    font-size: var(--glsr-form-font-size-small);
+:root .glsr-field-rating {
+    --gl-star-size: 2em;
 }
-:--namespace button.glsr-button {
-    background-color: var(--wp--preset--color--primary);
-    border: none;
-    color: var(--wp--preset--color--background);
-    font-size: var(--wp--preset--font-size--medium);
-    padding: var(--glsr-form-px) calc(1.333em + 2px);
+:root .glsr-review-response {
+    --gl-px: calc(var(--gl-text-md) * 1.25);
+    --gl-py: calc(var(--gl-text-md) * 1.25);
 }
-:--namespace button.glsr-button:hover {
-    opacity: 0.90;
+:root .glsr-button {
+    border-width: 0;
 }
-
-:--namespace .glsr-pagination .page-numbers {
-    margin-bottom: 0.5em;
+:--namespace {
+    --gl-tog-bg-on: var(--wp--preset--color--primary);
 }
-:--namespace .glsr-pagination .page-numbers:not(.prev):not(.next) {
-    margin-left: 2px;
-    margin-right: 2px;
+:--namespace .glsr-summary {
+    font-size: var(--gl-text-sm);
 }
-:--namespace .glsr-pagination .page-numbers.prev,
-:--namespace .glsr-pagination .page-numbers.next {
-    flex: 1;
+:--namespace .glsr-summary-percentages {
+    --gl-leading: 1.5;
+}
+:--namespace form.glsr-form input.glsr-input,
+:--namespace form.glsr-form select.glsr-select,
+:--namespace form.glsr-form textarea.glsr-textarea {
+    background-color: var(--gl-white);
+    border-radius: var(--gl-radius);
+    border: 1px solid var(--gl-gray-500);
+    font-family: var(--wp--preset--font-family--inter);
+    font-size: var(--gl-text-md);
+    line-height: var(--gl-leading);
+    transition: border-color var(--gl-duration) ease-in-out;
+    padding-top: var(--gl-py);
+    padding-right: var(--gl-px);
+    padding-bottom: var(--gl-py);
+    padding-left: var(--gl-px);
+}
+:--namespace .glsr-pagination .nav-links {
+    column-gap: var(--gl-gap-sm);
 }
 :--namespace.glsr-ltr .glsr-pagination .page-numbers.prev,
 :--namespace.glsr-rtr .glsr-pagination .page-numbers.next {
-    margin-right: 0.5em;
+    flex: 1;
     text-align: left;
 }
 :--namespace.glsr-rtl .glsr-pagination .page-numbers.prev,
 :--namespace.glsr-ltr .glsr-pagination .page-numbers.next {
-    margin-left: 0.5em;
+    flex: 1;
     text-align: right;
 }
-
-

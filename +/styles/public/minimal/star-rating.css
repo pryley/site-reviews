@@ -1,0 +1,15 @@
+:root .glsr-star-rating {
+    align-items: center;
+    display: flex;
+    position: relative;
+}
+:root .glsr-stars {
+    justify-content: center;
+}
+:root .glsr-star {
+    background-size: var(--gl-star-size);
+    flex-shrink: 0;
+    font-size: inherit;
+    height: var(--gl-star-size);
+    width: var(--gl-star-size);
+}

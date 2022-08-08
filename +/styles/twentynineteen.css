@@ -1,28 +1,49 @@
-@import "public/twentynineteen/variables";
+@import "public/minimal/variables";
 @import "public/minimal/keyframes";
-@import "public/minimal/debug";
-@import "public/minimal/modal";
-@import "public/minimal/screen-reader";
-@import "public/minimal/captcha";
-@import "public/minimal/reviews";
-@import "public/minimal/read-more";
+@import "public/minimal/base";
+@import "public/minimal/loaders";
 @import "public/minimal/pagination";
-@import "public/minimal/reviews-form";
-@import "public/minimal/field-labels";
+@import "public/minimal/star-rating";
+@import "public/minimal/review";
+@import "public/minimal/summary";
+@import "public/minimal/form";
+@import "public/minimal/field-label";
 @import "public/minimal/field-input";
 @import "public/minimal/field-choice";
 @import "public/minimal/field-toggle";
-@import "public/minimal/field-star-rating";
+@import "public/minimal/field-rating";
 @import "public/minimal/button";
-@import "public/minimal/reviews-summary";
+@import "public/minimal/modal";
+@import "public/minimal/debug";
 
+:root {
+    --gl-blue: #0073aa;
+    --gl-text-base: 1rem;
+    --gl-tog-bg-on: var(--gl-blue);
+    --gl-tog-h: 1rem;
+    --gl-font: system-ui;
+    --gl-text-sm: 0.71111em;
+    --gl-gap-lg: 2em;
+}
+:root .glsr-field-rating {
+    --gl-star-size: 2em;
+}
+:root .glsr-review-response {
+    --gl-px: calc(var(--gl-text-md) * 1.25);
+    --gl-py: calc(var(--gl-text-md) * 1.25);
+}
+
+
+:--namespace .glsr-summary-percentages {
+    --gl-leading: 1.5;
+}
 :--namespace .glsr-toggle-switch {
-    font-size: var(--glsr-form-font-size-small);
+    font-size: var(--gl-text-sm);
 }
 :--namespace .glsr-review-date {
+    font-size: 0.71111em;
     color: #767676;
-    font-family: var(--glsr-font-family-sans);
-    font-size: var(--glsr-form-font-size-small);
+    font-family: var(--gl-font);
     font-style: normal;
     font-weight: 500;
 }
@@ -30,7 +51,7 @@
 :--namespace .glsr-review-response-inner p:first-of-type strong {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    font-family: var(--glsr-font-family-sans);
+    font-family: var(--gl-font);
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.2;
@@ -39,10 +60,8 @@
     font-size: 1.125em;
 }
 :--namespace form.glsr-form .glsr-field-error {
-    font-family: var(--glsr-form-font-family-sans);
-    font-size: var(--glsr-form-font-size-small);
+    font-family: var(--gl-font);
 }
-
-:root .theme-twentynineteen .glsr-modal__dialog {
-    font-size: 0.88889em;
+:--namespace .glsr-modal__dialog {
+    --gl-text-base: 0.88889em;
  }

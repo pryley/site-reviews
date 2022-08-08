@@ -1,0 +1,28 @@
+:--namespace form.glsr-hide-form {
+    max-height: 0 !important;
+    opacity: 0;
+    overflow: hidden;
+}
+:--namespace form.glsr-form {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    position: relative;
+    row-gap: var(--gl-gap-md);
+}
+:--namespace .glsr-field {
+    position: relative;
+}
+:--namespace .glsr-field:not(.glsr-field-is-invalid) .glsr-field-error,
+:--namespace .glsr-form-message:not(.glsr-form-failed):not(.glsr-form-success) {
+    display: none;
+}
+:--namespace .glsr-field-error {
+    color: var(--gl-error);
+    font-size: var(--gl-text-sm);
+}
+:--namespace .glsr-form-failed {
+    color: var(--gl-error);
+}
+:--namespace .glsr-form-success {
+    color: var(--gl-success);
+}

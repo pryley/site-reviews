@@ -1,1 +1,13 @@
-@import "../default/button"
+:--namespace button.glsr-button {
+    align-items: center;
+    display: flex;
+    margin: 0;
+    white-space: nowrap;
+}
+:--namespace button.glsr-button[aria-busy=true] {
+    /* .glsr-loading has 1em hight/width */
+    gap: calc(1em + var(--gl-gap-sm));
+}
+:--namespace .wp-block-button {
+    margin: 0;
+}

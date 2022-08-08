@@ -1,7 +1,0 @@
-:--namespace .glsr-captcha-holder[data-size=invisible]:not([data-badge=inline]) {
-    bottom: 0;
-    position: absolute;
-}
-:--namespace .h-captcha {
-    display: flex;
-}

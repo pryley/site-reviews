@@ -1,17 +1,47 @@
-@import "public/default/variables";
-@import "public/default/keyframes";
-@import "public/default/debug";
-@import "public/default/modal";
-@import "public/default/screen-reader";
-@import "public/default/captcha";
-@import "public/default/reviews";
-@import "public/default/read-more";
-@import "public/default/pagination";
-@import "public/default/reviews-form";
-@import "public/default/field-labels";
+@import "public/minimal/variables";
+@import "public/minimal/keyframes";
+@import "public/minimal/base";
+@import "public/minimal/loaders";
+@import "public/minimal/pagination";
+@import "public/minimal/star-rating";
+@import "public/minimal/review";
+@import "public/minimal/summary";
+@import "public/default/form";
+@import "public/default/field-label";
 @import "public/default/field-input";
 @import "public/default/field-choice";
 @import "public/default/field-toggle";
-@import "public/default/field-star-rating";
-@import "public/default/button";
-@import "public/default/reviews-summary";
+@import "public/minimal/field-rating";
+@import "public/minimal/button";
+@import "public/minimal/modal";
+@import "public/minimal/debug";
+
+:root {
+    --gl-input-bg: var(--gl-white);
+    --gl-input-border-color: var(--gl-gray-400);
+    --gl-input-border-w: 1px;
+    --gl-input-transition: border-color .15s ease-in-out;
+}
+:root .glsr-field-rating {
+    --gl-star-size: 2em;
+}
+:root .glsr-reviews-wrap {
+    --gl-gap: 4em;
+}
+:root .glsr-review {
+    --gl-gap: 0.75em;
+}
+:root .glsr-review-response {
+    --gl-px: calc(var(--gl-text-base) * 1.25);
+    --gl-py: calc(var(--gl-text-base) * 1.25);
+}
+:root .glsr-summary-rating {
+    --gl-text-size: 1.5em;
+}
+:root .glsr-field-error {
+    --gl-font: system-ui;
+    --gl-text-size: 0.875em;
+}
+:root .glsr-label {
+    --gl-text-size: 0.875em;
+}

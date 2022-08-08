@@ -1,4 +1,3 @@
-/*Form Input*/
 :--namespace form.glsr-form input.glsr-input,
 :--namespace form.glsr-form select.glsr-select,
 :--namespace form.glsr-form textarea.glsr-textarea {
@@ -7,19 +6,19 @@
     float: none;
     margin-bottom: 0;
     margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
+    max-height: none;
     max-width: none;
+    min-height: none;
     min-width: none;
     width: 100%;
-}
-:--namespace form.glsr-form input.glsr-input {
-    overflow: visible; /* Show the overflow in IE and Edge. */
-}
-:--namespace form.glsr-form textarea.glsr-textarea {
-    overflow: auto; /* Remove the default vertical scrollbar in IE 10+. */
-    resize: vertical;
 }
 :--namespace form.glsr-form input.glsr-input.glsr-is-invalid,
 :--namespace form.glsr-form select.glsr-select.glsr-is-invalid,
 :--namespace form.glsr-form textarea.glsr-textarea.glsr-is-invalid {
-    border-color: var(--glsr-red);
+    border-color: var(--gl-error);
+}
+:--namespace form.glsr-form textarea.glsr-textarea {
+    resize: vertical;
 }

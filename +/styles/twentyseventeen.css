@@ -1,21 +1,34 @@
 @import "public/minimal/variables";
 @import "public/minimal/keyframes";
-@import "public/minimal/debug";
-@import "public/minimal/modal";
-@import "public/minimal/screen-reader";
-@import "public/minimal/captcha";
-@import "public/minimal/reviews";
-@import "public/minimal/read-more";
+@import "public/minimal/base";
+@import "public/minimal/loaders";
 @import "public/minimal/pagination";
-@import "public/minimal/reviews-form";
-@import "public/minimal/field-labels";
+@import "public/minimal/star-rating";
+@import "public/minimal/review";
+@import "public/minimal/summary";
+@import "public/minimal/form";
+@import "public/minimal/field-label";
 @import "public/minimal/field-input";
 @import "public/minimal/field-choice";
 @import "public/minimal/field-toggle";
-@import "public/minimal/field-star-rating";
+@import "public/minimal/field-rating";
 @import "public/minimal/button";
-@import "public/minimal/reviews-summary";
+@import "public/minimal/modal";
+@import "public/minimal/debug";
 
+:root {
+    --gl-black: #222;
+}
+:root .glsr-field-rating {
+    --gl-star-size: 2em;
+}
+:root .glsr-review-response {
+    --gl-px: calc(var(--gl-text-md) * 1.25);
+    --gl-py: calc(var(--gl-text-md) * 1.25);
+}
+:root .glsr-button {
+    border-radius: 2px;
+}
 :--namespace form.glsr-form label.glsr-label {
     font-weight: 800;
 }

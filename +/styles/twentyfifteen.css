@@ -1,16 +1,102 @@
-@import "public/twentyfifteen/variables";
+@import "public/minimal/variables";
 @import "public/minimal/keyframes";
-@import "public/minimal/debug";
-@import "public/minimal/modal";
-@import "public/minimal/screen-reader";
-@import "public/minimal/captcha";
-@import "public/minimal/reviews";
-@import "public/minimal/read-more";
+@import "public/minimal/base";
+@import "public/minimal/loaders";
 @import "public/minimal/pagination";
-@import "public/twentyfifteen/reviews-form";
-@import "public/twentyfifteen/field-labels";
+@import "public/minimal/star-rating";
+@import "public/minimal/review";
+@import "public/minimal/summary";
+@import "public/minimal/form";
+@import "public/minimal/field-label";
+@import "public/minimal/field-input";
 @import "public/minimal/field-choice";
 @import "public/minimal/field-toggle";
-@import "public/minimal/field-star-rating";
+@import "public/minimal/field-rating";
 @import "public/minimal/button";
-@import "public/minimal/reviews-summary";
+@import "public/minimal/modal";
+@import "public/minimal/debug";
+
+:root {
+    --gl-gray-500: #333;
+    --gl-red: #c0392b;
+    --gl-blue: #21759b;
+    --gl-success: var(--gl-blue);
+    --gl-font: "Noto Sans", sans-serif;
+}
+:root .glsr {
+    --gl-leading: 1.6842;
+    --gl-text-base: 1.5rem;
+    font-size: var(--gl-text-base);
+    @media screen and (min-width: 46.25em) {
+        --gl-leading: 1.6842;
+        --gl-text-base: 1.7rem;
+    }
+    @media screen and (min-width: 55em) {
+        --gl-leading: 1.6842;
+        --gl-text-base: 1.9rem;
+    }
+    @media screen and (min-width: 59.6875em) {
+        --gl-leading: 1.6842;
+        --gl-text-base: 1.5rem;
+    }
+    @media screen and (min-width: 68.75em) {
+        --gl-leading: 1.6842;
+        --gl-text-base: 1.7rem;
+    }
+    @media screen and (min-width: 77.5em) {
+        --gl-leading: 1.6842;
+        --gl-text-base: 1.9rem;
+    }
+}
+:root .widget .glsr {
+    --gl-leading: 1.5;
+    --gl-text-base: 1.2rem;
+    font-size: var(--gl-text-base);
+    @media screen and (min-width: 46.25em) {
+        --gl-leading: 1.5;
+        --gl-text-base: 1.4rem;
+    }
+    @media screen and (min-width: 55em) {
+        --gl-leading: 1.5;
+        --gl-text-base: 1.6rem;
+    }
+    @media screen and (min-width: 59.6875em) {
+        --gl-leading: 1.5;
+        --gl-text-base: 1.2rem;
+    }
+    @media screen and (min-width: 68.75em) {
+        --gl-leading: 1.5;
+        --gl-text-base: 1.4rem;
+    }
+    @media screen and (min-width: 77.5em) {
+        --gl-leading: 1.5;
+        --gl-text-base: 1.6rem;
+    }
+}
+:root .glsr-field-rating {
+    --gl-star-size: 2em;
+}
+:root .glsr-review-response {
+    --gl-px: calc(var(--gl-text-md) * 1.25);
+    --gl-py: calc(var(--gl-text-md) * 1.25);
+}
+:root .glsr-button {
+    border-radius: 0;
+}
+:--namespace .glsr-summary-percentages {
+    --gl-leading: 1.5;
+}
+:--namespace .glsr-field-error {
+    font-family: var(--gl-font);
+}
+:--namespace .glsr-field-toggle label,
+:--namespace .glsr-field-choice span label {
+    font-size: var(--gl-text-md);
+    font-weight: normal;
+    letter-spacing: 0;
+    line-height: var(--gl-leading);
+    text-transform: none;
+}
+:--namespace .nav-links {
+    justify-content: center;
+}

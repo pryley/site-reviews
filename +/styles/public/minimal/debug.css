@@ -1,1 +1,23 @@
-@import "../default/debug"
+:root .glsr-debug {
+    position: relative;
+}
+:root .glsr-debug::before {
+    background-color: currentColor;
+    border-radius: var(--gl-radius);
+    content: '';
+    height: 100%;
+    left: 0;
+    opacity: .15;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+:root .glsr-debug pre {
+    font-family: monospace;
+    font-size: 12px;
+    line-height: 1.25;
+    padding: 10px;
+    position: relative;
+    z-index: 1;
+}

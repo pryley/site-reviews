@@ -1,1 +1,20 @@
-@import "../default/pagination"
+:root .glsr-pagination {
+    position: relative;
+}
+:root .glsr-pagination:not(.glsr-ajax-loadmore) {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+:root .glsr-pagination .glsr-spinner {
+    position: absolute;
+}
+:root .glsr-pagination .pagination {
+    flex-basis: 100%;
+    margin-top: 0;
+    opacity: 1;
+    transition: opacity var(--gl-duration-slow);
+}
+:root .glsr-hide .glsr-pagination .pagination {
+    opacity: 0 !important;
+}

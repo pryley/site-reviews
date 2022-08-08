@@ -1,0 +1,50 @@
+:--namespace .glsr-loading {
+    display: inline;
+    position: relative;
+    &::before,
+    &::after {
+        animation: gl-spin 0.5s infinite linear;
+        border-radius: 100%;
+        border: 0.2em solid currentColor;
+        box-sizing: border-box;
+        content: '';
+        display: inline-block;
+        height: 1em;
+        margin: -0.5em auto 0;
+        position: absolute;
+        top: 50%;
+        width: 1em;
+    }
+    &::before {
+        border-top-color: transparent;
+        opacity: 0.5;
+    }
+    &::after {
+        border-color: transparent;
+        border-top-color: currentColor;
+    }
+}
+:--namespace .glsr-spinner {
+    animation: gl-spin 0.5s infinite linear;
+    border-radius: 50%;
+    height: 24px;
+    position: relative;
+    width: 24px;
+    &::before,
+    &::after {
+        background: currentColor;
+        border-radius: 50%;
+        content: '';
+        height: 8px;
+        position: absolute;
+        width: 8px;
+    }
+    &::before {
+        left: 0;
+        top: 0;
+    }
+    &::after {
+        bottom: 0;
+        right: 0;
+    }
+}

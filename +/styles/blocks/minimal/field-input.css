@@ -29,7 +29,7 @@
     background-position: right 0.5em center;
     background-repeat: no-repeat;
     background-size: 16px 16px;
-    color-adjust: exact;
+    print-color-adjust: exact;
     height: auto;
     max-height: none;
     max-width: none;

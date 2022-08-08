@@ -1,1 +1,30 @@
-@import "../default/keyframes"
+@keyframes gl-fadeIn {
+    from { opacity: 0; }
+      to { opacity: 1; }
+}
+@keyframes gl-fadeOut {
+    from { opacity: 1; }
+      to { opacity: 0; }
+}
+@keyframes gl-spin {
+    0% {transform: rotate(0deg) translateZ(0)}
+    100% {transform: rotate(360deg) translateZ(0)}
+}
+/*
+@keyframes gl-slideIn {
+  from { transform: translateY(-10%); }
+    to { transform: translateY(0); }
+}
+@keyframes gl-slideOut {
+    from { transform: translateY(0); }
+    to { transform: translateY(10%); }
+}
+*/
+@keyframes gl-zoomIn {
+  from { transform: scale(.95); }
+    to { transform: scale(1); }
+}
+@keyframes gl-zoomOut {
+  from { transform: scale(1); }
+    to { transform: scale(.95); }
+}

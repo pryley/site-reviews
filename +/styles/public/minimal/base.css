@@ -1,0 +1,35 @@
+:root .glsr {
+    border-width: 0;
+    font-size: var(--gl-text-base);
+}
+:root .glsr * {
+    box-sizing: border-box;
+}
+:root .glsr .screen-reader-text,
+:root .glsr-modal .screen-reader-text {
+    border: 0;
+    clip:rect(1px,1px,1px,1px);
+    clip-path:inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    word-wrap: normal !important;
+}
+:root .glsr .h-captcha {
+    display: flex;
+}
+:root .glsr-captcha-holder iframe {
+    margin: 0 !important;
+}
+:root .glsr-captcha-holder[data-size=invisible]:not([data-badge=inline]) {
+    bottom: 0;
+    position: absolute;
+}
+:root .glsr-reviews-wrap,
+:root .glsr-reviews {
+    display: grid;
+    gap: var(--gl-gap-lg);
+}

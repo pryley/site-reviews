@@ -1,35 +1,69 @@
 @import "public/minimal/variables";
 @import "public/minimal/keyframes";
-@import "public/minimal/debug";
-@import "public/minimal/modal";
-@import "public/minimal/screen-reader";
-@import "public/minimal/captcha";
-@import "public/minimal/reviews";
-@import "public/minimal/read-more";
+@import "public/minimal/base";
+@import "public/minimal/loaders";
 @import "public/minimal/pagination";
-@import "public/minimal/reviews-form";
-@import "public/minimal/field-labels";
+@import "public/minimal/star-rating";
+@import "public/minimal/review";
+@import "public/minimal/summary";
+@import "public/minimal/form";
+@import "public/minimal/field-label";
 @import "public/minimal/field-input";
-@import "public/twentytwentyone/field-choice";
-@import "public/twentytwentyone/field-toggle";
-@import "public/minimal/field-star-rating";
+@import "public/minimal/field-choice";
+@import "public/minimal/field-toggle";
+@import "public/minimal/field-rating";
 @import "public/minimal/button";
-@import "public/minimal/reviews-summary";
+@import "public/minimal/modal";
+@import "public/minimal/debug";
 
 :root {
-    --glsr-toggle-bg-active: var(--form--border-color);
-    --glsr-toggle-bg-inactive:  var(--global--color-white);
-    --glsr-toggle-size: 25px;
-    --glsr-toggle-opacity-inactive: 1;
+    --gl-leading: var(--wp--typography--line-height, var(--global--line-height-body));
+    --gl-star-size: 1.25em;
+    --gl-text-base: var(--global--font-size-base);
+    --gl-tog-bg-on: var(--form--border-color);
+    --gl-tog-bg-off:  var(--global--color-white);
+    --gl-tog-h: 25px;
+    --gl-tog-opacity-off: 1;
 }
-
-:--namespace form.glsr-form .glsr-field-error {
-    font-family: var(--glsr-font-family-sans);
-    font-size: var(--glsr-form-font-size-small);
+:root .glsr-field-rating {
+    --gl-star-size: 2em;
 }
-
+:root .glsr-review-response {
+    --gl-px: calc(var(--gl-text-md) * 1.25);
+    --gl-py: calc(var(--gl-text-md) * 1.25);
+}
+:--namespace .glsr-summary {
+    font-size: var(--gl-text-sm);
+}
+:--namespace .glsr-summary-percentages {
+    --gl-leading: 1.5;
+}
+:--namespace form.glsr-form .glsr-star-rating > select:focus + .glsr-star-rating--stars::before {
+    border-radius: 0;
+    box-shadow: none;
+    outline: 2px dotted var(--form--border-color);
+}
 :--namespace form.glsr-form input.glsr-input,
 :--namespace form.glsr-form input.glsr-input-checkbox,
 :--namespace form.glsr-form input.glsr-input-radio:not(:checked) {
     border: var(--form--border-width) solid var(--form--border-color);
+}
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
+:--namespace form.glsr-form input[type=radio].glsr-input-radio {
+    width: var(--gl-tog-h);
+    height: var(--gl-tog-h);
+}
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::before {
+    border: var(--form--border-width) solid var(--gl-tog-bg-on);
+}
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::after {
+    box-shadow: none;
+    background-color: var(--gl-tog-bg-on);
+    border: 2px solid var(--gl-tog-bg-off);
+    transition: transform 0.075s ease-in-out;
+}
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track::after {
+    background-color: var(--gl-tog-bg-off);
+    border-color: var(--gl-tog-bg-on);
+    border-width: 1px;
 }

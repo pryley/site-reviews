@@ -1,0 +1,11 @@
+@import "../minimal/form";
+
+:--namespace form.glsr-form {
+    font-size: var(--gl-text-size);
+    line-height: var(--gl-leading);
+}
+:--namespace form.glsr-form .glsr-field-error {
+    font-family:  var(--gl-font);
+    font-size: var(--gl-text-size);
+    line-height: var(--gl-leading);
+}

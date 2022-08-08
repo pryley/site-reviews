@@ -1,8 +1,0 @@
-@import "../default/variables";
-
-:root {
-    --glsr-form-font-size-small: 0.71111em;
-    --glsr-font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-    --glsr-form-font-family-sans: var(--glsr-font-family-sans);
-    --glsr-toggle-size: 1rem;
-}
