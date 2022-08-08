@@ -1,10 +1,10 @@
 /** global: CustomEvent, FormData, GLSR, HTMLFormElement, StarRating */
 
-import Captcha from './captcha.js';
-import StarRating from 'star-rating.js/src';
-import Validation from './validation.js';
-import { addRemoveClass, classListSelector } from './helpers.js';
 import Button from '@/public/button.js';
+import Captcha from '@/public/captcha.js';
+import StarRating from '@/public/starrating.js';
+import Validation from '@/public/validation.js';
+import { addRemoveClass, classListSelector } from '@/public/helpers.js';
 
 class Form {
     constructor (formEl, buttonEl) {
@@ -15,7 +15,7 @@ class Form {
         };
         this.form = formEl;
         this.isActive = false;
-        this.stars = null;
+        this.stars = StarRating();
         this.strings = GLSR.validationstrings;
         this.useAjax = !formEl.classList.contains('no-ajax');
         this.captcha = new Captcha(this);
@@ -24,7 +24,7 @@ class Form {
 
     destroy () {
         this._destroyForm()
-        this._destroyStarRatings()
+        this.stars.destroy()
         this.captcha.reset()
         this.isActive = false;
     }
@@ -32,7 +32,7 @@ class Form {
     init () {
         if (this.isActive) return;
         this._initForm()
-        this._initStarRatings()
+        this.stars.init(this.form.querySelectorAll('.glsr-field-rating select'), GLSR.starsconfig);
         this.captcha.render()
         this.isActive = true;
     }
@@ -49,12 +49,6 @@ class Form {
         this.form.removeEventListener('submit', this.events.submit)
         this._resetErrors()
         this.validation.destroy()
-    }
-
-    _destroyStarRatings () {
-        if (this.stars) {
-            this.stars.destroy()
-        }
     }
 
     _handleResponse (response, success) {
@@ -78,14 +72,6 @@ class Form {
         this._destroyForm()
         this.form.addEventListener('submit', this.events.submit)
         this.validation.init()
-    }
-
-    _initStarRatings () {
-        if (null !== this.stars) {
-            this.stars.rebuild()
-        } else {
-            this.stars = new StarRating(this.form.querySelectorAll('.glsr-field-rating select'), GLSR.stars);
-        }
     }
 
     _onSubmit (ev) {

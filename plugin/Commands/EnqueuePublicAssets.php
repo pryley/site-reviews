@@ -80,7 +80,7 @@ class EnqueuePublicAssets implements Contract
             'ajaxurl' => admin_url('admin-ajax.php'),
             'captcha' => glsr(Captcha::class)->config(),
             'nameprefix' => glsr()->id,
-            'stars' => [
+            'starsconfig' => [
                 'clearable' => false,
                 'tooltip' => false,
             ],

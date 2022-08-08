@@ -1,26 +1,26 @@
 /** global: GLSR, jQuery, StarRating, wp */
 
-import Ajax from './admin/ajax.js';
+import Ajax from '@/admin/ajax.js';
 import autosize from 'autosize';
-import ColorPicker from './admin/color-picker.js';
-import Event from './public/event.js';
-import Filter from './admin/filter.js';
-import Filters from './admin/filters.js';
-import Forms from './admin/forms.js';
-import Metabox from './admin/metabox.js';
-import Notices from './admin/notices.js';
-import Pinned from './admin/pinned.js';
-import Pointers from './admin/pointers.js';
+import ColorPicker from '@/admin/color-picker.js';
+import Event from '@/public/event.js';
+import Filter from '@/admin/filter.js';
+import Filters from '@/admin/filters.js';
+import Forms from '@/admin/forms.js';
+import Metabox from '@/admin/metabox.js';
+import Notices from '@/admin/notices.js';
+import Pinned from '@/admin/pinned.js';
+import Pointers from '@/admin/pointers.js';
 import Prism from 'prismjs';
-import Search from './admin/search.js';
-import Sections from './admin/sections.js';
-import Shortcode from './admin/shortcode.js';
-import StarRating from 'star-rating.js';
-import Status from './admin/status.js';
-import Sync from './admin/sync.js';
-import Tabs from './admin/tabs.js';
-import TextareaResize from './admin/textarea-resize.js';
-import Tools from './admin/tools.js';
+import Search from '@/admin/search.js';
+import Sections from '@/admin/sections.js';
+import Shortcode from '@/admin/shortcode.js';
+import StarRating from '@/public/starrating.js';
+import Status from '@/admin/status.js';
+import Sync from '@/admin/sync.js';
+import Tabs from '@/admin/tabs.js';
+import TextareaResize from '@/admin/textarea-resize.js';
+import Tools from '@/admin/tools.js';
 import tippy, {followCursor} from 'tippy.js';
 
 GLSR.autosize = autosize;
@@ -35,6 +35,7 @@ GLSR.keys = {
 };
 
 GLSR.Event = Event;
+GLSR.stars = StarRating();
 GLSR.Tippy = { tippy, plugins: { followCursor }}
 
 function discover_site_reviews () {
@@ -54,7 +55,7 @@ jQuery(function ($) {
     Prism.highlightAll();
     GLSR.notices = new Notices();
     GLSR.shortcode = new Shortcode('.glsr-mce');
-    GLSR.stars = new StarRating('select.glsr-star-rating', { tooltip: false });
+    GLSR.stars.init('.glsr-field-rating select', { clearable: true });
 
     GLSR.Tippy.tippy('.glsr-tooltip', {appendTo: () => document.body});
     $('.glsr-tooltip').each((i, el) => {
@@ -221,7 +222,8 @@ const setTextDirection = (type) => {
 Event.on('site-reviews/form', (response, attributes) => {
     if (!_.isEmpty(response) && !response.error) {
         setTextDirection('form')
-        GLSR.stars = new StarRating('select.glsr-star-rating', { tooltip: false });
+        GLSR.stars.destroy();
+        GLSR.stars.init('.glsr-field-rating select', { clearable: true });
     }
 });
 Event.on('site-reviews/reviews', (response, attributes) => {
