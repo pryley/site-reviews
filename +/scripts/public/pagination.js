@@ -1,4 +1,4 @@
-/** global: GLSR */
+import Button from '@/public/button.js';
 
 const classNames = {
     hide: 'glsr-hide',
@@ -88,13 +88,12 @@ class Pagination {
         Object.keys(events).forEach(event => el[action + 'EventListener'](event, events[event]))
     }
 
-    _handleLoadMore (buttonEl, request, response, success) {
+    _handleLoadMore (button, request, response, success) {
         if (!success) {
             window.location = location; // reload page
             return;
         }
-        buttonEl.setAttribute('aria-busy', 'false')
-        buttonEl.removeAttribute('disabled')
+        button.loaded()
         this.destroy()
         this.paginationEl.innerHTML = response.pagination;
         this.reviewsEl.insertAdjacentHTML('beforeend', response.reviews)
@@ -125,10 +124,10 @@ class Pagination {
         const el = ev.currentTarget;
         const data = this._data(el);
         if (data) {
-            el.setAttribute('aria-busy', 'true');
-            el.setAttribute('disabled', '');
-            ev.preventDefault();
-            GLSR.ajax.post(data, this._handleLoadMore.bind(this, el, data));
+            const button = Button(el);
+            button.loading()
+            ev.preventDefault()
+            GLSR.ajax.post(data, this._handleLoadMore.bind(this, button, data))
         }
     }
 

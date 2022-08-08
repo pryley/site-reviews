@@ -4,10 +4,11 @@ import Captcha from './captcha.js';
 import StarRating from 'star-rating.js/src';
 import Validation from './validation.js';
 import { addRemoveClass, classListSelector } from './helpers.js';
+import Button from '@/public/button.js';
 
 class Form {
     constructor (formEl, buttonEl) {
-        this.button = buttonEl;
+        this.button = Button(buttonEl);
         this.config = GLSR.validationconfig;
         this.events = {
             submit: this._onSubmit.bind(this),
@@ -28,16 +29,6 @@ class Form {
         this.isActive = false;
     }
 
-    disableButton () {
-        this.button.setAttribute('aria-busy', 'true')
-        this.button.setAttribute('disabled', '')
-    }
-
-    enableButton () {
-        this.button.setAttribute('aria-busy', 'false')
-        this.button.removeAttribute('disabled')
-    }
-
     init () {
         if (this.isActive) return;
         this._initForm()
@@ -47,7 +38,7 @@ class Form {
     }
 
     submitForm (token) {
-        this.disableButton()
+        this.button.loading()
         if (this.form['g-recaptcha-response']) {
             this.form['g-recaptcha-response'].value = token;
         }
@@ -74,7 +65,7 @@ class Form {
         }
         this._showFieldErrors(response.errors)
         this._showResults(response.message, wasSuccessful)
-        this.enableButton()
+        this.button.loaded()
         GLSR.Event.trigger('site-reviews/form/handle', response, this.form)
         response.form = this.form; // @compat
         document.dispatchEvent(new CustomEvent('site-reviews/after/submission', { detail: response })) // @compat
@@ -105,7 +96,7 @@ class Form {
         }
         ev.preventDefault()
         this._resetErrors()
-        this.disableButton()
+        this.button.loading()
         this.captcha.execute()
     }
 

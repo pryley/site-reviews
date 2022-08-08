@@ -13,6 +13,7 @@ class FormSubmitButtonTag extends FormTag
     {
         return glsr(Template::class)->build('templates/form/submit-button', [
             'context' => [
+                'loading_text' => __('Submitting, please wait...', 'site-reviews'),
                 'text' => __('Submit your review', 'site-reviews'),
             ],
         ]);
