@@ -11,6 +11,14 @@ class ElementorSummaryWidget extends ElementorWidget
     /**
      * @return string
      */
+    public function get_icon()
+    {
+        return 'eicon-rating';
+    }
+
+    /**
+     * @return string
+     */
     public function get_shortcode()
     {
         return SiteReviewsSummaryShortcode::class;

@@ -38,31 +38,27 @@ class Controller extends BaseController
     }
 
     /**
+     * @param $manager \Elementor\Elements_Manager
      * @return void
-     * @action elementor/init
+     * @action elementor/elements/categories_registered
      */
-    public function registerElementorCategory()
+    public function registerElementorCategory($manager)
     {
-        \Elementor\Plugin::instance()->elements_manager->add_category(glsr()->id, [
+        $manager->add_category(glsr()->id, [
             'title' => glsr()->name,
             'icon' => 'eicon-star-o', // default icon
         ]);
     }
 
     /**
+     * @param $manager \Elementor\Widgets_Manager
      * @return void
-     * @action elementor/widgets/widgets_registered
+     * @action elementor/widgets/register
      */
-    public function registerElementorWidgets()
+    public function registerElementorWidgets($manager)
     {
-        \Elementor\Plugin::instance()->widgets_manager->register_widget_type(
-            new ElementorFormWidget()
-        );
-        \Elementor\Plugin::instance()->widgets_manager->register_widget_type(
-            new ElementorReviewsWidget()
-        );
-        \Elementor\Plugin::instance()->widgets_manager->register_widget_type(
-            new ElementorSummaryWidget()
-        );
+        $manager->register(new ElementorFormWidget());
+        $manager->register(new ElementorReviewsWidget());
+        $manager->register(new ElementorSummaryWidget());
     }
 }

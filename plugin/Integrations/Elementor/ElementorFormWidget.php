@@ -9,6 +9,14 @@ class ElementorFormWidget extends ElementorWidget
     /**
      * @return string
      */
+    public function get_icon()
+    {
+        return 'eicon-form-horizontal';
+    }
+
+    /**
+     * @return string
+     */
     public function get_shortcode()
     {
         return SiteReviewsFormShortcode::class;

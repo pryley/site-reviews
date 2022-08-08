@@ -23,7 +23,7 @@ class Hooks implements HooksContract
     {
         add_filter('site-reviews/enqueue/public/inline-script/after', [$this->controller, 'filterElementorPublicInlineScript'], 1);
         add_filter('site-reviews/defaults/star-rating/defaults', [$this->controller, 'filterElementorStarRatingDefaults']);
-        add_action('elementor/init', [$this->controller, 'registerElementorCategory']);
-        add_action('elementor/widgets/widgets_registered', [$this->controller, 'registerElementorWidgets']);
+        add_action('elementor/elements/categories_registered', [$this->controller, 'registerElementorCategory']);
+        add_action('elementor/widgets/register', [$this->controller, 'registerElementorWidgets']);
     }
 }

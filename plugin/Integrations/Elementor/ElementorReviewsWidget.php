@@ -11,6 +11,14 @@ class ElementorReviewsWidget extends ElementorWidget
     /**
      * @return string
      */
+    public function get_icon()
+    {
+        return 'eicon-testimonial';
+    }
+
+    /**
+     * @return string
+     */
     public function get_shortcode()
     {
         return SiteReviewsShortcode::class;
