@@ -1,6 +1,6 @@
 // Inspired by https://github.com/sha256/Pristine/
 
-import { addRemoveClass, classListSelector } from './helpers.js';
+import { addRemoveClass, classListSelector } from '@/public/helpers.js';
 
 const countGroupedElements = inputEl => {
     let selector = 'input[name="' + inputEl.getAttribute('name') + '"]:checked';

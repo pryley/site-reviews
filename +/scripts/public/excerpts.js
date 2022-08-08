@@ -1,4 +1,4 @@
-import dom from './dom.js';
+import dom from '@/public/dom.js';
 
 const classNames = {
     hidden: 'glsr-hidden',

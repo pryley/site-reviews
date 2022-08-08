@@ -1,7 +1,7 @@
 // see: https://github.com/ghosh/Micromodal
 
-import dom from './dom.js'
-import { debounce } from './helpers.js'
+import dom from '@/public/dom.js'
+import { debounce } from '@/public/helpers.js'
 import { lock, unlock } from 'tua-body-scroll-lock'
 
 const FOCUSABLE_ELEMENTS = [
