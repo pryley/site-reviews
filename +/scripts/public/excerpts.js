@@ -34,12 +34,12 @@ class Excerpts {
 
     _insertLink (el) { // p.glsr-hidden-text
         let readMoreEl = el.parentElement.querySelector('.' + classNames.readmore);
-        if (!readMoreEl) {
-            const readMoreLink = dom('a', { href: '#' }, el.dataset.showMore);
-            const readMoreSpan = dom('span', { class: classNames.readmore }, readMoreLink);
-            readMoreEl = el.appendChild(readMoreSpan);
+        if (readMoreEl) {
+            readMoreEl.parentElement.removeChild(readMoreEl);
         }
-        return readMoreEl.querySelector('a')
+        const readMoreLink = dom('a', { href: '#' }, el.dataset.showMore);
+        const readMoreSpan = dom('span', { class: classNames.readmore }, readMoreLink);
+        return el.appendChild(readMoreSpan).querySelector('a')
     }
 
     _onClick (ev) {
