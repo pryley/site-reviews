@@ -14,7 +14,7 @@ class ReviewTitleTag extends ReviewTag
             if (empty($title)) {
                 $title = __('No Title', 'site-reviews');
             }
-            return $this->wrap($title, 'h3');
+            return $this->wrap($title, 'h4');
         }
     }
 }

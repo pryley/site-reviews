@@ -1,6 +1,7 @@
 <?php defined('ABSPATH') || die;
 
 $sections = [
+    trailingslashit(__DIR__).'faq/add-name-dash.php',
     trailingslashit(__DIR__).'faq/add-schema-values.php',
     trailingslashit(__DIR__).'faq/add-review-pagination.php',
     trailingslashit(__DIR__).'faq/change-review-title-tag.php',
@@ -19,7 +20,6 @@ $sections = [
     trailingslashit(__DIR__).'faq/query-by-rank.php',
     trailingslashit(__DIR__).'faq/dont-store-ipaddress.php',
     trailingslashit(__DIR__).'faq/redirect-after-submission.php',
-    trailingslashit(__DIR__).'faq/remove-name-dash.php',
     trailingslashit(__DIR__).'faq/remove-nonce-check.php',
     trailingslashit(__DIR__).'faq/replace-avatar-with-featured-image.php',
     trailingslashit(__DIR__).'faq/notify-author-when-responding.php',
