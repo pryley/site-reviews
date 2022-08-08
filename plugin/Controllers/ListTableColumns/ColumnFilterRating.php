@@ -25,8 +25,8 @@ class ColumnFilterRating extends ColumnFilter
             $empty = $max - $rating;
             $title = _x('%s star rating', 'admin-text', 'site-reviews');
             $options[$rating] = [
-                str_repeat('★', $rating).str_repeat('☆', $empty),
-                sprintf($title, $rating),
+                'title' => sprintf($title, $rating),
+                'value' => str_repeat('★', $rating).str_repeat('☆', $empty),
             ];
         }
         return $options;

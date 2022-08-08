@@ -20,24 +20,12 @@ use GeminiLabs\SiteReviews\Modules\Html\Builder;
 class Style
 {
     /**
+     * The properties that are accessible.
      * @var array
      */
-    public $classes;
-
-    /**
-     * @var string
-     */
-    public $style;
-
-    /**
-     * @var array
-     */
-    public $pagination;
-
-    /**
-     * @var array
-     */
-    public $validation;
+    protected $accessible = [
+        'classes', 'style', 'pagination', 'validation',
+    ];
 
     /**
      * The methods that are callable.
@@ -46,6 +34,26 @@ class Style
     protected $callable = [
         'classes', 'validation',
     ];
+
+    /**
+     * @var array
+     */
+    protected $classes;
+
+    /**
+     * @var string
+     */
+    protected $style;
+
+    /**
+     * @var array
+     */
+    protected $pagination;
+
+    /**
+     * @var array
+     */
+    protected $validation;
 
     public function __call($method, $args)
     {
@@ -63,8 +71,7 @@ class Style
 
     public function __get($property)
     {
-        $allowed = ['classes', 'style', 'pagination', 'validation'];
-        if (!in_array($property, $allowed)) {
+        if (!in_array($property, $this->accessible)) {
             return;
         }
         if (!isset($this->$property)) {
@@ -80,11 +87,27 @@ class Style
         return $this->$property;
     }
 
+    public function modifyField(Builder $instance): void
+    {
+        if ($this->isPublicInstance($instance)) {
+            call_user_func_array([$this, 'customize'], [$instance]);
+        }
+    }
+
     /**
-     * @param string $view
-     * @return string
+     * This allows us to override the pagination config in /config/styles instead of using a filter hook.
      */
-    public function filterView($view)
+    public function paginationArgs(array $args): array
+    {
+        return wp_parse_args($args, $this->__get('pagination'));
+    }
+
+    public function styleClasses(): string
+    {
+        return glsr()->filterString('style', 'glsr glsr-'.$this->__get('style'));
+    }
+
+    public function view(string $view): string
     {
         $styledViews = glsr()->filterArray('style/views', [
             'templates/form/field',
@@ -108,37 +131,9 @@ class Style
     }
 
     /**
-     * @return void
+     * Add custom form classes.
      */
-    public function modifyField(Builder $instance)
-    {
-        if ($this->isPublicInstance($instance)) {
-            call_user_func_array([$this, 'customize'], [$instance]);
-        }
-    }
-
-    /**
-     * This allows us to override the pagination config in /config/styles instead of using a filter hook.
-     * @return array
-     */
-    public function paginationArgs(array $args)
-    {
-        return wp_parse_args($args, $this->__get('pagination'));
-    }
-
-    /**
-     * @return string
-     */
-    public function styleClasses()
-    {
-        return glsr()->filterString('style', 'glsr glsr-'.$this->__get('style'));
-    }
-
-    /**
-     * Add the custom form classes.
-     * @return void
-     */
-    protected function customize(Builder $instance)
+    protected function customize(Builder $instance): void
     {
         if (array_key_exists($instance->tag, $this->__get('classes'))) {
             $key = $instance->tag.'_'.$instance->args->type;
@@ -150,11 +145,7 @@ class Style
         }
     }
 
-    /**
-     * @param string $view
-     * @return array
-     */
-    protected function generatePossibleViews($view)
+    protected function generatePossibleViews(string $view): array
     {
         $basename = basename($view);
         $basepath = rtrim($view, $basename);
@@ -169,10 +160,7 @@ class Style
         return array_filter($views);
     }
 
-    /**
-     * @return bool
-     */
-    protected function isPublicInstance(Builder $instance)
+    protected function isPublicInstance(Builder $instance): bool
     {
         $args = glsr()->args($instance->args)->merge(['is_raw' => false]);
         return !glsr()->isAdmin() && !Cast::toBool($args->is_raw);

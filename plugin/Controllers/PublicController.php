@@ -87,7 +87,7 @@ class PublicController extends Controller
      */
     public function filterRenderView($view)
     {
-        return glsr(Style::class)->filterView($view);
+        return glsr(Style::class)->view($view);
     }
 
     /**

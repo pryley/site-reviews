@@ -305,17 +305,19 @@ class Builder
             $options = Arr::prepend($options, $this->args->placeholder, '');
         }
         return array_reduce(array_keys($options), function ($carry, $key) use ($options) {
-            $option = $options[$key];
-            if (wp_is_numeric_array($option)) {
-                $option = Cast::toString(Arr::get($options[$key], 0));
-                $title = Cast::toString(Arr::get($options[$key], 1));
-            }
-            if (is_array($option)) {
-                return $carry.$this->buildFormSelectOptGroup($option, $key);
+            $value = $options[$key];
+            if (is_array($value)) {
+                // if the option is an array and has a title and value key
+                // then treat the option as a string with a title attribute
+                if (array_diff(array_keys($value), ['title', 'value'])) {
+                    return $carry.$this->buildFormSelectOptGroup($value, $key);
+                }
+                $title = $options[$key]['title'];
+                $value = $options[$key]['value'];
             }
             return $carry.$this->option([
                 'selected' => $this->args->cast('value', 'string') === Cast::toString($key),
-                'text' => $option,
+                'text' => $value,
                 'title' => $title ?? '',
                 'value' => $key,
             ]);
