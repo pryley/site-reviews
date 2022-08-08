@@ -53,7 +53,6 @@ class Pagination implements PartialContract
         return glsr(Template::class)->build('templates/pagination', [
             'context' => [
                 'links' => glsr()->filterString('paginate_links', $this->paginatedLinks(), $this->args),
-                'loader' => '<div class="glsr-loader"><div class="glsr-spinner"></div></div>',
                 'screen_reader_text' => _x('Site Reviews navigation', 'screen reader text', 'site-reviews'),
             ],
         ]);

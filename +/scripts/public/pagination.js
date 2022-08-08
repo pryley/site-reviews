@@ -9,6 +9,24 @@ const config = {
     scrollTime: 468,
 }
 
+const loader = (el) => {
+    '<div class="glsr-loader"><div class="glsr-spinner"></div></div>';
+
+    const loadingText = el.dataset.loading;
+    const text = el.innerText;
+    const insert = () => {
+        el.setAttribute('aria-busy', false);
+        el.removeAttribute('disabled');
+        el.innerHTML = text;
+    }
+    const remove = () => {
+        el.setAttribute('aria-busy', true);
+        el.setAttribute('disabled', '');
+        el.innerHTML = '<span class="glsr-loading"></span>' + loadingText || text;
+    }
+    return { el, loading, loaded };
+}
+
 const selectors = {
     button: 'button.glsr-button-loadmore',
     link: '.glsr-pagination a.page-numbers',
@@ -45,7 +63,7 @@ class Pagination {
             const data = this._data(current);
             const nextLink = current.nextElementSibling;
             if (data && nextLink && 2 === +nextLink.dataset.page && GLSR.urlparameter) { // window loaded page 1
-                window.history.replaceState(data, '', window.location);
+                window.history.replaceState(data, '', window.location)
             }
         }
     }
@@ -69,7 +87,7 @@ class Pagination {
             data[`${GLSR.nameprefix}[url]`] = el.href || location.href;
             return data;
         } catch(e) {
-            console.error('Invalid pagination config.');
+            console.error('Invalid pagination config.')
             return false;
         }
     }
@@ -78,10 +96,10 @@ class Pagination {
         this._eventListener(window, action, this.events.window)
         this.wrapperEl.querySelectorAll(selectors.button).forEach(el => {
             this._eventListener(el, action, this.events.button)
-        });
+        })
         this.wrapperEl.querySelectorAll(selectors.link).forEach(el => {
             this._eventListener(el, action, this.events.link)
-        });
+        })
     }
 
     _eventListener (el, action, events) {
@@ -91,24 +109,24 @@ class Pagination {
     _handleLoadMore (button, request, response, success) {
         if (!success) {
             window.location = location; // reload page
-            return;
+            return
         }
         button.loaded()
         this.destroy()
         this.paginationEl.innerHTML = response.pagination;
         this.reviewsEl.insertAdjacentHTML('beforeend', response.reviews)
         this.init()
-        GLSR.Event.trigger('site-reviews/pagination/handle', response, this);
+        GLSR.Event.trigger('site-reviews/pagination/handle', response, this)
     }
 
     _handlePagination (linkEl, request, response, success) {
         if (!success) {
             window.location = linkEl.href; // reload page
-            return;
+            return
         }
         this._paginate(response)
         if (GLSR.urlparameter) {
-            window.history.pushState(request, '', linkEl.href); // add a new entry to browser History
+            window.history.pushState(request, '', linkEl.href) // add a new entry to browser History
         }
     }
 
@@ -116,8 +134,21 @@ class Pagination {
         if (success) {
             this._paginate(response)
         } else {
-            console.error(response);
+            console.error(response)
         }
+    }
+
+    _loaded () {
+        const loaderEl = this.paginationEl.querySelector('.glsr-spinner');
+        if (loaderEl) {
+            this.paginationEl.removeChild(loaderEl)
+        }
+        this.wrapperEl.classList.remove(classNames.hide)
+    }
+
+    _loading () {
+        this.wrapperEl.classList.add(classNames.hide)
+        this.paginationEl.insertAdjacentHTML('beforeend', '<div class="glsr-spinner"></div>')
     }
 
     _onLoadMore (ev) {
@@ -135,37 +166,37 @@ class Pagination {
         const el = ev.currentTarget;
         const data = this._data(el);
         if (data) {
-            this.wrapperEl.classList.add(classNames.hide);
-            ev.preventDefault();
-            GLSR.ajax.post(data, this._handlePagination.bind(this, el, data));
+            this._loading()
+            ev.preventDefault()
+            GLSR.ajax.post(data, this._handlePagination.bind(this, el, data))
         }
     }
 
     _onPopstate (ev) {
-        GLSR.Event.trigger('site-reviews/pagination/popstate', ev, this);
+        GLSR.Event.trigger('site-reviews/pagination/popstate', ev, this)
         if (ev.state && ev.state[`${GLSR.nameprefix}[_action]`]) {
-            this.wrapperEl.classList.add(classNames.hide);
-            GLSR.ajax.post(ev.state, this._handlePopstate.bind(this, ev.state));
+            this._loading()
+            GLSR.ajax.post(ev.state, this._handlePopstate.bind(this, ev.state))
         }
     }
 
     _paginate (response) {
-        this.destroy();
+        this.destroy()
         this.paginationEl.innerHTML = response.pagination;
         this.reviewsEl.innerHTML = response.reviews;
-        this.init();
-        this._scrollToTop();
-        this.wrapperEl.classList.remove(classNames.hide);
-        GLSR.Event.trigger('site-reviews/pagination/handle', response, this);
+        this.init()
+        this._scrollToTop()
+        this._loaded()
+        GLSR.Event.trigger('site-reviews/pagination/handle', response, this)
     }
 
     _scrollStep (context) {
         const elapsed = Math.min(1, (window.performance.now() - context.startTime) / config.scrollTime);
         const easedValue = 0.5 * (1 - Math.cos(Math.PI * elapsed));
         const currentY = context.startY + (context.endY - context.startY) * easedValue;
-        window.scroll(0, context.offset + currentY); // set the starting scoll position
+        window.scroll(0, context.offset + currentY) // set the starting scoll position
         if (currentY !== context.endY) {
-            window.requestAnimationFrame(this._scrollStep.bind(this, context));
+            window.requestAnimationFrame(this._scrollStep.bind(this, context))
         }
     }
 
@@ -185,7 +216,7 @@ class Pagination {
             offset: window.pageYOffset,
             startTime: window.performance.now(),
             startY: this.reviewsEl.scrollTop,
-        });
+        })
     }
 }
 

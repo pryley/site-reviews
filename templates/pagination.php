@@ -7,5 +7,4 @@
             {{ links }}
         </div>
     </nav>
-    {{ loader }}
 </div>
