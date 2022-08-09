@@ -10,8 +10,6 @@ const config = {
 }
 
 const loader = (el) => {
-    '<div class="glsr-loader"><div class="glsr-spinner"></div></div>';
-
     const loadingText = el.dataset.loading;
     const text = el.innerText;
     const insert = () => {
@@ -29,7 +27,7 @@ const loader = (el) => {
 
 const selectors = {
     button: 'button.glsr-button-loadmore',
-    link: '.glsr-pagination a.page-numbers',
+    link: '.glsr-pagination a[data-page]',
     pagination: '.glsr-pagination',
     reviews: '.glsr-reviews, [data-reviews]',
 }

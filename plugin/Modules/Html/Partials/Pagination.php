@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Contracts\PartialContract;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
+use GeminiLabs\SiteReviews\Modules\Paginate;
 use GeminiLabs\SiteReviews\Modules\Style;
 
 class Pagination implements PartialContract
@@ -36,6 +37,7 @@ class Pagination implements PartialContract
         if ($this->args['total'] > $this->args['current']) {
             return glsr(Template::class)->build('templates/load-more-button', [
                 'context' => [
+                    'class' => sprintf('glsr-button-loadmore %s', glsr(Style::class)->classes('button')),
                     'loading_text' => __('Loading, please wait...', 'site-reviews'),
                     'page' => $this->args['current'] + 1,
                     'screen_reader_text' => _x('Load more reviews', 'screen reader text', 'site-reviews'),
@@ -63,17 +65,8 @@ class Pagination implements PartialContract
      */
     protected function paginatedLinks()
     {
-        $links = (array) paginate_links(wp_parse_args(['type' => 'array'], $this->args));
-        $pattern = '/href=["\']([^"\']*?)["\']/i';
-        foreach ($links as &$link) {
-            if (preg_match($pattern, $link, $matches)) {
-                $hrefTag = Arr::get($matches, 0);
-                $hrefUrl = Arr::get($matches, 1);
-                $page = Helper::getPageNumber($hrefUrl);
-                $replacement = sprintf('%s data-page="%d"', $hrefTag, $page);
-                $link = str_replace($hrefTag, $replacement, $link);
-            }
-        }
+        $links = (new Paginate($this->args))->links();
+        $links = wp_list_pluck($links, 'link');
         return implode("\n", $links);
     }
 

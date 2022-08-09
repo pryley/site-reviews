@@ -115,6 +115,7 @@
     site-reviews/optimized/scripts                          (array $handles): array
     site-reviews/optimized/styles                           (array $handles): array
     site-reviews/option/<path>                              (mixed $value): mixed
+    site-reviews/paginate_link                              (array $link, array $args, Modules\Html\Builder $builder, Modules\Paginate $paginate): array
     site-reviews/paginate_links                             (string $links, array $args): string
     site-reviews/partial/args/<partial_path>                (array $args): array
     site-reviews/partial/classname                          (string $className, string $partialPath, array $args): string
