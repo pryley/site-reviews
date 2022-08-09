@@ -73,6 +73,7 @@ mix
   // .postCss('+/styles/contact_form_7.css', 'assets/styles', postCss('.glsr-contact_form_7'))
   // .postCss('+/styles/default.css', 'assets/styles', postCss('.glsr-default'))
   // .postCss('+/styles/divi.css', 'assets/styles', postCss('.et-db #et-main-area .glsr-divi, .et-db #et-boc .glsr-divi, .glsr-divi'))
+  .postCss('+/styles/elementor.css', 'assets/styles', postCss('.glsr-elementor'))
   .postCss('+/styles/minimal.css', 'assets/styles', postCss('.glsr-minimal'))
   // .postCss('+/styles/ninja_forms.css', 'assets/styles', postCss('.glsr-ninja_forms'))
   .postCss('+/styles/twentyfifteen.css', 'assets/styles', postCss('.glsr-twentyfifteen'))

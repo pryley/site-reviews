@@ -10,6 +10,7 @@ class StyleClassesDefaults extends Defaults
      * @var string[]
      */
     public $concatenated = [
+        'button',
         'field',
         'form',
         'input',
@@ -33,6 +34,7 @@ class StyleClassesDefaults extends Defaults
     protected function defaults()
     {
         return [
+            'button' => 'glsr-button',
             'field' => 'glsr-field',
             'form' => 'glsr-form',
             'input' => '',

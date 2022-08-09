@@ -25,6 +25,7 @@ return [ // order is intentional
             ],
             _x('Plugins', 'admin-text', 'site-reviews') => [
                 'contact_form_7' => _x('Contact Form 7 (v5)', 'admin-text', 'site-reviews'),
+                'elementor' => _x('Elementor Pro (v3)', 'admin-text', 'site-reviews'),
                 'ninja_forms' => _x('Ninja Forms (v3)', 'admin-text', 'site-reviews'),
                 'wpforms' => _x('WPForms (v1)', 'admin-text', 'site-reviews'),
             ],

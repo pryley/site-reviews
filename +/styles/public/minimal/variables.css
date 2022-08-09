@@ -22,8 +22,8 @@
     --gl-leading          : 1.5;
     --gl-max-w            : 480px;
     --gl-modal-bg         : var(--gl-white);
-    --gl-px               : calc(var(--gl-text-root) * .75);
-    --gl-py               : calc(var(--gl-text-root) / 2);
+    --gl-px               : calc(var(--gl-text-base) * .75);
+    --gl-py               : calc(var(--gl-text-base) / 2);
     --gl-radius           : 3px;
     --gl-star-size        : 1.5em;
     --gl-text-base        : 1em;

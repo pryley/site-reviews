@@ -10,8 +10,8 @@
     margin-right: 0;
     max-height: none;
     max-width: none;
-    min-height: none;
-    min-width: none;
+    min-height: auto;
+    min-width: auto;
     width: 100%;
 }
 :--namespace form.glsr-form input.glsr-input.glsr-is-invalid,

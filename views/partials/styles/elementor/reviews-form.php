@@ -1,0 +1,11 @@
+<?php defined('ABSPATH') || die; ?>
+
+<div class="glsr-form-wrap">
+    <form class="{{ class }}" id="{{ id }}" method="post" enctype="multipart/form-data">
+        <div class="elementor-form-fields-wrapper elementor-labels-above">
+            {{ fields }}
+            {{ submit_button }}
+        </div>
+        {{ response }}
+    </form>
+</div>

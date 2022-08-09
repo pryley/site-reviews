@@ -1,7 +1,7 @@
 <?php defined('ABSPATH') || die; ?>
 
-<div class="wp-block-button">
-    <button type="button" class="{{ class }} wp-block-button__link" 
+<div class="elementor-form">
+    <button type="button" class="{{ class }}" 
         aria-label="{{ screen_reader_text }}"
         aria-busy="false" 
         data-loading="{{ loading_text }}" 
