@@ -1,39 +1,51 @@
-@import "public/divi/variables";
+@import "public/minimal/variables";
 @import "public/minimal/keyframes";
-@import "public/minimal/debug";
-@import "public/minimal/modal";
-@import "public/minimal/screen-reader";
-@import "public/minimal/captcha";
-@import "public/minimal/reviews";
-@import "public/minimal/read-more";
+@import "public/minimal/base";
+@import "public/minimal/loaders";
 @import "public/minimal/pagination";
+@import "public/minimal/star-rating";
+@import "public/minimal/review";
+@import "public/minimal/summary";
 @import "public/minimal/field-toggle";
-@import "public/minimal/field-star-rating";
+@import "public/minimal/field-rating";
 @import "public/minimal/button";
-@import "public/minimal/reviews-summary";
+@import "public/minimal/modal";
+@import "public/minimal/debug";
+
+:root {
+    --gl-tog-h: 20px;
+}
+:root .glsr {
+    font-size: var(--gl-text-base);
+}
+:root .glsr-field-rating {
+    --gl-star-size: 2em;
+}
+:root .glsr-review-response {
+    --gl-px: calc(var(--gl-text-md) * 1.25);
+    --gl-py: calc(var(--gl-text-md) * 1.25);
+}
 
 :--namespace form.glsr-hide-form {
     max-height: 0 !important;
     opacity: 0;
     overflow: hidden;
 }
-:--namespace form.glsr-form:not(.glsr-form-is-invalid) .glsr-field-error,
-:--namespace form.glsr-form .glsr-form-message:not(.glsr-form-failed):not(.glsr-form-success) {
+:--namespace .glsr-field:not(.glsr-field-is-invalid) .glsr-field-error,
+:--namespace .glsr-form-message:not(.glsr-form-failed):not(.glsr-form-success) {
     display: none;
 }
-:--namespace form.glsr-form .glsr-field-error {
+:--namespace .glsr-field-error {
     display: flex;
 }
-:--namespace form.glsr-form .glsr-field-error,
-:--namespace form.glsr-form .glsr-form-failed {
+:--namespace .glsr-field-error,
+:--namespace .glsr-form-failed {
     color: var(--glsr-red);
 }
-:--namespace form.glsr-form .glsr-form-success {
+:--namespace .glsr-form-success {
     color: var(--glsr-green);
 }
-:--namespace form.glsr-form input[type=email],
-:--namespace form.glsr-form input[type=tel],
-:--namespace form.glsr-form input[type=text],
+:--namespace form.glsr-form input.glsr-input,
 :--namespace form.glsr-form select.glsr-select,
 :--namespace form.glsr-form textarea.glsr-textarea {
     width: 100%;

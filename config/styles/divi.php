@@ -2,6 +2,7 @@
 
 return [
     'classes' => [
+        'button' => 'et_pb_contact_submit et_pb_button',
         'field' => 'et_pb_contact_field',
         'form' => 'et_pb_contact_form clearfix',
         'input' => 'input',
