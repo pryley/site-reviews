@@ -30,8 +30,7 @@ return [ // order is intentional
                 'wpforms' => _x('WPForms (v1)', 'admin-text', 'site-reviews'),
             ],
             _x('Themes', 'admin-text', 'site-reviews') => [
-                'bootstrap_4' => _x('Bootstrap 4', 'admin-text', 'site-reviews'),
-                'bootstrap_4_custom' => _x('Bootstrap 4 (Custom Forms)', 'admin-text', 'site-reviews'),
+                'bootstrap' => _x('Bootstrap (v5)', 'admin-text', 'site-reviews'),
                 'divi' => _x('Divi (v4)', 'admin-text', 'site-reviews'),
                 'twentyfifteen' => _x('Twenty Fifteen', 'admin-text', 'site-reviews'),
                 'twentysixteen' => _x('Twenty Sixteen', 'admin-text', 'site-reviews'),

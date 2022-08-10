@@ -117,6 +117,7 @@ class Style
             'templates/form/type-radio',
             'templates/form/type-toggle',
             'templates/load-more-button',
+            'templates/pagination',
             'templates/reviews-form',
         ]);
         if (!preg_match('('.implode('|', $styledViews).')', $view)) {

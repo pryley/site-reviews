@@ -1,8 +1,42 @@
 <?php
 
 use GeminiLabs\SiteReviews\Application;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Paginate;
 
 defined('ABSPATH') || exit;
+
+/**
+ * Bootstrap pagination
+ * @return array
+ * @filter site-reviews/paginate_link
+ */
+function glsr_filter_bootstrap_pagination_link(array $link, array $args, Builder $builder) {
+    $args['class'] = 'page-link';
+    if ('current' === $link['type']) {
+        $class = 'page-item active';
+        $text = $builder->span($args);
+    }
+    if ('dots' === $link['type']) {
+        $text = $builder->span($args);
+    }
+    $link['link'] = $builder->li([
+        'text' => $text ?? $builder->a($args),
+        'class' => $class ?? 'page-item',
+    ]);
+    return $link;
+}
+add_filter('site-reviews/paginate_links', function (string $links, array $args) {
+    if ('bootstrap' !== glsr_get_option('general.style')) {
+        return $links;
+    }
+    $args = wp_parse_args(['mid_size' => 1], $args);
+    add_filter('site-reviews/paginate_link', 'glsr_filter_bootstrap_pagination_link', 10, 3);
+    $links = (new Paginate($args))->links();
+    remove_filter('site-reviews/paginate_link', 'glsr_filter_bootstrap_pagination_link');
+    $links = wp_list_pluck($links, 'link');
+    return implode("\n", $links);
+}, 10, 2);
 
 /**
  * @param array $editors

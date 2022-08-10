@@ -2,13 +2,16 @@
 
 return [
     'classes' => [
+        'button' => 'btn btn-primary',
         'field' => 'form-group',
         'input' => 'form-control',
-        'input_checkbox' => 'custom-control-input',
-        'input_radio' => 'custom-control-input',
-        'label_checkbox' => 'custom-control-label',
-        'label_radio' => 'custom-control-label',
-        'select' => 'form-control custom-select',
+        'input_checkbox' => 'form-check-input',
+        'input_radio' => 'form-check-input',
+        'input_toggle' => 'form-check-input',
+        'label_checkbox' => 'form-check-label',
+        'label_radio' => 'form-check-label',
+        'label_toggle' => 'form-check-label',
+        'select' => 'form-select',
         'textarea' => 'form-control',
     ],
     'validation' => [
