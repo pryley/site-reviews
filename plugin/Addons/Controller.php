@@ -191,6 +191,21 @@ abstract class Controller extends BaseController
     }
 
     /**
+     * @param string $view
+     * @return string
+     * @filter {addon_id}/render/view
+     */
+    public function filterRenderView($view)
+    {
+        $style = glsr_get_option('general.style', 'default');
+        $styledView = sprintf('views/styles/%s/%s', $style, basename($view));
+        if (file_exists($this->addon->file($styledView))) {
+            return $styledView;
+        }
+        return $view;
+    }
+
+    /**
      * @return array
      * @filter site-reviews/defer-scripts
      */

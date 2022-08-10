@@ -31,6 +31,7 @@ abstract class Hooks
         add_filter('ngettext_'.$this->addon->id, [$this->controller, 'filterNgettext'], 10, 4);
         add_filter('ngettext_with_context_'.$this->addon->id, [$this->controller, 'filterNgettextWithContext'], 10, 5);
         add_filter('site-reviews/path', [$this->controller, 'filterFilePaths'], 10, 2);
+        add_filter($this->addon->id.'/render/view', [$this->controller, 'filterRenderView']);
         add_filter('site-reviews/defer-scripts', [$this->controller, 'filterScriptsDefer']);
         add_filter('site-reviews/addon/settings', [$this->controller, 'filterSettings']);
         add_filter('site-reviews/translation/entries', [$this->controller, 'filterTranslationEntries']);
