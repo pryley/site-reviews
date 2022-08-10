@@ -13,6 +13,8 @@
 @import "public/minimal/debug";
 
 :root {
+    --gl-blue: #2ea3f2;
+    --gl-tog-bg-on: var(--gl-blue);
     --gl-tog-h: 20px;
 }
 :root .glsr {
