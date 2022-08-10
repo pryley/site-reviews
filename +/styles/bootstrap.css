@@ -12,6 +12,19 @@
 @import "public/minimal/modal";
 @import "public/minimal/debug";
 
+:root {
+    --gl-text-base: 1rem;
+}
+:root .glsr {
+    font-size: var(--gl-text-base);
+}
+:root .glsr-field-rating {
+    --gl-star-size: 2em;
+}
+:root .glsr-review-response {
+    --gl-px: calc(var(--gl-text-md) * 1.25);
+    --gl-py: calc(var(--gl-text-md) * 1.25);
+}
 :--namespace form.glsr-hide-form {
     max-height: 0 !important;
     opacity: 0;
