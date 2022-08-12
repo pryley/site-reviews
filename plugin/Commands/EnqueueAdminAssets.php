@@ -216,6 +216,7 @@ class EnqueueAdminAssets implements Contract
             'dashboard',
             'dashboard_page_'.glsr()->id.'-welcome',
             'plugins_page_'.glsr()->id,
+            'site-editor',
             'widgets',
         ];
         return Str::startsWith(glsr()->post_type, $screen->post_type)

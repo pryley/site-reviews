@@ -67,7 +67,7 @@ class BlocksController extends Controller
             glsr()->version
         );
         wp_add_inline_style(glsr()->id.'/blocks', (new EnqueuePublicAssets())->inlineStyles());
-        if ('widgets.php' === $pagenow) {
+        if (in_array($pagenow, ['site-editor.php', 'widgets.php'])) {
             // $dependencies = ['wp-customize-widgets', glsr()->id.'/admin'];
             $dependencies = ['wp-edit-widgets', glsr()->id.'/admin'];
         } else {

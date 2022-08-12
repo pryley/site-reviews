@@ -51,6 +51,18 @@ abstract class Controller extends BaseController
 
     /**
      * @return void
+     * @action init
+     */
+    public function enqueueBlockAssetsForSiteEditor()
+    {
+        global $pagenow;
+        if ('site-editor.php' === $pagenow) {
+            $this->enqueueBlockAssets();
+        }
+    }
+
+    /**
+     * @return void
      * @action wp_enqueue_scripts
      */
     public function enqueuePublicAssets()
