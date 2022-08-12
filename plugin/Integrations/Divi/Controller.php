@@ -17,12 +17,12 @@ class Controller extends BaseController
      */
     public function filterDynamicAssets($shortcodes, $content)
     {
-        if (1 === preg_match('/site_reviews_form/', $content) || 1 === preg_match('/site-reviews\/form/', $content)) {
+        if (1 === preg_match('/site_reviews/', $content)) {
             add_filter('et_required_module_assets', function ($assets) {
-                if (!in_array('et_pb_contact_form', $assets)) {
-                    $assets[] = 'et_pb_contact_form';
-                }
-                return $assets;
+                $assets[] = 'et_pb_contact_form';
+                $assets[] = 'et_pb_gallery';
+                $assets[] = 'et_pb_search';
+                return array_values(array_unique($assets));
             });
         }
         return $shortcodes;

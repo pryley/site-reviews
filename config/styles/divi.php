@@ -4,7 +4,7 @@ return [
     'classes' => [
         'button' => 'et_pb_contact_submit et_pb_button',
         'field' => 'et_pb_contact_field',
-        'form' => 'et_pb_contact_form clearfix',
+        'form' => 'et_pb_contact_form',
         'input' => 'input',
         'input_checkbox' => 'input',
         'input_radio' => 'input',
