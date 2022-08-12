@@ -37,6 +37,8 @@ abstract class Controller extends BaseController
     }
 
     /**
+     * The CSS registered here will not load in the site editor unless it contains the .wp-block selector
+     * @see https://github.com/WordPress/gutenberg/issues/41821
      * @return void
      * @action enqueue_block_editor_assets
      */
@@ -44,21 +46,9 @@ abstract class Controller extends BaseController
     {
         $this->registerAsset('css', ['suffix' => 'blocks']);
         $this->registerAsset('js', [
-            'dependencies' => [glsr()->id.'/admin', glsr()->id.'/blocks'],
+            'dependencies' => [glsr()->id.'/blocks'],
             'suffix' => 'blocks',
         ]);
-    }
-
-    /**
-     * @return void
-     * @action init
-     */
-    public function enqueueBlockAssetsForSiteEditor()
-    {
-        global $pagenow;
-        if ('site-editor.php' === $pagenow) {
-            $this->enqueueBlockAssets();
-        }
     }
 
     /**

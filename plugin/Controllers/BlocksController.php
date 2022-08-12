@@ -67,16 +67,16 @@ class BlocksController extends Controller
             glsr()->version
         );
         wp_add_inline_style(glsr()->id.'/blocks', (new EnqueuePublicAssets())->inlineStyles());
-        if (in_array($pagenow, ['site-editor.php', 'widgets.php'])) {
-            // $dependencies = ['wp-customize-widgets', glsr()->id.'/admin'];
-            $dependencies = ['wp-edit-widgets', glsr()->id.'/admin'];
-        } else {
-            $dependencies = ['wp-editor', glsr()->id.'/admin'];
-        }
         wp_register_script(
             glsr()->id.'/blocks',
-            glsr()->url('assets/scripts/'.glsr()->id.'-blocks.js'),
-            $dependencies,
+            glsr()->url('assets/scripts/'.glsr()->id.'-blocks.js'), 
+            [
+                glsr()->id.'/admin',
+                'wp-block-editor',
+                'wp-blocks',
+                'wp-i18n',
+                'wp-element',
+            ],
             glsr()->version
         );
     }

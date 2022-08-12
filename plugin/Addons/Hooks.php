@@ -21,11 +21,6 @@ abstract class Hooks
     public function run()
     {
         add_action('admin_enqueue_scripts', [$this->controller, 'enqueueAdminAssets']);
-        /**
-         * The enqueue_block_editor_assets hook does not work in the site editor!
-         * @see https://github.com/WordPress/gutenberg/issues/41821
-         */
-        add_action('init', [$this->controller, 'enqueueBlockAssetsForSiteEditor']);
         add_action('enqueue_block_editor_assets', [$this->controller, 'enqueueBlockAssets']);
         add_action('wp_enqueue_scripts', [$this->controller, 'enqueuePublicAssets']);
         add_filter('plugin_action_links_'.$this->basename, [$this->controller, 'filterActionLinks']);
