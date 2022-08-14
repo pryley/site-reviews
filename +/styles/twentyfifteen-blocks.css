@@ -1,14 +1,4 @@
-@import "blocks/default/variables";
-@import "blocks/default/reviews";
-@import "blocks/minimal/read-more";
-@import "blocks/minimal/reviews-form";
-@import "blocks/minimal/field-labels";
-@import "blocks/minimal/field-input";
-@import "blocks/minimal/field-choice";
-@import "blocks/minimal/field-toggle";
-@import "public/default/field-star-rating";
-@import "blocks/minimal/reviews-summary";
-@import "blocks/base";
+@import "minimal-blocks";
 
 :--namespace form.glsr-form input.glsr-input,
 :--namespace form.glsr-form select.glsr-select,
@@ -49,7 +39,7 @@
     text-transform: uppercase;
     white-space: nowrap;
 }
-:--namespace .glsr-pagination {
+:--namespace .pagination {
     margin: 0 7.5%;
     position: relative;
 }
@@ -122,4 +112,8 @@
     :--namespace .glsr-pagination a.page-numbers:not(.next) {
         display: inline-block;
     }
+}
+:root .glsr-button {
+    border: none;
+    border-radius: 0;
 }

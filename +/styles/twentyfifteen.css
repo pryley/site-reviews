@@ -17,86 +17,90 @@
 @import "public/minimal/debug";
 
 :root {
-    --gl-gray-500: #333;
-    --gl-red: #c0392b;
-    --gl-blue: #21759b;
-    --gl-success: var(--gl-blue);
-    --gl-font: "Noto Sans", sans-serif;
+    --glsr-gray-300: #eaeaea;
+    --glsr-gray-400: #707070;
+    --glsr-gray-500: #333;
+    --glsr-red: #c0392b;
+    --glsr-blue: #21759b;
+    --glsr-success: var(--gl-blue);
+    --glsr-font: "Noto Sans", sans-serif;
 }
+
 :root .glsr {
-    --gl-leading: 1.6842;
-    --gl-text-base: 1.5rem;
-    font-size: var(--gl-text-base);
+    --glsr-leading: 1.6842;
+    --glsr-text-base: 1.5rem;
+    --glsr-px: 0.375em;
+    --glsr-py: 0.375em;
+    font-size: var(--glsr-text-base);
     @media screen and (min-width: 46.25em) {
-        --gl-leading: 1.6842;
-        --gl-text-base: 1.7rem;
+        --glsr-text-base: 1.7rem;
+        --glsr-px: 0.5em;
+        --glsr-py: 0.5em;
     }
     @media screen and (min-width: 55em) {
-        --gl-leading: 1.6842;
-        --gl-text-base: 1.9rem;
+        --glsr-text-base: 1.9rem;
+        --glsr-px: 0.5278em;
+        --glsr-py: 0.5278em;
     }
     @media screen and (min-width: 59.6875em) {
-        --gl-leading: 1.6842;
-        --gl-text-base: 1.5rem;
+        --glsr-text-base: 1.5rem;
+        --glsr-px: 0.375em;
+        --glsr-py: 0.375em;
     }
     @media screen and (min-width: 68.75em) {
-        --gl-leading: 1.6842;
-        --gl-text-base: 1.7rem;
+        --glsr-leading: 1.6842;
+        --glsr-text-base: 1.7rem;
+        --glsr-px: 0.5em;
+        --glsr-py: 0.5em;
     }
     @media screen and (min-width: 77.5em) {
-        --gl-leading: 1.6842;
-        --gl-text-base: 1.9rem;
+        --glsr-text-base: 1.9rem;
     }
 }
 :root .widget .glsr {
-    --gl-leading: 1.5;
-    --gl-text-base: 1.2rem;
-    font-size: var(--gl-text-base);
+    --glsr-leading: 1.5;
+    --glsr-text-base: 1.2rem;
+    font-size: var(--glsr-text-base);
     @media screen and (min-width: 46.25em) {
-        --gl-leading: 1.5;
-        --gl-text-base: 1.4rem;
+        --glsr-text-base: 1.4rem;
     }
     @media screen and (min-width: 55em) {
-        --gl-leading: 1.5;
-        --gl-text-base: 1.6rem;
+        --glsr-text-base: 1.6rem;
     }
     @media screen and (min-width: 59.6875em) {
-        --gl-leading: 1.5;
-        --gl-text-base: 1.2rem;
+        --glsr-text-base: 1.2rem;
     }
     @media screen and (min-width: 68.75em) {
-        --gl-leading: 1.5;
-        --gl-text-base: 1.4rem;
+        --glsr-text-base: 1.4rem;
     }
     @media screen and (min-width: 77.5em) {
-        --gl-leading: 1.5;
-        --gl-text-base: 1.6rem;
+        --glsr-text-base: 1.6rem;
     }
-}
-:root .glsr-field-rating {
-    --gl-star-size: 2em;
-}
-:root .glsr-review-response {
-    --gl-px: calc(var(--gl-text-md) * 1.25);
-    --gl-py: calc(var(--gl-text-md) * 1.25);
 }
 :root .glsr-button {
     border-radius: 0;
 }
-:--namespace .glsr-summary-percentages {
-    --gl-leading: 1.5;
-}
 :--namespace .glsr-field-error {
-    font-family: var(--gl-font);
+    font-family: var(--glsr-font);
 }
 :--namespace .glsr-field-toggle label,
 :--namespace .glsr-field-choice span label {
-    font-size: var(--gl-text-md);
+    font-size: var(--glsr-text-md);
     font-weight: normal;
     letter-spacing: 0;
-    line-height: var(--gl-leading);
+    line-height: var(--glsr-leading);
     text-transform: none;
 }
 :--namespace .nav-links {
     justify-content: center;
+}
+:--namespace form.glsr-form input.glsr-input,
+:--namespace form.glsr-form select.glsr-select,
+:--namespace form.glsr-form textarea.glsr-textarea {
+    border: 1px solid var(--glsr-gray-300);
+    color: var(--glsr-gray-400);
+    padding-top: var(--glsr-input-py);
+    padding-right: var(--glsr-input-px);
+    padding-bottom: var(--glsr-input-py);
+    padding-left: var(--glsr-input-px);
 }
