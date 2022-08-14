@@ -4,8 +4,8 @@ analyse: ## Run phpstan analyser
 
 .PHONY: build
 build: ## Build all assets and languages
-	npm run build
-	npx rollup -c
+	npx gulp
+	make mix
 
 .PHONY: db
 db: ## Open the database in TablePlus
@@ -14,6 +14,16 @@ db: ## Open the database in TablePlus
 .PHONY: help
 help:  ## Display help
 	@awk -F ':|##' '/^[^\t].+?:.*?##/ {printf "\033[36m%-30s\033[0m %s\n", $$1, $$NF}' $(MAKEFILE_LIST) | sort
+
+.PHONY: mix
+mix: ## Build all assets
+	npx mix --production
+	npx rollup -c
+
+.PHONY: mixsync
+mixsync: ## Build all assets and sync
+	make mix
+	make sync
 
 .PHONY: open
 open: ## Open the development site in the default browser

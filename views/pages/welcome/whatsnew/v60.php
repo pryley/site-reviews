@@ -9,23 +9,30 @@
         <p><em>Initial Release Date &mdash; August 15th, 2022</em></p>
         <h4>✨ New Features</h4>
         <ul>
-            <li>Added a "Limit Reviews For" setting which allows you to set a time-limit (in days) to Review Limits</li>
+            <li>Added a "Limit Reviews For" setting which allows you to set a time-limit (in days) for Review Limits</li>
+            <li>Added the Bootstrap v5 plugin style</li>
+            <li>Added the Elementor Pro plugin style</li>
             <li>Added automatic conversion of UTF-16/UTF-32 encoded CSV files when importing reviews</li>
             <li>Added experimental filter hooks to combine css and javascript files when using add-ons (see <a data-expand="#hooks-filter-combine-assets" href="<?= glsr_admin_url('documentation', 'hooks'); ?>">Hooks documentation</a>)</li>
         </ul>
         <h4>📢 Changes</h4>
         <ul>
-            <li>Requires at least PHP v7.2</li>
-            <li>Requires at least WordPress v5.8</li>
-            <li>Rewrote expanding excerpts, they now support multiple paragraphs</li>
+            <li>🚨 Requires at least PHP v7.2</li>
+            <li>🚨 Requires at least WordPress v5.8</li>
+            <li>🚨 Changed the Divi plugin style to use the Divi Gallery pagination style for paginating reviews</li>
+            <li>🚨 Changed the review title tag from &lt;h3&gt; to &lt;h4&gt;. If you need to change it back, please see the FAQ help page.</h4>
+            <li>🚨 Changed the strings "← Previous" and "Next →" to "Previous" and "Next". If you have customised these strings in the settings, please update them.</li>
+            <li>🚨 Rewrote the button and pagination loading animations. If you are using a custom Site Reviews pagination template in your child theme, please remove the <code>{{ loader }}</code> template tag.</li>
+            <li>Optimised the javascript file sizes</li>
             <li>Rewrote the review modals to support the new review image galleries (<a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">Review Images</a> add-on required)</li>
-            <li>Submit and load more buttons now make use of the WordPress Block button classes</li>
+            <li>Submit and load more buttons now make use of the WordPress Block button classes by default</li>
         </ul>
         <h4>🚫 Removed</h4>
         <ul>
-            <li>Removed support for Internet Explorer</li>
-            <li>Removed support for PHP 5.6, 7.0, and 7.1</li>
-            <li>Removed the Polyfill.io script</li>
+            <li>🚨 Removed support for Internet Explorer</li>
+            <li>🚨 Removed support for PHP 5.6, 7.0, and 7.1</li>
+            <li>🚨 Removed the Bootstrap v4 plugin styles. If you were using this, please switch to the new Boostrap v5 plugin style.</li>
+            <li>🚨 Removed the Polyfill.io script</li>
         </ul>
         <h4>🐞 Bugs Fixed</h4>
         <ul>
@@ -33,6 +40,7 @@
             <li>Fixed invalid "deprecated" entries which were being added to the Console on some websites</li>
             <li>Fixed review importing to skip empty CSV rows without throwing an error</li>
             <li>Fixed the blocks in the Customizer widget panel</li>
+            <li>Fixed the Elementor integration which broke some other Elementor widgets</li>
             <li>Fixed the star rating field for some themes</li>
             <li>Fixed the Version value in the System Info</li>
             <li>Fixed the WPML integration</li>

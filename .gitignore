@@ -10,6 +10,7 @@
 *.map
 coverage.xml
 mix-manifest.json
+stats.html
 
 /node_modules
 /tests/coverage
