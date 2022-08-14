@@ -23,27 +23,27 @@
     justify-content: center;
 }
 :root .glsr-review-response {
-    padding: var(--gl-py) var(--gl-px);
+    padding: var(--glsr-py) var(--glsr-px);
     position: relative;
     width: 100%;
     &::before {
         border-color: currentColor transparent;
         border-style: solid;
-        border-bottom-width: calc(var(--gl-text-md) * 1.5);
+        border-bottom-width: calc(var(--glsr-text-md) * 1.5);
         border-left-width: 0;
-        border-right-width: calc(var(--gl-text-md) * 2);
+        border-right-width: calc(var(--glsr-text-md) * 2);
         border-top-width: 0;
         content: '';
         height: 0;
         opacity: .1;
         position: absolute;
-        right: calc(var(--gl-text-md) * 1.5);
-        top: calc(-1 * calc(var(--gl-text-md) * 1.5));
+        right: calc(var(--glsr-text-md) * 1.5);
+        top: calc(-1 * calc(var(--glsr-text-md) * 1.5));
         width: 0;
     }
     &::after {
         background-color: currentColor;
-        border-radius: var(--gl-radius);
+        border-radius: var(--glsr-radius);
         content: '';
         height: 100%;
         left: 0;
@@ -54,9 +54,9 @@
     }
 }
 :root .glsr-rtl .glsr-review-response::before {
-    border-left-width: calc(var(--gl-text-md) * 2);
+    border-left-width: calc(var(--glsr-text-md) * 2);
     border-right-width: 0;
-    left: calc(var(--gl-text-md) * 1.5);
+    left: calc(var(--glsr-text-md) * 1.5);
     right: auto;
 }
 :root .glsr-review-response-inner {
@@ -67,10 +67,10 @@
 :--namespace .glsr-review {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--gl-gap-md);
+    gap: var(--glsr-gap-md);
 }
 :--namespace .glsr-review p {
-    margin-bottom: var(--gl-text-md);
+    margin-bottom: var(--glsr-text-md);
     margin-top: 0;
 }
 :--namespace .glsr-review-title {

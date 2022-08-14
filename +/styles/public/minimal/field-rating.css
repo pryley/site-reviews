@@ -2,7 +2,8 @@
     display: none !important;
 }
 :root form.glsr-form .glsr-star-rating > select {
-    clip-path: circle(1px at 0 0) !important;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
     height: 1px !important;
     margin: 0 !important;
     opacity: 0 !important;
@@ -18,7 +19,6 @@
         display: none !important;
     }
     &:focus + .glsr-star-rating--stars::before {
-        border-radius: var(--gl-radius);
         box-shadow: 0 0 0 3px -moz-mac-focusring;
         box-shadow: 0 0 0 3px -webkit-focus-ring-color;
         box-shadow: 0 0 0 3px Highlight;
@@ -48,9 +48,9 @@
 }
 :root form.glsr-form .glsr-star-rating--stars > span {
     display: flex;
-    height: var(--gl-star-size);
+    height: var(--glsr-form-star);
     margin: 0;
-    width: var(--gl-star-size);
+    width: var(--glsr-form-star);
 }
 :root form.glsr-form .glsr-star-rating--stars[class*=" s"] > span {
     background-position: center;

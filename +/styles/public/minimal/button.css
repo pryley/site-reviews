@@ -1,12 +1,14 @@
 :--namespace button.glsr-button {
     align-items: center;
     display: flex;
-    margin: 0;
+    cursor: pointer;
     white-space: nowrap;
 }
+:--namespace button.glsr-button:not(.wp-block-search__button) {
+    margin: 0;
+}
 :--namespace button.glsr-button[aria-busy=true] {
-    /* .glsr-loading has 1em hight/width */
-    gap: calc(1em + var(--gl-gap-sm));
+    gap: var(--glsr-gap-sm);
 }
 :--namespace .wp-block-button {
     margin: 0;

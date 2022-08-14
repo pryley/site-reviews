@@ -6,42 +6,133 @@
 @import "public/minimal/star-rating";
 @import "public/minimal/review";
 @import "public/minimal/summary";
-@import "public/default/form";
-@import "public/default/field-label";
-@import "public/default/field-input";
-@import "public/default/field-choice";
-@import "public/default/field-toggle";
+@import "public/minimal/form";
+@import "public/minimal/field-label";
+@import "public/minimal/field-input";
+@import "public/minimal/field-choice";
+@import "public/minimal/field-toggle";
 @import "public/minimal/field-rating";
 @import "public/minimal/button";
 @import "public/minimal/modal";
 @import "public/minimal/debug";
 
-:root {
-    --gl-input-bg: var(--gl-white);
-    --gl-input-border-color: var(--gl-gray-400);
-    --gl-input-border-w: 1px;
-    --gl-input-transition: border-color .15s ease-in-out;
+:--namespace {
+    --glsr-toggle-bg-1: var(--glsr-blue);
 }
-:root .glsr-field-rating {
-    --gl-star-size: 2em;
+:--namespace form.glsr-form {
+    font-size: var(--glsr-text-md);
+    line-height: var(--glsr-leading);
 }
-:root .glsr-reviews-wrap {
-    --gl-gap: 4em;
+:--namespace form.glsr-form  label.glsr-label {
+    font-size: var(--glsr-label-text);
+    font-weight: var(--glsr-label-weight);
+    line-height: var(--glsr-leading);
+    margin-bottom: 0.25em;
 }
-:root .glsr-review {
-    --gl-gap: 0.75em;
+:--namespace form.glsr-form input.glsr-input,
+:--namespace form.glsr-form select.glsr-select,
+:--namespace form.glsr-form textarea.glsr-textarea {
+    appearance: none;
+    background-clip: padding-box;
+    background-color: var(--glsr-input-bg);
+    border-radius: var(--glsr-input-radius);
+    border: var(--glsr-input-b);
+    color: var(--glsr-input-color);
+    font-family: inherit;
+    font-size: var(--glsr-text-md);
+    line-height: var(--glsr-leading);
+    min-height: auto !important;
+    padding-top: var(--glsr-input-py) !important;
+    padding-right: var(--glsr-input-px) !important;
+    padding-bottom: var(--glsr-input-py) !important;
+    padding-left: var(--glsr-input-px) !important;
+    transition: var(--glsr-input-transition);
+    &:focus {
+        background-color: var(--glsr-input-bg);
+        outline: 1px solid transparent;
+        box-shadow: 0 0 0 3px -moz-mac-focusring;
+        box-shadow: 0 0 0 3px -webkit-focus-ring-color;
+        box-shadow: 0 0 0 3px Highlight;
+    }
 }
-:root .glsr-review-response {
-    --gl-px: calc(var(--gl-text-base) * 1.25);
-    --gl-py: calc(var(--gl-text-base) * 1.25);
+:--namespace form.glsr-form select.glsr-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3e%3cpath d='M7 7l3-3 3 3m0 6l-3 3-3-3' stroke='%239fa6b2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+    background-position: right 0.5em center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    print-color-adjust: exact;
+    height: auto;
+    padding-right: 3em;
 }
-:root .glsr-summary-rating {
-    --gl-text-size: 1.5em;
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
+:--namespace form.glsr-form input[type=radio].glsr-input-radio {
+    appearance: none;
+    background-color: var(--glsr-white);
+    background-origin: border-box;
+    border: 1px solid var(--glsr-gray-400);
+    font-size: var(--glsr-text-md);
+    min-height: auto;
+    min-width: auto;
+    print-color-adjust: exact;
+    color: var(--glsr-blue);
+    height: var(--glsr-choice-h);
+    width: var(--glsr-choice-w);
+    &::before,
+    &::after {
+        display: none !important;
+    }
+    &:checked,
+    &:checked {
+        background-color: currentColor;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        border-color: transparent;
+    }
+    &:focus,
+    &:focus {
+        outline: 1px solid transparent;
+        box-shadow: 0 0 0 3px -moz-mac-focusring;
+        box-shadow: 0 0 0 3px -webkit-focus-ring-color;
+        box-shadow: 0 0 0 3px Highlight;
+    }
+    &:checked:focus,
+    &:checked:focus {
+        border-color: transparent;
+    }
 }
-:root .glsr-field-error {
-    --gl-font: system-ui;
-    --gl-text-size: 0.875em;
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox {
+    border-radius: var(--glsr-input-radius);
+    &:checked {
+        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
+    }
 }
-:root .glsr-label {
-    --gl-text-size: 0.875em;
+:--namespace form.glsr-form input[type=radio].glsr-input-radio {
+    border-radius: 100%;
+    &:checked {
+        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+    }
+}
+:--namespace form.glsr-form .glsr-toggle label {
+    font-size: var(--glsr-text-md);
+    line-height: var(--glsr-leading);
+}
+:--namespace form.glsr-form .glsr-toggle input[type=checkbox]:focus {
+    outline: none;
+}
+:--namespace form.glsr-form .glsr-toggle input[type=checkbox]:focus + .glsr-toggle-track {
+    outline: 1px solid transparent;
+    box-shadow: 0 0 0 3px Highlight;
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    box-shadow: 0 0 0 3px -webkit-focus-ring-color;
+}
+:--namespace form.glsr-form .glsr-field-error {
+    font-family: system-ui;
+    line-height: var(--glsr-leading);
+}
+.theme-twentytwentytwo :--namespace .glsr-button {
+    border: none;
+    &:hover {
+        color: var(--glsr-white);
+    }
 }

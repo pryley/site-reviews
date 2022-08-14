@@ -3,7 +3,6 @@
 }
 :root .glsr-debug::before {
     background-color: currentColor;
-    border-radius: var(--gl-radius);
     content: '';
     height: 100%;
     left: 0;

@@ -13,7 +13,7 @@
     flex-basis: 100%;
     margin-top: 0;
     opacity: 1;
-    transition: opacity var(--gl-duration-slow);
+    transition: opacity var(--glsr-duration-slow);
 }
 :--namespace.glsr-hide .glsr-pagination .pagination {
     opacity: 0 !important;

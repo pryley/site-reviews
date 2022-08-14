@@ -62,7 +62,7 @@ class BlocksController extends Controller
         global $pagenow;
         wp_register_style(
             glsr()->id.'/blocks',
-            $this->getStylesheet(),
+            glsr(Style::class)->stylesheetUrl('blocks'),
             ['wp-edit-blocks'],
             glsr()->version
         );
@@ -110,13 +110,5 @@ class BlocksController extends Controller
     {
         // array_push($types, 'glsr_site-reviews', 'glsr_site-reviews-form', 'glsr_site-reviews-summary');
         return $types;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getStylesheet()
-    {
-        return glsr(Style::class)->stylesheetUrl('blocks');
     }
 }

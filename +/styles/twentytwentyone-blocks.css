@@ -1,60 +1,72 @@
-@import "blocks/minimal/variables";
-@import "blocks/minimal/reviews";
-@import "blocks/minimal/read-more";
-@import "blocks/default/reviews-form";
-@import "blocks/minimal/field-labels";
-@import "blocks/minimal/field-input";
-@import "public/twentytwentyone/field-choice";
-@import "public/twentytwentyone/field-toggle";
-@import "public/default/field-star-rating";
-@import "blocks/minimal/reviews-summary";
-@import "blocks/base";
+@import "minimal-blocks";
 
-:root {
-    --glsr-gray-dark: #28303d;
-    --glsr-gray: #39414d;
-    --glsr-form-border-radius: 0;
-    --glsr-form-border-width: 3px;
-    --glsr-form-font-size:  var(--glsr-font-size-large);
-    --glsr-spacing: 30px;
-    --glsr-toggle-bg-active: var(--glsr-form-border-color);
-    --glsr-toggle-bg-inactive:  var(--glsr-white);
-    --glsr-toggle-opacity-inactive: 1;
-    --glsr-toggle-size: 25px;
+:--namespace {
+    --glsr-choice-h: 25px;
+    --glsr-choice-w: 25px;
+    --glsr-input-b: var(--form--border-width) solid var(--form--border-color);
+    --glsr-input-radius: var(--form--border-radius);
+    --glsr-leading: var(--wp--typography--line-height, var(--global--line-height-body));
+    --glsr-modal-bg: var(--global--color-background);
+    --glsr-text-base: var(--global--font-size-base);
+    --glsr-toggle-bg-0: var(--global--color-white);
+    --glsr-toggle-bg-1: var(--form--border-color);
+    --glsr-toggle-color: var(--global--color-white);
+    --glsr-toggle-h: 25px;
+    --glsr-toggle-opacity-0: 1;
+    --glsr-toggle-size: 19px;
+    --glsr-toggle-w: 44px;
+}
+:root .is-dark-theme :--namespace {
+    --glsr-toggle-bg-0: var(--global--color-background);
+    --glsr-toggle-color: var(--global--color-background);
+    --glsr-toggle-opacity-0: 0.25;
 }
 
+/* Form Fields */
+:--namespace form.glsr-form {
+    font-family: var(--form--font-family);
+    font-size: var(--form--font-size);
+    line-height: var(--form--line-height);
+}
 :--namespace form.glsr-form label {
-    font-size: var(--glsr-form-font-size);
-    font-weight: var(--glsr-form-label-font-weight);
+    font-weight: var(--form--label-weight);
     margin-bottom: 10px;
 }
-:--namespace form.glsr-form input[type=checkbox] {
-    border-radius: var(--glsr-form-border-radius);
-}
-:--namespace form.glsr-form input[type=checkbox],
-:--namespace form.glsr-form input[type=radio] {
-    background: var(--glsr-toggle-bg-inactive);
-    border: var(--glsr-form-border-width) solid var(--glsr-form-border-color);
-    height: var(--glsr-toggle-size);
-    width: var(--glsr-toggle-size);
-}
-:--namespace form.glsr-form .glsr-field-checkbox span:first-of-type,
-:--namespace form.glsr-form .glsr-field-radio span:first-of-type {
-    height: var(--glsr-spacing);
-}
-:--namespace form.glsr-form .components-button {
-    background-color: var(--glsr-gray-dark);
-    border-radius: var(--glsr-form-border-radius);
-    box-shadow: none;
-    color: var(--glsr-white);
-    font-size: var(--glsr-form-font-size);
-    font-weight: var(--glsr-form-label-font-weight);
+:--namespace form.glsr-form input.glsr-input,
+:--namespace form.glsr-form select.glsr-select,
+:--namespace form.glsr-form textarea.glsr-textarea {
+    background-color: var(--global--color-white);
+    border-radius: var(--form--border-radius);
+    border: var(--form--border-width) solid var(--form--border-color);
+    color: var(--form--color-text);
+    font-size: var(--form--font-size);
     height: auto;
-    padding: calc(var(--glsr-spacing) / 2) var(--glsr-spacing);
+    line-height: var(--global--line-height-body);
+    padding: var(--form--spacing-unit);
 }
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox {
+    border-radius: var(--form--border-radius);
+}
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
+:--namespace form.glsr-form input[type=radio].glsr-input-radio {
+    border: var(--form--border-width) solid var(--form--border-color);
+    height: var(--glsr-choice-h);
+    width: var(--glsr-choice-w);
+}
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::before {
+    border: var(--form--border-width) solid var(--glsr-toggle-bg-1);
+}
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::after {
+    box-shadow: none;
+    background-color: var(--glsr-toggle-bg-1);
+    border: 2px solid var(--glsr-toggle-bg-0);
+    transition: transform 0.075s ease-in-out;
+}
+
+/* Pagination */
 :--namespace .glsr-pagination .pagination {
-    border-top: var(--glsr-form-border-width) solid var(--glsr-gray-dark);
-    margin: var(--glsr-spacing) auto;
+    border-top: var(--button--border-width) solid var(--global--color-primary);
+    margin: 0 auto;
 }
 :--namespace .glsr-pagination .nav-links {
     display: flex;
@@ -63,10 +75,10 @@
 }
 :--namespace .glsr-pagination .page-numbers {
     box-shadow: none;
-    color: var(--glsr-gray-dark);
+    color: var(--global--color-primary);
     font-size: 1.5rem;
     font-weight: normal;
-    margin-top: var(--glsr-spacing);
+    margin-top: var(--gl-gap-md);
     margin-left: calc(20px * 0.66);
     margin-right: calc(20px * 0.66);
     min-width: 44px;

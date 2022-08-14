@@ -1,44 +1,73 @@
 :root {
-    /* Colors */
-    --gl-white    : #fff;
-    --gl-gray-300 : #d3d3d3; /*lightgray*/
-    --gl-gray-400 : #c0c0c0; /*silver*/
-    --gl-gray-500 : #808080; /*gray*/
-    --gl-black    : #000;
-    --gl-blue     : #1c64f2; /*blue-600*/
-    --gl-green    : #057a55; /*green-600*/
-    --gl-red      : #e02424; /*red-600*/
-    --gl-yellow   : #faca15; /*yellow-300*/
-    --gl-error    : var(--gl-red);
-    --gl-success  : var(--gl-green);
+    /* Colours */
+    --glsr-white   : #fff;
+    --glsr-gray-100: #f5f5f5;
+    --glsr-gray-200: #e5e5e5;
+    --glsr-gray-300: #d4d4d4;
+    --glsr-gray-400: #a3a3a3;
+    --glsr-gray-500: #737373;
+    --glsr-gray-600: #525252;
+    --glsr-gray-700: #404040;
+    --glsr-gray-800: #262626;
+    --glsr-gray-900: #171717;
+    --glsr-black   : #000;
+    --glsr-blue    : #1c64f2; /* blue-600 */
+    --glsr-green   : #057a55; /* green-600 */
+    --glsr-red     : #e02424; /* red-600 */
+    --glsr-yellow  : #faca15; /* yellow-300 */
 
-    --gl-bar-bg           : var(--gl-yellow);
-    --gl-bar-opacity      : 0.1;
-    --gl-duration-fast    : .15s;
-    --gl-duration-slow    : .3s;
-    --gl-gap-lg           : 3em;
-    --gl-gap-md           : 0.75em;
-    --gl-gap-sm           : 0.5em;
-    --gl-leading          : 1.5;
-    --gl-max-w            : 480px;
-    --gl-modal-bg         : var(--gl-white);
-    --gl-px               : calc(var(--gl-text-base) * .75);
-    --gl-py               : calc(var(--gl-text-base) / 2);
-    --gl-radius           : 3px;
-    --gl-star-size        : 1.5em;
-    --gl-text-base        : 1em;
-    --gl-text-lg          : 1.5em;
-    --gl-text-md          : 1em;
-    --gl-text-sm          : 0.875em;
-    --gl-tog-bg-off       : currentColor;
-    --gl-tog-bg-on        : currentColor;
-    --gl-tog-color        : var(--gl-white);
-    --gl-tog-h            : 1.25em;
-    --gl-tog-opacity-off  : 0.15;
-    --gl-tog-opacity-on   : 1;
-    --gl-tog-p            : 3px;
-    --gl-tog-radius-in    : 999px;
-    --gl-tog-radius-out   : 999px;
-    --gl-tog-shadow-color : rgba(0,0,0,0.2);
-    --gl-tog-weight       : normal;
+    /* Global */
+    --glsr-duration-slow: 0.3s;
+    --glsr-duration-fast: 0.15s;
+    --glsr-gap-sm: 0.5em;
+    --glsr-gap-md: 0.75em;
+    --glsr-gap-lg: 2em;
+    --glsr-leading: 1.5;
+    --glsr-px: 1.25em;
+    --glsr-py: 1.25em;
+    --glsr-radius: 3px;
+    --glsr-star: 1.25em;
+    --glsr-text-base: 1em;
+    --glsr-text-sm: 0.875em;
+    --glsr-text-md: 1em;
+    --glsr-text-lg: 1.25em;
+
+    /* Summary */
+    --glsr-bar-bg: var(--glsr-yellow);
+    --glsr-bar-leading: 1.5;
+    --glsr-bar-opacity: 0.1;
+    --glsr-max-w: 48ch;
+    --glsr-summary-star: 1.5em;
+
+    /* Form */
+    --glsr-choice-h: 1.125em;
+    --glsr-choice-w: 1.125em;
+    --glsr-form-error: var(--glsr-red);
+    --glsr-form-star: 2em;
+    --glsr-form-success: var(--glsr-green);
+    --glsr-input-b: 1px solid var(--glsr-gray-400);
+    --glsr-input-bg: var(--glsr-white);
+    --glsr-input-color: var(--glsr-gray-900);
+    --glsr-input-px: 0.75em;
+    --glsr-input-py: 0.5em;
+    --glsr-input-radius: 3px;
+    --glsr-input-transition: border-color var(--glsr-duration-fast) ease-in-out;
+    --glsr-label-text: var(--glsr-text-sm);
+    --glsr-label-weight: 500;
+    --glsr-toggle-bg-0: currentColor;
+    --glsr-toggle-bg-1: currentColor;
+    --glsr-toggle-color: var(--glsr-white);
+    --glsr-toggle-h: 1.25em;
+    --glsr-toggle-opacity-0: 0.15;
+    --glsr-toggle-opacity-1: 1;
+    --glsr-toggle-p: 3px;
+    --glsr-toggle-radius: 999px;
+    --glsr-toggle-shadow-color: rgba(0,0,0,0.2);
+    --glsr-toggle-size: calc(var(--glsr-toggle-h) - calc(var(--glsr-toggle-p) * 2));
+    --glsr-toggle-text: 1em;
+    --glsr-toggle-w: calc(calc(var(--glsr-toggle-h) * 2) - calc(var(--glsr-toggle-p) * 2));
+
+    /* Modal */
+    --glsr-modal-bg: var(--glsr-white);
+    --glsr-modal-radius: 3px;
 }

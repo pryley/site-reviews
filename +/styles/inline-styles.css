@@ -2,6 +2,9 @@
 :root .glsr-star-rating--stars[class*=" s"] > span {
 	background-image: url(:star-empty)!important;
 }
+:root .glsr-field-is-invalid .glsr-star-rating--stars[class*=" s"] > span {
+	background-image: url(:star-error)!important;
+}
 :root .glsr-star-half {
 	background-image: url(:star-half)!important;
 }
@@ -9,7 +12,4 @@
 :root .glsr-star-rating--stars[class*=" s"] > span.gl-active,
 :root .glsr-star-rating--stars[class*=" s"] > span.gl-active.gl-selected {
 	background-image: url(:star-full)!important;
-}
-:root .glsr-field-is-invalid .glsr-star-rating--stars[class*=" s"] > span {
-	background-image: url(:star-error)!important;
 }

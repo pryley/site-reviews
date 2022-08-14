@@ -13,19 +13,9 @@
 @import "public/minimal/debug";
 
 :root {
-    --gl-blue: #2ea3f2;
-    --gl-tog-bg-on: var(--gl-blue);
-    --gl-tog-h: 20px;
-}
-:root .glsr {
-    font-size: var(--gl-text-base);
-}
-:root .glsr-field-rating {
-    --gl-star-size: 2em;
-}
-:root .glsr-review-response {
-    --gl-px: calc(var(--gl-text-md) * 1.25);
-    --gl-py: calc(var(--gl-text-md) * 1.25);
+    --glsr-blue: #2ea3f2;
+    --glsr-toggle-bg-1: var(--glsr-blue);
+    --glsr-toggle-h: 20px;
 }
 
 :--namespace form.glsr-hide-form {
@@ -39,13 +29,6 @@
 }
 :--namespace .glsr-field-error {
     display: flex;
-}
-:--namespace .glsr-field-error,
-:--namespace .glsr-form-failed {
-    color: var(--glsr-red);
-}
-:--namespace .glsr-form-success {
-    color: var(--glsr-green);
 }
 :--namespace form.glsr-form input.glsr-input,
 :--namespace form.glsr-form select.glsr-select,

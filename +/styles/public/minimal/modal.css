@@ -1,5 +1,7 @@
 :root .glsr-modal {
     display: none;
+    font-size: var(--glsr-text-base);
+    line-height: var(--glsr-leading);
     pointer-events: none;
     position: fixed;
     z-index: -1;
@@ -21,8 +23,8 @@
     width: 100vw;
 }
 :root .glsr-modal__dialog {
-    background-color: var(--gl-modal-bg);
-    border-radius: var(--gl-radius);
+    background-color: var(--glsr-modal-bg);
+    border-radius: var(--glsr-modal-radius);
     box-shadow: 0 1px 2px rgba(0,0,0,0.07),
                 0 2px 4px rgba(0,0,0,0.07),
                 0 4px 8px rgba(0,0,0,0.07),
@@ -32,8 +34,6 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    font-size: var(--gl-text-base);
-    line-height:var(--gl-leading);
     min-width: 320px;
     min-height: 150px;
     max-height: calc(100vh - 2em);
@@ -44,10 +44,10 @@
     will-change: transform;
 }
 :root [aria-hidden="false"] .glsr-modal__dialog {
-  animation: gl-zoomIn var(--gl-duration-slow) cubic-bezier(0,0,.2,1);
+  animation: gl-zoomIn var(--glsr-duration-slow) cubic-bezier(0,0,.2,1);
 }
 :root [aria-hidden="true"] .glsr-modal__dialog {
-  animation: gl-zoomOut var(--gl-duration-fast) cubic-bezier(0,0,.2,1);
+  animation: gl-zoomOut var(--glsr-duration-fast) cubic-bezier(0,0,.2,1);
 }
 :root .glsr-modal__header {
     position: relative;
@@ -69,7 +69,7 @@
     background: transparent !important;
     border: 0;
     box-shadow: none;
-    color: var(--gl-black) !important;
+    color: currentColor !important;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -85,7 +85,7 @@
     right: 0;
     top: 0;
     transform: scale(1);
-    transition: transform var(--gl-duration-fast) ease-in;
+    transition: transform var(--glsr-duration-fast) ease-in;
     width: 40px;
     z-index: 10;
 }
@@ -106,11 +106,11 @@
     animation-timing-function: cubic-bezier(0,0,.2,1);
 }
 :root .glsr-modal[aria-hidden="false"] .glsr-modal__overlay {
-    animation-duration: var(--gl-duration-slow);
+    animation-duration: var(--glsr-duration-slow);
     animation-name: gl-fadeIn;
 }
 :root .glsr-modal[aria-hidden="true"] .glsr-modal__overlay {
-    animation-duration: var(--gl-duration-fast);
+    animation-duration: var(--glsr-duration-fast);
     animation-name: gl-fadeOut;
 }
 

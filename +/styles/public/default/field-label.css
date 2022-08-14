@@ -1,8 +1,0 @@
-@import "../minimal/field-label";
-
-:--namespace form.glsr-form label.glsr-label {
-    font-size: var(--gl-text-size); 
-    font-weight: 500;
-    line-height: var(--gl-leading);
-    margin-bottom: calc(var(--gl-text-size) / 4);
-}

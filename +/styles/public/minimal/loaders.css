@@ -1,6 +1,8 @@
 :--namespace .glsr-loading {
-    display: inline;
+    display: inline-flex;
     position: relative;
+    height: 1em;
+    width: 1em;
     &::before,
     &::after {
         animation: gl-spin 0.5s infinite linear;
@@ -8,12 +10,13 @@
         border: 0.2em solid currentColor;
         box-sizing: border-box;
         content: '';
-        display: inline-block;
-        height: 1em;
-        margin: -0.5em auto 0;
+        display: block;
+        height: 100%;
+        left: 0;
+        margin: 0;
         position: absolute;
-        top: 50%;
-        width: 1em;
+        top: 0;
+        width: 100%;
     }
     &::before {
         border-top-color: transparent;

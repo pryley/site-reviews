@@ -17,48 +17,38 @@
 @import "public/minimal/debug";
 
 :root {
-    --gl-radius: 0;
-    --gl-px: calc(0.667em + 2px);
-    --gl-py: calc(0.667em + 2px);
-    --gl-gray-500: #949494;
-    --gl-white: #fff;
-}
-:root .glsr-field-rating {
-    --gl-star-size: 2em;
-}
-:root .glsr-review-response {
-    --gl-px: calc(var(--gl-text-md) * 1.25);
-    --gl-py: calc(var(--gl-text-md) * 1.25);
+    --glsr-radius: 0;
 }
 :root .glsr-button {
     border-width: 0;
 }
+:root .glsr-modal input {
+    border: 1px solid var(--glsr-black);
+}
 :--namespace {
-    --gl-tog-bg-on: var(--wp--preset--color--primary);
-}
-:--namespace .glsr-summary {
-    font-size: var(--gl-text-sm);
-}
-:--namespace .glsr-summary-percentages {
-    --gl-leading: 1.5;
+    --glsr-black: var(--wp--preset--color--black);
+    --glsr-input-radius: 0;
+    --glsr-input-px: calc(0.667em + 2px);
+    --glsr-input-py: calc(0.667em + 2px);
+    --glsr-toggle-bg-1: var(--wp--preset--color--primary);
 }
 :--namespace form.glsr-form input.glsr-input,
 :--namespace form.glsr-form select.glsr-select,
 :--namespace form.glsr-form textarea.glsr-textarea {
-    background-color: var(--gl-white);
-    border-radius: var(--gl-radius);
-    border: 1px solid var(--gl-gray-500);
+    background-color: var(--glsr-white);
+    border-radius: var(--glsr-input-radius);
+    border: 1px solid var(--glsr-black);
     font-family: var(--wp--preset--font-family--inter);
-    font-size: var(--gl-text-md);
-    line-height: var(--gl-leading);
-    transition: border-color var(--gl-duration) ease-in-out;
-    padding-top: var(--gl-py);
-    padding-right: var(--gl-px);
-    padding-bottom: var(--gl-py);
-    padding-left: var(--gl-px);
+    font-size: var(--glsr-text-md);
+    line-height: var(--glsr-leading);
+    transition: border-color var(--glsr-duration-fast) ease-in-out;
+    padding-top: var(--glsr-input-py);
+    padding-right: var(--glsr-input-px);
+    padding-bottom: var(--glsr-input-py);
+    padding-left: var(--glsr-input-px);
 }
 :--namespace .glsr-pagination .nav-links {
-    column-gap: var(--gl-gap-sm);
+    column-gap: var(--glsr-gap-sm);
 }
 :--namespace.glsr-ltr .glsr-pagination .page-numbers.prev,
 :--namespace.glsr-rtr .glsr-pagination .page-numbers.next {
@@ -69,4 +59,9 @@
 :--namespace.glsr-ltr .glsr-pagination .page-numbers.next {
     flex: 1;
     text-align: right;
+}
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
+:--namespace form.glsr-form input[type=radio].glsr-input-radio {
+    height: var(--glsr-text-lg);
+    width: var(--glsr-text-lg);
 }

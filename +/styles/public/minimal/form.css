@@ -7,7 +7,7 @@
     display: grid;
     grid-template-columns: repeat(1, minmax(0, 1fr));
     position: relative;
-    row-gap: var(--gl-gap-md);
+    row-gap: var(--glsr-gap-md);
 }
 :--namespace .glsr-field {
     position: relative;
@@ -16,13 +16,17 @@
 :--namespace .glsr-form-message:not(.glsr-form-failed):not(.glsr-form-success) {
     display: none;
 }
+/* Errors and Messages */
 :--namespace .glsr-field-error {
-    color: var(--gl-error);
-    font-size: var(--gl-text-sm);
+    color: var(--glsr-form-error);
+    font-size: var(--glsr-text-sm);
 }
 :--namespace .glsr-form-failed {
-    color: var(--gl-error);
+    color: var(--glsr-form-error);
 }
 :--namespace .glsr-form-success {
-    color: var(--gl-success);
+    color: var(--glsr-form-success);
+}
+:--namespace .glsr-is-invalid {
+    border-color: var(--glsr-form-error) !important;
 }

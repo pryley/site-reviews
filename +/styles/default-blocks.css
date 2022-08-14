@@ -1,11 +1,72 @@
-@import "blocks/default/variables";
-@import "blocks/default/reviews";
-@import "blocks/default/read-more";
-@import "blocks/default/reviews-form";
-@import "blocks/default/field-labels";
-@import "blocks/default/field-input";
-@import "blocks/default/field-choice";
-@import "blocks/default/field-toggle";
-@import "public/default/field-star-rating";
-@import "blocks/default/reviews-summary";
-@import "blocks/base";
+@import "minimal-blocks";
+
+:--namespace form.glsr-form {
+    font-size: var(--glsr-text-md);
+    line-height: var(--glsr-leading);
+}
+:--namespace .glsr-field-error {
+    font-family: system-ui;
+    line-height: var(--glsr-leading);
+}
+:--namespace form.glsr-form  label.glsr-label {
+    font-size: var(--glsr-label-text);
+    font-weight: var(--glsr-label-text);
+    line-height: var(--glsr-leading);
+    margin-bottom: var(--glsr-gap-sm);
+}
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
+:--namespace form.glsr-form input[type=radio].glsr-input-radio {
+    appearance: none;
+    background-color: var(--glsr-white);
+    background-origin: border-box;
+    border: 1px solid var(--glsr-gray-400);
+    min-height: auto;
+    min-width: auto;
+    print-color-adjust: exact;
+    color: var(--glsr-blue);
+    height: var(--glsr-choice-h);
+    width: var(--glsr-choice-w);
+    &::before,
+    &::after {
+        display: none !important;
+    }
+}
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox {
+    border-radius: var(--glsr-input-radius);
+}
+:--namespace form.glsr-form input[type=radio].glsr-input-radio {
+    border-radius: 100%;
+}
+:--namespace form.glsr-form .glsr-toggle label {
+    font-size: var(--glsr-text-md);
+    line-height: var(--glsr-leading);
+}
+:--namespace form.glsr-form input.glsr-input,
+:--namespace form.glsr-form select.glsr-select,
+:--namespace form.glsr-form textarea.glsr-textarea {
+    appearance: none;
+    background-clip: padding-box;
+    background-color: var(--glsr-input-bg);
+    border-radius: var(--glsr-input-radius);
+    border: var(--glsr-input-b);
+    font-size: var(--glsr-text-md);
+    line-height: var(--glsr-leading);
+    min-height: auto !important;
+    padding-top: var(--glsr-input-py) !important;
+    padding-right: var(--glsr-input-px) !important;
+    padding-bottom: var(--glsr-input-py) !important;
+    padding-left: var(--glsr-input-px) !important;
+    transition: var(--glsr-input-transition);
+}
+:--namespace form.glsr-form select.glsr-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3e%3cpath d='M7 7l3-3 3 3m0 6l-3 3-3-3' stroke='%239fa6b2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+    background-position: right 0.5em center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    print-color-adjust: exact;
+    height: auto;
+    padding-right: 3em;
+}
+.theme-twentytwentytwo :--namespace .glsr-button {
+    border: none;
+}

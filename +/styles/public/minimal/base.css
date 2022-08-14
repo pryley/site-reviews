@@ -1,15 +1,16 @@
-:root .glsr {
-    border-width: 0;
-    font-size: var(--gl-text-base);
-}
-:root .glsr * {
+:root .glsr * + * {
     box-sizing: border-box;
+}
+:root .glsr,
+:root .glsr-modal {
+    border-width: 0;
+    font-size: var(--glsr-text-base);
 }
 :root .glsr .screen-reader-text,
 :root .glsr-modal .screen-reader-text {
     border: 0;
-    clip:rect(1px,1px,1px,1px);
-    clip-path:inset(50%);
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
     height: 1px;
     margin: -1px;
     overflow: hidden;
@@ -31,5 +32,5 @@
 :root .glsr-reviews-wrap,
 :root .glsr-reviews {
     display: grid;
-    gap: var(--gl-gap-lg);
+    gap: var(--glsr-gap-lg);
 }

@@ -17,53 +17,50 @@
 @import "public/minimal/debug";
 
 :root {
-    --gl-leading: var(--wp--typography--line-height, var(--global--line-height-body));
-    --gl-star-size: 1.25em;
-    --gl-text-base: var(--global--font-size-base);
-    --gl-tog-bg-on: var(--form--border-color);
-    --gl-tog-bg-off:  var(--global--color-white);
-    --gl-tog-h: 25px;
-    --gl-tog-opacity-off: 1;
+    --glsr-choice-h: 25px;
+    --glsr-choice-w: 25px;
+    --glsr-input-b: var(--form--border-width) solid var(--form--border-color);
+    --glsr-input-radius: var(--form--border-radius);
+    --glsr-leading: var(--wp--typography--line-height, var(--global--line-height-body));
+    --glsr-modal-bg: var(--global--color-background);
+    --glsr-text-base: var(--global--font-size-base);
+    --glsr-toggle-bg-0: var(--global--color-white);
+    --glsr-toggle-bg-1: var(--form--border-color);
+    --glsr-toggle-color: var(--global--color-white);
+    --glsr-toggle-h: 25px;
+    --glsr-toggle-opacity-0: 1;
 }
-:root .glsr-field-rating {
-    --gl-star-size: 2em;
+:root .is-dark-theme {
+    --glsr-toggle-bg-0: var(--global--color-background);
+    --glsr-toggle-color: var(--global--color-background);
+    --glsr-toggle-opacity-0: 0.25;
 }
-:root .glsr-review-response {
-    --gl-px: calc(var(--gl-text-md) * 1.25);
-    --gl-py: calc(var(--gl-text-md) * 1.25);
-}
-:--namespace .glsr-summary {
-    font-size: var(--gl-text-sm);
-}
-:--namespace .glsr-summary-percentages {
-    --gl-leading: 1.5;
-}
+
 :--namespace form.glsr-form .glsr-star-rating > select:focus + .glsr-star-rating--stars::before {
-    border-radius: 0;
     box-shadow: none;
     outline: 2px dotted var(--form--border-color);
 }
 :--namespace form.glsr-form input.glsr-input,
 :--namespace form.glsr-form input.glsr-input-checkbox,
 :--namespace form.glsr-form input.glsr-input-radio:not(:checked) {
-    border: var(--form--border-width) solid var(--form--border-color);
+    border: var(--glsr-input-b);
 }
 :--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
 :--namespace form.glsr-form input[type=radio].glsr-input-radio {
-    width: var(--gl-tog-h);
-    height: var(--gl-tog-h);
+    height: var(--glsr-choice-h);
+    width: var(--glsr-choice-w);
 }
 :--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::before {
-    border: var(--form--border-width) solid var(--gl-tog-bg-on);
+    border: var(--form--border-width) solid var(--glsr-toggle-bg-1);
 }
 :--namespace form.glsr-form .glsr-field-toggle input[type=checkbox] + .glsr-toggle-track::after {
     box-shadow: none;
-    background-color: var(--gl-tog-bg-on);
-    border: 2px solid var(--gl-tog-bg-off);
+    background-color: var(--glsr-toggle-bg-1);
+    border: 2px solid var(--glsr-toggle-bg-0);
     transition: transform 0.075s ease-in-out;
 }
 :--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track::after {
-    background-color: var(--gl-tog-bg-off);
-    border-color: var(--gl-tog-bg-on);
+    background-color: var(--glsr-toggle-bg-0);
+    border-color: var(--glsr-toggle-bg-1);
     border-width: 1px;
 }

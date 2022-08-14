@@ -1,33 +1,42 @@
-@import "blocks/minimal/variables";
-@import "blocks/minimal/reviews";
-@import "blocks/minimal/read-more";
-@import "blocks/default/reviews-form";
-@import "blocks/minimal/field-labels";
-@import "blocks/minimal/field-input";
-@import "public/minimal/field-choice";
-@import "public/minimal/field-toggle";
-@import "public/default/field-star-rating";
-@import "blocks/minimal/reviews-summary";
-@import "blocks/base";
+@import "minimal-blocks";
 
-:root {
-    --glsr-gray                    : #949494;
-    --glsr-border-radius           : 0;
-    --glsr-box-shadow              : none;
-    --glsr-form-px                 : calc(0.667em + 2px);
-    --glsr-form-py                 : calc(0.667em + 2px);
-    --glsr-toggle-bg-active        : var(--wp--preset--color--primary);
+:--namespace {
+    --glsr-input-px: calc(0.667em + 2px);
+    --glsr-input-py: calc(0.667em + 2px);
+    --glsr-input-b: 1px solid var(--wp--preset--color--primary);
+    --glsr-input-radius: 0;
 }
-:--namespace form.glsr-form input.glsr-input {
-    height: 50px;
+:--namespace form.glsr-form input.glsr-input,
+:--namespace form.glsr-form select.glsr-select,
+:--namespace form.glsr-form textarea.glsr-textarea {
+    background-color: var(--glsr-white);
+    border-radius: var(--glsr-input-radius);
+    border: var(--glsr-input-b);
+    font-size: var(--glsr-text-md);
+    line-height: var(--glsr-leading);
+    padding-top: var(--glsr-input-py);
+    padding-right: var(--glsr-input-px);
+    padding-bottom: var(--glsr-input-py);
+    padding-left: var(--glsr-input-px);
 }
-:--namespace .glsr-button-loadmore,
-:--namespace form.glsr-form .components-button {
-    background-color: var(--wp--preset--color--primary);
+:--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
+:--namespace form.glsr-form input[type=radio].glsr-input-radio {
+    height: var(--glsr-text-lg);
+    width: var(--glsr-text-lg);
+}
+:--namespace .glsr-button {
     border: none;
-    box-shadow: none;
-    color: var(--wp--preset--color--background);
-    font-size: var(--wp--preset--font-size--medium);
-    padding: var(--glsr-form-px) calc(1.333em + 2px);
-    height: 50px;
+}
+:--namespace .glsr-pagination .nav-links {
+    column-gap: var(--glsr-gap-sm);
+}
+:--namespace.glsr-ltr .glsr-pagination .page-numbers.prev,
+:--namespace.glsr-rtr .glsr-pagination .page-numbers.next {
+    flex: 1;
+    text-align: left;
+}
+:--namespace.glsr-rtl .glsr-pagination .page-numbers.prev,
+:--namespace.glsr-ltr .glsr-pagination .page-numbers.next {
+    flex: 1;
+    text-align: right;
 }

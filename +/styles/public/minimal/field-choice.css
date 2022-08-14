@@ -5,7 +5,7 @@
 :--namespace form.glsr-form .glsr-field-checkbox label,
 :--namespace form.glsr-form .glsr-field-radio label {
     align-items: flex-start;
-    column-gap: var(--gl-gap-sm);
+    column-gap: var(--glsr-gap-sm);
     display: inline-flex;
     margin: 0;
 }
@@ -19,7 +19,6 @@
     box-sizing: border-box;
     display: inline-block;
     flex-shrink: 0;
-    height: var(--gl-text-md);
     left: 0;
     margin: 0;
     outline: none;
@@ -27,5 +26,4 @@
     top: 0;
     user-select: none;
     vertical-align: middle;
-    width: var(--gl-text-md);
 }
