@@ -89,8 +89,11 @@ class SiteReviewsSummaryBlock extends Block
     protected function filterInterpolation()
     {
         add_filter('site-reviews/interpolate/reviews-summary', function ($context) {
-            $context['class'] = 'glsr-block-disabled';
-            $context['text'] = _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews');
+            $context['class'] = 'block-editor-warning';
+            $context['text'] = glsr(Builder::class)->p([
+                'class' => 'block-editor-warning__message',
+                'text' => _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews'),
+            ]);
             return $context;
         });
     }

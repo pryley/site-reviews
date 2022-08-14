@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Blocks;
 
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode as Shortcode;
 
 class SiteReviewsBlock extends Block
@@ -88,7 +89,6 @@ class SiteReviewsBlock extends Block
         $shortcode = glsr(Shortcode::class);
         if ('edit' == filter_input(INPUT_GET, 'context')) {
             $attributes = $this->normalize($attributes);
-            $this->filterReviewLinks();
             $this->filterShowMoreLinks('content');
             $this->filterShowMoreLinks('response');
             if (!$this->hasVisibleFields($shortcode, $attributes)) {
@@ -105,21 +105,12 @@ class SiteReviewsBlock extends Block
     protected function filterInterpolation()
     {
         add_filter('site-reviews/interpolate/reviews', function ($context) {
-            $context['class'] = 'glsr-block-disabled';
-            $context['reviews'] = _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews');
+            $context['class'] = 'block-editor-warning';
+            $context['reviews'] = glsr(Builder::class)->p([
+                'class' => 'block-editor-warning__message',
+                'text' => _x('You have hidden all of the fields for this block.', 'admin-text', 'site-reviews'),
+            ]);
             return $context;
-        });
-    }
-
-    /**
-     * @return void
-     */
-    protected function filterReviewLinks()
-    {
-        add_filter('site-reviews/rendered/template/reviews', function ($template) {
-            $template = str_replace('<a', '<a tabindex="-1"', $template);
-            $template = str_replace('page-numbers', 'page-numbers components-button is-secondary', $template);
-            return $template;
         });
     }
 
@@ -132,7 +123,7 @@ class SiteReviewsBlock extends Block
         add_filter('site-reviews/review/wrap/'.$field, function ($value) {
             $value = preg_replace(
                 '/(.*)(<span class="glsr-hidden)(.*)(<\/span>)(.*)/us',
-                '$1... <a href="#" class="glsr-read-more" tabindex="-1">'.__('Show more', 'site-reviews').'</a>$5',
+                '$1... <a href="#" tabindex="-1">'.__('Show more', 'site-reviews').'</a>$5',
                 $value
             );
             return $value;
