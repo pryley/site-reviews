@@ -167,7 +167,7 @@ class Style
     {
         $basename = basename($view);
         $basepath = rtrim($view, $basename);
-        $customPath = 'views/partials/styles/'.$this->__get('style').'/';
+        $customPath = 'views/styles/'.$this->__get('style').'/';
         $parts = explode('_', $basename);
         $views = [
             $customPath.$basename,
