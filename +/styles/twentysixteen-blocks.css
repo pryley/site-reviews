@@ -1,51 +1,53 @@
-@import "public/twentysixteen/variables";
-@import "blocks/default/reviews";
-@import "blocks/minimal/read-more";
-@import "blocks/default/reviews-form";
-@import "blocks/minimal/field-labels";
-@import "blocks/minimal/field-input";
-@import "blocks/minimal/field-choice";
-@import "blocks/minimal/field-toggle";
-@import "public/default/field-star-rating";
-@import "blocks/minimal/reviews-summary";
-@import "blocks/base";
+@import "minimal-blocks";
 
+:--namespace {
+    --glsr-gray-300: #f7f7f7;
+    --glsr-gray-400: #d1d1d1;
+    --glsr-gray-500: #686868;
+    --glsr-black: #1a1a1a;
+    --glsr-blue: #007acc;
+    --glsr-toggle-bg-1: var(--glsr-blue);
+    --glsr-text-sm: 0.8125rem;
+    --glsr-gap-sm: 0.5384615385em;
+    --glsr-leading: 1.75;
+    --glsr-font: Montserrat, "Helvetica Neue", sans-serif;
+    --glsr-input-px: 0.4375em;
+    --glsr-input-py: 0.625em;
+    --glsr-radius: 2px;
+}
+:--namespace .glsr-button {
+    border: none;
+    border-radius: 2px;
+}
 :--namespace form.glsr-form input.glsr-input,
 :--namespace form.glsr-form select.glsr-select,
 :--namespace form.glsr-form textarea.glsr-textarea {
-    background-color: var(--glsr-gray-light);
-    border-color: var(--glsr-gray);
-    font-family: var(--glsr-form-font-family-sans);
-    font-size: var(--glsr-form-font-size);
-    padding: var(--glsr-form-py) var(--glsr-form-px);
+    background-color: var(--glsr-gray-300);
+    border: 1px solid var(--glsr-gray-400);
+    border-radius: var(--glsr-input-radius);
+    color: var(--glsr-gray-500);
+    font-family: var(--glsr-font);
+    font-size: var(--glsr-text-md);
+    padding: var(--glsr-input-py) var(--glsr-input-px);
 }
 :--namespace form.glsr-form label.glsr-label:not(.glsr-label-toggle) {
-    color:  var(--glsr-gray-dark);
-    font-family: var(--glsr-form-font-family-sans);
-    font-size: var(--glsr-form-font-size-small);
+    color:  var(--glsr-gray-500);
+    font-family: var(--glsr-font);
+    font-size: var(--glsr-text-sm);
     font-weight: 500;
     letter-spacing: 1px;
-    line-height: var(--glsr-form-line-height);
-    margin-bottom: calc(var(--glsr-base-font-size) * .25);
+    line-height: var(--glsr-leading);
+    margin-bottom: calc(var(--glsr-text-sm) * .25);
     text-transform: uppercase;
 }
-:--namespace form.glsr-form .components-button {
-    background-color: var(--glsr-black);
-    box-shadow: none;
-    color: var(--glsr-white);
-    font-family: var(--glsr-form-font-family-sans);
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-:--namespace .glsr-pagination {
+:--namespace .pagination {
     border-top: 4px solid var(--glsr-black);
     margin: 0 10%;
     min-height: 56px;
     position: relative;
 }
-:--namespace .glsr-pagination::before,
-:--namespace .glsr-pagination::after {
+:--namespace .pagination::before,
+:--namespace .pagination::after {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     background-color: var(--glsr-black);
@@ -65,13 +67,13 @@
     width: 52px;
     z-index: 0;
 }
-:--namespace .glsr-pagination::before {
+:--namespace .pagination::before {
     content: "\f344";
     right: 0;
 }
-:--namespace .glsr-pagination::after {
+:--namespace .pagination::after {
     content: "\f340";
-    color: rgba(var(--glsr-white), 0.3);
+    color: rgba(255,255,255,0.3);
     right: 54px;
 }
 :--namespace .glsr-pagination .nav-links {
@@ -85,13 +87,13 @@
 :--namespace .glsr-pagination .page-numbers {
     border-radius: 0;
     display: none;
+    letter-spacing: 0.013157895em;
     line-height: 1;
-    margin-left: calc(calc(var(--glsr-base-font-size) * .875) * -1);
-    margin-right: calc(var(--glsr-base-font-size) * .875);
-    padding: var(--glsr-base-font-size) calc(var(--glsr-base-font-size) * .875) calc(var(--glsr-base-font-size) / 2);
+    margin: 0 0.7368421053em 0 -0.7368421053em;
+    padding: 0.8157894737em 0.7368421053em 0.3947368421em;
     text-transform: uppercase;
-    font-family: var(--glsr-form-font-family-sans);
-    font-size: var(--glsr-font-size-large);
+    font-family: var(--glsr-font);
+    font-size: 1.1875rem;
 }
 :--namespace .glsr-pagination a.page-numbers {
     box-shadow: 0 1px 0 0 currentColor;

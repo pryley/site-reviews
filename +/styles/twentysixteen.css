@@ -1,53 +1,62 @@
-@import "public/minimal/variables";
-@import "public/minimal/keyframes";
-@import "public/minimal/base";
-@import "public/minimal/loaders";
-@import "public/minimal/pagination";
-@import "public/minimal/star-rating";
-@import "public/minimal/review";
-@import "public/minimal/summary";
-@import "public/minimal/form";
-@import "public/minimal/field-label";
-@import "public/minimal/field-input";
-@import "public/minimal/field-choice";
-@import "public/minimal/field-toggle";
-@import "public/minimal/field-rating";
-@import "public/minimal/button";
-@import "public/minimal/modal";
-@import "public/minimal/debug";
+@import "minimal";
 
 :root {
-    --gl-gray-500: #686868;
-    --gl-blue: #007acc;
-    --gl-tog-bg-on: var(--gl-blue);
-    --gl-text-sm: 0.8125rem;
-    --gl-gap-sm: 0.5384615385em;
-    --gl-leading: 1.75;
-    --gl-font: Montserrat, "Helvetica Neue", sans-serif;
-}
-:root .glsr-field-rating {
-    --gl-star-size: 2em;
-}
-:root .glsr-review-response {
-    --gl-px: calc(var(--gl-text-md) * 1.25);
-    --gl-py: calc(var(--gl-text-md) * 1.25);
+    --glsr-gray-300: #f7f7f7;
+    --glsr-gray-400: #d1d1d1;
+    --glsr-gray-500: #686868;
+    --glsr-black: #1a1a1a;
+    --glsr-blue: #007acc;
+    --glsr-toggle-bg-1: var(--glsr-blue);
+    --glsr-text-sm: 0.8125rem;
+    --glsr-gap-sm: 0.5384615385em;
+    --glsr-leading: 1.75;
+    --glsr-font: Montserrat, "Helvetica Neue", sans-serif;
+    --glsr-input-px: 0.4375em;
+    --glsr-input-py: 0.625em;
+    --glsr-input-radius: 2px;
+    --glsr-radius: 2px;
 }
 :root .glsr-button {
     border-radius: 2px;
 }
-:--namespace .glsr-summary-percentages {
-    --gl-leading: 1.5;
+:root .glsr-modal h4 {
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 0.140625em;
+    line-height: 1.3125;
+    text-transform: uppercase;
 }
 :--namespace .glsr-field-error {
-    font-family: var(--gl-font);
+    font-family: var(--glsr-font);
 }
 :--namespace form.glsr-form label.glsr-label:not(.glsr-label-toggle) {
-    color: var(--gl-gray-500);
-    font-family: var(--gl-font);
-    font-size: var(--gl-text-sm);
+    color: var(--glsr-gray-500);
+    font-family: var(--glsr-font);
+    font-size: var(--glsr-text-sm);
     font-weight: 500;
     letter-spacing: 1px;
     line-height: 1.6153846154;
-    margin-bottom: var(--gl-gap-sm);
+    margin-bottom: var(--glsr-gap-sm);
     text-transform: uppercase;
+}
+:--namespace form.glsr-form input.glsr-input,
+:--namespace form.glsr-form select.glsr-select,
+:--namespace form.glsr-form textarea.glsr-textarea {
+    background-color: var(--glsr-gray-300);
+    border: 1px solid var(--glsr-gray-400);
+    border-radius: var(--glsr-input-radius);
+    color: var(--glsr-gray-500);
+    padding-top: var(--glsr-input-py);
+    padding-right: var(--glsr-input-px);
+    padding-bottom: var(--glsr-input-py);
+    padding-left: var(--glsr-input-px);
+    &:focus {
+        background-color: var(--glsr-white);
+        border-color: var(--glsr-blue);
+        color: var(--glsr-black);
+        outline: 0;
+    }
+}
+:--namespace .glsr-pagination .pagination {
+    margin-bottom: 0;
 }

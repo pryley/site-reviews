@@ -1,20 +1,4 @@
-@import "public/minimal/variables";
-@import "public/minimal/keyframes";
-@import "public/minimal/base";
-@import "public/minimal/loaders";
-@import "public/minimal/pagination";
-@import "public/minimal/star-rating";
-@import "public/minimal/review";
-@import "public/minimal/summary";
-@import "public/minimal/form";
-@import "public/minimal/field-label";
-@import "public/minimal/field-input";
-@import "public/minimal/field-choice";
-@import "public/minimal/field-toggle";
-@import "public/minimal/field-rating";
-@import "public/minimal/button";
-@import "public/minimal/modal";
-@import "public/minimal/debug";
+@import "minimal";
 
 :--namespace form.glsr-form label.glsr-label {
     margin-bottom: 0.25em;
