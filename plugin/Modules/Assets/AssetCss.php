@@ -30,7 +30,7 @@ class AssetCss extends AssetAbstract
      */
     protected function originalUrl()
     {
-        return glsr()->url(sprintf('assets/styles/%s.css', glsr(Style::class)->style));
+        return glsr(Style::class)->stylesheetUrl();
     }
 
     /**

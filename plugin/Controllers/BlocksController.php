@@ -117,7 +117,6 @@ class BlocksController extends Controller
      */
     protected function getStylesheet()
     {
-        $style = glsr(Style::class)->style;
-        return glsr()->url('assets/styles/blocks/'.$style.'-blocks.css');
+        return glsr(Style::class)->stylesheetUrl('blocks');
     }
 }

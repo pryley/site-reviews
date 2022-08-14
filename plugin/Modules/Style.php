@@ -107,6 +107,22 @@ class Style
         return glsr()->filterString('style', 'glsr glsr-'.$this->__get('style'));
     }
 
+    public function stylesheetUrl(?string $suffix = ''): string
+    {
+        if ($suffix) {
+            $string = 'assets/styles/%1$s/%2$s-%1$s.css';
+            $path = sprintf($string, $suffix, $this->__get('style'));
+            return file_exists(glsr()->path($path))
+                ? glsr()->url($path)
+                : glsr()->url(sprintf($string, $suffix, 'default'));
+        }
+        $string = 'assets/styles/%s.css';
+        $path = sprintf($string, $this->__get('style'));
+        return file_exists(glsr()->path($path))
+            ? glsr()->url($path)
+            : glsr()->url(sprintf($string, 'default'));
+    }
+
     public function view(string $view): string
     {
         $styledViews = glsr()->filterArray('style/views', [
