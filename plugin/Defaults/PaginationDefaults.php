@@ -37,7 +37,7 @@ class PaginationDefaults extends Defaults
             'format' => '?'.glsr()->constant('PAGED_QUERY_VAR').'=%#%',
             'mid_size' => 1,
             'next_text' => __('Next', 'site-reviews'),
-            'prev_text' => __('Prev', 'site-reviews'),
+            'prev_text' => __('Previous', 'site-reviews'),
             'total' => 0,
             'type' => 'ajax',
         ];
