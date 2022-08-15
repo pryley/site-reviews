@@ -11,6 +11,7 @@
 }
 :--namespace .glsr-pagination .pagination {
     flex-basis: 100%;
+    margin-bottom: 0;
     margin-top: 0;
     opacity: 1;
     transition: opacity var(--glsr-duration-slow);

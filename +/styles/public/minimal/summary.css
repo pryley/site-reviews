@@ -2,7 +2,7 @@
     align-items: center;
     display: flex;
     flex-wrap: wrap;
-    font-size: var(--glsr-text-sm);
+    font-size: var(--glsr-summary-text);
     gap: var(--glsr-gap-sm);
     max-width: var(--glsr-max-w);
     position: relative;

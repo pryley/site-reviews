@@ -1,35 +1,58 @@
-@import "blocks/twentytwenty/variables";
-@import "blocks/minimal/reviews";
-@import "blocks/minimal/read-more";
-@import "blocks/default/reviews-form";
-@import "blocks/minimal/field-labels";
-@import "blocks/minimal/field-input";
-@import "blocks/minimal/field-choice";
-@import "blocks/minimal/field-toggle";
-@import "public/default/field-star-rating";
-@import "blocks/minimal/reviews-summary";
-@import "blocks/base";
+@import "minimal-blocks";
 
-:--namespace .glsr-toggle-switch {
-    font-size: var(--glsr-form-font-size);
+:root {
+    --glsr-gray-300: #dcd7ca;
+    --glsr-black: #000;
+    --glsr-red: #cd2653;
+    --glsr-font: "Inter var", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif;
+    --glsr-font-serif: NonBreakingSpaceOverride, "Hoefler Text", "Noto Serif", Garamond, "Times New Roman", serif;
+    --glsr-leading: 1.476;
+    --glsr-input-radius: 0;
+    --glsr-input-px: 1em;
+    --glsr-input-py: 0.83333333em;
+    --glsr-text-base: 18px;
+    --glsr-text-sm: 0.88888889em;
+    --glsr-summary-text: 0.88888889em;
+    --glsr-toggle-h: 1em;
+    @media (min-width: 700px) {
+        --glsr-text-base: 21px;
+    }
 }
-:--namespace form.glsr-form label {
-    font-family: var(--glsr-font-family-sans);
-    font-size: var(--glsr-form-font-size);
+:--namespace {
+    font-family: var(--glsr-font-serif);
+}
+:--namespace .glsr-button {
+    border: none;
+}
+:--namespace .glsr .wp-block-button {
+    margin: 0 !important;
+}
+:--namespace .glsr-toggle,
+:--namespace .glsr-toggle > label {
+    font-family: var(--glsr-font);
+    font-size: var(--glsr-text-sm);
     font-weight: normal;
 }
-:--namespace form.glsr-form .components-button {
-    background-color: var(--glsr-red);
-    border-radius: 0;
-    box-shadow: none;
-    color: var(--glsr-white);
-    font-family: var(--glsr-form-font-family-sans);
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 0.0333em;
-    line-height: 1.25;
-    padding: 1.5em;
-    text-transform: uppercase;
+:--namespace form.glsr-form .glsr-field-checkbox label,
+:--namespace form.glsr-form .glsr-field-radio label {
+    font-family: var(--glsr-font);
+    font-weight: normal;
+}
+:--namespace form.glsr-form label.glsr-label {
+    font-family: var(--glsr-font);
+    font-weight: normal;
+    margin-bottom: 0.5rem;
+}
+:--namespace form.glsr-form input.glsr-input,
+:--namespace form.glsr-form select.glsr-select,
+:--namespace form.glsr-form textarea.glsr-textarea {
+    border: solid 0.1rem var(--glsr-gray-300);
+    border-radius: var(--glsr-input-radius);
+    font-family: var(--glsr-font);
+    font-size: var(--glsr-text-sm);
+    letter-spacing: -0.015em;
+    line-height: var(--glsr-leading);
+    padding: var(--glsr-input-py) var(--glsr-input-px);
 }
 :--namespace .glsr-pagination .nav-links {
     align-items: baseline;
@@ -44,9 +67,11 @@
     font-weight: 600;
     line-height: 1.5;
     padding: 0.5em 0.75em;
-    font-family: var(--glsr-font-family-serif);
 }
 :--namespace .glsr-pagination a.page-numbers {
     color: var(--glsr-red);
 }
-
+:--namespace .glsr-pagination .next {
+    text-align: right;
+    margin: 0 0 0 auto;
+}

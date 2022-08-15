@@ -1,44 +1,48 @@
 @import "minimal";
 
 :root {
-    --gl-font: "Inter var", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif;
-    --gl-leading: 1.476;
-    --gl-px: 1.8rem;
-    --gl-py: 1.5rem;
-    --gl-black: #c000;
-    --gl-red: #cd2653;
-    --gl-text-base: 1.8rem;
-    --gl-text-sm: 1.6rem;
-    --gl-tog-h: 1.8rem;
+    --glsr-gray-300: #dcd7ca;
+    --glsr-black: #000;
+    --glsr-red: #cd2653;
+    --glsr-font: "Inter var", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif;
+    --glsr-font-serif: NonBreakingSpaceOverride, "Hoefler Text", "Noto Serif", Garamond, "Times New Roman", serif;
+    --glsr-leading: 1.476;
+    --glsr-input-radius: 0;
+    --glsr-input-px: 1em;
+    --glsr-input-py: 0.83333333em;
+    --glsr-text-base: 1.8rem;
+    --glsr-text-sm: 0.88888889em;
+    --glsr-summary-text: 0.88888889em;
+    --glsr-toggle-h: 1em;
     @media (min-width: 700px) {
-        --gl-text-base: 2.1rem;
+        --glsr-text-base: 2.1rem;
     }
 }
-:root .glsr {
-    font-size: var(--gl-text-base);
+:root .glsr-modal,
+:root .glsr-modal .glsr {
+    font-size: var(--glsr-text-sm);
 }
-:root .glsr-field-rating {
-    --gl-star-size: 2em;
-}
-:root .glsr-review-response {
-    --gl-px: calc(var(--gl-text-md) * 1.25);
-    --gl-py: calc(var(--gl-text-md) * 1.25);
-}
-
 :--namespace .glsr-toggle,
 :--namespace .glsr-toggle > label {
-    font-size: 1.6rem;
-    font-family: var(--gl-font);
+    font-size: var(--glsr-text-sm);
+    font-family: var(--glsr-font);
 }
 :--namespace form.glsr-form .glsr-field-checkbox label,
 :--namespace form.glsr-form .glsr-field-radio label {
-    font-family: var(--gl-font);
+    font-family: var(--glsr-font);
 }
 :--namespace form.glsr-form label.glsr-label {
-    font-family: var(--gl-font);
+    font-family: var(--glsr-font);
     margin-bottom: 0.5rem;
 }
-:--namespace .glsr-field-error {
-    font-family: var(--gl-font);
+:--namespace form.glsr-form select.glsr-select {
+    background: var(--glsr-white);
+    border: solid 0.1rem var(--glsr-gray-300);
+    border-radius: var(--glsr-input-radius);
+    font-size: var(--glsr-text-sm);
+    letter-spacing: -0.015em;
+    padding: var(--glsr-input-py) var(--glsr-input-px);
+    &:focus {
+        border-color: currentColor;
+    }
 }
-

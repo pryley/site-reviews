@@ -38,6 +38,7 @@
     --glsr-bar-opacity: 0.1;
     --glsr-max-w: 48ch;
     --glsr-summary-star: 1.5em;
+    --glsr-summary-text:  var(--gl-text-sm);
 
     /* Form */
     --glsr-choice-h: 1.125em;
