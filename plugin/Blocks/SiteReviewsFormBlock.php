@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Blocks;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Attributes;
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode as Shortcode;
 
 class SiteReviewsFormBlock extends Block

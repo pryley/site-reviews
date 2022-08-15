@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Blocks;
 
+use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode as Shortcode;
 
 class SiteReviewsSummaryBlock extends Block

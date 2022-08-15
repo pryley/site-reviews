@@ -24,7 +24,7 @@ class Paginate
             foreach ($formatArgs as $arg => $value) {
                 unset($urlQueryArgs[$arg]);
             }
-            $args['add_args'] = array_merge($args['add_args'], urlencode_deep($urlQueryArgs));
+            $args['add_args'] = array_merge($args['add_args'], (array) urlencode_deep($urlQueryArgs));
         }
         $this->args = glsr()->args($args);
         $this->style = glsr_get_option('general.style');
@@ -120,7 +120,7 @@ class Paginate
     protected function href(int $page, string $format): string
     {
         $href = str_replace('%_%', $format, $this->args->base);
-        $href = str_replace('%#%', $page, $href);
+        $href = str_replace('%#%', (string) $page, $href);
         $href = add_query_arg($this->args->add_args, $href);
         return esc_url(apply_filters('paginate_links', $href));
     }
