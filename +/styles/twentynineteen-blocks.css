@@ -1,11 +1,80 @@
-@import "blocks/minimal/variables";
-@import "blocks/default/reviews";
-@import "blocks/minimal/read-more";
-@import "blocks/minimal/reviews-form";
-@import "blocks/minimal/field-labels";
-@import "blocks/minimal/field-input";
-@import "blocks/minimal/field-choice";
-@import "blocks/minimal/field-toggle";
-@import "public/default/field-star-rating";
-@import "blocks/minimal/reviews-summary";
-@import "blocks/base";
+@import "minimal-blocks";
+
+:root {
+    --glsr-gray-300: #ccc;
+    --glsr-gray-400: #767676;
+    --glsr-blue: #0073aa;
+    --glsr-font: system-ui;
+    --glsr-gap-lg: 2em;
+    --glsr-input-px: 0.66rem;
+    --glsr-input-py: 0.36rem;
+    --glsr-input-radius: 0;
+    --glsr-leading: 1.8;
+    --glsr-summary-text: 0.88889em;
+    --glsr-text-base: 22px;
+    --glsr-text-sm: 0.71111em;
+    --glsr-toggle-bg-1: var(--glsr-blue);
+    --glsr-toggle-h: 22px;
+    --glsr-toggle-text: var(--glsr-text-sm);
+}
+:--namespace .glsr-button {
+    border: none;
+}
+:--namespace .glsr-review-author {
+    font-family: var(--glsr-font);
+}
+:--namespace .glsr-review-date {
+    font-size: var(--glsr-text-sm);
+    color: var(--glsr-gray-400);
+    font-family: var(--glsr-font);
+    font-style: normal;
+    font-weight: 500;
+}
+:--namespace .glsr-review-response-inner p:first-of-type strong {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: var(--glsr-font);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+:--namespace form.glsr-form .glsr-field-error {
+    font-family: var(--glsr-font);
+}
+:--namespace .glsr-modal__dialog {
+    --gl-text-base: 0.88889em;
+ }
+:--namespace form.glsr-form input.glsr-input,
+:--namespace form.glsr-form select.glsr-select,
+:--namespace form.glsr-form textarea.glsr-textarea {
+    background: var(--glsr-white);
+    border: solid 1px var(--glsr-gray-300);
+    border-radius: var(--glsr-input-radius);
+    font-size: 1em;
+    outline: none;
+    outline-offset: 0;
+    padding: var(--glsr-input-py) var(--glsr-input-px);
+}
+:--namespace form.glsr-form label.glsr-label {
+    color: var(--glsr-gray-400);
+    font-family: var(--glsr-font);
+    font-size: var(--glsr-toggle-text);
+}
+:--namespace form.glsr-form .glsr-toggle label {
+    font-size: var(--glsr-toggle-text);
+}
+
+:--namespace .pagination .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 calc(.5 * 1rem);
+}
+:--namespace .pagination .nav-links > * {
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 0.88889em;
+    padding: calc(.5 * 1rem);
+    font-family: var(--glsr-font);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}

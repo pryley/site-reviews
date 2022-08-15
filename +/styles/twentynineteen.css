@@ -1,51 +1,59 @@
 @import "minimal";
 
 :root {
-    --gl-blue: #0073aa;
-    --gl-text-base: 1rem;
-    --gl-tog-bg-on: var(--gl-blue);
-    --gl-tog-h: 1rem;
-    --gl-font: system-ui;
-    --gl-text-sm: 0.71111em;
-    --gl-gap-lg: 2em;
+    --glsr-gray-300: #ccc;
+    --glsr-gray-400: #767676;
+    --glsr-blue: #0073aa;
+    --glsr-font: system-ui;
+    --glsr-gap-lg: 2em;
+    --glsr-input-px: 0.66rem;
+    --glsr-input-py: 0.36rem;
+    --glsr-leading: 1.8;
+    --glsr-radius: 0;
+    --glsr-summary-text: 0.88889em;
+    --glsr-text-base: 1rem;
+    --glsr-text-sm: 0.71111em;
+    --glsr-toggle-bg-1: var(--glsr-blue);
+    --glsr-toggle-h: 1rem;
+    --glsr-toggle-text: var(--glsr-text-sm);
 }
-:root .glsr-field-rating {
-    --gl-star-size: 2em;
-}
-:root .glsr-review-response {
-    --gl-px: calc(var(--gl-text-md) * 1.25);
-    --gl-py: calc(var(--gl-text-md) * 1.25);
-}
-
-
-:--namespace .glsr-summary-percentages {
-    --gl-leading: 1.5;
-}
-:--namespace .glsr-toggle-switch {
-    font-size: var(--gl-text-sm);
+:--namespace .glsr-review-author {
+    font-family: var(--glsr-font);
 }
 :--namespace .glsr-review-date {
-    font-size: 0.71111em;
-    color: #767676;
-    font-family: var(--gl-font);
+    font-size: var(--glsr-text-sm);
+    color: var(--glsr-gray-400);
+    font-family: var(--glsr-font);
     font-style: normal;
     font-weight: 500;
 }
-:--namespace .glsr-review-author,
 :--namespace .glsr-review-response-inner p:first-of-type strong {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    font-family: var(--gl-font);
+    font-family: var(--glsr-font);
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.2;
 }
-:--namespace .glsr-review-response-inner p:first-of-type strong {
-    font-size: 1.125em;
-}
 :--namespace form.glsr-form .glsr-field-error {
-    font-family: var(--gl-font);
+    font-family: var(--glsr-font);
 }
 :--namespace .glsr-modal__dialog {
     --gl-text-base: 0.88889em;
  }
+:--namespace form.glsr-form select.glsr-select {
+    background: var(--glsr-white);
+    border: solid 1px var(--glsr-gray-300);
+    border-radius: var(--glsr-radius);
+    outline: none;
+    outline-offset: 0;
+    padding: var(--glsr-input-py) var(--glsr-input-px);
+    &:focus {
+        border-color: var(--glsr-blue);
+        outline: thin solid rgba(0, 115, 170, 0.15);
+        outline-offset: -4px;
+    }
+}
+:--namespace form.glsr-form .glsr-toggle label {
+    font-size: var(--glsr-toggle-text);
+}

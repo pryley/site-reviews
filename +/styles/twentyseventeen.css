@@ -1,14 +1,12 @@
 @import "minimal";
 
 :root {
-    --gl-black: #222;
-}
-:root .glsr-field-rating {
-    --gl-star-size: 2em;
-}
-:root .glsr-review-response {
-    --gl-px: calc(var(--gl-text-md) * 1.25);
-    --gl-py: calc(var(--gl-text-md) * 1.25);
+    --glsr-gray-300: #bbb;
+    --glsr-gray-400: #666;
+    --glsr-gray-500: #333;
+    --glsr-black: #222;
+    --glsr-input-px: 0.7em;
+    --glsr-input-py: 0.7em;
 }
 :root .glsr-button {
     border-radius: 2px;
@@ -18,4 +16,19 @@
 }
 :--namespace form.glsr-form .glsr-field-choice span label {
     font-weight: normal;
+}
+:--namespace form.glsr-form select.glsr-select {
+    background: var(--glsr-white);
+    border: 1px solid var(--glsr-gray-300);
+    border-radius: var(--glsr-radius);
+    padding-top: var(--glsr-input-py);
+    padding-right: var(--glsr-input-px);
+    padding-bottom: var(--glsr-input-py);
+    padding-left: var(--glsr-input-px);
+    &:focus {
+        border-color: var(--glsr-gray-500);
+    }
+}
+:--namespace .glsr-pagination .pagination {
+    padding-bottom: 0;
 }
