@@ -1,10 +1,13 @@
 @import "minimal-blocks";
 
-:--namespace {
+:--namespace .glsr {
     --glsr-input-px: calc(0.667em + 2px);
     --glsr-input-py: calc(0.667em + 2px);
     --glsr-input-b: 1px solid var(--wp--preset--color--primary);
     --glsr-input-radius: 0;
+}
+:--namespace .glsr-button {
+    border: none;
 }
 :--namespace form.glsr-form input.glsr-input,
 :--namespace form.glsr-form select.glsr-select,
@@ -24,19 +27,16 @@
     height: var(--glsr-text-lg);
     width: var(--glsr-text-lg);
 }
-:--namespace .glsr-button {
-    border: none;
-}
 :--namespace .glsr-pagination .nav-links {
     column-gap: var(--glsr-gap-sm);
 }
-:--namespace.glsr-ltr .glsr-pagination .page-numbers.prev,
-:--namespace.glsr-rtr .glsr-pagination .page-numbers.next {
+:--namespace .glsr-ltr .glsr-pagination .page-numbers.prev,
+:--namespace .glsr-rtr .glsr-pagination .page-numbers.next {
     flex: 1;
     text-align: left;
 }
-:--namespace.glsr-rtl .glsr-pagination .page-numbers.prev,
-:--namespace.glsr-ltr .glsr-pagination .page-numbers.next {
+:--namespace .glsr-rtl .glsr-pagination .page-numbers.prev,
+:--namespace .glsr-ltr .glsr-pagination .page-numbers.next {
     flex: 1;
     text-align: right;
 }

@@ -2,6 +2,7 @@
 
 return [
     'classes' => [
+        'button' => 'wpcf7-form-control wpcf7-submit button',
         'form' => 'wpcf7-form',
         'input' => 'wpcf7-form-control',
         'input_email' => 'wpcf7-form-control wpcf7-text wpcf7-email',

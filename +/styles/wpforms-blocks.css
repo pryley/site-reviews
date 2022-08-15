@@ -1,22 +1,13 @@
-@import "blocks/minimal/variables";
-@import "blocks/minimal/reviews";
-@import "blocks/minimal/read-more";
-@import "blocks/minimal/field-toggle";
-@import "public/default/field-star-rating";
-@import "blocks/minimal/reviews-summary";
+@import "public/minimal/variables";
+@import "public/minimal/star-rating";
+@import "public/minimal/review";
+@import "public/minimal/summary";
+@import "public/minimal/field-toggle";
+@import "public/minimal/field-rating";
 @import "blocks/base";
 
-:--namespace form.glsr-form input.glsr-input:disabled,
-:--namespace form.glsr-form select.glsr-select:disabled,
-:--namespace form.glsr-form textarea.glsr-textarea:disabled {
-    background-color:  #fff;
-    border-color: #ccc;
-    opacity: 1;
+:--namespace form.glsr-form .glsr-field-checkbox,
+:--namespace form.glsr-form .glsr-field-radio {
+    display: flex;
 }
-:--namespace form.glsr-form .wpforms-submit {
-    background-color: #eee;
-    border: 1px solid #ddd;
-    color: #333;
-    font-size: 1em;
-    padding: 10px 15px;
-}
+

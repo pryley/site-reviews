@@ -2,6 +2,7 @@
 
 return [
     'classes' => [
+        'button' => 'wpforms-submit',
         'field' => 'wpforms-field',
         'form' => 'wpforms-form',
         'input' => 'wpforms-field-large',

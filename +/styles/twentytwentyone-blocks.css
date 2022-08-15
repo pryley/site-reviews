@@ -1,6 +1,6 @@
 @import "minimal-blocks";
 
-:--namespace {
+:--namespace .glsr {
     --glsr-choice-h: 25px;
     --glsr-choice-w: 25px;
     --glsr-input-b: var(--form--border-width) solid var(--form--border-color);
@@ -16,7 +16,7 @@
     --glsr-toggle-size: 19px;
     --glsr-toggle-w: 44px;
 }
-:root .is-dark-theme :--namespace {
+:root .is-dark-theme :--namespace .glsr {
     --glsr-toggle-bg-0: var(--global--color-background);
     --glsr-toggle-color: var(--global--color-background);
     --glsr-toggle-opacity-0: 0.25;

@@ -1,6 +1,6 @@
 @import "minimal-blocks";
 
-:--namespace {
+:--namespace .glsr {
     --glsr-gray-300: #bbb;
     --glsr-gray-400: #666;
     --glsr-gray-500: #333;
@@ -18,7 +18,6 @@
 :--namespace form.glsr-form .glsr-field-choice span label {
     font-weight: normal;
 }
-
 :--namespace form.glsr-form input.glsr-input,
 :--namespace form.glsr-form select.glsr-select,
 :--namespace form.glsr-form textarea.glsr-textarea {

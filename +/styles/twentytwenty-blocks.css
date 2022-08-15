@@ -1,6 +1,6 @@
 @import "minimal-blocks";
 
-:root {
+:--namespace .glsr {
     --glsr-gray-300: #dcd7ca;
     --glsr-black: #000;
     --glsr-red: #cd2653;
@@ -17,8 +17,6 @@
     @media (min-width: 700px) {
         --glsr-text-base: 21px;
     }
-}
-:--namespace {
     font-family: var(--glsr-font-serif);
 }
 :--namespace .glsr-button {

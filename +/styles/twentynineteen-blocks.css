@@ -1,6 +1,6 @@
 @import "minimal-blocks";
 
-:root {
+:--namespace .glsr {
     --glsr-gray-300: #ccc;
     --glsr-gray-400: #767676;
     --glsr-blue: #0073aa;
@@ -64,12 +64,12 @@
     font-size: var(--glsr-toggle-text);
 }
 
-:--namespace .pagination .nav-links {
+:--namespace .glsr-pagination .nav-links {
     display: flex;
     flex-wrap: wrap;
     padding: 0 calc(.5 * 1rem);
 }
-:--namespace .pagination .nav-links > * {
+:--namespace .glsr-pagination .nav-links > * {
     -moz-osx-font-smoothing: grayscale;
     font-size: 0.88889em;
     padding: calc(.5 * 1rem);

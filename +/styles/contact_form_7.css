@@ -1,19 +1,4 @@
-@import "public/minimal/variables";
-@import "public/minimal/keyframes";
-@import "public/minimal/debug";
-@import "public/minimal/modal";
-@import "public/minimal/screen-reader";
-@import "public/minimal/captcha";
-@import "public/minimal/reviews";
-@import "public/minimal/read-more";
-@import "public/minimal/pagination";
-@import "public/minimal/field-labels";
-@import "public/minimal/field-input";
-@import "public/minimal/field-choice";
-@import "public/minimal/field-toggle";
-@import "public/minimal/field-star-rating";
-@import "public/minimal/button";
-@import "public/minimal/reviews-summary";
+@import "minimal";
 
 :--namespace form.glsr-form .glsr-form-message {
     margin-left: 0;
@@ -22,4 +7,8 @@
 :--namespace form.glsr-form:not(.glsr-form-is-invalid) .glsr-field-error,
 :--namespace form.glsr-form .glsr-form-message:not(.glsr-form-failed):not(.glsr-form-success) {
     display: none;
+}
+:--namespace form.glsr-form .glsr-field-checkbox,
+:--namespace form.glsr-form .glsr-field-radio {
+    display: flex;
 }
