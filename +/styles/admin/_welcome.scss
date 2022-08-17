@@ -23,13 +23,14 @@
     }
 }
 .glsr-welcome.about-wrap {
-    margin-top: 40px;
+    display: block;
+    margin: 40px 40px 0 20px;
 }
 .glsr-welcome.about-wrap .inside p,
 .glsr-welcome.about-wrap .inside li {
     font-size: 16px;
 }
-.glsr-welcome .glsr-about-text {
+.glsr-welcome.about-wrap .glsr-about-text {
     margin: 1em 0;
 }
 .glsr-welcome-banner {

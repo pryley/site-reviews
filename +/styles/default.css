@@ -11,6 +11,7 @@
     font-size: var(--glsr-label-text);
     font-weight: var(--glsr-label-weight);
     line-height: var(--glsr-leading);
+    padding: 0;
     margin-bottom: 0.25em;
 }
 :--namespace form.glsr-form input.glsr-input,
@@ -100,6 +101,7 @@
 :--namespace form.glsr-form .glsr-toggle label {
     font-size: var(--glsr-text-md);
     line-height: var(--glsr-leading);
+    padding: 0;
 }
 :--namespace form.glsr-form .glsr-toggle input[type=checkbox]:focus {
     outline: none;

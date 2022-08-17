@@ -1928,7 +1928,7 @@ msgctxt "admin-text"
 msgid "A valid license key is required to download this update."
 msgstr "A valid license key is required to download this update."
 
-#: plugin/Blocks/SiteReviewsBlock.php:111, plugin/Blocks/SiteReviewsFormBlock.php:80, plugin/Blocks/SiteReviewsSummaryBlock.php:95
+#: plugin/Blocks/SiteReviewsBlock.php:111, plugin/Blocks/SiteReviewsFormBlock.php:81, plugin/Blocks/SiteReviewsSummaryBlock.php:96
 msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr "You have hidden all of the fields for this block."
