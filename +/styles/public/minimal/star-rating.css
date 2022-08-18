@@ -7,11 +7,11 @@
     justify-content: center;
 }
 :root .glsr-star {
-    background-size: var(--glsr-star);
+    background-size: var(--glsr-review-star);
     flex-shrink: 0;
     font-size: inherit;
-    height: var(--glsr-star);
-    width: var(--glsr-star);
+    height: var(--glsr-review-star);
+    width: var(--glsr-review-star);
 }
 :root .glsr-summary .glsr-star {
     background-size: var(--glsr-summary-star);

@@ -26,11 +26,13 @@
     --glsr-px: 1.25em;
     --glsr-py: 1.25em;
     --glsr-radius: 3px;
-    --glsr-star: 1.25em;
     --glsr-text-base: 1em;
     --glsr-text-sm: 0.875em;
     --glsr-text-md: 1em;
     --glsr-text-lg: 1.25em;
+
+    /* Review */
+    --glsr-review-star: 1.25em;
 
     /* Summary */
     --glsr-bar-bg: var(--glsr-yellow);
