@@ -27,7 +27,9 @@ class EnqueuePublicAssets implements Contract
     public function enqueueAssets()
     {
         if (glsr()->filterBool('assets/css', true)) {
-            wp_enqueue_style(glsr()->id, glsr(AssetCss::class)->url(), [], glsr(AssetCss::class)->version());
+            // ensure block styles are loaded on post types with blocks disabled
+            $dependencies = ['wp-block-button', 'wp-block-search'];
+            wp_enqueue_style(glsr()->id, glsr(AssetCss::class)->url(), $dependencies, glsr(AssetCss::class)->version());
             wp_add_inline_style(glsr()->id, $this->inlineStyles());
             glsr(AssetCss::class)->optimize();
         }
