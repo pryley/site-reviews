@@ -1524,7 +1524,7 @@ msgctxt "admin-text"
 msgid "Searching..."
 msgstr ""
 
-#: plugin/Commands/EnqueuePublicAssets.php:91
+#: plugin/Commands/EnqueuePublicAssets.php:93
 msgid "Close Modal"
 msgstr ""
 

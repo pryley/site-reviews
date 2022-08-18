@@ -104,7 +104,7 @@ msgstr ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site administrator."
 
-#: plugin/Commands/EnqueuePublicAssets.php:91
+#: plugin/Commands/EnqueuePublicAssets.php:93
 msgid "Close Modal"
 msgstr "Close Modal"
 
