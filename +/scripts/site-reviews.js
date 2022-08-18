@@ -17,6 +17,7 @@ const events = {
 
 const initExcerpts = (el) => {
     new Excerpts(el)
+    Event.trigger(events.modal)
 }
 
 const initForms = () => {
@@ -65,8 +66,8 @@ const initPlugin = () => {
     })
     Event.trigger(events.excerpts)
     Event.trigger(events.forms)
-    Event.trigger(events.modal)
     Event.trigger(events.pagination)
+    // Modal init event is triggered in excerpts
 }
 
 if (!window.hasOwnProperty('GLSR')) {
@@ -88,7 +89,7 @@ Event.on(events.init, initPlugin)
 
 Event.on('site-reviews/pagination/handle', (response, pagination) => {
     Event.trigger(events.excerpts, pagination.wrapperEl)
-    Event.trigger(events.modal)
+    // Modal init event is triggered in excerpts
 })
 
 document.addEventListener('DOMContentLoaded', () => {
