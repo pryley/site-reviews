@@ -20,7 +20,7 @@ class Text
             $excerpt = static::words($text, $limit);
             $excerptLength = mb_strlen($excerpt);
         }
-        $paragraphs = preg_split('/\R+/m', $text);
+        $paragraphs = preg_split('/\R+/um', $text);
         $paragraphs = array_map('trim', $paragraphs);
         foreach ($paragraphs as &$paragraph) {
             $paragraphLength = mb_strlen($paragraph);
@@ -87,7 +87,7 @@ class Text
     public static function text($text)
     {
         $text = static::normalize($text);
-        $text = preg_split('/\R+/m', $text);
+        $text = preg_split('/\R+/um', $text);
         $text = array_map('trim', $text); // trim paragraphs
         $text = implode(PHP_EOL.PHP_EOL, $text);
         return wpautop($text);
@@ -114,7 +114,7 @@ class Text
     protected static function excerptIntlSplit($text, $limit)
     {
         $text = \Normalizer::normalize($text);
-        $iter = \IntlRuleBasedBreakIterator::createWordInstance('');
+        $iter = \IntlRuleBasedBreakIterator::createWordInstance();
         $iter->setText($text);
         $words = $iter->getPartsIterator();
         $stringLength = 0;
