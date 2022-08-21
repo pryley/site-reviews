@@ -52,3 +52,7 @@ update: ## Update Composer and NPM
 .PHONY: watch
 watch: ## Build all plugin assets and run Browsersync
 	npm run watch
+
+.PHONY: zip
+zip: ## Create a zip archive of Site Reviews
+	git archive -o ./site-reviews.zip --prefix=site-reviews/ HEAD

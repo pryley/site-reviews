@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, star ratings
 Tested up to: 6.0
-Stable tag: 6.0.0-beta2
+Stable tag: 6.0.0-beta3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -146,7 +146,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.0.0-beta2 (2022-08-19) =
+= 6.0.0-beta3 (2022-08-21) =
 
 - 🚨 Requires at least PHP v7.2
 - 🚨 Requires at least WordPress v5.8
@@ -161,6 +161,8 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Added a "Limit Reviews For" setting which allows you to set a time-limit (in days) for Review Limits
 - Added automatic conversion of UTF-16/UTF-32 encoded CSV files when importing reviews
 - Added experimental filter hooks to combine css and javascript files when using add-ons (see Help > Hooks)
+- Added migration and nonce support for LiteSpeed Cache (flushes the cache after migration)
+- Added migration support for WP Rocket (flushes the cache after migration)
 - Added the Bootstrap v5 plugin style
 - Added the Elementor Pro plugin style
 - Fixed compatibility with [Yoast Duplicate Post](https://wordpress.org/plugins/duplicate-post/)

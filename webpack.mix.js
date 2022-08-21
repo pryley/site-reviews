@@ -10,7 +10,6 @@ const postCss = namespace => {
     require('postcss-calc'),
     require('postcss-hexrgba'),
     require('postcss-selector-namespace')({ namespace }),
-    require('autoprefixer'),
   ]
 }
 
@@ -61,6 +60,7 @@ mix.webpackConfig({
 })
 
 mix
+  .setPublicPath('.')
   .babel('+/scripts/mce-plugin.js', 'assets/scripts/mce-plugin.js')
   .babel('+/scripts/rollback.js', 'assets/scripts/rollback.js')
   // .js('+/scripts/site-reviews.js', 'assets/scripts')
@@ -96,6 +96,7 @@ mix
   .postCss('+/styles/twentytwentyone-blocks.css', 'assets/styles/blocks', postCss('.wp-block'))
   .postCss('+/styles/twentytwentytwo-blocks.css', 'assets/styles/blocks', postCss('.wp-block'))
   .postCss('+/styles/wpforms-blocks.css', 'assets/styles/blocks', postCss('.wp-block'))
+  // .version()
   .browserSync({
     files: [
         '+/**/*.(css|js)', 

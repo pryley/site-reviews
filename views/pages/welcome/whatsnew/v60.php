@@ -14,6 +14,8 @@
             <li>Added the Elementor Pro plugin style</li>
             <li>Added automatic conversion of UTF-16/UTF-32 encoded CSV files when importing reviews</li>
             <li>Added experimental filter hooks to combine css and javascript files when using add-ons (see <a data-expand="#hooks-filter-combine-assets" href="<?= glsr_admin_url('documentation', 'hooks'); ?>">Hooks documentation</a>)</li>
+            <li>Added migration and nonce support for <a href="https://wordpress.org/plugins/litespeed-cache/" rel="nofollow" target="_blank">LiteSpeed Cache</a> (flushes the cache after migration)</li>
+            <li>Added migration support for <a href="https://wp-rocket.me/" rel="nofollow" target="_blank">WP Rocket</a> (flushes the cache after migration)</li>
         </ul>
         <h4>📢 Changes</h4>
         <ul>

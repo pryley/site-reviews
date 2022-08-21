@@ -149,6 +149,15 @@ add_action('site-reviews/customize/ninja_forms', function () {
 });
 
 /**
+ * Purge the LiteSpeed Cache after plugin migrations.
+ * @return void
+ * @see https://wordpress.org/plugins/litespeed-cache/
+ */
+add_action('site-reviews/migration/end', function () {
+    do_action('litespeed_purge_all');
+});
+
+/**
  * Purge the W3 Total Cache database and object caches after plugin migrations.
  * @return void
  * @see https://wordpress.org/plugins/w3-total-cache/
@@ -159,6 +168,17 @@ add_action('site-reviews/migration/end', function () {
     }
     if (function_exists('w3tc_objectcache_flush')) {
         w3tc_objectcache_flush();
+    }
+});
+
+/**
+ * Purge the WP Rocket Cache after plugin migrations.
+ * @return void
+ * @see https://wp-rocket.me/
+ */
+add_action('site-reviews/migration/end', function () {
+    if (function_exists('rocket_clean_home')) {
+        rocket_clean_home();
     }
 });
 
