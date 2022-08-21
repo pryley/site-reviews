@@ -47,6 +47,7 @@ class FormFieldsTag extends FormTag
         $fields = [];
         $referer = filter_input(INPUT_SERVER, 'REQUEST_URI');
         $referer = glsr()->filterString('review-form/referer', $referer);
+        do_action('litespeed_nonce', 'submit-review'); // @litespeedcache
         $hiddenFields = [
             '_action' => 'submit-review',
             '_nonce' => wp_create_nonce('submit-review'),

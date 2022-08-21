@@ -17,6 +17,7 @@ class Migrate_6_0_0 implements MigrateContract
             delete_option(OptionManager::databaseKey($version--));
         }
         $this->migrateAddonBlocks();
+        do_action('litespeed_purge_all'); // @litespeedcache
         return true;
     }
 
