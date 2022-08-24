@@ -9,7 +9,7 @@ class SummaryParameters
 {
     public function parameters()
     {
-        return [
+        $parameters = [
             'after' => [
                 'description' => _x('Limit result set to reviews published after a given ISO8601 compliant date.', 'admin-text', 'site-reviews'),
                 'format' => 'date-time',
@@ -109,5 +109,8 @@ class SummaryParameters
                 'type' => 'array',
             ],
         ];
+        $parameters = glsr()->filterArray('api/summary/parameters', $parameters);
+        ksort($parameters);
+        return $parameters;
     }
 }

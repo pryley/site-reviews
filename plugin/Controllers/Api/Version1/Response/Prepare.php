@@ -10,27 +10,32 @@ class Prepare
     /**
      * @var array
      */
-    protected $data;
+    public $data;
 
     /**
      * @var array
      */
-    protected $fields;
+    public $fields;
 
     /**
      * @var \GeminiLabs\SiteReviews\Modules\Html\ReviewHtml
      */
-    protected $html;
+    public $html;
+
+    /**
+     * @var \WP_REST_Post_Meta_Fields
+     */
+    public $meta;
 
     /**
      * @var \WP_REST_Request
      */
-    protected $request;
+    public $request;
 
     /**
      * @var \GeminiLabs\SiteReviews\Review
      */
-    protected $review;
+    public $review;
 
     /**
      * @param string[] $fields
@@ -40,6 +45,7 @@ class Prepare
         $this->data = [];
         $this->html = $review->build();
         $this->fields = $fields;
+        $this->meta = new \WP_REST_Post_Meta_Fields(glsr()->post_type);
         $this->request = $request;
         $this->review = $review;
     }
@@ -58,10 +64,15 @@ class Prepare
      */
     public function __call($method, array $args = [])
     {
-        [$parent] = explode('.', $method);
-        $method = Helper::buildMethodName($parent, 'prepare');
+        [$key] = explode('.', $method);
+        if (!rest_is_field_included($key, $this->fields)) {
+            return;
+        }
+        $method = Helper::buildMethodName($key, 'prepare');
         if (method_exists($this, $method)) {
             call_user_func_array([$this, $method], $args);
+        } else {
+            $this->data[$key] = glsr()->filter('api/reviews/prepare/'.$key, '', $this);
         }
     }
 
@@ -107,7 +118,11 @@ class Prepare
 
     protected function prepareDateGmt()
     {
-        $this->data['date_gmt'] = mysql_to_rfc3339($this->review->date_gmt);
+        $date = $this->review->date_gmt;
+        if ('0000-00-00 00:00:00' === $date) {
+            $date = get_gmt_from_date($this->review->date);
+        }
+        $this->data['date_gmt'] = mysql_to_rfc3339($date);
     }
 
     protected function prepareEmail()
@@ -138,6 +153,11 @@ class Prepare
     protected function prepareIsPinned()
     {
         $this->data['is_pinned'] = $this->review->is_pinned;
+    }
+
+    protected function prepareMeta()
+    {
+        $this->data['meta'] = $this->meta->get_value($this->review->ID, $this->request);
     }
 
     protected function prepareModified()

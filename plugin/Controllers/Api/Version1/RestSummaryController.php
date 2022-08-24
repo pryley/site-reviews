@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers\Api\Version1;
 
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\Schema\SummaryParameters;
+use GeminiLabs\SiteReviews\Controllers\Api\Version1\Schema\SummarySchema;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 use WP_Error;
 
@@ -29,44 +30,7 @@ class RestSummaryController extends RestReviewController
     public function get_item_schema()
     {
         if (empty($this->schema)) {
-            $this->schema = [
-                '$schema' => 'http://json-schema.org/draft-04/schema#',
-                'properties' => [
-                    'average' => [
-                        'context' => ['view'],
-                        'description' => _x('The average rating.', 'admin-text', 'site-reviews'),
-                        'type' => 'number',
-                    ],
-                    'maximum' => [
-                        'context' => ['view'],
-                        'description' => _x('The defined maximum rating.', 'admin-text', 'site-reviews'),
-                        'type' => 'integer',
-                    ],
-                    'minimum' => [
-                        'context' => ['view'],
-                        'description' => _x('The defined minimum rating.', 'admin-text', 'site-reviews'),
-                        'type' => 'integer',
-                    ],
-                    'ranking' => [
-                        'context' => ['view'],
-                        'description' => _x('The bayesian ranking number.', 'admin-text', 'site-reviews'),
-                        'type' => 'number',
-                    ],
-                    'ratings' => [
-                        'context' => ['view'],
-                        'description' => _x('The total number of reviews for each rating level from zero to maximum rating.', 'admin-text', 'site-reviews'),
-                        'items' => ['type' => 'integer'],
-                        'type' => 'array',
-                    ],
-                    'reviews' => [
-                        'context' => ['view'],
-                        'description' => _x('The total number of reviews used to calculate the average.', 'admin-text', 'site-reviews'),
-                        'type' => 'integer',
-                    ],
-                ],
-                'title' => 'rating-summary',
-                'type' => 'object',
-            ];
+            $this->schema = glsr(SummarySchema::class)->schema();
         }
         return $this->add_additional_fields_schema($this->schema);
     }

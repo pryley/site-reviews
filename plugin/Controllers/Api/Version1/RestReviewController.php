@@ -168,7 +168,7 @@ class RestReviewController extends \WP_REST_Controller
     public function get_item_schema()
     {
         if (empty($this->schema)) {
-            $this->schema = glsr(ReviewSchema::class, ['api' => $this])->schema();
+            $this->schema = glsr(ReviewSchema::class)->schema();
         }
         return $this->add_additional_fields_schema($this->schema);
     }

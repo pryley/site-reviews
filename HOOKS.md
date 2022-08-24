@@ -42,6 +42,11 @@
     site-reviews/addon/tools/tabs                           (array $tabs): array
     site-reviews/addon/types                                (array $types): array
     site-reviews/addon/welcome/tabs                         (array $tabs): array
+    site-reviews/api/reviews/parameters                     (array $parameters): array
+    site-reviews/api/reviews/prepare/<key>                  (mixed $value, Controllers\Api\Version1\Response\Prepare $prepare): array
+    site-reviews/api/reviews/properties                     (array $properties): array
+    site-reviews/api/summary/parameters                     (array $parameters): array
+    site-reviews/api/summary/properties                     (array $properties): array
     site-reviews/assets/css                                 (bool $loadCss): bool
     site-reviews/assets/js                                  (bool $loadJs): bool
     site-reviews/assigned_posts/parent_id                   (int $postId): int

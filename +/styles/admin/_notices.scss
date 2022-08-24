@@ -49,3 +49,11 @@
         right: 10px;
     }
 }
+
+.glsr-responsive-table td .glsr-notice-inline.is-warning {
+    background-color: #fff8e5;
+    border-left: 4px solid #f0b849;
+    display: inline-block;
+    padding: 2px 8px;
+    margin-top: 4px;
+}

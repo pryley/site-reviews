@@ -5,34 +5,17 @@ namespace GeminiLabs\SiteReviews\Controllers\Api\Version1\Schema;
 class ReviewSchema
 {
     /**
-     * @var \WP_REST_Post_Meta_Fields
-     */
-    protected $meta;
-
-    public function __construct()
-    {
-        $this->meta = new \WP_REST_Post_Meta_Fields(glsr()->post_type);
-    }
-
-    /**
      * @return array
      */
     public function schema()
     {
         $schema = [
             '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'links' => $this->links(),
             'properties' => $this->properties(),
             'title' => glsr()->post_type,
             'type' => 'object',
         ];
-        $schema['properties']['links'] = $this->links();
-        $schema['properties']['meta'] = $this->meta->get_field_schema();
-        $propertyKeys = array_keys($schema['properties']);
-        $schema = apply_filters('rest_'.glsr()->post_type.'_item_schema', $schema);
-        $newPropertyKeys = array_diff(array_keys($schema['properties']), $propertyKeys);
-        if (count($newPropertyKeys) > 0) {
-            _doing_it_wrong(__METHOD__, sprintf(_x('Please use %s to add new schema properties.', 'admin-text', 'site-reviews'), 'register_rest_field'), '5.4.0');
-        }
         return $schema;
     }
 
@@ -117,9 +100,18 @@ class ReviewSchema
     /**
      * @return array
      */
+    protected function meta()
+    {
+        $meta = new \WP_REST_Post_Meta_Fields(glsr()->post_type);
+        return $meta->get_field_schema();
+    }
+
+    /**
+     * @return array
+     */
     protected function properties()
     {
-        return [
+        $properties = [
             'assigned_posts' => [
                 'context' => ['edit', 'view'],
                 'description' => _x('The posts assigned to the review of any public post type.', 'admin-text', 'site-reviews'),
@@ -214,6 +206,7 @@ class ReviewSchema
                 'description' => _x('If the review has been pinned.', 'admin-text', 'site-reviews'),
                 'type' => 'boolean',
             ],
+            'meta' => $this->meta(),
             'modified' => [
                 'context' => ['edit', 'view'],
                 'description' => _x('The date the review was last modified, in the site\'s timezone.', 'admin-text', 'site-reviews'),
@@ -266,5 +259,8 @@ class ReviewSchema
                 'type' => 'string',
             ],
         ];
+        $properties = glsr()->filterArray('api/reviews/properties', $properties);
+        ksort($properties);
+        return $properties;
     }
 }
