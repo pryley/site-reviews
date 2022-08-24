@@ -114,7 +114,7 @@ class Text
     protected static function excerptIntlSplit($text, $limit)
     {
         $text = \Normalizer::normalize($text);
-        $iter = \IntlRuleBasedBreakIterator::createWordInstance();
+        $iter = \IntlRuleBasedBreakIterator::createWordInstance('');
         $iter->setText($text);
         $words = $iter->getPartsIterator();
         $stringLength = 0;
