@@ -11,4 +11,3 @@ $sections = glsr()->filterArrayUnique('documentation/'.$filename, $sections);
 foreach ($sections as $section) {
     include $section;
 }
-
