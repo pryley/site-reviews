@@ -84,82 +84,105 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>after</td>
+                        <td><strong>after</strong></td>
                         <td></td>
                         <td>Limit summary to reviews published after a given ISO8601 compliant date.</td>
                     </tr>
                     <tr>
-                        <td>assigned_posts</td>
+                        <td><strong>assigned_posts</strong></td>
                         <td></td>
                         <td>Limit summary to reviews assigned to specific posts of any public post type (IDs or slugs in the format of <code>post_type:slug</code>).</td>
                     </tr>
                     <tr>
-                        <td>assigned_terms</td>
+                        <td><strong>assigned_terms</strong></td>
                         <td></td>
                         <td>Limit summary to reviews assigned to specific terms in the <code>site-review-category</code> taxonomy (IDs or slugs).</td>
                     </tr>
                     <tr>
-                        <td>assigned_users</td>
+                        <td><strong>assigned_users</strong></td>
                         <td></td>
                         <td>Limit summary to reviews assigned to specific users (IDs or usernames).</td>
                     </tr>
                     <tr>
-                        <td>before</td>
+                        <td><strong>before</strong></td>
                         <td></td>
                         <td>Limit summary to reviews published before a given ISO8601 compliant date.</td>
                     </tr>
                     <tr>
-                        <td>date</td>
+                        <td><strong>date</strong></td>
                         <td></td>
                         <td>Limit summary to reviews published on a given ISO8601 compliant date.</td>
                     </tr>
                     <tr>
-                        <td>email</td>
+                        <td><strong>email</strong></td>
                         <td></td>
                         <td>Limit summary to reviews containing a given email address.</td>
                     </tr>
                     <tr>
-                        <td>exclude</td>
+                        <td><strong>exclude</strong></td>
                         <td></td>
                         <td>Ensure summary excludes specific review IDs.</td>
                     </tr>
                     <tr>
-                        <td>include</td>
+                        <td><strong>include</strong></td>
                         <td></td>
                         <td>Limit summary to specific review IDs.</td>
                     </tr>
                     <tr>
-                        <td>ip_address</td>
+                        <td><strong>ip_address</strong></td>
                         <td></td>
                         <td>Limit summary to reviews submitted from a given IP address.</td>
                     </tr>
                     <tr>
-                        <td>rating</td>
+                        <td><strong>rating</strong></td>
                         <td></td>
                         <td>Limit summary to reviews containing a given <em>minimum</em> rating.</td>
                     </tr>
                     <tr>
-                        <td>status</td>
+                        <td><strong>rating_field</strong></td>
+                        <td></td>
+                        <td>
+                            Use rating values of a custom rating field; use the custom rating Field Name as the value.
+                            <br>
+                            <span class="glsr-notice-inline is-warning"><a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">Review Forms</a> add-on required.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>rendered</strong></td>
+                        <td>0</td>
+                        <td>Return a rendered result of the summary. One of: <code>0</code>, <code>1</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>status</strong></td>
                         <td>approved</td>
                         <td>Limit summary to reviews containing a given status. One of: <code>all</code>, <code>approved</code>, <code>unapproved</code></td>
                     </tr>
                     <tr>
-                        <td>terms</td>
+                        <td><strong>terms</strong></td>
                         <td></td>
                         <td>Limit summary to reviews submitted with terms accepted. One of: <code>0</code>, <code>1</code></td>
                     </tr>
                     <tr>
-                        <td>type</td>
+                        <td><strong>theme</strong></td>
+                        <td></td>
+                        <td>
+                            Render the summary with a specific custom review theme (ID); only works with the <code>rendered</code> parameter.
+                            <br>
+                            <span class="glsr-notice-inline is-warning"><a href="https://niftyplugins.com/plugins/site-reviews-themes/" target="_blank">Review Themes</a> add-on required.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>type</strong></td>
                         <td></td>
                         <td>Limit summary to reviews containing a given review type.</td>
                     </tr>
                     <tr>
-                        <td>user__in</td>
+                        <td><strong>user__in</strong></td>
                         <td></td>
                         <td>Limit summary to reviews authored by specific users (IDs or usernames).</td>
                     </tr>
                     <tr>
-                        <td>user__not_in</td>
+                        <td><strong>user__not_in</strong></td>
                         <td></td>
                         <td>Ensure summary excludes reviews authored by specific users (IDs or usernames).</td>
                     </tr>

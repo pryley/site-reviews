@@ -92,6 +92,16 @@
                         <td>Unique identifier for the review. (read only)</td>
                     </tr>
                     <tr>
+                        <td><strong>images</strong></td>
+                        <td>array</td>
+                        <td>view, edit</td>
+                        <td>
+                            The attachment IDs of images attached to the review.
+                            <br>
+                            <span class="glsr-notice-inline is-warning"><a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">Review Images</a> add-on required.</span>
+                        </td>
+                    </tr>
+                    <tr>
                         <td><strong>ip_address</strong></td>
                         <td>string or null</td>
                         <td>view, edit</td>
@@ -119,7 +129,7 @@
                         <td><strong>meta</strong></td>
                         <td>object</td>
                         <td>view, edit</td>
-                        <td>Meta fields of the review.</td>
+                        <td>Registered Meta fields of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>modified</strong></td>
@@ -245,6 +255,15 @@
                         <td>Ensure result set excludes specific review IDs.</td>
                     </tr>
                     <tr>
+                        <td><strong>form</strong></td>
+                        <td></td>
+                        <td>
+                            Render the review with a review template of a specific custom review form (ID); only works with the <code>rendered</code> parameter.
+                            <br>
+                            <span class="glsr-notice-inline is-warning"><a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">Review Forms</a> add-on required.</span>
+                        </td>
+                    </tr>
+                    <tr>
                         <td><strong>include</strong></td>
                         <td></td>
                         <td>Limit result set to specific review IDs.</td>
@@ -298,6 +317,15 @@
                         <td><strong>terms</strong></td>
                         <td></td>
                         <td>Limit result set to reviews submitted with terms accepted. One of: <code>0</code>, <code>1</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>theme</strong></td>
+                        <td></td>
+                        <td>
+                            Render the review with a specific custom review theme (ID); only works with the <code>rendered</code> parameter.
+                            <br>
+                            <span class="glsr-notice-inline is-warning"><a href="https://niftyplugins.com/plugins/site-reviews-themes/" target="_blank">Review Themes</a> add-on required.</span>
+                        </td>
                     </tr>
                     <tr>
                         <td><strong>type</strong></td>
