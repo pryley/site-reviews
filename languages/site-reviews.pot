@@ -2552,6 +2552,10 @@ msgid_plural "New %s-star review of %s"
 msgstr[0] ""
 msgstr[1] ""
 
+#: plugin/Modules/Paginate.php:59
+msgid "&hellip;"
+msgstr ""
+
 #: plugin/Modules/Translation.php:121
 msgctxt "admin-text"
 msgid "This custom translation is no longer valid as the original text has been changed or removed."
@@ -4019,37 +4023,7 @@ msgctxt "admin-text"
 msgid "Sorry, you are not allowed to update reviews as this user."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:37
-msgctxt "admin-text"
-msgid "The average rating."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:42
-msgctxt "admin-text"
-msgid "The defined maximum rating."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:47
-msgctxt "admin-text"
-msgid "The defined minimum rating."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:52
-msgctxt "admin-text"
-msgid "The bayesian ranking number."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:57
-msgctxt "admin-text"
-msgid "The total number of reviews for each rating level from zero to maximum rating."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:63
-msgctxt "admin-text"
-msgid "The total number of reviews used to calculate the average."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/RestSummaryController.php:96
+#: plugin/Controllers/Api/Version1/RestSummaryController.php:60
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to view review summaries."
 msgstr ""
@@ -4529,257 +4503,282 @@ msgctxt "admin-text"
 msgid "Test Detection"
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:11
-msgctxt "admin-text"
-msgid "Offset the result set by a specific number of items."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:16
-msgctxt "admin-text"
-msgid "Order sort attribute ascending or descending."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:22
-msgctxt "admin-text"
-msgid "Sort collection by object attribute."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:28
-msgctxt "admin-text"
-msgid "Current page of the collection."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:35
-msgctxt "admin-text"
-msgid "Maximum number of items to be returned in result set."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:34
-msgctxt "admin-text"
-msgid "Please use %s to add new schema properties."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:49
-msgctxt "admin-text"
-msgid "The current user can publish this review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:63
-msgctxt "admin-text"
-msgid "The current user can post unfiltered HTML markup and JavaScript."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:76
-msgctxt "admin-text"
-msgid "The current user can change the author on this review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:89
-msgctxt "admin-text"
-msgid "The current user can assign terms in the %s taxonomy."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:103
-msgctxt "admin-text"
-msgid "The current user can create terms in the %s taxonomy."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:125
-msgctxt "admin-text"
-msgid "The posts assigned to the review of any public post type."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:133
-msgctxt "admin-text"
-msgid "The terms assigned to the review in the %s taxonomy."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:141
-msgctxt "admin-text"
-msgid "The users assigned to the review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:149
-msgctxt "admin-text"
-msgid "The ID for the author of the review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:154
-msgctxt "admin-text"
-msgid "The avatar of the person who submitted the review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:159
-msgctxt "admin-text"
-msgid "The content of the review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:168
-msgctxt "admin-text"
-msgid "Custom fields."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:173
-msgctxt "admin-text"
-msgid "The date the review was published, in the site's timezone."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:179
-msgctxt "admin-text"
-msgid "The date the review was published, as GMT."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:185
-msgctxt "admin-text"
-msgid "The email of the person who submitted the review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:190
-msgctxt "admin-text"
-msgid "Unique identifier for the review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:196
-msgctxt "admin-text"
-msgid "The IP address of the person who submitted the review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:202
-msgctxt "admin-text"
-msgid "If the review has an approved status."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:208
-msgctxt "admin-text"
-msgid "If the review has been modified."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:214
-msgctxt "admin-text"
-msgid "If the review has been pinned."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:219
-msgctxt "admin-text"
-msgid "The date the review was last modified, in the site's timezone."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:226
-msgctxt "admin-text"
-msgid "The date the review was last modified, as GMT."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:233
-msgctxt "admin-text"
-msgid "The name of the person who submitted the review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:238
-msgctxt "admin-text"
-msgid "The rating of the review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:243
-msgctxt "admin-text"
-msgid "The response given to the review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:248
-msgctxt "admin-text"
-msgid "A named status for the review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:254
-msgctxt "admin-text"
-msgid "If the terms were accepted when the review was submitted."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:259
-msgctxt "admin-text"
-msgid "The title of the review."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:264
-msgctxt "admin-text"
-msgid "Type of Review for the object."
-msgstr ""
-
-#: plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:14
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:14, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:14
 msgctxt "admin-text"
 msgid "Limit result set to reviews published after a given ISO8601 compliant date."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:20
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:20, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:20
 msgctxt "admin-text"
 msgid "Limit result set to reviews assigned to specific posts of any public post type."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:28
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:28, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:28
 msgctxt "admin-text"
 msgid "Limit result set to reviews assigned to specific terms in the %s taxonomy."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:36
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:36, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:36
 msgctxt "admin-text"
 msgid "Limit result set to reviews assigned to specific users."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:43
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:43, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:43
 msgctxt "admin-text"
 msgid "Limit result set to reviews published before a given ISO8601 compliant date."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:48
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:48, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:48
 msgctxt "admin-text"
 msgid "Limit result set to reviews published on a given ISO8601 compliant date."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:53
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:53, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:53
 msgctxt "admin-text"
 msgid "Limit result set to reviews containing a given email address."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:59
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:59, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:59
 msgctxt "admin-text"
 msgid "Ensure result set excludes specific review IDs."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:65
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:65, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:65
 msgctxt "admin-text"
 msgid "Limit result set to specific review IDs."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:70
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:70, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:70
 msgctxt "admin-text"
 msgid "Limit result set to reviews submitted from a given IP address."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:75
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:75
+msgctxt "admin-text"
+msgid "Offset the result set by a specific number of items."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:80
+msgctxt "admin-text"
+msgid "Order sort attribute ascending or descending."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:86
+msgctxt "admin-text"
+msgid "Sort collection by object attribute."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:92
+msgctxt "admin-text"
+msgid "Current page of the collection."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:99
+msgctxt "admin-text"
+msgid "Maximum number of items to be returned in result set."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:106, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:75
 msgctxt "admin-text"
 msgid "Limit result set to reviews containing a given minimum rating."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:82
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:113, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:82
 msgctxt "admin-text"
 msgid "Limit result set to reviews containing a given status."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:87
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:118, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:87
 msgctxt "admin-text"
 msgid "Limit result set to reviews submitted with terms accepted."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:91
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:122, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:91
 msgctxt "admin-text"
 msgid "Limit result set to reviews containing a given review type."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:97
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:128, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:97
 msgctxt "admin-text"
 msgid "Limit result set to reviews authored by specific users."
 msgstr ""
 
-#: plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:105
+#: plugin/Controllers/Api/Version1/Schema/ReviewParameters.php:136, plugin/Controllers/Api/Version1/Schema/SummaryParameters.php:105
 msgctxt "admin-text"
 msgid "Ensure result set excludes reviews authored by specific users."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:32
+msgctxt "admin-text"
+msgid "The current user can publish this review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:46
+msgctxt "admin-text"
+msgid "The current user can post unfiltered HTML markup and JavaScript."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:59
+msgctxt "admin-text"
+msgid "The current user can change the author on this review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:72
+msgctxt "admin-text"
+msgid "The current user can assign terms in the %s taxonomy."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:86
+msgctxt "admin-text"
+msgid "The current user can create terms in the %s taxonomy."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:117
+msgctxt "admin-text"
+msgid "The posts assigned to the review of any public post type."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:125
+msgctxt "admin-text"
+msgid "The terms assigned to the review in the %s taxonomy."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:133
+msgctxt "admin-text"
+msgid "The users assigned to the review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:141
+msgctxt "admin-text"
+msgid "The ID for the author of the review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:146
+msgctxt "admin-text"
+msgid "The avatar of the person who submitted the review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:151
+msgctxt "admin-text"
+msgid "The content of the review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:160
+msgctxt "admin-text"
+msgid "Custom fields."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:165
+msgctxt "admin-text"
+msgid "The date the review was published, in the site's timezone."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:171
+msgctxt "admin-text"
+msgid "The date the review was published, as GMT."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:177
+msgctxt "admin-text"
+msgid "The email of the person who submitted the review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:182
+msgctxt "admin-text"
+msgid "Unique identifier for the review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:188
+msgctxt "admin-text"
+msgid "The IP address of the person who submitted the review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:194
+msgctxt "admin-text"
+msgid "If the review has an approved status."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:200
+msgctxt "admin-text"
+msgid "If the review has been modified."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:206
+msgctxt "admin-text"
+msgid "If the review has been pinned."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:212
+msgctxt "admin-text"
+msgid "The date the review was last modified, in the site's timezone."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:219
+msgctxt "admin-text"
+msgid "The date the review was last modified, as GMT."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:226
+msgctxt "admin-text"
+msgid "The name of the person who submitted the review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:231
+msgctxt "admin-text"
+msgid "The rating of the review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:236
+msgctxt "admin-text"
+msgid "The response given to the review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:241
+msgctxt "admin-text"
+msgid "A named status for the review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:247
+msgctxt "admin-text"
+msgid "If the terms were accepted when the review was submitted."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:252
+msgctxt "admin-text"
+msgid "The title of the review."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:257
+msgctxt "admin-text"
+msgid "Type of Review for the object."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/SummarySchema.php:29
+msgctxt "admin-text"
+msgid "The average rating."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/SummarySchema.php:34
+msgctxt "admin-text"
+msgid "The defined maximum rating."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/SummarySchema.php:39
+msgctxt "admin-text"
+msgid "The defined minimum rating."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/SummarySchema.php:44
+msgctxt "admin-text"
+msgid "The bayesian ranking number."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/SummarySchema.php:49
+msgctxt "admin-text"
+msgid "The total number of reviews for each rating level from zero to maximum rating."
+msgstr ""
+
+#: plugin/Controllers/Api/Version1/Schema/SummarySchema.php:55
+msgctxt "admin-text"
+msgid "The total number of reviews used to calculate the average."
 msgstr ""

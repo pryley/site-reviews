@@ -56,7 +56,7 @@ class Paginate
     {
         return $this->link('dots', [
             'class' => 'page-numbers dots',
-            'text' => __('&hellip;'),
+            'text' => __('&hellip;', 'site-reviews'),
         ], 'span');
     }
 
