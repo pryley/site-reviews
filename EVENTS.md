@@ -18,6 +18,16 @@ GLSR.Event.on('site-reviews/init', () => {
 })
 ```
 
+**`site-reviews/loaded`**
+
+This event is fired after Site Reviews is initialised.
+
+```js
+GLSR.Event.on('site-reviews/loaded', () => {
+    // do something here...
+})
+```
+
 **`site-reviews/excerpts/init`**
 
 This event is fired immediately after Site Reviews is initialised and after every time AJAX pagination is used to initialise the review excerpts.
