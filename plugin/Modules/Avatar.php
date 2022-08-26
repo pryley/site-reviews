@@ -79,7 +79,7 @@ class Avatar
             return $this->fallbackUrl($review, $size);
         }
         if (200 !== Helper::remoteStatusCheck($avatarUrl)) {
-            // @todo generate the images with javascript on canvas to avoid this status check
+            // @todo generate the images with javascript on canvas to avoid this status check?
             return $this->fallbackUrl($review, $size);
         }
         return $avatarUrl;
@@ -160,62 +160,6 @@ class Avatar
             $size = Helper::ifEmpty($size, static::FALLBACK_SIZE, $strict = true);
         }
         return $size * 2; // @2x
-    }
-
-    /**
-     * @param string $contents
-     * @param string $name
-     * @return string
-     */
-    protected function svg($contents, $name)
-    {
-        $uploadsDir = wp_upload_dir();
-        $baseDir = trailingslashit($uploadsDir['basedir']);
-        $baseUrl = trailingslashit($uploadsDir['baseurl']);
-        $pathDir = trailingslashit(glsr()->id).trailingslashit('avatars');
-        $filename = sprintf('%s.svg', $name);
-        $filepath = $baseDir.$pathDir.$filename;
-        if (!file_exists($filepath)) {
-            wp_mkdir_p($baseDir.$pathDir);
-            $fp = @fopen($filepath, 'wb');
-            if (false === $fp) {
-                return '';
-            }
-            mbstring_binary_safe_encoding();
-            $dataLength = strlen($contents);
-            $bytesWritten = fwrite($fp, $contents);
-            reset_mbstring_encoding();
-            fclose($fp);
-            if ($dataLength !== $bytesWritten) {
-                return '';
-            }
-            chmod($filepath, fileperms(ABSPATH.'index.php') & 0777 | 0644);
-        }
-        return set_url_scheme($baseUrl.$pathDir.$filename);
-    }
-
-    /**
-     * @param string $initials
-     * @return string
-     */
-    protected function svgContent($initials)
-    {
-        $colors = [
-            ['background' => '#e3effb', 'color' => '#134d92'], // blue
-            ['background' => '#e1f0ee', 'color' => '#125960'], // green
-            ['background' => '#ffeff7', 'color' => '#ba3a80'], // pink
-            ['background' => '#fcece3', 'color' => '#a14326'], // red
-            ['background' => '#faf7d9', 'color' => '#da9640'], // yellow
-        ];
-        $colors = glsr()->filterArray('avatar/colors', $colors);
-        shuffle($colors);
-        $color = Cast::toArray(Arr::get($colors, 0));
-        $data = wp_parse_args($color, [
-            'background' => '#dcdce6',
-            'color' => '#6f6f87',
-            'text' => $initials,
-        ]);
-        return trim(glsr()->build('avatar', $data));
     }
 
     /**

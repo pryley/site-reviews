@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, star ratings
 Tested up to: 6.0
-Stable tag: 6.0.0-beta4
+Stable tag: 6.0.0-beta5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -146,7 +146,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.0.0-beta4 (2022-08-25) =
+= 6.0.0-beta5 (2022-08-26) =
 
 - 🚨 Requires at least PHP v7.2
 - 🚨 Requires at least WordPress v5.8
@@ -165,6 +165,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Added migration support for WP Rocket (flushes the cache after migration)
 - Added the Bootstrap v5 plugin style
 - Added the Elementor Pro plugin style
+- Enabled SSL verification on all requests (this can be disabled with the WordPress [https_ssl_verify](http://developer.wordpress.org/reference/hooks/https_ssl_verify/) filter hook)
 - Fixed compatibility with [Yoast Duplicate Post](https://wordpress.org/plugins/duplicate-post/)
 - Fixed invalid "deprecated" entries which were being added to the Console on some websites
 - Fixed review importing to skip empty CSV rows without throwing an error

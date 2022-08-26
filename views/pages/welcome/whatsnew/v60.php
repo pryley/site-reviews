@@ -6,7 +6,7 @@
         </button>
     </h3>
     <div id="welcome-v6_0_0" class="inside">
-        <p><em>Initial Release Date &mdash; August 15th, 2022</em></p>
+        <p><em>Initial Release Date &mdash; August 26th, 2022</em></p>
         <h4>✨ New Features</h4>
         <ul>
             <li>Added a "Limit Reviews For" setting which allows you to set a time-limit (in days) for Review Limits</li>
@@ -25,6 +25,7 @@
             <li>🚨 Changed the review title tag from &lt;h3&gt; to &lt;h4&gt;. If you need to change it back, please see the <a data-expand="#faq-change-review-title-tag" href="<?= glsr_admin_url('documentation', 'faq'); ?>">FAQ</a> help page.</h4>
             <li>🚨 Changed the strings "← Previous" and "Next →" to "Previous" and "Next". If you have customised these strings in the settings, please <a href="<?= glsr_admin_url('settings', 'translations'); ?>">update them</a>.</li>
             <li>🚨 Rewrote the button and pagination loading animations. If you are using a custom Site Reviews pagination template in your child theme, please remove the <code>{{ loader }}</code> template tag.</li>
+            <li>Enabled SSL verification on all requests (this can be disabled with the WordPress <a href="http://developer.wordpress.org/reference/hooks/https_ssl_verify/" rel="nofollow" target="_blank">https_ssl_verify</a> filter hook)</li>
             <li>Optimised the javascript file sizes</li>
             <li>Rewrote the review modals to support the new review image galleries (<a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">Review Images</a> add-on required)</li>
             <li>Submit and load more buttons now make use of the WordPress Block button classes by default</li>
