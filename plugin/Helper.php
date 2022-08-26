@@ -323,10 +323,7 @@ class Helper
      */
     public static function remoteStatusCheck($url)
     {
-        $response = wp_safe_remote_head($url, [
-            'timeout' => 5,
-            'sslverify' => false,
-        ]);
+        $response = wp_safe_remote_head($url);
         if (!is_wp_error($response)) {
             return $response['response']['code'];
         }

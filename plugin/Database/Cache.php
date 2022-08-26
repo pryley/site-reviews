@@ -50,7 +50,7 @@ class Cache
         $ipAddresses = array_fill_keys(['v4', 'v6'], []);
         foreach (array_keys($ipAddresses) as $version) {
             $url = 'https://www.cloudflare.com/ips-'.$version;
-            $response = wp_remote_get($url, ['sslverify' => false]);
+            $response = wp_remote_get($url);
             if (is_wp_error($response)) {
                 glsr_log()->error($response->get_error_message());
                 continue;

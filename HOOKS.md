@@ -179,7 +179,6 @@
     site-reviews/shortcode/hide-options                     (array $hideOptions, string $shortcode): array
     site-reviews/slack/compose                              (array $notification, Modules\Slack $slack): array
     site-reviews/slack/stars                                (string $stars, int $rating, int $maxRating): string
-    site-reviews/sslverify/post                             (bool $sslverify): bool
     site-reviews/style                                      (string $style): string
     site-reviews/style/views                                (array $views): array
     site-reviews/summary/build/<tag_or_field_key>           (string $field, array $ratings, Modules\Html\Partials\SiteReviewsSummary $partial): string

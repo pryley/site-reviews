@@ -293,7 +293,6 @@ class Updater
                 'slug' => Arr::get($data, 'TextDomain'),
                 'url' => Url::home(),
             ],
-            'sslverify' => glsr()->filterBool('sslverify/post', false),
             'timeout' => 15,
         ]);
         return $this->normalizeResponse($response);

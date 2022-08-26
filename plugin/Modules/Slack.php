@@ -69,7 +69,6 @@ class Slack
             'httpversion' => '1.0',
             'method' => 'POST',
             'redirection' => 5,
-            'sslverify' => false,
             'timeout' => 45,
         ]);
     }
