@@ -33,6 +33,7 @@ class AdminHooks extends AbstractHooks
             ['toggleFiltersAjax', 'site-reviews/route/ajax/toggle-filters'],
             ['togglePinnedAjax', 'site-reviews/route/ajax/toggle-pinned'],
             ['toggleStatusAjax', 'site-reviews/route/ajax/toggle-status'],
+            ['toggleVerifiedAjax', 'site-reviews/route/ajax/toggle-verified'],
         ]);
     }
 }

@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Commands\ImportRatings;
 use GeminiLabs\SiteReviews\Commands\RegisterTinymcePopups;
 use GeminiLabs\SiteReviews\Commands\TogglePinned;
 use GeminiLabs\SiteReviews\Commands\ToggleStatus;
+use GeminiLabs\SiteReviews\Commands\ToggleVerified;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -346,5 +347,17 @@ class AdminController extends Controller
         wp_send_json_success(
             $this->execute(new ToggleStatus($request->toArray()))
         );
+    }
+
+    /**
+     * @return void
+     * @action site-reviews/route/ajax/toggle-verified
+     */
+    public function toggleVerifiedAjax(Request $request)
+    {
+        wp_send_json_success([
+            'notices' => glsr(Notice::class)->get(),
+            'verified' => $this->execute(new ToggleVerified($request->toArray())),
+        ]);
     }
 }

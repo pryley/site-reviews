@@ -16,6 +16,7 @@ class ColumnOrderbyDefaults extends Defaults
             'author_name' => 'name',
             'ip_address' => 'ip_address',
             'is_pinned' => 'is_pinned',
+            'is_verified' => 'is_verified',
             'rating' => 'rating',
             'type' => 'type',
         ];

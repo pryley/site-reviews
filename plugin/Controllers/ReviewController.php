@@ -92,6 +92,9 @@ class ReviewController extends Controller
         if (Arr::get($data, 'review.is_pinned')) {
             $replace = 'data-pinned="1" '.$replace;
         }
+        if (Arr::get($data, 'review.is_verified')) {
+            $replace = 'data-verified="1" '.$replace;
+        }
         return str_replace($search, $replace, $template);
     }
 

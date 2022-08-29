@@ -22,6 +22,7 @@ import Tabs from '@/admin/tabs.js';
 import TextareaResize from '@/admin/textarea-resize.js';
 import Tools from '@/admin/tools.js';
 import tippy, {followCursor} from 'tippy.js';
+import Verified from '@/admin/verified.js';
 
 GLSR.autosize = autosize;
 GLSR.keys = {
@@ -74,6 +75,7 @@ jQuery(function ($) {
     new Forms('form.glsr-form');
     new Metabox();
     new Pinned();
+    new Verified();
     new Pointers();
     new Search('#glsr-search-posts', {
         action: 'search-posts',

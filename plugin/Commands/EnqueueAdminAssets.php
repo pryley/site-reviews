@@ -122,6 +122,7 @@ class EnqueueAdminAssets implements Contract
                 'toggle-filters' => wp_create_nonce('toggle-filters'),
                 'toggle-pinned' => wp_create_nonce('toggle-pinned'),
                 'toggle-status' => wp_create_nonce('toggle-status'),
+                'toggle-verified' => wp_create_nonce('toggle-verified'),
             ],
             'pointers' => $this->pointers,
             'premiumurl' => 'https://niftyplugins.com/plugins/site-reviews-premium/',

@@ -155,6 +155,11 @@ class Prepare
         $this->data['is_pinned'] = $this->review->is_pinned;
     }
 
+    protected function prepareIsVerified()
+    {
+        $this->data['is_verified'] = $this->review->is_verified;
+    }
+
     protected function prepareMeta()
     {
         $this->data['meta'] = $this->meta->get_value($this->review->ID, $this->request);
@@ -183,6 +188,11 @@ class Prepare
     protected function prepareResponse()
     {
         $this->data['response'] = $this->review->response;
+    }
+
+    protected function prepareScore()
+    {
+        $this->data['score'] = $this->review->score;
     }
 
     protected function prepareStatus()

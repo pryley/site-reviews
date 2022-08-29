@@ -125,6 +125,7 @@ class ReviewHtml extends \ArrayObject
     {
         $mappedTags = [
             'ID' => 'review_id',
+            'is_verified' => 'verified',
         ];
         return Arr::get($mappedTags, $tag, $tag);
     }

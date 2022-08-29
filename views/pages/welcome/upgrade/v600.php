@@ -34,12 +34,16 @@
         <p><em>Likelihood Of Impact: Medium</em></p>
         <ol>
             <li>
+                <p><strong>The HTML markup of the <code>review.php</code> template has changed.</strong></p>
+                <p>This template now includes the new <code>{{ verified }}</code> tag. If you copied this template file to your theme, please update it.</p>
+            </li>
+            <li>
                 <p><strong>The HTML markup of the <code>form/submit-button.php</code> template has changed.</strong></p>
-                <p>If you have copied this template file to your theme, please update it.</p>
+                <p>If you copied this template file to your theme, please update it.</p>
             </li>
             <li>
                 <p><strong>The HTML markup of the <code>load-more-button.php</code> template has changed.</strong></p>
-                <p>If you have copied this template file to your theme, please update it.</p>
+                <p>If you copied this template file to your theme, please update it.</p>
             </li>
         </ol>
     </div>

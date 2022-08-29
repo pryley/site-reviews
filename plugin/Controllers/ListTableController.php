@@ -92,7 +92,7 @@ class ListTableController extends Controller
         if (Arr::get($screen, 'id') === 'edit-'.glsr()->post_type) {
             $hidden = Arr::consolidate($hidden);
             $hidden = array_unique(array_merge($hidden, [
-                'assigned_users', 'author_name', 'author_email', 'ip_address', 'response',
+                'assigned_users', 'author_name', 'author_email', 'ip_address', 'response', 'is_verified',
             ]));
         }
         return $hidden;

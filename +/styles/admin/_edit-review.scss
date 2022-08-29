@@ -24,7 +24,7 @@
 		@include pin;
 		top: 0;
 		left: -1px;
-		color: #82878c;
+		color: currentColor;
 		padding: 0 2px 0 0;
 	}
 
@@ -33,6 +33,23 @@
 	}
 
 	.pinned-status-select {
+		margin-top: 3px;
+	}
+}
+.post-type-site-review .misc-pub-verified {
+	&::before {
+		@include verified;
+		top: 0;
+		left: -1px;
+		color: currentColor;
+		padding: 0 2px 0 0;
+	}
+
+	.verified-status-text {
+		font-weight: 600;
+	}
+
+	.verified-status-select {
 		margin-top: 3px;
 	}
 }

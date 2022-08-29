@@ -34,11 +34,13 @@ use GeminiLabs\SiteReviews\Modules\Html\ReviewHtml;
  * @property bool $is_approved
  * @property bool $is_modified
  * @property bool $is_pinned
+ * @property bool $is_verified
  * @property bool $modified  This property is mapped to $is_modified
  * @property bool $pinned  This property is mapped to $is_pinned
  * @property int $rating
  * @property int $rating_id
  * @property string $response
+ * @property int $score
  * @property string $status
  * @property bool $terms
  * @property string $title

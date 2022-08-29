@@ -126,6 +126,12 @@
                         <td>The pinned status of the review.</td>
                     </tr>
                     <tr>
+                        <td><strong>is_verified</strong></td>
+                        <td>boolean</td>
+                        <td>view, edit</td>
+                        <td>The verified status of the review.</td>
+                    </tr>
+                    <tr>
                         <td><strong>meta</strong></td>
                         <td>object</td>
                         <td>view, edit</td>
@@ -160,6 +166,12 @@
                         <td>string</td>
                         <td>view, edit</td>
                         <td>The response given for a review.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>score</strong></td>
+                        <td>integer</td>
+                        <td>view, edit</td>
+                        <td>The popularity score field of the review.</td>
                     </tr>
                     <tr>
                         <td><strong>status</strong></td>
@@ -455,6 +467,10 @@
                         <td>The pinned status of the review. One of: <code>0</code>, <code>1</code></td>
                     </tr>
                     <tr>
+                        <td><strong>is_verified</strong></td>
+                        <td>The verified status of the review. One of: <code>0</code>, <code>1</code></td>
+                    </tr>
+                    <tr>
                         <td><strong>name</strong></td>
                         <td>The name of the reviewer.</td>
                     </tr>
@@ -465,6 +481,10 @@
                     <tr>
                         <td><strong>response</strong></td>
                         <td>The response given to the review.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>score</strong></td>
+                        <td>The popularity score of the review. Value must be an whole integer.</td>
                     </tr>
                     <tr>
                         <td><strong>status</strong></td>
@@ -539,6 +559,10 @@
                         <td>The pinned status of the review. One of: <code>0</code>, <code>1</code></td>
                     </tr>
                     <tr>
+                        <td><strong>is_verified</strong></td>
+                        <td>The verified status of the review. One of: <code>0</code>, <code>1</code></td>
+                    </tr>
+                    <tr>
                         <td><strong>name</strong></td>
                         <td>The name of the reviewer.</td>
                     </tr>
@@ -549,6 +573,10 @@
                     <tr>
                         <td><strong>response</strong></td>
                         <td>The response given to the review.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>score</strong></td>
+                        <td>The popularity score of the review. Value must be an whole integer.</td>
                     </tr>
                     <tr>
                         <td><strong>status</strong></td>

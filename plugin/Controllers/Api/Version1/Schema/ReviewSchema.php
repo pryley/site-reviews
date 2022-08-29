@@ -206,6 +206,11 @@ class ReviewSchema
                 'description' => _x('If the review has been pinned.', 'admin-text', 'site-reviews'),
                 'type' => 'boolean',
             ],
+            'is_verified' => [
+                'context' => ['edit', 'view'],
+                'description' => _x('If the review has been verified.', 'admin-text', 'site-reviews'),
+                'type' => 'boolean',
+            ],
             'meta' => $this->meta(),
             'modified' => [
                 'context' => ['edit', 'view'],
@@ -235,6 +240,11 @@ class ReviewSchema
                 'context' => ['edit', 'view'],
                 'description' => _x('The response given to the review.', 'admin-text', 'site-reviews'),
                 'type' => 'string',
+            ],
+            'score' => [
+                'context' => ['edit', 'view'],
+                'description' => _x('The popularity score of the review.', 'admin-text', 'site-reviews'),
+                'type' => 'integer',
             ],
             'status' => [
                 'context' => ['edit', 'view'],

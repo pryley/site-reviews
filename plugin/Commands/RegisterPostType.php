@@ -48,6 +48,11 @@ class RegisterPostType implements Contract
                 ['class' => 'pinned-icon']
             );
         }
+        if (array_key_exists('is_verified', $this->columns)) {
+            $this->columns['is_verified'] = glsr(Builder::class)->span('<span>'.$this->columns['is_verified'].'</span>',
+                ['class' => 'verified-icon']
+            );
+        }
         if (count(glsr()->retrieveAs('array', 'review_types')) < 2) {
             unset($this->columns['type']);
         }

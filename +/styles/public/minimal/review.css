@@ -73,6 +73,45 @@
     margin-bottom: var(--glsr-text-md);
     margin-top: 0;
 }
+:--namespace .glsr-review-assigned_links,
+:--namespace .glsr-review-assigned_posts,
+:--namespace .glsr-review-assigned_terms,
+:--namespace .glsr-review-assigned_users {
+    width: 100%;
+}
+:--namespace .glsr-review-author {
+    align-items: center;
+    display: inline-flex;
+}
+:--namespace .glsr-review-avatar {
+    flex: 0 0;
+}
+:--namespace .glsr-review-avatar img {
+    border-width: 0;
+    display: flex;
+    margin: 0;
+    max-height: none;
+    max-width: none;
+    object-fit: cover;
+}
+:--namespace .glsr-review-content {
+    width: 100%;
+}
+:--namespace .glsr-review-date {
+    align-items: center;
+    display: inline-flex;
+    flex: 1 0;
+    font-style: italic;
+    white-space: nowrap;
+}
+:--namespace .glsr-review-rating {
+    align-items: center;
+    display: inline-flex;
+    flex: 0 0;
+}
+:--namespace .glsr-review-response {
+    width: 100%;
+}
 :--namespace .glsr-review-title {
     width: 100%;
     & h3,
@@ -82,44 +121,12 @@
         margin-top: 0;
     }
 }
-:--namespace .glsr-review-rating {
+:--namespace .glsr-review-verified {
     align-items: center;
-    display: inline-flex;
-    flex: 0 0;
-}
-:--namespace .glsr-review-date {
-    align-items: center;
-    display: inline-flex;
-    flex: 1 0;
-    font-style: italic;
-    white-space: nowrap;
-}
-:--namespace .glsr-review-assigned_links,
-:--namespace .glsr-review-assigned_posts,
-:--namespace .glsr-review-assigned_terms,
-:--namespace .glsr-review-assigned_users {
-    width: 100%;
-}
-:--namespace .glsr-review-content {
-    width: 100%;
-}
-:--namespace .glsr-review-avatar {
-    flex: 0 0;
-    & img {
-        border-width: 0;
-        display: flex;
-        margin: 0;
-        max-height: none;
-        max-width: none;
-        object-fit: cover;
-    }
-}
-:--namespace .glsr-review-author {
-    align-items: center;
-    display: inline-flex;
-}
-:--namespace .glsr-review-response {
-    width: 100%;
+    color: var(--glsr-review-verified);
+    display: flex;
+    font-size: var(--glsr-text-sm);
+    gap: .25em;
 }
 :--namespace .glsr-read-more {
     white-space: nowrap;
@@ -139,4 +146,3 @@
 :--namespace [data-expanded="false"] .glsr-hidden {
     display: none;
 }
-

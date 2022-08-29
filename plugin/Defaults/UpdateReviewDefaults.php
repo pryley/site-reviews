@@ -29,7 +29,9 @@ class UpdateReviewDefaults extends Defaults
         'date' => 'date',
         'date_gmt' => 'date',
         'is_pinned' => 'bool',
+        'is_verified' => 'bool',
         'rating' => 'int',
+        'score' => 'int',
         'terms' => 'bool',
     ];
 
@@ -52,8 +54,10 @@ class UpdateReviewDefaults extends Defaults
             'email' => '',
             'ip_address' => '',
             'is_pinned' => '',
+            'is_verified' => '',
             'rating' => '',
             'response' => '',
+            'score' => '',
             'status' => '',
             'terms' => '',
             'title' => '',

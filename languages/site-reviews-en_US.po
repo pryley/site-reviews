@@ -40,7 +40,7 @@ msgstr[1] "%s stars or less"
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
 
-#: plugin/Review.php:158, plugin/Modules/Avatar.php:95, plugin/Modules/Notification.php:73
+#: plugin/Review.php:160, plugin/Modules/Avatar.php:95, plugin/Modules/Notification.php:73
 msgid "Anonymous"
 msgstr "Anonymous"
 
@@ -92,11 +92,11 @@ msgstr "This review is based on my own experience and is my genuine opinion."
 msgid "Show more"
 msgstr "Show more"
 
-#: plugin/Commands/CreateReview.php:162
+#: plugin/Commands/CreateReview.php:163
 msgid "Your review has been submitted!"
 msgstr "Your review has been submitted!"
 
-#: plugin/Commands/CreateReview.php:167, views/pages/documentation/support/common-problems-and-solutions.php:78
+#: plugin/Commands/CreateReview.php:168, views/pages/documentation/support/common-problems-and-solutions.php:78
 msgid ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site administrator."
@@ -397,6 +397,10 @@ msgstr "Response from %s"
 #: plugin/Modules/Html/Tags/ReviewTitleTag.php:15
 msgid "No Title"
 msgstr "No Title"
+
+#: plugin/Modules/Html/Tags/ReviewVerifiedTag.php:14
+msgid "Verified"
+msgstr "Verified"
 
 #: views/pages/documentation/support/common-problems-and-solutions.php:87
 msgid "Service Unavailable."
@@ -850,7 +854,7 @@ msgstr ""
 "href=\"https://api.slack.com/docs/attachments\">Message Attachments</a> "
 "have been disabled."
 
-#: config/settings.php:175, views/pages/tools/general/import-reviews.php:146
+#: config/settings.php:175, views/pages/tools/general/import-reviews.php:156
 msgctxt "admin-text"
 msgid "Date Format"
 msgstr "Date Format"
@@ -1832,7 +1836,7 @@ msgstr ""
 "The [%s] method has been deprecated and will be soon be removed, please use "
 "the [%s] method instead."
 
-#: plugin/Review.php:354, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
+#: plugin/Review.php:356, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr "Unknown"
@@ -1917,12 +1921,12 @@ msgctxt "admin-text"
 msgid "Untitled"
 msgstr "Untitled"
 
-#: plugin/Addons/Controller.php:77, plugin/Controllers/AdminController.php:45, plugin/Controllers/MenuController.php:52, plugin/Integrations/Elementor/ElementorWidget.php:136, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
+#: plugin/Addons/Controller.php:77, plugin/Controllers/AdminController.php:46, plugin/Controllers/MenuController.php:52, plugin/Integrations/Elementor/ElementorWidget.php:136, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
 msgctxt "admin-text"
 msgid "Settings"
 msgstr "Settings"
 
-#: plugin/Addons/Controller.php:84, plugin/Controllers/AdminController.php:51, plugin/Controllers/MenuController.php:55
+#: plugin/Addons/Controller.php:84, plugin/Controllers/AdminController.php:52, plugin/Controllers/MenuController.php:55
 msgctxt "admin-text"
 msgid "Help"
 msgstr "Help"
@@ -1972,22 +1976,22 @@ msgctxt "admin-text"
 msgid "Author Unknown"
 msgstr "Author Unknown"
 
-#: plugin/Commands/EnqueueAdminAssets.php:130
+#: plugin/Commands/EnqueueAdminAssets.php:131
 msgctxt "admin-text"
 msgid "Try Premium"
 msgstr "Try Premium"
 
-#: plugin/Commands/EnqueueAdminAssets.php:131
+#: plugin/Commands/EnqueueAdminAssets.php:132
 msgctxt "admin-text"
 msgid "Please rate %s on %s and help us spread the word. Thank you so much!"
 msgstr "Please rate %s on %s and help us spread the word. Thank you so much!"
 
-#: plugin/Commands/EnqueueAdminAssets.php:132
+#: plugin/Commands/EnqueueAdminAssets.php:133
 msgctxt "admin-text"
 msgid "Rollback failed"
 msgstr "Rollback failed"
 
-#: plugin/Commands/EnqueueAdminAssets.php:133
+#: plugin/Commands/EnqueueAdminAssets.php:134
 msgctxt "admin-text"
 msgid "Searching..."
 msgstr "Searching..."
@@ -2084,7 +2088,7 @@ msgctxt "admin-text"
 msgid "Review unpinned."
 msgstr "Review unpinned."
 
-#: plugin/Commands/ToggleStatus.php:57, views/partials/editor/pinned.php:7
+#: plugin/Commands/ToggleStatus.php:57, views/partials/editor/pinned.php:7, views/partials/editor/verified.php:7
 msgctxt "admin-text"
 msgid "Edit"
 msgstr "Edit"
@@ -2103,29 +2107,39 @@ msgid_plural "Unapproved <span class=\"count\">(%s)</span>"
 msgstr[0] "Unapproved <span class=\"count\">(%s)</span>"
 msgstr[1] "Unapproved <span class=\"count\">(%s)</span>"
 
-#: plugin/Controllers/AdminController.php:102
+#: plugin/Commands/ToggleVerified.php:38
+msgctxt "admin-text"
+msgid "Review verified."
+msgstr "Review verified."
+
+#: plugin/Commands/ToggleVerified.php:39
+msgctxt "admin-text"
+msgid "Review unverified."
+msgstr "Review unverified."
+
+#: plugin/Controllers/AdminController.php:103
 msgctxt "admin-text"
 msgid "%s Review"
 msgid_plural "%s Reviews"
 msgstr[0] "%s Review"
 msgstr[1] "%s Reviews"
 
-#: plugin/Controllers/AdminController.php:183, plugin/Widgets/SiteReviewsWidget.php:113
+#: plugin/Controllers/AdminController.php:184, plugin/Widgets/SiteReviewsWidget.php:113
 msgctxt "admin-text"
 msgid "Recent Reviews"
 msgstr "Recent Reviews"
 
-#: plugin/Controllers/AdminController.php:184
+#: plugin/Controllers/AdminController.php:185
 msgctxt "admin-text"
 msgid "Submit a Review"
 msgstr "Submit a Review"
 
-#: plugin/Controllers/AdminController.php:185, plugin/Widgets/SiteReviewsSummaryWidget.php:81
+#: plugin/Controllers/AdminController.php:186, plugin/Widgets/SiteReviewsSummaryWidget.php:81
 msgctxt "admin-text"
 msgid "Summary of Reviews"
 msgstr "Summary of Reviews"
 
-#: plugin/Controllers/AdminController.php:275, plugin/Controllers/AdminController.php:294, plugin/Controllers/AdminController.php:308
+#: plugin/Controllers/AdminController.php:276, plugin/Controllers/AdminController.php:295, plugin/Controllers/AdminController.php:309
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr "Nothing found."
@@ -2205,7 +2219,7 @@ msgctxt "admin-text"
 msgid "Add-ons"
 msgstr "Add-ons"
 
-#: plugin/Controllers/MenuController.php:108, plugin/Controllers/WelcomeController.php:84
+#: plugin/Controllers/MenuController.php:108, plugin/Controllers/WelcomeController.php:88
 msgctxt "admin-text"
 msgid "Support"
 msgstr "Support"
@@ -2285,12 +2299,12 @@ msgctxt "admin-text"
 msgid "System Info"
 msgstr "System Info"
 
-#: plugin/Controllers/MetaboxController.php:62, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:16, plugin/Integrations/Elementor/ElementorReviewsWidget.php:93, views/pages/tools/general/import-reviews.php:45, views/pages/tools/general/import-reviews.php:50, views/pages/tools/general/import-reviews.php:55, views/pages/tools/general/import-reviews.php:60, views/pages/tools/general/import-reviews.php:65, views/pages/tools/general/import-reviews.php:70, views/pages/tools/general/import-reviews.php:80, views/pages/tools/general/import-reviews.php:85, views/pages/tools/general/import-reviews.php:90, views/pages/tools/general/import-reviews.php:95, views/pages/tools/general/import-reviews.php:100, views/pages/tools/general/import-reviews.php:105, views/pages/tools/general/import-reviews.php:115, views/pages/tools/general/import-reviews.php:120, views/pages/tools/general/import-reviews.php:125
+#: plugin/Controllers/MetaboxController.php:61, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:16, plugin/Integrations/Elementor/ElementorReviewsWidget.php:93, views/pages/tools/general/import-reviews.php:45, views/pages/tools/general/import-reviews.php:50, views/pages/tools/general/import-reviews.php:55, views/pages/tools/general/import-reviews.php:60, views/pages/tools/general/import-reviews.php:65, views/pages/tools/general/import-reviews.php:70, views/pages/tools/general/import-reviews.php:80, views/pages/tools/general/import-reviews.php:85, views/pages/tools/general/import-reviews.php:90, views/pages/tools/general/import-reviews.php:95, views/pages/tools/general/import-reviews.php:100, views/pages/tools/general/import-reviews.php:105, views/pages/tools/general/import-reviews.php:110, views/pages/tools/general/import-reviews.php:120, views/pages/tools/general/import-reviews.php:125, views/pages/tools/general/import-reviews.php:130, views/pages/tools/general/import-reviews.php:135
 msgctxt "admin-text"
 msgid "No"
 msgstr "No"
 
-#: plugin/Controllers/MetaboxController.php:63, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17, views/pages/tools/general/import-reviews.php:75, views/pages/tools/general/import-reviews.php:110
+#: plugin/Controllers/MetaboxController.php:62, plugin/Controllers/ListTableColumns/ColumnValueResponse.php:17, views/pages/tools/general/import-reviews.php:75, views/pages/tools/general/import-reviews.php:115
 msgctxt "admin-text"
 msgid "Yes"
 msgstr "Yes"
@@ -2509,22 +2523,22 @@ msgctxt "admin-text"
 msgid "Welcome to %s &#8212; WordPress"
 msgstr "Welcome to %s &#8212; WordPress"
 
-#: plugin/Controllers/WelcomeController.php:64
+#: plugin/Controllers/WelcomeController.php:68
 msgctxt "admin-text"
 msgid "Welcome to %s"
 msgstr "Welcome to %s"
 
-#: plugin/Controllers/WelcomeController.php:81
+#: plugin/Controllers/WelcomeController.php:85
 msgctxt "admin-text"
 msgid "Getting Started"
 msgstr "Getting Started"
 
-#: plugin/Controllers/WelcomeController.php:82
+#: plugin/Controllers/WelcomeController.php:86
 msgctxt "admin-text"
 msgid "What's New"
 msgstr "What's New"
 
-#: plugin/Controllers/WelcomeController.php:83
+#: plugin/Controllers/WelcomeController.php:87
 msgctxt "admin-text"
 msgid "Upgrade Guide"
 msgstr "Upgrade Guide"
@@ -2538,6 +2552,11 @@ msgstr "Response"
 msgctxt "admin-text"
 msgid "Pinned"
 msgstr "Pinned"
+
+#: plugin/Defaults/PostTypeColumnDefaults.php:27, views/partials/editor/verified.php:4
+msgctxt "admin-text"
+msgid "Verified"
+msgstr "Verified"
 
 #: plugin/Defaults/RevisionFieldsDefaults.php:22
 msgctxt "admin-text"
@@ -2594,7 +2613,7 @@ msgctxt "admin-text"
 msgid "The review rating number (1-5)"
 msgstr "The review rating number (1-5)"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:25, views/pages/tools/general/import-reviews.php:116
+#: plugin/Defaults/TemplateTagsDefaults.php:25, views/pages/tools/general/import-reviews.php:121
 msgctxt "admin-text"
 msgid "The review response"
 msgstr "The review response"
@@ -2782,7 +2801,7 @@ msgctxt "admin-text"
 msgid "Process the action now as if it were run as part of a queue"
 msgstr "Process the action now as if it were run as part of a queue"
 
-#: plugin/Overrides/ScheduledActionsTable.php:121, views/partials/editor/pinned.php:17, views/partials/screen/inline-edit.php:31, views/partials/screen/inline-edit.php:130
+#: plugin/Overrides/ScheduledActionsTable.php:121, views/partials/editor/pinned.php:17, views/partials/editor/verified.php:17, views/partials/screen/inline-edit.php:31, views/partials/screen/inline-edit.php:130
 msgctxt "admin-text"
 msgid "Cancel"
 msgstr "Cancel"
@@ -3904,18 +3923,33 @@ msgstr "Edit pinned status"
 
 #: views/partials/editor/pinned.php:13
 msgctxt "admin-text"
-msgid "Pin"
-msgstr "Pin"
+msgid "Pin review"
+msgstr "Pin review"
 
 #: views/partials/editor/pinned.php:14
 msgctxt "admin-text"
-msgid "Unpin"
-msgstr "Unpin"
+msgid "Unpin review"
+msgstr "Unpin review"
 
-#: views/partials/editor/pinned.php:16
+#: views/partials/editor/pinned.php:16, views/partials/editor/verified.php:16
 msgctxt "admin-text"
 msgid "OK"
 msgstr "OK"
+
+#: views/partials/editor/verified.php:8
+msgctxt "admin-text"
+msgid "Edit verified status"
+msgstr "Edit verified status"
+
+#: views/partials/editor/verified.php:13
+msgctxt "admin-text"
+msgid "Verify review"
+msgstr "Verify review"
+
+#: views/partials/editor/verified.php:14
+msgctxt "admin-text"
+msgid "Unverify review"
+msgstr "Unverify review"
 
 #: views/partials/listtable/filter.php:8
 msgctxt "admin-text"
@@ -4257,7 +4291,7 @@ msgstr ""
 "Here you can export your Site Reviews settings to a %s file. You can use "
 "the the %sImport Settings%s tool to import the settings on another website."
 
-#: views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:176
+#: views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:186
 msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr "Import Reviews"
@@ -4353,67 +4387,72 @@ msgctxt "admin-text"
 msgid "The IP address of the reviewer"
 msgstr "The IP address of the reviewer"
 
-#: views/pages/tools/general/import-reviews.php:96, views/pages/tools/general/import-reviews.php:101, views/pages/tools/general/import-reviews.php:121
+#: views/pages/tools/general/import-reviews.php:96, views/pages/tools/general/import-reviews.php:101, views/pages/tools/general/import-reviews.php:106, views/pages/tools/general/import-reviews.php:131
 msgctxt "admin-text"
 msgid "TRUE or FALSE"
 msgstr "TRUE or FALSE"
 
-#: views/pages/tools/general/import-reviews.php:106
+#: views/pages/tools/general/import-reviews.php:111
 msgctxt "admin-text"
 msgid "The reviewer's name"
 msgstr "The reviewer's name"
 
-#: views/pages/tools/general/import-reviews.php:111
+#: views/pages/tools/general/import-reviews.php:116
 msgctxt "admin-text"
 msgid "A number from 0-%d"
 msgstr "A number from 0-%d"
 
 #: views/pages/tools/general/import-reviews.php:126
 msgctxt "admin-text"
+msgid "A positive or negative whole number"
+msgstr "A positive or negative whole number"
+
+#: views/pages/tools/general/import-reviews.php:136
+msgctxt "admin-text"
 msgid "The title of the review"
 msgstr "The title of the review"
 
-#: views/pages/tools/general/import-reviews.php:138
+#: views/pages/tools/general/import-reviews.php:148
 msgctxt "admin-text"
 msgid "Delimiter"
 msgstr "Delimiter"
 
-#: views/pages/tools/general/import-reviews.php:140
+#: views/pages/tools/general/import-reviews.php:150
 msgctxt "admin-text"
 msgid "Detect automatically"
 msgstr "Detect automatically"
 
-#: views/pages/tools/general/import-reviews.php:141
+#: views/pages/tools/general/import-reviews.php:151
 msgctxt "admin-text"
 msgid "Comma (,)"
 msgstr "Comma (,)"
 
-#: views/pages/tools/general/import-reviews.php:142
+#: views/pages/tools/general/import-reviews.php:152
 msgctxt "admin-text"
 msgid "Semicolon (;)"
 msgstr "Semicolon (;)"
 
-#: views/pages/tools/general/import-reviews.php:148
+#: views/pages/tools/general/import-reviews.php:158
 msgctxt "admin-text"
 msgid "Select the date format used in the reviews"
 msgstr "Select the date format used in the reviews"
 
-#: views/pages/tools/general/import-reviews.php:149, views/pages/tools/general/import-reviews.php:157, views/pages/tools/general/import-reviews.php:165
+#: views/pages/tools/general/import-reviews.php:159, views/pages/tools/general/import-reviews.php:167, views/pages/tools/general/import-reviews.php:175
 msgctxt "admin-text"
 msgid "Year"
 msgstr "Year"
 
-#: views/pages/tools/general/import-reviews.php:149, views/pages/tools/general/import-reviews.php:157, views/pages/tools/general/import-reviews.php:165
+#: views/pages/tools/general/import-reviews.php:159, views/pages/tools/general/import-reviews.php:167, views/pages/tools/general/import-reviews.php:175
 msgctxt "admin-text"
 msgid "Month"
 msgstr "Month"
 
-#: views/pages/tools/general/import-reviews.php:149, views/pages/tools/general/import-reviews.php:157, views/pages/tools/general/import-reviews.php:165
+#: views/pages/tools/general/import-reviews.php:159, views/pages/tools/general/import-reviews.php:167, views/pages/tools/general/import-reviews.php:175
 msgctxt "admin-text"
 msgid "Day"
 msgstr "Day"
 
-#: views/pages/tools/general/import-reviews.php:176
+#: views/pages/tools/general/import-reviews.php:186
 msgctxt "admin-text"
 msgid "Importing reviews, please wait..."
 msgstr "Importing reviews, please wait..."
@@ -4922,47 +4961,57 @@ msgctxt "admin-text"
 msgid "If the review has been pinned."
 msgstr "If the review has been pinned."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:212
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:211
+msgctxt "admin-text"
+msgid "If the review has been verified."
+msgstr "If the review has been verified."
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:217
 msgctxt "admin-text"
 msgid "The date the review was last modified, in the site's timezone."
 msgstr "The date the review was last modified, in the site's timezone."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:219
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:224
 msgctxt "admin-text"
 msgid "The date the review was last modified, as GMT."
 msgstr "The date the review was last modified, as GMT."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:226
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:231
 msgctxt "admin-text"
 msgid "The name of the person who submitted the review."
 msgstr "The name of the person who submitted the review."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:231
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:236
 msgctxt "admin-text"
 msgid "The rating of the review."
 msgstr "The rating of the review."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:236
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:241
 msgctxt "admin-text"
 msgid "The response given to the review."
 msgstr "The response given to the review."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:241
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:246
+msgctxt "admin-text"
+msgid "The popularity score of the review."
+msgstr "The popularity score of the review."
+
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:251
 msgctxt "admin-text"
 msgid "A named status for the review."
 msgstr "A named status for the review."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:247
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:257
 msgctxt "admin-text"
 msgid "If the terms were accepted when the review was submitted."
 msgstr "If the terms were accepted when the review was submitted."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:252
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:262
 msgctxt "admin-text"
 msgid "The title of the review."
 msgstr "The title of the review."
 
-#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:257
+#: plugin/Controllers/Api/Version1/Schema/ReviewSchema.php:267
 msgctxt "admin-text"
 msgid "Type of Review for the object."
 msgstr "Type of Review for the object."

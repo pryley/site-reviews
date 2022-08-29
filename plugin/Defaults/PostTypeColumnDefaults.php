@@ -24,6 +24,7 @@ class PostTypeColumnDefaults extends Defaults
             'type' => _x('Type', 'admin-text', 'site-reviews'),
             'rating' => _x('Rating', 'admin-text', 'site-reviews'),
             'is_pinned' => _x('Pinned', 'admin-text', 'site-reviews'),
+            'is_verified' => _x('Verified', 'admin-text', 'site-reviews'),
             'date' => '',
         ];
     }

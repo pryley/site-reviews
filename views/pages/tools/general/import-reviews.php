@@ -101,6 +101,11 @@
                         <td><?= _x('TRUE or FALSE', 'admin-text', 'site-reviews'); ?></td>
                     </tr>
                     <tr>
+                        <td><strong>is_verified</strong></td>
+                        <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('TRUE or FALSE', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                    <tr>
                         <td><strong>name</strong></td>
                         <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
                         <td><?= _x('The reviewer\'s name', 'admin-text', 'site-reviews'); ?></td>
@@ -114,6 +119,11 @@
                         <td><strong>response</strong></td>
                         <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
                         <td><?= _x('The review response', 'admin-text', 'site-reviews'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>score</strong></td>
+                        <td><span class="glsr-tag"><?= _x('No', 'admin-text', 'site-reviews'); ?></span></td>
+                        <td><?= _x('A positive or negative whole number', 'admin-text', 'site-reviews'); ?></td>
                     </tr>
                     <tr>
                         <td><strong>terms</strong></td>

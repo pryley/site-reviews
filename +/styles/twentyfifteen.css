@@ -6,7 +6,7 @@
     --glsr-gray-500: #333;
     --glsr-red: #c0392b;
     --glsr-blue: #21759b;
-    --glsr-success: var(--gl-blue);
+    --glsr-form-success: var(--gl-blue);
     --glsr-font: "Noto Sans", sans-serif;
 }
 

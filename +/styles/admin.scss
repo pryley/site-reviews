@@ -8,6 +8,16 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+@mixin verified {
+    display: inline-block;
+    position: relative;
+    content: "\f12a";
+    font: normal 20px/1 dashicons;
+    speak: none;
+    vertical-align: top;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 @mixin placeholder() {
     color: #72777c !important;
     font-size: inherit !important;

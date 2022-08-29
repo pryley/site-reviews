@@ -21,6 +21,7 @@
  * - 'email' => '',
  * - 'ip_address' => '',
  * - 'is_pinned' => false,
+ * - 'is_verified' => false,
  * - 'name' => '',
  * - 'rating' => '',
  * - 'terms' => true,
