@@ -6,10 +6,11 @@
         </button>
     </h3>
     <div id="welcome-v6_0_0" class="inside">
-        <p><em>Initial Release Date &mdash; August 26th, 2022</em></p>
+        <p><em>Initial Release Date &mdash; September 1st, 2022</em></p>
         <h4>✨ New Features</h4>
         <ul>
             <li>Added a "Limit Reviews For" setting which allows you to set a time-limit (in days) for Review Limits</li>
+            <li>Added ability to mark reviews as "Verified"</li>
             <li>Added automatic conversion of UTF-16/UTF-32 encoded CSV files when importing reviews</li>
             <li>Added experimental filter hooks to combine css and javascript files when using add-ons (see <a data-expand="#hooks-filter-combine-assets" href="<?= glsr_admin_url('documentation', 'hooks'); ?>">Hooks documentation</a>)</li>
             <li>Added migration and nonce support for <a href="https://wordpress.org/plugins/litespeed-cache/" rel="nofollow" target="_blank">LiteSpeed Cache</a> (flushes the cache after migration)</li>
@@ -41,9 +42,12 @@
         <ul>
             <li>Fixed compatibility with <a href="https://wordpress.org/plugins/duplicate-post/" target="_blank">Yoast Duplicate Post</a></li>
             <li>Fixed invalid "deprecated" entries which were being added to the Console on some websites</li>
+            <li>Fixed plugin redirection when bulk activating multiple plugins</li>
+            <li>Fixed primary keys on custom database pivot tables</li>
             <li>Fixed review importing to skip empty CSV rows without throwing an error</li>
             <li>Fixed the blocks in the Customizer widget panel</li>
             <li>Fixed the Elementor integration which broke some other Elementor widgets</li>
+            <li>Fixed the <a data-expand="#fn-glsr_create_review" href="<?= glsr_admin_url('documentation', 'functions'); ?>"><code>glsr_create_review</code></a> function to bypass the "Require Approval" setting</li>
             <li>Fixed the star rating field for some themes</li>
             <li>Fixed the Version value in the System Info</li>
             <li>Fixed the WPML integration</li>

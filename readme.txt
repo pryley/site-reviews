@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, star ratings
 Tested up to: 6.0
-Stable tag: 6.0.0-beta5
+Stable tag: 6.0.0-beta6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -146,7 +146,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.0.0-beta5 (2022-08-26) =
+= 6.0.0-beta6 (2022-08-29) =
 
 - 🚨 Requires at least PHP v7.2
 - 🚨 Requires at least WordPress v5.8
@@ -159,6 +159,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - 🚨 Removed the Polyfill.io script
 - 🚨 Rewrote the button and pagination loading animations. If you are using a custom Site Reviews pagination template in your child theme, please remove the `{{ loader }}` template tag.
 - Added a "Limit Reviews For" setting which allows you to set a time-limit (in days) for Review Limits
+- Added ability to mark reviews as "Verified"
 - Added automatic conversion of UTF-16/UTF-32 encoded CSV files when importing reviews
 - Added experimental filter hooks to combine css and javascript files when using add-ons (see Help > Hooks)
 - Added migration and nonce support for LiteSpeed Cache (flushes the cache after migration)
@@ -168,9 +169,12 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Enabled SSL verification on all requests (this can be disabled with the WordPress [https_ssl_verify](http://developer.wordpress.org/reference/hooks/https_ssl_verify/) filter hook)
 - Fixed compatibility with [Yoast Duplicate Post](https://wordpress.org/plugins/duplicate-post/)
 - Fixed invalid "deprecated" entries which were being added to the Console on some websites
+- Fixed plugin redirection when bulk activating multiple plugins
+- Fixed primary keys on custom database pivot tables
 - Fixed review importing to skip empty CSV rows without throwing an error
 - Fixed the blocks in the Customizer widget panel
 - Fixed the Elementor integration which broke some other Elementor widgets
+- Fixed the `glsr_create_review` function to bypass the "Require Approval" setting
 - Fixed the star rating field for some themes
 - Fixed the Version value in the System Info
 - Fixed the WPML integration
