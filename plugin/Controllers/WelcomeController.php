@@ -46,6 +46,10 @@ class WelcomeController extends Controller
      */
     public function redirectOnActivation($plugin, $isNetworkActivation)
     {
+        if (1 < count(filter_input(INPUT_POST, 'checked', FILTER_DEFAULT, FILTER_FORCE_ARRAY))
+            && 'activate-selected' === filter_input(INPUT_POST, 'action')) {
+            return;
+        }
         if (!$isNetworkActivation
             && 'cli' !== php_sapi_name()
             && $plugin === plugin_basename(glsr()->file)) {
