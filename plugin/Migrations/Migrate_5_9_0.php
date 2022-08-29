@@ -56,7 +56,7 @@ class Migrate_5_9_0 implements MigrateContract
         if ($this->isDatabaseVersionUpdated()) { // @phpstan-ignore-line
             return true; // check again after updating the database
         }
-        glsr_log()->error(sprintf('Database table [%s] could not be altered, column [terms] not added.', $table));
+        glsr_log()->error(sprintf('Database table [%s] could not be altered, column [terms] was not added.', $table));
         return false;
     }
 
