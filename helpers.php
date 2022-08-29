@@ -96,9 +96,13 @@ function glsr_create_review($values = [])
     $values = Arr::removeEmptyValues(Arr::consolidate($values));
     $request = new Request($values);
     $command = new CreateReview($request);
-    return $command->isValid()
-        ? glsr(ReviewManager::class)->create($command)
-        : false;
+    if ($command->isValid()) {
+        glsr()->store('glsr_create_review', true);
+        $review = glsr(ReviewManager::class)->create($command);
+        glsr()->discard('glsr_create_review');
+        return $review;
+    }
+    return false;
 }
 
 /**

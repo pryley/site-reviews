@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Tests;
 
 use Faker\Factory;
 use GeminiLabs\SiteReviews\Commands\CreateReview;
+use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
@@ -174,9 +175,15 @@ class ReviewManagerTest extends WP_UnitTestCase
         $this->assertTrue($review->isValid());
         $this->assertFalse($review->terms);
         // test the helper function directly
+        $options = glsr(OptionManager::class);
+        $path = 'settings.general.require.approval';
+        $setting = $options->get($path, 'no');
+        $options->set($path, 'yes');
         $review = glsr_create_review($this->request->toArray());
         $this->assertTrue($review->isValid());
+        $this->assertTrue($review->is_approved);
         $this->assertFalse($review->terms);
+        $options->set($path, $setting);
     }
 
     public function test_unassign_post()
