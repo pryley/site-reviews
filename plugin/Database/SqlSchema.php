@@ -190,7 +190,7 @@ class SqlSchema
                 rating_id bigint(20) unsigned NOT NULL,
                 post_id bigint(20) unsigned NOT NULL,
                 is_published tinyint(1) NOT NULL DEFAULT '1',
-                UNIQUE KEY {$this->prefix('assigned_posts_rating_id_post_id_unique')} (rating_id,post_id)
+                PRIMARY KEY {$this->prefix('assigned_posts_rating_id_post_id_unique')} (rating_id,post_id)
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
         "));
         glsr(Database::class)->logErrors();
@@ -209,7 +209,7 @@ class SqlSchema
             CREATE TABLE {$this->table('assigned_terms')} (
                 rating_id bigint(20) unsigned NOT NULL,
                 term_id bigint(20) unsigned NOT NULL,
-                UNIQUE KEY {$this->prefix('assigned_terms_rating_id_term_id_unique')} (rating_id,term_id)
+                PRIMARY KEY {$this->prefix('assigned_terms_rating_id_term_id_unique')} (rating_id,term_id)
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
         "));
         glsr(Database::class)->logErrors();
@@ -228,7 +228,7 @@ class SqlSchema
             CREATE TABLE {$this->table('assigned_users')} (
                 rating_id bigint(20) unsigned NOT NULL,
                 user_id bigint(20) unsigned NOT NULL,
-                UNIQUE KEY {$this->prefix('assigned_users_rating_id_user_id_unique')} (rating_id,user_id)
+                PRIMARY KEY {$this->prefix('assigned_users_rating_id_user_id_unique')} (rating_id,user_id)
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
         "));
         glsr(Database::class)->logErrors();
@@ -259,7 +259,7 @@ class SqlSchema
                 ip_address varchar(100) DEFAULT NULL,
                 url varchar(250) DEFAULT NULL,
                 terms tinyint(1) NOT NULL DEFAULT '1',
-                PRIMARY KEY  (ID),
+                PRIMARY KEY (ID),
                 UNIQUE KEY {$this->prefix('ratings_review_id_unique')} (review_id),
                 KEY {$this->prefix('ratings_rating_type_is_pinned_index')} (rating,type,is_pinned)
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
