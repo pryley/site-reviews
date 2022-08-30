@@ -1,15 +1,11 @@
-<div class="glsr-card postbox is-fullwidth">
+<div class="glsr-card postbox is-fullwidth open">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="upgrade-v6_0_0">
-            <span class="title">Version 6.0.0</span>
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="true" aria-controls="upgrade-v6_0_0">
+            <span class="title">Version 6.0</span>
             <span class="icon"></span>
         </button>
     </h3>
     <div id="upgrade-v6_0_0" class="inside">
-        <h2>Changes to plugin strings</h2>
-        <p><em>Likelihood Of Impact: <span class="required">High</span></em></p>
-        <p><strong>The "← Previous" and "Next →" strings were changed to "Previous" and "Next" (the arrows were removed).</strong></p>
-        <p>If you have customised these strings in the settings, please <a href="<?= glsr_admin_url('settings', 'translations'); ?>">update them</a>.</p>
 
         <h2>Changes to review HTML</h2>
         <p><em>Likelihood Of Impact: <span class="required">High</span></em></p>
@@ -27,6 +23,15 @@
                 <p>Some themes transform SELECT elements in order to add custom styling to them. Since the star rating is controlled by a hidden SELECT element, these themes would make the hidden rating dropdown visible.</p>
                 <p>Site Reviews now adds the following classes to the star rating select element: <code>.browser-default</code>, <code>.no_wrap</code>, <code>.no-wrap</code>; these classes are commonly used by themes to prevent them from transforming specific SELECT elements, so hopefully this will fix the issue for most themes.</p>
                 <p>If you previously used the <code>.glsr-star-rating</code> selector with some custom javascript to prevent this from happening in your theme, please update the selector in your code with <code>.browser-default</code>, <code>.no_wrap</code>, or <code>.no-wrap</code>.</p>
+            </li>
+        </ol>
+
+        <h2>Changes to plugin strings</h2>
+        <p><em>Likelihood Of Impact: Medium</em></p>
+        <ol>
+            <li>
+                <p><strong>The "← Previous" and "Next →" strings were changed to "Previous" and "Next" (the arrows were removed).</strong></p>
+                <p>If you have customised these strings in the settings, please <a href="<?= glsr_admin_url('settings', 'translations'); ?>">update them</a>.</p>
             </li>
         </ol>
 
