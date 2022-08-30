@@ -95,7 +95,7 @@ class PrivacyController extends Controller
     public function privacyPolicyContent()
     {
         $content = glsr()->build('partials/privacy-policy');
-        wp_add_privacy_policy_content(glsr()->name, wp_kses_post(wpautop($content, false)));
+        wp_add_privacy_policy_content(glsr()->name, wp_kses_post($content));
     }
 
     /**
