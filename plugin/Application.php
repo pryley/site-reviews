@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews;
 use GeminiLabs\SiteReviews\Addons\Updater;
 use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Database\SqlSchema;
 use GeminiLabs\SiteReviews\Defaults\PermissionDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Migrate;
@@ -175,7 +174,7 @@ final class Application extends Container
                     'class' => 'glsr-license-key regular-text',
                     'default' => '',
                     'label' => $name,
-                    'tooltip' => sprintf(_x('Make sure to activate your website domain with your license before adding it here. You can do this by visiting the %s page on your Nifty Plugins account and clicking the "Manage Sites" button.', 'admin-text', 'site-reviews'),
+                    'tooltip' => sprintf(_x('You need to authorize your website with the license before you can save it here! To do this, go to the %s page on your Nifty Plugins account and click the "Manage Sites" button.', 'admin-text', 'site-reviews'),
                         sprintf('<a href="https://niftyplugins.com/account/license-keys/" target="_blank">%s</a>', _x('License Keys', 'admin-text', 'site-reviews'))
                     ),
                     'type' => 'text',

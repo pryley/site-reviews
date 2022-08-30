@@ -2,7 +2,7 @@
 
 <h2 class="title"><?= _x('JSON-LD Schema Settings', 'admin-text', 'site-reviews'); ?></h2>
 
-<div class="glsr-notice-inline components-notice is-info" style="margin-left:0;">
+<div class="components-notice is-info" style="margin-left:0;">
     <p class="components-notice__content">
         <?= _x('The (JSON-LD) schema is disabled by default. To enable it, use the schema option in your blocks or shortcodes.', 'admin-text', 'site-reviews'); ?>
     </p>
