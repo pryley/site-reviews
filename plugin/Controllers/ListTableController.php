@@ -205,6 +205,24 @@ class ListTableController extends Controller
     }
 
     /**
+     * @param string $search
+     * @return string
+     * @action posts_search
+     */
+    public function filterSearchQuery($search, WP_Query $query)
+    {
+        if (!$this->hasQueryPermission($query)) {
+            return $search;
+        }
+        if (!is_numeric($query->get('s')) || empty($search)) {
+            return $search;
+        }
+        global $wpdb;
+        $replace = $wpdb->prepare("{$wpdb->posts}.ID = %d", $query->get('s'));
+        return str_replace('AND (((', "AND ((({$replace}) OR (", $search);
+    }
+
+    /**
      * @param array $columns
      * @return array
      * @filter manage_edit-{glsr()->post_type}_sortable_columns

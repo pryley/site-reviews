@@ -20,6 +20,7 @@ class ListTableHooks extends AbstractHooks
             ['filterPostStates', 'display_post_states', 10, 2],
             ['filterRowActions', 'post_row_actions', 10, 2],
             ['filterScreenFilters', 'screen_settings', 10, 2],
+            ['filterSearchQuery', 'posts_search', 10, 2],
             ['filterSortableColumns', "manage_edit-{$this->type}_sortable_columns"],
             ['overrideInlineSaveAjax', 'wp_ajax_inline-save', 0],
             ['overridePostsListTable', 'load-edit.php'],
