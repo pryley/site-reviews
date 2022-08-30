@@ -28,6 +28,7 @@
             <li>🚨 Rewrote the button and pagination loading animations. If you are using a custom Site Reviews pagination template in your child theme, please remove the <code>{{ loader }}</code> template tag.</li>
             <li>Enabled SSL verification on all requests (this can be disabled with the WordPress <a href="http://developer.wordpress.org/reference/hooks/https_ssl_verify/" rel="nofollow" target="_blank">https_ssl_verify</a> filter hook)</li>
             <li>Optimised the javascript file sizes</li>
+            <li>Rewrote the frontend style to use CSS variables, this should make CSS tweaks easier to write</li>
             <li>Rewrote the review modals to support the new review image galleries (<a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">Review Images</a> add-on required)</li>
             <li>Submit and load more buttons now make use of the WordPress Block button classes by default</li>
         </ul>

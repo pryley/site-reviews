@@ -179,6 +179,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Fixed the Version value in the System Info
 - Fixed the WPML integration
 - Optimised the javascript file sizes
+- Rewrote the frontend style to use CSS variables, this should make CSS tweaks easier to write.
 - Rewrote the review modals to support the new review image galleries ([Review Images](https://niftyplugins.com/plugins/site-reviews-images/) add-on required)
 - Submit and load more buttons now make use of the WordPress Block button classes by default
 
