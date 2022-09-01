@@ -6,7 +6,7 @@ use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\Query;
-use GeminiLabs\SiteReviews\Database\SqlSchema;
+use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Install;
 
 class Migrate_5_9_0 implements MigrateContract
@@ -23,17 +23,13 @@ class Migrate_5_9_0 implements MigrateContract
 
     protected function install(): void
     {
-        glsr(SqlSchema::class)->createTables();
-        glsr(SqlSchema::class)->addForeignConstraints();
-        glsr(Database::class)->deleteInvalidPostAssignments();
-        glsr(Database::class)->deleteInvalidTermAssignments();
-        glsr(Database::class)->deleteInvalidUserAssignments();
-        glsr(Database::class)->deleteInvalidReviews();
+        glsr(Tables::class)->createTables();
+        glsr(Tables::class)->addForeignConstraints();
     }
 
     protected function isDatabaseVersionUpdated(): bool
     {
-        if (glsr(SqlSchema::class)->columnExists('ratings', 'terms')) {
+        if (glsr(Tables::class)->columnExists('ratings', 'terms')) {
             if (!glsr(Database::class)->version('1.1')) {
                 update_option(glsr()->prefix.'db_version', '1.1');
             }
@@ -44,7 +40,7 @@ class Migrate_5_9_0 implements MigrateContract
 
     protected function migrateDatabase(): bool
     {
-        $table = glsr(SqlSchema::class)->table('ratings');
+        $table = glsr(Tables::class)->table('ratings');
         if ($this->isDatabaseVersionUpdated()) {
             return true;
         }

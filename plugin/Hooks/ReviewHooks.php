@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Hooks;
 
 use GeminiLabs\SiteReviews\Controllers\ReviewController;
-use GeminiLabs\SiteReviews\Database\SqlSchema;
+use GeminiLabs\SiteReviews\Database\Tables;
 
 class ReviewHooks extends AbstractHooks
 {
@@ -37,10 +37,10 @@ class ReviewHooks extends AbstractHooks
      */
     public function runMyIsamFallback()
     {
-        if (!glsr(SqlSchema::class)->isInnodb('posts')) {
+        if (!glsr(Tables::class)->isInnodb('posts')) {
             $this->hook(ReviewController::class, [['onDeletePost', 'deleted_post', 10, 2]]);
         }
-        if (!glsr(SqlSchema::class)->isInnodb('users')) {
+        if (!glsr(Tables::class)->isInnodb('users')) {
             $this->hook(ReviewController::class, [['onDeleteUser', 'deleted_user']]);
         }
     }

@@ -142,7 +142,7 @@ trait Sql
      */
     public function table($table)
     {
-        return glsr(SqlSchema::class)->table($table);
+        return glsr(Tables::class)->table($table);
     }
 
     /**

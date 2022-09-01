@@ -6,7 +6,7 @@ use GeminiLabs\Sinergi\BrowserDetector\Browser;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Query;
-use GeminiLabs\SiteReviews\Database\SqlSchema;
+use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -114,7 +114,7 @@ class SystemInfo
     public function getDatabaseDetails($data)
     {
         $database = Arr::get($data, 'wp-database');
-        $engines = glsr(SqlSchema::class)->tableEngines($removeDbPrefix = true);
+        $engines = glsr(Tables::class)->tableEngines($removeDBPrefix = true);
         foreach ($engines as $engine => $tables) {
             $engines[$engine] = sprintf('%s (%s)', $engine, implode('|', $tables));
         }

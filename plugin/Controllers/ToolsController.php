@@ -9,7 +9,7 @@ use GeminiLabs\SiteReviews\Commands\ImportSettings;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\CountManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Database\SqlSchema;
+use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -73,20 +73,20 @@ class ToolsController extends Controller
      */
     public function convertTableEngine(Request $request)
     {
-        $result = glsr(SqlSchema::class)->convertTableEngine($request->table);
-        if (true === $result) {
-            glsr(Notice::class)->addSuccess(
-                sprintf(_x('The <code>%s</code> table was successfully converted to InnoDB.', 'admin-text', 'site-reviews'), $request->table)
+        $result = glsr(Tables::class)->convertTableEngine($request->table);
+        if (-1 === $result) {
+            glsr(Notice::class)->addWarning(
+                sprintf(_x('The <code>%s</code> table was either not found in the database, or does not use the MyISAM engine.', 'admin-text', 'site-reviews'), $request->table)
             );
         }
-        if (false === $result) {
+        if (0 === $result) {
             glsr(Notice::class)->addError(
                 sprintf(_x('The <code>%s</code> table could not be converted to InnoDB.', 'admin-text', 'site-reviews'), $request->table)
             );
         }
-        if (-1 === $result) {
-            glsr(Notice::class)->addWarning(
-                sprintf(_x('The <code>%s</code> table was not found in the database.', 'admin-text', 'site-reviews'), $request->table)
+        if (1 === $result) {
+            glsr(Notice::class)->addSuccess(
+                sprintf(_x('The <code>%s</code> table was successfully converted to InnoDB.', 'admin-text', 'site-reviews'), $request->table)
             );
         }
     }

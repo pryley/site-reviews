@@ -5,7 +5,8 @@ namespace GeminiLabs\SiteReviews\Migrations;
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Database\SqlSchema;
+use GeminiLabs\SiteReviews\Database\Tables;
+use GeminiLabs\SiteReviews\Database\Tables\TableFields;
 
 class Migrate_6_0_0 implements MigrateContract
 {
@@ -58,6 +59,11 @@ class Migrate_6_0_0 implements MigrateContract
         if (!$this->insertTableColumnScore()) {
             $result = false;
         }
+        if (glsr(TableFields::class)->create()) {
+            glsr(TableFields::class)->addForeignConstraints();
+        } else {
+            $result = false;
+        }
         if ($result) {
             update_option(glsr()->prefix.'db_version', '1.2');
         }
@@ -72,10 +78,10 @@ class Migrate_6_0_0 implements MigrateContract
             'assigned_users' => 'user_id',
         ];
         foreach ($indexes as $assignedTable => $columnName) {
-            if (!glsr(SqlSchema::class)->isInnodb($assignedTable)) {
+            if (!glsr(Tables::class)->isInnodb($assignedTable)) {
                 continue;
             }
-            $table = glsr(SqlSchema::class)->table($assignedTable);
+            $table = glsr(Tables::class)->table($assignedTable);
             $uniqueIndex = "glsr_{$assignedTable}_rating_id_{$columnName}_unique";
             $constraints = glsr(Database::class)->dbGetCol("
                 SELECT CONSTRAINT_NAME
@@ -101,15 +107,15 @@ class Migrate_6_0_0 implements MigrateContract
 
     protected function insertTableColumnIsVerified(): bool
     {
-        $table = glsr(SqlSchema::class)->table('ratings');
-        if (!glsr(SqlSchema::class)->columnExists('ratings', 'is_verified')) {
+        $table = glsr(Tables::class)->table('ratings');
+        if (!glsr(Tables::class)->columnExists('ratings', 'is_verified')) {
             glsr(Database::class)->dbQuery("
                 ALTER TABLE {$table}
                 ADD is_verified tinyint(1) NOT NULL DEFAULT '0'
                 AFTER is_pinned
             ");
         }
-        if (!glsr(SqlSchema::class)->columnExists('ratings', 'is_verified')) {
+        if (!glsr(Tables::class)->columnExists('ratings', 'is_verified')) {
             glsr_log()->error(sprintf('Database table [%s] could not be altered, column [is_verified] was not added.', $table));
             return false;
         }
@@ -118,15 +124,15 @@ class Migrate_6_0_0 implements MigrateContract
 
     protected function insertTableColumnScore(): bool
     {
-        $table = glsr(SqlSchema::class)->table('ratings');
-        if (!glsr(SqlSchema::class)->columnExists('ratings', 'score')) {
+        $table = glsr(Tables::class)->table('ratings');
+        if (!glsr(Tables::class)->columnExists('ratings', 'score')) {
             glsr(Database::class)->dbQuery("
                 ALTER TABLE {$table}
                 ADD score tinyint(1) NOT NULL DEFAULT '0'
                 AFTER terms
             ");
         }
-        if (!glsr(SqlSchema::class)->columnExists('ratings', 'score')) {
+        if (!glsr(Tables::class)->columnExists('ratings', 'score')) {
             glsr_log()->error(sprintf('Database table [%s] could not be altered, column [score] was not added.', $table));
             return false;
         }

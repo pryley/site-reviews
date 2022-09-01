@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Database\Search\SearchAssignedPosts;
 use GeminiLabs\SiteReviews\Database\Search\SearchAssignedUsers;
 use GeminiLabs\SiteReviews\Database\Search\SearchPosts;
 use GeminiLabs\SiteReviews\Database\Search\SearchUsers;
-use GeminiLabs\SiteReviews\Database\SqlSchema;
+use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -39,7 +39,7 @@ class Database
      */
     public function beginTransaction($table)
     {
-        $sql = glsr(SqlSchema::class)->isInnodb($table)
+        $sql = glsr(Tables::class)->isInnodb($table)
             ? 'START TRANSACTION;'
             : 'SET autocommit = 0;';
         $this->dbQuery($sql);
@@ -108,15 +108,33 @@ class Database
     /**
      * @return int|bool
      */
+    public function deleteInvalidFields()
+    {
+        return $this->dbQuery(
+            glsr(Query::class)->sql(sprintf("
+                DELETE f
+                FROM %s AS f
+                LEFT JOIN %s AS r ON f.rating_id = r.ID
+                WHERE (r.ID IS NULL)
+            ",
+                glsr(Query::class)->table('fields'),
+                glsr(Query::class)->table('ratings')
+            ))
+        );
+    }
+
+    /**
+     * @return int|bool
+     */
     public function deleteInvalidPostAssignments()
     {
         return $this->dbQuery(
             glsr(Query::class)->sql(sprintf("
-                DELETE t
-                FROM %s AS t
-                LEFT JOIN %s AS r ON t.rating_id = r.ID
-                LEFT JOIN {$this->db->posts} AS f ON t.post_id = f.ID
-                WHERE (r.ID IS NULL OR f.ID IS NULL)
+                DELETE ap
+                FROM %s AS ap
+                LEFT JOIN %s AS r ON ap.rating_id = r.ID
+                LEFT JOIN {$this->db->posts} AS p ON ap.post_id = p.ID
+                WHERE (r.ID IS NULL OR p.ID IS NULL)
             ",
                 glsr(Query::class)->table('assigned_posts'),
                 glsr(Query::class)->table('ratings')
@@ -149,11 +167,11 @@ class Database
     {
         return $this->dbQuery(
             glsr(Query::class)->sql(sprintf("
-                DELETE t
-                FROM %s AS t
-                LEFT JOIN %s AS r ON t.rating_id = r.ID
-                LEFT JOIN {$this->db->term_taxonomy} AS f ON t.term_id = f.term_id
-                WHERE (r.ID IS NULL OR f.term_id IS NULL) OR f.taxonomy != '%s'
+                DELETE at
+                FROM %s AS at
+                LEFT JOIN %s AS r ON at.rating_id = r.ID
+                LEFT JOIN {$this->db->term_taxonomy} AS tt ON at.term_id = tt.term_id
+                WHERE (r.ID IS NULL OR tt.term_id IS NULL) OR tt.taxonomy != '%s'
             ",
                 glsr(Query::class)->table('assigned_terms'),
                 glsr(Query::class)->table('ratings'),
@@ -169,11 +187,11 @@ class Database
     {
         return $this->dbQuery(
             glsr(Query::class)->sql(sprintf("
-                DELETE t
-                FROM %s AS t
-                LEFT JOIN %s AS r ON t.rating_id = r.ID
-                LEFT JOIN {$this->db->users} AS f ON t.user_id = f.ID
-                WHERE (r.ID IS NULL OR f.ID IS NULL)
+                DELETE au
+                FROM %s AS au
+                LEFT JOIN %s AS r ON au.rating_id = r.ID
+                LEFT JOIN {$this->db->users} AS u ON au.user_id = u.ID
+                WHERE (r.ID IS NULL OR u.ID IS NULL)
             ",
                 glsr(Query::class)->table('assigned_users'),
                 glsr(Query::class)->table('ratings')
@@ -203,7 +221,7 @@ class Database
      */
     public function finishTransaction($table)
     {
-        $sql = glsr(SqlSchema::class)->isInnodb($table)
+        $sql = glsr(Tables::class)->isInnodb($table)
             ? 'COMMIT;'
             : 'SET autocommit = 1;';
         $this->dbQuery($sql);

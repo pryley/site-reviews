@@ -37,7 +37,7 @@ final class Application extends Container
     use Session;
     use Storage;
 
-    public const DB_VERSION = '1.1';
+    public const DB_VERSION = '1.2';
     public const EXPORT_KEY = '_glsr_export';
     public const ID = 'site-reviews';
     public const PAGED_HANDLE = 'pagination_request';

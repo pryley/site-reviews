@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Migrations;
 
 use GeminiLabs\SiteReviews\Application;
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
-use GeminiLabs\SiteReviews\Database\SqlSchema;
+use GeminiLabs\SiteReviews\Database\Tables;
 
 class Migrate_5_3_0 implements MigrateContract
 {
@@ -22,7 +22,7 @@ class Migrate_5_3_0 implements MigrateContract
         $databaseVersion = get_option(glsr()->prefix.'db_version');
         if ('5.2' === $databaseVersion) {
             $version = '1.0'; // @compat
-            if (glsr(SqlSchema::class)->columnExists('ratings', 'terms')) {
+            if (glsr(Tables::class)->columnExists('ratings', 'terms')) {
                 $version = Application::DB_VERSION;
             }
             update_option(glsr()->prefix.'db_version', $version);

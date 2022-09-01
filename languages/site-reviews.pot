@@ -1289,12 +1289,12 @@ msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr ""
 
-#: plugin/Application.php:178
+#: plugin/Application.php:177
 msgctxt "admin-text"
-msgid "Make sure to activate your website domain with your license before adding it here. You can do this by visiting the %s page on your Nifty Plugins account and clicking the \"Manage Sites\" button."
+msgid "You need to authorize your website with the license before you can save it here! To do this, go to the %s page on your Nifty Plugins account and click the \"Manage Sites\" button."
 msgstr ""
 
-#: plugin/Application.php:179, plugin/Controllers/SettingsController.php:175
+#: plugin/Application.php:178, plugin/Controllers/SettingsController.php:175
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr ""
@@ -1723,17 +1723,17 @@ msgctxt "admin-text"
 msgid "Respond"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:241
+#: plugin/Controllers/ListTableController.php:259
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to respond to this review."
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:245
+#: plugin/Controllers/ListTableController.php:263
 msgctxt "admin-text"
 msgid "Someone"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:246
+#: plugin/Controllers/ListTableController.php:264
 msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr ""
@@ -1915,7 +1915,7 @@ msgstr ""
 
 #: plugin/Controllers/ToolsController.php:79
 msgctxt "admin-text"
-msgid "The <code>%s</code> table was successfully converted to InnoDB."
+msgid "The <code>%s</code> table was either not found in the database, or does not use the MyISAM engine."
 msgstr ""
 
 #: plugin/Controllers/ToolsController.php:84
@@ -1925,7 +1925,7 @@ msgstr ""
 
 #: plugin/Controllers/ToolsController.php:89
 msgctxt "admin-text"
-msgid "The <code>%s</code> table was not found in the database."
+msgid "The <code>%s</code> table was successfully converted to InnoDB."
 msgstr ""
 
 #: plugin/Controllers/ToolsController.php:124
@@ -2808,6 +2808,11 @@ msgstr ""
 
 #: plugin/Shortcodes/SiteReviewsShortcode.php:82
 msgctxt "admin-text"
+msgid "Hide the verified badge"
+msgstr ""
+
+#: plugin/Shortcodes/SiteReviewsShortcode.php:83
+msgctxt "admin-text"
 msgid "Hide the response"
 msgstr ""
 
@@ -3533,6 +3538,11 @@ msgctxt "admin-text"
 msgid "Add-on Licenses"
 msgstr ""
 
+#: views/pages/settings/licenses.php:8
+msgctxt "admin-text"
+msgid "You need to authorize your website with the license before you can save it here! To do this, go to the %sLicense Keys%s page on your Nifty Plugins account and click the \"Manage Sites\" button."
+msgstr ""
+
 #: views/pages/settings/reviews.php:3
 msgctxt "admin-text"
 msgid "Review Settings"
@@ -3575,7 +3585,7 @@ msgstr ""
 
 #: views/pages/settings/translations.php:7
 msgctxt "admin-text"
-msgid "If you have a multilingual website, you may need to use the %s plugin instead. Make sure to select \"Custom\" when Loco Translate asks for the location of the new translation file."
+msgid "If you have a multilingual website, use the %s plugin instead. When Loco Translate asks for the location of the new translation file, select \"Custom\"."
 msgstr ""
 
 #: views/pages/settings/translations.php:12
