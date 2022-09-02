@@ -17,7 +17,6 @@ class Form {
         this.isActive = false;
         this.stars = StarRating();
         this.strings = GLSR.validationstrings;
-        this.useAjax = !formEl.classList.contains('no-ajax');
         this.captcha = new Captcha(this);
         this.validation = new Validation(formEl);
     }
