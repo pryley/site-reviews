@@ -35,11 +35,9 @@
 .syntax-shortcode,
 code[class*="language-"],
 pre[class*="language-"] {
-    background-color: #181818;
     background-color: var(--base00);
-    color: #d8d8d8;
     color: var(--base05);
-    font-family: "Operator Mono Lig", "Fira Code", monospace;
+    font-family: "Operator Mono Lig", "Fira Code", Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
     font-size: 13px;
     hyphens: none;
     line-height: 1.5;
@@ -57,6 +55,7 @@ pre[class*="language-"] {
 pre[class*="language-"] {
     display: block;
     padding: 1em;
+    position: relative;
     margin: .5em 0;
     overflow: auto;
 }
@@ -65,12 +64,62 @@ pre[class*="language-"] > code {
     padding: 0;
 }
 
+
+pre[class*="language-"]::after {
+    background-color: var(--base02);
+    color: #fff;
+    display: block;
+    font-weight: 300;
+    margin: 12px;
+    opacity: 0;
+    padding: 1px 6px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: opacity .15s ease-in-out;
+    z-index: 10;
+}
+pre[class*="language-"]:hover::after {
+    opacity: 1;
+}
+pre.language-bash::after {
+    content: 'Bash';
+}
+pre.language-css::after {
+    content: 'CSS';
+}
+pre.language-html::after {
+    content: 'HTML';
+}
+pre.language-js::after {
+    content: 'Javascript';
+}
+pre.language-php::after {
+    content: 'PHP';
+}
+
+
 /* Inline code */
 *:not(pre) > code[class*="language-"] {
     padding: .1em;
     border-radius: .3em;
     white-space: normal;
 }
+
+.token.comment,
+.token.block-comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: var(--base03);
+}
+
+
+
+
+
+
+
 
 .token.bold {
     font-weight: bold;
@@ -80,72 +129,70 @@ pre[class*="language-"] > code {
 }
 
 .syntax-shortcode .tag {
-    color: #ab4642;
     color: var(--base08);
 }
 .syntax-shortcode .attr-name {
-    color: #ba8baf;
     color: var(--base0E);
 }
 .syntax-shortcode .attr-value {
-    color: #a1b56c;
     color: var(--base0B);
 }
 
 // CSS
 
 .language-css .comment {
-    color: #585858;
     color: var(--base03);
 }
 .language-css .selector,
 .language-css .important {
-    color: #ba8baf;
     color: var(--base0E);
 }
 .language-css .property,
 .language-css .function,
 .language-css .url .function {
-    color: #7cafc2;
     color: var(--base0D);
 }
 .language-css .string,
 .language-css .url {
-    color: #a1b56c;
     color: var(--base0B);
 }
 .language-css .atrule,
 .language-css .atrule .punctuation,
 .language-css .url .punctuation {
-    color: #d8d8d8;
     color: var(--base05);
 }
 .language-css .atrule .rule {
-    color: #f7ca88;
     color: var(--base0A);
 }
 .language-css .atrule .keyword {
-    color: #ab4642;
     color: var(--base08);
 }
 
 // HTML
 
 .language-html .tag {
-    color: #ab4642;
     color: var(--base08);
 }
 .language-html .attr-name {
-    color: #ba8baf;
     color: var(--base0E);
 }
 .language-html .attr-value {
-    color: #a1b56c;
     color: var(--base0B);
 }
 .language-html .attr-equals {
-    color: #d8d8d8;
     color: var(--base05);
+}
+
+// JS
+
+.language-js .constant {
+    color: var(--base0D);
+}
+.language-js .string {
+    color: var(--base0B);
+}
+.language-js .operator {
+    color: var(--base0E);
 }
 
 // PHP
@@ -158,7 +205,6 @@ pre[class*="language-"] > code {
 .language-php .variable,
 .language-php .property,
 .language-php .constant {
-    color: #d8d8d8;
     color: var(--base05);
 }
 .language-php .cdata,
@@ -166,29 +212,24 @@ pre[class*="language-"] > code {
 .language-php .block-comment,
 .language-php .doctype,
 .language-php .prolog {
-    color: #585858;
     color: var(--base03);
 }
 .language-php .string {
-    color: #a1b56c;
     color: var(--base0B);
 }
 .language-php .keyword,
 .language-php .selector,
 .language-php .important {
-    color: #ba8baf;
     color: var(--base0E);
 }
 .language-php .number,
 .language-php .operator {
-    color: #ab4642;
     color: var(--base08);
 }
 .language-php .boolean,
 .language-php .function,
 .language-php .class-name,
 .language-php .package {
-    color: #7cafc2;
     color: var(--base0D);
 }
 
@@ -199,11 +240,9 @@ pre[class*="language-"] > code {
     margin: 0;
     opacity: 0;
     appearance: none;
-    background-color: #181818;
     background-color: var(--base00);
     border-radius: 2px;
     border: 0;
-    color: #d8d8d8;
     color: var(--base05);
     display: block;
     font-family: "Operator Mono","Fira Code",monaco,monospace;

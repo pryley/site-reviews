@@ -17,7 +17,7 @@
             Would be copied here:<br><br>
             <code>/wp-content/themes/&lt;your-child-theme&gt;/site-reviews/form/field.php</code>
         </p>
-        <pre><code class="language-html">wp-content/plugins/site-reviews/templates
+        <pre><code class="language-text">wp-content/plugins/site-reviews/templates
 ├── emails                  This folder contains the email template files
 │   └── default.php         This is the default template for HTML emails
 ├── form                    This folder contains the template files for the form fields
