@@ -19,6 +19,7 @@ class Form {
         this.strings = GLSR.validationstrings;
         this.captcha = new Captcha(this);
         this.validation = new Validation(formEl);
+        this.reviewsEl = document.getElementById(formEl.closest('.glsr')?.dataset?.reviews_id);
     }
 
     destroy () {
@@ -41,7 +42,28 @@ class Form {
         if (this.form['g-recaptcha-response']) {
             this.form['g-recaptcha-response'].value = token;
         }
-        GLSR.ajax.post(this.form, this._handleResponse.bind(this))
+        GLSR.ajax.post(this._data(), this._handleResponse.bind(this))
+    }
+
+    _data () {
+        const data = new FormData(this.form);
+        if (this.reviewsEl && this.reviewsEl.classList.contains('glsr')) {
+            try {
+                const dataset = JSON.parse(JSON.stringify(this.reviewsEl.dataset));
+                for (let key of Object.keys(dataset)) {
+                    let value;
+                    try {
+                        value = JSON.parse(dataset[key]);
+                    } catch(e) {
+                        value = dataset[key];
+                    }
+                    data.append(`${GLSR.nameprefix}[_reviews_atts][${key}]`, value);
+                }
+            } catch(e) {
+                console.error(e)
+            }
+        }
+        return data;
     }
 
     _destroyForm () {
@@ -62,8 +84,15 @@ class Form {
         GLSR.Event.trigger('site-reviews/form/handle', response, this.form)
         response.form = this.form; // @compat
         document.dispatchEvent(new CustomEvent('site-reviews/after/submission', { detail: response })) // @compat
-        if (wasSuccessful && '' !== response.redirect) {
-            window.location = response.redirect;
+        if (wasSuccessful) {
+            if ('' !== response.redirect) {
+                window.location = response.redirect;
+                return;
+            }
+            if (this.reviewsEl && response.reviews) {
+                this.reviewsEl.innerHTML = response.reviews;
+                GLSR.Event.trigger('site-reviews/init')
+            }
         }
     }
 

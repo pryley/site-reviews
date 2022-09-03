@@ -32,6 +32,16 @@ class SiteReviewsShortcode extends Shortcode
     }
 
     /**
+     * @return ReviewsHtml
+     */
+    public function buildReviewsHtmlFromArgs(array $args = [])
+    {
+        $atts = glsr(SiteReviewsDefaults::class)->restrict($args);
+        $args = $this->normalizeAtts($atts)->toArray();
+        return $this->buildReviewsHtml($args);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function buildTemplate(array $args = [])

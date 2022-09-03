@@ -14,6 +14,7 @@ use GeminiLabs\SiteReviews\Modules\Validator\DefaultValidator;
 use GeminiLabs\SiteReviews\Modules\Validator\ValidateReview;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
 class CreateReview implements Contract
 {
@@ -91,12 +92,17 @@ class CreateReview implements Contract
      */
     public function response()
     {
+        $args = $this->request->cast('_reviews_atts', 'array');
+        if (!empty($args)) {
+            $reviews = (string) glsr(SiteReviewsShortcode::class)->buildReviewsHtmlFromArgs($args);
+        }
         return [
             'errors' => $this->errors,
             'html' => (string) $this->review,
             'message' => $this->message,
             'redirect' => $this->redirect(),
             'review' => Cast::toArray($this->review),
+            'reviews' => $reviews ?? '',
         ];
     }
 

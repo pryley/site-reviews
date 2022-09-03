@@ -55,6 +55,7 @@ class SiteReviewsFormDefaults extends Defaults
             'form_id' => '', // used for the validation session key and to generate the honeypot hash
             'hide' => '',
             'id' => '',
+            'reviews_id' => '',
             'title' => '',
         ];
     }

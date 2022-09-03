@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
-use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Modules\Style;
@@ -29,10 +28,9 @@ class PublicController extends Controller
     public function fetchPagedReviewsAjax(Request $request)
     {
         glsr()->store(glsr()->paged_handle, $request);
-        $shortcode = glsr(SiteReviewsShortcode::class);
-        $atts = glsr(SiteReviewsDefaults::class)->restrict($request->cast('atts', 'array'));
-        $args = $shortcode->normalizeAtts($atts)->toArray();
-        $html = $shortcode->buildReviewsHtml($args);
+        $html = glsr(SiteReviewsShortcode::class)->buildReviewsHtmlFromArgs(
+            $request->cast('atts', 'array')
+        );
         $response = [
             'pagination' => $html->getPagination($wrap = false),
             'reviews' => $html->getReviews(),

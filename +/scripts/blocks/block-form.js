@@ -24,11 +24,12 @@ const attributes = {
     className: { default: '', type: 'string' },
     hide: { default: '', type: 'string' },
     id: { default: '', type: 'string' },
+    reviews_id: { default: '', type: 'string' },
     user: { default: '', type: 'string' },
 };
 
 const edit = props => {
-    const { attributes: { assign_to, assigned_posts, assigned_terms, assigned_users, category, hide, id, user }, className, setAttributes } = props;
+    const { attributes: { assign_to, assigned_posts, assigned_terms, assigned_users, category, hide, id, reviews_id, user }, className, setAttributes } = props;
     const inspectorControls = {
         assign_to: <ConditionalSelectControl
             key={ 'assigned_posts' }
@@ -102,6 +103,12 @@ const edit = props => {
             label={ _x('Custom ID', 'admin-text', 'site-reviews') }
             onChange={ id => setAttributes({ id }) }
             value={ id }
+        />,
+        reviews_id: <TextControl
+            help={ _x('Enter the Custom ID of a reviews block or shortcode to display the review after submission.', 'admin-text', 'site-reviews') }
+            label={ _x('Custom Reviews ID', 'admin-text', 'site-reviews') }
+            onChange={ reviews_id => setAttributes({ reviews_id }) }
+            value={ reviews_id }
         />,
     };
     return [

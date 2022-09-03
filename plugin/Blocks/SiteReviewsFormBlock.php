@@ -47,6 +47,10 @@ class SiteReviewsFormBlock extends Block
                 'default' => '',
                 'type' => 'string',
             ],
+            'reviews_id' => [
+                'default' => '',
+                'type' => 'string',
+            ],
             'user' => [
                 'default' => '',
                 'type' => 'string',

@@ -81,7 +81,6 @@ window.GLSR.Event = Event;
 window.GLSR.Modal = Modal;
 window.GLSR.Utils = { debounce, dom };
 
-
 Event.on(events.excerpts, initExcerpts)
 Event.on(events.forms, initForms)
 Event.on(events.modal, initModal)
