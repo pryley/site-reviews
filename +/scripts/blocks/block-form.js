@@ -105,7 +105,7 @@ const edit = props => {
             value={ id }
         />,
         reviews_id: <TextControl
-            help={ _x('Enter the Custom ID of a reviews block or shortcode to display the review after submission.', 'admin-text', 'site-reviews') }
+            help={ _x('Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission.', 'admin-text', 'site-reviews') }
             label={ _x('Custom Reviews ID', 'admin-text', 'site-reviews') }
             onChange={ reviews_id => setAttributes({ reviews_id }) }
             value={ reviews_id }

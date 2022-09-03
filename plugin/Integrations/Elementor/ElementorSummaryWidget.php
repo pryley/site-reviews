@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
@@ -27,6 +28,20 @@ class ElementorSummaryWidget extends ElementorWidget
     public function get_title()
     {
         return _x('Rating Summary', 'admin-text', 'site-reviews');
+    }
+
+    protected function settings_advanced()
+    {
+        $settings = parent::settings_advanced();
+        $settings = Arr::insertAfter('shortcode_id', $settings, [
+            'rating_field' => [
+                'description' => _x('Use the Review Forms add-on to add custom rating fields.', 'admin-text', 'site-reviews'),
+                'label_block' => true,
+                'label' => _x('Custom Rating Field Name', 'admin-text', 'site-reviews'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+            ],
+        ]);
+        return $settings;
     }
 
     protected function settings_basic()

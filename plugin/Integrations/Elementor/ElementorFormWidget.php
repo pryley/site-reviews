@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
 class ElementorFormWidget extends ElementorWidget
@@ -25,6 +26,20 @@ class ElementorFormWidget extends ElementorWidget
     public function get_title()
     {
         return _x('Review Form', 'admin-text', 'site-reviews');
+    }
+
+    protected function settings_advanced()
+    {
+        $settings = parent::settings_advanced();
+        $settings = Arr::insertAfter('shortcode_id', $settings, [
+            'reviews_id' => [
+                'description' => _x('Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission.', 'admin-text', 'site-reviews'),
+                'label_block' => true,
+                'label' => _x('Custom Reviews ID', 'admin-text', 'site-reviews'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+            ],
+        ]);
+        return $settings;
     }
 
     protected function settings_basic()
