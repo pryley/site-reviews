@@ -82,8 +82,6 @@ class Form {
         this._showResults(response.message, wasSuccessful)
         this.button.loaded()
         GLSR.Event.trigger('site-reviews/form/handle', response, this.form)
-        response.form = this.form; // @compat
-        document.dispatchEvent(new CustomEvent('site-reviews/after/submission', { detail: response })) // @compat
         if (wasSuccessful) {
             if ('' !== response.redirect) {
                 window.location = response.redirect;
@@ -91,7 +89,7 @@ class Form {
             }
             if (this.reviewsEl && response.reviews) {
                 this.reviewsEl.innerHTML = response.reviews;
-                GLSR.Event.trigger('site-reviews/init')
+                GLSR.Event.trigger('site-reviews/pagination/init')
             }
         }
     }
