@@ -87,13 +87,13 @@ Tabs.prototype = {
     },
 
     queryHref_: function (el, param) {
-        let urlParams = new URLSearchParams(el.getAttribute('href'));
-        return urlParams.get(param)
+        let url = new URL(el.getAttribute('href'));
+        return url.searchParams.get(param)
     },
 
     queryLocation_: function (param) {
-        let urlParams = new URLSearchParams(location.search);
-        return urlParams.get(param)
+        let url = new URL(location.href);
+        return url.searchParams.get(param)
     },
 
     setActiveTab_: function (id) {
