@@ -158,6 +158,15 @@ add_action('site-reviews/migration/end', function () {
 });
 
 /**
+ * Purge the Endurance Page Cache after plugin migrations.
+ * @return void
+ * @see https://github.com/bluehost/endurance-page-cache/
+ */
+add_action('site-reviews/migration/end', function () {
+    do_action('epc_purge');
+});
+
+/**
  * Purge the W3 Total Cache database and object caches after plugin migrations.
  * @return void
  * @see https://wordpress.org/plugins/w3-total-cache/
@@ -181,6 +190,17 @@ add_action('site-reviews/migration/end', function () {
         rocket_clean_home();
     }
 });
+
+/**
+ * Purge the Endurance Page Cache plugin cache of assigned posts after a review has been created.
+ * @param \GeminiLabs\SiteReviews\Review $review
+ * @param \GeminiLabs\SiteReviews\Commands\CreateReview $command
+ * @return void
+ * @see https://github.com/bluehost/endurance-page-cache/
+ */
+add_action('site-reviews/review/created', function ($review, $command) {
+    do_action('epc_purge');
+}, 10, 2);
 
 /**
  * Purge the WP Rocket plugin cache of assigned posts after a review has been created.
