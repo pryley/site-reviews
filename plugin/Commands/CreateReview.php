@@ -176,7 +176,9 @@ class CreateReview implements Contract
     protected function create()
     {
         if ($review = glsr(ReviewManager::class)->create($this)) {
-            $this->message = __('Your review has been submitted!', 'site-reviews');
+            $this->message = $review->is_approved
+                ? __('Your review has been submitted!', 'site-reviews')
+                : __('Your review has been submitted and is pending approval.', 'site-reviews');
             $this->review = $review; // overwrite the dummy review with the submitted review
             return;
         }
