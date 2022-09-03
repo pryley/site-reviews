@@ -53,8 +53,7 @@ class WelcomeController extends Controller
             return;
         }
         $checked = Arr::consolidate(filter_input(INPUT_POST, 'checked', FILTER_DEFAULT, FILTER_FORCE_ARRAY));
-        if (1 < count(filter_input(INPUT_POST, 'checked', FILTER_DEFAULT, FILTER_FORCE_ARRAY))
-            && 'activate-selected' === filter_input(INPUT_POST, 'action')) {
+        if (1 < count($checked) && 'activate-selected' === filter_input(INPUT_POST, 'action')) {
             return;
         }
         wp_safe_redirect(glsr_admin_url('welcome'));
