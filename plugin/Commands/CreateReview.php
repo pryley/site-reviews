@@ -88,21 +88,31 @@ class CreateReview implements Contract
     }
 
     /**
+     * @return string
+     */
+    public function reloadedReviews()
+    {
+        $args = $this->request->cast('_reviews_atts', 'array');
+        if (!empty($args) && $this->review->is_approved) {
+            $paginationArgs = $this->request->cast('_pagination_atts', 'array');
+            glsr()->store(glsr()->paged_handle, $paginationArgs);
+            return (string) glsr(SiteReviewsShortcode::class)->buildReviewsHtmlFromArgs($args);
+        }
+        return '';
+    }
+
+    /**
      * @return array
      */
     public function response()
     {
-        $args = $this->request->cast('_reviews_atts', 'array');
-        if (!empty($args)) {
-            $reviews = (string) glsr(SiteReviewsShortcode::class)->buildReviewsHtmlFromArgs($args);
-        }
         return [
             'errors' => $this->errors,
             'html' => (string) $this->review,
             'message' => $this->message,
             'redirect' => $this->redirect(),
             'review' => Cast::toArray($this->review),
-            'reviews' => $reviews ?? '',
+            'reviews' => $this->reloadedReviews(),
         ];
     }
 

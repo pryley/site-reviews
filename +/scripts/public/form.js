@@ -59,6 +59,8 @@ class Form {
                     }
                     data.append(`${GLSR.nameprefix}[_reviews_atts][${key}]`, value);
                 }
+                data.append([`${GLSR.nameprefix}[_pagination_atts][page]`], 1);
+                data.append([`${GLSR.nameprefix}[_pagination_atts][url]`], location.href);
             } catch(e) {
                 console.error(e)
             }
@@ -89,6 +91,11 @@ class Form {
             }
             if (this.reviewsEl && response.reviews) {
                 this.reviewsEl.innerHTML = response.reviews;
+                if (GLSR.urlparameter) {
+                    let url = new URL(location.href);
+                    url.searchParams.delete(GLSR.urlparameter);
+                    window.history.replaceState({}, '', url.toString());
+                }
                 GLSR.Event.trigger('site-reviews/pagination/init')
             }
         }

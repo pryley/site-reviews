@@ -83,6 +83,9 @@ class EnqueuePublicAssets implements Contract
      */
     public function inlineScript()
     {
+        $urlparameter = glsr(OptionManager::class)->getBool('settings.reviews.pagination.url_parameter')
+            ? glsr()->constant('PAGED_QUERY_VAR')
+            : false;
         $variables = [
             'action' => glsr()->prefix.'action',
             'ajaxpagination' => $this->getFixedSelectorsForPagination(),
@@ -99,7 +102,7 @@ class EnqueuePublicAssets implements Contract
             'text' => [
                 'closemodal' => __('Close Modal', 'site-reviews'),
             ],
-            'urlparameter' => glsr(OptionManager::class)->getBool('settings.reviews.pagination.url_parameter'),
+            'urlparameter' => $urlparameter,
             'validationconfig' => array_merge(
                 [
                     'field' => glsr(Style::class)->defaultClasses('field'),
