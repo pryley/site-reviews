@@ -59,11 +59,12 @@ class Migrate_6_0_0 implements MigrateContract
         if (!$this->insertTableColumnScore()) {
             $result = false;
         }
-        if (glsr(TableFields::class)->create()) {
-            glsr(TableFields::class)->addForeignConstraints();
-        } else {
-            $result = false;
-        }
+        // @todo migrate custom fields to the fields table
+        // if (glsr(TableFields::class)->create()) {
+        //     glsr(TableFields::class)->addForeignConstraints();
+        // } else {
+        //     $result = false;
+        // }
         if ($result) {
             update_option(glsr()->prefix.'db_version', '1.2');
         }

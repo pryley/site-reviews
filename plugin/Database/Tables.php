@@ -160,11 +160,12 @@ class Tables
 
     public function tables(): array
     {
+        // @todo add the fields table
         return [ // order is intentional
             TableAssignedPosts::class,
             TableAssignedTerms::class,
             TableAssignedUsers::class,
-            TableFields::class,
+            // TableFields::class,
             TableRatings::class,
         ];
     }
