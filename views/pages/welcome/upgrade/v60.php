@@ -7,7 +7,7 @@
     </h3>
     <div id="upgrade-v6_0_0" class="inside">
 
-        <h2>Changes to review HTML</h2>
+        <h2>Changes to Review HTML</h2>
         <p><em>Likelihood Of Impact: <span class="required">High</span></em></p>
         <ol>
             <li>
@@ -26,7 +26,7 @@
             </li>
         </ol>
 
-        <h2>Changes to plugin strings</h2>
+        <h2>Changes to Plugin Strings</h2>
         <p><em>Likelihood Of Impact: Medium</em></p>
         <ol>
             <li>
@@ -35,7 +35,7 @@
             </li>
         </ol>
 
-        <h2>Changes to plugin templates</h2>
+        <h2>Changes to Plugin Templates</h2>
         <p><em>Likelihood Of Impact: Medium</em></p>
         <ol>
             <li>
@@ -51,5 +51,18 @@
                 <p>If you copied this template file to your theme, please update it.</p>
             </li>
         </ol>
+
+        <h2>Changes to Javascript events</h2>
+        <p><em>Likelihood Of Impact: Low</em></p>
+        <ol>
+            <li>
+                <p><strong>The <code>site-reviews/after/submission</code> event has been removed.</strong></p>
+                <p>You should use the "site-reviews/form/handle" event instead. Here is an example:</p>
+                <pre><code class="language-js">GLSR.Event.on('site-reviews/form/handle', (response, form) => {
+    // do something here
+});</code></pre>
+            </li>
+        </ol>
+
     </div>
 </div>

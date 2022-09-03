@@ -1753,7 +1753,7 @@ msgctxt "admin-text"
 msgid "Add-ons"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:108, plugin/Controllers/WelcomeController.php:88
+#: plugin/Controllers/MenuController.php:108, plugin/Controllers/WelcomeController.php:90
 msgctxt "admin-text"
 msgid "Support"
 msgstr ""
@@ -2043,32 +2043,32 @@ msgctxt "admin-text"
 msgid "Save as Unapproved"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:25, views/pages/addons/index.php:6, views/pages/documentation/index.php:6, views/pages/settings/index.php:6, views/pages/tools/index.php:6
+#: plugin/Controllers/WelcomeController.php:26, views/pages/addons/index.php:6, views/pages/documentation/index.php:6, views/pages/settings/index.php:6, views/pages/tools/index.php:6
 msgctxt "admin-text"
 msgid "About"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:37
+#: plugin/Controllers/WelcomeController.php:38
 msgctxt "admin-text"
 msgid "Welcome to %s &#8212; WordPress"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:68
+#: plugin/Controllers/WelcomeController.php:70
 msgctxt "admin-text"
 msgid "Welcome to %s"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:85
+#: plugin/Controllers/WelcomeController.php:87
 msgctxt "admin-text"
 msgid "Getting Started"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:86
+#: plugin/Controllers/WelcomeController.php:88
 msgctxt "admin-text"
 msgid "What's New"
 msgstr ""
 
-#: plugin/Controllers/WelcomeController.php:87
+#: plugin/Controllers/WelcomeController.php:89
 msgctxt "admin-text"
 msgid "Upgrade Guide"
 msgstr ""

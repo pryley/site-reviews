@@ -6,17 +6,21 @@
         </button>
     </h3>
     <div id="welcome-v6_0_0" class="inside">
-        <p><em>Initial Release Date &mdash; September 1st, 2022</em></p>
+        <p><em>Initial Release Date &mdash; September 3rd, 2022</em></p>
         <h4>✨ New Features</h4>
         <ul>
             <li>Added a "Limit Reviews For" setting which allows you to set a time-limit (in days) for Review Limits</li>
             <li>Added ability to mark reviews as "Verified"</li>
+            <li>Added ability to search reviews by ID on the All Reviews admin page</li>
             <li>Added automatic conversion of UTF-16/UTF-32 encoded CSV files when importing reviews</li>
             <li>Added experimental filter hooks to combine css and javascript files when using add-ons (see <a data-expand="#hooks-filter-combine-assets" href="<?= glsr_admin_url('documentation', 'hooks'); ?>">Hooks documentation</a>)</li>
             <li>Added migration and nonce support for <a href="https://wordpress.org/plugins/litespeed-cache/" rel="nofollow" target="_blank">LiteSpeed Cache</a> (flushes the cache after migration)</li>
             <li>Added migration support for <a href="https://wp-rocket.me/" rel="nofollow" target="_blank">WP Rocket</a> (flushes the cache after migration)</li>
+            <li>Added support for the Bluehost <a href="https://github.com/bluehost/endurance-page-cache" rel="nofollow" target="_blank">Endurance Page Cache</a> must-use plugin</li>
             <li>Added the Bootstrap v5 plugin style</li>
             <li>Added the Elementor Pro plugin style</li>
+            <li>Added the <code>rating_field</code> option to the Summary block and Elementor widget</li>
+            <li>Added the <code>reviews_id</code> option to the Review Form, this allows you to display submitted reviews immediately without reloading the page.</li>
         </ul>
         <h4>📢 Changes</h4>
         <ul>
@@ -37,7 +41,8 @@
             <li>🚨 Removed support for Internet Explorer</li>
             <li>🚨 Removed support for PHP 5.6, 7.0, and 7.1</li>
             <li>🚨 Removed the Bootstrap v4 plugin styles. If you were using this, please switch to the new Boostrap v5 plugin style.</li>
-            <li>🚨 Removed the Polyfill.io script</li>
+            <li>🚨 Removed the Polyfill.io script (since it was used for IE support)</li>
+            <li>🚨 Removed the <code>site-reviews/after/submission</code> javascript event (if you were using this event, please see the <a data-expand="#upgrade-v6_0_0" href="<?= glsr_admin_url('welcome', 'upgrade-guide'); ?>">Upgrade guide</a>)</li>
         </ul>
         <h4>🐞 Bugs Fixed</h4>
         <ul>
