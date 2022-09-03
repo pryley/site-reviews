@@ -198,9 +198,9 @@ add_action('site-reviews/migration/end', function () {
  * @return void
  * @see https://github.com/bluehost/endurance-page-cache/
  */
-add_action('site-reviews/review/created', function ($review, $command) {
+add_action('site-reviews/review/created', function () {
     do_action('epc_purge');
-}, 10, 2);
+});
 
 /**
  * Purge the WP Rocket plugin cache of assigned posts after a review has been created.

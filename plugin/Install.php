@@ -62,7 +62,8 @@ class Install
 
     public function sites(): array
     {
-        return get_sites([
+        return (array) get_sites([
+            'count' => false, // this ensures we return an array
             'fields' => 'ids',
             'network_id' => get_current_network_id(),
         ]);
