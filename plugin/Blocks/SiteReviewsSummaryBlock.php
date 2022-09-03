@@ -49,6 +49,10 @@ class SiteReviewsSummaryBlock extends Block
                 'default' => '1',
                 'type' => 'number',
             ],
+            'rating_field' => [
+                'default' => '',
+                'type' => 'string',
+            ],
             'schema' => [
                 'default' => false,
                 'type' => 'boolean',

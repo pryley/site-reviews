@@ -27,6 +27,7 @@ const attributes = {
     hide: { default: '', type: 'string' },
     post_id: { default: '', type: 'string' },
     rating: { default: 0, type: 'number' },
+    rating_field: { default: '', type: 'string' },
     schema: { default: false, type: 'boolean' },
     terms: { default: '', type: 'string' },
     type: { default: 'local', type: 'string' },
@@ -35,7 +36,7 @@ const attributes = {
 
 const edit = props => {
     props.attributes.post_id = jQuery('#post_ID').val();
-    const { attributes: { assigned_to, assigned_posts, assigned_terms, assigned_users, category, display, hide, id, pagination, rating, schema, terms, type, user }, className, setAttributes } = props;
+    const { attributes: { assigned_to, assigned_posts, assigned_terms, assigned_users, category, display, hide, id, pagination, rating, rating_field, schema, terms, type, user }, className, setAttributes } = props;
     const inspectorControls = {
         assigned_to: <ConditionalSelectControl
             key={ 'assigned_posts' }
@@ -138,6 +139,12 @@ const edit = props => {
             label={ _x('Custom ID', 'admin-text', 'site-reviews') }
             onChange={ id => setAttributes({ id }) }
             value={ id }
+        />,
+        rating_field: <TextControl
+            help={ _x('Use the Review Forms add-on to add custom rating fields.', 'admin-text', 'site-reviews') }
+            label={ _x('Custom Rating Field Name', 'admin-text', 'site-reviews') }
+            onChange={ rating_field => setAttributes({ rating_field }) }
+            value={ rating_field }
         />,
     };
     return [
