@@ -134,6 +134,9 @@ export default registerBlockType(blockName, {
     ),
     keywords: ['reviews', 'form'],
     save: () => null,
+    supports: {
+        html: false,
+    },
     title: _x('Review Form', 'admin-text', 'site-reviews'),
     transforms: {
         from: [{

@@ -170,6 +170,9 @@ export default registerBlockType(blockName, {
     ),
     keywords: ['reviews', 'summary'],
     save: () => null,
+    supports: {
+        html: false,
+    },
     title: _x('Rating Summary', 'admin-text', 'site-reviews'),
     transforms: {
         from: [{
