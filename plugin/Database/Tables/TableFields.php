@@ -35,7 +35,7 @@ class TableFields extends AbstractTable
                 field_value longtext DEFAULT NULL,
                 PRIMARY KEY  (ID),
                 KEY glsr_fields_rating_id_index (rating_id),
-                KEY glsr_fields_field_name_index (field_name(100))
+                KEY glsr_fields_field_name_index (field_name(191))
             ) ENGINE=InnoDB {$this->db->get_charset_collate()};
         ");
     }

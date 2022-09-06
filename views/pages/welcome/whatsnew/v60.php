@@ -6,9 +6,10 @@
         </button>
     </h3>
     <div id="welcome-v6_0_0" class="inside">
-        <p><em>Initial Release Date &mdash; September 3rd, 2022</em></p>
+        <p><em>Initial Release Date &mdash; September 6th, 2022</em></p>
         <h4>✨ New Features</h4>
         <ul>
+            <li>Added a deactivation feedback dialog</li>
             <li>Added a "Limit Reviews For" setting which allows you to set a time-limit (in days) for Review Limits</li>
             <li>Added ability to mark reviews as "Verified"</li>
             <li>Added ability to search reviews by ID on the All Reviews admin page</li>
@@ -51,6 +52,7 @@
             <li>Fixed plugin redirection when bulk activating multiple plugins</li>
             <li>Fixed primary keys on custom database pivot tables</li>
             <li>Fixed review importing to skip empty CSV rows without throwing an error</li>
+            <li>Fixed review migration of Site Reviews v4 reviews</li>
             <li>Fixed the blocks in the Customizer widget panel</li>
             <li>Fixed the Elementor integration which broke some other Elementor widgets</li>
             <li>Fixed the <a data-expand="#fn-glsr_create_review" href="<?= glsr_admin_url('documentation', 'functions'); ?>"><code>glsr_create_review</code></a> function to bypass the "Require Approval" setting</li>

@@ -36,13 +36,8 @@ class DeactivatePlugin implements Contract
             glsr_log()->warning('Deactivation reason missing.');
             return;
         }
-        $response = $this->sendRequest($request);
-    }
-
-    protected function sendRequest(array $request, bool $blocking = false): void
-    {
-        $response = wp_remote_post(static::API_URL, [
-            'blocking' => $blocking,
+        wp_remote_post(static::API_URL, [
+            'blocking' => false,
             'body' => $request,
             'headers' => ['Accept' => 'application/json'],
             'timeout' => 30,
@@ -61,10 +56,10 @@ class DeactivatePlugin implements Contract
             'multisite' => Arr::get($data, 'wp-core.fields.multisite.debug'),
             'mysql_version' => Arr::get($data, 'wp-database.fields.server_version.value'),
             'php_version' => Arr::get($data, 'wp-server.fields.php_version.debug'),
-            'theme_name' => $theme->display('Name'),
-            'theme_slug' => $theme->display('TextDomain'),
-            'theme_uri' => $theme->display('AuthorURI'),
-            'theme_version' => $theme->display('Version'),
+            'theme_name' => (string) $theme->name,
+            'theme_slug' => (string) $theme->display('TextDomain'),
+            'theme_uri' => (string) $theme->display('AuthorURI'),
+            'theme_version' => (string) $theme->version,
             'timezone' => Arr::get($data, 'wp-core.fields.timezone.value'),
             'url' => Arr::get($data, 'wp-core.fields.home_url.value'),
             'users' => Arr::get($data, 'wp-core.fields.user_count.value'),

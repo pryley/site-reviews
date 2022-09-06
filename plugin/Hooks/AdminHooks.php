@@ -13,7 +13,7 @@ class AdminHooks extends AbstractHooks
     {
         $this->hook(AdminController::class, [
             ['enqueueAssets', 'admin_enqueue_scripts'],
-            ['filterActionLinks', "plugin_action_links_{$this->basename}"],
+            ['filterActionLinks', 'plugin_action_links_'.$this->basename],
             ['filterCapabilities', 'map_meta_cap', 10, 4],
             ['filterDashboardGlanceItems', 'dashboard_glance_items'],
             ['filterExportArgs', 'export_args', 11],

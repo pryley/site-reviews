@@ -147,7 +147,7 @@ class DeactivationController extends Controller
         $data = glsr(Cache::class)->getSystemInfo();
         $theme = wp_get_theme();
         $insight = [
-            'Active Theme' => sprintf('%s v%s', $theme->display('Name'), $theme->display('Version')),
+            'Active Theme' => sprintf('%s v%s', (string) $theme->name, (string) $theme->version),
             'Memory Limit' => Arr::get($data, 'wp-server.fields.memory_limit.value'),
             'Multisite' => Arr::get($data, 'wp-core.fields.multisite.value'),
             'MySQL Version' => Arr::get($data, 'wp-database.fields.server_version.value'),

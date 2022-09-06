@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, star ratings
 Tested up to: 6.0
-Stable tag: 6.0.0-beta7
+Stable tag: 6.0.0-beta8
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -146,7 +146,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.0.0-beta7 (2022-09-03) =
+= 6.0.0-beta8 (2022-09-06) =
 
 - 🚨 Requires at least PHP v7.2
 - 🚨 Requires at least WordPress v5.8
@@ -159,6 +159,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - 🚨 Removed the Polyfill.io script (since it was used for IE support)
 - 🚨 Removed the "site-reviews/after/submission" javascript event (if you were using this event, please see the Upgrade guide)
 - 🚨 Rewrote the button and pagination loading animations. If you are using a custom Site Reviews pagination template in your child theme, please remove the `{{ loader }}` template tag.
+- Added a deactivation feedback dialog
 - Added a "Limit Reviews For" setting which allows you to set a time-limit (in days) for Review Limits
 - Added ability to mark reviews as "Verified"
 - Added ability to search reviews by ID on the All Reviews admin page
@@ -177,6 +178,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Fixed plugin redirection when bulk activating multiple plugins
 - Fixed primary keys on custom database pivot tables
 - Fixed review importing to skip empty CSV rows without throwing an error
+- Fixed review migration of Site Reviews v4 reviews
 - Fixed the blocks in the Customizer widget panel
 - Fixed the Elementor integration which broke some other Elementor widgets
 - Fixed the `glsr_create_review` function to bypass the "Require Approval" setting
