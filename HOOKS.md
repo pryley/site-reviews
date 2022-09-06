@@ -76,6 +76,10 @@
     site-reviews/const/<constant>                           (string $constantName): string
     site-reviews/create/review-values                       (array $reviewValues, Commands\CreateReview $command): array
     site-reviews/database/sql/<handle>                      (string $sql): string
+    site-reviews/deactivate/insight                         (array $insight, array $systemInfo): array
+    site-reviews/deactivate/insight/display                 (array $insight, array $systemInfo): array
+    site-reviews/deactivate/plugins                         (array $plugins): array
+    site-reviews/deactivate/reasons                         (array $reasons): array
     site-reviews/defaults/<defaults_name>                   (array $defaults, string $method, array $args): array
     site-reviews/defaults/<defaults_name>/casts             (array $casts, string $method): array
     site-reviews/defaults/<defaults_name>/concatenated      (array $concatenated, string $method): array
@@ -109,6 +113,7 @@
     site-reviews/integration/elementor/display/settings     (array $settings, \Elementor\Widget_Base $widget): array
     site-reviews/integration/elementor/register/controls    (array $controls, \Elementor\Widget_Base $widget): array
     site-reviews/interpolate/<template_path>                (array $context, string $template, array $data): array
+    site-reviews/is-local-server                            (bool $bool): bool
     site-reviews/metabox/fields                             (array $fields, Review $review): array
     site-reviews/metabox/fields/order                       (array $order): array
     site-reviews/notices                                    (array $notices): array

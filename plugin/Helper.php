@@ -308,6 +308,19 @@ class Helper
         return static::compareVersions($value, $compareWithValue, '<=');
     }
 
+    public static function isLocalServer(): bool
+    {
+        $host = static::ifEmpty(filter_input(INPUT_SERVER, 'HTTP_HOST'), 'localhost');
+        $ipAddress = static::ifEmpty(filter_input(INPUT_SERVER, 'SERVER_ADDR'), '::1');
+        $result = false;
+        if (in_array($ipAddress, ['127.0.0.1', '::1'])
+            || !strpos($host, '.')
+            || in_array(strrchr($host, '.'), ['.test', '.testing', '.local', '.localhost', '.localdomain'])) {
+            $result = true;
+        }
+        return glsr()->filterBool('is-local-server', $result);
+    }
+
     /**
      * @param mixed $value
      * @return bool

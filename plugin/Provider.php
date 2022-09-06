@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Contracts\ProviderContract;
 use GeminiLabs\SiteReviews\Controllers\AdminController;
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestController;
 use GeminiLabs\SiteReviews\Controllers\BlocksController;
+use GeminiLabs\SiteReviews\Controllers\DeactivationController;
 use GeminiLabs\SiteReviews\Controllers\EditorController;
 use GeminiLabs\SiteReviews\Controllers\ListTableController;
 use GeminiLabs\SiteReviews\Controllers\MainController;
@@ -48,6 +49,7 @@ class Provider implements ProviderContract
         // All controllers should be singletons to allow people to remove hooks!
         $app->singleton(AdminController::class);
         $app->singleton(BlocksController::class);
+        $app->singleton(DeactivationController::class);
         $app->singleton(EditorController::class);
         $app->singleton(ListTableController::class);
         $app->singleton(MainController::class);

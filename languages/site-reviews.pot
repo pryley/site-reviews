@@ -1452,7 +1452,7 @@ msgctxt "admin-text"
 msgid "A valid license key is required to download this update."
 msgstr ""
 
-#: plugin/Blocks/SiteReviewsBlock.php:111, plugin/Blocks/SiteReviewsFormBlock.php:81, plugin/Blocks/SiteReviewsSummaryBlock.php:96
+#: plugin/Blocks/SiteReviewsBlock.php:111, plugin/Blocks/SiteReviewsFormBlock.php:85, plugin/Blocks/SiteReviewsSummaryBlock.php:100
 msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr ""
@@ -1471,11 +1471,15 @@ msgctxt "admin-text"
 msgid "Console logging level could not be changed."
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:163
+#: plugin/Commands/CreateReview.php:180
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:168, views/pages/documentation/support/common-problems-and-solutions.php:78
+#: plugin/Commands/CreateReview.php:181
+msgid "Your review has been submitted and is pending approval."
+msgstr ""
+
+#: plugin/Commands/CreateReview.php:186, views/pages/documentation/support/common-problems-and-solutions.php:78
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
@@ -1524,7 +1528,7 @@ msgctxt "admin-text"
 msgid "Searching..."
 msgstr ""
 
-#: plugin/Commands/EnqueuePublicAssets.php:100
+#: plugin/Commands/EnqueuePublicAssets.php:103
 msgid "Close Modal"
 msgstr ""
 
@@ -1666,6 +1670,111 @@ msgstr ""
 #: plugin/Controllers/AdminController.php:276, plugin/Controllers/AdminController.php:295, plugin/Controllers/AdminController.php:309
 msgctxt "admin-text"
 msgid "Nothing found."
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:42
+msgctxt "admin-text"
+msgid "Skip & Deactivate"
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:43
+msgctxt "admin-text"
+msgid "Submit & Deactivate"
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:44
+msgctxt "admin-text"
+msgid "Click here"
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:45
+msgctxt "admin-text"
+msgid "Close deactivation dialog"
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:46
+msgctxt "admin-text"
+msgid "If you have a moment, please tell me how we can improve."
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:47
+msgctxt "Click here (admin-text)"
+msgid "%s to see the additional data that will be submitted. This non-sensitive data will help me troubleshoot problems and make improvements to the plugin."
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:48
+msgctxt "Plugin name (admin-text)"
+msgid "Deactivating %s"
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:49
+msgctxt "admin-text"
+msgid "Deactivation Details"
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:50
+msgctxt "admin-text"
+msgid "Processing..."
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:108
+msgctxt "admin-text"
+msgid "Would you like me to assist you?"
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:109
+msgctxt "admin-text"
+msgid "Couldn't understand"
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:114
+msgctxt "admin-text"
+msgid "Which plugin?"
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:115
+msgctxt "admin-text"
+msgid "I found a better plugin"
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:120
+msgctxt "admin-text"
+msgid "Could you tell me more about what's not working?"
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:121
+msgctxt "admin-text"
+msgid "It's not working for me"
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:126
+msgctxt "admin-text"
+msgid "Could you tell me more about the missing feature?"
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:127
+msgctxt "admin-text"
+msgid "Missing a specific feature"
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:132
+msgctxt "admin-text"
+msgid "Could you tell me what you were looking for?"
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:133
+msgctxt "admin-text"
+msgid "Not what I was looking for"
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:138
+msgctxt "admin-text"
+msgid "Could you tell me a bit more?"
+msgstr ""
+
+#: plugin/Controllers/DeactivationController.php:139
+msgctxt "admin-text"
+msgid "Other Reason"
 msgstr ""
 
 #: plugin/Controllers/EditorController.php:115
@@ -2771,47 +2880,47 @@ msgstr ""
 msgid "You may also %s for an account."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:75
+#: plugin/Shortcodes/SiteReviewsShortcode.php:85
 msgctxt "admin-text"
 msgid "Hide the title"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:76, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:90
+#: plugin/Shortcodes/SiteReviewsShortcode.php:86, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:90
 msgctxt "admin-text"
 msgid "Hide the rating"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:77
+#: plugin/Shortcodes/SiteReviewsShortcode.php:87
 msgctxt "admin-text"
 msgid "Hide the date"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:78
+#: plugin/Shortcodes/SiteReviewsShortcode.php:88
 msgctxt "admin-text"
 msgid "Hide the assigned links (if shown)"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:79
+#: plugin/Shortcodes/SiteReviewsShortcode.php:89
 msgctxt "admin-text"
 msgid "Hide the content"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:80
+#: plugin/Shortcodes/SiteReviewsShortcode.php:90
 msgctxt "admin-text"
 msgid "Hide the avatar (if shown)"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:81
+#: plugin/Shortcodes/SiteReviewsShortcode.php:91
 msgctxt "admin-text"
 msgid "Hide the author"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:82
+#: plugin/Shortcodes/SiteReviewsShortcode.php:92
 msgctxt "admin-text"
 msgid "Hide the verified badge"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:83
+#: plugin/Shortcodes/SiteReviewsShortcode.php:93
 msgctxt "admin-text"
 msgid "Hide the response"
 msgstr ""
@@ -3063,7 +3172,7 @@ msgctxt "admin-text"
 msgid "Site Reviews: Display a form to submit reviews."
 msgstr ""
 
-#: plugin/Widgets/SiteReviewsFormWidget.php:78, plugin/Integrations/Elementor/ElementorFormWidget.php:27
+#: plugin/Widgets/SiteReviewsFormWidget.php:78, plugin/Integrations/Elementor/ElementorFormWidget.php:28
 msgctxt "admin-text"
 msgid "Review Form"
 msgstr ""
@@ -3242,32 +3351,42 @@ msgctxt "admin-text"
 msgid "Any review type"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:35
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:36
 msgctxt "admin-text"
-msgid "Assign Reviews to a Page"
+msgid "Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:42, plugin/Integrations/Elementor/ElementorFormWidget.php:65, plugin/Integrations/Elementor/ElementorReviewsWidget.php:47, plugin/Integrations/Elementor/ElementorReviewsWidget.php:70, plugin/Integrations/Elementor/ElementorSummaryWidget.php:44, plugin/Integrations/Elementor/ElementorSummaryWidget.php:67
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:38
 msgctxt "admin-text"
-msgid "Separate values with a comma."
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:44, plugin/Integrations/Elementor/ElementorReviewsWidget.php:49, plugin/Integrations/Elementor/ElementorSummaryWidget.php:46
-msgctxt "admin-text"
-msgid "Enter the Post IDs"
+msgid "Custom Reviews ID"
 msgstr ""
 
 #: plugin/Integrations/Elementor/ElementorFormWidget.php:50
 msgctxt "admin-text"
+msgid "Assign Reviews to a Page"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:57, plugin/Integrations/Elementor/ElementorFormWidget.php:80, plugin/Integrations/Elementor/ElementorReviewsWidget.php:47, plugin/Integrations/Elementor/ElementorReviewsWidget.php:70, plugin/Integrations/Elementor/ElementorSummaryWidget.php:59, plugin/Integrations/Elementor/ElementorSummaryWidget.php:82
+msgctxt "admin-text"
+msgid "Separate values with a comma."
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:59, plugin/Integrations/Elementor/ElementorReviewsWidget.php:49, plugin/Integrations/Elementor/ElementorSummaryWidget.php:61
+msgctxt "admin-text"
+msgid "Enter the Post IDs"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:65
+msgctxt "admin-text"
 msgid "Assign Reviews to a Category"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:58
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:73
 msgctxt "admin-text"
 msgid "Assign Reviews to a User"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorFormWidget.php:67, plugin/Integrations/Elementor/ElementorReviewsWidget.php:72, plugin/Integrations/Elementor/ElementorSummaryWidget.php:69
+#: plugin/Integrations/Elementor/ElementorFormWidget.php:82, plugin/Integrations/Elementor/ElementorReviewsWidget.php:72, plugin/Integrations/Elementor/ElementorSummaryWidget.php:84
 msgctxt "admin-text"
 msgid "Enter the User IDs"
 msgstr ""
@@ -3277,32 +3396,32 @@ msgctxt "admin-text"
 msgid "Latest Reviews"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:40, plugin/Integrations/Elementor/ElementorSummaryWidget.php:37
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:40, plugin/Integrations/Elementor/ElementorSummaryWidget.php:52
 msgctxt "admin-text"
 msgid "Limit Reviews to an Assigned Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:55, plugin/Integrations/Elementor/ElementorSummaryWidget.php:52
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:55, plugin/Integrations/Elementor/ElementorSummaryWidget.php:67
 msgctxt "admin-text"
 msgid "Limit Reviews to an Assigned Category"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:63, plugin/Integrations/Elementor/ElementorSummaryWidget.php:60
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:63, plugin/Integrations/Elementor/ElementorSummaryWidget.php:75
 msgctxt "admin-text"
 msgid "Limit Reviews to an Assigned User"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:78, plugin/Integrations/Elementor/ElementorSummaryWidget.php:75
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:78, plugin/Integrations/Elementor/ElementorSummaryWidget.php:90
 msgctxt "admin-text"
 msgid "Limit Reviews to terms"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:81, plugin/Integrations/Elementor/ElementorSummaryWidget.php:78
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:81, plugin/Integrations/Elementor/ElementorSummaryWidget.php:93
 msgctxt "admin-text"
 msgid "Terms were accepted"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:82, plugin/Integrations/Elementor/ElementorSummaryWidget.php:79
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:82, plugin/Integrations/Elementor/ElementorSummaryWidget.php:94
 msgctxt "admin-text"
 msgid "Terms were not accepted"
 msgstr ""
@@ -3332,24 +3451,34 @@ msgctxt "admin-text"
 msgid "Reviews Per Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:120, plugin/Integrations/Elementor/ElementorSummaryWidget.php:86
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:120, plugin/Integrations/Elementor/ElementorSummaryWidget.php:101
 msgctxt "admin-text"
 msgid "Minimum Rating"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:127, plugin/Integrations/Elementor/ElementorSummaryWidget.php:93
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:127, plugin/Integrations/Elementor/ElementorSummaryWidget.php:108
 msgctxt "admin-text"
 msgid "The schema should only be enabled once per page."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:128, plugin/Integrations/Elementor/ElementorSummaryWidget.php:94
+#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:128, plugin/Integrations/Elementor/ElementorSummaryWidget.php:109
 msgctxt "admin-text"
 msgid "Enable the schema?"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:29
+#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:30
 msgctxt "admin-text"
 msgid "Rating Summary"
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:38
+msgctxt "admin-text"
+msgid "Use the Review Forms add-on to add custom rating fields."
+msgstr ""
+
+#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:40
+msgctxt "admin-text"
+msgid "Custom Rating Field Name"
 msgstr ""
 
 #: plugin/Integrations/Elementor/ElementorWidget.php:84

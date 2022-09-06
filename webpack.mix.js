@@ -61,12 +61,14 @@ mix.webpackConfig({
 
 mix
   .setPublicPath('.')
+  .babel('+/scripts/deactivate-plugin.js', 'assets/scripts/deactivate-plugin.js')
   .babel('+/scripts/mce-plugin.js', 'assets/scripts/mce-plugin.js')
   .babel('+/scripts/rollback.js', 'assets/scripts/rollback.js')
   // .js('+/scripts/site-reviews.js', 'assets/scripts')
   .js('+/scripts/site-reviews-admin.js', 'assets/scripts')
   .js('+/scripts/site-reviews-blocks.js', 'assets/scripts')
   .sass('+/styles/admin.scss', 'assets/styles/admin')
+  .postCss('+/styles/deactivate-plugin.css', 'assets/styles')
   .postCss('+/styles/inline-styles.css', 'assets/styles', postCss())
   .postCss('+/styles/bootstrap.css', 'assets/styles', postCss('.glsr-bootstrap'))
   .postCss('+/styles/contact_form_7.css', 'assets/styles', postCss('.glsr-contact_form_7'))
