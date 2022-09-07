@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\Cache;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Request;
 
@@ -28,6 +29,7 @@ class DeactivatePlugin implements Contract
     {
         $request = array_merge($this->insights(), [
             'details' => $this->request->details,
+            'is_local' => Helper::isLocalServer(),
             'package_slug' => $this->request->slug,
             'package_version' => $this->request->version,
             'reason' => $this->request->reason,
@@ -40,7 +42,7 @@ class DeactivatePlugin implements Contract
             'blocking' => false,
             'body' => $request,
             'headers' => ['Accept' => 'application/json'],
-            'timeout' => 30,
+            'timeout' => 10,
             'user-agent' => sprintf('SiteReviews/%s/%s;', glsr()->version, md5(esc_url(home_url()))),
         ]);
     }

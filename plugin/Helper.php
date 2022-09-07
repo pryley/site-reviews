@@ -314,8 +314,8 @@ class Helper
         $ipAddress = static::ifEmpty(filter_input(INPUT_SERVER, 'SERVER_ADDR'), '::1');
         $result = false;
         if (in_array($ipAddress, ['127.0.0.1', '::1'])
-            || !strpos($host, '.')
-            || in_array(strrchr($host, '.'), ['.test', '.testing', '.local', '.localhost', '.localdomain'])) {
+            || !mb_strpos($host, '.')
+            || in_array(mb_strrchr($host, '.'), ['.test', '.testing', '.local', '.localhost', '.localdomain'])) {
             $result = true;
         }
         return glsr()->filterBool('is-local-server', $result);
