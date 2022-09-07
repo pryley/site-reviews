@@ -1515,15 +1515,10 @@ msgstr ""
 
 #: plugin/Commands/EnqueueAdminAssets.php:132
 msgctxt "admin-text"
-msgid "Please rate %s on %s and help us spread the word. Thank you so much!"
-msgstr ""
-
-#: plugin/Commands/EnqueueAdminAssets.php:133
-msgctxt "admin-text"
 msgid "Rollback failed"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:134
+#: plugin/Commands/EnqueueAdminAssets.php:133
 msgctxt "admin-text"
 msgid "Searching..."
 msgstr ""
@@ -1952,19 +1947,34 @@ msgctxt "admin-text"
 msgid "Yes"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:161
+#: plugin/Controllers/NoticeController.php:92, plugin/Controllers/NoticeController.php:242
+msgctxt "Site Reviews (admin-text)"
+msgid "Are you happy with %s?"
+msgstr ""
+
+#: plugin/Controllers/NoticeController.php:93, plugin/Controllers/NoticeController.php:243
+msgctxt "★★★★★ (admin-text)"
+msgid "Please rate %s on WordPress and let other people know about it."
+msgstr ""
+
+#: plugin/Controllers/NoticeController.php:200
 msgctxt "admin-text"
 msgid "Common Problems and Solutions"
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:176
-msgctxt "admin-text"
-msgid "Thanks for installing Site Reviews v%s, we hope you love it!"
+#: plugin/Controllers/NoticeController.php:222
+msgctxt "plugin name|version (admin-text)"
+msgid "Thank you for updating %s to %s! I hope you love the improvements."
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:177
+#: plugin/Controllers/NoticeController.php:217
+msgctxt "plugin name (admin-text)"
+msgid "Thank you for installing %s! I hope you love it."
+msgstr ""
+
+#: plugin/Controllers/NoticeController.php:244
 msgctxt "admin-text"
-msgid "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
+msgid "Thank you so much!"
 msgstr ""
 
 #: plugin/Controllers/PrivacyController.php:25
@@ -3979,7 +3989,7 @@ msgstr ""
 
 #: views/partials/notices/migrate.php:6
 msgctxt "admin-text"
-msgid "Site Reviews will automatically migrate your reviews and settings to the latest version; if you don't want to wait, you may also run the migration by clicking the button below. If this notice continues to appear after 5 minutes, please read the %s section on the Help page."
+msgid "Click the button to migrate your reviews and settings to the latest version. If this notice continues to appear after 5 minutes, please read the %s section on the Help page."
 msgstr ""
 
 #: views/partials/notices/migrate.php:9, views/pages/tools/general/migrate-plugin.php:20
@@ -4012,14 +4022,34 @@ msgctxt "admin-text"
 msgid "You are using the free version of Site Reviews. %sPurchase premium%s to support future development and get images, filters, themes, custom forms, and more!"
 msgstr ""
 
-#: views/partials/notices/welcome.php:4
+#: views/partials/notices/welcome.php:8
 msgctxt "admin-text"
 msgid "See What's New"
 msgstr ""
 
+#: views/partials/notices/welcome.php:9
+msgctxt "admin-text"
+msgid "Read the Upgrade Guide"
+msgstr ""
+
+#: views/partials/notices/welcome.php:5
+msgctxt "admin-text"
+msgid "Start Here"
+msgstr ""
+
 #: views/partials/notices/welcome.php:6
 msgctxt "admin-text"
-msgid "Read the upgrade guide"
+msgid "Read the Shortcode Documentation"
+msgstr ""
+
+#: views/partials/notices/write-review.php:4
+msgctxt "admin-text"
+msgid "Leave a review"
+msgstr ""
+
+#: views/partials/notices/write-review.php:5
+msgctxt "admin-text"
+msgid "No, thank you"
 msgstr ""
 
 #: views/partials/screen/filters.php:4

@@ -21,13 +21,21 @@ class NoticeController extends Controller
     /**
      * @var array
      */
+    protected $activeNotices;
+
+    /**
+     * @var array
+     */
     protected $dismissValuesMap;
 
     public function __construct()
     {
+        $this->activeNotices = [];
         $this->dismissValuesMap = [
+            'footer' => glsr()->version('major'),
             'premium' => glsr()->version('minor'),
             'welcome' => glsr()->version('minor'),
+            'write-review' => glsr()->version('major'),
         ];
     }
 
@@ -38,9 +46,10 @@ class NoticeController extends Controller
     public function adminNotices()
     {
         // order is intentional!
-        $this->renderWelcomeNotice();
         $this->renderPremiumNotice();
+        $this->renderWelcomeNotice();
         $this->renderMigrationNotice();
+        $this->renderWriteReviewNotice(); // this goes last!
     }
 
     /**
@@ -50,7 +59,7 @@ class NoticeController extends Controller
     public function dismissNotice(Request $request)
     {
         $notice = glsr(Sanitizer::class)->sanitizeText($request->notice);
-        if ($notice) {
+        if ($notice && array_key_exists($notice, $this->dismissValuesMap)) {
             $this->setUserMeta($notice, $this->getVersionFor($notice));
         }
     }
@@ -63,6 +72,28 @@ class NoticeController extends Controller
     {
         $this->dismissNotice($request);
         wp_send_json_success();
+    }
+
+    /**
+     * @return void
+     * @action in_admin_footer
+     */
+    public function renderFooterNotice()
+    {
+        if ($this->isReviewAdminScreen()
+            && Helper::isGreaterThan($this->getVersionFor('footer'), $this->getUserMeta('footer', 0))) {
+            $link = glsr(Builder::class)->a([
+                'class' => 'button button-link',
+                'href' => 'https://wordpress.org/support/view/plugin-reviews/site-reviews?filter=5#new-post',
+                'target' => '_blank',
+                'text' => '★★★★★',
+            ]);
+            $text = sprintf('%s %s 💖',
+                sprintf(_x('Are you happy with %s?', 'Site Reviews (admin-text)', 'site-reviews'), sprintf('<strong>%s</strong>', glsr()->name)),
+                sprintf(_x('Please rate %s on WordPress and let other people know about it.', '★★★★★ (admin-text)', 'site-reviews'), $link),
+            );
+            glsr()->render('partials/notices/footer', compact('text'));
+        }
     }
 
     protected function licensing()
@@ -91,6 +122,14 @@ class NoticeController extends Controller
             }
         }
         return compact('isFree', 'isSaved', 'isValid');
+    }
+
+    protected function futureTime()
+    {
+        $time = !glsr(Migrate::class)->isMigrationNeeded()
+            ? glsr(OptionManager::class)->get('last_migration_run', time())
+            : time();
+        return $time + WEEK_IN_SECONDS;
     }
 
     /**
@@ -161,6 +200,7 @@ class NoticeController extends Controller
                     'text' => _x('Common Problems and Solutions', 'admin-text', 'site-reviews'),
                 ]),
             ]);
+            $this->activeNotices[] = 'migration';
         }
     }
 
@@ -172,12 +212,39 @@ class NoticeController extends Controller
         if ($this->isReviewAdminScreen()
             && Helper::isGreaterThan($this->getVersionFor('welcome'), $this->getUserMeta('welcome', 0))
             && glsr()->can('edit_others_posts')) {
-            $welcomeText = '0.0.0' == glsr(OptionManager::class)->get('version_upgraded_from')
-                ? _x('Thanks for installing Site Reviews v%s, we hope you love it!', 'admin-text', 'site-reviews')
-                : _x('Thanks for updating to Site Reviews v%s, we hope you love the changes!', 'admin-text', 'site-reviews');
-            glsr()->render('partials/notices/welcome', [
-                'text' => sprintf($welcomeText, glsr()->version),
-            ]);
+            if ('0.0.0' == glsr(OptionManager::class)->get('version_upgraded_from')) {
+                $fresh = true;
+                $text = sprintf(_x('Thank you for installing %s! I hope you love it.', 'plugin name (admin-text)', 'site-reviews'),
+                    sprintf('<strong>%s</strong> v%s', glsr()->name, glsr()->version),
+                ).' ✨';
+            } else {
+                $fresh = false;
+                $text = sprintf(_x('Thank you for updating %s to %s! I hope you love the improvements.', 'plugin name|version (admin-text)', 'site-reviews'),
+                    sprintf('<strong>%s</strong>', glsr()->name),
+                    sprintf('v%s', glsr()->version)
+                ).' 🎉';
+            }
+            glsr()->render('partials/notices/welcome', compact('fresh', 'text'));
+            $this->activeNotices[] = 'welcome';
+        }
+    }
+
+    /**
+     * @return void
+     */
+    protected function renderWriteReviewNotice()
+    {
+        if ($this->isReviewAdminScreen()
+            && empty($this->activeNotices)
+            && Helper::isGreaterThan($this->getVersionFor('write-review'), $this->getUserMeta('write-review', 0))
+            && $this->futureTime() < time()) {
+            $text = sprintf('%s %s %s',
+                sprintf(_x('Are you happy with %s?', 'Site Reviews (admin-text)', 'site-reviews'), sprintf('<strong>%s</strong>', glsr()->name)),
+                sprintf(_x('Please rate %s on WordPress and let other people know about it.', '★★★★★ (admin-text)', 'site-reviews'), '★★★★★'),
+                _x('Thank you so much!', 'admin-text', 'site-reviews')
+            );
+            glsr()->render('partials/notices/write-review', compact('text'));
+            $this->activeNotices[] = 'write-review';
         }
     }
 

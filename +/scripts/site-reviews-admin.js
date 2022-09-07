@@ -39,17 +39,16 @@ GLSR.Event = Event;
 GLSR.stars = StarRating();
 GLSR.Tippy = { tippy, plugins: { followCursor }}
 
+function site_reviews_footer_notice () {
+    if (jQuery('.glsr-notice-footer').length) {
+        jQuery('#wpbody-content').addClass('has-footer-notice');
+    }
+}
+
 function discover_site_reviews () {
     if ('no' === GLSR.isLicensed) {
         jQuery('.post-type-site-review.edit-php .page-title-action').after('<a href="' + GLSR.premiumurl + '" target="_blank" id="glsr-premium-button" class="button button-primary">' + GLSR.text.premium + '</a>');
     }
-}
-function rate_site_reviews () {
-    let rateUrl = 'https://wordpress.org/support/view/plugin-reviews/site-reviews?filter=5#new-post';
-    let rateMsg = GLSR.text.rate;
-    let url1 = '<strong>Site Reviews</strong> <a href="' + rateUrl + '" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>';
-    let url2 = '<a href="' + rateUrl + '" target="_blank">wordpress.org</a>';
-    jQuery('#footer-left', '.post-type-site-review, .post-type-site-review-form, .post-type-site-review-theme, .dashboard_page_site-reviews-welcome').html(rateMsg.replace('%s', url1).replace('%s', url2));
 }
 
 jQuery(function ($) {
@@ -197,7 +196,7 @@ jQuery(function ($) {
     });
 
     discover_site_reviews();
-    rate_site_reviews();
+    site_reviews_footer_notice();
 
     $('.glsr-youtube-button').on('click', function () {
         let id = this.dataset.id;

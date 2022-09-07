@@ -15,6 +15,7 @@ class NoticeHooks extends AbstractHooks
             ['adminNotices', 'admin_notices'],
             ['dismissNotice', 'site-reviews/route/admin/dismiss-notice'],
             ['dismissNoticeAjax', 'site-reviews/route/ajax/dismiss-notice'],
+            ['renderFooterNotice', 'in_admin_footer'],
         ]);
     }
 }

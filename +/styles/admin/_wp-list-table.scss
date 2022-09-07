@@ -2,6 +2,12 @@
 // Partials -> WP List Table
 // =============================================================================
 
+@media screen and (min-width: 783px) {
+	#wpbody-content.has-footer-notice {
+		padding-bottom: 105px;
+	}
+}
+
 [class*=post-type-site-review] .row-actions .id > span {
     color: #999;
 }

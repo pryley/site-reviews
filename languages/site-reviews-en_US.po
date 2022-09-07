@@ -1987,15 +1987,10 @@ msgstr "Try Premium"
 
 #: plugin/Commands/EnqueueAdminAssets.php:132
 msgctxt "admin-text"
-msgid "Please rate %s on %s and help us spread the word. Thank you so much!"
-msgstr "Please rate %s on %s and help us spread the word. Thank you so much!"
-
-#: plugin/Commands/EnqueueAdminAssets.php:133
-msgctxt "admin-text"
 msgid "Rollback failed"
 msgstr "Rollback failed"
 
-#: plugin/Commands/EnqueueAdminAssets.php:134
+#: plugin/Commands/EnqueueAdminAssets.php:133
 msgctxt "admin-text"
 msgid "Searching..."
 msgstr "Searching..."
@@ -2408,20 +2403,15 @@ msgctxt "admin-text"
 msgid "Yes"
 msgstr "Yes"
 
-#: plugin/Controllers/NoticeController.php:161
+#: plugin/Controllers/NoticeController.php:200
 msgctxt "admin-text"
 msgid "Common Problems and Solutions"
 msgstr "Common Problems and Solutions"
 
-#: plugin/Controllers/NoticeController.php:176
+#: plugin/Controllers/NoticeController.php:244
 msgctxt "admin-text"
-msgid "Thanks for installing Site Reviews v%s, we hope you love it!"
-msgstr "Thanks for installing Site Reviews v%s, we hope you love it!"
-
-#: plugin/Controllers/NoticeController.php:177
-msgctxt "admin-text"
-msgid "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
-msgstr "Thanks for updating to Site Reviews v%s, we hope you love the changes!"
+msgid "Thank you so much!"
+msgstr "Thank you so much!"
 
 #: plugin/Controllers/PrivacyController.php:25
 msgctxt "admin-text"
@@ -4107,15 +4097,13 @@ msgstr "Search..."
 #: views/partials/notices/migrate.php:6
 msgctxt "admin-text"
 msgid ""
-"Site Reviews will automatically migrate your reviews and settings to the "
-"latest version; if you don't want to wait, you may also run the migration "
-"by clicking the button below. If this notice continues to appear after 5 "
-"minutes, please read the %s section on the Help page."
+"Click the button to migrate your reviews and settings to the latest "
+"version. If this notice continues to appear after 5 minutes, please read "
+"the %s section on the Help page."
 msgstr ""
-"Site Reviews will automatically migrate your reviews and settings to the "
-"latest version; if you don't want to wait, you may also run the migration "
-"by clicking the button below. If this notice continues to appear after 5 "
-"minutes, please read the %s section on the Help page."
+"Click the button to migrate your reviews and settings to the latest "
+"version. If this notice continues to appear after 5 minutes, please read "
+"the %s section on the Help page."
 
 #: views/partials/notices/migrate.php:9, views/pages/tools/general/migrate-plugin.php:20
 msgctxt "admin-text"
@@ -4161,15 +4149,35 @@ msgstr ""
 "support future development and get images, filters, themes, custom forms, "
 "and more!"
 
-#: views/partials/notices/welcome.php:4
+#: views/partials/notices/welcome.php:8
 msgctxt "admin-text"
 msgid "See What's New"
 msgstr "See What's New"
 
+#: views/partials/notices/welcome.php:9
+msgctxt "admin-text"
+msgid "Read the Upgrade Guide"
+msgstr "Read the Upgrade Guide"
+
+#: views/partials/notices/welcome.php:5
+msgctxt "admin-text"
+msgid "Start Here"
+msgstr "Start Here"
+
 #: views/partials/notices/welcome.php:6
 msgctxt "admin-text"
-msgid "Read the upgrade guide"
-msgstr "Read the upgrade guide"
+msgid "Read the Shortcode Documentation"
+msgstr "Read the Shortcode Documentation"
+
+#: views/partials/notices/write-review.php:4
+msgctxt "admin-text"
+msgid "Leave a review"
+msgstr "Leave a review"
+
+#: views/partials/notices/write-review.php:5
+msgctxt "admin-text"
+msgid "No, thank you"
+msgstr "No, thank you"
 
 #: views/partials/screen/filters.php:4
 msgctxt "admin-text"
@@ -5241,15 +5249,35 @@ msgctxt "Approve the review (admin-text)"
 msgid "%s this review"
 msgstr "%s this review"
 
-#: plugin/Controllers/TaxonomyController.php:15
-msgctxt "The Term ID (admin-text)"
-msgid "<span>ID: %d</span>"
-msgstr "<span>ID: %d</span>"
+#: plugin/Controllers/NoticeController.php:92, plugin/Controllers/NoticeController.php:242
+msgctxt "Site Reviews (admin-text)"
+msgid "Are you happy with %s?"
+msgstr "Are you happy with %s?"
 
 #: plugin/Controllers/ToolsController.php:351
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr "Sorry, you are not allowed to rollback %s."
+
+#: plugin/Controllers/NoticeController.php:93, plugin/Controllers/NoticeController.php:243
+msgctxt "★★★★★ (admin-text)"
+msgid "Please rate %s on WordPress and let other people know about it."
+msgstr "Please rate %s on WordPress and let other people know about it."
+
+#: plugin/Controllers/NoticeController.php:222
+msgctxt "plugin name|version (admin-text)"
+msgid "Thank you for updating %s to %s! I hope you love the improvements."
+msgstr "Thank you for updating %s to %s! I hope you love the improvements."
+
+#: plugin/Controllers/NoticeController.php:217
+msgctxt "plugin name (admin-text)"
+msgid "Thank you for installing %s! I hope you love it."
+msgstr "Thank you for installing %s! I hope you love it."
+
+#: plugin/Controllers/TaxonomyController.php:15
+msgctxt "The Term ID (admin-text)"
+msgid "<span>ID: %d</span>"
+msgstr "<span>ID: %d</span>"
 
 #: plugin/Defaults/PostTypeColumnDefaults.php:18
 msgctxt "siteadmin-text"

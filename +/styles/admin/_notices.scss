@@ -2,9 +2,42 @@
 // Partials -> Notices
 // =============================================================================
 
-.glsr-notice:not(.notice-error):not(.notice-info):not(.notice-warning):not(.glsr-notice-top-of-page) {
+.glsr-notice {
+    border-color: var(--wp-admin-theme-color-darker-10);
+    border-left-color: var(--wp-admin-theme-color);
+}
+.glsr-notice-buttons {
+    gap: 6px;
     display: flex;
-    border-left-color: #32373c;
+    flex-wrap: wrap;
+}
+.glsr-notice-buttons .button {
+    margin-bottom: 0;
+}
+.glsr-notice-buttons .button-link {
+    padding: 0 6px;
+}
+.glsr-notice-buttons .button-link:active,
+.glsr-notice-buttons .button-link:focus,
+.glsr-notice-buttons .button-link:hover {
+    background-color: transparent;
+}
+.glsr-notice-footer {
+    background: #fff;
+    border-style: solid;
+    border-width: 1px;
+    border-left-width: 4px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    padding: 1px 12px;
+    margin: 10px 0;
+}
+.glsr-notice-footer .button-link {
+    line-height: inherit;
+    min-height: auto;
+}
+#wpfooter .glsr-notice-footer p {
+    margin: .5em 0;
+    padding: 2px;
 }
 
 .glsr-notice-top-of-page {

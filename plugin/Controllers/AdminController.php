@@ -189,7 +189,7 @@ class AdminController extends Controller
 
     /**
      * @param string $editorId
-     * @return void|null
+     * @return void
      * @action media_buttons
      */
     public function renderTinymceButton($editorId)

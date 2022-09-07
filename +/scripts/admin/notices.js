@@ -5,7 +5,6 @@ const Notices = function () { // string
 };
 
 Notices.prototype = {
-    /** @return void */
     add: function (notices) { // string
         if (!notices) return;
         if (!jQuery('#glsr-notices').length) {
@@ -21,30 +20,51 @@ Notices.prototype = {
         this.add('<div class="notice notice-error inline is-dismissible"><p>' + message + '</p></div>');
     },
 
-    /** @return void */
     init_: function () {
-        jQuery('.glsr-notice[data-dismiss]').on('click.wp-dismiss-notice', this.onClick_);
-        var topOfPageNotice = jQuery('.glsr-notice-top-of-page');
-        if (topOfPageNotice) {
-            var topOfPageNoticeEl = topOfPageNotice.detach();
-            jQuery('#wpbody-content').prepend(topOfPageNoticeEl);
-            topOfPageNotice.delay(1000).slideDown();
+        jQuery('.glsr-notice[data-dismiss]').on('click.wp-dismiss-notice', this.onDismiss_.bind(this))
+        jQuery('.glsr-notice-footer').on('click', this.onDismiss_.bind(this));
+        this.showBanner_()
+    },
+
+    data_: function (notice) {
+        return {
+            [GLSR.nameprefix]: { _action: 'dismiss-notice', notice },
+        };
+    },
+
+    hideBanner_: function (noticeEl) {
+        if (noticeEl.hasClass('glsr-notice-top-of-page')) {
+            noticeEl.slideUp();
         }
     },
 
-    /** @return void */
-    onClick_: function (ev) {
-        var notice = jQuery(this);
-        if (notice.hasClass('glsr-notice-top-of-page')) {
-            if (!jQuery(ev.target).hasClass('notice-dismiss')) return; // only dismiss with the close button
-            notice.slideUp();
+    showBanner_: function () {
+        const el = jQuery('.glsr-notice-top-of-page');
+        if (el) {
+            jQuery('#wpbody-content').prepend(el.detach());
+            el.delay(1000).slideDown();
         }
-        var data = {};
-        data[GLSR.nameprefix] = {
-            _action: 'dismiss-notice',
-            notice: jQuery(ev.currentTarget).data('dismiss'),
-        };
-        wp.ajax.post(GLSR.action, data);
+    },
+
+    onDismiss_: function (ev) {
+        const noticeEl = jQuery(ev.currentTarget);
+        const targetEl = jQuery(ev.target);
+        this.dismissNotice_(targetEl, noticeEl)
+    },
+
+    dismissNotice_: function (targetEl, noticeEl) {
+        if (!targetEl.hasClass('notice-dismiss') && !targetEl.hasClass('button')) return;
+        this.hideBanner_(noticeEl)
+        if (targetEl.hasClass('notice-dismiss')) {
+            this.hideBanner_(noticeEl)
+        }
+        const data = this.data_(noticeEl.data('dismiss'));
+        this.removeNotice_(noticeEl)
+        wp.ajax.post(GLSR.action, data)
+    },
+
+    removeNotice_: function (noticeEl) {
+        noticeEl.fadeTo(100, 0, () => noticeEl.slideUp(100, () => noticeEl.remove()))
     },
 };
 
