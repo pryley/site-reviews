@@ -66,6 +66,7 @@
     site-reviews/builder/enable/optgroup                    (bool $enable): bool
     site-reviews/builder/field/<field_type>                 (string $className): string
     site-reviews/builder/result                             (string $result, Modules\Html\Builder $builder): string
+    site-reviews/capabilities                               (array $capabilities): array
     site-reviews/column/<column>                            (string $className): string
     site-reviews/columns/<column_slug>                      (string $value, int $postId): string
     site-reviews/columns/orderby-is-null                    (array $columns): array
@@ -141,6 +142,7 @@
     site-reviews/query/sql/order-by                         (array $orderBy, string $handle, Database\Query $query): array
     site-reviews/rating/average                             (float $roundedAverage, array $ratingCounts, int $average): float
     site-reviews/rating/ranking                             (float $ranking, array $ratingCounts, Modules\Rating $rating): float
+    site-reviews/roles                                      (array $roles): array
     site-reviews/captcha/language                           (string $locale): string
     site-reviews/render/view                                (string $view, array $data): string
     site-reviews/rendered/field                             (string $field, string $fieldType, array $field): string

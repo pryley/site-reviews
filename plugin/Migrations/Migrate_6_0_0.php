@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Database\Tables\TableFields;
+use GeminiLabs\SiteReviews\Role;
 
 class Migrate_6_0_0 implements MigrateContract
 {
@@ -23,6 +24,7 @@ class Migrate_6_0_0 implements MigrateContract
         $this->migrateAddonImages();
         $this->migrateDatabase();
         $this->migrateDatabaseSchema();
+        $this->migrateRoles();
         $this->migrateSettings();
         return true;
     }
@@ -107,7 +109,12 @@ class Migrate_6_0_0 implements MigrateContract
         }
     }
 
-    public function migrateSettings():void
+    public function migrateRoles(): void
+    {
+        glsr(Role::class)->resetAll();
+    }
+
+    public function migrateSettings(): void
     {
         $style = glsr(OptionManager::class)->get('settings.general.style');
         if (in_array($style, ['bootstrap_4', 'bootstrap_4_custom'])) {

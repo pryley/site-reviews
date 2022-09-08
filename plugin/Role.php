@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\SiteReviews;
 
+use GeminiLabs\SiteReviews\Helpers\Str;
+
 class Role
 {
     /**
@@ -37,7 +39,7 @@ class Role
      */
     public function capabilities()
     {
-        return [
+        $capabilities = [
             'create_posts',
             'delete_others_posts',
             'delete_post',
@@ -56,7 +58,12 @@ class Role
             'respond_to_others_posts',
             'respond_to_post',
             'respond_to_posts',
+            'assign_terms',
+            'delete_terms',
+            'edit_terms',
+            'manage_terms',
         ];
+        return glsr()->filterArray('capabilities', $capabilities);
     }
 
     /**
@@ -65,7 +72,13 @@ class Role
      */
     public function capability($capability)
     {
-        return str_replace('post', glsr()->post_type, $capability);
+        if (Str::contains($capability, 'post')) {
+            return str_replace('post', glsr()->post_type, $capability);
+        }
+        if (Str::contains($capability, 'terms')) {
+            return str_replace('terms', glsr()->post_type.'_terms', $capability);
+        }
+        return $capability;
     }
 
     /**
@@ -107,7 +120,7 @@ class Role
      */
     public function roles()
     {
-        return [
+        $roles = [
             'administrator' => [
                 'create_posts',
                 'delete_others_posts',
@@ -122,6 +135,10 @@ class Role
                 'read_private_posts',
                 'respond_to_others_posts',
                 'respond_to_posts',
+                'assign_terms',
+                'delete_terms',
+                'edit_terms',
+                'manage_terms',
             ],
             'editor' => [
                 'create_posts',
@@ -137,6 +154,10 @@ class Role
                 'read_private_posts',
                 'respond_to_others_posts',
                 'respond_to_posts',
+                'assign_terms',
+                'delete_terms',
+                'edit_terms',
+                'manage_terms',
             ],
             'author' => [
                 'create_posts',
@@ -146,12 +167,18 @@ class Role
                 'edit_published_posts',
                 'publish_posts',
                 'respond_to_posts',
+                'assign_terms',
+                'delete_terms',
+                'edit_terms',
+                'manage_terms',
             ],
             'contributor' => [
                 'delete_posts',
                 'edit_posts',
                 'respond_to_posts',
+                'assign_terms',
             ],
         ];
+        return glsr()->filterArray('roles', $roles);
     }
 }

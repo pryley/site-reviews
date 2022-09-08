@@ -24,6 +24,7 @@ abstract class Hooks
         add_action('enqueue_block_editor_assets', [$this->controller, 'enqueueBlockAssets']);
         add_action('wp_enqueue_scripts', [$this->controller, 'enqueuePublicAssets']);
         add_filter('plugin_action_links_'.$this->basename, [$this->controller, 'filterActionLinks']);
+        add_filter('site-reviews/capabilities', [$this->controller, 'filterCapabilities']);
         add_filter('site-reviews/config', [$this->controller, 'filterConfigPath']);
         add_filter('site-reviews/addon/documentation', [$this->controller, 'filterDocumentation']);
         add_filter('gettext_'.$this->addon->id, [$this->controller, 'filterGettext'], 10, 2);
@@ -32,6 +33,7 @@ abstract class Hooks
         add_filter('ngettext_with_context_'.$this->addon->id, [$this->controller, 'filterNgettextWithContext'], 10, 5);
         add_filter('site-reviews/path', [$this->controller, 'filterFilePaths'], 10, 2);
         add_filter($this->addon->id.'/render/view', [$this->controller, 'filterRenderView']);
+        add_filter('site-reviews/roles', [$this->controller, 'filterRoles']);
         add_filter('site-reviews/defer-scripts', [$this->controller, 'filterScriptsDefer']);
         add_filter('site-reviews/addon/settings', [$this->controller, 'filterSettings']);
         add_filter('site-reviews/translation/entries', [$this->controller, 'filterTranslationEntries']);

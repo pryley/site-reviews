@@ -88,6 +88,33 @@ abstract class Controller extends BaseController
     }
 
     /**
+     * @filter site-reviews/capabilities
+     */
+    public function filterCapabilities(array $capabilities): array
+    {
+        if (!$this->addon->post_type) {
+            return $capabilities;
+        }
+        $defaults = [
+            'create_posts',
+            'delete_others_posts',
+            'delete_posts',
+            'delete_private_posts',
+            'delete_published_posts',
+            'edit_others_posts',
+            'edit_posts',
+            'edit_private_posts',
+            'edit_published_posts',
+            'publish_posts',
+            'read_private_posts',
+        ];
+        foreach ($defaults as $capability) {
+            $capabilities[] = str_replace('post', $this->addon->post_type, $capability);
+        }
+        return $capabilities;
+    }
+
+    /**
      * @param string $path
      * @return string
      * @filter site-reviews/config
@@ -205,6 +232,65 @@ abstract class Controller extends BaseController
             return $styledView;
         }
         return $view;
+    }
+
+    /**
+     * @filter site-reviews/roles
+     */
+    public function filterRoles(array $roles): array
+    {
+        if (!$this->addon->post_type) {
+            return $roles;
+        }
+        $defaults = [
+            'administrator' => [
+                'create_posts',
+                'delete_others_posts',
+                'delete_posts',
+                'delete_private_posts',
+                'delete_published_posts',
+                'edit_others_posts',
+                'edit_posts',
+                'edit_private_posts',
+                'edit_published_posts',
+                'publish_posts',
+                'read_private_posts',
+            ],
+            'editor' => [
+                'create_posts',
+                'delete_others_posts',
+                'delete_posts',
+                'delete_private_posts',
+                'delete_published_posts',
+                'edit_others_posts',
+                'edit_posts',
+                'edit_private_posts',
+                'edit_published_posts',
+                'publish_posts',
+                'read_private_posts',
+            ],
+            'author' => [
+                'create_posts',
+                'delete_posts',
+                'delete_published_posts',
+                'edit_posts',
+                'edit_published_posts',
+                'publish_posts',
+            ],
+            'contributor' => [
+                'delete_posts',
+                'edit_posts',
+            ],
+        ];
+        foreach ($defaults as $role => $capabilities) {
+            if (!array_key_exists($role, $roles)) {
+                continue;
+            }
+            foreach ($capabilities as $capability) {
+                $roles[$role][] = str_replace('post', $this->addon->post_type, $capability);
+            }
+        }
+        return $roles;
     }
 
     /**
