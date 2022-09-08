@@ -7,8 +7,12 @@
     </h3>
     <div id="upgrade-v400" class="inside">
         <h2>Meta Keys</h2>
-        <p><em>Likelihood Of Impact: Low</em></p>
-        <p><span class="required">This will not apply to most people. You only need to read this if you have made custom modifications to your website that involve custom manipulation of your reviews using hooks, helper functions, or otherwise.</span></p>
+        <p><em>Likelihood Of Impact: <span class="impact-low">Low</span></em></p>
+        <div class="glsr-notice-inline components-notice is-info">
+            <p class="components-notice__content">
+                This only applies to you if you used hooks, helper functions, or otherwise to make custom modifications to your reviews.
+            </p>
+        </div>
         <p>The Meta Keys that Site Reviews 4.0 uses to store information to reviews are now protected (they begin with an underscore) so that they don't show up in the Custom Fields Meta Box on other pages. This change can potentially affect you if one of the following cases apply:</p>
         <ul>
             <li>You are using the <code>WP_Query</code> class or the <code>get_posts</code> function to fetch reviews and are setting the <code>meta_key</code> or <code>meta_query</code> options</li>

@@ -6,7 +6,7 @@
         </button>
     </h3>
     <div id="welcome-v6_0_0" class="inside">
-        <p><em>Initial Release Date &mdash; September 6th, 2022</em></p>
+        <p><em>Initial Release Date &mdash; September 8th, 2022</em></p>
         <h4>✨ New Features</h4>
         <ul>
             <li>Added a deactivation feedback dialog</li>

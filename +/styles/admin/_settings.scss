@@ -102,7 +102,12 @@ td.glsr-string-td1 .row-actions.visible {
     max-width: 800px;
     box-sizing: border-box;
 }
-
+.glsr-card .impact-high {
+    color: #b32d2e;
+}
+.glsr-card .impact-medium {
+    color: #c36922;
+}
 .glsr-card-result {
     border: 1px solid #ccd0d4;
     background-color: #f6fbfd;

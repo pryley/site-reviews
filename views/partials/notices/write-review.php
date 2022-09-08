@@ -1,4 +1,4 @@
-<div class="notice notice-info notice-review glsr-notice" data-dismiss="write-review">
+<div class="notice notice-review glsr-notice" data-dismiss="write-review">
     <p><?= $text; ?></p>
     <p class="glsr-notice-buttons">
         <a class="button button-primary" href="https://wordpress.org/support/view/plugin-reviews/site-reviews?filter=5#new-post" target="_blank"><?= _x('Leave a review', 'admin-text', 'site-reviews'); ?></a>

@@ -8,11 +8,12 @@
     <div id="upgrade-v6_0_0" class="inside">
 
         <h2>Changes to Review HTML</h2>
-        <p><em>Likelihood Of Impact: <span class="required">High</span></em></p>
+        <p><em>Likelihood Of Impact: <span class="impact-high">High</span></em></p>
         <ol>
             <li>
                 <p><strong>The dash has been removed from the author name when the avatar is hidden.</strong></p>
-                <p>In earlier versions of Site Reviews, a "dash" character appeared in front of the author's name if you disabled avatars in the settings, hid the avatar, or changed the order of the review fields. If you want to add the dash back, please see the <a data-expand="#faq-add-name-dash" href="<?= glsr_admin_url('documentation', 'faq'); ?>">FAQ</a> help page.
+                <p>In earlier versions of Site Reviews, a "dash" character appeared in front of the author's name if you disabled avatars in the settings, hid the avatar, or changed the order of the review fields.</p>
+                <p>If you want to add the dash back, please see the <a data-expand="#faq-add-name-dash" href="<?= glsr_admin_url('documentation', 'faq'); ?>">FAQ</a> help page.
             </li>
             <li>
                 <p><strong>The review title HTML tag has been changed from &lt;h3&gt; to &lt;h4&gt;.</strong></p>
@@ -27,7 +28,7 @@
         </ol>
 
         <h2>Changes to Plugin Strings</h2>
-        <p><em>Likelihood Of Impact: Medium</em></p>
+        <p><em>Likelihood Of Impact: <span class="impact-medium">Medium</span></em></p>
         <ol>
             <li>
                 <p><strong>The "← Previous" and "Next →" strings were changed to "Previous" and "Next" (the arrows were removed).</strong></p>
@@ -36,7 +37,7 @@
         </ol>
 
         <h2>Changes to Plugin Templates</h2>
-        <p><em>Likelihood Of Impact: Medium</em></p>
+        <p><em>Likelihood Of Impact: <span class="impact-medium">Medium</span></em></p>
         <ol>
             <li>
                 <p><strong>The HTML markup of the <code>review.php</code> template has changed.</strong></p>
@@ -53,7 +54,7 @@
         </ol>
 
         <h2>Changes to Javascript events</h2>
-        <p><em>Likelihood Of Impact: Low</em></p>
+        <p><em>Likelihood Of Impact: <span class="impact-low">Low</span></em></p>
         <ol>
             <li>
                 <p><strong>The <code>site-reviews/after/submission</code> event has been removed.</strong></p>

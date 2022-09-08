@@ -1,4 +1,4 @@
-<div class="notice notice-info is-dismissible glsr-notice" data-notice="migrate">
+<div class="notice is-dismissible glsr-notice" data-notice="migrate">
     <form method="post">
         <input type="hidden" name="<?= glsr()->id; ?>[_action]" value="migrate-plugin">
         <input type="hidden" name="<?= glsr()->id; ?>[alt]" value="0" data-alt>

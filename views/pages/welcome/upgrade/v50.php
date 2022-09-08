@@ -7,7 +7,7 @@
     </h3>
     <div id="upgrade-v5_0_0" class="inside">
         <h2>Shortcode option changes</h2>
-        <p><em>Likelihood Of Impact: <span class="required">High</span></em></p>
+        <p><em>Likelihood Of Impact: <span class="impact-high">High</span></em></p>
         <p>The changes to the shortcode options introduced in v5.0.0 are backwards compatible with version 4, meaning the old shortcode options will continue to work; however, if you are using these options then you should still update them as they may be removed in a future version.</p>
         <p>Affected shortcode options:</p>
         <ul>
@@ -28,7 +28,7 @@
 </code></pre>
 
         <h2>Action and Filter Hook changes</h2>
-        <p><em>Likelihood Of Impact: Medium</em></p>
+        <p><em>Likelihood Of Impact: <span class="impact-medium">Medium</span></em></p>
         <ol>
             <li>
                 <p><strong>The <code>site-reviews/config/forms/submission-form</code> filter hook has been deprecated.</strong></p>
@@ -53,7 +53,7 @@
         </ol>
 
         <h2>Helper function changes</h2>
-        <p><em>Likelihood Of Impact: Medium</em></p>
+        <p><em>Likelihood Of Impact: <span class="impact-medium">Medium</span></em></p>
         <ol>
             <li>
                 <p><strong>The <code>glsr_calculate_ratings()</code> has been removed.</strong></p>
@@ -97,7 +97,7 @@ glsr_debug($review->custom->custom_field_key);
         </ol>
 
         <h2>Review meta data</h2>
-        <p><em>Likelihood Of Impact: Low</em></p>
+        <p><em>Likelihood Of Impact: <span class="impact-low">Low</span></em></p>
         <p>Site Reviews now saves review values in a custom database table and they are no longer stored as meta data; however, this does not apply to custom form field data which is still stored as meta data.</p>
         <p>To access your review data with PHP (including custom field data), use the provided <code><a data-expand="#fn-glsr_get_review" href="<?= glsr_admin_url('documentation', 'functions'); ?>">glsr_get_review()</a></code> helper function instead of the <code>get_post_meta()</code> function. </p>
     </div>

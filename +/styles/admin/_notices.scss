@@ -2,7 +2,7 @@
 // Partials -> Notices
 // =============================================================================
 
-.glsr-notice {
+.glsr-notice:not(.notice-info):not(.notice-success):not(.notice-warning):not(.notice-error) {
     border-color: var(--wp-admin-theme-color-darker-10);
     border-left-color: var(--wp-admin-theme-color);
 }
@@ -42,6 +42,7 @@
 
 .glsr-notice-top-of-page {
     background-color: var(--wp-admin-theme-color);
+    border-width: 0;
     box-shadow: inset 0 -1px var(--wp-admin-theme-color-darker-20);
     color: #fff;
     display: none;

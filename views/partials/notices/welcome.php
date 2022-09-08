@@ -1,4 +1,4 @@
-<div class="notice notice-info is-dismissible glsr-notice" data-dismiss="welcome">
+<div class="notice is-dismissible glsr-notice" data-dismiss="welcome">
     <p><?= $text; ?></p>
     <p class="glsr-notice-buttons">
         <?php if ($fresh) { ?>
