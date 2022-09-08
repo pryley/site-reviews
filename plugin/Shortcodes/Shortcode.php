@@ -292,7 +292,7 @@ abstract class Shortcode implements ShortcodeContract
     {
         $this->dataAttributes = wp_parse_args(
             glsr($this->getShortcodeDefaultsClassName())->dataAttributes($atts->toArray()),
-            ["data-{$type}" => '']
+            ["data-{$type}" => $this->shortcode]
         );
     }
 }
