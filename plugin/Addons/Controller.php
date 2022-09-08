@@ -92,7 +92,7 @@ abstract class Controller extends BaseController
      */
     public function filterCapabilities(array $capabilities): array
     {
-        if (!$this->addon->post_type) {
+        if (!$this->addon->post_type) { // @phpstan-ignore-line
             return $capabilities;
         }
         $defaults = [
@@ -239,7 +239,7 @@ abstract class Controller extends BaseController
      */
     public function filterRoles(array $roles): array
     {
-        if (!$this->addon->post_type) {
+        if (!$this->addon->post_type) { // @phpstan-ignore-line
             return $roles;
         }
         $defaults = [
