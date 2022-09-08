@@ -216,7 +216,7 @@ class Str
      */
     public static function removePrefix($string, $prefix)
     {
-        return static::startsWith($prefix, $string)
+        return static::startsWith($string, $prefix)
             ? substr($string, strlen($prefix))
             : $string;
     }
@@ -311,7 +311,7 @@ class Str
      */
     public static function suffix($string, $suffix)
     {
-        if (!static::endsWith($suffix, $string)) {
+        if (!static::endsWith($string, $suffix)) {
             return $string.$suffix;
         }
         return $string;
