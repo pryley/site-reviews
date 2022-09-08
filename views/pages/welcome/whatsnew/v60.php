@@ -18,7 +18,6 @@
             <li>Added migration and nonce support for <a href="https://wordpress.org/plugins/litespeed-cache/" rel="nofollow" target="_blank">LiteSpeed Cache</a> (flushes the cache after migration)</li>
             <li>Added migration support for <a href="https://wp-rocket.me/" rel="nofollow" target="_blank">WP Rocket</a> (flushes the cache after migration)</li>
             <li>Added support for the Bluehost <a href="https://github.com/bluehost/endurance-page-cache" rel="nofollow" target="_blank">Endurance Page Cache</a> must-use plugin</li>
-            <li>Added the Bootstrap v5 plugin style</li>
             <li>Added the Elementor Pro plugin style</li>
             <li>Added the <code>rating_field</code> option to the Summary block and Elementor widget</li>
             <li>Added the <code>reviews_id</code> option to the Review Form, this allows you to display submitted reviews immediately without reloading the page.</li>
@@ -36,12 +35,12 @@
             <li>Rewrote the frontend style to use CSS variables, this should make CSS tweaks easier to write</li>
             <li>Rewrote the review modals to support the new review image galleries (<a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">Review Images</a> add-on required)</li>
             <li>Submit and load more buttons now make use of the WordPress Block button classes by default</li>
+            <li>Updated the Bootstrap plugin styles to Bootstrap v5</li>
         </ul>
         <h4>🚫 Removed</h4>
         <ul>
             <li>🚨 Removed support for Internet Explorer</li>
             <li>🚨 Removed support for PHP 5.6, 7.0, and 7.1</li>
-            <li>🚨 Removed the Bootstrap v4 plugin styles. If you were using this, please switch to the new Boostrap v5 plugin style.</li>
             <li>🚨 Removed the Polyfill.io script (since it was used for IE support)</li>
             <li>🚨 Removed the <code>site-reviews/after/submission</code> javascript event (if you were using this event, please see the <a data-expand="#upgrade-v6_0_0" href="<?= glsr_admin_url('welcome', 'upgrade-guide'); ?>">Upgrade guide</a>)</li>
         </ul>

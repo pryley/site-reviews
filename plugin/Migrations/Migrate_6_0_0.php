@@ -23,6 +23,7 @@ class Migrate_6_0_0 implements MigrateContract
         $this->migrateAddonImages();
         $this->migrateDatabase();
         $this->migrateDatabaseSchema();
+        $this->migrateSettings();
         return true;
     }
 
@@ -103,6 +104,14 @@ class Migrate_6_0_0 implements MigrateContract
                     DROP INDEX {$uniqueIndex}
                 ");
             }
+        }
+    }
+
+    public function migrateSettings():void
+    {
+        $style = glsr(OptionManager::class)->get('settings.general.style');
+        if (in_array($style, ['bootstrap_4', 'bootstrap_4_custom'])) {
+            glsr(OptionManager::class)->set('settings.general.style', 'bootstrap');
         }
     }
 

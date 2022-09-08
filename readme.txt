@@ -155,7 +155,6 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - 🚨 Changed the strings "← Previous" and "Next →" to "Previous" and "Next". If you have customised these strings in the settings, please update them.
 - 🚨 Removed support for Internet Explorer
 - 🚨 Removed support for PHP 5.6, 7.0, and 7.1
-- 🚨 Removed the Bootstrap v4 plugin styles. If you were using this, please switch to the new Boostrap v5 plugin style.
 - 🚨 Removed the Polyfill.io script (since it was used for IE support)
 - 🚨 Removed the "site-reviews/after/submission" javascript event (if you were using this event, please see the Upgrade guide)
 - 🚨 Rewrote the button and pagination loading animations. If you are using a custom Site Reviews pagination template in your child theme, please remove the `{{ loader }}` template tag.
@@ -189,6 +188,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Rewrote the frontend style to use CSS variables, this should make CSS tweaks easier to write.
 - Rewrote the review modals to support the new review image galleries ([Review Images](https://niftyplugins.com/plugins/site-reviews-images/) add-on required)
 - Submit and load more buttons now make use of the WordPress Block button classes by default
+- Updated the Bootstrap plugin styles to Bootstrap v5
 
 = 5.25.1 (2022-07-15) =
 
