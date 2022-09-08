@@ -27,6 +27,27 @@ class StrTest extends WP_UnitTestCase
 
     public function test_convert_name()
     {
+        $this->assertEquals(Str::convertName('Steve'), 'Steve');
+        $this->assertEquals(Str::convertName('Steve', 'initials'), 'S');
+        $this->assertEquals(Str::convertName('Steve', 'initials', 'space'), 'S');
+        $this->assertEquals(Str::convertName('Steve', 'initials', 'period'), 'S.');
+        $this->assertEquals(Str::convertName('Steve', 'initials', 'period_space'), 'S.');
+        $this->assertEquals(Str::convertName('Steve', 'first'), 'Steve');
+        $this->assertEquals(Str::convertName('Steve', 'first', 'space'), 'Steve');
+        $this->assertEquals(Str::convertName('Steve', 'first', 'period'), 'Steve');
+        $this->assertEquals(Str::convertName('Steve', 'first', 'period_space'), 'Steve');
+        $this->assertEquals(Str::convertName('Steve', 'first_initial'), 'S');
+        $this->assertEquals(Str::convertName('Steve', 'first_initial', 'space'), 'S');
+        $this->assertEquals(Str::convertName('Steve', 'first_initial', 'period'), 'S.');
+        $this->assertEquals(Str::convertName('Steve', 'first_initial', 'period_space'), 'S.');
+        $this->assertEquals(Str::convertName('Steve', 'last'), 'Steve');
+        $this->assertEquals(Str::convertName('Steve', 'last', 'space'), 'Steve');
+        $this->assertEquals(Str::convertName('Steve', 'last', 'period'), 'Steve');
+        $this->assertEquals(Str::convertName('Steve', 'last', 'period_space'), 'Steve');
+        $this->assertEquals(Str::convertName('Steve', 'last_initial'), 'Steve');
+        $this->assertEquals(Str::convertName('Steve', 'last_initial', 'space'), 'Steve');
+        $this->assertEquals(Str::convertName('Steve', 'last_initial', 'period'), 'Steve');
+        $this->assertEquals(Str::convertName('Steve', 'last_initial', 'period_space'), 'Steve');
         $this->assertEquals(Str::convertName('Steve Jobs'), 'Steve Jobs');
         $this->assertEquals(Str::convertName('Steve Jobs', 'initials'), 'S J');
         $this->assertEquals(Str::convertName('Steve Jobs', 'initials', 'space'), 'S J');
