@@ -4,7 +4,7 @@ namespace GeminiLabs\SiteReviews\Modules\Avatars;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
-use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Helpers\Text;
 
 class InitialsAvatar extends SvgAvatar
 {
@@ -38,7 +38,7 @@ class InitialsAvatar extends SvgAvatar
      */
     protected function filename($from)
     {
-        $initials = Str::convertToInitials($from);
+        $initials = Text::initials($from);
         if (1 === mb_strlen($initials)) {
             $initials = mb_substr(trim($from), 0, 2, 'UTF-8');
             $initials = mb_strtoupper($initials, 'UTF-8');

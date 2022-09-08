@@ -88,7 +88,7 @@ msgstr "Tell us your email"
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
-#: plugin/Blocks/SiteReviewsBlock.php:126, plugin/Helpers/Text.php:38
+#: plugin/Blocks/SiteReviewsBlock.php:126, plugin/Helpers/Text.php:39
 msgid "Show more"
 msgstr "Show more"
 
@@ -196,11 +196,11 @@ msgstr ""
 "The review could not be submitted because this browser is too old. Please "
 "try again with a modern browser."
 
-#: plugin/Helpers/Str.php:180
+#: plugin/Helpers/Str.php:135
 msgid "and"
 msgstr "and"
 
-#: plugin/Helpers/Text.php:37
+#: plugin/Helpers/Text.php:38
 msgid "Show less"
 msgstr "Show less"
 
@@ -515,6 +515,26 @@ msgstr "Respond To Reviews"
 msgctxt "admin-text"
 msgid "Respond To Others' Reviews"
 msgstr "Respond To Others' Reviews"
+
+#: compatibility.php:73
+msgctxt "admin-text"
+msgid "Assign Review Categories"
+msgstr "Assign Review Categories"
+
+#: compatibility.php:74
+msgctxt "admin-text"
+msgid "Delete Review Categories"
+msgstr "Delete Review Categories"
+
+#: compatibility.php:75
+msgctxt "admin-text"
+msgid "Edit Review Categories"
+msgstr "Edit Review Categories"
+
+#: compatibility.php:76
+msgctxt "admin-text"
+msgid "Manage Review Categories"
+msgstr "Manage Review Categories"
 
 #: config/settings.php:9
 msgctxt "admin-text"
@@ -1840,7 +1860,7 @@ msgstr ""
 "The [%s] method has been deprecated and will be soon be removed, please use "
 "the [%s] method instead."
 
-#: plugin/Review.php:356, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
+#: plugin/Review.php:359, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr "Unknown"

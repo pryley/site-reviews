@@ -33,35 +33,6 @@ class Str
     }
 
     /**
-     * @param string $name
-     * @param string $nameType first|first_initial|initials|last|last_initial
-     * @param string $initialType period|period_space|space
-     * @return string
-     */
-    public static function convertName($name, $nameType = '', $initialType = '')
-    {
-        $names = preg_split('/\W/u', $name, 0, PREG_SPLIT_NO_EMPTY);
-        $firstName = array_shift($names);
-        $lastName = array_pop($names);
-        $initialTypes = [
-            'period' => '.',
-            'period_space' => '. ',
-            'space' => ' ',
-        ];
-        $initialPunctuation = (string) Arr::get($initialTypes, $initialType, ' ');
-        if ('initials' == $nameType) {
-            return static::convertToInitials($name, $initialPunctuation);
-        }
-        $nameTypes = [
-            'first' => $firstName,
-            'first_initial' => static::convertToInitials($firstName).$initialPunctuation.$lastName,
-            'last' => $lastName,
-            'last_initial' => $firstName.' '.static::convertToInitials($lastName).$initialPunctuation,
-        ];
-        return trim((string) Arr::get($nameTypes, $nameType, $name));
-    }
-
-    /**
      * @param string $path
      * @param string $prefix
      * @return string
@@ -82,22 +53,6 @@ class Str
         return array_reduce($levels, function ($result, $value) {
             return $result .= '['.$value.']';
         }, $prefix);
-    }
-
-    /**
-     * @param string $name
-     * @param string $initialPunctuation
-     * @return string
-     */
-    public static function convertToInitials($name, $initialPunctuation = '')
-    {
-        preg_match_all('/(?<=\s|\b)\pL/u', (string) $name, $matches);
-        $result = (string) array_reduce($matches[0], function ($carry, $word) use ($initialPunctuation) {
-            $initial = mb_substr($word, 0, 1, 'UTF-8');
-            $initial = mb_strtoupper($initial, 'UTF-8');
-            return $carry.$initial.$initialPunctuation;
-        });
-        return trim($result);
     }
 
     /**
@@ -210,14 +165,26 @@ class Str
     }
 
     /**
-     * @param string $prefix
      * @param string $string
+     * @param string $prefix
      * @return string
      */
     public static function removePrefix($string, $prefix)
     {
         return static::startsWith($string, $prefix)
             ? substr($string, strlen($prefix))
+            : $string;
+    }
+
+    /**
+     * @param string $string
+     * @param string $suffix
+     * @return string
+     */
+    public static function removeSuffix($string, $suffix)
+    {
+        return static::endsWith($string, $suffix)
+            ? substr($string, 0, strrpos($string, $suffix))
             : $string;
     }
 

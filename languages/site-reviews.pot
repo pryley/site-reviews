@@ -116,6 +116,26 @@ msgctxt "admin-text"
 msgid "Respond To Others' Reviews"
 msgstr ""
 
+#: compatibility.php:73
+msgctxt "admin-text"
+msgid "Assign Review Categories"
+msgstr ""
+
+#: compatibility.php:74
+msgctxt "admin-text"
+msgid "Delete Review Categories"
+msgstr ""
+
+#: compatibility.php:75
+msgctxt "admin-text"
+msgid "Edit Review Categories"
+msgstr ""
+
+#: compatibility.php:76
+msgctxt "admin-text"
+msgid "Manage Review Categories"
+msgstr ""
+
 #: deprecated.php:100
 msgid "%s is <strong>deprecated</strong> since version %s with no alternative available."
 msgstr ""
@@ -1308,7 +1328,7 @@ msgstr ""
 msgid "Anonymous"
 msgstr ""
 
-#: plugin/Review.php:356, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
+#: plugin/Review.php:359, plugin/Controllers/ListTableColumns/ColumnValueAuthorName.php:20
 msgctxt "admin-text"
 msgid "Unknown"
 msgstr ""
@@ -1457,7 +1477,7 @@ msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr ""
 
-#: plugin/Blocks/SiteReviewsBlock.php:126, plugin/Helpers/Text.php:38
+#: plugin/Blocks/SiteReviewsBlock.php:126, plugin/Helpers/Text.php:39
 msgid "Show more"
 msgstr ""
 
@@ -2478,11 +2498,11 @@ msgstr ""
 msgid "The review could not be submitted because this browser is too old. Please try again with a modern browser."
 msgstr ""
 
-#: plugin/Helpers/Str.php:180
+#: plugin/Helpers/Str.php:135
 msgid "and"
 msgstr ""
 
-#: plugin/Helpers/Text.php:37
+#: plugin/Helpers/Text.php:38
 msgid "Show less"
 msgstr ""
 

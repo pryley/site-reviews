@@ -25,73 +25,6 @@ class StrTest extends WP_UnitTestCase
         $this->assertFalse(Str::contains('abcdef', 'z'));
     }
 
-    public function test_convert_name()
-    {
-        $this->assertEquals(Str::convertName('Steve'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve', 'initials'), 'S');
-        $this->assertEquals(Str::convertName('Steve', 'initials', 'space'), 'S');
-        $this->assertEquals(Str::convertName('Steve', 'initials', 'period'), 'S.');
-        $this->assertEquals(Str::convertName('Steve', 'initials', 'period_space'), 'S.');
-        $this->assertEquals(Str::convertName('Steve', 'first'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve', 'first', 'space'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve', 'first', 'period'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve', 'first', 'period_space'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve', 'first_initial'), 'S');
-        $this->assertEquals(Str::convertName('Steve', 'first_initial', 'space'), 'S');
-        $this->assertEquals(Str::convertName('Steve', 'first_initial', 'period'), 'S.');
-        $this->assertEquals(Str::convertName('Steve', 'first_initial', 'period_space'), 'S.');
-        $this->assertEquals(Str::convertName('Steve', 'last'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve', 'last', 'space'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve', 'last', 'period'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve', 'last', 'period_space'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve', 'last_initial'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve', 'last_initial', 'space'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve', 'last_initial', 'period'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve', 'last_initial', 'period_space'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve Jobs'), 'Steve Jobs');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'initials'), 'S J');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'initials', 'space'), 'S J');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'initials', 'period'), 'S.J.');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'initials', 'period_space'), 'S. J.');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'first'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'first', 'space'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'first', 'period'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'first', 'period_space'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'first_initial'), 'S Jobs');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'first_initial', 'space'), 'S Jobs');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'first_initial', 'period'), 'S.Jobs');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'first_initial', 'period_space'), 'S. Jobs');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'last'), 'Jobs');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'last', 'space'), 'Jobs');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'last', 'period'), 'Jobs');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'last', 'period_space'), 'Jobs');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'last_initial'), 'Steve J');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'last_initial', 'space'), 'Steve J');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'last_initial', 'period'), 'Steve J.');
-        $this->assertEquals(Str::convertName('Steve Jobs', 'last_initial', 'period_space'), 'Steve J.');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs'), 'Steve Paul Jobs');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'initials'), 'S P J');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'initials', 'space'), 'S P J');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'initials', 'period'), 'S.P.J.');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'initials', 'period_space'), 'S. P. J.');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'first'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'first', 'space'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'first', 'period'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'first', 'period_space'), 'Steve');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'first_initial'), 'S Jobs');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'first_initial', 'space'), 'S Jobs');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'first_initial', 'period'), 'S.Jobs');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'first_initial', 'period_space'), 'S. Jobs');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'last'), 'Jobs');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'last', 'space'), 'Jobs');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'last', 'period'), 'Jobs');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'last', 'period_space'), 'Jobs');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'last_initial'), 'Steve J');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'last_initial', 'space'), 'Steve J');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'last_initial', 'period'), 'Steve J.');
-        $this->assertEquals(Str::convertName('Steve Paul Jobs', 'last_initial', 'period_space'), 'Steve J.');
-    }
-
     public function test_convert_path_to_id()
     {
         $this->assertEquals(Str::convertPathToId('abc.d.e'), '-abc-d-e');
@@ -106,19 +39,6 @@ class StrTest extends WP_UnitTestCase
         $this->assertEquals(Str::convertPathToName('d.e', 'abc'), 'abc[d][e]');
         $this->assertEquals(Str::convertPathToName('d.e.', 'abc'), 'abc[d][e][]');
         $this->assertEquals(Str::convertPathToName('.d.e', 'abc'), 'abc[][d][e]');
-    }
-
-    public function test_convert_to_initials()
-    {
-        $this->assertEquals(Str::convertToInitials('Steve', ' '), 'S');
-        $this->assertEquals(Str::convertToInitials('Steve', '.'), 'S.');
-        $this->assertEquals(Str::convertToInitials('Steve', '. '), 'S.');
-        $this->assertEquals(Str::convertToInitials('Steve Jobs', ' '), 'S J');
-        $this->assertEquals(Str::convertToInitials('Steve Jobs', '.'), 'S.J.');
-        $this->assertEquals(Str::convertToInitials('Steve Jobs', '. '), 'S. J.');
-        $this->assertEquals(Str::convertToInitials('Steve Paul Jobs', ' '), 'S P J');
-        $this->assertEquals(Str::convertToInitials('Steve Paul Jobs', '.'), 'S.P.J.');
-        $this->assertEquals(Str::convertToInitials('Steve Paul Jobs', '. '), 'S. P. J.');
     }
 
     public function test_dash_case()

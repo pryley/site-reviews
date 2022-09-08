@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Helpers;
 
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 
 class Text
@@ -49,16 +50,54 @@ class Text
     }
 
     /**
-     * @param string $text
+     * @param string $name
+     * @param string $initialPunctuation
      * @return string
      */
-    public static function name($text)
+    public static function initials($name, $initialPunctuation = '')
     {
-        return Str::convertName($text,
-            glsr_get_option('reviews.name.format'),
-            glsr_get_option('reviews.name.initial')
-        );
+        preg_match_all('/(?<=\s|\b)\pL/u', (string) $name, $matches);
+        $result = (string) array_reduce($matches[0], function ($carry, $word) use ($initialPunctuation) {
+            $initial = mb_substr($word, 0, 1, 'UTF-8');
+            $initial = mb_strtoupper($initial, 'UTF-8');
+            return $carry.$initial.$initialPunctuation;
+        });
+        return trim($result);
     }
+
+    /**
+     * @param string $name
+     * @param string $nameFormat  first|first_initial|last_initial|initials
+     * @param string $initialType  period|period_space|space
+     * @return string
+     */
+    public static function name($name, $nameFormat = '', $initialType = 'space')
+    {
+        $names = preg_split('/\W/u', $name, 0, PREG_SPLIT_NO_EMPTY);
+        $firstName = array_shift($names);
+        $lastName = array_pop($names);
+        $nameFormat = Str::restrictTo('first,first_initial,last_initial,initials', $nameFormat, '');
+        $initialType = Str::restrictTo('period,period_space,space', $initialType, 'space');
+        $initialTypes = [
+            'period' => '.',
+            'period_space' => '. ',
+            'space' => ' ',
+        ];
+        $initialPunctuation = $initialTypes[$initialType];
+        if ('initials' == $nameFormat) {
+            return static::initials($name, $initialPunctuation);
+        }
+        $firstNameInitial = static::initials($firstName).$initialPunctuation;
+        $lastNameInitial = $lastName ? static::initials($lastName).$initialPunctuation : '';
+        $nameFormats = [
+            'first' => $firstName,
+            'first_initial' => $firstNameInitial.$lastName, 
+            'last' => $lastName,
+            'last_initial' => $firstName.' '.$lastNameInitial,
+        ];
+        return trim((string) Arr::get($nameFormats, $nameFormat, $name));
+    }
+
 
     /**
      * @param string $text

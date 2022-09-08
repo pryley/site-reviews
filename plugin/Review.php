@@ -157,7 +157,10 @@ class Review extends Arguments
      */
     public function author()
     {
-        return Text::name($this->get('author', __('Anonymous', 'site-reviews')));
+        $name = $this->get('author', __('Anonymous', 'site-reviews'));
+        $format = glsr_get_option('reviews.name.format');
+        $initial = glsr_get_option('reviews.name.initial');
+        return Text::name($name, $format, $initial);
     }
 
     /**
