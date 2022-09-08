@@ -289,15 +289,15 @@ class Str
     }
 
     /**
-     * @param string|string[] $needles
      * @param string $haystack
+     * @param string|string[] $needles
      * @return bool
      */
-    public static function startsWith($needles, $haystack = '')
+    public static function startsWith($haystack, $needles)
     {
         $needles = array_filter(Cast::toArray($needles), '\GeminiLabs\SiteReviews\Helper::isNotEmpty');
         foreach ($needles as $needle) {
-            if (substr((string) $haystack, 0, strlen(Cast::toString($needle))) === $needle) {
+            if ('' !== (string) $needle && str_starts_with((string) $haystack, (string) $needle)) {
                 return true;
             }
         }

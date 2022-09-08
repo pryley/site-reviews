@@ -87,7 +87,7 @@ class DefaultsTest extends WP_UnitTestCase
         ];
         $test = glsr(SiteReviewsDefaults::class)->restrict($args);
         $this->assertEquals(count($test), count(glsr(SiteReviewsDefaults::class)->defaults()));
-        $this->assertTrue(Str::startsWith(glsr()->prefix, $test['id']));
+        $this->assertTrue(Str::startsWith($test['id'], glsr()->prefix));
         unset($test['id']);
         $this->assertEquals($test, [
             'assigned_posts' => $postId,

@@ -32,7 +32,7 @@ abstract class AbstractHooks
             if (2 > count($hook)) {
                 continue;
             }
-            $func = Str::startsWith('filter', $hook[0]) ? 'add_filter' : 'add_action';
+            $func = Str::startsWith($hook[0], 'filter') ? 'add_filter' : 'add_action';
             $hook = array_pad($hook, 3, 10); // priority
             $hook = array_pad($hook, 4, 1); // allowed args
             call_user_func($func, $hook[1], [$controller, $hook[0]], (int) $hook[2], (int) $hook[3]);

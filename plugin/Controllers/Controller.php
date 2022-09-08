@@ -70,7 +70,7 @@ abstract class Controller
         $screenIds = [
             'dashboard',
         ];
-        return Str::startsWith(glsr()->post_type, $screen->post_type) || in_array($screen->id, $screenIds);
+        return Str::startsWith($screen->post_type, glsr()->post_type) || in_array($screen->id, $screenIds);
     }
 
     /**

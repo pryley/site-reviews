@@ -280,7 +280,7 @@ class Sanitizer
     public function sanitizeUrl($value)
     {
         $value = trim(Cast::toString($value));
-        if (!Str::startsWith('http://, https://', $value)) {
+        if (!Str::startsWith($value, 'http://, https://')) {
             $value = Str::prefix($value, 'https://');
         }
         $url = esc_url_raw($value);

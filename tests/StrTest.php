@@ -195,10 +195,10 @@ class StrTest extends WP_UnitTestCase
 
     public function test_starts_with()
     {
-        $this->assertTrue(Str::startsWith('abc', 'abcdefg'));
-        $this->assertTrue(Str::startsWith('abc,def', 'defg'));
-        $this->assertFalse(Str::startsWith('abc', 'ABCDEFG'));
-        $this->assertFalse(Str::startsWith('', 'ABCDEFG'));
+        $this->assertTrue(Str::startsWith('abcdefg', 'abc'));
+        $this->assertTrue(Str::startsWith('defg', 'abc,def'));
+        $this->assertFalse(Str::startsWith('ABCDEFG', 'abc'));
+        $this->assertFalse(Str::startsWith('ABCDEFG', ''));
     }
 
     public function test_suffix()

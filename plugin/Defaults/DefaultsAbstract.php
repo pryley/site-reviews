@@ -225,7 +225,7 @@ abstract class DefaultsAbstract implements DefaultsContract
      */
     protected function guard(array $values)
     {
-        if (!Str::startsWith('unguarded', $this->called)) {
+        if (!Str::startsWith($this->called, 'unguarded')) {
             return array_diff_key($values, array_flip($this->property('guarded')));
         }
         return $values;

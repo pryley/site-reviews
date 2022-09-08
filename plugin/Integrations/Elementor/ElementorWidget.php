@@ -51,7 +51,7 @@ abstract class ElementorWidget extends Widget_Base
         }
         $hide = [];
         foreach ($settings as $key => $value) {
-            if (Str::startsWith('hide-', $key) && !empty($value)) {
+            if (Str::startsWith($key, 'hide-') && !empty($value)) {
                 $hide[] = Str::removePrefix($key, 'hide-');
             }
         }

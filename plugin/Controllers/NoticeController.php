@@ -157,7 +157,7 @@ class NoticeController extends Controller
      */
     protected function renderPremiumNotice()
     {
-        if (!Str::startsWith(glsr()->post_type, glsr_current_screen()->post_type)) {
+        if (!Str::startsWith(glsr_current_screen()->post_type, glsr()->post_type)) {
             return;
         }
         $licensing = $this->licensing();

@@ -183,7 +183,7 @@ class Review extends Arguments
     public function custom()
     {
         $custom = array_filter($this->meta()->toArray(), function ($key) {
-            return Str::startsWith('_custom', $key);
+            return Str::startsWith($key, '_custom');
         }, ARRAY_FILTER_USE_KEY);
         $custom = Arr::unprefixKeys($custom, '_custom_');
         $custom = Arr::unprefixKeys($custom, '_');

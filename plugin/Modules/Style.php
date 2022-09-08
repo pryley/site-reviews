@@ -62,7 +62,7 @@ class Style
             return;
         }
         $key = Arr::get($args, 0);
-        if (Str::startsWith('default', $method)) {
+        if (Str::startsWith($method, 'default')) {
             $className = Helper::buildClassName(['style', $property, 'defaults'], 'Defaults');
             return glsr()->args(glsr($className)->defaults())->$key;
         }

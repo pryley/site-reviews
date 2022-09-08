@@ -114,7 +114,7 @@ trait Sql
         $order = $this->args['order'];
         $orderby = $this->args['orderby'];
         $orderedby = [];
-        if (Str::startsWith(['p.', 'r.'], $orderby)) {
+        if (Str::startsWith($orderby, ['p.', 'r.'])) {
             $orderedby[] = "r.is_pinned {$order}";
             $orderedby[] = "{$orderby} {$order}";
         } elseif (array_key_exists($orderby, $values)) {
@@ -413,7 +413,7 @@ trait Sql
      */
     protected function clauseJoinOrderBy()
     {
-        return (string) Helper::ifTrue(Str::startsWith('p.', $this->args['orderby']),
+        return (string) Helper::ifTrue(Str::startsWith($this->args['orderby'], 'p.'),
             "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
         );
     }
@@ -463,7 +463,7 @@ trait Sql
     {
         $clauses = [];
         foreach ($and as $key => $value) {
-            if (Str::startsWith('assigned_', $key)) {
+            if (Str::startsWith($key, 'assigned_')) {
                 $clauses[] = $value;
                 unset($and[$key]);
             }

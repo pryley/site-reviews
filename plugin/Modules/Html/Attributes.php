@@ -148,7 +148,7 @@ class Attributes
         $wildcards = [];
         foreach (static::GLOBAL_WILDCARD_ATTRIBUTES as $wildcard) {
             $newWildcards = array_filter($this->attributes, function ($key) use ($wildcard) {
-                return Str::startsWith($wildcard, $key);
+                return Str::startsWith($key, $wildcard);
             }, ARRAY_FILTER_USE_KEY);
             $wildcards = array_merge($wildcards, $newWildcards);
         }
@@ -173,7 +173,7 @@ class Attributes
      */
     protected function getQuoteChar($attribute)
     {
-        return Str::startsWith('data-', $attribute) ? '\'' : '"';
+        return Str::startsWith($attribute, 'data-') ? '\'' : '"';
     }
 
     /**
@@ -232,7 +232,7 @@ class Attributes
                 $key = $value;
                 $value = '';
             }
-            if (!Str::startsWith('data-', $key)) {
+            if (!Str::startsWith($key, 'data-')) {
                 continue;
             }
             if (is_array($value)) {
@@ -280,7 +280,7 @@ class Attributes
             if (in_array($key, static::BOOLEAN_ATTRIBUTES) && !$value) {
                 unset($attributes[$key]);
             }
-            if (Str::startsWith('data-', $key)) {
+            if (Str::startsWith($key, 'data-')) {
                 $permanentAttributes[$key] = $value;
                 unset($attributes[$key]);
             }

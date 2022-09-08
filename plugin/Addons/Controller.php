@@ -123,7 +123,7 @@ abstract class Controller extends BaseController
     public function filterFilePaths($path, $file)
     {
         $addonPrefix = $this->addon->id.'/';
-        return Str::startsWith($addonPrefix, $file)
+        return Str::startsWith($file, $addonPrefix)
             ? $this->addon->path(Str::replaceFirst($addonPrefix, '', $file))
             : $path;
     }

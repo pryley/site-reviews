@@ -233,7 +233,7 @@ class ListTableController extends Controller
         $postTypeColumns = glsr()->retrieve('columns.'.glsr()->post_type, []);
         unset($postTypeColumns['cb']);
         foreach ($postTypeColumns as $key => $value) {
-            if (!Str::startsWith('assigned', $key) && !Str::startsWith('taxonomy', $key)) {
+            if (!Str::startsWith($key, 'assigned') && !Str::startsWith($key, 'taxonomy')) {
                 $columns[$key] = $key;
             }
         }

@@ -203,7 +203,7 @@ abstract class AssetAbstract
         $removedDeps = array_diff($this->handles, [glsr()->id]);
         $this->sources = array_fill_keys($this->handles, ''); // ensure correct order!
         foreach ($this->registered() as $handle => $dependency) {
-            if (Str::startsWith(glsr()->id, $handle)) {
+            if (Str::startsWith($handle, glsr()->id)) {
                 $dependency->deps = array_diff($dependency->deps, $removedDeps);
             }
             if (!in_array($handle, $this->handles)) {

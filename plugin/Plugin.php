@@ -32,7 +32,7 @@ trait Plugin
 
     public function __call($method, $args)
     {
-        $isFilter = Str::startsWith('filter', $method);
+        $isFilter = Str::startsWith($method, 'filter');
         $to = Helper::buildMethodName(Str::removePrefix($method, 'filter'), 'to');
         if ($isFilter && method_exists(Cast::class, $to)) {
             $filtered = call_user_func_array([$this, 'filter'], $args);
@@ -152,7 +152,7 @@ trait Plugin
     {
         $view .= '.php';
         $filePaths = [];
-        if (Str::startsWith('templates/', $view)) {
+        if (Str::startsWith($view, 'templates/')) {
             $filePaths[] = $this->themePath(Str::removePrefix($view, 'templates/'));
         }
         $filePaths[] = $this->path($view);
