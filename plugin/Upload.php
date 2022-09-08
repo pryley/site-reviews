@@ -39,7 +39,7 @@ class Upload
      */
     protected function validateExtension($extension)
     {
-        if (Str::endsWith($extension, $this->file()->name)) {
+        if (Str::endsWith($this->file()->name, $extension)) {
             return true;
         }
         glsr(Notice::class)->addError(sprintf(

@@ -214,7 +214,7 @@ class SystemInfo
         ksort($settings);
         $details = [];
         foreach ($settings as $key => $value) {
-            if (Str::startsWith('strings', $key) && Str::endsWith('id', $key)) {
+            if (Str::startsWith('strings', $key) && Str::endsWith($key, 'id')) {
                 continue;
             }
             $value = htmlspecialchars(trim(preg_replace('/\s\s+/u', '\\n', $value)), ENT_QUOTES, 'UTF-8');

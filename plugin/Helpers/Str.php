@@ -110,15 +110,15 @@ class Str
     }
 
     /**
-     * @param string|string[] $needles
      * @param string $haystack
+     * @param string|string[] $needles
      * @return bool
      */
-    public static function endsWith($needles, $haystack)
+    public static function endsWith($haystack, $needles)
     {
         $needles = array_filter(Cast::toArray($needles), Helper::class.'::isNotEmpty');
         foreach ($needles as $needle) {
-            if (substr($haystack, -strlen(Cast::toString($needle))) === $needle) {
+            if ('' !== (string) $needle && str_ends_with((string) $haystack, (string) $needle)) {
                 return true;
             }
         }

@@ -107,9 +107,9 @@ class StrTest extends WP_UnitTestCase
 
     public function test_ends_with()
     {
-        $this->assertTrue(Str::endsWith('efg', 'abcdefg'));
-        $this->assertFalse(Str::endsWith('efg', 'ABCDEFG'));
-        $this->assertFalse(Str::endsWith('', 'ABCDEFG'));
+        $this->assertTrue(Str::endsWith('abcdefg', 'efg'));
+        $this->assertFalse(Str::endsWith('ABCDEFG', 'efg'));
+        $this->assertFalse(Str::endsWith('ABCDEFG', ''));
     }
 
     public function test_fallback()

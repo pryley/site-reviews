@@ -74,10 +74,10 @@ class Backtrace
         $search = Arr::searchByKey('glsr_log', $backtrace, 'function');
         if (false !== $search) {
             $class = Arr::get($search, 'class', Arr::get($search, 'file'));
-        } elseif (Str::endsWith('helpers.php', $file)) {
+        } elseif (Str::endsWith($file, 'helpers.php')) {
             $file = Arr::get($backtrace, '1.file');
             $class = Arr::get($backtrace, '2.class');
-        } elseif (Str::endsWith('BlackHole.php', $file) && 'WP_Hook' !== Arr::get($backtrace, '2.class')) {
+        } elseif (Str::endsWith($file, 'BlackHole.php') && 'WP_Hook' !== Arr::get($backtrace, '2.class')) {
             $class = Arr::get($backtrace, '2.class');
         }
         return Helper::ifEmpty($class, $file);
@@ -94,9 +94,9 @@ class Backtrace
         }
         $file = Arr::get($backtrace, '0.file');
         $line = Arr::get($backtrace, '0.line');
-        if (Str::endsWith('helpers.php', $file)) {
+        if (Str::endsWith($file, 'helpers.php')) {
             return Arr::get($backtrace, '1.line');
-        } elseif (Str::endsWith('BlackHole.php', $file) && 'WP_Hook' !== Arr::get($backtrace, '2.class')) {
+        } elseif (Str::endsWith($file, 'BlackHole.php') && 'WP_Hook' !== Arr::get($backtrace, '2.class')) {
             return Arr::get($backtrace, '1.line');
         }
         return $line;
