@@ -71,7 +71,7 @@ class TranslationController
      */
     public function filterGettextWithContext($translation, $text, $context)
     {
-        if (Str::contains($context, Translation::CONTEXT_ADMIN_KEY)) {
+        if (Str::contains(Translation::CONTEXT_ADMIN_KEY, $context)) {
             return $translation;
         }
         return $this->translator->translate($translation, glsr()->id, [
@@ -108,7 +108,7 @@ class TranslationController
      */
     public function filterNgettextWithContext($translation, $single, $plural, $number, $context)
     {
-        if (Str::contains($context, Translation::CONTEXT_ADMIN_KEY)) {
+        if (Str::contains(Translation::CONTEXT_ADMIN_KEY, $context)) {
             return $translation;
         }
         return $this->translator->translate($translation, glsr()->id, [
@@ -167,7 +167,7 @@ class TranslationController
                 'Pending' => _x('Unapproved', 'admin-text', 'site-reviews'),
             ];
             foreach ($strings as $search => $replace) {
-                if (!Str::contains($search, $single)) {
+                if (!Str::contains($single, $search)) {
                     continue;
                 }
                 return $this->translator->getTranslation([

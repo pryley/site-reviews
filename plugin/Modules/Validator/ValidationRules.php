@@ -25,7 +25,7 @@ trait ValidationRules
      */
     protected function replace($message, array $parameters)
     {
-        if (!Str::contains('%s', $message)) {
+        if (!Str::contains($message, '%s')) {
             return $message;
         }
         return preg_replace_callback('/(%s)/', function () use (&$parameters) {

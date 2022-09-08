@@ -419,9 +419,9 @@ class SystemInfo
     {
         return defined($key)
             || filter_input(INPUT_SERVER, $key)
-            || Str::contains($key, filter_input(INPUT_SERVER, 'SERVER_NAME'))
-            || Str::contains($key, DB_HOST)
-            || (function_exists('php_uname') && Str::contains($key, php_uname()));
+            || Str::contains(filter_input(INPUT_SERVER, 'SERVER_NAME'), $key)
+            || Str::contains(DB_HOST, $key)
+            || (function_exists('php_uname') && Str::contains(php_uname(), $key));
     }
 
     /**

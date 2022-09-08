@@ -73,7 +73,7 @@ class Translation
         try {
             $potEntries = $this->normalize(Parser::parseFile($potFile)->getEntries());
             foreach ($potEntries as $key => $entry) {
-                if (Str::contains(Arr::get($entry, 'msgctxt'), static::CONTEXT_ADMIN_KEY)) {
+                if (Str::contains(static::CONTEXT_ADMIN_KEY, Arr::get($entry, 'msgctxt'))) {
                     continue;
                 }
                 $entries[html_entity_decode($key, ENT_COMPAT, 'UTF-8')] = $entry;
@@ -201,7 +201,7 @@ class Translation
                 if (in_array($needle, [$single, $plural])) {
                     $this->results[$key] = $entry;
                 }
-            } elseif (Str::contains($needle, sprintf('%s %s', $single, $plural))) {
+            } elseif (Str::contains(sprintf('%s %s', $single, $plural), $needle)) {
                 $this->results[$key] = $entry;
             }
         }

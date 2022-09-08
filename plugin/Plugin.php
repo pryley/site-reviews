@@ -109,7 +109,7 @@ trait Plugin
     public function catchFatalError()
     {
         $error = error_get_last();
-        if (E_ERROR === Arr::get($error, 'type') && Str::contains($this->path(), Arr::get($error, 'message'))) {
+        if (E_ERROR === Arr::get($error, 'type') && Str::contains(Arr::get($error, 'message'), $this->path())) {
             glsr_log()->error($error['message']);
         }
     }

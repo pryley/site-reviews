@@ -17,15 +17,15 @@ class Str
     }
 
     /**
-     * @param string|string[] $needles
      * @param string $haystack
+     * @param string|string[] $needles
      * @return bool
      */
-    public static function contains($needles, $haystack)
+    public static function contains($haystack, $needles)
     {
         $needles = array_filter(Cast::toArray($needles), Helper::class.'::isNotEmpty');
         foreach ($needles as $needle) {
-            if (false !== strpos($haystack, $needle)) {
+            if ('' !== $needle && str_contains($haystack, $needle)) {
                 return true;
             }
         }
