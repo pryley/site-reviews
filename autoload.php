@@ -19,6 +19,12 @@ if (!extension_loaded('mbstring')) {
 }
 
 /**
+ * Provides features added to PHP 8.0 core.
+ * @see https://github.com/symfony/polyfill-php80
+ */
+require_once __DIR__.'/vendors/symfony/polyfill-php80/bootstrap.php';
+
+/**
  * Load the Action Scheduler library.
  * @see https://actionscheduler.org
  */
