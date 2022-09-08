@@ -21,6 +21,12 @@ class TaxonomyDefaults extends Defaults
             'show_admin_column' => true,
             'show_in_rest' => true,
             'show_ui' => true,
+            'capabilities' => [
+                'assign_terms' => 'assign_site-review_terms',
+                'delete_terms' => 'delete_site-review_terms',
+                'edit_terms' => 'edit_site-review_terms',
+                'manage_terms' => 'manage_site-review_terms',
+            ],
         ];
     }
 }

@@ -112,6 +112,18 @@ class Migrate_6_0_0 implements MigrateContract
     public function migrateRoles(): void
     {
         glsr(Role::class)->resetAll();
+        $wpRoles = wp_roles();
+        foreach ($wpRoles->roles as $role => $details) {
+            $wpRole = $wpRoles->get_role($role);
+            if (array_key_exists('edit_posts', $details['capabilities'])) {
+                $wpRole->add_cap(glsr(Role::class)->capability('assign_terms'));
+            }
+            if (array_key_exists('manage_categories', $details['capabilities'])) {
+                $wpRole->add_cap(glsr(Role::class)->capability('delete_terms'));
+                $wpRole->add_cap(glsr(Role::class)->capability('edit_terms'));
+                $wpRole->add_cap(glsr(Role::class)->capability('manage_terms'));
+            }
+        }
     }
 
     public function migrateSettings(): void

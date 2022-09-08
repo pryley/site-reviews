@@ -70,6 +70,10 @@ add_action('members_register_caps', function () {
         'read_private_site-reviews' => _x('Read Private Reviews', 'admin-text', 'site-reviews'),
         'respond_to_site-reviews' => _x('Respond To Reviews', 'admin-text', 'site-reviews'),
         'respond_to_others_site-reviews' => _x("Respond To Others' Reviews", 'admin-text', 'site-reviews'),
+        'assign_site-review_terms' => _x('Assign Review Categories', 'admin-text', 'site-reviews'),
+        'delete_site-review_terms' => _x('Delete Review Categories', 'admin-text', 'site-reviews'),
+        'edit_site-review_terms' => _x('Edit Review Categories', 'admin-text', 'site-reviews'),
+        'manage_site-review_terms' => _x('Manage Review Categories', 'admin-text', 'site-reviews'),
     ];
     array_walk($labels, function ($label, $capability) {
         members_register_cap($capability, ['label' => $label]);
