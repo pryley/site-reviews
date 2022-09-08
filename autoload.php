@@ -9,12 +9,10 @@ defined('ABSPATH') || die;
 require_once __DIR__.'/vendors/symfony/polyfill-ctype/bootstrap.php';
 
 /**
- * Provide a partial, native PHP implementation for the Mbstring extension.
+ * Provides a partial, native PHP implementation for the Mbstring extension.
  * @see https://github.com/symfony/polyfill-mbstring
  */
-if (!extension_loaded('mbstring')) {
-    require_once __DIR__.'/vendors/symfony/polyfill-mbstring/bootstrap.php';
-}
+require_once __DIR__.'/vendors/symfony/polyfill-mbstring/bootstrap.php';
 
 /**
  * Provides features added to PHP 8.0 core.
