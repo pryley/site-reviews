@@ -113,9 +113,10 @@ final class Application extends Container
         if (is_array($permission)) {
             $permission = Arr::get($permission, $tab, $fallback);
         }
-        return empty($permission) || !is_string($permission)
+        $capability = empty($permission) || !is_string($permission)
             ? $fallback
             : $permission;
+        return $this->make(Role::class)->capability($capability);
     }
 
     /**

@@ -28,6 +28,7 @@ class PermissionDefaults extends Defaults
                 'sync' => 'manage_options',
                 'system-info' => 'edit_posts',
             ],
+            'welcome' => 'edit_posts',
         ];
     }
 }
