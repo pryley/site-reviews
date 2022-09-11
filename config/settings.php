@@ -571,7 +571,7 @@ return [ // order is intentional
         ),
         'type' => 'text',
     ],
-    'settings.submissions.required' => [
+    'settings.forms.required' => [
         'default' => ['content', 'email', 'name', 'rating', 'terms', 'title'],
         'label' => _x('Required Fields', 'admin-text', 'site-reviews'),
         'options' => [
@@ -585,7 +585,7 @@ return [ // order is intentional
         'tooltip' => _x('Choose which fields should be required in the review form.', 'admin-text', 'site-reviews'),
         'type' => 'checkbox',
     ],
-    'settings.submissions.limit' => [
+    'settings.forms.limit' => [
         'class' => 'regular-text',
         'default' => '',
         'label' => _x('Limit Reviews', 'admin-text', 'site-reviews'),
@@ -598,21 +598,21 @@ return [ // order is intentional
         'tooltip' => _x('Limits the number of reviews that can be submitted to one-per-person.', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
-    'settings.submissions.limit_time' => [
+    'settings.forms.limit_time' => [
         'after' => _x('days', 'limit time (admin-text)', 'site-reviews'),
         'default' => 7,
         'depends_on' => [
-            'settings.submissions.limit' => ['email', 'ip_address', 'username'],
+            'settings.forms.limit' => ['email', 'ip_address', 'username'],
         ],
         'label' => _x('Limit Reviews For', 'admin-text', 'site-reviews'),
         'min' => 0,
         'tooltip' => _x('Set the amount of days that the review limits apply for. "0" means the limit applies forever.', 'admin-text', 'site-reviews'),
         'type' => 'number',
     ],
-    'settings.submissions.limit_assignments' => [
+    'settings.forms.limit_assignments' => [
         'default' => ['assigned_posts'],
         'depends_on' => [
-            'settings.submissions.limit' => ['email', 'ip_address', 'username'],
+            'settings.forms.limit' => ['email', 'ip_address', 'username'],
         ],
         'label' => _x('Restrict Limits To', 'admin-text', 'site-reviews'),
         'options' => [
@@ -626,37 +626,37 @@ return [ // order is intentional
         ),
         'type' => 'checkbox',
     ],
-    'settings.submissions.limit_whitelist.email' => [
+    'settings.forms.limit_whitelist.email' => [
         'default' => '',
         'depends_on' => [
-            'settings.submissions.limit' => ['email'],
+            'settings.forms.limit' => ['email'],
         ],
         'label' => _x('Email Whitelist', 'admin-text', 'site-reviews'),
         'rows' => 5,
         'tooltip' => _x('One Email per line. All emails in the whitelist will be excluded from the review submission limit.', 'admin-text', 'site-reviews'),
         'type' => 'code',
     ],
-    'settings.submissions.limit_whitelist.ip_address' => [
+    'settings.forms.limit_whitelist.ip_address' => [
         'default' => '',
         'depends_on' => [
-            'settings.submissions.limit' => ['ip_address'],
+            'settings.forms.limit' => ['ip_address'],
         ],
         'label' => _x('IP Address Whitelist', 'admin-text', 'site-reviews'),
         'rows' => 5,
         'tooltip' => _x('One IP Address per line. All IP Addresses in the whitelist will be excluded from the review submission limit..', 'admin-text', 'site-reviews'),
         'type' => 'code',
     ],
-    'settings.submissions.limit_whitelist.username' => [
+    'settings.forms.limit_whitelist.username' => [
         'default' => '',
         'depends_on' => [
-            'settings.submissions.limit' => ['username'],
+            'settings.forms.limit' => ['username'],
         ],
         'label' => _x('Username Whitelist', 'admin-text', 'site-reviews'),
         'rows' => 5,
         'tooltip' => _x('One Username per line. All registered users with a Username in the whitelist will be excluded from the review submission limit.', 'admin-text', 'site-reviews'),
         'type' => 'code',
     ],
-    'settings.submissions.captcha.integration' => [
+    'settings.forms.captcha.integration' => [
         'class' => 'regular-text',
         'default' => '',
         'label' => _x('CAPTCHA', 'admin-text', 'site-reviews'),
@@ -670,82 +670,82 @@ return [ // order is intentional
         'tooltip' => _x('CAPTCHAs (Completely Automated Public Turing test to tell Computers and Humans Apart) are anti-bot solutions that protect forms from spam.', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
-    'settings.submissions.friendlycaptcha.key' => [
+    'settings.forms.friendlycaptcha.key' => [
         'default' => '',
         'depends_on' => [
-            'settings.submissions.captcha.integration' => ['friendlycaptcha'],
+            'settings.forms.captcha.integration' => ['friendlycaptcha'],
         ],
         'label' => _x('Site Key', 'admin-text', 'site-reviews'),
         'tooltip' => _x('<a href="https://friendlycaptcha.com/signup" target="_blank">Friendly Captcha</a> is privacy-first Schrems II and GDPR compliant anti-bot solution.', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
-    'settings.submissions.friendlycaptcha.secret' => [
+    'settings.forms.friendlycaptcha.secret' => [
         'default' => '',
         'depends_on' => [
-            'settings.submissions.captcha.integration' => ['friendlycaptcha'],
+            'settings.forms.captcha.integration' => ['friendlycaptcha'],
         ],
         'label' => _x('API Key', 'admin-text', 'site-reviews'),
         'tooltip' => _x('<a href="https://friendlycaptcha.com/signup" target="_blank">Friendly Captcha</a> is privacy-first Schrems II and GDPR compliant anti-bot solution.', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
-    'settings.submissions.hcaptcha.key' => [
+    'settings.forms.hcaptcha.key' => [
         'default' => '',
         'depends_on' => [
-            'settings.submissions.captcha.integration' => ['hcaptcha'],
+            'settings.forms.captcha.integration' => ['hcaptcha'],
         ],
         'label' => _x('Site Key', 'admin-text', 'site-reviews'),
         'tooltip' => _x('hCaptcha is an anti-bot solution that protects user privacy. It is the most popular reCAPTCHA alternative. To use it, you will need to <a href="https://dashboard.hcaptcha.com/" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
-    'settings.submissions.hcaptcha.secret' => [
+    'settings.forms.hcaptcha.secret' => [
         'default' => '',
         'depends_on' => [
-            'settings.submissions.captcha.integration' => ['hcaptcha'],
+            'settings.forms.captcha.integration' => ['hcaptcha'],
         ],
         'label' => _x('Secret Key', 'admin-text', 'site-reviews'),
         'tooltip' => _x('hCaptcha is an anti-bot solution that protects user privacy. It is the most popular reCAPTCHA alternative. To use it, you will need to <a href="https://dashboard.hcaptcha.com/" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
-    'settings.submissions.recaptcha.key' => [
+    'settings.forms.recaptcha.key' => [
         'default' => '',
         'depends_on' => [
-            'settings.submissions.captcha.integration' => ['recaptcha_v2_invisible'],
+            'settings.forms.captcha.integration' => ['recaptcha_v2_invisible'],
         ],
         'label' => _x('Site Key', 'admin-text', 'site-reviews'),
         'tooltip' => _x('reCAPTCHA v2 Invisible is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
-    'settings.submissions.recaptcha.secret' => [
+    'settings.forms.recaptcha.secret' => [
         'default' => '',
         'depends_on' => [
-            'settings.submissions.captcha.integration' => ['recaptcha_v2_invisible'],
+            'settings.forms.captcha.integration' => ['recaptcha_v2_invisible'],
         ],
         'label' => _x('Secret Key', 'admin-text', 'site-reviews'),
         'tooltip' => _x('reCAPTCHA v2 Invisible is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
-    'settings.submissions.recaptcha_v3.key' => [
+    'settings.forms.recaptcha_v3.key' => [
         'default' => '',
         'depends_on' => [
-            'settings.submissions.captcha.integration' => ['recaptcha_v3'],
+            'settings.forms.captcha.integration' => ['recaptcha_v3'],
         ],
         'label' => _x('Site Key', 'admin-text', 'site-reviews'),
         'tooltip' => _x('reCAPTCHA v3 is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
-    'settings.submissions.recaptcha_v3.secret' => [
+    'settings.forms.recaptcha_v3.secret' => [
         'default' => '',
         'depends_on' => [
-            'settings.submissions.captcha.integration' => ['recaptcha_v3'],
+            'settings.forms.captcha.integration' => ['recaptcha_v3'],
         ],
         'label' => _x('Secret Key', 'admin-text', 'site-reviews'),
         'tooltip' => _x('reCAPTCHA v3 is a free anti-spam service from Google. To use it, you will need to <a href="https://www.google.com/recaptcha/admin" target="_blank">sign up</a> for an API key pair for your site.', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
-    'settings.submissions.recaptcha_v3.threshold' => [
+    'settings.forms.recaptcha_v3.threshold' => [
         'default' => 0.5,
         'depends_on' => [
-            'settings.submissions.captcha.integration' => 'recaptcha_v3',
+            'settings.forms.captcha.integration' => 'recaptcha_v3',
         ],
         'description' => _x('Score threshold should be a value between 0 and 1, default: 0.5', 'admin-text', 'site-reviews'),
         'label' => _x('Score Threshold', 'admin-text', 'site-reviews'),
@@ -755,11 +755,11 @@ return [ // order is intentional
         'tooltip' => _x('Where 0 is a robot and 1 is a human', 'admin-text', 'site-reviews'),
         'type' => 'number',
     ],
-    'settings.submissions.captcha.position' => [
+    'settings.forms.captcha.position' => [
         'class' => 'regular-text',
         'default' => 'bottomleft',
         'depends_on' => [
-            'settings.submissions.captcha.integration' => ['recaptcha_v2_invisible', 'recaptcha_v3'],
+            'settings.forms.captcha.integration' => ['recaptcha_v2_invisible', 'recaptcha_v3'],
         ],
         'label' => _x('CAPTCHA Badge', 'admin-text', 'site-reviews'),
         'options' => [
@@ -770,11 +770,11 @@ return [ // order is intentional
         'tooltip' => _x('Set the position of the CAPTCHA widget. This option may not work consistently if another plugin is loading reCAPTCHA on the same page as Site Reviews.', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
-    'settings.submissions.captcha.theme' => [
+    'settings.forms.captcha.theme' => [
         'class' => 'regular-text',
         'default' => 'light',
         'depends_on' => [
-            'settings.submissions.captcha.integration' => ['friendlycaptcha', 'hcaptcha', 'recaptcha_v2_invisible', 'recaptcha_v3'],
+            'settings.forms.captcha.integration' => ['friendlycaptcha', 'hcaptcha', 'recaptcha_v2_invisible', 'recaptcha_v3'],
         ],
         'label' => _x('CAPTCHA Theme', 'admin-text', 'site-reviews'),
         'options' => [
@@ -784,11 +784,11 @@ return [ // order is intentional
         'tooltip' => _x('Set the color theme of the CAPTCHA widget.', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
-    'settings.submissions.captcha.usage' => [
+    'settings.forms.captcha.usage' => [
         'class' => 'regular-text',
         'default' => 'all',
         'depends_on' => [
-            'settings.submissions.captcha.integration' => ['friendlycaptcha', 'hcaptcha', 'recaptcha_v2_invisible', 'recaptcha_v3'],
+            'settings.forms.captcha.integration' => ['friendlycaptcha', 'hcaptcha', 'recaptcha_v2_invisible', 'recaptcha_v3'],
         ],
         'label' => _x('CAPTCHA Usage', 'admin-text', 'site-reviews'),
         'options' => [
@@ -798,13 +798,13 @@ return [ // order is intentional
         'tooltip' => _x('Choose who you want to load the CAPTCHA for.', 'admin-text', 'site-reviews'),
         'type' => 'select',
     ],
-    'settings.submissions.akismet' => [
+    'settings.forms.akismet' => [
         'default' => 'no',
         'label' => _x('Enable Akismet', 'admin-text', 'site-reviews'),
         'tooltip' => _x('The <a href="https://akismet.com" target="_blank">Akismet plugin</a> integration provides spam-filtering for your reviews. In order for this setting to have any affect, you will need to first install and activate the Akismet plugin and set up a WordPress.com API key.', 'admin-text', 'site-reviews'),
         'type' => 'yes_no',
     ],
-    'settings.submissions.blacklist.integration' => [
+    'settings.forms.blacklist.integration' => [
         'class' => 'regular-text',
         'default' => 'comments',
         'label' => _x('Blacklist', 'admin-text', 'site-reviews'),
@@ -817,17 +817,17 @@ return [ // order is intentional
         ),
         'type' => 'select',
     ],
-    'settings.submissions.blacklist.entries' => [
+    'settings.forms.blacklist.entries' => [
         'default' => '',
         'depends_on' => [
-            'settings.submissions.blacklist.integration' => [''],
+            'settings.forms.blacklist.integration' => [''],
         ],
         'label' => _x('Review Blacklist', 'admin-text', 'site-reviews'),
         'rows' => 10,
         'tooltip' => _x('One entry or IP address per line. When a review contains any of these entries in its title, content, name, email, or IP address, it will be rejected. It is case-insensitive and will match partial words, so "press" will match "WordPress".', 'admin-text', 'site-reviews'),
         'type' => 'code',
     ],
-    'settings.submissions.blacklist.action' => [
+    'settings.forms.blacklist.action' => [
         'class' => 'regular-text',
         'default' => 'unapprove',
         'label' => _x('Blacklist Action', 'admin-text', 'site-reviews'),

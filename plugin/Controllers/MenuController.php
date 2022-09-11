@@ -129,10 +129,10 @@ class MenuController extends Controller
      */
     public function renderSettingsMenu()
     {
-        $tabs = $this->parseWithFilter('settings/tabs', [
+        $tabs = $this->parseWithFilter('settings/tabs', [ // order is intentional
             'general' => _x('General', 'admin-text', 'site-reviews'),
             'reviews' => _x('Reviews', 'admin-text', 'site-reviews'),
-            'submissions' => _x('Submissions', 'admin-text', 'site-reviews'),
+            'forms' => _x('Forms', 'admin-text', 'site-reviews'),
             'schema' => _x('Schema', 'admin-text', 'site-reviews'),
             'translations' => _x('Strings', 'admin-text', 'site-reviews'),
             'addons' => _x('Addons', 'admin-text', 'site-reviews'),

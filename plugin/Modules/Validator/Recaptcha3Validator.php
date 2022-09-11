@@ -19,7 +19,7 @@ class Recaptcha3Validator extends CaptchaValidator
      */
     public function isTokenValid(array $response)
     {
-        $threshold = glsr_get_option('submissions.recaptcha_v3.threshold');
+        $threshold = glsr_get_option('forms.recaptcha_v3.threshold');
         $isValid = $response['success']
             && $response['score'] >= $threshold
             && 'submit_review' === $response['action'];
@@ -53,10 +53,10 @@ class Recaptcha3Validator extends CaptchaValidator
      */
     protected function errors(array $errors)
     {
-        if (empty(glsr_get_option('submissions.recaptcha_v3.secret'))) {
+        if (empty(glsr_get_option('forms.recaptcha_v3.secret'))) {
             $errors[] = 'missing-input-secret';
         }
-        if (empty(glsr_get_option('submissions.recaptcha_v3.key'))) {
+        if (empty(glsr_get_option('forms.recaptcha_v3.key'))) {
             $errors[] = 'sitekey_missing';
         } elseif ('sitekey_invalid' === $this->token()) {
             $errors[] = 'sitekey_invalid';
@@ -76,11 +76,11 @@ class Recaptcha3Validator extends CaptchaValidator
         return [
             'remoteip' => $this->request->ip_address,
             'response' => $token,
-            'secret' => glsr_get_option('submissions.recaptcha_v3.secret'),
+            'secret' => glsr_get_option('forms.recaptcha_v3.secret'),
             // The sitekey does not need to be sent in the request, but it's here
             // so we can return a better error response to the form.
             // @see CaptchaValidator::verifyToken()
-            'sitekey' => glsr_get_option('submissions.recaptcha_v3.key'),
+            'sitekey' => glsr_get_option('forms.recaptcha_v3.key'),
         ];
     }
 

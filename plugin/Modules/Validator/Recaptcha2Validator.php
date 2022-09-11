@@ -36,7 +36,7 @@ class Recaptcha2Validator extends CaptchaValidator
      */
     protected function errors(array $errors)
     {
-        if (empty(glsr_get_option('submissions.recaptcha.key'))) {
+        if (empty(glsr_get_option('forms.recaptcha.key'))) {
             $errors[] = 'sitekey_missing';
         } elseif ('sitekey_invalid' === $this->token()) {
             $errors[] = 'sitekey_invalid';
@@ -56,8 +56,8 @@ class Recaptcha2Validator extends CaptchaValidator
         return [
             'remoteip' => $this->request->ip_address,
             'response' => $token,
-            'secret' => glsr_get_option('submissions.recaptcha.secret'),
-            'sitekey' => glsr_get_option('submissions.recaptcha.key'),
+            'secret' => glsr_get_option('forms.recaptcha.secret'),
+            'sitekey' => glsr_get_option('forms.recaptcha.key'),
         ];
     }
 

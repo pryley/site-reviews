@@ -128,6 +128,12 @@ class Migrate_6_0_0 implements MigrateContract
 
     public function migrateSettings(): void
     {
+        if ($settings = get_option(OptionManager::databaseKey(5))) {
+            $forms = Arr::get($settings, 'settings.submissions');
+            $settings = Arr::set($settings, 'settings.forms', $forms);
+            unset($settings['settings']['submissions']);
+            update_option(OptionManager::databaseKey(6), $settings);
+        }
         $style = glsr(OptionManager::class)->get('settings.general.style');
         if (in_array($style, ['bootstrap_4', 'bootstrap_4_custom'])) {
             glsr(OptionManager::class)->set('settings.general.style', 'bootstrap');

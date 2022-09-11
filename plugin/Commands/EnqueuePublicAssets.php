@@ -60,7 +60,7 @@ class EnqueuePublicAssets implements Contract
         if (!glsr(Captcha::class)->isEnabled()) {
             return;
         }
-        $integration = glsr_get_option('submissions.captcha.integration');
+        $integration = glsr_get_option('forms.captcha.integration');
         $language = glsr()->filterString('captcha/language', get_locale());
         $apiUrl = 'https://www.google.com/recaptcha/api.js';
         $handle = glsr()->id.'/google-recaptcha';

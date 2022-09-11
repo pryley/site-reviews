@@ -48,7 +48,7 @@
             <p>Easily rank pages with assigned reviews using the bayesian algorithm.</p>
         </li>
         <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('settings', 'submissions'); ?>">Blacklist</a></h3>
+            <h3><a href="<?= glsr_admin_url('settings', 'forms'); ?>">Blacklist</a></h3>
             <p>Blacklist words, phrases, IP addresses, names, and emails.</p>
         </li>
         <li class="glsr-column">
@@ -108,7 +108,7 @@
             <p>Assign reviews to multiple Posts, Pages, Custom Post Types, Categories, and Users.</p>
         </li>
         <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('settings', 'submissions'); ?>">Review Limits</a></h3>
+            <h3><a href="<?= glsr_admin_url('settings', 'forms'); ?>">Review Limits</a></h3>
             <p>Limit review submissions by email address, IP address, or username.</p>
         </li>
         <li class="glsr-column">
@@ -128,7 +128,7 @@
             <p>Receive notifications in Slack when a review is submitted.</p>
         </li>
         <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('settings', 'submissions'); ?>">SPAM Protection</a></h3>
+            <h3><a href="<?= glsr_admin_url('settings', 'forms'); ?>">SPAM Protection</a></h3>
             <p>Uses a Honeypot and integrates with FriendlyCaptcha, hCaptcha, reCAPTCHA, and Akismet.</p>
         </li>
         <li class="glsr-column">

@@ -78,7 +78,7 @@ class AkismetValidator extends ValidatorAbstract
      */
     protected function isActive()
     {
-        $check = !glsr_get_option('submissions.akismet', false, 'bool')
+        $check = !glsr_get_option('forms.akismet', false, 'bool')
             || !is_callable(['Akismet', 'get_api_key'])
             || !is_callable(['Akismet', 'http_post'])
             ? false

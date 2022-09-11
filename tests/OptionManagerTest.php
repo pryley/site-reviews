@@ -20,9 +20,9 @@ class OptionManagerTest extends WP_UnitTestCase
         $this->assertArrayHasKey('version', $options);
         $this->assertArrayHasKey('version_upgraded_from', $options);
         $this->assertArrayHasKey('general', $options['settings']);
+        $this->assertArrayHasKey('forms', $options['settings']);
         $this->assertArrayHasKey('reviews', $options['settings']);
         $this->assertArrayHasKey('schema', $options['settings']);
-        $this->assertArrayHasKey('submissions', $options['settings']);
     }
 
     public function test_database_key()

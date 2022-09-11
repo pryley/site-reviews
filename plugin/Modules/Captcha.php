@@ -16,7 +16,7 @@ class Captcha
         if (!$this->isEnabled()) {
             return [];
         }
-        $method = Helper::buildMethodName(glsr_get_option('submissions.captcha.integration'), 'config');
+        $method = Helper::buildMethodName(glsr_get_option('forms.captcha.integration'), 'config');
         if (!method_exists($this, $method)) {
             return [];
         }
@@ -45,8 +45,8 @@ class Captcha
      */
     public function isEnabled($service = '')
     {
-        $integration = glsr_get_option('submissions.captcha.integration');
-        $usage = glsr_get_option('submissions.captcha.usage');
+        $integration = glsr_get_option('forms.captcha.integration');
+        $usage = glsr_get_option('forms.captcha.usage');
         $isEnabled = 'all' == $usage || ('guest' == $usage && !is_user_logged_in());
         if (!empty($service)) {
             return $integration === $service && $isEnabled;
@@ -60,9 +60,9 @@ class Captcha
     protected function configFriendlycaptcha()
     {
         return [
-            'class' => 'frc-captcha '.glsr_get_option('submissions.captcha.theme'),
-            'sitekey' => glsr_get_option('submissions.friendlycaptcha.key'),
-            'theme' => glsr_get_option('submissions.captcha.theme'),
+            'class' => 'frc-captcha '.glsr_get_option('forms.captcha.theme'),
+            'sitekey' => glsr_get_option('forms.friendlycaptcha.key'),
+            'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'friendlycaptcha',
         ];
     }
@@ -74,10 +74,10 @@ class Captcha
     {
         return [
             'class' => 'h-captcha',
-            'badge' => glsr_get_option('submissions.captcha.position'),
-            'sitekey' => glsr_get_option('submissions.hcaptcha.key'),
+            'badge' => glsr_get_option('forms.captcha.position'),
+            'sitekey' => glsr_get_option('forms.hcaptcha.key'),
             'size' => 'normal',
-            'theme' => glsr_get_option('submissions.captcha.theme'),
+            'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'hcaptcha',
         ];
     }
@@ -89,10 +89,10 @@ class Captcha
     {
         return [
             'class' => 'g-recaptcha',
-            'badge' => glsr_get_option('submissions.captcha.position'),
-            'sitekey' => glsr_get_option('submissions.recaptcha.key'),
+            'badge' => glsr_get_option('forms.captcha.position'),
+            'sitekey' => glsr_get_option('forms.recaptcha.key'),
             'size' => 'invisible',
-            'theme' => glsr_get_option('submissions.captcha.theme'),
+            'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'recaptcha_v2_invisible',
         ];
     }
@@ -104,10 +104,10 @@ class Captcha
     {
         return [
             'class' => 'g-recaptcha',
-            'badge' => glsr_get_option('submissions.captcha.position'),
-            'sitekey' => glsr_get_option('submissions.recaptcha_v3.key'),
+            'badge' => glsr_get_option('forms.captcha.position'),
+            'sitekey' => glsr_get_option('forms.recaptcha_v3.key'),
             'size' => 'invisible',
-            'theme' => glsr_get_option('submissions.captcha.theme'),
+            'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'recaptcha_v3',
         ];
     }

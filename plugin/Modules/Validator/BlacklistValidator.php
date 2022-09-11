@@ -28,7 +28,7 @@ class BlacklistValidator extends ValidatorAbstract
     public function performValidation()
     {
         if (!$this->isValid()) {
-            if ('reject' !== glsr_get_option('submissions.blacklist.action')) {
+            if ('reject' !== glsr_get_option('forms.blacklist.action')) {
                 $this->request->set('blacklisted', true);
                 return;
             }
@@ -44,9 +44,9 @@ class BlacklistValidator extends ValidatorAbstract
      */
     protected function blacklist()
     {
-        return 'comments' === glsr_get_option('submissions.blacklist.integration')
+        return 'comments' === glsr_get_option('forms.blacklist.integration')
             ? trim(glsr(OptionManager::class)->getWP('disallowed_keys'))
-            : trim(glsr_get_option('submissions.blacklist.entries'));
+            : trim(glsr_get_option('forms.blacklist.entries'));
     }
 
     /**

@@ -36,7 +36,7 @@ class FriendlyCaptchaValidator extends CaptchaValidator
      */
     protected function errors(array $errors)
     {
-        if (empty(glsr_get_option('submissions.friendlycaptcha.key'))) {
+        if (empty(glsr_get_option('forms.friendlycaptcha.key'))) {
             $errors[] = 'sitekey_missing';
         }
         return parent::errors($errors);
@@ -48,8 +48,8 @@ class FriendlyCaptchaValidator extends CaptchaValidator
     protected function request()
     {
         return [
-            'secret' => glsr_get_option('submissions.friendlycaptcha.secret'),
-            'sitekey' => glsr_get_option('submissions.friendlycaptcha.key'),
+            'secret' => glsr_get_option('forms.friendlycaptcha.secret'),
+            'sitekey' => glsr_get_option('forms.friendlycaptcha.key'),
             'solution' => $this->token(),
         ];
     }

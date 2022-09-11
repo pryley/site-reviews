@@ -23,8 +23,8 @@ class SettingsController extends Controller
             $options = array_replace_recursive(glsr(OptionManager::class)->all(), $input);
             $options = $this->sanitizeGeneral($input, $options);
             $options = $this->sanitizeLicenses($input, $options);
-            $options = $this->sanitizeSubmissions($input, $options);
             $options = $this->sanitizeTranslations($input, $options);
+            $options = $this->sanitizeForms($input, $options);
             $options = glsr()->filterArray('settings/callback', $options, $settings);
             if (filter_input(INPUT_POST, 'option_page') == glsr()->id.'-settings') {
                 glsr(Notice::class)->addSuccess(_x('Settings updated.', 'admin-text', 'site-reviews'));
@@ -44,6 +44,21 @@ class SettingsController extends Controller
         register_setting(glsr()->id.'-settings', OptionManager::databaseKey(), [
             'sanitize_callback' => [$this, 'callbackRegisterSettings'],
         ]);
+    }
+
+    /**
+     * @return array
+     */
+    protected function sanitizeForms(array $input, array $options)
+    {
+        $key = 'settings.forms';
+        $inputForm = Arr::get($input, $key);
+        $multiFields = ['limit_assignments', 'required'];
+        foreach ($multiFields as $name) {
+            $defaultValue = Arr::get($inputForm, $name, []);
+            $options = Arr::set($options, $key.'.'.$name, $defaultValue);
+        }
+        return $options;
     }
 
     /**
@@ -85,18 +100,6 @@ class SettingsController extends Controller
     /**
      * @return array
      */
-    protected function sanitizeSubmissions(array $input, array $options)
-    {
-        $key = 'settings.submissions';
-        $inputForm = Arr::get($input, $key);
-        $multiFields = ['limit_assignments', 'required'];
-        foreach ($multiFields as $name) {
-            $defaultValue = Arr::get($inputForm, $name, []);
-            $options = Arr::set($options, $key.'.'.$name, $defaultValue);
-        }
-        return $options;
-    }
-
     /**
      * @return array
      */

@@ -29,7 +29,7 @@ class DefaultValidator extends ValidatorAbstract
      */
     public function isValidRequest()
     {
-        $options = glsr(DefaultsManager::class)->pluck('settings.submissions.required.options');
+        $options = glsr(DefaultsManager::class)->pluck('settings.forms.required.options');
         $excludedKeys = array_keys(array_diff_key($options, $this->request->toArray()));
         $this->request->excluded = $excludedKeys;
         if ($this->isValid()) {
@@ -76,7 +76,7 @@ class DefaultValidator extends ValidatorAbstract
     protected function normalizedRules()
     {
         $rules = $this->defaultRules();
-        $required = glsr_get_option('submissions.required', []);
+        $required = glsr_get_option('forms.required', []);
         array_walk($rules, function (&$value, $key) use ($required) {
             if (!in_array($key, $required)) {
                 // remove the accepted and required rules from validation
@@ -96,7 +96,7 @@ class DefaultValidator extends ValidatorAbstract
     {
         $defaultRules = $this->normalizedRules();
         $customRules = array_diff_key($defaultRules,
-            glsr(DefaultsManager::class)->pluck('settings.submissions.required.options')
+            glsr(DefaultsManager::class)->pluck('settings.forms.required.options')
         );
         $excluded = Arr::convertFromString($this->request->excluded); // these fields were ommited with the hide option
         $rules = array_merge($defaultRules, $customRules);

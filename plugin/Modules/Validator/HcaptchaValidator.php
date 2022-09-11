@@ -37,7 +37,7 @@ class HcaptchaValidator extends CaptchaValidator
      */
     protected function errors(array $errors)
     {
-        if (empty(glsr_get_option('submissions.hcaptcha.key'))) {
+        if (empty(glsr_get_option('forms.hcaptcha.key'))) {
             $errors[] = 'sitekey_missing';
         }
         return parent::errors($errors);
@@ -51,8 +51,8 @@ class HcaptchaValidator extends CaptchaValidator
         return [
             'remoteip' => $this->request->ip_address,
             'response' => $this->token(),
-            'secret' => glsr_get_option('submissions.hcaptcha.secret'),
-            'sitekey' => glsr_get_option('submissions.hcaptcha.key'),
+            'secret' => glsr_get_option('forms.hcaptcha.secret'),
+            'sitekey' => glsr_get_option('forms.hcaptcha.key'),
         ];
     }
 

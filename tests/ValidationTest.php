@@ -72,17 +72,17 @@ class ValidationTest extends WP_Ajax_UnitTestCase
         $this->assertTrue($response->data->review->is_approved);
         $this->assertEquals('publish', $response->data->review->status);
         $this->assertEquals($response->data->message, $this->messageSuccess);
-        glsr(OptionManager::class)->set('settings.submissions.blacklist.action', 'reject');
-        glsr(OptionManager::class)->set('settings.submissions.blacklist.entries', $blacklist);
-        glsr(OptionManager::class)->set('settings.submissions.blacklist.integration', '');
+        glsr(OptionManager::class)->set('settings.forms.blacklist.action', 'reject');
+        glsr(OptionManager::class)->set('settings.forms.blacklist.entries', $blacklist);
+        glsr(OptionManager::class)->set('settings.forms.blacklist.integration', '');
         $this->assertJsonError($this->request(['content' => 'Give me a xxx!!']));
         $this->assertJsonError($this->request(['email' => 'john@apple.com']));
         $this->assertJsonSuccess($this->request(['email' => 'john@microsoft.com']));
         $this->assertJsonError($this->request(['name' => 'Johnxxx Doe']));
         $this->assertJsonError($this->request(['title' => 'This is a xxx title']));
-        glsr(OptionManager::class)->set('settings.submissions.blacklist.entries', "{$blacklist}\n{$this->ipaddress}");
+        glsr(OptionManager::class)->set('settings.forms.blacklist.entries', "{$blacklist}\n{$this->ipaddress}");
         $this->assertJsonError($this->request());
-        glsr(OptionManager::class)->set('settings.submissions.blacklist.integration', 'comments');
+        glsr(OptionManager::class)->set('settings.forms.blacklist.integration', 'comments');
         $this->assertJsonSuccess($this->request());
         update_option('disallowed_keys', $blacklist);
         $this->assertJsonError($this->request(['content' => 'Give me a xxx!!']));
@@ -93,7 +93,7 @@ class ValidationTest extends WP_Ajax_UnitTestCase
         $response1 = $this->assertJsonError($this->request());
         $this->assertEquals($response1->data->message, $this->messageFailedBlacklist);
         update_option('disallowed_keys', $blacklist);
-        glsr(OptionManager::class)->set('settings.submissions.blacklist.action', 'unapprove');
+        glsr(OptionManager::class)->set('settings.forms.blacklist.action', 'unapprove');
         $response2 = $this->assertJsonSuccess($this->request(['email' => 'john@apple.com']));
         $this->assertFalse($response2->data->review->is_approved);
         $this->assertEquals('pending', $response2->data->review->status);
@@ -120,7 +120,7 @@ class ValidationTest extends WP_Ajax_UnitTestCase
         add_filter('site-reviews/validators', function () {
             return [DefaultValidator::class];
         });
-        glsr(OptionManager::class)->set('settings.submissions.required', ['rating', 'title', 'content', 'name', 'email', 'terms']);
+        glsr(OptionManager::class)->set('settings.forms.required', ['rating', 'title', 'content', 'name', 'email', 'terms']);
         $response1 = $this->assertJsonError($this->request());
         $response2 = $this->assertJsonSuccess($this->request([
             'content' => $this->faker->text,
@@ -179,15 +179,15 @@ class ValidationTest extends WP_Ajax_UnitTestCase
         add_filter('site-reviews/validators', function () {
             return [ReviewLimitsValidator::class];
         });
-        glsr(OptionManager::class)->set('settings.submissions.limit', 'ip_address');
+        glsr(OptionManager::class)->set('settings.forms.limit', 'ip_address');
         $this->assertJsonSuccess($this->request());
         $this->assertJsonError($this->request());
-        glsr(OptionManager::class)->set('settings.submissions.limit', 'email');
+        glsr(OptionManager::class)->set('settings.forms.limit', 'email');
         $this->assertJsonSuccess($this->request(['email' => 'john@apple.com']));
         $this->assertJsonError($this->request(['email' => 'john@apple.com']));
-        glsr(OptionManager::class)->set('settings.submissions.limit_whitelist.email', 'john@apple.com');
+        glsr(OptionManager::class)->set('settings.forms.limit_whitelist.email', 'john@apple.com');
         $this->assertJsonSuccess($this->request(['email' => 'john@apple.com']));
-        glsr(OptionManager::class)->set('settings.submissions.limit', 'username');
+        glsr(OptionManager::class)->set('settings.forms.limit', 'username');
         $this->assertJsonSuccess($this->request());
         wp_set_current_user(self::factory()->user->create([
             'role' => 'editor',

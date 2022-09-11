@@ -220,7 +220,7 @@ class SiteReviewsFormShortcode extends Shortcode
         return glsr()->args([
             'errors' => glsr()->sessionPluck('form_errors', []),
             'message' => glsr()->sessionPluck('form_message', ''),
-            'required' => glsr_get_option('submissions.required', []),
+            'required' => glsr_get_option('forms.required', []),
             'values' => glsr()->sessionPluck('form_values', []),
         ]);
     }

@@ -19,7 +19,7 @@ class ReviewLimitsValidator extends ValidatorAbstract
      */
     public function isValid()
     {
-        $method = Helper::buildMethodName(glsr_get_option('submissions.limit'), 'validateBy');
+        $method = Helper::buildMethodName(glsr_get_option('forms.limit'), 'validateBy');
         return method_exists($this, $method)
             ? call_user_func([$this, $method])
             : true;
@@ -54,8 +54,8 @@ class ReviewLimitsValidator extends ValidatorAbstract
      */
     protected function normalizeArgs(array $args)
     {
-        $assignments = glsr_get_option('submissions.limit_assignments', ['assigned_posts'], 'array'); // assigned_posts is the default
-        $limitToDays = max(0, glsr_get_option('submissions.limit_time', 0, 'int'));
+        $assignments = glsr_get_option('forms.limit_assignments', ['assigned_posts'], 'array'); // assigned_posts is the default
+        $limitToDays = max(0, glsr_get_option('forms.limit_time', 0, 'int'));
         if (in_array('assigned_posts', $assignments)) {
             $args['assigned_posts'] = $this->request->assigned_posts;
         }
@@ -120,7 +120,7 @@ class ReviewLimitsValidator extends ValidatorAbstract
     protected function validateLimit($key, $value, array $args)
     {
         if (empty($value)
-            || $this->isWhitelisted($value, glsr_get_option('submissions.limit_whitelist.'.$key))) {
+            || $this->isWhitelisted($value, glsr_get_option('forms.limit_whitelist.'.$key))) {
             return true;
         }
         add_filter('query/sql/clause/operator', [$this, 'filterSqlClauseOperator'], 20);
