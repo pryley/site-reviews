@@ -25,19 +25,19 @@ class Translation
     protected $results;
 
     /**
-     * Returns all saved custom translations with translation context.
+     * Returns all saved custom strings with translation context.
      * @return array
      */
     public function all()
     {
-        $translations = $this->translations();
-        $entries = $this->filter($translations, $this->entries())->results();
-        array_walk($translations, function (&$entry) use ($entries) {
+        $strings = $this->strings();
+        $entries = $this->filter($strings, $this->entries())->results();
+        array_walk($strings, function (&$entry) use ($entries) {
             $entry['desc'] = array_key_exists($entry['id'], $entries)
                 ? $this->getEntryString($entries[$entry['id']], 'msgctxt')
                 : '';
         });
-        return $translations;
+        return $strings;
     }
 
     /**
@@ -96,7 +96,7 @@ class Translation
             $entries = $this->results;
         }
         if (!is_array($filterWith)) {
-            $filterWith = $this->translations();
+            $filterWith = $this->strings();
         }
         $keys = array_flip(wp_list_pluck($filterWith, 'id'));
         $this->results = $intersect
@@ -120,13 +120,13 @@ class Translation
             $data['data.class'] = 'is-invalid';
             $data['data.error'] = _x('This custom translation is no longer valid as the original text has been changed or removed.', 'admin-text', 'site-reviews');
         }
-        return glsr(Template::class)->build('partials/translations/'.$template, [
+        return glsr(Template::class)->build('partials/strings/'.$template, [
             'context' => array_map('esc_html', $data),
         ]);
     }
 
     /**
-     * Returns a rendered string of all saved custom translations with translation context.
+     * Returns a rendered string of all saved custom strings with translation context.
      * @return string
      */
     public function renderAll()
@@ -209,19 +209,17 @@ class Translation
     }
 
     /**
-     * Store the translations to avoid unnecessary loops.
+     * Store the strings to avoid unnecessary loops.
      * @return array
      */
-    public function translations()
+    public function strings()
     {
-        static $translations;
-        if (empty($translations)) {
-            $settings = glsr(OptionManager::class)->get('settings');
-            $translations = isset($settings['strings'])
-                ? $this->normalizeSettings((array) $settings['strings'])
-                : [];
+        static $strings;
+        if (empty($strings)) {
+            $settings = glsr(OptionManager::class)->get('settings.strings');
+            $strings = $this->normalizeSettings(Arr::consolidate($settings));
         }
-        return $translations;
+        return $strings;
     }
 
     /**

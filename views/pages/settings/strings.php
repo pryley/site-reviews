@@ -29,14 +29,14 @@
                 <th scope="col" class="manage-column"><?= _x('Custom Text', 'admin-text', 'site-reviews'); ?></th>
             </tr>
         </thead>
-        <tbody>{{ translations }}</tbody>
+        <tbody>{{ strings }}</tbody>
     </table>
     <input type="hidden" name="{{ database_key }}[settings][strings][]">
 </div>
 
 <script type="text/html" id="tmpl-glsr-string-plural">
-<?php include glsr()->path('views/partials/translations/plural.php'); ?>
+<?php include glsr()->path('views/partials/strings/plural.php'); ?>
 </script>
 <script type="text/html" id="tmpl-glsr-string-single">
-<?php include glsr()->path('views/partials/translations/single.php'); ?>
+<?php include glsr()->path('views/partials/strings/single.php'); ?>
 </script>

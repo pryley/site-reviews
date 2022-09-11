@@ -33,8 +33,7 @@ class PermissionDefaults extends Defaults
                 'licenses' => 'manage_options',
                 'reviews' => 'manage_options',
                 'schema' => 'manage_options',
-                'translations' => 'manage_options',
-                // 'strings' => 'manage_options',
+                'strings' => 'manage_options',
             ],
             'tools' => [
                 'console' => 'edit_others_posts',

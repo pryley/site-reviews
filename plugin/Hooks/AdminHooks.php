@@ -28,7 +28,7 @@ class AdminHooks extends AbstractHooks
             ['searchAssignedUsersAjax', 'site-reviews/route/ajax/filter-assigned_user'],
             ['searchAuthorsAjax', 'site-reviews/route/ajax/filter-author'],
             ['searchPostsAjax', 'site-reviews/route/ajax/search-posts'],
-            ['searchTranslationsAjax', 'site-reviews/route/ajax/search-translations'],
+            ['searchStringsAjax', 'site-reviews/route/ajax/search-strings'],
             ['searchUsersAjax', 'site-reviews/route/ajax/search-users'],
             ['toggleFiltersAjax', 'site-reviews/route/ajax/toggle-filters'],
             ['togglePinnedAjax', 'site-reviews/route/ajax/toggle-pinned'],

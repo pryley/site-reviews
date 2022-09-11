@@ -43,7 +43,7 @@ class Translator
      */
     protected function getTranslationStrings($single, $plural)
     {
-        return array_filter(glsr(Translation::class)->translations(), function ($string) use ($single, $plural) {
+        return array_filter(glsr(Translation::class)->strings(), function ($string) use ($single, $plural) {
             return $string['s1'] == html_entity_decode($single, ENT_COMPAT, 'UTF-8')
                 && $string['p1'] == html_entity_decode($plural, ENT_COMPAT, 'UTF-8');
         });

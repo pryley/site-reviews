@@ -23,8 +23,8 @@ class SettingsController extends Controller
             $options = array_replace_recursive(glsr(OptionManager::class)->all(), $input);
             $options = $this->sanitizeGeneral($input, $options);
             $options = $this->sanitizeLicenses($input, $options);
-            $options = $this->sanitizeTranslations($input, $options);
             $options = $this->sanitizeForms($input, $options);
+            $options = $this->sanitizeStrings($input, $options);
             $options = glsr()->filterArray('settings/callback', $options, $settings);
             if (filter_input(INPUT_POST, 'option_page') == glsr()->id.'-settings') {
                 glsr(Notice::class)->addSuccess(_x('Settings updated.', 'admin-text', 'site-reviews'));
@@ -100,10 +100,7 @@ class SettingsController extends Controller
     /**
      * @return array
      */
-    /**
-     * @return array
-     */
-    protected function sanitizeTranslations(array $input, array $options)
+    protected function sanitizeStrings(array $input, array $options)
     {
         $key = 'settings.strings';
         $inputForm = Arr::consolidate(Arr::get($input, $key));

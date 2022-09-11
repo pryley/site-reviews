@@ -121,17 +121,17 @@ class Settings
     /**
      * @return array
      */
-    protected function getTemplateDataForTranslations()
+    protected function getTemplateDataForStrings()
     {
-        $translations = glsr(Translation::class)->renderAll();
-        $class = empty($translations)
+        $strings = glsr(Translation::class)->renderAll();
+        $class = empty($strings)
             ? 'glsr-hidden'
             : '';
         return [
             'context' => [
                 'class' => $class,
                 'database_key' => OptionManager::databaseKey(),
-                'translations' => $translations,
+                'strings' => $strings,
             ],
         ];
     }

@@ -100,7 +100,7 @@ jQuery(function ($) {
         },
     });
     new Search('#glsr-search-translations', {
-        action: 'search-translations',
+        action: 'search-strings',
         onInit: function () {
             this.makeSortable_();
         },

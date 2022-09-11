@@ -280,9 +280,9 @@ class AdminController extends Controller
 
     /**
      * @return void
-     * @action site-reviews/route/ajax/search-translations
+     * @action site-reviews/route/ajax/search-strings
      */
-    public function searchTranslationsAjax(Request $request)
+    public function searchStringsAjax(Request $request)
     {
         $search = glsr(Sanitizer::class)->sanitizeText($request->search);
         $exclude = glsr(Sanitizer::class)->sanitizeArray($request->exclude);

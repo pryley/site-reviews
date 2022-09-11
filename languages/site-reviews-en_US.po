@@ -44,7 +44,7 @@ msgstr "There are no reviews yet. Be the first one to write one."
 msgid "Anonymous"
 msgstr "Anonymous"
 
-#: plugin/Router.php:160, views/pages/documentation/support/common-problems-and-solutions.php:58
+#: plugin/Router.php:160, views/pages/documentation/support/common-problems-and-solutions.php:60
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr "The form could not be submitted. Please notify the site administrator."
 
@@ -100,7 +100,7 @@ msgstr "Your review has been submitted!"
 msgid "Your review has been submitted and is pending approval."
 msgstr "Your review has been submitted and is pending approval."
 
-#: plugin/Commands/CreateReview.php:186, views/pages/documentation/support/common-problems-and-solutions.php:78
+#: plugin/Commands/CreateReview.php:186, views/pages/documentation/support/common-problems-and-solutions.php:80
 msgid ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site administrator."
@@ -320,11 +320,11 @@ msgstr "Get review"
 msgid "Write review"
 msgstr "Write review"
 
-#: plugin/Modules/Validator/AkismetValidator.php:48, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:74
+#: plugin/Modules/Validator/AkismetValidator.php:48, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:76
 msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr "This review has been flagged as possible spam and cannot be submitted."
 
-#: plugin/Modules/Validator/BlacklistValidator.php:36, views/pages/documentation/support/common-problems-and-solutions.php:70
+#: plugin/Modules/Validator/BlacklistValidator.php:36, views/pages/documentation/support/common-problems-and-solutions.php:72
 msgid "Your review cannot be submitted at this time."
 msgstr "Your review cannot be submitted at this time."
 
@@ -336,7 +336,7 @@ msgstr "The CAPTCHA failed to load, please refresh the page and try again."
 msgid "The CAPTCHA verification failed, please try again."
 msgstr "The CAPTCHA verification failed, please try again."
 
-#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:83
+#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:85
 msgid "The review submission failed. Please notify the site administrator."
 msgstr "The review submission failed. Please notify the site administrator."
 
@@ -394,7 +394,7 @@ msgstr "Submit your review"
 msgid "Review of %s"
 msgstr "Review of %s"
 
-#: plugin/Modules/Html/Tags/ReviewResponseTag.php:17, views/pages/documentation/faq/change-response-name.php:9
+#: plugin/Modules/Html/Tags/ReviewResponseTag.php:17, views/pages/documentation/faq/change-response-name.php:11
 msgid "Response from %s"
 msgstr "Response from %s"
 
@@ -406,7 +406,7 @@ msgstr "No Title"
 msgid "Verified"
 msgstr "Verified"
 
-#: views/pages/documentation/support/common-problems-and-solutions.php:87
+#: views/pages/documentation/support/common-problems-and-solutions.php:89
 msgid "Service Unavailable."
 msgstr "Service Unavailable."
 
@@ -1191,10 +1191,10 @@ msgstr ""
 "changed on the %s page. You may also override this by using the "
 "\"fallback\" option on the shortcode."
 
-#: config/settings.php:339
+#: config/settings.php:339, plugin/Controllers/MenuController.php:137
 msgctxt "admin-text"
-msgid "Translations"
-msgstr "Translations"
+msgid "Strings"
+msgstr "Strings"
 
 #: config/settings.php:346
 msgctxt "admin-text"
@@ -2072,7 +2072,7 @@ msgctxt "admin-text"
 msgid "See the %s for more details."
 msgstr "See the %s for more details."
 
-#: plugin/Commands/ImportReviews.php:189, plugin/Controllers/MenuController.php:168
+#: plugin/Commands/ImportReviews.php:189, plugin/Controllers/MenuController.php:164
 msgctxt "admin-text"
 msgid "Console"
 msgstr "Console"
@@ -2333,82 +2333,77 @@ msgctxt "admin-text"
 msgid "Add-ons"
 msgstr "Add-ons"
 
-#: plugin/Controllers/MenuController.php:108, plugin/Controllers/WelcomeController.php:90
+#: plugin/Controllers/MenuController.php:104, plugin/Controllers/WelcomeController.php:100
 msgctxt "admin-text"
 msgid "Support"
 msgstr "Support"
 
-#: plugin/Controllers/MenuController.php:109, plugin/Controllers/ToolsController.php:115
+#: plugin/Controllers/MenuController.php:105, plugin/Controllers/ToolsController.php:115
 msgctxt "admin-text"
 msgid "FAQ"
 msgstr "FAQ"
 
-#: plugin/Controllers/MenuController.php:110
+#: plugin/Controllers/MenuController.php:106
 msgctxt "admin-text"
 msgid "Shortcodes"
 msgstr "Shortcodes"
 
-#: plugin/Controllers/MenuController.php:111
+#: plugin/Controllers/MenuController.php:107
 msgctxt "admin-text"
 msgid "Hooks"
 msgstr "Hooks"
 
-#: plugin/Controllers/MenuController.php:112
+#: plugin/Controllers/MenuController.php:108
 msgctxt "admin-text"
 msgid "Functions"
 msgstr "Functions"
 
-#: plugin/Controllers/MenuController.php:113
+#: plugin/Controllers/MenuController.php:109
 msgctxt "admin-text"
 msgid "API"
 msgstr "API"
 
-#: plugin/Controllers/MenuController.php:114, plugin/Controllers/MenuController.php:142
+#: plugin/Controllers/MenuController.php:110, plugin/Controllers/MenuController.php:138
 msgctxt "admin-text"
 msgid "Addons"
 msgstr "Addons"
 
-#: plugin/Controllers/MenuController.php:137, plugin/Controllers/MenuController.php:165
+#: plugin/Controllers/MenuController.php:133, plugin/Controllers/MenuController.php:161
 msgctxt "admin-text"
 msgid "General"
 msgstr "General"
 
-#: plugin/Controllers/MenuController.php:138, plugin/Controllers/PrivacyController.php:146, plugin/Defaults/PostTypeLabelDefaults.php:14, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
+#: plugin/Controllers/MenuController.php:134, plugin/Controllers/PrivacyController.php:146, plugin/Defaults/PostTypeLabelDefaults.php:14, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
 msgctxt "admin-text"
 msgid "Reviews"
 msgstr "Reviews"
 
-#: plugin/Controllers/MenuController.php:139
+#: plugin/Controllers/MenuController.php:135
 msgctxt "admin-text"
-msgid "Submissions"
-msgstr "Submissions"
+msgid "Forms"
+msgstr "Forms"
 
-#: plugin/Controllers/MenuController.php:140, plugin/Tinymce/SiteReviewsSummaryTinymce.php:35, plugin/Tinymce/SiteReviewsTinymce.php:66
+#: plugin/Controllers/MenuController.php:136, plugin/Tinymce/SiteReviewsSummaryTinymce.php:35, plugin/Tinymce/SiteReviewsTinymce.php:66
 msgctxt "admin-text"
 msgid "Schema"
 msgstr "Schema"
 
-#: plugin/Controllers/MenuController.php:141
-msgctxt "admin-text"
-msgid "Strings"
-msgstr "Strings"
-
-#: plugin/Controllers/MenuController.php:143
+#: plugin/Controllers/MenuController.php:139
 msgctxt "admin-text"
 msgid "Licenses"
 msgstr "Licenses"
 
-#: plugin/Controllers/MenuController.php:166
+#: plugin/Controllers/MenuController.php:162
 msgctxt "admin-text"
 msgid "Scheduled Actions"
 msgstr "Scheduled Actions"
 
-#: plugin/Controllers/MenuController.php:167, views/pages/tools/sync.php:57
+#: plugin/Controllers/MenuController.php:163, views/pages/tools/sync.php:57
 msgctxt "admin-text"
 msgid "Sync Reviews"
 msgstr "Sync Reviews"
 
-#: plugin/Controllers/MenuController.php:169
+#: plugin/Controllers/MenuController.php:165
 msgctxt "admin-text"
 msgid "System Info"
 msgstr "System Info"
@@ -2641,17 +2636,17 @@ msgctxt "admin-text"
 msgid "Welcome to %s"
 msgstr "Welcome to %s"
 
-#: plugin/Controllers/WelcomeController.php:87
+#: plugin/Controllers/WelcomeController.php:97
 msgctxt "admin-text"
 msgid "Getting Started"
 msgstr "Getting Started"
 
-#: plugin/Controllers/WelcomeController.php:88
+#: plugin/Controllers/WelcomeController.php:98
 msgctxt "admin-text"
 msgid "What's New"
 msgstr "What's New"
 
-#: plugin/Controllers/WelcomeController.php:89
+#: plugin/Controllers/WelcomeController.php:99
 msgctxt "admin-text"
 msgid "Upgrade Guide"
 msgstr "Upgrade Guide"
@@ -2859,7 +2854,7 @@ msgctxt "admin-text"
 msgid "Plugin rollback successful! Please wait while it reactivates&#8230"
 msgstr "Plugin rollback successful! Please wait while it reactivates&#8230"
 
-#: plugin/Overrides/ScheduledActionsTable.php:93, plugin/Overrides/ScheduledActionsTable.php:126, views/partials/translations/plural.php:11, views/partials/translations/single.php:10
+#: plugin/Overrides/ScheduledActionsTable.php:93, plugin/Overrides/ScheduledActionsTable.php:126, views/partials/strings/plural.php:13, views/partials/strings/single.php:12
 msgctxt "admin-text"
 msgid "Delete"
 msgstr "Delete"
@@ -3736,6 +3731,11 @@ msgctxt "admin-text"
 msgid "Click an active tab to expand/collapse all sections."
 msgstr "Click an active tab to expand/collapse all sections."
 
+#: views/pages/settings/forms.php:3
+msgctxt "admin-text"
+msgid "Review Form Settings"
+msgstr "Review Form Settings"
+
 #: views/pages/settings/general.php:3
 msgctxt "admin-text"
 msgid "General Settings"
@@ -3811,17 +3811,12 @@ msgstr ""
 "<code>schema_identifier</code> Custom Field name in the %s, or use the %s "
 "hook."
 
-#: views/pages/settings/submissions.php:3
-msgctxt "admin-text"
-msgid "Review Form Settings"
-msgstr "Review Form Settings"
-
-#: views/pages/settings/translations.php:3
+#: views/pages/settings/strings.php:3
 msgctxt "admin-text"
 msgid "Custom Text Settings"
 msgstr "Custom Text Settings"
 
-#: views/pages/settings/translations.php:7
+#: views/pages/settings/strings.php:7
 msgctxt "admin-text"
 msgid ""
 "If you have a multilingual website, use the %s plugin instead. When Loco "
@@ -3832,7 +3827,7 @@ msgstr ""
 "Translate asks for the location of the new translation file, select "
 "\"Custom\"."
 
-#: views/pages/settings/translations.php:12
+#: views/pages/settings/strings.php:12
 msgctxt "admin-text"
 msgid ""
 "Here you can customise any English text of the plugin that is shown on the "
@@ -3843,7 +3838,7 @@ msgstr ""
 "frontend of your website, including the field labels and placeholders of "
 "the review form."
 
-#: views/pages/settings/translations.php:13
+#: views/pages/settings/strings.php:13
 msgctxt "admin-text"
 msgid ""
 "If you are using the Polylang plugin, any custom text you enter here will "
@@ -3852,22 +3847,22 @@ msgstr ""
 "If you are using the Polylang plugin, any custom text you enter here will "
 "be translatable on the Polylang \"Strings translations\" page."
 
-#: views/pages/settings/translations.php:18
+#: views/pages/settings/strings.php:18
 msgctxt "admin-text"
 msgid "Search here for translatable text"
 msgstr "Search here for translatable text"
 
-#: views/pages/settings/translations.php:21
+#: views/pages/settings/strings.php:21
 msgctxt "admin-text"
 msgid "Search here for text to change..."
 msgstr "Search here for text to change..."
 
-#: views/pages/settings/translations.php:28
+#: views/pages/settings/strings.php:28
 msgctxt "admin-text"
 msgid "Original Text"
 msgstr "Original Text"
 
-#: views/pages/settings/translations.php:29
+#: views/pages/settings/strings.php:29
 msgctxt "admin-text"
 msgid "Custom Text"
 msgstr "Custom Text"
@@ -4114,7 +4109,7 @@ msgctxt "admin-text"
 msgid "Search..."
 msgstr "Search..."
 
-#: views/partials/notices/migrate.php:6
+#: views/partials/notices/migrate.php:8
 msgctxt "admin-text"
 msgid ""
 "Click the button to migrate your reviews and settings to the latest "
@@ -4125,22 +4120,22 @@ msgstr ""
 "version. If this notice continues to appear after 5 minutes, please read "
 "the %s section on the Help page."
 
-#: views/partials/notices/migrate.php:9, views/pages/tools/general/migrate-plugin.php:20
+#: views/partials/notices/migrate.php:11, views/pages/tools/general/migrate-plugin.php:21
 msgctxt "admin-text"
 msgid "Run All Migrations"
 msgstr "Run All Migrations"
 
-#: views/partials/notices/migrate.php:9, views/pages/tools/general/migrate-plugin.php:20
+#: views/partials/notices/migrate.php:11, views/pages/tools/general/migrate-plugin.php:21
 msgctxt "admin-text"
 msgid "Migrating, please wait..."
 msgstr "Migrating, please wait..."
 
-#: views/partials/notices/migrate.php:9, views/pages/tools/general/migrate-plugin.php:20
+#: views/partials/notices/migrate.php:11, views/pages/tools/general/migrate-plugin.php:21
 msgctxt "admin-text"
 msgid "Run Migration"
 msgstr "Run Migration"
 
-#: views/partials/notices/premium.php:16
+#: views/partials/notices/premium.php:18
 msgctxt "admin-text"
 msgid ""
 "One or more add-ons are not receiving updates. %sSave your license%s in the "
@@ -4149,7 +4144,7 @@ msgstr ""
 "One or more add-ons are not receiving updates. %sSave your license%s in the "
 "settings to get the latest updates and priority support."
 
-#: views/partials/notices/premium.php:10
+#: views/partials/notices/premium.php:12
 msgctxt "admin-text"
 msgid ""
 "One or more of your licenses have expired. %sRenew your license%s to get "
@@ -4158,7 +4153,7 @@ msgstr ""
 "One or more of your licenses have expired. %sRenew your license%s to get "
 "the latest updates and priority support."
 
-#: views/partials/notices/premium.php:4
+#: views/partials/notices/premium.php:6
 msgctxt "admin-text"
 msgid ""
 "You are using the free version of Site Reviews. %sPurchase premium%s to "
@@ -4169,32 +4164,32 @@ msgstr ""
 "support future development and get images, filters, themes, custom forms, "
 "and more!"
 
-#: views/partials/notices/welcome.php:8
+#: views/partials/notices/welcome.php:10
 msgctxt "admin-text"
 msgid "See What's New"
 msgstr "See What's New"
 
-#: views/partials/notices/welcome.php:9
+#: views/partials/notices/welcome.php:11
 msgctxt "admin-text"
 msgid "Read the Upgrade Guide"
 msgstr "Read the Upgrade Guide"
 
-#: views/partials/notices/welcome.php:5
+#: views/partials/notices/welcome.php:7
 msgctxt "admin-text"
 msgid "Start Here"
 msgstr "Start Here"
 
-#: views/partials/notices/welcome.php:6
+#: views/partials/notices/welcome.php:8
 msgctxt "admin-text"
 msgid "Read the Shortcode Documentation"
 msgstr "Read the Shortcode Documentation"
 
-#: views/partials/notices/write-review.php:4
+#: views/partials/notices/write-review.php:6
 msgctxt "admin-text"
 msgid "Leave a review"
 msgstr "Leave a review"
 
-#: views/partials/notices/write-review.php:5
+#: views/partials/notices/write-review.php:7
 msgctxt "admin-text"
 msgid "No, thank you"
 msgstr "No, thank you"
@@ -4263,22 +4258,22 @@ msgctxt "admin-text"
 msgid "&#8220;%s&#8221; is locked"
 msgstr "&#8220;%s&#8221; is locked"
 
-#: views/partials/translations/plural.php:4, views/partials/translations/single.php:4
+#: views/partials/strings/plural.php:6, views/partials/strings/single.php:6
 msgctxt "admin-text"
 msgid "Show custom translation"
 msgstr "Show custom translation"
 
-#: views/partials/translations/plural.php:11, views/partials/translations/single.php:10
+#: views/partials/strings/plural.php:13, views/partials/strings/single.php:12
 msgctxt "admin-text"
 msgid "Delete translation string"
 msgstr "Delete translation string"
 
-#: views/partials/translations/plural.php:19
+#: views/partials/strings/plural.php:21
 msgctxt "admin-text"
 msgid "singular"
 msgstr "singular"
 
-#: views/partials/translations/plural.php:20
+#: views/partials/strings/plural.php:22
 msgctxt "admin-text"
 msgid "plural"
 msgstr "plural"
@@ -4448,12 +4443,12 @@ msgctxt "admin-text"
 msgid "Export as Post IDs"
 msgstr "Export as Post IDs"
 
-#: views/pages/tools/general/export-settings.php:6, views/pages/tools/general/export-settings.php:20
+#: views/pages/tools/general/export-settings.php:7, views/pages/tools/general/export-settings.php:21
 msgctxt "admin-text"
 msgid "Export Settings"
 msgstr "Export Settings"
 
-#: views/pages/tools/general/export-settings.php:12
+#: views/pages/tools/general/export-settings.php:13
 msgctxt "admin-text"
 msgid ""
 "Here you can export your Site Reviews settings to a %s file. You can use "
@@ -4467,7 +4462,7 @@ msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr "Import Reviews"
 
-#: views/pages/tools/general/import-reviews.php:14, views/pages/tools/general/optimise-db-tables.php:14
+#: views/pages/tools/general/import-reviews.php:14, views/pages/tools/general/optimise-db-tables.php:15
 msgctxt "admin-text"
 msgid ""
 "Please backup your database before running this tool! You can use the %s "
@@ -4628,12 +4623,12 @@ msgctxt "admin-text"
 msgid "Importing reviews, please wait..."
 msgstr "Importing reviews, please wait..."
 
-#: views/pages/tools/general/import-settings.php:6, views/pages/tools/general/import-settings.php:23
+#: views/pages/tools/general/import-settings.php:7, views/pages/tools/general/import-settings.php:24
 msgctxt "admin-text"
 msgid "Import Settings"
 msgstr "Import Settings"
 
-#: views/pages/tools/general/import-settings.php:12
+#: views/pages/tools/general/import-settings.php:13
 msgctxt "admin-text"
 msgid ""
 "Here you can import the Site Reviews settings from a %s file. You can use "
@@ -4644,22 +4639,22 @@ msgstr ""
 "the the %sExport Settings%s tool to export these settings from another "
 "website."
 
-#: views/pages/tools/general/import-settings.php:23
+#: views/pages/tools/general/import-settings.php:24
 msgctxt "admin-text"
 msgid "Importing settings, please wait..."
 msgstr "Importing settings, please wait..."
 
-#: views/pages/tools/general/migrate-plugin.php:6
+#: views/pages/tools/general/migrate-plugin.php:7
 msgctxt "admin-text"
 msgid "Migrate Plugin"
 msgstr "Migrate Plugin"
 
-#: views/pages/tools/general/migrate-plugin.php:12
+#: views/pages/tools/general/migrate-plugin.php:13
 msgctxt "admin-text"
 msgid "Hold down the ALT/Option key to force-run all previous migrations."
 msgstr "Hold down the ALT/Option key to force-run all previous migrations."
 
-#: views/pages/tools/general/migrate-plugin.php:14
+#: views/pages/tools/general/migrate-plugin.php:15
 msgctxt "admin-text"
 msgid ""
 "Run this tool if your reviews stopped working correctly after upgrading the "
@@ -4670,12 +4665,12 @@ msgstr ""
 "plugin to the latest version (i.e. read-only reviews, zero-star ratings, "
 "missing role capabilities, etc.)."
 
-#: views/pages/tools/general/optimise-db-tables.php:6, views/pages/tools/general/repair-review-relations.php:17
+#: views/pages/tools/general/optimise-db-tables.php:7, views/pages/tools/general/repair-review-relations.php:18
 msgctxt "admin-text"
 msgid "Optimise Your Database Tables"
 msgstr "Optimise Your Database Tables"
 
-#: views/pages/tools/general/optimise-db-tables.php:49
+#: views/pages/tools/general/optimise-db-tables.php:50
 msgctxt "admin-text"
 msgid ""
 "Optimisation is unnecessary because your database tables already use the "
@@ -4683,23 +4678,23 @@ msgid ""
 msgstr ""
 "Optimisation is unnecessary because your database tables already use the "
 "InnoDB engine!"
-
-#: views/pages/tools/general/optimise-db-tables.php:18
-msgctxt "admin-text"
-msgid ""
-"The old MyISAM table engine in MySQL was replaced by the InnoDB engine as "
-"the default over 10 years ago! If your database tables still use the MyISAM "
-"engine, you are missing out on substantial performance and reliability "
-"gains that the InnoDB engine provides."
-msgstr ""
-"The old MyISAM table engine in MySQL was replaced by the InnoDB engine as "
-"the default over 10 years ago! If your database tables still use the MyISAM "
-"engine, you are missing out on substantial performance and reliability "
-"gains that the InnoDB engine provides."
 
 #: views/pages/tools/general/optimise-db-tables.php:19
 msgctxt "admin-text"
 msgid ""
+"The old MyISAM table engine in MySQL was replaced by the InnoDB engine as "
+"the default over 10 years ago! If your database tables still use the MyISAM "
+"engine, you are missing out on substantial performance and reliability "
+"gains that the InnoDB engine provides."
+msgstr ""
+"The old MyISAM table engine in MySQL was replaced by the InnoDB engine as "
+"the default over 10 years ago! If your database tables still use the MyISAM "
+"engine, you are missing out on substantial performance and reliability "
+"gains that the InnoDB engine provides."
+
+#: views/pages/tools/general/optimise-db-tables.php:20
+msgctxt "admin-text"
+msgid ""
 "Site Reviews makes use of specific InnoDB engine features in order to "
 "perform faster database queries. However, some of your database tables "
 "(shown below) are still using the old MyISAM engine. If you convert these "
@@ -4710,32 +4705,32 @@ msgstr ""
 "(shown below) are still using the old MyISAM engine. If you convert these "
 "tables to use the InnoDB engine, it will make Site Reviews perform faster."
 
-#: views/pages/tools/general/optimise-db-tables.php:23
+#: views/pages/tools/general/optimise-db-tables.php:24
 msgctxt "admin-text"
 msgid "Table"
 msgstr "Table"
 
-#: views/pages/tools/general/optimise-db-tables.php:24
+#: views/pages/tools/general/optimise-db-tables.php:25
 msgctxt "admin-text"
 msgid "Engine"
 msgstr "Engine"
 
-#: views/pages/tools/general/optimise-db-tables.php:39
+#: views/pages/tools/general/optimise-db-tables.php:40
 msgctxt "admin-text"
 msgid "Converting, please wait..."
 msgstr "Converting, please wait..."
 
-#: views/pages/tools/general/optimise-db-tables.php:39
+#: views/pages/tools/general/optimise-db-tables.php:40
 msgctxt "admin-text"
 msgid "Convert table engine to InnoDB"
 msgstr "Convert table engine to InnoDB"
 
-#: views/pages/tools/general/repair-review-relations.php:6
+#: views/pages/tools/general/repair-review-relations.php:7
 msgctxt "admin-text"
 msgid "Repair Review Relations"
 msgstr "Repair Review Relations"
 
-#: views/pages/tools/general/repair-review-relations.php:14
+#: views/pages/tools/general/repair-review-relations.php:15
 msgctxt "admin-text"
 msgid ""
 "Once you have repaired the review relationships, it is recommended that you "
@@ -4743,21 +4738,21 @@ msgid ""
 msgstr ""
 "Once you have repaired the review relationships, it is recommended that you "
 "run the %s tool to prevent the problem from happening again."
-
-#: views/pages/tools/general/repair-review-relations.php:23
-msgctxt "admin-text"
-msgid ""
-"Site Reviews stores review details in a custom database table, these "
-"entries are linked to the review post type in the WordPress posts table "
-"using the review's Post ID."
-msgstr ""
-"Site Reviews stores review details in a custom database table, these "
-"entries are linked to the review post type in the WordPress posts table "
-"using the review's Post ID."
 
 #: views/pages/tools/general/repair-review-relations.php:24
 msgctxt "admin-text"
 msgid ""
+"Site Reviews stores review details in a custom database table, these "
+"entries are linked to the review post type in the WordPress posts table "
+"using the review's Post ID."
+msgstr ""
+"Site Reviews stores review details in a custom database table, these "
+"entries are linked to the review post type in the WordPress posts table "
+"using the review's Post ID."
+
+#: views/pages/tools/general/repair-review-relations.php:25
+msgctxt "admin-text"
+msgid ""
 "This tool will repair the review relationships in your database by removing "
 "any review details in the custom database table that do not point to a "
 "valid review."
@@ -4766,22 +4761,22 @@ msgstr ""
 "any review details in the custom database table that do not point to a "
 "valid review."
 
-#: views/pages/tools/general/repair-review-relations.php:29
+#: views/pages/tools/general/repair-review-relations.php:30
 msgctxt "admin-text"
 msgid "Repairing relations, please wait..."
 msgstr "Repairing relations, please wait..."
 
-#: views/pages/tools/general/repair-review-relations.php:29
+#: views/pages/tools/general/repair-review-relations.php:30
 msgctxt "admin-text"
 msgid "Repair Relations"
 msgstr "Repair Relations"
 
-#: views/pages/tools/general/reset-assigned-meta.php:6
+#: views/pages/tools/general/reset-assigned-meta.php:7
 msgctxt "admin-text"
 msgid "Reset Assigned Meta Values"
 msgstr "Reset Assigned Meta Values"
 
-#: views/pages/tools/general/reset-assigned-meta.php:11
+#: views/pages/tools/general/reset-assigned-meta.php:12
 msgctxt "admin-text"
 msgid ""
 "Site Reviews stores the individual review count, average rating, and "
@@ -4794,22 +4789,22 @@ msgstr ""
 "these meta values are incorrect (perhaps you cloned a page that had reviews "
 "assigned to it), you may use this tool to recalculate them."
 
-#: views/pages/tools/general/reset-assigned-meta.php:16
+#: views/pages/tools/general/reset-assigned-meta.php:17
 msgctxt "admin-text"
 msgid "Resetting values, please wait..."
 msgstr "Resetting values, please wait..."
 
-#: views/pages/tools/general/reset-assigned-meta.php:16
+#: views/pages/tools/general/reset-assigned-meta.php:17
 msgctxt "admin-text"
 msgid "Reset Meta Values"
 msgstr "Reset Meta Values"
 
-#: views/pages/tools/general/reset-permissions.php:6, views/pages/tools/general/reset-permissions.php:21
+#: views/pages/tools/general/reset-permissions.php:7, views/pages/tools/general/reset-permissions.php:22
 msgctxt "admin-text"
 msgid "Reset Permissions"
 msgstr "Reset Permissions"
 
-#: views/pages/tools/general/reset-permissions.php:12
+#: views/pages/tools/general/reset-permissions.php:13
 msgctxt "admin-text"
 msgid ""
 "Hold down the ALT/Option key to perform a \"Hard Reset\"; this removes all "
@@ -4819,23 +4814,23 @@ msgstr ""
 "Hold down the ALT/Option key to perform a \"Hard Reset\"; this removes all "
 "Site Reviews capabilites from your Editor, Author, and Contributor roles "
 "before re-adding them."
-
-#: views/pages/tools/general/reset-permissions.php:14
-msgctxt "admin-text"
-msgid ""
-"Site Reviews provides custom post_type capabilities that mirror the "
-"capabilities of your posts by default. For example, if a user role has "
-"permission to edit others posts, then that role will also have permission "
-"to edit other users reviews."
-msgstr ""
-"Site Reviews provides custom post_type capabilities that mirror the "
-"capabilities of your posts by default. For example, if a user role has "
-"permission to edit others posts, then that role will also have permission "
-"to edit other users reviews."
 
 #: views/pages/tools/general/reset-permissions.php:15
 msgctxt "admin-text"
 msgid ""
+"Site Reviews provides custom post_type capabilities that mirror the "
+"capabilities of your posts by default. For example, if a user role has "
+"permission to edit others posts, then that role will also have permission "
+"to edit other users reviews."
+msgstr ""
+"Site Reviews provides custom post_type capabilities that mirror the "
+"capabilities of your posts by default. For example, if a user role has "
+"permission to edit others posts, then that role will also have permission "
+"to edit other users reviews."
+
+#: views/pages/tools/general/reset-permissions.php:16
+msgctxt "admin-text"
+msgid ""
 "If you have changed the capabilities of your user roles (Administrator, "
 "Editor, Author, and Contributor) and you suspect that Site Reviews is not "
 "working correctly due to your changes, you may use this tool to reset the "
@@ -4846,22 +4841,22 @@ msgstr ""
 "working correctly due to your changes, you may use this tool to reset the "
 "Site Reviews capabilities for your user roles."
 
-#: views/pages/tools/general/reset-permissions.php:21
+#: views/pages/tools/general/reset-permissions.php:22
 msgctxt "admin-text"
 msgid "Hard Reset Permissions"
 msgstr "Hard Reset Permissions"
 
-#: views/pages/tools/general/reset-permissions.php:21
+#: views/pages/tools/general/reset-permissions.php:22
 msgctxt "admin-text"
 msgid "Resetting, please wait..."
 msgstr "Resetting, please wait..."
 
-#: views/pages/tools/general/rollback-plugin.php:6, views/pages/tools/general/rollback-plugin.php:45
+#: views/pages/tools/general/rollback-plugin.php:7, views/pages/tools/general/rollback-plugin.php:46
 msgctxt "admin-text"
 msgid "Rollback Plugin"
 msgstr "Rollback Plugin"
 
-#: views/pages/tools/general/rollback-plugin.php:22
+#: views/pages/tools/general/rollback-plugin.php:23
 msgctxt "admin-text"
 msgid ""
 "If you are using this tool to fix a problem with %s, please %ssubmit a "
@@ -4870,7 +4865,7 @@ msgstr ""
 "If you are using this tool to fix a problem with %s, please %ssubmit a "
 "support request%s so that it can be fixed."
 
-#: views/pages/tools/general/rollback-plugin.php:29
+#: views/pages/tools/general/rollback-plugin.php:30
 msgctxt "admin-text"
 msgid ""
 "You currently have version %s installed of %s. Run this tool to rollback to "
@@ -4879,17 +4874,17 @@ msgstr ""
 "You currently have version %s installed of %s. Run this tool to rollback to "
 "a previous release."
 
-#: views/pages/tools/general/rollback-plugin.php:45
+#: views/pages/tools/general/rollback-plugin.php:46
 msgctxt "admin-text"
 msgid "Rolling back to %s, please wait..."
 msgstr "Rolling back to %s, please wait..."
 
-#: views/pages/tools/general/test-ip-detection.php:4
+#: views/pages/tools/general/test-ip-detection.php:6
 msgctxt "admin-text"
 msgid "Test IP Address Detection"
 msgstr "Test IP Address Detection"
 
-#: views/pages/tools/general/test-ip-detection.php:9
+#: views/pages/tools/general/test-ip-detection.php:11
 msgctxt "admin-text"
 msgid ""
 "When reviews are submitted on your website, Site Reviews detects the IP "
@@ -4904,7 +4899,7 @@ msgstr ""
 "reviewers based on their IP address. The IP address is also used by Akismet "
 "(if you have enabled the integration) to catch spam submissions."
 
-#: views/pages/tools/general/test-ip-detection.php:10
+#: views/pages/tools/general/test-ip-detection.php:12
 msgctxt "admin-text"
 msgid ""
 "If you are getting an \"unknown\" value for IP addresses in your reviews, "
@@ -4913,12 +4908,12 @@ msgstr ""
 "If you are getting an \"unknown\" value for IP addresses in your reviews, "
 "you may use this tool to check the visitor IP address detection."
 
-#: views/pages/tools/general/test-ip-detection.php:15
+#: views/pages/tools/general/test-ip-detection.php:17
 msgctxt "admin-text"
 msgid "Testing, please wait..."
 msgstr "Testing, please wait..."
 
-#: views/pages/tools/general/test-ip-detection.php:15
+#: views/pages/tools/general/test-ip-detection.php:17
 msgctxt "admin-text"
 msgid "Test Detection"
 msgstr "Test Detection"
@@ -5564,7 +5559,7 @@ msgctxt "post_type:slug (admin-text)"
 msgid "Export as %s"
 msgstr "Export as %s"
 
-#: views/pages/tools/general/rollback-plugin.php:14
+#: views/pages/tools/general/rollback-plugin.php:15
 msgctxt "wordpress.org (admin-text)"
 msgid "Unable to connect to %s to get the available plugin versions."
 msgstr "Unable to connect to %s to get the available plugin versions."

@@ -34,7 +34,7 @@
         <ol>
             <li>
                 <p><strong>The "← Previous" and "Next →" strings were changed to "Previous" and "Next" (the arrows were removed).</strong></p>
-                <p>If you have customised these strings in the settings, please <a href="<?= glsr_admin_url('settings', 'translations'); ?>">update them</a>.</p>
+                <p>If you have customised these strings in the settings, please <a href="<?= glsr_admin_url('settings', 'strings'); ?>">update them</a>.</p>
             </li>
         </ol>
 

@@ -40,7 +40,7 @@ class TranslationHooks extends AbstractHooks
      */
     public function translatePlugin()
     {
-        if (!empty(glsr(Translation::class)->translations())) {
+        if (!empty(glsr(Translation::class)->strings())) {
             $this->hook(TranslationController::class, [
                 ['filterGettext', "gettext_{$this->id}", 10, 2],
                 ['filterGettextWithContext', "gettext_with_context_{$this->id}", 10, 3],

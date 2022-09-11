@@ -116,7 +116,7 @@ class EnqueueAdminAssets implements Contract
                 'filter-author' => wp_create_nonce('filter-author'),
                 'mce-shortcode' => wp_create_nonce('mce-shortcode'),
                 'search-posts' => wp_create_nonce('search-posts'),
-                'search-translations' => wp_create_nonce('search-translations'),
+                'search-strings' => wp_create_nonce('search-strings'),
                 'search-users' => wp_create_nonce('search-users'),
                 'sync-reviews' => wp_create_nonce('sync-reviews'),
                 'toggle-filters' => wp_create_nonce('toggle-filters'),
