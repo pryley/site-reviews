@@ -1,6 +1,6 @@
 <?php defined('ABSPATH') || exit; ?>
 
-<?php if (glsr()->hasPermission('settings')): ?>
+<?php if (glsr()->can('update_plugins')): ?>
 <div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="tools-rollback-plugin">

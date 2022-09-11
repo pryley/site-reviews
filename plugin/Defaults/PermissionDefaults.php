@@ -12,24 +12,46 @@ class PermissionDefaults extends Defaults
     protected function defaults()
     {
         return [
-            'addons' => 'activate_plugins',
+            'addons' => [
+                'index' => 'edit_posts',
+            ],
             'documentation' => [
-                'faq' => 'edit_others_posts',
-                'functions' => 'manage_options',
+                'addons' => 'edit_posts',
+                'api' => 'edit_others_posts',
+                'faq' => 'edit_posts',
+                'functions' => 'edit_others_posts',
                 'hooks' => 'edit_others_posts',
                 'index' => 'edit_posts',
+                'shortcodes' => 'edit_posts',
                 'support' => 'edit_others_posts',
             ],
-            'settings' => 'manage_options',
+            'settings' => [
+                'addons' => 'manage_options',
+                // 'forms' => 'manage_options',
+                'general' => 'manage_options',
+                'index' => 'manage_options',
+                'licenses' => 'manage_options',
+                'reviews' => 'manage_options',
+                'schema' => 'manage_options',
+                'submissions' => 'manage_options',
+                'translations' => 'manage_options',
+                // 'strings' => 'manage_options',
+            ],
             'tools' => [
                 'console' => 'edit_others_posts',
                 'general' => 'edit_others_posts',
                 'index' => 'edit_posts',
                 'scheduled' => 'edit_others_posts',
-                'sync' => 'manage_options',
+                'sync' => 'edit_others_posts',
                 'system-info' => 'edit_posts',
             ],
-            'welcome' => 'edit_posts',
+            'welcome' => [
+                'getting-started' => 'edit_posts',
+                'index' => 'edit_posts',
+                'support' => 'edit_posts',
+                'upgrade-guide' => 'edit_posts',
+                'whatsnew' => 'edit_posts',
+            ],
         ];
     }
 }
