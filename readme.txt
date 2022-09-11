@@ -163,6 +163,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Added ability to mark reviews as "Verified"
 - Added ability to search reviews by ID on the All Reviews admin page
 - Added automatic conversion of UTF-16/UTF-32 encoded CSV files when importing reviews
+- Added custom capabilities for review categories
 - Added experimental filter hooks to combine css and javascript files when using add-ons (see Help > Hooks)
 - Added migration and nonce support for LiteSpeed Cache (flushes the cache after migration)
 - Added migration support for WP Rocket (flushes the cache after migration)
@@ -174,6 +175,8 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Enabled SSL verification on all requests (this can be disabled with the WordPress [https_ssl_verify](http://developer.wordpress.org/reference/hooks/https_ssl_verify/) filter hook)
 - Fixed compatibility with [Yoast Duplicate Post](https://wordpress.org/plugins/duplicate-post/)
 - Fixed invalid "deprecated" entries which were being added to the Console on some websites
+- Fixed last name initials when there is only a first name submitted
+- Fixed permissions for plugin pages
 - Fixed plugin redirection when bulk activating multiple plugins
 - Fixed primary keys on custom database pivot tables
 - Fixed review importing to skip empty CSV rows without throwing an error
