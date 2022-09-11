@@ -14,7 +14,7 @@ class MenuHooks extends AbstractHooks
         $this->hook(MenuController::class, [
             ['registerMenuCount', 'admin_menu'],
             ['registerSubMenus', 'admin_menu'],
-            ['removeSubMenus', 'admin_init'],
+            ['removeSubMenu', 'admin_init'],
             ['setCustomPermissions', 'admin_init', 999],
         ]);
     }

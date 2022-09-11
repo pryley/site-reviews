@@ -68,23 +68,17 @@ class MenuController extends Controller
     }
 
     /**
-     * We don't use admin_menu here because it breaks the privilege check that is run
-     * immediately after the admin_menu hook is triggered in wp-admin/includes/menu.php.
+     * We don't use admin_menu because it breaks the privilege check which runs
+     * after the admin_menu hook is triggered in wp-admin/includes/menu.php.
      * @return void
      * @action admin_init
      */
-    public function removeSubMenus()
+    public function removeSubMenu()
     {
-        global $submenu;
-        $menuKey = 'edit.php?post_type='.glsr()->post_type;
-        if (!isset($submenu[$menuKey])) {
-            return;
-        }
-        $submenuKey = 'post-new.php?post_type='.glsr()->post_type;
-        $index = array_search($submenuKey, wp_list_pluck($submenu[$menuKey], 2));
-        if (false !== $index) {
-            unset($submenu[$menuKey][$index]);
-        }
+        remove_submenu_page(
+            'edit.php?post_type='.glsr()->post_type,
+            'post-new.php?post_type='.glsr()->post_type
+        );
     }
 
     /**

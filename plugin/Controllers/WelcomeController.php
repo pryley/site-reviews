@@ -73,6 +73,16 @@ class WelcomeController extends Controller
             $this->welcomePage,
             [$this, 'renderPage']
         );
+    }
+
+    /**
+     * We don't use admin_menu because it breaks the privilege check which runs
+     * after the admin_menu hook is triggered in wp-admin/includes/menu.php.
+     * @return void
+     * @action admin_init
+     */
+    public function removeSubMenu()
+    {
         remove_submenu_page('index.php', $this->welcomePage);
     }
 
