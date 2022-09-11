@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\PermissionDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Modules\Migrate;
 
 /**
  * @property array $addons
@@ -207,7 +206,7 @@ final class Application extends Container
     }
 
     /**
-     * The settings config (these are not the saved settings!)
+     * The settings config (these are not the saved settings!).
      * @return array
      */
     public function settings()
@@ -223,7 +222,7 @@ final class Application extends Container
     }
 
     /**
-     * The setting defaults (these are not the saved settings!)
+     * The setting defaults (these are not the saved settings!).
      * @return void
      */
     public function storeDefaults()

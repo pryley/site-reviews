@@ -25,6 +25,7 @@ class PermissionDefaults extends Defaults
                 'console' => 'edit_others_posts',
                 'general' => 'edit_others_posts',
                 'index' => 'edit_posts',
+                'scheduled' => 'edit_others_posts',
                 'sync' => 'manage_options',
                 'system-info' => 'edit_posts',
             ],

@@ -69,7 +69,7 @@ class MenuController extends Controller
 
     /**
      * We don't use admin_menu here because it breaks the privilege check that is run
-     * immediately after the admin_menu hook is triggered in wp-admin/includes/menu.php
+     * immediately after the admin_menu hook is triggered in wp-admin/includes/menu.php.
      * @return void
      * @action admin_init
      */

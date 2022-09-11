@@ -1,5 +1,6 @@
-<?php glsr()->hasPermission('settings') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
+<?php if (glsr()->hasPermission('settings')): ?>
 <div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="tools-repair-review-relations">
@@ -31,3 +32,4 @@
         </form>
     </div>
 </div>
+<?php endif; ?>
