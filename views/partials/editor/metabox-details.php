@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div class="glsr-metabox-field">
     <div class="glsr-label"><label><?= _x('Edit Details', 'admin-text', 'site-reviews'); ?></label></div>

@@ -1,3 +1,5 @@
+<?php defined('ABSPATH') || exit; ?>
+
 <p class="glsr-heading">description</p>
 <p>Include the "description" option to display a custom shortcode description.</p>
 <p>The default description value is: <code>""</code></p>

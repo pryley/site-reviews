@@ -1,3 +1,5 @@
+<?php defined('ABSPATH') || exit; ?>
+
 <p class="glsr-heading">hide</p>
 <p>Include the "hide" option to exclude certain fields in the form. If all fields are hidden, the shortcode will not be displayed.</p>
 <p>The default hide value is: <code>""</code></p>

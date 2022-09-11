@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div class="glsr-addon">
     <a href="{{ link }}" class="glsr-addon-screenshot" data-slug="{{ slug }}">

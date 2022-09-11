@@ -1,3 +1,5 @@
+<?php defined('ABSPATH') || exit; ?>
+
 <p class="glsr-heading">id</p>
 <p>Include the "id" option to add a custom HTML id attribute to the shortcode. This may be useful when using pagination with the ajax option.</p>
 <p>The default id value is: <code>""</code></p>

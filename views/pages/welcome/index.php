@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div class="glsr-welcome wrap about-wrap about-wrap-content">
     <h1>Welcome to <?= glsr()->name; ?></h1>

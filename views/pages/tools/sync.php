@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <form method="post" class="glsr-form-sync glsr-status">
     <?php $selected = key($services); ?>

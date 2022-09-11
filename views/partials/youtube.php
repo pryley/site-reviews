@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die;
+<?php defined('ABSPATH') || exit;
     if (empty($youtube_bg)) {
         $youtube_bg = sprintf('https://i.ytimg.com/vi/%s/maxresdefault.jpg', $youtube_id);
     }

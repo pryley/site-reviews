@@ -1,3 +1,5 @@
+<?php defined('ABSPATH') || exit; ?>
+
 <div class="glsr-notice glsr-notice-top-of-page" data-dismiss="premium">
 <?php
     if ($isFree) {

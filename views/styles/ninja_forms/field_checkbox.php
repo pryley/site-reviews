@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div class="nf-field-container listcheckbox-container label-above list-container" data-field="{{ field_name }}">
     <div class="nf-field">

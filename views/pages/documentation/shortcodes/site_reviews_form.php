@@ -1,3 +1,5 @@
+<?php defined('ABSPATH') || exit; ?>
+
 <div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="shortcode-site_reviews_form">
@@ -20,6 +22,7 @@
                 trailingslashit(__DIR__).'site_reviews_form/description.php',
                 trailingslashit(__DIR__).'site_reviews_form/hide.php',
                 trailingslashit(__DIR__).'site_reviews_form/id.php',
+                trailingslashit(__DIR__).'site_reviews_form/reviews_id.php',
             ];
             $filename = pathinfo(__FILE__, PATHINFO_FILENAME);
             $options = glsr()->filterArrayUnique('documentation/shortcodes/'.$filename, $options);

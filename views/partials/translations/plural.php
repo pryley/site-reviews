@@ -1,3 +1,5 @@
+<?php defined('ABSPATH') || exit; ?>
+
 <tr class="glsr-string-tr {{ data.class }}">
     <td class="glsr-string-td1 column-primary">
         <button type="button" class="toggle-row">

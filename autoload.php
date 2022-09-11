@@ -1,6 +1,6 @@
 <?php
 
-defined('ABSPATH') || die;
+defined('ABSPATH') || exit;
 
 /**
  * Provides a partial, native PHP implementation for the Ctype extension.

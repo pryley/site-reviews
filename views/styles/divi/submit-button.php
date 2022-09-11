@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div class="et_contact_bottom_container" data-field="submit-button">
     <button type="submit" class="{{ class }}" 

@@ -1,6 +1,6 @@
 <?php
 
-defined('ABSPATH') || die;
+defined('ABSPATH') || exit;
 
 /**
  * Check for minimum system requirements on plugin activation.

@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die;
+<?php defined('ABSPATH') || exit;
 
 include trailingslashit(__DIR__).'header.php';
 include trailingslashit(__DIR__).'body.php';

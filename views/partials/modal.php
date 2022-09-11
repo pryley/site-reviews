@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div id="glsr-modal" class="glsr-modal" aria-hidden="true">
     <div class="glsr-modal__overlay" data-glsr-close tabindex="-1">

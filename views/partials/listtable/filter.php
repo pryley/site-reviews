@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div id="<?= $id; ?>" class="glsr-filter <?= $class; ?>" role="combobox" aria-haspopup="true" aria-expanded="false" data-action="<?= $action; ?>">
     <input class="glsr-filter__value" type="hidden" name="<?= $name; ?>" value="<?= $value; ?>">

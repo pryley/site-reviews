@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <nav aria-label="{{ screen_reader_text }}" role="navigation">
     <ul class="pagination">

@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div class="glsr-metabox-field {{ class }}">
     <div class="glsr-label">{{ label }}</div>

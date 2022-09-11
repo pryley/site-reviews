@@ -2,7 +2,7 @@
 
 use GeminiLabs\SiteReviews\Database;
 
-defined('ABSPATH') || die;
+defined('ABSPATH') || exit;
 
 /**
  * @return array

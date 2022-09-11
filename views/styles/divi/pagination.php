@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div class="et_pb_gallery pagination">
     <div class="et_pb_gallery_pagination" role="navigation">

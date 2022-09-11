@@ -1,3 +1,5 @@
+<?php defined('ABSPATH') || exit; ?>
+
 <p class="glsr-heading">labels</p>
 <p>The "labels" option allows you to enter custom labels for the percentage bar levels (from high to low), each level should be separated with a comma. However, rather than using this option to change the labels it's recommended to instead create a custom translation for them in the <code><a href="<?= glsr_admin_url('settings', 'translations'); ?>">Settings &rarr; Translations</a></code> page.</p>
 <p>The default labels value is: <code>"Excellent,Very good,Average,Poor,Terrible"</code></p>

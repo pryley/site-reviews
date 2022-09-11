@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <p class="{{ class }}" data-field="{{ field_name }}">
     <label for="{{ for }}">{{ label_text }}<br>

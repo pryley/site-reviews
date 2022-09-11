@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div id="misc-pub-verified" class="misc-pub-section misc-pub-verified">
     <label for="verified-status"><?= _x('Verified', 'admin-text', 'site-reviews'); ?>:</label>

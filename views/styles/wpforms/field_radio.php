@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div class="wpforms-field-radio {{ class }}" data-field="{{ field_name }}">
     {{ label }}

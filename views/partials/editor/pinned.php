@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div id="misc-pub-pinned" class="misc-pub-section misc-pub-pinned">
     <label for="pinned-status"><?= _x('Pinned', 'admin-text', 'site-reviews'); ?>:</label>

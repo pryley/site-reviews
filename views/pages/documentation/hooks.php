@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die;
+<?php defined('ABSPATH') || exit;
 
 $sections = [ // order is intentional
     trailingslashit(__DIR__).'hooks/readme.php',

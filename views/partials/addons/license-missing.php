@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <strong><a href="<?= esc_url(glsr_admin_url('settings', 'licenses')); ?>">
     <?= _x('Enter a valid license key for automatic updates.', 'admin-text', 'site-reviews'); ?>

@@ -1,3 +1,5 @@
+<?php defined('ABSPATH') || exit; ?>
+
 <div class="notice is-dismissible glsr-notice" data-dismiss="welcome">
     <p><?= $text; ?></p>
     <p class="glsr-notice-buttons">

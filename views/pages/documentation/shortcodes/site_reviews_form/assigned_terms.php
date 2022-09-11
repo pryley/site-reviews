@@ -1,3 +1,5 @@
+<?php defined('ABSPATH') || exit; ?>
+
 <p class="glsr-heading">assigned_terms</p>
 <p>Include the "assigned_terms" option to automatically assign submitted reviews to specific categories. Accepted values are either a category ID or slug. Separate multiple values with a comma.</p>
 <p>The default assigned_terms value is: <code>""</code></p>

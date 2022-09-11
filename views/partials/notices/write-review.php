@@ -1,3 +1,5 @@
+<?php defined('ABSPATH') || exit; ?>
+
 <div class="notice notice-review glsr-notice" data-dismiss="write-review">
     <p><?= $text; ?></p>
     <p class="glsr-notice-buttons">

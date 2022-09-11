@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <span class="glsr-multibox-entry">
     <input type="hidden" name="{{ data.name }}" value="{{ data.id }}">

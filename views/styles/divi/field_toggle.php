@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <p class="{{ class }}" data-field="{{ field_name }}">
     <span class="et_pb_contact_field_options_wrapper">

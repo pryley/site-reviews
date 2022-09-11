@@ -17,7 +17,7 @@
  * Text Domain:       site-reviews
  * Domain Path:       languages
  */
-defined('ABSPATH') || die;
+defined('ABSPATH') || exit;
 
 if (!class_exists('GL_Plugin_Check_v6')) {
     require_once __DIR__.'/activate.php';

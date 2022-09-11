@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div class="glsr-search-box" id="glsr-search-users">
     <div class="glsr-search-box-wrap">

@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div id="taxonomy-<?= $tax_name; ?>" class="categorydiv">
 

@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div class="glsr-form-wrap">
     <form class="{{ class }}" id="{{ id }}" method="post" enctype="multipart/form-data">

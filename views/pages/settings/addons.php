@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <?php if (count($settings) > 1) : ?>
     <ul class="glsr-subsubsub subsubsub">

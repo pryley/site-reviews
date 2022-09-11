@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div class="nf-field-container label-above" data-field="{{ field_name }}">
     <div class="nf-field">

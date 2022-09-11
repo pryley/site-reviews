@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <label class="screen-reader-text" for="response"><?= _x('Respond Publicly', 'admin-text', 'site-reviews'); ?></label>
 <textarea class="glsr-response" name="response" id="response" rows="1" cols="40"><?= $response; ?></textarea>

@@ -1,3 +1,5 @@
+<?php defined('ABSPATH') || exit; ?>
+
 <div id="glsr-dp-overlay" tabindex="0" role="dialog" aria-label="{{ data.l10n.overlayLabel }}"></div>
 <script id="tmpl-glsr-deativate" type="text/template">
     <div class="glsr-dp-backdrop"></div>

@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div class="glsr-review" id="review-{{ review_id }}" data-assigned='{{ assigned }}'>
     {{ title }}

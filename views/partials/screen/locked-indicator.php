@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div class="locked-indicator">
     <span class="locked-indicator-icon" aria-hidden="true"></span>

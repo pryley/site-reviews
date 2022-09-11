@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <fieldset class="metabox-prefs">
     <legend><?= _x('Filters', 'admin-text', 'site-reviews'); ?></legend>

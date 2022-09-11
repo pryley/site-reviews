@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <p class="about-description">We hope you love the changes in this new release!</p>
 <div class="is-fullwidth">

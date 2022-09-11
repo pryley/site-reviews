@@ -1,3 +1,3 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div class="{{ class }}">{{ errors }}</div>

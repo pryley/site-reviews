@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <?php foreach ($addons as $id => $section) : ?>
 <div class="glsr-card postbox">

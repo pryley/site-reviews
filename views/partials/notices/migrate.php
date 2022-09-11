@@ -1,3 +1,5 @@
+<?php defined('ABSPATH') || exit; ?>
+
 <div class="notice is-dismissible glsr-notice" data-notice="migrate">
     <form method="post">
         <input type="hidden" name="<?= glsr()->id; ?>[_action]" value="migrate-plugin">

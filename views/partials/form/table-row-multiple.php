@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <tr class="glsr-setting-field {{ class }}">
     <th scope="row">{{ label }}</th>

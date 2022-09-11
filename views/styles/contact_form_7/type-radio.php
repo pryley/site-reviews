@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <span class="wpcf7-form-control-wrap">
     <span class="wpcf7-form-control wpcf7-radio {{ class }}">

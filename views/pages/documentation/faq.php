@@ -1,6 +1,6 @@
-<?php defined('ABSPATH') || die;
+<?php defined('ABSPATH') || exit;
 
-$sections = [
+$sections = [ // order is intentional
     trailingslashit(__DIR__).'faq/add-name-dash.php',
     trailingslashit(__DIR__).'faq/add-schema-values.php',
     trailingslashit(__DIR__).'faq/add-review-pagination.php',

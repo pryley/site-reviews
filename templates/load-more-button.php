@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div class="wp-block-button">
     <button type="button" class="{{ class }} wp-block-button__link" 

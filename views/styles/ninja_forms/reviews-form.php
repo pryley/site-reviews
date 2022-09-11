@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div class="glsr-form-wrap nf-form-wrap ninja-forms-form-wrap">
     <div class="nf-form-layout">

@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die;
+<?php defined('ABSPATH') || exit;
 
 $sections = [
     trailingslashit(__DIR__).'general/export-reviews.php',

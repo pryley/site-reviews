@@ -1,3 +1,5 @@
+<?php defined('ABSPATH') || exit; ?>
+
 <p class="glsr-heading">terms</p>
 <p>Include the "terms" option to display reviews where the terms were either accepted or not accepted. Accepted value is either <code>true</code> or <code>false</code>.</p>
 <p>The default terms value is: <code>""</code></p>

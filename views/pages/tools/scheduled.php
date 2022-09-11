@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die;
+<?php defined('ABSPATH') || exit;
 
 /**
  * This hack allow the list table to set the correct URLs

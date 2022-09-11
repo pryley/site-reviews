@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <p class="privacy-policy-tutorial">
     This sample language includes the basics around what personal data you may be collecting and storing. Depending on what settings are enabled and which additional plugins are used, the specific information will vary. We recommend consulting with a lawyer when deciding what information to disclose on your privacy policy.

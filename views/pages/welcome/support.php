@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <p class="about-description">
     Still need help with <?= glsr()->name; ?>? We offer excellent support, but don't forget to check our <a href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>">documentation</a> first.

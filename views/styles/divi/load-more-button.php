@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') || die; ?>
+<?php defined('ABSPATH') || exit; ?>
 
 <div class="et_pb_button_module_wrapper">
     <button type="button" class="{{ class }}" 

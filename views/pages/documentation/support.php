@@ -1,6 +1,6 @@
-<?php defined('ABSPATH') || die;
+<?php defined('ABSPATH') || exit;
 
-$sections = [
+$sections = [ // order is intentional
     trailingslashit(__DIR__).'support/get-started.php',
     trailingslashit(__DIR__).'support/basic-troubleshooting.php',
     trailingslashit(__DIR__).'support/common-problems-and-solutions.php',
