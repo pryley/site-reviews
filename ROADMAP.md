@@ -5,15 +5,15 @@ All proposed features are subject to change and are sorted alphabetically rather
 ## Proposed features
 
 - [ ] Add "More Details" modal to addons (ref: Plugins > Add New)
-- [ ] Add a single-use notice on the settings page to encourage users to rate the plugin (ref: Polylang)
-- [ ] Add a time constraint to review limits
+- [x] Add a single-use notice on the settings page to encourage users to rate the plugin (ref: Polylang)
+- [x] Add a time constraint to review limits
 - [ ] Allow review submissions without javascript (ref: comment form)
 - [ ] Export reviews as XML for Google Shopping
 - [ ] Integrate with Antispam Bee (https://wordpress.org/plugins/antispam-bee/)
 - [x] Integrate with FriendlyCaptcha
 - [x] Integrate with hCaptcha
 - [x] Integrate with reCAPTCHA v3
-- [ ] Mark reviews as verified (https://wordpress.org/support/topic/verified-review-option/)
+- [x] Mark reviews as verified (https://wordpress.org/support/topic/verified-review-option/)
 - [ ] Rating "0.1" increments
 - [ ] restrict displayed reviews by empty content (setting only?)
 - [ ] Restrict reviews in the admin to those assigned to pages of the current user

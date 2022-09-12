@@ -8,7 +8,7 @@
         </button>
     </h3>
     <div id="welcome-v6_0_0" class="inside">
-        <p><em>Initial Release Date &mdash; September 8th, 2022</em></p>
+        <p><em>Initial Release Date &mdash; September 12th, 2022</em></p>
         <h4>✨ New Features</h4>
         <ul>
             <li>Added a deactivation feedback dialog</li>
@@ -52,7 +52,7 @@
         <ul>
             <li>Fixed compatibility with <a href="https://wordpress.org/plugins/duplicate-post/" target="_blank">Yoast Duplicate Post</a></li>
             <li>Fixed invalid "deprecated" entries which were being added to the Console on some websites</li>
-            <li>Fixed last name initials when there isonly a first name submitted</li>
+            <li>Fixed last name initials when there is only a first name</li>
             <li>Fixed permissions for plugin pages</li>
             <li>Fixed plugin redirection when bulk activating multiple plugins</li>
             <li>Fixed primary keys on custom database pivot tables</li>

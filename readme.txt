@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, star ratings
 Tested up to: 6.0
-Stable tag: 6.0.0
+Stable tag: 6.0.0-beta10
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -146,7 +146,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.0.0 (2022-09-08) =
+= 6.0.0-beta10 (2022-09-12) =
 
 - 🚨 Requires at least PHP v7.2
 - 🚨 Requires at least WordPress v5.8
@@ -175,7 +175,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Enabled SSL verification on all requests (this can be disabled with the WordPress [https_ssl_verify](http://developer.wordpress.org/reference/hooks/https_ssl_verify/) filter hook)
 - Fixed compatibility with [Yoast Duplicate Post](https://wordpress.org/plugins/duplicate-post/)
 - Fixed invalid "deprecated" entries which were being added to the Console on some websites
-- Fixed last name initials when there is only a first name submitted
+- Fixed last name initials when there is only a first name
 - Fixed permissions for plugin pages
 - Fixed plugin redirection when bulk activating multiple plugins
 - Fixed primary keys on custom database pivot tables
