@@ -67,5 +67,22 @@
             </li>
         </ol>
 
+        <h2>Changes to Internal Plugin Classes</h2>
+        <p><em>Likelihood Of Impact: <span class="impact-low">Low</span></em></p>
+        <ol>
+            <li>
+                <p><strong>The parameter order of the <code>Str::contains</code> method has changed.</strong></p>
+                <p>If you were using the <code>Str::contains($needle, $haystack)</code> method in custom code or in a filter or action hook, you will need to swap the parameter order to <code>Str::contains($haystack, $needle)</code>. This change was made to mirror the native PHP 8.0 <a href="http://www.php.net/manual/en/function.str-contains.php" target="_blank">str_contains</a> function.</p>
+            </li>
+            <li>
+                <p><strong>The parameter order of the <code>Str::endsWith</code> method has changed.</strong></p>
+                <p>If you were using the <code>Str::endsWith($needle, $haystack)</code> method in custom code or in a filter or action hook, you will need to swap the parameter order to <code>Str::endsWith($haystack, $needle)</code>. This change was made to mirror the native PHP 8.0 <a href="http://www.php.net/manual/en/function.str-ends-with.php" target="_blank">str_ends_with</a> function.</p>
+            </li>
+            <li>
+                <p><strong>The parameter order of the <code>Str::startsWith</code> method has changed.</strong></p>
+                <p>If you were using the <code>Str::startsWith($needle, $haystack)</code> method in custom code or in a filter or action hook, you will need to swap the parameter order to <code>Str::startsWith($haystack, $needle)</code>. This change was made to mirror the native PHP 8.0 <a href="http://www.php.net/manual/en/function.str-starts-with.php" target="_blank">str_starts_with</a> function.</p>
+            </li>
+        </ol>
+
     </div>
 </div>
