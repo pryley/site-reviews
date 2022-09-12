@@ -1,6 +1,6 @@
 == Changelog ==
 
-= 6.0.0-beta10 (2022-09-12) =
+= 6.0.0 (2022-09-14) =
 
 - 🚨 Requires at least PHP v7.2
 - 🚨 Requires at least WordPress v5.8
