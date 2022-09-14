@@ -11,6 +11,13 @@
 [class*=post-type-site-review] .row-actions .id > span {
     color: #999;
 }
+@media screen and (max-width: 782px) {
+	[class*=post-type-site-review] .row-actions .id > span {
+		display: inline-block;
+		padding: 4px 8px;
+		line-height: 1.5;
+	}
+}
 
 .bulk-edit-site-review select {
 	vertical-align: baseline;
