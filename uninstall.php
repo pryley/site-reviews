@@ -77,8 +77,11 @@ function glsr_uninstall_all_delete_reviews() {
     ");
     // delete all assigned_posts meta
     $wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE meta_key LIKE '%glsr_%'");
-    // delete all assigned_users meta
-    $wpdb->query("DELETE FROM {$wpdb->usermeta} WHERE meta_key LIKE '%glsr_%'");
+    // delete all Site Reviews user meta
+    $wpdb->query("
+        DELETE FROM {$wpdb->usermeta}
+        WHERE (meta_key LIKE '%glsr_%' OR meta_key LIKE '%_site-review%' OR meta_key LIKE '%-site-review%')
+    ");
 }
 
 function glsr_uninstall_all_delete_tables() {
