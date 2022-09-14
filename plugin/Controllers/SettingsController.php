@@ -170,7 +170,7 @@ class SettingsController extends Controller
         } catch (LicenseException $e) {
             $license = '';
             glsr_log()->error($e->getMessage());
-            $error = _x('A license you entered is either invalid or has not yet been activated.', 'admin-text', 'site-reviews');
+            $error = _x('A license you entered is either invalid or has not yet been authorized for your website.', 'admin-text', 'site-reviews');
             $message = sprintf(_x('To activate your license, please visit the %s page on your Nifty Plugins account and click the "Manage Sites" button to activate it for your website.', 'admin-text', 'site-reviews'),
                 sprintf('<a href="https://niftyplugins.com/account/license-keys/" target="_blank">%s</a>', _x('License Keys', 'admin-text', 'site-reviews'))
             );
