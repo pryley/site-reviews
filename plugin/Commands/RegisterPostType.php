@@ -30,6 +30,7 @@ class RegisterPostType implements Contract
         if (!in_array(glsr()->post_type, get_post_types(['_builtin' => true]))) {
             register_post_type(glsr()->post_type, $this->args);
             $this->setColumns();
+            $this->setDefaultHiddenColumns();
         }
     }
 
@@ -60,5 +61,23 @@ class RegisterPostType implements Contract
             glsr()->post_type => $this->columns,
         ]);
         glsr()->store('columns', $columns);
+    }
+
+    /**
+     * @return void
+     */
+    protected function setDefaultHiddenColumns()
+    {
+        $columns = wp_parse_args(glsr()->retrieveAs('array', 'columns_hidden', []), [
+            glsr()->post_type => [
+                'taxonomy-'.glsr()->taxonomy,
+                'assigned_users',
+                'author_name',
+                'author_email',
+                'ip_address',
+                'response',
+            ],
+        ]);
+        glsr()->store('columns_hidden', $columns);
     }
 }

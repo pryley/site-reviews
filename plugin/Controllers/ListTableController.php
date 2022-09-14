@@ -60,7 +60,7 @@ class ListTableController extends Controller
     public function filterColumnsForPostType($columns)
     {
         $columns = Arr::consolidate($columns);
-        $postTypeColumns = glsr()->retrieve('columns.'.glsr()->post_type, []);
+        $postTypeColumns = glsr()->retrieveAs('array', 'columns.'.glsr()->post_type, []);
         foreach ($postTypeColumns as $key => &$value) {
             if (array_key_exists($key, $columns) && empty($value)) {
                 $value = $columns[$key];
@@ -90,10 +90,8 @@ class ListTableController extends Controller
     public function filterDefaultHiddenColumns($hidden, $screen)
     {
         if (Arr::get($screen, 'id') === 'edit-'.glsr()->post_type) {
-            $hidden = Arr::consolidate($hidden);
-            $hidden = array_unique(array_merge($hidden, [
-                'assigned_users', 'author_name', 'author_email', 'ip_address', 'response', 'is_verified',
-            ]));
+            $hiddenColumns = glsr()->retrieveAs('array', 'columns_hidden.'.glsr()->post_type, []);
+            return array_unique(array_merge(Arr::consolidate($hidden), $hiddenColumns));
         }
         return $hidden;
     }
@@ -230,7 +228,7 @@ class ListTableController extends Controller
     public function filterSortableColumns($columns)
     {
         $columns = Arr::consolidate($columns);
-        $postTypeColumns = glsr()->retrieve('columns.'.glsr()->post_type, []);
+        $postTypeColumns = glsr()->retrieveAs('array', 'columns.'.glsr()->post_type, []);
         unset($postTypeColumns['cb']);
         foreach ($postTypeColumns as $key => $value) {
             if (!Str::startsWith($key, 'assigned') && !Str::startsWith($key, 'taxonomy')) {
