@@ -215,56 +215,48 @@
 			white-space: nowrap;
 		}
 
-		th.column-name,
+		th.column-author_name,
+		th.column-author_email,
+		th.column-ip_address,
 		th.column-taxonomy-site-review-category,
 		th.column-assigned_posts,
 		th.column-assigned_users,
 		th.column-type {
 			width: 120px;
 		}
-		th.column-is_pinned {
-			width: 45px;
-			// span.sorting-indicator,
-			span.pinned-icon span {
-				display: none;
-			}
-			span.pinned-icon::after {
-				@include pin;
-				width: 16px;
-				height: 20px;
-				line-height: 22px;
-				font-size: 16px;
-				text-align: center;
-			}
-			.sorting-indicator {
-				margin-left: 3px;
-			}
+		th.column-rating,
+		th.column-response {
+			width: 100px;
 		}
+		th.column-is_pinned,
 		th.column-is_verified {
 			width: 45px;
-			// span.sorting-indicator,
-			span.verified-icon span {
-				display: none;
-			}
-			span.verified-icon::after {
-				@include verified;
-				width: 16px;
-				height: 20px;
-				line-height: 22px;
-				font-size: 16px;
-				text-align: center;
-			}
-			.sorting-indicator {
-				margin-left: 3px;
-			}
 		}
-
-		td.column-is_pinned {
-			padding: 8px 6px;
-			i {
-				text-indent: 0;
-			}
+		th.column-is_pinned .pinned-icon > span,
+		th.column-is_verified .verified-icon > span {
+			display: none;
 		}
+		th.column-is_pinned .pinned-icon::after {
+			@include pin;
+			width: 16px;
+			height: 20px;
+			line-height: 22px;
+			font-size: 16px;
+			text-align: center;
+		}
+		th.column-is_verified .verified-icon::after {
+			@include verified;
+			width: 16px;
+			height: 20px;
+			line-height: 22px;
+			font-size: 16px;
+			text-align: center;
+		}
+		th.column-is_pinned .sorting-indicator,
+		th.column-is_verified .sorting-indicator {
+			margin-left: 3px;
+		}
+		td.column-is_pinned,
 		td.column-is_verified {
 			padding: 8px 6px;
 			i {
