@@ -1,13 +1,14 @@
 === Site Reviews ===
 Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
-Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, star ratings
+Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.0
+Requires at least: 5.8
 Stable tag: 6.0.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Site Reviews allows you to easily receive and display reviews for your website, business, or products.
+Site Reviews is a complete review management solution for your website, business, or products.
 
 == Description ==
 
@@ -81,20 +82,29 @@ Images adapted from [freepik](https://www.freepik.com).
 
 == Installation ==
 
-= Minimum plugin requirements =
+= Minimum Requirements =
 
-- WordPress 5.8
-- PHP 7.2
+- WordPress 5.8 or greater
+* PHP 7.2 or greater
+* MySQL 5.6 or greater
 
 If your server and website does not meet the minimum requirements shown below, the plugin will automatically deactivate and a notice will appear explaining why.
 
 = Automatic installation =
 
-Log in to your WordPress dashboard, navigate to the Plugins menu and click "Add New". In the search field type "Site Reviews" and click Search Plugins. Once you have found the plugin, click "Install Now".
+Automatic installation is the easiest option -- WordPress will handle the file transfer, and you won’t need to leave your web browser. To do an automatic install of Site Reviews, log in to your WordPress dashboard, navigate to the Plugins menu, and click “Add New.”
+
+In the search field type “Site Reviews,” then click “Search Plugins.” Once you’ve found it, you can view the plugin details such as the point release, rating, and description. Most importantly of course, you can install it by clicking “Install Now,” and WordPress will take it from there.
 
 = Manual installation =
 
-Download the Site Reviews plugin and upload it to your server with your favorite FTP application. The WordPress codex contains [instructions on how to do this here](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
+Manual installation method requires downloading the Site Reviews plugin and uploading it to your web server via your favorite FTP application. The WordPress codex contains [instructions on how to do this here](https://wordpress.org/support/article/managing-plugins/#manual-plugin-installation).
+
+= Updating =
+
+Automatic updates should work smoothly, but we still recommend you back up your site.
+
+If you encounter issues with your reviews after an update, go to the Site Reviews Tools page and run the "Migrate Plugin" tool. That should return things to normal.
 
 == Frequently Asked Questions ==
 
@@ -194,70 +204,4 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Submit and load more buttons now make use of the WordPress Block button classes by default
 - Updated the Bootstrap plugin styles to Bootstrap v5
 
-= 5.25.1 (2022-07-15) =
-
-- Fixed submit button when captcha is disabled
-
-= 5.25.0 (2022-07-15) =
-
-- Added a `data-pinned` attribute to pinned reviews (this allows you to target pinned reviews with custom CSS)
-- Added FriendlyCaptcha integration
-- Added hCaptcha integration
-- Added reCAPTCHA v3 integration
-- Fixed block errors in Customizer Widgets
-- Fixed bulk-edit and quick-edit (i.e. Respond) layout
-- Fixed review submission response with invalid CAPTCHA keys
-
-= 5.24.3 (2022-06-29) =
-
-- Fixed missing values in Review Details metabox
-
-= 5.24.2 (2022-06-21) =
-
-- Fixed excerpts when using Elementor
-- Fixed reCAPTCHA when using Elementor
-
-= 5.24.1 (2022-05-26) =
-
-- Fixed expanding excerpts (for real this time)
-
-= 5.24.0 (2022-05-26) =
-
-- Added the ability to use post types in the assigned_posts option allowing you to display all reviews for a specific post type.
-- Fixed compatibility with Divi Dynamic CSS
-- Fixed expanding excerpts
-
-= 5.23.6 (2022-04-14) =
-
-- Fixed Export Tool
-- Fixed functionality of the assigned_posts option when use with the reviews and summary shortcodes: If the assigned_posts value is invalid, no reviews should be returned
-
-= 5.23.5 (2022-04-13) =
-
-- Fixed PHP error when importing reviews
-
-= 5.23.4 (2022-04-12) =
-
-- Fixed compatibility with Oxygen Builder
-- Fixed terms toggle when it's not required in the settings
-
-= 5.23.3 (2022-04-10) =
-
-- Reverted build tool used to generate javascript files (as it seems to be causing problems with Divi and Oxygen Builder)
-
-= 5.23.2 (2022-04-10) =
-
-- Fixed admin notices
-- Fixed AJAX pagination of filtered reviews (only applies if using the Review Filters add-on)
-- Fixed detection of broken Avatar URLs on local development websites
-
-= 5.23.0 (2022-04-09) =
-
-- Added an "Export Reviews" tool
-- Fixed Rollback feature compatibility with other plugins which use the WordPress Upgrader
-- Fixed PHP 5.6 compatibility
-- Fixed the filter labels on the All Reviews page, they are now translatable
-- Fixed the star rating control when editing a review
-- Fixed validation for fields which are empty and not required
-- Fixed WordPress admin theme support
-- Optimised frontend javascript
+[See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).

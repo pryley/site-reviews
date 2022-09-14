@@ -83,6 +83,9 @@ class WelcomeController extends Controller
      */
     public function removeSubMenu()
     {
+        if (!function_exists('remove_submenu_page')) {
+            require_once ABSPATH.'wp-admin/includes/plugin.php';
+        }
         remove_submenu_page('index.php', $this->welcomePage);
     }
 

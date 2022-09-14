@@ -1835,17 +1835,6 @@ msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr "Choose the action that should be taken when a review is blacklisted."
 
-#: plugin/Application.php:177
-msgctxt "admin-text"
-msgid ""
-"You need to authorize your website with the license before you can save it "
-"here! To do this, go to the %s page on your Nifty Plugins account and click "
-"the \"Manage Sites\" button."
-msgstr ""
-"You need to authorize your website with the license before you can save it "
-"here! To do this, go to the %s page on your Nifty Plugins account and click "
-"the \"Manage Sites\" button."
-
 #: plugin/Application.php:178, plugin/Controllers/SettingsController.php:175
 msgctxt "admin-text"
 msgid "License Keys"
@@ -2278,42 +2267,42 @@ msgctxt "admin-text"
 msgid "Submitted"
 msgstr "Submitted"
 
-#: plugin/Controllers/ListTableController.php:129, plugin/Controllers/TranslationController.php:132, plugin/Controllers/TranslationController.php:167, plugin/Defaults/PostStatusLabelsDefaults.php:15, plugin/Defaults/PostStatusLabelsDefaults.php:16, views/partials/screen/inline-edit.php:72
+#: plugin/Controllers/ListTableController.php:127, plugin/Controllers/TranslationController.php:132, plugin/Controllers/TranslationController.php:167, plugin/Defaults/PostStatusLabelsDefaults.php:15, plugin/Defaults/PostStatusLabelsDefaults.php:16, views/partials/screen/inline-edit.php:72
 msgctxt "admin-text"
 msgid "Unapproved"
 msgstr "Unapproved"
 
-#: plugin/Controllers/ListTableController.php:149, plugin/Controllers/TranslationController.php:197, plugin/Defaults/PostStatusLabelsDefaults.php:18
+#: plugin/Controllers/ListTableController.php:147, plugin/Controllers/TranslationController.php:197, plugin/Defaults/PostStatusLabelsDefaults.php:18
 msgctxt "admin-text"
 msgid "Approve"
 msgstr "Approve"
 
-#: plugin/Controllers/ListTableController.php:150
+#: plugin/Controllers/ListTableController.php:148
 msgctxt "admin-text"
 msgid "Unapprove"
 msgstr "Unapprove"
 
-#: plugin/Controllers/ListTableController.php:166
+#: plugin/Controllers/ListTableController.php:164
 msgctxt "admin-text"
 msgid "Respond inline to &#8220;%s&#8221;"
 msgstr "Respond inline to &#8220;%s&#8221;"
 
-#: plugin/Controllers/ListTableController.php:168
+#: plugin/Controllers/ListTableController.php:166
 msgctxt "admin-text"
 msgid "Respond"
 msgstr "Respond"
 
-#: plugin/Controllers/ListTableController.php:259
+#: plugin/Controllers/ListTableController.php:257
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to respond to this review."
 msgstr "Sorry, you are not allowed to respond to this review."
 
-#: plugin/Controllers/ListTableController.php:263
+#: plugin/Controllers/ListTableController.php:261
 msgctxt "admin-text"
 msgid "Someone"
 msgstr "Someone"
 
-#: plugin/Controllers/ListTableController.php:264
+#: plugin/Controllers/ListTableController.php:262
 msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr "Saving is disabled: %s is currently editing this review."
@@ -2469,8 +2458,12 @@ msgstr "A license you entered could not be verified for the selected add-on."
 
 #: plugin/Controllers/SettingsController.php:173
 msgctxt "admin-text"
-msgid "A license you entered is either invalid or has not yet been activated."
-msgstr "A license you entered is either invalid or has not yet been activated."
+msgid ""
+"A license you entered is either invalid or has not yet been authorized for "
+"your website."
+msgstr ""
+"A license you entered is either invalid or has not yet been authorized for "
+"your website."
 
 #: plugin/Controllers/SettingsController.php:174
 msgctxt "admin-text"
@@ -3745,17 +3738,6 @@ msgstr "General Settings"
 msgctxt "admin-text"
 msgid "Add-on Licenses"
 msgstr "Add-on Licenses"
-
-#: views/pages/settings/licenses.php:8
-msgctxt "admin-text"
-msgid ""
-"You need to authorize your website with the license before you can save it "
-"here! To do this, go to the %sLicense Keys%s page on your Nifty Plugins "
-"account and click the \"Manage Sites\" button."
-msgstr ""
-"You need to authorize your website with the license before you can save it "
-"here! To do this, go to the %sLicense Keys%s page on your Nifty Plugins "
-"account and click the \"Manage Sites\" button."
 
 #: views/pages/settings/reviews.php:3
 msgctxt "admin-text"
@@ -5240,6 +5222,15 @@ msgctxt "limit time (admin-text)"
 msgid "days"
 msgstr "days"
 
+#: plugin/Application.php:177
+msgctxt "License Keys (admin-text)"
+msgid ""
+"Enter the license key here. Your license can be found on the %s page of "
+"your Nifty Plugins account."
+msgstr ""
+"Enter the license key here. Your license can be found on the %s page of "
+"your Nifty Plugins account."
+
 #: plugin/Controllers/DeactivationController.php:47
 msgctxt "Click here (admin-text)"
 msgid ""
@@ -5254,12 +5245,12 @@ msgctxt "Plugin name (admin-text)"
 msgid "Deactivating %s"
 msgstr "Deactivating %s"
 
-#: plugin/Controllers/ListTableController.php:146
+#: plugin/Controllers/ListTableController.php:144
 msgctxt "The Review Post ID (admin-text)"
 msgid "<span>ID: %d</span>"
 msgstr "<span>ID: %d</span>"
 
-#: plugin/Controllers/ListTableController.php:154
+#: plugin/Controllers/ListTableController.php:152
 msgctxt "Approve the review (admin-text)"
 msgid "%s this review"
 msgstr "%s this review"
@@ -5536,6 +5527,17 @@ msgstr "getting a review"
 msgctxt "1 point for ... 1 time"
 msgid "writing a review"
 msgstr "writing a review"
+
+#: views/pages/settings/licenses.php:7
+msgctxt "<a>|</a> (admin-text)"
+msgid ""
+"You need to authorize your website with the license before you can save it "
+"here. To do this, go to the %sLicense Keys%s page on your Nifty Plugins "
+"account and click the \"Manage Sites\" button."
+msgstr ""
+"You need to authorize your website with the license before you can save it "
+"here. To do this, go to the %sLicense Keys%s page on your Nifty Plugins "
+"account and click the \"Manage Sites\" button."
 
 #: plugin/Modules/Html/Partials/Pagination.php:43
 msgctxt "screen reader text"
