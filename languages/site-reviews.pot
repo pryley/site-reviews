@@ -1491,15 +1491,15 @@ msgctxt "admin-text"
 msgid "Console logging level could not be changed."
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:180
+#: plugin/Commands/CreateReview.php:177
 msgid "Your review has been submitted!"
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:181
+#: plugin/Commands/CreateReview.php:178
 msgid "Your review has been submitted and is pending approval."
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:186, views/pages/documentation/support/common-problems-and-solutions.php:80
+#: plugin/Commands/CreateReview.php:183, views/pages/documentation/support/common-problems-and-solutions.php:80
 msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 

@@ -33,7 +33,7 @@ class CreateReview implements Contract
     public $ip_address;
     public $is_approved;
     public $is_pinned;
-    // public $is_verified;
+    public $is_verified;
     public $name;
     public $post_id;
     public $rating;
@@ -52,13 +52,10 @@ class CreateReview implements Contract
 
     public function __construct(Request $request)
     {
-        if (!defined('WP_IMPORTING') || empty($request->ip_address)) {
-            $request->set('ip_address', Helper::getIpAddress()); // required for Akismet and Blacklist validation
-        }
-        glsr()->action('review/request', $request);
+        $request = $this->normalize($request);
+        $this->setProperties($request->toArray());
         $this->request = $request;
-        $this->sanitize(); // this goes last
-        $this->review = new Review($this->toArray(), false); // don't init the dummy review!
+        $this->review = new Review($this->toArray(), $init = false);
         $this->custom = $this->custom();
         $this->type = $this->type();
         $this->avatar = $this->avatar(); // do this last
@@ -70,7 +67,7 @@ class CreateReview implements Contract
     public function handle()
     {
         if ($this->validate()) {
-            $this->create();
+            $this->create(); // public form submission
         }
         return $this;
     }
@@ -195,6 +192,24 @@ class CreateReview implements Contract
     }
 
     /**
+     * @return Request
+     */
+    protected function normalize(Request $request)
+    {
+        $isFormSubmission = !defined('WP_IMPORTING') && !glsr()->retrieve('glsr_create_review', false);
+        if ($isFormSubmission || empty($request->ip_address)) {
+            $request->set('ip_address', Helper::getIpAddress()); // required for Akismet and Blacklist validation
+        }
+        if ($isFormSubmission) {
+            // is_approved is verified when the review is created
+            $request->set('is_pinned', false);
+            $request->set('is_verified', false);
+        }
+        glsr()->action('review/request', $request);
+        return $request;
+    }
+
+    /**
      * @return string
      */
     protected function redirect($fallback = '')
@@ -210,9 +225,9 @@ class CreateReview implements Contract
     /**
      * @return void
      */
-    protected function sanitize()
+    protected function setProperties(array $properties)
     {
-        $values = glsr(CreateReviewDefaults::class)->restrict($this->request->toArray());
+        $values = glsr(CreateReviewDefaults::class)->restrict($properties);
         foreach ($values as $key => $value) {
             if (property_exists($this, $key)) {
                 $this->{$key} = $value;

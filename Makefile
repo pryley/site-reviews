@@ -44,6 +44,11 @@ sync: ## Sync plugin files to development site
 test: ## Run all phpunit tests
 	./vendor/bin/phpunit
 
+.PHONY: testall
+testall: ## Run phpstan analyser and all phpunit tests
+	./vendor/bin/phpstan analyse --memory-limit 1G
+	./vendor/bin/phpunit
+
 .PHONY: update
 update: ## Update Composer and NPM
 	valet composer update

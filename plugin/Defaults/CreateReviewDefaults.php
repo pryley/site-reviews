@@ -5,6 +5,13 @@ namespace GeminiLabs\SiteReviews\Defaults;
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 
+/**
+ * If this is a form submission, the following fields are overridden:
+ * - ip_address
+ * - is_approved
+ * - is_pinned
+ * - is_verified
+ */
 class CreateReviewDefaults extends Defaults
 {
     /**
@@ -16,7 +23,6 @@ class CreateReviewDefaults extends Defaults
         'assign_to' => 'assigned_posts', // support custom assign_to fields
         'category' => 'assigned_terms', // support custom category fields
         'author' => 'name',
-        'pinned' => 'is_pinned',
     ];
 
     /**
@@ -36,7 +42,7 @@ class CreateReviewDefaults extends Defaults
         'ip_address' => 'text',
         'is_approved' => 'bool',
         'is_pinned' => 'bool',
-        // 'is_verified' => 'bool',
+        'is_verified' => 'bool',
         'name' => 'user-name',
         'post_id' => 'int',
         'rating' => 'int',
@@ -68,7 +74,7 @@ class CreateReviewDefaults extends Defaults
             'ip_address' => '',
             'is_approved' => true,
             'is_pinned' => false,
-            // 'is_verified' => false,
+            'is_verified' => false,
             'name' => '',
             'post_id' => '',
             'rating' => '',

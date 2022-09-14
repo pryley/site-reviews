@@ -18,42 +18,6 @@ class ReviewManagerTest extends WP_UnitTestCase
 {
     use Setup;
 
-    public $request;
-    public $termArgs;
-
-    public function createReview(Request $request)
-    {
-        if ($review = glsr(ReviewManager::class)->create(new CreateReview($request))) {
-            return $review;
-        }
-        return new Review([]);
-    }
-
-    public function set_up()
-    {
-        parent::set_up();
-        $faker = Factory::create();
-        $this->request = new Request([
-            '_action' => 'submit-review',
-            '_ajax_request' => 1,
-            '_post_id' => 1,
-            '_referer' => $this->referer,
-            'assigned_posts' => '',
-            'assigned_terms' => '',
-            'assigned_users' => '',
-            'excluded' => '',
-            'form_id' => $faker->slug,
-            'rating' => 5,
-            'title' => $faker->sentence,
-            'content' => $faker->text,
-            'name' => $faker->name,
-            'email' => $faker->email,
-        ]);
-        $this->termArgs = [
-            'taxonomy' => glsr()->taxonomy,
-        ];
-    }
-
     public function test_assign_post()
     {
         // automatically assign posts
@@ -61,10 +25,9 @@ class ReviewManagerTest extends WP_UnitTestCase
             self::factory()->post->create(),
             self::factory()->post->create(),
         ];
-        $request = $this->request;
-        $review = $this->createReview($request->merge([
+        $review = $this->createReview([
             'assigned_posts' => implode(',', $posts),
-        ]));
+        ]);
         $this->assertTrue($review->isValid());
         $this->assertEquals($review->assigned_posts, $posts);
         foreach ($posts as $postId) {
@@ -87,13 +50,12 @@ class ReviewManagerTest extends WP_UnitTestCase
     {
         // automatically assign terms
         $terms = [
-            self::factory()->term->create($this->termArgs),
-            self::factory()->term->create($this->termArgs),
+            self::factory()->term->create(['taxonomy' => glsr()->taxonomy]),
+            self::factory()->term->create(['taxonomy' => glsr()->taxonomy]),
         ];
-        $request = $this->request;
-        $review = $this->createReview($request->merge([
+        $review = $this->createReview([
             'assigned_terms' => implode(',', $terms),
-        ]));
+        ]);
         $this->assertTrue($review->isValid());
         $this->assertEquals($review->assigned_terms, $terms);
         foreach ($terms as $termId) {
@@ -102,7 +64,7 @@ class ReviewManagerTest extends WP_UnitTestCase
             $this->assertEquals(get_term_meta($termId, '_glsr_reviews', true), 1);
         }
         // manually assign term
-        $termId = self::factory()->term->create($this->termArgs);
+        $termId = self::factory()->term->create(['taxonomy' => glsr()->taxonomy]);
         $terms[] = $termId;
         glsr(ReviewManager::class)->assignTerm($review, $termId);
         $review = glsr(ReviewManager::class)->get($review->ID);
@@ -119,10 +81,9 @@ class ReviewManagerTest extends WP_UnitTestCase
             self::factory()->user->create(),
             self::factory()->user->create(),
         ];
-        $request = $this->request;
-        $review = $this->createReview($request->merge([
+        $review = $this->createReview([
             'assigned_users' => implode(',', $users),
-        ]));
+        ]);
         $this->assertTrue($review->isValid());
         $this->assertEquals($review->assigned_users, $users);
         foreach ($users as $userId) {
@@ -143,35 +104,14 @@ class ReviewManagerTest extends WP_UnitTestCase
 
     public function test_create()
     {
-        $review = $this->createReview($this->request);
+        $review = $this->createReview();
         $this->assertTrue($review->isValid());
     }
 
     public function test_create_with_terms()
     {
-        // if terms field does not exist, set them to false
-        $request = $this->request;
-        $request->set('terms_exist', false);
-        $review = $this->createReview($request);
-        $this->assertTrue($review->isValid());
-        $this->assertFalse($review->terms);
-        // if terms field does exist but the terms are not accepted, set them to false
-        $request = clone $this->request;
-        $request->set('terms_exist', true);
-        $review = $this->createReview($request);
-        $this->assertTrue($review->isValid());
-        $this->assertFalse($review->terms);
-        // if terms field exists and the terms are accepted, set them to true
-        $request = clone $this->request;
-        $request->set('terms_exist', true);
-        $request->set('terms', true);
-        $review = $this->createReview($request);
-        $this->assertTrue($review->isValid());
-        $this->assertTrue($review->terms);
         // if terms are false (i.e. using the helper function), set them to false
-        $request = clone $this->request;
-        $request->set('terms', false);
-        $review = $this->createReview($request);
+        $review = $this->createReview(['terms' => false]);
         $this->assertTrue($review->isValid());
         $this->assertFalse($review->terms);
         // test the helper function directly
@@ -179,20 +119,86 @@ class ReviewManagerTest extends WP_UnitTestCase
         $path = 'settings.general.require.approval';
         $setting = $options->get($path, 'no');
         $options->set($path, 'yes');
-        $review = glsr_create_review($this->request->toArray());
+        $review = glsr_create_review($this->request()->toArray());
         $this->assertTrue($review->isValid());
         $this->assertTrue($review->is_approved);
         $this->assertFalse($review->terms);
         $options->set($path, $setting);
     }
 
+    public function test_create_with_no_terms_field()
+    {
+        $review = $this->createReview(['terms_exist' => false]);
+        $this->assertTrue($review->isValid());
+        $this->assertFalse($review->terms);
+    }
+
+    public function test_create_with_accepted_terms()
+    {
+        $review = $this->createReview([
+            'terms_exist' => true,
+            'terms' => true,
+        ]);
+        $this->assertTrue($review->isValid());
+        $this->assertTrue($review->terms);
+    }
+
+    public function test_create_with_rejected_terms()
+    {
+        $review = $this->createReview(['terms_exist' => true]);
+        $this->assertTrue($review->isValid());
+        $this->assertFalse($review->terms);
+    }
+
+    public function test_ip_address_is_protected()
+    {
+        $review = $this->createReview(['ip_address' => '111.222.333.444']);
+        $this->assertTrue($review->isValid());
+        $this->assertEquals($review->ip_address, '127.0.0.1');
+    }
+
+    public function test_ip_address_is_unprotected_when_using_helper_fn()
+    {
+        $request = $this->request(['ip_address' => '111.222.333.444']);
+        $review = glsr_create_review($request->toArray());
+        $this->assertTrue($review->isValid());
+        $this->assertEquals($review->ip_address, '111.222.333.444');
+    }
+
+    public function test_is_pinned_is_protected()
+    {
+        $review = $this->createReview(['is_pinned' => true]);
+        $this->assertTrue($review->isValid());
+        $this->assertFalse($review->is_pinned);
+    }
+
+    public function test_is_pinned_is_unprotected_when_using_helper_fn()
+    {
+        $request = $this->request(['is_pinned' => true]);
+        $review = glsr_create_review($request->toArray());
+        $this->assertTrue($review->isValid());
+        $this->assertTrue($review->is_pinned);
+    }
+
+    public function test_is_verified_is_protected()
+    {
+        $review = $this->createReview(['is_verified' => true]);
+        $this->assertTrue($review->isValid());
+        $this->assertFalse($review->is_verified);
+    }
+
+    public function test_is_verified_is_unprotected_when_using_helper_fn()
+    {
+        $request = $this->request(['is_verified' => true]);
+        $review = glsr_create_review($request->toArray());
+        $this->assertTrue($review->isValid());
+        $this->assertTrue($review->is_verified);
+    }
+
     public function test_unassign_post()
     {
         $postId = self::factory()->post->create();
-        $request = $this->request;
-        $review = $this->createReview($request->merge([
-            'assigned_posts' => $postId,
-        ]));
+        $review = $this->createReview(['assigned_posts' => $postId]);
         $this->assertTrue($review->isValid());
         $this->assertEquals($review->assigned_posts, [$postId]);
         // unassign post
@@ -206,11 +212,8 @@ class ReviewManagerTest extends WP_UnitTestCase
 
     public function test_unassign_term()
     {
-        $termId = self::factory()->term->create($this->termArgs);
-        $request = $this->request;
-        $review = $this->createReview($request->merge([
-            'assigned_terms' => $termId,
-        ]));
+        $termId = self::factory()->term->create(['taxonomy' => glsr()->taxonomy]);
+        $review = $this->createReview(['assigned_terms' => $termId]);
         $this->assertTrue($review->isValid());
         $this->assertEquals($review->assigned_terms, [$termId]);
         // unassign term
@@ -225,10 +228,7 @@ class ReviewManagerTest extends WP_UnitTestCase
     public function test_unassign_user()
     {
         $userId = self::factory()->user->create();
-        $request = $this->request;
-        $review = $this->createReview($request->merge([
-            'assigned_users' => $userId,
-        ]));
+        $review = $this->createReview(['assigned_users' => $userId]);
         $this->assertTrue($review->isValid());
         $this->assertEquals($review->assigned_users, [$userId]);
         // unassign user
@@ -238,5 +238,37 @@ class ReviewManagerTest extends WP_UnitTestCase
         $this->assertEquals(get_user_meta($userId, '_glsr_average', true), 0);
         $this->assertEquals(get_user_meta($userId, '_glsr_ranking', true), 0);
         $this->assertEquals(get_user_meta($userId, '_glsr_reviews', true), 0);
+    }
+
+    protected function createReview(array $values = [])
+    {
+        $request = $this->request($values);
+        if ($review = glsr(ReviewManager::class)->create(new CreateReview($request))) {
+            return $review;
+        }
+        return new Review([]);
+    }
+
+    protected function request(array $overrides = [])
+    {
+        $faker = Factory::create();
+        $request = new Request([
+            '_action' => 'submit-review',
+            '_ajax_request' => 1,
+            '_post_id' => 1,
+            '_referer' => $this->referer,
+            'assigned_posts' => '',
+            'assigned_terms' => '',
+            'assigned_users' => '',
+            'excluded' => '',
+            'form_id' => $faker->slug,
+            'rating' => 5,
+            'title' => $faker->sentence,
+            'content' => $faker->text,
+            'name' => $faker->name,
+            'email' => $faker->email,
+        ]);
+        $request->merge($overrides);
+        return $request;
     }
 }

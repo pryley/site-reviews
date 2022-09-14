@@ -95,14 +95,14 @@ function glsr_create_review($values = [])
 {
     $values = Arr::removeEmptyValues(Arr::consolidate($values));
     $request = new Request($values);
+    $review = false;
+    glsr()->store('glsr_create_review', true);
     $command = new CreateReview($request);
     if ($command->isValid()) {
-        glsr()->store('glsr_create_review', true);
         $review = glsr(ReviewManager::class)->create($command);
-        glsr()->discard('glsr_create_review');
-        return $review;
     }
-    return false;
+    glsr()->discard('glsr_create_review');
+    return $review;
 }
 
 /**

@@ -378,7 +378,8 @@ class ReviewManager
     protected function postStatus(CreateReview $command)
     {
         $isApproved = $command->is_approved;
-        if (!defined('WP_IMPORTING') && !glsr()->retrieve('glsr_create_review', false)) {
+        $isFormSubmission = !defined('WP_IMPORTING') && !glsr()->retrieve('glsr_create_review', false);
+        if ($isFormSubmission) {
             $requireApproval = glsr(OptionManager::class)->getBool('settings.general.require.approval');
             $requireApprovalForRating = glsr(OptionManager::class)->getInt('settings.general.require.approval_for', 5);
             $isApproved = !$requireApproval || $command->rating > $requireApprovalForRating;
