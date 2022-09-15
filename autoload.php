@@ -46,6 +46,7 @@ spl_autoload_register(function ($className) {
         'GeminiLabs\\Spatie\\Color\\' => __DIR__.'/vendors/spatie/color/',
         'GeminiLabs\\Symfony\\Polyfill\\Ctype\\' => __DIR__.'/vendors/symfony/polyfill-ctype/',
         'GeminiLabs\\Symfony\\Polyfill\\Mbstring\\' => __DIR__.'/vendors/symfony/polyfill-mbstring/',
+        'GeminiLabs\\Symfony\\Polyfill\\Php80\\' => __DIR__.'/vendors/symfony/polyfill-php80/',
         'GeminiLabs\\Vectorface\\Whip\\' => __DIR__.'/vendors/vectorface/whip/',
     ];
     foreach ($namespaces as $prefix => $baseDir) {
