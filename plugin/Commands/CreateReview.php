@@ -73,6 +73,15 @@ class CreateReview implements Contract
     }
 
     /**
+     * This only validates the provided values in the Request.
+     * @return bool
+     */
+    public function isValid()
+    {
+        return glsr(DefaultValidator::class, ['request' => $this->request])->isValidRequest();
+    }
+
+    /**
      * @return string
      */
     public function referer()
@@ -145,15 +154,6 @@ class CreateReview implements Contract
         $this->errors = $validator->errors;
         $this->message = $validator->message;
         return $validator->isValid();
-    }
-
-    /**
-     * This only validates the provided values in the Request.
-     * @return bool
-     */
-    public function isValid()
-    {
-        return glsr(DefaultValidator::class, ['request' => $this->request])->isValidRequest();
     }
 
     /**

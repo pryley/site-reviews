@@ -4,7 +4,7 @@ Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.0
 Requires at least: 5.8
-Stable tag: 6.0.2
+Stable tag: 6.0.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -156,13 +156,11 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.0.2 (2022-09-15) =
+= 6.0.3 (2022-09-15) =
 
+- Fixed a PHP 7.2 syntax error
 - Fixed autoloading for Php80 polyfill
-
-= 6.0.1 (2022-09-15) =
-
-- Fixed notice placement
+- Fixed footer notice placement
 
 = 6.0.0 (2022-09-14) =
 

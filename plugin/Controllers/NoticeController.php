@@ -92,7 +92,7 @@ class NoticeController extends Controller
             ]);
             $text = sprintf('%s %s 💖',
                 sprintf(_x('Are you happy with %s?', 'Site Reviews (admin-text)', 'site-reviews'), sprintf('<strong>%s</strong>', glsr()->name)),
-                sprintf(_x('Please rate %s on WordPress and let other people know about it.', '★★★★★ (admin-text)', 'site-reviews'), $link),
+                sprintf(_x('Please rate %s on WordPress and let other people know about it.', '★★★★★ (admin-text)', 'site-reviews'), $link)
             );
             glsr()->render('partials/notices/footer', compact('text'));
         }
@@ -217,7 +217,7 @@ class NoticeController extends Controller
             if ('0.0.0' == glsr(OptionManager::class)->get('version_upgraded_from')) {
                 $fresh = true;
                 $text = sprintf(_x('Thank you for installing %s! I hope you love it.', 'plugin name (admin-text)', 'site-reviews'),
-                    sprintf('<strong>%s</strong> v%s', glsr()->name, glsr()->version),
+                    sprintf('<strong>%s</strong> v%s', glsr()->name, glsr()->version)
                 ).' ✨';
             } else {
                 $fresh = false;

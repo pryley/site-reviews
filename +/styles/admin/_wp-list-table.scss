@@ -110,10 +110,6 @@
 		}
 	}
 
-	th.column-rating {
-		width: 100px;
-	}
-
 	td.column-is_pinned {
 		i.pin-review {
 			align-items: center;
@@ -221,12 +217,10 @@
 		th.column-taxonomy-site-review-category,
 		th.column-assigned_posts,
 		th.column-assigned_users,
-		th.column-type {
-			width: 120px;
-		}
+		th.column-type,
 		th.column-rating,
 		th.column-response {
-			width: 100px;
+			width: 120px;
 		}
 		th.column-is_pinned,
 		th.column-is_verified {
