@@ -80,8 +80,10 @@ class NoticeController extends Controller
      */
     public function renderFooterNotice()
     {
-        if ($this->isReviewAdminScreen()
-            && Helper::isGreaterThan($this->getVersionFor('footer'), $this->getUserMeta('footer', 0))) {
+        if (!Str::startsWith(glsr_current_screen()->post_type, glsr()->post_type)) {
+            return;
+        }
+        if (Helper::isGreaterThan($this->getVersionFor('footer'), $this->getUserMeta('footer', 0))) {
             $link = glsr(Builder::class)->a([
                 'class' => 'button button-link',
                 'href' => 'https://wordpress.org/support/view/plugin-reviews/site-reviews?filter=5#new-post',
@@ -234,8 +236,10 @@ class NoticeController extends Controller
      */
     protected function renderWriteReviewNotice()
     {
-        if ($this->isReviewAdminScreen()
-            && empty($this->activeNotices)
+        if (!Str::startsWith(glsr_current_screen()->post_type, glsr()->post_type)) {
+            return;
+        }
+        if (empty($this->activeNotices)
             && Helper::isGreaterThan($this->getVersionFor('write-review'), $this->getUserMeta('write-review', 0))
             && $this->futureTime() < time()) {
             $text = sprintf('%s %s %s',

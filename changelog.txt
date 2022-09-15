@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 6.0.1 (2022-09-15) =
+
+- Fixed notices
+
 = 6.0.0 (2022-09-14) =
 
 - 🚨 Requires at least PHP v7.2
