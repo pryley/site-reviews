@@ -1,8 +1,12 @@
 == Changelog ==
 
+= 6.0.2 (2022-09-15) =
+
+- Fixed autoloading for Php80 polyfill
+
 = 6.0.1 (2022-09-15) =
 
-- Fixed notices
+- Fixed notice placement
 
 = 6.0.0 (2022-09-14) =
 
