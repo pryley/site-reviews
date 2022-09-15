@@ -333,6 +333,27 @@ abstract class Controller extends BaseController
 
     /**
      * @return void
+     * @action {addon_id}/activate
+     */
+    public function install()
+    {
+    }
+
+    /**
+     * @return void
+     * @action admin_init
+     */
+    public function onActivation()
+    {
+        $activatedOption = glsr()->prefix.'activated_'.$this->addon->id;
+        if (empty(get_option($activatedOption))) {
+            $this->addon->action('activate');
+            update_option($activatedOption, true);
+        }
+    }
+
+    /**
+     * @return void
      * @action init
      */
     public function registerBlocks()

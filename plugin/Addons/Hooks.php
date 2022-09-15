@@ -38,6 +38,8 @@ abstract class Hooks
         add_filter('site-reviews/addon/settings', [$this->controller, 'filterSettings']);
         add_filter('site-reviews/translation/entries', [$this->controller, 'filterTranslationEntries']);
         add_filter('site-reviews/translator/domains', [$this->controller, 'filterTranslatorDomains']);
+        add_filter($this->addon->id.'/activate', [$this->controller, 'install']);
+        add_action('admin_init', [$this->controller, 'onActivation']);
         add_action('init', [$this->controller, 'registerBlocks'], 9);
         add_action('plugins_loaded', [$this->controller, 'registerLanguages']);
         add_action('init', [$this->controller, 'registerShortcodes']);
