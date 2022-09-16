@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Database\DefaultsManager;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\PermissionDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Modules\Migrate;
 
 /**
  * @property array $addons
@@ -142,6 +143,10 @@ final class Application extends Container
         // If this is a new major version, copy over the previous version settings
         if (empty(get_option(OptionManager::databaseKey()))) {
             update_option(OptionManager::databaseKey(), $this->make(OptionManager::class)->previous());
+        }
+        // Force an immediate plugin migration on database version upgrades
+        if (static::DB_VERSION !== get_option(static::PREFIX.'db_version')) {
+            $this->make(Migrate::class)->run();
         }
         $this->make(Hooks::class)->run();
     }
