@@ -108,7 +108,7 @@ msgstr ""
 "Your review could not be submitted and the error has been logged. Please "
 "notify the site administrator."
 
-#: plugin/Commands/EnqueuePublicAssets.php:103
+#: plugin/Commands/EnqueuePublicAssets.php:102
 msgid "Close Modal"
 msgstr "Close Modal"
 
@@ -1835,7 +1835,7 @@ msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr "Choose the action that should be taken when a review is blacklisted."
 
-#: plugin/Application.php:178, plugin/Controllers/SettingsController.php:175
+#: plugin/Application.php:182, plugin/Controllers/SettingsController.php:175
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr "License Keys"
@@ -5222,7 +5222,7 @@ msgctxt "limit time (admin-text)"
 msgid "days"
 msgstr "days"
 
-#: plugin/Application.php:177
+#: plugin/Application.php:181
 msgctxt "License Keys (admin-text)"
 msgid ""
 "Enter the license key here. Your license can be found on the %s page of "

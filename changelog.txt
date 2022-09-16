@@ -1,8 +1,16 @@
 == Changelog ==
 
-= 6.0.2 (2022-09-15) =
+= 6.0.5 (2022-09-16) =
 
+- Fixed CSS loading on pages which do not load the Gutenberg button and search CSS
+- Fixed plugin migration to run immediately when the database version needs updating
+
+= 6.0.4 (2022-09-15) =
+
+- Fixed a PHP 7.2 syntax error
+- Fixed add-on activation routines
 - Fixed autoloading for Php80 polyfill
+- Fixed footer notice placement
 
 = 6.0.1 (2022-09-15) =
 

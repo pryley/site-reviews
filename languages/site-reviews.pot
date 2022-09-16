@@ -1309,12 +1309,12 @@ msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr ""
 
-#: plugin/Application.php:177
+#: plugin/Application.php:181
 msgctxt "License Keys (admin-text)"
 msgid "Enter the license key here. Your license can be found on the %s page of your Nifty Plugins account."
 msgstr ""
 
-#: plugin/Application.php:178, plugin/Controllers/SettingsController.php:175
+#: plugin/Application.php:182, plugin/Controllers/SettingsController.php:175
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr ""
@@ -1543,7 +1543,7 @@ msgctxt "admin-text"
 msgid "Searching..."
 msgstr ""
 
-#: plugin/Commands/EnqueuePublicAssets.php:103
+#: plugin/Commands/EnqueuePublicAssets.php:102
 msgid "Close Modal"
 msgstr ""
 
