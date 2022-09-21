@@ -118,7 +118,7 @@ class Slack
             $this->buildContentField(),
             $this->buildAuthorField(),
         ];
-        return array_filter($fields);
+        return array_values(array_filter($fields));
     }
 
     /**
