@@ -1,6 +1,6 @@
 <?php defined('ABSPATH') || exit; ?>
 
-<?php if (glsr()->can('edit_roles')): ?>
+<?php if (glsr()->can('edit_users')): ?>
 <div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
         <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="tools-reset-permissions">
