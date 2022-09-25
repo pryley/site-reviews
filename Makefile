@@ -9,6 +9,10 @@ build: ## Build all assets and languages
 	npx gulp
 	make mix
 
+.PHONY: bump
+bump: ## Bump to the next minor version
+	npx gulp bump
+
 .PHONY: db
 db: ## Open the database in TablePlus
 	@open mysql://dev:dev@127.0.0.1/site-reviews?enviroment=local&name=Localhost&safeModeLevel=0&advancedSafeModeLevel=0

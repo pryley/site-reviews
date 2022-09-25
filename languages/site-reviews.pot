@@ -1309,12 +1309,12 @@ msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr ""
 
-#: plugin/Application.php:181
+#: plugin/Application.php:182
 msgctxt "License Keys (admin-text)"
 msgid "Enter the license key here. Your license can be found on the %s page of your Nifty Plugins account."
 msgstr ""
 
-#: plugin/Application.php:182, plugin/Controllers/SettingsController.php:175
+#: plugin/Application.php:183, plugin/Controllers/SettingsController.php:175
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr ""
@@ -1734,12 +1734,12 @@ msgstr ""
 
 #: plugin/Controllers/DeactivationController.php:108
 msgctxt "admin-text"
-msgid "Would you like me to assist you?"
+msgid "Would like me to help you? If you enter your email I'll be happy to assist you."
 msgstr ""
 
 #: plugin/Controllers/DeactivationController.php:109
 msgctxt "admin-text"
-msgid "Couldn't understand"
+msgid "It's too complicated"
 msgstr ""
 
 #: plugin/Controllers/DeactivationController.php:114
@@ -1754,7 +1754,7 @@ msgstr ""
 
 #: plugin/Controllers/DeactivationController.php:120
 msgctxt "admin-text"
-msgid "Could you tell me more about what's not working?"
+msgid "What isn't working? Please let me know so I can fix it."
 msgstr ""
 
 #: plugin/Controllers/DeactivationController.php:121
@@ -1764,7 +1764,7 @@ msgstr ""
 
 #: plugin/Controllers/DeactivationController.php:126
 msgctxt "admin-text"
-msgid "Could you tell me more about the missing feature?"
+msgid "Which feature are you looking for?"
 msgstr ""
 
 #: plugin/Controllers/DeactivationController.php:127
@@ -1774,7 +1774,7 @@ msgstr ""
 
 #: plugin/Controllers/DeactivationController.php:132
 msgctxt "admin-text"
-msgid "Could you tell me what you were looking for?"
+msgid "What are you looking for? Maybe I can help."
 msgstr ""
 
 #: plugin/Controllers/DeactivationController.php:133

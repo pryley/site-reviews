@@ -1,5 +1,12 @@
 == Changelog ==
 
+= 6.0.6 (2022-09-25) =
+
+- Fixed integration with Polylang's String Translations
+- Fixed the Reset Permissions tool
+- Fixed the Slack integration [@andersk](https://github.com/andersk)
+- Updated the [Action Scheduler](https://github.com/woocommerce/action-scheduler/) library to v3.5.2
+
 = 6.0.5 (2022-09-16) =
 
 - Fixed CSS loading on pages which do not load the Gutenberg button and search CSS
