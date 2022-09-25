@@ -1,6 +1,6 @@
 <wpml-config>
 	<admin-texts>
-		<key name="site_reviews_v5">
+		<key name="site_reviews_v6">
 			<key name="settings">
 				<key name="general">
 					<key name="notification_message"/>
@@ -27,7 +27,7 @@
 			</key>
 		</key>
 	</admin-texts>
-    <custom-types>
-        <custom-type translate="0">site-review</custom-type>
-    </custom-types>
+	<custom-types>
+		<custom-type translate="0">site-review</custom-type>
+	</custom-types>
 </wpml-config>
