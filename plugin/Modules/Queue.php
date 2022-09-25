@@ -36,12 +36,12 @@ class Queue implements QueueContract
     /**
      * {@inheritdoc}
      */
-    public function async($hook, $args = [])
+    public function async($hook, $args = [], $unique = false)
     {
         if (!function_exists('as_enqueue_async_action') || $this->isTesting) {
             return 0;
         }
-        return as_enqueue_async_action($this->hook($hook), $args, glsr()->id);
+        return as_enqueue_async_action($this->hook($hook), $args, glsr()->id, $unique);
     }
 
     /**
@@ -73,12 +73,12 @@ class Queue implements QueueContract
     /**
      * {@inheritdoc}
      */
-    public function cron($timestamp, $cron, $hook, $args = [])
+    public function cron($timestamp, $cron, $hook, $args = [], $unique = false)
     {
         if (!function_exists('as_schedule_cron_action') || $this->isTesting) {
             return 0;
         }
-        return as_schedule_cron_action($timestamp, $cron, $this->hook($hook), $args, glsr()->id);
+        return as_schedule_cron_action($timestamp, $cron, $this->hook($hook), $args, glsr()->id, $unique);
     }
 
     /**
@@ -118,23 +118,23 @@ class Queue implements QueueContract
     /**
      * {@inheritdoc}
      */
-    public function once($timestamp, $hook, $args = [])
+    public function once($timestamp, $hook, $args = [], $unique = false)
     {
         if (!function_exists('as_schedule_single_action') || $this->isTesting) {
             return 0;
         }
-        return as_schedule_single_action($timestamp, $this->hook($hook), $args, glsr()->id);
+        return as_schedule_single_action($timestamp, $this->hook($hook), $args, glsr()->id, $unique);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function recurring($timestamp, $intervalInSeconds, $hook, $args = [])
+    public function recurring($timestamp, $intervalInSeconds, $hook, $args = [], $unique = false)
     {
         if (!function_exists('as_schedule_recurring_action') || $this->isTesting) {
             return 0;
         }
-        return as_schedule_recurring_action($timestamp, $intervalInSeconds, $this->hook($hook), $args, glsr()->id);
+        return as_schedule_recurring_action($timestamp, $intervalInSeconds, $this->hook($hook), $args, glsr()->id, $unique);
     }
 
     /**
