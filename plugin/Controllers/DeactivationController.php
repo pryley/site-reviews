@@ -105,8 +105,8 @@ class DeactivationController extends Controller
             [
                 'icon' => file_get_contents(glsr()->path('assets/images/icons/confused.svg')),
                 'id' => 'confused',
-                'placeholder' => _x('Would you like me to assist you?', 'admin-text', 'site-reviews'),
-                'text' => _x('Couldn\'t understand', 'admin-text', 'site-reviews'),
+                'placeholder' => _x("Would like me to help you? If you enter your email I'll be happy to assist you.", 'admin-text', 'site-reviews'),
+                'text' => _x("It's too complicated", 'admin-text', 'site-reviews'),
             ],
             [
                 'icon' => file_get_contents(glsr()->path('assets/images/icons/found-better.svg')),
@@ -117,19 +117,19 @@ class DeactivationController extends Controller
             [
                 'icon' => file_get_contents(glsr()->path('assets/images/icons/not-working.svg')),
                 'id' => 'not-working',
-                'placeholder' => _x('Could you tell me more about what\'s not working?', 'admin-text', 'site-reviews'),
-                'text' => _x('It\'s not working for me', 'admin-text', 'site-reviews'),
+                'placeholder' => _x("What isn't working? Please let me know so I can fix it.", 'admin-text', 'site-reviews'),
+                'text' => _x("It's not working for me", 'admin-text', 'site-reviews'),
             ],
             [
                 'icon' => file_get_contents(glsr()->path('assets/images/icons/feature-missing.svg')),
                 'id' => 'feature-missing',
-                'placeholder' => _x('Could you tell me more about the missing feature?', 'admin-text', 'site-reviews'),
+                'placeholder' => _x('Which feature are you looking for?', 'admin-text', 'site-reviews'),
                 'text' => _x('Missing a specific feature', 'admin-text', 'site-reviews'),
             ],
             [
                 'icon' => file_get_contents(glsr()->path('assets/images/icons/looking-for-different.svg')),
                 'id' => 'looking-for-different',
-                'placeholder' => _x('Could you tell me what you were looking for?', 'admin-text', 'site-reviews'),
+                'placeholder' => _x('What are you looking for? Maybe I can help.', 'admin-text', 'site-reviews'),
                 'text' => _x('Not what I was looking for', 'admin-text', 'site-reviews'),
             ],
             [
