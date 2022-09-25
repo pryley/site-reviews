@@ -46,12 +46,14 @@ read -p " - Updated the readme.txt changelog for "${PLUGIN_VERSION}" and prepend
 read -p " - Updated the What's New page for major/minor version updates?"
 read -p " - Updated the POT file?"
 read -p " - Updated the screenshots?"
+read -p " - Updated the major version in wpml-config.xml?"
 read -p " - Verified compatibility with PHP v${MIN_PHP_VERSION} -> latest?"
 read -p " - Verified compatibility with Wordpress v${MIN_WORDPRESS_VERSION} -> latest?"
 read -p " - Verified the changelog release date?"
 read -p " - Verified that all add-ons work correctly with the update?"
 read -p " - Committed all changes to the main branch on GITHUB?"
 read -p " - PHPUnit and PHPStan has passed all inspections?"
+
 read -p " - Scrutinizer has passed all inspections?"
 echo ""
 read -p "PRESS [ENTER] TO BEGIN RELEASING "${PLUGIN_VERSION}

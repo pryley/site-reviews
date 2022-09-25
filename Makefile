@@ -1,3 +1,5 @@
+VERSION ?= $(shell perl -lne 'm{Stable tag: .*?(.+)} and print $$1' readme.txt)
+
 .PHONY: analyse
 analyse: ## Run phpstan analyser
 	./vendor/bin/phpstan analyse --memory-limit 1G
@@ -60,4 +62,4 @@ watch: ## Build all plugin assets and run Browsersync
 
 .PHONY: zip
 zip: ## Create a zip archive of Site Reviews
-	git archive -o ./site-reviews.zip --prefix=site-reviews/ HEAD
+	git archive -o ./site-reviews-v$(VERSION).zip --prefix=site-reviews/ HEAD
