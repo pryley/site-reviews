@@ -156,6 +156,10 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
+= 6.0.7 (2022-09-26) =
+
+- Updated the Upgrade Guide (please make sure to read this if you updated from Site Reviews v5 or lower. You can find the Upgrade guide on the Help page.)
+
 = 6.0.6 (2022-09-25) =
 
 - Fixed integration with Polylang's String Translations
