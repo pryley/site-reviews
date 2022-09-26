@@ -4,7 +4,7 @@ Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.0
 Requires at least: 5.8
-Stable tag: 6.0.6
+Stable tag: 6.0.7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
