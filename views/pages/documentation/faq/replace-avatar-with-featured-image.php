@@ -8,6 +8,7 @@
         </button>
     </h3>
     <div id="faq-replace-avatar-with-featured-image" class="inside">
+        <p>This code snippet will replace the review avatar with the featured image thumbnail of the first assigned page.</p>
         <pre><code class="language-php">/**
  * Replaces the review avatar with the featured image thumbnail of the first assigned page
  * Paste this in your active theme's functions.php file.

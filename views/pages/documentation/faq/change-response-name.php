@@ -17,7 +17,7 @@
  */
 add_filter('site-reviews/review/build/tag/response/by', function ($responseBy, $review) {
     // Option 1:
-    // The user ID of the person who wote the response is stored to the review,
+    // The user ID of the person who wrote the response is stored to the review,
     // so you can get their name like this:
     if ($user = get_userdata($review->meta()->_response_by)) {
         $responseBy = $user->display_name;

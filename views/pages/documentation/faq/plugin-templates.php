@@ -23,11 +23,9 @@
 ├── emails                  This folder contains the email template files
 │   └── default.php         This is the default template for HTML emails
 ├── form                    This folder contains the template files for the form fields
-│   ├── field.php           This template displays the field. To target a specific field type, append the type with an underscore (i.e. field_email.php, field_textarea.php)
-│   ├── field_checkbox.php  This template displays the field used for one or more checkboxes
-│   ├── field_radio.php     This template displays the field used for one or more radios
-│   ├── field_select.php    This template displays the field used for a select
-│   ├── field_toggle.php    This template displays the field used for one or more toggle switches
+│   ├── field-errors.php    This template displays the form field validation errors.
+│   ├── field.php           This template displays a form field.
+│   ├── field_{type}.php    To target a specific field type, duplicate the field.php file and append the type with an underscore (i.e. field_email.php, field_textarea.php)
 │   ├── response.php        This template displays the form submission response
 │   ├── submit-button.php   This template displays the submit button
 │   ├── type-checkbox.php   This template is used by the field_checkbox.php template to display each checkbox
@@ -38,6 +36,7 @@
 │   ├── full-star.php       This template displays the full star
 │   ├── half-star.php       This template displays the half star
 │   └── stars.php           This template displays the combined stars
+├── load-more-button.php    This template displays the Load More button
 ├── login-register.php      This template displays the login/register message
 ├── notification.php        This template contains the default message contents of the notification email
 ├── pagination.php          This template displays the review pagination
