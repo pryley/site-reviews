@@ -21,6 +21,20 @@ class Captcha {
                     this.execute()
                 }
             }, 200)
+        } else if ('turnstile' === GLSR.captcha.type) {
+            setTimeout(() => {
+                try { // https://github.com/cloudflare/cloudflare-docs/issues/6070
+                    let token = grecaptcha.getResponse(this.id);
+                    if (1 === +this.captchaEl.dataset.token || typeof token === 'undefined') {
+                        this.Form.submitForm();
+                    } else {
+                        this.execute()
+                    }
+                } catch (error) {
+                    console.error(error);
+                    this.Form.submitForm();
+                }
+            }, 200)
         } else {
             if (1 === +this.captchaEl.dataset.error) {
                 this._submitFormWithToken('sitekey_invalid')
@@ -45,6 +59,8 @@ class Captcha {
                 try {
                     if ('friendlycaptcha' === GLSR.captcha.type) {
                         this._renderFrcaptcha()
+                    } else if ('turnstile' === GLSR.captcha.type) {
+                        this._renderTurnstile()
                     } else {
                         this._renderRecaptcha()
                     }
@@ -108,6 +124,28 @@ class Captcha {
                 isolated: true,
                 sitekey: GLSR.captcha.sitekey,
                 size: GLSR.captcha.size,
+                theme: GLSR.captcha.theme,
+            });
+        } catch (error) {
+            this.captchaEl.dataset.error = 1;
+            console.error(error);
+        }
+    }
+
+    _renderTurnstile () {
+        try {
+            this.id = grecaptcha.render(this.captchaEl, {
+                action: 'submit_review',
+                callback: (token) => {
+                    this.captchaEl.dataset.token = 1;
+                },
+                'error-callback': () => {
+                    // site key is probably invalid
+                    this.captchaEl.dataset.error = 1;
+                    this.captchaEl.dataset.token = 1;
+                },
+                'expired-callback': () => this.reset(),
+                sitekey: GLSR.captcha.sitekey,
                 theme: GLSR.captcha.theme,
             });
         } catch (error) {

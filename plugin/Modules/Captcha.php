@@ -47,7 +47,7 @@ class Captcha
     {
         $integration = glsr_get_option('forms.captcha.integration');
         $usage = glsr_get_option('forms.captcha.usage');
-        $isEnabled = 'all' == $usage || ('guest' == $usage && !is_user_logged_in());
+        $isEnabled = 'all' === $usage || ('guest' === $usage && !is_user_logged_in());
         if (!empty($service)) {
             return $integration === $service && $isEnabled;
         }
@@ -109,6 +109,21 @@ class Captcha
             'size' => 'invisible',
             'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'recaptcha_v3',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function configTurnstile()
+    {
+        return [
+            'class' => 'cf-turnstile',
+            'badge' => '',
+            'sitekey' => glsr_get_option('forms.turnstile.key'),
+            'size' => '',
+            'theme' => glsr_get_option('forms.captcha.theme'),
+            'type' => 'turnstile',
         ];
     }
 }

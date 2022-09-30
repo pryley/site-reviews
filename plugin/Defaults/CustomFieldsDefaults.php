@@ -20,6 +20,7 @@ class CustomFieldsDefaults extends Defaults
         '_post_id',
         '_recaptcha',
         '_referer',
+        '_turnstile',
         'assigned_posts',
         'assigned_terms',
         'assigned_users',

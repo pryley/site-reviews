@@ -660,8 +660,9 @@ return [ // order is intentional
         'class' => 'regular-text',
         'default' => '',
         'label' => _x('CAPTCHA', 'admin-text', 'site-reviews'),
-        'options' => [
+        'options' => [ // order is intentional
             '' => _x('Do not use', 'admin-text', 'site-reviews'),
+            'turnstile' => _x('Use Cloudflare Turnstile', 'admin-text', 'site-reviews'),
             'friendlycaptcha' => _x('Use Friendly Captcha', 'admin-text', 'site-reviews'),
             'hcaptcha' => _x('Use hCaptcha', 'admin-text', 'site-reviews'),
             'recaptcha_v2_invisible' => _x('Use reCAPTCHA v2 Invisible', 'admin-text', 'site-reviews'),
@@ -755,6 +756,24 @@ return [ // order is intentional
         'tooltip' => _x('Where 0 is a robot and 1 is a human', 'admin-text', 'site-reviews'),
         'type' => 'number',
     ],
+    'settings.forms.turnstile.key' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.forms.captcha.integration' => ['turnstile'],
+        ],
+        'label' => _x('Site Key', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('Turnstile is Cloudflare’s privacy-first CAPTCHA alternative. To use it, you will need to <a href="https://dash.cloudflare.com/?to=/:account/turnstile" target="_blank">obtain</a> a site key and a secret key.', 'admin-text', 'site-reviews'),
+        'type' => 'text',
+    ],
+    'settings.forms.turnstile.secret' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.forms.captcha.integration' => ['turnstile'],
+        ],
+        'label' => _x('Secret Key', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('Turnstile is Cloudflare’s privacy-first CAPTCHA alternative. To use it, you will need to <a href="https://dash.cloudflare.com/?to=/:account/turnstile" target="_blank">obtain</a> a site key and a secret key.', 'admin-text', 'site-reviews'),
+        'type' => 'text',
+    ],
     'settings.forms.captcha.position' => [
         'class' => 'regular-text',
         'default' => 'bottomleft',
@@ -774,7 +793,13 @@ return [ // order is intentional
         'class' => 'regular-text',
         'default' => 'light',
         'depends_on' => [
-            'settings.forms.captcha.integration' => ['friendlycaptcha', 'hcaptcha', 'recaptcha_v2_invisible', 'recaptcha_v3'],
+            'settings.forms.captcha.integration' => [
+                'friendlycaptcha',
+                'hcaptcha',
+                'recaptcha_v2_invisible',
+                'recaptcha_v3',
+                'turnstile',
+            ],
         ],
         'label' => _x('CAPTCHA Theme', 'admin-text', 'site-reviews'),
         'options' => [
@@ -788,7 +813,13 @@ return [ // order is intentional
         'class' => 'regular-text',
         'default' => 'all',
         'depends_on' => [
-            'settings.forms.captcha.integration' => ['friendlycaptcha', 'hcaptcha', 'recaptcha_v2_invisible', 'recaptcha_v3'],
+            'settings.forms.captcha.integration' => [
+                'friendlycaptcha',
+                'hcaptcha',
+                'recaptcha_v2_invisible',
+                'recaptcha_v3',
+                'turnstile',
+            ],
         ],
         'label' => _x('CAPTCHA Usage', 'admin-text', 'site-reviews'),
         'options' => [

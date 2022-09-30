@@ -47,10 +47,13 @@ class PublicController extends Controller
      */
     public function filterEnqueuedScriptTags($tag, $handle, $src)
     {
-        $async = [];
+        $async = [
+            glsr()->id.'/turnstile',
+        ];
         $defer = [
             glsr()->id.'/hcaptcha',
             glsr()->id.'/google-recaptcha',
+            glsr()->id.'/turnstile',
         ];
         if (in_array($handle, glsr()->filterArray('async-scripts', $async))) {
             $tag = str_replace(' src=', ' async src=', $tag);

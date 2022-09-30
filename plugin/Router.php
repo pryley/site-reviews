@@ -101,6 +101,7 @@ class Router
             $request['_frcaptcha'] = Helper::filterInput('frc-captcha-solution');
             $request['_hcaptcha'] = Helper::filterInput('h-captcha-response');
             $request['_recaptcha'] = Helper::filterInput('g-recaptcha-response');
+            $request['_turnstile'] = Helper::filterInput('cf-turnstile-response');
         }
         return new Request($request);
     }

@@ -45,6 +45,7 @@ class ValidateReview
             HcaptchaValidator::class,
             Recaptcha2Validator::class,
             Recaptcha3Validator::class,
+            TurnstileValidator::class,
         ]);
         foreach ($validators as $validator) {
             if (class_exists($validator)) {

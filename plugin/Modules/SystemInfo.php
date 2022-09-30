@@ -451,6 +451,8 @@ class SystemInfo
             'forms.recaptcha.secret' => 0,
             'forms.recaptcha_v3.key' => 0,
             'forms.recaptcha_v3.secret' => 0,
+            'forms.turnstile.key' => 0,
+            'forms.turnstile.secret' => 0,
         ]);
         array_walk($settings, function (&$value, $setting) use ($keys) {
             foreach ($keys as $key => $preserve) {

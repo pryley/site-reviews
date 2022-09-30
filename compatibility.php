@@ -103,6 +103,7 @@ add_filter('sbp_exclude_defer_scripts', function ($scriptHandles) {
     $scriptHandles[] = glsr()->id.'/friendlycaptcha-module';
     $scriptHandles[] = glsr()->id.'/friendlycaptcha-nomodule';
     $scriptHandles[] = glsr()->id.'/google-recaptcha';
+    $scriptHandles[] = glsr()->id.'/turnstile';
     return array_keys(array_flip($scriptHandles));
 });
 
