@@ -37,11 +37,8 @@ class Form {
         this.isActive = true;
     }
 
-    submitForm (token) {
+    submitForm () {
         this.button.loading()
-        if (this.form['g-recaptcha-response']) {
-            this.form['g-recaptcha-response'].value = token;
-        }
         GLSR.ajax.post(this._data(), this._handleResponse.bind(this))
     }
 

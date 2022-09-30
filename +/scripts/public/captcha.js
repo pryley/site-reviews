@@ -5,7 +5,7 @@ class Captcha {
         this.Form = Form;
         this.captchaEl = this._buildContainer();
         this.id = -1;
-        this.instance = null;
+        this.instanceFr = null;
     }
 
     execute () {
@@ -23,8 +23,7 @@ class Captcha {
             }, 200)
         } else {
             if (1 === +this.captchaEl.dataset.error) {
-                // likely a site key error
-                this.Form.submitForm('sitekey_invalid');
+                this._submitFormWithToken('sitekey_invalid')
             } else {
                 grecaptcha.execute(this.id, { action: 'submit_review' });
             }
@@ -34,9 +33,9 @@ class Captcha {
     render () {
         this.Form.form.onsubmit = null; // just in case!
         this.reset()
-        if (!this.captchaEl) return; // don't render recaptcha v3
+        if (!this.captchaEl) return;
         setTimeout(() => {
-            if (-1 !== this.id || null !== this.instance) return;
+            if (-1 !== this.id || null !== this.instanceFr) return;
             // grecaptcha is used for both recaptcha and hcaptcha
             let undefinedRecaptcha = (typeof grecaptcha === 'undefined' || typeof grecaptcha.render === 'undefined');
             let undefinedFrcaptcha = (typeof friendlyChallenge === 'undefined' || typeof friendlyChallenge.WidgetInstance === 'undefined');
@@ -63,9 +62,9 @@ class Captcha {
         if (this.captchaEl) {
             this.captchaEl.dataset.error = 0; // reset hcaptcha/recaptcha error
         }
-        if (this.instance) {
+        if (this.instanceFr) {
             this.captchaEl.dataset.token = 0;
-            this.instance.reset() // reset friendlycaptcha
+            this.instanceFr.reset() // reset friendlycaptcha
         }
         this.is_submitting = false;
     }
@@ -75,8 +74,8 @@ class Captcha {
         if (!containerEl) {
             return false;
         }
-        if (this.instance) {
-            this.instance.destroy() // remove friendlycaptcha
+        if (this.instanceFr) {
+            this.instanceFr.destroy() // remove friendlycaptcha
         }
         Array.from(containerEl.getElementsByClassName(GLSR.captcha.class)).forEach(el => el.remove());
         const el = dom('div', {class: GLSR.captcha.class});
@@ -86,7 +85,7 @@ class Captcha {
 
     _renderFrcaptcha () {
         this.captchaEl.dataset.sitekey = GLSR.captcha.sitekey;
-        this.instance = new friendlyChallenge.WidgetInstance(this.captchaEl, {
+        this.instanceFr = new friendlyChallenge.WidgetInstance(this.captchaEl, {
             doneCallback: (token) => {
                 this.captchaEl.dataset.token = 1;
             },
@@ -101,7 +100,7 @@ class Captcha {
         try {
             this.id = grecaptcha.render(this.captchaEl, {
                 badge: GLSR.captcha.badge,
-                callback: (token) => this.Form.submitForm(token),
+                callback: (token) => this._submitFormWithToken(token),
                 'error-callback': () => {
                     this.captchaEl.dataset.error = 1;
                 },
@@ -115,6 +114,13 @@ class Captcha {
             this.captchaEl.dataset.error = 1;
             console.error(error);
         }
+    }
+
+    _submitFormWithToken (token) {
+        if (this.Form.form['g-recaptcha-response'] && token) {
+            this.Form.form['g-recaptcha-response'].value = token;
+        }
+        this.Form.submitForm()
     }
 }
 
