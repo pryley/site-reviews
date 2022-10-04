@@ -361,6 +361,7 @@ return [ // order is intentional
         'label' => _x('Integrate with plugin', 'admin-text', 'site-reviews'),
         'options' => [
             '' => _x('No Integration', 'admin-text', 'site-reviews'),
+            'saswp' => _x('Schema & Structured Data for WP & AMP', 'plugin name (admin-text)', 'site-reviews'),
             'schema_pro' => _x('Schema Pro', 'plugin name (admin-text)', 'site-reviews'),
         ],
         'tooltip' => _x('Integrate Site Reviews with a third-party schema plugin?', 'admin-text', 'site-reviews'),
@@ -369,7 +370,7 @@ return [ // order is intentional
     'settings.schema.integration.types' => [
         'default' => 'LocalBusiness',
         'depends_on' => [
-            'settings.schema.integration.plugin' => ['schema_pro'],
+            'settings.schema.integration.plugin' => ['saswp', 'schema_pro'],
         ],
         'label' => _x('Schema Types', 'admin-text', 'site-reviews'),
         'options' => [
