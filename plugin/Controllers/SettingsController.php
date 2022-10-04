@@ -12,11 +12,22 @@ use GeminiLabs\SiteReviews\Modules\Notice;
 class SettingsController extends Controller
 {
     /**
+     * @return void
+     * @action admin_init
+     */
+    public function registerSettings()
+    {
+        register_setting(glsr()->id.'-settings', OptionManager::databaseKey(), [
+            'sanitize_callback' => [$this, 'sanitizeSettings'],
+        ]);
+    }
+
+    /**
      * @param mixed $input
      * @return array
      * @callback register_setting
      */
-    public function callbackRegisterSettings($input)
+    public function sanitizeSettings($input)
     {
         $settings = Arr::consolidate($input);
         if (1 === count($settings) && array_key_exists('settings', $settings)) {
@@ -34,17 +45,6 @@ class SettingsController extends Controller
             return $options;
         }
         return $input;
-    }
-
-    /**
-     * @return void
-     * @action admin_init
-     */
-    public function registerSettings()
-    {
-        register_setting(glsr()->id.'-settings', OptionManager::databaseKey(), [
-            'sanitize_callback' => [$this, 'callbackRegisterSettings'],
-        ]);
     }
 
     /**
