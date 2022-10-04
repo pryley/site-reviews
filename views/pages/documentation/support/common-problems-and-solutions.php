@@ -79,7 +79,8 @@
             <li>
                 <h4 style="font-size:15px;"><?= __('Your review could not be submitted and the error has been logged. Please notify the site administrator.', 'site-reviews'); ?></h4>
                 <p>You should almost never see this error. It is usually triggered when WordPress encounters an error when saving the review to the database. It may also be due to an error in a custom function that you have added to your theme's functions.php file that is triggered after a review is created.</p>
-                <p>If you encounter this error, please contact support for assistance.</p>
+                <p>If you encounter this error, first try deactivating Site Reviews and then reactivate it. If you recently cloned your database, or restored it from a backup, then doing this should fix any broken database table indexes.</p>
+                <p>If that doesn't work, please contact support for assistance.</p>
             </li>
             <li>
                 <h4 style="font-size:15px;"><?= __('The review submission failed. Please notify the site administrator.', 'site-reviews'); ?></h4>
