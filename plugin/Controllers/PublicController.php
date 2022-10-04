@@ -109,7 +109,9 @@ class PublicController extends Controller
      */
     public function renderSchema()
     {
-        glsr(Schema::class)->render();
+        if (empty(glsr_get_option('schema.integration.plugin'))) {
+            glsr(Schema::class)->render();
+        }
     }
 
     /**

@@ -355,9 +355,42 @@ return [ // order is intentional
         ),
         'type' => 'yes_no',
     ],
+    'settings.schema.integration.plugin' => [
+        'class' => 'regular-text',
+        'default' => '',
+        'label' => _x('Integrate with plugin', 'admin-text', 'site-reviews'),
+        'options' => [
+            '' => _x('No Integration', 'admin-text', 'site-reviews'),
+            'schema_pro' => _x('Schema Pro', 'plugin name (admin-text)', 'site-reviews'),
+        ],
+        'tooltip' => _x('Integrate Site Reviews with a third-party schema plugin?', 'admin-text', 'site-reviews'),
+        'type' => 'select',
+    ],
+    'settings.schema.integration.types' => [
+        'default' => 'LocalBusiness',
+        'depends_on' => [
+            'settings.schema.integration.plugin' => ['schema_pro'],
+        ],
+        'label' => _x('Schema Types', 'admin-text', 'site-reviews'),
+        'options' => [
+            'Book' => _x('Book', 'schema type (admin-text)', 'site-reviews'),
+            'Course' => _x('Course', 'schema type (admin-text)', 'site-reviews'),
+            'Event' => _x('Event', 'schema type (admin-text)', 'site-reviews'),
+            'HowTo' => _x('How-To', 'schema type (admin-text)', 'site-reviews'),
+            'LocalBusiness' => _x('Local Business', 'schema type (admin-text)', 'site-reviews'),
+            'Product' => _x('Product', 'schema type (admin-text)', 'site-reviews'),
+            'Recipe' => _x('Recipe', 'schema type (admin-text)', 'site-reviews'),
+            'SoftwareApplication' => _x('Software Application', 'schema type (admin-text)', 'site-reviews'),
+        ],
+        'tooltip' => _x('Select the schema types that you want to integrate with.', 'admin-text', 'site-reviews'),
+        'type' => 'checkbox',
+    ],
     'settings.schema.type.default' => [
         'class' => 'regular-text',
         'default' => 'LocalBusiness',
+        'depends_on' => [
+            'settings.schema.integration.plugin' => '',
+        ],
         'label' => _x('Default Schema Type', 'admin-text', 'site-reviews'),
         'options' => [
             'LocalBusiness' => _x('Local Business', 'admin-text', 'site-reviews'),
@@ -372,6 +405,7 @@ return [ // order is intentional
     'settings.schema.type.custom' => [
         'default' => '',
         'depends_on' => [
+            'settings.schema.integration.plugin' => '',
             'settings.schema.type.default' => 'custom',
         ],
         'label' => _x('Custom Schema Type', 'admin-text', 'site-reviews'),
@@ -383,6 +417,9 @@ return [ // order is intentional
     'settings.schema.name.default' => [
         'class' => 'regular-text',
         'default' => 'post',
+        'depends_on' => [
+            'settings.schema.integration.plugin' => '',
+        ],
         'label' => _x('Default Name', 'admin-text', 'site-reviews'),
         'options' => [
             'post' => _x('Use the assigned or current page title', 'admin-text', 'site-reviews'),
@@ -396,6 +433,7 @@ return [ // order is intentional
     'settings.schema.name.custom' => [
         'default' => '',
         'depends_on' => [
+            'settings.schema.integration.plugin' => '',
             'settings.schema.name.default' => 'custom',
         ],
         'label' => _x('Custom Name', 'admin-text', 'site-reviews'),
@@ -405,6 +443,9 @@ return [ // order is intentional
     'settings.schema.description.default' => [
         'class' => 'regular-text',
         'default' => 'post',
+        'depends_on' => [
+            'settings.schema.integration.plugin' => '',
+        ],
         'label' => _x('Default Description', 'admin-text', 'site-reviews'),
         'options' => [
             'post' => _x('Use the assigned or current page excerpt', 'admin-text', 'site-reviews'),
@@ -418,6 +459,7 @@ return [ // order is intentional
     'settings.schema.description.custom' => [
         'default' => '',
         'depends_on' => [
+            'settings.schema.integration.plugin' => '',
             'settings.schema.description.default' => 'custom',
         ],
         'label' => _x('Custom Description', 'admin-text', 'site-reviews'),
@@ -427,6 +469,9 @@ return [ // order is intentional
     'settings.schema.url.default' => [
         'class' => 'regular-text',
         'default' => 'post',
+        'depends_on' => [
+            'settings.schema.integration.plugin' => '',
+        ],
         'label' => _x('Default URL', 'admin-text', 'site-reviews'),
         'options' => [
             'post' => _x('Use the assigned or current page URL', 'admin-text', 'site-reviews'),
@@ -440,6 +485,7 @@ return [ // order is intentional
     'settings.schema.url.custom' => [
         'default' => '',
         'depends_on' => [
+            'settings.schema.integration.plugin' => '',
             'settings.schema.url.default' => 'custom',
         ],
         'label' => _x('Custom URL', 'admin-text', 'site-reviews'),
@@ -449,6 +495,9 @@ return [ // order is intentional
     'settings.schema.image.default' => [
         'class' => 'regular-text',
         'default' => 'post',
+        'depends_on' => [
+            'settings.schema.integration.plugin' => '',
+        ],
         'label' => _x('Default Image', 'admin-text', 'site-reviews'),
         'options' => [
             'post' => _x('Use the featured image of the assigned or current page', 'admin-text', 'site-reviews'),
@@ -462,6 +511,7 @@ return [ // order is intentional
     'settings.schema.image.custom' => [
         'default' => '',
         'depends_on' => [
+            'settings.schema.integration.plugin' => '',
             'settings.schema.image.default' => 'custom',
         ],
         'label' => _x('Custom Image URL', 'admin-text', 'site-reviews'),
@@ -471,6 +521,7 @@ return [ // order is intentional
     'settings.schema.address' => [
         'default' => '',
         'depends_on' => [
+            'settings.schema.integration.plugin' => '',
             'settings.schema.type.default' => 'LocalBusiness',
         ],
         'label' => _x('Address', 'admin-text', 'site-reviews'),
@@ -483,6 +534,7 @@ return [ // order is intentional
     'settings.schema.telephone' => [
         'default' => '',
         'depends_on' => [
+            'settings.schema.integration.plugin' => '',
             'settings.schema.type.default' => 'LocalBusiness',
         ],
         'label' => _x('Telephone Number', 'admin-text', 'site-reviews'),
@@ -495,6 +547,7 @@ return [ // order is intentional
     'settings.schema.pricerange' => [
         'default' => '',
         'depends_on' => [
+            'settings.schema.integration.plugin' => '',
             'settings.schema.type.default' => 'LocalBusiness',
         ],
         'label' => _x('Price Range', 'admin-text', 'site-reviews'),
@@ -508,6 +561,7 @@ return [ // order is intentional
         'class' => 'regular-text',
         'default' => 'AggregateOffer',
         'depends_on' => [
+            'settings.schema.integration.plugin' => '',
             'settings.schema.type.default' => 'Product',
         ],
         'label' => _x('Offer Type', 'admin-text', 'site-reviews'),
@@ -523,6 +577,7 @@ return [ // order is intentional
     'settings.schema.price' => [
         'default' => '',
         'depends_on' => [
+            'settings.schema.integration.plugin' => '',
             'settings.schema.type.default' => 'Product',
             'settings.schema.offertype' => 'Offer',
         ],
@@ -536,6 +591,7 @@ return [ // order is intentional
     'settings.schema.lowprice' => [
         'default' => '',
         'depends_on' => [
+            'settings.schema.integration.plugin' => '',
             'settings.schema.type.default' => 'Product',
             'settings.schema.offertype' => 'AggregateOffer',
         ],
@@ -549,6 +605,7 @@ return [ // order is intentional
     'settings.schema.highprice' => [
         'default' => '',
         'depends_on' => [
+            'settings.schema.integration.plugin' => '',
             'settings.schema.type.default' => 'Product',
             'settings.schema.offertype' => 'AggregateOffer',
         ],
@@ -562,6 +619,7 @@ return [ // order is intentional
     'settings.schema.pricecurrency' => [
         'default' => '',
         'depends_on' => [
+            'settings.schema.integration.plugin' => '',
             'settings.schema.type.default' => 'Product',
         ],
         'label' => _x('Price Currency', 'admin-text', 'site-reviews'),

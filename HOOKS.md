@@ -24,6 +24,7 @@
     site-reviews/review/updated/post_ids                    (Review $review, array $assignedPostIds)
     site-reviews/review/updated/user_ids                    (Review $review, array $assignedUserIds)
     site-reviews/route/<request_type>/<route_action>        (Request $request)
+    site-reviews/settings/updated                           (array $options, array $settings)
     site-reviews/whip                                       (Vectorface\Whip\Whip $whip)
 
 ## Filters
@@ -178,7 +179,7 @@
     site-reviews/schema/all                                 (array $schemas): array
     site-reviews/schema/is-empty                            (bool $isEmpty): bool
     site-reviews/schema/review                              (array $schema, Review $review, array $args): array
-    site-reviews/settings/callback                          (array $options, array $settings): array
+    site-reviews/settings/sanitize                          (array $options, array $settings): array
     site-reviews/shortcode/<shortcode>/attributes           (array $attributes, Shortcodes\Shortcode $shortcode): array
     site-reviews/shortcode/args                             (array $args, string $type, string $partialName): array
     site-reviews/shortcode/atts                             (array $atts, string $type, string $partialName): array
