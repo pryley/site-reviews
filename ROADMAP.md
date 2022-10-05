@@ -7,18 +7,21 @@ All proposed features are subject to change and are sorted alphabetically rather
 - [ ] Add "More Details" modal to addons (ref: Plugins > Add New)
 - [x] Add a single-use notice on the settings page to encourage users to rate the plugin (ref: Polylang)
 - [x] Add a time constraint to review limits
-- [ ] Allow review submissions without javascript (ref: comment form)
-- [ ] Export reviews as XML for Google Shopping
-- [ ] Integrate with Antispam Bee (https://wordpress.org/plugins/antispam-bee/)
-- [x] Integrate with FriendlyCaptcha
-- [x] Integrate with hCaptcha
-- [x] Integrate with reCAPTCHA v3
+- [ ] Integrate with [Antispam Bee](https://wordpress.org/plugins/antispam-bee/)
+- [x] Integrate with [Cloudflare Turnstile](https://blog.cloudflare.com/turnstile-private-captcha-alternative/)
+- [x] Integrate with [FriendlyCaptcha](https://friendlycaptcha.com/)
+- [x] Integrate with [hCaptcha](https://hcaptcha.com/)
+- [x] Integrate with [RankMath Pro](https://rankmath.com/)
+- [x] Integrate with [reCAPTCHA v3](https://developers.google.com/recaptcha)
+- [x] Integrate with [Schema and Structured Data for WP](https://structured-data-for-wp.com/)
+- [x] Integrate with [Schema Pro](https://wpschema.com/)
 - [x] Mark reviews as verified (https://wordpress.org/support/topic/verified-review-option/)
-- [ ] Rating "0.1" increments
-- [ ] restrict displayed reviews by empty content (setting only?)
+- [ ] Rating "0.1" increments?
+- [ ] Restrict displayed reviews by empty content (setting only?)
 - [ ] Restrict reviews in the admin to those assigned to pages of the current user
 - [ ] Review statistics
 - [ ] Store the review GEO location by IP
+- [ ] Use the REST API to submit reviews (ref: Contact Form v7)
 - [x] Version rollback (ref: WP Rocket)
 - [x] View all reviews by author
 

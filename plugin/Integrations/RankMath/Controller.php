@@ -48,8 +48,7 @@ class Controller extends BaseController
     public function filterSchemaPreview(array $data)
     {
         global $post;
-        if ('builder' === get_post_meta($post->ID, '_elementor_edit_mode', true)) {
-            // elementor
+        if (class_exists('Elementor\Plugin') && \Elementor\Plugin::$instance->documents->get($post->ID)->is_built_with_elementor()) {
             $widgets = json_decode(get_post_meta($post->ID, '_elementor_data', true), true);
             $widgets = Arr::consolidate($widgets);
             if ($args = $this->parseElementorWidgets($widgets, 'site_reviews')) {
