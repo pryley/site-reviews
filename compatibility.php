@@ -154,6 +154,17 @@ add_action('site-reviews/customize/ninja_forms', function () {
 });
 
 /**
+ * Adds a warning notice to the Flywheel Migrations page
+ * @see https://wordpress.org/plugins/flywheel-migrations/
+ */
+add_action('toplevel_page_flywheel', function () {
+    global $pagenow;
+    if ('admin.php' === $pagenow) {
+        glsr()->render('compatibility/flywheel');
+    }
+}, 20);
+
+/**
  * Purge the LiteSpeed Cache after plugin migrations.
  * @return void
  * @see https://wordpress.org/plugins/litespeed-cache/
