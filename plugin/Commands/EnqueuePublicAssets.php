@@ -19,7 +19,6 @@ class EnqueuePublicAssets implements Contract
     public function handle()
     {
         $this->enqueueAssets();
-        $this->enqueueCaptcha();
     }
 
     /**
@@ -46,47 +45,6 @@ class EnqueuePublicAssets implements Contract
             wp_add_inline_script(glsr()->id, $this->inlineScript(), 'before');
             wp_add_inline_script(glsr()->id, glsr()->filterString('enqueue/public/inline-script/after', ''));
             glsr(AssetJs::class)->optimize();
-        }
-    }
-
-    /**
-     * wpforms-recaptcha
-     * google-recaptcha
-     * nf-google-recaptcha.
-     * @return void
-     */
-    public function enqueueCaptcha()
-    {
-        if (!glsr(Captcha::class)->isEnabled()) {
-            return;
-        }
-        $integration = glsr_get_option('forms.captcha.integration');
-        $apiUrl = 'https://www.google.com/recaptcha/api.js';
-        $handle = glsr()->id.'/google-recaptcha';
-        $params = [
-            'hl' => glsr()->filterString('captcha/language', get_locale()),
-            'render' => 'explicit',
-        ];
-        if ('hcaptcha' === $integration) {
-            $apiUrl = 'https://js.hcaptcha.com/1/api.js';
-            $handle = glsr()->id.'/hcaptcha';
-        }
-        if ('turnstile' === $integration) {
-            $apiUrl = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
-            $handle = glsr()->id.'/turnstile';
-            $params = [
-                'compat' => 'recaptcha',
-                'render' => 'explicit',
-            ];
-        }
-        if ('friendlycaptcha' === $integration) {
-            $moduleUrl = 'https://unpkg.com/friendly-challenge@0.9.4/widget.module.min.js';
-            $nomoduleUrl = 'https://unpkg.com/friendly-challenge@0.9.4/widget.min.js';
-            wp_enqueue_script(glsr()->id.'/friendlycaptcha-module', $moduleUrl);
-            wp_enqueue_script(glsr()->id.'/friendlycaptcha-nomodule', $nomoduleUrl);
-        } else {
-            // all captchas except friendlycaptcha
-            wp_enqueue_script($handle, add_query_arg($params, $apiUrl));
         }
     }
 

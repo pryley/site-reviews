@@ -19,15 +19,15 @@
     width: 1px;
     word-wrap: normal !important;
 }
-:root .glsr .h-captcha {
-    display: flex;
-}
 :root .glsr-captcha-holder iframe {
     margin: 0 !important;
 }
 :root .glsr-captcha-holder[data-size=invisible]:not([data-badge=inline]) {
     bottom: 0;
     position: absolute;
+}
+:root .glsr-captcha-holder > div {
+    display: flex;
 }
 :root .glsr-reviews-wrap,
 :root .glsr-reviews {

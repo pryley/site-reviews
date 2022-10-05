@@ -23,7 +23,7 @@ class FriendlyCaptchaValidator extends CaptchaValidator
             'bad_request' => 'Something else is wrong with your request, e.g. your request body is empty.',
             'secret_invalid' => 'Your secret key is invalid.',
             'secret_missing' => 'Your secret key is missing.',
-            'sitekey_invalid' => 'Your site key is invalid.',
+            'sitekey_invalid' => 'Your site key is likely invalid.',
             'sitekey_missing' => 'Your site key is missing.',
             'solution_invalid' => 'The solution you provided was invalid (perhaps the user tried to tamper with the puzzle).',
             'solution_missing' => 'You forgot to add the solution parameter.',
@@ -38,6 +38,8 @@ class FriendlyCaptchaValidator extends CaptchaValidator
     {
         if (empty(glsr_get_option('forms.friendlycaptcha.key'))) {
             $errors[] = 'sitekey_missing';
+        } elseif ('sitekey_invalid' === $this->token()) {
+            $errors[] = 'sitekey_invalid';
         }
         return parent::errors($errors);
     }

@@ -34,8 +34,6 @@ class Captcha
         $config = $this->config();
         return glsr(Builder::class)->div([
             'class' => 'glsr-captcha-holder',
-            'data-badge' => Arr::get($config, 'badge'),
-            'data-size' => Arr::get($config, 'size'),
         ]);
     }
 
@@ -64,6 +62,10 @@ class Captcha
             'sitekey' => glsr_get_option('forms.friendlycaptcha.key'),
             'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'friendlycaptcha',
+            'urls' => [ // order is intentional, the module always loads first
+                'https://unpkg.com/friendly-challenge@0.9.4/widget.module.min.js',
+                'https://unpkg.com/friendly-challenge@0.9.4/widget.min.js',
+            ],
         ];
     }
 
@@ -72,13 +74,20 @@ class Captcha
      */
     protected function configHcaptcha()
     {
+        $urlParameters = [
+            'hl' => glsr()->filterString('captcha/language', get_locale()),
+            'render' => 'explicit',
+        ];
         return [
-            'class' => 'h-captcha',
+            'class' => 'glsr-h-captcha', // @compat
             'badge' => glsr_get_option('forms.captcha.position'),
             'sitekey' => glsr_get_option('forms.hcaptcha.key'),
             'size' => 'normal',
             'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'hcaptcha',
+            'urls' => [
+                add_query_arg($urlParameters, 'https://js.hcaptcha.com/1/api.js'),
+            ],
         ];
     }
 
@@ -87,6 +96,10 @@ class Captcha
      */
     protected function configRecaptchaV2Invisible()
     {
+        $urlParameters = [
+            'hl' => glsr()->filterString('captcha/language', get_locale()),
+            'render' => 'explicit',
+        ];
         return [
             'class' => 'g-recaptcha',
             'badge' => glsr_get_option('forms.captcha.position'),
@@ -94,6 +107,9 @@ class Captcha
             'size' => 'invisible',
             'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'recaptcha_v2_invisible',
+            'urls' => [
+                add_query_arg($urlParameters, 'https://www.google.com/recaptcha/api.js'),
+            ],
         ];
     }
 
@@ -102,6 +118,10 @@ class Captcha
      */
     protected function configRecaptchaV3()
     {
+        $urlParameters = [
+            'hl' => glsr()->filterString('captcha/language', get_locale()),
+            'render' => 'explicit',
+        ];
         return [
             'class' => 'g-recaptcha',
             'badge' => glsr_get_option('forms.captcha.position'),
@@ -109,6 +129,9 @@ class Captcha
             'size' => 'invisible',
             'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'recaptcha_v3',
+            'urls' => [
+                add_query_arg($urlParameters, 'https://www.google.com/recaptcha/api.js'),
+            ],
         ];
     }
 
@@ -117,13 +140,20 @@ class Captcha
      */
     protected function configTurnstile()
     {
+        $urlParameters = [
+            'hl' => glsr()->filterString('captcha/language', get_locale()),
+            'render' => 'explicit',
+        ];
         return [
-            'class' => 'cf-turnstile',
+            'class' => 'glsr-cf-turnstile',
             'badge' => '',
             'sitekey' => glsr_get_option('forms.turnstile.key'),
             'size' => '',
             'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'turnstile',
+            'urls' => [
+                add_query_arg($urlParameters, 'https://challenges.cloudflare.com/turnstile/v0/api.js'),
+            ],
         ];
     }
 }
