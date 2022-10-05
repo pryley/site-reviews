@@ -45,7 +45,11 @@ class Captcha {
         this.execute_recaptcha()
     }
 
-    execute_recaptcha () {
+    execute_recaptcha_v2_invisible () {
+        this.execute_recaptcha_v3()
+    }
+
+    execute_recaptcha_v3 () {
         if (1 === +this.captchaEl.dataset.error) {
             this._submitFormWithToken('sitekey_invalid')
         } else {
@@ -153,7 +157,11 @@ class Captcha {
         });
     }
 
-    render_recaptcha () {
+    render_recaptcha_v2_invisible () {
+        this.render_recaptcha_v3()
+    }
+
+    render_recaptcha_v3 () {
         this.widget = window[this.captcha].render(this.captchaEl, {
             callback: (token) => this._submitFormWithToken(token),
             'error-callback': () => (this.captchaEl.dataset.error = 1),
