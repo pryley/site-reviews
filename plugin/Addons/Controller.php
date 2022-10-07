@@ -318,7 +318,7 @@ abstract class Controller extends BaseController
     public function filterTranslationEntries(array $entries)
     {
         $potFile = $this->addon->path($this->addon->languages.'/'.$this->addon->id.'.pot');
-        return glsr(Translation::class)->extractEntriesFromPotFile($potFile, $entries);
+        return glsr(Translation::class)->extractEntriesFromPotFile($potFile, $this->addon->id, $entries);
     }
 
     /**

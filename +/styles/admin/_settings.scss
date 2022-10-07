@@ -523,6 +523,24 @@ tr.glsr-setting-field td .inline label::after {
     }
 }
 
+.glsr-strings-form .glsr-search-results > span::after {
+    align-items: center;
+    background: rgba(0,0,0,.07);
+    border-radius: 2px;
+    content: attr(data-domain);
+    display: inline-flex;
+    flex: 0;
+    font-family: Consolas,Monaco,monospace;
+    font-size: 11px;
+    line-height: 1.2;
+    padding: 4px 6px;
+}
+.glsr-strings-form .glsr-search-results > span > span  {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .glsr-search-results {
     position: absolute;
     top: calc(100% - 4px);
@@ -559,7 +577,10 @@ tr.glsr-setting-field td .inline label::after {
     > div,
     > span {
         position: relative;
-        display: block;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
         box-sizing: border-box;
         height: 32px;
         line-height: 32px;

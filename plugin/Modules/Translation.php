@@ -47,7 +47,7 @@ class Translation
     {
         if (!isset($this->entries)) {
             $potFile = glsr()->path(glsr()->languages.'/'.glsr()->id.'.pot');
-            $entries = $this->extractEntriesFromPotFile($potFile);
+            $entries = $this->extractEntriesFromPotFile($potFile, glsr()->id);
             $entries = glsr()->filterArray('translation/entries', $entries);
             $this->entries = $entries;
         }
@@ -66,9 +66,10 @@ class Translation
 
     /**
      * @param string $potFile
+     * @param string $domain
      * @return array
      */
-    public function extractEntriesFromPotFile($potFile, array $entries = [])
+    public function extractEntriesFromPotFile($potFile, $domain, array $entries = [])
     {
         try {
             $potEntries = $this->normalize(Parser::parseFile($potFile)->getEntries());
@@ -76,6 +77,7 @@ class Translation
                 if (Str::contains(static::CONTEXT_ADMIN_KEY, Arr::get($entry, 'msgctxt'))) {
                     continue;
                 }
+                $entry['domain'] = $domain; // the text-domain of the entry
                 $entries[html_entity_decode($key, ENT_COMPAT, 'UTF-8')] = $entry;
             }
         } catch (Exception $e) {
@@ -115,8 +117,9 @@ class Translation
             array_map(function ($key) { return 'data.'.$key; }, array_keys($entry)),
             $entry
         );
-        $data['data.class'] = $data['data.error'] = '';
-        if (false === Arr::searchByKey($entry['s1'], $this->entries(), 'msgid')) { // @todo handle htmlentities i.e. &rarr;
+        $data['data.class'] = '';
+        $data['data.error'] = '';
+        if (!empty($entry['s1']) && false === Arr::searchByKey($entry['s1'], $this->entries(), 'msgid')) { // @todo handle htmlentities i.e. &rarr;
             $data['data.class'] = 'is-invalid';
             $data['data.error'] = _x('This custom translation is no longer valid as the original text has been changed or removed.', 'admin-text', 'site-reviews');
         }
@@ -158,6 +161,7 @@ class Translation
                 ? sprintf('%s | %s', $data['s1'], $data['p1'])
                 : $data['s1'];
             $rendered .= $this->render('result', [
+                'domain' => $this->getEntryString($entry, 'domain'),
                 'entry' => json_encode($data, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
                 'text' => wp_strip_all_tags($text),
             ]);
