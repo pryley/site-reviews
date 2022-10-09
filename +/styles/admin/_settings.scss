@@ -2,6 +2,88 @@
 // Partials -> Settings
 // =============================================================================
 
+[class*="post-type-site-review"] #show-settings-link,
+[class*="post-type-site-review"] .wrap .wp-heading-inline,
+[class*="post-type-site-review"] .wrap .page-title-action {
+    display: none !important;
+}
+.glsr-page-header-wrap {
+    display: flex;
+    flex-direction: column;
+    margin-left: -20px;
+}
+.glsr-page-header {
+    position: relative;
+    background: #fff;
+    border-bottom: 1px solid #c3c4c7;
+    height: 64px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    padding-right: 20px;
+}
+@media screen and (max-width: 600px) {
+    .glsr-page-header-wrap {
+        padding-top: 46px;
+    }
+    [class*="post-type-site-review"] #wpbody {
+        padding-top: 0;
+    }
+}
+@media screen and (max-width: 782px) {
+    .glsr-page-header-wrap {
+        margin-left: -10px;
+    }
+    .wp-responsive-open .glsr-page-header-wrap {
+        margin-left: -28px;
+        right: -16em;
+    }
+    .glsr-try-premium {
+        display: none;
+    }
+}
+.glsr-page-header > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.glsr-page-header .glsr-page-icon {
+    height: 63px;
+    width: 64px;
+    border-right: 1px solid #c3c4c7;
+    margin-right: 15px;
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+}
+.glsr-page-header h1 {
+    padding: 0;
+    font-weight: 500;
+    line-height: 1;
+    flex: 1;
+    font-size: 22px;
+    margin: 0 !important;
+}
+.glsr-page-header .has-icon {
+    color: #787c82;
+    padding: 3px;
+}
+.glsr-page-header .has-icon[aria-expanded="true"],
+.glsr-page-header .has-icon:hover {
+    color: var(--wp-admin-theme-color);
+}
+.glsr-page-header .has-icon .dashicons {
+    font-size: 2rem;
+    height: 2rem;
+    width: 2rem;
+}
+
+.wp-header-end + .notice:not(.glsr-notice) {
+    display: none;
+}
+
+
 select[data-glsr-track="minimal"] {
     border-color: #dba617 !important;
     color: darken(#dba617, 5) !important;
@@ -379,9 +461,14 @@ td.glsr-string-td1 .row-actions.visible {
     cursor: help;
     margin-left: 6px;
 }
+tr.glsr-setting-field .glsr-tooltip {
+    margin-right: 6px;
+    margin-left: 0;
+}
 tr.glsr-setting-field th {
     width: 210px;
 }
+
 tr.glsr-setting-field th label {
   align-items: flex-start;
   display: flex;

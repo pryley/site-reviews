@@ -14,7 +14,7 @@ class PostTypeLabelDefaults extends Defaults
         $plural = _x('Reviews', 'admin-text', 'site-reviews');
         $singular = _x('Review', 'admin-text', 'site-reviews');
         return [
-            'add_new_item' => sprintf(_x('Add New %s', 'Add New Post (admin-text)', 'site-reviews'), $plural),
+            'add_new_item' => sprintf(_x('Add New %s', 'Add New Post (admin-text)', 'site-reviews'), $singular),
             'all_items' => sprintf(_x('All %s', 'All Posts (admin-text)', 'site-reviews'), $plural),
             'archives' => sprintf(_x('%s Archives', 'Post Archives (admin-text)', 'site-reviews'), $singular),
             'edit_item' => sprintf(_x('Edit %s', 'Edit Post (admin-text)', 'site-reviews'), $singular),

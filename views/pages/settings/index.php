@@ -1,10 +1,7 @@
 <?php defined('ABSPATH') || exit; ?>
 
 <div class="wrap">
-    <h1 class="wp-heading-inline">
-        <?= esc_html(get_admin_page_title()); ?>
-        <a href="<?= glsr_admin_url('welcome'); ?>" class="page-title-action"><?= _x('About', 'admin-text', 'site-reviews'); ?></a>
-    </h1>
+    <hr class="wp-header-end" />
     <?= $notices; ?>
     <nav class="glsr-nav-tab-wrapper nav-tab-wrapper">
         <?php foreach ($tabs as $id => $title) : ?>

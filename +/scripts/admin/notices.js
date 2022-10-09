@@ -41,7 +41,7 @@ Notices.prototype = {
     showBanner_: function () {
         const el = jQuery('.glsr-notice-top-of-page');
         if (el) {
-            jQuery('#wpbody-content').prepend(el.detach());
+            jQuery('#glsr-page-header').prepend(el.detach());
             el.delay(1000).slideDown();
         }
     },

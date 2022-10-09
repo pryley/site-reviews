@@ -1,12 +1,8 @@
 <?php defined('ABSPATH') || exit; ?>
 
 <div class="wrap">
-    <h1 class="wp-heading-inline">
-        <?= esc_html(get_admin_page_title()); ?>
-        <a href="<?= glsr_admin_url('welcome'); ?>" class="page-title-action"><?= _x('About', 'admin-text', 'site-reviews'); ?></a>
-    </h1>
+    <hr class="wp-header-end" />
     <?= $notices; ?>
-
     <div class="glsr-premium-hero">
         <div class="glsr-premium-hero-image"></div>
         <div class="glsr-premium-hero-content">

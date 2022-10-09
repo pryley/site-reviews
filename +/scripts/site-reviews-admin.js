@@ -45,12 +45,6 @@ function site_reviews_footer_notice () {
     }
 }
 
-function discover_site_reviews () {
-    if ('no' === GLSR.isLicensed) {
-        jQuery('.post-type-site-review.edit-php .page-title-action').after('<a href="' + GLSR.premiumurl + '" target="_blank" id="glsr-premium-button" class="button button-primary">' + GLSR.text.premium + '</a>');
-    }
-}
-
 jQuery(function ($) {
     Prism.highlightAll();
     GLSR.notices = new Notices();
@@ -195,7 +189,6 @@ jQuery(function ($) {
         $bulkActionNotice.find('.bulk-action-errors').toggleClass('hidden');
     });
 
-    discover_site_reviews();
     site_reviews_footer_notice();
 
     $('.glsr-youtube-button').on('click', function () {
@@ -210,6 +203,17 @@ jQuery(function ($) {
             iframe.attr('src', 'https://www.youtube-nocookie.com/embed/'+ id +'?rel=0&showinfo=0&autoplay=1');
         }
         $(this).parent().prepend(iframe);
+    });
+
+    $('.glsr-screen-meta-toggle').on('click', function () {
+        let panel = $('#' + $(this).attr('aria-controls'));
+        if (!panel.length) return;
+        if (panel.is(':visible')) {
+            screenMeta.close(panel, $(this));
+            $('.glsr-screen-meta-toggle').removeClass('screen-meta-active').attr('aria-expanded', false);
+        } else {
+            screenMeta.open(panel, $(this));
+        }
     });
 });
 

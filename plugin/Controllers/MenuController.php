@@ -52,7 +52,7 @@ class MenuController extends Controller
             'settings' => _x('Settings', 'admin-text', 'site-reviews'),
             'tools' => _x('Tools', 'admin-text', 'site-reviews'),
             'addons' => _x('Add-ons', 'admin-text', 'site-reviews'),
-            'documentation' => _x('Help', 'admin-text', 'site-reviews'),
+            'documentation' => _x('Help & Support', 'admin-text', 'site-reviews'),
         ]);
         foreach ($pages as $slug => $title) {
             $method = Helper::buildMethodName('render-'.$slug.'-menu');

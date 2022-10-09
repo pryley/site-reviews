@@ -1,10 +1,7 @@
 <?php defined('ABSPATH') || exit; ?>
 
 <div class="wrap">
-    <h1 class="wp-heading-inline">
-        <?= esc_html(get_admin_page_title()); ?>
-        <a href="<?= glsr_admin_url('welcome'); ?>" class="page-title-action"><?= _x('About', 'admin-text', 'site-reviews'); ?></a>
-    </h1>
+    <hr class="wp-header-end" />
     <?= $notices; ?>
     <p><?= _x('Click an active tab to expand/collapse all sections.', 'admin-text', 'site-reviews'); ?></p>
     <nav class="glsr-nav-tab-wrapper nav-tab-wrapper">
