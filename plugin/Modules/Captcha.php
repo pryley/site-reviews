@@ -31,7 +31,6 @@ class Captcha
         if (!$this->isEnabled()) {
             return;
         }
-        $config = $this->config();
         return glsr(Builder::class)->div([
             'class' => 'glsr-captcha-holder',
         ]);
