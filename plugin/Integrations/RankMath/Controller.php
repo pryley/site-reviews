@@ -50,7 +50,7 @@ class Controller extends BaseController
         global $post;
         if (class_exists('Elementor\Plugin') && \Elementor\Plugin::$instance->documents->get($post->ID)->is_built_with_elementor()) {
             $widgets = Cast::toString(get_post_meta($post->ID, '_elementor_data', true));
-            $widgets = json_decode(, true);
+            $widgets = json_decode($widgets, true);
             $widgets = Arr::consolidate($widgets);
             if ($args = $this->parseElementorWidgets($widgets, 'site_reviews')) {
                 $this->buildReviewSchema($args);
