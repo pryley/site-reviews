@@ -1497,6 +1497,11 @@ msgctxt "admin-text"
 msgid "Please upload a valid %s file."
 msgstr ""
 
+#: views/tmpl-deactivate-plugin.php:30
+msgctxt "admin-text"
+msgid "Did you read the %sGetting Started%s guide?"
+msgstr ""
+
 #: config/forms/metabox-fields.php:9, plugin/Defaults/PostTypeColumnDefaults.php:24, plugin/Defaults/RevisionFieldsDefaults.php:17, plugin/Tinymce/TinymceGenerator.php:143, plugin/Controllers/ListTableColumns/ColumnFilterType.php:36
 msgctxt "admin-text"
 msgid "Type"

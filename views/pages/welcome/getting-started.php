@@ -8,7 +8,7 @@
             <p>If you are using the WordPress blocks editor (also known as Gutenberg), simply add the Site Reviews blocks to your pages.</p>
             <p>If you are using Elementor, you can use the Site Reviews Elementor widgets.</p>
             <p>If you are using the Classic Editor or a page builder plugin like Divi Builder, use the Site Reviews shortcodes. Each shortcode has a bunch of options, and you can learn more about them on the <a href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>">shortcodes documentation</a> page.</p>
-            <p>You can assign reviews to any public page on your website. To do this, use the <a href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>"><code>assigned_posts</code></a> option on the shortcodes, or change the assignment options on the blocks or Elementor widgets. And you're not limited to pages, you can also assign reviews to Users and Categories!</p>
+            <p>You can assign reviews to any public page or post type on your website. To do this, use the <a href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>"><code>assigned_posts</code></a> option on the shortcodes, or change the assignment options on the blocks or Elementor widgets. And you're not limited to pages, you can also assign reviews to Users and Categories!</p>
             <p>Site Reviews comes with tons of plugin settings. Did you know that any Site Reviews text that is visible to your website visitors can easily be changed? <a href="<?= glsr_admin_url('settings', 'strings'); ?>">Check it out</a>!</p>
         </div>
         <div class="column is-edge-to-edge">
