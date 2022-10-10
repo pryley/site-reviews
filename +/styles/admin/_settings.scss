@@ -172,7 +172,7 @@ td.glsr-string-td1 .row-actions.visible {
     nav a.glsr-nav-tab,
     nav a.glsr-nav-tab.nav-tab-active:hover {
         transition-property: background, color;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid #ccc !important; // fixes tabs on welcome page
         margin: 10px 10px 0 0;
     }
     .wrap nav.glsr-nav-tab-wrapper {

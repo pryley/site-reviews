@@ -103,7 +103,10 @@ class WelcomeController extends Controller
             'support' => _x('Support', 'admin-text', 'site-reviews'),
         ]);
         glsr()->render('pages/welcome/index', [
-            'data' => ['context' => []],
+            'data' => [
+                'context' => [],
+                'videos' => wp_list_sort(glsr()->config('videos'), 'order'),
+            ],
             'http_referer' => (string) wp_get_referer(),
             'tabs' => $tabs,
             'template' => glsr(Template::class),

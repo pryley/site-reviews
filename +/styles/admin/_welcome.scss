@@ -1,3 +1,30 @@
+.glsr-welcome .has-2-columns.is-wider-right .column:first-child img,
+.glsr-welcome .has-2-columns.is-wider-left .column:last-child img {
+    max-width: 400px;
+}
+.glsr-welcome .about__section {
+    gap: 40px;
+}
+.glsr-welcome .about__section .column {
+    padding: 0 !important;
+    margin-left: 0;
+    margin-right: 0;
+}
+@media screen and (max-width: 782px) {
+    .glsr-welcome .has-2-columns {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 40px;
+    }
+    .glsr-welcome .has-2-columns.is-wider-left,
+    .glsr-welcome .has-2-columns.is-wider-right,
+    .glsr-welcome .has-3-columns {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+}
+
 .glsr-screenshot {
     border: 1px solid #ccd0d4;
     box-shadow: 0 1px 1px rgba(0,0,0,.04);
@@ -13,7 +40,7 @@
     text-rendering: optimizeLegibility;
     background-color: #72777c;
     color: #fff;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 @media only screen and (max-width: 500px) {
     .glsr-welcome .badge {
@@ -54,7 +81,7 @@
 .glsr-welcome .glsr-nav-view {
     margin-top: 0;
 }
-.glsr-welcome ul:not(.glsr-flex-row) {
+.glsr-welcome .glsr-card ul {
     list-style: circle;
     padding-left: 20px;
 }

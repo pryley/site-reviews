@@ -1,151 +1,87 @@
 <?php defined('ABSPATH') || exit; ?>
 
-<div class="is-fullwidth">
-    <?php
-        glsr()->render('views/partials/youtube', [
-            'youtube_bg' => glsr()->url('assets/images/video.png'),
-            'youtube_id' => 'PLn-nTn-jOuWnsMviIHjIMRIitM47aAanA',
-        ]);
-    ?>
-    <p class="about-description">
-        Get introduced to Site Reviews by watching our "Getting Started" videos. These screen recordings demonstrate how to use Site Reviews on your website.
-    </p>
-</div>
-<hr>
-<div class="is-fullwidth">
-    <div class="glsr-flex-row glsr-has-2-columns">
-        <div class="glsr-column">
-            <h3>Editor Blocks</h3>
-            <p>The fastest way to getting started with Site Reviews is to use the three provided blocks in the WordPress Block Editor. Each block comes with multiple settings which let you configure them exactly as needed. To add a block to your page, click the "Add Block" button and search for "Site Reviews".</p>
-            <img class="glsr-screenshot screenshot" src="<?= glsr()->url('assets/images/blocks.png'); ?>" alt="Editor Blocks" />
+<div class="about__container is-fullwidth">
+
+    <div class="about__section has-2-columns is-wider-left is-fullwidth">
+        <div class="column is-edge-to-edge">
+            <h3>How To Add Reviews to Your Website</h3>
+            <p>If you are using the WordPress blocks editor (also known as Gutenberg), simply add the Site Reviews blocks to your pages.</p>
+            <p>If you are using Elementor, you can use the Site Reviews Elementor widgets.</p>
+            <p>If you are using the Classic Editor or a page builder plugin like Divi Builder, use the Site Reviews shortcodes. Each shortcode has a bunch of options, and you can learn more about them on the <a href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>">shortcodes documentation</a> page.</p>
+            <p>Site Reviews comes with tons of settings. Did you know that any Site Reviews text that is visible to your website visitors can easily be changed on the <a href="<?= glsr_admin_url('settings', 'strings'); ?>">Settings page</a>? Check it out!</p>
         </div>
-        <div class="glsr-column">
-            <h3>Shortcodes and Widgets</h3>
-            <p>You can also use the shortcodes or widgets on your page. Keep in mind, however, that widgets are limited in options compared to the shortcodes (for example, the "Latest Reviews" widget does not allow pagination). If you are using the Classic Editor in WordPress, you can click on the Site Reviews shortcode button above the editor (next to the media button) to add a shortcode via a friendly popup.</p>
-            <p>To learn more about the shortcodes and the available shortcode options, please see the Shortcode Documentation page of the plugin.</p>
-            <a class="components-button is-secondary" href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>">Read the Shortcode Documentation</a>
+        <div class="column is-edge-to-edge">
+            <img class="glsr-screenshot screenshot" src="<?= glsr()->url('assets/images/about/blocks.png'); ?>" alt="Editor Blocks" height="400" width="400" />
         </div>
     </div>
-</div>
-<hr>
-<div class="is-fullwidth">
-    <h2>Features</h2>
-    <ul class="glsr-flex-row glsr-has-3-columns">
-        <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('addons'); ?>">Add-ons</a></h3>
-            <p>Extend Site Reviews with add-ons for additional features.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('settings', 'reviews'); ?>">Avatars</a></h3>
-            <p>Enable avatars to generate images using the WordPress Gravatar service.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('tools', 'general'); ?>" data-expand="#tools-export-plugin-settings">Backup/Restore</a></h3>
-            <p>Backup and restore your plugin settings.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a data-expand="#faq-query-by-rank" href="<?= glsr_admin_url('documentation', 'faq'); ?>">Bayesian Ranking</a></h3>
-            <p>Easily rank pages with assigned reviews using the bayesian algorithm.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('settings', 'forms'); ?>">Blacklist</a></h3>
-            <p>Blacklist words, phrases, IP addresses, names, and emails.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="<?= admin_url('edit-tags.php?taxonomy=site-review-category&post_type=site-review'); ?>">Categories</a></h3>
-            <p>Add your own categories and assign reviews to them.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a target="_blank" href="https://github.com/pryley/site-reviews/blob/main/HOOKS.md">Developer Friendly</a></h3>
-            <p>Designed for WordPress developers with over 100 filter hooks and convenient functions.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('documentation', 'faq'); ?>">Documentation</a></h3>
-            <p>Provides FAQ and documenation for hooks and all shortcodes and functions.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a target="_blank" href="https://wordpress.org/support/article/adding-a-new-block/">Editor Blocks</a></h3>
-            <p>Use the configurable editor blocks in the WordPress Gutenberg editor.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a target="_blank" href="https://wordpress.org/support/article/adding-a-new-block/">Export/Import</a></h3>
-            <p>Use the WordPress Export and Import tools with your reviews.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('settings', 'schema'); ?>">JSON-LD Schema</a></h3>
-            <p>Enable JSON-LD schema to display your reviews and ratings in search results.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('settings', 'general'); ?>">Multilingual</a></h3>
-            <p>Integrates with Polylang and WPML; also provides easy search/replace translation from the plugin settings.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a target="_blank" href="https://wordpress.org/support/article/create-a-network/">Multisite Support</a></h3>
-            <p>Provides full support for the WordPress multisite feature.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('settings', 'general'); ?>">Notifications</a></h3>
-            <p>Send notifications to one or more emails when a review is submitted.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a data-expand="#faq-add-review-pagination" href="<?= glsr_admin_url('documentation', 'faq'); ?>">Pagination</a></h3>
-            <p>Enable AJAX pagination to display a custom number of reviews per-page.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a data-expand="#faq-assign-reviews" href="https://wordpress.org/support/article/wordpress-privacy/">Privacy</a></h3>
-            <p>Integrates with the WordPress Privacy Tools.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url(); ?>">Responses</a></h3>
-            <p>Write a response to reviews that require a response.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('settings', 'general'); ?>">Restrictions</a></h3>
-            <p>Require approval before publishing reviews and limit to registered users.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a data-expand="#faq-assign-reviews" href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>">Review Assignment</a></h3>
-            <p>Assign reviews to multiple Posts, Pages, Custom Post Types, Categories, and Users.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('settings', 'forms'); ?>">Review Limits</a></h3>
-            <p>Limit review submissions by email address, IP address, or username.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>">Review Summaries</a></h3>
-            <p>Display a summary of your review ratings from high to low.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="https://wordpress.org/support/article/revisions/">Revisions</a></h3>
-            <p>Use the WordPress Revisions System to track changes in your reviews.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>">Shortcodes</a></h3>
-            <p>Use the configurable shortcodes complete with documentation.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('settings', 'general'); ?>">Slack</a></h3>
-            <p>Receive notifications in Slack when a review is submitted.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('settings', 'forms'); ?>">SPAM Protection</a></h3>
-            <p>Uses a Honeypot and integrates with FriendlyCaptcha, hCaptcha, reCAPTCHA, and Akismet.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="<?= glsr_admin_url('settings', 'general'); ?>">Styles</a></h3>
-            <p>Change the review form style to match popular themes and form plugins.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a target="_blank" href="https://wordpress.org/support/plugin/site-reviews/">Support</a></h3>
-            <p>Free premium-level support included on the WordPress support forum.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a data-expand="#faq-plugin-templates" href="<?= glsr_admin_url('documentation', 'faq'); ?>">Templates</a></h3>
-            <p>Use the Site Reviews templates in your theme for full control over the HTML.</p>
-        </li>
-        <li class="glsr-column">
-            <h3><a href="<?= admin_url('widgets.php'); ?>">Widgets</a></h3>
-            <p>Use the configurable widgets in your sidebars.</p>
-        </li>
-    </ul>
+
+    <div class="about__section has-2-columns is-fullwidth">
+        <div class="column is-edge-to-edge">
+            <img class="glsr-screenshot screenshot" src="<?= glsr()->url('assets/images/about/reviews.png'); ?>" alt="Latest Reviews Screenshot" />
+        </div>
+        <div class="column is-edge-to-edge">
+            <h3>Latest Reviews</h3>
+            <p>This block shows your latest reviews. You can hide any of the fields, change the number of reviews that are displayed, and add pagination or a Load More button. The shortcode for the Latest Reviews is: <a data-expand="#shortcode-site_reviews" href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>"><code>[site_reviews]</code></a></p>
+            <p>Site Reviews can generate Schema Markup to provide additional information about your reviews and ratings to search engines and your users. It can also integrate with other Schema and SEO plugins. Enable the schema option on the block or shortcode to generate the Schema Markup, and enable an integration on the <a href="<?= glsr_admin_url('settings', 'schema'); ?>">Settings page</a>.</p>
+        </div>
+    </div>
+
+    <div class="about__section has-2-columns is-fullwidth">
+        <div class="column is-edge-to-edge">
+            <img class="glsr-screenshot screenshot" src="<?= glsr()->url('assets/images/about/summary.png'); ?>" alt="Rating Summary Screenshot" />
+        </div>
+        <div class="column is-edge-to-edge">
+            <h3>Rating Summary</h3>
+            <p>This block shows the rating summary of your reviews. You can hide any of the fields, and change the text on the Settings page. The shortcode for the Rating Summary is: <a data-expand="#shortcode-site_reviews_summary" href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>"><code>[site_reviews_summary]</code></a></p>
+        </div>
+    </div>
+
+    <div class="about__section has-2-columns is-fullwidth">
+        <div class="column is-edge-to-edge">
+            <img class="glsr-screenshot screenshot" src="<?= glsr()->url('assets/images/about/form.png'); ?>" alt="Rating Summary Screenshot" />
+        </div>
+        <div class="column is-edge-to-edge">
+            <h3>Review Form</h3>
+            <p>This block shows the review form. You can hide any of the fields, and change the text on the Settings page. The shortcode for the Review Form is: <a data-expand="#shortcode-site_reviews_form" href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>"><code>[site_reviews_form]</code></a></p>
+            <p>Site Reviews has built-in spam protection to help protect your site from pesky spammers, and allows you to use popular spam fighting methods like Cloudflare Turnstile, Google reCAPTCHA, hCaptcha, FriendlyCaptcha, and Akismet. You can even limit reviews based on email address, IP address, or username, and require approval for all new review submissions. Enable these options and more on the <a href="<?= glsr_admin_url('settings', 'forms'); ?>">Settings page</a>.</p>
+        </div>
+    </div>
+
+    <div class="about__section is-fullwidth">
+        <h3>Screen Recordings</h3>
+        <p>These screen recordings (no audio yet, just video) demonstrate the basic features of Site Reviews on a demo website that collects film reviews. Feel free to use the same techniques and apply them to your website.</p>
+        <div class="glsr-videos is-responsive">
+            <div class="glsr-videos__video">
+                <?php
+                    glsr()->render('views/partials/youtube', [
+                        'youtube_bg' => glsr()->url('assets/images/video.png'),
+                        'youtube_id' => $videos[0]['id'],
+                    ]);
+                ?>
+            </div>
+            <div class="glsr-videos__playlist">
+                <ul>
+                    <?php foreach ($videos as $index => $video) { ?>
+                        <?php
+                            $digits = explode(':', $video['duration']);
+                            $duration = sprintf(_x('%s minutes, %s seconds', 'admin-text', 'site-reviews'), glsr_get($digits, 0), glsr_get($digits, 1));
+                        ?>
+                        <li>
+                            <a class="<?= (0 === $index) ? 'is-active' : ''; ?>" href="https://youtu.be/<?= $video['id']; ?>" data-id="<?= $video['id']; ?>" target="_blank">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path fill="currentColor" d="M14.4 13.2h19.2c.66 0 1.2.54 1.2 1.2v19.2l-21.6-.024V14.4c0-.66.54-1.2 1.2-1.2zm4.8 1.2L16.8 18H18l2.4-3.6h-1.2zm4.8 0h-1.2L20.4 18h1.2l2.4-3.6zm3.6 0h-1.2L24 18h1.2l2.4-3.6zm3.6 0H30L27.6 18h1.2l2.4-3.6zm1.2 16.8v-12H15.6v12h16.8zM21.6 20.4l7.2 4.8-7.2 4.8v-9.6z"/></svg>
+                                <span><?= $video['title']; ?></span>
+                                <span aria-label="<?= $duration; ?>"><?= $video['duration']; ?></span>
+                            </a>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="about__section is-fullwidth">
+        <h3>Level Up With <a href="https://niftyplugins.com/plugins/site-reviews-premium/" target="_blank">Site Reviews Premium</a>!</h3>
+        <p>Site Reviews provides tons of features, possibly more than any other free review plugin.</p>
+        <p>However, if you purchase Site Reviews Premium, not only will you be supporting the continued development of Site Reviews, but you’ll also get more responsive 24/7 support, and gain access to exclusive features such as <a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">images</a>, <a href="https://niftyplugins.com/plugins/site-reviews-themes/" target="_blank">carousels</a>, <a href="https://niftyplugins.com/plugins/site-reviews-themes/" target="_blank">themes</a>, <a href="https://niftyplugins.com/plugins/site-reviews-filters/" target="_blank">filters</a>, <a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">custom forms</a>, <a href="https://niftyplugins.com/plugins/site-reviews-notifications/" target="_blank">custom notifications</a>, and more!</p>
+    </div>
 </div>
