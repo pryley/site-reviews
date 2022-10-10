@@ -40,27 +40,6 @@ class WelcomeController extends Controller
     }
 
     /**
-     * @param string $plugin
-     * @param bool $isNetworkActivation
-     * @return void
-     * @action activated_plugin
-     */
-    public function redirectOnActivation($plugin, $isNetworkActivation)
-    {
-        if ($isNetworkActivation
-            || 'cli' === php_sapi_name()
-            || $plugin !== plugin_basename(glsr()->file)) {
-            return;
-        }
-        $checked = Arr::consolidate(filter_input(INPUT_POST, 'checked', FILTER_DEFAULT, FILTER_FORCE_ARRAY));
-        if (1 < count($checked) && 'activate-selected' === filter_input(INPUT_POST, 'action')) {
-            return;
-        }
-        wp_safe_redirect(glsr_admin_url('welcome'));
-        exit;
-    }
-
-    /**
      * @return void
      * @action admin_menu
      */
