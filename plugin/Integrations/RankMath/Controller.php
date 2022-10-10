@@ -49,7 +49,8 @@ class Controller extends BaseController
     {
         global $post;
         if (class_exists('Elementor\Plugin') && \Elementor\Plugin::$instance->documents->get($post->ID)->is_built_with_elementor()) {
-            $widgets = json_decode(get_post_meta($post->ID, '_elementor_data', true), true);
+            $widgets = Cast::toString(get_post_meta($post->ID, '_elementor_data', true));
+            $widgets = json_decode(, true);
             $widgets = Arr::consolidate($widgets);
             if ($args = $this->parseElementorWidgets($widgets, 'site_reviews')) {
                 $this->buildReviewSchema($args);
@@ -100,6 +101,11 @@ class Controller extends BaseController
         glsr(Schema::class)->store($schema);
     }
 
+    /**
+     * @param string $name
+     * @param array $result
+     * @return false|array
+     */
     protected function parseBlocks(array $blocks, $name = 'site-reviews/reviews', $result = [])
     {
         foreach ($blocks as $block) {
@@ -109,13 +115,18 @@ class Controller extends BaseController
             } elseif (!empty($children)) {
                 $result = $this->parseBlocks($children, $name, $result);
             }
-            if (!empty($result)) {
+            if (!empty($result) && is_array($result)) {
                 return $result;
             }
         }
         return false;
     }
 
+    /**
+     * @param string $name
+     * @param array $result
+     * @return false|array
+     */
     protected function parseElementorWidgets(array $widgets, $name = 'site_reviews', $result = [])
     {
         foreach ($widgets as $widget) {
@@ -125,13 +136,17 @@ class Controller extends BaseController
             } elseif (!empty($children)) {
                 $result = $this->parseElementorWidgets($children, $name, $result);
             }
-            if (!empty($result)) {
+            if (!empty($result) && is_array($result)) {
                 return $result;
             }
         }
         return false;
     }
 
+    /**
+     * @param string $name
+     * @return false|array
+     */
     protected function parseShortcodes(string $content, $name = 'site_reviews')
     {
         if (false === strpos($content, '[')) {
@@ -142,9 +157,14 @@ class Controller extends BaseController
             return false;
         }
         foreach ($matches as $shortcode) {
-            if ($name === $shortcode[2]) {
-                return shortcode_parse_atts($shortcode[3]);
+            if ($name !== $shortcode[2]) {
+                continue;
             }
+            $attributes = shortcode_parse_atts($shortcode[3]);
+            if (!is_array($attributes)) {
+                continue;
+            }
+            return $attributes;
         }
         return false;
     }
