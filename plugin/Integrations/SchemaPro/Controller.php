@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Integrations\SchemaPro;
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Review;
 
 class Controller extends BaseController
 {
