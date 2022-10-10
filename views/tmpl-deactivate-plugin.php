@@ -24,6 +24,9 @@
                         </li>
                     <# }); #>
                 </ul>
+                <div class="glsr-dp-help components-notice is-warning" style="display:none;">
+                    <p class="components-notice__content">Did you read the <a href="<?= glsr_admin_url('welcome'); ?>">Getting Started</a> guide?</p>
+                </div>
                 <div class="glsr-dp-details" style="display:none;">
                     <textarea name="details" placeholder="" rows="3"></textarea>
                 </div>

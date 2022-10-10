@@ -94,6 +94,16 @@ jQuery($ => {
 
         selectReason: function (ev) {
             const option = $(ev.currentTarget);
+            const helpNotice = this.$('.glsr-dp-help');
+            if (!~['confused', 'not-working'].indexOf(option.find('input').val())) {
+                if (helpNotice.is(':visible')) {
+                    helpNotice.slideUp('fast')
+                }
+            } else {
+                if (!helpNotice.is(':visible')) {
+                    helpNotice.slideDown('fast')
+                }
+            }
             this.$('.glsr-dp-reason').removeClass('is-selected')
             this.$('.glsr-dp-details textarea').attr('placeholder', option.toggleClass('is-selected').data('placeholder'))
             this.$('.glsr-dp-details').slideDown('fast')

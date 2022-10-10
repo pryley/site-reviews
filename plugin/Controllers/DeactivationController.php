@@ -105,7 +105,7 @@ class DeactivationController extends Controller
             [
                 'icon' => file_get_contents(glsr()->path('assets/images/icons/confused.svg')),
                 'id' => 'confused',
-                'placeholder' => _x("Would like me to help you? If you enter your email I'll be happy to assist you.", 'admin-text', 'site-reviews'),
+                'placeholder' => _x("If you would like me to help, please include your email so I can contact you.", 'admin-text', 'site-reviews'),
                 'text' => _x("It's too complicated", 'admin-text', 'site-reviews'),
             ],
             [

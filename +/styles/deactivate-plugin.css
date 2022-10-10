@@ -184,6 +184,13 @@ label.is-selected .glsr-dp-icon {
     align-items: center;
     padding: 8px 8px 8px 0;
 }
+.glsr-dp-reason span {
+    pointer-events: none;
+}
+
+.glsr-dp-help {
+    margin: 1em 0;
+}
 
 .glsr-dp-details {
     margin: 1em 0;

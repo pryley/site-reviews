@@ -1844,7 +1844,7 @@ msgstr ""
 
 #: plugin/Controllers/DeactivationController.php:108
 msgctxt "admin-text"
-msgid "Would like me to help you? If you enter your email I'll be happy to assist you."
+msgid "If you would like me to help, please include your email so I can contact you."
 msgstr ""
 
 #: plugin/Controllers/DeactivationController.php:109
@@ -3714,12 +3714,12 @@ msgstr ""
 msgid "Write review"
 msgstr ""
 
-#: plugin/Integrations/SchemaPro/Controller.php:21
+#: plugin/Integrations/SchemaPro/Controller.php:22
 msgctxt "admin-text"
 msgid "Please go to the %sSchema Pro plugin settings%s page and change the \"%s\" option to \"%s\"."
 msgstr ""
 
-#: plugin/Integrations/SchemaPro/Controller.php:28
+#: plugin/Integrations/SchemaPro/Controller.php:29
 msgctxt "admin-text"
 msgid "The Schema Pro integration with Site Reviews will only work if the schema is loaded in the Footer location."
 msgstr ""
@@ -4027,7 +4027,7 @@ msgctxt "admin-text"
 msgid "Download System Info"
 msgstr ""
 
-#: views/pages/welcome/getting-started.php:67, views/pages/documentation/support/get-started.php:30
+#: views/pages/welcome/getting-started.php:68, views/pages/documentation/support/get-started.php:30
 msgctxt "admin-text"
 msgid "%s minutes, %s seconds"
 msgstr ""
