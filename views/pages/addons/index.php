@@ -12,7 +12,7 @@
                     'https://niftyplugins.com/account/support/'
                 ); ?>
             </p>
-            <a href="https://niftyplugins.com/plugins/site-reviews-premium/" class="button button-hero button-primary"><?= _x('Check it out!', 'admin-text', 'site-reviews'); ?></a>
+            <a href="https://niftyplugins.com/plugins/site-reviews-premium/" class="button button-hero button-primary" target="_blank"><?= _x('Check it out!', 'admin-text', 'site-reviews'); ?></a>
         </div>
     </div>
 

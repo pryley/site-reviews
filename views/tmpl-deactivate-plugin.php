@@ -39,7 +39,7 @@
                         <p class="components-notice__content">
                             <?php
                                 printf(_x('Maybe one of the %sadd-ons%s provide this feature.', 'admin-text', 'site-reviews'),
-                                    '<a href="https://niftyplugins.com" target="_blank">',
+                                    '<a href="https://niftyplugins.com/plugins/" target="_blank">',
                                     '</a>'
                                 );
                             ?>
