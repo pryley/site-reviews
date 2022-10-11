@@ -41,9 +41,9 @@ class Dump
     {
         $result = [];
         $result[] = str_repeat(' ', $this->level * 4).'[';
-        if ("\0" == $key[0]) {
+        if (is_string($key) && "\0" === $key[0]) {
             $keyParts = explode("\0", $key);
-            $result[] = $keyParts[2].(('*' == $keyParts[1]) ? ':protected' : ':private');
+            $result[] = $keyParts[2].(('*' === $keyParts[1]) ? ':protected' : ':private');
         } else {
             $result[] = $key;
         }
