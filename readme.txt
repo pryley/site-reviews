@@ -4,7 +4,7 @@ Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.0
 Requires at least: 5.8
-Stable tag: 6.0.7
+Stable tag: 6.1.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -168,76 +168,5 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Removed third-party notices from the Site Reviews admin pages
 - Updated the documentation
 - Updated the "Welcome to Site Reviews" page
-
-= 6.0.7 (2022-09-26) =
-
-- Updated the Upgrade Guide (please make sure to read this if you updated from Site Reviews v5 or lower. You can find the Upgrade guide on the Help page.)
-
-= 6.0.6 (2022-09-25) =
-
-- Fixed integration with Polylang's String Translations
-- Fixed the Reset Permissions tool
-- Fixed the Slack integration [@andersk](https://github.com/andersk)
-- Updated the [Action Scheduler](https://github.com/woocommerce/action-scheduler/) library to v3.5.2
-
-= 6.0.5 (2022-09-16) =
-
-- Fixed CSS loading on pages which do not load the Gutenberg button and search CSS
-- Fixed plugin migration to run immediately when the database version needs updating
-
-= 6.0.4 (2022-09-15) =
-
-- Fixed a PHP 7.2 syntax error
-- Fixed add-on activation routines
-- Fixed autoloading for Php80 polyfill
-- Fixed footer notice placement
-
-= 6.0.0 (2022-09-14) =
-
-- 🚨 Requires at least PHP v7.2
-- 🚨 Requires at least WordPress v5.8
-- 🚨 Changed the Divi plugin style to use the Divi Gallery pagination style for review pagination
-- 🚨 Changed the review title tag from <h3> to <h4>. If you need to change it back, please see the FAQ help page.
-- 🚨 Changed the strings "← Previous" and "Next →" to "Previous" and "Next". If you have customised these strings in the settings, please update them.
-- 🚨 Removed support for Internet Explorer
-- 🚨 Removed support for PHP 5.6, 7.0, and 7.1
-- 🚨 Removed the Polyfill.io script (since it was used for IE support)
-- 🚨 Removed the "site-reviews/after/submission" javascript event (if you were using this event, please see the Upgrade guide)
-- 🚨 Rewrote the button and pagination loading animations. If you are using a custom Site Reviews pagination template in your child theme, please remove the `{{ loader }}` template tag.
-- Added a deactivation feedback dialog
-- Added a "Limit Reviews For" setting which allows you to set a time-limit (in days) for Review Limits
-- Added ability to mark reviews as "Verified"
-- Added ability to search reviews by ID on the All Reviews admin page
-- Added automatic conversion of UTF-16/UTF-32 encoded CSV files when importing reviews
-- Added custom capabilities for review categories
-- Added experimental filter hooks to combine css and javascript files when using add-ons (see Help > Hooks)
-- Added migration and nonce support for LiteSpeed Cache (flushes the cache after migration)
-- Added migration support for WP Rocket (flushes the cache after migration)
-- Added support for the Bluehost "Endurance Page Cache" must-use plugin
-- Added the Bootstrap v5 plugin style
-- Added the Elementor Pro plugin style
-- Added the `rating_field` option to the Summary block and Elementor widget
-- Added the `reviews_id` option to the Review Form, this allows you to display submitted reviews immediately without reloading the page.
-- Enabled SSL verification on all requests (this can be disabled with the WordPress [https_ssl_verify](http://developer.wordpress.org/reference/hooks/https_ssl_verify/) filter hook)
-- Fixed compatibility with [Yoast Duplicate Post](https://wordpress.org/plugins/duplicate-post/)
-- Fixed invalid "deprecated" entries which were being added to the Console on some websites
-- Fixed last name initials when there is only a first name
-- Fixed permissions for plugin pages
-- Fixed plugin redirection when bulk activating multiple plugins
-- Fixed primary keys on custom database pivot tables
-- Fixed review importing to skip empty CSV rows without throwing an error
-- Fixed review migration of Site Reviews v4 reviews
-- Fixed the blocks in the Customizer widget panel
-- Fixed the Elementor integration which broke some other Elementor widgets
-- Fixed the `glsr_create_review` function to bypass the "Require Approval" setting
-- Fixed the star rating field for some themes
-- Fixed the Version value in the System Info
-- Fixed the WPML integration
-- Optimised the javascript file sizes
-- Renamed the "Submissions" settings page to "Forms"
-- Rewrote the frontend style to use CSS variables, this should make CSS tweaks easier to write.
-- Rewrote the review modals to support the new review image galleries ([Review Images](https://niftyplugins.com/plugins/site-reviews-images/) add-on required)
-- Submit and load more buttons now make use of the WordPress Block button classes by default
-- Updated the Bootstrap plugin styles to Bootstrap v5
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).

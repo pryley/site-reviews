@@ -1,5 +1,18 @@
 == Changelog ==
 
+= 6.1.0 (2022-10-11) =
+
+- Added [Cloudflare Turnstile](https://blog.cloudflare.com/turnstile-private-captcha-alternative/) captcha support
+- Added [RankMath Pro](https://rankmath.com/) integration with the Site Reviews schema
+- Added [Schema and Structured Data for WP](https://structured-data-for-wp.com/) integration with the Site Reviews schema
+- Added [Schema Pro](https://wpschema.com/) integration with the Site Reviews schema
+- Fixed compatibility with the [hCaptcha](https://wordpress.org/plugins/hcaptcha-for-forms-and-more/) plugin
+- Refreshed the design of the admin pages
+- Removed the redirect to welcome page on activation
+- Removed third-party notices from the Site Reviews admin pages
+- Updated the documentation
+- Updated the "Welcome to Site Reviews" page
+
 = 6.0.7 (2022-09-26) =
 
 - Updated the Upgrade Guide (please make sure to read this if you updated from Site Reviews v5 or lower. You can find the Upgrade guide on the Help page.)
