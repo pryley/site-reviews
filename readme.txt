@@ -165,6 +165,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Fixed compatibility with the [hCaptcha](https://wordpress.org/plugins/hcaptcha-for-forms-and-more/) plugin
 - Refreshed the design of the admin pages
 - Removed the redirect to welcome page on activation
+- Removed third-party notices from the Site Reviews admin pages
 - Updated the documentation
 - Updated the "Welcome to Site Reviews" page
 

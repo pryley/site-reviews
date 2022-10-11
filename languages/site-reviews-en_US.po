@@ -2469,11 +2469,6 @@ msgctxt "admin-text"
 msgid "Common Problems and Solutions"
 msgstr "Common Problems and Solutions"
 
-#: plugin/Controllers/NoticeController.php:248
-msgctxt "admin-text"
-msgid "Thank you so much!"
-msgstr "Thank you so much!"
-
 #: plugin/Controllers/PrivacyController.php:25
 msgctxt "admin-text"
 msgid ""

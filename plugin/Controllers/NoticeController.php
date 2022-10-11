@@ -242,10 +242,9 @@ class NoticeController extends Controller
         if (empty($this->activeNotices)
             && Helper::isGreaterThan($this->getVersionFor('write-review'), $this->getUserMeta('write-review', 0))
             && $this->futureTime() < time()) {
-            $text = sprintf('%s %s %s',
+            $text = sprintf('%s %s 💖',
                 sprintf(_x('Are you happy with %s?', 'Site Reviews (admin-text)', 'site-reviews'), sprintf('<strong>%s</strong>', glsr()->name)),
-                sprintf(_x('Please rate %s on WordPress and let other people know about it.', '★★★★★ (admin-text)', 'site-reviews'), '★★★★★'),
-                _x('Thank you so much!', 'admin-text', 'site-reviews')
+                sprintf(_x('Please rate %s on WordPress and let other people know about it.', '★★★★★ (admin-text)', 'site-reviews'), '★★★★★')
             );
             glsr()->render('partials/notices/write-review', compact('text'));
             $this->activeNotices[] = 'write-review';

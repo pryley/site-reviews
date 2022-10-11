@@ -25,6 +25,7 @@
         <h4>🚫 Removed</h4>
         <ul>
             <li>Removed the redirect to welcome page on activation</li>
+            <li>Removed third-party notices from the Site Reviews admin pages 🧘🏻‍♀️</li>
         </ul>
         <h4>🐞 Bugs Fixed</h4>
         <ul>

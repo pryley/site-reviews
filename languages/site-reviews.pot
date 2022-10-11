@@ -2107,11 +2107,6 @@ msgctxt "plugin name (admin-text)"
 msgid "Thank you for installing %s! I hope you love it."
 msgstr ""
 
-#: plugin/Controllers/NoticeController.php:248
-msgctxt "admin-text"
-msgid "Thank you so much!"
-msgstr ""
-
 #: plugin/Controllers/PrivacyController.php:25
 msgctxt "admin-text"
 msgid "The email and associated name and IP address has been removed from all reviews, but the reviews themselves were not removed."
