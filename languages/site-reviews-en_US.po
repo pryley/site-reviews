@@ -1947,10 +1947,15 @@ msgctxt "admin-text"
 msgid "Please upload a valid %s file."
 msgstr "Please upload a valid %s file."
 
-#: views/tmpl-deactivate-plugin.php:30
+#: views/tmpl-deactivate-plugin.php:31
 msgctxt "admin-text"
 msgid "Did you read the %sGetting Started%s guide?"
 msgstr "Did you read the %sGetting Started%s guide?"
+
+#: views/tmpl-deactivate-plugin.php:41
+msgctxt "admin-text"
+msgid "Maybe one of the %sadd-ons%s provide this feature."
+msgstr "Maybe one of the %sadd-ons%s provide this feature."
 
 #: config/forms/metabox-fields.php:9, plugin/Defaults/PostTypeColumnDefaults.php:24, plugin/Defaults/RevisionFieldsDefaults.php:17, plugin/Tinymce/TinymceGenerator.php:143, plugin/Controllers/ListTableColumns/ColumnFilterType.php:36
 msgctxt "admin-text"
@@ -2251,13 +2256,13 @@ msgstr "It's too complicated"
 
 #: plugin/Controllers/DeactivationController.php:114
 msgctxt "admin-text"
-msgid "Which plugin?"
-msgstr "Which plugin?"
+msgid "Which plugin is better?"
+msgstr "Which plugin is better?"
 
 #: plugin/Controllers/DeactivationController.php:115
 msgctxt "admin-text"
-msgid "I found a better plugin"
-msgstr "I found a better plugin"
+msgid "I found something better"
+msgstr "I found something better"
 
 #: plugin/Controllers/DeactivationController.php:120
 msgctxt "admin-text"
@@ -2269,25 +2274,20 @@ msgctxt "admin-text"
 msgid "It's not working for me"
 msgstr "It's not working for me"
 
-#: plugin/Controllers/DeactivationController.php:126
+#: plugin/Controllers/DeactivationController.php:127
+msgctxt "admin-text"
+msgid "It's only temporary"
+msgstr "It's only temporary"
+
+#: plugin/Controllers/DeactivationController.php:132
 msgctxt "admin-text"
 msgid "Which feature are you looking for?"
 msgstr "Which feature are you looking for?"
 
-#: plugin/Controllers/DeactivationController.php:127
+#: plugin/Controllers/DeactivationController.php:133
 msgctxt "admin-text"
 msgid "Missing a specific feature"
 msgstr "Missing a specific feature"
-
-#: plugin/Controllers/DeactivationController.php:132
-msgctxt "admin-text"
-msgid "What are you looking for? Maybe I can help."
-msgstr "What are you looking for? Maybe I can help."
-
-#: plugin/Controllers/DeactivationController.php:133
-msgctxt "admin-text"
-msgid "Not what I was looking for"
-msgstr "Not what I was looking for"
 
 #: plugin/Controllers/DeactivationController.php:138
 msgctxt "admin-text"

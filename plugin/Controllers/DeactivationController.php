@@ -101,7 +101,7 @@ class DeactivationController extends Controller
 
     protected function deactivateReasons(): array
     {
-        $reasons = [
+        $reasons = [ // order is intentional
             [
                 'icon' => file_get_contents(glsr()->path('assets/images/icons/confused.svg')),
                 'id' => 'confused',
@@ -111,8 +111,8 @@ class DeactivationController extends Controller
             [
                 'icon' => file_get_contents(glsr()->path('assets/images/icons/found-better.svg')),
                 'id' => 'found-better',
-                'placeholder' => _x('Which plugin?', 'admin-text', 'site-reviews'),
-                'text' => _x('I found a better plugin', 'admin-text', 'site-reviews'),
+                'placeholder' => _x('Which plugin is better?', 'admin-text', 'site-reviews'),
+                'text' => _x('I found something better', 'admin-text', 'site-reviews'),
             ],
             [
                 'icon' => file_get_contents(glsr()->path('assets/images/icons/not-working.svg')),
@@ -121,16 +121,16 @@ class DeactivationController extends Controller
                 'text' => _x("It's not working for me", 'admin-text', 'site-reviews'),
             ],
             [
+                'icon' => file_get_contents(glsr()->path('assets/images/icons/temporary.svg')),
+                'id' => 'temporary',
+                'placeholder' => '', // don't show the textarea
+                'text' => _x("It's only temporary", 'admin-text', 'site-reviews'),
+            ],
+            [
                 'icon' => file_get_contents(glsr()->path('assets/images/icons/feature-missing.svg')),
                 'id' => 'feature-missing',
                 'placeholder' => _x('Which feature are you looking for?', 'admin-text', 'site-reviews'),
                 'text' => _x('Missing a specific feature', 'admin-text', 'site-reviews'),
-            ],
-            [
-                'icon' => file_get_contents(glsr()->path('assets/images/icons/looking-for-different.svg')),
-                'id' => 'looking-for-different',
-                'placeholder' => _x('What are you looking for? Maybe I can help.', 'admin-text', 'site-reviews'),
-                'text' => _x('Not what I was looking for', 'admin-text', 'site-reviews'),
             ],
             [
                 'icon' => file_get_contents(glsr()->path('assets/images/icons/other-reason.svg')),

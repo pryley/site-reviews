@@ -94,19 +94,22 @@ jQuery($ => {
 
         selectReason: function (ev) {
             const option = $(ev.currentTarget);
+            const placeholder = option.data('placeholder');
             const helpNotice = this.$('.glsr-dp-help');
-            if (!~['confused', 'not-working'].indexOf(option.find('input').val())) {
-                if (helpNotice.is(':visible')) {
-                    helpNotice.slideUp('fast')
-                }
-            } else {
-                if (!helpNotice.is(':visible')) {
-                    helpNotice.slideDown('fast')
-                }
-            }
+            const value = option.find('input').val();
+            const infoNotice = ['feature-missing'];
+            const warnNotice = ['confused', 'looking-for-different', 'not-working'];
             this.$('.glsr-dp-reason').removeClass('is-selected')
-            this.$('.glsr-dp-details textarea').attr('placeholder', option.toggleClass('is-selected').data('placeholder'))
-            this.$('.glsr-dp-details').slideDown('fast')
+            this.$('.glsr-dp-details textarea').attr('placeholder', placeholder)
+            this.$('.glsr-dp-details')['' === placeholder ? 'slideUp' : 'slideDown']('fast')
+            option.toggleClass('is-selected')
+            if (!~[].concat(infoNotice, warnNotice).indexOf(value)) {
+                helpNotice.slideUp('fast')
+            } else {
+                helpNotice.find('.is-info')[!~infoNotice.indexOf(value) ? 'hide' : 'show']()
+                helpNotice.find('.is-warning')[!~warnNotice.indexOf(value) ? 'hide' : 'show']()
+                helpNotice.slideDown('fast')
+            }
         },
 
         submit: function (ev) {

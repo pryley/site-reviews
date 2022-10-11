@@ -191,6 +191,12 @@ label.is-selected .glsr-dp-icon {
 .glsr-dp-help {
     margin: 1em 0;
 }
+.glsr-dp-help .components-notice {
+    margin: 0;
+}
+.glsr-dp-help .components-notice.is-info {
+    background-color: #E5F5FA;
+}
 
 .glsr-dp-details {
     margin: 1em 0;
