@@ -17,7 +17,7 @@
             <div class="glsr-videos__video">
                 <?php
                     glsr()->render('views/partials/youtube', [
-                        'youtube_bg' => glsr()->url('assets/images/video.png'),
+                        'youtube_bg' => glsr()->url('assets/images/video-cover.png'),
                         'youtube_id' => $videos[0]['id'],
                     ]);
                 ?>
