@@ -27,6 +27,7 @@ class Hooks implements HooksContract
         if ('saswp' !== glsr_get_option('schema.integration.plugin')) {
             return;
         }
+        add_action('admin_head', [$this->controller, 'displaySettingNotice']);
         add_filter('site-reviews/settings/sanitize', [$this->controller, 'filterSettingsSanitize'], 10, 2);
         add_filter('saswp_modify_schema_output', [$this->controller, 'filterSchema'], 20);
     }

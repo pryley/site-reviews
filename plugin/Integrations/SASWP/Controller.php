@@ -4,9 +4,32 @@ namespace GeminiLabs\SiteReviews\Integrations\SASWP;
 
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Modules\Notice;
 
 class Controller extends BaseController
 {
+    /**
+     * @action admin_head
+     */
+    public function displaySettingNotice()
+    {
+        if (!$this->isReviewAdminPage()) {
+            return;
+        }
+        $settings = get_option('sd_data');
+        if (1 === (int) Arr::get($settings, 'saswp-markup-footer')) {
+            return;
+        }
+        $message = sprintf(_x('Please go to the %sSchema & Structured Data plugin settings%s page and enable the "%s" option.', 'admin-text', 'site-reviews'),
+            sprintf('<a href="%s" target="_blank">', admin_url('admin.php?page=structured_data_options&tab=tools')),
+            '</a>',
+            '<strong>Add Schema Markup in footer</strong>',
+        );
+        glsr(Notice::class)->addError($message, [
+            _x('The Schema & Structured Data integration with Site Reviews will only work if the schema markup is added to the footer.', 'admin-text', 'site-reviews'),
+        ]);
+    }
+
     /**
      * @filter saswp_modify_schema_output
      */
