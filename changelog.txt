@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 6.1.1 (2022-10-12) =
+
+- Fixed admin page header on mobile devices
+- Fixed links in welcome notice for new users
+- Fixed plugin notices
+
 = 6.1.0 (2022-10-11) =
 
 - Added [Cloudflare Turnstile](https://blog.cloudflare.com/turnstile-private-captcha-alternative/) captcha support
