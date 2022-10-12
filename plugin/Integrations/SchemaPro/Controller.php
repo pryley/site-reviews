@@ -14,21 +14,22 @@ class Controller extends BaseController
      */
     public function displaySettingNotice()
     {
-        if (!$this->isReviewAdminPage() || 'schema_pro' !== glsr_get_option('schema.integration.plugin')) {
+        if (!$this->isReviewAdminPage()) {
             return;
         }
         $settings = \BSF_AIOSRS_Pro_Helper::$settings['aiosrs-pro-settings'];
-        if ('footer' !== Arr::get($settings, 'schema-location')) {
-            $message = sprintf(_x('Please go to the %sSchema Pro plugin settings%s page and change the "%s" option to "%s".', 'admin-text', 'site-reviews'),
-                sprintf('<a href="%s" target="_blank">', admin_url('options-general.php?page=aiosrs_pro_admin_menu_page&action=wpsp-advanced-settings')),
-                '</a>',
-                sprintf('<strong>%s</strong>', esc_html__('Add Schema Code In', 'wp-schema-pro')),
-                sprintf('<strong>%s</strong>', esc_html__('Footer', 'wp-schema-pro'))
-            );
-            glsr(Notice::class)->addError($message, [
-                _x('The Schema Pro integration with Site Reviews will only work if the schema is loaded in the Footer location.', 'admin-text', 'site-reviews'),
-            ]);
+        if ('footer' === Arr::get($settings, 'schema-location')) {
+            return;
         }
+        $message = sprintf(_x('Please go to the %sSchema Pro plugin settings%s page and change the "%s" option to "%s".', 'admin-text', 'site-reviews'),
+            sprintf('<a href="%s" target="_blank">', admin_url('options-general.php?page=aiosrs_pro_admin_menu_page&action=wpsp-advanced-settings')),
+            '</a>',
+            sprintf('<strong>%s</strong>', esc_html__('Add Schema Code In', 'wp-schema-pro')),
+            sprintf('<strong>%s</strong>', esc_html__('Footer', 'wp-schema-pro'))
+        );
+        glsr(Notice::class)->addError($message, [
+            _x('The Schema Pro integration with Site Reviews will only work if the schema is loaded in the Footer location.', 'admin-text', 'site-reviews'),
+        ]);
     }
 
     /**
@@ -36,9 +37,6 @@ class Controller extends BaseController
      */
     public function filterSchema(array $schema): array
     {
-        if ('schema_pro' !== glsr_get_option('schema.integration.plugin')) {
-            return $schema;
-        }
         $schemas = glsr()->filterArray('schema/all', glsr()->retrieve('schemas', []));
         if (empty($schemas)) {
             return $schema;
@@ -67,9 +65,6 @@ class Controller extends BaseController
      */
     public function onReviewCreated(Review $review)
     {
-        if ('schema_pro' !== glsr_get_option('schema.integration.plugin')) {
-            return;
-        }
         foreach ($review->assigned_posts as $postId) {
             delete_post_meta($postId, BSF_AIOSRS_PRO_CACHE_KEY);
         }

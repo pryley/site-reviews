@@ -26,7 +26,10 @@ class Hooks implements HooksContract
         if (!defined('BSF_AIOSRS_PRO_CACHE_KEY') || !class_exists('BSF_AIOSRS_Pro_Helper')) {
             return;
         }
-        $types = Arr::consolidate(glsr_get_option('settings.schema.integration.type'));
+        if ('schema_pro' !== glsr_get_option('schema.integration.plugin')) {
+            return;
+        }
+        $types = Arr::consolidate(glsr_get_option('schema.integration.type'));
         foreach ($types as $type) {
             $type = Str::snakeCase($type);
             add_filter('wp_schema_pro_schema_'.$type, [$this->controller, 'filterSchema']);
