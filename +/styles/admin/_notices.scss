@@ -2,8 +2,8 @@
 // Partials -> Notices
 // =============================================================================
 
-[class*="site-review-welcome"] div.notice:not(.glsr-notice):not(.settings-error):not(#message):not(#local-storage-notice),
-[class*="post-type-site-review"] div.notice:not(.glsr-notice):not(.settings-error):not(#message):not(#local-storage-notice) {
+[class*="site-review-welcome"] div.notice:not(.glsr-notice):not(.settings-error):not(.notice-error):not(#message):not(#local-storage-notice),
+[class*="post-type-site-review"] div.notice:not(.glsr-notice):not(.settings-error):not(.notice-error):not(#message):not(#local-storage-notice) {
     display: none;
 }
 [class*="post-type-site-review"] .notice {
