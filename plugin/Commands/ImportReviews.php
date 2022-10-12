@@ -139,7 +139,9 @@ class ImportReviews extends Upload implements Contract
             return $this->importRecords($records);
         } catch (UnableToProcessCsv $e) {
             glsr(Notice::class)->addError($e->getMessage(), [
-                '👉🏼 '._x('Does the CSV file include the required columns?', 'admin-text', 'site-reviews'),
+                '👉🏼 '._x('Does the CSV file include all required columns?', 'admin-text', 'site-reviews'),
+                '👉🏼 '._x('Have you named all of the columns in the CSV file?', 'admin-text', 'site-reviews'),
+                '👉🏼 '._x('Have you removed all empty columns from the CSV file?', 'admin-text', 'site-reviews'),
                 '👉🏼 '._x('Is the CSV file encoded as UTF-8?', 'admin-text', 'site-reviews'),
                 '👉🏼 '._x('Is the selected delimiter correct?', 'admin-text', 'site-reviews'),
             ]);

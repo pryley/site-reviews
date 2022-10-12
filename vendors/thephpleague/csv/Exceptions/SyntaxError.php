@@ -40,7 +40,7 @@ class SyntaxError extends UnableToProcessCsv
 
     public static function dueToInvalidHeaderColumnNames()
     {
-        return new self('The header record contains non string colum names.');
+        return new self('The header record contains non string column names.');
     }
 
     public static function dueToDuplicateHeaderColumnNames(array $header)

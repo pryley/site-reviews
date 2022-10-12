@@ -1674,49 +1674,59 @@ msgstr ""
 
 #: plugin/Commands/ImportReviews.php:142
 msgctxt "admin-text"
-msgid "Does the CSV file include the required columns?"
+msgid "Does the CSV file include all required columns?"
 msgstr ""
 
 #: plugin/Commands/ImportReviews.php:143
 msgctxt "admin-text"
-msgid "Is the CSV file encoded as UTF-8?"
+msgid "Have you named all of the columns in the CSV file?"
 msgstr ""
 
 #: plugin/Commands/ImportReviews.php:144
 msgctxt "admin-text"
+msgid "Have you removed all empty columns from the CSV file?"
+msgstr ""
+
+#: plugin/Commands/ImportReviews.php:145
+msgctxt "admin-text"
+msgid "Is the CSV file encoded as UTF-8?"
+msgstr ""
+
+#: plugin/Commands/ImportReviews.php:146
+msgctxt "admin-text"
 msgid "Is the selected delimiter correct?"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:175
+#: plugin/Commands/ImportReviews.php:177
 msgctxt "admin-text"
 msgid "%s review was imported."
 msgid_plural "%s reviews were imported."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ImportReviews.php:183
+#: plugin/Commands/ImportReviews.php:185
 msgctxt "admin-text"
 msgid "%s entry was skipped."
 msgid_plural "%s entries were skipped."
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Commands/ImportReviews.php:186
+#: plugin/Commands/ImportReviews.php:188
 msgctxt "admin-text"
 msgid "See the %s for more details."
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:189, plugin/Controllers/MenuController.php:168
+#: plugin/Commands/ImportReviews.php:191, plugin/Controllers/MenuController.php:168
 msgctxt "admin-text"
 msgid "Console"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:210
+#: plugin/Commands/ImportReviews.php:212
 msgctxt "admin-text"
 msgid "wrong date format"
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:211
+#: plugin/Commands/ImportReviews.php:213
 msgctxt "admin-text"
 msgid "empty or invalid rating"
 msgstr ""

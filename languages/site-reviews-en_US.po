@@ -2072,49 +2072,59 @@ msgstr ""
 
 #: plugin/Commands/ImportReviews.php:142
 msgctxt "admin-text"
-msgid "Does the CSV file include the required columns?"
-msgstr "Does the CSV file include the required columns?"
+msgid "Does the CSV file include all required columns?"
+msgstr "Does the CSV file include all required columns?"
 
 #: plugin/Commands/ImportReviews.php:143
+msgctxt "admin-text"
+msgid "Have you named all of the columns in the CSV file?"
+msgstr "Have you named all of the columns in the CSV file?"
+
+#: plugin/Commands/ImportReviews.php:144
+msgctxt "admin-text"
+msgid "Have you removed all empty columns from the CSV file?"
+msgstr "Have you removed all empty columns from the CSV file?"
+
+#: plugin/Commands/ImportReviews.php:145
 msgctxt "admin-text"
 msgid "Is the CSV file encoded as UTF-8?"
 msgstr "Is the CSV file encoded as UTF-8?"
 
-#: plugin/Commands/ImportReviews.php:144
+#: plugin/Commands/ImportReviews.php:146
 msgctxt "admin-text"
 msgid "Is the selected delimiter correct?"
 msgstr "Is the selected delimiter correct?"
 
-#: plugin/Commands/ImportReviews.php:175
+#: plugin/Commands/ImportReviews.php:177
 msgctxt "admin-text"
 msgid "%s review was imported."
 msgid_plural "%s reviews were imported."
 msgstr[0] "%s review was imported."
 msgstr[1] "%s reviews were imported."
 
-#: plugin/Commands/ImportReviews.php:183
+#: plugin/Commands/ImportReviews.php:185
 msgctxt "admin-text"
 msgid "%s entry was skipped."
 msgid_plural "%s entries were skipped."
 msgstr[0] "%s entry was skipped."
 msgstr[1] "%s entries were skipped."
 
-#: plugin/Commands/ImportReviews.php:186
+#: plugin/Commands/ImportReviews.php:188
 msgctxt "admin-text"
 msgid "See the %s for more details."
 msgstr "See the %s for more details."
 
-#: plugin/Commands/ImportReviews.php:189, plugin/Controllers/MenuController.php:168
+#: plugin/Commands/ImportReviews.php:191, plugin/Controllers/MenuController.php:168
 msgctxt "admin-text"
 msgid "Console"
 msgstr "Console"
 
-#: plugin/Commands/ImportReviews.php:210
+#: plugin/Commands/ImportReviews.php:212
 msgctxt "admin-text"
 msgid "wrong date format"
 msgstr "wrong date format"
 
-#: plugin/Commands/ImportReviews.php:211
+#: plugin/Commands/ImportReviews.php:213
 msgctxt "admin-text"
 msgid "empty or invalid rating"
 msgstr "empty or invalid rating"
