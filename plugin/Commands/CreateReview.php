@@ -175,12 +175,12 @@ class CreateReview implements Contract
         if ($review = glsr(ReviewManager::class)->create($this)) {
             $this->message = $review->is_approved
                 ? __('Your review has been submitted!', 'site-reviews')
-                : __('Your review has been submitted and is pending approval.', 'site-reviews');
+                : __('Your review has been submitted, and is pending approval.', 'site-reviews');
             $this->review = $review; // overwrite the dummy review with the submitted review
             return;
         }
         $this->errors = [];
-        $this->message = __('Your review could not be submitted and the error has been logged. Please notify the site administrator.', 'site-reviews');
+        $this->message = __('Your review could not be submitted, and the error has been logged. Please notify the site administrator.', 'site-reviews');
     }
 
     /**

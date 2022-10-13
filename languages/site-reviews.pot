@@ -1448,7 +1448,7 @@ msgctxt "admin-text"
 msgid "There was an error (try reloading the page)."
 msgstr ""
 
-#: plugin/Router.php:161, views/pages/documentation/support/common-problems-and-solutions.php:60
+#: plugin/Router.php:161, views/pages/documentation/support/common-problems-and-solutions.php:61
 msgid "The form could not be submitted. Please notify the site administrator."
 msgstr ""
 
@@ -1611,11 +1611,11 @@ msgid "Your review has been submitted!"
 msgstr ""
 
 #: plugin/Commands/CreateReview.php:178
-msgid "Your review has been submitted and is pending approval."
+msgid "Your review has been submitted, and is pending approval."
 msgstr ""
 
-#: plugin/Commands/CreateReview.php:183, views/pages/documentation/support/common-problems-and-solutions.php:80
-msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
+#: plugin/Commands/CreateReview.php:183, views/pages/documentation/support/common-problems-and-solutions.php:87
+msgid "Your review could not be submitted, and the error has been logged. Please notify the site administrator."
 msgstr ""
 
 #: plugin/Commands/EnqueueAdminAssets.php:23
@@ -3724,12 +3724,22 @@ msgstr ""
 msgid "Write review"
 msgstr ""
 
-#: plugin/Integrations/SchemaPro/Controller.php:22
+#: plugin/Integrations/SASWP/Controller.php:23
+msgctxt "admin-text"
+msgid "Please go to the %sSchema & Structured Data plugin settings%s page and enable the \"%s\" option."
+msgstr ""
+
+#: plugin/Integrations/SASWP/Controller.php:29
+msgctxt "admin-text"
+msgid "The Schema & Structured Data integration with Site Reviews will only work if the schema markup is added to the footer."
+msgstr ""
+
+#: plugin/Integrations/SchemaPro/Controller.php:24
 msgctxt "admin-text"
 msgid "Please go to the %sSchema Pro plugin settings%s page and change the \"%s\" option to \"%s\"."
 msgstr ""
 
-#: plugin/Integrations/SchemaPro/Controller.php:29
+#: plugin/Integrations/SchemaPro/Controller.php:31
 msgctxt "admin-text"
 msgid "The Schema Pro integration with Site Reviews will only work if the schema is loaded in the Footer location."
 msgstr ""
@@ -3739,11 +3749,11 @@ msgctxt "admin-text"
 msgid "View the review in WordPress &rarr;"
 msgstr ""
 
-#: plugin/Modules/Validator/AkismetValidator.php:48, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:76
+#: plugin/Modules/Validator/AkismetValidator.php:48, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:81
 msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr ""
 
-#: plugin/Modules/Validator/BlacklistValidator.php:36, views/pages/documentation/support/common-problems-and-solutions.php:72
+#: plugin/Modules/Validator/BlacklistValidator.php:36, views/pages/documentation/support/common-problems-and-solutions.php:75
 msgid "Your review cannot be submitted at this time."
 msgstr ""
 
@@ -3755,7 +3765,7 @@ msgstr ""
 msgid "The CAPTCHA verification failed, please try again."
 msgstr ""
 
-#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:86
+#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:113
 msgid "The review submission failed. Please notify the site administrator."
 msgstr ""
 
@@ -4037,7 +4047,7 @@ msgctxt "admin-text"
 msgid "Download System Info"
 msgstr ""
 
-#: views/pages/welcome/getting-started.php:68, views/pages/documentation/support/get-started.php:30
+#: views/pages/welcome/getting-started.php:68
 msgctxt "admin-text"
 msgid "%s minutes, %s seconds"
 msgstr ""
@@ -4482,7 +4492,7 @@ msgid_plural "{rating} out of {max} stars (based on {num} reviews)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/pages/documentation/support/common-problems-and-solutions.php:90
+#: views/pages/documentation/support/common-problems-and-solutions.php:119
 msgid "Service Unavailable."
 msgstr ""
 
