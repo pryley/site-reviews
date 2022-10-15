@@ -284,17 +284,21 @@ class Updater
     protected function request($action, array $data = [])
     {
         $data = wp_parse_args($data, $this->data);
+        $body = [
+            'edd_action' => $action,
+            'item_id' => '', // we don't have access to the download ID which is why this is empty
+            'item_name' => Arr::get($data, 'TextDomain'), // we are using the slug for the name
+            'license' => Arr::get($data, 'license'),
+            'slug' => Arr::get($data, 'TextDomain'),
+            'url' => Url::home(),
+        ];
         $response = wp_remote_post($this->apiUrl, [
-            'body' => [
-                'edd_action' => $action,
-                'item_id' => '', // we don't have access to the download ID which is why this is empty
-                'item_name' => Arr::get($data, 'TextDomain'), // we are using the slug for the name
-                'license' => Arr::get($data, 'license'),
-                'slug' => Arr::get($data, 'TextDomain'),
-                'url' => Url::home(),
-            ],
+            'body' => $body,
             'timeout' => 15,
         ]);
+        if ('check_license' === $action) {
+            glsr_log()->debug($body);
+        }
         return $this->normalizeResponse($response);
     }
 
