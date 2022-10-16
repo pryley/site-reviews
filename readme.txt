@@ -4,7 +4,7 @@ Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.0
 Requires at least: 5.8
-Stable tag: 6.1.1
+Stable tag: 6.1.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,13 @@ All documentation can be found in the "Help" page of the plugin. If your questio
 This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a few potentially breaking changes, so please make sure to read the plugin changelog and Upgrade Guide after upgrading.
 
 == Changelog ==
+
+= 6.1.2 (2022-10-16) =
+
+- Added a notice when integrating with "Schema and Structured Data plugin" to load schema markup in the footer
+- Fixed a possible issue with saving add-on licenses (hopefully!)
+- Fixed Schema Pro integration
+- Improved documentaton
 
 = 6.1.1 (2022-10-12) =
 

@@ -29,7 +29,7 @@ class Hooks implements HooksContract
         if ('schema_pro' !== glsr_get_option('schema.integration.plugin')) {
             return;
         }
-        $types = Arr::consolidate(glsr_get_option('schema.integration.type'));
+        $types = Arr::consolidate(glsr_get_option('schema.integration.types'));
         foreach ($types as $type) {
             $type = Str::snakeCase($type);
             add_filter('wp_schema_pro_schema_'.$type, [$this->controller, 'filterSchema']);

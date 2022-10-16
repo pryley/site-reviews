@@ -3859,7 +3859,7 @@ msgstr ""
 
 #: views/pages/settings/licenses.php:7
 msgctxt "<a>|</a> (admin-text)"
-msgid "You need to authorize your website with the license before you can save it here. To do this, go to the %sLicense Keys%s page on your Nifty Plugins account and click the \"Manage Sites\" button."
+msgid "Make sure to authorize your website with the license before saving it here. To do this, go to the %sLicense Keys%s page on your Nifty Plugins account and click the \"Manage Sites\" button."
 msgstr ""
 
 #: views/pages/settings/reviews.php:3

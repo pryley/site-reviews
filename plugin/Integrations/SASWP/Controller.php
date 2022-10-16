@@ -23,7 +23,7 @@ class Controller extends BaseController
         $message = sprintf(_x('Please go to the %sSchema & Structured Data plugin settings%s page and enable the "%s" option.', 'admin-text', 'site-reviews'),
             sprintf('<a href="%s" target="_blank">', admin_url('admin.php?page=structured_data_options&tab=tools')),
             '</a>',
-            '<strong>Add Schema Markup in footer</strong>',
+            '<strong>Add Schema Markup in footer</strong>'
         );
         glsr(Notice::class)->addError($message, [
             _x('The Schema & Structured Data integration with Site Reviews will only work if the schema markup is added to the footer.', 'admin-text', 'site-reviews'),
