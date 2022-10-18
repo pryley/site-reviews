@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\License;
 use GeminiLabs\SiteReviews\Modules\Translation;
 
 class Settings
@@ -115,6 +116,7 @@ class Settings
             'context' => [
                 'rows' => $this->getSettingRows($fields),
             ],
+            'license' => glsr(License::class)->status(),
         ];
     }
 

@@ -15,6 +15,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Install;
+use GeminiLabs\SiteReviews\License;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
@@ -223,11 +224,11 @@ class AdminController extends Controller
         if (!Str::startsWith($typenow, glsr()->post_type)) {
             return;
         }
-        $licenses = array_filter(glsr_get_option('licenses', [], 'array'));
+        $license = glsr(License::class)->status();
         $screen = glsr_current_screen();
         glsr()->render('views/partials/page-header', [
             'hasNewButton' => in_array($screen->base, ['edit', 'post']),
-            'hasPremiumButton' => Helper::ifTrue(empty($licenses), 'no', 'yes'),
+            'hasPremiumButton' => !$license['isValid'] || !$license['isSaved'],
             'hasScreenOptions' => in_array($screen->base, ['edit', 'edit-tags']),
             'logo' => file_get_contents(glsr()->path('assets/images/logo.svg')),
             'newText' => Arr::get($post_type_object, 'labels.add_new'),

@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\License;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Queue;
@@ -162,7 +163,7 @@ class NoticeController extends Controller
         if (!Str::startsWith(glsr_current_screen()->post_type, glsr()->post_type)) {
             return;
         }
-        $licensing = $this->licensing();
+        $licensing = glsr(License::class)->status();
         $isNewVersion = Helper::isGreaterThan($this->getVersionFor('premium'), $this->getUserMeta('premium', 0));
         $isUnsavedLicense = glsr()->can('edit_others_posts') && !$licensing['isSaved'];
         if ($licensing['isFree']) {
