@@ -94,10 +94,10 @@ class Router
     protected function getRequest()
     {
         $request = Helper::filterInputArray(glsr()->id);
-        if (Helper::filterInput('action') == glsr()->prefix.'action') {
+        if (Helper::filterInput('action') === glsr()->prefix.'action') {
             $request['_ajax_request'] = true;
         }
-        if ('submit-review' == Helper::filterInput('_action', $request)) {
+        if ('submit-review' === Helper::filterInput('_action', $request)) {
             $request['_frcaptcha'] = Helper::filterInput('frc-captcha-solution');
             $request['_hcaptcha'] = Helper::filterInput('h-captcha-response');
             $request['_recaptcha'] = Helper::filterInput('g-recaptcha-response');
