@@ -343,7 +343,7 @@ class ReviewController extends Controller
      */
     public function sendNotification(Review $review)
     {
-        if (!empty(glsr_get_option('general.notifications'))) {
+        if (!defined('WP_IMPORTING') && !empty(glsr_get_option('general.notifications'))) {
             glsr(Queue::class)->async('queue/notification', ['review_id' => $review->ID]);
         }
     }

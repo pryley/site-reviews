@@ -76,9 +76,7 @@ class ImportReviews extends Upload implements Contract
             || !$this->validateExtension('.csv')) {
             return;
         }
-        glsr()->store('import', true);
         $result = $this->import();
-        glsr()->discard('import');
         if (false !== $result) {
             $this->notify($result);
         }

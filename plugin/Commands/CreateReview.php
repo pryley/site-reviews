@@ -161,7 +161,7 @@ class CreateReview implements Contract
      */
     protected function avatar()
     {
-        if (empty($this->avatar) && !glsr()->retrieveAs('bool', 'import')) {
+        if (!defined('WP_IMPORTING') && empty($this->avatar)) {
             return glsr(Avatar::class)->generate($this->review);
         }
         return $this->avatar;

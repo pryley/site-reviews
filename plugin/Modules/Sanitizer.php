@@ -298,7 +298,7 @@ class Sanitizer
     {
         $user = wp_get_current_user();
         $value = $this->sanitizeEmail($value);
-        if ($user->exists() && !glsr()->retrieveAs('bool', 'import', false)) {
+        if (!defined('WP_IMPORTING') && $user->exists()) {
             return Helper::ifEmpty($value, $user->user_email);
         }
         return $value;
@@ -314,7 +314,7 @@ class Sanitizer
         if (false !== $user) {
             return (int) $user->ID;
         }
-        if (glsr()->retrieveAs('bool', 'import', false)) {
+        if (defined('WP_IMPORTING')) {
             return 0;
         }
         return get_current_user_id();
@@ -343,7 +343,7 @@ class Sanitizer
     {
         $user = wp_get_current_user();
         $value = $this->sanitizeText($value);
-        if ($user->exists() && !glsr()->retrieveAs('bool', 'import', false)) {
+        if (!defined('WP_IMPORTING') && $user->exists()) {
             return Helper::ifEmpty($value, $user->display_name);
         }
         return $value;
