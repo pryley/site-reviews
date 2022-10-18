@@ -100,9 +100,15 @@ class Sanitizer
      */
     public function sanitizeDate($value, $fallback = '')
     {
-        $date = strtotime(trim(Cast::toString($value)));
-        if (false !== $date) {
-            return wp_date('Y-m-d H:i:s', $date);
+        $date = trim(Cast::toString($value));
+        $format = 'Y-m-d H:i:s';
+        $formattedDate = \DateTime::createFromFormat($format, $date);
+        if ($formattedDate && $formattedDate->format($format) === $date) {
+            return $date;
+        }
+        $timestamp = strtotime($date);
+        if (false !== $timestamp) {
+            return wp_date('Y-m-d H:i:s', $timestamp);
         }
         return $fallback;
     }
