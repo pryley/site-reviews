@@ -1,5 +1,7 @@
 :--namespace .glsr-loading {
     display: inline-flex;
+    flex-grow: 0;
+    flex-shrink: 0;
     position: relative;
     height: 1em;
     width: 1em;
