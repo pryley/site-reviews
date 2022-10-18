@@ -16,6 +16,10 @@ Notices.prototype = {
         jQuery('html').animate({ scrollTop: 0 }, 500);
     },
 
+    success: function (message) {
+        this.add('<div class="notice notice-success inline is-dismissible"><p>' + message + '</p></div>');
+    },
+
     error: function (message) {
         this.add('<div class="notice notice-error inline is-dismissible"><p>' + message + '</p></div>');
     },

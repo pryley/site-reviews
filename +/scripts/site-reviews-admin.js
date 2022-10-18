@@ -7,6 +7,7 @@ import Event from '@/public/event.js';
 import Filter from '@/admin/filter.js';
 import Filters from '@/admin/filters.js';
 import Forms from '@/admin/forms.js';
+import Import from '@/admin/import.js';
 import Metabox from '@/admin/metabox.js';
 import Notices from '@/admin/notices.js';
 import Pinned from '@/admin/pinned.js';
@@ -66,6 +67,7 @@ jQuery(function ($) {
         new Filter(filterEl);
     })
     new Forms('form.glsr-form');
+    new Import();
     new Metabox();
     new Pinned();
     new Verified();
