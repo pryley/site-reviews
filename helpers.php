@@ -226,15 +226,15 @@ function glsr_set(array $data, $path, $value)
 
 /**
  * @param mixed $rating
- * @param int|null $count
+ * @param int|null $reviews
  * @return string
  */
-function glsr_star_rating($rating, $count = 0, array $args = [])
+function glsr_star_rating($rating, $reviews = 0, array $args = [])
 {
     return glsr(Partial::class)->build('star-rating', [
         'args' => $args,
-        'count' => $count,
         'rating' => $rating,
+        'reviews' => $reviews,
     ]);
 }
 

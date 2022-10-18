@@ -24,7 +24,7 @@ class StarRating implements PartialContract
         $numFull = intval(floor($this->data->rating));
         $numHalf = intval(ceil($this->data->rating - $numFull));
         $numEmpty = max(0, $maxRating - $numFull - $numHalf);
-        $title = $this->data->count > 0
+        $title = $this->data->reviews > 0
             ? __('Rated <strong>%s</strong> out of %s based on %s ratings', 'site-reviews')
             : __('Rated <strong>%s</strong> out of %s', 'site-reviews');
         return glsr(Template::class)->build('templates/rating/stars', [
@@ -35,7 +35,8 @@ class StarRating implements PartialContract
                 'half_stars' => $this->getTemplate('half-star', $numHalf),
                 'prefix' => $this->data->prefix,
                 'rating' => $this->data->rating,
-                'title' => sprintf($title, $this->data->rating, $maxRating, $this->data->count),
+                'reviews' => $this->data->reviews,
+                'title' => sprintf($title, $this->data->rating, $maxRating, $this->data->reviews),
             ],
             'partial' => $this,
         ]);

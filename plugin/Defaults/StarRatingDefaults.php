@@ -12,9 +12,9 @@ class StarRatingDefaults extends Defaults
      */
     public $casts = [
         'args' => 'array',
-        'count' => 'int',
         'prefix' => 'string',
         'rating' => 'float',
+        'reviews' => 'int',
     ];
 
     /**
@@ -24,9 +24,9 @@ class StarRatingDefaults extends Defaults
     {
         return [
             'args' => [],
-            'count' => 0,
             'prefix' => glsr()->isAdmin() ? '' : 'glsr-',
             'rating' => 0,
+            'reviews' => 0,
         ];
     }
 
