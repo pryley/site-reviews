@@ -233,7 +233,7 @@ class CreateReview implements Contract
                 $this->{$key} = $value;
             }
         }
-        if (!empty($this->date)) {
+        if (!empty($this->date) && empty($this->date_gmt)) {
             $this->date_gmt = get_gmt_from_date($this->date); // set the GMT date
         }
     }

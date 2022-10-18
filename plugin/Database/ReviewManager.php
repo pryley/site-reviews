@@ -119,6 +119,8 @@ class ReviewManager
             'post_content' => $values->content,
             'post_date' => $values->date,
             'post_date_gmt' => $values->date_gmt,
+            'post_modified' => $values->date,
+            'post_modified_gmt' => $values->date_gmt,
             'post_name' => uniqid($values->type),
             'post_status' => $this->postStatus($command),
             'post_title' => $values->title,
