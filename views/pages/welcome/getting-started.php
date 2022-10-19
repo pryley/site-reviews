@@ -8,8 +8,8 @@
             <p>If you are using the WordPress blocks editor (also known as Gutenberg), simply add the Site Reviews blocks to your pages.</p>
             <p>If you are using Elementor, you can use the Site Reviews Elementor widgets.</p>
             <p>If you are using the Classic Editor or a page builder plugin like Divi Builder, use the Site Reviews shortcodes. Each shortcode has a bunch of options, and you can learn more about them on the <a href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>">shortcodes documentation</a> page.</p>
-            <p>You can assign reviews to any public page or post type on your website. To do this, use the <a href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>"><code>assigned_posts</code></a> option on the shortcodes, or change the assignment options on the blocks or Elementor widgets. And you're not limited to pages, you can also assign reviews to Users and Categories!</p>
-            <p>Site Reviews comes with tons of plugin settings. Did you know that any Site Reviews text that is visible to your website visitors can easily be changed? <a href="<?= glsr_admin_url('settings', 'strings'); ?>">Check it out</a>!</p>
+            <p>You can assign reviews to any public page or post type on your website. To do this, use the <a href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>"><code>assigned_posts</code></a> option on the shortcodes, or change the assignment options on the blocks or Elementor widgets. And you're not limited to pages; you can also assign reviews to Users and Categories!</p>
+            <p>Site Reviews comes with tons of plugin settings. Did you know that any Site Reviews text visible to your website visitors can easily be changed? <a href="<?= glsr_admin_url('settings', 'strings'); ?>">Check it out</a>!</p>
         </div>
         <div class="column is-edge-to-edge">
             <img class="glsr-screenshot screenshot" src="<?= glsr()->url('assets/images/about/blocks.png'); ?>" alt="Editor Blocks" height="400" width="400" />
@@ -22,7 +22,7 @@
         </div>
         <div class="column is-edge-to-edge">
             <h3>Latest Reviews</h3>
-            <p>This block shows your latest reviews. You can hide any of the fields, change the number of reviews that are displayed, and add pagination or a Load More button. The shortcode for the Latest Reviews is: <a data-expand="#shortcode-site_reviews" href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>"><code>[site_reviews]</code></a></p>
+            <p>This block shows your latest reviews. You can hide any of the fields, change the number of reviews displayed, and add pagination or a Load More button. The shortcode for the Latest Reviews is: <a data-expand="#shortcode-site_reviews" href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>"><code>[site_reviews]</code></a></p>
             <p>Site Reviews can generate Schema Markup to provide additional information about your reviews and ratings to search engines and your users. It can also integrate with other Schema and SEO plugins. Enable the schema option on the block or shortcode to generate the Schema Markup, and enable an integration on the <a href="<?= glsr_admin_url('settings', 'schema'); ?>">Settings page</a>.</p>
         </div>
     </div>
@@ -33,7 +33,7 @@
         </div>
         <div class="column is-edge-to-edge">
             <h3>Rating Summary</h3>
-            <p>This block shows the rating summary of your reviews. You can hide any of the fields, and change the text on the Settings page. The shortcode for the Rating Summary is: <a data-expand="#shortcode-site_reviews_summary" href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>"><code>[site_reviews_summary]</code></a></p>
+            <p>This block shows the rating summary of your reviews. You can hide any of the fields and change the text on the Settings page. The shortcode for the Rating Summary is: <a data-expand="#shortcode-site_reviews_summary" href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>"><code>[site_reviews_summary]</code></a></p>
         </div>
     </div>
 
@@ -43,8 +43,8 @@
         </div>
         <div class="column is-edge-to-edge">
             <h3>Review Form</h3>
-            <p>This block shows the review form. You can hide any of the fields, and change the text on the Settings page. The shortcode for the Review Form is: <a data-expand="#shortcode-site_reviews_form" href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>"><code>[site_reviews_form]</code></a></p>
-            <p>Site Reviews has built-in spam protection to help protect your site from pesky spammers, and allows you to use popular spam fighting methods like Cloudflare Turnstile, Google reCAPTCHA, hCaptcha, FriendlyCaptcha, and Akismet. You can even limit reviews based on email address, IP address, or username, and require approval for all new review submissions. Enable these options and more on the <a href="<?= glsr_admin_url('settings', 'forms'); ?>">Settings page</a>.</p>
+            <p>This block shows the review form. You can hide any of the fields and change the text on the Settings page. The shortcode for the Review Form is: <a data-expand="#shortcode-site_reviews_form" href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>"><code>[site_reviews_form]</code></a></p>
+            <p>Site Reviews has built-in spam protection to help protect your site from pesky spammers and allows you to use popular spam fighting methods like Cloudflare Turnstile, Google reCAPTCHA, hCaptcha, FriendlyCaptcha, and Akismet. You can even limit reviews based on the email address, IP address, or username and require approval for all new review submissions. Enable these options and more on the <a href="<?= glsr_admin_url('settings', 'forms'); ?>">Settings page</a>.</p>
         </div>
     </div>
 
@@ -82,7 +82,7 @@
 
     <div class="about__section is-fullwidth">
         <h3>Level Up With <a href="https://niftyplugins.com/plugins/site-reviews-premium/" target="_blank">Site Reviews Premium</a>!</h3>
-        <p>Site Reviews provides tons of features, possibly more than any other free review plugin.</p>
+        <p>Site Reviews provides tons of features, possibly more than any free review plugin.</p>
         <p>However, if you purchase Site Reviews Premium, not only will you be supporting the continued development of Site Reviews, but you’ll also get more responsive 24/7 support, and gain access to exclusive features such as <a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">images</a>, <a href="https://niftyplugins.com/plugins/site-reviews-themes/" target="_blank">carousels</a>, <a href="https://niftyplugins.com/plugins/site-reviews-themes/" target="_blank">themes</a>, <a href="https://niftyplugins.com/plugins/site-reviews-filters/" target="_blank">filters</a>, <a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">custom forms</a>, <a href="https://niftyplugins.com/plugins/site-reviews-notifications/" target="_blank">custom notifications</a>, and more!</p>
     </div>
 </div>
