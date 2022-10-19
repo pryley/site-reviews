@@ -9,13 +9,14 @@ use GeminiLabs\SiteReviews\Modules\Honeypot;
 use GeminiLabs\SiteReviews\Modules\Validator\BlacklistValidator;
 use GeminiLabs\SiteReviews\Modules\Validator\CustomValidator;
 use GeminiLabs\SiteReviews\Modules\Validator\DefaultValidator;
+use GeminiLabs\SiteReviews\Modules\Validator\DuplicateValidator;
 use GeminiLabs\SiteReviews\Modules\Validator\HoneypotValidator;
 use GeminiLabs\SiteReviews\Modules\Validator\PermissionValidator;
 use GeminiLabs\SiteReviews\Modules\Validator\ReviewLimitsValidator;
 use GeminiLabs\SiteReviews\Request;
-use WP_Ajax_UnitTestCase;
 use WPAjaxDieContinueException;
 use WPAjaxDieStopException;
+use WP_Ajax_UnitTestCase;
 
 class ValidationTest extends WP_Ajax_UnitTestCase
 {
@@ -53,6 +54,7 @@ class ValidationTest extends WP_Ajax_UnitTestCase
             'title' => '',
         ]);
         $this->messageFailed = 'The review submission failed. Please notify the site administrator.';
+        $this->messageFailedDuplicate = 'Duplicate review detected. It looks like you already said that!';
         $this->messageFailedHoneypot = 'This review has been flagged as possible spam and cannot be submitted.';
         $this->messageFailedBlacklist = 'Your review cannot be submitted at this time.';
         $this->messageFailedCustom = 'Bad review.';
@@ -133,6 +135,17 @@ class ValidationTest extends WP_Ajax_UnitTestCase
         $this->assertCount(6, (array) $response1->data->errors);
         $this->assertEquals($response1->data->message, $this->messageFailedValidation);
         $this->assertEquals($response2->data->message, $this->messageSuccess);
+    }
+
+    public function test_duplicate_validation()
+    {
+        add_filter('site-reviews/validators', function () {
+            return [DuplicateValidator::class];
+        });
+        $response1 = $this->assertJsonSuccess($this->request());
+        $response2 = $this->assertJsonError($this->request());
+        $this->assertEquals($response1->data->message, $this->messageSuccess);
+        $this->assertEquals($response2->data->message, $this->messageFailedDuplicate);
     }
 
     public function test_multiple_validation()

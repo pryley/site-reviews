@@ -180,6 +180,14 @@ trait Sql
     /**
      * @return string
      */
+    protected function clauseAndContent()
+    {
+        return $this->clauseIfValueNotEmpty('AND p.post_content = %s', $this->args['content']);
+    }
+
+    /**
+     * @return string
+     */
     protected function clauseAndDate()
     {
         $clauses = [];
@@ -368,6 +376,18 @@ trait Sql
         return $this->clauseIfValueNotEmpty(
             "{$this->joinMethod()} {$this->table('assigned_users')} AS aut ON r.ID = aut.rating_id",
             $this->args['assigned_users'],
+            $prepare = false
+        );
+    }
+
+    /**
+     * @return string
+     */
+    protected function clauseJoinContent()
+    {
+        return $this->clauseIfValueNotEmpty(
+            "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID",
+            $this->args['content'],
             $prepare = false
         );
     }

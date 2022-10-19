@@ -207,6 +207,7 @@
     site-reviews/validate/akismet/submission                (array $submission, Request $request): array
     site-reviews/validate/blacklist                         (bool $isValid, string $target, Request $request): bool
     site-reviews/validate/custom                            (bool $isValid, Request $request): bool|string
+    site-reviews/validate/duplicate                         (bool $isValid, Request $request): bool
     site-reviews/validate/honeypot                          (bool $isValid, Request $request): bool
     site-reviews/validate/review-limits                     (bool $isValid, Reviews $reviews, Request $request, string $key): bool
     site-reviews/validation/rules                           (array $rules, Request $request): array

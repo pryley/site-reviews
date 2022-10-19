@@ -92,15 +92,15 @@ msgstr "This review is based on my own experience and is my genuine opinion."
 msgid "Show more"
 msgstr "Show more"
 
-#: plugin/Commands/CreateReview.php:177
+#: plugin/Commands/CreateReview.php:194
 msgid "Your review has been submitted!"
 msgstr "Your review has been submitted!"
 
-#: plugin/Commands/CreateReview.php:178
+#: plugin/Commands/CreateReview.php:195
 msgid "Your review has been submitted, and is pending approval."
 msgstr "Your review has been submitted, and is pending approval."
 
-#: plugin/Commands/CreateReview.php:183, views/pages/documentation/support/common-problems-and-solutions.php:87
+#: plugin/Commands/CreateReview.php:200, views/pages/documentation/support/common-problems-and-solutions.php:87
 msgid ""
 "Your review could not be submitted, and the error has been logged. Please "
 "notify the site administrator."
@@ -144,7 +144,7 @@ msgstr "This field must have between %s and %s characters."
 msgid "This field requires a valid e-mail address."
 msgstr "This field requires a valid e-mail address."
 
-#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/DefaultValidator.php:49
+#: plugin/Defaults/ValidationStringsDefaults.php:19, plugin/Modules/Validator/DefaultValidator.php:33
 msgid "Please fix the submission errors."
 msgstr "Please fix the submission errors."
 
@@ -339,6 +339,10 @@ msgstr "The CAPTCHA verification failed, please try again."
 #: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:113
 msgid "The review submission failed. Please notify the site administrator."
 msgstr "The review submission failed. Please notify the site administrator."
+
+#: plugin/Modules/Validator/DuplicateValidator.php:35
+msgid "Duplicate review detected. It looks like you already said that!"
+msgstr "Duplicate review detected. It looks like you already said that!"
 
 #: plugin/Modules/Validator/PermissionValidator.php:26
 msgid "You must be logged in to submit a review."
@@ -1982,12 +1986,12 @@ msgctxt "admin-text"
 msgid "Untitled"
 msgstr "Untitled"
 
-#: plugin/Addons/Controller.php:77, plugin/Controllers/AdminController.php:47, plugin/Controllers/MenuController.php:52, plugin/Integrations/Elementor/ElementorWidget.php:136, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
+#: plugin/Addons/Controller.php:77, plugin/Controllers/AdminController.php:48, plugin/Controllers/MenuController.php:52, plugin/Integrations/Elementor/ElementorWidget.php:136, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
 msgctxt "admin-text"
 msgid "Settings"
 msgstr "Settings"
 
-#: plugin/Addons/Controller.php:84, plugin/Controllers/AdminController.php:53
+#: plugin/Addons/Controller.php:84, plugin/Controllers/AdminController.php:54
 msgctxt "admin-text"
 msgid "Help"
 msgstr "Help"
@@ -2052,7 +2056,7 @@ msgctxt "admin-text"
 msgid "No reviews found."
 msgstr "No reviews found."
 
-#: plugin/Commands/ImportReviews.php:97
+#: plugin/Commands/ImportReviews.php:95
 msgctxt "admin-text"
 msgid ""
 "Cannot detect the delimiter used in the CSV file (supported delimiters are "
@@ -2061,7 +2065,7 @@ msgstr ""
 "Cannot detect the delimiter used in the CSV file (supported delimiters are "
 "comma and semicolon)."
 
-#: plugin/Commands/ImportReviews.php:129
+#: plugin/Commands/ImportReviews.php:127
 msgctxt "admin-text"
 msgid ""
 "The CSV file could not be imported. Please verify the following details and "
@@ -2070,61 +2074,61 @@ msgstr ""
 "The CSV file could not be imported. Please verify the following details and "
 "try again:"
 
-#: plugin/Commands/ImportReviews.php:142
+#: plugin/Commands/ImportReviews.php:140
 msgctxt "admin-text"
 msgid "Does the CSV file include all required columns?"
 msgstr "Does the CSV file include all required columns?"
 
-#: plugin/Commands/ImportReviews.php:143
+#: plugin/Commands/ImportReviews.php:141
 msgctxt "admin-text"
 msgid "Have you named all of the columns in the CSV file?"
 msgstr "Have you named all of the columns in the CSV file?"
 
-#: plugin/Commands/ImportReviews.php:144
+#: plugin/Commands/ImportReviews.php:142
 msgctxt "admin-text"
 msgid "Have you removed all empty columns from the CSV file?"
 msgstr "Have you removed all empty columns from the CSV file?"
 
-#: plugin/Commands/ImportReviews.php:145
+#: plugin/Commands/ImportReviews.php:143
 msgctxt "admin-text"
 msgid "Is the CSV file encoded as UTF-8?"
 msgstr "Is the CSV file encoded as UTF-8?"
 
-#: plugin/Commands/ImportReviews.php:146
+#: plugin/Commands/ImportReviews.php:144
 msgctxt "admin-text"
 msgid "Is the selected delimiter correct?"
 msgstr "Is the selected delimiter correct?"
 
-#: plugin/Commands/ImportReviews.php:177
+#: plugin/Commands/ImportReviews.php:175
 msgctxt "admin-text"
 msgid "%s review was imported."
 msgid_plural "%s reviews were imported."
 msgstr[0] "%s review was imported."
 msgstr[1] "%s reviews were imported."
 
-#: plugin/Commands/ImportReviews.php:185
+#: plugin/Commands/ImportReviews.php:183
 msgctxt "admin-text"
 msgid "%s entry was skipped."
 msgid_plural "%s entries were skipped."
 msgstr[0] "%s entry was skipped."
 msgstr[1] "%s entries were skipped."
 
-#: plugin/Commands/ImportReviews.php:188
+#: plugin/Commands/ImportReviews.php:186
 msgctxt "admin-text"
 msgid "See the %s for more details."
 msgstr "See the %s for more details."
 
-#: plugin/Commands/ImportReviews.php:191, plugin/Controllers/MenuController.php:168
+#: plugin/Commands/ImportReviews.php:189, plugin/Controllers/MenuController.php:168
 msgctxt "admin-text"
 msgid "Console"
 msgstr "Console"
 
-#: plugin/Commands/ImportReviews.php:212
+#: plugin/Commands/ImportReviews.php:210
 msgctxt "admin-text"
 msgid "wrong date format"
 msgstr "wrong date format"
 
-#: plugin/Commands/ImportReviews.php:213
+#: plugin/Commands/ImportReviews.php:211
 msgctxt "admin-text"
 msgid "empty or invalid rating"
 msgstr "empty or invalid rating"
@@ -2178,39 +2182,39 @@ msgctxt "admin-text"
 msgid "Review unverified."
 msgstr "Review unverified."
 
-#: plugin/Controllers/AdminController.php:104
+#: plugin/Controllers/AdminController.php:105
 msgctxt "admin-text"
 msgid "%s Review"
 msgid_plural "%s Reviews"
 msgstr[0] "%s Review"
 msgstr[1] "%s Reviews"
 
-#: plugin/Controllers/AdminController.php:144, views/pages/tools/console.php:50
+#: plugin/Controllers/AdminController.php:145, views/pages/tools/console.php:50
 msgctxt "admin-text"
 msgid "Apply"
 msgstr "Apply"
 
-#: plugin/Controllers/AdminController.php:148
+#: plugin/Controllers/AdminController.php:149
 msgctxt "admin-text"
 msgid "Close Panel"
 msgstr "Close Panel"
 
-#: plugin/Controllers/AdminController.php:210, plugin/Widgets/SiteReviewsWidget.php:113
+#: plugin/Controllers/AdminController.php:211, plugin/Widgets/SiteReviewsWidget.php:113
 msgctxt "admin-text"
 msgid "Recent Reviews"
 msgstr "Recent Reviews"
 
-#: plugin/Controllers/AdminController.php:211
+#: plugin/Controllers/AdminController.php:212
 msgctxt "admin-text"
 msgid "Submit a Review"
 msgstr "Submit a Review"
 
-#: plugin/Controllers/AdminController.php:212, plugin/Widgets/SiteReviewsSummaryWidget.php:81
+#: plugin/Controllers/AdminController.php:213, plugin/Widgets/SiteReviewsSummaryWidget.php:81
 msgctxt "admin-text"
 msgid "Summary of Reviews"
 msgstr "Summary of Reviews"
 
-#: plugin/Controllers/AdminController.php:325, plugin/Controllers/AdminController.php:344, plugin/Controllers/AdminController.php:358
+#: plugin/Controllers/AdminController.php:326, plugin/Controllers/AdminController.php:345, plugin/Controllers/AdminController.php:359
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr "Nothing found."
@@ -2474,7 +2478,7 @@ msgctxt "admin-text"
 msgid "Yes"
 msgstr "Yes"
 
-#: plugin/Controllers/NoticeController.php:202
+#: plugin/Controllers/NoticeController.php:203
 msgctxt "admin-text"
 msgid "Common Problems and Solutions"
 msgstr "Common Problems and Solutions"
@@ -5336,7 +5340,7 @@ msgctxt "plugin name (admin-text)"
 msgid "Schema Pro"
 msgstr "Schema Pro"
 
-#: plugin/Controllers/NoticeController.php:219
+#: plugin/Controllers/NoticeController.php:220
 msgctxt "plugin name (admin-text)"
 msgid "Thank you for installing %s! I hope you love it."
 msgstr "Thank you for installing %s! I hope you love it."
@@ -5448,7 +5452,7 @@ msgctxt "Approve the review (admin-text)"
 msgid "%s this review"
 msgstr "%s this review"
 
-#: plugin/Controllers/NoticeController.php:94, plugin/Controllers/NoticeController.php:246
+#: plugin/Controllers/NoticeController.php:95, plugin/Controllers/NoticeController.php:247
 msgctxt "Site Reviews (admin-text)"
 msgid "Are you happy with %s?"
 msgstr "Are you happy with %s?"
@@ -5458,12 +5462,12 @@ msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr "Sorry, you are not allowed to rollback %s."
 
-#: plugin/Controllers/NoticeController.php:95, plugin/Controllers/NoticeController.php:247
+#: plugin/Controllers/NoticeController.php:96, plugin/Controllers/NoticeController.php:248
 msgctxt "★★★★★ (admin-text)"
 msgid "Please rate %s on WordPress and let other people know about it."
 msgstr "Please rate %s on WordPress and let other people know about it."
 
-#: plugin/Controllers/NoticeController.php:224
+#: plugin/Controllers/NoticeController.php:225
 msgctxt "plugin name|version (admin-text)"
 msgid "Thank you for updating %s to %s! I hope you love the improvements."
 msgstr "Thank you for updating %s to %s! I hope you love the improvements."
@@ -5716,7 +5720,7 @@ msgctxt "1 point for ... 1 time"
 msgid "writing a review"
 msgstr "writing a review"
 
-#: views/pages/settings/licenses.php:7
+#: views/pages/settings/licenses.php:8
 msgctxt "<a>|</a> (admin-text)"
 msgid ""
 "Make sure to authorize your website with the license before saving it here. "

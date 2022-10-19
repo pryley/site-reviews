@@ -11,6 +11,7 @@ class ReviewsDefaults extends Defaults
      * @var array
      */
     public $casts = [
+        'content' => 'string',
         'ip_address' => 'string',
         'offset' => 'int',
         'order' => 'string',
@@ -44,6 +45,7 @@ class ReviewsDefaults extends Defaults
         'assigned_posts' => 'post-ids',
         'assigned_terms' => 'term-ids',
         'assigned_users' => 'user-ids',
+        'content' => 'text-multiline',
         'email' => 'email',
         'post__in' => 'array-int',
         'post__not_in' => 'array-int',
@@ -63,6 +65,7 @@ class ReviewsDefaults extends Defaults
             'assigned_posts_types' => [],
             'assigned_terms' => '',
             'assigned_users' => '',
+            'content' => '',
             'date' => '',
             'email' => '',
             'ip_address' => '',

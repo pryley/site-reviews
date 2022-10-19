@@ -40,6 +40,7 @@ class DefaultsTest extends WP_UnitTestCase
             'assigned_posts_types' => [],
             'assigned_terms' => [$termId],
             'assigned_users' => [$userId],
+            'content' => '',
             'date' => '',
             'email' => '',
             'ip_address' => '',

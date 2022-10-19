@@ -23,6 +23,19 @@ abstract class ValidatorAbstract
     }
 
     /**
+     * @return bool
+     */
+    public function alreadyFailed()
+    {
+        return is_array(glsr()->sessionGet('form_errors'));
+    }
+
+    /**
+     * @return bool
+     */
+    abstract public function isValid();
+
+    /**
      * @return void
      */
     abstract public function performValidation();
@@ -36,14 +49,6 @@ abstract class ValidatorAbstract
             $this->performValidation();
         }
         return $this->request;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function alreadyFailed()
-    {
-        return is_array(glsr()->sessionGet('form_errors'));
     }
 
     /**

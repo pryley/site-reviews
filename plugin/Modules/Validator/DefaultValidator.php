@@ -24,22 +24,6 @@ class DefaultValidator extends ValidatorAbstract
     }
 
     /**
-     * This only validates the provided values in the Request.
-     * @return bool
-     */
-    public function isValidRequest()
-    {
-        $options = glsr(DefaultsManager::class)->pluck('settings.forms.required.options');
-        $excludedKeys = array_keys(array_diff_key($options, $this->request->toArray()));
-        $this->request->excluded = $excludedKeys;
-        if ($this->isValid()) {
-            return true;
-        }
-        glsr_log()->warning($this->errors);
-        return false;
-    }
-
-    /**
      * @return void
      */
     public function performValidation()
