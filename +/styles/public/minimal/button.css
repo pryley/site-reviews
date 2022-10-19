@@ -1,6 +1,6 @@
 :--namespace button.glsr-button {
-    align-items: center;
-    display: flex;
+    align-items: center !important;
+    display: inline-flex !important;
     cursor: pointer;
     white-space: nowrap;
 }
