@@ -96,18 +96,15 @@ class Cache
             ],
         ]);
         if (is_wp_error($response)) {
+            glsr_log()->error($response);
             return [];
         }
-        $versions = array_keys(Arr::consolidate(Arr::get($response, 'versions')));
-        $versions = array_filter($versions, function ($version) {
-            $minorVersion = (float) glsr()->version('minor');
-            $versionLimit = sprintf('%.2f', $minorVersion - .03);
-            $maxLimit = version_compare($version, glsr()->version, '<');
-            $minLimit = version_compare($version, $versionLimit, '>=');
-            return $maxLimit && $minLimit;
-        });
-        natsort($versions);
-        $versions = array_reverse($versions);
+        $versions = Arr::consolidate(Arr::get($response, 'versions'));
+        unset($versions['trunk']);
+        $versions = array_keys(array_reverse($versions));
+        $index = array_search(glsr()->version, $versions);
+        $startIndex = (false === $index) ? 0 : ++$index;
+        $versions = array_slice($versions, $startIndex, 10);
         set_transient(glsr()->prefix.'rollback_versions', $versions, HOUR_IN_SECONDS);
         return $versions;
     }
