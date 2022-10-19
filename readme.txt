@@ -156,30 +156,14 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.1.2 (2022-10-16) =
+= 6.2.0 (2022-10-19) =
 
-- Added a notice when integrating with "Schema and Structured Data plugin" to load schema markup in the footer
-- Fixed a possible issue with saving add-on licenses (hopefully!)
-- Fixed Schema Pro integration
-- Improved documentaton
-
-= 6.1.1 (2022-10-12) =
-
-- Fixed admin page header on mobile devices
-- Fixed links in welcome notice for new users
-- Fixed plugin notices
-
-= 6.1.0 (2022-10-11) =
-
-- Added [Cloudflare Turnstile](https://blog.cloudflare.com/turnstile-private-captcha-alternative/) captcha support
-- Added [RankMath Pro](https://rankmath.com/) integration with the Site Reviews schema
-- Added [Schema and Structured Data for WP](https://structured-data-for-wp.com/) integration with the Site Reviews schema
-- Added [Schema Pro](https://wpschema.com/) integration with the Site Reviews schema
-- Fixed compatibility with the [hCaptcha](https://wordpress.org/plugins/hcaptcha-for-forms-and-more/) plugin
-- Refreshed the design of the admin pages
-- Removed the redirect to welcome page on activation
-- Removed third-party notices from the Site Reviews admin pages
-- Updated the documentation
-- Updated the "Welcome to Site Reviews" page
+- Added a duplicate validator which checks if a review with the same values was already submitted.
+- Disabled notifications when importing reviews
+- Fixed date sanitizer
+- Fixed premium notice displaying for licensed users
+- Fixed size of button loading animation
+- Fixed support for GMT dates when importing reviews
+- Fixed the Rollback Plugin tool
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).
