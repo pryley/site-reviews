@@ -148,6 +148,9 @@ class Captcha {
     }
 
     render_hcaptcha () {
+        if ('undefined' === typeof window[this.captcha].render) {
+            setTimeout(() => this.render_hcaptcha(), 100);
+        }
         this.widget = window[this.captcha].render(this.captchaEl, {
             callback: (token) => this._submitFormWithToken(token),
             'chalexpired-callback': () => this.reset(),
@@ -162,6 +165,9 @@ class Captcha {
     }
 
     render_recaptcha_v3 () {
+        if ('undefined' === typeof window[this.captcha].render) {
+            setTimeout(() => this.render_recaptcha_v3(), 100);
+        }
         this.widget = window[this.captcha].render(this.captchaEl, {
             callback: (token) => this._submitFormWithToken(token),
             'error-callback': () => (this.captchaEl.dataset.error = 1),
