@@ -160,7 +160,7 @@ class Text
         $wordCount = 0;
         foreach ($words as $word) {
             $stringLength += mb_strlen($word);
-            if (\IntlChar::isspace($word) || \IntlChar::ispunct($word)) {
+            if (1 === mb_strlen($word, 'UTF-8') && (\IntlChar::isspace($word) || \IntlChar::ispunct($word))) {
                 continue;
             }
             if (++$wordCount === $limit) {
