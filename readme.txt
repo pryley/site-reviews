@@ -156,14 +156,18 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.2.0 (2022-10-19) =
+= 6.2.0 (2022-11-02) =
 
 - Added a duplicate validator which checks if a review with the same values was already submitted.
+- Added support for [Swift Performance](https://swiftperformance.io/) plugin
 - Disabled notifications when importing reviews
 - Fixed date sanitizer
+- Fixed migrations that update plugin settings
+- Fixed PHP warning when excerpts are generated
 - Fixed premium notice displaying for licensed users
 - Fixed size of button loading animation
 - Fixed support for GMT dates when importing reviews
+- Fixed the reCAPTCHA integrations
 - Fixed the Rollback Plugin tool
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).
