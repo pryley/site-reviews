@@ -107,10 +107,14 @@ class Sanitizer
             return $date;
         }
         $timestamp = strtotime($date);
-        if (false !== $timestamp) {
-            return wp_date('Y-m-d H:i:s', $timestamp);
+        if (false === $timestamp) {
+            return $fallback;
         }
-        return $fallback;
+        $date = wp_date('Y-m-d H:i:s', $timestamp);
+        if (false === $date) {
+            return $fallback;
+        }
+        return $date;
     }
 
     /**
