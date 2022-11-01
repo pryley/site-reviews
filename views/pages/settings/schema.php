@@ -4,7 +4,16 @@
 
 <div class="components-notice is-info" style="margin-left:0;">
     <p class="components-notice__content">
-        <?= _x('The (JSON-LD) schema is disabled by default. To enable it, use the schema option in your blocks or shortcodes.', 'admin-text', 'site-reviews'); ?>
+        <?= _x('<strong>The schema is disabled by default.</strong> Use the schema option in your blocks or shortcodes to enable it.', 'admin-text', 'site-reviews'); ?>
+    </p>
+</div>
+
+<div class="components-notice is-warning" style="background-color:#fff;margin-left:0;">
+    <p class="components-notice__content">
+        <?= sprintf(_x('Google limits the schema types that can trigger review rich results in search. To learn more, please %sread this%s.', 'admin-text', 'site-reviews'),
+            '<a href="https://developers.google.com/search/blog/2019/09/making-review-rich-results-more-helpful" target="_blank">',
+            '</a>'
+        ); ?>
     </p>
 </div>
 
