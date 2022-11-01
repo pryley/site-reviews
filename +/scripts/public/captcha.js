@@ -211,6 +211,7 @@ class Captcha {
         this.captchaEl = dom('div', {
             class: GLSR.captcha.class,
             'data-badge': GLSR.captcha.badge,
+            'data-lang': GLSR.captcha.language,
             'data-isolated': true,
             'data-sitekey': GLSR.captcha.sitekey,
             'data-size': GLSR.captcha.size,

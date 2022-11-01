@@ -20,7 +20,17 @@ class Captcha
         if (!method_exists($this, $method)) {
             return [];
         }
-        return call_user_func([$this, $method]);
+        $config = call_user_func([$this, $method]);
+        return wp_parse_args($config, [
+            'badge' => '',
+            'class' => '',
+            'language' => glsr()->filterString('captcha/language', $this->getLocale()),
+            'sitekey' => '',
+            'size' => '',
+            'theme' => '',
+            'type' => '',
+            'urls' => [],
+        ]);
     }
 
     /**
@@ -53,6 +63,7 @@ class Captcha
 
     /**
      * @return array
+     * @see https://docs.friendlycaptcha.com/
      */
     protected function configFriendlycaptcha()
     {
@@ -70,16 +81,17 @@ class Captcha
 
     /**
      * @return array
+     * @see https://docs.hcaptcha.com/
      */
     protected function configHcaptcha()
     {
-        $urlParameters = [
-            'hl' => glsr()->filterString('captcha/language', get_locale()),
+        $urlParameters = array_filter([
+            'hl' => glsr()->filterString('captcha/language', $this->getLocale()),
             'render' => 'explicit',
-        ];
+        ]);
         return [
-            'class' => 'glsr-h-captcha', // @compat
             'badge' => glsr_get_option('forms.captcha.position'),
+            'class' => 'glsr-h-captcha', // @compat
             'sitekey' => glsr_get_option('forms.hcaptcha.key'),
             'size' => 'normal',
             'theme' => glsr_get_option('forms.captcha.theme'),
@@ -92,16 +104,17 @@ class Captcha
 
     /**
      * @return array
+     * @see https://developers.google.com/recaptcha/docs/invisible
      */
     protected function configRecaptchaV2Invisible()
     {
-        $urlParameters = [
-            'hl' => glsr()->filterString('captcha/language', get_locale()),
+        $urlParameters = array_filter([
+            'hl' => glsr()->filterString('captcha/language', $this->getLocale()),
             'render' => 'explicit',
-        ];
+        ]);
         return [
-            'class' => 'g-recaptcha',
             'badge' => glsr_get_option('forms.captcha.position'),
+            'class' => 'g-recaptcha',
             'sitekey' => glsr_get_option('forms.recaptcha.key'),
             'size' => 'invisible',
             'theme' => glsr_get_option('forms.captcha.theme'),
@@ -114,16 +127,17 @@ class Captcha
 
     /**
      * @return array
+     * @see https://developers.google.com/recaptcha/docs/v3
      */
     protected function configRecaptchaV3()
     {
-        $urlParameters = [
-            'hl' => glsr()->filterString('captcha/language', get_locale()),
+        $urlParameters = array_filter([
+            'hl' => glsr()->filterString('captcha/language', $this->getLocale()),
             'render' => 'explicit',
-        ];
+        ]);
         return [
-            'class' => 'g-recaptcha',
             'badge' => glsr_get_option('forms.captcha.position'),
+            'class' => 'g-recaptcha',
             'sitekey' => glsr_get_option('forms.recaptcha_v3.key'),
             'size' => 'invisible',
             'theme' => glsr_get_option('forms.captcha.theme'),
@@ -136,23 +150,38 @@ class Captcha
 
     /**
      * @return array
+     * @see https://developers.cloudflare.com/turnstile/
      */
     protected function configTurnstile()
     {
-        $urlParameters = [
-            'hl' => glsr()->filterString('captcha/language', get_locale()),
+        $urlParameters = array_filter([
+            'hl' => glsr()->filterString('captcha/language', $this->getLocale()),
             'render' => 'explicit',
-        ];
+        ]);
         return [
             'class' => 'glsr-cf-turnstile',
-            'badge' => '',
             'sitekey' => glsr_get_option('forms.turnstile.key'),
-            'size' => '',
             'theme' => glsr_get_option('forms.captcha.theme'),
             'type' => 'turnstile',
             'urls' => [
                 add_query_arg($urlParameters, 'https://challenges.cloudflare.com/turnstile/v0/api.js'),
             ],
         ];
+    }
+
+    /**
+     * @see https://developers.google.com/recaptcha/docs/language
+     * @see https://community.cloudflare.com/t/change-language-for-turnstile/426108/3
+     */
+    protected function getLocale(): string
+    {
+        $locale = '';
+        if (function_exists('locale_parse')) {
+            $values = locale_parse(get_locale());
+            if (!empty($values['language'])) {
+                $locale = $values['language'];
+            }
+        }
+        return glsr()->filterString('captcha/language', $locale);
     }
 }

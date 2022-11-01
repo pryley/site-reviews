@@ -20,6 +20,7 @@
         </ul>
         <h4>🐞 Bugs Fixed</h4>
         <ul>
+            <li>Fixed captcha localization</li>
             <li>Fixed date sanitizer</li>
             <li>Fixed migrations that update plugin settings</li>
             <li>Fixed PHP warning when excerpts are generated</li>

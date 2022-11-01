@@ -161,6 +161,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Added a duplicate validator which checks if a review with the same values was already submitted.
 - Added support for [Swift Performance](https://swiftperformance.io/) plugin
 - Disabled notifications when importing reviews
+- Fixed captcha localization
 - Fixed date sanitizer
 - Fixed migrations that update plugin settings
 - Fixed PHP warning when excerpts are generated
