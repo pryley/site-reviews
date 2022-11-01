@@ -12,7 +12,7 @@
             <p class="components-notice__content">
                 <?= sprintf(
                     _x('Please backup your database before running this tool! You can use the %s plugin to do this.', 'admin-text', 'site-reviews'),
-                    '<a href="https://wordpress.org/plugins/updraftplus/">UpdraftPlus</a>'
+                    '<a href="https://wordpress.org/plugins/updraftplus/" target="_blank">UpdraftPlus</a>'
                 ); ?>
                 <?= _x('Any entry in the CSV file that does not contain a required column value will be skipped.', 'admin-text', 'site-reviews'); ?>
             </p>

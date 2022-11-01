@@ -9,7 +9,7 @@
         </button>
     </h3>
     <div id="fn-readme" class="inside">
-        <p>The problem with using plugin-specific functions is that they only exist when the plugin is active. When the plugin is disabled, any helper functions that have been used will throw a PHP error unless you have used a <a href="https://php.net/manual/en/function.function-exists.php">function_exists</a> check.</p>
+        <p>The problem with using plugin-specific functions is that they only exist when the plugin is active. When the plugin is disabled, any helper functions that have been used will throw a PHP error unless you have used a <a href="https://php.net/manual/en/function.function-exists.php" target="_blank">function_exists</a> check.</p>
         <p>Site Reviews provides an alternative way of using these functions which is much safer:</p>
         <pre><code class="language-php">/**
  * @param string $function_name (required) This is the name of the function you want to use
@@ -19,7 +19,7 @@
  */
 apply_filters($function_name, $fallback, ...$args);</code></pre>
         <p>All functions listed here can be used in this way!</p>
-        <p>The benefit of using this method is that you don't have to include a <a href="https://php.net/manual/en/function.function-exists.php">function_exists</a> check, and you can also provide a fallback value that is returned if the plugin is not available or active.</p>
+        <p>The benefit of using this method is that you don't have to include a <a href="https://php.net/manual/en/function.function-exists.php" target="_blank">function_exists</a> check, and you can also provide a fallback value that is returned if the plugin is not available or active.</p>
         <p>For example:</p>
         <pre><code class="language-php">$reviews = apply_filters('glsr_get_reviews', [], [
     'assigned_posts' => 'post_id',

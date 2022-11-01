@@ -15,7 +15,7 @@
         <h3>Email notifications are not working.</h3>
         <p>Site Reviews uses the standard WordPress mail functions to send emails. However, this does not guarantee that emails will send successfully if your WordPress settings and server configuration are incorrect.</p>
         <p>To ensure notifications are sent, please verify that you are sending from an email address that uses the same domain as your website. For example, if your website is <code>https://reviews.com</code>, the email address you are sending from should end with <code>@reviews.com</code>. You can change the email address that notifications are sent from in the <code><a href="<?= glsr_admin_url('settings', 'general'); ?>">settings</a></code>. If the <em>Send Emails From</em> email address saved in the settings does not share the same domain as your website, you will likely experience issues sending emails.</p>
-        <p>If notifications are still not sending, I recommend you install the <a href="https://wordpress.org/plugins/check-email/">Check Email</a> plugin to verify that your website can correctly send emails. See also, <a href="https://www.butlerblog.com/2013/12/12/easy-smtp-email-wordpress-wp_mail/">Easy SMTP email settings for WordPress</a>.</p>
+        <p>If notifications are still not sending, I recommend you install the <a href="https://wordpress.org/plugins/check-email/" target="_blank">Check Email</a> plugin to verify that your website can correctly send emails. See also, <a href="https://www.butlerblog.com/2013/12/12/easy-smtp-email-wordpress-wp_mail/" target="_blank">Easy SMTP email settings for WordPress</a>.</p>
 
         <h3>The "Site Reviews will automatically migrate your reviews and settings to the latest version" notice keeps appearing.</h3>
         <p>This message may appear after updating Site Reviews. Please click the "Run Migration" button in the notice if it does. If it continues to show after reloading your pages:</p>
@@ -37,7 +37,7 @@
         <h3>The review form is not working; the submit button spins forever.</h3>
         <ol>
             <li>
-                <p>Does your website have an SSL certificate? If it does, ensure your website is configured to always use it by using an SSL plugin like <a href="https://wordpress.org/plugins/really-simple-ssl/">Really Simple SSL</a>. If your website has a valid SSL certificate, but you view it using <code>http://</code> instead of <code>https://</code>, the browser will detect this as a <em>Cross-Domain Request</em> and prevent you from submitting the review.</p>
+                <p>Does your website have an SSL certificate? If it does, ensure your website is configured to always use it by using an SSL plugin like <a href="https://wordpress.org/plugins/really-simple-ssl/" target="_blank">Really Simple SSL</a>. If your website has a valid SSL certificate, but you view it using <code>http://</code> instead of <code>https://</code>, the browser will detect this as a <em>Cross-Domain Request</em> and prevent you from submitting the review.</p>
             </li>
             <li>
                 <p>Are you using a security plugin to disable access to <code>/wp-admin/admin-ajax.php</code> on the front end of your website? Or, have you disabled access to <code>/wp-admin/</code> for non-administrators? If you have, this could be preventing Site Reviews from submitting reviews.</p>
@@ -118,7 +118,7 @@
                 <h4 class="components-notice is-error" style="font-size:15px;">
                     <?= __('Service Unavailable.', 'site-reviews'); ?>
                 </h4>
-                <p>If your website is using Cloudflare and you configured a Firewall rule to block access to <code>wp-admin</code>, then this is likely causing the error. Site Reviews uses the <code>/wp-admin/admin-ajax.php</code> file to submit AJAX requests; this is standard practice for WordPress plugins. To learn how to correctly configure Cloudflare to protect your <code>wp-admin</code> without blocking access to "admin-ajax.php", please see: <a href="https://turbofuture.com/internet/Cloudflare-Firewall-Rules-for-Securing-WordPress">Cloudflare Firewall Rules for Securing WordPress</a></p>
+                <p>If your website is using Cloudflare and you configured a Firewall rule to block access to <code>wp-admin</code>, then this is likely causing the error. Site Reviews uses the <code>/wp-admin/admin-ajax.php</code> file to submit AJAX requests; this is standard practice for WordPress plugins. To learn how to correctly configure Cloudflare to protect your <code>wp-admin</code> without blocking access to "admin-ajax.php", please see: <a href="https://turbofuture.com/internet/Cloudflare-Firewall-Rules-for-Securing-WordPress" target="_blank">Cloudflare Firewall Rules for Securing WordPress</a></p>
             </li>
         </ol>
         <p>Finally, in each case, you should also check the <code><a href="<?= glsr_admin_url('tools', 'console'); ?>">Tools &rarr; Console</a></code> page for any error messages that may have been logged. These provide additional information on the error and why it happened.</p>

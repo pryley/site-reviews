@@ -9,7 +9,7 @@
     </h3>
     <div id="support-compatibility-issues" class="inside">
         <h3>Custom Content Shortcodes</h3>
-        <p>The <a href="https://wordpress.org/plugins/custom-content-shortcode/">Custom Content Shortcodes</a> plugin provides a <code>[content]</code> shortcode which conflicts with the Site Reviews blocks. It also conflicts with the Site Reviews shortcodes when they are used with page builder plugins. For a more detailed explaination of this issue, please see this <a href="https://wordpress.org/support/topic/conflict-with-name-attributes-in-form-field/">support forum topic</a>.</p>
+        <p>The <a href="https://wordpress.org/plugins/custom-content-shortcode/" target="_blank">Custom Content Shortcodes</a> plugin provides a <code>[content]</code> shortcode which conflicts with the Site Reviews blocks. It also conflicts with the Site Reviews shortcodes when they are used with page builder plugins. For a more detailed explaination of this issue, please see this <a href="https://wordpress.org/support/topic/conflict-with-name-attributes-in-form-field/" target="_blank">support forum topic</a>.</p>
         <p>Here is a workaround to fix the problem:</p>
         <ol>
             <li>

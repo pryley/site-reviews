@@ -4,7 +4,7 @@
 
 <div class="components-notice is-info" style="margin-left:0;">
     <p class="components-notice__content">
-        <?= sprintf(_x('If you have a multilingual website, use the %s plugin instead. When Loco Translate asks for the location of the new translation file, select "Custom".', 'admin-text', 'site-reviews'), '<a href="https://wordpress.org/plugins/loco-translate/">Loco Translate</a>'); ?>
+        <?= sprintf(_x('If you have a multilingual website, use the %s plugin instead. When Loco Translate asks for the location of the new translation file, select "Custom".', 'admin-text', 'site-reviews'), '<a href="https://wordpress.org/plugins/loco-translate/" target="_blank">Loco Translate</a>'); ?>
     </p>
 </div>
 

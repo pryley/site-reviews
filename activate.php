@@ -117,7 +117,7 @@ class GL_Plugin_Check_v6
     {
         $noticeTemplate = '<div id="message" class="notice notice-error error is-dismissible"><p><strong>%s</strong></p><p>%s</p><p>%s</p></div>';
         $messages = $this->getMessages();
-        $rollbackMessage = sprintf('<strong>'.$messages['rollback'].'</strong>', '<a href="https://wordpress.org/plugins/wp-rollback/">WP Rollback</a>', $pluginName);
+        $rollbackMessage = sprintf('<strong>'.$messages['rollback'].'</strong>', '<a href="https://wordpress.org/plugins/wp-rollback/" target="_blank">WP Rollback</a>', $pluginName);
         if (!$this->isPhpValid()) {
             printf($noticeTemplate,
                 sprintf($messages['notice'], $pluginName),

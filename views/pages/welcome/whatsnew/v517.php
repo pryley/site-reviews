@@ -15,7 +15,7 @@
             <li>Added a setting to restrict the "Require Approval" setting to a minimum rating</li>
             <li>Added support for additional date formats and columns in the "Import Third Party Reviews" tool</li>
             <li>Added the Accepted Terms field to the privacy export (using the review creation date as the value if the terms were accepted)</li>
-            <li>Added the <a href="https://actionscheduler.org/">Action Scheduler</a> which allows plugin migrations and review notifications to be queued and dispatched automatically.</li>
+            <li>Added the <a href="https://actionscheduler.org/" target="_blank">Action Scheduler</a> which allows plugin migrations and review notifications to be queued and dispatched automatically.</li>
         </ul>
         <h4>📢 Changes</h4>
         <ul>

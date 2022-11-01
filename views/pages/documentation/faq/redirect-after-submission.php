@@ -10,7 +10,7 @@
     <div id="faq-redirect-after-submission" class="inside">
         <ol>
             <li>
-                <p>To redirect the page after a form has been submitted, edit the page the shortcode is on and use the <a href="https://codex.wordpress.org/Using_Custom_Fields#Usage">Custom Fields</a> metabox to add a <code>redirect_to</code> as the Custom Field name and the URL you want to redirect to as the value.</p>
+                <p>To redirect the page after a form has been submitted, edit the page the shortcode is on and use the <a href="https://codex.wordpress.org/Using_Custom_Fields#Usage" target="_blank">Custom Fields</a> metabox to add a <code>redirect_to</code> as the Custom Field name and the URL you want to redirect to as the value.</p>
             </li>
             <li>
                 <p>If you need to redirect to a location based on the rating that was given, you can also use the following hook:</p>

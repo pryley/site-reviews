@@ -18,10 +18,10 @@
             <li>Added <em>Import Third Party Reviews</em> tool</li>
             <li>Added <em>Send Emails From</em> option to send notifications from a custom email address</li>
             <li>Added <em>Test IP Address Detection</em> tool</li>
-            <li>Added <a href="https://wordpress.org/support/article/wordpress-privacy/#privacy-policy-editing-helper">suggested privacy policy content</a></li>
-            <li>Added <a href="https://wordpress.org/support/article/wordpress-privacy/#erase-personal-data-tool">WordPress Personal Data Eraser</a> integration</li>
-            <li>Added <a href="https://wordpress.org/support/article/wordpress-privacy/#export-personal-data-tool">WordPress Personal Data Exporter</a> integration</li>
-            <li>Added <a href="https://wordpress.org/support/article/revisions/">WordPress Revisions</a> integration</li>
+            <li>Added <a href="https://wordpress.org/support/article/wordpress-privacy/#privacy-policy-editing-helper" target="_blank">suggested privacy policy content</a></li>
+            <li>Added <a href="https://wordpress.org/support/article/wordpress-privacy/#erase-personal-data-tool" target="_blank">WordPress Personal Data Eraser</a> integration</li>
+            <li>Added <a href="https://wordpress.org/support/article/wordpress-privacy/#export-personal-data-tool" target="_blank">WordPress Personal Data Exporter</a> integration</li>
+            <li>Added <a href="https://wordpress.org/support/article/revisions/" target="_blank">WordPress Revisions</a> integration</li>
             <li>Site Reviews now uses custom database tables, however you may still use the WordPress Export/Import tools to export and import your reviews as before</li>
             <li>The Review Details metabox now allows you to modify any value</li>
             <li>The <code>site-reviews/after/submission</code> javascript event now contains the submitted review</li>

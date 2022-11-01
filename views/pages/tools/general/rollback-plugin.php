@@ -13,7 +13,7 @@
             <div class="glsr-notice-inline components-notice is-error" style="margin-bottom:1em;">
                 <p class="components-notice__content">
                     <?= sprintf(_x('Unable to connect to %s to get the available plugin versions.', 'wordpress.org (admin-text)', 'site-reviews'),
-                        '<a href="wordpress.org">wordpress.org</a>'
+                        '<a href="wordpress.org" target="_blank">wordpress.org</a>'
                     ); ?>
                 </p>
             </div>
