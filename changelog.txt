@@ -5,13 +5,14 @@
 - Added a duplicate validator which checks if a review with the same values was already submitted.
 - Added support for [Swift Performance](https://swiftperformance.io/) plugin
 - Disabled notifications when importing reviews
-- Fixed captcha localization
 - Fixed date sanitizer
+- Fixed localization for the captcha integrations
 - Fixed migrations that update plugin settings
 - Fixed PHP warning when excerpts are generated
 - Fixed premium notice displaying for licensed users
 - Fixed size of button loading animation
 - Fixed support for GMT dates when importing reviews
+- Fixed the hCaptcha integration, it no longer tries to submit the review after solving the captcha unless the submit button was previously clicked.
 - Fixed the reCAPTCHA integrations
 - Fixed the Rollback Plugin tool
 

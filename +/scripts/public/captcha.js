@@ -42,7 +42,20 @@ class Captcha {
     }
 
     execute_hcaptcha () {
-        this.execute_recaptcha()
+        if (1 === +this.captchaEl.dataset.error) {
+            this._submitFormWithToken('sitekey_invalid')
+        } else if (this.token) {
+            this._submitFormWithToken(this.token);
+        } else {
+            window[this.captcha].execute(this.widget, {
+                action: 'submit_review',
+                async: true,
+            }).then(({ response }) => {
+                this._submitFormWithToken(response);
+            }).catch(err => {
+                console.error(err);
+            });
+        }
     }
 
     execute_recaptcha_v2_invisible () {
@@ -152,7 +165,7 @@ class Captcha {
             setTimeout(() => this.render_hcaptcha(), 100);
         }
         this.widget = window[this.captcha].render(this.captchaEl, {
-            callback: (token) => this._submitFormWithToken(token),
+            callback: (token) => (this.token = token),
             'chalexpired-callback': () => this.reset(),
             'close-callback': () => this.Form.button.loaded(),
             'error-callback': () => (this.captchaEl.dataset.error = 1),
