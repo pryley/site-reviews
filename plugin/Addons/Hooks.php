@@ -37,6 +37,7 @@ abstract class Hooks
         add_filter('site-reviews/roles', [$this->controller, 'filterRoles']);
         add_filter('site-reviews/defer-scripts', [$this->controller, 'filterScriptsDefer']);
         add_filter('site-reviews/addon/settings', [$this->controller, 'filterSettings']);
+        add_filter('site-reviews/addon/subsubsub', [$this->controller, 'filterSubsubsub']);
         add_filter('site-reviews/translation/entries', [$this->controller, 'filterTranslationEntries']);
         add_filter('site-reviews/translator/domains', [$this->controller, 'filterTranslatorDomains']);
         add_filter($this->addon->id.'/activate', [$this->controller, 'install']);

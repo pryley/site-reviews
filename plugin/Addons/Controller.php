@@ -313,6 +313,15 @@ abstract class Controller extends BaseController
 
     /**
      * @return array
+     * @filter site-reviews/addon/subsubsub
+     */
+    public function filterSubsubsub(array $subsubsub)
+    {
+        return $subsubsub;
+    }
+
+    /**
+     * @return array
      * @filter site-reviews/translation/entries
      */
     public function filterTranslationEntries(array $entries)

@@ -36,6 +36,7 @@
     site-reviews/addon/settings/tabs                        (array $tabs): array
     site-reviews/addon/submenu/callback                     (callable $callable, string $slug): callable
     site-reviews/addon/submenu/pages                        (array $args): array
+    site-reviews/addon/subsubsub                            (array $subsubsub): array
     site-reviews/addon/sync/enable                          (bool $enable): bool
     site-reviews/addon/sync/services                        (array $services): array
     site-reviews/addon/system-info                          (array $settings): array

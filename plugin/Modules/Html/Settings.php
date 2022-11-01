@@ -99,8 +99,11 @@ class Settings
             $results[$key] = $this->getSettingRows($addonFields);
         }
         ksort($results);
+        $subsubsub = array_map('ucfirst', $settingKeys);
+        $subsubsub = glsr()->filterArray('addon/subsubsub', $subsubsub);
         return [
             'settings' => $results,
+            'subsubsub' => $subsubsub,
         ];
     }
 
