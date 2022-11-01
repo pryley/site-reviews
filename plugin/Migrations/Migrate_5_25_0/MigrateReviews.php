@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Migrations\Migrate_5_0_0;
+namespace GeminiLabs\SiteReviews\Migrations\Migrate_5_25_0;
 
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;

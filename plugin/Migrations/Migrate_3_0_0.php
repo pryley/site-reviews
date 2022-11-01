@@ -89,13 +89,15 @@ class Migrate_3_0_0 implements MigrateContract
 
     protected function getNewSettings(): array
     {
-        return Arr::flatten(Arr::consolidate(OptionManager::databaseKey(3)));
+        $settings = get_option(OptionManager::databaseKey(3));
+        return Arr::flatten(Arr::consolidate($settings));
     }
 
     protected function getOldSettings(): array
     {
         $defaults = array_fill_keys(array_keys(static::MAPPED_SETTINGS), '');
-        $settings = Arr::flatten(Arr::consolidate(get_option(OptionManager::databaseKey(2))));
+        $settings = get_option(OptionManager::databaseKey(2));
+        $settings = Arr::flatten(Arr::consolidate($settings));
         return !empty($settings)
             ? wp_parse_args($settings, $defaults)
             : [];
@@ -104,6 +106,7 @@ class Migrate_3_0_0 implements MigrateContract
     protected function mapSettings(): void
     {
         foreach (static::MAPPED_SETTINGS as $old => $new) {
+            unset($this->newSettings[$old]);
             if (!empty($this->oldSettings[$old])) {
                 $this->newSettings[$new] = $this->oldSettings[$old];
             }
@@ -119,10 +122,9 @@ class Migrate_3_0_0 implements MigrateContract
         ];
         $this->newSettings['settings.general.notifications'] = [];
         foreach ($notifications as $old => $new) {
-            if ($this->oldSettings['settings.general.notification'] != $old) {
-                continue;
+            if ($this->oldSettings['settings.general.notification'] === $old) {
+                $this->newSettings['settings.general.notifications'][] = $new;
             }
-            $this->newSettings['settings.general.notifications'][] = $new;
         }
     }
 
@@ -136,7 +138,7 @@ class Migrate_3_0_0 implements MigrateContract
         if (in_array($this->oldSettings['settings.reviews-form.recaptcha.integration'], ['custom', 'invisible-recaptcha'])) {
             $this->newSettings['settings.submissions.recaptcha.integration'] = 'all';
         }
-        if ('invisible-recaptcha' == $this->oldSettings['settings.reviews-form.recaptcha.integration']) {
+        if ('invisible-recaptcha' === $this->oldSettings['settings.reviews-form.recaptcha.integration']) {
             $recaptcha = wp_parse_args((array) get_site_option('ic-settings', [], false), $recaptcha);
         }
         $this->newSettings['settings.submissions.recaptcha.key'] = $recaptcha['SiteKey'];

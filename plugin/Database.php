@@ -405,7 +405,7 @@ class Database
     public function version($compareToVersion = null)
     {
         $dbVersion = Cast::toString(get_option(glsr()->prefix.'db_version'));
-        if (version_compare($dbVersion, '2', '>')) { // @compat version should always be less than 2 for now
+        if (version_compare($dbVersion, Application::DB_VERSION, '>')) { // version should never be higher than plugin database version
             update_option(glsr()->prefix.'db_version', '1.0');
             $dbVersion = '1.0';
         }

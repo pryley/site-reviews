@@ -159,7 +159,7 @@ class OptionManager
     public function set($pathOrArray, $value = ''): bool
     {
         if (is_string($pathOrArray)) {
-            $pathOrArray = Arr::set($this->all(), $pathOrArray, $value);
+            $pathOrArray = Arr::set($this->reset(), $pathOrArray, $value);
         }
         if ($settings = Arr::consolidate($pathOrArray)) {
             $result = update_option(static::databaseKey(), $settings);

@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Migrations;
+namespace GeminiLabs\SiteReviews\Migrations\Migrate_5_25_0;
 
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;
@@ -9,16 +9,18 @@ use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Install;
 
-class Migrate_5_9_0 implements MigrateContract
+class MigrateDatabase implements MigrateContract
 {
     /**
      * Run migration.
      */
     public function run(): bool
     {
-        $this->repairDatabase(); // fix orphaned rows and foreign indexes
+        $this->repairDatabase();
+        $this->migrateDatabase();
+        glsr(Database::class)->deleteInvalidReviews();
         glsr(CountManager::class)->recalculate();
-        return $this->migrateDatabase();
+        return true;
     }
 
     protected function install(): void
@@ -59,14 +61,14 @@ class Migrate_5_9_0 implements MigrateContract
     protected function repairDatabase(): void
     {
         require_once ABSPATH.'/wp-admin/includes/plugin.php';
-        if (is_plugin_active_for_network(plugin_basename(glsr()->file))) {
-            foreach (glsr(Install::class)->sites() as $siteId) {
-                switch_to_blog($siteId);
-                $this->install();
-                restore_current_blog();
-            }
+        if (!is_plugin_active_for_network(plugin_basename(glsr()->file))) {
+            $this->install();
             return;
         }
-        $this->install();
+        foreach (glsr(Install::class)->sites() as $siteId) {
+            switch_to_blog($siteId);
+            $this->install();
+            restore_current_blog();
+        }
     }
 }

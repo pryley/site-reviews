@@ -28,7 +28,7 @@ class Migrate_6_1_0 implements MigrateContract
             return;
         }
         $defaults = glsr()->filterArray('get/defaults', glsr(DefaultsManager::class)->get());
-        $settings = get_option(OptionManager::databaseKey());
+        $settings = Arr::consolidate(get_option(OptionManager::databaseKey(6)));
         if (empty($defaults['settings']) || empty($settings['settings'])) {
             return;
         }
@@ -46,7 +46,8 @@ class Migrate_6_1_0 implements MigrateContract
         }
         if (!empty($cleanSettings)) {
             $settings['settings'] = Arr::convertFromDotNotation($cleanSettings);
-            update_option(OptionManager::databaseKey(), $settings);
+            update_option(OptionManager::databaseKey(6), $settings);
+            glsr(OptionManager::class)->reset();
         }
     }
 }

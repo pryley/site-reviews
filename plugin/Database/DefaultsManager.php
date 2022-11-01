@@ -47,6 +47,7 @@ class DefaultsManager
         $defaultSettings = array_replace_recursive($this->get(), $currentSettings);
         $updatedSettings = array_replace_recursive($settings, $defaultSettings);
         update_option(OptionManager::databaseKey(), $updatedSettings);
+        glsr(OptionManager::class)->reset();
         return $defaultSettings;
     }
 }
