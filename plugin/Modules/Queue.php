@@ -58,6 +58,14 @@ class Queue implements QueueContract
     /**
      * {@inheritdoc}
      */
+    public function cancelAction(int $actionId)
+    {
+        ActionScheduler_Store::instance()->cancel_action($actionId);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function cancelAll($hook, $args = [])
     {
         if (!ActionScheduler::is_initialized('Queue::cancelAll') || $this->isTesting) {
@@ -79,6 +87,14 @@ class Queue implements QueueContract
             return 0;
         }
         return as_schedule_cron_action($timestamp, $cron, $this->hook($hook), $args, glsr()->id, $unique);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fetchAction(int $actionId)
+    {
+        return ActionScheduler_Store::instance()->fetch_action($actionId);
     }
 
     /**
