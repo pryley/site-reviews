@@ -8,11 +8,11 @@
         </button>
     </h3>
     <div id="welcome-v6_2_0" class="inside">
-        <p><em>Initial Release Date &mdash; November 2nd, 2022</em></p>
+        <p><em>Initial Release Date &mdash; November 4th, 2022</em></p>
         <h4>✨ New Features</h4>
         <ul>
-            <li>Added a duplicate validator which checks if a review with the same values was already submitted.</li>
-            <li>Added support for <a href="https://swiftperformance.io/" target="_blank">Swift Performance</a> plugin</li>
+            <li>Added a setting to detect and prevent duplicate review submissions from the same person.</li>
+            <li>Added support for the <a href="https://swiftperformance.io/" target="_blank">Swift Performance</a> plugin.</li>
         </ul>
         <h4>📢 Changes</h4>
         <ul>

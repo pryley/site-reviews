@@ -1336,55 +1336,65 @@ msgstr ""
 
 #: config/settings.php:902
 msgctxt "admin-text"
+msgid "Prevent Duplicates"
+msgstr ""
+
+#: config/settings.php:903
+msgctxt "admin-text"
+msgid "This will prevent people from submitting multiple reviews with the same content."
+msgstr ""
+
+#: config/settings.php:909
+msgctxt "admin-text"
 msgid "Blacklist"
 msgstr ""
 
-#: config/settings.php:904
+#: config/settings.php:911
 msgctxt "admin-text"
 msgid "Use the Site Reviews Blacklist"
 msgstr ""
 
-#: config/settings.php:905
+#: config/settings.php:912
 msgctxt "admin-text"
 msgid "Use the WordPress Disallowed Comment Keys"
 msgstr ""
 
-#: config/settings.php:907
+#: config/settings.php:914
 msgctxt "admin-text"
 msgid "Choose which Blacklist you would prefer to use for reviews. The %s option can be found in the WordPress Discussion Settings page."
 msgstr ""
 
-#: config/settings.php:908
+#: config/settings.php:915
 msgctxt "admin-text"
 msgid "Disallowed Comment Keys"
 msgstr ""
 
-#: config/settings.php:917
+#: config/settings.php:924
 msgctxt "admin-text"
 msgid "Review Blacklist"
 msgstr ""
 
-#: config/settings.php:919
+#: config/settings.php:926
 msgctxt "admin-text"
 msgid "One entry or IP address per line. When a review contains any of these entries in its title, content, name, email, or IP address, it will be rejected. It is case-insensitive and will match partial words, so \"press\" will match \"WordPress\"."
 msgstr ""
 
-#: config/settings.php:925
+#: config/settings.php:932
 msgctxt "admin-text"
 msgid "Blacklist Action"
 msgstr ""
 
-#: config/settings.php:927
+#: config/settings.php:934
 msgctxt "admin-text"
 msgid "Require approval"
 msgstr ""
 
-#: config/settings.php:928
+#: config/settings.php:935
 msgctxt "admin-text"
 msgid "Reject submission"
 msgstr ""
 
-#: config/settings.php:930
+#: config/settings.php:937
 msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr ""
@@ -1648,7 +1658,7 @@ msgctxt "admin-text"
 msgid "Searching..."
 msgstr ""
 
-#: plugin/Commands/EnqueuePublicAssets.php:73
+#: plugin/Commands/EnqueuePublicAssets.php:75
 msgid "Close Modal"
 msgstr ""
 
@@ -3764,7 +3774,7 @@ msgstr ""
 msgid "The review submission failed. Please notify the site administrator."
 msgstr ""
 
-#: plugin/Modules/Validator/DuplicateValidator.php:35
+#: plugin/Modules/Validator/DuplicateValidator.php:38
 msgid "Duplicate review detected. It looks like you already said that!"
 msgstr ""
 

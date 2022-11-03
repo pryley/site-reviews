@@ -4,7 +4,7 @@ Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.1
 Requires at least: 5.8
-Stable tag: 6.1.2
+Stable tag: 6.2.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -156,10 +156,10 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.2.0 (2022-11-02) =
+= 6.2.0 (2022-11-04) =
 
-- Added a duplicate validator which checks if a review with the same values was already submitted.
-- Added support for [Swift Performance](https://swiftperformance.io/) plugin
+- Added a setting to detect and prevent duplicate review submissions from the same person.
+- Added support for the [Swift Performance](https://swiftperformance.io/) plugin
 - Disabled notifications when importing reviews
 - Fixed date sanitizer
 - Fixed localization for the captcha integrations

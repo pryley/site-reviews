@@ -30,10 +30,12 @@ class EnqueuePublicAssets implements Contract
             // ensure block styles are loaded on post types with blocks disabled
             $blocks = \WP_Block_Type_Registry::get_instance();
             if ($blocks->is_registered('core/button')) {
-                wp_enqueue_style($blocks->get_registered('core/button')->style);
+                // $blocks->get_registered('core/button')->style_handles;
+                wp_enqueue_style('wp-block-button');
             }
             if ($blocks->is_registered('core/search')) {
-                wp_enqueue_style($blocks->get_registered('core/search')->style);
+                // $blocks->get_registered('core/search')->style_handles;
+                wp_enqueue_style('wp-block-search');
             }
             wp_enqueue_style(glsr()->id, glsr(AssetCss::class)->url(), [], glsr(AssetCss::class)->version());
             wp_add_inline_style(glsr()->id, $this->inlineStyles());

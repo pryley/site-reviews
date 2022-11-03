@@ -142,10 +142,14 @@ class ValidationTest extends WP_Ajax_UnitTestCase
         add_filter('site-reviews/validators', function () {
             return [DuplicateValidator::class];
         });
+        glsr(OptionManager::class)->set('settings.forms.prevent_duplicates', 'yes');
         $response1 = $this->assertJsonSuccess($this->request());
         $response2 = $this->assertJsonError($this->request());
+        glsr(OptionManager::class)->set('settings.forms.prevent_duplicates', 'no');
+        $response3 = $this->assertJsonSuccess($this->request());
         $this->assertEquals($response1->data->message, $this->messageSuccess);
         $this->assertEquals($response2->data->message, $this->messageFailedDuplicate);
+        $this->assertEquals($response3->data->message, $this->messageSuccess);
     }
 
     public function test_multiple_validation()

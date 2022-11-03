@@ -11,6 +11,9 @@ class DuplicateValidator extends ValidatorAbstract
      */
     public function isValid()
     {
+        if ('yes' !== glsr_get_option('forms.prevent_duplicates')) {
+            return true;
+        }
         $userId = get_current_user_id();
         $args = [
             'assigned_posts' => $this->request->assigned_posts,

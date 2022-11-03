@@ -896,6 +896,13 @@ return [ // order is intentional
         'tooltip' => _x('The <a href="https://akismet.com" target="_blank">Akismet plugin</a> integration provides spam-filtering for your reviews. In order for this setting to have any affect, you will need to first install and activate the Akismet plugin and set up a WordPress.com API key.', 'admin-text', 'site-reviews'),
         'type' => 'yes_no',
     ],
+    'settings.forms.prevent_duplicates' => [
+        'class' => 'regular-text',
+        'default' => 'no',
+        'label' => _x('Prevent Duplicates', 'admin-text', 'site-reviews'),
+        'tooltip' => _x('This will prevent people from submitting multiple reviews with the same content.', 'admin-text', 'site-reviews'),
+        'type' => 'yes_no',
+    ],
     'settings.forms.blacklist.integration' => [
         'class' => 'regular-text',
         'default' => 'comments',

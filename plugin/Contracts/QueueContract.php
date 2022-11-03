@@ -35,9 +35,9 @@ interface QueueContract
     /**
      * Cancel a specific action.
      * 
-     * @param int $actionId  The ID of the action.
+     * @param int|string $actionId  The ID of the action.
      */
-    public function cancelAction(int $actionId);
+    public function cancelAction($actionId);
 
     /**
      * Cancel all occurrences of a scheduled action.
@@ -73,11 +73,11 @@ interface QueueContract
     public function cron($timestamp, $schedule, $hook, $args = [], $unique = false);
 
     /**
-     * @param int $actionId  The ID of the action.
+     * @param int|string $actionId  The ID of the action.
      *
      * @return \ActionScheduler_Action
      */
-    public function fetchAction(int $actionId);
+    public function fetchAction($actionId);
 
     /**
      * Check if there is a scheduled action in the queue but more efficiently than as_next_scheduled_action().

@@ -58,7 +58,7 @@ class Queue implements QueueContract
     /**
      * {@inheritdoc}
      */
-    public function cancelAction(int $actionId)
+    public function cancelAction($actionId)
     {
         ActionScheduler_Store::instance()->cancel_action($actionId);
     }
@@ -92,7 +92,7 @@ class Queue implements QueueContract
     /**
      * {@inheritdoc}
      */
-    public function fetchAction(int $actionId)
+    public function fetchAction($actionId)
     {
         return ActionScheduler_Store::instance()->fetch_action($actionId);
     }
