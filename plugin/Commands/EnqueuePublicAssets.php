@@ -113,7 +113,7 @@ class EnqueuePublicAssets implements Contract
      */
     protected function buildInlineScript(array $variables)
     {
-        $script = 'window.hasOwnProperty("GLSR")||(window.GLSR={});';
+        $script = 'window.hasOwnProperty("GLSR")||(window.GLSR={Event:{on:()=>{}}});';
         foreach ($variables as $key => $value) {
             $script .= sprintf('GLSR.%s=%s;', $key, json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
         }
