@@ -270,7 +270,8 @@ class Database
     public function isMigrationNeeded()
     {
         $table = glsr(Query::class)->table('ratings');
-        $postCount = wp_count_posts(glsr()->post_type)->publish;
+        $postTypes = wp_count_posts(glsr()->post_type);
+        $postCount = Arr::get($postTypes, 'publish');
         if (empty($postCount)) {
             return false;
         }
