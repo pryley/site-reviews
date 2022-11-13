@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Migrations;
 
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Database\Tables\TableAssignedPosts;
 use GeminiLabs\SiteReviews\Database\Tables\TableAssignedTerms;
@@ -17,6 +18,7 @@ class Migrate_6_3_0 implements MigrateContract
     public function run(): bool
     {
         $this->migrateDatabaseIndexes();
+        $this->removeDuplicateCustomFields();
         return true;
     }
 
@@ -59,5 +61,30 @@ class Migrate_6_3_0 implements MigrateContract
             // 4. Add foreign constraints
             $table->addForeignConstraints();
         }
+    }
+
+    /**
+     * Removes duplicate custom field values (keeps the last duplicate record).
+     */
+    protected function removeDuplicateCustomFields(): void
+    {
+        global $wpdb;
+        $sql = glsr(Query::class)->sql($wpdb->prepare("
+            DELETE pm 
+            FROM {$wpdb->postmeta} AS pm
+            INNER JOIN {$wpdb->posts} AS p ON pm.post_id = p.ID
+            WHERE p.post_type = '%s'
+            AND pm.meta_key LIKE '_custom_%%'
+            AND pm.meta_id NOT IN (
+                SELECT *
+                FROM (
+                    SELECT MAX(meta_id)
+                    FROM {$wpdb->postmeta}
+                    WHERE meta_key LIKE '_custom_%%'
+                    GROUP BY post_id, meta_key
+                ) AS x
+            )
+        ", glsr()->post_type));
+        glsr(Database::class)->dbQuery($sql);
     }
 }
