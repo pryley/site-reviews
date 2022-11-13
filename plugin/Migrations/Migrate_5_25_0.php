@@ -17,9 +17,9 @@ class Migrate_5_25_0 implements MigrateContract
      */
     public function run(): bool
     {
-        glsr(MigrateSidebars::class)->run(); // 1
-        glsr(MigrateReviews::class)->run();  // 2
-        glsr(MigrateSettings::class)->run(); // 3
+        glsr(MigrateSettings::class)->run(); // 1
+        glsr(MigrateSidebars::class)->run(); // 2
+        glsr(MigrateReviews::class)->run();  // 3
         glsr(MigrateDatabase::class)->run(); // 4
         $this->migratePermissions();
         $this->cleanup();

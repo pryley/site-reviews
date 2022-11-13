@@ -18,7 +18,7 @@ class MigrateReviews implements MigrateContract
     {
         global $wpdb;
         $this->db = $wpdb;
-        $this->limit = 250;
+        $this->limit = 200;
     }
 
     /**
@@ -121,7 +121,7 @@ class MigrateReviews implements MigrateContract
                 WHERE m2.meta_id IS NULL
                 AND p.post_type = '%s'
                 AND m1.meta_value != '%s'
-                AND m1.meta_key LIKE '_custom%%'
+                AND m1.meta_key = '_custom'
                 ORDER BY m1.meta_id
                 LIMIT %d, %d
             ", glsr()->post_type, serialize([]), $offset, $this->limit));
