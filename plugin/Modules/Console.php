@@ -231,7 +231,7 @@ class Console
     protected function canLogEntry($level, $backtraceLine)
     {
         $levelExists = array_key_exists($level, $this->getLevels());
-        if (!Str::contains($backtraceLine, glsr()->path())) {
+        if (!Str::contains($backtraceLine, [glsr()->path(), 'GeminiLabs\SiteReviews'])) {
             return $levelExists; // ignore level restriction if triggered outside of the plugin
         }
         return $levelExists && $level >= $this->getLevel();
