@@ -24,7 +24,6 @@ class Migrate_6_0_0 implements MigrateContract
         $this->migrateAddonBlocks();
         $this->migrateAddonReviewImages();
         $this->migrateDatabase();
-        $this->migrateDatabaseSchema();
         $this->migrateRoles();
         $this->migrateSettings();
         return true;
@@ -71,42 +70,6 @@ class Migrate_6_0_0 implements MigrateContract
         // }
         if ($result) {
             update_option(glsr()->prefix.'db_version', '1.2');
-        }
-    }
-
-    public function migrateDatabaseSchema(): void
-    {
-        global $wpdb;
-        $indexes = [
-            'assigned_posts' => 'post_id',
-            'assigned_terms' => 'term_id',
-            'assigned_users' => 'user_id',
-        ];
-        foreach ($indexes as $assignedTable => $columnName) {
-            if (!glsr(Tables::class)->isInnodb($assignedTable)) {
-                continue;
-            }
-            $table = glsr(Tables::class)->table($assignedTable);
-            $uniqueIndex = "glsr_{$assignedTable}_rating_id_{$columnName}_unique";
-            $constraints = glsr(Database::class)->dbGetCol("
-                SELECT CONSTRAINT_NAME
-                FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
-                WHERE CONSTRAINT_SCHEMA = '{$wpdb->dbname}' AND TABLE_NAME = '{$table}'
-            ");
-            // add primary key first!
-            if (!in_array('PRIMARY', $constraints)) {
-                glsr(Database::class)->dbQuery("
-                    ALTER TABLE {$table}
-                    ADD PRIMARY KEY (rating_id,{$columnName})
-                ");
-            }
-            // remove unique key
-            if (in_array($uniqueIndex, $constraints)) {
-                glsr(Database::class)->dbQuery("
-                    ALTER TABLE {$table}
-                    DROP INDEX {$uniqueIndex}
-                ");
-            }
         }
     }
 

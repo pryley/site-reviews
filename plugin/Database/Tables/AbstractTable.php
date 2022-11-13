@@ -10,6 +10,18 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 abstract class AbstractTable
 {
     /**
+     * @var \wpdb
+     */
+    public $db;
+    /**
+     * @var string
+     */
+    public $dbname;
+    /**
+     * @var string
+     */
+    public $dbprefix;
+    /**
      * @var string
      */
     public $name = '';
@@ -17,18 +29,6 @@ abstract class AbstractTable
      * @var string
      */
     public $tablename = '';
-    /**
-     * @var \wpdb
-     */
-    protected $db;
-    /**
-     * @var string
-     */
-    protected $dbname;
-    /**
-     * @var string
-     */
-    protected $dbprefix;
 
     abstract public function addForeignConstraints(): void;
 
@@ -95,9 +95,9 @@ abstract class AbstractTable
         if (!$this->foreignConstraintExists($constraint, $foreignTable)) {
             return false;
         }
-        return (bool) glsr(Database::class)->dbQuery(glsr(Query::class)->sql("
+        return (bool) glsr(Database::class)->dbQuery("
             ALTER TABLE {$this->table()} DROP FOREIGN KEY {$constraint};
-        "));
+        ");
     }
 
     public function exists(): bool
