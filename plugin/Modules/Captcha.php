@@ -114,7 +114,7 @@ class Captcha
         ]);
         return [
             'badge' => glsr_get_option('forms.captcha.position'),
-            'class' => 'g-recaptcha',
+            'class' => 'glsr-g-recaptcha',
             'sitekey' => glsr_get_option('forms.recaptcha.key'),
             'size' => 'invisible',
             'theme' => glsr_get_option('forms.captcha.theme'),
@@ -137,7 +137,7 @@ class Captcha
         ]);
         return [
             'badge' => glsr_get_option('forms.captcha.position'),
-            'class' => 'g-recaptcha',
+            'class' => 'glsr-g-recaptcha',
             'sitekey' => glsr_get_option('forms.recaptcha_v3.key'),
             'size' => 'invisible',
             'theme' => glsr_get_option('forms.captcha.theme'),

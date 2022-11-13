@@ -161,8 +161,9 @@ class Captcha {
     }
 
     render_hcaptcha () {
-        if ('undefined' === typeof window[this.captcha].render) {
+        if ('undefined' === typeof window[this.captcha]?.render) {
             setTimeout(() => this.render_hcaptcha(), 100);
+            return;
         }
         this.widget = window[this.captcha].render(this.captchaEl, {
             callback: (token) => (this.token = token),
@@ -178,8 +179,9 @@ class Captcha {
     }
 
     render_recaptcha_v3 () {
-        if ('undefined' === typeof window[this.captcha].render) {
+        if ('undefined' === typeof window[this.captcha]?.render) {
             setTimeout(() => this.render_recaptcha_v3(), 100);
+            return;
         }
         this.widget = window[this.captcha].render(this.captchaEl, {
             callback: (token) => this._submitFormWithToken(token),
@@ -193,9 +195,7 @@ class Captcha {
         this.widget = window[this.captcha].render(this.captchaEl, {
             action: 'submit_review',
             callback: (token) => (this.token = token),
-            'error-callback': () => {
-                this.captchaEl.dataset.error = 1; // site key is probably invalid
-            },
+            'error-callback': () => (this.captchaEl.dataset.error = 1), // site key is probably invalid
             'expired-callback': () => this.reset(),
             sitekey: GLSR.captcha.sitekey, // data-attributes are not working with the render fn
             theme: GLSR.captcha.theme, // data-attributes are not working with the render fn
