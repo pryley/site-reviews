@@ -37,9 +37,20 @@ class SearchPosts extends AbstractSearch
     /**
      * @return string
      */
+    protected function postStatuses()
+    {
+        $statuses = ['publish'];
+        $statuses = glsr()->filterArray('search/posts/post_status', $statuses, 'posts');
+        return Str::join($statuses, true);
+    }
+
+    /**
+     * @return string
+     */
     protected function postTypes()
     {
         $types = array_keys(get_post_types(['exclude_from_search' => false]));
+        $types = glsr()->filterArray('search/posts/post_type', $types);
         return Str::join($types, true);
     }
 
@@ -55,7 +66,7 @@ class SearchPosts extends AbstractSearch
             WHERE 1=1
             AND p.ID = %d
             AND p.post_type IN ({$this->postTypes()})
-            AND p.post_status = 'publish'
+            AND p.post_status IN ({$this->postStatuses()})
         ", $searchId);
         return glsr(Database::class)->dbGetResults(
             glsr(Query::class)->sql($sql)
@@ -75,7 +86,7 @@ class SearchPosts extends AbstractSearch
             WHERE 1=1
             AND p.post_title LIKE %s
             AND p.post_type IN ({$this->postTypes()})
-            AND p.post_status = 'publish'
+            AND p.post_status IN ({$this->postStatuses()})
             ORDER BY p.post_title LIKE %s DESC, p.post_date DESC
             LIMIT 0, 20
         ", $like, $like);

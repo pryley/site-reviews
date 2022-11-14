@@ -180,6 +180,8 @@
     site-reviews/schema/all                                 (array $schemas): array
     site-reviews/schema/is-empty                            (bool $isEmpty): bool
     site-reviews/schema/review                              (array $schema, Review $review, array $args): array
+    site-reviews/search/posts/post_status                   (array $postStatuses, string $searchType): array
+    site-reviews/search/posts/post_type                     (array $postTypes): array
     site-reviews/settings/sanitize                          (array $options, array $settings): array
     site-reviews/shortcode/<shortcode>/attributes           (array $attributes, Shortcodes\Shortcode $shortcode): array
     site-reviews/shortcode/args                             (array $args, string $type, string $partialName): array

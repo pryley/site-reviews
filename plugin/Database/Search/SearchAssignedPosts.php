@@ -31,6 +31,7 @@ class SearchAssignedPosts extends AbstractSearch
         ]));
         $statuses[] = 'private';
         $statuses[] = 'publish';
+        $statuses = glsr()->filterArray('search/posts/post_status', $statuses, 'assigned_posts');
         return Str::join($statuses, true);
     }
 
