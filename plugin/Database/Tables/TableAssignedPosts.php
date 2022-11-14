@@ -30,7 +30,7 @@ class TableAssignedPosts extends AbstractTable
     public function structure(): string
     {
         return glsr(Query::class)->sql("
-            CREATE TABLE {$this->table()} (
+            CREATE TABLE {$this->tablename} (
                 rating_id bigint(20) unsigned NOT NULL,
                 post_id bigint(20) unsigned NOT NULL,
                 is_published tinyint(1) NOT NULL DEFAULT '1',

@@ -30,7 +30,7 @@ class TableAssignedTerms extends AbstractTable
     public function structure(): string
     {
         return glsr(Query::class)->sql("
-            CREATE TABLE {$this->table()} (
+            CREATE TABLE {$this->tablename} (
                 rating_id bigint(20) unsigned NOT NULL,
                 term_id bigint(20) unsigned NOT NULL,
                 PRIMARY KEY  (rating_id,term_id)

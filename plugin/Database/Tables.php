@@ -96,11 +96,17 @@ class Tables
 
     public function isInnodb(string $table): bool
     {
+        if (defined('GLSR_UNIT_TESTS')) {
+            return false;
+        }
         return 'innodb' === $this->tableEngine($table);
     }
 
     public function isMyisam(string $table): bool
     {
+        if (defined('GLSR_UNIT_TESTS')) {
+            return true;
+        }
         return 'myisam' === $this->tableEngine($table);
     }
 

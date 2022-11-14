@@ -28,7 +28,7 @@ class TableRatings extends AbstractTable
     public function structure(): string
     {
         return glsr(Query::class)->sql("
-            CREATE TABLE {$this->table()} (
+            CREATE TABLE {$this->tablename} (
                 ID bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                 review_id bigint(20) unsigned NOT NULL,
                 rating int(11) NOT NULL DEFAULT '0',

@@ -28,7 +28,7 @@ class TableFields extends AbstractTable
     public function structure(): string
     {
         return glsr(Query::class)->sql("
-            CREATE TABLE {$this->table()} (
+            CREATE TABLE {$this->tablename} (
                 ID bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                 rating_id bigint(20) unsigned NOT NULL,
                 field_name varchar(255) NOT NULL,

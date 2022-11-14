@@ -19,10 +19,10 @@
 add_filter('site-reviews/enqueue/public/inline-script/after', function ($javascript) {
     return $javascript."
     document.addEventListener('DOMContentLoaded', function () {
-        GLSR.Event.on('site-reviews/form/handle', function (response, formEl) {
+        GLSR.Event.on('site-reviews/form/handle', function (response, form) {
             if (false !== response.errors) return;
-            formEl.classList.add('glsr-hide-form');
-            formEl.insertAdjacentHTML('afterend', '&lt;p&gt;' + response.message + '&lt;/p&gt;');
+            form.classList.add('glsr-hide-form');
+            form.insertAdjacentHTML('afterend', '&lt;p&gt;' + response.message + '&lt;/p&gt;');
         });
     });";
 });</code></pre>

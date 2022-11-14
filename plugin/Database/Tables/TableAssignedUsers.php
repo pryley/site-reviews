@@ -30,7 +30,7 @@ class TableAssignedUsers extends AbstractTable
     public function structure(): string
     {
         return glsr(Query::class)->sql("
-            CREATE TABLE {$this->table()} (
+            CREATE TABLE {$this->tablename} (
                 rating_id bigint(20) unsigned NOT NULL,
                 user_id bigint(20) unsigned NOT NULL,
                 PRIMARY KEY  (rating_id,user_id)
