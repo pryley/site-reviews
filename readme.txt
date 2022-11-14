@@ -4,7 +4,7 @@ Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.1
 Requires at least: 5.8
-Stable tag: 6.2.0
+Stable tag: 6.2.1-beta1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -156,20 +156,12 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.2.0 (2022-11-04) =
+= 6.2.1 (2022-11-14) =
 
-- Added a setting to detect and prevent duplicate review submissions from the same person.
-- Added support for the [Swift Performance](https://swiftperformance.io/) plugin
-- Disabled notifications when importing reviews
-- Fixed date sanitizer
-- Fixed localization for the captcha integrations
-- Fixed migrations that update plugin settings
-- Fixed PHP warning when excerpts are generated
-- Fixed premium notice displaying for licensed users
-- Fixed size of button loading animation
-- Fixed support for GMT dates when importing reviews
-- Fixed the hCaptcha integration, it no longer tries to submit the review after solving the captcha unless the submit button was previously clicked.
-- Fixed the reCAPTCHA integrations
-- Fixed the Rollback Plugin tool
+- Fixed an issue causing a timeout when running plugin migrations
+- Fixed compatibility with optimisation plugins which do not observe loading order of inline scripts
+- Fixed compatibility with other reCAPTCHA plugins
+- Fixed database table PRIMARY indexes on websites running MariaDB
+- Fixed the console logging, it now uses the saved log level
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).

@@ -10,7 +10,7 @@ use GeminiLabs\SiteReviews\Database\Tables\TableAssignedPosts;
 use GeminiLabs\SiteReviews\Database\Tables\TableAssignedTerms;
 use GeminiLabs\SiteReviews\Database\Tables\TableAssignedUsers;
 
-class Migrate_6_3_0 implements MigrateContract
+class Migrate_6_2_1 implements MigrateContract
 {
     /**
      * Run migration.
