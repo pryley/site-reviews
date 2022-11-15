@@ -18,10 +18,10 @@
  * @return array
  */
 add_filter('site-reviews/config/inline-styles', function ($config) {
-    $config[':star-empty'] = 'https://your-website.com/images/star-empty.svg';
-    $config[':star-error'] = 'https://your-website.com/images/star-error.svg';
-    $config[':star-full'] = 'https://your-website.com/images/star-full.svg';
-    $config[':star-half'] = 'https://your-website.com/images/star-half.svg';
+    $config[':star-empty'] = 'https://your-website.com/wp-content/uploads/star-empty.svg';
+    $config[':star-error'] = 'https://your-website.com/wp-content/uploads/star-error.svg';
+    $config[':star-full'] = 'https://your-website.com/wp-content/uploads/star-full.svg';
+    $config[':star-half'] = 'https://your-website.com/wp-content/uploads/star-half.svg';
     return $config;
 });</code></pre>
         <p>If all you need to do is change the colour of the stars:<p>

@@ -20,7 +20,7 @@
 .glsr-premium-hero-image {
     display: flex;
     flex: 1;
-    background-image: url(../../images/addon-premium.svg), radial-gradient(at center,#252f3f 10%,#161e2e 100%);
+    background-image: url(../../images/addons/addon-premium.svg), radial-gradient(at center,#252f3f 10%,#161e2e 100%);
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: auto;
@@ -134,31 +134,31 @@
     }
     &[data-slug="filters"] {
         background-color: #039588;
-        background-image: url(../../images/addon-filters.svg);
+        background-image: url(../../images/addons/addon-filters.svg);
     }
     &[data-slug="forms"] {
         background-color: #617c8b;
-        background-image: url(../../images/addon-forms.svg);
+        background-image: url(../../images/addons/addon-forms.svg);
     }
     &[data-slug="gamipress"] {
         background-color: #0098d7;
-        background-image: url(../../images/addon-gamipress.svg);
+        background-image: url(../../images/addons/addon-gamipress.svg);
     }
     &[data-slug="images"] {
         background-color: #673ab7;
-        background-image: url(../../images/addon-images.svg);
+        background-image: url(../../images/addons/addon-images.svg);
     }
     &[data-slug="notifications"] {
         background-color: #283a89;
-        background-image: url(../../images/addon-notifications.svg);
+        background-image: url(../../images/addons/addon-notifications.svg);
     }
     &[data-slug="themes"] {
         background-color: #00acc1;
-        background-image: url(../../images/addon-themes.svg);
+        background-image: url(../../images/addons/addon-themes.svg);
     }
     &[data-slug="woocommerce"] {
         background-color: #7f54b3;
-        background-image: url(../../images/addon-woocommerce.svg);
+        background-image: url(../../images/addons/addon-woocommerce.svg);
     }
 }
 .glsr-addon-link {
