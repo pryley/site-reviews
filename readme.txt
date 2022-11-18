@@ -156,6 +156,10 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
+= 6.2.1-beta4 (2022-11-19) =
+
+- Added compatibility with [WooRewards](https://wordpress.org/plugins/woorewards/)
+
 = 6.2.1-beta3 (2022-11-18) =
 
 - Added compatibility with [Loyalty Program for WooCommerce](https://advancedcouponsplugin.com/woocommerce-loyalty-program/)
