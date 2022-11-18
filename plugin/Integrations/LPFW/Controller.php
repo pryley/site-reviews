@@ -57,7 +57,7 @@ class Controller extends BaseController
         }
         foreach ($review->assigned_posts as $postId) {
             if ('product' === get_post_type($postId) && 'publish' === get_post_status($postId)) {
-                return get_permalink($postId);
+                return (string) get_permalink($postId);
             }
         }
         return '';
