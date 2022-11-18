@@ -14,9 +14,6 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Overrides\ReviewsListTable;
-use WP_Post;
-use WP_Query;
-use WP_Screen;
 
 class ListTableController extends Controller
 {
@@ -71,7 +68,7 @@ class ListTableController extends Controller
 
     /**
      * @param string $status
-     * @param WP_Post $post
+     * @param \WP_Post $post
      * @return string
      * @filter post_date_column_status
      */
@@ -83,7 +80,7 @@ class ListTableController extends Controller
 
     /**
      * @param array $hidden
-     * @param WP_Screen $screen
+     * @param \WP_Screen $screen
      * @return array
      * @filter default_hidden_columns
      */
@@ -100,7 +97,7 @@ class ListTableController extends Controller
      * @return array
      * @filter posts_clauses
      */
-    public function filterPostClauses(array $clauses, WP_Query $query)
+    public function filterPostClauses(array $clauses, \WP_Query $query)
     {
         if (!$this->hasQueryPermission($query) || (!$this->isListFiltered() && !$this->isListOrdered())) {
             return $clauses;
@@ -116,22 +113,8 @@ class ListTableController extends Controller
     }
 
     /**
-     * @param string[] $states
-     * @param \WP_Post $post
-     * @return array
-     * @filter display_post_states
-     */
-    public function filterPostStates($states, $post)
-    {
-        if (get_post_type($post) === glsr()->post_type && array_key_exists('pending', $states)) {
-            $states['pending'] = _x('Unapproved', 'admin-text', 'site-reviews');
-        }
-        return $states;
-    }
-
-    /**
      * @param array $actions
-     * @param WP_Post $post
+     * @param \WP_Post $post
      * @return array
      * @filter post_row_actions
      */
@@ -207,7 +190,7 @@ class ListTableController extends Controller
      * @return string
      * @action posts_search
      */
-    public function filterSearchQuery($search, WP_Query $query)
+    public function filterSearchQuery($search, \WP_Query $query)
     {
         if (!$this->hasQueryPermission($query)) {
             return $search;
@@ -330,7 +313,7 @@ class ListTableController extends Controller
      * @return void
      * @action pre_get_posts
      */
-    public function setQueryForTable(WP_Query $query)
+    public function setQueryForTable(\WP_Query $query)
     {
         if (!$this->hasQueryPermission($query)) {
             return;
@@ -395,7 +378,7 @@ class ListTableController extends Controller
      * @param string $join
      * @return string
      */
-    protected function modifyClauseJoin($join, $table, WP_Query $query)
+    protected function modifyClauseJoin($join, $table, \WP_Query $query)
     {
         global $wpdb;
         $join .= " INNER JOIN {$table} ON {$table}.review_id = {$wpdb->posts}.ID ";
@@ -418,7 +401,7 @@ class ListTableController extends Controller
      * @param string $orderby
      * @return string
      */
-    protected function modifyClauseOrderby($orderby, $table, WP_Query $query)
+    protected function modifyClauseOrderby($orderby, $table, \WP_Query $query)
     {
         $columns = glsr(ColumnOrderbyDefaults::class)->defaults();
         if ($column = Arr::get($columns, $query->get('orderby'))) {
@@ -435,7 +418,7 @@ class ListTableController extends Controller
      * @param string $where
      * @return string
      */
-    protected function modifyClauseWhere($where, $table, WP_Query $query)
+    protected function modifyClauseWhere($where, $table, \WP_Query $query)
     {
         global $wpdb;
         foreach ($this->filterByValues() as $key => $value) {

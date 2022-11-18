@@ -120,18 +120,18 @@ class TranslationController
     }
 
     /**
-     * @param array $postStates
+     * @param array $states
      * @param \WP_Post $post
      * @return array
      * @filter display_post_states
      */
-    public function filterPostStates($postStates, $post)
+    public function filterPostStates($states, $post)
     {
-        $postStates = Arr::consolidate($postStates);
-        if (glsr()->post_type == Arr::get($post, 'post_type') && array_key_exists('pending', $postStates)) {
-            $postStates['pending'] = _x('Unapproved', 'admin-text', 'site-reviews');
+        $states = Arr::consolidate($states);
+        if (get_post_type($post) === glsr()->post_type && array_key_exists('pending', $states)) {
+            $states['pending'] = _x('Unapproved', 'admin-text', 'site-reviews');
         }
-        return $postStates;
+        return $states;
     }
 
     /**

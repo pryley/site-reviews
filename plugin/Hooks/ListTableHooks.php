@@ -17,7 +17,6 @@ class ListTableHooks extends AbstractHooks
             ['filterDateColumnStatus', 'post_date_column_status', 10, 2],
             ['filterDefaultHiddenColumns', 'default_hidden_columns', 10, 2],
             ['filterPostClauses', 'posts_clauses', 10, 2],
-            ['filterPostStates', 'display_post_states', 10, 2],
             ['filterRowActions', 'post_row_actions', 10, 2],
             ['filterScreenFilters', 'screen_settings', 10, 2],
             ['filterSearchQuery', 'posts_search', 10, 2],
