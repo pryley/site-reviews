@@ -47,10 +47,9 @@ class Controller extends BaseController
 
     /**
      * @param int $reviewId
-     * @return string
      * @see $this->filterEarnPointTypes()
      */
-    public function productUrl($reviewId)
+    public function productUrl($reviewId): string
     {
         $review = glsr_get_review($reviewId);
         if (!$review->isValid()) {

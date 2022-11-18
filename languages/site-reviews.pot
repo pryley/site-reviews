@@ -1932,62 +1932,57 @@ msgctxt "admin-text"
 msgid "Publicly responding to third-party %s reviews is disabled."
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:41
+#: plugin/Controllers/ListTableController.php:38
 msgctxt "admin-text"
 msgid "%s is currently editing"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:81
+#: plugin/Controllers/ListTableController.php:78
 msgctxt "admin-text"
 msgid "Submitted"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:127, plugin/Controllers/TranslationController.php:132, plugin/Controllers/TranslationController.php:167, plugin/Defaults/PostStatusLabelsDefaults.php:15, plugin/Defaults/PostStatusLabelsDefaults.php:16, views/partials/screen/inline-edit.php:72
-msgctxt "admin-text"
-msgid "Unapproved"
-msgstr ""
-
-#: plugin/Controllers/ListTableController.php:144
+#: plugin/Controllers/ListTableController.php:127
 msgctxt "The Review Post ID (admin-text)"
 msgid "<span>ID: %d</span>"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:147, plugin/Controllers/TranslationController.php:197, plugin/Defaults/PostStatusLabelsDefaults.php:18
+#: plugin/Controllers/ListTableController.php:130, plugin/Controllers/TranslationController.php:197, plugin/Defaults/PostStatusLabelsDefaults.php:18
 msgctxt "admin-text"
 msgid "Approve"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:148
+#: plugin/Controllers/ListTableController.php:131
 msgctxt "admin-text"
 msgid "Unapprove"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:152
+#: plugin/Controllers/ListTableController.php:135
 msgctxt "Approve the review (admin-text)"
 msgid "%s this review"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:164
+#: plugin/Controllers/ListTableController.php:147
 msgctxt "admin-text"
 msgid "Respond inline to &#8220;%s&#8221;"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:166
+#: plugin/Controllers/ListTableController.php:149
 msgctxt "admin-text"
 msgid "Respond"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:257
+#: plugin/Controllers/ListTableController.php:240
 msgctxt "admin-text"
 msgid "Sorry, you are not allowed to respond to this review."
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:261
+#: plugin/Controllers/ListTableController.php:244
 msgctxt "admin-text"
 msgid "Someone"
 msgstr ""
 
-#: plugin/Controllers/ListTableController.php:262
+#: plugin/Controllers/ListTableController.php:245
 msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr ""
@@ -2281,6 +2276,11 @@ msgid "%s review restored from the Trash."
 msgid_plural "%s reviews restored from the Trash."
 msgstr[0] ""
 msgstr[1] ""
+
+#: plugin/Controllers/TranslationController.php:132, plugin/Controllers/TranslationController.php:167, plugin/Defaults/PostStatusLabelsDefaults.php:15, plugin/Defaults/PostStatusLabelsDefaults.php:16, views/partials/screen/inline-edit.php:72
+msgctxt "admin-text"
+msgid "Unapproved"
+msgstr ""
 
 #: plugin/Controllers/TranslationController.php:166, plugin/Controllers/TranslationController.php:198, plugin/Defaults/PostStatusLabelsDefaults.php:19, views/partials/screen/inline-edit.php:70
 msgctxt "admin-text"
@@ -3727,6 +3727,21 @@ msgstr ""
 
 #: plugin/Integrations/GamiPress/Controller.php:41
 msgid "Write review"
+msgstr ""
+
+#: plugin/Integrations/LPFW/Controller.php:18
+msgctxt "(loyalty-program-for-woocommerce) admin-text"
+msgid "Leaving a product review"
+msgstr ""
+
+#: plugin/Integrations/LPFW/Controller.php:22
+msgctxt "(loyalty-program-for-woocommerce) admin-text"
+msgid "View Review"
+msgstr ""
+
+#: plugin/Integrations/LPFW/Controller.php:23
+msgctxt "(loyalty-program-for-woocommerce) admin-text"
+msgid "View Product"
 msgstr ""
 
 #: plugin/Integrations/SASWP/Controller.php:23
