@@ -159,6 +159,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 = 6.2.1-beta4 (2022-11-19) =
 
 - Added compatibility with [WooRewards](https://wordpress.org/plugins/woorewards/)
+- Added FAQ documentation which explains how to sort a Query Loop block by average rating, ranking, or number of reviews.
 
 = 6.2.1-beta3 (2022-11-18) =
 

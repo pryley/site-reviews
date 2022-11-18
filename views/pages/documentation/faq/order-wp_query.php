@@ -2,15 +2,16 @@
 
 <div class="glsr-card postbox">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="faq-query-by-rank">
-            <span class="title">How do I order pages with assigned reviews by rating or ranking?</span>
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="faq-order-wp_query">
+            <span class="title">How do I order a WP_Query by rating or ranking?</span>
             <span class="icon"></span>
         </button>
     </h3>
-    <div id="faq-query-by-rank" class="inside">
-        <p>Site Reviews provides two meta keys that can be used for sorting pages that have reviews assigned to them.</p>
+    <div id="faq-order-wp_query" class="inside">
+        <p>Site Reviews provides three meta keys that can be used for sorting pages that have reviews assigned to them.</p>
         <p>The <code>_glsr_average</code> meta key contains the average rating of the page.</p>
         <p>The <code>_glsr_ranking</code> meta key contains the page rank determined by a bayesian ranking algorithm (the exact same way that films are ranked on IMDB). To understand why sorting by rank may be preferable to sorting by average rating, please see: <a target="_blank" href="https://imgs.xkcd.com/comics/tornadoguard.png">The problem with averaging star ratings</a>.</p>
+        <p>The <code>_glsr_reviews</code> meta key contains the number of reviews that have been assigned to the page.</p>
         <p>Here is an example of how you can use these meta keys in a custom WP_Query. In this example, we will sort all pages by rank (highest to lowest) and regardless of whether or not they have reviews assigned to them:</p>
         <pre><code class="language-php">$query = new WP_Query([
     'meta_query' => [
@@ -52,39 +53,5 @@
     wp_reset_postdata();
 }</code></pre>
         <p>To learn more about <code>WP_Query</code> and how to use it in your theme templates, please refer to the <a target="_blank" href="https://developer.wordpress.org/themes/basics/the-loop/">WordPress Theme Handbook</a>.</p>
-
-        <pre><code class="language-php">/**
-    * Changes the sorting of a Query Loop block
-    * 
-    * To use, add one of the following classes to the Query Loop block (in the Advanced panel of the block settings):
-    * - sort-by-average
-    * - sort-by-ranking
-    * - sort-by-reviews
-    */
-add_filter('pre_render_block', function ($prerender, $block) {
-    if ('core/query' !== $block['blockName']) {
-        return $prerender;
-    }
-    $sorting = [
-        'sort-by-average' => '_glsr_average',
-        'sort-by-ranking' => '_glsr_ranking',
-        'sort-by-reviews' => '_glsr_reviews',
-    ];
-    if (empty($block['attrs']['className']) || !array_key_exists($block['attrs']['className'], $sorting)) {
-        return $prerender;
-    }
-    $sortKey = $sorting[$block['attrs']['className']];
-    add_filter('query_loop_block_query_vars', function ($query) use ($sortKey) {
-        $query['meta_query'] = [
-            'relation' => 'OR',
-            ['key' => $sortKey, 'compare' => 'NOT EXISTS'], // this comes first!
-            ['key' => $sortKey, 'compare' => 'EXISTS'],
-        ];
-        $query['orderby'] = 'meta_value_num';
-        glsr_log($query);
-        return $query;
-    });
-}, 10, 2);</code></pre>
-
     </div>
 </div>
