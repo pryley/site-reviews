@@ -52,5 +52,39 @@
     wp_reset_postdata();
 }</code></pre>
         <p>To learn more about <code>WP_Query</code> and how to use it in your theme templates, please refer to the <a target="_blank" href="https://developer.wordpress.org/themes/basics/the-loop/">WordPress Theme Handbook</a>.</p>
+
+        <pre><code class="language-php">/**
+    * Changes the sorting of a Query Loop block
+    * 
+    * To use, add one of the following classes to the Query Loop block (in the Advanced panel of the block settings):
+    * - sort-by-average
+    * - sort-by-ranking
+    * - sort-by-reviews
+    */
+add_filter('pre_render_block', function ($prerender, $block) {
+    if ('core/query' !== $block['blockName']) {
+        return $prerender;
+    }
+    $sorting = [
+        'sort-by-average' => '_glsr_average',
+        'sort-by-ranking' => '_glsr_ranking',
+        'sort-by-reviews' => '_glsr_reviews',
+    ];
+    if (empty($block['attrs']['className']) || !array_key_exists($block['attrs']['className'], $sorting)) {
+        return $prerender;
+    }
+    $sortKey = $sorting[$block['attrs']['className']];
+    add_filter('query_loop_block_query_vars', function ($query) use ($sortKey) {
+        $query['meta_query'] = [
+            'relation' => 'OR',
+            ['key' => $sortKey, 'compare' => 'NOT EXISTS'], // this comes first!
+            ['key' => $sortKey, 'compare' => 'EXISTS'],
+        ];
+        $query['orderby'] = 'meta_value_num';
+        glsr_log($query);
+        return $query;
+    });
+}, 10, 2);</code></pre>
+
     </div>
 </div>
