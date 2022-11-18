@@ -4,7 +4,7 @@ Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.1
 Requires at least: 5.8
-Stable tag: 6.2.1-beta1
+Stable tag: 6.2.1-beta2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -156,7 +156,12 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.2.1 (2022-11-14) =
+= 6.2.1-beta2 (2022-11-18) =
+
+- Added compatibility with [Loyalty Program for WooCommerce](https://advancedcouponsplugin.com/woocommerce-loyalty-program/)
+- Fixed summary rating number to display in decimal format
+
+= 6.2.1-beta1 (2022-11-14) =
 
 - Fixed an issue causing a timeout when running plugin migrations
 - Fixed compatibility with optimisation plugins which do not observe loading order of inline scripts
