@@ -3,16 +3,38 @@
 namespace GeminiLabs\SiteReviews\Integrations\LPFW;
 
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Review;
 
 class Controller extends BaseController
 {
+    /**
+     * @return array
+     * @filter lpfw_get_point_earn_source_types
+     */
+    public function filterEarnPointTypes(array $types = [])
+    {
+        $types['product_review'] = [
+            'name' => _x('Leaving a product review', '(loyalty-program-for-woocommerce) admin-text', 'site-reviews'),
+            'slug' => 'product_review',
+            'related' => [
+                'object_type' => glsr()->post_type,
+                'admin_label' => _x('View Review', '(loyalty-program-for-woocommerce) admin-text', 'site-reviews'),
+                'label' => _x('View Product', '(loyalty-program-for-woocommerce) admin-text', 'site-reviews'),
+                'admin_link_callback' => 'get_edit_post_link',
+                'link_callback' => [$this, 'productUrl'],
+            ],
+        ];
+        return $types;
+    }
+
     /**
      * @action site-reviews/review/created
      * @action site-reviews/review/approved
      */
     public function maybeEarnPoints(Review $review): void
     {
+        $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
         if (!$review->author_id) {
             return;
         }
@@ -23,9 +45,28 @@ class Controller extends BaseController
         }
     }
 
+    /**
+     * @param int $reviewId
+     * @return string
+     * @see $this->filterEarnPointTypes()
+     */
+    public function productUrl($reviewId)
+    {
+        $review = glsr_get_review($reviewId);
+        if (!$review->isValid()) {
+            return '';
+        }
+        foreach ($review->assigned_posts as $postId) {
+            if ('product' === get_post_type($postId) && 'publish' === get_post_status($postId)) {
+                return get_permalink($postId);
+            }
+        }
+        return '';
+    }
+
     protected function earnPoints(int $reviewId, int $userId): void
     {
-        if (!\LPFW()->Earn_Points->should_customer_earn_points($userId) 
+        if (!\LPFW()->Earn_Points->should_customer_earn_points($userId)
             || get_post_meta($reviewId, \LPFW()->Plugin_Constants->COMMENT_ENTRY_ID_META, true)) {
             return;
         }
@@ -43,6 +84,6 @@ class Controller extends BaseController
             'status' => 'all',
             'user__in' => $review->author_id,
         ]);
-        return 1 <= $reviews->total;
+        return 1 >= $reviews->total;
     }
 }

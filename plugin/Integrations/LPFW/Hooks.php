@@ -27,7 +27,8 @@ class Hooks implements HooksContract
         if ('yes' !== get_option(\LPFW()->Plugin_Constants->EARN_ACTION_PRODUCT_REVIEW, 'yes')) {
             return;
         }
-        add_action('site-reviews/review/approved', [$this->controller, 'maybeEarnPoints']);
-        add_action('site-reviews/review/created', [$this->controller, 'maybeEarnPoints']);
+        add_filter('lpfw_get_point_earn_source_types', [$this->controller, 'filterEarnPointTypes']);
+        add_action('site-reviews/review/approved', [$this->controller, 'maybeEarnPoints'], 20);
+        add_action('site-reviews/review/created', [$this->controller, 'maybeEarnPoints'], 20);
     }
 }

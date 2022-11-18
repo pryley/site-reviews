@@ -77,8 +77,8 @@ class Query
     }
 
     /**
-     * @param bool $bypassCache
      * @param int $postId
+     * @param bool $bypassCache
      * @return Review
      */
     public function review($postId, $bypassCache = false)
