@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Queue;
 
 class SystemInfo
 {
@@ -36,6 +37,7 @@ class SystemInfo
             'reviews' => $this->getReviewDetails(),
             'browser' => $this->getBrowserDetails(),
             'database' => $this->getDatabaseDetails($data),
+            'actionscheduler' => $this->getActionSchedulerDetails(),
             'server' => $this->getServerDetails($data),
             'wordpress' => $this->getWordpressDetails($data),
             'mu-plugins' => $this->getMustUsePluginDetails(),
@@ -54,6 +56,36 @@ class SystemInfo
             return $carry.$this->implode($title, $values);
         });
         return trim($systemInfo);
+    }
+
+    /**
+     * @return array
+     */
+    public function getActionSchedulerDetails()
+    {
+        $counts = glsr(Queue::class)->actionCounts();
+        $values = [];
+        foreach ($counts as $key => $value) {
+            $label = sprintf('Action (%s)', $key);
+            if ($value['count'] > 1) {
+                $values[$label] = sprintf('%s (latest: %s, oldest: %s)',
+                    $value['count'],
+                    $value['latest'],
+                    $value['oldest']
+                );
+            } else {
+                $values[$label] = sprintf('%s (latest: %s)',
+                    $value['count'],
+                    $value['latest']
+                );
+            }
+        }
+        $values['Data Store'] = get_class(\ActionScheduler_Store::instance());
+        $values['Version'] = \ActionScheduler_Versions::instance()->latest_version();
+        return [
+            'title' => 'Action Scheduler',
+            'values' => $values,
+        ];
     }
 
     /**
