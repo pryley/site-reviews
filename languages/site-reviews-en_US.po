@@ -4070,6 +4070,23 @@ msgctxt "admin-text"
 msgid "Please wait..."
 msgstr "Please wait..."
 
+#: views/pages/tools/scheduled.php:5
+msgctxt "admin-text"
+msgid ""
+"Site Reviews uses a versatile library called <a "
+"href=\"https://actionscheduler.org\" target=\"_blank\">Action Scheduler</a> "
+"to manage and schedule cron jobs in WordPress. Action Scheduler improves "
+"your site’s overall ability to process large tasks. Many other popular "
+"WordPress plugins like WooCommerce, RankMath, WPForms, and All in One SEO "
+"also rely on Action Scheduler to help execute actions more efficiently."
+msgstr ""
+"Site Reviews uses a versatile library called <a "
+"href=\"https://actionscheduler.org\" target=\"_blank\">Action Scheduler</a> "
+"to manage and schedule cron jobs in WordPress. Action Scheduler improves "
+"your site’s overall ability to process large tasks. Many other popular "
+"WordPress plugins like WooCommerce, RankMath, WPForms, and All in One SEO "
+"also rely on Action Scheduler to help execute actions more efficiently."
+
 #: views/pages/tools/sync.php:9
 msgctxt "admin-text"
 msgid "Service"

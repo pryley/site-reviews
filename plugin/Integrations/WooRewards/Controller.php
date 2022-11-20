@@ -18,20 +18,7 @@ class Controller extends BaseController
      */
     public function onApprovedReview(Review $review): void
     {
-        $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
-        foreach ($review->assigned_posts as $postId) {
-            if (!$this->isFirstReviewForPost($postId, $review)) {
-                continue;
-            }
-            try {
-                $comment = $this->fakeComment($postId, $review);
-                if ($this->invoke('isValid', [$comment, $delayed = false])) {
-                    $this->invoke('process', [$comment, $force = true]);
-                }
-            } catch (\Exception $e) {
-                glsr_log()->error($e->getMessage());
-            }
-        }
+        $this->processPoints($review, $force = true);
     }
 
     /**
@@ -39,20 +26,7 @@ class Controller extends BaseController
      */
     public function onCreatedReview(Review $review): void
     {
-        $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
-        foreach ($review->assigned_posts as $postId) {
-            if (!$this->isFirstReviewForPost($postId, $review)) {
-                continue;
-            }
-            try {
-                $comment = $this->fakeComment($postId, $review);
-                if ($this->invoke('isValid', [$comment, $delayed = false])) {
-                    $this->invoke('process', [$comment, $force = false]);
-                }
-            } catch (\Exception $e) {
-                glsr_log()->error($e->getMessage());
-            }
-        }
+        $this->processPoints($review, $force = false);
     }
 
     /**
@@ -78,5 +52,21 @@ class Controller extends BaseController
             return $this->$method(...$args);
         };
         return $fn->bindTo($this->event, $this->event)();
+    }
+
+    protected function processPoints(Review $review, bool $force = false): void
+    {
+        $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
+        foreach ($review->assigned_posts as $postId) {
+            try {
+                $comment = $this->fakeComment($postId, $review);
+                if (!$this->invoke('isValid', [$comment, $delayed = false])) {
+                    continue;
+                }
+                $this->invoke('process', [$comment, $force]);
+            } catch (\Exception $e) {
+                glsr_log()->error($e->getMessage());
+            }
+        }
     }
 }

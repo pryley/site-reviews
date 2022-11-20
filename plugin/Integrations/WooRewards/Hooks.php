@@ -24,13 +24,15 @@ class Hooks implements HooksContract
         if (!class_exists('\LWS_WooRewards') || !class_exists('\LWS\WOOREWARDS\Core\Trace')) {
             return;
         }
-        $this->removeAction('comment_post', 'trigger');
-        $this->removeAction('comment_unapproved_to_approved', 'delayedApproval');
-        $this->removeAction('wp_insert_comment', 'review');
-        if ($this->controller->event) {
-            add_action('site-reviews/review/approved', [$this->controller, 'onApprovedReview'], 20);
-            add_action('site-reviews/review/created', [$this->controller, 'onCreatedReview'], 20);
-        }
+        add_action('lws_woorewards_abstracts_event_installed', function () {
+            $this->removeAction('comment_post', 'trigger');
+            $this->removeAction('comment_unapproved_to_approved', 'delayedApproval');
+            $this->removeAction('wp_insert_comment', 'review');
+            if ($this->controller->event) {
+                add_action('site-reviews/review/approved', [$this->controller, 'onApprovedReview'], 20);
+                add_action('site-reviews/review/created', [$this->controller, 'onCreatedReview'], 20);
+            }
+        });
     }
 
     protected function removeAction(string $hook, string $fn): bool
