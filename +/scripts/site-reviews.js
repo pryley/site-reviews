@@ -22,14 +22,21 @@ const initExcerpts = (el) => {
 }
 
 const initForms = () => {
-    GLSR.forms.forEach(form => form.destroy())
-    GLSR.forms = [];
+    // remove all forms that are no longer on the page
+    GLSR.forms = GLSR.forms.filter(form => form.form.parentElement);
     document.querySelectorAll('form.glsr-review-form').forEach(formEl => {
         const buttonEl = formEl.querySelector('[type=submit]');
         if (buttonEl) {
-            const form = new Form(formEl, buttonEl);
+            let form;
+            let index = GLSR.forms.findIndex(form => form.form === formEl);
+            if (-1 !== index) {
+                form = GLSR.forms[index];
+                form.destroy()
+            } else {
+                form = new Form(formEl, buttonEl);
+                GLSR.forms.push(form)
+            }
             form.init()
-            GLSR.forms.push(form)
         }
     })
 }
