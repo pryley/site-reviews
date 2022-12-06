@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
+use GeminiLabs\League\Csv\EscapeFormula;
 use GeminiLabs\League\Csv\Exceptions\CannotInsertRecord;
 use GeminiLabs\League\Csv\Writer;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
@@ -34,6 +35,7 @@ class ExportReviews implements Contract
         try {
             $filename = sprintf('%s_%s.csv', date('YmdHi'), glsr()->id);
             $writer = Writer::createFromString('');
+            $writer->addFormatter(new EscapeFormula());
             $writer->insertOne(array_keys($reviews[0]));
             $writer->insertAll($reviews);
             nocache_headers();
