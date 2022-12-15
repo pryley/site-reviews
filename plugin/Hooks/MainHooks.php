@@ -20,6 +20,7 @@ class MainHooks extends AbstractHooks
             ['logOnce', 'wp_footer'],
             ['registerAddons', 'plugins_loaded'],
             ['registerLanguages', 'plugins_loaded', 1], // do this first (may not be needed)
+            ['registerPostMeta', 'init'],
             ['registerPostType', 'init', 8],
             ['registerReviewTypes', 'init', 7],
             ['registerShortcodes', 'init'],

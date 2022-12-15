@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Commands\RegisterPostMeta;
 use GeminiLabs\SiteReviews\Commands\RegisterPostType;
 use GeminiLabs\SiteReviews\Commands\RegisterShortcodes;
 use GeminiLabs\SiteReviews\Commands\RegisterTaxonomy;
@@ -94,6 +95,15 @@ class MainController extends Controller
         load_plugin_textdomain(glsr()->id, false,
             trailingslashit(plugin_basename(glsr()->path()).'/'.glsr()->languages)
         );
+    }
+
+    /**
+     * @return void
+     * @action init
+     */
+    public function registerPostMeta()
+    {
+        $this->execute(new RegisterPostMeta());
     }
 
     /**
