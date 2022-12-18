@@ -62,11 +62,24 @@ class Template implements Contract
 
     /**
      * @param string $templatePath
-     * @return void|string
+     * @return void
      */
     public function render($templatePath, array $data = [])
     {
         echo $this->build($templatePath, $data);
+    }
+
+    /**
+     * @param string $templatePath
+     * @return void
+     */
+    public function renderMultiple($templatePath, array $dataArr)
+    {
+        foreach ($dataArr as $data) {
+            if (is_array($data)) {
+                $this->render($templatePath, $data);
+            }
+        }
     }
 
     /**

@@ -48,6 +48,7 @@
         </div>
     </div>
 
+    <?php if (!empty($videos)) { ?>
     <div class="about__section is-fullwidth">
         <h3>Screen Recordings</h3>
         <p>These screen recordings (no audio yet, just video) demonstrate the basic features of Site Reviews on a demo website that collects film reviews. Feel free to use the same techniques and apply them to your website.</p>
@@ -79,6 +80,7 @@
             </div>
         </div>
     </div>
+    <?php } ?>
 
     <div class="about__section is-fullwidth">
         <h3>Level Up With <a href="https://niftyplugins.com/plugins/site-reviews-premium/" target="_blank">Site Reviews Premium</a>!</h3>

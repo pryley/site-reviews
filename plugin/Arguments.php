@@ -11,7 +11,7 @@ class Arguments extends \ArrayObject
     /**
      * @param mixed $args
      */
-    public function __construct($args)
+    public function __construct($args = [])
     {
         if ($args instanceof Arguments) {
             $args = $args->toArray();

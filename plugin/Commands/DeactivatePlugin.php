@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Commands;
 
+use GeminiLabs\SiteReviews\Api;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Helper;
@@ -10,8 +11,6 @@ use GeminiLabs\SiteReviews\Request;
 
 class DeactivatePlugin implements Contract
 {
-    protected const API_URL = 'https://api.site-reviews.com/v1/insights';
-
     /**
      * @var Request
      */
@@ -38,7 +37,7 @@ class DeactivatePlugin implements Contract
             glsr_log()->warning('Deactivation reason missing.');
             return;
         }
-        wp_remote_post(static::API_URL, [
+        glsr(Api::class)->post('insights', [
             'blocking' => false,
             'body' => $request,
             'headers' => ['Accept' => 'application/json'],

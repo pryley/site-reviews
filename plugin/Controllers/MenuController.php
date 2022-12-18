@@ -2,8 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Api;
 use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Database\Tables;
+use GeminiLabs\SiteReviews\Defaults\AddonDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
@@ -91,7 +93,14 @@ class MenuController extends Controller
      */
     public function renderAddonsMenu()
     {
+        $addons = [];
+        $data = glsr(Api::class)->get('addons')->data();
+        foreach ($data as $values) {
+            $context = glsr(AddonDefaults::class)->restrict($values);
+            $addons[] = array_merge($context, compact('context'));
+        }
         $this->renderPage('addons', [
+            'addons' => $addons,
             'template' => glsr(Template::class),
         ]);
     }

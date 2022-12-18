@@ -2,6 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Controllers;
 
+use GeminiLabs\SiteReviews\Api;
+use GeminiLabs\SiteReviews\Defaults\TutorialDefaults;
+use GeminiLabs\SiteReviews\Defaults\VideoDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
@@ -75,6 +78,11 @@ class WelcomeController extends Controller
      */
     public function renderPage()
     {
+        $data = glsr(Api::class)->get('tutorials')->data();
+        $data = glsr(TutorialDefaults::class)->restrict($data);
+        $data = array_map(function ($video) {
+            return glsr(VideoDefaults::class)->restrict($video);
+        }, $data);
         $tabs = glsr()->filterArray('addon/welcome/tabs', [
             'getting-started' => _x('Getting Started', 'admin-text', 'site-reviews'),
             'whatsnew' => _x('What\'s New', 'admin-text', 'site-reviews'),
@@ -82,10 +90,7 @@ class WelcomeController extends Controller
             'support' => _x('Support', 'admin-text', 'site-reviews'),
         ]);
         glsr()->render('pages/welcome/index', [
-            'data' => [
-                'context' => [],
-                'videos' => wp_list_sort(glsr()->config('videos'), 'order'),
-            ],
+            'data' => $data,
             'http_referer' => (string) wp_get_referer(),
             'tabs' => $tabs,
             'template' => glsr(Template::class),
