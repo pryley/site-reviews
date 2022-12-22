@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Avatars\InitialsAvatar;
 use GeminiLabs\SiteReviews\Modules\Avatars\PixelAvatar;
@@ -75,6 +74,7 @@ class Avatar
             'default' => $default,
             'size' => $size,
         ]);
+        $avatarUrl = glsr()->filterString('avatar/generate', $avatarUrl, $size, $review);
         if (!$this->isUrl($avatarUrl)) {
             return $this->fallbackUrl($review, $size);
         }
