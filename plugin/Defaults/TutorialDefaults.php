@@ -22,4 +22,16 @@ class TutorialDefaults extends Defaults
             'videos' => [],
         ];
     }
+
+    /**
+     * Finalize provided values, this always runs last.
+     * @return array
+     */
+    protected function finalize(array $values = [])
+    {
+        foreach ($values['videos'] as &$video) {
+            $video = glsr(VideoDefaults::class)->restrict($video);
+        }
+        return $values;
+    }
 }

@@ -80,9 +80,6 @@ class WelcomeController extends Controller
     {
         $data = glsr(Api::class)->get('tutorials')->data();
         $data = glsr(TutorialDefaults::class)->restrict($data);
-        $data = array_map(function ($video) {
-            return glsr(VideoDefaults::class)->restrict($video);
-        }, $data);
         $tabs = glsr()->filterArray('addon/welcome/tabs', [
             'getting-started' => _x('Getting Started', 'admin-text', 'site-reviews'),
             'whatsnew' => _x('What\'s New', 'admin-text', 'site-reviews'),
