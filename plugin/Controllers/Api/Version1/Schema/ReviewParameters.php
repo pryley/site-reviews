@@ -140,7 +140,7 @@ class ReviewParameters
                 'type' => 'array',
             ],
         ];
-        $parameters = glsr()->filterArray('api/reviews/parameters', $parameters);
+        $parameters = glsr()->filterArray('rest-api/reviews/parameters', $parameters);
         ksort($parameters);
         return $parameters;
     }

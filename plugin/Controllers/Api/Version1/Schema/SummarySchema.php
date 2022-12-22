@@ -56,7 +56,7 @@ class SummarySchema
                 'type' => 'integer',
             ],
         ];
-        $properties = glsr()->filterArray('api/summary/properties', $properties);
+        $properties = glsr()->filterArray('rest-api/summary/properties', $properties);
         ksort($properties);
         return $properties;
     }

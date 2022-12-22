@@ -55,6 +55,14 @@ abstract class Controller
     /**
      * @return bool
      */
+    protected function isNoticeAdminScreen()
+    {
+        return 'dashboard' === glsr_current_screen()->id || $this->isReviewAdminScreen();
+    }
+
+    /**
+     * @return bool
+     */
     protected function isReviewAdminPage()
     {
         return glsr()->isAdmin()
@@ -66,11 +74,7 @@ abstract class Controller
      */
     protected function isReviewAdminScreen()
     {
-        $screen = glsr_current_screen();
-        $screenIds = [
-            'dashboard',
-        ];
-        return Str::startsWith($screen->post_type, glsr()->post_type) || in_array($screen->id, $screenIds);
+        return Str::startsWith(glsr_current_screen()->post_type, glsr()->post_type);
     }
 
     /**

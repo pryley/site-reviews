@@ -109,7 +109,7 @@ class SummaryParameters
                 'type' => 'array',
             ],
         ];
-        $parameters = glsr()->filterArray('api/summary/parameters', $parameters);
+        $parameters = glsr()->filterArray('rest-api/summary/parameters', $parameters);
         ksort($parameters);
         return $parameters;
     }

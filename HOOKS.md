@@ -44,11 +44,6 @@
     site-reviews/addon/tools/tabs                           (array $tabs): array
     site-reviews/addon/types                                (array $types): array
     site-reviews/addon/welcome/tabs                         (array $tabs): array
-    site-reviews/api/reviews/parameters                     (array $parameters): array
-    site-reviews/api/reviews/prepare/<key>                  (mixed $value, Controllers\Api\Version1\Response\Prepare $prepare): array
-    site-reviews/api/reviews/properties                     (array $properties): array
-    site-reviews/api/summary/parameters                     (array $parameters): array
-    site-reviews/api/summary/properties                     (array $properties): array
     site-reviews/api/base_url                               (string $url): string
     site-reviews/assets/css                                 (bool $loadCss): bool
     site-reviews/assets/js                                  (bool $loadJs): bool
@@ -146,6 +141,11 @@
     site-reviews/query/sql/order-by                         (array $orderBy, string $handle, Database\Query $query): array
     site-reviews/rating/average                             (float $roundedAverage, array $ratingCounts, int $average): float
     site-reviews/rating/ranking                             (float $ranking, array $ratingCounts, Modules\Rating $rating): float
+    site-reviews/rest-api/reviews/parameters                (array $parameters): array
+    site-reviews/rest-api/reviews/prepare/<key>             (mixed $value, Controllers\Api\Version1\Response\Prepare $prepare): array
+    site-reviews/rest-api/reviews/properties                (array $properties): array
+    site-reviews/rest-api/summary/parameters                (array $parameters): array
+    site-reviews/rest-api/summary/properties                (array $properties): array
     site-reviews/roles                                      (array $roles): array
     site-reviews/captcha/language                           (string $locale): string
     site-reviews/render/view                                (string $view, array $data): string

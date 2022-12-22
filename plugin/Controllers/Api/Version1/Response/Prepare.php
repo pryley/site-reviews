@@ -72,7 +72,7 @@ class Prepare
         if (method_exists($this, $method)) {
             call_user_func_array([$this, $method], $args);
         } else {
-            $this->data[$key] = glsr()->filter('api/reviews/prepare/'.$key, '', $this);
+            $this->data[$key] = glsr()->filter('rest-api/reviews/prepare/'.$key, '', $this);
         }
     }
 

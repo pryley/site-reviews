@@ -269,7 +269,7 @@ class ReviewSchema
                 'type' => 'string',
             ],
         ];
-        $properties = glsr()->filterArray('api/reviews/properties', $properties);
+        $properties = glsr()->filterArray('rest-api/reviews/properties', $properties);
         ksort($properties);
         return $properties;
     }

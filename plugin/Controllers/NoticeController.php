@@ -35,6 +35,7 @@ class NoticeController extends Controller
         $this->dismissValuesMap = [
             'footer' => glsr()->version('major'),
             'premium' => glsr()->version('minor'),
+            'upgraded' => glsr()->version('minor'),
             'welcome' => glsr()->version('minor'),
             'write-review' => glsr()->version('major'),
         ];
@@ -47,8 +48,9 @@ class NoticeController extends Controller
     public function adminNotices()
     {
         // order is intentional!
-        $this->renderPremiumNotice();
+        $this->renderPremiumBanner();
         $this->renderWelcomeNotice();
+        $this->renderUpgradedNotice();
         $this->renderMigrationNotice();
         $this->renderWriteReviewNotice(); // this goes last!
     }
@@ -158,7 +160,7 @@ class NoticeController extends Controller
     /**
      * @return void
      */
-    protected function renderPremiumNotice()
+    protected function renderPremiumBanner()
     {
         if (!Str::startsWith(glsr_current_screen()->post_type, glsr()->post_type)) {
             return;
@@ -181,30 +183,62 @@ class NoticeController extends Controller
      */
     protected function renderMigrationNotice()
     {
-        if ($this->isReviewAdminScreen() && glsr()->hasPermission('tools', 'general')) {
-            $args = [];
-            if (glsr(Database::class)->isMigrationNeeded()) {
-                $args['database'] = true;
-            }
-            if (glsr(Migrate::class)->isMigrationNeeded()) {
-                $args['migrations'] = glsr(Migrate::class)->pendingVersions();
-            }
-            if (empty($args)) {
-                return;
-            }
-            if (!glsr(Queue::class)->isPending('queue/migration')) {
-                // The $args are informational only
-                glsr(Queue::class)->once(time() + MINUTE_IN_SECONDS, 'queue/migration', $args);
-            }
-            glsr()->render('partials/notices/migrate', [
-                'action' => glsr(Builder::class)->a([
-                    'data-expand' => '#support-common-problems-and-solutions',
-                    'href' => glsr_admin_url('documentation', 'support'),
-                    'text' => _x('Common Problems and Solutions', 'admin-text', 'site-reviews'),
-                ]),
-            ]);
-            $this->activeNotices[] = 'migration';
+        if (!glsr()->hasPermission('notices', 'migration') 
+            || !glsr()->hasPermission('tools', 'general')) {
+            return;
         }
+        if (!$this->isReviewAdminScreen()) {
+            return;
+        }
+        $args = [];
+        if (glsr(Database::class)->isMigrationNeeded()) {
+            $args['database'] = true;
+        }
+        if (glsr(Migrate::class)->isMigrationNeeded()) {
+            $args['migrations'] = glsr(Migrate::class)->pendingVersions();
+        }
+        if (empty($args)) {
+            return;
+        }
+        if (!glsr(Queue::class)->isPending('queue/migration')) {
+            // The $args are informational only
+            glsr(Queue::class)->once(time() + MINUTE_IN_SECONDS, 'queue/migration', $args);
+        }
+        glsr()->render('partials/notices/migrate', [
+            'action' => glsr(Builder::class)->a([
+                'data-expand' => '#support-common-problems-and-solutions',
+                'href' => glsr_admin_url('documentation', 'support'),
+                'text' => _x('Common Problems and Solutions', 'admin-text', 'site-reviews'),
+            ]),
+        ]);
+        $this->activeNotices[] = 'migration';
+    }
+
+    /**
+     * @return void
+     */
+    protected function renderUpgradedNotice()
+    {
+        if (!glsr()->hasPermission('notices', 'upgraded') 
+            || !glsr()->hasPermission('welcome', 'whatsnew') 
+            || !glsr()->hasPermission('welcome', 'upgrade-guide')) {
+            return;
+        }
+        if (!$this->isNoticeAdminScreen()) {
+            return;
+        }
+        if (!Helper::isGreaterThan($this->getVersionFor('welcome'), $this->getUserMeta('welcome', 0))) {
+            return;
+        }
+        if ('0.0.0' === glsr(OptionManager::class)->get('version_upgraded_from')) {
+            return;
+        }
+        $text = sprintf(_x('Thank you for updating %s to %s! I hope you love the improvements.', 'plugin name|version (admin-text)', 'site-reviews'),
+            sprintf('<strong>%s</strong>', glsr()->name),
+            sprintf('v%s', glsr()->version)
+        ).' 🎉';
+        glsr()->render('partials/notices/upgraded', compact('text'));
+        $this->activeNotices[] = 'upgraded';
     }
 
     /**
@@ -212,24 +246,23 @@ class NoticeController extends Controller
      */
     protected function renderWelcomeNotice()
     {
-        if ($this->isReviewAdminScreen()
-            && Helper::isGreaterThan($this->getVersionFor('welcome'), $this->getUserMeta('welcome', 0))
-            && glsr()->can('edit_others_posts')) {
-            if ('0.0.0' == glsr(OptionManager::class)->get('version_upgraded_from')) {
-                $fresh = true;
-                $text = sprintf(_x('Thank you for installing %s! I hope you love it.', 'plugin name (admin-text)', 'site-reviews'),
-                    sprintf('<strong>%s</strong> v%s', glsr()->name, glsr()->version)
-                ).' ✨';
-            } else {
-                $fresh = false;
-                $text = sprintf(_x('Thank you for updating %s to %s! I hope you love the improvements.', 'plugin name|version (admin-text)', 'site-reviews'),
-                    sprintf('<strong>%s</strong>', glsr()->name),
-                    sprintf('v%s', glsr()->version)
-                ).' 🎉';
-            }
-            glsr()->render('partials/notices/welcome', compact('fresh', 'text'));
-            $this->activeNotices[] = 'welcome';
+        if (!glsr()->hasPermission('notices', 'welcome') || !glsr()->hasPermission('welcome')) {
+            return;
         }
+        if (!$this->isNoticeAdminScreen()) {
+            return;
+        }
+        if ('0.0.0' !== glsr(OptionManager::class)->get('version_upgraded_from')) {
+            return;
+        }
+        if (!Helper::isGreaterThan($this->getVersionFor('welcome'), $this->getUserMeta('welcome', 0))) {
+            return;
+        }
+        $text = sprintf(_x('Thank you for installing %s! I hope you love it.', 'plugin name (admin-text)', 'site-reviews'),
+            sprintf('<strong>%s</strong> v%s', glsr()->name, glsr()->version)
+        ).' ✨';
+        glsr()->render('partials/notices/welcome', compact('text'));
+        $this->activeNotices[] = 'welcome';
     }
 
     /**
@@ -237,6 +270,9 @@ class NoticeController extends Controller
      */
     protected function renderWriteReviewNotice()
     {
+        if (!glsr()->hasPermission('notices', 'write-review')) {
+            return;
+        }
         if (!Str::startsWith(glsr_current_screen()->post_type, glsr()->post_type)) {
             return;
         }
