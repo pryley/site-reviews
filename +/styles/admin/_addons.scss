@@ -123,42 +123,12 @@
 }
 .glsr-addon-screenshot {
     display: block;
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-color: #ccd0d4;
     border-bottom: 1px solid #ccd0d4;
     padding-top: 66.67%;
     margin: -1px;
     @media screen and (min-width: 514px) {
         padding-top: 100%;
-    }
-    &[data-slug="filters"] {
-        background-color: #039588;
-        background-image: url(../../images/addons/addon-filters.svg);
-    }
-    &[data-slug="forms"] {
-        background-color: #617c8b;
-        background-image: url(../../images/addons/addon-forms.svg);
-    }
-    &[data-slug="gamipress"] {
-        background-color: #0098d7;
-        background-image: url(../../images/addons/addon-gamipress.svg);
-    }
-    &[data-slug="images"] {
-        background-color: #673ab7;
-        background-image: url(../../images/addons/addon-images.svg);
-    }
-    &[data-slug="notifications"] {
-        background-color: #283a89;
-        background-image: url(../../images/addons/addon-notifications.svg);
-    }
-    &[data-slug="themes"] {
-        background-color: #00acc1;
-        background-image: url(../../images/addons/addon-themes.svg);
-    }
-    &[data-slug="woocommerce"] {
-        background-color: #7f54b3;
-        background-image: url(../../images/addons/addon-woocommerce.svg);
     }
 }
 .glsr-addon-link {

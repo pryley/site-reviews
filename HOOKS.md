@@ -49,6 +49,7 @@
     site-reviews/api/reviews/properties                     (array $properties): array
     site-reviews/api/summary/parameters                     (array $parameters): array
     site-reviews/api/summary/properties                     (array $properties): array
+    site-reviews/api/base_url                               (string $url): string
     site-reviews/assets/css                                 (bool $loadCss): bool
     site-reviews/assets/js                                  (bool $loadJs): bool
     site-reviews/assigned_posts/parent_id                   (int $postId): int
