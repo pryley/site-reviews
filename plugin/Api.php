@@ -44,6 +44,6 @@ class Api
     public function url(string $path): string
     {
         $baseUrl = glsr()->filterString('api/base_url', static::BASE_URL);
-        return trailingslashit(static::BASE_URL).ltrim($path, '/');
+        return trailingslashit($baseUrl).ltrim($path, '/');
     }
 }
