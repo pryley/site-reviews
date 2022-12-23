@@ -320,6 +320,26 @@ msgstr "Get review"
 msgid "Write review"
 msgstr "Write review"
 
+#: plugin/Integrations/WooCommerce/Reminder.php:65
+msgid ""
+"We would love if you could help us and other customers by reviewing "
+"products that you recently purchased in order #{order_id}. It only takes a "
+"minute and it would really help others. Click the button below and leave "
+"your review!"
+msgstr ""
+"We would love if you could help us and other customers by reviewing "
+"products that you recently purchased in order #{order_id}. It only takes a "
+"minute and it would really help others. Click the button below and leave "
+"your review!"
+
+#: plugin/Integrations/WooCommerce/Reminder.php:73
+msgid "Thanks for shopping with us!"
+msgstr "Thanks for shopping with us!"
+
+#: plugin/Integrations/WooCommerce/Reminder.php:81
+msgid "{site_title}: Review Your Experience with Us"
+msgstr "{site_title}: Review Your Experience with Us"
+
 #: plugin/Modules/Validator/AkismetValidator.php:48, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:81
 msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr "This review has been flagged as possible spam and cannot be submitted."
@@ -351,6 +371,14 @@ msgstr "You must be logged in to submit a review."
 #: plugin/Modules/Validator/ReviewLimitsValidator.php:34
 msgid "You have already submitted a review."
 msgstr "You have already submitted a review."
+
+#: plugin/Integrations/WooCommerce/Controllers/Controller.php:112
+msgid "verified owner"
+msgstr "verified owner"
+
+#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:144
+msgid "Reviews (%d)"
+msgstr "Reviews (%d)"
 
 #: plugin/Modules/Html/Fields/Rating.php:15
 msgid "%s Star"
@@ -1193,7 +1221,7 @@ msgstr ""
 "changed on the %s page. You may also override this by using the "
 "\"fallback\" option on the shortcode."
 
-#: config/settings.php:339, plugin/Controllers/MenuController.php:141
+#: config/settings.php:339, plugin/Controllers/MenuController.php:150
 msgctxt "admin-text"
 msgid "Strings"
 msgstr "Strings"
@@ -1893,6 +1921,157 @@ msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr "Choose the action that should be taken when a review is blacklisted."
 
+#: config/woocommerce.php:6
+msgctxt "admin-text"
+msgid "Enable Integration?"
+msgstr "Enable Integration?"
+
+#: config/woocommerce.php:7
+msgctxt "admin-text"
+msgid ""
+"This will completely replace the default WooCommerce review system with "
+"Site Reviews. If you have existing WooCommerce comment reviews, you may "
+"need to first export them to a CSV file, and then import them using the %s "
+"tool."
+msgstr ""
+"This will completely replace the default WooCommerce review system with "
+"Site Reviews. If you have existing WooCommerce comment reviews, you may "
+"need to first export them to a CSV file, and then import them using the %s "
+"tool."
+
+#: config/woocommerce.php:8, views/woocommerce/tools/import-product-reviews.php:24, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:186
+msgctxt "admin-text"
+msgid "Import Reviews"
+msgstr "Import Reviews"
+
+#: config/woocommerce.php:18
+msgctxt "admin-text"
+msgid "Rating Style"
+msgstr "Rating Style"
+
+#: config/woocommerce.php:20
+msgctxt "admin-text"
+msgid "Site Reviews (yellow)"
+msgstr "Site Reviews (yellow)"
+
+#: config/woocommerce.php:21
+msgctxt "admin-text"
+msgid "WooCommerce (black)"
+msgstr "WooCommerce (black)"
+
+#: config/woocommerce.php:22
+msgctxt "admin-text"
+msgid "WooCommerce (purple)"
+msgstr "WooCommerce (purple)"
+
+#: config/woocommerce.php:24
+msgctxt "admin-text"
+msgid "This changes the colour of the stars and the summary bars"
+msgstr "This changes the colour of the stars and the summary bars"
+
+#: config/woocommerce.php:33
+msgctxt "admin-text"
+msgid "Summary Shortcode"
+msgstr "Summary Shortcode"
+
+#: config/woocommerce.php:34
+msgctxt "admin-text"
+msgid ""
+"Enter the summary shortcode used on the product page (the schema option is "
+"unnecessary)"
+msgstr ""
+"Enter the summary shortcode used on the product page (the schema option is "
+"unnecessary)"
+
+#: config/woocommerce.php:43
+msgctxt "admin-text"
+msgid "Reviews Shortcode"
+msgstr "Reviews Shortcode"
+
+#: config/woocommerce.php:44
+msgctxt "admin-text"
+msgid ""
+"Enter the reviews shortcode used on the product page (the schema option is "
+"unnecessary)"
+msgstr ""
+"Enter the reviews shortcode used on the product page (the schema option is "
+"unnecessary)"
+
+#: config/woocommerce.php:53
+msgctxt "admin-text"
+msgid "Form Shortcode"
+msgstr "Form Shortcode"
+
+#: config/woocommerce.php:54
+msgctxt "admin-text"
+msgid "Enter the form shortcode used on the product page"
+msgstr "Enter the form shortcode used on the product page"
+
+#: config/woocommerce.php:64
+msgctxt "admin-text"
+msgid "The problem with averaging star ratings"
+msgstr "The problem with averaging star ratings"
+
+#: config/woocommerce.php:65
+msgctxt "admin-text"
+msgid "Of bayesian average and star ratings"
+msgstr "Of bayesian average and star ratings"
+
+#: config/woocommerce.php:67
+msgctxt "admin-text"
+msgid "Product Sorting"
+msgstr "Product Sorting"
+
+#: config/woocommerce.php:69
+msgctxt "admin-text"
+msgid "Average Rating"
+msgstr "Average Rating"
+
+#: config/woocommerce.php:70
+msgctxt "admin-text"
+msgid "Bayesian Average Rating"
+msgstr "Bayesian Average Rating"
+
+#: config/woocommerce.php:72
+msgctxt "admin-text"
+msgid "This is the method used to sort products by rating on the shop page."
+msgstr "This is the method used to sort products by rating on the shop page."
+
+#: config/woocommerce.php:80
+msgctxt "admin-text"
+msgid "Display empty ratings?"
+msgstr "Display empty ratings?"
+
+#: config/woocommerce.php:81
+msgctxt "admin-text"
+msgid "This will display the rating stars even if the product has no reviews."
+msgstr "This will display the rating stars even if the product has no reviews."
+
+#: config/woocommerce.php:89
+msgctxt "admin-text"
+msgid "Filter Comment Queries"
+msgstr "Filter Comment Queries"
+
+#: config/woocommerce.php:90
+msgctxt "admin-text"
+msgid ""
+"This will filter the output of the wp_comments() function when it's used to "
+"query WooCommerce product reviews."
+msgstr ""
+"This will filter the output of the wp_comments() function when it's used to "
+"query WooCommerce product reviews."
+
+#: config/woocommerce.php:91
+msgctxt "admin-text"
+msgid ""
+"This may fix issues with other plugins which query WooCommerce product "
+"reviews. Keep in mind that enabling this option may also cause conflicts "
+"with incompatible plugins."
+msgstr ""
+"This may fix issues with other plugins which query WooCommerce product "
+"reviews. Keep in mind that enabling this option may also cause conflicts "
+"with incompatible plugins."
+
 #: plugin/Application.php:183, plugin/Controllers/SettingsController.php:176
 msgctxt "admin-text"
 msgid "License Keys"
@@ -2002,7 +2181,7 @@ msgctxt "admin-text"
 msgid "Untitled"
 msgstr "Untitled"
 
-#: plugin/Addons/Controller.php:77, plugin/Controllers/AdminController.php:48, plugin/Controllers/MenuController.php:52, plugin/Integrations/Elementor/ElementorWidget.php:136, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
+#: plugin/Addons/Controller.php:77, plugin/Controllers/AdminController.php:48, plugin/Controllers/MenuController.php:54, plugin/Integrations/Elementor/ElementorWidget.php:136, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
 msgctxt "admin-text"
 msgid "Settings"
 msgstr "Settings"
@@ -2067,7 +2246,7 @@ msgctxt "admin-text"
 msgid "Searching..."
 msgstr "Searching..."
 
-#: plugin/Commands/ExportReviews.php:31
+#: plugin/Commands/ExportReviews.php:32
 msgctxt "admin-text"
 msgid "No reviews found."
 msgstr "No reviews found."
@@ -2134,7 +2313,7 @@ msgctxt "admin-text"
 msgid "See the %s for more details."
 msgstr "See the %s for more details."
 
-#: plugin/Commands/ImportReviews.php:189, plugin/Controllers/MenuController.php:168
+#: plugin/Commands/ImportReviews.php:189, plugin/Controllers/MenuController.php:177
 msgctxt "admin-text"
 msgid "Console"
 msgstr "Console"
@@ -2384,97 +2563,97 @@ msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr "Saving is disabled: %s is currently editing this review."
 
-#: plugin/Controllers/MainController.php:116
+#: plugin/Controllers/MainController.php:126
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr "Local Review"
 
-#: plugin/Controllers/MenuController.php:53
+#: plugin/Controllers/MenuController.php:55
 msgctxt "admin-text"
 msgid "Tools"
 msgstr "Tools"
 
-#: plugin/Controllers/MenuController.php:54
+#: plugin/Controllers/MenuController.php:56
 msgctxt "admin-text"
 msgid "Add-ons"
 msgstr "Add-ons"
 
-#: plugin/Controllers/MenuController.php:55
+#: plugin/Controllers/MenuController.php:57
 msgctxt "admin-text"
 msgid "Help & Support"
 msgstr "Help & Support"
 
-#: plugin/Controllers/MenuController.php:107, plugin/Controllers/WelcomeController.php:82
+#: plugin/Controllers/MenuController.php:116, plugin/Controllers/WelcomeController.php:87
 msgctxt "admin-text"
 msgid "Support"
 msgstr "Support"
 
-#: plugin/Controllers/MenuController.php:108, plugin/Controllers/ToolsController.php:115
+#: plugin/Controllers/MenuController.php:117, plugin/Controllers/ToolsController.php:115
 msgctxt "admin-text"
 msgid "FAQ"
 msgstr "FAQ"
 
-#: plugin/Controllers/MenuController.php:109
+#: plugin/Controllers/MenuController.php:118
 msgctxt "admin-text"
 msgid "Shortcodes"
 msgstr "Shortcodes"
 
-#: plugin/Controllers/MenuController.php:110
+#: plugin/Controllers/MenuController.php:119
 msgctxt "admin-text"
 msgid "Hooks"
 msgstr "Hooks"
 
-#: plugin/Controllers/MenuController.php:111
+#: plugin/Controllers/MenuController.php:120
 msgctxt "admin-text"
 msgid "Functions"
 msgstr "Functions"
 
-#: plugin/Controllers/MenuController.php:112
+#: plugin/Controllers/MenuController.php:121
 msgctxt "admin-text"
 msgid "API"
 msgstr "API"
 
-#: plugin/Controllers/MenuController.php:113, plugin/Controllers/MenuController.php:142
+#: plugin/Controllers/MenuController.php:122, plugin/Controllers/MenuController.php:151
 msgctxt "admin-text"
 msgid "Addons"
 msgstr "Addons"
 
-#: plugin/Controllers/MenuController.php:137, plugin/Controllers/MenuController.php:165
+#: plugin/Controllers/MenuController.php:146, plugin/Controllers/MenuController.php:174
 msgctxt "admin-text"
 msgid "General"
 msgstr "General"
 
-#: plugin/Controllers/MenuController.php:138, plugin/Controllers/PrivacyController.php:146, plugin/Defaults/PostTypeLabelDefaults.php:14, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
+#: plugin/Controllers/MenuController.php:147, plugin/Controllers/PrivacyController.php:146, plugin/Defaults/PostTypeLabelDefaults.php:14, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
 msgctxt "admin-text"
 msgid "Reviews"
 msgstr "Reviews"
 
-#: plugin/Controllers/MenuController.php:139
+#: plugin/Controllers/MenuController.php:148
 msgctxt "admin-text"
 msgid "Forms"
 msgstr "Forms"
 
-#: plugin/Controllers/MenuController.php:140, plugin/Tinymce/SiteReviewsSummaryTinymce.php:35, plugin/Tinymce/SiteReviewsTinymce.php:66
+#: plugin/Controllers/MenuController.php:149, plugin/Tinymce/SiteReviewsSummaryTinymce.php:35, plugin/Tinymce/SiteReviewsTinymce.php:66
 msgctxt "admin-text"
 msgid "Schema"
 msgstr "Schema"
 
-#: plugin/Controllers/MenuController.php:143
+#: plugin/Controllers/MenuController.php:152
 msgctxt "admin-text"
 msgid "Licenses"
 msgstr "Licenses"
 
-#: plugin/Controllers/MenuController.php:166
+#: plugin/Controllers/MenuController.php:175
 msgctxt "admin-text"
 msgid "Scheduled Actions"
 msgstr "Scheduled Actions"
 
-#: plugin/Controllers/MenuController.php:167, views/pages/tools/sync.php:57
+#: plugin/Controllers/MenuController.php:176, views/pages/tools/sync.php:57
 msgctxt "admin-text"
 msgid "Sync Reviews"
 msgstr "Sync Reviews"
 
-#: plugin/Controllers/MenuController.php:169
+#: plugin/Controllers/MenuController.php:178
 msgctxt "admin-text"
 msgid "System Info"
 msgstr "System Info"
@@ -2488,11 +2667,6 @@ msgstr "No"
 msgctxt "admin-text"
 msgid "Yes"
 msgstr "Yes"
-
-#: plugin/Controllers/NoticeController.php:203
-msgctxt "admin-text"
-msgid "Common Problems and Solutions"
-msgstr "Common Problems and Solutions"
 
 #: plugin/Controllers/PrivacyController.php:25
 msgctxt "admin-text"
@@ -2696,35 +2870,50 @@ msgctxt "admin-text"
 msgid "Save as Unapproved"
 msgstr "Save as Unapproved"
 
-#: plugin/Controllers/WelcomeController.php:26
+#: plugin/Controllers/WelcomeController.php:29
 msgctxt "admin-text"
 msgid "About"
 msgstr "About"
 
-#: plugin/Controllers/WelcomeController.php:38
+#: plugin/Controllers/WelcomeController.php:41
 msgctxt "admin-text"
 msgid "Welcome to %s &#8212; WordPress"
 msgstr "Welcome to %s &#8212; WordPress"
 
-#: plugin/Controllers/WelcomeController.php:49
+#: plugin/Controllers/WelcomeController.php:52
 msgctxt "admin-text"
 msgid "Welcome to %s"
 msgstr "Welcome to %s"
 
-#: plugin/Controllers/WelcomeController.php:79
+#: plugin/Controllers/WelcomeController.php:84
 msgctxt "admin-text"
 msgid "Getting Started"
 msgstr "Getting Started"
 
-#: plugin/Controllers/WelcomeController.php:80
+#: plugin/Controllers/WelcomeController.php:85
 msgctxt "admin-text"
 msgid "What's New"
 msgstr "What's New"
 
-#: plugin/Controllers/WelcomeController.php:81
+#: plugin/Controllers/WelcomeController.php:86
 msgctxt "admin-text"
 msgid "Upgrade Guide"
 msgstr "Upgrade Guide"
+
+#: plugin/Defaults/AddonDefaults.php:64
+msgctxt "admin-text"
+msgid "View Add-on"
+msgstr "View Add-on"
+
+#: plugin/Defaults/AddonDefaults.php:61
+msgctxt "admin-text"
+msgid "Premium members only"
+msgstr "Premium members only"
+
+#: plugin/Defaults/AddonDefaults.php:62
+msgctxt "admin-text"
+msgid "beta"
+msgstr "beta"
 
 #: plugin/Defaults/PostTypeColumnDefaults.php:23, plugin/Defaults/RevisionFieldsDefaults.php:15
 msgctxt "admin-text"
@@ -3436,6 +3625,22 @@ msgctxt "admin-text"
 msgid "Update progress"
 msgstr "Update progress"
 
+#: views/woocommerce/product-options.php:8
+msgctxt "admin-text"
+msgid "Enable reviews"
+msgstr "Enable reviews"
+
+#: views/woocommerce/settings.php:6
+msgctxt "admin-text"
+msgid ""
+"The shortcodes entered below <strong>must</strong> include the "
+"<code>assigned_posts=\"post_id\"</code> option as that links the reviews to "
+"the product."
+msgstr ""
+"The shortcodes entered below <strong>must</strong> include the "
+"<code>assigned_posts=\"post_id\"</code> option as that links the reviews to "
+"the product."
+
 #: plugin/Controllers/ListTableColumns/ColumnFilterAssignedPost.php:15
 msgctxt "admin-text"
 msgid "Filter by assigned post"
@@ -3761,6 +3966,11 @@ msgstr ""
 "The Schema Pro integration with Site Reviews will only work if the schema "
 "is loaded in the Footer location."
 
+#: plugin/Integrations/WooCommerce/Reminder.php:21
+msgctxt "admin-text"
+msgid "Site Reviews: Review Reminder"
+msgstr "Site Reviews: Review Reminder"
+
 #: plugin/Modules/Html/TemplateTags.php:149
 msgctxt "admin-text"
 msgid "View the review in WordPress &rarr;"
@@ -3786,71 +3996,6 @@ msgstr ""
 msgctxt "admin-text"
 msgid "Check it out!"
 msgstr "Check it out!"
-
-#: views/pages/addons/index.php:23
-msgctxt "admin-text"
-msgid "Allow your website visitors to sort, filter by rating, and search reviews."
-msgstr "Allow your website visitors to sort, filter by rating, and search reviews."
-
-#: views/pages/addons/index.php:25, views/pages/addons/index.php:36, views/pages/addons/index.php:47, views/pages/addons/index.php:80, views/pages/addons/index.php:91
-msgctxt "admin-text"
-msgid "View Add-on"
-msgstr "View Add-on"
-
-#: views/pages/addons/index.php:34
-msgctxt "admin-text"
-msgid ""
-"Form builder with 22 different field types, each form has its own Review "
-"Template which can be customised as needed."
-msgstr ""
-"Form builder with 22 different field types, each form has its own Review "
-"Template which can be customised as needed."
-
-#: views/pages/addons/index.php:45
-msgctxt "admin-text"
-msgid ""
-"Allow your website visitors to submit images (and optional captions) with "
-"their reviews."
-msgstr ""
-"Allow your website visitors to submit images (and optional captions) with "
-"their reviews."
-
-#: views/pages/addons/index.php:56
-msgctxt "admin-text"
-msgid ""
-"Create notification emails with custom conditions and schedule them to send "
-"after a review is submitted."
-msgstr ""
-"Create notification emails with custom conditions and schedule them to send "
-"after a review is submitted."
-
-#: views/pages/addons/index.php:58, views/pages/addons/index.php:69
-msgctxt "admin-text"
-msgid "Premium members only"
-msgstr "Premium members only"
-
-#: views/pages/addons/index.php:67
-msgctxt "admin-text"
-msgid ""
-"Design reviews with a drag-and-drop builder, display reviews in a grid or "
-"carousel, choose custom rating images, and more!"
-msgstr ""
-"Design reviews with a drag-and-drop builder, display reviews in a grid or "
-"carousel, choose custom rating images, and more!"
-
-#: views/pages/addons/index.php:78
-msgctxt "admin-text"
-msgid ""
-"Integrate Site Reviews with GamiPress and award your users for submitting "
-"and receiving reviews. Includes over 30 activity triggers!"
-msgstr ""
-"Integrate Site Reviews with GamiPress and award your users for submitting "
-"and receiving reviews. Includes over 30 activity triggers!"
-
-#: views/pages/addons/index.php:89
-msgctxt "admin-text"
-msgid "Integrate Site Reviews with your Woocommerce products."
-msgstr "Integrate Site Reviews with your Woocommerce products."
 
 #: views/pages/documentation/index.php:6
 msgctxt "admin-text"
@@ -4122,7 +4267,7 @@ msgctxt "admin-text"
 msgid "Download System Info"
 msgstr "Download System Info"
 
-#: views/pages/welcome/getting-started.php:68
+#: views/pages/welcome/getting-started.php:69
 msgctxt "admin-text"
 msgid "%s minutes, %s seconds"
 msgstr "%s minutes, %s seconds"
@@ -4241,28 +4386,33 @@ msgctxt "admin-text"
 msgid "Search..."
 msgstr "Search..."
 
-#: views/partials/notices/migrate.php:8
+#: views/partials/notices/migration.php:5
 msgctxt "admin-text"
 msgid ""
-"Click the button to migrate your reviews and settings to the latest "
+"Site Reviews needs to migrate your reviews and settings to the latest "
 "version. If this notice continues to appear after 5 minutes, please read "
 "the %s section on the Help page."
 msgstr ""
-"Click the button to migrate your reviews and settings to the latest "
+"Site Reviews needs to migrate your reviews and settings to the latest "
 "version. If this notice continues to appear after 5 minutes, please read "
 "the %s section on the Help page."
 
-#: views/partials/notices/migrate.php:11, views/pages/tools/general/migrate-plugin.php:21
+#: views/partials/notices/migration.php:8
+msgctxt "admin-text"
+msgid "Common Problems and Solutions"
+msgstr "Common Problems and Solutions"
+
+#: views/partials/notices/migration.php:19, views/pages/tools/general/migrate-plugin.php:21
 msgctxt "admin-text"
 msgid "Run All Migrations"
 msgstr "Run All Migrations"
 
-#: views/partials/notices/migrate.php:11, views/pages/tools/general/migrate-plugin.php:21
+#: views/partials/notices/migration.php:19, views/pages/tools/general/migrate-plugin.php:21
 msgctxt "admin-text"
 msgid "Migrating, please wait..."
 msgstr "Migrating, please wait..."
 
-#: views/partials/notices/migrate.php:11, views/pages/tools/general/migrate-plugin.php:21
+#: views/partials/notices/migration.php:19, views/pages/tools/general/migrate-plugin.php:21
 msgctxt "admin-text"
 msgid "Run Migration"
 msgstr "Run Migration"
@@ -4296,32 +4446,32 @@ msgstr ""
 "support future development and get images, filters, themes, custom forms, "
 "and more!"
 
-#: views/partials/notices/welcome.php:10
+#: views/partials/notices/upgraded.php:12
 msgctxt "admin-text"
 msgid "See What's New"
 msgstr "See What's New"
 
-#: views/partials/notices/welcome.php:11
+#: views/partials/notices/upgraded.php:15
 msgctxt "admin-text"
 msgid "Read the Upgrade Guide"
 msgstr "Read the Upgrade Guide"
 
-#: views/partials/notices/welcome.php:7
+#: views/partials/notices/welcome.php:11
 msgctxt "admin-text"
 msgid "Start Here"
 msgstr "Start Here"
 
-#: views/partials/notices/welcome.php:8
+#: views/partials/notices/welcome.php:14
 msgctxt "admin-text"
 msgid "Read the Shortcode Documentation"
 msgstr "Read the Shortcode Documentation"
 
-#: views/partials/notices/write-review.php:6
+#: views/partials/notices/write-review.php:12
 msgctxt "admin-text"
 msgid "Leave a review"
 msgstr "Leave a review"
 
-#: views/partials/notices/write-review.php:7
+#: views/partials/notices/write-review.php:13
 msgctxt "admin-text"
 msgid "No, thank you"
 msgstr "No, thank you"
@@ -4409,6 +4559,48 @@ msgstr "singular"
 msgctxt "admin-text"
 msgid "plural"
 msgstr "plural"
+
+#: views/woocommerce/notices/reviews.php:6
+msgctxt "admin-text"
+msgid ""
+"Your product reviews are being managed by <strong>Site Reviews</strong> and "
+"can be found on the %sAll Reviews%s page."
+msgstr ""
+"Your product reviews are being managed by <strong>Site Reviews</strong> and "
+"can be found on the %sAll Reviews%s page."
+
+#: views/woocommerce/notices/reviews.php:12
+msgctxt "admin-text"
+msgid "Import your WooCommerce product reviews"
+msgstr "Import your WooCommerce product reviews"
+
+#: views/woocommerce/tools/import-product-reviews.php:6
+msgctxt "admin-text"
+msgid "Import Product Reviews"
+msgstr "Import Product Reviews"
+
+#: views/woocommerce/tools/import-product-reviews.php:14
+msgctxt "admin-text"
+msgid ""
+"Reviews are only imported once, so it's safe to run this tool multiple "
+"times."
+msgstr ""
+"Reviews are only imported once, so it's safe to run this tool multiple "
+"times."
+
+#: views/woocommerce/tools/import-product-reviews.php:18
+msgctxt "admin-text"
+msgid ""
+"This tool will import your WooCommerce Product reviews. Review replies and "
+"comments will be skipped."
+msgstr ""
+"This tool will import your WooCommerce Product reviews. Review replies and "
+"comments will be skipped."
+
+#: views/woocommerce/tools/import-product-reviews.php:24, views/pages/tools/general/import-reviews.php:186
+msgctxt "admin-text"
+msgid "Importing reviews, please wait..."
+msgstr "Importing reviews, please wait..."
 
 #: plugin/Controllers/Api/Version1/RestReviewController.php:40
 msgctxt "admin-text"
@@ -4523,6 +4715,16 @@ msgctxt "admin-text"
 msgid "Sorry, you are not allowed to view review types."
 msgstr "Sorry, you are not allowed to view review types."
 
+#: plugin/Integrations/WooCommerce/Commands/CountProductReviews.php:43
+msgctxt "admin-text"
+msgid "Imported %d Product Reviews"
+msgstr "Imported %d Product Reviews"
+
+#: plugin/Integrations/WooCommerce/Controllers/Controller.php:66
+msgctxt "admin-text"
+msgid "managed by Site Reviews"
+msgstr "managed by Site Reviews"
+
 #: plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:26
 msgctxt "admin-text"
 msgid "No title"
@@ -4588,11 +4790,6 @@ msgid ""
 msgstr ""
 "Here you can export your Site Reviews settings to a %s file. You can use "
 "the the %sImport Settings%s tool to import the settings on another website."
-
-#: views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:186
-msgctxt "admin-text"
-msgid "Import Reviews"
-msgstr "Import Reviews"
 
 #: views/pages/tools/general/import-reviews.php:14, views/pages/tools/general/optimise-db-tables.php:15
 msgctxt "admin-text"
@@ -4749,11 +4946,6 @@ msgstr "Month"
 msgctxt "admin-text"
 msgid "Day"
 msgstr "Day"
-
-#: views/pages/tools/general/import-reviews.php:186
-msgctxt "admin-text"
-msgid "Importing reviews, please wait..."
-msgstr "Importing reviews, please wait..."
 
 #: views/pages/tools/general/import-settings.php:7, views/pages/tools/general/import-settings.php:24
 msgctxt "admin-text"
@@ -5373,7 +5565,7 @@ msgctxt "plugin name (admin-text)"
 msgid "Schema Pro"
 msgstr "Schema Pro"
 
-#: plugin/Controllers/NoticeController.php:220
+#: views/partials/notices/welcome.php:5
 msgctxt "plugin name (admin-text)"
 msgid "Thank you for installing %s! I hope you love it."
 msgstr "Thank you for installing %s! I hope you love it."
@@ -5476,30 +5668,20 @@ msgctxt "Approve the review (admin-text)"
 msgid "%s this review"
 msgstr "%s this review"
 
-#: plugin/Controllers/NoticeController.php:95, plugin/Controllers/NoticeController.php:247
-msgctxt "Site Reviews (admin-text)"
-msgid "Are you happy with %s?"
-msgstr "Are you happy with %s?"
+#: plugin/Controllers/TaxonomyController.php:15
+msgctxt "The Term ID (admin-text)"
+msgid "<span>ID: %d</span>"
+msgstr "<span>ID: %d</span>"
 
 #: plugin/Controllers/ToolsController.php:351
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr "Sorry, you are not allowed to rollback %s."
 
-#: plugin/Controllers/NoticeController.php:96, plugin/Controllers/NoticeController.php:248
-msgctxt "★★★★★ (admin-text)"
-msgid "Please rate %s on WordPress and let other people know about it."
-msgstr "Please rate %s on WordPress and let other people know about it."
-
-#: plugin/Controllers/NoticeController.php:225
-msgctxt "plugin name|version (admin-text)"
-msgid "Thank you for updating %s to %s! I hope you love the improvements."
-msgstr "Thank you for updating %s to %s! I hope you love the improvements."
-
-#: plugin/Controllers/TaxonomyController.php:15
-msgctxt "The Term ID (admin-text)"
-msgid "<span>ID: %d</span>"
-msgstr "<span>ID: %d</span>"
+#: views/partials/notices/footer.php:6, views/partials/notices/write-review.php:6
+msgctxt "Site Reviews (admin-text)"
+msgid "Are you happy with %s?"
+msgstr "Are you happy with %s?"
 
 #: plugin/Defaults/PostTypeColumnDefaults.php:18
 msgctxt "siteadmin-text"
@@ -5769,6 +5951,16 @@ msgstr ""
 "Make sure to authorize your website with the license before saving it here. "
 "To do this, go to the %sLicense Keys%s page on your Nifty Plugins account "
 "and click the \"Manage Sites\" button."
+
+#: views/partials/notices/footer.php:7, views/partials/notices/write-review.php:7
+msgctxt "★★★★★ (admin-text)"
+msgid "Please rate %s on WordPress and let other people know about it."
+msgstr "Please rate %s on WordPress and let other people know about it."
+
+#: views/partials/notices/upgraded.php:5
+msgctxt "plugin name|version (admin-text)"
+msgid "Thank you for updating %s to %s! I hope you love the improvements."
+msgstr "Thank you for updating %s to %s! I hope you love the improvements."
 
 #: plugin/Modules/Html/Partials/Pagination.php:43
 msgctxt "screen reader text"

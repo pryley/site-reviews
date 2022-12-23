@@ -199,7 +199,6 @@ add_action('site-reviews/addon/update', function ($app) {
         'site-reviews-images/site-reviews-images.php' => 'GeminiLabs\SiteReviews\Addon\Images\Application',
         'site-reviews-notifications/site-reviews-notifications.php' => 'GeminiLabs\SiteReviews\Addon\Notifications\Application',
         'site-reviews-themes/site-reviews-themes.php' => 'GeminiLabs\SiteReviews\Addon\Themes\Application',
-        'site-reviews-woocommerce/site-reviews-woocommerce.php' => 'GeminiLabs\SiteReviews\Addon\Woocommerce\Application',
     ];
     foreach ($addons as $basename => $addon) {
         $file = trailingslashit(WP_PLUGIN_DIR).$basename;

@@ -20,13 +20,6 @@ class Migrate_6_2_0 implements MigrateContract
 
     public function migrateAddonWoocommerce(): void
     {
-        $addon = glsr()->addon('site-reviews-woocommerce');
-        if (!$addon) {
-            return;
-        }
-        if (version_compare(glsr($addon)->version, '3.2', '<')) {
-            return;
-        }
         $settings = Arr::consolidate(get_option(OptionManager::databaseKey(6)));
         if (empty($settings['settings']['addons']['woocommerce'])) {
             return;
