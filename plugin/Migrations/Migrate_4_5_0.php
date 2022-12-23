@@ -3,9 +3,9 @@
 namespace GeminiLabs\SiteReviews\Migrations;
 
 use GeminiLabs\SiteReviews\Contracts\MigrateContract;
-use GeminiLabs\SiteReviews\Controllers\NoticeController;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Notices\AbstractNotice;
 use GeminiLabs\SiteReviews\Role;
 
 class Migrate_4_5_0 implements MigrateContract
@@ -90,7 +90,7 @@ class Migrate_4_5_0 implements MigrateContract
 
     protected function migrateUserMeta(): void
     {
-        $metaKey = NoticeController::USER_META_KEY;
+        $metaKey = AbstractNotice::USER_META_KEY;
         $userIds = get_users([
             'fields' => 'ID',
             'meta_compare' => 'EXISTS',

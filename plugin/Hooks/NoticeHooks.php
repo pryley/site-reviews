@@ -12,10 +12,9 @@ class NoticeHooks extends AbstractHooks
     public function run()
     {
         $this->hook(NoticeController::class, [
-            ['adminNotices', 'admin_notices'],
+            ['adminNotices', 'admin_head'],
             ['dismissNotice', 'site-reviews/route/admin/dismiss-notice'],
             ['dismissNoticeAjax', 'site-reviews/route/ajax/dismiss-notice'],
-            ['renderFooterNotice', 'in_admin_footer'],
         ]);
     }
 }
