@@ -12,13 +12,13 @@ Site Reviews is a complete review management solution for your website, business
 
 == Description ==
 
-Site Reviews allows your visitors to submit reviews with a 1-5 star rating on your website, similar to the way you would on TripAdvisor or Yelp. The plugin provides blocks, shortcodes, and widgets, along with full documentation.
+Site Reviews is a complete review management solution for your website. The plugin provides blocks, shortcodes, and widgets, along with full documentation.
 
 You can pin your best reviews so that they are always shown first, require approval before new review submissions are published, require visitors to be logged-in in order to write a review, send custom notifications on a new submission, and a lot more!
 
-__Site Reviews integrates with Woocommerce__ with the free [Woocommerce Reviews](https://niftyplugins.com/plugins/woocommerce-reviews/) add-on.
+Site Reviews is designed to work in a similar way to reviews on Amazon, TripAdvisor, and Yelp.
 
-[View the demo](https://demo.site-reviews.com)
+[View a demo](https://demo.site-reviews.com) or [try Site Reviews](https://tastewp.com/plugins/site-reviews/?ni=true&redirect=index.php%3Fpage=site-reviews-welcome%26tab=getting-started) for yourself on a demo website.
 
 [Follow plugin development on Github.](https://github.com/pryley/site-reviews/)
 
@@ -38,7 +38,7 @@ __Site Reviews integrates with Woocommerce__ with the free [Woocommerce Reviews]
 - __Editor Blocks__: Use the custom editor blocks in the Gutenberg editor
 - __Elementor Support__: Use the native Elementor Widgets in the Elementor editor
 - __Form Styles__: Match the review form with popular themes and form plugins
-- __GamiPress Integration__: Award points when someone writes or receives a review. For more advanced GamiPress triggers, check out the [GamiPress Reviews](https://niftyplugins.com/plugins/site-reviews-gamipress/) add-on!
+- __GamiPress Support__: Award points when someone writes or receives a review. For more advanced GamiPress triggers, use the [GamiPress Reviews](https://niftyplugins.com/plugins/site-reviews-gamipress/) addon!
 - __Import Third-Party Reviews__: Includes a built-in CSV importer
 - __JSON-LD Schema__: Display your reviews and ratings in search results
 - __Members Only__: Require users to be logged in before submitting a review
@@ -59,22 +59,59 @@ __Site Reviews integrates with Woocommerce__ with the free [Woocommerce Reviews]
 - __Templates__: Use the Site Reviews templates in your theme for full control over the HTML
 - __Translations__: Easily change any text of the plugin to your own
 - __Widgets__: Use the configurable widgets in your sidebars.
+- __WooCommerce Support__: Site Reviews integrates with your WooCommerce Products
 
 ### Site Reviews Add-ons
 
-Site Reviews provides a ton of absolutely free features, possibly more than any other review plugin. But when those features are not enough, Site Reviews provides additional features through add-ons. Current add-ons include:
+Site Reviews provides a ton of absolutely free features, possibly more than any other review plugin. But when those features are not enough, Site Reviews provides additional features through addons. Current addons include:
 
-- __[Review Filters](https://niftyplugins.com/plugins/site-reviews-filters/) (premium)__: Sort, filter, and search your reviews.
-- __[Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/) (premium)__: Create custom review forms with over 20 field types and individual review templates.
-- __[Review Images](https://niftyplugins.com/plugins/site-reviews-images/) (premium)__: Add images with captions to your reviews.
-- __[Review Notifications](https://niftyplugins.com/plugins/site-reviews-notifications/) (premium)__: Create and schedule custom review notifications with conditions.
-- __[Review Themes](https://niftyplugins.com/plugins/site-reviews-themes/) (premium)__: Create custom review designs with a drag-and-drop builder.
-- __[GamiPress Reviews](https://niftyplugins.com/plugins/site-reviews-gamipress/) (premium)__: Integrate Site Reviews with GamiPress and award people for writing and receiving reviews.
-- __[Woocommerce Reviews](https://niftyplugins.com/plugins/site-reviews-woocommerce/) (free)__: Integrate Site Reviews with your Woocommerce products.
+- __[Review Filters](https://niftyplugins.com/plugins/site-reviews-filters/)__: Sort, filter, and search your reviews.
+- __[Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/)__: Create custom review forms with over 20 field types and individual review templates.
+- __[Review Images](https://niftyplugins.com/plugins/site-reviews-images/)__: Add images with captions to your reviews.
+- __[Review Notifications](https://niftyplugins.com/plugins/site-reviews-notifications/)__: Create and schedule custom review notifications with conditions.
+- __[Review Themes](https://niftyplugins.com/plugins/site-reviews-themes/)__: Create custom review designs with a drag-and-drop builder.
+- __[GamiPress Reviews](https://niftyplugins.com/plugins/site-reviews-gamipress/)__: Integrate Site Reviews with GamiPress and award people for writing and receiving reviews.
 
 ### Site Reviews Premium
 
-[Site Reviews Premium](https://niftyplugins.com/plugins/site-reviews-premium/) provides access to all of our free and premium add-ons, and automatically includes access to future add-ons as they are released.
+[Site Reviews Premium](https://niftyplugins.com/plugins/site-reviews-premium/) provides access to all of our addons, and automatically includes access to future addons as they are released.
+
+### Third Party Plugin Support
+
+Site Reviews officially works with the following plugins:
+
+- [Akismet](https://wordpress.org/plugins/akismet/)
+- [Divi](https://www.elegantthemes.com/gallery/divi/)
+- [Elementor](https://elementor.com/)
+- [Endurance Cache](https://github.com/bluehost/endurance-page-cache/)
+- [GamiPress](https://wordpress.org/plugins/gamipress/)
+- [GeneratePress](https://generatepress.com/)
+- [hCaptcha](https://wordpress.org/plugins/hcaptcha-for-forms-and-more/)
+- [Hummingbird Performance](https://wordpress.org/plugins/hummingbird-performance/)
+- [Litespeed Cache](https://wordpress.org/plugins/litespeed-cache/)
+- [Loyalty Program for WooCommerce](https://advancedcouponsplugin.com/woocommerce-loyalty-program/)
+- [Members](https://wordpress.org/plugins/members/)
+- [Ninja Forms](https://ninjaforms.com/)
+- [Oxygen Builder](https://oxygenbuilder.com)
+- [Polylang](https://wordpress.org/plugins/polylang/)
+- [RankMath Pro](https://rankmath.com/)
+- [Schema and Structured Data for WP](https://structured-data-for-wp.com/)
+- [Schema Pro](https://wpschema.com/)
+- [Search & Filter Pro](https://searchandfilter.com/)
+- [SiteGround Optimizer](https://wordpress.org/plugins/sg-cachepress/)
+- [Speed Booster Pack](https://wordpress.org/plugins/speed-booster-pack/)
+- [Swift Performance](https://swiftperformance.io/)
+- [Thrive Architect](https://thrivethemes.com/architect/)
+- [W3 Total Cache](https://wordpress.org/plugins/w3-total-cache/)
+- [WooCommerce](https://wordpress.org/plugins/woocommerce/)
+- [WooRewards](https://wordpress.org/plugins/woorewards/)
+- [WP Fastest Cache](https://www.wpfastestcache.com/)
+- [WP Rocket](https://wp-rocket.me/)
+- [WP Super Cache](https://wordpress.org/plugins/wp-super-cache/)
+- [WP-Optimize](https://getwpo.com)
+- [WPForms](https://wordpress.org/plugins/wpforms-lite/)
+- [WPML](https://wpml.org/)
+- [Yoast Duplicate Post](https://wordpress.org/plugins/duplicate-post/)
 
 ### Attribution
 
@@ -156,26 +193,23 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.2.1-beta5 (2022-11-21) =
+= 6.3.0 (2022-11-21) =
 
-- Fixed reCAPTCHA when forms are initialized multiple times
-
-= 6.2.1-beta4 (2022-11-21) =
-
+- Added Action Scheduler information to System Info
+- Added assignment meta keys (_glsr_average, _glsr_ranking, _glsr_reviews) to the WP REST API
+- Added compatibility with [Loyalty Program for WooCommerce](https://advancedcouponsplugin.com/woocommerce-loyalty-program/)
 - Added compatibility with [WooRewards](https://wordpress.org/plugins/woorewards/)
 - Added FAQ documentation which explains how to sort a Query Loop block by average rating, ranking, or number of reviews.
-
-= 6.2.1-beta3 (2022-11-18) =
-
-- Added compatibility with [Loyalty Program for WooCommerce](https://advancedcouponsplugin.com/woocommerce-loyalty-program/)
-- Fixed summary rating number to display in decimal format
-
-= 6.2.1-beta1 (2022-11-14) =
-
+- Added WooCommerce integration
+- Added WooCommerce Product Reviews importer
 - Fixed an issue causing a timeout when running plugin migrations
 - Fixed compatibility with optimisation plugins which do not observe loading order of inline scripts
 - Fixed compatibility with other reCAPTCHA plugins
 - Fixed database table PRIMARY indexes on websites running MariaDB
+- Fixed localization of the Summary rating number
+- Fixed summary rating number to display in decimal format and using the website locale
 - Fixed the console logging, it now uses the saved log level
+- Fixed value sanitization when exporting reviews as a CSV file
+- Removed the Woocommerce Reviews addon as it's now built into Site Reviews
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).
