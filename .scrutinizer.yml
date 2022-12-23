@@ -25,6 +25,7 @@ build:
       environment:
         node: false
         php: '7.4'
+      services:
         mysql: '5.7'
       project_setup:
         override: true
