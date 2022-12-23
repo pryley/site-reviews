@@ -13,13 +13,11 @@ class Hooks implements HooksContract
 
     public function __construct()
     {
+        glsr()->singleton(Controller::class);
         $this->controller = glsr(Controller::class);
     }
 
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         if (!class_exists('\LWS_WooRewards') || !class_exists('\LWS\WOOREWARDS\Core\Trace')) {
             return;

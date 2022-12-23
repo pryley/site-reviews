@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\DeactivationController;
 
 class DeactivationHooks extends AbstractHooks
 {
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $this->hook(DeactivationController::class, [
             ['enqueueAssets', 'admin_enqueue_scripts'],

@@ -2,28 +2,17 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
-use GeminiLabs\SiteReviews\Contracts\HooksContract;
+use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
 
-class Hooks implements HooksContract
+class Hooks extends AbstractHooks
 {
-    /**
-     * @var Controller
-     */
-    public $controller;
-
-    public function __construct()
+    public function run(): void
     {
-        $this->controller = glsr(Controller::class);
-    }
-
-    /**
-     * @return void
-     */
-    public function run()
-    {
-        add_filter('site-reviews/enqueue/public/inline-script/after', [$this->controller, 'filterElementorPublicInlineScript'], 1);
-        add_filter('site-reviews/defaults/star-rating/defaults', [$this->controller, 'filterElementorStarRatingDefaults']);
-        add_action('elementor/elements/categories_registered', [$this->controller, 'registerElementorCategory']);
-        add_action('elementor/widgets/register', [$this->controller, 'registerElementorWidgets']);
+        $this->hook(Controller::class, [
+            ['filterElementorPublicInlineScript', 'site-reviews/enqueue/public/inline-script/after', 1],
+            ['filterElementorStarRatingDefaults', 'site-reviews/defaults/star-rating/defaults'],
+            ['registerElementorCategory', 'elementor/elements/categories_registered'],
+            ['registerElementorWidgets', 'elementor/widgets/register'],
+        ]);
     }
 }

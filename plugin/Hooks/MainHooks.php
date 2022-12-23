@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\MainController;
 
 class MainHooks extends AbstractHooks
 {
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $this->hook(MainController::class, [
             ['filterDevmode', 'site-reviews/devmode', 1],

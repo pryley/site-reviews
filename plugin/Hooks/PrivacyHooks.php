@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\PrivacyController;
 
 class PrivacyHooks extends AbstractHooks
 {
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $this->hook(PrivacyController::class, [
             ['filterPersonalDataErasers', 'wp_privacy_personal_data_erasers'],

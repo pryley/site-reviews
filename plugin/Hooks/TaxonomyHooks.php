@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\TaxonomyController;
 
 class TaxonomyHooks extends AbstractHooks
 {
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $this->hook(TaxonomyController::class, [
             ['filterRowActions', "{$this->taxonomy}_row_actions", 10, 2],

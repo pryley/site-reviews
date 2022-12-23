@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\ListTableController;
 
 class ListTableHooks extends AbstractHooks
 {
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $this->hook(ListTableController::class, [
             ['filterCheckLockedReviews', 'heartbeat_received', 20, 3],

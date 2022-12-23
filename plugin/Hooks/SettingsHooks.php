@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\SettingsController;
 
 class SettingsHooks extends AbstractHooks
 {
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $this->hook(SettingsController::class, [
             ['registerSettings', 'admin_init'],

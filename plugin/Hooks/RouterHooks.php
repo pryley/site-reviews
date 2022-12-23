@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Router;
 
 class RouterHooks extends AbstractHooks
 {
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $this->hook(Router::class, [
             ['routeAdminAjaxRequest', "wp_ajax_{$this->prefix}action"],

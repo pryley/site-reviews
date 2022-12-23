@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\BlocksController;
 
 class BlocksHooks extends AbstractHooks
 {
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $this->hook(BlocksController::class, [
             ['filterAllowedBlockTypes', 'allowed_block_types_all', 10, 2],

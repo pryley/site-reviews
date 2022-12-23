@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\QueueController;
 
 class QueueHooks extends AbstractHooks
 {
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $this->hook(QueueController::class, [
             ['cleanupAfterExport', 'site-reviews/queue/export/cleanup'],

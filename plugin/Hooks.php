@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Contracts\HooksContract;
 
 class Hooks implements HooksContract
 {
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $dir = glsr()->path('plugin/Hooks');
         if (!is_dir($dir)) {
@@ -21,7 +18,7 @@ class Hooks implements HooksContract
                 continue;
             }
             try {
-                $hooks = '\GeminiLabs\SiteReviews\Hooks\\'.$fileinfo->getBasename('.php');
+                $hooks = sprintf('\GeminiLabs\SiteReviews\Hooks\%s', $fileinfo->getBasename('.php'));
                 $reflect = new \ReflectionClass($hooks);
                 if ($reflect->isInstantiable()) {
                     glsr()->singleton($hooks); // make singleton
@@ -34,10 +31,7 @@ class Hooks implements HooksContract
         add_action('plugins_loaded', [$this, 'runIntegrations'], 100); // run after all add-ons have loaded
     }
 
-    /**
-     * @return void
-     */
-    public function runIntegrations()
+    public function runIntegrations(): void
     {
         $dir = glsr()->path('plugin/Integrations');
         if (!is_dir($dir)) {
@@ -48,13 +42,15 @@ class Hooks implements HooksContract
             if (!$fileinfo->isDir() || $fileinfo->isDot()) {
                 continue;
             }
-            $basename = 'GeminiLabs\SiteReviews\Integrations\\'.$fileinfo->getBasename();
-            $controller = $basename.'\Controller';
-            $hooks = $basename.'\Hooks';
-            if (class_exists($controller) && class_exists($hooks)) {
-                glsr()->singleton($controller); // make singleton
-                glsr()->singleton($hooks); // make singleton
-                glsr($hooks)->run();
+            try {
+                $hooks = sprintf('\GeminiLabs\SiteReviews\Integrations\%s\Hooks', $fileinfo->getBasename());
+                $reflect = new \ReflectionClass($hooks);
+                if ($reflect->isInstantiable()) {
+                    glsr()->singleton($hooks);
+                    glsr($hooks)->run();
+                }
+            } catch (\ReflectionException $e) {
+                glsr_log()->error($e->getMessage());
             }
         }
     }

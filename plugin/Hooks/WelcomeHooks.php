@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\WelcomeController;
 
 class WelcomeHooks extends AbstractHooks
 {
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $this->hook(WelcomeController::class, [
             ['filterActionLinks', "plugin_action_links_{$this->basename}", 11],

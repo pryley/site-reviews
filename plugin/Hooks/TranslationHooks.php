@@ -7,10 +7,7 @@ use GeminiLabs\SiteReviews\Modules\Translation;
 
 class TranslationHooks extends AbstractHooks
 {
-    /**
-     * @return void
-     */
-    public function translateAdminEditPage()
+    public function translateAdminEditPage(): void
     {
         if (glsr()->post_type === glsr_current_screen()->post_type) {
             $this->hook(TranslationController::class, [
@@ -22,10 +19,7 @@ class TranslationHooks extends AbstractHooks
         }
     }
 
-    /**
-     * @return void
-     */
-    public function translateAdminPostPage()
+    public function translateAdminPostPage(): void
     {
         if (glsr()->post_type === glsr_current_screen()->post_type) {
             $this->hook(TranslationController::class, [
@@ -35,10 +29,7 @@ class TranslationHooks extends AbstractHooks
         }
     }
 
-    /**
-     * @return void
-     */
-    public function translatePlugin()
+    public function translatePlugin(): void
     {
         if (!empty(glsr(Translation::class)->strings())) {
             $this->hook(TranslationController::class, [
@@ -50,10 +41,7 @@ class TranslationHooks extends AbstractHooks
         }
     }
 
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         add_action('load-edit.php', [$this, 'translateAdminEditPage']);
         add_action('load-post.php', [$this, 'translateAdminPostPage']);

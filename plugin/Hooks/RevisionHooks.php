@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\RevisionController;
 
 class RevisionHooks extends AbstractHooks
 {
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $this->hook(RevisionController::class, [
             ['filterCheckForChanges', 'wp_save_post_revision_check_for_changes', 99, 3],

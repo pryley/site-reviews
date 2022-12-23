@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\AdminController;
 
 class AdminHooks extends AbstractHooks
 {
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $this->hook(AdminController::class, [
             ['enqueueAssets', 'admin_enqueue_scripts'],

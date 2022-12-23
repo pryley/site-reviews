@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\NoticeController;
 
 class NoticeHooks extends AbstractHooks
 {
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $this->hook(NoticeController::class, [
             ['adminNotices', 'admin_head'],

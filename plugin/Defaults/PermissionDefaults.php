@@ -26,6 +26,7 @@ class PermissionDefaults extends Defaults
                 'support' => 'edit_others_posts',
             ],
             'notices' => [
+                'footer' => 'edit_posts',
                 'migration' => 'edit_others_posts',
                 'premium' => 'edit_others_posts',
                 'upgraded' => 'update_plugins',

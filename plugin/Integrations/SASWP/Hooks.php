@@ -2,24 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\SASWP;
 
-use GeminiLabs\SiteReviews\Contracts\HooksContract;
+use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
 
-class Hooks implements HooksContract
+class Hooks extends AbstractHooks
 {
-    /**
-     * @var Controller
-     */
-    public $controller;
-
-    public function __construct()
-    {
-        $this->controller = glsr(Controller::class);
-    }
-
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         if (!defined('SASWP_VERSION')) {
             return;
@@ -27,8 +14,10 @@ class Hooks implements HooksContract
         if ('saswp' !== glsr_get_option('schema.integration.plugin')) {
             return;
         }
-        add_action('admin_head', [$this->controller, 'displaySettingNotice']);
-        add_filter('site-reviews/settings/sanitize', [$this->controller, 'filterSettingsSanitize'], 10, 2);
-        add_filter('saswp_modify_schema_output', [$this->controller, 'filterSchema'], 20);
+        $this->hook(Controller::class, [
+            ['displaySettingNotice', 'admin_head'],
+            ['filterSettingsSanitize', 'site-reviews/settings/sanitize', 10, 2],
+            ['filterSchema', 'saswp_modify_schema_output', 20],
+        ]);
     }
 }

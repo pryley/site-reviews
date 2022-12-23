@@ -2,31 +2,18 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\RankMath;
 
-use GeminiLabs\SiteReviews\Contracts\HooksContract;
-use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
 
-class Hooks implements HooksContract
+class Hooks extends AbstractHooks
 {
-    /**
-     * @var Controller
-     */
-    public $controller;
-
-    public function __construct()
-    {
-        $this->controller = glsr(Controller::class);
-    }
-
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         if ('rankmath' !== glsr_get_option('schema.integration.plugin')) {
             return;
         }
-        add_filter('rank_math/json_ld', [$this->controller, 'filterSchema'], 99);
-        add_filter('rank_math/schema/preview/validate', [$this->controller, 'filterSchemaPreview'], 20);
+        $this->hook(Controller::class, [
+            ['filterSchema', 'rank_math/json_ld', 99],
+            ['filterSchemaPreview', 'rank_math/schema/preview/validate', 20],
+        ]);
     }
 }

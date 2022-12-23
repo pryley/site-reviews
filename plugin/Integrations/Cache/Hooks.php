@@ -2,26 +2,15 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\Cache;
 
-use GeminiLabs\SiteReviews\Contracts\HooksContract;
+use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
 
-class Hooks implements HooksContract
+class Hooks extends AbstractHooks
 {
-    /**
-     * @var Controller
-     */
-    public $controller;
-
-    public function __construct()
+    public function run(): void
     {
-        $this->controller = glsr(Controller::class);
-    }
-
-    /**
-     * @return void
-     */
-    public function run()
-    {
-        add_action('site-reviews/migration/end', [$this->controller, 'purgeAll']);
-        add_action('site-reviews/review/created', [$this->controller, 'purgeForPost'], 10, 2);
+        $this->hook(Controller::class, [
+            ['purgeAll', 'site-reviews/migration/end'],
+            ['purgeForPost', 'site-reviews/review/created', 10, 2],
+        ]);
     }
 }

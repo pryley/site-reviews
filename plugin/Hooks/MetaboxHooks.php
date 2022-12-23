@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\MetaboxController;
 
 class MetaboxHooks extends AbstractHooks
 {
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $this->hook(MetaboxController::class, [
             ['filterFieldOrder', 'site-reviews/config/forms/metabox-fields', 11],

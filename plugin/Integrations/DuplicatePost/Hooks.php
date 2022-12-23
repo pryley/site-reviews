@@ -2,28 +2,17 @@
 
 namespace GeminiLabs\SiteReviews\Integrations\DuplicatePost;
 
-use GeminiLabs\SiteReviews\Contracts\HooksContract;
+use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
 
-class Hooks implements HooksContract
+class Hooks extends AbstractHooks
 {
-    /**
-     * @var Controller
-     */
-    public $controller;
-
-    public function __construct()
+    public function run(): void
     {
-        $this->controller = glsr(Controller::class);
-    }
-
-    /**
-     * @return void
-     */
-    public function run()
-    {
-        add_action('duplicate_post_post_copy', [$this->controller, 'duplicateReview'], 10, 2);
-        add_filter('bulk_actions-edit-'.glsr()->post_type, [$this->controller, 'removeRewriteBulkAction'], 100);
-        add_action('post_submitbox_start', [$this->controller, 'removeRewriteEditorLink'], 1);
-        add_filter('post_row_actions', [$this->controller, 'removeRewriteRowAction'], 100, 2);
+        $this->hook(Controller::class, [
+            ['duplicateReview', 'duplicate_post_post_copy', 10, 2],
+            ['removeRewriteBulkAction', 'bulk_actions-edit-'.$this->type, 100],
+            ['removeRewriteEditorLink', 'post_submitbox_start', 1],
+            ['removeRewriteRowAction', 'post_row_actions', 100, 2],
+        ]);
     }
 }

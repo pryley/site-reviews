@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\EditorController;
 
 class EditorHooks extends AbstractHooks
 {
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $this->hook(EditorController::class, [
             ['filterEditorSettings', 'wp_editor_settings'],

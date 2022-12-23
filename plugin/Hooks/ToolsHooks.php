@@ -6,10 +6,7 @@ use GeminiLabs\SiteReviews\Controllers\ToolsController;
 
 class ToolsHooks extends AbstractHooks
 {
-    /**
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         $this->hook(ToolsController::class, [
             ['changeConsoleLevel', 'site-reviews/route/admin/console-level'],
