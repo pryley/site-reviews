@@ -27,6 +27,7 @@ abstract class AbstractHooks
      */
     public function hook($classname, array $hooks)
     {
+        glsr()->singleton($classname); // make singleton
         $controller = glsr($classname);
         foreach ($hooks as $hook) {
             if (2 > count($hook)) {

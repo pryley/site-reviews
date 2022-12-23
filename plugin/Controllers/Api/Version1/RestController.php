@@ -6,6 +6,7 @@ class RestController
 {
     /**
      * @return void
+     * @action rest_api_init
      */
     public function registerRoutes()
     {

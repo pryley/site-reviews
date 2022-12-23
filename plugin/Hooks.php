@@ -24,7 +24,7 @@ class Hooks implements HooksContract
                 $hooks = '\GeminiLabs\SiteReviews\Hooks\\'.$fileinfo->getBasename('.php');
                 $reflect = new \ReflectionClass($hooks);
                 if ($reflect->isInstantiable()) {
-                    glsr()->singleton($hooks);
+                    glsr()->singleton($hooks); // make singleton
                     glsr($hooks)->run();
                 }
             } catch (\ReflectionException $e) {
@@ -52,8 +52,8 @@ class Hooks implements HooksContract
             $controller = $basename.'\Controller';
             $hooks = $basename.'\Hooks';
             if (class_exists($controller) && class_exists($hooks)) {
-                glsr()->singleton($controller);
-                glsr()->singleton($hooks);
+                glsr()->singleton($controller); // make singleton
+                glsr()->singleton($hooks); // make singleton
                 glsr($hooks)->run();
             }
         }
