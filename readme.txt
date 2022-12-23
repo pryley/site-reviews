@@ -4,7 +4,7 @@ Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.1
 Requires at least: 5.8
-Stable tag: 6.2.1-beta5
+Stable tag: 6.4.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -193,7 +193,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.3.0 (2022-11-21) =
+= 6.4.0 (2022-11-21) =
 
 - Added Action Scheduler information to System Info
 - Added assignment meta keys (_glsr_average, _glsr_ranking, _glsr_reviews) to the WP REST API
