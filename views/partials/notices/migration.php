@@ -20,5 +20,5 @@
                 </button>
             </p>
         </form>
-    <? } ?>
+    <?php } ?>
 </div>
