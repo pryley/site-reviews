@@ -108,7 +108,7 @@ class Controller extends BaseController
      */
     public function filterReviewAuthorTagValue(string $value, $tag): string
     {
-        if ($tag->review->hasVerifiedOwner() && 'yes' === get_option('woocommerce_review_rating_verification_label')) {
+        if ($tag->review->hasVerifiedOwner() && 'yes' === get_option('woocommerce_review_rating_verification_label')) { // @phpstan-ignore-line
             $text = esc_attr__('verified owner', 'site-reviews');
             $value = sprintf('%s <em class="woocommerce-review__verified verified">(%s)</em>', $value, $text);
         }

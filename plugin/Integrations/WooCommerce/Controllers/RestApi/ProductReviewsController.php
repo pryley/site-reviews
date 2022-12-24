@@ -184,7 +184,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
             'reviewer_email' => $review->email,
             'review' => 'view' === $context ? wpautop($review->content) : $review->content,
             'rating' => $review->rating,
-            'verified' => $review->hasVerifiedOwner(),
+            'verified' => $review->hasVerifiedOwner(), // @phpstan-ignore-line
             'reviewer_avatar_urls' => rest_get_avatar_urls($review->email),
         ];
         foreach ($data as $key => $value) {

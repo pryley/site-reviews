@@ -48,7 +48,7 @@ class Controller extends BaseController
     public function filterSchemaPreview(array $data)
     {
         global $post;
-        if (class_exists('Elementor\Plugin') && \Elementor\Plugin::$instance->documents->get($post->ID)->is_built_with_elementor()) {
+        if (class_exists('Elementor\Plugin') && \Elementor\Plugin::$instance->documents->get($post->ID)->is_built_with_elementor()) { // @phpstan-ignore-line
             $widgets = Cast::toString(get_post_meta($post->ID, '_elementor_data', true));
             $widgets = json_decode($widgets, true);
             $widgets = Arr::consolidate($widgets);

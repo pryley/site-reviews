@@ -5,6 +5,7 @@ parameters:
   bootstrapFiles:
     - tests/phpstan/bootstrap.php
     - tests/phpstan/stubs/elementor.php
+    - tests/phpstan/stubs/elementor-pro.php
     - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
     - vendor/php-stubs/woocommerce-stubs/woocommerce-packages-stubs.php
     - helpers.php
