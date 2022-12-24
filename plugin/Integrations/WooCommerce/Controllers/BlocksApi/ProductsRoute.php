@@ -21,7 +21,7 @@ class ProductsRoute extends Route
             $query_results = $product_query->get_objects($request);
             $response_objects = [];
             foreach ($query_results['objects'] as $object) {
-                $data = rest_ensure_response($this->schema->get_item_response($object));
+                $data = rest_ensure_response($this->schema->get_item_response($object));// @phpstan-ignore-line
                 $response_objects[] = $this->prepare_response_for_collection($data);
             }
             $response->set_data($response_objects);

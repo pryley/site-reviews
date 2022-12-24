@@ -44,7 +44,7 @@ class ProductReviewSchema extends AbstractSchema
     public function __construct(ExtendSchema $extend, SchemaController $controller)
     {
         parent::__construct($extend, $controller);
-        $this->image_attachment_schema = $this->controller->get(ImageAttachmentSchema::IDENTIFIER);
+        $this->image_attachment_schema = $this->controller->get(ImageAttachmentSchema::IDENTIFIER); // @phpstan-ignore-line
     }
 
     /**
