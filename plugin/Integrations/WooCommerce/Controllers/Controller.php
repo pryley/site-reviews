@@ -1,13 +1,13 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Woocommerce\Controllers;
+namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers;
 
 use GeminiLabs\SiteReviews\BlackHole;
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Integrations\Woocommerce\Elementor\Widgets\ProductRating;
-use GeminiLabs\SiteReviews\Integrations\Woocommerce\Widgets\WidgetRatingFilter;
-use GeminiLabs\SiteReviews\Integrations\Woocommerce\Widgets\WidgetRecentReviews;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Elementor\Widgets\ProductRating;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Widgets\WidgetRatingFilter;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Widgets\WidgetRecentReviews;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Review;
 

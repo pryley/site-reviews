@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Woocommerce\Commands;
+namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands;
 
 use GeminiLabs\SiteReviews\Commands\CreateReview;
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;

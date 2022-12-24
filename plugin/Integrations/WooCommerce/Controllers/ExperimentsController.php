@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Woocommerce\Controllers;
+namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers;
 
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Helpers\Arr;
@@ -14,7 +14,7 @@ class ExperimentsController
      * @param int $objectId
      * @param string $metaKey
      * @param bool $single
-     * @return mixed|null
+     * @return mixed
      * @filter get_comment_metadata
      */
     public function filterProductCommentMeta($value, $objectId, $metaKey, $single)
@@ -28,9 +28,9 @@ class ExperimentsController
     }
 
     /**
-     * @param array|int|null $data
+     * @param mixed $data
      * @param \WP_Comment_Query $query
-     * @return array|int|null
+     * @return mixed
      * @filter comments_pre_query
      */
     public function filterProductCommentsQuery($data, $query)
@@ -76,7 +76,7 @@ class ExperimentsController
     {
         $data = [];
         foreach ($reviews as $review) {
-            $data[] = new \WP_Comment((object) [
+            $data[] = new \WP_Comment((object) [ // @phpstan-ignore-line
                 'comment_agent' => '',
                 'comment_approved' => (string) $review->is_approved,
                 'comment_author' => $review->name,

@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Woocommerce\Controllers\BlocksApi;
+namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\BlocksApi;
 
 use Automattic\WooCommerce\StoreApi\Utilities\ProductQuery as Query;
 

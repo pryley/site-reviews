@@ -30,15 +30,15 @@ build:
       project_setup:
         override: true
         before:
-          - bash tests/bin/install.sh wordpress_test root "" localhost $WP_VERSION
+          - bash tests/bin/install.sh wordpress_test root "" 127.0.0.1:3306 $WP_VERSION
       tests:
         override:
           - jshint-run
           - php-scrutinizer-run --enable-security-analysis
           -
-            command: vendor/bin/phpunit --coverage-clover=tests/coverage.xml
+            command: vendor/bin/phpunit --coverage-clover=tests/coverage/clover.xml
             coverage:
-              file: tests/coverage.xml
+              file: tests/coverage/clover.xml
               format: clover
 
 tools:

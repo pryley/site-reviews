@@ -1,8 +1,8 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Woocommerce\Controllers\AdminApi;
+namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\AdminApi;
 
-use GeminiLabs\SiteReviews\Integrations\Woocommerce\Controllers\RestApi\ProductReviewsController;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\RestApi\ProductReviewsController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class ProductReviews extends ProductReviewsController

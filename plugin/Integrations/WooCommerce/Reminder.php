@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Woocommerce;
+namespace GeminiLabs\SiteReviews\Integrations\WooCommerce;
 
 class Reminder extends \WC_Email
 {

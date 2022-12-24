@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Woocommerce\Elementor\Widgets;
+namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Elementor\Widgets;
 
 use ElementorPro\Modules\Woocommerce\Widgets\Product_Rating;
 use Elementor\Controls_Manager;

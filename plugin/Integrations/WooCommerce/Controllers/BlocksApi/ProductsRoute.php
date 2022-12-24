@@ -1,10 +1,10 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Woocommerce\Controllers\BlocksApi;
+namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\BlocksApi;
 
 use Automattic\WooCommerce\StoreApi\Routes\V1\Products as Route;
 use Automattic\WooCommerce\StoreApi\Utilities\Pagination;
-use GeminiLabs\SiteReviews\Integrations\Woocommerce\Controllers\BlocksApi\ProductQuery;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\BlocksApi\ProductQuery;
 
 class ProductsRoute extends Route
 {

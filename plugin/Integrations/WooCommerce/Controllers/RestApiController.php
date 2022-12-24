@@ -1,17 +1,17 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Woocommerce\Controllers;
+namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers;
 
 use Automattic\WooCommerce\StoreApi\SchemaController;
 use Automattic\WooCommerce\StoreApi\Schemas\ExtendSchema;
 use Automattic\WooCommerce\StoreApi\StoreApi;
 use Automattic\WooCommerce\StoreApi\Schemas\V1\ProductSchema;
-use GeminiLabs\SiteReviews\Integrations\Woocommerce\Controllers\AdminApi\ProductReviews;
-use GeminiLabs\SiteReviews\Integrations\Woocommerce\Controllers\BlocksApi\ProductReviewSchema;
-use GeminiLabs\SiteReviews\Integrations\Woocommerce\Controllers\BlocksApi\ProductReviewsRoute;
-use GeminiLabs\SiteReviews\Integrations\Woocommerce\Controllers\BlocksApi\ProductsRoute;
-use GeminiLabs\SiteReviews\Integrations\Woocommerce\Controllers\RestApi\ProductReviewsController;
-use GeminiLabs\SiteReviews\Integrations\Woocommerce\Controllers\RestApi\ReportReviewsTotalsController;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\AdminApi\ProductReviews;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\BlocksApi\ProductReviewSchema;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\BlocksApi\ProductReviewsRoute;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\BlocksApi\ProductsRoute;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\RestApi\ProductReviewsController;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\RestApi\ReportReviewsTotalsController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 

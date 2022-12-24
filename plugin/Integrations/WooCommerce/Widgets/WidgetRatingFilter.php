@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Woocommerce\Widgets;
+namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Widgets;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Rating;

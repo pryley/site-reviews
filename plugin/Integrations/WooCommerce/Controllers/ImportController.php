@@ -1,10 +1,10 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Woocommerce\Controllers;
+namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers;
 
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
-use GeminiLabs\SiteReviews\Integrations\Woocommerce\Commands\CountProductReviews;
-use GeminiLabs\SiteReviews\Integrations\Woocommerce\Commands\ImportProductReviews;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\CountProductReviews;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Commands\ImportProductReviews;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Request;
 

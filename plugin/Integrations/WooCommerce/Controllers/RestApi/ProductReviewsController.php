@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Woocommerce\Controllers\RestApi;
+namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\RestApi;
 
 use Automattic\WooCommerce\StoreApi\Utilities\Pagination;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
@@ -170,7 +170,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
      * @param \WP_REST_Request $request
      * @return \WP_REST_Response $response
      */
-    public function prepare_item_for_response($review, $request)
+    public function prepare_item_for_response($review, $request) // @phpstan-ignore-line
     {
         $context = Arr::get($request, 'context', 'view');
         $fields = $this->get_fields_for_response($request);
@@ -381,7 +381,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
      * @param Review $review
      * @return array
      */
-    protected function prepare_links($review)
+    protected function prepare_links($review) // @phpstan-ignore-line
     {
         $links = [
             'self' => [

@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\SiteReviews\Integrations\Woocommerce\Controllers\RestApi;
+namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\RestApi;
 
 class ReportReviewsTotalsController extends \WC_REST_Report_Reviews_Totals_Controller
 {
