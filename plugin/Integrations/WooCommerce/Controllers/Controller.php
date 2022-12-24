@@ -98,7 +98,7 @@ class Controller extends BaseController
         if ($product = wc_get_product(Arr::get($review->assigned_posts, 0))) {
             return $product;
         }
-        return new BlackHole('Triggered by $review->product()');
+        return glsr(BlackHole::class, ['alias' => 'Triggered by $review->product()']);
     }
 
     /**
