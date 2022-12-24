@@ -37,8 +37,9 @@
   },
   "require-dev": {
     "fakerphp/faker": "1.20.0",
-    "phpstan/phpstan": "^1.8.2",
-    "szepeviktor/phpstan-wordpress": "^1.1.2",
+    "php-stubs/woocommerce-stubs": "^7.2",
+    "phpstan/phpstan": "^1.9.4",
+    "szepeviktor/phpstan-wordpress": "^1.1.6",
     "yoast/phpunit-polyfills": "^1.0.1"
   }
 }

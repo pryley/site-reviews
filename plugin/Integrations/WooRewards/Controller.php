@@ -34,7 +34,7 @@ class Controller extends BaseController
      */
     protected function fakeComment(int $postId,  Review $review)
     {
-        return new \WP_Comment((object) [
+        return new \WP_Comment((object) [ // @phpstan-ignore-line
             'comment_approved' => $review->is_approved,
             'comment_ID' => $review->ID,
             'comment_post_ID' => $postId,

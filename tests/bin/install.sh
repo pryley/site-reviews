@@ -64,6 +64,9 @@ install_wp() {
     # we need Elementor for the code coverage
     download https://downloads.wordpress.org/plugin/elementor.latest-stable.zip /tmp/elementor.zip
     unzip -d $WP_CORE_DIR/wp-content/plugins/ /tmp/elementor.zip
+    # we need Woocommerce for the code coverage
+    download https://downloads.wordpress.org/plugin/woocommerce.latest-stable.zip /tmp/woocommerce.zip
+    unzip -d $WP_CORE_DIR/wp-content/plugins/ /tmp/woocommerce.zip
 }
 
 install_test_suite() {

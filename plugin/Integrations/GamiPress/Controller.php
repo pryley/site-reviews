@@ -48,8 +48,6 @@ class Controller extends BaseController
      * @param int $userId
      * @param int $requirementId
      * @param string $trigger
-     * @param int $siteId
-     * @param array $args
      * @return bool
      * @filter user_has_access_to_achievement
      */

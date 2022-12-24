@@ -69,7 +69,7 @@ abstract class ElementorWidget extends Widget_Base
      */
     public function get_shortcode_instance()
     {
-        if (is_null($this->_shortcode_instance)) {
+        if (is_null($this->_shortcode_instance)) { // @phpstan-ignore-line
             $this->_shortcode_instance = glsr($this->get_shortcode());
         }
         return $this->_shortcode_instance;

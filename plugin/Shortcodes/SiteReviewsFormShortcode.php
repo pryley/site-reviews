@@ -201,7 +201,7 @@ class SiteReviewsFormShortcode extends Shortcode
     protected function registerText()
     {
         if (get_option('users_can_register') && glsr_get_option('general.require.login', false, 'bool')) {
-            add_filter('register_url', [$this, 'filterRegisterUrl'], 20, 3);
+            add_filter('register_url', [$this, 'filterRegisterUrl'], 20);
             $registerUrl = wp_registration_url();
             remove_filter('register_url', [$this, 'filterRegisterUrl'], 20);
             $registerLink = glsr(Builder::class)->a([

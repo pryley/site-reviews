@@ -45,15 +45,13 @@ class ExperimentsController
         }
         $args = $this->getReviewArgs($vars);
         $reviews = glsr_get_reviews($args);
-        return true === $vars->count
-            ? $this->getReviewsCount($reviews)
-            : $this->getReviews($reviews);
+        if (true === $vars->count) {
+            return $this->getReviewsCount($reviews);
+        }
+        return $this->getReviews($reviews);
     }
 
-    /**
-     * @return array
-     */
-    protected function getReviewArgs(Arguments $args)
+    protected function getReviewArgs(Arguments $args): array
     {
         $statuses = [
             'all' => 'all',
@@ -74,10 +72,7 @@ class ExperimentsController
         return $params;
     }
 
-    /**
-     * @return array
-     */
-    protected function getReviews(Reviews $reviews)
+    protected function getReviews(Reviews $reviews): array
     {
         $data = [];
         foreach ($reviews as $review) {
@@ -102,11 +97,8 @@ class ExperimentsController
         return $data;
     }
 
-    /**
-     * @return int
-     */
-    protected function getReviewsCount(Reviews $reviews)
+    protected function getReviewsCount(Reviews $reviews): int
     {
-        return $reviews->total;
+        return (int) $reviews->total;
     }
 }

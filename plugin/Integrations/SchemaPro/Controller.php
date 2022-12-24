@@ -17,7 +17,7 @@ class Controller extends BaseController
         if (!$this->isReviewAdminPage()) {
             return;
         }
-        $settings = \BSF_AIOSRS_Pro_Helper::$settings['aiosrs-pro-settings'];
+        $settings = \BSF_AIOSRS_Pro_Helper::$settings['aiosrs-pro-settings']; // @phpstan-ignore-line
         if ('footer' === Arr::get($settings, 'schema-location')) {
             return;
         }
