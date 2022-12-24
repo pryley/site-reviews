@@ -4,10 +4,10 @@ includes:
 parameters:
   bootstrapFiles:
     - tests/phpstan/bootstrap.php
+    - tests/phpstan/stubs/action-scheduler.php
     - tests/phpstan/stubs/elementor.php
     - tests/phpstan/stubs/elementor-pro.php
-    - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
-    - vendor/php-stubs/woocommerce-stubs/woocommerce-packages-stubs.php
+    - tests/phpstan/stubs/woocommerce.php
     - helpers.php
     - autoload.php
   checkGenericClassInNonGenericObjectType: false
