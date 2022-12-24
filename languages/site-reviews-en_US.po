@@ -372,7 +372,7 @@ msgstr "You must be logged in to submit a review."
 msgid "You have already submitted a review."
 msgstr "You have already submitted a review."
 
-#: plugin/Integrations/WooCommerce/Controllers/Controller.php:112
+#: plugin/Integrations/WooCommerce/Controllers/Controller.php:111
 msgid "verified owner"
 msgstr "verified owner"
 

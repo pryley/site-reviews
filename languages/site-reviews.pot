@@ -4603,7 +4603,7 @@ msgctxt "admin-text"
 msgid "managed by Site Reviews"
 msgstr ""
 
-#: plugin/Integrations/WooCommerce/Controllers/Controller.php:112
+#: plugin/Integrations/WooCommerce/Controllers/Controller.php:111
 msgid "verified owner"
 msgstr ""
 
