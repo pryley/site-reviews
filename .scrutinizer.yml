@@ -2,7 +2,11 @@ filter:
   dependency_paths:
     - vendor/
     - vendors/
+    - woocommerce/
+    - woocommerce/packages/woocommerce-blocks/src/
     - wordpress/
+    - wordpress/wp-content/plugins/woocommerce/
+    - wordpress/wp-content/plugins/woocommerce/packages/woocommerce-blocks/src/
   excluded_paths:
     - assets/
     - languages/
@@ -20,8 +24,10 @@ build:
           - ~/.composer/cache
       dependencies:
         before:
+          - composer config --no-plugins allow-plugins.composer/installers true
           - composer config --no-plugins allow-plugins.johnpbloch/wordpress-core-installer true
           - composer require --dev johnpbloch/wordpress
+          - composer require --dev woocommerce/woocommerce
       environment:
         node: false
         php: '7.4'
