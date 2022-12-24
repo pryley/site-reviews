@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Widgets;
 
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Style;
 
@@ -37,7 +38,8 @@ class WidgetRatingFilter extends \WC_Widget_Rating_Filter
     {
         $averages = $this->productAverages();
         $baseUrl = remove_query_arg('paged', $this->get_current_page_url());
-        $filteredRatings = explode(',', wp_unslash(filter_input(INPUT_GET, 'rating_filter')));
+        $filteredRatings = wp_unslash(Cast::toString(filter_input(INPUT_GET, 'rating_filter')));
+        $filteredRatings = explode(',', $filteredRatings);
         $filteredRatings = Arr::uniqueInt($filteredRatings);
         $filters = [];
         foreach ($averages as $rating => $count) {
@@ -83,8 +85,6 @@ class WidgetRatingFilter extends \WC_Widget_Rating_Filter
     protected function productAverages()
     {
         global $wpdb;
-        $productIds = wc_get_products(['limit' => -1, 'return' => 'ids']);
-        $productIds = implode(',', $productIds);
         $products = $wpdb->get_results("
             SELECT apt.post_id AS product_id, ROUND(AVG(r.rating)) AS average
             FROM {$wpdb->prefix}glsr_ratings AS r 

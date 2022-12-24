@@ -9,6 +9,7 @@ use Automattic\WooCommerce\StoreApi\Schemas\V1\ImageAttachmentSchema;
 use Automattic\WooCommerce\StoreApi\Schemas\V1\ProductReviewSchema as Schema;
 use Automattic\WooCommerce\StoreApi\StoreApi;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Review;
 
 class ProductReviewSchema extends AbstractSchema
@@ -51,7 +52,7 @@ class ProductReviewSchema extends AbstractSchema
      */
     public function get_item_response(Review $review)
     {
-        $productId = Arr::get($review->assigned_posts, 0);
+        $productId = Cast::toInt(Arr::get($review->assigned_posts, 0));
         $data = [
             'id' => $review->ID,
             'date_created' => wc_rest_prepare_date_response($review->date),

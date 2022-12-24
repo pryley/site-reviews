@@ -311,7 +311,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
             return $error;
         }
         if (!empty($review->assigned_posts)) {
-            if ('product' !== get_post_type(Arr::get($review->assigned_posts, 0))) {
+            if ('product' !== get_post_type((int) Arr::get($review->assigned_posts, 0))) {
                 return new \WP_Error('woocommerce_rest_product_invalid_id', __('Invalid product ID.', 'woocommerce'), ['status' => 404]);
             }
         }

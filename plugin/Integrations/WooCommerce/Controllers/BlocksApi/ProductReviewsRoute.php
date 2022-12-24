@@ -24,7 +24,10 @@ class ProductReviewsRoute extends Route
         if ($categoryIds = Arr::uniqueInt($request['category_id'])) {
             $childIds = [];
             foreach ($categoryIds as $categoryId) {
-                $childIds = array_merge($childIds, get_term_children($categoryId, 'product_cat'));
+                $termChildIds = get_term_children($categoryId, 'product_cat');
+                if (!is_wp_error($termChildIds)) {
+                    $childIds = array_merge($childIds, $termChildIds);
+                }
             }
             $categoryIds = array_unique(array_merge($categoryIds, $childIds));
             $productIds = get_objects_in_term($categoryIds, 'product_cat');

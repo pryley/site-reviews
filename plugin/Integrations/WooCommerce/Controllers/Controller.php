@@ -80,12 +80,11 @@ class Controller extends BaseController
     }
 
     /**
-     * @param string $value
      * @return string
      * @filter option_woocommerce_enable_review_rating
      * @filter option_woocommerce_review_rating_required
      */
-    public function filterRatingOption($value)
+    public function filterRatingOption()
     {
         return 'yes';
     }
@@ -99,7 +98,7 @@ class Controller extends BaseController
         if ($product = wc_get_product(Arr::get($review->assigned_posts, 0))) {
             return $product;
         }
-        return glsr(BlackHole::class, ['alias' => 'Triggered by $review->product()']);
+        return new BlackHole('Triggered by $review->product()');
     }
 
     /**
