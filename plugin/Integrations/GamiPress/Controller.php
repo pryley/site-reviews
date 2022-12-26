@@ -119,17 +119,17 @@ class Controller extends BaseController
     {
         if ($rating = ct_get_object_meta($logId, '_gamipress_rating', true)) {
             $fields[] = [
-                'desc' => __('The rating of the review which triggered this event.', 'site-reviews'),
+                'desc' => _x('The rating of the review which triggered this event.', 'admin-text', 'site-reviews'),
                 'id' => '_gamipress_rating',
-                'name' => __('Rating', 'site-reviews'),
+                'name' => _x('Rating', 'admin-text', 'site-reviews'),
                 'type' => 'text',
             ];
         }
         if ($reviewId = ct_get_object_meta($logId, '_gamipress_review_id', true)) {
             $fields[] = [
-                'desc' => __('The ID of the review which triggered this event.', 'site-reviews'),
+                'desc' => _x('The ID of the review which triggered this event.', 'admin-text', 'site-reviews'),
                 'id' => '_gamipress_review_id',
-                'name' => __('Review ID', 'site-reviews'),
+                'name' => _x('Review ID', 'admin-text', 'site-reviews'),
                 'type' => 'text',
             ];
         }

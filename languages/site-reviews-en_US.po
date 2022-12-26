@@ -266,22 +266,6 @@ msgstr "You may also %s for an account."
 msgid "Close modal"
 msgstr "Close modal"
 
-#: plugin/Integrations/GamiPress/Controller.php:122
-msgid "The rating of the review which triggered this event."
-msgstr "The rating of the review which triggered this event."
-
-#: plugin/Integrations/GamiPress/Controller.php:124
-msgid "Rating"
-msgstr "Rating"
-
-#: plugin/Integrations/GamiPress/Controller.php:130
-msgid "The ID of the review which triggered this event."
-msgstr "The ID of the review which triggered this event."
-
-#: plugin/Integrations/GamiPress/Controller.php:132
-msgid "Review ID"
-msgstr "Review ID"
-
 #: plugin/Integrations/GamiPress/Triggers.php:151
 msgid "Get review"
 msgstr "Get review"
@@ -1469,7 +1453,7 @@ msgctxt "admin-text"
 msgid "Required Fields"
 msgstr "Required Fields"
 
-#: config/settings.php:639, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:25, plugin/Defaults/RevisionFieldsDefaults.php:16, plugin/Tinymce/SiteReviewsTinymce.php:30, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:48
+#: config/settings.php:639, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:25, plugin/Defaults/RevisionFieldsDefaults.php:16, plugin/Tinymce/SiteReviewsTinymce.php:30, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:48, plugin/Integrations/GamiPress/Controller.php:124
 msgctxt "admin-text"
 msgid "Rating"
 msgstr "Rating"
@@ -3989,6 +3973,21 @@ msgstr "Separate multiple classes with spaces."
 msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr "Additional CSS classes"
+
+#: plugin/Integrations/GamiPress/Controller.php:122
+msgctxt "admin-text"
+msgid "The rating of the review which triggered this event."
+msgstr "The rating of the review which triggered this event."
+
+#: plugin/Integrations/GamiPress/Controller.php:130
+msgctxt "admin-text"
+msgid "The ID of the review which triggered this event."
+msgstr "The ID of the review which triggered this event."
+
+#: plugin/Integrations/GamiPress/Controller.php:132
+msgctxt "admin-text"
+msgid "Review ID"
+msgstr "Review ID"
 
 #: plugin/Integrations/GamiPress/Controller.php:276
 msgctxt "admin-text"

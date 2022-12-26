@@ -1024,7 +1024,7 @@ msgctxt "admin-text"
 msgid "Required Fields"
 msgstr ""
 
-#: config/settings.php:639, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:25, plugin/Defaults/RevisionFieldsDefaults.php:16, plugin/Tinymce/SiteReviewsTinymce.php:30, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:48
+#: config/settings.php:639, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:25, plugin/Defaults/RevisionFieldsDefaults.php:16, plugin/Tinymce/SiteReviewsTinymce.php:30, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:48, plugin/Integrations/GamiPress/Controller.php:124
 msgctxt "admin-text"
 msgid "Rating"
 msgstr ""
@@ -3831,18 +3831,17 @@ msgid "Additional CSS classes"
 msgstr ""
 
 #: plugin/Integrations/GamiPress/Controller.php:122
+msgctxt "admin-text"
 msgid "The rating of the review which triggered this event."
 msgstr ""
 
-#: plugin/Integrations/GamiPress/Controller.php:124
-msgid "Rating"
-msgstr ""
-
 #: plugin/Integrations/GamiPress/Controller.php:130
+msgctxt "admin-text"
 msgid "The ID of the review which triggered this event."
 msgstr ""
 
 #: plugin/Integrations/GamiPress/Controller.php:132
+msgctxt "admin-text"
 msgid "Review ID"
 msgstr ""
 
