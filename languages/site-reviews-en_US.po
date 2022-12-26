@@ -310,26 +310,6 @@ msgstr "Write review of a user of a role"
 msgid "Write review of a specific user"
 msgstr "Write review of a specific user"
 
-#: plugin/Integrations/WooCommerce/Reminder.php:65
-msgid ""
-"We would love if you could help us and other customers by reviewing "
-"products that you recently purchased in order #{order_id}. It only takes a "
-"minute and it would really help others. Click the button below and leave "
-"your review!"
-msgstr ""
-"We would love if you could help us and other customers by reviewing "
-"products that you recently purchased in order #{order_id}. It only takes a "
-"minute and it would really help others. Click the button below and leave "
-"your review!"
-
-#: plugin/Integrations/WooCommerce/Reminder.php:73
-msgid "Thanks for shopping with us!"
-msgstr "Thanks for shopping with us!"
-
-#: plugin/Integrations/WooCommerce/Reminder.php:81
-msgid "{site_title}: Review Your Experience with Us"
-msgstr "{site_title}: Review Your Experience with Us"
-
 #: plugin/Modules/Validator/AkismetValidator.php:48, plugin/Modules/Validator/HoneypotValidator.php:26, views/pages/documentation/support/common-problems-and-solutions.php:81
 msgid "This review has been flagged as possible spam and cannot be submitted."
 msgstr "This review has been flagged as possible spam and cannot be submitted."
@@ -1453,7 +1433,7 @@ msgctxt "admin-text"
 msgid "Required Fields"
 msgstr "Required Fields"
 
-#: config/settings.php:639, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:25, plugin/Defaults/RevisionFieldsDefaults.php:16, plugin/Tinymce/SiteReviewsTinymce.php:30, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:48, plugin/Integrations/GamiPress/Controller.php:124
+#: config/settings.php:639, config/forms/metabox-fields.php:5, plugin/Defaults/PostTypeColumnDefaults.php:25, plugin/Defaults/RevisionFieldsDefaults.php:16, plugin/Tinymce/SiteReviewsTinymce.php:30, plugin/Controllers/ListTableColumns/ColumnFilterRating.php:48, plugin/Integrations/GamiPress/Controller.php:125
 msgctxt "admin-text"
 msgid "Rating"
 msgstr "Rating"
@@ -3765,7 +3745,7 @@ msgctxt "admin-text"
 msgid "%s star rating"
 msgstr "%s star rating"
 
-#: plugin/Controllers/ListTableColumns/ColumnFilterRating.php:40, plugin/Integrations/GamiPress/Controller.php:275
+#: plugin/Controllers/ListTableColumns/ColumnFilterRating.php:40, plugin/Integrations/GamiPress/Controller.php:276
 msgctxt "admin-text"
 msgid "Any rating"
 msgstr "Any rating"
@@ -3974,32 +3954,32 @@ msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr "Additional CSS classes"
 
-#: plugin/Integrations/GamiPress/Controller.php:122
+#: plugin/Integrations/GamiPress/Controller.php:123
 msgctxt "admin-text"
 msgid "The rating of the review which triggered this event."
 msgstr "The rating of the review which triggered this event."
 
-#: plugin/Integrations/GamiPress/Controller.php:130
+#: plugin/Integrations/GamiPress/Controller.php:131
 msgctxt "admin-text"
 msgid "The ID of the review which triggered this event."
 msgstr "The ID of the review which triggered this event."
 
-#: plugin/Integrations/GamiPress/Controller.php:132
+#: plugin/Integrations/GamiPress/Controller.php:133
 msgctxt "admin-text"
 msgid "Review ID"
 msgstr "Review ID"
 
-#: plugin/Integrations/GamiPress/Controller.php:276
+#: plugin/Integrations/GamiPress/Controller.php:277
 msgctxt "admin-text"
 msgid "Exact rating of"
 msgstr "Exact rating of"
 
-#: plugin/Integrations/GamiPress/Controller.php:277
+#: plugin/Integrations/GamiPress/Controller.php:278
 msgctxt "admin-text"
 msgid "Minimum rating of"
 msgstr "Minimum rating of"
 
-#: plugin/Integrations/GamiPress/Controller.php:291
+#: plugin/Integrations/GamiPress/Controller.php:292
 msgctxt "admin-text"
 msgid "star(s)"
 msgstr "star(s)"
@@ -4079,11 +4059,6 @@ msgid ""
 msgstr ""
 "The Schema Pro integration with Site Reviews will only work if the schema "
 "is loaded in the Footer location."
-
-#: plugin/Integrations/WooCommerce/Reminder.php:21
-msgctxt "admin-text"
-msgid "Site Reviews: Review Reminder"
-msgstr "Site Reviews: Review Reminder"
 
 #: plugin/Modules/Html/TemplateTags.php:149
 msgctxt "admin-text"

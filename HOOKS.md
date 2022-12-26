@@ -31,7 +31,6 @@
     site-reviews/woocommerce/rest-api/delete_review             (Review $review, \WP_REST_Response $response, \WP_REST_Request $request)
     site-reviews/woocommerce/rest-api/insert_product_review     (Review $review, \WP_REST_Response $response, bool $isCreating)
 
-
 ## Filters
 
     site-reviews/addon/api-url                                  (string $apiUrl): string

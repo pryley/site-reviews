@@ -22,7 +22,7 @@ class Polylang implements Contract
             return 0;
         }
         if ($this->isEnabled()) {
-            $polylangPostId = pll_get_post($postId, pll_get_post_language(get_the_ID()));
+            $polylangPostId = pll_get_post((int) $postId, pll_get_post_language(get_the_ID()));
         }
         if (!empty($polylangPostId)) {
             $postId = $polylangPostId;
