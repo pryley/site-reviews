@@ -23,11 +23,13 @@ abstract class AbstractNotice
         if (!$this->canRender()) {
             return;
         }
+        if ($this->isMonitored()) {
+            glsr()->append('notices', $this->key);
+        }
         if ($this->isInFooter()) {
             add_action('in_admin_footer', [$this, 'render']);
         } else {
             add_action('in_admin_header', [$this, 'render']);
-            glsr()->append('notices', $this->key);
         }
     }
 
@@ -44,7 +46,8 @@ abstract class AbstractNotice
 
     public function render(): void
     {
-        if (!$this->isIntroverted() || empty(glsr()->retrieveAs('array', 'notices'))) {
+        $notices = glsr()->retrieveAs('array', 'notices');
+        if (!$this->isIntroverted() || ($this->isIntroverted() && empty($notices))) { // @phpstan-ignore-line
             glsr()->render('partials/notices/'.$this->key, $this->data());
         }
     }
@@ -102,6 +105,11 @@ abstract class AbstractNotice
     protected function isIntroverted(): bool
     {
         return false;
+    }
+
+    protected function isMonitored(): bool
+    {
+        return true;
     }
 
     protected function isNoticeScreen(): bool

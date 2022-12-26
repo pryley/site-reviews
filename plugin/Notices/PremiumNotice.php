@@ -29,6 +29,11 @@ class PremiumNotice extends AbstractNotice
         return true;
     }
 
+    protected function isMonitored(): bool
+    {
+        return false;
+    }
+
     protected function version(): string
     {
         return glsr()->version('minor');
