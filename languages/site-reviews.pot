@@ -739,7 +739,7 @@ msgctxt "admin-text"
 msgid "Display the fallback text when there are no reviews to display. This can be changed on the %s page. You may also override this by using the \"fallback\" option on the shortcode."
 msgstr ""
 
-#: config/settings.php:339, plugin/Controllers/MenuController.php:150
+#: config/settings.php:339, plugin/Controllers/MenuController.php:149
 msgctxt "admin-text"
 msgid "Strings"
 msgstr ""
@@ -1399,26 +1399,6 @@ msgctxt "admin-text"
 msgid "Choose the action that should be taken when a review is blacklisted."
 msgstr ""
 
-#: config/videos.php:8
-msgctxt "video title (admin-test)"
-msgid "Installation & Overview"
-msgstr ""
-
-#: config/videos.php:14
-msgctxt "video title (admin-test)"
-msgid "Blocks & Shortcodes"
-msgstr ""
-
-#: config/videos.php:20
-msgctxt "video title (admin-test)"
-msgid "Elementor Widgets"
-msgstr ""
-
-#: config/videos.php:26
-msgctxt "video title (admin-test)"
-msgid "Review Images"
-msgstr ""
-
 #: config/woocommerce.php:6
 msgctxt "admin-text"
 msgid "Enable Integration?"
@@ -1549,7 +1529,7 @@ msgctxt "License Keys (admin-text)"
 msgid "Enter the license key here. Your license can be found on the %s page of your Nifty Plugins account."
 msgstr ""
 
-#: plugin/Application.php:183, plugin/Controllers/SettingsController.php:176
+#: plugin/Application.php:183, plugin/Controllers/SettingsController.php:162
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr ""
@@ -1634,7 +1614,7 @@ msgstr ""
 
 #: views/tmpl-deactivate-plugin.php:41
 msgctxt "admin-text"
-msgid "Maybe one of the %sadd-ons%s provide this feature."
+msgid "Maybe one of the %saddons%s provide this feature."
 msgstr ""
 
 #: config/forms/metabox-fields.php:9, plugin/Defaults/PostTypeColumnDefaults.php:24, plugin/Defaults/RevisionFieldsDefaults.php:17, plugin/Tinymce/TinymceGenerator.php:143, plugin/Controllers/ListTableColumns/ColumnFilterType.php:36
@@ -1846,7 +1826,7 @@ msgctxt "admin-text"
 msgid "See the %s for more details."
 msgstr ""
 
-#: plugin/Commands/ImportReviews.php:189, plugin/Controllers/MenuController.php:177
+#: plugin/Commands/ImportReviews.php:189, plugin/Controllers/MenuController.php:176
 msgctxt "admin-text"
 msgid "Console"
 msgstr ""
@@ -2122,9 +2102,9 @@ msgctxt "admin-text"
 msgid "Tools"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:56
+#: plugin/Controllers/MenuController.php:56, plugin/Controllers/MenuController.php:122, plugin/Controllers/MenuController.php:150
 msgctxt "admin-text"
-msgid "Add-ons"
+msgid "Addons"
 msgstr ""
 
 #: plugin/Controllers/MenuController.php:57
@@ -2162,47 +2142,42 @@ msgctxt "admin-text"
 msgid "API"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:122, plugin/Controllers/MenuController.php:151
-msgctxt "admin-text"
-msgid "Addons"
-msgstr ""
-
-#: plugin/Controllers/MenuController.php:146, plugin/Controllers/MenuController.php:174
+#: plugin/Controllers/MenuController.php:145, plugin/Controllers/MenuController.php:173
 msgctxt "admin-text"
 msgid "General"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:147, plugin/Controllers/PrivacyController.php:146, plugin/Defaults/PostTypeLabelDefaults.php:14, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
+#: plugin/Controllers/MenuController.php:146, plugin/Controllers/PrivacyController.php:146, plugin/Defaults/PostTypeLabelDefaults.php:14, views/pages/tools/sync.php:10, views/pages/tools/sync.php:31
 msgctxt "admin-text"
 msgid "Reviews"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:148
+#: plugin/Controllers/MenuController.php:147
 msgctxt "admin-text"
 msgid "Forms"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:149, plugin/Tinymce/SiteReviewsSummaryTinymce.php:35, plugin/Tinymce/SiteReviewsTinymce.php:66
+#: plugin/Controllers/MenuController.php:148, plugin/Tinymce/SiteReviewsSummaryTinymce.php:35, plugin/Tinymce/SiteReviewsTinymce.php:66
 msgctxt "admin-text"
 msgid "Schema"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:152
+#: plugin/Controllers/MenuController.php:151
 msgctxt "admin-text"
 msgid "Licenses"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:175
+#: plugin/Controllers/MenuController.php:174
 msgctxt "admin-text"
 msgid "Scheduled Actions"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:176, views/pages/tools/sync.php:57
+#: plugin/Controllers/MenuController.php:175, views/pages/tools/sync.php:57
 msgctxt "admin-text"
 msgid "Sync Reviews"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:178
+#: plugin/Controllers/MenuController.php:177
 msgctxt "admin-text"
 msgid "System Info"
 msgstr ""
@@ -2237,27 +2212,27 @@ msgctxt "admin-text"
 msgid "Settings updated."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:144
+#: plugin/Controllers/SettingsController.php:131
 msgctxt "admin-text"
 msgid "Please update the %s plugin to v%s or greater to enable integration."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:138
+#: plugin/Controllers/SettingsController.php:125
 msgctxt "admin-text"
 msgid "Please install/activate the %s plugin to enable integration."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:162
+#: plugin/Controllers/SettingsController.php:148
 msgctxt "admin-text"
-msgid "A license you entered could not be verified for the selected add-on."
+msgid "A license you entered could not be verified for the selected addon."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:174
+#: plugin/Controllers/SettingsController.php:160
 msgctxt "admin-text"
 msgid "A license you entered is either invalid or has not yet been authorized for your website."
 msgstr ""
 
-#: plugin/Controllers/SettingsController.php:175
+#: plugin/Controllers/SettingsController.php:161
 msgctxt "admin-text"
 msgid "To activate your license, please visit the %s page on your Nifty Plugins account and click the \"Manage Sites\" button to activate it for your website."
 msgstr ""
@@ -2437,17 +2412,17 @@ msgctxt "admin-text"
 msgid "Upgrade Guide"
 msgstr ""
 
-#: plugin/Defaults/AddonDefaults.php:64
+#: plugin/Defaults/AddonDefaults.php:63
 msgctxt "admin-text"
 msgid "View Add-on"
 msgstr ""
 
-#: plugin/Defaults/AddonDefaults.php:61
+#: plugin/Defaults/AddonDefaults.php:60
 msgctxt "admin-text"
 msgid "Premium members only"
 msgstr ""
 
-#: plugin/Defaults/AddonDefaults.php:62
+#: plugin/Defaults/AddonDefaults.php:61
 msgctxt "admin-text"
 msgid "beta"
 msgstr ""
@@ -2955,6 +2930,21 @@ msgctxt "admin-text"
 msgid "This custom translation is no longer valid as the original text has been changed or removed."
 msgstr ""
 
+#: plugin/Notices/GatekeeperNotice.php:84
+msgctxt "admin-text"
+msgid "Activate %s"
+msgstr ""
+
+#: plugin/Notices/GatekeeperNotice.php:99
+msgctxt "admin-text"
+msgid "Install %s"
+msgstr ""
+
+#: plugin/Notices/GatekeeperNotice.php:114
+msgctxt "admin-text"
+msgid "Update %s"
+msgstr ""
+
 #: plugin/Overrides/PluginUpgrader.php:38
 msgctxt "admin-text"
 msgid "Plugin rollback successful! Please wait while it reactivates&#8230"
@@ -2996,6 +2986,7 @@ msgid "Log"
 msgstr ""
 
 #: plugin/Overrides/ScheduledActionsTable.php:107
+msgctxt "admin-text"
 msgid "Claim ID"
 msgstr ""
 
@@ -3035,15 +3026,18 @@ msgid "Delete the action now"
 msgstr ""
 
 #: plugin/Overrides/ScheduledActionsTable.php:230
+msgctxt "admin-text"
 msgid "It appears one or more database tables were missing. Attempting to re-create the missing table(s)."
 msgstr ""
 
 #. translators: %d: seconds
 #: plugin/Overrides/ScheduledActionsTable.php:262
+msgctxt "admin-text"
 msgid "The next queue will begin processing in approximately %d seconds."
 msgstr ""
 
 #: plugin/Overrides/ScheduledActionsTable.php:259
+msgctxt "admin-text"
 msgid "A new queue has begun processing. <a href=\"%s\">View actions in-progress &raquo;</a>"
 msgstr ""
 
@@ -3055,22 +3049,27 @@ msgstr[1] ""
 
 #. translators: 1: action HTML 2: action ID 3: error message
 #: plugin/Overrides/ScheduledActionsTable.php:296
+msgctxt "admin-text"
 msgid "Could not process change for action: \"%1$s\" (ID: %2$d). Error: %3$s"
 msgstr ""
 
 #: plugin/Overrides/ScheduledActionsTable.php:279
+msgctxt "admin-text"
 msgid "Successfully executed action: %s"
 msgstr ""
 
 #: plugin/Overrides/ScheduledActionsTable.php:283
+msgctxt "admin-text"
 msgid "Successfully canceled action: %s"
 msgstr ""
 
 #: plugin/Overrides/ScheduledActionsTable.php:286
+msgctxt "admin-text"
 msgid "Successfully deleted action"
 msgstr ""
 
 #: plugin/Overrides/ScheduledActionsTable.php:290
+msgctxt "admin-text"
 msgid "Successfully processed change for action: %s"
 msgstr ""
 
@@ -3546,11 +3545,6 @@ msgctxt "admin-text"
 msgid "Enable reviews"
 msgstr ""
 
-#: views/woocommerce/settings.php:6
-msgctxt "admin-text"
-msgid "The shortcodes entered below <strong>must</strong> include the <code>assigned_posts=\"post_id\"</code> option as that links the reviews to the product."
-msgstr ""
-
 #: plugin/Controllers/ListTableColumns/ColumnFilterAssignedPost.php:15
 msgctxt "admin-text"
 msgid "Filter by assigned post"
@@ -3768,7 +3762,7 @@ msgstr ""
 
 #: plugin/Integrations/Elementor/ElementorSummaryWidget.php:38
 msgctxt "admin-text"
-msgid "Use the Review Forms add-on to add custom rating fields."
+msgid "Use the Review Forms addon to add custom rating fields."
 msgstr ""
 
 #: plugin/Integrations/Elementor/ElementorSummaryWidget.php:40
@@ -3950,7 +3944,7 @@ msgstr ""
 
 #: views/pages/addons/index.php:11
 msgctxt "admin-text"
-msgid "Gain access to ALL of our free and paid add-ons with Site Reviews Premium, including access to future add-ons as they are released and <a href=\"%s\" target=\"_blank\">priority support</a>!"
+msgid "Gain access to ALL of our free and paid addons with Site Reviews Premium, including access to future addons as they are released and <a href=\"%s\" target=\"_blank\">priority support</a>!"
 msgstr ""
 
 #: views/pages/addons/index.php:15
@@ -4195,7 +4189,7 @@ msgstr ""
 
 #: views/partials/addons/support-notice.php:5
 msgctxt "admin-text"
-msgid "To receive support for this add-on, please %s to your Nifty Plugins account."
+msgid "To receive support for this addon, please %s to your Nifty Plugins account."
 msgstr ""
 
 #: views/partials/addons/support-notice.php:6
@@ -4298,6 +4292,20 @@ msgctxt "★★★★★ (admin-text)"
 msgid "Please rate %s on WordPress and let other people know about it."
 msgstr ""
 
+#: views/partials/notices/gatekeeper-external.php:6
+msgctxt "admin-text"
+msgid "%s requires the latest version of %s to enable integration."
+msgid_plural "%s requires the latest version of the following plugins to enable integration: %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/partials/notices/gatekeeper-internal.php:6
+msgctxt "admin-text"
+msgid "%s needs an update to work with %s."
+msgid_plural "%s needs an update to work with the following plugins: %s"
+msgstr[0] ""
+msgstr[1] ""
+
 #: views/partials/notices/migration.php:5
 msgctxt "admin-text"
 msgid "Site Reviews needs to migrate your reviews and settings to the latest version. If this notice continues to appear after 5 minutes, please read the %s section on the Help page."
@@ -4325,7 +4333,7 @@ msgstr ""
 
 #: views/partials/notices/premium.php:18
 msgctxt "admin-text"
-msgid "One or more add-ons are not receiving updates. %sSave your license%s in the settings to get the latest updates and priority support."
+msgid "One or more addons are not receiving updates. %sSave your license%s in the settings to get the latest updates and priority support."
 msgstr ""
 
 #: views/partials/notices/premium.php:12
@@ -4336,6 +4344,16 @@ msgstr ""
 #: views/partials/notices/premium.php:6
 msgctxt "admin-text"
 msgid "You are using the free version of Site Reviews. %sPurchase premium%s to support future development and get images, filters, themes, custom forms, and more!"
+msgstr ""
+
+#: views/partials/notices/retired.php:18
+msgctxt "admin-text"
+msgid "The %s addon has been merged into Site Reviews. Please deactivate it."
+msgstr ""
+
+#: views/partials/notices/retired.php:25
+msgctxt "admin-text"
+msgid "Deactivate %s"
 msgstr ""
 
 #: views/partials/notices/upgraded.php:5
@@ -4598,12 +4616,12 @@ msgctxt "admin-text"
 msgid "Imported %d Product Reviews"
 msgstr ""
 
-#: plugin/Integrations/WooCommerce/Controllers/Controller.php:66
+#: plugin/Integrations/WooCommerce/Controllers/MainController.php:66
 msgctxt "admin-text"
 msgid "managed by Site Reviews"
 msgstr ""
 
-#: plugin/Integrations/WooCommerce/Controllers/Controller.php:111
+#: plugin/Integrations/WooCommerce/Controllers/MainController.php:111
 msgid "verified owner"
 msgstr ""
 

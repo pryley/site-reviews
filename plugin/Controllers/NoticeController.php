@@ -31,7 +31,7 @@ class NoticeController extends Controller
     /**
      * @admin admin_head
      */
-    public function adminNotices()
+    public function adminNotices(): void
     {
         $dir = glsr()->path('plugin/Notices');
         if (!is_dir($dir)) {
@@ -56,10 +56,9 @@ class NoticeController extends Controller
     }
 
     /**
-     * @return void
      * @action site-reviews/route/admin/dismiss-notice
      */
-    public function dismissNotice(Request $request)
+    public function dismissNotice(Request $request): void
     {
         $noticeKey = glsr(Sanitizer::class)->sanitizeText($request->notice);
         $notice = Helper::buildClassName($noticeKey.'-notice', 'Notices');
@@ -69,10 +68,9 @@ class NoticeController extends Controller
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/dismiss-notice
      */
-    public function dismissNoticeAjax(Request $request)
+    public function dismissNoticeAjax(Request $request): void
     {
         $this->dismissNotice($request);
         wp_send_json_success();

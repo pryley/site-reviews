@@ -80,10 +80,9 @@ class SettingsController extends Controller
         $key = 'settings.licenses';
         $licenses = Arr::consolidate(Arr::get($input, $key));
         foreach ($licenses as $slug => &$license) {
-            if (empty($license)) {
-                continue;
+            if (!empty($license)) {
+                $license = $this->verifyLicense($license, $slug);
             }
-            $license = $this->verifyLicense($license, $slug);
         }
         $options = Arr::set($options, $key, $licenses);
         return $options;
@@ -115,7 +114,7 @@ class SettingsController extends Controller
      * @param string $integrationSlug
      * @return bool
      */
-    protected function hasMultilingualIntegration($integrationSlug)
+    protected function hasMultilingualIntegration($integrationSlug): bool
     {
         $integration = glsr(Multilingual::class)->getIntegration($integrationSlug);
         if (!$integration) {
@@ -141,9 +140,8 @@ class SettingsController extends Controller
     /**
      * @param string $license
      * @param string $addonId
-     * @return string
      */
-    protected function verifyLicense($license, $addonId)
+    protected function verifyLicense($license, $addonId): string
     {
         if (empty(glsr()->updated[$addonId])) {
             glsr_log()->error('Unknown addon: '.$addonId);
