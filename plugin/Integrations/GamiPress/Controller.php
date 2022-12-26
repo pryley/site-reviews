@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Integrations\GamiPress;
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Integrations\GamiPress\Commands\AwardAchievement;
 use GeminiLabs\SiteReviews\Integrations\GamiPress\Commands\TriggerEvent;
@@ -117,7 +118,7 @@ class Controller extends BaseController
      */
     public function filterLogExtraDataFields(array $fields, $logId, $logType, $log)
     {
-        if ($rating = ct_get_object_meta($logId, '_gamipress_rating', true)) {
+        if (ct_get_object_meta($logId, '_gamipress_rating', true)) {
             $fields[] = [
                 'desc' => _x('The rating of the review which triggered this event.', 'admin-text', 'site-reviews'),
                 'id' => '_gamipress_rating',
@@ -125,7 +126,7 @@ class Controller extends BaseController
                 'type' => 'text',
             ];
         }
-        if ($reviewId = ct_get_object_meta($logId, '_gamipress_review_id', true)) {
+        if (ct_get_object_meta($logId, '_gamipress_review_id', true)) {
             $fields[] = [
                 'desc' => _x('The ID of the review which triggered this event.', 'admin-text', 'site-reviews'),
                 'id' => '_gamipress_review_id',
@@ -259,8 +260,8 @@ class Controller extends BaseController
     public function renderRequirementFields($requirementId, $postId): void
     {
         $options = [];
-        $userId = get_post_meta($requirementId, $this->metaKey('user_id'), true);
-        $rating = get_post_meta($requirementId, $this->metaKey('rating'), true);
+        $userId = Cast::toInt(get_post_meta($requirementId, $this->metaKey('user_id'), true));
+        $rating = Cast::toInt(get_post_meta($requirementId, $this->metaKey('rating'), true));
         if ($user = get_user_by('id', $userId)) {
             $options[$user->ID] = sprintf('%s (#%d)', $user->display_name, $user->ID);
         }

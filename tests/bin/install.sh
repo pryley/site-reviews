@@ -104,6 +104,9 @@ install_plugins() {
     # we need Elementor for the code coverage
     download https://downloads.wordpress.org/plugin/elementor.latest-stable.zip $TMPDIR/elementor.zip
     unzip -d $WP_CORE_DIR/wp-content/plugins/ $TMPDIR/elementor.zip
+    # we need GamiPress for the code coverage
+    download https://downloads.wordpress.org/plugin/gamipress.latest-stable.zip $TMPDIR/gamipress.zip
+    unzip -d $WP_CORE_DIR/wp-content/plugins/ $TMPDIR/gamipress.zip
     # we need Woocommerce for the code coverage
     download https://downloads.wordpress.org/plugin/woocommerce.latest-stable.zip $TMPDIR/woocommerce.zip
     unzip -d $WP_CORE_DIR/wp-content/plugins/ $TMPDIR/woocommerce.zip

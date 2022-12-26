@@ -5,8 +5,6 @@ filter:
     - woocommerce/
     - woocommerce/packages/woocommerce-blocks/src/
     - wordpress/
-    - wordpress/wp-content/plugins/woocommerce/
-    - wordpress/wp-content/plugins/woocommerce/packages/woocommerce-blocks/src/
   excluded_paths:
     - assets/
     - languages/
