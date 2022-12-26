@@ -38,7 +38,7 @@ Site Reviews is designed to work in a similar way to reviews on Amazon, TripAdvi
 - __Editor Blocks__: Use the custom editor blocks in the Gutenberg editor
 - __Elementor Support__: Use the native Elementor Widgets in the Elementor editor
 - __Form Styles__: Match the review form with popular themes and form plugins
-- __GamiPress Support__: Award points when someone writes or receives a review. For more advanced GamiPress triggers, use the [GamiPress Reviews](https://niftyplugins.com/plugins/site-reviews-gamipress/) addon!
+- __GamiPress Support__: Award points when someone writes or receives a review
 - __Import Third-Party Reviews__: Includes a built-in CSV importer
 - __JSON-LD Schema__: Display your reviews and ratings in search results
 - __Members Only__: Require users to be logged in before submitting a review
@@ -70,7 +70,6 @@ Site Reviews provides a ton of absolutely free features, possibly more than any 
 - __[Review Images](https://niftyplugins.com/plugins/site-reviews-images/)__: Add images with captions to your reviews.
 - __[Review Notifications](https://niftyplugins.com/plugins/site-reviews-notifications/)__: Create and schedule custom review notifications with conditions.
 - __[Review Themes](https://niftyplugins.com/plugins/site-reviews-themes/)__: Create custom review designs with a drag-and-drop builder.
-- __[GamiPress Reviews](https://niftyplugins.com/plugins/site-reviews-gamipress/)__: Integrate Site Reviews with GamiPress and award people for writing and receiving reviews.
 
 ### Site Reviews Premium
 
@@ -200,6 +199,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Added compatibility with [Loyalty Program for WooCommerce](https://advancedcouponsplugin.com/woocommerce-loyalty-program/)
 - Added compatibility with [WooRewards](https://wordpress.org/plugins/woorewards/)
 - Added FAQ documentation which explains how to sort a Query Loop block by average rating, ranking, or number of reviews.
+- Added GamiPress integration
 - Added WooCommerce integration
 - Added WooCommerce Product Reviews importer
 - Fixed an issue causing a timeout when running plugin migrations
@@ -211,6 +211,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Fixed the console logging, it now uses the saved log level
 - Fixed translatable strings
 - Fixed value sanitization when exporting reviews as a CSV file
-- Removed the Woocommerce Reviews addon as it's now fully integrated into Site Reviews
+- Removed the GamiPress Reviews addon, it's now fully integrated into Site Reviews
+- Removed the Woocommerce Reviews addon, it's now fully integrated into Site Reviews
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).

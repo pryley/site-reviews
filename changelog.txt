@@ -7,6 +7,7 @@
 - Added compatibility with [Loyalty Program for WooCommerce](https://advancedcouponsplugin.com/woocommerce-loyalty-program/)
 - Added compatibility with [WooRewards](https://wordpress.org/plugins/woorewards/)
 - Added FAQ documentation which explains how to sort a Query Loop block by average rating, ranking, or number of reviews.
+- Added GamiPress integration
 - Added WooCommerce integration
 - Added WooCommerce Product Reviews importer
 - Fixed an issue causing a timeout when running plugin migrations
@@ -18,7 +19,8 @@
 - Fixed the console logging, it now uses the saved log level
 - Fixed translatable strings
 - Fixed value sanitization when exporting reviews as a CSV file
-- Removed the Woocommerce Reviews addon as it's now fully integrated into Site Reviews
+- Removed the GamiPress Reviews addon, it's now fully integrated into Site Reviews
+- Removed the Woocommerce Reviews addon, it's now fully integrated into Site Reviews
 
 = 6.2.0 (2022-11-04) =
 
