@@ -1,5 +1,25 @@
 == Changelog ==
 
+= 6.4.0 (2022-12-27) =
+
+- Added Action Scheduler information to System Info
+- Added assignment meta keys (_glsr_average, _glsr_ranking, _glsr_reviews) to the WP REST API
+- Added compatibility with [Loyalty Program for WooCommerce](https://advancedcouponsplugin.com/woocommerce-loyalty-program/)
+- Added compatibility with [WooRewards](https://wordpress.org/plugins/woorewards/)
+- Added FAQ documentation which explains how to sort a Query Loop block by average rating, ranking, or number of reviews.
+- Added WooCommerce integration
+- Added WooCommerce Product Reviews importer
+- Fixed an issue causing a timeout when running plugin migrations
+- Fixed compatibility with optimisation plugins which do not observe loading order of inline scripts
+- Fixed compatibility with other reCAPTCHA plugins
+- Fixed database table PRIMARY indexes on websites running MariaDB
+- Fixed localization of the Summary rating number
+- Fixed summary rating number to display in decimal format and using the website locale
+- Fixed the console logging, it now uses the saved log level
+- Fixed translatable strings
+- Fixed value sanitization when exporting reviews as a CSV file
+- Removed the Woocommerce Reviews addon as it's now fully integrated into Site Reviews
+
 = 6.2.0 (2022-11-04) =
 
 - Added a setting to detect and prevent duplicate review submissions from the same person.

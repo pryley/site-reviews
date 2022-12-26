@@ -193,7 +193,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.4.0 (2022-11-21) =
+= 6.4.0 (2022-12-27) =
 
 - Added Action Scheduler information to System Info
 - Added assignment meta keys (_glsr_average, _glsr_ranking, _glsr_reviews) to the WP REST API
@@ -209,7 +209,8 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Fixed localization of the Summary rating number
 - Fixed summary rating number to display in decimal format and using the website locale
 - Fixed the console logging, it now uses the saved log level
+- Fixed translatable strings
 - Fixed value sanitization when exporting reviews as a CSV file
-- Removed the Woocommerce Reviews addon as it's now built into Site Reviews
+- Removed the Woocommerce Reviews addon as it's now fully integrated into Site Reviews
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).
