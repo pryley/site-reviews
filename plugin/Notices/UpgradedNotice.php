@@ -14,14 +14,6 @@ class UpgradedNotice extends AbstractNotice
         return parent::canRender();
     }
 
-    protected function isNoticeScreen(): bool
-    {
-        if ('dashboard' === glsr_current_screen()->id) {
-            return true;
-        }
-        return parent::isNoticeScreen();
-    }
-
     protected function version(): string
     {
         return glsr()->version('minor');
