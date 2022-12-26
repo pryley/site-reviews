@@ -99,6 +99,8 @@
     site-reviews/documentation/hooks                            (array $paths): array
     site-reviews/documentation/shortcodes                       (array $paths): array
     site-reviews/documentation/shortcodes/<shortcode>           (array $paths): array
+    site-reviews/elementor/display/settings                     (array $settings, \Elementor\Widget_Base $widget): array
+    site-reviews/elementor/register/controls                    (array $controls, \Elementor\Widget_Base $widget): array
     site-reviews/email/compose                                  (array $email, Modules\Email $mailer): array
     site-reviews/email/headers                                  (array $headers, Modules\Email $mailer): array
     site-reviews/email/message                                  (string $message, string $type, Modules\Email $mailer): string
@@ -116,8 +118,6 @@
     site-reviews/form/build/<tag_or_field_key>                  (string $field, Arguments $with, Modules\Html\Partials\SiteReviewsForm $partial): string
     site-reviews/gamipress/posts/post_types                     (array $postTypes): array
     site-reviews/get/defaults                                   (array $defaults): array
-    site-reviews/integration/elementor/display/settings         (array $settings, \Elementor\Widget_Base $widget): array
-    site-reviews/integration/elementor/register/controls        (array $controls, \Elementor\Widget_Base $widget): array
     site-reviews/interpolate/<template_path>                    (array $context, string $template, array $data): array
     site-reviews/is-local-server                                (bool $bool): bool
     site-reviews/metabox/fields                                 (array $fields, Review $review): array

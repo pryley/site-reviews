@@ -56,7 +56,7 @@ abstract class ElementorWidget extends Widget_Base
             }
         }
         $settings['hide'] = array_filter($hide);
-        return glsr()->filterArray('integration/elementor/display/settings', $settings, $this);
+        return glsr()->filterArray('elementor/display/settings', $settings, $this);
     }
 
     /**
@@ -141,7 +141,7 @@ abstract class ElementorWidget extends Widget_Base
                 'options' => $this->settings_advanced(),
             ],
         ];
-        $controls = glsr()->filterArray('integration/elementor/register/controls', $controls, $this);
+        $controls = glsr()->filterArray('elementor/register/controls', $controls, $this);
         array_walk($controls, function ($control, $key) {
             $options = array_filter($control['options']);
             if (!empty($options)) {
