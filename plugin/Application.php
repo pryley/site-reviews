@@ -197,14 +197,21 @@ final class Application extends Container
      */
     public function register($addon)
     {
+        $retired = [ // @compat these addons have been retired
+            'site-reviews-woocommerce',
+        ];
         try {
             $reflection = new \ReflectionClass($addon); // make sure that the class exists
             $addon = $reflection->getName();
-            $this->addons[$addon::ID] = $addon;
-            $this->singleton($addon); // this goes first!
-            $this->alias($addon::ID, $this->make($addon)); // @todo for some reason we have to link an alias to an instantiated class
-            $instance = $this->make($addon)->init();
-            $this->append('addons', $instance->version, $instance->id);
+            if (in_array($addon::ID, $retired)) {
+                $this->append('retired', $addon);
+            } else {
+                $this->addons[$addon::ID] = $addon;
+                $this->singleton($addon); // this goes first!
+                $this->alias($addon::ID, $this->make($addon)); // @todo for some reason we have to link an alias to an instantiated class
+                $instance = $this->make($addon)->init();
+                $this->append('addons', $instance->version, $instance->id);
+            }
         } catch (\ReflectionException $e) {
             glsr_log()->error('Attempted to register an invalid addon.');
         }

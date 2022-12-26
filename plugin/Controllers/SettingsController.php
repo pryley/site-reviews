@@ -32,10 +32,10 @@ class SettingsController extends Controller
         $settings = Arr::consolidate($input);
         if (1 === count($settings) && array_key_exists('settings', $settings)) {
             $options = array_replace_recursive(glsr(OptionManager::class)->all(), $input);
-            $options = $this->sanitizeGeneral($input, $options);
-            $options = $this->sanitizeLicenses($input, $options);
-            $options = $this->sanitizeForms($input, $options);
-            $options = $this->sanitizeStrings($input, $options);
+            $options = $this->sanitizeGeneral($options, $input);
+            $options = $this->sanitizeLicenses($options, $input);
+            $options = $this->sanitizeForms($options, $input);
+            $options = $this->sanitizeStrings($options, $input);
             $options = glsr()->filterArray('settings/sanitize', $options, $settings);
             glsr()->action('settings/updated', $options, $settings);
             if (filter_input(INPUT_POST, 'option_page') == glsr()->id.'-settings') {
@@ -47,10 +47,7 @@ class SettingsController extends Controller
         return $input;
     }
 
-    /**
-     * @return array
-     */
-    protected function sanitizeForms(array $input, array $options)
+    protected function sanitizeForms(array $options, array $input): array
     {
         $key = 'settings.forms';
         $inputForm = Arr::get($input, $key);
@@ -62,10 +59,7 @@ class SettingsController extends Controller
         return $options;
     }
 
-    /**
-     * @return array
-     */
-    protected function sanitizeGeneral(array $input, array $options)
+    protected function sanitizeGeneral(array $options, array $input): array
     {
         $key = 'settings.general';
         $inputForm = Arr::get($input, $key);
@@ -81,10 +75,7 @@ class SettingsController extends Controller
         return $options;
     }
 
-    /**
-     * @return array
-     */
-    protected function sanitizeLicenses(array $input, array $options)
+    protected function sanitizeLicenses(array $options, array $input): array
     {
         $key = 'settings.licenses';
         $licenses = Arr::consolidate(Arr::get($input, $key));
@@ -98,10 +89,7 @@ class SettingsController extends Controller
         return $options;
     }
 
-    /**
-     * @return array
-     */
-    protected function sanitizeStrings(array $input, array $options)
+    protected function sanitizeStrings(array $options, array $input): array
     {
         $key = 'settings.strings';
         $inputForm = Arr::consolidate(Arr::get($input, $key));

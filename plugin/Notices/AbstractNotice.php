@@ -45,7 +45,7 @@ abstract class AbstractNotice
     public function render(): void
     {
         if (!$this->isIntroverted() || empty(glsr()->retrieveAs('array', 'notices'))) {
-            glsr()->render('partials/notices/'.$this->key);
+            glsr()->render('partials/notices/'.$this->key, $this->data());
         }
     }
 
@@ -61,6 +61,11 @@ abstract class AbstractNotice
             return false;
         }
         return true;
+    }
+
+    protected function data(): array
+    {
+        return [];
     }
 
     protected function futureTime(): int

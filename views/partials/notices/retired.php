@@ -1,0 +1,30 @@
+<?php defined('ABSPATH') || exit;
+
+foreach ($addons as $addon) {
+    $plugin = sprintf('%1$s/%1$s.php', $addon::ID);
+    $args = [
+        'action' => 'deactivate',
+        'plugin' => $plugin,
+        'plugin_status' => 'all',
+    ];
+    $url = add_query_arg($args, self_admin_url('plugins.php'));
+    $url = wp_nonce_url($url, 'deactivate-plugin_'.$plugin);
+    $hasAction = get_current_screen()->in_admin('network')
+        ? current_user_can('manage_network_plugins')
+        : current_user_can('deactivate_plugin', $plugin);
+?>
+<div class="notice notice-error is-dismissible glsr-notice" data-dismiss="retired">
+    <p>
+        <?= sprintf(_x('The %s addon has been merged into Site Reviews. Please deactivate it.', 'admin-text', 'site-reviews'),
+            '<strong>'.$addon::NAME.'</strong>'
+        ); ?>
+    </p>
+    <?php if ($hasAction) { ?>
+        <p class="glsr-notice-buttons">
+            <a class="button button-primary" href="<?= $url; ?>">
+                <?= sprintf(_x('Deactivate %s', 'admin-text', 'site-reviews'), $addon::NAME); ?>
+            </a>
+        </p>
+    <?php } ?>
+</div>
+<?php } ?>

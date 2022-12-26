@@ -5,38 +5,33 @@ namespace GeminiLabs\SiteReviews\Integrations\WooCommerce;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\Controller;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ExperimentsController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ImportController;
+use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\MainController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\ProductController;
 use GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\RestApiController;
 use GeminiLabs\SiteReviews\Hooks\AbstractHooks;
 
 class Hooks extends AbstractHooks
 {
-    /**
-     * @var bool
-     */
-    public $enabled = false;
-
     public function run(): void
     {
-        if ('yes' === get_option('woocommerce_enable_reviews', 'yes') 
-            && glsr_get_option('addons.woocommerce.enabled', false, 'bool')) {
-            $this->enabled = true;
-            remove_action('comment_post', ['WC_Comments', 'add_comment_purchase_verification'], 10);
-            remove_action('wp_update_comment_count', ['WC_Comments', 'clear_transients'], 10);
-            remove_filter('comments_open', ['WC_Comments', 'comments_open'], 10);
+        $this->hook(Controller::class, [
+            ['filterSettings', 'site-reviews/addon/settings'],
+            ['filterSettingsCallback', 'site-reviews/settings/sanitize', 10, 2],
+            ['filterSubsubsub', 'site-reviews/addon/subsubsub'],
+            ['renderNotice', 'admin_init'],
+            ['renderSettings', 'site-reviews/addon/settings/woocommerce'],
+        ]);
+        if ($this->isEnabled()) {
+            $this->hook(ExperimentsController::class, $this->experimentalHooks());
+            $this->hook(ImportController::class, $this->importHooks());
+            $this->hook(MainController::class, $this->mainHooks());
+            $this->hook(ProductController::class, $this->productHooks());
+            $this->hook(RestApiController::class, $this->restApiHooks());
         }
-        $this->hook(Controller::class, $this->mainHooks());
-        $this->hook(ExperimentsController::class, $this->experimentalHooks());
-        $this->hook(ImportController::class, $this->importHooks());
-        $this->hook(ProductController::class, $this->productHooks());
-        $this->hook(RestApiController::class, $this->restApiHooks());
     }
 
     protected function experimentalHooks(): array
     {
-        if (!$this->enabled) {
-            return [];
-        }
         if ('yes' !== glsr_get_option('addons.woocommerce.wp_comments')) {
             return [];
         }
@@ -44,6 +39,14 @@ class Hooks extends AbstractHooks
             ['filterProductCommentMeta', 'get_comment_metadata', 20, 4],
             ['filterProductCommentsQuery', 'comments_pre_query', 20, 2],
         ];
+    }
+
+    protected function isEnabled(): bool
+    {
+        return glsr_get_option('addons.woocommerce.enabled', false, 'bool')
+            && 'yes' === get_option('woocommerce_enable_reviews', 'yes')
+            && class_exists('WooCommerce')
+            && function_exists('WC');
     }
 
     protected function importHooks(): array
@@ -56,15 +59,10 @@ class Hooks extends AbstractHooks
 
     protected function mainHooks(): array
     {
-        $hooks = [
-            ['filterSettings', 'site-reviews/addon/settings'],
-            ['filterSubsubsub', 'site-reviews/addon/subsubsub'],
-            ['renderSettings', 'site-reviews/addon/settings/woocommerce'],
-        ];
-        if (!$this->enabled) {
-            return $hooks;
-        }
-        return array_merge($hooks, [
+        remove_action('comment_post', ['WC_Comments', 'add_comment_purchase_verification'], 10);
+        remove_action('wp_update_comment_count', ['WC_Comments', 'clear_transients'], 10);
+        remove_filter('comments_open', ['WC_Comments', 'comments_open'], 10);
+        return [
             ['filterInlineStyles', 'site-reviews/enqueue/public/inline-styles', 20],
             ['filterProductCommentStatus', 'get_default_comment_status', 10, 3],
             ['filterProductSettings', 'woocommerce_get_settings_products', 10, 2],
@@ -81,14 +79,11 @@ class Hooks extends AbstractHooks
             ['renderNotice', 'admin_notices'],
             ['renderProductOptions', 'woocommerce_product_options_advanced'],
             ['verifyProductOwner', 'site-reviews/review/created', 20],
-        ]);
+        ];
     }
 
     protected function productHooks(): array
     {
-        if (!$this->enabled) {
-            return [];
-        }
         return [
             ['filterCommentsTemplate', 'comments_template', 50],
             ['filterGetRatingHtml', 'woocommerce_product_get_rating_html', 10, 3],
@@ -112,9 +107,6 @@ class Hooks extends AbstractHooks
 
     protected function restApiHooks(): array
     {
-        if (!$this->enabled) {
-            return [];
-        }
         return [
             ['filterRestEndpoints', 'rest_endpoints'],
             ['filterRestNamespaces', 'woocommerce_rest_api_get_rest_namespaces'],
