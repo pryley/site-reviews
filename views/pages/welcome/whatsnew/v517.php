@@ -11,7 +11,7 @@
         <p><em>Initial Release Date &mdash; November 10th, 2021</em></p>
         <h4>✨ New Features</h4>
         <ul>
-            <li>Added the <a href="<?= glsr_admin_url('addons'); ?>">Review Notifications</a> add-on</li>
+            <li>Added the <a href="<?= glsr_admin_url('addons'); ?>">Review Notifications</a> addon</li>
             <li>Added a setting to restrict the "Require Approval" setting to a minimum rating</li>
             <li>Added support for additional date formats and columns in the "Import Third Party Reviews" tool</li>
             <li>Added the Accepted Terms field to the privacy export (using the review creation date as the value if the terms were accepted)</li>

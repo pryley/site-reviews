@@ -16,12 +16,12 @@
             <li>Added <code>glsr_trace()</code> helper function</li>
             <li>Added plugin style for the "Twenty Twenty-One" theme</li>
             <li>Added "Restrict Limits To" setting which allows you to choose which assignments are used in the review limits.</li>
-            <li>Added sub-sections for add-on settings</li>
+            <li>Added sub-sections for addon settings</li>
         </ul>
         <h4>📢 Changes</h4>
         <ul>
             <li>Changed the <code>site-reviews/review/build/&lt;tag&gt;</code> hooks to <code>site-reviews/review/build/tag/&lt;tag&gt;</code></li>
-            <li>Upgraded the <a href="https://github.com/pryley/star-rating.js" target="_blank">star-ratings.js</a> library to v4 in preparation for the "Review Themes" add-on</li>
+            <li>Upgraded the <a href="https://github.com/pryley/star-rating.js" target="_blank">star-ratings.js</a> library to v4 in preparation for the "Review Themes" addon</li>
         </ul>
         <h4>🐞 Bugs Fixed</h4>
         <ul>

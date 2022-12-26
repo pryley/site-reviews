@@ -50,7 +50,7 @@ read -p " - Updated the major version in wpml-config.xml?"
 read -p " - Verified compatibility with PHP v${MIN_PHP_VERSION} -> latest?"
 read -p " - Verified compatibility with Wordpress v${MIN_WORDPRESS_VERSION} -> latest?"
 read -p " - Verified the changelog release date?"
-read -p " - Verified that all add-ons work correctly with the update?"
+read -p " - Verified that all addons work correctly with the update?"
 read -p " - Committed all changes to the main branch on GITHUB?"
 read -p " - PHPUnit and PHPStan has passed all inspections?"
 

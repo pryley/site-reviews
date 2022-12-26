@@ -8,7 +8,7 @@
         </button>
     </h3>
     <div id="faq-notify-author-when-responding" class="inside">
-        <p>This code snippet will send an email notification to the review author after you respond to their review. Alternatively, you can use the <a href="https://niftyplugins.com/plugins/site-reviews-notifications/" target="_blank">Review Notifications</a> add-on.</p>
+        <p>This code snippet will send an email notification to the review author after you respond to their review. Alternatively, you can use the <a href="https://niftyplugins.com/plugins/site-reviews-notifications/" target="_blank">Review Notifications</a> addon.</p>
         <pre><code class="language-php">/**
  * Send an email notification to the review author after responding to a review
  * This snippet assumes that your review form includes the email field

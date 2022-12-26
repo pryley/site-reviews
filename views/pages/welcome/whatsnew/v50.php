@@ -57,7 +57,7 @@
             <li>Removed the <code>site-reviews/config/forms/submission-form</code> filter hook (see the Upgrade Guide)</li>
             <li>Removed the <code>site-reviews/reviews/reviews-wrapper</code> filter hook (see the Upgrade Guide)</li>
             <li>Removed the <code>site-reviews/submission-form/order</code> filter hook (see the Upgrade Guide)</li>
-            <li>Removed the Trustalyze integration, it is now an add-on</li>
+            <li>Removed the Trustalyze integration, it is now an addon</li>
         </ul>
         <h4>🐞 Bugs Fixed</h4>
         <ul>

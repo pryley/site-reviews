@@ -15,7 +15,7 @@
         </ul>
         <h4>🐞 Bugs Fixed</h4>
         <ul>
-            <li>Fixed AJAX pagination of filtered reviews (when using the Review Filters add-on)</li>
+            <li>Fixed AJAX pagination of filtered reviews (when using the Review Filters addon)</li>
             <li>Fixed compatibility with Divi Dynamic CSS</li>
             <li>Fixed compatibility with Oxygen Builder</li>
             <li>Fixed expanding excerpts</li>

@@ -15,13 +15,13 @@
         </ul>
         <h4>🚫 Removed</h4>
         <ul>
-            <li>Removed the "Trustalyze Confidence System" add-on (the service has been discontinued).</li>
+            <li>Removed the "Trustalyze Confidence System" addon (the service has been discontinued).</li>
         </ul>
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed a stored XSS vulnerability which allowed an admin user to add a malicious value when editing a review from the WordPress admin.</li>
             <li>Fixed ability to remove plugin hooks</li>
-            <li>Fixed add-on settings link on Plugins page</li>
+            <li>Fixed addon settings link on Plugins page</li>
             <li>Fixed API permission check for categories</li>
             <li>Fixed database queries to correctly handle multiple assignment values</li>
             <li>Fixed Elementor widgets</li>

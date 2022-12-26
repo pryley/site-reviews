@@ -35,7 +35,7 @@ class ElementorSummaryWidget extends ElementorWidget
         $settings = parent::settings_advanced();
         $settings = Arr::insertAfter('shortcode_id', $settings, [
             'rating_field' => [
-                'description' => _x('Use the Review Forms add-on to add custom rating fields.', 'admin-text', 'site-reviews'),
+                'description' => _x('Use the Review Forms addon to add custom rating fields.', 'admin-text', 'site-reviews'),
                 'label_block' => true,
                 'label' => _x('Custom Rating Field Name', 'admin-text', 'site-reviews'),
                 'type' => \Elementor\Controls_Manager::TEXT,

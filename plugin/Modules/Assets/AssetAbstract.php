@@ -129,7 +129,7 @@ abstract class AssetAbstract
             if ($path !== $url) {
                 $contents = $this->filesystem()->get_contents($path);
             }
-            if (empty($contents)) { // @todo if this fails, do the add-on assets still load?
+            if (empty($contents)) { // @todo if this fails, do the addon assets still load?
                 $this->abort = true;
                 break;
             }

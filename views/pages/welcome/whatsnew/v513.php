@@ -17,13 +17,13 @@
         </ul>
         <h4>📢 Changes</h4>
         <ul>
-            <li>Internal changes to support the upcoming Review Themes add-on</li>
+            <li>Internal changes to support the upcoming Review Themes addon</li>
             <li>Renamed the <code>site-reviews/review/response</code> hook to <code>site-reviews/review/responded</code> (see the related FAQ section)</li>
         </ul>
         <h4>🛠 Tweaks</h4>
         <ul>
-            <li>Improved the error message when saving add-on licenses to make it more descriptive and helpful.</li>
-            <li>Removed the "Discover Premium" button for licensed add-on users</li>
+            <li>Improved the error message when saving addon licenses to make it more descriptive and helpful.</li>
+            <li>Removed the "Discover Premium" button for licensed addon users</li>
             <li>Updated the "Common Problems and Solutions"</li>
             <li>Updated the "FAQ"</li>
         </ul>

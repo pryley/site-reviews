@@ -39,7 +39,7 @@ abstract class Addon
         if (class_exists($className)) {
             (new $className())->run();
         } else {
-            glsr_log()->error('The '.static::NAME.' add-on is missing a Hooks class');
+            glsr_log()->error('The '.static::NAME.' addon is missing a Hooks class');
         }
         return $this;
     }

@@ -13,9 +13,9 @@ class License
         $isSaved = true; // priority 3
         foreach (glsr()->updated as $addonId => $addon) {
             if (!$addon['licensed']) {
-                continue; // this is a free add-on
+                continue; // this is a free addon
             }
-            $isFree = false; // there are premium add-ons installed
+            $isFree = false; // there are premium addons installed
             if (empty(glsr_get_option('licenses.'.$addonId))) {
                 $isSaved = false;
                 continue; // the license has not been saved in the settings

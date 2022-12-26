@@ -19,7 +19,7 @@
 = 6.1.2 (2022-10-16) =
 
 - Added a notice when integrating with "Schema and Structured Data plugin" to load schema markup in the footer
-- Fixed a possible issue with saving add-on licenses (hopefully!)
+- Fixed a possible issue with saving addon licenses (hopefully!)
 - Fixed Schema Pro integration
 - Improved documentaton
 
@@ -61,7 +61,7 @@
 = 6.0.4 (2022-09-15) =
 
 - Fixed a PHP 7.2 syntax error
-- Fixed add-on activation routines
+- Fixed addon activation routines
 - Fixed autoloading for Php80 polyfill
 - Fixed footer notice placement
 
@@ -87,7 +87,7 @@
 - Added ability to search reviews by ID on the All Reviews admin page
 - Added automatic conversion of UTF-16/UTF-32 encoded CSV files when importing reviews
 - Added custom capabilities for review categories
-- Added experimental filter hooks to combine css and javascript files when using add-ons (see Help > Hooks)
+- Added experimental filter hooks to combine css and javascript files when using addons (see Help > Hooks)
 - Added migration and nonce support for LiteSpeed Cache (flushes the cache after migration)
 - Added migration support for WP Rocket (flushes the cache after migration)
 - Added support for the Bluehost "Endurance Page Cache" must-use plugin
@@ -113,7 +113,7 @@
 - Optimised the javascript file sizes
 - Renamed the "Submissions" settings page to "Forms"
 - Rewrote the frontend style to use CSS variables, this should make CSS tweaks easier to write.
-- Rewrote the review modals to support the new review image galleries ([Review Images](https://niftyplugins.com/plugins/site-reviews-images/) add-on required)
+- Rewrote the review modals to support the new review image galleries ([Review Images](https://niftyplugins.com/plugins/site-reviews-images/) addon required)
 - Submit and load more buttons now make use of the WordPress Block button classes by default
 - Updated the Bootstrap plugin styles to Bootstrap v5
 
@@ -171,7 +171,7 @@
 = 5.23.2 (2022-04-10) =
 
 - Fixed admin notices
-- Fixed AJAX pagination of filtered reviews (only applies if using the Review Filters add-on)
+- Fixed AJAX pagination of filtered reviews (only applies if using the Review Filters addon)
 - Fixed detection of broken Avatar URLs on local development websites
 
 = 5.23.0 (2022-04-09) =
@@ -218,13 +218,13 @@
 
 = 5.21.2 (2022-02-19) =
 
-- Fixed add-on license validation when plugins required by the add-on are not installed or inactive
-- Fixed the Elementor integration when using the Review Filters add-on
+- Fixed addon license validation when plugins required by the addon are not installed or inactive
+- Fixed the Elementor integration when using the Review Filters addon
 
 = 5.21.0 (2022-02-18) =
 
-- Added a basic GamiPress integration to award points when someone writes or receives a review. For more advanced GamiPress events, use the new [GamiPress Reviews](https://niftyplugins.com/plugins/site-reviews-gamipress/) add-on.
-- Added the [GamiPress Reviews](https://niftyplugins.com/plugins/site-reviews-gamipress/) add-on!
+- Added a basic GamiPress integration to award points when someone writes or receives a review. For more advanced GamiPress events, use the new [GamiPress Reviews](https://niftyplugins.com/plugins/site-reviews-gamipress/) addon.
+- Added the [GamiPress Reviews](https://niftyplugins.com/plugins/site-reviews-gamipress/) addon!
 - Added "profile_id" as an accepted value in the "assigned_users" shortcode option
 - Fixed CSS used in form validation
 - Fixed validation of custom checkbox fields
@@ -240,7 +240,7 @@
 
 - Added ability to autodetect the CSV delimeter when importing reviews
 - Fixed a bug which allowed spam reviews to bypass validation
-- Fixed licensing for outdated add-ons
+- Fixed licensing for outdated addons
 
 = 5.20.2 (2022-01-29) =
 
@@ -253,15 +253,15 @@
 = 5.20.0 (2022-01-26) =
 
 - Added an "Author" filter to the All Reviews table
-- Added hooks to override custom field sanitizers (for the Review Forms add-on)
+- Added hooks to override custom field sanitizers (for the Review Forms addon)
 - Added Twenty Twenty-Two plugin style
 - Fixed a security issue with AJAX requests @patchstackapp
 - Fixed compatibility with Object Caching plugins (i.e. Docket Cache)
-- Fixed compatibility with review pagination and the Review Images add-on lightbox
+- Fixed compatibility with review pagination and the Review Images addon lightbox
 - Fixed schema in review snippets when reviews have an anonymous author
 - Fixed the category filter visibility in the All Reviews table
 - Fixed the status option in the glsr_get_reviews() function, it will no longer return trashed reviews
-- Fixed the updater for inactive add-ons
+- Fixed the updater for inactive addons
 - Updated the polyfill.io script version
 
 = 5.19.1 (2022-01-08) =
@@ -311,7 +311,7 @@
 
 = 5.17.4 (2021-11-15) =
 
-- Fixed add-on updater
+- Fixed addon updater
 - Fixed compatibility with GamiPress plugin
 - Fixed deactivation notices on WordPress settings pages
 
@@ -329,7 +329,7 @@
 
 = 5.17.0 (2021-11-10) =
 
-- Added the "Review Notifications" add-on!
+- Added the "Review Notifications" addon!
 - Added a setting to restrict the "Require Approval" setting to a minimum rating
 - Added Accepted Terms field to privacy export (using the review creation date as the value if the terms were accepted)
 - Added [Action Scheduler](https://actionscheduler.org/) which allows plugin migrations and review notifications to be queued and dispatched automatically.
@@ -369,8 +369,8 @@
 
 = 5.15.0 (2021-09-28) =
 
-- Added link for Premium members to download the beta version of the Review Themes add-on
-- Fixed compatibility with the beta version of the Review Themes add-on
+- Added link for Premium members to download the beta version of the Review Themes addon
+- Fixed compatibility with the beta version of the Review Themes addon
 - Fixed missing translation strings
 - Updated star-ratings.js library
 
@@ -382,7 +382,7 @@
 
 - Changed permission defaults for admin pages
 - Fixed ability to remove plugin hooks
-- Fixed add-on settings link on Plugins page
+- Fixed addon settings link on Plugins page
 - Fixed API permission check for categories
 - Fixed Elementor widgets
 - Fixed HTML entities in Console output
@@ -395,7 +395,7 @@
 - Fixed widget compatibility with WordPress 5.8
 - Fixed widgets in Customizer
 - Improved tooltips
-- Removed the "Trustalyze Confidence System" add-on (the service has been discontinued).
+- Removed the "Trustalyze Confidence System" addon (the service has been discontinued).
 
 = 5.13.2 (2021-08-08) =
 
@@ -412,7 +412,7 @@
 - Added the $review->author() method on review objects which returns the author name as defined in the settings
 - Added the "site-reviews/avatar/attributes" hook which allows you to modify the attributes on the avatar <img> tag
 - Fixed Custom field multi-checkboxes
-- Internal changes to support the upcoming Review Themes add-on
+- Internal changes to support the upcoming Review Themes addon
 - Renamed the "site-reviews/review/response" hook to "site-reviews/review/responded" (see the related FAQ section)
 - Updated the "Common Problems and Solutions"
 - Updated the "FAQ"
@@ -427,8 +427,8 @@
 
 = 5.12.7 (2021-07-12) =
 
-- Improved the error message when saving add-on licenses to make it more descriptive and helpful.
-- Removed the "Discover Premium" button for licensed add-on users
+- Improved the error message when saving addon licenses to make it more descriptive and helpful.
+- Removed the "Discover Premium" button for licensed addon users
 
 = 5.12.6 (2021-07-07) =
 
@@ -471,7 +471,7 @@
 - Added custom capabilities for responding to reviews (`respond_to_site-review` and `respond_to_others_site-review`)
 - Added filters for categories, assigned posts, and assigned users on the "All Reviews" admin page (enable them in the "Screen Options" on the top-right of the page)
 - Added native Elementor widgets
-- Added support for <optgroup> in dropdown fields (this may be useful when using the Review Forms add-on to display a category dropdown with parent/child categories). To learn how to enable this, please see the FAQ Help page.
+- Added support for <optgroup> in dropdown fields (this may be useful when using the Review Forms addon to display a category dropdown with parent/child categories). To learn how to enable this, please see the FAQ Help page.
 - Added the `glsr_update_review` helper function (see the provided documentation to learn how to use it)
 - Added the ability to create reviews from the admin
 - Added the ability to respond to reviews from the "All Reviews" page
@@ -565,7 +565,7 @@
 
 = 5.6.2 (2021-02-09) =
 
-- Added the "Review Themes" add-on, premium members may request early access to try out the beta.
+- Added the "Review Themes" addon, premium members may request early access to try out the beta.
 - Fixed the FAQ for hiding the form after submission.
 
 = 5.6.1 (2021-02-05) =
@@ -596,11 +596,11 @@
 - Added glsr_trace() helper function
 - Added plugin style for the "Twenty Twenty-One" theme
 - Added "Restrict Limits To" setting which allows you to choose which assignments are used in the review limits.
-- Added sub-sections for add-on settings
+- Added sub-sections for addon settings
 - Changed the "site-reviews/review/build/<tag>" hooks to "site-reviews/review/build/tag/<tag>"
 - Fixed CSV importing when header values contain trailing spaces
 - Fixed email and IP address review limits to include all reviews (not just approved reviews)
-- Upgraded star-ratings.js library to v4 in preparation for the "Review Themes" add-on
+- Upgraded star-ratings.js library to v4 in preparation for the "Review Themes" addon
 
 = 5.4.3 (2021-01-16) =
 
@@ -619,7 +619,7 @@
 = 5.4.0 (2020-12-22) =
 
 - Added the "schema_identifier" meta key which can be used to set a custom '@id' schema property with the Custom Fields metabox
-- Added the "Woocommerce Reviews" add-on
+- Added the "Woocommerce Reviews" addon
 - Fixed a PHP 8 error with the schema
 - Fixed setting fields to use escaped HTML attributes
 
@@ -634,12 +634,12 @@
 
 = 5.3.3 (2020-12-14) =
 
-- Fixed add-on updater
+- Fixed addon updater
 
 = 5.3.2 (2020-12-13) =
 
 - Added "Site Reviews Premium"
-- Added "Review Forms" add-on
+- Added "Review Forms" addon
 - Added debug logging for validation errors
 - Added error logging for database table creation errors
 - Added support for PHP 8
@@ -709,7 +709,7 @@
 - Added back the deprecated "count" option on the [site_reviews] shortcode so that it will still work for people who have not yet replaced it with the "display" option.
 - Fixed a regression which prevented translations from including a link (i.e. the terms toggle)
 - Fixed the terms toggle validation
-- Fixed the trustalyze add-on link
+- Fixed the trustalyze addon link
 
 = 5.0.0 (2020-10-22) =
 
@@ -754,7 +754,7 @@
 - Removed the "site-reviews/reviews/reviews-wrapper" filter hook (see the Upgrade Guide on the Welcome page)
 - Removed the "site-reviews/submission-form/order" filter hook (see the Upgrade Guide on the Welcome page)
 - Removed the glsr_calculate_ratings() helper function
-- Removed the Trustalyze integration, it is now an add-on
+- Removed the Trustalyze integration, it is now an addon
 - Removed tool to calculate rating counts (no longer needed)
 - Renamed the glsr_get_rating() helper function to glsr_get_ratings()
 - Replaced the assign_to and assigned_to shortcode options with the assigned_posts option

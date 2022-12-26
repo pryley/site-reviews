@@ -100,7 +100,7 @@
                         <td>
                             The attachment IDs of images attached to the review.
                             <br>
-                            <span class="glsr-notice-inline is-warning"><a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">Review Images</a> add-on required.</span>
+                            <span class="glsr-notice-inline is-warning"><a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">Review Images</a> addon required.</span>
                         </td>
                     </tr>
                     <tr>
@@ -274,7 +274,7 @@
                         <td>
                             Render the review with a review template of a specific custom review form (ID); only works with the <code>rendered</code> parameter.
                             <br>
-                            <span class="glsr-notice-inline is-warning"><a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">Review Forms</a> add-on required.</span>
+                            <span class="glsr-notice-inline is-warning"><a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">Review Forms</a> addon required.</span>
                         </td>
                     </tr>
                     <tr>
@@ -338,7 +338,7 @@
                         <td>
                             Render the review with a specific custom review theme (ID); only works with the <code>rendered</code> parameter.
                             <br>
-                            <span class="glsr-notice-inline is-warning"><a href="https://niftyplugins.com/plugins/site-reviews-themes/" target="_blank">Review Themes</a> add-on required.</span>
+                            <span class="glsr-notice-inline is-warning"><a href="https://niftyplugins.com/plugins/site-reviews-themes/" target="_blank">Review Themes</a> addon required.</span>
                         </td>
                     </tr>
                     <tr>

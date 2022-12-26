@@ -28,7 +28,7 @@ class Hooks implements HooksContract
                 glsr_log()->error($e->getMessage());
             }
         }
-        add_action('plugins_loaded', [$this, 'runIntegrations'], 100); // run after all add-ons have loaded
+        add_action('plugins_loaded', [$this, 'runIntegrations'], 100); // run after all addons have loaded
     }
 
     public function runIntegrations(): void

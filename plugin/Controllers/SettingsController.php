@@ -158,8 +158,8 @@ class SettingsController extends Controller
     protected function verifyLicense($license, $addonId)
     {
         if (empty(glsr()->updated[$addonId])) {
-            glsr_log()->error('Unknown add-on: '.$addonId);
-            glsr(Notice::class)->addError(_x('A license you entered could not be verified for the selected add-on.', 'admin-text', 'site-reviews'));
+            glsr_log()->error('Unknown addon: '.$addonId);
+            glsr(Notice::class)->addError(_x('A license you entered could not be verified for the selected addon.', 'admin-text', 'site-reviews'));
             return '';
         }
         try {

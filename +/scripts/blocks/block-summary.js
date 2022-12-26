@@ -141,7 +141,7 @@ const edit = props => {
             value={ id }
         />,
         rating_field: <TextControl
-            help={ _x('Use the Review Forms add-on to add custom rating fields.', 'admin-text', 'site-reviews') }
+            help={ _x('Use the Review Forms addon to add custom rating fields.', 'admin-text', 'site-reviews') }
             label={ _x('Custom Rating Field Name', 'admin-text', 'site-reviews') }
             onChange={ rating_field => setAttributes({ rating_field }) }
             value={ rating_field }

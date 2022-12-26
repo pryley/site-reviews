@@ -49,7 +49,7 @@ abstract class Shortcode implements ShortcodeContract
 
     public function __get($parameter)
     {
-        // @compat provides backwards compatibility for unsupported add-ons
+        // @compat provides backwards compatibility for unsupported addons
     }
 
     /**

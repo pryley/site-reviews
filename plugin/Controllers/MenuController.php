@@ -53,7 +53,7 @@ class MenuController extends Controller
         $pages = $this->parseWithFilter('submenu/pages', [
             'settings' => _x('Settings', 'admin-text', 'site-reviews'),
             'tools' => _x('Tools', 'admin-text', 'site-reviews'),
-            'addons' => _x('Add-ons', 'admin-text', 'site-reviews'),
+            'addons' => _x('Addons', 'admin-text', 'site-reviews'),
             'documentation' => _x('Help & Support', 'admin-text', 'site-reviews'),
         ]);
         foreach ($pages as $slug => $title) {

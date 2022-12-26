@@ -17,7 +17,7 @@
             <li>Added ability to search reviews by ID on the All Reviews admin page</li>
             <li>Added automatic conversion of UTF-16/UTF-32 encoded CSV files when importing reviews</li>
             <li>Added custom capabilities for review categories</li>
-            <li>Added experimental filter hooks to combine css and javascript files when using add-ons (see <a data-expand="#hooks-filter-combine-assets" href="<?= glsr_admin_url('documentation', 'hooks'); ?>">Hooks documentation</a>)</li>
+            <li>Added experimental filter hooks to combine css and javascript files when using addons (see <a data-expand="#hooks-filter-combine-assets" href="<?= glsr_admin_url('documentation', 'hooks'); ?>">Hooks documentation</a>)</li>
             <li>Added migration and nonce support for <a href="https://wordpress.org/plugins/litespeed-cache/" rel="nofollow" target="_blank">LiteSpeed Cache</a> (flushes the cache after migration)</li>
             <li>Added migration support for <a href="https://wp-rocket.me/" rel="nofollow" target="_blank">WP Rocket</a> (flushes the cache after migration)</li>
             <li>Added support for the Bluehost <a href="https://github.com/bluehost/endurance-page-cache" rel="nofollow" target="_blank">Endurance Page Cache</a> must-use plugin</li>
@@ -37,7 +37,7 @@
             <li>Optimised the javascript file sizes</li>
             <li>Renamed the "Submissions" settings page to "Forms"</li>
             <li>Rewrote the frontend style to use CSS variables, this should make CSS tweaks easier to write</li>
-            <li>Rewrote the review modals to support the new review image galleries (<a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">Review Images</a> add-on required)</li>
+            <li>Rewrote the review modals to support the new review image galleries (<a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">Review Images</a> addon required)</li>
             <li>Submit and load more buttons now make use of the WordPress Block button classes by default</li>
             <li>Updated the Bootstrap plugin styles to Bootstrap v5</li>
         </ul>

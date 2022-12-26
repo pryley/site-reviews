@@ -11,7 +11,7 @@
         <p><em>Initial Release Date &mdash; September 28th, 2021</em></p>
         <h4>✨ New Features</h4>
         <ul>
-            <li>Added link for Premium members to download the beta version of the Review Themes add-on</li>
+            <li>Added link for Premium members to download the beta version of the Review Themes addon</li>
         </ul>
         <h4>📢 Changes</h4>
         <ul>
@@ -20,7 +20,7 @@
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed compatibility error with Gutenberg in WordPress 5.7 and earlier</li>
-            <li>Fixed compatibility with the beta version of the Review Themes add-on</li>
+            <li>Fixed compatibility with the beta version of the Review Themes addon</li>
             <li>Fixed missing translation strings</li>
         </ul>
     </div>

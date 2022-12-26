@@ -146,7 +146,7 @@
                         <td>
                             Use rating values of a custom rating field; use the custom rating Field Name as the value.
                             <br>
-                            <span class="glsr-notice-inline is-warning"><a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">Review Forms</a> add-on required.</span>
+                            <span class="glsr-notice-inline is-warning"><a href="https://niftyplugins.com/plugins/site-reviews-forms/" target="_blank">Review Forms</a> addon required.</span>
                         </td>
                     </tr>
                     <tr>
@@ -170,7 +170,7 @@
                         <td>
                             Render the summary with a specific custom review theme (ID); only works with the <code>rendered</code> parameter.
                             <br>
-                            <span class="glsr-notice-inline is-warning"><a href="https://niftyplugins.com/plugins/site-reviews-themes/" target="_blank">Review Themes</a> add-on required.</span>
+                            <span class="glsr-notice-inline is-warning"><a href="https://niftyplugins.com/plugins/site-reviews-themes/" target="_blank">Review Themes</a> addon required.</span>
                         </td>
                     </tr>
                     <tr>
