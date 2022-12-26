@@ -104,7 +104,7 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
         if (empty($request_status)) {
             $this->sort_by[] = 'schedule';
         } elseif (in_array($request_status, ['in-progress', 'failed'])) {
-            $this->columns += ['claim_id' => __('Claim ID', 'site-reviews')];
+            $this->columns += ['claim_id' => _x('Claim ID', 'admin-text', 'site-reviews')];
             $this->sort_by[] = 'claim_id';
         }
         $this->row_actions_all = [
@@ -227,7 +227,7 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
                 if (!in_array($wpdb->prefix.$table_name, $found_tables)) {
                     $this->admin_notices[] = [
                         'class' => 'error',
-                        'message' => __('It appears one or more database tables were missing. Attempting to re-create the missing table(s).', 'site-reviews'),
+                        'message' => _x('It appears one or more database tables were missing. Attempting to re-create the missing table(s).', 'admin-text', 'site-reviews'),
                     ];
                     $this->recreate_tables();
                     parent::display_admin_notices();
@@ -256,10 +256,10 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
             if (false === $async_request_lock_expiration || $async_request_lock_expiration < time()) {
                 $in_progress_url = add_query_arg('status', 'in-progress', remove_query_arg('status'));
                 /* translators: %s: process URL */
-                $async_request_message = sprintf(__('A new queue has begun processing. <a href="%s">View actions in-progress &raquo;</a>', 'site-reviews'), esc_url($in_progress_url));
+                $async_request_message = sprintf(_x('A new queue has begun processing. <a href="%s">View actions in-progress &raquo;</a>', 'admin-text', 'site-reviews'), esc_url($in_progress_url));
             } else {
                 /* translators: %d: seconds */
-                $async_request_message = sprintf(__('The next queue will begin processing in approximately %d seconds.', 'site-reviews'), $async_request_lock_expiration - time());
+                $async_request_message = sprintf(_x('The next queue will begin processing in approximately %d seconds.', 'admin-text', 'site-reviews'), $async_request_lock_expiration - time());
             }
             $this->admin_notices[] = [
                 'class' => 'notice notice-info is-dismissible',
@@ -276,24 +276,24 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
                 switch ($notification['row_action_type']) {
                     case 'run':
                         /* translators: %s: action HTML */
-                        $action_message_html = sprintf(__('Successfully executed action: %s', 'site-reviews'), $action_hook_html);
+                        $action_message_html = sprintf(_x('Successfully executed action: %s', 'admin-text', 'site-reviews'), $action_hook_html);
                         break;
                     case 'cancel':
                         /* translators: %s: action HTML */
-                        $action_message_html = sprintf(__('Successfully canceled action: %s', 'site-reviews'), $action_hook_html);
+                        $action_message_html = sprintf(_x('Successfully canceled action: %s', 'admin-text', 'site-reviews'), $action_hook_html);
                         break;
                     case 'delete':
-                        $action_message_html = __('Successfully deleted action', 'site-reviews');
+                        $action_message_html = _x('Successfully deleted action', 'admin-text', 'site-reviews');
                         break;
                     default:
                         /* translators: %s: action HTML */
-                        $action_message_html = sprintf(__('Successfully processed change for action: %s', 'site-reviews'), $action_hook_html);
+                        $action_message_html = sprintf(_x('Successfully processed change for action: %s', 'admin-text', 'site-reviews'), $action_hook_html);
                         break;
                 }
             } else {
                 $class = 'error';
                 /* translators: 1: action HTML 2: action ID 3: error message */
-                $action_message_html = sprintf(__('Could not process change for action: "%1$s" (ID: %2$d). Error: %3$s', 'site-reviews'), $action_hook_html, esc_html($notification['action_id']), esc_html($notification['error_message']));
+                $action_message_html = sprintf(_x('Could not process change for action: "%1$s" (ID: %2$d). Error: %3$s', 'admin-text', 'site-reviews'), $action_hook_html, esc_html($notification['action_id']), esc_html($notification['error_message']));
             }
             $action_message_html = apply_filters('action_scheduler_admin_notice_html', $action_message_html, $action, $notification);
             $this->admin_notices[] = [
