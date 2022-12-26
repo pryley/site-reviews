@@ -5,10 +5,14 @@ parameters:
   bootstrapFiles:
     - tests/phpstan/bootstrap.php
     - tests/phpstan/stubs/action-scheduler.php
+    - tests/phpstan/stubs/akismet.php
     - tests/phpstan/stubs/elementor.php
     - tests/phpstan/stubs/elementor-pro.php
     - tests/phpstan/stubs/gamipress.php
+    - tests/phpstan/stubs/lpfw.php
+    - tests/phpstan/stubs/polylang.php
     - tests/phpstan/stubs/woocommerce.php
+    - tests/phpstan/stubs/woorewards.php
     - helpers.php
     - autoload.php
   checkGenericClassInNonGenericObjectType: false
@@ -18,24 +22,14 @@ parameters:
     - '#Access to an undefined property WP_|GeminiLabs\\SiteReviews\\(Arguments|Request)::(.+)#'
     # get_views() is in the $compat_methods array for public access, leave this for now
     - '#Call to protected method get_views\(\) of class WP_Posts_List_Table.#'
-    # Polylang functions
-    - '#Function pll_[a-z_]+ not found.#'
     # This usage is acceptable in the project
     - '#Unsafe usage of new static\(\).#'
-    # PHPstan seems to have trouble with wp_parse_args combined with extract
-    - '#Variable \$index might not be defined.#'
-    - '#Variable \$level might not be defined.#'
-    - '#Variable \$levels might not be defined.#'
-    - '#Variable \$seconds might not be defined.#'
-    - '#Variable \$tense might not be defined.#'
-    - '#Variable \$unit might not be defined.#'
+    # PHPstan has trouble with wp_parse_args|shortcode_atts combined with extract
+    - '#Variable \$(index|level|levels|seconds|tense|unit) might not be defined.#'
     # Technically, these errors are correct. However, since this is a third-party package we will ignore them for now
-    - '#Call to an undefined method ActionScheduler_Schedule::get_recurrence\(\).#'
-    - '#Call to an undefined method ActionScheduler_Schedule::get_date\(\).#'
+    - '#Call to an undefined method ActionScheduler_Schedule::(get_recurrence|get_date)\(\).#'
     # Discrepancies between PHP versions (7.4 - 8)
     - '#Parameter \#1 \$separator of function explode expects non-empty-string, string given.#'
-    # LPFW uses the magic __get method
-    - '#Access to an undefined property LPFW::(.+)#'
   level: 5
   paths:
     - config
@@ -43,8 +37,3 @@ parameters:
   reportUnmatchedIgnoredErrors: false
   scanFiles:
     - vendors/woocommerce/action-scheduler/functions.php
-  scanDirectories:
-    - ../../../Sites/site-reviews/public/app/plugins/akismet
-    - ../../../Sites/site-reviews/public/app/plugins/loyalty-program-for-woocommerce
-    - ../../../Sites/site-reviews/public/app/plugins/wp-schema-pro
-    - ../../../Sites/site-reviews/public/app/plugins/woorewards

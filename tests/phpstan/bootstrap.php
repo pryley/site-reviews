@@ -1,5 +1,6 @@
 <?php
 
+define('BSF_AIOSRS_PRO_CACHE_KEY', 'wp_schema_pro_optimized_structured_data');
 define('DB_HOST', 'localhost');
 define('ICL_SITEPRESS_VERSION', '0.0.0');
 define('WP_CONTENT_DIR', '.');
