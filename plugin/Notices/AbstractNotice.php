@@ -35,7 +35,7 @@ abstract class AbstractNotice
     {
         if ($this->isDismissible()) {
             $userId = get_current_user_id();
-            $meta = Cast::toArray(get_user_meta($userId, static::USER_META_KEY, true));
+            $meta = Arr::consolidate(get_user_meta($userId, static::USER_META_KEY, true));
             $meta = array_filter(wp_parse_args($meta, []));
             $meta[$this->key] = $this->version();
             update_user_meta($userId, static::USER_META_KEY, $meta);

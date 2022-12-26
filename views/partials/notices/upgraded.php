@@ -1,6 +1,6 @@
 <?php defined('ABSPATH') || exit; ?>
 
-<div class="notice is-dismissible glsr-notice" data-dismiss="welcome">
+<div class="notice is-dismissible glsr-notice" data-dismiss="upgraded">
     <p>
         <?php printf(_x('Thank you for updating %s to %s! I hope you love the improvements.', 'plugin name|version (admin-text)', 'site-reviews'),
             sprintf('<strong>%s</strong>', glsr()->name),
