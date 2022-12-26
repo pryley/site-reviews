@@ -266,13 +266,65 @@ msgstr "You may also %s for an account."
 msgid "Close modal"
 msgstr "Close modal"
 
-#: plugin/Integrations/GamiPress/Controller.php:40
+#: plugin/Integrations/GamiPress/Controller.php:122
+msgid "The rating of the review which triggered this event."
+msgstr "The rating of the review which triggered this event."
+
+#: plugin/Integrations/GamiPress/Controller.php:124
+msgid "Rating"
+msgstr "Rating"
+
+#: plugin/Integrations/GamiPress/Controller.php:130
+msgid "The ID of the review which triggered this event."
+msgstr "The ID of the review which triggered this event."
+
+#: plugin/Integrations/GamiPress/Controller.php:132
+msgid "Review ID"
+msgstr "Review ID"
+
+#: plugin/Integrations/GamiPress/Triggers.php:151
 msgid "Get review"
 msgstr "Get review"
 
-#: plugin/Integrations/GamiPress/Controller.php:41
+#: plugin/Integrations/GamiPress/Triggers.php:158
+msgid "Get review on a post"
+msgstr "Get review on a post"
+
+#: plugin/Integrations/GamiPress/Triggers.php:165
+msgid "Get review on a post of a type"
+msgstr "Get review on a post of a type"
+
+#: plugin/Integrations/GamiPress/Triggers.php:172
+msgid "Get review on a specific post"
+msgstr "Get review on a specific post"
+
+#: plugin/Integrations/GamiPress/Triggers.php:179
 msgid "Write review"
 msgstr "Write review"
+
+#: plugin/Integrations/GamiPress/Triggers.php:186
+msgid "Write review of a post"
+msgstr "Write review of a post"
+
+#: plugin/Integrations/GamiPress/Triggers.php:193
+msgid "Write review of a post of a type"
+msgstr "Write review of a post of a type"
+
+#: plugin/Integrations/GamiPress/Triggers.php:200
+msgid "Write review of a specific post"
+msgstr "Write review of a specific post"
+
+#: plugin/Integrations/GamiPress/Triggers.php:221
+msgid "Write review of a user"
+msgstr "Write review of a user"
+
+#: plugin/Integrations/GamiPress/Triggers.php:228
+msgid "Write review of a user of a role"
+msgstr "Write review of a user of a role"
+
+#: plugin/Integrations/GamiPress/Triggers.php:235
+msgid "Write review of a specific user"
+msgstr "Write review of a specific user"
 
 #: plugin/Integrations/WooCommerce/Reminder.php:65
 msgid ""
@@ -3729,7 +3781,7 @@ msgctxt "admin-text"
 msgid "%s star rating"
 msgstr "%s star rating"
 
-#: plugin/Controllers/ListTableColumns/ColumnFilterRating.php:40
+#: plugin/Controllers/ListTableColumns/ColumnFilterRating.php:40, plugin/Integrations/GamiPress/Controller.php:275
 msgctxt "admin-text"
 msgid "Any rating"
 msgstr "Any rating"
@@ -3938,6 +3990,61 @@ msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr "Additional CSS classes"
 
+#: plugin/Integrations/GamiPress/Controller.php:276
+msgctxt "admin-text"
+msgid "Exact rating of"
+msgstr "Exact rating of"
+
+#: plugin/Integrations/GamiPress/Controller.php:277
+msgctxt "admin-text"
+msgid "Minimum rating of"
+msgstr "Minimum rating of"
+
+#: plugin/Integrations/GamiPress/Controller.php:291
+msgctxt "admin-text"
+msgid "star(s)"
+msgstr "star(s)"
+
+#: plugin/Integrations/GamiPress/Triggers.php:153
+msgctxt "admin-text"
+msgid "getting a review with a %d-star rating"
+msgstr "getting a review with a %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:154
+msgctxt "admin-text"
+msgid "getting a review with a minimum %d-star rating"
+msgstr "getting a review with a minimum %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:160
+msgctxt "admin-text"
+msgid "getting a review on a post with a %d-star rating"
+msgstr "getting a review on a post with a %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:161
+msgctxt "admin-text"
+msgid "getting a review on a post with a minimum %d-star rating"
+msgstr "getting a review on a post with a minimum %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:167
+msgctxt "admin-text"
+msgid "getting a review on a %s with a %d-star rating"
+msgstr "getting a review on a %s with a %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:168
+msgctxt "admin-text"
+msgid "getting a review on a %s with a minimum %d-star rating"
+msgstr "getting a review on a %s with a minimum %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:174
+msgctxt "admin-text"
+msgid "getting a review on \"%s\" with a %d-star rating"
+msgstr "getting a review on \"%s\" with a %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:175
+msgctxt "admin-text"
+msgid "getting a review on \"%s\" with a minimum %d-star rating"
+msgstr "getting a review on \"%s\" with a minimum %d-star rating"
+
 #: plugin/Integrations/SASWP/Controller.php:23
 msgctxt "admin-text"
 msgid ""
@@ -3992,12 +4099,12 @@ msgstr "Site Reviews Premium"
 #: views/pages/addons/index.php:11
 msgctxt "admin-text"
 msgid ""
-"Gain access to ALL of our free and paid addons with Site Reviews Premium, "
-"including access to future addons as they are released and <a href=\"%s\" "
+"Gain access to all of our addons with Site Reviews Premium, including "
+"access to future addons as they are released and <a href=\"%s\" "
 "target=\"_blank\">priority support</a>!"
 msgstr ""
-"Gain access to ALL of our free and paid addons with Site Reviews Premium, "
-"including access to future addons as they are released and <a href=\"%s\" "
+"Gain access to all of our addons with Site Reviews Premium, including "
+"access to future addons as they are released and <a href=\"%s\" "
 "target=\"_blank\">priority support</a>!"
 
 #: views/pages/addons/index.php:15
@@ -5932,15 +6039,130 @@ msgctxt "the option label (admin-text)"
 msgid "The \"%s\" option is required."
 msgstr "The \"%s\" option is required."
 
-#: plugin/Integrations/GamiPress/Controller.php:24
+#: plugin/Integrations/GamiPress/Triggers.php:152
 msgctxt "1 point for ... 1 time"
 msgid "getting a review"
 msgstr "getting a review"
 
-#: plugin/Integrations/GamiPress/Controller.php:27
+#: plugin/Integrations/GamiPress/Triggers.php:159
+msgctxt "1 point for ... 1 time"
+msgid "getting a review on a post"
+msgstr "getting a review on a post"
+
+#: plugin/Integrations/GamiPress/Triggers.php:166
+msgctxt "1 point for ... 1 time"
+msgid "getting a review on a %s"
+msgstr "getting a review on a %s"
+
+#: plugin/Integrations/GamiPress/Triggers.php:173
+msgctxt "1 point for ... 1 time"
+msgid "getting a review on \"%s\""
+msgstr "getting a review on \"%s\""
+
+#: plugin/Integrations/GamiPress/Triggers.php:180
 msgctxt "1 point for ... 1 time"
 msgid "writing a review"
 msgstr "writing a review"
+
+#: plugin/Integrations/GamiPress/Triggers.php:181
+msgctxt "1 point for ... 1 time"
+msgid "writing a review with a %d-star rating"
+msgstr "writing a review with a %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:182
+msgctxt "1 point for ... 1 time"
+msgid "writing a review with a minimum %d-star rating"
+msgstr "writing a review with a minimum %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:187
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of a post"
+msgstr "writing a review of a post"
+
+#: plugin/Integrations/GamiPress/Triggers.php:188
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of a post with a %d-star rating"
+msgstr "writing a review of a post with a %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:189
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of a post with a minimum %d-star rating"
+msgstr "writing a review of a post with a minimum %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:194
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of a %s"
+msgstr "writing a review of a %s"
+
+#: plugin/Integrations/GamiPress/Triggers.php:195
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of a %s with a %d-star rating"
+msgstr "writing a review of a %s with a %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:196
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of a %s with a minimum %d-star rating"
+msgstr "writing a review of a %s with a minimum %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:201
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of \"%s\""
+msgstr "writing a review of \"%s\""
+
+#: plugin/Integrations/GamiPress/Triggers.php:202
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of \"%s\" with a %d-star rating"
+msgstr "writing a review of \"%s\" with a %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:203
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of \"%s\" with a minimum %d-star rating"
+msgstr "writing a review of \"%s\" with a minimum %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:222
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of a user"
+msgstr "writing a review of a user"
+
+#: plugin/Integrations/GamiPress/Triggers.php:223
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of a user with a %d-star rating"
+msgstr "writing a review of a user with a %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:224
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of a user with a minimum %d-star rating"
+msgstr "writing a review of a user with a minimum %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:229
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of a user with the %s role"
+msgstr "writing a review of a user with the %s role"
+
+#: plugin/Integrations/GamiPress/Triggers.php:230
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of a user with the %s role with a %d-star rating"
+msgstr "writing a review of a user with the %s role with a %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:231
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of a user with the %s role with a minimum %d-star rating"
+msgstr "writing a review of a user with the %s role with a minimum %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:236
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of %s"
+msgstr "writing a review of %s"
+
+#: plugin/Integrations/GamiPress/Triggers.php:237
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of %s with a %d-star rating"
+msgstr "writing a review of %s with a %d-star rating"
+
+#: plugin/Integrations/GamiPress/Triggers.php:238
+msgctxt "1 point for ... 1 time"
+msgid "writing a review of %s with a minimum %d-star rating"
+msgstr "writing a review of %s with a minimum %d-star rating"
 
 #: plugin/Integrations/LPFW/Controller.php:18
 msgctxt "(loyalty-program-for-woocommerce) admin-text"

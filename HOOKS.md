@@ -114,6 +114,7 @@
     site-reviews/enqueue/public/localize/ajax-pagination        (array $selectors): array
     site-reviews/field/<field_type>                             (array $field): array
     site-reviews/form/build/<tag_or_field_key>                  (string $field, Arguments $with, Modules\Html\Partials\SiteReviewsForm $partial): string
+    site-reviews/gamipress/posts/post_types                     (array $postTypes): array
     site-reviews/get/defaults                                   (array $defaults): array
     site-reviews/integration/elementor/display/settings         (array $settings, \Elementor\Widget_Base $widget): array
     site-reviews/integration/elementor/register/controls        (array $controls, \Elementor\Widget_Base $widget): array

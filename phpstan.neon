@@ -7,6 +7,7 @@ parameters:
     - tests/phpstan/stubs/action-scheduler.php
     - tests/phpstan/stubs/elementor.php
     - tests/phpstan/stubs/elementor-pro.php
+    - tests/phpstan/stubs/gamipress.php
     - tests/phpstan/stubs/woocommerce.php
     - helpers.php
     - autoload.php

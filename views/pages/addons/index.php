@@ -8,7 +8,7 @@
         <div class="glsr-premium-hero-content">
             <h2><?= _x('Site Reviews Premium', 'admin-text', 'site-reviews'); ?></h2>
             <p>
-                <?= sprintf(_x('Gain access to ALL of our free and paid addons with Site Reviews Premium, including access to future addons as they are released and <a href="%s" target="_blank">priority support</a>!', 'admin-text', 'site-reviews'),
+                <?= sprintf(_x('Gain access to all of our addons with Site Reviews Premium, including access to future addons as they are released and <a href="%s" target="_blank">priority support</a>!', 'admin-text', 'site-reviews'),
                     'https://niftyplugins.com/account/support/'
                 ); ?>
             </p>

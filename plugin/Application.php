@@ -198,6 +198,7 @@ final class Application extends Container
     public function register($addon)
     {
         $retired = [ // @compat these addons have been retired
+            'site-reviews-gamipress',
             'site-reviews-woocommerce',
         ];
         try {
