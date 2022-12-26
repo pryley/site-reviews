@@ -111,6 +111,17 @@ class Arr
     }
 
     /**
+     * @param mixed $data
+     * @param string|int $path
+     * @param mixed $fallback
+     * @return mixed
+     */
+    public static function getAs(string $cast, $data, $path = '', $fallback = '')
+    {
+        return Cast::to($cast, static::get($data, $path, $fallback));
+    }
+
+    /**
      * @param string|int $key
      * @return array
      */

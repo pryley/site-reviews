@@ -67,6 +67,21 @@ class ArrTest extends WP_UnitTestCase
         $this->assertTrue(is_object(Arr::get($values2, 'parent.child')));
     }
 
+    public function test_get_as()
+    {
+        $values1 = ['parent' => ['child' => 'toys', 'number' => '2.3', 'version' => '2.0.0']];
+        $this->assertEquals(Arr::getAs('array', $values1, 'parent.child'), ['toys']);
+        $this->assertEquals(Arr::getAs('bool', $values1, 'parent.child'), false);
+        $this->assertEquals(Arr::getAs('float', $values1, 'parent.child'), 0);
+        $this->assertEquals(Arr::getAs('float', $values1, 'parent.number'), 2.3);
+        $this->assertEquals(Arr::getAs('float', $values1, 'parent.version'), 0);
+        $this->assertEquals(Arr::getAs('int', $values1, 'parent.child'), 0);
+        $this->assertEquals(Arr::getAs('int', $values1, 'parent.number'), 2);
+        $this->assertEquals(Arr::getAs('int', $values1, 'parent.version'), 0);
+        $this->assertEquals(Arr::getAs('object', $values1, 'parent.child'), (object) ['toys']);
+        $this->assertEquals(Arr::getAs('string', $values1, 'parent.child'), 'toys');
+    }
+
     public function test_insert_after()
     {
         $array1 = ['1','2','3'];
