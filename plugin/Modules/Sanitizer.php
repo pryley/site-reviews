@@ -360,6 +360,18 @@ class Sanitizer
     }
 
     /**
+     * @param mixed $value
+     * @return string
+     */
+    public function sanitizeVersion($value)
+    {
+        if (1 === preg_match('/^(\d+\.)?(\d+\.)?(\d+)(-[a-z0-9]+)?$/i', $value)) {
+            return $value;
+        }
+        return '';
+    }
+
+    /**
      * @return array
      */
     protected function buildSanitizers(array $sanitizers)
