@@ -41,7 +41,7 @@ class RatingManager
      */
     protected function maxRating(array $args)
     {
-        return Cast::toInt(Arr::get($args, 'max', glsr()->constant('MAX_RATING', Rating::class)));
+        return Arr::getAs('int', $args, 'max', glsr()->constant('MAX_RATING', Rating::class));
     }
 
     /**
@@ -49,7 +49,7 @@ class RatingManager
      */
     protected function minRating(array $args)
     {
-        return Cast::toInt(Arr::get($args, 'min', glsr()->constant('MIN_RATING', Rating::class)));
+        return Arr::getAs('int', $args, 'min', glsr()->constant('MIN_RATING', Rating::class));
     }
 
     /**

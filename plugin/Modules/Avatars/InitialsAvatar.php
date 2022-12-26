@@ -23,7 +23,7 @@ class InitialsAvatar extends SvgAvatar
         ];
         $colors = glsr()->filterArray('avatar/colors', $colors);
         shuffle($colors);
-        $color = Cast::toArray(Arr::get($colors, 0));
+        $color = Arr::getAs('array', $colors, 0);
         $data = wp_parse_args($color, [
             'background' => '#dcdce6',
             'color' => '#6f6f87',

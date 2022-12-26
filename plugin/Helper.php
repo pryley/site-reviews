@@ -160,7 +160,7 @@ class Helper
                     'post_type' => $parts[0],
                     'posts_per_page' => 1,
                 ]);
-                return Cast::toInt(Arr::get($posts, 0));
+                return Arr::getAs('int', $posts, 0);
             }
         }
         return 0;
@@ -179,7 +179,7 @@ class Helper
             $term = Cast::toInt($term);
         }
         $tt = term_exists($term, glsr()->taxonomy);
-        return Cast::toInt(Arr::get($tt, 'term_id'));
+        return Arr::getAs('int', $tt, 'term_id');
     }
 
     /**
@@ -210,11 +210,11 @@ class Helper
         }
         if (is_numeric($user)) {
             $user = get_user_by('ID', $user);
-            return Cast::toInt(Arr::get($user, 'ID'));
+            return Arr::getAs('int', $user, 'ID');
         }
         if (is_string($user)) {
             $user = get_user_by('login', $user);
-            return Cast::toInt(Arr::get($user, 'ID'));
+            return Arr::getAs('int', $user, 'ID');
         }
         return 0;
     }

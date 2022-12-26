@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Integrations\WooCommerce\Controllers\RestApi;
 use Automattic\WooCommerce\StoreApi\Utilities\Pagination;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Review;
 
 class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
@@ -68,7 +67,7 @@ class ProductReviewsController extends \WC_REST_Product_Reviews_Controller
         if (is_wp_error($review)) {
             return $review;
         }
-        $force = Cast::toBool(Arr::get($request, 'force', false));
+        $force = Arr::getAs('bool', $request, 'force', false);
         $supportsTrash = apply_filters('woocommerce_rest_product_review_trashable', EMPTY_TRASH_DAYS > 0, $review);
         $request->set_param('context', 'edit');
         if ($force) {

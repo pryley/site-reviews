@@ -107,7 +107,7 @@ abstract class AbstractNotice
     protected function storedVersion(): string
     {
         $meta = get_user_meta(get_current_user_id(), static::USER_META_KEY, true);
-        return Cast::toString(Arr::get($meta, $this->key, '0'));
+        return Arr::getAs('string', $meta, $this->key, '0');
     }
 
     protected function version(): string

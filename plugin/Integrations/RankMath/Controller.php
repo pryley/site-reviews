@@ -131,7 +131,7 @@ class Controller extends BaseController
     {
         foreach ($widgets as $widget) {
             $children = $widget['elements'];
-            if ($name === Arr::get($widget, 'widgetType') && Cast::toBool(Arr::get($widget, 'settings.schema'))) {
+            if ($name === Arr::get($widget, 'widgetType') && Arr::getAs('bool', $widget, 'settings.schema')) {
                 $result = $widget['settings'];
             } elseif (!empty($children)) {
                 $result = $this->parseElementorWidgets($children, $name, $result);

@@ -334,8 +334,8 @@ class Builder
         $children = array_reduce(array_keys($options), function ($carry, $key) use ($options) {
             $option = $options[$key];
             if (wp_is_numeric_array($option)) {
-                $option = Cast::toString(Arr::get($options[$key], 0));
-                $title = Cast::toString(Arr::get($options[$key], 1));
+                $option = Arr::getAs('string', $options[$key], 0);
+                $title = Arr::getAs('string', $options[$key], 1);
             }
             return $carry.glsr(Builder::class)->option([
                 'selected' => $this->args->cast('value', 'string') === Cast::toString($key),

@@ -63,7 +63,7 @@ class NormalizeQueryArgs extends Arguments
         $date['after'] = glsr(Sanitizer::class)->sanitizeDate(Arr::get($value, 'after'));
         $date['before'] = glsr(Sanitizer::class)->sanitizeDate(Arr::get($value, 'before'));
         if (!empty(array_filter($date))) {
-            $date['inclusive'] = Cast::toBool(Arr::get($value, 'inclusive')) ? '=' : '';
+            $date['inclusive'] = Arr::getAs('bool', $value, 'inclusive') ? '=' : '';
         }
         return $date;
     }

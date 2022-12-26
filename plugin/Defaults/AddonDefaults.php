@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class AddonDefaults extends Defaults
 {
@@ -57,7 +56,7 @@ class AddonDefaults extends Defaults
         if (!empty($values['link_text'])) {
             return $values;
         }
-        if (true === Cast::toBool(Arr::get($values, 'beta'))) {
+        if (true === Arr::getAs('bool', $values, 'beta')) {
             $values['link_text'] = _x('Premium members only', 'admin-text', 'site-reviews');
             $values['title'] = sprintf('%s (%s)', $values['title'], _x('beta', 'admin-text', 'site-reviews'));
         } else {

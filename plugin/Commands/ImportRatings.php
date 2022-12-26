@@ -7,7 +7,6 @@ use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Database\Query;
 use GeminiLabs\SiteReviews\Defaults\RatingDefaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 
 class ImportRatings implements Contract
@@ -115,7 +114,7 @@ class ImportRatings implements Contract
                     $assignedKey => $assignedId,
                 ];
                 if ('post' === $key) {
-                    $value['is_published'] = Cast::toBool(Arr::get($meta, 'is_approved'));
+                    $value['is_published'] = Arr::getAs('bool', $meta, 'is_approved');
                 }
                 $values[] = $value;
             }

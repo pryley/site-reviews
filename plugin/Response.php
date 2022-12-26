@@ -19,7 +19,7 @@ class Response
         $this->body = Cast::toArray($body);
         $this->code = Cast::toInt(wp_remote_retrieve_response_code($request));
         $this->message = Arr::get($body, 'message', wp_remote_retrieve_response_message($request));
-        $this->response = Cast::toArray(Arr::get($request, 'http_response'));
+        $this->response = Arr::getAs('array', $request, 'http_response');
         $this->status = Arr::get($body, 'status');
         if (is_wp_error($request)) {
             $this->message = $request->get_error_message();
@@ -30,7 +30,7 @@ class Response
 
     public function data(): array
     {
-        return Cast::toArray(Arr::get($this->body, 'data'));
+        return Arr::getAs('array', $this->body, 'data');
     }
 
     public function failed(): bool
