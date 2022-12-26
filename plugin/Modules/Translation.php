@@ -74,7 +74,7 @@ class Translation
         try {
             $potEntries = $this->normalize(Parser::parseFile($potFile)->getEntries());
             foreach ($potEntries as $key => $entry) {
-                if (Str::contains(static::CONTEXT_ADMIN_KEY, Arr::get($entry, 'msgctxt'))) {
+                if (Str::contains(Arr::get($entry, 'msgctxt'), static::CONTEXT_ADMIN_KEY)) {
                     continue;
                 }
                 $entry['domain'] = $domain; // the text-domain of the entry

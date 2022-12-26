@@ -71,7 +71,7 @@ class TranslationController
      */
     public function filterGettextWithContext($translation, $text, $context)
     {
-        if (Str::contains(Translation::CONTEXT_ADMIN_KEY, $context)) {
+        if (Str::contains($context, Translation::CONTEXT_ADMIN_KEY)) {
             return $translation;
         }
         return $this->translator->translate($translation, glsr()->id, [
@@ -108,7 +108,7 @@ class TranslationController
      */
     public function filterNgettextWithContext($translation, $single, $plural, $number, $context)
     {
-        if (Str::contains(Translation::CONTEXT_ADMIN_KEY, $context)) {
+        if (Str::contains($context, Translation::CONTEXT_ADMIN_KEY)) {
             return $translation;
         }
         return $this->translator->translate($translation, glsr()->id, [
