@@ -131,7 +131,6 @@ class MenuController extends Controller
         $this->renderPage('documentation', [
             'addons' => $addons,
             'tabs' => $tabs,
-            'videos' => wp_list_sort(glsr()->config('videos'), 'order'),
         ]);
     }
 
