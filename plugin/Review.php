@@ -360,6 +360,14 @@ class Review extends Arguments
     }
 
     /**
+     * @return \WP_User|false
+     */
+    public function user()
+    {
+        return get_user_by('ID', $this->get('author_id'));
+    }
+
+    /**
      * @return bool
      */
     protected function hasRevisions()
