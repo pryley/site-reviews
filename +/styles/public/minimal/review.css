@@ -20,6 +20,7 @@
 :root .glsr-review-rating {
     align-items: center;
     display: inline-flex;
+    gap: .5em;
     justify-content: center;
 }
 :root .glsr-review-response {
@@ -82,6 +83,7 @@
 :--namespace .glsr-review-author {
     align-items: center;
     display: inline-flex;
+    gap: .5em;
 }
 :--namespace .glsr-review-avatar {
     flex: 0 0;
@@ -107,7 +109,8 @@
 :--namespace .glsr-review-rating {
     align-items: center;
     display: inline-flex;
-    flex: 0 0;
+    flex-shrink: 0;
+    gap: .5em;
 }
 :--namespace .glsr-review-response {
     width: 100%;
