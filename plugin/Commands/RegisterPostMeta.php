@@ -19,6 +19,7 @@ class RegisterPostMeta implements Contract
         ];
         foreach ($metaKeys as $key) {
             register_post_meta('', $key, [ // register on all post types
+                'auth_callback' => '__return_true',
                 'default' => 0,
                 'sanitize_callback' => 'sanitize_text_field',
                 'show_in_rest' => true,
