@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.1
-Stable tag: 6.4.0
+Stable tag: 6.4.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -130,7 +130,7 @@ In the search field type “Site Reviews,” then click “Search Plugins.” On
 
 Manual installation method requires downloading the Site Reviews plugin and uploading it to your web server with a FTP application. The WordPress codex contains [instructions on how to do this here](https://wordpress.org/support/article/managing-plugins/#manual-plugin-installation).
 
-= Updating
+= Updating =
 
 Automatic updates should work smoothly, but we still recommend you back up your site.
 
@@ -172,6 +172,10 @@ All documentation can be found in the "Help & Support" page of the plugin. If yo
 This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after upgrading.
 
 == Changelog ==
+
+= 6.4.1 (2022-12-28) =
+
+- Fixed assignment meta key registration
 
 = 6.4.0 (2022-12-27) =
 

@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 6.4.1 (2022-12-28) =
+
+- Fixed assignment meta key registration
+
 = 6.4.0 (2022-12-27) =
 
 - Added Action Scheduler information to System Info
