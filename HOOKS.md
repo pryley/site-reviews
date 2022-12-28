@@ -48,6 +48,7 @@
     site-reviews/addon/tools/tabs                               (array $tabs): array
     site-reviews/addon/types                                    (array $types): array
     site-reviews/addon/welcome/tabs                             (array $tabs): array
+    site-reviews/api/args                                       (array $args): array
     site-reviews/api/base_url                                   (string $url): string
     site-reviews/assets/css                                     (bool $loadCss): bool
     site-reviews/assets/js                                      (bool $loadJs): bool

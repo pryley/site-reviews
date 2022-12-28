@@ -2,8 +2,8 @@
 Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
-Stable tag: 6.4.0
 Tested up to: 6.1
+Stable tag: 6.4.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -17,8 +17,8 @@ You can pin your best reviews so that they are always shown first, mark reviews 
 
 Site Reviews provides more features and options than almost every other free review plugin, and the support provided on the WordPress forum is excellent.
 
-1. [View a live demo](https://demo.site-reviews.com)
-2. [Try Site Reviews](https://tastewp.com/plugins/site-reviews/?ni=true&redirect=index.php%3Fpage=site-reviews-welcome%26tab=getting-started) for yourself on a demo website.
+1. [Try Site Reviews](https://tastewp.com/plugins/site-reviews/?ni=true&redirect=index.php%3Fpage=site-reviews-welcome%26tab=getting-started) for yourself on a demo website.
+2. [View a live demo](https://demo.site-reviews.com)
 
 = Current Features =
 
@@ -181,8 +181,8 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Added compatibility with [WooRewards](https://wordpress.org/plugins/woorewards/)
 - Added FAQ documentation which explains how to sort a Query Loop block by average rating, ranking, or number of reviews.
 - Added GamiPress integration
+- Added Import Product Reviews tool (for WooCommerce Product reviews)
 - Added WooCommerce integration
-- Added WooCommerce Product Reviews importer
 - Fixed an issue causing a timeout when running plugin migrations
 - Fixed compatibility with optimisation plugins which do not observe loading order of inline scripts
 - Fixed compatibility with other reCAPTCHA plugins

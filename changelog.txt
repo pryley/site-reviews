@@ -8,8 +8,8 @@
 - Added compatibility with [WooRewards](https://wordpress.org/plugins/woorewards/)
 - Added FAQ documentation which explains how to sort a Query Loop block by average rating, ranking, or number of reviews.
 - Added GamiPress integration
+- Added Import Product Reviews tool (for WooCommerce Product reviews)
 - Added WooCommerce integration
-- Added WooCommerce Product Reviews importer
 - Fixed an issue causing a timeout when running plugin migrations
 - Fixed compatibility with optimisation plugins which do not observe loading order of inline scripts
 - Fixed compatibility with other reCAPTCHA plugins

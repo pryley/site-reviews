@@ -35,9 +35,10 @@ abstract class Addon
     public function init()
     {
         $reflection = new ReflectionClass($this);
-        $className = Str::replaceLast($reflection->getShortname(), 'Hooks', $reflection->getName());
-        if (class_exists($className)) {
-            (new $className())->run();
+        $hooks = Str::replaceLast($reflection->getShortname(), 'Hooks', $reflection->getName());
+        if (class_exists($hooks)) {
+            glsr()->singleton($hooks);
+            glsr($hooks)->run();
         } else {
             glsr_log()->error('The '.static::NAME.' addon is missing a Hooks class');
         }

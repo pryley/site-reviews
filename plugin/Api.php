@@ -10,10 +10,16 @@ class Api
 
     public function args(array $args = []): array
     {
-        return wp_parse_args($args, [
+        $args = wp_parse_args($args, [
             'sslverify' => Helper::isLocalServer(),
         ]);
+        return glsr()->filterArray('api/args', $args);
      }
+
+    public function baseUrl(): string
+    {
+        return glsr()->filterString('api/base_url', static::BASE_URL);
+    }
 
     public function get(string $path, array $args = []): Response
     {
@@ -29,12 +35,13 @@ class Api
 
     public function request(string $path, array $args = []): Response
     {
+        $args = $this->args($args);
         $transient = sprintf('%sapi_%s', glsr()->prefix, sanitize_key($path));
         $response = get_transient($transient);
         if (!empty($response) && empty($args['force'])) { // bypass transient with: $arg['force'] = true
             return new Response($response);
         }
-        $response = wp_remote_request($this->url($path), $this->args($args));
+        $response = wp_remote_request($this->url($path), $args);
         if (!is_wp_error($response)) {
             set_transient($transient, $response, DAY_IN_SECONDS);
         }
@@ -43,7 +50,6 @@ class Api
 
     public function url(string $path): string
     {
-        $baseUrl = glsr()->filterString('api/base_url', static::BASE_URL);
-        return trailingslashit($baseUrl).ltrim($path, '/');
+        return trailingslashit($this->baseUrl()).ltrim($path, '/');
     }
 }
