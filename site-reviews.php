@@ -10,8 +10,8 @@
  * Version:           6.4.0
  * Author:            Paul Ryley
  * Author URI:        https://geminilabs.io
- * License:           GPL2
- * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * License:           GPL3
+ * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 5.8
  * Requires PHP:      7.2
  * Text Domain:       site-reviews
