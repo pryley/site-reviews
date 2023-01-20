@@ -52,7 +52,7 @@ class ReviewDefaults extends Defaults
         'is_modified' => 'bool',
         'is_pinned' => 'bool',
         'is_verified' => 'bool',
-        'rating' => 'int',
+        'rating' => 'rating',
         'response' => 'text-multiline',
         'score' => 'int',
         'status' => 'text',

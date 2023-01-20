@@ -384,6 +384,42 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
+    public function test_sanitize_rating()
+    {
+        add_filter('site-reviews/const/MAX_RATING', function () { return 5; });
+        add_filter('site-reviews/const/MIN_RATING', '__return_zero');
+        $sanitizers = array_fill_keys(array_keys($this->testValues), 'rating');
+        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $this->assertEquals($sanitized, [
+            'a' => 0,
+            'b' => 0,
+            'c' => 0,
+            'd' => 0,
+            'e' => 0,
+            'f' => 0,
+            'g' => 0,
+            'h' => 0,
+            'i' => 1,
+            'j' => 0,
+            'k' => 0,
+            'l' => 0,
+            'm' => 0,
+            'n' => 0,
+            'o' => 0,
+            'p' => 0,
+            'q' => 5,
+            'r' => 0,
+            's' => 0,
+            't' => 0,
+            'u' => 0,
+            'v' => 0,
+            'w' => 0,
+            'x' => 0,
+            'y' => 0,
+            'z' => 0,
+        ]);
+    }
+
     public function test_sanitize_slug()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'slug');

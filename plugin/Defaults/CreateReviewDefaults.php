@@ -46,7 +46,7 @@ class CreateReviewDefaults extends Defaults
         'is_verified' => 'bool',
         'name' => 'user-name',
         'post_id' => 'int',
-        'rating' => 'int',
+        'rating' => 'rating',
         'referer' => 'text',
         'response' => 'text',
         'terms' => 'bool',

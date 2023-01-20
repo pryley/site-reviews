@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Rating;
 
 class Sanitizer
 {
@@ -213,6 +214,17 @@ class Sanitizer
             }
         }
         return Arr::uniqueInt($postIds);
+    }
+
+    /**
+     * @param mixed $value
+     * @return int
+     */
+    public function sanitizeRating($value)
+    {
+        $max = max(1, (int) glsr()->constant('MAX_RATING', Rating::class));
+        $min = max(0, (int) glsr()->constant('MIN_RATING', Rating::class));
+        return max($min, min($max, Cast::toInt($value)));
     }
 
     /**
