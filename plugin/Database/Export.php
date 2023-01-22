@@ -3,6 +3,9 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class Export
 {
@@ -10,7 +13,6 @@ class Export
     protected $assignedTermsTable;
     protected $assignedUsersTable;
     protected $db;
-    protected $postType;
     protected $ratingsTable;
 
     public function __construct()
@@ -20,30 +22,29 @@ class Export
         $this->assignedTermsTable = glsr(Query::class)->table('assigned_terms');
         $this->assignedUsersTable = glsr(Query::class)->table('assigned_users');
         $this->db = $wpdb;
-        $this->postType = glsr()->post_type;
         $this->ratingsTable = glsr(Query::class)->table('ratings');
     }
 
     /**
      * @return array
      */
-    public function export()
+    public function export(array $args = [])
     {
-        return glsr(Database::class)->dbGetResults($this->sqlAssignedIds(), 'ARRAY_A');
+        return glsr(Database::class)->dbGetResults($this->sqlAssignedIds($args), 'ARRAY_A');
     }
 
     /**
      * @return array
      */
-    public function exportWithSlugs()
+    public function exportWithSlugs(array $args = [])
     {
-        return glsr(Database::class)->dbGetResults($this->sqlAssignedSlugs(), 'ARRAY_A');
+        return glsr(Database::class)->dbGetResults($this->sqlAssignedSlugs($args), 'ARRAY_A');
     }
 
     /**
      * @return string
      */
-    protected function sqlAssignedIds()
+    protected function sqlAssignedIds(array $args)
     {
         return glsr(Query::class)->sql("
             SELECT
@@ -71,8 +72,7 @@ class Export
             LEFT JOIN {$this->assignedTermsTable} AS att ON r.ID = att.rating_id
             LEFT JOIN {$this->assignedUsersTable} AS aut ON r.ID = aut.rating_id
             LEFT JOIN {$this->db->postmeta} AS pm ON (r.review_id = pm.post_id AND pm.meta_key = '_response')
-            WHERE p.post_type = '{$this->postType}'
-            AND p.post_status IN ('publish','pending')
+            {$this->where($args)}
             GROUP BY r.ID
         ");
     }
@@ -80,7 +80,7 @@ class Export
     /**
      * @return string
      */
-    protected function sqlAssignedSlugs()
+    protected function sqlAssignedSlugs(array $args)
     {
         return glsr(Query::class)->sql("
             SELECT
@@ -109,9 +109,25 @@ class Export
             LEFT JOIN {$this->assignedUsersTable} AS aut ON r.ID = aut.rating_id
             LEFT JOIN {$this->db->posts} AS p1 ON apt.post_id = p1.ID
             LEFT JOIN {$this->db->postmeta} AS pm ON (r.review_id = pm.post_id AND pm.meta_key = '_response')
-            WHERE p.post_type = '{$this->postType}'
-            AND p.post_status IN ('publish','pending')
+            {$this->where($args)}
             GROUP BY r.ID
         ");
+    }
+
+    /**
+     * @return string
+     */
+    protected function where(array $args)
+    {
+        $date = glsr(Sanitizer::class)->sanitizeDate(Arr::get($args, 'date'));
+        $status = Str::restrictTo('pending,publish', Arr::get($args, 'post_status'), "pending','publish");
+        $where = [
+            $this->db->prepare('WHERE p.post_type = %s', glsr()->post_type),
+            sprintf("AND p.post_status IN ('%s')", $status),
+        ];
+        if (!empty($date)) {
+            $where[] = $this->db->prepare('AND p.post_date > %s', $date);
+        }
+        return implode(' ', $where);
     }
 }

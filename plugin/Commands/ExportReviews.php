@@ -13,13 +13,13 @@ use GeminiLabs\SiteReviews\Request;
 class ExportReviews implements Contract
 {
     /**
-     * @var string
+     * @var Request
      */
-    protected $assigned_posts;
+    protected $request;
 
     public function __construct(Request $request)
     {
-        $this->assigned_posts = $request->assigned_posts;
+        $this->request = $request;
     }
 
     /**
@@ -54,11 +54,11 @@ class ExportReviews implements Contract
      */
     public function results()
     {
-        if ('id' === $this->assigned_posts) {
-            $results = glsr(Export::class)->export();
+        if ('id' === $this->request->assigned_posts) {
+            $results = glsr(Export::class)->export($this->request->toArray());
         }
-        if ('slug' === $this->assigned_posts) {
-            $results = glsr(Export::class)->exportWithSlugs();
+        if ('slug' === $this->request->assigned_posts) {
+            $results = glsr(Export::class)->exportWithSlugs($this->request->toArray());
         }
         if (empty($results)) {
             return [];
