@@ -26,7 +26,7 @@ use ReflectionException;
 abstract class DefaultsAbstract implements DefaultsContract
 {
     /**
-     * The values that should be cast.
+     * The values that should be cast before sanitization is run.
      * @var array
      */
     public $casts = [];

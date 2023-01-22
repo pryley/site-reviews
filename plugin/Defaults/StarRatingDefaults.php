@@ -14,7 +14,13 @@ class StarRatingDefaults extends Defaults
         'args' => 'array',
         'prefix' => 'string',
         'rating' => 'float',
-        'reviews' => 'int',
+    ];
+
+    /**
+     * @var array
+     */
+    public $sanitize = [
+        'reviews' => 'min:0',
     ];
 
     /**

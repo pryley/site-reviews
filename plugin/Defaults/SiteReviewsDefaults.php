@@ -12,10 +12,7 @@ class SiteReviewsDefaults extends Defaults
      */
     public $casts = [
         'debug' => 'bool',
-        'display' => 'int',
         'hide' => 'array',
-        'page' => 'int',
-        'rating' => 'int',
         'schema' => 'bool',
     ];
 
@@ -42,7 +39,10 @@ class SiteReviewsDefaults extends Defaults
      * @var array
      */
     public $sanitize = [
+        'display' => 'min:1',
         'id' => 'id',
+        'page' => 'min:1',
+        'rating' => 'rating',
     ];
 
     /**

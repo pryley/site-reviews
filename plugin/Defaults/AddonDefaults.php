@@ -18,7 +18,6 @@ class AddonDefaults extends Defaults
         'slug' => 'string',
         'style' => 'string',
         'title' => 'string',
-        'url' => 'string',
     ];
 
     /**

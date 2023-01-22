@@ -12,7 +12,6 @@ class DependencyDefaults extends Defaults
     public $casts = [
         'minimum_version' => 'string',
         'name' => 'string',
-        'plugin_uri' => 'string',
         'untested_version' => 'string',
     ];
 

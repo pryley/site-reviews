@@ -10,21 +10,6 @@ class ReviewDefaults extends Defaults
     /**
      * @var array
      */
-    public $casts = [
-        'author_id' => 'int',
-        'is_approved' => 'bool',
-        'is_modified' => 'bool',
-        'is_pinned' => 'bool',
-        'is_verified' => 'bool',
-        'rating' => 'int',
-        'rating_id' => 'int',
-        'score' => 'int',
-        'terms' => 'bool',
-    ];
-
-    /**
-     * @var array
-     */
     public $mapped = [
         'ID' => 'rating_id',
         'name' => 'author',
@@ -53,8 +38,9 @@ class ReviewDefaults extends Defaults
         'is_pinned' => 'bool',
         'is_verified' => 'bool',
         'rating' => 'rating',
+        'rating_id' => 'int',
         'response' => 'text-multiline',
-        'score' => 'int',
+        'score' => 'min:0',
         'status' => 'text',
         'terms' => 'bool',
         'title' => 'text',

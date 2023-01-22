@@ -25,13 +25,6 @@ class FieldDefaults extends Defaults
     ];
 
     /**
-     * @var array
-     */
-    public $sanitize = [
-        'after' => 'text',
-    ];
-
-    /**
      * @return array
      */
     protected function defaults()

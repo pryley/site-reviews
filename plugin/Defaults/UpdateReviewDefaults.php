@@ -30,8 +30,8 @@ class UpdateReviewDefaults extends Defaults
         'date_gmt' => 'date',
         'is_pinned' => 'bool',
         'is_verified' => 'bool',
-        'rating' => 'int',
-        'score' => 'int',
+        'rating' => 'rating',
+        'score' => 'min:0',
         'terms' => 'bool',
     ];
 

@@ -360,13 +360,13 @@ class Sanitizer
      * @param mixed $value
      * @return int
      */
-    public function sanitizeUserId($value)
+    public function sanitizeUserId($value, $currentUserFallback = true)
     {
         $user = get_user_by('ID', Cast::toInt($value));
         if (false !== $user) {
             return (int) $user->ID;
         }
-        if (defined('WP_IMPORTING')) {
+        if (defined('WP_IMPORTING') || !Cast::toBool($currentUserFallback)) {
             return 0;
         }
         return get_current_user_id();

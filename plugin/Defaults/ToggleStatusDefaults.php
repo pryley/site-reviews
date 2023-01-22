@@ -11,7 +11,6 @@ class ToggleStatusDefaults extends Defaults
      */
     public $sanitize = [
         'post_id' => 'int',
-        'status' => 'text',
     ];
 
     /**

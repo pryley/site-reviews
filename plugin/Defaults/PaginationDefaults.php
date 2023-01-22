@@ -13,14 +13,20 @@ class PaginationDefaults extends Defaults
         'add_args' => 'array',
         'base' => 'string',
         'before_page_number' => 'string',
-        'current' => 'int',
-        'end_size' => 'int',
         'format' => 'string',
-        'mid_size' => 'int',
         'next_text' => 'string',
         'prev_text' => 'string',
-        'total' => 'int',
         'type' => 'string',
+    ];
+
+    /**
+     * @return array
+     */
+    public $sanitize = [
+        'current' => 'min:1',
+        'end_size' => 'min:1',
+        'mid_size' => 'min:1',
+        'total' => 'min:0',
     ];
 
     /**

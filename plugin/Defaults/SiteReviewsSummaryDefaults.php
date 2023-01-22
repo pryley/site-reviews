@@ -12,7 +12,6 @@ class SiteReviewsSummaryDefaults extends Defaults
      */
     public $casts = [
         'debug' => 'bool',
-        'rating' => 'int',
         'schema' => 'bool',
     ];
 
@@ -39,6 +38,7 @@ class SiteReviewsSummaryDefaults extends Defaults
      */
     public $sanitize = [
         'id' => 'id',
+        'rating' => 'rating',
     ];
 
     /**

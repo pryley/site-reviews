@@ -11,16 +11,10 @@ class ReviewsDefaults extends Defaults
      * @var array
      */
     public $casts = [
-        'content' => 'string',
         'ip_address' => 'string',
-        'offset' => 'int',
         'order' => 'string',
         'orderby' => 'string',
-        'page' => 'int',
         'pagination' => 'string',
-        'per_page' => 'int',
-        'rating' => 'int',
-        'rating_field' => 'string',
         'status' => 'string',
     ];
 
@@ -47,8 +41,12 @@ class ReviewsDefaults extends Defaults
         'assigned_users' => 'user-ids',
         'content' => 'text-multiline',
         'email' => 'email',
+        'offset' => 'min:0',
+        'page' => 'min:1',
+        'per_page' => 'min:1',
         'post__in' => 'array-int',
         'post__not_in' => 'array-int',
+        'rating' => 'rating',
         'rating_field' => 'name',
         'type' => 'key',
         'user__in' => 'user-ids',
