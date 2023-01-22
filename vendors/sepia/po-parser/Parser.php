@@ -686,7 +686,7 @@ class Parser
 
         $string = str_replace(array_keys($replaces), array_values($replaces), $string);
 
-        $po = $quote . implode("${slash}n$quote$newline$quote", explode($newline, $string)) . $quote;
+        $po = $quote . implode("{$slash}n$quote$newline$quote", explode($newline, $string)) . $quote;
 
         // remove empty strings
         return str_replace("$newline$quote$quote", '', $po);
