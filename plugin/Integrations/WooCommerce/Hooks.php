@@ -21,9 +21,12 @@ class Hooks extends AbstractHooks
             ['renderNotice', 'admin_init'],
             ['renderSettings', 'site-reviews/addon/settings/woocommerce'],
         ]);
+        $this->hook(ImportController::class, [
+            ['filterTools', 'site-reviews/tools/general'],
+            ['importProductReviewsAjax', 'site-reviews/route/ajax/import-product-reviews'],
+        ]);
         if ($this->isEnabled()) {
             $this->hook(ExperimentsController::class, $this->experimentalHooks());
-            $this->hook(ImportController::class, $this->importHooks());
             $this->hook(MainController::class, $this->mainHooks());
             $this->hook(ProductController::class, $this->productHooks());
             $this->hook(RestApiController::class, $this->restApiHooks());
@@ -47,14 +50,6 @@ class Hooks extends AbstractHooks
             && 'yes' === get_option('woocommerce_enable_reviews', 'yes')
             && class_exists('WooCommerce')
             && function_exists('WC');
-    }
-
-    protected function importHooks(): array
-    {
-        return [
-            ['filterTools', 'site-reviews/tools/general'],
-            ['importProductReviewsAjax', 'site-reviews/route/ajax/import-product-reviews'],
-        ];
     }
 
     protected function mainHooks(): array
