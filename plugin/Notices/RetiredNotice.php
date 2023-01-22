@@ -33,11 +33,12 @@ class RetiredNotice extends AbstractNotice
 
     protected function isNoticeScreen(): bool
     {
+        $screen = glsr_current_screen();
         $screenIds = ['dashboard', 'plugins', 'update-core'];
-        if (in_array(glsr_current_screen()->id, $screenIds)) {
+        if (in_array($screen->id, $screenIds)) {
             return true;
         }
-        if (get_current_screen()->in_admin('network')) {
+        if (method_exists($screen, 'in_admin') && $screen->in_admin('network')) {
             return true;
         }
         return parent::isNoticeScreen();
