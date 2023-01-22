@@ -43,6 +43,7 @@ class SanitizerTest extends WP_UnitTestCase
             'x' => 'wordpress.org',
             'y' => 'www.wordpress.org',
             'z' => 'https://wordpress.org',
+            'za' => -1,
         ];
     }
 
@@ -77,6 +78,7 @@ class SanitizerTest extends WP_UnitTestCase
             'x' => [],
             'y' => [],
             'z' => [],
+            'za' => [],
         ]);
     }
 
@@ -111,6 +113,7 @@ class SanitizerTest extends WP_UnitTestCase
             'x' => [],
             'y' => [],
             'z' => [],
+            'za' => [],
         ]);
     }
 
@@ -145,6 +148,7 @@ class SanitizerTest extends WP_UnitTestCase
             'x' => ['wordpress.org'],
             'y' => ['www.wordpress.org'],
             'z' => ['https://wordpress.org'],
+            'za' => ['-1'],
         ]);
     }
 
@@ -179,6 +183,7 @@ class SanitizerTest extends WP_UnitTestCase
             'x' => false,
             'y' => false,
             'z' => false,
+            'za' => false,
         ]);
     }
 
@@ -213,6 +218,7 @@ class SanitizerTest extends WP_UnitTestCase
             'x' => '',
             'y' => '',
             'z' => '',
+            'za' => wp_date('Y-m-d H:i:s', strtotime('-1')),
         ]);
     }
 
@@ -247,6 +253,7 @@ class SanitizerTest extends WP_UnitTestCase
             'x' => '',
             'y' => '',
             'z' => '',
+            'za' => '',
         ]);
     }
 
@@ -280,6 +287,7 @@ class SanitizerTest extends WP_UnitTestCase
         $this->assertEquals($sanitized['x'], 'wordpressorg');
         $this->assertEquals($sanitized['y'], 'wwwwordpressorg');
         $this->assertEquals($sanitized['z'], 'httpswordpressorg');
+        $this->assertEquals($sanitized['za'], '-1');
     }
 
     public function test_sanitize_int()
@@ -313,6 +321,112 @@ class SanitizerTest extends WP_UnitTestCase
             'x' => 0,
             'y' => 0,
             'z' => 0,
+            'za' => -1,
+        ]);
+    }
+
+    public function test_sanitize_max()
+    {
+        $sanitizers = array_fill_keys(array_keys($this->testValues), 'max:21');
+        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $this->assertEquals($sanitized, [
+            'a' => 0,
+            'b' => 0,
+            'c' => 0,
+            'd' => 0,
+            'e' => 0,
+            'f' => 0,
+            'g' => 0,
+            'h' => 0,
+            'i' => 1,
+            'j' => 0,
+            'k' => 0,
+            'l' => 0,
+            'm' => 0,
+            'n' => 0,
+            'o' => 0,
+            'p' => 0,
+            'q' => 21,
+            'r' => 0,
+            's' => 0,
+            't' => 0,
+            'u' => 0,
+            'v' => 0,
+            'w' => 0,
+            'x' => 0,
+            'y' => 0,
+            'z' => 0,
+            'za' => -1,
+        ]);
+    }
+
+    public function test_sanitize_min()
+    {
+        $sanitizers = array_fill_keys(array_keys($this->testValues), 'min:13');
+        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $this->assertEquals($sanitized, [
+            'a' => 13,
+            'b' => 13,
+            'c' => 13,
+            'd' => 13,
+            'e' => 13,
+            'f' => 13,
+            'g' => 13,
+            'h' => 13,
+            'i' => 13,
+            'j' => 13,
+            'k' => 13,
+            'l' => 13,
+            'm' => 13,
+            'n' => 13,
+            'o' => 13,
+            'p' => 13,
+            'q' => 2020,
+            'r' => 13,
+            's' => 13,
+            't' => 13,
+            'u' => 13,
+            'v' => 13,
+            'w' => 13,
+            'x' => 13,
+            'y' => 13,
+            'z' => 13,
+            'za' => 13,
+        ]);
+    }
+
+    public function test_sanitize_min_max()
+    {
+        $sanitizers = array_fill_keys(array_keys($this->testValues), 'min:3|max:50');
+        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $this->assertEquals($sanitized, [
+            'a' => 3,
+            'b' => 3,
+            'c' => 3,
+            'd' => 3,
+            'e' => 3,
+            'f' => 3,
+            'g' => 3,
+            'h' => 3,
+            'i' => 3,
+            'j' => 3,
+            'k' => 3,
+            'l' => 3,
+            'm' => 3,
+            'n' => 3,
+            'o' => 3,
+            'p' => 3,
+            'q' => 50,
+            'r' => 3,
+            's' => 3,
+            't' => 3,
+            'u' => 3,
+            'v' => 3,
+            'w' => 3,
+            'x' => 3,
+            'y' => 3,
+            'z' => 3,
+            'za' => 3,
         ]);
     }
 
@@ -347,6 +461,7 @@ class SanitizerTest extends WP_UnitTestCase
             'x' => '',
             'y' => '',
             'z' => '',
+            'za' => -1,
         ]);
     }
 
@@ -381,6 +496,7 @@ class SanitizerTest extends WP_UnitTestCase
             'x' => 'wordpressorg',
             'y' => 'wwwwordpressorg',
             'z' => 'httpswordpressorg',
+            'za' => '_1',
         ]);
     }
 
@@ -417,6 +533,7 @@ class SanitizerTest extends WP_UnitTestCase
             'x' => 0,
             'y' => 0,
             'z' => 0,
+            'za' => 0,
         ]);
     }
 
@@ -451,6 +568,7 @@ class SanitizerTest extends WP_UnitTestCase
             'x' => 'wordpress-org',
             'y' => 'www-wordpress-org',
             'z' => 'https-wordpress-org',
+            'za' => '1',
         ]);
     }
 
@@ -485,6 +603,7 @@ class SanitizerTest extends WP_UnitTestCase
             'x' => 'wordpress.org',
             'y' => 'www.wordpress.org',
             'z' => 'https://wordpress.org',
+            'za' => '-1',
         ]);
     }
 
@@ -519,6 +638,7 @@ class SanitizerTest extends WP_UnitTestCase
             'x' => 'wordpress.org',
             'y' => 'www.wordpress.org',
             'z' => 'https://wordpress.org',
+            'za' => '-1',
         ]);
     }
 
@@ -553,6 +673,7 @@ class SanitizerTest extends WP_UnitTestCase
             'x' => 'https://wordpress.org',
             'y' => 'https://www.wordpress.org',
             'z' => 'https://wordpress.org',
+            'za' => '',
         ]);
     }
 

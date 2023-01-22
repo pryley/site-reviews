@@ -44,13 +44,19 @@ class Sanitizer
      */
     public function run()
     {
-        $result = $this->values;
+        $results = $this->values;
         foreach ($this->values as $key => $value) {
-            if (array_key_exists($key, $this->sanitizers)) {
-                $result[$key] = call_user_func([$this, $this->sanitizers[$key]], $value);
+            if (!array_key_exists($key, $this->sanitizers)) {
+                continue;
             }
+            foreach ($this->sanitizers[$key] as $sanitizer) {
+                $args = $sanitizer['args'];
+                $method = $sanitizer['method'];
+                $value = call_user_func([$this, $method], $value, ...$args);
+            }
+            $results[$key] = $value;
         }
-        return $result;
+        return $results;
     }
 
     /**
@@ -68,7 +74,7 @@ class Sanitizer
      */
     public function sanitizeArrayInt($value)
     {
-        return Arr::uniqueInt(Cast::toArray($value));
+        return Arr::uniqueInt(Cast::toArray($value), true); // use absint
     }
 
     /**
@@ -149,6 +155,30 @@ class Sanitizer
     public function sanitizeInt($value)
     {
         return Cast::toInt($value);
+    }
+
+    /**
+     * @param mixed $value
+     * @param mixed $max
+     * @return int
+     */
+    public function sanitizeMax($value, $max = 0)
+    {
+        $max = Cast::toInt($max);
+        $value = Cast::toInt($value);
+        return $max > 0
+            ? min($max, $value)
+            : $value;
+    }
+
+    /**
+     * @param mixed $value
+     * @param mixed $min
+     * @return int
+     */
+    public function sanitizeMin($value, $min = 0)
+    {
+        return max(Cast::toInt($min), Cast::toInt($value));
     }
 
     /**
@@ -388,11 +418,27 @@ class Sanitizer
      */
     protected function buildSanitizers(array $sanitizers)
     {
-        foreach ($sanitizers as $key => &$type) {
-            $method = Helper::buildMethodName($type, 'sanitize');
-            $type = method_exists($this, $method)
-                ? $method
-                : 'sanitizeText';
+        $fallback = [ // fallback to this
+            'args' => [],
+            'method' => 'sanitizeText',
+        ];
+        foreach ($sanitizers as $key => $value) {
+            $methods = Arr::consolidate(preg_split('/\|/', $value, -1, PREG_SPLIT_NO_EMPTY));
+            $sanitizers[$key] = [];
+            if (empty($methods)) {
+                $sanitizers[$key][] = $fallback;
+                continue;
+            }
+            foreach ($methods as $method) {
+                $parts = preg_split('/:/', $method, 2, PREG_SPLIT_NO_EMPTY);
+                $args = trim(Arr::get($parts, 1));
+                $name = trim(Arr::get($parts, 0));
+                $sanitizer = [
+                    'args' => explode(',', $args),
+                    'method' => Helper::buildMethodName($name, 'sanitize'),
+                ];
+                $sanitizers[$key][] = $sanitizer;
+            }
         }
         return $sanitizers;
     }
