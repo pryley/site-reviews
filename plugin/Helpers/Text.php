@@ -98,7 +98,6 @@ class Text
         return trim((string) Arr::get($nameFormats, $nameFormat, $name));
     }
 
-
     /**
      * @param string $text
      * @return string
@@ -111,11 +110,15 @@ class Text
         $text = wp_kses($text, $allowedHtml);
         $text = strip_shortcodes($text);
         $text = excerpt_remove_blocks($text); // just in case...
-        $text = convert_smilies($text);
         $text = str_replace(']]>', ']]&gt;', $text);
-        $text = preg_replace('/\R{1,}/u', PHP_EOL.PHP_EOL, $text); // replace all multi line-breaks with a double line break
-        $text = preg_replace('/ {1,}/u', ' ', $text); // replace all multiple spaces with a single space
-        $text = wptexturize($text);
+        $text = normalize_whitespace($text); // normalize EOL characters and strip duplicate whitespace.
+        $text = preg_replace('/\R{1,}/u', PHP_EOL.PHP_EOL, $text); // replace all line-breaks with a double line break
+        $text = wptexturize($text); // replace common plain text characters with formatted entities.
+        $text = ent2ncr($text); // convert named entities into numbered entities.
+        $text = convert_chars($text); // converts lone & characters into &#038;
+        $text = convert_invalid_entities($text); // convert invalid Unicode references range to valid range.
+        $text = convert_smilies($text); // convert text smilies to emojis.
+        $text = html_entity_decode($text);
         return $text;
     }
 
@@ -153,14 +156,13 @@ class Text
     protected static function excerptIntlSplit($text, $limit)
     {
         $text = \Normalizer::normalize($text);
-        $iter = \IntlRuleBasedBreakIterator::createWordInstance('');
-        $iter->setText($text);
-        $words = $iter->getPartsIterator();
+        $iterator = \IntlRuleBasedBreakIterator::createWordInstance('');
+        $iterator->setText($text);
         $stringLength = 0;
         $wordCount = 0;
-        foreach ($words as $word) {
-            $stringLength += mb_strlen($word);
-            if (1 === mb_strlen($word, 'UTF-8') && (\IntlChar::isspace($word) || \IntlChar::ispunct($word))) {
+        foreach ($iterator->getPartsIterator() as $part) {
+            $stringLength += mb_strlen($part);
+            if ($iterator->getRuleStatus() === \IntlBreakIterator::WORD_NONE) {
                 continue;
             }
             if (++$wordCount === $limit) {
