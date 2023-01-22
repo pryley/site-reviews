@@ -305,13 +305,20 @@ class Arr
     }
 
     /**
+     * This reindexes the array!
      * @param array|string $values
      * @return array
      */
-    public static function uniqueInt($values)
+    public static function uniqueInt($values, $absint = true)
     {
         $values = array_filter(static::convertFromString($values), 'is_numeric');
-        return static::reindex(static::unique(array_values(array_map('absint', $values))));
+        $values = array_map('intval', $values);
+        if ($absint) {
+            $values = array_filter($values, function ($value) {
+                return $value > 0;
+            });
+        }
+        return array_values(array_unique($values));
     }
 
     /**

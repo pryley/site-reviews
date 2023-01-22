@@ -189,10 +189,13 @@ class ArrTest extends WP_UnitTestCase
 
     public function test_unique_int()
     {
-        $array = ['1','3','2','a','4','3','5','0'];
-        $array = Arr::uniqueInt($array);
-        sort($array);
-        $this->assertEquals($array, [1,2,3,4,5]);
+        $array = ['1','3','2','a','4','3','5','0', '-1'];
+        $test1 = Arr::uniqueInt($array);
+        sort($test1);
+        $this->assertEquals($test1, [1,2,3,4,5]);
+        $test2 = Arr::uniqueInt($array, false);
+        sort($test2);
+        $this->assertEquals($test2, [-1,0,1,2,3,4,5]);
     }
 
     public function test_unprefix_keys()
