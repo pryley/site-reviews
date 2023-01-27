@@ -146,7 +146,8 @@ final class Application extends Container
         }
         // Force an immediate plugin migration on database version upgrades
         if (static::DB_VERSION !== get_option(static::PREFIX.'db_version')) {
-            $this->make(Migrate::class)->run();
+            $migrate = $this->make(Migrate::class);
+            add_action('plugins_loaded', [$migrate, 'run'], 1); // use plugins_loaded!
         }
         $this->make(Hooks::class)->run();
     }
