@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use DateTime;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 class Date
@@ -105,7 +106,7 @@ class Date
      */
     public function isTimestamp($date)
     {
-        return ctype_digit($date) ? true : false;
+        return ctype_digit(Cast::toString($date)) ? true : false;
     }
 
     /**

@@ -470,7 +470,7 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
      */
     protected function get_request_order()
     {
-        $order = strtolower(filter_input(INPUT_GET, 'order'));
+        $order = strtolower((string) filter_input(INPUT_GET, 'order'));
         if ('desc' === $order) {
             return 'DESC';
         }
