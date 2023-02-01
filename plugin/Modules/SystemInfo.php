@@ -30,7 +30,7 @@ class SystemInfo
 
     public function get(): string
     {
-        $keys = [  // order is intentional
+        $keys = [ // order is intentional
             'plugin',
             'addon',
             'reviews',
@@ -358,9 +358,10 @@ class SystemInfo
 
     protected function ini(string $name, string $fallback = ''): string
     {
-        return Helper::ifTrue(!function_exists('ini_get'), 'ini_get() is disabled.', function () use ($name) {
+        if (function_exists('ini_get')) {
             return Helper::ifEmpty(ini_get($name), $fallback);
-        });
+        }
+        return 'ini_get() is disabled.';
     }
 
     protected function isWebhost(string $key): bool
