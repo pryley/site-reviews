@@ -12,23 +12,24 @@ use GeminiLabs\SiteReviews\Modules\Notice;
 class SettingsController extends Controller
 {
     /**
-     * @return void
      * @action admin_init
      */
-    public function registerSettings()
+    public function registerSettings(): void
     {
-        register_setting(glsr()->id.'-settings', OptionManager::databaseKey(), [
+        register_setting(glsr()->id, OptionManager::databaseKey(), [
+            'default' => glsr()->defaults,
             'sanitize_callback' => [$this, 'sanitizeSettings'],
+            'type' => 'array',
         ]);
     }
 
     /**
      * @param mixed $input
-     * @return array
      * @callback register_setting
      */
-    public function sanitizeSettings($input)
+    public function sanitizeSettings($input): array
     {
+        OptionManager::flushCache(); // remove settings from object cache before updating
         $settings = Arr::consolidate($input);
         if (1 === count($settings) && array_key_exists('settings', $settings)) {
             $options = array_replace_recursive(glsr(OptionManager::class)->all(), $input);
@@ -38,7 +39,7 @@ class SettingsController extends Controller
             $options = $this->sanitizeStrings($options, $input);
             $options = glsr()->filterArray('settings/sanitize', $options, $settings);
             glsr()->action('settings/updated', $options, $settings);
-            if (filter_input(INPUT_POST, 'option_page') == glsr()->id.'-settings') {
+            if (filter_input(INPUT_POST, 'option_page') === glsr()->id) {
                 glsr(Notice::class)->addSuccess(_x('Settings updated.', 'admin-text', 'site-reviews'));
             }
             glsr(Notice::class)->store(); // store the notices before the page reloads

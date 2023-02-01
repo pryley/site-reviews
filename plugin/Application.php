@@ -142,7 +142,9 @@ final class Application extends Container
         }
         // If this is a new major version, copy over the previous version settings
         if (empty(get_option(OptionManager::databaseKey()))) {
-            update_option(OptionManager::databaseKey(), $this->make(OptionManager::class)->previous());
+            if ($settings = $this->make(OptionManager::class)->previous()) {
+                update_option(OptionManager::databaseKey(), $settings);
+            }
         }
         // Force an immediate plugin migration on database version upgrades
         if (static::DB_VERSION !== get_option(static::PREFIX.'db_version')) {
@@ -150,6 +152,18 @@ final class Application extends Container
             add_action('plugins_loaded', [$migrate, 'run'], 1); // use plugins_loaded!
         }
         $this->make(Hooks::class)->run();
+    }
+
+    /**
+     * The setting defaults (these are not the saved settings!).
+     * @return void
+     */
+    public function initDefaults()
+    {
+        if (empty($this->defaults)) {
+            $defaults = $this->make(DefaultsManager::class)->get();
+            $this->defaults = $this->filterArray('get/defaults', $defaults);
+        }
     }
 
     /**
@@ -233,21 +247,6 @@ final class Application extends Container
             $this->settings = $settings;
         }
         return $this->settings;
-    }
-
-    /**
-     * The setting defaults (these are not the saved settings!).
-     * @return void
-     */
-    public function storeDefaults()
-    {
-        if (empty($this->defaults)) {
-            $defaults = $this->make(DefaultsManager::class)->get();
-            $this->defaults = $this->filterArray('get/defaults', $defaults);
-        }
-        if (empty(get_option(OptionManager::databaseKey()))) {
-            update_option(OptionManager::databaseKey(), $this->defaults);
-        }
     }
 
     /**

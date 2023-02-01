@@ -15,7 +15,7 @@
         </div>
         <?php endforeach; ?>
         <input type="hidden" name="_active_tab">
-        <?php settings_fields(glsr()->id.'-settings'); ?>
+        <?php settings_fields(glsr()->id); ?>
         <?php submit_button(); ?>
     </form>
 </div>

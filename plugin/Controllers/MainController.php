@@ -46,13 +46,13 @@ class MainController extends Controller
     }
 
     /**
+     * This cannot be done before plugins_loaded as it uses the gettext functions.
      * @return void
      * @action init
      */
     public function initDefaults()
     {
-        // This cannot be done before plugins_loaded as it uses the gettext functions
-        glsr()->storeDefaults();
+        glsr()->initDefaults();
     }
 
     /**

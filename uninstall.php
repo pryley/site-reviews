@@ -18,6 +18,13 @@ function glsr_uninstall() {
     delete_transient('glsr_cloudflare_ips');
     delete_transient('glsr_remote_post_test');
     delete_transient('glsr_system_info');
+    // finally, flush the cache
+    if (wp_cache_supports('flush_group')) {
+        wp_cache_flush_group('options');
+        wp_cache_flush_group('reviews');
+    } else {
+        wp_cache_flush();
+    }
 }
 
 function glsr_uninstall_all() {
@@ -41,8 +48,6 @@ function glsr_uninstall_all_cleanup() {
     $wpdb->query("OPTIMIZE TABLE {$wpdb->termmeta}");
     $wpdb->query("OPTIMIZE TABLE {$wpdb->terms}");
     $wpdb->query("OPTIMIZE TABLE {$wpdb->usermeta}");
-    // finally, flush the entire cache
-    wp_cache_flush();
 }
 
 function glsr_uninstall_all_delete_logs() {
