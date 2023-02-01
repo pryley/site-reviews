@@ -28,14 +28,9 @@ class Helper
             : $className;
     }
 
-    /**
-     * @param string $name
-     * @param string $prefix
-     * @return string
-     */
-    public static function buildMethodName($name, $prefix = '')
+    public static function buildMethodName(string $name, string $prefix = '', string $suffix = ''): string
     {
-        return lcfirst(Str::camelCase($prefix.'-'.$name));
+        return lcfirst(Str::camelCase(sprintf('%s-%s-%s', $prefix, $name, $suffix)));
     }
 
     /**
