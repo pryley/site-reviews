@@ -244,8 +244,9 @@ class ReviewController extends Controller
         if (is_wp_error($termIds)) {
             glsr_log()->error($termIds->get_error_message());
         }
-        if (!empty($values->response)) {
-            glsr(Database::class)->metaSet($postId, 'response', $values->response); // save the response if one is provided
+        if (!empty($values->response)) { // save the response if one is provided
+            glsr(Database::class)->metaSet($postId, 'response', $values->response);
+            glsr(Database::class)->metaSet($postId, 'response_by', $values->response_by);
         }
         foreach ($values->custom as $key => $value) {
             glsr(Database::class)->metaSet($postId, 'custom_'.$key, $value);

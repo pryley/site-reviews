@@ -303,7 +303,7 @@ class Sanitizer
             'strong' => glsr_get($allowedHtmlPost, 'strong'),
         ];
         $allowedHtml = glsr()->filterArray('sanitize/allowed-html', $allowedHtml, $this);
-        return wp_kses(trim(Cast::toString($value)), $allowedHtml);
+        return wp_kses($this->sanitizeTextMultiline($value), $allowedHtml);
     }
 
     /**
@@ -358,18 +358,26 @@ class Sanitizer
 
     /**
      * @param mixed $value
+     * @param mixed $fallbackUserId
      * @return int
      */
-    public function sanitizeUserId($value, $currentUserFallback = true)
+    public function sanitizeUserId($value, $fallbackUserId = null)
     {
         $user = get_user_by('ID', Cast::toInt($value));
         if (false !== $user) {
             return (int) $user->ID;
         }
-        if (defined('WP_IMPORTING') || !Cast::toBool($currentUserFallback)) {
+        if (defined('WP_IMPORTING')) {
             return 0;
         }
-        return get_current_user_id();
+        if (is_null($fallbackUserId)) {
+            return get_current_user_id();
+        }
+        $fallbackUser = get_user_by('ID', Cast::toInt($fallbackUserId));
+        if (false !== $fallbackUser) {
+            return (int) $fallbackUser->ID;
+        }
+        return 0;
     }
 
     /**

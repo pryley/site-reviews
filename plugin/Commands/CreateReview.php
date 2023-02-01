@@ -218,9 +218,11 @@ class CreateReview implements Contract
             $request->set('ip_address', Helper::getIpAddress()); // required for Akismet and Blacklist validation
         }
         if ($isFormSubmission) {
-            // is_approved is verified when the review is created
+            // is_approved is set when the review is created
             $request->set('is_pinned', false);
             $request->set('is_verified', false);
+            $request->set('response', '');
+            $request->set('response_by', 0);
         }
         glsr()->action('review/request', $request);
         return $request;
