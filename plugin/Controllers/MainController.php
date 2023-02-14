@@ -88,7 +88,7 @@ class MainController extends Controller
 
     /**
      * @return void
-     * @action plugins_loaded
+     * @action init
      */
     public function registerLanguages()
     {

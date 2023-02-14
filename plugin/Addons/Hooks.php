@@ -43,7 +43,7 @@ abstract class Hooks
         add_filter($this->addon->id.'/activate', [$this->controller, 'install']);
         add_action('admin_init', [$this->controller, 'onActivation']);
         add_action('init', [$this->controller, 'registerBlocks'], 9);
-        add_action('plugins_loaded', [$this->controller, 'registerLanguages']);
+        add_action('init', [$this->controller, 'registerLanguages'], -10);
         add_action('init', [$this->controller, 'registerShortcodes']);
         add_action('init', [$this->controller, 'registerTinymcePopups']);
         add_action('widgets_init', [$this->controller, 'registerWidgets']);

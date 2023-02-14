@@ -17,7 +17,10 @@
             <input type="hidden" name="{{ data.prefix }}[settings][strings][{{ data.index }}][id]" value="{{ data.id }}" data-id>
             <input type="hidden" name="{{ data.prefix }}[settings][strings][{{ data.index }}][s1]" value="{{ data.s1 }}">
             <textarea rows="2" name="{{ data.prefix }}[settings][strings][{{ data.index }}][s2]">{{ data.s2 }}</textarea>
-            <span class="description">{{ data.desc }}{{ data.error }}</span>
+            <span class="description">
+                {{ data.desc }}
+                <span>{{ data.error }}</span>
+            </span>
         </div>
     </td>
 </tr>

@@ -45,6 +45,6 @@ class TranslationHooks extends AbstractHooks
     {
         add_action('load-edit.php', [$this, 'translateAdminEditPage']);
         add_action('load-post.php', [$this, 'translateAdminPostPage']);
-        add_action('plugins_loaded', [$this, 'translatePlugin']);
+        add_action('init', [$this, 'translatePlugin'], -10);
     }
 }

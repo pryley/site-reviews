@@ -371,7 +371,7 @@ abstract class Controller extends BaseController
 
     /**
      * @return void
-     * @action plugins_loaded
+     * @action init
      */
     public function registerLanguages()
     {

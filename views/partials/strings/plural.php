@@ -20,7 +20,10 @@
             <input type="hidden" name="{{ data.prefix }}[settings][strings][{{ data.index }}][p1]" value="{{ data.p1 }}">
             <input type="text" name="{{ data.prefix }}[settings][strings][{{ data.index }}][s2]" placeholder="<?= esc_attr_x('singular', 'admin-text', 'site-reviews'); ?>" value="{{ data.s2 }}">
             <input type="text" name="{{ data.prefix }}[settings][strings][{{ data.index }}][p2]" placeholder="<?= esc_attr_x('plural', 'admin-text', 'site-reviews'); ?>" value="{{ data.p2 }}">
-            <span class="description">{{ data.desc }}{{ data.error }}</span>
+            <span class="description">
+                {{ data.desc }}
+                <span>{{ data.error }}</span>
+            </span>
         </div>
     </td>
 </tr>
