@@ -33,10 +33,10 @@ class TranslationHooks extends AbstractHooks
     {
         if (!empty(glsr(Translation::class)->strings())) {
             $this->hook(TranslationController::class, [
-                ['filterGettext', "gettext_{$this->id}", 10, 2],
-                ['filterGettextWithContext', "gettext_with_context_{$this->id}", 10, 3],
-                ['filterNgettext', "ngettext_{$this->id}", 10, 4],
-                ['filterNgettextWithContext', "ngettext_with_context_{$this->id}", 10, 5],
+                ['filterGettext', "gettext_{$this->id}", 20, 2],
+                ['filterGettextWithContext', "gettext_with_context_{$this->id}", 20, 3],
+                ['filterNgettext', "ngettext_{$this->id}", 20, 4],
+                ['filterNgettextWithContext', "ngettext_with_context_{$this->id}", 20, 5],
             ]);
         }
     }
