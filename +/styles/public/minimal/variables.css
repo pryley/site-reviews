@@ -74,4 +74,13 @@
     /* Modal */
     --glsr-modal-bg: var(--glsr-white);
     --glsr-modal-radius: 3px;
+
+    /* Rating Tooltip */
+    --glsr-tooltip-border-radius: 4px;
+    --glsr-tooltip-font-size: 0.875rem;
+    --glsr-tooltip-font-weight: 400;
+    --glsr-tooltip-line-height: 1;
+    --glsr-tooltip-margin: 12px;
+    --glsr-tooltip-padding: .5em 1em;
+    --glsr-tooltip-size: 6px;
 }
