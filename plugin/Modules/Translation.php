@@ -107,6 +107,14 @@ class Translation
         return $this;
     }
 
+    public function isInvalid(array $entry): bool
+    {
+        return !empty($entry['s1']) && (
+            false === Arr::searchByKey($entry['s1'], $this->entries(), 'msgid') 
+                && false === Arr::searchByKey(htmlentities2($entry['s1']), $this->entries(), 'msgid')
+        );
+    }
+
     /**
      * @param string $template
      * @return string
@@ -119,7 +127,7 @@ class Translation
         );
         $data['data.class'] = '';
         $data['data.error'] = '';
-        if (!empty($entry['s1']) && false === Arr::searchByKey($entry['s1'], $this->entries(), 'msgid')) { // @todo handle htmlentities i.e. &rarr;
+        if ($this->isInvalid($entry)) {
             $data['data.class'] = 'is-invalid';
             $data['data.error'] = _x('This custom translation is no longer valid as the original text has been changed or removed.', 'admin-text', 'site-reviews');
         }
