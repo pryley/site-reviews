@@ -147,6 +147,8 @@
     site-reviews/query/sql/order-by                             (array $orderBy, string $handle, Database\Query $query): array
     site-reviews/rating/average                                 (float $roundedAverage, array $ratingCounts, int $average): float
     site-reviews/rating/ranking                                 (float $ranking, array $ratingCounts, Modules\Rating $rating): float
+    site-reviews/ratings                                        (array $ratings, array $args): array
+    site-reviews/ratings/grouped                                (array $ratings, string $metaGroup, array $args): array
     site-reviews/rest-api/reviews/parameters                    (array $parameters): array
     site-reviews/rest-api/reviews/prepare/<key>                 (mixed $value, Controllers\Api\Version1\Response\Prepare $prepare): array
     site-reviews/rest-api/reviews/properties                    (array $properties): array
