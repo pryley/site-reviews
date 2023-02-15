@@ -66,7 +66,7 @@ $reviews = apply_filters('glsr_get_reviews', [], [
         <p><strong>Helpful Tips:</strong></p>
         <ol>
             <li>
-                <p>Print (as HTML) ALL reviews, including pagination (if included in the $args) to the page:</p>
+                <p>Print (as HTML) ALL reviews, including pagination (if included in the $args):</p>
                 <pre><code class="language-php">echo $reviews; // This is identical to: $reviews->render();</code></pre>
             </li>
             <li>
@@ -85,7 +85,22 @@ $reviews = apply_filters('glsr_get_reviews', [], [
 foreach ($reviewsHtml as $reviewHtml) {
     echo $reviewHtml;
 }
+echo $reviewsHtml->pagination;
+
+// OR SIMPLY:
+
+$reviewsHtml = $reviews->build();
+echo $reviewsHtml;
 echo $reviewsHtml->pagination;</code></pre>
+            </li>
+            <li>
+                <p>If you want to use the Site Reviews CSS to style the reviews, you will need to wrap everything in a div and add the attribute tags like this:</p>
+                <pre><code class="language-php">$reviewsHtml = $reviews->build();
+echo "&lt;div {$reviewsHtml->attributes}&gt;";
+echo $reviewsHtml;
+echo $reviewsHtml->pagination;
+echo '&lt;/div&gt;';
+</code></pre>
             </li>
             <li>
                 <p>You can also use the <code><a href="<?= glsr_admin_url('documentation', 'functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to print both arrayable objects to the screen:</p>

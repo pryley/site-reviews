@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Review;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
 /**
  * @property string $avatar
@@ -34,6 +35,11 @@ class ReviewHtml extends \ArrayObject
      * @var Review
      */
     public $review;
+
+    /**
+     * @var array
+     */
+    protected $attributes;
 
     public function __construct(Review $review, array $args = [])
     {
@@ -110,6 +116,12 @@ class ReviewHtml extends \ArrayObject
     #[\ReturnTypeWillChange]
     public function offsetGet($key)
     {
+        if ('attributes' === $key) {
+            if (empty($this->attributes)) {
+                $this->attributes = glsr(SiteReviewsShortcode::class)->attributes($this->args);
+            }
+            return glsr(Attributes::class)->div($this->attributes)->toString();
+        }
         if (array_key_exists($key, $this->context)) {
             return $this->context[$key];
         }

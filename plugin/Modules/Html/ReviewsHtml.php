@@ -5,7 +5,6 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Modules\Style;
 use GeminiLabs\SiteReviews\Reviews;
 
 class ReviewsHtml extends \ArrayObject
@@ -31,9 +30,9 @@ class ReviewsHtml extends \ArrayObject
     public $rendered;
 
     /**
-     * @var string
+     * @var array
      */
-    public $style;
+    protected $attributes;
 
     public function __construct(Reviews $reviews)
     {
@@ -41,7 +40,6 @@ class ReviewsHtml extends \ArrayObject
         $this->max_num_pages = $reviews->max_num_pages;
         $this->reviews = $reviews;
         $this->rendered = $this->renderReviews($reviews);
-        $this->style = glsr(Style::class)->styleClasses();
         parent::__construct($this->reviews, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
     }
 
@@ -112,6 +110,12 @@ class ReviewsHtml extends \ArrayObject
     #[\ReturnTypeWillChange]
     public function offsetGet($key)
     {
+        if ('attributes' === $key) {
+            if (empty($this->attributes)) {
+                $this->attributes = $this->reviews->attributes();
+            }
+            return glsr(Attributes::class)->div($this->attributes)->toString();
+        }
         if (array_key_exists($key, $this->rendered)) {
             return $this->rendered[$key];
         }

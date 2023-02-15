@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewsHtml;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsShortcode;
 
 class Reviews extends \ArrayObject
 {
@@ -28,7 +29,7 @@ class Reviews extends \ArrayObject
      */
     public $total;
 
-    public function __construct(array $reviews, $total, array $args)
+    public function __construct(array $reviews, int $total, array $args)
     {
         $this->args = glsr(SiteReviewsDefaults::class)->unguardedMerge($args);
         $this->max_num_pages = Cast::toInt(ceil($total / $this->args['display']));
@@ -37,18 +38,17 @@ class Reviews extends \ArrayObject
         parent::__construct($this->reviews, \ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
     }
 
-    /**
-     * @return string
-     */
     public function __toString()
     {
         return (string) $this->build();
     }
 
-    /**
-     * @return ReviewsHtml
-     */
-    public function build()
+    public function attributes(): array
+    {
+        return glsr(SiteReviewsShortcode::class)->attributes($this->args);
+    }
+
+    public function build(): ReviewsHtml
     {
         return new ReviewsHtml($this);
     }
@@ -68,10 +68,7 @@ class Reviews extends \ArrayObject
             : null;
     }
 
-    /**
-     * @return void
-     */
-    public function render()
+    public function render(): void
     {
         echo $this->build();
     }

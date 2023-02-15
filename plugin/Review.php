@@ -336,9 +336,9 @@ class Review extends Arguments
     /**
      * @return void
      */
-    public function render()
+    public function render(array $args = [])
     {
-        echo $this->build();
+        echo $this->build($args);
     }
 
     /**

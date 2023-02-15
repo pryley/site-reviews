@@ -31,10 +31,18 @@ $review = apply_filters('glsr_get_review', null, 13);</code></pre>
             <li>
                 <p>Print the rendered (HTML) review to the page:</p>
                 <pre><code class="language-php">$review->render(); // OR: echo $review;</code></pre>
+                <p>You can also pass arguments like this:</p>
+                <pre><code class="language-php">$review->render([
+    'theme' => 13,
+]);</code></pre>
             </li>
             <li>
                 <p>Render (as HTML) all of the review fields and return them as an arrayable object that can be looped through:</p>
                 <pre><code class="language-php">$reviewHtml = $review->build();</code></pre>
+                <p>You can also pass arguments like this:</p>
+                <pre><code class="language-php">$reviewHtml = $review->build([
+    'theme' => 13,
+]);</code></pre>
             </li>
             <li>
                 <p>Print a specific rendered (HTML) field to the page:</p>
@@ -43,6 +51,10 @@ $review = apply_filters('glsr_get_review', null, 13);</code></pre>
             <li>
                 <p>Print the rendered (HTML) review to the page:</p>
                 <pre><code class="language-php">echo $reviewHtml; // This is identical to: $review->render();</code></pre>
+                <p>If you want to use the Site Reviews CSS to style a single review, you will need to wrap it in a div and add the attribute tags like this:</p>
+                <pre><code class="language-php">echo "&lt;div {$reviewHtml->attributes}&gt;";
+echo $reviewHtml;
+echo '&lt;/div&gt;';</code></pre>
             </li>
             <li>
                 <p>You can also use the <code><a href="<?= glsr_admin_url('documentation', 'functions'); ?>" data-expand="#fn-glsr_debug">glsr_debug</a></code> helper function to print both arrayable objects to the screen:</p>

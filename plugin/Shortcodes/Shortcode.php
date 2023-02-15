@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Shortcodes;
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Contracts\ShortcodeContract;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
@@ -12,7 +13,6 @@ use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Rating;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Style;
-use ReflectionClass;
 
 abstract class Shortcode implements ShortcodeContract
 {
@@ -20,11 +20,6 @@ abstract class Shortcode implements ShortcodeContract
      * @var array
      */
     public $args;
-
-    /**
-     * @var array
-     */
-    public $dataAttributes;
 
     /**
      * @var string
@@ -52,6 +47,21 @@ abstract class Shortcode implements ShortcodeContract
         // @compat provides backwards compatibility for unsupported addons
     }
 
+    public function attributes(array $values, string $source = 'function'): array
+    {
+        $attributes = glsr($this->getShortcodeDefaultsClassName())->dataAttributes($values);
+        $attributes = wp_parse_args($attributes, [
+            'class' => glsr(Style::class)->styleClasses(),
+            'data-source' => $source,
+            'id' => Arr::get($values, 'id'),
+        ]);
+        if ($this->type) {
+            $attributes['data-'.$this->type] = $this->shortcode;
+        }
+        unset($attributes['data-id']);
+        return glsr()->filterArray('shortcode/'.$this->shortcode.'/attributes', $attributes, $this);
+    }
+
     /**
      * @param string|array $atts
      * @param string $type
@@ -67,13 +77,8 @@ abstract class Shortcode implements ShortcodeContract
             $title = $args->before_title.$atts->title.$args->after_title;
             $atts->title = $title;
         }
-        $attributes = wp_parse_args($this->dataAttributes, [
-            'class' => glsr(Style::class)->styleClasses(),
-            'id' => $atts->id,
-            'text' => $template,
-        ]);
-        $attributes = glsr()->filterArray('shortcode/'.$this->shortcode.'/attributes', $attributes, $this);
-        $html = glsr(Builder::class)->div($attributes);
+        $attributes = $this->attributes($atts->toArray(), $type);
+        $html = glsr(Builder::class)->div($template, $attributes);
         return sprintf('%s%s%s%s%s',
             $args->before_widget,
             $atts->title,
@@ -130,7 +135,7 @@ abstract class Shortcode implements ShortcodeContract
      */
     public function getShortClassName($replace = '', $search = 'Shortcode')
     {
-        return str_replace($search, $replace, (new ReflectionClass($this))->getShortName());
+        return str_replace($search, $replace, (new \ReflectionClass($this))->getShortName());
     }
 
     /**
@@ -176,7 +181,6 @@ abstract class Shortcode implements ShortcodeContract
                 $value = call_user_func([$this, $method], $value, $atts);
             }
         }
-        $this->setDataAttributes($atts, $type);
         return $atts;
     }
 
@@ -282,17 +286,5 @@ abstract class Shortcode implements ShortcodeContract
             }
         }
         return array_combine(range($maxRating, 1), $defaults);
-    }
-
-    /**
-     * @param string $type
-     * @return void
-     */
-    protected function setDataAttributes(Arguments $atts, $type)
-    {
-        $this->dataAttributes = wp_parse_args(
-            glsr($this->getShortcodeDefaultsClassName())->dataAttributes($atts->toArray()),
-            ["data-{$type}" => $this->shortcode]
-        );
     }
 }
