@@ -53,7 +53,6 @@ read -p " - Verified the changelog release date?"
 read -p " - Verified that all addons work correctly with the update?"
 read -p " - Committed all changes to the main branch on GITHUB?"
 read -p " - PHPUnit and PHPStan has passed all inspections?"
-
 read -p " - Scrutinizer has passed all inspections?"
 echo ""
 read -p "PRESS [ENTER] TO BEGIN RELEASING "${PLUGIN_VERSION}

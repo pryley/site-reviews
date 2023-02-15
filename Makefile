@@ -67,3 +67,4 @@ watch: ## Build all plugin assets and run Browsersync
 .PHONY: zip
 zip: ## Create a zip archive of Site Reviews
 	git archive -o ./site-reviews-v$(VERSION).zip --prefix=site-reviews/ HEAD
+	open .

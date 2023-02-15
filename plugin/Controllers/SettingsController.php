@@ -64,7 +64,7 @@ class SettingsController extends Controller
     {
         $key = 'settings.general';
         $inputForm = Arr::get($input, $key);
-        if (!$this->hasMultilingualIntegration(Arr::get($inputForm, 'multilingual'))) {
+        if (!$this->hasMultilingualIntegration(Arr::getAs('string', $inputForm, 'multilingual'))) {
             $options = Arr::set($options, $key.'.multilingual', '');
         }
         if ('' == trim(Arr::get($inputForm, 'notification_message'))) {
@@ -82,7 +82,7 @@ class SettingsController extends Controller
         $licenses = Arr::consolidate(Arr::get($input, $key));
         foreach ($licenses as $slug => &$license) {
             if (!empty($license)) {
-                $license = $this->verifyLicense($license, $slug);
+                $license = $this->verifyLicense((string) $license, (string) $slug);
             }
         }
         $options = Arr::set($options, $key, $licenses);
@@ -111,13 +111,9 @@ class SettingsController extends Controller
         return $options;
     }
 
-    /**
-     * @param string $integrationSlug
-     * @return bool
-     */
-    protected function hasMultilingualIntegration($integrationSlug): bool
+    protected function hasMultilingualIntegration(string $option): bool
     {
-        $integration = glsr(Multilingual::class)->getIntegration($integrationSlug);
+        $integration = glsr(Multilingual::class)->getIntegration($option);
         if (!$integration) {
             return false;
         }
@@ -138,11 +134,7 @@ class SettingsController extends Controller
         return true;
     }
 
-    /**
-     * @param string $license
-     * @param string $addonId
-     */
-    protected function verifyLicense($license, $addonId): string
+    protected function verifyLicense(string $license, string $addonId): string
     {
         if (empty(glsr()->updated[$addonId])) {
             glsr_log()->error('Unknown addon: '.$addonId);

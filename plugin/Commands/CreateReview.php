@@ -43,6 +43,7 @@ class CreateReview implements Contract
     public $referer;
     public $request;
     public $response;
+    public $response_by;
     public $terms;
     public $terms_exist;
     public $title;

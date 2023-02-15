@@ -269,7 +269,7 @@ class SystemInfo
                 'Page For Posts ID' => (string) get_option('page_for_posts'),
                 'Page On Front ID' => (string) get_option('page_on_front'),
                 'Permalink Structure' => $this->value('wp-core.permalink'),
-                'Post Stati' => implode(', ', get_post_stati()),
+                'Post Stati' => implode(', ', get_post_stati()), // @phpstan-ignore-line
                 'Remote Post' => glsr(Cache::class)->getRemotePostTest(),
                 'SCRIPT_DEBUG' => $this->value('wp-constants.SCRIPT_DEBUG'),
                 'Show On Front' => (string) get_option('show_on_front'),
@@ -347,11 +347,9 @@ class SystemInfo
             return mb_strlen(html_entity_decode($key, ENT_HTML5), 'UTF-8');
         }, array_keys($details)));
         foreach ($details as $key => $value) {
-            $key = html_entity_decode($key, ENT_HTML5);
+            $key = html_entity_decode((string) $key, ENT_HTML5);
             $pad = $padding - (mb_strlen($key, 'UTF-8') - strlen($key)); // handle unicode character lengths
-            $strings[] = is_string($key)
-                ? sprintf('%s : %s', str_pad($key, $pad, '.'), $value)
-                : ' - '.$value;
+            $strings[] = sprintf('%s : %s', str_pad($key, $pad, '.'), $value);
         }
         return implode(PHP_EOL, $strings).PHP_EOL.PHP_EOL;
     }

@@ -7,10 +7,13 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 
 /**
  * If this is a form submission, the following fields are overridden:
+ * - author_id
  * - ip_address
  * - is_approved
  * - is_pinned
  * - is_verified
+ * - response
+ * - response_by
  */
 class CreateReviewDefaults extends Defaults
 {

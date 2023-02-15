@@ -246,7 +246,7 @@ class ReviewController extends Controller
         }
         if (!empty($values->response)) { // save the response if one is provided
             glsr(Database::class)->metaSet($postId, 'response', $values->response);
-            glsr(Database::class)->metaSet($postId, 'response_by', $values->response_by);
+            glsr(Database::class)->metaSet($postId, 'response_by', $values->response_by); // @phpstan-ignore-line
         }
         foreach ($values->custom as $key => $value) {
             glsr(Database::class)->metaSet($postId, 'custom_'.$key, $value);

@@ -20,16 +20,16 @@ parameters:
   ignoreErrors:
     # These are ArrayObject classes
     - '#Access to an undefined property WP_|GeminiLabs\\SiteReviews\\(Arguments|Request)::(.+)#'
+    # Technically, these errors are correct. However, since this is a third-party package we will ignore them for now
+    - '#Call to an undefined method ActionScheduler_Schedule::(get_recurrence|get_date)\(\).#'
     # get_views() is in the $compat_methods array for public access, leave this for now
     - '#Call to protected method get_views\(\) of class WP_Posts_List_Table.#'
+    # Discrepancies between PHP versions (7.4 - 8)
+    - '#Parameter \#1 \$separator of function explode expects non-empty-string, string given.#'
     # This usage is acceptable in the project
     - '#Unsafe usage of new static\(\).#'
     # PHPstan has trouble with wp_parse_args|shortcode_atts combined with extract
     - '#Variable \$(index|level|levels|seconds|tense|unit) might not be defined.#'
-    # Technically, these errors are correct. However, since this is a third-party package we will ignore them for now
-    - '#Call to an undefined method ActionScheduler_Schedule::(get_recurrence|get_date)\(\).#'
-    # Discrepancies between PHP versions (7.4 - 8)
-    - '#Parameter \#1 \$separator of function explode expects non-empty-string, string given.#'
   level: 5
   paths:
     - config
