@@ -211,8 +211,9 @@ class ValidationTest extends WP_Ajax_UnitTestCase
             'user_login' => 'test_user',
         ]));
         $nonce = wp_create_nonce('submit-review');
-        $response1 = $this->assertJsonSuccess($this->request(['_nonce' => $nonce]));
-        $response2 = $this->assertJsonError($this->request(['_nonce' => $nonce]));
+        $this->assertJsonSuccess($this->request(['_nonce' => $nonce]));
+        $this->assertJsonError($this->request(['_nonce' => $nonce]));
+        $this->assertJsonError($this->request(['_nonce' => $nonce]));
     }
 
     /**

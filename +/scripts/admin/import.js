@@ -55,9 +55,8 @@ class Import {
                 const data = response.data;
                 const promises = [];
                 this.total = data.total;
-                for (let page = 0; page < data.pages;) {
-                    page++;
-                    promises.push(this.import(page))
+                for (let page = 1; page <= data.pages; page++) {
+                    promises.push(this.import(page)); // fetch returns a Promise
                 }
                 Promise.all(promises).then(() => {
                     this.isIdle()

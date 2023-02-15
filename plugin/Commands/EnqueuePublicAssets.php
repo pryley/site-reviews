@@ -66,7 +66,7 @@ class EnqueuePublicAssets implements Contract
             'nameprefix' => glsr()->id,
             'starsconfig' => [
                 'clearable' => false,
-                'tooltip' => false,
+                'tooltip' => false, // 'Select a Rating'
             ],
             'state' => [
                 'popstate' => false,
