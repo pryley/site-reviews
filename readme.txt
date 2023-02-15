@@ -173,30 +173,20 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.4.1 (2022-12-28) =
+= 6.5.0 (2023-02-15) =
 
-- Fixed assignment meta key registration
-
-= 6.4.0 (2022-12-27) =
-
-- Added Action Scheduler information to System Info
-- Added assignment meta keys (_glsr_average, _glsr_ranking, _glsr_reviews) to the WP REST API
-- Added compatibility with [Loyalty Program for WooCommerce](https://advancedcouponsplugin.com/woocommerce-loyalty-program/)
-- Added compatibility with [WooRewards](https://wordpress.org/plugins/woorewards/)
-- Added FAQ documentation which explains how to sort a Query Loop block by average rating, ranking, or number of reviews.
-- Added GamiPress integration
-- Added Import Product Reviews tool (for WooCommerce Product reviews)
-- Added WooCommerce integration
-- Fixed an issue causing a timeout when running plugin migrations
-- Fixed compatibility with optimisation plugins which do not observe loading order of inline scripts
-- Fixed compatibility with other reCAPTCHA plugins
-- Fixed database table PRIMARY indexes on websites running MariaDB
-- Fixed localization of the Summary rating number
-- Fixed summary rating number to display in decimal format and using the website locale
-- Fixed the console logging, it now uses the saved log level
-- Fixed translatable strings
-- Fixed value sanitization when exporting reviews as a CSV file
-- Removed the GamiPress Reviews addon, it's now fully integrated into Site Reviews
-- Removed the Woocommerce Reviews addon, it's now fully integrated into Site Reviews
+- Added date and status options to the Export Reviews tool
+- Fixed broken links on Addons page
+- Fixed broken translations in the Strings settings which contained HTML entities
+- Fixed button loading in the review form
+- Fixed compatibility with Multilingual plugins (you should now be able to translate the addons)
+- Fixed compatibility with Multisites
+- Fixed compatibility with Object Cache plugins (which was preventing the settings from saving)
+- Fixed PHP 8.1 deprecation notices
+- Fixed PHP errors when changing the maximum rating with a filter hook
+- Fixed support for rendering reviews with custom fields (Review Forms addon) and themes (Review Themes addon) using the helper functions
+- Fixed the visibility of the Import Product Reviews tool
+- Improved sanitization of form values and helper function arguments
+- Improved the System Info report
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).
