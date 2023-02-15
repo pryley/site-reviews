@@ -1,4 +1,4 @@
-# Copyright (C) 2022 site-reviews
+# Copyright (C) 2023 site-reviews
 # This file is distributed under the same license as the site-reviews package.
 msgid ""
 msgstr ""
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: en_US\n"
 
-#: deprecated.php:100
+#: deprecated.php:112
 msgid ""
 "%s is <strong>deprecated</strong> since version %s with no alternative "
 "available."
@@ -26,7 +26,7 @@ msgstr ""
 "%s is <strong>deprecated</strong> since version %s with no alternative "
 "available."
 
-#: deprecated.php:113
+#: deprecated.php:125
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 
@@ -36,7 +36,7 @@ msgid_plural "%s stars or less"
 msgstr[0] "%s star or less"
 msgstr[1] "%s stars or less"
 
-#: config/settings.php:335, plugin/Modules/Html/ReviewsHtml.php:143
+#: config/settings.php:335, plugin/Modules/Html/ReviewsHtml.php:147
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
 
@@ -92,15 +92,15 @@ msgstr "This review is based on my own experience and is my genuine opinion."
 msgid "Show more"
 msgstr "Show more"
 
-#: plugin/Commands/CreateReview.php:194
+#: plugin/Commands/CreateReview.php:195
 msgid "Your review has been submitted!"
 msgstr "Your review has been submitted!"
 
-#: plugin/Commands/CreateReview.php:195
+#: plugin/Commands/CreateReview.php:196
 msgid "Your review has been submitted, and is pending approval."
 msgstr "Your review has been submitted, and is pending approval."
 
-#: plugin/Commands/CreateReview.php:200, views/pages/documentation/support/common-problems-and-solutions.php:87
+#: plugin/Commands/CreateReview.php:201, views/pages/documentation/support/common-problems-and-solutions.php:87
 msgid ""
 "Your review could not be submitted, and the error has been logged. Please "
 "notify the site administrator."
@@ -108,19 +108,19 @@ msgstr ""
 "Your review could not be submitted, and the error has been logged. Please "
 "notify the site administrator."
 
-#: plugin/Commands/EnqueuePublicAssets.php:75
+#: plugin/Commands/EnqueuePublicAssets.php:76
 msgid "Close Modal"
 msgstr "Close Modal"
 
-#: plugin/Defaults/PaginationDefaults.php:34
+#: plugin/Defaults/PaginationDefaults.php:40
 msgid "Page"
 msgstr "Page"
 
-#: plugin/Defaults/PaginationDefaults.php:39
+#: plugin/Defaults/PaginationDefaults.php:45
 msgid "Next"
 msgstr "Next"
 
-#: plugin/Defaults/PaginationDefaults.php:40
+#: plugin/Defaults/PaginationDefaults.php:46
 msgid "Previous"
 msgstr "Previous"
 
@@ -226,23 +226,23 @@ msgstr[1] ""
 "Maximum simultaneous queues already in progress (%s queues). No additional "
 "queues will begin processing until the current queues are complete."
 
-#: plugin/Shortcodes/Shortcode.php:270
+#: plugin/Shortcodes/Shortcode.php:274
 msgid "Excellent"
 msgstr "Excellent"
 
-#: plugin/Shortcodes/Shortcode.php:271
+#: plugin/Shortcodes/Shortcode.php:275
 msgid "Very good"
 msgstr "Very good"
 
-#: plugin/Shortcodes/Shortcode.php:272
+#: plugin/Shortcodes/Shortcode.php:276
 msgid "Average"
 msgstr "Average"
 
-#: plugin/Shortcodes/Shortcode.php:273
+#: plugin/Shortcodes/Shortcode.php:277
 msgid "Poor"
 msgstr "Poor"
 
-#: plugin/Shortcodes/Shortcode.php:274
+#: plugin/Shortcodes/Shortcode.php:278
 msgid "Terrible"
 msgstr "Terrible"
 
@@ -1517,7 +1517,7 @@ msgctxt "admin-text"
 msgid "Restrict Limits To"
 msgstr "Restrict Limits To"
 
-#: config/settings.php:680, plugin/Metaboxes/AssignedPostsMetabox.php:20, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/screen/inline-edit.php:105, views/pages/tools/general/export-reviews.php:34
+#: config/settings.php:680, plugin/Metaboxes/AssignedPostsMetabox.php:20, plugin/Tinymce/SiteReviewsSummaryTinymce.php:25, plugin/Tinymce/SiteReviewsTinymce.php:56, views/partials/screen/inline-edit.php:105
 msgctxt "admin-text"
 msgid "Assigned Posts"
 msgstr "Assigned Posts"
@@ -2042,7 +2042,7 @@ msgstr ""
 "reviews. Keep in mind that enabling this option may also cause conflicts "
 "with incompatible plugins."
 
-#: plugin/Application.php:183, plugin/Controllers/SettingsController.php:162
+#: plugin/Application.php:198, plugin/Controllers/SettingsController.php:155
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr "License Keys"
@@ -2652,27 +2652,27 @@ msgctxt "admin-text"
 msgid "Review Content"
 msgstr "Review Content"
 
-#: plugin/Controllers/SettingsController.php:42
+#: plugin/Controllers/SettingsController.php:43
 msgctxt "admin-text"
 msgid "Settings updated."
 msgstr "Settings updated."
 
-#: plugin/Controllers/SettingsController.php:131
+#: plugin/Controllers/SettingsController.php:128
 msgctxt "admin-text"
 msgid "Please update the %s plugin to v%s or greater to enable integration."
 msgstr "Please update the %s plugin to v%s or greater to enable integration."
 
-#: plugin/Controllers/SettingsController.php:125
+#: plugin/Controllers/SettingsController.php:122
 msgctxt "admin-text"
 msgid "Please install/activate the %s plugin to enable integration."
 msgstr "Please install/activate the %s plugin to enable integration."
 
-#: plugin/Controllers/SettingsController.php:148
+#: plugin/Controllers/SettingsController.php:141
 msgctxt "admin-text"
 msgid "A license you entered could not be verified for the selected addon."
 msgstr "A license you entered could not be verified for the selected addon."
 
-#: plugin/Controllers/SettingsController.php:160
+#: plugin/Controllers/SettingsController.php:153
 msgctxt "admin-text"
 msgid ""
 "A license you entered is either invalid or has not yet been authorized for "
@@ -2681,7 +2681,7 @@ msgstr ""
 "A license you entered is either invalid or has not yet been authorized for "
 "your website."
 
-#: plugin/Controllers/SettingsController.php:161
+#: plugin/Controllers/SettingsController.php:154
 msgctxt "admin-text"
 msgid ""
 "To activate your license, please visit the %s page on your Nifty Plugins "
@@ -2865,17 +2865,17 @@ msgctxt "admin-text"
 msgid "Upgrade Guide"
 msgstr "Upgrade Guide"
 
-#: plugin/Defaults/AddonDefaults.php:63
+#: plugin/Defaults/AddonDefaults.php:62
 msgctxt "admin-text"
 msgid "View Add-on"
 msgstr "View Add-on"
 
-#: plugin/Defaults/AddonDefaults.php:60
+#: plugin/Defaults/AddonDefaults.php:59
 msgctxt "admin-text"
 msgid "Premium members only"
 msgstr "Premium members only"
 
-#: plugin/Defaults/AddonDefaults.php:61
+#: plugin/Defaults/AddonDefaults.php:60
 msgctxt "admin-text"
 msgid "beta"
 msgstr "beta"
@@ -3069,7 +3069,7 @@ msgctxt "admin-text"
 msgid "Show more details"
 msgstr "Show more details"
 
-#: plugin/Modules/Translation.php:124
+#: plugin/Modules/Translation.php:132
 msgctxt "admin-text"
 msgid ""
 "This custom translation is no longer valid as the original text has been "
@@ -3664,6 +3664,11 @@ msgstr "Update progress"
 msgctxt "admin-text"
 msgid "Enable reviews"
 msgstr "Enable reviews"
+
+#: views/woocommerce/settings.php:7
+msgctxt "admin-text"
+msgid "Import your existing WooCommerce product reviews %shere%s."
+msgstr "Import your existing WooCommerce product reviews %shere%s."
 
 #: plugin/Controllers/ListTableColumns/ColumnFilterAssignedPost.php:15
 msgctxt "admin-text"
@@ -4847,7 +4852,7 @@ msgctxt "admin-text"
 msgid "No title"
 msgstr "No title"
 
-#: views/pages/tools/general/export-reviews.php:6, views/pages/tools/general/export-reviews.php:41
+#: views/pages/tools/general/export-reviews.php:6, views/pages/tools/general/export-reviews.php:53
 msgctxt "admin-text"
 msgid "Export Reviews"
 msgstr "Export Reviews"
@@ -4889,10 +4894,40 @@ msgstr ""
 "you may need to export the Assigned Posts as %s since the Post IDs on the "
 "other website will likely be different."
 
+#: views/pages/tools/general/export-reviews.php:34
+msgctxt "admin-text"
+msgid "Export Assigned Posts As"
+msgstr "Export Assigned Posts As"
+
 #: views/pages/tools/general/export-reviews.php:36
 msgctxt "admin-text"
 msgid "Export as Post IDs"
 msgstr "Export as Post IDs"
+
+#: views/pages/tools/general/export-reviews.php:41
+msgctxt "admin-text"
+msgid "Export Reviews Submitted After"
+msgstr "Export Reviews Submitted After"
+
+#: views/pages/tools/general/export-reviews.php:45
+msgctxt "admin-text"
+msgid "Export Reviews With Status"
+msgstr "Export Reviews With Status"
+
+#: views/pages/tools/general/export-reviews.php:47
+msgctxt "admin-text"
+msgid "Approved and Unapproved reviews"
+msgstr "Approved and Unapproved reviews"
+
+#: views/pages/tools/general/export-reviews.php:48
+msgctxt "admin-text"
+msgid "Approved reviews only"
+msgstr "Approved reviews only"
+
+#: views/pages/tools/general/export-reviews.php:49
+msgctxt "admin-text"
+msgid "Unapproved reviews only"
+msgstr "Unapproved reviews only"
 
 #: views/pages/tools/general/export-settings.php:7, views/pages/tools/general/export-settings.php:21
 msgctxt "admin-text"
@@ -5732,7 +5767,7 @@ msgctxt "limit time (admin-text)"
 msgid "days"
 msgstr "days"
 
-#: plugin/Application.php:182
+#: plugin/Application.php:197
 msgctxt "License Keys (admin-text)"
 msgid ""
 "Enter the license key here. Your license can be found on the %s page of "
@@ -5840,154 +5875,154 @@ msgctxt "View Post (admin-text)"
 msgid "View %s"
 msgstr "View %s"
 
-#: plugin/Modules/Date.php:19
+#: plugin/Modules/Date.php:20
 msgctxt "%s: amount of time"
 msgid "in %s year"
 msgid_plural "in %s years"
 msgstr[0] "in %s year"
 msgstr[1] "in %s years"
 
-#: plugin/Modules/Date.php:20
+#: plugin/Modules/Date.php:21
 msgctxt "%s: amount of time"
 msgid "%s year"
 msgid_plural "%s years"
 msgstr[0] "%s year"
 msgstr[1] "%s years"
 
-#: plugin/Modules/Date.php:21
+#: plugin/Modules/Date.php:22
 msgctxt "%s: amount of time"
 msgid "%s year ago"
 msgid_plural "%s years ago"
 msgstr[0] "%s year ago"
 msgstr[1] "%s years ago"
 
-#: plugin/Modules/Date.php:25
+#: plugin/Modules/Date.php:26
 msgctxt "%s: amount of time"
 msgid "in %s month"
 msgid_plural "in %s months"
 msgstr[0] "in %s month"
 msgstr[1] "in %s months"
 
-#: plugin/Modules/Date.php:26
+#: plugin/Modules/Date.php:27
 msgctxt "%s: amount of time"
 msgid "%s month"
 msgid_plural "%s months"
 msgstr[0] "%s month"
 msgstr[1] "%s months"
 
-#: plugin/Modules/Date.php:27
+#: plugin/Modules/Date.php:28
 msgctxt "%s: amount of time"
 msgid "%s month ago"
 msgid_plural "%s months ago"
 msgstr[0] "%s month ago"
 msgstr[1] "%s months ago"
 
-#: plugin/Modules/Date.php:31
+#: plugin/Modules/Date.php:32
 msgctxt "%s: amount of time"
 msgid "in %s week"
 msgid_plural "in %s weeks"
 msgstr[0] "in %s week"
 msgstr[1] "in %s weeks"
 
-#: plugin/Modules/Date.php:32
+#: plugin/Modules/Date.php:33
 msgctxt "%s: amount of time"
 msgid "%s week"
 msgid_plural "%s weeks"
 msgstr[0] "%s week"
 msgstr[1] "%s weeks"
 
-#: plugin/Modules/Date.php:33
+#: plugin/Modules/Date.php:34
 msgctxt "%s: amount of time"
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "%s week ago"
 msgstr[1] "%s weeks ago"
 
-#: plugin/Modules/Date.php:37
+#: plugin/Modules/Date.php:38
 msgctxt "%s: amount of time"
 msgid "in %s day"
 msgid_plural "in %s days"
 msgstr[0] "in %s day"
 msgstr[1] "in %s days"
 
-#: plugin/Modules/Date.php:38
+#: plugin/Modules/Date.php:39
 msgctxt "%s: amount of time"
 msgid "%s day"
 msgid_plural "%s days"
 msgstr[0] "%s day"
 msgstr[1] "%s days"
 
-#: plugin/Modules/Date.php:39
+#: plugin/Modules/Date.php:40
 msgctxt "%s: amount of time"
 msgid "%s day ago"
 msgid_plural "%s days ago"
 msgstr[0] "%s day ago"
 msgstr[1] "%s days ago"
 
-#: plugin/Modules/Date.php:43
+#: plugin/Modules/Date.php:44
 msgctxt "%s: amount of time"
 msgid "in %s hour"
 msgid_plural "in %s hours"
 msgstr[0] "in %s hour"
 msgstr[1] "in %s hours"
 
-#: plugin/Modules/Date.php:44
+#: plugin/Modules/Date.php:45
 msgctxt "%s: amount of time"
 msgid "%s hour"
 msgid_plural "%s hours"
 msgstr[0] "%s hour"
 msgstr[1] "%s hours"
 
-#: plugin/Modules/Date.php:45
+#: plugin/Modules/Date.php:46
 msgctxt "%s: amount of time"
 msgid "%s hour ago"
 msgid_plural "%s hours ago"
 msgstr[0] "%s hour ago"
 msgstr[1] "%s hours ago"
 
-#: plugin/Modules/Date.php:49
+#: plugin/Modules/Date.php:50
 msgctxt "%s: amount of time"
 msgid "in %s minute"
 msgid_plural "in %s minutes"
 msgstr[0] "in %s minute"
 msgstr[1] "in %s minutes"
 
-#: plugin/Modules/Date.php:50
+#: plugin/Modules/Date.php:51
 msgctxt "%s: amount of time"
 msgid "%s minute"
 msgid_plural "%s minutes"
 msgstr[0] "%s minute"
 msgstr[1] "%s minutes"
 
-#: plugin/Modules/Date.php:51
+#: plugin/Modules/Date.php:52
 msgctxt "%s: amount of time"
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "%s minute ago"
 msgstr[1] "%s minutes ago"
 
-#: plugin/Modules/Date.php:55
+#: plugin/Modules/Date.php:56
 msgctxt "%s: amount of time"
 msgid "in %s second"
 msgid_plural "in %s seconds"
 msgstr[0] "in %s second"
 msgstr[1] "in %s seconds"
 
-#: plugin/Modules/Date.php:56
+#: plugin/Modules/Date.php:57
 msgctxt "%s: amount of time"
 msgid "%s second"
 msgid_plural "%s seconds"
 msgstr[0] "%s second"
 msgstr[1] "%s seconds"
 
-#: plugin/Modules/Date.php:57
+#: plugin/Modules/Date.php:58
 msgctxt "%s: amount of time"
 msgid "%s second ago"
 msgid_plural "%s seconds ago"
 msgstr[0] "%s second ago"
 msgstr[1] "%s seconds ago"
 
-#: plugin/Modules/Date.php:73
+#: plugin/Modules/Date.php:74
 msgctxt "The past and present/future tense of now"
 msgid "A moment ago"
 msgid_plural "Now"
