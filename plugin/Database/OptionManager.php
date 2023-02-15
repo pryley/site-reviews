@@ -33,10 +33,7 @@ class OptionManager
         return '';
     }
 
-    /**
-     * @param string $path
-     */
-    public function delete($path): bool
+    public function delete(string $path): bool
     {
         return $this->set(Arr::remove($this->all(), $path));
     }
@@ -67,35 +64,32 @@ class OptionManager
         $option = Arr::get($this->all(), $path, $fallback);
         $path = ltrim(Str::removePrefix($path, 'settings'), '.');
         if (!empty($path)) {
-            $hook = 'option/'.str_replace('.', '/', $path);
-            $option = glsr()->filter($hook, $option);
+            $path = str_replace('.', '/', $path);
+            $option = glsr()->filter('option/'.$path, $option);
         }
         return Cast::to($cast, $option);
     }
 
     /**
      * @param string $path
-     * @param array $fallback
      */
-    public function getArray($path, $fallback = []): array
+    public function getArray($path, array $fallback = []): array
     {
         return $this->get($path, $fallback, 'array');
     }
 
     /**
      * @param string $path
-     * @param string|int|bool $fallback
      */
-    public function getBool($path, $fallback = false): bool
+    public function getBool($path, bool $fallback = false): bool
     {
         return $this->get($path, $fallback, 'bool');
     }
 
     /**
      * @param string $path
-     * @param int $fallback
      */
-    public function getInt($path, $fallback = 0): int
+    public function getInt($path, int $fallback = 0): int
     {
         return $this->get($path, $fallback, 'int');
     }

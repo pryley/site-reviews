@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
 use GeminiLabs\SiteReviews\Database\ReviewManager;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
 
 class AssignUsers implements Contract
@@ -14,7 +15,7 @@ class AssignUsers implements Contract
     public function __construct(Review $review, array $userIds)
     {
         $this->review = $review;
-        $this->userIds = $userIds;
+        $this->userIds = Arr::uniqueInt($userIds);
     }
 
     /**

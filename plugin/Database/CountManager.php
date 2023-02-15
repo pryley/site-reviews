@@ -13,11 +13,7 @@ class CountManager
     public const META_RANKING = '_glsr_ranking';
     public const META_REVIEWS = '_glsr_reviews';
 
-    /**
-     * @param int $postId
-     * @return void
-     */
-    public function posts($postId)
+    public function posts(int $postId): void
     {
         $counts = glsr_get_ratings(['assigned_posts' => $postId]);
         update_post_meta($postId, static::META_AVERAGE, $counts->average);
@@ -25,39 +21,29 @@ class CountManager
         update_post_meta($postId, static::META_REVIEWS, $counts->reviews);
     }
 
-    /**
-     * @return void
-     */
-    public function recalculate()
+    public function recalculate(): void
     {
         $this->recalculateFor('post');
         $this->recalculateFor('term');
         $this->recalculateFor('user');
     }
 
-    /**
-     * @param string $type
-     * @return void
-     */
-    public function recalculateFor($type)
+    public function recalculateFor(string $metaGroup): void
     {
+        $metaGroup = strtolower(Str::restrictTo(['post', 'term', 'user'], $metaGroup, 'post'));
         $metaKeys = [static::META_AVERAGE, static::META_RANKING, static::META_REVIEWS];
-        $metaTable = $this->metaTable($type);
+        $metaTable = $this->metaTable($metaGroup);
         glsr(Database::class)->deleteMeta($metaKeys, $metaTable);
-        if ($values = $this->ratingValuesForInsert($type)) {
+        if ($values = $this->ratingValuesForInsert($metaGroup)) {
             glsr(Database::class)->insertBulk($metaTable, $values, [
-                $this->metaId($type),
+                $this->metaId($metaGroup),
                 'meta_key',
                 'meta_value',
             ]);
         }
     }
 
-    /**
-     * @param int $termId
-     * @return void
-     */
-    public function terms($termId)
+    public function terms(int $termId): void
     {
         $counts = glsr_get_ratings(['assigned_terms' => $termId]);
         update_term_meta($termId, static::META_AVERAGE, $counts->average);
@@ -65,11 +51,7 @@ class CountManager
         update_term_meta($termId, static::META_REVIEWS, $counts->reviews);
     }
 
-    /**
-     * @param int $userId
-     * @return void
-     */
-    public function users($userId)
+    public function users(int $userId): void
     {
         $counts = glsr_get_ratings(['assigned_users' => $userId]);
         update_user_meta($userId, static::META_AVERAGE, $counts->average);
@@ -77,41 +59,20 @@ class CountManager
         update_user_meta($userId, static::META_REVIEWS, $counts->reviews);
     }
 
-    /**
-     * @param string $type
-     * @return string
-     */
-    protected function metaId($type)
+    protected function metaId(string $metaGroup): string
     {
-        return $this->metaType($type).'_id';
+        return sprintf('%s_id', $metaGroup);
     }
 
-    /**
-     * @param string $type
-     * @return string
-     */
-    protected function metaTable($type)
+    protected function metaTable(string $metaGroup): string
     {
-        return $this->metaType($type).'meta';
+        return sprintf('%smeta', $metaGroup);
     }
 
-    /**
-     * @param string $type
-     * @return string
-     */
-    protected function metaType($type)
+    protected function ratingValuesForInsert(string $metaGroup): array
     {
-        return Str::restrictTo(['post', 'term', 'user'], Cast::toString($type), 'post');
-    }
-
-    /**
-     * @param string $metaType
-     * @return array
-     */
-    protected function ratingValuesForInsert($metaType)
-    {
-        $metaId = $this->metaId($metaType);
-        $ratings = glsr(RatingManager::class)->ratingsGroupedBy($metaType);
+        $metaId = $this->metaId($metaGroup);
+        $ratings = glsr(RatingManager::class)->ratingsGroupedBy($metaGroup);
         $values = [];
         foreach ($ratings as $id => $counts) {
             $values[] = [
