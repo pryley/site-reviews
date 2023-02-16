@@ -23,7 +23,7 @@ class ProductController
     public function filterCommentsTemplate($template)
     {
         if (current_theme_supports('woocommerce') && 'product' === get_post_type()) {
-            return glsr()->path('views/woocommerce/overrides/single-product-reviews.php');
+            return glsr()->path('views/integrations/woocommerce/overrides/single-product-reviews.php');
         }
         return $template;
     }
@@ -222,10 +222,10 @@ class ProductController
     public function filterWoocommerceTemplate($template, $templateName)
     {
         if ('loop/rating.php' === $templateName) {
-            return glsr()->path('views/woocommerce/overrides/loop-rating.php');
+            return glsr()->path('views/integrations/woocommerce/overrides/loop-rating.php');
         }
         if ('single-product-reviews.php' === $templateName) {
-            return glsr()->path('views/woocommerce/overrides/single-product-reviews.php');
+            return glsr()->path('views/integrations/woocommerce/overrides/single-product-reviews.php');
         }
         return $template;
     }

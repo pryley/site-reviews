@@ -18,7 +18,7 @@ class ImportController extends BaseController
         $newPaths = [];
         foreach ($paths as $path) {
             if (Str::endsWith($path, 'import-reviews.php')) {
-                $newPaths[] = glsr()->path('views/woocommerce/tools/import-product-reviews.php');
+                $newPaths[] = glsr()->path('views/integrations/woocommerce/tools/import-product-reviews.php');
             }
             $newPaths[] = $path;
         }

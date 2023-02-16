@@ -71,7 +71,7 @@ class Controller extends BaseController
      */
     public function renderSettings(string $rows): void
     {
-        glsr(Template::class)->render('woocommerce/settings', [
+        glsr(Template::class)->render('integrations/woocommerce/settings', [
             'context' => [
                 'rows' => $rows,
             ],

@@ -1,3 +1,5 @@
+<?php defined('WPINC') || die; ?>
+
 <div class="card" style="
     background-color: #fef8ee;
     border-color: #f0b849;

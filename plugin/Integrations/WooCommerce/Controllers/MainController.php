@@ -184,7 +184,7 @@ class MainController extends BaseController
         if ('product_page_product-reviews' !== $screen->base || 'edit.php?post_type=product' !== Arr::get($screen, 'parent_file')) {
             return;
         }
-        glsr()->render('woocommerce/notices/reviews');
+        glsr()->render('integrations/woocommerce/notices/reviews');
     }
 
     /**
@@ -193,7 +193,7 @@ class MainController extends BaseController
     public function renderProductOptions(): void
     {
         global $product_object;
-        glsr(Template::class)->render('woocommerce/product-options', [
+        glsr(Template::class)->render('integrations/woocommerce/product-options', [
             'product' => $product_object,
         ]);
     }
