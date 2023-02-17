@@ -184,6 +184,11 @@ jQuery(function ($) {
         }, 50);
     });
 
+    // allow Enter keypress in the response textarea
+    setTimeout(function () {
+        $('td', '.post-type-site-review #inline-edit').off('keydown');
+    }, 50);
+
     const $bulkActionNotice = $('#glsr-notices .bulk-action-notice').on('click', 'button.button-link', function() {
         $(this)
             .toggleClass('bulk-action-errors-collapsed')
