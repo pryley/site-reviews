@@ -15,7 +15,7 @@ class SiteReviewsFormTinymce extends TinymceGenerator
         ], [
             'label' => _x('Title', 'admin-text', 'site-reviews'),
             'name' => 'title',
-            'tooltip' => esc_attr_x('Enter a custom shortcode heading.', 'admin-text', 'site-reviews'),
+            'tooltip' => esc_attr_x('Enter a custom shortcode title.', 'admin-text', 'site-reviews'),
             'type' => 'textbox',
         ], [
             'label' => _x('Description', 'admin-text', 'site-reviews'),

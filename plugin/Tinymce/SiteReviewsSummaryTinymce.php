@@ -16,7 +16,7 @@ class SiteReviewsSummaryTinymce extends SiteReviewsTinymce
         ], [
             'label' => _x('Title', 'admin-text', 'site-reviews'),
             'name' => 'title',
-            'tooltip' => esc_attr_x('Enter a custom shortcode heading.', 'admin-text', 'site-reviews'),
+            'tooltip' => esc_attr_x('Enter a custom shortcode title.', 'admin-text', 'site-reviews'),
             'type' => 'textbox',
         ],
         $this->getTypes(_x('Which type of review would you like to use?', 'admin-text', 'site-reviews')),

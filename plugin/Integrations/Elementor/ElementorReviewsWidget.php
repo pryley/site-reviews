@@ -13,7 +13,7 @@ class ElementorReviewsWidget extends ElementorWidget
      */
     public function get_icon()
     {
-        return 'eicon-testimonial';
+        return 'eicon-glsr-reviews';
     }
 
     /**

@@ -209,6 +209,7 @@ class AdminController extends Controller
     {
         $this->execute(new RegisterTinymcePopups([
             'site_reviews' => _x('Recent Reviews', 'admin-text', 'site-reviews'),
+            'site_review' => _x('Single Review', 'admin-text', 'site-reviews'),
             'site_reviews_form' => _x('Submit a Review', 'admin-text', 'site-reviews'),
             'site_reviews_summary' => _x('Summary of Reviews', 'admin-text', 'site-reviews'),
         ]));

@@ -78,10 +78,8 @@ class Query
 
     /**
      * @param int $postId
-     * @param bool $bypassCache
-     * @return Review
      */
-    public function review($postId, $bypassCache = false)
+    public function review($postId, bool $bypassCache = false): Review
     {
         $reviewId = Cast::toInt($postId);
         $review = Helper::ifTrue($bypassCache, null, function () use ($reviewId) {

@@ -173,10 +173,11 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.5.0 (2023-02-15) =
+= 6.5.0 (2023-02-16) =
 
 - Added date and status options to the Export Reviews tool
-- Fixed broken links on Addons page
+- Fixed ability to press Enter when writing a response to a review using the inline editor on the All Reviews admin page
+- Fixed broke
 - Fixed broken translations in the Strings settings which contained HTML entities
 - Fixed button loading in the review form
 - Fixed compatibility with Multilingual plugins (you should now be able to translate the addons)

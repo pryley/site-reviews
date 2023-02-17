@@ -1,6 +1,7 @@
 <?php defined('ABSPATH') || exit;
 
 $sections = [ // order is intentional
+    trailingslashit(__DIR__).'shortcodes/site_review.php',
     trailingslashit(__DIR__).'shortcodes/site_reviews.php',
     trailingslashit(__DIR__).'shortcodes/site_reviews_summary.php',
     trailingslashit(__DIR__).'shortcodes/site_reviews_form.php',

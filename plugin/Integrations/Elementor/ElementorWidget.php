@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Integrations\Elementor;
 
 use Elementor\Widget_Base;
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 abstract class ElementorWidget extends Widget_Base
@@ -38,10 +39,10 @@ abstract class ElementorWidget extends Widget_Base
     }
 
     /**
-     * @param string $setting_key
+     * @param string $settingKey
      * @return mixed
      */
-    public function get_settings_for_display($setting_key = null)
+    public function get_settings_for_display($settingKey = null)
     {
         $settings = parent::get_settings_for_display();
         $settings['class'] = $settings['shortcode_class']; // @compat
@@ -56,7 +57,11 @@ abstract class ElementorWidget extends Widget_Base
             }
         }
         $settings['hide'] = array_filter($hide);
-        return glsr()->filterArray('elementor/display/settings', $settings, $this);
+        $settings = glsr()->filterArray('elementor/display/settings', $settings, $this);
+        if ($settingKey) {
+            return Arr::get($settings, $settingKey);
+        }
+        return $settings;
     }
 
     /**

@@ -1029,7 +1029,7 @@ msgctxt "admin-text"
 msgid "Rating"
 msgstr ""
 
-#: config/settings.php:640, plugin/Tinymce/SiteReviewsFormTinymce.php:16, plugin/Tinymce/SiteReviewsSummaryTinymce.php:17, plugin/Tinymce/SiteReviewsTinymce.php:17, plugin/Widgets/SiteReviewsFormWidget.php:20, plugin/Widgets/SiteReviewsSummaryWidget.php:20, plugin/Widgets/SiteReviewsWidget.php:20
+#: config/settings.php:640, plugin/Tinymce/SiteReviewsFormTinymce.php:16, plugin/Tinymce/SiteReviewsSummaryTinymce.php:17, plugin/Tinymce/SiteReviewsTinymce.php:17, plugin/Tinymce/SiteReviewTinymce.php:17, plugin/Widgets/SiteReviewsFormWidget.php:20, plugin/Widgets/SiteReviewsSummaryWidget.php:20, plugin/Widgets/SiteReviewsWidget.php:20, plugin/Widgets/SiteReviewWidget.php:17
 msgctxt "admin-text"
 msgid "Title"
 msgstr ""
@@ -1682,7 +1682,7 @@ msgctxt "admin-text"
 msgid "Untitled"
 msgstr ""
 
-#: plugin/Addons/Controller.php:77, plugin/Controllers/AdminController.php:48, plugin/Controllers/MenuController.php:54, plugin/Integrations/Elementor/ElementorWidget.php:136, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
+#: plugin/Addons/Controller.php:77, plugin/Controllers/AdminController.php:48, plugin/Controllers/MenuController.php:54, plugin/Integrations/Elementor/ElementorWidget.php:141, views/pages/tools/sync.php:23, views/partials/addons/addon.php:16
 msgctxt "admin-text"
 msgid "Settings"
 msgstr ""
@@ -1695,6 +1695,11 @@ msgstr ""
 #: plugin/Addons/Updater.php:237
 msgctxt "admin-text"
 msgid "A valid license key is required to download this update."
+msgstr ""
+
+#: plugin/Blocks/SiteReviewBlock.php:65
+msgctxt "admin-text"
+msgid "Enter a valid Review Post ID to display a review."
 msgstr ""
 
 #: plugin/Blocks/SiteReviewsBlock.php:111, plugin/Blocks/SiteReviewsFormBlock.php:85, plugin/Blocks/SiteReviewsSummaryBlock.php:100
@@ -1728,37 +1733,37 @@ msgstr ""
 msgid "Your review could not be submitted, and the error has been logged. Please notify the site administrator."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:23
+#: plugin/Commands/EnqueueAdminAssets.php:24
 msgctxt "admin-text"
 msgid "You can pin exceptional reviews so that they are always shown first."
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:31
+#: plugin/Commands/EnqueueAdminAssets.php:32
 msgctxt "admin-text"
 msgid "Pin Your Reviews"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:93, plugin/Overrides/ReviewsListTable.php:60, views/partials/screen/inline-edit.php:68, views/partials/screen/inline-edit.php:86, views/partials/screen/inline-edit.php:96
+#: plugin/Commands/EnqueueAdminAssets.php:94, plugin/Overrides/ReviewsListTable.php:60, views/partials/screen/inline-edit.php:68, views/partials/screen/inline-edit.php:86, views/partials/screen/inline-edit.php:96
 msgctxt "admin-text"
 msgid "No Change"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:94, plugin/Overrides/ReviewsListTable.php:68
+#: plugin/Commands/EnqueueAdminAssets.php:95, plugin/Overrides/ReviewsListTable.php:68
 msgctxt "admin-text"
 msgid "No Author"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:97, plugin/Metaboxes/AuthorMetabox.php:30
+#: plugin/Commands/EnqueueAdminAssets.php:98, plugin/Metaboxes/AuthorMetabox.php:30
 msgctxt "admin-text"
 msgid "Author Unknown"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:128
+#: plugin/Commands/EnqueueAdminAssets.php:130
 msgctxt "admin-text"
 msgid "Rollback failed"
 msgstr ""
 
-#: plugin/Commands/EnqueueAdminAssets.php:129
+#: plugin/Commands/EnqueueAdminAssets.php:131
 msgctxt "admin-text"
 msgid "Searching..."
 msgstr ""
@@ -1912,17 +1917,22 @@ msgctxt "admin-text"
 msgid "Recent Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:212
+#: plugin/Controllers/AdminController.php:212, plugin/Widgets/SiteReviewWidget.php:52, plugin/Integrations/Elementor/ElementorReviewWidget.php:31
+msgctxt "admin-text"
+msgid "Single Review"
+msgstr ""
+
+#: plugin/Controllers/AdminController.php:213
 msgctxt "admin-text"
 msgid "Submit a Review"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:213, plugin/Widgets/SiteReviewsSummaryWidget.php:81
+#: plugin/Controllers/AdminController.php:214, plugin/Widgets/SiteReviewsSummaryWidget.php:81
 msgctxt "admin-text"
 msgid "Summary of Reviews"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:326, plugin/Controllers/AdminController.php:345, plugin/Controllers/AdminController.php:359
+#: plugin/Controllers/AdminController.php:327, plugin/Controllers/AdminController.php:346, plugin/Controllers/AdminController.php:360
 msgctxt "admin-text"
 msgid "Nothing found."
 msgstr ""
@@ -2522,6 +2532,10 @@ msgstr ""
 #: plugin/Defaults/RevisionFieldsDefaults.php:22
 msgctxt "admin-text"
 msgid "Url"
+msgstr ""
+
+#: plugin/Defaults/SiteReviewDefaults.php:41
+msgid "Review not found."
 msgstr ""
 
 #: plugin/Defaults/SlackDefaults.php:15
@@ -3154,47 +3168,47 @@ msgstr ""
 msgid "You may also %s for an account."
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:85
+#: plugin/Shortcodes/SiteReviewShortcode.php:47, plugin/Shortcodes/SiteReviewsShortcode.php:85
 msgctxt "admin-text"
 msgid "Hide the title"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:86, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:90
+#: plugin/Shortcodes/SiteReviewShortcode.php:48, plugin/Shortcodes/SiteReviewsShortcode.php:86, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:90
 msgctxt "admin-text"
 msgid "Hide the rating"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:87
+#: plugin/Shortcodes/SiteReviewShortcode.php:49, plugin/Shortcodes/SiteReviewsShortcode.php:87
 msgctxt "admin-text"
 msgid "Hide the date"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:88
+#: plugin/Shortcodes/SiteReviewShortcode.php:50, plugin/Shortcodes/SiteReviewsShortcode.php:88
 msgctxt "admin-text"
 msgid "Hide the assigned links (if shown)"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:89
+#: plugin/Shortcodes/SiteReviewShortcode.php:51, plugin/Shortcodes/SiteReviewsShortcode.php:89
 msgctxt "admin-text"
 msgid "Hide the content"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:90
+#: plugin/Shortcodes/SiteReviewShortcode.php:52, plugin/Shortcodes/SiteReviewsShortcode.php:90
 msgctxt "admin-text"
 msgid "Hide the avatar (if shown)"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:91
+#: plugin/Shortcodes/SiteReviewShortcode.php:53, plugin/Shortcodes/SiteReviewsShortcode.php:91
 msgctxt "admin-text"
 msgid "Hide the author"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:92
+#: plugin/Shortcodes/SiteReviewShortcode.php:54, plugin/Shortcodes/SiteReviewsShortcode.php:92
 msgctxt "admin-text"
 msgid "Hide the verified badge"
 msgstr ""
 
-#: plugin/Shortcodes/SiteReviewsShortcode.php:93
+#: plugin/Shortcodes/SiteReviewShortcode.php:55, plugin/Shortcodes/SiteReviewsShortcode.php:93
 msgctxt "admin-text"
 msgid "Hide the response"
 msgstr ""
@@ -3219,14 +3233,14 @@ msgctxt "admin-text"
 msgid "Hide if no reviews are found"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:14, plugin/Tinymce/SiteReviewsSummaryTinymce.php:13, plugin/Tinymce/SiteReviewsTinymce.php:13
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:14, plugin/Tinymce/SiteReviewsSummaryTinymce.php:13, plugin/Tinymce/SiteReviewsTinymce.php:13, plugin/Tinymce/SiteReviewTinymce.php:13
 msgctxt "admin-text"
 msgid "All settings are optional."
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:18, plugin/Tinymce/SiteReviewsSummaryTinymce.php:19, plugin/Tinymce/SiteReviewsTinymce.php:19
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:18, plugin/Tinymce/SiteReviewsSummaryTinymce.php:19, plugin/Tinymce/SiteReviewsTinymce.php:19, plugin/Tinymce/SiteReviewTinymce.php:19
 msgctxt "admin-text"
-msgid "Enter a custom shortcode heading."
+msgid "Enter a custom shortcode title."
 msgstr ""
 
 #: plugin/Tinymce/SiteReviewsFormTinymce.php:21, plugin/Widgets/SiteReviewsFormWidget.php:24
@@ -3264,17 +3278,17 @@ msgctxt "admin-text"
 msgid "Automatically assign reviews to a User ID. You may also enter \"%s\" to use the ID of the logged-in user."
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:41, plugin/Tinymce/SiteReviewsSummaryTinymce.php:44, plugin/Tinymce/SiteReviewsTinymce.php:75
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:41, plugin/Tinymce/SiteReviewsSummaryTinymce.php:44, plugin/Tinymce/SiteReviewsTinymce.php:75, plugin/Tinymce/SiteReviewTinymce.php:22
 msgctxt "admin-text"
 msgid "Classes"
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:43, plugin/Tinymce/SiteReviewsSummaryTinymce.php:46, plugin/Tinymce/SiteReviewsTinymce.php:77
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:43, plugin/Tinymce/SiteReviewsSummaryTinymce.php:46, plugin/Tinymce/SiteReviewsTinymce.php:77, plugin/Tinymce/SiteReviewTinymce.php:24
 msgctxt "admin-text"
 msgid "Add custom CSS classes to the shortcode."
 msgstr ""
 
-#: plugin/Tinymce/SiteReviewsFormTinymce.php:48, plugin/Tinymce/SiteReviewsSummaryTinymce.php:51, plugin/Tinymce/SiteReviewsTinymce.php:82
+#: plugin/Tinymce/SiteReviewsFormTinymce.php:48, plugin/Tinymce/SiteReviewsSummaryTinymce.php:51, plugin/Tinymce/SiteReviewsTinymce.php:82, plugin/Tinymce/SiteReviewTinymce.php:29
 msgctxt "admin-text"
 msgid "Hide"
 msgstr ""
@@ -3436,7 +3450,7 @@ msgctxt "admin-text"
 msgid "Automatically assign reviews to a User ID"
 msgstr ""
 
-#: plugin/Widgets/SiteReviewsFormWidget.php:47, plugin/Widgets/SiteReviewsSummaryWidget.php:50, plugin/Widgets/SiteReviewsWidget.php:68
+#: plugin/Widgets/SiteReviewsFormWidget.php:47, plugin/Widgets/SiteReviewsSummaryWidget.php:50, plugin/Widgets/SiteReviewsWidget.php:68, plugin/Widgets/SiteReviewWidget.php:21
 msgctxt "admin-text"
 msgid "Enter any custom CSS classes here"
 msgstr ""
@@ -3514,6 +3528,11 @@ msgstr ""
 #: plugin/Widgets/SiteReviewsWidget.php:105
 msgctxt "admin-text"
 msgid "Site Reviews: Display your recent reviews."
+msgstr ""
+
+#: plugin/Widgets/SiteReviewWidget.php:44
+msgctxt "admin-text"
+msgid "Site Reviews: Display a single review."
 msgstr ""
 
 #: plugin/Widgets/Widget.php:103
@@ -3755,6 +3774,11 @@ msgctxt "admin-text"
 msgid "Enable the schema?"
 msgstr ""
 
+#: plugin/Integrations/Elementor/ElementorReviewWidget.php:46
+msgctxt "admin-text"
+msgid "Review Post ID"
+msgstr ""
+
 #: plugin/Integrations/Elementor/ElementorSummaryWidget.php:30
 msgctxt "admin-text"
 msgid "Rating Summary"
@@ -3770,62 +3794,62 @@ msgctxt "admin-text"
 msgid "Custom Rating Field Name"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:84
+#: plugin/Integrations/Elementor/ElementorWidget.php:89
 msgctxt "admin-text"
 msgid "Specific Post ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:85
+#: plugin/Integrations/Elementor/ElementorWidget.php:90
 msgctxt "admin-text"
 msgid "The Current Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:86
+#: plugin/Integrations/Elementor/ElementorWidget.php:91
 msgctxt "admin-text"
 msgid "The Parent Page"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:104
+#: plugin/Integrations/Elementor/ElementorWidget.php:109
 msgctxt "admin-text"
 msgid "Specific User ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:105
+#: plugin/Integrations/Elementor/ElementorWidget.php:110
 msgctxt "admin-text"
 msgid "The Logged-in user"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:106
+#: plugin/Integrations/Elementor/ElementorWidget.php:111
 msgctxt "admin-text"
 msgid "The Page author"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:107
+#: plugin/Integrations/Elementor/ElementorWidget.php:112
 msgctxt "admin-text"
 msgid "The Profile user (BuddyPress/Ultimate Member)"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:120
+#: plugin/Integrations/Elementor/ElementorWidget.php:125
 msgctxt "admin-text"
 msgid "Limit the Type of Reviews"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:140
+#: plugin/Integrations/Elementor/ElementorWidget.php:145
 msgctxt "admin-text"
 msgid "Advanced"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:186
+#: plugin/Integrations/Elementor/ElementorWidget.php:191
 msgctxt "admin-text"
 msgid "Custom ID"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:190
+#: plugin/Integrations/Elementor/ElementorWidget.php:195
 msgctxt "admin-text"
 msgid "Separate multiple classes with spaces."
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorWidget.php:192
+#: plugin/Integrations/Elementor/ElementorWidget.php:197
 msgctxt "admin-text"
 msgid "Additional CSS classes"
 msgstr ""

@@ -3,7 +3,7 @@
 namespace GeminiLabs\SiteReviews\Blocks;
 
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode as Shortcode;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsSummaryShortcode;
 
 class SiteReviewsSummaryBlock extends Block
 {
@@ -78,7 +78,7 @@ class SiteReviewsSummaryBlock extends Block
     public function render(array $attributes)
     {
         $attributes['class'] = $attributes['className'];
-        $shortcode = glsr(Shortcode::class);
+        $shortcode = glsr(SiteReviewsSummaryShortcode::class);
         if ('edit' == filter_input(INPUT_GET, 'context')) {
             $attributes = $this->normalize($attributes);
             if (!$this->hasVisibleFields($shortcode, $attributes)) {

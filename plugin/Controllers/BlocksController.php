@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\EnqueuePublicAssets;
+use GeminiLabs\SiteReviews\Commands\RegisterBlocks;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Style;
@@ -87,18 +88,12 @@ class BlocksController extends Controller
      */
     public function registerBlocks()
     {
-        $blocks = [
-            'form', 'reviews', 'summary',
-        ];
-        foreach ($blocks as $block) {
-            $id = str_replace('_reviews', '', glsr()->id.'_'.$block);
-            $blockClass = Helper::buildClassName([$id, 'block'], 'Blocks');
-            if (!class_exists($blockClass)) {
-                glsr_log()->error(sprintf('Block class missing (%s)', $blockClass));
-                continue;
-            }
-            glsr($blockClass)->register($block);
-        }
+        $this->execute(new RegisterBlocks([
+            'site_review',
+            'site_reviews',
+            'site_reviews_form',
+            'site_reviews_summary',
+        ]));
     }
 
     /**

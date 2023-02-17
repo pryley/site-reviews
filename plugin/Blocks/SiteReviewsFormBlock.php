@@ -5,7 +5,7 @@ namespace GeminiLabs\SiteReviews\Blocks;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Html\Attributes;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
-use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode as Shortcode;
+use GeminiLabs\SiteReviews\Shortcodes\SiteReviewsFormShortcode;
 
 class SiteReviewsFormBlock extends Block
 {
@@ -64,7 +64,7 @@ class SiteReviewsFormBlock extends Block
     public function render(array $attributes)
     {
         $attributes['class'] = $attributes['className'];
-        $shortcode = glsr(Shortcode::class);
+        $shortcode = glsr(SiteReviewsFormShortcode::class);
         if ('edit' == filter_input(INPUT_GET, 'context')) {
             if (!$this->hasVisibleFields($shortcode, $attributes)) {
                 $this->filterInterpolation();

@@ -13,6 +13,7 @@ class Hooks extends AbstractHooks
             ['filterElementorStarRatingDefaults', 'site-reviews/defaults/star-rating/defaults'],
             ['registerElementorCategory', 'elementor/elements/categories_registered'],
             ['registerElementorWidgets', 'elementor/widgets/register'],
+            ['registerInlineStyles', 'elementor/editor/after_enqueue_styles'],
         ]);
     }
 }

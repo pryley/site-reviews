@@ -1,0 +1,82 @@
+const { _x } = wp.i18n;
+const { createBlock, registerBlockType } = wp.blocks;
+const { InspectorAdvancedControls, InspectorControls } = wp.blockEditor;
+const { Icon, PanelBody, TextControl } = wp.components;
+const {
+    CheckboxControlList,
+    ServerSideRender,
+    onRender,
+    transformWidgetAttributes,
+} = GLSR.blocks;
+
+const blockName = GLSR.nameprefix + '/review';
+
+const attributes = {
+    className: { default: '', type: 'string' },
+    hide: { default: '', type: 'string' },
+    id: { default: '', type: 'string' },
+    post_id: { default: '', type: 'string' },
+};
+
+const edit = props => {
+    const { attributes: { hide, id, post_id }, className, setAttributes } = props;
+    const inspectorControls = {
+        post_id: <TextControl
+            key={ 'post_id' }
+            label={ _x('Review Post ID', 'admin-text', 'site-reviews') }
+            onChange={ post_id => setAttributes({ post_id }) }
+            value={ post_id }
+        />,
+        hide: CheckboxControlList(GLSR.hideoptions.site_review, hide, setAttributes),
+    };
+    const inspectorPanels = {
+        panel_settings: <PanelBody title={ _x('Settings', 'admin-text', 'site-reviews')}>
+            { Object.values(wp.hooks.applyFilters(GLSR.nameprefix+'.review.InspectorControls', inspectorControls, props)) }
+        </PanelBody>
+    };
+    const inspectorAdvancedControls = {
+        id: <TextControl
+            label={ _x('Custom ID', 'admin-text', 'site-reviews') }
+            onChange={ id => setAttributes({ id }) }
+            value={ id }
+        />,
+    };
+    return [
+        <InspectorControls>
+            { Object.values(wp.hooks.applyFilters(GLSR.nameprefix+'.review.InspectorPanels', inspectorPanels, props)) }
+        </InspectorControls>,
+        <InspectorAdvancedControls>
+            { Object.values(wp.hooks.applyFilters(GLSR.nameprefix+'.review.InspectorAdvancedControls', inspectorAdvancedControls, props)) }
+        </InspectorAdvancedControls>,
+        <ServerSideRender block={ blockName } attributes={ props.attributes } onRender={ onRender }>
+        </ServerSideRender>
+    ];
+};
+
+wp.hooks.addFilter('blocks.getBlockAttributes', blockName, (attributes, block, unknown, saved) => {
+    return attributes;
+});
+
+export default registerBlockType(blockName, {
+    attributes: attributes,
+    category: GLSR.nameprefix,
+    description: _x('Display a single review.', 'admin-text', 'site-reviews'),
+    edit: edit,
+    icon: () => (
+        <Icon icon={ <svg><path d="M12 2a.36.36 0 0 1 .321.199l2.968 6.01a.36.36 0 0 0 .268.196l6.634.963a.36.36 0 0 1 .199.612l-4.8 4.676a.36.36 0 0 0-.103.318l1.133 6.605a.36.36 0 0 1-.521.378l-5.933-3.12a.36.36 0 0 0-.334 0l-5.934 3.118a.36.36 0 0 1-.519-.377l1.133-6.605a.36.36 0 0 0-.103-.318L1.609 9.981a.36.36 0 0 1 .201-.612l6.632-.963a.36.36 0 0 0 .27-.196l2.967-6.01A.36.36 0 0 1 12 2zm0 2.95v12.505c.492 0 .982.117 1.43.35l3.328 1.745-.636-3.694c-.171-.995.16-2.009.885-2.713l2.693-2.617-3.724-.539c-1.001-.145-1.866-.772-2.313-1.675L12 4.95z"/></svg> } />
+    ),
+    keywords: ['review'],
+    save: () => null,
+    supports: {
+        html: false,
+    },
+    title: _x('Single Review', 'admin-text', 'site-reviews'),
+    transforms: {
+        from: [{
+            type: 'block',
+            blocks: ['core/legacy-widget'],
+            isMatch: ({ idBase, instance }) => idBase === 'glsr_site-review' && !! instance?.raw,
+            transform: ({ instance }) => createBlock(blockName, transformWidgetAttributes(instance, attributes)),
+        }],
+    },
+});
