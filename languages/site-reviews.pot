@@ -1409,7 +1409,7 @@ msgctxt "admin-text"
 msgid "This will completely replace the default WooCommerce review system with Site Reviews. If you have existing WooCommerce comment reviews, you may need to first export them to a CSV file, and then import them using the %s tool."
 msgstr ""
 
-#: config/woocommerce.php:8, views/woocommerce/tools/import-product-reviews.php:24, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:186
+#: config/woocommerce.php:8, views/integrations/woocommerce/tools/import-product-reviews.php:24, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:186
 msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr ""
@@ -2277,42 +2277,47 @@ msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:251
+#: plugin/Controllers/ToolsController.php:255
 msgctxt "admin-text"
-msgid "The plugin has been migrated sucessfully, please reload the page."
+msgid "The plugin has been migrated sucessfully, please %s the page."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:248
-msgctxt "admin-text"
-msgid "All plugin migrations have been run successfully, please reload the page."
+#: plugin/Controllers/ToolsController.php:256, plugin/Controllers/ToolsController.php:250
+msgctxt "(admin-text) e.g. please reload the page"
+msgid "reload"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:274
+#: plugin/Controllers/ToolsController.php:249
+msgctxt "admin-text"
+msgid "All plugin migrations have been run successfully, please %s the page."
+msgstr ""
+
+#: plugin/Controllers/ToolsController.php:280
 msgctxt "admin-text"
 msgid "The review relationships have been repaired."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:296
+#: plugin/Controllers/ToolsController.php:302
 msgctxt "admin-text"
 msgid "The assigned meta values have been reset."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:322
+#: plugin/Controllers/ToolsController.php:328
 msgctxt "admin-text"
 msgid "The permissions have been reset."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:333
+#: plugin/Controllers/ToolsController.php:339
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:337
+#: plugin/Controllers/ToolsController.php:343
 msgctxt "admin-text"
 msgid "The permissions have been reset, please %s for them to take effect."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:351
+#: plugin/Controllers/ToolsController.php:357
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr ""
@@ -3540,16 +3545,6 @@ msgctxt "admin-text"
 msgid "Update progress"
 msgstr ""
 
-#: views/woocommerce/product-options.php:8
-msgctxt "admin-text"
-msgid "Enable reviews"
-msgstr ""
-
-#: views/woocommerce/settings.php:7
-msgctxt "admin-text"
-msgid "Import your existing WooCommerce product reviews %shere%s."
-msgstr ""
-
 #: plugin/Controllers/ListTableColumns/ColumnFilterAssignedPost.php:15
 msgctxt "admin-text"
 msgid "Filter by assigned post"
@@ -4146,6 +4141,16 @@ msgstr ""
 msgid "You have already submitted a review."
 msgstr ""
 
+#: views/integrations/woocommerce/product-options.php:8
+msgctxt "admin-text"
+msgid "Enable reviews"
+msgstr ""
+
+#: views/integrations/woocommerce/settings.php:7
+msgctxt "admin-text"
+msgid "Import your existing WooCommerce product reviews %shere%s."
+msgstr ""
+
 #: views/pages/addons/index.php:9
 msgctxt "admin-text"
 msgid "Site Reviews Premium"
@@ -4685,36 +4690,6 @@ msgctxt "admin-text"
 msgid "plural"
 msgstr ""
 
-#: views/woocommerce/notices/reviews.php:6
-msgctxt "admin-text"
-msgid "Your product reviews are being managed by <strong>Site Reviews</strong> and can be found on the %sAll Reviews%s page."
-msgstr ""
-
-#: views/woocommerce/notices/reviews.php:12
-msgctxt "admin-text"
-msgid "Import your WooCommerce product reviews"
-msgstr ""
-
-#: views/woocommerce/tools/import-product-reviews.php:6
-msgctxt "admin-text"
-msgid "Import Product Reviews"
-msgstr ""
-
-#: views/woocommerce/tools/import-product-reviews.php:14
-msgctxt "admin-text"
-msgid "Reviews are only imported once, so it's safe to run this tool multiple times."
-msgstr ""
-
-#: views/woocommerce/tools/import-product-reviews.php:18
-msgctxt "admin-text"
-msgid "This tool will import your WooCommerce Product reviews. Review replies and comments will be skipped."
-msgstr ""
-
-#: views/woocommerce/tools/import-product-reviews.php:24, views/pages/tools/general/import-reviews.php:186
-msgctxt "admin-text"
-msgid "Importing reviews, please wait..."
-msgstr ""
-
 #: plugin/Controllers/Api/Version1/RestReviewController.php:40
 msgctxt "admin-text"
 msgid "Review creation failed, please check the Site Reviews console log for more details."
@@ -4917,6 +4892,36 @@ msgid "{rating} out of {max} stars (based on {num} review)"
 msgid_plural "{rating} out of {max} stars (based on {num} reviews)"
 msgstr[0] ""
 msgstr[1] ""
+
+#: views/integrations/woocommerce/notices/reviews.php:6
+msgctxt "admin-text"
+msgid "Your product reviews are being managed by <strong>Site Reviews</strong> and can be found on the %sAll Reviews%s page."
+msgstr ""
+
+#: views/integrations/woocommerce/notices/reviews.php:12
+msgctxt "admin-text"
+msgid "Import your WooCommerce product reviews"
+msgstr ""
+
+#: views/integrations/woocommerce/tools/import-product-reviews.php:6
+msgctxt "admin-text"
+msgid "Import Product Reviews"
+msgstr ""
+
+#: views/integrations/woocommerce/tools/import-product-reviews.php:14
+msgctxt "admin-text"
+msgid "Reviews are only imported once, so it's safe to run this tool multiple times."
+msgstr ""
+
+#: views/integrations/woocommerce/tools/import-product-reviews.php:18
+msgctxt "admin-text"
+msgid "This tool will import your WooCommerce Product reviews. Review replies and comments will be skipped."
+msgstr ""
+
+#: views/integrations/woocommerce/tools/import-product-reviews.php:24, views/pages/tools/general/import-reviews.php:186
+msgctxt "admin-text"
+msgid "Importing reviews, please wait..."
+msgstr ""
 
 #: views/pages/documentation/support/common-problems-and-solutions.php:119
 msgid "Service Unavailable."

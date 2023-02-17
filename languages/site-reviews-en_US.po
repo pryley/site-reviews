@@ -1909,7 +1909,7 @@ msgstr ""
 "need to first export them to a CSV file, and then import them using the %s "
 "tool."
 
-#: config/woocommerce.php:8, views/woocommerce/tools/import-product-reviews.php:24, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:186
+#: config/woocommerce.php:8, views/integrations/woocommerce/tools/import-product-reviews.php:24, views/pages/tools/general/import-reviews.php:6, views/pages/tools/general/import-reviews.php:186
 msgctxt "admin-text"
 msgid "Import Reviews"
 msgstr "Import Reviews"
@@ -2735,37 +2735,37 @@ msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr "Console reloaded."
 
-#: plugin/Controllers/ToolsController.php:251
+#: plugin/Controllers/ToolsController.php:255
 msgctxt "admin-text"
-msgid "The plugin has been migrated sucessfully, please reload the page."
-msgstr "The plugin has been migrated sucessfully, please reload the page."
+msgid "The plugin has been migrated sucessfully, please %s the page."
+msgstr "The plugin has been migrated sucessfully, please %s the page."
 
-#: plugin/Controllers/ToolsController.php:248
+#: plugin/Controllers/ToolsController.php:249
 msgctxt "admin-text"
-msgid "All plugin migrations have been run successfully, please reload the page."
-msgstr "All plugin migrations have been run successfully, please reload the page."
+msgid "All plugin migrations have been run successfully, please %s the page."
+msgstr "All plugin migrations have been run successfully, please %s the page."
 
-#: plugin/Controllers/ToolsController.php:274
+#: plugin/Controllers/ToolsController.php:280
 msgctxt "admin-text"
 msgid "The review relationships have been repaired."
 msgstr "The review relationships have been repaired."
 
-#: plugin/Controllers/ToolsController.php:296
+#: plugin/Controllers/ToolsController.php:302
 msgctxt "admin-text"
 msgid "The assigned meta values have been reset."
 msgstr "The assigned meta values have been reset."
 
-#: plugin/Controllers/ToolsController.php:322
+#: plugin/Controllers/ToolsController.php:328
 msgctxt "admin-text"
 msgid "The permissions have been reset."
 msgstr "The permissions have been reset."
 
-#: plugin/Controllers/ToolsController.php:333
+#: plugin/Controllers/ToolsController.php:339
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr "reload the page"
 
-#: plugin/Controllers/ToolsController.php:337
+#: plugin/Controllers/ToolsController.php:343
 msgctxt "admin-text"
 msgid "The permissions have been reset, please %s for them to take effect."
 msgstr "The permissions have been reset, please %s for them to take effect."
@@ -3660,16 +3660,6 @@ msgctxt "admin-text"
 msgid "Update progress"
 msgstr "Update progress"
 
-#: views/woocommerce/product-options.php:8
-msgctxt "admin-text"
-msgid "Enable reviews"
-msgstr "Enable reviews"
-
-#: views/woocommerce/settings.php:7
-msgctxt "admin-text"
-msgid "Import your existing WooCommerce product reviews %shere%s."
-msgstr "Import your existing WooCommerce product reviews %shere%s."
-
 #: plugin/Controllers/ListTableColumns/ColumnFilterAssignedPost.php:15
 msgctxt "admin-text"
 msgid "Filter by assigned post"
@@ -4069,6 +4059,16 @@ msgstr ""
 msgctxt "admin-text"
 msgid "View the review in WordPress &rarr;"
 msgstr "View the review in WordPress &rarr;"
+
+#: views/integrations/woocommerce/product-options.php:8
+msgctxt "admin-text"
+msgid "Enable reviews"
+msgstr "Enable reviews"
+
+#: views/integrations/woocommerce/settings.php:7
+msgctxt "admin-text"
+msgid "Import your existing WooCommerce product reviews %shere%s."
+msgstr "Import your existing WooCommerce product reviews %shere%s."
 
 #: views/pages/addons/index.php:9
 msgctxt "admin-text"
@@ -4682,48 +4682,6 @@ msgctxt "admin-text"
 msgid "plural"
 msgstr "plural"
 
-#: views/woocommerce/notices/reviews.php:6
-msgctxt "admin-text"
-msgid ""
-"Your product reviews are being managed by <strong>Site Reviews</strong> and "
-"can be found on the %sAll Reviews%s page."
-msgstr ""
-"Your product reviews are being managed by <strong>Site Reviews</strong> and "
-"can be found on the %sAll Reviews%s page."
-
-#: views/woocommerce/notices/reviews.php:12
-msgctxt "admin-text"
-msgid "Import your WooCommerce product reviews"
-msgstr "Import your WooCommerce product reviews"
-
-#: views/woocommerce/tools/import-product-reviews.php:6
-msgctxt "admin-text"
-msgid "Import Product Reviews"
-msgstr "Import Product Reviews"
-
-#: views/woocommerce/tools/import-product-reviews.php:14
-msgctxt "admin-text"
-msgid ""
-"Reviews are only imported once, so it's safe to run this tool multiple "
-"times."
-msgstr ""
-"Reviews are only imported once, so it's safe to run this tool multiple "
-"times."
-
-#: views/woocommerce/tools/import-product-reviews.php:18
-msgctxt "admin-text"
-msgid ""
-"This tool will import your WooCommerce Product reviews. Review replies and "
-"comments will be skipped."
-msgstr ""
-"This tool will import your WooCommerce Product reviews. Review replies and "
-"comments will be skipped."
-
-#: views/woocommerce/tools/import-product-reviews.php:24, views/pages/tools/general/import-reviews.php:186
-msgctxt "admin-text"
-msgid "Importing reviews, please wait..."
-msgstr "Importing reviews, please wait..."
-
 #: plugin/Controllers/Api/Version1/RestReviewController.php:40
 msgctxt "admin-text"
 msgid ""
@@ -4851,6 +4809,48 @@ msgstr "managed by Site Reviews"
 msgctxt "admin-text"
 msgid "No title"
 msgstr "No title"
+
+#: views/integrations/woocommerce/notices/reviews.php:6
+msgctxt "admin-text"
+msgid ""
+"Your product reviews are being managed by <strong>Site Reviews</strong> and "
+"can be found on the %sAll Reviews%s page."
+msgstr ""
+"Your product reviews are being managed by <strong>Site Reviews</strong> and "
+"can be found on the %sAll Reviews%s page."
+
+#: views/integrations/woocommerce/notices/reviews.php:12
+msgctxt "admin-text"
+msgid "Import your WooCommerce product reviews"
+msgstr "Import your WooCommerce product reviews"
+
+#: views/integrations/woocommerce/tools/import-product-reviews.php:6
+msgctxt "admin-text"
+msgid "Import Product Reviews"
+msgstr "Import Product Reviews"
+
+#: views/integrations/woocommerce/tools/import-product-reviews.php:14
+msgctxt "admin-text"
+msgid ""
+"Reviews are only imported once, so it's safe to run this tool multiple "
+"times."
+msgstr ""
+"Reviews are only imported once, so it's safe to run this tool multiple "
+"times."
+
+#: views/integrations/woocommerce/tools/import-product-reviews.php:18
+msgctxt "admin-text"
+msgid ""
+"This tool will import your WooCommerce Product reviews. Review replies and "
+"comments will be skipped."
+msgstr ""
+"This tool will import your WooCommerce Product reviews. Review replies and "
+"comments will be skipped."
+
+#: views/integrations/woocommerce/tools/import-product-reviews.php:24, views/pages/tools/general/import-reviews.php:186
+msgctxt "admin-text"
+msgid "Importing reviews, please wait..."
+msgstr "Importing reviews, please wait..."
 
 #: views/pages/tools/general/export-reviews.php:6, views/pages/tools/general/export-reviews.php:53
 msgctxt "admin-text"
@@ -5805,7 +5805,12 @@ msgctxt "The Term ID (admin-text)"
 msgid "<span>ID: %d</span>"
 msgstr "<span>ID: %d</span>"
 
-#: plugin/Controllers/ToolsController.php:351
+#: plugin/Controllers/ToolsController.php:256, plugin/Controllers/ToolsController.php:250
+msgctxt "(admin-text) e.g. please reload the page"
+msgid "reload"
+msgstr "reload"
+
+#: plugin/Controllers/ToolsController.php:357
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr "Sorry, you are not allowed to rollback %s."
