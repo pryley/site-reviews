@@ -173,18 +173,21 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.5.0 (2023-02-16) =
+= 6.5.0 (2023-02-17) =
 
 - Added date and status options to the Export Reviews tool
+- Added new [site_review] shortcode to display a single review
+- Added new "Single Review" block to display a single review
+- Added new "Single Review" widget to display a single review
+- Added new "Single Review" Elementor widget to display a single review
 - Fixed ability to press Enter when writing a response to a review using the inline editor on the All Reviews admin page
-- Fixed broke
-- Fixed broken translations in the Strings settings which contained HTML entities
 - Fixed button loading in the review form
-- Fixed compatibility with Multilingual plugins (you should now be able to translate the addons)
-- Fixed compatibility with Multisites
-- Fixed compatibility with Object Cache plugins (which was preventing the settings from saving)
+- Fixed compatibility with Multilingual plugins (you should now be able to translate addons)
+- Fixed compatibility with WordPress Multisite
+- Fixed compatibility with Object Cache plugins (you should now be able to save the settings if you weren't able to before)
+- Fixed HTML entities from breaking translations in the Strings settings
 - Fixed PHP 8.1 deprecation notices
-- Fixed PHP errors when changing the maximum rating with a filter hook
+- Fixed PHP errors when changing the maximum rating with an unsupported filter hook
 - Fixed support for rendering reviews with custom fields (Review Forms addon) and themes (Review Themes addon) using the helper functions
 - Fixed the visibility of the Import Product Reviews tool
 - Improved sanitization of form values and helper function arguments
