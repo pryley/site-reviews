@@ -9,7 +9,7 @@
         </button>
     </h3>
     <div id="shortcode-site_review" class="inside">
-        <h3>This shortcode displays your most recently submitted reviews.</h3>
+        <h3>This shortcode displays a single review.</h3>
         <div class="glsr-notice-inline components-notice is-info">
             <p class="components-notice__content">Each example below demonstrates a different shortcode option. If you need to use multiple options, simply combine the options together (separated with a space) in the same shortcode.</p>
         </div>

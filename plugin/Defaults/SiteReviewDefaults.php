@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
+use GeminiLabs\SiteReviews\Helpers\Cast;
 
 class SiteReviewDefaults extends Defaults
 {
@@ -44,5 +45,23 @@ class SiteReviewDefaults extends Defaults
             'post_id' => 0,
             'title' => '',
         ];
+    }
+
+    /**
+     * Normalize provided values, this always runs first.
+     * @return array
+     */
+    protected function normalize(array $args = [])
+    {
+        if (empty($args['post_id'])) {
+            $postIds = get_posts([
+                'fields' => 'ids',
+                'post_status' => 'publish',
+                'post_type' => glsr()->post_type,
+                'posts_per_page' => 1,
+            ]);
+            $args['post_id'] = Cast::toInt(array_shift($postIds));
+        }
+        return $args;
     }
 }

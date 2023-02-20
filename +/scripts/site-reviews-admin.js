@@ -259,6 +259,11 @@ Event.on('site-reviews/form', (response, attributes) => {
         GLSR.stars.init('.glsr-field-rating select', { clearable: true });
     }
 });
+Event.on('site-reviews/review', (response, attributes) => {
+    if (!_.isEmpty(response) && !response.error) {
+        setTextDirection('review')
+    }
+});
 Event.on('site-reviews/reviews', (response, attributes) => {
     if (!_.isEmpty(response) && !response.error) {
         setTextDirection('reviews')

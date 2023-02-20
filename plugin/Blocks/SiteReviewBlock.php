@@ -45,27 +45,13 @@ class SiteReviewBlock extends SiteReviewsBlock
             $attributes = $this->normalize($attributes);
             $this->filterShowMoreLinks('content');
             $this->filterShowMoreLinks('response');
-            if (-1 === Cast::toInt($attributes['post_id'])) {
-                $attributes['post_id'] = $this->fallbackPostId();
-            }
-            if (!Review::isReview($attributes['post_id'])) {
+            if (0 !== Cast::toInt($attributes['post_id']) && !Review::isReview($attributes['post_id'])) {
                 $this->filterInterpolationForPostId();
             } elseif (!$this->hasVisibleFields($shortcode, $attributes)) {
                 $this->filterInterpolation();
             }
         }
         return $shortcode->buildBlock($attributes);
-    }
-
-    protected function fallbackPostId(): int
-    {
-        $postIds = get_posts([
-            'fields' => 'ids',
-            'post_status' => 'publish',
-            'post_type' => glsr()->post_type,
-            'posts_per_page' => 1,
-        ]);
-        return Cast::toInt(array_shift($postIds));
     }
 
     protected function filterInterpolationForPostId(): void

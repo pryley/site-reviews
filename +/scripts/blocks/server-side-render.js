@@ -139,16 +139,13 @@ export default function ServerSideRender(props) {
 
     // When the component unmounts, set isMountedRef to false. This will
     // let the async fetch callbacks know when to stop.
-    useEffect(
-        () => () => {
-            isMountedRef.current = false;
-        },
-        []
-    );
+    useEffect(() => () => {
+        isMountedRef.current = false;
+    }, []);
 
+    // Don't debounce the first fetch. This ensures that the first render
+    // shows data as soon as possible
     useEffect(() => {
-        // Don't debounce the first fetch. This ensures that the first render
-        // shows data as soon as possible
         if (prevProps === undefined) {
             fetchData();
         } else if (!isEqual(prevProps, props)) {

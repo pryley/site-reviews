@@ -124,7 +124,7 @@ msgstr "Next"
 msgid "Previous"
 msgstr "Previous"
 
-#: plugin/Defaults/SiteReviewDefaults.php:41
+#: plugin/Defaults/SiteReviewDefaults.php:42
 msgid "Review not found."
 msgstr "Review not found."
 
@@ -2170,7 +2170,7 @@ msgctxt "admin-text"
 msgid "A valid license key is required to download this update."
 msgstr "A valid license key is required to download this update."
 
-#: plugin/Blocks/SiteReviewBlock.php:65
+#: plugin/Blocks/SiteReviewBlock.php:63
 msgctxt "admin-text"
 msgid "Enter a valid Review Post ID to display a review."
 msgstr "Enter a valid Review Post ID to display a review."

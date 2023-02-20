@@ -1697,7 +1697,7 @@ msgctxt "admin-text"
 msgid "A valid license key is required to download this update."
 msgstr ""
 
-#: plugin/Blocks/SiteReviewBlock.php:65
+#: plugin/Blocks/SiteReviewBlock.php:63
 msgctxt "admin-text"
 msgid "Enter a valid Review Post ID to display a review."
 msgstr ""
@@ -2534,7 +2534,7 @@ msgctxt "admin-text"
 msgid "Url"
 msgstr ""
 
-#: plugin/Defaults/SiteReviewDefaults.php:41
+#: plugin/Defaults/SiteReviewDefaults.php:42
 msgid "Review not found."
 msgstr ""
 
