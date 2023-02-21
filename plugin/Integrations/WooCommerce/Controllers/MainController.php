@@ -90,7 +90,7 @@ class MainController extends BaseController
     }
 
     /**
-     * @return \WC_Product|BlackHole
+     * @return \WC_Product|false
      * @filter site-reviews/review/call/product
      */
     public function filterReviewProductMethod(Review $review)
@@ -98,7 +98,7 @@ class MainController extends BaseController
         if ($product = wc_get_product(Arr::get($review->assigned_posts, 0))) {
             return $product;
         }
-        return glsr(BlackHole::class, ['alias' => 'Triggered by $review->product()']);
+        return false;
     }
 
     /**
