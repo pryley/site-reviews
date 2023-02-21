@@ -98,7 +98,7 @@
                         <td>array</td>
                         <td>view, edit</td>
                         <td>
-                            The attachment IDs of images attached to the review.
+                            The array of image objects attached to the review.
                             <br>
                             <span class="glsr-notice-inline is-warning"><a href="https://niftyplugins.com/plugins/site-reviews-images/" target="_blank">Review Images</a> addon required.</span>
                         </td>
