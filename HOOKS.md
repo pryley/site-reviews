@@ -151,9 +151,9 @@
     site-reviews/ratings/grouped                                (array $ratings, string $metaGroup, array $args): array
     site-reviews/rest-api/reviews/parameters                    (array $parameters): array
     site-reviews/rest-api/reviews/prepare/<key>                 (mixed $value, Controllers\Api\Version1\Response\Prepare $prepare): array
-    site-reviews/rest-api/reviews/properties                    (array $properties): array
+    site-reviews/rest-api/reviews/schema/properties             (array $properties): array
     site-reviews/rest-api/summary/parameters                    (array $parameters): array
-    site-reviews/rest-api/summary/properties                    (array $properties): array
+    site-reviews/rest-api/summary/schema/properties             (array $properties): array
     site-reviews/roles                                          (array $roles): array
     site-reviews/captcha/language                               (string $locale): string
     site-reviews/render/view                                    (string $view, array $data): string

@@ -17,11 +17,19 @@
             <li>Added new "Single Review" widget to display a single review</li>
             <li>Added new "Single Review" Elementor widget to display a single review</li>
         </ul>
+
+        <h4>📢 Changed</h4>
+        <ul>
+            <li>Renamed the <code>site-reviews/rest-api/reviews/properties</code> hook to <code>site-reviews/rest-api/reviews/schema/properties</code></li>
+            <li>Renamed the <code>site-reviews/rest-api/summary/properties</code> hook to <code>site-reviews/rest-api/summary/schema/properties</code></li>
+        </ul>
+
         <h4>💅🏼 Improved</h4>
         <ul>
             <li>Improved sanitization of form values and helper function arguments</li>
             <li>Improved the System Info report</li>
         </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed ability to press Enter when writing a response to a review using the inline editor on the All Reviews admin page</li>
