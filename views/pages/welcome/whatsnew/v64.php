@@ -9,6 +9,7 @@
     </h3>
     <div id="welcome-v6_4_0" class="inside">
         <p><em>Initial Release Date &mdash; December 27th, 2022</em></p>
+
         <h4>✨ New Features</h4>
         <ul>
             <li>Added Action Scheduler information to System Info</li>
@@ -20,11 +21,13 @@
             <li>Added <a data-expand="#tools-import-product-reviews" href="<?= glsr_admin_url('tools'); ?>">Import Product Reviews</a> tool</li>
             <li>Added <a href="<?= glsr_admin_url('settings', 'addons', 'woocommerce'); ?>">WooCommerce integration</a></li>
         </ul>
+
         <h4>🚫 Removed</h4>
         <ul>
             <li>Removed the GamiPress Reviews addon, it's now fully integrated into Site Reviews</li>
             <li>Removed the Woocommerce Reviews addon, it's now fully integrated into Site Reviews</li>
         </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed an issue causing a timeout when running plugin migrations</li>

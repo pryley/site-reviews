@@ -9,6 +9,7 @@
     </h3>
     <div id="welcome-v5_20_0" class="inside">
         <p><em>Initial Release Date &mdash; January 26th, 2022</em></p>
+
         <h4>✨ New Features</h4>
         <ul>
             <li>Added a loading indicator when changing review status on the All Reviews page</li>
@@ -17,10 +18,12 @@
             <li>Added schema support for archive pages, it will now use the archive title and description if they exist</li>
             <li>Added Twenty Twenty-Two plugin style</li>
         </ul>
-        <h4>🛠 Tweaks</h4>
+
+        <h4>💅🏼 Improved</h4>
         <ul>
             <li>Updated the polyfill.io script version</li>
         </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed a security issue with AJAX requests @patchstackapp</li>

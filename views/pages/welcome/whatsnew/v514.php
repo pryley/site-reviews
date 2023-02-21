@@ -9,14 +9,17 @@
     </h3>
     <div id="welcome-v5_14_0" class="inside">
         <p><em>Initial Release Date &mdash; September 23rd, 2021</em></p>
-        <h4>📢 Changes</h4>
+
+        <h4>📢 Changed</h4>
         <ul>
             <li>Changed permission defaults for admin pages</li>
         </ul>
+
         <h4>🚫 Removed</h4>
         <ul>
             <li>Removed the "Trustalyze Confidence System" addon (the service has been discontinued).</li>
         </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed a stored XSS vulnerability which allowed an admin user to add a malicious value when editing a review from the WordPress admin.</li>

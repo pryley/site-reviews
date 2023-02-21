@@ -9,11 +9,13 @@
     </h3>
     <div id="welcome-v5_1_0" class="inside">
         <p><em>Initial Release Date &mdash; October 24th, 2020</em></p>
-        <h4>🛠 Tweaks</h4>
+
+        <h4>💅🏼 Improved</h4>
         <ul>
             <li>Added back the deprecated "count" option on the [site_reviews] shortcode so that it will still work for people who have not yet replaced it with the "display" option.</li>
             <li>Improved the plugin migration notice</li>
         </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed a regression which prevented translations from including a link (i.e. the terms toggle)</li>

@@ -9,15 +9,18 @@
     </h3>
     <div id="welcome-v5_8_0" class="inside">
         <p><em>Initial Release Date &mdash; March 20th, 2021</em></p>
+
         <h4>✨ New Features</h4>
         <ul>
             <li>Added setting tooltips</li>
         </ul>
-        <h4>🛠 Tweaks</h4>
+
+        <h4>💅🏼 Improved</h4>
         <ul>
             <li>Optimised settings</li>
             <li>Updated documentation</li>
         </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed compatibility with the Thrive Architect plugin</li>

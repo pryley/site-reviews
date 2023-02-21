@@ -9,6 +9,7 @@
     </h3>
     <div id="welcome-v5_5_0" class="inside">
         <p><em>Initial Release Date &mdash; January 26th, 2021</em></p>
+
         <h4>✨ New Features</h4>
         <ul>
             <li>Added <code>data-field</code> attribute to form fields; this should make it easier to build custom CSS layouts</li>
@@ -18,11 +19,12 @@
             <li>Added "Restrict Limits To" setting which allows you to choose which assignments are used in the review limits.</li>
             <li>Added sub-sections for addon settings</li>
         </ul>
-        <h4>📢 Changes</h4>
+        <h4>📢 Changed</h4>
         <ul>
             <li>Changed the <code>site-reviews/review/build/&lt;tag&gt;</code> hooks to <code>site-reviews/review/build/tag/&lt;tag&gt;</code></li>
             <li>Upgraded the <a href="https://github.com/pryley/star-rating.js" target="_blank">star-ratings.js</a> library to v4 in preparation for the "Review Themes" addon</li>
         </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed Add-on support notice</li>

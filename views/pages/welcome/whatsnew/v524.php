@@ -9,10 +9,12 @@
     </h3>
     <div id="welcome-v5_24_0" class="inside">
         <p><em>Initial Release Date &mdash; May 26th, 2022</em></p>
+
         <h4>✨ New Features</h4>
         <ul>
             <li>Added the ability to use post type names in the assigned_posts option. This allows you to display all reviews for a specific post type.</li>
         </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed AJAX pagination of filtered reviews (when using the Review Filters addon)</li>

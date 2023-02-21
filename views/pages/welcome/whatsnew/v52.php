@@ -9,15 +9,18 @@
     </h3>
     <div id="welcome-v5_2_0" class="inside">
         <p><em>Initial Release Date &mdash; November 6th, 2020</em></p>
+
         <h4>✨ New Features</h4>
         <ul>
             <li>Added Notification Template tags for assigned categories, posts, and users</li>
             <li>Added Review Assignment setting</li>
         </ul>
-        <h4>📢 Changes</h4>
+
+        <h4>📢 Changed</h4>
         <ul>
             <li>Changed review assignment in SQL queries to use strict assignments by default (it was previously using loose assignments, use the new "Review Assignment" setting to change this back)</li>
         </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed addons notice styling and placement</li>

@@ -9,14 +9,17 @@
     </h3>
     <div id="welcome-v5_23_0" class="inside">
         <p><em>Initial Release Date &mdash; April 9th, 2022</em></p>
+
         <h4>✨ New Features</h4>
         <ul>
             <li>Added an <a data-expand="#tools-export-reviews" href="<?= glsr_admin_url('tools', 'general'); ?>">Export Reviews</a> tool</li>
         </ul>
-        <h4>🛠 Tweaks</h4>
+
+        <h4>💅🏼 Improved</h4>
         <ul>
             <li>Optimised frontend javascript</li>
         </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed custom translated strings</li>

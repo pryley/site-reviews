@@ -9,6 +9,7 @@
     </h3>
     <div id="welcome-v5_25_0" class="inside">
         <p><em>Initial Release Date &mdash; July 15th, 2022</em></p>
+
         <h4>✨ New Features</h4>
         <ul>
             <li>Added a <code>data-pinned</code> attribute to pinned reviews (this allows you to target pinned reviews with custom CSS)</li>
@@ -16,6 +17,7 @@
             <li>Added <a href="https://hcaptcha.com" target="_blank">hCaptcha</a> integration</li>
             <li>Added <a href="https://www.google.com/recaptcha/" target="_blank">reCAPTCHA v3</a> integration</li>
         </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed block errors in Customizer Widgets</li>

@@ -1,17 +1,17 @@
 == Changelog ==
 
-= 6.5.0 (2023-02-17) =
+= 6.5.0 (2023-02-21) =
 
 - Added date and status options to the Export Reviews tool
-- Added new [site_review] shortcode to display a single review
 - Added new "Single Review" block to display a single review
-- Added new "Single Review" widget to display a single review
 - Added new "Single Review" Elementor widget to display a single review
+- Added new "Single Review" widget to display a single review
+- Added new [site_review] shortcode to display a single review
 - Fixed ability to press Enter when writing a response to a review using the inline editor on the All Reviews admin page
 - Fixed button loading in the review form
 - Fixed compatibility with Multilingual plugins (you should now be able to translate addons)
-- Fixed compatibility with WordPress Multisite
 - Fixed compatibility with Object Cache plugins (you should now be able to save the settings if you weren't able to before)
+- Fixed compatibility with WordPress Multisite
 - Fixed HTML entities from breaking translations in the Strings settings
 - Fixed PHP 8.1 deprecation notices
 - Fixed PHP errors when changing the maximum rating with an unsupported filter hook

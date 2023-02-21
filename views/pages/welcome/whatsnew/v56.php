@@ -9,10 +9,12 @@
     </h3>
     <div id="welcome-v5_6_0" class="inside">
         <p><em>Initial Release Date &mdash; February 4th, 2021</em></p>
+
         <h4>✨ New Features</h4>
         <ul>
             <li>Added an option to display reviews with an excerpt in a modal</li>
         </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed assigned ranking meta when reviews are manually approved/unapproved</li>

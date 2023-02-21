@@ -9,6 +9,7 @@
     </h3>
     <div id="welcome-v5_11_0" class="inside">
         <p><em>Initial Release Date &mdash; June 2nd, 2021</em></p>
+
         <h4>✨ New Features</h4>
         <ul>
             <li>Added a REST API (see the <a data-expand="#fn-glsr_update_review" href="<?= glsr_admin_url('documentation', 'api'); ?>">provided documentation</a> to learn how to use it)</li>
@@ -21,6 +22,7 @@
             <li>Added the <code>site-reviews/review/build/tag/response/by</code> hook (see the <a data-expand="#faq-change-response-name" href="<?= glsr_admin_url('documentation', 'faq'); ?>">FAQ</a> to learn how to use it to change the name in the response)</li>
             <li>Added the <code>glsr_update_review</code> helper function (see the <a data-expand="#fn-glsr_update_review" href="<?= glsr_admin_url('documentation', 'functions'); ?>">provided documentation</a> to learn how to use it)</li>
         </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed inline styles (overriding the star images should now display correctly in the block editor)</li>

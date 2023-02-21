@@ -9,6 +9,7 @@
     </h3>
     <div id="welcome-v5_0_0" class="inside">
         <p><em>Initial Release Date &mdash; October 22nd, 2020</em></p>
+
         <h4>✨ New Features</h4>
         <ul>
             <li>Added <code>assigned_posts</code> shortcode option, this <strong>replaces</strong> the <code>assign_to</code> and <code>assigned_to</code> options and allows you to assign reviews to multiple Post IDs</li>
@@ -26,7 +27,8 @@
             <li>The Review Details metabox now allows you to modify any value</li>
             <li>The <code>site-reviews/after/submission</code> javascript event now contains the submitted review</li>
         </ul>
-        <h4>📢 Changes</h4>
+
+        <h4>📢 Changed</h4>
         <ul>
             <li>Changed the settings to use the WordPress "Disallowed Comment Keys" by default</li>
             <li>Increased the minimum PHP version to 5.6.20</li>
@@ -40,7 +42,8 @@
             <li>The <code>site-reviews/rating/average</code> filter hook argument order has changed (see the <a data-expand="#upgrade-v5_0_0" href="<?= glsr_admin_url('welcome', 'upgrade-guide'); ?>">Upgrade Guide</a>).</li>
             <li>The Translations Settings search results are now restricted to public text that is actually shown on your website, if you would like to change plugin text shown in the WordPress admin, you should use the Loco Translate plugin instead.</li>
         </ul>
-        <h4>🛠 Tweaks</h4>
+
+        <h4>💅🏼 Improved</h4>
         <ul>
             <li>Added the <code>loading="lazy"</code> attribute to avatars</li>
             <li>Drastically improved plugin performance with thousands of reviews</li>
@@ -50,6 +53,7 @@
             <li>Refreshed the blocks to visually match the WordPress 5.5 editor style</li>
             <li>The Terms checkbox in the review form should now align correctly with the text</li>
         </ul>
+
         <h4>🚫 Removed</h4>
         <ul>
             <li>Removed the <code>glsr_calculate_ratings()</code> helper function</li>
@@ -59,6 +63,7 @@
             <li>Removed the <code>site-reviews/submission-form/order</code> filter hook (see the Upgrade Guide)</li>
             <li>Removed the Trustalyze integration, it is now an addon</li>
         </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed compatibility with the Divi theme and Divi Builder plugin</li>

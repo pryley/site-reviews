@@ -8,7 +8,7 @@
         </button>
     </h3>
     <div id="welcome-v6_5_0" class="inside">
-        <p><em>Initial Release Date &mdash; February 17th, 2023</em></p>
+        <p><em>Initial Release Date &mdash; February 21st, 2023</em></p>
         <h4>✨ New Features</h4>
         <ul>
             <li>Added date and status options to the <a data-expand="#tools-export-reviews" href="<?= glsr_admin_url('tools'); ?>">Export Reviews</a> tool</li>

@@ -9,11 +9,13 @@
     </h3>
     <div id="welcome-v5_4_0" class="inside">
         <p><em>Initial Release Date &mdash; December 22nd, 2020</em></p>
+
         <h4>✨ New Features</h4>
         <ul>
             <li>Added the <code>schema_identifier</code> meta key which can be used to set a custom <code>@id</code> schema property with the Custom Fields metabox</li>
             <li>Added the "Woocommerce Reviews" addon</li>
         </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed a PHP 8 error with the schema</li>

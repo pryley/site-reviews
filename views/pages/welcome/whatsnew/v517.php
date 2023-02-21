@@ -9,6 +9,7 @@
     </h3>
     <div id="welcome-v5_17_0" class="inside">
         <p><em>Initial Release Date &mdash; November 10th, 2021</em></p>
+
         <h4>✨ New Features</h4>
         <ul>
             <li>Added the <a href="<?= glsr_admin_url('addons'); ?>">Review Notifications</a> addon</li>
@@ -17,14 +18,17 @@
             <li>Added the Accepted Terms field to the privacy export (using the review creation date as the value if the terms were accepted)</li>
             <li>Added the <a href="https://actionscheduler.org/" target="_blank">Action Scheduler</a> which allows plugin migrations and review notifications to be queued and dispatched automatically.</li>
         </ul>
-        <h4>📢 Changes</h4>
+
+        <h4>📢 Changed</h4>
         <ul>
             <li>Renamed the <code>email-notification.php</code> template file to <code>notification.php</code>. If you are using this template file in your theme, please rename it.</li>
         </ul>
-        <h4>🛠 Tweaks</h4>
+
+        <h4>💅🏼 Improved</h4>
         <ul>
             <li>Updated the <a data-expand="#support-common-problems-and-solutions" href="<?= glsr_admin_url('documentation', 'support'); ?>">Common Problems and Solutions</a> documentation</li>
         </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed HTML sanitization in review values</li>
