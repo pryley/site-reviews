@@ -21,6 +21,7 @@
 - Improved the System Info report
 - Renamed the "site-reviews/rest-api/reviews/properties" hook to "site-reviews/rest-api/reviews/schema/properties"
 - Renamed the "site-reviews/rest-api/summary/properties" hook to "site-reviews/rest-api/summary/schema/properties"
+- Updated Action Scheduler to v3.5.4
 
 = 6.4.1 (2022-12-28) =
 

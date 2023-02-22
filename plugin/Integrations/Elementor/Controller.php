@@ -19,7 +19,11 @@ class Controller extends BaseController
             if (defined('ELEMENTOR_PRO_VERSION') && 0 > version_compare('2.7.0', ELEMENTOR_PRO_VERSION)) {
                 $script .= 'jQuery(document).on("elementor/popup/show",glsr_init_elementor),';
             }
-            $script .= 'jQuery(window).on("elementor/frontend/init",function(){elementorFrontend.hooks.addAction("frontend/element_ready/site_reviews.default",glsr_init_elementor);elementorFrontend.hooks.addAction("frontend/element_ready/site_reviews_form.default",glsr_init_elementor)}));';
+            $script .= 'jQuery(window).on("elementor/frontend/init",function(){';
+            $script .= 'elementorFrontend.hooks.addAction("frontend/element_ready/site_review.default",glsr_init_elementor);';
+            $script .= 'elementorFrontend.hooks.addAction("frontend/element_ready/site_reviews.default",glsr_init_elementor);';
+            $script .= 'elementorFrontend.hooks.addAction("frontend/element_ready/site_reviews_form.default",glsr_init_elementor);';
+            $script .= '}));';
         }
         return $script;
     }

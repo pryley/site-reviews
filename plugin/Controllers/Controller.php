@@ -27,9 +27,7 @@ abstract class Controller
      */
     public function execute(CommandContract $command)
     {
-        if (method_exists($command, 'handle')) {
-            return $command->handle();
-        }
+        return $command->handle();
     }
 
     /**

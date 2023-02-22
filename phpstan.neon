@@ -37,3 +37,4 @@ parameters:
   reportUnmatchedIgnoredErrors: false
   scanFiles:
     - vendors/woocommerce/action-scheduler/functions.php
+  treatPhpDocTypesAsCertain: false

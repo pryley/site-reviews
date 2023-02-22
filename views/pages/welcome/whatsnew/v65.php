@@ -30,6 +30,11 @@
             <li>Improved the System Info report</li>
         </ul>
 
+        <h4>📦 Updated</h4>
+        <ul>
+            <li>Updated <a href="https://github.com/woocommerce/action-scheduler" target="_blank">Action Scheduler</a> to v3.5.4</li>
+        </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed ability to press Enter when writing a response to a review using the inline editor on the All Reviews admin page</li>

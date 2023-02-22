@@ -194,5 +194,6 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Improved the System Info report
 - Renamed the "site-reviews/rest-api/reviews/properties" hook to "site-reviews/rest-api/reviews/schema/properties"
 - Renamed the "site-reviews/rest-api/summary/properties" hook to "site-reviews/rest-api/summary/schema/properties"
+- Updated Action Scheduler to v3.5.4
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).

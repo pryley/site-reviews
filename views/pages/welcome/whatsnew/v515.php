@@ -15,7 +15,7 @@
             <li>Added link for Premium members to download the beta version of the Review Themes addon</li>
         </ul>
 
-        <h4>📢 Changed</h4>
+        <h4>📦 Updated</h4>
         <ul>
             <li>Updated star-ratings.js library</li>
         </ul>

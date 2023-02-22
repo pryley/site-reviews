@@ -19,7 +19,7 @@
             <li>Added Twenty Twenty-Two plugin style</li>
         </ul>
 
-        <h4>💅🏼 Improved</h4>
+        <h4>📦 Updated</h4>
         <ul>
             <li>Updated the polyfill.io script version</li>
         </ul>
