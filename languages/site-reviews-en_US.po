@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: en_US\n"
 
-#: deprecated.php:112
+#: deprecated.php:137
 msgid ""
 "%s is <strong>deprecated</strong> since version %s with no alternative "
 "available."
@@ -26,7 +26,7 @@ msgstr ""
 "%s is <strong>deprecated</strong> since version %s with no alternative "
 "available."
 
-#: deprecated.php:125
+#: deprecated.php:150
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 

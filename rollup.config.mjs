@@ -1,13 +1,16 @@
 import alias from '@rollup/plugin-alias';
 import babel from '@rollup/plugin-babel';
 import filesize from 'rollup-plugin-filesize';
-import path from 'path';
 import postcss from 'rollup-plugin-postcss'
 import resolve from '@rollup/plugin-node-resolve';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 
 const pluginsJavascript = () => [
-  alias({ entries: {'@': path.resolve(__dirname, '+/scripts/')} }),
+  alias({
+    entries: {
+      '@': './+/scripts/',
+    },
+  }),
   resolve(),
   filesize(),
   babel({
@@ -82,7 +85,7 @@ const css = (id, namespace = '', dir = 'assets/styles') => ({
   input: `+/styles/${id}.css`,
   plugins: pluginsStylesheet(namespace),
   output: {
-    file: path.resolve(__dirname, `${dir}/${id}.css`),
+    file: `./${dir}/${id}.css`,
   },
   onwarn (warning, warn) {
     if (warning.code === 'FILE_NAME_CONFLICT') return
@@ -99,7 +102,7 @@ const js = (id) => ({
   },
 })
 
-module.exports = [
+export default [
   js('site-reviews', ),
   // css('inline-styles'),
   // css('bootstrap_4', '.glsr-bootstrap_4'),

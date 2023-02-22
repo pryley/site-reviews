@@ -222,7 +222,8 @@ class ValidationTest extends WP_Ajax_UnitTestCase
     protected function assertJsonError(array $request)
     {
         $response = $this->performAjaxRequest($request);
-        $this->assertObjectHasAttribute('success', $response);
+        $properties = get_object_vars($response);
+        $this->assertArrayHasKey('success', $properties);
         $this->assertFalse($response->success);
         return $response;
     }
@@ -233,7 +234,8 @@ class ValidationTest extends WP_Ajax_UnitTestCase
     protected function assertJsonSuccess(array $request)
     {
         $response = $this->performAjaxRequest($request);
-        $this->assertObjectHasAttribute('success', $response);
+        $properties = get_object_vars($response);
+        $this->assertArrayHasKey('success', $properties);
         $this->assertTrue($response->success);
         return $response;
     }
