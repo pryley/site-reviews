@@ -40,6 +40,23 @@ GLSR.Event = Event;
 GLSR.stars = StarRating();
 GLSR.Tippy = { tippy, plugins: { followCursor }}
 
+Prism.languages.shortcode = {
+    tag: {
+        lookbehind: true,
+        pattern: /^(\[)[^\s]+/i,
+    },
+    string: {
+        greedy: true,
+        pattern: /"(?:\\[\s\S]|[^\\"])*"/,
+    },
+    variable: {
+        pattern: /([a-z_]+(?==))/i,
+    },
+    punctuation: {
+        pattern: /[=\[\]]/i,
+    },
+}
+
 function site_reviews_footer_notice () {
     if (jQuery('.glsr-notice-footer').length) {
         jQuery('#wpbody-content').addClass('has-footer-notice');

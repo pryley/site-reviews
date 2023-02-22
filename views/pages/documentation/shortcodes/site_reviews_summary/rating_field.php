@@ -7,6 +7,5 @@
 <p>Include the "rating_field" option to use the values of a custom rating field for the ratings in the summary. Use the custom rating Field Name as the value.</p>
 <p>The default rating_field value is: <code>""</code></p>
 <div class="shortcode-example">
-    <input type="text" readonly class="code" value='[site_reviews_summary rating_field="sound_rating"]'>
-    <pre><code class="syntax-shortcode"><span class="tag">[site_reviews_summary</span> <span class="attr-name">rating_field</span>=<span class="attr-value">"sound_rating"</span><span class="tag">]</span></code></pre>
+    <pre><code class="language-shortcode">[site_reviews_summary rating_field="sound_rating"]</code></pre>
 </div>

@@ -32,7 +32,6 @@
     --base0F: #ab7967;
 }
 
-.syntax-shortcode,
 code[class*="language-"],
 pre[class*="language-"] {
     background-color: var(--base00);
@@ -51,7 +50,6 @@ pre[class*="language-"] {
 }
 
 /* Code blocks */
-.syntax-shortcode,
 pre[class*="language-"] {
     display: block;
     padding: 1em;
@@ -128,13 +126,14 @@ pre.language-php::after {
     font-style: italic;
 }
 
-.syntax-shortcode .tag {
+.language-shortcode .tag,
+.language-shortcode .punctuation {
     color: var(--base08);
 }
-.syntax-shortcode .attr-name {
+.language-shortcode .variable {
     color: var(--base0E);
 }
-.syntax-shortcode .attr-value {
+.language-shortcode .string {
     color: var(--base0B);
 }
 
@@ -231,30 +230,4 @@ pre.language-php::after {
 .language-php .class-name,
 .language-php .package {
     color: var(--base0D);
-}
-
-.shortcode-example {
-    position: relative;
-}
-.shortcode-example > input {
-    margin: 0;
-    opacity: 0;
-    appearance: none;
-    background-color: var(--base00);
-    border-radius: 2px;
-    border: 0;
-    color: var(--base05);
-    display: block;
-    font-family: "Operator Mono","Fira Code",monaco,monospace;
-    font-size: 13px;
-    line-height: 1.5;
-    padding: 1em;
-    position: absolute;
-    width: 100%;
-}
-.shortcode-example > input:focus,
-.shortcode-example > input:active {
-    border: 0;
-    box-shadow: none;
-    opacity: 1 !important;
 }

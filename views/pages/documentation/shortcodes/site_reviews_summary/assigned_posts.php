@@ -5,6 +5,5 @@
 <p><span class="required">Important:</span> If you are using this shortcode together with the [site_reviews] shortcode, make sure to set the same option value for both shortcodes.</p>
 <p>The default assigned_posts value is: <code>""</code></p>
 <div class="shortcode-example">
-    <input type="text" readonly class="code" value='[site_reviews_summary assigned_posts="post_id"]'>
-    <pre><code class="syntax-shortcode"><span class="tag">[site_reviews_summary</span> <span class="attr-name">assigned_posts</span>=<span class="attr-value">"post_id"</span><span class="tag">]</span></code></pre>
+    <pre><code class="language-shortcode">[site_reviews_summary assigned_posts="post_id"]</code></pre>
 </div>

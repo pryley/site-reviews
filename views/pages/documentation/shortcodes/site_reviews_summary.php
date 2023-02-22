@@ -15,21 +15,25 @@
         </div>
         <?php
             $options = [
-                trailingslashit(__DIR__).'site_reviews_summary/assigned_posts.php',
-                trailingslashit(__DIR__).'site_reviews_summary/assigned_terms.php',
-                trailingslashit(__DIR__).'site_reviews_summary/assigned_users.php',
-                trailingslashit(__DIR__).'site_reviews_summary/class.php',
-                trailingslashit(__DIR__).'site_reviews_summary/hide.php',
-                trailingslashit(__DIR__).'site_reviews_summary/id.php',
-                trailingslashit(__DIR__).'site_reviews_summary/labels.php',
-                trailingslashit(__DIR__).'site_reviews_summary/rating.php',
-                trailingslashit(__DIR__).'site_reviews_summary/rating_field.php',
-                trailingslashit(__DIR__).'site_reviews_summary/schema.php',
-                trailingslashit(__DIR__).'site_reviews_summary/terms.php',
-                trailingslashit(__DIR__).'site_reviews_summary/text.php',
+                'assigned_posts' => trailingslashit(__DIR__).'site_reviews_summary/assigned_posts.php',
+                'assigned_terms' => trailingslashit(__DIR__).'site_reviews_summary/assigned_terms.php',
+                'assigned_users' => trailingslashit(__DIR__).'site_reviews_summary/assigned_users.php',
+                'class' => trailingslashit(__DIR__).'site_reviews_summary/class.php',
+                'filters' => trailingslashit(__DIR__).'site_reviews_summary/filters.php',
+                'hide' => trailingslashit(__DIR__).'site_reviews_summary/hide.php',
+                'id' => trailingslashit(__DIR__).'site_reviews_summary/id.php',
+                'labels' => trailingslashit(__DIR__).'site_reviews_summary/labels.php',
+                'rating' => trailingslashit(__DIR__).'site_reviews_summary/rating.php',
+                'rating_field' => trailingslashit(__DIR__).'site_reviews_summary/rating_field.php',
+                'reviews_id' => trailingslashit(__DIR__).'site_reviews_summary/reviews_id.php',
+                'schema' => trailingslashit(__DIR__).'site_reviews_summary/schema.php',
+                'terms' => trailingslashit(__DIR__).'site_reviews_summary/terms.php',
+                'text' => trailingslashit(__DIR__).'site_reviews_summary/text.php',
+                'theme' => trailingslashit(__DIR__).'site_reviews_summary/theme.php',
             ];
             $filename = pathinfo(__FILE__, PATHINFO_FILENAME);
-            $options = glsr()->filterArrayUnique('documentation/shortcodes/'.$filename, $options);
+            $options = glsr()->filterArray('documentation/shortcode/'.$filename, $options);
+            ksort($options);
             foreach ($options as $option) {
                 include $option;
             }

@@ -97,8 +97,8 @@
     site-reviews/documentation/faq                              (array $paths): array
     site-reviews/documentation/functions                        (array $paths): array
     site-reviews/documentation/hooks                            (array $paths): array
+    site-reviews/documentation/shortcode/<shortcode>            (array $paths): array
     site-reviews/documentation/shortcodes                       (array $paths): array
-    site-reviews/documentation/shortcodes/<shortcode>           (array $paths): array
     site-reviews/elementor/display/settings                     (array $settings, \Elementor\Widget_Base $widget): array
     site-reviews/elementor/register/controls                    (array $controls, \Elementor\Widget_Base $widget): array
     site-reviews/email/compose                                  (array $email, Modules\Email $mailer): array

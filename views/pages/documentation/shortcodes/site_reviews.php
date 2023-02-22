@@ -15,23 +15,27 @@
         </div>
         <?php
             $options = [
-                trailingslashit(__DIR__).'site_reviews/assigned_posts.php',
-                trailingslashit(__DIR__).'site_reviews/assigned_terms.php',
-                trailingslashit(__DIR__).'site_reviews/assigned_users.php',
-                trailingslashit(__DIR__).'site_reviews/class.php',
-                trailingslashit(__DIR__).'site_reviews/display.php',
-                trailingslashit(__DIR__).'site_reviews/fallback.php',
-                trailingslashit(__DIR__).'site_reviews/hide.php',
-                trailingslashit(__DIR__).'site_reviews/id.php',
-                trailingslashit(__DIR__).'site_reviews/offset.php',
-                trailingslashit(__DIR__).'site_reviews/pagination.php',
-                trailingslashit(__DIR__).'site_reviews/rating.php',
-                trailingslashit(__DIR__).'site_reviews/rating_field.php',
-                trailingslashit(__DIR__).'site_reviews/schema.php',
-                trailingslashit(__DIR__).'site_reviews/terms.php',
+                'assigned_posts' => trailingslashit(__DIR__).'site_reviews/assigned_posts.php',
+                'assigned_terms' => trailingslashit(__DIR__).'site_reviews/assigned_terms.php',
+                'assigned_users' => trailingslashit(__DIR__).'site_reviews/assigned_users.php',
+                'class' => trailingslashit(__DIR__).'site_reviews/class.php',
+                'display' => trailingslashit(__DIR__).'site_reviews/display.php',
+                'fallback' => trailingslashit(__DIR__).'site_reviews/fallback.php',
+                'filters' => trailingslashit(__DIR__).'site_reviews/filters.php',
+                'form' => trailingslashit(__DIR__).'site_reviews/form.php',
+                'hide' => trailingslashit(__DIR__).'site_reviews/hide.php',
+                'id' => trailingslashit(__DIR__).'site_reviews/id.php',
+                'offset' => trailingslashit(__DIR__).'site_reviews/offset.php',
+                'pagination' => trailingslashit(__DIR__).'site_reviews/pagination.php',
+                'rating' => trailingslashit(__DIR__).'site_reviews/rating.php',
+                'rating_field' => trailingslashit(__DIR__).'site_reviews/rating_field.php',
+                'schema' => trailingslashit(__DIR__).'site_reviews/schema.php',
+                'terms' => trailingslashit(__DIR__).'site_reviews/terms.php',
+                'theme' => trailingslashit(__DIR__).'site_reviews/theme.php',
             ];
             $filename = pathinfo(__FILE__, PATHINFO_FILENAME);
-            $options = glsr()->filterArrayUnique('documentation/shortcodes/'.$filename, $options);
+            $options = glsr()->filterArray('documentation/shortcode/'.$filename, $options);
+            ksort($options);
             foreach ($options as $option) {
                 include $option;
             }

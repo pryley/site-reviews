@@ -19,15 +19,13 @@
             <li><strong>hide</strong> ("assigned_to" hide value has been renamed to "assigned_links")</li>
         </ul>
         <p>This is how it was done in version 4:</p>
-        <pre><code class="syntax-shortcode"><span class="tag">[site_reviews_summary</span> <span class="attr-name">assigned_to</span>=<span class="attr-value">"post_id"</span> <span class="attr-name">category</span>=<span class="attr-value">"13"</span><span class="tag">]</span>
-<span class="tag">[site_reviews</span> <span class="attr-name">assigned_to</span>=<span class="attr-value">"post_id"</span> <span class="attr-name">category</span>=<span class="attr-value">"13"</span> <span class="attr-name">hide</span>=<span class="attr-value">"assigned_to,title"</span><span class="tag">]</span>
-<span class="tag">[site_reviews_form</span> <span class="attr-name">assign_to</span>=<span class="attr-value">"post_id"</span> <span class="attr-name">category</span>=<span class="attr-value">"13"</span><span class="tag">]</span>
-</code></pre>
+        <pre><code class="language-shortcode">[site_reviews_summary assigned_to="post_id" category="13"]</code></pre>
+        <pre><code class="language-shortcode">[site_reviews assigned_to="post_id" category="13" hide="assigned_to,title"]</code></pre>
+        <pre><code class="language-shortcode">[site_reviews_form assign_to="post_id" category="13"]</code></pre>
         <p>And this is how it is done in version 5:</p>
-        <pre><code class="syntax-shortcode"><span class="tag">[site_reviews_summary</span> <span class="attr-name">assigned_posts</span>=<span class="attr-value">"post_id"</span> <span class="attr-name">assigned_terms</span>=<span class="attr-value">"13"</span><span class="tag">]</span>
-<span class="tag">[site_reviews</span> <span class="attr-name">assigned_posts</span>=<span class="attr-value">"post_id"</span> <span class="attr-name">assigned_terms</span>=<span class="attr-value">"13"</span> <span class="attr-name">hide</span>=<span class="attr-value">"assigned_links,title"</span><span class="tag">]</span>
-<span class="tag">[site_reviews_form</span> <span class="attr-name">assigned_posts</span>=<span class="attr-value">"post_id"</span> <span class="attr-name">assigned_terms</span>=<span class="attr-value">"13"</span><span class="tag">]</span>
-</code></pre>
+        <pre><code class="language-shortcode">[site_reviews_summary assigned_posts="post_id" assigned_terms="13"]</code></pre>
+        <pre><code class="language-shortcode">[site_reviews assigned_posts="post_id" assigned_terms="13" hide="assigned_links,title"]</code></pre>
+        <pre><code class="language-shortcode">[site_reviews_form assigned_posts="post_id" assigned_terms="13"]</code></pre>
 
         <h2>Action and Filter Hook changes</h2>
         <p><em>Likelihood Of Impact: <span class="impact-medium">Medium</span></em></p>

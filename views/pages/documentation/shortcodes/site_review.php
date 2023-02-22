@@ -15,14 +15,17 @@
         </div>
         <?php
             $options = [
-                trailingslashit(__DIR__).'site_review/class.php',
-                trailingslashit(__DIR__).'site_review/fallback.php',
-                trailingslashit(__DIR__).'site_review/hide.php',
-                trailingslashit(__DIR__).'site_review/id.php',
-                trailingslashit(__DIR__).'site_review/post_id.php',
+                'class' => trailingslashit(__DIR__).'site_review/class.php',
+                'fallback' => trailingslashit(__DIR__).'site_review/fallback.php',
+                'form' => trailingslashit(__DIR__).'site_review/form.php',
+                'hide' => trailingslashit(__DIR__).'site_review/hide.php',
+                'id' => trailingslashit(__DIR__).'site_review/id.php',
+                'post_id' => trailingslashit(__DIR__).'site_review/post_id.php',
+                'theme' => trailingslashit(__DIR__).'site_review/theme.php',
             ];
             $filename = pathinfo(__FILE__, PATHINFO_FILENAME);
-            $options = glsr()->filterArrayUnique('documentation/shortcodes/'.$filename, $options);
+            $options = glsr()->filterArray('documentation/shortcode/'.$filename, $options);
+            ksort($options);
             foreach ($options as $option) {
                 include $option;
             }

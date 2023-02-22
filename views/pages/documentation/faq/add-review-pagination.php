@@ -12,8 +12,7 @@
         <p>If you are using the shortcodes, then use the <code>pagination</code> and <code>display</code> options.</p>
         <p>For example, this will display 10 reviews per-page:</p>
         <div class="shortcode-example">
-            <input type="text" readonly class="code" value='[site_reviews pagination="ajax" display="10"]'>
-            <pre><code class="syntax-shortcode"><span class="tag">[site_reviews</span> <span class="attr-name">pagination</span>=<span class="attr-value">"ajax"</span> <span class="attr-name">display</span>=<span class="attr-value">"10"</span><span class="tag">]</span></code></pre>
+            <pre><code class="language-shortcode">[site_reviews pagination="ajax" display="10"]</code></pre>
         </div>
         <p>To lean more about the available shortcode options and how to use them, please see the <code><a href="<?= glsr_admin_url('documentation', 'shortcodes'); ?>">Documentation > Shortcodes</a></code> page.</p>
     </div>
