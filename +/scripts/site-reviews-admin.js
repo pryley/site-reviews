@@ -227,6 +227,12 @@ jQuery(function ($) {
             screenMeta.open(panel, $(this));
         }
     });
+
+    $('.shortcode-example').on('copy', ev => {
+        const selection = document.getSelection();
+        ev.originalEvent.clipboardData.setData('text/plain', selection.toString());
+        ev.preventDefault();
+    })
 });
 
 const loadYouTube = function (link) {
