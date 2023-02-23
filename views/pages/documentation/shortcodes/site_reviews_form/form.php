@@ -4,7 +4,6 @@
 </div>
 <p>Include the "form" option to use the fields from a custom form.</p>
 <p><span class="required">Important:</span> The custom form will override the hide option used on this shortcode.</p>
-<p>The default form value is: <code>""</code></p>
 <div class="shortcode-example">
     <pre><code class="language-shortcode">[site_reviews_form form="13"]</code></pre>
 </div>

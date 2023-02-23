@@ -5,7 +5,6 @@
     <p class="components-notice__content">The <a href="<?= glsr_admin_url('addons'); ?>">Review Images</a> add-on is required to use the "images" value in this shortcode option.</p>
 </div>
 <p>Include the "hide" option to hide any specific fields you don't want to show. If all fields are hidden, the shortcode will not be displayed.</p>
-<p>The default hide value is: <code>""</code></p>
 <div class="shortcode-example">
     <pre><code class="language-shortcode">[site_reviews hide="assigned_links,author,avatar,content,date,images,rating,response,title"]</code></pre>
 </div>

@@ -4,7 +4,6 @@
 </div>
 <p>Include the "theme" option to display the review using a custom theme.</p>
 <p><span class="required">Important:</span> The custom theme will override the hide option used on this shortcode.</p>
-<p>The default form value is: <code>""</code></p>
 <div class="shortcode-example">
     <pre><code class="language-shortcode">[site_review theme="13"]</code></pre>
 </div>

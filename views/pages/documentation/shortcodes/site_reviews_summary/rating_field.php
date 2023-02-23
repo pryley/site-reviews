@@ -5,7 +5,6 @@
     <p class="components-notice__content">Custom rating fields can be added with the <a href="<?= glsr_admin_url('addons'); ?>">Review Forms</a> addon.</p>
 </div>
 <p>Include the "rating_field" option to use the values of a custom rating field for the ratings in the summary. Use the custom rating Field Name as the value.</p>
-<p>The default rating_field value is: <code>""</code></p>
 <div class="shortcode-example">
     <pre><code class="language-shortcode">[site_reviews_summary rating_field="sound_rating"]</code></pre>
 </div>
