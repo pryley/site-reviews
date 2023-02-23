@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.1
-Stable tag: 6.5.0
+Stable tag: 6.5.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -172,6 +172,11 @@ All documentation can be found in the "Help & Support" page of the plugin. If yo
 This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after upgrading.
 
 == Changelog ==
+
+= 6.5.1 (2023-02-23) =
+
+- Fixed copy/pasting of shortcode examples from the Shortcodes documentation
+- Updated Shortcodes documentation
 
 = 6.5.0 (2023-02-21) =
 
