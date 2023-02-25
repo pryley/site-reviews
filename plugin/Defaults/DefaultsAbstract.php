@@ -8,8 +8,6 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
-use ReflectionClass;
-use ReflectionException;
 
 /**
  * @method array dataAttributes(array $values = [])
@@ -27,6 +25,7 @@ abstract class DefaultsAbstract implements DefaultsContract
 {
     /**
      * The values that should be cast before sanitization is run.
+     * This is done before $enums and $sanitize.
      * @var array
      */
     public $casts = [];
@@ -38,21 +37,21 @@ abstract class DefaultsAbstract implements DefaultsContract
     public $concatenated = [];
 
     /**
-     * The keys which should be restricted to specific values.
+     * The values that should be constrained before sanitization is run.
+     * This is done after $casts and before $sanitize.
      * @return array
-     * @todo Not yet implemented!
      */
-    public $enum = [];
+    public $enums = [];
 
     /**
      * The values that should be guarded.
-     * @var array
+     * @var string[]
      */
     public $guarded = [];
 
     /**
      * The keys that should be mapped to other keys.
-     * Keys are mapped before the values are sanitized!
+     * Keys are mapped before the values are normalized and sanitized.
      * Note: Mapped keys should not be included in the defaults!
      * @var array
      */
@@ -60,6 +59,7 @@ abstract class DefaultsAbstract implements DefaultsContract
 
     /**
      * The values that should be sanitized.
+     * This is done after $casts and $enums.
      * @var array
      */
     public $sanitize = [];
@@ -152,7 +152,7 @@ abstract class DefaultsAbstract implements DefaultsContract
      */
     protected function currentHook()
     {
-        $hookName = (new ReflectionClass($this))->getShortName();
+        $hookName = (new \ReflectionClass($this))->getShortName();
         $hookName = Str::replaceLast('Defaults', '', $hookName);
         return Str::dashCase($hookName);
     }
@@ -325,14 +325,14 @@ abstract class DefaultsAbstract implements DefaultsContract
     protected function property($key)
     {
         try {
-            $reflection = new ReflectionClass($this);
+            $reflection = new \ReflectionClass($this);
             $property = $reflection->getProperty($key);
             $value = $property->getValue($this);
             if ($property->isPublic()) { // all public properties are expected to be an array
                 $hook = 'defaults/'.$this->hook.'/'.$key;
                 return $this->app()->filterArray($hook, $value, $this->method);
             }
-        } catch (ReflectionException $e) {
+        } catch (\ReflectionException $e) {
             glsr_log()->error("Invalid or protected property [$key].");
         }
     }
@@ -354,6 +354,14 @@ abstract class DefaultsAbstract implements DefaultsContract
         foreach ($this->property('casts') as $key => $cast) {
             if (array_key_exists($key, $values)) {
                 $values[$key] = Cast::to($cast, $values[$key]);
+            }
+        }
+        foreach ($this->property('enums') as $key => $enums) {
+            if (!array_key_exists($key, $values)) {
+                continue;
+            }
+            if (!in_array($values[$key], $enums, true)) { // use strict types
+                $values[$key] = $this->defaults[$key] ?? '';
             }
         }
         return (new Sanitizer($values, $this->property('sanitize')))->run();
