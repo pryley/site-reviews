@@ -6,7 +6,6 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use GeminiLabs\SiteReviews\Modules\Rating;
 
 class Sanitizer
 {
@@ -39,10 +38,7 @@ class Sanitizer
         $this->values = Arr::consolidate($values);
     }
 
-    /**
-     * @return array|bool|string
-     */
-    public function run()
+    public function run(): array
     {
         $results = $this->values;
         foreach ($this->values as $key => $value) {
@@ -61,9 +57,8 @@ class Sanitizer
 
     /**
      * @param mixed $value
-     * @return array
      */
-    public function sanitizeArray($value)
+    public function sanitizeArray($value): array
     {
         return Arr::consolidate($value);
     }
@@ -72,7 +67,7 @@ class Sanitizer
      * @param mixed $value
      * @return int[]
      */
-    public function sanitizeArrayInt($value)
+    public function sanitizeArrayInt($value): array
     {
         return Arr::uniqueInt(Cast::toArray($value), true); // use absint
     }
@@ -81,7 +76,7 @@ class Sanitizer
      * @param mixed $value
      * @return string[]
      */
-    public function sanitizeArrayString($value)
+    public function sanitizeArrayString($value): array
     {
         $sanitized = array_filter(Cast::toArray($value), 'is_string');
         array_walk($sanitized, function (&$value) {
@@ -134,10 +129,8 @@ class Sanitizer
     /**
      * If date is invalid then return an empty string.
      * @param mixed $value
-     * @param string $fallback
-     * @return string
      */
-    public function sanitizeDate($value, $fallback = '')
+    public function sanitizeDate($value, string $fallback = ''): string
     {
         $date = trim(Cast::toString($value));
         $format = 'Y-m-d H:i:s';
@@ -158,18 +151,16 @@ class Sanitizer
 
     /**
      * @param mixed $value
-     * @return string
      */
-    public function sanitizeEmail($value)
+    public function sanitizeEmail($value): string
     {
         return sanitize_email(trim(Cast::toString($value)));
     }
 
     /**
      * @param mixed $value
-     * @return string
      */
-    public function sanitizeId($value)
+    public function sanitizeId($value): string
     {
         require_once ABSPATH.WPINC.'/pluggable.php';
         $value = sanitize_key($this->sanitizeText($value));
@@ -182,9 +173,8 @@ class Sanitizer
 
     /**
      * @param mixed $value
-     * @return int
      */
-    public function sanitizeInt($value)
+    public function sanitizeInt($value): int
     {
         return Cast::toInt($value);
     }
@@ -192,9 +182,8 @@ class Sanitizer
     /**
      * @param mixed $value
      * @param mixed $max
-     * @return int
      */
-    public function sanitizeMax($value, $max = 0)
+    public function sanitizeMax($value, $max = 0): int
     {
         $max = Cast::toInt($max);
         $value = Cast::toInt($value);
@@ -206,18 +195,16 @@ class Sanitizer
     /**
      * @param mixed $value
      * @param mixed $min
-     * @return int
      */
-    public function sanitizeMin($value, $min = 0)
+    public function sanitizeMin($value, $min = 0): int
     {
         return max(Cast::toInt($min), Cast::toInt($value));
     }
 
     /**
      * @param mixed $value
-     * @return array
      */
-    public function sanitizeJson($value)
+    public function sanitizeJson($value): array
     {
         $result = '';
         if (is_scalar($value) && !Helper::isEmpty($value)) {
@@ -235,9 +222,8 @@ class Sanitizer
     /**
      * This allows lowercase alphannumeric and underscore characters.
      * @param mixed $value
-     * @return string
      */
-    public function sanitizeKey($value)
+    public function sanitizeKey($value): string
     {
         $value = sanitize_key($this->sanitizeText($value));
         return substr(Str::snakeCase($value), 0, 32); // limit the key to 32 characters
@@ -246,9 +232,8 @@ class Sanitizer
     /**
      * This allows lowercase alpha and underscore characters.
      * @param mixed $value
-     * @return string
      */
-    public function sanitizeName($value)
+    public function sanitizeName($value): string
     {
         $value = Str::snakeCase($this->sanitizeText($value));
         return preg_replace('/[^a-z_]/', '', $value);
@@ -267,7 +252,7 @@ class Sanitizer
      * @param mixed $value
      * @return int[]
      */
-    public function sanitizePostIds($value)
+    public function sanitizePostIds($value): array
     {
         $postIds = Cast::toArray($value);
         $postIds = array_map([Helper::class, 'getPostId'], $postIds);
@@ -276,9 +261,8 @@ class Sanitizer
 
     /**
      * @param mixed $value
-     * @return int
      */
-    public function sanitizeRating($value)
+    public function sanitizeRating($value): int
     {
         $max = max(1, (int) glsr()->constant('MAX_RATING', Rating::class));
         $min = max(0, (int) glsr()->constant('MIN_RATING', Rating::class));
@@ -286,10 +270,10 @@ class Sanitizer
     }
 
     /**
+     * This allows lowercase alphannumeric, underscore, and dash characters.
      * @param mixed $value
-     * @return string
      */
-    public function sanitizeSlug($value)
+    public function sanitizeSlug($value): string
     {
         return sanitize_title($this->sanitizeText($value));
     }
@@ -298,7 +282,7 @@ class Sanitizer
      * @param mixed $value
      * @return int[]
      */
-    public function sanitizeTermIds($value)
+    public function sanitizeTermIds($value): array
     {
         $termIds = Cast::toArray($value);
         $termIds = array_map([Helper::class, 'getTermTaxonomyId'], $termIds);
@@ -306,19 +290,18 @@ class Sanitizer
     }
 
     /**
+     * Strips all HTML from string.
      * @param mixed $value
-     * @return string
      */
-    public function sanitizeText($value)
+    public function sanitizeText($value): string
     {
         return sanitize_text_field(trim(Cast::toString($value)));
     }
 
     /**
      * @param mixed $value
-     * @return string
      */
-    public function sanitizeTextHtml($value)
+    public function sanitizeTextHtml($value): string
     {
         $allowedHtmlPost = wp_kses_allowed_html('post');
         $allowedHtml = [
@@ -332,9 +315,8 @@ class Sanitizer
 
     /**
      * @param mixed $value
-     * @return string
      */
-    public function sanitizeTextMultiline($value)
+    public function sanitizeTextMultiline($value): string
     {
         return sanitize_textarea_field(trim(Cast::toString($value)));
     }
@@ -342,18 +324,16 @@ class Sanitizer
     /**
      * Returns slashed data!
      * @param mixed $value
-     * @return string
      */
-    public function sanitizeTextPost($value)
+    public function sanitizeTextPost($value): string
     {
         return wp_filter_post_kses(trim(Cast::toString($value)));
     }
 
     /**
      * @param mixed $value
-     * @return string
      */
-    public function sanitizeUrl($value)
+    public function sanitizeUrl($value): string
     {
         $value = trim(Cast::toString($value));
         if (!Str::startsWith($value, 'http://, https://')) {
@@ -368,9 +348,8 @@ class Sanitizer
 
     /**
      * @param mixed $value
-     * @return string
      */
-    public function sanitizeUserEmail($value)
+    public function sanitizeUserEmail($value): string
     {
         $user = wp_get_current_user();
         $value = $this->sanitizeEmail($value);
@@ -382,10 +361,9 @@ class Sanitizer
 
     /**
      * @param mixed $value
-     * @param mixed $fallbackUserId
-     * @return int
+     * @param int|string|null $fallbackUserId
      */
-    public function sanitizeUserId($value, $fallbackUserId = null)
+    public function sanitizeUserId($value, $fallbackUserId = null): int
     {
         $user = get_user_by('ID', Cast::toInt($value));
         if (false !== $user) {
@@ -408,7 +386,7 @@ class Sanitizer
      * @param mixed $value
      * @return int[]
      */
-    public function sanitizeUserIds($value)
+    public function sanitizeUserIds($value): array
     {
         $userIds = Cast::toArray($value);
         $userIds = array_map([Helper::class, 'getUserId'], $userIds);
@@ -417,9 +395,8 @@ class Sanitizer
 
     /**
      * @param mixed $value
-     * @return string
      */
-    public function sanitizeUserName($value)
+    public function sanitizeUserName($value): string
     {
         $user = wp_get_current_user();
         $value = $this->sanitizeText($value);
@@ -431,20 +408,17 @@ class Sanitizer
 
     /**
      * @param mixed $value
-     * @return string
      */
-    public function sanitizeVersion($value)
+    public function sanitizeVersion($value): string
     {
+        $value = Cast::toString($value);
         if (1 === preg_match('/^(\d+\.)?(\d+\.)?(\d+)(-[a-z0-9]+)?$/i', $value)) {
             return $value;
         }
         return '';
     }
 
-    /**
-     * @return array
-     */
-    protected function buildSanitizers(array $sanitizers)
+    protected function buildSanitizers(array $sanitizers): array
     {
         $fallback = [ // fallback to this
             'args' => [],
