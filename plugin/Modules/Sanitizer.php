@@ -252,11 +252,7 @@ class Sanitizer
     public function sanitizePostIds($value)
     {
         $postIds = Cast::toArray($value);
-        foreach ($postIds as &$postId) {
-            if ($sanitizedId = Helper::getPostId($postId)) {
-                $postId = $sanitizedId;
-            }
-        }
+        $postIds = array_map([Helper::class, 'getPostId'], $postIds);
         return Arr::uniqueInt($postIds);
     }
 
@@ -287,11 +283,7 @@ class Sanitizer
     public function sanitizeTermIds($value)
     {
         $termIds = Cast::toArray($value);
-        foreach ($termIds as &$termId) {
-            if ($sanitizedId = Helper::getTermTaxonomyId($termId)) {
-                $termId = $sanitizedId;
-            }
-        }
+        $termIds = array_map([Helper::class, 'getTermTaxonomyId'], $termIds);
         return Arr::uniqueInt($termIds);
     }
 
@@ -401,11 +393,7 @@ class Sanitizer
     public function sanitizeUserIds($value)
     {
         $userIds = Cast::toArray($value);
-        foreach ($userIds as &$userId) {
-            if ($sanitizedId = Helper::getUserId($userId)) {
-                $userId = $sanitizedId;
-            }
-        }
+        $userIds = array_map([Helper::class, 'getUserId'], $userIds);
         return Arr::uniqueInt($userIds);
     }
 
