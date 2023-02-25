@@ -112,8 +112,9 @@ abstract class DefaultsAbstract implements DefaultsContract
     {
         $this->called = $name;
         $this->method = Helper::buildMethodName(Str::removePrefix($name, 'unguarded'));
-        $values = $this->normalize(Arr::consolidate(array_shift($args)));
+        $values = Arr::consolidate(array_shift($args));
         $values = $this->mapKeys($values);
+        $values = $this->normalize($values);
         array_unshift($args, $values);
         if (in_array($this->method, $this->callable)) { // this also means that the method exists
             $values = $this->callMethod($args);
