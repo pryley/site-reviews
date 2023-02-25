@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 /**
  * @method string classes(string $key)
@@ -104,7 +105,8 @@ class Style
 
     public function styleClasses(): string
     {
-        return glsr()->filterString('style', 'glsr glsr-'.$this->__get('style'));
+        $classes = glsr()->filterString('style', 'glsr glsr-'.$this->__get('style'));
+        return glsr(Sanitizer::class)->sanitizeAttrClass($classes);
     }
 
     public function stylesheetUrl(?string $suffix = ''): string

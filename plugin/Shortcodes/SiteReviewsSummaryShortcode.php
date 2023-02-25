@@ -6,6 +6,7 @@ use GeminiLabs\SiteReviews\Database\RatingManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Schema;
 
 class SiteReviewsSummaryShortcode extends Shortcode
@@ -78,7 +79,10 @@ class SiteReviewsSummaryShortcode extends Shortcode
      */
     protected function getClasses()
     {
-        return trim('glsr-summary '.$this->args['class']);
+        $classes = ['glsr-summary'];
+        $classes[] = $this->args['class'];
+        $classes = implode(' ', $classes);
+        return glsr(Sanitizer::class)->sanitizeAttrClass($classes);
     }
 
     /**

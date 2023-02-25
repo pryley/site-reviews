@@ -92,6 +92,20 @@ class Sanitizer
 
     /**
      * @param mixed $value
+     * @return string
+     */
+    public function sanitizeAttrClass($value)
+    {
+        $classes = Cast::toString($value);
+        $classes = explode(' ', $classes);
+        $classes = array_values(array_filter(array_unique($classes)));
+        $classes = array_map('sanitize_html_class', $classes);
+        $classes = implode(' ', $classes);
+        return $classes;
+    }
+
+    /**
+     * @param mixed $value
      * @return bool
      */
     public function sanitizeBool($value)

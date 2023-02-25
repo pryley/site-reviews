@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Tags\FormFieldsTag;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Style;
 
 class SiteReviewsFormShortcode extends Shortcode
@@ -130,15 +131,14 @@ class SiteReviewsFormShortcode extends Shortcode
      */
     protected function getClasses()
     {
-        $classes = [
-            'glsr-review-form',
-            glsr(Style::class)->classes('form'),
-            $this->args['class'],
-        ];
+        $classes = ['glsr-review-form'];
+        $classes[] = glsr(Style::class)->classes('form');
+        $classes[] = $this->args['class'];
         if (!empty($this->with->errors)) {
             $classes[] = glsr(Style::class)->validation('form_error');
         }
-        return trim(implode(' ', array_filter($classes)));
+        $classes = implode(' ', $classes);
+        return glsr(Sanitizer::class)->sanitizeAttrClass($classes);
     }
 
     /**
