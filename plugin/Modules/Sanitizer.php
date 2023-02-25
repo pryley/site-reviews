@@ -92,9 +92,17 @@ class Sanitizer
 
     /**
      * @param mixed $value
-     * @return string
      */
-    public function sanitizeAttrClass($value)
+    public function sanitizeAttr($value): string
+    {
+        $value = Cast::toString($value);
+        return esc_attr($value);
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public function sanitizeAttrClass($value): string
     {
         $classes = Cast::toString($value);
         $classes = explode(' ', $classes);
@@ -106,9 +114,19 @@ class Sanitizer
 
     /**
      * @param mixed $value
-     * @return bool
      */
-    public function sanitizeBool($value)
+    public function sanitizeAttrStyle($value): string
+    {
+        $style = Cast::toString($value);
+        $style = strtolower($style);
+        $style = preg_replace('/[^a-z0-9_%:;,.#"() \-\'\/]/', '', $style);
+        return esc_attr($style);
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public function sanitizeBool($value): bool
     {
         return Cast::toBool($value);
     }
