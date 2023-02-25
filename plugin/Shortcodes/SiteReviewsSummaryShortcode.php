@@ -14,24 +14,19 @@ class SiteReviewsSummaryShortcode extends Shortcode
     /**
      * @var array
      */
-    public $args;
-
-    /**
-     * @var array
-     */
     protected $ratings;
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function buildTemplate(array $args = [])
     {
-        $ratings = glsr(RatingManager::class)->ratings($args);
-        $this->args = $args;
-        $this->ratings = $ratings;
-        $this->debug(compact('ratings'));
+        $this->normalize($args);
+        $this->ratings = glsr(RatingManager::class)->ratings($this->args);
+        $this->debug(['ratings' => $this->ratings]);
+
         if ($this->isEmpty()) {
-            return;
+            return '';
         }
         $this->generateSchema();
         return glsr(Template::class)->build('templates/reviews-summary', [
@@ -47,25 +42,18 @@ class SiteReviewsSummaryShortcode extends Shortcode
         ]);
     }
 
-    /**
-     * @param string $tag
-     * @return string
-     */
-    protected function buildTemplateTag($tag)
+    protected function buildTemplateTag(string $tag): string
     {
         $args = $this->args;
         $className = Helper::buildClassName(['summary', $tag, 'tag'], 'Modules\Html\Tags');
         $className = glsr()->filterString('summary/tag/'.$tag, $className, $this);
         $field = class_exists($className)
             ? glsr($className, compact('tag', 'args'))->handleFor('summary', null, $this->ratings)
-            : null;
+            : '';
         return glsr()->filterString('summary/build/'.$tag, $field, $this->ratings, $this);
     }
 
-    /**
-     * @return void
-     */
-    protected function generateSchema()
+    protected function generateSchema(): void
     {
         if (Cast::toBool($this->args['schema'])) {
             glsr(Schema::class)->store(
@@ -74,10 +62,7 @@ class SiteReviewsSummaryShortcode extends Shortcode
         }
     }
 
-    /**
-     * @return string
-     */
-    protected function getClasses()
+    protected function getClasses(): string
     {
         $classes = ['glsr-summary'];
         $classes[] = $this->args['class'];
@@ -99,10 +84,7 @@ class SiteReviewsSummaryShortcode extends Shortcode
         ];
     }
 
-    /**
-     * @return bool
-     */
-    protected function isEmpty()
+    protected function isEmpty(): bool
     {
         return !array_sum($this->ratings) && in_array('if_empty', $this->args['hide']);
     }

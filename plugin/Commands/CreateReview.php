@@ -120,7 +120,7 @@ class CreateReview implements Contract
         if (!empty($args) && $this->review->is_approved) {
             $paginationArgs = $this->request->cast('_pagination_atts', 'array');
             glsr()->store(glsr()->paged_handle, $paginationArgs);
-            return (string) glsr(SiteReviewsShortcode::class)->buildReviewsHtmlFromArgs($args);
+            return glsr(SiteReviewsShortcode::class)->buildTemplate($args);
         }
         return '';
     }

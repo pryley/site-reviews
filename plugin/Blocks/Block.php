@@ -81,9 +81,9 @@ abstract class Block
      */
     protected function hasVisibleFields($shortcode, array $attributes)
     {
-        $args = $shortcode->normalizeAtts($attributes);
+        $shortcode->normalize($attributes);
         $defaults = $shortcode->getHideOptions();
-        $hide = array_flip($args['hide']);
+        $hide = array_flip($shortcode->args['hide']);
         unset($defaults['if_empty'], $hide['if_empty']);
         return !empty(array_diff_key($defaults, $hide));
     }

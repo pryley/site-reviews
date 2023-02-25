@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Shortcodes;
 
 use GeminiLabs\SiteReviews\Database\ReviewManager;
-use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewsHtml;
 use GeminiLabs\SiteReviews\Modules\Schema;
@@ -11,17 +10,9 @@ use GeminiLabs\SiteReviews\Reviews;
 
 class SiteReviewsShortcode extends Shortcode
 {
-    /**
-     * @var array
-     */
-    public $args;
-
-    /**
-     * @return ReviewsHtml
-     */
-    public function buildReviewsHtml(array $args = [])
+    public function buildReviewsHtml(array $args = []): ReviewsHtml
     {
-        $this->args = glsr(SiteReviewsDefaults::class)->unguardedMerge($args);
+        $this->normalize($args);
         $reviews = glsr(ReviewManager::class)->reviews($args);
         $this->debug((array) $reviews);
         $this->generateSchema($reviews);
@@ -32,27 +23,14 @@ class SiteReviewsShortcode extends Shortcode
     }
 
     /**
-     * @return ReviewsHtml
-     */
-    public function buildReviewsHtmlFromArgs(array $args = [])
-    {
-        $atts = glsr(SiteReviewsDefaults::class)->restrict($args);
-        $args = $this->normalizeAtts($atts)->toArray();
-        return $this->buildReviewsHtml($args);
-    }
-
-    /**
-     * {@inheritdoc}
+     * @return string
      */
     public function buildTemplate(array $args = [])
     {
         return (string) $this->buildReviewsHtml($args);
     }
 
-    /**
-     * @return void
-     */
-    public function generateSchema(Reviews $reviews)
+    public function generateSchema(Reviews $reviews): void
     {
         if (Cast::toBool($this->args['schema'])) {
             glsr(Schema::class)->store(
@@ -61,10 +39,7 @@ class SiteReviewsShortcode extends Shortcode
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function debug(array $data = [])
+    protected function debug(array $data = []): void
     {
         if (!empty($this->args['debug'])) {
             $reviews = [];
