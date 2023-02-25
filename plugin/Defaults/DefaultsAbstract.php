@@ -246,15 +246,15 @@ abstract class DefaultsAbstract implements DefaultsContract
      * Map old or deprecated keys to new keys.
      * @return array
      */
-    protected function mapKeys(array $args)
+    protected function mapKeys(array $values)
     {
         foreach ($this->property('mapped') as $old => $new) {
-            if (!empty($args[$old])) { // old always takes precedence
-                $args[$new] = $args[$old];
+            if (empty($values[$new]) && !empty($values[$old])) { // new always takes precedence
+                $values[$new] = $values[$old];
             }
-            unset($args[$old]);
+            unset($values[$old]);
         }
-        return $args;
+        return $values;
     }
 
     /**
