@@ -358,10 +358,7 @@ abstract class DefaultsAbstract implements DefaultsContract
             }
         }
         foreach ($this->property('enums') as $key => $enums) {
-            if (!array_key_exists($key, $values)) {
-                continue;
-            }
-            if (!in_array($values[$key], $enums, true)) { // use strict types
+            if (array_key_exists($key, $values) && !in_array($values[$key], $enums, true)) {
                 $values[$key] = $this->defaults[$key] ?? '';
             }
         }
