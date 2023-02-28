@@ -2,12 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Widgets;
 
+use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\WidgetBuilder;
-use WP_Widget;
 
-abstract class Widget extends WP_Widget
+abstract class Widget extends \WP_Widget
 {
     /**
      * @var array
@@ -40,7 +40,13 @@ abstract class Widget extends WP_Widget
      */
     public function widget($args, $instance)
     {
-        echo $this->shortcode()->build($instance, $args, 'widget');
+        $shortcode = $this->shortcode();
+        $args = $this->normalizeArgs($args);
+        $html = $shortcode->build($instance, 'widget');
+        $title = !empty($shortcode->args['title'])
+            ? $args->before_title.$shortcode->args['title'].$args->after_title
+            : '';
+        echo $args->before_widget.$title.$html.$args->after_widget;
     }
 
     /**
@@ -51,6 +57,21 @@ abstract class Widget extends WP_Widget
     {
         $key = Arr::get($this->mapped, $key, $key);
         return Arr::get($this->widgetArgs, $key);
+    }
+
+    /**
+     * @param array|string $args
+     */
+    protected function normalizeArgs($args): Arguments
+    {
+        $args = wp_parse_args($args, [
+            'before_widget' => '',
+            'after_widget' => '',
+            'before_title' => '<h2 class="glsr-title">',
+            'after_title' => '</h2>',
+        ]);
+        $args = glsr()->filterArray('widget/args', $args, $this->shortcode()->shortcode);
+        return glsr()->args($args);
     }
 
     /**

@@ -25,11 +25,11 @@ class RegisterTinymcePopups implements Contract
                 glsr_log()->error(sprintf('Tinymce Popup class missing (%s)', $buttonClass));
                 continue;
             }
-            $shortcode = glsr($buttonClass)->register($slug, [
+            $tinymce = glsr($buttonClass)->register($slug, [
                 'label' => $label,
                 'title' => $label,
             ]);
-            glsr()->append('mce', $shortcode->properties, $slug);
+            glsr()->append('mce', $tinymce->properties, $slug);
         }
     }
 }

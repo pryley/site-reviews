@@ -7,24 +7,20 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class AddonDefaults extends Defaults
 {
-    /**
-     * @return array
-     */
-    public $casts = [
-        'description' => 'string',
-        'id' => 'string',
-        'link_text' => 'string',
-        'plugin' => 'string',
-        'slug' => 'string',
-        'style' => 'string',
-        'title' => 'string',
-    ];
-
-    /**
+  /**
+     * The values that should be sanitized.
+     * This is done after $casts and $enums.
      * @var array
      */
     public $sanitize = [
         'beta' => 'bool',
+        'description' => 'text',
+        'id' => 'id',
+        'link_text' => 'text',
+        'plugin' => 'text',
+        'slug' => 'slug',
+        'style' => 'attr-style',
+        'title' => 'text',
         'url' => 'url',
     ];
 
@@ -47,15 +43,15 @@ class AddonDefaults extends Defaults
     }
 
     /**
-     * Normalize provided values, this always runs first.
+     * Finalize provided values, this always runs last.
      * @return array
      */
-    protected function normalize(array $values = [])
+    protected function finalize(array $values = [])
     {
         if (!empty($values['link_text'])) {
             return $values;
         }
-        if (true === Arr::getAs('bool', $values, 'beta')) {
+        if (true === $values['beta']) {
             $values['link_text'] = _x('Premium members only', 'admin-text', 'site-reviews');
             $values['title'] = sprintf('%s (%s)', $values['title'], _x('beta', 'admin-text', 'site-reviews'));
         } else {

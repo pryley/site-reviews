@@ -12,7 +12,7 @@ class SiteReviewWidget extends Widget
      */
     public function form($instance)
     {
-        $this->widgetArgs = $this->shortcode()->normalizeAtts($instance)->toArray();
+        $this->widgetArgs = $this->shortcode()->normalize($instance)->args;
         $this->renderField('text', [
             'label' => _x('Title', 'admin-text', 'site-reviews'),
             'name' => 'title',

@@ -85,19 +85,17 @@ class Controller extends BaseController
 
     protected function buildReviewSchema(array $args)
     {
-        $shortcode = glsr(SiteReviewsShortcode::class);
-        $args = $shortcode->normalizeAtts($args)->toArray();
-        $reviews = glsr(ReviewManager::class)->reviews($args);
-        $schema = glsr(Schema::class)->build($args, $reviews);
+        $shortcode = glsr(SiteReviewsShortcode::class)->normalize($args);
+        $reviews = glsr(ReviewManager::class)->reviews($shortcode->args);
+        $schema = glsr(Schema::class)->build($shortcode->args, $reviews);
         glsr(Schema::class)->store($schema);
     }
 
     protected function buildSummarySchema(array $args)
     {
-        $shortcode = glsr(SiteReviewsSummaryShortcode::class);
-        $atts = $shortcode->normalizeAtts($args);
-        $ratings = glsr(RatingManager::class)->ratings($atts->toArray());
-        $schema = glsr(Schema::class)->build($args, $ratings);
+        $shortcode = glsr(SiteReviewsSummaryShortcode::class)->normalize($args);
+        $ratings = glsr(RatingManager::class)->ratings($shortcode->args);
+        $schema = glsr(Schema::class)->build($shortcode->args, $ratings);
         glsr(Schema::class)->store($schema);
     }
 

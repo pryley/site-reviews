@@ -18,7 +18,9 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 class CreateReviewDefaults extends Defaults
 {
     /**
-     * @return array
+     * The keys that should be mapped to other keys.
+     * Keys are mapped before the values are normalized and sanitized.
+     * @var array
      */
     public $mapped = [
         '_post_id' => 'post_id',
@@ -29,7 +31,9 @@ class CreateReviewDefaults extends Defaults
     ];
 
     /**
-     * @return array
+     * The values that should be sanitized.
+     * This is done after $casts and $enums.
+     * @var array
      */
     public $sanitize = [
         'assigned_posts' => 'post-ids',
@@ -42,7 +46,7 @@ class CreateReviewDefaults extends Defaults
         'date' => 'date',
         'date_gmt' => 'date',
         'email' => 'user-email',
-        'form_id' => 'key',
+        'form_id' => 'id',
         'ip_address' => 'text',
         'is_approved' => 'bool',
         'is_pinned' => 'bool',
@@ -56,7 +60,7 @@ class CreateReviewDefaults extends Defaults
         'terms' => 'bool',
         'terms_exist' => 'bool',
         'title' => 'text',
-        'type' => 'text',
+        'type' => 'slug',
         'url' => 'url',
     ];
 

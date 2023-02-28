@@ -8,27 +8,26 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 class SiteReviewDefaults extends Defaults
 {
     /**
-     * @var array
-     */
-    public $casts = [
-        'debug' => 'bool',
-        'hide' => 'array',
-        'post_id' => 'int',
-    ];
-
-    /**
+     * The values that should be guarded.
      * @var string[]
      */
     public $guarded = [
-        'fallback',
-        'title',
+        'fallback', 'title',
     ];
 
     /**
+     * The values that should be sanitized.
+     * This is done after $casts and $enums
      * @var array
      */
     public $sanitize = [
+        'class' => 'attr-class',
+        'debug' => 'bool',
+        'fallback' => 'text-post',
+        'hide' => 'array-string',
         'id' => 'id',
+        'post_id' => 'int',
+        'title' => 'text',
     ];
 
     /**

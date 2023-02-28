@@ -3,36 +3,40 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
 
+/**
+ * This is only used when updating the Review Post
+ */
 class UpdateReviewDefaults extends Defaults
 {
     /**
+     * The values that should be cast before sanitization is run.
+     * This is done before $enums and $sanitize.
      * @var array
      */
-    public $mapped = [
-        'author' => 'name',
-        'post_ids' => 'assigned_posts',
-        'term_ids' => 'assigned_terms',
-        'user_ids' => 'assigned_users',
+    public $casts = [
+        'status' => 'string',
     ];
 
     /**
+     * The values that should be constrained before sanitization is run.
+     * This is done after $casts and before $sanitize.
+     * @var array
+     */
+    public $enums = [
+        'status' => ['approved', 'pending', 'publish', 'unapproved'],
+    ];
+
+    /**
+     * The values that should be sanitized.
+     * This is done after $casts and $enums.
      * @var array
      */
     public $sanitize = [
-        'assigned_posts' => 'array-int',
-        'assigned_terms' => 'array-int',
-        'assigned_users' => 'array-int',
-        'author_id' => 'int',
+        'content' => 'text-multiline',
         'date' => 'date',
         'date_gmt' => 'date',
-        'is_pinned' => 'bool',
-        'is_verified' => 'bool',
-        'rating' => 'rating',
-        'score' => 'min:0',
-        'terms' => 'bool',
+        'title' => 'text',
     ];
 
     /**
@@ -41,57 +45,27 @@ class UpdateReviewDefaults extends Defaults
     protected function defaults()
     {
         return [
-            'assigned_posts' => '',
-            'assigned_terms' => '',
-            'assigned_users' => '',
-            'name' => '',
-            'author_id' => '',
-            'avatar' => '',
             'content' => '',
-            'custom' => '',
             'date' => '',
             'date_gmt' => '',
-            'email' => '',
-            'ip_address' => '',
-            'is_pinned' => '',
-            'is_verified' => '',
-            'rating' => '',
-            'response' => '',
-            'score' => '',
             'status' => '',
-            'terms' => '',
             'title' => '',
-            'type' => '',
-            'url' => '',
         ];
     }
 
     /**
-     * Normalize provided values, this always runs first.
+     * Finalize provided values, this always runs last.
      * @return array
      */
-    protected function normalize(array $values = [])
-    {
-        $values = $this->normalizeStatus($values);
-        return $values;
-    }
-
-    /**
-     * @return array
-     */
-    protected function normalizeStatus(array $values)
+    protected function finalize(array $values = [])
     {
         $mapped = [
             'approved' => 'publish',
-            'pending' => 'pending',
-            'publish' => 'publish',
             'unapproved' => 'pending',
         ];
-        $status = Str::restrictTo(array_keys($mapped), Arr::get($values, 'status'));
-        if (isset($mapped[$status])) {
-            $status = $mapped[$status];
+        if (array_key_exists($values['status'], $mapped)) {
+            $values['status'] = $mapped[$values['status']];
         }
-        $values['status'] = $status;
         return $values;
     }
 }

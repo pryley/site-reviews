@@ -8,21 +8,16 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 class SiteReviewsFormDefaults extends Defaults
 {
     /**
-     * @var array
-     */
-    public $casts = [
-        'debug' => 'bool',
-    ];
-
-    /**
-     * @var array
+     * The values that should be guarded.
+     * @var string[]
      */
     public $guarded = [
-        'description',
-        'title',
+        'description', 'title',
     ];
 
     /**
+     * The keys that should be mapped to other keys.
+     * Keys are mapped before the values are normalized and sanitized.
      * @var array
      */
     public $mapped = [
@@ -32,11 +27,19 @@ class SiteReviewsFormDefaults extends Defaults
     ];
 
     /**
+     * The values that should be sanitized.
+     * This is done after $casts and $enums
      * @var array
      */
     public $sanitize = [
+        'class' => 'attr-class',
+        'debug' => 'bool',
+        'description' => 'text',
         'form_id' => 'id',
+        'hide' => 'array-string',
         'id' => 'id',
+        'reviews_id' => 'id',
+        'title' => 'text',
     ];
 
     /**
@@ -51,7 +54,6 @@ class SiteReviewsFormDefaults extends Defaults
             'class' => '',
             'debug' => false,
             'description' => '',
-            'excluded' => '',
             'form_id' => '', // used for the validation session key and to generate the honeypot hash
             'hide' => '',
             'id' => '',

@@ -5,6 +5,7 @@ namespace GeminiLabs\SiteReviews\Modules\Html;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Reviews;
 
 class ReviewsHtml extends \ArrayObject
@@ -132,10 +133,10 @@ class ReviewsHtml extends \ArrayObject
      */
     protected function getClasses()
     {
-        $defaults = ['glsr-reviews'];
-        $classes = explode(' ', $this->args->class);
-        $classes = array_unique(array_merge($defaults, array_filter($classes)));
-        return implode(' ', $classes);
+        $classes = ['glsr-reviews'];
+        $classes[] = $this->args['class'];
+        $classes = implode(' ', $classes);
+        return glsr(Sanitizer::class)->sanitizeAttrClass($classes);
     }
 
     /**

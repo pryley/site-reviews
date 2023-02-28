@@ -5,28 +5,24 @@ namespace GeminiLabs\SiteReviews\Shortcodes;
 use GeminiLabs\SiteReviews\Arguments;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Html\Form;
 use GeminiLabs\SiteReviews\Modules\Html\Tags\FormFieldsTag;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Style;
 
 class SiteReviewsFormShortcode extends Shortcode
 {
-    /**
-     * @var array
-     */
-    public $args;
-
     /**
      * @var \GeminiLabs\SiteReviews\Arguments
      */
     protected $with;
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
-    public function buildTemplate(array $args = [])
+    public function buildTemplate()
     {
-        $this->args = $args;
         if (!is_user_logged_in() && glsr_get_option('general.require.login', false, 'bool')) {
             $this->debug();
             return $this->loginOrRegister();
@@ -35,7 +31,7 @@ class SiteReviewsFormShortcode extends Shortcode
         $fields = $this->buildTemplateFieldTags();
         $this->debug(compact('fields'));
         return glsr(Template::class)->build('templates/reviews-form', [
-            'args' => $args,
+            'args' => $this->args,
             'context' => [
                 'class' => $this->getClasses(),
                 'fields' => glsr()->filterString('form/build/fields', $fields, $this->with, $this),
@@ -51,10 +47,10 @@ class SiteReviewsFormShortcode extends Shortcode
      * @param string $url
      * @param string $redirect
      * @param bool $forceReauth
-     * @return string
+
      * @filter login_url
      */
-    public function filterLoginUrl($url, $redirect, $forceReauth)
+    public function filterLoginUrl($url, $redirect, $forceReauth): string
     {
         if ($loginUrl = glsr_get_option('general.require.login_url')) {
             if (!empty($redirect)) {
@@ -70,10 +66,10 @@ class SiteReviewsFormShortcode extends Shortcode
 
     /**
      * @param string $url
-     * @return string
+
      * @filter register_url
      */
-    public function filterRegisterUrl($url)
+    public function filterRegisterUrl($url): string
     {
         if ($registerUrl = glsr_get_option('general.require.register_url')) {
             return $registerUrl;
@@ -81,10 +77,7 @@ class SiteReviewsFormShortcode extends Shortcode
         return $url;
     }
 
-    /**
-     * @return \GeminiLabs\SiteReviews\Modules\Html\Form
-     */
-    protected function buildTemplateFieldTags()
+    protected function buildTemplateFieldTags(): Form
     {
         $parameters = [
             'args' => $this->args,
@@ -93,24 +86,17 @@ class SiteReviewsFormShortcode extends Shortcode
         return glsr(FormFieldsTag::class, $parameters)->handleFor('form', null, $this->with);
     }
 
-    /**
-     * @param string $tag
-     * @return false|string
-     */
-    protected function buildTemplateTag($tag)
+    protected function buildTemplateTag(string $tag): string
     {
         $args = $this->args;
         $className = Helper::buildClassName(['form', $tag, 'tag'], 'Modules\Html\Tags');
         $field = class_exists($className)
             ? glsr($className, compact('tag', 'args'))->handleFor('form', null, $this->with)
-            : null;
+            : '';
         return glsr()->filterString('form/build/'.$tag, $field, $this->with, $this);
     }
 
-    /**
-     * @return void
-     */
-    protected function debug(array $data = [])
+    protected function debug(array $data = []): void
     {
         if (!empty($this->args['debug']) && !empty($data['fields'])) {
             $fields = $data['fields'];
@@ -125,20 +111,16 @@ class SiteReviewsFormShortcode extends Shortcode
         parent::debug($data);
     }
 
-    /**
-     * @return string
-     */
-    protected function getClasses()
+    protected function getClasses(): string
     {
-        $classes = [
-            'glsr-review-form',
-            glsr(Style::class)->classes('form'),
-            $this->args['class'],
-        ];
+        $classes = ['glsr-review-form'];
+        $classes[] = glsr(Style::class)->classes('form');
+        $classes[] = $this->args['class'];
         if (!empty($this->with->errors)) {
             $classes[] = glsr(Style::class)->validation('form_error');
         }
-        return trim(implode(' ', array_filter($classes)));
+        $classes = implode(' ', $classes);
+        return glsr(Sanitizer::class)->sanitizeAttrClass($classes);
     }
 
     /**
@@ -156,10 +138,7 @@ class SiteReviewsFormShortcode extends Shortcode
         ];
     }
 
-    /**
-     * @return string
-     */
-    protected function loginOrRegister()
+    protected function loginOrRegister(): string
     {
         return glsr(Template::class)->build('templates/login-register', [
             'context' => [
@@ -168,10 +147,7 @@ class SiteReviewsFormShortcode extends Shortcode
         ]);
     }
 
-    /**
-     * @return string
-     */
-    protected function loginText()
+    protected function loginText(): string
     {
         add_filter('login_url', [$this, 'filterLoginUrl'], 20, 3);
         $loginUrl = wp_login_url(strval(get_permalink()));
@@ -184,21 +160,17 @@ class SiteReviewsFormShortcode extends Shortcode
     }
 
     /**
-     * @param string $postIds
-     * @return string
+     * @param string $value
      */
-    protected function normalizeAssignedPosts($postIds, Arguments $atts)
+    protected function normalizeAssignedPosts($value): string
     {
-        $postIds = parent::normalizeAssignedPosts($postIds, $atts);
+        $postIds = parent::normalizeAssignedPosts($value);
         $postIds = explode(',', $postIds);
         $postIds = array_filter($postIds, 'is_numeric'); // don't use post_types here
         return implode(',', $postIds);
     }
 
-    /**
-     * @return void|string
-     */
-    protected function registerText()
+    protected function registerText(): string
     {
         if (get_option('users_can_register') && glsr_get_option('general.require.login', false, 'bool')) {
             add_filter('register_url', [$this, 'filterRegisterUrl'], 20);
@@ -210,12 +182,10 @@ class SiteReviewsFormShortcode extends Shortcode
             ]);
             return sprintf(__('You may also %s for an account.', 'site-reviews'), $registerLink);
         }
+        return '';
     }
 
-    /**
-     * @return \GeminiLabs\SiteReviews\Arguments
-     */
-    protected function with()
+    protected function with(): Arguments
     {
         return glsr()->args([
             'errors' => glsr()->sessionPluck('form_errors', []),

@@ -71,6 +71,7 @@
     site-reviews/builder/field/<field_type>                     (string $className): string
     site-reviews/builder/result                                 (string $result, Modules\Html\Builder $builder): string
     site-reviews/capabilities                                   (array $capabilities): array
+    site-reviews/captcha/language                               (string $locale): string
     site-reviews/column/<column>                                (string $className): string
     site-reviews/columns/<column_slug>                          (string $value, int $postId): string
     site-reviews/columns/orderby-is-null                        (array $columns): array
@@ -149,13 +150,6 @@
     site-reviews/rating/ranking                                 (float $ranking, array $ratingCounts, Modules\Rating $rating): float
     site-reviews/ratings                                        (array $ratings, array $args): array
     site-reviews/ratings/grouped                                (array $ratings, string $metaGroup, array $args): array
-    site-reviews/rest-api/reviews/parameters                    (array $parameters): array
-    site-reviews/rest-api/reviews/prepare/<key>                 (mixed $value, Controllers\Api\Version1\Response\Prepare $prepare): array
-    site-reviews/rest-api/reviews/schema/properties             (array $properties): array
-    site-reviews/rest-api/summary/parameters                    (array $parameters): array
-    site-reviews/rest-api/summary/schema/properties             (array $properties): array
-    site-reviews/roles                                          (array $roles): array
-    site-reviews/captcha/language                               (string $locale): string
     site-reviews/render/view                                    (string $view, array $data): string
     site-reviews/rendered/field                                 (string $field, string $fieldType, array $field): string
     site-reviews/rendered/field/classes                         (array $classes, array $field): array
@@ -163,24 +157,30 @@
     site-reviews/rendered/partial/<partial_path>                (string $partial, array $args): string
     site-reviews/rendered/template                              (string $template, string $templatePath, array $data): string
     site-reviews/rendered/template/<template_path>              (string $template, array $data): string
+    site-reviews/rest-api/reviews/parameters                    (array $parameters): array
+    site-reviews/rest-api/reviews/prepare/<key>                 (mixed $value, Controllers\Api\Version1\Response\Prepare $prepare): array
+    site-reviews/rest-api/reviews/schema/properties             (array $properties): array
+    site-reviews/rest-api/summary/parameters                    (array $parameters): array
+    site-reviews/rest-api/summary/schema/properties             (array $properties): array
     site-reviews/review-form/fields                             (array $fields, Arguments $args): array
     site-reviews/review-form/fields/hidden                      (array $fields, Arguments $args): array
     site-reviews/review-form/fields/normalized                  (array $fields, Arguments $args): array
     site-reviews/review-form/order                              (array $order): array
     site-reviews/review-form/referer                            (string $referer): string
     site-reviews/review-table/clauses                           (array $clauses, string $ratingTable, \WP_Query $query): array
-    site-reviews/review/build/tag/<tag_or_field_key>            (string $field, string $value, Review $review, Modules\Html\ReviewHtml $reviewHtml): string
-    site-reviews/review/build/tag/response/by                   (string $responseBy, Review $review): string
     site-reviews/review/build/after                             (array $templateTags, Review $review, Modules\Html\ReviewHtml $reviewHtml): array
     site-reviews/review/build/context                           (array $context, Review $review, Modules\Html\ReviewHtml $reviewHtml): array
+    site-reviews/review/build/tag/<tag_or_field_key>            (string $field, string $value, Review $review, Modules\Html\ReviewHtml $reviewHtml): string
+    site-reviews/review/build/tag/response/by                   (string $responseBy, Review $review): string
     site-reviews/review/call/<methodName>                       (Review $review, ...$args): void|mixed
     site-reviews/review/redirect                                (string $redirect, Commands\CreateReview $createReview, Review $review): string
     site-reviews/review/tag/<tag>                               (string $className, Modules\Html\ReviewHtml $reviewHtml): string
     site-reviews/review/value/<tag_or_field_key>                (string $value, Contracts\TagContract $tag): string
-    site-reviews/review/wrapped                                 (string $value, string $rawValue, Contracts\TagContract $tag): string
     site-reviews/review/wrap/<tag_or_field_key>                 (string $value, string $rawValue, Contracts\TagContract $tag): string
+    site-reviews/review/wrapped                                 (string $value, string $rawValue, Contracts\TagContract $tag): string
     site-reviews/reviews/fallback                               (string $fallback, array $args): string
     site-reviews/reviews/html/<property>                        (mixed $value, Modules\Html\ReviewHtml $reviewHtml): mixed
+    site-reviews/roles                                          (array $roles): array
     site-reviews/route/request                                  (array $request, string $action, string $requestType): array
     site-reviews/router/admin/unguarded-actions                 (array $unguardedActions): array
     site-reviews/router/public/unguarded-actions                (array $unguardedActions): array
@@ -194,8 +194,7 @@
     site-reviews/search/posts/post_type                         (array $postTypes): array
     site-reviews/settings/sanitize                              (array $options, array $settings): array
     site-reviews/shortcode/<shortcode>/attributes               (array $attributes, Shortcodes\Shortcode $shortcode): array
-    site-reviews/shortcode/args                                 (array $args, string $type, string $partialName): array
-    site-reviews/shortcode/atts                                 (array $atts, string $type, string $partialName): array
+    site-reviews/shortcode/args                                 (array $args, string $shortcodeName): array
     site-reviews/shortcode/display-options                      (array $displayOptions, string $shortcode): array
     site-reviews/shortcode/hide-options                         (array $hideOptions, string $shortcode): array
     site-reviews/slack/compose                                  (array $notification, Modules\Slack $slack): array
@@ -232,4 +231,5 @@
     site-reviews/whip/methods                                   (int $bitwiseSeparatedConstants): int
     site-reviews/whip/whitelist                                 (array $whitelist): array
     site-reviews/whip/whitelist/cloudflare                      (bool $isUsingCloudflare): bool
+    site-reviews/widget/args                                    (array $args, string $shortcodeName): array
     site-reviews/woocommerce/rest-api/prepare_product_review    (\WP_REST_Response $response, Review $review, \WP_REST_Request $request)

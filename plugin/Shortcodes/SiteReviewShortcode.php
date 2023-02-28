@@ -3,7 +3,6 @@
 namespace GeminiLabs\SiteReviews\Shortcodes;
 
 use GeminiLabs\SiteReviews\Database\ReviewManager;
-use GeminiLabs\SiteReviews\Defaults\SiteReviewDefaults;
 use GeminiLabs\SiteReviews\Modules\Html\ReviewsHtml;
 use GeminiLabs\SiteReviews\Reviews;
 
@@ -15,27 +14,22 @@ class SiteReviewShortcode extends Shortcode
     public $args;
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
-    public function buildTemplate(array $args = [])
+    public function buildTemplate()
     {
-        return (string) $this->buildReviewsHtml($args);
-    }
-
-    public function buildReviewsHtml(array $args = []): ReviewsHtml
-    {
-        $this->args = glsr(SiteReviewDefaults::class)->unguardedMerge($args);
-        $review = glsr(ReviewManager::class)->get($args['post_id']);
+        $review = glsr(ReviewManager::class)->get($this->args['post_id']);
         $this->debug(['review' => $review]);
         if ($review->isValid()) {
-            $reviews = new Reviews([$review], 1, $args);
+            $reviews = new Reviews([$review], 1, $this->args);
             if ('modal' === glsr_get_option('reviews.excerpts_action')) {
                 glsr()->store('use_modal', true);
             }
         } else {
-            $reviews = new Reviews([], 0, $args);
+            $reviews = new Reviews([], 0, $this->args);
         }
-        return new ReviewsHtml($reviews);
+        $html = new ReviewsHtml($reviews);
+        return (string) $html;
     }
 
     /**
