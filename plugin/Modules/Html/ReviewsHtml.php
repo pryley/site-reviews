@@ -133,7 +133,7 @@ class ReviewsHtml extends \ArrayObject
      */
     protected function getClasses()
     {
-        $classes = ['glsr-summary'];
+        $classes = ['glsr-reviews'];
         $classes[] = $this->args['class'];
         $classes = implode(' ', $classes);
         return glsr(Sanitizer::class)->sanitizeAttrClass($classes);
