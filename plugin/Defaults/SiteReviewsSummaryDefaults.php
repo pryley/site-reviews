@@ -7,24 +7,35 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class SiteReviewsSummaryDefaults extends Defaults
 {
-    /**
+   /**
+     * The values that should be cast before sanitization is run.
+     * This is done before $enums and $sanitize
      * @var array
      */
     public $casts = [
-        'debug' => 'bool',
-        'schema' => 'bool',
+        'terms' => 'string',
     ];
 
-    /**
+   /**
+     * The values that should be constrained before sanitization is run.
+     * This is done after $casts and before $sanitize
      * @var array
      */
-    public $guarded = [
-        'labels',
-        'text',
-        'title',
+    public $enums = [
+        'terms' => ['0', 'false', '1', 'true'],
     ];
 
     /**
+     * The values that should be guarded.
+     * @var string[]
+     */
+    public $guarded = [
+        'labels', 'text', 'title',
+    ];
+
+    /**
+     * The keys that should be mapped to other keys.
+     * Keys are mapped before the values are normalized and sanitized.
      * @var array
      */
     public $mapped = [
@@ -34,11 +45,22 @@ class SiteReviewsSummaryDefaults extends Defaults
     ];
 
     /**
+     * The values that should be sanitized.
+     * This is done after $casts and $enums
      * @var array
      */
     public $sanitize = [
+        'class' => 'attr-class',
+        'debug' => 'bool',
+        'hide' => 'array-string',
         'id' => 'id',
+        'labels' => 'text',
         'rating' => 'rating',
+        'rating_field' => 'name',
+        'schema' => 'bool',
+        'text' => 'text',
+        'title' => 'text',
+        'type' => 'slug',
     ];
 
     /**

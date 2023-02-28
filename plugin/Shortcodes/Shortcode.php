@@ -48,7 +48,8 @@ abstract class Shortcode implements ShortcodeContract
     public function __call($method, $args)
     {
         if ('normalizeAtts' === $method) { // @compat for < 6.6.0
-            return call_user_func_array([$this, 'normalize'], $args);
+            call_user_func_array([$this, 'normalize'], $args);
+            return glsr()->args($this->args);
         }
         throw new \BadMethodCallException("Method [$method] does not exist.");
     }
@@ -80,11 +81,9 @@ abstract class Shortcode implements ShortcodeContract
 
     public function build(array $args = [], string $type = 'shortcode'): string
     {
-        $this->type = $type;
-        $this->normalize($args);
+        $this->normalize($args, $type);
         $template = $this->buildTemplate($this->args);
         $attributes = $this->attributes($this->args, $type);
-
         $html = glsr(Builder::class)->div($template, $attributes);
         return sprintf('%s%s', $this->debug, $html);
     }
@@ -111,10 +110,13 @@ abstract class Shortcode implements ShortcodeContract
         return glsr()->filterArray('shortcode/hide-options', $options, $this->shortcode, $this);
     }
 
-    public function normalize(array $args): self
+    public function normalize(array $args, string $type = ''): self
     {
         if (!empty($this->args)) {
             return $this;
+        }
+        if (!empty($type)) {
+            $this->type = $type;
         }
         $args = wp_parse_args($args);
         $args = glsr()->filterArray('shortcode/args', $args, $this->shortcode);

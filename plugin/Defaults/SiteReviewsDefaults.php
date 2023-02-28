@@ -7,24 +7,37 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 
 class SiteReviewsDefaults extends Defaults
 {
-    /**
+   /**
+     * The values that should be cast before sanitization is run.
+     * This is done before $enums and $sanitize
      * @var array
      */
     public $casts = [
-        'debug' => 'bool',
-        'hide' => 'array',
-        'schema' => 'bool',
+        'pagination' => 'string',
+        'terms' => 'string',
+    ];
+
+   /**
+     * The values that should be constrained before sanitization is run.
+     * This is done after $casts and before $sanitize
+     * @var array
+     */
+    public $enums = [
+        'pagination' => ['ajax', 'loadmore', '1', 'true'],
+        'terms' => ['0', 'false', '1', 'true'],
     ];
 
     /**
+     * The values that should be guarded.
      * @var string[]
      */
     public $guarded = [
-        'fallback',
-        'title',
+        'fallback', 'title',
     ];
 
-    /**
+     /**
+     * The keys that should be mapped to other keys.
+     * Keys are mapped before the values are normalized and sanitized.
      * @var array
      */
     public $mapped = [
@@ -36,13 +49,24 @@ class SiteReviewsDefaults extends Defaults
     ];
 
     /**
+     * The values that should be sanitized.
+     * This is done after $casts and $enums
      * @var array
      */
     public $sanitize = [
+        'class' => 'attr-class',
         'display' => 'min:1',
+        'debug' => 'bool',
+        'fallback' => 'text-post',
+        'hide' => 'array-string',
         'id' => 'id',
+        'offset' => 'min:0',
         'page' => 'min:1',
         'rating' => 'rating',
+        'rating_field' => 'name',
+        'schema' => 'bool',
+        'title' => 'text',
+        'type' => 'slug',
     ];
 
     /**
@@ -60,9 +84,9 @@ class SiteReviewsDefaults extends Defaults
             'fallback' => '',
             'hide' => [],
             'id' => '',
-            'offset' => '',
+            'offset' => 0,
             'page' => 1,
-            'pagination' => false,
+            'pagination' => '',
             'rating' => 0,
             'rating_field' => 'rating', // used for custom rating fields
             'schema' => false,

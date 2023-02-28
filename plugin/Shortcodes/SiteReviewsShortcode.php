@@ -13,7 +13,7 @@ class SiteReviewsShortcode extends Shortcode
     public function buildReviewsHtml(array $args = []): ReviewsHtml
     {
         $this->normalize($args);
-        $reviews = glsr(ReviewManager::class)->reviews($args);
+        $reviews = glsr(ReviewManager::class)->reviews($this->args);
         $this->debug((array) $reviews);
         $this->generateSchema($reviews);
         if ('modal' === glsr_get_option('reviews.excerpts_action')) {
