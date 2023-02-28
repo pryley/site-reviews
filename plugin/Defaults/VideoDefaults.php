@@ -7,12 +7,14 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 class VideoDefaults extends Defaults
 {
     /**
+     * The values that should be sanitized.
+     * This is done after $casts and $enums.
      * @return array
      */
-    public $casts = [
-        'duration' => 'string',
-        'id' => 'string',
-        'title' => 'string',
+    public $sanitize = [
+        'duration' => 'regex:/[^\d\:]/',
+        'id' => 'regex:/[^\w\-]/',
+        'title' => 'text',
     ];
 
     /**

@@ -7,6 +7,8 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 class TutorialDefaults extends Defaults
 {
     /**
+     * The values that should be sanitized.
+     * This is done after $casts and $enums.
      * @return array
      */
     public $sanitize = [

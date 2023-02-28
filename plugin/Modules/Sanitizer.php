@@ -113,8 +113,8 @@ class Sanitizer
     public function sanitizeAttrStyle($value): string
     {
         $style = Cast::toString($value);
+        $style = preg_replace('/[^\w%:;,.#"() \-\'\/]/', '', $style);
         $style = strtolower($style);
-        $style = preg_replace('/[^a-z0-9_%:;,.#"() \-\'\/]/', '', $style);
         return esc_attr($style);
     }
 
