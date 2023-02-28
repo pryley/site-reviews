@@ -2,13 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Honeypot;
 
-class CustomFieldsDefaults extends Defaults
+class CustomFieldsDefaults extends DefaultsAbstract
 {
     /**
+     * The values that should be guarded.
      * @var string[]
      */
     public $guarded = [

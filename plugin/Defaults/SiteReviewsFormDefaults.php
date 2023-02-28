@@ -2,10 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class SiteReviewsFormDefaults extends Defaults
+class SiteReviewsFormDefaults extends DefaultsAbstract
 {
     /**
      * The values that should be guarded.
@@ -18,6 +17,7 @@ class SiteReviewsFormDefaults extends Defaults
     /**
      * The keys that should be mapped to other keys.
      * Keys are mapped before the values are normalized and sanitized.
+     * Note: Mapped keys should not be included in the defaults!
      * @var array
      */
     public $mapped = [
@@ -28,7 +28,7 @@ class SiteReviewsFormDefaults extends Defaults
 
     /**
      * The values that should be sanitized.
-     * This is done after $casts and $enums
+     * This is done after $casts and before $enums.
      * @var array
      */
     public $sanitize = [

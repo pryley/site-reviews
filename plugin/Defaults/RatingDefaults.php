@@ -2,11 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-
-class RatingDefaults extends Defaults
+class RatingDefaults extends DefaultsAbstract
 {
     /**
+     * The values that should be guarded.
      * @var string[]
      */
     public $guarded = [
@@ -14,6 +13,8 @@ class RatingDefaults extends Defaults
     ];
 
     /**
+     * The values that should be sanitized.
+     * This is done after $casts and before $enums.
      * @var array
      */
     public $sanitize = [
@@ -29,7 +30,7 @@ class RatingDefaults extends Defaults
         'review_id' => 'int',
         'score' => 'min:0',
         'terms' => 'bool',
-        'type' => 'text',
+        'type' => 'slug',
         'url' => 'url',
     ];
 

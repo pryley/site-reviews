@@ -2,9 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-
-class RevisionFieldsDefaults extends Defaults
+class RevisionFieldsDefaults extends DefaultsAbstract
 {
     /**
      * @return array

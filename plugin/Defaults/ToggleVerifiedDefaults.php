@@ -2,14 +2,14 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-
-class ToggleVerifiedDefaults extends Defaults
+class ToggleVerifiedDefaults extends DefaultsAbstract
 {
     /**
+     * The values that should be cast before sanitization is run.
+     * This is done before $sanitize and $enums.
      * @var array
      */
-    public $cast = [
+    public $casts = [
         'id' => 'int',
         'verified' => 'int',
     ];

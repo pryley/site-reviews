@@ -2,9 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-
-class PostTypeColumnDefaults extends Defaults
+class PostTypeColumnDefaults extends DefaultsAbstract
 {
     /**
      * @return array

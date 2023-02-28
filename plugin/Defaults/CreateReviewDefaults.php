@@ -2,8 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 
 /**
  * If this is a form submission, the following fields are overridden:
@@ -13,13 +12,14 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
  * - is_pinned
  * - is_verified
  * - response
- * - response_by
+ * - response_by.
  */
-class CreateReviewDefaults extends Defaults
+class CreateReviewDefaults extends DefaultsAbstract
 {
     /**
      * The keys that should be mapped to other keys.
      * Keys are mapped before the values are normalized and sanitized.
+     * Note: Mapped keys should not be included in the defaults!
      * @var array
      */
     public $mapped = [
@@ -32,7 +32,7 @@ class CreateReviewDefaults extends Defaults
 
     /**
      * The values that should be sanitized.
-     * This is done after $casts and $enums.
+     * This is done after $casts and before $enums.
      * @var array
      */
     public $sanitize = [
@@ -104,7 +104,7 @@ class CreateReviewDefaults extends Defaults
      */
     protected function normalize(array $values = [])
     {
-        if (Cast::toBool(glsr_get($values, 'terms_exist', false))) {
+        if (Arr::getAs('bool', $values, 'terms_exist', false)) {
             $values['terms'] = !empty($values['terms']);
         }
         return $values;

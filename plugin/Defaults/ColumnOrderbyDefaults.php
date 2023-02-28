@@ -2,9 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-
-class ColumnOrderbyDefaults extends Defaults
+class ColumnOrderbyDefaults extends DefaultsAbstract
 {
     /**
      * @return array

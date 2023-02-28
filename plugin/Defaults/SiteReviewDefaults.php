@@ -2,10 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 
-class SiteReviewDefaults extends Defaults
+class SiteReviewDefaults extends DefaultsAbstract
 {
     /**
      * The values that should be guarded.
@@ -17,7 +16,7 @@ class SiteReviewDefaults extends Defaults
 
     /**
      * The values that should be sanitized.
-     * This is done after $casts and $enums
+     * This is done after $casts and before $enums.
      * @var array
      */
     public $sanitize = [

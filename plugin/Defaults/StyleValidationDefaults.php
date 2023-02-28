@@ -2,11 +2,10 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-
-class StyleValidationDefaults extends Defaults
+class StyleValidationDefaults extends DefaultsAbstract
 {
     /**
+     * The values that should be concatenated.
      * @var string[]
      */
     public $concatenated = [
@@ -23,9 +22,28 @@ class StyleValidationDefaults extends Defaults
     ];
 
     /**
+     * The string that should be used for concatenation.
      * @var string
      */
     protected $glue = ' ';
+
+    /**
+     * The values that should be sanitized.
+     * This is done after $casts and before $enums.
+     * @var array
+     */
+    public $sanitize = [
+        'field_error' => 'attr-class',
+        'field_message' => 'attr-class',
+        'field_required' => 'attr-class',
+        'field_valid' => 'attr-class',
+        'form_error' => 'attr-class',
+        'form_message' => 'attr-class',
+        'form_message_failed' => 'attr-class',
+        'form_message_success' => 'attr-class',
+        'input_error' => 'attr-class',
+        'input_valid' => 'attr-class',
+    ];
 
     /**
      * @return array

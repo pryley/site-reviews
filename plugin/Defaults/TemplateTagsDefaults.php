@@ -2,9 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-
-class TemplateTagsDefaults extends Defaults
+class TemplateTagsDefaults extends DefaultsAbstract
 {
     /**
      * @return array

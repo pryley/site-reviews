@@ -2,11 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-
-class EmailDefaults extends Defaults
+class EmailDefaults extends DefaultsAbstract
 {
     /**
+     * The values that should be sanitized.
+     * This is done after $casts and before $enums.
      * @var array
      */
     public $sanitize = [

@@ -2,15 +2,15 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
-class FieldDefaults extends Defaults
+class FieldDefaults extends DefaultsAbstract
 {
     /**
-     * @return array
+     * The values that should be cast before sanitization is run.
+     * This is done before $sanitize and $enums.
+     * @var array
      */
     public $casts = [
         'after' => 'string',

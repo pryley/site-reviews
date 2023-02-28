@@ -32,7 +32,7 @@ abstract class DefaultsAbstract implements DefaultsContract
 
     /**
      * The values that should be concatenated.
-     * @var array
+     * @var string[]
      */
     public $concatenated = [];
 

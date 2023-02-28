@@ -2,9 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-
-class UpdatedMessageDefaults extends Defaults
+class UpdatedMessageDefaults extends DefaultsAbstract
 {
     /**
      * @return array

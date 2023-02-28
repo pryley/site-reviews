@@ -158,6 +158,8 @@ class Sanitizer
     }
 
     /**
+     * This allows lowercase alphannumeric characters, dashes, and underscores.
+     * A value is generated if result is empty.
      * @param mixed $value
      */
     public function sanitizeId($value): string
@@ -220,7 +222,7 @@ class Sanitizer
     }
 
     /**
-     * This allows lowercase alphannumeric and underscore characters.
+     * This allows lowercase alphannumeric characters and underscores.
      * @param mixed $value
      */
     public function sanitizeKey($value): string
@@ -230,7 +232,7 @@ class Sanitizer
     }
 
     /**
-     * This allows lowercase alpha and underscore characters.
+     * This allows lowercase alpha characters and underscores.
      * @param mixed $value
      */
     public function sanitizeName($value): string
@@ -279,7 +281,7 @@ class Sanitizer
     }
 
     /**
-     * This allows lowercase alphannumeric, underscore, and dash characters.
+     * This allows lowercase alphannumeric characters, underscores, and dashes.
      * @param mixed $value
      */
     public function sanitizeSlug($value): string

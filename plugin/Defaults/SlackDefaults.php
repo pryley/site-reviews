@@ -2,9 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-
-class SlackDefaults extends Defaults
+class SlackDefaults extends DefaultsAbstract
 {
     /**
      * @return array

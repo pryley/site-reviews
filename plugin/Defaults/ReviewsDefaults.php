@@ -2,10 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 
-class ReviewsDefaults extends Defaults
+class ReviewsDefaults extends DefaultsAbstract
 {
     /**
      * The values that should be cast before sanitization is run.

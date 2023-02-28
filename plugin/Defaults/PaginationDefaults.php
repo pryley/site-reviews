@@ -2,12 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-
-class PaginationDefaults extends Defaults
+class PaginationDefaults extends DefaultsAbstract
 {
     /**
-     * @return array
+     * The values that should be cast before sanitization is run.
+     * This is done before $sanitize and $enums.
+     * @var array
      */
     public $casts = [
         'add_args' => 'array',
@@ -20,7 +20,9 @@ class PaginationDefaults extends Defaults
     ];
 
     /**
-     * @return array
+     * The values that should be sanitized.
+     * This is done after $casts and before $enums.
+     * @var array
      */
     public $sanitize = [
         'current' => 'min:1',

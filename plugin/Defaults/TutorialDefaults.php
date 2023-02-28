@@ -2,14 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-
-class TutorialDefaults extends Defaults
+class TutorialDefaults extends DefaultsAbstract
 {
     /**
      * The values that should be sanitized.
-     * This is done after $casts and $enums.
-     * @return array
+     * This is done after $casts and before $enums.
+     * @var array
      */
     public $sanitize = [
         'videos' => 'array',

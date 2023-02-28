@@ -2,10 +2,9 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class ReviewDefaults extends Defaults
+class ReviewDefaults extends DefaultsAbstract
 {
     /**
      * The keys that should be mapped to other keys.

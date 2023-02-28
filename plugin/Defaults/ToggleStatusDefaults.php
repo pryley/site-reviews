@@ -2,15 +2,25 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-
-class ToggleStatusDefaults extends Defaults
+class ToggleStatusDefaults extends DefaultsAbstract
 {
     /**
+     * The values that should be constrained after sanitization is run.
+     * This is done after $casts and $sanitize.
+     * @var array
+     */
+    public $enums = [
+        'status' => ['approve', 'pending', 'publish', 'unapprove'],
+    ];
+
+    /**
+     * The values that should be sanitized.
+     * This is done after $casts and before $enums.
      * @var array
      */
     public $sanitize = [
         'post_id' => 'int',
+        'status' => 'name',
     ];
 
     /**
@@ -25,12 +35,12 @@ class ToggleStatusDefaults extends Defaults
     }
 
     /**
-     * Normalize provided values, this always runs first.
+     * Finalize provided values, this always runs last.
      * @return array
      */
-    protected function normalize(array $values = [])
+    protected function finalize(array $values = [])
     {
-        $values['status'] = 'approve' === glsr_get($values, 'status')
+        $values['status'] = in_array($values['status'], ['approve', 'publish'])
             ? 'publish'
             : 'pending';
         return $values;

@@ -3,9 +3,8 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestReviewController;
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 
-class PostTypeDefaults extends Defaults
+class PostTypeDefaults extends DefaultsAbstract
 {
     /**
      * @return array

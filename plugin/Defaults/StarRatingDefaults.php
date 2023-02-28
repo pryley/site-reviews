@@ -2,12 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class StarRatingDefaults extends Defaults
+class StarRatingDefaults extends DefaultsAbstract
 {
     /**
+     * The values that should be cast before sanitization is run.
+     * This is done before $sanitize and $enums.
      * @var array
      */
     public $casts = [
@@ -17,6 +18,8 @@ class StarRatingDefaults extends Defaults
     ];
 
     /**
+     * The values that should be sanitized.
+     * This is done after $casts and before $enums.
      * @var array
      */
     public $sanitize = [

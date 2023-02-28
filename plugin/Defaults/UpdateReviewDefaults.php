@@ -2,16 +2,14 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-
 /**
  * This is only used when updating the Review Post
  */
-class UpdateReviewDefaults extends Defaults
+class UpdateReviewDefaults extends DefaultsAbstract
 {
     /**
      * The values that should be cast before sanitization is run.
-     * This is done before $enums and $sanitize.
+     * This is done before $sanitize and $enums.
      * @var array
      */
     public $casts = [
@@ -19,8 +17,8 @@ class UpdateReviewDefaults extends Defaults
     ];
 
     /**
-     * The values that should be constrained before sanitization is run.
-     * This is done after $casts and before $sanitize.
+     * The values that should be constrained after sanitization is run.
+     * This is done after $casts and $sanitize.
      * @var array
      */
     public $enums = [
@@ -29,7 +27,7 @@ class UpdateReviewDefaults extends Defaults
 
     /**
      * The values that should be sanitized.
-     * This is done after $casts and $enums.
+     * This is done after $casts and before $enums.
      * @var array
      */
     public $sanitize = [

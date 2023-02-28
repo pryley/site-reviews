@@ -3,10 +3,9 @@
 namespace GeminiLabs\SiteReviews\Defaults;
 
 use GeminiLabs\SiteReviews\Controllers\Api\Version1\RestCategoryController;
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 use GeminiLabs\SiteReviews\Metaboxes\TaxonomyMetabox;
 
-class TaxonomyDefaults extends Defaults
+class TaxonomyDefaults extends DefaultsAbstract
 {
     /**
      * @return array

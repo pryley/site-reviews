@@ -2,24 +2,16 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-
-class DependencyDefaults extends Defaults
+class DependencyDefaults extends DefaultsAbstract
 {
     /**
-     * @var array
-     */
-    public $casts = [
-        'minimum_version' => 'string',
-        'name' => 'string',
-        'untested_version' => 'string',
-    ];
-
-    /**
+     * The values that should be sanitized.
+     * This is done after $casts and before $enums.
      * @var array
      */
     public $sanitize = [
         'minimum_version' => 'version',
+        'name' => 'text',
         'plugin_uri' => 'url',
         'untested_version' => 'version',
     ];

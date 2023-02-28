@@ -8,9 +8,8 @@ use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAuthor;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterCategory;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterRating;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterType;
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 
-class ListtableFiltersDefaults extends Defaults
+class ListtableFiltersDefaults extends DefaultsAbstract
 {
     /**
      * @return array

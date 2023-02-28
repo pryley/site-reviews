@@ -2,9 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-
-class ValidateReviewDefaults extends Defaults
+class ValidateReviewDefaults extends DefaultsAbstract
 {
     /**
      * @return array

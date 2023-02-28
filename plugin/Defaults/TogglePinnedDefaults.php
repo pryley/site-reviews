@@ -2,14 +2,14 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
-
-class TogglePinnedDefaults extends Defaults
+class TogglePinnedDefaults extends DefaultsAbstract
 {
     /**
+     * The values that should be cast before sanitization is run.
+     * This is done before $sanitize and $enums.
      * @var array
      */
-    public $cast = [
+    public $casts = [
         'id' => 'int',
         'pinned' => 'int',
     ];

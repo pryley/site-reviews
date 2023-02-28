@@ -2,14 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class SiteReviewsDefaults extends Defaults
+class SiteReviewsDefaults extends DefaultsAbstract
 {
-   /**
+    /**
      * The values that should be cast before sanitization is run.
-     * This is done before $enums and $sanitize
+     * This is done before $sanitize and $enums.
      * @var array
      */
     public $casts = [
@@ -17,9 +16,9 @@ class SiteReviewsDefaults extends Defaults
         'terms' => 'string',
     ];
 
-   /**
-     * The values that should be constrained before sanitization is run.
-     * This is done after $casts and before $sanitize
+    /**
+     * The values that should be constrained after sanitization is run.
+     * This is done after $casts and $sanitize.
      * @var array
      */
     public $enums = [
@@ -35,9 +34,10 @@ class SiteReviewsDefaults extends Defaults
         'fallback', 'title',
     ];
 
-     /**
+    /**
      * The keys that should be mapped to other keys.
      * Keys are mapped before the values are normalized and sanitized.
+     * Note: Mapped keys should not be included in the defaults!
      * @var array
      */
     public $mapped = [
@@ -50,7 +50,7 @@ class SiteReviewsDefaults extends Defaults
 
     /**
      * The values that should be sanitized.
-     * This is done after $casts and $enums
+     * This is done after $casts and before $enums.
      * @var array
      */
     public $sanitize = [

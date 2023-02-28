@@ -2,14 +2,13 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
-use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract as Defaults;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 
-class AddonDefaults extends Defaults
+class AddonDefaults extends DefaultsAbstract
 {
   /**
      * The values that should be sanitized.
-     * This is done after $casts and $enums.
+     * This is done after $casts and before $enums.
      * @var array
      */
     public $sanitize = [
