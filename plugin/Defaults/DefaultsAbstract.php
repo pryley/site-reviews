@@ -39,7 +39,7 @@ abstract class DefaultsAbstract implements DefaultsContract
     /**
      * The values that should be constrained before sanitization is run.
      * This is done after $casts and before $sanitize.
-     * @return array
+     * @var array
      */
     public $enums = [];
 
