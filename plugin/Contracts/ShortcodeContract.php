@@ -11,7 +11,7 @@ interface ShortcodeContract
      * @return string
      * @todo add return type hint in v7.0
      */
-    public function buildTemplate(array $args = []);
+    public function buildTemplate();
     public function getDisplayOptions(): array;
     public function getHideOptions(): array;
 }

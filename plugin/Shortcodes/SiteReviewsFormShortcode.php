@@ -21,9 +21,8 @@ class SiteReviewsFormShortcode extends Shortcode
     /**
      * @return string
      */
-    public function buildTemplate(array $args = [])
+    public function buildTemplate()
     {
-        $this->normalize($args);
         if (!is_user_logged_in() && glsr_get_option('general.require.login', false, 'bool')) {
             $this->debug();
             return $this->loginOrRegister();
@@ -32,7 +31,7 @@ class SiteReviewsFormShortcode extends Shortcode
         $fields = $this->buildTemplateFieldTags();
         $this->debug(compact('fields'));
         return glsr(Template::class)->build('templates/reviews-form', [
-            'args' => $args,
+            'args' => $this->args,
             'context' => [
                 'class' => $this->getClasses(),
                 'fields' => glsr()->filterString('form/build/fields', $fields, $this->with, $this),

@@ -10,9 +10,8 @@ use GeminiLabs\SiteReviews\Reviews;
 
 class SiteReviewsShortcode extends Shortcode
 {
-    public function buildReviewsHtml(array $args = []): ReviewsHtml
+    public function buildReviewsHtml(): ReviewsHtml
     {
-        $this->normalize($args);
         $reviews = glsr(ReviewManager::class)->reviews($this->args);
         $this->debug((array) $reviews);
         $this->generateSchema($reviews);
@@ -25,9 +24,9 @@ class SiteReviewsShortcode extends Shortcode
     /**
      * @return string
      */
-    public function buildTemplate(array $args = [])
+    public function buildTemplate()
     {
-        return (string) $this->buildReviewsHtml($args);
+        return (string) $this->buildReviewsHtml();
     }
 
     public function generateSchema(Reviews $reviews): void

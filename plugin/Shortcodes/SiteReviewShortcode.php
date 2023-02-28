@@ -16,11 +16,9 @@ class SiteReviewShortcode extends Shortcode
     /**
      * @return string
      */
-    public function buildTemplate(array $args = [])
+    public function buildTemplate()
     {
-        $this->normalize($args);
         $review = glsr(ReviewManager::class)->get($this->args['post_id']);
-
         $this->debug(['review' => $review]);
         if ($review->isValid()) {
             $reviews = new Reviews([$review], 1, $this->args);
