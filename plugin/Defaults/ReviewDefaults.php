@@ -8,6 +8,9 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 class ReviewDefaults extends Defaults
 {
     /**
+     * The keys that should be mapped to other keys.
+     * Keys are mapped before the values are normalized and sanitized.
+     * Note: Mapped keys should not be included in the defaults!
      * @var array
      */
     public $mapped = [
@@ -19,6 +22,8 @@ class ReviewDefaults extends Defaults
     ];
 
     /**
+     * The values that should be sanitized.
+     * This is done after $casts and before $enums.
      * @var array
      */
     public $sanitize = [
@@ -37,14 +42,14 @@ class ReviewDefaults extends Defaults
         'is_modified' => 'bool',
         'is_pinned' => 'bool',
         'is_verified' => 'bool',
-        'rating' => 'rating',
+        'rating' => 'int',
         'rating_id' => 'int',
         'response' => 'text-multiline',
         'score' => 'min:0',
         'status' => 'text',
         'terms' => 'bool',
         'title' => 'text',
-        'type' => 'text',
+        'type' => 'slug',
         'url' => 'url',
     ];
 

@@ -8,17 +8,43 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 class ReviewsDefaults extends Defaults
 {
     /**
+     * The values that should be cast before sanitization is run.
+     * This is done before $sanitize and $enums.
      * @var array
      */
     public $casts = [
         'ip_address' => 'string',
-        'order' => 'string',
-        'orderby' => 'string',
+        'order' => 'name',
+        'orderby' => 'name',
         'pagination' => 'string',
-        'status' => 'string',
+        'status' => 'name',
     ];
 
     /**
+     * The values that should be constrained after sanitization is run.
+     * This is done after $casts and $sanitize.
+     * @var array
+     */
+    public $enums = [
+        'order' => ['asc', 'desc'],
+        'orderby' => [
+            'author',
+            'comment_count',
+            'date',
+            'date_gmt',
+            'id',
+            'menu_order',
+            'none',
+            'random',
+            'rating',
+        ],
+        'status' => ['all', 'approved', 'pending', 'publish', 'unapproved'],
+    ];
+
+    /**
+     * The keys that should be mapped to other keys.
+     * Keys are mapped before the values are normalized and sanitized.
+     * Note: Mapped keys should not be included in the defaults!
      * @var array
      */
     public $mapped = [
@@ -33,14 +59,18 @@ class ReviewsDefaults extends Defaults
     ];
 
     /**
+     * The values that should be sanitized.
+     * This is done after $casts and before $enums.
      * @var array
      */
     public $sanitize = [
         'assigned_posts' => 'post-ids',
+        'assigned_posts_types' => 'array-string',
         'assigned_terms' => 'term-ids',
         'assigned_users' => 'user-ids',
         'content' => 'text-multiline',
         'email' => 'email',
+        'ip_address' => 'text',
         'offset' => 'min:0',
         'page' => 'min:1',
         'per_page' => 'min:1',
@@ -48,7 +78,7 @@ class ReviewsDefaults extends Defaults
         'post__not_in' => 'array-int',
         'rating' => 'rating',
         'rating_field' => 'name',
-        'type' => 'key',
+        'type' => 'slug',
         'user__in' => 'user-ids',
         'user__not_in' => 'user-ids',
     ];
@@ -64,11 +94,11 @@ class ReviewsDefaults extends Defaults
             'assigned_terms' => '',
             'assigned_users' => '',
             'content' => '',
-            'date' => '',
+            'date' => '', // can be an array or string
             'email' => '',
             'ip_address' => '',
-            'offset' => '',
-            'order' => 'DESC',
+            'offset' => 0,
+            'order' => 'desc',
             'orderby' => 'date',
             'page' => 1,
             'pagination' => false,

@@ -12,6 +12,7 @@ use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 /**
  * @property int[] $assigned_posts;
+ * @property array $assigned_post_types;
  * @property int[] $assigned_terms;
  * @property int[] $assigned_users;
  * @property string|array $date;
@@ -40,7 +41,7 @@ class NormalizeQueryArgs extends Arguments
         $args = glsr(ReviewsDefaults::class)->restrict($args);
         $args['assigned_posts'] = glsr(Multilingual::class)->getPostIds($args['assigned_posts']);
         $args['date'] = $this->normalizeDate($args['date']);
-        $args['order'] = Str::restrictTo('ASC,DESC,', sanitize_key($args['order']), 'DESC'); // include an empty value
+        $args['order'] = strtoupper($args['order']);
         $args['orderby'] = $this->normalizeOrderBy($args['orderby']);
         $args['status'] = $this->normalizeStatus($args['status']);
         parent::__construct($args);
@@ -48,9 +49,8 @@ class NormalizeQueryArgs extends Arguments
 
     /**
      * @param string|array $value
-     * @return array
      */
-    protected function normalizeDate($value)
+    protected function normalizeDate($value): array
     {
         $date = array_fill_keys(['after', 'before', 'day', 'inclusive', 'month', 'year'], '');
         $timestamp = strtotime(Cast::toString($value));
@@ -68,34 +68,24 @@ class NormalizeQueryArgs extends Arguments
         return $date;
     }
 
-    /**
-     * @param string $value
-     * @return string
-     */
-    protected function normalizeOrderBy($value)
+    protected function normalizeOrderBy(string $value): string
     {
-        $value = strtolower($value);
-        $orderBy = Str::restrictTo('author,comment_count,date,date_gmt,id,menu_order,none,random,rating', $value, 'date');
-        if ('id' === $orderBy) {
+        if ('id' === $value) {
             return 'p.ID';
         }
-        if (in_array($orderBy, ['comment_count', 'menu_order'])) {
-            return Str::prefix($orderBy, 'p.');
+        if (in_array($value, ['comment_count', 'menu_order'])) {
+            return Str::prefix($value, 'p.');
         }
-        if (in_array($orderBy, ['author', 'date', 'date_gmt'])) {
-            return Str::prefix($orderBy, 'p.post_');
+        if (in_array($value, ['author', 'date', 'date_gmt'])) {
+            return Str::prefix($value, 'p.post_');
         }
-        if (in_array($orderBy, ['rating'])) {
-            return Str::prefix($orderBy, 'r.');
+        if (in_array($value, ['rating'])) {
+            return Str::prefix($value, 'r.');
         }
-        return $orderBy;
+        return $value;
     }
 
-    /**
-     * @param string $value
-     * @return string
-     */
-    protected function normalizeStatus($value)
+    protected function normalizeStatus(string $value): string
     {
         $statuses = [
             'all' => '-1',
@@ -104,7 +94,6 @@ class NormalizeQueryArgs extends Arguments
             'publish' => '1',
             'unapproved' => '0',
         ];
-        $status = Str::restrictTo(array_keys($statuses), $value, 'approved', $strict = true);
-        return $statuses[$status];
+        return $statuses[$value];
     }
 }
