@@ -25,7 +25,7 @@ abstract class DefaultsAbstract implements DefaultsContract
 {
     /**
      * The values that should be cast before sanitization is run.
-     * This is done before $enums and $sanitize.
+     * This is done before $sanitize and $enums.
      * @var array
      */
     public $casts = [];
@@ -37,8 +37,8 @@ abstract class DefaultsAbstract implements DefaultsContract
     public $concatenated = [];
 
     /**
-     * The values that should be constrained before sanitization is run.
-     * This is done after $casts and before $sanitize.
+     * The values that should be constrained after sanitization is run.
+     * This is done after $casts and $sanitize.
      * @var array
      */
     public $enums = [];
@@ -59,7 +59,7 @@ abstract class DefaultsAbstract implements DefaultsContract
 
     /**
      * The values that should be sanitized.
-     * This is done after $casts and $enums.
+     * This is done after $casts and before $enums.
      * @var array
      */
     public $sanitize = [];
@@ -357,12 +357,13 @@ abstract class DefaultsAbstract implements DefaultsContract
                 $values[$key] = Cast::to($cast, $values[$key]);
             }
         }
+        $values = (new Sanitizer($values, $this->property('sanitize')))->run();
         foreach ($this->property('enums') as $key => $enums) {
             if (array_key_exists($key, $values) && !in_array($values[$key], $enums, true)) {
                 $values[$key] = $this->defaults[$key] ?? '';
             }
         }
-        return (new Sanitizer($values, $this->property('sanitize')))->run();
+        return $values;
     }
 
     /**
