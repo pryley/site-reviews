@@ -270,6 +270,15 @@ class Sanitizer
     }
 
     /**
+     * The regex pattern is used for a search/replace
+     * @param mixed $value
+     */
+    public function sanitizeRegex($value, string $pattern = ''): string
+    {
+        return preg_replace($pattern, '', Cast::toString($value));
+    }
+
+    /**
      * This allows lowercase alphannumeric, underscore, and dash characters.
      * @param mixed $value
      */
@@ -433,10 +442,11 @@ class Sanitizer
             }
             foreach ($methods as $method) {
                 $parts = preg_split('/:/', $method, 2, PREG_SPLIT_NO_EMPTY);
-                $args = trim(Arr::get($parts, 1));
                 $name = trim(Arr::get($parts, 0));
+                $args = trim(Arr::get($parts, 1));
+                $args = 'regex' === $name ? [$args] : explode(',', $args);
                 $sanitizer = [
-                    'args' => explode(',', $args),
+                    'args' => $args,
                     'method' => Helper::buildMethodName($name, 'sanitize'),
                 ];
                 $sanitizers[$key][] = $sanitizer;
