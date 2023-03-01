@@ -15,7 +15,16 @@ class ImportSettings extends Upload implements Contract
      */
     public function handle()
     {
+        if (!glsr()->hasPermission('settings')) {
+            glsr(Notice::class)->addError(
+                _x('You do not have permission to import settings.', 'admin-text', 'site-reviews')
+            );
+            return;
+        }
         if (!$this->validateUpload() || !$this->validateExtension('.json')) {
+            glsr(Notice::class)->addWarning(
+                _x('The import file is not a valid JSON file.', 'admin-text', 'site-reviews')
+            );
             return;
         }
         if ($this->import()) {

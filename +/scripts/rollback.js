@@ -5,7 +5,7 @@ jQuery($ => {
     const $button = $(form).find('button');
     const $loading = $button.find('span');
     const onError = (response) => {
-        GLSR.notices.error(GLSR.text.rollback_error);
+        GLSR.notices.error(response.error ?? GLSR.text.rollback_error);
         $button.removeClass('is-busy').prop('disabled', 0);
         console.error(response);
     }
@@ -25,7 +25,7 @@ jQuery($ => {
             error = response.statusText;
         }
         error = error.replace( /<[\/a-z][^<>]*>/gi, '' );
-        GLSR.notices.error(GLSR.text.rollback_error + ': ' + error);
+        GLSR.notices.error((response.error ?? GLSR.text.rollback_error) + ': ' + error);
     }
     const onSuccess = (response) => {
         wp.ajax.send({

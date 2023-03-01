@@ -72,8 +72,16 @@ class ImportReviews extends Upload implements Contract
      */
     public function handle()
     {
-        if (!$this->validateUpload()
-            || !$this->validateExtension('.csv')) {
+        if (!glsr()->hasPermission('tools', 'general')) {
+            glsr(Notice::class)->addError(
+                _x('You do not have permission to import reviews.', 'admin-text', 'site-reviews')
+            );
+            return;
+        }
+        if (!$this->validateUpload() || !$this->validateExtension('.csv')) {
+            glsr(Notice::class)->addWarning(
+                _x('The import file is not a valid CSV file.', 'admin-text', 'site-reviews')
+            );
             return;
         }
         $result = $this->import();

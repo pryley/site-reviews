@@ -27,7 +27,7 @@ class TogglePinned implements Contract
      */
     public function handle()
     {
-        if (!glsr()->can('edit_others_posts')) {
+        if (!glsr()->can('edit_post', $this->review->ID)) {
             return wp_validate_boolean($this->review->is_pinned);
         }
         if ($this->isPinned !== $this->review->is_pinned) {

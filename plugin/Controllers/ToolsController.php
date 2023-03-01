@@ -3,19 +3,20 @@
 namespace GeminiLabs\SiteReviews\Controllers;
 
 use GeminiLabs\SiteReviews\Commands\ChangeLogLevel;
+use GeminiLabs\SiteReviews\Commands\ClearConsole;
+use GeminiLabs\SiteReviews\Commands\ConvertTableEngine;
 use GeminiLabs\SiteReviews\Commands\ExportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportSettings;
-use GeminiLabs\SiteReviews\Database;
-use GeminiLabs\SiteReviews\Database\CountManager;
+use GeminiLabs\SiteReviews\Commands\MigratePlugin;
+use GeminiLabs\SiteReviews\Commands\RepairReviewRelations;
+use GeminiLabs\SiteReviews\Commands\ResetAssignedMeta;
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Console;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
-use GeminiLabs\SiteReviews\Modules\Queue;
 use GeminiLabs\SiteReviews\Modules\SystemInfo;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Role;
@@ -24,43 +25,38 @@ use GeminiLabs\SiteReviews\Rollback;
 class ToolsController extends Controller
 {
     /**
-     * @return void
      * @action site-reviews/route/admin/console-level
      */
-    public function changeConsoleLevel(Request $request)
+    public function changeConsoleLevel(Request $request): void
     {
         $this->execute(new ChangeLogLevel($request));
     }
 
     /**
-     * @return void
      * @action site-reviews/route/admin/console-level
      */
-    public function changeConsoleLevelAjax(Request $request)
+    public function changeConsoleLevelAjax(Request $request): void
     {
-        $this->changeConsoleLevel($request);
+        $this->execute(new ChangeLogLevel($request));
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
         ]);
     }
 
     /**
-     * @return void
      * @action site-reviews/route/admin/clear-console
      */
-    public function clearConsole()
+    public function clearConsole(): void
     {
-        glsr(Console::class)->clear();
-        glsr(Notice::class)->addSuccess(_x('Console cleared.', 'admin-text', 'site-reviews'));
+        $this->execute(new ClearConsole());
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/clear-console
      */
-    public function clearConsoleAjax()
+    public function clearConsoleAjax(): void
     {
-        $this->clearConsole();
+        $this->execute(new ClearConsole());
         wp_send_json_success([
             'console' => glsr(Console::class)->get(),
             'notices' => glsr(Notice::class)->get(),
@@ -68,46 +64,28 @@ class ToolsController extends Controller
     }
 
     /**
-     * @return void
      * @action site-reviews/route/admin/convert-table-engine
      */
-    public function convertTableEngine(Request $request)
+    public function convertTableEngine(Request $request): void
     {
-        $result = glsr(Tables::class)->convertTableEngine($request->table);
-        if (-1 === $result) {
-            glsr(Notice::class)->addWarning(
-                sprintf(_x('The <code>%s</code> table was either not found in the database, or does not use the MyISAM engine.', 'admin-text', 'site-reviews'), $request->table)
-            );
-        }
-        if (0 === $result) {
-            glsr(Notice::class)->addError(
-                sprintf(_x('The <code>%s</code> table could not be converted to InnoDB.', 'admin-text', 'site-reviews'), $request->table)
-            );
-        }
-        if (1 === $result) {
-            glsr(Notice::class)->addSuccess(
-                sprintf(_x('The <code>%s</code> table was successfully converted to InnoDB.', 'admin-text', 'site-reviews'), $request->table)
-            );
-        }
+        $this->execute(new ConvertTableEngine($request));
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/convert-table-engine
      */
-    public function convertTableEngineAjax(Request $request)
+    public function convertTableEngineAjax(Request $request): void
     {
-        $this->convertTableEngine($request);
+        $this->execute(new ConvertTableEngine($request));
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
         ]);
     }
 
     /**
-     * @return void
      * @action site-reviews/route/admin/detect-ip-address
      */
-    public function detectIpAddress()
+    public function detectIpAddress(): void
     {
         $link = glsr(Builder::class)->a([
             'data-expand' => '#faq-ipaddress-incorrectly-detected',
@@ -128,10 +106,9 @@ class ToolsController extends Controller
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/detect-ip-address
      */
-    public function detectIpAddressAjax()
+    public function detectIpAddressAjax(): void
     {
         $this->detectIpAddress();
         wp_send_json_success([
@@ -140,61 +117,80 @@ class ToolsController extends Controller
     }
 
     /**
-     * @return void
      * @action site-reviews/route/admin/download-console
      */
-    public function downloadConsole()
+    public function downloadConsole(): void
     {
-        $this->download(glsr()->id.'-console.txt', glsr(Console::class)->get());
+        if (glsr()->hasPermission('tools', 'console')) {
+            $this->download(glsr()->id.'-console.txt', glsr(Console::class)->get());
+        } else {
+            glsr(Notice::class)->addError(
+                _x('You do not have permission to download the console.', 'admin-text', 'site-reviews')
+            );
+        }
     }
 
     /**
-     * @return void
      * @action site-reviews/route/admin/download-system-info
      */
-    public function downloadSystemInfo()
+    public function downloadSystemInfo(): void
     {
-        $this->download(glsr()->id.'-system-info.txt', glsr(SystemInfo::class)->get());
+        if (glsr()->hasPermission('tools', 'system-info')) {
+            $this->download(glsr()->id.'-system-info.txt', glsr(SystemInfo::class)->get());
+        } else {
+            glsr(Notice::class)->addError(
+                _x('You do not have permission to download the system info report.', 'admin-text', 'site-reviews')
+            );
+        }
     }
 
     /**
-     * @return void
      * @action site-reviews/route/admin/export-reviews
      */
-    public function exportReviews(Request $request)
+    public function exportReviews(Request $request): void
     {
         $this->execute(new ExportReviews($request));
     }
 
     /**
-     * @return void
      * @action site-reviews/route/admin/export-settings
      */
-    public function exportSettings()
+    public function exportSettings(): void
     {
-        $this->download(glsr()->id.'-settings.json', glsr(OptionManager::class)->json());
+        if (glsr()->hasPermission('settings')) {
+            $this->download(glsr()->id.'-settings.json', glsr(OptionManager::class)->json());
+        } else {
+            glsr(Notice::class)->addError(
+                _x('You do not have permission to export the settings.', 'admin-text', 'site-reviews')
+            );
+        }
     }
 
     /**
-     * @return void
      * @action site-reviews/route/admin/fetch-console
      */
-    public function fetchConsole()
+    public function fetchConsole(): void
     {
-        glsr(Notice::class)->addSuccess(_x('Console reloaded.', 'admin-text', 'site-reviews'));
+        // This only needs to be done via the AJAX method
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/fetch-console
      */
-    public function fetchConsoleAjax()
+    public function fetchConsoleAjax(): void
     {
-        $this->fetchConsole();
-        wp_send_json_success([
-            'console' => glsr(Console::class)->getRaw(), // we don't need to esc_html here
-            'notices' => glsr(Notice::class)->get(),
-        ]);
+        if (glsr()->hasPermission('settings')) {
+            glsr(Notice::class)->addSuccess(_x('Console reloaded.', 'admin-text', 'site-reviews'));
+            wp_send_json_success([
+                'console' => glsr(Console::class)->getRaw(), // we don't need to esc_html here
+                'notices' => glsr(Notice::class)->get(),
+            ]);
+        } else {
+            glsr(Notice::class)->addError(_x('You do not have permission to reload the console.', 'admin-text', 'site-reviews'));
+            wp_send_json_error([
+                'notices' => glsr(Notice::class)->get(),
+            ]);
+        }
     }
 
     /**
@@ -219,139 +215,123 @@ class ToolsController extends Controller
     }
 
     /**
-     * @return void
      * @action site-reviews/route/admin/import-reviews
      */
-    public function importReviews(Request $request)
+    public function importReviews(Request $request): void
     {
         $this->execute(new ImportReviews($request));
     }
 
     /**
-     * @return void
      * @action site-reviews/route/admin/import-settings
      */
-    public function importSettings()
+    public function importSettings(): void
     {
         $this->execute(new ImportSettings());
     }
 
     /**
-     * @return void
      * @action site-reviews/route/admin/migrate-plugin
      */
-    public function migratePlugin(Request $request)
+    public function migratePlugin(Request $request): void
     {
-        glsr(Queue::class)->cancelAll('queue/migration');
-        if (wp_validate_boolean($request->alt)) {
-            glsr(Migrate::class)->runAll();
-            glsr(Notice::class)->clear()->addSuccess(sprintf(
-                _x('All plugin migrations have been run successfully, please %s the page.', 'admin-text', 'site-reviews'),
-                sprintf('<a href="javascript:location.reload()">%s</a>', _x('reload', '(admin-text) e.g. please reload the page', 'site-reviews'))
-            ));
-        } else {
-            glsr(Migrate::class)->run();
-            glsr(Notice::class)->clear()->addSuccess(sprintf(
-                _x('The plugin has been migrated sucessfully, please %s the page.', 'admin-text', 'site-reviews'),
-                sprintf('<a href="javascript:location.reload()">%s</a>', _x('reload', '(admin-text) e.g. please reload the page', 'site-reviews'))
-            ));
-        }
+        $this->execute(new MigratePlugin($request));
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/migrate-plugin
      */
-    public function migratePluginAjax(Request $request)
+    public function migratePluginAjax(Request $request): void
     {
-        $this->migratePlugin($request);
+        $this->execute(new MigratePlugin($request));
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
         ]);
     }
 
     /**
-     * @return void
      * @action site-reviews/route/admin/repair-review-relations
      */
-    public function repairReviewRelations()
+    public function repairReviewRelations(): void
     {
-        glsr(Database::class)->deleteInvalidReviews();
-        glsr(Notice::class)->clear()->addSuccess(_x('The review relationships have been repaired.', 'admin-text', 'site-reviews'));
+        $this->execute(new RepairReviewRelations());
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/repair-review-relations
      */
-    public function repairReviewRelationsAjax()
+    public function repairReviewRelationsAjax(): void
     {
-        $this->repairReviewRelations();
+        $this->execute(new RepairReviewRelations());
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
         ]);
     }
 
     /**
-     * @return void
      * @action site-reviews/route/admin/reset-assigned-meta
      */
-    public function resetAssignedMeta()
+    public function resetAssignedMeta(): void
     {
-        glsr(CountManager::class)->recalculate();
-        glsr(Notice::class)->clear()->addSuccess(_x('The assigned meta values have been reset.', 'admin-text', 'site-reviews'));
+        $this->execute(new ResetAssignedMeta());
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/reset-assigned-meta
      */
-    public function resetAssignedMetaAjax()
+    public function resetAssignedMetaAjax(): void
     {
-        $this->resetAssignedMeta();
+        $this->execute(new ResetAssignedMeta());
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
         ]);
     }
 
     /**
-     * @return void
      * @action site-reviews/route/admin/reset-permissions
      */
-    public function resetPermissions(Request $request)
+    public function resetPermissions(Request $request): void
     {
-        if (wp_validate_boolean($request->alt)) {
-            glsr(Role::class)->hardResetAll();
+        if (glsr()->can('edit_users')) {
+            if (wp_validate_boolean($request->alt)) {
+                glsr(Role::class)->hardResetAll();
+            } else {
+                glsr(Role::class)->resetAll();
+            }
+            glsr(Notice::class)->clear()->addSuccess(
+                _x('The permissions have been reset.', 'admin-text', 'site-reviews')
+            );
         } else {
-            glsr(Role::class)->resetAll();
+            glsr(Notice::class)->clear()->addError(
+                _x('You do not have permission to reset permissions.', 'admin-text', 'site-reviews')
+            );
         }
-        glsr(Notice::class)->clear()->addSuccess(_x('The permissions have been reset.', 'admin-text', 'site-reviews'));
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/reset-permissions
      */
-    public function resetPermissionsAjax(Request $request)
+    public function resetPermissionsAjax(Request $request): void
     {
         $this->resetPermissions($request);
-        $reloadLink = glsr(Builder::class)->a([
-            'text' => _x('reload the page', 'admin-text', 'site-reviews'),
-            'href' => 'javascript:window.location.reload(1)',
-        ]);
-        glsr(Notice::class)->clear()->addSuccess(
-            sprintf(_x('The permissions have been reset, please %s for them to take effect.', 'admin-text', 'site-reviews'), $reloadLink)
-        );
+        if (glsr()->can('edit_users')) {
+            $reloadLink = glsr(Builder::class)->a([
+                'text' => _x('reload the page', 'admin-text', 'site-reviews'),
+                'href' => 'javascript:window.location.reload(1)',
+            ]);
+            glsr(Notice::class)->clear()->addSuccess(
+                sprintf(_x('The permissions have been reset, please %s for them to take effect.', 'admin-text', 'site-reviews'), $reloadLink)
+            );
+        }
         wp_send_json_success([
             'notices' => glsr(Notice::class)->get(),
         ]);
     }
 
     /**
-     * @return void
      * @action update-custom_rollback-<Application::ID>
      */
-    public function rollbackPlugin()
+    public function rollbackPlugin(): void
     {
         if (!current_user_can('update_plugins')) {
             wp_die(sprintf(_x('Sorry, you are not allowed to rollback %s.', 'Site Reviews (admin-text)', 'site-reviews'), glsr()->name));
@@ -362,13 +342,18 @@ class ToolsController extends Controller
     }
 
     /**
-     * @return void
      * @action site-reviews/route/ajax/rollback-<Application::ID>
      */
-    public function rollbackPluginAjax(Request $request)
+    public function rollbackPluginAjax(Request $request): void
     {
-        wp_send_json_success(
-            glsr(Rollback::class)->rollbackData($request->version)
-        );
+        if (current_user_can('update_plugins')) {
+            wp_send_json_success(
+                glsr(Rollback::class)->rollbackData($request->version)
+            );
+        } else {
+            wp_send_json_error([
+                'error' => _x('You do not have permission to rollback the plugin.', 'admin-text', 'site-reviews'),
+            ]);
+        }
     }
 }

@@ -37,15 +37,21 @@ class ChangeLogLevel implements Contract
      */
     public function handle()
     {
+        if (!glsr()->hasPermission('tools', 'console')) {
+            glsr(Notice::class)->addError(
+                _x('You do not have permission to change the console level.', 'admin-text', 'site-reviews')
+            );
+            return;
+        }
         if (in_array($this->level, $this->levels)) {
             update_option(Console::LOG_LEVEL_KEY, $this->level);
             glsr(Notice::class)->addSuccess(
                 sprintf(_x('Console logging has been set to: Level %s', 'admin-text', 'site-reviews'), $this->level)
             );
-            return;
+        } else {
+            glsr(Notice::class)->addError(
+                _x('Console level could not be changed.', 'admin-text', 'site-reviews')
+            );
         }
-        glsr(Notice::class)->addError(
-            _x('Console logging level could not be changed.', 'admin-text', 'site-reviews')
-        );
     }
 }

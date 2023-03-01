@@ -10,13 +10,13 @@ use WP_Posts_List_Table;
 
 class ToggleStatus implements Contract
 {
-    public $id;
+    public $postId;
     public $status;
 
     public function __construct(array $input)
     {
         $args = glsr(ToggleStatusDefaults::class)->restrict($input);
-        $this->id = $args['post_id'];
+        $this->postId = $args['post_id'];
         $this->status = $args['status'];
     }
 
@@ -25,12 +25,16 @@ class ToggleStatus implements Contract
      */
     public function handle()
     {
-        if (!Review::isReview($this->id)) {
+        if (!glsr()->can('edit_post', $this->postId)) {
+            glsr_log()->error('Cannot toggle review status: Invalid permission.');
+            return [];
+        }
+        if (!Review::isReview($this->postId)) {
             glsr_log()->error('Cannot toggle review status: Invalid Post Type.');
             return [];
         }
         $args = [
-            'ID' => $this->id,
+            'ID' => $this->postId,
             'post_status' => $this->status,
         ];
         $postId = wp_update_post($args, true);

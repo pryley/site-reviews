@@ -27,6 +27,12 @@ class ExportReviews implements Contract
      */
     public function handle()
     {
+        if (!glsr()->hasPermission('tools', 'general')) {
+            glsr(Notice::class)->addError(
+                _x('You do not have permission to export reviews.', 'admin-text', 'site-reviews')
+            );
+            return;
+        }
         $reviews = $this->results();
         if (empty($reviews)) {
             glsr(Notice::class)->addWarning(_x('No reviews found.', 'admin-text', 'site-reviews'));
