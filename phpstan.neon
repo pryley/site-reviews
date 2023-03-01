@@ -11,6 +11,7 @@ parameters:
     - tests/phpstan/stubs/gamipress.php
     - tests/phpstan/stubs/lpfw.php
     - tests/phpstan/stubs/polylang.php
+    - tests/phpstan/stubs/wlpr.php
     - tests/phpstan/stubs/woocommerce.php
     - tests/phpstan/stubs/woorewards.php
     - helpers.php

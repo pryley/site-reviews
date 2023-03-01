@@ -1,0 +1,64 @@
+<?php
+
+namespace GeminiLabs\SiteReviews\Integrations\WLPR;
+
+use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
+use GeminiLabs\SiteReviews\Database\Query;
+use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Review;
+use Wlpr\App\Helpers\Loyalty;
+use Wlpr\App\Models\PointAction;
+
+class Controller extends BaseController
+{
+    /**
+     * @action site-reviews/review/created
+     * @action site-reviews/review/approved
+     */
+    public function maybeEarnPoints(Review $review): void
+    {
+        $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
+        foreach ($review->assigned_posts as $postId) {
+            if ('product' !== get_post_type($postId)) {
+                continue;
+            }
+            if ($user = get_user_by('ID', $review->author_id)) {
+                if ($this->isFirstReviewForPost($postId, $review)) {
+                    $this->earnPoints(sanitize_email($user->user_email), $postId);
+                }
+            }
+        }
+    }
+
+    protected function earnPoints(string $email, int $productId): void
+    {
+        $settings = get_option('wlpr_settings');
+        $points = Arr::getAs('int', $settings, 'wlpr_write_review_points', 50);
+        if ($points < 1) {
+            return;
+        }
+        $pointAction = new PointAction();
+        if (!method_exists(Loyalty::class, 'point') || !method_exists($pointAction, 'getWhere')) { // @phpstan-ignore-line
+            glsr_log()->error('The "WooCommerce Loyalty Points and Rewards" integration is broken and needs an update.');
+            return;
+        }
+        global $wpdb;
+        $sql = "user_email = %s AND action = 'product-review' AND product_id = %d";
+        if (empty($pointAction->getWhere($wpdb->prepare($sql, $email, $productId), '*', true))) {
+            $wlpr = Loyalty::point();
+            $wlpr->addEarnPoint($email, $points, 'product-review', [
+                'product_id' => $productId,
+            ]);
+        }
+    }
+
+    protected function isFirstReviewForPost(int $postId, Review $review): bool
+    {
+        $reviews = glsr_get_reviews([
+            'assigned_posts' => $postId,
+            'status' => 'all',
+            'user__in' => $review->author_id,
+        ]);
+        return 1 >= $reviews->total;
+    }
+}

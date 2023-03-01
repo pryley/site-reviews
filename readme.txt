@@ -175,6 +175,7 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 = 6.6.0 (2023-03-02) =
 
+- Added compatibility with [WooCommerce Loyalty Points and Rewards](https://www.flycart.org/products/wordpress/wployalty)
 - Fixed a Broken Access Control vulnerability which allowed any logged-in user to clear the Site Reviews > Tools > Console.
 - Fixed a Cross Site Scripting (XSS) vulnerability which allowed a logged-in user (with Editor capabilities) the ability to insert malicious javascript code inside a shortcode or block class attribute.
 
