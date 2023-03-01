@@ -3,8 +3,10 @@
 // =============================================================================
 
 [class*="site-review-welcome"] .wrap > .notice:not(.glsr-notice):not(.settings-error):not(.notice-error):not(#message):not(#local-storage-notice),
-[class*="post-type-site-review"] .wrap > .notice:not(.glsr-notice):not(.settings-error):not(.notice-error):not(#message):not(#local-storage-notice) {
-    display: none;
+[class*="post-type-site-review"] .wrap > .notice:not(.glsr-notice):not(.settings-error):not(.notice-error):not(#message):not(#local-storage-notice),
+[class*="site-review-welcome"] .wrap > :is(.fs-notice, #setting-error-tgmpa),
+[class*="post-type-site-review"] .wrap > :is(.fs-notice, #setting-error-tgmpa) {
+    display: none !important;
 }
 [class*="post-type-site-review"] .notice {
     border-radius: 3px;
