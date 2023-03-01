@@ -2227,7 +2227,7 @@ msgctxt "admin-text"
 msgid "Support"
 msgstr ""
 
-#: plugin/Controllers/MenuController.php:117, plugin/Controllers/ToolsController.php:92
+#: plugin/Controllers/MenuController.php:117, plugin/Controllers/ToolsController.php:93
 msgctxt "admin-text"
 msgid "FAQ"
 msgstr ""
@@ -2352,67 +2352,67 @@ msgctxt "The Term ID (admin-text)"
 msgid "<span>ID: %d</span>"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:101
+#: plugin/Controllers/ToolsController.php:102
 msgctxt "admin-text"
 msgid "Your detected IP address is %s. If this looks incorrect, please see the %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:96
+#: plugin/Controllers/ToolsController.php:97
 msgctxt "admin-text"
 msgid "Site Reviews was unable to detect an IP address. To fix this, please see the %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:127
+#: plugin/Controllers/ToolsController.php:128
 msgctxt "admin-text"
 msgid "You do not have permission to download the console."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:141
+#: plugin/Controllers/ToolsController.php:142
 msgctxt "admin-text"
 msgid "You do not have permission to download the system info report."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:163
+#: plugin/Controllers/ToolsController.php:164
 msgctxt "admin-text"
 msgid "You do not have permission to export the settings."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:188
+#: plugin/Controllers/ToolsController.php:189
 msgctxt "admin-text"
 msgid "You do not have permission to reload the console."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:182
+#: plugin/Controllers/ToolsController.php:183
 msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:305
+#: plugin/Controllers/ToolsController.php:306
 msgctxt "admin-text"
 msgid "You do not have permission to reset permissions."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:301
+#: plugin/Controllers/ToolsController.php:302
 msgctxt "admin-text"
 msgid "The permissions have been reset."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:318
+#: plugin/Controllers/ToolsController.php:319
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:322
+#: plugin/Controllers/ToolsController.php:323
 msgctxt "admin-text"
 msgid "The permissions have been reset, please %s for them to take effect."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:336
+#: plugin/Controllers/ToolsController.php:337
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr ""
 
-#: plugin/Controllers/ToolsController.php:354
+#: plugin/Controllers/ToolsController.php:355
 msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
 msgstr ""
