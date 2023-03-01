@@ -39,6 +39,9 @@ class Controller extends BaseController
             return;
         }
         foreach ($review->assigned_posts as $postId) {
+            if ('product' !== get_post_type($postId)) {
+                continue;
+            }
             if ($this->isFirstReviewForPost($postId, $review)) {
                 $this->earnPoints($review->ID, $review->author_id);
             }
