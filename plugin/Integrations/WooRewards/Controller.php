@@ -58,6 +58,9 @@ class Controller extends BaseController
     {
         $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
         foreach ($review->assigned_posts as $postId) {
+            if ('product' !== get_post_type($postId)) {
+                continue;
+            }
             try {
                 $comment = $this->fakeComment($postId, $review);
                 if (!$this->invoke('isValid', [$comment, $delayed = false])) {
