@@ -17,7 +17,7 @@ class ConvertTableEngine implements Contract
     }
 
     /**
-     * @return void
+     * @return bool
      */
     public function handle()
     {
@@ -25,23 +25,26 @@ class ConvertTableEngine implements Contract
             glsr(Notice::class)->clear()->addError(
                 _x('You do not have permission to modify the database.', 'admin-text', 'site-reviews'),
             );
-            return;
+            return false;
         }
         $result = glsr(Tables::class)->convertTableEngine($this->table);
         if (-1 === $result) {
             glsr(Notice::class)->addWarning(
                 sprintf(_x('The <code>%s</code> table was either not found in the database, or does not use the MyISAM engine.', 'admin-text', 'site-reviews'), $this->table)
             );
+            return false;
         }
         if (0 === $result) {
             glsr(Notice::class)->addError(
                 sprintf(_x('The <code>%s</code> table could not be converted to InnoDB.', 'admin-text', 'site-reviews'), $this->table)
             );
+            return false;
         }
         if (1 === $result) {
             glsr(Notice::class)->addSuccess(
                 sprintf(_x('The <code>%s</code> table was successfully converted to InnoDB.', 'admin-text', 'site-reviews'), $this->table)
             );
         }
+        return true;
     }
 }

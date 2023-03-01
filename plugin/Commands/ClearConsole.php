@@ -9,7 +9,7 @@ use GeminiLabs\SiteReviews\Modules\Notice;
 class ClearConsole implements Contract
 {
     /**
-     * @return void
+     * @return bool
      */
     public function handle()
     {
@@ -17,9 +17,10 @@ class ClearConsole implements Contract
             glsr(Notice::class)->addError(
                 _x('You do not have permission to clear the console.', 'admin-text', 'site-reviews')
             );
-        } else {
-            glsr(Console::class)->clear();
-            glsr(Notice::class)->addSuccess(_x('Console cleared.', 'admin-text', 'site-reviews'));
+            return false;
         }
+        glsr(Console::class)->clear();
+        glsr(Notice::class)->addSuccess(_x('Console cleared.', 'admin-text', 'site-reviews'));
+        return true;
     }
 }

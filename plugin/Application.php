@@ -126,8 +126,8 @@ final class Application extends Container
      */
     public function hasPermission($page = '', $tab = 'index')
     {
-        $isAdmin = $this->isAdmin();
-        return !$isAdmin || $this->can($this->getPermission($page, $tab));
+        $isAdminScreen = is_admin() || is_network_admin();
+        return !$isAdminScreen || $this->can($this->getPermission($page, $tab));
     }
 
     /**
@@ -171,7 +171,8 @@ final class Application extends Container
      */
     public function isAdmin()
     {
-        return (is_admin() || is_network_admin()) && !wp_doing_ajax();
+        $isAdminScreen = is_admin() || is_network_admin();
+        return $isAdminScreen && !wp_doing_ajax();
     }
 
     /**

@@ -18,7 +18,7 @@ class MigratePlugin implements Contract
     }
 
     /**
-     * @return void
+     * @return bool
      */
     public function handle()
     {
@@ -26,7 +26,7 @@ class MigratePlugin implements Contract
             glsr(Notice::class)->clear()->addError(
                 _x('You do not have permission to migrate the plugin.', 'admin-text', 'site-reviews'),
             );
-            return;
+            return false;
         }
         glsr(Queue::class)->cancelAll('queue/migration');
         if ($this->runAll) {
@@ -42,5 +42,6 @@ class MigratePlugin implements Contract
                 sprintf('<a href="javascript:location.reload()">%s</a>', _x('reload', '(admin-text) e.g. please reload the page', 'site-reviews'))
             ));
         }
+        return true;
     }
 }

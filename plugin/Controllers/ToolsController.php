@@ -11,6 +11,7 @@ use GeminiLabs\SiteReviews\Commands\ImportSettings;
 use GeminiLabs\SiteReviews\Commands\MigratePlugin;
 use GeminiLabs\SiteReviews\Commands\RepairReviewRelations;
 use GeminiLabs\SiteReviews\Commands\ResetAssignedMeta;
+use GeminiLabs\SiteReviews\Commands\ResetPermissions;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Console;
@@ -19,7 +20,6 @@ use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\SystemInfo;
 use GeminiLabs\SiteReviews\Request;
-use GeminiLabs\SiteReviews\Role;
 use GeminiLabs\SiteReviews\Rollback;
 
 class ToolsController extends Controller
@@ -37,10 +37,13 @@ class ToolsController extends Controller
      */
     public function changeConsoleLevelAjax(Request $request): void
     {
-        $this->execute(new ChangeLogLevel($request));
-        wp_send_json_success([
-            'notices' => glsr(Notice::class)->get(),
-        ]);
+        $success = $this->execute(new ChangeLogLevel($request));
+        $notices = glsr(Notice::class)->get();
+        if ($success) {
+            wp_send_json_success(compact('notices'));
+        } else {
+            wp_send_json_error(compact('notices'));
+        }
     }
 
     /**
@@ -56,11 +59,14 @@ class ToolsController extends Controller
      */
     public function clearConsoleAjax(): void
     {
-        $this->execute(new ClearConsole());
-        wp_send_json_success([
-            'console' => glsr(Console::class)->get(),
-            'notices' => glsr(Notice::class)->get(),
-        ]);
+        $success = $this->execute(new ClearConsole());
+        $notices = glsr(Notice::class)->get();
+        if ($success) {
+            $console = glsr(Console::class)->get();
+            wp_send_json_success(compact('console', 'notices'));
+        } else {
+            wp_send_json_error(compact('notices'));
+        }
     }
 
     /**
@@ -76,10 +82,13 @@ class ToolsController extends Controller
      */
     public function convertTableEngineAjax(Request $request): void
     {
-        $this->execute(new ConvertTableEngine($request));
-        wp_send_json_success([
-            'notices' => glsr(Notice::class)->get(),
-        ]);
+        $success = $this->execute(new ConvertTableEngine($request));
+        $notices = glsr(Notice::class)->get();
+        if ($success) {
+            wp_send_json_success(compact('notices'));
+        } else {
+            wp_send_json_error(compact('notices'));
+        }
     }
 
     /**
@@ -171,7 +180,7 @@ class ToolsController extends Controller
      */
     public function fetchConsole(): void
     {
-        // This only needs to be done via the AJAX method
+        // This is only done via the AJAX method
     }
 
     /**
@@ -243,10 +252,13 @@ class ToolsController extends Controller
      */
     public function migratePluginAjax(Request $request): void
     {
-        $this->execute(new MigratePlugin($request));
-        wp_send_json_success([
-            'notices' => glsr(Notice::class)->get(),
-        ]);
+        $success = $this->execute(new MigratePlugin($request));
+        $notices = glsr(Notice::class)->get();
+        if ($success) {
+            wp_send_json_success(compact('notices'));
+        } else {
+            wp_send_json_error(compact('notices'));
+        }
     }
 
     /**
@@ -262,10 +274,13 @@ class ToolsController extends Controller
      */
     public function repairReviewRelationsAjax(): void
     {
-        $this->execute(new RepairReviewRelations());
-        wp_send_json_success([
-            'notices' => glsr(Notice::class)->get(),
-        ]);
+        $success = $this->execute(new RepairReviewRelations());
+        $notices = glsr(Notice::class)->get();
+        if ($success) {
+            wp_send_json_success(compact('notices'));
+        } else {
+            wp_send_json_error(compact('notices'));
+        }
     }
 
     /**
@@ -281,10 +296,13 @@ class ToolsController extends Controller
      */
     public function resetAssignedMetaAjax(): void
     {
-        $this->execute(new ResetAssignedMeta());
-        wp_send_json_success([
-            'notices' => glsr(Notice::class)->get(),
-        ]);
+        $success = $this->execute(new ResetAssignedMeta());
+        $notices = glsr(Notice::class)->get();
+        if ($success) {
+            wp_send_json_success(compact('notices'));
+        } else {
+            wp_send_json_error(compact('notices'));
+        }
     }
 
     /**
@@ -292,20 +310,7 @@ class ToolsController extends Controller
      */
     public function resetPermissions(Request $request): void
     {
-        if (glsr()->can('edit_users')) {
-            if (wp_validate_boolean($request->alt)) {
-                glsr(Role::class)->hardResetAll();
-            } else {
-                glsr(Role::class)->resetAll();
-            }
-            glsr(Notice::class)->clear()->addSuccess(
-                _x('The permissions have been reset.', 'admin-text', 'site-reviews')
-            );
-        } else {
-            glsr(Notice::class)->clear()->addError(
-                _x('You do not have permission to reset permissions.', 'admin-text', 'site-reviews')
-            );
-        }
+        $this->execute(new ResetPermissions($request));
     }
 
     /**
@@ -313,8 +318,7 @@ class ToolsController extends Controller
      */
     public function resetPermissionsAjax(Request $request): void
     {
-        $this->resetPermissions($request);
-        if (glsr()->can('edit_users')) {
+        if ($this->execute(new ResetPermissions($request))) {
             $reloadLink = glsr(Builder::class)->a([
                 'text' => _x('reload the page', 'admin-text', 'site-reviews'),
                 'href' => 'javascript:window.location.reload(1)',
@@ -322,10 +326,14 @@ class ToolsController extends Controller
             glsr(Notice::class)->clear()->addSuccess(
                 sprintf(_x('The permissions have been reset, please %s for them to take effect.', 'admin-text', 'site-reviews'), $reloadLink)
             );
+            wp_send_json_success([
+                'notices' => glsr(Notice::class)->get(),
+            ]);
+        } else {
+            wp_send_json_error([
+                'notices' => glsr(Notice::class)->get(),
+            ]);
         }
-        wp_send_json_success([
-            'notices' => glsr(Notice::class)->get(),
-        ]);
     }
 
     /**

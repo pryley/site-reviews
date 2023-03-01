@@ -2046,7 +2046,7 @@ msgstr ""
 "reviews. Keep in mind that enabling this option may also cause conflicts "
 "with incompatible plugins."
 
-#: plugin/Application.php:198, plugin/Controllers/SettingsController.php:155
+#: plugin/Application.php:199, plugin/Controllers/SettingsController.php:155
 msgctxt "admin-text"
 msgid "License Keys"
 msgstr "License Keys"
@@ -2185,25 +2185,25 @@ msgctxt "admin-text"
 msgid "You do not have permission to change the console level."
 msgstr "You do not have permission to change the console level."
 
-#: plugin/Commands/ChangeLogLevel.php:53
+#: plugin/Commands/ChangeLogLevel.php:48
 msgctxt "admin-text"
 msgid "Console level could not be changed."
 msgstr "Console level could not be changed."
 
-#: plugin/Commands/ChangeLogLevel.php:49
+#: plugin/Commands/ChangeLogLevel.php:54
 msgctxt "admin-text"
 msgid "Console logging has been set to: Level %s"
 msgstr "Console logging has been set to: Level %s"
-
-#: plugin/Commands/ClearConsole.php:22
-msgctxt "admin-text"
-msgid "Console cleared."
-msgstr "Console cleared."
 
 #: plugin/Commands/ClearConsole.php:18
 msgctxt "admin-text"
 msgid "You do not have permission to clear the console."
 msgstr "You do not have permission to clear the console."
+
+#: plugin/Commands/ClearConsole.php:23
+msgctxt "admin-text"
+msgid "Console cleared."
+msgstr "Console cleared."
 
 #: plugin/Commands/ConvertTableEngine.php:26
 msgctxt "admin-text"
@@ -2219,12 +2219,12 @@ msgstr ""
 "The <code>%s</code> table was either not found in the database, or does not "
 "use the MyISAM engine."
 
-#: plugin/Commands/ConvertTableEngine.php:38
+#: plugin/Commands/ConvertTableEngine.php:39
 msgctxt "admin-text"
 msgid "The <code>%s</code> table could not be converted to InnoDB."
 msgstr "The <code>%s</code> table could not be converted to InnoDB."
 
-#: plugin/Commands/ConvertTableEngine.php:43
+#: plugin/Commands/ConvertTableEngine.php:45
 msgctxt "admin-text"
 msgid "The <code>%s</code> table was successfully converted to InnoDB."
 msgstr "The <code>%s</code> table was successfully converted to InnoDB."
@@ -2396,25 +2396,35 @@ msgctxt "admin-text"
 msgid "All plugin migrations have been run successfully, please %s the page."
 msgstr "All plugin migrations have been run successfully, please %s the page."
 
-#: plugin/Commands/RepairReviewRelations.php:23
-msgctxt "admin-text"
-msgid "The review relationships have been repaired."
-msgstr "The review relationships have been repaired."
-
 #: plugin/Commands/RepairReviewRelations.php:18
 msgctxt "admin-text"
 msgid "You do not have permission to repair the review relationships."
 msgstr "You do not have permission to repair the review relationships."
 
-#: plugin/Commands/ResetAssignedMeta.php:23
+#: plugin/Commands/RepairReviewRelations.php:24
 msgctxt "admin-text"
-msgid "The assigned meta values have been reset."
-msgstr "The assigned meta values have been reset."
+msgid "The review relationships have been repaired."
+msgstr "The review relationships have been repaired."
 
 #: plugin/Commands/ResetAssignedMeta.php:18
 msgctxt "admin-text"
 msgid "You do not have permission to reset the assigned meta values."
 msgstr "You do not have permission to reset the assigned meta values."
+
+#: plugin/Commands/ResetAssignedMeta.php:24
+msgctxt "admin-text"
+msgid "The assigned meta values have been reset."
+msgstr "The assigned meta values have been reset."
+
+#: plugin/Commands/ResetPermissions.php:26
+msgctxt "admin-text"
+msgid "You do not have permission to reset permissions."
+msgstr "You do not have permission to reset permissions."
+
+#: plugin/Commands/ResetPermissions.php:36
+msgctxt "admin-text"
+msgid "The permissions have been reset."
+msgstr "The permissions have been reset."
 
 #: plugin/Commands/TogglePinned.php:38
 msgctxt "admin-text"
@@ -2671,7 +2681,7 @@ msgctxt "admin-text"
 msgid "Support"
 msgstr "Support"
 
-#: plugin/Controllers/MenuController.php:117, plugin/Controllers/ToolsController.php:93
+#: plugin/Controllers/MenuController.php:117, plugin/Controllers/ToolsController.php:102
 msgctxt "admin-text"
 msgid "FAQ"
 msgstr "FAQ"
@@ -2805,12 +2815,12 @@ msgstr ""
 "account and click the \"Manage Sites\" button to activate it for your "
 "website."
 
-#: plugin/Controllers/ToolsController.php:102
+#: plugin/Controllers/ToolsController.php:111
 msgctxt "admin-text"
 msgid "Your detected IP address is %s. If this looks incorrect, please see the %s."
 msgstr "Your detected IP address is %s. If this looks incorrect, please see the %s."
 
-#: plugin/Controllers/ToolsController.php:97
+#: plugin/Controllers/ToolsController.php:106
 msgctxt "admin-text"
 msgid ""
 "Site Reviews was unable to detect an IP address. To fix this, please see "
@@ -2819,52 +2829,42 @@ msgstr ""
 "Site Reviews was unable to detect an IP address. To fix this, please see "
 "the %s."
 
-#: plugin/Controllers/ToolsController.php:128
+#: plugin/Controllers/ToolsController.php:137
 msgctxt "admin-text"
 msgid "You do not have permission to download the console."
 msgstr "You do not have permission to download the console."
 
-#: plugin/Controllers/ToolsController.php:142
+#: plugin/Controllers/ToolsController.php:151
 msgctxt "admin-text"
 msgid "You do not have permission to download the system info report."
 msgstr "You do not have permission to download the system info report."
 
-#: plugin/Controllers/ToolsController.php:164
+#: plugin/Controllers/ToolsController.php:173
 msgctxt "admin-text"
 msgid "You do not have permission to export the settings."
 msgstr "You do not have permission to export the settings."
 
-#: plugin/Controllers/ToolsController.php:189
+#: plugin/Controllers/ToolsController.php:198
 msgctxt "admin-text"
 msgid "You do not have permission to reload the console."
 msgstr "You do not have permission to reload the console."
 
-#: plugin/Controllers/ToolsController.php:183
+#: plugin/Controllers/ToolsController.php:192
 msgctxt "admin-text"
 msgid "Console reloaded."
 msgstr "Console reloaded."
 
-#: plugin/Controllers/ToolsController.php:306
-msgctxt "admin-text"
-msgid "You do not have permission to reset permissions."
-msgstr "You do not have permission to reset permissions."
-
-#: plugin/Controllers/ToolsController.php:302
-msgctxt "admin-text"
-msgid "The permissions have been reset."
-msgstr "The permissions have been reset."
-
-#: plugin/Controllers/ToolsController.php:319
+#: plugin/Controllers/ToolsController.php:323
 msgctxt "admin-text"
 msgid "reload the page"
 msgstr "reload the page"
 
-#: plugin/Controllers/ToolsController.php:323
+#: plugin/Controllers/ToolsController.php:327
 msgctxt "admin-text"
 msgid "The permissions have been reset, please %s for them to take effect."
 msgstr "The permissions have been reset, please %s for them to take effect."
 
-#: plugin/Controllers/ToolsController.php:355
+#: plugin/Controllers/ToolsController.php:363
 msgctxt "admin-text"
 msgid "You do not have permission to rollback the plugin."
 msgstr "You do not have permission to rollback the plugin."
@@ -5876,7 +5876,7 @@ msgctxt "limit time (admin-text)"
 msgid "days"
 msgstr "days"
 
-#: plugin/Application.php:197
+#: plugin/Application.php:198
 msgctxt "License Keys (admin-text)"
 msgid ""
 "Enter the license key here. Your license can be found on the %s page of "
@@ -5919,7 +5919,7 @@ msgctxt "The Term ID (admin-text)"
 msgid "<span>ID: %d</span>"
 msgstr "<span>ID: %d</span>"
 
-#: plugin/Controllers/ToolsController.php:337
+#: plugin/Controllers/ToolsController.php:345
 msgctxt "Site Reviews (admin-text)"
 msgid "Sorry, you are not allowed to rollback %s."
 msgstr "Sorry, you are not allowed to rollback %s."
