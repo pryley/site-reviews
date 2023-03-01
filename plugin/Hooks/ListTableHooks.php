@@ -15,7 +15,7 @@ class ListTableHooks extends AbstractHooks
             ['filterDefaultHiddenColumns', 'default_hidden_columns', 10, 2],
             ['filterPostClauses', 'posts_clauses', 10, 2],
             ['filterRowActions', 'post_row_actions', 10, 2],
-            ['filterScreenFilters', 'screen_settings', 10, 2],
+            ['filterScreenFilters', 'screen_settings', 20, 2],
             ['filterSearchQuery', 'posts_search', 10, 2],
             ['filterSortableColumns', "manage_edit-{$this->type}_sortable_columns"],
             ['overrideInlineSaveAjax', 'wp_ajax_inline-save', 0],
