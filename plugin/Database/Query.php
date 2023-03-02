@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Database;
+use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
@@ -130,7 +131,7 @@ class Query
      */
     public function setArgs(array $args = [], array $unset = [])
     {
-        $args = (new NormalizeQueryArgs($args))->toArray();
+        $args = glsr(ReviewsDefaults::class)->restrict($args);
         foreach ($unset as $key) {
             $args[$key] = '';
         }

@@ -4,7 +4,6 @@ namespace GeminiLabs\SiteReviews\Database;
 
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
 trait Sql
@@ -267,7 +266,7 @@ trait Sql
      */
     protected function clauseAndStatus()
     {
-        if (-1 !== Cast::toInt($this->args['status'])) {
+        if (-1 !== $this->args['status']) {
             return $this->clauseIfValueNotEmpty('AND r.is_approved = %d', $this->args['status']);
         }
         return "AND p.post_status IN ('pending','publish')";
@@ -278,11 +277,10 @@ trait Sql
      */
     protected function clauseAndTerms()
     {
-        if (Helper::isEmpty($this->args['terms'])) {
-            return '';
+        if (-1 !== $this->args['terms']) {
+            return $this->clauseIfValueNotEmpty('AND r.terms = %d', $this->args['terms']);
         }
-        $value = Cast::toInt(Cast::toBool($this->args['terms']));
-        return $this->clauseIfValueNotEmpty('AND r.terms = %d', $value);
+        return '';
     }
 
     /**
@@ -453,7 +451,7 @@ trait Sql
      */
     protected function clauseJoinStatus()
     {
-        return (string) Helper::ifTrue(-1 === Cast::toInt($this->args['status']),
+        return (string) Helper::ifTrue(-1 === $this->args['status'],
             "INNER JOIN {$this->db->posts} AS p ON r.review_id = p.ID"
         );
     }

@@ -2,7 +2,11 @@
 
 namespace GeminiLabs\SiteReviews\Defaults;
 
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
+use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Multilingual;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class ReviewsDefaults extends DefaultsAbstract
 {
@@ -12,11 +16,7 @@ class ReviewsDefaults extends DefaultsAbstract
      * @var array
      */
     public $casts = [
-        'ip_address' => 'string',
-        'order' => 'name',
-        'orderby' => 'name',
-        'pagination' => 'string',
-        'status' => 'name',
+        'terms' => 'string',
     ];
 
     /**
@@ -38,6 +38,7 @@ class ReviewsDefaults extends DefaultsAbstract
             'rating',
         ],
         'status' => ['all', 'approved', 'pending', 'publish', 'unapproved'],
+        'terms' => ['0', 'false', '1', 'true'],
     ];
 
     /**
@@ -71,12 +72,15 @@ class ReviewsDefaults extends DefaultsAbstract
         'email' => 'email',
         'ip_address' => 'text',
         'offset' => 'min:0',
+        'order' => 'name',
+        'orderby' => 'name',
         'page' => 'min:1',
         'per_page' => 'min:1',
         'post__in' => 'array-int',
         'post__not_in' => 'array-int',
         'rating' => 'rating',
         'rating_field' => 'name',
+        'status' => 'name',
         'type' => 'slug',
         'user__in' => 'user-ids',
         'user__not_in' => 'user-ids',
@@ -100,7 +104,6 @@ class ReviewsDefaults extends DefaultsAbstract
             'order' => 'desc',
             'orderby' => 'date',
             'page' => 1,
-            'pagination' => false,
             'per_page' => 10,
             'post__in' => [],
             'post__not_in' => [],
@@ -115,21 +118,98 @@ class ReviewsDefaults extends DefaultsAbstract
     }
 
     /**
-     * {@inheritdoc}
+     * Normalize provided values, this always runs first.
+     * @return array
      */
     protected function normalize(array $values = [])
     {
-        if (empty($values['assigned_posts'])) {
-            return $values;
-        }
-        $postIds = Cast::toArray($values['assigned_posts']);
-        $values['assigned_posts_types'] = [];
-        foreach ($postIds as $postType) {
-            if (!is_numeric($postType) && post_type_exists($postType)) {
-                $values['assigned_posts'] = []; // query only by assigned post types!
-                $values['assigned_posts_types'][] = $postType;
+        if ($postIds = Arr::getAs('array', $values, 'assigned_posts')) {
+            $values['assigned_posts_types'] = [];
+            foreach ($postIds as $postType) {
+                if (!is_numeric($postType) && post_type_exists($postType)) {
+                    $values['assigned_posts'] = []; // query only by assigned post types!
+                    $values['assigned_posts_types'][] = $postType;
+                }
             }
+        } else {
+            $postTypes = glsr(Sanitizer::class)->sanitizeArrayString(Arr::get($values, 'assigned_posts_types'));
+            $values['assigned_posts_types'] = array_filter($postTypes, 'post_type_exists');
         }
         return $values;
+    }
+
+    /**
+     * Finalize provided values, this always runs last.
+     * @return array
+     */
+    protected function finalize(array $values = [])
+    {
+        $values['assigned_posts'] = glsr(Multilingual::class)->getPostIds($values['assigned_posts']);
+        $values['date'] = $this->finalizeDate($values['date']);
+        $values['order'] = $this->finalizeOrder($values['order']);
+        $values['orderby'] = $this->finalizeOrderby($values['orderby']);
+        $values['status'] = $this->finalizeStatus($values['status']);
+        $values['terms'] = $this->finalizeTerms($values['terms']);
+        return $values;
+    }
+
+    protected function finalizeDate($value): array
+    {
+        $date = array_fill_keys(['after', 'before', 'day', 'inclusive', 'month', 'year'], '');
+        $timestamp = strtotime(Cast::toString($value));
+        if (false !== $timestamp) {
+            $date['year'] = date('Y', $timestamp);
+            $date['month'] = date('n', $timestamp);
+            $date['day'] = date('j', $timestamp);
+            return $date;
+        }
+        $date['after'] = glsr(Sanitizer::class)->sanitizeDate(Arr::get($value, 'after'));
+        $date['before'] = glsr(Sanitizer::class)->sanitizeDate(Arr::get($value, 'before'));
+        if (!empty(array_filter($date))) {
+            $date['inclusive'] = Arr::getAs('bool', $value, 'inclusive') ? '=' : '';
+        }
+        return $date;
+    }
+
+    protected function finalizeOrder(string $value): string
+    {
+        return strtoupper($value);
+    }
+
+    protected function finalizeOrderby(string $value): string
+    {
+        if ('id' === $value) {
+            return 'p.ID';
+        }
+        if (in_array($value, ['comment_count', 'menu_order'])) {
+            return Str::prefix($value, 'p.');
+        }
+        if (in_array($value, ['author', 'date', 'date_gmt'])) {
+            return Str::prefix($value, 'p.post_');
+        }
+        if (in_array($value, ['rating'])) {
+            return Str::prefix($value, 'r.');
+        }
+        return $value;
+    }
+
+    protected function finalizeStatus(string $value): int
+    {
+        $statuses = [
+            'all' => -1,
+            'approved' => 1,
+            'pending' => 0,
+            'publish' => 1,
+            'unapproved' => 0,
+        ];
+        return $statuses[$value];
+    }
+
+    protected function finalizeTerms(string $value): int
+    {
+        if (!empty($value)) {
+            return Cast::toInt(Cast::toBool($value));
+        }
+        return -1;
     }
 }

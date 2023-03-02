@@ -5,15 +5,14 @@ namespace GeminiLabs\SiteReviews\Tests;
 use GeminiLabs\SiteReviews\Defaults\ReviewsDefaults;
 use GeminiLabs\SiteReviews\Defaults\SiteReviewsDefaults;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use WP_UnitTestCase;
 
 /**
  * Test case for the Plugin.
  * @group plugin
  */
-class DefaultsTest extends WP_UnitTestCase
+class DefaultsTest extends \WP_UnitTestCase
 {
-    public function test_reviews_restrict()
+    public function testReviewsRestrict()
     {
         $postId = self::factory()->post->create();
         $termId = self::factory()->term->create(['taxonomy' => glsr()->taxonomy]);
@@ -41,21 +40,27 @@ class DefaultsTest extends WP_UnitTestCase
             'assigned_terms' => [$termId],
             'assigned_users' => [$userId],
             'content' => '',
-            'date' => '',
+            'date' => [
+                'after' => '',
+                'before' => '',
+                'day' => '',
+                'inclusive' => '',
+                'month' => '',
+                'year' => '',
+            ],
             'email' => '',
             'ip_address' => '',
             'offset' => 0,
-            'order' => 'desc',
-            'orderby' => 'date',
+            'order' => 'DESC',
+            'orderby' => 'p.post_date',
             'page' => 2,
-            'pagination' => 'ajax',
             'per_page' => 1,
             'post__in' => [],
             'post__not_in' => [],
             'rating' => 0,
             'rating_field' => 'rating',
-            'status' => 'approved',
-            'terms' => '',
+            'status' => 1,
+            'terms' => -1,
             'type' => 'local',
             'user__in' => [],
             'user__not_in' => [],
@@ -65,7 +70,7 @@ class DefaultsTest extends WP_UnitTestCase
         $this->assertEquals($test->toArray(), $expected);
     }
 
-    public function test_site_reviews_restrict()
+    public function testSiteReviewsRestrict()
     {
         $postId = self::factory()->post->create();
         $termId = self::factory()->term->create(['taxonomy' => glsr()->taxonomy]);
