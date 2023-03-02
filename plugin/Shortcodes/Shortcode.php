@@ -82,7 +82,7 @@ abstract class Shortcode implements ShortcodeContract
     public function build(array $args = [], string $type = 'shortcode'): string
     {
         $this->normalize($args, $type);
-        $template = $this->buildTemplate();
+        $template = $this->buildTemplate($this->args); // @compat remove parameter usage in v7.0
         $attributes = $this->attributes($this->args, $type);
         $html = glsr(Builder::class)->div($template, $attributes);
         return sprintf('%s%s', $this->debug, $html);
