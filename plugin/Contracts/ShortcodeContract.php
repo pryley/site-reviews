@@ -5,8 +5,14 @@ namespace GeminiLabs\SiteReviews\Contracts;
 interface ShortcodeContract
 {
     public function build(array $args = [], string $type = 'shortcode'): string;
-    public function buildBlock(array $args = []): string;
-    public function buildShortcode(array $args = []): string;
+    /**
+     * @param string|array $args
+     */
+    public function buildBlock($args = []): string;
+    /**
+     * @param string|array $args
+     */
+    public function buildShortcode($args = []): string;
     /**
      * @return string
      * @todo add return type hint in v7.0

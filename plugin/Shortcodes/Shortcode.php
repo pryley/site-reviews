@@ -88,14 +88,20 @@ abstract class Shortcode implements ShortcodeContract
         return sprintf('%s%s', $this->debug, $html);
     }
 
-    public function buildBlock(array $args = []): string
+    /**
+     * @param string|array $args
+     */
+    public function buildBlock($args = []): string
     {
-        return $this->build($args, 'block');
+        return $this->build(wp_parse_args($args), 'block');
     }
 
-    public function buildShortcode(array $args = []): string
+    /**
+     * @param string|array $args
+     */
+    public function buildShortcode($args = []): string
     {
-        return $this->build($args, 'shortcode');
+        return $this->build(wp_parse_args($args), 'shortcode');
     }
 
     public function getDisplayOptions(): array
