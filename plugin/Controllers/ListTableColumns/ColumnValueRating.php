@@ -13,8 +13,7 @@ class ColumnValueRating implements ColumnValueContract
      */
     public function handle(Review $review)
     {
-        $maxRating = glsr()->constant('MAX_RATING', Rating::class);
-        if (5 === (int) $maxRating) {
+        if ($review->rating <= 5) {
             return wp_star_rating([
                 'echo' => false,
                 'rating' => $review->rating,
@@ -22,7 +21,7 @@ class ColumnValueRating implements ColumnValueContract
         }
         return sprintf('<span style="background:#787c82;border-radius:4px;color:#fff;padding:4px 8px;">%s / %s',
             $review->rating,
-            $maxRating
+            glsr()->constant('MAX_RATING', Rating::class)
         );
     }
 }
