@@ -208,10 +208,10 @@ class AdminController extends Controller
     public function registerTinymcePopups()
     {
         $this->execute(new RegisterTinymcePopups([
-            'site_reviews' => _x('Recent Reviews', 'admin-text', 'site-reviews'),
+            'site_reviews' => _x('Latest Reviews', 'admin-text', 'site-reviews'),
             'site_review' => _x('Single Review', 'admin-text', 'site-reviews'),
-            'site_reviews_form' => _x('Submit a Review', 'admin-text', 'site-reviews'),
-            'site_reviews_summary' => _x('Summary of Reviews', 'admin-text', 'site-reviews'),
+            'site_reviews_form' => _x('Review Form', 'admin-text', 'site-reviews'),
+            'site_reviews_summary' => _x('Rating Summary', 'admin-text', 'site-reviews'),
         ]));
     }
 
@@ -253,12 +253,12 @@ class AdminController extends Controller
         foreach (glsr()->retrieveAs('array', 'mce', []) as $shortcode => $values) {
             $shortcodes[$shortcode] = $values;
         }
-        if (empty($shortcodes)) {
-            return;
+        if (!empty($shortcodes)) {
+            $shortcodes = wp_list_sort($shortcodes, 'label');
+            glsr()->render('partials/editor/tinymce', [
+                'shortcodes' => $shortcodes,
+            ]);
         }
-        glsr()->render('partials/editor/tinymce', [
-            'shortcodes' => $shortcodes,
-        ]);
     }
 
     /**
