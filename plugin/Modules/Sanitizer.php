@@ -159,15 +159,26 @@ class Sanitizer
 
     /**
      * This allows lowercase alphannumeric characters, dashes, and underscores.
-     * A value is generated if result is empty.
+
      * @param mixed $value
      */
     public function sanitizeId($value): string
     {
-        require_once ABSPATH.WPINC.'/pluggable.php';
         $value = sanitize_key($this->sanitizeText($value));
-        $value = substr($value, 0, 32); // limit the id to 32 characters
+        $value = preg_replace('/^(\d+)?(.*)/', '$2', $value);
+        return substr($value, 0, 32); // limit the id to 32 characters
+    }
+
+    /**
+     * This allows lowercase alphannumeric characters, dashes, and underscores.
+     * A value is generated if result is empty.
+     * @param mixed $value
+     */
+    public function sanitizeIdHash($value): string
+    {
+        $value = $this->sanitizeId($value);
         if (empty($value)) {
+            require_once ABSPATH.WPINC.'/pluggable.php';
             $value = glsr()->prefix.substr(wp_hash(serialize($this->values), 'nonce'), -12, 8);
         }
         return $value;
@@ -179,28 +190,6 @@ class Sanitizer
     public function sanitizeInt($value): int
     {
         return Cast::toInt($value);
-    }
-
-    /**
-     * @param mixed $value
-     * @param mixed $max
-     */
-    public function sanitizeMax($value, $max = 0): int
-    {
-        $max = Cast::toInt($max);
-        $value = Cast::toInt($value);
-        return $max > 0
-            ? min($max, $value)
-            : $value;
-    }
-
-    /**
-     * @param mixed $value
-     * @param mixed $min
-     */
-    public function sanitizeMin($value, $min = 0): int
-    {
-        return max(Cast::toInt($min), Cast::toInt($value));
     }
 
     /**
@@ -232,12 +221,34 @@ class Sanitizer
     }
 
     /**
+     * @param mixed $value
+     * @param mixed $max
+     */
+    public function sanitizeMax($value, $max = 0): int
+    {
+        $max = Cast::toInt($max);
+        $value = Cast::toInt($value);
+        return $max > 0
+            ? min($max, $value)
+            : $value;
+    }
+
+    /**
+     * @param mixed $value
+     * @param mixed $min
+     */
+    public function sanitizeMin($value, $min = 0): int
+    {
+        return max(Cast::toInt($min), Cast::toInt($value));
+    }
+
+    /**
      * This allows lowercase alpha characters and underscores.
      * @param mixed $value
      */
     public function sanitizeName($value): string
     {
-        $value = Str::snakeCase($this->sanitizeText($value));
+        $value = sanitize_key($this->sanitizeText($value));
         return preg_replace('/[^a-z_]/', '', $value);
     }
 
@@ -272,7 +283,7 @@ class Sanitizer
     }
 
     /**
-     * The regex pattern is used for a search/replace
+     * The regex pattern is used for a search/replace.
      * @param mixed $value
      */
     public function sanitizeRegex($value, string $pattern = ''): string

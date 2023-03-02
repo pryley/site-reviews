@@ -3,13 +3,12 @@
 namespace GeminiLabs\SiteReviews\Tests;
 
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
-use WP_UnitTestCase;
 
 /**
  * Test case for the Plugin.
  * @group plugin
  */
-class SanitizerTest extends WP_UnitTestCase
+class SanitizerTest extends \WP_UnitTestCase
 {
     protected $testValues;
 
@@ -47,7 +46,7 @@ class SanitizerTest extends WP_UnitTestCase
         ];
     }
 
-    public function test_sanitize_array()
+    public function testSanitizeArray()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'array');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
@@ -82,7 +81,7 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
-    public function test_sanitize_array_int()
+    public function testSanitizeArrayInt()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'array-int');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
@@ -117,7 +116,7 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
-    public function test_sanitize_array_string()
+    public function testSanitizeArrayString()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'array-string');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
@@ -152,7 +151,7 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
-    public function test_sanitize_bool()
+    public function testSanitizeBool()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'bool');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
@@ -187,7 +186,7 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
-    public function test_sanitize_date()
+    public function testSanitizeDate()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'date');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
@@ -222,7 +221,7 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
-    public function test_sanitize_email()
+    public function testSanitizeEmail()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'email');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
@@ -257,27 +256,26 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
-    public function test_sanitize_id()
+    public function testSanitizeId()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'id');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
-        $pattern = '/glsr_([a-z0-9]{8})/';
-        $this->assertMatchesRegularExpression($pattern, $sanitized['a']);
+        $this->assertEquals($sanitized['a'], '');
         $this->assertEquals($sanitized['b'], 'abc');
-        $this->assertEquals($sanitized['c'], '1');
-        $this->assertMatchesRegularExpression($pattern, $sanitized['d']);
-        $this->assertEquals($sanitized['e'], '13');
-        $this->assertMatchesRegularExpression($pattern, $sanitized['f']);
-        $this->assertEquals($sanitized['g'], '13');
-        $this->assertMatchesRegularExpression($pattern, $sanitized['h']);
-        $this->assertEquals($sanitized['i'], '1');
-        $this->assertMatchesRegularExpression($pattern, $sanitized['j']);
+        $this->assertEquals($sanitized['c'], '');
+        $this->assertEquals($sanitized['d'], '');
+        $this->assertEquals($sanitized['e'], '');
+        $this->assertEquals($sanitized['f'], '');
+        $this->assertEquals($sanitized['g'], '');
+        $this->assertEquals($sanitized['h'], '');
+        $this->assertEquals($sanitized['i'], '');
+        $this->assertEquals($sanitized['j'], '');
         $this->assertEquals($sanitized['l'], 'thisisatitle');
         $this->assertEquals($sanitized['m'], 'nslookuphit-gx_wgukmocpc5c8ddddc');
         $this->assertEquals($sanitized['n'], 'june131989');
-        $this->assertEquals($sanitized['o'], '03-12-2020');
-        $this->assertEquals($sanitized['p'], '0-0-2020');
-        $this->assertEquals($sanitized['q'], '2020');
+        $this->assertEquals($sanitized['o'], '-12-2020');
+        $this->assertEquals($sanitized['p'], '-0-2020');
+        $this->assertEquals($sanitized['q'], '');
         $this->assertEquals($sanitized['r'], 'xxxx');
         $this->assertEquals($sanitized['s'], 'axdextomorrow200200peter');
         $this->assertEquals($sanitized['t'], 'thisistrue');
@@ -290,7 +288,40 @@ class SanitizerTest extends WP_UnitTestCase
         $this->assertEquals($sanitized['za'], '-1');
     }
 
-    public function test_sanitize_int()
+    public function testSanitizeIdHash()
+    {
+        $sanitizers = array_fill_keys(array_keys($this->testValues), 'id-hash');
+        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $pattern = '/glsr_([a-z0-9]{8})/';
+        $this->assertMatchesRegularExpression($pattern, $sanitized['a']);
+        $this->assertEquals($sanitized['b'], 'abc');
+        $this->assertMatchesRegularExpression($pattern, $sanitized['c']);
+        $this->assertMatchesRegularExpression($pattern, $sanitized['d']);
+        $this->assertMatchesRegularExpression($pattern, $sanitized['e']);
+        $this->assertMatchesRegularExpression($pattern, $sanitized['f']);
+        $this->assertMatchesRegularExpression($pattern, $sanitized['g']);
+        $this->assertMatchesRegularExpression($pattern, $sanitized['h']);
+        $this->assertMatchesRegularExpression($pattern, $sanitized['i']);
+        $this->assertMatchesRegularExpression($pattern, $sanitized['j']);
+        $this->assertEquals($sanitized['l'], 'thisisatitle');
+        $this->assertEquals($sanitized['m'], 'nslookuphit-gx_wgukmocpc5c8ddddc');
+        $this->assertEquals($sanitized['n'], 'june131989');
+        $this->assertEquals($sanitized['o'], '-12-2020');
+        $this->assertEquals($sanitized['p'], '-0-2020');
+        $this->assertMatchesRegularExpression($pattern, $sanitized['q']);
+        $this->assertEquals($sanitized['r'], 'xxxx');
+        $this->assertEquals($sanitized['s'], 'axdextomorrow200200peter');
+        $this->assertEquals($sanitized['t'], 'thisistrue');
+        $this->assertEquals($sanitized['u'], 'thisisfalse');
+        $this->assertEquals($sanitized['v'], 'mattwordpressorg');
+        $this->assertEquals($sanitized['w'], 'httpswordpressorg');
+        $this->assertEquals($sanitized['x'], 'wordpressorg');
+        $this->assertEquals($sanitized['y'], 'wwwwordpressorg');
+        $this->assertEquals($sanitized['z'], 'httpswordpressorg');
+        $this->assertEquals($sanitized['za'], '-1');
+    }
+
+    public function testSanitizeInt()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'int');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
@@ -325,7 +356,7 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
-    public function test_sanitize_max()
+    public function testSanitizeMax()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'max:21');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
@@ -360,7 +391,7 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
-    public function test_sanitize_min()
+    public function testSanitizeMin()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'min:13');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
@@ -395,7 +426,7 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
-    public function test_sanitize_min_max()
+    public function testSanitizeMinMax()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'min:3|max:50');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
@@ -430,7 +461,7 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
-    public function test_sanitize_numeric()
+    public function testSanitizeNumeric()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'numeric');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
@@ -465,7 +496,7 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
-    public function test_sanitize_key()
+    public function testSanitizeKey()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'key');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
@@ -500,7 +531,7 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
-    public function test_sanitize_rating()
+    public function testSanitizeRating()
     {
         add_filter('site-reviews/const/MAX_RATING', function () { return 5; });
         add_filter('site-reviews/const/MIN_RATING', '__return_zero');
@@ -537,7 +568,7 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
-    public function test_sanitize_slug()
+    public function testSanitizeSlug()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'slug');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
@@ -572,7 +603,7 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
-    public function test_sanitize_text()
+    public function testSanitizeText()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'text');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
@@ -607,7 +638,7 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
-    public function test_sanitize_text_multiline()
+    public function testSanitizeTextMultiline()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'text-multiline');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);
@@ -642,7 +673,7 @@ class SanitizerTest extends WP_UnitTestCase
         ]);
     }
 
-    public function test_sanitize_url()
+    public function testSanitizeUrl()
     {
         $sanitizers = array_fill_keys(array_keys($this->testValues), 'url');
         $sanitized = $this->sanitize($this->testValues, $sanitizers);

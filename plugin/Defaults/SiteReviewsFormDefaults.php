@@ -37,7 +37,7 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
         'description' => 'text',
         'form_id' => 'id',
         'hide' => 'array-string',
-        'id' => 'id',
+        'id' => 'id-hash',
         'reviews_id' => 'id',
         'title' => 'text',
     ];
