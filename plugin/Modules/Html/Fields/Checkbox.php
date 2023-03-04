@@ -11,12 +11,19 @@ class Checkbox extends Field
     public static function merge(array $args, $fieldLocation = null)
     {
         $field = glsr()->args(parent::merge($args, $fieldLocation));
+        $isChecked = $field->get('checked', false);
+        $originalValue = $field->get('value', '');
         if (empty($field->options)) {
             $label = $field->get('label', $field->text);
             $value = $field->get('value', 1);
             $field->options = [$value => $label];
             $field->label = '';
-            $field->value = '';
+            if (!$isChecked) {
+                $field->value = '';
+            }
+        }
+        if ('' === $originalValue && $isChecked) {
+            $field->value = array_keys($field->options); // all options are checked
         }
         return $field->toArray();
     }
