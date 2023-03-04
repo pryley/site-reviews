@@ -73,7 +73,7 @@ class FormFieldsTag extends FormTag
     /**
      * @return void
      */
-    protected function normalizeFieldClasses(Field &$field)
+    protected function normalizeFieldClasses(Field $field)
     {
         if ('hidden' === $field->fieldType()) {
             return;
@@ -97,7 +97,7 @@ class FormFieldsTag extends FormTag
     /**
      * @return void
      */
-    protected function normalizeFieldId(Field &$field)
+    protected function normalizeFieldId(Field $field)
     {
         if (!empty($this->args->id) && !empty($field->field['id'])) {
             $field->field['id'] .= '-'.$this->args->id;
@@ -107,7 +107,7 @@ class FormFieldsTag extends FormTag
     /**
      * @return void
      */
-    protected function normalizeFieldErrors(Field &$field)
+    protected function normalizeFieldErrors(Field $field)
     {
         if (array_key_exists($field->field['path'], $this->with->errors)) {
             $field->field['errors'] = $this->with->errors[$field->field['path']];
@@ -117,7 +117,7 @@ class FormFieldsTag extends FormTag
     /**
      * @return void
      */
-    protected function normalizeFieldRequired(Field &$field)
+    protected function normalizeFieldRequired(Field $field)
     {
         if (!$field->field['custom'] // do not change custom fields
             && in_array($field->field['path'], $this->with->required)) {
