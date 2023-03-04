@@ -2022,9 +2022,9 @@ msgctxt "admin-text"
 msgid "Close Panel"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:211, plugin/Widgets/SiteReviewsWidget.php:113
+#: plugin/Controllers/AdminController.php:211, plugin/Integrations/Elementor/ElementorReviewsWidget.php:32
 msgctxt "admin-text"
-msgid "Recent Reviews"
+msgid "Latest Reviews"
 msgstr ""
 
 #: plugin/Controllers/AdminController.php:212, plugin/Widgets/SiteReviewWidget.php:52, plugin/Integrations/Elementor/ElementorReviewWidget.php:31
@@ -2032,14 +2032,14 @@ msgctxt "admin-text"
 msgid "Single Review"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:213
+#: plugin/Controllers/AdminController.php:213, plugin/Widgets/SiteReviewsFormWidget.php:78, plugin/Integrations/Elementor/ElementorFormWidget.php:28
 msgctxt "admin-text"
-msgid "Submit a Review"
+msgid "Review Form"
 msgstr ""
 
-#: plugin/Controllers/AdminController.php:214, plugin/Widgets/SiteReviewsSummaryWidget.php:81
+#: plugin/Controllers/AdminController.php:214, plugin/Integrations/Elementor/ElementorSummaryWidget.php:30
 msgctxt "admin-text"
-msgid "Summary of Reviews"
+msgid "Rating Summary"
 msgstr ""
 
 #: plugin/Controllers/AdminController.php:327, plugin/Controllers/AdminController.php:346, plugin/Controllers/AdminController.php:360
@@ -2334,12 +2334,12 @@ msgstr ""
 
 #: plugin/Controllers/SettingsController.php:128
 msgctxt "admin-text"
-msgid "Please update the %s plugin to v%s or greater to enable integration."
+msgid "Please update the %s plugin to v%s or greater to enable the integration."
 msgstr ""
 
 #: plugin/Controllers/SettingsController.php:122
 msgctxt "admin-text"
-msgid "Please install/activate the %s plugin to enable integration."
+msgid "Please install/activate the %s plugin to enable the integration."
 msgstr ""
 
 #: plugin/Controllers/SettingsController.php:141
@@ -3187,23 +3187,23 @@ msgctxt "%s: time interval (admin-text)"
 msgid "Every %s"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:220
+#: plugin/Shortcodes/Shortcode.php:226
 msgid "Excellent"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:221
+#: plugin/Shortcodes/Shortcode.php:227
 msgid "Very good"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:222
+#: plugin/Shortcodes/Shortcode.php:228
 msgid "Average"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:223
+#: plugin/Shortcodes/Shortcode.php:229
 msgid "Poor"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:224
+#: plugin/Shortcodes/Shortcode.php:230
 msgid "Terrible"
 msgstr ""
 
@@ -3545,11 +3545,6 @@ msgctxt "admin-text"
 msgid "Site Reviews: Display a form to submit reviews."
 msgstr ""
 
-#: plugin/Widgets/SiteReviewsFormWidget.php:78, plugin/Integrations/Elementor/ElementorFormWidget.php:28
-msgctxt "admin-text"
-msgid "Review Form"
-msgstr ""
-
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:27
 msgctxt "admin-text"
 msgid "All review types"
@@ -3578,6 +3573,11 @@ msgstr ""
 #: plugin/Widgets/SiteReviewsSummaryWidget.php:73
 msgctxt "admin-text"
 msgid "Site Reviews: Display a summary of your reviews."
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsSummaryWidget.php:81
+msgctxt "admin-text"
+msgid "Summary of Reviews"
 msgstr ""
 
 #: plugin/Widgets/SiteReviewsWidget.php:25
@@ -3613,6 +3613,11 @@ msgstr ""
 #: plugin/Widgets/SiteReviewsWidget.php:105
 msgctxt "admin-text"
 msgid "Site Reviews: Display your recent reviews."
+msgstr ""
+
+#: plugin/Widgets/SiteReviewsWidget.php:113
+msgctxt "admin-text"
+msgid "Recent Reviews"
 msgstr ""
 
 #: plugin/Widgets/SiteReviewWidget.php:44
@@ -3784,11 +3789,6 @@ msgctxt "admin-text"
 msgid "Enter the User IDs"
 msgstr ""
 
-#: plugin/Integrations/Elementor/ElementorReviewsWidget.php:32
-msgctxt "admin-text"
-msgid "Latest Reviews"
-msgstr ""
-
 #: plugin/Integrations/Elementor/ElementorReviewsWidget.php:40, plugin/Integrations/Elementor/ElementorSummaryWidget.php:52
 msgctxt "admin-text"
 msgid "Limit Reviews to an Assigned Page"
@@ -3862,11 +3862,6 @@ msgstr ""
 #: plugin/Integrations/Elementor/ElementorReviewWidget.php:46
 msgctxt "admin-text"
 msgid "Review Post ID"
-msgstr ""
-
-#: plugin/Integrations/Elementor/ElementorSummaryWidget.php:30
-msgctxt "admin-text"
-msgid "Rating Summary"
 msgstr ""
 
 #: plugin/Integrations/Elementor/ElementorSummaryWidget.php:38
@@ -4617,7 +4612,7 @@ msgstr ""
 
 #: views/partials/notices/gatekeeper-external.php:6
 msgctxt "admin-text"
-msgid "%s requires the latest version of %s to enable integration."
+msgid "%s requires the latest version of %s to enable the integration."
 msgid_plural "%s requires the latest version of the following plugins to enable integration: %s"
 msgstr[0] ""
 msgstr[1] ""

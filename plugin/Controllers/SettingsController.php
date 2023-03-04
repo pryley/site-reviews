@@ -119,13 +119,13 @@ class SettingsController extends Controller
         }
         if (!$integration->isActive()) {
             glsr(Notice::class)->addError(sprintf(
-                _x('Please install/activate the %s plugin to enable integration.', 'admin-text', 'site-reviews'),
+                _x('Please install/activate the %s plugin to enable the integration.', 'admin-text', 'site-reviews'),
                 $integration->pluginName
             ));
             return false;
         } elseif (!$integration->isSupported()) {
             glsr(Notice::class)->addError(sprintf(
-                _x('Please update the %s plugin to v%s or greater to enable integration.', 'admin-text', 'site-reviews'),
+                _x('Please update the %s plugin to v%s or greater to enable the integration.', 'admin-text', 'site-reviews'),
                 $integration->pluginName,
                 $integration->supportedVersion
             ));

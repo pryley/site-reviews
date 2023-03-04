@@ -4,7 +4,7 @@
     <p>
         <?php
             $message = _nx(
-                '%s requires the latest version of %s to enable integration.',
+                '%s requires the latest version of %s to enable the integration.',
                 '%s requires the latest version of the following plugins to enable integration: %s',
                 count($errors),
                 'admin-text',
