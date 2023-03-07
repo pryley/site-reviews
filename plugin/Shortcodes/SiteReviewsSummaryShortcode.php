@@ -18,8 +18,9 @@ class SiteReviewsSummaryShortcode extends Shortcode
 
     /**
      * @return string
+     * @todo add return type hint and remove $args in v7.0
      */
-    public function buildTemplate()
+    public function buildTemplate(array $args = [])
     {
         $this->ratings = glsr(RatingManager::class)->ratings($this->args);
         $this->debug(['ratings' => $this->ratings]);
