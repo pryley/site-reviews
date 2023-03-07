@@ -175,7 +175,7 @@ abstract class ElementorWidget extends Widget_Base
      */
     protected function render()
     {
-        $shortcode = $this->get_shortcode_instance()->build($this->get_settings_for_display());
+        $shortcode = $this->get_shortcode_instance()->build($this->get_settings_for_display(), 'elementor');
         $shortcode = str_replace('class="glsr-fallback">', 'class="glsr-fallback" style="display:none;">', $shortcode);
         echo $shortcode;
     }

@@ -67,12 +67,10 @@ abstract class Shortcode implements ShortcodeContract
         $attributes = $this->defaults()->dataAttributes($values);
         $attributes = wp_parse_args($attributes, [
             'class' => glsr(Style::class)->styleClasses(),
-            'data-source' => $source,
+            'data-from' => $source,
+            'data-shortcode' => $this->shortcode,
             'id' => Arr::get($values, 'id'),
         ]);
-        if ($this->type) {
-            $attributes['data-'.$this->type] = $this->shortcode;
-        }
         unset($attributes['data-id']);
         $attributes = glsr()->filterArray('shortcode/'.$this->shortcode.'/attributes', $attributes, $this);
         $attributes = array_map('esc_attr', $attributes);
