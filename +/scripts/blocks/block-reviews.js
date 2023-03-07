@@ -58,6 +58,7 @@ const edit = props => {
                 placeholder={ _x('Enter the Post IDs', 'admin-text', 'site-reviews') }
                 type="text"
                 value={ assigned_posts }
+                __nextHasNoMarginBottom
             />
         </ConditionalSelectControl>,
         category: <ConditionalSelectControl
@@ -78,6 +79,7 @@ const edit = props => {
                 placeholder={ _x('Enter the Category IDs or slugs', 'admin-text', 'site-reviews') }
                 type="text"
                 value={ assigned_terms }
+                __nextHasNoMarginBottom
             />
         </ConditionalSelectControl>,
         user: <ConditionalSelectControl
@@ -98,6 +100,7 @@ const edit = props => {
                 placeholder={ _x('Enter the User IDs or usernames', 'admin-text', 'site-reviews') }
                 type="text"
                 value={ assigned_users }
+                __nextHasNoMarginBottom
             />
         </ConditionalSelectControl>,
         terms: <SelectControl
@@ -106,6 +109,8 @@ const edit = props => {
             onChange={ terms => setAttributes({ terms }) }
             options={ TermOptions }
             value={ terms }
+            __next36pxDefaultSize
+            __nextHasNoMarginBottom
         />,
         pagination: <SelectControl
             key={ 'pagination' }
@@ -118,6 +123,8 @@ const edit = props => {
                 { label: _x('Yes (page reload)', 'admin-text', 'site-reviews'), value: 'true' },
             ]}
             value={ pagination }
+            __next36pxDefaultSize
+            __nextHasNoMarginBottom
         />,
         type: <SelectControl
             key={ 'type' }
@@ -125,6 +132,8 @@ const edit = props => {
             onChange={ type => setAttributes({ type }) }
             options={ TypeOptions }
             value={ type }
+            __next36pxDefaultSize
+            __nextHasNoMarginBottom
         />,
         display: <RangeControl
             key={ 'display' }
@@ -133,6 +142,7 @@ const edit = props => {
             max={ 50 }
             onChange={ display => setAttributes({ display }) }
             value={ display }
+            __nextHasNoMarginBottom
         />,
         rating: <RangeControl
             key={ 'rating' }
@@ -141,6 +151,7 @@ const edit = props => {
             max={ GLSR.maxrating }
             onChange={ rating => setAttributes({ rating }) }
             value={ rating }
+            __nextHasNoMarginBottom
         />,
         schema: <ToggleControl
             key={ 'schema' }
@@ -148,6 +159,7 @@ const edit = props => {
             help={ _x('The schema should only be enabled once per page.', 'admin-text', 'site-reviews') }
             label={ _x('Enable the schema?', 'admin-text', 'site-reviews') }
             onChange={ schema => setAttributes({ schema }) }
+            __nextHasNoMarginBottom
         />,
         hide: CheckboxControlList(GLSR.hideoptions.site_reviews, hide, setAttributes),
     };
@@ -161,6 +173,7 @@ const edit = props => {
             label={ _x('Custom ID', 'admin-text', 'site-reviews') }
             onChange={ id => setAttributes({ id }) }
             value={ id }
+            __nextHasNoMarginBottom
         />,
     };
     return [

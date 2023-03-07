@@ -1,8 +1,8 @@
 :root .components-panel .glsr-checkbox-control:not(:last-of-type) {
-    margin-bottom: 0 !important;
+    margin-bottom: 8px !important;
 }
 :root .components-panel .glsr-base-conditional-control {
-    margin-top: 4px;
+    margin-top: -16px;
 }
 @media screen and (max-width: 782px) {
     :root .components-panel select {

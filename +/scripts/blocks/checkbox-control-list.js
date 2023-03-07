@@ -20,6 +20,7 @@ export const CheckboxControlList = (options, hide, setAttributes) => {
                     }
                     setAttributes({ hide: hide.toString() });
                 }}
+                __nextHasNoMarginBottom
             />
         ));
     });

@@ -49,6 +49,7 @@ const edit = props => {
                 placeholder={ _x('Enter the Post IDs', 'admin-text', 'site-reviews') }
                 type="text"
                 value={ assigned_posts }
+                __nextHasNoMarginBottom
             />
         </ConditionalSelectControl>,
         category: <ConditionalSelectControl
@@ -69,6 +70,7 @@ const edit = props => {
                 placeholder={ _x('Enter the Category IDs or slugs', 'admin-text', 'site-reviews') }
                 type="text"
                 value={ assigned_terms }
+                __nextHasNoMarginBottom
             />
         </ConditionalSelectControl>,
         user: <ConditionalSelectControl
@@ -89,6 +91,7 @@ const edit = props => {
                 placeholder={ _x('Enter the User IDs or usernames', 'admin-text', 'site-reviews') }
                 type="text"
                 value={ assigned_users }
+                __nextHasNoMarginBottom
             />
         </ConditionalSelectControl>,
         hide: CheckboxControlList(GLSR.hideoptions.site_reviews_form, hide, setAttributes),
@@ -103,12 +106,14 @@ const edit = props => {
             label={ _x('Custom ID', 'admin-text', 'site-reviews') }
             onChange={ id => setAttributes({ id }) }
             value={ id }
+            __nextHasNoMarginBottom
         />,
         reviews_id: <TextControl
             help={ _x('Enter the Custom ID of a reviews block, shortcode, or widget where the review should be displayed after submission.', 'admin-text', 'site-reviews') }
             label={ _x('Custom Reviews ID', 'admin-text', 'site-reviews') }
             onChange={ reviews_id => setAttributes({ reviews_id }) }
             value={ reviews_id }
+            __nextHasNoMarginBottom
         />,
     };
     return [

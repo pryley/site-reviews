@@ -1,5 +1,5 @@
 const { _x } = wp.i18n;
-const { BaseControl, TextControl } = wp.components;
+const { BaseControl, SelectControl, TextControl } = wp.components;
 const { isEmpty } = lodash;
 const { useInstanceId } = wp.compose;
 
@@ -17,9 +17,6 @@ export default function ConditionalSelectControl({
 }) {
     const instanceId = useInstanceId( ConditionalSelectControl );
     const id = `inspector-select-control-${ instanceId }`;
-    const onChangeValue = ( event ) => {
-        onChange( event.target.value );
-    };
     const { value } = props;
     // Disable reason: A select with an onchange throws a warning
     /* eslint-disable jsx-a11y/no-onchange */
@@ -31,24 +28,18 @@ export default function ConditionalSelectControl({
                 id={ id }
                 help={ help }
                 className={ className }
+                __nextHasNoMarginBottom
             >
-                <select
+                <SelectControl
                     id={ id }
                     className="components-select-control__input"
-                    onChange={ onChangeValue }
                     aria-describedby={ !! help ? `${ id }__help` : undefined }
+                    onChange={ onChange }
+                    options={ options }
                     { ...props }
-                >
-                    { options.map((option, index) => (
-                        <option
-                            key={ `${ option.label }-${ option.value }-${ index }` }
-                            value={ option.value }
-                            disabled={ option.disabled }
-                        >
-                            { option.label }
-                        </option>
-                    ))}
-                </select>
+                    __next36pxDefaultSize
+                    __nextHasNoMarginBottom
+                />
                 { custom_value === value && children }
             </BaseControl>
         )
