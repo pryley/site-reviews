@@ -4,7 +4,12 @@
     transition: opacity .5s;
     word-break: break-word;
 }
-:root .glsr-hide .glsr-review {
+:root .glsr-reviews > p {
+    opacity: 1;
+    transition: opacity .5s;
+}
+:root .glsr-hide .glsr-review,
+:root .glsr-hide .glsr-reviews > p {
     opacity: 0 !important;
 }
 :root .glsr-review p:first-of-type {
