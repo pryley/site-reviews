@@ -146,6 +146,10 @@ Once Site Reviews is installed, you can read the "Getting Started" page by click
 
 All documentation can be found in the "Help & Support" page of the plugin. If your question is not answered there, please create a new topic in the [WordPress support forum](https://wordpress.org/support/plugin/site-reviews/).
 
+= Where do I report security bugs? =
+
+You can report any security bugs found in the source code of this plugin through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/site-reviews). The Patchstack team will assist you with verification, CVE assignment and take care of notifying the developers of this plugin.
+
 == Screenshots ==
 
 1. The "All Reviews" page.
