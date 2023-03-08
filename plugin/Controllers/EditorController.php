@@ -12,7 +12,6 @@ use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Review;
-use WP_Post;
 
 class EditorController extends Controller
 {
@@ -76,7 +75,7 @@ class EditorController extends Controller
     public function filterUpdateMessages($messages)
     {
         $post = get_post();
-        if (!$post instanceof WP_Post) {
+        if (!$post instanceof \WP_Post) {
             return $messages;
         }
         $strings = glsr(UpdatedMessageDefaults::class)->defaults();
@@ -126,7 +125,7 @@ class EditorController extends Controller
     }
 
     /**
-     * @param WP_Post $post
+     * @param \WP_Post $post
      * @return void
      * @action edit_form_top
      */

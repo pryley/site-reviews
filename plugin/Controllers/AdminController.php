@@ -11,7 +11,6 @@ use GeminiLabs\SiteReviews\Commands\ToggleStatus;
 use GeminiLabs\SiteReviews\Commands\ToggleVerified;
 use GeminiLabs\SiteReviews\Database;
 use GeminiLabs\SiteReviews\Defaults\ColumnFilterbyDefaults;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Install;
@@ -336,7 +335,7 @@ class AdminController extends Controller
     public function searchStringsAjax(Request $request)
     {
         $search = glsr(Sanitizer::class)->sanitizeText($request->search);
-        $exclude = glsr(Sanitizer::class)->sanitizeArray($request->exclude);
+        $exclude = Arr::consolidate($request->exclude);
         $results = glsr(Translation::class)
             ->search($search)
             ->exclude()
