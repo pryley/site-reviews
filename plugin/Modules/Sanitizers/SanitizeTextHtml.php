@@ -17,9 +17,4 @@ class SanitizeTextHtml extends StringSanitizer
         $allowedHtml = glsr()->filterArray('sanitize/allowed-html', $allowedHtml, $this);
         return wp_kses($this->value(), $allowedHtml);
     }
-
-    protected function value(): string
-    {
-        return (new SanitizeTextMultiline($this->value))->run();
-    }
 }

@@ -28,6 +28,8 @@ class CastTest extends WP_UnitTestCase
         $this->assertEquals(Cast::toArray('abc'), ['abc']);
         $this->assertEquals(Cast::toArray('a,b,c'), ['a', 'b', 'c']);
         $this->assertEquals(Cast::toArray('a,b,c', false), ['a,b,c']);
+        $this->assertEquals(Cast::toArray(true), [true]);
+        $this->assertEquals(Cast::toArray(false), [false]);
         $this->assertEquals(Cast::toArray(1), [1]);
         $this->assertEquals(Cast::toArray([1]), [1]);
         $this->assertEquals(Cast::toArray((object) ['a' => 123]), ['a' => 123]);

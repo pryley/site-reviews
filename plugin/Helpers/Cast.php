@@ -33,6 +33,9 @@ class Cast
                 : get_object_vars($value);
             return json_decode(json_encode($properties), true);
         }
+        if (is_bool($value)) {
+            return [$value];
+        }
         if (is_scalar($value) && $explode) {
             return Arr::convertFromString($value);
         }

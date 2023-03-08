@@ -208,7 +208,7 @@ class Helper
             return Arr::getAs('int', $user, 'ID');
         }
         if (is_string($user)) {
-            $user = get_user_by('login', $user);
+            $user = get_user_by('login', sanitize_user($user, true));
             return Arr::getAs('int', $user, 'ID');
         }
         return 0;

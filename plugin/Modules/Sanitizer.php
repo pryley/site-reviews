@@ -29,13 +29,13 @@ class Sanitizer
 
     public function __call(string $method, array $args)
     {
-        $name = lcfirst(Str::removePrefix($method, 'sanitize'));
         $value = array_shift($args);
         // @todo remove in v7.0.0
+        $name = lcfirst(Str::removePrefix($method, 'sanitize'));
         if (in_array($name, ['array', 'bool', 'int'])) {
             return (new SanitizeCompat($value, $name, $this->values))->run();
         }
-        $classname = Helper::buildClassName($name, 'Modules\Sanitizers');
+        $classname = Helper::buildClassName($method, 'Modules\Sanitizers');
         if (class_exists($classname)) {
             return (new $classname($value, $args, $this->values))->run();
         }

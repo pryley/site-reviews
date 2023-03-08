@@ -21,4 +21,12 @@ class SanitizeUserId extends IntSanitizer
         }
         return get_current_user_id();
     }
+
+    protected function value(): int
+    {
+        if (is_numeric($this->value)) {
+            return (int) $this->value;
+        }
+        return 0;
+    }
 }

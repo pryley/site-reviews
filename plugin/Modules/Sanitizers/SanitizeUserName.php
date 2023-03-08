@@ -6,7 +6,7 @@ class SanitizeUserName extends StringSanitizer
 {
     public function run(): string
     {
-        $value = $this->value();
+        $value = sanitize_user($this->value(), true);
         if (defined('WP_IMPORTING')) {
             return $value;
         }
@@ -15,10 +15,5 @@ class SanitizeUserName extends StringSanitizer
             return $user->display_name;
         }
         return $value;
-    }
-
-    protected function value(): string
-    {
-        return (new SanitizeText($this->value))->run();
     }
 }
