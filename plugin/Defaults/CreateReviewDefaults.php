@@ -17,6 +17,20 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 class CreateReviewDefaults extends DefaultsAbstract
 {
     /**
+     * The values that should be cast before sanitization is run.
+     * This is done before $sanitize and $enums.
+     * @var array
+     */
+    public $casts = [
+        'is_approved' => 'bool',
+        'is_pinned' => 'bool',
+        'is_verified' => 'bool',
+        'post_id' => 'int',
+        'terms' => 'bool',
+        'terms_exist' => 'bool',
+    ];
+
+    /**
      * The keys that should be mapped to other keys.
      * Keys are mapped before the values are normalized and sanitized.
      * Note: Mapped keys should not be included in the defaults!
@@ -48,17 +62,11 @@ class CreateReviewDefaults extends DefaultsAbstract
         'email' => 'user-email',
         'form_id' => 'id',
         'ip_address' => 'text',
-        'is_approved' => 'bool',
-        'is_pinned' => 'bool',
-        'is_verified' => 'bool',
         'name' => 'user-name',
-        'post_id' => 'int',
         'rating' => 'rating',
         'referer' => 'text',
         'response' => 'text-html',
         'response_by' => 'user-id:0',
-        'terms' => 'bool',
-        'terms_exist' => 'bool',
         'title' => 'text',
         'type' => 'slug',
         'url' => 'url',

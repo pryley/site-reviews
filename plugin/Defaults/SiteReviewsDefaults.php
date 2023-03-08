@@ -12,7 +12,9 @@ class SiteReviewsDefaults extends DefaultsAbstract
      * @var array
      */
     public $casts = [
+        'debug' => 'bool',
         'pagination' => 'string',
+        'schema' => 'bool',
         'terms' => 'string',
     ];
 
@@ -56,7 +58,6 @@ class SiteReviewsDefaults extends DefaultsAbstract
     public $sanitize = [
         'class' => 'attr-class',
         'display' => 'min:1',
-        'debug' => 'bool',
         'fallback' => 'text-post',
         'hide' => 'array-string',
         'id' => 'id-hash',
@@ -64,7 +65,6 @@ class SiteReviewsDefaults extends DefaultsAbstract
         'page' => 'min:1',
         'rating' => 'rating',
         'rating_field' => 'name',
-        'schema' => 'bool',
         'title' => 'text',
         'type' => 'slug',
     ];

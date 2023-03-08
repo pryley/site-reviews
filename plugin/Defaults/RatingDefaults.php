@@ -5,6 +5,20 @@ namespace GeminiLabs\SiteReviews\Defaults;
 class RatingDefaults extends DefaultsAbstract
 {
     /**
+     * The values that should be cast before sanitization is run.
+     * This is done before $sanitize and $enums.
+     * @var array
+     */
+    public $casts = [
+        'ID' => 'int',
+        'is_approved' => 'bool',
+        'is_pinned' => 'bool',
+        'is_verified' => 'bool',
+        'review_id' => 'int',
+        'terms' => 'bool',
+    ];
+
+    /**
      * The values that should be guarded.
      * @var string[]
      */
@@ -20,16 +34,10 @@ class RatingDefaults extends DefaultsAbstract
     public $sanitize = [
         'avatar' => 'url',
         'email' => 'email',
-        'ID' => 'int',
         'ip_address' => 'text',
-        'is_approved' => 'bool',
-        'is_pinned' => 'bool',
-        'is_verified' => 'bool',
         'name' => 'text',
         'rating' => 'rating',
-        'review_id' => 'int',
         'score' => 'min:0',
-        'terms' => 'bool',
         'type' => 'slug',
         'url' => 'url',
     ];

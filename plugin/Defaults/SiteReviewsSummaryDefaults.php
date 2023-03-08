@@ -12,6 +12,8 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
      * @var array
      */
     public $casts = [
+        'debug' => 'bool',
+        'schema' => 'bool',
         'terms' => 'string',
     ];
 
@@ -51,13 +53,11 @@ class SiteReviewsSummaryDefaults extends DefaultsAbstract
      */
     public $sanitize = [
         'class' => 'attr-class',
-        'debug' => 'bool',
         'hide' => 'array-string',
         'id' => 'id-hash',
         'labels' => 'text',
         'rating' => 'rating',
         'rating_field' => 'name',
-        'schema' => 'bool',
         'text' => 'text',
         'title' => 'text',
         'type' => 'slug',

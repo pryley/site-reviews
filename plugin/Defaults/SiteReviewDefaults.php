@@ -7,6 +7,16 @@ use GeminiLabs\SiteReviews\Helpers\Cast;
 class SiteReviewDefaults extends DefaultsAbstract
 {
     /**
+     * The values that should be cast before sanitization is run.
+     * This is done before $sanitize and $enums.
+     * @var array
+     */
+    public $casts = [
+        'debug' => 'bool',
+        'post_id' => 'int',
+    ];
+
+    /**
      * The values that should be guarded.
      * @var string[]
      */
@@ -21,11 +31,9 @@ class SiteReviewDefaults extends DefaultsAbstract
      */
     public $sanitize = [
         'class' => 'attr-class',
-        'debug' => 'bool',
         'fallback' => 'text-post',
         'hide' => 'array-string',
         'id' => 'id-hash',
-        'post_id' => 'int',
         'title' => 'text',
     ];
 

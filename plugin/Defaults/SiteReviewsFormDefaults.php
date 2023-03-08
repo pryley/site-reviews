@@ -7,6 +7,15 @@ use GeminiLabs\SiteReviews\Helpers\Arr;
 class SiteReviewsFormDefaults extends DefaultsAbstract
 {
     /**
+     * The values that should be cast before sanitization is run.
+     * This is done before $sanitize and $enums.
+     * @var array
+     */
+    public $casts = [
+        'debug' => 'bool',
+    ];
+
+    /**
      * The values that should be guarded.
      * @var string[]
      */
@@ -33,7 +42,6 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
      */
     public $sanitize = [
         'class' => 'attr-class',
-        'debug' => 'bool',
         'description' => 'text',
         'form_id' => 'id',
         'hide' => 'array-string',
