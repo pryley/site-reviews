@@ -36,7 +36,7 @@ class SanitizerTest extends \WP_UnitTestCase
             'r' => 'xx xx',
             's' => '#ax+dex(tomorrow) $200 200% @peter',
             't' => 'this is true',
-            'u' => 'this is false',
+            'u' => 'single-review full-width" onmouseover="alert(69)',
             'v' => 'matt@wordpress.org',
             'w' => 'https//wordpress.org',
             'x' => 'wordpress.org',
@@ -46,45 +46,9 @@ class SanitizerTest extends \WP_UnitTestCase
         ];
     }
 
-    public function testSanitizeArray()
-    {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'array');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
-        $this->assertEquals($sanitized, [
-            'a' => [],
-            'b' => [],
-            'c' => ['1'],
-            'd' => ['a' => false],
-            'e' => [13],
-            'f' => [0],
-            'g' => ['1' => 13],
-            'h' => ['b' => true],
-            'i' => [],
-            'j' => [],
-            'k' => [],
-            'l' => [],
-            'm' => [],
-            'n' => [],
-            'o' => [],
-            'p' => [],
-            'q' => [],
-            'r' => [],
-            's' => [],
-            't' => [],
-            'u' => [],
-            'v' => [],
-            'w' => [],
-            'x' => [],
-            'y' => [],
-            'z' => [],
-            'za' => [],
-        ]);
-    }
-
     public function testSanitizeArrayInt()
     {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'array-int');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $sanitized = $this->sanitize('array-int');
         $this->assertEquals($sanitized, [
             'a' => [],
             'b' => [],
@@ -118,8 +82,7 @@ class SanitizerTest extends \WP_UnitTestCase
 
     public function testSanitizeArrayString()
     {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'array-string');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $sanitized = $this->sanitize('array-string');
         $this->assertEquals($sanitized, [
             'a' => [],
             'b' => ['abc'],
@@ -141,7 +104,7 @@ class SanitizerTest extends \WP_UnitTestCase
             'r' => ['xx xx'],
             's' => ['#ax+dex(tomorrow) $200 200% @peter'],
             't' => ['this is true'],
-            'u' => ['this is false'],
+            'u' => ['single-review full-width" onmouseover="alert(69)'],
             'v' => ['matt@wordpress.org'],
             'w' => ['https//wordpress.org'],
             'x' => ['wordpress.org'],
@@ -151,45 +114,116 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    public function testSanitizeBool()
+    public function testSanitizeAttr()
     {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'bool');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $sanitized = $this->sanitize('attr');
         $this->assertEquals($sanitized, [
-            'a' => false,
-            'b' => false,
-            'c' => false,
-            'd' => false,
-            'e' => false,
-            'f' => false,
-            'g' => false,
-            'h' => false,
-            'i' => true,
-            'j' => false,
-            'k' => false,
-            'l' => false,
-            'm' => false,
-            'n' => false,
-            'o' => false,
-            'p' => false,
-            'q' => false,
-            'r' => false,
-            's' => false,
-            't' => false,
-            'u' => false,
-            'v' => false,
-            'w' => false,
-            'x' => false,
-            'y' => false,
-            'z' => false,
-            'za' => false,
+            'a' => '',
+            'b' => 'abc',
+            'c' => '1',
+            'd' => '',
+            'e' => '13',
+            'f' => '0',
+            'g' => '13',
+            'h' => '',
+            'i' => '1',
+            'j' => '',
+            'k' => '&lt;script&gt;var x = 23;&lt;/script&gt;',
+            'l' => "&lt;h3&gt;This is a\n title!&lt;/h3&gt;",
+            'm' => ';(nslookup hit-gx_wgukmocpc5c8dddd.com||perl -e gethostbyname(&#039;hissstgxwgukmocpc5c80.me&#039;))',
+            'n' => 'June 13, 1989',
+            'o' => '03-12-2020',
+            'p' => '0-0-2020',
+            'q' => '2020',
+            'r' => 'xx xx',
+            's' => '#ax+dex(tomorrow) $200 200% @peter',
+            't' => 'this is true',
+            'u' => 'single-review full-width&quot; onmouseover=&quot;alert(69)',
+            'v' => 'matt@wordpress.org',
+            'w' => 'https//wordpress.org',
+            'x' => 'wordpress.org',
+            'y' => 'www.wordpress.org',
+            'z' => 'https://wordpress.org',
+            'za' => '-1',
         ]);
+    }
+
+    public function testSanitizeAttrClass()
+    {
+        $sanitized = $this->sanitize('attr-class');
+        $this->assertEquals($sanitized, [
+            'a' => '',
+            'b' => 'abc',
+            'c' => '',
+            'd' => '',
+            'e' => '',
+            'f' => '',
+            'g' => '',
+            'h' => '',
+            'i' => '',
+            'j' => '',
+            'k' => 'scriptvar x script',
+            'l' => 'h3This is a titleh3',
+            'm' => 'nslookup hit-gx_wgukmocpc5c8ddddcomperl -e gethostbynamehissstgxwgukmocpc5c80me',
+            'n' => 'June',
+            'o' => '-12-2020',
+            'p' => '-0-2020',
+            'q' => '',
+            'r' => 'xx',
+            's' => 'axdextomorrow peter',
+            't' => 'this is true',
+            'u' => 'single-review full-width onmouseoveralert69',
+            'v' => 'mattwordpressorg',
+            'w' => 'httpswordpressorg',
+            'x' => 'wordpressorg',
+            'y' => 'wwwwordpressorg',
+            'z' => 'httpswordpressorg',
+            'za' => '-1',
+        ]);
+    }
+
+    public function testSanitizeAttrStyle()
+    {
+        $sanitized = $this->sanitize('attr-style');
+        $this->assertEquals($sanitized, [
+            'a' => '',
+            'b' => 'abc',
+            'c' => '1',
+            'd' => '',
+            'e' => '13',
+            'f' => '0',
+            'g' => '13',
+            'h' => '',
+            'i' => '1',
+            'j' => '',
+            'k' => 'scriptvar x  23;/script',
+            'l' => 'h3this is a title/h3',
+            'm' => ';(nslookup hit-gx_wgukmocpc5c8dddd.comperl -e gethostbyname(&#039;hissstgxwgukmocpc5c80.me&#039;))',
+            'n' => 'june 13, 1989',
+            'o' => '03-12-2020',
+            'p' => '0-0-2020',
+            'q' => '2020',
+            'r' => 'xx xx',
+            's' => '#axdex(tomorrow) 200 200% peter',
+            't' => 'this is true',
+            'u' => 'single-review full-width&quot; onmouseover&quot;alert(69)',
+            'v' => 'mattwordpress.org',
+            'w' => 'https//wordpress.org',
+            'x' => 'wordpress.org',
+            'y' => 'www.wordpress.org',
+            'z' => 'https://wordpress.org',
+            'za' => '-1',
+        ]);
+    }
+
+    public function testSanitizeCompat()
+    {
+        //
     }
 
     public function testSanitizeDate()
     {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'date');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $sanitized = $this->sanitize('date');
         $this->assertEquals($sanitized, [
             'a' => '',
             'b' => '',
@@ -223,8 +257,7 @@ class SanitizerTest extends \WP_UnitTestCase
 
     public function testSanitizeEmail()
     {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'email');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $sanitized = $this->sanitize('email');
         $this->assertEquals($sanitized, [
             'a' => '',
             'b' => '',
@@ -258,8 +291,7 @@ class SanitizerTest extends \WP_UnitTestCase
 
     public function testSanitizeId()
     {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'id');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $sanitized = $this->sanitize('id');
         $this->assertEquals($sanitized['a'], '');
         $this->assertEquals($sanitized['b'], 'abc');
         $this->assertEquals($sanitized['c'], '');
@@ -279,7 +311,7 @@ class SanitizerTest extends \WP_UnitTestCase
         $this->assertEquals($sanitized['r'], 'xxxx');
         $this->assertEquals($sanitized['s'], 'axdextomorrow200200peter');
         $this->assertEquals($sanitized['t'], 'thisistrue');
-        $this->assertEquals($sanitized['u'], 'thisisfalse');
+        $this->assertEquals($sanitized['u'], 'single-reviewfull-widthonmouseov');
         $this->assertEquals($sanitized['v'], 'mattwordpressorg');
         $this->assertEquals($sanitized['w'], 'httpswordpressorg');
         $this->assertEquals($sanitized['x'], 'wordpressorg');
@@ -290,8 +322,7 @@ class SanitizerTest extends \WP_UnitTestCase
 
     public function testSanitizeIdHash()
     {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'id-hash');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $sanitized = $this->sanitize('id-hash');
         $pattern = '/glsr_([a-z0-9]{8})/';
         $this->assertMatchesRegularExpression($pattern, $sanitized['a']);
         $this->assertEquals($sanitized['b'], 'abc');
@@ -312,7 +343,7 @@ class SanitizerTest extends \WP_UnitTestCase
         $this->assertEquals($sanitized['r'], 'xxxx');
         $this->assertEquals($sanitized['s'], 'axdextomorrow200200peter');
         $this->assertEquals($sanitized['t'], 'thisistrue');
-        $this->assertEquals($sanitized['u'], 'thisisfalse');
+        $this->assertEquals($sanitized['u'], 'single-reviewfull-widthonmouseov');
         $this->assertEquals($sanitized['v'], 'mattwordpressorg');
         $this->assertEquals($sanitized['w'], 'httpswordpressorg');
         $this->assertEquals($sanitized['x'], 'wordpressorg');
@@ -321,45 +352,48 @@ class SanitizerTest extends \WP_UnitTestCase
         $this->assertEquals($sanitized['za'], '-1');
     }
 
-    public function testSanitizeInt()
+    public function testSanitizeJson()
     {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'int');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        //
+    }
+
+    public function testSanitizeKey()
+    {
+        $sanitized = $this->sanitize('key');
         $this->assertEquals($sanitized, [
-            'a' => 0,
-            'b' => 0,
-            'c' => 0,
-            'd' => 0,
-            'e' => 0,
-            'f' => 0,
-            'g' => 0,
-            'h' => 0,
-            'i' => 1,
-            'j' => 0,
-            'k' => 0,
-            'l' => 0,
-            'm' => 0,
-            'n' => 0,
-            'o' => 0,
-            'p' => 0,
-            'q' => 2020,
-            'r' => 0,
-            's' => 0,
-            't' => 0,
-            'u' => 0,
-            'v' => 0,
-            'w' => 0,
-            'x' => 0,
-            'y' => 0,
-            'z' => 0,
-            'za' => -1,
+            'a' => '',
+            'b' => 'abc',
+            'c' => '1',
+            'd' => '',
+            'e' => '13',
+            'f' => '0',
+            'g' => '13',
+            'h' => '',
+            'i' => '1',
+            'j' => '',
+            'k' => '',
+            'l' => 'thisisatitle',
+            'm' => 'nslookuphit_gx_wgukmocpc5c8ddddc',
+            'n' => 'june131989',
+            'o' => '03_12_2020',
+            'p' => '0_0_2020',
+            'q' => '2020',
+            'r' => 'xxxx',
+            's' => 'axdextomorrow200200peter',
+            't' => 'thisistrue',
+            'u' => 'single_reviewfull_widthonmouseov',
+            'v' => 'mattwordpressorg',
+            'w' => 'httpswordpressorg',
+            'x' => 'wordpressorg',
+            'y' => 'wwwwordpressorg',
+            'z' => 'httpswordpressorg',
+            'za' => '_1',
         ]);
     }
 
     public function testSanitizeMax()
     {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'max:21');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $sanitized = $this->sanitize('max:21');
         $this->assertEquals($sanitized, [
             'a' => 0,
             'b' => 0,
@@ -393,8 +427,7 @@ class SanitizerTest extends \WP_UnitTestCase
 
     public function testSanitizeMin()
     {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'min:13');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $sanitized = $this->sanitize('min:13');
         $this->assertEquals($sanitized, [
             'a' => 13,
             'b' => 13,
@@ -428,8 +461,7 @@ class SanitizerTest extends \WP_UnitTestCase
 
     public function testSanitizeMinMax()
     {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'min:3|max:50');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $sanitized = $this->sanitize('min:3|max:50');
         $this->assertEquals($sanitized, [
             'a' => 3,
             'b' => 3,
@@ -461,10 +493,43 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
+    public function testSanitizeName()
+    {
+        $sanitized = $this->sanitize('name');
+        $this->assertEquals($sanitized, [
+            'a' => '',
+            'b' => 'abc',
+            'c' => '',
+            'd' => '',
+            'e' => '',
+            'f' => '',
+            'g' => '',
+            'h' => '',
+            'i' => '',
+            'j' => '',
+            'k' => '',
+            'l' => 'thisisatitle',
+            'm' => 'nslookuphit-gx_wgukmocpccddddcomperl-egethostbynamehissstgxwgukmocpccme',
+            'n' => 'june',
+            'o' => '',
+            'p' => '',
+            'q' => '',
+            'r' => 'xxxx',
+            's' => 'axdextomorrowpeter',
+            't' => 'thisistrue',
+            'u' => 'single-reviewfull-widthonmouseoveralert',
+            'v' => 'mattwordpressorg',
+            'w' => 'httpswordpressorg',
+            'x' => 'wordpressorg',
+            'y' => 'wwwwordpressorg',
+            'z' => 'httpswordpressorg',
+            'za' => '',
+        ]);
+    }
+
     public function testSanitizeNumeric()
     {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'numeric');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $sanitized = $this->sanitize('numeric');
         $this->assertEquals($sanitized, [
             'a' => '',
             'b' => '',
@@ -482,7 +547,7 @@ class SanitizerTest extends \WP_UnitTestCase
             'n' => '',
             'o' => '',
             'p' => '',
-            'q' => 2020,
+            'q' => '2020',
             'r' => '',
             's' => '',
             't' => '',
@@ -492,51 +557,20 @@ class SanitizerTest extends \WP_UnitTestCase
             'x' => '',
             'y' => '',
             'z' => '',
-            'za' => -1,
+            'za' => '-1',
         ]);
     }
 
-    public function testSanitizeKey()
+    public function testSanitizePostIds()
     {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'key');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
-        $this->assertEquals($sanitized, [
-            'a' => '',
-            'b' => 'abc',
-            'c' => '1',
-            'd' => '',
-            'e' => '13',
-            'f' => '0',
-            'g' => '13',
-            'h' => '',
-            'i' => '1',
-            'j' => '',
-            'k' => '',
-            'l' => 'thisisatitle',
-            'm' => 'nslookuphit_gx_wgukmocpc5c8ddddc',
-            'n' => 'june131989',
-            'o' => '03_12_2020',
-            'p' => '0_0_2020',
-            'q' => '2020',
-            'r' => 'xxxx',
-            's' => 'axdextomorrow200200peter',
-            't' => 'thisistrue',
-            'u' => 'thisisfalse',
-            'v' => 'mattwordpressorg',
-            'w' => 'httpswordpressorg',
-            'x' => 'wordpressorg',
-            'y' => 'wwwwordpressorg',
-            'z' => 'httpswordpressorg',
-            'za' => '_1',
-        ]);
+        //
     }
 
     public function testSanitizeRating()
     {
         add_filter('site-reviews/const/MAX_RATING', function () { return 5; });
         add_filter('site-reviews/const/MIN_RATING', '__return_zero');
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'rating');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $sanitized = $this->sanitize('rating');
         $this->assertEquals($sanitized, [
             'a' => 0,
             'b' => 0,
@@ -568,10 +602,14 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
+    public function testSanitizeRegex()
+    {
+        //
+    }
+
     public function testSanitizeSlug()
     {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'slug');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $sanitized = $this->sanitize('slug');
         $this->assertEquals($sanitized, [
             'a' => '',
             'b' => 'abc',
@@ -593,7 +631,7 @@ class SanitizerTest extends \WP_UnitTestCase
             'r' => 'xx-xx',
             's' => 'axdextomorrow-200-200-peter',
             't' => 'this-is-true',
-            'u' => 'this-is-false',
+            'u' => 'single-review-full-width-onmouseoveralert69',
             'v' => 'mattwordpress-org',
             'w' => 'https-wordpress-org',
             'x' => 'wordpress-org',
@@ -603,10 +641,14 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
+    public function testSanitizeTermIds()
+    {
+        //
+    }
+
     public function testSanitizeText()
     {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'text');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $sanitized = $this->sanitize('text');
         $this->assertEquals($sanitized, [
             'a' => '',
             'b' => 'abc',
@@ -628,7 +670,7 @@ class SanitizerTest extends \WP_UnitTestCase
             'r' => 'xx xx',
             's' => '#ax+dex(tomorrow) $200 200% @peter',
             't' => 'this is true',
-            'u' => 'this is false',
+            'u' => 'single-review full-width" onmouseover="alert(69)',
             'v' => 'matt@wordpress.org',
             'w' => 'https//wordpress.org',
             'x' => 'wordpress.org',
@@ -638,10 +680,14 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
+    public function testSanitizeTextHtml()
+    {
+        //
+    }
+
     public function testSanitizeTextMultiline()
     {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'text-multiline');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $sanitized = $this->sanitize('text-multiline');
         $this->assertEquals($sanitized, [
             'a' => '',
             'b' => 'abc',
@@ -663,7 +709,7 @@ class SanitizerTest extends \WP_UnitTestCase
             'r' => 'xx xx',
             's' => '#ax+dex(tomorrow) $200 200% @peter',
             't' => 'this is true',
-            'u' => 'this is false',
+            'u' => 'single-review full-width" onmouseover="alert(69)',
             'v' => 'matt@wordpress.org',
             'w' => 'https//wordpress.org',
             'x' => 'wordpress.org',
@@ -673,10 +719,14 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
+    public function testSanitizeTextPost()
+    {
+        //
+    }
+
     public function testSanitizeUrl()
     {
-        $sanitizers = array_fill_keys(array_keys($this->testValues), 'url');
-        $sanitized = $this->sanitize($this->testValues, $sanitizers);
+        $sanitized = $this->sanitize('url');
         $this->assertEquals($sanitized, [
             'a' => '',
             'b' => 'https://abc',
@@ -708,8 +758,34 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
-    protected function sanitize(array $args, array $sanitizers = [])
+    public function testSanitizeUserEmail()
     {
-        return (new Sanitizer($args, $sanitizers))->run();
+        //
+    }
+
+    public function testSanitizeUserId()
+    {
+        //
+    }
+
+    public function testSanitizeUserIds()
+    {
+        //
+    }
+
+    public function testSanitizeUserName()
+    {
+        //
+    }
+
+    public function testSanitizeVersion()
+    {
+        //
+    }
+
+    protected function sanitize(string $sanitizer)
+    {
+        $sanitizers = array_fill_keys(array_keys($this->testValues), $sanitizer);
+        return (new Sanitizer($this->testValues, $sanitizers))->run();
     }
 }
