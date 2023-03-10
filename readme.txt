@@ -84,6 +84,7 @@ Site Reviews is officially compatible with the following plugins:
 - [Members](https://wordpress.org/plugins/members/)
 - [Ninja Forms](https://ninjaforms.com/)
 - [Oxygen Builder](https://oxygenbuilder.com)
+- [Perfect Brands for WooCommerce](https://wordpress.org/plugins/perfect-woocommerce-brands/)
 - [Polylang](https://wordpress.org/plugins/polylang/)
 - [RankMath Pro](https://rankmath.com/)
 - [Schema and Structured Data for WP](https://structured-data-for-wp.com/)
@@ -95,6 +96,7 @@ Site Reviews is officially compatible with the following plugins:
 - [Thrive Architect](https://thrivethemes.com/architect/)
 - [W3 Total Cache](https://wordpress.org/plugins/w3-total-cache/)
 - [WooCommerce](https://wordpress.org/plugins/woocommerce/)
+- [WooCommerce Loyalty Points and Rewards](https://www.flycart.org/products/wordpress/wployalty)
 - [WooRewards](https://wordpress.org/plugins/woorewards/)
 - [WP Fastest Cache](https://www.wpfastestcache.com/)
 - [WP Rocket](https://wp-rocket.me/)
@@ -177,11 +179,12 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.6.0 (2023-03-02) =
+= 6.6.0 (2023-03-10) =
 
-- Added compatibility with [WooCommerce Loyalty Points and Rewards](https://www.flycart.org/products/wordpress/wployalty)
-- Fixed a Broken Access Control vulnerability which allowed any logged-in user to clear the Site Reviews > Tools > Console.
-- Fixed a Cross Site Scripting (XSS) vulnerability which allowed a logged-in user (with Editor capabilities) the ability to insert malicious javascript code inside a shortcode or block class attribute.
+- Added integration with [WooCommerce Loyalty Points and Rewards](https://www.flycart.org/products/wordpress/wployalty)
+- Fixed a [Broken Access Control vulnerability]() which allowed any logged-in user to clear the Site Reviews > Tools > Console.
+- Fixed a [Cross Site Scripting (XSS) vulnerability]() which allowed a logged-in user (with the edit_posts capability) to insert malicious javascript code into a block attribute when adding it to a page.
+- Fixed a [Cross Site Scripting (XSS) vulnerability]() which allowed a logged-in user (with the edit_posts capability) to insert malicious javascript code into a shortcode attribute when adding it to a page.
 - Fixed compatibility with [Perfect Brands for WooCommerce](https://wordpress.org/plugins/perfect-woocommerce-brands/)
 
 = 6.5.1 (2023-02-23) =

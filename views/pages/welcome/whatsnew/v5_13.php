@@ -8,7 +8,7 @@
         </button>
     </h3>
     <div id="welcome-v5_13_0" class="inside">
-        <p><em>Initial Release Date &mdash; August 1st, 2021</em></p>
+        <p><em>Release Date &mdash; August 1st, 2021</em></p>
 
         <h4>✨ New Features</h4>
         <ul>

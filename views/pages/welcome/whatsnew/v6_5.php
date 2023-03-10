@@ -1,14 +1,14 @@
 <?php defined('ABSPATH') || exit; ?>
 
-<div class="glsr-card postbox is-fullwidth open">
+<div class="glsr-card postbox is-fullwidth">
     <h3 class="glsr-card-heading">
-        <button type="button" class="glsr-accordion-trigger" aria-expanded="true" aria-controls="welcome-v6_5_0">
+        <button type="button" class="glsr-accordion-trigger" aria-expanded="false" aria-controls="welcome-v6_5_0">
             <span class="title">Version 6.5</span>
             <span class="icon"></span>
         </button>
     </h3>
     <div id="welcome-v6_5_0" class="inside">
-        <p><em>Initial Release Date &mdash; February 21st, 2023</em></p>
+        <p><em>Release Date &mdash; February 21st, 2023</em></p>
         <h4>✨ New Features</h4>
         <ul>
             <li>Added date and status options to the <a data-expand="#tools-export-reviews" href="<?= glsr_admin_url('tools'); ?>">Export Reviews</a> tool</li>

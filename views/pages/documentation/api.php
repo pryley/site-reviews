@@ -1,13 +1,16 @@
 <?php defined('ABSPATH') || exit;
 
-$sections = [ // order is intentional
-    trailingslashit(__DIR__).'api/authentication.php',
-    trailingslashit(__DIR__).'api/categories.php',
-    trailingslashit(__DIR__).'api/reviews.php',
-    trailingslashit(__DIR__).'api/summary.php',
-];
-$filename = pathinfo(__FILE__, PATHINFO_FILENAME);
-$sections = glsr()->filterArrayUnique('documentation/'.$filename, $sections);
-foreach ($sections as $section) {
-    include $section;
+$dir = pathinfo(__FILE__, PATHINFO_FILENAME);
+$files = [];
+$iterator = new DirectoryIterator(trailingslashit(__DIR__).$dir);
+foreach ($iterator as $fileinfo) {
+    if ($fileinfo->isFile() && 'php' === $fileinfo->getExtension()) {
+        $filename = str_replace('.php', '', $fileinfo->getFilename());
+        $files[$filename] = $fileinfo->getPathname();
+    }
+}
+$files = glsr()->filterArray('documentation/'.$dir, $files);
+ksort($files, SORT_NATURAL);
+foreach ($files as $file) {
+    include $file;
 }

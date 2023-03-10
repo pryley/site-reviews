@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 6.6.0 (2023-03-10) =
+
+- Added integration with [WooCommerce Loyalty Points and Rewards](https://www.flycart.org/products/wordpress/wployalty)
+- Fixed a [Broken Access Control vulnerability]() which allowed any logged-in user to clear the Site Reviews > Tools > Console.
+- Fixed a [Cross Site Scripting (XSS) vulnerability]() which allowed a logged-in user (with the edit_posts capability) to insert malicious javascript code into a block attribute when adding it to a page.
+- Fixed a [Cross Site Scripting (XSS) vulnerability]() which allowed a logged-in user (with the edit_posts capability) to insert malicious javascript code into a shortcode attribute when adding it to a page.
+- Fixed compatibility with [Perfect Brands for WooCommerce](https://wordpress.org/plugins/perfect-woocommerce-brands/)
+
+
 = 6.5.0 (2023-02-21) =
 
 - Added date and status options to the Export Reviews tool
@@ -37,6 +46,7 @@
 - Added GamiPress integration
 - Added Import Product Reviews tool (for WooCommerce Product reviews)
 - Added WooCommerce integration
+- Fixed a [CSV Injection vulnerability](https://patchstack.com/database/vulnerability/site-reviews/wordpress-site-reviews-plugin-6-2-0-unauth-csv-injection-vulnerability) which allowed malicious users to include formula values in reviews when exporting them to a CSV file.
 - Fixed an issue causing a timeout when running plugin migrations
 - Fixed compatibility with optimisation plugins which do not observe loading order of inline scripts
 - Fixed compatibility with other reCAPTCHA plugins
@@ -45,7 +55,6 @@
 - Fixed summary rating number to display in decimal format and using the website locale
 - Fixed the console logging, it now uses the saved log level
 - Fixed translatable strings
-- Fixed value sanitization when exporting reviews as a CSV file
 - Removed the GamiPress Reviews addon, it's now fully integrated into Site Reviews
 - Removed the Woocommerce Reviews addon, it's now fully integrated into Site Reviews
 

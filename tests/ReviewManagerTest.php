@@ -21,10 +21,7 @@ class ReviewManagerTest extends WP_UnitTestCase
     public function test_assign_post()
     {
         // automatically assign posts
-        $posts = [
-            self::factory()->post->create(),
-            self::factory()->post->create(),
-        ];
+        $posts = self::factory()->post->create_many(2);
         $review = $this->createReview([
             'assigned_posts' => implode(',', $posts),
         ]);
@@ -49,10 +46,7 @@ class ReviewManagerTest extends WP_UnitTestCase
     public function test_assign_term()
     {
         // automatically assign terms
-        $terms = [
-            self::factory()->term->create(['taxonomy' => glsr()->taxonomy]),
-            self::factory()->term->create(['taxonomy' => glsr()->taxonomy]),
-        ];
+        $terms = self::factory()->term->create_many(2, ['taxonomy' => glsr()->taxonomy]);
         $review = $this->createReview([
             'assigned_terms' => implode(',', $terms),
         ]);
@@ -77,10 +71,7 @@ class ReviewManagerTest extends WP_UnitTestCase
     public function test_assign_user()
     {
         // automatically assign users
-        $users = [
-            self::factory()->user->create(),
-            self::factory()->user->create(),
-        ];
+        $users = self::factory()->user->create_many(2);
         $review = $this->createReview([
             'assigned_users' => implode(',', $users),
         ]);

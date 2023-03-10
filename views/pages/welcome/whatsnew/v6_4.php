@@ -8,7 +8,7 @@
         </button>
     </h3>
     <div id="welcome-v6_4_0" class="inside">
-        <p><em>Initial Release Date &mdash; December 27th, 2022</em></p>
+        <p><em>Release Date &mdash; December 27th, 2022</em></p>
 
         <h4>✨ New Features</h4>
         <ul>
@@ -28,6 +28,11 @@
             <li>Removed the Woocommerce Reviews addon, it's now fully integrated into Site Reviews</li>
         </ul>
 
+        <h4>🚨 Security</h4>
+        <ul>
+            <li>Fixed a <a href="https://patchstack.com/database/vulnerability/site-reviews/wordpress-site-reviews-plugin-6-2-0-unauth-csv-injection-vulnerability" target="_blank">CSV Injection vulnerability</a> which allowed malicious users to include formula values in reviews when exporting them to a CSV file.</li>
+        </ul>
+
         <h4>🐞 Bugs Fixed</h4>
         <ul>
             <li>Fixed an issue causing a timeout when running plugin migrations</li>
@@ -37,7 +42,6 @@
             <li>Fixed summary rating to use the decimal format of the website's locale</li>
             <li>Fixed the console logging, it now uses the saved log level</li>
             <li>Fixed translatable strings</li>
-            <li>Fixed value sanitization when exporting reviews as a CSV file</li>
         </ul>
     </div>
 </div>
