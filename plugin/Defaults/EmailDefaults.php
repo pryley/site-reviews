@@ -10,8 +10,8 @@ class EmailDefaults extends DefaultsAbstract
      * @var array
      */
     public $sanitize = [
-        'attachments' => 'array',
-        'template-tags' => 'array',
+        'attachments' => 'array-consolidate',
+        'template-tags' => 'array-consolidate',
     ];
 
     /**

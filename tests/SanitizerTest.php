@@ -46,6 +46,40 @@ class SanitizerTest extends \WP_UnitTestCase
         ];
     }
 
+    public function testSanitizeArrayConsolidate()
+    {
+        $sanitized = $this->sanitize('array-consolidate');
+        $this->assertEquals($sanitized, [
+            0 => [],
+            1 => [],
+            2 => ['1'],
+            3 => ['a' => false],
+            4 => [13],
+            5 => [0],
+            6 => ['1' => 13],
+            7 => ['b' => true],
+            8 => [],
+            9 => [],
+            10 => [],
+            11 => [],
+            12 => [],
+            13 => [],
+            14 => [],
+            15 => [],
+            16 => [],
+            17 => [],
+            18 => [],
+            19 => [],
+            20 => [],
+            21 => [],
+            22 => [],
+            23 => [],
+            24 => [],
+            25 => [],
+            26 => [],
+        ]);
+    }
+
     public function testSanitizeArrayInt()
     {
         $sanitized = $this->sanitize('array-int');

@@ -5,6 +5,9 @@ namespace GeminiLabs\SiteReviews\Defaults;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
 
+/**
+ * This is used by Builder  to generate HTML elements
+ */
 class FieldDefaults extends DefaultsAbstract
 {
     /**
@@ -14,14 +17,21 @@ class FieldDefaults extends DefaultsAbstract
      */
     public $casts = [
         'after' => 'string',
-        'class' => 'string',
-        'id' => 'string',
         'label' => 'string',
         'name' => 'string',
-        'options' => 'array',
         'text' => 'string',
         'type' => 'string',
-        // 'value' => 'string', // disabled because checkbox field value can be an array
+    ];
+
+    /**
+     * The values that should be sanitized.
+     * This is done after $casts and before $enums.
+     * @var array
+     */
+    public $sanitize = [
+        'class' => 'attr-class',
+        'id' => 'id',
+        'options' => 'array-consolidate',
     ];
 
     /**
@@ -32,12 +42,12 @@ class FieldDefaults extends DefaultsAbstract
         return [
             'class' => '',
             'id' => '',
-            'label' => '',
+            'label' => '',  // this value is likely a generated HTML string
             'name' => '',
             'options' => [],
-            'text' => '',
+            'text' => '', // this value is likely a generated HTML string
             'type' => '',
-            'value' => '',
+            'value' => '', // this value can also be an array
         ];
     }
 

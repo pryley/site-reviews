@@ -56,7 +56,7 @@ class CreateReviewDefaults extends DefaultsAbstract
         'author_id' => 'user-id',
         'avatar' => 'url',
         'content' => 'text-multiline',
-        'custom' => 'array',
+        'custom' => 'array-consolidate',
         'date' => 'date',
         'date_gmt' => 'date',
         'email' => 'user-email',
