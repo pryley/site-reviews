@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 6.6.1 (2023-03-11) =
+
+- Fixed AJAX pagination
+
 = 6.6.0 (2023-03-10) =
 
 - Added integration with [WooCommerce Loyalty Points and Rewards](https://www.flycart.org/products/wordpress/wployalty)
