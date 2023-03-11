@@ -28,9 +28,9 @@ class PublicController extends Controller
     public function fetchPagedReviewsAjax(Request $request)
     {
         glsr()->store(glsr()->paged_handle, $request);
-        $html = glsr(SiteReviewsShortcode::class)->buildReviewsHtml(
-            $request->cast('atts', 'array')
-        );
+        $html = glsr(SiteReviewsShortcode::class)
+            ->normalize($request->cast('atts', 'array'))
+            ->buildReviewsHtml();
         $response = [
             'pagination' => $html->getPagination($wrap = false),
             'reviews' => $html->getReviews(),

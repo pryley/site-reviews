@@ -527,7 +527,9 @@ class RestReviewController extends \WP_REST_Controller
 
     protected function renderedItems(WP_REST_Request $request)
     {
-        $html = glsr(SiteReviewsShortcode::class)->buildReviewsHtml($this->normalizedArgs($request));
+        $html = glsr(SiteReviewsShortcode::class)
+            ->normalize($this->normalizedArgs($request))
+            ->buildReviewsHtml();
         $response = rest_ensure_response([
             'pagination' => $html->getPagination($wrap = false),
             'rendered' => $html->getReviews(),
