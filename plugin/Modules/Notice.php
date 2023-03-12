@@ -132,7 +132,7 @@ class Notice
      */
     protected function normalizeArgs(array $args)
     {
-        $class = sprintf('notice notice-%s inline is-dismissible', $args['type']);
+        $class = sprintf('glsr-notice notice notice-%s inline is-dismissible', $args['type']);
         if (!empty($args['details'])) {
             $class = 'bulk-action-notice '.$class;
             $lastIndex = count($args['messages']) - 1;
