@@ -265,12 +265,12 @@ class Schema
     /**
      * @param string $option
      * @param string $fallback
-     * @return void|string
+     * @return string
      */
     protected function getSchemaOptionValue($option, $fallback = 'post')
     {
         if (array_key_exists($option, $this->keyValues)) {
-            return $this->keyValues[$option];
+            return (string) $this->keyValues[$option];
         }
         $value = $this->getSchemaOption($option, $fallback);
         if ($value !== $fallback) {
@@ -280,6 +280,7 @@ class Schema
         if (method_exists($this, $method)) {
             return $this->setAndGetKeyValue($option, $this->$method());
         }
+        return '';
     }
 
     /**
