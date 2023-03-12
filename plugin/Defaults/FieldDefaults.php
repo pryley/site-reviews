@@ -17,6 +17,7 @@ class FieldDefaults extends DefaultsAbstract
      */
     public $casts = [
         'after' => 'string',
+        'id' => 'string',
         'label' => 'string',
         'name' => 'string',
         'text' => 'string',
@@ -30,7 +31,6 @@ class FieldDefaults extends DefaultsAbstract
      */
     public $sanitize = [
         'class' => 'attr-class',
-        'id' => 'id',
         'options' => 'array-consolidate',
     ];
 
