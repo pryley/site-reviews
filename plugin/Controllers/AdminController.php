@@ -253,7 +253,7 @@ class AdminController extends Controller
             $shortcodes[$shortcode] = $values;
         }
         if (!empty($shortcodes)) {
-            $shortcodes = wp_list_sort($shortcodes, 'label');
+            $shortcodes = wp_list_sort($shortcodes, 'label', 'ASC', true); // preserve keys
             glsr()->render('partials/editor/tinymce', [
                 'shortcodes' => $shortcodes,
             ]);
