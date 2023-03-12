@@ -36,7 +36,7 @@ abstract class SvgAvatar
         $baseDir = trailingslashit($uploadsDir['basedir']);
         $baseUrl = trailingslashit($uploadsDir['baseurl']);
         $pathDir = trailingslashit(glsr()->id).trailingslashit('avatars');
-        $filename = sprintf('%s.svg', $name);
+        $filename = sprintf('%s.svg', $name ?: 'blank');
         $filepath = $baseDir.$pathDir.$filename;
         if (!file_exists($filepath)) {
             wp_mkdir_p($baseDir.$pathDir);

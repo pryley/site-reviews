@@ -56,7 +56,7 @@ class Text
      */
     public static function initials($name, $initialPunctuation = '')
     {
-        preg_match_all('/(?<=\s|\b)\pL/u', (string) $name, $matches);
+        preg_match_all('/(?<=\s|\b)\p{L}/u', (string) $name, $matches); // match the first letter of each word in the name
         $result = (string) array_reduce($matches[0], function ($carry, $word) use ($initialPunctuation) {
             $initial = mb_substr($word, 0, 1, 'UTF-8');
             $initial = mb_strtoupper($initial, 'UTF-8');
@@ -129,7 +129,7 @@ class Text
     public static function text($text)
     {
         $text = static::normalize($text);
-        $text = preg_split('/\R+/um', $text);
+        $text = preg_split('/\R+/um', $text); // split text by line-breaks
         $text = array_map('trim', $text); // trim paragraphs
         $text = implode(PHP_EOL.PHP_EOL, $text);
         return wpautop($text);
