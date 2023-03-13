@@ -16,8 +16,8 @@ class Hooks extends AbstractHooks
         }
         $this->hook(Controller::class, [
             ['filterEarnPointTypes', 'lpfw_get_point_earn_source_types'],
-            ['maybeEarnPoints', 'site-reviews/review/approved', 20],
-            ['maybeEarnPoints', 'site-reviews/review/created', 20],
+            ['onApprovedReview', 'site-reviews/review/approved', 20],
+            ['onCreatedReview', 'site-reviews/review/created', 20],
         ]);
     }
 }

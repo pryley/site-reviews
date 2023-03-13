@@ -29,22 +29,22 @@ class Controller extends BaseController
     }
 
     /**
-     * @action site-reviews/review/created
      * @action site-reviews/review/approved
      */
-    public function maybeEarnPoints(Review $review): void
+    public function onApprovedReview(Review $review): void
     {
         $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
-        if (!$review->author_id) {
-            return;
-        }
-        foreach ($review->assigned_posts as $postId) {
-            if ('product' !== get_post_type($postId)) {
-                continue;
-            }
-            if ($this->isFirstReviewForPost($postId, $review)) {
-                $this->earnPoints($review->ID, $review->author_id);
-            }
+        $this->maybeEarnPoints($review);
+    }
+
+    /**
+     * @action site-reviews/review/created
+     */
+    public function onCreatedReview(Review $review): void
+    {
+        $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
+        if ($review->is_approved) {
+            $this->maybeEarnPoints($review);
         }
     }
 
@@ -83,9 +83,24 @@ class Controller extends BaseController
     {
         $reviews = glsr_get_reviews([
             'assigned_posts' => $postId,
-            'status' => 'all',
+            'status' => 'approved',
             'user__in' => $review->author_id,
         ]);
         return 1 >= $reviews->total;
+    }
+
+    protected function maybeEarnPoints(Review $review): void
+    {
+        if (!$review->author_id) {
+            return;
+        }
+        foreach ($review->assigned_posts as $postId) {
+            if ('product' !== get_post_type($postId)) {
+                continue;
+            }
+            if ($this->isFirstReviewForPost($postId, $review)) {
+                $this->earnPoints($review->ID, $review->author_id);
+            }
+        }
     }
 }
