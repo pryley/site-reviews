@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 6.6.2 (2023-03-12) =
+
+- Fixed id attribute in setting fields
+- Fixed initials avatar image when name is empty or numerical
+- Fixed [Loyalty Program for WooCommerce](https://advancedcouponsplugin.com/woocommerce-loyalty-program/) from assigning points for unapproved reviews
+- Fixed Tinymce shortcode popup in Classic Editor
+- Fixed [WooCommerce Loyalty Points and Rewards](https://www.flycart.org/products/wordpress/wployalty) from assigning points for unapproved reviews
+- Fixed [WooRewards](https://wordpress.org/plugins/woorewards/) from assigning points for unapproved reviews
+
 = 6.6.1 (2023-03-11) =
 
 - Fixed AJAX pagination
@@ -12,6 +21,10 @@
 - Fixed a [Cross Site Scripting (XSS) vulnerability]() which allowed a logged-in user (with the edit_posts capability) to insert malicious javascript code into a shortcode attribute when adding it to a page.
 - Fixed compatibility with [Perfect Brands for WooCommerce](https://wordpress.org/plugins/perfect-woocommerce-brands/)
 
+= 6.5.1 (2023-02-23) =
+
+- Fixed copy/pasting of shortcode examples from the Shortcodes documentation
+- Updated Shortcodes documentation
 
 = 6.5.0 (2023-02-21) =
 

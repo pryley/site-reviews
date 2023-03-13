@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.1
-Stable tag: 6.6.1
+Stable tag: 6.6.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -179,6 +179,15 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
+= 6.6.2 (2023-03-12) =
+
+- Fixed id attribute in setting fields
+- Fixed initials avatar image when name is empty or numerical
+- Fixed [Loyalty Program for WooCommerce](https://advancedcouponsplugin.com/woocommerce-loyalty-program/) from assigning points for unapproved reviews
+- Fixed Tinymce shortcode popup in Classic Editor
+- Fixed [WooCommerce Loyalty Points and Rewards](https://www.flycart.org/products/wordpress/wployalty) from assigning points for unapproved reviews
+- Fixed [WooRewards](https://wordpress.org/plugins/woorewards/) from assigning points for unapproved reviews
+
 = 6.6.1 (2023-03-11) =
 
 - Fixed AJAX pagination
@@ -190,33 +199,5 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 - Fixed a [Cross Site Scripting (XSS) vulnerability]() which allowed a logged-in user (with the edit_posts capability) to insert malicious javascript code into a block attribute when adding it to a page.
 - Fixed a [Cross Site Scripting (XSS) vulnerability]() which allowed a logged-in user (with the edit_posts capability) to insert malicious javascript code into a shortcode attribute when adding it to a page.
 - Fixed compatibility with [Perfect Brands for WooCommerce](https://wordpress.org/plugins/perfect-woocommerce-brands/)
-
-= 6.5.1 (2023-02-23) =
-
-- Fixed copy/pasting of shortcode examples from the Shortcodes documentation
-- Updated Shortcodes documentation
-
-= 6.5.0 (2023-02-21) =
-
-- Added date and status options to the Export Reviews tool
-- Added new "Single Review" block to display a single review
-- Added new "Single Review" Elementor widget to display a single review
-- Added new "Single Review" widget to display a single review
-- Added new [site_review] shortcode to display a single review
-- Fixed ability to press Enter when writing a response to a review using the inline editor on the All Reviews admin page
-- Fixed button loading in the review form
-- Fixed compatibility with Multilingual plugins (you should now be able to translate addons)
-- Fixed compatibility with Object Cache plugins (you should now be able to save the settings if you weren't able to before)
-- Fixed compatibility with WordPress Multisite
-- Fixed HTML entities from breaking translations in the Strings settings
-- Fixed PHP 8.1 deprecation notices
-- Fixed PHP errors when changing the maximum rating with an unsupported filter hook
-- Fixed support for rendering reviews with custom fields (Review Forms addon) and themes (Review Themes addon) using the helper functions
-- Fixed the visibility of the Import Product Reviews tool
-- Improved sanitization of form values and helper function arguments
-- Improved the System Info report
-- Renamed the "site-reviews/rest-api/reviews/properties" hook to "site-reviews/rest-api/reviews/schema/properties"
-- Renamed the "site-reviews/rest-api/summary/properties" hook to "site-reviews/rest-api/summary/schema/properties"
-- Updated Action Scheduler to v3.5.4
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).

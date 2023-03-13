@@ -2,14 +2,9 @@
 
 namespace GeminiLabs\SiteReviews;
 
-use Closure;
-use Exception;
 use GeminiLabs\SiteReviews\Exceptions\BindingResolutionException;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use ReflectionClass;
-use ReflectionException;
-use ReflectionParameter;
 
 abstract class Container
 {
@@ -53,7 +48,7 @@ abstract class Container
     {
         $this->dropStaleInstances($abstract);
         $concrete = Helper::ifTrue(is_null($concrete), $abstract, $concrete);
-        if (!$concrete instanceof Closure) {
+        if (!$concrete instanceof \Closure) {
             $concrete = $this->getClosure($abstract, $concrete);
         }
         $this->bindings[$abstract] = compact('concrete', 'shared');
@@ -83,18 +78,18 @@ abstract class Container
     }
 
     /**
-     * @param Closure|string $concrete
+     * @param \Closure|string $concrete
      * @return mixed
      * @throws BindingResolutionException
      */
     protected function construct($concrete)
     {
-        if ($concrete instanceof Closure) {
+        if ($concrete instanceof \Closure) {
             return $concrete($this, $this->getLastParameterOverride()); // probably a bound closure
         }
         try {
-            $reflector = new ReflectionClass($concrete); // class or classname provided
-        } catch (ReflectionException $e) {
+            $reflector = new \ReflectionClass($concrete); // class or classname provided
+        } catch (\ReflectionException $e) {
             throw new BindingResolutionException("Target class [$concrete] does not exist.", 0, $e);
         }
         if (!$reflector->isInstantiable()) {
@@ -139,7 +134,7 @@ abstract class Container
     /**
      * @param string $abstract
      * @param string $concrete
-     * @return Closure
+     * @return \Closure
      */
     protected function getClosure($abstract, $concrete)
     {
@@ -171,7 +166,7 @@ abstract class Container
     }
 
     /**
-     * @param ReflectionParameter $dependency
+     * @param \ReflectionParameter $dependency
      * @return mixed
      */
     protected function getParameterOverride($dependency)
@@ -180,7 +175,7 @@ abstract class Container
     }
 
     /**
-     * @param ReflectionParameter $dependency
+     * @param \ReflectionParameter $dependency
      * @return bool
      */
     protected function hasParameterOverride($dependency)
@@ -195,7 +190,7 @@ abstract class Container
      */
     protected function isBuildable($concrete, $abstract)
     {
-        return $concrete === $abstract || $concrete instanceof Closure;
+        return $concrete === $abstract || $concrete instanceof \Closure;
     }
 
     /**
@@ -234,13 +229,13 @@ abstract class Container
     /**
      * Resolve a class based dependency from the container.
      * @return mixed
-     * @throws Exception
+     * @throws \Exception
      */
-    protected function resolveClass(ReflectionParameter $parameter)
+    protected function resolveClass(\ReflectionParameter $parameter)
     {
         try {
             return $this->make($this->getClass($parameter)->getName());
-        } catch (Exception $error) {
+        } catch (\Exception $error) {
             if ($parameter->isOptional()) {
                 return $parameter->getDefaultValue();
             }
@@ -268,11 +263,11 @@ abstract class Container
     }
 
     /**
-     * @param ReflectionParameter $parameter
+     * @param \ReflectionParameter $parameter
      * @return mixed
      * @throws BindingResolutionException
      */
-    protected function resolvePrimitive(ReflectionParameter $parameter)
+    protected function resolvePrimitive(\ReflectionParameter $parameter)
     {
         if ($parameter->isDefaultValueAvailable()) {
             return $parameter->getDefaultValue();
@@ -297,11 +292,11 @@ abstract class Container
     }
 
     /**
-     * @param ReflectionParameter $parameter
+     * @param \ReflectionParameter $parameter
      * @return void
      * @throws BindingResolutionException
      */
-    protected function throwUnresolvablePrimitive(ReflectionParameter $parameter)
+    protected function throwUnresolvablePrimitive(\ReflectionParameter $parameter)
     {
         throw new BindingResolutionException("Unresolvable dependency resolving [$parameter] in class {$parameter->getDeclaringClass()->getName()}");
     }
