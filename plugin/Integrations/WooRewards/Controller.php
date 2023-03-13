@@ -18,7 +18,8 @@ class Controller extends BaseController
      */
     public function onApprovedReview(Review $review): void
     {
-        $this->processPoints($review, $force = true);
+        $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
+        $this->processPoints($review);
     }
 
     /**
@@ -26,7 +27,10 @@ class Controller extends BaseController
      */
     public function onCreatedReview(Review $review): void
     {
-        $this->processPoints($review, $force = false);
+        $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
+        if ($review->is_approved) {
+            $this->processPoints($review);
+        }
     }
 
     /**
@@ -44,6 +48,7 @@ class Controller extends BaseController
     }
 
     /**
+     * This allows us to invoke a protected method
      * @return mixed
      */
     protected function invoke(string $method, array $args = [])
@@ -54,19 +59,17 @@ class Controller extends BaseController
         return $fn->bindTo($this->event, $this->event)();
     }
 
-    protected function processPoints(Review $review, bool $force = false): void
+    protected function processPoints(Review $review): void
     {
-        $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
         foreach ($review->assigned_posts as $postId) {
             if ('product' !== get_post_type($postId)) {
                 continue;
             }
             try {
                 $comment = $this->fakeComment($postId, $review);
-                if (!$this->invoke('isValid', [$comment, $delayed = false])) {
-                    continue;
+                if ($this->invoke('isValid', [$comment, $delayed = false])) {
+                    $this->invoke('process', [$comment]);
                 }
-                $this->invoke('process', [$comment, $force]);
             } catch (\Exception $e) {
                 glsr_log()->error($e->getMessage());
             }
