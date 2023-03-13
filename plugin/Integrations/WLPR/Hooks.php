@@ -19,8 +19,8 @@ class Hooks extends AbstractHooks
             return;
         }
         $this->hook(Controller::class, [
-            ['maybeEarnPoints', 'site-reviews/review/approved', 20],
-            ['maybeEarnPoints', 'site-reviews/review/created', 20],
+            ['onApprovedReview', 'site-reviews/review/approved', 20],
+            ['onCreatedReview', 'site-reviews/review/created', 20],
         ]);
     }
 }
