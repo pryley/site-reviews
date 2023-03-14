@@ -126,6 +126,19 @@ add_filter('sf_edit_query_args', function ($query) {
 }, 20);
 
 /**
+ * Prevent SG Optimizer from breaking the Site Reviews javascript file
+ * @param array $excluded
+ * @return array
+ * @see https://wordpress.org/plugins/sg-cachepress/
+ */
+add_filter('sgo_js_minify_exclude', function ($excluded) {
+    if (is_array($excluded) && !in_array(glsr()->id, $excluded)) {
+        $excluded[] = glsr()->id;
+    }
+    return $excluded;
+});
+
+/**
  * Load the Ninja Forms (v3) CSS if the plugin style is selected.
  * @see https://ninjaforms.com/
  */
