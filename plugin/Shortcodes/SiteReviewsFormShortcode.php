@@ -48,7 +48,6 @@ class SiteReviewsFormShortcode extends Shortcode
      * @param string $url
      * @param string $redirect
      * @param bool $forceReauth
-
      * @filter login_url
      */
     public function filterLoginUrl($url, $redirect, $forceReauth): string
@@ -67,7 +66,6 @@ class SiteReviewsFormShortcode extends Shortcode
 
     /**
      * @param string $url
-
      * @filter register_url
      */
     public function filterRegisterUrl($url): string

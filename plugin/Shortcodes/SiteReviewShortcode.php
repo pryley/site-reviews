@@ -23,6 +23,7 @@ class SiteReviewShortcode extends Shortcode
         $this->debug(['review' => $review]);
         if ($review->isValid()) {
             $reviews = new Reviews([$review], 1, $this->args);
+            glsr()->action('get/reviews', $reviews, $this->args);
             if ('modal' === glsr_get_option('reviews.excerpts_action')) {
                 glsr()->store('use_modal', true);
             }

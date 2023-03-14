@@ -169,7 +169,6 @@ class ReviewManager
     {
         $reviewId = Helper::getPostId($reviewId);
         $review = glsr(Query::class)->review($reviewId);
-        glsr()->action('get/review', $review, $reviewId);
         return $review;
     }
 

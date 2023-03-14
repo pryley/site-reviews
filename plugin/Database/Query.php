@@ -89,6 +89,7 @@ class Query
         if (!$review instanceof Review) {
             $result = glsr(Database::class)->dbGetRow($this->queryReviews($reviewId), ARRAY_A);
             $review = new Review($result);
+            glsr()->action('get/review', $review, $reviewId);
             if ($review->isValid()) {
                 glsr(Cache::class)->store($review->ID, 'reviews', $review);
             }
@@ -109,12 +110,13 @@ class Query
         }
         $reviewIds = implode(',', Arr::uniqueInt(Cast::toArray($postIds)));
         $reviewIds = Str::fallback($reviewIds, '0'); // if there are no review IDs, default to 0
-        $results = glsr(Database::class)->dbGetResults($this->queryReviews($reviewIds), ARRAY_A);
-        foreach ($results as &$result) {
-            $result = new Review($result);
-            glsr(Cache::class)->store($result->ID, 'reviews', $result);
+        $reviews = glsr(Database::class)->dbGetResults($this->queryReviews($reviewIds), ARRAY_A);
+        foreach ($reviews as &$review) {
+            $review = new Review($review);
+            glsr()->action('get/review', $review, $review->ID);
+            glsr(Cache::class)->store($review->ID, 'reviews', $review);
         }
-        return $results;
+        return $reviews;
     }
 
     /**
