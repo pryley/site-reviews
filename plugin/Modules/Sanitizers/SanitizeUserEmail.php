@@ -10,9 +10,11 @@ class SanitizeUserEmail extends StringSanitizer
         if (defined('WP_IMPORTING')) {
             return $value;
         }
-        $user = wp_get_current_user();
-        if ($user->exists()) {
-            return $user->user_email;
+        if (empty($value)) {
+            $user = wp_get_current_user();
+            if ($user->exists()) {
+                return $user->user_email;
+            }
         }
         return $value;
     }
