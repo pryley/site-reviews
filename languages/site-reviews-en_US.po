@@ -250,19 +250,19 @@ msgstr "Poor"
 msgid "Terrible"
 msgstr "Terrible"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:158
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:156
 msgid "logged in"
 msgstr "logged in"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:160
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:158
 msgid "You must be %s to submit a review."
 msgstr "You must be %s to submit a review."
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:182
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:180
 msgid "register"
 msgstr "register"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:184
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:182
 msgid "You may also %s for an account."
 msgstr "You may also %s for an account."
 
@@ -3327,77 +3327,77 @@ msgctxt "admin-text"
 msgid "Non-repeating"
 msgstr "Non-repeating"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:133
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:131
 msgctxt "admin-text"
 msgid "Hide the rating field"
 msgstr "Hide the rating field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:134
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:132
 msgctxt "admin-text"
 msgid "Hide the title field"
 msgstr "Hide the title field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:135
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:133
 msgctxt "admin-text"
 msgid "Hide the review field"
 msgstr "Hide the review field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:136
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:134
 msgctxt "admin-text"
 msgid "Hide the name field"
 msgstr "Hide the name field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:137
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:135
 msgctxt "admin-text"
 msgid "Hide the email field"
 msgstr "Hide the email field"
 
-#: plugin/Shortcodes/SiteReviewsFormShortcode.php:138
+#: plugin/Shortcodes/SiteReviewsFormShortcode.php:136
 msgctxt "admin-text"
 msgid "Hide the terms field"
 msgstr "Hide the terms field"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:42, plugin/Shortcodes/SiteReviewsShortcode.php:73
+#: plugin/Shortcodes/SiteReviewShortcode.php:43, plugin/Shortcodes/SiteReviewsShortcode.php:73
 msgctxt "admin-text"
 msgid "Hide the title"
 msgstr "Hide the title"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:43, plugin/Shortcodes/SiteReviewsShortcode.php:74, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:78
+#: plugin/Shortcodes/SiteReviewShortcode.php:44, plugin/Shortcodes/SiteReviewsShortcode.php:74, plugin/Shortcodes/SiteReviewsSummaryShortcode.php:78
 msgctxt "admin-text"
 msgid "Hide the rating"
 msgstr "Hide the rating"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:44, plugin/Shortcodes/SiteReviewsShortcode.php:75
+#: plugin/Shortcodes/SiteReviewShortcode.php:45, plugin/Shortcodes/SiteReviewsShortcode.php:75
 msgctxt "admin-text"
 msgid "Hide the date"
 msgstr "Hide the date"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:45, plugin/Shortcodes/SiteReviewsShortcode.php:76
+#: plugin/Shortcodes/SiteReviewShortcode.php:46, plugin/Shortcodes/SiteReviewsShortcode.php:76
 msgctxt "admin-text"
 msgid "Hide the assigned links (if shown)"
 msgstr "Hide the assigned links (if shown)"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:46, plugin/Shortcodes/SiteReviewsShortcode.php:77
+#: plugin/Shortcodes/SiteReviewShortcode.php:47, plugin/Shortcodes/SiteReviewsShortcode.php:77
 msgctxt "admin-text"
 msgid "Hide the content"
 msgstr "Hide the content"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:47, plugin/Shortcodes/SiteReviewsShortcode.php:78
+#: plugin/Shortcodes/SiteReviewShortcode.php:48, plugin/Shortcodes/SiteReviewsShortcode.php:78
 msgctxt "admin-text"
 msgid "Hide the avatar (if shown)"
 msgstr "Hide the avatar (if shown)"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:48, plugin/Shortcodes/SiteReviewsShortcode.php:79
+#: plugin/Shortcodes/SiteReviewShortcode.php:49, plugin/Shortcodes/SiteReviewsShortcode.php:79
 msgctxt "admin-text"
 msgid "Hide the author"
 msgstr "Hide the author"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:49, plugin/Shortcodes/SiteReviewsShortcode.php:80
+#: plugin/Shortcodes/SiteReviewShortcode.php:50, plugin/Shortcodes/SiteReviewsShortcode.php:80
 msgctxt "admin-text"
 msgid "Hide the verified badge"
 msgstr "Hide the verified badge"
 
-#: plugin/Shortcodes/SiteReviewShortcode.php:50, plugin/Shortcodes/SiteReviewsShortcode.php:81
+#: plugin/Shortcodes/SiteReviewShortcode.php:51, plugin/Shortcodes/SiteReviewsShortcode.php:81
 msgctxt "admin-text"
 msgid "Hide the response"
 msgstr "Hide the response"
