@@ -136,11 +136,11 @@ msgctxt "admin-text"
 msgid "Manage Review Categories"
 msgstr ""
 
-#: deprecated.php:137
+#: deprecated.php:148
 msgid "%s is <strong>deprecated</strong> since version %s with no alternative available."
 msgstr ""
 
-#: deprecated.php:150
+#: deprecated.php:161
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr ""
 
@@ -1761,11 +1761,11 @@ msgid "Your review has been submitted!"
 msgstr ""
 
 #: plugin/Commands/CreateReview.php:198
-msgid "Your review has been submitted, and is pending approval."
+msgid "Your review has been submitted and is pending approval."
 msgstr ""
 
 #: plugin/Commands/CreateReview.php:203, views/pages/documentation/support/common-problems-and-solutions.php:87
-msgid "Your review could not be submitted, and the error has been logged. Please notify the site administrator."
+msgid "Your review could not be submitted and the error has been logged. Please notify the site administrator."
 msgstr ""
 
 #: plugin/Commands/EnqueueAdminAssets.php:24

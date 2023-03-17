@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: en_US\n"
 
-#: deprecated.php:137
+#: deprecated.php:148
 msgid ""
 "%s is <strong>deprecated</strong> since version %s with no alternative "
 "available."
@@ -26,7 +26,7 @@ msgstr ""
 "%s is <strong>deprecated</strong> since version %s with no alternative "
 "available."
 
-#: deprecated.php:150
+#: deprecated.php:161
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 
@@ -97,15 +97,15 @@ msgid "Your review has been submitted!"
 msgstr "Your review has been submitted!"
 
 #: plugin/Commands/CreateReview.php:198
-msgid "Your review has been submitted, and is pending approval."
-msgstr "Your review has been submitted, and is pending approval."
+msgid "Your review has been submitted and is pending approval."
+msgstr "Your review has been submitted and is pending approval."
 
 #: plugin/Commands/CreateReview.php:203, views/pages/documentation/support/common-problems-and-solutions.php:87
 msgid ""
-"Your review could not be submitted, and the error has been logged. Please "
+"Your review could not be submitted and the error has been logged. Please "
 "notify the site administrator."
 msgstr ""
-"Your review could not be submitted, and the error has been logged. Please "
+"Your review could not be submitted and the error has been logged. Please "
 "notify the site administrator."
 
 #: plugin/Commands/EnqueuePublicAssets.php:75
