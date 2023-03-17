@@ -65,7 +65,7 @@ add_action('plugins_loaded', function () {
         if (has_action('site-reviews/review/saved')) {
             $message = 'The "site-reviews/review/saved" hook has been deprecated. Please use the "site-reviews/review/updated" hook instead.';
             glsr()->append('deprecated', $message);
-            return do_action('site-reviews/review/saved', $review, $data);
+            do_action('site-reviews/review/saved', $review, $data);
         }
     }, 10, 2);
 });
