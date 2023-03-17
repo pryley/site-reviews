@@ -57,6 +57,17 @@ add_action('plugins_loaded', function () {
     add_filter('site-reviews/reviews/html/style', function ($value, $html) {
         return glsr_get($html->reviews->attributes(), 'class'); // @todo show a deprecation notice in v7.0!
     }, 10, 2);
+
+    /**
+     * @since 6.7.0
+     */
+    add_action('site-reviews/review/updated', function ($review, $data) {
+        if (has_action('site-reviews/review/saved')) {
+            $message = 'The "site-reviews/review/saved" hook has been deprecated. Please use the "site-reviews/review/updated" hook instead.';
+            glsr()->append('deprecated', $message);
+            return do_action('site-reviews/review/saved', $review, $data);
+        }
+    }, 10, 2);
 });
 
 add_action('plugins_loaded', function () {

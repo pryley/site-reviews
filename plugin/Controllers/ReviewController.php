@@ -378,7 +378,7 @@ class ReviewController extends Controller
             glsr()->action('review/updated/user_ids', $review, Cast::toArray($assignedUserIds)); // trigger a recount of assigned users
         }
         $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
-        glsr()->action('review/saved', $review, []); // pass an empty array since review values are unchanged
+        glsr()->action('review/updated', $review, []); // pass an empty array since review values are unchanged
     }
 
     /**
@@ -437,6 +437,6 @@ class ReviewController extends Controller
             glsr(ReviewManager::class)->updateCustom($review->ID, $submittedValues); // values are sanitized here
         }
         $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
-        glsr()->action('review/saved', $review, $submittedValues);
+        glsr()->action('review/updated', $review, $submittedValues);
     }
 }

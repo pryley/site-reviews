@@ -266,7 +266,7 @@ class ReviewManager
             glsr()->action('review/updated/user_ids', $review, $assignedUsers); // trigger a recount of assigned posts
         }
         $review = glsr(Query::class)->review($reviewId); // get a fresh copy of the review
-        glsr()->action('review/saved', $review, $data);
+        glsr()->action('review/updated', $review, $data);
         return $review;
     }
 
