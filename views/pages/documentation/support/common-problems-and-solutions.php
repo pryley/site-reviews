@@ -84,7 +84,7 @@
             </li>
             <li>
                 <h4 class="components-notice is-error" style="font-size:15px;">
-                    <?= __('Your review could not be submitted, and the error has been logged. Please notify the site administrator.', 'site-reviews'); ?>
+                    <?= __('Your review could not be submitted and the error has been logged. Please notify the site administrator.', 'site-reviews'); ?>
                 </h4>
                 <p>This error is triggered when WordPress encounters an error when saving the review to the database.</p>
                 <p>If you encounter this error:</p>
