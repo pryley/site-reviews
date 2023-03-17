@@ -8,6 +8,14 @@
         </button>
     </h3>
     <div id="faq-customise-stars" class="inside">
+        <p>To customise the size of the stars, change the CSS variables with some custom CSS.</p>
+        <p>Here is an example:</p>
+        <pre><code class="language-css">.glsr {
+    --glsr-form-star: 16px;
+    --glsr-summary-star: 16px;
+    --glsr-review-star: 16px;
+}
+</code></pre>
         <p>To customise the star images used by the plugin, use the <code><a data-expand="#hooks-filter-star-images" href="<?= glsr_admin_url('documentation', 'hooks'); ?>">site-reviews/config/inline-styles</a></code> filter hook in your theme's <code>functions.php</code> file.</p>
         <p>Here is an example:</p>
         <pre><code class="language-php">/**
