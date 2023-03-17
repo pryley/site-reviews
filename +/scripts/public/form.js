@@ -82,7 +82,7 @@ class Form {
         this.button.loaded()
         GLSR.Event.trigger('site-reviews/form/handle', response, this.form)
         if (wasSuccessful) {
-            if ('' !== response.redirect) {
+            if (response.redirect && '' !== response.redirect) {
                 window.location = response.redirect;
                 return;
             }

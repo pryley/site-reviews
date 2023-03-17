@@ -23,7 +23,7 @@ const initExcerpts = (el) => {
 
 const initForms = () => {
     // remove all forms that are no longer on the page
-    GLSR.forms = GLSR.forms.filter(form => form.form.parentElement);
+    GLSR.forms = GLSR.forms.filter(form => !!form.form.closest('body'));
     document.querySelectorAll('form.glsr-review-form').forEach(formEl => {
         const buttonEl = formEl.querySelector('[type=submit]');
         if (buttonEl) {
@@ -100,5 +100,6 @@ Event.on('site-reviews/pagination/handle', (response, pagination) => {
 })
 
 document.addEventListener('DOMContentLoaded', () => {
-    Event.trigger(events.init)
+    // for some reason, querySelectorAll return double the results in Firefox without this timeout...
+    setTimeout(() => Event.trigger(events.init), 5)
 })

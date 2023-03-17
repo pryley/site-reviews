@@ -32,7 +32,6 @@ const attr = (className, attributes = {}) => {
 
 class Modal {
     constructor (id, config = {}) {
-        this.config = Object.assign({}, defaults, config);
         this.events = {
             _open: this._openModal.bind(this),
             mouseup: this._onClick.bind(this),
@@ -41,6 +40,7 @@ class Modal {
         };
         this.id = id;
         this.triggers = [];
+        this._config(config)
         this._reset()
     }
 
@@ -64,6 +64,11 @@ class Modal {
             debounce(() => this._reset())()
         }
         this.root.addEventListener('animationend', handler, false)
+    }
+
+    _config (config) {
+        this.config = Object.assign({}, defaults, config);
+        return this;
     }
 
     _eventHandler (action) {
@@ -164,6 +169,7 @@ class Modal {
         this.content = null;
         this.footer = null;
         this.header = null;
+        this.root = null;
         this.trigger = null;
     }
 
@@ -212,8 +218,16 @@ const close = (id) => {
 }
 
 const init = (id, config) => {
-    const modal = activeModals[id] || new Modal(id, config);
-    modal._removeTriggers()
+    let modal;
+    if (activeModals[id]) {
+        modal = activeModals[id];
+        modal._removeTriggers()
+        if (config) {
+            modal._config(config)
+        }
+    } else {
+        modal = new Modal(id, config);
+    }
     document.querySelectorAll('[' + openTrigger + ']').forEach(el => {
         if (id === el.attributes[openTrigger].value) {
             modal._registerTrigger(el)
@@ -224,9 +238,17 @@ const init = (id, config) => {
 }
 
 const open = (id, config) => {
-    const modal = activeModals[id] || new Modal(id, config);
-    if (modal.root) {
-        modal._eventHandler('remove')
+    let modal;
+    if (activeModals[id]) {
+        modal = activeModals[id];
+        if (modal.root) {
+            modal._eventHandler('remove')
+        }
+        if (config) {
+            modal._config(config)
+        }
+    } else {
+        modal = new Modal(id, config);
     }
     activeModals[id] = modal;
     modal._openModal()
