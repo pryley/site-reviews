@@ -2,8 +2,8 @@
 Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
-Tested up to: 6.1
-Stable tag: 6.6.3
+Tested up to: 6.2
+Stable tag: 6.7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -179,31 +179,12 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.6.3 (2023-03-14) =
+= 6.7.0 (2023-03-17) =
 
-- Fixed compatibility with [SiteGround Optimizer](https://wordpress.org/plugins/sg-cachepress/)
-- Fixed "site-reviews/get/review" hook usage
-- Fixed user name/email sanitization (allow overriding empty values via hooks)
-
-= 6.6.2 (2023-03-12) =
-
-- Fixed id attribute in setting fields
-- Fixed initials avatar image when name is empty or numerical
-- Fixed [Loyalty Program for WooCommerce](https://advancedcouponsplugin.com/woocommerce-loyalty-program/) from assigning points for unapproved reviews
-- Fixed Tinymce shortcode popup in Classic Editor
-- Fixed [WooCommerce Loyalty Points and Rewards](https://www.flycart.org/products/wordpress/wployalty) from assigning points for unapproved reviews
-- Fixed [WooRewards](https://wordpress.org/plugins/woorewards/) from assigning points for unapproved reviews
-
-= 6.6.1 (2023-03-11) =
-
-- Fixed AJAX pagination
-
-= 6.6.0 (2023-03-10) =
-
-- Added integration with [WooCommerce Loyalty Points and Rewards](https://www.flycart.org/products/wordpress/wployalty)
-- Fixed a [Broken Access Control vulnerability]() which allowed any logged-in user to clear the Site Reviews > Tools > Console.
-- Fixed a [Cross Site Scripting (XSS) vulnerability]() which allowed a logged-in user (with the edit_posts capability) to insert malicious javascript code into a block attribute when adding it to a page.
-- Fixed a [Cross Site Scripting (XSS) vulnerability]() which allowed a logged-in user (with the edit_posts capability) to insert malicious javascript code into a shortcode attribute when adding it to a page.
-- Fixed compatibility with [Perfect Brands for WooCommerce](https://wordpress.org/plugins/perfect-woocommerce-brands/)
+- Added support for the Review Authors addon
+- Fixed broken addon links
+- Fixed memory issue with modals
+- Renamed the "site-reviews/review/saved" hook to "site-reviews/review/updated"
+- Updated documentation on customising stars
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).

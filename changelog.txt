@@ -1,5 +1,13 @@
 == Changelog ==
 
+= 6.7.0 (2023-03-17) =
+
+- Added support for the Review Authors addon
+- Fixed broken addon links
+- Fixed memory issue with modals
+- Renamed the "site-reviews/review/saved" hook to "site-reviews/review/updated"
+- Updated documentation on customising stars
+
 = 6.6.2 (2023-03-12) =
 
 - Fixed id attribute in setting fields

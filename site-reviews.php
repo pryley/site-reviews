@@ -7,7 +7,7 @@
  * Plugin Name:          Site Reviews
  * Plugin URI:           https://wordpress.org/plugins/site-reviews
  * Description:          Receive and display reviews on your website
- * Version:              6.6.3
+ * Version:              6.7.0
  * Author:               Paul Ryley
  * Author URI:           https://geminilabs.io
  * License:              GPL3
@@ -17,7 +17,7 @@
  * Text Domain:          site-reviews
  * Domain Path:          languages
  * WC requires at least: 6.4
- * WC tested up to:      7.0
+ * WC tested up to:      7.5
  */
 defined('ABSPATH') || exit;
 

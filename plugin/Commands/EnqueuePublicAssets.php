@@ -60,6 +60,7 @@ class EnqueuePublicAssets implements Contract
             : false;
         $variables = [
             'action' => glsr()->prefix.'action',
+            'addons' => [],
             'ajaxpagination' => $this->getFixedSelectorsForPagination(),
             'ajaxurl' => admin_url('admin-ajax.php'),
             'captcha' => glsr(Captcha::class)->config(),
