@@ -8,6 +8,7 @@ use GeminiLabs\SiteReviews\Exceptions\LicenseException;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Modules\Notice;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 
 class SettingsController extends Controller
 {
@@ -37,6 +38,7 @@ class SettingsController extends Controller
             $options = $this->sanitizeLicenses($options, $input);
             $options = $this->sanitizeForms($options, $input);
             $options = $this->sanitizeStrings($options, $input);
+            $options = $this->sanitize($options);
             $options = glsr()->filterArray('settings/sanitize', $options, $settings);
             glsr()->action('settings/updated', $options, $settings);
             if (filter_input(INPUT_POST, 'option_page') === glsr()->id) {
@@ -46,6 +48,14 @@ class SettingsController extends Controller
             return $options;
         }
         return $input;
+    }
+
+    protected function sanitize(array $options): array
+    {
+        $values = Arr::flatten($options);
+        $sanitizers = wp_list_pluck(glsr()->settings(), 'sanitizer');
+        $options = (new Sanitizer($values, $sanitizers))->run();
+        return Arr::convertFromDotNotation($options);
     }
 
     protected function sanitizeForms(array $options, array $input): array
