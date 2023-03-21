@@ -355,7 +355,9 @@ class Builder
      */
     protected function buildFormTextarea()
     {
-        return $this->buildFormLabel().$this->buildDefaultElement($this->args->cast('value', 'string'));
+        return $this->buildFormLabel().$this->buildDefaultElement(
+            esc_html($this->args->cast('value', 'string'))
+        );
     }
 
     /**
