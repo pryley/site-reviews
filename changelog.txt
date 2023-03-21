@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 6.7.1 (2023-03-21) =
+
+- Fixed settings sanitization
+
 = 6.7.0 (2023-03-17) =
 
 - Added support for the Review Authors addon

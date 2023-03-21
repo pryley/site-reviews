@@ -34,11 +34,11 @@ class SettingsController extends Controller
         $settings = Arr::consolidate($input);
         if (1 === count($settings) && array_key_exists('settings', $settings)) {
             $options = array_replace_recursive(glsr(OptionManager::class)->all(), $input);
+            $options = $this->sanitizeForms($options, $input);
             $options = $this->sanitizeGeneral($options, $input);
             $options = $this->sanitizeLicenses($options, $input);
-            $options = $this->sanitizeForms($options, $input);
             $options = $this->sanitizeStrings($options, $input);
-            $options = $this->sanitize($options);
+            $options = $this->sanitizeAll($options);
             $options = glsr()->filterArray('settings/sanitize', $options, $settings);
             glsr()->action('settings/updated', $options, $settings);
             if (filter_input(INPUT_POST, 'option_page') === glsr()->id) {
@@ -50,7 +50,7 @@ class SettingsController extends Controller
         return $input;
     }
 
-    protected function sanitize(array $options): array
+    protected function sanitizeAll(array $options): array
     {
         $values = Arr::flatten($options);
         $sanitizers = wp_list_pluck(glsr()->settings(), 'sanitizer');
