@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 6.7.2 (2023-03-22) =
+
+- Fixed Unicode support in review name field
+
 = 6.7.1 (2023-03-21) =
 
 - Fixed settings sanitization
