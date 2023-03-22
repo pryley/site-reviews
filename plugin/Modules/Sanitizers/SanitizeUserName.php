@@ -6,7 +6,8 @@ class SanitizeUserName extends StringSanitizer
 {
     public function run(): string
     {
-        $value = sanitize_user($this->value(), true);
+        $value = sanitize_user($this->value());
+        $value = preg_replace('/[^\p{L}\p{N} _.\-@]/u', '', $value);
         if (defined('WP_IMPORTING')) {
             return $value;
         }
