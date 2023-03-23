@@ -6,6 +6,7 @@
 /*.lock      export-ignore
 /*.log       export-ignore
 /*.md        export-ignore
+/*.mjs       export-ignore
 /*.neon      export-ignore
 /*.paw       export-ignore
 /*.sh        export-ignore
