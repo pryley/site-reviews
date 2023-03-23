@@ -2,6 +2,7 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use GeminiLabs\SiteReviews\Database\Cache;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Modules\Avatars\InitialsAvatar;
@@ -36,20 +37,19 @@ class Avatar
             }
             $this->type = 'mystery'; // fallback to mystery if a custom url is not set
         }
-        if ('pixels' === $this->type) {
-            return $this->generatePixels($review);
-        }
         if ('initials' === $this->type) {
             return $this->generateInitials($review);
+        }
+        if ('none' === $this->type) {
+            $this->type = '';
+        }
+        if ('pixels' === $this->type) {
+            return $this->generatePixels($review);
         }
         return $this->type;
     }
 
-    /**
-     * @param int $size
-     * @return string
-     */
-    public function fallbackUrl(Review $review, $size = 0)
+    public function fallbackUrl(Review $review, int $size = 0): string
     {
         $fallbackUrl = $this->fallbackDefault($review);
         if ($fallbackUrl === $this->type) {
@@ -59,11 +59,7 @@ class Avatar
         return glsr()->filterString('avatar/fallback', $fallbackUrl, $size, $review);
     }
 
-    /**
-     * @param int $size
-     * @return string
-     */
-    public function generate(Review $review, $size = 0)
+    public function generate(Review $review, int $size = 0): string
     {
         $default = $this->fallbackDefault($review);
         if ($default !== $this->type) {
@@ -75,20 +71,13 @@ class Avatar
             'size' => $size,
         ]);
         $avatarUrl = glsr()->filterString('avatar/generate', $avatarUrl, $size, $review);
-        if (!$this->isUrl($avatarUrl)) {
-            return $this->fallbackUrl($review, $size);
-        }
-        if (200 !== Helper::remoteStatusCheck($avatarUrl)) {
-            // @todo generate the images with javascript on canvas to avoid this status check?
+        if (!$this->isUrl($avatarUrl) || !$this->isUrlOnline($avatarUrl)) {
             return $this->fallbackUrl($review, $size);
         }
         return $avatarUrl;
     }
 
-    /**
-     * @return string
-     */
-    public function generateInitials(Review $review)
+    public function generateInitials(Review $review): string
     {
         $name = $review->author;
         if (empty($review->author)) {
@@ -97,19 +86,12 @@ class Avatar
         return glsr(InitialsAvatar::class)->create($name);
     }
 
-    /**
-     * @return string
-     */
-    public function generatePixels(Review $review)
+    public function generatePixels(Review $review): string
     {
         return glsr(PixelAvatar::class)->create($this->userField($review));
     }
 
-    /**
-     * @param int $size
-     * @return string
-     */
-    public function img(Review $review, $size = 0)
+    public function img(Review $review, int $size = 0): string
     {
         $size = $this->size($size);
         $attributes = [
@@ -127,11 +109,7 @@ class Avatar
         return glsr(Builder::class)->img($attributes);
     }
 
-    /**
-     * @param int $size
-     * @return string
-     */
-    public function url(Review $review, $size = 0)
+    public function url(Review $review, int $size = 0): string
     {
         if ($this->isUrl($review->avatar)) {
             return $review->avatar;
@@ -139,20 +117,21 @@ class Avatar
         return $this->fallbackUrl($review, $size);
     }
 
-    /**
-     * @param mixed $url
-     * @return bool
-     */
-    protected function isUrl($url)
+    protected function isUrl(string $url): bool
     {
         return !empty(filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED));
     }
 
-    /**
-     * @param int $size
-     * @return int
-     */
-    protected function size($size = 0)
+    protected function isUrlOnline(string $url): bool
+    {
+        $key = md5(strtolower($url));
+        $status = glsr(Cache::class)->get($key, 'avatar', function () use ($url) {
+            return Helper::remoteStatusCheck($url);
+        }, HOUR_IN_SECONDS);
+        return 200 === $status;
+    }
+
+    protected function size(int $size = 0): int
     {
         $size = Cast::toInt($size);
         if ($size < 1) {
@@ -162,10 +141,7 @@ class Avatar
         return $size * 2; // @2x
     }
 
-    /**
-     * @return int|string
-     */
-    protected function userField(Review $review)
+    protected function userField(Review $review): string
     {
         if ($review->author_id) {
             $value = $review->author_id;

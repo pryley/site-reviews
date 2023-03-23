@@ -271,7 +271,7 @@ return [ // order is intentional
     ],
     'settings.reviews.avatars_fallback' => [
         'class' => 'regular-text',
-        'default' => 'mystery',
+        'default' => 'none',
         'depends_on' => [
             'settings.reviews.avatars' => 'yes',
         ],
@@ -282,6 +282,7 @@ return [ // order is intentional
             'initials' => _x('Initials (initials of reviewer\'s name)', 'admin-text', 'site-reviews'),
             'monsterid' => _x('Monster (monsters with generated faces)', 'admin-text', 'site-reviews'),
             'mystery' => _x('Mystery (silhouetted outline of a person)', 'admin-text', 'site-reviews'),
+            'none' => _x('None (select this if you want an avatar plugin to manage the fallback avatar)', 'admin-text', 'site-reviews'),
             'pixels' => _x('Pixel Avatars (locally generated)', 'admin-text', 'site-reviews'),
             'retro' => _x('Retro (8-bit arcade-style pixelated faces)', 'admin-text', 'site-reviews'),
             'robohash' => _x('Robohash (robots with generated faces)', 'admin-text', 'site-reviews'),
