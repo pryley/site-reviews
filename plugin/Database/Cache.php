@@ -27,13 +27,13 @@ class Cache
      * @param \Closure|null $callback
      * @return mixed
      */
-    public function get($key, $group, $callback = null)
+    public function get($key, $group, $callback = null, int $expire = 0)
     {
         $group = glsr()->prefix.$group;
         $value = wp_cache_get($key, $group);
         if (false === $value && $callback instanceof \Closure) {
             if ($value = $callback()) {
-                wp_cache_add($key, $value, $group);
+                wp_cache_add($key, $value, $group, $expire);
             }
         }
         return $value;
@@ -141,12 +141,13 @@ class Cache
     /**
      * @param string $key
      * @param string $group
+     * @param mixed $value
      * @return mixed
      */
-    public function store($key, $group, $value)
+    public function store($key, $group, $value, int $expire = 0)
     {
         $group = glsr()->prefix.$group;
-        wp_cache_set($key, $value, $group);
+        wp_cache_set($key, $value, $group, $expire);
         return $value;
     }
 }
