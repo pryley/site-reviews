@@ -103,7 +103,7 @@ const js = (id) => ({
 })
 
 export default [
-  js('site-reviews', ),
+  js('site-reviews'),
   // css('inline-styles'),
   // css('bootstrap_4', '.glsr-bootstrap_4'),
   // css('bootstrap_4_custom', '.glsr-bootstrap_4_custom'),
