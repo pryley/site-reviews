@@ -2,6 +2,9 @@
 
 foreach ($addons as $addon) {
     $plugin = sprintf('%1$s/%1$s.php', $addon::ID);
+    if (!is_plugin_active($plugin)) {
+        continue;
+    }
     $args = [
         'action' => 'deactivate',
         'plugin' => $plugin,
