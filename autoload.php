@@ -9,6 +9,12 @@ defined('ABSPATH') || exit;
 require_once __DIR__.'/vendors/symfony/polyfill-ctype/bootstrap.php';
 
 /**
+ * Provides a partial, native PHP implementation for the Iconv extension.
+ * @see https://github.com/symfony/polyfill-iconv
+ */
+require_once __DIR__.'/vendors/symfony/polyfill-iconv/bootstrap.php';
+
+/**
  * Provides a partial, native PHP implementation for the Mbstring extension.
  * @see https://github.com/symfony/polyfill-mbstring
  */
@@ -45,6 +51,7 @@ spl_autoload_register(function ($className) {
         'GeminiLabs\\Sinergi\\BrowserDetector\\' => __DIR__.'/vendors/sinergi/browser-detector/',
         'GeminiLabs\\Spatie\\Color\\' => __DIR__.'/vendors/spatie/color/',
         'GeminiLabs\\Symfony\\Polyfill\\Ctype\\' => __DIR__.'/vendors/symfony/polyfill-ctype/',
+        'GeminiLabs\\Symfony\\Polyfill\\Iconv\\' => __DIR__.'/vendors/symfony/polyfill-iconv/',
         'GeminiLabs\\Symfony\\Polyfill\\Mbstring\\' => __DIR__.'/vendors/symfony/polyfill-mbstring/',
         'GeminiLabs\\Symfony\\Polyfill\\Php80\\' => __DIR__.'/vendors/symfony/polyfill-php80/',
         'GeminiLabs\\Vectorface\\Whip\\' => __DIR__.'/vendors/vectorface/whip/',
