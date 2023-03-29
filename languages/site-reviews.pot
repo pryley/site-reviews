@@ -4669,12 +4669,12 @@ msgctxt "admin-text"
 msgid "You are using the free version of Site Reviews. %sPurchase premium%s to support future development and get images, filters, themes, custom forms, and more!"
 msgstr ""
 
-#: views/partials/notices/retired.php:18
+#: views/partials/notices/retired.php:21
 msgctxt "admin-text"
 msgid "The %s addon has been merged into Site Reviews. Please deactivate it."
 msgstr ""
 
-#: views/partials/notices/retired.php:25
+#: views/partials/notices/retired.php:28
 msgctxt "admin-text"
 msgid "Deactivate %s"
 msgstr ""

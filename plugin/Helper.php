@@ -199,9 +199,7 @@ class Helper
                 $profileId = (int) um_get_requested_user(); // Ultimate Member
             }
             if (empty($profileId) && is_author()) {
-                global $wp_query;
-                $author = $wp_query->get_queried_object();
-                $profileId = Arr::getAs('int', $author, 'ID');
+                $profileId = get_queried_object_id(); // is_author() ensures this is a User ID
             }
             return glsr()->filterInt('assigned_users/profile_id', $profileId);
         }

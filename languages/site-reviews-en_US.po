@@ -4671,12 +4671,12 @@ msgstr ""
 "support future development and get images, filters, themes, custom forms, "
 "and more!"
 
-#: views/partials/notices/retired.php:18
+#: views/partials/notices/retired.php:21
 msgctxt "admin-text"
 msgid "The %s addon has been merged into Site Reviews. Please deactivate it."
 msgstr "The %s addon has been merged into Site Reviews. Please deactivate it."
 
-#: views/partials/notices/retired.php:25
+#: views/partials/notices/retired.php:28
 msgctxt "admin-text"
 msgid "Deactivate %s"
 msgstr "Deactivate %s"

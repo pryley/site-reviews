@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 6.7.4 (2023-03-29) =
+
+- Fixed deactivation notice for retired addons
+- Fixed support for PHP versions that are missing the iconv extension
+- Fixed the Assigned Users "profile_id" value to support the WordPress author page
+
 = 6.7.3 (2023-03-23) =
 
 - Fixed compatibility with avatar plugins (change the Fallback Avatar setting to "None")
