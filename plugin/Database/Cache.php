@@ -124,10 +124,7 @@ class Cache
         return $test;
     }
 
-    /**
-     * @return array
-     */
-    public function getSystemInfo()
+    public function getSystemInfo(): array
     {
         if (false === ($data = get_transient(glsr()->prefix.'system_info'))) {
             add_filter('gettext_default', [glsr(TranslationController::class), 'filterEnglishTranslation'], 10, 2);
@@ -135,7 +132,7 @@ class Cache
             remove_filter('gettext_default', [glsr(TranslationController::class), 'filterEnglishTranslation'], 10);
             set_transient(glsr()->prefix.'system_info', $data, 12 * HOUR_IN_SECONDS);
         }
-        return $data;
+        return Arr::consolidate($data);
     }
 
     /**

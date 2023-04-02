@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 6.7.5 (2023-04-01) =
+
+- Fixed FAQ code example for sorting a Query Loop block by rating
+
 = 6.7.4 (2023-03-29) =
 
 - Fixed deactivation notice for retired addons

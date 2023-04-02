@@ -2,11 +2,9 @@
 
 namespace GeminiLabs\SiteReviews;
 
-use BadMethodCallException;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
-use ReflectionClass;
 
 /**
  * @property string $id
@@ -38,12 +36,12 @@ trait Plugin
             $filtered = call_user_func_array([$this, 'filter'], $args);
             return Cast::$to($filtered);
         }
-        throw new BadMethodCallException("Method [$method] does not exist.");
+        throw new \BadMethodCallException("Method [$method] does not exist.");
     }
 
     public function __construct()
     {
-        $file = wp_normalize_path((new ReflectionClass($this))->getFileName());
+        $file = wp_normalize_path((new \ReflectionClass($this))->getFileName());
         $this->file = str_replace('plugin/Application', $this->id, $file);
         $plugin = get_file_data($this->file, [
             'languages' => 'Domain Path',
