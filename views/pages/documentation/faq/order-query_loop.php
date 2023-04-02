@@ -30,11 +30,11 @@ add_filter('pre_render_block', function ($prerender, $block) {
     if ('core/query' !== $block['blockName']) {
         return $prerender;
     }
+    $metaKey = $block['attrs']['className'] ?? '';
     $metaKeys = ['_glsr_average', '_glsr_ranking', '_glsr_reviews'];
-    if (empty($block['attrs']['className']) || !array_key_exists($block['attrs']['className'], $metaKeys)) {
+    if (!in_array($metaKey, $metaKeys)) {
         return $prerender;
     }
-    $metaKey = $metaKeys[$block['attrs']['className']];
     add_filter('query_loop_block_query_vars', function ($query) use ($metaKey) {
         $query['meta_query'] = [
             'relation' => 'OR',
