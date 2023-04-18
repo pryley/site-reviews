@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Helpers;
 
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
+use GeminiLabs\SiteReviews\Modules\Sanitizers\SanitizeTextHtml;
 
 class Text
 {
@@ -104,10 +105,7 @@ class Text
      */
     public static function normalize($text)
     {
-        $allowedHtml = wp_kses_allowed_html();
-        $allowedHtml['mark'] = []; // allow using the <mark> tag to highlight text
-        $text = Cast::toString($text);
-        $text = wp_kses($text, $allowedHtml);
+        $text = (new SanitizeTextHtml($text))->run();
         $text = strip_shortcodes($text);
         $text = excerpt_remove_blocks($text); // just in case...
         $text = str_replace(']]>', ']]&gt;', $text);
