@@ -44,10 +44,10 @@ class PermissionDefaults extends DefaultsAbstract
             'tools' => [
                 'console' => 'edit_others_posts',
                 'general' => 'edit_others_posts',
-                'index' => 'edit_posts',
+                'index' => 'edit_others_posts',
                 'scheduled' => 'edit_others_posts',
                 'sync' => 'edit_others_posts',
-                'system-info' => 'edit_posts',
+                'system-info' => 'edit_others_posts',
             ],
             'welcome' => [
                 'getting-started' => 'edit_posts',
