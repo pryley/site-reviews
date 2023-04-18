@@ -2,60 +2,36 @@
 
 namespace GeminiLabs\SiteReviews\Helpers;
 
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Sanitizers\SanitizeTextHtml;
 
 class Text
 {
-    /**
-     * @param string $text
-     * @param int $limit
-     * @param bool $splitWords
-     * @return string
-     */
-    public static function excerpt($text, $limit = 55, $splitWords = true)
+    public static function excerpt(string $text, int $limit = 55, bool $splitWords = true): string
     {
+        $map = [];
         $text = static::normalize($text);
+        // replace tags with placeholder
+        $text = preg_replace_callback('|<([a-z+])[^>]*?>.*?</\\1>|siu', function ($match) use (&$map) {
+            $map[] = $match[0];
+            return '⍈';
+        }, $text);
         $excerptLength = $limit;
         if ($splitWords) {
             $excerpt = static::words($text, $limit);
             $excerptLength = mb_strlen($excerpt);
         }
-        $paragraphs = preg_split('/\R+/um', $text);
-        $paragraphs = array_map('trim', $paragraphs);
-        foreach ($paragraphs as &$paragraph) {
-            $paragraphLength = mb_strlen($paragraph);
-            if ($excerptLength >= $paragraphLength) {
-                $paragraph = sprintf('<p>%s</p>', $paragraph);
-                $excerptLength -= $paragraphLength;
-                continue;
-            }
-            if ($excerptLength > 0) {
-                $hidden = mb_substr($paragraph, $excerptLength);
-                $visible = mb_substr($paragraph, 0, $excerptLength);
-                $paragraph = glsr(Builder::class)->p([
-                    'class' => 'glsr-hidden-text',
-                    'data-show-less' => __('Show less', 'site-reviews'),
-                    'data-show-more' => __('Show more', 'site-reviews'),
-                    'data-trigger' => glsr_get_option('reviews.excerpts_action') ?: 'expand',
-                    'text' => sprintf('%s<span class="glsr-hidden">%s</span>', $visible, $hidden),
-                ]);
-                $excerptLength = 0;
-                continue;
-            }
-            $paragraph = sprintf('<p class="glsr-hidden">%s</p>', $paragraph);
-        }
+        $paragraphs = static::extractParagraphs($text, $excerptLength);
         $text = implode(PHP_EOL, $paragraphs);
+        $i = 0;
+        // replace placeholder with tags
+        $text = preg_replace_callback('|⍈|u', function ($match) use (&$i, $map) {
+            return $map[$i++];
+        }, $text);
         return $text;
     }
 
-    /**
-     * @param string $name
-     * @param string $initialPunctuation
-     * @return string
-     */
-    public static function initials($name, $initialPunctuation = '')
+    public static function initials(string $name, string $initialPunctuation = ''): string
     {
         preg_match_all('/(?<=\s|\b)\p{L}/u', (string) $name, $matches); // match the first letter of each word in the name
         $result = (string) array_reduce($matches[0], function ($carry, $word) use ($initialPunctuation) {
@@ -67,12 +43,10 @@ class Text
     }
 
     /**
-     * @param string $name
      * @param string $nameFormat  first|first_initial|last_initial|initials
      * @param string $initialType  period|period_space|space
-     * @return string
      */
-    public static function name($name, $nameFormat = '', $initialType = 'space')
+    public static function name(string $name, string $nameFormat = '', string $initialType = 'space'): string
     {
         $names = preg_split('/\W/u', $name, 0, PREG_SPLIT_NO_EMPTY);
         $firstName = array_shift($names);
@@ -92,18 +66,14 @@ class Text
         $lastNameInitial = $lastName ? static::initials($lastName).$initialPunctuation : '';
         $nameFormats = [
             'first' => $firstName,
-            'first_initial' => $firstNameInitial.$lastName, 
+            'first_initial' => $firstNameInitial.$lastName,
             'last' => $lastName,
             'last_initial' => $firstName.' '.$lastNameInitial,
         ];
         return trim((string) Arr::get($nameFormats, $nameFormat, $name));
     }
 
-    /**
-     * @param string $text
-     * @return string
-     */
-    public static function normalize($text)
+    public static function normalize(string $text): string
     {
         $text = (new SanitizeTextHtml($text))->run();
         $text = strip_shortcodes($text);
@@ -120,11 +90,7 @@ class Text
         return $text;
     }
 
-    /**
-     * @param string $text
-     * @return string
-     */
-    public static function text($text)
+    public static function text(string $text): string
     {
         $text = static::normalize($text);
         $text = preg_split('/\R+/um', $text); // split text by line-breaks
@@ -133,12 +99,25 @@ class Text
         return wpautop($text);
     }
 
-    /**
-     * @param string $text
-     * @param int $limit
-     * @return string
-     */
-    public static function words($text, $limit = 0)
+    public static function wordCount(string $text): int
+    {
+        $text = wp_strip_all_tags($text, true);
+        if (!extension_loaded('intl')) {
+            return count(preg_split('/[^\p{L}\p{N}\']+/u', $text));
+        }
+        $text = \Normalizer::normalize($text);
+        $iterator = \IntlRuleBasedBreakIterator::createWordInstance('');
+        $iterator->setText($text);
+        $wordCount = 0;
+        foreach ($iterator->getPartsIterator() as $part) {
+            if (\IntlBreakIterator::WORD_NONE !== $iterator->getRuleStatus()) {
+                ++$wordCount;
+            }
+        }
+        return $wordCount;
+    }
+
+    public static function words(string $text, int $limit = 0): string
     {
         $stringLength = extension_loaded('intl')
             ? static::excerptIntlSplit($text, $limit)
@@ -146,12 +125,7 @@ class Text
         return mb_substr($text, 0, $stringLength);
     }
 
-    /**
-     * @param string $text
-     * @param int $limit
-     * @return int
-     */
-    protected static function excerptIntlSplit($text, $limit)
+    protected static function excerptIntlSplit(string $text, int $limit): int
     {
         $text = \Normalizer::normalize($text);
         $iterator = \IntlRuleBasedBreakIterator::createWordInstance('');
@@ -160,7 +134,7 @@ class Text
         $wordCount = 0;
         foreach ($iterator->getPartsIterator() as $part) {
             $stringLength += mb_strlen($part);
-            if ($iterator->getRuleStatus() === \IntlBreakIterator::WORD_NONE) {
+            if (\IntlBreakIterator::WORD_NONE === $iterator->getRuleStatus()) {
                 continue;
             }
             if (++$wordCount === $limit) {
@@ -170,17 +144,44 @@ class Text
         return $stringLength;
     }
 
-    /**
-     * @param string $text
-     * @param int $limit
-     * @return int
-     */
-    protected static function excerptSplit($text, $limit)
+    protected static function excerptSplit(string $text, int $limit): int
     {
         preg_match('/^\s*+(?:\S++\s*+){1,'.$limit.'}/u', $text, $matches);
         if (mb_strlen($text) === mb_strlen($matches[0] ?? '')) {
             return mb_strlen($text);
         }
         return mb_strlen(rtrim($matches[0]));
+    }
+
+    protected static function extractParagraphs(string $text, int $length): array
+    {
+        $paragraphs = preg_split('/\R+/um', $text);
+        $paragraphs = array_map('trim', $paragraphs);
+        foreach ($paragraphs as &$paragraph) {
+            $paragraphLength = mb_strlen($paragraph);
+            if ($length >= $paragraphLength) {
+                $paragraph = sprintf('<p>%s</p>', $paragraph);
+                $length -= $paragraphLength;
+                continue;
+            }
+            if ($length > 0) {
+                $hidden = mb_substr($paragraph, $length);
+                $visible = mb_substr($paragraph, 0, $length);
+                $paragraph = glsr(Builder::class)->p([
+                    'class' => 'glsr-hidden-text',
+                    'data-show-less' => __('Show less', 'site-reviews'),
+                    'data-show-more' => __('Show more', 'site-reviews'),
+                    'data-trigger' => glsr_get_option('reviews.excerpts_action') ?: 'expand',
+                    'text' => sprintf('%s<span class="glsr-hidden">%s</span>', $visible, $hidden),
+                ]);
+                $length = 0;
+                continue;
+            }
+            $paragraph = glsr(Builder::class)->p([
+                'class' => 'glsr-hidden',
+                'text' => $paragraph,
+            ]);
+        }
+        return $paragraphs;
     }
 }
