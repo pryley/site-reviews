@@ -881,7 +881,7 @@ return [ // order is intentional
         'min' => 0,
         'max' => 1,
         'step' => 0.1,
-        'sanitizer' => 'int',
+        'sanitizer' => 'float',
         'tooltip' => _x('Where 0 is a robot and 1 is a human', 'admin-text', 'site-reviews'),
         'type' => 'number',
     ],
