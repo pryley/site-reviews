@@ -52,6 +52,7 @@
     site-reviews/api/base_url                                   (string $url): string
     site-reviews/assets/css                                     (bool $loadCss): bool
     site-reviews/assets/js                                      (bool $loadJs): bool
+    site-reviews/assets/use-local                               (bool $useLocalAssets): bool
     site-reviews/assigned_posts/parent_id                       (int $postId): int
     site-reviews/assigned_posts/post_id                         (int $postId): int
     site-reviews/assigned_users/author_id                       (int $userId): int
