@@ -2,40 +2,43 @@
 
 namespace GeminiLabs\SiteReviews\Notices;
 
-use GeminiLabs\SiteReviews\License;
-
 class PremiumNotice extends AbstractNotice
 {
-    public function render(): void
-    {
-        $licensing = glsr(License::class)->status();
-        if ($licensing['isSaved'] && $licensing['isValid']) {
-            return;
-        }
-        if ($this->isDismissed() && $licensing['isValid']) {
-            return;
-        }
-        glsr()->render('partials/notices/premium', $licensing);
-    }
-
     protected function canRender(): bool
     {
-        if (!$this->hasPermission()) {
+        if (empty(glsr()->retrieveAs('array', 'site-reviews-premium'))) {
             return false;
         }
-        if (!$this->isNoticeScreen()) {
-            return false;
-        }
+        return parent::canRender();
+    }
+
+    protected function data(): array
+    {
+        return [
+            'addons' => glsr()->retrieveAs('array', 'site-reviews-premium'),
+        ];
+    }
+
+    protected function hasPermission(): bool
+    {
         return true;
     }
 
-    protected function isMonitored(): bool
+    protected function isDismissible(): bool
     {
         return false;
     }
 
-    protected function version(): string
+    protected function isNoticeScreen(): bool
     {
-        return glsr()->version('minor');
+        $screen = glsr_current_screen();
+        $screenIds = ['dashboard', 'plugins', 'update-core'];
+        if (in_array($screen->id, $screenIds)) {
+            return true;
+        }
+        if (method_exists($screen, 'in_admin') && $screen->in_admin('network')) {
+            return true;
+        }
+        return parent::isNoticeScreen();
     }
 }

@@ -1,25 +1,33 @@
-<?php defined('ABSPATH') || exit; ?>
+<?php defined('ABSPATH') || exit;
 
-<div class="glsr-notice glsr-notice-top-of-page" data-dismiss="premium">
-<?php
-    if ($isFree) {
-        printf(_x('You are using the free version of Site Reviews. %sPurchase premium%s to support future development and get images, filters, themes, custom forms, and more!', 'admin-text', 'site-reviews'),
-            '<a href="https://niftyplugins.com/plugins/site-reviews-premium/" target="_blank">',
-            '</a>'
-        );
-    } elseif (!$isValid) {
-        printf(
-            _x('One or more of your licenses have expired. %sRenew your license%s to get the latest updates and priority support.', 'admin-text', 'site-reviews'),
-            '<a href="https://niftyplugins.com/account/license-keys/" target="_blank">',
-            '</a>'
-        );
-    } else {
-        printf(
-            _x('One or more addons are not receiving updates. %sSave your license%s in the settings to get the latest updates and priority support.', 'admin-text', 'site-reviews'),
-            '<a href="'.glsr_admin_url('settings', 'licenses').'">',
-            '</a>'
-        );
+foreach ($addons as $addon) {
+    $plugin = sprintf('%1$s/%1$s.php', $addon::ID);
+    if (!is_plugin_active($plugin)) {
+        continue;
     }
+    $args = [
+        'action' => 'deactivate',
+        'plugin' => $plugin,
+        'plugin_status' => 'all',
+    ];
+    $url = add_query_arg($args, self_admin_url('plugins.php'));
+    $url = wp_nonce_url($url, 'deactivate-plugin_'.$plugin);
+    $hasAction = get_current_screen()->in_admin('network')
+        ? current_user_can('manage_network_plugins')
+        : current_user_can('deactivate_plugin', $plugin);
 ?>
-    <button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
+<div class="notice notice-warning is-dismissible glsr-notice" data-dismiss="premium">
+    <p>
+        <?= sprintf(_x('The %s addon is included in the Site Reviews Premium plugin. Please deactivate it.', 'admin-text', 'site-reviews'),
+            '<strong>'.$addon::NAME.'</strong>'
+        ); ?>
+    </p>
+    <?php if ($hasAction) { ?>
+        <p class="glsr-notice-buttons">
+            <a class="button button-primary" href="<?= $url; ?>">
+                <?= sprintf(_x('Deactivate %s', 'admin-text', 'site-reviews'), $addon::NAME); ?>
+            </a>
+        </p>
+    <?php } ?>
 </div>
+<?php } ?>

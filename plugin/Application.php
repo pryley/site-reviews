@@ -217,11 +217,15 @@ final class Application extends Container
             'site-reviews-gamipress',
             'site-reviews-woocommerce',
         ];
+        $premium = glsr()->filterArray('site-reviews-premium', []);
         try {
             $reflection = new \ReflectionClass($addon); // make sure that the class exists
             $addon = $reflection->getName();
             if (in_array($addon::ID, $retired)) {
                 $this->append('retired', $addon);
+            } elseif (in_array($addon::ID, $premium) 
+                && !str_starts_with($reflection->getNamespaceName(), 'GeminiLabs\SiteReviewsPremium')) {
+                $this->append('site-reviews-premium', $addon);
             } else {
                 $this->addons[$addon::ID] = $addon;
                 $this->singleton($addon); // this goes first!
