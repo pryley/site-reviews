@@ -1712,7 +1712,7 @@ msgctxt "admin-text"
 msgid "You have hidden all of the fields for this block."
 msgstr ""
 
-#: plugin/Blocks/SiteReviewsBlock.php:126, plugin/Helpers/Text.php:39
+#: plugin/Blocks/SiteReviewsBlock.php:126, plugin/Helpers/Text.php:173
 msgid "Show more"
 msgstr ""
 
@@ -2826,7 +2826,7 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-#: plugin/Helpers/Text.php:38
+#: plugin/Helpers/Text.php:172
 msgid "Show less"
 msgstr ""
 
@@ -4629,6 +4629,21 @@ msgid_plural "%s needs an update to work with the following plugins: %s"
 msgstr[0] ""
 msgstr[1] ""
 
+#: views/partials/notices/license.php:18
+msgctxt "admin-text"
+msgid "One or more addons are not receiving updates. %sSave your license%s in the settings to get the latest updates and priority support."
+msgstr ""
+
+#: views/partials/notices/license.php:12
+msgctxt "admin-text"
+msgid "One or more of your licenses have expired. %sRenew your license%s to get the latest updates and priority support."
+msgstr ""
+
+#: views/partials/notices/license.php:6
+msgctxt "admin-text"
+msgid "You are using the free version of Site Reviews. %sPurchase premium%s to support future development and get images, filters, themes, custom forms, and more!"
+msgstr ""
+
 #: views/partials/notices/migration.php:5
 msgctxt "admin-text"
 msgid "Site Reviews needs to migrate your reviews and settings to the latest version. If this notice continues to appear after 5 minutes, please read the %s section on the Help page."
@@ -4654,29 +4669,19 @@ msgctxt "admin-text"
 msgid "Run Migration"
 msgstr ""
 
-#: views/partials/notices/premium.php:18
+#: views/partials/notices/premium.php:21
 msgctxt "admin-text"
-msgid "One or more addons are not receiving updates. %sSave your license%s in the settings to get the latest updates and priority support."
+msgid "The %s addon is included in the Site Reviews Premium plugin. Please deactivate it."
 msgstr ""
 
-#: views/partials/notices/premium.php:12
-msgctxt "admin-text"
-msgid "One or more of your licenses have expired. %sRenew your license%s to get the latest updates and priority support."
-msgstr ""
-
-#: views/partials/notices/premium.php:6
-msgctxt "admin-text"
-msgid "You are using the free version of Site Reviews. %sPurchase premium%s to support future development and get images, filters, themes, custom forms, and more!"
-msgstr ""
-
-#: views/partials/notices/retired.php:21
-msgctxt "admin-text"
-msgid "The %s addon has been merged into Site Reviews. Please deactivate it."
-msgstr ""
-
-#: views/partials/notices/retired.php:28
+#: views/partials/notices/premium.php:28, views/partials/notices/retired.php:29
 msgctxt "admin-text"
 msgid "Deactivate %s"
+msgstr ""
+
+#: views/partials/notices/retired.php:22
+msgctxt "admin-text"
+msgid "The %s addon has been merged into Site Reviews. Please deactivate it."
 msgstr ""
 
 #: views/partials/notices/upgraded.php:5

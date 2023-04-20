@@ -1,5 +1,6 @@
 <?php defined('ABSPATH') || exit;
 
+$screen = get_current_screen();
 foreach ($addons as $addon) {
     $plugin = sprintf('%1$s/%1$s.php', $addon::ID);
     if (!is_plugin_active($plugin)) {
@@ -12,7 +13,7 @@ foreach ($addons as $addon) {
     ];
     $url = add_query_arg($args, self_admin_url('plugins.php'));
     $url = wp_nonce_url($url, 'deactivate-plugin_'.$plugin);
-    $hasAction = get_current_screen()->in_admin('network')
+    $hasAction = ($screen && $screen->in_admin('network'))
         ? current_user_can('manage_network_plugins')
         : current_user_can('deactivate_plugin', $plugin);
 ?>

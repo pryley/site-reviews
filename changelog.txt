@@ -1,5 +1,13 @@
 == Changelog ==
 
+= 6.7.6 (2023-04-20) =
+
+- Added support for the upcoming Site Reviews Premium plugin.
+- Fixed excerpt compatibility with HTML tags (well...sort of: HTML tag pairs (i.e. <a>...</a>) are now counted as a single word regardless of the number of words inside the tag)
+- Fixed link attributes in review responses
+- Fixed System Info permissions
+- Fixed the reCAPTCHA v3 Threshold setting
+
 = 6.7.5 (2023-04-01) =
 
 - Fixed FAQ code example for sorting a Query Loop block by rating

@@ -88,7 +88,7 @@ msgstr "Tell us your email"
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
-#: plugin/Blocks/SiteReviewsBlock.php:126, plugin/Helpers/Text.php:39
+#: plugin/Blocks/SiteReviewsBlock.php:126, plugin/Helpers/Text.php:173
 msgid "Show more"
 msgstr "Show more"
 
@@ -204,7 +204,7 @@ msgstr ""
 msgid "and"
 msgstr "and"
 
-#: plugin/Helpers/Text.php:38
+#: plugin/Helpers/Text.php:172
 msgid "Show less"
 msgstr "Show less"
 
@@ -4611,6 +4611,35 @@ msgid_plural "%s needs an update to work with the following plugins: %s"
 msgstr[0] "%s needs an update to work with %s."
 msgstr[1] "%s needs an update to work with the following plugins: %s"
 
+#: views/partials/notices/license.php:18
+msgctxt "admin-text"
+msgid ""
+"One or more addons are not receiving updates. %sSave your license%s in the "
+"settings to get the latest updates and priority support."
+msgstr ""
+"One or more addons are not receiving updates. %sSave your license%s in the "
+"settings to get the latest updates and priority support."
+
+#: views/partials/notices/license.php:12
+msgctxt "admin-text"
+msgid ""
+"One or more of your licenses have expired. %sRenew your license%s to get "
+"the latest updates and priority support."
+msgstr ""
+"One or more of your licenses have expired. %sRenew your license%s to get "
+"the latest updates and priority support."
+
+#: views/partials/notices/license.php:6
+msgctxt "admin-text"
+msgid ""
+"You are using the free version of Site Reviews. %sPurchase premium%s to "
+"support future development and get images, filters, themes, custom forms, "
+"and more!"
+msgstr ""
+"You are using the free version of Site Reviews. %sPurchase premium%s to "
+"support future development and get images, filters, themes, custom forms, "
+"and more!"
+
 #: views/partials/notices/migration.php:5
 msgctxt "admin-text"
 msgid ""
@@ -4642,44 +4671,24 @@ msgctxt "admin-text"
 msgid "Run Migration"
 msgstr "Run Migration"
 
-#: views/partials/notices/premium.php:18
+#: views/partials/notices/premium.php:21
 msgctxt "admin-text"
 msgid ""
-"One or more addons are not receiving updates. %sSave your license%s in the "
-"settings to get the latest updates and priority support."
+"The %s addon is included in the Site Reviews Premium plugin. Please "
+"deactivate it."
 msgstr ""
-"One or more addons are not receiving updates. %sSave your license%s in the "
-"settings to get the latest updates and priority support."
+"The %s addon is included in the Site Reviews Premium plugin. Please "
+"deactivate it."
 
-#: views/partials/notices/premium.php:12
-msgctxt "admin-text"
-msgid ""
-"One or more of your licenses have expired. %sRenew your license%s to get "
-"the latest updates and priority support."
-msgstr ""
-"One or more of your licenses have expired. %sRenew your license%s to get "
-"the latest updates and priority support."
-
-#: views/partials/notices/premium.php:6
-msgctxt "admin-text"
-msgid ""
-"You are using the free version of Site Reviews. %sPurchase premium%s to "
-"support future development and get images, filters, themes, custom forms, "
-"and more!"
-msgstr ""
-"You are using the free version of Site Reviews. %sPurchase premium%s to "
-"support future development and get images, filters, themes, custom forms, "
-"and more!"
-
-#: views/partials/notices/retired.php:21
-msgctxt "admin-text"
-msgid "The %s addon has been merged into Site Reviews. Please deactivate it."
-msgstr "The %s addon has been merged into Site Reviews. Please deactivate it."
-
-#: views/partials/notices/retired.php:28
+#: views/partials/notices/premium.php:28, views/partials/notices/retired.php:29
 msgctxt "admin-text"
 msgid "Deactivate %s"
 msgstr "Deactivate %s"
+
+#: views/partials/notices/retired.php:22
+msgctxt "admin-text"
+msgid "The %s addon has been merged into Site Reviews. Please deactivate it."
+msgstr "The %s addon has been merged into Site Reviews. Please deactivate it."
 
 #: views/partials/notices/upgraded.php:12
 msgctxt "admin-text"
