@@ -212,7 +212,19 @@
         height: 30px;
     }
 }
-
+@media screen and (max-width: 782px) {
+    .glsr-metabox-field.glsr-field-choice .glsr-input label {
+        font-size: 16px;
+        line-height: 1.8;
+    }
+    .glsr-metabox-field.glsr-field-choice .glsr-input {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 6px 12px;
+        vertical-align: top;
+    }
+}
 
 
 .glsr-toggle {
