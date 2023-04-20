@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 6.7.7 (2023-04-21) =
+
+- Fixed Divi plugin style button icon position
+
 = 6.7.6 (2023-04-20) =
 
 - Added support for the upcoming Site Reviews Premium plugin.

@@ -18,6 +18,13 @@
     --glsr-toggle-h: 20px;
 }
 
+:root .et-db:not(.et_button_left) .glsr-divi .et_pb_button::after {
+    right: 1em;
+}
+:root .et-db:not(.et_button_left) .glsr-divi .et_pb_button:hover::after {
+    right: .15em;
+}
+
 :--namespace form.glsr-hide-form {
     max-height: 0 !important;
     opacity: 0;
