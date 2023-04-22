@@ -10,19 +10,9 @@ use GeminiLabs\SiteReviews\Review;
 class Notification
 {
     /**
-     * @var bool
-     */
-    protected $email;
-
-    /**
      * @var Review
      */
     protected $review;
-
-    /**
-     * @var bool
-     */
-    protected $slack;
 
     /**
      * @var array
@@ -31,10 +21,7 @@ class Notification
 
     public function __construct()
     {
-        $types = glsr(OptionManager::class)->getArray('settings.general.notifications');
-        $this->email = count(array_intersect(['admin', 'custom'], $types)) > 0;
-        $this->slack = in_array('slack', $types);
-        $this->types = $types;
+        $this->types = glsr(OptionManager::class)->getArray('settings.general.notifications');
     }
 
     /**
@@ -47,10 +34,11 @@ class Notification
         }
         $this->review = $review;
         $args = [
-            'link' => $this->getLink(),
             'title' => $this->getTitle(),
+            'url' => $this->getPermalink(),
         ];
         $this->sendToEmail($args);
+        $this->sendToDiscord($args);
         $this->sendToSlack($args);
     }
 
@@ -75,25 +63,13 @@ class Notification
                 'review_content' => $this->review->content,
                 'review_email' => $this->review->email,
                 'review_ip' => $this->review->ip_address,
-                'review_link' => sprintf('<a href="%1$s">%1$s</a>', $args['link']),
+                'review_link' => sprintf('<a href="%1$s">%1$s</a>', $args['url']),
                 'review_rating' => $this->review->rating,
                 'review_title' => $this->review->title,
                 'site_title' => get_bloginfo('name'),
                 'site_url' => get_bloginfo('url'),
             ],
         ], $data);
-    }
-
-    /**
-     * @return Slack
-     */
-    protected function buildSlackNotification(array $args)
-    {
-        return glsr(Slack::class)->compose($this->review, [
-            'button_url' => $args['link'],
-            'fallback' => $this->buildEmail($args)->read('plaintext'),
-            'pretext' => $args['title'],
-        ]);
     }
 
     /**
@@ -159,7 +135,7 @@ class Notification
     /**
      * @return string
      */
-    protected function getLink()
+    protected function getPermalink()
     {
         return admin_url('post.php?post='.$this->review->ID.'&action=edit');
     }
@@ -189,10 +165,23 @@ class Notification
         return glsr()->filterString('notification/title', $title, $this->review);
     }
 
-    /**
-     * @return void
-     */
-    protected function sendToEmail(array $args)
+    protected function sendToDiscord(array $args): void
+    {
+        if (!in_array('discord', $this->types)) {
+            return;
+        }
+        $discord = glsr(Discord::class)->compose($this->review, [
+            'content' => $args['title'],
+            'edit_url' => $args['url'],
+        ]);
+        $result = $discord->send();
+        if (is_wp_error($result)) {
+            unset($discord->review);
+            glsr_log()->error($result->get_error_message())->debug($discord);
+        }
+    }
+
+    protected function sendToEmail(array $args): void
     {
         $email = $this->buildEmail($args);
         if (empty($email->to)) {
@@ -202,19 +191,19 @@ class Notification
         $email->send();
     }
 
-    /**
-     * @return void
-     */
-    protected function sendToSlack(array $args)
+    protected function sendToSlack(array $args): void
     {
-        if (!$this->slack) {
+        if (!in_array('slack', $this->types)) {
             return;
         }
-        $notification = $this->buildSlackNotification($args);
-        $result = $notification->send();
+        $slack = glsr(Slack::class)->compose($this->review, [
+            'button_url' => $args['url'],
+            'pretext' => $args['title'],
+        ]);
+        $result = $slack->send();
         if (is_wp_error($result)) {
-            unset($notification->review);
-            glsr_log()->error($result->get_error_message())->debug($notification);
+            unset($slack->review);
+            glsr_log()->error($result->get_error_message())->debug($slack);
         }
     }
 }

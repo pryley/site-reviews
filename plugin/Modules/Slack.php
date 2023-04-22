@@ -2,12 +2,12 @@
 
 namespace GeminiLabs\SiteReviews\Modules;
 
+use GeminiLabs\SiteReviews\Contracts\WebhookContract;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\SlackDefaults;
 use GeminiLabs\SiteReviews\Review;
-use WP_Error;
 
-class Slack
+class Slack implements WebhookContract
 {
     /**
      * @var string
@@ -30,7 +30,7 @@ class Slack
     }
 
     /**
-     * @return Slack
+     * @return WebhookContract
      */
     public function compose(Review $review, array $notification)
     {
@@ -55,12 +55,12 @@ class Slack
     }
 
     /**
-     * @return WP_Error|array
+     * @return \WP_Error|array
      */
     public function send()
     {
         if (empty($this->endpoint)) {
-            return new WP_Error('slack', 'Slack notification was not sent: missing endpoint');
+            return new \WP_Error('slack', 'Slack notification was not sent: missing endpoint');
         }
         return wp_remote_post($this->endpoint, [
             'blocking' => false,

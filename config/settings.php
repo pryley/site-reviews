@@ -131,16 +131,41 @@ return [ // order is intentional
             'admin' => _x('Send to administrator', 'admin-text', 'site-reviews').' <code>'.(string) get_option('admin_email').'</code>',
             'author' => _x('Send to author of the page that the review is assigned to', 'admin-text', 'site-reviews'),
             'custom' => _x('Send to one or more email addresses', 'admin-text', 'site-reviews'),
+            'discord' => _x('Send to <a href="https://discord.com/" target="_blank">Discord</a> channel', 'admin-text', 'site-reviews'),
             'slack' => _x('Send to <a href="https://slack.com/" target="_blank">Slack</a>', 'admin-text', 'site-reviews'),
         ],
         'sanitizer' => 'array-string',
         'tooltip' => _x('Select the notification recipients.', 'admin-text', 'site-reviews'),
         'type' => 'checkbox',
     ],
+    'settings.general.notification_discord' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.general.notifications' => ['discord'],
+        ],
+        'label' => _x('Discord Webhook URL', 'admin-text', 'site-reviews'),
+        'sanitizer' => 'url',
+        'tooltip' => sprintf(_x('To send notifications to a Discord channel, %s and then paste the URL in the field.', 'admin-text', 'site-reviews'),
+            '<a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank">'._x('create a new webhook', 'admin-text', 'site-reviews').'</a>'
+        ),
+        'type' => 'text',
+    ],
+    'settings.general.notification_slack' => [
+        'default' => '',
+        'depends_on' => [
+            'settings.general.notifications' => ['slack'],
+        ],
+        'label' => _x('Slack Webhook URL', 'admin-text', 'site-reviews'),
+        'sanitizer' => 'url',
+        'tooltip' => sprintf(_x('To send notifications to Slack, %s and then paste the provided URL in the field.', 'admin-text', 'site-reviews'),
+            '<a href="https://api.slack.com/incoming-webhooks" target="_blank">'._x('create a new Incoming Webhook', 'admin-text', 'site-reviews').'</a>'
+        ),
+        'type' => 'text',
+    ],
     'settings.general.notification_from' => [
         'default' => '',
         'depends_on' => [
-            'settings.general.notifications' => ['admin', 'author', 'custom', 'slack'],
+            'settings.general.notifications' => ['admin', 'author', 'custom'],
         ],
         'label' => _x('Send Emails From', 'admin-text', 'site-reviews'),
         'placeholder' => get_option('admin_email'),
@@ -159,22 +184,10 @@ return [ // order is intentional
         'tooltip' => _x('Separate multiple emails with a comma', 'admin-text', 'site-reviews'),
         'type' => 'text',
     ],
-    'settings.general.notification_slack' => [
-        'default' => '',
-        'depends_on' => [
-            'settings.general.notifications' => ['slack'],
-        ],
-        'label' => _x('Slack Webhook URL', 'admin-text', 'site-reviews'),
-        'sanitizer' => 'url',
-        'tooltip' => sprintf(_x('To send notifications to Slack, create a new %s and then paste the provided Webhook URL in the field above.', 'admin-text', 'site-reviews'),
-            '<a href="https://api.slack.com/incoming-webhooks" target="_blank">'._x('Incoming WebHook', 'admin-text', 'site-reviews').'</a>'
-        ),
-        'type' => 'text',
-    ],
     'settings.general.notification_message' => [
         'default' => glsr('Modules\Html\Template')->build('templates/notification'),
         'depends_on' => [
-            'settings.general.notifications' => ['admin', 'author', 'custom', 'slack'],
+            'settings.general.notifications' => ['admin', 'author', 'custom'],
         ],
         'description' => glsr('Modules\Html\TemplateTags')->description(['exclude' => ['admin_email']]),
         'label' => _x('Notification Template', 'admin-text', 'site-reviews'),
