@@ -14,6 +14,7 @@ class TextTest extends WP_UnitTestCase
 {
     public function test_initials()
     {
+        $this->assertEquals(Text::initials((string) null, ' '), '');
         $this->assertEquals(Text::initials('Steve', ' '), 'S');
         $this->assertEquals(Text::initials('Steve', '.'), 'S.');
         $this->assertEquals(Text::initials('Steve', '. '), 'S.');

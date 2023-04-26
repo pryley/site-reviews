@@ -49,8 +49,8 @@ class Text
     public static function name(string $name, string $nameFormat = '', string $initialType = 'space'): string
     {
         $names = preg_split('/\W/u', $name, 0, PREG_SPLIT_NO_EMPTY);
-        $firstName = array_shift($names);
-        $lastName = array_pop($names);
+        $firstName = (string) array_shift($names);
+        $lastName = (string) array_pop($names);
         $nameFormat = Str::restrictTo('first,first_initial,last_initial,initials', $nameFormat, '');
         $initialType = Str::restrictTo('period,period_space,space', $initialType, 'space');
         $initialTypes = [

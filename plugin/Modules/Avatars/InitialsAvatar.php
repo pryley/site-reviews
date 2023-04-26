@@ -38,7 +38,7 @@ class InitialsAvatar extends SvgAvatar
      */
     protected function filename($from)
     {
-        $initials = Text::initials($from);
+        $initials = Text::initials((string) $from);
         if (1 === mb_strlen($initials)) {
             $initials = mb_substr(trim($from), 0, 2, 'UTF-8');
             $initials = mb_strtoupper($initials, 'UTF-8');
