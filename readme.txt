@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.2
-Stable tag: 6.7.7
+Stable tag: 6.8.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -179,46 +179,9 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.7.7 (2023-04-21) =
+= 6.8.0 (2023-04-26) =
 
-- Fixed Divi plugin style button icon position
-
-= 6.7.6 (2023-04-20) =
-
-- Added support for the upcoming Site Reviews Premium plugin.
-- Fixed excerpt compatibility with HTML tags (well...sort of: HTML tag pairs (i.e. <a>...</a>) are now counted as a single word regardless of the number of words inside the tag)
-- Fixed link attributes in review responses
-- Fixed System Info permissions
-- Fixed the reCAPTCHA v3 Threshold setting
-
-= 6.7.5 (2023-04-01) =
-
-- Fixed FAQ code example for sorting a Query Loop block by rating
-
-= 6.7.4 (2023-03-29) =
-
-- Fixed deactivation notice for retired addons
-- Fixed support for PHP versions that are missing the iconv extension
-- Fixed the Assigned Users "profile_id" value to support the WordPress author page
-
-= 6.7.3 (2023-03-23) =
-
-- Fixed compatibility with avatar plugins (change the Fallback Avatar setting to "None")
-
-= 6.7.2 (2023-03-22) =
-
-- Fixed Unicode support in review name field
-
-= 6.7.1 (2023-03-21) =
-
-- Fixed settings sanitization
-
-= 6.7.0 (2023-03-17) =
-
-- Added support for the Review Authors addon
-- Fixed broken addon links
-- Fixed memory issue with modals
-- Renamed the "site-reviews/review/saved" hook to "site-reviews/review/updated"
-- Updated documentation on customising stars
+- Added "Send to Discord channel" notification setting
+- Fixed name initials when reviewer's name is empty
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).

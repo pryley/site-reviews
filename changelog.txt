@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 6.8.0 (2023-04-26) =
+
+- Added "Send to Discord channel" notification setting
+- Fixed name initials when reviewer's name is empty
+
 = 6.7.7 (2023-04-21) =
 
 - Fixed Divi plugin style button icon position

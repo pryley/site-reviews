@@ -38,6 +38,12 @@ glsr_get_ratings(array $args = []);</code></pre>
 $ratingInfo = apply_filters('glsr_get_ratings', null, [
     'assigned_posts' => 'post_id',
 ]);</code></pre>
+        <p>The function returns an object with the following keys:</p>
+        <pre><code class="language-php">$ratingInfo->average // The average rating
+$ratingInfo->maximum // The maximum rating
+$ratingInfo->minimum // The minimum rating
+$ratingInfo->ranking // The ranking number
+$ratingInfo->ratings // An array, the key is the rating level, the value is the number of reviews for the rating level</code></pre>
         <p><strong>Helpful Tips:</strong></p>
         <ol>
             <li>
