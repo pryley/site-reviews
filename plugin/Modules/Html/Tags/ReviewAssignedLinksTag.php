@@ -17,20 +17,17 @@ class ReviewAssignedLinksTag extends ReviewTag
     public static function assignedLinks($value)
     {
         $links = [];
-        $usedIds = [];
         foreach (Arr::consolidate($value) as $postId) {
             $postId = glsr(Multilingual::class)->getPostId(Helper::getPostId($postId));
-            if (!empty($postId) && !in_array($postId, $usedIds)) {
+            if (!empty($postId) && !array_key_exists($postId, $links)) {
                 $title = get_the_title($postId);
                 if (empty(trim($title))) {
                     $title = _x('No title', 'admin-text', 'site-reviews');
                 }
-                $links[] = glsr(Builder::class)->a([
+                $links[$postId] = glsr(Builder::class)->a([
                     'href' => get_the_permalink($postId),
                     'text' => $title,
                 ]);
-                $usedIds[] = $postId;
-                $usedIds = Arr::unique($usedIds);
             }
         }
         return $links;
