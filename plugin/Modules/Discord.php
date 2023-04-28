@@ -3,8 +3,9 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Contracts\WebhookContract;
-use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\DiscordDefaults;
+use GeminiLabs\SiteReviews\Helper;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Review;
 
 class Discord implements WebhookContract
@@ -40,13 +41,13 @@ class Discord implements WebhookContract
         $this->review = $review;
         $args = glsr(DiscordDefaults::class)->restrict($args);
         $notification = [
-            'content' => esc_html($args['content']),
+            'content' => $args['content'],
             'embeds' => [[
                 'color' => $args['color'],
                 'description' => $this->description(), // rating and content
                 'fields' => $this->fields(),
                 'title' => $this->title(),
-                'url' =>  esc_url($args['edit_url']),
+                'url' => esc_url($args['edit_url']),
             ]],
         ];
         $this->notification = glsr()->filterArray('discord/compose', $notification, $this);
@@ -70,9 +71,33 @@ class Discord implements WebhookContract
         ]);
     }
 
+    protected function assignedLinks(): string
+    {
+        $links = [];
+        foreach ($this->review->assigned_posts as $postId) {
+            $postId = glsr(Multilingual::class)->getPostId(Helper::getPostId($postId));
+            if (!empty($postId) && !array_key_exists($postId, $links)) {
+                $title = get_the_title($postId);
+                if (empty(trim($title))) {
+                    $title = _x('No title', 'admin-text', 'site-reviews');
+                }
+                $links[$postId] = sprintf('[%s](%s)', $title, get_the_permalink($postId));
+            }
+        }
+        if (!empty($links)) {
+            return sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($links));
+        }
+        return '';
+    }
+
     protected function description(): string
     {
-        return $this->rating().PHP_EOL.PHP_EOL.$this->review->content;
+        $parts = [
+            $this->rating(),
+            $this->assignedLinks(),
+            $this->review->content,
+        ];
+        return implode(PHP_EOL.PHP_EOL, $parts);
     }
 
     protected function fields(): array
