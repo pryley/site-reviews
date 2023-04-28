@@ -23,7 +23,6 @@ class DiscordDefaults extends DefaultsAbstract
      * @var array
      */
     public $sanitize = [
-        'avatar_url' => 'url',
         'edit_url' => 'url',
     ];
 
@@ -33,11 +32,9 @@ class DiscordDefaults extends DefaultsAbstract
     protected function defaults()
     {
         return [
-            'avatar_url' => glsr()->url('assets/images/icon.png'),
             'color' => '#FAF089',
             'content' => '',
             'edit_url' => '',
-            'username' => glsr()->name,
         ];
     }
 

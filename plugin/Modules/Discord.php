@@ -40,7 +40,6 @@ class Discord implements WebhookContract
         $this->review = $review;
         $args = glsr(DiscordDefaults::class)->restrict($args);
         $notification = [
-            'avatar_url' => esc_url($args['avatar_url']),
             'content' => esc_html($args['content']),
             'embeds' => [[
                 'color' => $args['color'],
@@ -49,7 +48,6 @@ class Discord implements WebhookContract
                 'title' => $this->title(),
                 'url' =>  esc_url($args['edit_url']),
             ]],
-            'username' => esc_html($args['username']),
         ];
         $this->notification = glsr()->filterArray('discord/compose', $notification, $this);
         return $this;
