@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.2
-Stable tag: 6.8.0
+Stable tag: 6.8.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -30,6 +30,7 @@ Site Reviews provides more features and options than almost every other free rev
 - __Bayesian Ranking__: Easily sort pages with assigned reviews by rank (using the bayesian algorithm) in your custom WP_Query
 - __Blacklist__: Block review submissions which contain specific words, phrases, IP addresses, names, and emails
 - __Developer Friendly__: Designed for WordPress developers with over 200 hooks and convenient functions
+- __Discord Integration__: Receive notifications in Discord when a review is submitted
 - __Documentation__: FAQ and documenation for all shortcodes and functions
 - __Editor Blocks__: Use the custom editor blocks in the Gutenberg editor
 - __Elementor Support__: Use the native Elementor Widgets in the Elementor editor
@@ -178,6 +179,11 @@ You can report any security bugs found in the source code of this plugin through
 This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after upgrading.
 
 == Changelog ==
+
+= 6.8.1 (2023-04-27) =
+
+- Added Assigned Links to Discord notifications
+- Fixed Discord notification avatar and username (i.e. Site Reviews now uses the values configured in the Discord Webhook)
 
 = 6.8.0 (2023-04-26) =
 

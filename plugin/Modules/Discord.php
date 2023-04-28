@@ -81,7 +81,7 @@ class Discord implements WebhookContract
                 if (empty(trim($title))) {
                     $title = _x('No title', 'admin-text', 'site-reviews');
                 }
-                $links[$postId] = sprintf('[%s](%s)', $title, get_the_permalink($postId));
+                $links[$postId] = sprintf('[%s](%s)', $title, (string) get_the_permalink($postId));
             }
         }
         if (!empty($links)) {

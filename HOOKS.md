@@ -96,6 +96,9 @@
     site-reviews/defaults/<defaults_name>/sanitize              (array $sanitize, string $method): array
     site-reviews/defer-scripts                                  (array $scripts): array
     site-reviews/devmode                                        (bool $bool): bool
+    site-reviews/discord/compose                                (array $notification, Modules\Discord $discord): array
+    site-reviews/discord/fields                                 (array $fields, Review $review): array
+    site-reviews/discord/stars                                  (string $stars, int $rating, int $maxRating): string
     site-reviews/documentation/faq                              (array $paths): array
     site-reviews/documentation/functions                        (array $paths): array
     site-reviews/documentation/hooks                            (array $paths): array
