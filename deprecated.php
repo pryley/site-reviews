@@ -68,6 +68,17 @@ add_action('plugins_loaded', function () {
             do_action('site-reviews/review/saved', $review, $data);
         }
     }, 10, 2);
+
+    /**
+     * @since 6.9.0
+     */
+    add_filter('site-reviews/slack/notification', function ($notification) {
+        if (has_filter('site-reviews/slack/compose')) {
+            $message = 'The "site-reviews/slack/compose" hook has been deprecated. Please use the "site-reviews/slack/notification" hook instead.';
+            glsr()->append('deprecated', $message);
+        }
+        return $notification;
+    });
 });
 
 add_action('plugins_loaded', function () {

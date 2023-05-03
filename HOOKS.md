@@ -96,8 +96,8 @@
     site-reviews/defaults/<defaults_name>/sanitize              (array $sanitize, string $method): array
     site-reviews/defer-scripts                                  (array $scripts): array
     site-reviews/devmode                                        (bool $bool): bool
-    site-reviews/discord/compose                                (array $notification, Modules\Discord $discord): array
     site-reviews/discord/fields                                 (array $fields, Review $review): array
+    site-reviews/discord/notification                           (array $notification, Modules\Discord $discord): array
     site-reviews/discord/stars                                  (string $stars, int $rating, int $maxRating): string
     site-reviews/documentation/faq                              (array $paths): array
     site-reviews/documentation/functions                        (array $paths): array
@@ -201,7 +201,8 @@
     site-reviews/shortcode/args                                 (array $args, string $shortcodeName): array
     site-reviews/shortcode/display-options                      (array $displayOptions, string $shortcode): array
     site-reviews/shortcode/hide-options                         (array $hideOptions, string $shortcode): array
-    site-reviews/slack/compose                                  (array $notification, Modules\Slack $slack): array
+    site-reviews/slack/fields                                   (array $fields, Review $review): array
+    site-reviews/slack/notification                             (array $notification, Modules\Slack $slack): array
     site-reviews/slack/stars                                    (string $stars, int $rating, int $maxRating): string
     site-reviews/style                                          (string $style): string
     site-reviews/style/views                                    (array $views): array

@@ -53,7 +53,7 @@ class Slack implements WebhookContract
         ];
         $blocks = array_values(array_filter($blocks));
         $notification = compact('blocks');
-        $this->notification = glsr()->filterArray('slack/compose', $notification, $this);
+        $this->notification = glsr()->filterArray('slack/notification', $notification, $this);
         return $this;
     }
 

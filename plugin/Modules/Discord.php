@@ -53,7 +53,7 @@ class Discord implements WebhookContract
                 'url' => esc_url($this->args['edit_url']),
             ]],
         ];
-        $this->notification = glsr()->filterArray('discord/compose', $notification, $this);
+        $this->notification = glsr()->filterArray('discord/notification', $notification, $this);
         return $this;
     }
 
