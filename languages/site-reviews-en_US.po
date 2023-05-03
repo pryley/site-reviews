@@ -40,7 +40,7 @@ msgstr[1] "%s stars or less"
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
 
-#: plugin/Review.php:160, plugin/Modules/Avatar.php:84, plugin/Modules/Notification.php:61
+#: plugin/Review.php:160, plugin/Modules/Avatar.php:84, plugin/Modules/Notification.php:96
 msgid "Anonymous"
 msgstr "Anonymous"
 
@@ -128,10 +128,6 @@ msgstr "Previous"
 msgid "Review not found."
 msgstr "Review not found."
 
-#: plugin/Defaults/SlackDefaults.php:13
-msgid "View Review"
-msgstr "View Review"
-
 #: plugin/Defaults/ValidationStringsDefaults.php:13
 msgid "This field must be accepted."
 msgstr "This field must be accepted."
@@ -208,13 +204,25 @@ msgstr "and"
 msgid "Show less"
 msgstr "Show less"
 
+#: plugin/Metaboxes/AssignedPostsMetabox.php:38, plugin/Modules/Discord.php:134, plugin/Modules/Notification.php:64, plugin/Modules/Slack.php:169
+msgid "(no title)"
+msgstr "(no title)"
+
 #: plugin/Modules/Avatar.php:98
 msgid "Avatar for %s"
 msgstr "Avatar for %s"
 
-#: plugin/Modules/Discord.php:88, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:44, plugin/Modules/Html/Tags/ReviewAssignedPostsTag.php:26, plugin/Modules/Html/Tags/ReviewAssignedTermsTag.php:16, plugin/Modules/Html/Tags/ReviewAssignedUsersTag.php:16
+#: plugin/Modules/Discord.php:85, plugin/Modules/Slack.php:89, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:44, plugin/Modules/Html/Tags/ReviewAssignedPostsTag.php:26, plugin/Modules/Html/Tags/ReviewAssignedTermsTag.php:16, plugin/Modules/Html/Tags/ReviewAssignedUsersTag.php:16
 msgid "Review of %s"
 msgstr "Review of %s"
+
+#: plugin/Modules/Notification.php:140
+msgid "New %s-star review"
+msgstr "New %s-star review"
+
+#: plugin/Modules/Notification.php:144
+msgid "New %s-star review of %s"
+msgstr "New %s-star review of %s"
 
 #: plugin/Modules/Paginate.php:59
 msgid "&hellip;"
@@ -3170,11 +3178,6 @@ msgctxt "admin-text"
 msgid "View review"
 msgstr "View review"
 
-#: plugin/Metaboxes/AssignedPostsMetabox.php:38
-msgctxt "admin-text"
-msgid "(no title)"
-msgstr "(no title)"
-
 #: plugin/Metaboxes/AuthorMetabox.php:21, plugin/Metaboxes/AuthorMetabox.php:39, plugin/Controllers/ListTableColumns/ColumnFilterAuthor.php:31, views/partials/screen/inline-edit.php:76
 msgctxt "admin-text"
 msgid "Author"
@@ -3200,15 +3203,15 @@ msgctxt "admin-text"
 msgid "Console was automatically cleared (512KB maximum size)"
 msgstr "Console was automatically cleared (512KB maximum size)"
 
-#: plugin/Modules/Discord.php:82, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:25
-msgctxt "admin-text"
-msgid "No title"
-msgstr "No title"
-
 #: plugin/Modules/Notice.php:140, views/pages/tools/sync.php:28
 msgctxt "admin-text"
 msgid "Show more details"
 msgstr "Show more details"
+
+#: plugin/Modules/Notification.php:50, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:25
+msgctxt "admin-text"
+msgid "No title"
+msgstr "No title"
 
 #: plugin/Modules/Translation.php:132
 msgctxt "admin-text"
@@ -4502,7 +4505,7 @@ msgctxt "admin-text"
 msgid "Syncing..."
 msgstr "Syncing..."
 
-#: views/pages/tools/system-info.php:8
+#: views/pages/tools/system-info.php:11
 msgctxt "admin-text"
 msgid "Download System Info"
 msgstr "Download System Info"
@@ -6183,15 +6186,6 @@ msgid "A moment ago"
 msgid_plural "Now"
 msgstr[0] "A moment ago"
 msgstr[1] "Now"
-
-#: plugin/Modules/Notification.php:154
-msgctxt ""
-"This string differs depending on whether or not the review has been "
-"assigned to a post."
-msgid "New %s-star review"
-msgid_plural "New %s-star review of %s"
-msgstr[0] "New %s-star review"
-msgstr[1] "New %s-star review of %s"
 
 #: plugin/Overrides/ScheduledActionsTable.php:461
 msgctxt "%s: time interval (admin-text)"

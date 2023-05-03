@@ -11,8 +11,5 @@ interface WebhookContract
      */
     public function compose(Review $review, array $notification);
 
-    /**
-     * @return \WP_Error|array
-     */
-    public function send();
+    public function send(): bool;
 }

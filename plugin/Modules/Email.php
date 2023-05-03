@@ -99,13 +99,13 @@ class Email
     }
 
     /**
-     * @return void|bool
+     * @return bool
      */
     public function send()
     {
         if (!$this->message || !$this->subject || !$this->to) {
             glsr_log()->warning('The email was not sent because it is missing either the email address, subject, or message.');
-            return;
+            return false;
         }
         add_action('wp_mail_failed', [$this, 'logMailError']);
         $sent = wp_mail(

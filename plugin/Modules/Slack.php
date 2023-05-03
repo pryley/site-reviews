@@ -3,16 +3,16 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Contracts\WebhookContract;
-use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Defaults\SlackDefaults;
+use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Review;
 
 class Slack implements WebhookContract
 {
     /**
-     * @var string
+     * @var array
      */
-    public $endpoint;
+    public $args;
 
     /**
      * @var array
@@ -24,122 +24,156 @@ class Slack implements WebhookContract
      */
     public $review;
 
+    /**
+     * @var string
+     */
+    public $webhook;
+
     public function __construct()
     {
-        $this->endpoint = glsr(OptionManager::class)->get('settings.general.notification_slack');
+        $this->webhook = glsr_get_option('general.notification_slack');
     }
 
     /**
      * @return WebhookContract
      */
-    public function compose(Review $review, array $notification)
+    public function compose(Review $review, array $args)
     {
-        if (empty($this->endpoint)) {
+        if (empty($this->webhook)) {
             return $this;
         }
-        $args = shortcode_atts(glsr(SlackDefaults::class)->defaults(), $notification);
+        $this->args = glsr(SlackDefaults::class)->restrict($args);
         $this->review = $review;
-        $notification = [
-            'icon_url' => $args['icon_url'],
-            'username' => $args['username'],
-            'attachments' => [[
-                'actions' => $this->buildAction($args),
-                'pretext' => $args['pretext'],
-                'color' => $args['color'],
-                'fallback' => $args['fallback'],
-                'fields' => $this->buildFields(),
-            ]],
+        $blocks = [
+            $this->header(),
+            $this->title(),
+            $this->assignedLinks(),
+            $this->content(),
+            $this->fields(),
         ];
+        $blocks = array_values(array_filter($blocks));
+        $notification = compact('blocks');
         $this->notification = glsr()->filterArray('slack/compose', $notification, $this);
         return $this;
     }
 
-    /**
-     * @return \WP_Error|array
-     */
-    public function send()
+    public function send(): bool
     {
-        if (empty($this->endpoint)) {
-            return new \WP_Error('slack', 'Slack notification was not sent: missing endpoint');
+        if (empty($this->webhook)) {
+            $result = new \WP_Error('slack', 'Slack notification was not sent: missing webhook');
+        } else {
+            $result = wp_remote_post($this->webhook, [
+                'blocking' => false,
+                'body' => wp_json_encode($this->notification),
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                ],
+            ]);
         }
-        return wp_remote_post($this->endpoint, [
-            'blocking' => false,
-            'body' => json_encode($this->notification),
-            'headers' => ['Content-Type' => 'application/json'],
-            'httpversion' => '1.0',
-            'method' => 'POST',
-            'redirection' => 5,
-            'timeout' => 45,
-        ]);
+        if (is_wp_error($result)) {
+            glsr_log()->error($result->get_error_message())->debug($this->notification);
+            return false;
+        }
+        return true;
     }
 
-    /**
-     * @return array
-     */
-    protected function buildAction(array $args)
+    protected function assignedLinks(): array
     {
-        return [[
-            'text' => $args['button_text'],
-            'type' => 'button',
-            'url' => $args['button_url'],
-        ]];
+        if (empty($this->args['assigned_links'])) {
+            return [];
+        }
+        return [
+           'type' => 'section',
+           'text' => [
+               'type' => 'mrkdwn',
+               'text' => sprintf(__('Review of %s', 'site-reviews'), $this->args['assigned_links']),
+           ],
+        ];
     }
 
-    /**
-     * @return array
-     */
-    protected function buildAuthorField()
+    protected function content(): array
     {
-        $email = !empty($this->review->email)
-            ? '<'.$this->review->email.'>'
-            : '';
-        $author = trim(rtrim($this->review->author).' '.$email);
-        return ['value' => implode(' - ', array_filter([$author, $this->review->ip_address]))];
+        if (empty(trim($this->review->content))) {
+            return [];
+        }
+        return [
+            'type' => 'section',
+            'text' => [
+                'type' => 'mrkdwn',
+                'text' => trim($this->review->content),
+            ],
+        ];
     }
 
-    /**
-     * @return array
-     */
-    protected function buildContentField()
-    {
-        return !empty($this->review->content)
-            ? ['value' => $this->review->content]
-            : [];
-    }
-
-    /**
-     * @return array
-     */
-    protected function buildFields()
+    protected function fields(): array
     {
         $fields = [
-            $this->buildStarsField(),
-            $this->buildTitleField(),
-            $this->buildContentField(),
-            $this->buildAuthorField(),
+            'name' => [
+                'name' => 'Name',
+                'value' => $this->review->name,
+            ],
+            'email' => [
+                'name' => 'Email',
+                'value' => $this->review->email,
+            ],
+            'ip_address' => [
+                'name' => 'IP Address',
+                'value' => $this->review->ip_address,
+            ],
         ];
-        return array_values(array_filter($fields));
+        $fields = glsr()->filterArray('slack/fields', $fields, $this->review);
+        foreach ($fields as $key => $values) {
+            $name = Arr::get($values, 'name');
+            $value = Arr::get($values, 'value');
+            if (empty($name) || empty($value)) {
+                continue;
+            }
+            $fields[$key] = [
+                'type' => 'mrkdwn',
+                'text' => sprintf('*%s:* %s', $name, $value),
+            ];
+        }
+        $fields = array_values($fields);
+        if (empty($fields)) {
+            return [];
+        }
+        return [
+            'type' => 'section',
+            'fields' => $fields,
+        ];
     }
 
-    /**
-     * @return array
-     */
-    protected function buildStarsField()
+    protected function header(): array
+    {
+        return [
+            'type' => 'header',
+            'text' => [
+                'type' => 'plain_text',
+                'text' => $this->args['header'],
+            ],
+        ];
+    }
+
+    protected function rating(): string
     {
         $solidStars = str_repeat('★', $this->review->rating);
         $emptyStars = str_repeat('☆', max(0, glsr()->constant('MAX_RATING', Rating::class) - $this->review->rating));
         $stars = $solidStars.$emptyStars;
-        $stars = glsr()->filterString('slack/stars', $stars, $this->review->rating, glsr()->constant('MAX_RATING', Rating::class));
-        return ['title' => $stars];
+        return glsr()->filterString('slack/stars', $stars, $this->review->rating, glsr()->constant('MAX_RATING', Rating::class));
     }
 
-    /**
-     * @return array
-     */
-    protected function buildTitleField()
+    protected function title(): array
     {
-        return !empty($this->review->title)
-            ? ['title' => $this->review->title]
-            : [];
+        $title = trim($this->review->title);
+        if (empty($title)) {
+            $title = __('(no title)', 'site-reviews');
+        }
+        return [
+            'type' => 'section',
+            'text' => [
+                'type' => 'mrkdwn',
+                'text' => sprintf("<%s|%s>\n%s", $this->args['edit_url'], $title, $this->rating()),
+            ],
+        ];
     }
 }

@@ -1564,7 +1564,7 @@ msgctxt "admin-text"
 msgid "The [%s] method has been deprecated and will be soon be removed, please use the [%s] method instead."
 msgstr ""
 
-#: plugin/Review.php:160, plugin/Modules/Avatar.php:84, plugin/Modules/Notification.php:61
+#: plugin/Review.php:160, plugin/Modules/Avatar.php:84, plugin/Modules/Notification.php:96
 msgid "Anonymous"
 msgstr ""
 
@@ -2648,10 +2648,6 @@ msgstr ""
 msgid "Review not found."
 msgstr ""
 
-#: plugin/Defaults/SlackDefaults.php:13
-msgid "View Review"
-msgstr ""
-
 #: plugin/Defaults/TemplateTagsDefaults.php:13
 msgctxt "admin-text"
 msgid "The admin email from your WordPress settings"
@@ -2850,8 +2846,7 @@ msgstr ""
 msgid "Show less"
 msgstr ""
 
-#: plugin/Metaboxes/AssignedPostsMetabox.php:38
-msgctxt "admin-text"
+#: plugin/Metaboxes/AssignedPostsMetabox.php:38, plugin/Modules/Discord.php:134, plugin/Modules/Notification.php:64, plugin/Modules/Slack.php:169
 msgid "(no title)"
 msgstr ""
 
@@ -3038,12 +3033,7 @@ msgid_plural "Now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugin/Modules/Discord.php:82, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:25
-msgctxt "admin-text"
-msgid "No title"
-msgstr ""
-
-#: plugin/Modules/Discord.php:88, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:44, plugin/Modules/Html/Tags/ReviewAssignedPostsTag.php:26, plugin/Modules/Html/Tags/ReviewAssignedTermsTag.php:16, plugin/Modules/Html/Tags/ReviewAssignedUsersTag.php:16
+#: plugin/Modules/Discord.php:85, plugin/Modules/Slack.php:89, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:44, plugin/Modules/Html/Tags/ReviewAssignedPostsTag.php:26, plugin/Modules/Html/Tags/ReviewAssignedTermsTag.php:16, plugin/Modules/Html/Tags/ReviewAssignedUsersTag.php:16
 msgid "Review of %s"
 msgstr ""
 
@@ -3052,12 +3042,18 @@ msgctxt "admin-text"
 msgid "Show more details"
 msgstr ""
 
-#: plugin/Modules/Notification.php:154
-msgctxt "This string differs depending on whether or not the review has been assigned to a post."
+#: plugin/Modules/Notification.php:50, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:25
+msgctxt "admin-text"
+msgid "No title"
+msgstr ""
+
+#: plugin/Modules/Notification.php:140
 msgid "New %s-star review"
-msgid_plural "New %s-star review of %s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
+
+#: plugin/Modules/Notification.php:144
+msgid "New %s-star review of %s"
+msgstr ""
 
 #: plugin/Modules/Paginate.php:59
 msgid "&hellip;"
@@ -4514,7 +4510,7 @@ msgctxt "admin-text"
 msgid "Syncing..."
 msgstr ""
 
-#: views/pages/tools/system-info.php:8
+#: views/pages/tools/system-info.php:11
 msgctxt "admin-text"
 msgid "Download System Info"
 msgstr ""

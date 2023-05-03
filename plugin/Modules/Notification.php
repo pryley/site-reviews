@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
+use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Review;
@@ -21,91 +22,92 @@ class Notification
 
     public function __construct()
     {
-        $this->types = glsr(OptionManager::class)->getArray('settings.general.notifications');
+        $this->types = glsr_get_option('general.notifications', [], 'array');
     }
 
-    /**
-     * @return void
-     */
-    public function send(Review $review)
+    public function send(Review $review): void
     {
-        if (empty($this->types)) {
-            return;
-        }
         $this->review = $review;
-        $args = [
-            'title' => $this->getTitle(),
-            'url' => $this->getPermalink(),
-        ];
-        $this->sendToEmail($args);
-        $this->sendToDiscord($args);
-        $this->sendToSlack($args);
+        if (!empty(array_intersect(['admin', 'author', 'custom'], $this->types))) {
+            $this->sendToEmail();
+        }
+        if (in_array('discord', $this->types)) {
+            $this->sendToDiscord();
+        }
+        if (in_array('slack', $this->types)) {
+            $this->sendToSlack();
+        }
     }
 
-    /**
-     * @return Email
-     */
-    protected function buildEmail(array $args)
+    protected function assignedLinks($format = '<a href="%1$s">%1$s</a>'): string
     {
-        $data = [
-            'args' => $args,
-            'review' => $this->review,
-        ];
-        return glsr(Email::class)->compose([
-            'to' => $this->getEmailAddresses(),
-            'subject' => $args['title'],
-            'template' => 'default',
-            'template-tags' => [
-                'review_assigned_posts' => $this->getAssignedPostTitles(),
-                'review_assigned_users' => $this->getAssignedUserTitles(),
-                'review_author' => $this->review->author ?: __('Anonymous', 'site-reviews'),
-                'review_categories' => $this->getAssignedCategories(),
-                'review_content' => $this->review->content,
-                'review_email' => $this->review->email,
-                'review_ip' => $this->review->ip_address,
-                'review_link' => sprintf('<a href="%1$s">%1$s</a>', $args['url']),
-                'review_rating' => $this->review->rating,
-                'review_title' => $this->review->title,
-                'site_title' => get_bloginfo('name'),
-                'site_url' => get_bloginfo('url'),
-            ],
-        ], $data);
+        $links = [];
+        foreach ($this->review->assigned_posts as $postId) {
+            $postId = glsr(Multilingual::class)->getPostId(Helper::getPostId($postId));
+            if (!empty($postId) && !array_key_exists($postId, $links)) {
+                $title = get_the_title($postId);
+                if (empty(trim($title))) {
+                    $title = _x('No title', 'admin-text', 'site-reviews');
+                }
+                $links[$postId] = sprintf('<a href="%s">%s</a>', (string) get_the_permalink($postId), $title);
+            }
+        }
+        return Str::naturalJoin($links);
     }
 
-    /**
-     * @return string
-     */
-    protected function getAssignedCategories()
+    protected function assignedPosts(): string
+    {
+        $posts = $this->review->assignedPosts();
+        $postTitles = wp_list_pluck($posts, 'post_title');
+        array_walk($postTitles, function (&$title) {
+            if (empty(trim($title))) {
+                $title = __('(no title)', 'site-reviews');
+            }
+        });
+        return Str::naturalJoin($postTitles);
+    }
+
+    protected function assignedTerms(): string
     {
         $terms = $this->review->assignedTerms();
         $termNames = array_filter(wp_list_pluck($terms, 'name'));
         return Str::naturalJoin($termNames);
     }
 
-    /**
-     * @return string
-     */
-    protected function getAssignedPostTitles()
-    {
-        $posts = $this->review->assignedPosts();
-        $postTitles = array_filter(wp_list_pluck($posts, 'post_title'));
-        return Str::naturalJoin($postTitles);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getAssignedUserTitles()
+    protected function assignedUsers(): string
     {
         $users = $this->review->assignedUsers();
         $userNames = array_filter(wp_list_pluck($users, 'display_name'));
         return Str::naturalJoin($userNames);
     }
 
-    /**
-     * @return array
-     */
-    protected function getEmailAddresses()
+    protected function buildEmail(): array
+    {
+        $assignedTerms = $this->assignedTerms();
+        return [
+            'to' => $this->emailAddresses(),
+            'subject' => $this->notificationTitle(true),
+            'template' => 'default',
+            'template-tags' => [
+                'review_assigned_posts' => $this->assignedPosts(),
+                'review_assigned_users' => $this->assignedUsers(),
+                'review_assigned_terms' => $assignedTerms,
+                'review_assigned_links' => $this->assignedLinks(),
+                'review_author' => $this->review->author ?: __('Anonymous', 'site-reviews'),
+                'review_categories' => $assignedTerms,
+                'review_content' => $this->review->content,
+                'review_email' => $this->review->email,
+                'review_ip' => $this->review->ip_address,
+                'review_link' => sprintf('<a href="%1$s">%1$s</a>', $this->permalink()),
+                'review_rating' => $this->review->rating,
+                'review_title' => $this->review->title,
+                'site_title' => get_bloginfo('name'),
+                'site_url' => get_bloginfo('url'),
+            ],
+        ];
+    }
+
+    protected function emailAddresses(): array
     {
         $emails = [];
         if (in_array('admin', $this->types)) {
@@ -132,78 +134,50 @@ class Notification
         return $emails;
     }
 
-    /**
-     * @return string
-     */
-    protected function getPermalink()
+    protected function notificationTitle(bool $withPostAssignment = false): string
+    {
+        $siteTitle = wp_specialchars_decode(glsr(OptionManager::class)->getWP('blogname'), ENT_QUOTES);
+        $title = sprintf(__('New %s-star review', 'site-reviews'), $this->review->rating);
+        if ($withPostAssignment) {
+            $postAssignments = $this->assignedPosts();
+            if (!empty($postAssignments)) {
+                $title = sprintf(__('New %s-star review of %s', 'site-reviews'), $this->review->rating, $postAssignments);
+            }
+        }
+        $title = sprintf('[%s] %s', $siteTitle, $title);
+        return glsr()->filterString('notification/title', $title, $this->review);
+    }
+
+    protected function permalink(): string
     {
         return admin_url('post.php?post='.$this->review->ID.'&action=edit');
     }
 
-    /**
-     * @return string
-     */
-    protected function getTitle()
+    protected function sendToDiscord(): void
     {
-        $titles = [];
-        foreach ($this->review->assigned_posts as $postId) {
-            $titles[] = get_the_title($postId);
-        }
-        $titles = array_filter($titles);
-        $pageTitles = Str::naturalJoin($titles);
-        $title = _nx(
-            'New %s-star review',
-            'New %s-star review of %s',
-            count($titles),
-            'This string differs depending on whether or not the review has been assigned to a post.',
-            'site-reviews'
-        );
-        $title = sprintf('[%s] %s',
-            wp_specialchars_decode(glsr(OptionManager::class)->getWP('blogname'), ENT_QUOTES),
-            sprintf($title, $this->review->rating, $pageTitles)
-        );
-        return glsr()->filterString('notification/title', $title, $this->review);
+        $args = [
+            'assigned_links' => $this->assignedLinks('[%2$s](%1$s)'),
+            'edit_url' => $this->permalink(),
+            'header' => $this->notificationTitle(),
+        ];
+        glsr(Discord::class)->compose($this->review, $args)->send();
     }
 
-    protected function sendToDiscord(array $args): void
+    protected function sendToEmail(): void
     {
-        if (!in_array('discord', $this->types)) {
-            return;
-        }
-        $discord = glsr(Discord::class)->compose($this->review, [
-            'content' => $args['title'],
-            'edit_url' => $args['url'],
-        ]);
-        $result = $discord->send();
-        if (is_wp_error($result)) {
-            unset($discord->review);
-            glsr_log()->error($result->get_error_message())->debug($discord);
-        }
+        $args = [
+            'review' => $this->review,
+        ];
+        glsr(Email::class)->compose($this->buildEmail(), $args)->send();
     }
 
-    protected function sendToEmail(array $args): void
+    protected function sendToSlack(): void
     {
-        $email = $this->buildEmail($args);
-        if (empty($email->to)) {
-            glsr_log()->error('Email notification was not sent (missing email address)');
-            return;
-        }
-        $email->send();
-    }
-
-    protected function sendToSlack(array $args): void
-    {
-        if (!in_array('slack', $this->types)) {
-            return;
-        }
-        $slack = glsr(Slack::class)->compose($this->review, [
-            'button_url' => $args['url'],
-            'pretext' => $args['title'],
-        ]);
-        $result = $slack->send();
-        if (is_wp_error($result)) {
-            unset($slack->review);
-            glsr_log()->error($result->get_error_message())->debug($slack);
-        }
+        $args = [
+            'assigned_links' => $this->assignedLinks('<%s|%s>'),
+            'edit_url' => $this->permalink(),
+            'header' => $this->notificationTitle(),
+        ];
+        glsr(Slack::class)->compose($this->review, $args)->send();
     }
 }

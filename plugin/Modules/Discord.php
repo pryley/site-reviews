@@ -4,12 +4,15 @@ namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Contracts\WebhookContract;
 use GeminiLabs\SiteReviews\Defaults\DiscordDefaults;
-use GeminiLabs\SiteReviews\Helper;
-use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Review;
 
 class Discord implements WebhookContract
 {
+    /**
+     * @var array
+     */
+    public $args;
+
     /**
      * @var array
      */
@@ -38,56 +41,48 @@ class Discord implements WebhookContract
         if (empty($this->webhook)) {
             return $this;
         }
+        $this->args = glsr(DiscordDefaults::class)->restrict($args);
         $this->review = $review;
-        $args = glsr(DiscordDefaults::class)->restrict($args);
         $notification = [
-            'content' => $args['content'],
+            'content' => $this->args['header'],
             'embeds' => [[
-                'color' => $args['color'],
+                'color' => $this->args['color'],
                 'description' => $this->description(), // rating and content
                 'fields' => $this->fields(),
                 'title' => $this->title(),
-                'url' => esc_url($args['edit_url']),
+                'url' => esc_url($this->args['edit_url']),
             ]],
         ];
         $this->notification = glsr()->filterArray('discord/compose', $notification, $this);
         return $this;
     }
 
-    /**
-     * @return \WP_Error|array
-     */
-    public function send()
+    public function send(): bool
     {
         if (empty($this->webhook)) {
-            return new \WP_Error('discord', 'Discord notification was not sent: missing webhook');
+            $result = new \WP_Error('discord', 'Discord notification was not sent: missing webhook');
+        } else {
+            $result = wp_remote_post($this->webhook, [
+                'blocking' => false,
+                'body' => wp_json_encode($this->notification),
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                ],
+            ]);
         }
-        return wp_remote_post($this->webhook, [
-            'blocking' => false,
-            'body' => wp_json_encode($this->notification),
-            'headers' => [
-                'Content-Type' => 'application/json',
-            ],
-        ]);
+        if (is_wp_error($result)) {
+            glsr_log()->error($result->get_error_message())->debug($this->notification);
+            return false;
+        }
+        return true;
     }
 
     protected function assignedLinks(): string
     {
-        $links = [];
-        foreach ($this->review->assigned_posts as $postId) {
-            $postId = glsr(Multilingual::class)->getPostId(Helper::getPostId($postId));
-            if (!empty($postId) && !array_key_exists($postId, $links)) {
-                $title = get_the_title($postId);
-                if (empty(trim($title))) {
-                    $title = _x('No title', 'admin-text', 'site-reviews');
-                }
-                $links[$postId] = sprintf('[%s](%s)', $title, (string) get_the_permalink($postId));
-            }
+        if (empty($this->args['assigned_links'])) {
+            return '';
         }
-        if (!empty($links)) {
-            return sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($links));
-        }
-        return '';
+        return sprintf(__('Review of %s', 'site-reviews'), $this->args['assigned_links']);
     }
 
     protected function description(): string
@@ -97,6 +92,7 @@ class Discord implements WebhookContract
             $this->assignedLinks(),
             $this->review->content,
         ];
+        $parts = array_filter($parts);
         return implode(PHP_EOL.PHP_EOL, $parts);
     }
 
@@ -135,7 +131,7 @@ class Discord implements WebhookContract
     {
         $title = trim($this->review->title);
         return empty($title)
-            ? '(no title)'
+            ? __('(no title)', 'site-reviews')
             : $title;
     }
 }

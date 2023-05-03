@@ -12,9 +12,10 @@ class DiscordDefaults extends DefaultsAbstract
      * @var array
      */
     public $casts = [
+        'assigned_links' => 'string',
         'color' => 'string',
-        'content' => 'string',
         'edit_url' => 'string',
+        'header' => 'string',
     ];
 
     /**
@@ -32,9 +33,10 @@ class DiscordDefaults extends DefaultsAbstract
     protected function defaults()
     {
         return [
+            'assigned_links' => '',
             'color' => '#FAF089',
-            'content' => '',
             'edit_url' => '',
+            'header' => '',
         ];
     }
 

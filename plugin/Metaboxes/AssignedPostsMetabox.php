@@ -35,7 +35,7 @@ class AssignedPostsMetabox implements MetaboxContract
                     'data.id' => $postId,
                     'data.name' => 'post_ids[]',
                     'data.url' => (string) get_permalink($postId),
-                    'data.title' => Helper::ifEmpty(get_the_title($postId), _x('(no title)', 'admin-text', 'site-reviews')),
+                    'data.title' => Helper::ifEmpty(get_the_title($postId), __('(no title)', 'site-reviews')),
                 ],
             ]);
         });
