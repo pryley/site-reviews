@@ -46,6 +46,9 @@ const initModal = () => {
         onOpen: (modal) => {
             const baseEl = modal.trigger.closest('.glsr').cloneNode(true);
             const reviewEl = modal.trigger.closest('.glsr-review').cloneNode(true);
+            reviewEl.querySelectorAll('[data-expanded="false"]').forEach(el => {
+                el.dataset.expanded = 'true';
+            })
             baseEl.innerHTML = '';
             baseEl.appendChild(reviewEl);
             modal.content.appendChild(baseEl);

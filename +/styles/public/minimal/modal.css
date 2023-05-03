@@ -115,10 +115,6 @@
     animation-duration: var(--glsr-duration-fast);
     animation-name: gl-fadeOut;
 }
-
 :root #glsr-modal-review .glsr-read-more  {
     display: none !important;
-}
-:root #glsr-modal-review .glsr-hidden  {
-    display: inline !important;
 }
