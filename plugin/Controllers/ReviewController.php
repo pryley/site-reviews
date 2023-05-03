@@ -50,7 +50,7 @@ class ReviewController extends Controller
      */
     public function filterPostsToCacheReviews($posts)
     {
-        $reviews = array_filter($posts, function ($post) {
+        $reviews = array_filter((array) $posts, function ($post) {
             return glsr()->post_type === $post->post_type;
         });
         if ($postIds = wp_list_pluck($reviews, 'ID')) {
