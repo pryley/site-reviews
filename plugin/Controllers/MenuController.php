@@ -186,7 +186,6 @@ class MenuController extends Controller
                     'base_url' => glsr_admin_url(),
                     'console' => glsr(Console::class)->get(),
                     'id' => glsr()->id,
-                    'system' => glsr(SystemInfo::class)->get(),
                 ],
                 'myisam_tables' => Arr::get(glsr(Tables::class)->tableEngines(), 'MyISAM', []),
                 'rollback_script' => file_get_contents(glsr()->path('assets/scripts/rollback.js')),
