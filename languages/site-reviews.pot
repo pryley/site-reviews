@@ -136,11 +136,11 @@ msgctxt "admin-text"
 msgid "Manage Review Categories"
 msgstr ""
 
-#: deprecated.php:148
+#: deprecated.php:159
 msgid "%s is <strong>deprecated</strong> since version %s with no alternative available."
 msgstr ""
 
-#: deprecated.php:161
+#: deprecated.php:172
 msgid "%s is <strong>deprecated</strong> since version %s! Use %s instead."
 msgstr ""
 
@@ -4989,11 +4989,11 @@ msgid "Site Reviews navigation"
 msgstr ""
 
 #: plugin/Modules/Html/Partials/StarRating.php:28
-msgid "Rated <strong>%s</strong> out of %s based on %s ratings"
+msgid "Rated %s out of %s based on %s ratings"
 msgstr ""
 
 #: plugin/Modules/Html/Partials/StarRating.php:29
-msgid "Rated <strong>%s</strong> out of %s"
+msgid "Rated %s out of %s"
 msgstr ""
 
 #: plugin/Modules/Html/Tags/FormSubmitButtonTag.php:18
