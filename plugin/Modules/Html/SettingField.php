@@ -28,10 +28,7 @@ class SettingField extends Field
         return glsr(SettingBuilder::class);
     }
 
-    /**
-     * @return string
-     */
-    public function getFieldClasses()
+    public function getFieldClasses(): string
     {
         $classes = [];
         if ($this->field['is_hidden']) {
@@ -41,28 +38,19 @@ class SettingField extends Field
         return implode(' ', $classes);
     }
 
-    /**
-     * @return string
-     */
-    public function getFieldDependsOn()
+    public function getFieldDependsOn(): string
     {
         return !empty($this->field['data-depends'])
             ? $this->field['data-depends']
             : '';
     }
 
-    /**
-     * @return string
-     */
-    public function getFieldPrefix()
+    public function getFieldPrefix(): string
     {
         return OptionManager::databaseKey();
     }
 
-    /**
-     * @return string
-     */
-    protected function buildField()
+    protected function buildField(): string
     {
         return glsr(Template::class)->build('partials/form/table-row', [
             'context' => [
@@ -74,10 +62,7 @@ class SettingField extends Field
         ]);
     }
 
-    /**
-     * @return string
-     */
-    protected function buildLabelWithTooltip()
+    protected function buildLabelWithTooltip(): string
     {
         $text = $this->field['legend'];
         if (!empty($this->field['tooltip'])) {
@@ -100,10 +85,7 @@ class SettingField extends Field
         ]);
     }
 
-    /**
-     * @return string
-     */
-    protected function buildMultiField()
+    protected function buildMultiField(): string
     {
         $dependsOn = $this->getFieldDependsOn();
         unset($this->field['data-depends']);
@@ -119,11 +101,7 @@ class SettingField extends Field
         ]);
     }
 
-    /**
-     * @param string $className
-     * @return array
-     */
-    protected function mergeFieldArgs($className)
+    protected function mergeFieldArgs(string $className): array
     {
         return $className::merge($this->field, 'setting');
     }

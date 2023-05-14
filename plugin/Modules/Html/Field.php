@@ -76,10 +76,7 @@ class Field
         return glsr(Builder::class);
     }
 
-    /**
-     * @return string
-     */
-    public function choiceType()
+    public function choiceType(): string
     {
         return Helper::ifTrue('toggle' === $this->field['raw_type'],
             $this->field['raw_type'],
@@ -87,20 +84,13 @@ class Field
         );
     }
 
-    /**
-     * @return string
-     */
-    public function fieldType()
+    public function fieldType(): string
     {
         $isChoice = in_array($this->field['raw_type'], ['checkbox', 'radio', 'toggle']);
         return Helper::ifTrue($isChoice, 'choice', $this->field['raw_type']);
     }
 
-    /**
-     * @param string $key
-     * @return array
-     */
-    public function getBaseClasses($key)
+    public function getBaseClasses(string $key): array
     {
         return [
             glsr(Style::class)->classes($key),
@@ -108,10 +98,7 @@ class Field
         ];
     }
 
-    /**
-     * @return string
-     */
-    public function getField()
+    public function getField(): string
     {
         if ('choice' === $this->fieldType()) {
             return $this->buildFieldChoiceOptions();
@@ -119,10 +106,7 @@ class Field
         return $this->builder()->raw($this->field);
     }
 
-    /**
-     * @return string
-     */
-    public function getFieldClasses()
+    public function getFieldClasses(): string
     {
         $classes = $this->getBaseClasses('field');
         if (!empty($this->field['errors'])) {
@@ -135,10 +119,18 @@ class Field
         return implode(' ', $classes);
     }
 
-    /**
-     * @return void|string
-     */
-    public function getFieldErrors()
+    public function getFieldDescription(): string
+    {
+        if (empty($this->field['description'])) {
+            return '';
+        }
+        return $this->builder()->small([
+            'class' => glsr(Style::class)->defaultClasses('description'),
+            'text' => $this->field['description'],
+        ]);
+    }
+
+    public function getFieldErrors(): string
     {
         return glsr(Template::class)->build('templates/form/field-errors', [
             'context' => [
@@ -149,40 +141,52 @@ class Field
         ]);
     }
 
-    /**
-     * @return string|void
-     */
-    public function getFieldLabel()
+    public function getFieldLabel(): string
     {
-        if (!empty($this->field['label'])) {
-            return $this->builder()->label([
-                'class' => implode(' ', $this->getBaseClasses('label')),
-                'for' => $this->field['id'],
-                'text' => $this->builder()->span($this->field['label']),
-            ]);
+        if (empty($this->field['label'])) {
+            return '';
         }
+        return $this->builder()->label([
+            'class' => implode(' ', $this->getBaseClasses('label')),
+            'for' => $this->field['id'],
+            'text' => sprintf('%s%s',
+                $this->builder()->span($this->field['label']),
+                $this->getFieldDescription()
+            ),
+        ]);
     }
 
-    /**
-     * @return string
-     */
-    public function getFieldPrefix()
+    public function getFieldPrefix(): string
     {
         return glsr()->id;
     }
 
-    /**
-     * @return void
-     */
-    public function render()
+    public function render(): void
     {
         echo $this->build();
     }
 
-    /**
-     * @return string
-     */
-    protected function buildFieldChoiceOptions()
+    protected function buildField(): string
+    {
+        $field = glsr(Template::class)->build('templates/form/field_'.$this->field['raw_type'], [
+            'context' => [
+                'class' => $this->getFieldClasses(),
+                'description' => $this->getFieldDescription(),
+                'description_text' => $this->field['description'],
+                'errors' => $this->getFieldErrors(),
+                'field' => $this->getField(),
+                'field_name' => $this->field['path'],
+                'field_type' => $this->field['raw_type'],
+                'for' => $this->field['id'],
+                'label' => $this->getFieldLabel(),
+                'label_text' => $this->field['label'],
+            ],
+            'field' => $this->field,
+        ]);
+        return glsr()->filterString('rendered/field', $field, $this->field['raw_type'], $this->field);
+    }
+
+    protected function buildFieldChoiceOptions(): string
     {
         $index = 0;
         return array_reduce(array_keys($this->field['options']), function ($carry, $value) use (&$index) {
@@ -213,39 +217,12 @@ class Field
         });
     }
 
-    /**
-     * @return string
-     */
-    protected function buildField()
-    {
-        $field = glsr(Template::class)->build('templates/form/field_'.$this->field['raw_type'], [
-            'context' => [
-                'class' => $this->getFieldClasses(),
-                'errors' => $this->getFieldErrors(),
-                'field' => $this->getField(),
-                'field_name' => $this->field['path'],
-                'field_type' => $this->field['raw_type'],
-                'for' => $this->field['id'],
-                'label' => $this->getFieldLabel(),
-                'label_text' => $this->field['label'],
-            ],
-            'field' => $this->field,
-        ]);
-        return glsr()->filterString('rendered/field', $field, $this->field['raw_type'], $this->field);
-    }
-
-    /**
-     * @return string
-     */
-    protected function buildMultiField()
+    protected function buildMultiField(): string
     {
         return $this->buildField();
     }
 
-    /**
-     * @return bool
-     */
-    protected function isFieldValid()
+    protected function isFieldValid(): bool
     {
         $missingValues = [];
         $requiredValues = [
@@ -265,19 +242,12 @@ class Field
         return $this->field['is_valid'];
     }
 
-    /**
-     * @param string $className
-     * @return array
-     */
-    protected function mergeFieldArgs($className)
+    protected function mergeFieldArgs(string $className): array
     {
         return $className::merge($this->field);
     }
 
-    /**
-     * @return void
-     */
-    protected function normalizeFieldArgs()
+    protected function normalizeFieldArgs(): void
     {
         $className = Helper::buildClassName($this->field['type'], __NAMESPACE__.'\Fields');
         $className = glsr()->filterString('builder/field/'.$this->field['type'], $className);
@@ -286,10 +256,7 @@ class Field
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function normalize()
+    protected function normalize(): void
     {
         if ($this->isFieldValid()) {
             $this->field['path'] = $this->field['name'];
@@ -302,10 +269,7 @@ class Field
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function normalizeFieldId()
+    protected function normalizeFieldId(): void
     {
         if (!empty($this->field['id']) || $this->field['is_raw']) {
             return;
@@ -316,10 +280,7 @@ class Field
         );
     }
 
-    /**
-     * @return void
-     */
-    protected function normalizeFieldName()
+    protected function normalizeFieldName(): void
     {
         $name = Str::convertPathToName($this->field['path'], $this->getFieldPrefix());
         if (count($this->field['options']) > 1 && 'checkbox' === $this->field['type']) {

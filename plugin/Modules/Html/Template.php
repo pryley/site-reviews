@@ -17,7 +17,7 @@ class Template implements Contract
 
     /**
      * @param string $templatePath
-     * @return void|string
+     * @return string
      */
     public function build($templatePath, array $data = [])
     {

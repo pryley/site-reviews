@@ -412,7 +412,7 @@ msgstr ""
 
 #: config/settings.php:149
 msgctxt "admin-text"
-msgid "create a new webhook"
+msgid "create a webhook"
 msgstr ""
 
 #: config/settings.php:158
@@ -422,12 +422,12 @@ msgstr ""
 
 #: config/settings.php:160
 msgctxt "admin-text"
-msgid "To send notifications to Slack, %s and then paste the provided URL in the field."
+msgid "To send notifications to a Slack channel, %s and then paste the URL in the field."
 msgstr ""
 
 #: config/settings.php:161
 msgctxt "admin-text"
-msgid "create a new Incoming Webhook"
+msgid "create an Incoming Webhook"
 msgstr ""
 
 #: config/settings.php:170

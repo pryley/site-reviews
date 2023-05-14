@@ -12,10 +12,7 @@ class MetaboxField extends Field
         return glsr(MetaboxBuilder::class);
     }
 
-    /**
-     * @return string
-     */
-    protected function buildField()
+    protected function buildField(): string
     {
         return glsr(Template::class)->build('partials/editor/metabox-field', [
             'context' => [
@@ -30,11 +27,7 @@ class MetaboxField extends Field
         ]);
     }
 
-    /**
-     * @param string $className
-     * @return array
-     */
-    protected function mergeFieldArgs($className)
+    protected function mergeFieldArgs(string $className): array
     {
         return $className::merge($this->field, 'metabox');
     }
