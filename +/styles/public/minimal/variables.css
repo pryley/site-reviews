@@ -57,7 +57,7 @@
     --glsr-input-radius: 3px;
     --glsr-input-transition: border-color var(--glsr-duration-fast) ease-in-out;
     --glsr-label-text: var(--glsr-text-sm);
-    --glsr-label-weight: 500;
+    --glsr-label-weight: 600;
     --glsr-toggle-bg-0: currentColor;
     --glsr-toggle-bg-1: currentColor;
     --glsr-toggle-color: var(--glsr-white);

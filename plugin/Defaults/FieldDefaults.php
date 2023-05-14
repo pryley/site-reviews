@@ -31,6 +31,7 @@ class FieldDefaults extends DefaultsAbstract
      */
     public $sanitize = [
         'class' => 'attr-class',
+        'description' => 'text-html',
         'options' => 'array-consolidate',
     ];
 
@@ -41,6 +42,7 @@ class FieldDefaults extends DefaultsAbstract
     {
         return [
             'class' => '',
+            'description' => '',
             'id' => '',
             'label' => '',  // this value is likely a generated HTML string
             'name' => '',

@@ -4,3 +4,7 @@
     hyphens: none;
     margin: 0;
 }
+:--namespace form.glsr-form .glsr-description {
+    display: block;
+    font-weight: normal;
+}

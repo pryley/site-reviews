@@ -10,6 +10,7 @@ class StyleClassesDefaults extends DefaultsAbstract
      */
     public $concatenated = [
         'button',
+        'description',
         'field',
         'form',
         'input',
@@ -35,6 +36,7 @@ class StyleClassesDefaults extends DefaultsAbstract
      */
     public $sanitize = [
         'button' => 'attr-class',
+        'description' => 'attr-class',
         'field' => 'attr-class',
         'form' => 'attr-class',
         'input' => 'attr-class',
@@ -54,6 +56,7 @@ class StyleClassesDefaults extends DefaultsAbstract
     {
         return [
             'button' => 'glsr-button',
+            'description' => 'glsr-description',
             'field' => 'glsr-field',
             'form' => 'glsr-form',
             'input' => '',
