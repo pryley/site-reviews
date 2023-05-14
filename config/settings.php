@@ -146,7 +146,7 @@ return [ // order is intentional
         'label' => _x('Discord Webhook URL', 'admin-text', 'site-reviews'),
         'sanitizer' => 'url',
         'tooltip' => sprintf(_x('To send notifications to a Discord channel, %s and then paste the URL in the field.', 'admin-text', 'site-reviews'),
-            '<a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank">'._x('create a new webhook', 'admin-text', 'site-reviews').'</a>'
+            '<a href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" target="_blank">'._x('create a webhook', 'admin-text', 'site-reviews').'</a>'
         ),
         'type' => 'text',
     ],
@@ -157,8 +157,8 @@ return [ // order is intentional
         ],
         'label' => _x('Slack Webhook URL', 'admin-text', 'site-reviews'),
         'sanitizer' => 'url',
-        'tooltip' => sprintf(_x('To send notifications to Slack, %s and then paste the provided URL in the field.', 'admin-text', 'site-reviews'),
-            '<a href="https://api.slack.com/incoming-webhooks" target="_blank">'._x('create a new Incoming Webhook', 'admin-text', 'site-reviews').'</a>'
+        'tooltip' => sprintf(_x('To send notifications to a Slack channel, %s and then paste the URL in the field.', 'admin-text', 'site-reviews'),
+            '<a href="https://api.slack.com/incoming-webhooks" target="_blank">'._x('create an Incoming Webhook', 'admin-text', 'site-reviews').'</a>'
         ),
         'type' => 'text',
     ],
