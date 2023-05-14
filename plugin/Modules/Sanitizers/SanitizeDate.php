@@ -7,7 +7,7 @@ class SanitizeDate extends StringSanitizer
     public function run(): string
     {
         $date = $this->value();
-        $format = $this->args[0] ?? 'Y-m-d H:i:s';
+        $format = empty($this->args[0]) ? 'Y-m-d H:i:s' : $this->args[0];
         $formattedDate = \DateTime::createFromFormat($format, $date);
         if ($formattedDate && $date === $formattedDate->format($format)) {
             return $date;

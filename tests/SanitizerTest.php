@@ -376,6 +376,36 @@ class SanitizerTest extends \WP_UnitTestCase
             25 => '',
             26 => wp_date('Y-m-d H:i:s', strtotime('-1')),
         ]);
+        $sanitized = $this->sanitize('date:Y-m-d');
+        $this->assertEquals($sanitized, [
+            0 => '',
+            1 => '',
+            2 => '',
+            3 => '',
+            4 => '',
+            5 => '',
+            6 => '',
+            7 => '',
+            8 => '',
+            9 => '',
+            10 => '',
+            11 => '',
+            12 => '',
+            13 => '1989-06-13',
+            14 => '2020-12-03',
+            15 => '2019-11-30',
+            16 => wp_date('Y-m-d', strtotime('2020')),
+            17 => '',
+            18 => '',
+            19 => '',
+            20 => '',
+            21 => '',
+            22 => '',
+            23 => '',
+            24 => '',
+            25 => '',
+            26 => wp_date('Y-m-d', strtotime('-1')),
+        ]);
     }
 
     public function testSanitizeEmail()
