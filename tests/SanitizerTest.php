@@ -250,6 +250,63 @@ class SanitizerTest extends \WP_UnitTestCase
         ]);
     }
 
+    public function testSanitizeColor()
+    {
+        $values = $this->testValues;
+        $values[] = '#';
+        $values[] = '#1';
+        $values[] = '#11';
+        $values[] = '#111';
+        $values[] = 'rgb()';
+        $values[] = 'rgb(0 0 0)';
+        $values[] = 'rgb(0,0,0)';
+        $values[] = 'rgba(0,0,0)';
+        $values[] = 'rgba(0,0,0,99)';
+        $values[] = 'rgba(0 0 0 / .2)';
+        $values[] = 'rgba(0,0,0,1)';
+        $sanitized = $this->sanitize('color', $values);
+        $this->assertEquals($sanitized, [
+            0 => '',
+            1 => '',
+            2 => '',
+            3 => '',
+            4 => '',
+            5 => '',
+            6 => '',
+            7 => '',
+            8 => '',
+            9 => '',
+            10 => '',
+            11 => '',
+            12 => '',
+            13 => '',
+            14 => '',
+            15 => '',
+            16 => '',
+            17 => '',
+            18 => '',
+            19 => '',
+            20 => '',
+            21 => '',
+            22 => '',
+            23 => '',
+            24 => '',
+            25 => '',
+            26 => '',
+            27 => '',
+            28 => '',
+            29 => '',
+            30 => '#111',
+            31 => '',
+            32 => '',
+            33 => 'rgb(0,0,0)',
+            34 => '',
+            35 => '',
+            36 => '',
+            37 => 'rgba(0,0,0,1)',
+        ]);
+    }
+
     public function testSanitizeCompat()
     {
         $sanitized = $this->sanitize('array');
