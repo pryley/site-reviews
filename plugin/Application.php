@@ -247,7 +247,10 @@ final class Application extends Container
         if (empty($this->settings)) {
             $settings = $this->filterArray('addon/settings', $this->config('settings'));
             array_walk($settings, function (&$setting) {
-                isset($setting['default']) ?: $setting['default'] = '';
+                $setting = wp_parse_args($setting, [
+                    'default' => '',
+                    'sanitizer' => '',
+                ]);
             });
             $this->settings = $settings;
         }
