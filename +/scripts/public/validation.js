@@ -141,8 +141,10 @@ class Validation {
             addRemoveClass(fieldEl, this.config.field_error, isShowingError)
             addRemoveClass(fieldEl, this.config.field_valid, !isShowingError)
             let errorEl = fieldEl.querySelector(classListSelector(this.config.field_message));
-            errorEl.innerHTML = (isShowingError ? field.errors.join('<br>') : ''); // because <br> is used in Field.php
-            errorEl.style.display = (!isShowingError ? 'none' : '');
+            if (errorEl) {
+                errorEl.innerHTML = (isShowingError ? field.errors.join('<br>') : ''); // because <br> is used in Field.php
+                errorEl.style.display = (!isShowingError ? 'none' : '');
+            }
         }
     }
 
