@@ -144,20 +144,20 @@ class DeactivationController extends Controller
 
     protected function deactivateInsight(): array
     {
-        $data = glsr(Cache::class)->getSystemInfo();
+        global $wpdb;
         $theme = wp_get_theme();
         $insight = [
             'Active Theme' => sprintf('%s v%s', (string) $theme->name, (string) $theme->version),
-            'Memory Limit' => Arr::get($data, 'wp-server.fields.memory_limit.value'),
-            'Multisite' => Arr::get($data, 'wp-core.fields.multisite.value'),
-            'MySQL Version' => Arr::get($data, 'wp-database.fields.server_version.value'),
-            'PHP Version' => Arr::get($data, 'wp-server.fields.php_version.debug'),
-            'Site Language' => Arr::get($data, 'wp-core.fields.site_language.value'),
-            'Timezone' => Arr::get($data, 'wp-core.fields.timezone.value'),
-            'Total Users' => Arr::get($data, 'wp-core.fields.user_count.value'),
-            'Website' => Arr::get($data, 'wp-core.fields.home_url.value'),
-            'WordPress Version' => Arr::get($data, 'wp-core.fields.version.value'),
+            'Memory Limit' => ini_get('memory_limit'),
+            'Multisite' => is_multisite() ? 'Yes' : 'No',
+            'MySQL Version' => $wpdb->get_var('SELECT VERSION()'),
+            'PHP Version' => PHP_VERSION,
+            'Site Language' => get_locale(),
+            'Timezone' => wp_timezone_string(),
+            'Total Users' => get_user_count(),
+            'Website' => get_bloginfo('url'),
+            'WordPress Version' => get_bloginfo('version'),
         ];
-        return glsr()->filterArray('deactivate/insight/display', $insight, $data);
+        return glsr()->filterArray('deactivate/insight/display', $insight);
     }
 }

@@ -128,9 +128,13 @@ class Cache
     {
         if (false === ($data = get_transient(glsr()->prefix.'system_info'))) {
             add_filter('gettext_default', [glsr(TranslationController::class), 'filterEnglishTranslation'], 10, 2);
-            $data = \WP_Debug_Data::debug_data(); // get the WordPress debug data in English
+            try { // prevent badly made migration plugins from breaking Site Reviews...
+                $data = \WP_Debug_Data::debug_data(); // get the WordPress debug data in English
+                set_transient(glsr()->prefix.'system_info', $data, 12 * HOUR_IN_SECONDS);
+            } catch (\TypeError $error) {
+                $data = [];
+            }
             remove_filter('gettext_default', [glsr(TranslationController::class), 'filterEnglishTranslation'], 10);
-            set_transient(glsr()->prefix.'system_info', $data, 12 * HOUR_IN_SECONDS);
         }
         return Arr::consolidate($data);
     }

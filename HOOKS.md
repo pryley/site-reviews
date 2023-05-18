@@ -83,8 +83,8 @@
     site-reviews/const/<constant>                               (string $constantName): string
     site-reviews/create/review-values                           (array $reviewValues, Commands\CreateReview $command): array
     site-reviews/database/sql/<handle>                          (string $sql): string
-    site-reviews/deactivate/insight                             (array $insight, array $systemInfo): array
-    site-reviews/deactivate/insight/display                     (array $insight, array $systemInfo): array
+    site-reviews/deactivate/insight                             (array $insight): array
+    site-reviews/deactivate/insight/display                     (array $insight): array
     site-reviews/deactivate/plugins                             (array $plugins): array
     site-reviews/deactivate/reasons                             (array $reasons): array
     site-reviews/defaults/<defaults_name>                       (array $defaults, string $method, array $args): array

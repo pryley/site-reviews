@@ -48,24 +48,24 @@ class DeactivatePlugin implements Contract
 
     protected function insights(): array
     {
-        $data = glsr(Cache::class)->getSystemInfo();
+        global $wpdb;
         $theme = wp_get_theme();
         $insight = [
             'db_version' => get_option(glsr()->prefix.'db_version'),
-            'locale' => Arr::get($data, 'wp-core.fields.site_language.value'),
-            'memory_limit' => Arr::get($data, 'wp-server.fields.memory_limit.value'),
-            'multisite' => Arr::get($data, 'wp-core.fields.multisite.debug'),
-            'mysql_version' => Arr::get($data, 'wp-database.fields.server_version.value'),
-            'php_version' => Arr::get($data, 'wp-server.fields.php_version.debug'),
+            'locale' => get_locale(),
+            'memory_limit' => ini_get('memory_limit'),
+            'multisite' => is_multisite(),
+            'mysql_version' => $wpdb->get_var('SELECT VERSION()'),
+            'php_version' => PHP_VERSION,
             'theme_name' => (string) $theme->name,
             'theme_slug' => (string) $theme->display('TextDomain'),
             'theme_uri' => (string) $theme->display('AuthorURI'),
             'theme_version' => (string) $theme->version,
-            'timezone' => Arr::get($data, 'wp-core.fields.timezone.value'),
-            'url' => Arr::get($data, 'wp-core.fields.home_url.value'),
-            'users' => Arr::get($data, 'wp-core.fields.user_count.value'),
-            'wp_version' => Arr::get($data, 'wp-core.fields.version.value'),
+            'timezone' => wp_timezone_string(),
+            'url' => get_bloginfo('url'),
+            'users' => get_user_count(),
+            'wp_version' => get_bloginfo('version'),
         ];
-        return glsr()->filterArray('deactivate/insight', $insight, $data);
+        return glsr()->filterArray('deactivate/insight', $insight);
     }
 }
