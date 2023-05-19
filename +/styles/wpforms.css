@@ -42,3 +42,16 @@
 :--namespace form.glsr-form .glsr-field-toggle label {
     font-size: var(--glsr-text-md);
 }
+:--namespace form.glsr-form .glsr-description {
+    display: block;
+    font-weight: normal;
+    text-transform: none;
+}
+:--namespace form.glsr-form .glsr-label + .glsr-description {
+    margin: 0 0 4px;
+}
+:--namespace .glsr-required .glsr-label::after {
+    content: ' *';
+    color: #ff0000;
+    font-weight: 400;
+}

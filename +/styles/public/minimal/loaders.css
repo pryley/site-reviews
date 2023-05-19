@@ -1,4 +1,5 @@
-:--namespace .glsr-loading {
+:--namespace .glsr-loading,
+:--namespace form.glsr-form .glsr-loading {
     display: inline-flex;
     flex-grow: 0;
     flex-shrink: 0;

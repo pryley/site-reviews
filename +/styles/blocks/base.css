@@ -42,3 +42,6 @@
 :--namespace .glsr-field {
     position: relative;
 }
+:--namespace .glsr-form-message {
+    display: none;
+}
