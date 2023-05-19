@@ -124,9 +124,12 @@ class Field
         if (empty($this->field['description'])) {
             return '';
         }
-        return $this->builder()->div([
-            'class' => implode(' ', $this->getBaseClasses('description')),
-            'text' => $this->field['description'],
+        return glsr(Template::class)->build('templates/form/field-description', [
+            'context' => [
+                'class' => implode(' ', $this->getBaseClasses('description')),
+                'description' => $this->field['description'],
+            ],
+            'field' => $this->field,
         ]);
     }
 

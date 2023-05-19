@@ -1,5 +1,3 @@
 <?php defined('ABSPATH') || exit; ?>
 
-<span class="{{ class }}">
-    {{ errors }}
-</span>
+<span class="{{ class }}">{{ errors }}</span>
