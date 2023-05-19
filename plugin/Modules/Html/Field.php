@@ -124,8 +124,8 @@ class Field
         if (empty($this->field['description'])) {
             return '';
         }
-        return $this->builder()->small([
-            'class' => glsr(Style::class)->defaultClasses('description'),
+        return $this->builder()->div([
+            'class' => implode(' ', $this->getBaseClasses('description')),
             'text' => $this->field['description'],
         ]);
     }
@@ -149,10 +149,7 @@ class Field
         return $this->builder()->label([
             'class' => implode(' ', $this->getBaseClasses('label')),
             'for' => $this->field['id'],
-            'text' => sprintf('%s%s',
-                $this->builder()->span($this->field['label']),
-                $this->getFieldDescription()
-            ),
+            'text' => $this->builder()->span($this->field['label']),
         ]);
     }
 
@@ -204,7 +201,7 @@ class Field
             ];
             $html = glsr(Template::class)->build('templates/form/type-'.$type, [
                 'context' => [
-                    'class' => glsr(Style::class)->defaultClasses('field').'-'.$type,
+                    'class' => glsr(Style::class)->defaultClasses('field').'-'.$type, // only use the default class here!
                     'id' => $inputField['id'],
                     'input' => $this->builder()->raw($inputField),
                     'text' => $args->options[$value],

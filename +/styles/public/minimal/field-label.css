@@ -7,4 +7,5 @@
 :--namespace form.glsr-form .glsr-description {
     display: block;
     font-weight: normal;
+    text-transform: none;
 }
