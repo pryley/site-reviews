@@ -31,7 +31,7 @@
 :--namespace .glsr-reviews-wrap,
 :--namespace .glsr-reviews {
     display: grid;
-    gap: var(--glsr-gap-lg);
+    gap: var(--glsr-gap-xl);
 }
 :--namespace form.glsr-form {
     display: grid;

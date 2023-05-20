@@ -30,6 +30,10 @@
     font-size: var(--glsr-text-md);
     padding: var(--glsr-input-py) var(--glsr-input-px);
 }
+:--namespace form.glsr-form .glsr-description {
+    font-family: var(--glsr-font);
+    font-size: var(--glsr-description-text);
+}
 :--namespace form.glsr-form label.glsr-label:not(.glsr-label-toggle) {
     color:  var(--glsr-gray-500);
     font-family: var(--glsr-font);

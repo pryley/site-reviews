@@ -2,6 +2,7 @@
 
 return [
     'classes' => [
+        'description' => 'nf-field-description',
         'input' => 'ninja-forms-field nf-element',
         'input_checkbox' => 'ninja-forms-field nf-element',
         'input_radio' => 'ninja-forms-field nf-element',

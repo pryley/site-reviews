@@ -10,9 +10,16 @@
 }
 :--namespace form.glsr-form  label.glsr-label {
     font-size: var(--glsr-label-text);
-    font-weight: var(--glsr-label-text);
+    font-weight: var(--glsr-label-weight);
     line-height: var(--glsr-leading);
-    margin-bottom: var(--glsr-gap-sm);
+    margin-bottom: var(--glsr-gap-xs);
+}
+:--namespace form.glsr-form .glsr-label + .glsr-description {
+    margin-bottom: var(--glsr-gap-xs);
+}
+:--namespace form.glsr-form .glsr-description {
+    font-size: var(--glsr-description-text);
+    opacity: .75;
 }
 :--namespace form.glsr-form input[type=checkbox].glsr-input-checkbox,
 :--namespace form.glsr-form input[type=radio].glsr-input-radio {

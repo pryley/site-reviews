@@ -18,6 +18,9 @@
 :--namespace form.glsr-form .glsr-field-choice span label {
     font-weight: normal;
 }
+:--namespace form.glsr-form .glsr-description {
+    font-size: var(--glsr-description-text);
+}
 :--namespace form.glsr-form input.glsr-input,
 :--namespace form.glsr-form select.glsr-select,
 :--namespace form.glsr-form textarea.glsr-textarea {

@@ -1,7 +1,14 @@
 @import "minimal";
 
 :--namespace form.glsr-form label.glsr-label {
-    margin-bottom: 0.25em;
+    margin-bottom: var(--glsr-gap-xs);
+    width: 100%;
+}
+:--namespace form.glsr-form .glsr-label + .glsr-description {
+    margin-bottom: var(--glsr-gap-xs);
+}
+:--namespace form.glsr-form .glsr-description {
+    font-size: var(--glsr-description-text);
     width: 100%;
 }
 :--namespace form.glsr-review-form .glsr-field {

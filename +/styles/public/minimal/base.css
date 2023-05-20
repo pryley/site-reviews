@@ -32,5 +32,5 @@
 :root .glsr-reviews-wrap,
 :root .glsr-reviews {
     display: grid;
-    gap: var(--glsr-gap-lg);
+    gap: var(--glsr-gap-xl);
 }

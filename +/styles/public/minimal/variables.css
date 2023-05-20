@@ -19,9 +19,11 @@
     /* Global */
     --glsr-duration-slow: 0.3s;
     --glsr-duration-fast: 0.15s;
+    --glsr-gap-xs: 0.25em;
     --glsr-gap-sm: 0.5em;
     --glsr-gap-md: 0.75em;
-    --glsr-gap-lg: 2em;
+    --glsr-gap-lg: 1em;
+    --glsr-gap-xl: 2em;
     --glsr-leading: 1.5;
     --glsr-px: 1.25em;
     --glsr-py: 1.25em;
@@ -46,6 +48,7 @@
     /* Form */
     --glsr-choice-h: 1.125em;
     --glsr-choice-w: 1.125em;
+    --glsr-description-text: var(--glsr-text-sm);
     --glsr-form-error: var(--glsr-red);
     --glsr-form-star: 2em;
     --glsr-form-success: var(--glsr-green);

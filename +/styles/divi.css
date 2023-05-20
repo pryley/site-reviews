@@ -13,6 +13,7 @@
 @import "public/minimal/debug";
 
 :root {
+    --glsr-red: red;
     --glsr-blue: #2ea3f2;
     --glsr-toggle-bg-1: var(--glsr-blue);
     --glsr-toggle-h: 20px;
@@ -35,6 +36,7 @@
     display: none;
 }
 :--namespace .glsr-field-error {
+    color: var(--glsr-form-error);
     display: flex;
 }
 :--namespace form.glsr-form input.glsr-input,
@@ -46,7 +48,32 @@
     display: none;
 }
 :--namespace .glsr-field-rating label,
-:--namespace .et_pb_contact_field_options_title label {
+:--namespace .et_pb_contact_field_options_title label,
+:root .glsr-divi[data-form] form.glsr-form .glsr-field > label {
     display: block;
     font-weight: 600;
+}
+
+/**
+ * Fix select dropdown style when field has label/description/errors
+ */
+:--namespace .et_pb_contact_field[data-type="select"]::after {
+    display: none;
+}
+:--namespace .et_pb_contact_field[data-type="select"] .et_pb_contact_field_select {
+    display: block;
+    position: relative;
+}
+:--namespace .et_pb_contact_field[data-type="select"] .et_pb_contact_field_select::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-top-color: #666;
+    margin-top: 3px;
+    pointer-events: none;
 }

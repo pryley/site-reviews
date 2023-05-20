@@ -4,10 +4,12 @@
     --glsr-gray-300: #ccc;
     --glsr-gray-400: #767676;
     --glsr-blue: #0073aa;
+    --glsr-description-text: var(--glsr-text-sm);
     --glsr-font: system-ui;
-    --glsr-gap-lg: 2em;
+    --glsr-gap-xl: 2em;
     --glsr-input-px: 0.66rem;
     --glsr-input-py: 0.36rem;
+    --glsr-label-text: var(--glsr-text-sm);
     --glsr-leading: 1.8;
     --glsr-radius: 0;
     --glsr-summary-text: 0.88889em;
@@ -55,5 +57,10 @@
     }
 }
 :--namespace form.glsr-form .glsr-toggle label {
-    font-size: var(--glsr-toggle-text);
+    font-size: var(--glsr-label-text);
+}
+:--namespace form.glsr-form .glsr-description {
+    color: var(--glsr-gray-400);
+    font-family: var(--glsr-font);
+    font-size: var(--glsr-description-text);
 }

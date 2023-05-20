@@ -20,6 +20,10 @@
 :--namespace form.glsr-form label {
     font-family: "Noto Sans", sans-serif;
 }
+:--namespace form.glsr-form .glsr-description {
+    font-family: "Noto Sans", sans-serif;
+    font-size: var(--glsr-description-text);
+}
 :--namespace form.glsr-form .glsr-label {
     color: rgba(51, 51, 51, 0.7);
     font-size: .875rem;

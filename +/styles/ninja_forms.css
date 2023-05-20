@@ -35,3 +35,15 @@
 :--namespace form.glsr-form .glsr-form-success {
     display: block;
 }
+:--namespace form.glsr-form .glsr-description {
+    display: block;
+    font-weight: normal;
+    text-transform: none;
+}
+:--namespace form.glsr-form .glsr-label + .glsr-description {
+    top: 10px;
+    position: relative;
+}
+:--namespace form.glsr-form .nf-field-element + .glsr-description {
+    order: 15;
+}

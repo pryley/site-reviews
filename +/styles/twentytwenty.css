@@ -14,6 +14,8 @@
     --glsr-text-sm: 0.88888889em;
     --glsr-summary-text: 0.88888889em;
     --glsr-toggle-h: 1em;
+    --glsr-description-text: 1.6rem;
+
     @media (min-width: 700px) {
         --glsr-text-base: 2.1rem;
     }
@@ -33,7 +35,12 @@
 }
 :--namespace form.glsr-form label.glsr-label {
     font-family: var(--glsr-font);
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--glsr-gap-sm);
+}
+:--namespace form.glsr-form .glsr-description {
+    font-family: var(--glsr-font);
+    font-size: var(--glsr-description-text);
+    margin-bottom: var(--glsr-gap-sm);
 }
 :--namespace form.glsr-form select.glsr-select {
     background: var(--glsr-white);

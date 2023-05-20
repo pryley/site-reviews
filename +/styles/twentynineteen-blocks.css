@@ -5,7 +5,7 @@
     --glsr-gray-400: #767676;
     --glsr-blue: #0073aa;
     --glsr-font: system-ui;
-    --glsr-gap-lg: 2em;
+    --glsr-gap-xl: 2em;
     --glsr-input-px: 0.66rem;
     --glsr-input-py: 0.36rem;
     --glsr-input-radius: 0;
@@ -16,6 +16,8 @@
     --glsr-toggle-bg-1: var(--glsr-blue);
     --glsr-toggle-h: 22px;
     --glsr-toggle-text: var(--glsr-text-sm);
+    --glsr-description-text: var(--glsr-text-sm);
+    --glsr-label-text: var(--glsr-text-sm);
 }
 :--namespace .glsr-button {
     border: none;
@@ -58,12 +60,16 @@
 :--namespace form.glsr-form label.glsr-label {
     color: var(--glsr-gray-400);
     font-family: var(--glsr-font);
-    font-size: var(--glsr-toggle-text);
+    font-size: var(--glsr-label-text);
 }
 :--namespace form.glsr-form .glsr-toggle label {
     font-size: var(--glsr-toggle-text);
 }
-
+:--namespace form.glsr-form .glsr-description {
+    color: var(--glsr-gray-400);
+    font-family: var(--glsr-font);
+    font-size: var(--glsr-description-text);
+}
 :--namespace .glsr-pagination .nav-links {
     display: flex;
     flex-wrap: wrap;

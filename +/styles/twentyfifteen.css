@@ -113,3 +113,7 @@
     padding-bottom: var(--glsr-input-py);
     padding-left: var(--glsr-input-px);
 }
+:--namespace form.glsr-form .glsr-description {
+    font-family: var(--glsr-font);
+    font-size: var(--glsr-description-text);
+}

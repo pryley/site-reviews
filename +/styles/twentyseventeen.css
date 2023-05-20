@@ -17,6 +17,9 @@
 :--namespace form.glsr-form .glsr-field-choice span label {
     font-weight: normal;
 }
+:--namespace form.glsr-form .glsr-description {
+    font-size: var(--glsr-description-text);
+}
 :--namespace form.glsr-form select.glsr-select {
     background: var(--glsr-white);
     border: 1px solid var(--glsr-gray-300);

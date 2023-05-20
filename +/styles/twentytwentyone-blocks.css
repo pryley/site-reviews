@@ -62,7 +62,12 @@
     border: 2px solid var(--glsr-toggle-bg-0);
     transition: transform 0.075s ease-in-out;
 }
-
+:--namespace form.glsr-form .glsr-field-toggle input[type=checkbox]:checked + .glsr-toggle-track::after {
+    background-color: var(--glsr-toggle-bg-0);
+}
+:--namespace form.glsr-form .glsr-description {
+    font-size: var(--glsr-description-text);
+}
 /* Pagination */
 :--namespace .glsr-pagination .pagination {
     border-top: var(--button--border-width) solid var(--global--color-primary);

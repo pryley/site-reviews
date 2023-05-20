@@ -48,3 +48,6 @@
     border-color: var(--glsr-toggle-bg-1);
     border-width: 1px;
 }
+:--namespace form.glsr-form .glsr-description {
+    font-size: var(--glsr-description-text);
+}

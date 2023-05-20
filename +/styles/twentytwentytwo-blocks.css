@@ -27,6 +27,9 @@
     height: var(--glsr-text-lg);
     width: var(--glsr-text-lg);
 }
+:--namespace form.glsr-form .glsr-description {
+    font-size: var(--glsr-description-text);
+}
 :--namespace .glsr-pagination .nav-links {
     column-gap: var(--glsr-gap-sm);
 }
