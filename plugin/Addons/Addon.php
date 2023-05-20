@@ -80,22 +80,23 @@ abstract class Addon
         return glsr()->args($options);
     }
 
-    /**
-     * @param int $perPage
-     * @return array
-     */
-    public function posts($perPage = 50)
+    public function posts(int $perPage = -1, string $placeholder = ''): array
     {
         if (empty(static::POST_TYPE)) {
             return [];
         }
-        $posts = get_posts([
-            'order' => 'ASC',
-            'orderby' => 'post_title',
+        $query = [
+            'no_found_rows' => true, // skip counting the total rows found
             'post_type' => static::POST_TYPE,
             'post_status' => 'publish',
             'posts_per_page' => $perPage,
-        ]);
+            'suppress_filters' => true,
+        ];
+        if ($perPage > 0) {
+            $query['order'] = 'ASC';
+            $query['orderby'] = 'post_title';
+        }
+        $posts = get_posts($query);
         $results = wp_list_pluck($posts, 'post_title', 'ID');
         foreach ($results as $id => &$title) {
             if (empty(trim($title))) {
@@ -104,6 +105,9 @@ abstract class Addon
             $title = sprintf('%s (ID: %s)', $title, $id);
         }
         natcasesort($results);
+        if (!empty($placeholder)) {
+            return ['' => $placeholder] + $results;
+        }
         return $results;
     }
 }
