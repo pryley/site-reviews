@@ -127,7 +127,7 @@ class Style
 
     public function view(string $view): string
     {
-        $styledViews = glsr()->filterArray('style/views', [
+        $templates = [
             'templates/form/field',
             'templates/form/response',
             'templates/form/submit-button',
@@ -137,8 +137,9 @@ class Style
             'templates/load-more-button',
             'templates/pagination',
             'templates/reviews-form',
-        ]);
-        if (!preg_match('('.implode('|', $styledViews).')', $view)) {
+        ];
+        $templates = glsr()->filterArray('style/templates', $templates);
+        if (!preg_match('('.implode('|', $templates).')', $view)) {
             return $view;
         }
         $views = $this->generatePossibleViews($view);
@@ -172,11 +173,12 @@ class Style
         $customPath = 'views/styles/'.$this->__get('style').'/';
         $parts = explode('_', $basename);
         $views = [
-            $customPath.$basename,
-            $customPath.$parts[0],
-            $view,
-            $basepath.$parts[0],
+            $customPath.$basename, // styled view
+            $customPath.$parts[0], // styled view (base)
+            $view, // default view
+            $basepath.$parts[0], // default view (base)
         ];
+        $views = glsr()->filterArray('style/views', $views, $view);
         return array_filter($views);
     }
 
