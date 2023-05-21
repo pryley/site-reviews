@@ -1,6 +1,10 @@
 == Changelog ==
 
-= 6.9.0 (2023-05-22) =
+= 6.9.1 (2023-05-22) =
+
+- Fixed `{review_assigned_links}` template tag in email notifications
+
+= 6.9.0 (2023-05-21) =
 
 - Added support for field descriptions (Review Forms addon required)
 - Deprecated the "site-reviews/slack/compose" hook (use the "site-reviews/slack/notification" hook instead)

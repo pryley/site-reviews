@@ -3,7 +3,7 @@ Contributors: geminilabs, pryley
 Donate link: https://ko-fi.com/pryley
 Tags: reviews, ratings, testimonials, woocommerce, product reviews, business reviews, stars, star ratings, elementor
 Tested up to: 6.2
-Stable tag: 6.9.0
+Stable tag: 6.9.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -180,7 +180,11 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.9.0 (2023-05-22) =
+= 6.9.1 (2023-05-22) =
+
+- Fixed `{review_assigned_links}` template tag in email notifications
+
+= 6.9.0 (2023-05-21) =
 
 - Added support for field descriptions (Review Forms addon required)
 - Deprecated the "site-reviews/slack/compose" hook (use the "site-reviews/slack/notification" hook instead)
