@@ -159,7 +159,7 @@ class Text
         $paragraphs = array_map('trim', $paragraphs);
         foreach ($paragraphs as &$paragraph) {
             $paragraphLength = mb_strlen($paragraph);
-            if ($length >= $paragraphLength) {
+            if ($length > $paragraphLength) {
                 $paragraph = sprintf('<p>%s</p>', $paragraph);
                 $length -= $paragraphLength;
                 continue;

@@ -16,7 +16,7 @@
     margin-top: 0 !important;
 }
 :root .glsr-review p:last-of-type,
-:root .glsr-review [data-expanded=false] p.glsr-hidden-text {
+:root .glsr-review [data-expanded="false"] p.glsr-hidden-text {
     margin-bottom: 0 !important;
 }
 :root .glsr-review-date {
