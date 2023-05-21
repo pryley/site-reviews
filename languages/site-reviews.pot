@@ -1564,7 +1564,7 @@ msgctxt "admin-text"
 msgid "The [%s] method has been deprecated and will be soon be removed, please use the [%s] method instead."
 msgstr ""
 
-#: plugin/Review.php:160, plugin/Modules/Avatar.php:84, plugin/Modules/Notification.php:96
+#: plugin/Review.php:160, plugin/Modules/Avatar.php:84, plugin/Modules/Notification.php:53
 msgid "Anonymous"
 msgstr ""
 
@@ -2655,65 +2655,70 @@ msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:14
 msgctxt "admin-text"
-msgid "The review's assigned page titles"
+msgid "The review's assigned page links"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:15
 msgctxt "admin-text"
-msgid "The review's assigned user display names"
+msgid "The review's assigned page titles"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:16
 msgctxt "admin-text"
-msgid "The review author"
+msgid "The review's assigned user display names"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:17
 msgctxt "admin-text"
-msgid "The review's assigned categories"
+msgid "The review author"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:18
 msgctxt "admin-text"
-msgid "The review content"
+msgid "The review's assigned categories"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:19
 msgctxt "admin-text"
-msgid "The email of the review author"
+msgid "The review content"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:20
 msgctxt "admin-text"
-msgid "The IP address of the review author"
+msgid "The email of the review author"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:21
 msgctxt "admin-text"
-msgid "The link to edit/view a review"
+msgid "The IP address of the review author"
 msgstr ""
 
 #: plugin/Defaults/TemplateTagsDefaults.php:22
 msgctxt "admin-text"
+msgid "The link to edit/view a review"
+msgstr ""
+
+#: plugin/Defaults/TemplateTagsDefaults.php:23
+msgctxt "admin-text"
 msgid "The review rating number (1-5)"
 msgstr ""
 
-#: plugin/Defaults/TemplateTagsDefaults.php:23, views/pages/tools/general/import-reviews.php:121
+#: plugin/Defaults/TemplateTagsDefaults.php:24, views/pages/tools/general/import-reviews.php:121
 msgctxt "admin-text"
 msgid "The review response"
 msgstr ""
 
-#: plugin/Defaults/TemplateTagsDefaults.php:24
+#: plugin/Defaults/TemplateTagsDefaults.php:25
 msgctxt "admin-text"
 msgid "The review title"
 msgstr ""
 
-#: plugin/Defaults/TemplateTagsDefaults.php:25
+#: plugin/Defaults/TemplateTagsDefaults.php:26
 msgctxt "admin-text"
 msgid "The Site Title from your WordPress settings"
 msgstr ""
 
-#: plugin/Defaults/TemplateTagsDefaults.php:26
+#: plugin/Defaults/TemplateTagsDefaults.php:27
 msgctxt "admin-text"
 msgid "The Site URL from your WordPress settings"
 msgstr ""
@@ -2846,7 +2851,7 @@ msgstr ""
 msgid "Show less"
 msgstr ""
 
-#: plugin/Metaboxes/AssignedPostsMetabox.php:38, plugin/Modules/Discord.php:134, plugin/Modules/Notification.php:64, plugin/Modules/Slack.php:169
+#: plugin/Metaboxes/AssignedPostsMetabox.php:38, plugin/Modules/Discord.php:134, plugin/Modules/Slack.php:169, plugin/Modules/Html/TemplateTags.php:68, plugin/Modules/Html/TemplateTags.php:82
 msgid "(no title)"
 msgstr ""
 
@@ -3042,16 +3047,11 @@ msgctxt "admin-text"
 msgid "Show more details"
 msgstr ""
 
-#: plugin/Modules/Notification.php:50, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:25
-msgctxt "admin-text"
-msgid "No title"
-msgstr ""
-
-#: plugin/Modules/Notification.php:140
+#: plugin/Modules/Notification.php:97
 msgid "New %s-star review"
 msgstr ""
 
-#: plugin/Modules/Notification.php:144
+#: plugin/Modules/Notification.php:101
 msgid "New %s-star review of %s"
 msgstr ""
 
@@ -4238,7 +4238,7 @@ msgctxt "admin-text"
 msgid "The Schema Pro integration with Site Reviews will only work if the schema is loaded in the Footer location."
 msgstr ""
 
-#: plugin/Modules/Html/TemplateTags.php:149
+#: plugin/Modules/Html/TemplateTags.php:131
 msgctxt "admin-text"
 msgid "View the review in WordPress &rarr;"
 msgstr ""
@@ -5002,6 +5002,11 @@ msgstr ""
 
 #: plugin/Modules/Html/Tags/FormSubmitButtonTag.php:19
 msgid "Submit your review"
+msgstr ""
+
+#: plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:25
+msgctxt "admin-text"
+msgid "No title"
 msgstr ""
 
 #: plugin/Modules/Html/Tags/ReviewResponseTag.php:17, views/pages/documentation/faq/change-response-name.php:11

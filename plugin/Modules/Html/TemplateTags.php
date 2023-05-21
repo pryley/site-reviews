@@ -7,14 +7,20 @@ use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
 use GeminiLabs\SiteReviews\Helpers\Cast;
 use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Multilingual;
 use GeminiLabs\SiteReviews\Review;
 
 class TemplateTags
 {
-    /**
-     * @return string
-     */
-    public function description(array $args = [])
+    public function __call($method, $args)
+    {
+        if ('tagList' === $method) { // @compat
+            return call_user_func_array([$this, 'listTags'], $args);
+        }
+        throw new \BadMethodCallException("Method [$method] does not exist.");
+    }
+
+    public function description(array $args = []): string
     {
         $tags = $this->filteredTags($args);
         array_walk($tags, function (&$description, $tag) {
@@ -23,47 +29,7 @@ class TemplateTags
         return implode('<br>', $tags);
     }
 
-    /**
-     * @return string
-     */
-    public function tagList(array $args = [])
-    {
-        $tags = array_keys($this->filteredTags($args));
-        array_walk($tags, function (&$tag) {
-            $tag = sprintf('<li><code>{%s}</code></li>', $tag);
-        });
-        return sprintf('<ul>%s</ul>', implode('', $tags));
-    }
-
-    /**
-     * @return array
-     */
-    public function tags(Review $review, array $args = [])
-    {
-        $tags = $this->filteredTags($args);
-        array_walk($tags, function (&$content, $tag) use ($review) {
-            $content = ''; // remove the tag description first!
-            $method = Helper::buildMethodName($tag.'_tag');
-            if (method_exists($this, $method)) {
-                $content = call_user_func([$this, $method], $review);
-            }
-            $content = glsr()->filterString('notification/tag/'.$tag, $content, $review);
-        });
-        return $tags;
-    }
-
-    /**
-     * @return string
-     */
-    protected function adminEmailTag()
-    {
-        return get_bloginfo('admin_email');
-    }
-
-    /**
-     * @return array
-     */
-    protected function filteredTags(array $args)
+    public function filteredTags(array $args): array
     {
         $exclude = Arr::consolidate(Arr::get($args, 'exclude'));
         $include = Arr::consolidate(Arr::get($args, 'include'));
@@ -77,72 +43,88 @@ class TemplateTags
         return $tags;
     }
 
-    /**
-     * @return string
-     */
-    protected function reviewAssignedPostsTag(Review $review)
+    public function listTags(array $args = []): string
+    {
+        $tags = array_keys($this->filteredTags($args));
+        array_walk($tags, function (&$tag) {
+            $tag = sprintf('<li><code>{%s}</code></li>', $tag);
+        });
+        return sprintf('<ul>%s</ul>', implode('', $tags));
+    }
+
+    public function tagAdminEmail(): string
+    {
+        return Cast::toString(get_bloginfo('admin_email'));
+    }
+
+    public function tagReviewAssignedLinks(Review $review, string $format = '<a href="%s">%s</a>'): string
+    {
+        $links = [];
+        foreach ($review->assigned_posts as $postId) {
+            $postId = glsr(Multilingual::class)->getPostId(Helper::getPostId($postId));
+            if (!empty($postId) && !array_key_exists($postId, $links)) {
+                $title = get_the_title($postId);
+                if (empty(trim($title))) {
+                    $title = __('(no title)', 'site-reviews');
+                }
+                $links[$postId] = sprintf($format, (string) get_the_permalink($postId), $title);
+            }
+        }
+        return Str::naturalJoin($links);
+    }
+
+    public function tagReviewAssignedPosts(Review $review): string
     {
         $posts = $review->assignedPosts();
-        $postTitles = array_filter(wp_list_pluck($posts, 'post_title'));
-        return Str::naturalJoin($postTitles);
+        $titles = wp_list_pluck($posts, 'post_title');
+        array_walk($titles, function (&$title) {
+            if (empty(trim($title))) {
+                $title = __('(no title)', 'site-reviews');
+            }
+        });
+        return Str::naturalJoin($titles);
     }
 
-    /**
-     * @return string
-     */
-    protected function reviewAssignedUsersTag(Review $review)
-    {
-        $users = $review->assignedUsers();
-        $userNames = array_filter(wp_list_pluck($users, 'display_name'));
-        return Str::naturalJoin($userNames);
-    }
-
-    /**
-     * @return string
-     */
-    protected function reviewAuthorTag(Review $review)
-    {
-        return $review->author();
-    }
-
-    /**
-     * @return string
-     */
-    protected function reviewCategoriesTag(Review $review)
+    public function tagReviewAssignedTerms(Review $review): string
     {
         $terms = $review->assignedTerms();
         $termNames = array_filter(wp_list_pluck($terms, 'name'));
         return Str::naturalJoin($termNames);
     }
 
-    /**
-     * @return string
-     */
-    protected function reviewContentTag(Review $review)
+    public function tagReviewAssignedUsers(Review $review): string
     {
-        return $review->content;
+        $users = $review->assignedUsers();
+        $userNames = array_filter(wp_list_pluck($users, 'display_name'));
+        return Str::naturalJoin($userNames);
     }
 
-    /**
-     * @return string
-     */
-    protected function reviewEmailTag(Review $review)
+    public function tagReviewAuthor(Review $review): string
     {
-        return $review->email;
+        return $review->author();
     }
 
-    /**
-     * @return string
-     */
-    protected function reviewIpTag(Review $review)
+    public function tagReviewCategories(Review $review): string
     {
-        return $review->ip_address;
+        return $this->tagReviewAssignedTerms($review);
     }
 
-    /**
-     * @return string
-     */
-    protected function reviewLinkTag(Review $review)
+    public function tagReviewContent(Review $review): string
+    {
+        return (string) $review->content;
+    }
+
+    public function tagReviewEmail(Review $review): string
+    {
+        return (string) $review->email;
+    }
+
+    public function tagReviewIp(Review $review): string
+    {
+        return (string) $review->ip_address;
+    }
+
+    public function tagReviewLink(Review $review): string
     {
         return glsr(Builder::class)->a([
             'href' => admin_url('post.php?post='.$review->ID.'&action=edit'),
@@ -150,43 +132,42 @@ class TemplateTags
         ]);
     }
 
-    /**
-     * @return string
-     */
-    protected function reviewRatingTag(Review $review)
+    public function tagReviewRating(Review $review): string
     {
         return Cast::toString($review->rating);
     }
 
-    /**
-     * @return string
-     */
-    protected function reviewResponseTag(Review $review)
+    public function tagReviewResponse(Review $review): string
     {
-        return $review->response;
+        return (string) $review->response;
     }
 
-    /**
-     * @return string
-     */
-    protected function reviewTitleTag(Review $review)
+    public function tagReviewTitle(Review $review): string
     {
-        return $review->title;
+        return (string) $review->title;
     }
 
-    /**
-     * @return string
-     */
-    protected function siteTitleTag()
+    public function tags(Review $review, array $args = []): array
     {
-        return wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES);
+        $tags = $this->filteredTags($args);
+        array_walk($tags, function (&$content, $tag) use ($review) {
+            $content = ''; // remove the tag description first!
+            $method = Helper::buildMethodName($tag, 'tag');
+            if (method_exists($this, $method)) {
+                $content = call_user_func([$this, $method], $review);
+            }
+            $content = glsr()->filterString('notification/tag/'.$tag, $content, $review);
+        });
+        return $tags;
     }
 
-    /**
-     * @return string
-     */
-    protected function siteUrlTag()
+    public function tagSiteTitle(): string
     {
-        return get_bloginfo('url');
+        return wp_specialchars_decode(Cast::toString(get_bloginfo('name')), ENT_QUOTES);
+    }
+
+    public function tagSiteUrl(): string
+    {
+        return Cast::toString(get_bloginfo('url'));
     }
 }

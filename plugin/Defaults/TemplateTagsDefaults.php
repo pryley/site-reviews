@@ -11,6 +11,7 @@ class TemplateTagsDefaults extends DefaultsAbstract
     {
         return [
             'admin_email' => _x('The admin email from your WordPress settings', 'admin-text', 'site-reviews'),
+            'review_assigned_links' => _x('The review\'s assigned page links', 'admin-text', 'site-reviews'),
             'review_assigned_posts' => _x('The review\'s assigned page titles', 'admin-text', 'site-reviews'),
             'review_assigned_users' => _x('The review\'s assigned user display names', 'admin-text', 'site-reviews'),
             'review_author' => _x('The review author', 'admin-text', 'site-reviews'),

@@ -3,9 +3,8 @@
 namespace GeminiLabs\SiteReviews\Modules;
 
 use GeminiLabs\SiteReviews\Database\OptionManager;
-use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Helpers\Arr;
-use GeminiLabs\SiteReviews\Helpers\Str;
+use GeminiLabs\SiteReviews\Modules\Html\TemplateTags;
 use GeminiLabs\SiteReviews\Review;
 
 class Notification
@@ -39,60 +38,18 @@ class Notification
         }
     }
 
-    protected function assignedLinks($format = '<a href="%1$s">%1$s</a>'): string
-    {
-        $links = [];
-        foreach ($this->review->assigned_posts as $postId) {
-            $postId = glsr(Multilingual::class)->getPostId(Helper::getPostId($postId));
-            if (!empty($postId) && !array_key_exists($postId, $links)) {
-                $title = get_the_title($postId);
-                if (empty(trim($title))) {
-                    $title = _x('No title', 'admin-text', 'site-reviews');
-                }
-                $links[$postId] = sprintf('<a href="%s">%s</a>', (string) get_the_permalink($postId), $title);
-            }
-        }
-        return Str::naturalJoin($links);
-    }
-
-    protected function assignedPosts(): string
-    {
-        $posts = $this->review->assignedPosts();
-        $postTitles = wp_list_pluck($posts, 'post_title');
-        array_walk($postTitles, function (&$title) {
-            if (empty(trim($title))) {
-                $title = __('(no title)', 'site-reviews');
-            }
-        });
-        return Str::naturalJoin($postTitles);
-    }
-
-    protected function assignedTerms(): string
-    {
-        $terms = $this->review->assignedTerms();
-        $termNames = array_filter(wp_list_pluck($terms, 'name'));
-        return Str::naturalJoin($termNames);
-    }
-
-    protected function assignedUsers(): string
-    {
-        $users = $this->review->assignedUsers();
-        $userNames = array_filter(wp_list_pluck($users, 'display_name'));
-        return Str::naturalJoin($userNames);
-    }
-
     protected function buildEmail(): array
     {
-        $assignedTerms = $this->assignedTerms();
+        $assignedTerms = glsr(TemplateTags::class)->tagReviewAssignedTerms($this->review);
         return [
             'to' => $this->emailAddresses(),
             'subject' => $this->notificationTitle(true),
             'template' => 'default',
             'template-tags' => [
-                'review_assigned_posts' => $this->assignedPosts(),
-                'review_assigned_users' => $this->assignedUsers(),
+                'review_assigned_links' => glsr(TemplateTags::class)->tagReviewAssignedLinks($this->review),
+                'review_assigned_posts' => glsr(TemplateTags::class)->tagReviewAssignedPosts($this->review),
                 'review_assigned_terms' => $assignedTerms,
-                'review_assigned_links' => $this->assignedLinks(),
+                'review_assigned_users' => glsr(TemplateTags::class)->tagReviewAssignedUsers($this->review),
                 'review_author' => $this->review->author ?: __('Anonymous', 'site-reviews'),
                 'review_categories' => $assignedTerms,
                 'review_content' => $this->review->content,
@@ -139,7 +96,7 @@ class Notification
         $siteTitle = wp_specialchars_decode(glsr(OptionManager::class)->getWP('blogname'), ENT_QUOTES);
         $title = sprintf(__('New %s-star review', 'site-reviews'), $this->review->rating);
         if ($withPostAssignment) {
-            $postAssignments = $this->assignedPosts();
+            $postAssignments = glsr(TemplateTags::class)->tagReviewAssignedPosts($this->review);
             if (!empty($postAssignments)) {
                 $title = sprintf(__('New %s-star review of %s', 'site-reviews'), $this->review->rating, $postAssignments);
             }
@@ -156,7 +113,7 @@ class Notification
     protected function sendToDiscord(): void
     {
         $args = [
-            'assigned_links' => $this->assignedLinks('[%2$s](%1$s)'),
+            'assigned_links' => glsr(TemplateTags::class)->tagReviewAssignedLinks($this->review, '[%2$s](%1$s)'),
             'edit_url' => $this->permalink(),
             'header' => $this->notificationTitle(),
         ];
@@ -174,7 +131,7 @@ class Notification
     protected function sendToSlack(): void
     {
         $args = [
-            'assigned_links' => $this->assignedLinks('<%s|%s>'),
+            'assigned_links' => glsr(TemplateTags::class)->tagReviewAssignedLinks($this->review, '<%s|%s>'),
             'edit_url' => $this->permalink(),
             'header' => $this->notificationTitle(),
         ];

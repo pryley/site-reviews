@@ -40,7 +40,7 @@ msgstr[1] "%s stars or less"
 msgid "There are no reviews yet. Be the first one to write one."
 msgstr "There are no reviews yet. Be the first one to write one."
 
-#: plugin/Review.php:160, plugin/Modules/Avatar.php:84, plugin/Modules/Notification.php:96
+#: plugin/Review.php:160, plugin/Modules/Avatar.php:84, plugin/Modules/Notification.php:53
 msgid "Anonymous"
 msgstr "Anonymous"
 
@@ -204,7 +204,7 @@ msgstr "and"
 msgid "Show less"
 msgstr "Show less"
 
-#: plugin/Metaboxes/AssignedPostsMetabox.php:38, plugin/Modules/Discord.php:134, plugin/Modules/Notification.php:64, plugin/Modules/Slack.php:169
+#: plugin/Metaboxes/AssignedPostsMetabox.php:38, plugin/Modules/Discord.php:134, plugin/Modules/Slack.php:169, plugin/Modules/Html/TemplateTags.php:68, plugin/Modules/Html/TemplateTags.php:82
 msgid "(no title)"
 msgstr "(no title)"
 
@@ -216,11 +216,11 @@ msgstr "Avatar for %s"
 msgid "Review of %s"
 msgstr "Review of %s"
 
-#: plugin/Modules/Notification.php:140
+#: plugin/Modules/Notification.php:97
 msgid "New %s-star review"
 msgstr "New %s-star review"
 
-#: plugin/Modules/Notification.php:144
+#: plugin/Modules/Notification.php:101
 msgid "New %s-star review of %s"
 msgstr "New %s-star review of %s"
 
@@ -3051,65 +3051,70 @@ msgstr "The admin email from your WordPress settings"
 
 #: plugin/Defaults/TemplateTagsDefaults.php:14
 msgctxt "admin-text"
+msgid "The review's assigned page links"
+msgstr "The review's assigned page links"
+
+#: plugin/Defaults/TemplateTagsDefaults.php:15
+msgctxt "admin-text"
 msgid "The review's assigned page titles"
 msgstr "The review's assigned page titles"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:15
+#: plugin/Defaults/TemplateTagsDefaults.php:16
 msgctxt "admin-text"
 msgid "The review's assigned user display names"
 msgstr "The review's assigned user display names"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:16
+#: plugin/Defaults/TemplateTagsDefaults.php:17
 msgctxt "admin-text"
 msgid "The review author"
 msgstr "The review author"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:17
+#: plugin/Defaults/TemplateTagsDefaults.php:18
 msgctxt "admin-text"
 msgid "The review's assigned categories"
 msgstr "The review's assigned categories"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:18
+#: plugin/Defaults/TemplateTagsDefaults.php:19
 msgctxt "admin-text"
 msgid "The review content"
 msgstr "The review content"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:19
+#: plugin/Defaults/TemplateTagsDefaults.php:20
 msgctxt "admin-text"
 msgid "The email of the review author"
 msgstr "The email of the review author"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:20
+#: plugin/Defaults/TemplateTagsDefaults.php:21
 msgctxt "admin-text"
 msgid "The IP address of the review author"
 msgstr "The IP address of the review author"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:21
+#: plugin/Defaults/TemplateTagsDefaults.php:22
 msgctxt "admin-text"
 msgid "The link to edit/view a review"
 msgstr "The link to edit/view a review"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:22
+#: plugin/Defaults/TemplateTagsDefaults.php:23
 msgctxt "admin-text"
 msgid "The review rating number (1-5)"
 msgstr "The review rating number (1-5)"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:23, views/pages/tools/general/import-reviews.php:121
+#: plugin/Defaults/TemplateTagsDefaults.php:24, views/pages/tools/general/import-reviews.php:121
 msgctxt "admin-text"
 msgid "The review response"
 msgstr "The review response"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:24
+#: plugin/Defaults/TemplateTagsDefaults.php:25
 msgctxt "admin-text"
 msgid "The review title"
 msgstr "The review title"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:25
+#: plugin/Defaults/TemplateTagsDefaults.php:26
 msgctxt "admin-text"
 msgid "The Site Title from your WordPress settings"
 msgstr "The Site Title from your WordPress settings"
 
-#: plugin/Defaults/TemplateTagsDefaults.php:26
+#: plugin/Defaults/TemplateTagsDefaults.php:27
 msgctxt "admin-text"
 msgid "The Site URL from your WordPress settings"
 msgstr "The Site URL from your WordPress settings"
@@ -3207,11 +3212,6 @@ msgstr "Console was automatically cleared (512KB maximum size)"
 msgctxt "admin-text"
 msgid "Show more details"
 msgstr "Show more details"
-
-#: plugin/Modules/Notification.php:50, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:25
-msgctxt "admin-text"
-msgid "No title"
-msgstr "No title"
 
 #: plugin/Modules/Translation.php:132
 msgctxt "admin-text"
@@ -4204,7 +4204,7 @@ msgstr ""
 "The Schema Pro integration with Site Reviews will only work if the schema "
 "is loaded in the Footer location."
 
-#: plugin/Modules/Html/TemplateTags.php:149
+#: plugin/Modules/Html/TemplateTags.php:131
 msgctxt "admin-text"
 msgid "View the review in WordPress &rarr;"
 msgstr "View the review in WordPress &rarr;"
@@ -4962,6 +4962,11 @@ msgstr "Imported %d Product Reviews"
 msgctxt "admin-text"
 msgid "managed by Site Reviews"
 msgstr "managed by Site Reviews"
+
+#: plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:25
+msgctxt "admin-text"
+msgid "No title"
+msgstr "No title"
 
 #: views/integrations/woocommerce/notices/reviews.php:6
 msgctxt "admin-text"
