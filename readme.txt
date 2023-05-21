@@ -180,22 +180,18 @@ This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a fe
 
 == Changelog ==
 
-= 6.9.0 (2023-05-10) =
+= 6.9.0 (2023-05-22) =
 
+- Added support for field descriptions (Review Forms addon required)
+- Deprecated the "site-reviews/slack/compose" hook (use the "site-reviews/slack/notification" hook instead)
+- Fixed a PHP error caused by a bug in several third-party migration plugins
+- Fixed excerpt character split
+- Fixed paragraph spacing in reviews
 - Fixed review caching
-- Fixed paragraph spacing in review modals
+- Fixed settings sanitization
+- Fixed styled SELECT elements
+- Updated Action Scheduler to v3.6.0
 - Updated the Date sanitizer to allow a date format
 - Updated the Slack integration to use block composition
-- Deprecated the "site-reviews/slack/compose" hook (use the "site-reviews/slack/notification" hook instead)
-
-= 6.8.1 (2023-04-27) =
-
-- Added Assigned Links to Discord notifications
-- Fixed Discord notification avatar and username (i.e. Site Reviews now uses the values configured in the Discord Webhook)
-
-= 6.8.0 (2023-04-26) =
-
-- Added "Send to Discord channel" notification setting
-- Fixed name initials when reviewer's name is empty
 
 [See changelog for all versions](https://raw.githubusercontent.com/pryley/site-reviews/main/changelog.txt).

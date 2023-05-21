@@ -1,5 +1,24 @@
 == Changelog ==
 
+= 6.9.0 (2023-05-22) =
+
+- Added support for field descriptions (Review Forms addon required)
+- Deprecated the "site-reviews/slack/compose" hook (use the "site-reviews/slack/notification" hook instead)
+- Fixed a PHP error caused by a bug in several third-party migration plugins
+- Fixed excerpt character split
+- Fixed paragraph spacing in reviews
+- Fixed review caching
+- Fixed settings sanitization
+- Fixed styled SELECT elements
+- Updated Action Scheduler to v3.6.0
+- Updated the Date sanitizer to allow a date format
+- Updated the Slack integration to use block composition
+
+= 6.8.1 (2023-04-27) =
+
+- Added Assigned Links to Discord notifications
+- Fixed Discord notification avatar and username (i.e. Site Reviews now uses the values configured in the Discord Webhook)
+
 = 6.8.0 (2023-04-26) =
 
 - Added "Send to Discord channel" notification setting
