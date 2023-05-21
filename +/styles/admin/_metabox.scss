@@ -137,6 +137,7 @@
 .glsr-metabox-field textarea,
 .glsr-metabox-field select {
     margin: 0;
+    max-width: none;
     width: 100%;
     padding: 3px 8px;
     line-height: 1.5;
