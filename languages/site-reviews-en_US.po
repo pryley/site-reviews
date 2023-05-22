@@ -88,7 +88,7 @@ msgstr "Tell us your email"
 msgid "This review is based on my own experience and is my genuine opinion."
 msgstr "This review is based on my own experience and is my genuine opinion."
 
-#: plugin/Blocks/SiteReviewsBlock.php:126, plugin/Helpers/Text.php:173
+#: plugin/Blocks/SiteReviewsBlock.php:126, plugin/Helpers/Text.php:174
 msgid "Show more"
 msgstr "Show more"
 
@@ -200,7 +200,7 @@ msgstr ""
 msgid "and"
 msgstr "and"
 
-#: plugin/Helpers/Text.php:172
+#: plugin/Helpers/Text.php:173
 msgid "Show less"
 msgstr "Show less"
 
