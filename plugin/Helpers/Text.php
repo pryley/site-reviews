@@ -157,9 +157,10 @@ class Text
     {
         $paragraphs = preg_split('/\R+/um', $text);
         $paragraphs = array_map('trim', $paragraphs);
-        foreach ($paragraphs as &$paragraph) {
+        $lastIndex = count($paragraphs) - 1;
+        foreach ($paragraphs as $index => &$paragraph) {
             $paragraphLength = mb_strlen($paragraph);
-            if ($length > $paragraphLength) {
+            if ($length > $paragraphLength || ($length === $paragraphLength && $index === $lastIndex)) {
                 $paragraph = sprintf('<p>%s</p>', $paragraph);
                 $length -= $paragraphLength;
                 continue;
