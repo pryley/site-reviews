@@ -154,7 +154,7 @@ class DeactivationController extends Controller
             'PHP Version' => PHP_VERSION,
             'Site Language' => get_locale(),
             'Timezone' => wp_timezone_string(),
-            'Total Users' => get_user_count(),
+            'Total Users' => glsr_user_count(),
             'Website' => get_bloginfo('url'),
             'WordPress Version' => get_bloginfo('version'),
         ];

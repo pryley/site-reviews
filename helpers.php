@@ -119,6 +119,17 @@ function glsr_current_screen()
 }
 
 /**
+ * @return int
+ */
+function glsr_user_count()
+{
+    if (function_exists('get_user_count')) {
+        return get_user_count();
+    }
+    return Arr::getAs('int', count_users(), 'total_users');
+}
+
+/**
  * @param mixed ...$vars
  * @return void
  */

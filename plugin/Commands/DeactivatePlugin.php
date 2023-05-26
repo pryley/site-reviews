@@ -63,7 +63,7 @@ class DeactivatePlugin implements Contract
             'theme_version' => (string) $theme->version,
             'timezone' => wp_timezone_string(),
             'url' => get_bloginfo('url'),
-            'users' => get_user_count(),
+            'users' => glsr_user_count(),
             'wp_version' => get_bloginfo('version'),
         ];
         return glsr()->filterArray('deactivate/insight', $insight);
