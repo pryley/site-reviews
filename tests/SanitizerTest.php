@@ -1349,7 +1349,9 @@ class SanitizerTest extends \WP_UnitTestCase
 
     public function testSanitizeUserName()
     {
-        $sanitized = $this->sanitize('user-name');
+        $values = $this->testValues;
+        $values[] = 'Łukasz';
+        $sanitized = $this->sanitize('user-name', $values);
         $this->assertEquals($sanitized, [
             0 => '',
             1 => 'abc',
@@ -1369,15 +1371,16 @@ class SanitizerTest extends \WP_UnitTestCase
             15 => '0-0-2020',
             16 => '2020',
             17 => '李祖阳 xx xx',
-            18 => 'axdextomorrow 200 200 @peter',
+            18 => 'axdextomorrow 200 200 peter',
             19 => 'this is true',
             20 => 'single-review full-width onmouseoveralert69',
-            21 => 'matt@wordpress.org',
+            21 => 'mattwordpress.org',
             22 => 'httpswordpress.org',
             23 => 'wordpress.org',
             24 => 'www.wordpress.org',
             25 => 'httpswordpress.org',
             26 => '-1',
+            27 => 'Łukasz',
         ]);
     }
 
