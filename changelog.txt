@@ -1,5 +1,13 @@
 == Changelog ==
 
+= 6.9.4 (2023-05-30) =
+
+- Fixed unicode support for author name in reviews
+
+= 6.9.3 (2023-05-26) =
+
+- Fixed compatibility with WordPress v5.8 and v5.9
+
 = 6.9.2 (2023-05-22) =
 
 - Fixed "read more" links in exceprts
