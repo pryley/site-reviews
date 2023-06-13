@@ -33,6 +33,7 @@ $review = apply_filters('glsr_get_review', null, 13);</code></pre>
                 <pre><code class="language-php">$review->render(); // OR: echo $review;</code></pre>
                 <p>You can also pass arguments like this:</p>
                 <pre><code class="language-php">$review->render([
+    'form' => 2,
     'theme' => 13,
 ]);</code></pre>
             </li>
@@ -41,6 +42,7 @@ $review = apply_filters('glsr_get_review', null, 13);</code></pre>
                 <pre><code class="language-php">$reviewHtml = $review->build();</code></pre>
                 <p>You can also pass arguments like this:</p>
                 <pre><code class="language-php">$reviewHtml = $review->build([
+    'form' => 2,
     'theme' => 13,
 ]);</code></pre>
             </li>
