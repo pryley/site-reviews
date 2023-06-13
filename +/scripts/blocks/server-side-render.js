@@ -1,5 +1,6 @@
 /**
  * External dependencies
+ * see: https://github.com/WordPress/gutenberg/blob/trunk/packages/server-side-render/src/server-side-render.js
  */
 import { useMemoOne } from './use-memo-one';
 
