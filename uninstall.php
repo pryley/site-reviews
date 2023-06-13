@@ -121,26 +121,26 @@ function glsr_uninstall_minimal() {
 
 function glsr_uninstall_minimal_drop_foreign_keys() {
     global $wpdb;
-    $siteId = '';
-    if (get_current_blog_id() > 1) {
-        $siteId = '_'.get_current_blog_id();
-    }
-    $constraints = [ // order is intentional
-        "{$wpdb->prefix}glsr_assigned_users" => "glsr_assigned_users_user_id_foreign{$siteId}",
-        "{$wpdb->prefix}glsr_assigned_terms" => "glsr_assigned_terms_term_id_foreign{$siteId}",
-        "{$wpdb->prefix}glsr_assigned_posts" => "glsr_assigned_posts_post_id_foreign{$siteId}",
-        "{$wpdb->prefix}glsr_ratings" => "glsr_assigned_posts_review_id_foreign{$siteId}",
+    $constraints = $wpdb->get_col("
+        SELECT CONSTRAINT_NAME
+        FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
+        WHERE CONSTRAINT_SCHEMA = '{$wpdb->dbname}'
+    ");
+    $tables = [
+        'glsr_assigned_posts',
+        'glsr_assigned_terms',
+        'glsr_assigned_users',
+        'glsr_ratings',
     ];
-    foreach ($constraints as $table => $constraint) { // This should work for both MyISAM and InnoDB engines
-        $foreignKey = $wpdb->get_var("
-            SELECT INDEX_NAME
-            FROM INFORMATION_SCHEMA.STATISTICS
-            WHERE INDEX_SCHEMA = '{$wpdb->dbname}' AND TABLE_NAME = '{$table}' AND INDEX_NAME = '{$constraint}'
-        ");
-        if (!empty($foreignKey)) {
+    foreach ($tables as $table) {
+        $tablename = $wpdb->prefix.$table;
+        foreach ($constraints as $constraint) {
+            if (!str_contains($constraint, $table)) {
+                continue;
+            }
             $wpdb->query("
-                ALTER TABLE {$table} DROP FOREIGN KEY {$constraint};
-            ");
+                ALTER TABLE {$tablename} DROP FOREIGN KEY {$constraint};
+            "); // true if constraint exists, false if it doesn't exist
         }
     }
     // delete the saved database version

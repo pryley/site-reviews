@@ -89,8 +89,22 @@ class Tables
 
     public function dropForeignConstraints(): void
     {
+        $constraints = $this->db->get_col("
+            SELECT CONSTRAINT_NAME
+            FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
+            WHERE CONSTRAINT_SCHEMA = '{$this->dbname}'
+        ");
         foreach ($this->tables() as $table) {
-            glsr($table)->dropForeignConstraints();
+            $tablename = glsr($table)->tablename;
+            foreach ($constraints as $constraint) {
+                $needle = glsr()->prefix.glsr($table)->name;
+                if (!str_contains($constraint, $needle)) {
+                    continue;
+                }
+                $this->db->query("
+                    ALTER TABLE {$tablename} DROP FOREIGN KEY {$constraint};
+                "); // true if constraint exists, false if it doesn't exist
+            }
         }
     }
 
