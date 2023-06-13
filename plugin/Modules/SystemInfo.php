@@ -368,7 +368,8 @@ class SystemInfo
             || filter_input(INPUT_SERVER, $key)
             || Str::contains(filter_input(INPUT_SERVER, 'SERVER_NAME'), $key)
             || Str::contains(DB_HOST, $key)
-            || (function_exists('php_uname') && Str::contains(php_uname(), $key));
+            || (function_exists('php_uname') && Str::contains(php_uname(), $key))
+            || ('WPE_APIKEY' === $key && function_exists('is_wpe')); // WP Engine
     }
 
     protected function plugins(array $plugins): array
