@@ -361,7 +361,7 @@ class ScheduledActionsTable extends ActionScheduler_Abstract_ListTable
         $this->set_pagination_args([
             'total_items' => $total_items,
             'per_page' => $per_page,
-            'total_pages' => ceil($total_items / $per_page),
+            'total_pages' => (int) ceil($total_items / $per_page),
         ]);
     }
 

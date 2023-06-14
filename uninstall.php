@@ -126,7 +126,7 @@ function glsr_uninstall_minimal_drop_foreign_keys() {
         FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
         WHERE CONSTRAINT_SCHEMA = '{$wpdb->dbname}'
     ");
-    $tables = [
+    $tables = [ // order is intentional
         'glsr_assigned_posts',
         'glsr_assigned_terms',
         'glsr_assigned_users',

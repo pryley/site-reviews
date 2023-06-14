@@ -164,7 +164,7 @@ class Date
         $keys = ['index', 'level', 'levels', 'seconds', 'tense', 'unit'];
         $args = shortcode_atts(array_fill_keys($keys, 0), $args);
         extract($args);
-        if (1 === $level && 'future' === $tense) {
+        if (1 === $level && 'future' === $tense) { // @phpstan-ignore-line
             $string = $this->timePeriods[$index]['future'];
         } elseif (($level === $levels || $seconds <= 0) && 'past' === $tense) {
             $string = $this->timePeriods[$index]['past'];

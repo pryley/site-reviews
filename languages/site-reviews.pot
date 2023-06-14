@@ -1941,22 +1941,22 @@ msgctxt "admin-text"
 msgid "There were no settings found to import."
 msgstr ""
 
-#: plugin/Commands/MigratePlugin.php:27
+#: plugin/Commands/MigratePlugin.php:28
 msgctxt "admin-text"
 msgid "You do not have permission to migrate the plugin."
 msgstr ""
 
-#: plugin/Commands/MigratePlugin.php:41
+#: plugin/Commands/MigratePlugin.php:43
 msgctxt "admin-text"
 msgid "The plugin has been migrated sucessfully, please %s the page."
 msgstr ""
 
-#: plugin/Commands/MigratePlugin.php:42, plugin/Commands/MigratePlugin.php:36
+#: plugin/Commands/MigratePlugin.php:44, plugin/Commands/MigratePlugin.php:38
 msgctxt "(admin-text) e.g. please reload the page"
 msgid "reload"
 msgstr ""
 
-#: plugin/Commands/MigratePlugin.php:35
+#: plugin/Commands/MigratePlugin.php:37
 msgctxt "admin-text"
 msgid "All plugin migrations have been run successfully, please %s the page."
 msgstr ""

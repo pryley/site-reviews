@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 6.9.5 (2023-06-14) =
+
+- Fixed plugin migration (force-running all migrations should now fix database issues related to foreign constraints)
+- Fixed WP Engine detection in System Info
+- Updated documentation
+
 = 6.9.4 (2023-05-30) =
 
 - Fixed unicode support for author name in reviews
