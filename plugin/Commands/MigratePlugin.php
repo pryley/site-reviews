@@ -3,6 +3,7 @@
 namespace GeminiLabs\SiteReviews\Commands;
 
 use GeminiLabs\SiteReviews\Contracts\CommandContract as Contract;
+use GeminiLabs\SiteReviews\Database\Tables;
 use GeminiLabs\SiteReviews\Modules\Migrate;
 use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Modules\Queue;
@@ -30,6 +31,7 @@ class MigratePlugin implements Contract
         }
         glsr(Queue::class)->cancelAll('queue/migration');
         if ($this->runAll) {
+            glsr(Tables::class)->dropForeignConstraints();
             glsr(Migrate::class)->runAll();
             glsr(Notice::class)->clear()->addSuccess(sprintf(
                 _x('All plugin migrations have been run successfully, please %s the page.', 'admin-text', 'site-reviews'),
