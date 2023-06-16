@@ -1074,7 +1074,7 @@ msgctxt "admin-text"
 msgid "Email"
 msgstr ""
 
-#: config/settings.php:708, config/forms/metabox-fields.php:30
+#: config/settings.php:708, config/forms/metabox-fields.php:30, plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:39
 msgctxt "admin-text"
 msgid "Terms"
 msgstr ""
@@ -3767,6 +3767,26 @@ msgstr ""
 #: plugin/Controllers/ListTableColumns/ColumnFilterRating.php:40, plugin/Integrations/GamiPress/Controller.php:276
 msgctxt "admin-text"
 msgid "Any rating"
+msgstr ""
+
+#: plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:12
+msgctxt "admin-text"
+msgid "Filter by terms"
+msgstr ""
+
+#: plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:21
+msgctxt "admin-text"
+msgid "Terms not accepted"
+msgstr ""
+
+#: plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:22
+msgctxt "admin-text"
+msgid "Terms accepted"
+msgstr ""
+
+#: plugin/Controllers/ListTableColumns/ColumnFilterTerms.php:31
+msgctxt "admin-text"
+msgid "Any terms"
 msgstr ""
 
 #: plugin/Controllers/ListTableColumns/ColumnFilterType.php:12

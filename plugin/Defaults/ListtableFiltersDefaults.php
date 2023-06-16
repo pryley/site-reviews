@@ -7,6 +7,7 @@ use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAssignedUser
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterAuthor;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterCategory;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterRating;
+use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterTerms;
 use GeminiLabs\SiteReviews\Controllers\ListTableColumns\ColumnFilterType;
 
 class ListtableFiltersDefaults extends DefaultsAbstract
@@ -23,6 +24,7 @@ class ListtableFiltersDefaults extends DefaultsAbstract
             'assigned_post' => ColumnFilterAssignedPost::class,
             'assigned_user' => ColumnFilterAssignedUser::class,
             'author' => ColumnFilterAuthor::class,
+            'terms' => ColumnFilterTerms::class,
         ];
     }
 }

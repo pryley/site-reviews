@@ -431,7 +431,7 @@ class ListTableController extends Controller
                 } else {
                     $where .= " AND {$assignedTable}.{$column} = {$value} ";
                 }
-            } elseif (in_array($key, ['rating', 'type'])) {
+            } elseif (in_array($key, ['rating', 'terms', 'type'])) {
                 $where .= " AND {$table}.{$key} = '{$value}' ";
             } elseif ('author' === $key && '0' === $value) {
                 // Filtering by the "author" URL parameter is automatically done
