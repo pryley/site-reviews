@@ -43,7 +43,6 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
     public $sanitize = [
         'class' => 'attr-class',
         'description' => 'text',
-        'form_id' => 'id',
         'hide' => 'array-string',
         'id' => 'id-hash',
         'reviews_id' => 'id',
@@ -62,12 +61,22 @@ class SiteReviewsFormDefaults extends DefaultsAbstract
             'class' => '',
             'debug' => false,
             'description' => '',
-            'form_id' => '', // used for the validation session key and to generate the honeypot hash
+            'form_id' => '',
             'hide' => '',
             'id' => '',
             'reviews_id' => '',
             'title' => '',
         ];
+    }
+
+    /**
+     * Finalize provided values, this always runs last.
+     * @return array
+     */
+    protected function finalize(array $values = [])
+    {
+        $values['form_id'] = $values['id']; // used for the validation session key and to generate the honeypot hash
+        return $values;
     }
 
     /**

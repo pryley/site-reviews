@@ -117,9 +117,7 @@ abstract class DefaultsAbstract implements DefaultsContract
         $values = $this->normalize($values);
         array_unshift($args, $values);
         if (in_array($this->method, $this->callable)) { // this also means that the method exists
-            $values = $this->callMethod($args);
-            $values = $this->finalize($values);
-            return $values;
+            return $this->callMethod($args);
         }
         glsr_log()->error("Invalid method [$this->method].");
         return $args;
@@ -143,6 +141,7 @@ abstract class DefaultsAbstract implements DefaultsContract
         if ('dataAttributes' !== $this->method) {
             $values = $this->sanitize($values);
             $values = $this->guard($values);
+            $values = $this->finalize($values);
         }
         $args = array_shift($args);
         return $this->app()->filterArray('defaults/'.$this->hook, $values, $this->method, $args);
@@ -179,9 +178,10 @@ abstract class DefaultsAbstract implements DefaultsContract
     {
         $defaults = $this->flattenArrayValues($this->defaults);
         $values = $this->flattenArrayValues(shortcode_atts($defaults, $values));
-        $filtered = array_filter(array_diff_assoc($values, $defaults));  // remove all empty values
+        $filtered = array_filter(array_diff_assoc($values, $defaults)); // remove all empty values
         $filtered = $this->sanitize($filtered);
         $filtered = $this->guard($filtered); // this after sanitize for a more unique id
+        $filtered = $this->finalize($filtered);
         $filteredJson = [];
         foreach ($filtered as $key => $value) {
             $filteredJson['data-'.$key] = !is_scalar($value)
