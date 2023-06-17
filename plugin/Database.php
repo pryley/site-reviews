@@ -95,6 +95,18 @@ class Database
     }
 
     /**
+     * @param string $sql
+     * @return int|bool
+     */
+    public function dbSafeQuery($sql)
+    {
+        $this->db->query("SET GLOBAL foreign_key_checks = 0");
+        $result = $this->logErrors($this->db->query($sql));
+        $this->db->query("SET GLOBAL foreign_key_checks = 1");
+        return $result;
+    }
+
+    /**
      * @param string $table
      * @return int|false
      */
@@ -110,7 +122,7 @@ class Database
      */
     public function deleteInvalidFields()
     {
-        return $this->dbQuery(
+        return $this->dbSafeQuery(
             glsr(Query::class)->sql(sprintf("
                 DELETE f
                 FROM %s AS f
@@ -128,7 +140,7 @@ class Database
      */
     public function deleteInvalidPostAssignments()
     {
-        return $this->dbQuery(
+        return $this->dbSafeQuery(
             glsr(Query::class)->sql(sprintf("
                 DELETE ap
                 FROM %s AS ap
@@ -147,7 +159,7 @@ class Database
      */
     public function deleteInvalidReviews()
     {
-        return $this->dbQuery(
+        return $this->dbSafeQuery(
             glsr(Query::class)->sql(sprintf("
                 DELETE r
                 FROM %s AS r
@@ -165,7 +177,7 @@ class Database
      */
     public function deleteInvalidTermAssignments()
     {
-        return $this->dbQuery(
+        return $this->dbSafeQuery(
             glsr(Query::class)->sql(sprintf("
                 DELETE at
                 FROM %s AS at
@@ -185,7 +197,7 @@ class Database
      */
     public function deleteInvalidUserAssignments()
     {
-        return $this->dbQuery(
+        return $this->dbSafeQuery(
             glsr(Query::class)->sql(sprintf("
                 DELETE au
                 FROM %s AS au
