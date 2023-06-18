@@ -3217,23 +3217,23 @@ msgctxt "%s: time interval (admin-text)"
 msgid "Every %s"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:224
+#: plugin/Shortcodes/Shortcode.php:225
 msgid "Excellent"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:225
+#: plugin/Shortcodes/Shortcode.php:226
 msgid "Very good"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:226
+#: plugin/Shortcodes/Shortcode.php:227
 msgid "Average"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:227
+#: plugin/Shortcodes/Shortcode.php:228
 msgid "Poor"
 msgstr ""
 
-#: plugin/Shortcodes/Shortcode.php:228
+#: plugin/Shortcodes/Shortcode.php:229
 msgid "Terrible"
 msgstr ""
 

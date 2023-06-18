@@ -121,25 +121,24 @@ function glsr_uninstall_minimal() {
 
 function glsr_uninstall_minimal_drop_foreign_keys() {
     global $wpdb;
-    $constraints = $wpdb->get_col("
-        SELECT CONSTRAINT_NAME
+    $constraints = $wpdb->get_results("
+        SELECT CONSTRAINT_NAME, TABLE_NAME
         FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
         WHERE CONSTRAINT_SCHEMA = '{$wpdb->dbname}'
     ");
     $tables = [ // order is intentional
-        'glsr_assigned_posts',
-        'glsr_assigned_terms',
-        'glsr_assigned_users',
-        'glsr_ratings',
+        $wpdb->prefix.'glsr_assigned_posts',
+        $wpdb->prefix.'glsr_assigned_terms',
+        $wpdb->prefix.'glsr_assigned_users',
+        $wpdb->prefix.'glsr_ratings',
     ];
-    foreach ($tables as $table) {
-        $tablename = $wpdb->prefix.$table;
+    foreach ($tables as $tablename) {
         foreach ($constraints as $constraint) {
-            if (!str_contains($constraint, $table)) {
+            if ($tablename !== $constraint->TABLE_NAME) {
                 continue;
             }
             $wpdb->query("
-                ALTER TABLE {$tablename} DROP FOREIGN KEY {$constraint};
+                ALTER TABLE {$constraint->TABLE_NAME} DROP FOREIGN KEY {$constraint->CONSTRAINT_NAME};
             "); // true if constraint exists, false if it doesn't exist
         }
     }
