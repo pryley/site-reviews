@@ -14,7 +14,13 @@ class Avatar
 {
     public const FALLBACK_SIZE = 40;
     public const GRAVATAR_URL = 'https://secure.gravatar.com/avatar';
+    public const MAX_SIZE = 240;
+    public const MIN_SIZE = 16;
 
+    /**
+     * @var int
+     */
+    public $size;
     /**
      * @var string
      */
@@ -22,59 +28,49 @@ class Avatar
 
     public function __construct()
     {
+        $this->size = glsr_get_option('reviews.avatars_size', static::FALLBACK_SIZE, 'int');
         $this->type = glsr_get_option('reviews.avatars_fallback', 'mystery', 'string');
-    }
-
-    /**
-     * @return string
-     */
-    public function fallbackDefault(Review $review)
-    {
-        if ('custom' === $this->type) {
-            $customUrl = glsr_get_option('reviews.avatars_fallback_url');
-            if ($this->isUrl($customUrl)) {
-                return $customUrl;
-            }
-            $this->type = 'mystery'; // fallback to mystery if a custom url is not set
-        }
-        if ('initials' === $this->type) {
-            return $this->generateInitials($review);
-        }
-        if ('none' === $this->type) {
-            $this->type = '';
-        }
-        if ('pixels' === $this->type) {
-            return $this->generatePixels($review);
-        }
-        return $this->type;
     }
 
     public function fallbackUrl(Review $review, int $size = 0): string
     {
-        $fallbackUrl = $this->fallbackDefault($review);
-        if ($fallbackUrl === $this->type) {
-            $fallbackUrl = add_query_arg('d', $this->type, static::GRAVATAR_URL);
-            $fallbackUrl = add_query_arg('s', $this->size($size), $fallbackUrl);
+        $url = '';
+        if (in_array($this->type, ['custom', 'initials', 'none', 'pixels'])) {
+            $method = Helper::buildMethodName($this->type, 'generate');
+            if (method_exists($this, $method)) {
+                $url = call_user_func([$this, $method], $review);
+            }
+            $this->type = 'mm'; // fallback to the mystery man avatar if the custom/initials/pixels URL is invalid
         }
-        return glsr()->filterString('avatar/fallback', $fallbackUrl, $size, $review);
+        if ($this->isUrl($url)) {
+            $this->type = '404'; // fallback to the custom/initials/pixels URL
+        } else {
+            $args = [
+                'd' => $this->type,
+                's' => $this->size($size, true),
+            ];
+            $url = add_query_arg($args, static::GRAVATAR_URL);
+        }
+        return glsr()->filterString('avatar/fallback', $url, $this->size($size), $review);
     }
 
     public function generate(Review $review, int $size = 0): string
     {
-        $default = $this->fallbackDefault($review);
-        if ($default !== $this->type) {
-            $default = '404';
-        }
-        $size = $this->size($size);
+        $fallbackUrl = $this->fallbackUrl($review, $size);
         $avatarUrl = get_avatar_url($this->userField($review), [
-            'default' => $default,
-            'size' => $size,
+            'default' => $this->type,
+            'size' => $this->size($size, true),
         ]);
-        $avatarUrl = glsr()->filterString('avatar/generate', $avatarUrl, $size, $review);
+        $avatarUrl = glsr()->filterString('avatar/generate', $avatarUrl, $this->size($size), $review);
         if (!$this->isUrl($avatarUrl) || !$this->isUrlOnline($avatarUrl)) {
-            return $this->fallbackUrl($review, $size);
+            return $fallbackUrl;
         }
         return $avatarUrl;
+    }
+
+    public function generateCustom(): string
+    {
+        return glsr_get_option('reviews.avatars_fallback_url', '', 'string');
     }
 
     public function generateInitials(Review $review): string
@@ -93,14 +89,13 @@ class Avatar
 
     public function img(Review $review, int $size = 0): string
     {
-        $size = $this->size($size);
         $attributes = [
             'alt' => sprintf(__('Avatar for %s', 'site-reviews'), $review->author()),
-            'height' => $size, // @2x
+            'height' => $this->size($size, true),
             'loading' => 'lazy',
-            'src' => $this->url($review, $size), // @2x
-            'style' => sprintf('width:%1$spx; height:%1$spx;', $size / 2), // @1x
-            'width' => $size, // @2x
+            'src' => $this->url($review, $size),
+            'style' => sprintf('width:%1$spx; height:%1$spx;', $this->size($size)),
+            'width' => $this->size($size, true),
         ];
         if (glsr()->isAdmin()) {
             $attributes['data-fallback'] = $this->fallbackUrl($review, $size);
@@ -114,7 +109,7 @@ class Avatar
         if ($this->isUrl($review->avatar)) {
             return $review->avatar;
         }
-        return $this->fallbackUrl($review, $size);
+        return $this->generate($review, $size);
     }
 
     protected function isUrl(string $url): bool
@@ -131,14 +126,16 @@ class Avatar
         return 200 === $status;
     }
 
-    protected function size(int $size = 0): int
+    protected function size(int $size = 0, bool $double = false): int
     {
-        $size = Cast::toInt($size);
         if ($size < 1) {
-            $size = glsr_get_option('reviews.avatars_size', static::FALLBACK_SIZE, 'int');
-            $size = Helper::ifEmpty($size, static::FALLBACK_SIZE, $strict = true);
+            $size = $this->size;
         }
-        return $size * 2; // @2x
+        $size = min(static::MAX_SIZE, max(static::MIN_SIZE, $size));
+        if ($double) {
+            return $size * 2;
+        }
+        return $size;
     }
 
     protected function userField(Review $review): string

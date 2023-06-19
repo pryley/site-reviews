@@ -334,7 +334,7 @@ return [ // order is intentional
         ],
         'label' => _x('Avatar Size', 'admin-text', 'site-reviews'),
         'min' => 16,
-        'sanitizer' => 'int',
+        'sanitizer' => 'min:16',
         'tooltip' => _x('Set the height/width of the avatar in pixels.', 'admin-text', 'site-reviews'),
         'type' => 'number',
     ],
