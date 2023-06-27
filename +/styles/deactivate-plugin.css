@@ -1,3 +1,20 @@
+tr[data-plugin^="site-reviews"] .update-message hr {
+    border-color: #dba617;
+    border-width: 1px 0 0;
+    margin: 10px -12px;
+}
+p.glsr-update-warning {
+    margin-left: 26px !important;
+}
+p.glsr-update-warning::before {
+    content: "\f534" !important;
+    margin-left: -26px;
+}
+.glsr-update-message {
+    display: block;
+    margin-top: .5em;
+}
+
 .glsr-dp-overlay {
     position: fixed;
     left: 0;

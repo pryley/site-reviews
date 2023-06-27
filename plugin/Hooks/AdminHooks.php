@@ -9,6 +9,7 @@ class AdminHooks extends AbstractHooks
     public function run(): void
     {
         $this->hook(AdminController::class, [
+            ['displayUpdateWarning', 'in_plugin_update_message-'.$this->basename],
             ['enqueueAssets', 'admin_enqueue_scripts'],
             ['filterActionLinks', 'plugin_action_links_'.$this->basename],
             ['filterCapabilities', 'map_meta_cap', 10, 4],

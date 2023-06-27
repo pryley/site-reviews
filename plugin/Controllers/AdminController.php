@@ -27,6 +27,20 @@ use GeminiLabs\SiteReviews\Role;
 class AdminController extends Controller
 {
     /**
+     * @param array $data
+     * @action in_plugin_update_message-{plugin_basename}
+     */
+    public function displayUpdateWarning($data): void
+    {
+        $version = Arr::get($data, 'new_version');
+        $parts = explode('.', $version);
+        $newVersion = Arr::getAs('int', $parts, 0, 0);
+        if ($newVersion > (int) glsr()->version('major')) {
+            glsr()->render('views/partials/update-warning');
+        }
+    }
+
+    /**
      * @return void
      * @action admin_enqueue_scripts
      */
