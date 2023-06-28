@@ -172,6 +172,9 @@ class ReviewController extends Controller
                 if ('pending' === $new) {
                     glsr()->action('review/unapproved', $review, $old, $new);
                 }
+                if ('trash' === $new) {
+                    glsr()->action('review/trashed', $review, $old, $new);
+                }
             }
         } else {
             glsr(ReviewManager::class)->updateAssignedPost($post->ID);
