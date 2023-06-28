@@ -733,7 +733,7 @@ return [ // order is intentional
         ],
         'label' => _x('Limit Reviews For', 'admin-text', 'site-reviews'),
         'min' => 0,
-        'sanitizer' => 'int',
+        'sanitizer' => 'min:0',
         'tooltip' => _x('Set the amount of days that the review limits apply for. "0" means the limit applies forever.', 'admin-text', 'site-reviews'),
         'type' => 'number',
     ],
