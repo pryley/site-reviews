@@ -144,8 +144,8 @@ class ReviewController extends Controller
     /**
      * Triggered when a post status changes or when a review is approved|unapproved|trashed.
      *
-     * @param string $old
      * @param string $new
+     * @param string $old
      * @param \WP_Post $post
      * @return void
      * @action transition_post_status
@@ -164,18 +164,18 @@ class ReviewController extends Controller
             glsr(ReviewManager::class)->updateRating($post->ID, ['is_approved' => $isPublished]);
             glsr(Cache::class)->delete($post->ID, 'reviews');
             glsr(CountManager::class)->recalculate();
-            if (!$isAutoDraft) {
-                $review = glsr_get_review($post->ID);
-                if ('publish' === $new) {
-                    glsr()->action('review/approved', $review, $old, $new);
-                }
-                if ('pending' === $new) {
-                    glsr()->action('review/unapproved', $review, $old, $new);
-                }
-                if ('trash' === $new) {
-                    glsr()->action('review/trashed', $review, $old, $new);
-                }
+            if ($isAutoDraft) {
+                return;
             }
+            $review = glsr_get_review($post->ID);
+            if ('publish' === $new) {
+                glsr()->action('review/approved', $review, $old, $new);
+            } elseif ('pending' === $new) {
+                glsr()->action('review/unapproved', $review, $old, $new);
+            } elseif ('trash' === $new) {
+                glsr()->action('review/trashed', $review, $old, $new);
+            }
+            glsr()->action('review/transitioned', $review, $new, $old);
         } else {
             glsr(ReviewManager::class)->updateAssignedPost($post->ID);
         }

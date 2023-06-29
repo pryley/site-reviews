@@ -13,7 +13,7 @@ class MyCredHook extends \myCRED_Hook
 {
     public function __construct($args = [], $preferences = null, $type = MYCRED_DEFAULT_TYPE_KEY)
     {
-        $defaults = [
+        $args = [
             'id' => glsr()->id,
             'defaults' => [
                 'assigned_author' => glsr(AssignedAuthorDefaults::class)->defaults(),
@@ -21,15 +21,7 @@ class MyCredHook extends \myCRED_Hook
                 'reviewer' => glsr(ReviewerDefaults::class)->defaults(),
             ],
         ];
-        parent::__construct($defaults, $preferences, $type);
-    }
-
-    /**
-     * @action site-reviews/review/approved
-     */
-    public function onReviewApproved(Review $review, string $prevStatus): void
-    {
-        // $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
+        parent::__construct($args, $preferences, $type);
     }
 
     /**
@@ -38,33 +30,26 @@ class MyCredHook extends \myCRED_Hook
     public function onReviewCreated(Review $review): void
     {
         $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
-        if (!$review->is_approved) {
-            return;
-        }
-        if (!$this->userExceedsLimits($review)) {
-            $this->processPoints('reviewer', $review, $review->author_id);
-        }
-        foreach ($review->assigned_posts as $postId) {
-            $post = mycred_get_post($postId);
-            if ($post && $post->post_author !== $review->author_id) {
-                $this->processPoints('assigned_author', $review, $post->post_author);
-            }
-        }
-        foreach ($review->assigned_users as $userId) {
-            if ($userId !== $review->author_id) {
-                $this->processPoints('assigned_user', $review, $userId);
-            }
+        if ($review->is_approved) {
+            $this->reviewApproved($review);
         }
     }
 
     /**
-     * @action site-reviews/review/trashed
+     * @action site-reviews/review/transitioned
      */
-    public function onReviewTrashed(Review $review, string $prevStatus): void
+    public function onReviewStatusChanged(Review $review, string $new, string $old): void
     {
+        if (!in_array('publish', [$new, $old])) {
+            return;
+        }
         $review = glsr(Query::class)->review($review->ID); // get a fresh copy of the review
-        if (!empty($this->prefs['reviewer']['remove_on_trash'])) {
-            $this->removePoints('reviewer', $review, $review->author_id);
+        if ('publish' === $new) {
+            $this->reviewApproved($review);
+        } elseif ('publish' === $old && 'trash' === $new) {
+            $this->reviewTrashed($review);
+        } elseif ('publish' === $old && 'trash' !== $new) {
+            $this->reviewUnapproved($review);
         }
     }
 
@@ -77,45 +62,128 @@ class MyCredHook extends \myCRED_Hook
 
     public function run()
     {
-        add_action('site-reviews/review/approved', [$this, 'onReviewApproved'], 20, 2);
         add_action('site-reviews/review/created', [$this, 'onReviewCreated'], 20);
-        add_action('site-reviews/review/trashed', [$this, 'onReviewTrashed'], 20, 2);
+        add_action('site-reviews/review/transitioned', [$this, 'onReviewStatusChanged'], 20, 3);
     }
 
     public function sanitise_preferences($data)
     {
         $sanitized = [];
-        $sanitized['assigned_author'] = glsr(AssignedAuthorDefaults::class)->mergeRestricted(Arr::get($data, 'assigned_author'));
-        $sanitized['assigned_user'] = glsr(AssignedUserDefaults::class)->mergeRestricted(Arr::get($data, 'assigned_user'));
-        $sanitized['reviewer'] = glsr(ReviewerDefaults::class)->mergeRestricted(Arr::get($data, 'reviewer'));
+        $sanitized['assigned_author'] = glsr(AssignedAuthorDefaults::class)->restrict(Arr::get($data, 'assigned_author'));
+        $sanitized['assigned_user'] = glsr(AssignedUserDefaults::class)->restrict(Arr::get($data, 'assigned_user'));
+        $sanitized['reviewer'] = glsr(ReviewerDefaults::class)->restrict(Arr::get($data, 'reviewer'));
         return $sanitized;
     }
 
-    protected function processPoints(string $ref, Review $review, int $userId): void
+    protected function getEntryFor(string $key, bool $isDeduction = false): string
     {
-        $data = array_filter([
-            'ref_type' => glsr()->post_type,
-        ]);
-        $points = $this->core->zero() + $this->prefs[$ref]['points'];
-        if (empty($points)) {
+        $suffix = $isDeduction ? '_deduction' : '';
+        return Arr::getAs('string', $this->prefs, sprintf('%s.log%s', $key, $suffix));
+    }
+
+    /**
+     * @return int|float
+     */
+    protected function getPointsFor(string $key, bool $isDeduction = false)
+    {
+        $suffix = $isDeduction ? '_deduction' : '';
+        $points = Arr::getAs('int', $this->prefs, sprintf('%s.points%s', $key, $suffix), 0);
+        return $isDeduction
+            ? $this->core->zero() - $points
+            : $this->core->zero() + $points;
+    }
+
+    protected function processAuthorPoints(string $reference, Review $review, bool $isDeduction = false): void
+    {
+        $points = $this->getPointsFor('assigned_author', $isDeduction);
+        if ($points === $this->core->zero()) {
             return;
         }
+        foreach ($review->assigned_posts as $postId) {
+            $post = mycred_get_post($postId);
+            if (Arr::get($post, 'post_author') === $review->author_id) {
+                continue;
+            }
+            $this->core->add_creds(
+                $reference,
+                $post->post_author,
+                $points,
+                $this->getEntryFor('assigned_author', $isDeduction),
+                $postId,
+                [
+                    'ref_type' => 'post',
+                    'review_id' => $review->ID,
+                ],
+                $this->mycred_type
+            );
+        }
+    }
 
-        // if ($this->over_hook_limit('', 'site_reviews', $userId)) {}
-
+    protected function processReviewerPoints(string $reference, Review $review, bool $isDeduction = false): void
+    {
+        $points = $this->getPointsFor('reviewer', $isDeduction);
+        if ($points === $this->core->zero()) {
+            return;
+        }
+        if ($this->userExceedsLimits($review)) {
+            return;
+        }
         $this->core->add_creds(
-            $ref,
-            $userId,
+            $reference,
+            $review->author_id,
             $points,
-            $this->prefs[$ref]['log'],
+            $this->getEntryFor('reviewer', $isDeduction),
             $review->ID,
-            $data,
+            [
+                'ref_type' => glsr()->post_type,
+            ],
             $this->mycred_type
         );
     }
 
-    protected function removePoints(string $ref, Review $review, int $userId): void
+    protected function processUserPoints(string $reference, Review $review, bool $isDeduction = false): void
     {
+        $points = $this->getPointsFor('assigned_user', $isDeduction);
+        if ($points === $this->core->zero()) {
+            return;
+        }
+        foreach ($review->assigned_users as $userId) {
+            if ($userId === $review->author_id) {
+                continue;
+            }
+            $this->core->add_creds(
+                $reference,
+                $userId,
+                $points,
+                $this->getEntryFor('assigned_user', $isDeduction),
+                $review->ID,
+                [
+                    'ref_type' => glsr()->post_type,
+                ],
+                $this->mycred_type
+            );
+        }
+    }
+
+    protected function reviewApproved(Review $review): void
+    {
+        $this->processReviewerPoints('review_approved', $review, false);
+        $this->processAuthorPoints('review_approved', $review, false);
+        $this->processUserPoints('review_approved', $review, false);
+    }
+
+    protected function reviewTrashed(Review $review): void
+    {
+        $this->processReviewerPoints('review_trashed', $review, true);
+        $this->processAuthorPoints('review_trashed', $review, true);
+        $this->processUserPoints('review_trashed', $review, true);
+    }
+
+    protected function reviewUnapproved(Review $review): void
+    {
+        $this->processReviewerPoints('review_unapproved', $review, true);
+        $this->processAuthorPoints('review_unapproved', $review, true);
+        $this->processUserPoints('review_unapproved', $review, true);
     }
 
     protected function userExceedsLimits(Review $review): bool
@@ -134,14 +202,15 @@ class MyCredHook extends \myCRED_Hook
 
     protected function userExceedsPerDayLimit(Review $review): bool
     {
-        if (0 === $this->prefs['reviewer']['per_day']) {
+        $perDay = Arr::getAs('int', $this->prefs, 'reviewer.per_day');
+        if (0 === $perDay) {
             return false;
         }
         $today = date('Y-m-d', current_time('timestamp'));
         $metaKey = $this->userLimitMetaKey('per_day');
         $metaValue = Arr::consolidate(mycred_get_user_meta($review->author_id, $metaKey, '', true));
         $limit = Arr::getAs('int', $metaValue, $today, 0);
-        if ($limit >= $this->prefs['reviewer']['per_day']) {
+        if ($limit >= $perDay) {
             return true;
         }
         $metaValue = []; // we are only concerned about today
@@ -152,7 +221,8 @@ class MyCredHook extends \myCRED_Hook
 
     protected function userExceedsPerPostLimit(Review $review): bool
     {
-        if (0 === $this->prefs['reviewer']['per_post']) {
+        $perPost = Arr::getAs('int', $this->prefs, 'reviewer.per_post');
+        if (0 === $perPost) {
             return false;
         }
         $metaKey = $this->userLimitMetaKey('per_post');
@@ -161,7 +231,7 @@ class MyCredHook extends \myCRED_Hook
         $postIds = $review->assigned_posts ?: [0];
         foreach ($postIds as $postId) {
             $limit = Arr::getAs('int', $metaValue, $postId, 0);
-            if ($limit < $this->prefs['reviewer']['per_post']) {
+            if ($limit < $perPost) {
                 $exceededLimit = false;
                 $metaValue[$postId] = $limit++;
             }

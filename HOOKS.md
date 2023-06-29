@@ -19,6 +19,7 @@
     site-reviews/review/created                                 (Review $review, Commands\CreateReview $command)
     site-reviews/review/request                                 (Request $request)
     site-reviews/review/responded                               (Review $review, string $response)
+    site-reviews/review/transitioned                            (Review $review, string $status, string $prevStatus)
     site-reviews/review/trashed                                 (Review $review, string $prevStatus, string $status)
     site-reviews/review/unapproved                              (Review $review, string $prevStatus, string $status)
     site-reviews/review/updated                                 (Review $review, array $submittedValues)

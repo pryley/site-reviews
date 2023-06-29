@@ -13,7 +13,7 @@ class ReviewerDefaults extends DefaultsAbstract
      */
     public $casts = [
         'points' => 'int',
-        'remove_on_trash' => 'bool',
+        'points_deduction' => 'int',
     ];
 
     /**
@@ -23,6 +23,7 @@ class ReviewerDefaults extends DefaultsAbstract
      */
     public $sanitize = [
         'log' => 'text',
+        'log_deduction' => 'text',
         'per_day' => 'min:0',
         'per_post' => 'min:0',
     ];
@@ -34,10 +35,11 @@ class ReviewerDefaults extends DefaultsAbstract
     {
         return [
             'log' => '%plural% for writing a review',
+            'log_deduction' => '%plural% deduction for deactivated / deleted review',
             'per_day' => 0,
-            'per_post' => 1,
+            'per_post' => 2,
             'points' => 1,
-            'remove_on_trash' => false,
+            'points_deduction' => 1,
         ];
     }
 }

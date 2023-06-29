@@ -13,6 +13,7 @@ class AssignedUserDefaults extends DefaultsAbstract
      */
     public $casts = [
         'points' => 'int',
+        'points_deduction' => 'int',
     ];
 
     /**
@@ -22,6 +23,7 @@ class AssignedUserDefaults extends DefaultsAbstract
      */
     public $sanitize = [
         'log' => 'text',
+        'log_deduction' => 'text',
     ];
 
     /**
@@ -31,7 +33,9 @@ class AssignedUserDefaults extends DefaultsAbstract
     {
         return [
             'log' => '%plural% for getting a review',
+            'log_deduction' => '%plural% deduction for deactivated / deleted review',
             'points' => 0,
+            'points_deduction' => 0,
         ];
     }
 }

@@ -10,6 +10,7 @@ parameters:
     - tests/phpstan/stubs/elementor-pro.php
     - tests/phpstan/stubs/gamipress.php
     - tests/phpstan/stubs/lpfw.php
+    - tests/phpstan/stubs/mycred.php
     - tests/phpstan/stubs/polylang.php
     - tests/phpstan/stubs/wlpr.php
     - tests/phpstan/stubs/woocommerce.php

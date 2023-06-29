@@ -27,6 +27,7 @@ tests_add_filter('muplugins_loaded', function () use ($plugin_dir) {
     require $plugin_dir.'/site-reviews.php';
     require $plugin_dir.'/tests/phpstan/stubs/elementor.php';
     require $plugin_dir.'/tests/phpstan/stubs/elementor-pro.php';
+    require $plugin_dir.'/tests/phpstan/stubs/mycred.php';
     require $plugin_dir.'/tests/phpstan/stubs/woocommerce.php';
 });
 

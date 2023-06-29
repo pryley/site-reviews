@@ -19,7 +19,7 @@ class Controller extends BaseController
         $installed = Arr::consolidate($installed);
         $installed[glsr()->id] = [
             'callback' => [MyCredHook::class],
-            'description' => __('Awards %_plural% for reviews. Supports awarding %_plural% to authors of assigned posts, assigned users, and users submitting a review.', 'site-reviews'),
+            'description' => _x('Awards %_plural% for reviews. Supports awarding %_plural% to authors of assigned posts, assigned users, and users submitting a review.', 'admin-text', 'site-reviews'),
             'title' => glsr()->name,
         ];
         return $installed;
@@ -32,7 +32,9 @@ class Controller extends BaseController
      */
     public function filterReferences($references)
     {
-        $references['site_reviews'] = _x('Review (Site Reviews)', 'admin-text', 'site-reviews');
+        $references['review_approved'] = _x('Approved Review (Site Reviews)', 'admin-text', 'site-reviews');
+        $references['review_trashed'] = _x('Deleted Review (Site Reviews)', 'admin-text', 'site-reviews');
+        $references['review_unapproved'] = _x('Unapproved Review (Site Reviews)', 'admin-text', 'site-reviews');
         return $references;
     }
 
