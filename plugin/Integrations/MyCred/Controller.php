@@ -4,6 +4,7 @@ namespace GeminiLabs\SiteReviews\Integrations\MyCred;
 
 use GeminiLabs\SiteReviews\Controllers\Controller as BaseController;
 use GeminiLabs\SiteReviews\Helpers\Arr;
+use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Integrations\MyCred\MyCredHook;
 use GeminiLabs\SiteReviews\Integrations\MyCred\MyCredHookWooReviews;
 
@@ -17,7 +18,7 @@ class Controller extends BaseController
     public function filterHooks($installed)
     {
         $installed = Arr::consolidate($installed);
-        $installed[glsr()->id] = [
+        $installed[Str::snakeCase(glsr()->id)] = [
             'callback' => [MyCredHook::class],
             'description' => _x('Awards %_plural% for reviews. Supports awarding %_plural% to authors of assigned posts, assigned users, and users submitting a review.', 'admin-text', 'site-reviews'),
             'title' => glsr()->name,

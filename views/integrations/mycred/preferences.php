@@ -12,6 +12,7 @@
                     id="<?= esc_attr($hook->field_id(['reviewer' => 'points'])); ?>"
                     min="0"
                     name="<?= esc_attr($hook->field_name(['reviewer' => 'points'])); ?>"
+                    step="<?= $step; ?>"
                     value="<?= esc_attr($hook->core->number($hook->prefs['reviewer']['points'])); ?>"
                 />
                 <span class="description">
@@ -27,7 +28,7 @@
                 <input type="text" class="form-control" 
                     id="<?= esc_attr($hook->field_id(['reviewer' => 'log'])); ?>"
                     name="<?= esc_attr($hook->field_name(['reviewer' => 'log'])); ?>"
-                    placeholder="<?= esc_attr__('required', 'site-reviews'); ?>"
+                    placeholder="<?= esc_attr($hook->defaults['reviewer']['log']); ?>"
                     value="<?= esc_attr($hook->prefs['reviewer']['log']); ?>"
                 />
                 <span class="description">
@@ -46,6 +47,7 @@
                     id="<?= esc_attr($hook->field_id(['reviewer' => 'points_deduction'])); ?>"
                     min="0"
                     name="<?= esc_attr($hook->field_name(['reviewer' => 'points_deduction'])); ?>"
+                    step="<?= $step; ?>"
                     value="<?= esc_attr($hook->core->number($hook->prefs['reviewer']['points_deduction'])); ?>"
                 />
                 <span class="description">
@@ -61,7 +63,7 @@
                 <input type="text" class="form-control" 
                     id="<?= esc_attr($hook->field_id(['reviewer' => 'log_deduction'])); ?>"
                     name="<?= esc_attr($hook->field_name(['reviewer' => 'log_deduction'])); ?>"
-                    placeholder="<?= esc_attr__('required', 'site-reviews'); ?>"
+                    placeholder="<?= esc_attr($hook->defaults['reviewer']['log_deduction']); ?>"
                     value="<?= esc_attr($hook->prefs['reviewer']['log_deduction']); ?>"
                 />
                 <span class="description">
@@ -118,6 +120,7 @@
                     id="<?= esc_attr($hook->field_id(['assigned_author' => 'points'])); ?>"
                     min="0"
                     name="<?= esc_attr($hook->field_name(['assigned_author' => 'points'])); ?>"
+                    step="<?= $step; ?>"
                     value="<?= esc_attr($hook->core->number($hook->prefs['assigned_author']['points'])); ?>"
                 />
                 <span class="description">
@@ -133,7 +136,7 @@
                 <input type="text" class="form-control" 
                     id="<?= esc_attr($hook->field_id(['assigned_author' => 'log'])); ?>"
                     name="<?= esc_attr($hook->field_name(['assigned_author' => 'log'])); ?>"
-                    placeholder="<?= esc_attr__('required', 'site-reviews'); ?>"
+                    placeholder="<?= esc_attr($hook->defaults['assigned_author']['log']); ?>"
                     value="<?= esc_attr($hook->prefs['assigned_author']['log']); ?>"
                 />
                 <span class="description">
@@ -152,6 +155,7 @@
                     id="<?= esc_attr($hook->field_id(['assigned_author' => 'points_deduction'])); ?>"
                     min="0"
                     name="<?= esc_attr($hook->field_name(['assigned_author' => 'points_deduction'])); ?>"
+                    step="<?= $step; ?>"
                     value="<?= esc_attr($hook->core->number($hook->prefs['assigned_author']['points_deduction'])); ?>"
                 />
                 <span class="description">
@@ -167,7 +171,7 @@
                 <input type="text" class="form-control" 
                     id="<?= esc_attr($hook->field_id(['assigned_author' => 'log_deduction'])); ?>"
                     name="<?= esc_attr($hook->field_name(['assigned_author' => 'log_deduction'])); ?>"
-                    placeholder="<?= esc_attr__('required', 'site-reviews'); ?>"
+                    placeholder="<?= esc_attr($hook->defaults['assigned_author']['log_deduction']); ?>"
                     value="<?= esc_attr($hook->prefs['assigned_author']['log_deduction']); ?>"
                 />
                 <span class="description">
@@ -190,6 +194,7 @@
                     id="<?= esc_attr($hook->field_id(['assigned_user' => 'points'])); ?>"
                     min="0"
                     name="<?= esc_attr($hook->field_name(['assigned_user' => 'points'])); ?>"
+                    step="<?= $step; ?>"
                     value="<?= esc_attr($hook->core->number($hook->prefs['assigned_user']['points'])); ?>"
                 />
                 <span class="description">
@@ -205,7 +210,7 @@
                 <input type="text" class="form-control" 
                     id="<?= esc_attr($hook->field_id(['assigned_user' => 'log'])); ?>"
                     name="<?= esc_attr($hook->field_name(['assigned_user' => 'log'])); ?>"
-                    placeholder="<?= esc_attr__('required', 'site-reviews'); ?>"
+                    placeholder="<?= esc_attr($hook->defaults['assigned_user']['log']); ?>"
                     value="<?= esc_attr($hook->prefs['assigned_user']['log']); ?>"
                 />
                 <span class="description">
@@ -224,6 +229,7 @@
                     id="<?= esc_attr($hook->field_id(['assigned_user' => 'points_deduction'])); ?>"
                     min="0"
                     name="<?= esc_attr($hook->field_name(['assigned_user' => 'points_deduction'])); ?>"
+                    step="<?= $step; ?>"
                     value="<?= esc_attr($hook->core->number($hook->prefs['assigned_user']['points_deduction'])); ?>"
                 />
                 <span class="description">
@@ -239,7 +245,7 @@
                 <input type="text" class="form-control" 
                     id="<?= esc_attr($hook->field_id(['assigned_user' => 'log_deduction'])); ?>"
                     name="<?= esc_attr($hook->field_name(['assigned_user' => 'log_deduction'])); ?>"
-                    placeholder="<?= esc_attr__('required', 'site-reviews'); ?>"
+                    placeholder="<?= esc_attr($hook->defaults['assigned_user']['log_deduction']); ?>"
                     value="<?= esc_attr($hook->prefs['assigned_user']['log_deduction']); ?>"
                 />
                 <span class="description">

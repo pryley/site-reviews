@@ -7,16 +7,6 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract;
 class AssignedUserDefaults extends DefaultsAbstract
 {
     /**
-     * The values that should be cast before sanitization is run.
-     * This is done before $sanitize and $enums.
-     * @var array
-     */
-    public $casts = [
-        'points' => 'int',
-        'points_deduction' => 'int',
-    ];
-
-    /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
      * @var array
@@ -24,6 +14,8 @@ class AssignedUserDefaults extends DefaultsAbstract
     public $sanitize = [
         'log' => 'text',
         'log_deduction' => 'text',
+        'points' => 'numeric',
+        'points_deduction' => 'numeric',
     ];
 
     /**

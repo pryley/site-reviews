@@ -7,16 +7,6 @@ use GeminiLabs\SiteReviews\Defaults\DefaultsAbstract;
 class ReviewerDefaults extends DefaultsAbstract
 {
     /**
-     * The values that should be cast before sanitization is run.
-     * This is done before $sanitize and $enums.
-     * @var array
-     */
-    public $casts = [
-        'points' => 'int',
-        'points_deduction' => 'int',
-    ];
-
-    /**
      * The values that should be sanitized.
      * This is done after $casts and before $enums.
      * @var array
@@ -26,6 +16,8 @@ class ReviewerDefaults extends DefaultsAbstract
         'log_deduction' => 'text',
         'per_day' => 'min:0',
         'per_post' => 'min:0',
+        'points' => 'numeric',
+        'points_deduction' => 'numeric',
     ];
 
     /**

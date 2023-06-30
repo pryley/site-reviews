@@ -1144,7 +1144,7 @@ msgctxt "admin-text"
 msgid "Assigned Terms"
 msgstr ""
 
-#: config/settings.php:749, plugin/Defaults/PostTypeColumnDefaults.php:17, plugin/Metaboxes/AssignedUsersMetabox.php:19, views/integrations/mycred/preferences.php:182, views/partials/screen/inline-edit.php:116
+#: config/settings.php:749, plugin/Defaults/PostTypeColumnDefaults.php:17, plugin/Metaboxes/AssignedUsersMetabox.php:19, views/integrations/mycred/preferences.php:186, views/partials/screen/inline-edit.php:116
 msgctxt "admin-text"
 msgid "Assigned Users"
 msgstr ""
@@ -4257,22 +4257,22 @@ msgctxt "(loyalty-program-for-woocommerce) admin-text"
 msgid "View Product"
 msgstr ""
 
-#: plugin/Integrations/MyCred/Controller.php:22
+#: plugin/Integrations/MyCred/Controller.php:23
 msgctxt "admin-text"
 msgid "Awards %_plural% for reviews. Supports awarding %_plural% to authors of assigned posts, assigned users, and users submitting a review."
 msgstr ""
 
-#: plugin/Integrations/MyCred/Controller.php:35
+#: plugin/Integrations/MyCred/Controller.php:36
 msgctxt "admin-text"
 msgid "Approved Review (Site Reviews)"
 msgstr ""
 
-#: plugin/Integrations/MyCred/Controller.php:36
+#: plugin/Integrations/MyCred/Controller.php:37
 msgctxt "admin-text"
 msgid "Deleted Review (Site Reviews)"
 msgstr ""
 
-#: plugin/Integrations/MyCred/Controller.php:37
+#: plugin/Integrations/MyCred/Controller.php:38
 msgctxt "admin-text"
 msgid "Unapproved Review (Site Reviews)"
 msgstr ""
@@ -4339,66 +4339,62 @@ msgctxt "admin-text"
 msgid "Reviewers"
 msgstr ""
 
-#: views/integrations/mycred/preferences.php:9, views/integrations/mycred/preferences.php:115, views/integrations/mycred/preferences.php:187
+#: views/integrations/mycred/preferences.php:9, views/integrations/mycred/preferences.php:117, views/integrations/mycred/preferences.php:191
 msgctxt "admin-text"
 msgid "Points"
 msgstr ""
 
-#: views/integrations/mycred/preferences.php:18
+#: views/integrations/mycred/preferences.php:19
 msgctxt "admin-text"
 msgid "For writing a review."
 msgstr ""
 
-#: views/integrations/mycred/preferences.php:25, views/integrations/mycred/preferences.php:131, views/integrations/mycred/preferences.php:203
+#: views/integrations/mycred/preferences.php:26, views/integrations/mycred/preferences.php:134, views/integrations/mycred/preferences.php:208
 msgctxt "admin-text"
 msgid "Template"
 msgstr ""
 
-#: views/integrations/mycred/preferences.php:30, views/integrations/mycred/preferences.php:64, views/integrations/mycred/preferences.php:136, views/integrations/mycred/preferences.php:170, views/integrations/mycred/preferences.php:208, views/integrations/mycred/preferences.php:242
-msgid "required"
-msgstr ""
-
-#: views/integrations/mycred/preferences.php:43, views/integrations/mycred/preferences.php:149, views/integrations/mycred/preferences.php:221
+#: views/integrations/mycred/preferences.php:44, views/integrations/mycred/preferences.php:152, views/integrations/mycred/preferences.php:226
 msgctxt "admin-text"
 msgid "Deduct Points"
 msgstr ""
 
-#: views/integrations/mycred/preferences.php:52, views/integrations/mycred/preferences.php:158, views/integrations/mycred/preferences.php:230
+#: views/integrations/mycred/preferences.php:54, views/integrations/mycred/preferences.php:162, views/integrations/mycred/preferences.php:236
 msgctxt "admin-text"
 msgid "For losing a review."
 msgstr ""
 
-#: views/integrations/mycred/preferences.php:59, views/integrations/mycred/preferences.php:165, views/integrations/mycred/preferences.php:237
+#: views/integrations/mycred/preferences.php:61, views/integrations/mycred/preferences.php:169, views/integrations/mycred/preferences.php:243
 msgctxt "admin-text"
 msgid "Deduct Template"
 msgstr ""
 
-#: views/integrations/mycred/preferences.php:77
+#: views/integrations/mycred/preferences.php:79
 msgctxt "admin-text"
 msgid "Limit per post"
 msgstr ""
 
-#: views/integrations/mycred/preferences.php:86
+#: views/integrations/mycred/preferences.php:88
 msgctxt "admin-text"
 msgid "Number of reviews per post that grants %_plural% to the reviewer. Use zero for unlimited."
 msgstr ""
 
-#: views/integrations/mycred/preferences.php:93
+#: views/integrations/mycred/preferences.php:95
 msgctxt "admin-text"
 msgid "Limit per day"
 msgstr ""
 
-#: views/integrations/mycred/preferences.php:102
+#: views/integrations/mycred/preferences.php:104
 msgctxt "admin-text"
 msgid "Number of reviews per day that grants %_plural% to the reviewer. Use zero for unlimited."
 msgstr ""
 
-#: views/integrations/mycred/preferences.php:110
+#: views/integrations/mycred/preferences.php:112
 msgctxt "admin-text"
 msgid "Assigned Post Authors"
 msgstr ""
 
-#: views/integrations/mycred/preferences.php:124, views/integrations/mycred/preferences.php:196
+#: views/integrations/mycred/preferences.php:127, views/integrations/mycred/preferences.php:201
 msgctxt "admin-text"
 msgid "For getting a review."
 msgstr ""
