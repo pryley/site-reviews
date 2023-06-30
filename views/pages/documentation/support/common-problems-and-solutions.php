@@ -87,23 +87,27 @@
                     <?= __('Your review could not be submitted and the error has been logged. Please notify the site administrator.', 'site-reviews'); ?>
                 </h4>
                 <p>This error is triggered when WordPress encounters an error when saving the review to the database.</p>
-                <p>If you encounter this error:</p>
+                <p>If you encounter this error, here are some possible solutions:</p>
                 <ul>
-                    <li><p>Check for any invalid custom functions you may have added to your theme's <code>functions.php</code> file that might be triggered after a review is created.</p></li>
-                    <li><p>Deactivate Site Reviews and then reactivate it. If you recently cloned your database or restored it from a backup, this <em>should</em> fix any broken database table indexes.</p></li>
-                    <li><p>If you imported or cloned your database and can redo it, try deactivating Site Reviews before you export the database. This should prevent any issues related to broken indexes.</p></li>
+                    <li><p>Check for any invalid code snippets or custom functions you may have added to your theme's <code>functions.php</code> file that might be triggered after a review is created.</p></li>
+                    <li><p>Deactivate Site Reviews and then reactivate it (this should fix any broken database table indexes).</p></li>
+                    <li><p>Hold down the ALT key (Option key if using a Mac) and run the <code><a data-expand="#tools-migrate-plugin" href="<?= glsr_admin_url('tools', 'general'); ?>">Migrate Plugin</a></code> tool.</p></li>
+                    <li><p>Run the <code><a data-expand="#tools-repair-review-relations" href="<?= glsr_admin_url('tools', 'general'); ?>">Repair Review Relations</a></code> tool.</p></li>
                     <li>
                         <p>Finally, there is the "Nuclear" option:</p>
                         <p class="components-notice is-warning" style="margin-bottom:1em;">
                             <i class="dashicons dashicons-warning" style="color:#f0b849; margin-right:5px;"></i>
-                            Only use this "Nuclear" option as a last resort, as it will delete all your reviews and settings!
+                            Only use this "Nuclear" option as a last resort because it will delete all your reviews and settings!
                         </p>
-                        <ul>
-                            <li>Go to the Site Reviews settings.</li>
-                            <li>Change the "Delete data on uninstall" option to "Delete everything".</li>
+                        <ol>
+                            <li>Run the <code><a data-expand="#tools-export-reviews" href="<?= glsr_admin_url('tools', 'general'); ?>">Export Reviews</a></code> tool.</li>
+                            <li>Run the <code><a data-expand="#tools-export-plugin-settings" href="<?= glsr_admin_url('tools', 'general'); ?>">Export Settings</a></code> tool.</li>
+                            <li>Go to the Site Reviews settings and change the "Delete data on uninstall" option to "Delete everything".</li>
                             <li>Uninstall Site Reviews.</li>
                             <li>Install a new copy of Site Reviews.</li>
-                        </ul>
+                            <li>Run the <code><a data-expand="#tools-import-reviews" href="<?= glsr_admin_url('tools', 'general'); ?>">Import Reviews</a></code> tool using the CSV file from step #1.</li>
+                            <li>Run the <code><a data-expand="#tools-import-plugin-settings" href="<?= glsr_admin_url('tools', 'general'); ?>">Import Settings</a></code> tool using the JSON file from step #2.</li>
+                        </ol>
                     </li>
                 </ul>
                 <p>If these solutions do not work, please contact support for assistance.</p>

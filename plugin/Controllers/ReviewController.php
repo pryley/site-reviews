@@ -235,8 +235,8 @@ class ReviewController extends Controller
         if (false === glsr(Database::class)->insert('ratings', $data)) {
             glsr_log()->error('A review could not be created. Here are some things to try which may fix the problem:'.
                 PHP_EOL.'1. First, deactivate Site Reviews and then reactivate it (this should fix any broken database table indexes).'.
-                PHP_EOL.'2. Next, run the "Repair Review Relations" tool.'.
-                PHP_EOL.'3. Finally, hold down the ALT key (Option key if using a Mac) and run the Migrate Plugin tool.'.
+                PHP_EOL.'2. Next, hold down the ALT key (Option key if using a Mac) and run the Migrate Plugin tool.'.
+                PHP_EOL.'3. Finally, run the "Repair Review Relations" tool.'.
                 PHP_EOL.'4. If the problem persists, please use the "Contact Support" section on the Help page.'
             );
             glsr_log()->debug($data);
