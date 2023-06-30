@@ -12,7 +12,7 @@ class Hooks extends AbstractHooks
             return;
         }
         $this->hook(Controller::class, [
-            ['filterAvatarUrl', 'site-reviews/avatar/generate', 10, 3],
+            ['filterAvatarUrl', 'site-reviews/avatar/generate', 10, 2],
         ]);
     }
 }

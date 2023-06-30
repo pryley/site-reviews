@@ -10,7 +10,7 @@ class Controller extends BaseController
     /**
      * @action site-reviews/avatar/generate
      */
-    public function filterAvatarUrl(string $url, int $size, Review $review): string
+    public function filterAvatarUrl(string $url, Review $review): string
     {
         $type = glsr_get_option('reviews.avatars_fallback');
         $defaultUrl = um_get_default_avatar_uri(); // @phpstan-ignore-line

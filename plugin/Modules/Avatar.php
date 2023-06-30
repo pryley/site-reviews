@@ -51,7 +51,7 @@ class Avatar
             ];
             $url = add_query_arg($args, static::GRAVATAR_URL);
         }
-        return glsr()->filterString('avatar/fallback', $url, $this->size($size), $review);
+        return glsr()->filterString('avatar/fallback', $url, $review, $this->size($size));
     }
 
     public function generate(Review $review, int $size = 0): string
@@ -61,7 +61,7 @@ class Avatar
             'default' => $this->type,
             'size' => $this->size($size, true),
         ]);
-        $avatarUrl = glsr()->filterString('avatar/generate', $avatarUrl, $this->size($size), $review);
+        $avatarUrl = glsr()->filterString('avatar/generate', $avatarUrl, $review, $this->size($size));
         if (!$this->isUrl($avatarUrl) || !$this->isUrlOnline($avatarUrl)) {
             return $fallbackUrl;
         }
