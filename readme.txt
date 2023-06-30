@@ -41,6 +41,7 @@ Site Reviews provides more features and options than almost every other free rev
 - __Members Only__: Require users to be logged in before submitting a review
 - __Multilingual Support__: Integrates with Polylang and WPML allowing you to assign reviews to all languages of a multilingual page (note: translating reviews is not supported)
 - __Multisite Support__: Fully supports network/multisite websites
+- __myCRED Support__: Site Reviews integrates with myCRED allowing you to award points when someone writes or receives a review
 - __Notifications__: Send notifications to one or more emails when a review is submitted
 - __Pagination__: Display a set number of reviews per-page with AJAX
 - __Privacy__: Integrates with the WordPress privacy tools
@@ -62,6 +63,7 @@ Site Reviews provides more features and options than almost every other free rev
 
 If you need even more features, [Site Reviews Premium](https://niftyplugins.com/plugins/site-reviews-premium/) gives you access to all of our paid addons, and offers faster and more personalised support. Premium addons include:
 
+- __[Review Authors](https://niftyplugins.com/plugins/site-reviews-authors/)__: Update your reviews from the frontend.
 - __[Review Filters](https://niftyplugins.com/plugins/site-reviews-filters/)__: Sort, filter, and search your reviews.
 - __[Review Forms](https://niftyplugins.com/plugins/site-reviews-forms/)__: Create custom review forms with over 20 field types and individual review templates.
 - __[Review Images](https://niftyplugins.com/plugins/site-reviews-images/)__: Add images with captions to your reviews, and display a gallery of your review images.
@@ -83,6 +85,7 @@ Site Reviews is officially compatible with the following plugins:
 - [Litespeed Cache](https://wordpress.org/plugins/litespeed-cache/)
 - [Loyalty Program for WooCommerce](https://advancedcouponsplugin.com/woocommerce-loyalty-program/)
 - [Members](https://wordpress.org/plugins/members/)
+- [myCRED](https://mycred.me/)
 - [Ninja Forms](https://ninjaforms.com/)
 - [Oxygen Builder](https://oxygenbuilder.com)
 - [Perfect Brands for WooCommerce](https://wordpress.org/plugins/perfect-woocommerce-brands/)
@@ -179,6 +182,14 @@ You can report any security bugs found in the source code of this plugin through
 This update requires a minimum of PHP 7.2 and WordPress 5.8. There are also a few potentially breaking changes, so please make sure to read the plugin's changelog and Upgrade Guide after upgrading.
 
 == Changelog ==
+
+= 6.10.0 (2023-06-20) =
+
+- Added Accepted Terms filter (for the All Reviews page)
+- Added myCRED integration
+- Fixed honeypot IDs
+- Fixed plugin migration (force-running all migrations should now fix any orphaned foreign constraints related to old database table prefixes)
+- Fixed Ultimate Member avatar compatibility
 
 = 6.9.5 (2023-06-14) =
 
