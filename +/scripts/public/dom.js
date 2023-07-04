@@ -23,7 +23,14 @@ function dom (element, settings) {
     let key;
     let attribute;
     // If first argument is an element, use it as is, otherwise treat it as a tagname
-    element = dom.isElement(element) ? element : document.createElement(element);
+    if (!dom.isElement(element)) {
+      let ns = !~['svg','line','path','rect','mask','radialGradient','stop'].indexOf(element) ? '1999/xhtml' : '2000/svg';
+      element = document.createElementNS(`http://www.w3.org/${ns}`, element);
+    }
+    // Check if second argument is a string, if so, use it as a class attribute
+    if (typeof settings === 'string') {
+        settings = { class: settings }
+    }
     // Check if second argument is a settings object
     if (isType(settings, 'object') && !dom[isNodeString](settings) && !Array.isArray(settings)) {
         // Don't treat settings as a child
