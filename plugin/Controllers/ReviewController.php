@@ -61,20 +61,25 @@ class ReviewController extends Controller
 
     /**
      * @param array $data
-     * @param array $postArray
+     * @param array $sanitized
      * @return array
      * @filter wp_insert_post_data
      */
-    public function filterReviewPostData($data, $postArray)
+    public function filterReviewPostData($data, $sanitized)
     {
-        if (empty($postArray['ID']) || empty($postArray['action']) || glsr()->post_type !== glsr_get($postArray, 'post_type')) {
+        if (empty($sanitized['ID']) || empty($sanitized['action']) || glsr()->post_type !== Arr::get($sanitized, 'post_type')) {
             return $data;
         }
-        if (empty(filter_input(INPUT_POST, 'post_author'))) {
-            $data['post_author'] = 0; // the review has an unknown author
+        if (!empty(filter_input(INPUT_GET, 'bulk_edit'))) {
+            if (is_numeric(filter_input(INPUT_GET, 'post_author'))) {
+                $data['post_author'] = filter_input(INPUT_GET, 'post_author');
+            } else {
+                unset($data['post_author']);
+            }
         }
-        if (isset($_POST['post_author_override'])) {
-            $data['post_author'] = $_POST['post_author_override']; // use the value from the author meta box
+        if (is_numeric(filter_input(INPUT_POST, 'post_author_override'))) {
+            // use the value from the author meta box
+            $data['post_author'] = filter_input(INPUT_POST, 'post_author_override');
         }
         return $data;
     }
