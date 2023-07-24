@@ -62,7 +62,7 @@ abstract class ValidatorAbstract
         glsr()->sessionSet('form_message', $message);
         glsr()->sessionSet('form_values', $this->request->toArray());
         if (!empty($loggedMessage)) {
-            glsr_log()->warning($loggedMessage)->debug($this->request->toArray());
+            glsr_log()->info($loggedMessage)->debug($this->request->toArray());
         }
     }
 }
