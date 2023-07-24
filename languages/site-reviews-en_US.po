@@ -112,12 +112,6 @@ msgstr ""
 msgid "Close Modal"
 msgstr "Close Modal"
 
-#: plugin/Commands/RegisterPostStatus.php:23
-msgid "Spam <span class=\"count\">(%s)</span>"
-msgid_plural "Spam <span class=\"count\">(%s)</span>"
-msgstr[0] "Spam <span class=\"count\">(%s)</span>"
-msgstr[1] "Spam <span class=\"count\">(%s)</span>"
-
 #: plugin/Defaults/PaginationDefaults.php:42
 msgid "Page"
 msgstr "Page"
@@ -218,7 +212,7 @@ msgstr "(no title)"
 msgid "Avatar for %s"
 msgstr "Avatar for %s"
 
-#: plugin/Modules/Discord.php:85, plugin/Modules/Slack.php:89, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:44, plugin/Modules/Html/Tags/ReviewAssignedPostsTag.php:26, plugin/Modules/Html/Tags/ReviewAssignedTermsTag.php:16, plugin/Modules/Html/Tags/ReviewAssignedUsersTag.php:16
+#: plugin/Modules/Discord.php:85, plugin/Modules/Slack.php:89, plugin/Modules/Html/Tags/ReviewAssignedLinksTag.php:54, plugin/Modules/Html/Tags/ReviewAssignedPostsTag.php:36, plugin/Modules/Html/Tags/ReviewAssignedTermsTag.php:24, plugin/Modules/Html/Tags/ReviewAssignedUsersTag.php:24
 msgid "Review of %s"
 msgstr "Review of %s"
 
@@ -360,7 +354,7 @@ msgstr "The CAPTCHA failed to load, please refresh the page and try again."
 msgid "The CAPTCHA verification failed, please try again."
 msgstr "The CAPTCHA verification failed, please try again."
 
-#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:113
+#: plugin/Modules/Validator/CustomValidator.php:27, views/pages/documentation/support/common-problems-and-solutions.php:117
 msgid "The review submission failed. Please notify the site administrator."
 msgstr "The review submission failed. Please notify the site administrator."
 
@@ -380,7 +374,7 @@ msgstr "You have already submitted a review."
 msgid "verified owner"
 msgstr "verified owner"
 
-#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:144
+#: plugin/Integrations/WooCommerce/Controllers/ProductController.php:161
 msgid "Reviews (%d)"
 msgstr "Reviews (%d)"
 
@@ -438,7 +432,7 @@ msgstr "No Title"
 msgid "Verified"
 msgstr "Verified"
 
-#: views/pages/documentation/support/common-problems-and-solutions.php:119
+#: views/pages/documentation/support/common-problems-and-solutions.php:123
 msgid "Service Unavailable."
 msgstr "Service Unavailable."
 
@@ -2006,7 +2000,7 @@ msgctxt "admin-text"
 msgid "This changes the colour of the stars and the summary bars"
 msgstr "This changes the colour of the stars and the summary bars"
 
-#: config/woocommerce.php:35
+#: config/woocommerce.php:35, views/integrations/woocommerce/product-data-panel.php:19
 msgctxt "admin-text"
 msgid "Summary Shortcode"
 msgstr "Summary Shortcode"
@@ -2020,7 +2014,7 @@ msgstr ""
 "Enter the summary shortcode used on the product page (the schema option is "
 "unnecessary)"
 
-#: config/woocommerce.php:46
+#: config/woocommerce.php:46, views/integrations/woocommerce/product-data-panel.php:25
 msgctxt "admin-text"
 msgid "Reviews Shortcode"
 msgstr "Reviews Shortcode"
@@ -2034,7 +2028,7 @@ msgstr ""
 "Enter the reviews shortcode used on the product page (the schema option is "
 "unnecessary)"
 
-#: config/woocommerce.php:57
+#: config/woocommerce.php:57, views/integrations/woocommerce/product-data-panel.php:31
 msgctxt "admin-text"
 msgid "Form Shortcode"
 msgstr "Form Shortcode"
@@ -2459,11 +2453,6 @@ msgctxt "admin-text"
 msgid "All plugin migrations have been run successfully, please %s the page."
 msgstr "All plugin migrations have been run successfully, please %s the page."
 
-#: plugin/Commands/RegisterPostStatus.php:18
-msgctxt "admin-text"
-msgid "Spam"
-msgstr "Spam"
-
 #: plugin/Commands/RepairReviewRelations.php:18
 msgctxt "admin-text"
 msgid "You do not have permission to repair the review relationships."
@@ -2724,7 +2713,7 @@ msgctxt "admin-text"
 msgid "Saving is disabled: %s is currently editing this review."
 msgstr "Saving is disabled: %s is currently editing this review."
 
-#: plugin/Controllers/MainController.php:137
+#: plugin/Controllers/MainController.php:126
 msgctxt "admin-text"
 msgid "Local Review"
 msgstr "Local Review"
@@ -2882,6 +2871,11 @@ msgstr ""
 "To activate your license, please visit the %s page on your Nifty Plugins "
 "account and click the \"Manage Sites\" button to activate it for your "
 "website."
+
+#: plugin/Controllers/TaxonomyController.php:20, views/partials/taxonomy/add-term_priority.php:5, views/partials/taxonomy/edit-term_priority.php:6, views/partials/taxonomy/quickedit-term_priority.php:6
+msgctxt "admin-text"
+msgid "Priority"
+msgstr "Priority"
 
 #: plugin/Controllers/ToolsController.php:111
 msgctxt "admin-text"
@@ -4354,7 +4348,34 @@ msgctxt "admin-text"
 msgid "Site Reviews WooCommerce"
 msgstr "Site Reviews WooCommerce"
 
-#: views/integrations/woocommerce/product-options.php:8
+#: views/integrations/woocommerce/product-data-panel.php:17
+msgctxt "admin-text"
+msgid ""
+"Enter a custom [site_reviews_summary] shortcode to override the one saved "
+"in the settings."
+msgstr ""
+"Enter a custom [site_reviews_summary] shortcode to override the one saved "
+"in the settings."
+
+#: views/integrations/woocommerce/product-data-panel.php:23
+msgctxt "admin-text"
+msgid ""
+"Enter a custom [site_reviews] shortcode to override the one saved in the "
+"settings."
+msgstr ""
+"Enter a custom [site_reviews] shortcode to override the one saved in the "
+"settings."
+
+#: views/integrations/woocommerce/product-data-panel.php:29
+msgctxt "admin-text"
+msgid ""
+"Enter a custom [site_reviews_form] shortcode to override the one saved in "
+"the settings."
+msgstr ""
+"Enter a custom [site_reviews_form] shortcode to override the one saved in "
+"the settings."
+
+#: views/integrations/woocommerce/product-data-panel.php:40
 msgctxt "admin-text"
 msgid "Enable reviews"
 msgstr "Enable reviews"
@@ -6098,20 +6119,10 @@ msgctxt "Plugin name (admin-text)"
 msgid "Deactivating %s"
 msgstr "Deactivating %s"
 
-#: plugin/Controllers/ListTableController.php:127
-msgctxt "The Review Post ID (admin-text)"
-msgid "<span>ID: %d</span>"
-msgstr "<span>ID: %d</span>"
-
 #: plugin/Controllers/ListTableController.php:135
 msgctxt "Approve the review (admin-text)"
 msgid "%s this review"
 msgstr "%s this review"
-
-#: plugin/Controllers/TaxonomyController.php:15
-msgctxt "The Term ID (admin-text)"
-msgid "<span>ID: %d</span>"
-msgstr "<span>ID: %d</span>"
 
 #: plugin/Controllers/ToolsController.php:345
 msgctxt "Site Reviews (admin-text)"
@@ -6496,6 +6507,15 @@ msgstr ""
 "This hook is disabled because the %s integration is enabled. Please use the "
 "Site Reviews hook instead or disable the integration."
 
+#: views/integrations/woocommerce/product-data-panel.php:8
+msgctxt "<a>Click here</a> (admin-text)"
+msgid ""
+"Here you can override the Site Reviews shortcodes for this product. To "
+"change the shortcodes for all products, %sClick here%s."
+msgstr ""
+"Here you can override the Site Reviews shortcodes for this product. To "
+"change the shortcodes for all products, %sClick here%s."
+
 #: views/pages/settings/licenses.php:8
 msgctxt "<a>|</a> (admin-text)"
 msgid ""
@@ -6516,6 +6536,15 @@ msgstr "Please rate %s on WordPress and let other people know about it."
 msgctxt "plugin name|version (admin-text)"
 msgid "Thank you for updating %s to %s! I hope you love the improvements."
 msgstr "Thank you for updating %s to %s! I hope you love the improvements."
+
+#: views/partials/taxonomy/add-term_priority.php:9, views/partials/taxonomy/edit-term_priority.php:12
+msgctxt "{{ assigned_terms }} (admin-text)"
+msgid ""
+"Categories with a higher priority will be displayed first when using the %s "
+"template tag in the review."
+msgstr ""
+"Categories with a higher priority will be displayed first when using the %s "
+"template tag in the review."
 
 #: plugin/Modules/Html/Partials/Pagination.php:43
 msgctxt "screen reader text"
