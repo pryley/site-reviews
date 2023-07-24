@@ -10,6 +10,7 @@ use GeminiLabs\SiteReviews\Helpers\Str;
 use GeminiLabs\SiteReviews\Modules\Html\Builder;
 use GeminiLabs\SiteReviews\Modules\Html\Template;
 use GeminiLabs\SiteReviews\Modules\Rating;
+use GeminiLabs\SiteReviews\Modules\Sanitizer;
 use GeminiLabs\SiteReviews\Modules\Schema;
 use GeminiLabs\SiteReviews\Modules\Style;
 
@@ -64,6 +65,22 @@ class ProductController
     public function filterProductAverageRating($value, $product)
     {
         return Cast::toFloat(get_post_meta($product->get_id(), CountManager::META_AVERAGE, true));
+    }
+
+    /**
+     * @param array $tabs
+     * @return array
+     * @filter woocommerce_product_data_tabs
+     */
+    public function filterProductDataTabs($tabs)
+    {
+        $tabs[glsr()->id] = [
+            'label' => glsr()->name,
+            'target' => glsr()->id,
+            'priority' => 100,
+            'class' => [],
+        ];
+        return $tabs;
     }
 
     /**
@@ -260,6 +277,14 @@ class ProductController
     }
 
     /**
+     * @action admin_head
+     */
+    public function printInlineStyle(): void
+    {
+        echo '<style type="text/css">#woocommerce-product-data ul.wc-tabs li.site-reviews_tab a::before { content: "\f459"; }</style>';
+    }
+
+    /**
      * @return void
      * @action woocommerce_after_shop_loop_item_title
      */
@@ -282,6 +307,17 @@ class ProductController
     }
 
     /**
+     * @action woocommerce_product_data_panels
+     */
+    public function renderProductDataPanel(): void
+    {
+        global $product_object;
+        glsr(Template::class)->render('views/integrations/woocommerce/product-data-panel', [
+            'product' => $product_object,
+        ]);
+    }
+
+    /**
      * @return void
      * @see $this->filterProductTabs()
      */
@@ -291,11 +327,11 @@ class ProductController
         if ($product->get_reviews_allowed()) {
             $isVerifiedOwner = wc_customer_bought_product('', get_current_user_id(), $product->get_id());
             glsr(Template::class)->render('templates/woocommerce/reviews', [
-                'form' => do_shortcode(glsr_get_option('addons.woocommerce.form')),
+                'form' => do_shortcode($this->option($product, 'form')),
                 'product' => $product,
                 'ratings' => glsr_get_ratings(['assigned_posts' => 'post_id']),
-                'reviews' => do_shortcode(glsr_get_option('addons.woocommerce.reviews')),
-                'summary' => do_shortcode(glsr_get_option('addons.woocommerce.summary')),
+                'reviews' => do_shortcode($this->option($product, 'reviews')),
+                'summary' => do_shortcode($this->option($product, 'summary')),
                 'verified' => $isVerifiedOwner || 'no' === get_option('woocommerce_review_rating_verification_required'),
             ]);
         }
@@ -321,11 +357,33 @@ class ProductController
     }
 
     /**
-     * @param string $orderbyKey
-     * @param string $metaKey
-     * @return array
+     * @action woocommerce_admin_process_product_object
      */
-    protected function buildMetaQuery($orderbyKey, $metaKey)
+    public function updateProductData(\WC_Product $product): void
+    {
+        $shortcodes = [
+            'site_reviews',
+            'site_reviews_form',
+            'site_reviews_summary',
+        ];
+        foreach ($shortcodes as $shortcode) {
+            $value = trim(filter_input(INPUT_POST, $shortcode));
+            $value = glsr(Sanitizer::class)->sanitizeText($value);
+            if (empty($value)) {
+                $product->delete_meta_data($shortcode);
+                continue;
+            }
+            if (1 !== preg_match("/^\[{$shortcode}(\s[^\]]*\]|\])$/", $value)) {
+                continue;
+            }
+            if (!str_contains($value, 'assigned_posts')) {
+                $value = str_replace($shortcode, sprintf('%s assigned_posts="post_id"', $shortcode), $value);
+            }
+            $product->update_meta_data($shortcode, $value);
+        }
+    }
+
+    protected function buildMetaQuery(string $orderbyKey, string $metaKey): array
     {
         return [
             'relation' => 'OR',
@@ -334,11 +392,26 @@ class ProductController
         ];
     }
 
+    protected function option(\WC_Product $product, string $key): string
+    {
+        $shortcodes = [
+            'form' => 'site_reviews_form',
+            'reviews' => 'site_reviews',
+            'summary' => 'site_reviews_summary',
+        ];
+        if (!array_key_exists($key, $shortcodes)) {
+            return '';
+        }
+        if ($override = $product->get_meta($shortcodes[$key])) {
+            return $override;
+        }
+        return glsr_get_option('addons.woocommerce.'.$key);
+    }
+
     /**
      * @param int[] $ratings
-     * @return void
      */
-    protected function setMetaQueriesForFilteredRatings($ratings)
+    protected function setMetaQueriesForFilteredRatings(array $ratings): void
     {
         global $wp_query;
         $ratings = Arr::uniqueInt($ratings);

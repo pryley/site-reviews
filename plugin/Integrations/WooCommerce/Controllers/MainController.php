@@ -188,17 +188,6 @@ class MainController extends BaseController
     }
 
     /**
-     * @action woocommerce_product_options_advanced
-     */
-    public function renderProductOptions(): void
-    {
-        global $product_object;
-        glsr(Template::class)->render('integrations/woocommerce/product-options', [
-            'product' => $product_object,
-        ]);
-    }
-
-    /**
      * @return void|bool
      * @see $this->hasVerifiedOwner()
      * @action site-reviews/review/created

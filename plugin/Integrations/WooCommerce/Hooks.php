@@ -72,7 +72,6 @@ class Hooks extends AbstractHooks
             ['registerWidgets', 'widgets_init', 20],
             ['removeWoocommerceReviews', 'woocommerce_register_post_type_product'],
             ['renderNotice', 'admin_notices'],
-            ['renderProductOptions', 'woocommerce_product_options_advanced'],
             ['verifyProductOwner', 'site-reviews/review/created', 20],
         ];
     }
@@ -84,6 +83,7 @@ class Hooks extends AbstractHooks
             ['filterGetRatingHtml', 'woocommerce_product_get_rating_html', 10, 3],
             ['filterGetStarRatingHtml', 'woocommerce_get_star_rating_html', 10, 3],
             ['filterProductAverageRating', 'woocommerce_product_get_average_rating', 10, 2],
+            ['filterProductDataTabs', 'woocommerce_product_data_tabs'],
             ['filterProductMetaQuery', 'woocommerce_product_query_meta_query', 20],
             ['filterProductPostClauses', 'woocommerce_get_catalog_ordering_args', 20, 2],
             ['filterProductRatingCounts', 'woocommerce_product_get_rating_counts', 10, 2],
@@ -94,9 +94,12 @@ class Hooks extends AbstractHooks
             ['filterWidgetArgsTopRatedProducts', 'woocommerce_top_rated_products_widget_args'],
             ['filterWoocommerceTemplate', 'wc_get_template', 20, 2],
             ['modifyProductQuery', 'pre_get_posts'],
+            ['printInlineStyle', 'admin_head'],
             ['renderLoopRating', 'site-reviews/woocommerce/render/loop/rating', 5],
+            ['renderProductDataPanel', 'woocommerce_product_data_panels'],
             ['renderReviews', 'site-reviews/woocommerce/render/product/reviews'],
             ['renderTitleRating', 'woocommerce_single_product_summary'],
+            ['updateProductData', 'woocommerce_admin_process_product_object'],
         ];
     }
 
