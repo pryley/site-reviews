@@ -38,12 +38,20 @@ class ReviewAssignedLinksTag extends ReviewTag
      */
     protected function handle($value = null)
     {
-        if (!$this->isHidden('reviews.assigned_links')) {
-            $links = static::assignedLinks($value);
-            $tagValue = !empty($links)
-                ? sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($links))
-                : '';
-            return $this->wrap($tagValue, 'span');
+        return $this->wrap($value, 'span');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function value($value = null)
+    {
+        if ($this->isHidden('reviews.assigned_links')) {
+            return '';
         }
+        $links = static::assignedLinks($value);
+        return !empty($links)
+            ? sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($links))
+            : '';
     }
 }

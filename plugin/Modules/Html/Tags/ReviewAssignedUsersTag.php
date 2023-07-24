@@ -11,10 +11,17 @@ class ReviewAssignedUsersTag extends ReviewTag
      */
     protected function handle($value = null)
     {
+        return $this->wrap($value, 'span');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function value($value = null)
+    {
         $users = wp_list_pluck($this->review->assignedUsers(), 'display_name');
-        $tagValue = !empty($users)
+        return !empty($users)
             ? sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($users))
             : '';
-        return $this->wrap($tagValue, 'span');
     }
 }

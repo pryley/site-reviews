@@ -11,10 +11,17 @@ class ReviewAssignedTermsTag extends ReviewTag
      */
     protected function handle($value = null)
     {
+        return $this->wrap($value, 'span');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function value($value = null)
+    {
         $terms = wp_list_pluck($this->review->assignedTerms(), 'name');
-        $tagValue = !empty($terms)
+        return !empty($terms)
             ? sprintf(__('Review of %s', 'site-reviews'), Str::naturalJoin($terms))
             : '';
-        return $this->wrap($tagValue, 'span');
     }
 }
