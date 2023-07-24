@@ -30,4 +30,25 @@
 	<custom-types>
 		<custom-type translate="0">site-review</custom-type>
 	</custom-types>
+	<shortcodes>
+		<shortcode>
+			<tag>site_reviews</tag>
+			<attributes>
+				<attribute>fallback</attribute>
+			</attributes>
+		</shortcode>
+		<shortcode>
+			<tag>site_reviews_form</tag>
+			<attributes>
+				<attribute>description</attribute>
+			</attributes>
+		</shortcode>
+		<shortcode>
+			<tag>site_reviews_summary</tag>
+			<attributes>
+				<attribute>labels</attribute>
+				<attribute>text</attribute>
+			</attributes>
+		</shortcode>
+	</shortcodes>
 </wpml-config>
