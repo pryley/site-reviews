@@ -36,7 +36,7 @@ class Controller extends BaseController
         foreach ($shortcodes as $key => $shortcode) {
             $path = 'settings.addons.woocommerce.'.$key;
             $value = Arr::get($input, $path);
-            if (!str_contains($value, $shortcode)) {
+            if (1 !== preg_match("/^\[{$shortcode}(\s[^\]]*\]|\])$/", $value)) {
                 continue;
             }
             if (!str_contains($value, 'assigned_posts')) {
