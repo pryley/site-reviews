@@ -217,6 +217,7 @@
     site-reviews/support/deprecated/v5                          (bool $supportDeprecated): bool
     site-reviews/support/deprecated/v6                          (bool $supportDeprecated): bool
     site-reviews/system/<key>                                   (array $details): array
+    site-reviews/taxonomy/disable_term_priority                 (bool $bool): bool
     site-reviews/tinymce/editor-ids                             (array $editorIds, string $editorId): array
     site-reviews/tools/general                                  (array $paths): array
     site-reviews/translation/entries                            (array $entries): array

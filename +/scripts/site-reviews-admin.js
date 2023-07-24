@@ -191,20 +191,33 @@ jQuery(function ($) {
         view[action + 'Class']('collapsed');
     });
 
-    $('.post-type-site-review #the-list').on('click', '.editinline', function() {
-        var row = $(this).closest('tr');
-        $(':input[data-name="post_content"]').val('');
-        $(':input[name="_response"]').val('');
+    if ('undefined' !== typeof inlineEditTax && $('.taxonomy-site-review-category').length) {
+        let wp_inlineEditTax = inlineEditTax.edit;
+        inlineEditTax.edit = function (id) {
+            wp_inlineEditTax.apply(this, arguments);
+            if ('object' === typeof(id)) {
+                id = this.getId(id);
+            }
+            let row = $(this.what+id);
+            let val = $('td.term_priority', row).text();
+            $('.wp-list-table :input[name="term_priority"]').val(val);
+        }
+    }
+    if ('undefined' !== typeof inlineEditPost) {
+        $('.post-type-site-review #the-list').on('click', '.editinline', function() {
+            var row = $(this).closest('tr');
+            $(':input[data-name="post_content"]').val('');
+            $(':input[name="_response"]').val('');
+            setTimeout(function () {
+                $(':input[data-name="post_content"]').val(row.find('._post_content').text());
+                $(':input[name="_response"]').val(row.find('._response').text());
+            }, 50);
+        });
+        // allow Enter keypress in the response textarea
         setTimeout(function () {
-            $(':input[data-name="post_content"]').val(row.find('._post_content').text());
-            $(':input[name="_response"]').val(row.find('._response').text());
+            $('td', '.post-type-site-review #inline-edit').off('keydown');
         }, 50);
-    });
-
-    // allow Enter keypress in the response textarea
-    setTimeout(function () {
-        $('td', '.post-type-site-review #inline-edit').off('keydown');
-    }, 50);
+    }
 
     const $bulkActionNotice = $('#glsr-notices .bulk-action-notice').on('click', 'button.button-link', function() {
         $(this)

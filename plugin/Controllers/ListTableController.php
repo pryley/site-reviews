@@ -124,7 +124,7 @@ class ListTableController extends Controller
             return $actions;
         }
         unset($actions['inline hide-if-no-js']);
-        $newActions = ['id' => sprintf(_x('<span>ID: %d</span>', 'The Review Post ID (admin-text)', 'site-reviews'), $post->ID)];
+        $newActions = ['id' => sprintf('<span>ID: %d</span>', $post->ID)];
         if (glsr()->can('publish_post', $post->ID)) {
             $rowActions = [
                 'approve' => _x('Approve', 'admin-text', 'site-reviews'),
