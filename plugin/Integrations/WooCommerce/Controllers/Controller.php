@@ -36,10 +36,10 @@ class Controller extends BaseController
         foreach ($shortcodes as $key => $shortcode) {
             $path = 'settings.addons.woocommerce.'.$key;
             $value = Arr::get($input, $path);
-            if (!Str::contains($value, $shortcode)) {
+            if (!str_contains($value, $shortcode)) {
                 continue;
             }
-            if (!Str::contains($value, 'assigned_posts')) {
+            if (!str_contains($value, 'assigned_posts')) {
                 $value = str_replace($shortcode, sprintf('%s assigned_posts="post_id"', $shortcode), $value);
                 $settings = Arr::set($settings, $path, $value);
             }

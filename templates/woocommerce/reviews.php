@@ -12,21 +12,21 @@
             }
             ?>
         </h2>
-        <?= $summary; ?>
+        <?php echo $summary; ?>
         <p>&nbsp;</p>
-        <?= $reviews; ?>
+        <?php echo $reviews; ?>
     </div>
     <?php if ($verified) : ?>
         <div id="review_form_wrapper">
             <div id="review_form">
                 <div id="respond" class="comment-respond">
-                    <?= $form; ?>
+                    <?php echo $form; ?>
                 </div>
             </div>
         </div>
     <?php else : ?>
         <p class="woocommerce-verification-required">
-            <?= esc_html__('Only logged in customers who have purchased this product may leave a review.', 'woocommerce'); ?>
+            <?php esc_html_e('Only logged in customers who have purchased this product may leave a review.', 'woocommerce'); ?>
         </p>
     <?php endif; ?>
 </div>
