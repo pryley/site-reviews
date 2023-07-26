@@ -9,9 +9,9 @@ use GeminiLabs\SiteReviews\Commands\ExportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportReviews;
 use GeminiLabs\SiteReviews\Commands\ImportSettings;
 use GeminiLabs\SiteReviews\Commands\MigratePlugin;
+use GeminiLabs\SiteReviews\Commands\RepairPermissions;
 use GeminiLabs\SiteReviews\Commands\RepairReviewRelations;
 use GeminiLabs\SiteReviews\Commands\ResetAssignedMeta;
-use GeminiLabs\SiteReviews\Commands\ResetPermissions;
 use GeminiLabs\SiteReviews\Database\OptionManager;
 use GeminiLabs\SiteReviews\Helper;
 use GeminiLabs\SiteReviews\Modules\Console;
@@ -262,6 +262,37 @@ class ToolsController extends Controller
     }
 
     /**
+     * @action site-reviews/route/admin/repair-permissions
+     */
+    public function repairPermissions(Request $request): void
+    {
+        $this->execute(new RepairPermissions($request));
+    }
+
+    /**
+     * @action site-reviews/route/ajax/repair-permissions
+     */
+    public function repairPermissionsAjax(Request $request): void
+    {
+        if ($this->execute(new RepairPermissions($request))) {
+            $reloadLink = glsr(Builder::class)->a([
+                'text' => _x('reload the page', 'admin-text', 'site-reviews'),
+                'href' => 'javascript:window.location.reload(1)',
+            ]);
+            glsr(Notice::class)->clear()->addSuccess(
+                sprintf(_x('The permissions have been repaired, please %s for them to take effect.', 'admin-text', 'site-reviews'), $reloadLink)
+            );
+            wp_send_json_success([
+                'notices' => glsr(Notice::class)->get(),
+            ]);
+        } else {
+            wp_send_json_error([
+                'notices' => glsr(Notice::class)->get(),
+            ]);
+        }
+    }
+
+    /**
      * @action site-reviews/route/admin/repair-review-relations
      */
     public function repairReviewRelations(): void
@@ -302,37 +333,6 @@ class ToolsController extends Controller
             wp_send_json_success(compact('notices'));
         } else {
             wp_send_json_error(compact('notices'));
-        }
-    }
-
-    /**
-     * @action site-reviews/route/admin/reset-permissions
-     */
-    public function resetPermissions(Request $request): void
-    {
-        $this->execute(new ResetPermissions($request));
-    }
-
-    /**
-     * @action site-reviews/route/ajax/reset-permissions
-     */
-    public function resetPermissionsAjax(Request $request): void
-    {
-        if ($this->execute(new ResetPermissions($request))) {
-            $reloadLink = glsr(Builder::class)->a([
-                'text' => _x('reload the page', 'admin-text', 'site-reviews'),
-                'href' => 'javascript:window.location.reload(1)',
-            ]);
-            glsr(Notice::class)->clear()->addSuccess(
-                sprintf(_x('The permissions have been reset, please %s for them to take effect.', 'admin-text', 'site-reviews'), $reloadLink)
-            );
-            wp_send_json_success([
-                'notices' => glsr(Notice::class)->get(),
-            ]);
-        } else {
-            wp_send_json_error([
-                'notices' => glsr(Notice::class)->get(),
-            ]);
         }
     }
 

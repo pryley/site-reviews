@@ -7,7 +7,7 @@ use GeminiLabs\SiteReviews\Modules\Notice;
 use GeminiLabs\SiteReviews\Request;
 use GeminiLabs\SiteReviews\Role;
 
-class ResetPermissions implements Contract
+class RepairPermissions implements Contract
 {
     public $resetAll;
 
@@ -23,7 +23,7 @@ class ResetPermissions implements Contract
     {
         if (!glsr()->can('edit_users')) {
             glsr(Notice::class)->clear()->addError(
-                _x('You do not have permission to reset permissions.', 'admin-text', 'site-reviews')
+                _x('You do not have permission to repair permissions.', 'admin-text', 'site-reviews')
             );
             return false;
         }
@@ -33,7 +33,7 @@ class ResetPermissions implements Contract
             glsr(Role::class)->resetAll();
         }
         glsr(Notice::class)->clear()->addSuccess(
-            _x('The permissions have been reset.', 'admin-text', 'site-reviews')
+            _x('The permissions have been repaired.', 'admin-text', 'site-reviews')
         );
         return true;
     }
