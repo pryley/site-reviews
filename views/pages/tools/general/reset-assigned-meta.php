@@ -13,8 +13,11 @@
         <form method="post">
             <?php wp_nonce_field('reset-assigned-meta'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="reset-assigned-meta">
-            <button type="submit" class="glsr-button components-button is-secondary" id="reset-assigned-meta" data-ajax-click data-ajax-scroll>
-                <span data-loading="<?= esc_attr_x('Resetting values, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Reset Meta Values', 'admin-text', 'site-reviews'); ?></span>
+            <button type="submit" class="glsr-button components-button is-primary"
+                data-ajax-click
+                data-ajax-scroll
+                data-loading="<?= esc_attr_x('Resetting values, please wait...', 'admin-text', 'site-reviews'); ?>"
+            ><?= _x('Reset Meta Values', 'admin-text', 'site-reviews'); ?>
             </button>
         </form>
     </div>

@@ -49,7 +49,7 @@
                     <option value="pending"><?= _x('Unapproved reviews only', 'admin-text', 'site-reviews'); ?></option>
                 </select>
             </p>
-            <button type="submit" class="components-button is-secondary" id="export-reviews">
+            <button type="submit" class="components-button is-primary">
                 <?= _x('Export Reviews', 'admin-text', 'site-reviews'); ?>
             </button>
         </form>

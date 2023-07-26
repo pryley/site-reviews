@@ -17,7 +17,7 @@
         <form method="post">
             <?php wp_nonce_field('export-settings'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="export-settings">
-            <button type="submit" class="components-button is-secondary" id="export-settings">
+            <button type="submit" class="components-button is-primary">
                 <?= _x('Export Settings', 'admin-text', 'site-reviews'); ?>
             </button>
         </form>

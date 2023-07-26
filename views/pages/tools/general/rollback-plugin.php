@@ -42,8 +42,9 @@
                         <?php endforeach; ?>
                     </select>
                 </p>
-                <button type="submit" name="submit" class="glsr-button components-button is-secondary">
-                    <span data-loading="<?= esc_attr_x('Rolling back to %s, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Rollback Plugin', 'admin-text', 'site-reviews'); ?></span>
+                <button type="submit" class="glsr-button components-button is-primary"
+                    data-loading="<?= esc_attr_x('Rolling back to %s, please wait...', 'admin-text', 'site-reviews'); ?>"
+                ><?= _x('Rollback Plugin', 'admin-text', 'site-reviews'); ?>
                 </button>
             </form>
             <script><?= $rollback_script; ?></script>

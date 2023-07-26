@@ -20,8 +20,10 @@
             <p>
                 <input type="file" name="import-file" accept="application/json">
             </p>
-            <button type="submit" class="glsr-button components-button is-secondary" id="import-settings" data-expand="#tools-import-plugin-settings">
-                <span data-loading="<?= esc_attr_x('Importing settings, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Import Settings', 'admin-text', 'site-reviews'); ?></span>
+            <button type="submit" class="glsr-button components-button is-primary"
+                data-expand="#tools-import-plugin-settings"
+                data-loading="<?= esc_attr_x('Importing settings, please wait...', 'admin-text', 'site-reviews'); ?>"
+            ><?= _x('Import Settings', 'admin-text', 'site-reviews'); ?>
             </button>
         </form>
     </div>

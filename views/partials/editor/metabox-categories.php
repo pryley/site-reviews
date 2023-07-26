@@ -26,10 +26,10 @@
             <?= sprintf('+ %s', $taxonomy->labels->add_new_item); ?>
         </a>
         <div id="<?= $tax_name; ?>-add" class="category-add wp-hidden-child">
+            <?php wp_nonce_field('add-'.$tax_name, '_ajax_nonce-add-'.$tax_name, false); ?>
             <label class="screen-reader-text" for="new<?= $tax_name; ?>"><?= $taxonomy->labels->add_new_item; ?></label>
             <input type="text" name="new<?= $tax_name; ?>" id="new<?= $tax_name; ?>" class="form-required form-input-tip" value="<?= esc_attr($taxonomy->labels->new_item_name); ?>" aria-required="true"/>
             <input type="button" id="<?= $tax_name; ?>-add-submit" data-wp-lists="add:<?= $tax_name; ?>checklist:<?= $tax_name; ?>-add" class="button category-add-submit" value="<?= esc_attr($taxonomy->labels->add_new_item); ?>" />
-            <?php wp_nonce_field('add-'.$tax_name, '_ajax_nonce-add-'.$tax_name, false); ?>
             <span id="<?= $tax_name; ?>-ajax-response"></span>
         </div>
     </div>

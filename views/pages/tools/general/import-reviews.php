@@ -182,8 +182,11 @@
                     </optgroup>
                 </select>
             </p>
-            <button type="submit" name="submit" class="glsr-button components-button is-secondary" id="import-reviews" data-expand="#tools-import-reviews">
-                <span data-loading="<?= esc_attr_x('Importing reviews, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Import Reviews', 'admin-text', 'site-reviews'); ?></span>
+            </button>
+            <button type="submit" class="glsr-button components-button is-primary"
+                data-expand="#tools-import-reviews"
+                data-loading="<?= esc_attr_x('Importing reviews, please wait...', 'admin-text', 'site-reviews'); ?>"
+            ><?= _x('Import Reviews', 'admin-text', 'site-reviews'); ?>
             </button>
         </form>
     </div>

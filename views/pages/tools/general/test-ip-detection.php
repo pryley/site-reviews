@@ -13,8 +13,11 @@
         <form method="post">
             <?php wp_nonce_field('detect-ip-address'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="detect-ip-address">
-            <button type="submit" class="glsr-button components-button is-secondary" id="detect-ip-address" data-ajax-click data-ajax-scroll>
-                <span data-loading="<?= esc_attr_x('Testing, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Test Detection', 'admin-text', 'site-reviews'); ?></span>
+            <button type="submit" class="glsr-button components-button is-primary"
+                data-ajax-click
+                data-ajax-scroll
+                data-loading="<?= esc_attr_x('Testing, please wait...', 'admin-text', 'site-reviews'); ?>"
+            ><?= _x('Test Detection', 'admin-text', 'site-reviews'); ?>
             </button>
         </form>
     </div>

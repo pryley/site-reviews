@@ -53,8 +53,9 @@
         </tfoot>
     </table>
     <div class="tablenav bottom">
-        <button type="submit" class="glsr-button button" id="sync-reviews">
-            <span data-loading="<?= esc_attr_x('Syncing...', 'admin-text', 'site-reviews'); ?>"><?= _x('Sync Reviews', 'admin-text', 'site-reviews'); ?></span>
+        <button type="submit" class="glsr-button button"
+            data-loading="<?= esc_attr_x('Syncing...', 'admin-text', 'site-reviews'); ?>"
+        ><?= _x('Sync Reviews', 'admin-text', 'site-reviews'); ?>
         </button>
     </div>
 </form>

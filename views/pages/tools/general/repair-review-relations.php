@@ -26,8 +26,11 @@
         <form method="post">
             <?php wp_nonce_field('repair-review-relations'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="repair-review-relations">
-            <button type="submit" class="glsr-button components-button is-secondary" id="repair-review-relations" data-ajax-click data-ajax-scroll>
-                <span data-loading="<?= esc_attr_x('Repairing relations, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Repair Relations', 'admin-text', 'site-reviews'); ?></span>
+            <button type="submit" class="glsr-button components-button is-primary"
+                data-ajax-click
+                data-ajax-scroll
+                data-loading="<?= esc_attr_x('Repairing relations, please wait...', 'admin-text', 'site-reviews'); ?>"
+            ><?= _x('Repair Relations', 'admin-text', 'site-reviews'); ?>
             </button>
         </form>
     </div>

@@ -11,7 +11,7 @@
     <div id="tools-import-product-reviews" class="inside">
         <div class="glsr-notice-inline components-notice is-info">
             <p class="components-notice__content">
-                <?= _x("Reviews are only imported once, so it's safe to run this tool multiple times.", 'admin-text', 'site-reviews'); ?>
+                <?= _x("Reviews are only imported once so it's safe to run this tool multiple times.", 'admin-text', 'site-reviews'); ?>
             </p>
         </div>
         <p>
@@ -20,8 +20,11 @@
         <form method="post" enctype="multipart/form-data" onsubmit="submit.disabled = true;">
             <?php wp_nonce_field('import-product-reviews', '{{ id }}[_nonce]'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="import-product-reviews">
-            <button type="submit" class="glsr-button components-button is-secondary" id="import-product-reviews" data-ajax-import data-remove-notice="import-product-reviews">
-                <span data-loading="<?= esc_attr_x('Importing reviews, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Import Reviews', 'admin-text', 'site-reviews'); ?></span>
+            <button type="submit" class="glsr-button components-button is-primary"
+                data-ajax-import
+                data-remove-notice="import-product-reviews"
+                data-loading="<?= esc_attr_x('Importing reviews, please wait...', 'admin-text', 'site-reviews'); ?>"
+            ><?= _x('Import Reviews', 'admin-text', 'site-reviews'); ?>
             </button>
         </form>
     </div>

@@ -15,8 +15,18 @@
             <?php wp_nonce_field('repair-permissions'); ?>
             <input type="hidden" name="{{ id }}[_action]" value="repair-permissions">
             <input type="hidden" name="{{ id }}[alt]" value="0" data-alt>
-            <button type="submit" class="glsr-button components-button is-secondary" id="repair-permissions" data-ajax-click data-ajax-scroll>
-                <span data-alt-text="<?= esc_attr_x('Hard Reset Permissions', 'admin-text', 'site-reviews'); ?>" data-loading="<?= esc_attr_x('Repairing, please wait...', 'admin-text', 'site-reviews'); ?>"><?= _x('Repair Permissions', 'admin-text', 'site-reviews'); ?></span>
+            <button type="submit" class="glsr-button components-button is-primary"
+                data-ajax-click
+                data-ajax-scroll
+                data-loading="<?= esc_attr_x('Repairing, please wait...', 'admin-text', 'site-reviews'); ?>"
+            ><?= _x('Repair Permissions', 'admin-text', 'site-reviews'); ?>
+            </button>
+            <button type="submit" class="glsr-button components-button is-secondary"
+                data-ajax-click
+                data-ajax-scroll
+                data-alt
+                data-loading="<?= esc_attr_x('Repairing, please wait...', 'admin-text', 'site-reviews'); ?>"
+            ><?= _x('Hard Reset', 'admin-text', 'site-reviews'); ?>
             </button>
         </form>
     </div>

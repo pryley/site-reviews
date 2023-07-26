@@ -1,5 +1,6 @@
 /** global: GLSR */
 
+import Button from './button.js';
 import Serializer from './serializer.js';
 
 const Ajax = function (request, ev, form) { // object
@@ -10,7 +11,6 @@ const Ajax = function (request, ev, form) { // object
 };
 
 Ajax.prototype = {
-    /** @return void */
     post: function (callback) { // function|void
         if (this.event) {
             this.postFromEvent_(callback);
@@ -19,7 +19,6 @@ Ajax.prototype = {
         this.doPost_(callback);
     },
 
-    /** @return void */
     buildData_: function (el) { // HTMLElement|null
         var data = {
             action: GLSR.action,
@@ -36,7 +35,6 @@ Ajax.prototype = {
         return data;
     },
 
-    /** @return void */
     buildNonce_: function (el) { // HTMLElement|null
         if (this.request._nonce) return;
         if (GLSR.nonce[this.request._action]) {
@@ -47,32 +45,30 @@ Ajax.prototype = {
         this.request._nonce = el.closest('form').find('#_wpnonce').val();
     },
 
-    /** @return void */
     doPost_: function (callback, el) {
-        jQuery.post(GLSR.ajaxurl, this.buildData_(el)).done(function (response) {
+        if (el) {
+            Button(el).loading()
+        }
+        jQuery.post(GLSR.ajaxurl, this.buildData_(el)).done(response => {
             if (typeof callback === 'function') {
                 callback(response.data, response.success);
             }
-            if (el) {
-                el.prop('disabled', false);
-            }
-        }).always(function (response) {
+        }).always(response => {
             if (!response.data) {
                 GLSR.notices.error('Unknown error.');
             }
             else if (response.data.notices) {
                 GLSR.notices.add(response.data.notices);
             }
+            if (el) {
+                Button(el).loaded()
+            }
         });
     },
 
-    /** @return void */
     postFromEvent_: function (callback) { // Event, function|void
         this.event.preventDefault();
-        var el = jQuery(this.event.currentTarget);
-        if (el.is(':disabled')) return;
-        el.prop('disabled', true);
-        this.doPost_(callback, el);
+        this.doPost_(callback, jQuery(this.event.currentTarget));
     },
 };
 

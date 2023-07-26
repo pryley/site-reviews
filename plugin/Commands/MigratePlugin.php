@@ -15,7 +15,7 @@ class MigratePlugin implements Contract
 
     public function __construct(Request $request)
     {
-        $this->runAll = wp_validate_boolean($request->alt);
+        $this->runAll = wp_validate_boolean($request->get('alt', 0));
     }
 
     /**
